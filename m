@@ -1,37 +1,40 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435691D52C;
-	Fri, 21 Jun 2024 05:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F63F12C486;
+	Fri, 21 Jun 2024 05:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718946012; cv=none; b=phYy5RW5sw9x6ghFHczNFdDVBLtAN9VjOhJ4DUpnEoxXQDilhWzT6G0RUb9SHyArNqDr21J3Q54+R9tgeduifoTwMQBxwe+cToZrOF/+HyBrk/LV+B/NSCQtb2TWJGN6mzh+khbUEXZG9gONyWzPLJZluBu+jbB0N46vXfxBWNo=
+	t=1718946488; cv=none; b=i+1IaUe9yGa5EcDhhc8FZd5IpQwF5+IicsPlHdUzdptpga2rhPGhXSxnTFvsZJ6B+EBUwpE0j7UE4mIO0yNdLQ6FWy3x4cSNWaEdCfIIMm5Dy4i8Khr/X7Ej3oZeKb66VTO5iB9u6/z84o8k4xxsEhRuwFP2sjVRbGXFLYXKF+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718946012; c=relaxed/simple;
-	bh=N+HOeYMxJ4Oynd9qnidNqx76FjL3Ch8ZDXU/hRcyDvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nRiWbMSCTCVctkrl6wB6sDyoOSgAgrTkR/GnqNkR5r9S/LSa6sByMResLx5lfoZezSIf0FChaj9P2/g6biHC0bSE9exNVNB3nzPggNKE/CMHnxgbkmk0Xlw+SQw9eCQ7XYk3BbJdRf8aN0wXPNZi6XBgB9N5cLGbGCeCyZn76SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P40Yn1tM; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718946488; c=relaxed/simple;
+	bh=O+nHjv3muSzRtuvuuUzuGvB5XhfVur/SQhzT0Hwt4Wk=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=L/o2x/g3vllTKrTTFqQeq3TTRe/KV3WcHHZvdjpZd0INanpJ4drYIQOBtfl4lO6VS4+QaSGI6pQdjGBQ6FkFZciKq0iSb8JW5CNOP1NALua4nnUZvFiCQMls+mz+QhYk++o2wCX6yIyQeBQibgqDvazWPG9H38EIsLpp1cajtA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=411VLvKM; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P40Yn1tM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ejaN9jzv23+csQVIqr6qNGmq0JDrOqzMj21IY9AmYOM=; b=P40Yn1tMca0expYGXzDATjHlnk
-	y1eI27fIjIfQBHzHhOziu85/B1g8RJiOFXcxAVXE0vL/ATyMOB3Vzi6ppztI76vA4TfitcLbY5RU0
-	KpvYDP3yzNCayhcSWDQezWplLu/Ndxm/FQ2qOR+0ZQdw/bxW0YvmfC2u/r+If2jny+nm2kL5vIYPs
-	92wD2yAF0IjEJEJ2jzSs9TgDVmvu20NUY9MBgeyzjytQPhHnWEBhUl0igcALuBYs/jK81ba/KhShl
-	BVyUszHiI66kFspaGIECgSRWoGhgtNDBLjjCtKjCQa9lMmA0SUi0yDAix2lrsXJqMh8ka6MqXw/bG
-	8WfsPskQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKWNc-00000007hlo-08MF;
-	Fri, 21 Jun 2024 05:00:08 +0000
-Message-ID: <5286745e-0100-40f3-b0e9-afc204c348f2@infradead.org>
-Date: Thu, 20 Jun 2024 22:00:05 -0700
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="411VLvKM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718946484;
+	bh=O+nHjv3muSzRtuvuuUzuGvB5XhfVur/SQhzT0Hwt4Wk=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=411VLvKM/4J+v8Ysik4EqTFiGpMaUs8Dck92Xw820XQUk+aijmN0EprLrX6bYFfdG
+	 uxaJz7ZmncDu+5UU1vzfVBdnlYInTbvGKx4pOOSEXKTwQ0BZkE9Q9NbMtz26XWiBlV
+	 zY4yZdoYGqwV4ZZR4hCLQW7NrB/frPTzbjDwR5wj3H8KWtqUTN4vYCBrwBF1FWTSi6
+	 rWrtSrsDwGRhhlJpgZnkvD5XY4rBoT1d6Pl73PNeGDJk+IqKTTAwVO4jWus2NPksb2
+	 39tafoIXFz9HHW0jAoom/GNHDKLxAiAq9OdqS9OT6vwOZRHpftp60zxdJjuTZPOElv
+	 GVqZvLRsfc8kQ==
+Received: from [100.113.15.66] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C3B063781144;
+	Fri, 21 Jun 2024 05:08:00 +0000 (UTC)
+Message-ID: <1591a354-d999-45b4-aff2-357fa7612634@collabora.com>
+Date: Fri, 21 Jun 2024 10:08:38 +0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,88 +42,116 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Docs/mm/damon/maintainer-profile: introduce
- HacKerMaiL
-To: SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240620220337.76942-1-sj@kernel.org>
- <20240620220337.76942-2-sj@kernel.org>
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>, muchun.song@linux.dev,
+ akpm@linux-foundation.org, shuah@kernel.org, corbet@lwn.net,
+ rientjes@google.com, duenwen@google.com, fvdl@google.com,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] selftest/mm: test enable_soft_offline behaviors
+To: Jiaqi Yan <jiaqiyan@google.com>, nao.horiguchi@gmail.com,
+ linmiaohe@huawei.com, jane.chu@oracle.com, osalvador@suse.de
+References: <20240620184856.600717-1-jiaqiyan@google.com>
+ <20240620184856.600717-4-jiaqiyan@google.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240620220337.76942-2-sj@kernel.org>
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20240620184856.600717-4-jiaqiyan@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 6/20/24 3:03 PM, SeongJae Park wrote:
-> Since DAMON has merged into the mainline, I periodically received some
-> questions around DAMON's mailing lists based workflow.  The workflow is
-> not different from the normal ones that well documented, but it is also
-> true that it is not always easy and familiar for everyone.
+On 6/20/24 11:48 PM, Jiaqi Yan wrote:
+> Add regression and new tests when hugepage has correctable memory
+> errors, and how userspace wants to deal with it:
+> * if enable_soft_offline=1, mapped hugepage is soft offlined
+> * if enable_soft_offline=0, mapped hugepage is intact
 > 
-> I personally overcame it by developing and using a simple tool, named
-> HacKerMaiL (hkml)[1].  Based on my experience, I believe it is matured
-> enough to be used for simple workflows like that of DAMON.  Actually
-> some DAMON contributors and Linux kernel developers other than myself
-> told me they are using the tool.
+> Free hugepages case is not explicitly covered by the tests.
 > 
-> As DAMON maintainer, I also believe helping new DAMON community members
-> onboarding to the worklow is one of the most important parts of my
-> responsibilities.  For the reason, the tool is announced[2] to support
-> DAMON community.  To further increasing the visibility of the fact,
-> document the tool and the support plan on DAMON maintainer's profile.
+> Hugepage having corrected memory errors is emulated with
+> MADV_SOFT_OFFLINE.
 > 
-> [1] https://github.com/damonitor/hackermail
-> [2] https://github.com/damonitor/hackermail/commit/3909dad91301
-> 
-> Signed-off-by: SeongJae Park <sj@kernel.org>
+> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
 > ---
->  Documentation/mm/damon/maintainer-profile.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  tools/testing/selftests/mm/.gitignore         |   1 +
+>  tools/testing/selftests/mm/Makefile           |   1 +
+>  .../selftests/mm/hugetlb-soft-offline.c       | 229 ++++++++++++++++++
+>  tools/testing/selftests/mm/run_vmtests.sh     |   4 +
+>  4 files changed, 235 insertions(+)
+>  create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
 > 
-> diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-> index 8213cf61d38a..aede61f2d6a8 100644
-> --- a/Documentation/mm/damon/maintainer-profile.rst
-> +++ b/Documentation/mm/damon/maintainer-profile.rst
-> @@ -53,6 +53,22 @@ Mon-Fri) in PT (Pacific Time).  The response to patches will occasionally be
->  slow.  Do not hesitate to send a ping if you have not heard back within a week
->  of sending a patch.
->  
-> +Mailing tool
-> +------------
+> diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+> index 0b9ab987601c..064e7b125643 100644
+> --- a/tools/testing/selftests/mm/.gitignore
+> +++ b/tools/testing/selftests/mm/.gitignore
+> @@ -6,6 +6,7 @@ hugepage-shm
+>  hugepage-vmemmap
+>  hugetlb-madvise
+>  hugetlb-read-hwpoison
+> +hugetlb-soft-offline
+>  khugepaged
+>  map_hugetlb
+>  map_populate
+> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+> index 3b49bc3d0a3b..d166067d75ef 100644
+> --- a/tools/testing/selftests/mm/Makefile
+> +++ b/tools/testing/selftests/mm/Makefile
+> @@ -42,6 +42,7 @@ TEST_GEN_FILES += gup_test
+>  TEST_GEN_FILES += hmm-tests
+>  TEST_GEN_FILES += hugetlb-madvise
+>  TEST_GEN_FILES += hugetlb-read-hwpoison
+> +TEST_GEN_FILES += hugetlb-soft-offline
+>  TEST_GEN_FILES += hugepage-mmap
+>  TEST_GEN_FILES += hugepage-mremap
+>  TEST_GEN_FILES += hugepage-shm
+> diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+> new file mode 100644
+> index 000000000000..5701eea4ee48
+> --- /dev/null
+> +++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+> @@ -0,0 +1,229 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Test soft offline behavior for HugeTLB pages:
+> + * - if enable_soft_offline = 0, hugepages should stay intact and soft
+> + *   offlining failed with EINVAL.
+> + * - if enable_soft_offline = 1, a hugepage should be dissolved and
+> + *   nr_hugepages/free_hugepages should be reduced by 1.
+> + *
+> + * Before running, make sure more than 2 hugepages of default_hugepagesz
+> + * are allocated. For example, if /proc/meminfo/Hugepagesize is 2048kB:
+> + *   echo 8 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+> + */
 > +
-> +Like many other Linux kernel subsystems, DAMON uses the mailing lists
-> +(damon@lists.linux.dev and linux-mm@kvack.org) as the major communication
-> +channel.  There is a simple tool called HacKerMaiL (``hkml``) [8]_ , which is
-> +for people who are not very faimiliar with the mailing lists based
-
-                               familiar
-
-> +communication.  The tool could particularly helpful for DAMON community members
-
-                   The tool could be particularly helpful
-
-> +since it is developed and maintained by DAMON maintainer.  The tool is also
-> +officially announced to support DAMON and general Linux kernel developement
-
-                                                                  development
-
-> +workflow.
+> +#define _GNU_SOURCE
+> +#include <errno.h>
+> +#include <stdlib.h>
+> +#include <stdio.h>
+> +#include <string.h>
+> +#include <unistd.h>
 > +
-> +In other words, ``hkml`` [8]_ is a mailing tool for DAMON community, which
-> +DAMON maintainer is committed to support.  Please feel free to try and report
-> +issues or feature requests for the tool to the maintainer.
+> +#include <linux/magic.h>
+> +#include <linux/memfd.h>
+> +#include <sys/mman.h>
+> +#include <sys/statfs.h>
+> +#include <sys/types.h>
 > +
->  
->  .. [1] https://git.kernel.org/akpm/mm/h/mm-unstable
->  .. [2] https://git.kernel.org/sj/h/damon/next
-> @@ -61,3 +77,4 @@ of sending a patch.
->  .. [5] https://github.com/awslabs/damon-tests/blob/master/corr/tests/kunit.sh
->  .. [6] https://github.com/awslabs/damon-tests/tree/master/corr
->  .. [7] https://github.com/awslabs/damon-tests/tree/master/perf
-> +.. [8] https://github.com/damonitor/hackermail
+> +#ifndef MADV_SOFT_OFFLINE
+> +#define MADV_SOFT_OFFLINE 101
+> +#endif
+> +
+> +#define PREFIX " ... "
+> +#define EPREFIX " !!! "
+> +
+> +enum test_status {
+> +	TEST_PASS = 0,
+> +	TEST_FAILED = 1,
+> +	// From ${ksft_skip} in run_vmtests.sh.
+> +	TEST_SKIPPED = 4,
+> +};
+Include ../kselftest.h and use macros from there instead of redifining.
+Also try to use helper functions from same header file to mark the test
+pass/fail or exit the test entirely. You can look at soft-dirty.c how that
+is written.
 
 -- 
-~Randy
+BR,
+Muhammad Usama Anjum
