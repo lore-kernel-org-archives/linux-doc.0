@@ -1,153 +1,163 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627D476034
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 10:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAB576034
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 10:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718966063; cv=none; b=bhz6HDtADcjgPfwP3989FO8ZAtHRt0JMG++T255VvU02+lUzHfo59U+jes9VXj2skE3feHs9x+1vm6XPZNpnQHXQXECJn1Laafz7bfCS2ixAipjuSn4TePCGVoPUFvGFSwgxsTabM3zRiMZ9zPD56nxve7Tu9GK5AbVnRbFGUPY=
+	t=1718966065; cv=none; b=sm1OhLxkMcMmM5RoSPTUoJSX8MELP9rMmFbARRiuYKdbnyadnkTGHZF7bWu5Pg6L18bo1syUovn9GuyIIXcmzYgB1leMWF4zKKBs/SWgXgBCS0Y1MyyzEnAJxrkKv4OvGR1CK9BRHOpgzx3mOMXTspCCmFuHOTUvEJxvnkWoK5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718966063; c=relaxed/simple;
-	bh=KTDze4UhK+Qdt8yDIqVr+68kui2rsKo2uZ2LpKfsXZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RT4qfNhVziMo001yNZiSh9MNAstYrluqIYY4HBfjelv5G3+iRR28WimifPxp/zR3dxhI6IBgeD36BQY1VoZ4TsjOWuhjSDYMqiPv5yQOVvcf4uS6ONdFSCfTwo+Gz0aqzUMsNMf5ixKOK7mcYJ/mSFaxaa+oLfIMs0sQ5JDsKBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=HbQ9PieP; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1718966065; c=relaxed/simple;
+	bh=SSeHh9kklPfPOkBvM8SO62iwOdE98d/i16mJy6LV0A8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMP0fiMpFq5mi7s+88tys94IGxZVpi06oFLMTzPHP1309J3BQ+BVRnHSvljWZDJZC1cM7N9qXuuxKChlXaPXe28Lq0vp3LAXsSTfq5HUz/d7spI/Nc5E7qviyU/llnxAhMoud2pYEkApvbT21uh8BP1Rm2rOqY0LBCZADuRc1W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jAXMQVV+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="HbQ9PieP"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-24c0dbd2866so959338fac.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jAXMQVV+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718966062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jicH10kgnAem7iqh38i51ASJS4+fEuc9yNE84SfuDqU=;
+	b=jAXMQVV+07xtGzte3T6SahzIgHp/u80zc9dnq909lVOy3IjWitZbwWITvAud4djt5r6dSu
+	pnAsQ9q92Hi6wtatBQIAjFov2lTodyrM5hD1zMofli56jrzDJoR3uEkLSGpk8Xfebv+w7t
+	VlKthkLQPhc+XMBz4/V/LxRKSHwmnjk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-110-bqHFnCw1O-CEOOG9MZq7CQ-1; Fri, 21 Jun 2024 06:34:20 -0400
+X-MC-Unique: bqHFnCw1O-CEOOG9MZq7CQ-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-57c93227bbeso1076801a12.3
         for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 03:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1718966059; x=1719570859; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uiEIJ+aB3LoELXi0g19POXyK7Fvva+QATDGmieXdJiU=;
-        b=HbQ9PiePGP/K51PkFFmxyY7Rcpr8t+skWon4ZEvYbJPVirkHwE6bF4kxTs8qJCY6B5
-         B5howHbC8JHyKWfSAEjvBq8Bn0r04HQ7zwmi949k4TTLTCN7yUrT1U9d0FISgPWjphq9
-         KZrR2wKYPeE7CaqjA8m6MkZ+0brhFKTmlUn8P4rjcKLRw8hACwFOJClwrsY+Z45Um/40
-         Yt7A//OnaRhwBfcV/fE3NDKkFBsMjf/8coP35/DuLShdDeZiTiJYpcjoskC2rDxWhAzD
-         33507KUz2FqwSTdWyF5gI4k6At+GszXssNxoRkPWCqzzI+GUxREd/oFYus9wMmkHUJHi
-         GBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718966059; x=1719570859;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uiEIJ+aB3LoELXi0g19POXyK7Fvva+QATDGmieXdJiU=;
-        b=k4K4bChHWafz4E+ptthFVW/gKQ0TxFxgFeL7LxjJ6y1BVraPIWesq+uKbZEwljj2dy
-         yJElJfx80t8nH5PhXja53i4p9FpYxWJf8x7gu9ulfGKz01o/R7cv2+8SR8+HutS0CjOZ
-         XPx6w6SlMDreNJ5p+G8veSpTrAk5jvF6v85sQndsMui6GK8Uy+DJKkJwpgfHmzciPhfN
-         ty+AlNQoKerRgR/GZFZjAQ1Giais+7tHDFq8j7Y1ybzZsV80RK1sHkro6fFN2f4biMuv
-         3eFgPPT37/+DqIvoiqG1nYpsyqyqYVw2WBWIeFDnibwBTiZHUQNMy+EoaWDolzV2iKmQ
-         28lA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUr0zfSTzCrh8P6xaV09nh6DPJ6gvn4v4vE6Ev4nnha8OmIyi8v4Gc/6o4uHREFz4KmwdCTVi04+hcgi67pax8QYUcQEk6caKJ
-X-Gm-Message-State: AOJu0YyTJl52n89zo9d8C9piQF3k02r14uD9fKnXMGWeLqv+6BVkusAD
-	A7hD6Y7qYQf+Bc+7bouLTeqqiwscoKHIlfPm3A6GPFLX8w3yUPA82b4mlKYYGNtY/xPZzVJKMS9
-	rDo+R7Tofgp+Vfo9OHoyEDI2HqIXcmsT5k746eQ==
-X-Google-Smtp-Source: AGHT+IFl6dpz/wOwOogwSSMMm3/tdCg8DTplBhqHoRnvMWb06zdb/xiwjF6rv5JWL8TKTe41hMECUKSqGMX19Tn1ZxQ=
-X-Received: by 2002:a05:6870:41cf:b0:24c:4fcc:9011 with SMTP id
- 586e51a60fabf-25c949a7793mr8938055fac.19.1718966059436; Fri, 21 Jun 2024
- 03:34:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718966060; x=1719570860;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jicH10kgnAem7iqh38i51ASJS4+fEuc9yNE84SfuDqU=;
+        b=ZLwZy+fyhj+yGfBeEBOrvtvpwjykAItxs115/g8bxqsxQOud+k1UKohUkQKcYE5moF
+         njNI+1XNJ3OApXgn5q4JuIKzDvqCNIS++cQIqbLc6yQUQm1qShy70b1YE223kjkilICy
+         J2pPayaOy8auoFofKwinzyYTj8JUKVKdL6twOjilXL11OsWwCXefTXlK3IhUKOSoPqgA
+         xXHg3C9g7cGyJYRHqRJxsIU/q7ob0xjnQlv1Tc+lcZUWR2vZLnGycGU5qVoPRv7wt2iF
+         lLwIP1ih0FPkpkuL1oKKZ79BeJOmCHWmx0zPm1pAongJLVgay+4E5hKNQdp0zc3pEbQu
+         wk3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXA80lgWrDq4Q/tcTtg0funChYeKXKOOiCRU7lLvDTZkVL4QnYDHs/l0EWaPFXGjq/+/TAdXER72Y6dTwBbjtE/o8s+GS/pp5u0
+X-Gm-Message-State: AOJu0YyoGeYIAK3LCnUFQ6biQvuDf2nPKher/8dLFk7gSNJIIstE8Oof
+	8Ee2vjUSX62nLl8bvhUvT6Hk5YQPQ3TjTflng2TBq29mRltAz2XKF0MjkR2B7zRAOBkAq4HJ9Ne
+	xlHwSQJ9OhS304q2KvY+FDe5d0MCPhMBN1bEG7HIQBGJQkgMam+a3dFEqeg==
+X-Received: by 2002:a50:ab52:0:b0:57d:50e:d76b with SMTP id 4fb4d7f45d1cf-57d07e2c81amr4589280a12.7.1718966059592;
+        Fri, 21 Jun 2024 03:34:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFj+LHC14k3j9hWJnw+AA9J/VaHS6CBPN7VDxZhc4wOnEY9CizAlhrLs2CdLC8RK9nzYWVisQ==
+X-Received: by 2002:a50:ab52:0:b0:57d:50e:d76b with SMTP id 4fb4d7f45d1cf-57d07e2c81amr4589250a12.7.1718966058632;
+        Fri, 21 Jun 2024 03:34:18 -0700 (PDT)
+Received: from redhat.com ([2.52.146.100])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d30562ee6sm747252a12.87.2024.06.21.03.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 03:34:18 -0700 (PDT)
+Date: Fri, 21 Jun 2024 06:34:14 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
+ trailers
+Message-ID: <20240621062741-mutt-send-email-mst@kernel.org>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+ <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618114653.12485-1-cuiyunhui@bytedance.com>
- <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com> <3c20c9f15cd7a9fb1f2e88560c1b089ac8032898.camel@icenowy.me>
- <CAEEQ3w=HZptMOgXp2Rtuz-VtzPabN=h5N3=3wS4AMk3Lo7E7FQ@mail.gmail.com> <8fac6e0f11ab5f5fc28be6e73f196b38e99f8c39.camel@icenowy.me>
-In-Reply-To: <8fac6e0f11ab5f5fc28be6e73f196b38e99f8c39.camel@icenowy.me>
-From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Fri, 21 Jun 2024 18:34:08 +0800
-Message-ID: <CAEEQ3wmX9r=Xv=Ue9HOwEvBAHV2=CM5dTiHgd=hzgHBMn27sbw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] RISC-V: Provide the frequency of mtime via hwprobe
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Jessica Clarke <jrtc27@jrtc27.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Evan Green <evan@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>, costa.shul@redhat.com, 
-	Andy Chiu <andy.chiu@sifive.com>, samitolvanen@google.com, linux-doc@vger.kernel.org, 
-	linux-riscv <linux-riscv@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
 
-Hi Icenowy,
+On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
+> Based on multiple conversations, most recently on the ksummit mailing
+> list [1], add some best practices for using the Link trailer, such as:
+> 
+> - how to use markdown-like bracketed numbers in the commit message to
+> indicate the corresponding link
+> - when to use lore.kernel.org vs patch.msgid.link domains
+> 
+> Cc: ksummit@lists.linux.dev
+> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat # [1]
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+>  Documentation/process/maintainer-tip.rst | 30 ++++++++++++++++++++++--------
+>  1 file changed, 22 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
+> index 64739968afa6..ba312345d030 100644
+> --- a/Documentation/process/maintainer-tip.rst
+> +++ b/Documentation/process/maintainer-tip.rst
+> @@ -372,17 +372,31 @@ following tag ordering scheme:
+>  
+>   - Link: ``https://link/to/information``
+>  
+> -   For referring to an email on LKML or other kernel mailing lists,
+> -   please use the lore.kernel.org redirector URL::
+> +   For referring to an email posted to the kernel mailing lists, please
+> +   use the lore.kernel.org redirector URL::
+>  
+> -     https://lore.kernel.org/r/email-message@id
+> +     Link: https://lore.kernel.org/email-message-id@here
+>  
+> -   The kernel.org redirector is considered a stable URL, unlike other email
+> -   archives.
+> +   This URL should be used when referring to relevant mailing list
+> +   topics, related patch sets, or other notable discussion threads.
+> +   A convenient way to associate ``Link:`` trailers with the commit
+> +   message is to use markdown-like bracketed notation, for example::
+>  
+> -   Maintainers will add a Link tag referencing the email of the patch
+> -   submission when they apply a patch to the tip tree. This tag is useful
+> -   for later reference and is also used for commit notifications.
+> +     A similar approach was attempted before as part of a different
+> +     effort [1], but the initial implementation caused too many
+> +     regressions [2], so it was backed out and reimplemented.
+> +
+> +     Link: https://lore.kernel.org/some-msgid@here # [1]
+> +     Link: https://bugzilla.example.org/bug/12345  # [2]
+> +
+> +   You can also use ``Link:`` trailers to indicate the origin of the
+> +   patch when applying it to your git tree. In that case, please use the
+> +   dedicated ``patch.msgid.link`` domain instead of ``lore.kernel.org``.
+> +   This practice makes it possible for automated tooling to identify
+> +   which link to use to retrieve the original patch submission. For
+> +   example::
+> +
+> +     Link: https://patch.msgid.link/patch-source-message-id@here
+>  
+>  Please do not use combined tags, e.g. ``Reported-and-tested-by``, as
+>  they just complicate automated extraction of tags.
 
-On Fri, Jun 21, 2024 at 1:18=E2=80=AFPM Icenowy Zheng <uwu@icenowy.me> wrot=
-e:
->
-> =E5=9C=A8 2024-06-21=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 11:01 +0800=EF=
-=BC=8Cyunhui cui=E5=86=99=E9=81=93=EF=BC=9A
-> > Hi Icenowy,
-> >
-> > On Wed, Jun 19, 2024 at 7:51=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me> =
-wrote:
-> > >
-> > > =E5=9C=A8 2024-06-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 18:11 +0100=
-=EF=BC=8CJessica Clarke=E5=86=99=E9=81=93=EF=BC=9A
-> > > > On 18 Jun 2024, at 12:46, Yunhui Cui <cuiyunhui@bytedance.com>
-> > > > wrote:
-> > > > >
-> > > > > From: Palmer Dabbelt <palmer@rivosinc.com>
-> > > > >
-> > > > > A handful of user-visible behavior is based on the frequency of
-> > > > > the
-> > > > > machine-mode time.
-> > > > >
-> > > > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > > > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> > > >
-> > > > I would suggest referring to the user-mode CSR instead, i.e.
-> > > > =E2=80=9Ctime=E2=80=9D
-> > > > rather than =E2=80=9Cmtime=E2=80=9D throughout in names and descrip=
-tions, since
-> > > > that=E2=80=99s
-> > > > the thing that user-mode software is actually reading from.
-> > >
-> > > Agree. MTIME isn't even a thing defined in RISC-V ISA -- it's part
-> > > of
-> > > the ACLINT timer spec, but before ACLINT gets widely accepted, it's
-> > > just some SiFive thing that got copied by many other vendors (and
-> > > vendors such as T-Head even provides CLINT w/o MTIME register (well
-> > > because these T-Head cores have reference source code available,
-> > > this
-> > > is because of their CPU design uses an external counter fed as TIME
-> > > register)).
-> >
-> > Okay, Thanks for your suggestions,  I think this modification is more
-> > appropriate:
-> >
-> > RISC-V: Provide the frequency of time counter via hwprobe
->
-> Sure, or you could just say time CSR, which is a defined CSR in the
-> user ISA document, and allow to be read from userspace.
->
-Okay, I will update it on v2.
+Could you please add a hint on configuring git am to create these?
 
-> >
-> > A handful of user-visible behavior is based on the frequency of the
-> > time counter.
-> >
-> > What do you think ?
-> >
-> > >
-> > > >
-> > > > Jess
-> > > >
-> > > >
-> > > > _______________________________________________
-> > > > linux-riscv mailing list
-> > > > linux-riscv@lists.infradead.org
-> > > > http://lists.infradead.org/mailman/listinfo/linux-riscv
-> > >
-> >
-> > Thanks,
-> > Yunhui
->
+I think something like this in .git/hooks/applypatch-msg will work:
 
-Thanks,
-Yunhui
+. git-sh-setup
+perl -pi -e 's|^Message-Id:\s*<?([^>]+)>?$|Link: https://patch.msgid.link/$1|g;' "$1"
+test -x "$GIT_DIR/hooks/commit-msg" &&
+        exec "$GIT_DIR/hooks/commit-msg" ${1+"$@"}
+:
+
+but I didn't actually try.
+
+Thanks!
+
+> -- 
+> 2.45.2
+> 
+
