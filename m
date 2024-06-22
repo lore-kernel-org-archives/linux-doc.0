@@ -1,123 +1,180 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECF016EB76
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 23:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE3D2C80
+	for <linux-doc@vger.kernel.org>; Sat, 22 Jun 2024 02:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719014039; cv=none; b=OlCBNvTGXkLMnqrU6uM+ghDSWsKCSs1p6gAWR2eQkfIvPkV4QvJ4RnC6WyOJlGcPd4ncMeAKu8tDn5UjVk3yEQqiNh/SwKADSfVKzB87wAUPggds8y66u00+PdNy60f0hxy3U5vOE7oQwFsIkiS4gEEHy2v+ZtMSnZvzj33Fnwk=
+	t=1719024161; cv=none; b=SAIwhtoyvcHbcvmwG4l7HuwWJfPWnN5In5IqTaMYPGAF7ls8oHMTfcYTloKLsET/V2A0TpLs7rZuEK2n6kkclJeAEDdHtNBTZSqZVlGAad5dyMFdrgvFC5ld3owvb+dX25B3YX8MuX6+M54DF8RLfm/monPaTW7VX3Uh4pfa5OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719014039; c=relaxed/simple;
-	bh=Wv9IJwfLBg9/0U/JTkEwyP7N8Hf4US/FVyAw3Wa/a8w=;
+	s=arc-20240116; t=1719024161; c=relaxed/simple;
+	bh=8X+5edeImXVtpUO9KaH5XBi8TyP1pDZB4OE8O8Kx25c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBsHSjZZPlb/3Phm8m8Sxfi6IKZy87h5+06CaBvLPLb759wm/F6AiOlpEXysCak1/1QSROmiiZSkOkzUFlULmR22zxJGNIKXqIYjI4S+YzDOUqaa9jGMCVapRWF6C6SbeQXkL42wvw9eu+UySO6umyiszlgcQtgNo2FmSLw1PaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WJYmpbzy; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=ZNn51TQKo8sOY8JnKYki3PIsGsMYBZVz8NyXKUjeiikg35JmKYyMnCpdvsHKcoOFuB883tNqWsQ9XbUBxzaBQ9WSIZsYdHsWZbp8BAc/xr0xrEychf4QPhKFWvVWm6vfO5uNEgGID6tr7PY6M5PaFkPgaxnTG34zeToeC0aaAAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=WVToFhRH; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WJYmpbzy"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso29220495e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 16:53:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="WVToFhRH"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-70089223245so1567752a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 19:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719014036; x=1719618836; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1719024157; x=1719628957; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q6xesaMacZace3FQ+zqQcgYnav9DuFBRmm+vK92q3yQ=;
-        b=WJYmpbzy4IRekytBtjX3ihMxhT3jZar4sCQ0kEOmlPxeGbCyMRHc7++B2AGXeJPnBh
-         mRH1JOBblasOf+kAdeR9qIoFX/nei2iE15r/kHvfrh7Z6cJhUui5xEkXUQZ8bBDj2NwL
-         98klbN3clmkT2SP7jLS7h/u1YsgmNz0bRXsCht6XMmjbgRL9djK1PWNtmB5yoq5iN1ys
-         wdF88PdxCP6v4WkudH7WMKIlhu6M8W3WImCUBe/EIt6hQ+lyp4q6StXUM0cn+RvPBSxW
-         WPuwy5x20U3nvAdDOBKjcWk5mjQRQ6dl9p5hGlX0bO6wDR6lbEKDcLPotdBRgEHOMy3i
-         kx8w==
+        bh=iTwieLueSKpyVDRXh253M5R7l7vUHpUoE8U7jFyR2qY=;
+        b=WVToFhRH6EEwOufTku1Oe3iPuMA1tw1ISKn/Z3FtOCDLAZY1U7FsmWqGIcgUIS4brm
+         yMZ4h7hHJwY0uQVSrYLpBX1mgqj4nB8QKBUsmOGyQeZ2N14W0pBrq3bE+0HPqu5l7unF
+         m1oCNoYc9riwszOpyIoivqIGh6ynOlXpWDiVJIeGJluassfi8MRDSZj18rF69TF3XASq
+         ltVVV9v6CBz+H2q1NA2f8iNJma3281fTc/aBXgxQ1vd4ioDs2EWpVMcGb9IDKIiC8SWl
+         pt2mRDZ7S2wivzNqX0qunutRH13xK4NTSnas6FD1+9H0LbMGvoPI583xO0i/INv/sKGv
+         PlIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719014036; x=1719618836;
+        d=1e100.net; s=20230601; t=1719024157; x=1719628957;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q6xesaMacZace3FQ+zqQcgYnav9DuFBRmm+vK92q3yQ=;
-        b=vp8DwjL3wGps2R98WUp2QC+vBFwAjG9NSZ053gmo7iirbZa+xvrJZa/Zlzks3ZWJ3h
-         jWdkFge9R7n3vf8KyE4uUjG7wAF5UmEILfXxjYHdoVYNyJoOxLLTXK/Fo67r04TTl3Xj
-         aftaEfjNPQTJS5N3MfmG3PVjbJDdwHn1Ww9ZA2zr9FvVOPgUkRX4kcIhKFZRET4D+cXB
-         jTKhibs+y8hHJbB282Q0/hhF5IxUOWFiNyW2WV3LnpQYwRoMxiF7ldg1nJKPFb+8m10U
-         0azgq5UUfREhIl1+bhE3XsA4V088juCHOn+HykWlwYGxFu1SE21ij+x4Pob2gVUMCrx7
-         VcTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWFUrDe8habKYXxy4AqYNIjFxjnaDrEzKOcuJWFjDugEhlICzZ1iJKwS9aNqFLthuU5+/ZNWwQRBZCt4nix8Pw40sbpPsQfM9xQ
-X-Gm-Message-State: AOJu0YyKZs11r97igwiTdWutZHxIL2VZsS5FXiZGdiFEeCHFA/18EL7F
-	wfFg1yc1aoUGN4fFT+0CRBLmbhFwrYAFjFc97t8uv51ALmazj1uaBO4aQGCRBPUAJqkQebq7Z2d
-	eNLLg4wlAu7sV8EAuzgvJDhYeJiihzIZcF49Y
-X-Google-Smtp-Source: AGHT+IEbWjWelzpZFY63Cou53ZgSpdbbIsCKPdXNcVkLJoDwJ5in2IsqHIXIjhgjpWdIZEdefuzVToe3fpWD1sP9vtQ=
-X-Received: by 2002:a05:600c:4f4e:b0:424:80c8:dc08 with SMTP id
- 5b1f17b1804b1-42480c8dda6mr38434615e9.12.1719014035702; Fri, 21 Jun 2024
- 16:53:55 -0700 (PDT)
+        bh=iTwieLueSKpyVDRXh253M5R7l7vUHpUoE8U7jFyR2qY=;
+        b=KoSVC2h/cLQZjCFN1uuOtbe3bAim7t7ISfhsYWutSPeTz/jEh0cra9bWW8VeawvQtI
+         qC8swMa2FPIrdS4wqe415tJGwm9gGIGUFWYPTEHPjjO/EUJCxi+c+pTgIvFL8QseM1fu
+         g6G+ia3WvIGwJP9i3vW5GlLjxsG8QLO8bh2gLk7rSFZY57/lmIAl60QNSonwDkRoIe68
+         07lVXHB/pfs7Coc9U2M9WBCAX4M87pHl+xHGbNZTIx7HzMMiwY3T0/blaDfBGVJ4ToUY
+         7rPrw1YBeJ2NmrerOMrgKv9FINUojRqHgPcr3a0lTEIalpId+6kNzWMyuik/3mQSUxE4
+         KJ8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX87cHeLJd7dRpeypETs8zmtGvvnQD3d8UtJOdKlGng5OHmsQS5A+GTVZy9UXFtxMXhGxSR4SBn5tsv5tmVAbQNEs+VMb3mSWVQ
+X-Gm-Message-State: AOJu0Yynce1UVRuCD695s9mHum3jzNjiPGuTCnVJlqHE3Y/pP7sSoCcI
+	rjmZfrzuppZ5T6tqg/L+IQamNx5SIGrqAwEnuzyaFOTcb7w++IP6KjiYaKfa21TiGiICD1atxsj
+	jj2W8hMlxAoQwCmkf3y42UICXAxDnvXJ+UZxrRA==
+X-Google-Smtp-Source: AGHT+IFHivR0NYkwKhZaqhM/IuRaVop8lkRBRo+/Zee5iD0izgB12QHg5jo+MOuyyOxhBQ6DOobL7PQhZa4C8dkv1Ik=
+X-Received: by 2002:a05:6871:b08:b0:254:ac99:1152 with SMTP id
+ 586e51a60fabf-25c94d72a5dmr10814668fac.58.1719024157068; Fri, 21 Jun 2024
+ 19:42:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620184856.600717-1-jiaqiyan@google.com> <87msnfusyw.fsf@linux.intel.com>
-In-Reply-To: <87msnfusyw.fsf@linux.intel.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 21 Jun 2024 16:53:41 -0700
-Message-ID: <CACw3F51QadqESg2a8Lb_A+PCH7TH0W8BqwNKCyOX4nyeeP1wAw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Userspace controls soft-offline pages
-To: Andi Kleen <ak@linux.intel.com>
-Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	osalvador@suse.de, muchun.song@linux.dev, akpm@linux-foundation.org, 
-	shuah@kernel.org, corbet@lwn.net, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+References: <20240621113143.35827-1-cuiyunhui@bytedance.com> <705FA6B0-53E6-4CF0-B840-D51EC871B596@jrtc27.com>
+In-Reply-To: <705FA6B0-53E6-4CF0-B840-D51EC871B596@jrtc27.com>
+From: yunhui cui <cuiyunhui@bytedance.com>
+Date: Sat, 22 Jun 2024 10:42:25 +0800
+Message-ID: <CAEEQ3wktjBkZ9x1V+YHxCom9o9e8OFk3rwVyX8DTet7TUAKxdg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v2] RISC-V: Provide the frequency of time
+ CSR via hwprobe
+To: Jessica Clarke <jrtc27@jrtc27.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Evan Green <evan@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>, costa.shul@redhat.com, 
+	Andy Chiu <andy.chiu@sifive.com>, samitolvanen@google.com, linux-doc@vger.kernel.org, 
+	linux-riscv <linux-riscv@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Palmer Dabbelt <palmer@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks for your comment, Andi.
+Hi Jessica,
 
-On Thu, Jun 20, 2024 at 3:53=E2=80=AFPM Andi Kleen <ak@linux.intel.com> wro=
-te:
+On Sat, Jun 22, 2024 at 2:04=E2=80=AFAM Jessica Clarke <jrtc27@jrtc27.com> =
+wrote:
 >
-> Jiaqi Yan <jiaqiyan@google.com> writes:
+> On 21 Jun 2024, at 12:31, Yunhui Cui <cuiyunhui@bytedance.com> wrote:
+> >
+> > From: Palmer Dabbelt <palmer@rivosinc.com>
+> >
+> > A handful of user-visible behavior is based on the frequency of the
+> > time CSR.
+> >
+> > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+> > ---
+> > Documentation/arch/riscv/hwprobe.rst  | 2 ++
+> > arch/riscv/include/asm/hwprobe.h      | 2 +-
+> > arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+> > arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
+> > 4 files changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/=
+riscv/hwprobe.rst
+> > index fc015b452ebf..c07f159d8906 100644
+> > --- a/Documentation/arch/riscv/hwprobe.rst
+> > +++ b/Documentation/arch/riscv/hwprobe.rst
+> > @@ -229,3 +229,5 @@ The following keys are defined:
+> >
+> > * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+> >   represents the size of the Zicboz block in bytes.
+> > +
+> > +* :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `mt=
+ime`.
 >
-> > Correctable memory errors are very common on servers with large
-> > amount of memory, and are corrected by ECC, but with two
-> > pain points to users:
-> > 1. Correction usually happens on the fly and adds latency overhead
-> > 2. Not-fully-proved theory states excessive correctable memory
-> >    errors can develop into uncorrectable memory error.
->
-> This patchkit is amusing (or maybe sad) because it basically tries to
-> reconstruct the original soft offline design using a user space daemon
-> instead of doing policy badly in the kernel.
-
-Some clarifications. I don't intend to reconstruct. I think this
-patchset can also be treated as "patch some missing places so that
-kernel doesn't soft offline behind the back of userspace daemon".
-I agree with you (IIUC) that the policy for corrected memory errors
-should exist in userspace. But the situation is that some behaviors in
-the kernel don't respect that (they either have a reason to not
-respect, or just forget to respect). enable_soft_offline is basically
-the big button in userspace to block these kernel violators.
-
->
-> You can still have it by enabling CONFIG_X86_MCELOG_LEGACY and
-> use http://www.mcelog.org or an equivalent daemon of your chosing
-> that listens to /dev/mcelog.
-
-If I didn't miss anything important in
-https://github.com/andikleen/mcelog and
-arch/x86/kernel/cpu/mce/dev-mcelog.c, I don't think /dev/mcelog works
-on ARM platforms where CPER is used to convey hw errors from platform
-to OS.
-
-In addition, again taking an ARM platform as an example, I don't think
-any userspace daemon has the way to stop the GHES driver from soft
-offlining memory pages:
-https://github.com/torvalds/linux/blob/master/drivers/acpi/apei/ghes.c#L521=
-.
-But of course it is not a problem if userspace always wants soft
-offline to happen.
+> This still says mtime.
+Okay, I will update it on v3, thanks.
 
 >
-> -Andi
+> Jess
 >
+> > diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/=
+hwprobe.h
+> > index 630507dff5ea..150a9877b0af 100644
+> > --- a/arch/riscv/include/asm/hwprobe.h
+> > +++ b/arch/riscv/include/asm/hwprobe.h
+> > @@ -8,7 +8,7 @@
+> >
+> > #include <uapi/asm/hwprobe.h>
+> >
+> > -#define RISCV_HWPROBE_MAX_KEY 6
+> > +#define RISCV_HWPROBE_MAX_KEY 7
+> >
+> > static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+> > {
+> > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include=
+/uapi/asm/hwprobe.h
+> > index 7b95fadbea2a..18754341ff14 100644
+> > --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> > @@ -73,6 +73,7 @@ struct riscv_hwprobe {
+> > #define RISCV_HWPROBE_MISALIGNED_UNSUPPORTED (4 << 0)
+> > #define RISCV_HWPROBE_MISALIGNED_MASK (7 << 0)
+> > #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE 6
+> > +#define RISCV_HWPROBE_KEY_TIME_CSR_FREQ 7
+> > /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+> >
+> > /* Flags */
+> > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hw=
+probe.c
+> > index 83fcc939df67..fc3b40fb9def 100644
+> > --- a/arch/riscv/kernel/sys_hwprobe.c
+> > +++ b/arch/riscv/kernel/sys_hwprobe.c
+> > @@ -8,6 +8,7 @@
+> > #include <asm/cacheflush.h>
+> > #include <asm/cpufeature.h>
+> > #include <asm/hwprobe.h>
+> > +#include <asm/delay.h>
+> > #include <asm/sbi.h>
+> > #include <asm/switch_to.h>
+> > #include <asm/uaccess.h>
+> > @@ -226,6 +227,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe =
+*pair,
+> > pair->value =3D riscv_cboz_block_size;
+> > break;
+> >
+> > + case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
+> > + pair->value =3D riscv_timebase;
+> > + break;
+> > +
+> > /*
+> > * For forward compatibility, unknown keys don't fail the whole
+> > * call, but get their element key set to -1 and value set to 0
+> > --
+> > 2.20.1
+> >
+> >
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
 >
+
+Thanks,
+Yunhui
