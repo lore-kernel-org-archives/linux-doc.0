@@ -1,73 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B1D27453;
-	Sun, 23 Jun 2024 16:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E6D181311
+	for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 16:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719161020; cv=none; b=InM9/qY6oCophqv7BcmcyAbz/jdv8vHLXDevy6CnpUQczzWqwhl/vQY/USMKyPzgBoLpVH1PnbOE8MgAIUFDkGGIx59u/DCySDZM0b3oOwWT0xW4KtyB9hyG71p/UeSXGuaLeUasYT4icx3cQt0taFu73jx7S9C7g0LuqDNrG8w=
+	t=1719161190; cv=none; b=NQSDKuUbNDjvJ22xddPIHx/8iJfOT+K2T+gWdTR+99qcELCAS9bZVkFMeH2clNDkNUmqtp5ONJbfCBVW/M4HMxNaAqUetUz6mjyoyqZG1QFBXYJYIgBomTdmD32J96R0D2wy11i21Gaw3NcAXswoPliwwFoo41K2hdU3hfpull8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719161020; c=relaxed/simple;
-	bh=1nMqqxlbzqnOaLTzG3lu0kMusS7M47wv0fXB6SIvc0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gcyb5GHE4b90/WHf7lUHOkK0miw6sFs44X0AzRENON9pmf4wmsvKYDqeuvI9+kYuge+bc5Omj8zDp0afv5OJ9TVHIxCPOf0t52eKwXkyxVu+epn8u5Sw6jd4hrNZHJcGRnsgxCMxGTuoaP55fmj14U+raAhqBW6CnOJcorE+4pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPDmB/95; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719161190; c=relaxed/simple;
+	bh=ktLTDh3yONNNk5qCL8pEySQq66gnDnzOPy9c3BlgTaQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=gFFtrDkFnoemFRm7fm4oJG6EqAY0V2xeMOBxfjAx3EsNPbk+MICwJVUh1WGEkwBCG0cLEek/uSkWIUr8BRZbXtgrtXkdR/UdretW5jdHyRtxZQlTp3frN3y82GFZnxPnBzBrKCDq2IWuOTI5S0HBocj1ULXz/B3Awf1JrkT3IGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wWG9xImM; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPDmB/95"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C7CC4AF09;
-	Sun, 23 Jun 2024 16:43:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719161020;
-	bh=1nMqqxlbzqnOaLTzG3lu0kMusS7M47wv0fXB6SIvc0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NPDmB/95FhIXETQ4nb2L5wVxntqtY4sQ5d2FZlw72flAX1/vxt7XGYHG9eait9MZj
-	 +SMPg6JSrOCFIXzyDHgCvclWGVNn1tq7Z1K0LsfP7pNqujcD7pXUjI+nVV4s1WYjxM
-	 a46VqGVoWz9xkWVM93hEMDbCN4Y7rQhvB5SfaHcwBHTjpmryus1wFzLa1cVGflRsMJ
-	 K48FZ+WPI9oxAQJ1UvPYabwVMsITEgaLYi0MYJiWuuDS8zX7ecl0a2rAhaublErLSq
-	 1DBMLOAPL69VEjh9IoNCoaKYz3Dx0tJWbciDpxW9EIt5qcZsb/YFgPwTQmTSp/MjDc
-	 TyYoJFSrjcqmQ==
-Date: Sun, 23 Jun 2024 17:43:31 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Michael Hennerich
- <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Ramona Gradinariu <ramona.gradinariu@analog.com>
-Subject: Re: [PATCH v2 3/4] iio: adc: ad4695: Add driver for AD4695 and
- similar ADCs
-Message-ID: <20240623174331.07ad2446@jic23-huawei>
-In-Reply-To: <20240617-iio-adc-ad4695-v2-3-63ef6583f25d@baylibre.com>
-References: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
-	<20240617-iio-adc-ad4695-v2-3-63ef6583f25d@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWG9xImM"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6438cfe5af9so20469437b3.0
+        for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 09:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719161188; x=1719765988; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=R9lWbmtvD/FtBKC/4BvB1Rt0D178vL9nREKAOaVsONg=;
+        b=wWG9xImMvPD34nLxREd6pYlyXCnsSaUoFzOZGnZ8LwccXkeUdI6AJYoqbo/S57Cd/l
+         CQzy4Lr1n4toSExC5mlO6sYY7rjOxwCwu+4moN/cAX+KEafR0jaIUblGDJDwyETq/wt2
+         vz9KSUn6qHQlGl7gE4g3UvH3vj50xwt51XVOelUB7wA+tV5YRO9EizRi48x/3MiRvNSp
+         +VroGl8YdIwJROeI+eHtgdP/fJFw65VTpaueI27xdp3nu347+NqDxc2H3Ui9HY5Lwq0C
+         nLcLtWgtzXhnUElRF4FaIPLpp+08IdJBbPVGC3B31z6bw+wmQzNORd5KYDZKH3rToFAX
+         DUGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719161188; x=1719765988;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R9lWbmtvD/FtBKC/4BvB1Rt0D178vL9nREKAOaVsONg=;
+        b=QBoWw1aFe+wJRzW7TdBelOiyc8WbiZU7rT77nQohpXZymi7A4yGJrt+M9H0GE670WW
+         DJSFcBmb6xpt23kLye0UkRm/Ec8/YTENpi+xpv3a+vUoXYGKNfHpcupiloNvdoaGh2+8
+         4IcVnKikOQN9siZncM64VQjv6MFHXbD8HJLPNPr4eDdFJNTq4I5hp7aArJQ6IhLi55ip
+         Rrv2qOX0x0F2bf8IafcPetPJtOfrVVPfzcPzpYBZSe3FkbcR++LGveiTGXqdPR7sCb6+
+         9HPhiqqmYVg6fTo/jPyCzEM2hZplmxTyZ2V6RzwpN2n7YUirRQileYtAwPBpCFIXet0e
+         WfKg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0CyiFnz4Dqn75hFxOPUI2vU69Jt92jwx+M9J/OG8N7Ad3shMqDDA6l6E7sH9KTIZqFhFvzl/hrdTzLA5gQCytSwdys77tVhBk
+X-Gm-Message-State: AOJu0YxwyG9e+ASLThwsSTnoSlXRUnVFKgkUHO6AmDxRrYhDdoaqOFej
+	TS4QtgdgLbyCwX2XfLmwsfiPRGsDd2kdjSBTN9an6oGnT2GxjsWEvkIcswsWIuUKVZSvVs+W3vc
+	Z81lo+U6VmoUIkx/uLw==
+X-Google-Smtp-Source: AGHT+IGjc/K0I2YSI5AvzB60q+qfp5+lcXp+Wztq+8cPlJ8fEUgX5e62SCaUOpwgRwZE9H7J1KWleU45Q1kaYkQH
+X-Received: from changyuanl-desktop.svl.corp.google.com ([2620:15c:2a3:200:c9fa:2a0a:34fc:4e66])
+ (user=changyuanl job=sendgmr) by 2002:a05:690c:7201:b0:62e:81e2:99bc with
+ SMTP id 00721157ae682-643ad5c66f2mr146137b3.9.1719161188243; Sun, 23 Jun 2024
+ 09:46:28 -0700 (PDT)
+Date: Sun, 23 Jun 2024 09:45:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
+Message-ID: <20240623164542.2999626-1-changyuanl@google.com>
+Subject: [PATCH 1/3] Documentation: Fix typo `BFD`
+From: Changyuan Lyu <changyuanl@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Changyuan Lyu <changyuanl@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 17 Jun 2024 14:53:14 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+BDF is the acronym for Bus, Device, Function.
 
-> This is a new driver for Analog Devices Inc. AD4695 and similar ADCs.
-> The initial driver supports initializing the chip including configuring
-> all possible LDO and reference voltage sources as well as any possible
-> voltage input channel wiring configuration.
-> 
-> Only the 4-wire SPI wiring mode where the CNV pin is tied to the CS pin
-> is supported at this time. And reading sample data from the ADC can only
-> be done in direct mode for now.
-> 
-> Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+---
+ Documentation/virt/kvm/api.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I only took a quick look as it sounds like some of this will change.
-FWIW Looks good to me.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index a71d91978d9ef..e623f072e9aca 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1921,7 +1921,7 @@ flags:
+ 
+ If KVM_MSI_VALID_DEVID is set, devid contains a unique device identifier
+ for the device that wrote the MSI message.  For PCI, this is usually a
+-BFD identifier in the lower 16 bits.
++BDF identifier in the lower 16 bits.
+ 
+ On x86, address_hi is ignored unless the KVM_X2APIC_API_USE_32BIT_IDS
+ feature of KVM_CAP_X2APIC_API capability is enabled.  If it is enabled,
+@@ -2986,7 +2986,7 @@ flags:
+ 
+ If KVM_MSI_VALID_DEVID is set, devid contains a unique device identifier
+ for the device that wrote the MSI message.  For PCI, this is usually a
+-BFD identifier in the lower 16 bits.
++BDF identifier in the lower 16 bits.
+ 
+ On x86, address_hi is ignored unless the KVM_X2APIC_API_USE_32BIT_IDS
+ feature of KVM_CAP_X2APIC_API capability is enabled.  If it is enabled,
+-- 
+2.45.2.741.gdbec12cfda-goog
 
-Jonathan
