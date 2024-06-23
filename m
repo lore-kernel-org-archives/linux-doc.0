@@ -1,43 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7127F12E1D3;
-	Sun, 23 Jun 2024 10:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C219163D;
+	Sun, 23 Jun 2024 10:27:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719137709; cv=none; b=ZlatQwVQsov4HPyZft4ZoxfgDZnqgGMibKF/A1sq/JNRJSRIIWwmtNhiik8MOQQNDgUsMLGSjMJppEy9zvthvkBeSixghMAYK3RhdhO/eTHpybmPbjD6oZeY5gEZSaXl0n9/0bd63JsdD1v+XgAyp0P8z/d8rkQZMNKctiAna4I=
+	t=1719138420; cv=none; b=XwwkdIZ8yMBgPyW8pHc3tMMOIXYc97zWyAN0eRHOVVomCyueZvco/ZvAyVt+FMftbVpHKaGad6pyK6KvQdJC+8A8qLjBztogf514gU6kY4lXamAJ6HwoHLy1nkEjvzJKTDZEefnyXfb5nJjtTbuT50HXQAqMogwuipw7B9rDUhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719137709; c=relaxed/simple;
-	bh=uOZclHSo+YCAfe4mX16NYlXQzPPx/B5Swe1Q2hmbKMQ=;
+	s=arc-20240116; t=1719138420; c=relaxed/simple;
+	bh=Re7lgTywR+L12UXG91oTp5BPVhuOkLEgPrrb6/7KQZw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZFJJ4JavSV+suZ2uMB9TyWt/l+r+eedR6MBAAzROLtJdsTr7UvOmSs4qdRAvdtS+dt7SWSNCbxAcGWl1SQJawSjthML2ZUK/567Zh/x6ZBiCk9qg8o3UUPp0y1XWi1OzLexC+zwXIel4ofcrFPpfrIrGBRTzUMeEZ8MKKIvGHsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=US3CKzY9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=dpFxGxfhJiYPzX9HMJloILEOHfy778e7gmxTQAkQ5D5xMI+kGNOfSqNYVxCJa/N63z0rRLFdsiPe+wplDvwq7MmJZ2nnZlZ0sv7iCjD8yj55ir6Q1bUfCcUX3vmrtSnRGUseuaIjj56KYDkdi0nNgVYI8iKYNyLR5I7ALYa1UCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0Ekh5L/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="US3CKzY9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D953C2BD10;
-	Sun, 23 Jun 2024 10:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0Ekh5L/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3226C2BD10;
+	Sun, 23 Jun 2024 10:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719137709;
-	bh=uOZclHSo+YCAfe4mX16NYlXQzPPx/B5Swe1Q2hmbKMQ=;
+	s=k20201202; t=1719138420;
+	bh=Re7lgTywR+L12UXG91oTp5BPVhuOkLEgPrrb6/7KQZw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=US3CKzY9glSlqIQWmMVEc+HY8NQl/ATnb0KMse281M2ee3F55GjcKUDgZhUi4Hu9c
-	 5bGqwQf0ph7HkPT6Nh53reps0S90YbE4YTYr85eLu7Z8V7ZYwzCPxTu38xCui7/yN0
-	 VBDUlp17vqXlWcsvu6eG6UWkml60QoL5oUYv+A1BH1IyMnLBMNbTmyrMd8kb588eM4
-	 /WOQ4b1mSHkisMJdsLnd20rGNKGcLXf71DXU2wL7itIzImiG7Qld5hoP2SAvKl+UCK
-	 ehR2PQRvIe7xDik1dUMZLMvEMpTdd5prlfYubQSQUl/5RvWIgpMyhRRto5S+t8XSEg
-	 C7NPpds73mmRg==
-Date: Sun, 23 Jun 2024 11:15:00 +0100
+	b=P0Ekh5L/FfCuBz1Tas/4dbfgQybES6dEyY0xZaGgq3K9FNmScffissyIZ3j+qGXJA
+	 b+XJntMIMilm/JzTuAu+QNwrBvfIGXfLTY2LcP2VGWlYftIHnAZWKlFvHt84Ev2eLv
+	 7s+KDB+kOLwywLN/L4b2JFFcQIjWRLwe41KIGcuey25toLzSe7bZdZRd/AlfkCAZ0+
+	 BcjYHkCX/+oBQBkJlDzbcePUEAKa4tvKBrvBdFN6TISnq1wcCacaQLXPNyfNVQAZt0
+	 7t93CzNJCs4xHEVnn10mISiqS7rpsHUnRTpl1FNlF4vbFo+ivmQw4QDlnLz7pgN94q
+	 /I//VCrMPN03Q==
+Date: Sun, 23 Jun 2024 11:26:49 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Michael Hennerich
- <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Marcelo Schmitt <marcelo.schmitt@analog.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 0/3] spi: add devm_spi_optimize_message() helper
-Message-ID: <20240623111500.3c8162e3@jic23-huawei>
-In-Reply-To: <20240621-devm_spi_optimize_message-v1-0-3f9dcba6e95e@baylibre.com>
-References: <20240621-devm_spi_optimize_message-v1-0-3f9dcba6e95e@baylibre.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Ramona Gradinariu <ramona.gradinariu@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Matti
+ Vaittinen <mazziesaccount@gmail.com>, Jun Yan <jerrysteve1101@gmail.com>,
+ Mehdi Djait <mehdi.djait.k@gmail.com>, Mario Limonciello
+ <mario.limonciello@amd.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: accel: add ADXL380
+Message-ID: <20240623112649.12d7ab80@jic23-huawei>
+In-Reply-To: <20240621101756.27218-1-antoniu.miclaus@analog.com>
+References: <20240621101756.27218-1-antoniu.miclaus@analog.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -45,36 +49,147 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 21 Jun 2024 15:51:29 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Fri, 21 Jun 2024 13:17:03 +0300
+Antoniu Miclaus <antoniu.miclaus@analog.com> wrote:
 
-> In the IIO subsystem, we are finding that it is common to call
-> spi_optimize_message() during driver probe since the SPI message
-> doesn't change for the lifetime of the driver. This patch adds a
-> devm_spi_optimize_message() helper to simplify this common pattern.
-Looks good to me.  Obviously I need Mark's ack or an immutable
-branch to pick these up though.
-
-Thanks
-
-Jonathan
-
-> 
+> From: Ramona Gradinariu <ramona.gradinariu@analog.com>
+>=20
+> Add dt-bindings for ADXL380/ADLX382 low noise density, low
+> power, 3-axis accelerometer with selectable measurement ranges.
+>=20
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
 > ---
-> David Lechner (3):
->       Documentation: devres: add missing SPI helpers
->       spi: add devm_spi_optimize_message() helper
->       iio: adc: ad7944: use devm_spi_optimize_message()
-> 
->  Documentation/driver-api/driver-model/devres.rst |  3 +++
->  drivers/iio/adc/ad7944.c                         | 26 +++--------------------
->  drivers/spi/spi.c                                | 27 ++++++++++++++++++++++++
->  include/linux/spi/spi.h                          |  2 ++
->  4 files changed, 35 insertions(+), 23 deletions(-)
-> ---
-> base-commit: 0ca645ab5b1528666f6662a0e620140355b5aea3
-> change-id: 20240621-devm_spi_optimize_message-ebbde029dd7a
+>  .../bindings/iio/accel/adi,adxl380.yaml       | 83 +++++++++++++++++++
+>  MAINTAINERS                                   |  7 ++
+>  2 files changed, 90 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adxl3=
+80.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml=
+ b/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml
+> new file mode 100644
+> index 000000000000..992e2ab841e2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/accel/adi,adxl380.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices ADXL380/382 3-Axis Digital Accelerometer
+> +
+> +maintainers:
+> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The ADXL380/ADXL382 is a low noise density, low power, 3-axis
+> +  accelerometer with selectable measurement ranges. The ADXL380
+> +  supports the =C2=B14 g, =C2=B18 g, and =C2=B116 g ranges, and the ADXL=
+382 supports
+> +  =C2=B115 g, =C2=B130 g, and =C2=B160 g ranges.
+> +  The ADXL380/ADXL382 offers industry leading noise, enabling precision
+> +  applications with minimal calibration. The low noise, and low power
+> +  ADXL380/ADXL382 enables accurate measurement in an environment with
+> +  high vibration, heart sounds and audio.
+> +
+> +  In addition to its low power consumption, the ADXL380/ADXL382 has
+> +  many features to enable true system level performance. These
+> +  include a built-in micropower temperature sensor, single / double /
+> +  triple tap detection and a state machine to prevent a false
+> +  triggering. In addition, the ADXL380/ADXL382 has provisions for
+> +  external control of the sampling time and/or an external clock.
+> +
+> +    https://www.analog.com/en/products/adxl380.html
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,adxl380
+> +      - adi,adxl382
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+
+Picture in the datasheet has 2.  If that's wrong note that for now and
+remember to come back and update the comment when a real datasheet
+becomes available.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+No power? Magic device :)
+
+In all seriousness, I want all new bindings for IIO devices at least to
+include the power supplies they require to operate and make them required
+properties.
+That datasheet is less than informative "Preliminary Data sheet", but it
+does mention a few in the text. vsupply and vddio
+
+
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      accelerometer@54 {
+> +        compatible =3D "adi,adxl380";
+> +        reg =3D <0x54>;
+> +        interrupt-parent =3D <&gpio>;
+> +        interrupts =3D <25 IRQ_TYPE_LEVEL_HIGH>;
+> +      };
+> +    };
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    spi {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      accelerometer@0 {
+> +        compatible =3D "adi,adxl380";
+> +        reg =3D <0>;
+> +        spi-max-frequency =3D <8000000>;
+> +        interrupt-parent =3D <&gpio>;
+> +        interrupts =3D <25 IRQ_TYPE_LEVEL_HIGH>;
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index be590c462d91..1425182c85e2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -618,6 +618,13 @@ F:	drivers/iio/accel/adxl372.c
+>  F:	drivers/iio/accel/adxl372_i2c.c
+>  F:	drivers/iio/accel/adxl372_spi.c
+> =20
+> +ADXL380 THREE-AXIS DIGITAL ACCELEROMETER DRIVER
+> +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +S:	Supported
+> +W:	https://ez.analog.com/linux-software-drivers
+> +F:	Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml
+> +
+>  AF8133J THREE-AXIS MAGNETOMETER DRIVER
+>  M:	Ond=C5=99ej Jirman <megi@xff.cz>
+>  S:	Maintained
 
