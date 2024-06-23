@@ -1,163 +1,188 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7977F1822C1;
-	Sun, 23 Jun 2024 15:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D1527453;
+	Sun, 23 Jun 2024 16:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719157385; cv=none; b=sDeiA8yEtr1ERb8jh+30IfWNXXcKhuWy4HxXiAo1o5DTK7a+0fg4pjrNWgfDoC7J3qk6V0E0tCb2Zh4Y3FD9PqDdxbP/BxyeBOvIcP5V/HPk3uGzpxcFWZfw60UxCW5MwHBiEVaVBdvKUjiRvFbNFa1npove0MInvVkEuzsEFD0=
+	t=1719160759; cv=none; b=HNnYgE5dvt0VORbDYZ3CXbsojFQOeu49OjlT60y1fhK5/AtJHZvgLIDVoWGpJEJZbbkMhH+KakO4BX7MJgxxVfyIodEpkQS3G2FIpHqIOFGpQ5eJ/sEB8wIt1dZSx3o6KmCYfYdDQUlzUK4hW6Ce26u5oDUZQrfj2SzRN41IfJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719157385; c=relaxed/simple;
-	bh=lOo+ByMOxJv+uOcBMeubi7V3Rm4GnZ1uYp8z+JG4D7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltnAK0ng+EdQ4iMmyxYl1RJvjsFBujwEyP3yfympcE7yfi1YuXIOrK6o4K7YIVx1QNWo0NbfR7lUq3wFzbseYWholSP3fr6WX3NNl4sT9rb4EMwLg5rPm3dFxwZPj9hVk8WVPegt4Q2cu3U7ebQhl1Wie5EhJhPJdWkZXvZPMis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ig2qEl3L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719160759; c=relaxed/simple;
+	bh=iyXtYUzy5O3X9DAJs0asKfGjTbzvj1GK9MGlEZocrOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C4JRMzsSUBO+yCkr0DB6Soo1XvizCJIC2u6KR2jDJNFwj9zpfLlXUkNJ9nOjCGDG0OJPzw/mBukoo22DF2M66EH4ARUAQBNxN9wA/nVzsXeQYL/2veKWikNs1Lfzu2s43tdficPs72pT+S8ZB5sDNM5MmfbP0+2bYHbid0V0HSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAyy/KiI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ig2qEl3L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56C6C2BD10;
-	Sun, 23 Jun 2024 15:43:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAyy/KiI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E95A0C2BD10;
+	Sun, 23 Jun 2024 16:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719157385;
-	bh=lOo+ByMOxJv+uOcBMeubi7V3Rm4GnZ1uYp8z+JG4D7U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ig2qEl3L4TVco7WlBwgMQUjId3RGZgfm6ZSQSHOUzIJt7J2AV7Kl9d399jRG/+/kk
-	 yMdLpjNVa+o4mc419wbWElR7rwCDvJ7Odk5KwyJgy+AYatwVFBCtVjSamnAmi4LMFN
-	 484fIdjkW+ZcWzV9AYNokqANEnZZjNRA2A/MfG37zTPPZunAVYCGVKw6ZVAe/mJDHG
-	 n0Dar0++YGiGAgaRGvenduDqIdQozpvXoQnbL/N/TLBDiG9WV79LnkqZ2Il8O+UqV9
-	 5Oeqnog/H75h1RByve23ecbkHVll3UcSUVnIP6kdJcX6RvSKWM+ts5ntO7bc+qra3d
-	 oUKygciaWfakQ==
-Date: Sun, 23 Jun 2024 16:42:59 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v7 08/16] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
-Message-ID: <20240623-cornbread-preteen-4ec287aa165c@spud>
-References: <20240619113529.676940-1-cleger@rivosinc.com>
- <20240619113529.676940-9-cleger@rivosinc.com>
+	s=k20201202; t=1719160758;
+	bh=iyXtYUzy5O3X9DAJs0asKfGjTbzvj1GK9MGlEZocrOM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FAyy/KiI6VFRjdkCXlYt2DuzZWHdj4UDTxSJ9KLZW5fqntZne7nR/pUMXbyaIhAhs
+	 O/J5JV3/CQFAZOQLLQGiL7nmF5bTYk6sFbf5Lgni3L+ZOEEMWfzXKippdylTc+eC1x
+	 GwzcWSsTvrJ3Io0RLhzCUeaGdNCsLTl5fk7yQ9yq2Prn3sXl7jz7aKx/Ev9BLqD/U1
+	 XqGj4nWZEPp2yd8E3XmEPWG+xM+IT6GPTaIfFzr10kx9gOYWmyY+bH2fXRuUS75vlH
+	 NWNWschOP+YOcrZUC29uuPLTAIjzkcRB3sf/ATCqlXJusbF7xFw5r7FDyrWJX5odB+
+	 bEJoolbh8q9bg==
+Date: Sun, 23 Jun 2024 17:39:11 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Michael Hennerich
+ <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: iio: adc: add AD4695 and similar
+ ADCs
+Message-ID: <20240623173911.7ea5d518@jic23-huawei>
+In-Reply-To: <187da75c-9af3-42a9-b31e-be731aaf63d2@baylibre.com>
+References: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
+	<20240617-iio-adc-ad4695-v2-2-63ef6583f25d@baylibre.com>
+	<187da75c-9af3-42a9-b31e-be731aaf63d2@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XCIoMUFlsNIN40u9"
-Content-Disposition: inline
-In-Reply-To: <20240619113529.676940-9-cleger@rivosinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Tue, 18 Jun 2024 14:29:10 -0500
+David Lechner <dlechner@baylibre.com> wrote:
+
+> On 6/17/24 2:53 PM, David Lechner wrote:
+> > Add device tree bindings for AD4695 and similar ADCs.
+> > 
+> > Signed-off-by: David Lechner <dlechner@baylibre.com>
+> > ---
+> >   
+> ...
+> 
+> > +
+> > +  interrupts:
+> > +    minItems: 1
+> > +    items:
+> > +      - description:
+> > +          Signal coming from the BSY_ALT_GP0 or GP3 pin that indicates a busy
+> > +          condition.
+> > +      - description:
+> > +          Signal coming from the BSY_ALT_GP0 or GP2 pin that indicates an alert
+> > +          condition.
+> > +
+> > +  interrupt-names:
+> > +    minItems: 1
+> > +    items:
+> > +      - const: busy
+> > +      - const: alert
+> > +  
+> 
+> Since the interrupt can come from two different pins, it seems like we would
+> need an extra property to specify this. Is there a standard way to do this?
+> 
+> Otherwise I will add something like:
+> 
+> adi,busy-on-gp3:
+>   $ref: /schemas/types.yaml#/definitions/flag
+>   description:
+>     When present, the busy interrupt is coming from the GP3 pin, otherwise
+>     the interrupt is coming from the BSY_ALT_GP0 pin.
+>    
+> adi,alert-on-gp2:
+>   $ref: /schemas/types.yaml#/definitions/flag
+>   description:
+>     When present, the alert interrupt is coming from the GP2 pin, otherwise
+>     the interrupt is coming from the BSY_ALT_GP0 pin.
+Cut and paste?  Or it ends up on the same pin as the bsy? In which case that's
+a single interrupt and it's up to software to decide how to use. I'll guess
+it comes on GP1?
+> 
+
+More interrupt names.  We shouldn't restrict someone wiring all 4 if they want
+to - we'll just use 2 that we choose in the driver.
+
+interrupt-names
+  minItems: 1
+  items:
+    - const: busy-gp0
+    - const: busy-gp1
+    - const: alert-gp2
+    - cosnt: alert-gp1
+
+T   
+> 
+> > +
+> > +patternProperties:
+> > +  "^channel@[0-9a-f]$":
+> > +    type: object
+> > +    $ref: adc.yaml
+> > +    unevaluatedProperties: false
+> > +    description:
+> > +      Describes each individual channel. In addition the properties defined
+> > +      below, bipolar from adc.yaml is also supported.
+> > +
+> > +    properties:
+> > +      reg:
+> > +        maximum: 15
+> > +
+> > +      diff-channels:
+> > +        description:
+> > +          Describes inputs used for differential channels. The first value must
+> > +          be an even numbered input and the second value must be the next
+> > +          consecutive odd numbered input.
+> > +        items:
+> > +          - minimum: 0
+> > +            maximum: 14
+> > +            multipleOf: 2
+> > +          - minimum: 1
+> > +            maximum: 15
+> > +            not:
+> > +              multipleOf: 2  
+> 
+> After some more testing, it turns out that I misunderstood the datasheet and
+> this isn't actually fully differential, but rather pseudo-differential.
+> 
+> So when pairing with the next pin, it is similar to pairing with the COM pin
+> where the negative input pin is connected to a constant voltage source.
+
+Ok. I'm curious, how does it actually differ from a differential channel?
+What was that test?  It doesn't cope with an actual differential pair and needs
+a stable value on the negative?
+
+> 
+> > +
+> > +      single-channel:
+> > +        minimum: 0
+> > +        maximum: 15
+> > +
+> > +      common-mode-channel:
+> > +        description:
+> > +          Describes the common mode channel for single channels. 0 is REFGND
+> > +          and 1 is COM. Macros are available for these values in
+> > +          dt-bindings/iio/adi,ad4695.h.
+> > +        minimum: 0
+> > +        maximum: 1
+> > +        default: 0  
+> 
+> So I'm thinking the right thing to do here go back to using reg and the INx
+> number and only have common-mode-channel (no diff-channels or single-channel).
+> 
+> common-mode-channel will need to be changed to allow INx numbers in addition
+> to COM and REFGND.
+> 
+> This means that [PATCH v2 1/4] "dt-bindings: iio: adc: add common-mode-channel
+> dependency" would be wrong since we would be using common-mode-channel without
+> single-channel.
+> 
+> It also means we will need an optional in1-supply: true for all odd numbered
+> inputs.
+Ok. I'm not totally sure I see how this comes together but will wait for v3 rather
+than trying to figure it out now.
+
+Jonathan
 
 
---XCIoMUFlsNIN40u9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 19, 2024 at 01:35:18PM +0200, Cl=E9ment L=E9ger wrote:
-> The Zc* standard extension for code reduction introduces new extensions.
-> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
-> are left out of this patch since they are targeting microcontrollers/
-> embedded CPUs instead of application processors.
->=20
-> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  arch/riscv/include/asm/hwcap.h |  4 +++
->  arch/riscv/kernel/cpufeature.c | 55 +++++++++++++++++++++++++++++++++-
->  2 files changed, 58 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index 18859277843a..b12ae3f2141c 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -87,6 +87,10 @@
->  #define RISCV_ISA_EXT_ZVE64F		78
->  #define RISCV_ISA_EXT_ZVE64D		79
->  #define RISCV_ISA_EXT_ZIMOP		80
-> +#define RISCV_ISA_EXT_ZCA		81
-> +#define RISCV_ISA_EXT_ZCB		82
-> +#define RISCV_ISA_EXT_ZCD		83
-> +#define RISCV_ISA_EXT_ZCF		84
-> =20
->  #define RISCV_ISA_EXT_XLINUXENVCFG	127
-> =20
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index a3af976f36c9..aa631fe49b7c 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -111,6 +111,9 @@ static int riscv_ext_zicboz_validate(const struct ris=
-cv_isa_ext_data *data,
-> =20
->  #define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
- NULL, 0, NULL)
-> =20
-> +#define __RISCV_ISA_EXT_DATA_VALIDATE(_name, _id, _validate) \
-> +			_RISCV_ISA_EXT_DATA(_name, _id, NULL, 0, _validate)
-> +
->  /* Used to declare pure "lasso" extension (Zk for instance) */
->  #define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
->  	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, \
-> @@ -122,6 +125,37 @@ static int riscv_ext_zicboz_validate(const struct ri=
-scv_isa_ext_data *data,
->  #define __RISCV_ISA_EXT_SUPERSET_VALIDATE(_name, _id, _sub_exts, _valida=
-te) \
->  	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _vali=
-date)
-> =20
-> +static int riscv_ext_zca_depends(const struct riscv_isa_ext_data *data,
-
-It's super minor, but my OCD doesn't like this being called "depends"
-when the others are all called "validate".
-
-> +				 const unsigned long *isa_bitmap)
-> +{
-> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA))
-> +		return 0;
-> +
-> +	return -EPROBE_DEFER;
-> +}
-> +static int riscv_ext_zcd_validate(const struct riscv_isa_ext_data *data,
-> +				  const unsigned long *isa_bitmap)
-> +{
-> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA) &&
-> +	    __riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_d))
-> +		return 0;
-> +
-> +	return -EPROBE_DEFER;
-> +}
-> +
-> +static int riscv_ext_zcf_validate(const struct riscv_isa_ext_data *data,
-> +				  const unsigned long *isa_bitmap)
-> +{
-> +	if (IS_ENABLED(CONFIG_64BIT))
-> +		return -EINVAL;
-> +
-> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA) &&
-> +	    __riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_f))
-> +		return 0;
-> +
-> +	return -EPROBE_DEFER;
-> +}
-
---XCIoMUFlsNIN40u9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnhCgwAKCRB4tDGHoIJi
-0ojNAP4zqID4s2fTIoOLI3MwCtAFLJWCKaU3UhLxLueoiVavOgD+I+moOCuXJqHu
-LFPQJbfCtkhdREIdkaCj+l4fuZIM5AI=
-=tBDW
------END PGP SIGNATURE-----
-
---XCIoMUFlsNIN40u9--
