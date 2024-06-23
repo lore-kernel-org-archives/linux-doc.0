@@ -1,55 +1,55 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACA1181311
-	for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B2B18306F
+	for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 16:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719161193; cv=none; b=WkBcIhLN5VuA08ja5gQIwZr4xQNo3wTtEsluzAwmSRo0zOiFlFYGiI/zarz9/Ynfn1a4sHwJNXmz1dq5AMb0G/rj6gUZNx+EaZQz4+FS9kP2CdfXAKiFwFrKQKfTD6vvA2mKjupX86CR3rWP6OhCy9JGufJhDpHI8oD04/TAiMo=
+	t=1719161193; cv=none; b=Jn2LEZ1FFpx0t7LCuuvJTrlIH100SCJi+LBEJniX1WT8yN7GYuZplOLXa43kgPsoOehIICUojz0PdeaUbElg9+A+7PxCHQ/GDgZy6ZqPaMF5BTt9b/idKVArLNRkNOkvvSkUobmupzYNzhmQnKAyuRJ8nPmWDpq++jCsojyfdPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719161193; c=relaxed/simple;
-	bh=uSgvMQ21c8MCk6CFXz6CJcdDYs94c/fyivKu+fq5mEc=;
+	bh=TpYgag2AWfY+r8n0EVy95+D1bg1611Qel1rooGm/U+U=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UGir1DTDq7wqWP95lmOvWEiBYkSaNnuK1UmF0XsDJFXBMEUOynHVzouuAobUlmdJiDb4wyG/FfHdFS6ygmybQWy1WAAhU3Y5EeU29baAD4/2P15gwv3olCZTykG/pYf7XYylq7NMzCAev2By4DJhCilsoxsVPIrVLeZpdWg+tK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PevpB3q8; arc=none smtp.client-ip=209.85.128.201
+	 To:Cc:Content-Type; b=KMy3k+LI+1ImEAT4zefjvqkao46kvu/DpiYqZW8OcB9d22/7ZSTfVX+M26anEL8mZWWRe1503DQ5o2ozC94ulc2S9bZPrsrXuK/OZEw2BcY80k5cGiKGSfUPoXzkOtarC3RQ8PncR40i3sEZE1pca+cL+IfyqM85ABtmWjoPQSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P/ISI/IL; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PevpB3q8"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-64399573fd3so21108897b3.0
-        for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 09:46:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P/ISI/IL"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1f9c6df671eso39307905ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 23 Jun 2024 09:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719161190; x=1719765990; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1719161192; x=1719765992; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7ypldIW+X6JEp0kZhCbqcH0KNcqVo/fkANJ8q1vMpM=;
-        b=PevpB3q8gKBN2XZ4iSiPc+8iZ/1L5Xmavfxi9m7G98VGzfAOpnNQ/o/sETKpjUqCNn
-         Q+JTemf9kTGAzu5PAQrtkLMvSxVcRGmxjlKECF5VeJ+ufDe3tOmuknSybUKu2+1ZhtnC
-         UdfrzEJO/xIk9bmODoy/ZBD2k6vDaL1wiHK7mylBG8vjFbbw40ScynaGg+mfeq32c0EZ
-         5TieHXK46r2ENQFqIZ2oaxzPPpy7U/2DtaZZRhZ69BA19DIfUGsPgjUdXRvWA37hslhx
-         +UEDf9ONEoQxjcDK89SPUq8QrzQueM1SwudKtq06AIGrE+lLqSV6G0X4G45yGeEdDxhK
-         QK+A==
+        bh=2v8/X8JxGRN8NdNpnyhVNdtUd4APq1zc20IQH5DoRuQ=;
+        b=P/ISI/ILXUXc2Ba2NKZaM2muxUQYwwuhpDJ0Axpt7g8uqOv8vYiNKylvmrqt1rJJN2
+         7GNyj/TfnpIiRBiRHklv+sXbeAcW3Z0f5L04Z5GMETcNARSw1oiipiFWFCf+YJOlj6Z1
+         gIX2FrFxZjKacH+YtGufC1Sj1DqdRijr7PWtf8bp7GBbQlc+eSgbDWYuet0MfoAW2Go7
+         eokWErzDeRU2jxm1uFgEZ9WiLbiuWSoTB0FjeP77XkACEitO4+8R7j7vXHohxiUwTmuq
+         p8AFfw28oshC0VzxF40glem/zHzYOV6d6y3slf21JRZKleWIAVCycddj/Zcx4VNkDSwJ
+         IqQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719161190; x=1719765990;
+        d=1e100.net; s=20230601; t=1719161192; x=1719765992;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7ypldIW+X6JEp0kZhCbqcH0KNcqVo/fkANJ8q1vMpM=;
-        b=T4byERf02mROrXEZS0qG82D/69fljz5Xnxn+s1mJ0qPM7o/TmQxkaFK5yr6iyaBV0v
-         cr+XkzL9MYS9TJLwC2AKTYlYh95XztdXpGdZYeLTaItmf/rclw+ehNM/1j5Z+BPEgZzx
-         PUrjLDRCF4y8bgo1yFItOGiNEhgSVzuCs1Fc7Zttg73gkQTQhXy83aXHu+cHSYFWdBvA
-         Vt0+dRX4pKwTAYBiyPaHWsR5RA86gh0FRzaltooHhgUfeLM2UCTnSEElsWGZJ7Tdq0rJ
-         5ai6yinwf8Y2xbYrLGnRf2dMyu+4RL24+ltR0BfC4i4YRMp+6S2x59JhJUwWRkPe9hBx
-         PzZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3C3aGzB0Vnd83Fy9Zl105QGN4nR+6SeHLR8DqOzoGL+ElRYN8TktHfOrDelw0+sViOzoadIwxqHn8CnwfUpXkgWB4InR+fvQJ
-X-Gm-Message-State: AOJu0Ywi1NGB240Ts+myM0517UgqF132KOKtlHNgZSm/8kwwU/I7yQJg
-	RXO7uUiZYChGiFMENC4UB5D4YKpIKQkrZdWXzZc338a6uQX7K/3sTiIF13r2zI1hRSI/qHItBQz
-	0E1raAChHk8X6LKSxlQ==
-X-Google-Smtp-Source: AGHT+IHgU4P4HT/z136C3CiXDRHqbsUCHbespyEvczdjd+Msec9BV7dNZBjdz8bchM3VtP0KtJXLay4Z2DpXbpwX
+        bh=2v8/X8JxGRN8NdNpnyhVNdtUd4APq1zc20IQH5DoRuQ=;
+        b=Giw9CKo8qu1qiVLmfkA9Yz/bFdLkB0EYA6SMepnFfGVJCvXF00agn0jZyrKlUYnGEd
+         xb7jrzaTuCwEPNDHnFyWtQ7TfDlrcawy8DPisAfrgPcevy2xjij1f8wZELN14euQ4Yjw
+         C0EQzDIRMcU2HzMdJwiFD39t2e4QjnXQ9i+EhJCZrKuU4XwA2sAToOaSEVGz0kHF/Cev
+         4cGp+cc1G134DNR+eeB54cyd7KwBVLo7V9Bq8gCnRFZTqNlBZZBB25UEn4FpkURhDVgt
+         B1/SvqTG8hHt5HIIQ2IZz4XUsBrtXkewAhIvD3dLcnNuMzFdkZAQO3yBoxCUshH0s4Up
+         evXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXyUrvRLjCR31AU1d/GgzUoRoIj1H91WFfkb1i2b6xtkYq9OP3cGXFAqxGo5GRxPTTpKGge9PDOIe4e9xta+Tvp/3+03v+DwwZS
+X-Gm-Message-State: AOJu0Yx6V9CHgR9lo6tN4Zn3cIyggy0uReD8w2VWtafNkOu4fIzK5oHD
+	D3HaglpTytMcQX+FP8clB/oH7sciO+RxfdO+8pdBCxY/mdCQBRYisxb+IEblsfdCEEVS5Ejg/qc
+	qhmEmC51UnXfBKG/pXA==
+X-Google-Smtp-Source: AGHT+IHwJfMeb6Uv/DNFCAk3a9X1skCCHl4ZuNGhDYw35DtC/v/kvgSjh4eYTWru9eh+bqoYw7yDcBUJW7HUkF0r
 X-Received: from changyuanl-desktop.svl.corp.google.com ([2620:15c:2a3:200:c9fa:2a0a:34fc:4e66])
- (user=changyuanl job=sendgmr) by 2002:a05:690c:7001:b0:62d:cef:67dd with SMTP
- id 00721157ae682-643ab458192mr3511827b3.1.1719161190180; Sun, 23 Jun 2024
- 09:46:30 -0700 (PDT)
-Date: Sun, 23 Jun 2024 09:45:40 -0700
+ (user=changyuanl job=sendgmr) by 2002:a17:902:e752:b0:1f9:aafc:1ebb with SMTP
+ id d9443c01a7336-1fa1d6b39f4mr5288725ad.13.1719161191876; Sun, 23 Jun 2024
+ 09:46:31 -0700 (PDT)
+Date: Sun, 23 Jun 2024 09:45:41 -0700
 In-Reply-To: <20240623164542.2999626-1-changyuanl@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,47 +59,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240623164542.2999626-1-changyuanl@google.com>
 X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
-Message-ID: <20240623164542.2999626-2-changyuanl@google.com>
-Subject: [PATCH 2/3] Documentation: Enumerate allowed value macros of `irq_type`
+Message-ID: <20240623164542.2999626-3-changyuanl@google.com>
+Subject: [PATCH 3/3] Documentation: Correct the VGIC V2 CPU interface addr
+ space size
 From: Changyuan Lyu <changyuanl@google.com>
 To: Oliver Upton <oliver.upton@linux.dev>, Jonathan Corbet <corbet@lwn.net>
 Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
 	Changyuan Lyu <changyuanl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The expression `irq_type[n]` may confuse readers to interpret `n`
-as the bit position and think of CPU = 1 << 0, SPI = 1 << 1, and
-PPI = 1 << 2.
+In arch/arm64/include/uapi/asm/kvm.h, we have
 
-Since arch/arm64/include/uapi/asm/kvm.h already has macro definitions
-for the allowed values, this commit uses these symbols to clear up
-the ambiguity.
+  #define KVM_VGIC_V2_CPU_SIZE		0x2000
+
+So the CPU interface address space should cover 8 KByte not 4 KByte.
 
 Signed-off-by: Changyuan Lyu <changyuanl@google.com>
 ---
- Documentation/virt/kvm/api.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/virt/kvm/devices/arm-vgic.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index e623f072e9aca..5f45f3e584fdb 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -891,12 +891,12 @@ like this::
+diff --git a/Documentation/virt/kvm/devices/arm-vgic.rst b/Documentation/virt/kvm/devices/arm-vgic.rst
+index 40bdeea1d86e7..19f0c6756891f 100644
+--- a/Documentation/virt/kvm/devices/arm-vgic.rst
++++ b/Documentation/virt/kvm/devices/arm-vgic.rst
+@@ -31,7 +31,7 @@ Groups:
+     KVM_VGIC_V2_ADDR_TYPE_CPU (rw, 64-bit)
+       Base address in the guest physical address space of the GIC virtual cpu
+       interface register mappings. Only valid for KVM_DEV_TYPE_ARM_VGIC_V2.
+-      This address needs to be 4K aligned and the region covers 4 KByte.
++      This address needs to be 4K aligned and the region covers 8 KByte.
  
- The irq_type field has the following values:
+   Errors:
  
--- irq_type[0]:
-+- KVM_ARM_IRQ_TYPE_CPU:
- 	       out-of-kernel GIC: irq_id 0 is IRQ, irq_id 1 is FIQ
--- irq_type[1]:
-+- KVM_ARM_IRQ_TYPE_SPI:
- 	       in-kernel GIC: SPI, irq_id between 32 and 1019 (incl.)
-                (the vcpu_index field is ignored)
--- irq_type[2]:
-+- KVM_ARM_IRQ_TYPE_PPI:
- 	       in-kernel GIC: PPI, irq_id between 16 and 31 (incl.)
- 
- (The irq_id field thus corresponds nicely to the IRQ ID in the ARM GIC specs)
 -- 
 2.45.2.741.gdbec12cfda-goog
 
