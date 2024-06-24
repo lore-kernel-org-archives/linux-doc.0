@@ -1,175 +1,269 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665544D8AD
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 08:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A2B4F201;
+	Mon, 24 Jun 2024 08:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719217498; cv=none; b=O1zgPq0hdnRzk39VK1ms/KFHxdnI99paA3gNJeERIPmuT/P6Wrujbk6y5GZWGpZ2c2L981GgCxpECwP1vCD8A6xydaPBRSgf2YEx6rv06/5w+8fYPx72P0tscUyXsd0BpX3wjKCwe4DQmQBCIH6sgdC7J9QaXZo77xIg/4sDmZU=
+	t=1719218281; cv=none; b=BSX9ZR3n0ksrvvdcvw25TIcJ4bcZpMn+Qh4uQoL/PItzifx6rU1vaAaIpScNhuFktIX1GmEFslpJRVH5t0jlN+BqhlJMz7qD68eNavrm9Eak/A6Ym3thdUNpyV6jpo04IlGVzfsVKOK3lC4h2r7wuEnKhafHZTxNPJSH8RrDxlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719217498; c=relaxed/simple;
-	bh=gDacbADE2SAmVHz0VzwJCGPbVzzt3W6DAEZWHfwk23E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SoNvVQnaHnVzYgF0iDm4q1jMHnZT7upNfO/fy7rbGODDiPMakcCdiAG0ZrZSiUkVPMWQH4Kanw3UFM57kRPFljViZu0o+HZNmVZa7Vi0bKgkGxyBL3/EqdcawNKacs3s6VRmfyY2j4s4cKuwStmLaL94MQeLWO8h2ivcjsHXd1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=PSjCgbe5; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1719218281; c=relaxed/simple;
+	bh=S/7B2MsUNMvty6ZQKzTkFNvBoyrfX87rmchFj3A9s+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QIuk25TPV80BSk/7qzxTF+Eav/rG7c7Q6h7lw+vFnreIVDII5OPVen6B64G8N2hVGqZsxRazDyF4Gljfq1VfLxjn/GctuovYPiPPyliBEsmRkGYtk++/iaL+NM1Uys+jR7K/Cj/R0lGnIQWKqRa99hVRKmW9FGXJW2aQXuVgdws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RLR+OlB4; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=RLR+OlB4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PSjCgbe5"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4210f0bb857so5101575e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 01:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719217495; x=1719822295; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eHo51wuTRWiZIUYTemkhy4Fril3hMcATqvGkIagVwG8=;
-        b=PSjCgbe5yjz480PPzbxGmp8Jtyjoac9Pa/KyMQLmgii24PWKgwCMEn7QIc1HPhrhwJ
-         EDHXU21TR1mm75uJZ0TXsk/s+gPPZLyIQPrn7WowdOc5A72lnThflt/6ZYvgarP9eyCz
-         KDgGLKMD8aEHfIvtFKPCldsPaDQOjHrdsSfjgTyOL4Zhv3obbWRNfwQvpSrDZfqYgL/X
-         HN8GlDZmGFo9TsHvXMoonZTkGnOo361RzIWvTElJ98KIVOBEt5QnhgUFfrt/K0VnbHfk
-         3T5LiaQNc2WiSigK8oz3wgNRpzaCJQP0n6uKbDsoo5XTRX9iMxrltwDNqQILePIY0IQ3
-         vCAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719217495; x=1719822295;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHo51wuTRWiZIUYTemkhy4Fril3hMcATqvGkIagVwG8=;
-        b=WuUyvz4JN4u7BY7Cu6iVYGHa0tWX/Q92zdyrMtEgFnQmmZFiMxzp9fXsuZhr3Ove/P
-         i/11hYJWJqnU8h4ChvB6XMnqgGM1Qg4oH4FnOxKFV9kKfUUN4iEmzimKnJBh1xPx2Cge
-         UNFXOz9z94R06uPKmFCxHnjmcTkKs8l0xvIfiVzX9IMdr7jRv2aFAj02Z1VBIdSinlpJ
-         2Fm2hGA+rha4/EhFh7b5YthAQdAMzuGWhS0isUSTJk8RR0T7OzjHAvtaqctVqywuo7vs
-         FUxOvnDXMC/EQhbmPYTyDtr4kSfr++BUVBXL8FAWlKRC0/4BSFK3u1PKBp483fB2huTR
-         kVWw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6QopzQBillme14rY03V6Yu17AwTwfTb4T4a9lCFYksOnZx0EGf1XqroHv1Xwt8EJlTZrgBIk+cFc/g+VZ4o+P4GmEgo0fMGNF
-X-Gm-Message-State: AOJu0YxC8Siysht4K9oWRCWBoYuIpiyffviUGwWpyusBQ2b2l85DHYzG
-	QFBa3r/lYAYkwnwteJ5bHDr0zvI91eEgUl659w/sWbSR/89fczE7QEXI28/zJN4=
-X-Google-Smtp-Source: AGHT+IHaJqmXxJcpAch8t7UdkOLrlv66b+VvjpHMvaM58a6QzEHIYabq9XOGzMv9in4jtgUGn43mVw==
-X-Received: by 2002:a05:600c:3b11:b0:424:8810:78b5 with SMTP id 5b1f17b1804b1-42488107bb0mr40633265e9.0.1719217494632;
-        Mon, 24 Jun 2024 01:24:54 -0700 (PDT)
-Received: from [192.168.61.172] ([37.166.182.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247101a955sm175619005e9.0.2024.06.24.01.24.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 01:24:54 -0700 (PDT)
-Message-ID: <c59a8897-34a1-4dc3-b68b-35dddf55c937@rivosinc.com>
-Date: Mon, 24 Jun 2024 10:24:51 +0200
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RLR+OlB4";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="RLR+OlB4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8559821A3E;
+	Mon, 24 Jun 2024 08:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1719218277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=98fTMwEf+6SsUi7Nji/bTtxwDz8Dltlq3IXSCx/PIwQ=;
+	b=RLR+OlB4jwmNTGBze3tJl5MW65PTZYFf+JXs6GPrEHdmbeqUuedS1FCS1kr3POVdUXPGZa
+	BK6BTaMnjZvxHxO++x/+gdKVbiJWKA9J2T3KkVJS091JZq7WuBm3yEf3WLbZ7edp1w9vbX
+	nlSgKm57tOD7MCnDpqlUynBVxD32YCU=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1719218277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=98fTMwEf+6SsUi7Nji/bTtxwDz8Dltlq3IXSCx/PIwQ=;
+	b=RLR+OlB4jwmNTGBze3tJl5MW65PTZYFf+JXs6GPrEHdmbeqUuedS1FCS1kr3POVdUXPGZa
+	BK6BTaMnjZvxHxO++x/+gdKVbiJWKA9J2T3KkVJS091JZq7WuBm3yEf3WLbZ7edp1w9vbX
+	nlSgKm57tOD7MCnDpqlUynBVxD32YCU=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6815513AA4;
+	Mon, 24 Jun 2024 08:37:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0pNeF2UweWbxFAAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Mon, 24 Jun 2024 08:37:57 +0000
+Date: Mon, 24 Jun 2024 10:37:52 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Waiman Long <longman@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	Alex Kalenyuk <akalenyu@redhat.com>, Peter Hunt <pehunt@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] memcg: Add a new sysctl parameter for automatically
+ setting memory.high
+Message-ID: <ZnkwYFx4DSvcc2Zs@tiehlicka>
+References: <20240623204514.1032662-1-longman@redhat.com>
+ <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 08/16] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
-To: Conor Dooley <conor@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
- Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20240619113529.676940-1-cleger@rivosinc.com>
- <20240619113529.676940-9-cleger@rivosinc.com>
- <20240623-cornbread-preteen-4ec287aa165c@spud>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20240623-cornbread-preteen-4ec287aa165c@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-
-
-On 23/06/2024 17:42, Conor Dooley wrote:
-> On Wed, Jun 19, 2024 at 01:35:18PM +0200, Clément Léger wrote:
->> The Zc* standard extension for code reduction introduces new extensions.
->> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
->> are left out of this patch since they are targeting microcontrollers/
->> embedded CPUs instead of application processors.
->>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->> ---
->>  arch/riscv/include/asm/hwcap.h |  4 +++
->>  arch/riscv/kernel/cpufeature.c | 55 +++++++++++++++++++++++++++++++++-
->>  2 files changed, 58 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
->> index 18859277843a..b12ae3f2141c 100644
->> --- a/arch/riscv/include/asm/hwcap.h
->> +++ b/arch/riscv/include/asm/hwcap.h
->> @@ -87,6 +87,10 @@
->>  #define RISCV_ISA_EXT_ZVE64F		78
->>  #define RISCV_ISA_EXT_ZVE64D		79
->>  #define RISCV_ISA_EXT_ZIMOP		80
->> +#define RISCV_ISA_EXT_ZCA		81
->> +#define RISCV_ISA_EXT_ZCB		82
->> +#define RISCV_ISA_EXT_ZCD		83
->> +#define RISCV_ISA_EXT_ZCF		84
->>  
->>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
->>  
->> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
->> index a3af976f36c9..aa631fe49b7c 100644
->> --- a/arch/riscv/kernel/cpufeature.c
->> +++ b/arch/riscv/kernel/cpufeature.c
->> @@ -111,6 +111,9 @@ static int riscv_ext_zicboz_validate(const struct riscv_isa_ext_data *data,
->>  
->>  #define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id, NULL, 0, NULL)
->>  
->> +#define __RISCV_ISA_EXT_DATA_VALIDATE(_name, _id, _validate) \
->> +			_RISCV_ISA_EXT_DATA(_name, _id, NULL, 0, _validate)
->> +
->>  /* Used to declare pure "lasso" extension (Zk for instance) */
->>  #define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
->>  	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, \
->> @@ -122,6 +125,37 @@ static int riscv_ext_zicboz_validate(const struct riscv_isa_ext_data *data,
->>  #define __RISCV_ISA_EXT_SUPERSET_VALIDATE(_name, _id, _sub_exts, _validate) \
->>  	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _validate)
->>  
->> +static int riscv_ext_zca_depends(const struct riscv_isa_ext_data *data,
+On Sun 23-06-24 16:52:00, Waiman Long wrote:
+> Correct some email addresses.
 > 
-> It's super minor, but my OCD doesn't like this being called "depends"
-> when the others are all called "validate".
+> On 6/23/24 16:45, Waiman Long wrote:
+> > With memory cgroup v1, there is only a single "memory.limit_in_bytes"
+> > to be set to specify the maximum amount of memory that is allowed to
+> > be used. So a lot of memory cgroup using tools and applications allow
+> > users to specify a single memory limit. When they migrate to cgroup
+> > v2, they use the given memory limit to set memory.max and disregard
+> > memory.high for the time being.
+> > 
+> > Without properly setting memory.high, these user space applications
+> > cannot make use of the memory cgroup v2 ability to further reduce the
+> > chance of OOM kills by throttling and early memory reclaim.
+> > 
+> > This patch adds a new sysctl parameter "vm/memory_high_autoset_ratio"
+> > to enable setting "memory.high" automatically whenever "memory.max" is
+> > set as long as "memory.high" hasn't been explicitly set before. This
+> > will allow a system administrator or a middleware layer to greatly
+> > reduce the chance of memory cgroup OOM kills without worrying about
+> > how to properly set memory.high.
+> > 
+> > The new sysctl parameter will allow a range of 0-100. The default value
+> > of 0 will disable memory.high auto setting. For any non-zero value "n",
+> > the actual ratio used will be "n/(n+1)". A user cannot set a fraction
+> > less than 1/2.
 
-Ok, let's make a deal. You review patch 14/16 and I'll make the machine
-part of you happy and call this function validate ;)
+I am sorry but this is a bad idea. It is also completely unnecessary. If
+somebody goes all the way to set the hard limit there is no reason to
+not set the high limit along the way. I see a zero reason to make a
+global hard coded policy for something like that.  Not to mention that
+%age is a really bad interface as it gets hugely impractical with large
+%limits.
 
-Thanks,
+> > 
+> > Signed-off-by: Waiman Long <longman@redhat.com>
 
-Clément
+Nacked-by: Michal Hocko <mhocko@suse.com>
 
-> 
->> +				 const unsigned long *isa_bitmap)
->> +{
->> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA))
->> +		return 0;
->> +
->> +	return -EPROBE_DEFER;
->> +}
->> +static int riscv_ext_zcd_validate(const struct riscv_isa_ext_data *data,
->> +				  const unsigned long *isa_bitmap)
->> +{
->> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA) &&
->> +	    __riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_d))
->> +		return 0;
->> +
->> +	return -EPROBE_DEFER;
->> +}
->> +
->> +static int riscv_ext_zcf_validate(const struct riscv_isa_ext_data *data,
->> +				  const unsigned long *isa_bitmap)
->> +{
->> +	if (IS_ENABLED(CONFIG_64BIT))
->> +		return -EINVAL;
->> +
->> +	if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA) &&
->> +	    __riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_f))
->> +		return 0;
->> +
->> +	return -EPROBE_DEFER;
->> +}
+> > ---
+> >   Documentation/admin-guide/sysctl/vm.rst | 10 ++++++
+> >   include/linux/memcontrol.h              |  3 ++
+> >   mm/memcontrol.c                         | 41 +++++++++++++++++++++++++
+> >   3 files changed, 54 insertions(+)
+> > 
+> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> > index e86c968a7a0e..250ec39dd5af 100644
+> > --- a/Documentation/admin-guide/sysctl/vm.rst
+> > +++ b/Documentation/admin-guide/sysctl/vm.rst
+> > @@ -46,6 +46,7 @@ Currently, these files are in /proc/sys/vm:
+> >   - mem_profiling         (only if CONFIG_MEM_ALLOC_PROFILING=y)
+> >   - memory_failure_early_kill
+> >   - memory_failure_recovery
+> > +- memory_high_autoset_ratio
+> >   - min_free_kbytes
+> >   - min_slab_ratio
+> >   - min_unmapped_ratio
+> > @@ -479,6 +480,15 @@ Enable memory failure recovery (when supported by the platform)
+> >   0: Always panic on a memory failure.
+> > +memory_high_autoset_ratio
+> > +=========================
+> > +
+> > +Specify a ratio by which memory.high should be set as a fraction of
+> > +memory.max if it hasn't been explicitly set before.  It allows a range
+> > +of 0-100.  The default value of 0 means auto setting will be disabled.
+> > +For any non-zero value "n", the actual ratio used will be "n/(n+1)".
+> > +
+> > +
+> >   min_free_kbytes
+> >   ===============
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 030d34e9d117..6be161a6b922 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -221,6 +221,9 @@ struct mem_cgroup {
+> >   	 */
+> >   	bool oom_group;
+> > +	/* %true if memory.high has been explicitly set */
+> > +	bool memory_high_set;
+> > +
+> >   	/* protected by memcg_oom_lock */
+> >   	bool		oom_lock;
+> >   	int		under_oom;
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 71fe2a95b8bd..2cfb000bf543 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -48,6 +48,7 @@
+> >   #include <linux/swap.h>
+> >   #include <linux/swapops.h>
+> >   #include <linux/spinlock.h>
+> > +#include <linux/sysctl.h>
+> >   #include <linux/eventfd.h>
+> >   #include <linux/poll.h>
+> >   #include <linux/sort.h>
+> > @@ -6889,6 +6890,35 @@ static void mem_cgroup_attach(struct cgroup_taskset *tset)
+> >   }
+> >   #endif
+> > +/*
+> > + * The memory.high autoset ratio specifies a ratio by which memory.high
+> > + * should be set as a fraction of memory.max if it hasn't been explicitly
+> > + * set before. The default value of 0 means auto setting will be disabled.
+> > + * For any non-zero value "n", the actual ratio is "n/(n+1)".
+> > + */
+> > +static int sysctl_memory_high_autoset_ratio;
+> > +
+> > +#ifdef CONFIG_SYSCTL
+> > +static struct ctl_table memcg_table[] = {
+> > +	{
+> > +		.procname	= "memory_high_autoset_ratio",
+> > +		.data		= &sysctl_memory_high_autoset_ratio,
+> > +		.maxlen		= sizeof(int),
+> > +		.mode		= 0644,
+> > +		.proc_handler	= proc_dointvec_minmax,
+> > +		.extra1		= SYSCTL_ZERO,
+> > +		.extra2		= SYSCTL_ONE_HUNDRED,
+> > +	},
+> > +};
+> > +
+> > +static inline void memcg_sysctl_init(void)
+> > +{
+> > +	register_sysctl_init("vm", memcg_table);
+> > +}
+> > +#else
+> > +static void memcg_sysctl_init(void)	{ }
+> > +#endif /* CONFIG_SYSCTL */
+> > +
+> >   static int seq_puts_memcg_tunable(struct seq_file *m, unsigned long value)
+> >   {
+> >   	if (value == PAGE_COUNTER_MAX)
+> > @@ -6982,6 +7012,7 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
+> >   		return err;
+> >   	page_counter_set_high(&memcg->memory, high);
+> > +	memcg->memory_high_set = true;
+> >   	for (;;) {
+> >   		unsigned long nr_pages = page_counter_read(&memcg->memory);
+> > @@ -7023,6 +7054,7 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
+> >   	unsigned int nr_reclaims = MAX_RECLAIM_RETRIES;
+> >   	bool drained = false;
+> >   	unsigned long max;
+> > +	unsigned int high_ratio = sysctl_memory_high_autoset_ratio;
+> >   	int err;
+> >   	buf = strstrip(buf);
+> > @@ -7032,6 +7064,13 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
+> >   	xchg(&memcg->memory.max, max);
+> > +	if (high_ratio && !memcg->memory_high_set) {
+> > +		/* Set memory.high as a fraction of memory.max */
+> > +		unsigned long high = max * high_ratio / (high_ratio + 1);
+> > +
+> > +		page_counter_set_high(&memcg->memory, high);
+> > +	}
+> > +
+> >   	for (;;) {
+> >   		unsigned long nr_pages = page_counter_read(&memcg->memory);
+> > @@ -7977,6 +8016,8 @@ static int __init mem_cgroup_init(void)
+> >   		soft_limit_tree.rb_tree_per_node[node] = rtpn;
+> >   	}
+> > +	memcg_sysctl_init();
+> > +
+> >   	return 0;
+> >   }
+> >   subsys_initcall(mem_cgroup_init);
+
+-- 
+Michal Hocko
+SUSE Labs
