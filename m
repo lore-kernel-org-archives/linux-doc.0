@@ -1,135 +1,92 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FA419E7C2
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 16:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B998142905
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 16:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719246840; cv=none; b=DRCSvYcEioptRVDOS8Y91Q6M20tOZ2WapoRZrFv+gGzaKGp9VzKG0suHjwGZSHC0iVBZCOHhHDAme1hSDqtHvMotGGEHxnwDzqFnf64A5HONN8WblOobODr/cZRzgfJyeYLplYAPUQhpWpfSRwVa5ChtElD+N9TWut6cob7CO9o=
+	t=1719247607; cv=none; b=Ab6uw0kZn9Dvj1YyfItbCBqktTroDsSfPcGnKMI214IaU9bA5SUGajaWKhs++WUfgSWxxebTzk3/01vgRKmMUODs0aO4l5rkPoHCZVLvj2PMcyb1+GG1iWXevp3BNs8oWXrmUESxOJurhNEjRAgC71H+oBaaElhexrRHLS84HJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719246840; c=relaxed/simple;
-	bh=7Wo1vdpRujfwVa5E2lZDEmMHiqeYmjrjdL5DzTInIks=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Xy2B5ZKUYO55hMd4H6QczkI5hk5EMT/lFce/5xeiJickNeyXOF8iJXvcewRdCoGmonwH4gt/WE2zvEgFA5xlAA3bcpPsQoKNLCx9txOywnqBfFQyw/V4eDSXDXEtUidAjxKVa0jDKrsAMJjiHqSYdOfVm8dKkL+Lz1iHbANe+FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zNAKiJWR; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1719247607; c=relaxed/simple;
+	bh=fKtutG1GdZlzjibolCmXSp5xe1fv3mZtm/w2hM6+lKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bHY8QyX3xeMo/vqmHsG4/Wv4TENpKoqkBqS1XL/ztoO1y/NfVRPPH9F6V6cyxqfyXEuOVIDw30mZf40geDwm4tyjB1+xPpoTOS1wFnR74rBAedAB9jcmYRiBX/8ZmtvvPfyissFmMWi7y8MnbGM0qZ0LJ0jMtDaymO9OmJieGjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UqVzsasY; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zNAKiJWR"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1f733390185so39421645ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 09:33:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UqVzsasY"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a72477a6096so190677666b.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 09:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719246838; x=1719851638; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GVvAVLVgyp7BPn3YqnrE+Un4CdtD1Zv3a2093D82WyY=;
-        b=zNAKiJWRrdiyMLcRtS9CEAPvNDVlwcMAU4MbzbBKU9uiSTu+/hgU1K4WcLc+7VEtXG
-         E9s+XDKLBrFmHqG14TD9iVDtkOxr1kZ8KnbNWeDxXhL9wcL8YH9lTi8TJ6GTWtRonNkJ
-         8GPMnhdGp0WoTSLbdTGPQpiAqNDanbJn9dajd8JF4g/h+UvEXaYyFza/QWaWWdfuOtUS
-         76guww4d5ehYg3CSJgBSb4S/zEvb5eksfwAODnml17yZB2l/DHhc4axqxm9eVA7oqlhY
-         Ejl5XdXhWnzqYFCjgCmnA9gZWU6OBvoD2xLChuE23L9jtXxo6KwwxY0kHq08TOkId0lF
-         xkiw==
+        d=suse.com; s=google; t=1719247603; x=1719852403; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UdsQVLlx/h6bzQBw/PftMKrwboL2BwJ/wPUlBpBpDJU=;
+        b=UqVzsasYbbxyXI3D/wZwFkmWTyMpR7G356gHGr0m2JoO1S2sQ62EV0tvG7rL74m/Y3
+         M15OG3GRAutabSIm8kY9phVDTvPfT20TncYmL24PCASuBY7YqTpq4abGbskOQBF75uGS
+         uZNLFcL9wGrlMhiiQoE/e/kAxwxTyM2JUmr6hEljshGv8Zi7schkPfYOuvapYKnEzTT4
+         dRjyfodfHMIdjeNCFyImR+j+QOBioHCsJRXluIExAZRMaDeJaZ3DgO01qJxEmRndcNzY
+         7l1REdC4VVklMDBvERe+iyuO/B3WuL0i9MTmvhIhTE7hTsE5Cukbz4kzebAwspE+HHHm
+         xTUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719246838; x=1719851638;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GVvAVLVgyp7BPn3YqnrE+Un4CdtD1Zv3a2093D82WyY=;
-        b=ZvAd5d4+DpZZyC3wGb1XubH/gmF1p473O3oYNz+qAzewARw+SmtryupZNwVZIiuI1u
-         jg0jcDXHq5ED2KBUCqdDRXtkWTVkBTlvFxXIsRAhAmdzBoHtZf5r66AImYH4Gt8ywDDt
-         NYFXLeeLuboqUDrXtHmexf9xvQ90dUSs0hGyKdoQHIRSHgScz4VgKnLiSq8MG01202C/
-         OO+2tv/qy4rig+Rg0X1rEilkWGs26yzuH6aF6TLUGH/2V+TWTjWC2CWwNrqJ1i7O1muK
-         ComNDwWQL07CF6PHopOS2PTSPzkpFqfmho77NoPjaijAnKjeyryf94CkpmwPprhWlG1D
-         KRtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhVEU473so7j6nOB61jHbIgptlrHOJVZ+2qbE0LlnrRUnFaMm9udJqDkopfziPBQE1I8mqpYKv+PZ5q7JQeFElm2Pn+0dADyn4
-X-Gm-Message-State: AOJu0YzuaKY7JnJpqqGxlfdKaSLNv7cXDzjVcRRIX979zg5upF2vMebD
-	9GdHNzoUQWhztcC0f8Pz5aE/8N1YTwksAM0rDFP1ji4UZhrh1RF/I5WUesSLMoIAyuj7AsK9oTD
-	0Cuu7jJ3mXw==
-X-Google-Smtp-Source: AGHT+IFQ03M3aTRppiNCfLsuYEASJusj+ybeUo8fprfJ1Y1kR44v8CZCgZBXMkKg6JbKjrrKoR1HPHTKxUnd6g==
-X-Received: from yjq3.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:272f])
- (user=jiaqiyan job=sendgmr) by 2002:a17:902:e74c:b0:1f9:c823:d3 with SMTP id
- d9443c01a7336-1fa1d516b81mr196425ad.6.1719246837884; Mon, 24 Jun 2024
- 09:33:57 -0700 (PDT)
-Date: Mon, 24 Jun 2024 16:33:48 +0000
-In-Reply-To: <20240624163348.1751454-1-jiaqiyan@google.com>
+        d=1e100.net; s=20230601; t=1719247603; x=1719852403;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UdsQVLlx/h6bzQBw/PftMKrwboL2BwJ/wPUlBpBpDJU=;
+        b=Br1zuKWyWp+NvbJpt1OXAA+0aGbvIvhyF0v6MpCeyydqXuHTrzvvZ/phUMxc1HwXqs
+         5vrSj/1ZmIqQmgIedTf3DS9plzkzErd0FDSSEOiuIcAMIC/IaZfLYxpe+DKLvUbaMBzc
+         aWx2OIO67Hjm8nWBCfv5zoPtd7v7GsPI7vkd+smz0Ixs0sWV/uXv4le8lUdQFbjlgbOa
+         ShjGwKhPr1lpVBj5Jwm3WZ/mmlfeduJIlO296z+XPlJNeaM+B5WsNz14t3219HLh5n+a
+         mxGfklYwAJoGMc7JDZW7lb8Wg7pmV81WRXbhQ5Wl0EezWA48NPdnqzA73g+llgU59Wpu
+         SJdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/EQ2sEAmnzHzMJzv4HV1mtVymStRSkBljEHiPzXyTt3AXjyay6bqUJO2JdwLBRWAJPMCXYpcmNXsDWEAgsEOiZ04a/7Lquvcf
+X-Gm-Message-State: AOJu0Yz2xSzYYsH7OU3SmHcjDFhhdgg14tWui4pqFg7p8/TXg3zj48I5
+	uhzHhx8WTYoK1P8DbknAwj7zUoOb7hYv0Rm/frzpGHZ+03SF+rqQrXWIuKKKnMU=
+X-Google-Smtp-Source: AGHT+IEeKvPzfyNwPxeUyUIk7sVc3A7I3ZiIk2CwSjDSZ1RvoC7EvcXrLGH4uX/AhGcrQmx9KSgf9Q==
+X-Received: by 2002:a17:907:a809:b0:a70:7a10:de0b with SMTP id a640c23a62f3a-a7245b565b2mr352681166b.21.1719247603444;
+        Mon, 24 Jun 2024 09:46:43 -0700 (PDT)
+Received: from localhost (109-81-95-13.rct.o2.cz. [109.81.95.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7213f474e0sm273562966b.190.2024.06.24.09.46.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 09:46:43 -0700 (PDT)
+Date: Mon, 24 Jun 2024 18:46:42 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Waiman Long <longman@redhat.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	Alex Kalenyuk <akalenyu@redhat.com>, Peter Hunt <pehunt@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] memcg: Add a new sysctl parameter for automatically
+ setting memory.high
+Message-ID: <Znmi8lfORdPoI061@tiehlicka>
+References: <20240623204514.1032662-1-longman@redhat.com>
+ <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
+ <ZnmO8izZPwYfiaRz@castle.lan>
+ <d97e2e8f-0abc-49a7-bead-0501c1226040@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240624163348.1751454-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
-Message-ID: <20240624163348.1751454-5-jiaqiyan@google.com>
-Subject: [PATCH v5 4/4] docs: mm: add enable_soft_offline sysctl
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	ioworker0@gmail.com
-Cc: muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d97e2e8f-0abc-49a7-bead-0501c1226040@redhat.com>
 
-Add the documentation for soft offline behaviors / costs, and what
-the new enable_soft_offline sysctl is for.
+On Mon 24-06-24 12:33:27, Waiman Long wrote:
+> I also trace back the OOM problem to commit 14aa8b2d5c2e ("mm/mglru: don't
+> sync disk for each aging cycle") in the MGLRU code. So setting memory.high
+> automatically is one way to avoid premature OOM. That is the motivation
+> behind this patch.
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
-
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 32 +++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index e86c968a7a0e..71463a7b3e2a 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -36,6 +36,7 @@ Currently, these files are in /proc/sys/vm:
- - dirtytime_expire_seconds
- - dirty_writeback_centisecs
- - drop_caches
-+- enable_soft_offline
- - extfrag_threshold
- - highmem_is_dirtyable
- - hugetlb_shm_group
-@@ -267,6 +268,37 @@ used::
- These are informational only.  They do not mean that anything is wrong
- with your system.  To disable them, echo 4 (bit 2) into drop_caches.
- 
-+enable_soft_offline
-+===================
-+Correctable memory errors are very common on servers. Soft-offline is kernel's
-+solution for memory pages having (excessive) corrected memory errors.
-+
-+For different types of page, soft-offline has different behaviors / costs.
-+- For a raw error page, soft-offline migrates the in-use page's content to
-+  a new raw page.
-+- For a page that is part of a transparent hugepage,  soft-offline splits the
-+  transparent hugepage into raw pages, then migrates only the raw error page.
-+  As a result, user is transparently backed by 1 less hugepage, impacting
-+  memory access performance.
-+- For a page that is part of a HugeTLB hugepage, soft-offline first migrates
-+  the entire HugeTLB hugepage, during which a free hugepage will be consumed
-+  as migration target.  Then the original hugepage is dissolved into raw
-+  pages without compensation, reducing the capacity of the HugeTLB pool by 1.
-+
-+It is user's call to choose between reliability (staying away from fragile
-+physical memory) vs performance / capacity implications in transparent and
-+HugeTLB cases.
-+
-+For all architectures, enable_soft_offline controls whether to soft offline
-+memory pages.  When setting to 1, kernel attempts to soft offline the pages
-+whenever it thinks needed.  When setting to 0, kernel returns EOPNOTSUPP to
-+the request to soft offline the pages.  Its default value is 1.
-+
-+It is worth mentioning that after setting enable_soft_offline to 0, the
-+following requests to soft offline pages will not be performed:
-+- Request to soft offline pages from RAS Correctable Errors Collector.
-+- On ARM, the request to soft offline pages from GHES driver.
-+- On PARISC, the request to soft offline pages from Page Deallocation Table.
- 
- extfrag_threshold
- =================
+Please report this.
 -- 
-2.45.2.741.gdbec12cfda-goog
-
+Michal Hocko
+SUSE Labs
