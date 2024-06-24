@@ -1,230 +1,601 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5C0137921
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 11:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E6C13A244;
+	Mon, 24 Jun 2024 11:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719226991; cv=none; b=CtJbijUnSW63lu2L69GIb7eNe9mRFxsHYksuDU1NHDXmZOEY6RhCHpLric7Mevf7fE+VJ0IYml/5QB1Bvew/vlfKXaxa4XEC3d9PhJD2dr7QZIiC1BA/JfR/IxsY1kQu+HMKXxo+olQP/JDvmJ0cAUTn2myjLTvu3L+zAAQzZGA=
+	t=1719228194; cv=none; b=Z+Qmkyz2YPnp8bDUhw/uZ0RJ7j2u3HDm7e4JiSf0yhNk0EJpN0soLctfRo0rL1VEHWmgiuLQGa334Z6IcXWK97srV+plUwTVAy/UD1ViSGVVXxHd++RabNE/J/nwwmvYgY7VoDKsO2tjCOHCzgdpxxRLqUzCD8UzIA+M5Da1jGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719226991; c=relaxed/simple;
-	bh=aBpS1pkDlNpJM7K9xxkzLUHegsLBeWyXpD5uLOOeVhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=czq5q7VFDNmTbC4Qm7jY2twk2gUA5v/mUE7Hxt0C2x/XXkz/tm1Qs9NVoQaMwLyQ05dENyeLzBt6Tg31Q5XoRFiYhaTaBJn1J66I7PJSnBVuSNfJqh9s8iJ/3U0s6JkYok3jjdC4nU58l8ug4Ipx2PamrhLT8ypCey/i2ZM7VWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=JLflTxBU; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="JLflTxBU"
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240624110306epoutp0449fec75b5c3675097f83067ca2001d46~b69XQ-KT72440624406epoutp04k
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 11:03:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240624110306epoutp0449fec75b5c3675097f83067ca2001d46~b69XQ-KT72440624406epoutp04k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1719226986;
-	bh=uxpMOuA3IRgLqQWXX8+eqtJkWwddlx/GN7rdVWV2/6g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JLflTxBU070L20Ugm/A+/Dt0F7x6DQp5L5lpX/pqEyk0zue6JVzb0+f1K50kGRwIF
-	 zOeDFNP1CNgOc1JkJCWsvapVrdeL2DSGMYsVVplCj6UNquW+ZgaIJcXBbeU7kio2Yz
-	 dmx8omQMkOOG2og1ZnMCbWcIR9nHh0fdSitznPU4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240624110304epcas5p4c8ab6937c499617cbbaaa96fc5a4769f~b69Vn-po40506905069epcas5p4q;
-	Mon, 24 Jun 2024 11:03:04 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4W74nL5C7Kz4x9Pt; Mon, 24 Jun
-	2024 11:03:02 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	24.C9.09989.66259766; Mon, 24 Jun 2024 20:03:02 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0~b6zG9Ypk82450824508epcas5p3C;
-	Mon, 24 Jun 2024 10:51:21 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240624105121epsmtrp130aa2d7a4474a6eba09309959ab71409~b6zG3AObb1223312233epsmtrp1c;
-	Mon, 24 Jun 2024 10:51:21 +0000 (GMT)
-X-AuditID: b6c32a4a-bffff70000002705-3d-6679526612e3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E4.9B.29940.9AF49766; Mon, 24 Jun 2024 19:51:21 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240624105114epsmtip2b4e30650a5edb6427c3e9344921bba5e~b6zAu4Mi31228012280epsmtip2c;
-	Mon, 24 Jun 2024 10:51:14 +0000 (GMT)
-Date: Mon, 24 Jun 2024 16:14:07 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Bart Van Assche <bvanassche@acm.org>, Damien Le Moal
-	<dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>, Jonathan Corbet
-	<corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, Mike Snitzer
-	<snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240624103212.2donuac5apwwqaor@nj.shetty@samsung.com>
+	s=arc-20240116; t=1719228194; c=relaxed/simple;
+	bh=iQiiUWiaqUtKTTJFPyMr9pWgWvWuddueInABdUboH8Y=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MpG3GGiwYie3agwzX0fTtkys1OP55tdEiPQWZ331byX6CTiU6AS73xt0wEjfCX7UwCwvcTvnQ3Wss5Rh7oCNLyEV9qpNfHJcVWXHrCdAMTvdJ/E1da787h7P0WBJRAy5UBPIjFNQTmutHteSP9ahjCxjX4qOA+OBDsDwaMTlqnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC72C2BBFC;
+	Mon, 24 Jun 2024 11:23:12 +0000 (UTC)
+Message-ID: <cb2ae655-2b60-4286-9446-ebc24607930b@xs4all.nl>
+Date: Mon, 24 Jun 2024 13:23:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240605082028.GC18688@lst.de>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TezBcdxTH53fv3buXic56lB8aNTeTZCReKx4/EZI2hlvRjKnRaZsRNvay
-	Brs7ux5lmnqE1CPeCWMboZh6pQyhg41SaiUEI0JCSyWlJSJIUn1k0OXSyX+f8z2P3++cM4fC
-	Ddr4ZlS4NJpVSEWRNKlLfN9rZWUT+lF8qL36AY0aBzQ4SsnbwFH9dC6JlnpfAFS0+g+O5rq/
-	Auj10AiOWjQzAM12nUTlFaUEmuxux9DtigIM1db3Yejr4ksY6ttaJlFBzwRA8+MqDHVOHUXf
-	XK4i0O3OuwQa67hOorJv5/moun8TQ/np4xhqm0sGqGFphUB3pszRyEY/79Q7zNiDM8xABWTa
-	VdN8ZmSmiWDGhmKY5roMkrlVlcgs3CoBjHoyiWQqcwp5TPal5yTTnvYrj1mbnyKYlR/GSSan
-	pQ4w98p/4vsZfhZxQsKKxKzCkpWGyMTh0jB3+ox/0OkgJ2d7oY3QFbnQllJRFOtOe/r62XiF
-	R2oHRFvGiiJjtJKfSKmk7TxOKGQx0aylRKaMdqdZuThS7ii3VYqilDHSMFspG31caG/v4KQN
-	DI6QPKzr48snLT5fy7rPSwIq00ygQ0GBI/z7+hQvE+hSBgI1gBnDMxhnvACwsbCd5Ix1AOsr
-	urG9lCcNVbtRnQC+nMgDnPESwP5Hs+R2FCE4CDc0an4moChScBQOblHbspGAhvNPh3biccEw
-	CTNUi/i2w1AQDJcH8nnbrCc4DRueP+JzrA/vlswR26wjsIbFqYM7yVDwuw4saV3BuS95wt6y
-	Nh7HhvBpfwufYzO4mHt5l+Ng7dUakktOBVD1UAU4x0mYNpC7UwgXSOCf7RW7hfbDawMNGKe/
-	BbNfz+32rwfbbuzxAXizsZzk2BRO/JW8ywxc6lojuLF8R8AbeXP8PGCheqMj1RvvcXwcZqym
-	aJnSsjms3qQ42Rj+PNZMcLIVbOywKwdkHTBl5cqoMFbpJHeQsnH/7zxEFtUMdk7oiE8beDy7
-	atsDMAr0AEjhtJFecWJsqIGeWBSfwCpkQYqYSFbZA5y028rHzd4OkWlvUBodJHR0tXd0dnZ2
-	dD3mLKRN9JbSSsUGgjBRNBvBsnJWsZeHUTpmSViryuXxoXsL+rUf+L6XzE9/NhJS16V+FXjB
-	7tr7M+fjE0BA+NRFz4yFL0267cStg8fKhgJ6fvF3e/KhxPKL0Ua3aqGJcSl12NvbxKLoj+HZ
-	bM+O0voLqfir3qIf/bxaazSTBz2dmvwT9xeMBGY7eI9nBRSfX3Itai431WgS0yvfDRqc8Lji
-	bxVXzRwIoD2fxQ8e9vDgZyxWjpjonjvrsFXKD6uB+r5SbFQhLfx3dH2fzELswpu56Y6bNzcl
-	ZeWqvTOTw+yj9k0nSGM/7lodDUw4t6zc8nEzu5KCZfetR2Sfihu2u+9l/UlHs91Fec7Z2uBu
-	v08PGY0vxltvsoXGv6kTfe7QhFIiEh7BFUrRfzJEnsTLBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxzG855zejjFoMdTL29pRdNpIqAo0W3vB68x6IvGeIlfqovQ2SMQ
-	oUJL6XTZQAG5TAXUQSzIXZQyQS4y7kqhMOgIItYIBkYZDQ6E4iXLFCla2DK+PXl+z/N/vvwZ
-	kosVuDMhqkherVKEymhXqrpFtnpj8aFzpze3TolRWWcbiS6mzpCoZCCFRuMtbwBKn3pPopFH
-	CQBNd3WTqKptEKChhztRbv4tCvU9qiVQQ/41AhWXmAiUmRFLINPsBI2uGZ8BZLPoCdTY743y
-	LhVSqKGxg0K9dVk0yimyuaA77Q4CpSVaCFQzcgGg0nE7hX7rl6DumXbBLinufXoAd+ZDXKsf
-	cMHdg+UU7u3S4gpDEo0rC6Pxy8qbANf3xdC44Op1Ab4SO0nj2vg/BPi1rZ/C9iYLja9WGQD+
-	PbfV5bDouOs2JR8aEsWrN+0IdA22FpRQ4W8l383eeyiIAT0rkoGQgexWOFxaSDg1x9YDmG3n
-	530xLJppJee1CBY7Rl2SgevnzGsAe5rMlBNQ7Do401b/GTAMzXpD8yzjtJexMmgb6wLOPMk+
-	oWHjg0yBE4jYQDjRmTan3dg9sHTy+b9H+0jYOhVHzIOlsOPmyNwAyX4Fsyut5LxeAV/0VlDO
-	MZKVwDuOuTEhuwFmxJlBKliqX9DWL2jrF7T1/7dzAWUAYj5cExYUpvEN91XxOh+NIkyjVQX5
-	nDobVgHm/sTLswb8apjyMQKCAUYAGVK2zC0jOuo056ZUnDvPq88GqLWhvMYIJAwlW+m28uUV
-	JccGKSL5Mzwfzqv/owQjdI8hKkwmd6tw2hKR5/FjkviLA8bpg7QuoTs7aktdAs+M9r/bZjpx
-	+YglxCw5KVovlZd/neZ312N3k277t2aD3+hs+2K5yfCD50FlYAkTcXvfPb/OBNhSdLQOJh+r
-	Pp/FLTekZy1xVJX/aU+ps8n3x9vE/2SO+W+Rft9jTdG+WPX4ho5jh/ePld33ePVL9cdF9T+T
-	uqyLggGHPEpIK4+mNhxrnvQY3rAx3hNX2Q0dlYnyDuUhf+6D9q61OW5iyJH5tC/RXMCtvRDR
-	tHc7aX0VII0cbNM/qJFvHvJeI/a6/KW03b9Z8CY4qWxc+fYv9u9vcuDeZz8Ne93Wr1FFB3B7
-	RM/TZZQmWOHrRao1ik966v6UlgMAAA==
-X-CMS-MailID: 20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0
-References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
-	<9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-	<a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-	<665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
-	<abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
-	<20240601055931.GB5772@lst.de>
-	<d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
-	<20240604044042.GA29094@lst.de>
-	<4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
-	<20240605082028.GC18688@lst.de>
-	<CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH RFC 2/2] docs: media: Debugging guide for the media
+ subsystem
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ mauro.chehab@linux.intel.com, kernel@collabora.com
+References: <20240529-b4-media_docs_improve-v1-0-9ddb111c4433@collabora.com>
+ <20240529-b4-media_docs_improve-v1-2-9ddb111c4433@collabora.com>
+Content-Language: en-US, nl
+In-Reply-To: <20240529-b4-media_docs_improve-v1-2-9ddb111c4433@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-Content-Description: 
+Hi Sebastian,
 
-On 05/06/24 10:20AM, Christoph Hellwig wrote:
->On Tue, Jun 04, 2024 at 04:44:34AM -0700, Bart Van Assche wrote:
->> On 6/3/24 21:40, Christoph Hellwig wrote:
->>> There is no requirement to process them synchronously, there is just
->>> a requirement to preserve the order.  Note that my suggestion a few
->>> arounds ago also included a copy id to match them up.  If we don't
->>> need that I'm happy to leave it away.  If need it it to make stacking
->>> drivers' lifes easier that suggestion still stands.
->>
->> Including an ID in REQ_OP_COPY_DST and REQ_OP_COPY_SRC operations sounds
->> much better to me than abusing the merge infrastructure for combining
->> these two operations into a single request. With the ID-based approach
->> stacking drivers are allowed to process copy bios asynchronously and it
->> is no longer necessary to activate merging for copy operations if
->> merging is disabled (QUEUE_FLAG_NOMERGES).
->
->Again, we can decided on QUEUE_FLAG_NOMERGES per request type.  In fact
->I think we should not use it for discards as that just like copy
->is a very different kind of "merge".
->
->I'm in fact much more happy about avoiding the copy_id IFF we can.  It
->it a fair amout of extra overhead, so we should only add it if there
->is a real need for it
+This is a good idea, but it needs more work.
 
-Christoph, Martin, Bart, Hannes, Damien
+The main change is that it needs to be split into two parts: debugging
+driver issues while developing the driver, and debugging userspace issues
+where you want to figure out why (typically) an ioctl fails.
 
-We have iterated over couple of designs for copy offload, but ended up
-with changing them owing to some drawbacks. I would like to take your
-opinion on how we can plumb copy offload in block and dm layer.
+On 29/05/2024 18:22, Sebastian Fricke wrote:
+> Create a guides section for all documentation material, that isn't
+> strictly related to a specific piece of code.
+> 
+> Provide a guide for developers on how to debug code with a focus on the
+> media subsystem. This document aims to provide a rough overview over the
+> possibilities and a rational to help choosing the right tool for the
+> given circumstances.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+>  Documentation/media/guides/debugging_issues.rst | 477 ++++++++++++++++++++++++
+>  Documentation/media/guides/index.rst            |  11 +
+>  Documentation/media/index.rst                   |   1 +
+>  3 files changed, 489 insertions(+)
+> 
+> diff --git a/Documentation/media/guides/debugging_issues.rst b/Documentation/media/guides/debugging_issues.rst
+> new file mode 100644
+> index 000000000000..8fee749e7e6a
+> --- /dev/null
+> +++ b/Documentation/media/guides/debugging_issues.rst
+> @@ -0,0 +1,477 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: <isonum.txt>
+> +
+> +===================================================
+> +Debugging and tracing in the media subsystem
+> +===================================================
+> +
+> +This document serves as a starting point and lookup for debugging device
+> +drivers in the media subsystem.
+> +
+> +.. contents::
+> +    :depth: 3
+> +
+> +General debugging advice
+> +========================
+> +
+> +Depending on the issue, a different set of tools is available to track down the
+> +problem or even to realize whether there is one in the first place.
+> +
+> +As a first step you have to figure out what kind of issue you want to debug.
+> +Depending on the answer, your methodology and choice of tools may vary.
+> +Some typical issues are listed below. The list is not exhaustive.
+> +
+> +What is the issue?
+> +------------------
+> +1. Driver doesn't behave as expected
+> +
+> +   TBD
+> +
+> +2. Running out of memory
+> +
+> +  In this case you should use `Linux CLI tools <linux-tools_>`_ first to verify
+> +  whether the issue stems from the Kernel or from userspace.
+> +
+> +  TBD
+> +
+> +3. Kernel panic
+> +
+> +  The kernel provides a number of `tools <kernel_panic_analysis_tools_>`_ to
+> +  analyse a Kernel panic, use these first, once you have identified where the
+> +  error occurs you can further analyse the issue by adding `debug logs <Printk
+> +  & friends_>`_ to the codebase.
+> +
+> +4. Device doesn't probe
+> +
+> +   TBD
+> +
+> +5. Driver too slow
+> +
+> +  You should start with a `performance analysis <performance>`__, to pin down the problem area.
 
-For reference, I have listed the approaches we have taken in the past.
+I'm not sure how useful this section is. Too vague, really.
 
-a. Token/payload based approach:
-1. Here we allocate a buffer/payload.
-2. First source BIO is sent along with the buffer.
-3. Once the buffer reaches driver, it is filled with the source LBA
-and length and namespace info. And the request is completed.
-4. Then destination BIO is sent with same buffer.
-5. Once the buffer reaches driver, it retrieves the source information from
-the BIO and forms a copy command and sends it down to device.
+> +
+> +Is timing a factor?
+> +-------------------
+> +
+> +It is important to understand if the problem you want to debug manifests itself
+> +consistently (i.e. given a set of inputs you always get the same, incorrect
+> +output), or inconsistently. If it manifests itself inconsistently, some timing
+> +factor might be at play. If inserting delays into the code does change the
+> +behavior, then quite likely timing is a factor.
+> +
+> +   In this case using a simple `printk`_ won't work, a similar alternative is
+> +   too use `trace_printk`_, which logs the debug messages to the trace file
 
-We received feedback that putting anything inside payload which is not
-data, is not a good idea[1].
+too -> to
 
+> +   instead of the kernel log.
+> +
+> +Do I have root access to the system?
+> +------------------------------------
+> +
+> +Are you easily able to replace the module in question or to install a new kernel?
+> +
+> +TBD
+> +
+> +.. _live_debug:
+> +
+> +Do I need to debug on a live system?
+> +------------------------------------
+> +
+> +When the kernel is compiled with `Ftrace`_, this tool might be a good start, as you can trace specific functions to dial down to the sequence of actions that causes the misbehavior.
+> +
+> +TBD
+> +
+> +Is the outcome flaky?
+> +---------------------
+> +
+> +We will call the outcome "flaky" if multiple iterations of the same routine with the same parameters result in different outcomes.
+> +
+> +TBD
+> +
+> +Available tools
+> +===============
+> +
+> +Printk & friends
+> +----------------
+> +
+> +These are derivatives of printf() with varying destination and support for being dynamically turned on or off, or lack thereof.
+> +
+> +.. _printk:
+> +
+> +**Simple printk**
+> +~~~~~~~~~~~~~~~~~
+> +
+> +The classic, this can be used to great effect for quick and dirty development
+> +of new modules or to extract arbitrary necessary data for troubleshooting.
+> +
+> +Prerequisite: `CONFIG_PRINTK` (usually enabled by default)
+> +
+> +**Pros**:
+> +
+> +- No need to learn anything, simple to use
+> +- Easy to modify exactly to your needs (formatting of the data (See: `format specifiers <../../core-api/printk-formats.html#printk-specifiers>`__), visibility in the log)
+> +- Can cause delays in the execution of the code (beneficial to confirm whether timing is a factor)
+> +
+> +**Cons**:
+> +
+> +- Requires rebuilding the kernel/module, (See: `live_debug`_)
+> +- Can cause delays in the execution of the code
+> +
+> +`Full documentation <../../core-api/printk-basics.rst>`__
+> +
+> +.. _trace_printk:
+> +
+> +**Trace_printk**
+> +~~~~~~~~~~~~~~~~
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_FTRACE` & `#include <linux/ftrace.h>`
+> +
+> +A tiny bit less comfortable to use than `printk`_, because you will have to
+> +read the messages from the trace file (See: `Reading the ftrace log`_ instead
+> +of from the kernel log, but very useful when printk adds unwanted delays into
+> +the code execution, causing issues to be flaky or hidden.)
+> +
+> +If the processing of this still causes timing issues then you can try `trace_puts()`.
+> +
+> +`Full Documentation <../../driver-api/basics.html#c.trace_printk>`__
+> +
+> +**dev_dbg / v4l2_dbg**
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +- Difference between both?
+> +
+> +  - v4l2_dbg utilizes v4l2_printk under the hood, which further uses printk directly, thus it cannot be targeted by dynamic debug
+> +  - dev_dbg can be targeted by dynamic debug
+> +  - v4l2_dbg has a more specific prefix format for the media subsystem, while dev_dbg only highlights the driver name and the location of the log
+> +
+> +**The dev_debug module parameter**
 
-b. Plug based approach:
-1. We take a plug.
-2. Send a destination BIO, this forms a copy request and waits for source BIO
-to arrive.
-3. Send a source BIO, this merges with the copy request which was formed
-by destination BIO.
-4. We release the plug, then copy request reaches driver layer and forms
-a copy command.
+This needs to be more prominent: it is very useful, esp. when debugging userspace problems.
 
-This approach won't work with stacked devices which has asynchronous
-submission.
-Overall taking plug and merging BIOs received not so good feedback from
-community.
+It is also always available, and all you need is root access in order to write to dev_debug.
 
-c. List/ctx based approach:
-A new member is added to bio, bio_copy_ctx, which will a union with
-bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
-add the bio to this list.
-1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
-will add the destination BIO to the list inside bi_copy_ctx and return
-without forming any request.
-2. Send source BIO, once this reaches blk_mq_submit_bio, this will
-retrieve the destination BIO from bi_copy_ctx and form a request with
-destination BIO and source BIO. After this request will be sent to
-driver.
+This is also mixed in with the various printk sections, but this should be a separate
+section.
 
-This work is still in POC phase[2]. But this approach makes lifetime
-management of BIO complicated, especially during failure cases.
+> +
+> +Every video device provides a `dev_debug` parameter, which allows to get further insights into the IOCTLs in the background.
+> +
+> +`Full documentation <../../driver-api/media/v4l2-dev.html#video-device-debugging>`__
+> +
+> +**When is it appropriate to leave a debug print in the code?**
+> +
+> +Permanent debug statements have to be useful for a developer to troubleshoot
+> +why the driver misbehaves. Judging that is a bit more of an art than a
+> +science, but some guidelines are in the `Coding style guide
+> +<../../process/coding-style.html#printing-kernel-messages>`__)
+> +
+> +**Custom printk**
+> +~~~~~~~~~~~~~~~~~
+> +Example:
+> +::
+> +
+> +  #define core_dbg(fmt, arg...) do { \
+> +	  if (core_debug) \
+> +		  printk(KERN_DEBUG pr_fmt("core: " fmt), ## arg); \
+> +	  } while (0)
+> +
+> +**When should you do this?**
+> +
+> +It is better to just use a `pr_debug()`, which can later be turned on/off with
+> +dynamic debug. Additionally, a lot of drivers activate these prints via a
+> +variable like `core_debug` set by a module parameter. However, Module
+> +parameters `are not recommended anymore
+> +<https://lkml.org/lkml/2024/3/27/163>`_.
+> +
+> +Dynamic debug
+> +-------------
+> +
+> +Mechanism to filter what ends up in the kernel log by dis-/en-abling log
+> +messages.
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_DEBUG`
+> +
+> +.. _valid_dyndbg_prints:
+> +
+> +Dynamic debug is only able to target:
+> +
+> +- `pr_debug()`
+> +- `dev_dbg()`
+> +- `print_hex_dump_debug()`
+> +- `print_hex_dump_bytes()`
+> +
+> +Therefore the usability of this tool is quite limited in the media subsystem,
+> +because, as of now, there is no uniform rule for adding debug prints to the codebase,
+> +resulting in a variety of ways these prints are implemented.
+> +
+> +Also, note that most debug statements are implemented as a variation of
+> +`dprintk`, which have to be activated via a parameter in respective module,
+> +dynamic debug is unable to do that step for you.
+> +
+> +Here is one example, that enables all available `pr_debug()`'s within the file:
+> +::
+> +
+> +  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
+> +  $ ddcmd '-p; file v4l2-h264.c +p'
+> +  $ grep =p /proc/dynamic_debug/control
+> +   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p "ref_pic_list_b%u (cur_poc %u%c) %s"
+> +   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p "ref_pic_list_p (cur_poc %u%c) %s\n"
+> +
+> +**When should you use this over** `Ftrace`_ **?**
+> +
+> +- When the code contains one of the :ref:`valid print statements <valid_dyndbg_prints_>`_ or when you have added multiple pr_debug() statements during development
+> +- When timing is not an issue, meaning if multiple `pr_debug()` statements in the code won't cause delays
+> +- When you care more about receiving specific log messages than tracing the pattern of how a function is called
+> +
+> +`Full documentation <../../admin-guide/dynamic-debug-howto.rst>`__
 
-Thank You,
-Nitesh Shetty
+printk and friends is definitely for driver devs as you need to be able to recompile the kernel.
 
-[1] https://lore.kernel.org/linux-block/20230605121732.28468-1-nj.shetty@samsung.com/
-[2] https://github.com/SamsungDS/linux/tree/feat/co/v21/ctx
+> +
+> +Ftrace
+> +------
+> +
+> +Prerequisite: `CONFIG_DYNAMIC_FTRACE`
+> +
+> +Trace whenever the `rkvdec_try_ctrl` function is called
+> +::
+> +
+> +  $ cd /sys/kernel/tracing
+> +  $ echo function > /sys/kernel/tracing/current_tracer
+> +  $ echo rkvdec_try_ctrl > set_ftrace_filter
+> +  $ echo 1 > tracing_on
+> +  $ cat trace
+> +   h264parse0:sink-6359    [001] ...1. 172714.547523: rkvdec_try_ctrl <-try_or_set_cluster
+> +   h264parse0:sink-6359    [005] ...1. 172714.567386: rkvdec_try_ctrl <-try_or_set_cluster
+> +
+> +Find out from where the calls originate
+> +::
+> +
+> +  $ echo 1 > options/func_stack_trace
+> +   h264parse0:sink-6715    [002] ..... 172837.967762: rkvdec_try_ctrl <-try_or_set_cluster
+> +   h264parse0:sink-6715    [002] ..... 172837.967773: <stack trace>
+> +   => rkvdec_try_ctrl
+> +   => try_or_set_cluster
+> +   => try_set_ext_ctrls_common
+> +   => try_set_ext_ctrls
+> +   => v4l2_s_ext_ctrls
+> +   => v4l_s_ext_ctrls
+> +   ...
+> +   h264parse0:sink-6715    [004] ..... 172837.985747: rkvdec_try_ctrl <-try_or_set_cluster
+> +   h264parse0:sink-6715    [004] ..... 172837.985750: <stack trace>
+> +   => rkvdec_try_ctrl
+> +   => try_or_set_cluster
+> +   => v4l2_ctrl_request_setup
+> +   => rkvdec_run_preamble
+> +   => rkvdec_h264_run
+> +   => rkvdec_device_run
+> +   ...
+> +
+> +Trace the children of a function call and show the return values (requires config `FUNCTION_GRAPH_RETVAL`)
+> +::
+> +
+> +  echo function_graph > current_tracer
+> +  echo rkvdec_h264_run > set_graph_function
+> +  echo 4 > max_graph_depth
+> +  echo do_interrupt_handler mutex_* > set_graph_notrace
+> +  echo 1 > options/funcgraph-retval
+> +   ...
+> +   4)               |  rkvdec_h264_run [rockchip_vdec]() {
+> +   4)               |    v4l2_ctrl_find [videodev]() {
+> +   ...
+> +   4)               |    rkvdec_run_preamble [rockchip_vdec]() {
+> +   4)   4.666 us    |      v4l2_m2m_next_buf [v4l2_mem2mem](); /* = 0xffff000005782000 */
+> +   ...
+> +   4)               |      v4l2_ctrl_request_setup [videodev]() {
+> +   4)   4.667 us    |        media_request_object_find [mc](); /* = 0xffff000005e3aa98 */
+> +   4)   1.750 us    |        find_ref [videodev](); /* = 0xffff00000833b2a0 */
+> +   ...
+> +   4)   1.750 us    |      v4l2_m2m_buf_copy_metadata [v4l2_mem2mem](); /* = 0x0 */
+> +   4) ! 114.333 us  |    } /* rkvdec_run_preamble [rockchip_vdec] = 0x0 */
+> +   4)   2.334 us    |    v4l2_h264_init_reflist_builder [v4l2_h264](); /* = 0x3e */
+> +   ...
+> +   4)               |    v4l2_h264_build_b_ref_lists [v4l2_h264]() {
+> +   ...
+> +   4)               |    rkvdec_run_postamble [rockchip_vdec]() {
+> +   ...
+> +   4) ! 444.208 us  |  } /* rkvdec_h264_run [rockchip_vdec] = 0x0 */
+> +
+> +**Reading the ftrace log**
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The `trace` file can be read just like any other file (`cat`, `tail`, `head`,
+> +`vim`, etc.), the size of the file is limited by the `buffer_size_kb` (``echo
+> +1000 > buffer_size_kb``). The `trace_pipe` will behave similar to the `trace`
+> +file, but whenever you read from the file the content is consumed.
+> +
+> +**Kernelshark**
+> +~~~~~~~~~~~~~~~
+> +
+> +`Kernelshark documentation <https://kernelshark.org/Documentation.html>`_
+> +
+> +`Full documentation <../../trace/ftrace.rst>`__
+> +
+> +DebugFS
+> +-------
+> +
+> +Prerequisite: `CONFIG_DEBUG_FS` & `#include <linux/debugfs.h>`
+> +
+> +DebugFS differs from the other approaches of debugging, as it doesn't write messages to the kernel log nor add traces to the code. Instead it allows the developer to handle a set of files.
+> +With these files you can either store values of variables or make register/memory dumps or you can make these files writable and modify values/settings in the driver.
+> +Possible use-cases among others:
+> +
+> +- Store register values
+> +- Keep track of variables
+> +- Store errors
+> +- Store settings
+> +- Toggle a setting like debug on/off
+> +- Error injection
+> +
+> +This is especially useful, when the size of a data dump would be hard to digest as
+> +part of the general kernel log (for example when dumping raw bitstream data) or
+> +when you are not interested in all the values all the time, but with the
+> +possibility to inspect them.
+> +
+> +The general idea is:
+> +
+> +- Create a directory during probe (`struct dentry *parent = debugfs_create_dir("my_driver", NULL);`)
+> +- Create a file (`debugfs_create_u32("my_value", 444, parent, &my_variable);`)
+> +
+> +  - In this example the file is found in `/sys/kernel/debug/my_driver/my_value` (with read permissions for user/group/all)
+> +  - any update of `my_variable` will update the value in the file
+> +
+> +- Clean up the folder when removing the device (`debugfs_remove_recursive(parent);`)
+> +
+> +`Full documentation <../../filesystems/debugfs.rst>`__
+> +
+> +Perf & alternatives
+> +-------------------
+> +
+> +The tools mentioned above provide ways to inspect kernel code, results, variable values, etc.
+> +Sometimes you have to find out first where to look and for those cases a box of performance tracking tools can help you to frame the issue.
+> +
+> +.. _performance:
+> +
+> +**Why should you do a performance analysis?**
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +A performance analysis is a good first step when among other reasons:
+> +
+> +- you cannot define the issue
+> +- you do not know where it occurs
+> +- the running system should not be interrupted or it is a remote system, where you cannot install a new module/kernel
+> +
+> +.. _linux-tools:
+> +
+> +**How to do a simple analysis with linux tools?**
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +For the start of a performance analysis, you can start with the usual tools like:
+> +
+> +- `top` / `htop` / `atop` (*get an overview of the system load, see spikes on specific processes*)
+> +- `mpstat -P ALL` (*look at the load distribution among CPUs*)
+> +- `iostat -x` (*observe input and output devices utilization and performance*)
+> +- `vmstat` (*overview of memory usage on the system*)
+> +- `pidstat` (*similar to* `vmstat` *but per process, to dial it down to the target*)
+> +- `strace -tp $PID` (*once you know the process, you can figure out how it communicates with the Kernel*)
+> +
+> +These should help to figure out restrict the areas to look at sufficiently.
+> +
+> +**Diving deeper with perf**
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The **perf** tool provides a series of metrics and events to further dial down on issues.
+> +
+> +Prerequisite: TBD
+> +
+> +Gather statistics data for a decoding job: (This example is on a RK3399 SoC with the rkvdec codec driver using the `fluster test suite <https://github.com/fluendo/fluster>`__)
+> +::
+> +
+> +  perf stat -d python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1
+> +  ...
+> +  Performance counter stats for 'python3 fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -ts JVT-AVC_V1 -tv AUD_MW_E -j1 -v':
+> +
+> +           7794.23 msec task-clock:u                     #    0.697 CPUs utilized
+> +                 0      context-switches:u               #    0.000 /sec
+> +                 0      cpu-migrations:u                 #    0.000 /sec
+> +             11901      page-faults:u                    #    1.527 K/sec
+> +         882671556      cycles:u                         #    0.113 GHz                         (95.79%)
+> +         711708695      instructions:u                   #    0.81  insn per cycle              (95.79%)
+> +          10581935      branches:u                       #    1.358 M/sec                       (15.13%)
+> +           6871144      branch-misses:u                  #   64.93% of all branches             (95.79%)
+> +         281716547      L1-dcache-loads:u                #   36.144 M/sec                       (95.79%)
+> +           9019581      L1-dcache-load-misses:u          #    3.20% of all L1-dcache accesses   (95.79%)
+> +   <not supported>      LLC-loads:u
+> +   <not supported>      LLC-load-misses:u
+> +
+> +      11.180830431 seconds time elapsed
+> +
+> +       1.502318000 seconds user
+> +       6.377221000 seconds sys
+> +
+> +The availability of events and metrics depends on the system you are running.
+> +
+> +`Full documentation <https://perf.wiki.kernel.org/index.php/Main_Page>`__
+> +
+> +**Perfetto**
+> +~~~~~~~~~~~~
+> +
+> +TBD
+> +
+> +.. _error_checking:
+> +
+> +KASAN, UBSAN, lockdep and other error checkers
+> +----------------------------------------------
+> +
+> +TBD
+> +
+> +.. _kernel_panic_analysis_tools:
+> +
+> +Kernel panic analysis tools
+> +---------------------------
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_
-Content-Type: text/plain; charset="utf-8"
+I think this section is worthwhile to make more prominent as well.
 
+> +
+> +  To analyse the crash dump please use `Kdump` & `Kexec`.
+> +
+> +  TBD
+> +
+> +  `Full documentation <../../admin-guide/kdump/kdump.rst>`__
+> +
+> +  In order to find the corresponding line in the code you can use `faddr2line
+> +  <https://elixir.bootlin.com/linux/latest/source/scripts/faddr2line>`__, note
+> +  that you need to enable `CONFIG_DEBUG_INFO` for that to work.
+> +
+> +  An alternative to using `faddr2line` is the use of `objdump` (and it's
+> +  derivatives for the different platforms like `aarch64-linux-gnu-objdump`),
+> +  take this line as an example:
+> +
+> +  `[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]`.
+> +
+> +  We can find the corresponding line of code by executing:
+> +  ::
+> +
+> +    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
+> +    0000000000000ac8 <rkvdec_device_run>:
+> +     ac8:	d503201f 	nop
+> +     acc:	d503201f 	nop
+> +    {
+> +     ad0:	d503233f 	paciasp
+> +     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+> +     ad8:	910003fd 	mov	x29, sp
+> +     adc:	a90153f3 	stp	x19, x20, [sp, #16]
+> +     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
+> +        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+> +     ae4:	f9411814 	ldr	x20, [x0, #560]
+> +        struct rkvdec_dev *rkvdec = ctx->dev;
+> +     ae8:	f9418015 	ldr	x21, [x0, #768]
+> +        if (WARN_ON(!desc))
+> +     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
+> +        ret = pm_runtime_resume_and_get(rkvdec->dev);
+> +     af0:	f943d2b6 	ldr	x22, [x21, #1952]
+> +        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
+> +     af4:	aa0003f3 	mov	x19, x0
+> +     af8:	52800081 	mov	w1, #0x4                   	// #4
+> +     afc:	aa1603e0 	mov	x0, x22
+> +     b00:	94000000 	bl	0 <__pm_runtime_resume>
+> +        if (ret < 0) {
+> +     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
+> +        dev_warn(rkvdec->dev, "Not good\n");
+> +     b08:	f943d2a0 	ldr	x0, [x21, #1952]
+> +     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
+> +     b10:	91000021 	add	x1, x1, #0x0
+> +     b14:	94000000 	bl	0 <_dev_warn>
+> +        *bad = 1;
+> +     b18:	d2800001 	mov	x1, #0x0                   	// #0
+> +     ...
+> +
+> +
+> +  To find the matching line we just have to add `0x50` (from
+> +  `rkvdec_device_run+0x50`) to `0xac8` (from `0000000000000ac8
+> +  <rkvdec_device_run>:`), which yields `0xb18` corresponding with `*bad = 1`.
+> +
+> +**Copyright** |copy| 2024 : Collabora
+> diff --git a/Documentation/media/guides/index.rst b/Documentation/media/guides/index.rst
+> new file mode 100644
+> index 000000000000..0008966c0862
+> --- /dev/null
+> +++ b/Documentation/media/guides/index.rst
+> @@ -0,0 +1,11 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============
+> +Media Guides
+> +============
+> +
+> +.. toctree::
+> +    :caption: Table of Contents
+> +    :maxdepth: 1
+> +
+> +    debugging_issues
+> diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
+> index d056a9e99dca..5461876fc401 100644
+> --- a/Documentation/media/index.rst
+> +++ b/Documentation/media/index.rst
+> @@ -7,6 +7,7 @@ Media Subsystem Documentation
+>  .. toctree::
+>     :maxdepth: 2
+>  
+> +   guides/index
+>     ../userspace-api/media/index
+>     ../driver-api/media/index.rst
+>     ../admin-guide/media/index
+> 
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_b15cc_--
+Regards,
+
+	Hans
