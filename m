@@ -1,139 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259A61A01C8;
-	Mon, 24 Jun 2024 19:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B76318509C;
+	Mon, 24 Jun 2024 19:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719258272; cv=none; b=iz5zf5oZSd30c6xH7KKt5PspmAuKXckeBqjTWWoux6t0qS3sirmpLZOleDPeKkcAyK7pPIkNcOJ1yp8qeklGomBAIquyjgi15l1jRhkEeQ7W3PKrWVvS5/Ax9VhfIKfrIXSUf28PcA1I+FAhMFbKa7nXh9tX5FeX47cZQkBvdZ4=
+	t=1719258661; cv=none; b=NBXdAMvNEBnGM+ZwRNvhLdEMBcvoSlYa9JUiqlXUxIfBzT8yUOyYmjO40IZPnAQetAQ0IbNgz/IcKO3OYkI0RTNwTxNxATSrYbq9lh8Va49qqpRiLpvCRSBmtuhSDuzOXEYbdcOcb91y8Cum6ErUmyMQ4nwV1XF0bPqYuNEyojM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719258272; c=relaxed/simple;
-	bh=ozzJdGQZHB4A7ItrRhmGCRi2pZDVDoEwFIhTP08/eiI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r6EI58KfnNpBaF3U72poANkwkRnMfX9YIMYMzBke1U/Z9d41pLs0nTqUR52YQ3Thf8jbXGDNGsTY0L2TZOVBb4JUTeMxmWuoi+J12URBQgA0a5K+xqlxCgBxjoKKrpWI9iyNP2PpPr4KlNZAwpV2/zzBtncr2aOmHyR+EGeCCzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhq4pMun; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719258661; c=relaxed/simple;
+	bh=mI87XPE9INl73fw9MMEOAqcszBcFREyy01ZMVBjVTBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bedKMs9duGl6hBllvSZPyNMVplBi+0jmL7t3gioHCDFQ8SLQa7F0MVnglSNx6Snuos2ZktMIc0N5LvEXx1kzaaK+8gkdK29Y0mW/PbpmpvEM8IzPCOgkaC/HaZPRPhd9cf2KQiLAvYn446Zs0kL+2VjHAd+wNKaWpYzuNNYJDQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=B+4ANB3K; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhq4pMun"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE719C2BBFC;
-	Mon, 24 Jun 2024 19:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719258271;
-	bh=ozzJdGQZHB4A7ItrRhmGCRi2pZDVDoEwFIhTP08/eiI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dhq4pMunpONhJ4X+mjkZwybn49k8f6R9eY3l6z0ar/Dg+svA1fTV8vb9Qwzy1QsbL
-	 rdmW5nRMvrFjPo2Zod/6M1WzHb0fcsUjqvZaU7qo8iur+WqM9K19Teyg+jHxpsbXa4
-	 y7D6qxVxtLdsCWkMXRwA0GHvZiupBQwU4RBWp2imjYf9DC8qC64UO2nIOtWO3CRkwP
-	 Mm2qjY73W0lEyfSE84wKW8kdoBgS343dKTz7FZSYno3MaciTn+E5+AMRXRViVj3UYv
-	 JFBPBdJxRpKXZD/AWAsK4WhR1X+PiZz2xA6YMkgEmyOtV9ueEjHx/9VgaiHMnpsGXX
-	 Qu31Y9zt9MHOA==
-Date: Mon, 24 Jun 2024 20:44:24 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Michael Hennerich
- <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Marcelo Schmitt <marcelo.schmitt@analog.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-iio@vger.kernel.org
-Subject: Re: [PATCH 2/3] spi: add devm_spi_optimize_message() helper
-Message-ID: <20240624204424.6a91a5e4@jic23-huawei>
-In-Reply-To: <20240621-devm_spi_optimize_message-v1-2-3f9dcba6e95e@baylibre.com>
-References: <20240621-devm_spi_optimize_message-v1-0-3f9dcba6e95e@baylibre.com>
-	<20240621-devm_spi_optimize_message-v1-2-3f9dcba6e95e@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="B+4ANB3K"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=H8zccT7J30O857u42irMMPWhivtN35KYNeKq3itmUgo=; b=B+4ANB3KrEjT8gJEa/cUYxrKo+
+	EHQyFEK4ZZpJUaGb4WXLcSnQyE9QP59lvgmwPFJJvGil45VvU/z0URjm8/FHVbyb4d4aWedywRcOp
+	4ep0w6GMLAiZA1akwoJvGzWkgXBrftfeUygbV5hzXpdCTJ59B7sYikXPnXRCvSr2jrXo=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sLpi6-000sj6-6O; Mon, 24 Jun 2024 21:50:42 +0200
+Date: Mon, 24 Jun 2024 21:50:42 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
+	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
+	richardcochran@gmail.com, shayagr@amazon.com,
+	paul.greenwalt@intel.com, jiri@resnulli.us,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mlxsw@nvidia.com, idosch@nvidia.com, petrm@nvidia.com
+Subject: Re: [PATCH net-next v7 7/9] ethtool: cmis_cdb: Add a layer for
+ supporting CDB commands
+Message-ID: <003ca0dd-ea1c-4721-8c3f-d4a578662057@lunn.ch>
+References: <20240624175201.130522-1-danieller@nvidia.com>
+ <20240624175201.130522-8-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240624175201.130522-8-danieller@nvidia.com>
 
-On Fri, 21 Jun 2024 15:51:31 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> This adds a new helper function devm_spi_optimize_message() that
-> automatically registers spi_unoptimize_message() to be called
-> when the device is removed.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-The new function can be called from modules and doesn't have an
-EXPORT_SYMBOL_GPL()
-
-I failed to spot this but a build test immediately noticed!
-
-Jonathan
-
-> ---
->  Documentation/driver-api/driver-model/devres.rst |  1 +
->  drivers/spi/spi.c                                | 27 ++++++++++++++++++++++++
->  include/linux/spi/spi.h                          |  2 ++
->  3 files changed, 30 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index a1c17bcae68d..ac9ee7441887 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -464,6 +464,7 @@ SLAVE DMA ENGINE
->  SPI
->    devm_spi_alloc_master()
->    devm_spi_alloc_slave()
-> +  devm_spi_optimize_message()
->    devm_spi_register_controller()
->    devm_spi_register_host()
->    devm_spi_register_target()
-> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-> index 54cbe652a4df..3f953504244b 100644
-> --- a/drivers/spi/spi.c
-> +++ b/drivers/spi/spi.c
-> @@ -4358,6 +4358,33 @@ static int __spi_async(struct spi_device *spi, struct spi_message *message)
->  	return ctlr->transfer(spi, message);
->  }
->  
-> +static void devm_spi_unoptimize_message(void *msg)
+> +int ethtool_cmis_wait_for_cond(struct net_device *dev, u8 flags, u8 flag,
+> +			       u16 max_duration, u32 offset,
+> +			       bool (*cond_success)(u8), bool (*cond_fail)(u8),
+> +			       u8 *state)
 > +{
-> +	spi_unoptimize_message(msg);
-> +}
+> +	const struct ethtool_ops *ops = dev->ethtool_ops;
+> +	struct ethtool_module_eeprom page_data = {0};
+> +	struct cmis_wait_for_cond_rpl rpl = {};
+> +	struct netlink_ext_ack extack = {};
+> +	unsigned long end;
+> +	int err;
 > +
-> +/**
-> + * devm_spi_optimize_message - managed version of spi_optimize_message()
-> + * @dev: the device that manages @msg (usually @spi->dev)
-> + * @spi: the device that will be used for the message
-> + * @msg: the message to optimize
-> + * Return: zero on success, else a negative error code
-> + *
-> + * spi_unoptimize_message() will automatically be called when the device is
-> + * removed.
-> + */
-> +int devm_spi_optimize_message(struct device *dev, struct spi_device *spi,
-> +			      struct spi_message *msg)
+> +	if (!(flags & flag))
+> +		return 0;
+> +
+> +	if (max_duration == 0)
+> +		max_duration = U16_MAX;
+> +
+> +	end = jiffies + msecs_to_jiffies(max_duration);
+> +	do {
+> +		ethtool_cmis_page_init(&page_data, 0, offset, sizeof(rpl));
+> +		page_data.data = (u8 *)&rpl;
+> +
+> +		err = ops->get_module_eeprom_by_page(dev, &page_data, &extack);
+> +		if (err < 0) {
+> +			if (extack._msg)
+> +				netdev_err(dev, "%s\n", extack._msg);
+> +			continue;
+
+continue here is interested. Say you get -EIO because the module has
+been ejected. I would say that is fatal. Won't this spam the logs, as
+fast as the I2C bus can fail, without the 20ms sleep, for 65535
+jiffies?
+
+> +		}
+> +
+> +		if ((*cond_success)(rpl.state))
+> +			return 0;
+> +
+> +		if (*cond_fail && (*cond_fail)(rpl.state))
+> +			break;
+> +
+> +		msleep(20);
+> +	} while (time_before(jiffies, end));
+
+Please could you implement this using iopoll.h. This appears to have
+the usual problem. Say msleep(20) actually sleeps a lot longer,
+because the system is busy doing other things. time_before(jiffies,
+end)) is false, because of the long delay, but in fact the operation
+has completed without error. Yet you return EBUSY. iopoll.h gets this
+correct, it does one more evaluation of the condition after exiting
+the loop to handle this issue.
+
+> +static u8 cmis_cdb_calc_checksum(const void *data, size_t size)
 > +{
-> +	int ret;
+> +	const u8 *bytes = (const u8 *)data;
+> +	u8 checksum = 0;
 > +
-> +	ret = spi_optimize_message(spi, msg);
-> +	if (ret)
-> +		return ret;
+> +	for (size_t i = 0; i < size; i++)
+> +		checksum += bytes[i];
 > +
-> +	return devm_add_action_or_reset(dev, devm_spi_unoptimize_message, msg);
+> +	return ~checksum;
 > +}
-Missing an export.
 
-> +
->  /**
->   * spi_async - asynchronous SPI transfer
->   * @spi: device with which data will be exchanged
-> diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-> index 85785bcd20c1..a9388714e7e7 100644
-> --- a/include/linux/spi/spi.h
-> +++ b/include/linux/spi/spi.h
-> @@ -1272,6 +1272,8 @@ static inline void spi_message_free(struct spi_message *m)
->  
->  extern int spi_optimize_message(struct spi_device *spi, struct spi_message *msg);
->  extern void spi_unoptimize_message(struct spi_message *msg);
-> +extern int devm_spi_optimize_message(struct device *dev, struct spi_device *spi,
-> +				     struct spi_message *msg);
->  
->  extern int spi_setup(struct spi_device *spi);
->  extern int spi_async(struct spi_device *spi, struct spi_message *message);
-> 
+I expect there is already a helper do that somewhere.
 
+    Andrew
+
+---
+pw-bot: cr
