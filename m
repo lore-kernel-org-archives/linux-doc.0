@@ -1,53 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC5812E1F6;
-	Mon, 24 Jun 2024 09:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A4F130A79;
+	Mon, 24 Jun 2024 09:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719220790; cv=none; b=ZYixsa4sKIPUTvHszCbmj/Vf5w7W5bG3BBOr4N1kVVZeFWirMUIQMQ/LjePCvu7scOVi0AveROfT+cGcMo7PIVKDwOD4FJ7/8c45U7XHPZ+sb9auH/XeFXWgr+m/4AVcpV0qHHayps3tQt5oODmZTr5kxf5urbHYzFsAkdZxJqw=
+	t=1719223169; cv=none; b=Ey9GT2P3fErjO72vBNmYjTNlV3JHUDUpjdjp5vPIDLyIUR7SS2F9xNJBMP/VWA42U5utSxvLmE3J66y6kWpDBZyqDVlHYUdTUxokGgEZV1VUCDfPMHZIup8JY09mTdvCQpwi5fQAHbuhFA0YHRo2Bzi0xILUUBMRjI3QKB/J9XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719220790; c=relaxed/simple;
-	bh=oU/8r7bCLv97UE0Vbd5wfZPsGHSnpZEWps6OW3Re6iY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mvvIm4NmKiWpASZoRitTo0dPQprgxEKwQ4h8fJ3CPGYpX8GArCf4egPKfaN2EJIVRhvPRsz/PiMyJIceq7ITwUKWTQ/yi7YGI1MvKKtPGcwU4ITc5wU8PrNLtZ5B0+lZNuBsf2UNelKSw6trzFep37ygmMmVD26aKb7NRwHCG+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDUDM/rc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719223169; c=relaxed/simple;
+	bh=zJcdGyUdZLuCNczx/nqzTFcVLN0OGiPutA1r790Kcfk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QpESRBh1noX8gkozAq4oAZmD3ae6+tTiC7Po3itI1edzAVemwrBrX3XtGsU5h1Y4zvdBg6b0inwU9HbqPKc3D+iVPLbm27xAv/d/gIlgvTXqxbN60UfNgKOdXb4SdUiiJzRdCup9BPRMRTCy4W1kpkDYw6FNkgPDcft8bGEanVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Q1Dalikb; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDUDM/rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB07C32789;
-	Mon, 24 Jun 2024 09:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719220790;
-	bh=oU/8r7bCLv97UE0Vbd5wfZPsGHSnpZEWps6OW3Re6iY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fDUDM/rcfjvVFi3bB/GzUkANTdmyfRJjUvwindo/e8azmI+AAma0IIVyCPla0ocxG
-	 3Hx0HSaJcjENu71NAcnXuDVZfg/hW2n+/S22/ARbZdiUqWRFVR/C5ZZT3+ZiE/ECNf
-	 CBjJwMMe/AECuukZUN/topehhHRVLeOxwYqkPrCmIDKb0ygf1KM5Epwqtzh6fZc5ET
-	 SdBTWAAY+zbn4eQ3E0lVpUtWBbJmDfzRYJx7EhIYZveNHKg2cx08T19Wl9op6HBRdZ
-	 429WVVaq49nkgWfbiJ6EWN/uWBu4uWdGBFaRr1d03vJWToyk4MretRZYHK0YriCMSI
-	 pKHQ1HOLtaE+A==
-Received: from mchehab by mail.kernel.org with local (Exim 4.97.1)
-	(envelope-from <mchehab@kernel.org>)
-	id 1sLfrX-000000085bc-1UbK;
-	Mon, 24 Jun 2024 11:19:47 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v5 0/4] fix CPER issues related to UEFI 2.9A Errata
-Date: Mon, 24 Jun 2024 11:19:17 +0200
-Message-ID: <cover.1719219886.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q1Dalikb"
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45O8xPPw013702;
+	Mon, 24 Jun 2024 09:59:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=pp1; bh=2KZvX60DMd8P4EJ7ET6Mxr10IK
+	A4yiUdj/8yc/yPeuw=; b=Q1DalikbKwRIX2ui9vAnJIliYwjKN+vF8L9IRQz4XV
+	bCCGXzXE1PesPeCnXNUYTjrqHbB1hpwK7fxM+luQ584pncQ+M+0Bo7W/QMQhn/xp
+	mjb9FIuxdoqSt12E83wfQX+ixaKumEWhwXbdgcEuJZ0gQK3dl4v0HjN38B0MtVeA
+	KWYYMoWuDh23wEJawgQlerBGkktfNV7aoxS91/FsbWh960R8Ag8oLrPEISGI7J1f
+	dz7sJ107uv2AL2RA6D6FoIH3AMNmNWdir9d4Hs9D+z50UWkYsa71EZohL/GVEMyO
+	I31GF+8YQSHCpkJa9JxvjVS5qvSV24/ZkiDvKtfS9o6A==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yy5s50a2f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Jun 2024 09:59:23 +0000 (GMT)
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45O9uJmh023233;
+	Mon, 24 Jun 2024 09:59:23 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yy5s50a2d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Jun 2024 09:59:23 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45O9FGbB020058;
+	Mon, 24 Jun 2024 09:59:22 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yxb5m7ejj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Jun 2024 09:59:22 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45O9xGAX47251768
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 24 Jun 2024 09:59:18 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CEF3620043;
+	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 497BE20040;
+	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
+Received: from darkmoore.ibmuc.com (unknown [9.171.6.193])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
+From: Christoph Schlameuss <schlameuss@linux.ibm.com>
+To: linux-s390@vger.kernel.org
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] s390/kvm: Reject memory region operations for ucontrol VMs
+Date: Mon, 24 Jun 2024 11:59:02 +0200
+Message-ID: <20240624095902.29375-1-schlameuss@linux.ibm.com>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -55,97 +77,81 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2xcoGmAbfJM62j_PztwpAAUazTjoDst-
+X-Proofpoint-ORIG-GUID: 5H6cT5BBDe8iPSqQ5M6GVGr-JVHKY594
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-24_09,2024-06-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=598 clxscore=1011
+ spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
+ definitions=main-2406240079
 
-The UEFI 2.9A errata makes clear how ARM processor type encoding should
-be done: it is meant to be equal to Generic processor, using a bitmask.
+This change rejects the KVM_SET_USER_MEMORY_REGION and
+KVM_SET_USER_MEMORY_REGION2 ioctls when called on a ucontrol VM.
+This is neccessary since ucontrol VMs have kvm->arch.gmap set to 0 and
+would thus result in a null pointer dereference further in.
+Memory management needs to be performed in userspace and using the
+ioctls KVM_S390_UCAS_MAP and KVM_S390_UCAS_UNMAP.
 
-The current code assumes, for both generic and ARM processor types
-that this is an integer, which is an incorrect assumption.
+Also improve s390 specific documentation for KVM_SET_USER_MEMORY_REGION
+and KVM_SET_USER_MEMORY_REGION2.
 
-Fix it. While here, also fix a compilation issue when using W=1.
+Signed-off-by: Christoph Schlameuss <schlameuss@linux.ibm.com>
+---
+ Documentation/virt/kvm/api.rst | 12 ++++++++++++
+ arch/s390/kvm/kvm-s390.c       |  3 +++
+ 2 files changed, 15 insertions(+)
 
-After the change, Kernel will properly decode receiving two errors at the same
-message, as defined at UEFI spec:
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index a71d91978d9e..eec8df1dde06 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1403,6 +1403,12 @@ Instead, an abort (data abort if the cause of the page-table update
+ was a load or a store, instruction abort if it was an instruction
+ fetch) is injected in the guest.
+ 
++S390:
++^^^^^
++
++Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
++Returns -EINVAL if called on a protected VM.
++
+ 4.36 KVM_SET_TSS_ADDR
+ ---------------------
+ 
+@@ -6273,6 +6279,12 @@ state.  At VM creation time, all memory is shared, i.e. the PRIVATE attribute
+ is '0' for all gfns.  Userspace can control whether memory is shared/private by
+ toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as needed.
+ 
++S390:
++^^^^^
++
++Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
++Returns -EINVAL if called on a protected VM.
++
+ 4.141 KVM_SET_MEMORY_ATTRIBUTES
+ -------------------------------
+ 
+diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+index 82e9631cd9ef..854d0d1410be 100644
+--- a/arch/s390/kvm/kvm-s390.c
++++ b/arch/s390/kvm/kvm-s390.c
+@@ -5748,6 +5748,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
+ {
+ 	gpa_t size;
+ 
++	if (kvm_is_ucontrol(kvm))
++		return -EINVAL;
++
+ 	/* When we are protected, we should not change the memory slots */
+ 	if (kvm_s390_pv_get_handle(kvm))
+ 		return -EINVAL;
 
-[   75.282430] Memory failure: 0x5cdfd: recovery action for free buddy page: Recovered
-[   94.973081] {2}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
-[   94.973770] {2}[Hardware Error]: event severity: recoverable
-[   94.974334] {2}[Hardware Error]:  Error 0, type: recoverable
-[   94.974962] {2}[Hardware Error]:   section_type: ARM processor error
-[   94.975586] {2}[Hardware Error]:   MIDR: 0x000000000000cd24
-[   94.976202] {2}[Hardware Error]:   Multiprocessor Affinity Register (MPIDR): 0x000000000000ab12
-[   94.977011] {2}[Hardware Error]:   error affinity level: 2
-[   94.977593] {2}[Hardware Error]:   running state: 0x1
-[   94.978135] {2}[Hardware Error]:   Power State Coordination Interface state: 4660
-[   94.978884] {2}[Hardware Error]:   Error info structure 0:
-[   94.979463] {2}[Hardware Error]:   num errors: 3
-[   94.979971] {2}[Hardware Error]:    first error captured
-[   94.980523] {2}[Hardware Error]:    propagated error captured
-[   94.981110] {2}[Hardware Error]:    overflow occurred, error info is incomplete
-[   94.981893] {2}[Hardware Error]:    error_type: 0x0006: cache error|TLB error
-[   94.982606] {2}[Hardware Error]:    error_info: 0x000000000091000f
-[   94.983249] {2}[Hardware Error]:     transaction type: Data Access
-[   94.983891] {2}[Hardware Error]:     cache error, operation type: Data write
-[   94.984559] {2}[Hardware Error]:     TLB error, operation type: Data write
-[   94.985215] {2}[Hardware Error]:     cache level: 2
-[   94.985749] {2}[Hardware Error]:     TLB level: 2
-[   94.986277] {2}[Hardware Error]:     processor context not corrupted
-
-And the error code is properly decoded according with table N.17 from UEFI 2.10
-spec:
-
-	[   94.981893] {2}[Hardware Error]:    error_type: 0x0006: cache error|TLB error
-
-The error injection logic was checked via QEMU using this patch:
-https://lore.kernel.org/all/20240621165115.336-1-shiju.jose@huawei.com/
-
-v5:
-- Do some cleanups and minor fixes as suggested by Jonathan and Tony:
-  - check errors at strscpy();
-  - simplify cper_bits_to_str() function;
-  - use FIELD_GET() and for_each_set_bit();
-  - use ARRAY_SIZE() on infofx to let it clear that it should be size of newpfx + 1;
-  - fix kernel-doc warning with W=1;
-  - use kernel-doc for two exported functions at cper.c.
-
-v4:
-- The print function had some bugs on it, which was discovered with
-  the help of an error injection tool I'm now using.
-
-v3:
-- It adds a helper function to produce a buffer describing the
-  error bits at cper's printk and ghes pr_warn_bitrated. It also
-  fixes a W=1 error while building cper.
-
-v2:
-- It fixes the way printks are handled on both cper_arm and ghes
-  drivers.
-
-v1: 
-- (tagged as RFC) was mostly to give a heads up that the current 
-  implementation is not following the spec. It also touches
-  only cper code.
-
-
-
-
-Mauro Carvalho Chehab (4):
-  efi/cper: Adjust infopfx size to accept an extra space
-  efi/cper: Add a new helper function to print bitmasks
-  efi/cper: align ARM CPER type with UEFI 2.9A/2.10 specs
-  docs: efi: add CPER functions to driver-api
-
- .../driver-api/firmware/efi/index.rst         | 11 ++--
- drivers/acpi/apei/ghes.c                      | 15 +++---
- drivers/firmware/efi/cper-arm.c               | 52 +++++++++----------
- drivers/firmware/efi/cper.c                   | 41 ++++++++++++++-
- include/linux/cper.h                          | 12 +++--
- 5 files changed, 89 insertions(+), 42 deletions(-)
-
+base-commit: f2661062f16b2de5d7b6a5c42a9a5c96326b8454
 -- 
 2.45.2
-
 
