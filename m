@@ -1,84 +1,136 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701CF1A0AE6;
-	Mon, 24 Jun 2024 21:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F724962C;
+	Mon, 24 Jun 2024 21:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719265454; cv=none; b=buYNqsfrmV3BtNwev9dOmIuYaV2u77coq3En9DcbYUIpklbaBB0O3U3/qCXSAmXpSkOK+RMWuB7F8fsj3Y9P4tC3AiVJcA3PqTszZK3mIsmDpug4NTH18+Z/Dv72cLNvCxRxsJIisAWJ1LPtjzmbfFnzkREj5gACu6ZmvWfwEu8=
+	t=1719266135; cv=none; b=HLQovh15a2hkFZYb6sDBT2iPU7sPqE26SqHEAoRe1itFaCzgi7V7lojG1xP8isnIieTghJ8VvmK0D4SpWkHrSXQWUfcqMZUZvS0CWlTCl2blYnmnH79OuVr8m5QQPjMUa3j4zoD9aCF4rVG1azllP77Raarb9Vq8SgypCIDbNyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719265454; c=relaxed/simple;
-	bh=AiHC9xnEMYGzcT5H5DWhz1dmOlvJKhP3SFGnJvzwTE8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FnnBnzjFRVDumWoek0DnG3dVIyFvCtLJFNoNOI32wv+p2IaBQ9K8Bb0jsWDjhDrzWUub18+yOqFxHxBnj+MmBUWve6QNYcwdHi0cnIbzhOkudTKXyionvBMUCmLjXBmeNkxmRvl65Sgsc4BvHwcBI8H8xNq3V/LRcvTDzO/6FyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3mgtx5M9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SFta+En2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1719266135; c=relaxed/simple;
+	bh=ssw0CE3X6rtJAiVWYNCh9l8N9P1eQeBKDrj05miOGGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g/ukruaTQM3JZ/XBK1u8DqqjJSK4xM/8uOYR+POGJOnD9q9QSEMu3L9x53BhJGNjbrZHcxNOZpN/cflj+9RRBq8QSRTLjH4aURcA28a/mkrRLjNiOV84QOXeTJ9pSQNf7ukXW/DlfvS0boh7YSIerLbt7HBznUYk2JWFHFKle+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5e5otEl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3mgtx5M9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SFta+En2"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1719265451;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rASr6AApb78mUlBNDuPuk8RQlBZnWLpRlrhyt32M5QA=;
-	b=3mgtx5M950PHaItAGxDU5pdxGWJ+rp6f0TyWMN7FfRzQmNso8u8W2ni5ulx1aNTlibmBjq
-	7CYYyo/kANI5VuBqQiFBSk0S2afc5Y5LmpRJRgSPQf1VwXaPdpCWSlQpnhQSopnZGmwSIv
-	QSSrjlX3fB0ZPd0VacDgoNQQImRwKQG67H1laNL1Y+Rly2/ptvFN+WaSrPJsDi3iih9jqe
-	iDPmAfRWv9UsoHZfANjcEEmmKkouP8Xy/Biq/uGRdeG6thMfqQkUxKfp69imUgde/78tJL
-	4zrdMPJLIxDwoXGC4+emnSt/NxBNdLBUxtTOP8nkcRhVG/ycCDc6/elB5UZQIA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1719265451;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rASr6AApb78mUlBNDuPuk8RQlBZnWLpRlrhyt32M5QA=;
-	b=SFta+En2ITCpFuP0FHtYbBHBDm+2rgkbGl+xIEAo9nX07wqh3gTZbJ9PIWPciQ1Z0bHC9R
-	ORl5zQ9yEBgOLrBg==
-To: Roman Kagan <rkagan@amazon.de>, linux-arm-kernel@lists.infradead.org
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
- <will@kernel.org>, nh-open-source@amazon.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Marc
- Zyngier <maz@kernel.org>
-Subject: Re: [PATCH] irqchip/gicv3-its: Workaround for GIC-700 erratum 2195890
-In-Reply-To: <20240624165541.1286227-1-rkagan@amazon.de>
-References: <20240624165541.1286227-1-rkagan@amazon.de>
-Date: Mon, 24 Jun 2024 23:44:11 +0200
-Message-ID: <87pls66mok.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5e5otEl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C22C2BBFC;
+	Mon, 24 Jun 2024 21:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719266134;
+	bh=ssw0CE3X6rtJAiVWYNCh9l8N9P1eQeBKDrj05miOGGg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h5e5otElt6qUnWFncwXReRgalS93n3GWdHfZI61HaUNM702vEiLU2OL3hRtmeZ7pW
+	 ohhQ3/5IVk0g8hUUHWlUqfFBEMPtZPqq9cQTQXiwSXMSd207XtxM9X16zMkpmCwa1h
+	 P7loUD40U+W2bSN567WlBElAPghrvm140h9uxIRABpJMhzaJxKaale7wIivArgxwds
+	 17sJnrpbor04AXrsi4bw/9WuT16U52EHU+4DHQipBM/gHcQC+G9CN1yr9Xg4UveXWD
+	 yQLKSBhNO7cmx1X2iEik5+dutOQ4SzhHG4PwsLAFryjtPCKpTROi/LdExZix+Cs8Gm
+	 97NMXmBhfGsSg==
+Message-ID: <de54c406-9270-4145-ab96-5fc3dd51765e@kernel.org>
+Date: Tue, 25 Jun 2024 06:55:29 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Bart Van Assche <bvanassche@acm.org>,
+ Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+ <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+ <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+ <20240604044042.GA29094@lst.de>
+ <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
+ <20240605082028.GC18688@lst.de>
+ <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
+ <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+ <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 24 2024 at 18:55, Roman Kagan wrote:
-> According to Arm CoreLink GIC-700 erratum 2195890, on GIC revisions
-> r0p0, r0p1, r1p0 under certain conditions LPIs may remain in the Pending
-> Table until one of a number of external events occurs.
->
-> No LPIs are lost but they may not be delivered in a finite time.
->
-> The workaround is to issue an INV using GICR_INVLPIR to an unused, in
-> range LPI ID to retrigger the search.
->
-> Add this workaround to the quirk table.  When the quirk is applicable,
-> carve out one LPI ID from the available range and run periodic work to
-> do INV to it, in order to prevent GIC from stalling.
->
-> TT: https://t.corp.amazon.com/D82032616
+On 2024/06/25 1:25, Bart Van Assche wrote:
+> On 6/24/24 3:44 AM, Nitesh Shetty wrote:
+>> For reference, I have listed the approaches we have taken in the past.
+>>
+>> a. Token/payload based approach:
+>> 1. Here we allocate a buffer/payload.
+>> 2. First source BIO is sent along with the buffer.
+>> 3. Once the buffer reaches driver, it is filled with the source LBA
+>> and length and namespace info. And the request is completed.
+>> 4. Then destination BIO is sent with same buffer.
+>> 5. Once the buffer reaches driver, it retrieves the source information from
+>> the BIO and forms a copy command and sends it down to device.
+>>
+>> We received feedback that putting anything inside payload which is not
+>> data, is not a good idea[1].
+> 
+> A token-based approach (pairing copy_src and copy_dst based on a token)
+> is completely different from a payload-based approach (copy offload
+> parameters stored in the bio payload). From [1] (I agree with what has
+> been quoted): "In general every time we tried to come up with a request
+> payload that is not just data passed to the device it has been a
+> nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
+> / etc to find an input and output side match up, as long as we
+> stick to the proper namespace scope."
+> 
+>> c. List/ctx based approach:
+>> A new member is added to bio, bio_copy_ctx, which will a union with
+>> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
+>> add the bio to this list.
+>> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
+>> will add the destination BIO to the list inside bi_copy_ctx and return
+>> without forming any request.
+>> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
+>> retrieve the destination BIO from bi_copy_ctx and form a request with
+>> destination BIO and source BIO. After this request will be sent to
+>> driver.
+>>
+>> This work is still in POC phase[2]. But this approach makes lifetime
+>> management of BIO complicated, especially during failure cases.
+> 
+> Associating src and dst operations by embedding a pointer to a third
+> data structure in struct bio is an implementation choice and is not the
+> only possibility for assocating src and dst operations. Hence, the
+> bio lifetime complexity mentioned above is not inherent to the list
+> based approach but is a result of the implementation choice made for
+> associating src and dst operations.
+> 
+> Has it been considered to combine the list-based approach for managing
+> unpaired copy operations with the token based approach for pairing copy
+> src and copy dst operations?
 
-Can you please refrain from providing internal links? 
+I am still a little confused as to why we need 2 BIOs, one for src and one for
+dst... Is it because of the overly complex scsi extended copy support ?
 
-> Signed-off-by: Elad Rosner <eladros@amazon.com>
-> Signed-off-by: Mohamed Mediouni <mediou@amazon.com>
-> Signed-off-by: Roman Kagan <rkagan@amazon.de>
+Given that the main use case is copy offload for data within the same device,
+using a single BIO which somehow can carry a list of LBA sources and a single
+destination LBA would be far simpler and perfectly matching nvme simple copy and
+ATA write gathered. And I think that this would also match the simplest case for
+scsi extended copy as well.
 
-That Signed-off-by chain is invalid. See Documentation/process/
+-- 
+Damien Le Moal
+Western Digital Research
 
-Thanks,
-
-        tglx
