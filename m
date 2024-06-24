@@ -1,113 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B880D1A0731;
-	Mon, 24 Jun 2024 23:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA0540BF5
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 23:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719271684; cv=none; b=T2uNWopw/VFrtyVIU2HLdwOvNq/UoSwCo1S41Vy5vM3neyyOAwo0Ff5p2sSHUF+vD4Ja+fjKa5ZA2ccgUckXSXUCBEpZJJ5vFSu8fE0sZAWvUni1tvE2P6DYmXCikmGN1UDgDU07qzP04dLjOo3Si6+cG0G5XGmJ4V/p6dEWQlQ=
+	t=1719272032; cv=none; b=j1ouN/ueWS6ZfK1buVtpS1CxG/nSVXKbvnH8th17D1AEiSY+B0dhnwtE8YLrrMmP9pHPL8Xwy+GjczI5muGd/ohaFTxJV85wPFEKXdckCxxVcIf/frQPCWOLNWmAf4nCdINZnz/WT9dlmu84J9nmLf6JEjq5+2ZmM+g6y4PqoGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719271684; c=relaxed/simple;
-	bh=xNxO4J+rVkZVl73erQQXo/4Ljf1gi+GV0ARmHcEM6s8=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Cm4X+V+E7TMcaGsA3pRdg4vCHY3k5ucXy5ZU6US+QgHlW3BZ3ILAmc2HiZCsLpGUjrVGnV7OyPncPh+9/vr8GFIxCWIiDx8bot/rC7Z1UqPYS7HruehbrbMelGB9b7WbmcVLPptO5JtI0dsjqz0wJ8Y42nlHG6j555bR2ETlZ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLHODb/E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719272032; c=relaxed/simple;
+	bh=PJBJs7wnrIjbVjyRdEF0Mibpa3gB9r03JLYAbwEoj9w=;
+	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
+	 Content-Type:References; b=UstG7eqZmNuHdS+Lx8YaGIE5FUVX6Ps2SkrGJGy8psLJVI9ykPjx/qM12xjGBrbTsAhdXF4xn0x4ULImAqmusoPEVMO1nnkpv1zV23K6F4mewOze+A/XEISyjDpdlZ1YJzyDeatNqi9ApKmeZ5hbNIgzM9mOV/6+wD425BHLYeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=UZdwP4GS; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLHODb/E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 250C6C2BBFC;
-	Mon, 24 Jun 2024 23:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719271684;
-	bh=xNxO4J+rVkZVl73erQQXo/4Ljf1gi+GV0ARmHcEM6s8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=nLHODb/Ei5wCYkdsZB+9cur3yZh/KxbyIXgAoDeLIqKI2IJvf/Rzol1EkHhLrqEDs
-	 d6uJim/FvGXXKxM0yyln0uE0eIT6ArypZxb3XQ4UyS5MIJPYvUvSf2/P4F+POHjJ19
-	 l2slEA+nyjzcaa0Fk9AZJ/I7R2O0TR1E7oTYllDXd00r1yY68459Nf8MHXSnO2qt2r
-	 Hv0Keeyg0s8SHzmzyD3xnt2ly2vtI7kmq33spv4/PA61eet/WiJ5sYSmpOocvzV0aD
-	 OP2cKh/7liPl/FD6cforqYlOU1KvBR+xv1XGlxzMYpgmOC0otyKanvEl161l92TbU8
-	 yGbb0w7DwbA0w==
-Date: Mon, 24 Jun 2024 17:28:02 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="UZdwP4GS"
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240624233348epoutp01afd7e5655cf4eac476e910103098ecec~cFMzxRVod0346803468epoutp01Q
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 23:33:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240624233348epoutp01afd7e5655cf4eac476e910103098ecec~cFMzxRVod0346803468epoutp01Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1719272028;
+	bh=3ImCeEfh/Ra1qJMJwGnWtMgllCYvieBq5YplBv0iy9U=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=UZdwP4GS5CciNAT3vQAMYtq3FliN5A7SvhxlcqIJHfLAkpRVRKz/RwjOALjQt82/M
+	 rzeEmZ0SHvhOh7yJNvxjeuBZLf69gTEDbPY2BqtsMmH7iwlKmfvdxcl9tjKXQ8Katt
+	 4R2ZqUM+5uW9+0RZnk9QwC3LQy8aM8t4GObHySmc=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+	20240624233347epcas2p4a904ace9d029c5a306a5d09eb88784dc~cFMzZIiM51759817598epcas2p4K;
+	Mon, 24 Jun 2024 23:33:47 +0000 (GMT)
+Received: from epsmges2p3.samsung.com (unknown [182.195.36.102]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4W7PRb3Dxsz4x9Q3; Mon, 24 Jun
+	2024 23:33:47 +0000 (GMT)
+X-AuditID: b6c32a47-ecbfa7000000264e-60-667a025b1845
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+	epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+	FD.68.09806.B520A766; Tue, 25 Jun 2024 08:33:47 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Michael Hennerich <michael.hennerich@analog.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20240624-iio-adc-ad4695-v3-1-a22c302f06bf@baylibre.com>
-References: <20240624-iio-adc-ad4695-v3-0-a22c302f06bf@baylibre.com>
- <20240624-iio-adc-ad4695-v3-1-a22c302f06bf@baylibre.com>
-Message-Id: <171927168292.812030.284414420636530087.robh@kernel.org>
-Subject: Re: [PATCH v3 1/3] dt-bindings: iio: adc: add AD4695 and similar
- ADCs
+Mime-Version: 1.0
+Subject: RE:(2) [PATCH v2] f2fs: add support single node mode
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From: Daejun Park <daejun7.park@samsung.com>
+To: Chao Yu <chao@kernel.org>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: Seokhwan Kim <sukka.kim@samsung.com>, Dongjin Kim
+	<dongjin_.kim@samsung.com>, Yonggil Song <yonggil.song@samsung.com>, Jaeyoon
+	Choi <j_yoon.choi@samsung.com>, Nayeon Kim <nayeoni.kim@samsung.com>, Siwoo
+	Jung <siu.jung@samsung.com>, Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <a4ae575c-9eee-47fe-b49d-c71737022d24@kernel.org>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20240624233246epcms2p234a0027e14c8285e1674cbbe5680842c@epcms2p2>
+Date: Tue, 25 Jun 2024 08:32:46 +0900
+X-CMS-MailID: 20240624233246epcms2p234a0027e14c8285e1674cbbe5680842c
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKJsWRmVeSWpSXmKPExsWy7bCmuW40U1WawdZeYYvTU88yWTw50M5o
+	8fKQpsWqB+EWP06aWPTvbmexeLJ+FrPFwrYlLBaXFrlbXN41h82i5Y+TxfmJr5ksVnXMZbSY
+	ev4IkwOfx6ZVnWweuxd8ZvJY3DeZ1aNvyypGj8+b5AJYo7JtMlITU1KLFFLzkvNTMvPSbZW8
+	g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4COVFIoS8wpBQoFJBYXK+nb2RTll5akKmTk
+	F5fYKqUWpOQUmBfoFSfmFpfmpevlpZZYGRoYGJkCFSZkZzxZ+46t4D9jxe1NF5gbGA8zdjFy
+	ckgImEh0zZ/H1MXIxSEksINRouF9D3sXIwcHr4CgxN8dwiA1wgK2Etsm3wSrFxJQklh/cRY7
+	RFxP4tbDNWBxNgEdiekn7rODzBER2MckserZQbChzAIzmCTmne5lg9jGKzGj/SkLhC0tsX35
+	VrBuTgE7iZ6LnewQcQ2JH8t6mSFsUYmbq9+yw9jvj82HulpEovXeWagaQYkHP3dDxSUlbs/d
+	BFWfL/H/ynIou0Zi24F5ULa+xLWOjWA38Ar4Sqzd1g4WZxFQlXjxA2aOi8SVl41gNcwC8hLb
+	385hBgUKs4CmxPpd+iCmhICyxJFbUBV8Eh2H/7LDfNiw8TdW9o55T5ggbDWJdT/XM01gVJ6F
+	COlZSHbNQti1gJF5FaNYakFxbnpqsVGBMTxyk/NzNzGC06uW+w7GGW8/6B1iZOJgPMQowcGs
+	JMI7vb4sTYg3JbGyKrUoP76oNCe1+BCjKdCXE5mlRJPzgQk+ryTe0MTSwMTMzNDcyNTAXEmc
+	917r3BQhgfTEktTs1NSC1CKYPiYOTqkGpnI2kTeqsV82nbukLXv/bsDJjaZHprFfyWiRddY5
+	0iEd73X+0cL/167UNGUu2H/4xs4lO58elfrWG7P27zvvBXmH15xSeuXSWt5RbHOmp2Xit8Tz
+	Wx+vO/KLYe4k2Ry95+sqtvWYvbvy4pvLQdXly5p6VYIzGiexlZV0xC9RzKsQ3jqxyXXrUn+m
+	Yks2bfPLxVve2llqq2pkT55rnljrp3znljZfzYvM4p+2/6/PUdDS/ngn9998m/BXWxnuXDBc
+	ecChc9eRrdzMNf33X5+KePn/WumigJ5dG4Q2fdzf9Lz+W86MzUvClQsvr7pgwfMwVDXQtr75
+	yV6djxkLav8x655fMzv6SZqj27950Wdtt7QrsRRnJBpqMRcVJwIAs9UdhTgEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240617045134epcms2p3f2f82336438f636b3f1ad58fd0c1cd29
+References: <a4ae575c-9eee-47fe-b49d-c71737022d24@kernel.org>
+	<20240617045134epcms2p3f2f82336438f636b3f1ad58fd0c1cd29@epcms2p3>
+	<CGME20240617045134epcms2p3f2f82336438f636b3f1ad58fd0c1cd29@epcms2p2>
 
+Hi Chao, 
 
-On Mon, 24 Jun 2024 17:01:53 -0500, David Lechner wrote:
-> Add device tree bindings for AD4695 and similar ADCs.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
-> 
-> Note, this may trigger a DT build warning "common-mode-channel: missing
-> type definition" if the builder doesn't include the recently added
-> common-mode-channel property [1]. This should be safe to ignore (passes
-> make dt_binding_check locally).
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=testing&id=d86deaec1c5b0fb60c3619e8d2ae7a1d722fd2ad
-> 
-> v3 changes:
-> * Change interrupts to be per pin instead of per signal.
-> * Drop diff-channels and single-channel properties.
-> * Odd numbered pins added to common-mode-channel property enum.
-> * REFGND and COM values changes to avoid confusion with pin numbers.
-> * Add inX-supply properties for odd numbed input pins.
-> 
-> v2 changes:
-> * Drop *-wlcsp compatible strings
-> * Don't use fallback compatible strings
-> * Reword supply descriptions
-> * Use standard channel properties instead of adi,pin-pairing
-> * Fix unnecessary | character
-> * Fix missing blank line
-> * Add header file with common mode channel macros
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 256 +++++++++++++++++++++
->  MAINTAINERS                                        |  10 +
->  include/dt-bindings/iio/adi,ad4695.h               |   9 +
->  3 files changed, 275 insertions(+)
-> 
+>
+>It looks complicated to enable single_node_sec mode dynamically, what do
+>you think of making this as a feature which can only be eanbled by mkfs?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I think it is good idea, I will change this patch for mkfs tool.
 
-yamllint warnings/errors:
+Thanks,
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml: common-mode-channel: missing type definition
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240624-iio-adc-ad4695-v3-1-a22c302f06bf@baylibre.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Daejun
