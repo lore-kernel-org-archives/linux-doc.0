@@ -1,78 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD5C13D2BC;
-	Mon, 24 Jun 2024 14:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E874A19ADBE
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 15:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719240789; cv=none; b=fnnNY8AXx5q5RUz6F0bcbykHLUPtkAV5LyUY6+dlwn6wbnpA6EZSYJ8B31jNczTG2lFxUF5oq+2O5LPyvrrpetNMGHDML6B2GZwgTh5YX/xu3GmCL4nvfwj3DIDS1a3X28bA9KaR6abP/MVGeByVzjc7AL48Whv+BaE1jDLGess=
+	t=1719242502; cv=none; b=TZNfh4xSKqDajkPte0SZEuZF1nlTohQlQYlFQT3kIHtnZtJDwMzq+LOERtmSblCw0cKIhI1iAFWcQNotXDc+0wVM2MFql1/pHqHbVxdHaVLZ1WoIQKbq0LO+kCf6wCpqx9abrlv/xetZIzTZH7o/hbLJjsIgUIycrkXmfa3CPY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719240789; c=relaxed/simple;
-	bh=s0q0af3gE1JvSIq5I70dBZCqSI9BuF5ovM6No/hd+pM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QP+b+31cZk3/IgqVUWmSw71jA79L8dnWF9hL9IxA8U+fiaWEZdjuuAiREBQAOG9BNBZkCNWRm7PEhQO66MaBtlXAWKVdeVK3njCJ2AkPdIs5GZCMYgKxs46ICmUWPFAN0ru0Hy2/Rxo8Z+uAVLrjNNFBa1GxXseaT8NZ4BcsL64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=voDlwbo0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1719242502; c=relaxed/simple;
+	bh=S8s+yX1kDXLOn8wBss/z5XFgwphs6CKYipXZlWpknUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fkWUghbp6jsLFEYBQDL2gPrY0abnw25To2HfU9Ng+V5vPHEKm8+oF/NLsXiaXUb1NNXRdsiJNXyTmEI/L/mP7VeDEYjr18laqvVigppMA+N+lMUVYNo+WSP8K7lHc9r2u4mMPpOSl90vlPY+3iaYisi5JQc9nKstMXUWe0sMfGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BOxl82ld; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="voDlwbo0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=5rHWYHCAm83DOWUjTKARuD+awbDx8mZtltx+LBbgsnE=; b=voDlwbo07otYRFA64WcfZDadIZ
-	I/JqOvUSpR8kd5pxmTQ/I0kNte/4waxDZzigmgHdQI5p0FQZRhH+OnuiO+yzSH+lCQW+Ivoo0PQNG
-	4T6qRtCffKbCPaAVke7gGf/qeLjyepEnl6eNfRSnfnIkf/oGEvFStRntNJ8lvyiQpXBOr1VAXRHGK
-	nMd8WsdVA9GcC0E7TteVV1VSKKEi3bUZ3xan+HrXMdzwi8e7keddajUFVMAy1cjXmp/4WmKVP1tTD
-	tBRTLfC00nQr9g0i6LqgUOgqH3xKL4AhwXMTI/AOEnToy78pzlIi+4xN/MuBQEwI+bndT1ykCKSvT
-	YVGIIAkw==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sLl44-0000000HBJ0-2YAZ;
-	Mon, 24 Jun 2024 14:53:04 +0000
-Message-ID: <d9170236-3266-4be9-a513-d58104ef1d2c@infradead.org>
-Date: Mon, 24 Jun 2024 07:53:03 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BOxl82ld"
+X-Envelope-To: longman@redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1719242497;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6mlbe76eIK+t44kk/XWRZhfvBA54CwR57wx+DLukPvU=;
+	b=BOxl82ldM/sEeuyRdG8oshCF6F9eOz/ZaPVCp9WOZRn5XKX2sSPGKZVal/U+0GNteeVT/L
+	/kvORp6v/YdGVZrAu4/KgDBwWXhRnWnXZVA3bZBjwdL3BxLwDT+uyl2y/NOR2kwFHjgBOX
+	XKwGLTr2YvVPwp2qWDmGrhD2Y4eBYO8=
+X-Envelope-To: hannes@cmpxchg.org
+X-Envelope-To: mhocko@kernel.org
+X-Envelope-To: muchun.song@linux.dev
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: shakeel.butt@linux.dev
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: cgroups@vger.kernel.org
+X-Envelope-To: linux-mm@kvack.org
+X-Envelope-To: akalenyu@redhat.com
+X-Envelope-To: pehunt@redhat.com
+X-Envelope-To: linux-doc@vger.kernel.org
+Date: Mon, 24 Jun 2024 08:21:22 -0700
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Waiman Long <longman@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	Alex Kalenyuk <akalenyu@redhat.com>, Peter Hunt <pehunt@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] memcg: Add a new sysctl parameter for automatically
+ setting memory.high
+Message-ID: <ZnmO8izZPwYfiaRz@castle.lan>
+References: <20240623204514.1032662-1-longman@redhat.com>
+ <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, bilbao@vt.edu
-References: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
- <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 6/22/24 12:47 PM, Carlos Bilbao wrote:
-> From: Carlos Bilbao <bilbao@vt.edu>
+On Sun, Jun 23, 2024 at 04:52:00PM -0400, Waiman Long wrote:
+> Correct some email addresses.
 > 
-> Extend the Index of Further Kernel Documentation by adding entries for the
-> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
-> on the second edition of Billimoria's kernel programming book. Also,
-> perform some refactoring: format the text to 75 characters per line and
-> sort per-section content in chronological order of publication.
-> 
-> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> On 6/23/24 16:45, Waiman Long wrote:
+> > With memory cgroup v1, there is only a single "memory.limit_in_bytes"
+> > to be set to specify the maximum amount of memory that is allowed to
+> > be used. So a lot of memory cgroup using tools and applications allow
+> > users to specify a single memory limit. When they migrate to cgroup
+> > v2, they use the given memory limit to set memory.max and disregard
+> > memory.high for the time being.
+> > 
+> > Without properly setting memory.high, these user space applications
+> > cannot make use of the memory cgroup v2 ability to further reduce the
+> > chance of OOM kills by throttling and early memory reclaim.
+> > 
+> > This patch adds a new sysctl parameter "vm/memory_high_autoset_ratio"
+> > to enable setting "memory.high" automatically whenever "memory.max" is
+> > set as long as "memory.high" hasn't been explicitly set before. This
+> > will allow a system administrator or a middleware layer to greatly
+> > reduce the chance of memory cgroup OOM kills without worrying about
+> > how to properly set memory.high.
+> > 
+> > The new sysctl parameter will allow a range of 0-100. The default value
+> > of 0 will disable memory.high auto setting. For any non-zero value "n",
+> > the actual ratio used will be "n/(n+1)". A user cannot set a fraction
+> > less than 1/2.
 
+Hi Waiman,
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+I'm not sure that setting memory.high is always a good idea (it comes
+with a certain cost, e.g. can increase latency), but even if it is,
+why systemd or similar userspace tools can't do this?
 
-Thanks.
+I wonder what's special about your case if you do see a lot of OOMs
+which can be avoided by setting memory.high? Do you have a bursty workload?
 
-> ---
->  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
->  1 file changed, 44 insertions(+), 24 deletions(-)
-> 
-
--- 
-~Randy
+Thanks!
