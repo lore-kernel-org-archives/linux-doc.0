@@ -1,48 +1,48 @@
-Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD69136995;
-	Mon, 24 Jun 2024 16:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1858C19DF93
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 16:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719246348; cv=none; b=X7CZ+tg0GPxGFnFrQhWuII1ocEzv9bOG8krc1l0BHz6AmUQ09oU/YvC0Yj5CxPWyVPjk+wzhLtIBdbvT/JD+I7eEj8O+JjfEgxsOueYl2be1qKJuQuUgzYuRoH4KEUe7Za3WqQvio3YDpGOxw2i5rJ2IMPyAKr2Lp1tIDfWqmno=
+	t=1719246823; cv=none; b=gzKaX6VAny5wdxBtpPeVvjktsT+dbMeMmRII8aV1NlyY5defTtBTZ8BBCiXUUORo4vTIuCTNRqnNaz59M3pym4F5jC8LFpnd1TwwzhnzzWHM2Yakl1BF4iLVsgPLVHm1/PINMBAXpadtrcPYdusC+rhtjJez9jV+5ohtK3fwOeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719246348; c=relaxed/simple;
-	bh=zc7081Y21FlTdwB7r1y80IdIKdEYx/IpzSp3yAgMxRY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=FW3RKJMMA+n8u/f7LhiJvR2tJ6h4yf4/iEDIug2t9oWXtq4hIb2E0gqdEU2aD/wGB0vP+ax3WvSXh8oWAFL6HET9R3QH+7c8fOyWCgUFmaWoI20w03oQbQGkKpsMirYMKnSuZNL1QgUUcd6IPWoLxvynM3+xEuQ1rWYDzQtweys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=ikAL02jY; arc=none smtp.client-ip=199.89.1.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1719246823; c=relaxed/simple;
+	bh=4gqQAbOK79zS1uKAm/hj5eq4OIA6n71bJj1tEIJvkBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V/TKxphIdddjjsXXp3SqgRZS7gcFbwIcwIDf/LVgxNKLUNXX3Mu2RItQLLYhNZ7taDJvmAGzpj/75xAsbK2i6P1NUx8LgS9yOv9ffT6jmcf75OMBOOMYmJXIaTjpqZuN/ZwT/Ix1WFMNpcA/AcXjFeQS4Ix3H0sCcWyUyB9GZ1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yrun7rfc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="ikAL02jY"
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4W7Cxc1b4Czll9bs;
-	Mon, 24 Jun 2024 16:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:content-language:references:subject:subject:from:from
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1719246327; x=1721838328; bh=5YRbJCfER9/t7o2py5oZPcEO
-	b9O2alYeZUroDpPtXOU=; b=ikAL02jYcnW8oADCx4MyOFEykz3GGfzi6eWwiW9Z
-	qiD+dR0/fHNfI+Q6K0nONWMiiVlJ+aAomIKaZSKGu22m5ca76dqZkTNzCzXVftDr
-	j0DYgelboKWwKWHnBg+NV9g5B+h9mdpeKGFBC9vYwx6dye62o4gF7YLMcCV3+xMy
-	cnnlClziVI0W0ib/ncr7xzIVqTP/82AlTek/vbofMTYNyQaw7t5/parPScAR+eIs
-	ZWUEAB6AU5kfaH2lpyKjHEugC6rLSzGQualGEX1d9T5ytrnrpbdAE0IzQvz6FYTd
-	0ng0XDcORkIuLC53eCL7RCfIuhaNHKotvbEgrm+nv0kfJg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id fRVPZY9Z3RGh; Mon, 24 Jun 2024 16:25:27 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yrun7rfc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719246820;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dgN0dBgy6sR0oAWnnFjEXlGg9ErnyA+uGyeQrtdxBG8=;
+	b=Yrun7rfcH9rN+dBPsXPupt07jHbO0UgtDO7dCee1Z95BNLXdSQAaSRAFLVSHRgn+SwWU7s
+	246Z1CvWswd9qUmUTVO0d1x0wHj55E+ScclUpQH/1j/mau5I+gd2G9179gbOhYXD1VJLhY
+	oF4I3z/FeM8YRNX4HRgg3DDyZcbrIAE=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-106-hyTBx4oRNMyFE2NshUZ6sw-1; Mon,
+ 24 Jun 2024 12:33:34 -0400
+X-MC-Unique: hyTBx4oRNMyFE2NshUZ6sw-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4W7CxF1FMyzll9br;
-	Mon, 24 Jun 2024 16:25:20 +0000 (UTC)
-Message-ID: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
-Date: Mon, 24 Jun 2024 09:25:19 -0700
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA53F1955E82;
+	Mon, 24 Jun 2024 16:33:31 +0000 (UTC)
+Received: from [10.22.17.135] (unknown [10.22.17.135])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DC0AB19560BF;
+	Mon, 24 Jun 2024 16:33:28 +0000 (UTC)
+Message-ID: <d97e2e8f-0abc-49a7-bead-0501c1226040@redhat.com>
+Date: Mon, 24 Jun 2024 12:33:27 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,88 +50,79 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
- <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
- <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
- <20240604044042.GA29094@lst.de>
- <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
- <20240605082028.GC18688@lst.de>
- <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
- <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+Subject: Re: [PATCH] memcg: Add a new sysctl parameter for automatically
+ setting memory.high
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shakeel Butt <shakeel.butt@linux.dev>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-mm@kvack.org,
+ Alex Kalenyuk <akalenyu@redhat.com>, Peter Hunt <pehunt@redhat.com>,
+ linux-doc@vger.kernel.org
+References: <20240623204514.1032662-1-longman@redhat.com>
+ <77d4299e-e1ee-4471-9b53-90957daa984d@redhat.com>
+ <ZnmO8izZPwYfiaRz@castle.lan>
 Content-Language: en-US
-In-Reply-To: <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <ZnmO8izZPwYfiaRz@castle.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On 6/24/24 3:44 AM, Nitesh Shetty wrote:
-> For reference, I have listed the approaches we have taken in the past.
-> 
-> a. Token/payload based approach:
-> 1. Here we allocate a buffer/payload.
-> 2. First source BIO is sent along with the buffer.
-> 3. Once the buffer reaches driver, it is filled with the source LBA
-> and length and namespace info. And the request is completed.
-> 4. Then destination BIO is sent with same buffer.
-> 5. Once the buffer reaches driver, it retrieves the source information from
-> the BIO and forms a copy command and sends it down to device.
-> 
-> We received feedback that putting anything inside payload which is not
-> data, is not a good idea[1].
+On 6/24/24 11:21, Roman Gushchin wrote:
+> On Sun, Jun 23, 2024 at 04:52:00PM -0400, Waiman Long wrote:
+>> Correct some email addresses.
+>>
+>> On 6/23/24 16:45, Waiman Long wrote:
+>>> With memory cgroup v1, there is only a single "memory.limit_in_bytes"
+>>> to be set to specify the maximum amount of memory that is allowed to
+>>> be used. So a lot of memory cgroup using tools and applications allow
+>>> users to specify a single memory limit. When they migrate to cgroup
+>>> v2, they use the given memory limit to set memory.max and disregard
+>>> memory.high for the time being.
+>>>
+>>> Without properly setting memory.high, these user space applications
+>>> cannot make use of the memory cgroup v2 ability to further reduce the
+>>> chance of OOM kills by throttling and early memory reclaim.
+>>>
+>>> This patch adds a new sysctl parameter "vm/memory_high_autoset_ratio"
+>>> to enable setting "memory.high" automatically whenever "memory.max" is
+>>> set as long as "memory.high" hasn't been explicitly set before. This
+>>> will allow a system administrator or a middleware layer to greatly
+>>> reduce the chance of memory cgroup OOM kills without worrying about
+>>> how to properly set memory.high.
+>>>
+>>> The new sysctl parameter will allow a range of 0-100. The default value
+>>> of 0 will disable memory.high auto setting. For any non-zero value "n",
+>>> the actual ratio used will be "n/(n+1)". A user cannot set a fraction
+>>> less than 1/2.
+> Hi Waiman,
+>
+> I'm not sure that setting memory.high is always a good idea (it comes
+> with a certain cost, e.g. can increase latency), but even if it is,
+> why systemd or similar userspace tools can't do this?
 
-A token-based approach (pairing copy_src and copy_dst based on a token)
-is completely different from a payload-based approach (copy offload
-parameters stored in the bio payload). From [1] (I agree with what has
-been quoted): "In general every time we tried to come up with a request
-payload that is not just data passed to the device it has been a
-nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
-/ etc to find an input and output side match up, as long as we
-stick to the proper namespace scope."
+We actually have a OOM problem with OpenShift which is based on 
+Kubernetes. AFAIK, the setting of memory.high is still in alpha for 
+Kubernetes. So a memory cgroup is set up just by setting memory.max at 
+the moment.
 
-> c. List/ctx based approach:
-> A new member is added to bio, bio_copy_ctx, which will a union with
-> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
-> add the bio to this list.
-> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
-> will add the destination BIO to the list inside bi_copy_ctx and return
-> without forming any request.
-> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
-> retrieve the destination BIO from bi_copy_ctx and form a request with
-> destination BIO and source BIO. After this request will be sent to
-> driver.
-> 
-> This work is still in POC phase[2]. But this approach makes lifetime
-> management of BIO complicated, especially during failure cases.
+I also trace back the OOM problem to commit 14aa8b2d5c2e ("mm/mglru: 
+don't sync disk for each aging cycle") in the MGLRU code. So setting 
+memory.high automatically is one way to avoid premature OOM. That is the 
+motivation behind this patch.
 
-Associating src and dst operations by embedding a pointer to a third
-data structure in struct bio is an implementation choice and is not the
-only possibility for assocating src and dst operations. Hence, the
-bio lifetime complexity mentioned above is not inherent to the list
-based approach but is a result of the implementation choice made for
-associating src and dst operations.
+>
+> I wonder what's special about your case if you do see a lot of OOMs
+> which can be avoided by setting memory.high? Do you have a bursty workload?
 
-Has it been considered to combine the list-based approach for managing
-unpaired copy operations with the token based approach for pairing copy
-src and copy dst operations?
+In our case, the OOM kill can be triggered by writing a large data file 
+that exceeds memory.max to a NFS mounted filesystem as long as there is 
+enough free pages that the dirty_bytes/dirty_background_bytes mechanism 
+isn't triggered.
 
-Thanks,
+Regards,
+Longman
 
-Bart.
+
