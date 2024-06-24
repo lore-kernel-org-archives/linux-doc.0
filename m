@@ -1,109 +1,137 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DB81EA87
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 16:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD69136995;
+	Mon, 24 Jun 2024 16:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719245952; cv=none; b=JXNYBN8BoMDnxlv9AbY/vAIKu8/mByPa8zquWF3/9FkTtMMd3QR/TAdol4S6i5LonokFjbjin1I6kT+bwgQSgkyXsn9TgHOb8mxhga8C3iNvi9Pmz6lrioLFtKaBKBKHoaoFZvRxdA+o9fz4LF/VPJs1cmr28s3IrBjjU+Yc0MA=
+	t=1719246348; cv=none; b=X7CZ+tg0GPxGFnFrQhWuII1ocEzv9bOG8krc1l0BHz6AmUQ09oU/YvC0Yj5CxPWyVPjk+wzhLtIBdbvT/JD+I7eEj8O+JjfEgxsOueYl2be1qKJuQuUgzYuRoH4KEUe7Za3WqQvio3YDpGOxw2i5rJ2IMPyAKr2Lp1tIDfWqmno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719245952; c=relaxed/simple;
-	bh=nyAl615ThVvV+3Fn0R2Zo+cJmdR4uumn11lPVUXlXNM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nKnoMCdjVE1T5e5+Vi2no9Y4Jt4Nsn3crusuy77s3D2psWYpdUiAEFezBmRPeAMkYjO7gpoDBQtEumfKvFGsdqKQ2/A1R3bnmqGaEBcuDd8xBhSaxNi7S0gH5NmMkN5NG2Z1XYgq/XoMBhFhD3hUn5SQu9rsqD+86JltnwpQ+fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vTyTVcpT; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719246348; c=relaxed/simple;
+	bh=zc7081Y21FlTdwB7r1y80IdIKdEYx/IpzSp3yAgMxRY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FW3RKJMMA+n8u/f7LhiJvR2tJ6h4yf4/iEDIug2t9oWXtq4hIb2E0gqdEU2aD/wGB0vP+ax3WvSXh8oWAFL6HET9R3QH+7c8fOyWCgUFmaWoI20w03oQbQGkKpsMirYMKnSuZNL1QgUUcd6IPWoLxvynM3+xEuQ1rWYDzQtweys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=ikAL02jY; arc=none smtp.client-ip=199.89.1.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vTyTVcpT"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-421b9068274so40055265e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 09:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719245949; x=1719850749; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=exDolX4nznB1E5gtLAh07wVpA+L122DNFPurXAqZ6H8=;
-        b=vTyTVcpTyvd1j2Z2OSpZs5fwdG7jtc1P39YjNdkPu3Fj8NSg0SKkhegMMAxkqyKYe1
-         6s/DjMeDhbWOlRpbqImqQ9cfqz+2lSm97XltNxcrhnrciZzPZXe44AEKBuAS672dVGOU
-         z42qRmYouhK3bIqCjrP1Eg09RpWkXvUYUBzRIxzmvougqNY2EhMjcJcJlQ9o6DnoClRC
-         XRI8x0ql8jg1WLVplLu9FJgz02JovFogci/5xa0gUelj8n0Mjrp9EL7/u4XSXPWlzAwv
-         qYJ0S7qMx5lmXv4o+nYz4qA10af1CuMLKZmy9Ot7alpqTMxveO/ykr8zE4iEkcXIQ2l7
-         6kmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719245949; x=1719850749;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=exDolX4nznB1E5gtLAh07wVpA+L122DNFPurXAqZ6H8=;
-        b=Sv00qrvIgfAg824lWGYjbDy/RubdCBFUGbCuNpukfjMJmLkM0n6DxeH/ZFj7a2IB2Z
-         TdAotjR0aiTPHxm90hw0Y4untg00YdOxfOds+Xkpud2veG1RX1A5tX7aBmKWrbXCUY66
-         SfE9o2U0FjegMPwNp5utnXBCVGG1iwInhjhJdq5G+4hw4HrjsOjJjqVCqpOYT8c3ENNv
-         bCtGnfaZPFPrdkyFSu1ogs/CJPPBz7S7YdYWFNmCCWN1ybOfx64MP1KHnW4eM8IfejZd
-         9MS/d4EdJfXKqvkAFMTcj0FjM9dp54/w5vW4gOVDrYIHCBFIo4iGOv0KRNBdGv9RFC+s
-         +wsA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6LdKNiExPl5D0KaUmA+iHeF4V7eavVOeVvWpWnnPWzS0weCgdGyrgI7Q4WzRQDO1cbiUZx1wm+Dgtpc1l60TdDbnchYjVhaP9
-X-Gm-Message-State: AOJu0YyNJ3oq2av4uTpXr0ewaanLw4u3Pz5Bg2kp3appHAJP8rSWhgAV
-	TgF0YmW3+FrM6JAxQYEGjGK35Rdn2c+Lv1mKapYqx2SKCX2E/vSc3NDEVIEB3QLiG6GMPlg+ERR
-	lDH6/rBskiPa60lpLIacha1jxx+jCRYsEKbPo
-X-Google-Smtp-Source: AGHT+IGSVw5qqaiDJoJAzv1QgeYc1bbCjN8cj3oSXD+wUBpbm1EzCyUsNE5BXJsde0s7ePDGMdkvsVzOvReKFpqIj9s=
-X-Received: by 2002:a7b:cd91:0:b0:421:9502:3f24 with SMTP id
- 5b1f17b1804b1-4248b958d46mr33592405e9.14.1719245949267; Mon, 24 Jun 2024
- 09:19:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="ikAL02jY"
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4W7Cxc1b4Czll9bs;
+	Mon, 24 Jun 2024 16:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:content-language:references:subject:subject:from:from
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1719246327; x=1721838328; bh=5YRbJCfER9/t7o2py5oZPcEO
+	b9O2alYeZUroDpPtXOU=; b=ikAL02jYcnW8oADCx4MyOFEykz3GGfzi6eWwiW9Z
+	qiD+dR0/fHNfI+Q6K0nONWMiiVlJ+aAomIKaZSKGu22m5ca76dqZkTNzCzXVftDr
+	j0DYgelboKWwKWHnBg+NV9g5B+h9mdpeKGFBC9vYwx6dye62o4gF7YLMcCV3+xMy
+	cnnlClziVI0W0ib/ncr7xzIVqTP/82AlTek/vbofMTYNyQaw7t5/parPScAR+eIs
+	ZWUEAB6AU5kfaH2lpyKjHEugC6rLSzGQualGEX1d9T5ytrnrpbdAE0IzQvz6FYTd
+	0ng0XDcORkIuLC53eCL7RCfIuhaNHKotvbEgrm+nv0kfJg==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id fRVPZY9Z3RGh; Mon, 24 Jun 2024 16:25:27 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4W7CxF1FMyzll9br;
+	Mon, 24 Jun 2024 16:25:20 +0000 (UTC)
+Message-ID: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
+Date: Mon, 24 Jun 2024 09:25:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620184856.600717-1-jiaqiyan@google.com> <20240620184856.600717-3-jiaqiyan@google.com>
- <a272d16f-fb9a-48df-c90a-e848f2d44210@huawei.com>
-In-Reply-To: <a272d16f-fb9a-48df-c90a-e848f2d44210@huawei.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Mon, 24 Jun 2024 09:18:55 -0700
-Message-ID: <CACw3F52XdxHJhDDyz1jM9SEuLYO21rvyCVZdn56-h2k=XaKiQg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] mm/memory-failure: userspace controls
- soft-offlining pages
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, rientjes@google.com, duenwen@google.com, fvdl@google.com, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, nao.horiguchi@gmail.com, jane.chu@oracle.com, 
-	osalvador@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
+ hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
+ joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+ <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
+ <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+ <20240604044042.GA29094@lst.de>
+ <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
+ <20240605082028.GC18688@lst.de>
+ <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
+ <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Language: en-US
+In-Reply-To: <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 23, 2024 at 8:41=E2=80=AFPM Miaohe Lin <linmiaohe@huawei.com> w=
-rote:
->
-> On 2024/6/21 2:48, Jiaqi Yan wrote:
-> > Correctable memory errors are very common on servers with large
-> ...
-> >
-> >  /*
-> > @@ -2749,8 +2760,9 @@ static int soft_offline_in_use_page(struct page *=
-page)
-> >   * @pfn: pfn to soft-offline
-> >   * @flags: flags. Same as memory_failure().
-> >   *
-> > - * Returns 0 on success
-> > - *         -EOPNOTSUPP for hwpoison_filter() filtered the error event
-> > + * Returns 0 on success,
-> > + *         -EOPNOTSUPP for hwpoison_filter() filtered the error event,
-> > + *         -EOPNOTSUPP if disabled by /proc/sys/vm/enable_soft_offline=
-,
->
-> No strong opinion, but it might be better to write as "or disabled by /pr=
-oc/sys/vm/enable_soft_offline".
+On 6/24/24 3:44 AM, Nitesh Shetty wrote:
+> For reference, I have listed the approaches we have taken in the past.
+> 
+> a. Token/payload based approach:
+> 1. Here we allocate a buffer/payload.
+> 2. First source BIO is sent along with the buffer.
+> 3. Once the buffer reaches driver, it is filled with the source LBA
+> and length and namespace info. And the request is completed.
+> 4. Then destination BIO is sent with same buffer.
+> 5. Once the buffer reaches driver, it retrieves the source information from
+> the BIO and forms a copy command and sends it down to device.
+> 
+> We received feedback that putting anything inside payload which is not
+> data, is not a good idea[1].
 
-Sure, will update in v5 (which is mainly about the kselftest-related change=
-s).
+A token-based approach (pairing copy_src and copy_dst based on a token)
+is completely different from a payload-based approach (copy offload
+parameters stored in the bio payload). From [1] (I agree with what has
+been quoted): "In general every time we tried to come up with a request
+payload that is not just data passed to the device it has been a
+nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
+/ etc to find an input and output side match up, as long as we
+stick to the proper namespace scope."
 
->
-> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+> c. List/ctx based approach:
+> A new member is added to bio, bio_copy_ctx, which will a union with
+> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
+> add the bio to this list.
+> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
+> will add the destination BIO to the list inside bi_copy_ctx and return
+> without forming any request.
+> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
+> retrieve the destination BIO from bi_copy_ctx and form a request with
+> destination BIO and source BIO. After this request will be sent to
+> driver.
+> 
+> This work is still in POC phase[2]. But this approach makes lifetime
+> management of BIO complicated, especially during failure cases.
 
-Thanks Miaohe!
+Associating src and dst operations by embedding a pointer to a third
+data structure in struct bio is an implementation choice and is not the
+only possibility for assocating src and dst operations. Hence, the
+bio lifetime complexity mentioned above is not inherent to the list
+based approach but is a result of the implementation choice made for
+associating src and dst operations.
 
-> Thanks.
-> .
->
+Has it been considered to combine the list-based approach for managing
+unpaired copy operations with the token based approach for pairing copy
+src and copy dst operations?
+
+Thanks,
+
+Bart.
