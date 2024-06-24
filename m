@@ -1,136 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F724962C;
-	Mon, 24 Jun 2024 21:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63CE13C901
+	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 22:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719266135; cv=none; b=HLQovh15a2hkFZYb6sDBT2iPU7sPqE26SqHEAoRe1itFaCzgi7V7lojG1xP8isnIieTghJ8VvmK0D4SpWkHrSXQWUfcqMZUZvS0CWlTCl2blYnmnH79OuVr8m5QQPjMUa3j4zoD9aCF4rVG1azllP77Raarb9Vq8SgypCIDbNyQ=
+	t=1719266523; cv=none; b=J/Le/25EpVo+yJhkoTg9Bvo+E5RAZcmmdxGNklHFRT9WymgwffNG085k/N38kgyjhiRU5Fw6jQWQ3D2qSu3+XExivY8b5nQjppUHgrPfH1M4yqEUzoiIYd6kZ6FCvMBZq69Epeqwm8EN2g0rFS9Tb1/KpiyYMIeMFmCDVkQQ3d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719266135; c=relaxed/simple;
-	bh=ssw0CE3X6rtJAiVWYNCh9l8N9P1eQeBKDrj05miOGGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g/ukruaTQM3JZ/XBK1u8DqqjJSK4xM/8uOYR+POGJOnD9q9QSEMu3L9x53BhJGNjbrZHcxNOZpN/cflj+9RRBq8QSRTLjH4aURcA28a/mkrRLjNiOV84QOXeTJ9pSQNf7ukXW/DlfvS0boh7YSIerLbt7HBznUYk2JWFHFKle+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5e5otEl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719266523; c=relaxed/simple;
+	bh=n5FQXk1WB5JJ6pZZskH6WlcxMaIUttY4BopCnZKimzw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=S2pYkkSZmKdRQ3R1RCW75WGpZcrPqyBUEKw7XleWr2cs8j0RAxFuUFX9nX6eaH8w0AtLblN0UfsvFHUKnd4Yj856Cy6F7ZUX3n7OnTiJQZFuA1Wvojo4WwUzumOWBeXNNk5Yk6Fehx0IrAfzS66RIXyzD9530jcxLgp1Joce4QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bRFVVky6; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5e5otEl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C22C2BBFC;
-	Mon, 24 Jun 2024 21:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719266134;
-	bh=ssw0CE3X6rtJAiVWYNCh9l8N9P1eQeBKDrj05miOGGg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h5e5otElt6qUnWFncwXReRgalS93n3GWdHfZI61HaUNM702vEiLU2OL3hRtmeZ7pW
-	 ohhQ3/5IVk0g8hUUHWlUqfFBEMPtZPqq9cQTQXiwSXMSd207XtxM9X16zMkpmCwa1h
-	 P7loUD40U+W2bSN567WlBElAPghrvm140h9uxIRABpJMhzaJxKaale7wIivArgxwds
-	 17sJnrpbor04AXrsi4bw/9WuT16U52EHU+4DHQipBM/gHcQC+G9CN1yr9Xg4UveXWD
-	 yQLKSBhNO7cmx1X2iEik5+dutOQ4SzhHG4PwsLAFryjtPCKpTROi/LdExZix+Cs8Gm
-	 97NMXmBhfGsSg==
-Message-ID: <de54c406-9270-4145-ab96-5fc3dd51765e@kernel.org>
-Date: Tue, 25 Jun 2024 06:55:29 +0900
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bRFVVky6"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6f9c1902459so2312880a34.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 15:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719266520; x=1719871320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R7S2Xt5WtGNhUlxhZw+4YWcLwk4AB1VXmLcJ0MqwWdI=;
+        b=bRFVVky6DwQmrLpGUbSFSXy3ZKTOSncHzicYZgIhwMs2lzet/a6MywUWFHIaSgno9F
+         QbO5JJGnn/0tfRfA0Ua6eMnLLwAfpIJuZIdaPb80NMCoYN/OU1MBgY197YE7nZpht1n3
+         SNrhsN9Elh4sPjmx/sG4KzdPpKNQ8+V6y3qBQ6MG2f1cwGMc0aBw72xIdJ5MSwx+XOu4
+         krLdNAmMC0ShXWiGVChaaI4vAsCCjlU+x2jSZsk8knxT+ID4QaVD0gUwuh8NNmmYstm6
+         jYs99/kXuZ8jNAMqgTeaiDh1xUIxEYi7TK2ZCD+ZuShqttDUYx/FJxkhzuZpMSGboYdx
+         S3sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719266520; x=1719871320;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R7S2Xt5WtGNhUlxhZw+4YWcLwk4AB1VXmLcJ0MqwWdI=;
+        b=ZT0hPpDkVmoZ6lXufhkYFxykZQ1kzZYvm0oS0NyvMWBhNxinKnXp9PFfINIVVmmy7F
+         biWq3ODFS5/sVT8q1KmodRlvTh4UmT/X/R4dao38VPlCPlFAF2hk5e5ADq66+Wowl83x
+         muD7N6Ou5MocC8qIdBe/Xs/ySRizKret7ry3o1HNdmLbtdjWPWwWY/ym0yoGJKyy+cK8
+         SKSt4QO54qfDCWJf7jZDfbbBrUECFw5wXsFhDEljhjOjAwx7Rr39DbUtpO5lwdXFwICy
+         EOw7crbGaudrpqOih2iURITr3gcZzZ9cDzZdgUsL4X0pMmb6NOituWu9tqFhtomaEelf
+         Ia4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWKzZ4u/XJV9mkz/Z0QQya+CmDbcsg9qJKLAr97Pe6SbT1cQUi7bAhWRHcVW2RIiugXr6fii0Lb/H74utZ5XsCKABSs5vRgYUbk
+X-Gm-Message-State: AOJu0YzwNpsEFYUgZCNOdx7CUf3hMt6ihb5UT1VKPlqCji42wJLYooeE
+	CUC/8GaBcbYpxqhlGBv6DUxrXvuYrOpBbtFakOWlQ751s6ydTftkgN3V3AKlsW8=
+X-Google-Smtp-Source: AGHT+IHjPxAxW+HZeNBChWdpJqMvtLR+lzuhdUadb1ahs0oYK6bKcvdQnrAWe4MvQSEvluRyVvF57A==
+X-Received: by 2002:a05:6871:587:b0:254:b91b:ad52 with SMTP id 586e51a60fabf-25d06e57b70mr6405531fac.45.1719266519966;
+        Mon, 24 Jun 2024 15:01:59 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4941c9esm2116921fac.4.2024.06.24.15.01.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 15:01:59 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH v3 0/3] iio: adc: ad4695: new driver for AD4695 and similar ADCs
+Date: Mon, 24 Jun 2024 17:01:52 -0500
+Message-ID: <20240624-iio-adc-ad4695-v3-0-a22c302f06bf@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Bart Van Assche <bvanassche@acm.org>,
- Nitesh Shetty <nj.shetty@samsung.com>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
- <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
- <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
- <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de>
- <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
- <20240604044042.GA29094@lst.de>
- <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
- <20240605082028.GC18688@lst.de>
- <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
- <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
- <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-On 2024/06/25 1:25, Bart Van Assche wrote:
-> On 6/24/24 3:44 AM, Nitesh Shetty wrote:
->> For reference, I have listed the approaches we have taken in the past.
->>
->> a. Token/payload based approach:
->> 1. Here we allocate a buffer/payload.
->> 2. First source BIO is sent along with the buffer.
->> 3. Once the buffer reaches driver, it is filled with the source LBA
->> and length and namespace info. And the request is completed.
->> 4. Then destination BIO is sent with same buffer.
->> 5. Once the buffer reaches driver, it retrieves the source information from
->> the BIO and forms a copy command and sends it down to device.
->>
->> We received feedback that putting anything inside payload which is not
->> data, is not a good idea[1].
-> 
-> A token-based approach (pairing copy_src and copy_dst based on a token)
-> is completely different from a payload-based approach (copy offload
-> parameters stored in the bio payload). From [1] (I agree with what has
-> been quoted): "In general every time we tried to come up with a request
-> payload that is not just data passed to the device it has been a
-> nightmare." [ ... ] "The only thing we'd need is a sequence number / idr
-> / etc to find an input and output side match up, as long as we
-> stick to the proper namespace scope."
-> 
->> c. List/ctx based approach:
->> A new member is added to bio, bio_copy_ctx, which will a union with
->> bi_integrity. Idea is once a copy bio reaches blk_mq_submit_bio, it will
->> add the bio to this list.
->> 1. Send the destination BIO, once this reaches blk_mq_submit_bio, this
->> will add the destination BIO to the list inside bi_copy_ctx and return
->> without forming any request.
->> 2. Send source BIO, once this reaches blk_mq_submit_bio, this will
->> retrieve the destination BIO from bi_copy_ctx and form a request with
->> destination BIO and source BIO. After this request will be sent to
->> driver.
->>
->> This work is still in POC phase[2]. But this approach makes lifetime
->> management of BIO complicated, especially during failure cases.
-> 
-> Associating src and dst operations by embedding a pointer to a third
-> data structure in struct bio is an implementation choice and is not the
-> only possibility for assocating src and dst operations. Hence, the
-> bio lifetime complexity mentioned above is not inherent to the list
-> based approach but is a result of the implementation choice made for
-> associating src and dst operations.
-> 
-> Has it been considered to combine the list-based approach for managing
-> unpaired copy operations with the token based approach for pairing copy
-> src and copy dst operations?
+This is adding DT bindings and a new driver for the AD4695 and similar
+devices. The plan is to implement quite a few more features, but this
+is a complex chip so we're spreading out the work. To start with, we
+have a reasonably complete DT binding and a very basic driver.
 
-I am still a little confused as to why we need 2 BIOs, one for src and one for
-dst... Is it because of the overly complex scsi extended copy support ?
+This work is being done in collaboration with Analog Devices Inc.,
+hence they listed as maintainers rather than me. The code has been
+tested on a ZedBoard with an EVAL-AD4696FMCZ using the internal LDO,
+an external reference and a variety of input channel configurations.
 
-Given that the main use case is copy offload for data within the same device,
-using a single BIO which somehow can carry a list of LBA sources and a single
-destination LBA would be far simpler and perfectly matching nvme simple copy and
-ATA write gathered. And I think that this would also match the simplest case for
-scsi extended copy as well.
+---
+Changes in v3:
+* Dropped "dt-bindings: iio: adc: add common-mode-channel dependency"
+  patch.
+* Link to v2: https://lore.kernel.org/r/20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com
 
+[PATCH 1/3]
+* Change interrupts to be per pin instead of per signal.
+* Drop diff-channels and single-channel properties.
+* Odd numbered pins added to common-mode-channel property enum.
+* REFGND and COM values changed to avoid confusion with pin numbers.
+* Add inX-supply properties for odd numbed input pins.
+
+[PATCH 2/3]
+* always include all channels, not just ones customized in DT
+* rework channel fwnode parsing for DT changes
+
+[PATCH 3/3]
+* Rework DT examples for DT bindings changes
+
+Changes in v2:
+
+[PATCH 1/4]
+* New patch
+* Depends on recently applied patch
+  https://lore.kernel.org/linux-iio/20240607-ad4111-v7-1-97e3855900a0@analog.com/
+
+[PATCH 2/4]
+* Drop *-wlcsp compatible strings
+* Don't use fallback compatible strings
+* Reword supply descriptions
+* Use standard channel properties instead of adi,pin-pairing
+* Fix unnecessary | character
+* Fix missing blank line
+* Add header file with common mode channel macros
+
+[PATCH 3/4]
+* rework register definition macros
+* remove code structure comments at top level
+* remove simple wrapper functions around regmap functions
+* rework channel fwnode parsing for DT changes
+* fix missing return value check
+
+[PATCH 4/4]
+* Rework DT examples for DT bindings changes
+* Fix wrong MAINTAINERS update
+
+* Link to v1: https://lore.kernel.org/r/20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com
+
+---
+David Lechner (3):
+      dt-bindings: iio: adc: add AD4695 and similar ADCs
+      iio: adc: ad4695: Add driver for AD4695 and similar ADCs
+      Documentation: iio: Document ad4695 driver
+
+ .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 256 ++++++++
+ Documentation/iio/ad4695.rst                       | 155 +++++
+ Documentation/iio/index.rst                        |   1 +
+ MAINTAINERS                                        |  12 +
+ drivers/iio/adc/Kconfig                            |  11 +
+ drivers/iio/adc/Makefile                           |   1 +
+ drivers/iio/adc/ad4695.c                           | 730 +++++++++++++++++++++
+ include/dt-bindings/iio/adi,ad4695.h               |   9 +
+ 8 files changed, 1175 insertions(+)
+---
+base-commit: 2dfa1b7bfc07e58acb9f9eaa8c871f37189dbfee
+change-id: 20240517-iio-adc-ad4695-ef72b2a2cf88
+
+Best regards,
 -- 
-Damien Le Moal
-Western Digital Research
+David Lechner <dlechner@baylibre.com>
 
