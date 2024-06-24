@@ -1,82 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CEB1A01B6;
-	Mon, 24 Jun 2024 18:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077B81BC20;
+	Mon, 24 Jun 2024 19:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719255205; cv=none; b=gwaAdOruDXFIEwtRbzIS38MqmqfwikEuJLss8UX0f40HHLkBja3jFYaWbRQc7tVWju1kaB1/a4X63XgpdlMbFd/k3qQ9OyWlI1mWfY75TafIEE4wKUITgO4vPpT4Uto0tfV5TrAV2HUUStoJx2H9zW1uR1vI8X/ScA2fq+DKYbA=
+	t=1719255706; cv=none; b=LGpyLNcB+G0RGZZI35dUT9gcudGTXAmNt53O2Vy0MChDzuRw20npYKSMpliE7mcEFzCEO1HCbfNTBSXq+ATcMX6M7L1ynT5A7S2BlIVLM6ku1WftC95uvjk+3iEfikQ0QbKyznw2OVYu+UN/zuecJFcn+hNWKeRC5VUiFXnVq9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719255205; c=relaxed/simple;
-	bh=jJ/j1xsThnzacKt11bhaVunfEXAeA8U4Nty6fqr9cTg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cL9G+WN6uP+i5VzNfIdY48rx3FcRAfIPPgKMJssZF8gJaNXvEBk75DPnoMqHuuD+H7leWqcojTugwrjcjhFsIBLhxi/p0bNvlOxg43jdvv31OF7i+TJq/6UD8GzYyiy/IhKJfuBBeCsQ56jklNb6x9xCajV3kAfEWnnuXbH0iTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7Ly9Odh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719255706; c=relaxed/simple;
+	bh=IQWtDWCMaWqSjO7r4S7l2Lxf5FceukKg3kRt8F3Gaqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sKuquJL85Wgu0AAA2dvkqqKE3gtKzoUkm7hcxS4EzLSvXW+oFb0cAaItxhDYx9kdMSvLPpTWBYLZmTDllPTWRaK/eOsb4GDkJOVGyRiNZ9LYwupoYUanyPWwxOEWAYMZqZixXFDRLSwMaPLE+FD6dNPMvM2zd4ut6c0n/Ybv8ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=JqanSzro; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7Ly9Odh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3742C32782;
-	Mon, 24 Jun 2024 18:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719255205;
-	bh=jJ/j1xsThnzacKt11bhaVunfEXAeA8U4Nty6fqr9cTg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C7Ly9OdhU/Y+BH6NcUw9QGJQWNG/AF3NuCaeAmjpNT7J2TOT/oCqsbacAO69HExfK
-	 meZyCv8GPvZndonbKlxaNctVzcfvfv/QkYiPCA3S5M650qJTuDIv8xmzI3t2bVe1HK
-	 M1rPS9Ve1JiM/NtpyXl6dlcEet4jdD+umeIDg4wg/5gDNXQ3ZbHxmclVgKgv3c8zJ2
-	 pFYG9HWciU5twEvSzvBE1fuOuSkLzz+jVx9bln9kpC5JeGTTNxPxPUTYHbZhHZuemf
-	 pni8wQlP7c0dIUtA6kxAyugJ7X8dvAmaciXX1TDDCijmAKHAI/A8r4JVWeSMBDqPFh
-	 jOZWen0I+xBLQ==
-From: SeongJae Park <sj@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: SeongJae Park <sj@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] Docs/process/email-clients: Document HacKerMaiL
-Date: Mon, 24 Jun 2024 11:53:12 -0700
-Message-Id: <20240624185312.94537-8-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240624185312.94537-1-sj@kernel.org>
-References: <20240624185312.94537-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="JqanSzro"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=257OuToRflip8sKgZdrDGkBmy/UzRxRjyf8IKZ4NPpY=; b=JqanSzroY5U2O60UJGP2lNUmoV
+	BmQL2u7nVuOFaFZB15iy0xPoRrV4+TgEEe/mckaq0N2xI/q72+XC+rv5aI/bh7opTAo8/q+ATz6rI
+	uFIKbQXlq+LxDM7CwPyZTGMKwoI1HF2vZVtBSi+B9ksGGazoMx9QI7TTls4y96dqJLOk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sLowM-000sTO-Qn; Mon, 24 Jun 2024 21:01:22 +0200
+Date: Mon, 24 Jun 2024 21:01:22 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
+	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
+	richardcochran@gmail.com, shayagr@amazon.com,
+	paul.greenwalt@intel.com, jiri@resnulli.us,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mlxsw@nvidia.com, idosch@nvidia.com, petrm@nvidia.com
+Subject: Re: [PATCH net-next v7 1/9] ethtool: Add ethtool operation to write
+ to a transceiver module EEPROM
+Message-ID: <d02e3393-bd0f-419c-83be-f98a4e794b59@lunn.ch>
+References: <20240624175201.130522-1-danieller@nvidia.com>
+ <20240624175201.130522-2-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240624175201.130522-2-danieller@nvidia.com>
 
-HacKerMaiL (hkml) [1] is a simple tool for mailing lists-based
-development workflows such as that for most Linux kernel subsystems.  It
-is actively being maintained by DAMON maintainer, and recommended for
-DAMON community[2].  Add a simple introduction of the tool on the
-email-clients document, too.
+On Mon, Jun 24, 2024 at 08:51:51PM +0300, Danielle Ratson wrote:
+> From: Ido Schimmel <idosch@nvidia.com>
+> 
+> Ethtool can already retrieve information from a transceiver module
+> EEPROM by invoking the ethtool_ops::get_module_eeprom_by_page operation.
+> Add a corresponding operation that allows ethtool to write to a
+> transceiver module EEPROM.
+> 
+> The new write operation is purely an in-kernel API and is not exposed to
+> user space.
+> 
+> The purpose of this operation is not to enable arbitrary read / write
+> access, but to allow the kernel to write to specific addresses as part
+> of transceiver module firmware flashing. In the future, more
+> functionality can be implemented on top of these read / write
+> operations.
+> 
+> Adjust the comments of the 'ethtool_module_eeprom' structure as it is
+> no longer used only for read access.
+> 
+> Signed-off-by: Ido Schimmel <idosch@nvidia.com>
+> Signed-off-by: Danielle Ratson <danieller@nvidia.com>
+> Reviewed-by: Petr Machata <petrm@nvidia.com>
 
-[1] https://github.com/sjp38/hackermail
-[2] https://lore.kernel.org/20240621170353.BFB83C2BBFC@smtp.kernel.org
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/process/email-clients.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index fc2c46f3f82d..dd22c46d1d02 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -350,3 +350,12 @@ although tab2space problem can be solved with external editor.
- 
- Another problem is that Gmail will base64-encode any message that has a
- non-ASCII character. That includes things like European names.
-+
-+HacKerMaiL (TUI)
-+****************
-+
-+HacKerMaiL (hkml) is a public-inbox based simple mails management tool that
-+doesn't require subscription of mailing lists.  It is developed and maintained
-+by the DAMON maintainer and aims to support simple development workflows for
-+DAMON and general kernel subsystems.  Refer to the README
-+(https://github.com/sjp38/hackermail/blob/master/README.md) for details.
--- 
-2.39.2
-
+    Andrew
