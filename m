@@ -1,59 +1,37 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37421E533
-	for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 14:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD5C13D2BC;
+	Mon, 24 Jun 2024 14:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719239808; cv=none; b=qEp+a5P3Jby3YQzwksSoYV78dbtz7jPkHVnUJjZIQlssd3tYH4hvv7oqWwlfkbwp1Y2e4NN73yrGk0IyVX8JZ3osL85RpV7Hnh1mtKCiE/n73guux+OXvZDzWFYn4Fj46se0cjeCeFyj1YLcCFfzeSj3o+Mg+MoIxAJgVL8nvGk=
+	t=1719240789; cv=none; b=fnnNY8AXx5q5RUz6F0bcbykHLUPtkAV5LyUY6+dlwn6wbnpA6EZSYJ8B31jNczTG2lFxUF5oq+2O5LPyvrrpetNMGHDML6B2GZwgTh5YX/xu3GmCL4nvfwj3DIDS1a3X28bA9KaR6abP/MVGeByVzjc7AL48Whv+BaE1jDLGess=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719239808; c=relaxed/simple;
-	bh=wggDE/bgRHa1L4mODGwspiGnIRUUi8LE6HqPBbnBW1w=;
+	s=arc-20240116; t=1719240789; c=relaxed/simple;
+	bh=s0q0af3gE1JvSIq5I70dBZCqSI9BuF5ovM6No/hd+pM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TwetPA111SK3RahFnVZOOSd7XcfQ40nouq/VG2KZFl7smK9Bf+881z/W7lmVElmq719krUm6PQ2iuIvqZHP91M3ve/8a1wgBx5g/rA8D+faWI7LxKDcCkACGRtQhFi9mMh/8+XyofApIge/1EiJO3okCMYi6VJtX/rsry+l61H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=D4Qg4kWO; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=QP+b+31cZk3/IgqVUWmSw71jA79L8dnWF9hL9IxA8U+fiaWEZdjuuAiREBQAOG9BNBZkCNWRm7PEhQO66MaBtlXAWKVdeVK3njCJ2AkPdIs5GZCMYgKxs46ICmUWPFAN0ru0Hy2/Rxo8Z+uAVLrjNNFBa1GxXseaT8NZ4BcsL64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=voDlwbo0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="D4Qg4kWO"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-25cb15eed97so2145304fac.2
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2024 07:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719239805; x=1719844605; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bv7pX3A7e0aATefTLSH8Hc9sIVLTEzJJ10hAyVPLd4s=;
-        b=D4Qg4kWOMTyXlMutlJzC7nJPcQ8Xchp+bLyQAo7/b4CoIgTwRh6xctArKTEpTMpFAd
-         So3i7k/sLXj7KMHdwCdkxmFZlEtL6gwpqsmh2dEVYX37Pr1H+TJcmLD/mfBDVpLzZ4qC
-         cRNZSkfnXrlKesXqYyuslEBwByN/gQFYxkty6aU1C0FBjdv06Re4kLda4tI6RWhgP7fT
-         3VqmzvZqBH4Wqrci+HYSNXA/a7dkxemWZKpUCwVnp9MFbnSmVkA2ORTj5MuwGLjMoINz
-         AAE1G1COvnoe25qhhMpMyO5nSTGUr7stPU6ip7DbHFAMaeM3HWtxvdmp8PNlJ8nXy7vT
-         ItOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719239805; x=1719844605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bv7pX3A7e0aATefTLSH8Hc9sIVLTEzJJ10hAyVPLd4s=;
-        b=MNFFCJ0SlG1jN/szOYigcRUs+PiBC+Nesuux2gxXqqShwoVsVAYqKiod6SECwe16Lv
-         rUxq1XmZkfZBYcItJ2a3CiwAzjpVXvIiG6jAso+vfqq+ctAV0idpgrroXoQdxs3g1qj/
-         mOpd3NNJs29QqL7HqSKyRAZXkBry0zcu99NOCS6T5cBVP1SEE0TuBzPnjMihP0SNTMgo
-         KQrZlI+n0jY4P1GkN31GkJxD399LFdFNNUE1fN5NiWd4KZr6yR0D2BZvi2oxpswKuvuZ
-         RlZEUkax8gaYHHpRGkm3MRHpTljYM7wyuGnK4K312UlzKWmuz32VtBXvZlRwffrFwmdV
-         JCyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlf6jUcuQgpvcQ+c5s6zrHtQLwFrw7G8YJ3fuJwR00ryX39iJ3KZUesrRZ0TNqouAtN/sn0z5wfJJOGLWOOhiAmLUpVMhMXk9y
-X-Gm-Message-State: AOJu0Yxk3tcXcF4iM8/AlFaK+WMurArTQUP7zKdNSEnSZXBRTFRjDKQZ
-	ij6g1LzSw9bXxaXzAIt3OTmm009ojORLrgpD++oJRK8MgB44fpXDzX2oJ+7VKVg=
-X-Google-Smtp-Source: AGHT+IHwuPQplsBX8FrXFbl4eyzFRD7RhUchQKz0/ngb6Hz3DMqC+czTWLIPmE8rnu0aE5J8JeEIEw==
-X-Received: by 2002:a05:6870:b4a4:b0:254:b6f0:21b6 with SMTP id 586e51a60fabf-25d06bb45d2mr4708448fac.10.1719239804925;
-        Mon, 24 Jun 2024 07:36:44 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4941a11sm1895787fac.9.2024.06.24.07.36.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 07:36:44 -0700 (PDT)
-Message-ID: <204e6729-d5b0-4d44-85d5-e8de7541b689@baylibre.com>
-Date: Mon, 24 Jun 2024 09:36:43 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="voDlwbo0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5rHWYHCAm83DOWUjTKARuD+awbDx8mZtltx+LBbgsnE=; b=voDlwbo07otYRFA64WcfZDadIZ
+	I/JqOvUSpR8kd5pxmTQ/I0kNte/4waxDZzigmgHdQI5p0FQZRhH+OnuiO+yzSH+lCQW+Ivoo0PQNG
+	4T6qRtCffKbCPaAVke7gGf/qeLjyepEnl6eNfRSnfnIkf/oGEvFStRntNJ8lvyiQpXBOr1VAXRHGK
+	nMd8WsdVA9GcC0E7TteVV1VSKKEi3bUZ3xan+HrXMdzwi8e7keddajUFVMAy1cjXmp/4WmKVP1tTD
+	tBRTLfC00nQr9g0i6LqgUOgqH3xKL4AhwXMTI/AOEnToy78pzlIi+4xN/MuBQEwI+bndT1ykCKSvT
+	YVGIIAkw==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sLl44-0000000HBJ0-2YAZ;
+	Mon, 24 Jun 2024 14:53:04 +0000
+Message-ID: <d9170236-3266-4be9-a513-d58104ef1d2c@infradead.org>
+Date: Mon, 24 Jun 2024 07:53:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,210 +39,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dt-bindings: iio: adc: add AD4695 and similar ADCs
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
- <20240617-iio-adc-ad4695-v2-2-63ef6583f25d@baylibre.com>
- <187da75c-9af3-42a9-b31e-be731aaf63d2@baylibre.com>
- <20240623173911.7ea5d518@jic23-huawei>
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, bilbao@vt.edu
+References: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
+ <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
 Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240623173911.7ea5d518@jic23-huawei>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/23/24 11:39 AM, Jonathan Cameron wrote:
-> On Tue, 18 Jun 2024 14:29:10 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
+
+
+On 6/22/24 12:47 PM, Carlos Bilbao wrote:
+> From: Carlos Bilbao <bilbao@vt.edu>
 > 
->> On 6/17/24 2:53 PM, David Lechner wrote:
->>> Add device tree bindings for AD4695 and similar ADCs.
->>>
->>> Signed-off-by: David Lechner <dlechner@baylibre.com>
->>> ---
->>>   
->> ...
->>
->>> +
->>> +  interrupts:
->>> +    minItems: 1
->>> +    items:
->>> +      - description:
->>> +          Signal coming from the BSY_ALT_GP0 or GP3 pin that indicates a busy
->>> +          condition.
->>> +      - description:
->>> +          Signal coming from the BSY_ALT_GP0 or GP2 pin that indicates an alert
->>> +          condition.
->>> +
->>> +  interrupt-names:
->>> +    minItems: 1
->>> +    items:
->>> +      - const: busy
->>> +      - const: alert
->>> +  
->>
->> Since the interrupt can come from two different pins, it seems like we would
->> need an extra property to specify this. Is there a standard way to do this?
->>
->> Otherwise I will add something like:
->>
->> adi,busy-on-gp3:
->>   $ref: /schemas/types.yaml#/definitions/flag
->>   description:
->>     When present, the busy interrupt is coming from the GP3 pin, otherwise
->>     the interrupt is coming from the BSY_ALT_GP0 pin.
->>    
->> adi,alert-on-gp2:
->>   $ref: /schemas/types.yaml#/definitions/flag
->>   description:
->>     When present, the alert interrupt is coming from the GP2 pin, otherwise
->>     the interrupt is coming from the BSY_ALT_GP0 pin.
-> Cut and paste?  Or it ends up on the same pin as the bsy? In which case that's
-> a single interrupt and it's up to software to decide how to use. I'll guess
-> it comes on GP1?
-
-This is not a typo. The BSY_ALT_GP0 is a multi-purpose pin. The actual function
-of the pin isn't selected explicitly, but rather there is an order of priority
-(Table 25 in the datasheet).
-
-Also, there are two packages the chip can come in, LFCSP and WLCSP. The former
-only has GP0 and not GP1/2/3.
-
-My thinking was that if both interrupts are provided in the DT and neither
-adi,busy-on-gp3 or adi,alert-on-gp2 is given, then the driver would use
-a shared interrupt and only allow enabling one function alert or busy
-at a time.
-
->>
+> Extend the Index of Further Kernel Documentation by adding entries for the
+> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+> on the second edition of Billimoria's kernel programming book. Also,
+> perform some refactoring: format the text to 75 characters per line and
+> sort per-section content in chronological order of publication.
 > 
-> More interrupt names.  We shouldn't restrict someone wiring all 4 if they want
-> to - we'll just use 2 that we choose in the driver.
-> 
-> interrupt-names
->   minItems: 1
->   items:
->     - const: busy-gp0
->     - const: busy-gp1
->     - const: alert-gp2
->     - cosnt: alert-gp1
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
 
-This would actually need to be:
 
-interrupt-names
-  minItems: 1
-  items:
-    - const: busy-gp0
-    - const: busy-gp3
-    - const: alert-gp0
-    - cosnt: alert-gp2
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Or would it need to be this since there are two possible signals on the
-same pin rather than trying to mess with a shared interrupt?
-(Note: if both alert and busy are enabled at the same time on GP0, we
-will only get the alert signal and busy signal is masked).
+Thanks.
 
-interrupt-names
-  minItems: 1
-  items:
-    - const: alert-busy-gp0
-    - const: busy-gp3
-    - cosnt: alert-gp2
-
-> 
-> T   
->>
->>> +
->>> +patternProperties:
->>> +  "^channel@[0-9a-f]$":
->>> +    type: object
->>> +    $ref: adc.yaml
->>> +    unevaluatedProperties: false
->>> +    description:
->>> +      Describes each individual channel. In addition the properties defined
->>> +      below, bipolar from adc.yaml is also supported.
->>> +
->>> +    properties:
->>> +      reg:
->>> +        maximum: 15
->>> +
->>> +      diff-channels:
->>> +        description:
->>> +          Describes inputs used for differential channels. The first value must
->>> +          be an even numbered input and the second value must be the next
->>> +          consecutive odd numbered input.
->>> +        items:
->>> +          - minimum: 0
->>> +            maximum: 14
->>> +            multipleOf: 2
->>> +          - minimum: 1
->>> +            maximum: 15
->>> +            not:
->>> +              multipleOf: 2  
->>
->> After some more testing, it turns out that I misunderstood the datasheet and
->> this isn't actually fully differential, but rather pseudo-differential.
->>
->> So when pairing with the next pin, it is similar to pairing with the COM pin
->> where the negative input pin is connected to a constant voltage source.
-> 
-> Ok. I'm curious, how does it actually differ from a differential channel?
-> What was that test?  It doesn't cope with an actual differential pair and needs
-> a stable value on the negative?
-
-In my initial testing, since I was only doing a direct read, I was using
-constant voltages. But when I started working on buffered reads, then I
-saw noisy data when using a fully differential (antiphase) signal.
-
-This chip uses a multiplexer for channel so when an odd number pin is used
-as the positive input (paired with REFGND or COM), it goes through one
-multiplexer, but when an odd number pin is used as the negative input
-it goes through the other multiplexer - the same one as REFGND and COM.
-
-And burred in the middle of a paragraph on page 34 of 110 of the datasheet
-is the only place in the entire datasheet where it actually says this is
-a pseudo differential chip.
-
-> 
->>
->>> +
->>> +      single-channel:
->>> +        minimum: 0
->>> +        maximum: 15
->>> +
->>> +      common-mode-channel:
->>> +        description:
->>> +          Describes the common mode channel for single channels. 0 is REFGND
->>> +          and 1 is COM. Macros are available for these values in
->>> +          dt-bindings/iio/adi,ad4695.h.
->>> +        minimum: 0
->>> +        maximum: 1
->>> +        default: 0  
->>
->> So I'm thinking the right thing to do here go back to using reg and the INx
->> number and only have common-mode-channel (no diff-channels or single-channel).
->>
->> common-mode-channel will need to be changed to allow INx numbers in addition
->> to COM and REFGND.
->>
->> This means that [PATCH v2 1/4] "dt-bindings: iio: adc: add common-mode-channel
->> dependency" would be wrong since we would be using common-mode-channel without
->> single-channel.
->>
->> It also means we will need an optional in1-supply: true for all odd numbered
->> inputs.
-> Ok. I'm not totally sure I see how this comes together but will wait for v3 rather
-> than trying to figure it out now.
-> 
-> Jonathan
-> 
+> ---
+>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+>  1 file changed, 44 insertions(+), 24 deletions(-)
 > 
 
-It should end up like other pseudo differential chips we have done recently.
-I've got it worked out, so you'll be seeing it soon enough anyway.
+-- 
+~Randy
