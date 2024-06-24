@@ -1,157 +1,164 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A4F130A79;
-	Mon, 24 Jun 2024 09:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E036B3BBF2;
+	Mon, 24 Jun 2024 10:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719223169; cv=none; b=Ey9GT2P3fErjO72vBNmYjTNlV3JHUDUpjdjp5vPIDLyIUR7SS2F9xNJBMP/VWA42U5utSxvLmE3J66y6kWpDBZyqDVlHYUdTUxokGgEZV1VUCDfPMHZIup8JY09mTdvCQpwi5fQAHbuhFA0YHRo2Bzi0xILUUBMRjI3QKB/J9XQ=
+	t=1719224960; cv=none; b=NlL/Au6AuJgXN72diZi27wB5tMLWgbCAE0lif43PQgLvIwt2GFYw267Kvn5pS3wBS6SQ5WN9cQCtJTVFfQNgan6J3Oaxubb2EVXxfNe72bxA7Jw2GkZ98rnXDESZ0HbuLw+R+ZUFtZkgeTiCdIj/+8C+bzE0MNNsWAZnENUbvpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719223169; c=relaxed/simple;
-	bh=zJcdGyUdZLuCNczx/nqzTFcVLN0OGiPutA1r790Kcfk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QpESRBh1noX8gkozAq4oAZmD3ae6+tTiC7Po3itI1edzAVemwrBrX3XtGsU5h1Y4zvdBg6b0inwU9HbqPKc3D+iVPLbm27xAv/d/gIlgvTXqxbN60UfNgKOdXb4SdUiiJzRdCup9BPRMRTCy4W1kpkDYw6FNkgPDcft8bGEanVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Q1Dalikb; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1719224960; c=relaxed/simple;
+	bh=wNeAG9yIK0CZl4N/ZkvXzvReYFJ5z22Ul9DecMcs2k4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iULAN8kUD0YoJ0cMj2EC6sbh1n5MRCjme3y6EKWdmFkCVVTh90HlsL5zQFsQV0eSEUmtlaevMxx54l1mfjsfjPpaRI/Rq9lHbZbTEPQxBD+ZSPG/D/w5mi+GyOn823bSqPoviG2NJUCaNzOMz2QQXpl57aiCt6JHc1nKdaIZArg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=RR0c0+ac; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q1Dalikb"
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45O8xPPw013702;
-	Mon, 24 Jun 2024 09:59:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
-	:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=pp1; bh=2KZvX60DMd8P4EJ7ET6Mxr10IK
-	A4yiUdj/8yc/yPeuw=; b=Q1DalikbKwRIX2ui9vAnJIliYwjKN+vF8L9IRQz4XV
-	bCCGXzXE1PesPeCnXNUYTjrqHbB1hpwK7fxM+luQ584pncQ+M+0Bo7W/QMQhn/xp
-	mjb9FIuxdoqSt12E83wfQX+ixaKumEWhwXbdgcEuJZ0gQK3dl4v0HjN38B0MtVeA
-	KWYYMoWuDh23wEJawgQlerBGkktfNV7aoxS91/FsbWh960R8Ag8oLrPEISGI7J1f
-	dz7sJ107uv2AL2RA6D6FoIH3AMNmNWdir9d4Hs9D+z50UWkYsa71EZohL/GVEMyO
-	I31GF+8YQSHCpkJa9JxvjVS5qvSV24/ZkiDvKtfS9o6A==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yy5s50a2f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Jun 2024 09:59:23 +0000 (GMT)
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45O9uJmh023233;
-	Mon, 24 Jun 2024 09:59:23 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yy5s50a2d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Jun 2024 09:59:23 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45O9FGbB020058;
-	Mon, 24 Jun 2024 09:59:22 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yxb5m7ejj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Jun 2024 09:59:22 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45O9xGAX47251768
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 24 Jun 2024 09:59:18 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CEF3620043;
-	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 497BE20040;
-	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
-Received: from darkmoore.ibmuc.com (unknown [9.171.6.193])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 24 Jun 2024 09:59:16 +0000 (GMT)
-From: Christoph Schlameuss <schlameuss@linux.ibm.com>
-To: linux-s390@vger.kernel.org
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] s390/kvm: Reject memory region operations for ucontrol VMs
-Date: Mon, 24 Jun 2024 11:59:02 +0200
-Message-ID: <20240624095902.29375-1-schlameuss@linux.ibm.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="RR0c0+ac"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1719224959; x=1750760959;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wNeAG9yIK0CZl4N/ZkvXzvReYFJ5z22Ul9DecMcs2k4=;
+  b=RR0c0+ac84k6ftIqr5qrbitbQnOjleuaqa2scbLpUQq0PpKEy7I+6XRv
+   JdVbNjr+LQP/lwMSQDDe2I+ODVmrYadb7TOvGVPep+0sdgvQ++pzN9jgm
+   sTxcxQw4AO7TCe76/j5CHYGnFjMxiBW0kZVYq7JNc4GSJyO1jh/ool5qZ
+   XB9xybuo0g9Q5gBgCg7NJR3L/S49kI6GuZy+AHo+rDv57QdJVXpX4t8cm
+   /xoV4duUxrN7fCbL3b53TtwmzKHE8oTftzPu/TJU0IhwRBEvLdoZuSwF4
+   KGrpSRspt2y5+poUEC6EAwxG62yCiCgNwSx+DEY5wJUkhZVSfyRod3V95
+   Q==;
+X-CSE-ConnectionGUID: waFIp9S2RTGCYk7TOATuyQ==
+X-CSE-MsgGUID: TZMuc6vpTuuD6P8hbW5QIA==
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="asc'?scan'208";a="28414746"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Jun 2024 03:29:17 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 24 Jun 2024 03:28:59 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Mon, 24 Jun 2024 03:28:56 -0700
+Date: Mon, 24 Jun 2024 11:28:41 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+CC: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel
+	<anup@brainfault.org>, Shuah Khan <shuah@kernel.org>, Atish Patra
+	<atishp@atishpatra.org>, <linux-doc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<kvm-riscv@lists.infradead.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v7 08/16] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+Message-ID: <20240624-remission-dominoes-9f22be5ba999@wendy>
+References: <20240619113529.676940-1-cleger@rivosinc.com>
+ <20240619113529.676940-9-cleger@rivosinc.com>
+ <20240623-cornbread-preteen-4ec287aa165c@spud>
+ <c59a8897-34a1-4dc3-b68b-35dddf55c937@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2xcoGmAbfJM62j_PztwpAAUazTjoDst-
-X-Proofpoint-ORIG-GUID: 5H6cT5BBDe8iPSqQ5M6GVGr-JVHKY594
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-24_09,2024-06-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- suspectscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=598 clxscore=1011
- spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2406240079
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="022xOD13U5wpppzg"
+Content-Disposition: inline
+In-Reply-To: <c59a8897-34a1-4dc3-b68b-35dddf55c937@rivosinc.com>
 
-This change rejects the KVM_SET_USER_MEMORY_REGION and
-KVM_SET_USER_MEMORY_REGION2 ioctls when called on a ucontrol VM.
-This is neccessary since ucontrol VMs have kvm->arch.gmap set to 0 and
-would thus result in a null pointer dereference further in.
-Memory management needs to be performed in userspace and using the
-ioctls KVM_S390_UCAS_MAP and KVM_S390_UCAS_UNMAP.
+--022xOD13U5wpppzg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also improve s390 specific documentation for KVM_SET_USER_MEMORY_REGION
-and KVM_SET_USER_MEMORY_REGION2.
+On Mon, Jun 24, 2024 at 10:24:51AM +0200, Cl=E9ment L=E9ger wrote:
+>=20
+>=20
+> On 23/06/2024 17:42, Conor Dooley wrote:
+> > On Wed, Jun 19, 2024 at 01:35:18PM +0200, Cl=E9ment L=E9ger wrote:
+> >> The Zc* standard extension for code reduction introduces new extension=
+s.
+> >> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
+> >> are left out of this patch since they are targeting microcontrollers/
+> >> embedded CPUs instead of application processors.
+> >>
+> >> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> >> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> >> ---
+> >>  arch/riscv/include/asm/hwcap.h |  4 +++
+> >>  arch/riscv/kernel/cpufeature.c | 55 +++++++++++++++++++++++++++++++++-
+> >>  2 files changed, 58 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/h=
+wcap.h
+> >> index 18859277843a..b12ae3f2141c 100644
+> >> --- a/arch/riscv/include/asm/hwcap.h
+> >> +++ b/arch/riscv/include/asm/hwcap.h
+> >> @@ -87,6 +87,10 @@
+> >>  #define RISCV_ISA_EXT_ZVE64F		78
+> >>  #define RISCV_ISA_EXT_ZVE64D		79
+> >>  #define RISCV_ISA_EXT_ZIMOP		80
+> >> +#define RISCV_ISA_EXT_ZCA		81
+> >> +#define RISCV_ISA_EXT_ZCB		82
+> >> +#define RISCV_ISA_EXT_ZCD		83
+> >> +#define RISCV_ISA_EXT_ZCF		84
+> >> =20
+> >>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
+> >> =20
+> >> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufea=
+ture.c
+> >> index a3af976f36c9..aa631fe49b7c 100644
+> >> --- a/arch/riscv/kernel/cpufeature.c
+> >> +++ b/arch/riscv/kernel/cpufeature.c
+> >> @@ -111,6 +111,9 @@ static int riscv_ext_zicboz_validate(const struct =
+riscv_isa_ext_data *data,
+> >> =20
+> >>  #define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _=
+id, NULL, 0, NULL)
+> >> =20
+> >> +#define __RISCV_ISA_EXT_DATA_VALIDATE(_name, _id, _validate) \
+> >> +			_RISCV_ISA_EXT_DATA(_name, _id, NULL, 0, _validate)
+> >> +
+> >>  /* Used to declare pure "lasso" extension (Zk for instance) */
+> >>  #define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+> >>  	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, \
+> >> @@ -122,6 +125,37 @@ static int riscv_ext_zicboz_validate(const struct=
+ riscv_isa_ext_data *data,
+> >>  #define __RISCV_ISA_EXT_SUPERSET_VALIDATE(_name, _id, _sub_exts, _val=
+idate) \
+> >>  	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _v=
+alidate)
+> >> =20
+> >> +static int riscv_ext_zca_depends(const struct riscv_isa_ext_data *dat=
+a,
+> >=20
+> > It's super minor, but my OCD doesn't like this being called "depends"
+> > when the others are all called "validate".
+>=20
+> Ok, let's make a deal. You review patch 14/16 and I'll make the machine
+> part of you happy and call this function validate ;)
 
-Signed-off-by: Christoph Schlameuss <schlameuss@linux.ibm.com>
----
- Documentation/virt/kvm/api.rst | 12 ++++++++++++
- arch/s390/kvm/kvm-s390.c       |  3 +++
- 2 files changed, 15 insertions(+)
+I generally avoid the hwprobe patches intentionally :) I'm not even
+expecting a respin for this tbh, I'd like to just get it in so that I
+can do things on top of it.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index a71d91978d9e..eec8df1dde06 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1403,6 +1403,12 @@ Instead, an abort (data abort if the cause of the page-table update
- was a load or a store, instruction abort if it was an instruction
- fetch) is injected in the guest.
- 
-+S390:
-+^^^^^
-+
-+Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
-+Returns -EINVAL if called on a protected VM.
-+
- 4.36 KVM_SET_TSS_ADDR
- ---------------------
- 
-@@ -6273,6 +6279,12 @@ state.  At VM creation time, all memory is shared, i.e. the PRIVATE attribute
- is '0' for all gfns.  Userspace can control whether memory is shared/private by
- toggling KVM_MEMORY_ATTRIBUTE_PRIVATE via KVM_SET_MEMORY_ATTRIBUTES as needed.
- 
-+S390:
-+^^^^^
-+
-+Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
-+Returns -EINVAL if called on a protected VM.
-+
- 4.141 KVM_SET_MEMORY_ATTRIBUTES
- -------------------------------
- 
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index 82e9631cd9ef..854d0d1410be 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -5748,6 +5748,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
- {
- 	gpa_t size;
- 
-+	if (kvm_is_ucontrol(kvm))
-+		return -EINVAL;
-+
- 	/* When we are protected, we should not change the memory slots */
- 	if (kvm_s390_pv_get_handle(kvm))
- 		return -EINVAL;
+--022xOD13U5wpppzg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-base-commit: f2661062f16b2de5d7b6a5c42a9a5c96326b8454
--- 
-2.45.2
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnlKWAAKCRB4tDGHoIJi
+0qTZAQDW6NkBEEY0BpVBm4oazaou8r5axQXRsRokUPZuDY/Q/wEA7XbMZLRFekMt
+ZYMxRfkbyf9XPgmg2W/WvyHnahDlhA4=
+=Ozsy
+-----END PGP SIGNATURE-----
+
+--022xOD13U5wpppzg--
