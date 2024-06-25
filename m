@@ -1,262 +1,388 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A601802A7;
-	Tue, 25 Jun 2024 21:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F0E8F48;
+	Tue, 25 Jun 2024 22:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719352595; cv=none; b=Xr2r4Uw+ip9uNV8DwJza1IXptt/W99/HN44LIWZKkYanYE7DtjBDKxsjQ/mgKAR+Gh0gU5o50vuy7DQCb/I4DYsIVLvNav93hWYVC3WOpvX+upc99VtETCjKKLyDhIhg3cgyicHXxZ13oWYz1VZbK76sbGUqm2yk2ifQ9OzfjtA=
+	t=1719353086; cv=none; b=bGTyP6pCJ0OuCi34im8/yrw5WzX/xwCjRSEZEhnQZN/tofcFdL9J//CK9yJS1tHqA8hytFjPnEX0Bb4RVWWny0NUv/gbFjkXQhyVsJxCSkViU9/7xhY228GpbL5rv2tDQmW7AOrgMSmPtV0Cb17o3oGksAm0u60I1cPwzm4yN0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719352595; c=relaxed/simple;
-	bh=jZ+wcEpx7M4J5I61Wrco+Y735X/oDe0NNCE9YQjxVHo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SLmjh/8gUh44dEJFtro5xaXVvp5YSPB9DapcvrsCYN6xG9FBjnxRVpJVSqxTffh/MU9tPriNKsOPGxGIjVQXOtMYt2vS0JPotjKRxHRIlVrIQOuNuv0LKWdnzWjhScQI/N/EKmMrGDjo3bI2KwvxwQk8PePpmLaUvhvoCyNN4jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=dyaM9Bn7; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1719353086; c=relaxed/simple;
+	bh=I/D2QvQoE2kta0WVeaFzuVfLBeWDwZFrI12HQ5zsbjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JMXR8kyT2As5YA3nBS4V2x2cPZLaJqJP8m5UXjjZJ4Y3jvI2sI1K8jczyIBgvWe1krTw1OKX8hua7RQ+XuJGKaP/uanpdH63CFn2D1rOdlrB7iiblK7fby5LTPxddmsXtpb+mhn9sfs7M6vdQLfUyAHV7RdqJym5sugm7YB4jIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fTnV3MDG; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="dyaM9Bn7"
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45PFnB26000313;
-	Tue, 25 Jun 2024 17:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=6Dy4X
-	Wij/fFaig7Oy0V6YA6ze5sQbhrGy8kvlRZB+fM=; b=dyaM9Bn7D5v6EGNCoCAVY
-	+xJrJul83rFtaOf7wJ/CER66fExcwGeWq9ZwxLPbZHZwZ4U7aHZnry5RE+cFoF7O
-	AYKFZu875MmG36T9N2E+JCsGEx82k3pk/oObh34V0P2lQfjAlKcL8IZ5vtviBVqG
-	AnzD/SYaYyCOis8nbm9EIdRb48NIYw4MySBXpjt6V8zmpuoCKmisKK4sJOuArcLm
-	uGSaOprDi47ztJ+RxiwEdbm6ZhIokgXQnQVATQ2q69NivVRSn2qS03KOwXRhpIaE
-	zHmEuh61lmTjHPoOzo4ug60VQPCTNMU5gcqPOmFtxqNc8L8W9LqhCxvPRhGBecr6
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3ywuh2m7af-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jun 2024 17:56:18 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 45PLuH4G003619
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 25 Jun 2024 17:56:17 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 25 Jun 2024 17:56:16 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.14; Tue, 25 Jun 2024 17:56:16 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Tue, 25 Jun 2024 17:56:16 -0400
-Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.129])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 45PLu0ww013888;
-	Tue, 25 Jun 2024 17:56:03 -0400
-From: Marcelo Schmitt <marcelo.schmitt@analog.com>
-To: <broonie@kernel.org>, <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-        <jic23@kernel.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <nuno.sa@analog.com>, <dlechner@baylibre.com>, <corbet@lwn.net>,
-        <marcelo.schmitt1@gmail.com>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 7/7] docs: iio: Add documentation for AD4000
-Date: Tue, 25 Jun 2024 18:55:59 -0300
-Message-ID: <e553a7c6ba88b3d8ae2db0963212fdce0919805a.1719351923.git.marcelo.schmitt@analog.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1719351923.git.marcelo.schmitt@analog.com>
-References: <cover.1719351923.git.marcelo.schmitt@analog.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fTnV3MDG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=kcXPLgMJLNRDZzPibo4O3IPk7PzeAe4CstBHJMaL444=; b=fTnV3MDG1Et71xFHDwcT0Lbyc6
+	RpZshHl17/mkZH5z4/v+N6XC8FavVd/QYIZ0jRIyaRW4LIBcSjz4oNU+IZPQaAH0etLLTIvISCADd
+	ZOeRbJPGTbLRGi7NHkAzrT+AjapTNqtL5G9ayELuLB4x+DZ4fVFqxm+k8pbvaZTxeKreID4M+H4nV
+	95rhD+P0+qv9wdw3AxLxT/SGOEFnY8RnmgfZRG2RXdnNXM1c1GfgUaGbZ66NvpFShSjY+FerkCbAV
+	Ro1HM8lkMBBw62q1eLXe3ZwNSMw9hO1LyHplP1hUL0W5sJUxiPdtNfyYNI+Qs0WDzRwkKZINQmhYo
+	w+Rmpa+g==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sMEHL-00000004eTI-264u;
+	Tue, 25 Jun 2024 22:04:43 +0000
+Message-ID: <c1a2b518-f258-41f2-8b0c-173f32756f49@infradead.org>
+Date: Tue, 25 Jun 2024 15:04:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/8] fwctl: Add documentation
+To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ Itay Avraham <itayavr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+ Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Tariq Toukan <tariqt@nvidia.com>
+Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+ Aron Silverton <aron.silverton@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+ Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-cxl@vger.kernel.org, patches@lists.linux.dev
+References: <6-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <6-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: -KU6iPVqN3MRnq7ENWTZcMRmFV-ji0c0
-X-Proofpoint-ORIG-GUID: -KU6iPVqN3MRnq7ENWTZcMRmFV-ji0c0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-25_17,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 spamscore=0 malwarescore=0 phishscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406250163
 
-Document wiring configurations for the AD4000 series of ADCs.
 
-Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
----
- Documentation/iio/ad4000.rst | 131 +++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst  |   1 +
- MAINTAINERS                  |   1 +
- 3 files changed, 133 insertions(+)
- create mode 100644 Documentation/iio/ad4000.rst
 
-diff --git a/Documentation/iio/ad4000.rst b/Documentation/iio/ad4000.rst
-new file mode 100644
-index 000000000000..de8fd3ae6e62
---- /dev/null
-+++ b/Documentation/iio/ad4000.rst
-@@ -0,0 +1,131 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+AD4000 driver
-+=============
-+
-+Device driver for Analog Devices Inc. AD4000 series of ADCs.
-+
-+Supported devices
-+=================
-+
-+* `AD4000 <https://www.analog.com/AD4000>`_
-+* `AD4001 <https://www.analog.com/AD4001>`_
-+* `AD4002 <https://www.analog.com/AD4002>`_
-+* `AD4003 <https://www.analog.com/AD4003>`_
-+* `AD4004 <https://www.analog.com/AD4004>`_
-+* `AD4005 <https://www.analog.com/AD4005>`_
-+* `AD4006 <https://www.analog.com/AD4006>`_
-+* `AD4007 <https://www.analog.com/AD4007>`_
-+* `AD4008 <https://www.analog.com/AD4008>`_
-+* `AD4010 <https://www.analog.com/AD4010>`_
-+* `AD4011 <https://www.analog.com/AD4011>`_
-+* `AD4020 <https://www.analog.com/AD4020>`_
-+* `AD4021 <https://www.analog.com/AD4021>`_
-+* `AD4022 <https://www.analog.com/AD4022>`_
-+* `ADAQ4001 <https://www.analog.com/ADAQ4001>`_
-+* `ADAQ4003 <https://www.analog.com/ADAQ4003>`_
-+
-+Wiring connections
-+------------------
-+
-+Devices of the AD4000 series can be connected to the SPI host controller in a
-+few different modes.
-+
-+CS mode, 3-wire turbo mode
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Datasheet "3-wire" mode is what most resembles standard SPI connection which,
-+for these devices, comprises of connecting the controller CS line to device CNV
-+pin and other SPI lines as usual. This configuration is (misleadingly) called
-+"CS Mode, 3-Wire Turbo Mode" connection in datasheets.
-+NOTE: The datasheet definition of 3-wire mode for the AD4000 series is NOT the
-+same of standard spi-3wire mode.
-+This is the only connection mode that allows configuration register access but
-+it requires the SPI controller to support the ``SPI_MOSI_IDLE_HIGH`` feature.
-+
-+Omit the ``adi,sdi-pin`` property in device tree to select this mode.
-+
-+::
-+
-+                                         +-------------+
-+     + ----------------------------------| SDO         |
-+     |                                   |             |
-+     |               +-------------------| CS          |
-+     |               v                   |             |
-+     |    +--------------------+         |     HOST    |
-+     |    |        CNV         |         |             |
-+     +--->| SDI   AD4000   SDO |-------->| SDI         |
-+          |        SCK         |         |             |
-+          +--------------------+         |             |
-+                    ^                    |             |
-+                    +--------------------| SCLK        |
-+                                         +-------------+
-+
-+CS mode, 3-wire, without busy indicator
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Another wiring configuration supported as "3-wire" mode has the SDI pin
-+hard-wired to digital input/output interface supply (VIO). In this setup, the
-+controller is not required to support ``SPI_MOSI_IDLE_HIGH`` but register access
-+is not possible. This connection mode saves one wire and works with any SPI
-+controller.
-+
-+Set the ``adi,sdi-pin`` device tree property to ``"high"`` to select this mode.
-+
-+::
-+
-+                                         +-------------+
-+                    +--------------------| CS          |
-+                    v                    |             |
-+    VIO   +--------------------+         |     HOST    |
-+     |    |        CNV         |         |             |
-+     +--->| SDI   AD4000   SDO |-------->| SDI         |
-+          |        SCK         |         |             |
-+          +--------------------+         |             |
-+                    ^                    |             |
-+                    +--------------------| SCLK        |
-+                                         +-------------+
-+
-+Alternatively, a GPIO may be connected to the device CNV pin. This is similar to
-+the previous wiring configuration but saves the use of a CS line.
-+
-+::
-+
-+                                         +-------------+
-+                    +--------------------| GPIO        |
-+                    v                    |             |
-+    VIO   +--------------------+         |     HOST    |
-+     |    |        CNV         |         |             |
-+     +--->| SDI   AD4000   SDO |-------->| SDI         |
-+          |        SCK         |         |             |
-+          +--------------------+         |             |
-+                    ^                    |             |
-+                    +--------------------| SCLK        |
-+                                         +-------------+
-+
-+CS mode, 4-wire without busy indicator
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+In datasheet "4-wire" mode, the controller CS line is connected to the ADC SDI
-+pin and a GPIO is connected to the ADC CNV pin. This connection mode may better
-+suit scenarios where multiple ADCs can share one CNV trigger.
-+
-+Set ``adi,sdi-pin`` to ``"cs"`` to select this mode.
-+
-+
-+::
-+
-+                                         +-------------+
-+     + ----------------------------------| CS          |
-+     |                                   |             |
-+     |               +-------------------| GPIO        |
-+     |               v                   |             |
-+     |    +--------------------+         |     HOST    |
-+     |    |        CNV         |         |             |
-+     +--->| SDI   AD4000   SDO |-------->| SDI         |
-+          |        SCK         |         |             |
-+          +--------------------+         |             |
-+                    ^                    |             |
-+                    +--------------------| SCLK        |
-+                                         +-------------+
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 4c13bfa2865c..5df157a44923 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -17,6 +17,7 @@ Industrial I/O Kernel Drivers
- .. toctree::
-    :maxdepth: 1
- 
-+   ad4000
-    ad7944
-    adis16475
-    adis16480
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f4ffedada8ea..a03b3db9157c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1205,6 +1205,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad4000.yaml
-+F:	Documentation/iio/ad4000.rst
- F:	drivers/iio/adc/ad4000.c
- 
- ANALOG DEVICES INC AD4130 DRIVER
+On 6/24/24 3:47 PM, Jason Gunthorpe wrote:
+> Document the purpose and rules for the fwctl subsystem.
+> 
+> Link in kdocs to the doc tree.
+> 
+> Nacked-by: Jakub Kicinski <kuba@kernel.org>
+> Link: https://lore.kernel.org/r/20240603114250.5325279c@kernel.org
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  Documentation/userspace-api/fwctl.rst | 269 ++++++++++++++++++++++++++
+>  Documentation/userspace-api/index.rst |   1 +
+>  2 files changed, 270 insertions(+)
+>  create mode 100644 Documentation/userspace-api/fwctl.rst
+> 
+> diff --git a/Documentation/userspace-api/fwctl.rst b/Documentation/userspace-api/fwctl.rst
+> new file mode 100644
+> index 00000000000000..ece2db2530502f
+> --- /dev/null
+> +++ b/Documentation/userspace-api/fwctl.rst
+> @@ -0,0 +1,269 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============
+> +fwctl subsystem
+> +===============
+> +
+> +:Author: Jason Gunthorpe
+> +
+> +Overview
+> +========
+> +
+> +Modern devices contain extensive amounts of FW, and in many cases, are largely
+> +software-defined pieces of hardware. The evolution of this approach is largely a
+> +reaction to Moore's Law where a chip tape out is now highly expensive, and the
+> +chip design is extremely large. Replacing fixed HW logic with a flexible and
+> +tightly coupled FW/HW combination is an effective risk mitigation against chip
+> +respin. Problems in the HW design can be counteracted in device FW. This is
+> +especially true for devices which present a stable and backwards compatible
+> +interface to the operating system driver (such as NVMe).
+> +
+> +The FW layer in devices has grown to incredible sizes and devices frequently
+> +integrate clusters of fast processors to run it. For example, mlx5 devices have
+> +over 30MB of FW code, and big configurations operate with over 1GB of FW managed
+> +runtime state.
+> +
+> +The availability of such a flexible layer has created quite a variety in the
+> +industry where single pieces of silicon are now configurable software-defined
+> +devices and can operate in substantially different ways depending on the need.
+> +Further, we often see cases where specific sites wish to operate devices in ways
+> +that are highly specialized and require applications that have been tailored to
+> +their unique configuration.
+> +
+> +Further, devices have become multi-functional and integrated to the point they
+> +no longer fit neatly into the kernel's division of subsystems. Modern
+> +multi-functional devices have drivers, such as bnxt/ice/mlx5/pds, that span many
+> +subsystems while sharing the underlying hardware using the auxiliary device
+> +system.
+> +
+> +All together this creates a challenge for the operating system, where devices
+> +have an expansive FW environment that needs robust device-specific debugging
+> +support, and FW-driven functionality that is not well suited to “generic”
+> +interfaces. fwctl seeks to allow access to the full device functionality from
+> +user space in the areas of debuggability, management, and first-boot/nth-boot
+> +provisioning.
+> +
+> +fwctl is aimed at the common device design pattern where the OS and FW
+> +communicate via an RPC message layer constructed with a queue or mailbox scheme.
+> +In this case the driver will typically have some layer to deliver RPC messages
+> +and collect RPC responses from device FW. The in-kernel subsystem drivers that
+> +operate the device for its primary purposes will use these RPCs to build their
+> +drivers, but devices also usually have a set of ancillary RPCs that don't really
+> +fit into any specific subsystem. For example, a HW RAID controller is primarily
+> +operated by the block layer but also comes with a set of RPCs to administer the
+> +construction of drives within the HW RAID.
+> +
+> +In the past when devices were more single function, individual subsystems would
+> +grow different approaches to solving some of these common problems. For instance
+> +monitoring device health, manipulating its FLASH, debugging the FW,
+> +provisioning, all have various unique interfaces across the kernel.
+> +
+> +fwctl's purpose is to define a common set of limited rules, described below,
+> +that allow user space to securely construct and execute RPCs inside device FW.
+> +The rules serve as an agreement between the operating system and FW on how to
+> +correctly design the RPC interface. As a uAPI the subsystem provides a thin
+> +layer of discovery and a generic uAPI to deliver the RPCs and collect the
+> +response. It supports a system of user space libraries and tools which will
+> +use this interface to control the device using the device native protocols.
+> +
+> +Scope of Action
+> +---------------
+> +
+> +fwctl drivers are strictly restricted to being a way to operate the device FW.
+> +It is not an avenue to access random kernel internals, or other operating system
+> +SW states.
+> +
+> +fwctl instances must operate on a well-defined device function, and the device
+> +should have a well-defined security model for what scope within the physical
+> +device the function is permitted to access. For instance, the most complex PCIe
+> +device today may broadly have several function-level scopes:
+> +
+> + 1. A privileged function with full access to the on-device global state and
+> +    configuration
+> +
+> + 2. Multiple hypervisor functions with control over itself and child functions
+> +    used with VMs
+> +
+> + 3. Multiple VM functions tightly scoped within the VM
+> +
+> +The device may create a logical parent/child relationship between these scopes.
+> +For instance a child VM's FW may be within the scope of the hypervisor FW. It is
+> +quite common in the VFIO world that the hypervisor environment has a complex
+> +provisioning/profiling/configuration responsibility for the function VFIO
+> +assigns to the VM.
+> +
+> +Further, within the function, devices often have RPC commands that fall within
+> +some general scopes of action:
+> +
+> + 1. Access to function & child configuration, FLASH, etc/ that becomes live at a
+
+                                                        etc.
+
+> +    function reset.
+> +
+> + 2. Access to function & child runtime configuration that kernel drivers can
+> +    discover at runtime.
+> +
+> + 3. Read only access to function debug information that may report on FW objects
+
+       Read-only
+
+> +    in the function & child, including FW objects owned by other kernel
+> +    subsystems.
+> +
+> + 4. Write access to function & child debug information strictly compatible with
+> +    the principles of kernel lockdown and kernel integrity protection. Triggers
+> +    a kernel Taint.
+> +
+> + 5. Full debug device access. Triggers a kernel Taint, requires CAP_SYS_RAWIO.
+> +
+> +Userspace will provide a scope label on each RPC and the kernel must enforce the
+
+Some places (above/below here) say "user space" instead of "userspace". Please choose one
+and stick with it.
+
+> +above CAP's and taints based on that scope. A combination of kernel and FW can
+
+         CAPs
+
+
+> +enforce that RPCs are placed in the correct scope by userspace.
+> +
+> +Denied behavior
+> +---------------
+> +
+> +There are many things this interface must not allow user space to do (without a
+> +Taint or CAP), broadly derived from the principles of kernel lockdown. Some
+> +examples:
+> +
+> + 1. DMA to/from arbitrary memory, hang the system, run code in the device, or
+
+An RPC message is going to run code in the device. Should this say something instead
+like:
+
+download [or load] code to be executed in the device,
+
+> +    otherwise compromise device or system security and integrity.
+> +
+> + 2. Provide an abnormal “back door” to kernel drivers. No manipulation of kernel
+> +    objects owned by kernel drivers.
+> +
+> + 3. Directly configure or otherwise control kernel drivers. A subsystem kernel
+> +    driver can react to the device configuration at function reset/driver load
+> +    time, but otherwise should not be coupled to fwctl.
+> +
+> + 4. Operate the HW in a way that overlaps with the core purpose of another
+> +    primary kernel subsystem, such as read/write to LBAs, send/receive of
+> +    network packets, or operate an accelerator's data plane.
+> +
+> +fwctl is not a replacement for device direct access subsystems like uacce or
+> +VFIO.
+> +
+> +fwctl User API
+> +==============
+> +
+> +.. kernel-doc:: include/uapi/fwctl/fwctl.h
+> +.. kernel-doc:: include/uapi/fwctl/mlx5.h
+> +
+> +sysfs Class
+> +-----------
+> +
+> +fwctl has a sysfs class (/sys/class/fwctl/fwctlNN/) and character devices
+> +(/dev/fwctl/fwctlNN) with a simple numbered scheme. The character device
+> +operates the iotcl uAPI described above.
+> +
+> +fwctl devices can be related to driver components in other subsystems through
+> +sysfs::
+> +
+> +    $ ls /sys/class/fwctl/fwctl0/device/infiniband/
+> +    ibp0s10f0
+> +
+> +    $ ls /sys/class/infiniband/ibp0s10f0/device/fwctl/
+> +    fwctl0/
+> +
+> +    $ ls /sys/devices/pci0000:00/0000:00:0a.0/fwctl/fwctl0
+> +    dev  device  power  subsystem  uevent
+> +
+> +User space Community
+> +--------------------
+> +
+> +Drawing inspiration from nvme-cli, participating in the kernel side must come
+> +with a user space in a common TBD git tree, at a minimum to usefully operate the
+> +kernel driver. Providing such an implementation is a pre-condition to merging a
+> +kernel driver.
+> +
+> +The goal is to build user space community around some of the shared problems
+> +we all have, and ideally develop some common user space programs with some
+> +starting themes of:
+> +
+> + - Device in-field debugging
+> +
+> + - HW provisioning
+> +
+> + - VFIO child device profiling before VM boot
+> +
+> + - Confidential Compute topics (attestation, secure provisioning)
+> +
+> +That stretch across all subsystems in the kernel. fwupd is a great example of
+
+   that
+
+> +how an excellent user space experience can emerge out of kernel-side diversity.
+> +
+> +fwctl Kernel API
+> +================
+> +
+> +.. kernel-doc:: drivers/fwctl/main.c
+> +   :export:
+> +.. kernel-doc:: include/linux/fwctl.h
+> +
+> +fwctl Driver design
+> +-------------------
+> +
+> +In many cases a fwctl driver is going to be part of a larger cross-subsystem
+> +device possibly using the auxiliary_device mechanism. In that case several
+> +subsystems are going to be sharing the same device and FW interface layer so the
+> +device design must already provide for isolation and cooperation between kernel
+> +subsystems. fwctl should fit into that same model.
+> +
+> +Part of the driver should include a description of how its scope restrictions
+> +and security model work. The driver and FW together must ensure that RPCs
+> +provided by user space are mapped to the appropriate scope. If the validation is
+> +done in the driver then the validation can read a 'command effects' report from
+> +the device, or hardwire the enforcement. If the validation is done in the FW,
+> +then the driver should pass the fwctl_rpc_scope to the FW along with the command.
+> +
+> +The driver and FW must cooperate to ensure that either fwctl cannot allocate
+> +any FW resources, or any resources it does allocate are freed on FD closure.  A
+> +driver primarily constructed around FW RPCs may find that its core PCI function
+> +and RPC layer belongs under fwctl with auxiliary devices connecting to other
+> +subsystems.
+> +
+> +Each device type must represent a stable FW ABI, such that the userspace
+> +components have the same general stability we expect from the kernel. FW upgrade
+> +should not break the userspace tools.
+> +
+> +Security Response
+> +=================
+> +
+> +The kernel remains the gatekeeper for this interface. If violations of the
+> +scopes, security or isolation principles are found, we have options to let
+> +devices fix them with a FW update, push a kernel patch to parse and block RPC
+
+fwctl does not do FW updates, is that correct?
+
+> +commands or push a kernel patch to block entire firmware versions/devices.
+> +
+> +While the kernel can always directly parse and restrict RPCs, it is expected
+> +that the existing kernel pattern of allowing drivers to delegate validation to
+> +FW to be a useful design.
+> +
+> +Existing Similar Examples
+> +=========================
+> +
+> +The approach described in this document is not a new idea. Direct, or near
+> +direct device access has been offered by the kernel in different areas for
+> +decades. With more devices wanting to follow this design pattern it is becoming
+> +clear that it is not entirely well understood and, more importantly, the
+> +security considerations are not well defined or agreed upon.
+> +
+> +Some examples:
+> +
+> + - HW RAID controllers. This includes RPCs to do things like compose drives into
+> +   a RAID volume, configure RAID parameters, monitor the HW and more.
+> +
+> + - Baseboard managers. RPCs for configuring settings in the device and more
+> +
+> + - NVMe vendor command capsules. nvme-cli provides access to some monitoring
+> +   functions that different products have defined, but more exists.
+
+                                                               exist.
+
+> +
+> + - CXL also has a NVMe-like vendor command system.
+> +
+> + - DRM allows user space drivers to send commands to the device via kernel
+> +   mediation
+> +
+> + - RDMA allows user space drivers to directly push commands to the device
+> +   without kernel involvement
+> +
+> + - Various “raw” APIs, raw HID (SDL2), raw USB, NVMe Generic Interface, etc
+
+                                                                           etc.
+
+> +
+> +The first 4 are examples of areas that fwctl intends to cover.
+> +
+> +Some key lessons learned from these past efforts are the importance of having a
+> +common user space project to use as a pre-condition for obtaining a kernel
+> +driver. Developing good community around useful software in user space is key to
+> +getting companies to fund participation to enable their products.
+
+
 -- 
-2.43.0
-
+~Randy
