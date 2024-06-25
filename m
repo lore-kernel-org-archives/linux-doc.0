@@ -1,116 +1,115 @@
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E619B44C9E;
-	Tue, 25 Jun 2024 11:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FFC14831F;
+	Tue, 25 Jun 2024 12:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719316801; cv=none; b=R233D9fGg5vTbb+lt8OyG9Yshd8BBUrW2L7e/KYgSG+tCBA5ZkJXMOHKE41uW2LGuLdkOPv1C8m/LuztaPLvtwAPug23NTTGza2g0oM2Fhyn0r8mhV2pwhsV2HewCVWcB4oyE5TEUuf9qwdsqhv5F9bmR8sBZWlaiUF5i+YF+Ow=
+	t=1719318843; cv=none; b=IVvu/js4A/4MURAsnUKNcRZhBl8kQM2DtVawqJ7xuot9uvrm/C2wqbyj/qtCfmbH1/ovQspS6qzlpws9E613W2a551sKw3TAMZRjhOdxYDxEBHCrpNVUPi3nzjvO9l2FYegDijo4dm2Wdi2w0fppq9Nk07SufZYrfsCEBCnHnH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719316801; c=relaxed/simple;
-	bh=4V6xg6S/HX+wZLmul00HyyGqeoWWy7EEr0Dh7EvDybs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=urccUEBISCeOD+JLIRBtXcGf3a12k9M45M6EcJ4zMAroh50Cbo3y0VvAwgh0Zr0c4RP63r/jB/2Mb1Q1Iqq8hBmGLKZnMEiggyIpPO1fHsPNoonu1aVxH9bTjLgu2K+ZHOU7jRP0jubpcGzWbEJ6AaJwN1fyVmhbLJpEKJCjoUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=o/5UXGrD; arc=none smtp.client-ip=52.119.213.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1719318843; c=relaxed/simple;
+	bh=0vTeA1bjmNtGwXezcaqYRAXYF1NLqC2a3D2GgKkavV0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eDIlOyswpzer4MaMoz2tz1VZEnPsKGFiAd2WB+6u2NM7Kdyhi2E/o0FbAMO4e20NKSyJPazcKfAgr3w+HjTDtzP16V2KfXo4/5rNDHNpcuwPrf6WCTHq1zERszvnKn1nVjiFVJPBkdzEsRdO4ncAk4XiTv8yoTiI3bh7QHMutuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LiThNMBf; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="o/5UXGrD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1719316800; x=1750852800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5CGaz4yBPoNZEIuBCWmd656slzdLN7LQIZfAfGhRojg=;
-  b=o/5UXGrDibi0R1QZSdZ3mbx8lEB7QwZiWDL0+PsYZcDWHyJTTZckq76P
-   0/nVVM5IGYXrJXvc4TRS8P6L3mpBCl+ekB4j3+7+IvdvKXaIskOO81V2N
-   neVsS2sf41kvOCQ9XAaJGWB60EsIM9rONcs4qu0AlBPqwptk4jzrqzszc
-   A=;
-X-IronPort-AV: E=Sophos;i="6.08,264,1712620800"; 
-   d="scan'208";a="7249835"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 11:59:58 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:7551]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.41.15:2525] with esmtp (Farcaster)
- id 7600a396-1a2e-4084-a235-5c5e0f28c865; Tue, 25 Jun 2024 11:59:57 +0000 (UTC)
-X-Farcaster-Flow-ID: 7600a396-1a2e-4084-a235-5c5e0f28c865
-Received: from EX19D033EUC004.ant.amazon.com (10.252.61.133) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 25 Jun 2024 11:59:56 +0000
-Received: from u40bc5e070a0153.ant.amazon.com (10.106.82.20) by
- EX19D033EUC004.ant.amazon.com (10.252.61.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 25 Jun 2024 11:59:53 +0000
-Date: Tue, 25 Jun 2024 13:59:48 +0200
-From: Roman Kagan <rkagan@amazon.de>
-To: Thomas Gleixner <tglx@linutronix.de>
-CC: <linux-arm-kernel@lists.infradead.org>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-	<nh-open-source@amazon.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, "Marc
- Zyngier" <maz@kernel.org>
-Subject: Re: [PATCH] irqchip/gicv3-its: Workaround for GIC-700 erratum 2195890
-Message-ID: <ZnqxNMIp/dGNY1u6@u40bc5e070a0153.ant.amazon.com>
-Mail-Followup-To: Roman Kagan <rkagan@amazon.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-arm-kernel@lists.infradead.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, nh-open-source@amazon.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>
-References: <20240624165541.1286227-1-rkagan@amazon.de>
- <87pls66mok.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LiThNMBf"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0CA676000B;
+	Tue, 25 Jun 2024 12:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719318839;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5T/QIU/cETq1tlbuFPd7ryLw8O87C9B+H47qdJAHXJw=;
+	b=LiThNMBfzuMK6mm3vhRR/TdofVz4kMZM/w9/xsV3jU7O1+dZpRRX7eKHBE0aAwIxns+uWG
+	N1fw63F40/enhl4UuSYsZ3NwQDvQz0zo0XqsjGOgTHKpQ2XfrTXWBRvXcp5SBaURYDcxIV
+	mwwe4yMIl0nXyYZ1RXKNqCiRktcCR+yHVDO3xOi42FDSiQ2Muwn8rAeSLhziG4KF9c9pSl
+	1F9XYuQu+nYV+TyNKyNFOMKkRsKtP2AyGqjF2sU8ZxqxcnXLR+aUqqvRva5A6M/Tke+p8F
+	INpEOppFM1NU613Pve+uOHLSW8wK+j8uwkyvYqmi+Ujo6H80bqTm23x/pnIw8A==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v4 0/7] net: pse-pd: Add new PSE c33 features
+Date: Tue, 25 Jun 2024 14:33:45 +0200
+Message-Id: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87pls66mok.ffs@tglx>
-X-ClientProxiedBy: EX19D039UWA004.ant.amazon.com (10.13.139.68) To
- EX19D033EUC004.ant.amazon.com (10.252.61.133)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIACm5emYC/3XNQQ7CIBAF0KsY1mJgoJa68h7GNEBHJVFoKFaN6
+ d1FNmpMF7P4+flvnmTA6HAgm8WTRBzd4ILPQS4XxJ60PyJ1Xc4EGEgmoaIH1Okase3D+24YW6t
+ 7yhU2zOgaGmlI3vYRD+5e3B3xmKjHeyL73JzckEJ8lIcjL32xK2hm7JFTRpmVhndVUwmjtiaEd
+ HZ+ZcOlmCN8nDWr5xzIjmXCQodGCW3+HfHlcDnniOxoWNdKYq0E57/ONE0vpk9+0VYBAAA=
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ linux-doc@vger.kernel.org, Kory Maincent <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Mon, Jun 24, 2024 at 11:44:11PM +0200, Thomas Gleixner wrote:
-> On Mon, Jun 24 2024 at 18:55, Roman Kagan wrote:
-> > According to Arm CoreLink GIC-700 erratum 2195890, on GIC revisions
-> > r0p0, r0p1, r1p0 under certain conditions LPIs may remain in the Pending
-> > Table until one of a number of external events occurs.
-> >
-> > No LPIs are lost but they may not be delivered in a finite time.
-> >
-> > The workaround is to issue an INV using GICR_INVLPIR to an unused, in
-> > range LPI ID to retrigger the search.
-> >
-> > Add this workaround to the quirk table.  When the quirk is applicable,
-> > carve out one LPI ID from the available range and run periodic work to
-> > do INV to it, in order to prevent GIC from stalling.
-> >
-> > TT: https://t.corp.amazon.com/D82032616
-> 
-> Can you please refrain from providing internal links?
-> 
-> > Signed-off-by: Elad Rosner <eladros@amazon.com>
-> > Signed-off-by: Mohamed Mediouni <mediou@amazon.com>
-> > Signed-off-by: Roman Kagan <rkagan@amazon.de>
-> 
-> That Signed-off-by chain is invalid. See Documentation/process/
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-ACK to all, will fix (sorry haven't posted patches for a while, muscle
-memory got rusty).
+This patch series adds new c33 features to the PSE API.
+- Expand the PSE PI informations status with power, class and failure
+  reason
+- Add the possibility to get and set the PSE PIs power limit
 
-Thanks,
-Roman.
+Changes in v4:
+- Made few update in PSE extended state an substate.
+- Add support for c33 pse power limit ranges.
+- Few changes in the specs and the documentation.
+- Link to v3: https://lore.kernel.org/r/20240614-feature_poe_power_cap-v3-0-a26784e78311@bootlin.com
 
+Changes in v3:
+- Use u32 instead of u8 size for c33 pse extended state and substate.
+- Reformat the state and substate enumeration to follow Oleksij proposal which
+  is more IEEE 802.3 standard compliant
+- Sent the first patch standalone in net.
+- Link to v2: https://lore.kernel.org/r/20240607-feature_poe_power_cap-v2-0-c03c2deb83ab@bootlin.com
 
+Changes in v2:
+- Use uA and uV instead of mA and mV to have more precision in the power
+  calculation. Need to use 64bit variables for the calculation.
+- Modify the pd-92x0behavior in case of setting the current out of the
+  available ranges. Report an error now.
+- Link to v1: https://lore.kernel.org/r/20240529-feature_poe_power_cap-v1-0-0c4b1d5953b8@bootlin.com
 
-Amazon Web Services Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (7):
+      net: ethtool: pse-pd: Expand C33 PSE status with class, power and extended state
+      netlink: specs: Expand the PSE netlink command with C33 new features
+      net: pse-pd: pd692x0: Expand ethtool status message
+      net: pse-pd: Add new power limit get and set c33 features
+      net: ethtool: Add new power limit get and set features
+      netlink: specs: Expand the PSE netlink command with C33 pw-limit attributes
+      net: pse-pd: pd692x0: Enhance with new current limit and voltage read callbacks
+
+ Documentation/netlink/specs/ethtool.yaml     |  58 +++++
+ Documentation/networking/ethtool-netlink.rst |  87 +++++++-
+ drivers/net/pse-pd/pd692x0.c                 | 317 ++++++++++++++++++++++++++-
+ drivers/net/pse-pd/pse_core.c                | 172 ++++++++++++++-
+ include/linux/ethtool.h                      |  20 ++
+ include/linux/pse-pd/pse.h                   |  51 +++++
+ include/uapi/linux/ethtool.h                 | 191 ++++++++++++++++
+ include/uapi/linux/ethtool_netlink.h         |  12 +
+ net/ethtool/pse-pd.c                         | 119 +++++++++-
+ 9 files changed, 997 insertions(+), 30 deletions(-)
+---
+base-commit: b98d89947d124c8ca9150b32fdc0c5fb099243cf
+change-id: 20240425-feature_poe_power_cap-18e90ba7294b
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
