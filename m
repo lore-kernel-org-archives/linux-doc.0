@@ -1,71 +1,102 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A791465B3;
-	Tue, 25 Jun 2024 07:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A73146D76;
+	Tue, 25 Jun 2024 07:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719299795; cv=none; b=N15jWGvZppPERcTJbZMuUk8O+QmmNc/0mOfihta4M9WsXZDcA8NvZAbDCIYEWDMO/o5j9vRC049+m1xCi4obXMytyI9p3IHTC1SXTlL6dIA1uFbcJ2v+F+MWghuvG3Dvt9UNjUrJIGyBfgCBp7RUjh1cSzp/FvdJFpeJwAi/uws=
+	t=1719301886; cv=none; b=OvwhCITBZsqyhZrs812KUAjnYGmtzusLJdqRxzABZeg+l+pS2u6XzF+gOIMMZ7mzjthYzptnWLijGZSEQwVuVikJgf6b/a7BedE7PMySPo5L4XPSo3BdmPIERBcVKqT6ZafQTvDbS+6iv+o7juhIFTLkLjRaNBWU1c6CXmxKEHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719299795; c=relaxed/simple;
-	bh=9zZpuidzlAzl/sxGf+MCM0rDpPi7Scc+ocDdMqnjg1U=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=bw/LDy+3SuDxbZttQsfnrTdW9i/fKqDJjxtotZHAJxrpiXC027rNUk9eW/Fj7Fxtum5rNtnr0PB64yDrCnIYM5baJQrr8m7HcCRdFav+ZGwIY0xHXFIvPzQR2lEzh8U/BojwnUnIbB3LucOTvQzG6t5SitBKSiCBUxA1dNVTkTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4W7bcR3VcszZg15;
-	Tue, 25 Jun 2024 15:12:07 +0800 (CST)
-Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3E7461402DE;
-	Tue, 25 Jun 2024 15:16:30 +0800 (CST)
-Received: from [10.173.127.72] (10.173.127.72) by
- kwepemd200019.china.huawei.com (7.221.188.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 25 Jun 2024 15:16:28 +0800
-Subject: Re: [PATCH v5 4/4] docs: mm: add enable_soft_offline sysctl
-To: Jiaqi Yan <jiaqiyan@google.com>
-CC: <muchun.song@linux.dev>, <akpm@linux-foundation.org>, <shuah@kernel.org>,
-	<corbet@lwn.net>, <osalvador@suse.de>, <rientjes@google.com>,
-	<duenwen@google.com>, <fvdl@google.com>, <linux-mm@kvack.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<nao.horiguchi@gmail.com>, <jane.chu@oracle.com>, <ioworker0@gmail.com>
-References: <20240624163348.1751454-1-jiaqiyan@google.com>
- <20240624163348.1751454-5-jiaqiyan@google.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <b9be3eff-6f69-5286-0dd9-30e562bdb7d2@huawei.com>
-Date: Tue, 25 Jun 2024 15:16:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1719301886; c=relaxed/simple;
+	bh=KLqf935lSAJuGQQElpBuZqXf46nRUx378xaLq4T4IaU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=bAbzVtOiZXwbz6JrRwu9QyFUu+GGScCl0RnDHoBgah92OprDwK8t7wGLwOPLgTUs7tNRt2AMeT+cB9bsB8NpKQlyDRQi3kVeQYB4uHxTRT0lMJudste7oY7nBXrrN0uJh31XER0Hni8AHXB4cLqpZ57cj9dSOdQZyumnykLxmgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=ooDiAHZX; arc=none smtp.client-ip=212.103.80.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="ooDiAHZX"
+Received: from localhost (unknown [127.0.0.1])
+	by mx.kolabnow.com (Postfix) with ESMTP id 6E9CD3004C5C;
+	Tue, 25 Jun 2024 09:51:21 +0200 (CEST)
+Authentication-Results: ext-mx-out013.mykolab.com (amavis);
+ dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
+ header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+	content-transfer-encoding:content-type:content-type:message-id
+	:references:in-reply-to:subject:subject:from:from:date:date
+	:mime-version:received:received:received; s=dkim20240523; t=
+	1719301880; x=1721116281; bh=H5af9yjgTthkIh74doQYQLtPF8gG8f4WGKd
+	py7fAyBs=; b=ooDiAHZXrD03pbszTQot/79JiSgW6ToSsGGEpDWSQJDyKXv2gU0
+	PcO25ueN9JV5jNRF9RCPlBVDa/zbft3jUiFXBUojNdHk6PS2t6qxHZ2QbxD108P3
+	DuKPVIoE8LZfKk3n1LDHU1FQbOjdtrRw7ekwtCUvLmyB6TMwTFXGwHXJSVMFjmws
+	4ERPs0e1YAOA5Xb32MNVaiEM8AioVdvr8zhgbfslqRgp+vsQoQ2017ZQDiFWYk99
+	s3fFNUX9jFRKOmzQ2Jf/7iYqF7CAtaiAtWpB84dMzyJbjTh8sN4ADRTj+N32w9+P
+	gCEzn8oap/IBREGTPQ+fQFlVizySqIL/dMw==
+X-Virus-Scanned: amavis at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -1
+X-Spam-Level:
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id 5K128MH4078t; Tue, 25 Jun 2024 09:51:20 +0200 (CEST)
+Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
+	by mx.kolabnow.com (Postfix) with ESMTPS id F15203004C4C;
+	Tue, 25 Jun 2024 09:51:19 +0200 (CEST)
+Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
+	by int-mx011.mykolab.com (Postfix) with ESMTPS id 5AF8F32F1269;
+	Tue, 25 Jun 2024 09:51:19 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240624163348.1751454-5-jiaqiyan@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Date: Tue, 25 Jun 2024 09:51:19 +0200
+From: Federico Vaga <federico.vaga@vaga.pv.it>
+To: SeongJae Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 4/7] Docs: Move clang-format from process/ to dev-tools/
+In-Reply-To: <20240624185312.94537-5-sj@kernel.org>
+References: <20240624185312.94537-1-sj@kernel.org>
+ <20240624185312.94537-5-sj@kernel.org>
+Message-ID: <ae3edebe685d15a4398e587ebd082a18@vaga.pv.it>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemd200019.china.huawei.com (7.221.188.193)
 
-On 2024/6/25 0:33, Jiaqi Yan wrote:
-> Add the documentation for soft offline behaviors / costs, and what
-> the new enable_soft_offline sysctl is for.
+On 2024-06-24 20:53, SeongJae Park wrote:
+> 'clang-format' is on 'Other material' section of 'process/index', but 
+> it
+> may fit more under 'dev-tools/' directory.  Move it.
 > 
-> Acked-by: Oscar Salvador <osalvador@suse.de>
-> 
-> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  Documentation/admin-guide/sysctl/vm.rst | 32 +++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+>  .clang-format                                             | 2 +-
+>  Documentation/{process => dev-tools}/clang-format.rst     | 0
+>  Documentation/dev-tools/index.rst                         | 1 +
+>  Documentation/process/4.Coding.rst                        | 2 +-
+>  Documentation/process/coding-style.rst                    | 2 +-
+>  Documentation/process/index.rst                           | 1 -
+>  Documentation/translations/it_IT/process/clang-format.rst | 2 +-
+>  Documentation/translations/sp_SP/process/coding-style.rst | 2 +-
+>  Documentation/translations/zh_CN/process/4.Coding.rst     | 2 +-
+>  Documentation/translations/zh_CN/process/coding-style.rst | 2 +-
+>  Documentation/translations/zh_TW/process/4.Coding.rst     | 2 +-
+>  Documentation/translations/zh_TW/process/coding-style.rst | 2 +-
+>  12 files changed, 10 insertions(+), 10 deletions(-)
+>  rename Documentation/{process => dev-tools}/clang-format.rst (100%)
 
-LGTM. Thanks.
-Acked-by: Miaohe Lin <linmiaohe@huawei.com>
-Thanks.
-.
+Good for me
 
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-
+-- 
+Federico Vaga
