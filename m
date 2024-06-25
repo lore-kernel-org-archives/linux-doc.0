@@ -1,264 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FF616C684;
-	Tue, 25 Jun 2024 14:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674F616D33B;
+	Tue, 25 Jun 2024 14:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719325838; cv=none; b=M4D7RwkcFVaepBMihem2CQAxjGgBTCZCyOD3Xzqw2yZRAwTJIOyGENylQJhwlePkaSGqQhCXGFbtMweinYlzMKiBGKSKZvlxQj3KIyloDsjfgeQJPmv+DfWnGvMEVHNMOtykrECRwNMFfQ/gfzizQ0pLMmIbqgUy2HuKH/s5aqM=
+	t=1719327065; cv=none; b=bshVKgYm+gcpbBDjMHOpzgxN4r4yDGUaRL6GJ4sT6tCIn6Zy5AuxKFWGpmCfvZeGzNFYM7O/khx5WR5iJZYQvME8v97GFKK2Y66X1bc1F+1KtdDyvm8MiU5SMRjU56LG6Q3lMyGLrRJGVigwJ6TvVRZSj3mvoJhpRlhWtDuKACE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719325838; c=relaxed/simple;
-	bh=QyE+Sxb3U+i0uaspQKpsAKm2DDnimmEaiUTl1PRDY9Y=;
-	h=Date:Message-ID:From:To:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PH6c8u9SVyqBRivU4byhI2I8TAm2HwNEDg21N+mnp+JUDFF+zQv4r+SIW5ByYh3Ea4WhlD1vCbPzdGQVLohQqH7SkrYbhoSkSChGMWoudGXzQJGbXaR1TZDxcD5PwWxIzLXKAxkanUt5xdZsJEaMs2gyJkosqRwbG2Q5E0N3y3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mw4+zxgf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719327065; c=relaxed/simple;
+	bh=h7/s1erSrTInKP/WfJXKAlirzQaaLfNgEqTkzmlNeWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmDV18FeomUYhiNpg9fqyM+OIVAi/7kIX7Dz+/X8TgxYypDPiIfn/pjnW3wwRiJDcx/1+ACMmajnThkeW2mdqIxWPuA2qx/EEYdCHQYc8bfIdJFDTR8o1djwPD212PJLKw2hXgPzolWgl+/U9ykImgwo4TsKP0rVj3i7N5lPmNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4PxwaZp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mw4+zxgf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6866C32781;
-	Tue, 25 Jun 2024 14:30:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4PxwaZp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C64C32781;
+	Tue, 25 Jun 2024 14:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719325837;
-	bh=QyE+Sxb3U+i0uaspQKpsAKm2DDnimmEaiUTl1PRDY9Y=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=Mw4+zxgfnWRquhYCTQZqTvdvo6VTQSluc9sAbFC/XHS4HghQDZ+a5wXd4wgeeCp+o
-	 mks+Yk8XQTUdQ1dM6wGwP/VbFsV+kYGdP2AGITPxuD5/BWUQ3ScO2ylK0fuJKdBhLI
-	 lRUHqem/KnJssINtstZH9j1p92Vvg6befNWJvlOTmY7DgFYANnXn3xmIIkctit+PFD
-	 Nheq2DTgy1KLMrvUIm9CM5EePL47LLNmxuof7un+0rXXE+GedytyqVenRDKbLUamyc
-	 Eefh44U7cV40keR99U6yHDmLS/z+0mGhlzefcIvPwuQoyWNpU0vBljmos2GDNJ1285
-	 O6GBsqYBXtezw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sM7Br-007BSl-Jh;
-	Tue, 25 Jun 2024 15:30:35 +0100
-Date: Tue, 25 Jun 2024 15:30:35 +0100
-Message-ID: <86sex1hz78.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Roman Kagan <rkagan@amazon.de>,
-	Marc Zyngier <maz@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	nh-open-source@amazon.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] irqchip/gicv3-its: Workaround for GIC-700 erratum 2195890
-In-Reply-To: <ZnrMFIEyr8SKLDKk@u40bc5e070a0153.ant.amazon.com>
-References: <20240624165541.1286227-1-rkagan@amazon.de>
-	<86v81xif6l.wl-maz@kernel.org>
-	<ZnrMFIEyr8SKLDKk@u40bc5e070a0153.ant.amazon.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1719327064;
+	bh=h7/s1erSrTInKP/WfJXKAlirzQaaLfNgEqTkzmlNeWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G4PxwaZptC/mrLUYem2vzCWclAWJx9yUlEjjlguMsEA9cwvaZ4yPel74R2ZxiLnvR
+	 A2oNPJYNkBWtKFXwwhHJiaCYvXTF85t20gmIgjaqjwc1odeAUqS9bIF2/4hZKUwz3+
+	 6qqo97tDKElp69yt/8DzNYaYXcvGfR9a4QHsztGl/X50GjCD/s+0y+miYPoM0eB+Xi
+	 ev3nMUoY2hiJLqfosv4jiwJwBtFfZRh0wDz2YnKgLyxzrB7w0EEVm8/HHCOh+0QRa7
+	 Uvdv5NSIsVY142FaeawS/1wDcH5JjVEmljs2c60LL5lHTt3YwP/RWL8WfIenQjuzS/
+	 j64abmeLhVVmQ==
+Date: Tue, 25 Jun 2024 15:50:59 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH v7 01/16] dt-bindings: riscv: add Zimop ISA extension
+ description
+Message-ID: <20240625-blimp-richly-f5828cbfe6a6@spud>
+References: <20240619113529.676940-1-cleger@rivosinc.com>
+ <20240619113529.676940-2-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: rkagan@amazon.de, maz@kernel.org, linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com, will@kernel.org, nh-open-source@amazon.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de, corbet@lwn.net
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9PA0Wx6xMQTCxIcL"
+Content-Disposition: inline
+In-Reply-To: <20240619113529.676940-2-cleger@rivosinc.com>
 
-On Tue, 25 Jun 2024 14:54:28 +0100,
-Roman Kagan <rkagan@amazon.de> wrote:
-> 
-> On Tue, Jun 25, 2024 at 09:45:22AM +0100, Marc Zyngier wrote:
-> > On Mon, 24 Jun 2024 17:55:41 +0100,
-> > Roman Kagan <rkagan@amazon.de> wrote:
-> > >
-> > > According to Arm CoreLink GIC-700 erratum 2195890, on GIC revisions
-> > > r0p0, r0p1, r1p0 under certain conditions LPIs may remain in the Pending
-> > > Table until one of a number of external events occurs.
-> > 
-> > Please add a link to the errata document.
-> 
-> https://developer.arm.com/documentation/SDEN-1769194/
-> Will include when respinning.
-> 
-> > >
-> > > No LPIs are lost but they may not be delivered in a finite time.
-> > >
-> > > The workaround is to issue an INV using GICR_INVLPIR to an unused, in
-> > > range LPI ID to retrigger the search.
-> > >
-> > > Add this workaround to the quirk table.  When the quirk is applicable,
-> > > carve out one LPI ID from the available range and run periodic work to
-> > > do INV to it, in order to prevent GIC from stalling.
-> > 
-> > The errata document says a lot more:
-> > 
-> > <quote>
-> > For physical LPIs the workaround is to issue an INV using GICR_INVLPIR
-> > to an unused, in range LPI ID to retrigger the search. This could be
-> > done periodically, for example, in line with a residency change, or as
-> > part of servicing LPIs.  If using LPIs as the event, then the
-> > GICR_INVLPIR write could be issued after servicing every LPI.
-> > 
-> > However, it only needs to be issued if:
-> > 
-> > * At least 4 interrupts in the block of 32 are enabled and mapped to
-> >   the current PE or, if easier,
-> > 
-> > * At least 4 interrupts in the block of 32 are enabled and mapped to
-> >   any PE
-> > </quote>
-> 
-> It didn't feel like worth optimizing for.  I'll reconsider.
 
-I'm not sure we want to optimise for it, but I'd certainly want to
-hear the *rationale* behind not considering the optimisation.
+--9PA0Wx6xMQTCxIcL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > > TT: https://t.corp.amazon.com/D82032616
-> > 
-> > Gniii????
-> 
-> Indeed Q-/
-> 
-> > > Signed-off-by: Elad Rosner <eladros@amazon.com>
-> > > Signed-off-by: Mohamed Mediouni <mediou@amazon.com>
-> > > Signed-off-by: Roman Kagan <rkagan@amazon.de>
-> > 
-> > Who is the author?
-> 
-> Joint effort aka inherited ownership.  Will fix according to the
-> process doc.
-> 
-> > > +static void __maybe_unused its_quirk_gic700_2195890_work_handler(struct work_struct *work)
-> > > +{
-> > > +     int cpu;
-> > > +     void __iomem *rdbase;
-> > > +     u64 gicr_invlpir_val;
-> > > +
-> > > +     for_each_online_cpu(cpu) {
-> > 
-> > The errata document doesn't say that this need to happen for *every*
-> > RD. Can you please clarify this?
-> 
-> (Digging out a year-old comms with ARM)
-> > > In multi-chip GIC system, does this write have to happen in each
-> > > chip or would a write to a single GICR trigger the search in all
-> > > GICDs?
-> > The write needs to occur for each physical PE - in other words, to
-> > each individual GICR that the search needs to be re-triggered for.
+On Wed, Jun 19, 2024 at 01:35:11PM +0200, Cl=E9ment L=E9ger wrote:
+> Add description for the Zimop (May-Be-Operations) ISA extension which
+> was ratified in commit 58220614a5f of the riscv-isa-manual.
+>=20
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
 
-OK, that pretty much rules out doing anything clever (note to self,
-check the GIC revision before buying the HW...).
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> 
-> > > +             raw_spin_lock(&gic_data_rdist_cpu(cpu)->rd_lock);
-> > > +             gic_write_lpir(gicr_invlpir_val, rdbase + GICR_INVLPIR);
-> > > +             raw_spin_unlock(&gic_data_rdist_cpu(cpu)->rd_lock);
-> > 
-> > No synchronisation? How is that supposed to work?
-> > 
-> > Also, if you need to dig into the internals of the driver, extract a
-> > helper from __direct_lpi_inv().
-> 
-> ACK
-> 
-> > > +     }
-> > > +
-> > > +     schedule_delayed_work(&its_quirk_gic700_2195890_data.work,
-> > > +             msecs_to_jiffies(ITS_QUIRK_GIC700_2195890_PERIOD_MSEC));
-> > 
-> > It would be pretty easy to detect whether an LPI was ack'ed since the
-> > last pass, and not issue the invalidate.
-> 
-> Makes sense, will look into it.
-> 
-> Overall, do you think this approach with a global work looping over cpus
-> is the right one, or we should better try and implement something
-> per-cpu?
+> ---
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index cfed80ad5540..e214679ab6da 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -363,6 +363,11 @@ properties:
+>              ratified in the 20191213 version of the unprivileged ISA
+>              specification.
+> =20
+> +        - const: zimop
+> +          description:
+> +            The standard Zimop extension version 1.0, as ratified in com=
+mit
+> +            58220614a5f ("Zimop is ratified/1.0") of the riscv-isa-manua=
+l.
+> +
+>          - const: ztso
+>            description:
+>              The standard Ztso extension for total store ordering, as rat=
+ified
+> --=20
+> 2.45.2
+>=20
 
-One of my worries is that you're crossing all node boundaries by doing
-this, which is going to suck on really large systems. If anything,
-you'd be better off with a per-node worker.
+--9PA0Wx6xMQTCxIcL
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It doesn't need to be implemented right now, but I have the feeling
-that someone is going to ask.
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> > > +}
-> > > +
-> > > +static bool __maybe_unused its_enable_quirk_gic700_2195890(void *data)
-> > > +{
-> > > +     struct its_node *its = data;
-> > > +
-> > > +     if (its_quirk_gic700_2195890_data.lpi)
-> > > +             return true;
-> > > +
-> > > +     /*
-> > > +      * Use one LPI INTID from the start of the LPI range for GIC prodding,
-> > > +      * and make it unavailable for regular LPI use later.
-> > > +      */
-> > > +     its_quirk_gic700_2195890_data.lpi = lpi_id_base++;
-> > > +
-> > > +     INIT_DELAYED_WORK(&its_quirk_gic700_2195890_data.work,
-> > > +                       its_quirk_gic700_2195890_work_handler);
-> > > +     schedule_delayed_work(&its_quirk_gic700_2195890_data.work, 0);
-> > > +
-> > > +     return true;
-> > > +}
-> > 
-> > It is a bit odd to hook this on an ITS being probed when the ITS isn't
-> > really involved. Not a big deal, but a bit clumsy.
-> 
-> True, but the LPI allocation lives in this file so it looked easier to
-> wire it all up here.  Where do you think it's more appropriate?
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnrZUwAKCRB4tDGHoIJi
+0h+2AQD3yl1OivAnczjSlHzmMNfjOS/06MsBmq0xtbv8bTLpNAD/RzbgHtntHnej
+NyEPsFHW7yXdXAU1j8rFsiMmhti6igo=
+=/o9k
+-----END PGP SIGNATURE-----
 
-But the allocation doesn't really take place, does it? You just nick
-one LPI. Which by the way I'd rather you pick the last one instead of
-the first, as this messes with devices that require ye oldie MultiMSI
-and its stupid alignment requirements.
-
-Also, you have its_cpu_init() which takes care of RDs. You could
-absolutely add the quirk to the main GIC driver (based on the
-distributor IIDR), add a flag to rdists.flags, and let it roll.
-
-Either way, I don't really care. Maybe keeping it centralised is good
-enough.
-
-> 
-> > >  static const struct gic_quirk its_quirks[] = {
-> > >  #ifdef CONFIG_CAVIUM_ERRATUM_22375
-> > >       {
-> > > @@ -4822,6 +4879,17 @@ static const struct gic_quirk its_quirks[] = {
-> > >               .property = "dma-noncoherent",
-> > >               .init   = its_set_non_coherent,
-> > >       },
-> > > +#ifdef CONFIG_ARM64_ERRATUM_2195890
-> > > +     {
-> > > +             .desc   = "ITS: GIC-700 erratum 2195890",
-> > > +             /*
-> > > +              * Applies to r0p0, r0p1, r1p0: iidr_var(bits 16..19) == 0 or 1
-> > > +              */
-> > > +             .iidr   = 0x0400043b,
-> > > +             .mask   = 0xfffeffff,
-> > > +             .init   = its_enable_quirk_gic700_2195890,
-> > 
-> > This catches r0p0 and r1p0, but not r0p1 (you require that bits 15:12
-> > are 0).
-> 
-> Ouch, right.  Given the erratum exact wording
-> 
-> > Fault Status: Present in: r0p0, r0p1, r1p0 Fixed in: r2p0
-> 
-> I guess I should match everything below r2p0 and allow arbitrary bits
-> 15:12 (i.e. set the third nibble in the mask to 0).
-
-Either that or you could have two entries. Or use the fact that there
-is no released r1p1 to your advantage...
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+--9PA0Wx6xMQTCxIcL--
