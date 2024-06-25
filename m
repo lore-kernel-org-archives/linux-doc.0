@@ -1,364 +1,186 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59ED15F3FF;
-	Tue, 25 Jun 2024 12:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2182C1581E0
+	for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2024 12:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719318848; cv=none; b=DIFZvdOC97XgyamS+c2UDkhdML29UdaoXYFXDOEirlHodMvIxDBDRwVCwBOwhSCyNrwtlnMA8N4QC4ADZNS+i7jqEnDrT/QD1MmFh9x69rD5jrih7HybhXXxNRy6XLpr5JBsVWj3w0THC+GQRdntvT13UY/5NuxdyQUnOmyV0Q4=
+	t=1719319593; cv=none; b=Yd4WDQAHk17QLlYJqixJBArZqoG5uxmpHloXfaf+UzYLzIllUwr8itP22GULCdImqFOgkJpLjg5N65ONHn9Gsqaq6Tl8+oYfNVe881EWESY0XNMSwFzrZjGWr0wSqQpFUYiaQcBtZZ/Oj0FKNpJScdNlKtqoAaCgbvJy6Pu9MfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719318848; c=relaxed/simple;
-	bh=SpfHqfa9hfIHdc1CLA4uD7hZE61S37qx3XNIwWLUlfM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pZfgiPxIkSD/DDzeJ+mw5evBgfnUakC8G8JfhRYwWoph7TMaak/AKNYt1aRG8C5q9r9tpSXQ6JAONecSYtq7C3+vyw/4TIwIxnLsrfZnLUBqYSv/CvW+gat7kRbsR5FJIHbqLw4ZtIf4pCN7dvBpmbY2o8PBTZggGrLKIT4MXjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Y1UncwwX; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1719319593; c=relaxed/simple;
+	bh=aCMKWFh4xxVYa5tU04pDD2tCGPX/CvFFSfM+66MsvbM=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=bRiWytTEsnRdAoCIHop+lzfI5bFQvtQ1FI0cGSSJulRObAhyJ65VOFHckXT6bNCBqFJVceTKHNIMFI5zl7e0eBkik0AEqBsy0YS+yaEdBO6pO9FINUCn9BRQdSZqeBGRVRSqrSziJwCKZJbiUjSqSpQRBLT8X6psNTpRT4hY7qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=b46SSsMe; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Y1UncwwX"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 970B060011;
-	Tue, 25 Jun 2024 12:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719318844;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b46SSsMe"
+X-Envelope-To: mudongliangabcd@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1719319587;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4FR8jLvUCzfhWKi2Pz/S1QIOEZDQt3ON1P/We2KXcOc=;
-	b=Y1UncwwXUrOXRVj1ut4zl8KdJUtxx5oFNMA0EkECoohdeRUnm8iy9CQbwsXLWyAj22i4BU
-	Lg02PdN8NSNtMQ+F7zrQdYVgT+0wFZxKMfMWXhEwRAwBVetyDqkrT7MPLoSU49Db+BG5uc
-	HSIyYR3fjRtPqeJV4KsITQYi1yUJQHXAmm4nbyFnWjYpKBnL910eEkIrYwjJzn/Zo/nD6G
-	rGxVXo8E3Ytfdf4HoPfHG4AJywFKIXvNYfniVZcykIlmGPRNygUNGQU333ax5LhnxRL+Z6
-	Eiyz5zUPdfA/6GryBC11AeNo1B7a+qvn3k78rkJWRm08l+zGrDsB90gYfm8Ftw==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 25 Jun 2024 14:33:52 +0200
-Subject: [PATCH net-next v4 7/7] net: pse-pd: pd692x0: Enhance with new
- current limit and voltage read callbacks
+	bh=nRUgS/gXMmEKnBidq5m4sGK0boAW8/zcD9OcIzFrXMs=;
+	b=b46SSsMecjB25zltQhrj31PAYs2r4+WJMEeSgB5gxCK5Yvqf20SfVsQs4SqnE1/AXjvPeL
+	Sy0WvqYjqnjnZOS3c9V3U2clBTl+qYQ0IpgcwPQQudCsbpP7vIYz7F9dwonlHiKnFlU9fo
+	fPIsNZddooOPsQAr2E+y1t7+gNAETMM=
+X-Envelope-To: siyanteng@loongson.cn
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: alexs@kernel.org
+X-Envelope-To: dzm91@hust.edu.cn
+X-Envelope-To: linux-doc@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Tue, 25 Jun 2024 12:46:26 +0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240625-feature_poe_power_cap-v4-7-b0813aad57d5@bootlin.com>
-References: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
-In-Reply-To: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
- Oleksij Rempel <o.rempel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
- linux-doc@vger.kernel.org, Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.15-dev-8cb71
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: si.yanteng@linux.dev
+Message-ID: <41de756a66e3b8564287d0d9ee267af0eee48f2e@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH v2] docs/zh_CN: Add driver-api phy translation
+To: "Dongliang Mu" <mudongliangabcd@gmail.com>, "Yanteng Si"
+ <siyanteng@loongson.cn>
+Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
+ linux-doc@vger.kernel.org
+In-Reply-To: <CAD-N9QWkd0Q+evmKs=NRRg01w2yd9kYRS=nD_7=2_xYGTPLrPw@mail.gmail.com>
+References: <20240625032352.3290797-1-siyanteng@loongson.cn>
+ <CAD-N9QWkd0Q+evmKs=NRRg01w2yd9kYRS=nD_7=2_xYGTPLrPw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+2024=E5=B9=B46=E6=9C=8825=E6=97=A5 13:59, "Dongliang Mu" <mudongliangabcd=
+@gmail.com> =E5=86=99=E5=88=B0:
 
-This patch expands PSE callbacks with newly introduced
-pi_get/set_current_limit() and pi_get_voltage() callback.
-It also add the power limit ranges description in the status returned.
-The only way to set ps692x0 port power limit is by configure the power
-class plus a small power supplement which maximum depends on each class.
 
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
 
-Change in v2:
-- Use uA and uV instead of mA and mV to have more precision in the power
-  calculation. Need to use 64bit variables for the calculation.
-- Modify the behavior in case of setting the current out of the available
-  ranges. Report an error now.
+>=20
+>=20On Tue, Jun 25, 2024 at 11:24 AM Yanteng Si <siyanteng@loongson.cn> w=
+rote:
+>=20
+>=20>=20
+>=20> Translate driver-api/phy.rst into Chinese.
+> >=20
+>=20>  commit d02aa181ee59 ("phy: Add devm_of_phy_optional_get() helper")
+> >=20
+>=20>  Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> >=20
+>=20>  ---
+> >=20
+>=20>  v2:
+> >=20
+>=20>  Modified some sentences in accordance with Dongliang's comments.
+> >=20
+>=20>  .../translations/zh_CN/driver-api/index.rst | 2 +-
+> >=20
+>=20>  .../zh_CN/driver-api/phy/index.rst | 20 ++
+> >=20
+>=20>  .../translations/zh_CN/driver-api/phy/phy.rst | 213 ++++++++++++++=
+++++
+> >=20
+>=20>  3 files changed, 234 insertions(+), 1 deletion(-)
+> >=20
+>=20>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy=
+/index.rst
+> >=20
+>=20>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy=
+/phy.rst
+> >=20
+>=20>  diff --git a/Documentation/translations/zh_CN/driver-api/index.rst=
+ b/Documentation/translations/zh_CN/driver-api/index.rst
+> >=20
+>=20>  +PHY =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E4=BD=
+=BF=E7=94=A8=E4=B8=8A=E8=BF=B0=E4=B8=A4=E4=B8=AA API =E4=B9=8B=E4=B8=80=
+=EF=BC=8C=E9=80=9A=E8=BF=87=E4=BC=A0=E9=80=92=E8=AE=BE=E5=A4=87=E6=8C=87=
+=E9=92=88=E5=92=8C phy_ops
+> >=20
+>=20>  +=E6=9D=A5=E5=88=9B=E5=BB=BA PHY=E3=80=82
+> >=20
+>=20>  +
+> >=20
+>=20>  +phy_ops =E6=98=AF=E4=B8=80=E7=BB=84=E7=94=A8=E4=BA=8E=E6=89=A7=E8=
+=A1=8C PHY =E6=93=8D=E4=BD=9C=EF=BC=88=E4=BE=8B=E5=A6=82 init=E3=80=81exi=
+t=E3=80=81power_on =E5=92=8C
+> >=20
+>=20>  +power_off=EF=BC=89=E7=9A=84=E5=87=BD=E6=95=B0=E6=8C=87=E9=92=88=
+=E3=80=82
+> >=20
+>=20>  +
+> >=20
+>=20>  +=E4=B8=BA=E4=BA=86=E5=8F=96=E6=B6=88=E5=BC=95=E7=94=A8=E7=A7=81=
+=E6=9C=89=E6=95=B0=E6=8D=AE=EF=BC=88=E5=9C=A8 phy_ops =E4=B8=AD=EF=BC=89=
+=EF=BC=8CPHY provider=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=
+=A5=E5=9C=A8=E5=88=9B=E5=BB=BA
+> >=20
+>=20
+>  The Chinese translation of dereference should be =E2=80=9C=E8=A7=A3=E5=
+=BC=95=E7=94=A8=E2=80=9D, a terminology.
+>=20
+>=20>=20
+>=20> +PHY =E5=90=8E=E4=BD=BF=E7=94=A8 phy_set_drvdata()=EF=BC=8C=E5=B9=
+=B6=E5=9C=A8 phy_ops =E4=B8=AD=E4=BD=BF=E7=94=A8 phy_get_drvdata()
+> >=20
+>=20>  +=E6=9D=A5=E5=8F=96=E5=9B=9E=E7=A7=81=E6=9C=89=E6=95=B0=E6=8D=AE=
+=E3=80=82
+> >=20
+>=20
+> I prefer not to translate "in phy_ops". The delivered content from
+>=20
+>=20this sentence should be:
+>=20
+>=20PHY provider=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E4=BD=BF=E7=94=A8phy=
+_set_drvdata=E8=AE=BE=E7=BD=AE=E7=A7=81=E6=9C=89=E6=95=B0=E6=8D=AE=EF=BC=
+=8C=E4=BD=BF=E7=94=A8phy_get_drvdata=E8=8E=B7=E5=8F=96=E7=A7=81=E6=9C=89=
+=E6=95=B0=E6=8D=AE=E3=80=82
+>=20
+>=20=E6=84=9F=E8=A7=89=E5=8F=AF=E4=BB=A5=E8=BF=9B=E8=A1=8C=E6=84=8F=E8=AF=
+=91=E3=80=82
+OK.
+=E5=9C=A8 phy_ops =E4=B8=AD=EF=BC=8CPHY provider=E9=A9=B1=E5=8A=A8=E7=A8=
+=8B=E5=BA=8F=E5=9C=A8=E5=88=9B=E5=BB=BA PHY =E5=90=8E=E4=BD=BF=E7=94=A8 p=
+hy_set_drvdata()
+=E8=AE=BE=E7=BD=AE=E7=A7=81=E6=9C=89=E6=95=B0=E6=8D=AE=EF=BC=8C=E4=BD=BF=
+=E7=94=A8 phy_get_drvdata() =E8=8E=B7=E5=8F=96=E7=A7=81=E6=9C=89=E6=95=B0=
+=E6=8D=AE=E3=80=82
+>=20
 
-Change in v4:
-- Add support for c33 pse power limit ranges.
----
- drivers/net/pse-pd/pd692x0.c | 218 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 216 insertions(+), 2 deletions(-)
+>=20>=20
+>=20>  +
+> >=20
+>=20>  +=E9=94=80=E6=AF=81 PHY
+> >=20
+>=20>  +=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+>=20>  +
+> >=20
+>=20>  +=E5=8D=B8=E8=BD=BD=E5=88=9B=E5=BB=BA PHY =E7=9A=84=E9=A9=B1=E5=8A=
+=A8=E7=A8=8B=E5=BA=8F=E6=97=B6=EF=BC=8C=E5=AE=83=E5=BA=94=E8=AF=A5=E4=BD=
+=BF=E7=94=A8=E4=BB=A5=E4=B8=8B 2 =E4=B8=AA API =E4=B9=8B=E4=B8=80=E9=94=
+=80=E6=AF=81=E5=85=B6=E5=88=9B=E5=BB=BA=E7=9A=84
+> >=20
+>=20
+> =E5=BD=93=E5=88=9B=E5=BB=BA PHY =E7=9A=84=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=
+=BA=8F=E8=A2=AB=E5=8D=B8=E8=BD=BD=E6=97=B6=EF=BC=8C=E5=AE=83=E5=BA=94=E8=
+=AF=A5=E4=BD=BF=E7=94=A8=E4=BB=A5=E4=B8=8B 2 =E4=B8=AA API =E4=B9=8B=E4=
+=B8=80=E9=94=80=E6=AF=81=E5=85=B6=E5=88=9B=E5=BB=BA=E7=9A=84
+>=20
+>=20=E8=BF=99=E4=B8=AA=E2=80=9C=E5=AE=83=E2=80=9D =E5=BA=94=E8=AF=A5=E6=
+=8C=87=E7=9A=84=E6=98=AF=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=EF=BC=8C=E6=
+=89=80=E4=BB=A5=E6=8D=A2=E6=88=90=E5=80=92=E8=A3=85=E4=BC=9A=E5=A5=BD=E4=
+=B8=80=E4=BA=9B=E3=80=82
+OK.
+>=20
+>=20Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
-index 021b22d4b931..261767522788 100644
---- a/drivers/net/pse-pd/pd692x0.c
-+++ b/drivers/net/pse-pd/pd692x0.c
-@@ -74,6 +74,8 @@ enum {
- 	PD692X0_MSG_GET_PORT_STATUS,
- 	PD692X0_MSG_DOWNLOAD_CMD,
- 	PD692X0_MSG_GET_PORT_CLASS,
-+	PD692X0_MSG_GET_PORT_MEAS,
-+	PD692X0_MSG_GET_PORT_PARAM,
- 
- 	/* add new message above here */
- 	PD692X0_MSG_CNT
-@@ -135,7 +137,7 @@ static const struct pd692x0_msg pd692x0_msg_template_list[PD692X0_MSG_CNT] = {
- 	[PD692X0_MSG_SET_PORT_PARAM] = {
- 		.key = PD692X0_KEY_CMD,
- 		.sub = {0x05, 0xc0},
--		.data = {   0, 0xff, 0xff, 0xff,
-+		.data = { 0xf, 0xff, 0xff, 0xff,
- 			 0x4e, 0x4e, 0x4e, 0x4e},
- 	},
- 	[PD692X0_MSG_GET_PORT_STATUS] = {
-@@ -156,6 +158,18 @@ static const struct pd692x0_msg pd692x0_msg_template_list[PD692X0_MSG_CNT] = {
- 		.data = {0x4e, 0x4e, 0x4e, 0x4e,
- 			 0x4e, 0x4e, 0x4e, 0x4e},
- 	},
-+	[PD692X0_MSG_GET_PORT_MEAS] = {
-+		.key = PD692X0_KEY_REQ,
-+		.sub = {0x05, 0xc5},
-+		.data = {0x4e, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
-+	[PD692X0_MSG_GET_PORT_PARAM] = {
-+		.key = PD692X0_KEY_REQ,
-+		.sub = {0x05, 0xc0},
-+		.data = {0x4e, 0x4e, 0x4e, 0x4e,
-+			 0x4e, 0x4e, 0x4e, 0x4e},
-+	},
- };
- 
- static u8 pd692x0_build_msg(struct pd692x0_msg *msg, u8 echo)
-@@ -520,6 +534,106 @@ pd692x0_get_ext_state(struct ethtool_c33_pse_ext_state_info *c33_ext_state_info,
- 	}
- }
- 
-+struct pd692x0_class_pw {
-+	int class;
-+	int class_cfg_value;
-+	int class_pw;
-+	int max_added_class_pw;
-+};
-+
-+#define PD692X0_CLASS_PW_TABLE_SIZE 4
-+/* 4/2 pairs class configuration power table in compliance mode.
-+ * Need to be arranged in ascending order of power support.
-+ */
-+static const struct pd692x0_class_pw
-+pd692x0_class_pw_table[PD692X0_CLASS_PW_TABLE_SIZE] = {
-+	{.class = 3, .class_cfg_value = 0x3, .class_pw = 15000, .max_added_class_pw = 3100},
-+	{.class = 4, .class_cfg_value = 0x2, .class_pw = 30000, .max_added_class_pw = 8000},
-+	{.class = 6, .class_cfg_value = 0x1, .class_pw = 60000, .max_added_class_pw = 5000},
-+	{.class = 8, .class_cfg_value = 0x0, .class_pw = 90000, .max_added_class_pw = 7500},
-+};
-+
-+static int pd692x0_pi_get_pw_from_table(int op_mode, int added_pw)
-+{
-+	const struct pd692x0_class_pw *pw_table;
-+	int i;
-+
-+	pw_table = pd692x0_class_pw_table;
-+	for (i = 0; i < PD692X0_CLASS_PW_TABLE_SIZE; i++, pw_table++) {
-+		if (pw_table->class_cfg_value == op_mode)
-+			return pw_table->class_pw + added_pw * 100;
-+	}
-+
-+	return -ERANGE;
-+}
-+
-+static int pd692x0_pi_set_pw_from_table(struct device *dev,
-+					struct pd692x0_msg *msg, int pw)
-+{
-+	const struct pd692x0_class_pw *pw_table;
-+	int i;
-+
-+	pw_table = pd692x0_class_pw_table;
-+	if (pw < pw_table->class_pw) {
-+		dev_err(dev,
-+			"Power limit %dmW not supported. Ranges minimal available: [%d-%d]\n",
-+			pw,
-+			pw_table->class_pw,
-+			pw_table->class_pw + pw_table->max_added_class_pw);
-+		return -ERANGE;
-+	}
-+
-+	for (i = 0; i < PD692X0_CLASS_PW_TABLE_SIZE; i++, pw_table++) {
-+		if (pw > (pw_table->class_pw + pw_table->max_added_class_pw))
-+			continue;
-+
-+		if (pw < pw_table->class_pw) {
-+			dev_err(dev,
-+				"Power limit %dmW not supported. Ranges availables: [%d-%d] or [%d-%d]\n",
-+				pw,
-+				(pw_table - 1)->class_pw,
-+				(pw_table - 1)->class_pw + (pw_table - 1)->max_added_class_pw,
-+				pw_table->class_pw,
-+				pw_table->class_pw + pw_table->max_added_class_pw);
-+			return -ERANGE;
-+		}
-+
-+		msg->data[2] = pw_table->class_cfg_value;
-+		msg->data[3] = (pw - pw_table->class_pw) / 100;
-+		return 0;
-+	}
-+
-+	pw_table--;
-+	dev_warn(dev,
-+		 "Power limit %dmW not supported. Set to highest power limit %dmW\n",
-+		 pw, pw_table->class_pw + pw_table->max_added_class_pw);
-+	msg->data[2] = pw_table->class_cfg_value;
-+	msg->data[3] = pw_table->max_added_class_pw / 100;
-+	return 0;
-+}
-+
-+static int
-+pd692x0_pi_get_pw_ranges(struct pse_control_status *st)
-+{
-+	const struct pd692x0_class_pw *pw_table;
-+	int i;
-+
-+	pw_table = pd692x0_class_pw_table;
-+	st->c33_pw_limit_ranges = kcalloc(PD692X0_CLASS_PW_TABLE_SIZE,
-+					  sizeof(struct ethtool_c33_pse_pw_limit_range),
-+					  GFP_KERNEL);
-+	if (!st->c33_pw_limit_ranges)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < PD692X0_CLASS_PW_TABLE_SIZE; i++, pw_table++) {
-+		st->c33_pw_limit_ranges[i].min = pw_table->class_pw;
-+		st->c33_pw_limit_ranges[i].max = pw_table->class_pw + pw_table->max_added_class_pw;
-+	}
-+
-+	st->c33_pw_limit_nb_ranges = i;
-+	return 0;
-+}
-+
- static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
- 				      unsigned long id,
- 				      struct netlink_ext_ack *extack,
-@@ -558,9 +672,20 @@ static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
- 	priv->admin_state[id] = status->c33_admin_state;
- 
- 	pd692x0_get_ext_state(&status->c33_ext_state_info, buf.sub[0]);
--
- 	status->c33_actual_pw = (buf.data[0] << 4 | buf.data[1]) * 100;
- 
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_PARAM];
-+	msg.sub[2] = id;
-+	memset(&buf, 0, sizeof(buf));
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = pd692x0_pi_get_pw_from_table(buf.data[0], buf.data[1]);
-+	if (ret < 0)
-+		return ret;
-+	status->c33_avail_pw_limit = ret;
-+
- 	memset(&buf, 0, sizeof(buf));
- 	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_CLASS];
- 	msg.sub[2] = id;
-@@ -572,6 +697,10 @@ static int pd692x0_ethtool_get_status(struct pse_controller_dev *pcdev,
- 	if (class <= 8)
- 		status->c33_pw_class = class;
- 
-+	ret = pd692x0_pi_get_pw_ranges(status);
-+	if (ret < 0)
-+		return ret;
-+
- 	return 0;
- }
- 
-@@ -850,12 +979,97 @@ static int pd692x0_setup_pi_matrix(struct pse_controller_dev *pcdev)
- 	return ret;
- }
- 
-+static int pd692x0_pi_get_voltage(struct pse_controller_dev *pcdev, int id)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int ret;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_MEAS];
-+	msg.sub[2] = id;
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Convert 0.1V unit to uV */
-+	return (buf.sub[0] << 8 | buf.sub[1]) * 100000;
-+}
-+
-+static int pd692x0_pi_get_current_limit(struct pse_controller_dev *pcdev,
-+					int id)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct pd692x0_msg msg, buf = {0};
-+	int mW, uV, uA, ret;
-+	s64 tmp_64;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_PARAM];
-+	msg.sub[2] = id;
-+	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = pd692x0_pi_get_pw_from_table(buf.data[2], buf.data[3]);
-+	if (ret < 0)
-+		return ret;
-+	mW = ret;
-+
-+	ret = pd692x0_pi_get_voltage(pcdev, id);
-+	if (ret < 0)
-+		return ret;
-+	uV = ret;
-+
-+	tmp_64 = mW;
-+	tmp_64 *= 1000000000ull;
-+	/* uA = mW * 1000000000 / uV */
-+	uA = DIV_ROUND_CLOSEST_ULL(tmp_64, uV);
-+	return uA;
-+}
-+
-+static int pd692x0_pi_set_current_limit(struct pse_controller_dev *pcdev,
-+					int id, int max_uA)
-+{
-+	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
-+	struct device *dev = &priv->client->dev;
-+	struct pd692x0_msg msg, buf = {0};
-+	int uV, ret, mW;
-+	s64 tmp_64;
-+
-+	ret = pd692x0_fw_unavailable(priv);
-+	if (ret)
-+		return ret;
-+
-+	ret = pd692x0_pi_get_voltage(pcdev, id);
-+	if (ret < 0)
-+		return ret;
-+	uV = ret;
-+
-+	msg = pd692x0_msg_template_list[PD692X0_MSG_SET_PORT_PARAM];
-+	msg.sub[2] = id;
-+	tmp_64 = uV;
-+	tmp_64 *= max_uA;
-+	/* mW = uV * uA / 1000000000 */
-+	mW = DIV_ROUND_CLOSEST_ULL(tmp_64, 1000000000);
-+	ret = pd692x0_pi_set_pw_from_table(dev, &msg, mW);
-+	if (ret)
-+		return ret;
-+
-+	return pd692x0_sendrecv_msg(priv, &msg, &buf);
-+}
-+
- static const struct pse_controller_ops pd692x0_ops = {
- 	.setup_pi_matrix = pd692x0_setup_pi_matrix,
- 	.ethtool_get_status = pd692x0_ethtool_get_status,
- 	.pi_enable = pd692x0_pi_enable,
- 	.pi_disable = pd692x0_pi_disable,
- 	.pi_is_enabled = pd692x0_pi_is_enabled,
-+	.pi_get_voltage = pd692x0_pi_get_voltage,
-+	.pi_get_current_limit = pd692x0_pi_get_current_limit,
-+	.pi_set_current_limit = pd692x0_pi_set_current_limit,
- };
- 
- #define PD692X0_FW_LINE_MAX_SZ 0xff
 
--- 
-2.34.1
+Thanks for your review.
 
+
+Thanks,
+Yanteng
