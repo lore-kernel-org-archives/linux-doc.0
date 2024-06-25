@@ -1,489 +1,340 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ECC45030
-	for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2024 02:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB1EB286AE
+	for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2024 03:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719284089; cv=none; b=AN65U8S8J/IyEBf1ldHm+g+gbUi2r3C41GMAB+Um/a9DzznuT1iyWaotHUwQx4IK0mC5H7l4SzuIb8HH+Hm6cIVG5gaOMEsbQJ023LG07WTlE1lLuL2wjp8TwruJBeYDDzjV15XTy7FxwmflZ6fVMv1b4cSNhF5Jrf35AzS8qGs=
+	t=1719285851; cv=none; b=TnQ6oLN7bdx/30vyrzUYfnb3MI3UPAG8LWdQPiFTISyPLvsBqaQs2rsBL/y7yvC2cPNuVUi0z02Wi5/0TPaqRjQegF78ZhebBDIFviXJ7YNKExYhBYK+Q5R2mCy0bk7kXYYH3P5ppugdSyNwSiij/y1FjzKDHVdvHGVPgk8vSbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719284089; c=relaxed/simple;
-	bh=//sJY374UU2pK5k5DdFZ0phlpWalf5XW5fAL7mo8u/4=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=QcdVL3i+uKx3PwFciu4RFPftl9un2sHcr5M/M6Mm6STLYlRGT6cly0QZL+HnE1lxCI1/2KvTDHzJVeo9pZmTLWXG9e2/5Vbzb9haOAVtX1eJwaa2Ae2lyzmXUfhoqMjR6dPJnxIe5vYRJCWGRVB5CMQ4+no8+SzEs4fgOD/FbBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HxLdGFzm; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HxLdGFzm"
-X-Envelope-To: mudongliangabcd@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1719284083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SuunuuZNvCwElDxdo7Em9MBQ8XJm+N1cHUO/seztRvY=;
-	b=HxLdGFzmwAap969knR8RnR+vRFPprt0D7NSA3y16IMbyOePUCzNmVXBXLzOTxW+QkBucLo
-	2Ywszep+X3s/VXYlSUDjW+4VPM2sxWe3mSWEslVzzvOfLnNLeddwPqekcMs8+pyEd4PKh+
-	TMW+78AbXo69/gvNbfH8i12C93r1F5E=
-X-Envelope-To: siyanteng@loongson.cn
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: alexs@kernel.org
-X-Envelope-To: dzm91@hust.edu.cn
-X-Envelope-To: linux-doc@vger.kernel.org
+	s=arc-20240116; t=1719285851; c=relaxed/simple;
+	bh=JneR3Y6rX+f6p58J9mTrC1T3MYqZNbDwUgJPJwtU6n0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PNHu6x3A5TlTrPP5bWwRwaPDvO+vu+eApInTWQXTUH65fQ8kM/+P24CCG/UuYgyd1GivwBnkYq7UPZ26gow+76TlYX7yD1xYsXM4ZpF4ZhLUEw+jhkXtnWqkIY+3aKlJerwM6ifphZGig9QAdAkR2vBmu+JEqUsGA2oHbqaiqyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.110.225])
+	by gateway (Coremail) with SMTP id _____8AxW+pVOHpm_LwJAA--.39661S3;
+	Tue, 25 Jun 2024 11:24:05 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.110.225])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxVcVUOHpmyQEwAA--.37811S2;
+	Tue, 25 Jun 2024 11:24:05 +0800 (CST)
+From: Yanteng Si <siyanteng@loongson.cn>
+To: corbet@lwn.net,
+	alexs@kernel.org
+Cc: dzm91@hust.edu.cn,
+	linux-doc@vger.kernel.org,
+	Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2] docs/zh_CN: Add driver-api phy translation
+Date: Tue, 25 Jun 2024 11:23:52 +0800
+Message-Id: <20240625032352.3290797-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 25 Jun 2024 02:54:41 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: si.yanteng@linux.dev
-Message-ID: <ac5c53bfc5303a1bce3c730bb3b444b777b06161@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] docs/zh_CN: Add driver-api phy translation
-To: "Dongliang Mu" <mudongliangabcd@gmail.com>, "Yanteng Si"
- <siyanteng@loongson.cn>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
- linux-doc@vger.kernel.org
-In-Reply-To: <CAD-N9QXsziu63DE7MBJAEJNRR1UW9ZhCTxMayOeEJsn-CVZhSQ@mail.gmail.com>
-References: <20240618134242.379715-1-siyanteng@loongson.cn>
- <CAD-N9QXsziu63DE7MBJAEJNRR1UW9ZhCTxMayOeEJsn-CVZhSQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxVcVUOHpmyQEwAA--.37811S2
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3KFWkJry5Xw18ur43Gr45Arc_yoWkWFWkpF
+	4DWFyftw4IqFy7uw4qyF1UWFyjk3Wxur48KF1xua4avrn8Xrs0va1Utryag3Z3W34kCFy8
+	tF45JFyfAry7CrcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 
-2024=E5=B9=B46=E6=9C=8818=E6=97=A5 22:32, "Dongliang Mu" <mudongliangabcd=
-@gmail.com> =E5=86=99=E5=88=B0:
+Translate driver-api/phy.rst into Chinese.
 
+commit d02aa181ee59 ("phy: Add devm_of_phy_optional_get() helper")
 
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v2:
+Modified some sentences in accordance with Dongliang's comments.
 
->=20
->=20On Tue, Jun 18, 2024 at 10:13 PM Yanteng Si <siyanteng@loongson.cn> w=
-rote:
->=20
->=20>=20
->=20> Translate driver-api/phy.rst into Chinese.
-> >=20
->=20>  commit d02aa181ee59 ("phy: Add devm_of_phy_optional_get() helper")
-> >=20
->=20>  Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> >=20
->=20>  ---
-> >=20
->=20>  .../translations/zh_CN/driver-api/index.rst | 2 +-
-> >=20
->=20>  .../zh_CN/driver-api/phy/index.rst | 21 ++
-> >=20
->=20>  .../translations/zh_CN/driver-api/phy/phy.rst | 213 ++++++++++++++=
-++++
-> >=20
->=20>  3 files changed, 235 insertions(+), 1 deletion(-)
-> >=20
->=20>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy=
-/index.rst
-> >=20
->=20>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy=
-/phy.rst
-> >=20
->=20>  diff --git a/Documentation/translations/zh_CN/driver-api/index.rst=
- b/Documentation/translations/zh_CN/driver-api/index.rst
-> >=20
->=20>  index 92ff1b7fc3d3..4050a2fb51c6 100644
-> >=20
->=20>  --- a/Documentation/translations/zh_CN/driver-api/index.rst
-> >=20
->=20>  +++ b/Documentation/translations/zh_CN/driver-api/index.rst
-> >=20
->=20>  @@ -23,6 +23,7 @@ Linux=E9=A9=B1=E5=8A=A8=E5=AE=9E=E7=8E=B0=E8=80=
-=85=E7=9A=84API=E6=8C=87=E5=8D=97
-> >=20
->=20>  gpio/index
-> >=20
->=20>  io_ordering
-> >=20
->=20>  + phy/index
-> >=20
->=20>  Todolist:
-> >=20
->=20>  @@ -103,7 +104,6 @@ Todolist:
-> >=20
->=20>  * parport-lowlevel
-> >=20
->=20>  * pps
-> >=20
->=20>  * ptp
-> >=20
->=20>  -* phy/index
-> >=20
->=20>  * pwm
-> >=20
->=20>  * pldmfw/index
-> >=20
->=20>  * rfkill
-> >=20
->=20>  diff --git a/Documentation/translations/zh_CN/driver-api/phy/index=
-.rst b/Documentation/translations/zh_CN/driver-api/phy/index.rst
-> >=20
->=20>  new file mode 100644
-> >=20
->=20>  index 000000000000..ba3f570e894f
-> >=20
->=20>  --- /dev/null
-> >=20
->=20>  +++ b/Documentation/translations/zh_CN/driver-api/phy/index.rst
-> >=20
->=20>  @@ -0,0 +1,21 @@
-> >=20
->=20>  +.. SPDX-License-Identifier: GPL-2.0
-> >=20
->=20>  +
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +PHY =E5=85=AC=E5=85=B1=E6=A1=86=E6=9E=B6
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20
-> =E8=BF=99=E9=87=8C=E6=98=AF=E4=B8=8D=E6=98=AF=E7=BF=BB=E8=AF=91=E4=B8=
-=BA PHY=E9=80=9A=E7=94=A8=E6=A1=86=E6=9E=B6=E6=9B=B4=E5=A5=BD=E4=BA=9B=EF=
-=BC=9F
-OK.
->=20
->=20>=20
->=20> +
-> >=20
->=20>  +.. toctree::
-> >=20
->=20>  +
-> >=20
->=20>  + phy
-> >=20
->=20>  +
-> >=20
->=20>  +Todolist:
-> >=20
->=20>  +
-> >=20
->=20>  +* samsung-usb2
-> >=20
->=20>  +
-> >=20
->=20>  +.. only:: subproject and html
-> >=20
->=20>  +
-> >=20
->=20>  + Indices
-> >=20
->=20>  + =3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +
-> >=20
->=20>  + * :ref:`genindex`
-> >=20
->=20>  +
-> >=20
->=20>  diff --git a/Documentation/translations/zh_CN/driver-api/phy/phy.r=
-st b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
-> >=20
->=20>  new file mode 100644
-> >=20
->=20>  index 000000000000..ed13b53182c4
-> >=20
->=20>  --- /dev/null
-> >=20
->=20>  +++ b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
-> >=20
->=20>  @@ -0,0 +1,213 @@
-> >=20
->=20>  +.. SPDX-License-Identifier: GPL-2.0
-> >=20
->=20>  +.. include:: ../../disclaimer-zh_CN.rst
-> >=20
->=20>  +
-> >=20
->=20>  +:Original: Documentation/driver-api/phy/phy.rst
-> >=20
->=20>  +
-> >=20
->=20>  +:=E7=BF=BB=E8=AF=91:
-> >=20
->=20>  +
-> >=20
->=20>  + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
-> >=20
->=20>  +
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +PHY=E5=AD=90=E7=B3=BB=E7=BB=9F
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +
-> >=20
->=20>  +:=E4=BD=9C=E8=80=85: Kishon Vijay Abraham I <kishon@ti.com>
-> >=20
->=20>  +
-> >=20
->=20>  +=E6=9C=AC=E6=96=87=E6=A1=A3=E8=A7=A3=E9=87=8A=E4=BA=86 PHY =E7=9A=
-=84=E5=85=AC=E5=85=B1=E6=A1=86=E6=9E=B6=E5=92=8C=E6=8F=90=E4=BE=9B=E7=9A=
-=84api=EF=BC=8C=E4=BB=A5=E5=8F=8A=E5=A6=82=E4=BD=95=E4=BD=BF=E7=94=A8=E3=
-=80=82
-> >=20
->=20
-> ditto
->=20
->=20=E5=90=8C=E6=97=B6=EF=BC=8C=E5=BB=BA=E8=AE=AE API =E9=83=BD=E7=94=A8=
-=E5=A4=A7=E5=86=99=EF=BC=8C=E5=85=A8=E6=96=87=E4=BF=9D=E6=8C=81=E4=B8=80=
-=E8=87=B4=E3=80=82
->=20
->=20how-to-use =E5=BB=BA=E8=AE=AE=E7=BF=BB=E8=AF=91=E4=B8=BA =E2=80=9C=E4=
-=BD=BF=E7=94=A8=E6=96=B9=E6=B3=95=E2=80=9D=EF=BC=8C=E5=90=A6=E5=88=99=E4=
-=B8=8D=E5=A4=AA=E9=80=9A=E9=A1=BA=E3=80=82
-OK.
->=20
->=20>=20
->=20> +
-> >=20
->=20>  +=E7=AE=80=E4=BB=8B
-> >=20
->=20>  +=3D=3D=3D=3D
-> >=20
->=20>  +
-> >=20
->=20>  +*PHY* =E6=98=AF=E7=89=A9=E7=90=86=E5=B1=82=E7=9A=84=E7=BC=A9=E5=
-=86=99=EF=BC=8C=E5=AE=83=E8=A2=AB=E7=94=A8=E6=9D=A5=E6=8A=8A=E8=AE=BE=E5=
-=A4=87=E8=BF=9E=E6=8E=A5=E5=88=B0=E4=B8=80=E4=B8=AA=E7=89=A9=E7=90=86=E5=
-=AA=92=E4=BB=8B=EF=BC=8C=E4=BE=8B=E5=A6=82USB=E6=8E=A7=E5=88=B6=E5=99=A8
-> >=20
->=20>  +=E6=9C=89=E4=B8=80=E4=B8=AA=E6=8F=90=E4=BE=9B=E5=BA=8F=E5=88=97=
-=E5=8C=96=E3=80=81=E5=8F=8D=E5=BA=8F=E5=88=97=E5=8C=96=E3=80=81=E7=BC=96=
-=E7=A0=81=E3=80=81=E8=A7=A3=E7=A0=81=E5=92=8C=E8=B4=9F=E8=B4=A3=E8=8E=B7=
-=E5=8F=96=E6=89=80=E9=9C=80=E7=9A=84=E6=95=B0=E6=8D=AE=E4=BC=A0=E8=BE=93=
-=E9=80=9F=E7=8E=87=E7=9A=84 PHY=E3=80=82
-> >=20
->=20>  +=E6=B3=A8=E6=84=8F=EF=BC=8C=E6=9C=89=E4=BA=9BUSB=E6=8E=A7=E5=88=
-=B6=E5=99=A8=E5=86=85=E5=B5=8C=E4=BA=86 PHY =E7=9A=84=E5=8A=9F=E8=83=BD=
-=EF=BC=8C=E5=85=B6=E5=AE=83=E7=9A=84=E5=88=99=E4=BD=BF=E7=94=A8=E4=BA=86=
-=E4=B8=80=E4=B8=AA=E5=A4=96=E7=BD=AE=E7=9A=84PHY=EF=BC=8C=E6=AD=A4=E5=A4=
-=96
-> >=20
->=20>  +=E4=BD=BF=E7=94=A8 PHY =E7=9A=84=E8=AE=BE=E5=A4=87=E8=BF=98=E6=9C=
-=89=E6=97=A0=E7=BA=BF=E7=BD=91=E3=80=81=E4=BB=A5=E5=A4=AA=E7=BD=91=E3=80=
-=81SATA=E7=AD=89=EF=BC=88=E6=8E=A7=E5=88=B6=E5=99=A8=EF=BC=89=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +=E5=88=9B=E5=BB=BA=E8=BF=99=E4=B8=AA=E6=A1=86=E6=9E=B6=E7=9A=84=
-=E7=9B=AE=E7=9A=84=E6=98=AF=E5=B0=86=E9=81=8D=E5=B8=83 Linux =E5=86=85=E6=
-=A0=B8=E7=9A=84 PHY =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E8=9E=8D=E5=85=
-=A5=E5=88=B0 drivers/phy=EF=BC=8C
-> >=20
->=20>  +=E4=BB=A5=E5=A2=9E=E5=8A=A0=E4=BB=A3=E7=A0=81=E5=A4=8D=E7=94=A8=
-=E6=80=A7=EF=BC=8C=E8=BF=9B=E8=80=8C=E6=8F=90=E9=AB=98=E4=BB=A3=E7=A0=81=
-=E7=9A=84=E5=8F=AF=E7=BB=B4=E6=8A=A4=E6=80=A7=E3=80=82
-> >=20
->=20
-> "=E5=A4=8D=E7=94=A8=E6=80=A7" -> "=E5=8F=AF=E5=A4=8D=E7=94=A8=E6=80=A7"
-ok.
-=E4=BB=A5=E5=A2=9E=E5=8A=A0=E4=BB=A3=E7=A0=81=E7=9A=84=E5=8F=AF=E5=A4=8D=
-=E7=94=A8=E6=80=A7,
->=20
->=20>=20
->=20> +
-> >=20
->=20>  +=E8=AF=A5=E6=A1=86=E6=9E=B6=E4=BB=85=E9=80=82=E7=94=A8=E4=BA=8E=
-=E4=BD=BF=E7=94=A8=E5=A4=96=E9=83=A8 PHY=EF=BC=88PHY =E5=8A=9F=E8=83=BD=
-=E6=9C=AA=E5=B5=8C=E5=85=A5=E6=8E=A7=E5=88=B6=E5=99=A8=E5=86=85=EF=BC=89=
-=E7=9A=84=E8=AE=BE=E5=A4=87=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +=E6=B3=A8=E5=86=8C/=E6=B3=A8=E9=94=80PHY provider
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +
-> >=20
->=20>  +PHY provider=E6=98=AF=E6=8C=87=E5=AE=9E=E7=8E=B0=E4=B8=80=E4=B8=
-=AA=E6=88=96=E5=A4=9A=E4=B8=AA PHY =E5=AE=9E=E4=BE=8B=E7=9A=84=E5=AE=9E=
-=E4=BD=93=E3=80=82=E5=AF=B9=E4=BA=8E PHY provider =E4=BB=85
-> >=20
->=20>  +=E5=AE=9E=E7=8E=B0=E5=8D=95=E4=B8=AA PHY =E5=AE=9E=E4=BE=8B=E7=9A=
-=84=E7=AE=80=E5=8D=95=E6=83=85=E5=86=B5=EF=BC=8C=E6=A1=86=E6=9E=B6=E5=9C=
-=A8 of_phy_simple_xlate =E4=B8=AD=E6=8F=90=E4=BE=9B=E5=85=B6=E8=87=AA=E5=
-=B7=B1
-> >=20
->=20>  +=E7=9A=84 of_xlate =E5=AE=9E=E7=8E=B0=E3=80=82=E5=A6=82=E6=9E=9C =
-PHY provider =E5=AE=9E=E7=8E=B0=E5=A4=9A=E4=B8=AA=E5=AE=9E=E4=BE=8B=EF=BC=
-=8C=E5=88=99=E5=BA=94=E6=8F=90=E4=BE=9B=E5=85=B6=E8=87=AA=E5=B7=B1=E7=9A=
-=84
-> >=20
->=20>  +of_xlate =E5=AE=9E=E7=8E=B0=E3=80=82of_xlate =E4=BB=85=E7=94=A8=
-=E4=BA=8E dt =E5=90=AF=E5=8A=A8=E6=83=85=E5=86=B5=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +::
-> >=20
->=20>  +
-> >=20
->=20>  + #define of_phy_provider_register(dev, xlate) \
-> >=20
->=20>  + __of_phy_provider_register((dev), NULL, THIS_MODULE, (xlate))
-> >=20
->=20>  +
-> >=20
->=20>  + #define devm_of_phy_provider_register(dev, xlate) \
-> >=20
->=20>  + __devm_of_phy_provider_register((dev), NULL, THIS_MODULE,
-> >=20
->=20>  + (xlate))
-> >=20
->=20>  +
-> >=20
->=20>  +of_phy_provider_register =E5=92=8C devm_of_phy_provider_register =
-=E5=AE=8F
-> >=20
->=20>  +=E5=8F=AF=E7=94=A8=E4=BA=8E=E6=B3=A8=E5=86=8C phy_provider=EF=BC=
-=8C=E5=AE=83=E4=BB=A5 device =E5=92=8C of_xlate =E4=BD=9C=E4=B8=BA=E5=8F=
-=82=E6=95=B0=E3=80=82=E5=AF=B9=E4=BA=8E dt
-> >=20
->=20>  +=E5=90=AF=E5=8A=A8=E6=83=85=E5=86=B5=EF=BC=8C=E6=89=80=E6=9C=89 P=
-HY provider =E9=83=BD=E5=BA=94=E4=BD=BF=E7=94=A8=E4=B8=8A=E8=BF=B0=E4=B8=
-=A4=E4=B8=AA=E5=AE=8F=E4=B9=8B=E4=B8=80=E6=9D=A5=E6=B3=A8=E5=86=8C PHY pr=
-ovider=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +=E4=B8=8E PHY provider =E5=85=B3=E8=81=94=E7=9A=84=E8=AE=BE=E5=A4=
-=87=E6=A0=91=E8=8A=82=E7=82=B9=E9=80=9A=E5=B8=B8=E5=8C=85=E5=90=AB=E4=B8=
-=80=E7=BB=84=E5=AD=90=E8=8A=82=E7=82=B9=EF=BC=8C=E6=AF=8F=E4=B8=AA=E5=AD=
-=90=E8=8A=82=E7=82=B9=E4=BB=A3=E8=A1=A8=E4=B8=80=E4=B8=AA
-> >=20
->=20>  +PHY=E3=80=82=E6=9F=90=E4=BA=9B=E7=BB=91=E5=AE=9A=E5=8F=AF=E8=83=
-=BD=E4=BC=9A=E4=B8=BA=E4=BA=86=E4=B8=8A=E4=B8=8B=E6=96=87=E5=92=8C=E5=8F=
-=AF=E6=89=A9=E5=B1=95=E6=80=A7=E5=B0=86=E5=AD=90=E8=8A=82=E7=82=B9=E5=B5=
-=8C=E5=A5=97=E5=9C=A8=E7=89=B9=E5=88=AB=E7=9A=84=E5=B1=82=E7=BA=A7=E4=B8=
-=AD=EF=BC=8C=E5=9C=A8=E8=BF=99=E7=A7=8D
-> >=20
->=20>  +=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E5=8F=AF=E4=BB=A5=E4=BD=BF=
-=E7=94=A8=E4=BD=8E=E7=BA=A7=E5=88=AB=E7=9A=84 of_phy_provider_register_fu=
-ll() =E5=92=8C
-> >=20
->=20>  +devm_of_phy_provider_register_full() =E5=AE=8F=E6=9D=A5=E8=A6=86=
-=E7=9B=96=E5=8C=85=E5=90=AB=E5=AD=90=E8=8A=82=E7=82=B9=E7=9A=84=E8=8A=82=
-=E7=82=B9=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +::
-> >=20
->=20>  +
-> >=20
->=20>  + #define of_phy_provider_register_full(dev, children, xlate) \
-> >=20
->=20>  + __of_phy_provider_register(dev, children, THIS_MODULE, xlate)
-> >=20
->=20>  +
-> >=20
->=20>  + #define devm_of_phy_provider_register_full(dev, children, xlate)=
- \
-> >=20
->=20>  + __devm_of_phy_provider_register_full(dev, children,
-> >=20
->=20>  + THIS_MODULE, xlate)
-> >=20
->=20>  +
-> >=20
->=20>  + void devm_of_phy_provider_unregister(struct device *dev,
-> >=20
->=20>  + struct phy_provider *phy_provider);
-> >=20
->=20>  + void of_phy_provider_unregister(struct phy_provider *phy_provide=
-r);
-> >=20
->=20>  +
-> >=20
->=20>  +devm_of_phy_provider_unregister =E5=92=8C of_phy_provider_unregis=
-ter
-> >=20
->=20>  +=E5=8F=AF=E4=BB=A5=E8=A2=AB=E7=94=A8=E6=9D=A5=E6=B3=A8=E9=94=80PH=
-Y.
-> >=20
->=20>  +
-> >=20
->=20>  +=E5=88=9B=E5=BB=BAPHY
-> >=20
->=20>  +=3D=3D=3D=3D=3D=3D=3D
-> >=20
->=20>  +
-> >=20
->=20>  +PHY =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=BA=94=E5=88=9B=E5=BB=
-=BA PHY=EF=BC=8C=E4=BB=A5=E4=BE=BF=E5=85=B6=E4=BB=96=E5=A4=96=E5=9B=B4=EF=
-=BC=88=E8=8A=AF=E7=89=87=EF=BC=89=E6=8E=A7=E5=88=B6=E5=99=A8=E8=83=BD=E5=
-=A4=9F=E4=BD=BF=E7=94=A8=E5=AE=83=E3=80=82PHY =E6=A1=86=E6=9E=B6
-> >=20
->=20>  +=E6=8F=90=E4=BE=9B=E4=BA=86 2 =E4=B8=AA API =E6=9D=A5=E5=88=9B=E5=
-=BB=BA PHY=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +::
-> >=20
->=20>  +
-> >=20
->=20>  + struct phy *phy_create(struct device *dev, struct device_node *n=
-ode,
-> >=20
->=20>  + const struct phy_ops *ops);
-> >=20
->=20>  + struct phy *devm_phy_create(struct device *dev,
-> >=20
->=20>  + struct device_node *node,
-> >=20
->=20>  + const struct phy_ops *ops);
-> >=20
->=20>  +
-> >=20
->=20>  +PHY =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E4=BD=
-=BF=E7=94=A8=E4=B8=8A=E8=BF=B0=E4=B8=A4=E4=B8=AA API =E4=B9=8B=E4=B8=80=
-=EF=BC=8C=E9=80=9A=E8=BF=87=E4=BC=A0=E9=80=92=E8=AE=BE=E5=A4=87=E6=8C=87=
-=E9=92=88=E5=92=8C phy ops
-> >=20
->=20>  +=E6=9D=A5=E5=88=9B=E5=BB=BA PHY=E3=80=82
-> >=20
->=20
-> From the context, I think "phy ops" should be "phy_ops".
-OK.
+ .../translations/zh_CN/driver-api/index.rst   |   2 +-
+ .../zh_CN/driver-api/phy/index.rst            |  20 ++
+ .../translations/zh_CN/driver-api/phy/phy.rst | 213 ++++++++++++++++++
+ 3 files changed, 234 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/driver-api/phy/index.rst
+ create mode 100644 Documentation/translations/zh_CN/driver-api/phy/phy.rst
 
->=20
->=20>=20
->=20> +
-> >=20
->=20>  +phy_ops =E6=98=AF=E4=B8=80=E7=BB=84=E7=94=A8=E4=BA=8E=E6=89=A7=E8=
-=A1=8C PHY =E6=93=8D=E4=BD=9C=EF=BC=88=E4=BE=8B=E5=A6=82 init=E3=80=81exi=
-t=E3=80=81power_on =E5=92=8C
-> >=20
->=20>  +power_off=EF=BC=89=E7=9A=84=E5=87=BD=E6=95=B0=E6=8C=87=E9=92=88=
-=E3=80=82
-> >=20
->=20>  +
-> >=20
->=20>  +=E4=B8=BA=E4=BA=86=E5=8F=96=E6=B6=88=E5=BC=95=E7=94=A8=E7=A7=81=
-=E6=9C=89=E6=95=B0=E6=8D=AE=EF=BC=88=E5=9C=A8 phy_ops =E4=B8=AD=EF=BC=89=
-=EF=BC=8Cphy provider=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=
-=A5=E5=9C=A8=E5=88=9B=E5=BB=BA
-> >=20
->=20
-> =E6=AD=A4=E5=A4=84=E5=BA=94=E8=AF=A5=E4=BD=BF=E7=94=A8PHY=E4=BF=9D=E6=
-=8C=81=E5=85=A8=E6=96=87=E4=B8=80=E8=87=B4=E3=80=82
-OK.
+diff --git a/Documentation/translations/zh_CN/driver-api/index.rst b/Documentation/translations/zh_CN/driver-api/index.rst
+index 92ff1b7fc3d3..4050a2fb51c6 100644
+--- a/Documentation/translations/zh_CN/driver-api/index.rst
++++ b/Documentation/translations/zh_CN/driver-api/index.rst
+@@ -23,6 +23,7 @@ Linux驱动实现者的API指南
+ 
+    gpio/index
+    io_ordering
++   phy/index
+ 
+ Todolist:
+ 
+@@ -103,7 +104,6 @@ Todolist:
+ *   parport-lowlevel
+ *   pps
+ *   ptp
+-*   phy/index
+ *   pwm
+ *   pldmfw/index
+ *   rfkill
+diff --git a/Documentation/translations/zh_CN/driver-api/phy/index.rst b/Documentation/translations/zh_CN/driver-api/phy/index.rst
+new file mode 100644
+index 000000000000..2cdce17b74a9
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/phy/index.rst
+@@ -0,0 +1,20 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++PHY 通用框架
++============
++
++.. toctree::
++
++   phy
++
++Todolist:
++
++*   samsung-usb2
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/translations/zh_CN/driver-api/phy/phy.rst b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
+new file mode 100644
+index 000000000000..0d8feae2b8a9
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
+@@ -0,0 +1,213 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/phy/phy.rst
++
++:翻译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++=========
++PHY子系统
++=========
++
++:作者: Kishon Vijay Abraham I <kishon@ti.com>
++
++本文档解释了 PHY 的通用框架和提供的API，以及使用方法。
++
++简介
++====
++
++*PHY* 是物理层的缩写，它被用来把设备连接到一个物理媒介，例如USB控制器
++有一个提供序列化、反序列化、编码、解码和负责获取所需的数据传输速率的 PHY。
++注意，有些USB控制器内嵌了 PHY 的功能，其它的则使用了一个外置的PHY，此外
++使用 PHY 的设备还有无线网、以太网、SATA等（控制器）。
++
++创建这个框架的目的是将遍布 Linux 内核的 PHY 驱动程序融入到 drivers/phy，
++以增加代码的可复用性，进而提高代码的可维护性。
++
++该框架仅适用于使用外部 PHY（PHY 功能未嵌入控制器内）的设备。
++
++注册/注销PHY provider
++=====================
++
++PHY provider是指实现一个或多个 PHY 实例的实体。对于 PHY provider 仅
++实现单个 PHY 实例的简单情况，框架在 of_phy_simple_xlate 中提供其自己
++的 of_xlate 实现。如果 PHY provider 实现多个实例，则应提供其自己的
++of_xlate 实现。of_xlate 仅用于 dt 启动情况。
++
++::
++
++	#define of_phy_provider_register(dev, xlate)    \
++		__of_phy_provider_register((dev), NULL, THIS_MODULE, (xlate))
++
++	#define devm_of_phy_provider_register(dev, xlate)       \
++		__devm_of_phy_provider_register((dev), NULL, THIS_MODULE,
++						(xlate))
++
++of_phy_provider_register 和 devm_of_phy_provider_register 宏
++可用于注册 phy_provider，它以 device 和 of_xlate 作为参数。对于 dt
++启动情况，所有 PHY provider 都应使用上述两个宏之一来注册 PHY provider。
++
++与 PHY provider 关联的设备树节点通常包含一组子节点，每个子节点代表一个
++PHY。某些绑定可能会为了上下文和可扩展性将子节点嵌套在特别的层级中，在这种
++情况下，可以使用低级别的 of_phy_provider_register_full() 和
++devm_of_phy_provider_register_full() 宏来覆盖包含子节点的节点。
++
++::
++
++	#define of_phy_provider_register_full(dev, children, xlate) \
++		__of_phy_provider_register(dev, children, THIS_MODULE, xlate)
++
++	#define devm_of_phy_provider_register_full(dev, children, xlate) \
++		__devm_of_phy_provider_register_full(dev, children,
++						     THIS_MODULE, xlate)
++
++	void devm_of_phy_provider_unregister(struct device *dev,
++		struct phy_provider *phy_provider);
++	void of_phy_provider_unregister(struct phy_provider *phy_provider);
++
++devm_of_phy_provider_unregister 和 of_phy_provider_unregister
++可以被用来注销PHY.
++
++创建PHY
++=======
++
++PHY 驱动程序应创建 PHY，以便其他外围（芯片）控制器能够使用它。PHY 框架
++提供了 2 个 API 来创建 PHY。
++
++::
++
++	struct phy *phy_create(struct device *dev, struct device_node *node,
++			       const struct phy_ops *ops);
++	struct phy *devm_phy_create(struct device *dev,
++				    struct device_node *node,
++				    const struct phy_ops *ops);
++
++PHY 驱动程序可以使用上述两个 API 之一，通过传递设备指针和 phy_ops
++来创建 PHY。
++
++phy_ops 是一组用于执行 PHY 操作（例如 init、exit、power_on 和
++power_off）的函数指针。
++
++为了取消引用私有数据（在 phy_ops 中），PHY provider驱动程序可以在创建
++PHY 后使用 phy_set_drvdata()，并在 phy_ops 中使用 phy_get_drvdata()
++来取回私有数据。
++
++获取对 PHY 的引用
++=================
++
++控制器必须先获取对 PHY 的引用，然后才能使用 PHY。此框架提供以下 API
++来获取对 PHY 的引用。
++
++::
++
++	struct phy *phy_get(struct device *dev, const char *string);
++	struct phy *devm_phy_get(struct device *dev, const char *string);
++	struct phy *devm_phy_optional_get(struct device *dev,
++					  const char *string);
++	struct phy *devm_of_phy_get(struct device *dev, struct device_node *np,
++				    const char *con_id);
++	struct phy *devm_of_phy_optional_get(struct device *dev,
++					     struct device_node *np,
++					     const char *con_id);
++	struct phy *devm_of_phy_get_by_index(struct device *dev,
++					     struct device_node *np,
++					     int index);
++
++phy_get、devm_phy_get 和 devm_phy_optional_get 可用于在 dt
++启动的情况下获取 PHY，字符串参数应包含 dt 数据中给出的 phy 名称，在
++非 dt 启动的情况下，它应包含 PHY 的标签。两个 devm_phy_get 在成功
++获取 PHY 后使用 devres 将设备与 PHY 关联。在驱动程序分离时，将在
++devres 数据上调用 release 函数并释放 devres 数据。当 phy 是可选
++的时，应使用 _optional_get 变体。这些函数永远不会返回 -ENODEV，而
++是在找不到 phy 时返回 NULL。一些通用驱动程序（例如 ehci）可能使用
++多个 phy。在这种情况下，devm_of_phy_get 或 devm_of_phy_get_by_index
++用于根据名称或索引获取 phy 引用。
++
++需要注意的是，NULL 是有效的 phy 引用。NULL phy 上的所有 phy 使用
++者调用都将成为 NOP。也就是说释放调用，当应用于 NULL phy 时，release
++调用、phy_init()/phy_exit() 调用、phy_power_on()/phy_power_off()
++调用都是 NOP。NULL phy 在处理可选的 phy 设备中很有用。
++
++API的调用顺序
++=============
++
++通常，调用顺序应该是::
++
++    [devm_][of_]phy_get()
++    phy_init()
++    phy_power_on()
++    [phy_set_mode[_ext]()]
++    ...
++    phy_power_off()
++    phy_exit()
++    [[of_]phy_put()]
++
++一些PHY驱动可能没有实现 :c:func:`phy_init` 或 :c:func:`phy_power_on`,
++但是控制器应该总是调用这些函数以兼容其它PHY，有些PHY可能要求
++:c:func:`phy_set_mode <phy_set_mode_ext>` 而其他 PHY 可能使用
++默认模式（通常通过设备树或其他固件配置）。出于兼容性考虑，如果您知道将
++使用哪种模式，则应始终调用此函数。通常，应在 :c:func:`phy_power_on`
++之后调用此函数，尽管某些 PHY 驱动程序可能随时允许调用它。
++
++释放对 PHY 的引用
++=================
++
++当控制器不再需要 PHY 时，它必须使用上一节中提到的 API 释放对已获得
++的 PHY 的引用。PHY 框架提供了 2 个 API 来释放对 PHY 的引用。
++
++::
++
++	void phy_put(struct phy *phy);
++	void devm_phy_put(struct device *dev, struct phy *phy);
++
++这两个 API 都用于释放对 PHY 的引用，并且 devm_phy_put 会销毁与此
++PHY 关联的设备资源。
++
++销毁 PHY
++========
++
++卸载创建 PHY 的驱动程序时，它应该使用以下 2 个 API 之一销毁其创建的
++PHY::
++
++	void phy_destroy(struct phy *phy);
++	void devm_phy_destroy(struct device *dev, struct phy *phy);
++
++这两个 API 都会销毁 PHY，并且 devm_phy_destroy 会销毁与此 PHY 关
++联的 devres。
++
++PM Runtime
++==========
++
++这个子系统启用了pm runtime。 所以，在创建PHY 时，将调用此子系统创建的
++phy 设备的 pm_runtime_enable 函数，在销毁 PHY 时，将调用
++pm_runtime_disable。请注意，此子系统创建的 phy 设备将是调用 phy_create
++（PHY provider 设备）的设备的子设备。
++
++因此，由于父子关系，此子系统创建的 phy_device 的 pm_runtime_get_sync
++调用 PHY provider 设备的 pm_runtime_get_sync。还应注意，
++phy_power_on 和 phy_power_off 分别执行 phy_pm_runtime_get_sync 和
++phy_pm_runtime_put。有导出的 API，如 phy_pm_runtime_get、
++phy_pm_runtime_get_sync、phy_pm_runtime_put、phy_pm_runtime_put_sync、
++phy_pm_runtime_allow 和 phy_pm_runtime_forbid，用于执行 PM 操作。
++
++PHY映射
++=======
++
++为了在没有 DeviceTree 帮助的情况下获取对 PHY 的引用，框架提供了可与
++clkdev 进行比较的查找，允许将 clk 结构体绑定到设备。当 struct phy 的
++句柄已存在时，可以在运行时进行查找。
++
++该框架提供以下 API 用于注册和注销查找::
++
++	int phy_create_lookup(struct phy *phy, const char *con_id,
++			      const char *dev_id);
++	void phy_remove_lookup(struct phy *phy, const char *con_id,
++			       const char *dev_id);
++
++DeviceTree绑定
++==============
++
++PHY dt 绑定的文档可以在以下位置找到 @
++Documentation/devicetree/bindings/phy/phy-bindings.txt
+-- 
+2.31.4
 
-
-Thanks,
-Yanteng
