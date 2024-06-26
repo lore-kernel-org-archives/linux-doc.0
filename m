@@ -1,46 +1,55 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0660181B80;
-	Wed, 26 Jun 2024 22:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319FD19309C;
+	Wed, 26 Jun 2024 23:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719442691; cv=none; b=jRMYVjHdedIfnIcqxP5jux0SyUKlfgPPLeC3m1v0g0Bv9Ljjo67I3smbakoYrpVFzz0SwxQRMn6tlnucHCoOn9/zZvUT+apvzYH8Z9rerlU3PeWb5NPFJbQP34H1PmZ9dggYbYzhcxjY7aTopLtOGVIyA6mWZuONLSeTxs5B6mM=
+	t=1719443591; cv=none; b=ok8qCaT+nYwag9GALH092s/YpDBMd0Vtt1kTgtFgGg6EN3VUN2otXBmVuvmnFmvUw2btFySgZ9RgfnfG7l0xlkVAcbiqnsPGuPyvkDau6fuuq8nBnETY9NVhmLMIT7H0I77kLydzRgIR8hPkKl3dRu6w1HSV6q96W5Jb+RltP4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719442691; c=relaxed/simple;
-	bh=3ggciXfkKtod5+5ActdBNmx2SFruhRoKb3wtvraDCDU=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OQ+a9B3t7Z/aenDL16bCyKGIdtcU/YwFG/TMigMJiV7G2RONxl8aSDHy4YL63tvgCV36o1BqzmmtMM7QsrG9JCkhrMsqW1mt1S9LZ9kj7yfTa+infakZIfAF9S5c4804HvF4ghmI3v3+6MnmUc9ifrXbnGt4ixk1/909AJkYfI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=V3TRTmAw; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1719443591; c=relaxed/simple;
+	bh=4MNHDuB27X4XbIAQZjJn55ihsbt8baZdU7aNrx01P88=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QacU4POC7jmG305BAVj0BsEc1HartdSWlybp9+XcXdhEiRY7lHLiYrOPmS7wRqM0l7Rc9q7Fwvaet3dSstaZKCX0VTRzE+cFLOJSlJ0pjA69Jit81bLLkNXpqNKqa1DUIqPkUSHiQxzTeUuf0FBsgiyRxUBThHU6xbKZWryMeq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BrM6T+Er; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="V3TRTmAw"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D249C45E2B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BrM6T+Er"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4A0CD45E2B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1719442690; bh=rpAlUTxdQ9UTDQ7LCDE71kXw/lpo/I0zJuqonJl1HnQ=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=V3TRTmAwXPuRpBqaxG37Af+MVs91HvHdcZ2cp6F5kkyd2k5dNzSa0VRjkPMmfyO1C
-	 UglG0jKSV3y5uIef84cJ4vb80UbCNdUHurkjyZl51tuuCXCWfeZ5gzsna/l4ifdWHo
-	 F51YsL0LtmhMLZqRfW033IxIYUd8yG5+9SVHLgBEWRk4eZNvaq9drFxit2osLgnExS
-	 6V24GqnaenH1oQ2rg/MhxeCnJdjUnN6rRb7SAuHzVXupyWhkKJ1HYYQ5vlJXlRAUZD
-	 6fCq39p1XK1bx4KagGWl/JOdOQeFpQk/vNkHe7yBHht4fYFZ0NR7uhteL16h0odfYL
-	 4OJhzr1VRyEjw==
+	t=1719443589; bh=Lf1chSU6XVlbAueGCt5A9XabdPOkNuXkxU1yuwXYxaM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BrM6T+Erj9ZDLDHhti8Fyao9nDqSPfxpLFxUDEJxCCZeqVyrg1/KJ4zhPfLpjQHJ/
+	 Go3rOocScliB3XeK917BjmVHDmjxwd2No1Aml9QOOLIYg9Hih6HyJkJrr7mTpG2Nyq
+	 keJ3G5uXpE+Rm5Dk8Y0wOj9zsQdBKVhQ90MTB+q/LuMhkoOGQl11vZfNwIP52Rp8HD
+	 JjO0z2+4PEoFFIrMmNp6b3KaCK9Ydc6ovzqJj7x0ar9Qm24+dTGhJoh0DO72WbIFj/
+	 yoED1DGq1zYscfCOMOJe6xIjXwVaPYc7NN6H2NOErQ8NMo0R4ae0zwdpDKQCEtWMla
+	 VfAi0CqSps0SQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D249C45E2B;
-	Wed, 26 Jun 2024 22:58:09 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4A0CD45E2B;
+	Wed, 26 Jun 2024 23:13:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Nir Lichtman <nir@lichtman.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: English corrections in vmalloced kernel
- stacks
-In-Reply-To: <20240619215944.GA3571421@lichtman.org>
-References: <20240619215944.GA3571421@lichtman.org>
-Date: Wed, 26 Jun 2024 16:58:09 -0600
-Message-ID: <87msn7xqf2.fsf@trenco.lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Kees Cook
+ <kees@kernel.org>
+Cc: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
+ trailers
+In-Reply-To: <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+ <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
+ <202406211355.4AF91C2@keescook>
+ <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
+Date: Wed, 26 Jun 2024 17:13:08 -0600
+Message-ID: <87cyo3fgcb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,23 +58,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-I have applied this but...
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-Nir Lichtman <nir@lichtman.org> writes:
+> On Fri, Jun 21, 2024 at 02:07:44PM GMT, Kees Cook wrote:
+>> On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
+>> > +   This URL should be used when referring to relevant mailing list
+>> > +   topics, related patch sets, or other notable discussion threads.
+>> > +   A convenient way to associate ``Link:`` trailers with the commit
+>> > +   message is to use markdown-like bracketed notation, for example::
+>> > ...
+>> > +     Link: https://lore.kernel.org/some-msgid@here # [1]
+>> > +     Link: https://bugzilla.example.org/bug/12345  # [2]
+>> 
+>> Why are we adding the extra "# " characters? The vast majority of
+>> existing Link tags don't do this:
+>
+> That's just convention. In general, the hash separates the trailer from the
+> comment:
+>
+>     Trailer-name: actual-trailer-body # comment
+>
 
-> From 34f137faedf7769b2ab8c834ce57d4de56eb0d88 Mon Sep 17 00:00:00 2001
-> From: Nir Lichtman <nir@lichtman.org>
-> Date: Thu, 20 Jun 2024 00:45:14 +0300
-> Subject: [PATCH] Documentation: English corrections in vmalloced kernel stacks
-
-This stuff ^^^ just has to be edited out when I apply the patch, which
-adds useless work.  If you don't use git send-email to send your
-patches, please make the effort to send something that can be directly
-applied.
-
-Also: when sending a new version of a patch, indicate that it is such
-("v2") and make a note of what changed.
-
-Thanks,
+Did we ever come to a conclusion on this?  This one character seems to
+be the main source of disagreement in this series, I'm wondering if I
+should just apply it and let the painting continue thereafter...?
 
 jon
