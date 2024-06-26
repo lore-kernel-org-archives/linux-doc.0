@@ -1,103 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62269155C91;
-	Wed, 26 Jun 2024 15:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0BC18A932;
+	Wed, 26 Jun 2024 15:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719414545; cv=none; b=hmUDPkw0cRQypTngcu37xiYa6vLQrygSQEWR40jP2gOeZEaWStbrA2tZ6Zr6aGo/jonZn2DoOdBgR8i0DdLBylFP+4+QSiGnAm3ESTWs0dbGmZgE7lZxBs+uFx9qpsuocMwYi+3ZYNiBl4n8fUkAXvOE3SHoA/FSoD1nu8PhPH4=
+	t=1719415553; cv=none; b=aGSjtRMlNXKPzuXLGmFr3kOxrN6Q2oBRXMyFCvF4FUJupqokWUl9gMypIx1jPX+XYUjxnKXqcAAJIgwVmPTkmFimD+9mON0aTYcT+jcZNsn+/H62rUbM4VqBUYAGjKQtxyQCKlBqnojGRyPm09eaNaNFG4wm7+ftVXUpmWINbZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719414545; c=relaxed/simple;
-	bh=7+HyK8B/fQPVJIpKq7co7b0HBUUXOxNXHxcBIgwRlFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5M1Dv2RPeSZhNmD6B257VeFURO3wZcyycU3nKwocbZ9s43mTPy60w6J74vB/mQBLbybK09NYfwQJ5AbSExRY2a6BTnRXRennF6pPeEUBWg1QM56V0J7ro4heZSWSZrDnjx09mmC196Z8Hog38PnWRH5XkNHJSILjR4a019GLFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZ6olwVm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719415553; c=relaxed/simple;
+	bh=umQXEjb2PL2e6U2B+fVH2n32pkx0la3uAx1khMFgVWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d6d+I/3hI5PojaXS2XEUHeJ8Xfb6ueuSX6YL7HNaivbd8G4tRfRaWQ6DeVJD/sWoEnNF/rAGkVPKRVJtd9txHZlWz/J3PLVN+HEXrIL6NFsoGjas/tKih1ihY+H6QAp1Fzc2VNDxzpSn25OcVEyoZrjSdHA6p3R/yq4tfbMCgXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kLSOeu/8; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZ6olwVm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845B6C116B1;
-	Wed, 26 Jun 2024 15:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719414544;
-	bh=7+HyK8B/fQPVJIpKq7co7b0HBUUXOxNXHxcBIgwRlFU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GZ6olwVmvbc8/IucRok615TR/W5kaeJx4oeQTQwW47UTb3gprgoMUUQcqdy/StpJY
-	 tLSTdPNZ4/555lhGTIhoDrcIUBfZq/D/Fue9r9EHYm99Cegfdh/0uslDonUjktPMgC
-	 qRgJj9b7DZlr85vlpTTNBs/ikf7q+kmLTbLC21SATpzB7fp9xPkL5Ogfz9tIC+C/td
-	 ASBl1dI79UH2Lonx47/pSSEUfZ7Gu3c2AsQd0zXtGH29ITFmLGiWpfBZBs4XkYJ4er
-	 iTMVKYhcb8DSlWoPwbJDmHO37pyFUN7YoaGzYhMvIq85ZR7ymbzu4Yz86O2b+lp61h
-	 Ikw+WyBhs1i5g==
-Date: Wed, 26 Jun 2024 16:08:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	nuno.sa@analog.com, corbet@lwn.net, marcelo.schmitt1@gmail.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/7] spi: Enable controllers to extend the SPI
- protocol with MOSI idle configuration
-Message-ID: <7ed7f957-3e07-42ce-894a-f3f9dcf512ea@sirena.org.uk>
-References: <cover.1719351923.git.marcelo.schmitt@analog.com>
- <add14694c64b574af742a5dcd5c9461e0ef5210a.1719351923.git.marcelo.schmitt@analog.com>
- <1d2cde40-ad55-4136-bc72-3d71515f7023@baylibre.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kLSOeu/8"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 17CEB1C0003;
+	Wed, 26 Jun 2024 15:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719415549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KzWNL/B1WPRI1LHle3EgQV0Lb6TkftrlmClTLMWSPBs=;
+	b=kLSOeu/8phqJ9r0wDZzEov/Ok8bEN9tgl6yPtsL1phpTujYSra21gKL1mch4AuK8gt3hP7
+	fqlCL96/h5S4xaylSaX/SKQCIz8YOcSxWseLcQX1KnRNqzqSI67r/ahBO6HSnFzryYGyyu
+	YC6PSrIijhS0RVFMzzjkMkHTuBnMMnlV0HwA4AMn9TJ0Mn/j3O2hjef8SlqZktcs15Omx+
+	QbUtaN6EEv5dfGC40hmBcT8RKTIxPI24BeQ4hBZVCrsuNG0afPIShQx1VC1aNgG4lvbkON
+	xbJ4wSQVUpkBVijbpT2DXM8BjCQlAiJLWXsDBqtCNWtddehbimNkJapETsSP3Q==
+Date: Wed, 26 Jun 2024 17:25:47 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald Hunter
+ <donald.hunter@gmail.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ Jonathan Corbet <corbet@lwn.net>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v4 0/7] net: pse-pd: Add new PSE c33 features
+Message-ID: <20240626172547.115e95cc@kmaincent-XPS-13-7390>
+In-Reply-To: <20240626062711.499695c5@kernel.org>
+References: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
+	<20240625184144.49328de3@kernel.org>
+	<20240626095211.00956faa@kmaincent-XPS-13-7390>
+	<20240626062711.499695c5@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="N7WFjWy5qfMLq50w"
-Content-Disposition: inline
-In-Reply-To: <1d2cde40-ad55-4136-bc72-3d71515f7023@baylibre.com>
-X-Cookie: Results vary by individual.
-
-
---N7WFjWy5qfMLq50w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, Jun 26, 2024 at 09:57:32AM -0500, David Lechner wrote:
-> On 6/25/24 4:53 PM, Marcelo Schmitt wrote:
+On Wed, 26 Jun 2024 06:27:11 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-> > +#define SPI_CONTROLLER_MOSI_IDLE_LOW    BIT(8)  /* Can idle MOSI low */
-> > +#define SPI_CONTROLLER_MOSI_IDLE_HIGH   BIT(9)  /* Can idle MOSI high =
-*/
+> On Wed, 26 Jun 2024 09:52:11 +0200 Kory Maincent wrote:
+>  [...] =20
+>=20
+> Every Thursday, usually around noon PST but exact timing depends on when
+> Linus pulls and how quickly I notice that he did :)
 
-> These two flags above are still not used anywhere and are redundant with
-> the SPI_MOSI_IDLE_LOW/HIGH flags below so I don't think we should be addi=
-ng
-> these.
+Ok, thanks for the information!
 
-Yes.
-
-> Also, what is the plan for adding these flags to other SPI controllers. F=
-or
-> example, the IMX controller in [1] sounds like it should also support=20
-> SPI_MOSI_IDLE_HIGH. And your comments on an earlier version of this series
-> made it sound like Raspberry Pi is always SPI_MOSI_IDLE_LOW, so should
-> have that flag.
-
-I don't think we need a specific plan there, obviously it'd be nice for
-people to go through and enable but it's also fine to just leave this
-for someone who needs the support to implement.
-
---N7WFjWy5qfMLq50w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ8LwkACgkQJNaLcl1U
-h9CNhgf/SSOf2uT6QPqgmc8UK28/2kDxpc+L0ItGJSbkMvq4Qzd/jESlpcCMl8D3
-y5GdaWkZXfaXoyqVyGcBi077uDS/pw0IcQlPXL/yI5deRxKibzt2H6mM8Sn8gznn
-BP4zQZc5fp9CrYQ256g/pMOxD3Q0Qam6xuG9TispYcNAcnLKuOAVEpuI/zC+V+lo
-yZUdLIsMQbTPDVRsIrs6UPs8Au+QWkkSyb6uC0yU8CAtZpoIR2hVNz1h8ixLsANz
-fneBARRJ1h/6iNI405so1ujN5D0Bw8B157RJY5TOR+PeN7+bqjwC1lfvmPA5k2R6
-cF7e8HmRtu6iC8EBhzUSnCxI7/NDkw==
-=SYzG
------END PGP SIGNATURE-----
-
---N7WFjWy5qfMLq50w--
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
