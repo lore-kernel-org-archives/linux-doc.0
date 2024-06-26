@@ -1,130 +1,334 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D79E1836F9;
-	Wed, 26 Jun 2024 14:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3297718629C;
+	Wed, 26 Jun 2024 14:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719411659; cv=none; b=SFTS0xTsma6a/2YlO9sWJzVk0YwZiVGaczt4fzgVqabZMYZozexOTw5YO4OsVkw10QoJvM3x32k8WD6UL0U8EgIhZ1sLsqqGKPvsBtDpRGP1mSmSHgXKikvx6pm852o2sc9C9RBm5JP5HsL1RkE35SUETZFrwN1vU9Jeb1SflDI=
+	t=1719411899; cv=none; b=BoN7n8V0+RLfPxSxweR4UkfYW+jNWbd9ni0Ds1i2J8lBHBk7U0VAXXpKpxQS8r7/T+KZ2XDKPBMAcBNalnKzMGOrq2WTPnFFGBmwSwOYEsCOOJVdBD/wdh9zMO+J9ANnsHscY03RelD4IxKNShOxOhteyD5qHtPAhQ3pm3+8ifg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719411659; c=relaxed/simple;
-	bh=oxDxeYfgubR8rSKJc/9uwn4hFGyANRWmCr9/PwJfEuY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=k0l1h1L53zqjgpvn17pZYlzTxeCgguJCVogm3NezCRGXGeLf8TWqCRdYFKlMWGGHebnknapYMdWy4yz29TVXbVHK5rIlV+2zL6nu8TVzNfJonuEJjsOZR0Az2RwXzpDdgnfs55zzyTABPjYS0myfNnlZQH4PReMYpOBvxqD+FCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rj77pBRH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719411899; c=relaxed/simple;
+	bh=LY3O0wyzOO4ZZUjTNY0ik3V8d3QYy42Ys12z6P4sDMo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tX19MQTdPfvAFQmU3zOAEYlY73hXTiVbiHaUghgXoZeR9djqbhf9frfSghYQZ1BnjtFlXqlqhEZGAqlQOMx0smLEnubKJLrjX9QqaibdrG5l59gb3miVnBaGv68yrNq+7IPAdfZN0+GtyeuPlr5o2+CLkuRBju0PuNMX8UCpAIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZsUVX8W; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rj77pBRH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE32C32782;
-	Wed, 26 Jun 2024 14:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719411659;
-	bh=oxDxeYfgubR8rSKJc/9uwn4hFGyANRWmCr9/PwJfEuY=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Rj77pBRHZ2PHPInaK3skl9EBC+v4xwUz+h7MlrWOjvZOn4ae6u5Pf2pcMJTpxfHiY
-	 OQ+sL5L8p2Mn85OOZUTXFhFGwf6AHXMCo85r09gBSSUc/oQMphm6PJjdJ+YZcDaAbc
-	 qN/nyDEy+JUtyXj6e2Z9JU+rBhbKDdSt8ip5xr6mokHcgCNpRMqdtajPvhJx0l1XTJ
-	 Bqhw/TaLETnXgXG5wlnVl0w1O/vkEgYFur+Yn+YvAxvnI9oGp3SixY8nc56LHrYad2
-	 P6qCiVet+HPvlnY7Gn1fFuWz0LND9hOtuc677EcJW6ZtpcyJ7ElnYt9JXHa27jnSu8
-	 nb8mVE8eQVQlg==
-Message-ID: <b01552d4-61f3-44b5-aae1-1faebcacf8b5@kernel.org>
-Date: Wed, 26 Jun 2024 16:20:50 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZsUVX8W"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52cdfb69724so4865810e87.1;
+        Wed, 26 Jun 2024 07:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719411895; x=1720016695; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ljVB1XBgItVGRvkSmQ9UaPN/JmF21Go3KK/z7Y69xCA=;
+        b=AZsUVX8WgHeWhCJtwH3w+grBab3R9lPgqoPu180ShsIKnbrvCJLVYHs8vRcoFAoJY6
+         iE39w9Jl26C+mz8bjWoWUbxyZTa8r4Z3mCGOtj9MyJ+JDujvBjEIOCB8KPcLmh1rV90m
+         22PpHjMWuwbY4pqpObdZkrzoI1LESBPFUQr2C//O5D++s4/Z6+zNErAbLh0fLG419z8k
+         rEJI3uz+b0WVrKpJU5RVhxr/9tuwZ0PEWYejfE0Vuaz6KERTB1G/DeC3Z1/RLnM5Se+k
+         cNQb1KJj5XEIvfQYIGkBURSRBIv+/AZFBs4G6rI962p2bpoCsCPDzfcerlhwa3Pqzmq0
+         o8VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719411895; x=1720016695;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ljVB1XBgItVGRvkSmQ9UaPN/JmF21Go3KK/z7Y69xCA=;
+        b=KkeSpRiwVZGG2Dcma7ktp3M3u2/yx+saaa8YrEMtQvedvnBzD0XR2XLAXEnhV/WuLb
+         yAIlUxyCH34O/6GuvJXKKC34wGhkOJSTXGVKh03ozhg1llUXlQBwiVY+WyAL5w8vWE1Z
+         NUnhWB1s17OFftNhs6jHO0wXDRDcuZWkNoKR0QC33hL0eQXgktYRs/WiPQFUJNShvoKt
+         bFlILID75s3IUrHtxiCKrP6f8CzXs+BO5HZGAGwXCjMOK2IpE1HxpUZVR5RjwOJ4ot3H
+         YblFmw+lZKFFnAansHdaV9X9AKWetqs7JGBU3dSzv6MN+YgG0PMB3S0YNgOWdxQbobrb
+         EwlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd3/akefzCgWhRmUANHLhrRb14bZ3DftCZGeeM+jl5u6iUozUY57rChgYntqhIm6ov4iSuzW+69LFMFzKdmrsYw1utXV+Rxgwhj8EQ+rWktbXzauo6fHZnZKYU8MCRp46NMGo/clq/xXXJ4k9vuQ1dPqy8ag3UkkZw785NE3NjshSgDd8jt0bFhwFT+l405vkynZGkKz763NgYlsELus0=
+X-Gm-Message-State: AOJu0YyVVPT2R657c1OAR7zlYyGLsoYrIukiW8+a2KGXxb6AVmosX1vP
+	PE3fRYp3+V9rd6txljozGjSZgV838TpN+oRENhLaq6JZiJqxVNaW/QAkISkT
+X-Google-Smtp-Source: AGHT+IHTAQcNp5YYs54BdIdaQJj4RqgXe5l9b6vOR/BXji2N9RKcowKQKcnJW/uHP6GOmlNCDpNkVg==
+X-Received: by 2002:ac2:598e:0:b0:52c:e159:a998 with SMTP id 2adb3069b0e04-52ce183b3c3mr5566341e87.29.1719411895014;
+        Wed, 26 Jun 2024 07:24:55 -0700 (PDT)
+Received: from localhost.localdomain ([195.239.203.83])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cda72b401sm1496705e87.136.2024.06.26.07.24.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 07:24:54 -0700 (PDT)
+From: Alex Vdovydchenko <keromvp@gmail.com>
+X-Google-Original-From: Alex Vdovydchenko <xzeol@yahoo.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: Alex Vdovydchenko <xzeol@yahoo.com>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH 2/2] hwmon: add MP5920 driver
+Date: Wed, 26 Jun 2024 17:24:34 +0300
+Message-ID: <20240626142439.1407175-3-xzeol@yahoo.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240626142439.1407175-1-xzeol@yahoo.com>
+References: <20240626142439.1407175-1-xzeol@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] dt-bindings: riscv: Add Zabha ISA extension
- description
-To: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet
- <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-3-alexghiti@rivosinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240626130347.520750-3-alexghiti@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 26/06/2024 15:03, Alexandre Ghiti wrote:
-> Add description for the Zabha ISA extension which was ratified in April
-> 2024.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Add support for MPS Hot-Swap controller mp5920. This driver exposes
+telemetry and limits value readings and writtings.
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Signed-off-by: Alex Vdovydchenko <xzeol@yahoo.com>
+---
+ Documentation/hwmon/index.rst  |  1 +
+ Documentation/hwmon/mp5920.rst | 91 +++++++++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig    |  9 ++++
+ drivers/hwmon/pmbus/Makefile   |  1 +
+ drivers/hwmon/pmbus/mp5920.c   | 93 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 195 insertions(+)
+ create mode 100644 Documentation/hwmon/mp5920.rst
+ create mode 100644 drivers/hwmon/pmbus/mp5920.c
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index e92a3d5c7..9eba7e402 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -168,6 +168,7 @@ Hardware Monitoring Kernel Drivers
+    mp2975
+    mp2993
+    mp5023
++   mp5920
+    mp5990
+    mp9941
+    mpq8785
+diff --git a/Documentation/hwmon/mp5920.rst b/Documentation/hwmon/mp5920.rst
+new file mode 100644
+--- /dev/null
++++ b/Documentation/hwmon/mp5920.rst
+@@ -0,0 +1,91 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver mp5920
++====================
++
++Supported chips:
++
++  * MPS MP5920
++
++    Prefix: 'mp5920'
++
++  * Datasheet
++
++    Publicly available at the MPS website : https://www.monolithicpower.com/en/mp5920.html
++
++Authors:
++
++	Tony Ao <tony_ao@wiwynn.com>
++	Alex Vdovydchenko <xzeol@yahoo.com>
++
++Description
++-----------
++
++This driver implements support for Monolithic Power Systems, Inc. (MPS)
++MP5920 Hot-Swap Controller.
++
++Device compliant with:
++
++- PMBus rev 1.3 interface.
++
++Device supports direct and linear format for reading input voltage,
++output voltage, output current, input power and temperature.
++
++The driver exports the following attributes via the 'sysfs' files
++for input voltage:
++
++**in1_input**
++
++**in1_label**
++
++**in1_rated_max**
++
++**in1_rated_min**
++
++**in1_crit**
++
++**in1_alarm**
++
++The driver provides the following attributes for output voltage:
++
++**in2_input**
++
++**in2_label**
++
++**in2_rated_max**
++
++**in2_rated_min**
++
++**in2_alarm**
++
++The driver provides the following attributes for output current:
++
++**curr1_input**
++
++**curr1_label**
++
++**curr1_crit**
++
++**curr1_alarm**
++
++**curr1_rated_max**
++
++The driver provides the following attributes for input power:
++
++**power1_input**
++
++**power1_label**
++
++**power1_max**
++
++**power1_rated_max**
++
++The driver provides the following attributes for temperature:
++
++**temp1_input**
++
++**temp1_max**
++
++**temp1_crit**
++
++**temp1_alarm**
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -371,6 +371,15 @@ config SENSORS_MP5023
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called mp5023.
+ 
++config SENSORS_MP5920
++	tristate "MPS MP5920"
++	help
++	  If you say yes here you get hardware monitoring support for Monolithic
++	  MP5920.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called mp5920.
++
+ config SENSORS_MP5990
+ 	tristate "MPS MP5990"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -39,6 +39,7 @@ obj-$(CONFIG_SENSORS_MP2888)	+= mp2888.o
+ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+ obj-$(CONFIG_SENSORS_MP2993)	+= mp2993.o
+ obj-$(CONFIG_SENSORS_MP5023)	+= mp5023.o
++obj-$(CONFIG_SENSORS_MP5920)	+= mp5920.o
+ obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
+ obj-$(CONFIG_SENSORS_MP9941)	+= mp9941.o
+ obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
+diff --git a/drivers/hwmon/pmbus/mp5920.c b/drivers/hwmon/pmbus/mp5920.c
+new file mode 100644
+--- /dev/null
++++ b/drivers/hwmon/pmbus/mp5920.c
+@@ -0,0 +1,95 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for MP5920 and compatible chips.
++ *
++ * Copyright (c) 2019 Facebook Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ */
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/init.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include "pmbus.h"
++
++static struct pmbus_driver_info mp5920_info = {
++	pages = 1,
++	format[PSC_VOLTAGE_IN] = direct,
++	format[PSC_VOLTAGE_OUT] = direct,
++	format[PSC_CURRENT_OUT] = direct,
++	format[PSC_POWER] = direct,
++	format[PSC_TEMPERATURE] = direct,
++	m[PSC_VOLTAGE_IN] = 2266,
++	b[PSC_VOLTAGE_IN] = 0,
++	R[PSC_VOLTAGE_IN] = -1,
++	m[PSC_VOLTAGE_OUT] = 2266,
++	b[PSC_VOLTAGE_OUT] = 0,
++	R[PSC_VOLTAGE_OUT] = -1,
++	m[PSC_CURRENT_OUT] = 546,
++	b[PSC_CURRENT_OUT] = 0,
++	R[PSC_CURRENT_OUT] = -2,
++	m[PSC_POWER] = 5840,
++	b[PSC_POWER] = 0,
++	R[PSC_POWER] = -3,
++	m[PSC_TEMPERATURE] = 1067,
++	b[PSC_TEMPERATURE] = 20500,
++	R[PSC_TEMPERATURE] = -2,
++	func[0] = PMBUS_HAVE_VIN  | PMBUS_HAVE_VOUT |
++		PMBUS_HAVE_IOUT | PMBUS_HAVE_POUT |
++		PMBUS_HAVE_TEMP,
++};
++
++static int mp5920_probe(struct i2c_client *client)
++{
++	struct device *dev =  &client->dev;
++	int chip_id;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_READ_WORD_DATA))
++		return -ENODEV;
++
++	chip_id = i2c_smbus_read_word_data(client, PMBUS_MFR_ID);
++	if (chip_id < 0) {
++		dev_err(dev, "Failed to read MFR ID");
++		return chip_id;
++	}
++
++	return pmbus_do_probe(client, &mp5920_info);
++}
++
++static const struct of_device_id mp5920_of_match[] = {
++	{ .compatible = "mps,mp5920" },
++	{}
++};
++
++static const struct i2c_device_id mp5920_id[] = {
++	{"mp5920", 0},
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, mp5920_id);
++
++static struct i2c_driver mp5920_driver = {
++	.driver = {
++		.name = "mp5920",
++		.of_match_table = mp5920_of_match,
++	},
++	.probe = mp5920_probe,
++	.id_table = mp5920_id,
++};
++module_i2c_driver(mp5920_driver);
++
++MODULE_AUTHOR("Tony Ao <tony_ao@wiwynn.com>");
++MODULE_AUTHOR("Alex Vdovydchenko <xzeol@yahoo.com>");
++MODULE_DESCRIPTION("PMBus driver for MP5920 HSC");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS(PMBUS);
+-- 
+2.43.0
 
