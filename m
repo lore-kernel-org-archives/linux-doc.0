@@ -1,57 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FDB18629F;
-	Wed, 26 Jun 2024 14:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF8C185083;
+	Wed, 26 Jun 2024 14:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719412453; cv=none; b=cYQo9SYS3+9ZOd8xFYyNk2prhVl6Hld6kowTgWtrYRIGiww2UkY3Fe4C7lLk+N3zDUIX5xYBOUSTjgm1HfZAcx6OGLZlAiYbCekZdEWTam7oVggf3v2OPIzt76ggaFLuVIMFHPNLGbf4ttcpGAoprVyI8UnSV2fdG8rELeApwQM=
+	t=1719412600; cv=none; b=QDT3yO4JnvTDdRrSu45ub9TO+teVQp58aab31R3lEKEXESZQy8xiQ+Pia0U2UVW6luL9NNMQ7pLAWCRukbAYDtEbDRFdlI3Gs9o6DDSar/ZP107iz8BCqTj7yPztV6mKeJTnxLxbeiqdsaLMmbP+Ysa4Bt2dqkV1ZgaKPhlykDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719412453; c=relaxed/simple;
-	bh=D3c1gQ648tEhgLlYiDSolRNCSiuz2KJRJlQeBmzlIDE=;
+	s=arc-20240116; t=1719412600; c=relaxed/simple;
+	bh=lN4o+TpGwEdAHXdvn6W7jWruWVfTSWp81Ict7yYXA7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gv4Deah4cmdcdm4XSx6S5MAl7M5/4TM5rUTo6fJ4s/Dwh/PwRGkNggO7UPAJnXCePxn2z1d2A/iH1vLko96mFinm6Yk5PKISEg+s/4+F+aBg7uQgqME2U1eogfDqHRe4dGQk0Uzgy87LgIo8oODfDhB5OucZq+4FOpkii/Ahv44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcyVdO6S; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CxvSFJPSh9+/yr5jNaQ8rBZC1oxHDmpvwkkFsxQ08GXd18jK2gOFU509VoLCLrKIxnO5d+w0owr4PuyqRyurwxbuuZOJYpejBeBWumgNUns6FsX4g4GdPsDo/B/us0PKnTMg9iDUtdabhxzNIVVBSTtisxgdjkN4gEkvGI+8VUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPmIAY7C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcyVdO6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D53C116B1;
-	Wed, 26 Jun 2024 14:34:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPmIAY7C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 474E5C116B1;
+	Wed, 26 Jun 2024 14:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719412452;
-	bh=D3c1gQ648tEhgLlYiDSolRNCSiuz2KJRJlQeBmzlIDE=;
+	s=k20201202; t=1719412600;
+	bh=lN4o+TpGwEdAHXdvn6W7jWruWVfTSWp81Ict7yYXA7M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RcyVdO6SVYo33x8dKozPZT65CCTcHp2r+Dmjtl/gV/bzVsIVi7YWz7MISUOPChANC
-	 /UePeVTUD8OG5VotiuAN+xLye0XvlDZSnlfUabWKgq9qRGyJ2sozV5UML72ajB2k8W
-	 zOzxKR63my7huwwO+jyPUSoHudbqCZb9K1lYuddKkqevNnoL/xVgKzFleWyKJWYscO
-	 MIOApBxr4Fl3j53wa2dpjIrO6paZN7sXbqpaO2LBeaEKmnNiOOo99eKmu4ayrkaiuk
-	 iGKhLkfVwPioInX5wfmgdejG1ca1B8rZs95d847V+ModAJ0Ni8wFe29LQ/apubwyrg
-	 ndc/aaROSAOXA==
-Date: Wed, 26 Jun 2024 15:34:07 +0100
+	b=BPmIAY7C/8HZgLS33QwM53j5BrHpIUyrvhf1la7K/QkKMO4z/Cghds5/vnHGA3+qJ
+	 YU+RTOMIeMknGJ1H3/fheBZrdpnAL7bmcFSIOYbGxXKdUS8Ubb20RIPXZ6Fj79+s29
+	 k0gha7WFN+zb5v+nj9cwqSteVW0RoXNexPWSxfZZ+OVD1Fkg97gUW5NPGqaNgHkFUf
+	 umKQzkwdLic6Tb+b5ORlHwALwnzw3VnlmW6kehkqoA7drMnQf9S0RsGSvn2phkneKS
+	 77+MsP+q2rInQPKdHaHAa45mAxlxqr05r/5tqPS2w5k5ps+BeQnCYga5Atx3C2yp+5
+	 R1lHZAs7Q3W2Q==
+Date: Wed, 26 Jun 2024 15:36:35 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Evan Green <evan@rivosinc.com>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>, Yangyu Chen <cyy@cyyself.name>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
 	Charlie Jenkins <charlie@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Andy Chiu <andy.chiu@sifive.com>,
 	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
 	Conor Dooley <conor.dooley@microchip.com>,
 	Costa Shulyupin <costa.shul@redhat.com>,
-	Erick Archer <erick.archer@gmx.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2 2/2] RISC-V: hwprobe: Add SCALAR to misaligned perf
- defines
-Message-ID: <20240626-ungraded-legend-65480eabd255@spud>
+Subject: Re: [PATCH v2 1/2] RISC-V: hwprobe: Add MISALIGNED_PERF key
+Message-ID: <20240626-aide-nickname-1ef5fef000fb@spud>
 References: <20240625165121.2160354-1-evan@rivosinc.com>
- <20240625165121.2160354-3-evan@rivosinc.com>
- <20240625-kindle-sanitizer-c52b48ed9b86@spud>
- <CALs-HsuEc9ympGsQP3bvXaowiAj0bq3nvD=9CcX0NNMza+79OA@mail.gmail.com>
+ <20240625165121.2160354-2-evan@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,145 +50,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8Hy1V/9xQfoCyn26"
+	protocol="application/pgp-signature"; boundary="943UgLD4rzYd2FOi"
 Content-Disposition: inline
-In-Reply-To: <CALs-HsuEc9ympGsQP3bvXaowiAj0bq3nvD=9CcX0NNMza+79OA@mail.gmail.com>
+In-Reply-To: <20240625165121.2160354-2-evan@rivosinc.com>
 
 
---8Hy1V/9xQfoCyn26
-Content-Type: text/plain; charset=utf-8
+--943UgLD4rzYd2FOi
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 25, 2024 at 12:08:09PM -0700, Evan Green wrote:
-> On Tue, Jun 25, 2024 at 11:35=E2=80=AFAM Conor Dooley <conor@kernel.org> =
-wrote:
-> >
-> > On Tue, Jun 25, 2024 at 09:51:21AM -0700, Evan Green wrote:
-> > > In preparation for misaligned vector performance hwprobe keys, rename
-> > > the hwprobe key values associated with misaligned scalar accesses to
-> > > include the term SCALAR.
-> > >
-> > > Signed-off-by: Evan Green <evan@rivosinc.com>
-> > >
-> > > ---
-> > >
-> > > Changes in v2:
-> > >  - Added patch to rename misaligned perf key values (Palmer)
-> > >
-> > >  Documentation/arch/riscv/hwprobe.rst       | 20 ++++++++++----------
-> > >  arch/riscv/include/uapi/asm/hwprobe.h      | 10 +++++-----
-> > >  arch/riscv/kernel/sys_hwprobe.c            | 10 +++++-----
-> > >  arch/riscv/kernel/traps_misaligned.c       |  6 +++---
-> > >  arch/riscv/kernel/unaligned_access_speed.c | 12 ++++++------
-> > >  5 files changed, 29 insertions(+), 29 deletions(-)
-> > >
-> > > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arc=
-h/riscv/hwprobe.rst
-> > > index c9f570b1ab60..83f7f3c1347f 100644
-> > > --- a/Documentation/arch/riscv/hwprobe.rst
-> > > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > > @@ -215,22 +215,22 @@ The following keys are defined:
-> > >    the performance of misaligned scalar word accesses on the selected=
- set of
-> > >    processors.
-> > >
-> > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of =
-misaligned
-> > > -    accesses is unknown.
-> > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN`: The performa=
-nce of
-> > > +    misaligned accesses is unknown.
-> > >
-> > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesse=
-s are
-> > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED`: Misaligned =
-accesses are
-> > >      emulated via software, either in or below the kernel.  These acc=
-esses are
-> > >      always extremely slow.
-> > >
-> > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned word access=
-es are
-> > > -    slower than equivalent byte accesses.  Misaligned accesses may b=
-e supported
-> > > -    directly in hardware, or trapped and emulated by software.
-> > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW`: Misaligned word=
- accesses
-> > > +    are slower than equivalent byte accesses.  Misaligned accesses m=
-ay be
-> > > +    supported directly in hardware, or trapped and emulated by softw=
-are.
-> > >
-> > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned word access=
-es are
-> > > -    faster than equivalent byte accesses.
-> > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_FAST`: Misaligned word=
- accesses
-> > > +    are faster than equivalent byte accesses.
-> > >
-> > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned acce=
-sses are
-> > > -    not supported at all and will generate a misaligned address faul=
-t.
-> > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED`: Misalign=
-ed accesses
-> > > +    are not supported at all and will generate a misaligned address =
-fault.
-> > >
-> > >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int wh=
-ich
-> > >    represents the size of the Zicboz block in bytes.
-> > > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/inclu=
-de/uapi/asm/hwprobe.h
-> > > index 22073533cea8..e11684d8ae1c 100644
-> > > --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> > > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> > > @@ -66,11 +66,11 @@ struct riscv_hwprobe {
-> > >  #define              RISCV_HWPROBE_EXT_ZVE64F        (1ULL << 40)
-> > >  #define              RISCV_HWPROBE_EXT_ZVE64D        (1ULL << 41)
-> > >  #define RISCV_HWPROBE_KEY_CPUPERF_0  5
-> > > -#define              RISCV_HWPROBE_MISALIGNED_UNKNOWN        0
-> > > -#define              RISCV_HWPROBE_MISALIGNED_EMULATED       1
-> > > -#define              RISCV_HWPROBE_MISALIGNED_SLOW           2
-> > > -#define              RISCV_HWPROBE_MISALIGNED_FAST           3
-> > > -#define              RISCV_HWPROBE_MISALIGNED_UNSUPPORTED    4
-> > > +#define              RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN        =
- 0
-> > > +#define              RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED       =
- 1
-> > > +#define              RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW           =
- 2
-> > > +#define              RISCV_HWPROBE_MISALIGNED_SCALAR_FAST           =
- 3
-> > > +#define              RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED    =
- 4
-> > >  #define              RISCV_HWPROBE_MISALIGNED_MASK           7
-> >
-> > How come the "old" names do not need to be preserved for userspace?
+On Tue, Jun 25, 2024 at 09:51:20AM -0700, Evan Green wrote:
+> RISCV_HWPROBE_KEY_CPUPERF_0 was mistakenly flagged as a bitmask in
+> hwprobe_key_is_bitmask(), when in reality it was an enum value. This
+> causes problems when used in conjunction with RISCV_HWPROBE_WHICH_CPUS,
+> since SLOW, FAST, and EMULATED have values whose bits overlap with
+> each other. If the caller asked for the set of CPUs that was SLOW or
+> EMULATED, the returned set would also include CPUs that were FAST.
 >=20
-> It depends on what exactly the big userspace compatibility rule is.
-> This preserves binary compatibility, which I think is the big one, but
-> breaks source compatibility, though with an easy translation to fix.
-> We could keep the old names around, but then it seems sort of silly to
-> introduce the new names. I introduced this patch upon request, so I
-> don't personally have a horse in the race on this one.
+> Introduce a new hwprobe key, RISCV_HWPROBE_KEY_MISALIGNED_PERF, which
+> returns the same values in response to a direct query (with no flags),
+> but is properly handled as an enumerated value. As a result, SLOW,
+> FAST, and EMULATED are all correctly treated as distinct values under
+> the new key when queried with the WHICH_CPUS flag.
+>=20
+> Leave the old key in place to avoid disturbing applications which may
+> have already come to rely on the key, with or without its broken
+> behavior with respect to the WHICH_CPUS flag.
+>=20
+> Fixes: e178bf146e4b ("RISC-V: hwprobe: Introduce which-cpus flag")
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>=20
+> ---
+>=20
+> Changes in v2:
+>  - Clarified the distinction of slow and fast refers to misaligned word
+>    accesses. Previously it just said misaligned accesses, leaving it
+>    ambiguous as to which type of access was measured.
 
-So apparently this isn't quite Palmer actually wanted. In today's call
-he suggested that he'd send a new version himself, but also that what we
-should do define a new key for scalar /and/ new add new defines values that
-contain the word scalar, retaining the old defines. The values can of
-course be the same.
+I think if we are gonna be specific, we should be exactly specific as to
+what we have tested and say 32-bit if that's what we're probing/testing
+with. That'd be consistent with jesse's proposed wording for vector.
 
---8Hy1V/9xQfoCyn26
+--943UgLD4rzYd2FOi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnwm3wAKCRB4tDGHoIJi
-0pN+AQCreK6NjvZnRI9VZsvMHlvKpUtNrWcwhuTMHxzCmRVdvgD/YODVuyDP1okz
-Il+G9mctAu4ZDZGzZc/ojuyFxxOcXQk=
-=TfxS
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnwncwAKCRB4tDGHoIJi
+0oHJAQCzuhaQs1e0sxDKyRbQx1Rt3W33WC+yta1V3tlS1n8VRQD+MaOHndFJ4ty1
+lFeNRZdVv2EK2WGBoxfn3SN4uzjXTgg=
+=iNiQ
 -----END PGP SIGNATURE-----
 
---8Hy1V/9xQfoCyn26--
+--943UgLD4rzYd2FOi--
