@@ -1,79 +1,76 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986ED53364
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 22:23:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5B616EB40
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 22:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719440611; cv=none; b=YoqiPqsBbGyDSZeyWpRQlGoYehJYqVYRcRVW3Hz85vNpqS9sf2wwl6AX4JysR5TWKOIAW8u0t+iJWlLf3u1aE2tuIaCmrh03i1sggD+R0cMuZwQtI+3kMX+Zpj+/TM0IlQkiQDouo1b9rCwsHS/3755eeBMU/OInTP7SHrVtxVU=
+	t=1719440916; cv=none; b=FLUZTvLGgUcfjXnUwB2FZji1Jratw9AaSi3MEV5tsyJ9bvxdolTCdydPjPQjjokGVfcwxMPI+zJq9hnBg8xmlalG0EnGg9Ugp/SuqioWF3c41TLJQVwiVig0up/abmDKuWZcGrpsmi2q/13SgxqknsU/r9WyFyajT5MSW79LqgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719440611; c=relaxed/simple;
-	bh=1A3DM13bIzaGkTYXJbsT4apoezs8ku71SXSW/TFeYds=;
+	s=arc-20240116; t=1719440916; c=relaxed/simple;
+	bh=90guEmUcLyVdy7E62AnRPlTpT3UMlLUbHnnpss/3X+c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BeXu1RA6Vp+2RfhtHnP98oIIbF5smurF1r9Xq3Tg2ka3BAoo0GkBP+uRqT9UK4o1ZKHsT8d66pJwcZFaHD3Rh2HkLC7Jzn/Lp2pM+vydGOcFp122gw4ewPdR6iIsv3Lu8essNJjaYsjHGKn4XZ1qJXEGBtfjQokRgYEmbTQPfFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UUu4qXBg; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=PKh4U52mWhs5CZCHTqYyrF96rzB+wAXsmbc87ocD8G7KutHU2Ck/8LXPmCH7rYextS6dTcYQMG/icRg3zUbeu/1MT0I70DIWuvfC038X91gEA92+w12MGr6rcjn0/pWA5bNKHxaUEoJ8moLk6Q9gxVODYQe06U8y5LAUe6B3OEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Sugb6REO; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UUu4qXBg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5A7AD45E2B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Sugb6REO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E8ACD45E2B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1719440608; bh=olRhAtqZkejQ4brPwn7naKTGU4iAkIMjOVV0sO9b/wY=;
+	t=1719440912; bh=UUr+GNytfdn1B9t6Uh2J0ZVbAxHsdikWKuwQR+sWw1s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UUu4qXBgKncHGSIkbKyQre9uCJK3lhGTOXSC4Fru8V+QRPNESU8eyegpZ2azMVG5j
-	 rwHTAYtdJ/cbcbPruTDKZsmZb1guFXBMWidpW8t7tChWxtK/Tg9LM8Z2CoDuST/Wir
-	 LHtEn8Px5cjD8O/SdNUHRdhMWp1zSgM/bvFWg6E6yVj4d2tiQGSzB7yZcjPKd9cIHy
-	 sU2lxeVULfEKB9wTp+TNheZipQVpV1eHBL3LLb78mTrkUD48stssbQtR4ISA3Qj+rm
-	 9vStDI/+TNwrnHi1UtOfIDatRn/Oa/s2WVOM4/MP/9V7Jp235JbS7yp3VgVhaQe+Bk
-	 q1u//xNpNMc9Q==
+	b=Sugb6REO4L4ni+iSzIN26NzSirFLOeeQ3qImOng3d0olSCtI5NQ3SI1337FpPvDyr
+	 9yEkCcpuj3qZn5Yie9KWsz0C5dOOR56kZZd6L9DdqhL+N4hNwsSnirnGIohm+SCl2T
+	 /AfHREk7GaGUuWSf3OIXTefUZkxiZwsYhtT5q6UUwBVAuVvYMbUnOjBKBcfNcTGNfm
+	 ULxUyV6MhlCTj/50nPVAJ3hqRNp380Uy7+uYs4HDr7uhnXkQ5nHAtw8ZsXpqZKTVPO
+	 0+WbNyjiJ8pxUWpIKemtNwHOkSR4RgHKLwMfCS6Kd0DT8XxYBoCL/tFNL/TmGGd/fs
+	 tiqaNaYlMVrwA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5A7AD45E2B;
-	Wed, 26 Jun 2024 22:23:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E8ACD45E2B;
+	Wed, 26 Jun 2024 22:28:31 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Scherer <t.scherer@eckelmann.de>, Federico Vaga
- <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, Thorsten Scherer <t.scherer@eckelmann.de>
-Subject: Re: [PATCH] doc:it_IT: Fix typo in Reviewed-by tag
-In-Reply-To: <20240625210455.13262-1-t.scherer@eckelmann.de>
-References: <20240625210455.13262-1-t.scherer@eckelmann.de>
-Date: Wed, 26 Jun 2024 16:23:27 -0600
-Message-ID: <87h6dfz6lc.fsf@trenco.lwn.net>
+To: Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
+Cc: dzm91@hust.edu.cn, linux-doc@vger.kernel.org, Yanteng Si
+ <siyanteng@loongson.cn>
+Subject: Re: [PATCH v3] docs/zh_CN: Add driver-api phy translation
+In-Reply-To: <20240625130909.3672446-1-siyanteng@loongson.cn>
+References: <20240625130909.3672446-1-siyanteng@loongson.cn>
+Date: Wed, 26 Jun 2024 16:28:30 -0600
+Message-ID: <87cyo3z6cx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Thorsten Scherer <t.scherer@eckelmann.de> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> Signed-off-by: Thorsten Scherer <t.scherer@eckelmann.de>
-> ---
->  Documentation/translations/it_IT/process/7.AdvancedTopics.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Translate driver-api/phy.rst into Chinese.
 >
-> diff --git a/Documentation/translations/it_IT/process/7.AdvancedTopics.rs=
-t b/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
-> index a83fcfe18024..b3d8b62f3b57 100644
-> --- a/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
-> +++ b/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
-> @@ -200,7 +200,7 @@ all'ABI dello spazio utente, eccetera.  Qualunque tip=
-o di revisione =C3=A8 ben
->  accetta e di valore, se porta ad avere un codice migliore nel kernel.
->=20=20
->  Non esistono requisiti particolarmente stringenti per l'uso di etichette=
- come
-> -``Reviewd-by``. Tuttavia, perch=C3=A9 la revisione sia efficace ci si as=
-petta un
-> +``Reviewed-by``. Tuttavia, perch=C3=A9 la revisione sia efficace ci si a=
-spetta un
->  qualche tipo di messaggio che dica "ho verificato A, B e C nel codice ch=
-e =C3=A8
+> commit d02aa181ee59 ("phy: Add devm_of_phy_optional_get() helper")
+>
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+> v3:
+> Modified some sentences in accordance with Dongliang's comments.
+> Pick Dongliang's Reviewed-by tag.
+>
+> v2:
+> Modified some sentences in accordance with Dongliang's comments.
+>
+>  .../translations/zh_CN/driver-api/index.rst   |   2 +-
+>  .../zh_CN/driver-api/phy/index.rst            |  20 ++
+>  .../translations/zh_CN/driver-api/phy/phy.rst | 212 ++++++++++++++++++
+>  3 files changed, 233 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/driver-api/phy/phy.rst
 
 Applied, thanks.
 
