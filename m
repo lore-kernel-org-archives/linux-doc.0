@@ -1,55 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74120181B80;
-	Wed, 26 Jun 2024 22:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4520B181B80;
+	Wed, 26 Jun 2024 22:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719442237; cv=none; b=lZspPKPN7yPzmBjouWZpVFSxNLZezrtiq+QwYdKbRyQNeJhP2dyu7UwG0ofAQBXV2ELOKU+zMi3H/vngliye+S2pSw1DNE2hFl1QYHQdiO5HkP35BUI7GwBq4jTNUG+EysPDxvXj/yUZs8T8100E0Px6vQNtaHCIrAVy0cQLj6w=
+	t=1719442441; cv=none; b=L1IQomC1doMvhfKU1Od/R6owp0tQoU6icEuqJAtscU9lj0tka16WAn8wl6WVRS53GrBelq4/q4BPvUrCUkPJf9gx1cMWlqiFs2oAo29EIjYJCFqJSfxeIjKf5hpuFs4Y0nwbwvTrb0yyXFQJUVf746nFnftI/vqhaOcqcZp5Kig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719442237; c=relaxed/simple;
-	bh=lLWM+nqCDaVV7u4KKuLXESgb2ZWrrwr0cBeW2yd+fcY=;
+	s=arc-20240116; t=1719442441; c=relaxed/simple;
+	bh=MXcwd1AySe+r1RbBzCqAio8xnq/XOvwhYo4NQ/jl+YI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KFcKLMnVk0GS8o0SDiGodlzLRFkzELrJfi5ZOY0zYRhpere4qMD2sP0TbzHrDrKR2sPtiRVl0BqjctNGd971RYJOam1qYDmLBjVIxwsdgapDn6bgO06y2JuhlI+pU2XYqgwR6fyZ252Mnz6SPwDermnwQKGnw2SSiSEEL8G5bD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DyD8Z7Zu; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=XAKSeDpzF/olgWFBAr2+pffckb8BKA9hjAhcZRBDt3O9XqO9WC4Nz2JpzUT3WAtryfruG8HVRhWGN5+pgGtYB7qHH40UGW4LgnxKMpJOIN16P9serr/ohYq2ic9tMqKdw11nYmMMUOxQCnVVDEZ+XaabVjlXwZ2XXqb01ELocAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m4VXxnK+; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DyD8Z7Zu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 50DEE45E2B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m4VXxnK+"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6CF0245E2B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1719442234; bh=2ZvlwGGbdDD9XRK+WhZh+8iY+TV6ABdXMrHDCASGyQc=;
+	t=1719442439; bh=HcPuh9+3lV1231cCkd9D6FG8V6xbr/keHFzRGKjSs7I=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DyD8Z7Zuu0Gie2z3t425/sBGFg/gJNXiyvc+IHv4H/lDuoqgwPHZPq+mAKIQynIQy
-	 Ly6zpJG0uhLeLiP01wTqnf06Zp9+7mesdaZqnrCxC+4U3+flHhkEYDkj2NkhsidyiP
-	 YHX6/hYCvdMWhMkZgyrnWhYe2PQOFxu+8nHhB+REYQM3WrsvS+1n82fB6KBXRx0lsS
-	 ilK7r/Gp3jDnH/3hof1HQc9nZtuaOytdGdHX0qlTj838oFxlKRkcIkXsNZlyOjLoi5
-	 Z/A2Y6ELQedMglsdycbWe5LejMCTJdcgxCi+l3IKBzN9pEqJodIAe+HD4XhAnAftxx
-	 53w7FHy7Kobzw==
+	b=m4VXxnK+w3fAExDBBEaie6y0a2Pi/yLhV9dqed/ZcHniPdA4VsbTeaG1KDQ4QcYly
+	 F1/6TQdSIjahB89A4Jm86nqcuni9l3XfnTCU/2e+oh+lYDHA+QhlhHbzOK6dNraHw1
+	 t56ix5jwNziJMlVm2rZZOQ4udqL9+EH+6ZwQsdBJTPZaw3mYxSU0cMJVaC6Q8vtqpI
+	 DxySX/mu2fYeIEaWQhgZVANVpCvAMe1o5t96mcrwKRNH/kwFRAoNCgJFL3WcmDvwlz
+	 BJd/spNn9UeUNmg2BkY+U/87iVhZTHEyFPQdzsnIXstN/UBevvmKfcgagxcOE0LBOg
+	 b3aa+ey54tfGw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 50DEE45E2B;
-	Wed, 26 Jun 2024 22:50:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6CF0245E2B;
+	Wed, 26 Jun 2024 22:53:59 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: SeongJae Park <sj@kernel.org>
-Cc: SeongJae Park <sj@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>, Alex
- Shi <alexs@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Bill Wendling
- <morbo@google.com>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Justin Stitt <justinstitt@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Yanteng Si
- <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
- workflows@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] minor document fixups
-In-Reply-To: <20240624185312.94537-1-sj@kernel.org>
-References: <20240624185312.94537-1-sj@kernel.org>
-Date: Wed, 26 Jun 2024 16:50:33 -0600
-Message-ID: <87zfr7xqrq.fsf@trenco.lwn.net>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, bilbao@vt.edu, Carlos Bilbao
+ <carlos.bilbao.osdev@gmail.com>
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+In-Reply-To: <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
+References: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
+ <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
+Date: Wed, 26 Jun 2024 16:53:58 -0600
+Message-ID: <87v81vxqm1.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,50 +51,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-SeongJae Park <sj@kernel.org> writes:
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
 
-> This patch series is for minor document fixups.  First five patches
-> clean up and remove 'Other material' section of process/index in favor
-> of 'staging/' and better place for docs on the section.  A patch for
-> adding DAMON maintainer-profile reference on maintainers' handbook
-> follows.  And then the last patch adds 'hkml' as one of available email
-> tools on email-clients document.
+> From: Carlos Bilbao <bilbao@vt.edu>
 >
-> SeongJae Park (7):
->   Docs/process/index: Remove unaligned-memory-access from 'Other
->     material'
->   Docs/process/index: Remove riscv/patch-acceptance from 'Other
->     material' section
->   Docs: Move magic-number from process to staging
->   Docs: Move clang-format from process/ to dev-tools/
->   Docs/process/index: Remove unsorted docs section
->   Docs/maintainer/maintainer-entry-profile: add DAMON maintainer profile
->   Docs/process/email-clients: Document HacKerMaiL
+> Extend the Index of Further Kernel Documentation by adding entries for the
+> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+> on the second edition of Billimoria's kernel programming book. Also,
+> perform some refactoring: format the text to 75 characters per line and
+> sort per-section content in chronological order of publication.
 >
->  .clang-format                                         |  2 +-
->  Documentation/{process => dev-tools}/clang-format.rst |  0
->  Documentation/dev-tools/index.rst                     |  1 +
->  Documentation/maintainer/maintainer-entry-profile.rst |  1 +
->  Documentation/process/4.Coding.rst                    |  2 +-
->  Documentation/process/coding-style.rst                |  2 +-
->  Documentation/process/email-clients.rst               |  9 +++++++++
->  Documentation/process/index.rst                       | 11 -----------
->  Documentation/staging/index.rst                       |  1 +
->  Documentation/{process => staging}/magic-number.rst   |  0
->  .../translations/it_IT/process/clang-format.rst       |  2 +-
->  .../translations/it_IT/process/magic-number.rst       |  2 +-
->  .../translations/sp_SP/process/coding-style.rst       |  2 +-
->  .../translations/sp_SP/process/magic-number.rst       |  2 +-
->  Documentation/translations/zh_CN/process/4.Coding.rst |  2 +-
->  .../translations/zh_CN/process/coding-style.rst       |  2 +-
->  .../translations/zh_CN/process/magic-number.rst       |  2 +-
->  Documentation/translations/zh_TW/process/4.Coding.rst |  2 +-
->  .../translations/zh_TW/process/coding-style.rst       |  2 +-
->  .../translations/zh_TW/process/magic-number.rst       |  2 +-
->  20 files changed, 25 insertions(+), 24 deletions(-)
->  rename Documentation/{process => dev-tools}/clang-format.rst (100%)
->  rename Documentation/{process => staging}/magic-number.rst (100%)
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> ---
+>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+>  1 file changed, 44 insertions(+), 24 deletions(-)
 
-Series applied, thanks.
+Sending this as a reply to previous postings badly confused b4, but I
+did get it to apply this time, thanks.
 
 jon
