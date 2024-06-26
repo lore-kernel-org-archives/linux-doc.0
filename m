@@ -1,155 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D736FEEDD;
-	Wed, 26 Jun 2024 15:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449D418E764
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 15:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719417337; cv=none; b=K9ZeLcYB7981XWrJztu7g+HqE9/dd9Vdn8x7mnewF+t1t/zMNz7NiBAAUkW87zdBNb+lwO+0TXT5Tkasw1GCsHEBI/C+ddXDATUPkITgpupadc7tTzwBqRaP2QqLYoJZqltvuDCUteOzt9S2Nm8QOjoPmzQVJnHK1gM8pqCoYOU=
+	t=1719417373; cv=none; b=tqPaUKe+atcR1yDbFgxnBYcafzBg+hyBgji66sVwJ9ueVdIUlvsL0nLJqH639zbu8jQieopNdY9K9CA061/1rkuZw803ruhL+khwhiQJ+d7UGmp2pKKEKE0HhF6KgajBTmULpg1Fz4IASbrskoajb6tPGreQvICEwy5Wj8Dqy3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719417337; c=relaxed/simple;
-	bh=aZhjheroGM3PhnAd8eVih56JfOOjzPFgLT/88yyoZpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DA8PiR6gtzsKou9W57VNrdwoeKShYBvAK92MsD/EOR2Dy/09EXqUPaQVivTFps46D2XxPjLBqC83IbUSHOrKTAjDhBiknT8eWiGymZAY3KQrymcZNO2v3UlpH4sW3ONZGKr7vM510vydTWZi59CFxW8hUiym7I8MGaRPrWyUhfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZQ2DnBV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719417373; c=relaxed/simple;
+	bh=I26SRPk+9wOqxgjeFRFR30e/k47KvOWVRRZaU9iy2I8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fz88WCpmEKicIRrPlFci14XZ8m6Ubb7Pc/Alufl9JSqOouGJ3Silj997uZ5dDKnR5mDhE/NX1rsLJNInTpMPQDbGnOlsBVXRJB75fSW7mhAVbB0y277QCU61bE/6610XwDd1EMv6sws2RWrf0cKfaelna0mLTxaNVFpVfBbleGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=G8LGomrT; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZQ2DnBV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFECC116B1;
-	Wed, 26 Jun 2024 15:55:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719417336;
-	bh=aZhjheroGM3PhnAd8eVih56JfOOjzPFgLT/88yyoZpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZQ2DnBVDYfMqGSFTFT4EziRBaW0rA55SWt2gP9D2wnkXstId0laKpOMpq3PenGwj
-	 ojUA6s9LK6AD+OTNwqq5SWAj4x2yH3k8o40HtlNmZOE1ZoMgrgIYjdFX9d4PxUsgD/
-	 Y2Xq64DvLhoh7rCyaq2+cDH8xQi2uWxGiiifcaeN7TIwvljCkICGHJdvJRyM8NTVZ6
-	 /UAoctTCx8XpxBNKwYVZGI5Lc0DXDFEOK+AcLNdDLRMLpREH2tOcPfgAza2j1wb8P8
-	 RpiQg52ci5SMpyVShui2ai3Nxxopi/mRyjI9+Syk7jDitjj1ZCgmIY66QEub11GNWW
-	 7bxw6EoDG1vVA==
-Date: Wed, 26 Jun 2024 16:55:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	corbet@lwn.net, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/7] dt-bindings: iio: adc: Add AD4000
-Message-ID: <20240626-corny-haunt-c4b4e0bae170@spud>
-References: <cover.1719351923.git.marcelo.schmitt@analog.com>
- <10678612efbbd97bb47a31f4a062607cf35b03f9.1719351923.git.marcelo.schmitt@analog.com>
- <20240626-handbrake-mustang-38c2aab3f04b@spud>
- <ZnwY4MqCYFKUNtL3@debian-BULLSEYE-live-builder-AMD64>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="G8LGomrT"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57d280e2d5dso619076a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 08:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719417369; x=1720022169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pJzGfxQQUmV1cJDBl9Qeuz6ppTrU+XJClw05Gu9e910=;
+        b=G8LGomrTXtC/DhtcBeOnCQFtBjx5ZtrCfPtpgWEFFc31/ryKJVJX/czvzuiAZAAZp6
+         G0IIzjYKnTc1mI5E6zwq1pbm9AZBvwIlb+njGqfiIN8EMFInEWwLc1mEmscwmQ0PSaGK
+         8aAA3C+cxJfElDQYgfYzp3pmu26GJquY/clbRZTee0EvZMfCw/xpzCJdkP1+WMOuWiyG
+         1pF2JtF9NzAY9pLrJrKmVVtJjFVSoxvjQCJvfKNssWdfxEvzdMebhh8OjQ/5jDLd2wbH
+         bq1eG0rl9SQqjASf7xj7lQUjSD5TUN1hoRKA+UNaQ8IxGrY5s96vrtGBYsGr7l25cONS
+         l4iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719417369; x=1720022169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pJzGfxQQUmV1cJDBl9Qeuz6ppTrU+XJClw05Gu9e910=;
+        b=idEFzzz6g9t/vihHp1TWHEyG019dl4vPsEn9Z0IPis7rBZy8nm+pvOkZGxy2iHfAa9
+         juLFvTYmHjS5aLjqDgopZAXJjX0bCOh8bREhbD2R1tO/3IoQIdJDxFkSwgVCB3Sh97XU
+         U0BAy27nPBzR01d7husj+rNxStfSotlffXAG0phvwgAlgUQHk3awKyIpGjGrvCDBIkhA
+         ZnSMo04Al/knv9wSB0BRpmAV9GLzd8k4Bl1UnXzP2fKMOFpW7zmX7gC5dNI10bXnJhh8
+         CLjmV1Xiu1NeNRiFvhQbCnnVzRq5sdkYuHwc6jJf6N+0sWkPwLrfMVSIEFU3Lb4TZiXy
+         QWkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKY9RBhfuOhm41Ba/ZyS7za65AZOF96elu1oUxMQTmMFI9iLyXCaZIj0gw+tKfC9jFypw5BCy4yz5osldeCxj/FPpCEtI1qTi+
+X-Gm-Message-State: AOJu0Yys5+87kT0cYq8kXsQ37YU1cc4RMAkMoNbV+yKeEA/3Nq0f06TK
+	X7hOdZwbk7dIIl8tcKbMtLsgs4IW6/FyKJsssKgblys26BIMkhhUusct2i/QWfloTzbHCnTHMvy
+	by/Cr0zeM+VYTlhDksd8eLFKmSc7H5Py3u0Ia5Q==
+X-Google-Smtp-Source: AGHT+IHV5OR/jF6Sb4EqdHVZVXS9SBH/7cVzyA+lDTuRIhiKeb383eE7FGjwbumV9J607Cyivknt59ndYLxj0bf/em4=
+X-Received: by 2002:a17:907:8e93:b0:a6e:f62d:bd02 with SMTP id
+ a640c23a62f3a-a7245c84f2emr828709066b.7.1719417369598; Wed, 26 Jun 2024
+ 08:56:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="WsUBhFv2b0Y63I3q"
-Content-Disposition: inline
-In-Reply-To: <ZnwY4MqCYFKUNtL3@debian-BULLSEYE-live-builder-AMD64>
-
-
---WsUBhFv2b0Y63I3q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240625165121.2160354-1-evan@rivosinc.com> <20240625165121.2160354-2-evan@rivosinc.com>
+ <20240626-aide-nickname-1ef5fef000fb@spud>
+In-Reply-To: <20240626-aide-nickname-1ef5fef000fb@spud>
+From: Evan Green <evan@rivosinc.com>
+Date: Wed, 26 Jun 2024 08:55:33 -0700
+Message-ID: <CALs-HsuKHpKanjXm3HQ3JVd6e5Qm4V1+QjBJ38ttxBT1iCw-KQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] RISC-V: hwprobe: Add MISALIGNED_PERF key
+To: Conor Dooley <conor@kernel.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Yangyu Chen <cyy@cyyself.name>, 
+	Charlie Jenkins <charlie@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andy Chiu <andy.chiu@sifive.com>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Costa Shulyupin <costa.shul@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 26, 2024 at 10:34:24AM -0300, Marcelo Schmitt wrote:
-> On 06/26, Conor Dooley wrote:
-> > On Tue, Jun 25, 2024 at 06:55:03PM -0300, Marcelo Schmitt wrote:
-> > > Add device tree documentation for AD4000 series of ADC devices.
-> > >=20
-> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > ---
-> > >  .../bindings/iio/adc/adi,ad4000.yaml          | 190 ++++++++++++++++=
-++
-> > >  MAINTAINERS                                   |   7 +
-> ...
-> > > +properties:
-> > > +  compatible:
-> > > +    oneOf:
-> > > +      - const: adi,ad4000
-> > > +      - items:
-> > > +          - enum:
-> > > +              - adi,ad4004
-> > > +              - adi,ad4008
-> > > +          - const: adi,ad4000
-> >=20
-> > > +      - const: adi,ad4001
-> > > +      - items:
-> > > +          - enum:
-> > > +              - adi,ad4005
-> > > +          - const: adi,ad4001
-> >=20
-> > > +      - const: adi,ad4002
-> > > +      - items:
-> > > +          - enum:
-> > > +              - adi,ad4006
-> > > +              - adi,ad4010
-> > > +          - const: adi,ad4002
-> >=20
-> > > +      - const: adi,ad4003
-> > > +      - items:
-> > > +          - enum:
-> > > +              - adi,ad4007
-> > > +              - adi,ad4011
-> > > +          - const: adi,ad4003
-> >=20
-> > > +      - const: adi,ad4020
-> > > +      - items:
-> > > +          - enum:
-> > > +              - adi,ad4021
-> > > +              - adi,ad4022
-> > > +          - const: adi,ad4020
-> >=20
-> > > +      - const: adi,adaq4001
-> >=20
-> > > +      - const: adi,adaq4003
-> >=20
-> > I think some blank lines, maybe like the above, would go a long way with
-> > this list of compatibles.
-> >=20
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  spi-max-frequency:
-> > > +    maximum: 102040816 # for VIO > 2.7 V, 81300813 for VIO > 1.7 V
-> > > +
-> > > +  adi,sdi-pin:
-> > > +    $ref: /schemas/types.yaml#/definitions/string
-> > > +    enum: [ high, low, cs ]
-> >=20
-> >     enum: [ high, low, cs, sdi ]
-> >     default: sdi
-> >=20
-> > I'd do this, so that the default is documented in the binding, not in
-> > the description text.
-> >=20
-> > Otherwise, this looks good to me.
->=20
-> Ack, will do.
+On Wed, Jun 26, 2024 at 7:36=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Tue, Jun 25, 2024 at 09:51:20AM -0700, Evan Green wrote:
+> > RISCV_HWPROBE_KEY_CPUPERF_0 was mistakenly flagged as a bitmask in
+> > hwprobe_key_is_bitmask(), when in reality it was an enum value. This
+> > causes problems when used in conjunction with RISCV_HWPROBE_WHICH_CPUS,
+> > since SLOW, FAST, and EMULATED have values whose bits overlap with
+> > each other. If the caller asked for the set of CPUs that was SLOW or
+> > EMULATED, the returned set would also include CPUs that were FAST.
+> >
+> > Introduce a new hwprobe key, RISCV_HWPROBE_KEY_MISALIGNED_PERF, which
+> > returns the same values in response to a direct query (with no flags),
+> > but is properly handled as an enumerated value. As a result, SLOW,
+> > FAST, and EMULATED are all correctly treated as distinct values under
+> > the new key when queried with the WHICH_CPUS flag.
+> >
+> > Leave the old key in place to avoid disturbing applications which may
+> > have already come to rely on the key, with or without its broken
+> > behavior with respect to the WHICH_CPUS flag.
+> >
+> > Fixes: e178bf146e4b ("RISC-V: hwprobe: Introduce which-cpus flag")
+> > Signed-off-by: Evan Green <evan@rivosinc.com>
+> > Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> >
+> > ---
+> >
+> > Changes in v2:
+> >  - Clarified the distinction of slow and fast refers to misaligned word
+> >    accesses. Previously it just said misaligned accesses, leaving it
+> >    ambiguous as to which type of access was measured.
+>
+> I think if we are gonna be specific, we should be exactly specific as to
+> what we have tested and say 32-bit if that's what we're probing/testing
+> with. That'd be consistent with jesse's proposed wording for vector.
 
-With those,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Sure. In this case it's really native word sized accesses. So something lik=
+e:
 
-Thanks,
-Conor.
+* :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`: An enum value descri=
+bing
+the performance of misaligned scalar native word accesses on the selected s=
+et
+of processors.
 
---WsUBhFv2b0Y63I3q
-Content-Type: application/pgp-signature; name="signature.asc"
+...
 
------BEGIN PGP SIGNATURE-----
+* :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW`: Misaligned native word
+sized accesses are slower than the equivalent quantity of byte accesses.
+Misaligned accesses may be supported directly in hardware, or trapped and
+emulated by software.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnw58wAKCRB4tDGHoIJi
-0iTxAQDZvlnSXLuFR5FfpYAXVuqG0jsGWFbU4Y8aZbmRMtE/NQD/dQkJmaR2py6B
-eySLOx9DCP6+56PfTnOXvKH2I4gm6gc=
-=LhQS
------END PGP SIGNATURE-----
+* :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_FAST`: Misaligned native word
+sized accesses are faster than the equivalent quantity of byte accesses.
 
---WsUBhFv2b0Y63I3q--
+I'm planning to leave the qualifiers off of UNKNOWN, EMULATED, and
+UNSUPPORTED, as those likely apply to misaligned accesses of any size.
+Let me know if you think we should tweak it further.
+-Evan
