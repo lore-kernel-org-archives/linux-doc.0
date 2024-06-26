@@ -1,99 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC10415A856;
-	Wed, 26 Jun 2024 12:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCC3180A8B
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 12:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719403223; cv=none; b=OW9hrySRsMOtToapuy4xPQQ2WPVCCAPmhM8sKB2GYn9taP3nEhYcZzT17/kLCKp/JTkuEBfgAqWD5DpS3jlMXD9VtxhhjRnbhBGW6eJjihVQtQEU2wqe8bMmRVaVrT7bhxzeuhunans9NQZoglUihwPUKzNex9EkXxwg2zeSf3g=
+	t=1719403335; cv=none; b=XvxGGZxl7A3DBw9fdvVhcU+4Fu/ygYme6Ra9gSjqq9mqetq6/QucNKlWMvxsNtVn723S7e+E9wrNLgbRBlCH8kqFtdbPd6yjJrGICXwYtp1LY8OEjIpRZ8F3qMBlmgQUSXqAXsNOgYdHww1R4CHgRMOYJVnigHczMIhhc4Zgyao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719403223; c=relaxed/simple;
-	bh=bh8hvuIU3n7Loy6VcuHzcyvnUCKJUlEQfz4UfRFVk60=;
+	s=arc-20240116; t=1719403335; c=relaxed/simple;
+	bh=K8CFtC/BQ1NSBa5PTyocHu/8UmRsW3sdLhXbzU88obM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpgKLeZ8lgqwCVyjYf253fg3/Anldb1m4K9/z6cpApHq1zZsG7CwzRiaAqdVs+lT9fseOndlzZbueJ2htZME+5gUTSZg8X3v1aCr31V7Shhyazm6MYka/8CgmdQDpA3gDKs8XFEN6jVMc+H6W0GCWz+jhnCpuAe6uih9SKXrPb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfG8dPzv; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FuTgSpWnEsBbNm1xZzhts8aQLgAQjCCR2kYTCDFxWQm4mfFCQYzGtqSTWBU8Oyk5z8pdIKd9V1LocwCnP+oNxLg/sW0y0EwvJlLu8TBTcvjMswRiK16vfUL6pOKs5eo7FRnc/DnR1ydD4itixIShbnwiTyukKKjsz210sgTWnlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZdVMn565; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfG8dPzv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719403222; x=1750939222;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bh8hvuIU3n7Loy6VcuHzcyvnUCKJUlEQfz4UfRFVk60=;
-  b=jfG8dPzvShX2yiW0d0w69EQQAKKvuv6BhpxtfeGirN1XbhIXYVDX9TMg
-   q8SY7vRnLfXlFi5nJWRQ6MSZNxQfIMZoBp4+/xthb4jsKzpC5MpXdnZps
-   3ppMBs4YbfYAEPd1NvnmuX1AEJxGv9uiowMht+SUE0t5/9dxXo1qDki1o
-   CE1xCYMAOJG/hAfldStXxu2Ij7urGxNkstJ0aDw9Km2TUfvaT18yhu5Bh
-   SgvWVrBWuV6G1PHd2s2rIJgDYXyxx3qXRq8hveXG9as2TOUwdmuWvYwhd
-   EEP2GEk1wA3Gm30A+NAOJRLC/hChq9ovZ93lVgcp9gRfySkehnIgU2eVO
-   A==;
-X-CSE-ConnectionGUID: hGSeMfF3TYKQiQWGbb2fXw==
-X-CSE-MsgGUID: TFU5XZ4VQnegFoG5KC5H/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="16611059"
-X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="16611059"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 05:00:21 -0700
-X-CSE-ConnectionGUID: /5RfIHYsQJuxso8TuXglDw==
-X-CSE-MsgGUID: suY9nTNCTvay+c8SqTBfig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,266,1712646000"; 
-   d="scan'208";a="48347414"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Jun 2024 05:00:15 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 9FF3D346; Wed, 26 Jun 2024 15:00:14 +0300 (EEST)
-Date: Wed, 26 Jun 2024 15:00:14 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: lkp@intel.com, ardb@kernel.org, brijesh.singh@amd.com, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, jan.kiszka@siemens.com, jgross@suse.com, 
-	kbingham@kernel.org, linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, michael.roth@amd.com, 
-	mingo@redhat.com, oe-kbuild-all@lists.linux.dev, peterz@infradead.org, 
-	rick.p.edgecombe@intel.com, sandipan.das@amd.com, tglx@linutronix.de, 
-	thomas.lendacky@amd.com, x86@kernel.org
-Subject: Re: [PATCH] x86/64/mm: Make 5-level paging support unconditional
-Message-ID: <dtou7hqnrhof73giyz22crs6s7krj2ky54ipkx45ibiwijeo5o@6xv2syr2baw4>
-References: <202406260735.rkb4c8N7-lkp@intel.com>
- <20240626102624.1059275-1-kirill.shutemov@linux.intel.com>
- <20240626104648.GBZnvxmMXCZbEhoqls@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZdVMn565"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=K8CF
+	tC/BQ1NSBa5PTyocHu/8UmRsW3sdLhXbzU88obM=; b=ZdVMn565NKxA7xvgTfEr
+	pHzsqbFWTIN+mvhHZMiDiHwmUSLC8Kx8z30RIZDAi/G6rPiHj1bzLe0ZaIxtrQcc
+	I7Br0rfryhpWK/KKLG33dD2S34TLxD6vBr5lDaC0rlN/66FWZ1WBEZUzP/5zcKc2
+	v/yqGpr+A2A8rrp51Fh1j6O7mHedkMTwN9MgiNGgFk1O6Sv9dUSel8U9FuCI3Sa5
+	NgnYOa2g8X2P6HQoJInfBKDs2VhJP/5RiGEtJb2SnHbz2s1GBxI74nN5H5k82N7w
+	NGKUR86xCfdtUWz+YaIRvfWurgBfadG6NULw2tYbdUee4lcpkVEs9W/L3SAJ8kSH
+	Rw==
+Received: (qmail 562103 invoked from network); 26 Jun 2024 14:02:08 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jun 2024 14:02:08 +0200
+X-UD-Smtp-Session: l3s3148p1@wkmfyMkbQq1ehhrE
+Date: Wed, 26 Jun 2024 14:02:08 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v10 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <umh6v3unptgsi7ph6l4s3txxyubyuzesscyddhtx4deqglc46h@c5shp5oienvi>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+References: <20240620094159.6785-1-wsa+renesas@sang-engineering.com>
+ <20240620094159.6785-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=McPFAKh61r_L4kpTdD2HJCWo_u_=Wt3bJ5SMVmtSgE8oA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="opqqj3lpr4uiw5ia"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=McPFAKh61r_L4kpTdD2HJCWo_u_=Wt3bJ5SMVmtSgE8oA@mail.gmail.com>
+
+
+--opqqj3lpr4uiw5ia
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626104648.GBZnvxmMXCZbEhoqls@fat_crate.local>
 
-On Wed, Jun 26, 2024 at 12:46:48PM +0200, Borislav Petkov wrote:
-> On Wed, Jun 26, 2024 at 01:26:23PM +0300, Kirill A. Shutemov wrote:
-> > Both Intel and AMD CPUs support 5-level paging, which is expected to
-> > become more widely adopted in the future.
-> > 
-> > Remove CONFIG_X86_5LEVEL and ifdeffery for it to make it more readable.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Suggested-by: Borislav Petkov <bp@alien8.de>
-> > ---
-> > 
-> >  v2:
-> >   - Fix 32-bit build by wrapping p4d_set_huge() and p4d_clear_huge() in
-> >     #if CONFIG_PGTABLE_LEVELS > 4
-> 
-> Is the 0day bot smart enough to detect separate v2 fixups like that and
-> re-test using them?
-> 
-> If not, you can push your tree to your repo so that it can chew on it again
-> and report any other potential breakages...
 
-Pushed:
+> I want to put my GPIO virtual consumer module in here as well so how
+> about calling it "GPIO debug utilities"? I can tweak it when applying.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git x86/no5lvl-config
+Totally fine with me.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks!
+
+--opqqj3lpr4uiw5ia
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ8AzwACgkQFA3kzBSg
+Kbaryw//QVXrqkGjTMzvIaQjDO6/q7NEAPthF4i6G2qNbubLPMOkzE2IezQLSwEb
+SxPCvs1POwEOFhViPvXR+QjM0YFV9FHwy6Iwpk0UltiIPUm8DG2IFdud7cuJMENl
+asARBWooefbRonqNc8EFf2yjtjZpHgiSY8KuMklr5JSMPOwj+tic9yuTXHZiFcpt
+F7n4mvOhuRsWI34/eVVQQXAahaNfYOzZ3LY9X8w+ZNPhVQtx2Ho8fDi8gEy6ZKYW
+mM2CrJYO/BxCfsz1Ka6yeISw3/t1/0+6AKYECHghz7ZP3Ms3MeNR5OSm4xDg+dNp
+FPHLfebMIJhGsBiGduoD8lAavtC5BYz6Sqb0Ncajxs2FX+GVXlCDF6UnGMtzoqwU
+VTrQYQbiEaWjH6A86ZJWf5pmkuoQDhhBBuXaQi3rzyUb7NSJve69BMrRGPF9ZvEQ
+PcpV5Nus2ENLpZ/O+oKBNpTaxr4hgGjI00lj/D+yRMkKdeDPzrFlnYJFe3pEEmqg
+bqE2WuTOJYSaCJn181WHjkxcn5t4HwXw1rk4xCFhf65jdl1AkOiWONJnr2yF0P6J
+jMxnrjq3fHsqny8Ud5K0CSBlaIJN0O6/2w7SLlrEqim7VjldIF6JoIfaMr4B50+Z
+f4kgxdSk0XBpgooPyUFJD0OK8yY+mo8eb4gcLihsXNaE1hkpvc4=
+=v+0q
+-----END PGP SIGNATURE-----
+
+--opqqj3lpr4uiw5ia--
