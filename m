@@ -1,71 +1,64 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9DA181BBF;
-	Wed, 26 Jun 2024 13:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130851836C7;
+	Wed, 26 Jun 2024 13:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719408782; cv=none; b=CfSXvsH9ol2EXxAEN2SQTCYUJ2haQLqIEoYZvfnJ44euzUd67+nX/JTXtAIUED2Rs+NuQmWS8dKPE345dHWLN+1xVd6UMrhegIp+uQu3YVUfVNRCFCkm62MtbLNqka+bYKracY/26bf7BMWIfOwV+FqzkMfqIl/vRIiZaMwuYx0=
+	t=1719409229; cv=none; b=WXX2Gtetn39lv6QotRU8YaJbqSZslw5r2E7ItPm9VWzdpYbB0siOp87WxCwDNeSM35pupbFWiY3VCDY9ETCipMraMtkMxXsIhdYAlYH4ETNGubtYG67f6WViROGkdWDtycpBiJfRRAyB5SZQx9yyef5I6Lrt1XZX442yubXd1DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719408782; c=relaxed/simple;
-	bh=BtIEJ29GmbJjobMmhUF/L75Shxh4CvTEph4ds53y3CE=;
+	s=arc-20240116; t=1719409229; c=relaxed/simple;
+	bh=UgRd/wKrH/zbcVyYi4i/ecnLIk3NSGtpaiNRr7cKvvI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hEOxo2KdYN1vK8iWuI9K5kG7AIsNcATQ8Y6Ua4L4AFt0vy4FwMWJuJNa5LtzFIFcHUXmFcZPjYgiSTGvssf0wh67OKTlMcdeG45e2/YZMU5n0mGwLbIOfQkLVE+l5hRt6vcttiwzcLFQ0MuQ3+eHWuYlND3Cen00h1xeshSrzn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G75Rmuus; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KK5a3VsBSQ2bQ2PD1ea7Uq2xcRE18Fdq9ohf6gjHNPL+EAxGJ4eInGXZ5BdOTzOujnOHeUcml9BzyIlgIw4OiPCwnkGdNs5bHF7Uyh6qwXs3VmNVLf2cLc1jVNPb06ML7LvIDsjfcsvPWh6KW7CAOcITNNSsOKehGbH/DuFv/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=L3/t7BkQ; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G75Rmuus"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7066f68e22cso3082388b3a.2;
-        Wed, 26 Jun 2024 06:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719408780; x=1720013580; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U4SpG465Zq0wFUQJD4T6CGPlHVUtjrzjJUeqwICCVB0=;
-        b=G75Rmuus+EXmc2Kii4VxerNR72vBNVLbomkr+hGZ1yn7wlbFSfOH8RWlVVCCNCJF8N
-         Prp66LhTMOlloXzJChjnZVsX6lCQMH2jMoIdLiAl0l1n7q7wbmJ82q+tpaQgS+IZuREY
-         BSJynVaWdpUF0lEfFe3+9uxfnXcI6A0hLBrwya48nPOu4zhOHYWMFCEklhKPC7UaIEsG
-         5aMh95Pd12pjKTylQgVqcP6p8fCr6uqrFk7LoAnIPUiUkATpC6VbEYxJdSxw/3zbSWDi
-         1P5ZNZW81Qe+eVVF1rJNvhczoMJfvk6kw9oWEfeKiwBu9/aoWpMG4FQy1Z7Y33cS/vU2
-         gdNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719408780; x=1720013580;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U4SpG465Zq0wFUQJD4T6CGPlHVUtjrzjJUeqwICCVB0=;
-        b=hsVJ/cE82dxFywRH4aNbAwebJukcgKy7WCwquA1YXffEUEnh2dFLgRpLFphGvOcS8s
-         ZPzUNstyLx7qBVdLmLzgDgwCfs9SZpvxAU6m8ZX0ZK59tLond4OQjE7CyM6HB+/ylyox
-         77cT6vymU2UcaFn8zb+iGA/FL20piIGD0UB5LSp8LvWyE/Hl+LCjUt2JwKj0Td+LP/dL
-         d0SUwSFXaqHmzPn2PEdLSbpJr10f9X6QserPgUyzy7DuATMR0UHioLzHuO2+ZMfbJCvn
-         w4MqFchbNWecUhJVJNVFyuT78AQ3lp6LZEQZO5oz1PbfWUZI2tN1mhdp6snunWBd0bGK
-         jC0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVybCFrE22G1FwUKJXGfsYRIboJjB0STRTw3/Xb83szYHcBT/o9dbbKCRhA1pXhJxMhrzjg/KkrenpP6ZL0BuH0GUN8Vs/XA4rPwAoRJMXbDYrQIyUjt6cPf4cfW78omM5iguA/fiIcQmCgh2UpZ25tlwzyQOIgpOyPBO/7V7uwtYWqsNPq4PZXfRoB3QuzGJqVU1L5TEUaf+OfIqNDlrSRNCtM46ZMBZFqo2JjMxcOsbWsp8wYkGf/0g==
-X-Gm-Message-State: AOJu0YyN+Wp9qr0VcLBUHmvbtEkJGKUorjSaR/9cYTHYSP8msncvxipf
-	j3FdQAkomWQe1RxpBGiBfUySrzHyFuBVEHiJ4Y9uZYEuUTDA5dy6
-X-Google-Smtp-Source: AGHT+IER57KcsE5A6v0eX5mNYLuzZpa08lQwfGmIk/QpxqLOfeNqNB0VfK27wnjYzWXj4yOGmexT+g==
-X-Received: by 2002:aa7:9a1d:0:b0:706:6ad6:1866 with SMTP id d2e1a72fcca58-70671012a58mr10321399b3a.30.1719408780319;
-        Wed, 26 Jun 2024 06:33:00 -0700 (PDT)
-Received: from localhost ([2804:30c:96b:f700:cc1d:c0ae:96c9:c934])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-716bb22dffesm8796040a12.83.2024.06.26.06.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 06:32:59 -0700 (PDT)
-Date: Wed, 26 Jun 2024 10:34:24 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	corbet@lwn.net, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 5/7] dt-bindings: iio: adc: Add AD4000
-Message-ID: <ZnwY4MqCYFKUNtL3@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1719351923.git.marcelo.schmitt@analog.com>
- <10678612efbbd97bb47a31f4a062607cf35b03f9.1719351923.git.marcelo.schmitt@analog.com>
- <20240626-handbrake-mustang-38c2aab3f04b@spud>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="L3/t7BkQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=w+FlyxrUhamZt7jen+f+qeqf7S98tAkMyEN3nNjtVz8=; b=L3/t7BkQHLRqnCmdgdMIkc8wWg
+	nb4wOMT+LmwJVXv37EQgkCmH48f9tB2JRCEPHMNHuWZXdFUvaLRoTDr8zCkK4xSAQltqz5nIoooMf
+	bRkE1pbr44a4ThoQGvLiQggMNfyg0l4plECPXmgixrlqmL5Ni0/TVY/Jy5Yv2JRw1vVU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sMSsa-0012db-HN; Wed, 26 Jun 2024 15:40:08 +0200
+Date: Wed, 26 Jun 2024 15:40:08 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"sdf@google.com" <sdf@google.com>,
+	"kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
+	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
+	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>,
+	"richardcochran@gmail.com" <richardcochran@gmail.com>,
+	"shayagr@amazon.com" <shayagr@amazon.com>,
+	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>,
+	"jiri@resnulli.us" <jiri@resnulli.us>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	mlxsw <mlxsw@nvidia.com>, Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>
+Subject: Re: [PATCH net-next v7 7/9] ethtool: cmis_cdb: Add a layer for
+ supporting CDB commands
+Message-ID: <baf84bde-79d3-4570-a1df-e6adbe14c823@lunn.ch>
+References: <20240624175201.130522-1-danieller@nvidia.com>
+ <20240624175201.130522-8-danieller@nvidia.com>
+ <003ca0dd-ea1c-4721-8c3f-d4a578662057@lunn.ch>
+ <DM6PR12MB4516DD74CA5F4D52D5290E26D8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
+ <DM6PR12MB4516907EAC007FCB05955F7CD8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,79 +67,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240626-handbrake-mustang-38c2aab3f04b@spud>
+In-Reply-To: <DM6PR12MB4516907EAC007FCB05955F7CD8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
 
-On 06/26, Conor Dooley wrote:
-> On Tue, Jun 25, 2024 at 06:55:03PM -0300, Marcelo Schmitt wrote:
-> > Add device tree documentation for AD4000 series of ADC devices.
+> > > > +int ethtool_cmis_wait_for_cond(struct net_device *dev, u8 flags, u8 flag,
+> > > > +			       u16 max_duration, u32 offset,
+> > > > +			       bool (*cond_success)(u8), bool (*cond_fail)(u8),
+> > > > +			       u8 *state)
+> > > > +{
+> > > > +	const struct ethtool_ops *ops = dev->ethtool_ops;
+> > > > +	struct ethtool_module_eeprom page_data = {0};
+> > > > +	struct cmis_wait_for_cond_rpl rpl = {};
+> > > > +	struct netlink_ext_ack extack = {};
+> > > > +	unsigned long end;
+> > > > +	int err;
+> > > > +
+> > > > +	if (!(flags & flag))
+> > > > +		return 0;
+> > > > +
+> > > > +	if (max_duration == 0)
+> > > > +		max_duration = U16_MAX;
+> > > > +
+> > > > +	end = jiffies + msecs_to_jiffies(max_duration);
+> > > > +	do {
+> > > > +		ethtool_cmis_page_init(&page_data, 0, offset, sizeof(rpl));
+> > > > +		page_data.data = (u8 *)&rpl;
+> > > > +
+> > > > +		err = ops->get_module_eeprom_by_page(dev, &page_data,
+> > > &extack);
+> > > > +		if (err < 0) {
+> > > > +			if (extack._msg)
+> > > > +				netdev_err(dev, "%s\n", extack._msg);
+> > > > +			continue;
+> > >
+> > > continue here is interested. Say you get -EIO because the module has
+> > > been ejected. I would say that is fatal. Won't this spam the logs, as
+> > > fast as the I2C bus can fail, without the 20ms sleep, for 65535 jiffies?
 > > 
-> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > ---
-> >  .../bindings/iio/adc/adi,ad4000.yaml          | 190 ++++++++++++++++++
-> >  MAINTAINERS                                   |   7 +
-...
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - const: adi,ad4000
-> > +      - items:
-> > +          - enum:
-> > +              - adi,ad4004
-> > +              - adi,ad4008
-> > +          - const: adi,ad4000
-> 
-> > +      - const: adi,ad4001
-> > +      - items:
-> > +          - enum:
-> > +              - adi,ad4005
-> > +          - const: adi,ad4001
-> 
-> > +      - const: adi,ad4002
-> > +      - items:
-> > +          - enum:
-> > +              - adi,ad4006
-> > +              - adi,ad4010
-> > +          - const: adi,ad4002
-> 
-> > +      - const: adi,ad4003
-> > +      - items:
-> > +          - enum:
-> > +              - adi,ad4007
-> > +              - adi,ad4011
-> > +          - const: adi,ad4003
-> 
-> > +      - const: adi,ad4020
-> > +      - items:
-> > +          - enum:
-> > +              - adi,ad4021
-> > +              - adi,ad4022
-> > +          - const: adi,ad4020
-> 
-> > +      - const: adi,adaq4001
-> 
-> > +      - const: adi,adaq4003
-> 
-> I think some blank lines, maybe like the above, would go a long way with
-> this list of compatibles.
-> 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  spi-max-frequency:
-> > +    maximum: 102040816 # for VIO > 2.7 V, 81300813 for VIO > 1.7 V
-> > +
-> > +  adi,sdi-pin:
-> > +    $ref: /schemas/types.yaml#/definitions/string
-> > +    enum: [ high, low, cs ]
-> 
->     enum: [ high, low, cs, sdi ]
->     default: sdi
-> 
-> I'd do this, so that the default is documented in the binding, not in
-> the description text.
-> 
-> Otherwise, this looks good to me.
+> > If the module is ejected from some reason, it might span the logs I guess.
 
-Ack, will do.
-Thanks
+Please could you test it.
+
+65535 jiffies is i think 655 seconds? That is probably too long to
+loop when the module has been ejected. Maybe replace it with HZ?
+
+Maybe netdev_err() should become netdev_dbg()? And please add a 20ms
+delay before the continue.
+
+> > > > +		}
+> > > > +
+> > > > +		if ((*cond_success)(rpl.state))
+> > > > +			return 0;
+> > > > +
+> > > > +		if (*cond_fail && (*cond_fail)(rpl.state))
+> > > > +			break;
+> > > > +
+> > > > +		msleep(20);
+> > > > +	} while (time_before(jiffies, end));
+> > >
+> > > Please could you implement this using iopoll.h. This appears to have
+> > > the usual problem. Say msleep(20) actually sleeps a lot longer,
+> > > because the system is busy doing other things. time_before(jiffies,
+> > > end)) is false, because of the long delay, but in fact the operation
+> > > has completed without error. Yet you return EBUSY. iopoll.h gets this
+> > > correct, it does one more evaluation of the condition after exiting
+> > > the loop to handle this issue.
+> > 
+> > OK.
+> 
+> Hi Andrew,
+> 
+> Therefore, unfortunately in this case I'd rather stay with the origin code.
+
+O.K. Please evaluate the condition again after the while() just so
+ETIMEDOUT is not returned in error.
+
+	Andrew
