@@ -1,78 +1,168 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2D118C34B;
-	Wed, 26 Jun 2024 15:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3925318E743
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 15:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719416359; cv=none; b=XoLVyoU8oAt+6wS0ZRJ5sKXpEoFlfOeKRS5grybSyCPvnBfu0W8yvrcTSq3A0n89t0ZfKXdPQNH8ZlIywNNYRUjOzwiXJMttE/KMDx5d8bktBeeF3iSLoR8RlPM2dRMwDZzp/QZr9kK3V1lIg2j3sfhEjdgP27NQjhtoeUA3RW8=
+	t=1719416603; cv=none; b=imZFWAbaRvUSP5Kwdqo1v4We3X69X31mQYXNBYxw9F/FUXarwbS2bVMPip0gI466NXFtU473mc5dNxRMlo+90YVX2dPeAY4f+8P/UGFJNUJiRgEAZOTfClhxESBSLFOsNTSl1LxB0ZvkTZQ0IoNNnIhe0JW2QSnz/d9qOQK1hIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719416359; c=relaxed/simple;
-	bh=0adLUO8t8jDrE8KFJgKgS1xWlQGXyFePt2oJdFvjdc0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PtC0ahYpgAbSUViZxwe7N1WqGn+BayvOtHu8w11zM6oem1ddFkYtyK7cwzj1xA6YFSEZ80RfF9tiF7awCFAujQp1csobLwv7GdIoQnbuzDZAxfOJ0k0ajUCioing697MJjYyU5+uWnP+ByIidxZylCEduAzQ2Satq8JTlanXs1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=l94VoYcn; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1719416603; c=relaxed/simple;
+	bh=yBf7BjQ0TET4RNxCRr0z5OE/8zpvjn5itH58dt/E6Yg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fydTSYBBV+k1MZ4W+9pWylO6odSVWlOjmRX0ZnxIrklWRjkLxr6sZXApTDUAFtxNv798zNXuIAMdpBGZr1q0nEwH5Uv4SxkIO0uRFcrWJy2pVjmIJARUj/hwTl3q9XsUQ0izLAGmfzkNtixzRb+8YDmnGe1a3c95aDvtOOT/IPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V3ziSCsC; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="l94VoYcn"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0B59845E2B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1719416351; bh=PgEyPeBVA82w0vwwqwOb+4wIK5bkzxbeIhbog1W2lJg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=l94VoYcnEQvybRqbGOduVQTU6AtC4I7bw3N9EcXUx33AIYaAKMv+fDtVj3Lqmc+E9
-	 ufiGoUy66ihk2IiTPqdlehJfrOQLhQgkJXFUOfMO4I7/oZujEqiIH1M+8LP5NpazYe
-	 /N4vRK8foLhs0HRGEARpb2hMWBlAMHPHV5JETRKnQRhet4WH2B2lBZNpW2wH6plozS
-	 Zi+hOlJRE0fiLHiESdXQDGc8/TVqS/efqgNDwgcVedDIvQz2ewpm3SGcnJj8Hh/0MB
-	 xlL7p8qWPpnVQUquyE8DUJUXh87LLr46mKLCME4nHB5htcodRzDP6r9iTq3G/lRzzn
-	 T8RxzcwHOU96w==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0B59845E2B;
-	Wed, 26 Jun 2024 15:39:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jiri Kastner <cz172638@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, cz172638@gmail.com, Steven Rostedt
- <rostedt@goodmis.org>
-Subject: Re: [PATCH] Documentation/tools/rv: fix document header
-In-Reply-To: <20240626150727.156397-1-cz172638@gmail.com>
-References: <20240626150727.156397-1-cz172638@gmail.com>
-Date: Wed, 26 Jun 2024 09:39:09 -0600
-Message-ID: <87ikxv3e8y.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V3ziSCsC"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5b97a9a9b4bso3209313eaf.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 08:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719416599; x=1720021399; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L4BM1nm1eXhxPHZf+r3STp6lra6HVOKE5lqVSxFWKI8=;
+        b=V3ziSCsCzMt0neFs88m41XqYWpLG9SFFsvujEHfu9zOCfNUjRIdZS2Ak0EtyDiiSu+
+         XeApb+hq1rFUGyG23Qcu9aeAdgCaGV2n6RMRMtoGh9Ha6RYbcB3+nLdw5Z81sQQcjndx
+         EN5jgYvQtH6x3Vl2tFLfe84J6kqnBSux9aCBHaGH9/87iTQiQjzGH/vrBaRP5LxH9qZv
+         Iiut6hJKvMOJCTDSnCpas2/kNvaIoaOOZLOA2rvG6aFygi6p6CU2hZYBnRZqkiE4x9Er
+         /IiSel4DQKSYHMuPw9SjJ8wcigiQ+s6luE+l+piFpNXrvlRRLA6YgN0BKkhDoUXLXThy
+         D0qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719416599; x=1720021399;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4BM1nm1eXhxPHZf+r3STp6lra6HVOKE5lqVSxFWKI8=;
+        b=SQfvgTdKZ3qBZjXPqcjFIYUBVkMqUEjGg6fZPIPPLN0dCfBT9/FP+4wuO8MSrvJ4rM
+         nQ5oyFfnHbBMtKYnUAs8sjrnHDz79N5t50TEmwHuT2LoWLT5uTpScBxw69jPIz28Xy7Z
+         PNizXtZs2hTAA7OfM7KdUqEXvP0DVWVZ114f+myDwSnWn7IkK66wsC/xTf/6Rojo4nJa
+         /o0xdcSGPIkB7raMTz8N75goZTgonXV3NdQo3HnB59W7RKan7GB78gKmu27X/r7peANz
+         HJsPQnKNTfhuVE4ePxqHbMS7e/cJXcbjACxuXrVHRYp1q/I9uW6Abr8mpT+n7juvxgb7
+         JRig==
+X-Forwarded-Encrypted: i=1; AJvYcCVielORCxdJbNzO5ZiJQJrybTWve4vLy9jr2jlFZBqKAQmIaUyW485nmYy7TE3QIsFVQF90k8QvDkor6sRRmdUutnrL8dLFDGAh
+X-Gm-Message-State: AOJu0YwaulOotG1bA7wbSnFbQPc42ShxHJrpfu35CTY9XBYBSSt4k/yq
+	tMbhxd1Astd9AIz4xadcHusXz3+CAP5ZVzPgTHYz8AaK3k8j7c9KX69dXh6hbzQ=
+X-Google-Smtp-Source: AGHT+IGx7aFcTxf1GenpaKQHv67xvK5YmcOttQKW/seQI/OiieGIay/0iltoy3aIGzodsou6GFy57A==
+X-Received: by 2002:a4a:8515:0:b0:5ba:ffcb:c760 with SMTP id 006d021491bc7-5c1ebb01d47mr11473795eaf.5.1719416598936;
+        Wed, 26 Jun 2024 08:43:18 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d58ff8f4sm2162338eaf.41.2024.06.26.08.43.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 08:43:18 -0700 (PDT)
+Message-ID: <55d0cc07-c877-4510-a052-4458ee964615@baylibre.com>
+Date: Wed, 26 Jun 2024 10:43:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 7/7] docs: iio: Add documentation for AD4000
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
+ lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ nuno.sa@analog.com, corbet@lwn.net, marcelo.schmitt1@gmail.com
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1719351923.git.marcelo.schmitt@analog.com>
+ <e553a7c6ba88b3d8ae2db0963212fdce0919805a.1719351923.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <e553a7c6ba88b3d8ae2db0963212fdce0919805a.1719351923.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Jiri Kastner <cz172638@gmail.com> writes:
-
-> align header of document with filename and rest of the content
->
-> Signed-off-by: Jiri Kastner <cz172638@gmail.com>
+On 6/25/24 4:55 PM, Marcelo Schmitt wrote:
+> Document wiring configurations for the AD4000 series of ADCs.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 > ---
->  Documentation/tools/rv/rv-mon.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/tools/rv/rv-mon.rst b/Documentation/tools/rv/rv-mon.rst
-> index af0f329a7c9c..bed937120dca 100644
-> --- a/Documentation/tools/rv/rv-mon.rst
-> +++ b/Documentation/tools/rv/rv-mon.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
->  =======
-> -rv-list
-> +rv-mon
->  =======
+>  Documentation/iio/ad4000.rst | 131 +++++++++++++++++++++++++++++++++++
+>  Documentation/iio/index.rst  |   1 +
+>  MAINTAINERS                  |   1 +
+>  3 files changed, 133 insertions(+)
+>  create mode 100644 Documentation/iio/ad4000.rst
+> 
+> diff --git a/Documentation/iio/ad4000.rst b/Documentation/iio/ad4000.rst
+> new file mode 100644
+> index 000000000000..de8fd3ae6e62
+> --- /dev/null
+> +++ b/Documentation/iio/ad4000.rst
+> @@ -0,0 +1,131 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=============
+> +AD4000 driver
+> +=============
+> +
+> +Device driver for Analog Devices Inc. AD4000 series of ADCs.
+> +
+> +Supported devices
+> +=================
+> +
+> +* `AD4000 <https://www.analog.com/AD4000>`_
+> +* `AD4001 <https://www.analog.com/AD4001>`_
+> +* `AD4002 <https://www.analog.com/AD4002>`_
+> +* `AD4003 <https://www.analog.com/AD4003>`_
+> +* `AD4004 <https://www.analog.com/AD4004>`_
+> +* `AD4005 <https://www.analog.com/AD4005>`_
+> +* `AD4006 <https://www.analog.com/AD4006>`_
+> +* `AD4007 <https://www.analog.com/AD4007>`_
+> +* `AD4008 <https://www.analog.com/AD4008>`_
+> +* `AD4010 <https://www.analog.com/AD4010>`_
+> +* `AD4011 <https://www.analog.com/AD4011>`_
+> +* `AD4020 <https://www.analog.com/AD4020>`_
+> +* `AD4021 <https://www.analog.com/AD4021>`_
+> +* `AD4022 <https://www.analog.com/AD4022>`_
+> +* `ADAQ4001 <https://www.analog.com/ADAQ4001>`_
+> +* `ADAQ4003 <https://www.analog.com/ADAQ4003>`_
+> +
+> +Wiring connections
+> +------------------
+> +
+> +Devices of the AD4000 series can be connected to the SPI host controller in a
+> +few different modes.
+> +
+> +CS mode, 3-wire turbo mode
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A nit, but you should adjust the "=====" lines to match the new length
-of the heading text.
+The datasheet also has the same diagram in _Figure 55. CS Mode, 4-Wire Turbo Mode
+Connection Diagram_. So maybe we should call this "register support mode" or
+something like that instead of mentioning 3 or 4-wire?
 
-Thanks,
+> +
+> +Datasheet "3-wire" mode is what most resembles standard SPI connection which,
+> +for these devices, comprises of connecting the controller CS line to device CNV
+> +pin and other SPI lines as usual. This configuration is (misleadingly) called
+> +"CS Mode, 3-Wire Turbo Mode" connection in datasheets.
+> +NOTE: The datasheet definition of 3-wire mode for the AD4000 series is NOT the
+> +same of standard spi-3wire mode.
+> +This is the only connection mode that allows configuration register access but
+> +it requires the SPI controller to support the ``SPI_MOSI_IDLE_HIGH`` feature.
+> +
+> +Omit the ``adi,sdi-pin`` property in device tree to select this mode.
+> +
+> +::
+> +
+> +                                         +-------------+
+> +     + ----------------------------------| SDO         |
+> +     |                                   |             |
+> +     |               +-------------------| CS          |
+> +     |               v                   |             |
+> +     |    +--------------------+         |     HOST    |
+> +     |    |        CNV         |         |             |
+> +     +--->| SDI   AD4000   SDO |-------->| SDI         |
+> +          |        SCK         |         |             |
+> +          +--------------------+         |             |
+> +                    ^                    |             |
+> +                    +--------------------| SCLK        |
+> +                                         +-------------+
+> +
 
-jon
+I think the rest of the explanations are good.
+
