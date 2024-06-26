@@ -1,165 +1,92 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86598F47
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 00:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C6E15B7;
+	Wed, 26 Jun 2024 00:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719361153; cv=none; b=IM4y3OtsM7UVK9Qe8yINluL48OYyzfvtzeLdZxdz2p16y7VIx3oq6NA34VAiJeoLjDfAed9pPfS0D7fgNaFuvof524KeeJBjgbHQpk1m1eGHSC/RLpt8yXfFv64L9WsMr+VAZ647lZyANpBQzUI0w0voApPr4Mf/dyJnJrBbe+M=
+	t=1719363031; cv=none; b=Pn6csD7mZbVfjRGOYRk3VRa2Td9+k2q3LRo5VQFN2Q9FY69qiqLixZdw66E80VswlUQ0LYWgqIcxtgo+f8S1Gy0omkpm2+W8hTrruZFoD2H4roBwnWUAtC3E+N+ehe+fXZN7HJld1godKupxLMFU2H5lNWCzpsBioFr6TKdFkqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719361153; c=relaxed/simple;
-	bh=BWJLCbYdMdNVbeKAe8ZOorvrhm9T3+UulzDlvMDjsqk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vn7RFwE3Bt2dV982Nc53Vreq/c1WotTR+45sZ9YroRJ9sdRNJboqHd7cFxHkGRkvvGdgTIc4PmlfxQZVBSbnHHiO0ly8sD0BkBLdqdgRcqLS0zFlhWdZviDupBDuTgmtQkPiB7wdWRAnU89PcJeWjyfmJdyiMH6ubgL0+een8bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y6w36X9g; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719363031; c=relaxed/simple;
+	bh=NMqBdW6cHN2yp/PLmHLJNE+UdpAsHxZYtmRCzGlkuLw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=DcyuFW8LU4sNFK5wszssQ/WMzI7GJcKH7JzwYWxLJ40kHOmnA6BGSkePXlJAzJuzlYauuzjvuySsQ2MCYpuJ0iKfxgcThFYJ/tzjWdiF6MhlqoVnbLvG/no3b4GhL/nimJOpaZExqdaL+vabRYu8Z/AARf1Hdj3Kg8S9yCbZCA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YOs+gR3F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y6w36X9g"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-362bc731810so5502472f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2024 17:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719361150; x=1719965950; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AqtPWZeZzGFCdHGhLUrysJyjsETP6OeAipXfgavd1OE=;
-        b=Y6w36X9gZIT9CImQj3I3iEPQyCxQAm8yDn0LjlnILjBx9CfNHN7u6qGGnCYAV8FsUC
-         Yd6MiXfVqDhvfeAJ6+mtSxABJU9yjGvPbASQMZsFKhNQ/AMdDZUEJcY7x2MlzilPPkA9
-         uZjVCmP1KDWNsMoeBhKVn8jiLafRCDA2Gx5FBZCQp0nCKPBEAJsrNrU4sKwpwoG84D0x
-         beJTIaEgi/PNYGleFQW4cbAsxlHkf/vXq/hJSoBiFqstpEQztMcEhTBTpD4YYIbopfTk
-         BGmiIRFQiLh4K7EkG/Wvc8NZwPLoZYLWXwEhafrTjddRaMXz5cH6a5S+TOiMPAjLsBbR
-         6OcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719361150; x=1719965950;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AqtPWZeZzGFCdHGhLUrysJyjsETP6OeAipXfgavd1OE=;
-        b=egN+T1T+5lCPtub0zaP2LjNaAS2wCAN8zlY1R0dBT1oQv2zLjfE2/2kdHM8Eg39fQ6
-         golZ4qdY+pLb3wHxNaiFG7XzuvNOvZ4WmgB1WZuEnPic2MJAJJCBNj5XL8EK29hq2Brq
-         dmh2WwzyHdvEXX92WmZrUL8P0rJNn4W/zneSxLzB0uHNTiRsBb7suRze1U8v3JrXSk0f
-         stXSAfZdiZvEZ6evw9wyCoVKC5vw/3eLrfjRs0rF16BI3Zwt3aEO5sDgdpa2WMj5WEmf
-         d8LDH35UmRvFf9o8Egs8Awh6ZS17lB5OQstMQbY/0RAilS/jW9y6GETiR+8NU8L8otn7
-         VWww==
-X-Forwarded-Encrypted: i=1; AJvYcCUp3uCkG5mvAz3SU4FXXa6lWTprkAoAM6NewyiUem7/8QUwibW4MPvyokwniAsyo+jFHuT8q2AQy9ATjHlko1qqvbA5cf/0H/t0
-X-Gm-Message-State: AOJu0YzzCo0rc6Wg4OpMPX/PkhCWHA8SJdSoyNQjuKaVXrd41v7Ntw2P
-	F+q9mfr4nKNh57uLvY++dNF/mknqT/w+dBILYCSy+MHjUnL6D2JJXBEoiHaGcX6LkEQ4X4LOMoi
-	SkxtqshQUgdMM3OsuWtbUHlKWfORn9STkKZrQ
-X-Google-Smtp-Source: AGHT+IFuN0O+kal72+FcB0c5JiyRdueE3ZMGP21IEEO1SX378ULBlZj/S+2MBo6xoRWpY8nLXB1udHE0ojkh+LOy+OI=
-X-Received: by 2002:a05:6000:1a4e:b0:361:78c8:2eb6 with SMTP id
- ffacd0b85a97d-366e9499ca1mr7618385f8f.25.1719361149918; Tue, 25 Jun 2024
- 17:19:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YOs+gR3F"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6FFDC32786;
+	Wed, 26 Jun 2024 00:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719363030;
+	bh=NMqBdW6cHN2yp/PLmHLJNE+UdpAsHxZYtmRCzGlkuLw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=YOs+gR3FU/mMhtz6RVBgnLzHyIi7OG43lvEh4tOW122AiyCt7bY/0oxLTPDqHtpbj
+	 QKum6hG8GFs4VnHPPG5x5EIAVdvWlVHOSsz9Wa1bGV40lSGecjoGxET3dy6JNiTpkg
+	 3MBeMa1YHxIASwfdvrIu+VhvfaSrAWgY+/l+tOgOtusTmjObP84Ii32I/ML9PMnd0g
+	 CcIRTRss5dhjVKh2Vokuv4r0HSYJQPxVAkWw5JJJUxQsiJ56hPjX6PGEIxur3CkKwc
+	 qDsX16kHDh1Ip4KuHoTYVDefR78U0zNY4eBL6yJBRXi9R83lv3qCp2sMtTerAQrIUL
+	 ALTzTwPgdc/9w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8FAF9DE8DF3;
+	Wed, 26 Jun 2024 00:50:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624163348.1751454-1-jiaqiyan@google.com> <20240624163348.1751454-5-jiaqiyan@google.com>
- <78857a6a-f9a2-4072-b2d4-82fcfda25d2d@infradead.org>
-In-Reply-To: <78857a6a-f9a2-4072-b2d4-82fcfda25d2d@infradead.org>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Tue, 25 Jun 2024 17:18:56 -0700
-Message-ID: <CACw3F53U93_Vb70SKHMTi6yKxLGTwt2Qw8dZ4__U4bhVi-PgJw@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] docs: mm: add enable_soft_offline sysctl
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	ioworker0@gmail.com, muchun.song@linux.dev, akpm@linux-foundation.org, 
-	shuah@kernel.org, corbet@lwn.net, osalvador@suse.de, rientjes@google.com, 
-	duenwen@google.com, fvdl@google.com, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v15 0/5] ethtool: provide the dim profile fine-tuning
+ channel
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171936303058.27591.15292953150310890485.git-patchwork-notify@kernel.org>
+Date: Wed, 26 Jun 2024 00:50:30 +0000
+References: <20240621101353.107425-1-hengqi@linux.alibaba.com>
+In-Reply-To: <20240621101353.107425-1-hengqi@linux.alibaba.com>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev, kuba@kernel.org,
+ davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ jasowang@redhat.com, mst@redhat.com, bcreeley@amd.com, rkannoth@marvell.com,
+ aleksander.lobakin@intel.com, xuanzhuo@linux.alibaba.com, talgi@nvidia.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, maxime.chevallier@bootlin.com,
+ jiri@resnulli.us, paul.greenwalt@intel.com, ahmed.zaki@intel.com,
+ vladimir.oltean@nxp.com, kory.maincent@bootlin.com, andrew@lunn.ch,
+ justinstitt@google.com, donald.hunter@gmail.com, eperezma@redhat.com,
+ akpm@linux-foundation.org, dtatulea@nvidia.com, rrameshbabu@nvidia.com,
+ hkallweit1@gmail.com, przemyslaw.kitszel@intel.com, paweldembicki@gmail.com
 
-On Tue, Jun 25, 2024 at 5:02=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Hi--
->
-> On 6/24/24 9:33 AM, Jiaqi Yan wrote:
-> > Add the documentation for soft offline behaviors / costs, and what
-> > the new enable_soft_offline sysctl is for.
-> >
-> > Acked-by: Oscar Salvador <osalvador@suse.de>
-> >
-> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 32 +++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/ad=
-min-guide/sysctl/vm.rst
-> > index e86c968a7a0e..71463a7b3e2a 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -267,6 +268,37 @@ used::
-> >  These are informational only.  They do not mean that anything is wrong
-> >  with your system.  To disable them, echo 4 (bit 2) into drop_caches.
-> >
-> > +enable_soft_offline
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Correctable memory errors are very common on servers. Soft-offline is =
-kernel's
-> > +solution for memory pages having (excessive) corrected memory errors.
-> > +
-> > +For different types of page, soft-offline has different behaviors / co=
-sts.
-> > +- For a raw error page, soft-offline migrates the in-use page's conten=
-t to
-> > +  a new raw page.
-> > +- For a page that is part of a transparent hugepage,  soft-offline spl=
-its the
->
-> Use only one space after the comma ...................^
->
-> > +  transparent hugepage into raw pages, then migrates only the raw erro=
-r page.
-> > +  As a result, user is transparently backed by 1 less hugepage, impact=
-ing
-> > +  memory access performance.
-> > +- For a page that is part of a HugeTLB hugepage, soft-offline first mi=
-grates
-> > +  the entire HugeTLB hugepage, during which a free hugepage will be co=
-nsumed
-> > +  as migration target.  Then the original hugepage is dissolved into r=
-aw
-> > +  pages without compensation, reducing the capacity of the HugeTLB poo=
-l by 1.
-> > +
-> > +It is user's call to choose between reliability (staying away from fra=
-gile
-> > +physical memory) vs performance / capacity implications in transparent=
- and
-> > +HugeTLB cases.
-> > +
-> > +For all architectures, enable_soft_offline controls whether to soft of=
-fline
-> > +memory pages.  When setting to 1, kernel attempts to soft offline the =
-pages
->
->                   When set to 1,
->
-> > +whenever it thinks needed.  When setting to 0, kernel returns EOPNOTSU=
-PP to
->
->                                When set to 0,
+Hello:
 
-Thanks Randy! I will fix these 3 nits in v6.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
->
-> > +the request to soft offline the pages.  Its default value is 1.
-> > +
-> > +It is worth mentioning that after setting enable_soft_offline to 0, th=
-e
-> > +following requests to soft offline pages will not be performed:
-> > +- Request to soft offline pages from RAS Correctable Errors Collector.
-> > +- On ARM, the request to soft offline pages from GHES driver.
-> > +- On PARISC, the request to soft offline pages from Page Deallocation =
-Table.
-> >
-> >  extfrag_threshold
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> --
-> ~Randy
+On Fri, 21 Jun 2024 18:13:48 +0800 you wrote:
+> The NetDIM library provides excellent acceleration for many modern
+> network cards. However, the default profiles of DIM limits its maximum
+> capabilities for different NICs, so providing a way which the NIC can
+> be custom configured is necessary.
+> 
+> Currently, the way is based on the commonly used "ethtool -C".
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v15,1/5] linux/dim: move useful macros to .h file
+    https://git.kernel.org/netdev/net-next/c/0e942053e4dc
+  - [net-next,v15,2/5] dim: make DIMLIB dependent on NET
+    https://git.kernel.org/netdev/net-next/c/b65e697a7c9e
+  - [net-next,v15,3/5] ethtool: provide customized dim profile management
+    https://git.kernel.org/netdev/net-next/c/f750dfe825b9
+  - [net-next,v15,4/5] dim: add new interfaces for initialization and getting results
+    https://git.kernel.org/netdev/net-next/c/13ba28c5cd04
+  - [net-next,v15,5/5] virtio-net: support dim profile fine-tuning
+    https://git.kernel.org/netdev/net-next/c/dcb67f6a9ead
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
