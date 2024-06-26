@@ -1,122 +1,109 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5CC13AA3C;
-	Wed, 26 Jun 2024 08:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B49E71750;
+	Wed, 26 Jun 2024 08:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719389573; cv=none; b=Ow/ARoD9/hgAhsmog/j1tAS2zFdwGZM4nbEVtXTymD2ji2fOloxpQKt9uvNNd2cx1mxyrkQ3p+ZZ2RQIs1lsQV6qx1JsPPzlEoWdi6ongEwdb8IzL6UpCms1Tm+LLAOsRI/tNgkPkx2WDUEaPSqQ/dyEjyst4kUjGNG9nA6dHvs=
+	t=1719390113; cv=none; b=orSi21ASzArBIjPp14Kc+3Tf0N8ELYEich+d4NDPmCg92IEBcYuc6hNWjbSm8Xqxp1lO/n0RW1zd3zVacIAOTMEB+xcHd8afRyyeqHQRZk++sfHUTBLscixv0Kgxvvx6PWdNjypE07xZHWj9gv3EhcYQLNgOFB2uMdvLSSGqlXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719389573; c=relaxed/simple;
-	bh=D5Cbu+U1HZWDIHt0LpKSf7Cur/m6GJUgdd7v+AQOkfo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bJDNp9zAgor1LassfiZi39cLa4qVYaejj1eElt6qgoqM8ZL0Dw4cQxd3dQvNgezp+pynzD3L5FOmY5wCxxcalk2gnf/LPAMb5+zt+Tr5SPM7hpYUcQYH7+lOuOa8Ya5ktc+ErhRKXOuk7Dr7Byv92cGT5nI4IX8ERGknAn1UtnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dfe1aa7cce2so6082997276.1;
-        Wed, 26 Jun 2024 01:12:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719389569; x=1719994369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S6yFjbUBltT3UtsPx++KaysizwCAujSrK4XvFo3PCu0=;
-        b=qsx2/96nKQoKmzTk9WiEVnYY0JuqNHc6kwryyEkYgiXVaY2Bw7hnC/bspl7WjeOH9w
-         7lJ2NqNWebTmGt2QVQlTW3ct6TjAFmxL8w145ynODVIALUo1IRCyJhTvAe7/ME/5SEHa
-         KPPIfMFbgAzVGnsGDkIA+Vw4CqnNM6MwUkTXCaVxLkxwBUjqZA7rq8azQW3Yk+StcuBE
-         oA5rP8Yk/hGsKq6swcgu1acP7z8HqYAys/2zG4tC0jQkAE2MV/N04n0nf53E/pdDWcYe
-         ObAlDKSoad+arQcKUjuatE/UyVolWz1LA5LUQAFEzW3ejmVb2Z+9ePBCMBwbdNkaO0gQ
-         IVXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSp9m7n2p7fKt2nU5Lqy2jewR5/qnx3T3K7aca4f5KfPkxPzuZvFlqHkUsW+5LgwXtgj2SZ/gx7v0On1P5O745E1xT1SVJVlalDzaKsa3HiS+JYtRD1p6ffdytoQYXzHOwG8kc7Y4XxY/iH18EE+NRkQt/82XQCm+BrNkeB0BTE7jTV+Mzx4juh99jcKSnxz8eBvlo9tG76UPM
-X-Gm-Message-State: AOJu0YxdVDBU8/ov4KkpAVeZ8ej0AjF055Y/kMXANYnOjBDxafx6sKhf
-	MXRkN92zrTofXRHXCqWt7TmBwm4I1KKz7fQclKdQAYeIOCHgwHwbRc0SZpn6
-X-Google-Smtp-Source: AGHT+IGu9u4YTJN2HEf5VgvjxqVtuKUriKszqMboR/wEfByBUIu3DhgMYGmysKeryJpwWVIZeN1flA==
-X-Received: by 2002:a25:ae5d:0:b0:dee:8d62:8c10 with SMTP id 3f1490d57ef6-e0303ed450bmr10044937276.12.1719389569184;
-        Wed, 26 Jun 2024 01:12:49 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e623c597sm4349136276.14.2024.06.26.01.12.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 01:12:48 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-646645f1387so20924417b3.1;
-        Wed, 26 Jun 2024 01:12:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWp29cvZ/azbcQW6mwk+n9Z1csuRY3Gz7DzeVh060rXUwSuuH8rbm3eYQ1TPsYMlT1MPgsrJCR02+MRbkvW58bzwq0tygbNrdFZogP5GD/Hz2nCGZ/FAbgblw+9IfR9/3JammHZSZQ9Ol6HV+r6YzYgSyBa0/1YnrT5lF2C/semZYNLUHXKSB95KBi3P/a219ijK8Dx530s//fr
-X-Received: by 2002:a05:690c:6e0c:b0:617:cbc7:26fe with SMTP id
- 00721157ae682-643a9fcecb1mr105251747b3.16.1719389568194; Wed, 26 Jun 2024
- 01:12:48 -0700 (PDT)
+	s=arc-20240116; t=1719390113; c=relaxed/simple;
+	bh=iPZDnVrroO2D1Flc6sqGZhiSJ4YlhKmPPUk41D8XZyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jfD4HlmVCO0sx76umf20z2Cw39vLM9X2Ikl7BM8wyH/KAzRordPCruGYuXnw7TpOGX3kvdy3BtwL4UIIttTI7Z5TcHokmvA48NxTu5ONg2PvP/X/AdtuNy7JX3uJS67FQzvSMzQRNAuZCFRiu/XHg4IIi6y5AuN3z82f03aFVK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BxYZylXp; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BxYZylXp"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 438841C000E;
+	Wed, 26 Jun 2024 08:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719390102;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b8qnKg4uujdTlh3ooNhu0wfOHPZK7SlfbfmzSG+uLRY=;
+	b=BxYZylXp9trrwUQ1wFN+TlgqJQ/Ytf9R5TR2jXUZGgQDaWBdd6A5Ue3YhaXYzA5kPpHztp
+	zh20ycAPIWnD3Horl4hshgEMCUKC+6uSkZMXSddddXG1//PDVw8xoQp+4aFav/2a0Idda6
+	WlFSlbJoaiOscjDvbk9bxXwWHtl1+C8fOVfQKpzgvHkBcM/WKzgN9tkSUTMDruz+TPr0Cs
+	DM+erYYbiqSEJDx0vZPXmlSnQGlJ1GnrE1rEyxbUHdgFyBYlkt7I2ICkQffDFn5wxbeRcC
+	7sYa9LCgva36Q30xCVNVKgSRpAHvWeT8C5Adn4I3BE4vey+0H1MI6+dDGti24Q==
+Date: Wed, 26 Jun 2024 10:21:40 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Sai Krishna Gajula <saikrishnag@marvell.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, Oleksij
+ Rempel <o.rempel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, Dent Project <dentproject@linuxfoundation.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v4 4/7] net: pse-pd: Add new power limit get
+ and set c33 features
+Message-ID: <20240626102140.1aac4593@kmaincent-XPS-13-7390>
+In-Reply-To: <BY3PR18MB4707C5C95955ED5CA2D7CA60A0D52@BY3PR18MB4707.namprd18.prod.outlook.com>
+References: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
+	<20240625-feature_poe_power_cap-v4-4-b0813aad57d5@bootlin.com>
+	<BY3PR18MB4707C5C95955ED5CA2D7CA60A0D52@BY3PR18MB4707.namprd18.prod.outlook.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
- <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org> <20240625172727.3dd2ad67@rorschach.local.home>
-In-Reply-To: <20240625172727.3dd2ad67@rorschach.local.home>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 26 Jun 2024 10:12:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXHa52RBjzA4eF4ERNuJjRHyq=FfyPz-yOsjOA7ZQfouQ@mail.gmail.com>
-Message-ID: <CAMuHMdXHa52RBjzA4eF4ERNuJjRHyq=FfyPz-yOsjOA7ZQfouQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Steven,
+On Tue, 25 Jun 2024 18:49:26 +0000
+Sai Krishna Gajula <saikrishnag@marvell.com> wrote:
 
-On Tue, Jun 25, 2024 at 11:27=E2=80=AFPM Steven Rostedt <rostedt@goodmis.or=
-g> wrote:
-> On Tue, 18 Jun 2024 12:42:11 -0400
-> Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
-> > +     A similar approach was attempted before as part of a different
-> > +     effort [1], but the initial implementation caused too many
-> > +     regressions [2], so it was backed out and reimplemented.
+> > + * Return: 0 on success and failure value on error  */ int
+> > +pse_ethtool_set_pw_limit(struct pse_control *psec,
+> > +			     struct netlink_ext_ack *extack,
+> > +			     const unsigned int pw_limit)
+> > +{
+> > +	int uV, uA, ret;
+> > +	s64 tmp_64;
 > > +
-> > +     Link: https://lore.kernel.org/some-msgid@here # [1]
-> > +     Link: https://bugzilla.example.org/bug/12345  # [2]
-> > +
-> > +   When using the ``Link:`` trailer to indicate the provenance of the
-> > +   patch, you should use the dedicated ``patch.msgid.link`` domain. Th=
-is
-> > +   makes it possible for automated tooling to establish which link lea=
-ds
-> > +   to the original patch submission. For example::
-> > +
-> > +     Link: https://patch.msgid.link/patch-source-msgid@here
->
-> Hmm, I mentioned this in the other thread, but I also like the fact
-> that my automated script uses the list that it was Cc'd to. That is, if
-> it Cc'd linux-trace-kernel, if not, if it Cc'd linux-trace-devel, it
-> adds that, otherwise it uses lkml. Now, I could just make the lkml use
-> the patch-source-msgid instead.
->
-> This does give me some information about what the focus of the patch
-> was. Hmm, maybe I could just make it:
->
->   Link: https://patch.msgid.link/patch-source-msgid@here # linux-trace-de=
-vel
->
-> Would anyone have an issue with that?
+> > +	ret =3D regulator_get_voltage(psec->ps);
+> > +	if (!ret) {
+> > +		NL_SET_ERR_MSG(extack,
+> > +			       "Can't read current voltage");
+> > +		return ret;
+> > +	}
+> > +	if (ret < 0) {
+> > +		NL_SET_ERR_MSG(extack,
+> > +			       "Error reading current voltage");
+> > +		return ret;
+> > +	} =20
+>=20
+> Is there any significance of checking "ret" value against '0' and '< 0'
+> separately?  Just trying to understand, these checks reflect regulator
+> failure etc..?
 
-Or, just like with lore links:
+In fact having ret =3D 0 is not an error for regulator_get_voltage() but wi=
+th a 0
+value I can't calculate the currrent.
+I will update the error message and return value:
 
-    https://patch.msgid.link/linux-trace-devel/patch-source-msgid@here
+NL_SET_ERR_MSG(extack, "Can't calculate the current, PSE voltage read is 0"=
+);
+return -ERANGE;
+=20
+>  [...] =20
+> Reviewed-by: Sai Krishna <saikrishnag@marvell.com>
 
-Gr{oetje,eeting}s,
+Thanks!
 
-                        Geert
-
+Regards,
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
