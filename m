@@ -1,77 +1,100 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0BC18A932;
-	Wed, 26 Jun 2024 15:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C66A92F
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 15:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.103.80.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719415553; cv=none; b=aGSjtRMlNXKPzuXLGmFr3kOxrN6Q2oBRXMyFCvF4FUJupqokWUl9gMypIx1jPX+XYUjxnKXqcAAJIgwVmPTkmFimD+9mON0aTYcT+jcZNsn+/H62rUbM4VqBUYAGjKQtxyQCKlBqnojGRyPm09eaNaNFG4wm7+ftVXUpmWINbZc=
+	t=1719415921; cv=none; b=q67OwYT26Ttp81saFJ7tHbO0Pxmp7HeCL21e+ClrsgzgCwC+2Ok0lr88TaLNBq6Xl8idNvHTQDuelfrTlsgeklsnzzKlF82Hgkal9Hzac1fXjEPuyDL9CnsTgjbqvGSOUAgLdiusDjmQfVOD3SdK8xXHS57vMsVKr8LRZZbuzj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719415553; c=relaxed/simple;
-	bh=umQXEjb2PL2e6U2B+fVH2n32pkx0la3uAx1khMFgVWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d6d+I/3hI5PojaXS2XEUHeJ8Xfb6ueuSX6YL7HNaivbd8G4tRfRaWQ6DeVJD/sWoEnNF/rAGkVPKRVJtd9txHZlWz/J3PLVN+HEXrIL6NFsoGjas/tKih1ihY+H6QAp1Fzc2VNDxzpSn25OcVEyoZrjSdHA6p3R/yq4tfbMCgXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kLSOeu/8; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1719415921; c=relaxed/simple;
+	bh=l2b8ZyapOcH2oqMP3Me88Rj4ZBEEEBUBCqUc2+772iI=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=cWtr97SXSu1zQ9PKvS6lDENnl2nZcatxQ+21ELSmI+yisiKTkQAXd4z1vqIWsdi8RYc0x6CxEiixklinEw3rP7mxwKXMyVKA9tKmUqAMO4NNsvoptNrYRrjmqIoJJlSd0hvKuXqhVfrmJodpXcFezm1f09UZTo7lMgGNaMRvg5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it; spf=pass smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b=Rv5HZc0r; arc=none smtp.client-ip=212.103.80.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vaga.pv.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaga.pv.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kLSOeu/8"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 17CEB1C0003;
-	Wed, 26 Jun 2024 15:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1719415549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzWNL/B1WPRI1LHle3EgQV0Lb6TkftrlmClTLMWSPBs=;
-	b=kLSOeu/8phqJ9r0wDZzEov/Ok8bEN9tgl6yPtsL1phpTujYSra21gKL1mch4AuK8gt3hP7
-	fqlCL96/h5S4xaylSaX/SKQCIz8YOcSxWseLcQX1KnRNqzqSI67r/ahBO6HSnFzryYGyyu
-	YC6PSrIijhS0RVFMzzjkMkHTuBnMMnlV0HwA4AMn9TJ0Mn/j3O2hjef8SlqZktcs15Omx+
-	QbUtaN6EEv5dfGC40hmBcT8RKTIxPI24BeQ4hBZVCrsuNG0afPIShQx1VC1aNgG4lvbkON
-	xbJ4wSQVUpkBVijbpT2DXM8BjCQlAiJLWXsDBqtCNWtddehbimNkJapETsSP3Q==
-Date: Wed, 26 Jun 2024 17:25:47 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald Hunter
- <donald.hunter@gmail.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v4 0/7] net: pse-pd: Add new PSE c33 features
-Message-ID: <20240626172547.115e95cc@kmaincent-XPS-13-7390>
-In-Reply-To: <20240626062711.499695c5@kernel.org>
-References: <20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com>
-	<20240625184144.49328de3@kernel.org>
-	<20240626095211.00956faa@kmaincent-XPS-13-7390>
-	<20240626062711.499695c5@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kolabnow.com header.i=@kolabnow.com header.b="Rv5HZc0r"
+Received: from localhost (unknown [127.0.0.1])
+	by mx.kolabnow.com (Postfix) with ESMTP id 30F4D20D136E;
+	Wed, 26 Jun 2024 17:31:49 +0200 (CEST)
+Authentication-Results: ext-mx-out011.mykolab.com (amavis);
+ dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
+ header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+	content-transfer-encoding:content-type:content-type:message-id
+	:references:in-reply-to:subject:subject:from:from:date:date
+	:mime-version:received:received:received; s=dkim20240523; t=
+	1719415904; x=1721230305; bh=G5X5CaV+LzeUtcFjtuAhzHUHRZc+gQiWQCV
+	u+A0+3pE=; b=Rv5HZc0ryApMNmAcnbu56vBchoOk0rXdtQuFFCBSbGO9+lsRS9V
+	UFZOnxdt9nnh/68zcEPMED7fYBeFCibnZXLgdLRvWTllvqUr07hHpNXu11pj65Jk
+	mGPpG5Q8gcictDE6p8mDQDuaCuT0+K/T5Wew8YGYqrnd0xImjPw+WvJKqSJBJEI+
+	DycGljTw7OxU6kcSHgkUjtD1DHd4xbftWqofwoqRbiY5S1DqarzgqzkXh2ZMyQFQ
+	2OeeZCuVpCUFPXJxPl+st+n8JW9d1q7W8uxNdK66/EUEZnPl0myhquC0DA2eC2Lw
+	IBt0AQj8MT2SqIvhXSgJ4OS/Pa4Mp97330Q==
+X-Virus-Scanned: amavis at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -0.999
+X-Spam-Level:
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id p9CGeMoq7R0m; Wed, 26 Jun 2024 17:31:44 +0200 (CEST)
+Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
+	by mx.kolabnow.com (Postfix) with ESMTPS id 0267620D1358;
+	Wed, 26 Jun 2024 17:31:43 +0200 (CEST)
+Received: from int-subm015.mykolab.com (unknown [10.9.37.15])
+	by int-mx009.mykolab.com (Postfix) with ESMTPS id 709EA21F4E6E;
+	Wed, 26 Jun 2024 17:31:43 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Date: Wed, 26 Jun 2024 17:31:43 +0200
+From: Federico Vaga <federico.vaga@vaga.pv.it>
+To: Thorsten Scherer <t.scherer@eckelmann.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: Fix typo in Reviewed-by tag
+In-Reply-To: <20240625210455.13262-1-t.scherer@eckelmann.de>
+References: <20240625210455.13262-1-t.scherer@eckelmann.de>
+Message-ID: <e9f4b439b995036133cbee2b53684bec@vaga.pv.it>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Jun 2024 06:27:11 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+You are right, thank you for the patch
 
-> On Wed, 26 Jun 2024 09:52:11 +0200 Kory Maincent wrote:
->  [...] =20
->=20
-> Every Thursday, usually around noon PST but exact timing depends on when
-> Linus pulls and how quickly I notice that he did :)
+On 2024-06-25 23:04, Thorsten Scherer wrote:
+> Signed-off-by: Thorsten Scherer <t.scherer@eckelmann.de>
+> ---
+>  Documentation/translations/it_IT/process/7.AdvancedTopics.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git
+> a/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
+> b/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
+> index a83fcfe18024..b3d8b62f3b57 100644
+> --- a/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
+> +++ b/Documentation/translations/it_IT/process/7.AdvancedTopics.rst
+> @@ -200,7 +200,7 @@ all'ABI dello spazio utente, eccetera.  Qualunque
+> tipo di revisione è ben
+>  accetta e di valore, se porta ad avere un codice migliore nel kernel.
+> 
+>  Non esistono requisiti particolarmente stringenti per l'uso di 
+> etichette come
+> -``Reviewd-by``. Tuttavia, perché la revisione sia efficace ci si 
+> aspetta un
+> +``Reviewed-by``. Tuttavia, perché la revisione sia efficace ci si 
+> aspetta un
+>  qualche tipo di messaggio che dica "ho verificato A, B e C nel codice 
+> che è
+>  appena stato inviato e mi sembra tutto in ordine". Inoltre, questo 
+> permette ai
+>  manutentori di prendere conoscenza circa una revisione avvenuta per 
+> davvero.
 
-Ok, thanks for the information!
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Federico Vaga
+http://www.federicovaga.it/
