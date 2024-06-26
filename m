@@ -1,209 +1,117 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D4F1862A4
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 14:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FFB187338
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 14:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719412973; cv=none; b=WUuAzJCF4blx0r/2qvw2Ruw580R4vcCCWooYlQRr3VeCMzRmoo+VQbRjdbJUg4Nxu1SdqtMXAdAYzhi2E4zD8pjW4oj8zJwj9dEsJlmiBYq5uIr59wnDKhSo0hb3VuXHEHCZzcFH5jcv5AoDjZ+l2y/NXRZT2EicKKHGL103EJ0=
+	t=1719413003; cv=none; b=LpQwzYYBUTllxZ1DA8zUWGZGi7EIfj+i2idGGO39+tN4AZgJaD40aT7Ff9k2N099VbhJ4/055/nYFSQXkIxIh7CWMJftHXrZcIhn2OMFNchM62toSOFS80udN7AWbEv/NsQL723KUeggQoOdSaeFeoWheoKIKi7Y7Qqrrdz3vG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719412973; c=relaxed/simple;
-	bh=K7aP/eHDt4GdGK/74zQ1CLj8aftrYuNuSeKAYMxdWTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A6qwNDdGcpKJQr6ZUv8D/GG6mdBMbXjX5tMy2xcfSsAP419rpbC3Edrm1luZ/lkV/YxldIBdz2b1H6S3twdqodC7c0iE46rOvMyCCvjw3RzFW2QYq23EuVaGdegqqLa1gvgqFPPmN97ZsnL9lnPJgH85MSInKz+eh+qfQ+Uu0Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=UiMYVNhQ; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1719413003; c=relaxed/simple;
+	bh=4Jt+AexbXjvRQMS0JAeCAbbjUW8QFJXSk1h+JyEJMvQ=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=V04+heaB9S13XrZc+KPDi0jn0TiNGdAt4in/tTWD/XggLR1/mFqFd9P+niq9Qgsdj8WY6zn0SzbAxMP2e1zNNEW4Wb7d83ocEOs+PU46FewUvTWP+rQA62tPyR9av7gzprYRjWwQ3O+VzLDZ+rCWtqri48JQc/YNO0SSLhM6VDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=LL/Vw+Hy; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="UiMYVNhQ"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5b9778bb7c8so3362421eaf.3
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 07:42:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="LL/Vw+Hy"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70677422857so2585910b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 07:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719412971; x=1720017771; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m6xILt2X5QE+PcAs6cHxc/Zb3Y2A3nIUAiSP4m+Ryi8=;
-        b=UiMYVNhQzajOc5BWpHQPZr3Q9zFr52rx34l1JfmC8cEyRwcSkC0p9V4TDsQW0Zl5CZ
-         +M+4uLyFZdMJ5BgZ83XzIhjGv8WDdCUHnirUjIDYoH/MWGDjOVre90BLooxMNKODWWvB
-         DkRzc09p8ZuU0SjsP3wDOn23Vq7+dixMH0D1XDABWqv26qEfX/gU0+YlZd1CGYCYSO0q
-         qVQBbyqYasUPTrhsX2Ql/VSQ1Uquz4dDkNrs1DgrmlSwdf8sBvNsDxVDae1oMp3SA4WO
-         kU1+vd35gfgHH3Baxcx3RBOq67Xw+bD3D33Jjn/z5TYJisukcfNNijrE0yxnr8TyK07I
-         Mm9w==
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1719413000; x=1720017800; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3qqVGSiK52qpEYkBFYQqtg/MLmm7mG/Sdz2MT9nXZJE=;
+        b=LL/Vw+HyQFcqElkaZVbTOLvEMU2zA7AD0w6XKKZHaumVjItvva7k4LWs12rNwWZAou
+         JWQmBRQfehdtudIEMl6MWCDQ0U2b2cuTQ1xl92U15PvHlqGhILtCBKpqysE7yd2S0YZ1
+         1Jyi+m6r7S9B00VRv9Fg8Bb5raW0NqYxAph6Vws4dccwypk75iLnyAx9m5qa3m3Xs/i9
+         uOGSpPI13TfRq7MULVqbwxniRbaOh2N9XlKtwsHbX0eM50rSrYCXFxvaRFVck2WWtbfV
+         G2K27CFr/+43EgL//19ChVG9tKnOQxi3dv/jTsNTwsaebrirL2sluDqxP8lKMfaOQ/cf
+         5AAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719412971; x=1720017771;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m6xILt2X5QE+PcAs6cHxc/Zb3Y2A3nIUAiSP4m+Ryi8=;
-        b=VBfLrOv2Va4hUWAzknV/wo+8OJYcGOYy/QYiuwGv0kWZojbClRIgxoB5sfvmCydT2K
-         XGOaHrlj9M3FnFF1qIXPZlu/bJ0apW16AeJEz2S+aiGa4gxRUV2a4pV5aAN+4QtVsPwg
-         lE63jwKBtoKQuOkwiwKR9Yj0QT9HgGPfW/MUOmA0CJa9hwhXoXOLMF9H8Q3TTxc3quj6
-         Wd2hrL7lCFzxU8VKWILcbHvj7bxihD7fkLVValUJHZyOk71lvqXz/ZlRdFBwten7jotS
-         vgR/1OpC2uNiIh2xE1/mEa6DXjTZX+4YtujNYiykK/jF9RD1rWmMyUr4wPVi0VdZ+VKA
-         giJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWAToqgSZb2mFXB0PQ6LoJ+oetiefWsXbf4FRgn8e4TfGL4mjbhcwjTlvk8OcLqSPn1cGRwd1UAfEX4E5PUb1DF0SYWng+huXNo
-X-Gm-Message-State: AOJu0YyLOQW6GdfDlAIs9+gEZZ3fkdt3QV613lz6nyxhUzS+fgDe4f6r
-	3hN00KR7YH5+zucOqzB2EJGad+oBltj3U3ViNKsTONvGtELXxHaEHV4MpJJrFi8=
-X-Google-Smtp-Source: AGHT+IHNFQQ5Jp0CR9h0pMLQqG7aefDgqmLSddqW/x1VdakRqiSbDrAgGJC5DBOjhlouQlhPHHmtaw==
-X-Received: by 2002:a4a:868d:0:b0:5bd:b695:5bf1 with SMTP id 006d021491bc7-5c1eedee62cmr10336148eaf.9.1719412971183;
-        Wed, 26 Jun 2024 07:42:51 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d91e5f59sm2056578eaf.25.2024.06.26.07.42.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 07:42:50 -0700 (PDT)
-Message-ID: <d2649e69-4c71-4aa9-88e2-9d3f15549e1b@baylibre.com>
-Date: Wed, 26 Jun 2024 09:42:49 -0500
+        d=1e100.net; s=20230601; t=1719413000; x=1720017800;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3qqVGSiK52qpEYkBFYQqtg/MLmm7mG/Sdz2MT9nXZJE=;
+        b=dEk9fPUrUj9/XMPnt0MuGQiqNhqy7YnuNafD/6+WgEhnruGyZTH/hWvPehJ9H2j2ti
+         xVS26+d1Pp/ytHasu/tYRiJAN/I7/BMRfGNK7jzYdNyaLO5JfA8D6RbHtqeGxgWffyTF
+         jbrikW591bZFMQAKLLIjSH4uc0myENmiLundg+y39TVTXIcmpUGnA4dGl8k/tN9YQ6vM
+         zWidDe2EOfTPsTVwZGEGC029itI5I6y1eYLzLZiVADprHs9n7YPSwR9VjO32Qp7/uIzR
+         huRUAONKcb1sA/LtKF+yUcONFzp9nMHLFZtKewPUr1HJHXPvX/SyWdyY1LU1hROXZOaH
+         2OyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjnAPzd2BJebnUMenLIj7/kRhs83DG5b+lCB8jdQpQ+29JDxQYhP8W24CMnoBxbEbfRz+vHI5PdJP2YNeDjH7XWrLPmszckzq4
+X-Gm-Message-State: AOJu0YwwEO9HImhJHBR/2zm9aHRu6kTVocIUp1BFqwUDrBmLw++A8rcQ
+	TguGllnMozo5EDgQScQWTFG/8vuiYs0ecCdrD25ZS7deiIO5YjWKJnMrAOfY70w=
+X-Google-Smtp-Source: AGHT+IH2/0OvXTCfvNRbeybdAi6Y6rc880H+FiHzFEwDjrLLdcNGpDiCXi7MY3ygYaSDhgJ3SraPqA==
+X-Received: by 2002:a05:6a20:1203:b0:1bd:28cf:7645 with SMTP id adf61e73a8af0-1bd28cf76cfmr3000669637.42.1719413000436;
+        Wed, 26 Jun 2024 07:43:20 -0700 (PDT)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3d5576sm100665315ad.201.2024.06.26.07.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 07:43:19 -0700 (PDT)
+Date: Wed, 26 Jun 2024 07:43:19 -0700 (PDT)
+X-Google-Original-Date: Wed, 26 Jun 2024 07:43:18 PDT (-0700)
+Subject:     Re: [PATCH v2 3/3] RISC-V: hwprobe: not treat KEY_CPUPERF_0 as bitmask
+In-Reply-To: <CALs-Hst_TpjuQw0t-p9GbcCY4FAwXSjWziHJJuToi3rWXo7mJw@mail.gmail.com>
+CC: cyy@cyyself.name, linux-riscv@lists.infradead.org, enh@google.com,
+  Charlie Jenkins <charlie@rivosinc.com>, corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>, cleger@rivosinc.com,
+  Conor Dooley <conor.dooley@microchip.com>, ajones@ventanamicro.com, linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Evan Green <evan@rivosinc.com>
+Message-ID: <mhng-7da30215-9cfb-4670-a33d-17d9464d60d0@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] iio: adc: ad4695: Add driver for AD4695 and
- similar ADCs
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Ramona Gradinariu <ramona.gradinariu@analog.com>
-References: <20240624-iio-adc-ad4695-v3-0-a22c302f06bf@baylibre.com>
- <20240624-iio-adc-ad4695-v3-2-a22c302f06bf@baylibre.com>
- <f02cac02f9404bf6dcc5a8274b51d836960871ee.camel@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <f02cac02f9404bf6dcc5a8274b51d836960871ee.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 6/26/24 6:47 AM, Nuno Sá wrote:
-> Hi David,
-> 
-> minor stuff from me..
-> 
-> 
-> ...
-> 
->> +
->> +static int ad4695_write_chn_cfg(struct ad4695_state *st,
->> +				struct ad4695_channel_config *cfg)
->> +{
->> +	u32 mask = 0, val = 0;
->> +
->> +	mask |= AD4695_REG_CONFIG_IN_MODE;
->> +	val |= FIELD_PREP(AD4695_REG_CONFIG_IN_MODE, cfg->bipolar ? 1 : 0);
->> +
-> 
-> nit: don't need to OR the first assignments and so initializing the variables.
-
-:+1:
-
-> 
->> +	mask |= AD4695_REG_CONFIG_IN_PAIR;
->> +	val |= FIELD_PREP(AD4695_REG_CONFIG_IN_PAIR, cfg->pin_pairing);
->> +
->> +	mask |= AD4695_REG_CONFIG_IN_AINHIGHZ_EN;
->> +	val |= FIELD_PREP(AD4695_REG_CONFIG_IN_AINHIGHZ_EN, cfg->highz_en ? 1
->> : 0);
->> +
->> +	return regmap_update_bits(st->regmap, AD4695_REG_CONFIG_IN(cfg-
->>> channel),
->> +				  mask, val);
->> +}
->> +
->> +/**
->> + * ad4695_read_one_sample - Read a single sample using single-cycle mode
->> + * @st: The AD4695 state
->> + * @address: The address of the channel to read
->> + *
->> + * Upon return, the sample will be stored in the raw_data field of @st.
->> + *
->> + * Context: can sleep, must be called with iio_device_claim_direct held
->> + * Return: 0 on success, a negative error code on failure
->> + */
->> +static int ad4695_read_one_sample(struct ad4695_state *st, unsigned int
->> address)
->> +{
->> +	struct spi_transfer xfer[2] = { };
->> +	int ret;
->> +
->> +	ret = ad4695_set_single_cycle_mode(st, address);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/*
->> +	 * Setting the first channel to the temperature channel isn't
->> supported
->> +	 * in single-cycle mode, so we have to do an extra xfer to read the
->> +	 * temperature.
->> +	 */
->> +	if (address == AD4695_CMD_TEMP_CHAN) {
->> +		/* We aren't reading, so we can make this a short xfer. */
->> +		st->cnv_cmd2 = AD4695_CMD_TEMP_CHAN << 3;
->> +		xfer[0].bits_per_word = 8;
-> 
-> nit: isn't this the default?
-
-yes (looks like leftover from testing when I was trying 16 instead of 8)
-
-> 
->> +		xfer[0].tx_buf = &st->cnv_cmd2;
->> +		xfer[0].len = 1;
->> +		xfer[0].cs_change = 1;
->> +		xfer[0].cs_change_delay.value = AD4695_T_CONVERT_NS;
->> +		xfer[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
->> +
->> +		/* Then read the result and exit conversion mode. */
->> +		st->cnv_cmd = AD4695_CMD_EXIT_CNV_MODE << 11;
->> +		xfer[1].bits_per_word = 16;
->> +		xfer[1].tx_buf = &st->cnv_cmd;
->> +		xfer[1].rx_buf = &st->raw_data;
->> +		xfer[1].len = 2;
->> +
->> +		return spi_sync_transfer(st->spi, xfer, 2);
->> +	}
->> +
-
-...
-
->> +
->> +static int ad4695_parse_channel_cfg(struct iio_dev *indio_dev)
->> +{
->> +	struct device *dev = indio_dev->dev.parent;
->> +	struct ad4695_state *st = iio_priv(indio_dev);
-> 
-> Why not passing in struct ad4695_state directly?
-
-Probably because that is how it was done in the ADI tree driver
-I started with. Changing it to two parameters would be fine.
-
-> 
-> ...
-> 
+On Wed, 29 May 2024 11:33:42 PDT (-0700), Evan Green wrote:
+> On Thu, May 23, 2024 at 8:36 PM Yangyu Chen <cyy@cyyself.name> wrote:
 >>
->> +
->> +	/* Needed for debugfs since it only access registers 1 byte at a
->> time. */
->> +	ret = regmap_set_bits(st->regmap, AD4695_REG_SPI_CONFIG_C,
->> +			      AD4695_REG_SPI_CONFIG_C_MB_STRICT);
->> +	if (ret)
->> +		return ret;
->> +
-> 
-> Question... do we gain something but not doing the above? Because debugfs is
-> optional and always doing it even when it's not present looks unnecessary. 
+>> Since the value in KEY_CPUPERF_0 is not bitmask, remove the wrong code
+>> in hwprobe.h.
+>>
+>> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+>
+> I'd expect a Fixes tag, and ideally some discussion on the reasoning
+> and ramifications of this change.
+>
+> I posted the other possible fix, declaring a new key, at [1], mostly
+> so we could see the two options and discuss. I'm okay with either
+> patch.
 
-I haven't got to a place where we need to read or write a 2 byte register
-yet, so I'm not sure. My plan is to defer worrying about it until then
-and update this if necessary in a future patch when it actually makes a
-difference. But for now, this is harmless because we are only reading
-and writing single byte registers.
+Just to close the loop here as the discussions are on other threads: 
+after a bunch of discussions we're going with the new key version.  
+Maybe it's a bit pedantic, but since hwprobe is such a fundamental 
+compatibility interface we're just going to be super careful.
 
-> 
-> - Nuno Sá
-> 
-
+> -Evan
+>
+> [1] https://lore.kernel.org/lkml/20240529182649.2635123-1-evan@rivosinc.com/T/#u
+>
+>> ---
+>>  arch/riscv/include/asm/hwprobe.h | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+>> index 630507dff5ea..f24cad22bbe1 100644
+>> --- a/arch/riscv/include/asm/hwprobe.h
+>> +++ b/arch/riscv/include/asm/hwprobe.h
+>> @@ -20,7 +20,6 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
+>>         switch (key) {
+>>         case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
+>>         case RISCV_HWPROBE_KEY_IMA_EXT_0:
+>> -       case RISCV_HWPROBE_KEY_CPUPERF_0:
+>>                 return true;
+>>         }
+>>
+>> --
+>> 2.45.1
+>>
