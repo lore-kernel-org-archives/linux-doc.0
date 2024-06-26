@@ -1,57 +1,57 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34FC17D34C
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 13:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF8518734C
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 13:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719407096; cv=none; b=GhF33aMR8TCFniwzhRoWt+8austHtCsyHz0WizuG96AlfAzx329X781Ika6Hbgv46lD7D6LHYAohTAXaqw20dgmCYkiP+ieawl0VBmzT7wG9cTh8HAKhh2FCt0+dTWRwq3ojAOfjh78PF0cK7gTI+KJz5Vg2j2/HNy5a+CjKfC0=
+	t=1719407157; cv=none; b=trnOiateg5vlpVUuZmDbBPOvBcwDQBCE2nU2NoOCXJZUCf4uUWPoxn2/9Mmqp1vEHBLag2bEqxxmYEjeolqqwO/szeN2Y8ag3g5NKtpRmcw/KvyBuGQ3zQFsBHW+ahtKph7a2nKURwlgLdDHkUvttXoXU+Sj1UnORQVONniQikw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719407096; c=relaxed/simple;
-	bh=A9Uqg4vTaom0SRJ8P/Ttrrx+YujCW1mkS/Zqcd4jDx0=;
+	s=arc-20240116; t=1719407157; c=relaxed/simple;
+	bh=tYSKztlvYXjqrUVGqUlFZcjNQFbhaN4iVt2oyZFJdVA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gGYpiOD2RvjGFR5nfiBPvkgoLwkjdjDpKCZfvHtvxS9jY9QgJYuUOQ7v+rfMBoVjPS8GyqFXmiIAWN9sUdK0UGcdyAI3qdOrLF2qBYjHM7RilZyEbGLWA6WrLPimes64jgOo9JG7Bor7+A/20lXJyMH9yHMUaiyvcGjQYIBxaqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ZNK+SJzL; arc=none smtp.client-ip=209.85.167.42
+	 MIME-Version; b=KeftZjVqv90iRGFabMd7V9TadAfweL4oiCjbW8mt2oGLvtlt0+XYSH1//fYnxgaLeAavQU55A0HIreh8AL3UHzINwleRCy+LfjW2hqJViNroE5VZ/wRmB1uOy5GARGugzplUMvbsVT2b5Jy+b/uENiXd2HQctRE+EXxv4T1wFow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mtyO9Z1t; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ZNK+SJzL"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52cecba8d11so2403717e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 06:04:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mtyO9Z1t"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52ce01403f6so4004933e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 06:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719407093; x=1720011893; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719407154; x=1720011954; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WhXCNVmR8P99l/LeuRhjy5KBZNQ4/EvtQCsDBcea+Tc=;
-        b=ZNK+SJzLKFSgzvyxUkjQxUDR7o7piP4GoB+T9N3Sguqx3K0xQsC4SxTPoMFW540BFd
-         QqlNEIBkE0xV/AY2c5wCkks+d3+XMdFSWD43srTrFVrUB+dloM1QUh4J9AiptgzJNVoW
-         QmljUMlDHXqpQ6e8siqWm5/78g5jav65kdFEz8bOgCjB6bPKyUtIlVxQ/bw2Dhask1jq
-         +jXAoX9ZTFpcNw7rmtEPJHx4qNmEeWWmHMV7sFUEvoe90nGtUcMpPOfVP3Qj+cdMq2gN
-         oyJj9lRy6M2cLKbeD9SBrFZLXro4V9A+u3CXp0XITS/TvyQqIaBXlScGy7pQDNjlN+ES
-         z6Xg==
+        bh=T6LJZCR61gmm4dvekAa0Q1TIoLF/ScrG5TtOv9gDZ/w=;
+        b=mtyO9Z1t2T1EDXVZGrkLqYk7i+oB2j+lt1paslYuCYQSOxDgHw9tyHRqJioDvVu2Gz
+         WOdBvMxFFKqRUFfR16cLelrUHBo+4M+td7iSVAihK4oio/xdzUD77MLO2iH6FDxlTb26
+         KkbpYcbT/swcrq7lRKtu/tvEnI02EfRAgxNVqAnGUrNxruGF+KtrfJrVZjrM2sEju08W
+         gL5cEYc67ZBK4oDX8p0TsnBxSdNJkRZuq9R2sm1LOJs3UFUOyiA2a1HL//0/apUpyqiI
+         6zAqFYXrgJQc4rdP+etFYDWv59wSqVm59zmpLnsMKvPUfGRfbIvjXr5+1lpwbC0eqlDC
+         SO1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719407093; x=1720011893;
+        d=1e100.net; s=20230601; t=1719407154; x=1720011954;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WhXCNVmR8P99l/LeuRhjy5KBZNQ4/EvtQCsDBcea+Tc=;
-        b=G3CB2ukr+fGYyGSWb3cEaUqeRfn+zhOpwHDE8wX5jyfvKjwz7K2m/d613Xr/FMrowk
-         jhGXn9/Bh/TNCkBwc/rn+OwfUPGFG2ag7aYJlSz3Cye+s7zQCgF8gdh1W/HRaNNehamC
-         eyeWc8JNhavO38bkomshAjcL5+PhjuSPxDgCd2HiurGaT92PQtXUSvzYXParWMygMm0r
-         zYgEonHPvN43NHzgJVqeCzg/ZwnU1Mkc6qpSjHR4V7t1IbG7r/qVprtjuEV6EcU93fz4
-         AY5yZWbSdnNMeb6F1D5sVOURIBSVuLtkcJUImkPrwCQPhEO5pcJcgSNna5vEqTcpVmaa
-         9uBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHRHrl8fm9ydg4FHuliovB8mqMVWTy1vLFdpR1exfsYKF8AWuPlT9or47HAi2nCs5MKRPMeFE2H7y2B7kL3NhZ98LP6lOTs9cx
-X-Gm-Message-State: AOJu0YwoP4dlEWd1yG4yUgt/uc0rvVSbpwRJh3JeUNfacQ+hlQzIapq5
-	QekUn2UdPKZQIOZXwqKvpiyBwS405Yka4YNlrPxxBv7NpbbqiIAXFtJxN1L3rR8=
-X-Google-Smtp-Source: AGHT+IGXVzg0cT42nAZtoqYsiJZ5s31h9gkqhz8eo+Ns1Bzdpb6n1iQQeyrD5Jr8Y6qR9urf80as6w==
-X-Received: by 2002:ac2:596e:0:b0:52c:db7b:b463 with SMTP id 2adb3069b0e04-52ce186459cmr6385178e87.61.1719407093047;
-        Wed, 26 Jun 2024 06:04:53 -0700 (PDT)
+        bh=T6LJZCR61gmm4dvekAa0Q1TIoLF/ScrG5TtOv9gDZ/w=;
+        b=vwJba5fMmzzYS6Xps2K3Mkf2BsO5se0QEIG5+uhvfhn++pdK0Kc+13r9vyvWlpLZaA
+         6E95m2SibpQCk+Y5J32/fHzpikOiqpbD+uDNz0i3e9M8VYoSF/lcVPB3o6g8WH0mZizX
+         rTDULk3ZFeLyFJyBXE1BtqSQu+ePUI+vDX+e9vShtyWwVN8Dwkwwzmdn54RYK3eww9ZX
+         MkQDfjEFBXFbRCMC8fDFeH+0rUe/Rr9uSEG7UICZn0p5XaTKDi2g51+K5Cmk2vPUa+wB
+         ixKSFrHFhukyofmGoxRMw9CWNFx1kWhZMZFpWKtZBc4af6YoM+c/V/jLOBOVvo5LHp7M
+         LQ2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUlGu35NeOqEuDoyilqY4dqlMPi1t15aX2JJmY/YP/zK8mjd8xgY22k3gfp1KvSFdvD2kS1yUW5SvE2rRptwhm2aDv1djgxgF5L
+X-Gm-Message-State: AOJu0YxGcunvnm2Cyx7DKcP6+urspM1Sj/UgbNkP0NjxcdZHYlU26pns
+	QrrmpVrkvap3UbokOLBM+z7vFF6LnPv43vD6TArSUikX2/uxOZLsYfaMt8fnrFM=
+X-Google-Smtp-Source: AGHT+IHX+jzGQgnJriZOGQ/oAJSCUkFR6oZJI+0k3ahW32MnlEUF+2I4ESnYZpAqS9088kQ4KTVI2w==
+X-Received: by 2002:ac2:5f4e:0:b0:52c:e030:144e with SMTP id 2adb3069b0e04-52ce185ecd4mr6228931e87.47.1719407154179;
+        Wed, 26 Jun 2024 06:05:54 -0700 (PDT)
 Received: from localhost.localdomain (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c842468dsm25643865e9.36.2024.06.26.06.04.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36638d9bd0fsm15831149f8f.52.2024.06.26.06.05.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 06:04:52 -0700 (PDT)
+        Wed, 26 Jun 2024 06:05:53 -0700 (PDT)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -72,9 +72,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-riscv@lists.infradead.org,
 	linux-arch@vger.kernel.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Date: Wed, 26 Jun 2024 15:03:38 +0200
-Message-Id: <20240626130347.520750-2-alexghiti@rivosinc.com>
+Subject: [PATCH v2 02/10] dt-bindings: riscv: Add Zabha ISA extension description
+Date: Wed, 26 Jun 2024 15:03:39 +0200
+Message-Id: <20240626130347.520750-3-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240626130347.520750-1-alexghiti@rivosinc.com>
 References: <20240626130347.520750-1-alexghiti@rivosinc.com>
@@ -86,122 +86,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds runtime support for Zacas in cmpxchg operations.
+Add description for the Zabha ISA extension which was ratified in April
+2024.
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/riscv/Kconfig               | 17 +++++++++++++++++
- arch/riscv/Makefile              |  3 +++
- arch/riscv/include/asm/cmpxchg.h | 27 ++++++++++++++++++++++++---
- 3 files changed, 44 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 05ccba8ca33a..1caaedec88c7 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -596,6 +596,23 @@ config RISCV_ISA_V_PREEMPTIVE
- 	  preemption. Enabling this config will result in higher memory
- 	  consumption due to the allocation of per-task's kernel Vector context.
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index 468c646247aa..e6436260bdeb 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -171,6 +171,12 @@ properties:
+             memory types as ratified in the 20191213 version of the privileged
+             ISA specification.
  
-+config TOOLCHAIN_HAS_ZACAS
-+	bool
-+	default y
-+	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64ima_zacas)
-+	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zacas)
-+	depends on AS_HAS_OPTION_ARCH
++        - const: zabha
++          description: |
++            The Zabha extension for Byte and Halfword Atomic Memory Operations
++            as ratified at commit 49f49c842ff9 ("Update to Rafified state") of
++            riscv-zabha.
 +
-+config RISCV_ISA_ZACAS
-+	bool "Zacas extension support for atomic CAS"
-+	depends on TOOLCHAIN_HAS_ZACAS
-+	default y
-+	help
-+	  Enable the use of the Zacas ISA-extension to implement kernel atomic
-+	  cmpxchg operations when it is detected at boot.
-+
-+	  If you don't know what to do here, say Y.
-+
- config TOOLCHAIN_HAS_ZBB
- 	bool
- 	default y
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 06de9d365088..9fd13d7a9cc6 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -85,6 +85,9 @@ endif
- # Check if the toolchain supports Zihintpause extension
- riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE) := $(riscv-march-y)_zihintpause
- 
-+# Check if the toolchain supports Zacas
-+riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) := $(riscv-march-y)_zacas
-+
- # Remove F,D,V from isa string for all. Keep extensions between "fd" and "v" by
- # matching non-v and non-multi-letter extensions out with the filter ([^v_]*)
- KBUILD_CFLAGS += -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
-diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-index 808b4c78462e..a58a2141c6d3 100644
---- a/arch/riscv/include/asm/cmpxchg.h
-+++ b/arch/riscv/include/asm/cmpxchg.h
-@@ -9,6 +9,7 @@
- #include <linux/bug.h>
- 
- #include <asm/fence.h>
-+#include <asm/alternative.h>
- 
- #define __arch_xchg_masked(sc_sfx, prepend, append, r, p, n)		\
- ({									\
-@@ -134,21 +135,41 @@
- 	r = (__typeof__(*(p)))((__retx & __mask) >> __s);		\
- })
- 
--#define __arch_cmpxchg(lr_sfx, sc_sfx, prepend, append, r, p, co, o, n)	\
-+#define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
- ({									\
-+	__label__ zacas, end;						\
- 	register unsigned int __rc;					\
- 									\
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {			\
-+		asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,		\
-+				     RISCV_ISA_EXT_ZACAS, 1)		\
-+			 : : : : zacas);				\
-+	}								\
-+									\
- 	__asm__ __volatile__ (						\
- 		prepend							\
- 		"0:	lr" lr_sfx " %0, %2\n"				\
- 		"	bne  %0, %z3, 1f\n"				\
--		"	sc" sc_sfx " %1, %z4, %2\n"			\
-+		"	sc" sc_cas_sfx " %1, %z4, %2\n"			\
- 		"	bnez %1, 0b\n"					\
- 		append							\
- 		"1:\n"							\
- 		: "=&r" (r), "=&r" (__rc), "+A" (*(p))			\
- 		: "rJ" (co o), "rJ" (n)					\
- 		: "memory");						\
-+	goto end;							\
-+									\
-+zacas:									\
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {			\
-+		__asm__ __volatile__ (					\
-+			prepend						\
-+			"	amocas" sc_cas_sfx " %0, %z2, %1\n"	\
-+			append						\
-+			: "+&r" (r), "+A" (*(p))			\
-+			: "rJ" (n)					\
-+			: "memory");					\
-+	}								\
-+end:;									\
- })
- 
- #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)		\
-@@ -156,7 +177,7 @@
- 	__typeof__(ptr) __ptr = (ptr);					\
- 	__typeof__(*(__ptr)) __old = (old);				\
- 	__typeof__(*(__ptr)) __new = (new);				\
--	__typeof__(*(__ptr)) __ret;					\
-+	__typeof__(*(__ptr)) __ret = (old);				\
- 									\
- 	switch (sizeof(*__ptr)) {					\
- 	case 1:								\
+         - const: zacas
+           description: |
+             The Zacas extension for Atomic Compare-and-Swap (CAS) instructions
 -- 
 2.39.2
 
