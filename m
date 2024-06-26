@@ -1,92 +1,164 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCC3180A8B
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 12:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE591113;
+	Wed, 26 Jun 2024 13:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719403335; cv=none; b=XvxGGZxl7A3DBw9fdvVhcU+4Fu/ygYme6Ra9gSjqq9mqetq6/QucNKlWMvxsNtVn723S7e+E9wrNLgbRBlCH8kqFtdbPd6yjJrGICXwYtp1LY8OEjIpRZ8F3qMBlmgQUSXqAXsNOgYdHww1R4CHgRMOYJVnigHczMIhhc4Zgyao=
+	t=1719406869; cv=none; b=LgHC0Fas3/q4qeLyKUen8XsCskW/Qw5+wAjCcaK7irM1akvIUG4XoQ3+EDTHZltuhQv1R3kdMGF05pBGhu5anZ6pH4tT1uWO1kPFk47tzAA2Y+piz23DYVn4duZWnGvrqcFo2PhDfbqZPo49RYqLEyIXxhIaXzic2bWx2dkO0wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719403335; c=relaxed/simple;
-	bh=K8CFtC/BQ1NSBa5PTyocHu/8UmRsW3sdLhXbzU88obM=;
+	s=arc-20240116; t=1719406869; c=relaxed/simple;
+	bh=LHeTQI/EG08BqcLmj/c6DAyrQ+SL5WbhoXdoBVZAOQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FuTgSpWnEsBbNm1xZzhts8aQLgAQjCCR2kYTCDFxWQm4mfFCQYzGtqSTWBU8Oyk5z8pdIKd9V1LocwCnP+oNxLg/sW0y0EwvJlLu8TBTcvjMswRiK16vfUL6pOKs5eo7FRnc/DnR1ydD4itixIShbnwiTyukKKjsz210sgTWnlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZdVMn565; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fYE8XejRx6E/NBFdqaW4TgaVN6VvqsSF7IBgN3n3EcZ7ufpBYX+DtEqOLfEU57vNMfp7unhBg10J08e04yiBM99+1FY2YWOgI5GxjkAHZfrt3aor0nevuv45ZAl+CH89A8SzX/GMb39KGXJQEREoKF83O22qwPNloAzuhG7l3Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFS5hd3C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZdVMn565"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=K8CF
-	tC/BQ1NSBa5PTyocHu/8UmRsW3sdLhXbzU88obM=; b=ZdVMn565NKxA7xvgTfEr
-	pHzsqbFWTIN+mvhHZMiDiHwmUSLC8Kx8z30RIZDAi/G6rPiHj1bzLe0ZaIxtrQcc
-	I7Br0rfryhpWK/KKLG33dD2S34TLxD6vBr5lDaC0rlN/66FWZ1WBEZUzP/5zcKc2
-	v/yqGpr+A2A8rrp51Fh1j6O7mHedkMTwN9MgiNGgFk1O6Sv9dUSel8U9FuCI3Sa5
-	NgnYOa2g8X2P6HQoJInfBKDs2VhJP/5RiGEtJb2SnHbz2s1GBxI74nN5H5k82N7w
-	NGKUR86xCfdtUWz+YaIRvfWurgBfadG6NULw2tYbdUee4lcpkVEs9W/L3SAJ8kSH
-	Rw==
-Received: (qmail 562103 invoked from network); 26 Jun 2024 14:02:08 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jun 2024 14:02:08 +0200
-X-UD-Smtp-Session: l3s3148p1@wkmfyMkbQq1ehhrE
-Date: Wed, 26 Jun 2024 14:02:08 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v10 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <umh6v3unptgsi7ph6l4s3txxyubyuzesscyddhtx4deqglc46h@c5shp5oienvi>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-renesas-soc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-References: <20240620094159.6785-1-wsa+renesas@sang-engineering.com>
- <20240620094159.6785-2-wsa+renesas@sang-engineering.com>
- <CAMRc=McPFAKh61r_L4kpTdD2HJCWo_u_=Wt3bJ5SMVmtSgE8oA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFS5hd3C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D1FC2BD10;
+	Wed, 26 Jun 2024 13:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719406868;
+	bh=LHeTQI/EG08BqcLmj/c6DAyrQ+SL5WbhoXdoBVZAOQw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nFS5hd3CD8DZ7yeuONQZpeaDwCO4Upy5tjkEZ4FxeP2eIgY753Z5E/Cb+tnmUztN5
+	 Ox43HBMMZmxi0NozVQuAkcaCsRzBEfql9mxqtiMy8VRnkWBcMvPDKgJOMbVlXfPACT
+	 +6cQQz3LarWWjHU+9lpBExowXyizZ5MF3EWPjoZt6rVVB9/f4sWEF4MX0y4GlYc9FB
+	 ruZjAC8Db6D5D+dq8OQEMNHJ/Reqp/Uf/VMFsAMe27dufQovIMS9ECREc/X/1Pmigv
+	 ZKbT74kXIs5BlQUFe42BmG+1RUTllnkFc+A/5P693GAqiSD3Oqi16fPMbAqticO/IH
+	 wZ+TnOyV4QJfg==
+Date: Wed, 26 Jun 2024 14:01:03 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Yunhui Cui <cuiyunhui@bytedance.com>
+Cc: jesse@rivosinc.com, jrtc27@jrtc27.com, corbet@lwn.net,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	cleger@rivosinc.com, evan@rivosinc.com, conor.dooley@microchip.com,
+	costa.shul@redhat.com, andy.chiu@sifive.com,
+	samitolvanen@google.com, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Anup Patel <anup@brainfault.org>
+Subject: Re: [PATCH v3] RISC-V: Provide the frequency of time CSR via hwprobe
+Message-ID: <20240626-prolonged-overlap-91fec0188fc7@spud>
+References: <20240622025514.66537-1-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="opqqj3lpr4uiw5ia"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5K1t+tDRpgMuz99f"
 Content-Disposition: inline
-In-Reply-To: <CAMRc=McPFAKh61r_L4kpTdD2HJCWo_u_=Wt3bJ5SMVmtSgE8oA@mail.gmail.com>
+In-Reply-To: <20240622025514.66537-1-cuiyunhui@bytedance.com>
 
 
---opqqj3lpr4uiw5ia
+--5K1t+tDRpgMuz99f
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Jun 22, 2024 at 10:55:14AM +0800, Yunhui Cui wrote:
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+>=20
+> A handful of user-visible behavior is based on the frequency of the
+> time CSR.
+>=20
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+> Reviewed-by: Evan Green <evan@rivosinc.com>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> ---
 
-> I want to put my GPIO virtual consumer module in here as well so how
-> about calling it "GPIO debug utilities"? I can tweak it when applying.
+What changed between this version and the previous one? You need to
+include changelogs under the --- for this purpose.
 
-Totally fine with me.
+Thanks,
+Conor.
 
-Thanks!
+>  Documentation/arch/riscv/hwprobe.rst  | 2 ++
+>  arch/riscv/include/asm/hwprobe.h      | 2 +-
+>  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+>  arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
+>  4 files changed, 9 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
+scv/hwprobe.rst
+> index df5045103e73..ec3c99474ed7 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -233,3 +233,5 @@ The following keys are defined:
+> =20
+>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+>    represents the size of the Zicboz block in bytes.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `time=
+ CSR`.
+> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
+probe.h
+> index 150a9877b0af..ef01c182af2b 100644
+> --- a/arch/riscv/include/asm/hwprobe.h
+> +++ b/arch/riscv/include/asm/hwprobe.h
+> @@ -8,7 +8,7 @@
+> =20
+>  #include <uapi/asm/hwprobe.h>
+> =20
+> -#define RISCV_HWPROBE_MAX_KEY 7
+> +#define RISCV_HWPROBE_MAX_KEY 8
+> =20
+>  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+>  {
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
+api/asm/hwprobe.h
+> index 2fb8a8185e7a..5053a9b18710 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -74,6 +74,7 @@ struct riscv_hwprobe {
+>  #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
+>  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
+>  #define RISCV_HWPROBE_KEY_MISALIGNED_PERF	7
+> +#define RISCV_HWPROBE_KEY_TIME_CSR_FREQ	8
+>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+> =20
+>  /* Flags */
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
+obe.c
+> index e4ec9166339f..3d47edc04a3f 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -8,6 +8,7 @@
+>  #include <asm/cacheflush.h>
+>  #include <asm/cpufeature.h>
+>  #include <asm/hwprobe.h>
+> +#include <asm/delay.h>
+>  #include <asm/sbi.h>
+>  #include <asm/switch_to.h>
+>  #include <asm/uaccess.h>
+> @@ -227,6 +228,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *p=
+air,
+>  			pair->value =3D riscv_cboz_block_size;
+>  		break;
+> =20
+> +	case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
+> +		pair->value =3D riscv_timebase;
+> +		break;
+> +
+>  	/*
+>  	 * For forward compatibility, unknown keys don't fail the whole
+>  	 * call, but get their element key set to -1 and value set to 0
+> --=20
+> 2.20.1
+>=20
+>=20
 
---opqqj3lpr4uiw5ia
+--5K1t+tDRpgMuz99f
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ8AzwACgkQFA3kzBSg
-Kbaryw//QVXrqkGjTMzvIaQjDO6/q7NEAPthF4i6G2qNbubLPMOkzE2IezQLSwEb
-SxPCvs1POwEOFhViPvXR+QjM0YFV9FHwy6Iwpk0UltiIPUm8DG2IFdud7cuJMENl
-asARBWooefbRonqNc8EFf2yjtjZpHgiSY8KuMklr5JSMPOwj+tic9yuTXHZiFcpt
-F7n4mvOhuRsWI34/eVVQQXAahaNfYOzZ3LY9X8w+ZNPhVQtx2Ho8fDi8gEy6ZKYW
-mM2CrJYO/BxCfsz1Ka6yeISw3/t1/0+6AKYECHghz7ZP3Ms3MeNR5OSm4xDg+dNp
-FPHLfebMIJhGsBiGduoD8lAavtC5BYz6Sqb0Ncajxs2FX+GVXlCDF6UnGMtzoqwU
-VTrQYQbiEaWjH6A86ZJWf5pmkuoQDhhBBuXaQi3rzyUb7NSJve69BMrRGPF9ZvEQ
-PcpV5Nus2ENLpZ/O+oKBNpTaxr4hgGjI00lj/D+yRMkKdeDPzrFlnYJFe3pEEmqg
-bqE2WuTOJYSaCJn181WHjkxcn5t4HwXw1rk4xCFhf65jdl1AkOiWONJnr2yF0P6J
-jMxnrjq3fHsqny8Ud5K0CSBlaIJN0O6/2w7SLlrEqim7VjldIF6JoIfaMr4B50+Z
-f4kgxdSk0XBpgooPyUFJD0OK8yY+mo8eb4gcLihsXNaE1hkpvc4=
-=v+0q
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnwRDgAKCRB4tDGHoIJi
+0nTbAQCNyBtB3Liky8HfdaZbV+GDO5qG2b5gf2wYff8cvHMUxAEAroBQnv/vxmEF
+db83NiP6oferELS+7/FG8X8juV26oQ0=
+=LRlJ
 -----END PGP SIGNATURE-----
 
---opqqj3lpr4uiw5ia--
+--5K1t+tDRpgMuz99f--
