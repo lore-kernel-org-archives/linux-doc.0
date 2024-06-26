@@ -1,117 +1,138 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FFB187338
-	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 14:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CF818629F
+	for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 14:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719413003; cv=none; b=LpQwzYYBUTllxZ1DA8zUWGZGi7EIfj+i2idGGO39+tN4AZgJaD40aT7Ff9k2N099VbhJ4/055/nYFSQXkIxIh7CWMJftHXrZcIhn2OMFNchM62toSOFS80udN7AWbEv/NsQL723KUeggQoOdSaeFeoWheoKIKi7Y7Qqrrdz3vG0=
+	t=1719413858; cv=none; b=GeMWuV69tToDJnQnjqWs9VlykK/LMWr4nM5iu04yprAGbCVmft22t0LlGXCqE59q1OdxX7G8CkHttZgcrD/E05jz2XLp4Axom3vFZb0R0KCXq6+1deXf2ejA4P8+rfPWqfeT/qoRwlCibnFwaFND94zYJJMkRXIXXNmdZxhlECY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719413003; c=relaxed/simple;
-	bh=4Jt+AexbXjvRQMS0JAeCAbbjUW8QFJXSk1h+JyEJMvQ=;
-	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
-	 Content-Type; b=V04+heaB9S13XrZc+KPDi0jn0TiNGdAt4in/tTWD/XggLR1/mFqFd9P+niq9Qgsdj8WY6zn0SzbAxMP2e1zNNEW4Wb7d83ocEOs+PU46FewUvTWP+rQA62tPyR9av7gzprYRjWwQ3O+VzLDZ+rCWtqri48JQc/YNO0SSLhM6VDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=LL/Vw+Hy; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+	s=arc-20240116; t=1719413858; c=relaxed/simple;
+	bh=EyKIBf8rhtksttW3da6l2T13EshR1mCGrN9WMjFdm7I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i9qBjG5tkQqOZjOsTwO4TybPExEcpQ5lg2mNP02Q1UsmjqSscVUrU9HIDLvVfQOlQEjhBgnfgxK7Tmrk4mBepICJI4/UFD7nuqEgwfyIgmR5j55EyZrNNlZlrhsIWme/GQWd/CqXIGs2Gs3yJ/DjOOYpplie4XDVGeLkjCsojRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=09ktxmMs; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="LL/Vw+Hy"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70677422857so2585910b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 07:43:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="09ktxmMs"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-700cc8e447aso795625a34.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Jun 2024 07:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1719413000; x=1720017800; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3qqVGSiK52qpEYkBFYQqtg/MLmm7mG/Sdz2MT9nXZJE=;
-        b=LL/Vw+HyQFcqElkaZVbTOLvEMU2zA7AD0w6XKKZHaumVjItvva7k4LWs12rNwWZAou
-         JWQmBRQfehdtudIEMl6MWCDQ0U2b2cuTQ1xl92U15PvHlqGhILtCBKpqysE7yd2S0YZ1
-         1Jyi+m6r7S9B00VRv9Fg8Bb5raW0NqYxAph6Vws4dccwypk75iLnyAx9m5qa3m3Xs/i9
-         uOGSpPI13TfRq7MULVqbwxniRbaOh2N9XlKtwsHbX0eM50rSrYCXFxvaRFVck2WWtbfV
-         G2K27CFr/+43EgL//19ChVG9tKnOQxi3dv/jTsNTwsaebrirL2sluDqxP8lKMfaOQ/cf
-         5AAg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719413854; x=1720018654; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ypUeuWdUwZsifKp2oQUDz0+C0S3QazinJXlQdPM0mDg=;
+        b=09ktxmMs/SkeTGiLL1TA1Andi+jM6Mi8vh9PaTQ5DJSIuGvZZ7vYokyRxj1cocsDNX
+         NjpdGtUkhuPdi0RR/YcWd6Zz57oX0v+fV0Fx9LIrX4KHop4SmmqhsiE0IhDc3zP91A6g
+         0q5lGmE1MeGc97Q1DuYrIrd+2HZjfm8pokx/n2tQWXDeAEjvepXBm/fUkl8nP27iA6Sq
+         NlXFpF9h2xefv07zV4Jvu/7FSkEA9zX2NMeRV7flwh0RfTM83j/xn6ujaD//J+sSWVLW
+         PUFDksbA215H8dD+04EytY73Lo0dWrZOv/+5vMhlPZ6GMFcSahNLtHtp7XzeLe/Bndys
+         ttRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719413000; x=1720017800;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3qqVGSiK52qpEYkBFYQqtg/MLmm7mG/Sdz2MT9nXZJE=;
-        b=dEk9fPUrUj9/XMPnt0MuGQiqNhqy7YnuNafD/6+WgEhnruGyZTH/hWvPehJ9H2j2ti
-         xVS26+d1Pp/ytHasu/tYRiJAN/I7/BMRfGNK7jzYdNyaLO5JfA8D6RbHtqeGxgWffyTF
-         jbrikW591bZFMQAKLLIjSH4uc0myENmiLundg+y39TVTXIcmpUGnA4dGl8k/tN9YQ6vM
-         zWidDe2EOfTPsTVwZGEGC029itI5I6y1eYLzLZiVADprHs9n7YPSwR9VjO32Qp7/uIzR
-         huRUAONKcb1sA/LtKF+yUcONFzp9nMHLFZtKewPUr1HJHXPvX/SyWdyY1LU1hROXZOaH
-         2OyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjnAPzd2BJebnUMenLIj7/kRhs83DG5b+lCB8jdQpQ+29JDxQYhP8W24CMnoBxbEbfRz+vHI5PdJP2YNeDjH7XWrLPmszckzq4
-X-Gm-Message-State: AOJu0YwwEO9HImhJHBR/2zm9aHRu6kTVocIUp1BFqwUDrBmLw++A8rcQ
-	TguGllnMozo5EDgQScQWTFG/8vuiYs0ecCdrD25ZS7deiIO5YjWKJnMrAOfY70w=
-X-Google-Smtp-Source: AGHT+IH2/0OvXTCfvNRbeybdAi6Y6rc880H+FiHzFEwDjrLLdcNGpDiCXi7MY3ygYaSDhgJ3SraPqA==
-X-Received: by 2002:a05:6a20:1203:b0:1bd:28cf:7645 with SMTP id adf61e73a8af0-1bd28cf76cfmr3000669637.42.1719413000436;
-        Wed, 26 Jun 2024 07:43:20 -0700 (PDT)
-Received: from localhost ([192.184.165.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3d5576sm100665315ad.201.2024.06.26.07.43.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 07:43:19 -0700 (PDT)
-Date: Wed, 26 Jun 2024 07:43:19 -0700 (PDT)
-X-Google-Original-Date: Wed, 26 Jun 2024 07:43:18 PDT (-0700)
-Subject:     Re: [PATCH v2 3/3] RISC-V: hwprobe: not treat KEY_CPUPERF_0 as bitmask
-In-Reply-To: <CALs-Hst_TpjuQw0t-p9GbcCY4FAwXSjWziHJJuToi3rWXo7mJw@mail.gmail.com>
-CC: cyy@cyyself.name, linux-riscv@lists.infradead.org, enh@google.com,
-  Charlie Jenkins <charlie@rivosinc.com>, corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>, cleger@rivosinc.com,
-  Conor Dooley <conor.dooley@microchip.com>, ajones@ventanamicro.com, linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Evan Green <evan@rivosinc.com>
-Message-ID: <mhng-7da30215-9cfb-4670-a33d-17d9464d60d0@palmer-ri-x1c9>
+        d=1e100.net; s=20230601; t=1719413854; x=1720018654;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ypUeuWdUwZsifKp2oQUDz0+C0S3QazinJXlQdPM0mDg=;
+        b=Qc89u/suNSbExnYpo75v/OvUGx3g59Fk6j8PI110bvKP7zvWIOG0s8QgQnOEMzmqoV
+         jK+gPUGdMcMRE3WfTIhw6QcUsk/ZC4PYGp8k/OlyTqb3TkjiEGvD0CVKwam2NaOhyzQg
+         jqUK+d/GcVvXsBTf3h5JjKZpvoLF0qppqpqEkByAEFNZHNmrzOBt1s2bSJietTODwJzR
+         bVy8glCqO/MBnDYXNGtihMu6EAUF7bNjaW/EQIS5eEhv5z1lpY0+RDL3Zq0CF96dKpF+
+         IuL+794VgdEt6UwaoyoXOCw4TaaUoYMNkjkODBKKggoY3IY0MTdOA3pd6bPGJYjaU1sv
+         s2WA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZAijFR82TcY63rllrWPhih1TAQza0h51Wb8O9/sPvogqzT+ZYlrr9noqZXXmX5WWAq57UCyJ1cMyNJ+1bjmrMpmD1MQR/CxPI
+X-Gm-Message-State: AOJu0YwjaxoGMXqwBOMlyztm4D9fQtd7NpNDNxA701Pfr5MyOElxPW34
+	TpHoIE0WX+H4M5DvsPZrg63+TZilZBA1ijLJztbLBm+ruUVbv8RsiAzly/vbOCI=
+X-Google-Smtp-Source: AGHT+IFp/xtG514LhEIAkgQ13lFdNrJwaUD90zQEQk5nJABH3gyJE/Xgli4KVJwoM64l7J2/7wDJ/g==
+X-Received: by 2002:a05:6870:d623:b0:25d:1c0:803e with SMTP id 586e51a60fabf-25d01c080aemr11700233fac.7.1719413854331;
+        Wed, 26 Jun 2024 07:57:34 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25cd4c056a2sm2926159fac.53.2024.06.26.07.57.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 07:57:33 -0700 (PDT)
+Message-ID: <1d2cde40-ad55-4136-bc72-3d71515f7023@baylibre.com>
+Date: Wed, 26 Jun 2024 09:57:32 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/7] spi: Enable controllers to extend the SPI protocol
+ with MOSI idle configuration
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
+ lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ nuno.sa@analog.com, corbet@lwn.net, marcelo.schmitt1@gmail.com
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1719351923.git.marcelo.schmitt@analog.com>
+ <add14694c64b574af742a5dcd5c9461e0ef5210a.1719351923.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <add14694c64b574af742a5dcd5c9461e0ef5210a.1719351923.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 29 May 2024 11:33:42 PDT (-0700), Evan Green wrote:
-> On Thu, May 23, 2024 at 8:36 PM Yangyu Chen <cyy@cyyself.name> wrote:
->>
->> Since the value in KEY_CPUPERF_0 is not bitmask, remove the wrong code
->> in hwprobe.h.
->>
->> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
->
-> I'd expect a Fixes tag, and ideally some discussion on the reasoning
-> and ramifications of this change.
->
-> I posted the other possible fix, declaring a new key, at [1], mostly
-> so we could see the two options and discuss. I'm okay with either
-> patch.
+On 6/25/24 4:53 PM, Marcelo Schmitt wrote:
+> diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+> index e8e1e798924f..8e50a8559225 100644
+> --- a/include/linux/spi/spi.h
+> +++ b/include/linux/spi/spi.h
+> @@ -599,6 +599,12 @@ struct spi_controller {
+>  	 * assert/de-assert more than one chip select at once.
+>  	 */
+>  #define SPI_CONTROLLER_MULTI_CS		BIT(7)
+> +	/*
+> +	 * The spi-controller is capable of keeping the MOSI line low or high
+> +	 * when not clocking out data.
+> +	 */
+> +#define SPI_CONTROLLER_MOSI_IDLE_LOW    BIT(8)  /* Can idle MOSI low */
+> +#define SPI_CONTROLLER_MOSI_IDLE_HIGH   BIT(9)  /* Can idle MOSI high */
 
-Just to close the loop here as the discussions are on other threads: 
-after a bunch of discussions we're going with the new key version.  
-Maybe it's a bit pedantic, but since hwprobe is such a fundamental 
-compatibility interface we're just going to be super careful.
+These two flags above are still not used anywhere and are redundant with
+the SPI_MOSI_IDLE_LOW/HIGH flags below so I don't think we should be adding
+these.
 
-> -Evan
->
-> [1] https://lore.kernel.org/lkml/20240529182649.2635123-1-evan@rivosinc.com/T/#u
->
->> ---
->>  arch/riscv/include/asm/hwprobe.h | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
->> index 630507dff5ea..f24cad22bbe1 100644
->> --- a/arch/riscv/include/asm/hwprobe.h
->> +++ b/arch/riscv/include/asm/hwprobe.h
->> @@ -20,7 +20,6 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
->>         switch (key) {
->>         case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
->>         case RISCV_HWPROBE_KEY_IMA_EXT_0:
->> -       case RISCV_HWPROBE_KEY_CPUPERF_0:
->>                 return true;
->>         }
->>
->> --
->> 2.45.1
->>
+>  
+>  	/* Flag indicating if the allocation of this struct is devres-managed */
+>  	bool			devm_allocated;
+> diff --git a/include/uapi/linux/spi/spi.h b/include/uapi/linux/spi/spi.h
+> index ca56e477d161..ee4ac812b8f8 100644
+> --- a/include/uapi/linux/spi/spi.h
+> +++ b/include/uapi/linux/spi/spi.h
+> @@ -28,7 +28,8 @@
+>  #define	SPI_RX_OCTAL		_BITUL(14)	/* receive with 8 wires */
+>  #define	SPI_3WIRE_HIZ		_BITUL(15)	/* high impedance turnaround */
+>  #define	SPI_RX_CPHA_FLIP	_BITUL(16)	/* flip CPHA on Rx only xfer */
+> -#define SPI_MOSI_IDLE_LOW	_BITUL(17)	/* leave mosi line low when idle */
+> +#define SPI_MOSI_IDLE_LOW	_BITUL(17)	/* leave MOSI line low when idle */
+> +#define SPI_MOSI_IDLE_HIGH	_BITUL(18)	/* leave MOSI line high when idle */
+
+The patch series that added SPI_MOSI_IDLE_LOW [1] also added it to spidev. Do
+we need to do the same for SPI_MOSI_IDLE_HIGH?
+
+Also, what is the plan for adding these flags to other SPI controllers. For
+example, the IMX controller in [1] sounds like it should also support 
+SPI_MOSI_IDLE_HIGH. And your comments on an earlier version of this series
+made it sound like Raspberry Pi is always SPI_MOSI_IDLE_LOW, so should
+have that flag.
+
+[1]: https://lore.kernel.org/linux-spi/20230530141641.1155691-1-boerge.struempfel@gmail.com/
+
+>  
+>  /*
+>   * All the bits defined above should be covered by SPI_MODE_USER_MASK.
+> @@ -38,6 +39,6 @@
+>   * These bits must not overlap. A static assert check should make sure of that.
+>   * If adding extra bits, make sure to increase the bit index below as well.
+>   */
+> -#define SPI_MODE_USER_MASK	(_BITUL(18) - 1)
+> +#define SPI_MODE_USER_MASK	(_BITUL(19) - 1)
+>  
+>  #endif /* _UAPI_SPI_H */
+
