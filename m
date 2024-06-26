@@ -1,153 +1,98 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB7418FDA3;
-	Wed, 26 Jun 2024 17:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93ED5183083;
+	Wed, 26 Jun 2024 20:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719423787; cv=none; b=Xe1dTZIHz6w7BoQw4UZdmU6smpEz7ULQ3b6VwFtIOGHFAVJRMHkdu4dZb63jJU7zeLic+5sPY0iuJqb5ddHWKaJnz27GHTMiJpp4uQT+gll3k5e+TKs3xjGu2pqqiFUre2ezPl1F7mofgh/luJtkBmiID66wamFgG9B8MQe5YQQ=
+	t=1719434379; cv=none; b=jhBNPD54fnpoPQPVa8bB2tReXfyj+gb+gYh2tjUFXFKw4fH4lyJ39WWr5PctNR29kaO6qzL8D8nHz36Q3Njc42PEH2MZ4Bgu82LlK2iSGXTYnHaiDoPy+yDtH6v8Ya4es6CvUbyOlXwlOE8aAuSh78ahZ1C6Q6LWjcYsaPx3cmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719423787; c=relaxed/simple;
-	bh=mIa8VG3n3S+KQwTdoB7kClmabb1DhqOFZjZ2EWEw9Ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7Dfy49A0V8yzUZOmgjbyrsctT+hm3V/pztmjcNk5xikY59TTgIvzYquP1l6uacmfZedbQv7xz5UV9euBVQS3MsfYouDlJPlAKpDyNZcfzegn8rZn0KjY2ju1KfdGvSctNkpisHC8U3HTtqzHZYNBFsRZz6rphrIdBXG60bJy+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=T2qIwe+I; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1719434379; c=relaxed/simple;
+	bh=/9W3G49m6A/qb2aig9tVX/75zGdSbXbe9vL831wbHWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FJoHH0jCA1WEb1aufXU5dJ4UYB8l39U0I4Eg9yXceXyrSdtmFTypK1NcLLTqDSJei1N1HW2UHkzUz8WQ6keLaYgTvxDyL2PK/41HOWsMq71tcNGMbGHz8cjG8UBT6jJcNrhyIEiXXpH3ToZuFLb6fRbaUkHTWgLEdg1Hq6a2y5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XD/grlT6; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="T2qIwe+I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=xOwczucyEIlgXzNDAVRQED9769Cf5dVKLoEoKbrY1Gw=; b=T2
-	qIwe+IQqKPzjWnkKvs//T0QeCzXLebBdDubACEIimCmodQulIbEUfka5jSCB/EOVjktGUlCy6i1sW
-	QTrsUCdrUW2jCePEikVmDZmTcPaMuzLLoqunk/ym2dt7im/HPCKnI6MOY9f8N8jpOScFiIxHG8mJ5
-	I6SY+Qplxu7Ty4k=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sMWfP-0013tv-MX; Wed, 26 Jun 2024 19:42:47 +0200
-Date: Wed, 26 Jun 2024 19:42:47 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"sdf@google.com" <sdf@google.com>,
-	"kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
-	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
-	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>,
-	"richardcochran@gmail.com" <richardcochran@gmail.com>,
-	"shayagr@amazon.com" <shayagr@amazon.com>,
-	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	mlxsw <mlxsw@nvidia.com>, Ido Schimmel <idosch@nvidia.com>,
-	Petr Machata <petrm@nvidia.com>
-Subject: Re: [PATCH net-next v7 7/9] ethtool: cmis_cdb: Add a layer for
- supporting CDB commands
-Message-ID: <ad5dd612-1b8d-4061-808e-2199144dc486@lunn.ch>
-References: <20240624175201.130522-1-danieller@nvidia.com>
- <20240624175201.130522-8-danieller@nvidia.com>
- <003ca0dd-ea1c-4721-8c3f-d4a578662057@lunn.ch>
- <DM6PR12MB4516DD74CA5F4D52D5290E26D8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
- <DM6PR12MB4516907EAC007FCB05955F7CD8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
- <baf84bde-79d3-4570-a1df-e6adbe14c823@lunn.ch>
- <DM6PR12MB4516062B5684DA1F4C5F49FED8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XD/grlT6"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42561715d41so4569965e9.0;
+        Wed, 26 Jun 2024 13:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719434376; x=1720039176; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2E5szASgFFa7et9hf6JKLTJ5flysbwDYJWoC3WWH5W0=;
+        b=XD/grlT6cJdcz9UvuLg/uJ3ptlk5+9Z1aub2dUvyXmX8/EsI0gvkGUVRm+Q4+3eiag
+         cH8RxrnBw8PIxNtOjW19qzJ/Hi4RU6JhqUC4gZ/zVEG6biPPpQjJR1xD3cCfByY7yKX0
+         X+57K7XRSe7vPLh1L9yQp+4JlYqs0FOjC72fDS6PiykV4pDx48Jv2le4g8JRkxKaxZh7
+         isnCdG66Nr63MkdyxgBxEckV00s2NKySXn9AGNpSOjUNSw7OuK+q6aRuYD8dcyiWiZkx
+         qe7Q+f4G0+G8SRnkvR7uSXtgcKAxB3ZrLwnIEvdjb80XOqyrtOccy28jLG+p4CU7hKXo
+         ylvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719434376; x=1720039176;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2E5szASgFFa7et9hf6JKLTJ5flysbwDYJWoC3WWH5W0=;
+        b=PLilv2KrirgyttYhRQ+prcD2VsS3DFm3uqtr9bSuI0DJaGtFbVT2CJpqN4AwQDr3KT
+         TuSqFVQOCcOkD6AwTfSnwb8AK7O0Y4RdC00+NP8S8gYT0qze5UXKJ2L+Dgws3z+aReOj
+         Q/3MLXtzy/pZoHBJcIuTGjJIFm7L3jCM9d8LUMWZfzCIkPkkNTiqLR4/YR868+3mAP8b
+         XdE4ngmyOG4zLiAtqaJljmxTvF4Q+s4tIKwSs6OOjLPA41Ucdzc/Y6b53O/a/8mHtSPA
+         XJgcdV5rvsB60ETB1T+IpOteOqnAhS66j6LmP7n+EVeCzbNaZEeMadpa9ez4etxlUUkC
+         Llsw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2rBU1kRs11L9L6Vgo4/NTg5WvrJbWspmxzPAf6CTGbhRCvPtCn3wV5sq117hgAJ2PF4WUkcGqXBtDn8DPfycsiD6n3Rbdk2+83OS4
+X-Gm-Message-State: AOJu0YwMsNvc97zQa24uG7TnUgDrl9SS3BciFDqfbLX4o7Wpbngm5G2r
+	pcrpP3KtQTJw1OWqo2vJCOJ2uGcw8wNzHV4i8W0nW0TamkGpCt/jH/SUEd0XDI8=
+X-Google-Smtp-Source: AGHT+IFKDR2sUT+AuFSaaRTVuaMId/3tR6eXb6ySb3gtXwcPNSlO+mrqxdZ1i/9J453D4BlGAorIMA==
+X-Received: by 2002:a5d:4e0e:0:b0:360:9500:9bbb with SMTP id ffacd0b85a97d-3673cc55d87mr706365f8f.12.1719434375678;
+        Wed, 26 Jun 2024 13:39:35 -0700 (PDT)
+Received: from seskpc0236u.linux.cat.com (static-dsl-173.87-197-126.telecom.sk. [87.197.126.173])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3663a8c8f50sm16661946f8f.109.2024.06.26.13.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 13:39:34 -0700 (PDT)
+From: Jiri Kastner <cz172638@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	cz172638@gmail.com,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH v2] Documentation/tools/rv: fix document header
+Date: Wed, 26 Jun 2024 22:39:06 +0200
+Message-ID: <20240626203906.191841-1-cz172638@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240626150727.156397-1-cz172638@gmail.com>
+References: <20240626150727.156397-1-cz172638@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM6PR12MB4516062B5684DA1F4C5F49FED8D62@DM6PR12MB4516.namprd12.prod.outlook.com>
 
-> > Please could you test it.
-> > 
-> > 65535 jiffies is i think 655 seconds? That is probably too long to loop when
-> > the module has been ejected. Maybe replace it with HZ?
-> > 
-> 
-> Well actually it is 65535 msec which is ~65 sec and a bit over 1 minute.
+Signed-off-by: Jiri Kastner <cz172638@gmail.com>
+---
+ Documentation/tools/rv/rv-mon.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I _think_ it depends on CONFIG_HZ, which can be 100, 250, 300 and
-1000.
+diff --git a/Documentation/tools/rv/rv-mon.rst b/Documentation/tools/rv/rv-mon.rst
+index af0f329a7c9c..4d86fd55eb59 100644
+--- a/Documentation/tools/rv/rv-mon.rst
++++ b/Documentation/tools/rv/rv-mon.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-=======
+-rv-list
+-=======
++======
++rv-mon
++======
+ -----------------------
+ List available monitors
+ -----------------------
+-- 
+2.45.2
 
-> The test you are asking for is a bit complicated since I don’t have
-> a machine physically nearby, do you find it very much important?
-
-> I mean, it is not very reasonable thing to do, burning fw on a
-> module and in the exact same time eject it.
-
-Shooting yourself in the foot is not a very reasonable thing to do,
-but the Unix philosophy is to all root to do it. Do we really want 60
-to 600 seconds of the kernel spamming the log when somebody does do
-this?
-
-> > Maybe netdev_err() should become netdev_dbg()? And please add a 20ms
-> > delay before the continue.
-> > 
-> > > > > > +		}
-> > > > > > +
-> > > > > > +		if ((*cond_success)(rpl.state))
-> > > > > > +			return 0;
-> > > > > > +
-> > > > > > +		if (*cond_fail && (*cond_fail)(rpl.state))
-> > > > > > +			break;
-> > > > > > +
-> > > > > > +		msleep(20);
-> > > > > > +	} while (time_before(jiffies, end));
-> > > > >
-
-> > O.K. Please evaluate the condition again after the while() just so ETIMEDOUT is
-> > not returned in error.
-> 
-> Not sure I understood.
-> Do you want to have one more polling in the end of the loop? What could return ETIMEDOUT?
-
-Consider what happens when msleep(20) actually sleeps a lot longer.
-
-Look at the core code which gets this correct:
-
-#define read_poll_timeout(op, val, cond, sleep_us, timeout_us, \
-                                sleep_before_read, args...) \
-({ \
-        u64 __timeout_us = (timeout_us); \
-        unsigned long __sleep_us = (sleep_us); \
-        ktime_t __timeout = ktime_add_us(ktime_get(), __timeout_us); \
-        might_sleep_if((__sleep_us) != 0); \
-        if (sleep_before_read && __sleep_us) \
-                usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
-        for (;;) { \
-                (val) = op(args); \
-                if (cond) \
-                        break; \
-                if (__timeout_us && \
-                    ktime_compare(ktime_get(), __timeout) > 0) { \
-                        (val) = op(args); \
-                        break; \
-                } \
-                if (__sleep_us) \
-                        usleep_range((__sleep_us >> 2) + 1, __sleep_us); \
-                cpu_relax(); \
-        } \
-        (cond) ? 0 : -ETIMEDOUT; \
-})
-
-So after breaking out of the for loop with a timeout, it evaluates the
-condition one more time, and uses that to decide on 0 or ETIMEDOUT. So
-it does not matter if usleep_range() range slept for 60 seconds, not
-60ms, the exit code will be correct.
-
-      Andrew
