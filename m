@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CD47F6;
-	Wed, 26 Jun 2024 23:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C77F15E5B9;
+	Wed, 26 Jun 2024 23:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719443890; cv=none; b=YIgk1/8d1/Y/Sz+6a17+D+2pz02ioh6eeoq2MHdt3474SoCHlxdQSP26AfLgz4GvhB0ZpJvjlGUHEnCSa12tMdIKyZdPlBJDtfbB29Lg/YcoKiUqJWzo1ci/WY3WlwJ07lR8DpBuLEXpE4+i7gFvdFb93lQm/DghEKMOk+jXiE0=
+	t=1719445522; cv=none; b=Zh5+7mHuHsk81XWdLRcyP/vbLRlG9QY3+BY6AAgPg/XWo6dXo73sVbvaD0RxZ/hChIVgMNJ5CwK83hxtkku+LN4Z49uPbkUT7TVZWx6SU5St98JJkriFIER7svIIIb2Uu1dDetGZkSmneHrZU9C4HBkVuj1p/lE35qIc4tbdjqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719443890; c=relaxed/simple;
-	bh=6HekR43pJqUCcNkKc40b69Drnr3HJInw6fCbjRstiaE=;
+	s=arc-20240116; t=1719445522; c=relaxed/simple;
+	bh=j7Yo6m/AqThOVdj5U+fqGLmSlhqAs/PdzOzaPqiPTPM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ycge9SA+21YqkZrWAU/G8Sb6Tf6f4Lltwyaa9vNOKtReDqXDOzdVpuqEVSsPtTBkXO5TFJR/kFFzd+zQJnbrawkm+63nQD0vHXXoczJ7KBt9KyHE7BU5rX6GRPHcZYxlJ2efDLNu91LoF5xcjKyiRLlSci9k7njiGnakZYZkO2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZLAy5u49; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=rPfQruSCopb7Zfb3nFHlvztaSOZvTLy8CisbhlJ3uUAdhz5WvmLU8uPluKAzmhb/wbiAoJuBxX+ULlyB7S1HtLdJ0CqhVmOO9PIFK+Xi0COx3za4F85+1leSFhVOJil1gQ81EybSO3ulByB3hYNG/Hx/asuyYF5KW6A+K11fjlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IUvcKIQL; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZLAy5u49"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IUvcKIQL"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=fIdipLCiB6LuGEB/Bu1DIt/EU3UFGy5WyDBALrOlYbo=; b=ZLAy5u49NXHY03W49GkzU5gN+3
-	ZQUBwEtX9Fz6SxX2/8vMQc3gTO3hnUiemG8OTHh1g292YW06vglD3yEFLBPwvCj1qFWrK2XYdN1rY
-	J9zzj+cQ9knuA+Gw0mmC4gzc1MB4fn63hEVB1KgF3XF+X1Gszrk5pRdyiFjJu+lO2xvAIOJIWvlIs
-	RbZm7v0e/S1kUUzmuIK2TmEi7gD6RNIPKXrIOOCDYwku0WH2WXFvBARlcJXkq86xjLo9WU5+SYESm
-	ng16i34vBst48tr0maT02s9N9RjeBkNVnMQXJp8JAqQ/7bxX6xwdwzopjlQBzRq7F3hoTT7EUzXIZ
-	hEqZnjFA==;
+	bh=2kstE+ZWklYYPqS7I36sd/47PFuKzgdS4DMx22ywkXM=; b=IUvcKIQLQATzN5JRSKkmPrhX8I
+	KLhcBudm0beFokr9nkSa7yil6gFd71+fZUxCfVXtuRAxAiLBpHK6Cww2UmPxFU6dMWCshGicE6DVH
+	oAHa5tDaL5OiLDl8o0U7eXdbyNQPTzxPyUKkHFUSiZAO9kr/p8hitndDMEA0KpMCZirU7uUfg64Sv
+	oVSbknsTt4Ui8Bk9nqxzi3fQ0+QK/MU8PtD/vfb7yulA1ZlJ5YLZ0ONukvIa9IV9Alus5B9UZZQJP
+	+eInrfXhs8eTYceaBFNSiBGvGCyWjfXv6Iu9rz7dgqVsTWw3WjdKzwSjZLsVDWQ5yvsoCB+ZUn3Pu
+	PvAnNZOw==;
 Received: from [50.53.4.147] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMbtn-00000008baK-1YaN;
-	Wed, 26 Jun 2024 23:17:59 +0000
-Message-ID: <4709c2fa-081f-4307-bc9e-eef928255c08@infradead.org>
-Date: Wed, 26 Jun 2024 16:17:56 -0700
+	id 1sMcKC-00000008fHs-2FMx;
+	Wed, 26 Jun 2024 23:45:16 +0000
+Message-ID: <994dce8b-08cb-474d-a3eb-3970028752e6@infradead.org>
+Date: Wed, 26 Jun 2024 16:45:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,57 +39,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
- trailers
-To: Jonathan Corbet <corbet@lwn.net>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Kees Cook <kees@kernel.org>
-Cc: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
-References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
- <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
- <202406211355.4AF91C2@keescook>
- <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
- <87cyo3fgcb.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v5 6/6] arm64: add attrs and format to ptdump document
+To: Maxwell Bland <mbland@motorola.com>, linux-mm@kvack.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <2bcb3htsjhepxdybpw2bwot2jnuezl3p5mnj5rhjwgitlsufe7@xzhkyntridw3>
+ <uz7euxemnah4fhoyj7brop67mqjzzkm6tctf5s7alkhvrmhkgw@ziq4h7kzsdvz>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87cyo3fgcb.fsf@trenco.lwn.net>
+In-Reply-To: <uz7euxemnah4fhoyj7brop67mqjzzkm6tctf5s7alkhvrmhkgw@ziq4h7kzsdvz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/26/24 4:13 PM, Jonathan Corbet wrote:
-> Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+On 6/24/24 3:16 PM, Maxwell Bland wrote:
+> Update the ptdump content with a precise explanation of the attribute
+> symbols and the coalescing of identical entries implicit in the code.
 > 
->> On Fri, Jun 21, 2024 at 02:07:44PM GMT, Kees Cook wrote:
->>> On Wed, Jun 19, 2024 at 02:24:07PM -0400, Konstantin Ryabitsev wrote:
->>>> +   This URL should be used when referring to relevant mailing list
->>>> +   topics, related patch sets, or other notable discussion threads.
->>>> +   A convenient way to associate ``Link:`` trailers with the commit
->>>> +   message is to use markdown-like bracketed notation, for example::
->>>> ...
->>>> +     Link: https://lore.kernel.org/some-msgid@here # [1]
->>>> +     Link: https://bugzilla.example.org/bug/12345  # [2]
->>>
->>> Why are we adding the extra "# " characters? The vast majority of
->>> existing Link tags don't do this:
->>
->> That's just convention. In general, the hash separates the trailer from the
->> comment:
->>
->>     Trailer-name: actual-trailer-body # comment
->>
+> Remove unnecessary layout example given the existing cat example,
+> and opt instead for a precise, clear explanation of address markers,
+> format, attributes.
 > 
-> Did we ever come to a conclusion on this?  This one character seems to
-> be the main source of disagreement in this series, I'm wondering if I
-> should just apply it and let the painting continue thereafter...?
+> Update example to match the new cosmetic and intermediate-directory
+> printing changes.
+> 
+> Signed-off-by: Maxwell Bland <mbland@motorola.com>
+> ---
+>  Documentation/arch/arm64/ptdump.rst | 126 ++++++++++++++--------------
+>  1 file changed, 61 insertions(+), 65 deletions(-)
 
-We have used '#' for ages for adding comments to by: tags.
-I'm surprised that it's not documented.
+This now passes my review FWIW. Thanks.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 -- 
 ~Randy
