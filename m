@@ -1,242 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D4215278F
-	for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 16:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53A71487ED;
+	Thu, 27 Jun 2024 16:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719505509; cv=none; b=Suh7W/W5lCUCOsdMZQUtYaDvJompqlJ6EcjyOeUIs6+zyHDSCVbdVWTblXqNVCMYgIVJJgo66f4NeHd+nfrESJj+0KzrG1/LENMHqWXj6WB5WbaYlYh5UzQqm13w6/FEpAyvKDnAlwevlCCiUVolGpg1ueJ5MtiHuRzNz8u2QJg=
+	t=1719505827; cv=none; b=dOWATntwu2j3y/0ZTh9UWWgfcnOl0Wr0w4EUoCXFlCsNrqWDou7xMZNG6mB4PtdXKYsss6hkWHZkH04IPN+i+S6IJYzau2Q0UQLiDUc9gUZpRqjupclVA0aIFG8ixLjTsSQqIW5s22avekYspPn/NuFBqazDPKrRiSyylKfAEE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719505509; c=relaxed/simple;
-	bh=b8FGF7FHgiFJgUaljXVANw3hN+FmW1giegzK/EmH7FA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r8gpZcOdZY9vLAcoyt/bRB1SB3hntlDYnQB31rMrTi7JkYygrsFWsgyx87pqRZSjlORLX81/8eTfUN8DAWM5wNrPBg4n4N4iIscfPFnPCIXXionW0NOo4pyEYc5RnW+/k9aHzLeSPy9GUzvv/YFbANwnuRKm3k5N5KEbYseipVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CVibhBOZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1719505827; c=relaxed/simple;
+	bh=lLAb8xHD0kK96O04UOh2jrtKgkgm0SY5bvXSLS8pZLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tNWCKQ5PZTZZIFVAeaV5o0kcTHfA/j8I9RWC/sGqO6bh7aOuCBPnPhWDndJoxeP5zykmjOvGzVwToSSpOUHCYVKSXgCdeM+l5pMPFcmDMhXmCmGqWTWIGCSDc9Gq0WjsqIRN5adlp0rTG/u66FIJc+WCOEInUCK3WB2DI+Il/5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2H8JgTP; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CVibhBOZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719505506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cFCXHxIWumrFyXD+AI2y3OkZOM6rpiSLbLUEprzBZ1I=;
-	b=CVibhBOZICRGpDQ6TavW7VaRtSS0QbdR4ecyclGT1NyMs4MqOyGFTrPCri1xRRsbUb8mYY
-	Rn1YKdCdfpUjRSaRREEQWre9S+Wz/1x9T9wQA6X7+xo/Hpm/5SAZwI3dB5IoCogLW3UvE0
-	oBbfvQpVBEWF770PcjPZ1f9IGacQtEQ=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-393-r3J2wzq0O9eA2O6CGT3m3Q-1; Thu,
- 27 Jun 2024 12:25:04 -0400
-X-MC-Unique: r3J2wzq0O9eA2O6CGT3m3Q-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6629D19560B5;
-	Thu, 27 Jun 2024 16:25:03 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.39.192.31])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BF0941955BD4;
-	Thu, 27 Jun 2024 16:25:00 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: Remove IA-64 from kernel-parameters
-Date: Thu, 27 Jun 2024 18:24:58 +0200
-Message-ID: <20240627162458.387700-1-thuth@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2H8JgTP"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c40c72c407so423477eaf.1;
+        Thu, 27 Jun 2024 09:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719505825; x=1720110625; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TFxvBUpgkff4OOWHQfrsMUrnqbP3Vis0skgt8SfYOB4=;
+        b=H2H8JgTPYaJDKfUOFaqoLKKl2WjC8hMeilpT/m+GG3X8geNT82CKqS1HCn7xaNy8/3
+         NtpXPEeyBSzzh6QisWCqAdwnkEUM4ZzezNCbYyiuKIiNi2BS/jkadXxQZ0LVDV6eLSCK
+         mnhPcoz5/fe0Lr2o5qeDtE2oYVeBevmSoz98Pm8b+r0dglthS38oRLfPf9yA3AGFvy3A
+         Gl5+qIlPUGesOak8bHvwiHgZKj7rXs/5qKIpGAiO2zYnkjWHxsC4RxMkeIUjhNyKrKR9
+         f+k5pyxHVfKRL7MkpcZfjg3j/Hog6yr0KxRoyUmz0iVShNI7jeMNSFzFmjdMyaRR53ig
+         syjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719505825; x=1720110625;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TFxvBUpgkff4OOWHQfrsMUrnqbP3Vis0skgt8SfYOB4=;
+        b=qMXpvqcR8DzZ38xgVVygEsuU/KEEYOSeRROR9WbMmqIJAYLJ/jQNDMNtYNgA0DGbjT
+         BabEO/nQT35P7gSavDyXlRLQoXq1fsBMKIS3FRcTvxfIg46jFYJHbi8Y0PIc2tynhvv7
+         GhwW9mIihdRQUGJ4/R+/jd0WaO0DuxNzbfSeiep8aN8+gBG7it3tNjX/9kOd31YQy+Rc
+         xrvAI1lWSjzSSMgrJXKGnu5xOAvL4JpSACeg5UCtoIcc7gOy8lgIrgCg050k7jX4XlZq
+         P8b797/4ABO3C+5e8k6XsYysgpSm0NT21zQ7+osel691Y6B+1r2q4YMOst6GllxST9Eh
+         K73w==
+X-Forwarded-Encrypted: i=1; AJvYcCXYDZbfEp/OK3gGgm/o3os0ZUrM0YZNql2RZp/EdIqPBMe7bURccnD6QoYzA/HsJ2tMtRFhpNYJLz5OpvwOGbMP3u1bDpwk+2VRDfbIFhueoHrj5hSKFugTo7EntQcOCiuOAMvt6Elr
+X-Gm-Message-State: AOJu0Yxmh1gNzPzrX1keJodmnKnO+HgHt7q1SUaebnD/4VYhhlAMri9X
+	IgukoAxAtFboao6ZfE+hvwpFlUCyyw5VsK8i7IbWvCYjpvxF8aSX
+X-Google-Smtp-Source: AGHT+IEPZvKP5U5S28rOh5uRsXbOx7o5V9e0LDJq6EHZaedJ8VjnFjfWoDb4YsG/O0Evw/2nYWyjBQ==
+X-Received: by 2002:a4a:7650:0:b0:5b9:e7db:1cf8 with SMTP id 006d021491bc7-5c22a03d393mr5031005eaf.4.1719505824655;
+        Thu, 27 Jun 2024 09:30:24 -0700 (PDT)
+Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c405c4fc5esm295692eaf.3.2024.06.27.09.30.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jun 2024 09:30:24 -0700 (PDT)
+Message-ID: <d3a76784-e3ed-437a-afe8-0121e51348d8@gmail.com>
+Date: Thu, 27 Jun 2024 11:30:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, bilbao@vt.edu
+References: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
+ <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
+ <87v81vxqm1.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <87v81vxqm1.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-IA-64 has been removed from the tree, so we should also remove
-the corresponding kernel-parameters documentation now.
+On 6/26/24 17:53, Jonathan Corbet wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Note: Patch is based on linux-next branch (which already contains
-       some other patches to kernel-parameters.txt)
+> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
+>
+>> From: Carlos Bilbao <bilbao@vt.edu>
+>>
+>> Extend the Index of Further Kernel Documentation by adding entries for the
+>> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+>> on the second edition of Billimoria's kernel programming book. Also,
+>> perform some refactoring: format the text to 75 characters per line and
+>> sort per-section content in chronological order of publication.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+>> ---
+>>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+>>  1 file changed, 44 insertions(+), 24 deletions(-)
+> Sending this as a reply to previous postings badly confused b4, but I
+> did get it to apply this time, thanks.
 
- .../admin-guide/kernel-parameters.rst         |  1 -
- .../admin-guide/kernel-parameters.txt         | 45 ++-----------------
- 2 files changed, 3 insertions(+), 43 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index e8bdf5e86a9b..fdea7c26ef80 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -118,7 +118,6 @@ is applicable::
- 	HIBERNATION HIBERNATION is enabled.
- 	HW	Appropriate hardware is enabled.
- 	HYPER_V HYPERV support is enabled.
--	IA-64	IA-64 architecture is enabled.
- 	IMA     Integrity measurement architecture is enabled.
- 	IP_PNP	IP DHCP, BOOTP, or RARP is enabled.
- 	IPV6	IPv6 support is enabled.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 86f8f1f464ff..a2d36b622a67 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1738,8 +1738,6 @@
- 			for 64-bit NUMA, off otherwise.
- 			Format: 0 | 1 (for off | on)
- 
--	hcl=		[IA-64] SGI's Hardware Graph compatibility layer
--
- 	hd=		[EIDE] (E)IDE hard drive subsystem geometry
- 			Format: <cyl>,<head>,<sect>
- 
-@@ -2498,7 +2496,7 @@
- 
- 	keepinitrd	[HW,ARM] See retain_initrd.
- 
--	kernelcore=	[KNL,X86,IA-64,PPC,EARLY]
-+	kernelcore=	[KNL,X86,PPC,EARLY]
- 			Format: nn[KMGTPE] | nn% | "mirror"
- 			This parameter specifies the amount of memory usable by
- 			the kernel for non-movable allocations.  The requested
-@@ -3162,17 +3160,10 @@
- 			[SECURITY] Choose order of LSM initialization. This
- 			overrides CONFIG_LSM, and the "security=" parameter.
- 
--	machvec=	[IA-64] Force the use of a particular machine-vector
--			(machvec) in a generic kernel.
--			Example: machvec=hpzx1
--
- 	machtype=	[Loongson] Share the same kernel image file between
- 			different yeeloong laptops.
- 			Example: machtype=lemote-yeeloong-2f-7inch
- 
--	max_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory greater
--			than or equal to this physical address is ignored.
--
- 	maxcpus=	[SMP,EARLY] Maximum number of processors that an SMP kernel
- 			will bring up during bootup.  maxcpus=n : n >= 0 limits
- 			the kernel to bring up 'n' processors. Surely after
-@@ -3410,9 +3401,6 @@
- 			Enable or disable the microcode minimal revision
- 			enforcement for the runtime microcode loader.
- 
--	min_addr=nn[KMG]	[KNL,BOOT,IA-64] All physical memory below this
--			physical address is ignored.
--
- 	mini2440=	[ARM,HW,KNL]
- 			Format:[0..2][b][c][t]
- 			Default: "0tb"
-@@ -3577,7 +3565,7 @@
- 	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
- 			reporting absolute coordinates, such as tablets
- 
--	movablecore=	[KNL,X86,IA-64,PPC,EARLY]
-+	movablecore=	[KNL,X86,PPC,EARLY]
- 			Format: nn[KMGTPE] | nn%
- 			This parameter is the complement to kernelcore=, it
- 			specifies the amount of memory used for migratable
-@@ -3851,8 +3839,6 @@
- 
- 	no_entry_flush  [PPC,EARLY] Don't flush the L1-D cache when entering the kernel.
- 
--	noexec		[IA-64]
--
- 	noexec32	[X86-64]
- 			This affects only 32-bit executables.
- 			noexec32=on: enable non-executable mappings (default)
-@@ -3872,13 +3858,6 @@
- 			register save and restore. The kernel will only save
- 			legacy floating-point registers on task switch.
- 
--	nohalt		[IA-64] Tells the kernel not to use the power saving
--			function PAL_HALT_LIGHT when idle. This increases
--			power-consumption. On the positive side, it reduces
--			interrupt wake-up latency, which may improve performance
--			in certain environments such as networked servers or
--			real-time systems.
--
- 	no_hash_pointers
- 			[KNL,EARLY]
- 			Force pointers printed to the console or buffers to be
-@@ -3933,8 +3912,6 @@
- 			remapping.
- 			[Deprecated - use intremap=off]
- 
--	nointroute	[IA-64]
--
- 	noinvpcid	[X86,EARLY] Disable the INVPCID cpu feature.
- 
- 	noiotrap	[SH] Disables trapped I/O port accesses.
-@@ -3944,8 +3921,6 @@
- 
- 	noisapnp	[ISAPNP] Disables ISA PnP code.
- 
--	nojitter	[IA-64] Disables jitter checking for ITC timers.
--
- 	nokaslr		[KNL,EARLY]
- 			When CONFIG_RANDOMIZE_BASE is set, this disables
- 			kernel and module base offset ASLR (Address Space
-@@ -3960,8 +3935,6 @@
- 
- 	nolapic_timer	[X86-32,APIC,EARLY] Do not use the local APIC timer.
- 
--	nomca		[IA-64] Disable machine check abort handling
--
- 	nomce		[X86-32] Disable Machine Check Exception
- 
- 	nomfgpt		[X86-32] Disable Multi-Function General Purpose
-@@ -4013,8 +3986,6 @@
- 	noresume	[SWSUSP] Disables resume and restores original swap
- 			space.
- 
--	nosbagart	[IA-64]
--
- 	no-scroll	[VGA] Disables scrollback.
- 			This is required for the Braillex ib80-piezo Braille
- 			reader made by F.H. Papenmeier (Germany).
-@@ -4115,10 +4086,6 @@
- 			parameter, xsave area per process might occupy more
- 			memory on xsaves enabled systems.
- 
--	nptcg=		[IA-64] Override max number of concurrent global TLB
--			purges which is reported from either PAL_VM_SUMMARY or
--			SAL PALO.
--
- 	nr_cpus=	[SMP,EARLY] Maximum number of processors that an SMP kernel
- 			could support.  nr_cpus=n : n >= 1 limits the kernel to
- 			support 'n' processors. It could be larger than the
-@@ -6042,9 +6009,6 @@
- 			apic=verbose is specified.
- 			Example: apic=debug show_lapic=all
- 
--	simeth=		[IA-64]
--	simscsi=
--
- 	slab_debug[=options[,slabs][;[options[,slabs]]...]	[MM]
- 			Enabling slab_debug allows one to determine the
- 			culprit if slab objects become corrupted. Enabling
-@@ -6561,7 +6525,7 @@
- 			This parameter controls use of the Protected
- 			Execution Facility on pSeries.
- 
--	swiotlb=	[ARM,IA-64,PPC,MIPS,X86,S390,EARLY]
-+	swiotlb=	[ARM,PPC,MIPS,X86,S390,EARLY]
- 			Format: { <int> [,<int>] | force | noforce }
- 			<int> -- Number of I/O TLB slabs
- 			<int> -- Second integer after comma. Number of swiotlb
-@@ -7209,9 +7173,6 @@
- 			Try vdso32=0 if you encounter an error that says:
- 			dl_main: Assertion `(void *) ph->p_vaddr == _rtld_local._dl_sysinfo_dso' failed!
- 
--	vector=		[IA-64,SMP]
--			vector=percpu: enable percpu vector domain
--
- 	video=		[FB,EARLY] Frame buffer configuration
- 			See Documentation/fb/modedb.rst.
- 
--- 
-2.45.2
+Will avoid doing that next time, thanks!
 
+
+>
+> jon
+
+
+Regards,
+Carlos
