@@ -1,283 +1,71 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449F219E7D1
-	for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 17:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966DF1A2562;
+	Thu, 27 Jun 2024 17:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719508985; cv=none; b=RGxGofsHnFhOcKrfREmIutV1yPATpIoBnErnECHXIRhlFQR2THZDoED2xXpUuYb5QImQq0lsEYmjiR7R/DXM6UEsO+OMnYgXd4GfiUvGqlmZDBDHSDUb9BrbT9/faudbhlASR7mauj2BN2xKvlSr2FMDm7cW8pRkFYHjxwBQVEY=
+	t=1719509613; cv=none; b=otTD8Vv+aCVkOdFqHpnQwBoCHTNhTIVEHIfI2AAh2FCQZuo82qo8ARHM2TuBYGyKR6LVbL4fiG8WVS8wtUhWnGHfuHfH7f3lwrwguzDljuHvDLu2WXjbeaGdNnF2kWEFnLT6lti/MRAC0s4+yJS76rewb1JldTA+OWIVd0wM23s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719508985; c=relaxed/simple;
-	bh=JXXlPXccbyhFcGcATRCSAgEZbpc1SuYgHVtnO5FsXLI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ejVgm/zEy2ubNEJu0vbC+XVfnly3Cs2D0DfhHSSBU4XYxyPRss9JW90Ip9usnKr1fKdgC0B+UcCDNQAoli7YDW4IYGL3p0avW6EZRCoIhvnJ3cpZSOW/aAzWSCo7G+x5Y3NVfBIJH82iOvGhIwnzoN24jBgdoiPADDfc1mGNrq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mFAFCgGt; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1719509613; c=relaxed/simple;
+	bh=/JDFP9n6PGo01QXfypchoElbcwXuKjpkCu1BCM+9qoI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EVBE1rJvF9HvPAtGcvlcJ3d8RdzsD9eRzvfeSnLQtCeTODJn5cjspZ1YjKn0+RYhICn0kvHA+SusCCgL6CEDQJ51jUfbgq5PIevSzD0inEEb9w5yvUQeya0LP+v/jKMalJP0pGdRmpMLlFiFTnFGEZXOkaCkMkFcKhSRlfHvGfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tTiorXtG; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mFAFCgGt"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70698bcd19eso2574089b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 10:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719508983; x=1720113783; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MBy/I5g30Afg6Ip53Uvr05h0yboT8uG6AlPNhdgJavA=;
-        b=mFAFCgGtjaj6xVdG2+9CdLwMKf4C7PHRt6WS5l6Uor7mYQSAikozRYC2Q4RFsFUyRA
-         f+1wjBrtxEwcqxYcZT0FdjrKRuPj+7usaBdTZ8pYEVVZb3+uWUhgnGyVdrzNocnKp/ar
-         /slQATET1tVkBPd5KmjwDpQtLU56XgZWp3O3EkRIP0NtRmFYdngYqzJYfdTIXt3g4/ca
-         4zlxTs4Tj43a8YZrlk7kwq1i1tb2MY1chI1ANUyS65tdUeG9p3h1CbujchKaxkrYbwcj
-         LS1Qp1eJcXc0+VjtTpkn5y/J0uPtoH3DdyV+FKIsHPTsFuVNy02XpdTCFpszCU+/9RyA
-         MaDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719508983; x=1720113783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MBy/I5g30Afg6Ip53Uvr05h0yboT8uG6AlPNhdgJavA=;
-        b=NHTuF+AP15fwB+7DcDdaUtX2v9ZSGUH6JZ2+zm59NlBf7vFrGxDng8GpuhnPX+eR3X
-         BogtCckEdUexOveE285HPyzF4Nf9WEKBykY1EL628rpjoaSedlls3JmJ09ryuqqrUyLB
-         2+H1WDvVnszTO9PuT8qWjs0LhSG33GyxQ6RWYzE1c4w46mHULxH2J75zvZOGzhKW3+wq
-         URoKAAZnTFrskmTHRa0BM+QnqiHMUgEGfw4/jBWSdZA1HiaUcKp3PqfZqu8ZYmQYDxwe
-         VBcC8FNyEUUQ2TJukH1KLDb43maOX0cVJ/H/zZTa/Cchixrur0Flvu1eG/qZ7MA6VHyn
-         Ko+w==
-X-Forwarded-Encrypted: i=1; AJvYcCU6o9EdIoOqR+orSqfDSOjHpe548T3KXazHgvUIt71+LXXYKcWeB0L0dwLChx2H6Mh7xFiPwTD1lLSvrsrDsWIg1cDNwJZXWLKG
-X-Gm-Message-State: AOJu0YwHCga3rFZMavbzmZ8V8VnYxBQPN4UrvaBh7/xa991HdKCtITkB
-	Zp3aJkd0+RAATmSd5RN+M6asNCFx5f2DbgVCMwInxcK6haqO/k5x8Fl1ddz/x6g=
-X-Google-Smtp-Source: AGHT+IHNzwD75G4DCcfJ5H0IAezjiX7N7H3o7hyu24co/DPv8hD7Ygm2LVOFxEE4oALKKKYJb0dY1A==
-X-Received: by 2002:a05:6a00:1d1d:b0:706:61cc:577f with SMTP id d2e1a72fcca58-70674548227mr16032428b3a.3.1719508982671;
-        Thu, 27 Jun 2024 10:23:02 -0700 (PDT)
-Received: from evan.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-706b4a58847sm1617843b3a.186.2024.06.27.10.23.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 10:23:02 -0700 (PDT)
-From: Evan Green <evan@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Yangyu Chen <cyy@cyyself.name>,
-	Evan Green <evan@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Erick Archer <erick.archer@gmx.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v3 2/2] RISC-V: hwprobe: Add SCALAR to misaligned perf defines
-Date: Thu, 27 Jun 2024 10:22:38 -0700
-Message-Id: <20240627172238.2460840-3-evan@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240627172238.2460840-1-evan@rivosinc.com>
-References: <20240627172238.2460840-1-evan@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tTiorXtG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F05BD45E04
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1719509603; bh=/F0zoivBxY/yAFf6EizQZgWTamhqaIwwJLXJPsffNqw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=tTiorXtGomA4x7G2OjLDGPpYeHkdD4jyTMsnz9pXdnT/u4wPtCLB/Lk828aZkEOVB
+	 wxSKf5UGbSovb/OXApOzV+a34NsDkKJZXnbaU3htbEz9/nYT2cnc3PdwdRqPvZLkJB
+	 T4b4W1ExvU/Q7/sg/yEpAYCTTRkaEa6oSH5Z9avN7kPynPPu7GJjte+MG9yCrlyqLt
+	 IoZHU4DxBTcUMvtsVCaQa8qXIL1IhZsNQ1snnRaH5OP+Z3NgZa2+mns7ApkD1aezg9
+	 z5GvpW+1bkVdemNuMqwzmK0DFHRJzlmCDxmMn7xUrzMiQDVUbzhPixcejXEaMXIv2X
+	 VgMmUhHa0LjYw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id F05BD45E04;
+	Thu, 27 Jun 2024 17:33:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Remove IA-64 from kernel-parameters
+In-Reply-To: <20240627162458.387700-1-thuth@redhat.com>
+References: <20240627162458.387700-1-thuth@redhat.com>
+Date: Thu, 27 Jun 2024 11:33:22 -0600
+Message-ID: <878qyqwasd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In preparation for misaligned vector performance hwprobe keys, rename
-the hwprobe key values associated with misaligned scalar accesses to
-include the term SCALAR. Leave the old defines in place to maintain
-source compatibility.
+Thomas Huth <thuth@redhat.com> writes:
 
-This change is intended to be a functional no-op.
+> IA-64 has been removed from the tree, so we should also remove
+> the corresponding kernel-parameters documentation now.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Note: Patch is based on linux-next branch (which already contains
+>        some other patches to kernel-parameters.txt)
 
-Signed-off-by: Evan Green <evan@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+That can make it hard for maintainers to apply; it's better to base
+patches on the tree you are targeting.
 
----
+>  .../admin-guide/kernel-parameters.rst         |  1 -
+>  .../admin-guide/kernel-parameters.txt         | 45 ++-----------------
+>  2 files changed, 3 insertions(+), 43 deletions(-)
 
-Changes in v3:
- - Leave the old defines in place (Conor, Palmer)
+Nonetheless it applied just fine to docs-next, so I have done so,
+thanks.
 
-Changes in v2:
- - Added patch to rename misaligned perf key values (Palmer)
-
- Documentation/arch/riscv/hwprobe.rst       | 14 +++++++-------
- arch/riscv/include/uapi/asm/hwprobe.h      |  5 +++++
- arch/riscv/kernel/sys_hwprobe.c            | 10 +++++-----
- arch/riscv/kernel/traps_misaligned.c       |  6 +++---
- arch/riscv/kernel/unaligned_access_speed.c | 12 ++++++------
- 5 files changed, 26 insertions(+), 21 deletions(-)
-
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 7121a00a8464..0d14e9d83a78 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -243,23 +243,23 @@ The following keys are defined:
-   the performance of misaligned scalar native word accesses on the selected set
-   of processors.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
--    accesses is unknown.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN`: The performance of
-+    misaligned accesses is unknown.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned accesses are
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED`: Misaligned accesses are
-     emulated via software, either in or below the kernel.  These accesses are
-     always extremely slow.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned native word
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW`: Misaligned native word
-     sized accesses are slower than the equivalent quantity of byte accesses.
-     Misaligned accesses may be supported directly in hardware, or trapped and
-     emulated by software.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned native word
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_FAST`: Misaligned native word
-     sized accesses are faster than the equivalent quantity of byte accesses.
- 
--  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned accesses are
--    not supported at all and will generate a misaligned address fault.
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED`: Misaligned accesses
-+    are not supported at all and will generate a misaligned address fault.
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 7ebb2f2cc4cf..bcb2d91241d5 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -80,6 +80,11 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
- #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
- #define RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF	7
-+#define		RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN		0
-+#define		RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED	1
-+#define		RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW		2
-+#define		RISCV_HWPROBE_MISALIGNED_SCALAR_FAST		3
-+#define		RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED	4
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index b18639020c61..d5541f6c843e 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -176,13 +176,13 @@ static u64 hwprobe_misaligned(const struct cpumask *cpus)
- 			perf = this_perf;
- 
- 		if (perf != this_perf) {
--			perf = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+			perf = RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
- 			break;
- 		}
- 	}
- 
- 	if (perf == -1ULL)
--		return RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+		return RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
- 
- 	return perf;
- }
-@@ -190,12 +190,12 @@ static u64 hwprobe_misaligned(const struct cpumask *cpus)
- static u64 hwprobe_misaligned(const struct cpumask *cpus)
- {
- 	if (IS_ENABLED(CONFIG_RISCV_EFFICIENT_UNALIGNED_ACCESS))
--		return RISCV_HWPROBE_MISALIGNED_FAST;
-+		return RISCV_HWPROBE_MISALIGNED_SCALAR_FAST;
- 
- 	if (IS_ENABLED(CONFIG_RISCV_EMULATED_UNALIGNED_ACCESS) && unaligned_ctl_available())
--		return RISCV_HWPROBE_MISALIGNED_EMULATED;
-+		return RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED;
- 
--	return RISCV_HWPROBE_MISALIGNED_SLOW;
-+	return RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW;
- }
- #endif
- 
-diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
-index b62d5a2f4541..192cd5603e95 100644
---- a/arch/riscv/kernel/traps_misaligned.c
-+++ b/arch/riscv/kernel/traps_misaligned.c
-@@ -338,7 +338,7 @@ int handle_misaligned_load(struct pt_regs *regs)
- 	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS, 1, regs, addr);
- 
- #ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
--	*this_cpu_ptr(&misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_EMULATED;
-+	*this_cpu_ptr(&misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED;
- #endif
- 
- 	if (!unaligned_enabled)
-@@ -532,13 +532,13 @@ static bool check_unaligned_access_emulated(int cpu)
- 	unsigned long tmp_var, tmp_val;
- 	bool misaligned_emu_detected;
- 
--	*mas_ptr = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-+	*mas_ptr = RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
- 
- 	__asm__ __volatile__ (
- 		"       "REG_L" %[tmp], 1(%[ptr])\n"
- 		: [tmp] "=r" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
- 
--	misaligned_emu_detected = (*mas_ptr == RISCV_HWPROBE_MISALIGNED_EMULATED);
-+	misaligned_emu_detected = (*mas_ptr == RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED);
- 	/*
- 	 * If unaligned_ctl is already set, this means that we detected that all
- 	 * CPUS uses emulated misaligned access at boot time. If that changed
-diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
-index a9a6bcb02acf..160628a2116d 100644
---- a/arch/riscv/kernel/unaligned_access_speed.c
-+++ b/arch/riscv/kernel/unaligned_access_speed.c
-@@ -34,9 +34,9 @@ static int check_unaligned_access(void *param)
- 	struct page *page = param;
- 	void *dst;
- 	void *src;
--	long speed = RISCV_HWPROBE_MISALIGNED_SLOW;
-+	long speed = RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW;
- 
--	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_UNKNOWN)
-+	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN)
- 		return 0;
- 
- 	/* Make an unaligned destination buffer. */
-@@ -95,14 +95,14 @@ static int check_unaligned_access(void *param)
- 	}
- 
- 	if (word_cycles < byte_cycles)
--		speed = RISCV_HWPROBE_MISALIGNED_FAST;
-+		speed = RISCV_HWPROBE_MISALIGNED_SCALAR_FAST;
- 
- 	ratio = div_u64((byte_cycles * 100), word_cycles);
- 	pr_info("cpu%d: Ratio of byte access time to unaligned word access is %d.%02d, unaligned accesses are %s\n",
- 		cpu,
- 		ratio / 100,
- 		ratio % 100,
--		(speed == RISCV_HWPROBE_MISALIGNED_FAST) ? "fast" : "slow");
-+		(speed == RISCV_HWPROBE_MISALIGNED_SCALAR_FAST) ? "fast" : "slow");
- 
- 	per_cpu(misaligned_access_speed, cpu) = speed;
- 
-@@ -110,7 +110,7 @@ static int check_unaligned_access(void *param)
- 	 * Set the value of fast_misaligned_access of a CPU. These operations
- 	 * are atomic to avoid race conditions.
- 	 */
--	if (speed == RISCV_HWPROBE_MISALIGNED_FAST)
-+	if (speed == RISCV_HWPROBE_MISALIGNED_SCALAR_FAST)
- 		cpumask_set_cpu(cpu, &fast_misaligned_access);
- 	else
- 		cpumask_clear_cpu(cpu, &fast_misaligned_access);
-@@ -188,7 +188,7 @@ static int riscv_online_cpu(unsigned int cpu)
- 	static struct page *buf;
- 
- 	/* We are already set since the last check */
--	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_UNKNOWN)
-+	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN)
- 		goto exit;
- 
- 	buf = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
--- 
-2.34.1
-
+jon
