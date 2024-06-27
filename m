@@ -1,166 +1,147 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD29B433B3;
-	Thu, 27 Jun 2024 17:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234992557A;
+	Thu, 27 Jun 2024 17:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719508115; cv=none; b=t9dH1t8YEY1/hjWwSeQ81pnb00J6c6QuEqYCiae0CVTLbj/oNzH3iiTpMinN31LmAqqhKQUWkIX8M+bWlrQps9WdyV7p1dEvMrWy2j9iCdKdosxlzr35+NWMmhQzVMDb9BxFJwbqpCiYTq9IXVMnXMbRX+YnPyjl6gwJNtaFWM8=
+	t=1719508571; cv=none; b=atzHD0B2hwXjlIQEHOwJu3VaqRds53J3HI03CWHuSk0DhouIfEuOunNXk5DIBnOMYB19vZ9Vw9aXGcKjhloDeHcN5p2EMkJabLaaesCp5OHDE/CPsisn1IJHZV22L53015xZ/AXHMsKKftXb+EnOrv1H22xgz70Wa66Pw1OXXYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719508115; c=relaxed/simple;
-	bh=njE5CtSj/rNk0kn/54bHXhFvciLXp+Rn2NIuSOZj/Zc=;
+	s=arc-20240116; t=1719508571; c=relaxed/simple;
+	bh=sSeDFPLANRtdCM3W5AaKh+hXR3lM6y6nXqJeEH89EL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tbQb6De6DU7k9LveW8I2DQ35taJJxVLiugVhhF9oVNkEml0UGxDL7max6UoUzcxkqZk+cwAmMPRPJBnjneXnbDyUMK2k/lnbMunDKZo1cC8dnsjMc+zAifcStSURKQjT1OmQYCHLSqYOgAZOi5Wy62+hMpvG326zvUlg3QleOE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BTKt+KpR; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMHqe6VYJeMu7pii5hSqzKOvlDuekqmNYjoRom+R//6LIDwiCtb2jiwnFH0L0KC1xXq8r4UfmL8mQ93EQpNcBn8Rf9xcTSWTnzPQ1Jb/dm8DuDrqayOYT6f4jvbsblibjirVRRj1LH0xIQb66v/ZadWAzXo9oghtgwJL5zpslS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdT2GY36; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BTKt+KpR"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7178727da84so4487621a12.0;
-        Thu, 27 Jun 2024 10:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719508113; x=1720112913; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/IpdaNLmIgjligGg+u33YkSiigwxfjiieqRMpTLJxTc=;
-        b=BTKt+KpRaPLzMChei3KoIi2hBBJkFQ33W2ZNQCKYaaCQbcF4/XNlIPDvxp7ZD1HcJU
-         qLPZfA+XG41oR+VyXLKrMBFzZqYYWvTLpJRJy+pxjFvQJWpCNf5xabcm4JKepXQ3PtQr
-         GAoW8/HIYtlguhO6BMsUFlnBeB6vDqu+jodS9rU/rg/QCxzBVZ7VeU0626YysALUyOxj
-         eYUvPJOhPogF3zlm0ZvnPrMnM2ZZc3J+HbMEQqpKkRCKcHJwo3Rx/cTAKrz8L0xOBUPp
-         OAQsec4rgeEb6v/bzFXSyyqtKQZEpGKYfR/C+S1q7dGJGtCUGZaxwSA0ozWjkJiV1OAB
-         Pc6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719508113; x=1720112913;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/IpdaNLmIgjligGg+u33YkSiigwxfjiieqRMpTLJxTc=;
-        b=eg04E5aKMWZ6ZSuObiHJG+RBhfc3QKS3fWso13R49v5DMO81MXvhynDaB+cxwMHRKC
-         LQ0l09/HZYJ1SscKDEp7YztOkIU3b2J7m2DWYuKDFPG+k621gP4m4L7kWbXc3qUdkxdq
-         dxtCGGDmCw8cKHinw6XvHlEIOl3as2NoZx45nf2nfbRE+h0PyVxmR7PYkRANXQw35B04
-         74EIyyeVb+9tW2iNx4rArtE8PIzRoqjsj7/Im8bHRrE4eQPRhW44ujFWEp2Z5Kez/Z3p
-         iNSlTtU1rcLZSE4c6UAcSLXvINTsmEoMlT1VbXON5rK6WjTZZrpUOOxSP0PuGTZVuQH4
-         R6GA==
-X-Forwarded-Encrypted: i=1; AJvYcCWz66THI3yy2BxPypQA8vz3Si2SjSan9RQO6kuml8VIBhxAX+0sKZ3qVp0USKaXAkGdmNCDSSFAp1bJfXDYd+5bl0PoGA1q/iUQ/l0ddx/jrHLO5+uEuAk7T7mWD3CQ2pQrmkcIWs8PU3VcTAYpXXk96uBqFWP2r8KE90irXy27Z0kLvtd3Q2ujFap2ie3bl7CEsBoz161OxRL+Wf9jQQeWoIPMxHF0htJO8RuACk444o1umPo/ARES3A==
-X-Gm-Message-State: AOJu0YzgV9mZBsms6aEjr57PppsRay6/dtnhmoFCykfW56bj72MkPS/B
-	osB+cf12RNI8iiQaUSHvINrNELAePsCHDV+ay/mIWV31n4LbrZ1C
-X-Google-Smtp-Source: AGHT+IHqvQQBxkARL9ViZknQisxeNyRfWIBLwm40l924BqQRCfbzfJ1gVbYaxrsEdKf9SpdvNc+ZCg==
-X-Received: by 2002:a05:6a20:728c:b0:1be:cdce:9fb7 with SMTP id adf61e73a8af0-1becdcea170mr3525520637.19.1719508112716;
-        Thu, 27 Jun 2024 10:08:32 -0700 (PDT)
-Received: from localhost ([2804:30c:96b:f700:cc1d:c0ae:96c9:c934])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-706b4a5bbf5sm1597190b3a.215.2024.06.27.10.08.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 10:08:31 -0700 (PDT)
-Date: Thu, 27 Jun 2024 14:09:59 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	corbet@lwn.net, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 6/7] iio: adc: Add support for AD4000
-Message-ID: <Zn2c531lfpBErYKb@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1719351923.git.marcelo.schmitt@analog.com>
- <eb5f7b73bdf3ac89117e28f26ee3f54ba849163e.1719351923.git.marcelo.schmitt@analog.com>
- <f6dc458f759c47154eee16354c807c020028512e.camel@gmail.com>
- <ZnwU3MovTWfrovrE@debian-BULLSEYE-live-builder-AMD64>
- <53ae33f72d2326a58db3bcf629fc522db3acf550.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdT2GY36"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CB2DC2BBFC;
+	Thu, 27 Jun 2024 17:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719508570;
+	bh=sSeDFPLANRtdCM3W5AaKh+hXR3lM6y6nXqJeEH89EL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jdT2GY3651qQ8ySaOjVCeu1i6mUXn4kbzneO/06+6TL90hewAkhxeRwFIfQY2C3+a
+	 hRPnYCpnbQrMjqi4GjpSn2CqyXE8MVqbgBRTwq9Mat2vjPspxeFhMi1oGL234JB+HW
+	 vIvEFfR49tfh7YBT6j6zBoVLacpuKruzBkVjDeVeUAci2DvClA1WRoL8SlP+mYLuZv
+	 vR16hFCG8zK5xThzW2Q3wvVlXPB3bdkcWVEir6e8V60E2gSXokjDUXPEEJKtn2+zQz
+	 SDzgGknxNP9tUsP9KQkpxeBtklw7JadnygMfF/VyG8pPRiOkVBEn6Y7zBAGXoTBdj3
+	 eFiEJ7l0D/L/g==
+Date: Thu, 27 Jun 2024 19:16:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4x267kq4clbw44gl"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <53ae33f72d2326a58db3bcf629fc522db3acf550.camel@gmail.com>
+In-Reply-To: <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
 
-On 06/26, Nuno Sá wrote:
-> On Wed, 2024-06-26 at 10:17 -0300, Marcelo Schmitt wrote:
-> > On 06/26, Nuno Sá wrote:
-> > > On Tue, 2024-06-25 at 18:55 -0300, Marcelo Schmitt wrote:
-> > > > Add support for AD4000 series of low noise, low power, high speed,
-> > > > successive approximation register (SAR) ADCs.
-> > > > 
-> > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > > > ---
-...
-> > > > +	ret = devm_regulator_get_enable(dev, "vdd");
-> > > > +	if (ret)
-> > > > +		return dev_err_probe(dev, ret, "Failed to enable VDD
-> > > > supply\n");
-> > > > +
-> > > > +	ret = devm_regulator_get_enable(dev, "vio");
-> > > > +	if (ret)
-> > > > +		return dev_err_probe(dev, ret, "Failed to enable VIO
-> > > > supply\n");
-> > > 
-> > > devm_regulator_bulk_get_enable()? Do we have any ordering constrains?
-> > 
-> > No ordering constraints, but vdd and vio are optional while ref is required
-> > and
-> > we need to get the voltage of ref.
-> > devm_regulator_bulk_get_enable_read_voltage()? and discard vdd and vio
-> > voltages?
-> 
-> Hmmm, vdd and vio do not look like optional to me :). Anyways I meant
-> devm_regulator_bulk_get_enable() only for vdd and vio and still treat ref
-> separately.
-> 
 
-I've mistaken these supplies with supplies for a different device.
-Yes, vdd and vio are required and devm_regulator_bulk_get_enable() is useful
-to init them.
+--4x267kq4clbw44gl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > 
-> > > 
-> > > > +
-...
-> > > > +		/*
-> > > > +		 * In "3-wire mode", the ADC SDI line must be kept high
-> > > > when
-> > > > +		 * data is not being clocked out of the controller.
-> > > > +		 * Request the SPI controller to make MOSI idle high.
-> > > > +		 */
-> > > > +		spi->mode |= SPI_MOSI_IDLE_HIGH;
-> > > > +		ret = spi_setup(spi);
-> > > > +		if (ret < 0)
-> > > > +			return ret;
-> > > > +
-> > > > +		ret = ad4000_prepare_3wire_mode_message(st, indio_dev-
-> > > > > channels);
-> > > > +		if (ret)
-> > > > +			return ret;
-> > > > +
-> > > > +		ret = ad4000_config(st);
-> > > > +		if (ret < 0)
-> > > > +			dev_warn(dev, "Failed to config device\n");
-> > > > +
-> > > 
-> > > Should this be a warning? Very suspicious :)
-> > 
-> > This devices have some many possible wiring configurations.
-> > I didn't want to fail just because reg access fail.
-> > Maybe ADC SDI was wired to VIO but dt don't have adi,sdi-pin = "high".
-> > Reg access will fail but sample read should work.
-> 
-> Well, to me that really is a configuration failure and we should treat it as
-> such. If we are in the so called "reg_access_info" which I read as "we can
-> access registers", failing to do so should be treated as an error. 
-> 
-> So, setting scale would also fail and we then have a broken interface :)
+Hi,
 
-Drat, that's right. 
-Okay, will make probe fail if config fails.
+Thanks for working on this!
 
-Thanks,
-Marcelo
+On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+> The initial version was based roughly on the rdma and misc cgroup
+> controllers, with a lot of the accounting code borrowed from rdma.
+>=20
+> The current version is a complete rewrite with page counter; it uses
+> the same min/low/max semantics as the memory cgroup as a result.
+>=20
+> There's a small mismatch as TTM uses u64, and page_counter long pages.
+> In practice it's not a problem. 32-bits systems don't really come with
+> >=3D4GB cards and as long as we're consistently wrong with units, it's
+> fine. The device page size may not be in the same units as kernel page
+> size, and each region might also have a different page size (VRAM vs GART
+> for example).
+>=20
+> The interface is simple:
+> - populate drmcgroup_device->regions[..] name and size for each active
+>   region, set num_regions accordingly.
+> - Call drm(m)cg_register_device()
+> - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+>   use drmcg_uncharge when freeing it. This may return an error code,
+>   or -EAGAIN when the cgroup limit is reached. In that case a reference
+>   to the limiting pool is returned.
+> - The limiting cs can be used as compare function for
+>   drmcs_evict_valuable.
+> - After having evicted enough, drop reference to limiting cs with
+>   drmcs_pool_put.
+>=20
+> This API allows you to limit device resources with cgroups.
+> You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> You need to echo +drm to cgroup.subtree_control, and then you can
+> partition memory.
+>=20
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Co-developed-by: Friedrich Vock <friedrich.vock@gmx.de>
 
-> 
-> - Nuno Sá
-> > 
+I'm sorry, I should have wrote minutes on the discussion we had with TJ
+and Tvrtko the other day.
+
+We're all very interested in making this happen, but doing a "DRM"
+cgroup doesn't look like the right path to us.
+
+Indeed, we have a significant number of drivers that won't have a
+dedicated memory but will depend on DMA allocations one way or the
+other, and those pools are shared between multiple frameworks (DRM,
+V4L2, DMA-Buf Heaps, at least).
+
+This was also pointed out by Sima some time ago here:
+https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+
+So we'll want that cgroup subsystem to be cross-framework. We settled on
+a "device" cgroup during the discussion, but I'm sure we'll have plenty
+of bikeshedding.
+
+The other thing we agreed on, based on the feedback TJ got on the last
+iterations of his series was to go for memcg for drivers not using DMA
+allocations.
+
+It's the part where I expect some discussion there too :)
+
+So we went back to a previous version of TJ's work, and I've started to
+work on:
+
+  - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
+    works on tidss right now)
+
+  - Integration of all heaps into that cgroup but the system one
+    (working on this at the moment)
+
+  - Integration into v4l2 (next on my list)
+
+Maxime
+
+--4x267kq4clbw44gl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn2eVwAKCRDj7w1vZxhR
+xReyAP4+9TGUgVyaERT/3Z2Q6QCqUYta9dlEvaZaPjxpE/PzCgD9GtTKU1rmEBJN
+XhhmHQ04LONiQxG4Qp4fDvfFOussXgY=
+=InwG
+-----END PGP SIGNATURE-----
+
+--4x267kq4clbw44gl--
