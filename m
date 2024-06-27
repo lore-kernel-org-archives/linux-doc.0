@@ -1,194 +1,117 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2C945BE6
-	for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 08:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392D44D8B1;
+	Thu, 27 Jun 2024 09:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719475919; cv=none; b=FlZScL8MfCgmaBLEAm8x9hrkO44eF6yDbsvasNaUx+R3uNeCQt4FaeuNiwyLlkGkgE4oXDuwfQxvMe35uwIcltVaPTdcTypg++Gp/98H1AYCZtpLXgfrluutZZFhKbbUM98FXcDD1TvWYOyccVYoyG7TSvLX3onPYueKmnycFzs=
+	t=1719478881; cv=none; b=nUldaBQxXMEwPagkvWRaCCvUIJZZ5bIncVPq7sHnbvGroT0jtRExQkMhNfXsZM2w7GI3KiSa803L058wzuo8vVIn/nU2oK2EEQSKDr0Ji+Y/lfOj6fFx8DiZwgMcFKYYCbgOvwOmMSYecsRApHM/WueQ5EpCd4tmk08sy7d58YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719475919; c=relaxed/simple;
-	bh=H4sf75wa+u9MafsJdYli4CEuqRcSVkKoC4HHQCaaP+Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=vBc4NZEuq80MNDZPLUpqaoHxAhcKlMe9cGrS3lzB9OyxdiLreQ3lfSgkqb1DV2AJEz8aCSiorPmEgTR6AbGZLdnm8cjkl6EpD5on/1gDQts4Vn17L+Ev//0CHGLM4J9o/x8WNjmVRpwVCwreUw6LXCy30Ss0fCxfuhi2FenYrqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=N0YArAc/; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1719478881; c=relaxed/simple;
+	bh=jo5kbagPfG5zRbGwbJWMSySw76EqebcWrQo4sAkttvQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BucY17hbgUJqovt2t7USHm3j38DMsO5r2t8/mkRRNbTbaxOSJYAEwIxrr/CdnmhpiWUT8qhahrCCoT1zgJZ5jJKaR3n6P6e3DoGbp7EkZj2GbYrIqwtnwW8K4Svd9DMwJ9m9EOf/jX9ITRTyGDxXu7lhWsFKeO1Bo04U2hDLcKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/FYRl4T; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="N0YArAc/"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52d259dbe3cso2476888e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 01:11:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/FYRl4T"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52caebc6137so7118755e87.0;
+        Thu, 27 Jun 2024 02:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1719475915; x=1720080715; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:user-agent:message-id:date
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=msK5wFfGDF/WutTur9LQCLii2ycv1OFon1M4QxMP/sI=;
-        b=N0YArAc/R5ECuFuXx25EGjh2KVi4gr72sb7GdaE1dIYLcBPJfj54fyH5oXL038M/4W
-         +GcIeniwNH7DJXEG0ihVWAkWXTdr4pqHsyxMv50TOW+N7/qqAAXyNt0zspE3/thkSt+n
-         79XyxRXuqJy6Pz4t/Lw2U6cMKj+A2+Lf+BMF7RpcbmEKi3gj28hcEBTI0uAWsl1RSXy2
-         Jw/hgiQS0FpL9e+553SUVEw9OrIk5DeL6XWr1EJRhCUYft0c7nT5dMXFLprfEhrTsRF4
-         LbE/9mxNYIUPmjlIn0qhXMp9EJiMyTjmsWpqnGbO70iQyPpaifSATRehskM4MpiOr8Ei
-         T8GQ==
+        d=gmail.com; s=20230601; t=1719478878; x=1720083678; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dd4PgV9kEHk407J57+4fyGHkc3MrwqgZyw5fYcht/HE=;
+        b=H/FYRl4Tuef6bJma1/Qxd4+GYvnp7AQIQc5t/hSEj3DEtq8Yq6WeuUA5g0hZ95DVkU
+         efibwYBkezLH7JidwduTBPOqO7EGcIAeRKG+iSnCtWYdmAiYDV7exHBdJcRNWmRddl5h
+         MAIhhrKAafInS06xEcnCnWynMMaegrw3HiYIlnwXWtLcpZyDvjojThs84ASPNRr6xbMY
+         5oGxzYbwIrcMnmZEZDT/EoGKwMh896fHOlRPcBh8i17Q+FgqeE8meku0Gb8dIqGl7t39
+         Wonol9XD4LrIuSHcty6M97dGpQH118Godj2HUkEKqUq0g0ARXyeRA80wzSFyNGcxvQQc
+         24KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719475915; x=1720080715;
-        h=content-transfer-encoding:mime-version:user-agent:message-id:date
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=msK5wFfGDF/WutTur9LQCLii2ycv1OFon1M4QxMP/sI=;
-        b=C9Av5bUCRDpZOeHylgLzJfo7Ed+CDZZoo/miePOVjOlP6H1min+5ObgdLJzLGH67LF
-         SvrJODSZcwblV+oAJxAv9JxD0ifAAOax9CMexxQb71HyfvLDQ8KdehlCdwqhCDWgxjsx
-         vva+iSpIss3jlNvUXEpeRWhIjXavz9DRP89J10QAMebfPYJjDRQr/0BNt7nFrSlo9G/c
-         IK/a7BH20BR5wBBx0akHDxrjjnfvNpbz0qaZRIOh+GAziO4VFUGGcb9AfSbFfywM9VM+
-         Rzxlhb0bB/Jx+pqBuLFaj/m1BI+gn99CAhJYyeEBXqrdlSC0OGDFVNXkOz1ynXp9ExV7
-         YdJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdlrJzkMbAufPWt2LrblX4EHc/85FggtbFrp4ZgYqlCaI+0HO8g8JP0dxJWWo9iUGtnifI/Eqx4vjUhCNx12J9LsTJZtrwM7Ff
-X-Gm-Message-State: AOJu0Yz1nfwPxKEM1OhraH5DUBvW5z5afIrYDRe6U5iQOpVCVyoqR5AC
-	OfmeenUHTKJLovIOgtJIG6ekfuIruxLQWbIwUYI9h1IfUpAXVrXN8nzqdaKveEU=
-X-Google-Smtp-Source: AGHT+IEDopEuSNAPoRqMq46CO/kVJCKi+X7E3kF8387qXA6YgPT43ltjyIFnDOjv4772zX4xLAWpIA==
-X-Received: by 2002:a05:6512:348c:b0:52c:86d7:fa62 with SMTP id 2adb3069b0e04-52ce061b1femr9639838e87.23.1719475914653;
-        Thu, 27 Jun 2024 01:11:54 -0700 (PDT)
-Received: from localhost ([149.71.16.99])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-425649d7055sm14715715e9.0.2024.06.27.01.11.54
+        d=1e100.net; s=20230601; t=1719478878; x=1720083678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dd4PgV9kEHk407J57+4fyGHkc3MrwqgZyw5fYcht/HE=;
+        b=VZ3WdhbUjb+nsTbfUKIjd5ENB4nyJ0cjK0KksAI5wk+FdtF7wl1p1mgY21OeRDTQfo
+         4Eigwq6ZwLK6pH/fF7UqqRz8kFTe3eBV1FFM6FKQFSviYDRmM0hMA2G41Xcdu4EFOT1r
+         QiywF56SrOeLV00U26emUC4Mzz43oTb2C5YudfhDhbcdFA4wh3dv1M3pMcOAbr7WtyKL
+         BwNg+KblmFac1F1hhA+NI5MKkafQ/gs/W0xTkTxDO0FOkcLZwqHDNL6fOJ4PgDyxPWHU
+         1Fhpnsc3mhtjgGU465iBSng8X2QhUgkelKb5GnpmwY4wZ3F9O0zs0mY4Cm4/j0ke85Af
+         QsPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjnDHLG/3/+4o5R3hJ40+0Jem2eVuvuhO6Nhfa0ZsIoE+MjoZdGaMk62UUcdS2CZGffM5T21Yu7vp2wPZfGBG5HBPKCJn6AJQIJEh95ZgYE18UzqbzGhmgCYLutuQ8aKsEjTlYB2zyfsRckfL9Ed9g9e6FxC0gpl9kLepGIcNZcTuAb+M2nVmdHJIntmncTorSJdY5SKoPU6hf9ia6Ui4=
+X-Gm-Message-State: AOJu0Ywcpi62DFl4U3CuYghW4fg6Iw5WtsiyEAXToAt2buiyEmZCCDAa
+	/n4Kx0ETK7o1qNcwE5X2lzsPEUB2/FBLwSmiNVsMlbFGze/UzkiA
+X-Google-Smtp-Source: AGHT+IEZttafwpgGmpOq3tc3FXPGW6BezfbQ62nm9ZDNg7kVPe1BZ3lV4obZfHal0dE0mQVZSumCwg==
+X-Received: by 2002:ac2:5639:0:b0:52c:deb3:e3cf with SMTP id 2adb3069b0e04-52ce183504bmr7348270e87.24.1719478877944;
+        Thu, 27 Jun 2024 02:01:17 -0700 (PDT)
+Received: from localhost.localdomain ([195.239.203.83])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e712a75cbsm128557e87.38.2024.06.27.02.01.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 01:11:54 -0700 (PDT)
-From: Punit Agrawal <punit.agrawal@bytedance.com>
-To: yunhui cui <cuiyunhui@bytedance.com>
-Cc: jesse@rivosinc.com,  jrtc27@jrtc27.com,  corbet@lwn.net,
-  paul.walmsley@sifive.com,  palmer@dabbelt.com,  aou@eecs.berkeley.edu,
-  cleger@rivosinc.com,  evan@rivosinc.com,  conor.dooley@microchip.com,
-  costa.shul@redhat.com,  andy.chiu@sifive.com,  samitolvanen@google.com,
-  linux-doc@vger.kernel.org,  linux-riscv@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  punit.agrawal@bytedance.com,  Sunil V L
- <sunilvl@ventanamicro.com>,  Palmer Dabbelt <palmer@rivosinc.com>,  Anup
- Patel <anup@brainfault.org>
-Subject: Re: [PATCH v3] RISC-V: Provide the frequency of time CSR via hwprobe
-In-Reply-To: <CAEEQ3wmV56GUNmOMV3ydkKjRu3Jt4Vw9Nb5r-0KYiF9d5tF6fw@mail.gmail.com>
-	(yunhui cui's message of "Tue, 25 Jun 2024 10:08:59 +0800")
-References: <20240622025514.66537-1-cuiyunhui@bytedance.com>
-	<CAEEQ3wmV56GUNmOMV3ydkKjRu3Jt4Vw9Nb5r-0KYiF9d5tF6fw@mail.gmail.com>
-Date: Thu, 27 Jun 2024 09:11:53 +0100
-Message-ID: <8734oyoldi.fsf@bytedance.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Thu, 27 Jun 2024 02:01:17 -0700 (PDT)
+From: Alex Vdovydchenko <keromvp@gmail.com>
+X-Google-Original-From: Alex Vdovydchenko <xzeol@yahoo.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Alex Vdovydchenko <xzeol@yahoo.com>
+Subject: [PATCH v2 0/2] Add MPS MP5920 Host-Swap controller
+Date: Thu, 27 Jun 2024 12:01:06 +0300
+Message-ID: <20240627090113.391730-1-xzeol@yahoo.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-yunhui cui <cuiyunhui@bytedance.com> writes:
+This series of patches adds the MP5920 Host-swap controller, which is used
+as a protection and control IC for devices that are being inserted into a live
+backplane. MP5920 acts as a voltage regulator (MP5911 etc) supervisor. IC
+utilizes pmbus and provides monitoring, statistics and limits to electrical and
+thermal characteristics such as:
+- input and output voltage
+- output current
+- output power
+- IC temperature
 
-> Add punit and sunil in the loop.
+One must take into account the nonlinear character of readings, so there will be
+a statistical error in the range 5–10 percents, depending on current passing
+through. In order to use the IC, make sure to specify a valid I2C address
+(consult to datasheet and dts-bindings)
+MP5920 datasheet: https://www.monolithicpower.com/en/mp5920.html
 
-Thanks for looping us in.
+Changes in v2:
+  -  fixed typos
 
-> On Sat, Jun 22, 2024 at 10:55=E2=80=AFAM Yunhui Cui <cuiyunhui@bytedance.=
-com> wrote:
->>
->> From: Palmer Dabbelt <palmer@rivosinc.com>
->>
->> A handful of user-visible behavior is based on the frequency of the
->> time CSR.
+Alex Vdovydchenko (2):
+  dt-bindings: hwmon: Add MPS mp5920
+  hwmon: add MP5920 driver
 
-It will be helpful to add more context to the commit log - especially
-for something that is being exposed in a user visible
-interface. Something like below -
+ .../devicetree/bindings/trivial-devices.yaml  |  2 +
+ Documentation/hwmon/index.rst                 |  1 +
+ Documentation/hwmon/mp5920.rst                | 91 ++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig                   |  9 ++
+ drivers/hwmon/pmbus/Makefile                  |  1 +
+ drivers/hwmon/pmbus/mp5920.c                  | 93 +++++++++++++++++++
+ 6 files changed, 197 insertions(+)
+ create mode 100644 Documentation/hwmon/mp5920.rst
+ create mode 100644 drivers/hwmon/pmbus/mp5920.c
 
-    The RISC-V architecture makes a real time counter CSR (via RDTIME
-    instruction) available for applications in U-mode but there is no
-    architected mechanism for an application to discover the frequency
-    the counter is running at. Some applications (e.g., DPDK) use the
-    time counter for basic performance analysis as well as fine grained
-    time-keeping.
+-- 
+2.43.0
 
-    Add support to the hwprobe system call to export the timer counter
-    frequency to code running in U-mode.
-
-With the commit log updated,
-
-Acked-by: Punit Agrawal <punit.agrawal@bytedance.com>
-
-Thanks
-
->>
->> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
->> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
->> Reviewed-by: Evan Green <evan@rivosinc.com>
->> Reviewed-by: Anup Patel <anup@brainfault.org>
->> ---
->>  Documentation/arch/riscv/hwprobe.rst  | 2 ++
->>  arch/riscv/include/asm/hwprobe.h      | 2 +-
->>  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->>  arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
->>  4 files changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/r=
-iscv/hwprobe.rst
->> index df5045103e73..ec3c99474ed7 100644
->> --- a/Documentation/arch/riscv/hwprobe.rst
->> +++ b/Documentation/arch/riscv/hwprobe.rst
->> @@ -233,3 +233,5 @@ The following keys are defined:
->>
->>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
->>    represents the size of the Zicboz block in bytes.
->> +
->> +* :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `tim=
-e CSR`.
->> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/h=
-wprobe.h
->> index 150a9877b0af..ef01c182af2b 100644
->> --- a/arch/riscv/include/asm/hwprobe.h
->> +++ b/arch/riscv/include/asm/hwprobe.h
->> @@ -8,7 +8,7 @@
->>
->>  #include <uapi/asm/hwprobe.h>
->>
->> -#define RISCV_HWPROBE_MAX_KEY 7
->> +#define RISCV_HWPROBE_MAX_KEY 8
->>
->>  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->>  {
->> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/=
-uapi/asm/hwprobe.h
->> index 2fb8a8185e7a..5053a9b18710 100644
->> --- a/arch/riscv/include/uapi/asm/hwprobe.h
->> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
->> @@ -74,6 +74,7 @@ struct riscv_hwprobe {
->>  #define                RISCV_HWPROBE_MISALIGNED_MASK           (7 << 0)
->>  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE    6
->>  #define RISCV_HWPROBE_KEY_MISALIGNED_PERF      7
->> +#define RISCV_HWPROBE_KEY_TIME_CSR_FREQ        8
->>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->>
->>  /* Flags */
->> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwp=
-robe.c
->> index e4ec9166339f..3d47edc04a3f 100644
->> --- a/arch/riscv/kernel/sys_hwprobe.c
->> +++ b/arch/riscv/kernel/sys_hwprobe.c
->> @@ -8,6 +8,7 @@
->>  #include <asm/cacheflush.h>
->>  #include <asm/cpufeature.h>
->>  #include <asm/hwprobe.h>
->> +#include <asm/delay.h>
->>  #include <asm/sbi.h>
->>  #include <asm/switch_to.h>
->>  #include <asm/uaccess.h>
->> @@ -227,6 +228,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *=
-pair,
->>                         pair->value =3D riscv_cboz_block_size;
->>                 break;
->>
->> +       case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
->> +               pair->value =3D riscv_timebase;
->> +               break;
->> +
->>         /*
->>          * For forward compatibility, unknown keys don't fail the whole
->>          * call, but get their element key set to -1 and value set to 0
->> --
->> 2.20.1
->>
