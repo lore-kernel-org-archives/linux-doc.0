@@ -1,145 +1,125 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout3-smtp.messagingengine.com (wfout3-smtp.messagingengine.com [64.147.123.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB4713E40C;
-	Thu, 27 Jun 2024 11:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8593149C4A;
+	Thu, 27 Jun 2024 11:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719486413; cv=none; b=ujnUrln77HDlgkO+kByXBlD89P/zR6NKVB+Mzh1YoHKSD5QNXiquUJacwGsKUGEaGqApiRxWVbd+YHhtYy4FiibZsxNRUUWJXhHVIbCkbvg6qpUkt5R6F+qXBBZQ9hWRb0ERz1NWl2DqukfHme1oxvKK+DwvW1V2ROZ+rJNTDIg=
+	t=1719487324; cv=none; b=GXNjlJ/1/6BcH35HWq8L2TAnpooaE9B6fnMnq4Z5xZfy+NTswNgNlq6VFRx7nc2etbw5Ch7eWGyl89YGo2MHV5q4msZDCua9fcSlvfgRUH17jE/IUW0Ya7EDcC+WRervj/xPrsv/eaNcQVXK6s0FvUvY19POgB7pmz8AliP8ydM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719486413; c=relaxed/simple;
-	bh=tZakNtC4I+vYJWJ6QdGkWTcq89B73krB//aJoneJSBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oi7ElwHBool1ycOu81lNxXf+7a5E9XOTKu+0rP5hOAJbcidRiF1FemqA+g2fbijYGW2MyMSarhw8OvRPFFVyCkoydisDsG7BsIeBEGDV6w0p8bR/u/RIRP27Etj+4Kg5Fw6Y5vV82EesYLnmLqpga53ndXkjpXiQ00pPJm0vHVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/EofhX+; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719487324; c=relaxed/simple;
+	bh=J0KQRojqvT+N2S6fp9y5e6jTw4zWaS7XV8xLBCBtCpk=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=iVnQKpzuzXOcjkHo+icKZesRKx/4Qj536RpeJeWFCDOnz2XkHIWULofpHdzsQpeTPuT0feLtzIBtr1T93eYTaRmeV65TfREz3uRyaANr6pRY1vvtQFThruVjjSrF7exmPv+TBq/kE53cFoR78q/iZD7RVv+K6zG2lTP1RsN36bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=n2w9j2d/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FUXtpSh2; arc=none smtp.client-ip=64.147.123.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/EofhX+"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57d0eca877cso1700162a12.2;
-        Thu, 27 Jun 2024 04:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719486410; x=1720091210; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZobcV7LUgT3AtmVz+YLZMFY8b9IQxrzUyiNj5oBAUM=;
-        b=j/EofhX+dIzjeLqLDeOKDApspC/JC5+3pVcv4gu/WPdlE3wJJTtKcl8DG8qSCZCWcf
-         v5uWiJ4MQ3ADWip6Cx8bIXWbULQdVnwUMcJtz5+p3ZodMHTkOwERfnQHBvjwmSW8Zb2v
-         Z7pue3UrnF4lJHJ0C78aPlfvxPKHia/eXd6vB8XKHaZwDL2l8+sGhB/Yj7c4YFozZkMx
-         KDGhNbNzVKoq9QJxahwzKcbbAp+pd93Nm8cYeykno2hvsFBUBuqjfaYZd9B8nFOKhKk6
-         o2r7biBEU8m3tGnWhzb72MBFoPVNyu7geNihsf2Ul9eN/sz7jHd2jkJMJGt+9GUUq+LE
-         vDng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719486410; x=1720091210;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uZobcV7LUgT3AtmVz+YLZMFY8b9IQxrzUyiNj5oBAUM=;
-        b=rYOUo/aOjudmHmtQxScE7xqigCDStp8be0uCHW8+nuYS28gboe8DM1f/37iDzIKryU
-         qPKqgftnBtpQI7rg+O8RI02ibYs2i0R7O2VaQROKJ+OJXJXRFhWaxSUJ/KeIE5Hv7ApZ
-         PeCZd9BM2qOxUZ4b7PvfPIZjHLl0P14TnwGEhHoSOZL7ncYbkJ/VsAGt793JMUH7cECz
-         xoPMEm6VnxpgYQwOXn/U2THJ6avr3zcrYtuIviDLOM1RSq0EXxvuyUX3li2QsWVfMvCy
-         f6jgp28kJKazgzmJPGyXNqhV6ehTq9w8O5rhqf76LU4YDEYqRkd6kqptP6ucQ8C58nLj
-         562w==
-X-Forwarded-Encrypted: i=1; AJvYcCV/fuXcbgP7VsZHM7YLPjRUhNDcuz3DApVUBqn3RM4Zms4cSC2xDsvWBY6knX2+4H8QNYLSTKC+s3ju7te7P4qjac5h88v1sx9YvRDwgGtTZcOBdADSkoHy0D7jsu6lYlTISIvA96v7wV5pLBqbUZ2nvlbsl8vqYfaDR8A0WVNxgmfcdg==
-X-Gm-Message-State: AOJu0YwJq+v2e1iYk7jJ29tX3uljlsJ2TJpgbDgcVWcumuUfBnO0AlJz
-	/t1TRoxvHaHs5F4Ij3qcTrm+Evp7jXCfI0xTL/JKMJaXXkVjOQbk
-X-Google-Smtp-Source: AGHT+IF9IGb+EAqcYH0xHZ8HF47kVV4+X97fRL+JfZxNkC2UpJv60e/BcSk/SP3WOORT9Eilh3uoUQ==
-X-Received: by 2002:a50:c081:0:b0:57d:519:ba3c with SMTP id 4fb4d7f45d1cf-57d7004c60emr7710603a12.24.1719486409637;
-        Thu, 27 Jun 2024 04:06:49 -0700 (PDT)
-Received: from andrea ([217.201.220.159])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-584d1280e71sm718305a12.37.2024.06.27.04.06.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 04:06:49 -0700 (PDT)
-Date: Thu, 27 Jun 2024 13:06:42 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Message-ID: <Zn1Hwpcamaz1YaEM@andrea>
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-2-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="n2w9j2d/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FUXtpSh2"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfout.west.internal (Postfix) with ESMTP id 96A091C0008D;
+	Thu, 27 Jun 2024 07:22:01 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+  by compute3.internal (MEProxy); Thu, 27 Jun 2024 07:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1719487321;
+	 x=1719573721; bh=dSWFI8rFdck/533DRW6R5iXonIhgXkC3vJ+as0OL0Vs=; b=
+	n2w9j2d/kVdoGiaByR6pupk9shhh+D80Kw+v1D/KKQQULqbyg8ZMz3MOtoGXlhYY
+	FFmGFY40rjdqggcwF4oT00v1dZlj7CjyQr4Yj21jKnF3/vl4z7s2fnYJT17BzeLO
+	d2lpDn0m0hFkwD2jC7DmSSQOurc2vpOpIzgSYRw0eAK3/x5l/rAwT4ZInt14IvBG
+	7UuLjFTEASRTWbExoM2kZNCr6gY/n+gy1ifs7DxM7ughnzr7hX9tXJfx7Dq5JT6S
+	G43bZ48eSdR1+yiqp+kNLt8oKsLMu0yHi9Gagc2TLipmsyjaEz26a01+NOq/RbbF
+	qrxc+h1T3+DoZ6W4dubOmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719487321; x=
+	1719573721; bh=dSWFI8rFdck/533DRW6R5iXonIhgXkC3vJ+as0OL0Vs=; b=F
+	UXtpSh2orV2o/v8Slj6KYXYbU9bPW99oBq9SJYep/aIrzxk9XTsm9zoCdJ62CAVW
+	5qt9RDkxVqwUsaHly+PXg314D9eNLMwPpoCLmgvN1NmuvQ/xhCGWbF4MK1qfcPT+
+	7b5fDyhFD1YQ0t0ds6eIalP2Bx7xEGXGKJYQWZIBHvQzkbQM+gUnIX7BNw+VdLyZ
+	Y+xEgxTUCLb5VMe8QQAnH+7SiY9GcME3mVIf0VcTdMyxoaLijnju+TyMddYsPawV
+	2F942v8B7H+FcfTTJn50xzfB73b1pMpB2xLLqfqH/opz4vQqBcxOCUbhrEpntgne
+	XNnjwr8EemOacywNTobrw==
+X-ME-Sender: <xms:WUt9ZnvHmKZqhZQuL5_N2OKrkcZjCSRvKuW6LZo4kYfHkj8ekTb0jg>
+    <xme:WUt9ZoeNnwkDefZ_goqHzRSVr7NKYmmdl7z3sB10GZvCcklWKOcvLNJr_n8lhdl9c
+    _ePbuFvve6P_MiVd8Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrtdeggdeflecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
+    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
+    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:WUt9Zqzk6vP3jB6MWGqeMNBrFzQVtKDEgdGq02hJY9h2b9FH29RQmQ>
+    <xmx:WUt9ZmNR6R_UtFIekFzwQsT-LBJTRjbR5l4Mf21Yv39C6kkEHZndqw>
+    <xmx:WUt9Zn9d_lLuM-yr5mUvCfiVvPpM5QM0tIY0l7-i7Lhar2JneAtATQ>
+    <xmx:WUt9ZmWFSLLulyVBh_Rxlmpwk09zxstUDbHwuwdtu5Nr_kMJrLIweg>
+    <xmx:WUt9Zil1CB0WXFOBqMdGpIkUYJvGK61uRgiz37auleiSdd0bWSUw1Rdo>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id F04FF36A0074; Thu, 27 Jun 2024 07:22:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-538-g1508afaa2-fm-20240616.001-g1508afaa
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240626130347.520750-2-alexghiti@rivosinc.com>
-
-> -#define __arch_cmpxchg(lr_sfx, sc_sfx, prepend, append, r, p, co, o, n)	\
-> +#define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
->  ({									\
-> +	__label__ zacas, end;						\
->  	register unsigned int __rc;					\
->  									\
-> +	if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {			\
-> +		asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,		\
-> +				     RISCV_ISA_EXT_ZACAS, 1)		\
-> +			 : : : : zacas);				\
-> +	}								\
-> +									\
->  	__asm__ __volatile__ (						\
->  		prepend							\
->  		"0:	lr" lr_sfx " %0, %2\n"				\
->  		"	bne  %0, %z3, 1f\n"				\
-> -		"	sc" sc_sfx " %1, %z4, %2\n"			\
-> +		"	sc" sc_cas_sfx " %1, %z4, %2\n"			\
->  		"	bnez %1, 0b\n"					\
->  		append							\
->  		"1:\n"							\
->  		: "=&r" (r), "=&r" (__rc), "+A" (*(p))			\
->  		: "rJ" (co o), "rJ" (n)					\
->  		: "memory");						\
-> +	goto end;							\
-> +									\
-> +zacas:									\
-> +	if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {			\
-> +		__asm__ __volatile__ (					\
-> +			prepend						\
-> +			"	amocas" sc_cas_sfx " %0, %z2, %1\n"	\
-> +			append						\
-> +			: "+&r" (r), "+A" (*(p))			\
-> +			: "rJ" (n)					\
-> +			: "memory");					\
-> +	}								\
-
-Is this second IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) check actually needed?
-(just wondering - no real objection)
+Message-Id: <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
+In-Reply-To: <Zn1FuxNw2CUttzdg@alpha.franken.de>
+References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
+ <Zn1FuxNw2CUttzdg@alpha.franken.de>
+Date: Thu, 27 Jun 2024 12:21:40 +0100
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-> +end:;									\
 
-Why the semicolon?
+=E5=9C=A82024=E5=B9=B46=E6=9C=8827=E6=97=A5=E5=85=AD=E6=9C=88 =E4=B8=8A=E5=
+=8D=8811:58=EF=BC=8CThomas Bogendoerfer=E5=86=99=E9=81=93=EF=BC=9A
+> On Wed, Jun 12, 2024 at 09:38:19AM +0100, Jiaxun Yang wrote:
+>> +++ b/arch/mips/kernel/elf.c
+>> @@ -318,6 +318,10 @@ void mips_set_personality_nan(struct arch_elf_st=
+ate *state)
+>>  	t->thread.fpu.fcr31 =3D c->fpu_csr31;
+>>  	switch (state->nan_2008) {
+>>  	case 0:
+>> +		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
+>> +			t->thread.fpu.fcr31 &=3D ~FPU_CSR_NAN2008;
+>> +		if (!(c->fpu_msk31 & FPU_CSR_ABS2008))
+>> +			t->thread.fpu.fcr31 &=3D ~FPU_CSR_ABS2008;
+>
+> why is this needed?
 
+Because t->thread.fpu.fcr31 comes from c->fpu_csr31, in this case we the=
+ default
+value of c->fpu_csr31 is read from hardware and we don't know what would=
+ that be.
 
->  })
->  
->  #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)		\
-> @@ -156,7 +177,7 @@
->  	__typeof__(ptr) __ptr = (ptr);					\
->  	__typeof__(*(__ptr)) __old = (old);				\
->  	__typeof__(*(__ptr)) __new = (new);				\
-> -	__typeof__(*(__ptr)) __ret;					\
-> +	__typeof__(*(__ptr)) __ret = (old);				\
+Thanks
+>
+> Thomas.
+>
+> --=20
+> Crap can work. Given enough thrust pigs will fly, but it's not necessa=
+rily a
+> good idea.                                                [ RFC1925, 2=
+.3 ]
 
-This is because the compiler doesn't realize __ret is actually
-initialized, right?  IAC, seems a bit unexpected to initialize
-with (old) (which indicates SUCCESS of the CMPXCHG operation);
-how about using (new) for the initialization of __ret instead?
-would (new) still work for you?
-
-  Andrea
+--=20
+- Jiaxun
