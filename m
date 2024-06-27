@@ -1,220 +1,261 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FCB19B3D8
-	for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 19:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719518157; cv=none; b=FUNtOtjNfhRxQr1gp2/6pQCVyYzayNklV+fcU7d+GirUrBzK3WcosO1zkky3QgsJr+AVMXTMcK2dxz699KFwPF3u1kiONUqhX+I1DFfONbQoEdYObwMz8iE6z3TeeGimUDRNaCltzdPvLZjfDHfqMfiBE+XpSD9vn+t/Y6D5S9w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719518157; c=relaxed/simple;
-	bh=36GxoZjliAZT52Uum3hkhku+z1zWUxDL4YWuJDbCmCU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=frmxoPgqSpT1Gom7G7XgSvz58EtmtVRykEZbh0w0ndsW64aYut+8BKeVZznRKz1v5ygummsfeOvsHeKpmwr8J3kCoQg/UpYPy69vqYnXkja0Po2P7BPqYdnc3rc31YSN66JGZK+rVdBS3PS6Je8F8jCTZEB/NDP2j3FgjUUvJAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pKZGc8sT; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDBD19B5BB;
+	Thu, 27 Jun 2024 20:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719519853; cv=fail; b=uPPvuCU5l2fCEYrmXCnRDmUDRCicvyn0dikh4x6ol4eoiZxdT6HaNVzFJL9j31fTMzrY3WIck6FXby5UFXLVpVc2G1z9ZZ6rlRXLazKEh0yewteJ0C/oz74RDPAK8nJUWcXjR6Z5wftJhFjRrROzZUm2CFBG4NVkMflaHVXsx6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719519853; c=relaxed/simple;
+	bh=ujPBEfxzAdLtCL5AEYUnQkt1XfMgJQK8RMByLLYBPFc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PguPkGkGcJe0M7LWLglD4abImL2HVihDMMmmuqSbuMYPXh4CURnQoaGemZLrxvoJPf0cZTAcHdl+aA/+jYL2CdFNVrWVP74TkjXbmOR8XclsbSQytCJCRTlZ+19SPqZlJLllMxiL3Wz3iUbCmvgjk6Iu6gj+bXVumQ0vaJufa7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGZerlIA; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pKZGc8sT"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so99698171fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 12:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719518153; x=1720122953; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HwbPl7/RVFpU7jHcXTQEjahrmwW8PQdQrA+IV3FhN4w=;
-        b=pKZGc8sTJiPK8evW+kyTJom27vWLLcaatgTP+pqNNLik3mw1pmxqfY8BC6C2Oa9+oI
-         o0sCCeMv+WZal6hDaWgzmHoncPuHmkHoAWo/Ck/6FuDrAQdLlfhkR9KmZsxGc443vkjr
-         5ujWzSTQNw9wjOOwbnW3XPU61Dca2ugh48ywLYRU+VcRpd7i3tp/cfEjewfSyXRILNvv
-         sJgKRnx3yzI5aWIHj3tc6qE6MNwWNocuDjwigxiw7d7HiOc30Xdd29sJqDUtaTNLWPyr
-         RN1F5aOe5ICn2RmnfOTaJ1d72Wl+yAJWGgOJhh7wOYjxwW+dPqi2218Mw9ed924jYzNQ
-         0M7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719518153; x=1720122953;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HwbPl7/RVFpU7jHcXTQEjahrmwW8PQdQrA+IV3FhN4w=;
-        b=g81uP3hxX/0y608HNOBOmGsVrxYKG9JF11sAbK3U0wg6ZEMBgBSl6jrcdQLHECOeg7
-         oJjBdttWng2IC6vxrEIV2iDoKeuAUNocfWkV4ZJzrHvW7LtJe98qeDWbUgBYShM1nd4N
-         lL22K7dkR8an1wBUUGoJr/yWTR1B8Os/p+yTfGhXAlMdcEVsp7HZtIn8hHSdrrwZtbsm
-         1cVLaDZ4BI9dAoT9NwJjFo04bBMlXPbJ6C+TWP3Hunq8upCaCe4FzsFInwBN2A5QyIPB
-         RRHJGomBaAJP7J6Larw/oZ7pP307s++70vSoN+Pw9+QAwnG14D/whWivd77+HPxsocYs
-         42Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRDLpnaoHk2SVE4r58Ak3NQH+2jDf133bQ297Hj2xH1poTclm9NZgo4hjfITbl6vKtVdMbYRwxTVML+eyR8s2Ef/gmbgFLT4+h
-X-Gm-Message-State: AOJu0YwiNS8iu/smwPfYhllFkhKhlt92dDYa7qmcb5vrPCSuHrNSS7qB
-	EKnK+tbjrpXsRbT6OXavEjEZt3TkdLMVuDVglXYLmcLsnqzzaVHV+OCgW7y9ornAn/Etr0ywqLQ
-	S2ad7gFSD0aHHHZ+gxDCTqdAaebXqCbm4d885
-X-Google-Smtp-Source: AGHT+IHrIkqcjhj0KSGiy7gblVxOce/ysoGeptTitOpdzuEly5ueVJ0/ZUmc2dX4a/lyh+Q8t0Uj2uTJuS+Tj9wzWDM=
-X-Received: by 2002:a05:6512:2004:b0:516:d692:5e0b with SMTP id
- 2adb3069b0e04-52ce185f9d6mr8027892e87.54.1719518152535; Thu, 27 Jun 2024
- 12:55:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGZerlIA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719519851; x=1751055851;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ujPBEfxzAdLtCL5AEYUnQkt1XfMgJQK8RMByLLYBPFc=;
+  b=AGZerlIA0AGItbeLMnoc4eiVJZmC/TvzdHHRWfTNizR87hynEYYxcPmo
+   /Fb3WQRKP9a+/hgRt/0iohVj6hZmZuYquU50dNfsTAu2yIHPKOATk1QTo
+   EcOu6gKAGQ4sGzzOMcrjooCKL7pE5+nMgTlZSj8Ohby+tMaQSkQXjbQtv
+   HdRYZTagPAjIMZ02V3JnBkV3PiDpghF0eZELGv0Y+nAFRfaPbRaSfRvAU
+   2OHUuCQE04h4G8DzzUG3LtWYAjVW2PYfxU3cQ2vv8YlgtsDGNGEj9KbZ2
+   oYpbfc9s8VpOUW2rVwt8tZJ2ZWnZRnPOLKilpDGQb6IgQWZFEY0mxH/bV
+   w==;
+X-CSE-ConnectionGUID: pG+yUK1fTFuDADdct0PBug==
+X-CSE-MsgGUID: r6ShbAvaQxKtT9+qMeRpfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="12288469"
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
+   d="scan'208";a="12288469"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 13:24:10 -0700
+X-CSE-ConnectionGUID: T7WWb5LwRYaROFdY5wTSnQ==
+X-CSE-MsgGUID: 9zQcIHh+RTiDkyKHMPsUrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
+   d="scan'208";a="44570892"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 27 Jun 2024 13:24:10 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 27 Jun 2024 13:24:10 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 27 Jun 2024 13:24:10 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 27 Jun 2024 13:24:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xe6VI6yQi/se06pujXXFoVoiSdcFhMb3PVjbmDeIqpQ/MxG43gULKIvHyNR993k3w0gPZ/yDXRdpzXuywnR+9QsM2vgfJB0m5xqDpRbkX+4VBWKFVRItJwW1MVnWsEblgOWNj+v/gjG2Hvnh9V5IjfaU20NycSTLRRYvMY+eMRz4BMdAsSHxPuCOeNrGEE7ub3gl1KS/LFa+4PtO9nR+WqQQEDtd2yRqbE6dRRacKU16En8eecTipBPURFTq57sY1esEov1B0q1bDsHQxuLe7dPe7VH3HQWW7nnMnZHhgZMj4SbIg1WSHWUqSNhnf+DuOOQvHoFOylkZOUF96kR8yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wD7/ZeYBRDgY8CYXPE2jgQjbDufqOwpetlCBLRRL9yE=;
+ b=IDiToqaWyrODDHGEIOgIh6rP9PIRYup05E3qbAnBQRjJjO62kKWZOrYiFzcZ8rQQRn2PWJq1fqtOw3h4pbPKUQ9gjvLc4fAE8lj2o6l7RVkC1T0p5neTSQplqfAnq54rJ1zO4CACxO1to2eljF74qO54eMqGQk+P6SCkFmjaDzA9jYMClurYZx4XKxDkMdof5hnAHbcEKbDFDSM+O28ECiPVKBQeIVX5t6O8eo2/ATh44iG12N5WluVtILFvmlznrJ1meVYRYO4MNHYVnPxQzmtNyY8lK2xuhJIV+1VW4gAkAaO6jViab1pYe8Ya9qpU7IDxWJjAOW6uOxM9khIg/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by PH0PR11MB5127.namprd11.prod.outlook.com (2603:10b6:510:3c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.26; Thu, 27 Jun
+ 2024 20:24:06 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%4]) with mapi id 15.20.7719.022; Thu, 27 Jun 2024
+ 20:24:06 +0000
+Date: Thu, 27 Jun 2024 13:24:02 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, Dan Williams
+	<dan.j.williams@intel.com>
+CC: <vishal.l.verma@intel.com>, <dave.jiang@intel.com>, <logang@deltatee.com>,
+	<bhelgaas@google.com>, <jack@suse.cz>, <jgg@ziepe.ca>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <dave.hansen@linux.intel.com>, <ira.weiny@intel.com>,
+	<willy@infradead.org>, <djwong@kernel.org>, <tytso@mit.edu>,
+	<linmiaohe@huawei.com>, <david@redhat.com>, <peterx@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+	<jhubbard@nvidia.com>, <hch@lst.de>, <david@fromorbit.com>
+Subject: Re: [PATCH 00/13] fs/dax: Fix FS DAX page reference counts
+Message-ID: <667dca6259bc8_57ac2946e@dwillia2-xfh.jf.intel.com.notmuch>
+References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
+ <667d0da3572c_5be92947f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <87a5j67szs.fsf@nvdebian.thelocal>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87a5j67szs.fsf@nvdebian.thelocal>
+X-ClientProxiedBy: MW4PR03CA0359.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::34) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625195407.1922912-1-almasrymina@google.com>
- <20240625195407.1922912-14-almasrymina@google.com> <20240626150822.742eaf6a@kernel.org>
- <20240626174634.2adec19d@kernel.org>
-In-Reply-To: <20240626174634.2adec19d@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 27 Jun 2024 12:55:38 -0700
-Message-ID: <CAHS8izOd_yYNJ6+xv35XoCvF7MzqachPVrkQJbic8-h=T1Vg_A@mail.gmail.com>
-Subject: Re: [PATCH net-next v14 13/13] selftests: add ncdevmem, netcat for
- devmem TCP
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|PH0PR11MB5127:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d05c744-cf49-4733-1730-08dc96e717c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2bs77Jw8YryZhi07QFcWe+G2B70sHjUwfUxocD/aRLvRJq74s89uhkWF6RVW?=
+ =?us-ascii?Q?ztE+DdUtQz+HEmu4w+V/7F0y0RTiSRh7LCw/UBRG4HLrCBj34sKtuAHVf//k?=
+ =?us-ascii?Q?ITv5TNVvyyBOFtnpqreD2DKnOX1TvD9cTWu8wjvXxhfhSlaItCcacpMLa0L1?=
+ =?us-ascii?Q?g1EpTUxQB5zlTjYYvasQkXBbroNXy/KwqLAJlZOAuz3ViSDbsU1hgeklMQqX?=
+ =?us-ascii?Q?UXurR2Xhg+D6NAeeDzWqGCGuSJMCnTnoP07+L4X/ZffocU/AMbjLFiWvNi3x?=
+ =?us-ascii?Q?BkqjCRM9zk5+4jNvVLY/AbCVCYyuNJEQ2D/fK9RdATbdyq256NelhpFGrWkR?=
+ =?us-ascii?Q?2S6zW+adIDuxgUYBwBf7KvuL4cc/uZ4yw778MC/YxGdTegIMidZD9eszJQ8S?=
+ =?us-ascii?Q?541Z61TPnRNCsYlKhDjC5GJbGiZCqMIcMRnOrHK/24osTKwfWdiSfGWnj20J?=
+ =?us-ascii?Q?InUU2dEEtDgrPihCVfteK8p/fx97W0f/tJqEY4umVvg0t3MtSZn+e7oThEW/?=
+ =?us-ascii?Q?0zN3eydyVa7UYWCpR8Otjm3wNwCPUKnZ8nZSgoJl5gHjiqAoJmI5+bvfggKA?=
+ =?us-ascii?Q?/CkyLo4H08c2NXU5fdhR1XIZo7hebcfqRvk31T1U+K89cPJoo3EvyV+1sDoH?=
+ =?us-ascii?Q?zJNUveOibo/zFUxKa6nfFTZ+L6cBWejC2hdjQ/p/AvrK6Oz5egJAOmj/Dmmb?=
+ =?us-ascii?Q?kSscSSjw98BnqF1+5hAfZst+3mdjhamwVFcks5eL1p/5dUUwNzroImNNlpfx?=
+ =?us-ascii?Q?J2eKHp8+SYdXTlFI2Y3dTPbsIHMGf3NMiiA9DeXms7D0VHeLIT3ha3WPCqrh?=
+ =?us-ascii?Q?n1ZCteNtJDlJ3OhNIepeQSeyyyeS8EBHn2HpaBGG8lhli9wr7vq/lXMBB3pY?=
+ =?us-ascii?Q?1/nSv2TD53ba4/JagE1OH+eSMOIQ2WZ+Jr8JWHkCbj1yhNtLSnEmwcnAYd/z?=
+ =?us-ascii?Q?yxgNqOkhPMTrEKD0t4VCttqEPTi3eJEqjLCvxwZKsiUvcjTcoJTYJHfrB17X?=
+ =?us-ascii?Q?gTTJMwNMru0vXktq4q69f1MNIKRgIaxCXkhQNSA3Vf+drYct7/+qc+q74I/E?=
+ =?us-ascii?Q?BZ9srmkhYivacSi0nOFPxgu6MCWQLvinDkP5d5jduD47nOLNlhrVvU81BRWq?=
+ =?us-ascii?Q?r9pcLOl0zz/a7cLqrHGQIfQRGwNpOJNEayvOzBN3PH7IwN+lIiA0q13IFIkK?=
+ =?us-ascii?Q?BH/YrJMbhwOpipnFxzNN162mpWWSIdGacFr4UyMRmqtFoXc7Htd65sku+kYG?=
+ =?us-ascii?Q?HqdZ+SbvR7PvSzwFqdGUFZRGGY1ZrP2a8dqt3hoV7WXbIum5z3ynkP2S8fQM?=
+ =?us-ascii?Q?T40=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gDP5ySHXrRjE8RSdnT/EFvS0PjcwmqgxeA/Nk2Y+zM6rOdp/ThaJJybPrVbf?=
+ =?us-ascii?Q?l2btv0ZiBGmn3WfWbUbl3rvmfR2unss/5cV3v9vMwb26O3Xax5O0udIEuwJ9?=
+ =?us-ascii?Q?Ke0OAB7M7g/p4BPmfkGehr0jmaE6ylGCLng0JzWLmnlEAOKNGPJF25m3ToAO?=
+ =?us-ascii?Q?qR6CnOqBiivDaezPIYQZ6na8CxF/PoSPTtKuMKGy7jsbfwYKeujAP0OcuuZj?=
+ =?us-ascii?Q?47GjBxuLksDiJ6ojssd9otaQ/BHYhXCFoVjz7VpjOIkAMY44TdCN2Zsm63rn?=
+ =?us-ascii?Q?WbRAOBXHLNt8s2ICCFc5hhlGlz9ADcjZxzeg5O47Q2h4FjRM5eH22bdBNJ6Z?=
+ =?us-ascii?Q?w8sIPx41kvKv0uaiD2fQOInVTwFb+/WfXs+GHoJgE6EU1eTKLUhKpVSM1pqp?=
+ =?us-ascii?Q?VF747NrPTtYdjxuLZ0NRFdkd6yIHNhtw3OfrZjAgXf8MsDkqEprpbuwiUa35?=
+ =?us-ascii?Q?c/KfPrzf4/CGRKEVKwH+pus2GRqSiMl6IQpPD/N4qE2e3RdgYlhF3pBxJbbb?=
+ =?us-ascii?Q?ogdlkaJANtu0+QOXw99U+PvA4RYfwxPgwHgqgjaCoFsocQlv5M00v6pIJYbf?=
+ =?us-ascii?Q?d8VoZ5fESGRR4yKFl8dHc4tIMLmk4D4B2OwfDjUVzTlZZeeGuLCHHtO4D5Wu?=
+ =?us-ascii?Q?BTvlaC1mnfLTQ1h9ZyvMSnZl72wuLOPnICqsEMRPVTIZa0W30mkMQgq9QEs3?=
+ =?us-ascii?Q?9EeD00xb0OT4Oa7o3BGxbB3vcBri5czYO8nW/KFc0IbWl+/LPtFUhS9PcISJ?=
+ =?us-ascii?Q?7AWgsCuxO5RJAqQE8Rp5BPkxu1iL81Zm+nIIi1L/L6FE7YhdyMghiyW7gwMG?=
+ =?us-ascii?Q?VfQTGvi/vc8PPd1dOQgUML2ym2DrNK2aRetc9nrPoLYdx73wGWEWZy1MsJV0?=
+ =?us-ascii?Q?bgRM72j7lY9LvRr3mX7Um0/bRIo5JaBHREF+wx4V1TBz1H6ad2+6qntw4oDg?=
+ =?us-ascii?Q?vVzativMqrCOBv9pXLCssE8rq4M9p9zS/49o1mZ/p92b69zxNslEbTkKhYW8?=
+ =?us-ascii?Q?mpxca7eHI5QTCPq4krkxH5CzF9K7bhTp8p3LfUC9Gixg9/CVci+nIcR2ysZg?=
+ =?us-ascii?Q?i2f8WwiwjSg2YUuuQTIUpMYysecuO5ufAF1hyQHlZI5uAUknENtgGpXvtrw3?=
+ =?us-ascii?Q?q+xJRpgQ1/KsL9J1OufldMippM4Czt/26rE7dbuikvzK6737OM0L/HHLGbeo?=
+ =?us-ascii?Q?MFto9M3wy8OqYHGRNXpoit9QV3LL3wsC0IkjXDBrCnqAv732xnrXlfEviMIg?=
+ =?us-ascii?Q?CNP8D9DoXgrTXGbJd9+IT+tYfT5IOuVD6XEloqoisbjvWlnVLsNgjSmpA0Mk?=
+ =?us-ascii?Q?D2ea0JJB0iU/PePZZo3mkYi8/GpOh48aCHlwqPMK0A20sNGPhpaEPXJwEbY3?=
+ =?us-ascii?Q?B4hYrXi+pR53F0m1AIw/fV07GJkCUOzIEWaVQo38c8+Sls1R387xvgdKUKJA?=
+ =?us-ascii?Q?PEUhMyeu2yNEYczYEgZy+3EVPwoSf4pFHDpZSWPN4wUaYNhTsWQW5K6OAzpK?=
+ =?us-ascii?Q?5TCtdjrN6DGQJ58Gg6NNGX4thiYIq4MxBKQaMgnJldXgf4gE6mCW92BxO/+p?=
+ =?us-ascii?Q?8T5Q3nCy2fJwBYRIcYRGhDkf2j/dYjrEhWYuDirrddyiWFsWVmghn45Ms0UM?=
+ =?us-ascii?Q?hQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d05c744-cf49-4733-1730-08dc96e717c6
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 20:24:06.1490
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zk5DTxLr4IqWNLruzISG7oJJfm2DtYREwTqgqm3S+zDJPmUdvsXpDhD4EGfqfHhRHwuN6PimJWJrSx67zkyaBoKxMlXFqIJDVO1eJX2thbc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5127
+X-OriginatorOrg: intel.com
 
-On Wed, Jun 26, 2024 at 5:46=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Wed, 26 Jun 2024 15:08:22 -0700 Jakub Kicinski wrote:
-> > On Tue, 25 Jun 2024 19:54:01 +0000 Mina Almasry wrote:
-> > > +CFLAGS +=3D -I../../../net/ynl/generated/
-> > > +CFLAGS +=3D -I../../../net/ynl/lib/
-> > > +
-> > > +LDLIBS +=3D ../../../net/ynl/lib/ynl.a ../../../net/ynl/generated/pr=
-otos.a
+Alistair Popple wrote:
+> 
+> Dan Williams <dan.j.williams@intel.com> writes:
+> 
+> > Alistair Popple wrote:
+> >> FS DAX pages have always maintained their own page reference counts
+> >> without following the normal rules for page reference counting. In
+> >> particular pages are considered free when the refcount hits one rather
+> >> than zero and refcounts are not added when mapping the page.
+> >> 
+> >> Tracking this requires special PTE bits (PTE_DEVMAP) and a secondary
+> >> mechanism for allowing GUP to hold references on the page (see
+> >> get_dev_pagemap). However there doesn't seem to be any reason why FS
+> >> DAX pages need their own reference counting scheme.
+> >> 
+> >> By treating the refcounts on these pages the same way as normal pages
+> >> we can remove a lot of special checks. In particular pXd_trans_huge()
+> >> becomes the same as pXd_leaf(), although I haven't made that change
+> >> here. It also frees up a valuable SW define PTE bit on architectures
+> >> that have devmap PTE bits defined.
+> >> 
+> >> It also almost certainly allows further clean-up of the devmap managed
+> >> functions, but I have left that as a future improvment.
+> >> 
+> >> This is an update to the original RFC rebased onto v6.10-rc5. Unlike
+> >> the original RFC it passes the same number of ndctl test suite
+> >> (https://github.com/pmem/ndctl) tests as my current development
+> >> environment does without these patches.
 > >
-> > Not as easy as this.. Please add this commit to your series:
-> > https://github.com/kuba-moo/linux/commit/c130e8cc7208be544ec4f6f3627f1d=
-36875d8c47
-> >
-> > And here's an example of how you then use ynl.mk to code gen and build
-> > for desired families (note the ordering of variables vs includes,
-> > I remember that part was quite inflexible..):
-> > https://github.com/kuba-moo/linux/commit/5d357f97ccd0248ca6136c5e11ca3e=
-adf5091bb3
->
-> Investigating this further my patches will not work for O=3Dxyz builds
-> either. Please squash this into the relevant changes:
->
+> > Are you seeing the 'mmap.sh' test fail even without these patches?
+> 
+> No. But I also don't see it failing with these patches :)
+> 
+> For reference this is what I see on my test machine with or without:
+> 
+> [1/70] Generating version.h with a custom command
+>  1/13 ndctl:dax / daxdev-errors.sh          SKIP             0.06s   exit status 77
+>  2/13 ndctl:dax / multi-dax.sh              SKIP             0.05s   exit status 77
+>  3/13 ndctl:dax / sub-section.sh            SKIP             0.14s   exit status 77
 
-Thanks! I cherry-picked commit 15dbefa97fb98 ("tools: net: package
-libynl for use in selftests"), and then applied the diff below to the
-series [1].
+I really need to get this test built as a service as this shows a
+pre-req is missing, and it's not quite fair to expect submitters to put
+it all together.
 
-Now:
+>  4/13 ndctl:dax / dax-dev                   OK               0.02s
+>  5/13 ndctl:dax / dax-ext4.sh               OK              12.97s
+>  6/13 ndctl:dax / dax-xfs.sh                OK              12.44s
+>  7/13 ndctl:dax / device-dax                OK              13.40s
+>  8/13 ndctl:dax / revoke-devmem             FAIL             0.31s   (exit status 250 or signal 122 SIGinvalid)
+> >>> TEST_PATH=/home/apopple/ndctl/build/test LD_LIBRARY_PATH=/home/apopple/ndctl/build/cxl/lib:/home/apopple/ndctl/build/daxctl/lib:/home/apopple/ndctl/build/ndctl/lib NDCTL=/home/apopple/ndctl/build/ndctl/ndctl MALLOC_PERTURB_=227 DATA_PATH=/home/apopple/ndctl/test DAXCTL=/home/apopple/ndctl/build/daxctl/daxctl /home/apopple/ndctl/build/test/revoke_devmem
+> 
+>  9/13 ndctl:dax / device-dax-fio.sh         OK              32.43s
+> 10/13 ndctl:dax / daxctl-devices.sh         SKIP             0.07s   exit status 77
+> 11/13 ndctl:dax / daxctl-create.sh          SKIP             0.04s   exit status 77
+> 12/13 ndctl:dax / dm.sh                     FAIL             0.08s   exit status 1
+> >>> MALLOC_PERTURB_=209 TEST_PATH=/home/apopple/ndctl/build/test LD_LIBRARY_PATH=/home/apopple/ndctl/build/cxl/lib:/home/apopple/ndctl/build/daxctl/lib:/home/apopple/ndctl/build/ndctl/lib NDCTL=/home/apopple/ndctl/build/ndctl/ndctl DATA_PATH=/home/apopple/ndctl/test DAXCTL=/home/apopple/ndctl/build/daxctl/daxctl /home/apopple/ndctl/test/dm.sh
+> 
+> 13/13 ndctl:dax / mmap.sh                   OK             107.57s
 
-`git clean -fdx && make  headers_install && make -C
-./tools/testing/selftests/net` works
+I need to think through why this one might false succeed, but that can
+wait until we get this series reviewed. For now my failure is stable
+which allows it to be bisected.
 
-`git clean -fdx && make  headers_install && make -C
-./tools/testing/selftests/net ncdevmem` doesn't work with this error:
+> 
+> Ok:                 6   
+> Expected Fail:      0   
+> Fail:               2   
+> Unexpected Pass:    0   
+> Skipped:            5   
+> Timeout:            0   
+> 
+> I have been using QEMU for my testing. Maybe I missed some condition in
+> the unmap path though so will take another look.
 
-make: Entering directory
-'/usr/local/google/home/almasrymina/cos-kernel/tools/testing/selftests/net'
-gcc -Wall -Wl,--no-as-needed -O2 -g -I../../../../usr/include/
--isystem /usr/local/google/home/almasrymina/cos-kernel/tools/testing/selfte=
-sts/../../../usr/include
--I../     ncdevmem.c  -lmnl -o ncdevmem
-ncdevmem.c:34:10: fatal error: netdev-user.h: No such file or directory
-   34 | #include "netdev-user.h"
-      |          ^~~~~~~~~~~~~~~
-compilation terminated.
-make: *** [<builtin>: ncdevmem] Error 1
+I was able to bisect to:
 
-It seems specifying the target doesn't trigger the libynl.a to be
-built. Isn't this a bug, or is that expected? I took a bit of a look
-into it but couldn't figure it out immediately. If it is a bug, any
-pointers would be appreciated (but I'm digging into it anyway).
+[PATCH 10/13] fs/dax: Properly refcount fs dax pages
 
-[1] The diff on top of the series-with-cherry-pick that I'm testing with:
-
-diff --git a/tools/testing/selftests/net/Makefile
-b/tools/testing/selftests/net/Makefile
-index 7ba1505dc2eb4..1d3b99e9c12e8 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -5,10 +5,6 @@ CFLAGS +=3D  -Wall -Wl,--no-as-needed -O2 -g
- CFLAGS +=3D -I../../../../usr/include/ $(KHDR_INCLUDES)
- # Additional include paths needed by kselftest.h
- CFLAGS +=3D -I../
--CFLAGS +=3D -I../../../net/ynl/generated/
--CFLAGS +=3D -I../../../net/ynl/lib/
--
--LDLIBS +=3D ../../../net/ynl/lib/ynl.a ../../../net/ynl/generated/protos.a
-
- LDLIBS +=3D -lmnl
-
-@@ -100,7 +96,11 @@ TEST_PROGS +=3D fdb_flush.sh
- TEST_PROGS +=3D fq_band_pktlimit.sh
- TEST_PROGS +=3D vlan_hw_filter.sh
- TEST_PROGS +=3D bpf_offload.py
--TEST_GEN_FILES +=3D ncdevmem
-+
-+# YNL files, must be before "include ..lib.mk"
-+EXTRA_CLEAN +=3D $(OUTPUT)/libynl.a
-+YNL_GEN_FILES :=3D ncdevmem
-+TEST_GEN_FILES +=3D $(YNL_GEN_FILES)
-
- TEST_FILES :=3D settings
- TEST_FILES +=3D in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_v=
-eth.sh
-@@ -111,6 +111,10 @@ TEST_INCLUDES :=3D forwarding/lib.sh
-
- include ../lib.mk
-
-+# YNL build
-+YNL_GENS :=3D netdev
-+include ynl.mk
-+
- $(OUTPUT)/epoll_busy_poll: LDLIBS +=3D -lcap
- $(OUTPUT)/reuseport_bpf_numa: LDLIBS +=3D -lnuma
- $(OUTPUT)/tcp_mmap: LDLIBS +=3D -lpthread -lcrypto
-diff --git a/tools/testing/selftests/net/ynl.mk
-b/tools/testing/selftests/net/ynl.mk
-index 0e01ad12b30ec..59cb26cf3f738 100644
---- a/tools/testing/selftests/net/ynl.mk
-+++ b/tools/testing/selftests/net/ynl.mk
-@@ -18,6 +18,4 @@ $(YNL_OUTPUTS): CFLAGS +=3D \
-
- $(OUTPUT)/libynl.a:
-        $(Q)$(MAKE) -C $(top_srcdir)/tools/net/ynl GENS=3D"$(YNL_GENS)" lib=
-ynl.a
--       $(Q)cp $(top_srcdir)/tools/net/ynl/libynl.a ./
--
--EXTRA_CLEAN +=3D libynl.a
-+       $(Q)cp $(top_srcdir)/tools/net/ynl/libynl.a $(OUTPUT)/libynl.a
-
-
-
-
-
---=20
-Thanks,
-Mina
+...I will prioritize that one in my review queue.
