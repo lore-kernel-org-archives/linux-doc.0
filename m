@@ -1,150 +1,155 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891001E51D;
-	Thu, 27 Jun 2024 14:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A030213A245;
+	Thu, 27 Jun 2024 15:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719498655; cv=none; b=AEbXFApiXTQ9SgT+i2GleALz31NgmiDnkp5gTLvC0AE9j+tGSXYlM5+hT0Hxr9CTNbY6hHoV11ZTQmV55ZgfcmQ67GFhyjXF8CydF34ZkZ9nD7N8pBgKBuaFwb31Es3sMBfU2DK+ki+pA25KG2/iBHYJmTNwMRC66lBUdr1DlpY=
+	t=1719500767; cv=none; b=cSFdC6TdDPqOLVmgRH5AovASaXGhYmZa/pMsrZG3/CaABR+emwhMrwWBXid6uv3LdL/VZhDQskhoaGCq2y+sYePLMN4FtFbdKCe0G6Xg70WKEfQhsal3OHw2UDw1Tl0vxB4NDO/GPHYd3YlkY99/8NhMZe71cR2YJZHXyDGQJ3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719498655; c=relaxed/simple;
-	bh=KIobNT3FVqIbEuBkRXfA/d4XzamYSNXUXEShI192cu4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pLNRqqX1grUsnWxWzmDIcOFoQtiB1pTmrUySIgWilZThPo+p8RI5hPfO36AvkXV4LBnAauKRHmAYUA5/+RBngtPVaUlZgJPbm4NyWbCbBd3bkbVV3LkNAGSURUlOZfmoQLHvDb2hacubc1rXIq3Nai/3efbOwfXx2SPymAfGTe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z/7KwSK6; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719500767; c=relaxed/simple;
+	bh=Djbrivkq0wc2jEsn+rTxgWDZpcBMsUplG+Wqu9mPo2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CJVO5BFm1k+EyoVp77BdFn92dF+U/El8vB6AW4UY3ozmWL1BCf2f4MvOAltmqKxU1ja+D2RTvgteEdCzCl+kvWlzypjq95949NG1YNtSv+Y7Dw3QkC4jAUoNdtcaDA94Ycha+dwYvuFV5A7263HIpDYJOg/YpjuWeVd10EmUkVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6/AjJFA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/7KwSK6"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f9c6e59d34so65055665ad.2;
-        Thu, 27 Jun 2024 07:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719498653; x=1720103453; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=prOX6eOKEHEmVNHglh0d/kTFjpassowhtDmDJYgcELU=;
-        b=Z/7KwSK6O4iyxuNxmTHU2wW0gGPl1P5LE/GnZask6P2i756KLNJWV5MQomG4d6tb3F
-         BEyFw+wgFl05KpMBS9dg0iI3E2jIOkV5ZrksDq3/7WDIK2iaFtarWlTf6v5k520uLGpb
-         Q+++Gm28YWWw9pJsCPc8qxGz1e8EzkqZjvmbxg2DITDyuwrszo8ApMOnIhLaFWrjq1Is
-         TKte98HYWpue4jLBhZIIVk6nPt9Uqb9gPJB4b2X/03MrHXI+jR2L5DRLyraGhbw6yIhA
-         aEKENC/nB+DM6p9cRiEEQf/tEjsNALMp6LtB3BzNeSAtDLKk40KG9BW4XnJZpKPdY9K5
-         sAcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719498653; x=1720103453;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=prOX6eOKEHEmVNHglh0d/kTFjpassowhtDmDJYgcELU=;
-        b=UrdMdZAxGWg1O2ksmshepJRfKz1ZNV6NFPvcenU2p2Mz29SZs+wb1PFcU+zDeY2+ld
-         8uUk62ols1LL5wduOEdkuKJWm/YyY3RC6cUDNYbA9pgElG6yNb/ECvOfzN+6HVbUB8xn
-         8mnYFK6ndDp9MI8QgK6VINXN/9axx8j9l0pMlGUJbaIupOe4NXSR3FQ3PFze99vi89ld
-         eq3EZCnCg2j8QrCBEHaG1ymiBQaThTfMQDRj9o/KgWI4tsVqO67dGqR5GunN/PvzlKRa
-         3o59MRyzgEnhMxUzSFc4XVR0aQidee9oTFEoLNYrbyBjbRBiGrfoOUsVA9UdE61xLB6p
-         PHqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWe4Y5Dqa8mlxTiY4n9qpNaS7b611E6ZJJ+DyuOPZzD+lByX3nxRdBJj7MpM9uUX4LonuNyRkaUemMFJI48gpdAgg+mbhk685z4i2GiLHCEYIDQ+2HWc4qw4E8D4z357TM0dO3lbJbe4/V4RwIFWEz4zOQBsy8/KxdCQBoXFcvvNJAYeK2fpAHIDI464Mn/nDyQvQTCz0Vv2uvF7CyFUlo=
-X-Gm-Message-State: AOJu0Yy3gfKqzadEL6G5mOByQblazDzunmJJdyjBxLY+LPiaOk58R+SZ
-	7ooaZdTi4oz9N31DEmDJMKxBrpLeQ5VbL3RSZzgXJAck23K9HHSt
-X-Google-Smtp-Source: AGHT+IGb6LRH5tSL0zxSz7eX5YcdjjvCFbgea762hMw2TlPtap0H5lu0zMnM2ToKTYoB42SKt9dD+Q==
-X-Received: by 2002:a17:903:22c6:b0:1f6:f814:d542 with SMTP id d9443c01a7336-1fa1d6acf16mr156972075ad.68.1719498652545;
-        Thu, 27 Jun 2024 07:30:52 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1faac995113sm13885535ad.188.2024.06.27.07.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 07:30:51 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d788697e-dad5-46b9-b61a-1016c55c4e83@roeck-us.net>
-Date: Thu, 27 Jun 2024 07:30:48 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6/AjJFA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE4CDC2BBFC;
+	Thu, 27 Jun 2024 15:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719500767;
+	bh=Djbrivkq0wc2jEsn+rTxgWDZpcBMsUplG+Wqu9mPo2g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U6/AjJFAW4WolWRAJvjof7CxpmtiX3kDNLeTk9ABltlygOqBrGDrYhzuqbdkx/eCF
+	 xWGhx3JavgSEI3MSGiDZxV0XkpHbqTWKC1TNk3ATeg4148ft/pMMw4BLd1OJ5EaoDh
+	 lJKDsimBob+/B/mPpw01RH35RvpRUDWm1fXOpr7mvLVc0Q4r2C/VkU9Q+8hdu9aCdV
+	 +alapw+vuNIUqNPbGd7B0zfhDQsoGluza435rqEIVEFFZYN9y2O6ZHTGGiZAsbkZZm
+	 NFvfZjnqorZiZJ7Cn6EpjMRAIL+el1Qt6DbEF+cnR51G7vfA7ZutVBH/7+8SwPYAlf
+	 b8aLGpUerp4Aw==
+Date: Thu, 27 Jun 2024 16:06:01 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Mehdi Djait <mehdi.djait.k@gmail.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: iio: accel: add ADXL380
+Message-ID: <20240627-stiffly-annoying-f1f53fc432df@spud>
+References: <20240627102617.24416-1-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Add MPS MP5920 Host-Swap controller
-To: Alex Vdovydchenko <keromvp@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sean Anderson <sean.anderson@linux.dev>,
- Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-i2c@vger.kernel.org, Alex Vdovydchenko <xzeol@yahoo.com>
-References: <20240627090113.391730-1-xzeol@yahoo.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240627090113.391730-1-xzeol@yahoo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0n+nOH0+6w7iTwZd"
+Content-Disposition: inline
+In-Reply-To: <20240627102617.24416-1-antoniu.miclaus@analog.com>
 
-On 6/27/24 02:01, Alex Vdovydchenko wrote:
-> This series of patches adds the MP5920 Host-swap controller, which is used
-> as a protection and control IC for devices that are being inserted into a live
-> backplane. MP5920 acts as a voltage regulator (MP5911 etc) supervisor. IC
-> utilizes pmbus and provides monitoring, statistics and limits to electrical and
-> thermal characteristics such as:
-> - input and output voltage
-> - output current
-> - output power
-> - IC temperature
-> 
-> One must take into account the nonlinear character of readings, so there will be
-> a statistical error in the range 5–10 percents, depending on current passing
-> through. In order to use the IC, make sure to specify a valid I2C address
-> (consult to datasheet and dts-bindings)
-> MP5920 datasheet: https://www.monolithicpower.com/en/mp5920.html
-> 
-> Changes in v2:
->    -  fixed typos
 
-... and ignored all other feedback without explaining the reasons.
+--0n+nOH0+6w7iTwZd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am not even going to review this version.
+On Thu, Jun 27, 2024 at 01:25:17PM +0300, Antoniu Miclaus wrote:
+> Add dt-bindings for ADXL380/ADLX382 low noise density, low
+> power, 3-axis accelerometer with selectable measurement ranges.
+>=20
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+> changes in v3:
+>  - add power support
+>  - add support for both interrupts
+>  .../bindings/iio/accel/adi,adxl380.yaml       | 103 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 ++
+>  2 files changed, 110 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adxl3=
+80.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml=
+ b/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml
+> new file mode 100644
+> index 000000000000..55e25a9b31ac
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl380.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/accel/adi,adxl380.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices ADXL380/382 3-Axis Digital Accelerometer
+> +
+> +maintainers:
+> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +description: |
+> +  The ADXL380/ADXL382 is a low noise density, low power, 3-axis
+> +  accelerometer with selectable measurement ranges. The ADXL380
+> +  supports the =B14 g, =B18 g, and =B116 g ranges, and the ADXL382 suppo=
+rts
+> +  =B115 g, =B130 g, and =B160 g ranges.
+> +  The ADXL380/ADXL382 offers industry leading noise, enabling precision
+> +  applications with minimal calibration. The low noise, and low power
+> +  ADXL380/ADXL382 enables accurate measurement in an environment with
+> +  high vibration, heart sounds and audio.
+> +
+> +  In addition to its low power consumption, the ADXL380/ADXL382 has
+> +  many features to enable true system level performance. These
+> +  include a built-in micropower temperature sensor, single / double /
+> +  triple tap detection and a state machine to prevent a false
+> +  triggering. In addition, the ADXL380/ADXL382 has provisions for
+> +  external control of the sampling time and/or an external clock.
 
-Guenter
+Please cull the marketing from the descriptions. "Industry leading" may
+or may not be accurate at the time of going to print, but might be
+completely incorrect in 5 years. Ditto "low power consumption".
 
+With the marketing gone,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index be590c462d91..1425182c85e2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -618,6 +618,13 @@ F:	drivers/iio/accel/adxl372.c
+>  F:	drivers/iio/accel/adxl372_i2c.c
+>  F:	drivers/iio/accel/adxl372_spi.c
+> =20
+> +ADXL380 THREE-AXIS DIGITAL ACCELEROMETER DRIVER
+> +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +S:	Supported
+> +W:	https://ez.analog.com/linux-software-drivers
+
+Seems like having a website like
+https://wiki.analog.com/resources/tools-software/linux-drivers/input-misc/a=
+dxl345
+would make more sense than a generic forum for all of your drivers?
+
+--0n+nOH0+6w7iTwZd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZn1/2QAKCRB4tDGHoIJi
+0j95AQDhJeGs/zhD0V7SpekjUWa7OBI/8gYbp6v6f23EddLZRwEAq9TJq+x1gWOb
+QAmC4UOsxBMJ5TcKx9mPYL719tWz0g8=
+=Li+x
+-----END PGP SIGNATURE-----
+
+--0n+nOH0+6w7iTwZd--
