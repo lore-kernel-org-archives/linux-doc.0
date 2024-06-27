@@ -1,105 +1,166 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53A71487ED;
-	Thu, 27 Jun 2024 16:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD29B433B3;
+	Thu, 27 Jun 2024 17:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719505827; cv=none; b=dOWATntwu2j3y/0ZTh9UWWgfcnOl0Wr0w4EUoCXFlCsNrqWDou7xMZNG6mB4PtdXKYsss6hkWHZkH04IPN+i+S6IJYzau2Q0UQLiDUc9gUZpRqjupclVA0aIFG8ixLjTsSQqIW5s22avekYspPn/NuFBqazDPKrRiSyylKfAEE0=
+	t=1719508115; cv=none; b=t9dH1t8YEY1/hjWwSeQ81pnb00J6c6QuEqYCiae0CVTLbj/oNzH3iiTpMinN31LmAqqhKQUWkIX8M+bWlrQps9WdyV7p1dEvMrWy2j9iCdKdosxlzr35+NWMmhQzVMDb9BxFJwbqpCiYTq9IXVMnXMbRX+YnPyjl6gwJNtaFWM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719505827; c=relaxed/simple;
-	bh=lLAb8xHD0kK96O04UOh2jrtKgkgm0SY5bvXSLS8pZLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tNWCKQ5PZTZZIFVAeaV5o0kcTHfA/j8I9RWC/sGqO6bh7aOuCBPnPhWDndJoxeP5zykmjOvGzVwToSSpOUHCYVKSXgCdeM+l5pMPFcmDMhXmCmGqWTWIGCSDc9Gq0WjsqIRN5adlp0rTG/u66FIJc+WCOEInUCK3WB2DI+Il/5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2H8JgTP; arc=none smtp.client-ip=209.85.161.42
+	s=arc-20240116; t=1719508115; c=relaxed/simple;
+	bh=njE5CtSj/rNk0kn/54bHXhFvciLXp+Rn2NIuSOZj/Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tbQb6De6DU7k9LveW8I2DQ35taJJxVLiugVhhF9oVNkEml0UGxDL7max6UoUzcxkqZk+cwAmMPRPJBnjneXnbDyUMK2k/lnbMunDKZo1cC8dnsjMc+zAifcStSURKQjT1OmQYCHLSqYOgAZOi5Wy62+hMpvG326zvUlg3QleOE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BTKt+KpR; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2H8JgTP"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c40c72c407so423477eaf.1;
-        Thu, 27 Jun 2024 09:30:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BTKt+KpR"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7178727da84so4487621a12.0;
+        Thu, 27 Jun 2024 10:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719505825; x=1720110625; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TFxvBUpgkff4OOWHQfrsMUrnqbP3Vis0skgt8SfYOB4=;
-        b=H2H8JgTPYaJDKfUOFaqoLKKl2WjC8hMeilpT/m+GG3X8geNT82CKqS1HCn7xaNy8/3
-         NtpXPEeyBSzzh6QisWCqAdwnkEUM4ZzezNCbYyiuKIiNi2BS/jkadXxQZ0LVDV6eLSCK
-         mnhPcoz5/fe0Lr2o5qeDtE2oYVeBevmSoz98Pm8b+r0dglthS38oRLfPf9yA3AGFvy3A
-         Gl5+qIlPUGesOak8bHvwiHgZKj7rXs/5qKIpGAiO2zYnkjWHxsC4RxMkeIUjhNyKrKR9
-         f+k5pyxHVfKRL7MkpcZfjg3j/Hog6yr0KxRoyUmz0iVShNI7jeMNSFzFmjdMyaRR53ig
-         syjA==
+        d=gmail.com; s=20230601; t=1719508113; x=1720112913; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/IpdaNLmIgjligGg+u33YkSiigwxfjiieqRMpTLJxTc=;
+        b=BTKt+KpRaPLzMChei3KoIi2hBBJkFQ33W2ZNQCKYaaCQbcF4/XNlIPDvxp7ZD1HcJU
+         qLPZfA+XG41oR+VyXLKrMBFzZqYYWvTLpJRJy+pxjFvQJWpCNf5xabcm4JKepXQ3PtQr
+         GAoW8/HIYtlguhO6BMsUFlnBeB6vDqu+jodS9rU/rg/QCxzBVZ7VeU0626YysALUyOxj
+         eYUvPJOhPogF3zlm0ZvnPrMnM2ZZc3J+HbMEQqpKkRCKcHJwo3Rx/cTAKrz8L0xOBUPp
+         OAQsec4rgeEb6v/bzFXSyyqtKQZEpGKYfR/C+S1q7dGJGtCUGZaxwSA0ozWjkJiV1OAB
+         Pc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719505825; x=1720110625;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1719508113; x=1720112913;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFxvBUpgkff4OOWHQfrsMUrnqbP3Vis0skgt8SfYOB4=;
-        b=qMXpvqcR8DzZ38xgVVygEsuU/KEEYOSeRROR9WbMmqIJAYLJ/jQNDMNtYNgA0DGbjT
-         BabEO/nQT35P7gSavDyXlRLQoXq1fsBMKIS3FRcTvxfIg46jFYJHbi8Y0PIc2tynhvv7
-         GhwW9mIihdRQUGJ4/R+/jd0WaO0DuxNzbfSeiep8aN8+gBG7it3tNjX/9kOd31YQy+Rc
-         xrvAI1lWSjzSSMgrJXKGnu5xOAvL4JpSACeg5UCtoIcc7gOy8lgIrgCg050k7jX4XlZq
-         P8b797/4ABO3C+5e8k6XsYysgpSm0NT21zQ7+osel691Y6B+1r2q4YMOst6GllxST9Eh
-         K73w==
-X-Forwarded-Encrypted: i=1; AJvYcCXYDZbfEp/OK3gGgm/o3os0ZUrM0YZNql2RZp/EdIqPBMe7bURccnD6QoYzA/HsJ2tMtRFhpNYJLz5OpvwOGbMP3u1bDpwk+2VRDfbIFhueoHrj5hSKFugTo7EntQcOCiuOAMvt6Elr
-X-Gm-Message-State: AOJu0Yxmh1gNzPzrX1keJodmnKnO+HgHt7q1SUaebnD/4VYhhlAMri9X
-	IgukoAxAtFboao6ZfE+hvwpFlUCyyw5VsK8i7IbWvCYjpvxF8aSX
-X-Google-Smtp-Source: AGHT+IEPZvKP5U5S28rOh5uRsXbOx7o5V9e0LDJq6EHZaedJ8VjnFjfWoDb4YsG/O0Evw/2nYWyjBQ==
-X-Received: by 2002:a4a:7650:0:b0:5b9:e7db:1cf8 with SMTP id 006d021491bc7-5c22a03d393mr5031005eaf.4.1719505824655;
-        Thu, 27 Jun 2024 09:30:24 -0700 (PDT)
-Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c405c4fc5esm295692eaf.3.2024.06.27.09.30.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 09:30:24 -0700 (PDT)
-Message-ID: <d3a76784-e3ed-437a-afe8-0121e51348d8@gmail.com>
-Date: Thu, 27 Jun 2024 11:30:23 -0500
+        bh=/IpdaNLmIgjligGg+u33YkSiigwxfjiieqRMpTLJxTc=;
+        b=eg04E5aKMWZ6ZSuObiHJG+RBhfc3QKS3fWso13R49v5DMO81MXvhynDaB+cxwMHRKC
+         LQ0l09/HZYJ1SscKDEp7YztOkIU3b2J7m2DWYuKDFPG+k621gP4m4L7kWbXc3qUdkxdq
+         dxtCGGDmCw8cKHinw6XvHlEIOl3as2NoZx45nf2nfbRE+h0PyVxmR7PYkRANXQw35B04
+         74EIyyeVb+9tW2iNx4rArtE8PIzRoqjsj7/Im8bHRrE4eQPRhW44ujFWEp2Z5Kez/Z3p
+         iNSlTtU1rcLZSE4c6UAcSLXvINTsmEoMlT1VbXON5rK6WjTZZrpUOOxSP0PuGTZVuQH4
+         R6GA==
+X-Forwarded-Encrypted: i=1; AJvYcCWz66THI3yy2BxPypQA8vz3Si2SjSan9RQO6kuml8VIBhxAX+0sKZ3qVp0USKaXAkGdmNCDSSFAp1bJfXDYd+5bl0PoGA1q/iUQ/l0ddx/jrHLO5+uEuAk7T7mWD3CQ2pQrmkcIWs8PU3VcTAYpXXk96uBqFWP2r8KE90irXy27Z0kLvtd3Q2ujFap2ie3bl7CEsBoz161OxRL+Wf9jQQeWoIPMxHF0htJO8RuACk444o1umPo/ARES3A==
+X-Gm-Message-State: AOJu0YzgV9mZBsms6aEjr57PppsRay6/dtnhmoFCykfW56bj72MkPS/B
+	osB+cf12RNI8iiQaUSHvINrNELAePsCHDV+ay/mIWV31n4LbrZ1C
+X-Google-Smtp-Source: AGHT+IHqvQQBxkARL9ViZknQisxeNyRfWIBLwm40l924BqQRCfbzfJ1gVbYaxrsEdKf9SpdvNc+ZCg==
+X-Received: by 2002:a05:6a20:728c:b0:1be:cdce:9fb7 with SMTP id adf61e73a8af0-1becdcea170mr3525520637.19.1719508112716;
+        Thu, 27 Jun 2024 10:08:32 -0700 (PDT)
+Received: from localhost ([2804:30c:96b:f700:cc1d:c0ae:96c9:c934])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-706b4a5bbf5sm1597190b3a.215.2024.06.27.10.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 10:08:31 -0700 (PDT)
+Date: Thu, 27 Jun 2024 14:09:59 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
+	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+	corbet@lwn.net, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 6/7] iio: adc: Add support for AD4000
+Message-ID: <Zn2c531lfpBErYKb@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1719351923.git.marcelo.schmitt@analog.com>
+ <eb5f7b73bdf3ac89117e28f26ee3f54ba849163e.1719351923.git.marcelo.schmitt@analog.com>
+ <f6dc458f759c47154eee16354c807c020028512e.camel@gmail.com>
+ <ZnwU3MovTWfrovrE@debian-BULLSEYE-live-builder-AMD64>
+ <53ae33f72d2326a58db3bcf629fc522db3acf550.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, bilbao@vt.edu
-References: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
- <20240622194727.2171845-1-carlos.bilbao.osdev@gmail.com>
- <87v81vxqm1.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <87v81vxqm1.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <53ae33f72d2326a58db3bcf629fc522db3acf550.camel@gmail.com>
 
-On 6/26/24 17:53, Jonathan Corbet wrote:
+On 06/26, Nuno Sá wrote:
+> On Wed, 2024-06-26 at 10:17 -0300, Marcelo Schmitt wrote:
+> > On 06/26, Nuno Sá wrote:
+> > > On Tue, 2024-06-25 at 18:55 -0300, Marcelo Schmitt wrote:
+> > > > Add support for AD4000 series of low noise, low power, high speed,
+> > > > successive approximation register (SAR) ADCs.
+> > > > 
+> > > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > > ---
+...
+> > > > +	ret = devm_regulator_get_enable(dev, "vdd");
+> > > > +	if (ret)
+> > > > +		return dev_err_probe(dev, ret, "Failed to enable VDD
+> > > > supply\n");
+> > > > +
+> > > > +	ret = devm_regulator_get_enable(dev, "vio");
+> > > > +	if (ret)
+> > > > +		return dev_err_probe(dev, ret, "Failed to enable VIO
+> > > > supply\n");
+> > > 
+> > > devm_regulator_bulk_get_enable()? Do we have any ordering constrains?
+> > 
+> > No ordering constraints, but vdd and vio are optional while ref is required
+> > and
+> > we need to get the voltage of ref.
+> > devm_regulator_bulk_get_enable_read_voltage()? and discard vdd and vio
+> > voltages?
+> 
+> Hmmm, vdd and vio do not look like optional to me :). Anyways I meant
+> devm_regulator_bulk_get_enable() only for vdd and vio and still treat ref
+> separately.
+> 
 
-> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
->
->> From: Carlos Bilbao <bilbao@vt.edu>
->>
->> Extend the Index of Further Kernel Documentation by adding entries for the
->> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
->> on the second edition of Billimoria's kernel programming book. Also,
->> perform some refactoring: format the text to 75 characters per line and
->> sort per-section content in chronological order of publication.
->>
->> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
->> ---
->>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
->>  1 file changed, 44 insertions(+), 24 deletions(-)
-> Sending this as a reply to previous postings badly confused b4, but I
-> did get it to apply this time, thanks.
+I've mistaken these supplies with supplies for a different device.
+Yes, vdd and vio are required and devm_regulator_bulk_get_enable() is useful
+to init them.
 
+> > 
+> > > 
+> > > > +
+...
+> > > > +		/*
+> > > > +		 * In "3-wire mode", the ADC SDI line must be kept high
+> > > > when
+> > > > +		 * data is not being clocked out of the controller.
+> > > > +		 * Request the SPI controller to make MOSI idle high.
+> > > > +		 */
+> > > > +		spi->mode |= SPI_MOSI_IDLE_HIGH;
+> > > > +		ret = spi_setup(spi);
+> > > > +		if (ret < 0)
+> > > > +			return ret;
+> > > > +
+> > > > +		ret = ad4000_prepare_3wire_mode_message(st, indio_dev-
+> > > > > channels);
+> > > > +		if (ret)
+> > > > +			return ret;
+> > > > +
+> > > > +		ret = ad4000_config(st);
+> > > > +		if (ret < 0)
+> > > > +			dev_warn(dev, "Failed to config device\n");
+> > > > +
+> > > 
+> > > Should this be a warning? Very suspicious :)
+> > 
+> > This devices have some many possible wiring configurations.
+> > I didn't want to fail just because reg access fail.
+> > Maybe ADC SDI was wired to VIO but dt don't have adi,sdi-pin = "high".
+> > Reg access will fail but sample read should work.
+> 
+> Well, to me that really is a configuration failure and we should treat it as
+> such. If we are in the so called "reg_access_info" which I read as "we can
+> access registers", failing to do so should be treated as an error. 
+> 
+> So, setting scale would also fail and we then have a broken interface :)
 
-Will avoid doing that next time, thanks!
+Drat, that's right. 
+Okay, will make probe fail if config fails.
 
+Thanks,
+Marcelo
 
->
-> jon
-
-
-Regards,
-Carlos
+> 
+> - Nuno Sá
+> > 
