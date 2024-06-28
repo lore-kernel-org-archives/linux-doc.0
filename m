@@ -1,85 +1,97 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C902A15747D
-	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 09:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4228C46B9A;
+	Fri, 28 Jun 2024 10:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719565608; cv=none; b=hki1tfhG/gSSZ1GjrVFfB+/iOlw8CZ17PZNrZVQwJ6+iXgcIWVY0BgILOcIs5sMNLO0vHI6TRPTkN7NphG83ou87mpH32Cox4429gXCBrOMRSmRwszoCiLN9om4fEL/YhMD9lqFIT1gvgngVYTnahYJw6vERLXIgB+zYvjUGVY8=
+	t=1719568835; cv=none; b=T1YDdbm4UYDuWzUPtcymeIMS62wobkfY1EjsOEdf7ZAKSPMe6KYcQtKoRtjq+42cDPaulDMcuDCgvoiZOeyBk9OrhZbodbggiJysZlfNfQ6/aEoW7jbXjulGbzFWFK9ZP0gxNIO0FutVndJnOnAybRSJ1EjfVJT7t2wHnuqanzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719565608; c=relaxed/simple;
-	bh=x2ZqB4B9q5gkwgBjNmpKXr1taQ80Dqf0dI+xalcZrIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZOO9RkKZOXcPr47w0CR8kIaHUsRIl/z1McCkWz0hTfzVGldS0qRf2o57GVbvQpbT2m57CxMPkz0hn9h/xvKrQQ3mAYnhhjxpGVOEtseRZyrDO7l47XfNS6pgnVXzPBCVoiEKgx2HpARcj5Py6IuXTw35fjiLxSW7zYDSRm+ZYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1sN7Yu-00059T-UW; Fri, 28 Jun 2024 11:06:32 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1sN7Yu-005ZR1-Aj; Fri, 28 Jun 2024 11:06:32 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1sN7Yu-002PLU-0l;
-	Fri, 28 Jun 2024 11:06:32 +0200
-Date: Fri, 28 Jun 2024 11:06:32 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 7/7] net: pse-pd: pd692x0: Enhance with new
- current limit and voltage read callbacks
-Message-ID: <Zn59GOf9Avc49qGP@pengutronix.de>
-References: <20240628-feature_poe_power_cap-v5-0-5e1375d3817a@bootlin.com>
- <20240628-feature_poe_power_cap-v5-7-5e1375d3817a@bootlin.com>
+	s=arc-20240116; t=1719568835; c=relaxed/simple;
+	bh=8UYRdrbjDouh2qhlWxjBAxJ8E6JMHZqMchqcT9QVL+k=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Qv7OgR2mg8dtkpa/mFBaKNCRmf/DaCU5NfvGbVXTnzHP+o4XFdAUjnNQAfcleLTBpMAZDJzOLLmhIE0AsXdp7oK4QnHvEdmDrhU1FZgTrBAkCmTDR1gtIqDnh2NJFeYwm9+bQH4LCOZgUsjxJEM2EZ0/j3Ab5zHZPcBkwxGLfWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TqMknCVj; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TqMknCVj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6A85C4AF0A;
+	Fri, 28 Jun 2024 10:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719568834;
+	bh=8UYRdrbjDouh2qhlWxjBAxJ8E6JMHZqMchqcT9QVL+k=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=TqMknCVjQLOovdnO4R/tOAs/Z7FmaIJH+RRPa3erTB+E97DQUhTZpgahoFMoQPa2o
+	 MIjstNcnxH3L8F9b+xH7wKrTDziVdMrcoVt/3ipxW6SnweHdJXsZLBaWP1nRfMXphU
+	 tmXb+g5uONhdG5/FhgYi5vLiTvAyBR1psUIv9TXs8sH9GfxWfVxn0aa0EcaV+EkPWf
+	 24PXye+kA0BIP4tTuH+T362rqAuQZItmaGjKgmrvul6qw2Y+/07iQ3iHxQVBjA6P1t
+	 eofAz80CtC2mIqKAPcaoy7RfFRW1ty+A4Yo62V2pzNdn2iBM6xGRDoZDob6zufpqwJ
+	 sgoVyEsSTW9yw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A6CCFC43335;
+	Fri, 28 Jun 2024 10:00:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240628-feature_poe_power_cap-v5-7-5e1375d3817a@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v8 0/9] Add ability to flash modules' firmware
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171956883468.3919.7096273991570928378.git-patchwork-notify@kernel.org>
+Date: Fri, 28 Jun 2024 10:00:34 +0000
+References: <20240627140857.1398100-1-danieller@nvidia.com>
+In-Reply-To: <20240627140857.1398100-1-danieller@nvidia.com>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
+ sdf@google.com, kory.maincent@bootlin.com, maxime.chevallier@bootlin.com,
+ vladimir.oltean@nxp.com, przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
+ richardcochran@gmail.com, shayagr@amazon.com, paul.greenwalt@intel.com,
+ jiri@resnulli.us, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mlxsw@nvidia.com, idosch@nvidia.com, petrm@nvidia.com
 
-On Fri, Jun 28, 2024 at 10:32:00AM +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
+
+On Thu, 27 Jun 2024 17:08:47 +0300 you wrote:
+> CMIS compliant modules such as QSFP-DD might be running a firmware that
+> can be updated in a vendor-neutral way by exchanging messages between
+> the host and the module as described in section 7.2.2 of revision
+> 4.0 of the CMIS standard.
 > 
-> This patch expands PSE callbacks with newly introduced
-> pi_get/set_current_limit() and pi_get_voltage() callback.
-> It also add the power limit ranges description in the status returned.
-> The only way to set ps692x0 port power limit is by configure the power
-> class plus a small power supplement which maximum depends on each class.
+> According to the CMIS standard, the firmware update process is done
+> using a CDB commands sequence.
 > 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> [...]
 
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
- 
-Thank you!
+Here is the summary with links:
+  - [net-next,v8,1/9] ethtool: Add ethtool operation to write to a transceiver module EEPROM
+    https://git.kernel.org/netdev/net-next/c/69540b7987ef
+  - [net-next,v8,2/9] mlxsw: Implement ethtool operation to write to a transceiver module EEPROM
+    https://git.kernel.org/netdev/net-next/c/1983a8007032
+  - [net-next,v8,3/9] ethtool: Add an interface for flashing transceiver modules' firmware
+    https://git.kernel.org/netdev/net-next/c/46fb3ba95b93
+  - [net-next,v8,4/9] ethtool: Add flashing transceiver modules' firmware notifications ability
+    https://git.kernel.org/netdev/net-next/c/d7d4cfc4c97c
+  - [net-next,v8,5/9] ethtool: Veto some operations during firmware flashing process
+    https://git.kernel.org/netdev/net-next/c/31e0aa99dc02
+  - [net-next,v8,6/9] net: sfp: Add more extended compliance codes
+    https://git.kernel.org/netdev/net-next/c/e4f91936993c
+  - [net-next,v8,7/9] ethtool: cmis_cdb: Add a layer for supporting CDB commands
+    https://git.kernel.org/netdev/net-next/c/a39c84d79625
+  - [net-next,v8,8/9] ethtool: cmis_fw_update: add a layer for supporting firmware update using CDB
+    https://git.kernel.org/netdev/net-next/c/c4f78134d45c
+  - [net-next,v8,9/9] ethtool: Add ability to flash transceiver modules' firmware
+    https://git.kernel.org/netdev/net-next/c/32b4c8b53ee7
 
+You are awesome, thank you!
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
