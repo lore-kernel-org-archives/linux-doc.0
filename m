@@ -1,102 +1,185 @@
-Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094321E89A;
-	Fri, 28 Jun 2024 13:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7F71BF307;
+	Fri, 28 Jun 2024 14:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719582842; cv=none; b=SiSSM2AW41AVebeWh2YvMWwidBIZsZxc6BVuj8nsKQ5Q6PlOgVUCK+cdxVWJttNgzAqbFQBDMs+mBYJV34WAMfBmxAntzR/uM1+cyxBP9cxTHQ/lXwu138tHXUz5G44YARv5HCxjwjG1JSBvrkUyRv54uNqHXuySx+ps+/erFbE=
+	t=1719583496; cv=none; b=DOR/dwrscrxeyWzxT43Yd9MQRYRn1mw609QH1DC2MCsSnRW0U1rzZ5FUK/+c64enej5nUXuFTeDbrGvYGIpkELFhn2FHWkwcsIIcq0z9XsFZcIap2R0S7kcDVp6Bmdz8oEkiP3FLBzSXDGsWqpbC8HDoohHHNHX0Dfpyyk4/gc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719582842; c=relaxed/simple;
-	bh=hlCxSbXY/zYRj0hehwmqLqtkVoKWHqJrAMGLXDfKaQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ld9Z4s0GO+SUYwz5I0aGpEPSmYd2XyykrutfzKp/czI4zBSHphzMWvfhNIRxaihJE9x5paVs1FpmsTsqA7wb3+3DnVZWVeH4mW7tK7Zc7ovxsFQ3teufqyQktuAnrlOarlk4v07d4938Is8B5LwevFyouF1wcbpewPI0l+Es7TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=cPu8Yqjz; arc=none smtp.client-ip=199.89.1.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1719583496; c=relaxed/simple;
+	bh=gPsBksBd9/r5KyiQkMqtaVzJ3Jnw9xxaAJaOJd1IL5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ilb2V4RRqJJZe8D6BRBLn0Ksj2DRI9kAXwa2Pn9s4FdQnkGmItVoROYnK3zlje7SHrdAmEteTr94yyCCw97XXwRG5HKr5dSgEAN6hYm/dmodlwEfIvEHZRfZZJVmALarqr4a/ZHd7WhzJHZZUQarM1vu9FjN3MRGcEgVvDRg4W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrZl5nCo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="cPu8Yqjz"
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4W9cNf08FXz6Cnv3Q;
-	Fri, 28 Jun 2024 13:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1719582824; x=1722174825; bh=VbKwt14gFQqPYlFlJyY3C86g
-	+aG7f2ya06N7n4GnsqM=; b=cPu8YqjzwECf6/Cvud2z6XgE7OuVVZpV4zNBFDKq
-	Qnz6dXkmXMG2hdXwgF0J3DCK5KFzyBzii2dwcGWleHWJ0WrScYadFKPOir+f0Aft
-	/nFDLgOsb+aUTixwvE92CC+CZi0xZcge2zzA/ZdpZorE/6XyzkqpmdRbSOiEXzIc
-	AIoi+BoRmjAPh7VWDnm7wd1TEmcZFp4uUjTW7gHOGaZ6dZHjoce+WokXQ0w2ipzx
-	If5KRynp2k6se3CDq+a3umpwSLVrJOttaF4yociv9RlGG09v7sScsKMkWi+zxTb6
-	eStAs+EBoGJELvA9i2svY+GIP9bm/QSbqgSdu3JoyhFI3Q==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id d1VM3CVtcbxI; Fri, 28 Jun 2024 13:53:44 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4W9cNJ4zk2z6Cnk9Y;
-	Fri, 28 Jun 2024 13:53:36 +0000 (UTC)
-Message-ID: <4c7f30af-9fbc-4f19-8f48-ad741aa557c4@acm.org>
-Date: Fri, 28 Jun 2024 06:53:32 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrZl5nCo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FC3C116B1;
+	Fri, 28 Jun 2024 14:04:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719583495;
+	bh=gPsBksBd9/r5KyiQkMqtaVzJ3Jnw9xxaAJaOJd1IL5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JrZl5nCoSOg1oFczaYNXOld1XvShBNSqpPU19+yaDf6ERI30kJ5Dorzs0krZKwCBX
+	 oETKiAlQbjACn116sCeEjTwKL5u4AH4m943lebVVjS8pc3ejDEUrBsFdc+0gXFgRm1
+	 vU2W/gzhdm9dudHQSSQpaPEew9f1v4vyUOOa4dPaQCx0PIMX13Sl2SF1rs+yZNCa/o
+	 PDHnlDCgSwVaGcAzxdt+Coft0zyfppm/k9KrjJ+aJoYnxsdJO7OFGeKc3mYsvBlavD
+	 unyIJDu9Xzf7TZiwSoHgPgGhF4XEdPdWJ/SAWYmEX404qo0FB/O8kkJoNSIX9xSyMU
+	 Jm+53XnRA8tKA==
+Date: Fri, 28 Jun 2024 16:04:53 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <20240628-romantic-emerald-snake-7b26ca@houat>
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
- <20240604044042.GA29094@lst.de>
- <4ffad358-a3e6-4a88-9a40-b7e5d05aa53c@acm.org>
- <20240605082028.GC18688@lst.de>
- <CGME20240624105121epcas5p3a5a8c73bd5ef19c02e922e5829a4dff0@epcas5p3.samsung.com>
- <6679526f.170a0220.9ffd.aefaSMTPIN_ADDED_BROKEN@mx.google.com>
- <4ea90738-afd1-486c-a9a9-f7e2775298ff@acm.org>
- <de54c406-9270-4145-ab96-5fc3dd51765e@kernel.org>
- <b5d93f2c-29fc-4ee4-9936-0f134abc8063@acm.org>
- <05c7c08d-f512-4727-ae3c-aba6e8f2973f@kernel.org>
- <20240626052238.GC21996@lst.de>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240626052238.GC21996@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7fymz6tlpfxqxwqn"
+Content-Disposition: inline
+In-Reply-To: <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
 
-On 6/25/24 10:22 PM, Christoph Hellwig wrote:
-> It's not just dm.  You also need it in the partition remapping code
-> (mandatory), md (nice to have), etc.
-> 
-> And then we have the whole mess of what is in the payload for the I/O
-> stack vs what is in the payload for the on the wire protocol, which
-> will have different formatting and potentially also different sizes.
 
-Drivers like dm-linear rely on bio splitting. If the COPY_SRC and
-COPY_DST operations travel independently down a stacked block driver
-hierarchy, a separate data structure is needed to keep track of which
-operations have been split and to combine the split operations into
-requests. Isn't this an argument in favor of storing the source and
-destination parameters in a single bio?
+--7fymz6tlpfxqxwqn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+Hi,
 
-Bart.
+On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+> Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+> > Hi,
+> >=20
+> > Thanks for working on this!
+> >=20
+> > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+> > > The initial version was based roughly on the rdma and misc cgroup
+> > > controllers, with a lot of the accounting code borrowed from rdma.
+> > >=20
+> > > The current version is a complete rewrite with page counter; it uses
+> > > the same min/low/max semantics as the memory cgroup as a result.
+> > >=20
+> > > There's a small mismatch as TTM uses u64, and page_counter long pages.
+> > > In practice it's not a problem. 32-bits systems don't really come with
+> > > > =3D4GB cards and as long as we're consistently wrong with units, it=
+'s
+> > > fine. The device page size may not be in the same units as kernel page
+> > > size, and each region might also have a different page size (VRAM vs =
+GART
+> > > for example).
+> > >=20
+> > > The interface is simple:
+> > > - populate drmcgroup_device->regions[..] name and size for each active
+> > >    region, set num_regions accordingly.
+> > > - Call drm(m)cg_register_device()
+> > > - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+> > >    use drmcg_uncharge when freeing it. This may return an error code,
+> > >    or -EAGAIN when the cgroup limit is reached. In that case a refere=
+nce
+> > >    to the limiting pool is returned.
+> > > - The limiting cs can be used as compare function for
+> > >    drmcs_evict_valuable.
+> > > - After having evicted enough, drop reference to limiting cs with
+> > >    drmcs_pool_put.
+> > >=20
+> > > This API allows you to limit device resources with cgroups.
+> > > You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> > > You need to echo +drm to cgroup.subtree_control, and then you can
+> > > partition memory.
+> > >=20
+> > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
+> > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+> > I'm sorry, I should have wrote minutes on the discussion we had with TJ
+> > and Tvrtko the other day.
+> >=20
+> > We're all very interested in making this happen, but doing a "DRM"
+> > cgroup doesn't look like the right path to us.
+> >=20
+> > Indeed, we have a significant number of drivers that won't have a
+> > dedicated memory but will depend on DMA allocations one way or the
+> > other, and those pools are shared between multiple frameworks (DRM,
+> > V4L2, DMA-Buf Heaps, at least).
+> >=20
+> > This was also pointed out by Sima some time ago here:
+> > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+> >=20
+> > So we'll want that cgroup subsystem to be cross-framework. We settled on
+> > a "device" cgroup during the discussion, but I'm sure we'll have plenty
+> > of bikeshedding.
+> >=20
+> > The other thing we agreed on, based on the feedback TJ got on the last
+> > iterations of his series was to go for memcg for drivers not using DMA
+> > allocations.
+> >=20
+> > It's the part where I expect some discussion there too :)
+> >=20
+> > So we went back to a previous version of TJ's work, and I've started to
+> > work on:
+> >=20
+> >    - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
+> >      works on tidss right now)
+> >=20
+> >    - Integration of all heaps into that cgroup but the system one
+> >      (working on this at the moment)
+>=20
+> Should be similar to what I have then. I think you could use my work to
+> continue it.
+>=20
+> I made nothing DRM specific except the name, if you renamed it the device
+> resource management cgroup and changed the init function signature to tak=
+e a
+> name instead of a drm pointer, nothing would change. This is exactly what
+> I'm hoping to accomplish, including reserving memory.
+
+I've started to work on rebasing my current work onto your series today,
+and I'm not entirely sure how what I described would best fit. Let's
+assume we have two KMS device, one using shmem, one using DMA
+allocations, two heaps, one using the page allocator, the other using
+CMA, and one v4l2 device using dma allocations.
+
+So we would have one KMS device and one heap using the page allocator,
+and one KMS device, one heap, and one v4l2 driver using the DMA
+allocator.
+
+Would these make different cgroup devices, or different cgroup regions?
+
+> The nice thing is that it should be similar to the memory cgroup controll=
+er
+> in semantics, so you would have the same memory behavior whether you use =
+the
+> device cgroup or memory cgroup.
+>=20
+> I'm sad I missed the discussion, but hopefully we can coordinate more now
+> that we know we're both working on it. :)
+
+Yeah, definitely :)
+
+Maxime
+
+--7fymz6tlpfxqxwqn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn7DBAAKCRDj7w1vZxhR
+xWlJAP0UNWQ0gcwWNN/Im1DgFf7X2Yi5sSP1W1uEZE9I0hrrPAEAuZ5tF02to94P
+dCchG/vB5gsWEnB2EerIOPqG6gW4tw4=
+=J4LC
+-----END PGP SIGNATURE-----
+
+--7fymz6tlpfxqxwqn--
