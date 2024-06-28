@@ -1,136 +1,85 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB887D088
-	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 21:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4A97CF16
+	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 21:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719608410; cv=none; b=lCgUa0rfgPTqQqSFSWDDBDjEaG171wYn6xom0/CvaS6GarRmbp20uxoH9J2zlNEKNTyehBQer/vUCqWNFP3y5qEjMaOAxaJVE3ZSBqNhwdgj334cP/AzPQsgcaVpjiSdfQi9MetWaIQ+QjcqKisCZJq6LYIvMs5LRmUo25jVzKg=
+	t=1719609232; cv=none; b=UK1com/Mnsp/uiB7FICfJhw16AWzO752Rk1NL7MWWiH7OrcyYrJTrdJgBKwbaUodN/u8V08lGMnsopexo6VUB2uwq84+oGn/XzM558tInJBvfru7NMUUFRn7ZBslyOgm9TUlavVgZ3s2nGcmozlX1RXvLXzv7vMb1pNwmWmrZyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719608410; c=relaxed/simple;
-	bh=RvARpek5oB1OiKMp/udcOI/AnnOjzh0gz3imanKMPKg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=l90RFlrZNcg5ymjtfhCqvjPzYAtWfd3BCws/Yt9UHPcLzWyyecGQK0KGRRV8uSpElfD0VvEfpj6d1ADikTp6tvNc9Al9wLK1yyqHCWItnrhtHgODhOE2lUm9Z4MEP+li5pC9uRRI5Po6Yc7SUCEFDejt0IxnfGC9CRFQV1V8FBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I1qMXz7p; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1719609232; c=relaxed/simple;
+	bh=rcq0CBNdH9/HbkNZOXGVIt8R7lyhg6gNjzCq1VjpI0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Kbje9e6aRFJjheyfjeywZ5Xqe0mZm0/aEnKs6ja3lF32z8uXZMcTsFUFrxuh1zDBbbm8ibyQMqNCsgDp/WlXa3tFUBcSUOfA8FjbNsM3MHUgW4UzpxpfDAu4kQ7jyjHOBXhM9Oz3L4Rt8ziw8sXMBoKJQhnE+2zQ3lnGikLumMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asjqmspT; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I1qMXz7p"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-706645f6ef3so1003035b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 14:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719608408; x=1720213208; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K55H9E0t59nm9KeHZLiBbB7OkhvKOcAfSENsb6p/u6w=;
-        b=I1qMXz7pXxE6seAHTUlK1V6nEGcHaM+2BB6KYT/YOmDzxcDQdPBWX1+fEh3YDE0Ixp
-         IwqtfuvnRKfOrCyTwelO+9qpbRTB0DZT/r6HWvQ0HntUqJ1zRfdhMT69VhzWp446lroX
-         0DFhZ2fAEWFbZDZRBH6CBGNtJTrhygM7uVJSp85lP9Uewld7xmqeyWLR/T8Znu9RnwBR
-         30qd07UGpAJrxSuJmNXRLIGMIGgUB4YMU0QElyv/4rLowvMAj0yELvoTwI3FjffF9t/T
-         JqLiv3ORPya+d1TsimEdGxZGBqHyXlTRRn3Xw2Bx4Q+YXhMWMB0qqgaHooNEKA1UHUqV
-         QfZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719608408; x=1720213208;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K55H9E0t59nm9KeHZLiBbB7OkhvKOcAfSENsb6p/u6w=;
-        b=uaZBwv3xDI0Wc5qehKxmw4JTKkUyBhRKGqBNgi2Pb74eX39XE7IAczzoeBId2TmaAX
-         duJa2tqomGnCQzsgxI2LnyKE/hPbkGXF5fijHhyIjeXg5xWlpRNEFgCSVCdEOej1jzaO
-         OThk78nPLud3mpNCPPagt8NM4Zqob9pqBWl7qYqgsX0B2PNn8yMTt7G/QtFtbmMumuQX
-         I0GiA0eq8UA1Wm62siftrHo+D9/LOSgbcEzhWG00Smy+ClbOEwM1/0d9HG0WHDY3is46
-         uHrGXTzxULz8KSvk3W1HgQcqyBIxGQjwlBAvbWYfNltRjlCejga6QGraUdT5OVOQ9Cjk
-         NQIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVtwpjiN0VYFm/jBtrKz4D3Owzv6KblgB7xwFZKiDb6Hw9/9mgMm2eFwlQL0P5cPvDxfc1Gv+NW92T/QtRY3j701XcTD+auFBhq
-X-Gm-Message-State: AOJu0YwKBmV+rovzzgNvjl4ZBSjGCxMBypZ+YRUBgSajIwq5UxtcKVHM
-	SuAsQ+sE8c2ov8sDl3NS7O+VpozVIr/4oDzccl+oc9VE3no3JLvEF+QosQiKXtDpkTb4IZC27ly
-	WWD3R0hWNTw==
-X-Google-Smtp-Source: AGHT+IFbZGpVVtA+GUKb/6c6jsaI0OiKjqock+AA+pWiWe+A5unyUwPSLs/SOm+K4zdLrXzAV8wcIH5VRSCYXg==
-X-Received: from yjq3.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:272f])
- (user=jiaqiyan job=sendgmr) by 2002:a05:6a00:3698:b0:706:6b52:43a7 with SMTP
- id d2e1a72fcca58-706746db53fmr184314b3a.3.1719608407790; Fri, 28 Jun 2024
- 14:00:07 -0700 (PDT)
-Date: Fri, 28 Jun 2024 20:59:58 +0000
-In-Reply-To: <20240628205958.2845610-1-jiaqiyan@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asjqmspT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719609230; x=1751145230;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rcq0CBNdH9/HbkNZOXGVIt8R7lyhg6gNjzCq1VjpI0Y=;
+  b=asjqmspTWcgnrZONTWthxnHU298Sh1iiv+z+m15CEinNIdmOvj8ZGBKI
+   Q4zx0Q/ORTK4ts+q60rb13eeELhuHemw1h5zSqzYqBctmsKbOosgVAv91
+   YMyky1wDwIZeUwBdg1DEEIIlFMjNgst0XWWT8xtWylMqJR17oFm5aRHPS
+   +khlkGJLljdAYFBOdB8NUZpkSSqR5XuuZ42/5QQH+6zgmZFh5v7UcNG6U
+   wWUNXfgvlo/cZPhjJwq0+tTCMqVezRzNnggB6Qe/FlubjvWXkJedsY6Sl
+   DavG1W5Sf96xx6KEcIe1WPhfrkzJ3AeV5GGkke45Cw5CKS8eDDxrVWQcB
+   Q==;
+X-CSE-ConnectionGUID: jCwVCrA1Ssmzn8a41do2YQ==
+X-CSE-MsgGUID: ytq9QwuaTeOC96UzK94K7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="42226277"
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="42226277"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 14:13:41 -0700
+X-CSE-ConnectionGUID: eL0VABp6SuW1CTy/hqejpQ==
+X-CSE-MsgGUID: bPSXXLdrSjijBpfmf7z87A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="44838889"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jun 2024 14:13:41 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sNIuY-000IUK-1b;
+	Fri, 28 Jun 2024 21:13:38 +0000
+Date: Sat, 29 Jun 2024 05:12:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [morimoto:sound-ak4619-for-upstream-2024-06-28 5/8]
+ Documentation/devicetree/bindings/sound/simple-audio-mux.yaml: state-labels:
+ missing type definition
+Message-ID: <202406290553.oLOBg3m5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240628205958.2845610-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
-Message-ID: <20240628205958.2845610-5-jiaqiyan@google.com>
-Subject: [PATCH v7 4/4] docs: mm: add enable_soft_offline sysctl
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: nao.horiguchi@gmail.com, linmiaohe@huawei.com
-Cc: jane.chu@oracle.com, ioworker0@gmail.com, muchun.song@linux.dev, 
-	akpm@linux-foundation.org, shuah@kernel.org, rdunlap@infradead.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, ak@linux.intel.com, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add the documentation for soft offline behaviors / costs, and what
-the new enable_soft_offline sysctl is for.
+tree:   https://github.com/morimoto/linux sound-ak4619-for-upstream-2024-06-28
+head:   1fcff128782574ab57b108b58c74363f602252e6
+commit: ad1349eda3c8e174887cff500cf17d1b02b192d7 [5/8] ASoC: dt-bindings: simple-audio-mux: add mux-names property
+config: csky-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240629/202406290553.oLOBg3m5-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290553.oLOBg3m5-lkp@intel.com/reproduce)
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
-Acked-by: Miaohe Lin <linmiaohe@huawei.com>
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 32 +++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406290553.oLOBg3m5-lkp@intel.com/
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index e86c968a7a0e..75e22137d849 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -36,6 +36,7 @@ Currently, these files are in /proc/sys/vm:
- - dirtytime_expire_seconds
- - dirty_writeback_centisecs
- - drop_caches
-+- enable_soft_offline
- - extfrag_threshold
- - highmem_is_dirtyable
- - hugetlb_shm_group
-@@ -267,6 +268,37 @@ used::
- These are informational only.  They do not mean that anything is wrong
- with your system.  To disable them, echo 4 (bit 2) into drop_caches.
- 
-+enable_soft_offline
-+===================
-+Correctable memory errors are very common on servers. Soft-offline is kernel's
-+solution for memory pages having (excessive) corrected memory errors.
-+
-+For different types of page, soft-offline has different behaviors / costs.
-+- For a raw error page, soft-offline migrates the in-use page's content to
-+  a new raw page.
-+- For a page that is part of a transparent hugepage, soft-offline splits the
-+  transparent hugepage into raw pages, then migrates only the raw error page.
-+  As a result, user is transparently backed by 1 less hugepage, impacting
-+  memory access performance.
-+- For a page that is part of a HugeTLB hugepage, soft-offline first migrates
-+  the entire HugeTLB hugepage, during which a free hugepage will be consumed
-+  as migration target.  Then the original hugepage is dissolved into raw
-+  pages without compensation, reducing the capacity of the HugeTLB pool by 1.
-+
-+It is user's call to choose between reliability (staying away from fragile
-+physical memory) vs performance / capacity implications in transparent and
-+HugeTLB cases.
-+
-+For all architectures, enable_soft_offline controls whether to soft offline
-+memory pages.  When set to 1, kernel attempts to soft offline the pages
-+whenever it thinks needed.  When set to 0, kernel returns EOPNOTSUPP to
-+the request to soft offline the pages.  Its default value is 1.
-+
-+It is worth mentioning that after setting enable_soft_offline to 0, the
-+following requests to soft offline pages will not be performed:
-+- Request to soft offline pages from RAS Correctable Errors Collector.
-+- On ARM, the request to soft offline pages from GHES driver.
-+- On PARISC, the request to soft offline pages from Page Deallocation Table.
- 
- extfrag_threshold
- =================
+dtcheck warnings: (new ones prefixed by >>)
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
+>> Documentation/devicetree/bindings/sound/simple-audio-mux.yaml: state-labels: missing type definition
+
 -- 
-2.45.2.803.g4e1b14247a-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
