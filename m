@@ -1,226 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094513E058;
-	Fri, 28 Jun 2024 07:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFCA149C7C;
+	Fri, 28 Jun 2024 08:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719559344; cv=none; b=IS5Q9CWw+Do+o3KIyWBrLKajyInyOvoewyQqtnTkbPw1HWf2NzI9st+/2Hq+pDo31t6TsH88+swSQBv0mbunpnhQuxkw0NXoTnNUWcslOFHIbrsxaf85/O9W/7AFoWcsb8JZedrWkf8uT3nDNn6uk5BJB+Mxdzw8BzfusQJyoRw=
+	t=1719563544; cv=none; b=VZ6H5hkjQE5ne60hSzGiMxrYw+YAhCr/6aBkkXjtykvZVrOjqOW12uGC07GMk3Pfg3uom3gLphP8pK3h7MSvc/txdwtaf2DNtZZ9DhPJTrDBTIog+pEwZTx3qQtKCQvTTpaqIGhPmwSy5Bd0qfgHYlnAjEOI3G/GfLkm/lPHD9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719559344; c=relaxed/simple;
-	bh=kk0jS6Zn/eajs/D76BtMMEDKGhKMcCaj28YrpERS6qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jp6YA1zWCZd24i78WGnC+r4D7fKAgtY/2r1xQbSvj6UBxnCnRgJ1Em7xxu2hP26LVj82abNhgrmDRni+Bphcp+FR1pEWpHXLuk8CBW8TVyggokF4rjtKTPQsIipoySjW8RMxRZFBs0JhSFZE6+1SXTWdFqOKEMc9szrPRQCnODY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nxu+xklR; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719563544; c=relaxed/simple;
+	bh=vl26mRC3di+UCbJtKug1halZlylXNm19OTQsSGdfuOo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TPhYwWpPdBpBWiI4b8ZshKXxbGJ64cHX1z8AUSwH969IG3jptjlvhUqpdxLHODdj09z0w6x0ikjSDq5DqEmXfhLfo/TC2pwf+s2libmIL/Yy9ZDoXbUpj/uLc8wx1iVILJxfL/vJuME/8jCaUR4ykw9FU2IYLpN77FfSWvpoAmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=F997nCRi; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nxu+xklR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719559341; x=1751095341;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kk0jS6Zn/eajs/D76BtMMEDKGhKMcCaj28YrpERS6qw=;
-  b=Nxu+xklRrCKBuy4TN8nVFGR5fUyyEcjxeNiUc1ouICMzL1piC3u1xQUR
-   pKcudj6F6+Bcxn35IJcbbOJhgxPhtpo3IVlt8zVAfSx+i9VqyqMb3qG6P
-   wVEBNpL9Igtp5I4MOjWgkDRJl5pKOVaIwSM7hzzMiK9on2etzkdR7nvqF
-   YERuROWgzYceIqJ8W0qaCNxKmjEzqax85mUGj949raG8RPyPUItztk02B
-   H2G3KLYqJRf7KYUD85yAPaxb8aJ0GuYE1K+ZIZwkhZZTx6ajzU6WWRPTg
-   a+6LtaEj+u/7rbtSwZzuYk8u0z77Vyzz9xopZ9wXBylUSwaPNOBswfpSR
-   w==;
-X-CSE-ConnectionGUID: oVioolhhSpGwNY3UavbQmQ==
-X-CSE-MsgGUID: T69KE4ovQAOqd9nUukrP3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16468202"
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="16468202"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 00:22:20 -0700
-X-CSE-ConnectionGUID: CBI4nw8NSwuGvrqeMakrxQ==
-X-CSE-MsgGUID: VaE3baFuSwybmyPTgbBtPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="49567540"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Jun 2024 00:22:17 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sN5vx-000Gti-2j;
-	Fri, 28 Jun 2024 07:22:13 +0000
-Date: Fri, 28 Jun 2024 15:21:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Vdovydchenko <keromvp@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org, Alex Vdovydchenko <xzeol@yahoo.com>
-Subject: Re: [PATCH v2 2/2] hwmon: add MP5920 driver
-Message-ID: <202406281512.NAdadCZX-lkp@intel.com>
-References: <20240627090113.391730-3-xzeol@yahoo.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="F997nCRi"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 08B9D40003;
+	Fri, 28 Jun 2024 08:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1719563540;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7yLiDevD/Nc8XFJFThpg8VP1XNSiEOrZXCh6SdDmkqM=;
+	b=F997nCRiiE/hvYqQmgl/+s5WXL0lyveQQPd1FZeiIU+eupPjuq6avjD6NJkwKlV5TyGTdK
+	pYETOCavooKnROh6ns0fHSgB1j6AeJMg1QiuQJBYTqGvWcd/i5YzElB+s3jqGuutK/XHXP
+	A8myQRavjxeAaLb8RPPXPSrHavQNzk2FnQ9S1qeJ+5X7Fl/ZqeM9NwDXpBexvnfAwk3huv
+	JwjCyxIiDwS+rdSSSi0S3umq2n5DPix4U21TNSJ+uB6zeVSy2A0p8J7O8Z2jyteVVptFNR
+	z+wgGkWoVCgdLF1pYc5rwHeLTrvbX9dJSP8ld8tQnaFytVVgc8YO4ZQ2dnabXQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v5 0/7] net: pse-pd: Add new PSE c33 features
+Date: Fri, 28 Jun 2024 10:31:53 +0200
+Message-Id: <20240628-feature_poe_power_cap-v5-0-5e1375d3817a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240627090113.391730-3-xzeol@yahoo.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPl0fmYC/3XQz2oDIRAG8FcJnmvRUaPbU9+jhOCfSSO0urjWp
+ IR991ovTQl7mMPHx/wG5kYWLBEX8rK7kYItLjGnHtTTjvizTe9IY+iZAAPJJCh6Qlu/Ch7n/Ds
+ XLEdvZ8oNTsxZDZN0pO/OBU/xOtw3krDShNdKDr05x6Xm8j0ONj76YSuYNuzGKaPMS8eDmpRw5
+ tXlXD9ievb5c5gN/pw901sOdMcz4SGgM8K6R0fcOVxuOaI7FvbaSNRGcP7oyDtn82dNdscxw4W
+ 1Qemg/jvruv4AJ8Ziop4BAAA=
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ linux-doc@vger.kernel.org, Kory Maincent <kory.maincent@bootlin.com>, 
+ Sai Krishna <saikrishnag@marvell.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Alex,
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-kernel test robot noticed the following build errors:
+This patch series adds new c33 features to the PSE API.
+- Expand the PSE PI informations status with power, class and failure
+  reason
+- Add the possibility to get and set the PSE PIs power limit
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on next-20240627]
-[cannot apply to robh/for-next krzk-dt/for-next linus/master v6.10-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes in v5:
+- Fix few nitpick.
+- Link to v4: https://lore.kernel.org/r/20240625-feature_poe_power_cap-v4-0-b0813aad57d5@bootlin.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Vdovydchenko/dt-bindings-hwmon-Add-MPS-mp5920/20240628-021125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240627090113.391730-3-xzeol%40yahoo.com
-patch subject: [PATCH v2 2/2] hwmon: add MP5920 driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240628/202406281512.NAdadCZX-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281512.NAdadCZX-lkp@intel.com/reproduce)
+Changes in v4:
+- Made few update in PSE extended state an substate.
+- Add support for c33 pse power limit ranges.
+- Few changes in the specs and the documentation.
+- Link to v3: https://lore.kernel.org/r/20240614-feature_poe_power_cap-v3-0-a26784e78311@bootlin.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281512.NAdadCZX-lkp@intel.com/
+Changes in v3:
+- Use u32 instead of u8 size for c33 pse extended state and substate.
+- Reformat the state and substate enumeration to follow Oleksij proposal which
+  is more IEEE 802.3 standard compliant
+- Sent the first patch standalone in net.
+- Link to v2: https://lore.kernel.org/r/20240607-feature_poe_power_cap-v2-0-c03c2deb83ab@bootlin.com
 
-All errors (new ones prefixed by >>):
+Changes in v2:
+- Use uA and uV instead of mA and mV to have more precision in the power
+  calculation. Need to use 64bit variables for the calculation.
+- Modify the pd-92x0behavior in case of setting the current out of the
+  available ranges. Report an error now.
+- Link to v1: https://lore.kernel.org/r/20240529-feature_poe_power_cap-v1-0-0c4b1d5953b8@bootlin.com
 
-   In file included from drivers/hwmon/pmbus/mp5920.c:18:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:39:
-   In file included from include/acpi/acpi_io.h:7:
-   In file included from arch/arm64/include/asm/acpi.h:14:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     508 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     520 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     529 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/pmbus/mp5920.c:26:2: error: use of undeclared identifier 'pages'
-      26 |         pages = 1,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:27:2: error: use of undeclared identifier 'format'
-      27 |         format[PSC_VOLTAGE_IN] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:28:2: error: use of undeclared identifier 'format'
-      28 |         format[PSC_VOLTAGE_OUT] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:29:2: error: use of undeclared identifier 'format'
-      29 |         format[PSC_CURRENT_OUT] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:30:2: error: use of undeclared identifier 'format'
-      30 |         format[PSC_POWER] = direct,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:31:2: error: use of undeclared identifier 'format'
-      31 |         format[PSC_TEMPERATURE] = direct,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:32:2: error: use of undeclared identifier 'm'
-      32 |         m[PSC_VOLTAGE_IN] = 2266,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:33:2: error: use of undeclared identifier 'b'
-      33 |         b[PSC_VOLTAGE_IN] = 0,
-         |         ^
->> drivers/hwmon/pmbus/mp5920.c:34:2: error: use of undeclared identifier 'R'
-      34 |         R[PSC_VOLTAGE_IN] = -1,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:35:2: error: use of undeclared identifier 'm'
-      35 |         m[PSC_VOLTAGE_OUT] = 2266,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:36:2: error: use of undeclared identifier 'b'
-      36 |         b[PSC_VOLTAGE_OUT] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:37:2: error: use of undeclared identifier 'R'
-      37 |         R[PSC_VOLTAGE_OUT] = -1,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:38:2: error: use of undeclared identifier 'm'
-      38 |         m[PSC_CURRENT_OUT] = 546,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:39:2: error: use of undeclared identifier 'b'
-      39 |         b[PSC_CURRENT_OUT] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:40:2: error: use of undeclared identifier 'R'
-      40 |         R[PSC_CURRENT_OUT] = -2,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:41:2: error: use of undeclared identifier 'm'
-      41 |         m[PSC_POWER] = 5840,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:42:2: error: use of undeclared identifier 'b'
-      42 |         b[PSC_POWER] = 0,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:43:2: error: use of undeclared identifier 'R'
-      43 |         R[PSC_POWER] = -3,
-         |         ^
-   drivers/hwmon/pmbus/mp5920.c:44:2: error: use of undeclared identifier 'm'
-      44 |         m[PSC_TEMPERATURE] = 1067,
-         |         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   5 warnings and 20 errors generated.
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (7):
+      net: ethtool: pse-pd: Expand C33 PSE status with class, power and extended state
+      netlink: specs: Expand the PSE netlink command with C33 new features
+      net: pse-pd: pd692x0: Expand ethtool status message
+      net: pse-pd: Add new power limit get and set c33 features
+      net: ethtool: Add new power limit get and set features
+      netlink: specs: Expand the PSE netlink command with C33 pw-limit attributes
+      net: pse-pd: pd692x0: Enhance with new current limit and voltage read callbacks
 
+ Documentation/netlink/specs/ethtool.yaml     |  58 +++++
+ Documentation/networking/ethtool-netlink.rst |  87 +++++++-
+ drivers/net/pse-pd/pd692x0.c                 | 317 ++++++++++++++++++++++++++-
+ drivers/net/pse-pd/pse_core.c                | 172 ++++++++++++++-
+ include/linux/ethtool.h                      |  20 ++
+ include/linux/pse-pd/pse.h                   |  51 +++++
+ include/uapi/linux/ethtool.h                 | 191 ++++++++++++++++
+ include/uapi/linux/ethtool_netlink.h         |  12 +
+ net/ethtool/pse-pd.c                         | 119 +++++++++-
+ 9 files changed, 997 insertions(+), 30 deletions(-)
+---
+base-commit: f203f9086d3b3718bc63782a56218c7122f07db3
+change-id: 20240425-feature_poe_power_cap-18e90ba7294b
 
-vim +/pages +26 drivers/hwmon/pmbus/mp5920.c
-
-    24	
-    25	static struct pmbus_driver_info mp5920_info = {
-  > 26		pages = 1,
-  > 27		format[PSC_VOLTAGE_IN] = direct,
-    28		format[PSC_VOLTAGE_OUT] = direct,
-    29		format[PSC_CURRENT_OUT] = direct,
-    30		format[PSC_POWER] = direct,
-    31		format[PSC_TEMPERATURE] = direct,
-  > 32		m[PSC_VOLTAGE_IN] = 2266,
-  > 33		b[PSC_VOLTAGE_IN] = 0,
-  > 34		R[PSC_VOLTAGE_IN] = -1,
-    35		m[PSC_VOLTAGE_OUT] = 2266,
-    36		b[PSC_VOLTAGE_OUT] = 0,
-    37		R[PSC_VOLTAGE_OUT] = -1,
-    38		m[PSC_CURRENT_OUT] = 546,
-    39		b[PSC_CURRENT_OUT] = 0,
-    40		R[PSC_CURRENT_OUT] = -2,
-    41		m[PSC_POWER] = 5840,
-    42		b[PSC_POWER] = 0,
-    43		R[PSC_POWER] = -3,
-    44		m[PSC_TEMPERATURE] = 1067,
-    45		b[PSC_TEMPERATURE] = 20500,
-    46		R[PSC_TEMPERATURE] = -2,
-    47		func[0] = PMBUS_HAVE_VIN  | PMBUS_HAVE_VOUT |
-    48			PMBUS_HAVE_IOUT | PMBUS_HAVE_POUT |
-    49			PMBUS_HAVE_TEMP,
-    50	};
-    51	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
