@@ -1,169 +1,137 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968C18028;
-	Fri, 28 Jun 2024 00:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6948B2139A7;
+	Fri, 28 Jun 2024 01:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719536389; cv=none; b=gLYlNr1ULhsGx/jOnrbt4ndtynkhF1Om2fq3LSxJE1PP0/pUTJ0TXSkhD/UGmSLduQNUw1VlJBILb2XAtWtA2UeHEghIX18ODTRILEQtRk5Y+Xpi8DANOQeJVzLeiarIlMgwKTgHd4Uaqat619KjiPW535YnMkbk8+Sn93Ssckk=
+	t=1719538611; cv=none; b=T8QGbQtiZVZISnptWEryaxoLSDfxvwhFMOjtrbZqP2jvp/wuQhd67wlAMq+k6vjyDGLCg02WT4AN7vjmT9ne8/K9j9VxkogSStLoxL+NB9iO/3xa0QWeSsNeurLS/mjLkKpqO+qVAy1fuCxuLPDKlkxfVsgboCt781yRXx8nogI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719536389; c=relaxed/simple;
-	bh=k/O1dWo/zAC1tNUGUZJKfZkv4B/bidKsE11l9K373b8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=X9SMnhVlYJvHUF3PqncdXg3m68ihkZmMkFahLQGP3EicmM6eRinulyCq3hg1farMuPTzVr0QsbVtrX/Onk/uHsuRQw+brFJIzFW25i7lcMy78QY0nhXRHI6QESns1oGY3jYcqpINqhcA74NPFmjE0q+zRnTSP97daJmQjSzLLkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QfFnqfq8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1719538611; c=relaxed/simple;
+	bh=cm+QsmGQ91yNDaHPh+Q0+zctgCiUlvxaouRRHE+n9Ak=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=X32HrJ7lrt/OIDXO+MS7qZSpvGFo0r25ymhAIKEhUGC6QUc+OqreXSLJFGlp2IwASq09ej1agLATaVfHia0GLAPbWoO5UhhvfsTMprcXGTWKsjJJBDVbuycFZPD9hf1bWwaJNCuu0+UX5JiBDwBQpaEPcpR7SocJNbZUBDIZRsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=v9xK6vHq; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QfFnqfq8"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45RKDOaH010655;
-	Fri, 28 Jun 2024 00:59:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k/O1dWo/zAC1tNUGUZJKfZkv4B/bidKsE11l9K373b8=; b=QfFnqfq8tG7g6dfm
-	efc93a6syk0bnFKBqUzBuwinQmJsjh1TXeXZYJnENI9EYFTJncgPd5jnWCyCdCMW
-	0+usnKLImAGRgku8/UPVsFk8atD9uGmoRDIkGOCdospSSs9En3p4GcVqr5zauBQ/
-	HxhhyHJv/2h1sjdsXmvJ+V43GwOiNrQ6KY6eQHLHeTekkCqosx0aWtr/gnqJfXQ6
-	db+C/EBH7WkH90heksU4eX0Hk++o0aZ5GlSpyBS4CafcJrxeo9cHbfAeQ4yOt7P/
-	gHDcsdnhk1MKiDXMjY+tlP/8DfhCfj76/fCXoPKWScTrROXmWP08uM1Fz3qqWtMt
-	PexYtA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 400bdqdt5h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Jun 2024 00:59:15 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45S0xDuK008732
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Jun 2024 00:59:13 GMT
-Received: from [10.71.115.79] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 27 Jun
- 2024 17:59:12 -0700
-Message-ID: <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
-Date: Thu, 27 Jun 2024 17:59:12 -0700
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="v9xK6vHq"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1719538600; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=Kmb8kttOq7xbDfKI1ccEDiYQbB2zK2LbPs9zivACKls=;
+	b=v9xK6vHqxY7n+FWlhhmNnmQ99NxeJXIznv8hxMdUmCzMYmYxHxrLwiDMdZDC1/rI92E+SkCi9EHMenWi01uUgUHgCj8BLWUxFLeoG1b7IACmhUUHbgYnCO/Ujt5uvg9bYvtry0m4VyUo55qMZIkstDAkkSoyzpXgIocup4gFk7E=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033023225041;MF=wodemia@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W9OGQul_1719538598;
+Received: from localhost.localdomain(mailfrom:wodemia@linux.alibaba.com fp:SMTPD_---0W9OGQul_1719538598)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Jun 2024 09:36:39 +0800
+From: Tao Zou <wodemia@linux.alibaba.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Tao Zou <wodemia@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 RESEND] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
+Date: Fri, 28 Jun 2024 09:36:20 +0800
+Message-Id: <20240628013621.46741-1-wodemia@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: I7ji9nTic-FHqo6aBSK-W7atlFLOSzuU
-X-Proofpoint-GUID: I7ji9nTic-FHqo6aBSK-W7atlFLOSzuU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-27_16,2024-06-27_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
- adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- mlxscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2406280005
 
-Hi Pierre,
+Add translation zh_CN/admin-guide/numastat.rst and link it to
+zh_CN/admin-guide/index.rst while clean its todo entry.
 
-On 6/21/2024 1:27 AM, Pierre-Louis Bossart wrote:
->
->
->> I'll spend some time to evaluate your suggestion about moving the logic
->> to control the offloading from USB SND versus ASoC, since there are
->> valid points.  However, before I do that, I just want to make sure folks
->> are also inline with that thinking.  I've had to put a lot of effort
->> moving things around such as the previous example, and now you've
->> suggested to move it back to the vendor specific drivers.
->>
->> @Pierre, since you've helped with providing a lot of valuable input in
->> the previous revisions on the kcontrol uses, what do you think about the
->> proposal from Amadeusz?  Basically shifting the offload device selection
->> into USB SND from the ASoC USB BE driver, and having this per USB SND
->> device.
->>
->> [1]
->> https://lore.kernel.org/linux-usb/20231017200109.11407-30-quic_wcheng@quicinc.com/
-> This thread is very hard to follow, I am not sure I fully understood the
-> initial proposal, and I am not sure I follow Amadeusz' either.
->
-> There are really multiple layers to deal with
->
-> a) is the controller able to support the offload path? IIRC this is
-> embedded in an obscure XHCI property, it would make sense to expose it
-> as a control, or component string, of the USB card.
+commit 77691ee92d4a ("Documentation: update numastat explanation")
 
-If a component string/tag is desired, I already have some way of doing that.  I can add it to the USB card.
+Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+ .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+ .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
 
->
-> b) is there a companion card capable of dealing with the offload path?
-> Since the presence of this card may depend on driver probe, there should
-> be a control on the USB card. userspace could detect changes to this
-> control and detect if that path is or is no longer enabled.
-
-So currently, the "USB Offload Playback Capable Card" kcontrol (on the USB card) will determine if there is an offload path.  However, this differs than what Amadeusz is suggesting, in that he wants a single kcontrol created for EACH USB card identified (per USB audio device), and a simple enable/disable control to determine if the offload path is enabled for that card/pcm stream.
-
-It would be a simpler approach for the userspace, and if the card that handles the offload card isn't present, then these enable/disable control will be set to "disabled," and even if users attempt to set the control, it won't go through.
-
->
-> c) which PCM device is actually offloaded? This could be plural for some
-> implementations. The mapping between PCM devices exposed by the USB
-> card, and those exposed by the companion card, should be known to
-> userspace. I am not sure how this would be done though, a variable
-> number of controls is a sure way to confuse userspace.
-
-Expanding on Amadeusz's suggestion, my idea is to have an enable/disable kcontrol per USB stream.  For example, one USB card could have multiple PCM devices (USB streams).  So we would have something like:
-
-PCM Offload Playback Enable Stream#0  enable/disable
-
-PCM Offload Playback Enable Stream#1  enable/disable
-
-....
-
-So we'd know which USB card and PCM device is selected for USB SND.  However, I see what you're getting at in case there are multiple supported streams, because userspace needs to know which ASoC card/pcm combination corresponds to which USB device/combination.
-
-What do you think about having a USB card kcontrol to display the mapped ASoC card and PCM indexes?
-
-PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
-
-To summarize, if we did this, I'd plan to remove all the kcontrols in ASoC card, and have the following in the USB card for an USB audio device that supports one USB stream:
-
-PCM Offload Playback Enable Stream#0  enable/disable
-
-PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
-
-
-Thanks
-
-Wesley Cheng
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index ac2960da33e6..0db80ab830a0 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -68,6 +68,7 @@ Todolist:
+    cpu-load
+    cputopology
+    lockup-watchdogs
++   numastat
+    unicode
+    sysrq
+    mm/index
+@@ -109,7 +110,6 @@ Todolist:
+ *   module-signing
+ *   mono
+ *   namespaces/index
+-*   numastat
+ *   parport
+ *   perf-security
+ *   pm/index
+diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+new file mode 100644
+index 000000000000..c0f54d9a6b05
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+@@ -0,0 +1,48 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/numastat.rst
++:Translator: Tao Zou <wodemia@linux.alibaba.com>
++
++
++=======================
++Numa策略命中/未命中统计
++=======================
++
++/sys/devices/system/node/node*/numastat
++
++所有数据的单位都是页面。巨页有独立的计数器。
++
++numa_hit、numa_miss和numa_foreign计数器反应了进程是否能够在他们偏好的节点上分配内存。
++如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
++加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
++
++通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
++因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
++配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
++上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
++
++更多细节内容:
++
++=============== ============================================================
++numa_hit        一个进程想要从本节点分配内存并且成功。
++
++numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
++
++numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
++
++local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
++
++other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
++
++interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
++=============== ============================================================
++
++你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
++来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
++
++需要注意，在包含无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit、numa_miss和
++numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
++进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
++结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
++numa_hit、numa_miss和numa_foreign统计数据。
+-- 
+2.39.3 (Apple Git-146)
 
