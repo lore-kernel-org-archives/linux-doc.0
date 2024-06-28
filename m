@@ -1,256 +1,79 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF401DDE9;
-	Fri, 28 Jun 2024 14:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719585967; cv=pass; b=St0k3wHZqqaS03II+fP8yVFQLnyWbdTEPjCl+RCFJVlbHlfPc8jAuE/8+dJ5rwwWaAfnvh9UJQno/oAv3LLi1lDQVEq5oMwiRuW6OmWVQfGIFXW2sjlHeTUp2ZKv56XVkm/s4Iqj9CaaUZKjQFUkOLawX/VXiRiE10T9l8sr9yU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719585967; c=relaxed/simple;
-	bh=xi3MsJ24rqKtt58ZcTwE+6ytS76F6inUaZWTbu1VV90=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=vGEO/FnIujPuFg0tzokSNPJVBWNYpQBJATcf880KVYzK0QLaI70M/f3dNqxAHzrM2p7Op9zc8ogwHmR/Hox53r94Q+2oUx3dYKAsk29l5XYq7O0Q+8QKiKsetuUSX8NOftMlZts3rNBsZ07pcovDEw7teaL7eEpxkVNHGTQq1gs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=x47XdDmE; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4A71DDE9;
+	Fri, 28 Jun 2024 14:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719586361; cv=none; b=RQSIr/Wcq872lT0bQIJ+ER3BTDifu8dbohfD4UBXCQ7+N+Ggtyag2amQ/6w/bCnYzI5LxYe71CI8od6v0W+NUz/88BuSGeuPJozFNzUa1UQE/cvATguRp2Px/JZNBRREoZwSmgzizd4L3xieHLTs4+D3QqVNlTssiNhinsuMTVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719586361; c=relaxed/simple;
+	bh=vZ0Gd1cDcY3qQgSgEEFxAnyHcWcTbNetGH8Pbn/F+Co=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kCzDa2gk/8rKr8+Dk52Htx8XpqjtTIFn+BD/RWnr0pgY4XSDBwVODb83uRRo4BAvy+GW39JK/A8dmN1V8lKzE0DIYaeSFWsUyhO0L+Ur757G1/fUm0U3hDywJ9SMkx7mV099m20YHHkr/p9VsCG91M5UjSPx0aelutS5oD6F+Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LkkUJSL4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="x47XdDmE"
-Received: from [192.168.1.215] (83-245-197-232.elisa-laajakaista.fi [83.245.197.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sakkinen)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4W9dXd425vzyQb;
-	Fri, 28 Jun 2024 17:45:53 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1719585957;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WWKHLgmudvMlwluvp3Stzu4k/6CZp2skiMXIPd54CxY=;
-	b=x47XdDmEctKtaybdA5GvS+Q7kPTHMjglvlqxpd7wJ1qZCnYZAqadJrM82qWAN9hkJw9qya
-	ArcSjW2anjIUCoreelJdVL2vlkPcnKtJvRbeg/lqoTfNWYZW6xSnQg7nduh1yLA2rVbPuU
-	bnqj0zoDIACXDnSY+Uqae9B+o+mxBYk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1719585957;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WWKHLgmudvMlwluvp3Stzu4k/6CZp2skiMXIPd54CxY=;
-	b=RxUpuY06Tm7bdQ+ZP2YSeV2sZ0d26kGW+yfvErGUjN0RqKtm0McdqrYuekNb0pGvzE+qm7
-	iuNlXj2O8FbpJDeehRl+K0JeKQeaRmeSYauJacKq29s6uBRrtri7KjBnhn89xVkrtvvaVt
-	5hMvMcoH5A/jWQetK3y8OT94tMYIngU=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sakkinen smtp.mailfrom=jarkko.sakkinen@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1719585957; a=rsa-sha256; cv=none;
-	b=wz7CPul/aLpW+AkOpy+q+2hOgYuNK2/HqS/jHykc4lXi7fbJVcsx4BSPq1RSy4MXAK4YCL
-	YMEG6IroCIxVWFa5vosVXJ7wmDo9nZEnRkcQT2Nc2HYn4VErl62+Oyb3XbEnCw7Tw+qsRn
-	X2ennwOnY7aYQMkNbAXIm+aPPy2PuKs=
-Message-ID: <177e16dafed37ab361cf0ccc436573be1d717d94.camel@iki.fi>
-Subject: Re: [PATCH v2 2/4] capabilities: Add securebit to restrict userns
- caps
-From: Jarkko Sakkinen <jarkko.sakkinen@iki.fi>
-To: Jonathan Calmels <jcalmels@3xx0.net>, brauner@kernel.org, 
- ebiederm@xmission.com, Jonathan Corbet <corbet@lwn.net>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
- <serge@hallyn.com>, KP Singh <kpsingh@kernel.org>, Matt Bobrowski
- <mattbobrowski@google.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Kees Cook
- <kees@kernel.org>, Joel Granados <j.granados@samsung.com>, John Johansen
- <john.johansen@canonical.com>, David Howells <dhowells@redhat.com>, Jarkko
- Sakkinen <jarkko@kernel.org>, Stephen Smalley
- <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
- Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>
-Cc: containers@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
- apparmor@lists.ubuntu.com, keyrings@vger.kernel.org,
- selinux@vger.kernel.org,  linux-kselftest@vger.kernel.org
-Date: Fri, 28 Jun 2024 17:45:52 +0300
-In-Reply-To: <f4de777099b0dff819ee6277b3b7cd7e18d96c78.camel@iki.fi>
-References: <20240609104355.442002-1-jcalmels@3xx0.net>
-	 <20240609104355.442002-3-jcalmels@3xx0.net>
-	 <f4de777099b0dff819ee6277b3b7cd7e18d96c78.camel@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LkkUJSL4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7062C116B1;
+	Fri, 28 Jun 2024 14:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1719586360;
+	bh=vZ0Gd1cDcY3qQgSgEEFxAnyHcWcTbNetGH8Pbn/F+Co=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LkkUJSL4BYMLJYkIhLyd0kRePbat2G4F7GxYVmxfA6CpmlVPnXrmEp21xnmJyz+I7
+	 GcPeeji+WGmtHkazMOImbWzGoofNsaFFpu/9CFrkfoWi2KIr3Ve//wvAhGjW6IKE08
+	 8V+2Gy/lGfpOIxShWqc7cdUgnzYm1YQ/ldEO4onA=
+Date: Fri, 28 Jun 2024 10:52:37 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Kees Cook <kees@kernel.org>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] Documentation: best practices for using Link
+ trailers
+Message-ID: <20240628-mindful-jackal-of-education-95059f@lemur>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+ <20240619-docs-patch-msgid-link-v2-2-72dd272bfe37@linuxfoundation.org>
+ <202406211355.4AF91C2@keescook>
+ <20240621-amorphous-topaz-cormorant-cc2ddb@lemur>
+ <87cyo3fgcb.fsf@trenco.lwn.net>
+ <4709c2fa-081f-4307-bc9e-eef928255c08@infradead.org>
+ <62647fab-b3d4-48ac-af4c-78c655dcff26@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <62647fab-b3d4-48ac-af4c-78c655dcff26@leemhuis.info>
 
-On Fri, 2024-06-28 at 17:43 +0300, Jarkko Sakkinen wrote:
-> On Sun, 2024-06-09 at 03:43 -0700, Jonathan Calmels wrote:
-> > This patch adds a new capability security bit designed to constrain
-> > a
->=20
->=20
-> nit: if you think of it "This patch adds" could be just "add", right?
-> :-)
->=20
-> Also name the exact thing/symbol/whatever here. This is not a HBO
-> series.
->=20
-> > task=E2=80=99s userns capability set to its bounding set. The reason fo=
-r
-> > this
-> > is
-> > twofold:
-> >=20
-> > - This serves as a quick and easy way to lock down a set of
-> > capabilities
-> > =C2=A0 for a task, thus ensuring that any namespace it creates will
-> > never
-> > be
-> > =C2=A0 more privileged than itself is.
-> > - This helps userspace transition to more secure defaults by not
-> > requiring
-> > =C2=A0 specific logic for the userns capability set, or libcap support.
-> >=20
-> > Example:
-> >=20
-> > =C2=A0=C2=A0=C2=A0 # capsh --secbits=3D$((1 << 8)) --drop=3Dcap_sys_raw=
-io -- \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -c '=
-unshare -r grep Cap /proc/self/status'
-> > =C2=A0=C2=A0=C2=A0 CapInh: 0000000000000000
-> > =C2=A0=C2=A0=C2=A0 CapPrm: 000001fffffdffff
-> > =C2=A0=C2=A0=C2=A0 CapEff: 000001fffffdffff
-> > =C2=A0=C2=A0=C2=A0 CapBnd: 000001fffffdffff
-> > =C2=A0=C2=A0=C2=A0 CapAmb: 0000000000000000
-> > =C2=A0=C2=A0=C2=A0 CapUNs: 000001fffffdffff
-> >=20
-> > Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
-> > ---
-> > =C2=A0include/linux/securebits.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-1 +
-> > =C2=A0include/uapi/linux/securebits.h | 11 ++++++++++-
-> > =C2=A0kernel/user_namespace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 5 +++++
-> > =C2=A03 files changed, 16 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/include/linux/securebits.h
-> > b/include/linux/securebits.h
-> > index 656528673983..5f9d85cd69c3 100644
-> > --- a/include/linux/securebits.h
-> > +++ b/include/linux/securebits.h
-> > @@ -5,4 +5,5 @@
-> > =C2=A0#include <uapi/linux/securebits.h>
-> > =C2=A0
-> > =C2=A0#define issecure(X)		(issecure_mask(X) &
-> > current_cred_xxx(securebits))
-> > +#define iscredsecure(cred, X)	(issecure_mask(X) & cred-
-> > > securebits)
-> > =C2=A0#endif /* !_LINUX_SECUREBITS_H */
-> > diff --git a/include/uapi/linux/securebits.h
-> > b/include/uapi/linux/securebits.h
-> > index d6d98877ff1a..2da3f4be4531 100644
-> > --- a/include/uapi/linux/securebits.h
-> > +++ b/include/uapi/linux/securebits.h
-> > @@ -52,10 +52,19 @@
-> > =C2=A0#define SECBIT_NO_CAP_AMBIENT_RAISE_LOCKED \
-> > =C2=A0			(issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE
-> > _L
-> > OCKED))
-> > =C2=A0
-> > +/* When set, user namespace capabilities are restricted to their
-> > parent's bounding set. */
-> > +#define SECURE_USERNS_STRICT_CAPS			8
-> > +#define SECURE_USERNS_STRICT_CAPS_LOCKED		9=C2=A0 /* make
->=20
->=20
->=20
-> > bit-8 immutable */
-> > +
-> > +#define SECBIT_USERNS_STRICT_CAPS
-> > (issecure_mask(SECURE_USERNS_STRICT_CAPS))
-> > +#define SECBIT_USERNS_STRICT_CAPS_LOCKED \
-> > +			(issecure_mask(SECURE_USERNS_STRICT_CAPS_L
-> > OC
-> > KED))
-> > +
-> > =C2=A0#define
-> > SECURE_ALL_BITS		(issecure_mask(SECURE_NOROOT) | \
-> > =C2=A0			=09
-> > issecure_mask(SECURE_NO_SETUID_FIXUP) | \
-> > =C2=A0				 issecure_mask(SECURE_KEEP_CAPS) |
-> > \
-> > -			=09
-> > issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE))
-> > +			=09
-> > issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE) | \
-> > +			=09
->=20
-> spurious new lines in the diff
->=20
-> please as first priority aim for absolute minimal diff or at least
-> do grow diff proactively like this.
->=20
-> If we really think after that, that we need some "extras" to the
-> patch set, then we decide that. These only take energy away from
-> reviewers.
->=20
->=20
-> > issecure_mask(SECURE_USERNS_STRICT_CAPS))
-> > =C2=A0#define SECURE_ALL_LOCKS	(SECURE_ALL_BITS << 1)
-> > =C2=A0
-> > =C2=A0#endif /* _UAPI_LINUX_SECUREBITS_H */
-> > diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-> > index 7e624607330b..53848e2b68cd 100644
-> > --- a/kernel/user_namespace.c
-> > +++ b/kernel/user_namespace.c
-> > @@ -10,6 +10,7 @@
-> > =C2=A0#include <linux/cred.h>
-> > =C2=A0#include <linux/securebits.h>
-> > =C2=A0#include <linux/security.h>
-> > +#include <linux/capability.h>
-> > =C2=A0#include <linux/keyctl.h>
-> > =C2=A0#include <linux/key-type.h>
-> > =C2=A0#include <keys/user-type.h>
-> > @@ -42,6 +43,10 @@ static void dec_user_namespaces(struct ucounts
-> > *ucounts)
-> > =C2=A0
-> > =C2=A0static void set_cred_user_ns(struct cred *cred, struct
-> > user_namespace *user_ns)
-> > =C2=A0{
-> > +	/* Limit userns capabilities to our parent's bounding set.
-> > */
-> > +	if (iscredsecure(cred, SECURE_USERNS_STRICT_CAPS))
-> > +		cred->cap_userns =3D cap_intersect(cred->cap_userns,
-> > cred->cap_bset);
-> > +
-> > =C2=A0	/* Start with the capabilities defined in the userns set.
-> > */
-> > =C2=A0	cred->cap_bset =3D cred->cap_userns;
-> > =C2=A0	cred->cap_permitted =3D cred->cap_userns;
->=20
-> Going for 4 week holiday starting for next week so focus in on nits
-> but since this is something to do access control:
->=20
-> 1. Please go surgical with the diff's because this type of patches
-> also require a surgical review. Now reviewing this like riding on=20
-> a bumpy road with a car of which suspension mechanics is broken
-> ;-)
->=20
-> Hope you grab my argument here. I only want to look at the problem
-> and solution for that not random stuff..
+On Thu, Jun 27, 2024 at 05:51:47AM GMT, Thorsten Leemhuis wrote:
+> I thought it was documented, but either I was wrong or can't find it.
+> But I found process/5.Posting.rst, which provides this example:
+> 
+>         Link: https://example.com/somewhere.html  optional-other-stuff
+> 
+> So no "# " there. So to avoid inconsistencies I guess this should not be
+> applied, unless that document is changed as well.
 
-I skip the other patches because of my eager to get on holiday but
-my instinct tells me that at least some of this feedback applies
-to all of the patches.
+This is inconsistent with every other trailer that includes comments.
+Currently, there are two mechanisms to provide comments with trailers:
 
-So put your solution in sight, not clean ups.
+1:
 
+    | Trailer-name: trailer-content # trailer-comment
 
-BR, Jarkko
+2:
+
+    | Trailer-name: trailer-content
+    | [trailer-comment]
+
+For the sake of consistency, all trailers, including Link, should use one of
+these two mechanisms for "optional-other-stuff".
+
+-K
