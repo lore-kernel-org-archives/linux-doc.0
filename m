@@ -1,253 +1,145 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1E417BDC;
-	Fri, 28 Jun 2024 02:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A31A17583
+	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 03:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719542680; cv=none; b=PovS6NTHuz8L99mafaeiylCkQeEyBFqz7mxqu6oiahXRU6jPr6Yanye56xGgehXYXjogkIpzWsjEU2LeJnJC11e5U5pPw3TCLZ+uJ76FIcyfblGNzBEPl+qHMn5UldsUE73VG0SYSCpQ+a+33qZzDhCYbfmPzWtGUJEg7jD1hME=
+	t=1719545242; cv=none; b=egrICKxlOGmeCtmvVrbB80dXC7yAR9X3sBU5Dxtm/phYu7REeXdqgSMoDqiiv7CyBnV4j6+AVyVBfDjfv0wcqCY7iCBF66HMX9mxbsmPkfVYfFDXtJePbYRV8TvpUnfwgzyjxbbGQhnH4XhH3UeHWnc4F2Btmb6wvSEK6eADfPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719542680; c=relaxed/simple;
-	bh=whZTxqz/IHf2fapa697XzDslUagp2Kvrh2U1+re4cIU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=rOIEMRHHEOXRqzmppo+FqY02s2OxziBCNFRZ/ww+kohcPamWvxq8zY5OZ4X6xThSoE8p+QImZLOf2ENBCGi3TV7qjzmatZV3K62w1TXG5UZh1XnApy/ZNOqD6n2JtJQMJeYoFzO93dl/+wenwVZz+nbCVoSYabl+Vi3zKPFU0SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dTyjSCMm; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1719545242; c=relaxed/simple;
+	bh=KYEJIysJLBBz8YMwcDlW01V44BPHmibTcSm9mVrIBA8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HXX0lCNPxENo63SF4QTUCUGqzp3E74kW5lqw6SVensbAK9cERrfRjQHES3BcJ8dtG0iTu4F575ba0snrnscYR8cgByKg1XXt5Cb0FHZcqILcWBgmfPh4DhIB8LXF2q7lXF1j+Rafk0ozIzhLujL8E+7OEn/gN9EF0cq//n89fmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2DLWDtFB; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dTyjSCMm"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1719542668; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
-	bh=3yfMU76sN6QYk8QhVB2v5kATfMe0OSebERoPNSWMYmA=;
-	b=dTyjSCMmsvbhYdkIVWH+xf5F7+6tYIdDTtoptJs58JienSmq3o35iA9c8TBQebSbxC9VTYB9dfmJpZSL+zfKkVClI39ycXEHCBjd6+DfaWgBygBN7VkvJMC+Qj0ITrxguMIeAdYteP2elytGVRB2/hcuYc6vZLsGQIMQhuGcuco=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033068173054;MF=wodemia@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W9OdWpM_1719542667;
-Received: from smtpclient.apple(mailfrom:wodemia@linux.alibaba.com fp:SMTPD_---0W9OdWpM_1719542667)
-          by smtp.aliyun-inc.com;
-          Fri, 28 Jun 2024 10:44:27 +0800
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2DLWDtFB"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fa3086cf25so56405ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Jun 2024 20:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719545241; x=1720150041; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dSkydqVrOylet5hZHTv4JAa4/5ZRn/MCtw+KWg/qGPQ=;
+        b=2DLWDtFB1Z0Cib2o5MtHHCwtbAcTl3bI4i0wxHZku4P9ICdQN1UzrwhXOfwMNf01LD
+         0/oE+hBCnPI3avRLSrWwyhwnp8jXgKnaMeQddCyldq3isrBASBK+ZfKiWgNcgnFjXR4p
+         WMrQNR2CozP16pBmoHBvQWlmUa39k5mzfDcx6O8UITcjQcGJcJ0vacKF1DKVQVogX7tO
+         GMZaQX2lOrymxVLxLkS2t5LrXFeiPyruhufKqLv10QLxBREY5/JrvjWMPLDzOU47DwAs
+         uSUBHWX54BpBO0096UqkFGqVT8ldaQase2WxPTojiUN9d9XxPLJUHQkD0HxjgSjO99E+
+         VVIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719545241; x=1720150041;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dSkydqVrOylet5hZHTv4JAa4/5ZRn/MCtw+KWg/qGPQ=;
+        b=U5ok86/ZaCTOiblUtEBT2RXpUhKNLz9htli+MQT1gn0A5u9YjendhSX4xoxW1BTE2C
+         QS94DpyIT4UdFrSc6rRsnFgRNOPkAQLWl0/UVYRT53rQ1fXFhq67bIuolbmP7v1AG1ee
+         r0fqXRxTsvGy4tYDLEcr5UD8raulMT6QTECvm4cxKKTn8W95wcEBmwLZ+yhgoYNNIgLg
+         eotVUsvbLrbmbA6XKFZE6+gQNzWCfvqp1ZLur80g9Qk9/Ke1G/j66ER+M8djU4xnV351
+         2NOr+M5YDuz0G4WfVFNrU1QmhvK/5JBUxyuByM/86dFgWhhEN/R4SUJrRvmjd/xc9/kr
+         VbbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUE5l0FEIh+F3/IZlALuM15cx+JsIUr7JQ0uVmPT01Q+IPNYaS1TZAuVJcNCFK/CMAJq+EI+Ukmsw5KGQev5M/trs21M7QxcjZu
+X-Gm-Message-State: AOJu0YzoW4bSjt+3VmA0qG8SFUNq7jCrVHbKufKm/i3t9gKinq5WvTi+
+	sIzu/pg3lMDjLa/HEeI0EU3hB3fPGTRFcH/41cDwAhcbLUowjyTjd+FV/hsicQ==
+X-Google-Smtp-Source: AGHT+IFknHUiBK4QKZl3RYX8Cc7u+xPDs+/iq1BOC/jaRS3yGmAHCWXBIfTUh5gu7x74dwrBoCs81A==
+X-Received: by 2002:a17:903:7c4:b0:1f8:6250:dfa5 with SMTP id d9443c01a7336-1fac18172dbmr1724525ad.28.1719545240167;
+        Thu, 27 Jun 2024 20:27:20 -0700 (PDT)
+Received: from [2620:0:1008:15:6e58:e031:b1d9:8b1e] ([2620:0:1008:15:6e58:e031:b1d9:8b1e])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6d1f77bcsm414842a12.79.2024.06.27.20.27.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 20:27:19 -0700 (PDT)
+Date: Thu, 27 Jun 2024 20:27:18 -0700 (PDT)
+From: David Rientjes <rientjes@google.com>
+To: Jiaqi Yan <jiaqiyan@google.com>
+cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
+    rdunlap@infradead.org, ioworker0@gmail.com, muchun.song@linux.dev, 
+    akpm@linux-foundation.org, shuah@kernel.org, corbet@lwn.net, 
+    osalvador@suse.de, duenwen@google.com, fvdl@google.com, linux-mm@kvack.org, 
+    linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] mm/memory-failure: userspace controls soft-offlining
+ pages
+In-Reply-To: <20240626050818.2277273-3-jiaqiyan@google.com>
+Message-ID: <e61fa5ea-09f3-c5f4-96be-ab0c5e7b233e@google.com>
+References: <20240626050818.2277273-1-jiaqiyan@google.com> <20240626050818.2277273-3-jiaqiyan@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH v4 RESEND] zh_CN/admin-guide: Add
- zh_CN/admin-guide/numastat.rst translation document
-From: Tao Zou <wodemia@linux.alibaba.com>
-In-Reply-To: <CAD-N9QWO2Km2mV0LJntF+RLQYXVfu3mQZ-zcywqhdtYH70yV7g@mail.gmail.com>
-Date: Fri, 28 Jun 2024 10:44:26 +0800
-Cc: Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E11ABAEC-42CF-4190-824D-C2143F8C7C7F@linux.alibaba.com>
-References: <20240628013621.46741-1-wodemia@linux.alibaba.com>
- <CAD-N9QWO2Km2mV0LJntF+RLQYXVfu3mQZ-zcywqhdtYH70yV7g@mail.gmail.com>
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-X-Mailer: Apple Mail (2.3774.600.62)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-2024=E5=B9=B46=E6=9C=8828=E6=97=A5 10:29=EF=BC=8CDongliang Mu =
-<mudongliangabcd@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Fri, Jun 28, 2024 at 9:36=E2=80=AFAM Tao Zou =
-<wodemia@linux.alibaba.com> wrote:
->>=20
->> Add translation zh_CN/admin-guide/numastat.rst and link it to
->> zh_CN/admin-guide/index.rst while clean its todo entry.
->>=20
->> commit 77691ee92d4a ("Documentation: update numastat explanation")
->>=20
->> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
->> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
->> Reviewed-by: Alex Shi <alexs@kernel.org>
->> ---
->> .../translations/zh_CN/admin-guide/index.rst  |  2 +-
->> .../zh_CN/admin-guide/numastat.rst            | 48 =
-+++++++++++++++++++
->> 2 files changed, 49 insertions(+), 1 deletion(-)
->> create mode 100644 =
-Documentation/translations/zh_CN/admin-guide/numastat.rst
->>=20
->> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst =
-b/Documentation/translations/zh_CN/admin-guide/index.rst
->> index ac2960da33e6..0db80ab830a0 100644
->> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
->> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
->> @@ -68,6 +68,7 @@ Todolist:
->>    cpu-load
->>    cputopology
->>    lockup-watchdogs
->> +   numastat
->>    unicode
->>    sysrq
->>    mm/index
->> @@ -109,7 +110,6 @@ Todolist:
->> *   module-signing
->> *   mono
->> *   namespaces/index
->> -*   numastat
->> *   parport
->> *   perf-security
->> *   pm/index
->> diff --git =
-a/Documentation/translations/zh_CN/admin-guide/numastat.rst =
-b/Documentation/translations/zh_CN/admin-guide/numastat.rst
->> new file mode 100644
->> index 000000000000..c0f54d9a6b05
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
->> @@ -0,0 +1,48 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/admin-guide/numastat.rst
->> +:Translator: Tao Zou <wodemia@linux.alibaba.com>
->> +
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +Numa=E7=AD=96=E7=95=A5=E5=91=BD=E4=B8=AD/=E6=9C=AA=E5=91=BD=E4=B8=AD=E7=
-=BB=9F=E8=AE=A1
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +/sys/devices/system/node/node*/numastat
->> +
->> +=E6=89=80=E6=9C=89=E6=95=B0=E6=8D=AE=E7=9A=84=E5=8D=95=E4=BD=8D=E9=83=BD=
-=E6=98=AF=E9=A1=B5=E9=9D=A2=E3=80=82=E5=B7=A8=E9=A1=B5=E6=9C=89=E7=8B=AC=E7=
-=AB=8B=E7=9A=84=E8=AE=A1=E6=95=B0=E5=99=A8=E3=80=82
->> +
->> =
-+numa_hit=E3=80=81numa_miss=E5=92=8Cnuma_foreign=E8=AE=A1=E6=95=B0=E5=99=A8=
-=E5=8F=8D=E5=BA=94=E4=BA=86=E8=BF=9B=E7=A8=8B=E6=98=AF=E5=90=A6=E8=83=BD=E5=
-=A4=9F=E5=9C=A8=E4=BB=96=E4=BB=AC=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=
-=B9=E4=B8=8A=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E3=80=82
->> =
-+=E5=A6=82=E6=9E=9C=E8=BF=9B=E7=A8=8B=E6=88=90=E5=8A=9F=E5=9C=A8=E5=81=8F=E5=
-=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E4=B8=8A=E5=88=86=E9=85=8D=E5=86=85=E5=AD=
-=98=E5=88=99=E5=9C=A8=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E4=B8=8A=
-=E5=A2=9E=E5=8A=A0numa_hit=E8=AE=A1=E6=95=B0=EF=BC=8C=E5=90=A6=E5=88=99=E5=
-=9C=A8=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E4=B8=8A=E5=A2=9E
->> =
-+=E5=8A=A0numa_foreign=E8=AE=A1=E6=95=B0=E5=90=8C=E6=97=B6=E5=9C=A8=E5=AE=9E=
-=E9=99=85=E5=86=85=E5=AD=98=E5=88=86=E9=85=8D=E7=9A=84=E8=8A=82=E7=82=B9=E4=
-=B8=8A=E5=A2=9E=E5=8A=A0numa_miss=E8=AE=A1=E6=95=B0=E3=80=82
->=20
-> =E5=8F=8D=E5=BA=94 -> =E5=8F=8D=E6=98=A0
->=20
-> This should be a typo.
-Thanks for your suggestion=EF=BC=8Cit will be fixed.
->=20
->> +
->> =
-+=E9=80=9A=E5=B8=B8=EF=BC=8C=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E6=
-=98=AF=E8=BF=9B=E7=A8=8B=E8=BF=90=E8=A1=8C=E6=89=80=E5=9C=A8=E7=9A=84CPU=E7=
-=9A=84=E6=9C=AC=E5=9C=B0=E8=8A=82=E7=82=B9=EF=BC=8C=E4=BD=86=E6=98=AF=E4=B8=
-=80=E4=BA=9B=E9=99=90=E5=88=B6=E5=8F=AF=E4=BB=A5=E6=94=B9=E5=8F=98=E8=BF=99=
-=E4=B8=80=E8=A1=8C=E4=B8=BA=EF=BC=8C=E6=AF=94=E5=A6=82=E5=86=85=E5=AD=98=E7=
-=AD=96=E7=95=A5=EF=BC=8C
->> =
-+=E5=9B=A0=E6=AD=A4=E5=90=8C=E6=A0=B7=E6=9C=89=E4=B8=A4=E4=B8=AA=E5=9F=BA=E4=
-=BA=8ECPU=E6=9C=AC=E5=9C=B0=E8=8A=82=E7=82=B9=E7=9A=84=E8=AE=A1=E6=95=B0=E5=
-=99=A8=E3=80=82local_node=E5=92=8Cnuma_hit=E7=B1=BB=E4=BC=BC=EF=BC=8C=E5=BD=
-=93=E5=9C=A8CPU=E6=89=80=E5=9C=A8=E7=9A=84=E8=8A=82=E7=82=B9=E4=B8=8A=E5=88=
-=86
->> =
-+=E9=85=8D=E5=86=85=E5=AD=98=E6=97=B6=E5=A2=9E=E5=8A=A0local_node=E8=AE=A1=
-=E6=95=B0=EF=BC=8Cother_node=E5=92=8Cnuma_miss=E7=B1=BB=E4=BC=BC=EF=BC=8C=E5=
-=BD=93=E5=9C=A8CPU=E6=89=80=E5=9C=A8=E8=8A=82=E7=82=B9=E4=B9=8B=E5=A4=96=E7=
-=9A=84=E5=85=B6=E4=BB=96=E8=8A=82=E7=82=B9
->> =
-+=E4=B8=8A=E6=88=90=E5=8A=9F=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E6=97=B6=E5=
-=A2=9E=E5=8A=A0other_node=E8=AE=A1=E6=95=B0=E3=80=82=E9=9C=80=E8=A6=81=E6=B3=
-=A8=E6=84=8F=EF=BC=8C=E6=B2=A1=E6=9C=89=E5=92=8Cnuma_foreign=E5=AF=B9=E5=BA=
-=94=E7=9A=84=E8=AE=A1=E6=95=B0=E5=99=A8=E3=80=82
->> +
->> +=E6=9B=B4=E5=A4=9A=E7=BB=86=E8=8A=82=E5=86=85=E5=AE=B9:
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +numa_hit        =
-=E4=B8=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E6=83=B3=E8=A6=81=E4=BB=8E=E6=9C=AC=E8=
-=8A=82=E7=82=B9=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E5=B9=B6=E4=B8=94=E6=88=
-=90=E5=8A=9F=E3=80=82
->> +
->> +numa_miss       =
-=E4=B8=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E6=83=B3=E8=A6=81=E4=BB=8E=E5=85=B6=E4=
-=BB=96=E8=8A=82=E7=82=B9=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E4=BD=86=E6=98=
-=AF=E6=9C=80=E7=BB=88=E5=9C=A8=E6=9C=AC=E8=8A=82=E7=82=B9=E5=AE=8C=E6=88=90=
-=E5=86=85=E5=AD=98=E5=88=86=E9=85=8D=E3=80=82
->> +
->> +numa_foreign    =
-=E4=B8=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E6=83=B3=E8=A6=81=E5=9C=A8=E6=9C=AC=E8=
-=8A=82=E7=82=B9=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E4=BD=86=E6=98=AF=E6=9C=
-=80=E7=BB=88=E5=9C=A8=E5=85=B6=E4=BB=96=E8=8A=82=E7=82=B9=E5=AE=8C=E6=88=90=
-=E5=86=85=E5=AD=98=E5=88=86=E9=85=8D=E3=80=82
->> +
->> +local_node      =
-=E4=B8=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E8=BF=90=E8=A1=8C=E5=9C=A8=E6=9C=AC=E8=
-=8A=82=E7=82=B9=E7=9A=84CPU=E4=B8=8A=E5=B9=B6=E4=B8=94=E4=BB=8E=E6=9C=AC=E8=
-=8A=82=E7=82=B9=E4=B8=8A=E8=8E=B7=E5=BE=97=E4=BA=86=E5=86=85=E5=AD=98=E3=80=
-=82
->> +
->> +other_node      =
-=E4=B8=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E8=BF=90=E8=A1=8C=E5=9C=A8=E5=85=B6=E4=
-=BB=96=E8=8A=82=E7=82=B9=E7=9A=84CPU=E4=B8=8A=E4=BD=86=E6=98=AF=E5=9C=A8=E6=
-=9C=AC=E8=8A=82=E7=82=B9=E4=B8=8A=E8=8E=B7=E5=BE=97=E4=BA=86=E5=86=85=E5=AD=
-=98=E3=80=82
->> +
->> +interleave_hit  =
-=E5=86=85=E5=AD=98=E4=BA=A4=E5=8F=89=E5=88=86=E9=85=8D=E7=AD=96=E7=95=A5=E4=
-=B8=8B=E6=83=B3=E8=A6=81=E4=BB=8E=E6=9C=AC=E8=8A=82=E7=82=B9=E5=88=86=E9=85=
-=8D=E5=86=85=E5=AD=98=E5=B9=B6=E4=B8=94=E6=88=90=E5=8A=9F=E3=80=82
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> =
-+=E4=BD=A0=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8numactl=E8=BD=AF=E4=BB=B6=E5=
-=8C=85=EF=BC=88http://oss.sgi.com/projects/libnuma/=EF=BC=89=E4=B8=AD=E7=9A=
-=84numastat=E5=B7=A5=E5=85=B7
->> =
-+=E6=9D=A5=E8=BE=85=E5=8A=A9=E9=98=85=E8=AF=BB=E3=80=82=E9=9C=80=E8=A6=81=E6=
-=B3=A8=E6=84=8F=EF=BC=8Cnumastat=E5=B7=A5=E5=85=B7=E7=9B=AE=E5=89=8D=E5=8F=
-=AA=E5=9C=A8=E6=9C=89=E5=B0=91=E9=87=8FCPU=E7=9A=84=E6=9C=BA=E5=99=A8=E4=B8=
-=8A=E8=BF=90=E8=A1=8C=E8=89=AF=E5=A5=BD=E3=80=82
->> +
->> =
-+=E9=9C=80=E8=A6=81=E6=B3=A8=E6=84=8F=EF=BC=8C=E5=9C=A8=E5=8C=85=E5=90=AB=E6=
-=97=A0=E5=86=85=E5=AD=98=E8=8A=82=E7=82=B9=EF=BC=88=E4=B8=80=E4=B8=AA=E8=8A=
-=82=E7=82=B9=E6=9C=89CPUs=E4=BD=86=E6=98=AF=E6=B2=A1=E6=9C=89=E5=86=85=E5=AD=
-=98=EF=BC=89=E7=9A=84=E7=B3=BB=E7=BB=9F=E4=B8=ADnuma_hit=E3=80=81numa_miss=
-=E5=92=8C
->> =
-+numa_foreign=E7=BB=9F=E8=AE=A1=E6=95=B0=E6=8D=AE=E4=BC=9A=E8=A2=AB=E4=B8=A5=
-=E9=87=8D=E6=9B=B2=E8=A7=A3=E3=80=82=E5=9C=A8=E5=BD=93=E5=89=8D=E7=9A=84=E5=
-=86=85=E6=A0=B8=E5=AE=9E=E7=8E=B0=E4=B8=AD=EF=BC=8C=E5=A6=82=E6=9E=9C=E4=B8=
-=80=E4=B8=AA=E8=BF=9B=E7=A8=8B=E5=81=8F=E5=A5=BD=E4=B8=80=E4=B8=AA=E6=97=A0=
-=E5=86=85=E5=AD=98=E8=8A=82=E7=82=B9=EF=BC=88=E5=8D=B3
->> =
-+=E8=BF=9B=E7=A8=8B=E6=AD=A3=E5=9C=A8=E8=AF=A5=E8=8A=82=E7=82=B9=E7=9A=84=E4=
-=B8=80=E4=B8=AA=E6=9C=AC=E5=9C=B0CPU=E4=B8=8A=E8=BF=90=E8=A1=8C=EF=BC=89=EF=
-=BC=8C=E5=AE=9E=E9=99=85=E4=B8=8A=E4=BC=9A=E4=BB=8E=E8=B7=9D=E7=A6=BB=E6=9C=
-=80=E8=BF=91=E7=9A=84=E6=9C=89=E5=86=85=E5=AD=98=E8=8A=82=E7=82=B9=E4=B8=AD=
-=E6=8C=91=E9=80=89=E4=B8=80=E4=B8=AA=E4=BD=9C=E4=B8=BA=E5=81=8F=E5=A5=BD=E8=
-=8A=82=E7=82=B9=E3=80=82
->> =
-+=E7=BB=93=E6=9E=9C=E4=BC=9A=E5=AF=BC=E8=87=B4=E7=9B=B8=E5=BA=94=E7=9A=84=E5=
-=86=85=E5=AD=98=E5=88=86=E9=85=8D=E4=B8=8D=E4=BC=9A=E5=A2=9E=E5=8A=A0=E6=97=
-=A0=E5=86=85=E5=AD=98=E8=8A=82=E7=82=B9=E4=B8=8A=E7=9A=84numa_foreign=E8=AE=
-=A1=E6=95=B0=E5=99=A8=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=BC=9A=E6=89=AD=E6=9B=B2=
-=E6=9C=80=E8=BF=91=E8=8A=82=E7=82=B9=E4=B8=8A=E7=9A=84
->> +numa_hit=E3=80=81numa_miss=E5=92=8Cnuma_foreign=E7=BB=9F=E8=AE=A1=E6=95=
-=B0=E6=8D=AE=E3=80=82
->> --
->> 2.39.3 (Apple Git-146)
->>=20
->>=20
+On Wed, 26 Jun 2024, Jiaqi Yan wrote:
 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 6f5ac334efba..1559e773537f 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -68,6 +68,8 @@ static int sysctl_memory_failure_early_kill __read_mostly;
+>  
+>  static int sysctl_memory_failure_recovery __read_mostly = 1;
+>  
+> +static int sysctl_enable_soft_offline __read_mostly = 1;
+> +
+>  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
+>  
+>  static bool hw_memory_failure __read_mostly = false;
+> @@ -141,6 +143,15 @@ static struct ctl_table memory_failure_table[] = {
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +	{
+> +		.procname	= "enable_soft_offline",
+> +		.data		= &sysctl_enable_soft_offline,
+> +		.maxlen		= sizeof(sysctl_enable_soft_offline),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dointvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE,
+> +	}
+>  };
+>  
+>  /*
+> @@ -2749,8 +2760,9 @@ static int soft_offline_in_use_page(struct page *page)
+>   * @pfn: pfn to soft-offline
+>   * @flags: flags. Same as memory_failure().
+>   *
+> - * Returns 0 on success
+> - *         -EOPNOTSUPP for hwpoison_filter() filtered the error event
+> + * Returns 0 on success,
+> + *         -EOPNOTSUPP for hwpoison_filter() filtered the error event, or
+> + *         disabled by /proc/sys/vm/enable_soft_offline,
+>   *         < 0 otherwise negated errno.
+>   *
+>   * Soft offline a page, by migration or invalidation,
+> @@ -2786,6 +2798,13 @@ int soft_offline_page(unsigned long pfn, int flags)
+>  		return -EIO;
+>  	}
+>  
+> +	if (!sysctl_enable_soft_offline) {
+> +		pr_info_once("%#lx: disabled by /proc/sys/vm/enable_soft_offline\n",
+> +			pfn);
+
+Any strong reason to include the pfn in the log message?
+
+I'm concerned about allowing a user to deduce the physical mapping for any 
+arbitrary page since this is possible to do through MADV_SOFT_OFFLINE and 
+I don't think that it adds value, especially if this is pr_info_once().
+
+If we remove the pfn, feel free to add
+
+	Acked-by: David Rientjes <rientjes@google.com>
+
+> +		put_ref_page(pfn, flags);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+>  	mutex_lock(&mf_mutex);
+>  
+>  	if (PageHWPoison(page)) {
+> -- 
+> 2.45.2.741.gdbec12cfda-goog
+> 
+> 
