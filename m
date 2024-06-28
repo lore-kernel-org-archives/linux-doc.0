@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4A97CF16
-	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 21:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5B284DE7
+	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 21:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719609232; cv=none; b=UK1com/Mnsp/uiB7FICfJhw16AWzO752Rk1NL7MWWiH7OrcyYrJTrdJgBKwbaUodN/u8V08lGMnsopexo6VUB2uwq84+oGn/XzM558tInJBvfru7NMUUFRn7ZBslyOgm9TUlavVgZ3s2nGcmozlX1RXvLXzv7vMb1pNwmWmrZyw=
+	t=1719611881; cv=none; b=epBBuc9SEvCNbzFZgR4/krHlaBMDbvgNSixqIVpUWBQwgxMcUD5aXChxQ/LlI/mzdsWxDi+G3WfyY8CWtK93VV1iEgBLOzdYVlHxds96QO0sxoZP49q5hc3TSi/wKzvdBpaw7+GH5fo6HIlUZodRbuxK+1LRRcdhJrWYz/o2tPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719609232; c=relaxed/simple;
-	bh=rcq0CBNdH9/HbkNZOXGVIt8R7lyhg6gNjzCq1VjpI0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kbje9e6aRFJjheyfjeywZ5Xqe0mZm0/aEnKs6ja3lF32z8uXZMcTsFUFrxuh1zDBbbm8ibyQMqNCsgDp/WlXa3tFUBcSUOfA8FjbNsM3MHUgW4UzpxpfDAu4kQ7jyjHOBXhM9Oz3L4Rt8ziw8sXMBoKJQhnE+2zQ3lnGikLumMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asjqmspT; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719611881; c=relaxed/simple;
+	bh=zimJaIrAIqUoSxZ+VOwjIwOnQiR/wAf0mSWgqUbw/68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jP/BYJ/lfeyBJYXhM4i1/2CzirUUrE19Uf9wwmsKu8K2CPH4uRR9Ff4PWOQ4FcFZTdlBK+ByGRf/kqn6bbwyCjmbjfQLIJ98GGjzC80T/n4DNl0itUmGhwArtL9PIf3a0m/B+1/WvblAm38Dc0vkGBeMn3I5PmEUiezNiSZ/asA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U/XwCeuB; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asjqmspT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719609230; x=1751145230;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rcq0CBNdH9/HbkNZOXGVIt8R7lyhg6gNjzCq1VjpI0Y=;
-  b=asjqmspTWcgnrZONTWthxnHU298Sh1iiv+z+m15CEinNIdmOvj8ZGBKI
-   Q4zx0Q/ORTK4ts+q60rb13eeELhuHemw1h5zSqzYqBctmsKbOosgVAv91
-   YMyky1wDwIZeUwBdg1DEEIIlFMjNgst0XWWT8xtWylMqJR17oFm5aRHPS
-   +khlkGJLljdAYFBOdB8NUZpkSSqR5XuuZ42/5QQH+6zgmZFh5v7UcNG6U
-   wWUNXfgvlo/cZPhjJwq0+tTCMqVezRzNnggB6Qe/FlubjvWXkJedsY6Sl
-   DavG1W5Sf96xx6KEcIe1WPhfrkzJ3AeV5GGkke45Cw5CKS8eDDxrVWQcB
-   Q==;
-X-CSE-ConnectionGUID: jCwVCrA1Ssmzn8a41do2YQ==
-X-CSE-MsgGUID: ytq9QwuaTeOC96UzK94K7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="42226277"
-X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="42226277"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 14:13:41 -0700
-X-CSE-ConnectionGUID: eL0VABp6SuW1CTy/hqejpQ==
-X-CSE-MsgGUID: bPSXXLdrSjijBpfmf7z87A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
-   d="scan'208";a="44838889"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Jun 2024 14:13:41 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sNIuY-000IUK-1b;
-	Fri, 28 Jun 2024 21:13:38 +0000
-Date: Sat, 29 Jun 2024 05:12:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [morimoto:sound-ak4619-for-upstream-2024-06-28 5/8]
- Documentation/devicetree/bindings/sound/simple-audio-mux.yaml: state-labels:
- missing type definition
-Message-ID: <202406290553.oLOBg3m5-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U/XwCeuB"
+X-Envelope-To: changyuanl@google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1719611876;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=71r73t8BLcU2HpTB1C169uYhfS6uPxsziyAI3xTubZc=;
+	b=U/XwCeuBXe3g6Qcskm0fmzxVddeSpYtGvnWoFq2CuJVyPxPbbF7vtMw68HcJiybIad3W3M
+	Z3A4tFA5S9yNh6ShcFnUik/1ViNnLsMTaY/G5Bo81jXJUaDhP7SSs8oXaFiEKJzP201Tf9
+	g2ZoYOe46aQzi+ye73uO6BE8QbVJG8E=
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: kvm@vger.kernel.org
+X-Envelope-To: linux-doc@vger.kernel.org
+Date: Fri, 28 Jun 2024 21:57:52 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Changyuan Lyu <changyuanl@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] Documentation: Fix typo `BFD`
+Message-ID: <Zn8x4Fxr6JFq37Nw@linux.dev>
+References: <20240623164542.2999626-1-changyuanl@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,24 +46,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240623164542.2999626-1-changyuanl@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://github.com/morimoto/linux sound-ak4619-for-upstream-2024-06-28
-head:   1fcff128782574ab57b108b58c74363f602252e6
-commit: ad1349eda3c8e174887cff500cf17d1b02b192d7 [5/8] ASoC: dt-bindings: simple-audio-mux: add mux-names property
-config: csky-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240629/202406290553.oLOBg3m5-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240629/202406290553.oLOBg3m5-lkp@intel.com/reproduce)
+Hi Changyuan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406290553.oLOBg3m5-lkp@intel.com/
+Thanks for the fixes. LGTM, but next time you have a multi-patch series
+please include a cover letter. Helps with organizing the patch series
+on the receiving end :)
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
->> Documentation/devicetree/bindings/sound/simple-audio-mux.yaml: state-labels: missing type definition
+On Sun, Jun 23, 2024 at 09:45:39AM -0700, Changyuan Lyu wrote:
+> BDF is the acronym for Bus, Device, Function.
+> 
+> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index a71d91978d9ef..e623f072e9aca 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -1921,7 +1921,7 @@ flags:
+>  
+>  If KVM_MSI_VALID_DEVID is set, devid contains a unique device identifier
+>  for the device that wrote the MSI message.  For PCI, this is usually a
+> -BFD identifier in the lower 16 bits.
+> +BDF identifier in the lower 16 bits.
+>  
+>  On x86, address_hi is ignored unless the KVM_X2APIC_API_USE_32BIT_IDS
+>  feature of KVM_CAP_X2APIC_API capability is enabled.  If it is enabled,
+> @@ -2986,7 +2986,7 @@ flags:
+>  
+>  If KVM_MSI_VALID_DEVID is set, devid contains a unique device identifier
+>  for the device that wrote the MSI message.  For PCI, this is usually a
+> -BFD identifier in the lower 16 bits.
+> +BDF identifier in the lower 16 bits.
+>  
+>  On x86, address_hi is ignored unless the KVM_X2APIC_API_USE_32BIT_IDS
+>  feature of KVM_CAP_X2APIC_API capability is enabled.  If it is enabled,
+> -- 
+> 2.45.2.741.gdbec12cfda-goog
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Oliver
