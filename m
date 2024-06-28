@@ -1,185 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7F71BF307;
-	Fri, 28 Jun 2024 14:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F341E53A;
+	Fri, 28 Jun 2024 14:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719583496; cv=none; b=DOR/dwrscrxeyWzxT43Yd9MQRYRn1mw609QH1DC2MCsSnRW0U1rzZ5FUK/+c64enej5nUXuFTeDbrGvYGIpkELFhn2FHWkwcsIIcq0z9XsFZcIap2R0S7kcDVp6Bmdz8oEkiP3FLBzSXDGsWqpbC8HDoohHHNHX0Dfpyyk4/gc4=
+	t=1719585521; cv=none; b=H88hTUMc9WZdrvHYDoujfZWepCcKS5ryMMvydn6PJ2fUcEwDXGm8vYHYEqe/Kd/kh/ETCZRwq/lmBr7YzzeuwZ0XWKquAwZ/79zOzxy39f5+7UuaQN6bhex0QXECA1Twlxs/eWOtgN52q5INfzD5r2ijY7mXl48qG7/LXT9gZGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719583496; c=relaxed/simple;
-	bh=gPsBksBd9/r5KyiQkMqtaVzJ3Jnw9xxaAJaOJd1IL5A=;
+	s=arc-20240116; t=1719585521; c=relaxed/simple;
+	bh=UnQJTA1Uho8wfMRllPRQMtJTW9ui2+eIhxm9q+jTY9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ilb2V4RRqJJZe8D6BRBLn0Ksj2DRI9kAXwa2Pn9s4FdQnkGmItVoROYnK3zlje7SHrdAmEteTr94yyCCw97XXwRG5HKr5dSgEAN6hYm/dmodlwEfIvEHZRfZZJVmALarqr4a/ZHd7WhzJHZZUQarM1vu9FjN3MRGcEgVvDRg4W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrZl5nCo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=blirdbgRKLQMAIclXHDg1mgt30SPpIJS8njJBR663T1qkBcVD5h/zzNUjWhI9ujqysCY7KfvIO1KBhlrJKE0hkjJt5sB4Ju5c6Hk4f46xt1696UxsugC9h6Q5AhLz27kcWLsqXAfCRzw4XWiqHSLjJeBhJQoW6p+vC0rdseN4I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SPQWxdGH; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrZl5nCo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FC3C116B1;
-	Fri, 28 Jun 2024 14:04:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719583495;
-	bh=gPsBksBd9/r5KyiQkMqtaVzJ3Jnw9xxaAJaOJd1IL5A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JrZl5nCoSOg1oFczaYNXOld1XvShBNSqpPU19+yaDf6ERI30kJ5Dorzs0krZKwCBX
-	 oETKiAlQbjACn116sCeEjTwKL5u4AH4m943lebVVjS8pc3ejDEUrBsFdc+0gXFgRm1
-	 vU2W/gzhdm9dudHQSSQpaPEew9f1v4vyUOOa4dPaQCx0PIMX13Sl2SF1rs+yZNCa/o
-	 PDHnlDCgSwVaGcAzxdt+Coft0zyfppm/k9KrjJ+aJoYnxsdJO7OFGeKc3mYsvBlavD
-	 unyIJDu9Xzf7TZiwSoHgPgGhF4XEdPdWJ/SAWYmEX404qo0FB/O8kkJoNSIX9xSyMU
-	 Jm+53XnRA8tKA==
-Date: Fri, 28 Jun 2024 16:04:53 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
-Message-ID: <20240628-romantic-emerald-snake-7b26ca@houat>
-References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
- <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
- <20240627-paper-vicugna-of-fantasy-c549ed@houat>
- <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPQWxdGH"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7f3c878d6d4so27251039f.0;
+        Fri, 28 Jun 2024 07:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719585519; x=1720190319; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VcQyE0yYDNTSkXwDduYitSPJ1KKImtXfpamQ+jJEONA=;
+        b=SPQWxdGHZS7cBj7J+Bjk/jPv8+wLO4TW9877MJ4gr0j7QypcVJQ42KdsXV6TckmKAz
+         n1GbOtofbbOdjo+GwcXnEYc/XUuBtNNQAoTgDtCQzeqJ36GooMBdZ4In/fhrP4Luu+vA
+         IUMzCBH1kQ2xV9e2Lx6I2rkLWQuzckuaD1nvm4M8/Yz1pRXFfmJjx72tYZ9jTxQNmY67
+         Kj6ffmSyevjsTQic5hwiuDZzQJkmwlYs61hy0+yv7KgCh+Mj1JbR4Y4eBAw9Mf+vLBc5
+         jz/Fx5Y4V0ANhOm8mBLtj3cmFok0rNYrAlEokEtyaAjPsSW/jMnbzQv/QCSL2q5obbsH
+         OmwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719585519; x=1720190319;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VcQyE0yYDNTSkXwDduYitSPJ1KKImtXfpamQ+jJEONA=;
+        b=eBKQNQyw3drzlYA6GDia24sdrCUsKJDx5DPfZLoD8Egr4WHkUqcApwI8J4w08MTsVQ
+         Zk8/Fj49LLGyKObWCUFU2hrtJ9RLhmc3llSknEh14UJ3Ahy2CcYzRvzZPZNBV/XuRJ9X
+         Z+zcn1oFhfHwctQlSjS5C3Fr3B1jfdB3QXN8a2NuWarq9Wu/dYNDVKkmjTV7CjpcnLsQ
+         GNzVL0O7GK1OIJrVoYBkzVBceHMNlKjYXSCRZdBJfULq+r8xSdvoyYbAxz47GvYx9uqv
+         f4gblYkP30Autva6ejiONbjspUdLtVJpBJY/266R/2BqxL0OH3o7jjjnlOjJtaJIkJQc
+         lDYA==
+X-Forwarded-Encrypted: i=1; AJvYcCX93dbdbSqJYEwWrUuWpqLvWl5RTZkZu5AOT7HZpkZQwwQrQ9cUU6t9kMyl/OrXipLfd5JsuskxkL5UuPr63DjzQrRpD0kC0lH5K1LDd9IJ9OZet8KKI+2RpummMMSwBCGpEDwddSqMVOEihEbNFvmLec7OGfMcdZvUxk5nARoccC6QheBkdeQwnOe+VL+XWgdHqNP5VM09tjSCG4nnPh4k/U+h29E0xtMjra9MInbw5FquKxqwEvWVXA==
+X-Gm-Message-State: AOJu0YyC/L5vVDnxivFcWN16UIMk4XFu0N3REVZ5M6JfErYGzXHeUVek
+	FJJJ0e1bIQ1X6Cey2vdu2seIPPqZDo81XeYU5iEkL+aK7GpRQkoa
+X-Google-Smtp-Source: AGHT+IHz9FFo+xEdO4eMyfNJdkl4np8V035GYfOzDC08kq0lJxY+ZuMnFlw/XDfGatIYJ2F8lUlsOg==
+X-Received: by 2002:a05:6602:1602:b0:7f3:d759:8fc2 with SMTP id ca18e2360f4ac-7f3d7599379mr765481339f.17.1719585518489;
+        Fri, 28 Jun 2024 07:38:38 -0700 (PDT)
+Received: from localhost ([2804:30c:96b:f700:cc1d:c0ae:96c9:c934])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-72c6d1f77bcsm1380841a12.79.2024.06.28.07.38.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 07:38:37 -0700 (PDT)
+Date: Fri, 28 Jun 2024 11:40:03 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, broonie@kernel.org,
+	lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, nuno.sa@analog.com, corbet@lwn.net,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] docs: iio: Add documentation for AD4000
+Message-ID: <Zn7LQ8AJo0U1pzN7@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1719351923.git.marcelo.schmitt@analog.com>
+ <e553a7c6ba88b3d8ae2db0963212fdce0919805a.1719351923.git.marcelo.schmitt@analog.com>
+ <55d0cc07-c877-4510-a052-4458ee964615@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7fymz6tlpfxqxwqn"
-Content-Disposition: inline
-In-Reply-To: <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
-
-
---7fymz6tlpfxqxwqn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <55d0cc07-c877-4510-a052-4458ee964615@baylibre.com>
 
-Hi,
+On 06/26, David Lechner wrote:
+> On 6/25/24 4:55 PM, Marcelo Schmitt wrote:
+> > Document wiring configurations for the AD4000 series of ADCs.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+> >  Documentation/iio/ad4000.rst | 131 +++++++++++++++++++++++++++++++++++
+> >  Documentation/iio/index.rst  |   1 +
+> >  MAINTAINERS                  |   1 +
+...
+> > +Wiring connections
+> > +------------------
+> > +
+> > +Devices of the AD4000 series can be connected to the SPI host controller in a
+> > +few different modes.
+> > +
+> > +CS mode, 3-wire turbo mode
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> The datasheet also has the same diagram in _Figure 55. CS Mode, 4-Wire Turbo Mode
+> Connection Diagram_. So maybe we should call this "register support mode" or
+> something like that instead of mentioning 3 or 4-wire?
+> 
+Humm, ADAQ4003 datasheet has the same figure for CS Mode, 4-wire turbo mode
+and CS mode, 4-wire with busy indicator although other datasheets have MOSI
+to SDI in 4-wire turbo as you said. The register read/write functionality
+sections say CNV must be brought low to access the configuration register.
+I'll leave it as it is for now as I have not tested reg access with CNV high.
+We can update this in the future if find out reg access to work in 4-wire mode.
 
-On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
-> Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
-> > Hi,
-> >=20
-> > Thanks for working on this!
-> >=20
-> > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
-> > > The initial version was based roughly on the rdma and misc cgroup
-> > > controllers, with a lot of the accounting code borrowed from rdma.
-> > >=20
-> > > The current version is a complete rewrite with page counter; it uses
-> > > the same min/low/max semantics as the memory cgroup as a result.
-> > >=20
-> > > There's a small mismatch as TTM uses u64, and page_counter long pages.
-> > > In practice it's not a problem. 32-bits systems don't really come with
-> > > > =3D4GB cards and as long as we're consistently wrong with units, it=
-'s
-> > > fine. The device page size may not be in the same units as kernel page
-> > > size, and each region might also have a different page size (VRAM vs =
-GART
-> > > for example).
-> > >=20
-> > > The interface is simple:
-> > > - populate drmcgroup_device->regions[..] name and size for each active
-> > >    region, set num_regions accordingly.
-> > > - Call drm(m)cg_register_device()
-> > > - Use drmcg_try_charge to check if you can allocate a chunk of memory,
-> > >    use drmcg_uncharge when freeing it. This may return an error code,
-> > >    or -EAGAIN when the cgroup limit is reached. In that case a refere=
-nce
-> > >    to the limiting pool is returned.
-> > > - The limiting cs can be used as compare function for
-> > >    drmcs_evict_valuable.
-> > > - After having evicted enough, drop reference to limiting cs with
-> > >    drmcs_pool_put.
-> > >=20
-> > > This API allows you to limit device resources with cgroups.
-> > > You can see the supported cards in /sys/fs/cgroup/drm.capacity
-> > > You need to echo +drm to cgroup.subtree_control, and then you can
-> > > partition memory.
-> > >=20
-> > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
-> > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
-> > I'm sorry, I should have wrote minutes on the discussion we had with TJ
-> > and Tvrtko the other day.
-> >=20
-> > We're all very interested in making this happen, but doing a "DRM"
-> > cgroup doesn't look like the right path to us.
-> >=20
-> > Indeed, we have a significant number of drivers that won't have a
-> > dedicated memory but will depend on DMA allocations one way or the
-> > other, and those pools are shared between multiple frameworks (DRM,
-> > V4L2, DMA-Buf Heaps, at least).
-> >=20
-> > This was also pointed out by Sima some time ago here:
-> > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
-> >=20
-> > So we'll want that cgroup subsystem to be cross-framework. We settled on
-> > a "device" cgroup during the discussion, but I'm sure we'll have plenty
-> > of bikeshedding.
-> >=20
-> > The other thing we agreed on, based on the feedback TJ got on the last
-> > iterations of his series was to go for memcg for drivers not using DMA
-> > allocations.
-> >=20
-> > It's the part where I expect some discussion there too :)
-> >=20
-> > So we went back to a previous version of TJ's work, and I've started to
-> > work on:
-> >=20
-> >    - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
-> >      works on tidss right now)
-> >=20
-> >    - Integration of all heaps into that cgroup but the system one
-> >      (working on this at the moment)
->=20
-> Should be similar to what I have then. I think you could use my work to
-> continue it.
->=20
-> I made nothing DRM specific except the name, if you renamed it the device
-> resource management cgroup and changed the init function signature to tak=
-e a
-> name instead of a drm pointer, nothing would change. This is exactly what
-> I'm hoping to accomplish, including reserving memory.
-
-I've started to work on rebasing my current work onto your series today,
-and I'm not entirely sure how what I described would best fit. Let's
-assume we have two KMS device, one using shmem, one using DMA
-allocations, two heaps, one using the page allocator, the other using
-CMA, and one v4l2 device using dma allocations.
-
-So we would have one KMS device and one heap using the page allocator,
-and one KMS device, one heap, and one v4l2 driver using the DMA
-allocator.
-
-Would these make different cgroup devices, or different cgroup regions?
-
-> The nice thing is that it should be similar to the memory cgroup controll=
-er
-> in semantics, so you would have the same memory behavior whether you use =
-the
-> device cgroup or memory cgroup.
->=20
-> I'm sad I missed the discussion, but hopefully we can coordinate more now
-> that we know we're both working on it. :)
-
-Yeah, definitely :)
-
-Maxime
-
---7fymz6tlpfxqxwqn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn7DBAAKCRDj7w1vZxhR
-xWlJAP0UNWQ0gcwWNN/Im1DgFf7X2Yi5sSP1W1uEZE9I0hrrPAEAuZ5tF02to94P
-dCchG/vB5gsWEnB2EerIOPqG6gW4tw4=
-=J4LC
------END PGP SIGNATURE-----
-
---7fymz6tlpfxqxwqn--
+> > +
+> > +Datasheet "3-wire" mode is what most resembles standard SPI connection which,
+> > +for these devices, comprises of connecting the controller CS line to device CNV
+> > +pin and other SPI lines as usual. This configuration is (misleadingly) called
+> > +"CS Mode, 3-Wire Turbo Mode" connection in datasheets.
+> > +NOTE: The datasheet definition of 3-wire mode for the AD4000 series is NOT the
+> > +same of standard spi-3wire mode.
+> > +This is the only connection mode that allows configuration register access but
+> > +it requires the SPI controller to support the ``SPI_MOSI_IDLE_HIGH`` feature.
+> > +
+> > +Omit the ``adi,sdi-pin`` property in device tree to select this mode.
+> > +
+> > +::
+> > +
+> > +                                         +-------------+
+> > +     + ----------------------------------| SDO         |
+> > +     |                                   |             |
+> > +     |               +-------------------| CS          |
+> > +     |               v                   |             |
+> > +     |    +--------------------+         |     HOST    |
+> > +     |    |        CNV         |         |             |
+> > +     +--->| SDI   AD4000   SDO |-------->| SDI         |
+> > +          |        SCK         |         |             |
+> > +          +--------------------+         |             |
+> > +                    ^                    |             |
+> > +                    +--------------------| SCLK        |
+> > +                                         +-------------+
+> > +
+> 
+> I think the rest of the explanations are good.
+> 
