@@ -1,137 +1,229 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6948B2139A7;
-	Fri, 28 Jun 2024 01:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6211CA8A;
+	Fri, 28 Jun 2024 02:13:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719538611; cv=none; b=T8QGbQtiZVZISnptWEryaxoLSDfxvwhFMOjtrbZqP2jvp/wuQhd67wlAMq+k6vjyDGLCg02WT4AN7vjmT9ne8/K9j9VxkogSStLoxL+NB9iO/3xa0QWeSsNeurLS/mjLkKpqO+qVAy1fuCxuLPDKlkxfVsgboCt781yRXx8nogI=
+	t=1719540805; cv=none; b=ANJZUuJnI1ph1yZfwr0aFZHjH3iODC0JnZqm58nGCoftBvgHox+UlRO7UQKKbSNWihjxrELWiEBza6c1YPN3Xi540RyD2NvWCU9v3zTjx4zlWrWae9NVH0H9aRpTbs6oKyP77dc+oMi0CimQ3Yb1he2lSkV7bU2goeePwE+1QM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719538611; c=relaxed/simple;
-	bh=cm+QsmGQ91yNDaHPh+Q0+zctgCiUlvxaouRRHE+n9Ak=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=X32HrJ7lrt/OIDXO+MS7qZSpvGFo0r25ymhAIKEhUGC6QUc+OqreXSLJFGlp2IwASq09ej1agLATaVfHia0GLAPbWoO5UhhvfsTMprcXGTWKsjJJBDVbuycFZPD9hf1bWwaJNCuu0+UX5JiBDwBQpaEPcpR7SocJNbZUBDIZRsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=v9xK6vHq; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1719540805; c=relaxed/simple;
+	bh=obqsFiB7moqSeHvfW5MvPa6iwrDiRwuIwVJo+bxnyTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHAeAoFLgnH+VCSKf/j6ZiL8DA2qYGddQ1OQGRgnxuuPFGMBOGbpyId/6L+W9NVU8tqQYXxxQ0jEMzFrs7LDiVOaSmnmyZMUqaN919Kci+oXZ9yLL3LQWnxmrI7uq3d4VFlknyUHEUX4gUxa9oA/6xG8fbL3+01yjNFM468yTRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm16U8C0; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="v9xK6vHq"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1719538600; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=Kmb8kttOq7xbDfKI1ccEDiYQbB2zK2LbPs9zivACKls=;
-	b=v9xK6vHqxY7n+FWlhhmNnmQ99NxeJXIznv8hxMdUmCzMYmYxHxrLwiDMdZDC1/rI92E+SkCi9EHMenWi01uUgUHgCj8BLWUxFLeoG1b7IACmhUUHbgYnCO/Ujt5uvg9bYvtry0m4VyUo55qMZIkstDAkkSoyzpXgIocup4gFk7E=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033023225041;MF=wodemia@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W9OGQul_1719538598;
-Received: from localhost.localdomain(mailfrom:wodemia@linux.alibaba.com fp:SMTPD_---0W9OGQul_1719538598)
-          by smtp.aliyun-inc.com;
-          Fri, 28 Jun 2024 09:36:39 +0800
-From: Tao Zou <wodemia@linux.alibaba.com>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Tao Zou <wodemia@linux.alibaba.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 RESEND] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
-Date: Fri, 28 Jun 2024 09:36:20 +0800
-Message-Id: <20240628013621.46741-1-wodemia@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm16U8C0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719540804; x=1751076804;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=obqsFiB7moqSeHvfW5MvPa6iwrDiRwuIwVJo+bxnyTE=;
+  b=Zm16U8C0MEB8XwvPsuvHlfcKt5Hhs7FECS2JvRJw+Ye+fkt9OUkS2Y+S
+   hjPprj4ViNzNxeAHSme+p7kGvQw1c1ESmqSlbn1bBxdpmH8LPfUVnZPC+
+   g/4J68kHyleV541xF/2UB3drbqe6/PgIIL0znFqh4ouuF2QE4rgUs5+6H
+   1VdIpoegqBz/dyXCt+fBd8m6R6uRcy4SKcIMcpChBF8KWU8bH4mqgPBXT
+   MfmgIPOnsalqLM1QRA43z9ndHSZPDcgDV1OLb37NWMsaC713WtqUgSACT
+   ijYRMAXYWCgaLUFHMnIukHoKKDA3SO13Vt7QzAETSa2ex02Srqe6XbRli
+   A==;
+X-CSE-ConnectionGUID: PxNRixVMQqepwmJdDmIOmw==
+X-CSE-MsgGUID: 1uuE+jmARKGZAT5vkVuacQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16528820"
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
+   d="scan'208";a="16528820"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 19:13:21 -0700
+X-CSE-ConnectionGUID: pmOPOqgFR+mj/xA3+uz33w==
+X-CSE-MsgGUID: vu/s+JTeTQGDYAeESN28AA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
+   d="scan'208";a="44993946"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2024 19:13:12 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sN16r-000Gic-2H;
+	Fri, 28 Jun 2024 02:13:09 +0000
+Date: Fri, 28 Jun 2024 10:12:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com
+Subject: Re: [PATCH 13/13] mm: Remove devmap related functions and page table
+ bits
+Message-ID: <202406280920.VNwSTzZT-lkp@intel.com>
+References: <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
 
-Add translation zh_CN/admin-guide/numastat.rst and link it to
-zh_CN/admin-guide/index.rst while clean its todo entry.
+Hi Alistair,
 
-commit 77691ee92d4a ("Documentation: update numastat explanation")
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../translations/zh_CN/admin-guide/index.rst  |  2 +-
- .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
+[auto build test ERROR on f2661062f16b2de5d7b6a5c42a9a5c96326b8454]
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index ac2960da33e6..0db80ab830a0 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -68,6 +68,7 @@ Todolist:
-    cpu-load
-    cputopology
-    lockup-watchdogs
-+   numastat
-    unicode
-    sysrq
-    mm/index
-@@ -109,7 +110,6 @@ Todolist:
- *   module-signing
- *   mono
- *   namespaces/index
--*   numastat
- *   parport
- *   perf-security
- *   pm/index
-diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
-new file mode 100644
-index 000000000000..c0f54d9a6b05
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
-@@ -0,0 +1,48 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/numastat.rst
-+:Translator: Tao Zou <wodemia@linux.alibaba.com>
-+
-+
-+=======================
-+Numa策略命中/未命中统计
-+=======================
-+
-+/sys/devices/system/node/node*/numastat
-+
-+所有数据的单位都是页面。巨页有独立的计数器。
-+
-+numa_hit、numa_miss和numa_foreign计数器反应了进程是否能够在他们偏好的节点上分配内存。
-+如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
-+加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
-+
-+通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
-+因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
-+配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
-+上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
-+
-+更多细节内容:
-+
-+=============== ============================================================
-+numa_hit        一个进程想要从本节点分配内存并且成功。
-+
-+numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
-+
-+numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
-+
-+local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
-+
-+other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
-+
-+interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
-+=============== ============================================================
-+
-+你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
-+来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
-+
-+需要注意，在包含无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit、numa_miss和
-+numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
-+进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
-+结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
-+numa_hit、numa_miss和numa_foreign统计数据。
+url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-gup-c-Remove-redundant-check-for-PCI-P2PDMA-page/20240627-191709
+base:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
+patch link:    https://lore.kernel.org/r/47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple%40nvidia.com
+patch subject: [PATCH 13/13] mm: Remove devmap related functions and page table bits
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240628/202406280920.VNwSTzZT-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280920.VNwSTzZT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406280920.VNwSTzZT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:14:
+   In file included from include/linux/sem.h:5:
+   In file included from include/uapi/linux/sem.h:5:
+   In file included from include/linux/ipc.h:7:
+   In file included from include/linux/rhashtable-types.h:12:
+   In file included from include/linux/alloc_tag.h:11:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:23:
+   In file included from arch/powerpc/include/asm/current.h:13:
+   In file included from arch/powerpc/include/asm/paca.h:18:
+   In file included from arch/powerpc/include/asm/mmu.h:385:
+   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
+   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
+>> arch/powerpc/include/asm/book3s/64/pgtable.h:1371:1: error: extraneous closing brace ('}')
+    1371 | }
+         | ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+      18 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:17:
+
+
+vim +1371 arch/powerpc/include/asm/book3s/64/pgtable.h
+
+953c66c2b22a30 Aneesh Kumar K.V  2016-12-12  1370  
+ebd31197931d75 Oliver O'Halloran 2017-06-28 @1371  }
+6a1ea36260f69f Aneesh Kumar K.V  2016-04-29  1372  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+ebd31197931d75 Oliver O'Halloran 2017-06-28  1373  
+
 -- 
-2.39.3 (Apple Git-146)
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
