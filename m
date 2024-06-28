@@ -1,180 +1,89 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF3F155756
-	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 17:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BF81CB306;
+	Fri, 28 Jun 2024 17:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719595517; cv=none; b=cvQ+21wsnG5jO5ZV6fJtErSxWYsoTnBoLj9uqQQj0iDzpaZof4SKmHmggkL1/yUMz0vQtw0zKdf1XO2L/anrXUClA9Eyt4EF8gfz/uGy7v8z/bGOKd72iUAi2wETl/Vie7hM+j3rkdNrO6pyWC2RO3HWeLa1oTQxHduy9B8AA04=
+	t=1719595548; cv=none; b=LywiJQ2+L2SQqsroL2OWbrmaZ4jMCTsBXWEs4NSsdFQ28VPD5Nl+b5b0NXt9pOofMY+vgRiuu9I9hP+sDU37ElOyDdMocZdv3H6q0dgfkZZjzeXFFNs3ExVG0nu7xbKwmVgt3ps1FA+HYoISRnC4IoBgf5lWZzVCetcydxTI2HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719595517; c=relaxed/simple;
-	bh=kq1fpL86p3CAakLQbNhpZmymFcmjyTTnrGV3h0AgDm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lVys5HjFH/d9bUd8WmNhGNIhgmyGHxqpJrzDQGTIM0DJOtf+HSnMvWF4d8ViQIzocjDkYqB8rV2Lf8xnaM0ANNM2F6xF1p18CMnGP84yxT1gOOjAxprtqi7tDPuK2R6vma84ezFadMGxWxgS9oGLK6Ba2vz0XtOZLjAZCexu6yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=blEU5tDu; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719595548; c=relaxed/simple;
+	bh=Ka1TJNVLbhH+PgynFj/tZxJjME7coKvKnwCbbyM3MrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SK4TwtfvbCibFXf0zGgjbl9HO8roVBQLseNf5Y+9g5+fTOqsjCepTAE7YO/UAKlo2+xZY2b6NVyB78NhS/b5tU04pGyYJGWHjkt6X1uWQm3ITcHt0lkuh6boe59s0D641Hay6EdzPAV7psWwIAdcXMK9uTPpC2uPK5VsTF/4fy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bssi4Vb6; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="blEU5tDu"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-362f62ae4c5so516161f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 10:25:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bssi4Vb6"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1fa2ea1c443so6579105ad.0;
+        Fri, 28 Jun 2024 10:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719595513; x=1720200313; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=caKA1ZLZy4Gxv4ZL6Bf0GGH+gpZqMfFYuX6KpD7fNlo=;
-        b=blEU5tDu3IEAyIanTnVhuFKUcTpFJoNUgrSdcBP7RVXUBT7Nv1RIAEc1Afs9qgHWK2
-         1jbhpH6b945m1sogPKGsS6wOtpIphtC6itawFslUnWQVF/pIUzArdwLPWAdFGXTFOCvJ
-         sOYj1v0DIjWF+mIAXEOWXC6y5rKzRv9v04g2y0Ef3JjDuaGDOh4zgTSfV7Ldc5eSAPXx
-         WGCOoIe/6DTe0i5AlRo5vfxBHn+ytaX9QyeZc6z4AxXXoA+0bLj7C5+p56WC/fOQ7zfw
-         M6UE8gyseC9jjkWDnRyWQjPNblOo+JiB/tJV2frL77FPr8BeMO6kvAkjoBX9bTN3lUgd
-         Nz6Q==
+        d=gmail.com; s=20230601; t=1719595546; x=1720200346; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xXxHt+NjVKoiybQ7NTFTQy5xGBJFko4J6pQhKbbNlUk=;
+        b=bssi4Vb6d0R/ndLnoAwGjkuIOaiaV+aHPXgIckzxHwyNPZADSXtoLJF8EDHsJeq8e9
+         sKH+mSCUDcF+xEXqaMd5lxN793N3vCIEqy4eFbGMcMRtLv9cC+358Iuz7lyyaHSl0xTn
+         GxzAy1VpWHCwXbhyU+get/siRVWeb3Bwpj8PBRmzLB64JqBPlTJx0wVoUnIaHlpB0Qft
+         GQMGF4SmH5wruPz7ttRJtSngnVhc7enHlU7jOuhY0sv30wrN50DUXFJHSySoCiA468Zk
+         pUDlgYFJjFlq0f2R9RiKra1x8pIgN276mRQ0NXQtkJG6J0jDKZ4fdRtjx3a8Iue9zG9T
+         1RfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719595513; x=1720200313;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1719595546; x=1720200346;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=caKA1ZLZy4Gxv4ZL6Bf0GGH+gpZqMfFYuX6KpD7fNlo=;
-        b=v8RdMLTQX2yEY1mG7NYM3xkFDLd6eyfcBifoMry9aqjxLtIfPwOZpdR/ynVrZR8eu1
-         wUsAKHFI7tRY1GaRny2+xe86bMDqCMSJcDzfiFetKYgKEq5sxL0JU6S+hvmn0t4EQwVk
-         ThjYSWwXICsM0F6IdIGkZ+Z2JwjQF/MthIJZiZV80W35WkJACGmOpsmiXnqfUlY5Hyyn
-         zE3uOweUtG/C5St9jx6NC+FpYLBx9IGhGzBk73l4iyLlJtc4KvqCmbsRmgEyY87RvoPW
-         vCdyqTca/7zRxH3IJx9hXthlH4w9MAdAC+Jj3gfYUqnvIuPWk9fhTv2pRbT2zbZyhBC6
-         VDLA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3nTt9iep3ZzL+ew4MjmyRALqWgXfQA2C7Lidi5xDaNr11C2gAeVkoj5ojP1bck071T/iZbRYtC22weMArwgK45hBrfuhxnWKU
-X-Gm-Message-State: AOJu0YwHn68Fye6yaUDjhxHea8Qg8d2672hZHgSXehLkrZMbZhWIpfez
-	Q973JhwU2kzu2v6hfm9Iuk+zAmMPNVyCam5f+w5jgeMqHKhJ6L7cScjOD7GULAvc+18GRPGRIzJ
-	KScD9QxiaLn/MWOadGD0U50LDiQMN+n2UHFSQ
-X-Google-Smtp-Source: AGHT+IHaga+0HZwFoMa7vh1+QWpuNmbt+Pa/Udmt9iDW5i8J5dXuxOLSqkHGx+gHqUzkUgc64qZI0rblrxW0ml7XPRE=
-X-Received: by 2002:a5d:648c:0:b0:367:42bc:b2dc with SMTP id
- ffacd0b85a97d-36760a6ab1fmr2440949f8f.7.1719595513311; Fri, 28 Jun 2024
- 10:25:13 -0700 (PDT)
+        bh=xXxHt+NjVKoiybQ7NTFTQy5xGBJFko4J6pQhKbbNlUk=;
+        b=segaTJu5MLNyqPo6bcPWJZeBOPQuhO7/yNDnxbB9nJYsL3o9aXxFN2mPJ42zPuaBj1
+         LpBlRiMvd/DG+KwTKQdHG8JCEUWK/wXLtLoAZ50/O/Mx9PR9NBPY8faeAeOxFJo1aeUo
+         CpnziD3fPQBbb5tWALYLpQzVoZAGORyiCpisZtpmYm11ZYI9429kUfjUJiKO99neJZXv
+         fz0JrnWpmvMV5LtpkIUrmbk3gVeCJptNzSz6MXUBWs+DwN10aKgkNeUzuPa+HAHmevbC
+         kniusy7fJG+XRB16xT0K3cbNODcWgD8uXOvQS7slrJog+m39e46xGPPLs3YzCRmANbGi
+         6G1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUniJeeyrMPUADy8TSbtXP3i29ve4n73BNQl/vbVnq7IWTHMR0g3jox549FpGts1S8a76WSwOuAv/ShAt8+trccODgFztxy3qOlZsAm7/S2rjwf1hYu3h2cxMTyzWRd6woWjDjp0t+JjeTLWrCt66cFoAZH9+QDKoWAzK7C0MrYTzG/FTyuBjyUoSi+fHsejUTh6u1QxXZ2DGPDRJaKALoc6dlqR6ZVV1l5A4i33Tu3IgmBh6FCeGc+PadH
+X-Gm-Message-State: AOJu0YwSdS6UpgdL1a4EwxEtoHAC7HYIxL3Ixi9kF1eqegs0YFwjVHFG
+	PnSJpRsNA8fQOoX4KW75NvIu217ojM54QmYjg+U9+rBQzDLvhClO
+X-Google-Smtp-Source: AGHT+IFcasRnsbhhq7yD+4DSD1/IEFOT7vexlWQsQmNhyaHSO6Dm8AlD9UHNt9ec/oCAhgVoY0nX9A==
+X-Received: by 2002:a17:902:6f08:b0:1fa:2001:d8f5 with SMTP id d9443c01a7336-1fa23f02bbemr123904115ad.62.1719595546239;
+        Fri, 28 Jun 2024 10:25:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac11d8cbbsm17943285ad.106.2024.06.28.10.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 10:25:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 28 Jun 2024 10:25:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Noah Wang <noahwang.wang@outlook.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	jdelvare@suse.com, corbet@lwn.net, Delphine_CC_Chiu@wiwynn.com,
+	peteryin.openbmc@gmail.com, javier.carrasco.cruz@gmail.com,
+	patrick.rudolph@9elements.com, bhelgaas@google.com, lukas@wunner.de,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add MPS mp2891
+Message-ID: <b11cca9b-f956-42d1-93f6-505081bd45c8@roeck-us.net>
+References: <SEYPR04MB6482EE353C207DA6977C974DFAD62@SEYPR04MB6482.apcprd04.prod.outlook.com>
+ <SEYPR04MB6482BC95D1242A5675FF9DAEFAD62@SEYPR04MB6482.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240626050818.2277273-1-jiaqiyan@google.com> <20240626050818.2277273-4-jiaqiyan@google.com>
- <0a28831c-b28e-6db5-0ef3-70940e75d4d2@huawei.com>
-In-Reply-To: <0a28831c-b28e-6db5-0ef3-70940e75d4d2@huawei.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 28 Jun 2024 10:25:02 -0700
-Message-ID: <CACw3F52DHhTM4M8GEURjft_Qx=kvzRvFxHp-pkYdpXAim7anMg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] selftest/mm: test enable_soft_offline behaviors
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: jane.chu@oracle.com, rdunlap@infradead.org, ioworker0@gmail.com, 
-	muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Naoya Horiguchi <nao.horiguchi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SEYPR04MB6482BC95D1242A5675FF9DAEFAD62@SEYPR04MB6482.apcprd04.prod.outlook.com>
 
-On Thu, Jun 27, 2024 at 8:29=E2=80=AFPM Miaohe Lin <linmiaohe@huawei.com> w=
-rote:
->
-> On 2024/6/26 13:08, Jiaqi Yan wrote:
-> > Add regression and new tests when hugepage has correctable memory
-> > errors, and how userspace wants to deal with it:
-> > * if enable_soft_offline=3D1, mapped hugepage is soft offlined
-> > * if enable_soft_offline=3D0, mapped hugepage is intact
-> >
-> > Free hugepages case is not explicitly covered by the tests.
-> >
-> > Hugepage having corrected memory errors is emulated with
-> > MADV_SOFT_OFFLINE.
->
-> Thanks for update.
->
-> >
-> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > ---
-> >  tools/testing/selftests/mm/.gitignore         |   1 +
-> >  tools/testing/selftests/mm/Makefile           |   1 +
-> >  .../selftests/mm/hugetlb-soft-offline.c       | 228 ++++++++++++++++++
-> >  tools/testing/selftests/mm/run_vmtests.sh     |   4 +
-> >  4 files changed, 234 insertions(+)
-> >  create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
-> ...
-> > +static void test_soft_offline_common(int enable_soft_offline)
-> > +{
-> > +     int fd;
-> > +     int expect_errno =3D enable_soft_offline ? 0 : EOPNOTSUPP;
-> > +     struct statfs file_stat;
-> > +     unsigned long hugepagesize_kb =3D 0;
-> > +     unsigned long nr_hugepages_before =3D 0;
-> > +     unsigned long nr_hugepages_after =3D 0;
-> > +     int ret;
-> > +
-> > +     ksft_print_msg("Test soft-offline when enabled_soft_offline=3D%d\=
-n",
-> > +                    enable_soft_offline);
-> > +
-> > +     fd =3D create_hugetlbfs_file(&file_stat);
-> > +     if (fd < 0)
-> > +             ksft_exit_fail_msg("Failed to create hugetlbfs file\n");
-> > +
-> > +     hugepagesize_kb =3D file_stat.f_bsize / 1024;
-> > +     ksft_print_msg("Hugepagesize is %ldkB\n", hugepagesize_kb);
-> > +
-> > +     if (set_enable_soft_offline(enable_soft_offline)) {
->
-> Nit: should this be written as if (set_enable_soft_offline(enable_soft_of=
-fline) !=3D 0) to keep consistent with below code?
+On Wed, Jun 26, 2024 at 05:46:00PM +0800, Noah Wang wrote:
+> Add support for MPS mp2891 controller
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Noah Wang <noahwang.wang@outlook.com>
 
-for sure
+Applied.
 
->
-> > +             close(fd);
-> > +             ksft_exit_fail_msg("Failed to set enable_soft_offline\n")=
-;
-> > +     }
-> > +
-> > +     if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_before) !=3D=
- 0) {
-> > +             close(fd);
-> > +             ksft_exit_fail_msg("Failed to read nr_hugepages\n");
-> > +     }
-> > +
-> > +     ksft_print_msg("Before MADV_SOFT_OFFLINE nr_hugepages=3D%ld\n",
-> > +                    nr_hugepages_before);
-> > +
-> > +     ret =3D do_soft_offline(fd, 2 * file_stat.f_bsize, expect_errno);
-> > +
-> > +     if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_after) !=3D =
-0) {
-> > +             close(fd);
-> > +             ksft_exit_fail_msg("Failed to read nr_hugepages\n");
-> > +     }
-> > +
-> ...
-> > diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/=
-selftests/mm/run_vmtests.sh
-> > index 3157204b9047..781117fac1ba 100755
-> > --- a/tools/testing/selftests/mm/run_vmtests.sh
-> > +++ b/tools/testing/selftests/mm/run_vmtests.sh
-> > @@ -331,6 +331,10 @@ CATEGORY=3D"hugetlb" run_test ./thuge-gen
-> >  CATEGORY=3D"hugetlb" run_test ./charge_reserved_hugetlb.sh -cgroup-v2
-> >  CATEGORY=3D"hugetlb" run_test ./hugetlb_reparenting_test.sh -cgroup-v2
-> >  if $RUN_DESTRUCTIVE; then
-> > +nr_hugepages_tmp=3D$(cat /proc/sys/vm/nr_hugepages)
-> > +echo 8 > /proc/sys/vm/nr_hugepages
-> > +CATEGORY=3D"hugetlb" run_test ./hugetlb-soft-offline
-> > +echo "$nr_hugepages_tmp" > /proc/sys/vm/nr_hugepages
->
-> Should we save and restore the value of /proc/sys/vm/enable_soft_offline =
-too?
-
-absolutely, thanks for catching.
-
->
-> With above fixed, this patch looks good to me.
-> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
-
-Thanks Miaohe, I will send out v7 with fixes.
-
-> Thanks.
-> .
->
+Thanks,
+Guenter
