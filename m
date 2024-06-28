@@ -1,229 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6211CA8A;
-	Fri, 28 Jun 2024 02:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56B179D1;
+	Fri, 28 Jun 2024 02:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719540805; cv=none; b=ANJZUuJnI1ph1yZfwr0aFZHjH3iODC0JnZqm58nGCoftBvgHox+UlRO7UQKKbSNWihjxrELWiEBza6c1YPN3Xi540RyD2NvWCU9v3zTjx4zlWrWae9NVH0H9aRpTbs6oKyP77dc+oMi0CimQ3Yb1he2lSkV7bU2goeePwE+1QM4=
+	t=1719541780; cv=none; b=uCdv/21H8aNZ0ZCHLp4ukA5pqks+eD2O3n3yNDeawgYpmnVYmAO9ZkPBUEFWMCsxmp4MJwqcVImXGY6AQ8HDLddv2GLRvuLQpCVwxbVLnLsRNvwmheC4iR8lNXTfKwTv5riEnvXzq6ogVlPJYSwJk/y3owdJg1k3cvWCKdPxuF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719540805; c=relaxed/simple;
-	bh=obqsFiB7moqSeHvfW5MvPa6iwrDiRwuIwVJo+bxnyTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHAeAoFLgnH+VCSKf/j6ZiL8DA2qYGddQ1OQGRgnxuuPFGMBOGbpyId/6L+W9NVU8tqQYXxxQ0jEMzFrs7LDiVOaSmnmyZMUqaN919Kci+oXZ9yLL3LQWnxmrI7uq3d4VFlknyUHEUX4gUxa9oA/6xG8fbL3+01yjNFM468yTRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zm16U8C0; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719541780; c=relaxed/simple;
+	bh=HmNiO1dQqRCiY+O0vf0uWKNoxP3ZfrTFCRDGdl8atvY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rOXdurkwX8mJDmiSLvialCh3XJ7RE6UmPa5HlFnJ2gzgpRpEpoPMbnmTdqVs42bUya+/Gh5QfXdBKltsuvogZ232BtzIj8KlheMM7AvAPi0kZdBysqxlQ5OI6Ercclmf5M1FagFIxENv/QMZ3CcL+T0L0Wp1+GUo2zmk+KMOqYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJWAYYEN; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zm16U8C0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719540804; x=1751076804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=obqsFiB7moqSeHvfW5MvPa6iwrDiRwuIwVJo+bxnyTE=;
-  b=Zm16U8C0MEB8XwvPsuvHlfcKt5Hhs7FECS2JvRJw+Ye+fkt9OUkS2Y+S
-   hjPprj4ViNzNxeAHSme+p7kGvQw1c1ESmqSlbn1bBxdpmH8LPfUVnZPC+
-   g/4J68kHyleV541xF/2UB3drbqe6/PgIIL0znFqh4ouuF2QE4rgUs5+6H
-   1VdIpoegqBz/dyXCt+fBd8m6R6uRcy4SKcIMcpChBF8KWU8bH4mqgPBXT
-   MfmgIPOnsalqLM1QRA43z9ndHSZPDcgDV1OLb37NWMsaC713WtqUgSACT
-   ijYRMAXYWCgaLUFHMnIukHoKKDA3SO13Vt7QzAETSa2ex02Srqe6XbRli
-   A==;
-X-CSE-ConnectionGUID: PxNRixVMQqepwmJdDmIOmw==
-X-CSE-MsgGUID: 1uuE+jmARKGZAT5vkVuacQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16528820"
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16528820"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 19:13:21 -0700
-X-CSE-ConnectionGUID: pmOPOqgFR+mj/xA3+uz33w==
-X-CSE-MsgGUID: vu/s+JTeTQGDYAeESN28AA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="44993946"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2024 19:13:12 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sN16r-000Gic-2H;
-	Fri, 28 Jun 2024 02:13:09 +0000
-Date: Fri, 28 Jun 2024 10:12:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
-	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
-	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
-	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-	jhubbard@nvidia.com
-Subject: Re: [PATCH 13/13] mm: Remove devmap related functions and page table
- bits
-Message-ID: <202406280920.VNwSTzZT-lkp@intel.com>
-References: <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJWAYYEN"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-25c9786835eso78874fac.3;
+        Thu, 27 Jun 2024 19:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719541778; x=1720146578; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HmNiO1dQqRCiY+O0vf0uWKNoxP3ZfrTFCRDGdl8atvY=;
+        b=hJWAYYENEEH7maDXEk06q/Ty+ePc75jc2TCwmDjoiaad9cos2cifny5aed8cmhzvK1
+         Dm6mrxOE5pb+gK/ZK3/+c92m30y/HKTpIcDB3Ut4Oyv1gyMxPohrHLZFUProum0kBhbs
+         h85eY8Ya8/RH7m48poCI29Qug/qzrg9JLs10VxX8OkajUAQK+byWn+fOTMZ7JTwXXECp
+         OBwXjUNeaMThqYNjnE3A6FyGdbCiT9hVB9yyZvqMNDndqMK6t5gOJyILkgfSzXy4siIv
+         B+sIqzTeIOZR/kB5294GmnED3NjpCPBnhXpgtdUtzmU3Njgtmhm33SQwJFn1ROHLDUyK
+         2Jjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719541778; x=1720146578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HmNiO1dQqRCiY+O0vf0uWKNoxP3ZfrTFCRDGdl8atvY=;
+        b=t+6eZg3+Hqv6BwEYIfRAsWPRc8Uh8InltIgQ4GC2fp4qPo8nJH1e+4RQ841U0SzkeH
+         iXZLHVMexDg0e1LzkfvxIX28dEn3ZCCJ99H8Ujvg+oYncK78At688hR/Q7AriB21Zf87
+         BMvCjNQ9dBTR+njr39St8hT8X/uZIRrYjKqLfakFSLy/UWk7B6zVfVvc+QVhaBTgDodd
+         NBy36VgQDTDz66upXNzLU4NQQ3NsLeTJ5OGKWsDjxzVBc7TxGZzmc7ENk4PUJIFhu+Mp
+         GCc+g6AfexAYV4s3W585Odvv/vRdWatTEVmB9fC5LgZEo5kKu9jV4rTbbR5Qh1/VAwiF
+         nGrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYPkQBT3EOGM+K70XmZhnuk9qTKxnFaVlacV4+Rj6bQWlWDYfY1ct8SqycY4jy2WZRrBa8kNXgdCcnrA4l8BGt2KRGuz2NB1/8sv6Zmn1Ig5ldsxAefuIxDoRIFTOIP+jrEZs7owNu
+X-Gm-Message-State: AOJu0YwiKNfRp7T5pD33q0hqisOwWVbvX7aLg2jkrHN7xTqLRSGRvjBv
+	a/FZMTTaDhbLCsdzA7D7rHGqVSMRnulckfw522TNOvKAlV3kwKL25Ug3R4SlbJdQ1Seb17c/k5O
+	6BoJGmFN2feEs8/uAFcK3aRaqWZw=
+X-Google-Smtp-Source: AGHT+IF4DRMLrmJp1+Z6QiFMQurojKRJgzxNGRcLIuKm4q+1FcGd3XRYj+gIQEdUWPxTDCZ+rg3SGjx8+L0FK8xIAQ8=
+X-Received: by 2002:a05:6870:1643:b0:254:7f9f:3f21 with SMTP id
+ 586e51a60fabf-25d06c5b75dmr15933297fac.27.1719541777672; Thu, 27 Jun 2024
+ 19:29:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
+References: <20240628013621.46741-1-wodemia@linux.alibaba.com>
+In-Reply-To: <20240628013621.46741-1-wodemia@linux.alibaba.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Fri, 28 Jun 2024 10:29:09 +0800
+Message-ID: <CAD-N9QWO2Km2mV0LJntF+RLQYXVfu3mQZ-zcywqhdtYH70yV7g@mail.gmail.com>
+Subject: Re: [PATCH v4 RESEND] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst
+ translation document
+To: Tao Zou <wodemia@linux.alibaba.com>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Hi Alistair,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on f2661062f16b2de5d7b6a5c42a9a5c96326b8454]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Popple/mm-gup-c-Remove-redundant-check-for-PCI-P2PDMA-page/20240627-191709
-base:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
-patch link:    https://lore.kernel.org/r/47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple%40nvidia.com
-patch subject: [PATCH 13/13] mm: Remove devmap related functions and page table bits
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240628/202406280920.VNwSTzZT-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280920.VNwSTzZT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406280920.VNwSTzZT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:79:
-   In file included from ./arch/powerpc/include/generated/asm/preempt.h:1:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:23:
-   In file included from arch/powerpc/include/asm/current.h:13:
-   In file included from arch/powerpc/include/asm/paca.h:18:
-   In file included from arch/powerpc/include/asm/mmu.h:385:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu.h:32:
-   In file included from arch/powerpc/include/asm/book3s/64/mmu-hash.h:20:
->> arch/powerpc/include/asm/book3s/64/pgtable.h:1371:1: error: extraneous closing brace ('}')
-    1371 | }
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
-      18 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:17:
-
-
-vim +1371 arch/powerpc/include/asm/book3s/64/pgtable.h
-
-953c66c2b22a30 Aneesh Kumar K.V  2016-12-12  1370  
-ebd31197931d75 Oliver O'Halloran 2017-06-28 @1371  }
-6a1ea36260f69f Aneesh Kumar K.V  2016-04-29  1372  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-ebd31197931d75 Oliver O'Halloran 2017-06-28  1373  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gRnJpLCBKdW4gMjgsIDIwMjQgYXQgOTozNuKAr0FNIFRhbyBab3UgPHdvZGVtaWFAbGludXgu
+YWxpYmFiYS5jb20+IHdyb3RlOg0KPg0KPiBBZGQgdHJhbnNsYXRpb24gemhfQ04vYWRtaW4tZ3Vp
+ZGUvbnVtYXN0YXQucnN0IGFuZCBsaW5rIGl0IHRvDQo+IHpoX0NOL2FkbWluLWd1aWRlL2luZGV4
+LnJzdCB3aGlsZSBjbGVhbiBpdHMgdG9kbyBlbnRyeS4NCj4NCj4gY29tbWl0IDc3NjkxZWU5MmQ0
+YSAoIkRvY3VtZW50YXRpb246IHVwZGF0ZSBudW1hc3RhdCBleHBsYW5hdGlvbiIpDQo+DQo+IFNp
+Z25lZC1vZmYtYnk6IFRhbyBab3UgPHdvZGVtaWFAbGludXguYWxpYmFiYS5jb20+DQo+IFJldmll
+d2VkLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+IFJldmlld2VkLWJ5
+OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25z
+L3poX0NOL2FkbWluLWd1aWRlL2luZGV4LnJzdCAgfCAgMiArLQ0KPiAgLi4uL3poX0NOL2FkbWlu
+LWd1aWRlL251bWFzdGF0LnJzdCAgICAgICAgICAgIHwgNDggKysrKysrKysrKysrKysrKysrKw0K
+PiAgMiBmaWxlcyBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBj
+cmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4t
+Z3VpZGUvbnVtYXN0YXQucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9pbmRleC5yc3QNCj4gaW5kZXggYWMyOTYwZGEzM2U2
+Li4wZGI4MGFiODMwYTAgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2FkbWluLWd1aWRlL2luZGV4LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9pbmRleC5yc3QNCj4gQEAgLTY4LDYgKzY4LDcgQEAg
+VG9kb2xpc3Q6DQo+ICAgICBjcHUtbG9hZA0KPiAgICAgY3B1dG9wb2xvZ3kNCj4gICAgIGxvY2t1
+cC13YXRjaGRvZ3MNCj4gKyAgIG51bWFzdGF0DQo+ICAgICB1bmljb2RlDQo+ICAgICBzeXNycQ0K
+PiAgICAgbW0vaW5kZXgNCj4gQEAgLTEwOSw3ICsxMTAsNiBAQCBUb2RvbGlzdDoNCj4gICogICBt
+b2R1bGUtc2lnbmluZw0KPiAgKiAgIG1vbm8NCj4gICogICBuYW1lc3BhY2VzL2luZGV4DQo+IC0q
+ICAgbnVtYXN0YXQNCj4gICogICBwYXJwb3J0DQo+ICAqICAgcGVyZi1zZWN1cml0eQ0KPiAgKiAg
+IHBtL2luZGV4DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
+Ti9hZG1pbi1ndWlkZS9udW1hc3RhdC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9DTi9hZG1pbi1ndWlkZS9udW1hc3RhdC5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
+aW5kZXggMDAwMDAwMDAwMDAwLi5jMGY1NGQ5YTZiMDUNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysg
+Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9udW1hc3RhdC5y
+c3QNCj4gQEAgLTAsMCArMSw0OCBAQA0KPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQ
+TC0yLjANCj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+ICs6
+T3JpZ2luYWw6IERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbnVtYXN0YXQucnN0DQo+ICs6VHJh
+bnNsYXRvcjogVGFvIFpvdSA8d29kZW1pYUBsaW51eC5hbGliYWJhLmNvbT4NCj4gKw0KPiArDQo+
+ICs9PT09PT09PT09PT09PT09PT09PT09PQ0KPiArTnVtYeetlueVpeWRveS4rS/mnKrlkb3kuK3n
+u5/orqENCj4gKz09PT09PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gKy9zeXMvZGV2aWNlcy9z
+eXN0ZW0vbm9kZS9ub2RlKi9udW1hc3RhdA0KPiArDQo+ICvmiYDmnInmlbDmja7nmoTljZXkvY3p
+g73mmK/pobXpnaLjgILlt6jpobXmnInni6znq4vnmoTorqHmlbDlmajjgIINCj4gKw0KPiArbnVt
+YV9oaXTjgIFudW1hX21pc3PlkoxudW1hX2ZvcmVpZ27orqHmlbDlmajlj43lupTkuobov5vnqIvm
+mK/lkKbog73lpJ/lnKjku5bku6zlgY/lpb3nmoToioLngrnkuIrliIbphY3lhoXlrZjjgIINCj4g
+K+WmguaenOi/m+eoi+aIkOWKn+WcqOWBj+WlveeahOiKgueCueS4iuWIhumFjeWGheWtmOWImeWc
+qOWBj+WlveeahOiKgueCueS4iuWinuWKoG51bWFfaGl06K6h5pWw77yM5ZCm5YiZ5Zyo5YGP5aW9
+55qE6IqC54K55LiK5aKeDQo+ICvliqBudW1hX2ZvcmVpZ27orqHmlbDlkIzml7blnKjlrp7pmYXl
+hoXlrZjliIbphY3nmoToioLngrnkuIrlop7liqBudW1hX21pc3PorqHmlbDjgIINCg0K5Y+N5bqU
+IC0+IOWPjeaYoA0KDQpUaGlzIHNob3VsZCBiZSBhIHR5cG8uDQoNCj4gKw0KPiAr6YCa5bi477yM
+5YGP5aW955qE6IqC54K55piv6L+b56iL6L+Q6KGM5omA5Zyo55qEQ1BV55qE5pys5Zyw6IqC54K5
+77yM5L2G5piv5LiA5Lqb6ZmQ5Yi25Y+v5Lul5pS55Y+Y6L+Z5LiA6KGM5Li677yM5q+U5aaC5YaF
+5a2Y562W55Wl77yMDQo+ICvlm6DmraTlkIzmoLfmnInkuKTkuKrln7rkuo5DUFXmnKzlnLDoioLn
+grnnmoTorqHmlbDlmajjgIJsb2NhbF9ub2Rl5ZKMbnVtYV9oaXTnsbvkvLzvvIzlvZPlnKhDUFXm
+iYDlnKjnmoToioLngrnkuIrliIYNCj4gK+mFjeWGheWtmOaXtuWinuWKoGxvY2FsX25vZGXorqHm
+lbDvvIxvdGhlcl9ub2Rl5ZKMbnVtYV9taXNz57G75Ly877yM5b2T5ZyoQ1BV5omA5Zyo6IqC54K5
+5LmL5aSW55qE5YW25LuW6IqC54K5DQo+ICvkuIrmiJDlip/liIbphY3lhoXlrZjml7blop7liqBv
+dGhlcl9ub2Rl6K6h5pWw44CC6ZyA6KaB5rOo5oSP77yM5rKh5pyJ5ZKMbnVtYV9mb3JlaWdu5a+5
+5bqU55qE6K6h5pWw5Zmo44CCDQo+ICsNCj4gK+abtOWkmue7huiKguWGheWuuToNCj4gKw0KPiAr
+PT09PT09PT09PT09PT09ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PQ0KPiArbnVtYV9oaXQgICAgICAgIOS4gOS4qui/m+eoi+aDs+im
+geS7juacrOiKgueCueWIhumFjeWGheWtmOW5tuS4lOaIkOWKn+OAgg0KPiArDQo+ICtudW1hX21p
+c3MgICAgICAg5LiA5Liq6L+b56iL5oOz6KaB5LuO5YW25LuW6IqC54K55YiG6YWN5YaF5a2Y5L2G
+5piv5pyA57uI5Zyo5pys6IqC54K55a6M5oiQ5YaF5a2Y5YiG6YWN44CCDQo+ICsNCj4gK251bWFf
+Zm9yZWlnbiAgICDkuIDkuKrov5vnqIvmg7PopoHlnKjmnKzoioLngrnliIbphY3lhoXlrZjkvYbm
+mK/mnIDnu4jlnKjlhbbku5boioLngrnlrozmiJDlhoXlrZjliIbphY3jgIINCj4gKw0KPiArbG9j
+YWxfbm9kZSAgICAgIOS4gOS4qui/m+eoi+i/kOihjOWcqOacrOiKgueCueeahENQVeS4iuW5tuS4
+lOS7juacrOiKgueCueS4iuiOt+W+l+S6huWGheWtmOOAgg0KPiArDQo+ICtvdGhlcl9ub2RlICAg
+ICAg5LiA5Liq6L+b56iL6L+Q6KGM5Zyo5YW25LuW6IqC54K555qEQ1BV5LiK5L2G5piv5Zyo5pys
+6IqC54K55LiK6I635b6X5LqG5YaF5a2Y44CCDQo+ICsNCj4gK2ludGVybGVhdmVfaGl0ICDlhoXl
+rZjkuqTlj4nliIbphY3nrZbnlaXkuIvmg7PopoHku47mnKzoioLngrnliIbphY3lhoXlrZjlubbk
+uJTmiJDlip/jgIINCj4gKz09PT09PT09PT09PT09PSA9PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gKw0KPiAr5L2g5Y+v5Lul5L2/
+55SobnVtYWN0bOi9r+S7tuWMhe+8iGh0dHA6Ly9vc3Muc2dpLmNvbS9wcm9qZWN0cy9saWJudW1h
+L++8ieS4reeahG51bWFzdGF05bel5YW3DQo+ICvmnaXovoXliqnpmIXor7vjgILpnIDopoHms6jm
+hI/vvIxudW1hc3RhdOW3peWFt+ebruWJjeWPquWcqOacieWwkemHj0NQVeeahOacuuWZqOS4iui/
+kOihjOiJr+WlveOAgg0KPiArDQo+ICvpnIDopoHms6jmhI/vvIzlnKjljIXlkKvml6DlhoXlrZjo
+ioLngrnvvIjkuIDkuKroioLngrnmnIlDUFVz5L2G5piv5rKh5pyJ5YaF5a2Y77yJ55qE57O757uf
+5LitbnVtYV9oaXTjgIFudW1hX21pc3PlkowNCj4gK251bWFfZm9yZWlnbue7n+iuoeaVsOaNruS8
+muiiq+S4pemHjeabsuino+OAguWcqOW9k+WJjeeahOWGheaguOWunueOsOS4re+8jOWmguaenOS4
+gOS4qui/m+eoi+WBj+WlveS4gOS4quaXoOWGheWtmOiKgueCue+8iOWNsw0KPiAr6L+b56iL5q2j
+5Zyo6K+l6IqC54K555qE5LiA5Liq5pys5ZywQ1BV5LiK6L+Q6KGM77yJ77yM5a6e6ZmF5LiK5Lya
+5LuO6Led56a75pyA6L+R55qE5pyJ5YaF5a2Y6IqC54K55Lit5oyR6YCJ5LiA5Liq5L2c5Li65YGP
+5aW96IqC54K544CCDQo+ICvnu5PmnpzkvJrlr7zoh7Tnm7jlupTnmoTlhoXlrZjliIbphY3kuI3k
+vJrlop7liqDml6DlhoXlrZjoioLngrnkuIrnmoRudW1hX2ZvcmVpZ27orqHmlbDlmajvvIzlubbk
+uJTkvJrmia3mm7LmnIDov5HoioLngrnkuIrnmoQNCj4gK251bWFfaGl044CBbnVtYV9taXNz5ZKM
+bnVtYV9mb3JlaWdu57uf6K6h5pWw5o2u44CCDQo+IC0tDQo+IDIuMzkuMyAoQXBwbGUgR2l0LTE0
+NikNCj4NCj4NCg==
