@@ -1,76 +1,49 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4915513C3CA;
-	Sat, 29 Jun 2024 19:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95FE374FA;
+	Sat, 29 Jun 2024 21:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719688817; cv=none; b=t0bbYz0Dd5u5AyPR+zKTYsihokmTwTp6mGTyWHWW/f1BplkfLmgOa6OR2gaOQ4ESwUiotlmQqgloHcrQzUxe9Y/zBtjVh7sngDGKlMh7hhF9CPZKQKNeyNdD1aBszzMOv7pbBG26P2tSllSztgNtT62hESKVJ9NJSxTA8vDJRjg=
+	t=1719696533; cv=none; b=ZmmPN+DDth5AUs+dVA3Zy1q67VoTFIY6mqLgXd4HHgCf9QwTljhM2adx2t7uPxdkhpYtnUWkdtHxKWWaFrOykx9JocDNXDjfMO6yC+iLsXuFghAbFrIPrwa36gjMkhFPB0PLk1d6FneoxAVHahetaID1BAG+DVaoUWzZv2MbOMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719688817; c=relaxed/simple;
-	bh=KQXlYNGO5t0XXiirkC3HwO844EDhcpK5l5BlMakQQbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PrPrPvSBqfnzxal3pzDdb2qEUkowvRCH2zEqeJ6mR5GM/k4J3dD5Jb0p3BX/hhmVCeoWmFJzM/WMR5Y15g3O+T+MXi9KP3lx5jjwyb8GxpqhpJUMutyXo1lH8N6Plet6FGU5UfjhlVoqANn74tQUp4pY5oTRoSZGPvnvtgbFOzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eGYcE/2Q; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719696533; c=relaxed/simple;
+	bh=HtXt70x632jQVkvZVa5+viDAiEo/vLpbpyG46HWBjMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=moRBVwhoy0/uBa4JVJZd8I9XbLatM31IwIrc27PcHBuyN3hDwIKJRgCQOLAhonAiTxO+IGqEjh9svFvk5m+cm64fLp1Xs971OLHI74lRWhy8YNv3UwfdSqLx1dmTK5eCOH1hkxTUgvb/9cRo0KxeiOhfuAfqHip7Xn5Tss+jTHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VnqFJx5g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eGYcE/2Q"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52e7d2278d8so2362249e87.3;
-        Sat, 29 Jun 2024 12:20:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719688813; x=1720293613; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=115ZNpFqbD4D/Gv906cLAl5QOwsv87o++hj04Lr8r4Y=;
-        b=eGYcE/2QFrkSgFBJUFPNX/0d71dDurLoaV0hOk0HY5GM56PVT3Bfgfd4sBv81wFp9V
-         CcAY06koocUCv6IA48sV6jD+fjX7DuXO15DpsxC4J0ADtpAiso2wTqqSboo8+s1OVmNt
-         ioD93kOmP+hha00lMuaNd59SrRDUkNpq/NJcxRqA0GbO13wNQZjU0zn4xhyJIoQY803E
-         49j0EKCMIkAcCC4/7l7ixZDMbv0QGz72Stdjq2l+hR1NCzV2PlBw04QolPdokXHU7hvG
-         9PYqmYqZqSxabzd6KM+xkniu7ihfC8WYYIhbnITfmDpPz2GQTfY42ESIry7l6HqsHR2c
-         NvSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719688813; x=1720293613;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=115ZNpFqbD4D/Gv906cLAl5QOwsv87o++hj04Lr8r4Y=;
-        b=TXVG+jBhFAY4idXVIR+KwWpPeptG3aOug7gb5vWsmXHeAMCPZXmtB1VYwINruuNoEX
-         aviADpw8Q3XceMStmc9LEDhC0vRfiK9hHE9bxj144jw+8Ktp/tleyz5QAM1t5sDzUtag
-         i9IRkLmO69Ayxx7IxENG/avGFYr8vvz9zEKZKmX+L0BYQyx2BySAs3yQRBAGH+ZgL4Vi
-         DizXCCgIrrn5jwZVuPKl+sUDfXwHICHxvRQts1HWgdArNc4sUaRM26iAYPDqQBL07RVC
-         jtzkqXL/1o+R4YkJHzCcg+bF6okOQf1Q/zDf6Twmc05J8nb/cHJoJlvXmWnAywYZaS2z
-         V0Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCWoDcfNCfCQsZiTD6839JZ7iAYgQeIR2J49Elf0BciIjqtRYox6wP9Y2sXNy3hqrzsv0OnllH3CbGnSSPal0JSDyivkSu7zvWvATNIfqEX2qM17eFnmXhL2Z+qGLHKow2Zi9RDO9CmbP25VvjvURzBYrrRkJewAI1Squ3yOCTjNiU6xEQ==
-X-Gm-Message-State: AOJu0Ywlc0PKzKZNzUcoXCAaRd+Dlwx5O4+51+GMPSXEfdJGNlwQ5NJJ
-	kc1jOiwMfcV+5o82puSo8cT/Eyg1kK/FCOABRY9Govh+RPXRMCpk
-X-Google-Smtp-Source: AGHT+IHJmrqKd+ZUfaM7arqCzy8Vv8yoDvxco3EeRFo3mfQJCEF1GHI4mFixe6ydIK4oX9Pq6c0aJg==
-X-Received: by 2002:a05:6512:2345:b0:52c:76ac:329b with SMTP id 2adb3069b0e04-52e82687e21mr1665502e87.35.1719688812427;
-        Sat, 29 Jun 2024 12:20:12 -0700 (PDT)
-Received: from andrea (host-79-49-165-53.retail.telecomitalia.it. [79.49.165.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf18933sm187310666b.13.2024.06.29.12.20.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jun 2024 12:20:11 -0700 (PDT)
-Date: Sat, 29 Jun 2024 21:19:41 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] riscv: Implement cmpxchg8/16() using Zabha
-Message-ID: <ZoBeTTdMYdXU8gxD@andrea>
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-4-alexghiti@rivosinc.com>
- <Zn1StcN3H0r/eHjh@andrea>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VnqFJx5g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07CE9C2BBFC;
+	Sat, 29 Jun 2024 21:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719696533;
+	bh=HtXt70x632jQVkvZVa5+viDAiEo/vLpbpyG46HWBjMw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=VnqFJx5ghuBk4Ih3CVJjWYCN0/ZeQE4bA9dgueRtqlOBnEj9bpHIblRRQS9pvQOq9
+	 e1eHFjHr5+rNv2dGIMrkk3IAZlqwsKX7p+rD1r1vmjoqPl5r2aEZGCjwsQpiy3/x6B
+	 ysyxPdOQzeo0ZX9VEzv6T9NJsfU8dcWOxpkFNYAWzY/LBU0zuLZ2xf3++9jGcptCb1
+	 Xp8Voz7uHR8O3pq3w/ncYUPGbyyGG5MBfyicJ+oqDiGO1BzaG9nKTI9pT87K9/QPad
+	 WGmS2gB4YANsUc/hqolrWiMuZCznLg98Ov/R1hZ8gbO540njo89EbUIDosTqYlZeua
+	 vy2FDJBTYP9+A==
+Date: Sat, 29 Jun 2024 16:28:51 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: dan.j.williams@intel.com, vishal.l.verma@intel.com,
+	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
+	jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+	will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+	dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
+Subject: Re: [PATCH 02/13] pci/p2pdma: Don't initialise page refcount to one
+Message-ID: <20240629212851.GA1484889@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,69 +52,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zn1StcN3H0r/eHjh@andrea>
+In-Reply-To: <c66cc5c5142813049ffdf9af75302f5064048241.1719386613.git-series.apopple@nvidia.com>
 
-> I admit that I found this all quite difficult to read; IIUC, this is
-> missing an IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) check.  How about adding
-> such a check under the zabha: label (replacing/in place of the second
-> IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) check) and moving the corresponding
-> asm goto statement there, perhaps as follows? (on top of this patch)
+On Thu, Jun 27, 2024 at 10:54:17AM +1000, Alistair Popple wrote:
+> The reference counts for ZONE_DEVICE private pages should be
+> initialised by the driver when the page is actually allocated by the
+> driver allocator, not when they are first created. This is currently
+> the case for MEMORY_DEVICE_PRIVATE and MEMORY_DEVICE_COHERENT pages
+> but not MEMORY_DEVICE_PCI_P2PDMA pages so fix that up.
 
-[...]
+If you tag the subject line with PCI, please run "git log --oneline
+drivers/pci/p2pdma.c" and make yours look like previous ones
+("PCI/P2PDMA").
 
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index b9a3fdcec919..3c913afec150 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -110,15 +110,12 @@
->  	__label__ no_zacas, zabha, end;					\
->  									\
->  	if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA)) {			\
-> -		asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0,		\
-> -				     RISCV_ISA_EXT_ZACAS, 1)		\
-> -			 : : : : no_zacas);				\
->  		asm goto(ALTERNATIVE("nop", "j %[zabha]", 0,		\
->  				     RISCV_ISA_EXT_ZABHA, 1)		\
->  			 : : : : zabha);				\
->  	}								\
->  									\
-> -no_zacas:;								\
-> +no_zacas:								\
->  	u32 *__ptr32b = (u32 *)((ulong)(p) & ~0x3);			\
->  	ulong __s = ((ulong)(p) & (0x4 - sizeof(*p))) * BITS_PER_BYTE;	\
->  	ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)	\
-> @@ -148,16 +145,20 @@ no_zacas:;								\
->  	goto end;							\
->  									\
->  zabha:									\
-> -	if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA)) {			\
-> -		__asm__ __volatile__ (					\
-> -			prepend						\
-> -			"	amocas" cas_sfx " %0, %z2, %1\n"	\
-> -			append						\
-> -			: "+&r" (r), "+A" (*(p))			\
-> -			: "rJ" (n)					\
-> -			: "memory");					\
-> +	if (IS_ENABLED(CONFIG_RISCV_ISA_ZAZAS)) {			\
-> +		asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0,		\
-> +				     RISCV_ISA_EXT_ZACAS, 1)		\
-> +			 : : : : no_zacas);				\
->  	}								\
-> -end:;									\
-> +									\
-> +	__asm__ __volatile__ (						\
-> +		prepend							\
-> +		"	amocas" cas_sfx " %0, %z2, %1\n"		\
-> +		append							\
-> +		: "+&r" (r), "+A" (*(p))				\
-> +		: "rJ" (n)						\
-> +		: "memory");						\
-> +end:									\
->  })
+Also recast it to say something semantically useful about what it
+*does*, not what it *doesn't* do.  Maybe something about initializing
+the refcount where the page is allocated?  Especially since the only
+p2pdma.c change here is to "set_page_count(..., 1)", which looks like
+exactly the opposite of "don't initialize refcount to one".
+
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  drivers/pci/p2pdma.c | 2 ++
+>  mm/memremap.c        | 8 ++++----
+>  mm/mm_init.c         | 4 +++-
+>  3 files changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 4f47a13..1e9ea32 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -128,6 +128,8 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+>  		goto out;
+>  	}
 >  
->  #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
-
-Unfortunately, this diff won't work e.g. when ZABHA is supported and
-detected at boot while ZACAS is not supported; more thinking required...
-
-  Andrea
+> +	set_page_count(virt_to_page(kaddr), 1);
+> +
+>  	/*
+>  	 * vm_insert_page() can sleep, so a reference is taken to mapping
+>  	 * such that rcu_read_unlock() can be done before inserting the
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 40d4547..caccbd8 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -488,15 +488,15 @@ void free_zone_device_folio(struct folio *folio)
+>  	folio->mapping = NULL;
+>  	folio->page.pgmap->ops->page_free(folio_page(folio, 0));
+>  
+> -	if (folio->page.pgmap->type != MEMORY_DEVICE_PRIVATE &&
+> -	    folio->page.pgmap->type != MEMORY_DEVICE_COHERENT)
+> +	if (folio->page.pgmap->type == MEMORY_DEVICE_PRIVATE ||
+> +	    folio->page.pgmap->type == MEMORY_DEVICE_COHERENT)
+> +		put_dev_pagemap(folio->page.pgmap);
+> +	else if (folio->page.pgmap->type != MEMORY_DEVICE_PCI_P2PDMA)
+>  		/*
+>  		 * Reset the refcount to 1 to prepare for handing out the page
+>  		 * again.
+>  		 */
+>  		folio_set_count(folio, 1);
+> -	else
+> -		put_dev_pagemap(folio->page.pgmap);
+>  }
+>  
+>  void zone_device_page_init(struct page *page)
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index 3ec0493..b7e1599 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -6,6 +6,7 @@
+>   * Author Mel Gorman <mel@csn.ul.ie>
+>   *
+>   */
+> +#include "linux/memremap.h"
+>  #include <linux/kernel.h>
+>  #include <linux/init.h>
+>  #include <linux/kobject.h>
+> @@ -1014,7 +1015,8 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
+>  	 * which will set the page count to 1 when allocating the page.
+>  	 */
+>  	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
+> -	    pgmap->type == MEMORY_DEVICE_COHERENT)
+> +	    pgmap->type == MEMORY_DEVICE_COHERENT ||
+> +	    pgmap->type == MEMORY_DEVICE_PCI_P2PDMA)
+>  		set_page_count(page, 0);
+>  }
+>  
+> -- 
+> git-series 0.9.1
