@@ -1,308 +1,118 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFE180C02
-	for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 23:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0F763C
+	for <linux-doc@vger.kernel.org>; Sat, 29 Jun 2024 00:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719617978; cv=none; b=a/lqHY6plk2l+rmGlIgDnUfpFZaigi+1qI7irkaTcTzpqgsIvOViLxgqhwtpiKAYhBbZxXQB7lfDtGe3fyo7TGnanKKRP3hX+Vy0T4qVI+AM7uzdjLoZCbx9ert34f/xYx3g5pX/9hJtKeo5uBNCnMpR+9RVm5Zu+RVS0bIKu4E=
+	t=1719620776; cv=none; b=lqUEXpkYVoIXRY9pluMNkJ2gtIdLYfSFtGYzVDSPRcM0jPqdT2ieB3gYEKzTSG39vFZwpm4osNbQoGPaH4j045XcYSj0FcMx0QkZDofcon3zazlcJSF01m+/a349umjuPveX+UDXKcidzfl7rLCD7pSGgxake5VgOCqcEdBYZmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719617978; c=relaxed/simple;
-	bh=gFGn9wBfLc25cpluTcfGbu57LjjE9VgM7fY2JHTU37Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B6I9G6woSsHUQ5/+BzYBsp4xLsA9xrN2tXb23/ddadehJhkTzWcK7AdDNaNhlC6bupplwLBjLJyp6KvOTKrPtLh8mVDDPNIvcrjVERB6+80b0X0hwvkdJ4nuPqeSAqPhu+kIgF//tTAgCiJbJlve0KTSA4HuRBxrfaDe1Al8mB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TQrSwqNr; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719620776; c=relaxed/simple;
+	bh=juYnk63GENV7/dzTgZy7CMBF5S/a+nYHrdMU1skYSO8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=N3dYOWs2n+MEhv9znqR+L/2EqKra6DcXg7O8awwDmZfxdAEu0DmaaqwA5anxPvktI3G/vkRmMiEbxmnzF7JH0HjKvCN9nG0/G4sx6tJ/eICWuKtZ/T9xtx5CRoITXrJEiO3zRmaZ2xa09GskmdrMeY8o5Pd0W+3zfBoIbMBfBXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DLOktC1K; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TQrSwqNr"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-445022f78e1so66831cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 16:39:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DLOktC1K"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70698bcd19eso888778b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 28 Jun 2024 17:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719617975; x=1720222775; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ca0DA4OYtmu5vjHp6DDkTi8s1JKrMVKIGk5L1tKfRw=;
-        b=TQrSwqNrZO6ZZgJTmflthhJBMpifN1qlw3aTE+ATunfiUgyaDIs5/BFBLBapg0jJmn
-         /3OqgatXcn0WYH6KFj8tRoWxjD0alTUDuCJRkrPnAEnszTPtJPxKhcXr3DqgQIwome72
-         Tu4Ee26whA9I5NH9pw7P4h1ir3tIb+KCkH8OMQBg+IEtQLWM44vdImtyQnNzmHSvKjAX
-         Inag5Tf4LZvC+Pki5S1kWG1tAvr1JXNLoHtDmsnAKIeVD4aEptCqSyRzQKQdl+Y4lfpW
-         oQrQHm9johYp5tWecVKGkqYxDXn2oIURF69UdDNjM9ONGj+zOwKyZOTuBovoNQ9PSYHy
-         WDtw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719620773; x=1720225573; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aSdyuK/9EHV/U4rOZJpo8LtJsTBOsCCeCRMcU68Fw1s=;
+        b=DLOktC1Kk5rXSl9aX9V6g7F+dUuf/wE7fSBH8HKq0PZ64f0bw23Y6ry8w0AMu1bO+S
+         caOFjV74Z0jRx7wRQtLOVC1JbZ72dlh2oiEw5dUYFqmBWwwW2JewmsJjKKrAEaDHP8AP
+         3DENQ24g4PNslS0cQ+GahqUcY9nMm4YG5V4QUGSGPmt1+Mookf60FCeeULPDWSSsFh5j
+         87uZNbDAfWv1sWAljoI5bDpFkkQUae9jO8E0LlVzEXeipBF9iFBtotoIGoSgbwEuFD0x
+         i6Mm+u/6O6Uh47ASbfKXSRdJ5+uxklkDXoGLNP1iu1wzoDXChfUS8XESGWt8kemZ+oi1
+         zewA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719617975; x=1720222775;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1719620773; x=1720225573;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7Ca0DA4OYtmu5vjHp6DDkTi8s1JKrMVKIGk5L1tKfRw=;
-        b=GRCJfZP695MAjkGgaZpEhH4z3oVimvMgrNB2Lqm4i748uToqYMuPiquZf6eQeC4yP8
-         dXzj99342QzzlNobKRQxWc+HQXc43RdjMiMf70OFLT2W2WSrwahl5fwfuK/ZJ+6xdxyO
-         F5zZG4q+HxzJsvYmPLMXkrce8gneMvcmFMqUlYaqZvBJC1fgquFXzHhWdvkXwnWThSyY
-         qPbPYhDJ0GnGoDxI10PXBS1xC9W2ToIXVL8op9+5xIl9LJvpES+QyjGBywYZF6fJAyhP
-         u5tabl5zNfr0Tr2qwxRybKZu8FInTwOQnoihPVXimLq+PRWkCHDPE4v9/Z8Oyjas1zPg
-         9D9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVwP2DQcJAkC6jYKby3Ygb8yvci7BOTDjmEJfpL8N04e2S5EiRt6g5PLviV/8jHvXSyZgfHQH6waCYICxkvyY78RmhhjaxUy3S9
-X-Gm-Message-State: AOJu0YyP0fGN4y2ihRvOL+xYKiRTcQclLWact+L5OvILxChpFS51nUzB
-	QIqrcMFQN7Y2yZxk0PWfn7ZymGVsEnagefHaJUmZaoQAf3o2GEDrRVRSJJn2D+x2pdQjD7KtCWn
-	1ucJwp1ySho8rUIBTjFhqWQIeAqj5HdbinExd
-X-Google-Smtp-Source: AGHT+IHKkpUk+WD6bTey5Z/OEgEg1zX4EupEIZF89/wKvvk+qrClQWspsS+52Ps7BfIHqkzp7QfwKpYEDXC+Usvf3S0=
-X-Received: by 2002:a05:622a:4709:b0:444:e9b9:708f with SMTP id
- d75a77b69052e-4465df8c326mr435621cf.21.1719617974492; Fri, 28 Jun 2024
- 16:39:34 -0700 (PDT)
+        bh=aSdyuK/9EHV/U4rOZJpo8LtJsTBOsCCeCRMcU68Fw1s=;
+        b=gTP7SbCJWkaseKmVlpMQ8YByFYLVxgI72PVJi3vxfSSRzPh6fLqL4e3Jkl/HJwY/Zo
+         fx2phyDmUz5MDN13T7avVZza1qezDENMgRGsvjjL4lVE3RJexsehju7vkro1g3XXmCPD
+         xpTxhACaQ8HdFOjZBcpmObDQMWqd8vh7qa7x+/KEyVtpXBPhEAfw6kZz6R9BWcwxAWgC
+         v9z0A/zZ97/jIeALdm4l/R1k6pprOIP2IMk0L/Fmq8T8Z6yKvkEBbAZBNbLI3eMfqOsx
+         40gSr5PJ+s3nwcCN0yRtEH4Embkq5x18n6Hj1NWYMIIjYIfMwEuzq0VdHW7XJhwQeySl
+         5ppg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgxKKLZfV7mDZd/fHOr3dQOBU5wxS04faTOhDBu17O+1Uu8E/vLw95zdO5yZxP3DtK9Gr22P1Bf4uOOEC+eyYekZiiXa7nSGCW
+X-Gm-Message-State: AOJu0YzM/HjbnwZbQB0RIZcEnyoDrlNB+6Bj6Oq4G79YAUoclefnyY7t
+	tf2Mig4LqQDhoBRYdcucV2kMz8/UaAjbc0Rr1GSRU5qTOk9q6Q3xePgvnKNsKLU=
+X-Google-Smtp-Source: AGHT+IEUKko/k4/6xXNCFY+KFjLpcjGNhy52rvbM05wygFCT1kSEw2lhuzMfsadc4asggUJvSJSz+w==
+X-Received: by 2002:a05:6a00:1acc:b0:705:d8c9:f5e4 with SMTP id d2e1a72fcca58-7067454ad53mr22852485b3a.6.1719620772631;
+        Fri, 28 Jun 2024 17:26:12 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708044b1112sm2212053b3a.182.2024.06.28.17.26.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jun 2024 17:26:11 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Date: Fri, 28 Jun 2024 17:25:49 -0700
+Subject: [PATCH] documentation: Fix riscv cmodx example
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
- <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
- <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
- <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
- <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
- <ZnCCZ5gQnA3zMQtv@google.com>
-In-Reply-To: <ZnCCZ5gQnA3zMQtv@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Fri, 28 Jun 2024 16:38:57 -0700
-Message-ID: <CADrL8HW=kCLoWBwoiSOCd8WHFvBdWaguZ2ureo4eFy9D67+owg@mail.gmail.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-To: Sean Christopherson <seanjc@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: multipart/mixed; boundary="00000000000085f40d061bfbc2cf"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240628-fix_cmodx_example-v1-1-e6c6523bc163@rivosinc.com>
+X-B4-Tracking: v=1; b=H4sIAIxUf2YC/x2MWwqAIBAAryL7nWD2sq4SEVZbLeQDhRCiuyd9D
+ szMAxEDYYSBPRDwpkjOZigLBuup7YGctswghaxFKxXfKc2rcVuaMWnjL+SdVqJS1SIa1UPufMA
+ s/c9xet8PCIo2h2MAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alexghiti@rivosinc.com>, Atish Patra <atishp@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>, linux-doc@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719620770; l=1521;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=juYnk63GENV7/dzTgZy7CMBF5S/a+nYHrdMU1skYSO8=;
+ b=99DCJWrEWmIJO23ODkaplB9EBbYalo8Zt/oDmYSmDCSdolAEaR2BUam3bXH8vdjkcvuCGOaXE
+ nr6YjNkomtxAROeT1JFwg5zs5LTjxLxWlHNskwi5AmiSm7mtp+oNv2m
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
---00000000000085f40d061bfbc2cf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ON/OFF in the keys was swapped between the first and second argument of
+the prctl. The prctl key is always PR_RISCV_SET_ICACHE_FLUSH_CTX, and
+the second argument can be PR_RISCV_CTX_SW_FENCEI_ON or
+PR_RISCV_CTX_SW_FENCEI_OFF.
 
-On Mon, Jun 17, 2024 at 11:37=E2=80=AFAM Sean Christopherson <seanjc@google=
-.com> wrote:
->
-> On Mon, Jun 17, 2024, James Houghton wrote:
-> > On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc@goo=
-gle.com> wrote:
-> > > Ooh!  Actually, after fiddling a bit to see how feasible fast-aging i=
-n the shadow
-> > > MMU would be, I'm pretty sure we can do straight there for nested TDP=
-.  Or rather,
-> > > I suspect/hope we can get close enough for an initial merge, which wo=
-uld allow
-> > > aging_is_fast to be a property of the mmu_notifier, i.e. would simpli=
-fy things
-> > > because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for each=
- notification.
-> > >
-> > > Walking KVM's rmaps requires mmu_lock because adding/removing rmap en=
-tries is done
-> > > in such a way that a lockless walk would be painfully complex.  But i=
-f there is
-> > > exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] points =
-directly at
-> > > that one SPTE.  And with nested TDP, unless L1 is doing something unc=
-ommon, e.g.
-> > > mapping the same page into multiple L2s, that overwhelming vast major=
-ity of rmaps
-> > > have only one entry.  That's not the case for legacy shadow paging be=
-cause kernels
-> > > almost always map a pfn using multiple virtual addresses, e.g. Linux'=
-s direct map
-> > > along with any userspace mappings.
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+Fixes: 6a08e4709c58 ("documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl")
+---
+ Documentation/arch/riscv/cmodx.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi Sean, sorry for taking so long to get back to you.
+diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/riscv/cmodx.rst
+index 1c0ca06b6c97..8c48bcff3df9 100644
+--- a/Documentation/arch/riscv/cmodx.rst
++++ b/Documentation/arch/riscv/cmodx.rst
+@@ -62,10 +62,10 @@ cmodx.c::
+ 		printf("Value before cmodx: %d\n", value);
+ 
+ 		// Call prctl before first fence.i is called inside modify_instruction
+-		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_ON, PR_RISCV_CTX_SW_FENCEI, PR_RISCV_SCOPE_PER_PROCESS);
++		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX, PR_RISCV_CTX_SW_FENCEI_ON, PR_RISCV_SCOPE_PER_PROCESS);
+ 		modify_instruction();
+ 		// Call prctl after final fence.i is called in process
+-		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX_OFF, PR_RISCV_CTX_SW_FENCEI, PR_RISCV_SCOPE_PER_PROCESS);
++		prctl(PR_RISCV_SET_ICACHE_FLUSH_CTX, PR_RISCV_CTX_SW_FENCEI_OFF, PR_RISCV_SCOPE_PER_PROCESS);
+ 
+ 		value = get_value();
+ 		printf("Value after cmodx: %d\n", value);
 
-So just to make sure I have this right: if L1 is using TDP, the gfns
-in L0 will usually only be mapped by a single spte. If L1 is not using
-TDP, then all bets are off. Is that true?
+---
+base-commit: f2661062f16b2de5d7b6a5c42a9a5c96326b8454
+change-id: 20240628-fix_cmodx_example-7a80383b0589
+-- 
+- Charlie
 
-If that is true, given that we don't really have control over whether
-or not L1 decides to use TDP, the lockless shadow MMU walk will work,
-but, if L1 is not using TDP, it will often return false negatives
-(says "old" for an actually-young gfn). So then I don't really
-understand conditioning the lockless shadow MMU walk on us (L0) using
-the TDP MMU[1]. We care about L1, right?
-
-(Maybe you're saying that, when the TDP MMU is enabled, the only cases
-where the shadow MMU is used are cases where gfns are practically
-always mapped by a single shadow PTE. This isn't how I understood your
-mail, but this is what your hack-a-patch[1] makes me think.)
-
-[1] https://lore.kernel.org/linux-mm/ZmzPoW7K5GIitQ8B@google.com/
-
->
-> ...
->
-> > Hmm, interesting. I need to spend a little bit more time digesting this=
-.
-> >
-> > Would you like to see this included in v6? (It'd be nice to avoid the
-> > WAS_FAST stuff....) Should we leave it for a later series? I haven't
-> > formed my own opinion yet.
->
-> I would say it depends on the viability and complexity of my idea.  E.g. =
-if it
-> pans out more or less like my rough sketch, then it's probably worth taki=
-ng on
-> the extra code+complexity in KVM to avoid the whole WAS_FAST goo.
->
-> Note, if we do go this route, the implementation would need to be tweaked=
- to
-> handle the difference in behavior between aging and last-minute checks fo=
-r eviction,
-> which I obviously didn't understand when I threw together that hack-a-pat=
-ch.
->
-> I need to think more about how best to handle that though, e.g. skipping =
-GFNs with
-> multiple mappings is probably the worst possible behavior, as we'd risk e=
-victing
-> hot pages.  But falling back to taking mmu_lock for write isn't all that =
-desirable
-> either.
-
-I think falling back to the write lock is more desirable than evicting
-a young page.
-
-I've attached what I think could work, a diff on top of this series.
-It builds at least. It uses rcu_read_lock/unlock() for
-walk_shadow_page_lockless_begin/end(NULL), and it puts a
-synchronize_rcu() in kvm_mmu_commit_zap_page().
-
-It doesn't get rid of the WAS_FAST things because it doesn't do
-exactly what [1] does. It basically makes three calls now: lockless
-TDP MMU, lockless shadow MMU, locked shadow MMU. It only calls the
-locked shadow MMU bits if the lockless bits say !young (instead of
-being conditioned on tdp_mmu_enabled). My choice is definitely
-questionable for the clear path.
-
-Thanks!
-
---00000000000085f40d061bfbc2cf
-Content-Type: text/x-patch; charset="US-ASCII"; name="shadow-mmu-patch.diff"
-Content-Disposition: attachment; filename="shadow-mmu-patch.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lxzbr9zx0>
-X-Attachment-Id: f_lxzbr9zx0
-
-ZGlmZiAtLWdpdCBhL2FyY2gveDg2L2t2bS9tbXUvbW11LmMgYi9hcmNoL3g4Ni9rdm0vbW11L21t
-dS5jCmluZGV4IDg0MWNlZTNmMzQ2ZC4uNTQ4ZDFlNDgwZGU5IDEwMDY0NAotLS0gYS9hcmNoL3g4
-Ni9rdm0vbW11L21tdS5jCisrKyBiL2FyY2gveDg2L2t2bS9tbXUvbW11LmMKQEAgLTY0MCw2ICs2
-NDAsMzcgQEAgc3RhdGljIGJvb2wgbW11X3NwdGVfYWdlKHU2NCAqc3B0ZXApCiAJcmV0dXJuIHRy
-dWU7CiB9CiAKKy8qCisgKiBTaW1pbGFyIHRvIG1tdV9zcHRlX2FnZSgpLCBidXQgdGhpcyBvbmUg
-c2hvdWxkIGJlIHVzZWQgZm9yIGxvY2tsZXNzIHNoYWRvdworICogcGFnZSB0YWJsZSB3YWxrcy4K
-KyAqLworc3RhdGljIGJvb2wgbW11X3NwdGVfYWdlX2xvY2tsZXNzKHU2NCAqc3B0ZXApCit7CisJ
-dTY0IG9sZF9zcHRlID0gbW11X3NwdGVfZ2V0X2xvY2tsZXNzKHNwdGVwKTsKKwl1NjQgbmV3X3Nw
-dGU7CisKKwlpZiAoIWlzX2FjY2Vzc2VkX3NwdGUob2xkX3NwdGUpKQorCQlyZXR1cm4gZmFsc2U7
-CisKKwlpZiAoc3B0ZV9hZF9lbmFibGVkKG9sZF9zcHRlKSkKKwkJY2xlYXJfYml0KChmZnMoc2hh
-ZG93X2FjY2Vzc2VkX21hc2spIC0gMSksCisJCQkgICh1bnNpZ25lZCBsb25nICopc3B0ZXApOwor
-CWVsc2UgeworCQluZXdfc3B0ZSA9IG1hcmtfc3B0ZV9mb3JfYWNjZXNzX3RyYWNrKG9sZF9zcHRl
-KTsKKwkJaWYgKCF0cnlfY21weGNoZzY0KHNwdGVwLCAmb2xkX3NwdGUsIG5ld19zcHRlKSkKKwkJ
-CS8qCisJCQkgKiBJZiB0aGUgc3B0ZSBjaGFuZ2VkLCBpdCdzIGxpa2VseSB0aGF0IHRoZSBnZm4K
-KwkJCSAqIGlzIHlvdW5nLgorCQkJICovCisJCQlyZXR1cm4gdHJ1ZTsKKworCQlpZiAoaXNfd3Jp
-dGFibGVfcHRlKG9sZF9zcHRlKSkKKwkJCWt2bV9zZXRfcGZuX2RpcnR5KHNwdGVfdG9fcGZuKG9s
-ZF9zcHRlKSk7CisJfQorCisJcmV0dXJuIHRydWU7Cit9CisKIHN0YXRpYyBpbmxpbmUgYm9vbCBp
-c190ZHBfbW11X2FjdGl2ZShzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHUpCiB7CiAJcmV0dXJuIHRkcF9t
-bXVfZW5hYmxlZCAmJiB2Y3B1LT5hcmNoLm1tdS0+cm9vdF9yb2xlLmRpcmVjdDsKQEAgLTY0Nyw2
-ICs2NzgsMTEgQEAgc3RhdGljIGlubGluZSBib29sIGlzX3RkcF9tbXVfYWN0aXZlKHN0cnVjdCBr
-dm1fdmNwdSAqdmNwdSkKIAogc3RhdGljIHZvaWQgd2Fsa19zaGFkb3dfcGFnZV9sb2NrbGVzc19i
-ZWdpbihzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHUpCiB7CisJaWYgKCF2Y3B1KSB7CisJCXJjdV9yZWFk
-X2xvY2soKTsKKwkJcmV0dXJuOworCX0KKwogCWlmIChpc190ZHBfbW11X2FjdGl2ZSh2Y3B1KSkg
-ewogCQlrdm1fdGRwX21tdV93YWxrX2xvY2tsZXNzX2JlZ2luKCk7CiAJfSBlbHNlIHsKQEAgLTY2
-Niw2ICs3MDIsMTEgQEAgc3RhdGljIHZvaWQgd2Fsa19zaGFkb3dfcGFnZV9sb2NrbGVzc19iZWdp
-bihzdHJ1Y3Qga3ZtX3ZjcHUgKnZjcHUpCiAKIHN0YXRpYyB2b2lkIHdhbGtfc2hhZG93X3BhZ2Vf
-bG9ja2xlc3NfZW5kKHN0cnVjdCBrdm1fdmNwdSAqdmNwdSkKIHsKKwlpZiAoIXZjcHUpIHsKKwkJ
-cmN1X3JlYWRfdW5sb2NrKCk7CisJCXJldHVybjsKKwl9CisKIAlpZiAoaXNfdGRwX21tdV9hY3Rp
-dmUodmNwdSkpIHsKIAkJa3ZtX3RkcF9tbXVfd2Fsa19sb2NrbGVzc19lbmQoKTsKIAl9IGVsc2Ug
-ewpAQCAtOTQ5LDE0ICs5OTAsMTQgQEAgc3RhdGljIGludCBwdGVfbGlzdF9hZGQoc3RydWN0IGt2
-bV9tbXVfbWVtb3J5X2NhY2hlICpjYWNoZSwgdTY0ICpzcHRlLAogCWludCBjb3VudCA9IDA7CiAK
-IAlpZiAoIXJtYXBfaGVhZC0+dmFsKSB7Ci0JCXJtYXBfaGVhZC0+dmFsID0gKHVuc2lnbmVkIGxv
-bmcpc3B0ZTsKKwkJV1JJVEVfT05DRSgmcm1hcF9oZWFkLT52YWwsICh1bnNpZ25lZCBsb25nKXNw
-dGUpOwogCX0gZWxzZSBpZiAoIShybWFwX2hlYWQtPnZhbCAmIDEpKSB7CiAJCWRlc2MgPSBrdm1f
-bW11X21lbW9yeV9jYWNoZV9hbGxvYyhjYWNoZSk7CiAJCWRlc2MtPnNwdGVzWzBdID0gKHU2NCAq
-KXJtYXBfaGVhZC0+dmFsOwogCQlkZXNjLT5zcHRlc1sxXSA9IHNwdGU7CiAJCWRlc2MtPnNwdGVf
-Y291bnQgPSAyOwogCQlkZXNjLT50YWlsX2NvdW50ID0gMDsKLQkJcm1hcF9oZWFkLT52YWwgPSAo
-dW5zaWduZWQgbG9uZylkZXNjIHwgMTsKKwkJV1JJVEVfT05DRSgmcm1hcF9oZWFkLT52YWwsICh1
-bnNpZ25lZCBsb25nKWRlc2MgfCAxKTsKIAkJKytjb3VudDsKIAl9IGVsc2UgewogCQlkZXNjID0g
-KHN0cnVjdCBwdGVfbGlzdF9kZXNjICopKHJtYXBfaGVhZC0+dmFsICYgfjF1bCk7CkBAIC05NzEs
-NyArMTAxMiw3IEBAIHN0YXRpYyBpbnQgcHRlX2xpc3RfYWRkKHN0cnVjdCBrdm1fbW11X21lbW9y
-eV9jYWNoZSAqY2FjaGUsIHU2NCAqc3B0ZSwKIAkJCWRlc2MtPm1vcmUgPSAoc3RydWN0IHB0ZV9s
-aXN0X2Rlc2MgKikocm1hcF9oZWFkLT52YWwgJiB+MXVsKTsKIAkJCWRlc2MtPnNwdGVfY291bnQg
-PSAwOwogCQkJZGVzYy0+dGFpbF9jb3VudCA9IGNvdW50OwotCQkJcm1hcF9oZWFkLT52YWwgPSAo
-dW5zaWduZWQgbG9uZylkZXNjIHwgMTsKKwkJCVdSSVRFX09OQ0UoJnJtYXBfaGVhZC0+dmFsLCAo
-dW5zaWduZWQgbG9uZylkZXNjIHwgMSk7CiAJCX0KIAkJZGVzYy0+c3B0ZXNbZGVzYy0+c3B0ZV9j
-b3VudCsrXSA9IHNwdGU7CiAJfQpAQCAtMTAwOSw5ICsxMDUwLDEwIEBAIHN0YXRpYyB2b2lkIHB0
-ZV9saXN0X2Rlc2NfcmVtb3ZlX2VudHJ5KHN0cnVjdCBrdm0gKmt2bSwKIAkgKiBoZWFkIGF0IHRo
-ZSBuZXh0IGRlc2NyaXB0b3IsIGkuZS4gdGhlIG5ldyBoZWFkLgogCSAqLwogCWlmICghaGVhZF9k
-ZXNjLT5tb3JlKQotCQlybWFwX2hlYWQtPnZhbCA9IDA7CisJCVdSSVRFX09OQ0UoJnJtYXBfaGVh
-ZC0+dmFsLCAwKTsKIAllbHNlCi0JCXJtYXBfaGVhZC0+dmFsID0gKHVuc2lnbmVkIGxvbmcpaGVh
-ZF9kZXNjLT5tb3JlIHwgMTsKKwkJV1JJVEVfT05DRSgmcm1hcF9oZWFkLT52YWwsCisJCQkJKHVu
-c2lnbmVkIGxvbmcpaGVhZF9kZXNjLT5tb3JlIHwgMSk7CiAJbW11X2ZyZWVfcHRlX2xpc3RfZGVz
-YyhoZWFkX2Rlc2MpOwogfQogCkBAIC0xMDI4LDcgKzEwNzAsNyBAQCBzdGF0aWMgdm9pZCBwdGVf
-bGlzdF9yZW1vdmUoc3RydWN0IGt2bSAqa3ZtLCB1NjQgKnNwdGUsCiAJCWlmIChLVk1fQlVHX09O
-X0RBVEFfQ09SUlVQVElPTigodTY0ICopcm1hcF9oZWFkLT52YWwgIT0gc3B0ZSwga3ZtKSkKIAkJ
-CXJldHVybjsKIAotCQlybWFwX2hlYWQtPnZhbCA9IDA7CisJCVdSSVRFX09OQ0UoJnJtYXBfaGVh
-ZC0+dmFsLCAwKTsKIAl9IGVsc2UgewogCQlkZXNjID0gKHN0cnVjdCBwdGVfbGlzdF9kZXNjICop
-KHJtYXBfaGVhZC0+dmFsICYgfjF1bCk7CiAJCXdoaWxlIChkZXNjKSB7CkBAIC0xMDc4LDcgKzEx
-MjAsNyBAQCBzdGF0aWMgYm9vbCBrdm1femFwX2FsbF9ybWFwX3NwdGVzKHN0cnVjdCBrdm0gKmt2
-bSwKIAl9CiBvdXQ6CiAJLyogcm1hcF9oZWFkIGlzIG1lYW5pbmdsZXNzIG5vdywgcmVtZW1iZXIg
-dG8gcmVzZXQgaXQgKi8KLQlybWFwX2hlYWQtPnZhbCA9IDA7CisJV1JJVEVfT05DRSgmcm1hcF9o
-ZWFkLT52YWwsIDApOwogCXJldHVybiB0cnVlOwogfQogCkBAIC0xNjM0LDE3ICsxNjc2LDY0IEBA
-IHN0YXRpYyBib29sIGt2bV9oYXNfc2hhZG93X21tdV9zcHRlcyhzdHJ1Y3Qga3ZtICprdm0pCiAJ
-cmV0dXJuICF0ZHBfbW11X2VuYWJsZWQgfHwgUkVBRF9PTkNFKGt2bS0+YXJjaC5pbmRpcmVjdF9z
-aGFkb3dfcGFnZXMpOwogfQogCitzdGF0aWMgYm9vbCBrdm1fYWdlX3JtYXBfZmFzdCh1NjQgKnNw
-dGVwKQoreworCXJldHVybiBtbXVfc3B0ZV9hZ2VfbG9ja2xlc3Moc3B0ZXApOworfQorCitzdGF0
-aWMgYm9vbCBrdm1fdGVzdF9hZ2Vfcm1hcF9mYXN0KHU2NCAqc3B0ZXApCit7CisJcmV0dXJuIGlz
-X2FjY2Vzc2VkX3NwdGUoUkVBRF9PTkNFKCpzcHRlcCkpOworfQorCit0eXBlZGVmIGJvb2wgKCpy
-bWFwX2xvY2tsZXNzX2hhbmRsZXJfdCkodTY0ICpzcHRlcCk7CisKK3N0YXRpYyBfX2Fsd2F5c19p
-bmxpbmUgYm9vbCBrdm1faGFuZGxlX2dmbl9yYW5nZV9sb2NrbGVzcygKKwkJc3RydWN0IGt2bSAq
-a3ZtLCBzdHJ1Y3Qga3ZtX2dmbl9yYW5nZSAqcmFuZ2UsCisJCXJtYXBfbG9ja2xlc3NfaGFuZGxl
-cl90IGhhbmRsZXIpCit7CisJc3RydWN0IGt2bV9ybWFwX2hlYWQgKnJtYXA7CisJdTY0ICpzcHRl
-cDsKKwlnZm5fdCBnZm47CisJaW50IGxldmVsOworCWJvb2wgcmV0ID0gZmFsc2U7CisKKwl3YWxr
-X3NoYWRvd19wYWdlX2xvY2tsZXNzX2JlZ2luKE5VTEwpOworCisJZm9yIChnZm4gPSByYW5nZS0+
-c3RhcnQ7IGdmbiA8IHJhbmdlLT5lbmQ7IGdmbisrKSB7CisJCWZvciAobGV2ZWwgPSBQR19MRVZF
-TF80SzsgbGV2ZWwgPD0gS1ZNX01BWF9IVUdFUEFHRV9MRVZFTDsKKwkJICAgICBsZXZlbCsrKSB7
-CisJCQlybWFwID0gZ2ZuX3RvX3JtYXAoZ2ZuLCBsZXZlbCwgcmFuZ2UtPnNsb3QpOworCQkJc3B0
-ZXAgPSAodm9pZCAqKVJFQURfT05DRShybWFwLT52YWwpOworCisJCQkvKiBTa2lwIHRoaXMgZ2Zu
-IGlmIG11bHRpcGxlIFNQVEVzIG1hcHBpbmcgaXQgKi8KKwkJCWlmICgodW5zaWduZWQgbG9uZylz
-cHRlcCAmIDEpCisJCQkJY29udGludWU7CisKKwkJCXJldCB8PSBoYW5kbGVyKHNwdGVwKTsKKwkJ
-fQorCX0KKworCXdhbGtfc2hhZG93X3BhZ2VfbG9ja2xlc3NfZW5kKE5VTEwpOworCisJcmV0dXJu
-IHJldDsKK30KKwogYm9vbCBrdm1fYWdlX2dmbihzdHJ1Y3Qga3ZtICprdm0sIHN0cnVjdCBrdm1f
-Z2ZuX3JhbmdlICpyYW5nZSkKIHsKLQlib29sIHlvdW5nID0gZmFsc2U7CisJYm9vbCB5b3VuZyA9
-IGZhbHNlLCBzaGFkb3dfeW91bmcgPSBmYWxzZTsKIAotCWlmICh0ZHBfbW11X2VuYWJsZWQpIHsK
-KwlpZiAodGRwX21tdV9lbmFibGVkKQogCQl5b3VuZyB8PSBrdm1fdGRwX21tdV9hZ2VfZ2ZuX3Jh
-bmdlKGt2bSwgcmFuZ2UpOwotCQlpZiAoeW91bmcpCi0JCQlyYW5nZS0+YXJnLnJlcG9ydF9mYXN0
-ID0gdHJ1ZTsKLQl9CiAKLQlpZiAoIXJhbmdlLT5hcmcuZmFzdF9vbmx5ICYmIGt2bV9oYXNfc2hh
-ZG93X21tdV9zcHRlcyhrdm0pKSB7CisJc2hhZG93X3lvdW5nID0ga3ZtX2hhbmRsZV9nZm5fcmFu
-Z2VfbG9ja2xlc3Moa3ZtLCByYW5nZSwKKwkJCQkJICAgICAgIGt2bV9hZ2Vfcm1hcF9mYXN0KTsK
-Kwl5b3VuZyB8PSBzaGFkb3dfeW91bmc7CisJaWYgKHlvdW5nKQorCQlyYW5nZS0+YXJnLnJlcG9y
-dF9mYXN0ID0gdHJ1ZTsKKworCWVsc2UgaWYgKCFzaGFkb3dfeW91bmcgJiYgIXJhbmdlLT5hcmcu
-ZmFzdF9vbmx5ICYmCisJCSBrdm1faGFzX3NoYWRvd19tbXVfc3B0ZXMoa3ZtKSkgewogCQl3cml0
-ZV9sb2NrKCZrdm0tPm1tdV9sb2NrKTsKIAkJeW91bmcgPSBrdm1faGFuZGxlX2dmbl9yYW5nZShr
-dm0sIHJhbmdlLCBrdm1fYWdlX3JtYXApOwogCQl3cml0ZV91bmxvY2soJmt2bS0+bW11X2xvY2sp
-OwpAQCAtMTY1NywxMSArMTc0NiwxNSBAQCBib29sIGt2bV90ZXN0X2FnZV9nZm4oc3RydWN0IGt2
-bSAqa3ZtLCBzdHJ1Y3Qga3ZtX2dmbl9yYW5nZSAqcmFuZ2UpCiB7CiAJYm9vbCB5b3VuZyA9IGZh
-bHNlOwogCi0JaWYgKHRkcF9tbXVfZW5hYmxlZCkgeworCWlmICh0ZHBfbW11X2VuYWJsZWQpCiAJ
-CXlvdW5nIHw9IGt2bV90ZHBfbW11X3Rlc3RfYWdlX2dmbihrdm0sIHJhbmdlKTsKLQkJaWYgKHlv
-dW5nKQotCQkJcmFuZ2UtPmFyZy5yZXBvcnRfZmFzdCA9IHRydWU7Ci0JfQorCisJaWYgKCF5b3Vu
-ZykKKwkJeW91bmcgfD0ga3ZtX2hhbmRsZV9nZm5fcmFuZ2VfbG9ja2xlc3Moa3ZtLCByYW5nZSwK
-KwkJCQkJCSAgICAgICBrdm1fdGVzdF9hZ2Vfcm1hcF9mYXN0KTsKKworCWlmICh5b3VuZykKKwkJ
-cmFuZ2UtPmFyZy5yZXBvcnRfZmFzdCA9IHRydWU7CiAKIAlpZiAoIXlvdW5nICYmICFyYW5nZS0+
-YXJnLmZhc3Rfb25seSAmJiBrdm1faGFzX3NoYWRvd19tbXVfc3B0ZXMoa3ZtKSkgewogCQl3cml0
-ZV9sb2NrKCZrdm0tPm1tdV9sb2NrKTsKQEAgLTI2MzYsNiArMjcyOSwxMiBAQCBzdGF0aWMgdm9p
-ZCBrdm1fbW11X2NvbW1pdF96YXBfcGFnZShzdHJ1Y3Qga3ZtICprdm0sCiAJICovCiAJa3ZtX2Zs
-dXNoX3JlbW90ZV90bGJzKGt2bSk7CiAKKwkvKgorCSAqIFdhaXQgZm9yIGFueSBub24tdkNQVSBs
-b2NrbGVzcyBzaGFkb3cgcGFnZSB0YWJsZSB3YWxrZXJzIHRvIHN0b3AKKwkgKiB1c2luZyB0aGUg
-c2hhZG93IHBhZ2VzIHdlJ3JlIGFib3V0IHRvIGZyZWUuCisJICovCisJc3luY2hyb25pemVfcmN1
-KCk7CisKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUoc3AsIG5zcCwgaW52YWxpZF9saXN0LCBs
-aW5rKSB7CiAJCVdBUk5fT05fT05DRSghc3AtPnJvbGUuaW52YWxpZCB8fCBzcC0+cm9vdF9jb3Vu
-dCk7CiAJCWt2bV9tbXVfZnJlZV9zaGFkb3dfcGFnZShzcCk7Cg==
---00000000000085f40d061bfbc2cf--
