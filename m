@@ -1,142 +1,237 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6578826AEA
-	for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2024 11:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D47200C1;
+	Sun, 30 Jun 2024 11:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719745582; cv=none; b=qSh5Mlh1uTnBS4LolJaF+3iJtBbKfNRpag85qY+/Kf1SkOXtsFrA4kGc2Nf74OwotkvAwNS3xJDwq6BwXNzP282CUdDUY4VLSQazZYL3UC22g0cLR7kAJnq0HIskl4KDVcTwLMmzgVKp7Z5Pj2R6/BEKrI6rH+7/haQtuFZdCVA=
+	t=1719746256; cv=none; b=Z4XlsTKo+5Gcruw1h2pknVWayT5sZ5dXIy6kmVBDOpc3Drv5K32J9/UAodJu1E/McszXKgELphBAXGQGcDmqjk40dmfk59mzaCTsg/mY263y3SBbqYHcsEhE2PnMrR1hkM9/3lvMtQ6jGuoAj4WlG6bwJI0yeOkv5ddJMY0cWRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719745582; c=relaxed/simple;
-	bh=zQ4dYj5/jyd9de0aK8+xJ72ZgjXm+/bM/SAlhqzL9Q4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aBoTf0PHbLHb398lJcFXASivuqKvEAm6X83sTxdBn8CneS3yt5MStR8Yi/C/GVxMXSC7UKPS3lmH34WjRKhrTH/T6Gpd9eUAHORz5LKmVhylMMWUWjQNnpdoyPLRQQN299ZCetMmANz3ZyUtjuVF6bASEbct3LX+r8LRY/nIU+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=codasip.com; spf=pass smtp.mailfrom=codasip.com; dkim=pass (2048-bit key) header.d=codasip.com header.i=@codasip.com header.b=hD9h/I2k; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=codasip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codasip.com
+	s=arc-20240116; t=1719746256; c=relaxed/simple;
+	bh=NaPQ4uNEOSAllGqmDxgXXmyzGu/F7JDU6SOkzOWwVzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HFM8Niqd7T8gLfKwB79wn+fUrBUfJBx56NMi0kq12gDBB2iwBUdMYhSUge1Z1UcF0GOHP8u+dYLhq/B4AQRyNdACUK3e1UGFoy0F7XZf0DnwjWNHVo4Cxhc5AkUEa3i976jv4VvGYT5noKbXB1W/8V558wdTeAEGtisYL639+FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfbHhE0p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codasip.com header.i=@codasip.com header.b="hD9h/I2k"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42573d3f7e4so12244655e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2024 04:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=codasip.com; s=google; t=1719745579; x=1720350379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GjW7qbBBooXO2YCGv7moaJ34uYcCR+XgnWB+1lWKJdE=;
-        b=hD9h/I2ko95j60xonJk76re3Bwn+b+V2CaN4+OslSmpmJ25X28b23uQaEXJAViObLd
-         /LVpj0T0BNx3pc2VMSepECOSEGfRo6sNsuwm336vtz8WPRPBf11JymkPhIUljrqexcw1
-         lwsEkrkuDkOSQc3gop9joXRWyHpqTRtIaz4F/9DZw5Lx1QXe1j9nRwyxeOaqTvOGEXal
-         DgvsDT/e6vX25EeHs8AgfGI+kMEVIhNOn/u86LceQ+WHZXUTQS7wMhRkVAqTJMIC/mFO
-         hslysxxj7klqoUznVjvpobmo43wS4uWpbhG7HB6cdM6CWyLBT51WNcRJJYSfoszTB8Mj
-         8UUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719745579; x=1720350379;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GjW7qbBBooXO2YCGv7moaJ34uYcCR+XgnWB+1lWKJdE=;
-        b=ncjxzNAj7N007d6dfTcIxMFC18xuM/Xo6q0msASen93w3L3LruzZO5Pf6u27WDEdpv
-         PZuFglyvpBwUM/JSKTiULE9AeGBrV1BPQseLOpboD1uMCCMzflxrkIWFsO5izQS2Ythw
-         BD5STv0JjfuFaU+iF5zboxiWI/sEFwn0nzU5RXJZkqAyeY3qBvoUbMoujKLcFvrmMqdx
-         0armt8i1/vWnM51J27QNFw8NOKbhEDOkx4GGzXRL0b7zNdW5LpRTWqzmxWY0HTDUiNh8
-         jRXCuBO8cYehseEjh7K3+jXA/cgavt4xOQ1X+3L8SmN4FIop2fwfze6hFYJbfr7vyoNN
-         PyNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUsgr0ox777jpc5YGjKiH2Agaduf1MfOIwxErg6IrVkmku6Y0Da+Pe4J+VTqfH3P9c4LysmPE3u075AnST1TcOcxJ2DDCB26Aky
-X-Gm-Message-State: AOJu0YxTwyLmWYkg+bnLZa100E/gnhnTt8O4pNO1YEG1v4v/HJ1St7LI
-	TwzRUKWw2gXVYXHMgFjanIo1EuMwjVW67Q+W/esXF+kZo3e+cCrgLzj7skU+cnFHl1f3EDEz1iW
-	gORY=
-X-Google-Smtp-Source: AGHT+IEvGYJuscPCEUzw0BBrWd4sYa5asBO8etIxeRFC+suVG1W50JfPw2PlqeU2vd+9krcjevMglw==
-X-Received: by 2002:a05:6000:1e92:b0:366:e8ac:50b2 with SMTP id ffacd0b85a97d-3677569952cmr2084407f8f.7.1719745578699;
-        Sun, 30 Jun 2024 04:06:18 -0700 (PDT)
-Received: from nb152.user.codasip.com ([2a00:23c6:2008:8201:ed43:a615:7f98:da0d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0da004sm7159415f8f.45.2024.06.30.04.06.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 04:06:18 -0700 (PDT)
-From: Stuart Menefy <stuart.menefy@codasip.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: Stuart Menefy <stuart.menefy@codasip.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] riscv: Extend sv39 linear mapping max size to 128G
-Date: Sun, 30 Jun 2024 12:05:49 +0100
-Message-ID: <20240630110550.1731929-1-stuart.menefy@codasip.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfbHhE0p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434D1C2BD10;
+	Sun, 30 Jun 2024 11:17:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719746255;
+	bh=NaPQ4uNEOSAllGqmDxgXXmyzGu/F7JDU6SOkzOWwVzo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cfbHhE0p09RkjXrsJifIsNH0PoYOAp4wH5j47/qd7FzYIt1j+1n3ZoeO/GpWC27nE
+	 UxTANs4hGAWsJMWc8vv4qJfESebNiLY4s2Qr9EFdq+WxqN7KkJVD7L/lW3gbIhTTaA
+	 t0ffC/HFW77BhLC72xp6Nv+l0wY7FkmgmSvIz8lghKNwV3CDEWfIauUnfWQxfnThsS
+	 2OwgvLtd10nC0IzT8brNo8B6iM8mBEKcHmAm2MsmKb6yevXrwOgEwJ/6Cdcekn9XG5
+	 +nPGv1yG93M/eiT9gv85gNVtvDRn4Bgvp5v85jgCCeWny+nclBkiuCxa39acxNATUO
+	 opdXS2BwS4cfw==
+Date: Sun, 30 Jun 2024 12:17:26 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: <broonie@kernel.org>, <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <conor+dt@kernel.org>, <nuno.sa@analog.com>, <dlechner@baylibre.com>,
+ <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 6/7] iio: adc: Add support for AD4000
+Message-ID: <20240630121726.5d75578e@jic23-huawei>
+In-Reply-To: <628a85cb8cbee32ea7d2930c63e73f2ef449a800.1719686465.git.marcelo.schmitt@analog.com>
+References: <cover.1719686465.git.marcelo.schmitt@analog.com>
+	<628a85cb8cbee32ea7d2930c63e73f2ef449a800.1719686465.git.marcelo.schmitt@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This harmonizes all virtual addressing modes which can now all map
-(PGDIR_SIZE * PTRS_PER_PGD) / 4 of physical memory.
+On Sat, 29 Jun 2024 16:06:59 -0300
+Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
 
-The RISCV implementation of KASAN requires that the boundary between
-shallow mappings are aligned on an 8G boundary. In this case we need
-VMALLOC_START to be 8G aligned. So although we only need to move the
-start of the linear mapping down by 4GiB to allow 128GiB to be mapped,
-we actually move it down by 8GiB (creating a 4GiB hole between the
-linear mapping and KASAN shadow space) to maintain the alignment
-requirement.
+> Add support for AD4000 series of low noise, low power, high speed,
+> successive approximation register (SAR) ADCs.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 
-Signed-off-by: Stuart Menefy <stuart.menefy@codasip.com>
----
+Hi Marcelo
 
-Changes since V1:
-This is a modified version of the patch posted by Alexandre Ghiti
-<alexghiti@rivosinc.com> [1]. That version moved the start of the
-liner mapping by 4GiB, but was subsequently found to trigger a problem
-in the KASAN code [2]. By moving the start address by 8GiB alignment
-requiremenents are maintained.
+A few comments inline. However, the spi_w8r8 etc can easily be a follow up
+optimization patch (if you agree it's a good improvement) and the
+other changes are so trivial I could tweak whilst applying.
 
-[1] https://lore.kernel.org/linux-riscv/20240514133614.87813-1-alexghiti@rivosinc.com/
-[2] https://lore.kernel.org/linux-riscv/4011b34a-1b86-42c7-aaf6-3bd297149f06@ghiti.fr/
+So unless you have to do a v7 for some other reason this is fine for
+merging as is - subject to the fact it's not been on list long enough yet
+and I need Mark to pick up the SPI parts and throw me a tag to pull.
 
----
- Documentation/arch/riscv/vm-layout.rst | 11 ++++++-----
- arch/riscv/include/asm/page.h          |  2 +-
- 2 files changed, 7 insertions(+), 6 deletions(-)
+Thanks,
 
-diff --git a/Documentation/arch/riscv/vm-layout.rst b/Documentation/arch/riscv/vm-layout.rst
-index e476b4386bd9..077b968dcc81 100644
---- a/Documentation/arch/riscv/vm-layout.rst
-+++ b/Documentation/arch/riscv/vm-layout.rst
-@@ -47,11 +47,12 @@ RISC-V Linux Kernel SV39
-                                                               | Kernel-space virtual memory, shared between all processes:
-   ____________________________________________________________|___________________________________________________________
-                     |            |                  |         |
--   ffffffc6fea00000 | -228    GB | ffffffc6feffffff |    6 MB | fixmap
--   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
--   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
--   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/ioremap space
--   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct mapping of all physical memory
-+   ffffffc4fea00000 | -236    GB | ffffffc4feffffff |    6 MB | fixmap
-+   ffffffc4ff000000 | -236    GB | ffffffc4ffffffff |   16 MB | PCI io
-+   ffffffc500000000 | -236    GB | ffffffc5ffffffff |    4 GB | vmemmap
-+   ffffffc600000000 | -232    GB | ffffffd5ffffffff |   64 GB | vmalloc/ioremap space
-+   ffffffd600000000 | -168    GB | fffffff5ffffffff |  128 GB | direct mapping of all physical memory
-+                    |            |                  |         |
-    fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
-   __________________|____________|__________________|_________|____________________________________________________________
-                                                               |
-diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-index 115ac98b8d72..81d47fbbd927 100644
---- a/arch/riscv/include/asm/page.h
-+++ b/arch/riscv/include/asm/page.h
-@@ -37,7 +37,7 @@
-  * define the PAGE_OFFSET value for SV48 and SV39.
-  */
- #define PAGE_OFFSET_L4		_AC(0xffffaf8000000000, UL)
--#define PAGE_OFFSET_L3		_AC(0xffffffd800000000, UL)
-+#define PAGE_OFFSET_L3		_AC(0xffffffd600000000, UL)
- #else
- #define PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
- #endif /* CONFIG_64BIT */
--- 
-2.43.0
+Jonathan
+
+
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4000.c
+> @@ -0,0 +1,708 @@
+
+> +
+> +struct ad4000_state {
+> +	struct spi_device *spi;
+> +	struct gpio_desc *cnv_gpio;
+> +	struct spi_transfer xfers[2];
+> +	struct spi_message msg;
+> +	struct mutex lock; /* Protect read modify write cycle */
+> +	int vref_mv;
+> +	enum ad4000_sdi sdi_pin;
+> +	bool span_comp;
+> +	u16 gain_milli;
+> +	int scale_tbl[AD4000_SCALE_OPTIONS][2];
+> +
+> +	/*
+> +	 * DMA (thus cache coherency maintenance) requires the transfer buffers
+> +	 * to live in their own cache lines.
+> +	 */
+> +	struct {
+> +		union {
+> +			__be16 sample_buf16;
+> +			__be32 sample_buf32;
+> +		} data;
+> +		s64 timestamp __aligned(8);
+> +	} scan __aligned(IIO_DMA_MINALIGN);
+> +	u8 tx_buf[2];
+> +	u8 rx_buf[2];
+
+If you made the spi_w8r8() change suggested below (which uses a bounce buffer
+in the spi core), rx_buf would be unused and can go away.
+
+Given I think registers accesses on this device are all off the fast path
+you could even use spi_write_then_read() with zero read size for the
+register writes and rely on the spi core bounce buffers.
+That way tx_buf goes away as well leaving you with the dma
+safe buffer for only the fast path reads.
+
+> +};
+> +
+> +static void ad4000_fill_scale_tbl(struct ad4000_state *st,
+> +				  struct iio_chan_spec const *chan)
+> +{
+> +	int val, tmp0, tmp1;
+> +	int scale_bits;
+> +	u64 tmp2;
+> +
+> +	/*
+> +	 * ADCs that output two's complement code have one less bit to express
+> +	 * voltage magnitude.
+> +	 */
+> +	if (chan->scan_type.sign == 's')
+> +		scale_bits = chan->scan_type.realbits - 1;
+> +	else
+> +		scale_bits = chan->scan_type.realbits;
+> +
+> +	/*
+> +	 * The gain is stored as a fraction of 1000 and, as we need to
+> +	 * divide vref_mv by the gain, we invert the gain/1000 fraction.
+> +	 * Also multiply by an extra MILLI to preserve precision.
+> +	 * Thus, we have MILLI * MILLI equals MICRO as fraction numerator.
+> +	 */
+> +	val = mult_frac(st->vref_mv, MICRO, st->gain_milli);
+
+If you are rolling a v7 for other reasons, stick some line breaks in here!
+It's a bit of a mass of text that is hard for my eyes to parse!
+
+> +	/* Would multiply by NANO here but we multiplied by extra MILLI */
+> +	tmp2 = shift_right((u64)val * MICRO, scale_bits);
+> +	tmp0 = div_s64_rem(tmp2, NANO, &tmp1);
+> +	/* Store scale for when span compression is disabled */
+> +	st->scale_tbl[0][0] = tmp0; /* Integer part */
+> +	st->scale_tbl[0][1] = abs(tmp1); /* Fractional part */
+> +	/* Store scale for when span compression is enabled */
+> +	st->scale_tbl[1][0] = tmp0;
+> +	/* The integer part is always zero so don't bother to divide it. */
+> +	if (chan->differential)
+> +		st->scale_tbl[1][1] = DIV_ROUND_CLOSEST(abs(tmp1) * 4, 5);
+> +	else
+> +		st->scale_tbl[1][1] = DIV_ROUND_CLOSEST(abs(tmp1) * 9, 10);
+> +}
+
+> +static int ad4000_read_reg(struct ad4000_state *st, unsigned int *val)
+> +{
+> +	struct spi_transfer t = {
+> +		.tx_buf = st->tx_buf,
+> +		.rx_buf = st->rx_buf,
+> +		.len = 2,
+> +	};
+> +	int ret;
+> +
+> +	st->tx_buf[0] = AD4000_READ_COMMAND;
+> +	ret = spi_sync_transfer(st->spi, &t, 1);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*val = st->rx_buf[1];
+> +	return ret;
+
+I'd be tempted to do
+
+	ssize_t ret;
+
+	ret = spi_w8r8(AD4000_READ_COMMAND);
+	if (ret < 0)
+		return ret;
+	*val = ret;
+	
+	return 0;
+
+> +}
+
+
+> +static int ad4000_write_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan, int val, int val2,
+> +			    long mask)
+> +{
+> +	struct ad4000_state *st = iio_priv(indio_dev);
+> +	unsigned int reg_val;
+> +	bool span_comp_en;
+> +	int ret;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_SCALE:
+> +		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+> +			guard(mutex)(&st->lock);
+> +
+> +			ret = ad4000_read_reg(st, &reg_val);
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			span_comp_en = val2 == st->scale_tbl[1][1];
+> +			reg_val &= ~AD4000_CFG_SPAN_COMP;
+> +			reg_val |= FIELD_PREP(AD4000_CFG_SPAN_COMP, span_comp_en);
+> +
+> +			ret = ad4000_write_reg(st, reg_val);
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			st->span_comp = span_comp_en;
+> +			return ret;
+
+If you are spinning for another reason, make it clear this is always good.
+The spi_write() never returns positive so current code is correct but I had
+to go check which this would have avoided.
+
+			return 0;
+
+If nothing else comes up, I'll probably tweak whilst applying.
+
+J
+
+> +		}
+> +		unreachable();
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
 
