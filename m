@@ -1,110 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C203126F1E;
-	Mon,  1 Jul 2024 15:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4238716D330
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 15:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848836; cv=none; b=ldJDkcIao3thIYQicIbpzImCaQLHOeEwHmkff8YWWvG3NQs0GARmZUpCTQzmPzHScLeqgHzEtlfZLJDSi+3DK2d06f6ZS6dNfSoWM8Nmzp+02305MwmvhZ0keeddb1c/yMKbsiIF3ykRw4NtM432nkGXPuRwW+lCUHeKvPvczts=
+	t=1719848968; cv=none; b=mMbHLqm9gBV17qKwIueM9zk/U5uTMNYsCGpmU2S2v50YgtrlralTcm6sQIDiIlbJTQV9aNf1cgPciEPwEJTLtflLxZvOASCClRu0a2a37BL5/Q1UtW1t2wiSxUW9VndweY++8o6kH5w6CxKadYZpmutLUrV52FCs1hJko8uJGt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848836; c=relaxed/simple;
-	bh=cgDZXg9wLV4DysNwoHJXiG7s2kLDhDus3KCRIoKm4lM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BWRFmr07uze4VbzNQ2/GW9qzTHshUGBjrsBRCxrNXxTmK1bPA0MdjEfdIdL1By/aDzumAecyR25tr2dMNweYjou3IJxEchBP7aP2oAmfGXhU+kw6B3TX/otLMKpUigY6XW07K83UB2JpB8pXPTHAwZ54JeG54ux9Euuz/tDwlZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krz8D/e2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719848968; c=relaxed/simple;
+	bh=7wpTDCYkfM0h9G8p58hcJdgXA+PbS7WdaAYXL72gy+A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hu9yjz2xKbB1CGbMDAD2G9txIpiH7bUYOoO6IdoshZuqGoMTtiijbuR5ySNabLg93TL2GmBXZPLjLCqg0Bogxlk/u9cLRiXvhHwLNb3nlEfEcYS/C0eZW3E848lV1nepHlnvfGiczlCdAd5c/Ygz9MM9iE8y66TOhd6rcX0Eeoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=TxpvVahb; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krz8D/e2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF920C116B1;
-	Mon,  1 Jul 2024 15:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719848835;
-	bh=cgDZXg9wLV4DysNwoHJXiG7s2kLDhDus3KCRIoKm4lM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=krz8D/e2ipDBO5Eqmu3QevhSVroIhs2OVp1//t3Ag9V1hq2ZBWicolNkH6qMy79tr
-	 8YNNoErrhdToPxVcuvTNzZhBcJAIKG7JOtwJzB6agQMbxGo0Ol4aLKTYQ6LkYtm72a
-	 HfcxUCHLLkWM8nKYVK/nK54/8TddTRenwgd3fV0lfHeIzN1TvJk5xZjeN30rK+IBif
-	 tTUUkSO5OK/OuuQsu7ELTkrQ8ajPgQ0ulyuc8Xa6SoV5u619n13MDoLjVNpOqTXv5h
-	 0RSvDCzn26xA37SQ19ewY/HMgsNFFKwll93Ny6ST3ifVBKkoMJay2azP8dXmja6IYO
-	 Aagzf4ZeBAS1w==
-Date: Mon, 1 Jul 2024 16:47:10 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alex Vdovydchenko <keromvp@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org, Alex Vdovydchenko <xzeol@yahoo.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: Add MPS mp5920
-Message-ID: <20240701-mug-scuttle-dfe4c84b4e0b@spud>
-References: <20240701145603.1507516-1-xzeol@yahoo.com>
- <20240701145603.1507516-2-xzeol@yahoo.com>
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="TxpvVahb"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-630640c1e14so29581427b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 08:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1719848965; x=1720453765; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=umkqtCJW3Dg9JtpfzIAAg1v5vJehmts33cJFqn8dvR8=;
+        b=TxpvVahbrreOtYqdLCGsduPIeatSSJqrD0sRe9SrSNMVR4h1EfRwr2T8C+/TXTphey
+         1BvOTolUqFbaRFbJ3vB5fzv996sDKqXyIF4LHe8w/C+bfwwojFnWtd63R3dxhoW+LSUL
+         xDA1jnAK69sfslASgvaXKar/FVcP9oCchikDH9PKqlwdfIZ6jeI4c8PiDIdw9SKlbGPQ
+         nlt8KYun7Gp1zjHEC4JDa2huokwqPfoqTXWOuwFPT/J5LXbYer1i8aSIxhLsWcpW1VWN
+         9M48huni+ruHOgpD8eIlBQSX8sTaL0RBGMKzYRqziilz/VWdIlBiZgpUv8y30Y++hxtL
+         whww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719848965; x=1720453765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=umkqtCJW3Dg9JtpfzIAAg1v5vJehmts33cJFqn8dvR8=;
+        b=PJImIrIjpGgrYSpqhM7PnHnlZ8vraf2rjj9CLNj6BMw/we2vPteemQnssYtZxDW1Mi
+         ptrQHk2wUiURbQ2PaID6Aw53P7ofK2AffMf1cBBCIVv2ZocQNwgb6ZzclXI4EiD7T3p8
+         b3oX0ON1QWRBvz88rfpGZ9Q1syEhClAjf6OGKkCJsr+NU2FwyUwduJaCGdm+L1Y+V01C
+         Ho4KmyeZM6cPaTAkqSElVn81HCC1RbNZbSTkhYu7+GCyUxuUG2dfk23e0yuFCLClJDxA
+         cZMM5JQmYbnuLYOMy7nCbSKmido3HQSHSm0buRJfFPX8MFRdLAgQKWygCfjonKVY8fnx
+         59Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCVi8PkL5yaCzrgJBre1NpQ+71RulCZv5w7Yz8dR62cNE6IWSxEFTPfhGcNa+OunzdIzDx93Dq8LCEWySAnqXjuM4TgInPANxDAg
+X-Gm-Message-State: AOJu0YwJsZ5w56/8jVDzY2kwPSHkKiVGR2WQURo+jN6ajoDqGxFdRpN1
+	NfkA2HkDM5brUu8HqN/F1Mbio9IL1LWAKyz10NEcOr3/puzrZJsMDtOdDfjhbBiew3osmOp13T2
+	t
+X-Google-Smtp-Source: AGHT+IGu9I2wc2U8NTdlZqwI73pTcvt2JvT2wJhK92JWQZzopvjsvNausRGAk2vO9Al2yPEEKQkmTw==
+X-Received: by 2002:a05:690c:710:b0:64b:8e82:1f9 with SMTP id 00721157ae682-64c7123bf4amr65310827b3.18.1719848965244;
+        Mon, 01 Jul 2024 08:49:25 -0700 (PDT)
+Received: from [100.64.0.1] ([147.124.94.167])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9c405c9csm14034647b3.128.2024.07.01.08.49.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 08:49:24 -0700 (PDT)
+Message-ID: <54232f3e-4fea-4996-a90b-6de51e1c51e0@sifive.com>
+Date: Mon, 1 Jul 2024 10:49:23 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OOkMTkyQ+HJ7f1to"
-Content-Disposition: inline
-In-Reply-To: <20240701145603.1507516-2-xzeol@yahoo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/13] riscv: csr: Add CSR encodings for
+ VCSR_VXRM/VCSR_VXSAT
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Heiko Stuebner <heiko@sntech.de>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>,
+ Jessica Clarke <jrtc27@jrtc27.com>
+References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
+ <20240619-xtheadvector-v3-7-bff39eb9668e@rivosinc.com>
+Content-Language: en-US
+From: Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <20240619-xtheadvector-v3-7-bff39eb9668e@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Charlie,
 
---OOkMTkyQ+HJ7f1to
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jul 01, 2024 at 05:56:00PM +0300, Alex Vdovydchenko wrote:
-> Add support for MPS mp5920 controller
->=20
-> Signed-off-by: Alex Vdovydchenko <xzeol@yahoo.com>
-
-Missing an ack from v2:
-https://lore.kernel.org/all/20240627-swivel-grower-002af077b654@spud/
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
+On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
+> The VXRM vector csr for xtheadvector has an encoding of 0xa and VXSAT
+> has an encoding of 0x9.
+> 
+> Co-developed-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  arch/riscv/include/asm/csr.h | 2 ++
 >  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Doc=
-umentation/devicetree/bindings/trivial-devices.yaml
-> index ff70f0926..cb2fc26d9 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -296,6 +296,8 @@ properties:
->            - mps,mp2975
->              # Monolithic Power Systems Inc. multi-phase controller mp2993
->            - mps,mp2993
-> +            # Monolithic Power Systems Inc. multi-phase hot-swap control=
-ler mp5920
-> +          - mps,mp5920
->              # Monolithic Power Systems Inc. multi-phase hot-swap control=
-ler mp5990
->            - mps,mp5990
->              # Monolithic Power Systems Inc. digital step-down converter =
-mp9941
-> --=20
-> 2.43.0
->=20
+> 
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index 18e178d83401..9086639a3dde 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -220,6 +220,8 @@
+>  #define VCSR_VXRM_MASK			3
+>  #define VCSR_VXRM_SHIFT			1
+>  #define VCSR_VXSAT_MASK			1
+> +#define VCSR_VXSAT			0x9
+> +#define VCSR_VXRM			0xa
 
---OOkMTkyQ+HJ7f1to
-Content-Type: application/pgp-signature; name="signature.asc"
+These are normal CSR indexes, so the prefix should be just "CSR_".
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Samuel
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZoLPfgAKCRB4tDGHoIJi
-0o6MAP0ah9d98rZ6tJdV5mXQutgTtJMF5zQNz+Tbp5DwrnxhKAEA6f7FjGXZ7C2e
-yng7aXu7w+jRuBnVFQj2HWB8vBG0Nw0=
-=nK1N
------END PGP SIGNATURE-----
+>  
+>  /* symbolic CSR names: */
+>  #define CSR_CYCLE		0xc00
+> 
 
---OOkMTkyQ+HJ7f1to--
