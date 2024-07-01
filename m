@@ -1,162 +1,152 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD1E14D299
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 11:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E68146017;
+	Mon,  1 Jul 2024 13:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719835123; cv=none; b=jFB70XmAjX1labHad1UDWpaJLrPivlqDE4zzEuAPYBpXeNa05hv0bMfsDAh0IbW+alxngRc3MSQmBrKDzRrWfSIot1/ZlGn/zj12M0ojlAdZe0M/gWhHvEkqPPfMU6kYmjLEqEDo8vrXrZM3J9O/ZU0sb7+0UVavzF8h4K7MHAs=
+	t=1719838881; cv=none; b=WN2RYZ0MW1CqSmlHVxT4lF2gnQhJqtgrMN5+k2MkOe+dH9GLZRcEMfO9eJpl381RDN4kN1vm/TNgecaJcw5TnU94VVbnQVB3m/QKcQN6ywO3lOQUsH2mGDr5dzh8o0o/RfvRjwGu9t4IPDZxi6byrB8BFWndBmirpzT2m4leFQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719835123; c=relaxed/simple;
-	bh=/nA58iNMwvVtAGqSYF3E2ixIjum0Lx9xpHzYk+CSGJo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XQeyDLcZCXEwl1v7uhNkV1bzGMAG74N5jfK17WmUHSkeliKEqhE3WgXsW3DJPjDYaOb33HlsrPh+N25HZB9HPNSny1EiOwWdALnt+Bw9rKGmIDekZtCEPCRZJBE1O2zujxx8j7yxXUkK2ie6NloAb0oefoeNGd6vGjezF1VwPc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=qbDC7GrZ; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="qbDC7GrZ"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a732cb4ea31so335713666b.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 04:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719835119; x=1720439919; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IksdoqfXXoNA3l1EF7/U4rm+eTkM++3OsdHeCQcdlog=;
-        b=qbDC7GrZmSgub1ubG86KzOG+qaiA+xaVkCrMD/009yD7+Rf8bnbusguxbLNZkvcYIE
-         28+JrRubbWTkHPFPpN0IvjGLWFdeBiQBWfhBWT33+VLEYZUBshMsvneOHLEW5tUbBe0r
-         aLmrpE8w7r3kJWBQUnSX1CBjWePjK13PNgnyvtVmuRXhxckXc3xC1PjZcQn/eDbjKDwI
-         qiqTSnggevUVImjOFCSl2skk6S0RN/iJuYMAtHMI1Su0j5CQDozFuwbsR89b20HV2LoL
-         0eAbfjE5RyCfcAdsn2avnNp+SDf1K1mgD5MVAuFJMS0sbzg9hbfQrxdSAVT/g3eqiqXq
-         gi6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719835119; x=1720439919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IksdoqfXXoNA3l1EF7/U4rm+eTkM++3OsdHeCQcdlog=;
-        b=qGPITF6PDRLalwKZS9lWaHUMpvSm3nbmzFnMZ/bFaHB6ZI2vbQbyj+pWpFOwji3lKA
-         eJEMCJ7KE+bFoFWaYixX3+3vn4yGmsdBVehGvAlj5VCGOvJswI4iVsOG8yhPDbJLveeF
-         bqxBM1S095sot/3BhmxDmGwc5F0Ac19qkeQ8lqKJgjz7uoX8YKxwdrRGvBE2wBBOPbuv
-         e6ETGaqCVnR9FvvnjTqOFVsk2b3RhwiM/IfBgLaGZ1BjTGtJbcV0i20HltqTU6NBqumM
-         yjNXWH5bcclw3D5alaYYpQirAaWgHqCQzTB4tgOP01DM6tbZrbLT/bvcAgpWm9jhrl11
-         TPIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWA3pC1MpSiFA1Egpi7MS2ded/MuyAmfUom9W6xrecL3JKFeaYs8jIxhd/l+SldlOOySr7cXbWW8DsQv047d0NKyCdBSVaaFj5h
-X-Gm-Message-State: AOJu0YzYrIIz5zWUdR77qj/uN/y15PCylNu9Fen+BLwKX+L7n+Y1WMN+
-	rZx2bscLI8Ftp9UxFx4yV7mqaHeEyVLvyV/dOMosBiT34OMMWQ4N8mbt5wnvxyM/7/4hCU1SKlv
-	aiDVIXVhwEGdXkf7zuUw76Ztm2ogSxXCoEG7D6g==
-X-Google-Smtp-Source: AGHT+IF2OBW7kIrXE1UpSv50tCGPZtC+ETK4mqONVGqJACOHcLEzbhk5UFyau/lwX9nOtB0IRaHq1FCgCFisjtf323o=
-X-Received: by 2002:a17:907:9712:b0:a75:7a8:d70c with SMTP id
- a640c23a62f3a-a751386eca4mr578971166b.4.1719835119427; Mon, 01 Jul 2024
- 04:58:39 -0700 (PDT)
+	s=arc-20240116; t=1719838881; c=relaxed/simple;
+	bh=mSSBgX5YD/tN1nW23Z9JSj0R5Z2gP3h1AymETTt512Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AwUoTPK0bDk8V6f5R8CP8gEb+zVGhAtw0H6n1cIzqV0cXK3FOw8Fw9jqSK3GQcwgh1E3917157zSmbBiap9WJRF9MzNFbImkdWohnyEWP/eDqizVa5k2IV9IO44UWzl9MC42LpdTeRghr3oqD1ZRiYX6aDVBEi6osIrmsr7mmio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WCQzG1x4hzZh4c;
+	Mon,  1 Jul 2024 20:56:42 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
+	by mail.maildlp.com (Postfix) with ESMTPS id 413AB1403D4;
+	Mon,  1 Jul 2024 21:01:13 +0800 (CST)
+Received: from hulk-vt.huawei.com (10.67.174.26) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 1 Jul 2024 21:01:13 +0800
+From: Xiu Jianfeng <xiujianfeng@huawei.com>
+To: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
+	<corbet@lwn.net>, <kamalesh.babulal@oracle.com>,
+	<haitao.huang@linux.intel.com>
+CC: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] cgroup/misc: Introduce misc.peak
+Date: Mon, 1 Jul 2024 12:52:59 +0000
+Message-ID: <20240701125259.2611466-1-xiujianfeng@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240630110550.1731929-1-stuart.menefy@codasip.com>
-In-Reply-To: <20240630110550.1731929-1-stuart.menefy@codasip.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Mon, 1 Jul 2024 13:58:27 +0200
-Message-ID: <CAHVXubg+aXS7-smmWS9LwUbAkpfGvet9Zk0UJs_AZhxV2vx6UQ@mail.gmail.com>
-Subject: Re: [PATCH v2] riscv: Extend sv39 linear mapping max size to 128G
-To: Stuart Menefy <stuart.menefy@codasip.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
 
-Hi Stuart,
+Introduce misc.peak to record the historical maximum usage of the
+resource, as in some scenarios the value of misc.max could be
+adjusted based on the peak usage of the resource.
 
-On Sun, Jun 30, 2024 at 1:06=E2=80=AFPM Stuart Menefy <stuart.menefy@codasi=
-p.com> wrote:
->
-> This harmonizes all virtual addressing modes which can now all map
-> (PGDIR_SIZE * PTRS_PER_PGD) / 4 of physical memory.
->
-> The RISCV implementation of KASAN requires that the boundary between
-> shallow mappings are aligned on an 8G boundary. In this case we need
-> VMALLOC_START to be 8G aligned. So although we only need to move the
-> start of the linear mapping down by 4GiB to allow 128GiB to be mapped,
-> we actually move it down by 8GiB (creating a 4GiB hole between the
-> linear mapping and KASAN shadow space) to maintain the alignment
-> requirement.
->
-> Signed-off-by: Stuart Menefy <stuart.menefy@codasip.com>
-> ---
->
-> Changes since V1:
-> This is a modified version of the patch posted by Alexandre Ghiti
-> <alexghiti@rivosinc.com> [1]. That version moved the start of the
-> liner mapping by 4GiB, but was subsequently found to trigger a problem
-> in the KASAN code [2]. By moving the start address by 8GiB alignment
-> requiremenents are maintained.
->
-> [1] https://lore.kernel.org/linux-riscv/20240514133614.87813-1-alexghiti@=
-rivosinc.com/
-> [2] https://lore.kernel.org/linux-riscv/4011b34a-1b86-42c7-aaf6-3bd297149=
-f06@ghiti.fr/
->
-> ---
->  Documentation/arch/riscv/vm-layout.rst | 11 ++++++-----
->  arch/riscv/include/asm/page.h          |  2 +-
->  2 files changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/arch/riscv/vm-layout.rst b/Documentation/arch/=
-riscv/vm-layout.rst
-> index e476b4386bd9..077b968dcc81 100644
-> --- a/Documentation/arch/riscv/vm-layout.rst
-> +++ b/Documentation/arch/riscv/vm-layout.rst
-> @@ -47,11 +47,12 @@ RISC-V Linux Kernel SV39
->                                                                | Kernel-s=
-pace virtual memory, shared between all processes:
->    ____________________________________________________________|_________=
-__________________________________________________
->                      |            |                  |         |
-> -   ffffffc6fea00000 | -228    GB | ffffffc6feffffff |    6 MB | fixmap
-> -   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
-> -   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
-> -   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/=
-ioremap space
-> -   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct m=
-apping of all physical memory
-> +   ffffffc4fea00000 | -236    GB | ffffffc4feffffff |    6 MB | fixmap
-> +   ffffffc4ff000000 | -236    GB | ffffffc4ffffffff |   16 MB | PCI io
-> +   ffffffc500000000 | -236    GB | ffffffc5ffffffff |    4 GB | vmemmap
-> +   ffffffc600000000 | -232    GB | ffffffd5ffffffff |   64 GB | vmalloc/=
-ioremap space
-> +   ffffffd600000000 | -168    GB | fffffff5ffffffff |  128 GB | direct m=
-apping of all physical memory
-> +                    |            |                  |         |
->     fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
->    __________________|____________|__________________|_________|_________=
-___________________________________________________
->                                                                |
-> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.=
-h
-> index 115ac98b8d72..81d47fbbd927 100644
-> --- a/arch/riscv/include/asm/page.h
-> +++ b/arch/riscv/include/asm/page.h
-> @@ -37,7 +37,7 @@
->   * define the PAGE_OFFSET value for SV48 and SV39.
->   */
->  #define PAGE_OFFSET_L4         _AC(0xffffaf8000000000, UL)
-> -#define PAGE_OFFSET_L3         _AC(0xffffffd800000000, UL)
-> +#define PAGE_OFFSET_L3         _AC(0xffffffd600000000, UL)
->  #else
->  #define PAGE_OFFSET            _AC(CONFIG_PAGE_OFFSET, UL)
->  #endif /* CONFIG_64BIT */
-> --
-> 2.43.0
->
+Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst |  9 ++++++++
+ include/linux/misc_cgroup.h             |  2 ++
+ kernel/cgroup/misc.c                    | 29 +++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+)
 
-So the issue was with my patch, sorry! Your fix makes sense so you can add:
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index ae0fdb6fc618..48ae30f2d9ab 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2646,6 +2646,15 @@ Miscellaneous controller provides 3 interface files. If two misc resources (res_
+ 	  res_a 3
+ 	  res_b 0
+ 
++  misc.peak
++        A read-only flat-keyed file shown in the all cgroups.  It shows
++        the historical maximum usage of the resources in the cgroup and
++        its children.::
++
++	  $ cat misc.peak
++	  res_a 10
++	  res_b 8
++
+   misc.max
+         A read-write flat-keyed file shown in the non root cgroups. Allowed
+         maximum usage of the resources in the cgroup and its children.::
+diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
+index e799b1f8d05b..8aa69818291e 100644
+--- a/include/linux/misc_cgroup.h
++++ b/include/linux/misc_cgroup.h
+@@ -30,11 +30,13 @@ struct misc_cg;
+ /**
+  * struct misc_res: Per cgroup per misc type resource
+  * @max: Maximum limit on the resource.
++ * $watermark: Historical maximum usage of the resource.
+  * @usage: Current usage of the resource.
+  * @events: Number of times, the resource limit exceeded.
+  */
+ struct misc_res {
+ 	u64 max;
++	u64 watermark;
+ 	atomic64_t usage;
+ 	atomic64_t events;
+ };
+diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
+index 79a3717a5803..a1b6ed76e00b 100644
+--- a/kernel/cgroup/misc.c
++++ b/kernel/cgroup/misc.c
+@@ -159,6 +159,8 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg, u64 amount)
+ 			ret = -EBUSY;
+ 			goto err_charge;
+ 		}
++		if (new_usage > READ_ONCE(res->watermark))
++			WRITE_ONCE(res->watermark, new_usage);
+ 	}
+ 	return 0;
+ 
+@@ -307,6 +309,29 @@ static int misc_cg_current_show(struct seq_file *sf, void *v)
+ 	return 0;
+ }
+ 
++/**
++ * misc_cg_peak_show() - Show the peak usage of the misc cgroup.
++ * @sf: Interface file
++ * @v: Arguments passed
++ *
++ * Context: Any context.
++ * Return: 0 to denote successful print.
++ */
++static int misc_cg_peak_show(struct seq_file *sf, void *v)
++{
++	int i;
++	u64 watermark;
++	struct misc_cg *cg = css_misc(seq_css(sf));
++
++	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
++		watermark = READ_ONCE(cg->res[i].watermark);
++		if (READ_ONCE(misc_res_capacity[i]) || watermark)
++			seq_printf(sf, "%s %llu\n", misc_res_name[i], watermark);
++	}
++
++	return 0;
++}
++
+ /**
+  * misc_cg_capacity_show() - Show the total capacity of misc res on the host.
+  * @sf: Interface file
+@@ -357,6 +382,10 @@ static struct cftype misc_cg_files[] = {
+ 		.name = "current",
+ 		.seq_show = misc_cg_current_show,
+ 	},
++	{
++		.name = "peak",
++		.seq_show = misc_cg_peak_show,
++	},
+ 	{
+ 		.name = "capacity",
+ 		.seq_show = misc_cg_capacity_show,
+-- 
+2.34.1
 
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Thanks,
-
-Alex
