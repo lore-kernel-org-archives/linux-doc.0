@@ -1,66 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F8512DDA9
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 08:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7574082876;
+	Mon,  1 Jul 2024 09:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719824381; cv=none; b=K0Za+Ke7DfFC4lUsG1EY8ekQfGfbJUtwQRCgr9SbKY7ImUh1cKhiEy8J1WYbbiTY5tbW/2RBlsdhCFwHgyLxgx3Cy9HalS+SkTSTLJ20wcEK8zkUUOmbeSALkkFzTVhwpgs73SE/6rlCIuwNPUJeTQkZbM7iXxfr+YWXI0wpTZg=
+	t=1719825909; cv=none; b=RAiJ9T62g5Q0dMdIpCK8kL8xjPbGEooZ20nCGe+R67uR7YjfTkqTVQUSbCdszhspLgHFZWiNsklFOcU6V5hTRQUWL7xDvQBNSWiuUW8V89zjjZfevjze8mPXB5XxuArU1b5eAb4UcMUh6nct0n0aKjqGNBocQFnf5NcJUFo+tmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719824381; c=relaxed/simple;
-	bh=gb4GYBnseT0zYSIXW/OQkRlmWRyZlNNQokVjDjbIAag=;
+	s=arc-20240116; t=1719825909; c=relaxed/simple;
+	bh=zBGVaBqNwJqKSJ/XcD3Kc7/O+kfYBiURgInjfNkFM2I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rylC/wDxS2IZCgr6RBqh8YKgUIJn5zaAjS0BxI1Oumoa7NGYg0ftOlYffbIi2c4lRh5m9NKjCxQFCzBa/fi5CXu2MXWeLLfIDFDW4GuPpXM35V4UD34FQdAMnRVOQBm8KebJlXqs7q5Vvd/bKclMzYZoJaP5R2n03R9qeJbsHTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FRZQBMD+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=WTacRXqwuTF2kMT3SipWZsBmO/S43+y8uDqzlFhboBKm6uOUBkKgtcLspFg1DVW8EEiTBGApJtcL1cf82TPMq5WSBgv6d/GxQNmX+Rdv3+zEpShp04jFfJ9LbhwRtzCUOgG+iLOjNet+b06geExqoTamcCHdczbnJpI8zy6/MmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRD7CfPz; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FRZQBMD+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719824379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9uYOVYe/S8vLD+pbmxnWXeRCdyZnIcQi9ch5IcOoz4I=;
-	b=FRZQBMD++7EppFynmylyAN2C9CO/uJnyQ6JVKM3Kt8z6GKOStpdg/SBCIC77xM5GWFnyfX
-	qJdoSECx8IixDhYjX0lRccv2SPUmm61QznYbmVIm/kLGpErxpWb8UZY4AqFU8FvXXjp67z
-	oNBMuXX8LEYZ/1AmcXrMgJKBjFI+HDQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-226-izxvCU99O_iPx9q2etJHDw-1; Mon, 01 Jul 2024 04:59:37 -0400
-X-MC-Unique: izxvCU99O_iPx9q2etJHDw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a7251ca4d3dso184285766b.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 01:59:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719824376; x=1720429176;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9uYOVYe/S8vLD+pbmxnWXeRCdyZnIcQi9ch5IcOoz4I=;
-        b=fvKeuSQsORDLZ7gjpRPKN13DTuArJhFIFbwGhTDI0nay+LZMCKAoZm+S413Lpidfj+
-         inpdeGMNJDqqI7nrvgAbt8KuHdypaiu4c+2ZuryLT7tilHkFb6oVmFHI4lQod0DMupfV
-         fdRFq3UtEgcDsq9jz9gbFycXgzykntxq5+hMBLi8xhXHk9qEXXJSSfE4RfA1fcoonGsj
-         A71aj/lQBWMElQVdmfLpN1vGakV4KzBkSB0OGCeQC2fYCkfAy/hxP2K7vj5xQZWvDsoo
-         XY27Jv9TfyAEKZYqg/dhtudoFaEH33q6L+qECdr/xfx6T1Jwa7CdwEQXKDcqzxBfk8Ha
-         NGmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXbziGrp+vfdSgcm+Ek+oUT86iupKlmvnmy2T63/00wKHWJXn6kH8pgl8GDTPxVPR7p6s1g6KiYeq6vDnjKLGvTsN/h9CfwhCrA
-X-Gm-Message-State: AOJu0YzDjGbJd2dtyUDE2oaUC0liQfcppEn/8lJSMit5P2Z3SN+J0O1H
-	fbcBfQ8/ETXDAo5rsYnWWAUmZRjGRAyV4E3oTOGPGqHt7TeO1kQY2TzNCwST2gcC7M1dcR9TbA0
-	4X2/odZIylD2K9XqtCDOT6Lh3D1myhTjZYHGBrHXdgdvJvyPrWFS/zt+iDQ==
-X-Received: by 2002:a17:907:3e9f:b0:a6f:50ae:e02 with SMTP id a640c23a62f3a-a751446803fmr478918466b.4.1719824376530;
-        Mon, 01 Jul 2024 01:59:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHM3czGdSGmbeNbLrkMbgpMQyqMRvlRY7ksZCrI83uQ/r1Cugdq08d/zn9Zqwxvl5smKMdCgg==
-X-Received: by 2002:a17:907:3e9f:b0:a6f:50ae:e02 with SMTP id a640c23a62f3a-a751446803fmr478913666b.4.1719824375888;
-        Mon, 01 Jul 2024 01:59:35 -0700 (PDT)
-Received: from [100.81.188.195] ([178.24.249.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab06565csm311746366b.103.2024.07.01.01.59.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 01:59:35 -0700 (PDT)
-Message-ID: <f9539968-4b76-41a9-92d5-00082c7d1e96@redhat.com>
-Date: Mon, 1 Jul 2024 10:59:33 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRD7CfPz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719825908; x=1751361908;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=zBGVaBqNwJqKSJ/XcD3Kc7/O+kfYBiURgInjfNkFM2I=;
+  b=TRD7CfPzesVAzx37m//UCW+3AHIQJw2Fw98k5sZoyzJHmRZrmEJgZ0uR
+   0mZs4GuTPkOTY+8OTXH1MV6w0PPsQVhB8K41dCFGpTfyLKRkXLkX5V9dS
+   LE9NRx12l0+2pihnbP0ZnTs+jQIt/Ur+k6nELAjFBG2/NIHFJ6odsGRcl
+   uN7AjPvmUUgT81Q+l4I8N7boMeUhI8704NHzzqbbXdKgnYMj+Q+eKPHHs
+   t76n3yOQMTmh381XtmkUnWdHUnFBRdR+Kb+a5Fr/gjlZm0IuQhQb7AIbH
+   xJtgxoxeBpGm8FAEgJ9py9OigcEHPIkJgE9P/kAPvgnH9EVzm+7Ta14tZ
+   g==;
+X-CSE-ConnectionGUID: PF720MjVRjmvqHCIVGQhzg==
+X-CSE-MsgGUID: UfSX0ffiQs6swSt+oByBcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="27559457"
+X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
+   d="scan'208";a="27559457"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 02:25:07 -0700
+X-CSE-ConnectionGUID: gx3ZGV9+QWixFP9x1bnqLg==
+X-CSE-MsgGUID: 8TddMy73TtytfYhco8qPUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
+   d="scan'208";a="45445623"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.51]) ([10.245.244.51])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 02:25:02 -0700
+Message-ID: <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
+Date: Mon, 1 Jul 2024 11:25:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,127 +52,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] gup: Don't allow FOLL_LONGTERM pinning of FS DAX
- pages
-To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca
-Cc: catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
- npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
- willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com,
- peterx@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
- hch@lst.de, david@fromorbit.com
-References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
- <74a9fc9e018e54d7afbeae166479e2358e0a1225.1719386613.git-series.apopple@nvidia.com>
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+To: Maxime Ripard <mripard@kernel.org>
+Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+ <20240628-romantic-emerald-snake-7b26ca@houat>
 Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <74a9fc9e018e54d7afbeae166479e2358e0a1225.1719386613.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20240628-romantic-emerald-snake-7b26ca@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27.06.24 02:54, Alistair Popple wrote:
-> Longterm pinning of FS DAX pages should already be disallowed by
-> various pXX_devmap checks. However a future change will cause these
-> checks to be invalid for FS DAX pages so make
-> folio_is_longterm_pinnable() return false for FS DAX pages.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> ---
->   include/linux/memremap.h | 11 +++++++++++
->   include/linux/mm.h       |  4 ++++
->   2 files changed, 15 insertions(+)
-> 
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 6505713..19a448e 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -193,6 +193,17 @@ static inline bool folio_is_device_coherent(const struct folio *folio)
->   	return is_device_coherent_page(&folio->page);
->   }
->   
-> +static inline bool is_device_dax_page(const struct page *page)
-> +{
-> +	return is_zone_device_page(page) &&
-> +		page_dev_pagemap(page)->type == MEMORY_DEVICE_FS_DAX;
-> +}
-> +
-> +static inline bool folio_is_device_dax(const struct folio *folio)
-> +{
-> +	return is_device_dax_page(&folio->page);
-> +}
-> +
->   #ifdef CONFIG_ZONE_DEVICE
->   void zone_device_page_init(struct page *page);
->   void *memremap_pages(struct dev_pagemap *pgmap, int nid);
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index b84368b..4d1cdea 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2032,6 +2032,10 @@ static inline bool folio_is_longterm_pinnable(struct folio *folio)
->   	if (folio_is_device_coherent(folio))
->   		return false;
->   
-> +	/* DAX must also always allow eviction. */
-> +	if (folio_is_device_dax(folio))
-> +		return false;
-> +
->   	/* Otherwise, non-movable zone folios can be pinned. */
->   	return !folio_is_zone_movable(folio);
->   
 
-Why is the check in check_vma_flags() insufficient? GUP-fast maybe?
 
--- 
+Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
+> Hi,
+> 
+> On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+>> Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+>>> Hi,
+>>>
+>>> Thanks for working on this!
+>>>
+>>> On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+>>>> The initial version was based roughly on the rdma and misc cgroup
+>>>> controllers, with a lot of the accounting code borrowed from rdma.
+>>>>
+>>>> The current version is a complete rewrite with page counter; it uses
+>>>> the same min/low/max semantics as the memory cgroup as a result.
+>>>>
+>>>> There's a small mismatch as TTM uses u64, and page_counter long pages.
+>>>> In practice it's not a problem. 32-bits systems don't really come with
+>>>>> =4GB cards and as long as we're consistently wrong with units, it's
+>>>> fine. The device page size may not be in the same units as kernel page
+>>>> size, and each region might also have a different page size (VRAM vs GART
+>>>> for example).
+>>>>
+>>>> The interface is simple:
+>>>> - populate drmcgroup_device->regions[..] name and size for each active
+>>>>    region, set num_regions accordingly.
+>>>> - Call drm(m)cg_register_device()
+>>>> - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+>>>>    use drmcg_uncharge when freeing it. This may return an error code,
+>>>>    or -EAGAIN when the cgroup limit is reached. In that case a reference
+>>>>    to the limiting pool is returned.
+>>>> - The limiting cs can be used as compare function for
+>>>>    drmcs_evict_valuable.
+>>>> - After having evicted enough, drop reference to limiting cs with
+>>>>    drmcs_pool_put.
+>>>>
+>>>> This API allows you to limit device resources with cgroups.
+>>>> You can see the supported cards in /sys/fs/cgroup/drm.capacity
+>>>> You need to echo +drm to cgroup.subtree_control, and then you can
+>>>> partition memory.
+>>>>
+>>>> Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
+>>>> Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+>>> I'm sorry, I should have wrote minutes on the discussion we had with TJ
+>>> and Tvrtko the other day.
+>>>
+>>> We're all very interested in making this happen, but doing a "DRM"
+>>> cgroup doesn't look like the right path to us.
+>>>
+>>> Indeed, we have a significant number of drivers that won't have a
+>>> dedicated memory but will depend on DMA allocations one way or the
+>>> other, and those pools are shared between multiple frameworks (DRM,
+>>> V4L2, DMA-Buf Heaps, at least).
+>>>
+>>> This was also pointed out by Sima some time ago here:
+>>> https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+>>>
+>>> So we'll want that cgroup subsystem to be cross-framework. We settled on
+>>> a "device" cgroup during the discussion, but I'm sure we'll have plenty
+>>> of bikeshedding.
+>>>
+>>> The other thing we agreed on, based on the feedback TJ got on the last
+>>> iterations of his series was to go for memcg for drivers not using DMA
+>>> allocations.
+>>>
+>>> It's the part where I expect some discussion there too :)
+>>>
+>>> So we went back to a previous version of TJ's work, and I've started to
+>>> work on:
+>>>
+>>>    - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
+>>>      works on tidss right now)
+>>>
+>>>    - Integration of all heaps into that cgroup but the system one
+>>>      (working on this at the moment)
+>>
+>> Should be similar to what I have then. I think you could use my work to
+>> continue it.
+>>
+>> I made nothing DRM specific except the name, if you renamed it the device
+>> resource management cgroup and changed the init function signature to take a
+>> name instead of a drm pointer, nothing would change. This is exactly what
+>> I'm hoping to accomplish, including reserving memory.
+> 
+> I've started to work on rebasing my current work onto your series today,
+> and I'm not entirely sure how what I described would best fit. Let's
+> assume we have two KMS device, one using shmem, one using DMA
+> allocations, two heaps, one using the page allocator, the other using
+> CMA, and one v4l2 device using dma allocations.
+> 
+> So we would have one KMS device and one heap using the page allocator,
+> and one KMS device, one heap, and one v4l2 driver using the DMA
+> allocator.
+> 
+> Would these make different cgroup devices, or different cgroup regions?
+
+Each driver would register a device, whatever feels most logical for that device I suppose.
+
+My guess is that a prefix would also be nice here, so register a device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it much thought and we're still experimenting, so just try something. :)
+
+There's no limit to amount of devices, I only fixed amount of pools to match TTM, but even that could be increased arbitrarily. I just don't think there is a point in doing so.
+
+>> The nice thing is that it should be similar to the memory cgroup controller
+>> in semantics, so you would have the same memory behavior whether you use the
+>> device cgroup or memory cgroup.
+>>
+>> I'm sad I missed the discussion, but hopefully we can coordinate more now
+>> that we know we're both working on it. :)
+> 
+> Yeah, definitely :)
+> 
+> Maxime
 Cheers,
-
-David / dhildenb
-
+~Maarten
