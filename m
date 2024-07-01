@@ -1,97 +1,86 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA5016E880;
-	Mon,  1 Jul 2024 17:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B11C16DED9;
+	Mon,  1 Jul 2024 17:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719853877; cv=none; b=fZfKtVOkzTT4RE48vs3mHA76M1Rmp3bNwH7cQR9Mxqkfj+pheHc0VBA4jFi6+VevhS0zCCsKmCnTDLchRlKlxpdveJJEQxRx5mo74gY+mLJWdFCkUdNuaH00Oj5PstAoyi3xB7jOS6CH3LOLfWydl38ZurQy5uArOxSmW0K0i3U=
+	t=1719854351; cv=none; b=F8BbT0iNun/ebhJoEDHRI4+e5sEgwduSe99sisoK5gIIgj4dLfkF4o0xsUfzaCydyKuM2nhceoZksAY1DfXpbJCduSHGSEc38UJreNOxjZ+qxbLcvhl89JgFoq9Ge3AID+3676WcvD9cXwClKhbobratKiua/mrxm5UWvch+OJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719853877; c=relaxed/simple;
-	bh=R0NWfF0fDtyeoauyfED8t0eoe2J52bkoikEJUoUb0Lw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBcN2tsJsq4A6g7ex/e4qhklVrrUOmUm+mfA8rZHjNxpN/Ap3fsHtoUc6xG6AwnDjQTL4xFYfsHQCa3kSDkDrUacYG3RDq9GBzFqpNB/6cfALALxcVPugfQVtN5uNZfMWDJZQYUAysdElGKabkI7kwprK4cCZLVDjfzVul9u37g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WaCsXyfm; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1719854351; c=relaxed/simple;
+	bh=7+9MUOvfw4XZTvRfd3+f44vVGIr6ay3eDJ/zN/lTsdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BzSiV0T9Asr1E4AScGhYb29Cz+PK2+7nHB0sn6kohzlClH4ZjtlPLZsRVIddmhMhsYUxtfnquSY1Y43bOV9UxEoU45Hl7WX+pMqYghik5BONFKzRLttjqW0sKxdKHsZXVigL/1/UxDseUuiKlxR5rEvTulYoILujEqQcFwtF/CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMxmw1RZ; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WaCsXyfm"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42122ac2f38so19673815e9.1;
-        Mon, 01 Jul 2024 10:11:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMxmw1RZ"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3c9cc66c649so2011302b6e.1;
+        Mon, 01 Jul 2024 10:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719853874; x=1720458674; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFr8Ofpiwm2nPtOKnS8vgxJYURmMVP4cZnCgpB044ic=;
-        b=WaCsXyfmSAUdLIDFnCXlF2N6Xv7PYAUVbmjLbCk8yZSblydZgRFWuLpOL8KiQb+mRY
-         kDGrMIb5+oKYwCQdVJbYTVIrgp70mA0zxoHOlyFNlJayYg/jDFxRvHs2xz41e1wuaMi6
-         jinbSQvuJzy6yVoy8wNg6E07vH1cVPZUet2gbLUW98YVV6qpupgs89/P9fr9apEeFemK
-         QQu2oqjI4bV6rdExuEqF0GrZuvvG9JIYWd0JLZ7wvvfnOZtyKWYfa19GWJn3ypZnSYlS
-         2Z6N+a0mHU4s44YbeWFp+1LavBajvRmvIiMhcYblT4YNWWUZesDZVMV1uM7rH8uT+Dyw
-         0PbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719853874; x=1720458674;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1719854349; x=1720459149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RFr8Ofpiwm2nPtOKnS8vgxJYURmMVP4cZnCgpB044ic=;
-        b=ohaprcwnSNjorvs+mDM/QBmgy65+wRi1LXac8NAlADr9tHcL43+HQvzm7MlCVL3Vjq
-         5J8vDaAgOF43aXo3ft4/8/FsmUgCHosU+QABCE/1xoPFioDw7FjvTen4mxMd80ytDGgh
-         1iA2Mb6m2bW9wz87G2JneEA00QubejYDFI1dbJXcYkJQ9mHSIaODzJ5pNEc8CDc4Ds5y
-         2Gp6Czb1MyXub1Sf1VQcY/naJoguVniUEH6ZU4rZvSpYAn5rUneHhjUohV4pqcDclL7r
-         Pij1sck7/acJv3EtheUh0z6Cb2SPY/VDU4RrcvpL/G6sCQbVgh9F+RF9zPOlEqVfEhKD
-         +zSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJfZtWr3FHG8LzbVrPt+1aAQhTX02o4RRpMCjPI0ymiGpP/pUOF8UU+R2MDKK+xUUDeyosl9WRvvSJaRD+Cy07fBQ4IUd6sBLmJu3prsfT/2fc8U4XfJRQTlU/J/uxF4q4roePuSVt
-X-Gm-Message-State: AOJu0YznAd5ha2fXlhSeJC3YAyr426+coJnRd7erIr0o8pOq4BBS3kTV
-	KFY7DxYPIOWa7bs3LhIZ1hKhsTNLrlRYSZPlrRXUFh5IhiZBTMZv
-X-Google-Smtp-Source: AGHT+IGj+dj/EQvMf0Xx7lgxXlKS6qpK6UTruNerxqVaDzO91UchOJE4v36wVK4R6I8c1OknxTOwXw==
-X-Received: by 2002:a05:600c:3089:b0:424:ab8c:a24e with SMTP id 5b1f17b1804b1-4257986256bmr53666225e9.11.1719853873438;
-        Mon, 01 Jul 2024 10:11:13 -0700 (PDT)
-Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a104dbdsm10581949f8f.113.2024.07.01.10.11.12
+        bh=o4cq/FUbNNF1yTpWqtDhgp46JMnbjh5yCmoguwHlVmY=;
+        b=nMxmw1RZyueCOx4BXgijUn/dhHjIG5Jm0eMPQP6uJ7tlrx8SVDpARxzvpuvNEgaMDv
+         2ndHKx1N/aJk/7dKXwnzkfByr7I1fNtAF2wf83zDmhj34Lz841scR+qPmK0FtWbuzMzw
+         oCY7qCbnMyyMEBU2EoU7537nLdqiZwhtHQ/QNHyOpfqMFKtJ5DJDkKJ97uPf0ALpoACW
+         k4PnfeONSqFGQF0z4hHsFaPNpyUe+9NCC/xibWT/EV9WBDFnARiKwGrCu/ZGb37JCgL0
+         B6cEEqwYXv+muhVPZ+mKxL1z6u5PivIwGXZKV56K6QjKAYcgpdtv0LON5CA+FCDz6Ka7
+         20dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719854349; x=1720459149;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o4cq/FUbNNF1yTpWqtDhgp46JMnbjh5yCmoguwHlVmY=;
+        b=D8XQeQCWqLC36XNqLHJXpMCsMQXSMMLanOZsnxHPBu2/EhzhGXmEJm/MjksGoLZ3cp
+         c69LCe4viELt4kTV3YRjSS4LNkqR2MyQJqYWs+j/sNeFbMvETbbOseOtmKjFrH3Kj5p7
+         nqQz3J8qqDiKVp45aA0HkO9PkSFHrE2Ka2AvBwO4ZEZfXZUvLvwT7tgfdMdpBpzkNoBc
+         kb7x3jJk8MozuBPQkcZo189vzOtiipPT81yUPDyxRyPXmYX9mSnQP7+r8c6ZFlcm4cRN
+         kWp7jrNVwEDQrPLlewzFs4l44AULdRHGZxzX/ARY0XkBhrb9rw73JzFKqAuBLZpnyN7P
+         TPwA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlQrX9LfdHQDXPED7Jxy6g5YB1Bi5+xvO0D6XvHD8fgloHhGdWpgnf9BRlUqbH+KpPpA0i2KJFe+8q8VO9wigwcuGSEbVeQBGU2rX96sKycXDmGcKYNHULljAtVQCYKFxTFDg9TmbIwEbSo8v3qn4qFRokijonTGi3NFqkntXkpA==
+X-Gm-Message-State: AOJu0YyzYUUZf7daoC0Y8K3BtJNXCtbEyhl7ru+jV3aPkTVjV6PxyW/a
+	WEiLLQsKTw7uUHCsjD89w9nkhobffCOiL2tHskRmm2UowIBvEOCM
+X-Google-Smtp-Source: AGHT+IGvLQeOFUMePYB+i5/7C0S7KMjlkKdy5fFOY6Qjjl4+0U+9y1OFytUq0T0IkJPqbzwB2Hmcww==
+X-Received: by 2002:a05:6808:1884:b0:3d6:31ad:841c with SMTP id 5614622812f47-3d6b50c0aa7mr9821275b6e.47.1719854349011;
+        Mon, 01 Jul 2024 10:19:09 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70803ecf9d0sm6802977b3a.115.2024.07.01.10.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 10:11:12 -0700 (PDT)
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-To: "'Rafael J . Wysocki'" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+        Mon, 01 Jul 2024 10:19:08 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Mon, 1 Jul 2024 07:19:06 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Xiu Jianfeng <xiujianfeng@huawei.com>
+Cc: lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+	kamalesh.babulal@oracle.com, haitao.huang@linux.intel.com,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] cpufreq: docs: Add missing scaling_available_frequencies description
-Date: Mon,  1 Jul 2024 19:10:40 +0200
-Message-ID: <20240701171040.369030-1-rgallaispou@gmail.com>
-X-Mailer: git-send-email 2.45.2
+Subject: Re: [PATCH -next] cgroup/misc: Introduce misc.peak
+Message-ID: <ZoLlCl1-PMr5DKIG@slm.duckdns.org>
+References: <20240701125259.2611466-1-xiujianfeng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701125259.2611466-1-xiujianfeng@huawei.com>
 
-Add a description of the scaling_available_frequencies attribute in
-sysfs to the documentation.
+On Mon, Jul 01, 2024 at 12:52:59PM +0000, Xiu Jianfeng wrote:
+> +		if (new_usage > READ_ONCE(res->watermark))
+> +			WRITE_ONCE(res->watermark, new_usage);
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
----
- Documentation/admin-guide/pm/cpufreq.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+It'd be better to do cmpxchg loop on update. That doesn't make it noticeably
+more expensive and the peak tracking would actually be accurate.
 
-diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-index 6adb7988e0eb..fe1be4ad88cb 100644
---- a/Documentation/admin-guide/pm/cpufreq.rst
-+++ b/Documentation/admin-guide/pm/cpufreq.rst
-@@ -267,6 +267,10 @@ are the following:
- ``related_cpus``
- 	List of all (online and offline) CPUs belonging to this policy.
- 
-+``scaling_available_frequencies``
-+	List of available frequencies of the CPUs belonging to this policy
-+	(in kHz).
-+
- ``scaling_available_governors``
- 	List of ``CPUFreq`` scaling governors present in the kernel that can
- 	be attached to this policy or (if the |intel_pstate| scaling driver is
+Thanks.
+
 -- 
-2.45.2
-
+tejun
