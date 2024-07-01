@@ -1,191 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7574082876;
-	Mon,  1 Jul 2024 09:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD1E14D299
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 11:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719825909; cv=none; b=RAiJ9T62g5Q0dMdIpCK8kL8xjPbGEooZ20nCGe+R67uR7YjfTkqTVQUSbCdszhspLgHFZWiNsklFOcU6V5hTRQUWL7xDvQBNSWiuUW8V89zjjZfevjze8mPXB5XxuArU1b5eAb4UcMUh6nct0n0aKjqGNBocQFnf5NcJUFo+tmo=
+	t=1719835123; cv=none; b=jFB70XmAjX1labHad1UDWpaJLrPivlqDE4zzEuAPYBpXeNa05hv0bMfsDAh0IbW+alxngRc3MSQmBrKDzRrWfSIot1/ZlGn/zj12M0ojlAdZe0M/gWhHvEkqPPfMU6kYmjLEqEDo8vrXrZM3J9O/ZU0sb7+0UVavzF8h4K7MHAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719825909; c=relaxed/simple;
-	bh=zBGVaBqNwJqKSJ/XcD3Kc7/O+kfYBiURgInjfNkFM2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WTacRXqwuTF2kMT3SipWZsBmO/S43+y8uDqzlFhboBKm6uOUBkKgtcLspFg1DVW8EEiTBGApJtcL1cf82TPMq5WSBgv6d/GxQNmX+Rdv3+zEpShp04jFfJ9LbhwRtzCUOgG+iLOjNet+b06geExqoTamcCHdczbnJpI8zy6/MmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRD7CfPz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1719835123; c=relaxed/simple;
+	bh=/nA58iNMwvVtAGqSYF3E2ixIjum0Lx9xpHzYk+CSGJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XQeyDLcZCXEwl1v7uhNkV1bzGMAG74N5jfK17WmUHSkeliKEqhE3WgXsW3DJPjDYaOb33HlsrPh+N25HZB9HPNSny1EiOwWdALnt+Bw9rKGmIDekZtCEPCRZJBE1O2zujxx8j7yxXUkK2ie6NloAb0oefoeNGd6vGjezF1VwPc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=qbDC7GrZ; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRD7CfPz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719825908; x=1751361908;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=zBGVaBqNwJqKSJ/XcD3Kc7/O+kfYBiURgInjfNkFM2I=;
-  b=TRD7CfPzesVAzx37m//UCW+3AHIQJw2Fw98k5sZoyzJHmRZrmEJgZ0uR
-   0mZs4GuTPkOTY+8OTXH1MV6w0PPsQVhB8K41dCFGpTfyLKRkXLkX5V9dS
-   LE9NRx12l0+2pihnbP0ZnTs+jQIt/Ur+k6nELAjFBG2/NIHFJ6odsGRcl
-   uN7AjPvmUUgT81Q+l4I8N7boMeUhI8704NHzzqbbXdKgnYMj+Q+eKPHHs
-   t76n3yOQMTmh381XtmkUnWdHUnFBRdR+Kb+a5Fr/gjlZm0IuQhQb7AIbH
-   xJtgxoxeBpGm8FAEgJ9py9OigcEHPIkJgE9P/kAPvgnH9EVzm+7Ta14tZ
-   g==;
-X-CSE-ConnectionGUID: PF720MjVRjmvqHCIVGQhzg==
-X-CSE-MsgGUID: UfSX0ffiQs6swSt+oByBcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11119"; a="27559457"
-X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="27559457"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 02:25:07 -0700
-X-CSE-ConnectionGUID: gx3ZGV9+QWixFP9x1bnqLg==
-X-CSE-MsgGUID: 8TddMy73TtytfYhco8qPUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,175,1716274800"; 
-   d="scan'208";a="45445623"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.244.51]) ([10.245.244.51])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2024 02:25:02 -0700
-Message-ID: <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
-Date: Mon, 1 Jul 2024 11:25:12 +0200
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="qbDC7GrZ"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a732cb4ea31so335713666b.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 04:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719835119; x=1720439919; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IksdoqfXXoNA3l1EF7/U4rm+eTkM++3OsdHeCQcdlog=;
+        b=qbDC7GrZmSgub1ubG86KzOG+qaiA+xaVkCrMD/009yD7+Rf8bnbusguxbLNZkvcYIE
+         28+JrRubbWTkHPFPpN0IvjGLWFdeBiQBWfhBWT33+VLEYZUBshMsvneOHLEW5tUbBe0r
+         aLmrpE8w7r3kJWBQUnSX1CBjWePjK13PNgnyvtVmuRXhxckXc3xC1PjZcQn/eDbjKDwI
+         qiqTSnggevUVImjOFCSl2skk6S0RN/iJuYMAtHMI1Su0j5CQDozFuwbsR89b20HV2LoL
+         0eAbfjE5RyCfcAdsn2avnNp+SDf1K1mgD5MVAuFJMS0sbzg9hbfQrxdSAVT/g3eqiqXq
+         gi6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719835119; x=1720439919;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IksdoqfXXoNA3l1EF7/U4rm+eTkM++3OsdHeCQcdlog=;
+        b=qGPITF6PDRLalwKZS9lWaHUMpvSm3nbmzFnMZ/bFaHB6ZI2vbQbyj+pWpFOwji3lKA
+         eJEMCJ7KE+bFoFWaYixX3+3vn4yGmsdBVehGvAlj5VCGOvJswI4iVsOG8yhPDbJLveeF
+         bqxBM1S095sot/3BhmxDmGwc5F0Ac19qkeQ8lqKJgjz7uoX8YKxwdrRGvBE2wBBOPbuv
+         e6ETGaqCVnR9FvvnjTqOFVsk2b3RhwiM/IfBgLaGZ1BjTGtJbcV0i20HltqTU6NBqumM
+         yjNXWH5bcclw3D5alaYYpQirAaWgHqCQzTB4tgOP01DM6tbZrbLT/bvcAgpWm9jhrl11
+         TPIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA3pC1MpSiFA1Egpi7MS2ded/MuyAmfUom9W6xrecL3JKFeaYs8jIxhd/l+SldlOOySr7cXbWW8DsQv047d0NKyCdBSVaaFj5h
+X-Gm-Message-State: AOJu0YzYrIIz5zWUdR77qj/uN/y15PCylNu9Fen+BLwKX+L7n+Y1WMN+
+	rZx2bscLI8Ftp9UxFx4yV7mqaHeEyVLvyV/dOMosBiT34OMMWQ4N8mbt5wnvxyM/7/4hCU1SKlv
+	aiDVIXVhwEGdXkf7zuUw76Ztm2ogSxXCoEG7D6g==
+X-Google-Smtp-Source: AGHT+IF2OBW7kIrXE1UpSv50tCGPZtC+ETK4mqONVGqJACOHcLEzbhk5UFyau/lwX9nOtB0IRaHq1FCgCFisjtf323o=
+X-Received: by 2002:a17:907:9712:b0:a75:7a8:d70c with SMTP id
+ a640c23a62f3a-a751386eca4mr578971166b.4.1719835119427; Mon, 01 Jul 2024
+ 04:58:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
-To: Maxime Ripard <mripard@kernel.org>
-Cc: intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
- <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
- <20240627-paper-vicugna-of-fantasy-c549ed@houat>
- <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
- <20240628-romantic-emerald-snake-7b26ca@houat>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20240628-romantic-emerald-snake-7b26ca@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240630110550.1731929-1-stuart.menefy@codasip.com>
+In-Reply-To: <20240630110550.1731929-1-stuart.menefy@codasip.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Mon, 1 Jul 2024 13:58:27 +0200
+Message-ID: <CAHVXubg+aXS7-smmWS9LwUbAkpfGvet9Zk0UJs_AZhxV2vx6UQ@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: Extend sv39 linear mapping max size to 128G
+To: Stuart Menefy <stuart.menefy@codasip.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Stuart,
 
+On Sun, Jun 30, 2024 at 1:06=E2=80=AFPM Stuart Menefy <stuart.menefy@codasi=
+p.com> wrote:
+>
+> This harmonizes all virtual addressing modes which can now all map
+> (PGDIR_SIZE * PTRS_PER_PGD) / 4 of physical memory.
+>
+> The RISCV implementation of KASAN requires that the boundary between
+> shallow mappings are aligned on an 8G boundary. In this case we need
+> VMALLOC_START to be 8G aligned. So although we only need to move the
+> start of the linear mapping down by 4GiB to allow 128GiB to be mapped,
+> we actually move it down by 8GiB (creating a 4GiB hole between the
+> linear mapping and KASAN shadow space) to maintain the alignment
+> requirement.
+>
+> Signed-off-by: Stuart Menefy <stuart.menefy@codasip.com>
+> ---
+>
+> Changes since V1:
+> This is a modified version of the patch posted by Alexandre Ghiti
+> <alexghiti@rivosinc.com> [1]. That version moved the start of the
+> liner mapping by 4GiB, but was subsequently found to trigger a problem
+> in the KASAN code [2]. By moving the start address by 8GiB alignment
+> requiremenents are maintained.
+>
+> [1] https://lore.kernel.org/linux-riscv/20240514133614.87813-1-alexghiti@=
+rivosinc.com/
+> [2] https://lore.kernel.org/linux-riscv/4011b34a-1b86-42c7-aaf6-3bd297149=
+f06@ghiti.fr/
+>
+> ---
+>  Documentation/arch/riscv/vm-layout.rst | 11 ++++++-----
+>  arch/riscv/include/asm/page.h          |  2 +-
+>  2 files changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/arch/riscv/vm-layout.rst b/Documentation/arch/=
+riscv/vm-layout.rst
+> index e476b4386bd9..077b968dcc81 100644
+> --- a/Documentation/arch/riscv/vm-layout.rst
+> +++ b/Documentation/arch/riscv/vm-layout.rst
+> @@ -47,11 +47,12 @@ RISC-V Linux Kernel SV39
+>                                                                | Kernel-s=
+pace virtual memory, shared between all processes:
+>    ____________________________________________________________|_________=
+__________________________________________________
+>                      |            |                  |         |
+> -   ffffffc6fea00000 | -228    GB | ffffffc6feffffff |    6 MB | fixmap
+> -   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
+> -   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
+> -   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/=
+ioremap space
+> -   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct m=
+apping of all physical memory
+> +   ffffffc4fea00000 | -236    GB | ffffffc4feffffff |    6 MB | fixmap
+> +   ffffffc4ff000000 | -236    GB | ffffffc4ffffffff |   16 MB | PCI io
+> +   ffffffc500000000 | -236    GB | ffffffc5ffffffff |    4 GB | vmemmap
+> +   ffffffc600000000 | -232    GB | ffffffd5ffffffff |   64 GB | vmalloc/=
+ioremap space
+> +   ffffffd600000000 | -168    GB | fffffff5ffffffff |  128 GB | direct m=
+apping of all physical memory
+> +                    |            |                  |         |
+>     fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
+>    __________________|____________|__________________|_________|_________=
+___________________________________________________
+>                                                                |
+> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.=
+h
+> index 115ac98b8d72..81d47fbbd927 100644
+> --- a/arch/riscv/include/asm/page.h
+> +++ b/arch/riscv/include/asm/page.h
+> @@ -37,7 +37,7 @@
+>   * define the PAGE_OFFSET value for SV48 and SV39.
+>   */
+>  #define PAGE_OFFSET_L4         _AC(0xffffaf8000000000, UL)
+> -#define PAGE_OFFSET_L3         _AC(0xffffffd800000000, UL)
+> +#define PAGE_OFFSET_L3         _AC(0xffffffd600000000, UL)
+>  #else
+>  #define PAGE_OFFSET            _AC(CONFIG_PAGE_OFFSET, UL)
+>  #endif /* CONFIG_64BIT */
+> --
+> 2.43.0
+>
 
-Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
-> Hi,
-> 
-> On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
->> Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
->>> Hi,
->>>
->>> Thanks for working on this!
->>>
->>> On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
->>>> The initial version was based roughly on the rdma and misc cgroup
->>>> controllers, with a lot of the accounting code borrowed from rdma.
->>>>
->>>> The current version is a complete rewrite with page counter; it uses
->>>> the same min/low/max semantics as the memory cgroup as a result.
->>>>
->>>> There's a small mismatch as TTM uses u64, and page_counter long pages.
->>>> In practice it's not a problem. 32-bits systems don't really come with
->>>>> =4GB cards and as long as we're consistently wrong with units, it's
->>>> fine. The device page size may not be in the same units as kernel page
->>>> size, and each region might also have a different page size (VRAM vs GART
->>>> for example).
->>>>
->>>> The interface is simple:
->>>> - populate drmcgroup_device->regions[..] name and size for each active
->>>>    region, set num_regions accordingly.
->>>> - Call drm(m)cg_register_device()
->>>> - Use drmcg_try_charge to check if you can allocate a chunk of memory,
->>>>    use drmcg_uncharge when freeing it. This may return an error code,
->>>>    or -EAGAIN when the cgroup limit is reached. In that case a reference
->>>>    to the limiting pool is returned.
->>>> - The limiting cs can be used as compare function for
->>>>    drmcs_evict_valuable.
->>>> - After having evicted enough, drop reference to limiting cs with
->>>>    drmcs_pool_put.
->>>>
->>>> This API allows you to limit device resources with cgroups.
->>>> You can see the supported cards in /sys/fs/cgroup/drm.capacity
->>>> You need to echo +drm to cgroup.subtree_control, and then you can
->>>> partition memory.
->>>>
->>>> Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
->>>> Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
->>> I'm sorry, I should have wrote minutes on the discussion we had with TJ
->>> and Tvrtko the other day.
->>>
->>> We're all very interested in making this happen, but doing a "DRM"
->>> cgroup doesn't look like the right path to us.
->>>
->>> Indeed, we have a significant number of drivers that won't have a
->>> dedicated memory but will depend on DMA allocations one way or the
->>> other, and those pools are shared between multiple frameworks (DRM,
->>> V4L2, DMA-Buf Heaps, at least).
->>>
->>> This was also pointed out by Sima some time ago here:
->>> https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
->>>
->>> So we'll want that cgroup subsystem to be cross-framework. We settled on
->>> a "device" cgroup during the discussion, but I'm sure we'll have plenty
->>> of bikeshedding.
->>>
->>> The other thing we agreed on, based on the feedback TJ got on the last
->>> iterations of his series was to go for memcg for drivers not using DMA
->>> allocations.
->>>
->>> It's the part where I expect some discussion there too :)
->>>
->>> So we went back to a previous version of TJ's work, and I've started to
->>> work on:
->>>
->>>    - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
->>>      works on tidss right now)
->>>
->>>    - Integration of all heaps into that cgroup but the system one
->>>      (working on this at the moment)
->>
->> Should be similar to what I have then. I think you could use my work to
->> continue it.
->>
->> I made nothing DRM specific except the name, if you renamed it the device
->> resource management cgroup and changed the init function signature to take a
->> name instead of a drm pointer, nothing would change. This is exactly what
->> I'm hoping to accomplish, including reserving memory.
-> 
-> I've started to work on rebasing my current work onto your series today,
-> and I'm not entirely sure how what I described would best fit. Let's
-> assume we have two KMS device, one using shmem, one using DMA
-> allocations, two heaps, one using the page allocator, the other using
-> CMA, and one v4l2 device using dma allocations.
-> 
-> So we would have one KMS device and one heap using the page allocator,
-> and one KMS device, one heap, and one v4l2 driver using the DMA
-> allocator.
-> 
-> Would these make different cgroup devices, or different cgroup regions?
+So the issue was with my patch, sorry! Your fix makes sense so you can add:
 
-Each driver would register a device, whatever feels most logical for that device I suppose.
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-My guess is that a prefix would also be nice here, so register a device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it much thought and we're still experimenting, so just try something. :)
+Thanks,
 
-There's no limit to amount of devices, I only fixed amount of pools to match TTM, but even that could be increased arbitrarily. I just don't think there is a point in doing so.
-
->> The nice thing is that it should be similar to the memory cgroup controller
->> in semantics, so you would have the same memory behavior whether you use the
->> device cgroup or memory cgroup.
->>
->> I'm sad I missed the discussion, but hopefully we can coordinate more now
->> that we know we're both working on it. :)
-> 
-> Yeah, definitely :)
-> 
-> Maxime
-Cheers,
-~Maarten
+Alex
