@@ -1,364 +1,300 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E1784A35;
-	Mon,  1 Jul 2024 08:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB9E13C3D5
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 08:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719823638; cv=none; b=C0z8kolXY4nbAPJqQJVixdx5ZRcbgmV+gVYwYv+XJh+pDaHno4cQeXp0DUMIK3xCoGmjcBXS1vYhrOVxe/6B1BY4GKZKnhg388vviZ+SjL8WpODWesNOsIiy+VqJkfHYc5eJHeA/wHi4cwK39GqHLG2McHNGHCpPMayIgPIjfso=
+	t=1719823658; cv=none; b=HlrhN85Ftp73MMTP4PnlnUCCcYyD2yMxocEKQUjAcvHHkBGLw5YmEnKAwNqOayfHne6yko7/yR0T6edOckOkOBD21nE/grPdT3Rpl6RHQaLfU84qP6R4pFCJVg926UtLqxaVIP62vrtLbKMVIv2O9FDmvF4nElV+EHI+p717YjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719823638; c=relaxed/simple;
-	bh=R4cC6D6gJjIIjiiIyqNIOYQ/ggPlCuWGQTFAtL7UPJA=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nRXvBbN79H3rP41+MljyLH5CqwtPPZBfAj4JfNEFMtS+lJ89jnIrrsGb+1Ta3RoVi2BGexW80QfCsUpq3wMbwWHwkm6lamFfXI7LtqbR9N7JaCP5W1DBja6Vr0jYsMrfJ5WR6I7bDGTjVmCLL/8cutRXUB5SMZ8ZDsvpoEiyXP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=xYarrNHl; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="xYarrNHl"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46186JRS005324;
-	Mon, 1 Jul 2024 04:46:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=8EGak
-	9Sb3hUw1x7TOM6eobyfu+QTbee4xTN4X/gkEoI=; b=xYarrNHl/agz1vq85WgtP
-	EWS3C1hTIOtHZMbadXRWdoBwJoWBMMZW6EtAKLFUlEWmcMUr3xNGNr0Ovrd5ZecF
-	Lfeh50HLDwei5H3YFXLj+TVsGHhQ/r7vuzzQc7v4bzk/RlbGVkW0io9ICer/ltTU
-	PeJp0LIWIAhi2FLNZ/3Fxv73IPAVdnY6Zx4aqVc7kFc9noS/axwAMhfHrI6/kI8Z
-	pjPYGJoCu4tGmrgUxw3/LOM4sxgrXWDUs1SZVMi7XB4+ni5P2fxHNe34AMK5MPWG
-	uOe3SSODzFq2NN/t8enxjpY1EfxBWxa/Gqm9h6EPIw+3vy1xdntT7H3t5k498/o7
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 403m2ch2qq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Jul 2024 04:46:58 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 4618kvqV037415
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 1 Jul 2024 04:46:57 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 1 Jul 2024
- 04:46:56 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Mon, 1 Jul 2024 04:46:56 -0400
-Received: from amiclaus-VirtualBox.ad.analog.com (AMICLAUS-L02.ad.analog.com [10.48.65.159])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 4618k0LB004394;
-	Mon, 1 Jul 2024 04:46:43 -0400
-From: Antoniu Miclaus <antoniu.miclaus@analog.com>
-To: Ramona Gradinariu <ramona.gradinariu@analog.com>,
-        Antoniu Miclaus
-	<antoniu.miclaus@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael
- Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron
-	<jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Jun Yan
-	<jerrysteve1101@gmail.com>,
-        Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>,
-        Mehdi Djait <mehdi.djait.k@gmail.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v4 3/3] docs: iio: add documentation for adxl380 driver
-Date: Mon, 1 Jul 2024 11:30:44 +0300
-Message-ID: <20240701083138.15891-3-antoniu.miclaus@analog.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240701083138.15891-1-antoniu.miclaus@analog.com>
-References: <20240701083138.15891-1-antoniu.miclaus@analog.com>
+	s=arc-20240116; t=1719823658; c=relaxed/simple;
+	bh=Kbav4cGKIbJm8iy3+dlxX1y2wXHK40wZlm2jEB8JAVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LSWdHzFQ/rQKPUPHEHfH3AeszTIvBWl0OFP/01mI0bTrYLKh45RU0f/5bAgcXQoeAbd6tRpiF+zPTdEjk96mLRUgQlRnWVm3hA9cvDEVD3Cr4CwGSEt8eU9LuQppzPvDWleMrNIqI0RBH9TOyYhLds2bzcKfEO3oXd+sUFVcET4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sOCgq-0005pO-I7; Mon, 01 Jul 2024 10:47:12 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sOCgl-006KYd-QZ; Mon, 01 Jul 2024 10:47:07 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sOCgl-008Lyc-2K;
+	Mon, 01 Jul 2024 10:47:07 +0200
+Date: Mon, 1 Jul 2024 10:47:07 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [EXT] Re: [PATCH v3 4/5] firmware: imx: add driver for NXP
+ EdgeLock Enclave
+Message-ID: <ZoJtC-fgyVWQO57C@pengutronix.de>
+References: <20240617-imx-se-if-v3-0-a7d28dea5c4a@nxp.com>
+ <20240617-imx-se-if-v3-4-a7d28dea5c4a@nxp.com>
+ <ZnFF_Z48qzpNvPtj@pengutronix.de>
+ <AM9PR04MB860446165A0826362E7AF58195D32@AM9PR04MB8604.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: A5atxJNWU2CMRD3fNtkso-yhHiRK6YKB
-X-Proofpoint-GUID: A5atxJNWU2CMRD3fNtkso-yhHiRK6YKB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-01_07,2024-06-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0
- malwarescore=0 clxscore=1011 mlxscore=0 suspectscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407010067
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM9PR04MB860446165A0826362E7AF58195D32@AM9PR04MB8604.eurprd04.prod.outlook.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Add documentation for adxl380 driver which describes the driver
-device files and shows how the user may use the ABI for various
-scenarios (configuration, measurement, etc.).
+On Mon, Jul 01, 2024 at 07:45:20AM +0000, Pankaj Gupta wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Sascha Hauer <s.hauer@pengutronix.de>
+> > Sent: Tuesday, June 18, 2024 2:02 PM
+> > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Pengutronix
+> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
+> > Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+> > <krzysztof.kozlowski+dt@linaro.org>; devicetree@vger.kernel.org;
+> > imx@lists.linux.dev; linux-kernel@vger.kernel.org; linux-arm-
+> > kernel@lists.infradead.org; linux-doc@vger.kernel.org
+> > Subject: [EXT] Re: [PATCH v3 4/5] firmware: imx: add driver for NXP EdgeLock
+> > Enclave
+> >
+> > Caution: This is an external email. Please take care when clicking links or
+> > opening attachments. When in doubt, report the message using the 'Report
+> > this email' button
+> >
+> >
+> > Hi Pankaj,
+> >
+> > Here's some review feedback. I think it'll take some more rounds to get this
+> > into shape.
+> >
+> > On Mon, Jun 17, 2024 at 12:59:42PM +0530, Pankaj Gupta wrote:
+> > > NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
+> > > embedded in the SoC to support the features like HSM, SHE & V2X, using
+> > > message based communication interface.
+> > >
+> > > The secure enclave FW communicates on a dedicated messaging unit(MU)
+> > > based interface(s) with application core, where kernel is running.
+> > > It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
+> > >
+> > > This patch adds the driver for communication interface to
+> > > secure-enclave, for exchanging messages with NXP secure enclave HW
+> > > IP(s) like EdgeLock Enclave (ELE) from Kernel-space, used by kernel
+> > > management layers like
+> > > - DM-Crypt.
+> > >
+> > > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > ---
+> > >  drivers/firmware/imx/Kconfig        |  12 +
+> > >  drivers/firmware/imx/Makefile       |   2 +
+> > >  drivers/firmware/imx/ele_base_msg.c | 284 +++++++++++++++++++
+> > > drivers/firmware/imx/ele_base_msg.h |  90 ++++++
+> > >  drivers/firmware/imx/ele_common.c   | 233 ++++++++++++++++
+> > >  drivers/firmware/imx/ele_common.h   |  45 +++
+> > >  drivers/firmware/imx/se_ctrl.c      | 536
+> > ++++++++++++++++++++++++++++++++++++
+> > >  drivers/firmware/imx/se_ctrl.h      |  99 +++++++
+> > >  include/linux/firmware/imx/se_api.h |  14 +
+> > >  9 files changed, 1315 insertions(+)
+> > >
+> > > diff --git a/drivers/firmware/imx/Kconfig
+> > > b/drivers/firmware/imx/Kconfig index 183613f82a11..56bdca9bd917 100644
+> > > --- a/drivers/firmware/imx/Kconfig
+> > > +++ b/drivers/firmware/imx/Kconfig
+> > > @@ -22,3 +22,15 @@ config IMX_SCU
+> > >
+> > >         This driver manages the IPC interface between host CPU and the
+> > >         SCU firmware running on M4.
+> > > +
+> > > +config IMX_SEC_ENCLAVE
+> > > +     tristate "i.MX Embedded Secure Enclave - EdgeLock Enclave Firmware
+> > driver."
+> > > +     depends on IMX_MBOX && ARCH_MXC && ARM64
+> > > +     default m if ARCH_MXC
+> > > +
+> > > +     help
+> > > +       It is possible to use APIs exposed by the iMX Secure Enclave HW IP
+> > called:
+> > > +          - EdgeLock Enclave Firmware (for i.MX8ULP, i.MX93),
+> > > +          like base, HSM, V2X & SHE using the SAB protocol via the shared
+> > Messaging
+> > > +          Unit. This driver exposes these interfaces via a set of file descriptors
+> > > +          allowing to configure shared memory, send and receive messages.
+> > > diff --git a/drivers/firmware/imx/Makefile
+> > > b/drivers/firmware/imx/Makefile index 8f9f04a513a8..aa9033e0e9e3
+> > > 100644
+> > > --- a/drivers/firmware/imx/Makefile
+> > > +++ b/drivers/firmware/imx/Makefile
+> > > @@ -1,3 +1,5 @@
+> > >  # SPDX-License-Identifier: GPL-2.0
+> > >  obj-$(CONFIG_IMX_DSP)                += imx-dsp.o
+> > >  obj-$(CONFIG_IMX_SCU)                += imx-scu.o misc.o imx-scu-irq.o rm.o
+> > imx-scu-soc.o
+> > > +sec_enclave-objs             = se_ctrl.o ele_common.o ele_base_msg.o
+> > > +obj-${CONFIG_IMX_SEC_ENCLAVE}        += sec_enclave.o
+> > > diff --git a/drivers/firmware/imx/ele_base_msg.c
+> > > b/drivers/firmware/imx/ele_base_msg.c
+> > > new file mode 100644
+> > > index 000000000000..5bfd9c7e3f7e
+> > > --- /dev/null
+> > > +++ b/drivers/firmware/imx/ele_base_msg.c
+> > > @@ -0,0 +1,284 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +/*
+> > > + * Copyright 2024 NXP
+> > > + */
+> > > +
+> > > +#include <linux/types.h>
+> > > +#include <linux/completion.h>
+> > > +#include <linux/dma-mapping.h>
+> > > +
+> > > +#include "ele_base_msg.h"
+> > > +#include "ele_common.h"
+> > > +
+> > > +int ele_get_info(struct device *dev, struct ele_dev_info *s_info) {
+> >
+> > I think all currently exported functions should take a struct se_if_priv
+> > * as context pointer.
+> > I can't find any place in which any of these functions is called differently than
+> > with priv->dev.
+> 
+> All the API(s) that construct a message to be exchanged over the device-interface to FW,
+> - will be the exported symbols in the next patch-set, to be used by other Linux kernel modules like: NVMEM driver, linux crypto framework, security/keys etc.
+> - These other Linux layers have to choose from multiple similar devices per secure-enclave.
+> 
+> Kindly Consider these API(s), to be the EXPORT SYMBOLS, in later patches, when used outside of this driver.
 
-Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
----
-changes in v4:
- - drop marketing from description.
- Documentation/iio/adxl380.rst | 233 ++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst   |   1 +
- 2 files changed, 234 insertions(+)
- create mode 100644 Documentation/iio/adxl380.rst
+In that case you could still add a function which translates a struct
+device * into a struct se_if_priv *.
 
-diff --git a/Documentation/iio/adxl380.rst b/Documentation/iio/adxl380.rst
-new file mode 100644
-index 000000000000..376dee5fe1dd
---- /dev/null
-+++ b/Documentation/iio/adxl380.rst
-@@ -0,0 +1,233 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+ADXL380 driver
-+===============
-+
-+This driver supports Analog Device's ADXL380/382 on SPI/I2C bus.
-+
-+1. Supported devices
-+====================
-+
-+* `ADXL380 <https://www.analog.com/ADXL380>`_
-+* `ADXL382 <https://www.analog.com/ADXL382>`_
-+
-+The ADXL380/ADXL382 is a low noise density, low power, 3-axis accelerometer with
-+selectable measurement ranges. The ADXL380 supports the ±4 g, ±8 g, and ±16 g
-+ranges, and the ADXL382 supports ±15 g, ±30 g, and ±60 g ranges.
-+
-+2. Device attributes
-+====================
-+
-+Accelerometer measurements are always provided.
-+
-+Temperature data are also provided. This data can be used to monitor the
-+internal system temperature or to improve the temperature stability of the
-+device via calibration.
-+
-+Each IIO device, has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
-+where X is the IIO index of the device. Under these folders reside a set of
-+device files, depending on the characteristics and features of the hardware
-+device in questions. These files are consistently generalized and documented in
-+the IIO ABI documentation.
-+
-+The following tables show the adxl380 related device files, found in the
-+specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
-+
-++---------------------------------------------------+----------------------------------------------------------+
-+| 3-Axis Accelerometer related device files         | Description                                              |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_scale                                    | Scale for the accelerometer channels.                    |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_filter_high_pass_3db_frequency           | Low pass filter bandwidth.                               |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_filter_high_pass_3db_frequency_available | Available low pass filter bandwidth configurations.      |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_filter_low_pass_3db_frequency            | High pass filter bandwidth.                              |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_filter_low_pass_3db_frequency_available  | Available high pass filter bandwidth configurations.     |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_x_calibbias                              | Calibration offset for the X-axis accelerometer channel. |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_x_raw                                    | Raw X-axis accelerometer channel value.                  |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_y_calibbias                              | y-axis acceleration offset correction                    |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_y_raw                                    | Raw Y-axis accelerometer channel value.                  |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_z_calibbias                              | Calibration offset for the Z-axis accelerometer channel. |
-++---------------------------------------------------+----------------------------------------------------------+
-+| in_accel_z_raw                                    | Raw Z-axis accelerometer channel value.                  |
-++---------------------------------------------------+----------------------------------------------------------+
-+
-++----------------------------------+--------------------------------------------+
-+| Temperature sensor related files | Description                                |
-++----------------------------------+--------------------------------------------+
-+| in_temp_raw                      | Raw temperature channel value.             |
-++----------------------------------+--------------------------------------------+
-+| in_temp_offset                   | Offset for the temperature sensor channel. |
-++----------------------------------+--------------------------------------------+
-+| in_temp_scale                    | Scale for the temperature sensor channel.  |
-++----------------------------------+--------------------------------------------+
-+
-++------------------------------+----------------------------------------------+
-+| Miscellaneous device files   | Description                                  |
-++------------------------------+----------------------------------------------+
-+| name                         | Name of the IIO device.                      |
-++------------------------------+----------------------------------------------+
-+| sampling_frequency           | Currently selected sample rate.              |
-++------------------------------+----------------------------------------------+
-+| sampling_frequency_available | Available sampling frequency configurations. |
-++------------------------------+----------------------------------------------+
-+
-+Channels processed values
-+-------------------------
-+
-+A channel value can be read from its _raw attribute. The value returned is the
-+raw value as reported by the devices. To get the processed value of the channel,
-+apply the following formula:
-+
-+.. code-block:: bash
-+
-+        processed value = (_raw + _offset) * _scale
-+
-+Where _offset and _scale are device attributes. If no _offset attribute is
-+present, simply assume its value is 0.
-+
-+The adis16475 driver offers data for 2 types of channels, the table below shows
-+the measurement units for the processed value, which are defined by the IIO
-+framework:
-+
-++-------------------------------------+---------------------------+
-+| Channel type                        | Measurement unit          |
-++-------------------------------------+---------------------------+
-+| Acceleration on X, Y, and Z axis    | Meters per Second squared |
-++-------------------------------------+---------------------------+
-+| Temperature                         | Millidegrees Celsius      |
-++-------------------------------------+---------------------------+
-+
-+Usage examples
-+--------------
-+
-+Show device name:
-+
-+.. code-block:: bash
-+
-+	root:/sys/bus/iio/devices/iio:device0> cat name
-+        adxl382
-+
-+Show accelerometer channels value:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_raw
-+        -1771
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_y_raw
-+        282
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_z_raw
-+        -1523
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_scale
-+        0.004903325
-+
-+- X-axis acceleration = in_accel_x_raw * in_accel_scale = −8.683788575 m/s^2
-+- Y-axis acceleration = in_accel_y_raw * in_accel_scale = 1.38273765 m/s^2
-+- Z-axis acceleration = in_accel_z_raw * in_accel_scale = -7.467763975 m/s^2
-+
-+Set calibration offset for accelerometer channels:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_calibbias
-+        0
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 50 > in_accel_x_calibbias
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_calibbias
-+        50
-+
-+Set sampling frequency:
-+
-+.. code-block:: bash
-+
-+	root:/sys/bus/iio/devices/iio:device0> cat sampling_frequency
-+        16000
-+        root:/sys/bus/iio/devices/iio:device0> cat sampling_frequency_available
-+        16000 32000 64000
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 32000 > sampling_frequency
-+        root:/sys/bus/iio/devices/iio:device0> cat sampling_frequency
-+        32000
-+
-+Set low pass filter bandwidth for accelerometer channels:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_filter_low_pass_3db_frequency
-+        32000
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_filter_low_pass_3db_frequency_available
-+        32000 8000 4000 2000
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 2000 > in_accel_filter_low_pass_3db_frequency
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_filter_low_pass_3db_frequency
-+        2000
-+
-+3. Device buffers
-+=================
-+
-+This driver supports IIO buffers.
-+
-+All devices support retrieving the raw acceleration and temperature measurements
-+using buffers.
-+
-+Usage examples
-+--------------
-+
-+Select channels for buffer read:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_accel_x_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_accel_y_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_accel_z_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_temp_en
-+
-+Set the number of samples to be stored in the buffer:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 10 > buffer/length
-+
-+Enable buffer readings:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > buffer/enable
-+
-+Obtain buffered data:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> hexdump -C /dev/iio\:device0
-+        ...
-+        002bc300  f7 e7 00 a8 fb c5 24 80  f7 e7 01 04 fb d6 24 80  |......$.......$.|
-+        002bc310  f7 f9 00 ab fb dc 24 80  f7 c3 00 b8 fb e2 24 80  |......$.......$.|
-+        002bc320  f7 fb 00 bb fb d1 24 80  f7 b1 00 5f fb d1 24 80  |......$...._..$.|
-+        002bc330  f7 c4 00 c6 fb a6 24 80  f7 a6 00 68 fb f1 24 80  |......$....h..$.|
-+        002bc340  f7 b8 00 a3 fb e7 24 80  f7 9a 00 b1 fb af 24 80  |......$.......$.|
-+        002bc350  f7 b1 00 67 fb ee 24 80  f7 96 00 be fb 92 24 80  |...g..$.......$.|
-+        002bc360  f7 ab 00 7a fc 1b 24 80  f7 b6 00 ae fb 76 24 80  |...z..$......v$.|
-+        002bc370  f7 ce 00 a3 fc 02 24 80  f7 c0 00 be fb 8b 24 80  |......$.......$.|
-+        002bc380  f7 c3 00 93 fb d0 24 80  f7 ce 00 d8 fb c8 24 80  |......$.......$.|
-+        002bc390  f7 bd 00 c0 fb 82 24 80  f8 00 00 e8 fb db 24 80  |......$.......$.|
-+        002bc3a0  f7 d8 00 d3 fb b4 24 80  f8 0b 00 e5 fb c3 24 80  |......$.......$.|
-+        002bc3b0  f7 eb 00 c8 fb 92 24 80  f7 e7 00 ea fb cb 24 80  |......$.......$.|
-+        002bc3c0  f7 fd 00 cb fb 94 24 80  f7 e3 00 f2 fb b8 24 80  |......$.......$.|
-+        ...
-+
-+See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+data is structured.
-+
-+4. IIO Interfacing Tools
-+========================
-+
-+See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+interfacing tools.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 4c13bfa2865c..1ce5b24d40aa 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -20,5 +20,6 @@ Industrial I/O Kernel Drivers
-    ad7944
-    adis16475
-    adis16480
-+   adxl380
-    bno055
-    ep93xx_adc
+> >
+> > > +     struct se_if_priv *priv = dev_get_drvdata(dev);
+
+This function should also include some sanity checks. It's not good that
+an exported function takes some struct device *, blindly assumes that
+it is of type se_if_priv, and if not just crashes the Kernel.
+
+> > > +static int imx_fetch_se_soc_info(struct se_if_priv *priv,
+> > > +                              const struct imx_se_node_info_list
+> > > +*info_list) {
+> > > +     const struct imx_se_node_info *info;
+> > > +     struct soc_device_attribute *attr;
+> > > +     struct soc_device *sdev;
+> > > +     u64 serial_num;
+> > > +     u16 soc_rev;
+> > > +     int err = 0;
+> > > +
+> > > +     info = priv->info;
+> > > +
+> > > +     /* This function should be called once.
+> > > +      * Check if the soc_rev is zero to continue.
+> > > +      */
+> > > +     if (priv->soc_rev)
+> > > +             return err;
+> >
+> > Just return 0 here. It takes one step less to understand what this is about.
+> Replacing "err" with "ret", in better understanding.
+
+What I meant that you should return the constant '0' here instead of the
+content of a variable. It safes a reader from looking up the value of
+the variable which means it's one step less for the brain to understand
+the code.
+
+> > > +
+> > > +     if (info->se_fetch_soc_info) {
+> > > +             err = info->se_fetch_soc_info(priv->dev, &soc_rev, &serial_num);
+> > > +             if (err < 0) {
+> > > +                     dev_err(priv->dev, "Failed to fetch SoC Info.");
+> > > +                     return err;
+> > > +             }
+> > > +     } else {
+> > > +             dev_err(priv->dev, "Failed to fetch SoC revision.");
+> > > +             if (info->soc_register)
+> > > +                     dev_err(priv->dev, "Failed to do SoC registration.");
+> > > +             err = -EINVAL;
+> > > +             return err;
+> > > +     }
+> >
+> > i.MX93 doesn't have a info->se_fetch_soc_info. Does this mean it doesn't work
+> > on this SoC?
+> >
+> Yes.
+
+Will you fix this?
+
+> > > +     priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > > +     if (!priv) {
+> > > +             ret = -ENOMEM;
+> > > +             goto exit;
+> > > +     }
+> > > +
+> > > +     dev_set_drvdata(dev, priv);
+> > > +
+> > > +     /* Mailbox client configuration */
+> > > +     priv->se_mb_cl.dev              = dev;
+> > > +     priv->se_mb_cl.tx_block         = false;
+> > > +     priv->se_mb_cl.knows_txdone     = true;
+> > > +     priv->se_mb_cl.rx_callback      = se_if_rx_callback;
+> > > +
+> > > +     ret = se_if_request_channel(dev, &priv->tx_chan,
+> > > +                     &priv->se_mb_cl, info->mbox_tx_name);
+> > > +     if (ret)
+> > > +             goto exit;
+> > > +
+> > > +     ret = se_if_request_channel(dev, &priv->rx_chan,
+> > > +                     &priv->se_mb_cl, info->mbox_rx_name);
+> > > +     if (ret)
+> > > +             goto exit;
+> > > +
+> > > +     priv->dev = dev;
+> > > +     priv->info = info;
+> > > +
+> > > +     mutex_init(&priv->se_if_lock);
+> > > +     mutex_init(&priv->se_if_cmd_lock);
+> > > +
+> > > +     priv->cmd_receiver_dev = NULL;
+> > > +     priv->waiting_rsp_dev = NULL;
+> >
+> > These are NULL already.
+> For code readability, it is good to know when and with what value it is initialized.
+> It will help review the 'if' condition based on these structure member variable.
+> Will covert this information into comments.
+
+We already know they are NULL because you used kzalloc to allocate the
+struct. No need to comment that.
+
+Sascha
+
 -- 
-2.45.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
