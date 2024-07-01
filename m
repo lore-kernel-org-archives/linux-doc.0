@@ -1,121 +1,143 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F581804A
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 04:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44B94A0F;
+	Mon,  1 Jul 2024 06:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719807882; cv=none; b=D7MP4heyvoCOGSaPYU+bd4mo18C0cF2j++NIr0Y3IL+LvbLWeyiTMbXWULwMdN85UlDjV7PAKz+DNuCRC6/FgIJ3ZgZ5AfjN91mk7w+9r0MD9AW/z9V5a6zF8OHKbpB437tWTP9t9iAbw8ipkM8/gZGnNgwGfXSOCi+F2od5O2c=
+	t=1719816140; cv=none; b=lbk2/szTw9hWLZpe2PSLYUqUlAs0y+qVBdf+XsKpqMnio6K7W5jHkZff2DcrUGBY6UK0BXAR0+QG/GP4xojQiPXyjprNmZHXdCt9MYheddCHrBZWN31uJUdt3VFh3cc7G5Gl9tXgue2obMOHPiDxWBAHz80QI46mOkWXW8sJLGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719807882; c=relaxed/simple;
-	bh=paVAf+8j2Ao8wNZ6d9H4Go6mO+YeHszO+g9YMet+gN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtBdSnh0AyZjxYAiIb6ISjmTr+md5bx/hEUSsB5/dvsJi78zZvPaTvp+ZdWah2/wuWuqLwf2dqZlxPaQRqotJWJXFOn3OKA8Lm1SOZRVo3pQHakWY78IEPA5ms1Ed2WyO2v2DekDNNmKnRx2myRL5ddOE6bxV0g+wVHHvE/JpKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=xUdX3f89; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1719816140; c=relaxed/simple;
+	bh=+L1gLhPWyiXil0aU/u4hnfAZuN8j6AatG/NJUGyBWYQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gBiXN7MOSz6dqozYPELJQG0/26bYx7afwQ4VNL4ujV+mQj26UUr6TknkWW9u65Ycki6NjUP7lkPdJEVB2+s+hQeyEEyeX5SdYL8DvQv+LfRt3vKltFs881ax15th6skfA+z6XqVf7YFWYBeQzUbWMglK9DBMrLgCs8kiagPOmS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=w6fJcxG6; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="xUdX3f89"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fa9f540f45so12818025ad.1
-        for <linux-doc@vger.kernel.org>; Sun, 30 Jun 2024 21:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1719807880; x=1720412680; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q8FaXxeW49XxQjIVoOOnJuKPW6Isofg2ljkc7tdAOtU=;
-        b=xUdX3f897Grs5cWWuQ2CuoY+jfH5lwciBkIJtBCf7XHn5Vy6PLpf3Y0oEYflVH6KRZ
-         cYzqRjL46Mhp7NxfpjavH3SLzSlx/uSa+Ln6e3xWzWkLpvU+SfWd11Q1NUXSphwk/a55
-         6NmKjcHlf15ki8DBVRvoXxG9iAS8BoybM1PwJHIm2FC/Xyljt+0GJqf8Ngywja2J2Ww9
-         D7HdBC8qSbQMyH3T7iDhdnoO18ctAczp+b2l/XZzsQNlAQ1DbgvNmMyhXtCE/zKg1CQ5
-         RXhY8LPV6wTdbxdJutRYXNqMgvPmIWb0wLA295TCggO7vn7bIjBeCllNLk12n3yQw1Ko
-         M1cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719807880; x=1720412680;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q8FaXxeW49XxQjIVoOOnJuKPW6Isofg2ljkc7tdAOtU=;
-        b=nFT2SI4rvdlzNlLSsIcaWlBQ3Q/Db7ZbNrqWNlBMMUdmysYFYL2IuUqgZJr21Q0VwA
-         8ZL/s619smk4gA9bZZywq/t0g3vK0rif0vOVvknBrYvz/sTwS2stpLRWXeRLTLzYYqsT
-         gTQyUkrIIO4KHpwrIn/D9eWTzouwaflVE54QgFzQbAFG8I8xs0Cz9lvtz2G9cAfFp4cb
-         LMBUDj1eej/sH51PKseNQBBPXgGS/Uf8eJgxQjfJiS4OjFv/6E4SwAkG+o+/5i+wpz1I
-         i5Oh5buj3K3eTDkbEP6cy6sTagkSN64srwhFhvScWF+HKVVgkDvk01vtHfcDOlO7ygx/
-         GB9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWhD9PrONM//2z2wemztDqkdQ9oNIBw1/XhE3NYlt+s+UerSENYY9rvnKv6UMbibeBD8C/OwNsjKz3YzVvybEjZns/1hwGLy4LX
-X-Gm-Message-State: AOJu0Yycx61T87mn3M9k+cEuqHf1lrZs1rtCWCGNbM70oysikJDMfD+I
-	gQe67lyrZvN4Ss3yEBtsYX1cqfDRQaku4N+WwAMvST3WoZK1bVQFDey+bjCp5eQ=
-X-Google-Smtp-Source: AGHT+IFKQ7mlIRHK3qLypxLI+wB6C/xuRboouR5zOv5/KrFwuLBxwDWk/1+R28Hzvt5tq0xC0UW+Zw==
-X-Received: by 2002:a17:902:d2cc:b0:1fa:2d0:f85b with SMTP id d9443c01a7336-1fadbce9d59mr26040185ad.49.1719807879574;
-        Sun, 30 Jun 2024 21:24:39 -0700 (PDT)
-Received: from dread.disaster.area (pa49-179-32-121.pa.nsw.optusnet.com.au. [49.179.32.121])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac1569051sm53926215ad.215.2024.06.30.21.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jun 2024 21:24:39 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1sO8ai-00HWNB-2Q;
-	Mon, 01 Jul 2024 14:24:36 +1000
-Date: Mon, 1 Jul 2024 14:24:36 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: dan.j.williams@intel.com, vishal.l.verma@intel.com,
-	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
-	jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
-	will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
-	dave.hansen@linux.intel.com, ira.weiny@intel.com,
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
-	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-	jhubbard@nvidia.com, hch@lst.de
-Subject: Re: [PATCH 00/13] fs/dax: Fix FS DAX page reference counts
-Message-ID: <ZoIvhDvzMCw28VBI@dread.disaster.area>
-References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="w6fJcxG6"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1719816128; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=xC5V9FxBvzJbpDR6tzK42w9tfK3G4dB8HG8E1rfAlg8=;
+	b=w6fJcxG6n154X855fSDQ3sHND/vYniqhxVFCQGWpP5TAUghI9IV5FjIj6tqCbMTCbjLQDjjvhcPtBLTVcEfH2piH8jMsd5bsb+P6pvNd0o+xe6xS4JTs8vF35QIHfqDbvfgvo8EQBTwb7jME88igKwrdN8CCldLJ3No8wEnM9M0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=wodemia@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W9agurl_1719816125;
+Received: from localhost.localdomain(mailfrom:wodemia@linux.alibaba.com fp:SMTPD_---0W9agurl_1719816125)
+          by smtp.aliyun-inc.com;
+          Mon, 01 Jul 2024 14:42:08 +0800
+From: Tao Zou <wodemia@linux.alibaba.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Tao Zou <wodemia@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
+Date: Mon,  1 Jul 2024 14:41:53 +0800
+Message-Id: <20240701064153.62303-1-wodemia@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 27, 2024 at 10:54:15AM +1000, Alistair Popple wrote:
-> FS DAX pages have always maintained their own page reference counts
-> without following the normal rules for page reference counting. In
-> particular pages are considered free when the refcount hits one rather
-> than zero and refcounts are not added when mapping the page.
-> 
-> Tracking this requires special PTE bits (PTE_DEVMAP) and a secondary
-> mechanism for allowing GUP to hold references on the page (see
-> get_dev_pagemap). However there doesn't seem to be any reason why FS
-> DAX pages need their own reference counting scheme.
-> 
-> By treating the refcounts on these pages the same way as normal pages
-> we can remove a lot of special checks. In particular pXd_trans_huge()
-> becomes the same as pXd_leaf(), although I haven't made that change
-> here. It also frees up a valuable SW define PTE bit on architectures
-> that have devmap PTE bits defined.
-> 
-> It also almost certainly allows further clean-up of the devmap managed
-> functions, but I have left that as a future improvment.
-> 
-> This is an update to the original RFC rebased onto v6.10-rc5. Unlike
-> the original RFC it passes the same number of ndctl test suite
-> (https://github.com/pmem/ndctl) tests as my current development
-> environment does without these patches.
+Add translation zh_CN/admin-guide/numastat.rst and link it to
+zh_CN/admin-guide/index.rst while clean its todo entry.
 
-I strongly suggest running fstests on pmem devices with '-o
-dax=always' mount options to get much more comprehensive fsdax test
-coverage. That exercises a lot of the weird mmap corner cases that
-cause problems so it would be good to actually test that nothing new
-got broken in FSDAX by this patchset.
+commit 77691ee92d4a ("Documentation: update numastat explanation")
 
--Dave.
+Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+v4->v5: fix one typo error
+v3->v4: replace "在有无内存节点" with "在包含无内存节点"
+v2->v3: add space in origin commit tag
+v1->v2: drop the useless label "+.. _cn_numastat:" and unnecessary "=",
+	add a commit tag of origin document in commit description
+
+ .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+ .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
+
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index ac2960da33e6..0db80ab830a0 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -68,6 +68,7 @@ Todolist:
+    cpu-load
+    cputopology
+    lockup-watchdogs
++   numastat
+    unicode
+    sysrq
+    mm/index
+@@ -109,7 +110,6 @@ Todolist:
+ *   module-signing
+ *   mono
+ *   namespaces/index
+-*   numastat
+ *   parport
+ *   perf-security
+ *   pm/index
+diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+new file mode 100644
+index 000000000000..4d9817b91870
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+@@ -0,0 +1,48 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/numastat.rst
++:Translator: Tao Zou <wodemia@linux.alibaba.com>
++
++
++=======================
++Numa策略命中/未命中统计
++=======================
++
++/sys/devices/system/node/node*/numastat
++
++所有数据的单位都是页面。巨页有独立的计数器。
++
++numa_hit、numa_miss和numa_foreign计数器反映了进程是否能够在他们偏好的节点上分配内存。
++如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
++加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
++
++通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
++因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
++配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
++上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
++
++更多细节内容:
++
++=============== ============================================================
++numa_hit        一个进程想要从本节点分配内存并且成功。
++
++numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
++
++numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
++
++local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
++
++other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
++
++interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
++=============== ============================================================
++
++你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
++来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
++
++需要注意，在包含无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit、numa_miss和
++numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
++进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
++结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
++numa_hit、numa_miss和numa_foreign统计数据。
 -- 
-Dave Chinner
-david@fromorbit.com
+2.39.3 (Apple Git-146)
+
