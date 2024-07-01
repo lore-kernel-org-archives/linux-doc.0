@@ -1,300 +1,101 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB9E13C3D5
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 08:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9FC8289C
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jul 2024 08:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719823658; cv=none; b=HlrhN85Ftp73MMTP4PnlnUCCcYyD2yMxocEKQUjAcvHHkBGLw5YmEnKAwNqOayfHne6yko7/yR0T6edOckOkOBD21nE/grPdT3Rpl6RHQaLfU84qP6R4pFCJVg926UtLqxaVIP62vrtLbKMVIv2O9FDmvF4nElV+EHI+p717YjQ=
+	t=1719824082; cv=none; b=aJGLtus/dGNcn1Gzi+hL7D83vjftBIkio0WERax6gdZCNZ5feDgKxXfcgvYfgxR6eQ4ub/muip/MDiDIIXvf8LSp/WyAGoRChRwG9ZMjGqUV6YUJDu5G2Ke5yUS/pStObRw4Ay7lj+UT6bEr+VB1QSOE+Z+ANofX9JqMeOdhSf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719823658; c=relaxed/simple;
-	bh=Kbav4cGKIbJm8iy3+dlxX1y2wXHK40wZlm2jEB8JAVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LSWdHzFQ/rQKPUPHEHfH3AeszTIvBWl0OFP/01mI0bTrYLKh45RU0f/5bAgcXQoeAbd6tRpiF+zPTdEjk96mLRUgQlRnWVm3hA9cvDEVD3Cr4CwGSEt8eU9LuQppzPvDWleMrNIqI0RBH9TOyYhLds2bzcKfEO3oXd+sUFVcET4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sOCgq-0005pO-I7; Mon, 01 Jul 2024 10:47:12 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sOCgl-006KYd-QZ; Mon, 01 Jul 2024 10:47:07 +0200
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sOCgl-008Lyc-2K;
-	Mon, 01 Jul 2024 10:47:07 +0200
-Date: Mon, 1 Jul 2024 10:47:07 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH v3 4/5] firmware: imx: add driver for NXP
- EdgeLock Enclave
-Message-ID: <ZoJtC-fgyVWQO57C@pengutronix.de>
-References: <20240617-imx-se-if-v3-0-a7d28dea5c4a@nxp.com>
- <20240617-imx-se-if-v3-4-a7d28dea5c4a@nxp.com>
- <ZnFF_Z48qzpNvPtj@pengutronix.de>
- <AM9PR04MB860446165A0826362E7AF58195D32@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1719824082; c=relaxed/simple;
+	bh=r0qZrtxSrp94FXSfPxju8ybAs8t+CAZoLq166dR+hP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uAzu0w9x7PwRdoO9WD0v11wmfSVJNsIT681RSB7984XUwmaWGrA2AkOkyfj1Ftm4IJs1ByajWwwe2EU94bu3O4x4YtcTnCGICJOAHJNes+wr4Q2B94YOxFpbdKIPLrMZQaEwHtoVygb/rAdMHMCOOZXIqYbee1S0tpGqpdYJfrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=2QOLny48; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="2QOLny48"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-36703b0f914so1631455f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 01:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1719824079; x=1720428879; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u7PYE4fR5mHYdhnN6/gjsaLL3PDggXsWQnnwmWozp1U=;
+        b=2QOLny48L32/JtQuNj5F4k6wu5WIJDSzP7nyn1pu78wn4vfp38nikl6PYeIj9jy46e
+         eM0Dz7L+OcIWlmYyy1vXlPxodLfL4smWdG5CdOGVhZXoaeqgE57vX87sNDbLNF7ke2NZ
+         6IfupzxoBajMPfLJcKNYy47H1JUBCdVO7RubZLR+k96VyS7ZYfaEKDHY76r9JmN1zWOe
+         u94bVddIhY7PgnR7PL0o8PaTiMAdXV5phi+GB0ifriPYjQQW9C3BzvUz2jEgFyG2UoNx
+         sapS2thaVYBx/a5xyLp61+tYfO7srMyu6GqB4Hl5fnB1/gvXuOnwQ62CX/OBZeS4gyaE
+         I3DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719824079; x=1720428879;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u7PYE4fR5mHYdhnN6/gjsaLL3PDggXsWQnnwmWozp1U=;
+        b=jUTNSGp/Ig6Oo7TFZzn29jJiu2KY3nt377Z6aHoTLzDnlAouygoOP7bUZjOt3yaPEQ
+         X0awGkmGhpXI/0BZSx+pTDaGXmFQU7krAxns0sOS89oiulYccBZY1c1Q1+RkPsykE8HP
+         SBdzhlFNkKi6KkVnSo3xhKW0tDUW4GJO8ZV/iYXxwNgat/fCcLn+LEUNcJ7DtVzDF+fE
+         xxvmKiC4z7DyrRvElgaf5lbKnYy1Itinw4OTwYeF5s18hS44hqTQqWwtN57J/opzyeVw
+         ujKBHM88I8W1LDp348RKv2n+/1n1ZIzms5nj67W5hh6+6xPc+LBrOvE7ggyprI2sF8/2
+         qpOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXg1hPLKypQIoHa+jq3V+V08B8ZfE6cj4ULc2DXh3IqYoaUsb6bmczAaO37pBJK3bOSRSQ2c3mgLuAyd035oMLzyGTvI1L35+7c
+X-Gm-Message-State: AOJu0YwChbcu5j3ZHQCnYs8srF+eeg9yDo3W3yBjc4ut8J0Gf5hrZGpb
+	92Lwm1tdX7MBA3IGz9BLUtmKj7Hl2xtzHmYtjMOqp3SPX50PHAdC8Mc3tW54ICU=
+X-Google-Smtp-Source: AGHT+IGa1wF8TP+oCBu6+VQx/YOP72EWk9wpmg6zSpP6/dtCHSuNQs4iuGhYWxcyhosvHjS3WEAEcQ==
+X-Received: by 2002:a05:6000:154e:b0:367:42ce:f004 with SMTP id ffacd0b85a97d-36760aa2ec0mr8279760f8f.23.1719824079645;
+        Mon, 01 Jul 2024 01:54:39 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:1c2d:13b2:676b:59c2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af376f5sm144045935e9.6.2024.07.01.01.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 01:54:39 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: linux-renesas-soc@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 0/1] gpio: add simple logic analyzer using polling
+Date: Mon,  1 Jul 2024 10:54:37 +0200
+Message-ID: <171982407462.12671.10169460529375303678.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240620094159.6785-1-wsa+renesas@sang-engineering.com>
+References: <20240620094159.6785-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB860446165A0826362E7AF58195D32@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 01, 2024 at 07:45:20AM +0000, Pankaj Gupta wrote:
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+
+On Thu, 20 Jun 2024 11:41:57 +0200, Wolfram Sang wrote:
+> Changes since v9:
+> * add comment why late_initcall is used
+> * use .remove_new instead of .remove
+> * add needed includes
+> * use devm for allocating mutex
+> * remove stray ',' in compatible-array
+> * remove success message in probe()
 > 
-> 
-> > -----Original Message-----
-> > From: Sascha Hauer <s.hauer@pengutronix.de>
-> > Sent: Tuesday, June 18, 2024 2:02 PM
-> > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Pengutronix
-> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
-> > Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> > <krzysztof.kozlowski+dt@linaro.org>; devicetree@vger.kernel.org;
-> > imx@lists.linux.dev; linux-kernel@vger.kernel.org; linux-arm-
-> > kernel@lists.infradead.org; linux-doc@vger.kernel.org
-> > Subject: [EXT] Re: [PATCH v3 4/5] firmware: imx: add driver for NXP EdgeLock
-> > Enclave
-> >
-> > Caution: This is an external email. Please take care when clicking links or
-> > opening attachments. When in doubt, report the message using the 'Report
-> > this email' button
-> >
-> >
-> > Hi Pankaj,
-> >
-> > Here's some review feedback. I think it'll take some more rounds to get this
-> > into shape.
-> >
-> > On Mon, Jun 17, 2024 at 12:59:42PM +0530, Pankaj Gupta wrote:
-> > > NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
-> > > embedded in the SoC to support the features like HSM, SHE & V2X, using
-> > > message based communication interface.
-> > >
-> > > The secure enclave FW communicates on a dedicated messaging unit(MU)
-> > > based interface(s) with application core, where kernel is running.
-> > > It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
-> > >
-> > > This patch adds the driver for communication interface to
-> > > secure-enclave, for exchanging messages with NXP secure enclave HW
-> > > IP(s) like EdgeLock Enclave (ELE) from Kernel-space, used by kernel
-> > > management layers like
-> > > - DM-Crypt.
-> > >
-> > > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > ---
-> > >  drivers/firmware/imx/Kconfig        |  12 +
-> > >  drivers/firmware/imx/Makefile       |   2 +
-> > >  drivers/firmware/imx/ele_base_msg.c | 284 +++++++++++++++++++
-> > > drivers/firmware/imx/ele_base_msg.h |  90 ++++++
-> > >  drivers/firmware/imx/ele_common.c   | 233 ++++++++++++++++
-> > >  drivers/firmware/imx/ele_common.h   |  45 +++
-> > >  drivers/firmware/imx/se_ctrl.c      | 536
-> > ++++++++++++++++++++++++++++++++++++
-> > >  drivers/firmware/imx/se_ctrl.h      |  99 +++++++
-> > >  include/linux/firmware/imx/se_api.h |  14 +
-> > >  9 files changed, 1315 insertions(+)
-> > >
-> > > diff --git a/drivers/firmware/imx/Kconfig
-> > > b/drivers/firmware/imx/Kconfig index 183613f82a11..56bdca9bd917 100644
-> > > --- a/drivers/firmware/imx/Kconfig
-> > > +++ b/drivers/firmware/imx/Kconfig
-> > > @@ -22,3 +22,15 @@ config IMX_SCU
-> > >
-> > >         This driver manages the IPC interface between host CPU and the
-> > >         SCU firmware running on M4.
-> > > +
-> > > +config IMX_SEC_ENCLAVE
-> > > +     tristate "i.MX Embedded Secure Enclave - EdgeLock Enclave Firmware
-> > driver."
-> > > +     depends on IMX_MBOX && ARCH_MXC && ARM64
-> > > +     default m if ARCH_MXC
-> > > +
-> > > +     help
-> > > +       It is possible to use APIs exposed by the iMX Secure Enclave HW IP
-> > called:
-> > > +          - EdgeLock Enclave Firmware (for i.MX8ULP, i.MX93),
-> > > +          like base, HSM, V2X & SHE using the SAB protocol via the shared
-> > Messaging
-> > > +          Unit. This driver exposes these interfaces via a set of file descriptors
-> > > +          allowing to configure shared memory, send and receive messages.
-> > > diff --git a/drivers/firmware/imx/Makefile
-> > > b/drivers/firmware/imx/Makefile index 8f9f04a513a8..aa9033e0e9e3
-> > > 100644
-> > > --- a/drivers/firmware/imx/Makefile
-> > > +++ b/drivers/firmware/imx/Makefile
-> > > @@ -1,3 +1,5 @@
-> > >  # SPDX-License-Identifier: GPL-2.0
-> > >  obj-$(CONFIG_IMX_DSP)                += imx-dsp.o
-> > >  obj-$(CONFIG_IMX_SCU)                += imx-scu.o misc.o imx-scu-irq.o rm.o
-> > imx-scu-soc.o
-> > > +sec_enclave-objs             = se_ctrl.o ele_common.o ele_base_msg.o
-> > > +obj-${CONFIG_IMX_SEC_ENCLAVE}        += sec_enclave.o
-> > > diff --git a/drivers/firmware/imx/ele_base_msg.c
-> > > b/drivers/firmware/imx/ele_base_msg.c
-> > > new file mode 100644
-> > > index 000000000000..5bfd9c7e3f7e
-> > > --- /dev/null
-> > > +++ b/drivers/firmware/imx/ele_base_msg.c
-> > > @@ -0,0 +1,284 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Copyright 2024 NXP
-> > > + */
-> > > +
-> > > +#include <linux/types.h>
-> > > +#include <linux/completion.h>
-> > > +#include <linux/dma-mapping.h>
-> > > +
-> > > +#include "ele_base_msg.h"
-> > > +#include "ele_common.h"
-> > > +
-> > > +int ele_get_info(struct device *dev, struct ele_dev_info *s_info) {
-> >
-> > I think all currently exported functions should take a struct se_if_priv
-> > * as context pointer.
-> > I can't find any place in which any of these functions is called differently than
-> > with priv->dev.
-> 
-> All the API(s) that construct a message to be exchanged over the device-interface to FW,
-> - will be the exported symbols in the next patch-set, to be used by other Linux kernel modules like: NVMEM driver, linux crypto framework, security/keys etc.
-> - These other Linux layers have to choose from multiple similar devices per secure-enclave.
-> 
-> Kindly Consider these API(s), to be the EXPORT SYMBOLS, in later patches, when used outside of this driver.
+> [...]
 
-In that case you could still add a function which translates a struct
-device * into a struct se_if_priv *.
+Applied, thanks!
 
-> >
-> > > +     struct se_if_priv *priv = dev_get_drvdata(dev);
+[1/1] gpio: add sloppy logic analyzer using polling
+      commit: 7828b7bbbf2074dd7dd14d87f50bc5ce9036d692
 
-This function should also include some sanity checks. It's not good that
-an exported function takes some struct device *, blindly assumes that
-it is of type se_if_priv, and if not just crashes the Kernel.
-
-> > > +static int imx_fetch_se_soc_info(struct se_if_priv *priv,
-> > > +                              const struct imx_se_node_info_list
-> > > +*info_list) {
-> > > +     const struct imx_se_node_info *info;
-> > > +     struct soc_device_attribute *attr;
-> > > +     struct soc_device *sdev;
-> > > +     u64 serial_num;
-> > > +     u16 soc_rev;
-> > > +     int err = 0;
-> > > +
-> > > +     info = priv->info;
-> > > +
-> > > +     /* This function should be called once.
-> > > +      * Check if the soc_rev is zero to continue.
-> > > +      */
-> > > +     if (priv->soc_rev)
-> > > +             return err;
-> >
-> > Just return 0 here. It takes one step less to understand what this is about.
-> Replacing "err" with "ret", in better understanding.
-
-What I meant that you should return the constant '0' here instead of the
-content of a variable. It safes a reader from looking up the value of
-the variable which means it's one step less for the brain to understand
-the code.
-
-> > > +
-> > > +     if (info->se_fetch_soc_info) {
-> > > +             err = info->se_fetch_soc_info(priv->dev, &soc_rev, &serial_num);
-> > > +             if (err < 0) {
-> > > +                     dev_err(priv->dev, "Failed to fetch SoC Info.");
-> > > +                     return err;
-> > > +             }
-> > > +     } else {
-> > > +             dev_err(priv->dev, "Failed to fetch SoC revision.");
-> > > +             if (info->soc_register)
-> > > +                     dev_err(priv->dev, "Failed to do SoC registration.");
-> > > +             err = -EINVAL;
-> > > +             return err;
-> > > +     }
-> >
-> > i.MX93 doesn't have a info->se_fetch_soc_info. Does this mean it doesn't work
-> > on this SoC?
-> >
-> Yes.
-
-Will you fix this?
-
-> > > +     priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > > +     if (!priv) {
-> > > +             ret = -ENOMEM;
-> > > +             goto exit;
-> > > +     }
-> > > +
-> > > +     dev_set_drvdata(dev, priv);
-> > > +
-> > > +     /* Mailbox client configuration */
-> > > +     priv->se_mb_cl.dev              = dev;
-> > > +     priv->se_mb_cl.tx_block         = false;
-> > > +     priv->se_mb_cl.knows_txdone     = true;
-> > > +     priv->se_mb_cl.rx_callback      = se_if_rx_callback;
-> > > +
-> > > +     ret = se_if_request_channel(dev, &priv->tx_chan,
-> > > +                     &priv->se_mb_cl, info->mbox_tx_name);
-> > > +     if (ret)
-> > > +             goto exit;
-> > > +
-> > > +     ret = se_if_request_channel(dev, &priv->rx_chan,
-> > > +                     &priv->se_mb_cl, info->mbox_rx_name);
-> > > +     if (ret)
-> > > +             goto exit;
-> > > +
-> > > +     priv->dev = dev;
-> > > +     priv->info = info;
-> > > +
-> > > +     mutex_init(&priv->se_if_lock);
-> > > +     mutex_init(&priv->se_if_cmd_lock);
-> > > +
-> > > +     priv->cmd_receiver_dev = NULL;
-> > > +     priv->waiting_rsp_dev = NULL;
-> >
-> > These are NULL already.
-> For code readability, it is good to know when and with what value it is initialized.
-> It will help review the 'if' condition based on these structure member variable.
-> Will covert this information into comments.
-
-We already know they are NULL because you used kzalloc to allocate the
-struct. No need to comment that.
-
-Sascha
-
+Best regards,
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
