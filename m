@@ -1,216 +1,135 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D02A1DA30F
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 22:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9611DA336;
+	Tue,  2 Jul 2024 23:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719958970; cv=none; b=KChRtV4zXFmiRSPvFzvA2KRC9LwIe+f2ZDdJZOO8FaWGziLR4SvCOe2IK2lsLh90TTtCBsyp1N6gQHcuJNnuf/Dfx8YcNv+qigr3o1AmbW49RsSHC48AbYQ4EhkEFFMS3KhFEI5O58nnrCbREnbozrW/8rNORknMlnBznPv+sXc=
+	t=1719961796; cv=none; b=j9PnT6/MnZG/PnukoTmwVRgLfsfFn1cFOfR10asFzCuFnh+IOQJ47Ey6zdLWZoxqA3rtQs6ynEnJTcz0KYh6bjGh91ht3sjIJ4Dg/VK4+KQE/7ESV/C6gqFIdAu88ImB13qVp6YRio6ZV9D7uZ1VsAne6QiPUSz/Ka6mI0F4ves=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719958970; c=relaxed/simple;
-	bh=NHOWiWOwWkWjt43c2sZEwV67bQhm4bQuKR/fXOr1FYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0mzDgkPHBMKCWPqBtx6/l9iHiiLyL4CguVCMSs0jzdz1IwU1YFkXOwtZ/nI/ljBF/gwa9yoO7Vn3HBIWmUHAmJJQGNueMMeyrTPwCJAjh6cZ8UXwWruSUrI5V8U+u5ClJCvm+k5Rg1HIjSoy+LSWoFIAAMfkGH0iWJ4NKS7Dco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rGzJiUgW; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1719961796; c=relaxed/simple;
+	bh=y9N33F06ZryHfZyNCGspkxZ0ZNsGT6P0cegl8jrhM58=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t/4E8yHMWmkdlzCQWJYG67X6upBzGBNLy/lIe0uk7P7Adw395nwmDAMeyY0urrnWvXsWn1CY7pAa+XjO8KYUl8LpsgHnwol5TW+8v0XuT41a78/hDiRVVMpcfFGJ796dyTTnjL2rKqVTuNDuusJBIfWqOpRehQKkOfUYt2+49/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kIHtGzAN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rGzJiUgW"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7065a2f4573so3291831b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 15:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719958967; x=1720563767; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2HAreNgSKd2flbDmhZ9kzCgXWhr/5FjsTCmFlTvboqE=;
-        b=rGzJiUgWmcbborbR8rbq3iBOf89vBv3y0fIil/UVC0mPXVHoYeqB009ZsXHsZRjwIj
-         18JufHnzW0SPgnJCvafudPURzHW+hXsTvNxEekbgsmRnEW2wynOewuS5Kyfup1SCdWqG
-         NEu4KP711XXsT0Woy1V8UBlzwZczZZOPAYGGG9BOHdtftPEf4RyRGzom1uBFpX7eQ6t3
-         9k/oCjaNPaYtySwct7uctZenPd07FFruVDv5I/xHPzrmaPI5eXV4p8A6GuXhmsITeAB3
-         SCxmikJmTK6K8bZbuqzmCIVoRCq5QBSvBaa/YQFK4uwIByi9Fn7aCeEbDKrsNRGIL7KG
-         Fd9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719958967; x=1720563767;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2HAreNgSKd2flbDmhZ9kzCgXWhr/5FjsTCmFlTvboqE=;
-        b=j25bvJ5BN8QekN52McdIANpiNt2tmDmvcLwkLeym9MBvP2Liz1U8X6XnMj1DHf3K8x
-         wXnQhX+AU99uyaO/hdykuGFoUmVXnAhaiY6smR8SZ3vP1N45IvGRFzV5tJyi74Q2CP/R
-         ZVWCAtUCLPX6TDXjitQhg2LU3uV9bosAkzfr37R6f6ZeruTUgu/ToX0ciVfL96481pzY
-         y6RN7SQE4FRp5Ne7IJZAnQFmSMO4iNmXV+X3eK9D+dOR8ZXSmGsBYEDpZ8WYLOLM4t2G
-         MJaHPM+ilzpfzBnMce6x5J8M91uuR1UFgVIX0ORpphpfg3XbI9YOU/oyTvc8vYhm4v1H
-         zHFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMjG4GmyRVJFk9uKOuDthauiJvzMFjYXVgIvqRJPgMFT0V3/Us8H5xoUNzf3OceDRyXu2QrmyVrA0qS18pWuQdlw0PcF4Fn8vo
-X-Gm-Message-State: AOJu0YwmvITAiDzssQq6l2ZiWTlhBxWJkMjHHpzrDFUCi6k04yYYZ25n
-	J0+h8YPnS0gE8U+HnTmgYUQgfO7BpwSmKEgHoGQGveBZ7yM55UogDvFBm+itkCuWELtrhSQOkxD
-	9
-X-Google-Smtp-Source: AGHT+IFv/UktdfqfVi4xgaaycbPb7pdL54C2mZHYwO0zrmNP80hR83Y1Fy2VM2Z6FDn1I046+MIzxQ==
-X-Received: by 2002:a05:6a20:1586:b0:1be:cb97:a918 with SMTP id adf61e73a8af0-1bef610bf3dmr9638155637.29.1719958967187;
-        Tue, 02 Jul 2024 15:22:47 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70803ecf97csm9053071b3a.127.2024.07.02.15.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 15:22:46 -0700 (PDT)
-Date: Tue, 2 Jul 2024 15:22:43 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Jesse Taube <jesse@rivosinc.com>,
-	linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kIHtGzAN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D61C116B1;
+	Tue,  2 Jul 2024 23:09:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719961796;
+	bh=y9N33F06ZryHfZyNCGspkxZ0ZNsGT6P0cegl8jrhM58=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kIHtGzANmyAGQjd3gd5BY5TBypu6EbczX0pUawHMD/+Q6oalVLzanDd48B//6FBJV
+	 IFOUH6LEmF5UXOSoT4vjqwgrKm3sSbEVRanteFtI1aKLRyfIYTQwCHrX08m7dcqv2D
+	 7SURJ4gukQDBxVyV0cohxnHocbzXX7RIMwsYCLw6ba9uRfVj7bdl+LH+WZDqnJeBYX
+	 tfsVL1eNkq8XIuSKKhq226IsB75GfYpm2/WCQE3KqWtksSUwBZJxXpsXNjduHDaOWR
+	 U0fCVVEkejOguaurUAEfgwzBqGsSfSPfMXAlaLeXYqZRR+21tLX4zIpQzjGnaB2W5u
+	 4XcScGsl4a8Rw==
+From: SeongJae Park <sj@kernel.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: SeongJae Park <sj@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] RISC-V: Check Zicclsm to set unaligned access
- speed
-Message-ID: <ZoR9swwgsGuGbsTG@ghost>
-References: <20240625005001.37901-1-jesse@rivosinc.com>
- <20240625005001.37901-5-jesse@rivosinc.com>
- <20240626-march-abreast-83414e844250@spud>
- <Zn3XrLRl/yazsoZe@ghost>
- <43941f48-9905-4b25-89ef-6ad75bf1a123@rivosinc.com>
- <20240701-ajar-italicize-9e3d9b8a0264@spud>
- <ef639748-3979-4236-b48d-c0c44e2d5ad2@rivosinc.com>
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warnings after merge of the mm tree
+Date: Tue,  2 Jul 2024 16:09:51 -0700
+Message-Id: <20240702230951.78721-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <CACw3F52_obAB742XeDRNun4BHBYtrxtbvp5NkUincXdaob0j1g@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ef639748-3979-4236-b48d-c0c44e2d5ad2@rivosinc.com>
 
-On Mon, Jul 01, 2024 at 04:20:15PM +0200, Clément Léger wrote:
-> 
-> 
-> On 01/07/2024 15:58, Conor Dooley wrote:
-> > On Mon, Jul 01, 2024 at 09:15:09AM +0200, Clément Léger wrote:
-> >>
-> >>
-> >> On 27/06/2024 23:20, Charlie Jenkins wrote:
-> >>> On Wed, Jun 26, 2024 at 03:39:14PM +0100, Conor Dooley wrote:
-> >>>> On Mon, Jun 24, 2024 at 08:49:57PM -0400, Jesse Taube wrote:
-> >>>>> Check for Zicclsm before checking for unaligned access speed. This will
-> >>>>> greatly reduce the boot up time as finding the access speed is no longer
-> >>>>> necessary.
-> >>>>>
-> >>>>> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> >>>>> ---
-> >>>>> V2 -> V3:
-> >>>>>  - New patch split from previous patch
-> >>>>> ---
-> >>>>>  arch/riscv/kernel/unaligned_access_speed.c | 26 ++++++++++++++--------
-> >>>>>  1 file changed, 17 insertions(+), 9 deletions(-)
-> >>>>>
-> >>>>> diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
-> >>>>> index a9a6bcb02acf..329fd289b5c8 100644
-> >>>>> --- a/arch/riscv/kernel/unaligned_access_speed.c
-> >>>>> +++ b/arch/riscv/kernel/unaligned_access_speed.c
-> >>>>> @@ -259,23 +259,31 @@ static int check_unaligned_access_speed_all_cpus(void)
-> >>>>>  	kfree(bufs);
-> >>>>>  	return 0;
-> >>>>>  }
-> >>>>> +#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> >>>>> +static int check_unaligned_access_speed_all_cpus(void)
-> >>>>> +{
-> >>>>> +	return 0;
-> >>>>> +}
-> >>>>> +#endif
-> >>>>>  
-> >>>>>  static int check_unaligned_access_all_cpus(void)
-> >>>>>  {
-> >>>>> -	bool all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
-> >>>>> +	bool all_cpus_emulated;
-> >>>>> +	int cpu;
-> >>>>> +
-> >>>>> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICCLSM)) {
-> >>>>> +		for_each_online_cpu(cpu) {
-> >>>>> +			per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_FAST;
-> >>>>
-> >>>> - const: zicclsm
-> >>>>   description:
-> >>>>     The standard Zicclsm extension for misaligned support for all regular
-> >>>>     load and store instructions (including scalar and vector) but not AMOs
-> >>>>     or other specialized forms of memory access. Defined in the
-> >>>>     RISC-V RVA Profiles Specification. 
-> >>>>
-> >>>> Doesn't, unfortunately, say anywhere there that they're actually fast :(
-> >>>
-> >>> Oh no! That is unfortunate that the ISA does not explicitly call that
-> >>> out, but I think that acceptable.
-> >>>
-> >>> If a vendor puts Zicclsm in their isa string, they should expect
-> >>> software to take advantage of misaligned accesses. FAST is our signal to
-> >>> tell software that they should emit misaligned accesses.
-> >>
-> >> AFAIK, Zicclsm is not even an ISA extension, simply a profile
-> >> specification which means that only the execution environment which
-> >> provides the profile support misaligned accesses (cf
-> >> https://lists.riscv.org/g/tech-profiles/message/56).
-> > 
-> > I dunno, the specification status page used to describe it as an
-> > extension:
-> > https://wiki.riscv.org/display/HOME/Specification+Status+-+Historical
-> > My understanding was that these could be considered extensions, just
-> > like we are considering svade to be one.
-> > 
-> >> . I don't think we
-> >> can extrapolate that the misaligned accesses will be fast at all.
-> > 
-> > That is my opinion on it too. If it doesn't say "fast" and give a
-> > definition for what that means in the binding, then we can't assume that
-> > it is fast. I'm also wary of extending definitions of extensions in the
-> > binding, because a) I am 90% sure that people writing devicetrees don't
-> > care and b) it'd be a potential difference between DT and ACPI without a
-> > real justification (unlike the zkr or svade/svadu situations).
-> 
-> BTW, the profile spec [1] has a note that states the following for Zicclsm:
-> 
-> "Even though mandated, misaligned loads and stores might execute
-> extremely slowly. Standard software distributions should assume their
-> existence only for correctness, not for performance."
-> 
-> Which was also quoted in patch 1, so I guess that settles it.
+Hello Jiaqi,
 
-The intention here was to allow vendors to configure an option to skip
-the probing. This extension does not seem useful as it is written! A way
-around this would be to add a kernel arg to set the access speed but
-maybe it doesn't matter. For the sake of this patch, it looks like we
-should get rid of this Zicclsm check.
 
-- Charlie
+On Mon, 1 Jul 2024 23:37:55 -0700 Jiaqi Yan <jiaqiyan@google.com> wrote:
 
+> On Mon, Jul 1, 2024 at 11:18â€¯PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> > On Mon, 1 Jul 2024 21:33:20 -0700 Jiaqi Yan <jiaqiyan@google.com> wrote:
+> >
+> > > > > This seems a reasonable thing to do so there's probably some way in
+> > > > > which to do it, but a bit of grepping failed to turn up examples in
+> > > > > existing .rst files.  Can someone please suggest?
+> > > >
+> > > > It seems I need to add some blank lines according to [1], especially
+> > > > to add a blank line above the first list item:
+
+According to my understanding and testing on my machine, it seems we need blank
+lines only before and after the blocks.
+
+[...]
 > 
-> Thanks,
+> Ah, sorry Andrew, I should sent out this diff, as there are more blank
+> lines needed:
 > 
-> Clément
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst
+> b/Documentation/admin-guide/sysctl/vm.rst
+> index 75e22137d849..f48eaa98d22d 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -274,12 +274,15 @@ Correctable memory errors are very common on
+> servers. Soft-offline is kernel's
+>  solution for memory pages having (excessive) corrected memory errors.
 > 
-> Link:
-> https://github.com/riscv/riscv-profiles/blob/main/src/profiles.adoc?plain=1#L524
-> [1]
+>  For different types of page, soft-offline has different behaviors / costs.
+> +
+
+So, this was needed to make 'make htmldocs' quiet on my machine.
+
+>  - For a raw error page, soft-offline migrates the in-use page's content to
+>    a new raw page.
+> +
+>  - For a page that is part of a transparent hugepage, soft-offline splits the
+>    transparent hugepage into raw pages, then migrates only the raw error page.
+>    As a result, user is transparently backed by 1 less hugepage, impacting
+>    memory access performance.
+> +
+
+But above two blank lines were not really needed to make 'make htmldocs' calm,
+at least on my setup.  Many other documents also don't have this kind of blank
+line.
+
+>  - For a page that is part of a HugeTLB hugepage, soft-offline first migrates
+>    the entire HugeTLB hugepage, during which a free hugepage will be consumed
+>    as migration target.  Then the original hugepage is dissolved into raw
+> @@ -296,8 +299,11 @@ the request to soft offline the pages.  Its
+> default value is 1.
 > 
-> > 
-> >>> This allows for a generic kernel, like the one a distro would compile, to
-> >>> skip the probing when booting on a system that explicitly called out
-> >>> that the hardware supports misaligned accesses.
+>  It is worth mentioning that after setting enable_soft_offline to 0, the
+>  following requests to soft offline pages will not be performed:
+> +
+
+Interestingly, 'make htmldocs' didn't complain even if I don't put this blank
+line.  But for consistency (see the beginning of sysctl/vm.rst), I think having
+this would be good.
+
+>  - Request to soft offline pages from RAS Correctable Errors Collector.
+> +
+>  - On ARM, the request to soft offline pages from GHES driver.
+> +
+
+Again, same to the reason above, it seems above two blank lines are not really
+needed.
+
+>  - On PARISC, the request to soft offline pages from Page Deallocation Table.
+> 
+>  extfrag_threshold
+> 
+
+I have no strong opinion about these, though.  Having four more blank lines
+that might unnecessary is obviously no problem.
+
+
+Thanks,
+SJ
