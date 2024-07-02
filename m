@@ -1,174 +1,171 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B4A2D02E
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 03:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34A017C77
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 04:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719891483; cv=none; b=uPr3TxI8RqUIJHFyT4WRmF0h7u/WGt4RE8amO7LNEP8J3vcXXNRrR4vvQvXSBIia9jccNOxGi6imFuubcBHD2vYV3CMxkPWVfIdDg7p9AFbLmzKIoIJ6Xy8i7IJGuCF7owHD30vWJHWAHherT8qIPEFT3IWnl+nyQXfULQN4Fs0=
+	t=1719893720; cv=none; b=k+w/9VGer+Q71p0ANZDiQBFT6/YokdHvV83Ms7e503zJlI7Rl/h+w/SZvDxtIwOlVOaZI+HzTbm9AUh8g+X5nWk1rdBaQNJhhnBwNoyjmENtTdFK8Rj50qrhtzes01xbfKJ8akY4Vx1ndUYoOz46DsojoCdrrrsOJHouuqSQ4Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719891483; c=relaxed/simple;
-	bh=mNYnbEap9bA7z0qkRag1hEtUcHyADai5hLopnGzBtmI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eKAGKzvJWTsMVXREgrg36fzEsMeGCvJgWP3bBSsa+cyHXyHF0FhplkORGdWC2l1ZsBCREKdcCLTZW+1syOTb1hBo8+VIAPPEBkA+d2gqz7N3gsgRcH+uJjOSTol5IR7MWj16J4XeLe9lmQInQ8iwz4xugzdhEJ7Ue+pkb9psWzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=acX0G53k; arc=none smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1719893720; c=relaxed/simple;
+	bh=ZWsNogRVnns5cet+PBja4gLwrx9LY7hMmua3yurU3JM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fQfnxeMC1gTR3xVkQxPxlY5czmAhBuA0t7W22u++4wzmtQt3W31wqkyCir8V9ZOzXqUO09X4k9p27Rae3P3E+otdv5GT9RcgS8wQNqqsLwi8uYZiSE+OFUGPG2RYBzAeBCjQDEiPBbeSiUQ6+KVLl7o8fUAbE5TNM4fYpD+o5C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rt7L4I+i; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="acX0G53k"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3d55db7863bso2454583b6e.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 20:38:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rt7L4I+i"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-36743a79dceso2710700f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 21:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1719891481; x=1720496281; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1719893717; x=1720498517; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mf2nftHse7mnih+L4oXIzzh1aSKno0toJKgKYAsFq00=;
-        b=acX0G53kgdQKlyTgAcX4ivkT6HPiGVwHIlB4bKBf2idTTxk1lXXE+eyhSPRkkI2Q5x
-         WwWHmCXzDRtKtqJXvTmjwWg2x8SyWneEaVmgpn6GlBKR1TfsWlx2mJB1A91oYeQOHqCi
-         wPj22PvIElb5RpqBI4sII7cse2ARH+cIE+jwrWK/W26d11eX0YZXQB6yc9TL2aYdwkKW
-         MChvJCtV6clPfck0T3GfEcrsCxFMGx7m/wAiAIimtJbkAXjOwP1Oi70TlA+zI8bspDiP
-         w70YCYiS/CBMcZ9qaXZ/+sAFYSZWdSrVCDxrQAdnc7N89N4YTFOjvT+7o/njWV1zzso/
-         ut2A==
+        bh=EevALuEQAKTYdIpOrLnzivNt8QLRmSfCy/CDC5aK0TA=;
+        b=rt7L4I+i5cmtvgMPqVIboFQV65vRhs1iMvxcIx+ZU+qunZivLHzlyg0lr1XtTlmxLr
+         p2hIJLq2VQGxMmgjB3RSUahoyweaHUjX8/u5mtiSq+zq/7FnvI2PKFL/fpfgvRcNzWxl
+         88jyKSd1AWLxF/eRXLjN9BwOkyN1Tuc1qMJQWM/kwgJs83BqsWOMCzw4OTWBSMYek5XO
+         k2qYuVDVGbnsqyEcQXSl25JacOJlve1sYTPHnphIx62qN6faxweanvIe6eO1XmByx/ir
+         Bpuew3Uji9hxPHHa1cHmGM29BkCZbcYflaZpX2hswjdvOt5gLsPI3p4YrMPyBYmef2eS
+         xtHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719891481; x=1720496281;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1719893717; x=1720498517;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Mf2nftHse7mnih+L4oXIzzh1aSKno0toJKgKYAsFq00=;
-        b=Zhroi0nI8US2EtZljIymzZMIGgsJEB0v4FgEaBwYeUoWwooUDD+bwtLII22EGdeeUz
-         UTVATNPawx7Y2sln9IuNzRCTOpEUFgmoWjEBEk6S/owWXr2Qhr8O0GeDmnaLeA0Vqu1s
-         vylY3w1//qvkwCS08u/d4oSnWVmvqHCTYC/pde4ctSIuW3XR/UxHOeETZINUni419xzW
-         7UkKTmX+gB2/18QC+9eMwYvUGHfmNd+Sd/kGWthQY0+RUP8qHX9mn/HPTlvC9ET36Iwe
-         cgb5bMQ9aGcr2cWWjH2qSoT0fmY5JzpP3GqTu3F45NCMHBQWZ4OY3UC2N74Frh7F4mFR
-         gkrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMSEYh2hx56YEJY6+VyT2oGnffVs0s9V925oyb4MP09VxcTf8bOiPvj62/A8NoEUwLbw8epiTpF6XulPSxwaGk8oLSKTcKHnIP
-X-Gm-Message-State: AOJu0YxWWBQRd3u90Eh0hjCvsf9LUsyKoMqllxt6KL4btJLR8AifkyYA
-	fJ03cPK8lNscYFuLjloosJ6GIfELo9aRLcMV56bHmHheJRgRRAJnbINXJBryWgc=
-X-Google-Smtp-Source: AGHT+IETmkEcCkefLWA5V6ulLJS/8Y5AlXyYZMDR65nnKP80OvJYV1oR8Ah21icBDky6rOj33cY8Sw==
-X-Received: by 2002:a05:6808:4494:b0:3d6:326d:c0df with SMTP id 5614622812f47-3d6b32e43d4mr13487852b6e.22.1719891481072;
-        Mon, 01 Jul 2024 20:38:01 -0700 (PDT)
-Received: from L6YN4KR4K9.bytedance.net ([139.177.225.237])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708045aac85sm7537263b3a.174.2024.07.01.20.37.53
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 01 Jul 2024 20:38:00 -0700 (PDT)
-From: Yunhui Cui <cuiyunhui@bytedance.com>
-To: punit.agrawal@bytedance.com,
-	sunilvl@ventanamicro.com,
-	jesse@rivosinc.com,
-	jrtc27@jrtc27.com,
-	corbet@lwn.net,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	cleger@rivosinc.com,
-	evan@rivosinc.com,
-	conor.dooley@microchip.com,
-	cuiyunhui@bytedance.com,
-	costa.shul@redhat.com,
-	andy.chiu@sifive.com,
-	samitolvanen@google.com,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Palmer Dabbelt <palmer@rivosinc.com>,
-	Anup Patel <anup@brainfault.org>
-Subject: [PATCH v4] RISC-V: Provide the frequency of time CSR via hwprobe
-Date: Tue,  2 Jul 2024 11:37:31 +0800
-Message-Id: <20240702033731.71955-2-cuiyunhui@bytedance.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
-In-Reply-To: <20240702033731.71955-1-cuiyunhui@bytedance.com>
-References: <20240702033731.71955-1-cuiyunhui@bytedance.com>
+        bh=EevALuEQAKTYdIpOrLnzivNt8QLRmSfCy/CDC5aK0TA=;
+        b=PxglOVn5FMyiusuaRc00cM9yXn7PsH98ob6UwNnOmB7SBCVfpL0RqQcfqx5e6OOa7g
+         1yen+x6fo4tWPXsP5zWldwiy8a8x0expuFDnpncgCgfYwOQhXPjjeytJtrA4yowc8HMA
+         /r0uee5WLB0A25T/c4huvhG3tg4nCgrNf/H9z6bgfaApefCscZ0IOeupoNXgIkzqwOyE
+         kU3Gw4eo5ZvS4sOEQXc6FC+AdIw8HDZb6MJeDLZFRRDrEY5meULOBaWwZoCUewKlwffH
+         n5vjy7rcY7YBnTbgR4As+A+lqFxwMPTOxNKfUT79AEmK7XBNV+AJVCcbfDkN3PHOv9rA
+         YWoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfMeTsTTKxYENO4iu8ulQjXJ6L4kb+9kfM6cHNhrF1JYY8MECMrKEbHj/eEMeZ9uGN1xhi+Nf+/yRHYCnYI9ketBRWdMS3oQqY
+X-Gm-Message-State: AOJu0Yw3A5vV8Fgm9SBKMNhmBsTM0y/1Y5aNnSCTpvFACuS5qIDJIRUD
+	+BorNVeg6O1CySdpoLXsIjPc03dqpLRhnnX4VDbdEINuIw/te7E1sDSkl94zxb9YFDgf5utaEOE
+	MJ5Wmug0UJuAz7V/7j2nTeHi9wwiD4Wi1x8amGN9Bg13VZFejwW/g
+X-Google-Smtp-Source: AGHT+IHBcNobxBEs8U0B2IiWSXZ7vTR+8oM61v830nDHqdxeYwUA0Ip4SprAWAT+QBBPSTarwvfJsXsKhnhRNWDVwYI=
+X-Received: by 2002:adf:fa82:0:b0:364:4321:271a with SMTP id
+ ffacd0b85a97d-36760aa2ea8mr8855849f8f.25.1719893716958; Mon, 01 Jul 2024
+ 21:15:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240701184912.01f1f9ce@canb.auug.org.au> <20240701201448.7878e9b35e1569bfc1f2ddbc@linux-foundation.org>
+In-Reply-To: <20240701201448.7878e9b35e1569bfc1f2ddbc@linux-foundation.org>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Mon, 1 Jul 2024 21:15:05 -0700
+Message-ID: <CACw3F52=GxTCDw-PqFh3-GDM-fo3GbhGdu0hedxYXOTT4TQSTg@mail.gmail.com>
+Subject: Re: linux-next: build warnings after merge of the mm tree
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Next Mailing List <linux-next@vger.kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+On Mon, Jul 1, 2024 at 8:15=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> On Mon, 1 Jul 2024 18:49:12 +1000 Stephen Rothwell <sfr@canb.auug.org.au>=
+ wrote:
+>
+> > Hi all,
+> >
+> > After merging the mm tree, today's linux-next build (htmldocs) produced
+> > these warnings:
+> >
+> > Documentation/admin-guide/sysctl/vm.rst:278: ERROR: Unexpected indentat=
+ion.
+> > Documentation/admin-guide/sysctl/vm.rst:279: WARNING: Block quote ends =
+without a blank line; unexpected unindent.
+> >
+> > Introduced by commit
+> >
+> >   2cba7831f62c ("docs: mm: add enable_soft_offline sysctl")
+>
+> Well that's annoying.
+>
+> @@ -267,6 +268,37 @@ used::
+>  These are informational only.  They do not mean that anything is wrong
+>  with your system.  To disable them, echo 4 (bit 2) into drop_caches.
+>
+> +enable_soft_offline
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Correctable memory errors are very common on servers. Soft-offline is ke=
+rnel's
+> +solution for memory pages having (excessive) corrected memory errors.
+> +
+> +For different types of page, soft-offline has different behaviors / cost=
+s.
+> +- For a raw error page, soft-offline migrates the in-use page's content =
+to
+> +  a new raw page.
+> +- For a page that is part of a transparent hugepage, soft-offline splits=
+ the
+> +  transparent hugepage into raw pages, then migrates only the raw error =
+page.
+> +  As a result, user is transparently backed by 1 less hugepage, impactin=
+g
+> +  memory access performance.
+> +- For a page that is part of a HugeTLB hugepage, soft-offline first migr=
+ates
+> +  the entire HugeTLB hugepage, during which a free hugepage will be cons=
+umed
+> +  as migration target.  Then the original hugepage is dissolved into raw
+> +  pages without compensation, reducing the capacity of the HugeTLB pool =
+by 1.
+> +
+> + ...
+>
+> This seems a reasonable thing to do so there's probably some way in
+> which to do it, but a bit of grepping failed to turn up examples in
+> existing .rst files.  Can someone please suggest?
 
-The RISC-V architecture makes a real time counter CSR (via RDTIME
-instruction) available for applications in U-mode but there is no
-architected mechanism for an application to discover the frequency
-the counter is running at. Some applications (e.g., DPDK) use the
-time counter for basic performance analysis as well as fine grained
-time-keeping.
+It seems I need to add some blank lines according to [1], especially
+to add a blank line above the first list item:
 
-Add support to the hwprobe system call to export the time CSR
-frequency to code running in U-mode.
+diff --git a/Documentation/admin-guide/sysctl/vm.rst
+b/Documentation/admin-guide/sysctl/vm.rst
+index 75e22137d849..74b4c0f65213 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -274,12 +274,15 @@ Correctable memory errors are very common on
+servers. Soft-offline is kernel's
+ solution for memory pages having (excessive) corrected memory errors.
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-Reviewed-by: Evan Green <evan@rivosinc.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
-Acked-by: Punit Agrawal <punit.agrawal@bytedance.com>
----
- Documentation/arch/riscv/hwprobe.rst  | 2 ++
- arch/riscv/include/asm/hwprobe.h      | 2 +-
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
- 4 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 25d783be2878..e99008fc4501 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -257,3 +257,5 @@ The following keys are defined:
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
+ For different types of page, soft-offline has different behaviors / costs.
 +
-+* :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `time CSR`.
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 630507dff5ea..150a9877b0af 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,7 +8,7 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 6
-+#define RISCV_HWPROBE_MAX_KEY 7
- 
- static inline bool riscv_hwprobe_key_is_valid(__s64 key)
- {
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 920fc6a586c9..8094b45fe16f 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -79,6 +79,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
- #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
-+#define RISCV_HWPROBE_KEY_TIME_CSR_FREQ	7
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 3d1aa13a0bb2..45f32a60b9c3 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -8,6 +8,7 @@
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/hwprobe.h>
-+#include <asm/delay.h>
- #include <asm/sbi.h>
- #include <asm/switch_to.h>
- #include <asm/uaccess.h>
-@@ -232,6 +233,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 			pair->value = riscv_cboz_block_size;
- 		break;
- 
-+	case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
-+		pair->value = riscv_timebase;
-+		break;
+ - For a raw error page, soft-offline migrates the in-use page's content to
+   a new raw page.
 +
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
- 	 * call, but get their element key set to -1 and value set to 0
--- 
-2.20.1
+ - For a page that is part of a transparent hugepage, soft-offline splits t=
+he
+   transparent hugepage into raw pages, then migrates only the raw error pa=
+ge.
+   As a result, user is transparently backed by 1 less hugepage, impacting
+   memory access performance.
++
+ - For a page that is part of a HugeTLB hugepage, soft-offline first migrat=
+es
+   the entire HugeTLB hugepage, during which a free hugepage will be consum=
+ed
+   as migration target.  Then the original hugepage is dissolved into raw
 
+But I am having trouble testing the build, so wasn't able to validate
+the change above:
+
+Documentation$ make
+/tools/net/ynl/ynl-gen-rst.py -o
+/Documentation/networking/netlink_spec/index.rst -x
+make: /tools/net/ynl/ynl-gen-rst.py: No such file or directory
+make: *** [Makefile:113:
+/Documentation/networking/netlink_spec/index.rst] Error 127
+
+[1] https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bull=
+et-lists
