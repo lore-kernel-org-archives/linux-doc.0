@@ -1,196 +1,102 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C7B1A28C
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 04:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4818F335A5
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 04:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719894818; cv=none; b=dffB2fRkhpLJou51UvKCGNYqd/dNlcDqMPH8wP+FTps/D0zE6+dacaRPKB18UIqW2S/P1MkvfMtuAm3hSPs3X0DKko7LaxG+lwxSTamoGeHpgUWXhGIi3QTFJOX2wDB28ZY2GYib+3XjdLhxPqkQTsc3T7oZN0/SBavHnYZ6okk=
+	t=1719895023; cv=none; b=HqVxlvnDQsaDzejvRHhG4rCRukZnSHA+KJ3Ve6Uo9KqxMxrqM0jyk7pjSrWVMsZL6/CC6ntsq5BDN2C3RLav3Mka8j/aa4QoFj5pcPEPwS87hTD53sTOL9xLoExbk+CDY8mtleJd+qYehilDHBPKwW7RSzhuLcsJbr8sukj+p+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719894818; c=relaxed/simple;
-	bh=helbAJbRih6JEFEDzWsc4hDLbmjo26gsM3G3/7KRtCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KsetdC+gsA8YlyWpuGYPp7XFkDR7mS002Ko0mWL9T8rzjFJOzmLKvDT+96ZGa6satkiFJrq34os1xIRIYOPzSFXdp4V3ncEElL7qhM+14UPlCAxF3to6Uc0NM1FviYBxdsglakBZhvISfqFkk7lvxE7zY0QLaLkLFUAUL0MaeyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZMb+YCUg; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719895023; c=relaxed/simple;
+	bh=COdofZI0yLe7Qei1B6Qkb1Szy1SP27VggR/s5mibXQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ra9AywcOXg1PyNifSaUarG+wYx6AbxgmNjp1DZG+5rVykCzHDBX2srSa8EoV4Q1wUPpk1+KO04RRwGol/Y6095BpXntELtLpEUrneBWj8KOLtKfGmowfSRPk9N0/aQBJSqbs1LSCaeCuX0zCnCsorm+473BN58eFlNobh3LZWdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GtDjdeYG; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZMb+YCUg"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-356c4e926a3so2154508f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 21:33:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GtDjdeYG"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fa9ecfb321so22411315ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 21:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719894814; x=1720499614; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2hACoZqRsGCJqarz3d4IaeWELtsQGiX6WuVT0TwVleE=;
-        b=ZMb+YCUgrfee1QB+kU22xSPZb4RBEWKvixu41naPcollByyd3ZQlmcLU6CXYBbCMFw
-         Lm4p5q+81wtNKjY2Wt4HMWwkEaVZs0/vniCo7a4nCmUjQEdH54WMHPuesrOzY7ke0SEP
-         t3mribvlGCxeHoRsCfykgk2auVQJ8OKMXDayc94YYo2lhpf/DA7HXhVjIJmH9EgNrDnu
-         VOqB/ZmUvYO5Kw2b641ScXL6s+IcgkPwtfF4n/5LuJJkpDtXm/jxtDiU5Y34V3Kg2YdK
-         QghfiEavyXjTktdcdFrdtWgwCcdiGfZCf54hdiNyfsdOhu7wnE6qZQXMmq3w8G7OLbqs
-         pdzA==
+        d=linaro.org; s=google; t=1719895021; x=1720499821; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7wJUnGUJSkYxsQGi1RA4irnfeYuwiGT6Z1uOT3kzXFA=;
+        b=GtDjdeYGK4BC0yJkyn3ns2mqWmG5FIqQFq7QJ09IvM441Zex4Zrtbo7cqrSP5liWev
+         T3Kg8seqh6RwMarmSgWSE+gDjplF2ixQkzeIslLRiL52KTOBAiAofUPOIkPmIqv8OH/+
+         aJAWfOe9t2igz0y7k/0ko0kSP/DRD3t9ZoKyW2BWVspF4LRsxQ4myVgyPiLK+APpLkWG
+         mS74caXNzAYsauDctp2FuIzJBYwKPUu7NaSADBw2/atc6ePg/SzlKxFwRU6OXiR+Kzi8
+         Zuw2OCwsroLJM5B+Tq/kUtzA+fBSr06sONK4qdHW2VdwfiJPRKdldOjRy6py35cbOnUd
+         RYng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719894814; x=1720499614;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2hACoZqRsGCJqarz3d4IaeWELtsQGiX6WuVT0TwVleE=;
-        b=p0DqpZTBMliWBAQ/qwmFI6mm8z3sU7EvkNPgLRh7vU5isA6/1eroSENDa6CXZWkIbY
-         41qvyk3SNo9MHKJo2n4QGtNpD+TUVOpUAKGq8zdTF5YujYjxk+GaZWkmWeDyhpdq3yLd
-         jpIpABx+Ky8QS1cCZkG6gP+L/hRfmik4Mc+TzMS40k4cyHBv1BEdbohV9VD/9zYePFcO
-         tvTK64V9btPNPL+h2akcSJM1mzgfIytGRC+nULh6OhLu0od2QOXlYGmGRmbetlBMeZaB
-         qbQ4PM+9DYQxtnpfEK0vU36ab6XzX4dZlOi7+44U6uvNdx0F8gAZmmtAdX8gENrfTvxs
-         a03A==
-X-Forwarded-Encrypted: i=1; AJvYcCUGYa543oJpp0bXBR8i2JYvaoYT5+iOLK6NgARLJ7G+8lTeyNWpHjwnuBghntTWut1bt+vM72b1t7iA3zmEMRTvPsDSmLwFB1d2
-X-Gm-Message-State: AOJu0YyU1yO6r+6PSusyMzYPywZQJ2+CIeQkUKZajlwppUWwFkJCezBb
-	iRZrs94IvGXfKYl5wFO4t7JWn5w0t0I58+iXCaCpTDyeVzq7fshC47iTCMlNiIys8Eve+EFa0lL
-	YGH6AeNQNP7rAkrvxB2k92QMtpU8trmpGYhC0CeEl42aiqn/09OTx
-X-Google-Smtp-Source: AGHT+IEKCedqhfrqW3JHJeVQYmdhQ5WwMlSAtWVSs49qtQj332c4+w16tm1IY2fFcGRLqKTd7mnLN/vtzwoPFXXMbYY=
-X-Received: by 2002:adf:e246:0:b0:366:ddc2:a14a with SMTP id
- ffacd0b85a97d-367756cf3f2mr4606325f8f.40.1719894813987; Mon, 01 Jul 2024
- 21:33:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719895021; x=1720499821;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7wJUnGUJSkYxsQGi1RA4irnfeYuwiGT6Z1uOT3kzXFA=;
+        b=qbknH/gZshkWGi+XZaN+tKBPYPTq4v3Z296US7jjyFAGG4VUa2otqZSagcCTfUUT4Q
+         x0y6o5rsrLzJbTivzaBf+uhc3b5jkjI+nqsnJdU7kZ9whG8UX752l1I+s3i2aqh4umcu
+         cOjF/KILV0Vry8Ls4wphZ1I4vN9IjW9AUcksQUsbGTdY/smb1iyNO0Krh9KtRItgyDCS
+         LYXKuhJUXUfMeMiqOwYhOzmCDbXOUkhNKK4Y3630xtkvGvIwFwBt1KJxvVMDl8Ux4eUe
+         goAldxZaleGe9FAH7nh+1uKRkovsKEQkdX7LCLMmugBM85nPpvmocFwMXEn6v7yZhGsv
+         2TpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgPO6A7sJYTDVRk78HMLzIsDz6UkGWQXa7TcpX8OqaMGXJ/WHWwFzs4Gt/dE+HTPauEzJAvD3vjTZPgSC03WDnV6/KCCLc5yLT
+X-Gm-Message-State: AOJu0Yxs7FD02TpIftkj26rWaLdiviPMl/BhXrzzdqrMDgXYa9g3uG9I
+	QGYCXtoDTxrFWGi5RoUVQ3fTBvha8NHRCMUsYxa6VswIjg/8+rQQAwyCjJjVp5w=
+X-Google-Smtp-Source: AGHT+IGg5crGPbSnlDPvZdZlEHxAc+4TJ6Al2n+BlUolTHf0JpxXwT5dxv/2p5/mvOy1DIjwWyg1Bw==
+X-Received: by 2002:a17:903:41cb:b0:1fa:bcb:3da4 with SMTP id d9443c01a7336-1fadbc96936mr47120155ad.33.1719895021462;
+        Mon, 01 Jul 2024 21:37:01 -0700 (PDT)
+Received: from localhost ([122.172.82.13])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac10e2197sm73664065ad.63.2024.07.01.21.37.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 21:37:00 -0700 (PDT)
+Date: Tue, 2 Jul 2024 10:06:58 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: "'Rafael J . Wysocki'" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cpufreq: docs: Add missing scaling_available_frequencies
+ description
+Message-ID: <20240702043658.jwumgakxplddqlnx@vireshk-i7>
+References: <20240701171040.369030-1-rgallaispou@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701184912.01f1f9ce@canb.auug.org.au> <20240701201448.7878e9b35e1569bfc1f2ddbc@linux-foundation.org>
- <CACw3F52=GxTCDw-PqFh3-GDM-fo3GbhGdu0hedxYXOTT4TQSTg@mail.gmail.com>
-In-Reply-To: <CACw3F52=GxTCDw-PqFh3-GDM-fo3GbhGdu0hedxYXOTT4TQSTg@mail.gmail.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Mon, 1 Jul 2024 21:33:20 -0700
-Message-ID: <CACw3F52wm=5Rg+QP-E7JDOjBvA2mYv0uDBL+8=KPCfQ8tkHQaA@mail.gmail.com>
-Subject: Re: linux-next: build warnings after merge of the mm tree
-To: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701171040.369030-1-rgallaispou@gmail.com>
 
-On Mon, Jul 1, 2024 at 9:15=E2=80=AFPM Jiaqi Yan <jiaqiyan@google.com> wrot=
-e:
->
-> On Mon, Jul 1, 2024 at 8:15=E2=80=AFPM Andrew Morton <akpm@linux-foundati=
-on.org> wrote:
-> >
-> > On Mon, 1 Jul 2024 18:49:12 +1000 Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote:
-> >
-> > > Hi all,
-> > >
-> > > After merging the mm tree, today's linux-next build (htmldocs) produc=
-ed
-> > > these warnings:
-> > >
-> > > Documentation/admin-guide/sysctl/vm.rst:278: ERROR: Unexpected indent=
-ation.
-> > > Documentation/admin-guide/sysctl/vm.rst:279: WARNING: Block quote end=
-s without a blank line; unexpected unindent.
-> > >
-> > > Introduced by commit
-> > >
-> > >   2cba7831f62c ("docs: mm: add enable_soft_offline sysctl")
-> >
-> > Well that's annoying.
-> >
-> > @@ -267,6 +268,37 @@ used::
-> >  These are informational only.  They do not mean that anything is wrong
-> >  with your system.  To disable them, echo 4 (bit 2) into drop_caches.
-> >
-> > +enable_soft_offline
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Correctable memory errors are very common on servers. Soft-offline is =
-kernel's
-> > +solution for memory pages having (excessive) corrected memory errors.
-> > +
-> > +For different types of page, soft-offline has different behaviors / co=
-sts.
-> > +- For a raw error page, soft-offline migrates the in-use page's conten=
-t to
-> > +  a new raw page.
-> > +- For a page that is part of a transparent hugepage, soft-offline spli=
-ts the
-> > +  transparent hugepage into raw pages, then migrates only the raw erro=
-r page.
-> > +  As a result, user is transparently backed by 1 less hugepage, impact=
-ing
-> > +  memory access performance.
-> > +- For a page that is part of a HugeTLB hugepage, soft-offline first mi=
-grates
-> > +  the entire HugeTLB hugepage, during which a free hugepage will be co=
-nsumed
-> > +  as migration target.  Then the original hugepage is dissolved into r=
-aw
-> > +  pages without compensation, reducing the capacity of the HugeTLB poo=
-l by 1.
-> > +
-> > + ...
-> >
-> > This seems a reasonable thing to do so there's probably some way in
-> > which to do it, but a bit of grepping failed to turn up examples in
-> > existing .rst files.  Can someone please suggest?
->
-> It seems I need to add some blank lines according to [1], especially
-> to add a blank line above the first list item:
->
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst
-> b/Documentation/admin-guide/sysctl/vm.rst
-> index 75e22137d849..74b4c0f65213 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -274,12 +274,15 @@ Correctable memory errors are very common on
-> servers. Soft-offline is kernel's
->  solution for memory pages having (excessive) corrected memory errors.
->
->  For different types of page, soft-offline has different behaviors / cost=
-s.
+On 01-07-24, 19:10, Raphael Gallais-Pou wrote:
+> Add a description of the scaling_available_frequencies attribute in
+> sysfs to the documentation.
+> 
+> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+> ---
+>  Documentation/admin-guide/pm/cpufreq.rst | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+> index 6adb7988e0eb..fe1be4ad88cb 100644
+> --- a/Documentation/admin-guide/pm/cpufreq.rst
+> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+> @@ -267,6 +267,10 @@ are the following:
+>  ``related_cpus``
+>  	List of all (online and offline) CPUs belonging to this policy.
+>  
+> +``scaling_available_frequencies``
+> +	List of available frequencies of the CPUs belonging to this policy
+> +	(in kHz).
 > +
->  - For a raw error page, soft-offline migrates the in-use page's content =
-to
->    a new raw page.
-> +
->  - For a page that is part of a transparent hugepage, soft-offline splits=
- the
->    transparent hugepage into raw pages, then migrates only the raw error =
-page.
->    As a result, user is transparently backed by 1 less hugepage, impactin=
-g
->    memory access performance.
-> +
->  - For a page that is part of a HugeTLB hugepage, soft-offline first migr=
-ates
->    the entire HugeTLB hugepage, during which a free hugepage will be cons=
-umed
->    as migration target.  Then the original hugepage is dissolved into raw
->
-> But I am having trouble testing the build, so wasn't able to validate
-> the change above:
->
-> Documentation$ make
-> /tools/net/ynl/ynl-gen-rst.py -o
-> /Documentation/networking/netlink_spec/index.rst -x
-> make: /tools/net/ynl/ynl-gen-rst.py: No such file or directory
-> make: *** [Makefile:113:
-> /Documentation/networking/netlink_spec/index.rst] Error 127
+>  ``scaling_available_governors``
+>  	List of ``CPUFreq`` scaling governors present in the kernel that can
+>  	be attached to this policy or (if the |intel_pstate| scaling driver is
 
-I tried another way: make htmldocs at repo's root directory. Although
-I wasn't able to finish the make process,
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-- without the blank lines:
-
-  Documentation/admin-guide/sysctl/vm.rst:278: ERROR: Unexpected indentatio=
-n.
-  Documentation/admin-guide/sysctl/vm.rst:279: WARNING: Block quote
-ends without a blank line; unexpected unindent.
-
-- with the blank lines added, the ERROR and WARNING in vm/rst are gone.
-
-Andrew and Stephen, what is the best way to post the fix for this?
-Should I send out a v8 of the patch with the blank lines added? or a
-standalone commit for this fix?
-
->
-> [1] https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bu=
-llet-lists
+-- 
+viresh
