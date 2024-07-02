@@ -1,92 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FBC1C8FDD;
-	Tue,  2 Jul 2024 18:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D77747F;
+	Tue,  2 Jul 2024 19:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719946426; cv=none; b=Vepm9AgbVLZDzFjnnHeIT77YwpB0w9JcAy/l9PSjPEvq7CWJ/hb9w4g8sHXc5jTL+J/8FSZP13U4SmocHyAFYBgVkpZ0GY3V0JEvnJj5C3z2kdJ5jFiKH+y5ebaMLS/gPqI+w2Ax+QQBBZqQTr6hUhjC6nMF+QlADq5Xf/Wt87I=
+	t=1719946836; cv=none; b=QSWMCXTNwriwXGjKLmsd7myGX5pLg6PK4/EFad8I3dt/6WmVEMtZDIVtNP8KjdOj+i6ukOyuwVbknEaGFkyyEwntUoFn21E2dhm2IGGTpjO7kdF8DVyZ0LhEDGcnkWREt+liaSfcRK54jPIW4HBztBzlWQPqXQYyas6/RiMT3hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719946426; c=relaxed/simple;
-	bh=ezJf6cLaqU3OnSCRVrefYWZmn43HHxW31pSvgc4jH2w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WSp3joNkCYzZWOADuC0Mk/Cd579wIo3YBpVXOyqiRF6uDq/18FRjvqY+B1dWMEJcf7ApIKi7oiQREe0puXrqZmrV+3fEyWgxFuFJd+excZTk4SLIjQtRHkLnU/HL9J0pDfl1pjq0WI+kxitRFJ9ANhiz1RXsVGHFAuC+D882y/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsfFomf+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719946836; c=relaxed/simple;
+	bh=8lZGxe1XkKl3YyiIX7/JgyBSoQSInmskZwV4M6OEaJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2tA8TQ1qL3s9HUW8u2b1vPuR8NgtTzLi9ZQp6PSXspkZOT8fBSDKcdB9WMMlQFb5BK9i3WwwAJDKcAD9ralcE82NSP0BCebRqKxaRsn8yXspGn5DQlTzhxBZKPTbmYRX/e+EyqmXlot8Vyhc1mrroc1JpFRPp1t8WQtmQp//cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=VmlQ2aa2; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsfFomf+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF92C116B1;
-	Tue,  2 Jul 2024 18:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719946425;
-	bh=ezJf6cLaqU3OnSCRVrefYWZmn43HHxW31pSvgc4jH2w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SsfFomf+Ctm4KESy4B1sUPqJEIJvRCrqdGStCuhWaTU36j2uizlvsKqh93R+XpY3F
-	 UwtyvJup62dMUxM+TB6bQV/9tLpVmzfHLptK2g9bg9FXVZmywQNgrr+8am1Z1PVvbh
-	 9lKemZ25TBwc5XkDIqU5RKPLDkpd6mzGY+5hEC3K9P/D1wXMK6eoY1lAHUy3mRZofz
-	 KZiAKblSFCSt1h9RepBXuhqjaJJbIjyB1p2vBbFu89GnOLHYsjpoiQey8CyQUlsSbL
-	 Elq2/hRQdrUEtwyXq2q2hXFprDasvr75FeFs6fqNrlQi6a9Kkly0oT4nSCXPoMzBaq
-	 ZWJQX74ruQEQg==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-254c411d816so553029fac.1;
-        Tue, 02 Jul 2024 11:53:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXL8DHQoJqeqlE5hdVLBseXOcSPvr1Y3eIIgSWcgWjaNh+Vy27KAUQ5aNubHvl3zhhaOe7AeyhrKJrUvcwYApLlEotaGkFxTtDk1QCDZP59zjYxCVfEG/2lHdONr5bknhI3dP01/ImfUUE80AfGUppS8jqPH6/cE5QDd31qF+jZ9Ak=
-X-Gm-Message-State: AOJu0Yz+1YLV0NEVsIvd1qri9jEnvlJSHMK7qMUG1IkE9TeSg8ARxJk3
-	XUWDHBYKuijwlmM3Fqoqe2xBirprVmqUN17OpoVp4STmYocX6ECpiVhiZVKmZklmEJP5QNsTzgQ
-	7Gp1FYRVeaccNMXsaLAl5AoNAjRQ=
-X-Google-Smtp-Source: AGHT+IH88BNJJAfIkTe9YwM6yk4Q9nUPD87bjmV/cCgwWZrppHPLHSFtxPXZkRQGaR/cLenYUP4dAz4hXdrm8cmeLng=
-X-Received: by 2002:a05:6871:24d9:b0:25e:922:57ac with SMTP id
- 586e51a60fabf-25e092258c3mr364021fac.1.1719946424777; Tue, 02 Jul 2024
- 11:53:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="VmlQ2aa2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+	t=1719946823; bh=8lZGxe1XkKl3YyiIX7/JgyBSoQSInmskZwV4M6OEaJg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VmlQ2aa2gURNQKsh4qI7+/jsIIpHH3+yuP0XBPPeYaHWSS3dIXac9EuB9llLfhrFT
+	 DLK+uRBjUHPMA+4BirKNH9+FH4ve9o8Vyvr3nsfVY3Q+OAEcNofRuBqvWC9ym574yY
+	 4gDDCCh+CHAglLxoOV2dgHclesXcfptpQB5Tx3Ho=
+Date: Tue, 2 Jul 2024 21:00:23 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Alex Vdovydchenko <xzeol@yahoo.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sean Anderson <sean.anderson@linux.dev>, Guenter Roeck <linux@roeck-us.net>, 
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] hwmon: add MP5920 driver
+Message-ID: <956582ec-0205-46c3-b4dd-820aa150c03d@t-8ch.de>
+References: <20240702115252.981416-1-xzeol@yahoo.com>
+ <20240702115252.981416-3-xzeol@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701171040.369030-1-rgallaispou@gmail.com> <20240702043658.jwumgakxplddqlnx@vireshk-i7>
-In-Reply-To: <20240702043658.jwumgakxplddqlnx@vireshk-i7>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 2 Jul 2024 20:53:33 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0giVPfjJKvZKc1GGk6Rb247ra1Laay167ALD0BQZs8D9w@mail.gmail.com>
-Message-ID: <CAJZ5v0giVPfjJKvZKc1GGk6Rb247ra1Laay167ALD0BQZs8D9w@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: docs: Add missing scaling_available_frequencies description
-To: Viresh Kumar <viresh.kumar@linaro.org>, Raphael Gallais-Pou <rgallaispou@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240702115252.981416-3-xzeol@yahoo.com>
 
-On Tue, Jul 2, 2024 at 6:37=E2=80=AFAM Viresh Kumar <viresh.kumar@linaro.or=
-g> wrote:
->
-> On 01-07-24, 19:10, Raphael Gallais-Pou wrote:
-> > Add a description of the scaling_available_frequencies attribute in
-> > sysfs to the documentation.
-> >
-> > Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-> > ---
-> >  Documentation/admin-guide/pm/cpufreq.rst | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/a=
-dmin-guide/pm/cpufreq.rst
-> > index 6adb7988e0eb..fe1be4ad88cb 100644
-> > --- a/Documentation/admin-guide/pm/cpufreq.rst
-> > +++ b/Documentation/admin-guide/pm/cpufreq.rst
-> > @@ -267,6 +267,10 @@ are the following:
-> >  ``related_cpus``
-> >       List of all (online and offline) CPUs belonging to this policy.
-> >
-> > +``scaling_available_frequencies``
-> > +     List of available frequencies of the CPUs belonging to this polic=
-y
-> > +     (in kHz).
-> > +
-> >  ``scaling_available_governors``
-> >       List of ``CPUFreq`` scaling governors present in the kernel that =
-can
-> >       be attached to this policy or (if the |intel_pstate| scaling driv=
-er is
->
-> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+On 2024-07-02 14:52:51+0000, Alex Vdovydchenko wrote:
+> Add support for MPS Hot-Swap controller mp5920. This driver exposes
+> telemetry and limit value readings and writings.
+> 
+> Signed-off-by: Alex Vdovydchenko <xzeol@yahoo.com>
+> ---
+>  Documentation/hwmon/index.rst  |  1 +
+>  Documentation/hwmon/mp5920.rst | 91 +++++++++++++++++++++++++++++++++
+>  drivers/hwmon/pmbus/Kconfig    |  9 ++++
+>  drivers/hwmon/pmbus/Makefile   |  1 +
+>  drivers/hwmon/pmbus/mp5920.c   | 93 ++++++++++++++++++++++++++++++++++
+>  5 files changed, 195 insertions(+)
+>  create mode 100644 Documentation/hwmon/mp5920.rst
+>  create mode 100644 drivers/hwmon/pmbus/mp5920.c
 
-Applied as 6.11 material, thanks!
+The entry in MAINTAINERS seems to be missing.
+
+Otherwise:
+
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
+
+<snip>
