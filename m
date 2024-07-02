@@ -1,430 +1,190 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA931B580A
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 14:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881641DDD6;
+	Tue,  2 Jul 2024 14:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719929187; cv=none; b=ikZj5x7UCudPVLikKKb+IMvgFvRpDJlGr6cIxdxRB3SScYdcpYiHZAyQ1xj4Yo5NstF6dDEyKf72jy5D8tHjwD5S004rDiVIqI8tF32GxiUhv4tHsuA9ioRMaBVTunV7sg/bDbDJ6QkhURmrwwPeGH7FoBIggWNxUtg/pV/fnnk=
+	t=1719929460; cv=none; b=WujGegQVCqUGD6wmCsnaE0Ixq3TjlXIOp6kkaeXZG+dF0ucSPVECFkRPkxn8zyx10yXdEh97abZTj9W4ShiVkBgDJ2kBGwbCuBae6rkvOifbnFdsKuX0DWjIMRc6RvX77g9No/ZuOXJhWp2uzTvD3QpYs6HM5dvtHEVsmo5yssg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719929187; c=relaxed/simple;
-	bh=ilo5wRApSw+V8N6LY4YP+xHoJXtUl4BvFtNBtTMAOB0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HXIdv7ZVrcxReJq0c/L+BgftDcV0cUrIExIhlE1AqhDLwYqJ6dz7MDOOKRSqOEcq9+qsZPhhlCL7nnGiEdh6wQX1SpMOznwZag6+Ohs5LHq+0nApp4Hfq7InJk5gRby4jlmZYa2Iit0uQ7y6lYvIFcDxcIB1LI0sSquT7gvSNtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AMm3TreV; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719929460; c=relaxed/simple;
+	bh=jB7e0BWJUYy8pnYPEEOc3nSFaGq1u1krnDozmi3jQjM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J+Iopty+QZYF2qTmEqqQGhEcD/Cystd5cr0Nlz263uruqWfRp+mDZD84X7eUG3XVuZkJGMt60SX8a8XLYqwPEraiQq4kQylJ0WhcSlu9jDdLkKXZgYop2JVJi2ekTE5IpylY7CFeC4w0u9tyQLj5UxAo3n02SnsSTZkkLD4X/Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YxCVCEV3; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AMm3TreV"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso24183a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 07:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719929183; x=1720533983; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NNmU32dvBm3gfxYwarWNLU2+3UhXNNMikScGS5Lo7nM=;
-        b=AMm3TreVXc4SCmL9izl5C5r4WVrgiD0aqAw869F28LzOaRs2l2Zm4nArshiNQ1b8EL
-         yAP/DRMOimL3Bq45uhDhGLigzSHvPHN3DR0Y6y7juEgI+RzIzbeHCGXav7zJ/v2PxuEY
-         y3hXjO+SrvF7tecxEqTWngsn1sPJZU0IYbyUjBdaZN49N3WjTKiW1s6oyHRCo0QuKqfr
-         u4Fez0ixdWWNupTwWunhJXKAQQDSgt4udBlsd8s0fZES/kZtOJ5Sw2jTPsUYknjCVjqu
-         zOtulJVtXWR+4GtMjct2CV1JSoCXFpPZFZuYB/Gqd4Vq8cO0tO1gHaCNq+AN7kdOCUPP
-         v5+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719929183; x=1720533983;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NNmU32dvBm3gfxYwarWNLU2+3UhXNNMikScGS5Lo7nM=;
-        b=kSGCxpkkD9smO50FtpKmz4SU6Nxb7g7EXwzhS/of9icZBdLd8ljjnXjQV+opwO99CK
-         ygiK0hsBp+7oDFvEIgh51I55PiYAYAMl945gxePKmSCC1rcBgoFclsvTXUg8Xd8OwKnx
-         +pXHs3DNFsVio0XcAxYCwCIEDVPNI1R2IKxKCt8xvqr2Sh9W1ZhxRiIGO+g5Zpv69vEq
-         N/kjji3QKuwK6QYb58gAZJJuYK+4BYfOT8A+vAFVyM/E3qDqmK0QKZ5GgZtB42mFBDQV
-         ItvqVoI+rFipwEcOnN+g4bjRBfezWYJILuSJwAjJeVtoFzpOMxV5dYOYY498TvMpyPZl
-         rqjA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1BkCkg6UZ61HXgRzsrP8Ka3MyM6cQlr8UQ2aqhax3nE7zVWpHqLyepmsbM/LIJtooIBodTS52ug0+ezm5i63YyxhfZ0fG9gia
-X-Gm-Message-State: AOJu0YzgodhApwxPF2vUQjZytp4Ti8gWM0AcPBtjRpj9tAw42O7ZDRP+
-	U+dy4sIMmWEfRBwzwDXdP6guVTJHKOGYuSm/FLDmp/o6fH+UnEkxZJhuxrOb4BIAdW+DbA6D52+
-	AyE3jlmJlbl+Z1l14goSkOCCbqFSzSH+LmZk7
-X-Google-Smtp-Source: AGHT+IEG7n3/i48gk+qC4VGln3p1L3XzY4pEsX95WNl49QKZclbmPxQTL5jw92OBBJ24lHPaRlK9u6jETGlZtKwmQIg=
-X-Received: by 2002:a50:9e8d:0:b0:58b:21f2:74e6 with SMTP id
- 4fb4d7f45d1cf-58c61e89244mr448a12.0.1719929182092; Tue, 02 Jul 2024 07:06:22
- -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YxCVCEV3"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 462DwE8l027175;
+	Tue, 2 Jul 2024 14:10:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=d
+	DTSHAKS0Syv4Qne1bjB6vcqNRJn3LQKmhsFFS/Xv2k=; b=YxCVCEV36K5XqJKql
+	BBR0a3hGZW6GKYPUpzCG+NsP1wRfGQWYXVNtpEFWxp828rN5xZPGqxQrLAwahztL
+	RLGRkquw4gp/dn8iaxFgokebNU0fV8QzEvUVd6VJfnJUzKCnpXj2VdmuQ3MT6p3S
+	tAQNl3bNcujBxRw22ImHCgSeTBtvGk+Q6rrSHKqFHtcJqg6vfVNOvBQ2tRvLJrX5
+	axxs7WpQx0BiEnjjXiylWFTwlHy/KTxCS8vwfLTZqro88+BmaO35No6riat/Lkgw
+	E6rXsYRdxAoXYMj+1ZYwPWjRPZPaCyBI+gJsI+B80+7Q15nRZ0/EeGdlQ+NioPvD
+	DFX3g==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 404jw9r1a9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Jul 2024 14:10:10 +0000 (GMT)
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 462EAAj5013168;
+	Tue, 2 Jul 2024 14:10:10 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 404jw9r1a1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Jul 2024 14:10:10 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 462CAdDe024071;
+	Tue, 2 Jul 2024 14:10:09 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 402ya3cttf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Jul 2024 14:10:09 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 462EA5mm62128520
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 2 Jul 2024 14:10:08 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AC03C58086;
+	Tue,  2 Jul 2024 14:10:01 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4EFE258051;
+	Tue,  2 Jul 2024 14:09:54 +0000 (GMT)
+Received: from [9.195.35.111] (unknown [9.195.35.111])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  2 Jul 2024 14:09:54 +0000 (GMT)
+Message-ID: <d9625965-6742-4d48-ab8a-60a5a8b6be30@linux.ibm.com>
+Date: Tue, 2 Jul 2024 19:39:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240628003253.1694510-1-almasrymina@google.com> <20240628003253.1694510-10-almasrymina@google.com>
-In-Reply-To: <20240628003253.1694510-10-almasrymina@google.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 2 Jul 2024 16:06:08 +0200
-Message-ID: <CANn89i+3YbpWvmzmGVLQwyUgBpuQND3RbmXgB-AD-Ka9vRkd2A@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 09/14] net: add support for skbs with
- unreadable frags
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 21/21] sched/cputime: Cope with steal time going
+ backwards or negative
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
+ <paul@xen.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira
+ <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jalliste@amazon.co.uk, sveith@amazon.de,
+        zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>,
+        Chenyi Qiang <chenyi.qiang@intel.com>, kvm@vger.kernel.org
+References: <20240522001817.619072-1-dwmw2@infradead.org>
+ <20240522001817.619072-22-dwmw2@infradead.org>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20240522001817.619072-22-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8Kkr1ADykf2YsmO5WnLXu5WZuSB9XAYW
+X-Proofpoint-ORIG-GUID: T3nKIhJIKBS1A199aUafYu2FD1DdVyo8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-02_09,2024-07-02_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ malwarescore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1011
+ impostorscore=0 suspectscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407020103
 
-On Fri, Jun 28, 2024 at 2:33=E2=80=AFAM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> For device memory TCP, we expect the skb headers to be available in host
-> memory for access, and we expect the skb frags to be in device memory
-> and unaccessible to the host. We expect there to be no mixing and
-> matching of device memory frags (unaccessible) with host memory frags
-> (accessible) in the same skb.
->
-> Add a skb->devmem flag which indicates whether the frags in this skb
-> are device memory frags or not.
->
-> __skb_fill_netmem_desc() now checks frags added to skbs for net_iov,
-> and marks the skb as skb->devmem accordingly.
->
-> Add checks through the network stack to avoid accessing the frags of
-> devmem skbs and avoid coalescing devmem skbs with non devmem skbs.
->
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
->
+
+
+On 5/22/24 5:47 AM, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> In steal_account_process_time(), a delta is calculated between the value
+> returned by paravirt_steal_clock(), and this_rq()->prev_steal_time which
+> is assumed to be the *previous* value returned by paravirt_steal_clock().
+> 
+> However, instead of just assigning the newly-read value directly into
+> ->prev_steal_time for use in the next iteration, ->prev_steal_time is
+> *incremented* by the calculated delta.
+
+
+Does this happen because ULONG_MAX and u64 aren't of same size? If so, 
+would using the u64 variant of MAX would be a simpler fix?
+
+> 
+> This used to be roughly the same, modulo conversion to jiffies and back,
+> until commit 807e5b80687c0 ("sched/cputime: Add steal time support to
+> full dynticks CPU time accounting") started clamping that delta to a
+> maximum of the actual time elapsed. So now, if the value returned by
+> paravirt_steal_clock() jumps by a large amount, instead of a *single*
+> period of reporting 100% steal time, the system will report 100% steal
+> time for as long as it takes to "catch up" with the reported value.
+> Which is up to 584 years.
+> 
+> But there is a benefit to advancing ->prev_steal_time only by the time
+> which was *accounted* as having been stolen. It means that any extra
+> time truncated by the clamping will be accounted in the next sample
+> period rather than lost. Given the stochastic nature of the sampling,
+> that is more accurate overall.
+> 
+> So, continue to advance ->prev_steal_time by the accounted value as
+> long as the delta isn't egregiously large (for which, use maxtime * 2).
+> If the delta is more than that, just set ->prev_steal_time directly to
+> the value returned by paravirt_steal_clock().
+> 
+> Fixes: 807e5b80687c0 ("sched/cputime: Add steal time support to full dynticks CPU time accounting")
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->
-> v11:
-> - drop excessive checks for frag 0 pull (Paolo)
->
-> v9: https://lore.kernel.org/netdev/20240403002053.2376017-11-almasrymina@=
-google.com/
-> - change skb->readable to skb->unreadable (Pavel/David).
->
-> skb->readable was very complicated, because by default skbs are readable
-> so the flag needed to be set to true in all code paths where new skbs
-> were created or cloned. Forgetting to set skb->readable=3Dtrue in some
-> paths caused crashes.
->
-> Flip it to skb->unreadable so that the default 0 value works well, and
-> we only need to set it to true when we add unreadable frags.
->
-> v6
-> - skb->dmabuf -> skb->readable (Pavel). Pavel's original suggestion was
->   to remove the skb->dmabuf flag entirely, but when I looked into it
->   closely, I found the issue that if we remove the flag we have to
->   dereference the shinfo(skb) pointer to obtain the first frag, which
->   can cause a performance regression if it dirties the cache line when
->   the shinfo(skb) was not really needed. Instead, I converted the
->   skb->dmabuf flag into a generic skb->readable flag which can be
->   re-used by io_uring.
->
-> Changes in v1:
-> - Rename devmem -> dmabuf (David).
-> - Flip skb_frags_not_readable (Jakub).
->
-> ---
->  include/linux/skbuff.h | 19 +++++++++++++++--
->  include/net/tcp.h      |  5 +++--
->  net/core/datagram.c    |  6 ++++++
->  net/core/skbuff.c      | 48 ++++++++++++++++++++++++++++++++++++++++--
->  net/ipv4/tcp.c         |  3 +++
->  net/ipv4/tcp_input.c   | 13 +++++++++---
->  net/ipv4/tcp_output.c  |  5 ++++-
->  net/packet/af_packet.c |  4 ++--
->  8 files changed, 91 insertions(+), 12 deletions(-)
->
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 3cd06eb3a44da..5438434b61300 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -827,6 +827,8 @@ enum skb_tstamp_type {
->   *     @csum_level: indicates the number of consecutive checksums found =
-in
->   *             the packet minus one that have been verified as
->   *             CHECKSUM_UNNECESSARY (max 3)
-> + *     @unreadable: indicates that at least 1 of the fragments in this s=
-kb is
-> + *             unreadable.
->   *     @dst_pending_confirm: need to confirm neighbour
->   *     @decrypted: Decrypted SKB
->   *     @slow_gro: state present at GRO time, slower prepare step require=
-d
-> @@ -1008,7 +1010,7 @@ struct sk_buff {
->  #if IS_ENABLED(CONFIG_IP_SCTP)
->         __u8                    csum_not_inet:1;
->  #endif
+>  kernel/sched/cputime.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
+> index af7952f12e6c..3a8a8b38966d 100644
+> --- a/kernel/sched/cputime.c
+> +++ b/kernel/sched/cputime.c
+> @@ -254,13 +254,21 @@ static __always_inline u64 steal_account_process_time(u64 maxtime)
+>  {
+>  #ifdef CONFIG_PARAVIRT
+>  	if (static_key_false(&paravirt_steal_enabled)) {
+> -		u64 steal;
 > -
-> +       __u8                    unreadable:1;
->  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
->         __u16                   tc_index;       /* traffic control index =
-*/
->  #endif
-> @@ -1820,6 +1822,12 @@ static inline void skb_zcopy_downgrade_managed(str=
-uct sk_buff *skb)
->                 __skb_zcopy_downgrade_managed(skb);
->  }
->
-> +/* Return true if frags in this skb are readable by the host. */
-> +static inline bool skb_frags_readable(const struct sk_buff *skb)
-> +{
-> +       return !skb->unreadable;
-> +}
+> -		steal = paravirt_steal_clock(smp_processor_id());
+> -		steal -= this_rq()->prev_steal_time;
+> -		steal = min(steal, maxtime);
+> +		u64 steal, abs_steal;
 > +
->  static inline void skb_mark_not_on_list(struct sk_buff *skb)
->  {
->         skb->next =3D NULL;
-> @@ -2536,10 +2544,17 @@ static inline void skb_len_add(struct sk_buff *sk=
-b, int delta)
->  static inline void __skb_fill_netmem_desc(struct sk_buff *skb, int i,
->                                           netmem_ref netmem, int off, int=
- size)
->  {
-> -       struct page *page =3D netmem_to_page(netmem);
-> +       struct page *page;
->
->         __skb_fill_netmem_desc_noacc(skb_shinfo(skb), i, netmem, off, siz=
-e);
->
-> +       if (netmem_is_net_iov(netmem)) {
-> +               skb->unreadable =3D true;
-> +               return;
-> +       }
-> +
-> +       page =3D netmem_to_page(netmem);
-> +
->         /* Propagate page pfmemalloc to the skb if we can. The problem is
->          * that not all callers have unique ownership of the page but rel=
-y
->          * on page_is_pfmemalloc doing the right thing(tm).
-> diff --git a/include/net/tcp.h b/include/net/tcp.h
-> index 2aac11e7e1cc5..e8f6e602c2ad4 100644
-> --- a/include/net/tcp.h
-> +++ b/include/net/tcp.h
-> @@ -1060,7 +1060,7 @@ static inline int tcp_skb_mss(const struct sk_buff =
-*skb)
->
->  static inline bool tcp_skb_can_collapse_to(const struct sk_buff *skb)
->  {
-> -       return likely(!TCP_SKB_CB(skb)->eor);
-> +       return likely(!TCP_SKB_CB(skb)->eor && skb_frags_readable(skb));
->  }
->
->  static inline bool tcp_skb_can_collapse(const struct sk_buff *to,
-> @@ -1069,7 +1069,8 @@ static inline bool tcp_skb_can_collapse(const struc=
-t sk_buff *to,
->         /* skb_cmp_decrypted() not needed, use tcp_write_collapse_fence()=
- */
->         return likely(tcp_skb_can_collapse_to(to) &&
->                       mptcp_skb_can_collapse(to, from) &&
-> -                     skb_pure_zcopy_same(to, from));
-> +                     skb_pure_zcopy_same(to, from) &&
-> +                     skb_frags_readable(to) =3D=3D skb_frags_readable(fr=
-om));
->  }
->
->  static inline bool tcp_skb_can_collapse_rx(const struct sk_buff *to,
-> diff --git a/net/core/datagram.c b/net/core/datagram.c
-> index 95f242591fd23..e1d12f55236df 100644
-> --- a/net/core/datagram.c
-> +++ b/net/core/datagram.c
-> @@ -407,6 +407,9 @@ static int __skb_datagram_iter(const struct sk_buff *=
-skb, int offset,
->                         return 0;
->         }
->
-> +       if (!skb_frags_readable(skb))
-> +               goto short_copy;
-> +
->         /* Copy paged appendix. Hmm... why does this look so complicated?=
- */
->         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
->                 int end;
-> @@ -619,6 +622,9 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, struc=
-t sock *sk,
->         if (msg && msg->msg_ubuf && msg->sg_from_iter)
->                 return msg->sg_from_iter(sk, skb, from, length);
->
-> +       if (!skb_frags_readable(skb))
-> +               return -EFAULT;
-> +
->         frag =3D skb_shinfo(skb)->nr_frags;
->
->         while (length && iov_iter_count(from)) {
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index cc47774bbeb98..1e82222d0a6dd 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -1968,6 +1968,9 @@ int skb_copy_ubufs(struct sk_buff *skb, gfp_t gfp_m=
-ask)
->         if (skb_shared(skb) || skb_unclone(skb, gfp_mask))
->                 return -EINVAL;
->
-> +       if (!skb_frags_readable(skb))
-> +               return -EFAULT;
-> +
->         if (!num_frags)
->                 goto release;
->
-> @@ -2141,6 +2144,9 @@ struct sk_buff *skb_copy(const struct sk_buff *skb,=
- gfp_t gfp_mask)
->         unsigned int size;
->         int headerlen;
->
-> +       if (!skb_frags_readable(skb))
-> +               return NULL;
-> +
->         if (WARN_ON_ONCE(skb_shinfo(skb)->gso_type & SKB_GSO_FRAGLIST))
->                 return NULL;
->
-> @@ -2479,6 +2485,9 @@ struct sk_buff *skb_copy_expand(const struct sk_buf=
-f *skb,
->         struct sk_buff *n;
->         int oldheadroom;
->
-> +       if (!skb_frags_readable(skb))
-> +               return NULL;
-> +
->         if (WARN_ON_ONCE(skb_shinfo(skb)->gso_type & SKB_GSO_FRAGLIST))
->                 return NULL;
->
-> @@ -2823,6 +2832,9 @@ void *__pskb_pull_tail(struct sk_buff *skb, int del=
-ta)
->          */
->         int i, k, eat =3D (skb->tail + delta) - skb->end;
->
-> +       if (!skb_frags_readable(skb))
-> +               return NULL;
-> +
->         if (eat > 0 || skb_cloned(skb)) {
->                 if (pskb_expand_head(skb, 0, eat > 0 ? eat + 128 : 0,
->                                      GFP_ATOMIC))
-> @@ -2976,6 +2988,9 @@ int skb_copy_bits(const struct sk_buff *skb, int of=
-fset, void *to, int len)
->                 to     +=3D copy;
->         }
->
-> +       if (!skb_frags_readable(skb))
-> +               goto fault;
-> +
->         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
->                 int end;
->                 skb_frag_t *f =3D &skb_shinfo(skb)->frags[i];
-> @@ -3164,6 +3179,9 @@ static bool __skb_splice_bits(struct sk_buff *skb, =
-struct pipe_inode_info *pipe,
->         /*
->          * then map the fragments
->          */
-> +       if (!skb_frags_readable(skb))
-> +               return false;
-> +
->         for (seg =3D 0; seg < skb_shinfo(skb)->nr_frags; seg++) {
->                 const skb_frag_t *f =3D &skb_shinfo(skb)->frags[seg];
->
-> @@ -3387,6 +3405,9 @@ int skb_store_bits(struct sk_buff *skb, int offset,=
- const void *from, int len)
->                 from +=3D copy;
->         }
->
-> +       if (!skb_frags_readable(skb))
-> +               goto fault;
-> +
->         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
->                 skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
->                 int end;
-> @@ -3466,6 +3487,9 @@ __wsum __skb_checksum(const struct sk_buff *skb, in=
-t offset, int len,
->                 pos     =3D copy;
->         }
->
-> +       if (!skb_frags_readable(skb))
-> +               return 0;
-> +
->         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
->                 int end;
->                 skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
-> @@ -3566,6 +3590,9 @@ __wsum skb_copy_and_csum_bits(const struct sk_buff =
-*skb, int offset,
->                 pos     =3D copy;
->         }
->
-> +       if (!skb_frags_readable(skb))
-> +               return 0;
-> +
->         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
->                 int end;
->
-> @@ -4057,6 +4084,7 @@ static inline void skb_split_inside_header(struct s=
-k_buff *skb,
->                 skb_shinfo(skb1)->frags[i] =3D skb_shinfo(skb)->frags[i];
->
->         skb_shinfo(skb1)->nr_frags =3D skb_shinfo(skb)->nr_frags;
-> +       skb1->unreadable           =3D skb->unreadable;
->         skb_shinfo(skb)->nr_frags  =3D 0;
->         skb1->data_len             =3D skb->data_len;
->         skb1->len                  +=3D skb1->data_len;
-> @@ -4071,6 +4099,7 @@ static inline void skb_split_no_header(struct sk_bu=
-ff *skb,
->  {
->         int i, k =3D 0;
->         const int nfrags =3D skb_shinfo(skb)->nr_frags;
-> +       const int unreadable =3D skb->unreadable;
->
->         skb_shinfo(skb)->nr_frags =3D 0;
->         skb1->len                 =3D skb1->data_len =3D skb->len - len;
-> @@ -4104,6 +4133,12 @@ static inline void skb_split_no_header(struct sk_b=
-uff *skb,
->                 pos +=3D size;
->         }
->         skb_shinfo(skb1)->nr_frags =3D k;
-> +
-
-Minor point : skb->unreadable can be left as is ?
-
-> +       if (skb_shinfo(skb)->nr_frags)
-> +               skb->unreadable =3D unreadable;
-
-
-Minor point : skb_shinfo(skb1)->nr_frags can't be zero at this point.
-
-> +
-> +       if (skb_shinfo(skb1)->nr_frags)
-> +               skb1->unreadable =3D unreadable;
->  }
-
-This means we probably could remove the unreadable variable and
-
-   skb1->unreadable =3D skb->unreadable;
-
-No need to send a new version, this can be incrementally changed later.
-
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+> +		abs_steal = paravirt_steal_clock(smp_processor_id());
+> +		steal = abs_steal - this_rq()->prev_steal_time;
+> +		if (unlikely(steal > maxtime)) {
+> +			/*
+> +			 * If the delta isn't egregious, it can be counted
+> +			 * in the next time period. Only advance by maxtime.
+> +			 */
+> +			if (steal < maxtime * 2)
+> +				abs_steal = this_rq()->prev_steal_time + maxtime;
+> +			steal = maxtime;
+> +		}
+>  		account_steal_time(steal);
+> -		this_rq()->prev_steal_time += steal;
+> +		this_rq()->prev_steal_time = abs_steal;
+>  
+>  		return steal;
+>  	}
