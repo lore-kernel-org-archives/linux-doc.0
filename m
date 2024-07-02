@@ -1,199 +1,54 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E917159205
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 11:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380B015B103;
+	Tue,  2 Jul 2024 11:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719918501; cv=none; b=Ir0rXQ7v5BqYqmnur9LBSlbVasQcjaB7Nna2K3f0bz9ZdkoGaIZ1qrNYCRj+fHj2ZCjdhFUN4Bb/kgkoIXQqT5bxDHRYF5AqyHBrixKWg+Dbvnurf6O006iQEX6zbeYI5Qk5PK7RMsemrhAqmZbWfhNwGkuCEafewK6ZCJnZ+WI=
+	t=1719920773; cv=none; b=cxlOrq5izm6aj8/h4fCBemCkzIMrDkpeUiiUgsOtZTJRDSlFxectgB6bw0guCyVwx5td0gU7pQtTKEhHusg5EpkF9+hAlY3aA5NU3wl7dlahLPQXs9MMhm2jHW9SooyCmIylIkjLQiBwYNeZ+UeUG++IEd/K9fa2xvDkiTyZYBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719918501; c=relaxed/simple;
-	bh=p2iigvvbcXhuQKdsm3wAClwa/WozdQxNJgLpmemUIpI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AwKL+5gTxfB1PCAlhzOnrRjH0Z446oiqp56PZtcjnk3uMtgLd3eSaA/AU4sBIrKLc8V6bdc4mojDL0PagiGz9nH2aU37E1bwRsx6bJl6FG5WSncZlTuHAzZQ1vTS6D8Cbr3DOrg8obmMWgMlKkrK+K7iJ+T2z5sb5R3BndhJUrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a+THmIy3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+THmIy3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719918499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yLXwC7q0adn0kB7P9GTh9OjXrMCR2dcYkc/lqgAiV5o=;
-	b=a+THmIy3beA68rmXvNpDSjyMni0fL5kLGVdV7UTB+eWF6pselScgTeAxUzGKGyAyJuaUcY
-	jc9geiWbHsmhfxgyeHi8SND39w2TS0ZVLFMAU6tRqZr65l+XVi+bfBuwFgxHs/xxNRCEKr
-	EaPIkMBP8f8f9IYtH6vF/0ryba9z2xw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-AowS4zR2NEmvzcREqLpBFA-1; Tue, 02 Jul 2024 07:08:17 -0400
-X-MC-Unique: AowS4zR2NEmvzcREqLpBFA-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4255f5fbfc6so1835915e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 04:08:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719918496; x=1720523296;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yLXwC7q0adn0kB7P9GTh9OjXrMCR2dcYkc/lqgAiV5o=;
-        b=EwGqRbtPAFqeeqx0fOPmvR5nYtPXvjuYXcjEVzJZRK2gJSvv59oy315HPVApAXOIWv
-         Mkk57QERVGxI8rSXOElDwHUhCGgmuOAt3rfTUT1AoqPITRv7Vf2H51GQHYshwhFFYWk4
-         LatY0KX+JE9Vfl8LyQGZ9U8fESDAyxLaTmqPMH9DyViA92ez3W6ZEtL60rD8tKcK2ijy
-         NFsJUaT1NOwdr9fwZpL3Vh00cSFxkF78xg2g2stGdBNMzBnf7EKETt8oF6JUES7ak2eF
-         LIZIJXe5go0MMJHUtaffF/HFj1sAQ47q+aXboACS80TAsPvfT726iUz/Hb6LkSxAhMLj
-         kUlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUV4wTZMZUTuIE+MfTfSLK9rTjpZ5e+VC5WyyV0P4ys3c1NMF/ZBSshLAHb8tRVK2KZJooXAlNUiNeZfYk4BXhD4KtYMi8t30oe
-X-Gm-Message-State: AOJu0YzdIMjAbsrDDQb458K1DW+mB85HZrw0KKzoLsy09mSY3KgnvJD/
-	W8lcWT0uNEK53OxCsiBpHNqENGh8/GB2UbDWvqZHdESJ3Q4up9d6Zly/6e10GR9waRiaAr48BtG
-	Ki8/RSuzzbDdEoYOEfU1l/dg/uZAq2bp7ACUSmW9UbyWW3oVmlCNw2CQWhA==
-X-Received: by 2002:a05:600c:19c9:b0:424:a74b:32d3 with SMTP id 5b1f17b1804b1-4257a010c08mr62104385e9.0.1719918496677;
-        Tue, 02 Jul 2024 04:08:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKqrIbcrzbaQKWKLXTl4pIVJyKi2r/i/19ZzeCV+kPU4ZooLecdwzZnhxEombaOdJJRY43eg==
-X-Received: by 2002:a05:600c:19c9:b0:424:a74b:32d3 with SMTP id 5b1f17b1804b1-4257a010c08mr62104055e9.0.1719918496277;
-        Tue, 02 Jul 2024 04:08:16 -0700 (PDT)
-Received: from gerbillo.redhat.com ([2a0d:3341:b0a6:6710:872d:b0f7:af0b:a62f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b097bd6sm196621575e9.30.2024.07.02.04.08.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 04:08:15 -0700 (PDT)
-Message-ID: <29c65e23b88002eef6b2a8c272357fa2b2a661b6.camel@redhat.com>
-Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
- netdevice
-From: Paolo Abeni <pabeni@redhat.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
- Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>,  Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,  Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
- Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>,  Shakeel Butt
- <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn
- <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Date: Tue, 02 Jul 2024 13:08:11 +0200
-In-Reply-To: <20240628003253.1694510-4-almasrymina@google.com>
-References: <20240628003253.1694510-1-almasrymina@google.com>
-	 <20240628003253.1694510-4-almasrymina@google.com>
-Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1719920773; c=relaxed/simple;
+	bh=faBHkEfvnz503A9yalKx4skYcKR2V/7jqzANpvrR4aE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGW6LHnjJ9e27wSdoTdT5m2we1rKl2TcjEwf7O3ybIjhvVld0FkMT2iWTMGNRZ+gWXkVKg2ILrwEiaku3gqAHW8+5QFEY5xH7UefTARZpWu7YS2jslROTTe+zx4Rfu+GeaBNNH72aTLK0y8togJXU5WlBmoRHbAnQ7ErEyc2/9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 385AC68AA6; Tue,  2 Jul 2024 13:46:02 +0200 (CEST)
+Date: Tue, 2 Jul 2024 13:46:01 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: David Hildenbrand <david@redhat.com>
+Cc: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, peterx@redhat.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+	david@fromorbit.com
+Subject: Re: [PATCH 06/13] mm/memory: Add dax_insert_pfn
+Message-ID: <20240702114601.GA15426@lst.de>
+References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com> <50013c1ee52b5bb1213571bff66780568455f54c.1719386613.git-series.apopple@nvidia.com> <eb3120fd-44db-4cb3-af3c-a13f9e71380b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb3120fd-44db-4cb3-af3c-a13f9e71380b@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, 2024-06-28 at 00:32 +0000, Mina Almasry wrote:
-> +int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_f=
-d,
-> +			   struct net_devmem_dmabuf_binding **out)
-> +{
-> +	struct net_devmem_dmabuf_binding *binding;
-> +	static u32 id_alloc_next;
-> +	struct scatterlist *sg;
-> +	struct dma_buf *dmabuf;
-> +	unsigned int sg_idx, i;
-> +	unsigned long virtual;
-> +	int err;
-> +
-> +	dmabuf =3D dma_buf_get(dmabuf_fd);
-> +	if (IS_ERR(dmabuf))
-> +		return -EBADFD;
-> +
-> +	binding =3D kzalloc_node(sizeof(*binding), GFP_KERNEL,
-> +			       dev_to_node(&dev->dev));
-> +	if (!binding) {
-> +		err =3D -ENOMEM;
-> +		goto err_put_dmabuf;
-> +	}
-> +
-> +	binding->dev =3D dev;
-> +
-> +	err =3D xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
-> +			      binding, xa_limit_32b, &id_alloc_next,
-> +			      GFP_KERNEL);
-> +	if (err < 0)
-> +		goto err_free_binding;
-> +
-> +	xa_init_flags(&binding->bound_rxq_list, XA_FLAGS_ALLOC);
-> +
-> +	refcount_set(&binding->ref, 1);
-> +
-> +	binding->dmabuf =3D dmabuf;
-> +
-> +	binding->attachment =3D dma_buf_attach(binding->dmabuf, dev->dev.parent=
-);
-> +	if (IS_ERR(binding->attachment)) {
-> +		err =3D PTR_ERR(binding->attachment);
-> +		goto err_free_id;
-> +	}
-> +
-> +	binding->sgt =3D
-> +		dma_buf_map_attachment(binding->attachment, DMA_FROM_DEVICE);
-> +	if (IS_ERR(binding->sgt)) {
-> +		err =3D PTR_ERR(binding->sgt);
-> +		goto err_detach;
-> +	}
-> +
-> +	/* For simplicity we expect to make PAGE_SIZE allocations, but the
-> +	 * binding can be much more flexible than that. We may be able to
-> +	 * allocate MTU sized chunks here. Leave that for future work...
-> +	 */
-> +	binding->chunk_pool =3D
-> +		gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
-> +	if (!binding->chunk_pool) {
-> +		err =3D -ENOMEM;
-> +		goto err_unmap;
-> +	}
-> +
-> +	virtual =3D 0;
-> +	for_each_sgtable_dma_sg(binding->sgt, sg, sg_idx) {
-> +		dma_addr_t dma_addr =3D sg_dma_address(sg);
-> +		struct dmabuf_genpool_chunk_owner *owner;
-> +		size_t len =3D sg_dma_len(sg);
-> +		struct net_iov *niov;
-> +
-> +		owner =3D kzalloc_node(sizeof(*owner), GFP_KERNEL,
-> +				     dev_to_node(&dev->dev));
+On Tue, Jul 02, 2024 at 09:18:31AM +0200, David Hildenbrand wrote:
+> We have this comparably nasty vmf_insert_mixed() that FS dax abused to 
+> insert into !VM_MIXED VMAs. Is that abuse now stopping and are there maybe 
+> ways to get rid of vmf_insert_mixed()?
 
-I'm sorry for not catching this earlier, but it looks like the above
-allocation lacks a NULL check.
-
-Thanks,
-
-Paolo
-
+Unfortunately it is also used by a few drm drivers and not just DAX.
