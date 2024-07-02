@@ -1,315 +1,203 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E281771B51
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 15:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486761AD9E7;
+	Tue,  2 Jul 2024 15:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719933092; cv=none; b=cffol7uS91TtlYPjzusxiHt8blbeKH33XBD2qXeKhr9DOpwfNn1VMTab3LehMOokO8AoO9GwOS/bfnZzo7braIq5y+q0/BSVpdYKB4nR1jqHHFzWje1r3JJVtdbQWDNDO2m1VsGlHpgBUtkTaSpiqDTgjW0WnnJbtmElDIc6dpQ=
+	t=1719933937; cv=none; b=qFhGJxrsimjSVcupi/i2uUl3KOtmBokWE7CaubfYxG9Yj7qdrYTvRWBRAQLGn3/7MA+6jw9F6VASJPXQUvneIuYwW6AGHNWvcYzL7qAs2DDwh7Hy/8akiGkL8x/tm2ZMQuiR4b0An7Z7A9K/ZuwjtN89jv91yT76r7LmsSWUIJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719933092; c=relaxed/simple;
-	bh=gir7lGK92/Fa2opJLUsmD7yi84wn7iEDvli+DyJr/6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DpKNLGciv4qk0Denm2jwRg1Z/a5wquKRJNFj+fT+EQ4xUJLsXFvpRy0Jc5RaS8irOQUnaE83lKZnqYOK5e7lawkVr6rkaFSGTTpCYgCB5WNj7jtfKPJXKNQc/KdQmhAH5u5E3g5HljNMjf2Hw0I12H+eTjytZaC15fAbDYqCbQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=c878DGhW; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1719933937; c=relaxed/simple;
+	bh=yRg+8F091FuUES+JYKaVyH2G6lgo5Hr0AeAjnDuBU74=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=NrygjBQt21fiUZGQlq0tNCGsHpwtpaKc3OvR6wr7fkJtQk7qcV2Aa+axJX1dx6U39HVVK8JFlbLt1IEFDIzQTY8E44qjrEMtFhHfHHWxWcrp/jqXTGi3MT3gUkY2FcmjXOdODvCVObUKbBfhH9+8xw+cHXp1/XjNhafvnpss2U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kEkbHH/X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ITaMGUSc; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="c878DGhW"
-X-Envelope-To: mark-pk.tsai@mediatek.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1719933087;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jsuhCIwX2lHnQpmQXQKzCY+sOzfjRTFPYPQ7y+FMJRE=;
-	b=c878DGhWqM9mpi+EDCykDhJkbM5MxOfvJJKAqu0HOhqbxOCpNfOqkAlqbZzl7SYxuv1BXn
-	1Zr3aBECbeA4OTPvjd8XEJzcQE1ZmiBW90/ay/2vcaXs62+z7fdlgV/kF20XXnCUOYWjKw
-	4XlSs7RxUvxXjuV7sdP3/umS3pbf1XE=
-X-Envelope-To: joro@8bytes.org
-X-Envelope-To: will@kernel.org
-X-Envelope-To: robin.murphy@arm.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: matthias.bgg@gmail.com
-X-Envelope-To: angelogioacchino.delregno@collabora.com
-X-Envelope-To: yj.chiang@mediatek.com
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-mediatek@lists.infradead.org
-X-Envelope-To: iommu@lists.linux.dev
-X-Envelope-To: zenghui.yu@linux.dev
-Message-ID: <d4081e8e-ec30-4aab-bfd2-39b8ebd41c2b@linux.dev>
-Date: Tue, 2 Jul 2024 23:11:13 +0800
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kEkbHH/X";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ITaMGUSc"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 48F9413804AD;
+	Tue,  2 Jul 2024 11:25:33 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 02 Jul 2024 11:25:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1719933933; x=1720020333; bh=//A1hzQZrR
+	Fs+Jf7FIQ+nCDerLffGWLM2hRD5dKs7d4=; b=kEkbHH/XWCSn06of/wqt97JCcJ
+	d63/Ez6gIB61Do7L3zzyqlwIy1tVZClPACYGlmn2ihv8WrN2RKGIuE/YWSDyC5X3
+	NyOBG9hCHKcF6B3d0U6ABCoD0ABGEWQ4onpwFrpFKgwhkPriO5tL2mLgWIzO/S5V
+	BK65nyq5m/J6OOYIDUMu7j60fcabWeGzEZ/nBnJlg794+Dt+QugkelVT9hEEp7Sw
+	Fb6pognCnQ28sK53xdF4VE9qsQQ0GWTJbnxxBqYdwtuQTnzrL2C+BkxLIGKS77ML
+	e992b6+4qaUoXXMBF0AqrVDeY8pVe53x+UuXMFbiYP/7AuoX43hHfXvDlb/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1719933933; x=1720020333; bh=//A1hzQZrRFs+Jf7FIQ+nCDerLff
+	GWLM2hRD5dKs7d4=; b=ITaMGUScvo3efaios+nmJ+l2HFnt+Ouk1xOR9SCejBQX
+	X+nMNacgNPtPKVi4irj4dEYmGrr8FNITbhQUvWqAYQQPILNRrWJVHQULFVvNoLM7
+	rTdtpiL1WJQ2qMf+/vYV45qnUD9+xhUBPDPwmPbuPForpfbAg5MR7IWuf4lWJOgu
+	ZjcC9O6LcbgYKxFqEkJjij/TmMxzFEnaFEMin+DhBtFLzdFURKTy10k+bo8qqvn6
+	Y6zNLEL+rF6C87PnO3yUyXaOLtKKo2b6FHT7E7qU6piIjRurUT67VkufhxxxVfli
+	WkgrL30i15fkwtNeO2lCJCtYhLxBOKJhGEzhWh11AQ==
+X-ME-Sender: <xms:7BuEZttoIOu3FgcnRTCwlUY9enW-fWdSGJA21XR6uYg7nZNfEvYT4A>
+    <xme:7BuEZmeD2xZcTgq_x095S6hIFE_CXNZyvUj2JjppPZHG2X6yvowIK7ZB0ttBhCkdS
+    mKq1RK7-XDTo4l4GAg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgdekiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:7BuEZgzV2V9m7yHeP1-CY_1ToL-7saFDkeYbauhzrcIdP0hWxpdECQ>
+    <xmx:7BuEZkPqG5nj4biEtgHDOMbrIFpZ-CZs4LyXyDGqrlwrKeiI3XmUng>
+    <xmx:7BuEZt-0YpFxDaNOoYfGLVTo6xVdfiYwpii7nZD9L9GApKzNrmdlDg>
+    <xmx:7BuEZkX5ATZdeALUPYBN_7NUDUsZodxq3UocvaVEljBw0ouzzUeugQ>
+    <xmx:7RuEZhWiOkzLt1hDorcP0Kt54ntgBJmUM8iMCFrY5Nkd-AbR7KPNeG0_>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A1149B60092; Tue,  2 Jul 2024 11:25:32 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs: iommu: Remove outdated
- Documentation/userspace-api/iommu.rst
-To: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-Cc: joro@8bytes.org, Will Deacon <will@kernel.org>, robin.murphy@arm.com,
- Jonathan Corbet <corbet@lwn.net>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- yj.chiang@mediatek.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, iommu@lists.linux.dev
-References: <20240702120617.26882-1-mark-pk.tsai@mediatek.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <20240702120617.26882-1-mark-pk.tsai@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <35691b55-436c-4c52-b241-f0c5326227cb@app.fastmail.com>
+In-Reply-To: <20240628003253.1694510-11-almasrymina@google.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-11-almasrymina@google.com>
+Date: Tue, 02 Jul 2024 17:25:11 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Donald Hunter" <donald.hunter@gmail.com>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
+ "Jesper Dangaard Brouer" <hawk@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@fomichev.me>,
+ "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "Steffen Klassert" <steffen.klassert@secunet.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "David Ahern" <dsahern@kernel.org>,
+ "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Nikolay Aleksandrov" <razor@blackwall.org>,
+ "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Yunsheng Lin" <linyunsheng@huawei.com>,
+ "Shailend Chand" <shailend@google.com>,
+ "Harshitha Ramamurthy" <hramamurthy@google.com>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Jeroen de Borst" <jeroendb@google.com>,
+ "Praveen Kaligineedi" <pkaligineedi@google.com>,
+ "Willem de Bruijn" <willemb@google.com>,
+ "Kaiyuan Zhang" <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v15 10/14] tcp: RX path for devmem TCP
+Content-Type: text/plain
 
-[ +Cc IOMMU maintainers and list ]
+On Fri, Jun 28, 2024, at 02:32, Mina Almasry wrote:
+> --- a/arch/alpha/include/uapi/asm/socket.h
+> +++ b/arch/alpha/include/uapi/asm/socket.h
+> @@ -140,6 +140,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
+> 
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
 
-On 2024/7/2 20:05, Mark-PK Tsai wrote:
-> The Documentation/userspace-api/iommu.rst file has become outdated due
-> to the removal of associated structures and APIs.
+Something is still wrong with the number assignment:
+
+> --- a/arch/mips/include/uapi/asm/socket.h
+> +++ b/arch/mips/include/uapi/asm/socket.h
+> @@ -151,6 +151,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
 > 
-> Specifically, struct such as iommu_cache_invalidate_info and guest
-> pasid related uapi were removed in commit 0c9f17877891 ("iommu:
-> Remove guest pasid related interfaces and definitions").
-> And the corresponding uapi/linux/iommu.h file was removed in
-> commit 00a9bc607043 ("iommu: Move iommu fault data to
-> linux/iommu.h").
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
 > 
-> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> ---
->  Documentation/userspace-api/iommu.rst | 209 --------------------------
->  MAINTAINERS                           |   1 -
->  2 files changed, 210 deletions(-)
->  delete mode 100644 Documentation/userspace-api/iommu.rst
+>  #if __BITS_PER_LONG == 64
+
+so alpha and mips use the same numbering system as
+the generic version for existing numbers
+
+> diff --git a/arch/parisc/include/uapi/asm/socket.h 
+> b/arch/parisc/include/uapi/asm/socket.h
+> index be264c2b1a117..2b817efd45444 100644
+> --- a/arch/parisc/include/uapi/asm/socket.h
+> +++ b/arch/parisc/include/uapi/asm/socket.h
+> @@ -132,6 +132,11 @@
+>  #define SO_PASSPIDFD		0x404A
+>  #define SO_PEERPIDFD		0x404B
 > 
-> diff --git a/Documentation/userspace-api/iommu.rst b/Documentation/userspace-api/iommu.rst
-> deleted file mode 100644
-> index d3108c1519d5..000000000000
-> --- a/Documentation/userspace-api/iommu.rst
-> +++ /dev/null
-> @@ -1,209 +0,0 @@
-> -.. SPDX-License-Identifier: GPL-2.0
-> -.. iommu:
-> -
-> -=====================================
-> -IOMMU Userspace API
-> -=====================================
-> -
-> -IOMMU UAPI is used for virtualization cases where communications are
-> -needed between physical and virtual IOMMU drivers. For baremetal
-> -usage, the IOMMU is a system device which does not need to communicate
-> -with userspace directly.
-> -
-> -The primary use cases are guest Shared Virtual Address (SVA) and
-> -guest IO virtual address (IOVA), wherein the vIOMMU implementation
-> -relies on the physical IOMMU and for this reason requires interactions
-> -with the host driver.
-> -
-> -.. contents:: :local:
-> -
-> -Functionalities
-> -===============
-> -Communications of user and kernel involve both directions. The
-> -supported user-kernel APIs are as follows:
-> -
-> -1. Bind/Unbind guest PASID (e.g. Intel VT-d)
-> -2. Bind/Unbind guest PASID table (e.g. ARM SMMU)
-> -3. Invalidate IOMMU caches upon guest requests
-> -4. Report errors to the guest and serve page requests
-> -
-> -Requirements
-> -============
-> -The IOMMU UAPIs are generic and extensible to meet the following
-> -requirements:
-> -
-> -1. Emulated and para-virtualised vIOMMUs
-> -2. Multiple vendors (Intel VT-d, ARM SMMU, etc.)
-> -3. Extensions to the UAPI shall not break existing userspace
-> -
-> -Interfaces
-> -==========
-> -Although the data structures defined in IOMMU UAPI are self-contained,
-> -there are no user API functions introduced. Instead, IOMMU UAPI is
-> -designed to work with existing user driver frameworks such as VFIO.
-> -
-> -Extension Rules & Precautions
-> ------------------------------
-> -When IOMMU UAPI gets extended, the data structures can *only* be
-> -modified in two ways:
-> -
-> -1. Adding new fields by re-purposing the padding[] field. No size change.
-> -2. Adding new union members at the end. May increase the structure sizes.
-> -
-> -No new fields can be added *after* the variable sized union in that it
-> -will break backward compatibility when offset moves. A new flag must
-> -be introduced whenever a change affects the structure using either
-> -method. The IOMMU driver processes the data based on flags which
-> -ensures backward compatibility.
-> -
-> -Version field is only reserved for the unlikely event of UAPI upgrade
-> -at its entirety.
-> -
-> -It's *always* the caller's responsibility to indicate the size of the
-> -structure passed by setting argsz appropriately.
-> -Though at the same time, argsz is user provided data which is not
-> -trusted. The argsz field allows the user app to indicate how much data
-> -it is providing; it's still the kernel's responsibility to validate
-> -whether it's correct and sufficient for the requested operation.
-> -
-> -Compatibility Checking
-> -----------------------
-> -When IOMMU UAPI extension results in some structure size increase,
-> -IOMMU UAPI code shall handle the following cases:
-> -
-> -1. User and kernel has exact size match
-> -2. An older user with older kernel header (smaller UAPI size) running on a
-> -   newer kernel (larger UAPI size)
-> -3. A newer user with newer kernel header (larger UAPI size) running
-> -   on an older kernel.
-> -4. A malicious/misbehaving user passing illegal/invalid size but within
-> -   range. The data may contain garbage.
-> -
-> -Feature Checking
-> -----------------
-> -While launching a guest with vIOMMU, it is strongly advised to check
-> -the compatibility upfront, as some subsequent errors happening during
-> -vIOMMU operation, such as cache invalidation failures cannot be nicely
-> -escalated to the guest due to IOMMU specifications. This can lead to
-> -catastrophic failures for the users.
-> -
-> -User applications such as QEMU are expected to import kernel UAPI
-> -headers. Backward compatibility is supported per feature flags.
-> -For example, an older QEMU (with older kernel header) can run on newer
-> -kernel. Newer QEMU (with new kernel header) may refuse to initialize
-> -on an older kernel if new feature flags are not supported by older
-> -kernel. Simply recompiling existing code with newer kernel header should
-> -not be an issue in that only existing flags are used.
-> -
-> -IOMMU vendor driver should report the below features to IOMMU UAPI
-> -consumers (e.g. via VFIO).
-> -
-> -1. IOMMU_NESTING_FEAT_SYSWIDE_PASID
-> -2. IOMMU_NESTING_FEAT_BIND_PGTBL
-> -3. IOMMU_NESTING_FEAT_BIND_PASID_TABLE
-> -4. IOMMU_NESTING_FEAT_CACHE_INVLD
-> -5. IOMMU_NESTING_FEAT_PAGE_REQUEST
-> -
-> -Take VFIO as example, upon request from VFIO userspace (e.g. QEMU),
-> -VFIO kernel code shall query IOMMU vendor driver for the support of
-> -the above features. Query result can then be reported back to the
-> -userspace caller. Details can be found in
-> -Documentation/driver-api/vfio.rst.
-> -
-> -
-> -Data Passing Example with VFIO
-> -------------------------------
-> -As the ubiquitous userspace driver framework, VFIO is already IOMMU
-> -aware and shares many key concepts such as device model, group, and
-> -protection domain. Other user driver frameworks can also be extended
-> -to support IOMMU UAPI but it is outside the scope of this document.
-> -
-> -In this tight-knit VFIO-IOMMU interface, the ultimate consumer of the
-> -IOMMU UAPI data is the host IOMMU driver. VFIO facilitates user-kernel
-> -transport, capability checking, security, and life cycle management of
-> -process address space ID (PASID).
-> -
-> -VFIO layer conveys the data structures down to the IOMMU driver. It
-> -follows the pattern below::
-> -
-> -   struct {
-> -	__u32 argsz;
-> -	__u32 flags;
-> -	__u8  data[];
-> -   };
-> -
-> -Here data[] contains the IOMMU UAPI data structures. VFIO has the
-> -freedom to bundle the data as well as parse data size based on its own flags.
-> -
-> -In order to determine the size and feature set of the user data, argsz
-> -and flags (or the equivalent) are also embedded in the IOMMU UAPI data
-> -structures.
-> -
-> -A "__u32 argsz" field is *always* at the beginning of each structure.
-> -
-> -For example:
-> -::
-> -
-> -   struct iommu_cache_invalidate_info {
-> -	__u32	argsz;
-> -	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
-> -	__u32	version;
-> -	/* IOMMU paging structure cache */
-> -	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
-> -	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
-> -	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
-> -	#define IOMMU_CACHE_INV_TYPE_NR		(3)
-> -	__u8	cache;
-> -	__u8	granularity;
-> -	__u8	padding[6];
-> -	union {
-> -		struct iommu_inv_pasid_info pasid_info;
-> -		struct iommu_inv_addr_info addr_info;
-> -	} granu;
-> -   };
-> -
-> -VFIO is responsible for checking its own argsz and flags. It then
-> -invokes appropriate IOMMU UAPI functions. The user pointers are passed
-> -to the IOMMU layer for further processing. The responsibilities are
-> -divided as follows:
-> -
-> -- Generic IOMMU layer checks argsz range based on UAPI data in the
-> -  current kernel version.
-> -
-> -- Generic IOMMU layer checks content of the UAPI data for non-zero
-> -  reserved bits in flags, padding fields, and unsupported version.
-> -  This is to ensure not breaking userspace in the future when these
-> -  fields or flags are used.
-> -
-> -- Vendor IOMMU driver checks argsz based on vendor flags. UAPI data
-> -  is consumed based on flags. Vendor driver has access to
-> -  unadulterated argsz value in case of vendor specific future
-> -  extensions. Currently, it does not perform the copy_from_user()
-> -  itself. A __user pointer can be provided in some future scenarios
-> -  where there's vendor data outside of the structure definition.
-> -
-> -IOMMU code treats UAPI data in two categories:
-> -
-> -- structure contains vendor data
-> -  (Example: iommu_uapi_cache_invalidate())
-> -
-> -- structure contains only generic data
-> -  (Example: iommu_uapi_sva_bind_gpasid())
-> -
-> -
-> -
-> -Sharing UAPI with in-kernel users
-> ----------------------------------
-> -For UAPIs that are shared with in-kernel users, a wrapper function is
-> -provided to distinguish the callers. For example,
-> -
-> -Userspace caller ::
-> -
-> -  int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
-> -                                   struct device *dev,
-> -                                   void __user *udata)
-> -
-> -In-kernel caller ::
-> -
-> -  int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
-> -                              struct device *dev, ioasid_t ioasid);
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0748d6bd0c4f..1359ed17337e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11544,7 +11544,6 @@ L:	iommu@lists.linux.dev
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
->  F:	Documentation/devicetree/bindings/iommu/
-> -F:	Documentation/userspace-api/iommu.rst
->  F:	drivers/iommu/
->  F:	include/linux/iommu.h
->  F:	include/linux/iova.h
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+
+parisc uses a different number, but you start using the
+generic version here. This is probably fine but needs 
+a comment.
+
+> index 8ce8a39a1e5f0..25a2f5255f523 100644
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -135,6 +135,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
+> 
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	99
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+
+These on the other hand look like a typo: did you
+mean number 78 and 79 instead of 98 and 99?
+
+Alternatively, you could continue with number 87,
+which is the next unused number on sparc, and have
+the same numbers on all architectures?
+
+     Arnd
