@@ -1,332 +1,124 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E4814D703;
-	Tue,  2 Jul 2024 12:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2CC82488
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 12:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719921988; cv=none; b=eW0PNleh51lNhgHYD4N548zkCiYCvJdLv0UiSUV4Y0X6u1E+1MsGhGV+mohPzxO+6Gt7uoGWr8Id763MnAB/0HQMQlbAzYoCRYPqNJZZcdSyknltTU8Z/Fneo+Q9DUzWhc/fRLBD5/h89DAVCZCsbPbZVCkH/a40DBTWciOMMAA=
+	t=1719922340; cv=none; b=KZrPFi7tQ6O4s9aD3EdMHab/NNukxlIh1f4cvoGeDnsyD3cEsbGKPVXsnODAgNFR1TD8Y2kb0rbuLPAv6R2RdYHtXw5E1svO2gGzh+q30ZTCIUYZ9gZLLhV4Bdj6E1j39KwV84UU1g8AzMQQb8v9c60i7azGw7ksjMu6L9VcmzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719921988; c=relaxed/simple;
-	bh=utogO98dv+yZsk2Q5Ay914xrDaebYQbQ7fWLJh7Fet4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ht/5PZ3H/0TzgczDE+r2fG/ehSeDPrdCekx/Ztrg0zoIEY83EIt1rD+/A+P62KlGA83U+uF56zp1UKz/0Saiy5lMghNrSKEKQOqGeO7OglD2WdIkiolPxyGVg0zcKTV8JFaEx+20cRiu34lDKw+PVd6AEvkpW5stuKs4POZIiH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=NInxXruc; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1719922340; c=relaxed/simple;
+	bh=pQF1gmroJLyYPwVp6Y99BEq59Xm9uFxtaNDkFEsBrCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H5LbnHLfKcKTLNFvKsJHGFvdIawin/YiUylL5W7hij6IyDK8WUoHwVyWn30JAirXJr4i4yYyJfeuJ9gXWYkxgm5Cp/c8uWMyDjsUayXCsIHZrWfUWZumyMXMO2/6ctI/5rM+jbnaGO2clE8qv7VzAKFZHI5xZKOQKpqChbp+zwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XKXQozUz; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="NInxXruc"
-X-UUID: 7eff8ae4386b11ef8b8f29950b90a568-20240702
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=0mrI+RsHjTTpEAV2tGpNTW+vQuiH/LV8BxE+CGYxcEw=;
-	b=NInxXrucJFWgZY1DTjIEDhQ1GLYp2RZRWpmgSTfNuP340XMc3wkUgDxVk+tF2gVjh6rXDWz3gTwxP0JcF9DQC3u/Tv3jvBgcn7/iyEHmuwa8RB5SiUGlqkSgr1ZarTrHsmJv5UFXYf4Y2zzuAyy7dwF4rarKu2szIhbLtkpz95o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.40,REQID:40e51570-a5ec-4a8d-992d-cc3074f5d266,IP:0,U
-	RL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-20
-X-CID-META: VersionHash:ba885a6,CLOUDID:88ebf90c-46b0-425a-97d3-4623fe284021,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:1,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 7eff8ae4386b11ef8b8f29950b90a568-20240702
-Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
-	(envelope-from <mark-pk.tsai@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 650432800; Tue, 02 Jul 2024 20:06:21 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 2 Jul 2024 20:06:19 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 2 Jul 2024 20:06:19 +0800
-From: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-To: Jonathan Corbet <corbet@lwn.net>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>
-CC: <yj.chiang@mediatek.com>, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH] docs: iommu: Remove outdated Documentation/userspace-api/iommu.rst
-Date: Tue, 2 Jul 2024 20:05:39 +0800
-Message-ID: <20240702120617.26882-1-mark-pk.tsai@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XKXQozUz"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ebeefb9a7fso46573021fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 05:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1719922337; x=1720527137; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0xngQr25p1sZV26OzUH+Wi8Y6ZPE5TWk/yG5cCxzrxs=;
+        b=XKXQozUzPq4pL0A+FXFqOsuRVFBYQA9FdTkzFWzWagHTvU/g7cvksv85USBzJoXZTP
+         LY94RmODBTbw3NJRDJSFw11aeEdU2Y66L2fCaguWPjG0vfN7QmIA6Vm6sicZBfG6n4qW
+         Gfc6IUhaQ5JURYm00CsEfyKhx5PJDB22YX1Kc47Np4LtkR3O+I4UuTYbjEaZlPIks9Ud
+         eHNDXSM1Et3Hp4IJMuIS8qz0cYM3wUPAvZ+717JC+6kXchq0oVcgox9eDZ55v0Gco/TB
+         wHXdeuQZ0sKEwfH0Xy4X4vjb6h6G38zmdm85ZtA2hktD2oNK8kebQXBPIsenZ8cO8wom
+         L/sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719922337; x=1720527137;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0xngQr25p1sZV26OzUH+Wi8Y6ZPE5TWk/yG5cCxzrxs=;
+        b=rz7c/tQSIOioy1Rbv+AE0M2z2wNRibu/CVSxUCulyoL/UguRO/Vbrp3XzC+GHx90hX
+         gJ8Rak2/S/Ne506LubQFyrzFTNRr3D4f7mTYY1emNdV0+0XitIO+YPvp9n0ufS0XWXy3
+         HPynhX+ccS5OeiM/rTufJ+nkhEbgcB16junmGLWDOaPg4oKU/WSYlYwNhtu6pC9oL/Vh
+         SdTOkqcZ7ddMjS0Hwv/zqdjl4zkf4OQZHEAjnwN90lO7PfeAZzyJXbxcbsqEktDQYvnm
+         l5dSTD5qU1Q1C01FgzlI19Dv4rIdjo64h5skJnWINPOwrL+j9F79bfM+DXDSCvxECgis
+         sa1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUpW11yiNZ+U53rtk020qWQnGUIr7S8gCM2vVqa8I/oKSmbgH1FrraD/Qu/Ol9ePSf6xMbN8rmA/N/LRHJ3jwaSgqXK8FBhnAJg
+X-Gm-Message-State: AOJu0Yx56gK5TxPlLyAbwd9c0KpAe9Zjx/z8hAMOXiLQINQqhGBEV60E
+	7JEbmk14dJfhJspg5hXYFjWDEU3oBhNenOUFueJ3x6k5fAzJiHzq7+fRgw8MVeQ=
+X-Google-Smtp-Source: AGHT+IHDHRTrkO4CFMTeB0SmP/Wd2havgBGFo8IzqIkV5ET0LCgN/3ncN6rqzs7Vj0SBv8WfjQ70CA==
+X-Received: by 2002:a05:651c:54a:b0:2ee:4ccf:ca4f with SMTP id 38308e7fff4ca-2ee5e3c3a6bmr66459021fa.31.1719922336700;
+        Tue, 02 Jul 2024 05:12:16 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac15788casm82487285ad.219.2024.07.02.05.12.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 05:12:16 -0700 (PDT)
+Date: Tue, 2 Jul 2024 14:12:06 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH printk v2 16/18] printk: Provide threadprintk boot
+ argument
+Message-ID: <ZoPullwnOGvUoCPv@pathway.suse.cz>
+References: <20240603232453.33992-1-john.ogness@linutronix.de>
+ <20240603232453.33992-17-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--24.821500-8.000000
-X-TMASE-MatchedRID: olJ+MHgrKwLu6He4bORuyf9WgQ5yFeIpWYu9PKwvg8+xM//OLHLfLDB9
-	ccde3hbU8urNJwQgyPBdCcmhZ8Q0VCMLnBbRowlYcX5PeMxy2v5U3K6aV1ad7d9RlPzeVuQQLFV
-	Od3/b6GSYmu1c9yHchyC+H03fDWulaQPHx3YbvOYVglQa/gMvfIzjknOM+UJo+Cckfm+bb6Bmh1
-	OorN5ZfPn2s1xTZaBMs4DHWQDGJb/7sqG6HklRYNUFhgTP7/bWtDSfcMR+7ZNOIo0O+5ZV4SNgF
-	9/7ARmv42D56kBvvfFBBtUGJzAoN9phB3BcQx/vVnQT6gDml1VAq6/y5AEOOuOxOq7LQlGLLEnD
-	LR3pDl3Iuj01kctd3srwwM67bcRV9Z8q6rO+Ih7AJnGRMfFxySQwGQSJ46Nm6ygMMToK893ldOa
-	+b1x+LMcjG1Dny377e+RRT4HSyowfqPFbZMN65FEp96PnqFJsJPS3/6nvMccUlWIKEoGBmb/fkb
-	xklHWA3fu6HAjJ1y0ImhhVnbXmhLkeZ/VkXL+KZwDJZynfzSt5w3WsOyy+8N9zZd3pUn7KKgb8B
-	fqrnGotg+GBqf3thrFdDzVRJSPNcNPMFJIX+nO20BbG4zmyXhSRa9qpSosfJJvy/zCC/vKfUkQS
-	/R/FD3aPxRKRE0lDazEBx0cBWVsH+DiyPUjnmQhWgIsZuXlPcfU+0yIKuYVPtLhlThdPEGn7AlT
-	b8W2xt2fJ1xA6iK2zZnChmC9F+HHPBvSspzfjwT5e5LDjyQLTDXgcUlCNo3W8FA7SndluC50X6/
-	IN7MBaRKmuujmzG57MxQnQvCwr0P4g2H0elcueAiCmPx4NwJuJ+Pb8n/VxSnQ4MjwaO9cqtq5d3
-	cxkNQP90fJP9eHt
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--24.821500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	C9EFB0F55206DE590D63D3AC64D30E17320E3332782F885BD9003D594DBA27AB2000:8
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603232453.33992-17-john.ogness@linutronix.de>
 
-The Documentation/userspace-api/iommu.rst file has become outdated due
-to the removal of associated structures and APIs.
+On Tue 2024-06-04 01:30:51, John Ogness wrote:
+> For PREEMPT_RT, legacy console printing is performed in a dedicated
+> kthread. However, this behavior can also be interesting for other
+> preemption models as it minimizes the duration of printk() calls by
+> deferring all printing.
+> 
+> Provide a new boot argument "threadprintk" that will create the
+> dedicated kthread for legacy console printing for !PREEMPT_RT
+> systems.
+> 
+> The implementation is the same as the "threadirqs" boot argument.
+>
+> Users should be aware that if this option is enabled, the shutdown,
+> reboot, and panic messages probably will not be visible on the
+> legacy consoles.
 
-Specifically, struct such as iommu_cache_invalidate_info and guest
-pasid related uapi were removed in commit 0c9f17877891 ("iommu:
-Remove guest pasid related interfaces and definitions").
-And the corresponding uapi/linux/iommu.h file was removed in
-commit 00a9bc607043 ("iommu: Move iommu fault data to
-linux/iommu.h").
+printk() is _heavily_ limited in this mode. Users would see the
+messages only when the system is running well.
 
-Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
----
- Documentation/userspace-api/iommu.rst | 209 --------------------------
- MAINTAINERS                           |   1 -
- 2 files changed, 210 deletions(-)
- delete mode 100644 Documentation/userspace-api/iommu.rst
+I think that this is a _big_ difference against "threadirqs".
+It still allows to handle some critical IRQ handlers directly
+by using IRQF_NO_THREAD.
 
-diff --git a/Documentation/userspace-api/iommu.rst b/Documentation/userspace-api/iommu.rst
-deleted file mode 100644
-index d3108c1519d5..000000000000
---- a/Documentation/userspace-api/iommu.rst
-+++ /dev/null
-@@ -1,209 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--.. iommu:
--
--=====================================
--IOMMU Userspace API
--=====================================
--
--IOMMU UAPI is used for virtualization cases where communications are
--needed between physical and virtual IOMMU drivers. For baremetal
--usage, the IOMMU is a system device which does not need to communicate
--with userspace directly.
--
--The primary use cases are guest Shared Virtual Address (SVA) and
--guest IO virtual address (IOVA), wherein the vIOMMU implementation
--relies on the physical IOMMU and for this reason requires interactions
--with the host driver.
--
--.. contents:: :local:
--
--Functionalities
--===============
--Communications of user and kernel involve both directions. The
--supported user-kernel APIs are as follows:
--
--1. Bind/Unbind guest PASID (e.g. Intel VT-d)
--2. Bind/Unbind guest PASID table (e.g. ARM SMMU)
--3. Invalidate IOMMU caches upon guest requests
--4. Report errors to the guest and serve page requests
--
--Requirements
--============
--The IOMMU UAPIs are generic and extensible to meet the following
--requirements:
--
--1. Emulated and para-virtualised vIOMMUs
--2. Multiple vendors (Intel VT-d, ARM SMMU, etc.)
--3. Extensions to the UAPI shall not break existing userspace
--
--Interfaces
--==========
--Although the data structures defined in IOMMU UAPI are self-contained,
--there are no user API functions introduced. Instead, IOMMU UAPI is
--designed to work with existing user driver frameworks such as VFIO.
--
--Extension Rules & Precautions
-------------------------------
--When IOMMU UAPI gets extended, the data structures can *only* be
--modified in two ways:
--
--1. Adding new fields by re-purposing the padding[] field. No size change.
--2. Adding new union members at the end. May increase the structure sizes.
--
--No new fields can be added *after* the variable sized union in that it
--will break backward compatibility when offset moves. A new flag must
--be introduced whenever a change affects the structure using either
--method. The IOMMU driver processes the data based on flags which
--ensures backward compatibility.
--
--Version field is only reserved for the unlikely event of UAPI upgrade
--at its entirety.
--
--It's *always* the caller's responsibility to indicate the size of the
--structure passed by setting argsz appropriately.
--Though at the same time, argsz is user provided data which is not
--trusted. The argsz field allows the user app to indicate how much data
--it is providing; it's still the kernel's responsibility to validate
--whether it's correct and sufficient for the requested operation.
--
--Compatibility Checking
------------------------
--When IOMMU UAPI extension results in some structure size increase,
--IOMMU UAPI code shall handle the following cases:
--
--1. User and kernel has exact size match
--2. An older user with older kernel header (smaller UAPI size) running on a
--   newer kernel (larger UAPI size)
--3. A newer user with newer kernel header (larger UAPI size) running
--   on an older kernel.
--4. A malicious/misbehaving user passing illegal/invalid size but within
--   range. The data may contain garbage.
--
--Feature Checking
------------------
--While launching a guest with vIOMMU, it is strongly advised to check
--the compatibility upfront, as some subsequent errors happening during
--vIOMMU operation, such as cache invalidation failures cannot be nicely
--escalated to the guest due to IOMMU specifications. This can lead to
--catastrophic failures for the users.
--
--User applications such as QEMU are expected to import kernel UAPI
--headers. Backward compatibility is supported per feature flags.
--For example, an older QEMU (with older kernel header) can run on newer
--kernel. Newer QEMU (with new kernel header) may refuse to initialize
--on an older kernel if new feature flags are not supported by older
--kernel. Simply recompiling existing code with newer kernel header should
--not be an issue in that only existing flags are used.
--
--IOMMU vendor driver should report the below features to IOMMU UAPI
--consumers (e.g. via VFIO).
--
--1. IOMMU_NESTING_FEAT_SYSWIDE_PASID
--2. IOMMU_NESTING_FEAT_BIND_PGTBL
--3. IOMMU_NESTING_FEAT_BIND_PASID_TABLE
--4. IOMMU_NESTING_FEAT_CACHE_INVLD
--5. IOMMU_NESTING_FEAT_PAGE_REQUEST
--
--Take VFIO as example, upon request from VFIO userspace (e.g. QEMU),
--VFIO kernel code shall query IOMMU vendor driver for the support of
--the above features. Query result can then be reported back to the
--userspace caller. Details can be found in
--Documentation/driver-api/vfio.rst.
--
--
--Data Passing Example with VFIO
--------------------------------
--As the ubiquitous userspace driver framework, VFIO is already IOMMU
--aware and shares many key concepts such as device model, group, and
--protection domain. Other user driver frameworks can also be extended
--to support IOMMU UAPI but it is outside the scope of this document.
--
--In this tight-knit VFIO-IOMMU interface, the ultimate consumer of the
--IOMMU UAPI data is the host IOMMU driver. VFIO facilitates user-kernel
--transport, capability checking, security, and life cycle management of
--process address space ID (PASID).
--
--VFIO layer conveys the data structures down to the IOMMU driver. It
--follows the pattern below::
--
--   struct {
--	__u32 argsz;
--	__u32 flags;
--	__u8  data[];
--   };
--
--Here data[] contains the IOMMU UAPI data structures. VFIO has the
--freedom to bundle the data as well as parse data size based on its own flags.
--
--In order to determine the size and feature set of the user data, argsz
--and flags (or the equivalent) are also embedded in the IOMMU UAPI data
--structures.
--
--A "__u32 argsz" field is *always* at the beginning of each structure.
--
--For example:
--::
--
--   struct iommu_cache_invalidate_info {
--	__u32	argsz;
--	#define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
--	__u32	version;
--	/* IOMMU paging structure cache */
--	#define IOMMU_CACHE_INV_TYPE_IOTLB	(1 << 0) /* IOMMU IOTLB */
--	#define IOMMU_CACHE_INV_TYPE_DEV_IOTLB	(1 << 1) /* Device IOTLB */
--	#define IOMMU_CACHE_INV_TYPE_PASID	(1 << 2) /* PASID cache */
--	#define IOMMU_CACHE_INV_TYPE_NR		(3)
--	__u8	cache;
--	__u8	granularity;
--	__u8	padding[6];
--	union {
--		struct iommu_inv_pasid_info pasid_info;
--		struct iommu_inv_addr_info addr_info;
--	} granu;
--   };
--
--VFIO is responsible for checking its own argsz and flags. It then
--invokes appropriate IOMMU UAPI functions. The user pointers are passed
--to the IOMMU layer for further processing. The responsibilities are
--divided as follows:
--
--- Generic IOMMU layer checks argsz range based on UAPI data in the
--  current kernel version.
--
--- Generic IOMMU layer checks content of the UAPI data for non-zero
--  reserved bits in flags, padding fields, and unsupported version.
--  This is to ensure not breaking userspace in the future when these
--  fields or flags are used.
--
--- Vendor IOMMU driver checks argsz based on vendor flags. UAPI data
--  is consumed based on flags. Vendor driver has access to
--  unadulterated argsz value in case of vendor specific future
--  extensions. Currently, it does not perform the copy_from_user()
--  itself. A __user pointer can be provided in some future scenarios
--  where there's vendor data outside of the structure definition.
--
--IOMMU code treats UAPI data in two categories:
--
--- structure contains vendor data
--  (Example: iommu_uapi_cache_invalidate())
--
--- structure contains only generic data
--  (Example: iommu_uapi_sva_bind_gpasid())
--
--
--
--Sharing UAPI with in-kernel users
-----------------------------------
--For UAPIs that are shared with in-kernel users, a wrapper function is
--provided to distinguish the callers. For example,
--
--Userspace caller ::
--
--  int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
--                                   struct device *dev,
--                                   void __user *udata)
--
--In-kernel caller ::
--
--  int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
--                              struct device *dev, ioasid_t ioasid);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0748d6bd0c4f..1359ed17337e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11544,7 +11544,6 @@ L:	iommu@lists.linux.dev
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
- F:	Documentation/devicetree/bindings/iommu/
--F:	Documentation/userspace-api/iommu.rst
- F:	drivers/iommu/
- F:	include/linux/iommu.h
- F:	include/linux/iova.h
--- 
-2.18.0
+> Non-legacy consoles (NBCON) already have their own dedicated kernel
+> threads for printing and reliable shutdown, reboot, and panic
+> printing. This option really only applies to legacy consoles.
 
+OK, the NBCON consoles might make it a bit more useful. But there
+will be only one at the beginning. And it won't work with boot
+consoles.
+
+All I want to say is that this mode has big limitations
+and kind of weird semantic. This semantic is basically
+needed only with PREEMPT_RT.
+
+I would prefer to remove this patch for now. It would give us
+more time to think about the threaded and sync modes.
+
+Or I would at least use "force" in the name to make it more clear
+that it forces some non-default (non-optimal) behavior.
+I would call it "printk_thread_force" or "printk_legacy_thread_force".
+
+Best Regards,
+Petr
