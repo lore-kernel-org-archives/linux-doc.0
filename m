@@ -1,64 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F696E5ED;
-	Tue,  2 Jul 2024 19:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E68F200135
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 20:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719949309; cv=none; b=rHVL7t1GhUFottjhom7jf794lUlgiUnBsaLfZL24umbibOxQzHeIKVVPopbqa0YyyaynMo2VZgxGV4nKiI/sSRSuVhTdUVoI+jJK1sydozt/+pMAsUPuNtCPDkUJnraBAWSr5fvr5h9GM43orCF+M+H+pmh/16euLknwXHkvYB8=
+	t=1719952587; cv=none; b=u4CluF8yAIT7EMBjl+uoJoMB+qVPd1tvb2jQD7cRf7Z/ltCONSO4qTvxStjEarT0WYDaYBQhAFtsFUQ84QLJ72wh77KMlpT9c4nrBpzCoMHkzvo/hY9FLXG6uCZSbIkGwNmIpvcw7iRtFIpyP94x0nFGscHynfQH0qnvFt7g0rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719949309; c=relaxed/simple;
-	bh=quOm75f4d0jmhzpI2KIY6f6RpCy8CjJ0XUfSDP/koc4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DV7Bjqz+o8t7CyBeSId2dVVud5wXfZb8nInGpTjBZKzl5AhX8eSZrqQYDE3oVGMNGJRxJqcYMeWyUqsXdFeEGWzOkZieWEa+NMeWtD3hOkjMqkqtaYFM5IOSppl+5OVNY7Ui7gFRnJjDuUMcytMqtF6QYeNouxiN3yTov8BGMHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8212AC116B1;
-	Tue,  2 Jul 2024 19:41:48 +0000 (UTC)
-Date: Tue, 2 Jul 2024 15:41:46 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
- <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, "Dmitry V. Levin" <ldv@strace.io>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] tracing: Have memmapped ring buffer use ioctl of "R"
- range 0x20-2F
-Message-ID: <20240702154146.754e2ad5@rorschach.local.home>
-In-Reply-To: <2227082b-381d-40bf-a106-eb789e433215@efficios.com>
-References: <20240702153354.367861db@rorschach.local.home>
-	<2227082b-381d-40bf-a106-eb789e433215@efficios.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1719952587; c=relaxed/simple;
+	bh=oIZ+qFeEAMiEHqcHkGf420iEqeFpgZPDR6xLSjPRQZQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lUz5hRmKbNQU3Kq0raVqlhowawhhlNH6RNGoRbzpCsqzT750KMb1dQOGYJiqVnzfwWGkWQwLr/tWyZNV1qYxZioMgsYo6UTrSB6C/UZhm6RfIjeR883tk3T6BBGqeMvuQW/6CPAzdFATJh2cCS1/64aF1phcff1/MLrUxZsWbY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dc+6/1my; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dc+6/1my"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-444fe7e9f11so104641cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 13:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719952584; x=1720557384; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t3XnOUTxL7Khvj5clLjXUpjkjIAJvXl6J+yhlYNwVw0=;
+        b=Dc+6/1myJBVkHbpgutY9GzbhK9z295MV5LjraiqT+PycFTY7ZAj5faQ8heBYyknVGn
+         5Kq6wZ4Sp5Qaqs6/NZag3bO+sM1cIiLDCeHa7W09Mlrfuz3fkAe+csZvNwo3SbRS010D
+         +/U6VgRChXu/M+Pi0TelI8i1yDpjmQbbOuFcHW3zN8xXuZ74rZywV+ll11raxVeh9u+E
+         uFC4YtOSSqdbgNoJ1As80B9n+2qYWrjcWaht6b4ode5FPNdEcCtjh4o33qC7MydNaEgr
+         zrHKoEwmvcZKug8wvROGhf0T6n0af0gY+jpdaH7tYBPXAL2+hUV5+6fNzbp5v5E19Sp4
+         8nTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719952584; x=1720557384;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t3XnOUTxL7Khvj5clLjXUpjkjIAJvXl6J+yhlYNwVw0=;
+        b=i9fs1NzE76e6klFpsRP0LqFNenI7jxD9XbO1wayW/FMy3pG3yXVMoQS4qdWoPFCMxp
+         V6NRom7Wnb7K/1V6oYHQgkT8apwkwo7P2cqShUukaBGlYisepJErs/xsnXYnaeE8h10q
+         YEpNf2r5iWCF6qvy5kQMPfE8N+QdYKLykpStgyTr1WOjNRhCOLZyOdpf52YxSGf/44Xu
+         yZP8ZB/2LlEcQPpDwKseZ0ucyXpP60dYJ6IHfEg+6OfGIcEUcEKF+bHO0QNhwcFc0UNC
+         3VTVy32HWOWyUhTVnytX7kKD0McMVoFPK+wLsJpQxNOOOY11QTwmjzrUHHBcZzl3lb/6
+         dH6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWiHL5ON4dXFQnfAEud15H5qGb0DZjL+RiupydDzk6kwAKdLjQYGcSwkcO708Yf8/WC/dqMey0s6aolPxaxi8R4ChCRU9kveV/k
+X-Gm-Message-State: AOJu0YwDhEmAs0P67kn/6H5TdVnifpbJfYoMlWD6YtDOCFVCtj2/6eBu
+	0PJieMlAcLCKTqWkKho/rRwgoNph+YpjlRJpoGjFUQVWkK+Ov1n4igw2ffl2k3GEO0HifYdnrUT
+	6q2EYx7rOhMCtop2NAVBbB+87Vi++DlEsyYZ9
+X-Google-Smtp-Source: AGHT+IHAG7v9n5i2ldh8TX1jsYKCXmrofIE/3++As3TOB5fu1ttid4KYzf35bt3BFAU6aTcbOkSIW3Fghzdnyy/bWqM=
+X-Received: by 2002:a05:622a:a028:b0:43f:ff4f:c130 with SMTP id
+ d75a77b69052e-447bc4a36c6mr980141cf.2.1719952584271; Tue, 02 Jul 2024
+ 13:36:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <6d4afb49-3cb9-f176-61a2-5bbaab698644@gmail.com>
+In-Reply-To: <6d4afb49-3cb9-f176-61a2-5bbaab698644@gmail.com>
+From: Rae Moar <rmoar@google.com>
+Date: Tue, 2 Jul 2024 16:36:11 -0400
+Message-ID: <CA+GJov5=HVTQL8fk50f5LGCfVMDXRLx65UYLt-t1vD9vu0M5Dw@mail.gmail.com>
+Subject: Re: [RFC] ktap_v2: KTAP specification transition method
+To: Frank Rowand <frowand.list@gmail.com>
+Cc: David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com, 
+	Brendan Higgins <brendanhiggins@google.com>, Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com, 
+	guillaume.tucker@collabora.com, dlatypov@google.com, kernelci@groups.io, 
+	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2 Jul 2024 15:38:10 -0400
-Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
+Hello everyone,
 
-> On 2024-07-02 15:33, Steven Rostedt wrote:
-> > From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> > 
-> > To prevent conflicts with other ioctl numbers to allow strace to have an
-> > idea of what is happening, add the rang of ioctls for the trace buffer
+It has been a few months since there has been activity regarding the
+second version of KTAP. I wanted to bring this topic back up to the
+surface.
 
-Hmm, someone "rang an ioctl" ;-)
+Currently, Frank has compiled a list of KTAPv2 patches here at this
+link: https://elinux.org/Test_Results_Format_Notes#KTAP_version_2
 
-I'll update the change log before pulling this in.
+I am interested in starting the process of accepting these patches as
+changes to the KTAP documentation as KTAPv2.
 
-> > mapping from _IO("T", 0x1) to the range of "R" 0x20 - 0x2F.
-> > 
-> > Link: https://lore.kernel.org/linux-trace-kernel/20240630105322.GA17573@altlinux.org/
-> > 
-> > Reported-by: "Dmitry V. Levin" <ldv@strace.io>
-> > Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>  
-> 
-> Reviewed-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+First, a decision that needs to be made is which branch should be used
+to accept these changes. Frank has a git repository for KTAPv2.
+However, it is my understanding he has retired. As a reviewer of
+KUnit, I am happy to take the patches in through the KUnit branch.
+Would this work for everyone?
 
-Thanks,
+Second, we need to finalize the changes. A current list of proposed
+KTAPv2 patches is as follows:
 
--- Steve
+[PATCH v3 0/2] begin KTAP spec v2 process
+[PATCH v3 1/2] ktap_v2: change version to 2-rc in KTAP specification
+[PATCH v3 2/2] ktap_v2: change "version 1" to "version 2" in examples
+[KTAP V2 PATCH] ktap_v2: add skip test result
+[KTAP V2 PATCH v4] ktap_v2: add test metadata
+
+Note the patch on adding a skip test result has not yet been reviewed.
+So please take a look at this change if interested.
+
+As a rule, for any feature of KTAPv1 that is replaced in KTAPv2, it
+will stay in the documentation as allowed but deprecated to allow a
+smooth transition.
+
+If this process sounds good to people, I will try to get discussions
+going on current patches and ask for reviews. My goal is by the end of
+the summer, I can apply the approved patches and send them through a
+chosen branch (potentially KUnit, as discussed above).
+
+Let me know what you think. Thanks!
+-Rae
+
+
+On Sun, Mar 26, 2023 at 7:25=E2=80=AFPM Frank Rowand <frowand.list@gmail.co=
+m> wrote:
+>
+> In the middle of the thread about a patch to add the skip test result,
+> I suggested documenting the process of deprecating the KTAP v1 Specificat=
+ion
+> method of marking a skipped test:
+>
+>   https://lore.kernel.org/all/490271eb-1429-2217-6e38-837c6e5e328b@gmail.=
+com/T/#u
+>
+> In a reply to that email I suggested that we ought to have a process to t=
+ransition
+> the KTAP Specification from v1 to v2, and possibly v3 and future.
+>
+> This email is meant to be the root of that discussion.
+>
+> My initial thinking is that there are at least three different types of p=
+roject
+> and/or community that may have different needs in this area.
+>
+> Type 1 - project controls both the test output generation and the test ou=
+tput
+> parsing tool.  Both generation and parsing code are in the same repositor=
+y
+> and/or synchronized versions are distributed together.
+>
+> Devicetree unittests are an example of Type 1.  I plan to maintain change=
+s
+> of test output to KTAP v2 format in coordination with updating the parser
+> to process KTAP v2 data.
+>
+> Type 2 - project controls both the test output generation and the test ou=
+tput
+> parsing tool.  The test output generation and a parser modifications may =
+be
+> controlled by the project BUT there are one or more external testing proj=
+ects
+> that (1) may have their own parsers, and (2) may have a single framework =
+that
+> tests multiple versions of the tests.
+>
+> I think that kselftest and kunit tests are probably examples of Type 2.  =
+I also
+> think that DT unittests will become a Type 2 project as a result of conve=
+rting
+> to KTAP v2 data.
+>
+> Type 3 - project may create and maintain some tests, but is primarily a c=
+onsumer
+> of tests created by other projects.  Type 3 projects typically have a sin=
+gle
+> framework that is able to execute and process multiple versions of the te=
+sts.
+>
+> The Fuego test project is an example of Type 3.
+>
+> Maybe adding all of this complexity of different Types in my initial thin=
+king
+> was silly -- maybe everything in this topic is governed by the more compl=
+ex
+> Type 3.
+>
+> My thinking was that the three different Types of project would be impact=
+ed
+> in different ways by transition plans.  Type 3 would be the most impacted=
+,
+> so I wanted to be sure that any transition plan especially considered the=
+ir
+> needs.
+>
+> There is an important aspect of the KTAP format that might ease the trans=
+ition
+> from one version to another: All KTAP formatted results begin with a "ver=
+sion
+> line", so as soon as a parser has processed the first line of a test, it =
+can
+> apply the appropriate KTAP Specification version to all subsequent lines =
+of
+> test output.  A parser implementation could choose to process all version=
+s,
+> could choose to invoke a version specific parser, or some other approach
+> all together.
+>
+> In the "add skip test results" thread, I suggested deprecating the v1
+> method of marking a skipped test in v2, with a scheduled removal of
+> the v1 method in v3.  But since the KTAP format version is available
+> in the very first line of test output, is it necessary to do a slow
+> deprecation and removal over two versions?
+>
+> One argument to doing a two version deprecation/removal process is that
+> a parser that is one version older the the test output _might_ be able
+> to process the test output without error, but would not be able to take
+> advantage of features added in the newer version of the Specification.
+>
+> My opinion is that a two version deprecation/removal process will slow
+> the Specification update process and lead to more versions of the
+> Specification over a given time interval.
+>
+> A one version deprecation/removal process puts more of a burden on Type 3
+> projects and external parsers for Type 2 projects to implement parsers
+> that can process the newer Specification more quickly and puts a burden
+> on test maintainers to delay a move to the newer Specification, or possib=
+ly
+> pressure to support selection of more than one Specification version form=
+at
+> for output data.
+>
+> One additional item...  On the KTAP Specification version 2 process wiki =
+page,
+> I suggested that it is "desirable for test result parsers that understand=
+ the
+> KTAP Specification version 2 data also be able to parse version 1 data."
+> With the implication "Converting version 1 compliant data to version 2 co=
+mpliant
+> data should not require a "flag day" switch of test result parsers."  If =
+this
+> thread discussion results in a different decision, I will update the wiki=
+.
+>
+> Thoughts?
+>
+> -Frank
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kunit-dev/6d4afb49-3cb9-f176-61a2-5bbaab698644%40gmail.com.
