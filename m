@@ -1,149 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D0015217F;
-	Tue,  2 Jul 2024 09:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F83A1586D5;
+	Tue,  2 Jul 2024 10:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719913163; cv=none; b=DEXjC9lvl5jOI1O82069SW0FMRz4+sUyF3LeBFalvlQgH3g9ttupqdPm57d8J/NAwoxXV0nJ9ynLmmgHcyjO3pNgdgFZPlweXbe/PZTxWWhXO6urWnHo8g7hNXt4E6YDO8ecM1XpE28+u65Ot9Gb9us+9BGEHIpUcpLOdxNChLc=
+	t=1719915575; cv=none; b=ZHsCw2kHaqI9nBFuzRFpC25sbY2UDBsFRzZfnJOgZeKQ6JyfDeM8rX9Slevsal7u2ftYbJPK9xdaubgWtjZ1OcmJ/vlZsTyvhNYZ5YOXgqqdQDV1r68LFAEs8isj89T3UNensb1+W2oF/M/pTT85upcjqFYnRTRs2NOBADysYHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719913163; c=relaxed/simple;
-	bh=cKKhmZWA8i3/t0YPKgOkIBJTFu7C+J1VqMks8j/9hs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FAQwfJTeITuEmt9Psz8aLiNEcJEkHu87vfJb9QC+E73EpdaVk1ekgPgZANJAP//ESsXAyIITa1noCYyr/PDRYrOBCjj5wY279EAFuN8h667LtBedymCtjISSEJ8CGun46SNR/w47b3s7e+1l/blrusfWa1sOHVeOc5mwc0NrnVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XeO/0M3A; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XeO/0M3A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719913162; x=1751449162;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=cKKhmZWA8i3/t0YPKgOkIBJTFu7C+J1VqMks8j/9hs0=;
-  b=XeO/0M3A4KnIe3oLFSTo31cb8QzG9N6I6vNvkHVY/Tv3O7n0pOrqGFU/
-   C+/AtxZ+zlk9JMBoXxZrLNpuzV+S8EIE5w2RQGUF5DdpxhXlj2JSy7cGK
-   2nlOowfU0jbZCcmiL3sw6T14lw9xeNgk7Ef9MSj3SQwduyNAUV4GWFb9N
-   Ydx1tN84KqQEBuoJIpWXb2ZmuKoEqda2OJjOwjnY2ju9WqpX3U0TdotO1
-   qBOwttUrkuyUMyRzuVs3zQ9T/NdazZY53T75VwomKtIYevHu2LhtuTE5R
-   ieEzGiFfwrz2SDVuC4OzqJvfuuE7VjJR+iBgnS9h/u/j3tDX3/2pUos4z
-   Q==;
-X-CSE-ConnectionGUID: UW+Vl1+oTESyocJmh+htsA==
-X-CSE-MsgGUID: n7Rbw1buR+uEb7+OJJZsCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="17289670"
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="17289670"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 02:39:21 -0700
-X-CSE-ConnectionGUID: 3z6E88XVSzSZZvVdIsg49w==
-X-CSE-MsgGUID: tPms4iSOTy2At6x47qeQuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="45637566"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.246.174]) ([10.245.246.174])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 02:39:14 -0700
-Message-ID: <f982842a-1804-420b-a539-a609ecf8fb8a@linux.intel.com>
-Date: Tue, 2 Jul 2024 10:30:15 +0200
+	s=arc-20240116; t=1719915575; c=relaxed/simple;
+	bh=0ajCnf3SAOP6eQuHMw4tQTjVDmgvoTdZApQsPOmIy/8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fadEMSV94xSd2sD7lNbGAuWTP+ddghjaeSEzGEewsoeyNrt1cPGlpXT1rHe7zF1ZDFlNa5YRpEVh/CYNW19xW2S28JxGuaTsU44+IOhM1UwMur8OT4VfOtCrI7iJXX5wajbKrwovAUsIez2NErTEqGsQhgq5TkNlO0YUw66F1ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+	by Atcsqr.andestech.com with ESMTP id 4629lobI053789;
+	Tue, 2 Jul 2024 17:47:50 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from mail.andestech.com (ATCPCS34.andestech.com [10.0.1.134])
+	by Atcsqr.andestech.com with ESMTPS id 4629kkj0053530
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Tue, 2 Jul 2024 17:46:46 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS34.andestech.com (10.0.1.134) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 2 Jul
+ 2024 17:46:46 +0800
+Date: Tue, 2 Jul 2024 17:46:42 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Samuel Holland <samuel.holland@sifive.com>,
+        Charlie Jenkins
+	<charlie@rivosinc.com>,
+        <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Jisheng Zhang
+	<jszhang@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+	<jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Jonathan
+ Corbet <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
+        Guo Ren
+	<guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+        Andy Chiu
+	<andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>,
+        <tim609@andestech.com>, <dminus@andestech.com>,
+        <ycliang@andestech.com>
+Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to the
+ D1/D1s devicetree
+Message-ID: <ZoPMEaq8wKzXhFuA@APC323>
+References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
+ <20240619-xtheadvector-v3-3-bff39eb9668e@rivosinc.com>
+ <0cc13581-5cc4-4a25-a943-7a896f42da4c@sifive.com>
+ <20240701-prancing-outpost-3cbce791c554@spud>
+ <7ab7d629-6993-4cad-b5b7-62bddfc74a49@sifive.com>
+ <20240701-pyromania-spinster-709a6c8cc460@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: Wesley Cheng <quic_wcheng@quicinc.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
- <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240701-pyromania-spinster-709a6c8cc460@spud>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-ClientProxiedBy: ATCPCS33.andestech.com (10.0.1.100) To
+ ATCPCS34.andestech.com (10.0.1.134)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 4629lobI053789
 
+Hi Conor,
 
->> There are really multiple layers to deal with
->>
->> a) is the controller able to support the offload path? IIRC this is
->> embedded in an obscure XHCI property, it would make sense to expose it
->> as a control, or component string, of the USB card.
+On Mon, Jul 01, 2024 at 05:31:01PM +0100, Conor Dooley wrote:
+> [EXTERNAL MAIL]
+
+> Date: Mon, 1 Jul 2024 17:31:01 +0100
+> From: Conor Dooley <conor@kernel.org>
+> To: Samuel Holland <samuel.holland@sifive.com>
+> Cc: Charlie Jenkins <charlie@rivosinc.com>,
+>  linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+>  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+>  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Conor Dooley
+>  <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>, Krzysztof
+>  Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+>  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+>  Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+>  Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+>  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren
+>  <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu
+>  <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>,
+>  peterlin@andestech.com
+> Subject: Re: [PATCH v3 03/13] riscv: dts: allwinner: Add xtheadvector to
+>  the D1/D1s devicetree
 > 
-> If a component string/tag is desired, I already have some way of doing that.  I can add it to the USB card.
+> On Mon, Jul 01, 2024 at 11:11:55AM -0500, Samuel Holland wrote:
+> > Hi Conor, Charlie,
+> > 
+> > On 2024-07-01 11:07 AM, Conor Dooley wrote:
+> > > On Mon, Jul 01, 2024 at 10:27:01AM -0500, Samuel Holland wrote:
+> > >> On 2024-06-19 6:57 PM, Charlie Jenkins wrote:
+> > >>> The D1/D1s SoCs support xtheadvector so it can be included in the
+> > >>> devicetree. Also include vlenb for the cpu.
+> > >>>
+> > >>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > >>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > >>> ---
+> > >>>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 3 ++-
+> > >>
+> > >> The other C906/C910/C920-based SoCs need devicetree updates as well, although
+> > >> they don't necessarily need to be part of this series:
+> > >>
+> > >>  - sophgo/cv18xx.dtsi
+> > >>  - sophgo/sg2042-cpus.dtsi
+> > >>  - thead/th1520.dtsi
+> > > 
+> > > Yeah, I think I pointed that out before with the same "escape hatch" of
+> > > it not needing to be in the same series.
+> > > 
+> > >>
+> > >>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > >>> index 64c3c2e6cbe0..6367112e614a 100644
+> > >>> --- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > >>> +++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+> > >>> @@ -27,7 +27,8 @@ cpu0: cpu@0 {
+> > >>>  			riscv,isa = "rv64imafdc";
+> > >>
+> > >> The ISA string should be updated to keep it in sync with riscv,isa-extensions.
+> > > 
+> > > This probably looks like this cos I said that the kernel shouldn't parse
+> > > vendor extensions from "riscv,isa". My rationale was that we have
+> > > basically no control of what a vendor extension means in riscv,isa so 
+> > > we shouldn't parse them from it (so marginally worse than standard
+> > > extensions, where it means what the spec says except when it doesn't).
+> > > 
+> > > Given how we implement the parsing, it also meant we weren't implying
+> > > meanings for vendor extensions ACPI-land, where we also can't ensure the
+> > > meanings or that they remain stable. That change is in a different
+> > > series:
+> > > https://patchwork.kernel.org/project/linux-riscv/patch/20240609-support_vendor_extensions-v2-1-9a43f1fdcbb9@rivosinc.com/
+> > > 
+> > > Although now that I think about it, this might break xandespmu... I
+> > > dunno if the Andes guys switched over to using the new property outside
+> > > of the single dts in the kernel tree using their SoC. We could
+> > > potentially special-case that extension if they haven't - but my
+> > > position on this mostly is that if you want to use vendor extensions you
+> > > should not be using riscv,isa (even if the regex doesn't complain if you
+> > > add them). I'd like to leave the code in the other patch as-is if we can
+> > > help it.
+> > > 
+> > > I added Yu Chien Peter Lin here, maybe they can let us know what they're
+> > > doing.
+> > 
+> > OK, that makes sense to me. Then please ignore my original comment.
 > 
->>
->> b) is there a companion card capable of dealing with the offload path?
->> Since the presence of this card may depend on driver probe, there should
->> be a control on the USB card. userspace could detect changes to this
->> control and detect if that path is or is no longer enabled.
+> Should the xandespmu thing be an issue, I'd suggest we just do something
+> like the following, in place of the new switch arm added by Charlie:
 > 
-> So currently, the "USB Offload Playback Capable Card" kcontrol (on the USB card) will determine if there is an offload path.  However, this differs than what Amadeusz is suggesting, in that he wants a single kcontrol created for EACH USB card identified (per USB audio device), and a simple enable/disable control to determine if the offload path is enabled for that card/pcm stream.
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index ec4bff7a827c..bb99b4055ec2 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -628,6 +628,17 @@ static void __init riscv_parse_isa_string(const char *isa, unsigned long *bitmap
+>  		if (unlikely(ext_err))
+>  			continue;
+>  
+> +		if (*ext == 'x' && acpi_disabled) {
+> +			/*
+> +			 * xandespmu predates this "rule", so special case it for
+> +			 * hysterical raisins
+> +			 */
+> +			if (strncasecmp(ext, "xandespmu", ext_end - ext)) {
+> +				pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa-extensions instead.");
+> +				break;
+> +			}
+> +		}
+> +
+>  		match_isa_ext(ext, ext_end, bitmap);
+>  	}
+>  }
 > 
-> It would be a simpler approach for the userspace, and if the card that handles the offload card isn't present, then these enable/disable control will be set to "disabled," and even if users attempt to set the control, it won't go through.
 
-Not following. Are you suggesting userspace would modify the
-enable/disable status?
+Thanks for the hands-up!
+We don't use the deprecated riscv,isa to specify xandespmu, so no
+need to address this special case.
 
-I would just have a read-only control that reports what the hardware can
-do and which other card can deal with offload. It's up to userspace to
-select the offloaded PCM device or not.
-
-
-
->> c) which PCM device is actually offloaded? This could be plural for some
->> implementations. The mapping between PCM devices exposed by the USB
->> card, and those exposed by the companion card, should be known to
->> userspace. I am not sure how this would be done though, a variable
->> number of controls is a sure way to confuse userspace.
-> 
-> Expanding on Amadeusz's suggestion, my idea is to have an enable/disable kcontrol per USB stream.  For example, one USB card could have multiple PCM devices (USB streams).  So we would have something like:
-> 
-> PCM Offload Playback Enable Stream#0  enable/disable
-> 
-> PCM Offload Playback Enable Stream#1  enable/disable
-> 
-> ....
-
-are those read-only or not?
-
-> So we'd know which USB card and PCM device is selected for USB SND.  However, I see what you're getting at in case there are multiple supported streams, because userspace needs to know which ASoC card/pcm combination corresponds to which USB device/combination.
-
-I don't understand how this would help map the two parts? There's got to
-be an additional mapping...
-
-> What do you think about having a USB card kcontrol to display the mapped ASoC card and PCM indexes?
-> 
-> PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
-> 
-> To summarize, if we did this, I'd plan to remove all the kcontrols in ASoC card, and have the following in the USB card for an USB audio device that supports one USB stream:
-> 
-> PCM Offload Playback Enable Stream#0  enable/disable
-> 
-> PCM Offload Playback Enable Stream Mapping#0  0, 1 (ASoC card#0, PCM device#1)
-
-... which is suggested here.
-
-Assuming these are read-only controls, we would need to know which PCM
-device on the USB card can be optimized with the use of which PCM device
-on the ASoC card. That means a set of three values. You would also want
-a number of streams to make the guesswork on controls less painful.
+Regards,
+Peter Lin
