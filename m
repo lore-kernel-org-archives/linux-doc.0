@@ -1,89 +1,77 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D764B1CB31A;
-	Tue,  2 Jul 2024 19:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B676E5ED;
+	Tue,  2 Jul 2024 19:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719948552; cv=none; b=MD7A50X5gj4AhijWNWOQqF4KBp/VRfWMrR1vfHGNT65Vop9H/A+mzeLDIvLfmm2yioTLfl27beOgTjSh7cTIxfn1FvCUv2dVNoCCUHnOXDgDYPiyeySUqJUdvK3QpYQBlEBUbP00pr3nQe/D1XkNB/eSsFXJdrIdBKKLNy1zH4Y=
+	t=1719948837; cv=none; b=J53PIw2EqiIgHzbdPUL6ODz16lSUfCi8Gg0/kf1ST1olfP9Hu8X9MBWueN+oQSYn17JpD9HzNdB3JEiv+K9YQRm0albBoTOS43MPmc4zw7RVE4rujrvDSkOx0a5/Y1oLTl0Rf8r+nCLVwIMIsHZ+6zPwtQSG9GysUeGLfJA08L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719948552; c=relaxed/simple;
-	bh=CBWZWmuugeImQuT2m4SY3zJJM7K1jAR3HFwIw9QBHR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbvgVUTenrVGSHwLQ/EqVZn+sBJcMRaHD2ggD5jKrjWLnmjLcTP+opShUiZvNBjDvq54kKqL2kLmg0KG2ng2spN4TADDNnEdISsV1Jm/yui7ATR75loZAKADx6AiJWHVxZDxqQ5dVwiVYEe68gE8g6dd/B/fpbOuzWCsYAE9UxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RH1OjcfH; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RH1OjcfH"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7066a3229f4so3018019b3a.2;
-        Tue, 02 Jul 2024 12:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719948550; x=1720553350; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A4NCTmI4coc84e5gkxcvjfWMDSk5YUBVomKbGjgxM2A=;
-        b=RH1OjcfHniPjVRMDrsBixFbk4PAebY7jQG/VEG3OxMrjusstrVpXtxzsMnxuhRtgrz
-         wijq8iwQ0Dqt11eQMy+z6xsTeYme64RKTTDQDTpjqImwi88mevEoGvSBgN7BJ8nvj07/
-         8aE7uOGFx4rrkRRuQkcr5BZ/GZZWhjVlDqDk7BS/dUjI4lZMN23AeUqw47RYhicdTDyf
-         D6adExbpfLLyyI3iZXUbtRKzhckzRnGwspk09+dW++1lcJqsvaqcc0h5g7hgPVvUzyR4
-         DSqQT1F0X9AwI1NdqLZJs3RVb7tyVn7J3378LuwcYUN2eRhEZT+ZhQCqbEnLwgs5vLio
-         uw+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719948550; x=1720553350;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A4NCTmI4coc84e5gkxcvjfWMDSk5YUBVomKbGjgxM2A=;
-        b=GgEzt1NfD89ZDyoVOMRWEggg+E/EBFLcmhyfYVvNwXBJTc197isHUvHtGTN/bXVNKg
-         VRPz1kiOCSfNVn2jLt3LKkvYTEdSjicJewwAzRF78zK83aActHL+EJ6Vk9j6LCYuKZi3
-         fm1TQcT/aILH8n6FvgKmOtsgfS7eVtnwpquMLff/XtgFnw3OO0tk3ZCipVw1/uFjSBSs
-         r//xDGjfoEjuKgXUAr7hr7iWImJiPgdQBqVxWuEoTwu4imB40EEU2Aqmkm9QN3L2H/Nq
-         D4EE3Q6UDUmtyFfQVve7BkvP4sK6bqY8H7IuWk1YbE5ZjpyIIvyM53ZDfvXfonlToN9e
-         WRmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXq8S5++sM7S24dxkg+ZjYKStK33KYPXLLRSH5OtxNm3LuaFmoHa76YrOVDF6mbhn7gnppq0NbSRd8MG6yYeIUoYLfeWyY4Vc2fW4cV7O9WR+fcEa/e4PCaGBIX78wm5K2ChNxCAWcSFAO3JFX9O59L7LcYkl6i+myEqn9lj6KVbvKro82RBGPS1BwnNQW/i3LRIwRm/F8ffwgKIhOQGC4dMNf6ICln9XlGr+QK4eGcB+wR3GMmteT9rD+Y
-X-Gm-Message-State: AOJu0YzFL4hVj8pJecxdV2tzSipBOkuGOUPFKxRNNmGyUgmlWbUfphjE
-	DMnEtIu9Q3Nr+J3pDsMP5wV5pLUPk1XAsTMk/k2z2MYF+XL3rb4V
-X-Google-Smtp-Source: AGHT+IFSlkcx7+6K80XNhQ8XSJJHHVBy3ib9ITKLvGpGc6h9GHUm/8KgUk8oukAES3IWcw0avTXE2g==
-X-Received: by 2002:a05:6a00:a8c:b0:706:742a:1c3b with SMTP id d2e1a72fcca58-70aaad388a7mr9228268b3a.8.1719948550014;
-        Tue, 02 Jul 2024 12:29:10 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708045a9f52sm9197225b3a.177.2024.07.02.12.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 12:29:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 2 Jul 2024 12:29:07 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alex Vdovydchenko <xzeol@yahoo.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: Add MPS mp5920
-Message-ID: <cdff38fb-ac8c-4f5f-8067-aa99acb7c677@roeck-us.net>
-References: <20240702115252.981416-1-xzeol@yahoo.com>
- <20240702115252.981416-2-xzeol@yahoo.com>
+	s=arc-20240116; t=1719948837; c=relaxed/simple;
+	bh=BSoQXcEkIVVku/MTyTc3Nu0S/1SsP+ErNDDqvBvByL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SeZUj9klppUSe0I/LGt1Zg/2cjoRiR7xdou73puQ+deP1zbjk4MvX5yP7MY6+VqCr6Vdvgr3vQXqCelfMD7dpe0tb8T/uKrv6uN9nRbObTO0Zh7N83XG8atN2ZiBs5fIsHV2urDWVwcCJIU1oCr54ZpvoOyNQ6LGN3i2Rs7JBzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F1FC116B1;
+	Tue,  2 Jul 2024 19:33:55 +0000 (UTC)
+Date: Tue, 2 Jul 2024 15:33:54 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, Linux trace kernel
+ <linux-trace-kernel@vger.kernel.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, "Dmitry V. Levin" <ldv@strace.io>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] tracing: Have memmapped ring buffer use ioctl of "R" range
+ 0x20-2F
+Message-ID: <20240702153354.367861db@rorschach.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240702115252.981416-2-xzeol@yahoo.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 02, 2024 at 02:52:50PM +0300, Alex Vdovydchenko wrote:
-> Add support for MPS mp5920 controller
-> 
-> Signed-off-by: Alex Vdovydchenko <xzeol@yahoo.com>
-> ---
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-Applied, after adding Conor's Ack from v3.
+To prevent conflicts with other ioctl numbers to allow strace to have an
+idea of what is happening, add the rang of ioctls for the trace buffer
+mapping from _IO("T", 0x1) to the range of "R" 0x20 - 0x2F.
 
-Guenter
+Link: https://lore.kernel.org/linux-trace-kernel/20240630105322.GA17573@altlinux.org/
+
+Reported-by: "Dmitry V. Levin" <ldv@strace.io>
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
+ include/uapi/linux/trace_mmap.h                    | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index a141e8e65c5d..9a97030c6c8d 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -186,6 +186,7 @@ Code  Seq#    Include File                                           Comments
+ 'Q'   all    linux/soundcard.h
+ 'R'   00-1F  linux/random.h                                          conflict!
+ 'R'   01     linux/rfkill.h                                          conflict!
++'R'   20-2F  linux/trace_mmap.h
+ 'R'   C0-DF  net/bluetooth/rfcomm.h
+ 'R'   E0     uapi/linux/fsl_mc.h
+ 'S'   all    linux/cdrom.h                                           conflict!
+diff --git a/include/uapi/linux/trace_mmap.h b/include/uapi/linux/trace_mmap.h
+index bd1066754220..c102ef35d11e 100644
+--- a/include/uapi/linux/trace_mmap.h
++++ b/include/uapi/linux/trace_mmap.h
+@@ -43,6 +43,6 @@ struct trace_buffer_meta {
+ 	__u64	Reserved2;
+ };
+ 
+-#define TRACE_MMAP_IOCTL_GET_READER		_IO('T', 0x1)
++#define TRACE_MMAP_IOCTL_GET_READER		_IO('R', 0x20)
+ 
+ #endif /* _TRACE_MMAP_H_ */
+-- 
+2.43.0
+
