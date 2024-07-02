@@ -1,124 +1,107 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from sonic314-46.consmr.mail.ir2.yahoo.com (sonic314-46.consmr.mail.ir2.yahoo.com [77.238.177.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2CC82488
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 12:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472D416C845
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 12:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719922340; cv=none; b=KZrPFi7tQ6O4s9aD3EdMHab/NNukxlIh1f4cvoGeDnsyD3cEsbGKPVXsnODAgNFR1TD8Y2kb0rbuLPAv6R2RdYHtXw5E1svO2gGzh+q30ZTCIUYZ9gZLLhV4Bdj6E1j39KwV84UU1g8AzMQQb8v9c60i7azGw7ksjMu6L9VcmzE=
+	t=1719922518; cv=none; b=p5D3odRySbGCTU3i5/Welw9lVLIsqEjFoiMSvPH6vxDmBhpalE3Yp+rwkWYq96Hm8yvinc1JqdaWKAMuSbHCumc9XmOBJwJy5J31S96RASfNkQp24zrURQnKYHmDvzr0vf3h3YebbOtAod7OBzEsYjBWmwM2AyJcUOksnqf2fos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719922340; c=relaxed/simple;
-	bh=pQF1gmroJLyYPwVp6Y99BEq59Xm9uFxtaNDkFEsBrCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H5LbnHLfKcKTLNFvKsJHGFvdIawin/YiUylL5W7hij6IyDK8WUoHwVyWn30JAirXJr4i4yYyJfeuJ9gXWYkxgm5Cp/c8uWMyDjsUayXCsIHZrWfUWZumyMXMO2/6ctI/5rM+jbnaGO2clE8qv7VzAKFZHI5xZKOQKpqChbp+zwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XKXQozUz; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1719922518; c=relaxed/simple;
+	bh=5A/LPrJoCxitojeJt7eBlNk3snz2b7ebrhihpRcHwVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=A6r+BbgFaNWQMAWFMlntPnmn9P7kHLNg+IH0PotLgTcnYz+H9ebNmcLH4fqmBeIkOYr2YGScVeAuyEj6f9Ut82IhVJyid0clm0hpMu8WDzVfOHMDg0Rtgf4RpScWGZdvh0OyexysZAGTuktMeJLXz+UU/uEjzCb5BsWGX3y1R6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=W0GmMW36; arc=none smtp.client-ip=77.238.177.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XKXQozUz"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ebeefb9a7fso46573021fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 05:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1719922337; x=1720527137; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0xngQr25p1sZV26OzUH+Wi8Y6ZPE5TWk/yG5cCxzrxs=;
-        b=XKXQozUzPq4pL0A+FXFqOsuRVFBYQA9FdTkzFWzWagHTvU/g7cvksv85USBzJoXZTP
-         LY94RmODBTbw3NJRDJSFw11aeEdU2Y66L2fCaguWPjG0vfN7QmIA6Vm6sicZBfG6n4qW
-         Gfc6IUhaQ5JURYm00CsEfyKhx5PJDB22YX1Kc47Np4LtkR3O+I4UuTYbjEaZlPIks9Ud
-         eHNDXSM1Et3Hp4IJMuIS8qz0cYM3wUPAvZ+717JC+6kXchq0oVcgox9eDZ55v0Gco/TB
-         wHXdeuQZ0sKEwfH0Xy4X4vjb6h6G38zmdm85ZtA2hktD2oNK8kebQXBPIsenZ8cO8wom
-         L/sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719922337; x=1720527137;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0xngQr25p1sZV26OzUH+Wi8Y6ZPE5TWk/yG5cCxzrxs=;
-        b=rz7c/tQSIOioy1Rbv+AE0M2z2wNRibu/CVSxUCulyoL/UguRO/Vbrp3XzC+GHx90hX
-         gJ8Rak2/S/Ne506LubQFyrzFTNRr3D4f7mTYY1emNdV0+0XitIO+YPvp9n0ufS0XWXy3
-         HPynhX+ccS5OeiM/rTufJ+nkhEbgcB16junmGLWDOaPg4oKU/WSYlYwNhtu6pC9oL/Vh
-         SdTOkqcZ7ddMjS0Hwv/zqdjl4zkf4OQZHEAjnwN90lO7PfeAZzyJXbxcbsqEktDQYvnm
-         l5dSTD5qU1Q1C01FgzlI19Dv4rIdjo64h5skJnWINPOwrL+j9F79bfM+DXDSCvxECgis
-         sa1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUpW11yiNZ+U53rtk020qWQnGUIr7S8gCM2vVqa8I/oKSmbgH1FrraD/Qu/Ol9ePSf6xMbN8rmA/N/LRHJ3jwaSgqXK8FBhnAJg
-X-Gm-Message-State: AOJu0Yx56gK5TxPlLyAbwd9c0KpAe9Zjx/z8hAMOXiLQINQqhGBEV60E
-	7JEbmk14dJfhJspg5hXYFjWDEU3oBhNenOUFueJ3x6k5fAzJiHzq7+fRgw8MVeQ=
-X-Google-Smtp-Source: AGHT+IHDHRTrkO4CFMTeB0SmP/Wd2havgBGFo8IzqIkV5ET0LCgN/3ncN6rqzs7Vj0SBv8WfjQ70CA==
-X-Received: by 2002:a05:651c:54a:b0:2ee:4ccf:ca4f with SMTP id 38308e7fff4ca-2ee5e3c3a6bmr66459021fa.31.1719922336700;
-        Tue, 02 Jul 2024 05:12:16 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac15788casm82487285ad.219.2024.07.02.05.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 05:12:16 -0700 (PDT)
-Date: Tue, 2 Jul 2024 14:12:06 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="W0GmMW36"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1719922514; bh=SI7tOorPKK3iwm2YfS1Q/1Qsuj151Q4jTdztaPUQtFQ=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=W0GmMW36rP0dyoHybBYHWPwrq7WKLdiIT71YN/hYayZ3kCTHJT57HIUx7aJhL+pnKaUFzxAxRQ+oy5/rQH5RVeDaaA0wYz4tt+yjY4skEKIpPpIxZCUk/VIoXn+KM0cZwUF4UcY7gUUrnhPcpkINLXW8fx91oHSIt4gvC2OTTQEpysCaT4OE8JqY0WTSsBGQ0XBo3FQyWyMU3YTgXG2ty0YGOq7dTY4pJB4+oJN6gDNNLGR8zkRS+GsuQcvuhdMzhbtBWE3W8+enX48L5VR5SvUgbOipzxFA45wMsZBO5Nboj7OajBdlq7CEmg9/ZRbpC8dSqFAcYjTS3w3Cl9wT7Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1719922514; bh=7Cqr1J7ZPfiAqW78zyJlZ8kpbNKQIrPrCtYIgqzrIiB=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=DhLZeyy+4wmyFmCm2x7sAvRaG3Kci8ed66KAAsCJJ3hGYNrxnyw+KaOeomfAKmGX/w3i+0Z5GehAbvUsT2hNaLbg8e05D0rUk0lenXOfT4hfBVMwxiq+MM5KY0z9+/hiRa2TLXtkSniR5YR6ucShv1M8TfW8Y4S9sud6KNI3qRNS4D1FmawEuWMidXDkzNXZdVFhajuuyDAnT9nJ1MrxLEN4KKncY2ADPGxyBmVGuVO+vpVWAP3ZVgcwpN8j/ovMzXJ/brPMTkZGpaAz1EUVtFq2DMq1J6p+nHTHRfqCRBAHxKiojYRjK5t7g+vdUytCaigXyTLl8YOLRY0+bP7z+Q==
+X-YMail-OSG: ElClSJoVM1kUkOe6xQFoHRNY54mPJP6B7tC6uj_3Brw__zqhVQ2DoPACgCDwrrF
+ R9lmIY.b1BomJ4A1apc6Emx1ZzQZYGvJDVLjjzqEZB3UTiq00K9.Eq3aRazKiLR2bzh5Qe2qAbNh
+ ML.cT4e9F1lx8Un25yjgtwnjTlt1aJEGoDoTgOTww0xG.eL3SE7JaV0V7oKs6EVm2FutJV4ZGoLK
+ H1OHbFoVcbH1J68X30f8ZVNVqZO6UxEnkUZwJSZ1WQ81n5q0sG56Nq045setkuAsQB5PqcKZ.nQ2
+ hNzygx_DMUXqU62DvFAwMm9d8B7qzUdHiINV1RaS_m6zrIJVRXkrMLcX1_hrIX2VtozztwpDcA7K
+ gI1B.ey6HqFlWvaBpqvsVYOzIvB9bim6toaORiAmcEH.0EgeHFfmam0MR7pP9EmWkQ2Kdvupi3vZ
+ 6Fefeq3sxWCHuFd6VIiUuyUAth4zziIzKWIBaYhTQFjKuNdJUNwH.y2ImvrCIHWivlKQBZQafq2G
+ bUzQiIJeQrGZbkgq__9cP4pCbVMe0ctO.5UCjdSMQszPbBCEW57HfhhTg..9q_L4ySQFAS_xSC7Q
+ UsIGeRXcyH1TvqLblSNC3Bafip.vtsLbJg.UBYHvPyh7cJ4fyvi6uLkYsUyU4WkZYXTkzKKb0EvY
+ 6I1ef.MSS6dp5NvdKu2ZrOaFLxlFVdSFgTl4d0fyHZxYKexouC4W_ldHKO6n14d2oKdjZ2xbH3CI
+ jsoVBPCL4cSfwiZVk1p.kp_TJ5OnbNOfaqybVjHpxGaH8A7Xp.WsSMubPE7JxhMJhpGvlI75wdlA
+ 0.PwF3bX6huSzp2Hg4pekj4z0cwEH2faIabZWV8EH72uzECwlptGhAVUg9r4JqC1DjoV9e_uOMr5
+ eOU02LjaaXqCZiBJapRiWKlAFYFuJbn9L.ORfZk2kqylr7yxSoG3pZE2KE03.7eeSWRk40MCofBE
+ 5S2wKvhcyMxKhXZq7fJhUUhoeWpeJ4ZLV5w2wPiuwNM9CjPqvla7oIk1uQ9P7Al7_0wW3_NWXVmK
+ NkhOTrY9dryUROMiUSMy7QAyYWR8Hk7y7JTPSJi5B3Vv67HbPTRuKOyCfObw0PIqjymaKIN8tEFd
+ 8oce3gH1FF4PhYjZ61J9Xu9lJOA3hH9kVVWy5Hl_6dGvw6rgxKFKGhIX.vcDAVNMn5e7Dx368Mgl
+ 5mSJ_zE44I84OkHpL2v9Wsr2pvlSZUX3KJyZ7IuNJNgn0RMmughcpBXHouv4kBVivzk1Q9zRR4W7
+ 96UHq8JRVSeSsjPyoZcK50krIuYt3RebgtNEw3TUoplkdCgXejz9_SqM4B26AiytJih1PR5O0wNF
+ CQhfYOkAx7y5Z07UTZMzcCIxXbkY.1FtKKAbo6E8ncgQUZmzsau67KklsB88SrNXdSxDfS00WTxb
+ BZYP9hjNEoCj7xEPpMnMEsz61kc.hI2GAb4faQtP7R3UIbRl6AMD8XGsH1ZbU1T9q8Spl.mPiLBf
+ guiyIx5g.e2I2y6sqf6lCaGcDIGyO7HC5zp5gSN08chtLloOH3Yc8C5uGnMyJKsIBkWcFxuZ.mO7
+ OiZOn33tHUrsoHIcvrJFSr.WTvzADM8ap1x5RaqH1W2FDaLuNouy9T4FO.MoUGXMgx7OLuDqtcgw
+ jFnRpKGe9je.Z.rdrzS8p6Thh2WtnRHRxt8kx3pYrdHgnnjv_akDZrhKy2BS7JncP.T85S257Rnl
+ mXuAgXX61OuhhUnnV1uX8H25QzeDA6pCWC2mjEtrp57TjgDMuBSOiDYYXduCZyRcvPQr778.bX.W
+ UP9cuWSt.sO6VU1DorbXJfC2dSOEVRKRTnFe6xcEApnqE15NZ5qIIWkVO..l7HdvAjhoAUDFiR5R
+ AU.TGmWIqud8womiJYuD.I9k48dzgTjSZImSvD0Cv_NI52s5Gz1H4u7g1OLWcCHl4mnbIPyHcpa3
+ DCL0TS3I8KlSI1CUcfF9O.Lxx8uHqG5MfMrKPO.1QT7_w.RZgtER72mGBO.4FC3WsmrG5Q8XL_jX
+ Ey4kHZ0sJbiWRtS4JFzVgEEd8.0Vfcudj3kANixtHpOO4bVWh16aAaC1goGPmxBP7cW9mZmUrFmD
+ .gQlY8Sq5UgUER2jkAzE0DAGUL.aQTlnl1eMYijON7ZMYP7FJuZym.w5dmkU3sAcTJdW3LUC8PZl
+ Ko2vzwYHrndjNvkhdi9y5GVs.1fCkPAEEEggy40pUfpY1rDzooZF_qjI1xw--
+X-Sonic-MF: <xzeol@yahoo.com>
+X-Sonic-ID: 5be21093-340e-4cd2-8dfd-5895edaad512
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Tue, 2 Jul 2024 12:15:14 +0000
+Received: by hermes--production-ir2-85cf877599-mvt7h (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 0dd9cec1d13f3a8113ebc66190b2d374;
+          Tue, 02 Jul 2024 11:52:58 +0000 (UTC)
+From: Alex Vdovydchenko <xzeol@yahoo.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH printk v2 16/18] printk: Provide threadprintk boot
- argument
-Message-ID: <ZoPullwnOGvUoCPv@pathway.suse.cz>
-References: <20240603232453.33992-1-john.ogness@linutronix.de>
- <20240603232453.33992-17-john.ogness@linutronix.de>
+	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Alex Vdovydchenko <xzeol@yahoo.com>
+Subject: [PATCH v4 1/2] dt-bindings: hwmon: Add MPS mp5920
+Date: Tue,  2 Jul 2024 14:52:50 +0300
+Message-ID: <20240702115252.981416-2-xzeol@yahoo.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240702115252.981416-1-xzeol@yahoo.com>
+References: <20240702115252.981416-1-xzeol@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240603232453.33992-17-john.ogness@linutronix.de>
+Content-Transfer-Encoding: 8bit
 
-On Tue 2024-06-04 01:30:51, John Ogness wrote:
-> For PREEMPT_RT, legacy console printing is performed in a dedicated
-> kthread. However, this behavior can also be interesting for other
-> preemption models as it minimizes the duration of printk() calls by
-> deferring all printing.
-> 
-> Provide a new boot argument "threadprintk" that will create the
-> dedicated kthread for legacy console printing for !PREEMPT_RT
-> systems.
-> 
-> The implementation is the same as the "threadirqs" boot argument.
->
-> Users should be aware that if this option is enabled, the shutdown,
-> reboot, and panic messages probably will not be visible on the
-> legacy consoles.
+Add support for MPS mp5920 controller
 
-printk() is _heavily_ limited in this mode. Users would see the
-messages only when the system is running well.
+Signed-off-by: Alex Vdovydchenko <xzeol@yahoo.com>
+---
+ Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I think that this is a _big_ difference against "threadirqs".
-It still allows to handle some critical IRQ handlers directly
-by using IRQF_NO_THREAD.
+diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+index ff70f0926..cb2fc26d9 100644
+--- a/Documentation/devicetree/bindings/trivial-devices.yaml
++++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+@@ -296,6 +296,8 @@ properties:
+           - mps,mp2975
+             # Monolithic Power Systems Inc. multi-phase controller mp2993
+           - mps,mp2993
++            # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5920
++          - mps,mp5920
+             # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5990
+           - mps,mp5990
+             # Monolithic Power Systems Inc. digital step-down converter mp9941
+-- 
+2.43.0
 
-> Non-legacy consoles (NBCON) already have their own dedicated kernel
-> threads for printing and reliable shutdown, reboot, and panic
-> printing. This option really only applies to legacy consoles.
-
-OK, the NBCON consoles might make it a bit more useful. But there
-will be only one at the beginning. And it won't work with boot
-consoles.
-
-All I want to say is that this mode has big limitations
-and kind of weird semantic. This semantic is basically
-needed only with PREEMPT_RT.
-
-I would prefer to remove this patch for now. It would give us
-more time to think about the threaded and sync modes.
-
-Or I would at least use "force" in the name to make it more clear
-that it forces some non-default (non-optimal) behavior.
-I would call it "printk_thread_force" or "printk_legacy_thread_force".
-
-Best Regards,
-Petr
