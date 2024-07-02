@@ -1,184 +1,216 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D2717DA22;
-	Tue,  2 Jul 2024 21:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D02A1DA30F
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 22:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719957519; cv=none; b=WFt51S0BK5QG+mAlhVpSAdeD+s2P3LBMbMsYPqz01mgCSTAmmyEz2x0C1fC/0TaU6UCgdcxzZKYFHX0Dl8f3DONv6+SLQh+5WWeNGdD5jRIlup9ZALUb3DPsmJtvQWMy87ch91O/TPw+Zo3fa1xCcFOWof5pyh2AXEenE3tyw04=
+	t=1719958970; cv=none; b=KChRtV4zXFmiRSPvFzvA2KRC9LwIe+f2ZDdJZOO8FaWGziLR4SvCOe2IK2lsLh90TTtCBsyp1N6gQHcuJNnuf/Dfx8YcNv+qigr3o1AmbW49RsSHC48AbYQ4EhkEFFMS3KhFEI5O58nnrCbREnbozrW/8rNORknMlnBznPv+sXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719957519; c=relaxed/simple;
-	bh=BW4pO7uYwWxn0ojsfglU05J91bpCDuylVWspoKc2hXA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kr4/dJdnXQ7XExKLcp0f0LFIhONeI2NHPB7gPA0l4waPuTB4ed84y2rwpjCx9Z9Zp+x/ruILeEVygj86IIAPSSJu6g97jSzi5Jrdo0YwTdCHtWaGBB1ZMxW2DZ+cC8CLFR5GtcUNXaYloPc6VVaJx7kcSZDaR4bP5waR0h1AOP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBFrM+oq; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719958970; c=relaxed/simple;
+	bh=NHOWiWOwWkWjt43c2sZEwV67bQhm4bQuKR/fXOr1FYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b0mzDgkPHBMKCWPqBtx6/l9iHiiLyL4CguVCMSs0jzdz1IwU1YFkXOwtZ/nI/ljBF/gwa9yoO7Vn3HBIWmUHAmJJQGNueMMeyrTPwCJAjh6cZ8UXwWruSUrI5V8U+u5ClJCvm+k5Rg1HIjSoy+LSWoFIAAMfkGH0iWJ4NKS7Dco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rGzJiUgW; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBFrM+oq"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7f3d884e70bso237612039f.3;
-        Tue, 02 Jul 2024 14:58:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rGzJiUgW"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7065a2f4573so3291831b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 15:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719957517; x=1720562317; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gkFYDr1/VaUp9nR5GtDe+QedLaRcp6UcXGPB2Rd9f4k=;
-        b=aBFrM+oqYgM89FB4oWMiwIVd0vonjcj6j78KDq7E8mZeNyf1JdJaOTOp6cOD2pvjcG
-         qJo9+tR9akqJ+mKf2m4BJM3Cw64ccWlQfuu9ZnM1rLayMZe+y2fBTAbgFkrF/0IJ9vcV
-         eZBLTzPoYv93VhxW/CbJyRalF9pcH07+ze8He46SPmaX6onEPMFjU4dWVdaGlMyGIXAe
-         FG3CpM4KScitmhc1crsg/nI8gfu3QqinXgE0bgcSpMjetCP+y+dUkS74gQcobZVNocA5
-         B9i5ZQXWz58qm/BtIItK+DjZDrxpcO7/E94wQBU583q13WCTwwr16DFVTxop33yXq7sP
-         UcPw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719958967; x=1720563767; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2HAreNgSKd2flbDmhZ9kzCgXWhr/5FjsTCmFlTvboqE=;
+        b=rGzJiUgWmcbborbR8rbq3iBOf89vBv3y0fIil/UVC0mPXVHoYeqB009ZsXHsZRjwIj
+         18JufHnzW0SPgnJCvafudPURzHW+hXsTvNxEekbgsmRnEW2wynOewuS5Kyfup1SCdWqG
+         NEu4KP711XXsT0Woy1V8UBlzwZczZZOPAYGGG9BOHdtftPEf4RyRGzom1uBFpX7eQ6t3
+         9k/oCjaNPaYtySwct7uctZenPd07FFruVDv5I/xHPzrmaPI5eXV4p8A6GuXhmsITeAB3
+         SCxmikJmTK6K8bZbuqzmCIVoRCq5QBSvBaa/YQFK4uwIByi9Fn7aCeEbDKrsNRGIL7KG
+         Fd9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719957517; x=1720562317;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gkFYDr1/VaUp9nR5GtDe+QedLaRcp6UcXGPB2Rd9f4k=;
-        b=nzcqHBl9z8s7nXnKAraL5o9EO+k38s9IsqagokGr5UnJnmR8QLGnfRJrLsPJDnxcsu
-         zyvAe+ZVqDdYPLGocegfEhU6SetiMjXVR2LfhlBtk6A8ClU8QqIzd2EGY/ZM6JXisML9
-         FzIkMrgXC6fdA8VmUxOKBL7l94INpyPm4eo4dAU8fZb8JG/9RUYyWJ4rv4KmjAgnC/se
-         ++A0d9K0O4nCzpEUO50oBB61eCG03MVJAYQwmZ2Dms0FQb2rhg6jRfwY8gIB8c0TPizJ
-         6OoaQ4CB43ZLJtKY5JqWjiEvNZ2cjp1u+G/x2P7noezhNQFJERLN+0zfpptDQPqxdCl5
-         TvwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUOg1l7uxwRnD8WpMIRDcXqYr17AMAOz9CvVsFQq594hZlp8qha7hm4FnjxVIvoQOhaLP82OXvM9UJyQhNJl94DRoX2A2IMAvYg
-X-Gm-Message-State: AOJu0Ywo9451ITIdefKu3By7V9dVOw6LNDi48zJAPwbKeWrCfpTs2Ako
-	YJaIZfpHnKZTvfu0rvL/mXyWmP2/TXv5qgNvIxciwcIZntH07jDb
-X-Google-Smtp-Source: AGHT+IHrYge+G9SxEL7voNd3XWXoqJIq9/3lBcjxHvh2FJylH832o2Rfwee+jZnNxzuJYbl2IZHY9Q==
-X-Received: by 2002:a05:6602:355:b0:7f6:1dff:e364 with SMTP id ca18e2360f4ac-7f62ee02647mr1168440039f.1.1719957516607;
-        Tue, 02 Jul 2024 14:58:36 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id ca18e2360f4ac-7f61d207fcesm279944739f.51.2024.07.02.14.58.35
+        d=1e100.net; s=20230601; t=1719958967; x=1720563767;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2HAreNgSKd2flbDmhZ9kzCgXWhr/5FjsTCmFlTvboqE=;
+        b=j25bvJ5BN8QekN52McdIANpiNt2tmDmvcLwkLeym9MBvP2Liz1U8X6XnMj1DHf3K8x
+         wXnQhX+AU99uyaO/hdykuGFoUmVXnAhaiY6smR8SZ3vP1N45IvGRFzV5tJyi74Q2CP/R
+         ZVWCAtUCLPX6TDXjitQhg2LU3uV9bosAkzfr37R6f6ZeruTUgu/ToX0ciVfL96481pzY
+         y6RN7SQE4FRp5Ne7IJZAnQFmSMO4iNmXV+X3eK9D+dOR8ZXSmGsBYEDpZ8WYLOLM4t2G
+         MJaHPM+ilzpfzBnMce6x5J8M91uuR1UFgVIX0ORpphpfg3XbI9YOU/oyTvc8vYhm4v1H
+         zHFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMjG4GmyRVJFk9uKOuDthauiJvzMFjYXVgIvqRJPgMFT0V3/Us8H5xoUNzf3OceDRyXu2QrmyVrA0qS18pWuQdlw0PcF4Fn8vo
+X-Gm-Message-State: AOJu0YwmvITAiDzssQq6l2ZiWTlhBxWJkMjHHpzrDFUCi6k04yYYZ25n
+	J0+h8YPnS0gE8U+HnTmgYUQgfO7BpwSmKEgHoGQGveBZ7yM55UogDvFBm+itkCuWELtrhSQOkxD
+	9
+X-Google-Smtp-Source: AGHT+IFv/UktdfqfVi4xgaaycbPb7pdL54C2mZHYwO0zrmNP80hR83Y1Fy2VM2Z6FDn1I046+MIzxQ==
+X-Received: by 2002:a05:6a20:1586:b0:1be:cb97:a918 with SMTP id adf61e73a8af0-1bef610bf3dmr9638155637.29.1719958967187;
+        Tue, 02 Jul 2024 15:22:47 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70803ecf97csm9053071b3a.127.2024.07.02.15.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 14:58:36 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: daniel.vetter@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com,
-	jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com,
-	jbaron@akamai.com,
-	gregkh@linuxfoundation.org,
-	ukaszb@chromium.org
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gvt-dev@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux@rasmusvillemoes.dk,
-	joe@perches.com,
-	mcgrof@kernel.org,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v9 18/52] dyndbg-doc: add classmap info to howto
-Date: Tue,  2 Jul 2024 15:57:08 -0600
-Message-ID: <20240702215804.2201271-19-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240702215804.2201271-1-jim.cromie@gmail.com>
-References: <20240702215804.2201271-1-jim.cromie@gmail.com>
+        Tue, 02 Jul 2024 15:22:46 -0700 (PDT)
+Date: Tue, 2 Jul 2024 15:22:43 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Jesse Taube <jesse@rivosinc.com>,
+	linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] RISC-V: Check Zicclsm to set unaligned access
+ speed
+Message-ID: <ZoR9swwgsGuGbsTG@ghost>
+References: <20240625005001.37901-1-jesse@rivosinc.com>
+ <20240625005001.37901-5-jesse@rivosinc.com>
+ <20240626-march-abreast-83414e844250@spud>
+ <Zn3XrLRl/yazsoZe@ghost>
+ <43941f48-9905-4b25-89ef-6ad75bf1a123@rivosinc.com>
+ <20240701-ajar-italicize-9e3d9b8a0264@spud>
+ <ef639748-3979-4236-b48d-c0c44e2d5ad2@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef639748-3979-4236-b48d-c0c44e2d5ad2@rivosinc.com>
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+On Mon, Jul 01, 2024 at 04:20:15PM +0200, Clément Léger wrote:
+> 
+> 
+> On 01/07/2024 15:58, Conor Dooley wrote:
+> > On Mon, Jul 01, 2024 at 09:15:09AM +0200, Clément Léger wrote:
+> >>
+> >>
+> >> On 27/06/2024 23:20, Charlie Jenkins wrote:
+> >>> On Wed, Jun 26, 2024 at 03:39:14PM +0100, Conor Dooley wrote:
+> >>>> On Mon, Jun 24, 2024 at 08:49:57PM -0400, Jesse Taube wrote:
+> >>>>> Check for Zicclsm before checking for unaligned access speed. This will
+> >>>>> greatly reduce the boot up time as finding the access speed is no longer
+> >>>>> necessary.
+> >>>>>
+> >>>>> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+> >>>>> ---
+> >>>>> V2 -> V3:
+> >>>>>  - New patch split from previous patch
+> >>>>> ---
+> >>>>>  arch/riscv/kernel/unaligned_access_speed.c | 26 ++++++++++++++--------
+> >>>>>  1 file changed, 17 insertions(+), 9 deletions(-)
+> >>>>>
+> >>>>> diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
+> >>>>> index a9a6bcb02acf..329fd289b5c8 100644
+> >>>>> --- a/arch/riscv/kernel/unaligned_access_speed.c
+> >>>>> +++ b/arch/riscv/kernel/unaligned_access_speed.c
+> >>>>> @@ -259,23 +259,31 @@ static int check_unaligned_access_speed_all_cpus(void)
+> >>>>>  	kfree(bufs);
+> >>>>>  	return 0;
+> >>>>>  }
+> >>>>> +#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
+> >>>>> +static int check_unaligned_access_speed_all_cpus(void)
+> >>>>> +{
+> >>>>> +	return 0;
+> >>>>> +}
+> >>>>> +#endif
+> >>>>>  
+> >>>>>  static int check_unaligned_access_all_cpus(void)
+> >>>>>  {
+> >>>>> -	bool all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
+> >>>>> +	bool all_cpus_emulated;
+> >>>>> +	int cpu;
+> >>>>> +
+> >>>>> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICCLSM)) {
+> >>>>> +		for_each_online_cpu(cpu) {
+> >>>>> +			per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_FAST;
+> >>>>
+> >>>> - const: zicclsm
+> >>>>   description:
+> >>>>     The standard Zicclsm extension for misaligned support for all regular
+> >>>>     load and store instructions (including scalar and vector) but not AMOs
+> >>>>     or other specialized forms of memory access. Defined in the
+> >>>>     RISC-V RVA Profiles Specification. 
+> >>>>
+> >>>> Doesn't, unfortunately, say anywhere there that they're actually fast :(
+> >>>
+> >>> Oh no! That is unfortunate that the ISA does not explicitly call that
+> >>> out, but I think that acceptable.
+> >>>
+> >>> If a vendor puts Zicclsm in their isa string, they should expect
+> >>> software to take advantage of misaligned accesses. FAST is our signal to
+> >>> tell software that they should emit misaligned accesses.
+> >>
+> >> AFAIK, Zicclsm is not even an ISA extension, simply a profile
+> >> specification which means that only the execution environment which
+> >> provides the profile support misaligned accesses (cf
+> >> https://lists.riscv.org/g/tech-profiles/message/56).
+> > 
+> > I dunno, the specification status page used to describe it as an
+> > extension:
+> > https://wiki.riscv.org/display/HOME/Specification+Status+-+Historical
+> > My understanding was that these could be considered extensions, just
+> > like we are considering svade to be one.
+> > 
+> >> . I don't think we
+> >> can extrapolate that the misaligned accesses will be fast at all.
+> > 
+> > That is my opinion on it too. If it doesn't say "fast" and give a
+> > definition for what that means in the binding, then we can't assume that
+> > it is fast. I'm also wary of extending definitions of extensions in the
+> > binding, because a) I am 90% sure that people writing devicetrees don't
+> > care and b) it'd be a potential difference between DT and ACPI without a
+> > real justification (unlike the zkr or svade/svadu situations).
+> 
+> BTW, the profile spec [1] has a note that states the following for Zicclsm:
+> 
+> "Even though mandated, misaligned loads and stores might execute
+> extremely slowly. Standard software distributions should assume their
+> existence only for correctness, not for performance."
+> 
+> Which was also quoted in patch 1, so I guess that settles it.
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+The intention here was to allow vendors to configure an option to skip
+the probing. This extension does not seem useful as it is written! A way
+around this would be to add a kernel arg to set the access speed but
+maybe it doesn't matter. For the sake of this patch, it looks like we
+should get rid of this Zicclsm check.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
----
- .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+- Charlie
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 6a8ce5a34382..742eb4230c6e 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg allows selection/grouping of *prdbg* callsites using structural
-+info: module, file, function, line.  Classmaps allow authors to add
-+their own domain-oriented groupings using class-names.  Classmaps are
-+exported, so they referencable from other modules.
-+
-+  # enable classes individually
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-+
-+  # IOW this doesn't wipe any DRM.debug settings
-+  :#> ddcmd -p
-+
-+To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-+classes in a classmap, mapping param-bits 0..N onto the classes:
-+DRM_UT_<*> for the DRM use-case.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-+each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-+type, and mapping the class-names to consecutive _class_ids.
-+
-+By doing so, modules tell dyndbg that they have prdbgs with those
-+class_ids, and they authorize dyndbg to accept "class FOO" for the
-+module defining the classmap, and its contained classnames.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-+drm DEFINEs.  This shares the classmap definition, and authorizes
-+dyndbg to apply changes to the user module's class'd pr_debugs.  It
-+also tells dyndbg how to initialize the user's prdbgs at modprobe,
-+based upon the current setting of the parent's controlling param.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.45.2
-
+> 
+> Thanks,
+> 
+> Clément
+> 
+> Link:
+> https://github.com/riscv/riscv-profiles/blob/main/src/profiles.adoc?plain=1#L524
+> [1]
+> 
+> > 
+> >>> This allows for a generic kernel, like the one a distro would compile, to
+> >>> skip the probing when booting on a system that explicitly called out
+> >>> that the hardware supports misaligned accesses.
