@@ -1,173 +1,110 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35238BFA;
-	Tue,  2 Jul 2024 00:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DFA4A06;
+	Tue,  2 Jul 2024 01:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719881799; cv=none; b=T4Dk2oSyIzhinWr6H6zv813ZNlDoedXD/JXVRbqF9+ldsh1x3SAeGnRcveJESK6e9TTYFc7/PEGU/cxuJP9nbS+WEO86ef4mjsGxB2TvzuHFqYZU36Mcf5bB6eJMKzlhQtff4Sg9768xFF3BrRpQKUa+f0QLywjDKYlZ3tekIcg=
+	t=1719882934; cv=none; b=PzntgPGGqXUozD62iEnYY6fq8eYPpRXMuJin1NUQu3qozxd/y7Z7cGVy0pqAweGzkgA0hkBeOAg+C/e8g3LhGXQa32Ob/Ipy2DlH2kPKXJ41Rh0Cb4itFY9LgBx/H6yf8FyAe/B93KXjAtIls7RMa/cfJck34UD6GoLc4miao3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719881799; c=relaxed/simple;
-	bh=EnhqeMXGbc7n+0B+x9uZXw1qozd+uPIwqq+yfJMYLl4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I2ShXEbwNXVs2g/bohj2DuAwFpC+yhrYk985jTDWwPbBhXPpLNhNY1BG/21MubNbZJvK3pTCJ3zu7Lcqvc1W2CsuRzqaaEj3eO3RV0Veew4thikRaWKSEajl/cU8tX12i9rv2Tc2oq2P/T3NmLaIQTTU4r3UE992aoO7/fvUE4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WCkrf6X1gz1T4Ln;
-	Tue,  2 Jul 2024 08:52:02 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
-	by mail.maildlp.com (Postfix) with ESMTPS id 60C6A14037B;
-	Tue,  2 Jul 2024 08:56:34 +0800 (CST)
-Received: from hulk-vt.huawei.com (10.67.174.26) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 2 Jul 2024 08:56:34 +0800
-From: Xiu Jianfeng <xiujianfeng@huawei.com>
-To: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
-	<corbet@lwn.net>, <kamalesh.babulal@oracle.com>,
-	<haitao.huang@linux.intel.com>
-CC: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 -next] cgroup/misc: Introduce misc.peak
-Date: Tue, 2 Jul 2024 00:48:20 +0000
-Message-ID: <20240702004820.2645868-1-xiujianfeng@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1719882934; c=relaxed/simple;
+	bh=Gtrt6hGFdlUrCR0r7K3OdsOn2P42A6OdRY4ERZo9r70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xbft0/k5OOx3W8dQAOe3sA7J62+7R0dglD/arhgZQqIuuHLsqQSfM3BuTo3775ljYonYZIbthzzCl6PMzufDxjzTc6B2DunmyJkK/t4EXOPGm2VqkngICTEedE/1NvApwpzQ5upCioIT90KtPHuXl0q/yVmMIsDDcu1n137iR0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nTLG4PuT; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTLG4PuT"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-71884eda768so1970606a12.1;
+        Mon, 01 Jul 2024 18:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719882932; x=1720487732; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=urlS9+H2rKMJUth4dq3lOVQ77liEguo0Lq3ss6wvw5Q=;
+        b=nTLG4PuT2koQFDCifkM45vHIR/aNJXISioHhZHYqHe/6o8+nDGbYl2fVWRHJ0uo4/n
+         F+QJ5JfwRNICC7V4i1F/oiTzkjPppgTfRUXnB9c0ctNYqTaLfFH+W7H98w6URLyNRir1
+         LEq+w+SCFXJYo1CBYaZfrJJKHk+3V9FWBwLUqhu3nGcmyGHLExjN96DWrXRCYmaiNXH3
+         VelmNb+n3m1XorAirAER6Cd4ZaO+D24mcAH4mCfQMa6OLl6tuE5eMbB52dSdgb73cuu2
+         trfurN3sIbNrod5K0edQlAKxiZjWCSWqcgWrlQdsFTRBAwDmIiUSVrAh7icPZwwyBFO8
+         BaaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719882932; x=1720487732;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=urlS9+H2rKMJUth4dq3lOVQ77liEguo0Lq3ss6wvw5Q=;
+        b=NJhypjxW4vRdU1HzrSobUDaBeY8+2MjjsuZqVVlFBeTdob05Rt+KZYUosRrUOuMeDN
+         RnXnyOd5J5eFMdj3Vs6vvZ6r9RHRdoeZWbzlxWrBkAffJ+jAQ9JS5TRkctNvaojjXnVI
+         AQ6RrAhf1ZaNmebEvpWb1/WGSTQWzHInVFqwlZnEaqwIzb51ZiTRc8Q4GnY75zoXpiRJ
+         NfFbKUZECczQb6qi/BypncS4DYQRtPhElDR7vJvGg9mphfy16EFNQn2m8pzLL7n3Eu3e
+         NbZiRTCAc2PzeB7gY1Loz/FVKE7zpLc+0u3VjWrxh1M9SrOWgymFLKxX8n/Arn9UCCqd
+         qjNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXb4dCUia5okaLY+DKlBeclK5UwQPFaCYz1stAD1qBdbEPsHB9nk1WT0mS9gI/l6cxm6rVTinVET1QauS1Ns42mFg+svd8QaeYhcwm1PcgHO+fqHNNkRcWm9WcupBDwxjzr+JvOMFNH
+X-Gm-Message-State: AOJu0YyS5WMJGHu/ceF5ekezWQDlJejK9SFtGl1ORFwRA+zDMJqncCZ8
+	nd5LwwRqe9LGmnZLUGtiT1GTgvDdvDVpZB+1gaROUrAeXT8pCW+s
+X-Google-Smtp-Source: AGHT+IHGBjNarJxkMTwR1vMfijoLiLQNzgEK7uXM4+u3EZpSJkCYQ0nWUNT6zcB7AAoLL2Ohvh6O4Q==
+X-Received: by 2002:a05:6a21:191:b0:1bd:22b6:121d with SMTP id adf61e73a8af0-1bef62141f3mr6633091637.52.1719882932208;
+        Mon, 01 Jul 2024 18:15:32 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac15693f3sm71464175ad.218.2024.07.01.18.15.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 18:15:31 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id D8FB51816BD2C; Tue, 02 Jul 2024 08:15:28 +0700 (WIB)
+Date: Tue, 2 Jul 2024 08:15:28 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	"'Rafael J . Wysocki'" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Power Management <linux-pm@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] cpufreq: docs: Add missing scaling_available_frequencies
+ description
+Message-ID: <ZoNUsBou78XACmdc@archie.me>
+References: <20240701171040.369030-1-rgallaispou@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500023.china.huawei.com (7.185.36.114)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AFijACploa3LrsLr"
+Content-Disposition: inline
+In-Reply-To: <20240701171040.369030-1-rgallaispou@gmail.com>
 
-Introduce misc.peak to record the historical maximum usage of the
-resource, as in some scenarios the value of misc.max could be
-adjusted based on the peak usage of the resource.
 
-Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+--AFijACploa3LrsLr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-v3: fix while (0)
-v2: use cmpxchg to update the watermark
----
- Documentation/admin-guide/cgroup-v2.rst |  9 ++++++
- include/linux/misc_cgroup.h             |  2 ++
- kernel/cgroup/misc.c                    | 39 +++++++++++++++++++++++++
- 3 files changed, 50 insertions(+)
+On Mon, Jul 01, 2024 at 07:10:40PM +0200, Raphael Gallais-Pou wrote:
+> +``scaling_available_frequencies``
+> +	List of available frequencies of the CPUs belonging to this policy
+> +	(in kHz).
+> +
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index ae0fdb6fc618..468a95379009 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2646,6 +2646,15 @@ Miscellaneous controller provides 3 interface files. If two misc resources (res_
- 	  res_a 3
- 	  res_b 0
- 
-+  misc.peak
-+        A read-only flat-keyed file shown in all cgroups.  It shows the
-+        historical maximum usage of the resources in the cgroup and its
-+        children.::
-+
-+	  $ cat misc.peak
-+	  res_a 10
-+	  res_b 8
-+
-   misc.max
-         A read-write flat-keyed file shown in the non root cgroups. Allowed
-         maximum usage of the resources in the cgroup and its children.::
-diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
-index e799b1f8d05b..faf72a537596 100644
---- a/include/linux/misc_cgroup.h
-+++ b/include/linux/misc_cgroup.h
-@@ -30,11 +30,13 @@ struct misc_cg;
- /**
-  * struct misc_res: Per cgroup per misc type resource
-  * @max: Maximum limit on the resource.
-+ * @watermark: Historical maximum usage of the resource.
-  * @usage: Current usage of the resource.
-  * @events: Number of times, the resource limit exceeded.
-  */
- struct misc_res {
- 	u64 max;
-+	u64 watermark;
- 	atomic64_t usage;
- 	atomic64_t events;
- };
-diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
-index 79a3717a5803..7f5180a8f461 100644
---- a/kernel/cgroup/misc.c
-+++ b/kernel/cgroup/misc.c
-@@ -121,6 +121,17 @@ static void misc_cg_cancel_charge(enum misc_res_type type, struct misc_cg *cg,
- 		  misc_res_name[type]);
- }
- 
-+static void misc_cg_update_watermark(struct misc_res *res, u64 new_usage)
-+{
-+	u64 old;
-+
-+	do {
-+		old = READ_ONCE(res->watermark);
-+		if (cmpxchg(&res->watermark, old, new_usage) == old)
-+			break;
-+	} while (1);
-+}
-+
- /**
-  * misc_cg_try_charge() - Try charging the misc cgroup.
-  * @type: Misc res type to charge.
-@@ -159,6 +170,7 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg, u64 amount)
- 			ret = -EBUSY;
- 			goto err_charge;
- 		}
-+		misc_cg_update_watermark(res, new_usage);
- 	}
- 	return 0;
- 
-@@ -307,6 +319,29 @@ static int misc_cg_current_show(struct seq_file *sf, void *v)
- 	return 0;
- }
- 
-+/**
-+ * misc_cg_peak_show() - Show the peak usage of the misc cgroup.
-+ * @sf: Interface file
-+ * @v: Arguments passed
-+ *
-+ * Context: Any context.
-+ * Return: 0 to denote successful print.
-+ */
-+static int misc_cg_peak_show(struct seq_file *sf, void *v)
-+{
-+	int i;
-+	u64 watermark;
-+	struct misc_cg *cg = css_misc(seq_css(sf));
-+
-+	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
-+		watermark = READ_ONCE(cg->res[i].watermark);
-+		if (READ_ONCE(misc_res_capacity[i]) || watermark)
-+			seq_printf(sf, "%s %llu\n", misc_res_name[i], watermark);
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * misc_cg_capacity_show() - Show the total capacity of misc res on the host.
-  * @sf: Interface file
-@@ -357,6 +392,10 @@ static struct cftype misc_cg_files[] = {
- 		.name = "current",
- 		.seq_show = misc_cg_current_show,
- 	},
-+	{
-+		.name = "peak",
-+		.seq_show = misc_cg_peak_show,
-+	},
- 	{
- 		.name = "capacity",
- 		.seq_show = misc_cg_capacity_show,
--- 
-2.34.1
+LGTM, thanks!
 
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--AFijACploa3LrsLr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZoNUsAAKCRD2uYlJVVFO
+owD7AP0WIyBtpy7PzyR7Qxahrz6raKGfHhvs7okvWJu7UHKUmQEAzP8mOwd3yD8H
+vSh623WaG75qA0IHEQvcoPW79Zo5VwM=
+=dPo2
+-----END PGP SIGNATURE-----
+
+--AFijACploa3LrsLr--
