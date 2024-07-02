@@ -1,191 +1,512 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E8D152534
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 06:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7752182D68
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 07:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719902293; cv=none; b=N5v2yycb31HnmQmVlxA+95HrnyKnk07kG9mshdgkMMjLOYHow7u5ERS5TU6iCnAlU55YZb+NDrodl7YEJ1tGhirRDM5YI2AYR+/yy3+i3JUImoJDTayWEb/nJc5YUVuP8zY/0iIgqDf8zm4KreUjvWXcURAsnW0adQqFkMbs4Zg=
+	t=1719904591; cv=none; b=Gg/TPlngXXSuEo9JZDuXJm4jNPqdLALalpyUto6Fc0c/0B7glG6pAweqY7URhiOh8PtJuKysc4A1M1DibjSL9ML3qm6b5dK4ZcPCL9nfyMbMd/mOQd/7HMxA466HOvMQmm1D1q8sYCmBzoMNMKx9eb5IKmUx/P+ph8cvJFyRNEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719902293; c=relaxed/simple;
-	bh=uVGTXrCZ95rXnFyM1jW4IBOOvZ8iiNQ34mCxGz8eJdo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YpMxtRcxhgI2SEy18t4F7EGmzXOG+20XpmNhxZeUfC81bCAs/q276Y+w9cUu93+gv31Rog4XXiteX2zH3/RCbQ6VIaBWid24mmYCrQYSswfluqSbmMbST/e18ZlmsHoYRRgMzqMNmDbrQsuYrSS96dibM9QnQSbwMMpz/NWh6iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S2tAOdrD; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1719904591; c=relaxed/simple;
+	bh=hNk8P7frBgquGt6kQACNyumrV+5mP5wFDBGJ2vt/lxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YT+VF2yyfdDgLeibHBJReZ2pSLT1iYcCSSiAOQYLGggkzx2+cbOOKqerN0F0dPh7jeEzpnwXXbbKyyOXuzKTKD9S2gPZ4uFiIMEVZPAW1OzdVnA2MZeLZLWiKXr0OzBLwUz7HV9NTDTux0IShohGCnDN7sCC8D+QlZmRzC21Rm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PKXWLHBC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S2tAOdrD"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3676447928bso2191484f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jul 2024 23:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719902289; x=1720507089; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PNCv1zHEy8SjFr6U2erVD2AzxRdRE5SVwR5I879o2aE=;
-        b=S2tAOdrDYRoYwhxS3oL/kT+3zSkESMc5YsrOQ13/yjFpeUDvryrP1bjgQ485v6MGoR
-         kagPCqwCp7thLejQ6CTrFd2i8Xg/g04VYgQjl1FnoQQjJbg9bvzn3fRvjtC6b2G8/gPP
-         CfgWK+2YAarHc16IFHG5LZ1WMeiCh/VfjmewSTLKfpIgiwyGJOaEU9Toho3uwCvb0xfY
-         BUsLlCHooCUXAg4X2Gv0yY4ngGg4CPKl3kpkkhzSzlQkKptrJvbgxu0joZdp9oRt2tnk
-         jFjrMbBx33XLVvGB2sLEULYXiHzDEsYIHl5tSkJF8WmLhR9LB/ETvfrgVtkZEvhidtCd
-         QQaw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PKXWLHBC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719904588;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=THPgxYYie/sQY58xXcz3AEaUmfYRCcFXiKgZmNLUlT8=;
+	b=PKXWLHBCCIThR74THKXM5yd8Z34GUhJs+9kVvDvuGV3Msi0cLl0cLac1WmG6OwP/5AydSf
+	b7TIXGLvDrvNsjVqADHasdeukTZYhIAM24vcGP1g9SWTV5gcaFiJ0L0mhNU+M8sKOKal++
+	t4S+3k+o2Z5yhCxF6sqb8yATT1o67ww=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-556-68lQtKc-PBKHDMlhXXz5eQ-1; Tue, 02 Jul 2024 03:16:26 -0400
+X-MC-Unique: 68lQtKc-PBKHDMlhXXz5eQ-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-52cdbc21fa2so4096458e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 00:16:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719902289; x=1720507089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PNCv1zHEy8SjFr6U2erVD2AzxRdRE5SVwR5I879o2aE=;
-        b=fANKnJipT5fW9gNXuQXP8CYXcxxDNEGuYcXOGuc+pk01q4Oktd9YnsIWOlBbGABxLV
-         wGSPcWKITMYLNlFCmgALDiRin9L26qbZfhTNblTO/Qi6MhFJs8C23/tIo1JFU8eYw05i
-         dTSSkzSvesEZHQdo9ynR5J0hn0h7itW70VIDMPkr3QtE49KV4UZc3U/G/K8nL6G6+puk
-         ljvpId40d6oPfullw2Fboceg9RoJtqk5d1tnaVuA/56yMcxpKhUORGKcR+zUmN0LQ6zd
-         By/MaPcoaVtWh4oo/XyIAjua4DQ1P6GtSNqjgz+WAjW6KJhS1OkVaBF9Bn7vYXIiunK7
-         x6ug==
-X-Forwarded-Encrypted: i=1; AJvYcCUa1vbkh5mAEbpHAlIcFqGdkmBi0qNnLqlFkz/eueTRv+E9xim8MFz3aJwK5GDhh/fMW6Q707t8diT1EYCGH4FfrXcRF/iRbXaU
-X-Gm-Message-State: AOJu0Yzot1LRlBl4sNbg8/2gQ9+0m2nAhem5TQxsDTXXIn/JQlcYYS21
-	Jga7ewhROOEh9DMLerMw3I4B2huKF/Eu9i011zeLRQx7dgDmALwZdvMG6u8U+Atqh1IavbdQdOF
-	pkb78VDXbhvqhrMlsx1cYcjIQB5wlwSTNoR2xl4QVLiKwLfdLGET7
-X-Google-Smtp-Source: AGHT+IHFFIpP0I+ybtmWQvASLb2wmgzFLFQ4KKDZRXguJSPBoitxkQ1JFanEaFATLkfV3ZeHp5H9vkHujV1yOOdWuF8=
-X-Received: by 2002:a5d:58c3:0:b0:367:8147:92af with SMTP id
- ffacd0b85a97d-367814793femr695746f8f.69.1719902289308; Mon, 01 Jul 2024
- 23:38:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719904585; x=1720509385;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=THPgxYYie/sQY58xXcz3AEaUmfYRCcFXiKgZmNLUlT8=;
+        b=c9Pmv+hj9hmL6M1PHIF+jwVQEeNxs8WhnodOHmcoaJawLoJ6MRHC80KES5JRNoKETY
+         lSa2NLhncOT6NUx8PZjrBPakLyWVtXxT//ANKmzIvbt5mLIew/rYK1JLzFPZDY4KvnD6
+         bqyBcBeebUqJElT6xtPhpcmDubf10XhUMtP5KfVPjtDO85v3fddCCnR3tJWY6tLEHzk8
+         W6fN6t1pcPPD+Y3lnEOJRhGLiYrdT4F3ZFAigKibIihIzhw49E1YLv0TjwjT+d9aU5zL
+         ja5ScX8yb/LO/eT5QfmQLtewqvN+aj+8NAUj9ce2ixxUNwpBxYU1Z9kE6Gq8siFZRrHy
+         jghg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwkKAQZb4NozkDlMMoQR9D6RVuibPaG3rjH0iKX/FL3BMZ2qdeALwEJYVnOntPht3d8m8g4BdF+BbndPsppGgP6npYqGAJ/UZ0
+X-Gm-Message-State: AOJu0YzBSF6aE0oHz+CfYty4Qhdel2cqKdTILfYXSoF0abqfiZ1KeyjJ
+	q7DmxcJ9CQJsnN8+55GsH2W3DIzaC4pI/XrdEaPjrTsjE/YAHcKgm+PFV0SXjDI7Gr6X1msXP/q
+	N7A65sr6oHm1PsUjd2+q3GUzC7iq+V9QPOT7SlUMAH9tG0j3KBoiF7p7yCQ==
+X-Received: by 2002:a05:6512:b1c:b0:52c:e54e:f84b with SMTP id 2adb3069b0e04-52e82648e0fmr5797437e87.14.1719904584870;
+        Tue, 02 Jul 2024 00:16:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEPXrEdPBuf5zhp9prHvkeXcvRHabYz3pU1YFpQpMtW5xNn0ykKqaLHsvOJk0yStaW8FvoIKQ==
+X-Received: by 2002:a05:6512:b1c:b0:52c:e54e:f84b with SMTP id 2adb3069b0e04-52e82648e0fmr5797404e87.14.1719904584307;
+        Tue, 02 Jul 2024 00:16:24 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c739:2400:78ac:64bb:a39e:2578? (p200300cbc739240078ac64bba39e2578.dip0.t-ipconnect.de. [2003:cb:c739:2400:78ac:64bb:a39e:2578])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af3cf90sm183791075e9.5.2024.07.02.00.16.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jul 2024 00:16:23 -0700 (PDT)
+Message-ID: <cf572c69-a754-4d41-b9c4-7a079b25b3c3@redhat.com>
+Date: Tue, 2 Jul 2024 09:16:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701184912.01f1f9ce@canb.auug.org.au> <20240701201448.7878e9b35e1569bfc1f2ddbc@linux-foundation.org>
- <CACw3F52=GxTCDw-PqFh3-GDM-fo3GbhGdu0hedxYXOTT4TQSTg@mail.gmail.com>
- <CACw3F52wm=5Rg+QP-E7JDOjBvA2mYv0uDBL+8=KPCfQ8tkHQaA@mail.gmail.com> <20240701231826.fb3044bb52dc97bedc9853ab@linux-foundation.org>
-In-Reply-To: <20240701231826.fb3044bb52dc97bedc9853ab@linux-foundation.org>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Mon, 1 Jul 2024 23:37:55 -0700
-Message-ID: <CACw3F52_obAB742XeDRNun4BHBYtrxtbvp5NkUincXdaob0j1g@mail.gmail.com>
-Subject: Re: linux-next: build warnings after merge of the mm tree
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] huge_memory: Allow mappings of PUD sized pages
+To: Alistair Popple <apopple@nvidia.com>, dan.j.williams@intel.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca
+Cc: catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+ willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com,
+ peterx@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
+ hch@lst.de, david@fromorbit.com
+References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
+ <bd332b0d3971b03152b3541f97470817c5147b51.1719386613.git-series.apopple@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <bd332b0d3971b03152b3541f97470817c5147b51.1719386613.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 1, 2024 at 11:18=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Mon, 1 Jul 2024 21:33:20 -0700 Jiaqi Yan <jiaqiyan@google.com> wrote:
->
-> > > > This seems a reasonable thing to do so there's probably some way in
-> > > > which to do it, but a bit of grepping failed to turn up examples in
-> > > > existing .rst files.  Can someone please suggest?
-> > >
-> > > It seems I need to add some blank lines according to [1], especially
-> > > to add a blank line above the first list item:
-> > >
-> > > diff --git a/Documentation/admin-guide/sysctl/vm.rst
-> > > b/Documentation/admin-guide/sysctl/vm.rst
-> > > index 75e22137d849..74b4c0f65213 100644
-> > > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > > @@ -274,12 +274,15 @@ Correctable memory errors are very common on
-> > > servers. Soft-offline is kernel's
-> > >  solution for memory pages having (excessive) corrected memory errors=
-.
-> > >
-> > >  For different types of page, soft-offline has different behaviors / =
-costs.
-> > > +
-> > >  - For a raw error page, soft-offline migrates the in-use page's cont=
-ent to
-> > >    a new raw page.
-> > > +
-> > >  - For a page that is part of a transparent hugepage, soft-offline sp=
-lits the
-> > >    transparent hugepage into raw pages, then migrates only the raw er=
-ror page.
-> > >    As a result, user is transparently backed by 1 less hugepage, impa=
-cting
-> > >    memory access performance.
-> > > +
-> > >  - For a page that is part of a HugeTLB hugepage, soft-offline first =
-migrates
-> > >    the entire HugeTLB hugepage, during which a free hugepage will be =
-consumed
-> > >    as migration target.  Then the original hugepage is dissolved into=
- raw
-> > >
-> > > But I am having trouble testing the build, so wasn't able to validate
-> > > the change above:
-> > >
-> > > Documentation$ make
-> > > /tools/net/ynl/ynl-gen-rst.py -o
-> > > /Documentation/networking/netlink_spec/index.rst -x
-> > > make: /tools/net/ynl/ynl-gen-rst.py: No such file or directory
-> > > make: *** [Makefile:113:
-> > > /Documentation/networking/netlink_spec/index.rst] Error 127
->
-> You need to install all sorts of whacky system and python packages.
-> The (failed) build process should guide you through this.
->
-> > I tried another way: make htmldocs at repo's root directory. Although
-> > I wasn't able to finish the make process,
-> >
-> > - without the blank lines:
-> >
-> >   Documentation/admin-guide/sysctl/vm.rst:278: ERROR: Unexpected indent=
-ation.
-> >   Documentation/admin-guide/sysctl/vm.rst:279: WARNING: Block quote
-> > ends without a blank line; unexpected unindent.
-> >
-> > - with the blank lines added, the ERROR and WARNING in vm/rst are gone.
-> >
-> > Andrew and Stephen, what is the best way to post the fix for this?
-> > Should I send out a v8 of the patch with the blank lines added? or a
-> > standalone commit for this fix?
->
-> I added your fix, thanks.
+On 27.06.24 02:54, Alistair Popple wrote:
+> Currently DAX folio/page reference counts are managed differently to
+> normal pages. To allow these to be managed the same as normal pages
+> introduce dax_insert_pfn_pud. This will map the entire PUD-sized folio
+> and take references as it would for a normally mapped page.
+> 
+> This is distinct from the current mechanism, vmf_insert_pfn_pud, which
+> simply inserts a special devmap PUD entry into the page table without
+> holding a reference to the page for the mapping.
 
-Ah, sorry Andrew, I should sent out this diff, as there are more blank
-lines needed:
+Do we really have to involve mapcounts/rmap for daxfs pages at this 
+point? Or is this only "to make it look more like other pages" ?
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst
-b/Documentation/admin-guide/sysctl/vm.rst
-index 75e22137d849..f48eaa98d22d 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -274,12 +274,15 @@ Correctable memory errors are very common on
-servers. Soft-offline is kernel's
- solution for memory pages having (excessive) corrected memory errors.
+I'm asking this because:
 
- For different types of page, soft-offline has different behaviors / costs.
-+
- - For a raw error page, soft-offline migrates the in-use page's content to
-   a new raw page.
-+
- - For a page that is part of a transparent hugepage, soft-offline splits t=
-he
-   transparent hugepage into raw pages, then migrates only the raw error pa=
-ge.
-   As a result, user is transparently backed by 1 less hugepage, impacting
-   memory access performance.
-+
- - For a page that is part of a HugeTLB hugepage, soft-offline first migrat=
-es
-   the entire HugeTLB hugepage, during which a free hugepage will be consum=
-ed
-   as migration target.  Then the original hugepage is dissolved into raw
-@@ -296,8 +299,11 @@ the request to soft offline the pages.  Its
-default value is 1.
+(A) We don't support mixing PUD+PMD mappings yet. I have plans to change
+     that in the future, but for now you can only map using a single PUD
+     or by PTEs. I suspect that's good enoug for now for dax fs?
+(B) As long as we have subpage mapcounts, this prevents vmemmap
+     optimizations [1]. Is that only used for device-dax for now and are
+     there no plans to make use of that for fs-dax?
+(C) We managed without so far :)
 
- It is worth mentioning that after setting enable_soft_offline to 0, the
- following requests to soft offline pages will not be performed:
-+
- - Request to soft offline pages from RAS Correctable Errors Collector.
-+
- - On ARM, the request to soft offline pages from GHES driver.
-+
- - On PARISC, the request to soft offline pages from Page Deallocation Tabl=
-e.
 
- extfrag_threshold
+Having that said, with folio->_large_mapcount things like 
+folio_mapcount() are no longer terribly slow once we weould PTE-map a 
+PUD-sized folio.
+
+Also, all ZONE_DEVICE pages should currently be marked PG_reserved, 
+translating to "don't touch the memmap". I think we might want to tackle 
+that first.
+
+[1] https://lwn.net/Articles/860218/
+[2] 
+https://lkml.kernel.org/r/b0adbb0c-ad59-4bc5-ba0b-0af464b94557@redhat.com
+
+> 
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>   include/linux/huge_mm.h |   4 ++-
+>   include/linux/rmap.h    |  14 +++++-
+>   mm/huge_memory.c        | 108 ++++++++++++++++++++++++++++++++++++++---
+>   mm/rmap.c               |  48 ++++++++++++++++++-
+>   4 files changed, 168 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 2aa986a..b98a3cc 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -39,6 +39,7 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>   
+>   vm_fault_t vmf_insert_pfn_pmd(struct vm_fault *vmf, pfn_t pfn, bool write);
+>   vm_fault_t vmf_insert_pfn_pud(struct vm_fault *vmf, pfn_t pfn, bool write);
+> +vm_fault_t dax_insert_pfn_pud(struct vm_fault *vmf, pfn_t pfn, bool write);
+>   
+>   enum transparent_hugepage_flag {
+>   	TRANSPARENT_HUGEPAGE_UNSUPPORTED,
+> @@ -106,6 +107,9 @@ extern struct kobj_attribute shmem_enabled_attr;
+>   #define HPAGE_PUD_MASK	(~(HPAGE_PUD_SIZE - 1))
+>   #define HPAGE_PUD_SIZE	((1UL) << HPAGE_PUD_SHIFT)
+>   
+> +#define HPAGE_PUD_ORDER (HPAGE_PUD_SHIFT-PAGE_SHIFT)
+> +#define HPAGE_PUD_NR (1<<HPAGE_PUD_ORDER)
+> +
+>   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>   
+>   extern unsigned long transparent_hugepage_flags;
+> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+> index 7229b9b..c5a0205 100644
+> --- a/include/linux/rmap.h
+> +++ b/include/linux/rmap.h
+> @@ -192,6 +192,7 @@ typedef int __bitwise rmap_t;
+>   enum rmap_level {
+>   	RMAP_LEVEL_PTE = 0,
+>   	RMAP_LEVEL_PMD,
+> +	RMAP_LEVEL_PUD,
+>   };
+>   
+>   static inline void __folio_rmap_sanity_checks(struct folio *folio,
+> @@ -225,6 +226,13 @@ static inline void __folio_rmap_sanity_checks(struct folio *folio,
+>   		VM_WARN_ON_FOLIO(folio_nr_pages(folio) != HPAGE_PMD_NR, folio);
+>   		VM_WARN_ON_FOLIO(nr_pages != HPAGE_PMD_NR, folio);
+>   		break;
+> +	case RMAP_LEVEL_PUD:
+> +		/*
+> +		 * Asume that we are creating * a single "entire" mapping of the folio.
+> +		 */
+> +		VM_WARN_ON_FOLIO(folio_nr_pages(folio) != HPAGE_PUD_NR, folio);
+> +		VM_WARN_ON_FOLIO(nr_pages != HPAGE_PUD_NR, folio);
+> +		break;
+>   	default:
+>   		VM_WARN_ON_ONCE(true);
+>   	}
+> @@ -248,12 +256,16 @@ void folio_add_file_rmap_ptes(struct folio *, struct page *, int nr_pages,
+>   	folio_add_file_rmap_ptes(folio, page, 1, vma)
+>   void folio_add_file_rmap_pmd(struct folio *, struct page *,
+>   		struct vm_area_struct *);
+> +void folio_add_file_rmap_pud(struct folio *, struct page *,
+> +		struct vm_area_struct *);
+>   void folio_remove_rmap_ptes(struct folio *, struct page *, int nr_pages,
+>   		struct vm_area_struct *);
+>   #define folio_remove_rmap_pte(folio, page, vma) \
+>   	folio_remove_rmap_ptes(folio, page, 1, vma)
+>   void folio_remove_rmap_pmd(struct folio *, struct page *,
+>   		struct vm_area_struct *);
+> +void folio_remove_rmap_pud(struct folio *, struct page *,
+> +		struct vm_area_struct *);
+>   
+>   void hugetlb_add_anon_rmap(struct folio *, struct vm_area_struct *,
+>   		unsigned long address, rmap_t flags);
+> @@ -338,6 +350,7 @@ static __always_inline void __folio_dup_file_rmap(struct folio *folio,
+>   		atomic_add(orig_nr_pages, &folio->_large_mapcount);
+>   		break;
+>   	case RMAP_LEVEL_PMD:
+> +	case RMAP_LEVEL_PUD:
+>   		atomic_inc(&folio->_entire_mapcount);
+>   		atomic_inc(&folio->_large_mapcount);
+>   		break;
+> @@ -434,6 +447,7 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
+>   		atomic_add(orig_nr_pages, &folio->_large_mapcount);
+>   		break;
+>   	case RMAP_LEVEL_PMD:
+> +	case RMAP_LEVEL_PUD:
+>   		if (PageAnonExclusive(page)) {
+>   			if (unlikely(maybe_pinned))
+>   				return -EBUSY;
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index db7946a..e1f053e 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1283,6 +1283,70 @@ vm_fault_t vmf_insert_pfn_pud(struct vm_fault *vmf, pfn_t pfn, bool write)
+>   	return VM_FAULT_NOPAGE;
+>   }
+>   EXPORT_SYMBOL_GPL(vmf_insert_pfn_pud);
+> +
+> +/**
+> + * dax_insert_pfn_pud - insert a pud size pfn backed by a normal page
+> + * @vmf: Structure describing the fault
+> + * @pfn: pfn of the page to insert
+> + * @write: whether it's a write fault
+> + *
+> + * Return: vm_fault_t value.
+> + */
+> +vm_fault_t dax_insert_pfn_pud(struct vm_fault *vmf, pfn_t pfn, bool write)
+> +{
+> +	struct vm_area_struct *vma = vmf->vma;
+> +	unsigned long addr = vmf->address & PUD_MASK;
+> +	pud_t *pud = vmf->pud;
+> +	pgprot_t prot = vma->vm_page_prot;
+> +	struct mm_struct *mm = vma->vm_mm;
+> +	pud_t entry;
+> +	spinlock_t *ptl;
+> +	struct folio *folio;
+> +	struct page *page;
+> +
+> +	if (addr < vma->vm_start || addr >= vma->vm_end)
+> +		return VM_FAULT_SIGBUS;
+> +
+> +	track_pfn_insert(vma, &prot, pfn);
+> +
+> +	ptl = pud_lock(mm, pud);
+> +	if (!pud_none(*pud)) {
+> +		if (write) {
+> +			if (pud_pfn(*pud) != pfn_t_to_pfn(pfn)) {
+> +				WARN_ON_ONCE(!is_huge_zero_pud(*pud));
+> +				goto out_unlock;
+> +			}
+> +			entry = pud_mkyoung(*pud);
+> +			entry = maybe_pud_mkwrite(pud_mkdirty(entry), vma);
+> +			if (pudp_set_access_flags(vma, addr, pud, entry, 1))
+> +				update_mmu_cache_pud(vma, addr, pud);
+> +		}
+> +		goto out_unlock;
+> +	}
+> +
+> +	entry = pud_mkhuge(pfn_t_pud(pfn, prot));
+> +	if (pfn_t_devmap(pfn))
+> +		entry = pud_mkdevmap(entry);
+> +	if (write) {
+> +		entry = pud_mkyoung(pud_mkdirty(entry));
+> +		entry = maybe_pud_mkwrite(entry, vma);
+> +	}
+> +
+> +	page = pfn_t_to_page(pfn);
+> +	folio = page_folio(page);
+> +	folio_get(folio);
+> +	folio_add_file_rmap_pud(folio, page, vma);
+> +	add_mm_counter(mm, mm_counter_file(folio), HPAGE_PUD_NR);
+> +
+> +	set_pud_at(mm, addr, pud, entry);
+> +	update_mmu_cache_pud(vma, addr, pud);
+> +
+> +out_unlock:
+> +	spin_unlock(ptl);
+> +
+> +	return VM_FAULT_NOPAGE;
+> +}
+> +EXPORT_SYMBOL_GPL(dax_insert_pfn_pud);
+>   #endif /* CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
+>   
+>   void touch_pmd(struct vm_area_struct *vma, unsigned long addr,
+> @@ -1836,7 +1900,8 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>   			zap_deposited_table(tlb->mm, pmd);
+>   		spin_unlock(ptl);
+>   	} else if (is_huge_zero_pmd(orig_pmd)) {
+> -		zap_deposited_table(tlb->mm, pmd);
+> +		if (!vma_is_dax(vma) || arch_needs_pgtable_deposit())
+> +			zap_deposited_table(tlb->mm, pmd);
+>   		spin_unlock(ptl);
+>   	} else {
+>   		struct folio *folio = NULL;
+> @@ -2268,20 +2333,34 @@ spinlock_t *__pud_trans_huge_lock(pud_t *pud, struct vm_area_struct *vma)
+>   int zap_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>   		 pud_t *pud, unsigned long addr)
+>   {
+> +	pud_t orig_pud;
+>   	spinlock_t *ptl;
+>   
+>   	ptl = __pud_trans_huge_lock(pud, vma);
+>   	if (!ptl)
+>   		return 0;
+>   
+> -	pudp_huge_get_and_clear_full(vma, addr, pud, tlb->fullmm);
+> +	orig_pud = pudp_huge_get_and_clear_full(vma, addr, pud, tlb->fullmm);
+>   	tlb_remove_pud_tlb_entry(tlb, pud, addr);
+> -	if (vma_is_special_huge(vma)) {
+> +	if (!vma_is_dax(vma) && vma_is_special_huge(vma)) {
+>   		spin_unlock(ptl);
+>   		/* No zero page support yet */
+>   	} else {
+> -		/* No support for anonymous PUD pages yet */
+> -		BUG();
+> +		struct page *page = NULL;
+> +		struct folio *folio;
+> +
+> +		/* No support for anonymous PUD pages or migration yet */
+> +		BUG_ON(vma_is_anonymous(vma) || !pud_present(orig_pud));
+> +
+> +		page = pud_page(orig_pud);
+> +		folio = page_folio(page);
+> +		folio_remove_rmap_pud(folio, page, vma);
+> +		VM_BUG_ON_PAGE(page_mapcount(page) < 0, page);
+> +		VM_BUG_ON_PAGE(!PageHead(page), page);
+> +		add_mm_counter(tlb->mm, mm_counter_file(folio), -HPAGE_PUD_NR);
+> +
+> +		spin_unlock(ptl);
+> +		tlb_remove_page_size(tlb, page, HPAGE_PUD_SIZE);
+>   	}
+>   	return 1;
+>   }
+> @@ -2289,6 +2368,8 @@ int zap_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
+>   static void __split_huge_pud_locked(struct vm_area_struct *vma, pud_t *pud,
+>   		unsigned long haddr)
+>   {
+> +	pud_t old_pud;
+> +
+>   	VM_BUG_ON(haddr & ~HPAGE_PUD_MASK);
+>   	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
+>   	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PUD_SIZE, vma);
+> @@ -2296,7 +2377,22 @@ static void __split_huge_pud_locked(struct vm_area_struct *vma, pud_t *pud,
+>   
+>   	count_vm_event(THP_SPLIT_PUD);
+>   
+> -	pudp_huge_clear_flush(vma, haddr, pud);
+> +	old_pud = pudp_huge_clear_flush(vma, haddr, pud);
+> +	if (is_huge_zero_pud(old_pud))
+> +		return;
+> +
+> +	if (vma_is_dax(vma)) {
+> +		struct page *page = pud_page(old_pud);
+> +		struct folio *folio = page_folio(page);
+> +
+> +		if (!folio_test_dirty(folio) && pud_dirty(old_pud))
+> +			folio_mark_dirty(folio);
+> +		if (!folio_test_referenced(folio) && pud_young(old_pud))
+> +			folio_set_referenced(folio);
+> +		folio_remove_rmap_pud(folio, page, vma);
+> +		folio_put(folio);
+> +		add_mm_counter(vma->vm_mm, mm_counter_file(folio), -HPAGE_PUD_NR);
+> +	}
+>   }
+>   
+>   void __split_huge_pud(struct vm_area_struct *vma, pud_t *pud,
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index e8fc5ec..e949e4f 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1165,6 +1165,7 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
+>   		atomic_add(orig_nr_pages, &folio->_large_mapcount);
+>   		break;
+>   	case RMAP_LEVEL_PMD:
+> +	case RMAP_LEVEL_PUD:
+>   		first = atomic_inc_and_test(&folio->_entire_mapcount);
+>   		if (first) {
+>   			nr = atomic_add_return_relaxed(ENTIRELY_MAPPED, mapped);
+> @@ -1306,6 +1307,12 @@ static __always_inline void __folio_add_anon_rmap(struct folio *folio,
+>   		case RMAP_LEVEL_PMD:
+>   			SetPageAnonExclusive(page);
+>   			break;
+> +		case RMAP_LEVEL_PUD:
+> +			/*
+> +			 * Keep the compiler happy, we don't support anonymous PUD mappings.
+> +			 */
+> +			WARN_ON_ONCE(1);
+> +			break;
+>   		}
+>   	}
+>   	for (i = 0; i < nr_pages; i++) {
+> @@ -1489,6 +1496,26 @@ void folio_add_file_rmap_pmd(struct folio *folio, struct page *page,
+>   #endif
+>   }
+>   
+> +/**
+> + * folio_add_file_rmap_pud - add a PUD mapping to a page range of a folio
+> + * @folio:	The folio to add the mapping to
+> + * @page:	The first page to add
+> + * @vma:	The vm area in which the mapping is added
+> + *
+> + * The page range of the folio is defined by [page, page + HPAGE_PUD_NR)
+> + *
+> + * The caller needs to hold the page table lock.
+> + */
+> +void folio_add_file_rmap_pud(struct folio *folio, struct page *page,
+> +		struct vm_area_struct *vma)
+> +{
+> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+> +	__folio_add_file_rmap(folio, page, HPAGE_PUD_NR, vma, RMAP_LEVEL_PUD);
+> +#else
+> +	WARN_ON_ONCE(true);
+> +#endif
+> +}
+> +
+>   static __always_inline void __folio_remove_rmap(struct folio *folio,
+>   		struct page *page, int nr_pages, struct vm_area_struct *vma,
+>   		enum rmap_level level)
+> @@ -1521,6 +1548,7 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+>   		partially_mapped = nr && atomic_read(mapped);
+>   		break;
+>   	case RMAP_LEVEL_PMD:
+> +	case RMAP_LEVEL_PUD:
+>   		atomic_dec(&folio->_large_mapcount);
+>   		last = atomic_add_negative(-1, &folio->_entire_mapcount);
+>   		if (last) {
+> @@ -1615,6 +1643,26 @@ void folio_remove_rmap_pmd(struct folio *folio, struct page *page,
+>   #endif
+>   }
+>   
+> +/**
+> + * folio_remove_rmap_pud - remove a PUD mapping from a page range of a folio
+> + * @folio:	The folio to remove the mapping from
+> + * @page:	The first page to remove
+> + * @vma:	The vm area from which the mapping is removed
+> + *
+> + * The page range of the folio is defined by [page, page + HPAGE_PUD_NR)
+> + *
+> + * The caller needs to hold the page table lock.
+> + */
+> +void folio_remove_rmap_pud(struct folio *folio, struct page *page,
+> +		struct vm_area_struct *vma)
+> +{
+> +#ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+> +	__folio_remove_rmap(folio, page, HPAGE_PUD_NR, vma, RMAP_LEVEL_PUD);
+> +#else
+> +	WARN_ON_ONCE(true);
+> +#endif
+> +}
+> +
+>   /*
+>    * @arg: enum ttu_flags will be passed to this argument
+>    */
+
+-- 
+Cheers,
+
+David / dhildenb
+
