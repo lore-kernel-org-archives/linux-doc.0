@@ -1,127 +1,430 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3B118C35A
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 13:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA931B580A
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jul 2024 14:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719926387; cv=none; b=iwRyUP91GgWz9++lwjLkHIruuo3SbE14nUByBumUviDzx4v2VhTPxbWkc8AzzG73wiVCGekpGjEgukGCMaNrdOPUurm/BSh0FgBgUavXNA/u3YR6oN5VsGCvrK43QaFQBtmXfxnJr57LDLxpm5H1sneS6m/hrc/NQwCWoL+OXZ4=
+	t=1719929187; cv=none; b=ikZj5x7UCudPVLikKKb+IMvgFvRpDJlGr6cIxdxRB3SScYdcpYiHZAyQ1xj4Yo5NstF6dDEyKf72jy5D8tHjwD5S004rDiVIqI8tF32GxiUhv4tHsuA9ioRMaBVTunV7sg/bDbDJ6QkhURmrwwPeGH7FoBIggWNxUtg/pV/fnnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719926387; c=relaxed/simple;
-	bh=Ri2OlNdqm6+frOnytDrJauYbkPW4MU889L3TlKhT20g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mFU8Sp+Z4gnQTF2DLn/5oi7Lgdj9XOr1DAlbJsyK9NIQu83avx46hVdIepFjBVdyhzBDOPwjE47vpTzcrBlQ0+RkpvqqsRngLYFTzHeLWFoasldrg/X6n3HcXzdf+o3Yu2efT6udjenjsZ9rA5ZCMnvDibctn+ojV7MjevhryL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=emnKcO9R; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1719929187; c=relaxed/simple;
+	bh=ilo5wRApSw+V8N6LY4YP+xHoJXtUl4BvFtNBtTMAOB0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HXIdv7ZVrcxReJq0c/L+BgftDcV0cUrIExIhlE1AqhDLwYqJ6dz7MDOOKRSqOEcq9+qsZPhhlCL7nnGiEdh6wQX1SpMOznwZag6+Ohs5LHq+0nApp4Hfq7InJk5gRby4jlmZYa2Iit0uQ7y6lYvIFcDxcIB1LI0sSquT7gvSNtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AMm3TreV; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="emnKcO9R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719926384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=k4t3HYIWPAnXFThWat7RXWIQu9AR4mO328pEd1oUXQs=;
-	b=emnKcO9R93mjLpWYx4ydg7vSEDsWoQzGLDtCGcEBu/USz+U7dqYQX2AACMx82V0D+4dc/U
-	M545I1/3AZDhEUAkzb8IzbgdV8YEvyJ9uVGpdkf5YDQhD0iXVpswL11n0Mk9Npw2t5wPoE
-	3xm+605tyy/gmLiQOwiJ7nMDsOC6WRw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-MUQVppQYNiukwCJMhL_A1A-1; Tue, 02 Jul 2024 09:19:43 -0400
-X-MC-Unique: MUQVppQYNiukwCJMhL_A1A-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-367895ae92dso102880f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 06:19:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AMm3TreV"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso24183a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 07:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719929183; x=1720533983; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NNmU32dvBm3gfxYwarWNLU2+3UhXNNMikScGS5Lo7nM=;
+        b=AMm3TreVXc4SCmL9izl5C5r4WVrgiD0aqAw869F28LzOaRs2l2Zm4nArshiNQ1b8EL
+         yAP/DRMOimL3Bq45uhDhGLigzSHvPHN3DR0Y6y7juEgI+RzIzbeHCGXav7zJ/v2PxuEY
+         y3hXjO+SrvF7tecxEqTWngsn1sPJZU0IYbyUjBdaZN49N3WjTKiW1s6oyHRCo0QuKqfr
+         u4Fez0ixdWWNupTwWunhJXKAQQDSgt4udBlsd8s0fZES/kZtOJ5Sw2jTPsUYknjCVjqu
+         zOtulJVtXWR+4GtMjct2CV1JSoCXFpPZFZuYB/Gqd4Vq8cO0tO1gHaCNq+AN7kdOCUPP
+         v5+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719926382; x=1720531182;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k4t3HYIWPAnXFThWat7RXWIQu9AR4mO328pEd1oUXQs=;
-        b=bQMgW1cEq3qDyVVTz82FSRj/11xPVZ1wDv9tD+aqA9YhN2Zk/oiVqRgHSgGFU5msgU
-         LJ+538auRngQBNjDKN5rjrIpI6vSEHmnZ42NSNJ/E8QkgUYB35dMdofWZiQw8pECtMBt
-         oAxgoHPTiOfuQuN7QQh+g26ULZQCIUKdN0xb/mS1hlal2CUektgsPhPVMf67MqX0w186
-         UNS3S8O6Lra0kGJotIK6QFSu3yW/+uYkmHHZJ+M0tey/CCsrJ+z3ymi4M4706piwHwPO
-         RjXS09ZBudBVq8wCuvXMlf9JluSnRThAjxyYeRnaCqLYqxxG4+IGuEZq6w+Qz02n2INt
-         1DEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBhqLAFpxASkkbWdHnD6uxTfiHmR6spNXXzdwnOiSyzVJso5zbQHgNo+9Eny12Yag8vH8WPVeM/dKihv4zb/zLWY3LN2xk4Tql
-X-Gm-Message-State: AOJu0YxuF9UaCMaiJy0IYfTuLzU7TWrwRDTp+Ir9WMOz8I6zQWJnWXuI
-	rFlsaR9cgicrY7GANmKHZdlZfQRW9V2CmmsaX9armQ3qw+Q8SJs1Qnl0Xe7ZiOCHgslmoIbDXof
-	UsvWrwuGK64AWivGwDayqGVxeK2vPAoUcyYKqyomp5ihM67rfD80F6I3YtQ==
-X-Received: by 2002:a05:600c:4848:b0:425:7ac6:96f7 with SMTP id 5b1f17b1804b1-4257ac69876mr57582325e9.0.1719926382060;
-        Tue, 02 Jul 2024 06:19:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHMqbmBmqm89pN9bKVVywZSK576kfBQm2aipe3OWPR1KebDTcG/r9YI4+9+6wjKKkIIlL4W7g==
-X-Received: by 2002:a05:600c:4848:b0:425:7ac6:96f7 with SMTP id 5b1f17b1804b1-4257ac69876mr57582155e9.0.1719926381667;
-        Tue, 02 Jul 2024 06:19:41 -0700 (PDT)
-Received: from gerbillo.redhat.com ([2a0d:3341:b0a6:6710::f71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af55cccsm198502145e9.16.2024.07.02.06.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 06:19:41 -0700 (PDT)
-Message-ID: <8ee273f0647d00ee23f964e3f3f4a216c8413b84.camel@redhat.com>
-Subject: Re: [PATCH net-next v5 2/7] netlink: specs: Expand the PSE netlink
- command with C33 new features
-From: Paolo Abeni <pabeni@redhat.com>
-To: Kory Maincent <kory.maincent@bootlin.com>, "David S. Miller"
-	 <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	 <kuba@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Oleksij Rempel
-	 <o.rempel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Dent Project
-	 <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
-	linux-doc@vger.kernel.org
-Date: Tue, 02 Jul 2024 15:19:39 +0200
-In-Reply-To: <20240628-feature_poe_power_cap-v5-2-5e1375d3817a@bootlin.com>
-References: <20240628-feature_poe_power_cap-v5-0-5e1375d3817a@bootlin.com>
-	 <20240628-feature_poe_power_cap-v5-2-5e1375d3817a@bootlin.com>
-Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+        d=1e100.net; s=20230601; t=1719929183; x=1720533983;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NNmU32dvBm3gfxYwarWNLU2+3UhXNNMikScGS5Lo7nM=;
+        b=kSGCxpkkD9smO50FtpKmz4SU6Nxb7g7EXwzhS/of9icZBdLd8ljjnXjQV+opwO99CK
+         ygiK0hsBp+7oDFvEIgh51I55PiYAYAMl945gxePKmSCC1rcBgoFclsvTXUg8Xd8OwKnx
+         +pXHs3DNFsVio0XcAxYCwCIEDVPNI1R2IKxKCt8xvqr2Sh9W1ZhxRiIGO+g5Zpv69vEq
+         N/kjji3QKuwK6QYb58gAZJJuYK+4BYfOT8A+vAFVyM/E3qDqmK0QKZ5GgZtB42mFBDQV
+         ItvqVoI+rFipwEcOnN+g4bjRBfezWYJILuSJwAjJeVtoFzpOMxV5dYOYY498TvMpyPZl
+         rqjA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1BkCkg6UZ61HXgRzsrP8Ka3MyM6cQlr8UQ2aqhax3nE7zVWpHqLyepmsbM/LIJtooIBodTS52ug0+ezm5i63YyxhfZ0fG9gia
+X-Gm-Message-State: AOJu0YzgodhApwxPF2vUQjZytp4Ti8gWM0AcPBtjRpj9tAw42O7ZDRP+
+	U+dy4sIMmWEfRBwzwDXdP6guVTJHKOGYuSm/FLDmp/o6fH+UnEkxZJhuxrOb4BIAdW+DbA6D52+
+	AyE3jlmJlbl+Z1l14goSkOCCbqFSzSH+LmZk7
+X-Google-Smtp-Source: AGHT+IEG7n3/i48gk+qC4VGln3p1L3XzY4pEsX95WNl49QKZclbmPxQTL5jw92OBBJ24lHPaRlK9u6jETGlZtKwmQIg=
+X-Received: by 2002:a50:9e8d:0:b0:58b:21f2:74e6 with SMTP id
+ 4fb4d7f45d1cf-58c61e89244mr448a12.0.1719929182092; Tue, 02 Jul 2024 07:06:22
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240628003253.1694510-1-almasrymina@google.com> <20240628003253.1694510-10-almasrymina@google.com>
+In-Reply-To: <20240628003253.1694510-10-almasrymina@google.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 2 Jul 2024 16:06:08 +0200
+Message-ID: <CANn89i+3YbpWvmzmGVLQwyUgBpuQND3RbmXgB-AD-Ka9vRkd2A@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 09/14] net: add support for skbs with
+ unreadable frags
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2024-06-28 at 10:31 +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> Expand the c33 PSE attributes with PSE class, extended state information
-> and power consumption.
->=20
-> ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get
-> 	     --json '{"header":{"dev-name":"eth0"}}'
-> {'c33-pse-actual-pw': 1700,
->  'c33-pse-admin-state': 3,
->  'c33-pse-pw-class': 4,
->  'c33-pse-pw-d-status': 4,
->  'header': {'dev-index': 4, 'dev-name': 'eth0'}}
->=20
-> ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get
-> 	     --json '{"header":{"dev-name":"eth0"}}'
-> {'c33-pse-admin-state': 3,
->  'c33-pse-ext-state': 'mr-mps-valid',
->  'c33-pse-ext-substate': 2,
->  'c33-pse-pw-d-status': 2,
->  'header': {'dev-index': 4, 'dev-name': 'eth0'}}
->=20
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+On Fri, Jun 28, 2024 at 2:33=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> For device memory TCP, we expect the skb headers to be available in host
+> memory for access, and we expect the skb frags to be in device memory
+> and unaccessible to the host. We expect there to be no mixing and
+> matching of device memory frags (unaccessible) with host memory frags
+> (accessible) in the same skb.
+>
+> Add a skb->devmem flag which indicates whether the frags in this skb
+> are device memory frags or not.
+>
+> __skb_fill_netmem_desc() now checks frags added to skbs for net_iov,
+> and marks the skb as skb->devmem accordingly.
+>
+> Add checks through the network stack to avoid accessing the frags of
+> devmem skbs and avoid coalescing devmem skbs with non devmem skbs.
+>
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
+>
+> ---
+>
+> v11:
+> - drop excessive checks for frag 0 pull (Paolo)
+>
+> v9: https://lore.kernel.org/netdev/20240403002053.2376017-11-almasrymina@=
+google.com/
+> - change skb->readable to skb->unreadable (Pavel/David).
+>
+> skb->readable was very complicated, because by default skbs are readable
+> so the flag needed to be set to true in all code paths where new skbs
+> were created or cloned. Forgetting to set skb->readable=3Dtrue in some
+> paths caused crashes.
+>
+> Flip it to skb->unreadable so that the default 0 value works well, and
+> we only need to set it to true when we add unreadable frags.
+>
+> v6
+> - skb->dmabuf -> skb->readable (Pavel). Pavel's original suggestion was
+>   to remove the skb->dmabuf flag entirely, but when I looked into it
+>   closely, I found the issue that if we remove the flag we have to
+>   dereference the shinfo(skb) pointer to obtain the first frag, which
+>   can cause a performance regression if it dirties the cache line when
+>   the shinfo(skb) was not really needed. Instead, I converted the
+>   skb->dmabuf flag into a generic skb->readable flag which can be
+>   re-used by io_uring.
+>
+> Changes in v1:
+> - Rename devmem -> dmabuf (David).
+> - Flip skb_frags_not_readable (Jakub).
+>
+> ---
+>  include/linux/skbuff.h | 19 +++++++++++++++--
+>  include/net/tcp.h      |  5 +++--
+>  net/core/datagram.c    |  6 ++++++
+>  net/core/skbuff.c      | 48 ++++++++++++++++++++++++++++++++++++++++--
+>  net/ipv4/tcp.c         |  3 +++
+>  net/ipv4/tcp_input.c   | 13 +++++++++---
+>  net/ipv4/tcp_output.c  |  5 ++++-
+>  net/packet/af_packet.c |  4 ++--
+>  8 files changed, 91 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 3cd06eb3a44da..5438434b61300 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -827,6 +827,8 @@ enum skb_tstamp_type {
+>   *     @csum_level: indicates the number of consecutive checksums found =
+in
+>   *             the packet minus one that have been verified as
+>   *             CHECKSUM_UNNECESSARY (max 3)
+> + *     @unreadable: indicates that at least 1 of the fragments in this s=
+kb is
+> + *             unreadable.
+>   *     @dst_pending_confirm: need to confirm neighbour
+>   *     @decrypted: Decrypted SKB
+>   *     @slow_gro: state present at GRO time, slower prepare step require=
+d
+> @@ -1008,7 +1010,7 @@ struct sk_buff {
+>  #if IS_ENABLED(CONFIG_IP_SCTP)
+>         __u8                    csum_not_inet:1;
+>  #endif
+> -
+> +       __u8                    unreadable:1;
+>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
+>         __u16                   tc_index;       /* traffic control index =
+*/
+>  #endif
+> @@ -1820,6 +1822,12 @@ static inline void skb_zcopy_downgrade_managed(str=
+uct sk_buff *skb)
+>                 __skb_zcopy_downgrade_managed(skb);
+>  }
+>
+> +/* Return true if frags in this skb are readable by the host. */
+> +static inline bool skb_frags_readable(const struct sk_buff *skb)
+> +{
+> +       return !skb->unreadable;
+> +}
+> +
+>  static inline void skb_mark_not_on_list(struct sk_buff *skb)
+>  {
+>         skb->next =3D NULL;
+> @@ -2536,10 +2544,17 @@ static inline void skb_len_add(struct sk_buff *sk=
+b, int delta)
+>  static inline void __skb_fill_netmem_desc(struct sk_buff *skb, int i,
+>                                           netmem_ref netmem, int off, int=
+ size)
+>  {
+> -       struct page *page =3D netmem_to_page(netmem);
+> +       struct page *page;
+>
+>         __skb_fill_netmem_desc_noacc(skb_shinfo(skb), i, netmem, off, siz=
+e);
+>
+> +       if (netmem_is_net_iov(netmem)) {
+> +               skb->unreadable =3D true;
+> +               return;
+> +       }
+> +
+> +       page =3D netmem_to_page(netmem);
+> +
+>         /* Propagate page pfmemalloc to the skb if we can. The problem is
+>          * that not all callers have unique ownership of the page but rel=
+y
+>          * on page_is_pfmemalloc doing the right thing(tm).
+> diff --git a/include/net/tcp.h b/include/net/tcp.h
+> index 2aac11e7e1cc5..e8f6e602c2ad4 100644
+> --- a/include/net/tcp.h
+> +++ b/include/net/tcp.h
+> @@ -1060,7 +1060,7 @@ static inline int tcp_skb_mss(const struct sk_buff =
+*skb)
+>
+>  static inline bool tcp_skb_can_collapse_to(const struct sk_buff *skb)
+>  {
+> -       return likely(!TCP_SKB_CB(skb)->eor);
+> +       return likely(!TCP_SKB_CB(skb)->eor && skb_frags_readable(skb));
+>  }
+>
+>  static inline bool tcp_skb_can_collapse(const struct sk_buff *to,
+> @@ -1069,7 +1069,8 @@ static inline bool tcp_skb_can_collapse(const struc=
+t sk_buff *to,
+>         /* skb_cmp_decrypted() not needed, use tcp_write_collapse_fence()=
+ */
+>         return likely(tcp_skb_can_collapse_to(to) &&
+>                       mptcp_skb_can_collapse(to, from) &&
+> -                     skb_pure_zcopy_same(to, from));
+> +                     skb_pure_zcopy_same(to, from) &&
+> +                     skb_frags_readable(to) =3D=3D skb_frags_readable(fr=
+om));
+>  }
+>
+>  static inline bool tcp_skb_can_collapse_rx(const struct sk_buff *to,
+> diff --git a/net/core/datagram.c b/net/core/datagram.c
+> index 95f242591fd23..e1d12f55236df 100644
+> --- a/net/core/datagram.c
+> +++ b/net/core/datagram.c
+> @@ -407,6 +407,9 @@ static int __skb_datagram_iter(const struct sk_buff *=
+skb, int offset,
+>                         return 0;
+>         }
+>
+> +       if (!skb_frags_readable(skb))
+> +               goto short_copy;
+> +
+>         /* Copy paged appendix. Hmm... why does this look so complicated?=
+ */
+>         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+>                 int end;
+> @@ -619,6 +622,9 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, struc=
+t sock *sk,
+>         if (msg && msg->msg_ubuf && msg->sg_from_iter)
+>                 return msg->sg_from_iter(sk, skb, from, length);
+>
+> +       if (!skb_frags_readable(skb))
+> +               return -EFAULT;
+> +
+>         frag =3D skb_shinfo(skb)->nr_frags;
+>
+>         while (length && iov_iter_count(from)) {
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index cc47774bbeb98..1e82222d0a6dd 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -1968,6 +1968,9 @@ int skb_copy_ubufs(struct sk_buff *skb, gfp_t gfp_m=
+ask)
+>         if (skb_shared(skb) || skb_unclone(skb, gfp_mask))
+>                 return -EINVAL;
+>
+> +       if (!skb_frags_readable(skb))
+> +               return -EFAULT;
+> +
+>         if (!num_frags)
+>                 goto release;
+>
+> @@ -2141,6 +2144,9 @@ struct sk_buff *skb_copy(const struct sk_buff *skb,=
+ gfp_t gfp_mask)
+>         unsigned int size;
+>         int headerlen;
+>
+> +       if (!skb_frags_readable(skb))
+> +               return NULL;
+> +
+>         if (WARN_ON_ONCE(skb_shinfo(skb)->gso_type & SKB_GSO_FRAGLIST))
+>                 return NULL;
+>
+> @@ -2479,6 +2485,9 @@ struct sk_buff *skb_copy_expand(const struct sk_buf=
+f *skb,
+>         struct sk_buff *n;
+>         int oldheadroom;
+>
+> +       if (!skb_frags_readable(skb))
+> +               return NULL;
+> +
+>         if (WARN_ON_ONCE(skb_shinfo(skb)->gso_type & SKB_GSO_FRAGLIST))
+>                 return NULL;
+>
+> @@ -2823,6 +2832,9 @@ void *__pskb_pull_tail(struct sk_buff *skb, int del=
+ta)
+>          */
+>         int i, k, eat =3D (skb->tail + delta) - skb->end;
+>
+> +       if (!skb_frags_readable(skb))
+> +               return NULL;
+> +
+>         if (eat > 0 || skb_cloned(skb)) {
+>                 if (pskb_expand_head(skb, 0, eat > 0 ? eat + 128 : 0,
+>                                      GFP_ATOMIC))
+> @@ -2976,6 +2988,9 @@ int skb_copy_bits(const struct sk_buff *skb, int of=
+fset, void *to, int len)
+>                 to     +=3D copy;
+>         }
+>
+> +       if (!skb_frags_readable(skb))
+> +               goto fault;
+> +
+>         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+>                 int end;
+>                 skb_frag_t *f =3D &skb_shinfo(skb)->frags[i];
+> @@ -3164,6 +3179,9 @@ static bool __skb_splice_bits(struct sk_buff *skb, =
+struct pipe_inode_info *pipe,
+>         /*
+>          * then map the fragments
+>          */
+> +       if (!skb_frags_readable(skb))
+> +               return false;
+> +
+>         for (seg =3D 0; seg < skb_shinfo(skb)->nr_frags; seg++) {
+>                 const skb_frag_t *f =3D &skb_shinfo(skb)->frags[seg];
+>
+> @@ -3387,6 +3405,9 @@ int skb_store_bits(struct sk_buff *skb, int offset,=
+ const void *from, int len)
+>                 from +=3D copy;
+>         }
+>
+> +       if (!skb_frags_readable(skb))
+> +               goto fault;
+> +
+>         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+>                 skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
+>                 int end;
+> @@ -3466,6 +3487,9 @@ __wsum __skb_checksum(const struct sk_buff *skb, in=
+t offset, int len,
+>                 pos     =3D copy;
+>         }
+>
+> +       if (!skb_frags_readable(skb))
+> +               return 0;
+> +
+>         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+>                 int end;
+>                 skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
+> @@ -3566,6 +3590,9 @@ __wsum skb_copy_and_csum_bits(const struct sk_buff =
+*skb, int offset,
+>                 pos     =3D copy;
+>         }
+>
+> +       if (!skb_frags_readable(skb))
+> +               return 0;
+> +
+>         for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
+>                 int end;
+>
+> @@ -4057,6 +4084,7 @@ static inline void skb_split_inside_header(struct s=
+k_buff *skb,
+>                 skb_shinfo(skb1)->frags[i] =3D skb_shinfo(skb)->frags[i];
+>
+>         skb_shinfo(skb1)->nr_frags =3D skb_shinfo(skb)->nr_frags;
+> +       skb1->unreadable           =3D skb->unreadable;
+>         skb_shinfo(skb)->nr_frags  =3D 0;
+>         skb1->data_len             =3D skb->data_len;
+>         skb1->len                  +=3D skb1->data_len;
+> @@ -4071,6 +4099,7 @@ static inline void skb_split_no_header(struct sk_bu=
+ff *skb,
+>  {
+>         int i, k =3D 0;
+>         const int nfrags =3D skb_shinfo(skb)->nr_frags;
+> +       const int unreadable =3D skb->unreadable;
+>
+>         skb_shinfo(skb)->nr_frags =3D 0;
+>         skb1->len                 =3D skb1->data_len =3D skb->len - len;
+> @@ -4104,6 +4133,12 @@ static inline void skb_split_no_header(struct sk_b=
+uff *skb,
+>                 pos +=3D size;
+>         }
+>         skb_shinfo(skb1)->nr_frags =3D k;
+> +
 
-This does not apply cleanly to net-next due to commit 46fb3ba95b93
-("ethtool: Add an interface for flashing transceiver modules'
-firmware").
+Minor point : skb->unreadable can be left as is ?
 
-Please rebase and re-submit.
+> +       if (skb_shinfo(skb)->nr_frags)
+> +               skb->unreadable =3D unreadable;
 
-Also it would be great if you could add some documentation to the new
-attributes.
 
-Thanks,
+Minor point : skb_shinfo(skb1)->nr_frags can't be zero at this point.
 
-Paolo
+> +
+> +       if (skb_shinfo(skb1)->nr_frags)
+> +               skb1->unreadable =3D unreadable;
+>  }
 
+This means we probably could remove the unreadable variable and
+
+   skb1->unreadable =3D skb->unreadable;
+
+No need to send a new version, this can be incrementally changed later.
+
+Reviewed-by: Eric Dumazet <edumazet@google.com>
