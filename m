@@ -1,86 +1,106 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DF5194A75;
-	Wed,  3 Jul 2024 23:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E28B1DA313;
+	Wed,  3 Jul 2024 23:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720048065; cv=none; b=Y5hWTrmjnyqlOCIgf4GU7kYFlPB+OmTQ0A6iMG5w+AN7MFoxCuHpHhL46r5cg269UzMnbPv3aNbuMn3uL8xnthWvNwqEbobXmvsSr/0xQMPxMwLOZW5rCwpCW2Coi0uLMOqIoHNYQDgIU5JlpOLnkO52INeZPFi/u2Yiqy+khSA=
+	t=1720048428; cv=none; b=jWVwWG/u/YLICMLRHqFmx+x4UcMDhbCSWjaf/AqwNgS4qtuDlYkeIAkLXjh9QLnIeEfgznMXU4BU5hiJzNInaEnLRdi8ch2kVw5ByT9we79hs3ZkszIuWRMNIdXHtvKUm0aX8FsQvdwEwNJAw+t+W5nBPJTJ+tH1NeBMDoS8Z9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720048065; c=relaxed/simple;
-	bh=o3PpDOsEbzGibzhF30rXzP7FichK/a1O2xk7xk5hZG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ezlISfaQOYeWrvH486TTLfIeR1ghhMS2AEDwwtQkkgRZ/gp/mvZlG7MoyziHkmwPGmeG8s9KEmIz/D+BwLhMY8RAaAdDeDHVLx1Ram529/T0JyUmQZjw7DJEAu8BdnALc5qQ7kM+1nFgkfik8SCuYH+sGst5Ldet+3vbRpKkO4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U7Fz61pW; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1720048428; c=relaxed/simple;
+	bh=tkAEnZTdufIPBg19mfhsTyGDEWte7diQWj8XaWSicxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EusRgFFcZsjZ20H4FG3mmQgGM2fND/OFM0lJhPbcbnot7/a7xaWNcA4upgJsw+f9wwEJa4ibeW4EqELtj0J0eonQm01HXznx/BC+VzBfhLML+msqCB5+3qfRm/6WcBzqF5SnRAba20mybI45xYSY4FMr3hmEpWXmkLHdAuXoYF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kIoazDM6; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U7Fz61pW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E16304189E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720048061; bh=q/1IKlg8o5G9b5vyFjZhcZ1c3e6Ub6TvBAIZ4vVsB7g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U7Fz61pWWGfSbsTXy2+7VmnASFUymlsleQTlPqoOwfvPXuxwOWkisr+z6tYbHfk8R
-	 QHvk5oty2UzbeMcllyPM4WOyjiFncmH7CiXuLiNyLBy5HOYyi55DZKtBR2yXdYhpNS
-	 aDrM4lHTHAd5bw4/7T2ZOyqpiIBKdbXywqbyfMTEBsfiDAnecCnk4v2uqmsAWCi/Ki
-	 4w/98cgRmpnhB5Vzh16UDJNvKnaLe+AH0RaNjdTFOlWdP+XBCVb/WCse6/ZJimf2R/
-	 Ia4AgaLOZZBpyKM5+2ag9uJK0XS7a65LHo2ESlOuO3QDuFkzXGIcU8ZvK1jTeJUWgH
-	 hSN6ln8sTURww==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E16304189E;
-	Wed,  3 Jul 2024 23:07:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Tao Zou <wodemia@linux.alibaba.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>
-Cc: Tao Zou <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] zh_CN/admin-guide: Add
- zh_CN/admin-guide/numastat.rst translation document
-In-Reply-To: <20240701064153.62303-1-wodemia@linux.alibaba.com>
-References: <20240701064153.62303-1-wodemia@linux.alibaba.com>
-Date: Wed, 03 Jul 2024 17:07:40 -0600
-Message-ID: <87v81mrs5f.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kIoazDM6"
+Received: from DESKTOP-4OLSCEK. (c-76-135-27-212.hsd1.wa.comcast.net [76.135.27.212])
+	by linux.microsoft.com (Postfix) with ESMTPSA id BCECB20B7001;
+	Wed,  3 Jul 2024 16:13:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BCECB20B7001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1720048426;
+	bh=8TjyHg4R4+V1DoSvmceU1FyPFi2X1MteEWpxLXoSgCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kIoazDM6qEM5gOtwqev3UjD1UibJY8Hr2zDei3VYuYcss91JR0XbKWbR6Fl4kXCnZ
+	 WaWazl73kDl3vF8BZqzsFGTTV/xfw14feKzgTeAMrxNeTR7GU22xgUronbPTqGh/IP
+	 I5tuoGPYcMpNojHZLqk/MfZycYKEtbZcYwwJbSNA=
+Date: Wed, 3 Jul 2024 16:13:43 -0700
+From: Beau Belgrave <beaub@linux.microsoft.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Document user_events ioctl code
+Message-ID: <20240703231343.GA408-beaub@linux.microsoft.com>
+References: <20240703222501.1547-1-beaub@linux.microsoft.com>
+ <ZoXXe8Tl9pRD6-dd@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZoXXe8Tl9pRD6-dd@localhost.localdomain>
 
-Tao Zou <wodemia@linux.alibaba.com> writes:
+On Wed, Jul 03, 2024 at 06:58:03PM -0400, Mathieu Desnoyers wrote:
+> On 03-Jul-2024 10:25:01 PM, Beau Belgrave wrote:
+> > The user events trace subsystem uses the 0x2A/'*' code for ioctls. These
+> > are published via the uapi/linux/user_events.h header file.
+> > 
+> > Add a line indicating user events as the owner of the 0x2A/'*' code and the
+> > current sequence numbers that are in use (00-02).
+> > 
+> > Signed-off-by: Beau Belgrave <beaub@linux.microsoft.com>
+> > ---
+> >  Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > index a141e8e65c5d..191609fe4593 100644
+> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > @@ -97,6 +97,8 @@ Code  Seq#    Include File                                           Comments
+> >  '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
+> >                                                                       <mailto:alexander.shishkin@linux.intel.com>
+> >  '&'   00-07  drivers/firewire/nosy-user.h
+> > +'*'   00-02  uapi/linux/user_events.h                                User Events Subsystem
+> 
+> You may want to consider reserving a wider sequence number range to plan
+> ahead for future extensions to user events. This way you won't end up
+> having to jump over sequence numbers eventually reserved by others
+> within the '*' code.
+> 
+> Thanks,
+> 
+> Mathieu
 
-> Add translation zh_CN/admin-guide/numastat.rst and link it to
-> zh_CN/admin-guide/index.rst while clean its todo entry.
->
-> commit 77691ee92d4a ("Documentation: update numastat explanation")
->
-> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> ---
-> v4->v5: fix one typo error
-> v3->v4: replace "=E5=9C=A8=E6=9C=89=E6=97=A0=E5=86=85=E5=AD=98=E8=8A=82=
-=E7=82=B9" with "=E5=9C=A8=E5=8C=85=E5=90=AB=E6=97=A0=E5=86=85=E5=AD=98=E8=
-=8A=82=E7=82=B9"
-> v2->v3: add space in origin commit tag
-> v1->v2: drop the useless label "+.. _cn_numastat:" and unnecessary "=3D",
-> 	add a commit tag of origin document in commit description
->
->  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
->  .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
->  2 files changed, 49 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat=
-.rst
+Yeah, I thought about that, but really didn't know how greedy we could
+be. At first I had all, but then thought we would never use all of that
+sequence. We'll likely want a few more for libside integration.
 
-So I had applied v4 - it seems I neglected to send an email saying so,
-apologies for that.  So if there is an additional change to make, can
-you send me a separate patch?
+Maybe I'll grab the first 16, that should leave a lot for others and
+give us quite bit of growing room.
+
+How many do you think we'll need for libside? I think we'd only need 2-3
+personally.
 
 Thanks,
+-Beau
 
-jon
+> 
+> 
+> > +                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
+> >  '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
+> >                                                                       <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
+> >  '2'   01-04  linux/i2o.h
+> > -- 
+> > 2.34.1
+> > 
+> 
+> -- 
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> http://www.efficios.com
