@@ -1,97 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9A4185095;
-	Wed,  3 Jul 2024 20:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A4628379;
+	Wed,  3 Jul 2024 20:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720038079; cv=none; b=mmT5c3l9oVCDVv6I/Tqxvnt9zEfELJzkL7SIC3h5KIxFhiQ7r0oCqSzSKcQpRXimFE+mT0ua4yryc4WO9wkNHdCuspk//zhwcuPt3z3c+3hR1SwglhTbLZmyRP6Q8tmQcKfnyAVmQ9Djom0dNgRpc8D6dpl5TLmQUOZmo8PIWMs=
+	t=1720039086; cv=none; b=bPnt9G3N+4GFWUIEmAradwOKFKB97hm/8iJpcRSnJ0zeC8f3yIx4s5+J/R5Ef3iuMs79iYNBiDTKOR91pRJsJm8h93c+mTJlcquMSxt1rd1LIxCTZJ/TeOxEqgE5cF/a3BZxG+H4bBg4bu4SMZXChVOwloQdliZpPuNdV7VeMF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720038079; c=relaxed/simple;
-	bh=rPvIWW2IUaIr2Cw4CK82UCHdJ+i1JMw6S82PykL7SKg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CCT/cBt1U4So/EJh42o7zjEfk9zP/MJf7ills+3HRacJfSZ1YLOvgrYMp739ZQAm2wb21f1gl4Hn2E6qtpTX7iY2kI0IgEqt5XCcbeK9M8mLIQHZlP64eh+SBFmKywWujgsIUpxaPRGd5/+qKDtWNPtNMBnrXYrMtFLVx65GXR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sk3J19kL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720039086; c=relaxed/simple;
+	bh=+4Ks35xAf/yZ+g6UF74Pf5H+mbGc4Y8ntl+6RsPGyps=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=UXilvFGfZRWWlf4Nb+JZ/CCkURxXm9UN3hRZsJCvdzJOGCACkt35CfXd0yiSK+NRaOGdh8g+ucGb3l+FeunDJ218RqwohqUGddmfIQz8y9CY6z/Us8yXoOIJSokcHiu/GaWeKfNdQAyOIzruhg+PHD55rJjV2qdkOjYuZNw7uAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=UJwRVIXd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sk3J19kL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E06C4AF0A;
-	Wed,  3 Jul 2024 20:21:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720038078;
-	bh=rPvIWW2IUaIr2Cw4CK82UCHdJ+i1JMw6S82PykL7SKg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sk3J19kLZOWas8QOHSZltgbRvBLXaonPTXwU1DEW39b1yG0gY34KfKMbtMI3bHEU1
-	 yeDKp6QnUxPm3/Z9GWCo7kB4Ri/cTf3ZhDN4eiV4giODeRAp/WrziyOI/mWGY5WEUH
-	 QPjPFjd9PBsruzq9WOnYZhAcj7D3yCuS8PMYP3+ImqxuFGFW+36Kx2K7/KLav44qGO
-	 CXnQH/lPtIwJa6I/5yccS8fWOgCtWTs1JAQx0zta7B/V8BeBAFKpl3gTLTjkaJkUT+
-	 2GyaYA2LOPbL/ggBA3dEyBsFePpVS89NsBo3P6q3vgvCssmhucVEaxI3esqUJh9Oxd
-	 xSy/8kohjfzJw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52e764bb3fbso7754719e87.3;
-        Wed, 03 Jul 2024 13:21:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXUKo5xSAu/tkT4Yx5S+tBlEE6b+5vreVeSxcFDPSL8sCuGbStRQS4AYGsyH9S5L+5XlquOKBuIfWyBmAF6oytEemNtP5yu32XNry93swzxOr44mS7B8WoIUVYKIu6QMvHrV2nAetqzDCsPfgTbdoLmDqn6frh4NgquA6Cyf/h8d+c4PgWqBJMOO96vVTqJUaUXxTYxvtsaP9o/VqGNkYtoywtnX+E22M4u2GkK63NEvbB+/a2kNjSFnuvvvUgDyTxkobsZFgjfTEmD1/Ew+rbefH2LTVW2
-X-Gm-Message-State: AOJu0Yy3ATx1at4QujPJmsFbVBsO1Jf3oIMZTDJfBbOWcZSgyRm2CAgD
-	agkFdkQFxkPepklK4q3lBXBCBGy/u0fwOrmiNHIhWnePNUflNokNtPpzSFsAWGGDwm29flbWl0g
-	Mf6j1g0mZ/MksRe8w2Ok/tYUObQ==
-X-Google-Smtp-Source: AGHT+IHkJyLufysSPAp6OLlmdgVCxJhhtA7jCjroJG4RfWGCFjmvlqKevKnTA5kF72TY71LMsM29/tv7IaZgzL2wT8U=
-X-Received: by 2002:a05:6512:33d1:b0:52c:e3af:7c5c with SMTP id
- 2adb3069b0e04-52e82686b63mr8472949e87.34.1720038076812; Wed, 03 Jul 2024
- 13:21:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="UJwRVIXd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 662BDC2BD10;
+	Wed,  3 Jul 2024 20:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1720039085;
+	bh=+4Ks35xAf/yZ+g6UF74Pf5H+mbGc4Y8ntl+6RsPGyps=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UJwRVIXdlKeVTnmQs9Qv9fgIH8QA7Cxi3P0TeMwE5JD2MhfR5HEgkmrBN8wJS7zUy
+	 DqY6Zz7Epo6y7LFeQw4E8StHutlFYDvqvWOUsz0WRp2LDN7MUzZRlahzHbS7nWM7+u
+	 N964EPbT4uJ0ubCmlZK5jS8MAEULJN5UyvkYQAFU=
+Date: Wed, 3 Jul 2024 13:38:04 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: xiujianfeng <xiujianfeng@huawei.com>
+Cc: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
+ <corbet@lwn.net>, <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, Sidhartha Kumar
+ <sidhartha.kumar@oracle.com>, Miaohe Lin <linmiaohe@huawei.com>, Baolin
+ Wang <baolin.wang@linux.alibaba.com>
+Subject: Re: [PATCH -next] mm/hugetlb_cgroup: introduce peak and rsvd.peak
+ to v2
+Message-Id: <20240703133804.1d8ddf90f738a7d546399b3b@linux-foundation.org>
+In-Reply-To: <6843023e-3e80-0c1c-6aab-b386ffebd668@huawei.com>
+References: <20240702125728.2743143-1-xiujianfeng@huawei.com>
+	<20240702185851.e85a742f3391857781368f6c@linux-foundation.org>
+	<6843023e-3e80-0c1c-6aab-b386ffebd668@huawei.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240701151231.29425-1-kyarlagadda@nvidia.com>
- <20240701151231.29425-5-kyarlagadda@nvidia.com> <20240701174227.GA148633-robh@kernel.org>
- <hqlckp6hxvxwkkbiagdb5pm4eo5efu55hwuupdal6lojxj2xu5@5zibskqdbdju>
-In-Reply-To: <hqlckp6hxvxwkkbiagdb5pm4eo5efu55hwuupdal6lojxj2xu5@5zibskqdbdju>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 3 Jul 2024 14:21:04 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+hzbHKeKM9UnJ=VK8_rKs5HJpZRGH2YYWAvjtf9SbPRw@mail.gmail.com>
-Message-ID: <CAL_Jsq+hzbHKeKM9UnJ=VK8_rKs5HJpZRGH2YYWAvjtf9SbPRw@mail.gmail.com>
-Subject: Re: [RFC PATCH V2 04/12] dt-bindings: misc: tegra-i2c: config settings
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Krishna Yarlagadda <kyarlagadda@nvidia.com>, linux-tegra@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, jonathanh@nvidia.com, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, corbet@lwn.net, andi.shyti@kernel.org, 
-	wsa+renesas@sang-engineering.com, ulf.hansson@linaro.org, 
-	adrian.hunter@intel.com, digetx@gmail.com, ldewangan@nvidia.com, 
-	mkumard@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 2, 2024 at 4:29=E2=80=AFAM Thierry Reding <thierry.reding@gmail=
-.com> wrote:
->
-> On Mon, Jul 01, 2024 at 11:42:27AM GMT, Rob Herring wrote:
-> > On Mon, Jul 01, 2024 at 08:42:22PM +0530, Krishna Yarlagadda wrote:
-> > > I2C interface timing registers are configured using config setting
-> > > framework. List available field properties for Tegra I2C controllers.
-> >
-> > How is I2C bus timing parameters specific to NVIDIA? Just because you
-> > have more controls? No. That's no reason to invent a whole new way to
-> > specify parameters. Extend what's already there and make it work for
-> > anyone.
->
-> This may be applicable to a subset of this, and yes, maybe we can find
-> generalizations for some of these parameters.
->
-> However, we're also looking for feedback specifically on these config
-> nodes that go beyond individual timing parameters. For example in the
-> case of I2C, how should parameters for different operating modes be
-> described?
+On Wed, 3 Jul 2024 10:45:56 +0800 xiujianfeng <xiujianfeng@huawei.com> wrote:
 
-Like what? It all looks like timing to me.
+> 
+> 
+> On 2024/7/3 9:58, Andrew Morton wrote:
+> > On Tue, 2 Jul 2024 12:57:28 +0000 Xiu Jianfeng <xiujianfeng@huawei.com> wrote:
+> > 
+> >> Introduce peak and rsvd.peak to v2 to show the historical maximum
+> >> usage of resources, as in some scenarios it is necessary to configure
+> >> the value of max/rsvd.max based on the peak usage of resources.
+> > 
+> > "in some scenarios it is necessary" is not a strong statement.  It
+> > would be helpful to fully describe these scenarios so that others can
+> > better understand the value of this change.
+> > 
+> 
+> Hi Andrew,
+> 
+> Is the following description acceptable for you?
+> 
+> 
+> Since HugeTLB doesn't support page reclaim, enforcing the limit at
+> page fault time implies that, the application will get SIGBUS signal
+> if it tries to fault in HugeTLB pages beyond its limit. Therefore the
+> application needs to know exactly how many HugeTLB pages it uses before
+> hand, and the sysadmin needs to make sure that there are enough
+> available on the machine for all the users to avoid processes getting
+> SIGBUS.
+> 
+> When running some open-source software, it may not be possible to know
+> the exact amount of hugetlb it consumes, so cannot correctly configure
+> the max value. If there is a peak metric, we can run the open-source
+> software first and then configure the max based on the peak value.
+> In cgroup v1, the hugetlb controller provides the max_usage_in_bytes
+> and rsvd.max_usage_in_bytes interface to display the historical maximum
+> usage, so introduce peak and rsvd.peak to v2 to address this issue.
 
-> Would you agree with something along the lines provided in this series?
+Super, thanks for doing this.
 
-When there are multiple users/vendors of it, maybe.
+It's getting late in the cycle, but the patch is simple so I'll add it
+to mm-unstable for additional exposure.  Hopefully some others can
+offer their thoughts on the desirability of this.
 
-In general, it goes against the DT design of properties for foo go in
-foo's node. This looks more like how ACPI does things where it's add
-another table for this new thing we need.
-
-Rob
