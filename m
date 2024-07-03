@@ -1,505 +1,144 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527D113D617
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jul 2024 05:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA9A8C1F;
+	Wed,  3 Jul 2024 06:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719986244; cv=none; b=dyb9JhjmDi0fiTSeJWY6ONzeHUdMFOvb6vnh1VhTscgdMdDK1Ei1NgvX4a6/pNXjepYndsvDbgWL+Iz6hM67YjwhvKeILMnKJydTVj2lYqeQ1Ym+vctJAEudQ2qUbBxrXVZSMxX/DIqY0xtqzhUTAylMpAsQ5MrVXpOtZE4aREo=
+	t=1719989990; cv=none; b=C8Dd5Dl/XM6kYcRBWGkCErkT0E7T2Eibo/1vffZOzn6YEYL/3LzYJ3Vkbm8+id5MC1Z+j+JKReZ2nXgbfnTDpp34csdLIujMN79lLUrRJjxy+qwqOtos1OnzEuXSCtUFjm5RqvIWOnsR7Kjbdey82t8RROaKIyqIIpPNnoPJj6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719986244; c=relaxed/simple;
-	bh=5x3Kx2GIIrTZhv6naZLYhu3QB2wQGzuvxZ0uTCGjNl0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QhBpBQFG8G/dMLi5F6jLrNP08ZnvdrY4bghsDesgFpuB9SQQBGBr+p8TiBS+lI7mUAkLspXu7RLbralfiEv4BMp/AFTwju7OXwImtsgs5ZH/TJ3jjkpj7iwQJ+95Wu7S1H8CKk296qAOM2X1DrKown/RbAuH1JXPebVl8NfAvyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=f/JgZrdw; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="f/JgZrdw"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-707f9c3bd02so3419927b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jul 2024 22:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1719986242; x=1720591042; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y36XPWrfz1CADhtBwZf6nneoyWvS4JioNGUoxpoOl3U=;
-        b=f/JgZrdwmeyKylKU59WUCWfU0dsPVqvOTFvQlgRuBojF5tdd8wYA+wH+NOkOYN/75R
-         1taDaN+T+U2tSHrFoy2TJXmGs7+8JAgrbPLesa0uAgSc3SyjJjrYv4ncWgB7pZi32iWe
-         833HBitByICurIDgerRHROZ/a/rp5arPX49ns8wpVk+pHg/bDXgNhJgvHvz941GyHS42
-         I0ZYosPbACw7tK1i9ZgjdOzW1QroIgPl++2EzW0zvAKpiXOa12efp4BUmhPhSKKNyNaS
-         QjpmtMAxjLU6nCsm9Mcq0p3nTFdAG8Nq7F3vibLhqnZiC9AmkGIfOmuWF/PCxdI9auaO
-         xucA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719986242; x=1720591042;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y36XPWrfz1CADhtBwZf6nneoyWvS4JioNGUoxpoOl3U=;
-        b=MnrC2MWnrg9V+1GHVdaqKbNBWjg0+Dtm3DubjcdRbyeBesA8vpTFOGMIv5SB+JZtBs
-         arSwZ3yaRf8RAve21cdoM7k+rZJmO9BlM6rTLdKlXDObjXi+oCbw03kJX6qD6T9JCGyc
-         Y+p3AgIDlq2stwqCAkkzCaFTMKk5TYYvS7y4l0TQUW1y/RrH2NYfmnvt0/KNweYzIcUO
-         dFHy0/ZYcBPfFQf1CLhHH1cgXCMKD8pd9wDYaGy/dIV+FXZ2pHTscIuqyMjFQkytwv6n
-         AAAz8HZ9TujyoWeUtrjxfW5lBvwD0852mMOEY4hkmulzQOHpy5p6QLGljO5GrZbRxlv7
-         S6oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWxI/9BjLflwp3TFJhsv7K/9wR5VHysUj+wH8WLQRbvRSrYej67ekzPRRLJaHXAnBWkvDFwglFa3AnoW9tcX+owZron/3rSiMdF
-X-Gm-Message-State: AOJu0YwfeQugP+vaeReo61sG6QpIQUm01pEtqMIZC2l4A3p/iUTtuxDH
-	ZYT6ANd+4sLaEMM+EzTIn9SX6sffqAkVpDqiRYqTv173x7yEn8slZrk8KdUtby8=
-X-Google-Smtp-Source: AGHT+IGtTL6zeex4Vp3nLyf5jioRlTFVR9IWpHVL9ccOzYaNDCDVvXsIbuo5Lu/zNx1942ZXU8AkhA==
-X-Received: by 2002:a05:6a00:99b:b0:705:ca05:9a with SMTP id d2e1a72fcca58-70aaaf2f588mr9678471b3a.29.1719986241689;
-        Tue, 02 Jul 2024 22:57:21 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70804a89fc9sm9514103b3a.212.2024.07.02.22.57.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 22:57:20 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Tue, 02 Jul 2024 22:56:33 -0700
-Subject: [PATCH v4 13/13] selftests: riscv: Support xtheadvector in vector
- tests
+	s=arc-20240116; t=1719989990; c=relaxed/simple;
+	bh=tjyRyXbufFPhr/lFjnNJDv2W/ycWAuiK315JZC9AUJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=epzInP0A5nbUsW6cM/YLpo/SIWgK9HmBHeWQGLEZm8EdVfC3GdSd/1BULn3eqlXObULANq2u2NwlQizamWfE8a2jxQKmNntCgEh3PCtwymish+3002JhZD1CqfhCoSRy9Tb28wjBN3V6xtfYKTxrh1uPnzgOV3RZbslRjnRC6po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WDVs40pyCzZhDG;
+	Wed,  3 Jul 2024 14:55:04 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
+	by mail.maildlp.com (Postfix) with ESMTPS id 64494140156;
+	Wed,  3 Jul 2024 14:59:37 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 3 Jul 2024 14:59:37 +0800
+Message-ID: <f124ce60-196e-2392-c4a9-11cdcacf9927@huawei.com>
+Date: Wed, 3 Jul 2024 14:59:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-xtheadvector-v4-13-2bad6820db11@rivosinc.com>
-References: <20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com>
-In-Reply-To: <20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
- Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
- Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719986213; l=13223;
- i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=5x3Kx2GIIrTZhv6naZLYhu3QB2wQGzuvxZ0uTCGjNl0=;
- b=uTE5lUX7OUcJXEXONvFnZEnhakheq763ouHiDIE2KuM510nBeHka22cGL7HakksI8IhwTpxXw
- 390eXS+p5qED42aQnrYS/h71E5qoJSapLkYB2JEpzPCT82KA33lkV5w
-X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
- pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v5 2/5] cgroup/pids: Make event counters hierarchical
+Content-Language: en-US
+To: =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+	<cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+CC: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<shuah@kernel.org>, Muhammad Usama Anjum <usama.anjum@collabora.com>
+References: <20240521092130.7883-1-mkoutny@suse.com>
+ <20240521092130.7883-3-mkoutny@suse.com>
+From: xiujianfeng <xiujianfeng@huawei.com>
+In-Reply-To: <20240521092130.7883-3-mkoutny@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
 
-Extend existing vector tests to be compatible with the xtheadvector
-instructions.
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- .../selftests/riscv/vector/v_exec_initval_nolibc.c | 23 ++++--
- tools/testing/selftests/riscv/vector/v_helpers.c   | 17 +++-
- tools/testing/selftests/riscv/vector/v_helpers.h   |  4 +-
- tools/testing/selftests/riscv/vector/v_initval.c   | 12 ++-
- .../selftests/riscv/vector/vstate_exec_nolibc.c    | 20 +++--
- .../testing/selftests/riscv/vector/vstate_prctl.c  | 91 ++++++++++++++--------
- 6 files changed, 115 insertions(+), 52 deletions(-)
 
-diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-index 74b13806baf0..6f40c2acc0c2 100644
---- a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-+++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-@@ -18,13 +18,22 @@ int main(int argc, char **argv)
- 	unsigned long vl;
- 	int first = 1;
- 
--	asm volatile (
--		".option push\n\t"
--		".option arch, +v\n\t"
--		"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
--		".option pop\n\t"
--		: [vl] "=r" (vl)
--	);
-+	if (argc > 2 && strcmp(argv[2], "x"))
-+		asm volatile (
-+			// 0 | zimm[10:0] | rs1 | 1 1 1 | rd |1010111| vsetvli
-+			// vsetvli	t4, x0, e8, m1, d1
-+			".4byte		0b00000000000000000111111011010111\n\t"
-+			"mv		%[vl], t4\n\t"
-+			: [vl] "=r" (vl) : : "t4"
-+		);
-+	else
-+		asm volatile (
-+			".option push\n\t"
-+			".option arch, +v\n\t"
-+			"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
-+			".option pop\n\t"
-+			: [vl] "=r" (vl)
-+		);
- 
- #define CHECK_VECTOR_REGISTER(register) ({					\
- 	for (int i = 0; i < vl; i++) {						\
-diff --git a/tools/testing/selftests/riscv/vector/v_helpers.c b/tools/testing/selftests/riscv/vector/v_helpers.c
-index 15c22318db72..2c4df76eefe9 100644
---- a/tools/testing/selftests/riscv/vector/v_helpers.c
-+++ b/tools/testing/selftests/riscv/vector/v_helpers.c
-@@ -1,11 +1,21 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include "../hwprobe/hwprobe.h"
-+#include <asm/vendor/thead.h>
- #include <stdlib.h>
- #include <stdio.h>
- #include <unistd.h>
- #include <sys/wait.h>
- 
-+int is_xtheadvector_supported(void)
-+{
-+	struct riscv_hwprobe pair;
-+
-+	pair.key = RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0;
-+	riscv_hwprobe(&pair, 1, 0, NULL, 0);
-+	return pair.value & RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR;
-+}
-+
- int is_vector_supported(void)
- {
- 	struct riscv_hwprobe pair;
-@@ -15,9 +25,9 @@ int is_vector_supported(void)
- 	return pair.value & RISCV_HWPROBE_IMA_V;
- }
- 
--int launch_test(char *next_program, int test_inherit)
-+int launch_test(char *next_program, int test_inherit, int xtheadvector)
- {
--	char *exec_argv[3], *exec_envp[1];
-+	char *exec_argv[4], *exec_envp[1];
- 	int rc, pid, status;
- 
- 	pid = fork();
-@@ -29,7 +39,8 @@ int launch_test(char *next_program, int test_inherit)
- 	if (!pid) {
- 		exec_argv[0] = next_program;
- 		exec_argv[1] = test_inherit != 0 ? "x" : NULL;
--		exec_argv[2] = NULL;
-+		exec_argv[2] = xtheadvector != 0 ? "x" : NULL;
-+		exec_argv[3] = NULL;
- 		exec_envp[0] = NULL;
- 		/* launch the program again to check inherit */
- 		rc = execve(next_program, exec_argv, exec_envp);
-diff --git a/tools/testing/selftests/riscv/vector/v_helpers.h b/tools/testing/selftests/riscv/vector/v_helpers.h
-index 88719c4be496..67d41cb6f871 100644
---- a/tools/testing/selftests/riscv/vector/v_helpers.h
-+++ b/tools/testing/selftests/riscv/vector/v_helpers.h
-@@ -1,5 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- 
-+int is_xtheadvector_supported(void);
-+
- int is_vector_supported(void);
- 
--int launch_test(char *next_program, int test_inherit);
-+int launch_test(char *next_program, int test_inherit, int xtheadvector);
-diff --git a/tools/testing/selftests/riscv/vector/v_initval.c b/tools/testing/selftests/riscv/vector/v_initval.c
-index f38b5797fa31..be9e1d18ad29 100644
---- a/tools/testing/selftests/riscv/vector/v_initval.c
-+++ b/tools/testing/selftests/riscv/vector/v_initval.c
-@@ -7,10 +7,16 @@
- 
- TEST(v_initval)
- {
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	int xtheadvector = 0;
- 
--	ASSERT_EQ(0, launch_test(NEXT_PROGRAM, 0));
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
-+
-+	ASSERT_EQ(0, launch_test(NEXT_PROGRAM, 0, xtheadvector));
- }
- 
- TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c b/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-index 1f9969bed235..7b7d6f21acb4 100644
---- a/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-+++ b/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-@@ -6,13 +6,16 @@
- 
- int main(int argc, char **argv)
- {
--	int rc, pid, status, test_inherit = 0;
-+	int rc, pid, status, test_inherit = 0, xtheadvector = 0;
- 	long ctrl, ctrl_c;
- 	char *exec_argv[2], *exec_envp[2];
- 
--	if (argc > 1)
-+	if (argc > 1 && strcmp(argv[1], "x"))
- 		test_inherit = 1;
- 
-+	if (argc > 2 && strcmp(argv[2], "x"))
-+		xtheadvector = 1;
-+
- 	ctrl = my_syscall1(__NR_prctl, PR_RISCV_V_GET_CONTROL);
- 	if (ctrl < 0) {
- 		puts("PR_RISCV_V_GET_CONTROL is not supported\n");
-@@ -53,11 +56,14 @@ int main(int argc, char **argv)
- 				puts("child's vstate_ctrl not equal to parent's\n");
- 				exit(-1);
- 			}
--			asm volatile (".option push\n\t"
--				      ".option arch, +v\n\t"
--				      "vsetvli x0, x0, e32, m8, ta, ma\n\t"
--				      ".option pop\n\t"
--				      );
-+			if (xtheadvector)
-+				asm volatile (".4byte	0x00007ed7");
-+			else
-+				asm volatile (".option push\n\t"
-+					".option arch, +v\n\t"
-+					"vsetvli x0, x0, e32, m8, ta, ma\n\t"
-+					".option pop\n\t"
-+					);
- 			exit(ctrl);
- 		}
- 	}
-diff --git a/tools/testing/selftests/riscv/vector/vstate_prctl.c b/tools/testing/selftests/riscv/vector/vstate_prctl.c
-index 528e8c544db0..375af40e88e6 100644
---- a/tools/testing/selftests/riscv/vector/vstate_prctl.c
-+++ b/tools/testing/selftests/riscv/vector/vstate_prctl.c
-@@ -11,7 +11,7 @@
- 
- #define NEXT_PROGRAM "./vstate_exec_nolibc"
- 
--int test_and_compare_child(long provided, long expected, int inherit)
-+int test_and_compare_child(long provided, long expected, int inherit, int xtheadvector)
- {
- 	int rc;
- 
-@@ -21,7 +21,7 @@ int test_and_compare_child(long provided, long expected, int inherit)
- 		       provided, rc);
- 		return -1;
- 	}
--	rc = launch_test(NEXT_PROGRAM, inherit);
-+	rc = launch_test(NEXT_PROGRAM, inherit, xtheadvector);
- 	if (rc != expected) {
- 		printf("Test failed, check %d != %ld\n", rc,  expected);
- 		return -2;
-@@ -36,7 +36,7 @@ TEST(get_control_no_v)
- {
- 	long rc;
- 
--	if (is_vector_supported())
-+	if (is_vector_supported() || is_xtheadvector_supported())
- 		SKIP(return, "Test expects vector to be not supported");
- 
- 	rc = prctl(PR_RISCV_V_GET_CONTROL);
-@@ -48,7 +48,7 @@ TEST(set_control_no_v)
- {
- 	long rc;
- 
--	if (is_vector_supported())
-+	if (is_vector_supported() || is_xtheadvector_supported())
- 		SKIP(return, "Test expects vector to be not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON);
-@@ -61,12 +61,12 @@ TEST(vstate_on_current)
- 	long flag;
- 	long rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON;
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, flag);
--	EXPECT_EQ(0, rc) TH_LOG("Enabling V for current should always success");
-+	EXPECT_EQ(0, rc) TH_LOG("Enabling V for current should always succeed");
- }
- 
- TEST(vstate_off_eperm)
-@@ -74,99 +74,128 @@ TEST(vstate_off_eperm)
- 	long flag;
- 	long rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF;
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, flag);
--	EXPECT_EQ(EPERM, errno) TH_LOG("Disabling current's V alive must fail with EPERM(%d)", errno);
--	EXPECT_EQ(-1, rc) TH_LOG("Disabling current's V alive must fail with EPERM(%d)", errno);
-+	EXPECT_EQ(EPERM, errno) TH_LOG("Disabling V in current thread with V enabled must fail with EPERM(%d)", errno);
-+	EXPECT_EQ(-1, rc) TH_LOG("Disabling V in current thread with V enabled must fail with EPERM(%d)", errno);
- }
- 
- TEST(vstate_on_no_nesting)
- {
- 	long flag;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_ON, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_ON, 0, xtheadvector));
- }
- 
- TEST(vstate_off_nesting)
- {
- 	long flag;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn off next's vector explicitly and test */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_OFF, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_OFF, 1, xtheadvector));
- }
- 
- TEST(vstate_on_inherit_no_nesting)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test no inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_ON;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0, xtheadvector));
- }
- 
- TEST(vstate_on_inherit)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_ON;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1, xtheadvector));
- }
- 
- TEST(vstate_off_inherit_no_nesting)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
--
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 	/* Turn off next's vector explicitly and test no inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_OFF;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0, xtheadvector));
- }
- 
- TEST(vstate_off_inherit)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn off next's vector explicitly and test inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_OFF;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1, xtheadvector));
- }
- 
- /* arguments should fail with EINVAL */
-@@ -174,7 +203,7 @@ TEST(inval_set_control_1)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0xff0);
-@@ -187,7 +216,7 @@ TEST(inval_set_control_2)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0x3);
-@@ -200,7 +229,7 @@ TEST(inval_set_control_3)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0xc);
+On 2024/5/21 17:21, Michal Koutný wrote:
+> The pids.events file should honor the hierarchy, so make the events
+> propagate from their origin up to the root on the unified hierarchy. The
+> legacy behavior remains non-hierarchical.
+> 
+> Signed-off-by: Michal Koutný <mkoutny@suse.com>
+> --
+[...]
+> diff --git a/kernel/cgroup/pids.c b/kernel/cgroup/pids.c
+> index a557f5c8300b..c09b744d548c 100644
+> --- a/kernel/cgroup/pids.c
+> +++ b/kernel/cgroup/pids.c
+> @@ -238,6 +238,34 @@ static void pids_cancel_attach(struct cgroup_taskset *tset)
+>  	}
+>  }
+>  
+> +static void pids_event(struct pids_cgroup *pids_forking,
+> +		       struct pids_cgroup *pids_over_limit)
+> +{
+> +	struct pids_cgroup *p = pids_forking;
+> +	bool limit = false;
+> +
+> +	for (; parent_pids(p); p = parent_pids(p)) {
+> +		/* Only log the first time limit is hit. */
+> +		if (atomic64_inc_return(&p->events[PIDCG_FORKFAIL]) == 1) {
+> +			pr_info("cgroup: fork rejected by pids controller in ");
+> +			pr_cont_cgroup_path(p->css.cgroup);
+> +			pr_cont("\n");
+> +		}
+> +		cgroup_file_notify(&p->events_file);
+> +
+> +		if (!cgroup_subsys_on_dfl(pids_cgrp_subsys) ||
+> +		    cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS)
+> +			break;
+> +
+> +		if (p == pids_over_limit)
+> +			limit = true;
+> +		if (limit)
+> +			atomic64_inc(&p->events[PIDCG_MAX]);
+> +
+> +		cgroup_file_notify(&p->events_file);
 
--- 
-2.44.0
+Hi Michal,
 
+I have doubts about this code. To better illustrate the problem, I am
+posting the final code here.
+
+static void pids_event(struct pids_cgroup *pids_forking,
+                       struct pids_cgroup *pids_over_limit)
+{
+...
+        cgroup_file_notify(&p->events_local_file);
+        if (!cgroup_subsys_on_dfl(pids_cgrp_subsys) ||
+            cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS)
+                return;
+
+        for (; parent_pids(p); p = parent_pids(p)) {
+                if (p == pids_over_limit) {
+                        limit = true;
+                        atomic64_inc(&p->events_local[PIDCG_MAX]);
+                        cgroup_file_notify(&p->events_local_file);
+                }
+                if (limit)
+                        atomic64_inc(&p->events[PIDCG_MAX]);
+
+                cgroup_file_notify(&p->events_file);
+        }
+}
+
+Consider this scenario: there are 4 groups A, B, C,and D. The
+relationships are as follows, the latter is the child of the former:
+
+root->A->B->C->D
+
+Then the user is polling on C.pids.events. When a process in D forks and
+fails due to B.max restrictions(pids_forking is D, and pids_over_limit
+is B), the user is awakened. However, when the user reads C.pids.events,
+he will find that the content has not changed. because the 'limit' is
+set to true started from B, and C.pids.events shows as below:
+
+seq_printf(sf, "max %lld\n", (s64)atomic64_read(&events[PIDCG_MAX]));
+
+Wouldn't this behavior confuse the user? Should the code to be changed
+to this?
+
+if (limit) {
+      atomic64_inc(&p->events[PIDCG_MAX]);
+      cgroup_file_notify(&p->events_file);
+}
