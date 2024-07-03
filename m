@@ -1,72 +1,103 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C535E25760;
-	Wed,  3 Jul 2024 22:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775FD13C3EE;
+	Wed,  3 Jul 2024 22:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720045514; cv=none; b=I4XoGgUn2ORPav3luNiXY/gmMQXWBF3uqsLQjozKo3qZZ9bXAYA0aplzb+9qfMTLXxYNQxj+j+hnnkgTUyX8k0OIKdX1htTZ67LWdYPD4LP3J9XDVzAhHNToIgImtqLMwBudgOMo+N/RgCQZl/pFxSUEKchDXhwz65npNyuj15I=
+	t=1720046131; cv=none; b=XS9pM9rkYc7dRfVfMQkij2hBXJT9rjNrZqOk0cE1uD3n0+D9Qbg9wzRENE5cTXY1GjuV0Y7x6mU47Jj8nEs8FuV/pcZjC5ja6tbIobdv79Vfk6/ivJMZOs55CRtudory0UjLiFt2gMQ3T1RPXvNPNamTudbDs1VOtVkq5uY5/6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720045514; c=relaxed/simple;
-	bh=mndJpzadjQHtqifv93+XI+ba2fklxOnq9hJgR51FqBo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kA7RQaaPFvLKAkLMi8Q7VQv06P0XeSB0nEM6j1hUbS1uuWjGgiX8aP1j7tsApUyOvZCm0MI6/QHpfxN2c/AScUcSfhQh2A1jPF0JVyt03XO5nqFlNtElzU2kPhuqrW43Ij69pcBFIfDn4yKMYfvho5oYawmHGkvZHCWLa9ZtNgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=D47YfF53; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1720046131; c=relaxed/simple;
+	bh=EZOgZKlULUJHBi14XPIFf35LD2LoPkdOopF8BGLtTYs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SUjVf1MN2M1jq/VrpSyCtAadCesfLuztnLtUFOt088B6sD0KP6iG9NJb+aWPMQJQHFFR1G+Zd70bX6JFFN4QWInHoODdatld5pP+HWmeZXB59RvmZnQZyDsJonKMTyiSw4TVsWW2bkNE6+ptI95B3OSvmXNLq25I4VIMOJ4DsKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FrIvN3X8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="D47YfF53"
-Received: from CPC-beaub-VBQ1L.redmond.corp.microsoft.com (unknown [4.155.48.125])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3F50A20B7001;
-	Wed,  3 Jul 2024 15:25:12 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3F50A20B7001
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1720045512;
-	bh=DBFAmjPoKKil5K3tr8zF7LNFRV2BpYUjpp4KSM4D4Ps=;
-	h=From:To:Cc:Subject:Date:From;
-	b=D47YfF53o2beW8riTFQGkLDqsU+WczDxqodgwIN/oTWo07M5uHpi3l5zh0J08D3XW
-	 SRtvDQrPpsDu+5d9Nn58x1/RRnesiFO7EeVGwkrpzfxasDU58efMzfRPtdY1ijeKeS
-	 lsgrAolrmN3Un38599y6Xll3xVjX4WkVzmbBDG6o=
-From: Beau Belgrave <beaub@linux.microsoft.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	corbet@lwn.net
-Cc: linux-trace-kernel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: Document user_events ioctl code
-Date: Wed,  3 Jul 2024 22:25:01 +0000
-Message-Id: <20240703222501.1547-1-beaub@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FrIvN3X8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8E29C4189E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1720046129; bh=MhChzzvgjO8GPkUYQDu0xVCJVkL3BK5qrTSeUbHMLCQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FrIvN3X8RJAAsHudC/Ma1tjGMsngEzkgVn+56YgUIh2/FORBc7rl7Piyeedt6C4yR
+	 EL0YlfUDRefTgCGeKPTN0X+qWBETMmh5a9Mxj0KautpWjs/e3JYYlkjXDAGXnX0BqZ
+	 Cv8RF1y4phtgiOudXlacO+dkUM1aCrFhvTrnGRigzW7elgL5PZuNwyw8qtjB9t7TC4
+	 7eztOpciqG24cTSxlOVvl91wI3qTkKl6fBpyRSKQQe6J+qPSYumrlsif858Va38M4B
+	 /DTc2aj5BXNbeP/cL6+xL0I7YNvhiX9js+eyKFAX4mixr1FBn2VRafXqxl9JH3nn+9
+	 F66Bt3TkNdgWg==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8E29C4189E;
+	Wed,  3 Jul 2024 22:35:29 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: bilbao@vt.edu, jembid@ucm.es, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Subject: Re: [PATCH] docs/sp_SP: Add translation of
+ process/maintainer-kvm-x86.rst
+In-Reply-To: <20240626221942.2780668-1-carlos.bilbao.osdev@gmail.com>
+References: <20240626221942.2780668-1-carlos.bilbao.osdev@gmail.com>
+Date: Wed, 03 Jul 2024 16:35:28 -0600
+Message-ID: <87bk3et87j.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The user events trace subsystem uses the 0x2A/'*' code for ioctls. These
-are published via the uapi/linux/user_events.h header file.
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
 
-Add a line indicating user events as the owner of the 0x2A/'*' code and the
-current sequence numbers that are in use (00-02).
+> Translate Documentation/process/maintainer-kvm-x86.rst into Spanish.
+>
+> Co-developed-by: Juan Embid <jembid@ucm.es>
+> Signed-off-by: Juan Embid <jembid@ucm.es>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> ---
+>  .../translations/sp_SP/process/index.rst      |   1 +
+>  .../sp_SP/process/maintainer-kvm-x86.rst      | 466 ++++++++++++++++++
+>  2 files changed, 467 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/process/maintainer-k=
+vm-x86.rst
 
-Signed-off-by: Beau Belgrave <beaub@linux.microsoft.com>
----
- Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
- 1 file changed, 2 insertions(+)
+I've applied this, but it generated two warnings.  One on application:
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index a141e8e65c5d..191609fe4593 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -97,6 +97,8 @@ Code  Seq#    Include File                                           Comments
- '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
-                                                                      <mailto:alexander.shishkin@linux.intel.com>
- '&'   00-07  drivers/firewire/nosy-user.h
-+'*'   00-02  uapi/linux/user_events.h                                User Events Subsystem
-+                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
- '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
-                                                                      <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
- '2'   01-04  linux/i2o.h
--- 
-2.34.1
+  .git/rebase-apply/patch:487: new blank line at EOF.
 
+and one during the build:
+
+  Documentation/translations/sp_SP/process/maintainer-kvm-x86.rst:3: WARNIN=
+G: undefined label: 'documentation/process/maintainer-kvm-x86.rst'
+
+I fixed both of these (see patch below) but would really rather not have
+to clean up things like this.
+
+Thanks,
+
+jon
+
+diff --git a/Documentation/translations/sp_SP/process/maintainer-kvm-x86.rs=
+t b/Documentation/translations/sp_SP/process/maintainer-kvm-x86.rst
+index 127238f44ea9..053b6a06db01 100644
+--- a/Documentation/translations/sp_SP/process/maintainer-kvm-x86.rst
++++ b/Documentation/translations/sp_SP/process/maintainer-kvm-x86.rst
+@@ -1,6 +1,6 @@
+ .. include:: ../disclaimer-sp.rst
+=20
+-:Original: :ref:`Documentation/process/maintainer-kvm-x86.rst`
++:Original: Documentation/process/maintainer-kvm-x86.rst
+ :Translator: Juan Embid <jembid@ucm.es>
+=20
+ KVM x86
+@@ -463,4 +463,3 @@ host (kernel o espacio de usuario), o que pueden ser ex=
+plotados por una VM
+ anidada a *su* host (L2 atacando a L1), son de particular inter=C3=A9s par=
+a KVM.
+ Por favor, siga el protocolo para :ref:`securitybugs` si sospecha que un
+ fallo puede provocar una filtraci=C3=B3n de datos, etc.
+-
