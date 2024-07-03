@@ -1,84 +1,117 @@
-Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C616143758;
-	Wed,  3 Jul 2024 09:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4719E17741;
+	Wed,  3 Jul 2024 10:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720000539; cv=none; b=QoLLjhyhcNzH5UWlepdZH4KJPWZq9Hp06HVP9K6S21UIkZlyT8PNM/PZMzqOkEIu/k7swPvzQbqLlrV0KCHIDk4u/1NlB5f3+oNI+h83i5hTDY19WY+NTsxMiygH1OSsgJkfTGV9Ar5PYKonIw8LTDsQOuRKlCvsgHHZtrMNitI=
+	t=1720001192; cv=none; b=cVeNH2RWsuG+A9A2SGGY8LtGzY0XTTb5Q6u5Z8kbO9aIJkxQ9LbLqGsLu1HKtjozt5gNc6YFWKDMEortbFMzyTv987fC8QlVkdSbM8K8sDympcUpl9iZNn4vPtTp0xGpv5v1PBrbIVBtsvDssSrycuOHiInTpgZ9N3xCF6qs1lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720000539; c=relaxed/simple;
-	bh=VAztpCOR1tH3GwIz0d5tqw3J6dkGZ3sS7qwDIFUKl/U=;
-	h=MIME-Version:Content-Type:Date:Message-ID:To:CC:Subject:From:
-	 References:In-Reply-To; b=jNF7IC0nhC0LyVtYCWFXX1J70++MEvNiw2GfDHFm7Hu1cvqn59QDyk4px3IKxa+N+9n2Y30MxNJc4LqqcvHM9yXgaGgudG5/YR93zl28z3r5BFIMOv/OsG2tUZclKGwy6XmleNYkUXLe8273YI8QV9OcADq0lk9FgHit21VN39c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.es; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=VF3Uyut2; arc=none smtp.client-ip=52.119.213.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.es
+	s=arc-20240116; t=1720001192; c=relaxed/simple;
+	bh=+1vQzUvu3r9PEMJ7qsiZPsHa2RvNRoThVCOWZ8xnLC4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Grs3Z6xwqDg/dhNCQ/1Wj08B+lKPVX5Xofrg/NSzzCWlwyDnx4hrpbrZ6Q3F1LnrnIzRlXGxix9bXl2CVA6gvlna54V0bSB3sWIaYWu11bMtQmdDUeiBIeAxHajm1SrnmONawj2PFHmJYJI/yil05ET80R8saToyIDCNUtxuE/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tco+SJkO; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="VF3Uyut2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1720000538; x=1751536538;
-  h=mime-version:content-transfer-encoding:date:message-id:
-   to:cc:subject:from:references:in-reply-to;
-  bh=VAztpCOR1tH3GwIz0d5tqw3J6dkGZ3sS7qwDIFUKl/U=;
-  b=VF3Uyut2JB5TiKqzMmDJ71r78jkF5eqbmYhcisPNoGEP1s7swEEmQsIr
-   FGtjXE5EK1+O4E7C2grr0XnHuKkYFg4MleaM1yvm3rp0VaWPY4cefExOP
-   5sVNDs+f/jkH4omBB99/mQ3Rr6rkkPjmReFWa74uVeESsxllNw0gHnGgd
-   o=;
-X-IronPort-AV: E=Sophos;i="6.09,181,1716249600"; 
-   d="scan'208";a="643328494"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 09:55:35 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [10.0.17.79:41563]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.31.218:2525] with esmtp (Farcaster)
- id 4054678a-94ee-40f8-a85c-6afac11b8361; Wed, 3 Jul 2024 09:55:34 +0000 (UTC)
-X-Farcaster-Flow-ID: 4054678a-94ee-40f8-a85c-6afac11b8361
-Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Wed, 3 Jul 2024 09:55:34 +0000
-Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
- (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 3 Jul 2024
- 09:55:27 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tco+SJkO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720001191; x=1751537191;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+1vQzUvu3r9PEMJ7qsiZPsHa2RvNRoThVCOWZ8xnLC4=;
+  b=Tco+SJkOqpDl/ojFg3cXLv6gimAfOXyPkXuy3HFDMrf7Xfn2R3Db3rDH
+   PX7+wznvakjkD5orDit3QGLdtyWLgc6EV6jwn0tw3HMD5jN6uj4mZjFtA
+   AB//zdkWxn0NpSdpQO+He/C8J7+GBC7NIR4CkMNLarukluI9MJUBYcdP1
+   IcpsD07kJEUuZnrhoxwGr9zliwRnyyDO6f0ZqupFz/+Ps39oRr4GlUnjd
+   bS+iINKzsltZY8ohzVHBpVKV1ZZ7QIsm8saDgAmai70r1wtX14NHSsEco
+   nkmxmcjFEvuuyr67k4cP/E8NE5SZCUczJIFb5yWEgUo3kao4Cn9j5j2Kd
+   A==;
+X-CSE-ConnectionGUID: 8JoZAv8MQ3qzL/bmUR72TQ==
+X-CSE-MsgGUID: K954mPpSRwuoO684ySdajQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="21093758"
+X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
+   d="scan'208";a="21093758"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 03:06:30 -0700
+X-CSE-ConnectionGUID: ZZWx7fBsTOaHwVmIQaiOEg==
+X-CSE-MsgGUID: iHSAQsCkS66N/RAEVx7mag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,181,1716274800"; 
+   d="scan'208";a="69384958"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO tlindgre-MOBL1.intel.com) ([10.245.244.185])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 03:06:25 -0700
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-serial@vger.kernel.org,
+	Tony Lindgren <tony.lindgren@linux.intel.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Add back DEVNAME:0.0 console handling
+Date: Wed,  3 Jul 2024 13:06:07 +0300
+Message-ID: <20240703100615.118762-1-tony.lindgren@linux.intel.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Wed, 3 Jul 2024 09:55:24 +0000
-Message-ID: <D2FTASL4CXLN.32GYJ8QZH4OCR@amazon.com>
-To: <seanjc@google.com>
-CC: <pbonzini@redhat.com>, <seanjc@google.com>,
-	<linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, <vkuznets@redhat.com>,
-	<linux-doc@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <nsaenz@amazon.com>,
-	<linux-trace-kernel@vger.kernel.org>, <graf@amazon.de>,
-	<dwmw2@infradead.org>, <pdurrant@amazon.co.uk>, <mlevitsk@redhat.com>,
-	<jgowans@amazon.com>, <corbet@lwn.net>, <decui@microsoft.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <amoorthy@google.com>
-Subject: Re: [PATCH 00/18] Introducing Core Building Blocks for Hyper-V VSM
- Emulation
-From: Nicolas Saenz Julienne <nsaenz@amazon.com>
-X-Mailer: aerc 0.17.0-152-g73bcb4661460-dirty
-References: <20240609154945.55332-1-nsaenz@amazon.com>
-In-Reply-To: <20240609154945.55332-1-nsaenz@amazon.com>
-X-ClientProxiedBy: EX19D039UWB002.ant.amazon.com (10.13.138.79) To
- EX19D004EUC001.ant.amazon.com (10.252.51.190)
+Content-Transfer-Encoding: 8bit
 
-Hi Sean,
+Hi all,
 
-On Sun Jun 9, 2024 at 3:49 PM UTC, Nicolas Saenz Julienne wrote:
-> This series introduces core KVM functionality necessary to emulate Hyper-=
-V's
-> Virtual Secure Mode in a Virtual Machine Monitor (VMM).
+Here are the changes to add back the DEVNAME:0.0 style kernel command
+line console handling.
 
-Just wanted to make sure the series is in your radar.
+The earlier attempt to add DEVNAME:0.0 style console handling caused a
+regression to the kernel command line console ordering, and we reverted
+the whole series. The fixes would have been too intrusive for the
+v6.10-rc series as discussed in [0] below.
 
-Thanks,
-Nicolas
+These patches are based on v6.10-rc6, and essentially the same as in [0].
+Because of the rebase, I've left out Petr's Reviewed-by and Tested-by tags.
+
+Compared to the original DEVNAME:0.0 patch series [1], things are much
+simplified. We now have rewritten the printk deferred console handling
+thanks to Petr, and have renamed the serial functions accordingly. And as
+we are not deferring ttyS named consoles, the serial core console quirk
+handling been been left out.
+
+Regards,
+
+Tony
+
+[0] https://lore.kernel.org/linux-serial/20240620124541.164931-1-tony.lindgren@linux.intel.com/
+[1] https://lore.kernel.org/linux-serial/20240327110021.59793-1-tony@atomide.com/
+
+Tony Lindgren (3):
+  printk: Add match_devname_and_update_preferred_console()
+  serial: core: Add serial_base_match_and_update_preferred_console()
+  Documentation: kernel-parameters: Add DEVNAME:0.0 format for serial
+    ports
+
+ .../admin-guide/kernel-parameters.txt         |  19 ++++
+ drivers/tty/serial/serial_base.h              |  16 +++
+ drivers/tty/serial/serial_base_bus.c          |  37 +++++++
+ drivers/tty/serial/serial_core.c              |   4 +
+ include/linux/printk.h                        |   4 +
+ kernel/printk/console_cmdline.h               |   1 +
+ kernel/printk/printk.c                        | 103 +++++++++++++++---
+ 7 files changed, 169 insertions(+), 15 deletions(-)
+
+
+base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+-- 
+2.45.2
+
