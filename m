@@ -1,74 +1,91 @@
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FE418309B;
-	Wed,  3 Jul 2024 17:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.77.79.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F14E17F51A;
+	Wed,  3 Jul 2024 18:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720027261; cv=none; b=jDWEdfv7pypxUIKtwQVPFfR4vwpXRdM9slAlCs68CP2TAPQ7+PdrrTs0N/sFd6TvWMQ68aVR98ZHmF5UetqDP3cbIS3L/O3BjorZvn13tmlK1xHsJgt3AEOa8HW23pRPX6fvyV0CVyvUPcnrOqVa7t1xs7nbTntI6Kxsjc/o5fk=
+	t=1720029783; cv=none; b=CnfzSs3JM1eeFN7q4mwUo7MGM11wQeS1KoD5thdunTGxyhFEvENkq026wWhrRiuxpEygB1UhtFfwpBTnI9QjbtDgiIYvk4nQomciaDQaajxRCFvALXAlwOfBSyMPmka4NMpEtJ3avDQxJpthKQJOfJUVhPqnxAtRQyDDsxpODAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720027261; c=relaxed/simple;
-	bh=PMZ8fXfFqcesgh4os0cEpNSLQicO4IEGRrW58SumQa8=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AIHPBGQL0C17+3I0FdhB+SvNxvOE0LpV2b85c3m9fESPTrmPopj7hjF/w909ELCxKbfuq8kAGaWcs+aQnoeQ9IdEQz000H9HfFoQb/C2w4Z36O1DmO08B6/qyheshNUfoyvnMcLNqpVfxrxTLjYF3VR2WSVNpJLxp7Hr6ESifTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=metaspace.dk; spf=pass smtp.mailfrom=metaspace.dk; dkim=pass (2048-bit key) header.d=metaspace.dk header.i=@metaspace.dk header.b=T17HPMPY; arc=none smtp.client-ip=51.77.79.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=metaspace.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=metaspace.dk
+	s=arc-20240116; t=1720029783; c=relaxed/simple;
+	bh=B4ySoAt9XmANvoGWAWLu/nneuZIPT9MWsIZhcy351g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXVLEyq/M0Wx4FDi3/HKVio8QYb4dpjomD1GHsylKj2lVlhaw9RSr35LetgabHcmLnxWArNKMKLFyDdD1CsMQ24cXMqlDOOj9DqfTWILfPYOfASs7kH2kqdf7zcLB8omtLkEG8cOHAiTMGJOTph1QMmYFki3bay8RZkhw1uRJog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMahwZi4; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=metaspace.dk header.i=@metaspace.dk header.b="T17HPMPY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=metaspace.dk;
-	s=protonmail; t=1720027243; x=1720286443;
-	bh=ndDGJ5uXrO4sGpkfcf5wznWFZi4Q7sy1VDuTcL5Kfro=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=T17HPMPYGDYS9yM7ZcV0UBuiTcwJVUuq7V6Juxt/NEvEJQW29YcPTdfs+oKQ6jt+2
-	 1zA7jrKPpg2Ig+P+YyRMIkexstlNFnXJ/5D95ENZhLQQOr17yKj33RTbpK2N4aTt6F
-	 q9PUCdp04UKuCcwbLurE0Q3ym1JaRlSqTAInXDaCrqHWEZzKiG63A8UIuJVlkBm9au
-	 DH7DhmvuNHbfoeZ2yCNAtuyJrEgVyLffU/4P0XDhypEm8npkFxri336xC8hV0M3B0i
-	 78Ex0hFUm8+MMEhg1CwECLvGSOFDNrd4aW+pfPqDzIpU9sT7wCKK3jctuaIRXIalza
-	 q3ZKg9uiD+pBg==
-Date: Wed, 03 Jul 2024 17:20:37 +0000
-To: Miguel Ojeda <ojeda@kernel.org>
-From: Andreas Hindborg <nmi@metaspace.dk>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 06/13] rust: start supporting several compiler versions
-Message-ID: <87ed8a8ka3.fsf@metaspace.dk>
-Feedback-ID: 113830118:user:proton
-X-Pm-Message-ID: cb700748314eafeccfd6719d4fa10cbf2e19f93c
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMahwZi4"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f480624d0dso42580355ad.1;
+        Wed, 03 Jul 2024 11:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720029782; x=1720634582; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+tcGACeNmDpmXt5A0FQZMjSRiXosaejWpJz9GzTjaGM=;
+        b=PMahwZi4jWVqZiP/eDZ5/y68Xn/6FcSCyMY2V0XIdwo+2VwmlHoBYMWNu7mVoYFd8O
+         Q4SEFBKlbZeUXdBiZ4ta71AgU5uDuaNrbVV+aKk2QTDMyMtaObE6ng18jdaDPDB+25Uv
+         WqUUsswFIOxN3EroqnqLNp5TRprcdg1aiFanCIDEZkLFigmIII6Xo27su99YNp/NOXA/
+         cZJqiUpv2i/aOQOOT8U6A31uSDQCxkzx35UCnLusTi5PhB6bbiIQI4LvGQ5WBOMeqxKi
+         NSZGCe+4/2HauKJdp0QHg0KDQX2Dtg+oPBdDEiZ0rpjZ0tuwD7k4TLWHjVz9eZq+Etif
+         ebqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720029782; x=1720634582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+tcGACeNmDpmXt5A0FQZMjSRiXosaejWpJz9GzTjaGM=;
+        b=exVl4y8MI3UiDQZ/znux0w4A10Ps696lAUY6G0rltQidTifoG4sW7c2LA5vZB6rvXl
+         A1mG3BWVWHpLkVfhhLOGWPtzfjwHYoPGAJ7xwf8k2xLFQJKTHltM0v2I4VMWdf9hmYux
+         K887zAHkY20kqxreagzQegRkNNHqyRDWC8yxe+hsqmt/CczibztH8VuV0KGOYoW9oQfM
+         AEVHSjcgM/om9saLCaFSZCQo0MgNL7ozf/Wr3w6hbPi8MnlPqkYtWkhdMa/c5riQYjq/
+         CkduPWyJ9PqS1W/uCRkZMtMKBT9ikKEtq9hPgILSw7muSel7OBiqQwhh/pMZWd51AhqE
+         +j/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUP7Jk4GBvs4ZaalWu56PGfDBaRTtKYIrQZ2G+c7Wv1R8aTO9nMcvvMPnarjc+coRhlm4PFOu82jzxRMWsX/pu+a9fWdqu2ox0dP7uqcCRJYPfGOVd9d8g8EUvRAzwSgoZvaeAH2ZJ07+4/8UeSJr502InYlUdJW7iBGjxcxvAsqg==
+X-Gm-Message-State: AOJu0YxrtXAFOC5eWVhuMJWXq+dMuKy3Z4448MeAdudYidIvJE/okWvE
+	GXpzns6UygrD51EzGtuFL7IuSxJ9V4KrMzI71wt8CHQBmtAdghDJ
+X-Google-Smtp-Source: AGHT+IHW8duCgfxpNSBcSxGCOya6xMeTRKi6A9lNKI3gjQkupFrI+ydS7Da05DnBQ/GHUOAGffdTYA==
+X-Received: by 2002:a17:902:c40e:b0:1f7:2135:ce71 with SMTP id d9443c01a7336-1fadbc5be50mr136998785ad.11.1720029781697;
+        Wed, 03 Jul 2024 11:03:01 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac10d1438sm106337435ad.24.2024.07.03.11.03.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 11:03:01 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Wed, 3 Jul 2024 08:03:00 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Kamalesh Babulal <kamalesh.babulal@oracle.com>
+Cc: Xiu Jianfeng <xiujianfeng@huawei.com>, lizefan.x@bytedance.com,
+	hannes@cmpxchg.org, corbet@lwn.net, haitao.huang@linux.intel.com,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 -next] cgroup/misc: Introduce misc.peak
+Message-ID: <ZoWSVBVAbQjW0l34@slm.duckdns.org>
+References: <20240703003646.2762150-1-xiujianfeng@huawei.com>
+ <cb6bc4b9-bbf3-4d43-aeb8-8efdcbf94a9c@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb6bc4b9-bbf3-4d43-aeb8-8efdcbf94a9c@oracle.com>
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+On Wed, Jul 03, 2024 at 03:13:29PM +0530, Kamalesh Babulal wrote:
+...
+> The patch looks good to me after the atomic conversion. Sorry for bringing up
+> this question so late into the discussion. Given that misc.max is available
+> only for non-root cgroups,  does it make sense for misc.peak too, available
+> for non-root cgroups only?
 
-[...]
+It's more tied to the usage - misc.current. For memcg, memory.current is
+only on non-root cgroups, so is peak. For misc, as misc.current exists for
+the root cgroup, it makes sense for .peak to be there too.
 
-> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-> index 117018946b57..67cb900124cc 100755
-> --- a/scripts/rust_is_available.sh
-> +++ b/scripts/rust_is_available.sh
-> @@ -117,14 +117,6 @@ if [ "$rust_compiler_cversion" -lt "$rust_compiler_m=
-in_cversion" ]; then
->  =09echo >&2 "***"
->  =09exit 1
->  fi
-> -if [ "$rust_compiler_cversion" -gt "$rust_compiler_min_cversion" ]; then
-> -=09echo >&2 "***"
-> -=09echo >&2 "*** Rust compiler '$RUSTC' is too new. This may or may not =
-work."
-> -=09echo >&2 "***   Your version:     $rust_compiler_version"
-> -=09echo >&2 "***   Expected version: $rust_compiler_min_version"
-> -=09echo >&2 "***"
-> -=09warning=3D1
-> -fi
+Thanks.
 
-This does not set a max version. Will older versions of the kernel
-always compile with newer releases of `rustc`?
-
-Best regards,
-Andreas
-
+-- 
+tejun
