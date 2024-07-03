@@ -1,56 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5F82107;
-	Wed,  3 Jul 2024 01:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841128F5B;
+	Wed,  3 Jul 2024 02:02:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719971933; cv=none; b=BNR0/2X3vO27pNZB8k3/5mOsG4k4SAgUOxfpNH05+M8U4KYt1RNUj9r9e5Dw3qy/iwu8fjeL5TlISuGgIsq65g8z1oua58jZT4IY6kPI4zTl/jRRrkj6f8Q0Du/YeWcFPE/0Q69qdP606S57+N5bM4/QdSXJ1JunS8sc1+JnZM0=
+	t=1719972156; cv=none; b=ARn1Qkidza5oc8OE+X/i5+2JMEWS5k3//5K1WUMtGiplHzZoVrXwMkwNyf5dDRYsU+glo2g8EYxdWjEe4XJxTaEAkjmtPCqahMw7OmwqEmoETrVJA8jre5epwOwAU4av5ABq7fmWL2/q4d4B04wgBwim5ffpOdS7NJnmovi2Ym0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719971933; c=relaxed/simple;
-	bh=XPORJfxOHShwH0PseKqVETj1J3w9jE2nCdeIejt76UE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=g5DwH+5uQxkJ29Wi6LKWk9kkGmnOaJ4OECAuavnUAE3vipWpLxjQ+6iKyvHLDkjILgMcScMiAkX+ESQ68HBAgACg5yqPlFeVJOlQx5WBOEWL6mqYCgeoRkCy+M60eSxaC6n3Ef55DJ7lGgYvnpVladDBKBKK74zt9qNJ+8MOIbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=2kiz0HQT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719972156; c=relaxed/simple;
+	bh=R6kgAs73TS+N4+4Y27yXxUyZx91QX/oME+K5F6DbZ1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bZlu7eDKKnjHX7f+Czk1p805q1VLOV148XZ4RDTrt4xQzlXB0HwSyJ87CftOesDO3tIDiqh037YBEe4K6T13tDw/31+dlV59w6be0tWdJNezZinNJ8dp5mjTvFPUanFMjWYIGiKXeBgXs4zTrJebVZPCZdrUt5jWIxPLLvZ/kLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZkiJu8V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2kiz0HQT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D9CFC116B1;
-	Wed,  3 Jul 2024 01:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1719971932;
-	bh=XPORJfxOHShwH0PseKqVETj1J3w9jE2nCdeIejt76UE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZkiJu8V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E22CC32781;
+	Wed,  3 Jul 2024 02:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719972156;
+	bh=R6kgAs73TS+N4+4Y27yXxUyZx91QX/oME+K5F6DbZ1c=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=2kiz0HQTXId7rdsgWmMGYACtREFWL4DSuxTFxS5MGRYTBil9axKXk5VRDd+XhHRpd
-	 gVHBRYvYirr1NvNlc5D8Ps241ESAJaPgRr/jxMr79sNEKcqXBgBCJpfhO4XebnFcVe
-	 yVu1QB66l4xYa+LM9t/ZMoD9XBvyT9xt46nbOSgE=
-Date: Tue, 2 Jul 2024 18:58:51 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
- <corbet@lwn.net>, <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH -next] mm/hugetlb_cgroup: introduce peak and rsvd.peak
- to v2
-Message-Id: <20240702185851.e85a742f3391857781368f6c@linux-foundation.org>
-In-Reply-To: <20240702125728.2743143-1-xiujianfeng@huawei.com>
-References: <20240702125728.2743143-1-xiujianfeng@huawei.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=nZkiJu8VGkExL+V5eE4TDNRvf6KjZSSsn/r8tuggjTUlWsOLkZpiVUHTnjLRiNwNU
+	 VeTQthUWctRpmaY5e/iSnDXXpAF2t86pYqMWLsTKj25XULlKC2vLrCx7hGY3xvcFuv
+	 Uj09eyf8otNb8v9e39qs7Lxed4UQvrG50QOns/dziVCxTqzN6QKAtP/7MTwkC52Yvn
+	 X2Rr75v95DZXNFuMqrUO5D9PIsCgHfg72jH5LhBVJaJKHbLGnZCIT5snd5fDgANFyC
+	 VUbx8fAuRtC/pj/Eea0xyvGwlc5iucM3sDRIte3Z2CJ74+DIpSCuhaPkTTzjly8lpE
+	 2pasIfmYiJF3Q==
+Date: Tue, 2 Jul 2024 19:02:32 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald
+ Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
+ =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v15 00/14] Device Memory TCP
+Message-ID: <20240702190232.7cbe4c41@kernel.org>
+In-Reply-To: <20240628003253.1694510-1-almasrymina@google.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2 Jul 2024 12:57:28 +0000 Xiu Jianfeng <xiujianfeng@huawei.com> wrote:
+On Fri, 28 Jun 2024 00:32:37 +0000 Mina Almasry wrote:
+> v15: https://patchwork.kernel.org/project/netdevbpf/list/?series=865481&state=*
 
-> Introduce peak and rsvd.peak to v2 to show the historical maximum
-> usage of resources, as in some scenarios it is necessary to configure
-> the value of max/rsvd.max based on the peak usage of resources.
-
-"in some scenarios it is necessary" is not a strong statement.  It
-would be helpful to fully describe these scenarios so that others can
-better understand the value of this change.
-
+I'll pick up a couple of patches unlikely to change.
