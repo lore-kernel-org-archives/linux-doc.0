@@ -1,75 +1,72 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E6413D638;
-	Wed,  3 Jul 2024 22:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C535E25760;
+	Wed,  3 Jul 2024 22:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720045369; cv=none; b=ki6pBUrOvRdRmXs090NHOxYBi7jBbB0ZpTF9zGw9iQDZhYOCFdfib2ij3lDsmAtVUM7Iu8xD5ICoLV+9tNp4ZrgrM/Xx7xKym+/Hi9vkne4e4x6Be3cxaM1t6hK+GJqEtqDAMZRiiFF8CqWj8EfB8Qo3PWtLLrv3p/T/e49DsUk=
+	t=1720045514; cv=none; b=I4XoGgUn2ORPav3luNiXY/gmMQXWBF3uqsLQjozKo3qZZ9bXAYA0aplzb+9qfMTLXxYNQxj+j+hnnkgTUyX8k0OIKdX1htTZ67LWdYPD4LP3J9XDVzAhHNToIgImtqLMwBudgOMo+N/RgCQZl/pFxSUEKchDXhwz65npNyuj15I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720045369; c=relaxed/simple;
-	bh=heY2XzMbOjVHbm4QYZNdG8tCVsQhay/Rp9L7ERc7sKc=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WNNvOpzO12z5l0kewLruShqtr0UtrwPepxQ8Y8p4reo3Qs/o/edfgFyDkdwZxWJXyqfvjny7gpN/2jp58RpfhiJ7cRhopc1SkAuvAqcA0V/ERSfKjZob8QJCeUxNYGnXVvlUpt245AglAD1uk1ImxBTGhYJS/L84hIFfihvk4iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Zr+SO+du; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1720045514; c=relaxed/simple;
+	bh=mndJpzadjQHtqifv93+XI+ba2fklxOnq9hJgR51FqBo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kA7RQaaPFvLKAkLMi8Q7VQv06P0XeSB0nEM6j1hUbS1uuWjGgiX8aP1j7tsApUyOvZCm0MI6/QHpfxN2c/AScUcSfhQh2A1jPF0JVyt03XO5nqFlNtElzU2kPhuqrW43Ij69pcBFIfDn4yKMYfvho5oYawmHGkvZHCWLa9ZtNgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=D47YfF53; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Zr+SO+du"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C05034189E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720045367; bh=6YUncoupi0JqTw3u0eh7HX5S3IBZtcexmjWPdsyEqH0=;
-	h=From:To:Subject:In-Reply-To:References:Date:From;
-	b=Zr+SO+duQQzVyPVxQ76e/thpBh+lCivbVwR5YA+je6ntwnhLiGZsm3GvURiWo/B6P
-	 GhAX9kNiHxsEsZ9iRSii9iE0BV1S/YsAvOqVz2dzdPO4Uv8PXTSxFen9oRnhRfAEb2
-	 cCAd6cfalg3f5W46c/g/S0CjHmpcF7iDLkN6qMftz1bOz5SEXxTFT/twtDHg+4Go1h
-	 3/Q2xQMK2a8yjEHt7YosccsLpGEeuUCDgIu3BmTMUrr7kuPjYExDOEobL5AkkKJBRe
-	 WgWs1uNiis+J8SYA38B9zZPgbP0G7MHySvvO4ulN4isbW8hSQpl2lsFUpWhYFRcDT7
-	 C3KhbCLV5zaRQ==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C05034189E;
-	Wed,  3 Jul 2024 22:22:47 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Watson <ozzloy@each.do>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/admin-guide/mm: correct typo 'quired' to 'queried'
-In-Reply-To: <878qymrjrg.fsf@trent-reznor>
-References: <878qymrjrg.fsf@trent-reznor>
-Date: Wed, 03 Jul 2024 16:22:47 -0600
-Message-ID: <87ed8at8so.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="D47YfF53"
+Received: from CPC-beaub-VBQ1L.redmond.corp.microsoft.com (unknown [4.155.48.125])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3F50A20B7001;
+	Wed,  3 Jul 2024 15:25:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3F50A20B7001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1720045512;
+	bh=DBFAmjPoKKil5K3tr8zF7LNFRV2BpYUjpp4KSM4D4Ps=;
+	h=From:To:Cc:Subject:Date:From;
+	b=D47YfF53o2beW8riTFQGkLDqsU+WczDxqodgwIN/oTWo07M5uHpi3l5zh0J08D3XW
+	 SRtvDQrPpsDu+5d9Nn58x1/RRnesiFO7EeVGwkrpzfxasDU58efMzfRPtdY1ijeKeS
+	 lsgrAolrmN3Un38599y6Xll3xVjX4WkVzmbBDG6o=
+From: Beau Belgrave <beaub@linux.microsoft.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	corbet@lwn.net
+Cc: linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: Document user_events ioctl code
+Date: Wed,  3 Jul 2024 22:25:01 +0000
+Message-Id: <20240703222501.1547-1-beaub@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Daniel Watson <ozzloy@each.do> writes:
+The user events trace subsystem uses the 0x2A/'*' code for ioctls. These
+are published via the uapi/linux/user_events.h header file.
 
-> Convert the word "quired" to the word "queried" which makes more
-> sense in this context.
->
-> Signed-off-by: Daniel Watson <ozzloy@each.do>
-> ---
->  Documentation/admin-guide/mm/index.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
-> index 1f883abf3f00f..8b35795b664be 100644
-> --- a/Documentation/admin-guide/mm/index.rst
-> +++ b/Documentation/admin-guide/mm/index.rst
-> @@ -10,7 +10,7 @@ processes address space and many other cool things.
->  
->  Linux memory management is a complex system with many configurable
->  settings. Most of these settings are available via ``/proc``
-> -filesystem and can be quired and adjusted using ``sysctl``. These APIs
-> +filesystem and can be queried and adjusted using ``sysctl``. These APIs
->  are described in Documentation/admin-guide/sysctl/vm.rst and in `man 5 proc`_.
+Add a line indicating user events as the owner of the 0x2A/'*' code and the
+current sequence numbers that are in use (00-02).
 
-Applied, thanks.
+Signed-off-by: Beau Belgrave <beaub@linux.microsoft.com>
+---
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-jon
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index a141e8e65c5d..191609fe4593 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -97,6 +97,8 @@ Code  Seq#    Include File                                           Comments
+ '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
+                                                                      <mailto:alexander.shishkin@linux.intel.com>
+ '&'   00-07  drivers/firewire/nosy-user.h
++'*'   00-02  uapi/linux/user_events.h                                User Events Subsystem
++                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
+ '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
+                                                                      <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
+ '2'   01-04  linux/i2o.h
+-- 
+2.34.1
+
