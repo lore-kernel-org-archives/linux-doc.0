@@ -1,74 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A9513AD27;
-	Wed,  3 Jul 2024 23:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35C4964E;
+	Wed,  3 Jul 2024 23:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720047644; cv=none; b=VIO6r8nL9IK79gxO0zdiS4sliyKI0GwUssRAn6zRPiAulGT6F6t5GKi3MyFuqcq9nCpJKt3P5aHRS1Fob9UBT+BuWpgWe+V2MOpIjXHFWNbJ8MlS77EaDgM1BHhvw0KJLx3178Ofgfp/IkpvNPO5oPozwIi7SswT6hmhVrbZGJM=
+	t=1720047870; cv=none; b=hX9UZIsGafgUqX2cWM6DhAp2BGYIY01eMBSc7MOB7aEbCRLN59T86fDxUmrrat8Ta3J8vTAlx8A8xEIn1om5tOkZd6sbe1YWSEtZunXiw4XweLJfKh+Bz10yFDLWW/U6w5UTLp1VL9cQ90VdTiY0bt5Bm+BA7yMn2dH2pXuCFe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720047644; c=relaxed/simple;
-	bh=QrxVFpPiW9yuY94rmvTNh1kcmX2+boRlejh1aKWSj8k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=M24I8YtlKJp0oWV2Z6i8X0i02QCcRmV/tXrosB2Ysdy4o2gNkvtdJILqKxp9vQQ0KIzVf4HJ4pFt09VM3hiC8zGhUjLjEatGmaaP3n0NYEgvcnbrU1iY+Ra/luRqS8dJ/djZju8ACEHvEhhPYq4gdfxWHDvF7/IKfIB7yI/rtH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScQ7Tf55; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720047870; c=relaxed/simple;
+	bh=sjUlk2dyanMoOOvqU/NU0Qw0qLzZxQECvFTWbr3HFx0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KKXsP4fWYkH08g9DBDWpZo7IPn97T8Ssf6ClQQG4RHi/1aCwA2/qLoEQhsZ9BuaA+gWxDYBvqlmV51+dBuvp6QAC9dQ54u9W6qokIxnAeNX+HW8U8bxtCeBCJ2qOOfMbUcITksxeBY04PvXszawaTKm654MkubFVGKA5Qw3hgPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=foN6g2Aw; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScQ7Tf55"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24735C2BD10;
-	Wed,  3 Jul 2024 23:00:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720047643;
-	bh=QrxVFpPiW9yuY94rmvTNh1kcmX2+boRlejh1aKWSj8k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ScQ7Tf55K50IDT4ZgmFafSUZY8XgMRYAVZpfDY7yKuSg35SnQiCPTqDSqr7P0t0k3
-	 ZRjbtpcyJ045EgP+GXOIaXK0q1xFCv74P1/82FudPLb5VTmlqWQbA1oXAX8lV+cYcz
-	 k4Xx/QSELc9ov8Mc9xA8GCmggL20l4co+yuPz+qNAQbkQo4sr6jC1DOTP2Jpo/lFJi
-	 EatsSRmvky9R7SAXObycjNZzB1PBfAB9X1apAxXvnuKStWiL+l6m0VgI0Ry81tIc2h
-	 a+No+mzGbrvFe3mspcv2SsbninAGs3pWBAgUjlwsi6qIo0hOTxn2oe0s1bkoVk5Tor
-	 kxr2TTAhhzVuA==
-From: SeongJae Park <sj@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Suren Baghdasaryan <surenb@google.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: Re: [PATCH 4/4] Docs/mm/index: move allocation profiling document to unsorted documents chapter
-Date: Wed,  3 Jul 2024 16:00:40 -0700
-Message-Id: <20240703230040.90283-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <87msmyt8zh.fsf@trenco.lwn.net>
-References: 
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="foN6g2Aw"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 491D74189E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1720047868; bh=YTLOx/1o2O6vgLftzil18tbHX7AAy8OKyo+xBns4TL8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=foN6g2Awy5eiKZju1LPimmtXOR26SvHVLj3GQfBqu75Gzkyb2rCX4/C9CLU0E9Scn
+	 25gOIiHYzDk+1wKQFy24VU/7F1d0eBMctpd+BfpUBJ9X5Uk4xIH87HaczPT4wLhjDE
+	 2kA2efk/k+pm4mvDW2bffK229qejCmKvk3CseEWzwSg2V6BKe674vCJepuzP7OXUHB
+	 ALwDATik/GzfLBsi1VIVIuNhfVBQqN2jrQerInqOxDPBJnNp0t/bVeUn80NIQsONG3
+	 VSAiHzfOqEYvarluqY1xD6t5yh+JcBhpWnwt0sB3R9JSUkBctTWBx+huc1oueKTEFu
+	 6FHk79eTvoCIg==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 491D74189E;
+	Wed,  3 Jul 2024 23:04:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Carlos Bilbao
+ <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
+ ksummit@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] Documentation: update information for mailing lists
+In-Reply-To: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
+Date: Wed, 03 Jul 2024 17:04:27 -0600
+Message-ID: <87y16irsas.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 03 Jul 2024 16:18:42 -0600 Jonathan Corbet <corbet@lwn.net> wrote:
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-> SeongJae Park <sj@kernel.org> writes:
-> 
-> > The memory allocation profiling document was added to the bottom of the
-> > new outline.  Apparently it was not decided by well-defined guidelines
-> > or a thorough discussions.  Rather than that, it was added there just
-> > because there was no place for such unsorted documents.  Now there is
-> > the chapter.  Move the document to the new place.
-> 
-> I'll take this for now, but it's truly sad to see new documentation
-> being added to the slushpile at the end.  It seems better to create a
-> "development tools" section in the new outline and put the allocation
-> profiling document there?
+> There have been some important changes to the mailing lists hosted at
+> kernel.org, most importantly that vger.kernel.org was migrated from
+> majordomo+zmailer to mlmmj and is now being served from the unified
+> mailing list platform called "subspace" [1].
+>
+> This series updates many links pointing at obsolete locations, but also
+> makes the following changes:
+>
+> - drops the recommendation to use /r/ subpaths in lore.kernel.org links
+> (it has been unnecessary for a number of years)
+> - adds some detail on how to reference specific Link trailers from
+> inside the commit message
+>
+> Some of these changes are the result of discussions on the ksummit
+> mailing list [2].
+>
+> Link: https://subspace.kernel.org # [1]
+> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> ---
+> Changes in v2:
+> - Minor wording changes to text and commit messages based on feedback.
+> - Link to v1: https://lore.kernel.org/r/20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org
+>
+So I have gone ahead and applied this.  There are some important changes
+here that shouldn't miss the merge window, and we can argue about the #
+marking with it in-tree.
 
-I have no strong opinions about that.  Cc-ing Suren and Kent, as they are the
-author of the allocation profiling document and hence might have some opinion.
+I am rather amused, though, that b4 added a few extra tag lines:
 
+> Link: https://example.com/somewhere.html  optional-other-stuff
+> Signed-off-by: Random Developer <rdevelop@company.com>
+>      [ Fixed formatting ]
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+I do believe I'll amend the changelog before pushing this one :)
 
 Thanks,
-SJ
 
-[...]
+jon
