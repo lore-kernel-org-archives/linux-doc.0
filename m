@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854A3142651;
-	Wed,  3 Jul 2024 22:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791B1192B8B;
+	Wed,  3 Jul 2024 22:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720045132; cv=none; b=Hv2PifsKQwQXoCGOh+ktFg7esST94UL7Tb/IjyYDQXvTeToyoSKWDzrcB79aIK9gbsY9yNFQhK4xLLBHgWSYxUiXReE6qJPDqG+O6C8NkZQ6maxm5nYrSvRfToZ65TZPHUEwR7CPVBmtkqZf74m8ORoPsXA6iM3UlEGk2FiRYto=
+	t=1720045224; cv=none; b=jM+Gg1PToiFnQs4pNIwN91cliJVDzLfq9tGzhEDtSKunK/fse1cbD9E+xNpuVJMwXWKnZmIjCDs9cnCibG0RlSuQg0XKhzkxkgX3cIX3pw0m4DjWp5+tkK0mPCNTwUlbrvNi70zpcnc1wBXi7GzT2VXNNcv6MRDdONa2rOeNVxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720045132; c=relaxed/simple;
-	bh=fNMX6LNmh16dMiXO4z7x3irE1n3zIQb3P1oUmSudkEc=;
+	s=arc-20240116; t=1720045224; c=relaxed/simple;
+	bh=hcPIFbainurPpTAFoI4UPkBI6xrcioZq8/qiC6q7334=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kf4P9as/3+7+3cIdp9i/0vMB19CRDUcxOIMoq5ziS9l/TFfO/vJwdgUB/Lfm11MCPDnFBqbpA1O4SXO5PqWii8pG77+rCASA7JccUxzRt+bgj6U9blrQwMx1nbLo53/Xrui7C8sMaQHSZ4lPBIvJ80nT8RpUNVhJCrw4iYQNlto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gsVE7toF; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Uez3WggjQQKoQlThLpnK2DBAdw3xS7PRXZ6jw+xcAtWXRWh1wEmexWnCaXwYbjq+COs4rBdpsVb+nO+T14XZZRHgQa5RQAPXyvjWObVxugumCHyPXRhYXRzbJabjlYXJ+hti2+LVXiuqvcR1GY6BBEmyEopymtkp2xFNAqGcvjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=siIf+619; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gsVE7toF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC9D84189E
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="siIf+619"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A7E3E4189E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720045123; bh=/WvdytxKpPkmEjUXLYygIM/cKdrtdeWcy4Sbmhrp2c0=;
+	t=1720045222; bh=OtfBMzDwoTAjncrqEtY71x8y8FIwAWmDwFzR5bHhNaY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gsVE7toFwGGZooLQoO99u1rbVDXKW+oeLXti6mY+a6w/DarlPNndVXefowsSnwpGG
-	 VWQRCGHIR5kqBcrK4CxTUesCwzYGFfs2hXM+IRomIWbjZPZYObIWbhmMsJcnitFN0t
-	 Gy47VCw9shVKduFJBjQtH9jtFQVNmel2+CKPzgCWi3MU17rS+cjR8BXDiDTxZ0Sjxq
-	 kSVWpd2euQd1UyaGXwwh2C0lNIApAH8OnJyAi8VM4kv62K78jyNNH+tpMD+oKgNySE
-	 mvIW43T8oZIy93w1QE9RiVoSDiN4RV7vecwjRAC/HTvTjXZRIPSc19+gDoq5SAsXOZ
-	 CFJm9hHIx3x4w==
+	b=siIf+619bTrPmOauGDWFK/OWw9H6/FE3EGxoC9ZA3Fa3zmsPAlIwbtdjDTt9tVWYc
+	 DmDQXu7lx7LDORdMtPqRP9O/JwJW9CjNtsn5QzqRNJqM+ywlBcPYTJndGZOkFvFZzs
+	 7ODiCOB/wjehAhOk16g8YIvRWmIQhlmABeu3BqaKs6x3GyQC6zmubv9xs8p+kZvk5G
+	 D3lyEV3gC/H9L4u1G50F8qop4CCEsBL45F3wWBjRnBrnLf4o2jTlQEjFdyBrHUrb8C
+	 CdAy6qg5fpPFRnZzQFl/XL4gUh3ngAnwC4Yp1ZVlZeUMaoyIjSPFrsKZswDEhkVJlN
+	 alrq7fp4L9AAA==
 Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AC9D84189E;
-	Wed,  3 Jul 2024 22:18:43 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A7E3E4189E;
+	Wed,  3 Jul 2024 22:20:22 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] Docs/mm/index: move allocation profiling document
- to unsorted documents chapter
-In-Reply-To: <20240701190512.49379-5-sj@kernel.org>
+Cc: SeongJae Park <sj@kernel.org>, Kent Overstreet
+ <kent.overstreet@linux.dev>, Suren Baghdasaryan <surenb@google.com>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Docs/mm: rename legacy docs to unsorted docs
+In-Reply-To: <20240701190512.49379-1-sj@kernel.org>
 References: <20240701190512.49379-1-sj@kernel.org>
- <20240701190512.49379-5-sj@kernel.org>
-Date: Wed, 03 Jul 2024 16:18:42 -0600
-Message-ID: <87msmyt8zh.fsf@trenco.lwn.net>
+Date: Wed, 03 Jul 2024 16:20:21 -0600
+Message-ID: <87jzi2t8wq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,17 +53,24 @@ Content-Type: text/plain
 
 SeongJae Park <sj@kernel.org> writes:
 
-> The memory allocation profiling document was added to the bottom of the
-> new outline.  Apparently it was not decided by well-defined guidelines
-> or a thorough discussions.  Rather than that, it was added there just
-> because there was no place for such unsorted documents.  Now there is
-> the chapter.  Move the document to the new place.
+> The work for changing the memory mangement documentation outline has
+> started from 2022.  For that, old documents have placed under new
+> chapter, "Legacy Documentations".  The plan is to eventually move all
+> old documentations into new outline, while asking new documents to be
+> added on the new outline from the beginning.
+>
+> However, it is unclear where on the new outline each document should be
+> placed for some cases.  Meanwhile, the name ("legacy") makes readers
+> feel the documents under the chapter might be outdated or not actively
+> maintained.  The absence of clear criteria for new outline also makes
+> new documents difficult to find where those should be placed.  A new
+> document was put on the bottom of the new outline recently, apparently
+> not based on a clear guideline but just because it is the bottom of the
+> list.
+>
+> Rename the "Legagy Documentation" chapter to "Unsorted Documentations"
+> with minor fixups.
 
-I'll take this for now, but it's truly sad to see new documentation
-being added to the slushpile at the end.  It seems better to create a
-"development tools" section in the new outline and put the allocation
-profiling document there?
-
-Thanks,
+Series applied, thanks.
 
 jon
