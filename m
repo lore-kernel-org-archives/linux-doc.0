@@ -1,97 +1,85 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35C4964E;
-	Wed,  3 Jul 2024 23:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DF5194A75;
+	Wed,  3 Jul 2024 23:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720047870; cv=none; b=hX9UZIsGafgUqX2cWM6DhAp2BGYIY01eMBSc7MOB7aEbCRLN59T86fDxUmrrat8Ta3J8vTAlx8A8xEIn1om5tOkZd6sbe1YWSEtZunXiw4XweLJfKh+Bz10yFDLWW/U6w5UTLp1VL9cQ90VdTiY0bt5Bm+BA7yMn2dH2pXuCFe8=
+	t=1720048065; cv=none; b=Y5hWTrmjnyqlOCIgf4GU7kYFlPB+OmTQ0A6iMG5w+AN7MFoxCuHpHhL46r5cg269UzMnbPv3aNbuMn3uL8xnthWvNwqEbobXmvsSr/0xQMPxMwLOZW5rCwpCW2Coi0uLMOqIoHNYQDgIU5JlpOLnkO52INeZPFi/u2Yiqy+khSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720047870; c=relaxed/simple;
-	bh=sjUlk2dyanMoOOvqU/NU0Qw0qLzZxQECvFTWbr3HFx0=;
+	s=arc-20240116; t=1720048065; c=relaxed/simple;
+	bh=o3PpDOsEbzGibzhF30rXzP7FichK/a1O2xk7xk5hZG0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KKXsP4fWYkH08g9DBDWpZo7IPn97T8Ssf6ClQQG4RHi/1aCwA2/qLoEQhsZ9BuaA+gWxDYBvqlmV51+dBuvp6QAC9dQ54u9W6qokIxnAeNX+HW8U8bxtCeBCJ2qOOfMbUcITksxeBY04PvXszawaTKm654MkubFVGKA5Qw3hgPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=foN6g2Aw; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ezlISfaQOYeWrvH486TTLfIeR1ghhMS2AEDwwtQkkgRZ/gp/mvZlG7MoyziHkmwPGmeG8s9KEmIz/D+BwLhMY8RAaAdDeDHVLx1Ram529/T0JyUmQZjw7DJEAu8BdnALc5qQ7kM+1nFgkfik8SCuYH+sGst5Ldet+3vbRpKkO4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U7Fz61pW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="foN6g2Aw"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 491D74189E
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U7Fz61pW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E16304189E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720047868; bh=YTLOx/1o2O6vgLftzil18tbHX7AAy8OKyo+xBns4TL8=;
+	t=1720048061; bh=q/1IKlg8o5G9b5vyFjZhcZ1c3e6Ub6TvBAIZ4vVsB7g=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=foN6g2Awy5eiKZju1LPimmtXOR26SvHVLj3GQfBqu75Gzkyb2rCX4/C9CLU0E9Scn
-	 25gOIiHYzDk+1wKQFy24VU/7F1d0eBMctpd+BfpUBJ9X5Uk4xIH87HaczPT4wLhjDE
-	 2kA2efk/k+pm4mvDW2bffK229qejCmKvk3CseEWzwSg2V6BKe674vCJepuzP7OXUHB
-	 ALwDATik/GzfLBsi1VIVIuNhfVBQqN2jrQerInqOxDPBJnNp0t/bVeUn80NIQsONG3
-	 VSAiHzfOqEYvarluqY1xD6t5yh+JcBhpWnwt0sB3R9JSUkBctTWBx+huc1oueKTEFu
-	 6FHk79eTvoCIg==
+	b=U7Fz61pWWGfSbsTXy2+7VmnASFUymlsleQTlPqoOwfvPXuxwOWkisr+z6tYbHfk8R
+	 QHvk5oty2UzbeMcllyPM4WOyjiFncmH7CiXuLiNyLBy5HOYyi55DZKtBR2yXdYhpNS
+	 aDrM4lHTHAd5bw4/7T2ZOyqpiIBKdbXywqbyfMTEBsfiDAnecCnk4v2uqmsAWCi/Ki
+	 4w/98cgRmpnhB5Vzh16UDJNvKnaLe+AH0RaNjdTFOlWdP+XBCVb/WCse6/ZJimf2R/
+	 Ia4AgaLOZZBpyKM5+2ag9uJK0XS7a65LHo2ESlOuO3QDuFkzXGIcU8ZvK1jTeJUWgH
+	 hSN6ln8sTURww==
 Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 491D74189E;
-	Wed,  3 Jul 2024 23:04:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E16304189E;
+	Wed,  3 Jul 2024 23:07:40 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Carlos Bilbao
- <carlos.bilbao.osdev@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
- ksummit@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] Documentation: update information for mailing lists
-In-Reply-To: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-References: <20240619-docs-patch-msgid-link-v2-0-72dd272bfe37@linuxfoundation.org>
-Date: Wed, 03 Jul 2024 17:04:27 -0600
-Message-ID: <87y16irsas.fsf@trenco.lwn.net>
+To: Tao Zou <wodemia@linux.alibaba.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>
+Cc: Tao Zou <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] zh_CN/admin-guide: Add
+ zh_CN/admin-guide/numastat.rst translation document
+In-Reply-To: <20240701064153.62303-1-wodemia@linux.alibaba.com>
+References: <20240701064153.62303-1-wodemia@linux.alibaba.com>
+Date: Wed, 03 Jul 2024 17:07:40 -0600
+Message-ID: <87v81mrs5f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+Tao Zou <wodemia@linux.alibaba.com> writes:
 
-> There have been some important changes to the mailing lists hosted at
-> kernel.org, most importantly that vger.kernel.org was migrated from
-> majordomo+zmailer to mlmmj and is now being served from the unified
-> mailing list platform called "subspace" [1].
+> Add translation zh_CN/admin-guide/numastat.rst and link it to
+> zh_CN/admin-guide/index.rst while clean its todo entry.
 >
-> This series updates many links pointing at obsolete locations, but also
-> makes the following changes:
+> commit 77691ee92d4a ("Documentation: update numastat explanation")
 >
-> - drops the recommendation to use /r/ subpaths in lore.kernel.org links
-> (it has been unnecessary for a number of years)
-> - adds some detail on how to reference specific Link trailers from
-> inside the commit message
->
-> Some of these changes are the result of discussions on the ksummit
-> mailing list [2].
->
-> Link: https://subspace.kernel.org # [1]
-> Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
 > ---
-> Changes in v2:
-> - Minor wording changes to text and commit messages based on feedback.
-> - Link to v1: https://lore.kernel.org/r/20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org
+> v4->v5: fix one typo error
+> v3->v4: replace "=E5=9C=A8=E6=9C=89=E6=97=A0=E5=86=85=E5=AD=98=E8=8A=82=
+=E7=82=B9" with "=E5=9C=A8=E5=8C=85=E5=90=AB=E6=97=A0=E5=86=85=E5=AD=98=E8=
+=8A=82=E7=82=B9"
+> v2->v3: add space in origin commit tag
+> v1->v2: drop the useless label "+.. _cn_numastat:" and unnecessary "=3D",
+> 	add a commit tag of origin document in commit description
 >
-So I have gone ahead and applied this.  There are some important changes
-here that shouldn't miss the merge window, and we can argue about the #
-marking with it in-tree.
+>  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+>  .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
+>  2 files changed, 49 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat=
+.rst
 
-I am rather amused, though, that b4 added a few extra tag lines:
-
-> Link: https://example.com/somewhere.html  optional-other-stuff
-> Signed-off-by: Random Developer <rdevelop@company.com>
->      [ Fixed formatting ]
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-
-I do believe I'll amend the changelog before pushing this one :)
+So I had applied v4 - it seems I neglected to send an email saying so,
+apologies for that.  So if there is an additional change to make, can
+you send me a separate patch?
 
 Thanks,
 
