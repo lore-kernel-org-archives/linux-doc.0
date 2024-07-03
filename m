@@ -1,94 +1,74 @@
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D281369A0;
-	Wed,  3 Jul 2024 22:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A9513AD27;
+	Wed,  3 Jul 2024 23:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720047490; cv=none; b=acCt0Rr5Ow9QxR85Y252YRoI67ZB8FnlO1bfEJr2a7PQzUMyK2yPRv6/sS7GLumxn0cM0wrvcbPKEBbkJYz1FHYyhOIaE9fv+m8wcgCW3CpLz9bl0LkX103FPbzWxDYciIpujTWrztndX0qUe+UQbGqy8OhMH+PGnlbnLF+dXKQ=
+	t=1720047644; cv=none; b=VIO6r8nL9IK79gxO0zdiS4sliyKI0GwUssRAn6zRPiAulGT6F6t5GKi3MyFuqcq9nCpJKt3P5aHRS1Fob9UBT+BuWpgWe+V2MOpIjXHFWNbJ8MlS77EaDgM1BHhvw0KJLx3178Ofgfp/IkpvNPO5oPozwIi7SswT6hmhVrbZGJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720047490; c=relaxed/simple;
-	bh=FR8dEXqV09197NPqymlT54ODyDN+miSN5IIK5LQEFUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYEjK11XqHdp8H4ixf3xmn8hHKfs7EB/Q4c9i5QcOg2PMy+LRRRbAJpzlbbke1XFynY3ZB4wmIsNrYrOmXfyoonRZTF3ZIhLRuO/HQX7lJCCvo9hapbMisc7wYj1vznAkDOCiauo+qVC5NQlGnaUJV9cO8J/FE8EL0BMLiWcSeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=nDTCb3q1; arc=none smtp.client-ip=167.114.26.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	s=arc-20240116; t=1720047644; c=relaxed/simple;
+	bh=QrxVFpPiW9yuY94rmvTNh1kcmX2+boRlejh1aKWSj8k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=M24I8YtlKJp0oWV2Z6i8X0i02QCcRmV/tXrosB2Ysdy4o2gNkvtdJILqKxp9vQQ0KIzVf4HJ4pFt09VM3hiC8zGhUjLjEatGmaaP3n0NYEgvcnbrU1iY+Ra/luRqS8dJ/djZju8ACEHvEhhPYq4gdfxWHDvF7/IKfIB7yI/rtH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScQ7Tf55; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="nDTCb3q1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1720047477;
-	bh=FR8dEXqV09197NPqymlT54ODyDN+miSN5IIK5LQEFUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nDTCb3q1Gwtzk8tSp7otBWMEQmtdcCMwq0D96P1iJaNxuBod/FcRiGdFdcpy4Z85i
-	 B9PVrC5isiSKBL46XEa2tO9x4tELi2MDtK5fLCa0wCwAeaoWSup0rNpZwbpS/TnCr3
-	 X+bp6DnAjFjpP1Y3VYuEJ5lllzxe+xLZu5V0GQxE23hy3RF+OJMhCDgkhElFWaX+CI
-	 25m/Df2cttNhimhEx7557SZc/yWY3nJMX5nO3CcejO0FJx2c9663gGmc7/EyZ1owe4
-	 grWuUPKCKc14lTjQ1Fpt5mXJlZtQ4X77QC+FDZIMLPONNNTVtvuUwLA3xqyT2e2EzQ
-	 W76iAUhQYkuuw==
-Received: from localhost.localdomain (unknown [IPv6:2606:6d00:100:4000:cacb:9855:de1f:ded2])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4WDwD51KC9z18fQ;
-	Wed,  3 Jul 2024 18:57:57 -0400 (EDT)
-Date: Wed, 3 Jul 2024 18:58:03 -0400
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Beau Belgrave <beaub@linux.microsoft.com>
-Cc: rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Document user_events ioctl code
-Message-ID: <ZoXXe8Tl9pRD6-dd@localhost.localdomain>
-References: <20240703222501.1547-1-beaub@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScQ7Tf55"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24735C2BD10;
+	Wed,  3 Jul 2024 23:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720047643;
+	bh=QrxVFpPiW9yuY94rmvTNh1kcmX2+boRlejh1aKWSj8k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ScQ7Tf55K50IDT4ZgmFafSUZY8XgMRYAVZpfDY7yKuSg35SnQiCPTqDSqr7P0t0k3
+	 ZRjbtpcyJ045EgP+GXOIaXK0q1xFCv74P1/82FudPLb5VTmlqWQbA1oXAX8lV+cYcz
+	 k4Xx/QSELc9ov8Mc9xA8GCmggL20l4co+yuPz+qNAQbkQo4sr6jC1DOTP2Jpo/lFJi
+	 EatsSRmvky9R7SAXObycjNZzB1PBfAB9X1apAxXvnuKStWiL+l6m0VgI0Ry81tIc2h
+	 a+No+mzGbrvFe3mspcv2SsbninAGs3pWBAgUjlwsi6qIo0hOTxn2oe0s1bkoVk5Tor
+	 kxr2TTAhhzVuA==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: Re: [PATCH 4/4] Docs/mm/index: move allocation profiling document to unsorted documents chapter
+Date: Wed,  3 Jul 2024 16:00:40 -0700
+Message-Id: <20240703230040.90283-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <87msmyt8zh.fsf@trenco.lwn.net>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703222501.1547-1-beaub@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On 03-Jul-2024 10:25:01 PM, Beau Belgrave wrote:
-> The user events trace subsystem uses the 0x2A/'*' code for ioctls. These
-> are published via the uapi/linux/user_events.h header file.
-> 
-> Add a line indicating user events as the owner of the 0x2A/'*' code and the
-> current sequence numbers that are in use (00-02).
-> 
-> Signed-off-by: Beau Belgrave <beaub@linux.microsoft.com>
-> ---
->  Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index a141e8e65c5d..191609fe4593 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -97,6 +97,8 @@ Code  Seq#    Include File                                           Comments
->  '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
->                                                                       <mailto:alexander.shishkin@linux.intel.com>
->  '&'   00-07  drivers/firewire/nosy-user.h
-> +'*'   00-02  uapi/linux/user_events.h                                User Events Subsystem
+On Wed, 03 Jul 2024 16:18:42 -0600 Jonathan Corbet <corbet@lwn.net> wrote:
 
-You may want to consider reserving a wider sequence number range to plan
-ahead for future extensions to user events. This way you won't end up
-having to jump over sequence numbers eventually reserved by others
-within the '*' code.
+> SeongJae Park <sj@kernel.org> writes:
+> 
+> > The memory allocation profiling document was added to the bottom of the
+> > new outline.  Apparently it was not decided by well-defined guidelines
+> > or a thorough discussions.  Rather than that, it was added there just
+> > because there was no place for such unsorted documents.  Now there is
+> > the chapter.  Move the document to the new place.
+> 
+> I'll take this for now, but it's truly sad to see new documentation
+> being added to the slushpile at the end.  It seems better to create a
+> "development tools" section in the new outline and put the allocation
+> profiling document there?
+
+I have no strong opinions about that.  Cc-ing Suren and Kent, as they are the
+author of the allocation profiling document and hence might have some opinion.
+
 
 Thanks,
+SJ
 
-Mathieu
-
-
-> +                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
->  '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
->                                                                       <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
->  '2'   01-04  linux/i2o.h
-> -- 
-> 2.34.1
-> 
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+[...]
