@@ -1,57 +1,57 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF081AC44E
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 11:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521B51AC440
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 11:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720093457; cv=none; b=VVN37g3HLdih2qng+1I4aAdORc6eFaU04njNPaV5LqODQ+nWd0ofrJJc+9vh7qHGavt7NkNwnHLpz3Bxp8WWHyPiUKTAtiHsE9j86fUnEG+nuTvw2sQNHQiwCad19ZeMbhvWMhMmbDOkjco3JTtyHwG6vpzNbqakPelDfIbWpQ0=
+	t=1720093505; cv=none; b=QmrAy7lQ+NZoeMqd/AmlV2kLxh82lod8yJYTDNJ/dMzk1B8WeQv+NsMub3NTw/YQe/wWFQvMid3CRDv/1uElvDjsfyXs5WE2qVRXILpzn0C3lwqaSn/cUthoEVv4H/+u1E5AxH/Co1GlYHMJrgmILm0tiH4dkJeUqnIBMYUs8D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720093457; c=relaxed/simple;
-	bh=DsedHeJsS/amdZVpKFJyVeLkOMNQa+PMTWNkWl1ltVg=;
+	s=arc-20240116; t=1720093505; c=relaxed/simple;
+	bh=syJgtzBT4NnxlMW/QH3WyVHYbCuJ+4asbQq4i1orE3U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cbc3uMW3TDTaBcNbfdU0zdaoPNIFsPz5N7BhnszO0/+yW/tVS4Z5Ad/s3MeFFOkGJQLHwiBl05k7f6kHelg5bKkbYizrGvtu98LBoED5ZEJpc5rAGiZHmm/G17HYyrw2Bcwdv121d4tx/TmUPBlpt149gLQfT7JE2pZZSIeabzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XHunqudP; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=aMKcJZKVMlflWbmngFSKXZynC8JZF9viWU8PwqJ0ig6bbZBBKT+G7bbgkLAFtWhF86yscwNWN6Cj4UUiPYZq5WwAI0nJV4wwYyoATIUg+9Dc/U0cNss2St+Han254nMl2NwV2KcW6r+WeH3oAUIXqyPK3zZBP0uvTqTqqDehAyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZbzeD3O5; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XHunqudP"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3679f806223so281688f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2024 04:44:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZbzeD3O5"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ebeefb9a7fso6224301fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2024 04:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1720093453; x=1720698253; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1720093501; x=1720698301; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lD0PPZ24LDJ5fGIwXYEdiOvdE6uwqRXg1JRtKinTRe4=;
-        b=XHunqudP/7g/rGD0xQyyRcYkJVzISGl6QC6/yqNZj6Mes7HDBRk4iRArO52D96CCB4
-         uI4N8yKbrSMjcfv4C6pRJzhYyjRcRRNCAiFFfDQJAptIbroKCQMcGNzVWg/5Lbtn0QgE
-         w5cU7XLemDMWgfldtunLL9cTuUaL9+qxmkBwL+XZDNeRHO2E+cXpqWrOvJ/kItgMw2U+
-         Pb/OpK66PRy29h62V14IuFMbC3egj7lfZ6ZzijBBpjcvG0mta3Bw6xBTBt1fJpFSEG4Y
-         F1fnJM7ThJFkCvCRJ5R/utaFT8ySspbpF+dhi6NcWS6HAS7sDZwQTYp/h0DWJdUers/S
-         q7IA==
+        bh=Vv7PszY4Q4IaOG1+zreXlUg+dSyiqu4ksayxnh/EYqY=;
+        b=ZbzeD3O5wZIMtx5Gl04t26DTSpNUIve5WaMC7tddyLaL6zaKZZmlmJikAOfDMrNNgw
+         4yR2KFHaSimLGbkkOm1jCZsNM/D6r6NClkT4Q3bztOb93codyvaswA0KS8sPrleqgt4b
+         I9J8iGewfqBoNWAmr19siOaYR6vB3uZUuFpMwU1G31LPPOo7nR1rR4Y0JoUOCJ+uRu0E
+         tKU0vcuPzc6ebczH0dL0LZy/QDhIbnu88xFcylMGky9ZjWP8MQygFofGXifam24YtEiu
+         v6+Juox3DAfbyh/8wEwp6IzGbL8gcvVVlEo+aPjNAM5etYkJT5Vm9stoQAnIrQu8WK3L
+         WoCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720093453; x=1720698253;
+        d=1e100.net; s=20230601; t=1720093501; x=1720698301;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lD0PPZ24LDJ5fGIwXYEdiOvdE6uwqRXg1JRtKinTRe4=;
-        b=SuwvLAgSi1ckNfvRrNd+/ccatVH7QrPjiZmxM5QIRhA3TBw7U5NiVn1aJ7InQq4cBT
-         lLxnjWcV/5YbGCJpiiPtZ1kmAp5ULxgyObxw+u619Kfu3x7Ipibr5c9/vtVbbwZyFQ81
-         t4UJnyPRPOBINjuBk/trnwJ9OvKPKXnsru0gki7xhoIQFpS56R7dTOhXyZvF3BLzW5Nq
-         b7E5/0h12VG9XVpy0Y9Qm1USYTMLoiJq6Hq3nqXk7K+fiNkwh7FOyPF48tVoLrUklHJb
-         wchwCyaxXNCLuYjDDqkVDUUBKHtZb3gVWP3Pj8748qyXPjm5iqrtlcuwWf/y0h98hLQR
-         FqDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRCCm5yHbRnvRAlXPWGEdoS99XbuqjT6oQyQ1HCUBGCoiH9RZKypG4tv7gtHfmU/JQQKSjDL5yY3GETfHqN90msX0/43RBuXaG
-X-Gm-Message-State: AOJu0YyvN3WMlrbOXJf4h39kaXFzA9tWV3MpkvoZO3g8ZKDcKB8MWvYL
-	3t9G+u5HKLCcD+aY6vz/bsCTB4e+78h8bNU2QIXtHsOniml74ajq4Ljfv1vr1BY=
-X-Google-Smtp-Source: AGHT+IGNLj31HSnKP8eMBVVDQWkUG1T6Sz0uQgf58SIcESsrCGl4BgnlWeQWQYBK7LzNx7BMg/xfeA==
-X-Received: by 2002:a5d:58f7:0:b0:366:df35:b64f with SMTP id ffacd0b85a97d-3679f6c4ee3mr1144700f8f.4.1720093453629;
-        Thu, 04 Jul 2024 04:44:13 -0700 (PDT)
+        bh=Vv7PszY4Q4IaOG1+zreXlUg+dSyiqu4ksayxnh/EYqY=;
+        b=owZAUh4UhaC8dXP1ZnEWfdVBAIqETLHgPELB8TH/riXlv4MJMR8KuBnd3onwQihMeF
+         2IFxk7pdYem9ydCwHnZga+PsPkXRzhOKsxm+/nRF67tTKFpYhumlB7POD3DMHrpr02lp
+         8flYIaMeZEntM2pDQYMJb932F5b9n7tnGvh90KikrbxAjlmVfvMgsaQ/GnMBOk9bOnqu
+         XVGKWf6b3otgTotVHb+1vPiDjtmCJF+4PS0Px5q953SjXtfbtbj2xtd0aBWEzZyLXd1v
+         iB6IHp2h/i93iGQKd/YOkNY+ZYlW8JoZkSBYNNWyYtWC64dLu1mZYsaem/fPvLK52ape
+         D27w==
+X-Forwarded-Encrypted: i=1; AJvYcCWSXXaSmsGKfnUCBiew6cnNKlWJZSSR5ecdj78378H0cstGeS0/91HUkXpUQUgwMIB1TrrHZSsmHhHPx9kiCDWJRN0Y56eskrLo
+X-Gm-Message-State: AOJu0YyxJWENdf6XezJ8iaTND4eemZlPZloybyef4ZEI9iAUX5bH0yhe
+	hOoB6vrbfWCB835bFnvYiG552WGQ5ZrPNMf4zegQutRg3nlm/C5WGQXDs4WYjHY=
+X-Google-Smtp-Source: AGHT+IHdbKZbpmxkTmeDNMfWZoElJCNRAAmEQv55NQl91of41tHtJX2DDGCgU6XdhgxuOrlXLDfp8g==
+X-Received: by 2002:a2e:a267:0:b0:2ee:8ce9:3075 with SMTP id 38308e7fff4ca-2ee8ee0fb57mr7323281fa.49.1720093500706;
+        Thu, 04 Jul 2024 04:45:00 -0700 (PDT)
 Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb33901426sm12164205ad.91.2024.07.04.04.44.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac1598d35sm120559865ad.285.2024.07.04.04.44.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 04:44:13 -0700 (PDT)
-Date: Thu, 4 Jul 2024 13:44:03 +0200
+        Thu, 04 Jul 2024 04:45:00 -0700 (PDT)
+Date: Thu, 4 Jul 2024 13:44:49 +0200
 From: Petr Mladek <pmladek@suse.com>
 To: Tony Lindgren <tony.lindgren@linux.intel.com>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -61,14 +61,14 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	John Ogness <john.ogness@linutronix.de>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-serial@vger.kernel.org, Dhruva Gole <d-gole@ti.com>,
-	Sebastian Reichel <sre@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] printk: Add
- match_devname_and_update_preferred_console()
-Message-ID: <ZoaLA5IVTnh0E0QI@pathway.suse.cz>
+	linux-serial@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+	Dhruva Gole <d-gole@ti.com>, Sebastian Reichel <sre@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Documentation: kernel-parameters: Add DEVNAME:0.0
+ format for serial ports
+Message-ID: <ZoaLMQlilpeSlB3S@pathway.suse.cz>
 References: <20240703100615.118762-1-tony.lindgren@linux.intel.com>
- <20240703100615.118762-2-tony.lindgren@linux.intel.com>
+ <20240703100615.118762-4-tony.lindgren@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,24 +77,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703100615.118762-2-tony.lindgren@linux.intel.com>
+In-Reply-To: <20240703100615.118762-4-tony.lindgren@linux.intel.com>
 
-On Wed 2024-07-03 13:06:08, Tony Lindgren wrote:
-> Let's add match_devname_and_update_preferred_console() for driver
-> subsystems to call during init when the console is ready, and it's
-> character device name is known. For now, we use it only for the serial
-> layer to allow console=DEVNAME:0.0 style hardware based addressing for
-> consoles.
+On Wed 2024-07-03 13:06:10, Tony Lindgren wrote:
+> From: Tony Lindgren <tony@atomide.com>
 > 
-> The earlier attempt on doing this caused a regression with the kernel
-> command line console order as it added calling __add_preferred_console()
-> again later on during init. A better approach was suggested by Petr where
-> we add the deferred console to the console_cmdline[] and update it later
-> on when the console is ready.
+> Document the console option for DEVNAME:0.0 style addressing for serial
+> ports.
 > 
-> Suggested-by: Petr Mladek <pmladek@suse.com>
-> Co-developed-by: Petr Mladek <pmladek@suse.com>
-> Signed-off-by: Tony Lindgren <tony.lindgren@linux.intel.com>
+> Suggested-by: Sebastian Reichel <sre@kernel.org>
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> Reviewed-by: Dhruva Gole <d-gole@ti.com>
 
 Reviewed-by: Petr Mladek <pmladek@suse.com>
 
