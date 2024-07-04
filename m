@@ -1,95 +1,97 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpcmd02101.aruba.it (smtpcmd02101.aruba.it [62.149.158.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521B51AC440
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 11:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B6B1AD9EB
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 11:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720093505; cv=none; b=QmrAy7lQ+NZoeMqd/AmlV2kLxh82lod8yJYTDNJ/dMzk1B8WeQv+NsMub3NTw/YQe/wWFQvMid3CRDv/1uElvDjsfyXs5WE2qVRXILpzn0C3lwqaSn/cUthoEVv4H/+u1E5AxH/Co1GlYHMJrgmILm0tiH4dkJeUqnIBMYUs8D8=
+	t=1720094027; cv=none; b=ifLIZ4PAdi5dKLsIjeUvYMXAzOWK0n/LQ5M05TcOC0UC+BoSJK96SVhfEQxi0y/NQtF1uXvHjyui2RWr8gI3go3qzsn4l0qOx5t+x41psn8nM9cHMbRYCRA2V+FJBdNE55vOy5SH128zT6ERFBcoI/3IZXWVXCdzsikR/r+NTcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720093505; c=relaxed/simple;
-	bh=syJgtzBT4NnxlMW/QH3WyVHYbCuJ+4asbQq4i1orE3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aMKcJZKVMlflWbmngFSKXZynC8JZF9viWU8PwqJ0ig6bbZBBKT+G7bbgkLAFtWhF86yscwNWN6Cj4UUiPYZq5WwAI0nJV4wwYyoATIUg+9Dc/U0cNss2St+Han254nMl2NwV2KcW6r+WeH3oAUIXqyPK3zZBP0uvTqTqqDehAyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZbzeD3O5; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1720094027; c=relaxed/simple;
+	bh=eh3FLln4NGZyYClFo0FJIgNTWuxuqbiWfuDw4ps0rWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ugx9KDENGw3Y0QiHGDwdpzN+GsbnTLYKSroVGuQ+o0QGjWPzb54ZX9v9ywKXK6ND79HPiqo3Wa7dRVwgzKKWprve8B5Kl2TnXAJ8q9mqpKl/UBW5FjlLfVz1I2mDinwhUkfWHFgaDCuvuCrxkt8vW/FhTghsNkjE6icZdKBmeuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=hoGDsGFh; arc=none smtp.client-ip=62.149.158.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZbzeD3O5"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ebeefb9a7fso6224301fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2024 04:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1720093501; x=1720698301; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vv7PszY4Q4IaOG1+zreXlUg+dSyiqu4ksayxnh/EYqY=;
-        b=ZbzeD3O5wZIMtx5Gl04t26DTSpNUIve5WaMC7tddyLaL6zaKZZmlmJikAOfDMrNNgw
-         4yR2KFHaSimLGbkkOm1jCZsNM/D6r6NClkT4Q3bztOb93codyvaswA0KS8sPrleqgt4b
-         I9J8iGewfqBoNWAmr19siOaYR6vB3uZUuFpMwU1G31LPPOo7nR1rR4Y0JoUOCJ+uRu0E
-         tKU0vcuPzc6ebczH0dL0LZy/QDhIbnu88xFcylMGky9ZjWP8MQygFofGXifam24YtEiu
-         v6+Juox3DAfbyh/8wEwp6IzGbL8gcvVVlEo+aPjNAM5etYkJT5Vm9stoQAnIrQu8WK3L
-         WoCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720093501; x=1720698301;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vv7PszY4Q4IaOG1+zreXlUg+dSyiqu4ksayxnh/EYqY=;
-        b=owZAUh4UhaC8dXP1ZnEWfdVBAIqETLHgPELB8TH/riXlv4MJMR8KuBnd3onwQihMeF
-         2IFxk7pdYem9ydCwHnZga+PsPkXRzhOKsxm+/nRF67tTKFpYhumlB7POD3DMHrpr02lp
-         8flYIaMeZEntM2pDQYMJb932F5b9n7tnGvh90KikrbxAjlmVfvMgsaQ/GnMBOk9bOnqu
-         XVGKWf6b3otgTotVHb+1vPiDjtmCJF+4PS0Px5q953SjXtfbtbj2xtd0aBWEzZyLXd1v
-         iB6IHp2h/i93iGQKd/YOkNY+ZYlW8JoZkSBYNNWyYtWC64dLu1mZYsaem/fPvLK52ape
-         D27w==
-X-Forwarded-Encrypted: i=1; AJvYcCWSXXaSmsGKfnUCBiew6cnNKlWJZSSR5ecdj78378H0cstGeS0/91HUkXpUQUgwMIB1TrrHZSsmHhHPx9kiCDWJRN0Y56eskrLo
-X-Gm-Message-State: AOJu0YyxJWENdf6XezJ8iaTND4eemZlPZloybyef4ZEI9iAUX5bH0yhe
-	hOoB6vrbfWCB835bFnvYiG552WGQ5ZrPNMf4zegQutRg3nlm/C5WGQXDs4WYjHY=
-X-Google-Smtp-Source: AGHT+IHdbKZbpmxkTmeDNMfWZoElJCNRAAmEQv55NQl91of41tHtJX2DDGCgU6XdhgxuOrlXLDfp8g==
-X-Received: by 2002:a2e:a267:0:b0:2ee:8ce9:3075 with SMTP id 38308e7fff4ca-2ee8ee0fb57mr7323281fa.49.1720093500706;
-        Thu, 04 Jul 2024 04:45:00 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac1598d35sm120559865ad.285.2024.07.04.04.44.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 04:45:00 -0700 (PDT)
-Date: Thu, 4 Jul 2024 13:44:49 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Tony Lindgren <tony.lindgren@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-serial@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
-	Dhruva Gole <d-gole@ti.com>, Sebastian Reichel <sre@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Documentation: kernel-parameters: Add DEVNAME:0.0
- format for serial ports
-Message-ID: <ZoaLMQlilpeSlB3S@pathway.suse.cz>
-References: <20240703100615.118762-1-tony.lindgren@linux.intel.com>
- <20240703100615.118762-4-tony.lindgren@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="hoGDsGFh"
+Received: from [192.168.1.58] ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id PKyvsCu1uzLFGPKywsI88b; Thu, 04 Jul 2024 13:50:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1720093835; bh=eh3FLln4NGZyYClFo0FJIgNTWuxuqbiWfuDw4ps0rWg=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=hoGDsGFhmHUnjCZVVQ4ey0YbRuqbgT5Iy9BO20KyhXNUGkSvycaUolXCiQL13Qn0p
+	 HZu9/WfZV2qe9xdHKdL5gQlxCuL9eQkM1EvGbGm5lWZ2zhGAnkJMWviFNrGz67Gy1Y
+	 lW3fIER5mPx8FeU87WtfecOFDEQZuz9lxjTTJUXx1vd6NVVG470lLeBiMqiuj2HSBl
+	 ImpA5Le7xW4KijH4UDh361wGdy7lIPKtectL/rB0vX2/Yrft5LF82bLgI3Xj4UdCr5
+	 MQuyb4Rk/bjASnI+NG6eg2XVvN5JpATw4ueWhvTRlzdtLWunOzSbd6nsMJymgJvB+l
+	 sIaO5M1YWhcQA==
+Message-ID: <d463bd28-9890-47a5-97cc-14f96db2db22@enneenne.com>
+Date: Thu, 4 Jul 2024 13:50:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703100615.118762-4-tony.lindgren@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
+To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "corbet@lwn.net"
+ <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "Dong, Eddie" <eddie.dong@intel.com>,
+ "Hall, Christopher S" <christopher.s.hall@intel.com>,
+ "N, Pandith" <pandith.n@intel.com>,
+ "Mohan, Subramanian" <subramanian.mohan@intel.com>,
+ "T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
+References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
+ <CY8PR11MB736490B761DBA045513AF078C4DD2@CY8PR11MB7364.namprd11.prod.outlook.com>
+From: Rodolfo Giometti <giometti@enneenne.com>
+Content-Language: en-US
+In-Reply-To: <CY8PR11MB736490B761DBA045513AF078C4DD2@CY8PR11MB7364.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNw/GJG7NfJC3Orqnad1dvoxIQzjrwIsk9VE1qjl4UZ6wvBCu58y/F8Nbs5D+MPrkMatUItes1REacCg2kySN7vU964GrQFRf3Ds4oacAddn8dR0WU6Z
+ 0TnrNrrza3FR0uz32kaQNHyphkyH5zmlPOwgTvFu1tQx22eo9PDgAk9vA1hzYkJ0APOT9XQaWsrxQRrl2nn/qJp9+dRAI+beGoxGm6MJqxm4TZ5dX7pWUUI7
+ 7wCBMT+nmp3ukJaJL7OO/CIfLldVjc0U0uPovhMzNqX5hmKrboz/eL+JP2GtMvTNHJiuTF8Ni9pbW57BXqxrwD/Vs3GxTt5QdjJrqqSocnvP9xAqF71s/9BF
+ QrUfDFeyFYunT90v19etPsbPEenieKRZZkol1W8wZeJGnZcuCDqS/8amUwQiLWBvmXNlus0SsMDsKXc+pP4L2MzHGPqzanqrdfkRAaWLa/6TROAd6Y2mawcq
+ vTzvMr2ybY6iVRw5PIGQEwcJNhsFPv60HNuMEEiptyAk/zY3GBb8tLd+epgkHqGuDFGoTXlu19NTFeWhPESK/EvfRJDdZw931BhkjJ9xRmc2p/+mgqlcfI3c
+ 5Vfjhgsd8NNSH2mwVT1B7ZOH
 
-On Wed 2024-07-03 13:06:10, Tony Lindgren wrote:
-> From: Tony Lindgren <tony@atomide.com>
+On 03/07/24 16:47, D, Lakshmi Sowjanya wrote:
+
+[sbip]
+
+>> Subject: [PATCH v10 0/3] Add support for Intel PPS Generator
+>>
+>> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>>
+>> The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+>> signal from the system on a wire so that some third-party hardware can observe
+>> that signal and judge how close the system's time is to another system or piece
+>> of hardware.
+
+[snip]
+
+> Hi,
 > 
-> Document the console option for DEVNAME:0.0 style addressing for serial
-> ports.
-> 
-> Suggested-by: Sebastian Reichel <sre@kernel.org>
-> Signed-off-by: Tony Lindgren <tony@atomide.com>
-> Reviewed-by: Dhruva Gole <d-gole@ti.com>
+> A gentle reminder for the review of the pps patchset.
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+I already acked these patchset, didn't I? =8-o
 
-Best Regards,
-Petr
+Please let me know if I missed something.
+
+Rodolfo
+
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
+
