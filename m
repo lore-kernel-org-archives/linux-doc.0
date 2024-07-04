@@ -1,112 +1,95 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD5DC8FE
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 02:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0083D17BC9;
+	Thu,  4 Jul 2024 02:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720059019; cv=none; b=dlGrKbqlwmRL2PBUIz8SNFOD8S10YOYTXDkBrJ8nLFfdYKbQ/LtGf9iaj6Q+XrGEmmPwyf01Scb3AWOMvqfYE2uocCFxiaOGTP7oTkc95bOkzMmYgILn0Qlw/QbT+42Sr97bIyrh618rb9TCwHlR1bV8etyxaqqwxa5dn52dIM8=
+	t=1720059523; cv=none; b=gAWF4Tp1l5JhGvt4TlVZDn2YfFAKVGcCBsanZ08ReAtvpofAUjBg5qjjxQhJ4rHa5txS+i2K0pDifqJc29zfayF3uJb9khSZjnZvftqS+PvVAoKUbAulWVo0IQXoFrHx+0xOLARl/RPGm/4pMYJqyaCGhSJFrqLWcH8UU3du5qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720059019; c=relaxed/simple;
-	bh=MYlST24mpbKtsBJ3BHNLxh/JxdUuw6JyaMptEXNRlNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h39nJEftf6uiW1Rf3dAc+UIKp4IlHYt+lsvqm4dAOlMVpruHc7DAz97PDrYbx7X8Db3iRJBJKpLjJf62VgTPtSm1ruS8UQ+TfHiCBHovXyuFd9mn/UwrNyV9OlYcP050WWqyvVq/2DsIbBP7Dczkqxn5rPF1mwJD7NiNzwXP3Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IiyF8A3W; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1720059523; c=relaxed/simple;
+	bh=Kvg4uFFS+cAF10ezRPJVO6ka+cVbzGF66bEBj7SFleQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OHh4vXsDgF+fOAp4wnQQ4GoB5BarzTizAemxImS73Vz9u/dI+EeIU6/Y4qZ+ko8OYZv94ZF+1zaP+gVQWbbfA8dfPvyEwl81pjweeea5HUXp8eL6img3lxl/2p0EXwz2u5mKOv9Yv4J25wS9ZFzoihfRbYUjZV/hUF0XZwe6+Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=x+5GUD8q; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IiyF8A3W"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-65240d22f7cso1378637b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jul 2024 19:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720059017; x=1720663817; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=br31YA9mgSBq0jqvDk14OoaVm7UCGKco7eR/J7QaPpM=;
-        b=IiyF8A3WmWS3Es3qsImH94MHS6nku06044H9W7JaWdjuI/GkkAhnF6jyTG8DhgfQRm
-         Q4/Dl5SZnkhpe6E41n38WVwn3gYxY7IC+QG3kk7w3MIx2dAyBcPsN8AYPmlgzBg3Sf9b
-         8mDI2nVRvwtazUqhygbyQWZzQ7i501X8+5fj1D3quosWCcMI3RtxR0e5vqpBNsfOIVS7
-         fo1R2xDSIJEq95MYkMrdGx3rWC6JSSAidmHQaS4HTDQrRxrk4i9+rdIh1zbhYIq5ZKxp
-         HkhL2smAQt4N/5EPbcBhq+1IxAFH3EC1/kAjMBXlGNiIZy2clHzE3ntIoFM0Rf1klMvJ
-         4FNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720059017; x=1720663817;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=br31YA9mgSBq0jqvDk14OoaVm7UCGKco7eR/J7QaPpM=;
-        b=A0wzi/Wxxq7DM8Kn7rxpi+1H0XTLEL7uH8g0JPJ6akQiOwosCb6cR95lnGprcgK6AN
-         rs/AdJnnawJgyCoe6If/UHKcGz6GaZHFK3yR8zJrnsKaMvZl95iguWJiw3jOmxwz2RqD
-         ryUIZj/0lfVQh2PpwV98t5NWUNe8aw/ieyZXOeL9+vb6B2b0oaMWFPuh10mb+vg0CPeG
-         z1vWZGei2b6qk5rzK8KP1qVDIPHAqzy1cKkQYDkQN0Nd+hyjNVgF4PrKbZjJ21r/kH4L
-         8Z5ozhaJ7/NCKbHWGYreApri87vQD6vaERIedxaE29ELWi8v72kwEjL4r0I5Sgp+Av7Q
-         v9vw==
-X-Forwarded-Encrypted: i=1; AJvYcCW7CohaSbew6xhwWD7QhW4GuT1X/TtiI0YOmUw1gOqr1YPD6XSOdVS8fqG4quLGIq+ha9mWxFVUyxLIvUK4P4rUG7k44LkG3aqX
-X-Gm-Message-State: AOJu0Yz1VExM/FsHh6QkuNNVw+aBSMGYJsAcfTPyDR0xqTz0QSQZtX+t
-	Rxkmfx32C3WGVA1a0IUx1USVbW2NflpVo1pI4mD4yvSYGsLIwB3viVWBdAbuY5WoIQpk3OLBB7R
-	BBi6HkAJoww0SUDFjc7lwVh1xoxkvZQM/gjVu
-X-Google-Smtp-Source: AGHT+IGv3rJkqiUpD54n6yWkIfGJirEOyXcWY1k3pyFgv2WfYQAU27tCfJUM/gCdKA4WU8LQ/SZdpbl5eRjSawdRwno=
-X-Received: by 2002:a05:690c:6801:b0:64a:78ed:5cb1 with SMTP id
- 00721157ae682-652d61e9c6fmr3982077b3.28.1720059016377; Wed, 03 Jul 2024
- 19:10:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="x+5GUD8q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=94REdKfYR7keuLl0NvxhS+99V2sHMpOB+7xBvMYVslo=; b=x+5GUD8qyxaMpRyngAU0uPUxTJ
+	TozvgJh1Dm/co3t7c5K8Jl5rhhprfx7fRsmvLJpgdAjvDw++b+7cvaAUo09C3cWS7/DT/IsuiaJ0I
+	6Ygmi1jZcPHEO3i30B3+j/J8I5rvMv2YOFulDELzCaN+dOYLX5CSS4XmSctxhq4Yitraf3wmnF4V5
+	Lw2gvgRZKiJLAQ+H4rnSY1ylbpmbgPZzkW9pEA4soqOnT6M5M0g8wrD2GzqTX/2EPVkfM892+C/CA
+	J73bwMW/TtdzvV5m0D2303E639GLnZBK44lpfJXkd3hts5DXjSFsVtGSKVLj0qMl35M4x5flb1jXq
+	q2y2XT6A==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sPC3P-0000000BvQt-1W1H;
+	Thu, 04 Jul 2024 02:18:35 +0000
+Message-ID: <1d805df8-748a-4bbc-a3d9-d6aa01a0b16e@infradead.org>
+Date: Wed, 3 Jul 2024 19:18:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87msmyt8zh.fsf@trenco.lwn.net> <20240703230040.90283-1-sj@kernel.org>
-In-Reply-To: <20240703230040.90283-1-sj@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 3 Jul 2024 19:10:03 -0700
-Message-ID: <CAJuCfpFO_C_LgxrRWrxG9o==RRtYAbkbP3ZJULwdmTjDcAJNrg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 4/4] Docs/mm/index: move allocation profiling document to
  unsorted documents chapter
-To: SeongJae Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kent Overstreet <kent.overstreet@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Suren Baghdasaryan <surenb@google.com>, SeongJae Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kent Overstreet <kent.overstreet@linux.dev>
+References: <87msmyt8zh.fsf@trenco.lwn.net>
+ <20240703230040.90283-1-sj@kernel.org>
+ <CAJuCfpFO_C_LgxrRWrxG9o==RRtYAbkbP3ZJULwdmTjDcAJNrg@mail.gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAJuCfpFO_C_LgxrRWrxG9o==RRtYAbkbP3ZJULwdmTjDcAJNrg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 3, 2024 at 4:00=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote:
->
-> On Wed, 03 Jul 2024 16:18:42 -0600 Jonathan Corbet <corbet@lwn.net> wrote=
-:
->
-> > SeongJae Park <sj@kernel.org> writes:
-> >
-> > > The memory allocation profiling document was added to the bottom of t=
-he
-> > > new outline.  Apparently it was not decided by well-defined guideline=
-s
-> > > or a thorough discussions.  Rather than that, it was added there just
-> > > because there was no place for such unsorted documents.  Now there is
-> > > the chapter.  Move the document to the new place.
-> >
-> > I'll take this for now, but it's truly sad to see new documentation
-> > being added to the slushpile at the end.  It seems better to create a
-> > "development tools" section in the new outline and put the allocation
-> > profiling document there?
->
-> I have no strong opinions about that.  Cc-ing Suren and Kent, as they are=
- the
-> author of the allocation profiling document and hence might have some opi=
-nion.
 
-IMHO if this would be the only document belonging to "development
-tools" then keeping it under unsorted is fine.
-If more documents will fall into that category then Jonathan's
-suggestion makes sense to me. Looking at the current list, page_owner
-and maybe damon might be considered for this category as well.
-SeongJae, WDYT?
-Thanks,
-Suren.
 
->
->
+On 7/3/24 7:10 PM, Suren Baghdasaryan wrote:
+> On Wed, Jul 3, 2024 at 4:00 PM SeongJae Park <sj@kernel.org> wrote:
+>>
+>> On Wed, 03 Jul 2024 16:18:42 -0600 Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>>> SeongJae Park <sj@kernel.org> writes:
+>>>
+>>>> The memory allocation profiling document was added to the bottom of the
+>>>> new outline.  Apparently it was not decided by well-defined guidelines
+>>>> or a thorough discussions.  Rather than that, it was added there just
+>>>> because there was no place for such unsorted documents.  Now there is
+>>>> the chapter.  Move the document to the new place.
+>>>
+>>> I'll take this for now, but it's truly sad to see new documentation
+>>> being added to the slushpile at the end.  It seems better to create a
+>>> "development tools" section in the new outline and put the allocation
+>>> profiling document there?
+>>
+>> I have no strong opinions about that.  Cc-ing Suren and Kent, as they are the
+>> author of the allocation profiling document and hence might have some opinion.
+> 
+> IMHO if this would be the only document belonging to "development
+> tools" then keeping it under unsorted is fine.
+> If more documents will fall into that category then Jonathan's
+> suggestion makes sense to me. Looking at the current list, page_owner
+> and maybe damon might be considered for this category as well.
+> SeongJae, WDYT?
 > Thanks,
-> SJ
->
-> [...]
+> Suren.
+> 
+
+Documentation/dev-tools/ already contains 20 files.
+Unless you want to keep it under Documentation/mm/, that is.
+
+-- 
+~Randy
