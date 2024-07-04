@@ -1,113 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5501AC449;
-	Thu,  4 Jul 2024 11:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF081AC44E
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jul 2024 11:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720092321; cv=none; b=GdfqZ8FuFf/P0feXW6SYopWUoVNcX6d95PL0CEjla/hTewFr5ie7fOjs9AOhgz36ZHvT2LFRynepC07nXhn7FIzhBbDBb7hzaWdHKZYuzpa4YLTnjV1oM22m8VfE2Do+RCM2vO0Xotvbjhnc+XZyFZtqXYkBOUr+XObgMGv7ZY4=
+	t=1720093457; cv=none; b=VVN37g3HLdih2qng+1I4aAdORc6eFaU04njNPaV5LqODQ+nWd0ofrJJc+9vh7qHGavt7NkNwnHLpz3Bxp8WWHyPiUKTAtiHsE9j86fUnEG+nuTvw2sQNHQiwCad19ZeMbhvWMhMmbDOkjco3JTtyHwG6vpzNbqakPelDfIbWpQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720092321; c=relaxed/simple;
-	bh=jkDP8M9nS6zbeKG8Ls4A6Gkiqj2sTDusTpp/rBGe0V8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K1r4zA9H4hYxwVCbLCgHspU4Xdk4YHu3BMekApe63F96/MZQKQDT1S9eltIxGeFyw5NYw7vQwtJZGbUqVprSKBXVxMq3bxpF1xmm3IyYU3QpyX7Ov3d3ujZwvFgNpZn+Qm21IZjpmiAlZKaBNWf9rErcM6tezWQS8qpTNBuKCgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+iyaGdx; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1720093457; c=relaxed/simple;
+	bh=DsedHeJsS/amdZVpKFJyVeLkOMNQa+PMTWNkWl1ltVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cbc3uMW3TDTaBcNbfdU0zdaoPNIFsPz5N7BhnszO0/+yW/tVS4Z5Ad/s3MeFFOkGJQLHwiBl05k7f6kHelg5bKkbYizrGvtu98LBoED5ZEJpc5rAGiZHmm/G17HYyrw2Bcwdv121d4tx/TmUPBlpt149gLQfT7JE2pZZSIeabzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XHunqudP; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+iyaGdx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720092319; x=1751628319;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jkDP8M9nS6zbeKG8Ls4A6Gkiqj2sTDusTpp/rBGe0V8=;
-  b=k+iyaGdxIEE+bEjjCbngFqguf9ZVanRXNGituaRAbFsY8+naKNzNnEf9
-   LiBHVI0wOlH1/pXTIA/Ox2V6biHD/ZzWlvhEyjoNL3fvDq5KhOgwVhmwb
-   hh48MQTtWtl/f46nF6BmmTPiVsAoIGu0DS0QfHhECe1VydMwBn0zuz//p
-   lJSRKrp4d82MpSrysQTyGrEc810L6R745wpnj4VNoEhVKwdnYosx0ZxRB
-   XRRqMh0WbJRPeaQ96/d4BDqp9dWFWeN5WEUfvyu1AOghrgd3fKOwpeZ67
-   Scam5T7W+3X4YyaOAvB+0OO5v8yaB9aPAwW/F43r+GrAEKoVU/OiwIW24
-   g==;
-X-CSE-ConnectionGUID: Hn0X33VeTmeKrDWy1OdVMA==
-X-CSE-MsgGUID: 3cHolDtUQoiCJ41gtJS2TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="17477832"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17477832"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 04:25:18 -0700
-X-CSE-ConnectionGUID: ws7LtSdaR264xMczHG3i8g==
-X-CSE-MsgGUID: K9y0McSiT7qKUb2J70jrew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="69759893"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.246.90]) ([10.245.246.90])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 04:25:12 -0700
-Message-ID: <f9923336-3dd3-4f36-b5f6-f45f4ed09e0c@linux.intel.com>
-Date: Thu, 4 Jul 2024 13:25:09 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XHunqudP"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3679f806223so281688f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jul 2024 04:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1720093453; x=1720698253; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lD0PPZ24LDJ5fGIwXYEdiOvdE6uwqRXg1JRtKinTRe4=;
+        b=XHunqudP/7g/rGD0xQyyRcYkJVzISGl6QC6/yqNZj6Mes7HDBRk4iRArO52D96CCB4
+         uI4N8yKbrSMjcfv4C6pRJzhYyjRcRRNCAiFFfDQJAptIbroKCQMcGNzVWg/5Lbtn0QgE
+         w5cU7XLemDMWgfldtunLL9cTuUaL9+qxmkBwL+XZDNeRHO2E+cXpqWrOvJ/kItgMw2U+
+         Pb/OpK66PRy29h62V14IuFMbC3egj7lfZ6ZzijBBpjcvG0mta3Bw6xBTBt1fJpFSEG4Y
+         F1fnJM7ThJFkCvCRJ5R/utaFT8ySspbpF+dhi6NcWS6HAS7sDZwQTYp/h0DWJdUers/S
+         q7IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720093453; x=1720698253;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lD0PPZ24LDJ5fGIwXYEdiOvdE6uwqRXg1JRtKinTRe4=;
+        b=SuwvLAgSi1ckNfvRrNd+/ccatVH7QrPjiZmxM5QIRhA3TBw7U5NiVn1aJ7InQq4cBT
+         lLxnjWcV/5YbGCJpiiPtZ1kmAp5ULxgyObxw+u619Kfu3x7Ipibr5c9/vtVbbwZyFQ81
+         t4UJnyPRPOBINjuBk/trnwJ9OvKPKXnsru0gki7xhoIQFpS56R7dTOhXyZvF3BLzW5Nq
+         b7E5/0h12VG9XVpy0Y9Qm1USYTMLoiJq6Hq3nqXk7K+fiNkwh7FOyPF48tVoLrUklHJb
+         wchwCyaxXNCLuYjDDqkVDUUBKHtZb3gVWP3Pj8748qyXPjm5iqrtlcuwWf/y0h98hLQR
+         FqDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRCCm5yHbRnvRAlXPWGEdoS99XbuqjT6oQyQ1HCUBGCoiH9RZKypG4tv7gtHfmU/JQQKSjDL5yY3GETfHqN90msX0/43RBuXaG
+X-Gm-Message-State: AOJu0YyvN3WMlrbOXJf4h39kaXFzA9tWV3MpkvoZO3g8ZKDcKB8MWvYL
+	3t9G+u5HKLCcD+aY6vz/bsCTB4e+78h8bNU2QIXtHsOniml74ajq4Ljfv1vr1BY=
+X-Google-Smtp-Source: AGHT+IGNLj31HSnKP8eMBVVDQWkUG1T6Sz0uQgf58SIcESsrCGl4BgnlWeQWQYBK7LzNx7BMg/xfeA==
+X-Received: by 2002:a5d:58f7:0:b0:366:df35:b64f with SMTP id ffacd0b85a97d-3679f6c4ee3mr1144700f8f.4.1720093453629;
+        Thu, 04 Jul 2024 04:44:13 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fb33901426sm12164205ad.91.2024.07.04.04.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 04:44:13 -0700 (PDT)
+Date: Thu, 4 Jul 2024 13:44:03 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Tony Lindgren <tony.lindgren@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-serial@vger.kernel.org, Dhruva Gole <d-gole@ti.com>,
+	Sebastian Reichel <sre@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] printk: Add
+ match_devname_and_update_preferred_console()
+Message-ID: <ZoaLA5IVTnh0E0QI@pathway.suse.cz>
+References: <20240703100615.118762-1-tony.lindgren@linux.intel.com>
+ <20240703100615.118762-2-tony.lindgren@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Wesley Cheng
- <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
- <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
- <f982842a-1804-420b-a539-a609ecf8fb8a@linux.intel.com>
- <3c358604-6926-4f90-8fc8-8139c68c3418@quicinc.com>
- <70bf10a7-7f87-4fd1-bd44-1733d3b2b15e@linux.intel.com>
- <b1fcef2a-2af9-4985-ae00-f348ca5df3f1@linux.intel.com>
- <ab734271-58ee-4981-926c-9b57f36b8ac6@linux.intel.com>
- <ccbf9366-f3de-4a80-bffc-e32a8409e1a7@quicinc.com>
- <adb4e27b-b328-4eef-87ca-9b8bad6639e6@linux.intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <adb4e27b-b328-4eef-87ca-9b8bad6639e6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703100615.118762-2-tony.lindgren@linux.intel.com>
 
-
->> Just so I understand...is it really desired that userspace doesn't
->> have the flexibility to choose which USB device is offloaded?  I know
->> it complicates what needs to be done, but it could be just an
->> additional feature that can be added later on.  Again, by default, we
->> select the last USB headset plugged in to be enabled for offload by
->> default.
+On Wed 2024-07-03 13:06:08, Tony Lindgren wrote:
+> Let's add match_devname_and_update_preferred_console() for driver
+> subsystems to call during init when the console is ready, and it's
+> character device name is known. For now, we use it only for the serial
+> layer to allow console=DEVNAME:0.0 style hardware based addressing for
+> consoles.
 > 
-> If it chooses endpoint by itself perhaps you can send patch set without
-> controls first? This has added benefit of less patches in series, making
-> it easier to review and it won't block whole patch set by discussion on
-> controls feature. Controls can be added in followup series.
+> The earlier attempt on doing this caused a regression with the kernel
+> command line console order as it added calling __add_preferred_console()
+> again later on during init. A better approach was suggested by Petr where
+> we add the deferred console to the console_cmdline[] and update it later
+> on when the console is ready.
+> 
+> Suggested-by: Petr Mladek <pmladek@suse.com>
+> Co-developed-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Tony Lindgren <tony.lindgren@linux.intel.com>
 
-We do need read-only controls for userspace to know that offload is
-possible and which card/device to use. That can be done in a first step
-assuming there's a single device plugged-in.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-Dealing with multiple devices and defining rules or configuration
-options to select the offloaded device is a second-level problem.
-
-In most cases the only thing that will be offloaded is a headset
-anyways, so the selection could be rather static based on a
-vendor/system ID, all other USB devices would be ignored.
+Best Regards,
+Petr
