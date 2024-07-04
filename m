@@ -1,76 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C831AE876;
-	Thu,  4 Jul 2024 12:57:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195F6846F;
+	Thu,  4 Jul 2024 13:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720097830; cv=none; b=PrjD+IWS4AN2gcLOJ8v/vi6II234MVIhF3+oZM0DzgUPnC+f/oLXS4qYdk+1QdQk7MEfGH9i7D9Mg+xnAMIfAVqkrirX61iMJSOO+k6yZi99k7uPdon83ggcpP73JJBGXPj1ZMzckyOwyGLzDD5IBwUOrTQim+1uWPcrbTB4ww4=
+	t=1720098657; cv=none; b=chfQhAYfNiOV0bc7j+8sCH5Vo61SMdhsVvl0wTr8erRqCIQ3hibaQ454w2tUTxgLEPVuJzpC2hN9vgglNg2uZjY6l206QSaDmfX+6/SmrH6Vjc1ySMp85l0ysvAkgeBjRvEs8vi6HynzlTvTZipHBLrQfirJ/i+gV3fhA+zmpds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720097830; c=relaxed/simple;
-	bh=cEPKMXyGKOpfpyTPW/VQW4JG0KcfgBIjs1jWSYlHGzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B9CMoFWOS0Tyhs8mVyyBKSt6WlL4OQ4P1cclrLkoXeTS7jluZA6A8MwkGfhqK1rnFRXQEEh2Mi2Nq79siCI/xh6rwOh0FzUwI4tbqMnIhG23/b4j4AXarlTIJfFzhiyWO4IjiLGJXDZbmuWM/PUw8PQQVtWLdpeh3kpXJlOkEaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J8FDxNYI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720098657; c=relaxed/simple;
+	bh=P52GeseScYIMI/6SpZlxsaUn4vxd5oniu7tXtl7TbGo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UxyfwNA2twck3z66xh3+uSEKDRElPYh9R1kYl1uQad5tXnECqBE2p5WsDDr6zakD639ykeWCl2U2Qi/AiRTz5Co5XTzEoA4TOftseCefqaPtFA74tqvTdy0cfYhGEFRoTXOUfy6PdYsedOiv1Ol5uaNyvYZoWLn29hqGW6rKfvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a9WEZoNS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J8FDxNYI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93F20C4AF0B;
-	Thu,  4 Jul 2024 12:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1720097830;
-	bh=cEPKMXyGKOpfpyTPW/VQW4JG0KcfgBIjs1jWSYlHGzk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J8FDxNYIKPn0W0IWh/cX6WB51wpuVVBNXRSeHxt7MRULKt9nqJFKv/S+f8jVOzBL6
-	 AYMlK3h2K6dmhx3Sh0s2EdYGRAkK0L4vdy1acaK9USxWT3ix89y1ngmdMsIwp+ST6J
-	 yxNQkDLswVOQU4h7G80F+wIVVmVJbvO1Pki+pOEc=
-Date: Thu, 4 Jul 2024 14:57:07 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Tony Lindgren <tony.lindgren@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Slaby <jirislaby@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-serial@vger.kernel.org, Dhruva Gole <d-gole@ti.com>,
-	Sebastian Reichel <sre@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] printk: Add
- match_devname_and_update_preferred_console()
-Message-ID: <2024070446-shuffling-maimed-85eb@gregkh>
-References: <20240703100615.118762-1-tony.lindgren@linux.intel.com>
- <20240703100615.118762-2-tony.lindgren@linux.intel.com>
- <ZoaLA5IVTnh0E0QI@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a9WEZoNS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AE7B7C4AF0A;
+	Thu,  4 Jul 2024 13:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720098656;
+	bh=P52GeseScYIMI/6SpZlxsaUn4vxd5oniu7tXtl7TbGo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=a9WEZoNSW5x9LREt6QpcGDpp7AhfxjGaJ0PJUvK9YZKSHAbEBn0Xt6RXZF7v1i2Xt
+	 gFqqaWmhRboESpn0lIuXmBwEng5XhifPNUfWArRs8C7wC50bN7VASOVfMFo5aVbos6
+	 OxtNPMbLZqp56BRdBCm10wMga/TglC1G4EcwvZQA2bhEjsCWNwc9HlGB0Y1ohVxTaa
+	 4zM71QZ72rJDt5zOZprKRzWzMStI8ouJwEGkbbaDuPUslmRliczv+3tizB1CgYz3KW
+	 OyOMNFk1rmPQwvsTBk9Q7Gs3G6M4kTeMQflzm91rWEFQYVhD/MmRmsMhGWKsGwbUXP
+	 XYVmzftOrKBFA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9E51CC43446;
+	Thu,  4 Jul 2024 13:10:56 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZoaLA5IVTnh0E0QI@pathway.suse.cz>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] documentation: Fix riscv cmodx example
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <172009865664.17306.16379914644000401734.git-patchwork-notify@kernel.org>
+Date: Thu, 04 Jul 2024 13:10:56 +0000
+References: <20240628-fix_cmodx_example-v1-1-e6c6523bc163@rivosinc.com>
+In-Reply-To: <20240628-fix_cmodx_example-v1-1-e6c6523bc163@rivosinc.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, alexghiti@rivosinc.com,
+ atishp@rivosinc.com, palmer@rivosinc.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-On Thu, Jul 04, 2024 at 01:44:03PM +0200, Petr Mladek wrote:
-> On Wed 2024-07-03 13:06:08, Tony Lindgren wrote:
-> > Let's add match_devname_and_update_preferred_console() for driver
-> > subsystems to call during init when the console is ready, and it's
-> > character device name is known. For now, we use it only for the serial
-> > layer to allow console=DEVNAME:0.0 style hardware based addressing for
-> > consoles.
-> > 
-> > The earlier attempt on doing this caused a regression with the kernel
-> > command line console order as it added calling __add_preferred_console()
-> > again later on during init. A better approach was suggested by Petr where
-> > we add the deferred console to the console_cmdline[] and update it later
-> > on when the console is ready.
-> > 
-> > Suggested-by: Petr Mladek <pmladek@suse.com>
-> > Co-developed-by: Petr Mladek <pmladek@suse.com>
-> > Signed-off-by: Tony Lindgren <tony.lindgren@linux.intel.com>
+Hello:
+
+This patch was applied to riscv/linux.git (fixes)
+by Palmer Dabbelt <palmer@rivosinc.com>:
+
+On Fri, 28 Jun 2024 17:25:49 -0700 you wrote:
+> ON/OFF in the keys was swapped between the first and second argument of
+> the prctl. The prctl key is always PR_RISCV_SET_ICACHE_FLUSH_CTX, and
+> the second argument can be PR_RISCV_CTX_SW_FENCEI_ON or
+> PR_RISCV_CTX_SW_FENCEI_OFF.
 > 
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Fixes: 6a08e4709c58 ("documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl")
+> 
+> [...]
 
-Thanks for the review, I'll take this through the tty tree now.
+Here is the summary with links:
+  - documentation: Fix riscv cmodx example
+    https://git.kernel.org/riscv/c/7c5d838d7090
 
-greg k-h
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
