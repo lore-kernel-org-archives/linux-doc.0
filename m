@@ -1,159 +1,198 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401D713A88B;
-	Fri,  5 Jul 2024 16:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D01F1F94C;
+	Fri,  5 Jul 2024 17:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720198344; cv=none; b=L1cMvHVWgumtaiUsqf7dtqvU7gsUqsoIOSvKvMin3NtLDL+S30SG5R1FqChvLb/57Uy2vixHCRGJ1CjSZbF9av0/pgWuT3zD8koa9vyRBxd0gIrCq4h5V5vthgsa9Nsn5y+QO4qQ0+2TyGizIq9uGLkeYnYHirtjy79EdGKOCkg=
+	t=1720198977; cv=none; b=TY4hNaQfOWpQoByt9bE2gMpAOHylNjX/Orz7N6nneuvQ2SF9NO+r/9O3La1AT/VlcStFywaxKBzUAr/W7DUBEiuuz+U2VeOLkPULcsxwVR1wNT5OKO/lP9vIwLYTIkr1EndvpJ4ZKWnEj6Oj2hREGW+mLjZZMhYFMOIXD5QRBx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720198344; c=relaxed/simple;
-	bh=U+TV3vLj/FyrjVFqViUNzlZIdGi+09fonAZB5klvcWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H2y5ucVHz66uY9aZ4725kJUAMYDg3QM/VfnKZ3HIK7AUgJh4NctiVE0W/GvCdoYQEVCttYc8FWuomKKJ2DAMzx4+SCQGr9cFJo0FRhjE5umvug8VMnYKwNSdo9/7gZnd7hOC4OqXAWRPMkK9LaP5jKjYMlubfTkAdoXl14lApDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IW0tPlR+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720198977; c=relaxed/simple;
+	bh=GpNXKixQKHwmxqdS5uwKxyyDRs6usVf9Q2aUQOt0m2o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=czLSjq20mzrLyxbWCUhE63ibI0eFoxDonRQWA4DFW634KO7s16edPj/jvCN76iYtYqjpyrHR9dfEWxX7vF8sjHD4qj7YdvIqSgX/qM+gcsYUgAC3Ye+Q8L+uOczhLWm4uQ5gyogxS1+26845Jeq34u/2cLPAiHKd0f0HSOD9XUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NUWuxt9i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IW0tPlR+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71914C116B1;
-	Fri,  5 Jul 2024 16:52:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NUWuxt9i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17399C4AF07;
+	Fri,  5 Jul 2024 17:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720198343;
-	bh=U+TV3vLj/FyrjVFqViUNzlZIdGi+09fonAZB5klvcWQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IW0tPlR+1AYOyf1sdQNoZMIvQfZRxAYrlvITUWwS6UxP5flpYQzofefp5qZlsfqMo
-	 O56fr0u8QpAQQNfBhzp3cOWeV4GR/kBAVmGExyY9fXhXwxPNxrHo+GDShvaKz8f7xz
-	 EnxzAAmR/496R0NqvELi2T52cExMOJQgbhheQ47IAO44Y0Q0XOHs1nkw7uYR6R3EXc
-	 0+dfZtjpxjyYSkBiYaNGMW9jauyNhv/uEcRGz7DJ6ffZXyTkQ5W2BJcJCN54DYUUk5
-	 BnOt/ksxB3VAeuUMFZdXgA8NzSk77dkIzaAycFFq+8DcwXRI6Wm2c8ILYY4gfRx+2g
-	 Dgy0yFhexb/GA==
-Date: Fri, 5 Jul 2024 09:52:21 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH 1/3] kbuild: raise the minimum GNU Make requirement to 4.0
-Message-ID: <20240705165221.GA987634@thelio-3990X>
-References: <20240704134812.1511315-1-masahiroy@kernel.org>
+	s=k20201202; t=1720198976;
+	bh=GpNXKixQKHwmxqdS5uwKxyyDRs6usVf9Q2aUQOt0m2o=;
+	h=From:Subject:Date:To:Cc:From;
+	b=NUWuxt9iDBBNGHC9VWuq8vAP00vsRGoenkOw+bUutWZBj2UTXEpqhsTChsry/mhpg
+	 Z02XCSWfog4QtTcv0Q6AxozBFJEK8ScwKtkkzmsmaxB4L7YP49J23dGvdYefJA1Ihr
+	 zAGoc38iMc2wlr9vs1qjmuBchHYPxTJPrp3upBm9tU7rOMLbXtd+LOfnAphO8xouXP
+	 1DEdlo9IKw8wLtfaR9A22RfNSdHPw812VioB2tlx4npYiIbmvgqWirHHZ8sA+LiiWp
+	 yoFBbxNhqbQblB2kjtQ4BVht0NUC8U4Q9ZxejJMGx1Kce6vESZI5PG5On3wI1bpGHP
+	 3sdzbbA4xtW/Q==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v3 0/9] fs: multigrain timestamp redux
+Date: Fri, 05 Jul 2024 13:02:34 -0400
+Message-Id: <20240705-mgtime-v3-0-85b2daa9b335@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240704134812.1511315-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAConiGYC/2WMyw6CMBBFf4XM2pqZ8rB15X8YF0gHaJRiWtJoC
+ P9uYaExLs/NPWeGwN5ygGM2g+dogx1dgnyXQdPXrmNhTWKQKAusZCWGbrIDi7IxCq+kjCKEdH5
+ 4bu1zC50viXsbptG/tm6kdf1LRBIoalI6L6XBVrWnG3vH9/3oO1gbUX69A9LHk8kjbQqStS7Q6
+ B9vWZY3HU29ZNUAAAA=
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Chandan Babu R <chandan.babu@oracle.com>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
+ Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
+ Christoph Hellwig <hch@infradead.org>, kernel-team@fb.com, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-mm@kvack.org, 
+ linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5230; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=GpNXKixQKHwmxqdS5uwKxyyDRs6usVf9Q2aUQOt0m2o=;
+ b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBmiCc2mW3Ax9riCifJk81b/A4ti+wBSBpCt9fL3
+ kufw+dDdlaJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZognNgAKCRAADmhBGVaC
+ FUh+EACt/ob9lB1os3d1+625J7Nr+v1FlGeUZzyHjLIes76oKNEAWNcMVKowKpFAe6zNQNXwENR
+ fEcEzdNiWnnqQQZbvRHGkd/SsE0Xn4e9afNIkc1kg011Pp3KUs+fjvDckPpr39UJpCWCnu+QKcn
+ P9kVXTwSibJyLdv4FoY9idGeGNRszUCDeMqzvkOFoJX+Kgo17JX44QntHwCjc45VAMmsZLW9nqI
+ IT043ZapyyJYsADKoSBTJIDK/G0xaP1ZDpiJmnsHcCtMsK08fQmcy0pjLXdYUDTG5QRdm+gqEVe
+ cxn99SJm2UEhpmOjA95QLHa978CrzlDOkBXjjEFplP4HiaNnkMfy8EfbzqUbdVZqA6fQngN9sHm
+ veIf+I4gVAP/75ZF5De5rZRLaDBXIko9k7tcYw2QhedH+qI0nTY853QUVx/1go1CUhUScNT6FMw
+ UXztQ7Wo4oBPzsmdDAjcgRwSOQ6kTFmJySQqRAgF/oA9lo/hYy44mVplqDVKQTc7H1XLJw0g5br
+ I3sYFf7YxmsnHiWPFR0MNj4xThLU/XuhwChiSrYlGER+EOha5Z67I5bv+f6OXJLOoa4fY7nmMDY
+ 1SKT9qN1kiHAr/SUVg5HZYJjAHCh2re9SnyeHE+CWJPm1CdV1Dv2vupgDxLQBVvtcDJEclDuBbY
+ 9U9TnzERBZN5CAg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu, Jul 04, 2024 at 10:47:55PM +0900, Masahiro Yamada wrote:
-> RHEL/CentOS 7, popular distributions that install GNU Make 3.82, reached
-> EOM/EOL on June 30, 2024. While you may get extended support, it is a
-> good time to raise the minimum GNU Make version.
-> 
-> The new requirement, GNU Make 4.0, was released in October, 2013.
+tl;dr for those who have been following along:
 
-Seems reasonable. If someone gets bit by this, I think they can just
-build make from scratch if they really need to keep building on this
-distribution.
+There are several changes in this version. The conversion of ctime to
+be a ktime_t value has been dropped, and we now use an unused bit in
+the nsec field as the QUERIED flag (like the earlier patchset did).
 
-> I did not touch the Makefiles under tools/ because I do not know the
-> requirements for building tools. I do not find any GNU Make version
-> checks under tools/.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+The floor value is now tracked as a monotonic clock value, and is
+converted to a realtime value on an as-needed basis. This eliminates the
+problem of trying to detect when the realtime clock jumps backward.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Longer patch description for those just joining in:
 
-> ---
-> 
->  Documentation/process/changes.rst |  4 ++--
->  Makefile                          | 22 +++-------------------
->  scripts/Kbuild.include            |  2 +-
->  3 files changed, 6 insertions(+), 22 deletions(-)
-> 
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 5685d7bfe4d0..415ac8eeb46c 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -33,7 +33,7 @@ GNU C                  5.1              gcc --version
->  Clang/LLVM (optional)  13.0.1           clang --version
->  Rust (optional)        1.78.0           rustc --version
->  bindgen (optional)     0.65.1           bindgen --version
-> -GNU make               3.82             make --version
-> +GNU make               4.0              make --version
->  bash                   4.2              bash --version
->  binutils               2.25             ld -v
->  flex                   2.5.35           flex --version
-> @@ -111,7 +111,7 @@ It depends on ``libclang``.
->  Make
->  ----
->  
-> -You will need GNU make 3.82 or later to build the kernel.
-> +You will need GNU make 4.0 or later to build the kernel.
->  
->  Bash
->  ----
-> diff --git a/Makefile b/Makefile
-> index 06aa6402b385..c90d408c825e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -11,8 +11,8 @@ NAME = Baby Opossum Posse
->  # Comments in this file are targeted only to the developer, do not
->  # expect to learn how to build the kernel reading this file.
->  
-> -ifeq ($(filter undefine,$(.FEATURES)),)
-> -$(error GNU Make >= 3.82 is required. Your Make version is $(MAKE_VERSION))
-> +ifeq ($(filter output-sync,$(.FEATURES)),)
-> +$(error GNU Make >= 4.0 is required. Your Make version is $(MAKE_VERSION))
->  endif
->  
->  $(if $(filter __%, $(MAKECMDGOALS)), \
-> @@ -93,15 +93,7 @@ endif
->  
->  # If the user is running make -s (silent mode), suppress echoing of
->  # commands
-> -# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> -
-> -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> -short-opts := $(firstword -$(MAKEFLAGS))
-> -else
-> -short-opts := $(filter-out --%,$(MAKEFLAGS))
-> -endif
-> -
-> -ifneq ($(findstring s,$(short-opts)),)
-> +ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
->  quiet=silent_
->  override KBUILD_VERBOSE :=
->  endif
-> @@ -201,14 +193,6 @@ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
->  $(error source directory cannot contain spaces or colons)
->  endif
->  
-> -ifneq ($(filter 3.%,$(MAKE_VERSION)),)
-> -# 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
-> -# We need to invoke sub-make to avoid implicit rules in the top Makefile.
-> -need-sub-make := 1
-> -# Cancel implicit rules for this Makefile.
-> -$(this-makefile): ;
-> -endif
-> -
->  export sub_make_done := 1
->  
->  endif # sub_make_done
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index faf37bafa3f8..ed8a7493524b 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -68,7 +68,7 @@ kbuild-file = $(or $(wildcard $(src)/Kbuild),$(src)/Makefile)
->  # Read a file, replacing newlines with spaces
->  #
->  # Make 4.2 or later can read a file by using its builtin function.
-> -ifneq ($(filter-out 3.% 4.0 4.1, $(MAKE_VERSION)),)
-> +ifneq ($(filter-out 4.0 4.1, $(MAKE_VERSION)),)
->  read-file = $(subst $(newline),$(space),$(file < $1))
->  else
->  read-file = $(shell cat $1 2>/dev/null)
-> -- 
-> 2.43.0
-> 
+At LSF/MM this year, we had a discussion about the inode change
+attribute. At the time I mentioned that I thought I could salvage the
+multigrain timestamp work that had to be reverted last year [1].
+
+That version had to be reverted because it was possible for a file to
+get a coarse grained timestamp that appeared to be earlier than another
+file that had recently gotten a fine-grained stamp.
+
+This version corrects the problem by establishing a per-time_namespace
+ctime_floor value that should prevent this from occurring. In the above
+situation, the two files might end up with the same timestamp value, but
+they won't appear to have been modified in the wrong order.
+
+That problem was discovered by the test-stat-time gnulib test. Note that
+that test still fails on multigrain timestamps, but that's because its
+method of determining the minimum delay that will show a timestamp
+change will no longer work with multigrain timestamps. I have a patch to
+change the testcase to use a different method that is in the process of
+being merged.
+
+The testing I've done seems to show performance parity with multigrain
+timestamps enabled vs. disabled, but it's hard to rule this out
+regressing some workload.
+
+This set is based on top of Christian's vfs.misc branch (which has the
+earlier change to track inode timestamps as discrete integers). If there
+are no major objections, I'd like to let this soak in linux-next for a
+bit to see if any problems shake out.
+
+[1]: https://lore.kernel.org/linux-fsdevel/20230807-mgctime-v7-0-d1dec143a704@kernel.org/
+
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: Chandan Babu R <chandan.babu@oracle.com>
+To: Darrick J. Wong <djwong@kernel.org>
+To: Theodore Ts'o <tytso@mit.edu>
+To: Andreas Dilger <adilger.kernel@dilger.ca>
+To: Chris Mason <clm@fb.com>
+To: Josef Bacik <josef@toxicpanda.com>
+To: David Sterba <dsterba@suse.com>
+To: Hugh Dickins <hughd@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: kernel-team@fb.com
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-trace-kernel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-btrfs@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-nfs@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Changes in v3:
+- Drop the conversion of i_ctime fields to ktime_t, and use an unused bit
+  of the i_ctime_nsec field as QUERIED flag.
+- Better tracepoints for tracking floor and ctime updates
+- Reworked percpu counters to be more useful
+- Track floor as monotonic value, which eliminates clock-jump problem
+
+Changes in v2:
+- Added Documentation file
+- Link to v1: https://lore.kernel.org/r/20240626-mgtime-v1-0-a189352d0f8f@kernel.org
+
+---
+Jeff Layton (9):
+      fs: add infrastructure for multigrain timestamps
+      fs: tracepoints around multigrain timestamp events
+      fs: add percpu counters to count fine vs. coarse timestamps
+      fs: have setattr_copy handle multigrain timestamps appropriately
+      Documentation: add a new file documenting multigrain timestamps
+      xfs: switch to multigrain timestamps
+      ext4: switch to multigrain timestamps
+      btrfs: convert to multigrain timestamps
+      tmpfs: add support for multigrain timestamps
+
+ Documentation/filesystems/multigrain-ts.rst | 120 +++++++++++++++
+ fs/attr.c                                   |  52 ++++++-
+ fs/btrfs/file.c                             |  25 +---
+ fs/btrfs/super.c                            |   3 +-
+ fs/ext4/super.c                             |   2 +-
+ fs/inode.c                                  | 224 ++++++++++++++++++++++++----
+ fs/stat.c                                   |  39 ++++-
+ fs/xfs/libxfs/xfs_trans_inode.c             |   6 +-
+ fs/xfs/xfs_iops.c                           |  10 +-
+ fs/xfs/xfs_super.c                          |   2 +-
+ include/linux/fs.h                          |  34 ++++-
+ include/trace/events/timestamp.h            | 109 ++++++++++++++
+ mm/shmem.c                                  |   2 +-
+ 13 files changed, 550 insertions(+), 78 deletions(-)
+---
+base-commit: cc8223373449ecbd4c18932820714235db6006c4
+change-id: 20240626-mgtime-5cd80b18d810
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
