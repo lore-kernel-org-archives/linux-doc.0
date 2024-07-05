@@ -1,202 +1,179 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A4881E;
-	Fri,  5 Jul 2024 17:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F061B963;
+	Fri,  5 Jul 2024 18:07:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720200473; cv=none; b=jQ36da4Zvzcya1ZCH9R6IFzWW1FBrHCMQ6Lk9BBEs0DXX/7Goqu06h5509O1REWw9f0apq++C5mKxCl1hnpc+J1oTeY7yG7WyOhqBkYEdh0xf+qoy3lurd1n+oKvsyrMeShzaWXbLvTOmni9i9IlnJ2as9ZX6o9P7J/8v1pCHxA=
+	t=1720202828; cv=none; b=JROGI2Pe4oMYwoNCj/SykV701vLEpTTxR5XtjB1xtnfTF5L67cDiBj5Pj0lrBwYF/wtEKYAiTy+85yJtosnBAQf8AbJQHR5pyWLQhAGsPoH0wQ1hyng3e2IagiNBzPcD9J/C4DZz3VaFrIILMwFzQ0bV8wxiPc3tnjLhTLKly2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720200473; c=relaxed/simple;
-	bh=UFVPAqRzqVT/p6Fkd12jSpwFaK0O3pMzpk6h3778Y08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSkOQnOleMyADWofUhuEL1pGZSlo5RUckyXbd7fBIwyQMzrgjc2wd8xATdLfWyl7UIHIuXySE8jdLvKiBufTcNjRQM6AtomxUrRWBaW4lCgOarzGcv8aYaXr0hTzpPgsQgOf1YGgscvs6GK5C29SME+tSDlsFrHBaSJwLc8zrOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+GP2NpY; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+GP2NpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC732C116B1;
-	Fri,  5 Jul 2024 17:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720200473;
-	bh=UFVPAqRzqVT/p6Fkd12jSpwFaK0O3pMzpk6h3778Y08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r+GP2NpY0ut/WIX+ybo8MYYpHvTp8h6a8vetEwsE/CbsZlhV+S991AWIZQb+Jg+40
-	 Xub3zFx2IpPojnRyBNL0MkZVtnDZt1V/zZhl2sEeONoOWw7jyoGc9lHYogye7A1WBo
-	 AUHbhFUiJizR4/QRRv0a+vBtq65BJGzTWnCT2Szffa42qipZHQBkX0x4WA8bnciHcB
-	 UPLGQqqHEWbqWMA7tm9Mn/iIcyaFG654UF2ohEHfnpUJ+60mEL8CkilSUEoc8wGBlu
-	 bIOKp4D2LiBLowXpcxchn5BGGI1OhqAU8JU1YXF57oGQbB9lLjEY0fx8VJDrSuQL0R
-	 KLTiruSZV+s+A==
-Date: Fri, 5 Jul 2024 10:27:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Message-ID: <20240705172750.GF987634@thelio-3990X>
-References: <20240626130347.520750-2-alexghiti@rivosinc.com>
- <202407041157.odTZAYZ6-lkp@intel.com>
+	s=arc-20240116; t=1720202828; c=relaxed/simple;
+	bh=Oc/jgpqXPZQsOpR4owl6eghnOaQJB98ynfgwFW5b0+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pTqHljNtLRF6VoNHGsCtDo4voDsfq3KjLgt8KIRCYumG7D5bARuhjj7K/oDkMXzsp+jWBf4fq/br5Wv43TE3EwR5FfFnabPUd/U+Ca2H6rnUWXx9Bc5lfGwAfIengT0c2BUS5CUSbivDAXfcXZfGXZhhldPYOFuXo2EvUhLx+fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1470CC116B1;
+	Fri,  5 Jul 2024 18:07:05 +0000 (UTC)
+Date: Fri, 5 Jul 2024 14:07:03 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong"
+ <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
+ <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik
+ <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins
+ <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
+ Corbet <corbet@lwn.net>, Dave Chinner <david@fromorbit.com>, Andi Kleen
+ <ak@linux.intel.com>, Christoph Hellwig <hch@infradead.org>,
+ kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/9] fs: tracepoints around multigrain timestamp
+ events
+Message-ID: <20240705140703.711d816b@rorschach.local.home>
+In-Reply-To: <20240705-mgtime-v3-2-85b2daa9b335@kernel.org>
+References: <20240705-mgtime-v3-0-85b2daa9b335@kernel.org>
+	<20240705-mgtime-v3-2-85b2daa9b335@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202407041157.odTZAYZ6-lkp@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 04, 2024 at 11:38:46AM +0800, kernel test robot wrote:
-> Hi Alexandre,
+On Fri, 05 Jul 2024 13:02:36 -0400
+Jeff Layton <jlayton@kernel.org> wrote:
+
+> diff --git a/include/trace/events/timestamp.h b/include/trace/events/timestamp.h
+> new file mode 100644
+> index 000000000000..a004e5572673
+> --- /dev/null
+> +++ b/include/trace/events/timestamp.h
+> @@ -0,0 +1,109 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM timestamp
+> +
+> +#if !defined(_TRACE_TIMESTAMP_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_TIMESTAMP_H
+> +
+> +#include <linux/tracepoint.h>
+> +#include <linux/fs.h>
+> +
+> +TRACE_EVENT(inode_set_ctime_to_ts,
+> +	TP_PROTO(struct inode *inode,
+> +		 struct timespec64 *ctime),
+> +
+> +	TP_ARGS(inode, ctime),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(dev_t,			dev)
+> +		__field(ino_t,			ino)
+> +		__field(u32,			gen)
+
+It's best to keep the above 4 byte word below 8 byte words, otherwise,
+it will likely create a 4 byte hole in between.
+
+> +		__field(time64_t,		ctime_s)
+> +		__field(u32,			ctime_ns)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->dev		= inode->i_sb->s_dev;
+> +		__entry->ino		= inode->i_ino;
+> +		__entry->gen		= inode->i_generation;
+> +		__entry->ctime_s	= ctime->tv_sec;
+> +		__entry->ctime_ns	= ctime->tv_nsec;
+> +	),
+> +
+> +	TP_printk("ino=%d:%d:%ld:%u ctime=%lld.%u",
+> +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino, __entry->gen,
+> +		__entry->ctime_s, __entry->ctime_ns
+> +	)
+> +);
+> +
+> +TRACE_EVENT(ctime_ns_xchg,
+> +	TP_PROTO(struct inode *inode,
+> +		 u32 old,
+> +		 u32 new,
+> +		 u32 cur),
+> +
+> +	TP_ARGS(inode, old, new, cur),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(dev_t,				dev)
+> +		__field(ino_t,				ino)
+> +		__field(u32,				gen)
+> +		__field(u32,				old)
+> +		__field(u32,				new)
+> +		__field(u32,				cur)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->dev		= inode->i_sb->s_dev;
+> +		__entry->ino		= inode->i_ino;
+> +		__entry->gen		= inode->i_generation;
+> +		__entry->old		= old;
+> +		__entry->new		= new;
+> +		__entry->cur		= cur;
+> +	),
+> +
+> +	TP_printk("ino=%d:%d:%ld:%u old=%u:%c new=%u cur=%u:%c",
+> +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino, __entry->gen,
+> +		__entry->old & ~I_CTIME_QUERIED, __entry->old & I_CTIME_QUERIED ? 'Q' : '-',
+> +		__entry->new,
+> +		__entry->cur & ~I_CTIME_QUERIED, __entry->cur & I_CTIME_QUERIED ? 'Q' : '-'
+> +	)
+> +);
+> +
+> +TRACE_EVENT(fill_mg_cmtime,
+> +	TP_PROTO(struct inode *inode,
+> +		 struct timespec64 *ctime,
+> +		 struct timespec64 *mtime),
+> +
+> +	TP_ARGS(inode, ctime, mtime),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(dev_t,			dev)
+> +		__field(ino_t,			ino)
+> +		__field(u32,			gen)
+
+Same here.
+
+-- Steve
+
+> +		__field(time64_t,		ctime_s)
+> +		__field(time64_t,		mtime_s)
+> +		__field(u32,			ctime_ns)
+> +		__field(u32,			mtime_ns)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->dev		= inode->i_sb->s_dev;
+> +		__entry->ino		= inode->i_ino;
+> +		__entry->gen		= inode->i_generation;
+> +		__entry->ctime_s	= ctime->tv_sec;
+> +		__entry->mtime_s	= mtime->tv_sec;
+> +		__entry->ctime_ns	= ctime->tv_nsec;
+> +		__entry->mtime_ns	= mtime->tv_nsec;
+> +	),
+> +
+> +	TP_printk("ino=%d:%d:%ld:%u ctime=%lld.%u mtime=%lld.%u",
+> +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry->ino, __entry->gen,
+> +		__entry->ctime_s, __entry->ctime_ns,
+> +		__entry->mtime_s, __entry->mtime_ns
+> +	)
+> +);
+> +#endif /* _TRACE_TIMESTAMP_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
 > 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on soc/for-next]
-> [also build test ERROR on linus/master v6.10-rc6 next-20240703]
-> [cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-> patch link:    https://lore.kernel.org/r/20240626130347.520750-2-alexghiti%40rivosinc.com
-> patch subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-> config: riscv-randconfig-002-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202407041157.odTZAYZ6-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> kernel/sched/core.c:11873:7: error: cannot jump from this asm goto statement to one of its possible targets
->                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
->                        ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
->                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
->                    ^
->    kernel/sched/core.c:11840:7: note: possible target of asm goto statement
->            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
->                 ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
->                                                                            \
->                                                                            ^
->    kernel/sched/core.c:11872:2: note: jump exits scope of variable with __attribute__((cleanup))
->            scoped_guard (irqsave) {
->            ^
->    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
->            for (CLASS(_name, scope)(args),                                 \
->                              ^
->    kernel/sched/core.c:11840:7: error: cannot jump from this asm goto statement to one of its possible targets
->            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
->                 ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '__arch_cmpxchg'
->                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,            \
->                    ^
->    kernel/sched/core.c:11873:7: note: possible target of asm goto statement
->                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UNSET))
->                        ^
->    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded from macro 'try_cmpxchg'
->            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
->            ^
->    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded from macro 'raw_try_cmpxchg'
->            ___r = raw_cmpxchg((_ptr), ___o, (_new)); \
->                   ^
->    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded from macro 'raw_cmpxchg'
->    #define raw_cmpxchg arch_cmpxchg
->                        ^
->    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'arch_cmpxchg'
->            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw\n")
->            ^
->    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_arch_cmpxchg'
->                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,      \
->                    ^
->    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '__arch_cmpxchg'
->                                                                            \
->                                                                            ^
->    kernel/sched/core.c:11872:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
->            scoped_guard (irqsave) {
->            ^
->    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_guard'
->            for (CLASS(_name, scope)(args),                                 \
->                              ^
->    2 errors generated.
 
-Ugh, this is an unfortunate interaction with clang's jump scope analysis
-and asm goto in LLVM releases prior to 17 :/
-
-https://github.com/ClangBuiltLinux/linux/issues/1886#issuecomment-1645979992
-
-Unfortunately, 'if (0)' does not prevent this (the analysis runs early
-in the front end as far as I understand it), we would need to workaround
-this with full preprocessor guards...
-
-Another alternative would be to require LLVM 17+ for RISC-V, which may
-not be the worst alternative, since I think most people doing serious
-work with clang will probably be living close to tip of tree anyways
-because of all the extension work that goes on upstream.
-
-I am open to other thoughts though.
-
-Cheers,
-Nathan
