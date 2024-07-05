@@ -1,92 +1,116 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EBA1643D
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jul 2024 04:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20AB143C6C;
+	Fri,  5 Jul 2024 06:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720153184; cv=none; b=t1qwDj7R1o2oeIfXofPK4TdtxzpDL6XBzB80AIM2jX03bHF5a3ekEh2g6PjtHyPKmMts571vE7iSAqbBgnHxPavYhcSOX5vBHFT17w9ONdMV0wC5rHHP9/HQUNb9F8h6PKq2L7fKSJXY+39TcIVEF2SkDJfG0/+BbuyrQOihVOs=
+	t=1720160346; cv=none; b=ZyJR3+oYsrWvm3U4vZOqTX9XJ1VQJqgVCqxSJBZ3vtSCooucblfmY3YzTX+FJjc5XdSJprd5TD3vwittDCJkSuxKCioQufCAq5gdyRIhuY5+R+viyzxepWulubExFZxTvBEy45zWYc7N+8eokuMoQ1Ow8Qk7F7rt6B2QfIzcrJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720153184; c=relaxed/simple;
-	bh=gNh0l1AFuu3YpgwHKDKlh6Df9CuXiju26t26NPlmGKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rgUQOZBjNSEDhAh+B68kXIo1jzcitswZkOklTludfqgk7lhomvlS79+GLToz/NV4RBC+WzQVhFEhfRtkCW+clSBQ/1tg9hPqpIfRJLWT7NCZUMNzbY4erL2IngDxktApYeEBcbgk/d0A1eHlQPToUz7Y4Smnq+DYopEGt1N3PhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=qDrNsgoo; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	s=arc-20240116; t=1720160346; c=relaxed/simple;
+	bh=YvKG9q2xL++Pot6DpoW89EfPEWqDOPrpX/PWSKVl0/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jFdUWdn0MQz+dajm5hyn89bj5M7SQc12xlSaK6xJTp0A+GrS7RY45AY6WIwpgFW85bFDZx40K96NBq25vXZYNgqfqDZIBSNbuq0ets75F4RT72qYzsMHugXV8GuT7Q9nNfyEu3N+0/MuzDj++gLvDxmkIMsO26ix4WdN70x3baw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Il9nIFuH; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="qDrNsgoo"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 38A7B2C0241;
-	Fri,  5 Jul 2024 16:19:39 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1720153179;
-	bh=JNA15ySDVBqVrJEPESwywKcVnn+Zm/UvWWTM0j769ew=;
-	h=From:To:Cc:Subject:Date:From;
-	b=qDrNsgookMTzH+KW+uBOWP1EYYpzIzmRG2LK0g4jsK1yCA4uL7XxoAbPHuqLA5qXx
-	 ktj/D+dcWCt0QZrFojson6jJL8lLLfZ9RZuT2zH/OXzontZezc6Z7d0S1DF1nP+Wbl
-	 eRQpNVMxYaZzBFogPwFyWHp8idNHiP69Ey1Brsae/eq5JdiHe3xgnv+1XAsAxXhfsc
-	 mfWXEToSJSq6oCu0lrKcfsysSH18DsSgjg7vX0rRWJSiZ4SyAVuzMfl5OswZ/oE5Bs
-	 HxDR2hS+8olIFU7JhdCLT/fKsIXu8/95lOK7c97nHfrXK4OPbtpXG2mQu7/NmKfo3c
-	 J48t3jpr3UhQg==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B6687745b0000>; Fri, 05 Jul 2024 16:19:39 +1200
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 009FB13ED5B;
-	Fri,  5 Jul 2024 16:19:39 +1200 (NZST)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id EEFBE280930; Fri,  5 Jul 2024 16:19:38 +1200 (NZST)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH] docs: networking: devlink: capitalise length value
-Date: Fri,  5 Jul 2024 16:19:35 +1200
-Message-ID: <20240705041935.2874003-1-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Il9nIFuH"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so2238565a12.1;
+        Thu, 04 Jul 2024 23:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720160343; x=1720765143; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G+Wq4Dg6ZPYZPbtDaC82FkKemLA+7PBLo2xay7aB0Wg=;
+        b=Il9nIFuHLfb171EP66/qtWm9tBEzemx9lONEACVZ099SA9ZZlDVHnBKWSWDEw8toSY
+         AH7e1zniv6f6G5zv/pF7N5+y+YNNa1027bvK1aja/ANHWJP7wCk4h+p42gS1S0HwJ+96
+         xO66IrA53Gw5kBnIUfBGS7O4Qf6p7AAgH8OVHZ5bK4X+MR2NzChLtTwTCcD8kX01qNM7
+         s/wg/OyzrWWgRBXnw5lg+SyxNqjEEUDfZaCO2hJn8KkDlsseiTywexpU09/MimoUKa4u
+         SHhiAY8hyzgZc9NPssQ1+sO6htZFSZvvosBeFcaG/rlDbYeOTCBAmvGaTxFkEJzPNLvZ
+         lCug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720160343; x=1720765143;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G+Wq4Dg6ZPYZPbtDaC82FkKemLA+7PBLo2xay7aB0Wg=;
+        b=n0tWbboOXP8hAd8b6ujE9dRz0YCXFhAhVYZoujWAWLgOfb26R2TVVeAYQgfSksy8ua
+         IKUpI8WaqeqL6zGQW7Hm2+tIqUinzkAJ72P+5FVw9PWIdtBuvfHLZ9x9oPzKbD9e7LMT
+         +9lEQ6qjvcZpotzG8ywsIX0lRSLML0sKm+Y7S/zfrbBlSTlgC/FPtZOMS4JnCYjgIPPm
+         zmgZE+Qvat6QIzJoDdcmRn8mZqW9zqqZPIuqByncaUpVCyMBe62QKuVI+ZKr7jpsqNL1
+         elRsj8fZPNARMkYW9ZOeynRD+2YeKE7X2j/DdhNfwwYt5t7nMH8W0Ni60bYrVD++J7cb
+         IGgA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9Bfvc55/xkE2aBRSIJU5D+KJ7pk9HuujLZX0TOpICDoz/Eii2rDDBnfDKnezFqm5nusVk6kYnlNLlyHT2rXGt4olOltfEawdJKKiotRvz1O78v1+R744Dus3TdpEYRVyW1hwk51RILXC1PyshJZWaMaCA3hH7toStRFVhKlcpUvkochD49Mz4zfLJE11ZBkTRYN7biqx2E6FKo44OJzRQbd0=
+X-Gm-Message-State: AOJu0YwsSeGfLDUektsd5bjymkC2n2MQY0a4rHo6fKyzg8TEpCb+kMxs
+	ShjUST55ZhAmFViwp+y42jTVJ0I0XXoTizA5HVpHsWn3KjSQxTVTNPAlYmM=
+X-Google-Smtp-Source: AGHT+IFrY7Z+uxnj1eNgnw5yoecoECUL4t10Z+SLuYa0KtqVJpHhYmqVAjCavTKPjWkykYPPtxZ1NQ==
+X-Received: by 2002:a05:6402:350b:b0:57c:bec1:ff4b with SMTP id 4fb4d7f45d1cf-58e7b2111dbmr2517727a12.10.1720160342980;
+        Thu, 04 Jul 2024 23:19:02 -0700 (PDT)
+Received: from localhost (host-79-17-25-43.retail.telecomitalia.it. [79.17.25.43])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58d97c6d26fsm2398945a12.61.2024.07.04.23.19.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jul 2024 23:19:02 -0700 (PDT)
+Date: Fri, 5 Jul 2024 08:19:01 +0200
+From: Andrea Righi <righi.andrea@gmail.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	Jan Alexander Steffens <heftig@archlinux.org>,
+	Johannes =?iso-8859-1?Q?L=F6thberg?= <johannes@kyriasis.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <debian@fabian.gruenbichler.email>,
+	Josh Stone <jistone@redhat.com>,
+	Randy Barlow <randy@electronsweatshop.com>,
+	Anna Figueiredo Gomes <navi@vlhl.dev>,
+	Matoro Mahri <matoro_gentoo@matoro.tk>,
+	Ryan Scheel <ryan.havvy@gmail.com>, figsoda <figsoda@pm.me>,
+	=?iso-8859-1?Q?J=F6rg?= Thalheim <joerg@thalheim.io>,
+	Theodore Ni <43ngvg@masqt.com>, Winter <nixos@winter.cafe>,
+	William Brown <wbrown@suse.de>,
+	Xiaoguang Wang <xiaoguang.wang@suse.com>,
+	Zixing Liu <zixing.liu@canonical.com>,
+	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 13/13] docs: rust: quick-start: add section on Linux
+ distributions
+Message-ID: <ZoeQVYda-AZN6PYy@gpd>
+References: <20240701183625.665574-1-ojeda@kernel.org>
+ <20240701183625.665574-14-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=CvQccW4D c=1 sm=1 tr=0 ts=6687745b a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=4kmOji7k6h8A:10 a=eJwZDefbqxDfYRb5NuEA:9 a=3ZKOabzyN94A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701183625.665574-14-ojeda@kernel.org>
 
-Correct the example to match the help text from the devlink utility.
+On Mon, Jul 01, 2024 at 08:36:23PM +0200, Miguel Ojeda wrote:
+..
+> +Debian
+> +******
+> +
+> +Debian Unstable (Sid), outside of the freeze period, provides recent Rust
+> +release and thus it should generally work out of the box, e.g.::
+> +
+> +	apt install rustc rust-src bindgen rustfmt rust-clippy
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
- Documentation/networking/devlink/devlink-region.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This implicitly covers Ubuntu, since packages are sync'ed with Debian.
 
-diff --git a/Documentation/networking/devlink/devlink-region.rst b/Docume=
-ntation/networking/devlink/devlink-region.rst
-index 9232cd7da301..5d0b68f752c0 100644
---- a/Documentation/networking/devlink/devlink-region.rst
-+++ b/Documentation/networking/devlink/devlink-region.rst
-@@ -49,7 +49,7 @@ example usage
-     $ devlink region show [ DEV/REGION ]
-     $ devlink region del DEV/REGION snapshot SNAPSHOT_ID
-     $ devlink region dump DEV/REGION [ snapshot SNAPSHOT_ID ]
--    $ devlink region read DEV/REGION [ snapshot SNAPSHOT_ID ] address AD=
-DRESS length length
-+    $ devlink region read DEV/REGION [ snapshot SNAPSHOT_ID ] address AD=
-DRESS length LENGTH
-=20
-     # Show all of the exposed regions with region sizes:
-     $ devlink region show
---=20
-2.45.2
+In addition to that Ubuntu also provides versioned packages (such as
+rustc-1.74, bindgen-0.65, etc.), so in case of special requirements
+(e.g., older kernels) users should be able to install the required
+version(s) using the packages provided by the distro.
 
+Maybe it's worth mentioning as a little note, so that users are aware of
+these extra packages.
+
+Thanks,
+-Andrea
