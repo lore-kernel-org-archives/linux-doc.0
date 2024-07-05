@@ -1,77 +1,111 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36803143C79;
-	Fri,  5 Jul 2024 12:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8F713C8F9;
+	Fri,  5 Jul 2024 12:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720183036; cv=none; b=KjTG2zuM4ZExH63R3dS1Cv7R8QY6Eunl3fLklP7zdARMD81VJhSztMGwR+sf5EJe19NfFBgz7DNTHw0UoY6+R8airp+uj0+Y4Hpo9ZroL+DrVHWwtl9mlFpJDO7+WlejNSyITvuDTZ/qYfLW+bxeLi2101y+xUb65qQx8h5WXBE=
+	t=1720183978; cv=none; b=D2kR/2MyFbrpzOPduEne9uLWOUz/6O5nKyPm8hcpN5R/a43xa2tqXpEF5m4YhKf9AHVVrPMSM4WOaU7SvEmVFSw3lqxmhALtMVKNLTjIt9Y6LiVA0BRNdwq8yzb6TAnNEo5/ivhGaxjczjeB57nNAxShED7FY365FSZzzZT42vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720183036; c=relaxed/simple;
-	bh=B0KkSrcv7pinQNTj2Jy05a8iSCAPOJTg5SCVlI+4Vyg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Lm5Ohu1zqhjCasX1NEVCSer+aJag+guEOyhTJQvYFHI3X5gdeCwD7wUw8tyy2JNpxfn5i77SpQe4THbm5BA2NGlSUytBcCnOE13hAPpE2uesAjggUlrUhCBjtxo92VIH4xVFLggroWKRcmXS3zHMC3SAD0q402X8n/OI9yXz2M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BOgB4UuB; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1720183978; c=relaxed/simple;
+	bh=Ny4NipcrdKMJRHgPMlWIpSzIm0jwdGYQDrlVbxourss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OoBaxUGGXB59vKRe/62X9ileJEqE/XWDpBt6+479PzXdUKOR1VossWZ028Pi6oySvlw1v00D9QkiXOzZmixBGJDkKCPlgkmmxW7id1U5pfgbBWc0LrtOFRNOunO7ryAskBQQmyDw3pSLlCPDD20W6ldaGnSeNMkmlZPSd866/Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KTKkXQhp; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BOgB4UuB"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 81B55418AA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720183028; bh=ybGJapzs/nmpHXDDnaG4kQKbRKEkJqCDF2NMtbNjWU4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BOgB4UuBDKDvQxWc5nxI3sxnoQSGWUDmrmVqPebwPQXS6jo8jXtzb5XkQ3jm7HDeT
-	 eKhJgXBfFKm4KzGXMX4GWSmleaHUjhTrbb118QwTuCnIwW/CWan02akeX0MB1x6zeb
-	 Ty/kPvnDQ/CAbGe0Bw2YweV5YG9QcoOK3SuPPXjvWqa4GZP2N1lh/BerEksJMn+sMm
-	 3xkYnusunHuVnqnsocqlCVo7KPAKY9lchGvQVuUOEHHGxB5UtlOtMqt1XTyp7rQjaA
-	 f+j+twPf7UpGvFcweQbFnvNOpI5mm1lDxi2yL9Jqd1Sdn+bbiXTFC4frLu/tjZpFbl
-	 A0eDXTTyJ35Tg==
-Received: from localhost (unknown [75.104.111.163])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 81B55418AA;
-	Fri,  5 Jul 2024 12:37:07 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Tao Zou <wodemia@linux.alibaba.com>, Dongliang Mu
- <mudongliangabcd@gmail.com>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] zh_CN/admin-guide: one typo fix
-In-Reply-To: <7E195EE5-F38E-4F32-ACA5-A36D79E66037@linux.alibaba.com>
-References: <20240705022842.51451-1-wodemia@linux.alibaba.com>
- <CAD-N9QUPWrAaT-7UjibcKR7=L_etmGF4qy0voO8u3W+wk6G0nA@mail.gmail.com>
- <7E195EE5-F38E-4F32-ACA5-A36D79E66037@linux.alibaba.com>
-Date: Fri, 05 Jul 2024 06:37:01 -0600
-Message-ID: <87frsoauc2.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KTKkXQhp"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2c927152b4bso1097205a91.2;
+        Fri, 05 Jul 2024 05:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720183976; x=1720788776; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ny4NipcrdKMJRHgPMlWIpSzIm0jwdGYQDrlVbxourss=;
+        b=KTKkXQhpsNhk1XrfVZa7a3IuLgIaLUiZSWFKcsI2h1rli0GJSz2hfDxi/vE+wHz4b2
+         X+5cAfscs1bKE/7IWJbAKNc5cLTS0TrFwZAiy0LQSNXV6SfXjLXpDL66jHqcBorSpyz4
+         Vlxq5YOQTiUSL1olcjkDSMVldVVe9ZTSoX/Kp6bt3rIS4IhObuxBasFvYk7CD/xs1mKu
+         ZdjauF9ouLj0S8FjkPJPf6HG9nMpjD8sOee2Rt5WRO99qy/6ha9a7KLI8E4n4NxlMLJC
+         nFgWxoi5fECmVHTwvcA7gxX/C2GRZTZiiW+VgjOQt5FqnQWwfVe0pJCeJcBcp7NYemcd
+         cuBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720183976; x=1720788776;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ny4NipcrdKMJRHgPMlWIpSzIm0jwdGYQDrlVbxourss=;
+        b=PG8XSeZQOG8Lm/MWybo/POL+DoCWTvxzavHZVfy7lB84kaGeUAk5AW8kcIQYZSvSyA
+         9wjbf4PgER56Bo3kiDUe27dM1SiK1FnVQMyaGNSsgCCzn0woiTJgcDFcnIlVZIdfsYPZ
+         LW4J6uJHYXflgA/6qfCw5JkByk2uHQOmqPkGcO1QLU2uP2XY5mVcSSrSaCv/XCWibFb7
+         da2eVQfTLKDsaDmTHzpocDmZ0nphPy1VUXtz77m2EcSMp3nUOqiFEIbKqtpf9VfFfv9Q
+         wNnHVlEnNxgaa+BsefvkEh0URUeOE6twG2JdwPJbNVa/lTmZmTBBimjiLQvvuJ0RMuuQ
+         dcag==
+X-Forwarded-Encrypted: i=1; AJvYcCVYW1edjDFlaIxE4LmmiFL3ojidoACRN0gPdObpXH2f4vNB5u2r2GytInQBL0LPgeID1YXdK5+os6/TNfH/1p1h8inx6ldoB1TcZeSLa28Fiab6JODi9g/14qkgOlNKeTpModnaRbUVCLkdMXQ/xhFOCRWZOm6l4ASPhrI0bQKC/bGFITQO6Tg8gdRM5xJze9N4WJBP+xWRPruLVDH9Q0lRYMA=
+X-Gm-Message-State: AOJu0YyRvFINIGI0IWEn0kD7mOWCuO6dgwxPsbwBPJy5j3OPIxcnVaGw
+	W3t7xg8pjUMnDz2eJXgrWZKYZRwr9TkTGtYWZZJLanWL4B1O8YatVC9lNPgAl+D0UMym9R7AawZ
+	vZrLc3LR8iwaCImxU+TIFZdojr7k=
+X-Google-Smtp-Source: AGHT+IEzG1wQ2tyKmgXA6YWzUKo96HqR7GDGf+HBNV2kpFi+8P06yzDR0xNhdvTYwQ4FFo4HCneqcI3eTwMsgMHmaek=
+X-Received: by 2002:a17:90a:de91:b0:2c4:aa78:b48b with SMTP id
+ 98e67ed59e1d1-2c99c6b954emr3709128a91.38.1720183976081; Fri, 05 Jul 2024
+ 05:52:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20240701183625.665574-1-ojeda@kernel.org> <20240701183625.665574-14-ojeda@kernel.org>
+ <ZoeQVYda-AZN6PYy@gpd> <2qwdfogh6jd5uixxjzlagmtfvnykk3x4ztqrn4j2v6qoref5rx@ooj6gq27bq4z>
+In-Reply-To: <2qwdfogh6jd5uixxjzlagmtfvnykk3x4ztqrn4j2v6qoref5rx@ooj6gq27bq4z>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 5 Jul 2024 14:52:44 +0200
+Message-ID: <CANiq72n6bYt0AKNxad2+gjwHKQ1RiDxAbjm-2u20L8TcSZE-9Q@mail.gmail.com>
+Subject: Re: [PATCH 13/13] docs: rust: quick-start: add section on Linux distributions
+To: =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <debian@fabian.gruenbichler.email>
+Cc: Andrea Righi <righi.andrea@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Jan Alexander Steffens <heftig@archlinux.org>, =?UTF-8?Q?Johannes_L=C3=B6thberg?= <johannes@kyriasis.com>, 
+	Josh Stone <jistone@redhat.com>, Randy Barlow <randy@electronsweatshop.com>, 
+	Anna Figueiredo Gomes <navi@vlhl.dev>, Matoro Mahri <matoro_gentoo@matoro.tk>, 
+	Ryan Scheel <ryan.havvy@gmail.com>, figsoda <figsoda@pm.me>, 
+	=?UTF-8?Q?J=C3=B6rg_Thalheim?= <joerg@thalheim.io>, 
+	Theodore Ni <43ngvg@masqt.com>, Winter <nixos@winter.cafe>, William Brown <wbrown@suse.de>, 
+	Xiaoguang Wang <xiaoguang.wang@suse.com>, Zixing Liu <zixing.liu@canonical.com>, 
+	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Tao Zou <wodemia@linux.alibaba.com> writes:
+On Fri, Jul 5, 2024 at 8:47=E2=80=AFAM Fabian Gr=C3=BCnbichler
+<debian@fabian.gruenbichler.email> wrote:
+>
+> Debian (for building firefox and chromium), and uses a -web suffix for
+> that:
+>
+> https://tracker.debian.org/pkg/rustc-web
 
-> 2024=E5=B9=B47=E6=9C=885=E6=97=A5 16:18=EF=BC=8CDongliang Mu <mudongliang=
-abcd@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->> On Fri, Jul 5, 2024 at 10:29=E2=80=AFAM Tao Zou <wodemia@linux.alibaba.c=
-om> wrote:
->>>=20
->>> Fix one chinese typo error.
->>>=20
->>> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
->>=20
->> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->>=20
-> Thanks a lot,  I will pick up your review tag.
+Like for Ubuntu's versioned ones, it seems not recent enough at the
+moment (i.e. for the current kernel), if I understand correctly.
 
-No need unless there are other changes you need to make; it'll get
-picked up when I apply the patch.
+Also, it is a single version, i.e. 1.70, right? We didn't use that
+particular version in any old kernel version (we moved from 1.68.2 to
+1.71.1 in commit 89eed1ab1161 ("rust: upgrade to Rust 1.71.1") back
+then). So I am not sure how useful it would be, but if you think it
+will be in the future, perhaps it is worth mentioning.
 
-Thanks,
+> https://tracker.debian.org/pkg/rust-cbindgen-web
 
-jon
+We may use `cbindgen` too in the future, but not currently.
+
+Is something like `bindgen-web` also available for stable?
+
+Thanks!
+
+Cheers,
+Miguel
