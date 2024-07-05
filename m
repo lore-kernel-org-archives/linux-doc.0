@@ -1,115 +1,170 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4691442F6;
-	Fri,  5 Jul 2024 10:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08641148844;
+	Fri,  5 Jul 2024 10:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720176649; cv=none; b=lEC3qBdWXn4Xkw8QEZ9Ig3Trut8bLpE2YgHhrBxJDEB3rgGMcCoCkA2H5IkXqIQVcHHRd9Y41Hw8K2yDk1g27iARREy9Z3LUPGVWraDq8v1VDhFQCtP254lYvdIFB1RCX97OXXDELy5tM4lmsqMcyrXRdX4xAiKA76XLFNIyLg0=
+	t=1720176693; cv=none; b=XAs55txlRRbKjPKdh47G/P5HgH8qnktO+LUbsB69QdD/96hrE6gcpKcWYr3rDYV8gwx9/c7cSgMteiYyg0a8md1SR/t6gsjHPdmt6RnsOJFZvTMnTanHc4UKyVSKBLSRh138vb3ejG7/KmSrBjJuTZ4+QW32UsvpY9o33xvxnmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720176649; c=relaxed/simple;
-	bh=mazd6SlQGoT23PxSsQCYr3vhjvCyYL5J03ptC8NDxKc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d6/rxFoMcekKt/W8REf4ooWpCyoh+Bi2gi154izXPpy4wEJCGyAed+xb6FM/SACzFe3SAqgUHmFyZ+ngXsMDnP/3CCrSFznjUUnpR3CDTL7jZRuT5QmYAugMl9fwn/En7D7AnmdSQzDDJ5Y7GyjAhZPAIOM3WsBjGRFxbzBHJfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RlezHObB; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1720176693; c=relaxed/simple;
+	bh=AJORAJt9fiLAKgFuj43ReMllSSzMOpQ76O1O1Hy/3gA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GwCABQJ0iX82mvEgz/kKM8L1rfQlOVVG5CXK3uEF1SQlgCKQsOQ6nX0sD8iCFFLcQTgIonCg06F6u8xPuu5XgtMa4NFbS5f7atctc8DTeWkp8aFHMOGi22zUAL7V5qV8ka/w8ZYdO1B9OHgWSly4ygonYRwSbGGdKQy5xeQtr9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BTGgEA5H; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RlezHObB"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c967e21888so1031505a91.1;
-        Fri, 05 Jul 2024 03:50:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BTGgEA5H"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-367963ea053so1136518f8f.2;
+        Fri, 05 Jul 2024 03:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720176647; x=1720781447; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mazd6SlQGoT23PxSsQCYr3vhjvCyYL5J03ptC8NDxKc=;
-        b=RlezHObBXV3tRrKtR6sZAg+CxfCtPDcCJYtm1Dym6EB/qdnU0ftgEs7TdjyD23QpNe
-         7E6YwcXfpiYydCCoeWynT1tg0gYZl7gR+WRw9sRnk7lUcMGDat07tuMYzOoMBKKdGT9q
-         vrfy+T4Q3jz19oXK3BnTH3DutOJYPBO1HJWgRxgV5MYQ5iX+I4ZPcsOKTWnEeK5vptX3
-         OhCErv8bMaNVF6Rg0G9RrlkdhZJGWeAII7TowypfSyaEBt6h5nkagYnS58ANij3VW2HV
-         3RQKQ0CfKd0JmyL4fCDVT23Gncuk2NjlDD9NS4ISzizCo5vokinRqzFiSEnrZ7G4N3Vq
-         Wbtw==
+        d=gmail.com; s=20230601; t=1720176690; x=1720781490; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AJORAJt9fiLAKgFuj43ReMllSSzMOpQ76O1O1Hy/3gA=;
+        b=BTGgEA5HqmAOdW3KHJI6pwysUG2UuaWHjI373dcJjUmYvlB1uTN/u2Wyosco6nL3q2
+         Dfvah/yDQ6gNtqTacMAjie6ZOTNB8F+r2T6K+5dgFvcwUthjreoVuHzuPSKr4szRaDeR
+         KUyv4xnMC3PjvP1c/GOhdsWQEVFDdkZfTGmKKDFGlKnW6wQgDYpo/NJVHMV5gqVotS6d
+         NG7nN7DqjVmawnFzfkt2cRnVU8iA3xxhgjFWRZytJrnZFBQt3MpVAJl+5zf29ecotjIg
+         CkXcb2Z+9006HxjAzESM6Krx5IC8DOZvTuONTWWCFc3USInPE3ruI042A3C7/t81/U8J
+         73gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720176647; x=1720781447;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mazd6SlQGoT23PxSsQCYr3vhjvCyYL5J03ptC8NDxKc=;
-        b=FmaqsZF8ynpAdyq3JUlOgJMictrtD7GdtKU4jdtedpd/5UjnGmQyhtNVwm0uK2VgHg
-         CNvHk9FLkLofBIaPjPHcLXBSU0DvatS9ulTzM0+bNK3jKqU0yhHSv6hMg+EEGKgvBptj
-         CXXOY/uLMEH2dJDgk32qf22C4Jh3wDBO0FcbL59khy7vtvLUf67SDbZbZMEwq7bhiE08
-         3o4aJC4OoPRXblM4XiTNAc+dcqsHGjBBdtp6V1Twu+Fq6RVsMOA+cp3cndq6Igd33X8X
-         ylhkF6WaGpiV8jY6bPgSAN1Dy+B+b85MQBsb1ucqc6qH3u3PRWxtndfoEwrTqJSHbLzR
-         HzUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmNxUkcpDYLWuM3zhmH6Y1v3lFE9+7k34sHnHDYj5vETlL9O/OKfSJX2mNsmpyl27Vn81z15KWXkYSCM7dgz2Q/x7LlEWSv3seE/9zcTazsnJwt5OBB2OWQuqnqXzCBMP7z5g3LU89guvzfGdTPloJqRw9aGQh5wr+nS8iAq/bTvoR1ofJ2KH9Madvlhi6ezgUcmZrcbgfajQLwdk4eJhj7Go=
-X-Gm-Message-State: AOJu0Yw1AkMS6WmTRFJNpUXrPX7aG4XjgrPKPbAmMAY/RdFXkdWS+1S1
-	3lVnkUeTRGqYjz9MapNxR3zM1L5Wv23rdWpXqDVKB+GAbsxIgBhhGRf2RqkhSbs7Vn0OBgLFIa2
-	0f9JIlpLXL0wKUaK9khnJgBTC8sI=
-X-Google-Smtp-Source: AGHT+IHrLSGcmR0Qvqbpf7FgUVqM+8MTahzuf5TtCI/rZDagwTn9kJDSpqaExb+OjYYeAL9Q9cwiQ0mvi6kNes3PHWU=
-X-Received: by 2002:a17:90a:e005:b0:2c7:e24d:f695 with SMTP id
- 98e67ed59e1d1-2c99c53b396mr3069966a91.12.1720176647373; Fri, 05 Jul 2024
- 03:50:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720176690; x=1720781490;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AJORAJt9fiLAKgFuj43ReMllSSzMOpQ76O1O1Hy/3gA=;
+        b=gBz6/NyBy4JxLmVslp+6iERYRNwo9uHBkDttJKzrpIxlIpxql1Dc+msi1GYkfRWX2Y
+         LWeiw1xU3XGCmC+R7dhv0N/9uCi1b/INE4Bxqkha07+si/ia5+fGm9PJZzidE7RSO+aF
+         QrjCv3hgAQ2Ey9Rg4A9r03rCYH3iO94pytlPHZc6drPN7eSGSzuq8KpvBJ4CPvgB9T27
+         5dOzIGM/FkzQ7QtLKHJGiyrQU/LBrFeX5iUSmU0NthdXORMl44AcfhfWTGvB6s2qlmKy
+         oK/Uqf5ZJ+J6XELoNLc8nX+0i98Gpd29YDrz6hbCNBJs/3+cXA9c9hZw+JrW/w8BYhQK
+         kuEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXX1XhWkx0gs1bvpd+SYoujBkM08G3Eq8WEiTX8eO5QM3jfh1Yh/l6IyIvmSJveEL/IQESU2khYVvj8hV+FmNg0LbHCV7sG2N3xbjqtGdg4pxSYwTpfcRHJwnbGAeukHmc1F/FSxul5Yq1kEvyx/6W7Gp17n3XT+ozgMFD6HypTNY82Me29M2j+dQ89TneA2nClqKppwmD91IgTv4LvIBJpA2XnEb8iIV8VeVWIsL4WP0fxam30bQB/bSlP9xSKMRFRpJ9gD0JDrdtzq8ul5UBDi1cPJG1
+X-Gm-Message-State: AOJu0Yzl71BNvTMhF7AoIv8lXWhfrNmJlqArrN8UhV6vdmeu1L6Q+C3M
+	9WwaTu6POTo69lL6K1QIzxfyW7xFkmXn51wuxsLhf5+xlXV8Vy2z
+X-Google-Smtp-Source: AGHT+IG34mbke5IJo5cR/e8+OiQhSsIhfKjKH4QYsroO50LYMy0yaGverM7QDVIx2MHrrvn7/LDdLQ==
+X-Received: by 2002:a5d:4ace:0:b0:366:e9f9:3d1b with SMTP id ffacd0b85a97d-3679dd10557mr3837762f8f.9.1720176689607;
+        Fri, 05 Jul 2024 03:51:29 -0700 (PDT)
+Received: from orome (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367938a6e97sm6252663f8f.109.2024.07.05.03.51.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jul 2024 03:51:29 -0700 (PDT)
+Date: Fri, 5 Jul 2024 12:51:27 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Krishna Yarlagadda <kyarlagadda@nvidia.com>, 
+	linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jonathanh@nvidia.com, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+	andi.shyti@kernel.org, wsa+renesas@sang-engineering.com, ulf.hansson@linaro.org, 
+	adrian.hunter@intel.com, digetx@gmail.com, ldewangan@nvidia.com, mkumard@nvidia.com
+Subject: Re: [RFC PATCH V2 04/12] dt-bindings: misc: tegra-i2c: config
+ settings
+Message-ID: <qg7epd5xmwefp7kimlgummlktnonrd3pd7obnq3chgzrceg3lv@t4iyccqn2zdt>
+References: <20240701151231.29425-1-kyarlagadda@nvidia.com>
+ <20240701151231.29425-5-kyarlagadda@nvidia.com>
+ <20240701174227.GA148633-robh@kernel.org>
+ <hqlckp6hxvxwkkbiagdb5pm4eo5efu55hwuupdal6lojxj2xu5@5zibskqdbdju>
+ <CAL_Jsq+hzbHKeKM9UnJ=VK8_rKs5HJpZRGH2YYWAvjtf9SbPRw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701183625.665574-1-ojeda@kernel.org> <20240701183625.665574-14-ojeda@kernel.org>
- <ZoeQVYda-AZN6PYy@gpd>
-In-Reply-To: <ZoeQVYda-AZN6PYy@gpd>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 5 Jul 2024 12:50:35 +0200
-Message-ID: <CANiq72==+YBoQDBwEVuncY+ygeTkQPEbK00yBCPN3YWVk1L9XA@mail.gmail.com>
-Subject: Re: [PATCH 13/13] docs: rust: quick-start: add section on Linux distributions
-To: Andrea Righi <righi.andrea@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Jan Alexander Steffens <heftig@archlinux.org>, =?UTF-8?Q?Johannes_L=C3=B6thberg?= <johannes@kyriasis.com>, 
-	=?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <debian@fabian.gruenbichler.email>, 
-	Josh Stone <jistone@redhat.com>, Randy Barlow <randy@electronsweatshop.com>, 
-	Anna Figueiredo Gomes <navi@vlhl.dev>, Matoro Mahri <matoro_gentoo@matoro.tk>, 
-	Ryan Scheel <ryan.havvy@gmail.com>, figsoda <figsoda@pm.me>, 
-	=?UTF-8?Q?J=C3=B6rg_Thalheim?= <joerg@thalheim.io>, 
-	Theodore Ni <43ngvg@masqt.com>, Winter <nixos@winter.cafe>, William Brown <wbrown@suse.de>, 
-	Xiaoguang Wang <xiaoguang.wang@suse.com>, Zixing Liu <zixing.liu@canonical.com>, 
-	Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2yfry5sotijauhey"
+Content-Disposition: inline
+In-Reply-To: <CAL_Jsq+hzbHKeKM9UnJ=VK8_rKs5HJpZRGH2YYWAvjtf9SbPRw@mail.gmail.com>
+
+
+--2yfry5sotijauhey
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 5, 2024 at 8:19=E2=80=AFAM Andrea Righi <righi.andrea@gmail.com=
-> wrote:
->
-> This implicitly covers Ubuntu, since packages are sync'ed with Debian.
+On Wed, Jul 03, 2024 at 02:21:04PM GMT, Rob Herring wrote:
+> On Tue, Jul 2, 2024 at 4:29=E2=80=AFAM Thierry Reding <thierry.reding@gma=
+il.com> wrote:
+> >
+> > On Mon, Jul 01, 2024 at 11:42:27AM GMT, Rob Herring wrote:
+> > > On Mon, Jul 01, 2024 at 08:42:22PM +0530, Krishna Yarlagadda wrote:
+> > > > I2C interface timing registers are configured using config setting
+> > > > framework. List available field properties for Tegra I2C controller=
+s.
+> > >
+> > > How is I2C bus timing parameters specific to NVIDIA? Just because you
+> > > have more controls? No. That's no reason to invent a whole new way to
+> > > specify parameters. Extend what's already there and make it work for
+> > > anyone.
+> >
+> > This may be applicable to a subset of this, and yes, maybe we can find
+> > generalizations for some of these parameters.
+> >
+> > However, we're also looking for feedback specifically on these config
+> > nodes that go beyond individual timing parameters. For example in the
+> > case of I2C, how should parameters for different operating modes be
+> > described?
+>=20
+> Like what? It all looks like timing to me.
 
-Do you mean the names (i.e. command) is the same, or that the newer
-versions from e.g. Sid can be used in Ubuntu? If the latter, that
-would be definitely worth adding, yeah -- is that supported / expected
-to work?
+The problem here isn't the individual properties but rather how to group
+them. More generally the problem is that we have a set of settings that
+need to be applied in different variants. Yes, they are all timings, but
+the values differ based on what mode a given controller operates at.
 
-> In addition to that Ubuntu also provides versioned packages (such as
-> rustc-1.74, bindgen-0.65, etc.), so in case of special requirements
-> (e.g., older kernels) users should be able to install the required
-> version(s) using the packages provided by the distro.
->
-> Maybe it's worth mentioning as a little note, so that users are aware of
-> these extra packages.
+Take for example I2C where we have things like start-hold time or stop-
+setup time, which we could describe in a more generic way (i.e. leave
+out the vendor prefix). However, depending on the mode that the I2C
+controller runs at (could be standard mode, fast mode or fastplus mode)
+these values need to be adjusted.
 
-I thought about adding a section for Ubuntu to mention those -- so far
-I only added the distributions/commands that were likely to work with
-the versions supported by the kernel, with the idea of expand later as
-time passes. So I didn't add the versioned ones since the latest is
-1.76, so it wouldn't work for the current kernel.
+So it's the same set of properties but with different values for each
+different operating mode. As far as I can tell there's no good construct
+to describe this in DT currently.
 
-But it may be useful to state it nevertheless, since some people may
-only look at the latest docs. (Or perhaps Ubuntu can add Rust 1.79? :)
+> > Would you agree with something along the lines provided in this series?
+>=20
+> When there are multiple users/vendors of it, maybe.
+>=20
+> In general, it goes against the DT design of properties for foo go in
+> foo's node. This looks more like how ACPI does things where it's add
+> another table for this new thing we need.
 
-Thanks!
+Well, that's what Krishna had proposed in the first version of the
+series, which you guys rejected. The problem with that is that we cannot
+easily group these settings using nodes because subnodes of I2C
+controllers are considered to be clients by default. This applies to SPI
+and other busses as well.
 
-Cheers,
-Miguel
+This approach avoids these issues and can be more easily optimized since
+settings could be shared between multiple instances of the controllers.
+I have a slight preference of putting this into the controllers' device
+tree nodes, but I can't think of a good way of avoiding the above child
+node problem other than what we had in v1.
+
+Thierry
+
+--2yfry5sotijauhey
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmaH0C8ACgkQ3SOs138+
+s6ElSBAAm6OJyI/B+iIOpmlkdlzG7L2zx/a8cXmzetbdsb5pIpZW1oED1gURbiYJ
+YLp50cUtKcBt+sQWpmf0FWUOCJaoN/151zj4ECK4ptlWRdoaiLm+mC9kG4du+ppz
+p5OSGjhHqva85PR4D1jQLOxPZOY2fDyA5tg4HpdoN9TzgrpZtFRawAUJun5f3lXL
+XdyXai7qCiYrGTAOHthRSzp/HyROYmYqZkku2cNsudgJa1KDlit5VvQzv2JJDA9/
+7mVLHI29v4Fj+OpFgiVnXUDtGLkeUBLCkcNOsKQP9NuTHt6dDMlTCv4BKCA+epIT
+mQeYkYkzyT2FpFWiQqPRsaMzJmNArjGgX2vBSsciU5o9VwF8+a+pYg+s7PiwT1aw
+4hz8HA7MpQeUWktOoaIY0pLrw7D0zCHAsVaRvq4uEOvdFPlefYyo12jP8fLgLK8s
+5I2+Z2qDYuJYPFW87Mco9AjopJe+J25a2L/weVUdyj8a5QvAjrPyiOaS+A6ycnnb
+aaKCL3XEWHyIwC95R2QBXqa0bnCiL8eqIyUF7Mwjg6khLJW4pETth9E5eKCPaq9i
+RWKwlvlGKkIedXqFJ/hchK54treZG14Tcdc3Jpm8ky59zZQWQ19zQMJwsfYThwFQ
+kkL+pOqr/LWSgdrIKDUhZalHjT83nQxOD/cWXs6nww1+M5eeV54=
+=6Nt4
+-----END PGP SIGNATURE-----
+
+--2yfry5sotijauhey--
