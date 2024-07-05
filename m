@@ -1,211 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E969C262A8;
-	Fri,  5 Jul 2024 18:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322D016C6B3
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jul 2024 18:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720203400; cv=none; b=k8TlCyQHl1WLpdhknTg095cw5SbqyvHgZ/fEppTK5aMZbMQRbJIsGQnM6WODetVTAxZeQgVgun4j3uNT2Y40xN6iG5IfqVNaEu3U2z9s29zrv+UNxPCuowGFviwdBSAVxTy0qzQDtNr40eNefCdtKkrzKr+2xknlRNih+A3k/wM=
+	t=1720204572; cv=none; b=H0q5PxYeuGuumFqFEPigz3RkF53kb7l18SfaWfX/uFK+GhkCeytbeJgRgQbRVAsLeUd0dIl51T5Ap6xRHbqytpXdcOt7qbpjTh3AGEmbDIMVIT3t8m5F4UbXLvJhpv5AtBqv5/86jjK8yIKKsdmITB/f3VSzEADwewnRMUj+XR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720203400; c=relaxed/simple;
-	bh=Bb5YnOqTQcdobdzl7rj7W0NcvDf4NfDGtBSkHIO+W6w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Y/PtC3bGEzlS3wzTLmPRAEEnS1PllDTTCYaBbCdBhiDxAHNC7TEehpOP7YpBHZzvO5n1PHfpqTB2B+NatMwnA772gSToh3NZ0kE4yc3rAotK/hoH/Tx6IahePoOguPu5gqOI2pjlSbe8h91xoNiN3yL/wEFTr47ATOzSu42REEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLPsR7qd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720204572; c=relaxed/simple;
+	bh=65iIWMAt6zV/VEHbbCp9GEindBQ8yteBfTDw7ROSbSM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UMIu0nLmk6MVzioRounGtRzFMqyk9Ke56mTHuZHCX36OcWSXHAmCKtE1+p8Jj2cK9AkxEP14LJmLF5FMMoyqyHIKwMX1hkJZKtoJrTe25HGwmXTHefPOnrh84No0OkprHaVj8BXGZ529JR22ea+krW4h2tCXFuchRk6MkP31PE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wXnBafB0; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLPsR7qd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 102CCC116B1;
-	Fri,  5 Jul 2024 18:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720203399;
-	bh=Bb5YnOqTQcdobdzl7rj7W0NcvDf4NfDGtBSkHIO+W6w=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=aLPsR7qd6mwWpjFUGCb0nwvuwTVkmMS20f5hAZiWMd4QCcYinMZ/r1W5ELsmgp5vx
-	 emKp/PejOwirkxKuck8UVQJyPxiHu/dET4c/vCdeUoiOiPC0ysq5uD5iQtqtzA8hrT
-	 dmoikSOL1gvXvanXIVqgdBW55KxEBUt4XzW3j19rNE0B1Bbz8wFjGiylVmHqoXkzwj
-	 bLlbfn0k2uv3rProwmqRKgAIt1str9zBcQUCKtkHPd1lNK0wFTwYzuJnKpjyGRFZS5
-	 aig1U5Ej04DkG7JgGz7pADhdvyvewTZNU+zUFeHnLrUwSfnh5xED4ldUdIdw0IRb8X
-	 JXn4dr/pltKUg==
-Message-ID: <89658a8eb54acf4dc46da6dbb05c2007c5b8179a.camel@kernel.org>
-Subject: Re: [PATCH v3 2/9] fs: tracepoints around multigrain timestamp
- events
-From: Jeff Layton <jlayton@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>,  Andreas Dilger
- <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik
- <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins
- <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
- Corbet <corbet@lwn.net>, Dave Chinner <david@fromorbit.com>, Andi Kleen
- <ak@linux.intel.com>, Christoph Hellwig <hch@infradead.org>,
- kernel-team@fb.com, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
-  linux-doc@vger.kernel.org
-Date: Fri, 05 Jul 2024 14:16:35 -0400
-In-Reply-To: <20240705140703.711d816b@rorschach.local.home>
-References: <20240705-mgtime-v3-0-85b2daa9b335@kernel.org>
-	 <20240705-mgtime-v3-2-85b2daa9b335@kernel.org>
-	 <20240705140703.711d816b@rorschach.local.home>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxwn8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1WvegyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqVT2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtVYrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8snVluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQcDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQfCBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sELZH+yWr9LQZEwARAQABtCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozzuxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedY
-	xp8+9eiVUNpxF4SiU4i9JDfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRDCHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1gYy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVVAaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJOaEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhpf8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+mQZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65ke5Ag0ETpXRPAEQAJkVmzCmF+IEenf9a2nZRXMluJohnfl2wCMmw5qNzyk0f+mYuTwTCpw7BE2H0yXk4ZfAuA+xdj14K0A1Dj52j/fKRuDqoNAhQe0b6ipo85Sz98G+XnmQOMeFVp5G1Z7r/QP/nus3mXvtFsu9lLSjMA0cam2NLDt7vx3l9kUYlQBhyIE7/DkKg+3fdqRg7qJoMHNcODtQY+n3hMyaVpplJ/l0DdQDbRSZi5AzDM3DWZEShhuP6/E2LN4O3xWnZukEiz688d1ppl7vBZO9wBql6Ft9Og74diZrTN6lXGGjEWRvO55h6ijMsLCLNDRAVehPhZvSlPldtUuvhZLAjdWpwmzbRIwgoQcO51aWeKthpcpj8feDdKdlVjvJO9fgFD5kqZQiErRVPpB7VzA/pYV5Mdy7GMbPjmO0IpoL0tVZ8JvUzUZXB3ErS/dJflvboAAQeLpLCkQjqZiQ/D
-	CmgJCrBJst9Xc7YsKKS379Tc3GU33HNSpaOxs2NwfzoesyjKU+P35czvXWTtj7KVVSj3SgzzFk+gLx8y2Nvt9iESdZ1Ustv8tipDsGcvIZ43MQwqU9YbLg8k4V9ch+Mo8SE+C0jyZYDCE2ZGf3OztvtSYMsTnF6/luzVyej1AFVYjKHORzNoTwdHUeC+9/07GO0bMYTPXYvJ/vxBFm3oniXyhgb5FtABEBAAGJAh8EGAECAAkFAk6V0TwCGwwACgkQAA5oQRlWghXhZRAAyycZ2DDyXh2bMYvI8uHgCbeXfL3QCvcw2XoZTH2l2umPiTzrCsDJhgwZfG9BDyOHaYhPasd5qgrUBtjjUiNKjVM+Cx1DnieR0dZWafnqGv682avPblfi70XXr2juRE/fSZoZkyZhm+nsLuIcXTnzY4D572JGrpRMTpNpGmitBdh1l/9O7Fb64uLOtA5Qj5jcHHOjL0DZpjmFWYKlSAHmURHrE8M0qRryQXvlhoQxlJR4nvQrjOPMsqWD5F9mcRyowOzr8amasLv43w92rD2nHoBK6rbFE/qC7AAjABEsZq8+TQmueN0maIXUQu7TBzejsEbV0i29z+kkrjU2NmK5pcxgAtehVxpZJ14LqmN6E0suTtzjNT1eMoqOPrMSx+6vOCIuvJ/MVYnQgHhjtPPnU86mebTY5Loy9YfJAC2EVpxtcCbx2KiwErTndEyWL+GL53LuScUD7tW8vYbGIp4RlnUgPLbqpgssq2gwYO9m75FGuKuB2+2bCGajqalid5nzeq9v7cYLLRgArJfOIBWZrHy2m0C+pFu9DSuV6SNr2dvMQUv1V58h0FaSOxHVQnJdnoHn13g/CKKvyg2EMrMt/EfcXgvDwQbnG9we4xJiWOIOcsvrWcB6C6lWBDA+In7w7SXnnokkZWuOsJdJQdmwlWC5L5ln9xgfr/4mOY38B0U=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wXnBafB0"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-447dabd9562so193801cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jul 2024 11:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720204568; x=1720809368; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yoy/TMejpXli2qc8prUN620bWwV2Ki2Pjep6mdKl7Uo=;
+        b=wXnBafB0zeyUP7fylP86IKvHGLTxcoNJiwgvOr2g6snQQpxcTbXQcsZzJjdXdGPV9a
+         KiiULpdFNGC7kGHqUtBagmBLPc1YwM7/l5/Q7cZwDqTAzz4DU/tlWJydhzB3YmHDi/pp
+         pggFqGFAtHoYDSRf/HrcJzf1WMKsa/Bb6zWy0r7F8wV/Z4fJ3bNITBfJFAxZlohsFHQC
+         v+msoWZqrencP2maAj4TpLRqsgI/amM/F6dTixL3xl56QznVKUgQcKNKRWtkd6E/RYmF
+         GVaBjcleIKK6HoVf6qsoGcBgiE1CzvD2WZSdqFsdtFy4A+mwLXoXQbndJjuMf3j1hPcg
+         Raow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720204568; x=1720809368;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yoy/TMejpXli2qc8prUN620bWwV2Ki2Pjep6mdKl7Uo=;
+        b=Vwe9QE0zp3RofQvWv7Tp4kkokxD93HFVplHuktF6QSrLx6DtHA75PUNHHRZq27CwfP
+         3X5ilh7uQtjLlfEORx1pbfCQ69+YbosmZgDutCPaJcxe5mQuwM6enCCUFXFtrj0gSliL
+         UFXIi3kREQ1iwuvy9JkeNjTgiTXDOBLHSVPcwWFQo1BGZr6VPt/spjG1lpqVfk6fERK0
+         GfP9Prh7bSpax0a9YTVEEA9bi8s1O2C/OZGysnD2kUiX7DEeImq1hvs6PJiqd1tR56pj
+         D6OxxQUaM6jE8nAw6vTqQ17HQ/KSdbl9Uu5rGsPhQtybGK3pn+P70TErTQJBMfZ6a2aq
+         FJFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuwldkc7FU92xn8sjKL+jDb9xUn+NXfxlZxwbtxFi43ex6YBr6HnCpmx+mcT9e9F9DcC7Ls4vlV+haNDmkFkgREKT3XgOxnTwP
+X-Gm-Message-State: AOJu0YwDeDCKAfA7tY8q7IBUueySG2NhrGUtb7U0EA5BwyiudCX3+cH9
+	lIjc/7Zd6id2xGUoPdbYgvOhNE469Wr2vaFsK6Zj/kwuuwi8w4AJTTdECaPFokKWMj3EKtbCFo+
+	kVdmdjH/v0gQoGT43sQ8490noJqq53ws0HNSx
+X-Google-Smtp-Source: AGHT+IGnfZ2i6vZIamne8x/WQHaBe69PdvzYLEPHrKS7jax7pkFgeRZaSsCa2L5NvM2TqQ2LDJG/8RSWDD12RqGBZ9E=
+X-Received: by 2002:ac8:4f43:0:b0:443:1cdd:7859 with SMTP id
+ d75a77b69052e-447c8fa4056mr5386091cf.12.1720204567891; Fri, 05 Jul 2024
+ 11:36:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240611002145.2078921-1-jthoughton@google.com> <20240611002145.2078921-9-jthoughton@google.com>
+In-Reply-To: <20240611002145.2078921-9-jthoughton@google.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Fri, 5 Jul 2024 12:35:29 -0600
+Message-ID: <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
+Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2024-07-05 at 14:07 -0400, Steven Rostedt wrote:
-> On Fri, 05 Jul 2024 13:02:36 -0400
-> Jeff Layton <jlayton@kernel.org> wrote:
->=20
-> > diff --git a/include/trace/events/timestamp.h
-> > b/include/trace/events/timestamp.h
-> > new file mode 100644
-> > index 000000000000..a004e5572673
-> > --- /dev/null
-> > +++ b/include/trace/events/timestamp.h
-> > @@ -0,0 +1,109 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#undef TRACE_SYSTEM
-> > +#define TRACE_SYSTEM timestamp
-> > +
-> > +#if !defined(_TRACE_TIMESTAMP_H) ||
-> > defined(TRACE_HEADER_MULTI_READ)
-> > +#define _TRACE_TIMESTAMP_H
-> > +
-> > +#include <linux/tracepoint.h>
-> > +#include <linux/fs.h>
-> > +
-> > +TRACE_EVENT(inode_set_ctime_to_ts,
-> > +	TP_PROTO(struct inode *inode,
-> > +		 struct timespec64 *ctime),
-> > +
-> > +	TP_ARGS(inode, ctime),
-> > +
-> > +	TP_STRUCT__entry(
-> > +		__field(dev_t,			dev)
-> > +		__field(ino_t,			ino)
-> > +		__field(u32,			gen)
->=20
-> It's best to keep the above 4 byte word below 8 byte words,
-> otherwise,
-> it will likely create a 4 byte hole in between.
->=20
+On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> Secondary MMUs are currently consulted for access/age information at
+> eviction time, but before then, we don't get accurate age information.
+> That is, pages that are mostly accessed through a secondary MMU (like
+> guest memory, used by KVM) will always just proceed down to the oldest
+> generation, and then at eviction time, if KVM reports the page to be
+> young, the page will be activated/promoted back to the youngest
+> generation.
+>
+> The added feature bit (0x8), if disabled, will make MGLRU behave as if
+> there are no secondary MMUs subscribed to MMU notifiers except at
+> eviction time.
+>
+> Implement aging with the new mmu_notifier_test_clear_young_fast_only()
+> notifier. For architectures that do not support this notifier, this
+> becomes a no-op. For architectures that do implement it, it should be
+> fast enough to make aging worth it.
+>
+> Suggested-by: Yu Zhao <yuzhao@google.com>
+> Signed-off-by: James Houghton <jthoughton@google.com>
+> ---
+>
+> Notes:
+>     should_look_around() can sometimes use two notifiers now instead of o=
+ne.
+>
+>     This simply comes from restricting myself from not changing
+>     mmu_notifier_clear_young() to return more than just "young or not".
+>
+>     I could change mmu_notifier_clear_young() (and
+>     mmu_notifier_test_young()) to return if it was fast or not. At that
+>     point, I could just as well combine all the notifiers into one notifi=
+er,
+>     like what was in v2 and v3.
+>
+>  Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
+>  include/linux/mmzone.h                        |   6 +-
+>  mm/rmap.c                                     |   9 +-
+>  mm/vmscan.c                                   | 185 ++++++++++++++----
+>  4 files changed, 164 insertions(+), 42 deletions(-)
 
-Thanks, I'll fix up both!
+...
 
-> > +		__field(time64_t,		ctime_s)
-> > +		__field(u32,			ctime_ns)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		__entry->dev		=3D inode->i_sb->s_dev;
-> > +		__entry->ino		=3D inode->i_ino;
-> > +		__entry->gen		=3D inode->i_generation;
-> > +		__entry->ctime_s	=3D ctime->tv_sec;
-> > +		__entry->ctime_ns	=3D ctime->tv_nsec;
-> > +	),
-> > +
-> > +	TP_printk("ino=3D%d:%d:%ld:%u ctime=3D%lld.%u",
-> > +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry-
-> > >ino, __entry->gen,
-> > +		__entry->ctime_s, __entry->ctime_ns
-> > +	)
-> > +);
-> > +
-> > +TRACE_EVENT(ctime_ns_xchg,
-> > +	TP_PROTO(struct inode *inode,
-> > +		 u32 old,
-> > +		 u32 new,
-> > +		 u32 cur),
-> > +
-> > +	TP_ARGS(inode, old, new, cur),
-> > +
-> > +	TP_STRUCT__entry(
-> > +		__field(dev_t,				dev)
-> > +		__field(ino_t,				ino)
-> > +		__field(u32,				gen)
-> > +		__field(u32,				old)
-> > +		__field(u32,				new)
-> > +		__field(u32,				cur)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		__entry->dev		=3D inode->i_sb->s_dev;
-> > +		__entry->ino		=3D inode->i_ino;
-> > +		__entry->gen		=3D inode->i_generation;
-> > +		__entry->old		=3D old;
-> > +		__entry->new		=3D new;
-> > +		__entry->cur		=3D cur;
-> > +	),
-> > +
-> > +	TP_printk("ino=3D%d:%d:%ld:%u old=3D%u:%c new=3D%u cur=3D%u:%c",
-> > +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry-
-> > >ino, __entry->gen,
-> > +		__entry->old & ~I_CTIME_QUERIED, __entry->old &
-> > I_CTIME_QUERIED ? 'Q' : '-',
-> > +		__entry->new,
-> > +		__entry->cur & ~I_CTIME_QUERIED, __entry->cur &
-> > I_CTIME_QUERIED ? 'Q' : '-'
-> > +	)
-> > +);
-> > +
-> > +TRACE_EVENT(fill_mg_cmtime,
-> > +	TP_PROTO(struct inode *inode,
-> > +		 struct timespec64 *ctime,
-> > +		 struct timespec64 *mtime),
-> > +
-> > +	TP_ARGS(inode, ctime, mtime),
-> > +
-> > +	TP_STRUCT__entry(
-> > +		__field(dev_t,			dev)
-> > +		__field(ino_t,			ino)
-> > +		__field(u32,			gen)
->=20
-> Same here.
->=20
-> -- Steve
->=20
-> > +		__field(time64_t,		ctime_s)
-> > +		__field(time64_t,		mtime_s)
-> > +		__field(u32,			ctime_ns)
-> > +		__field(u32,			mtime_ns)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		__entry->dev		=3D inode->i_sb->s_dev;
-> > +		__entry->ino		=3D inode->i_ino;
-> > +		__entry->gen		=3D inode->i_generation;
-> > +		__entry->ctime_s	=3D ctime->tv_sec;
-> > +		__entry->mtime_s	=3D mtime->tv_sec;
-> > +		__entry->ctime_ns	=3D ctime->tv_nsec;
-> > +		__entry->mtime_ns	=3D mtime->tv_nsec;
-> > +	),
-> > +
-> > +	TP_printk("ino=3D%d:%d:%ld:%u ctime=3D%lld.%u mtime=3D%lld.%u",
-> > +		MAJOR(__entry->dev), MINOR(__entry->dev), __entry-
-> > >ino, __entry->gen,
-> > +		__entry->ctime_s, __entry->ctime_ns,
-> > +		__entry->mtime_s, __entry->mtime_ns
-> > +	)
-> > +);
-> > +#endif /* _TRACE_TIMESTAMP_H */
-> > +
-> > +/* This part must be outside protection */
-> > +#include <trace/define_trace.h>
-> >=20
->=20
+>  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned lon=
+g end,
+>                            struct mm_walk *args)
+>  {
+> @@ -3357,8 +3416,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned lon=
+g start, unsigned long end,
+>         struct pglist_data *pgdat =3D lruvec_pgdat(walk->lruvec);
+>         DEFINE_MAX_SEQ(walk->lruvec);
+>         int old_gen, new_gen =3D lru_gen_from_seq(max_seq);
+> +       struct mm_struct *mm =3D args->mm;
+>
+> -       pte =3D pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK, &p=
+tl);
+> +       pte =3D pte_offset_map_nolock(mm, pmd, start & PMD_MASK, &ptl);
+>         if (!pte)
+>                 return false;
+>         if (!spin_trylock(ptl)) {
+> @@ -3376,11 +3436,12 @@ static bool walk_pte_range(pmd_t *pmd, unsigned l=
+ong start, unsigned long end,
+>                 total++;
+>                 walk->mm_stats[MM_LEAF_TOTAL]++;
+>
+> -               pfn =3D get_pte_pfn(ptent, args->vma, addr);
+> +               pfn =3D get_pte_pfn(ptent, args->vma, addr, pgdat);
+>                 if (pfn =3D=3D -1)
+>                         continue;
+>
+> -               if (!pte_young(ptent)) {
+> +               if (!pte_young(ptent) &&
+> +                   !lru_gen_notifier_test_young(mm, addr)) {
+>                         walk->mm_stats[MM_LEAF_OLD]++;
+>                         continue;
+>                 }
+> @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned lon=
+g start, unsigned long end,
+>                 if (!folio)
+>                         continue;
+>
+> -               if (!ptep_test_and_clear_young(args->vma, addr, pte + i))
+> -                       VM_WARN_ON_ONCE(true);
+> +               lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SIZE);
+> +               if (pte_young(ptent))
+> +                       ptep_test_and_clear_young(args->vma, addr, pte + =
+i);
+>
+>                 young++;
+>                 walk->mm_stats[MM_LEAF_YOUNG]++;
 
---=20
-Jeff Layton <jlayton@kernel.org>
+
+There are two ways to structure the test conditions in walk_pte_range():
+1. a single pass into the MMU notifier (combine test/clear) which
+causes a cache miss from get_pfn_page() if the page is NOT young.
+2. two passes into the MMU notifier (separate test/clear) if the page
+is young, which does NOT cause a cache miss if the page is NOT young.
+
+v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifier
+twice every 64 PTEs, and therefore the second option is a clear win.
+
+But you are doing twice per PTE. So what's the rationale behind going
+with the second option? Was the first option considered?
+
+In addition, what about the non-lockless cases? Would this change make
+them worse by grabbing the MMU lock twice per PTE?
