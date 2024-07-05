@@ -1,216 +1,251 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B2B1459FE;
-	Fri,  5 Jul 2024 20:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720213160; cv=none; b=X/zTGv0l+4SztZbgj8xC8lhF9SP5U965tiwgMy+ODP18p0U3FDxIEHB2MYNjz64+uq3zvJGQytOp6EKphXoKY4DlThfFK/Lkleye4Q0RXSobX7gOASh6iZbCWfCU2fujYmFN+fDL3bDBKSW9mIOEpkH/ERm2C82jWERTcJCYNUE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720213160; c=relaxed/simple;
-	bh=DusGE1cbAr1wr2RiyF/fWaMqiaLUnByl1oNy227VTkw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LvgBeYFRXHQQ6RjKN2l8KTo0px8zAVnSSgpybu5Y4GJzlGUwMLhr7hhooDDkKZJfQhJvsVvUbacgbtXPV4gJmBW+N9A0mXVXLMRsAtvcX9VMJD5isFQeHeELhB8prbByY2XYzyYvx0LVDm2PDaP8yXYtW3jhg/LsBxSdgNx2qxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s1PZHYML; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C19A955;
+	Fri,  5 Jul 2024 22:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720219018; cv=fail; b=RrJxhTkvjoCnOekjhs8PMDM0l9kbd7OK6KFYrdzq25umXkGBQoonPsLdjp3I6JRhCy8KTXfMEHsUnTwadgyM9o8wmX1bYrHhDHma/WEBN+a+4k/GJ6Apgu3O7LinC0I09TvsbF+6yaq2wBatBDi0g0kigZVOuaPCS70l2PCHd54=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720219018; c=relaxed/simple;
+	bh=98UYCPiDH4ViyLPHePQDXFlpytJB/BYANAbYebYvQgc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hnIWbJuK/REoi09aH1UCydTeETkImbBVdu2ubC+ANEyLK9D7H//40mPMXqBm+neLI/a/urFiJaeZdlL07xVq2ZOc/0Qdmn7/oPdbszVlE8ygguiRv2jud1EfRKk8Uptlimw1HCweXUB09W3roVyNSKicbjfv9jFbH1BaZMnQZNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=I9WNwaT0; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=sFnG5p2f; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s1PZHYML"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/Kb85RBByRKA+7u8OSLey5Gf4F7B6fkoI9PSqKXpd2Q=; b=s1PZHYMLbcx7leKxCoOb+zA0Fz
-	WIgyuKpHtDdcKqCLFMKJm8ZdS6QhpDzWXz3psaK/RrEFicjAvC9fRqL5HAT31ux5CfxQVeh4HKD0X
-	Dx24gnQRdn8NofoFKxzTI/jnLJmmwJH1h45FomlHuaYKmQ1yIASsbnk8eT7XGeIaOpr7pax7/9R9L
-	8mYcqfXnv1pbLDD9qjjTe0NbegNpKCrQ76+gi3XOO3yEIOPGi7NEb6y8eD/bv/s/jgiRHqnWvbz4C
-	lN6+iO5k1jTKZfqtpQ8SSiC4ZitAY/UPwKEm1V9UOzJ7gah70FkWDPocpHML7eJpZHIMqILz2A6iW
-	+Az7UDbg==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sPq1N-0000000GpGP-3COr;
-	Fri, 05 Jul 2024 20:59:09 +0000
-Message-ID: <27400c92-632b-4f58-956a-eb2cbb0cfe26@infradead.org>
-Date: Fri, 5 Jul 2024 13:59:08 -0700
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="I9WNwaT0";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="sFnG5p2f"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 465K7WKo010665;
+	Fri, 5 Jul 2024 22:36:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	corp-2023-11-20; bh=Nxuhf13ZdvDaAF6OU+/qOUCx4GRcDHeYjHjf0UpD+tU=; b=
+	I9WNwaT02ALM8nFmXqraqlsdx18HxI7P4lpTiVTOFRiAvEbXx3Pj+ZsxVqGhcFCV
+	XKN6gO/2PZ0/jTtuyCPSx/q/T25dJJkjI/84Ahd+qv3BuYXZHzlSf2V+bPcI3YLA
+	fAggl89BBk0UtoJ0X6r2TyvkxkLaE+NLCVTU6aEW+wGp0jlhzbSdvAyDjni6QRTw
+	LnVbcXKu6PBT+fVMENGiL/SNY+xddCEzN7gUuYhYgjTxgfT6R6u2RWxyG4KAKSLs
+	P/iypxdj6SLzG4o6UH22KhVbE7lNpk4CrJ1Fx8i7lBjGoKfGaVEP9XB4gZ25wmOO
+	x+7d8FmDhfrwfTb0T1X2Yg==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4029234m1x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Jul 2024 22:36:18 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 465JefqG010991;
+	Fri, 5 Jul 2024 22:36:17 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4028qbtep8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 05 Jul 2024 22:36:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EFRUjQFlq/9GyTlMCtItuANXxjBUUH5s9zZANdj71V8SBjlZKbNuwzXIEaaDrkBDeHqpJTbx0/TTaWrAu7K9faES0xcgDndee9udMHxFkKpWvZdxh5rwclsNaeYcTDV1AzWgn36JfmpUOMtRwrDE7bmdttfZAn8atrXUCMizKrCt98na2tVTUNRm/jaLHjpkbAchEO6qkLXwJ3i6pjsIJ+d4uOYEOjKp3Lr2PJG4AemM/xQexduVkZiLxFQBdBUMQrZT6TpD7//HdqLspEeFWU28LRkDRxkiHP1UMZ8xTymVhrLkr/k7WfqmWTDkrbPMzX2HrD6FSoVQnOo5fDkDEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nxuhf13ZdvDaAF6OU+/qOUCx4GRcDHeYjHjf0UpD+tU=;
+ b=f1rSJsHnlvWuz1xs08nd6fi8o2H8/vTDAhyTMU1n+UELIX8sLbaUYEvz+br8LiDkwN+XOtc4Rc71plnxdkf67Z4dZZBzbkWOG9fr6Kb51h3/duoIotQmkFNIi7m2i5r4Hlj+C+tmUURYq4i/wQZaFOc6cfQEkZM0/TkkCvtCQRX+6bUyvJTmFCPD2FvjlurF9Lz3ZhmcwxeAUBD575fr6AnQqex0IPkXLFlfKngh3SmTUgvuij9dtlXz/h/XjhH+xFtczOOcA8VxoeykWeIkBFFhDfI0ne7cr/lz/irQQYWkGtjm6Pfv5q4mpFVZAypq1LUgNjW0f6gUitM0jUp43w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nxuhf13ZdvDaAF6OU+/qOUCx4GRcDHeYjHjf0UpD+tU=;
+ b=sFnG5p2fLjTxKQ/D3DwuWM3L+rbz/3K0ela4iKD4k8FRQtUD0/9W2XiNOteRXSF38zCRZUAQVv0Q9Vm9ocPY+zuFXto0gn/wBbDVCMVvTdxHqDchkRkMxPN7a2RZJDAUqU1vB2pu4YL0xMZnh0y1yZhv9KgA9zCtg+kOfr/7M1s=
+Received: from BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
+ by DS7PR10MB7132.namprd10.prod.outlook.com (2603:10b6:8:ef::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Fri, 5 Jul
+ 2024 22:36:15 +0000
+Received: from BLAPR10MB5009.namprd10.prod.outlook.com
+ ([fe80::a088:b5e0:2c1:78a0]) by BLAPR10MB5009.namprd10.prod.outlook.com
+ ([fe80::a088:b5e0:2c1:78a0%3]) with mapi id 15.20.7741.029; Fri, 5 Jul 2024
+ 22:36:15 +0000
+Message-ID: <d28f8da5-7903-41c8-9213-4e24e376c837@oracle.com>
+Date: Fri, 5 Jul 2024 18:36:10 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] xen: make multicall debug boot time selectable
+To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, xen-devel@lists.xenproject.org
+References: <20240703115620.25772-1-jgross@suse.com>
+Content-Language: en-US
+From: boris.ostrovsky@oracle.com
+In-Reply-To: <20240703115620.25772-1-jgross@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR17CA0003.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::16) To BLAPR10MB5009.namprd10.prod.outlook.com
+ (2603:10b6:208:321::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/9] Documentation: add a new file documenting
- multigrain timestamps
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
- Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>,
- Christoph Hellwig <hch@infradead.org>, kernel-team@fb.com,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-mm@kvack.org,
- linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240705-mgtime-v3-0-85b2daa9b335@kernel.org>
- <20240705-mgtime-v3-5-85b2daa9b335@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240705-mgtime-v3-5-85b2daa9b335@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5009:EE_|DS7PR10MB7132:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7efc234-4254-4f0e-3fa4-08dc9d42e11d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?amJsUkhnRGR0Szg5N2R6Y2dQanFSTGJ6eFZQbG5PSHRiQWloSmZNSlNRdW0r?=
+ =?utf-8?B?WHpDNzhEUzNyRFdTUFJxQVlxTFhZTGt6QlRLd0xzYlU1NUlqNmczKzhQbnhi?=
+ =?utf-8?B?bys5ZGxwSEM0VUZuTXpNbHB6c05hN0NKOE52NTQ3dVJEaWV6UnpqUHZ4V0pM?=
+ =?utf-8?B?TXVvYWwyNStON2JFTzc0aGEwSXh0cHNKeEp6K2l4N0RGQ2ZOejAyY09TR2JF?=
+ =?utf-8?B?a2h3bkVDOWRxSEsvd3JtSGpFckd5RnZuSGlsK2FmaGp3aFBRKy9SbjJVUVBv?=
+ =?utf-8?B?MmtMRjAwSzJKc01aVXhydXlReXZFODVaTWdpZS9hYmhxSVpmbmxyYTJNcTk5?=
+ =?utf-8?B?dlBlRGpJaHVRQWtncmM0WHpuMHFlZUhvSE1sVWNkQWxTbTltcURuc0N2SWdV?=
+ =?utf-8?B?dEx6RDAyZFUzOHQ3bmwybnNndGd3UXAyVkJ6Yko2OVJ5UzRaTkN4U2NRQ3k4?=
+ =?utf-8?B?VHZKUkR0SnZGZ2s5VDdpVFlQeGdhOGJSdXQ3anVtU016MXY0MkpNRXBJbU1U?=
+ =?utf-8?B?RUR2bHpRbXdyeFFTT28vOXRuMGwveEJsTitBTXAwQzlLdUtnTGVVdlV4T3Y2?=
+ =?utf-8?B?d2RsSkw1Vnd5ZTBPWGZCRzNnSjc0TFBtNC96QmxMdnlGRVp3d3lWd05VNVdv?=
+ =?utf-8?B?QXVTbEJJZHg4SzJyQ0JubzZhMERYQ2E4cG1NVXdoS2VhQVlJZEF2eU0rR3A5?=
+ =?utf-8?B?aXFYRzJxblUvTUVqTko5OE80TUtid2w5cTZCZ1g4MHA5MURLZSt4am55a2hF?=
+ =?utf-8?B?YnA4QmhCaVFZdUVFOGkzeWdOVm50UWhrRTVselBLSDZrbCtENVpVWFR2TFV0?=
+ =?utf-8?B?aVVrdW1qb1AxZG05L2VVQXR1UDVzU0hNRTJHOWZWWlBLQ3U0RnBzVEtGS3BO?=
+ =?utf-8?B?VVVucHpUNWdndDhtMW9nTEhmN2RkSlYrQXJUamtyUUZmZ0s1ME1Hc0doTGhY?=
+ =?utf-8?B?NENwdFpOa0VHdGV0SkpsMTZ6UFoyTnZENk04dm5XbjEvcTdpWmducmxUR3BF?=
+ =?utf-8?B?clRjV1NMbEl3SnFoRjJaSUh6QndkdTBraFNEYkJIMmIxZ2FIOElQWmJpSU9G?=
+ =?utf-8?B?ZzEvOVN0M2EwVjdSRTEvZlhFZ0VaVHVvVzliMEFOVEpmMlBvTGY0NkdNcmJp?=
+ =?utf-8?B?VE5YaG5jenNKVzYvOGhJL3BnNUJNVHIxZW1tajVWZW1WbndWTkRCTmZGWmxY?=
+ =?utf-8?B?b0s0NGc4cXJpNEtqd3pBaFlEM1hJeTM4Q1VPU2o4ZllxYUowTTVtZ0RVMS9t?=
+ =?utf-8?B?NjBpVkRGWXlXNkRNYS9ZS2diK3dJRnJRUEpHVE1GaGM3TDFmNFVybGFqdjlo?=
+ =?utf-8?B?aEVMNjlPRkl0WUIzYzJ5WUcxYTZCTWZRM2c4ZDJ4M1B1RkYrMVg2Zys5ZDMy?=
+ =?utf-8?B?RjMrZzU3Wjd4dzl1NzBGcmhiZTR2QVFaMTNKQjRxY3hVMmdvYUljRkZZcDNE?=
+ =?utf-8?B?RmdHOTRsd0VUQS93NDFUMXNCN2Vyc2x4UEtxWDhHeEpGS0NIOVU1SlMzZVcv?=
+ =?utf-8?B?YTI2M0J6M3ZQRnQrbS9vcHl6TytOMFAweEhxT1IrZ3pqaktTT1dOZHN1V1RC?=
+ =?utf-8?B?U2ZaVStnTld5cU1Nd2s0M3QralJtV1R6SEw1ejJqV2JidHBVV29adWJaUDRw?=
+ =?utf-8?B?eGsvQnFvcGQzUUVRaHZKdFpFeVpjZFprUldTQ0ZiRXRpenY2cHViWnBSQkxC?=
+ =?utf-8?B?ckxoUUZ0SXB4WW9WKzZFajJIL0tBTXRXbFQ2eGFnbnpPdkNiak5LNHNoeWtV?=
+ =?utf-8?B?VE5UQzZPaDlEZWNLcklmaTZDZDZZSGVsRWRZbXU1c1VMOHRxL0VVMEdvNDNt?=
+ =?utf-8?B?b2lQZXJ0Nm4wVGY2TlFVdz09?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5009.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?emluUmdZZXZRR2J4bWZKb0l5bzlzZHNpSkV6eXI2S0IrUlRvMDc3OHdjZzR0?=
+ =?utf-8?B?eU5JellPaSt0TU9TSU5uQWRhdGZyM25VK0dZVkZTZGdPTVJEbGgwdGJjSFdj?=
+ =?utf-8?B?dno3VmRkMjFTbzAyOTdveGozcnhrbjdlMmx1SDZWeWM1eEU5NVlRWkNMaEl4?=
+ =?utf-8?B?UTM3aWQzdXJLZVNWUHpsSitjUEFIVTduQnI3TjZHbXFKOWVkVmZldGFyeXMy?=
+ =?utf-8?B?aVluWmlSaFA3WnhCcDRTaU5WRnZ6UXFaZGd2cU5kNXhkTTZsQ2M0Z3MwbnU1?=
+ =?utf-8?B?RmlFV1d3bHdSZ1RiZVI2aUltZVVWL095b1hDbVJGZ1IvRFFZQ2FSNytHREts?=
+ =?utf-8?B?Y2xjaEhMeDVZOVZjMERBZk5zamNNUjVDa0U2ZnBiMS9LUzdkdW5ibGt5dG1P?=
+ =?utf-8?B?dnZWS0daVG15NlE0RUJYelMwZXlTRm4ydDZCZ1ZHdW5meno1aGxDUXNCY1pV?=
+ =?utf-8?B?c1IyUnFSUGlmQWZ5K0Vucnkxc0FsQitEcnQ1TUc1RFFHTmtwWmxpdTlHNHBE?=
+ =?utf-8?B?emxyZnQrSG9KM3kvVWU4RzlPSTMvUldIMy9GTlRQT2M0bHFyT25Gd3FEYnla?=
+ =?utf-8?B?RnJKclFwMHVaeHR0M1FTSk1NTWZoaW56d0ZjSkdqV2o1NkhKcUp4M0F1UGlQ?=
+ =?utf-8?B?YlR2MnhiQU5wVHJYbDVSTFo3UUtZczRhSlVBQUdMTzFNcHI5NUF5a2VWa2Ir?=
+ =?utf-8?B?ekV0ZitQckRSL3BrK2tESFh4S0RLRU4xK3pQbndQNlV3QmtqM2hubkg5UnNB?=
+ =?utf-8?B?S2xIUHRQUHpobHVxR0tGYkxuZWJzcEJLOXA4dnBiL2NxK1pzcnZCM3JTVG1D?=
+ =?utf-8?B?WGMvWHIwamtsZGxtSFJHOWtVMXdDUGJJRE9ZYWJHYWZ1ZEd3V1prY0ZvaVlx?=
+ =?utf-8?B?Rlg0MXFNQmxURVI4ZmZrWS9rZ1VzdjNMWVVRUGhQWURidGhtS2dVaUpZUHFH?=
+ =?utf-8?B?VUJhZUluZzhOc1hXQzE2SUF3MVBLRFh0MU9JNE1VM3NYQjErVE02d3BsVEJF?=
+ =?utf-8?B?SUZJdHJSV0k0c1ExZjJ3UnFFVEgyWHBVNkhsR284ckdQTXF4ZnFKK2l6OXlz?=
+ =?utf-8?B?c29RbEZxMGVrbHNDaitDdHhmb2J2NHdLcG0xSTdXV2F1eVE2RjFMMisvR21F?=
+ =?utf-8?B?Q0hsVG9jdWg3SmkwdmdJcndpNngrUWdHZmI1ZGN1OHhuVlp1NEtjWDRza0lz?=
+ =?utf-8?B?cjlabWR6SlVaY2V0OU0vdVcyZ1Y1dGZaYlI5aXoybVVYZHNsaHJHUUVTUjBN?=
+ =?utf-8?B?QkR6dE5qWXB1d3hEU2pVbCt4RW9GREQwSkxWZTFSMmQ1VUkxMmxFckZrOUFC?=
+ =?utf-8?B?RXMySUp4QWlZYmRDMXRoTG5KbjRVWEFiSkRRdSt0ZzBJYmR1cmpHZWtuSElS?=
+ =?utf-8?B?UDJNaDlncDFWWmRjVEFCTEVoalJUK1JGWmNRcjVldGpsM2E2UWYzbzRMdW1N?=
+ =?utf-8?B?VGlGZktuc0FOS2JlalQ4YStoejZVYVQwdnVvbWpGZjBOTUNPczdUc1ZTY1VB?=
+ =?utf-8?B?ejJCTGdMQ1JiNFNpa1RUN0RYRUsvaU9rRGo3cEFTQU5RZUpVemU2Y0ZRamxm?=
+ =?utf-8?B?NWp6dFd1WkRGbHFzYUFsRFJOa3Y5SkZYRHFIaDlGWHZlcHlqNUVna2hNaE5D?=
+ =?utf-8?B?aXN1L2JjaU9IWmhhMUN2RFpHdENrZ0VZeHQrWXR3TmZyOU1jV2RDMDFzK2lG?=
+ =?utf-8?B?R3FYZXlZc3JrYnlDc0tyMGFLbXlnVGtFRlpmVFRPek1SanRFN2JqMkhhMGxW?=
+ =?utf-8?B?LzZpdlhZWkwrd0JEU0tJeFFzRWhFenp1UU5XamxBRnpIa2hTWFJJcHJUV3RF?=
+ =?utf-8?B?VlY1VkYzZDBwSVV4Y25OeW1mazNVSDdMR0NFUnQxRVpKbUJRSXVIcmowbWxn?=
+ =?utf-8?B?MXpxOExOcTVhVmNXbko5WW1GTjNQcXZsblhiTHJ4bDV1WmFRVE15S0dBTHBX?=
+ =?utf-8?B?VGFKN0tVeFBpbGpySTZKdDJDeURtRVZCQWJ6MVBNTEpQOXdDa1lIb0pXcUJB?=
+ =?utf-8?B?UEdxNEw2VUZKUUZFSWwvdngydWZoS01oRWlPL3Vtb3JodVhESTNLbWN5QVNj?=
+ =?utf-8?B?dUx3eE8xWlBCUjlsZlQ1US9CU2UyRlZMbk0zTG1razQzRVFYZ25qbzIrMmtz?=
+ =?utf-8?B?ZC9DS2djNnlHZGFndENlMERqRFBnVk96M1E2K0Ntc1lFVEE4NzB4azZCZjZp?=
+ =?utf-8?B?VXc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	ePQ4aI623gcCzmjYesDZqjWPZkrpK2RWopHLuL93Ov2HT1llYDDFV/UmztRIwRAU079Uiv4FAzU1fGYfDtp13waX1h1XFkt8sso9Ugmuwue3gGIQ6rlECRgheTrteA/kp2kKWRHuWj6ftYuwsJ4rL/p8C0UJwg66Mv1f5PJ3wdpmgIcQhQo8607u7QZgjqKCV0fg+kMrJtKXjuEf83bZbNc1FzcdFIInAit+veNta5s0R/WBKcOCfYUTZGAB+vy0YR986Mmwc0U4xoynbUIP1xFS+t5ck4RXKnLdxffdrR49cXVe4pmudkD2RtatydEOGV1KH26runIPjtkE9PrXI+ALydTZZwd+rCriMyW/KkechU4NQN6E+CpjCVps7+u9bnCNP88OIBFDLf9xFVJq6ZdsBHCnpHg89WddelqEHp9DIdV73tb2cVW1ILh8y6hdBLJXqE4oKNsmes9Jr1Sv1isy/k7ibqbu/Y+hz1r85mFe55oCQv7t0rvfXnz/BBAOxzxJ5mFe4304p85x/q3dAgFXnPkEJaY4Bxdm0qQUpcPWrGlNDHQHvsR0rw+AuszurQeOIHBSoXFQsLgjXcW1W0pJUxaCJ5PWKpT6Xh7uUhc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7efc234-4254-4f0e-3fa4-08dc9d42e11d
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5009.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2024 22:36:15.1523
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IjAFWH9DUt5Ub5bbRrx7WXkcs0Tv4sAmVWcrzUk9aCPZMvdryvF1kA9/39vQLZ1U6O/KTrdRTwCdIfZIsYj1vRqwrYlTqY1DZEuja0ZBm48=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7132
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-05_16,2024-07-05_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2406180000 definitions=main-2407050167
+X-Proofpoint-GUID: tJgA4AdcYAu4c3RWH1C_TnNhxtBLWwHg
+X-Proofpoint-ORIG-GUID: tJgA4AdcYAu4c3RWH1C_TnNhxtBLWwHg
 
 
 
-On 7/5/24 10:02 AM, Jeff Layton wrote:
-> Add a high-level document that describes how multigrain timestamps work,
-> rationale for them, and some info about implementation and tradeoffs.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  Documentation/filesystems/multigrain-ts.rst | 120 ++++++++++++++++++++++++++++
->  1 file changed, 120 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
-> new file mode 100644
-> index 000000000000..70d36955bb83
-> --- /dev/null
-> +++ b/Documentation/filesystems/multigrain-ts.rst
-> @@ -0,0 +1,120 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================
-> +Multigrain Timestamps
-> +=====================
-> +
-> +Introduction
-> +============
-> +Historically, the kernel has always used a coarse time values to stamp
+On 7/3/24 7:56 AM, Juergen Gross wrote:
 
-                                       used coarse time values
+>   
+>   #define MC_BATCH	32
+>   
+> -#define MC_DEBUG	0
+> -
+>   #define MC_ARGS		(MC_BATCH * 16)
+>   
+>   
+>   struct mc_buffer {
+>   	unsigned mcidx, argidx, cbidx;
+>   	struct multicall_entry entries[MC_BATCH];
+> -#if MC_DEBUG
+> -	struct multicall_entry debug[MC_BATCH];
+> -	void *caller[MC_BATCH];
+> -#endif
+>   	unsigned char args[MC_ARGS];
+>   	struct callback {
+>   		void (*fn)(void *);
+> @@ -50,13 +46,84 @@ struct mc_buffer {
+>   	} callbacks[MC_BATCH];
+>   };
+>   
+> +struct mc_debug_data {
+> +	struct multicall_entry debug[MC_BATCH];
 
-> +inodes. This value is updated on every jiffy, so any change that happens
-> +within that jiffy will end up with the same timestamp.
-> +
-> +When the kernel goes to stamp an inode (due to a read or write), it first gets
-> +the current time and then compares it to the existing timestamp(s) to see
-> +whether anything will change. If nothing changed, then it can avoid updating
-> +the inode's metadata.
-> +
-> +Coarse timestamps are therefore good from a performance standpoint, since they
-> +reduce the need for metadata updates, but bad from the standpoint of
-> +determining whether anything has changed, since a lot of things can happen in a
-> +jiffy.
-> +
-> +They are particularly troublesome with NFSv3, where unchanging timestamps can
-> +make it difficult to tell whether to invalidate caches. NFSv4 provides a
-> +dedicated change attribute that should always show a visible change, but not
-> +all filesystems implement this properly, causing the NFS server to substitute
-> +the ctime in many cases.
-> +
-> +Multigrain timestamps aim to remedy this by selectively using fine-grained
-> +timestamps when a file has had its timestamps queried recently, and the current
-> +coarse-grained time does not cause a change.
-> +
-> +Inode Timestamps
-> +================
-> +There are currently 3 timestamps in the inode that are updated to the current
-> +wallclock time on different activity:
-> +
-> +ctime:
-> +  The inode change time. This is stamped with the current time whenever
-> +  the inode's metadata is changed. Note that this value is not settable
-> +  from userland.
-> +
-> +mtime:
-> +  The inode modification time. This is stamped with the current time
-> +  any time a file's contents change.
-> +
-> +atime:
-> +  The inode access time. This is stamped whenever an inode's contents are
-> +  read. Widely considered to be a terrible mistake. Usually avoided with
-> +  options like noatime or relatime.
-> +
-> +Updating the mtime always implies a change to the ctime, but updating the
-> +atime due to a read request does not.
-> +
-> +Multigrain timestamps are only tracked for the ctime and the mtime. atimes are
-> +not affected and always use the coarse-grained value (subject to the floor).
-> +
-> +Inode Timestamp Ordering
-> +========================
-> +
-> +In addition just providing info about changes to individual files, file
-> +timestamps also serve an important purpose in applications like "make". These
-> +programs measure timestamps in order to determine whether source files might be
-> +newer than cached objects.
-> +
-> +Userland applications like make can only determine ordering based on
-> +operational boundaries. For a syscall those are the syscall entry and exit
-> +points. For io_uring or nfsd operations, that's the request submission and
-> +response. In the case of concurrent operations, userland can make no
-> +determination about the order in which things will occur.
-> +
-> +For instance, if a single thread modifies one file, and then another file in
-> +sequence, the second file must show an equal or later mtime than the first. The
-> +same is true if two threads are issuing similar operations that do not overlap
-> +in time.
-> +
-> +If however, two threads have racing syscalls that overlap in time, then there
-> +is no such guarantee, and the second file may appear to have been modified
-> +before, after or at the same time as the first, regardless of which one was
-> +submitted first.
-> +
-> +Multigrain Timestamps
-> +=====================
-> +Multigrain timestamps are aimed at ensuring that changes to a single file are
-> +always recognizeable, without violating the ordering guarantees when multiple
+'entries'? It's a mc_debug_data's copy of mc_buffer's entries.
 
-          recognizable
-according to what I can find on the web.
+Also, would it be better to keep these fields as a struct of scalars and 
+instead have the percpu array of this struct? Otherwise there is a whole 
+bunch of [MC_BATCH] arrays, all of them really indexed by the same 
+value. (And while at it, there is no reason to have callbacks[MC_BATCH] 
+sized like that -- it has nothing to do with batch size and can probably 
+be made smaller)
 
-> +different files are modified. This affects the mtime and the ctime, but the
-> +atime will always use coarse-grained timestamps.
-> +
-> +It uses an unused bit in the i_ctime_nsec field to indicate whether the mtime
-> +or ctime has been queried. If either or both have, then the kernel takes
-> +special care to ensure the next timestamp update will display a visible change.
-> +This ensures tight cache coherency for use-cases like NFS, without sacrificing
-> +the benefits of reduced metadata updates when files aren't being watched.
-> +
-> +The Ctime Floor Value
-> +=====================
-> +It's not sufficient to simply use fine or coarse-grained timestamps based on
-> +whether the mtime or ctime has been queried. A file could get a fine grained
-> +timestamp, and then a second file modified later could get a coarse-grained one
-> +that appears earlier than the first, which would break the kernel's timestamp
-> +ordering guarantees.
-> +
-> +To mitigate this problem, we maintain a global floor value that ensures that
-> +this can't happen. The two files in the above example may appear to have been
-> +modified at the same time in such a case, but they will never show the reverse
-> +order. To avoid problems with realtime clock jumps, the floor is managed as a
-> +monotonic ktime_t, and the values are converted to realtime clock values as
-> +needed.
-> +
-> +Implementation Notes
-> +====================
-> +Multigrain timestamps are intended for use by local filesystems that get
-> +ctime values from the local clock. This is in contrast to network filesystems
-> +and the like that just mirror timestamp values from a server.
-> +
-> +For most filesystems, it's sufficient to just set the FS_MGTIME flag in the
-> +fstype->fs_flags in order to opt-in, providing the ctime is only ever set via
-> +inode_set_ctime_current(). If the filesystem has a ->getattr routine that
-> +doesn't call generic_fillattr, then you should have it call fill_mg_cmtime to
-> +fill those values.
-> 
 
--- 
-~Randy
+> +	void *caller[MC_BATCH];
+> +	size_t argsz[MC_BATCH];
+> +};
+> +
+>   static DEFINE_PER_CPU(struct mc_buffer, mc_buffer);
+> +static struct mc_debug_data __percpu *mc_debug_data;
+> +static struct mc_debug_data mc_debug_data_early __initdata;
+
+How about (I think this should work):
+
+static struct mc_debug_data __percpu *mc_debug_data __refdata = 
+&mc_debug_data_early;
+
+Then you won't need get_mc_debug_ptr().
+
+
+-boris
