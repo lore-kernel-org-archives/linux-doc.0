@@ -1,465 +1,191 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2087.outbound.protection.outlook.com [40.92.18.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E321367;
-	Sat,  6 Jul 2024 19:00:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720292428; cv=none; b=in8eAwhmfbGhzBfzQBwfWCWNLLNk2yVYEQz0JOdJ+3I8GHqZcNJ5/7A0YuNsWqj+tZDDKHlsKMq0RpaxlvToUqcrr3YOsLEDZq74MYVbPZ98LDmkYVVhMEl0uGD0OfiH047uS1y2rWuyFoolww3E27k7ifiLyCcWbBuvcDvnQ4Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720292428; c=relaxed/simple;
-	bh=S5QXXV4/LKFkUhGE/EpkvRsdGr/xK4gr/6Exz46x+H4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hWiPfmJQsi57asn5vFBmPkpRvYEe3LufLESGwiDgTrg9phfTw2C9AvPAsxhvvSbNy1HgHshkvIxA3moj5z+vss/jKYf4nmpryP83VuiMQhOv8ieeMeAnQBp3sVQeafi+TfUEGXEkubMCu89pq+19sYf6GyV7cCxKBitJxFpo3jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gswVxviI; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8982B2AD39;
+	Sat,  6 Jul 2024 23:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.18.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720308898; cv=fail; b=bM3v/TDt7qAl/+F79yBGTZd1wDLrgocTsGIQxZP7jh7XIRTysqxAftOdhQYfphRCuVIFmQ5NZ1J8aO6DCCjheH+xbPE+qfRUpbK9uYlDNNGAE3EJjjhcFdG2kIH9kVIE8wquSITADAcRXoS4gyql4/XAFE+QVSd+52SGeuHELmI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720308898; c=relaxed/simple;
+	bh=8zNcLGBTCnsoMFHmJjFtCrKBC0PsOpf8P05Az4bcIoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NMCjwIltIowVC4rDn72dEjqyy/Byjf6A3wsJDKgB8zApzeQQZuMNcwkOriASRO72UnFoihbtZyJI8HOfgYPoXr9JimNMaKpUNWU2BTtsIxI/UW02wZI5g0rwYE9DFNO45tyBkweQ9d82eHgJRGrgPsW3gPNr4GyVBOk3sDovnWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=dMG+m0CN; arc=fail smtp.client-ip=40.92.18.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gswVxviI"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3d928b2843dso233971b6e.2;
-        Sat, 06 Jul 2024 12:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720292425; x=1720897225; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BxuCxi7n1lDJATIZv8v0peNVsdEkdq6s2sZWH0M134Q=;
-        b=gswVxviIF61184sAYGj0pvEEzhKiFaQXm3TJbzFLe9uVYMVM17tMfy1RJjsJHo06wC
-         X0WzRj4FY5UQniWK/pBQcR0u7Ajac4HIT4WQ6h4E2xTLF3FmBaqcRycLeldR/kAZSqCl
-         CQCUtZ7c5ppcFXDY/L3JqoJBT5p/xjB6PAkJp8e4fmeJOn4E5/AfSBqNPZneSzYpnprP
-         a7ElTdqQWpBMUo+VD8WJzN9sWjJIoIu89EfciwzS59u8NtXNuA2aVGQR8sLp5xsk/GxH
-         x1vp8b65pZcch0tdr96+A8b5HtcaQep85uurGVH3cxBPCbADwkzdVYsjVh76eRCbvCIZ
-         RaNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720292425; x=1720897225;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxuCxi7n1lDJATIZv8v0peNVsdEkdq6s2sZWH0M134Q=;
-        b=F3RDYCy9D3yMrJKivM8LFQR1BOOhnYqnrD9IGk/H9MTyDPMda2hShjEAo3zs/9uSbb
-         3e2C87a/SR3QF20c5E64xS9aeRzbg5vVWqE4UCthg/WETMO4/9dEV9Y51e55ua/SpF5V
-         Jcwvi8yjTCpXGKN2EVWNJHDRVEqmTNOZNHQ2DV2YA40I2r5I0FTpLa5OSlqqFa1J5ZZM
-         z9AaCl369MuEBcTaJ++Qs41BQ9rLO7AtEjjzA3aV7OJC1RAa0QFpm9hwi6cEsve6FQNm
-         Vm8Gqvih2jtI51J+hnw5GtPaX0xjN6SUxL2LsFnOrytWsL30XgE/1bRtKRmBb2VpFxfZ
-         qT9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXHZuWq+JXLsrFdR8seoeWoNiErz4jja3fPjIoBApHxFUCUucwlySjsBLa3bpw8O1pVNkOqTxyWJlAzremCv1jFo1QhbOR/jDmiR3TW
-X-Gm-Message-State: AOJu0YwREFUtnz+Tmoxrkbmo68TNni/KL8dFKKJVK2XfTpWJxi/BEedo
-	UkZWjWY4A7yT1sX3/Boyz2anxBiMV+FDjvFWn7NUXudP7fEIkJcN
-X-Google-Smtp-Source: AGHT+IFPUpRYQ/Quvl7Ev/ZyzBs1tWL4HhyoN1VTpkGCs/6EkO9mYj14Nx5VL2x8zrNhzoNqHQovfw==
-X-Received: by 2002:a05:6808:1920:b0:3d9:26d6:c6f3 with SMTP id 5614622812f47-3d926d77f6cmr2500440b6e.11.1720292425265;
-        Sat, 06 Jul 2024 12:00:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:f0:4240::14? ([2600:1700:f0:4240::14])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d62fb48ab1sm3072723b6e.54.2024.07.06.12.00.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jul 2024 12:00:24 -0700 (PDT)
-Message-ID: <375dbc3c-e741-4bdb-88ff-35e68d43c36d@gmail.com>
-Date: Sat, 6 Jul 2024 14:00:21 -0500
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="dMG+m0CN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MiPQMabcKVcy0/SwYqkuiIWjwblFbmtO9IqiW6+NGNPNPmJNgDlidC84roggw18AA2tegaTbcKhYpfaEPd968LA1I4pWbPoZ6CGF0qWaFimOam7lOu/4GRfkHKWBlrvuF7zGbFsYzNioDoSt+H0bnlhBA+rLOUWImckfLk4IRVgMLoTxwLuoovvEZF9HBYhbiycZeS8DTrWHK2AuMZkaVAg5HtlysRGR+qjt9BZxGlrASou6O4nz8f5BAA8pEfqQnyxx2nCdE3Ki3ytHCn5qLE3GNgLVQ4kj2fn7DvZPEcYN0o5fcjrRI5b4Zq8qslW3R2/A1W3iNCZ5s1tK889lnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lJrjAOoC/ScX7Z5gRWPDjkUOhJBqRRq1Bga/D5XGQmc=;
+ b=IQRazR/+tdzfV0GCyf+Qr+yTyupHJXJ6ZSF3ABLGE3cipZcLDNS9AxRQ5jXrbRqdDru4rwgGrNyT6pj4BRhjSBSEqMBg+C8LqQXEcO1csW8ibvaH7xibHOgKws86+Vy/M4rFisdOI9Dx41HkZRYj0uo+FbnV/Ryy5J+kBdAxg6T5cjUn1cemGtIKaDlPo0aT7DAfdywkbHOGPOVLMVGFwQdb0hs3bcWHd5tb5730E89wOsrVzmRV0qJi506aGI9nX/gZhAl3b5HRYofXTcQNLfZz5UK2V9+IAtWhRd805A0oFRPgq0GfgcI0gkMn4XLTmNDPoO3nElckSc8DI4tdlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lJrjAOoC/ScX7Z5gRWPDjkUOhJBqRRq1Bga/D5XGQmc=;
+ b=dMG+m0CNIw2WxbDom8wD8CkIgPomwUFJubi0ixW/tzQ/R/Eg1vLDHd+MUoz75ihvsri0eKLb6+ParSpoQG+AcVEz73cu7PkFtuXeVQ8ZLuc5DGAu5l5WpD4eVtTdKDIW9jUtxl3nU/pKzvk081pfFw0IXqtGXi4Je+BlTpXLfA66RL4ty9C+4oMqIVRigqTEjnYn+4AAR86oHu2Uoksec3sw3XS0DXJjL/0406FPIRA9pSFh9ps0UYBStM3I6s7QX5u1XltkCclgn5/YGIEq1FYYKk/0gGhfLjqIqD9ytFIUvg888daAZTGVw7CilIl2y1NtcftWaJYtKVPNr1SQoA==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by PH7PR20MB5394.namprd20.prod.outlook.com (2603:10b6:510:1ee::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Sat, 6 Jul
+ 2024 23:34:53 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149%6]) with mapi id 15.20.7741.017; Sat, 6 Jul 2024
+ 23:34:52 +0000
+Date: Sun, 7 Jul 2024 07:34:15 +0800
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Guenter Roeck <linux@roeck-us.net>, 
+	Inochi Amaoto <inochiama@outlook.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: Add Sophgo SG2042 external
+ hardware monitor support
+Message-ID:
+ <IA1PR20MB49539E946C2D5D025932ABEEBBD82@IA1PR20MB4953.namprd20.prod.outlook.com>
+References: <IA1PR20MB4953967EA6AF3A6EFAE6AB10BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB4953F58B631D836F3863115ABBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <5a2e23f4-d54a-45ae-a09d-e557b110e017@roeck-us.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a2e23f4-d54a-45ae-a09d-e557b110e017@roeck-us.net>
+X-TMN: [zp/B3sBqUNBpSq93FAIVPPpkwEPE+omn6gIHEWoW7mE=]
+X-ClientProxiedBy: PS2PR02CA0008.apcprd02.prod.outlook.com
+ (2603:1096:300:41::20) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <dd5nfysjvazvhcacpjivcltwuksratkrsn7ljmcr7jzjbppekd@o53f5hyby3z5>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/sp_SP: Add translation for
- scheduler/sched-design-CFS.rst
-To: =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
- Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>,
- Shrikanth Hegde <sshegde@linux.vnet.ibm.com>,
- Wenyu Huang <huangwenyu5@huawei.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bilbao@vt.edu
-References: <20240706132201.26136-1-sergio.collado@gmail.com>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <20240706132201.26136-1-sergio.collado@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|PH7PR20MB5394:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bb9e203-f509-446c-d090-08dc9e143bd6
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799003|461199028|8060799006|1602099012|440099028|3412199025|4302099013|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	IxHPt89lN9Wi/jFcoGVg9ICYjB+K0vh6vKc3Skqc+J0wDUQqAJbWllUEeBZgeMc80yFTankDJGucouRKAoo6CUU9dgXosqX7gQctiT0LMO+28rn04yT7m+VRBPsgvBh2CoEeD38Xdz7NlPimIKT+o00DvV6QxBhol501KDvXieyR9RVyqgyYTebPVUBlN58FDxp9FLDT9MFmkhbSLN+DDYGdJ/gvUgWDdi/wshbSFqgUgeS/cs2XIH7M762aJpNkNKcS2aALUCevJDTZxvPK51OwXoZZ/Gxq5Ks29Zs+Xdxhn9F9nK9LT8DXs4TeSw9Gpn5rdUHAkeFoPqTS7AzGUeouBwv6etRVSwPsLwVDfLQpNaUCQqbJr0720G9WpPdmAPynSfbyq7Q1qq0Q0V9Bn8tl+q25X6gmdQ+L0BJkQpBAthfZoRonVczcKKHrFgSZ7VYES/lsrX+GCIC8zLOu7DQNtea8zJb1/W0Hug49K3kYhIih9QifCRNKmJrdKrauFf74/PMtPEOfQC974B1Vyfan4eUQw9nPV0IA/+iyyCT8YW/DW9WSUXbKZ6uA5U76cKBf1sJJug3k7qoH7wYtfQKJMMMwlDVUyx59MQsLtqakhsuyyExg+0Zf/KL3j83NMhh4p6vuOJou0nTxgg6nmMsttybiYPiDT70N+n7hYiznkRHq5I1iN9uNNFsmkbmDhJx0DPjBuG9k0OkRpzxDt5Hta28rIXjT64gsYjgQnRHRnzR+np259U6qeuBRj52a8Rin3u0IqDrvGuknvlBEaxotpwplRuUUka9ncrAtpYA=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?7ZBukuE9BDSdIZhgWhDrkEzZIZTvlAKBbVVZKvH+CMN+dHoFToWIUqZmW9+w?=
+ =?us-ascii?Q?ZQc937YfXWPcMPPVWA0At0vqNxA4J1lGubMeYflzbMPCyE3HVkLKAvXhNgvz?=
+ =?us-ascii?Q?2+77WSIn91q3AWaDWHQqnOHqIG1/67nykMiiXfGPXjNzHbjLfrmpP1OV7YSs?=
+ =?us-ascii?Q?ufDWtauDp4iCFNq0prC1bWvvNVCxONRv09Lb+paHSkPeRVM6IeFsyQj/CfZc?=
+ =?us-ascii?Q?gsBBLKW8WedewHeNAeE5qODPW2WZPzgydBwqHKECMTi1oh7wh2iPFwRPazvZ?=
+ =?us-ascii?Q?+YTUrdLMktPSRtDYBkwbW6Iilb/wGsAHi1HKZcslV4Xhelt8L3BtDJHKYdOu?=
+ =?us-ascii?Q?LfnTaTRD5RU1U6NiIBEUpzvj7MqCBkZJdV/Vp9vHxnD2niOxCunfZmy9CXyO?=
+ =?us-ascii?Q?Rx1Ql9kEmD+RyW/OgreImnX44x8SYXX/fBORmQTElpw6+5Xt1IxN2YS/4MqF?=
+ =?us-ascii?Q?51HTlemWpinNkVG4N9Nwsd6+pPOcXRXGezbJ54Xk0hXNzobieWwfEP1lb00u?=
+ =?us-ascii?Q?KOcPDPKY3WV3iJbNyD7M+z5b2OEr1qFmtjzhePURyyQQY/386xDTEtM+IkVO?=
+ =?us-ascii?Q?cg4MXtCG4ftps9Xufyqj1krBsB/JEzP4sBdO/8cXYlvDRw+ibM9nyr0WG60M?=
+ =?us-ascii?Q?Ay3jF2pqFQXNizX3raeseer1z9W/oZbh8I+NMQE3UC5lfpo0H/yr6TYudcBm?=
+ =?us-ascii?Q?qzpw+YifO7LcfooLFdF0PkWptqtqr526bQzHICgto2iXloE/OGpG3NkvuJPU?=
+ =?us-ascii?Q?tMgUDMDnjm993w+NVcnJy9Ddq9WiYl0N6qTpg4oETqj+VJL/VEQNRzFrPN6Y?=
+ =?us-ascii?Q?u9KvvbcGLaVTKcR4Z83MmNdHr8r8/S/3EzNXYcgIwGJEzTrO5YviWZ5TQ35x?=
+ =?us-ascii?Q?5AMutSLP/yioMd0JLnAEFLltEGSq8VH1nR2oHoiUd/icnSj5phAo/AvSY+Vv?=
+ =?us-ascii?Q?f7i42SltOFN3QjUKTETbwl0hlG+EOH10bQmoIxKz9PkkM3oCQMMyOwnSjqEj?=
+ =?us-ascii?Q?Q9+FUpKBniAb02+skgKox2n5O4ylEN+Lg2elTpzGzl8amNgDASglF1GV6TIv?=
+ =?us-ascii?Q?iQcmliuq0G4S/RiYf6Nuwgr22uOef9CtzhIDfH9D+7oMLl7LXKAgHHeotzSY?=
+ =?us-ascii?Q?6VP3Yvp5dNy9ceAGiv+yJSw/mFzG9c6+FIHc9liZ5+xEgfAHQdhJzwzy2jQi?=
+ =?us-ascii?Q?cg0oenSur72DEhNzo0soNtXjeY6FcBXifIncHN7P+g14JhjqQ4Vv0rPehtp9?=
+ =?us-ascii?Q?JWemOgRaqrwbwNa4kDXX?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb9e203-f509-446c-d090-08dc9e143bd6
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2024 23:34:52.2493
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR20MB5394
 
-Hello,
+On Sat, Jul 06, 2024 at 09:48:58AM GMT, Guenter Roeck wrote:
+> On Wed, Jul 03, 2024 at 10:30:43AM +0800, Inochi Amaoto wrote:
+> > Due to the design, Sophgo SG2042 use an external MCU to provide
+> > hardware information, thermal information and reset control.
+> > 
+> > Add bindings for this monitor device.
+> > 
+> > Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > ---
+> >  .../hwmon/sophgo,sg2042-hwmon-mcu.yaml        | 43 +++++++++++++++++++
+> >  1 file changed, 43 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml
+> > 
+> > --
+> > 2.45.2
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml b/Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml
+> > new file mode 100644
+> > index 000000000000..f0667ac41d75
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml
+> > @@ -0,0 +1,43 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/hwmon/sophgo,sg2042-hwmon-mcu.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sophgo SG2042 onboard MCU support
+> > +
+> > +maintainers:
+> > +  - Inochi Amaoto <inochiama@outlook.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sophgo,sg2042-hwmon-mcu
+> 
+> According to the other patch, this actually covers four
+> distinct models/devices.
+> 
+> static const struct sg2042_mcu_board_data sg2042_boards_data[] = {
+> > +	{
+> > +		.id = 0x80,
+> > +		.name = "SG2042 evb x8",
+> > +	},
+> > +	{
+> > +		.id = 0x81,
+> > +		.name = "SG2042R evb",
+> > +	},
+> > +	{
+> > +		.id = 0x83,
+> > +		.name = "SG2042 evb x4",
+> > +	},
+> > +	{
+> > +		.id = 0x90,
+> > +		.name = "Milk-V Pioneer",
+> > +	},
+> > +};
+> > +
+> 
+> Is it really appropriate to use a single compatible property for all of those ?
+> 
+> Guenter
 
-On 7/6/24 08:22, Sergio González Collado wrote:
-> Translate Documentation/scheduler/sched-design-CFS.rst into Spanish
->
-> Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
-> ---
->  Documentation/scheduler/sched-design-CFS.rst  |   2 +
->  Documentation/translations/sp_SP/index.rst    |   1 +
->  .../translations/sp_SP/scheduler/index.rst    |   8 +
->  .../sp_SP/scheduler/sched-design-CFS.rst      | 275 ++++++++++++++++++
->  4 files changed, 286 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/scheduler/index.rst
->  create mode 100644 Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
->
-> diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-> index e030876fbd68..bc1e507269c6 100644
-> --- a/Documentation/scheduler/sched-design-CFS.rst
-> +++ b/Documentation/scheduler/sched-design-CFS.rst
-> @@ -1,3 +1,5 @@
-> +.. _sched_design_CFS:
-> +
->  =============
->  CFS Scheduler
->  =============
-> diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
-> index 274ef4ad96b9..aae7018b0d1a 100644
-> --- a/Documentation/translations/sp_SP/index.rst
-> +++ b/Documentation/translations/sp_SP/index.rst
-> @@ -78,3 +78,4 @@ Traducciones al español
->  
->     process/index
->     wrappers/memory-barriers
-> +   scheduler/index
-> diff --git a/Documentation/translations/sp_SP/scheduler/index.rst b/Documentation/translations/sp_SP/scheduler/index.rst
-> new file mode 100644
-> index 000000000000..768488d6f001
-> --- /dev/null
-> +++ b/Documentation/translations/sp_SP/scheduler/index.rst
-> @@ -0,0 +1,8 @@
-> +.. include:: ../disclaimer-sp.rst
-> +
-> +.. _sp_scheduler_index:
-> +
-> +.. toctree::
-> +    :maxdepth: 1
-> +
-> +    sched-design-CFS
-> diff --git a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-> new file mode 100644
-> index 000000000000..43e29297d7fa
-> --- /dev/null
-> +++ b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-> @@ -0,0 +1,275 @@
-> +.. include:: ../disclaimer-sp.rst
-> +
-> +:Original: :ref:`Documentation/scheduler/sched-design-CFS.rst <sched_design_CFS>`
-> +:Translator: Sergio González Collado <sergio.collado@gmail.com>
-> +
-> +.. _sp_sched_desing_CFS:
-> +
-> +====================
-> +Gestor de tareas CFS
-> +====================
-> +
-> +1.  VISIÓN GENERAL
-> +==================
-> +
-> +CFS viene de las siglas en inglés de "Gestor te tareas totalmente justo"
+These board can only be detected at running time (even this should on
+a specific board). On real world, it can only sees a MCU onboard.
+I don't think it is a good idea to add some bindings to cover these
+model. It seems better to remove this array and let userspace to parse
+these ids.
 
-
-Change 'te' to 'de'. For the rest of the review, I'll say instead:
-'s/old/new', in this case, s/te/de.
-
-
-> +("Completely Fair Scheduler"), y es el nuevo gestor de tareas de escritorio
-> +implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustituto de
-> +el previo gestor de tareas SCHED_OTHER.
-
-
-Although I usually don't do this, considering that CFS is no longer the
-most recent scheduler, let's add a note here:
-
-Nota: El planificador EEVDF fue incorporado más recientemente al kernel.
-
-
-> +
-> +El 80% del diseño de CFS puede ser resumido en una única frase: CFS
-> +básicamente modela una "CPU ideal, precisa y multi-tarea" sobre hardware
-> +real.
-> +
-> +"una CPU multitarea ideal" es una CPU (inexistente :-)) que tiene un 100%
-> +de potencia y que puede ejecutar cualquier tarea exactamente a la misma
-> +velocidad, en paralelo, y cada una a 1/n velocidad. Por ejemplo, si hay dos
-> +tareas ejecutándose, entonces cada una usa un 50% de la potencia --- es decir,
-> +como si se ejecutaran en paralelo.
-> +
-> +En un hardware real, se puede ejecutar una única tarea a la vez, así que
-
-
-s/En un hardware/En hardware
-
-
-> +se ha usado el concepto de "tiempo de ejecución virtual". El tiempo
-> +de ejecución virtual de una tarea, específica cuando la siguiente porción
-
-
-s/tarea,/tarea
-
-
-> +de ejecución podría empezar en la CPU ideal multi-tarea descrita anteriormente.
-> +En la práctica, el tiempo de ejecución virtual de una tarea es el
-> +tiempo de ejecución real normalizado con respecto al número total de
-> +tareas ejecutándose.
-> +
-> +
-> +2.  UNOS CUANTOS DETALLES DE IMPLEMENTACIÓN
-> +===========================================
-> +
-> +En CFS, el tiempo de ejecución virtual se expresa y se monitoriza por
-> +cada tarea, en su valor de p->se.vruntime (en unidades de nanosegundos).
-> +De este modo, es posible temporizar con precisión y medir el "tiempo
-> +de CPU esperado" que una tarea debería tener.
-> +
-> +Un pequeño detalle: en hardware "ideal", en cualquier momento todas las
-> +tareas pueden tener el mismo valor de p->se.vruntime --- i.e., tareas
-> +se podrían ejecutar simultáneamente y ninguna tarea podría escaparse del
-> +"balance" de la partición "ideal" del tiempo compartido de la CPU.
-> +
-> +La lógica de elección del tareas de CFS se basa en el valor de p->se.vruntime
-> +y por tanto es muy sencilla: siempre intenta ejecutar la tarea con el valor
-> +p->se.vruntime más pequeño (i.e., la tarea que se ha ejecutado menos hasta el
-> +momento). CFS siempre intenta dividir el espacio de tiempo entre tareas
-> +en ejecución tan próximo a la "ejecución multitarea ideal del hardware" como
-> +sea posible.
-> +
-> +El resto del diseño de CFS simplemente se escapa de este simple concepto,
-> +con unos cuantos añadidos como los niveles "nice" ("nice" significa "amable"
-> +en inglés), multi-tarea y varias variantes del algoritmo para identificar
-> +tareas "durmiendo".
-> +
-> +
-> +3.  EL ÁRBOL ROJO-NEGRO
-> +=======================
-> +
-> +El diseño de CFS es bastante radical: no utiliza las antiguas estructuras
-> +de datos para las colas de ejecución (en inglés "runqueues"), pero usa una
-> +estructura de árbol rojo-negro (en inglés "red-black tree") ordenado cronológicamente
-> +para construir un línea de ejecución en el futuro, y por eso no tiene ningún
-> +artificio de "cambio de tareas" (algo que previamente era usado por el gestor
-> +anterior y RSDL/SD).
-> +
-> +CFS también mantiene el valor de rq->cfs.min_vruntime, el cual crece
-> +monotónicamente siguiendo el valor más pequeño de vruntime de entre todas
-> +las tareas en la cola de ejecución. La cantidad total de trabajo realizado
-> +por el sistema es monitorizado usado min_vruntime; este valor es usado
-> +para situar las nuevas tareas en la parte izquierda del árbol tanto
-> +como sea posible.
-> +
-> +El valor total de tareas ejecutándose en la cola de ejecución es
-> +contabilizado mediante el valor rq->cfs.load, el cual es la suma de los
-> +de esas tareas que están en la cola de ejecución.
-> +
-> +CFS mantiene un árbol rojo-negro cronológiamente ordenado, donde todas las
-
-
-s/cronológiamente/cronológicamente
-
-
-> +tareas que pueden ser ejecutadas están ordenadas por su valor de
-> +p->se.vruntime. CFS selecciona la tarea más hacia la izquierda de este
-> +árbol y la mantiene. Según el sistema continúa, las tareas ejecutadas
-> +se ponen en este árbol más y más hacia la derecha --- lentamente pero
-> +de forma continuada dando una oportunidad a cada tarea de ser la que
-> +está "la más hacia la izquierda" y por tanto obtener la CPU una cantidad
-> +determinista de tiempo.
-> +
-> +Resumiendo, CFS funciona así: ejecuta una tarea un tiempo, y cuando la
-> +tarea se gestiona (o sucede un tic del gestor de tareas) se considera
-> +que el tiempo de uso de la CPU se ha completado, y se añade a
-> +p->se.vruntime. Una vez p->se.vruntime ha aumentado lo suficiente como
-> +para que otra tarea sea "la tarea más hacia la izquierda" del árbol
-> +rojo-negro ordenado cronológicamente esta mantienen (más una cierta pequeña
-> +cantidad de distancia relativa a la tarea más hacia la izquierda para
-> +que no se sobre-reserven tareas y perjudique a la cache), entonces la
-> +nueva tarea "que está a la izquierda del todo", es la que se elige
-> +para que se ejecute, y la tarea en ejecución es interrumpida.
-> +
-> +4.  ALGUNAS CARACTERÍSTICAS DE CFS
-> +==================================
-> +
-> +CFS usa una granularidad de nanosegundos y no depende de ningún
-> +jiffie o detalles como HZ. De este modo el gestor de tareas CFS no tiene
-
-
-s/modo/modo,
-
-
-> +noción de "ventanas de tiempo" de la forma en que tenía el gestor de
-> +tareas previo, y tampoco tiene heurísticos. Únicamente hay un parámetro
-> +central ajustable (se ha de cambiar en CONFIG_SCHED_DEBUG):
-> +
-> +   /sys/kernel/debug/sched/base_slice_ns
-> +
-> +El cual puede ser usado para afinar desde el gestor de tareas del "escritorio"
-> +(i.e., bajas latencias) hacia cargas de "servidor" (i.e., bueno con
-> +procesamientos). Su valor por defecto es adecuado para tareas de escritorio.
-> +SCHED_BATCH también es gestionado por el gestor de tareas CFS.
-> +
-> +Debido a su diseño, el gestor de tareas CFS no es proclive a ninguno de los
-> +ataques que existen a día de hoy contra los heurísticos del gestor de tareas:
-> +fiftyp.c, thud.c, chew.c, ring-test.c, massive_intr.c todos trabajan
-> +correctamente y no tienen impacto en la interacción y se comportan de la forma
-> +esperada.
-> +
-> +El gestor de tareas CFS tiene una gestión mucho más firme de los niveles
-> +"nice" y SCHED_BATCH que los previos gestores de tareas: ambos tipos de
-> +tareas están aisladas de forma más eficiente.
-> +
-> +El balanceo de tareas SMP ha sido rehecho/mejorado: el avance por las
-> +colas de ejecución de tareas ha desaparecido del código de balanceo de
-> +carga, y ahora se usan iteradores en la gestión de módulos. El balanceo
-> +del código ha sido simplificado como resultado esto.
-> +
-> +5.  Políticas de gestión de tareas
-> +==================================
-> +
-> +CFS implementa tres políticas de gestión de tareas:
-> +
-> +  - SCHED_NORMAL (tradicionalmente llamada SCHED_OTHER): Gestión de
-> +    tareas que se usan para tareas normales.
-> +
-> +  - SCHED_BATCH: No interrumpe tareas tan amenudo como las tareas
-
-
-s/amenudo/a menudo
-
-
-> +    normales harían, por eso permite a las tareas ejecutarse durante
-> +    ventanas de tiempo mayores y hace un uso más efectivo de las
-> +    caches pero al coste de la interactividad. Esto es adecuado
-> +    para trabajos de procesado de datos.
-> +
-> +  - SCHED_IDLE: Esta política es más débil incluso que nice 19, pero
-> +    no es un gestor "idle" para evitar caer en el problema de la
-> +    inversión de prioridades que causaría un bloqueo de la máquina
-> +    (deadlock).
-> +
-> +SCHED_FIFO/_RR se implementan en sched/rt.c y son específicos de
-> +POSIX.
-> +
-> +El comando chrt de util-linux-ng 2.13.1.1. puede asignar cualquiera de
-> +estas políticas excepto SCHED_IDLE.
-> +
-> +
-> +6.  CLASES DE GESTIÓN
-> +=====================
-> +
-> +El nuevo gestor de tareas CFS ha sido diseñado de tal modo para incluir
-> +"clases de gestión", una jerarquía ampliable de módulos que pueden tener
-> +distintas políticas de gestión de tareas. Estos módulos encapsulan los
-> +detalles de las politicas de gestion y son manejadas por el núcleo del
-
-
-s/gestion/gestión
-
-
-> +gestor de tareas sin que este tenga que presuponer mucho sobre estas clases.
-> +
-> +sched/fair.c implementa el gestor de tareas CFS descrito arriba.
-
-
-s/arriba/antes
-
-
-> +
-> +sched/rt.c implementa la semántica de SCHED_FIFO y SCHED_RR, de una forma
-> +más sencilla que el gestor de tareas anterior. Usa 100 colas de ejecución
-> +(por todos los 100 niveles de prioridad RT, en vez de las 140 que necesitaba
-> +el gestor de tareas anterior) y no necesita las listas de expiración.
-> +
-> +Las clases de gestión de tareas son implementadas por medio de la estructura
-> +sched_class, la cual tiene llamadas a las funciones que deben de llamarse
-> +cuando quiera que ocurra un evento interesante.
-> +
-> +Esta es la lista parcial de llamadas:
-> +
-> + - enqueue_task(...)
-> +
-> +   Llamada cuando una tarea entra en el estado de lista para ejecución.
-> +   Pone la entidad a ser gestionada (la tarea) en el árbol rojo-negro
-> +   e incrementa la variable nr_running.
-> +
-> + - dequeue_task(...)
-> +
-> +   Cuando una tarea deja de ser ejecutable, esta función se llama para
-> +   mantener a la entidad gestionada fuera del árbol rojo-negor. Esto
-> +   decrementa la variable nr_running.
-> +
-> + - yield_task(...)
-> +
-> +   Esta función es básicamente desencolar, seguido por encolar, a menos que
-> +   sysctl compat_yield esté activado; en ese caso, sitúa la entidad a gestionar
-> +   en la parte más hacia la derecha del árbol rojo-negro.
-> +
-> + - check_preempt_curr(...)
-> +
-> +   Esta función comprueba si una tarea que ha entrado en el estado de
-> +   poder ser ejecutada, podría reemplazar a la tarea que actualmente
-> +   se esté ejecutando.
-> +
-> + - pick_next_task(...)
-> +
-> +   Esta función elige la tarea más apropiada para ser ejecutada a continuación.
-> +
-> + - set_curr_task(...)
-> +
-> +   Esta función se llama cuando una tarea cambia su clase de gestión o
-> +   cambia su grupo de tareas.
-> +
-> + - task_tick(...)
-> +
-> +   Esta función es llamada la mayoría de las veces desde la función de tiempo
-> +   tick; esto puede llevar a un cambio de procesos. Esto dirige el reemplazo
-> +   de las tareas.
-> +
-> +
-> +7.  EXTENSIONES DE GRUPOS PARA CFS
-> +==================================
-> +
-> +Normalmente, el gestor de tareas gestiona tareas individuales e intenta
-> +proporcionar una cantidad justa de CPU a cada tarea. Algunas veces, puede
-> +ser deseable agrupar las tareas y proporcionarles una cantidad justa
-> +de tiempo de CPU a cada una de las tareas de ese grupo. Por ejemplo,
-> +podría ser deseable que primero se proporcione una cantidad justa de
-> +tiempo de CPU a cada usuario del sistema y después a cada tarea
-> +que pertenezca a un usuario.
-> +
-> +CONFIG_CGROUP_SCHED destaca en conseguir exactamente eso. Permite a las
-> +tareas ser agrupadas y divide el tiempo de CPU de forma just entre esos
-> +grupos.
-> +
-> +CONFIG_RT_GROUP_SCHED permite agrupar tareas de tiempo real (i.e.,
-> +SCHED_FIFO y SCHED_RR).
-> +
-> +CONFIG_FAIR_GROUP_SCHED permite agrupar tareas de CFS (i.e., SCHED_NORMAL y
-> +SCHED_BATCH).
-> +
-> +Estas opciones necesitan CONFIG_CGROUPS para ser definidas, y permitir
-> +al administrador crear grupos arbitrarios de tareas, usando el pseudo
-> +sistema de archivos "cgroup". Vease la documentación para más información
-> +sobre este sistema de archivos: Documentation/admin-guide/cgroup-v1/cgroups.rst
-> +
-> +Cuando CONFIG_FAIR_GROUP_SCHED es definido, un archivo
-> +"cpu.shares" es creado por cada grupo creado usado en el pseudo
-> +sistema de archivos. Véanse por ejemplo los pasos a continuación
-> +para crear grupos de tareas y modificar cuanto comparten de la CPU
-> +usando el pseudo sistema de archivos "cgroup" ::
-> +
-> +	# mount -t tmpfs cgroup_root /sys/fs/cgroup
-> +	# mkdir /sys/fs/cgroup/cpu
-> +	# mount -t cgroup -ocpu none /sys/fs/cgroup/cpu
-> +	# cd /sys/fs/cgroup/cpu
-> +
-> +	# mkdir multimedia	# crear un grupo de tareas "multimedia"
-> +	# mkdir browser 	# crear un grupo de tareas "browser"
-> +
-> +	# #Configurar el grupo multimedia para tener el doble de tiempo de CPU
-> +	# #que el grupo browser
-> +
-> +	# echo 2048 > multimedia/cpu.shares
-> +	# echo 1024 > browser/cpu.shares
-> +
-> +	# firefox &	# Lanzar firefox y moverlo al grupo "browser"
-> +	# echo <firefox_pid> > browser/tasks
-> +
-> +	# #Lanzar gmplayer (o su programa favorito de reproducción de películas)
-> +	# echo <movie_player_pid> > multimedia/tasks
-
-
-Sergio, thank you for contributing to the documentation in Spanish. This is
-excellent work! Please, send a v2 with these minor changes, and you can
-add:
-Reviewed-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Thanks,
-Carlos
-
+Regards,
+Inochi
