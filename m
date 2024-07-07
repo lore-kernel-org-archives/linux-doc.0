@@ -1,130 +1,120 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85FE79D2;
-	Sun,  7 Jul 2024 09:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D2C1B812;
+	Sun,  7 Jul 2024 10:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720345116; cv=none; b=cvptAudxNM89jS6dkFBbbn1N/S66koU3/cmJGkByzabyD9uXoaOuyIFb7zsWV/xwCWMNXS/8sIEYjPibXKkxYCE77xDaFr6VzYwU5zlBwqkInAU4HAtJAV6p5q8Hz7Eswa5qTbUbXbpNC6t5rUQcgEriFKQ0i3NynvZMoRHuKp8=
+	t=1720349656; cv=none; b=jdyptYbeu3+1BcQRwbjBu+i7y7jOIJ9gkSPr8fv+ddOsHGkS2KK9yx5a3HmrOkms0zXD/l95kfYgnpT7Hpgh/Y0Ygzl8TcCCamkxJcWbEbg60t07io0rA0Fwyc09Zu1UzzhPP3Ks6C9oFQgZgg41Gk2OHeUWyfm68O3Ys+YtsSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720345116; c=relaxed/simple;
-	bh=G7HpDLA6DyYZ1Q4ShHpQvbNumM3Z3UO1ThxB2wPm7d8=;
+	s=arc-20240116; t=1720349656; c=relaxed/simple;
+	bh=t39Km3pxRc/KCKTq3cwzWNjy1awjvRN13gz+tqlYI40=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cTKyxlOotTUcxkkZGKTP+xWUybLrCNmyQ+garcwIj3yj++tgmytaqu41E5Wu6+rWLbOyGscFWPaRmvgyYE8TfGjwSQA+FNS2q1aJfB77rAMEmgKFAlEDrhbnY0d+lQyz3jdTuUCkRJMGfJZTvNrnLK8LRDqqp1jkq1kkzsaAts4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0F3YJ6D; arc=none smtp.client-ip=209.85.219.170
+	 To:Cc:Content-Type; b=LFpBjGVRnoKnphd9JjakpcGlSCoEavtDD6nsczk3lJZMFCkjASvhKivmDii0UdFoRKNaERTa1aavmzZ4hGGdFTR1864wonbW+FIFD6xcc7dWhKsy81cpC7RACiov4iW2FweGj0RX7GjJEhn/5jmdpln0A6f/wmd86eZY38klgXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aPQfspLb; arc=none smtp.client-ip=209.85.219.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0F3YJ6D"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e03c689addcso3128265276.0;
-        Sun, 07 Jul 2024 02:38:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aPQfspLb"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e03c6892e31so2649106276.1;
+        Sun, 07 Jul 2024 03:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720345113; x=1720949913; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720349654; x=1720954454; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G7HpDLA6DyYZ1Q4ShHpQvbNumM3Z3UO1ThxB2wPm7d8=;
-        b=K0F3YJ6DiO4yaYhrNrVZNX9rEe+wKcNbxHM7cdQzbVtIMJgrfYwfOyy5Cw2KPA3FBk
-         BwbN0FFg8aK/Q3YSSPgG3SJQNuVyCpMcmAv9+WDh5m76Gwbi9xeJTNNsByQHp8Mcfu5T
-         5WjfxHv/IlTd5nSQWrBqbPnVH4d9sDoNAFGVewFPP8bR+WwVjlH0+f7Vn+SIG4alBe2C
-         Wrir0YJc3lLvoy/usQ6nbPklw9+i6DQkV5caVr/gTBulUdHr6iwT6Hg01eSg8xuzn6P1
-         QrW2MJVuMRluxTUBqYMokppC8iSbmKVBcdL9YeERPEwXcoxgbbgd4BZm4rRbA1MU4iqo
-         iYww==
+        bh=t4zNRufwwT/TrxbOR4gV2QOmKOXRZvDSyFYKnOgFyDg=;
+        b=aPQfspLboxuz63kWlDC5iwtav6hY2YIG7xxUbHvvzPTNAqi7bOMUOMSz5x1Heds2yi
+         GoinbEZ/izo4za24tWd9nZ2FLbcDWK4WcQPMFPhYuQWMGZWFYh1fEgzs6LsVI9Nwy5R2
+         uY0Zl3it/Y2pRMUzEq3L9N6othftLcYnAeD6biuevdYrUqIdvS1VWKOVbY++xaW0GDq6
+         qGInmtLA6a+mG/YHpjNrjMIlDJch2QB4BpDN1JNeqfxqOEuSUYAzokVdiDg+4mprAdXN
+         uJ1wPzHJTstcNhHmTDXsQ6TsR1xWXYEXfkevjI18+MTAF7dfRBEPMEY/Y1xbrbroVjgU
+         u84g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720345113; x=1720949913;
+        d=1e100.net; s=20230601; t=1720349654; x=1720954454;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G7HpDLA6DyYZ1Q4ShHpQvbNumM3Z3UO1ThxB2wPm7d8=;
-        b=ULIhF/AV4q6sXn0ohNLud3ANquv4BhWPcThq/5/bzcgTUdtTTCLAOTqakF/xvHRKN4
-         lwefLr0XbZ+ACmRavJNFCP6/Deg08Ckl7wgi7vWa4ZrEmgzBFztO6DDvfNtOB7UsDN5R
-         ZT9636gQMg2efK7Eg/rw1bOijQZ2IAFKUKSMsYXwiMIhi2/q0jm2sSrEMOAK5G2bBGwV
-         D0Z2fKES9FemiCZSkLHPnpA9ZX6oJ/m8IE4Ztw86AvkBkUfh/mZPVSr+tAIaz03JaIVD
-         vsPdngUABhPWwR8xmX3QvxJmA96kLX8Ppe6CgB8v8gjz/t4rhZSQSDbkWcQ1Hlqh+ubL
-         te2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUNKVYYS0s0QRVlnIfL4ZoqsDAdZVFCFI6oKvfaSyTtRYpKz2SJXn6VZsK0NCWSyFro8bQ97noi0kvmUSJwExVo5nt46hnQhPYYdiY4ayoOSuryKFhCtVxNUtDAzcBv5BvVjBwIWcJT
-X-Gm-Message-State: AOJu0YwX5oS2Hw0s+hBZgK6khJO8WtcTSIcjsAk7Xvbe3S472twmVUr/
-	LiA/KOG0pkf7hIQvFZXYZ1ZrU0IKTFWL+ZVziZNwCedf5sepB9SvX71rm0GSrLe+STBk9ZJ2mCE
-	vLbp9YWyWg6xDTscMgTVNHiMtx8I=
-X-Google-Smtp-Source: AGHT+IG6/KSsiO76+SpCaTPk6O2Fnb+awAIZQTBm7vTHfjoSZbMdCKO96zulmrapkD9/AV5Do8FNNeCXnHacuaCvxMQ=
-X-Received: by 2002:a25:b205:0:b0:e03:b0aa:99ad with SMTP id
- 3f1490d57ef6-e03c1a6331emr8985117276.52.1720345113646; Sun, 07 Jul 2024
- 02:38:33 -0700 (PDT)
+        bh=t4zNRufwwT/TrxbOR4gV2QOmKOXRZvDSyFYKnOgFyDg=;
+        b=fPrQIDtSNkWiDlBK8cTT6T5FK4urBS1xpOrJ21gt0lwnCfbjzBdg+mj6jXBzRBVU+U
+         K9BP3YRCDXPA9FZJ9Yau2Z48ZAnlyANMyGmXN+iPK/A1FYvNRRTLMyfaqD44i1Yfu+it
+         RxsJ6RfSJa7MAkwQK7U6KcFY9Ex+8EgVbpN5wAdUnjFQAIzJrfZ5X8WQxDC97VHOfyzf
+         6dhnbfi2mgO5cvffBkXxVHiNtg64J1pPNUPqc/ufGWa1NaSZ/X4UaMStLb31PuitreH1
+         lUbsquDDb4B/7dl0GdcLd2jbIvmgvxpXcbaCGQjHt5i5fKw4Y0oHppvRApY03LM9GlQP
+         euKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUw6QUUxYGwwKsnIbNFsRAIbM/7khNippCc7dFWc6PR0kECJUonDPiS1th8fSLAVWWY47rlTbX7JLGmQ3iTaxO+8XSRhRcFnDa3fIGJqpxZ5HxtCJzB6O2vdwss0BbbKbUVy3QaAgD9
+X-Gm-Message-State: AOJu0Yw0q+iL24LTe5CxJWb1Zq9TntHCuP6pxlSKKi6gYIW/eiXgIiqu
+	xb82Y/3dS6Dxqi/TN91oLnoT6I3C34o8tsVA0CMndNCUMvPPCURTly//8+LsmRAdU/baslYtUoV
+	3u1UVCQIFbVT553Kg5X7E2PcZGSA=
+X-Google-Smtp-Source: AGHT+IFl4/Ie9WZbwZiu5JONXDeG5XPuy7cJdl2JxSSiF6oHoSof8Iana9C/jWqQT4Er5PNtdag6U1Cnv71LNo2ZN9o=
+X-Received: by 2002:a25:ef52:0:b0:e03:6346:ecf6 with SMTP id
+ 3f1490d57ef6-e03c1b6a7c7mr8816539276.61.1720349654398; Sun, 07 Jul 2024
+ 03:54:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-6-flintglass@gmail.com> <CAKEwX=MmwqevpoGnskXrsYQWKOR8yx4t0moasVO=risu0P7-uA@mail.gmail.com>
-In-Reply-To: <CAKEwX=MmwqevpoGnskXrsYQWKOR8yx4t0moasVO=risu0P7-uA@mail.gmail.com>
+References: <20240706022523.1104080-1-flintglass@gmail.com> <20240706103254.ffd02d7036fa3fe43dbed806@linux-foundation.org>
+In-Reply-To: <20240706103254.ffd02d7036fa3fe43dbed806@linux-foundation.org>
 From: Takero Funaki <flintglass@gmail.com>
-Date: Sun, 7 Jul 2024 18:38:23 +0900
-Message-ID: <CAPpoddenrRxWkSHTrrWEN9=uYGiQtvLDCifhAPyy2jkcdwfE-A@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] mm: zswap: store incompressible page as-is
-To: Nhat Pham <nphamcs@gmail.com>
+Date: Sun, 7 Jul 2024 19:54:04 +0900
+Message-ID: <CAPpoddfn26cKCWC4KERT7Rd=HzJwSEjGPQtpgEaEYONeHSKOzg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
+To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	Nhat Pham <nphamcs@gmail.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2024=E5=B9=B47=E6=9C=887=E6=97=A5(=E6=97=A5) 8:53 Nhat Pham <nphamcs@gmail.=
-com>:
+2024=E5=B9=B47=E6=9C=887=E6=97=A5(=E6=97=A5) 2:32 Andrew Morton <akpm@linux=
+-foundation.org>:
+> Seems that patches 1 & 2 might be worthy of backporting into earlier
+> kernels?  Could you please provide a description of the
+> userspace-visible effects of the bugs so the desirability of such an
+> action can be better understood?
+
+Patch 1 and Patch 2 partially resolve the zswap global shrinker that
+leads to performance degradation on small systems.  However, the fix
+uncovers another issue addressed in patches 3 to 6.  Backporting only
+the two patches can be a tradeoff with possible performance
+degradation in some cases. I am not sure the possible issue can be
+acceptable.
+
+The visible issue is described in the cover letter:
+
+> Visible issue to resolve
+> -------------------------------
+> The visible issue with the current global shrinker is that pageout/in
+> operations from active processes are slow when zswap is near its max
+> pool size. This is particularly significant on small memory systems
+> where total swap usage exceeds what zswap can store. This results in old
+> pages occupying most of the zswap pool space, with recent pages using
+> the swap disk directly.
 >
-> I tried to propose something similar in the past. Please read the
-> following discussion:
->
-> https://lore.kernel.org/all/CAJD7tka6XRyzYndRNEFZmi0Zj4DD2KnVzt=3DvMGhfF4=
-iN2B4VKw@mail.gmail.com/
->
-> But, the TLDR is Yosry was (rightly) concerned that with this
-> approach, memory reclaiming could end up increasing memory usage
-> rather than reducing (since we do not free up the page that fail to
-> zswap-out, and we need extra memory for the zswap metadata of that
-> page).
->
-> So my vote on this patch would be NACK, until we get around this issue
-> somehow :)
+> Root cause of the issue
+> -------------------------------
+> This issue is caused by zswap maintaining the pool size near 100%. Since
+> the shrinker fails to shrink the pool to accept_threshold_percent, zswap
+> rejects incoming pages more frequently than it should. The rejected
+> pages are directly written to disk while zswap protects old pages from
+> eviction, leading to slow pageout/in performance for recent pages.
 
-It seems the discussion on the thread mixed up memory allocation
-failure (system runs out of memory reserve) and incompressible pages
-(compression algorithm successfully compressed but the result is equal
-to or larger than PAGE_SIZE).
+Patches 1 and 2 partially resolve the issue by fixing iteration logic.
+With the two patches applied, zswap shrinker starts evicting pages
+once the pool limit is hit, as described in the current zswap
+documentation. However, this fix might not give performance
+improvement since it lacks proactive shrinking required to prepare
+spaces before pool limit is hit, implemented in patch 3.
 
-zswap has been storing pages into dedicated pages 1:1 when compressed
-to near PAGE_SIZE. Using zsmalloc, current zswap stores pages
-compressed to between 3633 bytes (=3Dhugeclass+1) to 4095 bytes
-(=3DPAGE_SIZE-1) into 1 page. This patch changes the range to 3633 to
-4096 by treating PAGE_SIZE as a special case. I could not find a
-reason to reject only PAGE_SIZE while accepting PAGE_SIZE-1.
-
-zswap wastes memory for metadata for all accepted pages but reduces IO
-amount and latency by compressed buffer memory. For pages between 3633
-to 4096 bytes, zswap reduces the latency only. This is still
-beneficial because the rare incompressible pages trigger urgent
-pageout IO and incur a head-of-line blocking on the subsequent pages.
-It also keeps LRU priority for pagein latency.
-
-In the worst case or with a malicious dataset, zswap will waste a
-significant amount of memory, but this patch does not affect nor
-resolve the scenario. For example, if a user allocates pages
-compressed to 3633 bytes, current zswap using zsmalloc cannot gain
-memory as the compression ratio, including zsmalloc overhead, becomes
-1:1. This also applies to zbud. The compression ratio will be 1:1 as
-zbud cannot find buddies smaller than 463 bytes. zswap will be less
-efficient but still work in this situation since the max pool percent
-and background writeback ensure the pool size does not overwhelm
-usable memory.
-
-I suppose the current zswap has accepted the possible waste of memory,
-at least since the current zswap_compress() logic was implemented. If
-zswap had to ensure the compression ratio is better than 1:1, and only
-prefers reducing IO amount (not latency), there would have been a
-compression ratio threshold to reject pages not compressible to under
-2048 bytes. I think accepting nearly incompressible pages is
-beneficial and changing the range to 4096 does not negatively affect
-the current behavior.
+Unfortunately, the fix uncovers another issue described in the bottom
+half of the cover letter. Because the shrinker performs writeback
+simultaneously with pageout for rejected pages, the shrinker delays
+actual memory reclaim unnecessarily. The first issue masked the second
+by virtually disabling the global shrinker writeback. I think the
+second issue only occurs under severe memory pressure, but may degrade
+pageout performance as shown in the benchmark at the bottom of the
+cover letter.
