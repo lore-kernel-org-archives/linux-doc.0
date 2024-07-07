@@ -1,62 +1,46 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D4C1E498;
-	Sun,  7 Jul 2024 12:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0D18E28
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jul 2024 16:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720356932; cv=none; b=ISpwuyp1cddrJdcBMfTK5BYaU2o2lhihqr41tZauKgq3wRoCuW0EvLxKArCCCDX0H9ukutIulz4wNKoPe+1d0cyvb77OshmER1zhOJu7Q9VVpy1FcRYYkU72b8akcIg1es/GsQP1/fxvbQExLqGV9T5MjU1w1sSMDvWqrEUhnOE=
+	t=1720368936; cv=none; b=I8dCEps3MEKTuWTOGzPheNBM+LWoeXPysaSiXodu5IlPTvfzC8BzXtATUHuvsqQkB8Vkf8rRG5xCIuQujaCHYTD8isVlWqKf87xp1Ng+zKFxz2u0zlF6/5rn1bRXTDaC5zfG9VFMsyFcTD/dhZsbrr2tlbfWX/TQ++Qrw7WJFXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720356932; c=relaxed/simple;
-	bh=699Dr1Zzftx7dykQBKJJCEHmbS/vhJfNO9kbYbzbuBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XKBEn8XQKlWFhUJpfw1LV9mWqMqbZpt3DiXYvNCYOeEyo9WAx3xj0Q/0879EnYDHY4u6GFQ/SGJJu7qCuRNObuQnb+hHZrU2RrIkL3GDSCCD4OEow/mEJ86oeSXOAaF+oAaE/BJc+RmJIZufWWSPqEP4tCoggwMBS7Lp9kanpMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DQQYWzK4; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1720368936; c=relaxed/simple;
+	bh=CcbO9mal7o4Z7kla4wUPITnR5YQHnXSLPu+2L8jeCdg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=J8ADh3XaxlGqF5xE9IQm8CSV6c+92KkOobfPUp8gcZOucTCJEryzaNme6EgLDGwJsVXfWAioXT4qeaNkpxR1ur5xRtcU5z3BdbwsvM5hZLZl4jayxYQ8svghT2hHEYVfPtRs7eW/OBftuGXZ6Y3hbXBlBsMattT0u6M7qq0gZx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uuQa9TWX; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DQQYWzK4"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1832B60003;
-	Sun,  7 Jul 2024 12:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720356927;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uuQa9TWX"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720368931;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bf1fF8WwiErDA75AsNYKAJh+BycwFxySDUH58lCZ6iY=;
-	b=DQQYWzK4nfe8TvCSLPXaPkrU4Jp4Ov33l2pvuxBymaPFP7LXr5/nz57XxpUmJnBZaR4Q/G
-	BcXUz1IMEjakNEDx3sSaLSXSnBsOmlSCtMTNZ41K/jnVDMtnh49bORy29oLwsZ1gyvkFC4
-	twR2/K7mi4yJo+zD6QiA0sTzYElhZfvKtwKgckR/squSxUdZaVCu4HVadoAYXkNnrX/jN2
-	qXKjXZEAZxUruXdfmEuNcTi57ZlgjGIPr/OTpwi7TuPsBikXR2TP9DG2nwyOu72mVotdkJ
-	4IDoPnXlUU3WOX93pchqu1+cNCBBbh73Xjmf2POgju0D8O5IMEbWAM6IgmqzCA==
-Date: Sun, 7 Jul 2024 14:55:23 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Simon Horman <horms@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
- Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
- <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Vladimir Oltean <vladimir.oltean@nxp.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v16 13/14] net: ethtool: Add support for
- tsconfig command to get/set hwtstamp config
-Message-ID: <20240707145523.37fdfeec@kmaincent-XPS-13-7390>
-In-Reply-To: <20240707082408.GF1481495@kernel.org>
-References: <20240705-feature_ptp_netnext-v16-0-5d7153914052@bootlin.com>
-	<20240705-feature_ptp_netnext-v16-13-5d7153914052@bootlin.com>
-	<20240707082408.GF1481495@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oAnCpXFlsaLK2Hpd3SeRhOA5IpW0O6zNcEfcdZMEQSk=;
+	b=uuQa9TWXoIs9yAe7ahCoMSjVY4saRRbwkkGbrc6H/NNFhNzjCr3xSmsvnI2cxG49eLiI5U
+	WkJSK4pmkd/m3EcL1AZLsD+vpEkrcYSRJED01oVRu8utaSWwQajeYYdmILCpSpidgcae/g
+	WVo8QRMcKLaasoM5bukSQBej0IyMDpM=
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: alexs@kernel.org
+X-Envelope-To: siyanteng@loongson.cn
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: zenghui.yu@linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: alexs@kernel.org,
+	siyanteng@loongson.cn,
+	corbet@lwn.net,
+	Zenghui Yu <zenghui.yu@linux.dev>
+Subject: [PATCH] docs/zh_CN/virt: Update the translation of guest-halt-polling.rst
+Date: Mon,  8 Jul 2024 00:14:44 +0800
+Message-Id: <20240707161444.98715-1-zenghui.yu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,42 +48,30 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, 7 Jul 2024 09:24:08 +0100
-Simon Horman <horms@kernel.org> wrote:
+Update to commit 1954d51592b5 ("Documentation: virt: correct location of
+haltpoll module params") to fix the obvious mistake.
 
-> On Fri, Jul 05, 2024 at 05:03:14PM +0200, Kory Maincent wrote:
->  [...] =20
->=20
-> > diff --git a/Documentation/networking/timestamping.rst
-> > b/Documentation/networking/timestamping.rst index
-> > 5e93cd71f99f..8b864ae33297 100644 ---
-> > a/Documentation/networking/timestamping.rst +++
-> > b/Documentation/networking/timestamping.rst @@ -493,8 +493,8 @@ implici=
-tly
-> > defined. ts[0] holds a software timestamp if set, ts[1] is again deprec=
-ated
-> > and ts[2] holds a hardware timestamp if set.=20
-> > =20
-> > -3. Hardware Timestamping configuration: SIOCSHWTSTAMP and SIOCGHWTSTAMP
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +3. Hardware Timestamping configuration: ETHTOOL_MSG_TSCONFIG_SET/GET
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =20
->=20
-> nit: make htmldocs flags that this title underline is too short
->=20
-> ...
+Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+---
+ Documentation/translations/zh_CN/virt/guest-halt-polling.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Arf, indeed forgot to rebuild the doc, sorry.
+diff --git a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+index b798d1cf0b48..463d1d829062 100644
+--- a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
++++ b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+@@ -76,7 +76,7 @@ guest_halt_poll_ns将保持高位）。
+ 
+ 默认值: Y
+ 
+-模块参数可以从Debugfs文件中设置，在::
++模块参数可以从sysfs文件中设置，在::
+ 
+ 	/sys/module/haltpoll/parameters/
+ 
+-- 
+2.34.1
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
