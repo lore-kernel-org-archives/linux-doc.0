@@ -1,254 +1,428 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2089.outbound.protection.outlook.com [40.107.105.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1067AD31
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 04:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720414467; cv=none; b=cCTQlDOstMlrxkVp6XKnCXPvxDqd4PtdPbxsRN4QGiD7rqU2ZZvGhX7ba6MyiAzF9eDb9iim8koKwMr3kb0vs2QktNRIs0b0KbGRzpCQ38FldHCFbVDC1vjHrAXpKyk1PPjbhagmbE3pMXXsHRDUMRWLoplnMXiYS+ZZ6ueNXMc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720414467; c=relaxed/simple;
-	bh=kVBcAvCsxaytSilJDWdLok1HIaNJpM+krqj/IX3mqCA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTVJSscuWGnmisqFObqgkW99Aa87I4Duypp3C5bsfsNqnXwoOC2HlfAjwz+YoXZkVXwp0mxJiWm3syC68HYtHmVHuGo3PBGe0tXw9xxBHLZSlyfSub2Zw5XWcRQzGd8k0eClVRVym7ahTjf0UN7aYI4Z/h8s+vrcbgbYavyO94c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jrkI4T9J; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6643B156E4;
+	Mon,  8 Jul 2024 05:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.105.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720417827; cv=fail; b=Ine2MN0GzKep1thIC6ZfDqQOc44Gdqy01JWPVtJ4wSSISG3gZHXvEHNyjeNwLS7iaTo0Wb2OQL3voWF+qqLrs2K7QrFvIRe65h/ghSTE/FXelIyLUB60J4voQURLIsyHgr9KWoODSeuz12VVFjZ9h3nTKEW7DcSYP6c9ClvD1aI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720417827; c=relaxed/simple;
+	bh=LeqOBuwaV+bXxzF8ycZDVgpv1zjyY5bnzgNF8JF5DIo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=lINuCQOKfd0s5SCo00aFvXwxdi3pRzcDiB9Hv/a/1YDgF19KOWHRtXIW9sAu48DFvX3p/x3DHp64jIVorg+PDngHccF0pxl5LTy9Emn31uppebJMbnm733dXeaLFLQ0LbXqbdJjj+fcxvqJnSFFUIR4KdHsfUCM8betHyfUFxvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=p2luHbaO; arc=fail smtp.client-ip=40.107.105.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jrkI4T9J"
-X-Envelope-To: flintglass@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1720414461;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c8VB2k+22kNRa5tSGO9soknpb8V7NY0s9flzhhUjA1E=;
-	b=jrkI4T9JAAC0EaOGUXqEtlyRdfleKVup21oCRIxI45rjcv9zDWrzAcJcBJ53971i9WoIAe
-	a5mKFSKGX6DRpa/VRRd8eRL7dAq2TmwV8OuckX9oulNX0psbR7+wSsbqRkgrRw0MYai8nc
-	1dA1OrJsqN9uvbN4KweoLBDtfrvZg3E=
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: yosryahmed@google.com
-X-Envelope-To: nphamcs@gmail.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: akpm@linux-foundation.org
-X-Envelope-To: cerasuolodomenico@gmail.com
-X-Envelope-To: linux-mm@kvack.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-Message-ID: <58163ead-b0b2-444b-adab-ced887210b83@linux.dev>
-Date: Mon, 8 Jul 2024 12:54:05 +0800
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="p2luHbaO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=klsSiNOYldBGyBoTPyBMSE4GXBkajfK7XCLhiHYtiJy5VnId3D6DBsPOb5SSSiTUnacWaa0WCn8HEkhCx+K/qPSBhyO2azGU4Prc6dHQBY0tHVMABHLgkx1j0NBOmi91KL4QJK+hLi0CvGjsjjx2gIY7tzC4ggnb9DnO7s6kjWwxW5kEsDGD07vOecSz9uB1ff5NzrQgprPlCOp+HVCx+OzH5x8SCIP8h5atlpM9jDAuMK2SIujqhp3EePWHeiuyStDWYExPDbtwVAzAStzPYXzXsyaZJ3q0H/X5t3WTnqo8MAv10FVmXx+ZVaU2Ml1BClJq8jxmAlbeV6SvhdT40g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z7sm1YqeEh1t0zg7V7VCqI4p9Qzx7y4PVbrOdGYx5Qc=;
+ b=dySjKrEJUIOwX/o0tiWshPAOxcCmnHitymqkz4hNb3YgS2sx+hqkPDmJ/5/Z4SFksYDYrYspMcNcdS41E5bIIkP+XayNo7FaQt5Aoi7RVUOvZhsjfq1N2HSd4bVB10oEFRCIuoYSeLwwzCQfUbUpkti9h3GXZSJSKQcrGKjl+iPXooFr2qTHXJuhtMMh7dSoeD81I+h6NlmerH8259LSAXDWOo6rod8x5HFH69OAD3rcDgvMbcBwBmVQJuRsnW4L7ya+0iy1JO+rx/rcQbgRTN9s7cA3mAIey6nnSVqdV/W/WR/hU08h2b7XNKDpUXI8YwIQYEg24tJ/0pc5nVoC/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z7sm1YqeEh1t0zg7V7VCqI4p9Qzx7y4PVbrOdGYx5Qc=;
+ b=p2luHbaOOCvQnpC8IsbuPCvgRofxq8tN1SgwwY2PhbB6SiMrCFl5zVFfUVvtsH1nQVXMYMTvFK2yVbT9lC5Csmlb+RpnShxpvZFyq9szgTAmPjWhx49nPSvRLbhsvhjnCMwT2xvw73QnrKlnuLY03Beuw1pEfI8Q43HQCa5FFy4=
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
+ by PAXPR04MB9008.eurprd04.prod.outlook.com (2603:10a6:102:20d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Mon, 8 Jul
+ 2024 05:50:21 +0000
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
+ 05:50:21 +0000
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v4 2/5] dt-bindings: arm: fsl: add imx-se-fw
+ binding doc
+Thread-Topic: [EXT] Re: [PATCH v4 2/5] dt-bindings: arm: fsl: add imx-se-fw
+ binding doc
+Thread-Index: AQHazuMSrg3adK0l6E2Y9DEwTEglUrHrNmCAgAETJjA=
+Date: Mon, 8 Jul 2024 05:50:21 +0000
+Message-ID:
+ <AM9PR04MB8604B9A9F3D22C35679AD1D195DA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+References: <20240705-imx-se-if-v4-0-52d000e18a1d@nxp.com>
+ <20240705-imx-se-if-v4-2-52d000e18a1d@nxp.com>
+ <450d1575-c9b3-413b-bfa9-8dc4352fa263@kernel.org>
+In-Reply-To: <450d1575-c9b3-413b-bfa9-8dc4352fa263@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|PAXPR04MB9008:EE_
+x-ms-office365-filtering-correlation-id: 9ddc2123-b273-4a6f-4010-08dc9f11dabf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018|921020;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?10jXETw22UCVUDDDuyuJfB3y95aYIHZ4RDWQe1Z4LvxhFVZtQTg/TXk1M2Qx?=
+ =?us-ascii?Q?GE7EaNlCmtgeu4ABeEdUsn9QnHDpO6G++rjytYJFXwwRrhihQCeMYGawI4EB?=
+ =?us-ascii?Q?MDlMlmdV+CmvUKvx0kv8c/uwOOomKlB26bW+8TXVuX+XopbS/xPdr7eriQL3?=
+ =?us-ascii?Q?xgCZBbB5KbY6xa6TU9PGF6uctMvWhQ8jCcUU1+e6ECytNbgODGCwotElzxnK?=
+ =?us-ascii?Q?/WlTZd6VXB6ZOveUETGi6CrXWk4TZGjO9MmrZEPLMnJCPgbMqpyd6J/ZFmzj?=
+ =?us-ascii?Q?Zfi9sjXKBeLFfqOvO5ownH1RtjIzvb3ih21+QL17IiOt8xybK2q721OgKyGy?=
+ =?us-ascii?Q?IuepPERkV0XsTTIi/4mv70uIPQaxTCs57DIdJrJhktjkRrhCAzm8GR54BTc1?=
+ =?us-ascii?Q?rGX0gaum/gONbohJfRAd/VR+aA0VSpbCcfQKR/AcG2oVZPkWsBzchHzJMP8Q?=
+ =?us-ascii?Q?WLMRHjtftP0BwNkueAp/VlZTBArVnVVrbsq5JfmaFzGQZvS23GizHGwAXm42?=
+ =?us-ascii?Q?0aC+jXjODbocnjYqY1/inGNJuMO8U5lPh37tgQepObSjv3F+CJmqrQVxnU0z?=
+ =?us-ascii?Q?6zvzEgniMs1J/V60We/IOYCMleR8dvvOEIKI0SLRRsex04WrTDtlA5pQB5i9?=
+ =?us-ascii?Q?YH1SJwADYyoAyjwmgnWRLCEJ0r78dSTSjljugnBUoFx3wyr6wFysh++o9/WT?=
+ =?us-ascii?Q?I33QhqguOkQtdX+X+kATKZJwPZLQNyk1+HqoW9A6hfU+WUpepehLGIrLs1aU?=
+ =?us-ascii?Q?/WjoYcmKaijcPAbrOedAbasLs5919dzDyXejoCx93+1o+p3A17QcC+MqzRak?=
+ =?us-ascii?Q?B5CoOqPJ60BfJ1Do3318APIObCMa015DwvptEx+Nd41s0OOESqrZHVAMm84v?=
+ =?us-ascii?Q?VGHXYJfTcm7PJ1sT8adg+2XlaWx/AHX5JTSFhYl1pntaWkx/FJkB7tKy3rxT?=
+ =?us-ascii?Q?mjwxuDEQ8z0FNWkac/SOjyWz9TFAcRGdjcTgmjo0h2kPBCNd9aCH5oKQriRk?=
+ =?us-ascii?Q?AqYPCnITzldy5nsuBo9mgaW7k5ejUHcxrt1B4y7oep9SYVf7RuFBpBSck1Xi?=
+ =?us-ascii?Q?WtNnc89diSwCX9S2vgycYsFyMZCfPMod/wVOlBJWcOWxMPKV4oNGD9RIt5Vp?=
+ =?us-ascii?Q?qAmXOoUfDqU2zExEuYyo0fPvLqwBLPZFs+I//dJyfafT5lMxKwA1bmULwrkt?=
+ =?us-ascii?Q?ScAMbySUPlPFLRa86eaLQTlRUPRI6GZ5/ij7kON3lmqwILKG2MHSytmQMR20?=
+ =?us-ascii?Q?r6OcnHiBuimDlBFRLUfstTbIPDERurW36nCndnUOIAjBausAFq0w8IEH24pq?=
+ =?us-ascii?Q?IgDBKDCvbao/jsSEqBxckGFcYGgNCbEZHmz16iT9wqY0Rhv7vjsIQGctFQdy?=
+ =?us-ascii?Q?/3iQ6K6qXiMmvB7EjNUFeN3m0WLnReGZpkxraReIjlIqEd50yC3yiZJl2Zfk?=
+ =?us-ascii?Q?QoYAvP0XyFs=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?z0fRGsJfwz1Ab2EQGdQW+pPsCmEV17+jwvOsxzmHL3HPq4rMJz8e4G5Drota?=
+ =?us-ascii?Q?v6BxzZy+kGxZD/+tYqmxJOyDFPg3Vgh2koxYMAXXCSh4+ah/jWkl3kkWSMjx?=
+ =?us-ascii?Q?+BDTQkq9nU263oIFWrVVO8BWKGmVz0xX60tvBlmsqhl4H7K5YqLRVcWECepu?=
+ =?us-ascii?Q?W/oQwihhGVbnZFtoD7V4fuZM6fHEV84dzhh6g0KFEQZmfvRiKWZgyZfiKClv?=
+ =?us-ascii?Q?n1cBjrYjAlDqSU7cvcXMmqV2qQBUyCaZ+B9edl2arZ7JFjYNmhSYCe/ZntTC?=
+ =?us-ascii?Q?JpJxYvOwFPYPAer0MS94uW1IjEV3WKKKPD+80oEaaOpg59kED19hUVTvCYk1?=
+ =?us-ascii?Q?eRZAArN8WtiXWtYYhfij+K0tIHQN7OyKXXjQH59ZvoRXg/1xv5m9GknmUaye?=
+ =?us-ascii?Q?lATD/WRpm2Pgm5ypLUwttimcFT+sNqcVN8Uxd4CkT5Z6ERwRBGBZg9A6RiDS?=
+ =?us-ascii?Q?eZmzon98xOurH8nY0f2n2Wv14yjDe2F2yf/OUJs2fq3K7IJn256ZPXvGJ2mO?=
+ =?us-ascii?Q?PEi3uaPt9fl1Ptsu4DTroa7p8EsnM1Cibghl5iWnwmy524z2OIEX3bm8Iek9?=
+ =?us-ascii?Q?NFJqvrvyWyWSudKNX1WHSPBTzcoXBKBS2Q0PS2WhxxOXbPfOgtABI3c1ufFg?=
+ =?us-ascii?Q?ys9co+TUf9XJWhvZglmSJHwRiGYGLuSU2N/biSAMPqDcFUXzMrcI8U2BHp+t?=
+ =?us-ascii?Q?IclvlEw2fhAZxoAmjMpCayJtz7gx4hHEBV92OIvvBHx7LU5brK8yABcwaups?=
+ =?us-ascii?Q?3yuXK8L838xBm+jXpTc5NYTaIyaex9gfkzpU0c8VwjXh1EKcWP/mYg982phG?=
+ =?us-ascii?Q?Gr++NTM/muUuJ8YgJDYZ/cZJtCdcGP0bUZeQhw66C/bDWmmpvGaBXqDy+TOZ?=
+ =?us-ascii?Q?dEamSx3Y51Ro55NaUAzQtfqkIpKq85TITiWuvwm2U5BdazowT+egExSqMJ/m?=
+ =?us-ascii?Q?MfcmpTT0AbgE+x3VGAgnxu3eFAJjKJ7cXRHNuhikwVAAveMFC8wy2oXsACvs?=
+ =?us-ascii?Q?/Mmnu4PcOTeoLbfTyF3swHVdFmWHioSqWRj84BEI5i/IBpPAGUgF5ZylXyUH?=
+ =?us-ascii?Q?z3J409ONRh1GgpBq27Cwe44VsxCuNtLnjU5QKMkhiIw9pxu/sDxgiopI07p/?=
+ =?us-ascii?Q?Cyn0kyOXPDLX8mDNySwvpFRmKCTx9p0WB803Phf1qjgLwVmCCuE7vtPExDxk?=
+ =?us-ascii?Q?tLpXUmy/eqOwYKkUhN9iJGx4FP8V7dN63WY7VWLHf3RK7gMP4my5jBzEpDG1?=
+ =?us-ascii?Q?2tUJrP3QlPzlc3drxJmhseXRgljU7X54mtZD3sI2a8IVmdjU1VOGiBTGxtu8?=
+ =?us-ascii?Q?WfdSUPFoghplaaapRypfkksVGDxW4+KNd/GNl2mCBSpnaY5z+zsxbJ+lBX/U?=
+ =?us-ascii?Q?4QjypklKCuAKrbSTiEtAu1iTmqVgCzDBU18AgR8NsrI6hC28Z7tG1cvI4Ih1?=
+ =?us-ascii?Q?jX2+KrX2OMgJ1BhzB8YZZqjT0+1oUmE6qyh644vlPzCAxq5w8dy079VT9Wmx?=
+ =?us-ascii?Q?1KcyvNJ/oO+BpcwhFpA6zedAFeEoODbk8EvA4EKi1FONm8Olxsmzaa3VfDHb?=
+ =?us-ascii?Q?MlK8P7VoVRgymcsZvSXEWKKM2zimR3Z9gsg2QQkZ?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/6] mm: zswap: fix global shrinker memcg iteration
-To: Takero Funaki <flintglass@gmail.com>, Johannes Weiner
- <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>,
- Nhat Pham <nphamcs@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-2-flintglass@gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Chengming Zhou <chengming.zhou@linux.dev>
-In-Reply-To: <20240706022523.1104080-2-flintglass@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ddc2123-b273-4a6f-4010-08dc9f11dabf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2024 05:50:21.2507
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q1UgGJgNsYgApiB8/hMJMFVcXXFF47Vu1N2kQMPrkpZB8bRfy6UOmkJHE7GscfpSfZTLA0uSnktbP5GxluM6Ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9008
 
-On 2024/7/6 10:25, Takero Funaki wrote:
-> This patch fixes an issue where the zswap global shrinker stopped
-> iterating through the memcg tree.
-> 
-> The problem was that shrink_worker() would stop iterating when a memcg
-> was being offlined and restart from the tree root.  Now, it properly
-> handles the offlie memcg and continues shrinking with the next memcg.
 
-	      ^offline
 
-> 
-> Note that, to avoid a refcount leak of offline memcg encountered during
-> the memcg tree walking, shrink_worker() must continue iterating to find
-> the next online memcg.
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Sunday, July 7, 2024 6:05 PM
+> To: Pankaj Gupta <pankaj.gupta@nxp.com>; Jonathan Corbet
+> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Shawn Guo
+> <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
+> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> <festevam@gmail.com>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+> Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org
+> Subject: [EXT] Re: [PATCH v4 2/5] dt-bindings: arm: fsl: add imx-se-fw bi=
+nding
+> doc
+>=20
+> Caution: This is an external email. Please take care when clicking links =
+or
+> opening attachments. When in doubt, report the message using the 'Report
+> this email' button
+>=20
+>=20
+> On 05/07/2024 15:52, Pankaj Gupta wrote:
+> > The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
+> > creates an embedded secure enclave within the SoC boundary to enable
+> > features like:
+> > - HSM
+> > - SHE
+> > - V2X
+> >
+> > Secure-Enclave(s) communication interface are typically via message
+> > unit, i.e., based on mailbox linux kernel driver. This driver enables
+> > communication ensuring well defined message sequence protocol between
+> > Application Core and enclave's firmware.
+> >
+> > Driver configures multiple misc-device on the MU, for multiple
+> > user-space applications, to be able to communicate over single MU.
+> >
+> > It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
+>=20
+> This binding is not improving, even though it is v5.
 
-Yeah, mem_cgroup_tryget_online() ensures that we get an online memcg to 
-shrink.
+I have disposed-off all the comments received by Conor and Rob.
+Expecting there Reviewed-By on the v4, if they had no more comments.
 
-> 
-> The following minor issues in the existing code are also resolved by the
-> change in the iteration logic:
-> 
-> - A rare temporary refcount leak in the offline memcg cleaner, where the
->    next memcg of the offlined memcg is also offline.  The leaked memcg
->    cannot be freed until the next shrink_worker() releases the reference.
+I will ensure to address your comments on this mail chain, in the best way =
+I could.
 
-Is this a problem encountered in real life? I'm a little confused, since
-we move cursor under the lock protection, and any offlining memcg will 
-come here to move cursor to the next one. I don't get how refcount leak
-happens?
+>=20
+> >
+> > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > ---
+> >  .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 133
+> +++++++++++++++++++++
+> >  1 file changed, 133 insertions(+)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > new file mode 100644
+> > index 000000000000..b9018645101d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > @@ -0,0 +1,133 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> >
+> +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi
+> > +cetree.org%2Fschemas%2Ffirmware%2Ffsl%2Cimx-
+> se.yaml%23&data=3D05%7C02%7
+> >
+> +Cpankaj.gupta%40nxp.com%7Cb43d043a91934c0c094c08dc9e813c2f%7C
+> 686ea1d3
+> >
+> +bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638559525096552364%7CUn
+> known%7CTWF
+> >
+> +pbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ
+> XVCI6
+> >
+> +Mn0%3D%7C0%7C%7C%7C&sdata=3DzmZkwos2LRrAdtPBr0pCJxCrztncKCQS2
+> 4ECYMIjSnw
+> > +%3D&reserved=3D0
+> > +$schema:
+> >
+> +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdevi
+> > +cetree.org%2Fmeta-
+> schemas%2Fcore.yaml%23&data=3D05%7C02%7Cpankaj.gupta%
+> >
+> +40nxp.com%7Cb43d043a91934c0c094c08dc9e813c2f%7C686ea1d3bc2b4
+> c6fa92cd9
+> >
+> +9c5c301635%7C0%7C0%7C638559525096560485%7CUnknown%7CTWF
+> pbGZsb3d8eyJWI
+> >
+> +joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7
+> C0%7C%
+> >
+> +7C%7C&sdata=3DWNl9M3G%2BPIl4xPx4w74Tsv7OIBkTRiR0Er5uj7PAt5o%3D
+> &reserved
+> > +=3D0
+> > +
+> > +title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
+> > +
+> > +maintainers:
+> > +  - Pankaj Gupta <pankaj.gupta@nxp.com>
+> > +
+> > +description: |
+> > +  NXP's SoC may contain one or multiple embedded secure-enclave HW
+> > +  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
+> > +  enables features like
+> > +    - Hardware Security Module (HSM),
+> > +    - Security Hardware Extension (SHE), and
+> > +    - Vehicular to Anything (V2X)
+> > +
+> > +  Communication interface to the secure-enclaves is based on the
+> > + messaging unit(s).
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    pattern: "firmware@[0-9a-f]+$"
+> > +
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx8ulp-se
+> > +      - fsl,imx93-se
+> > +      - fsl,imx95-se
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +    description: Identifier of the communication interface to secure-e=
+nclave.
+> > +
+> > +  mboxes:
+> > +    description: contain a list of phandles to mailboxes.
+>=20
+> Drop, obvious.
+Will remove the line "- description: contain a list of phandles to mailboxe=
+s."
 
-> 
-> - One memcg was skipped from shrinking when the offline memcg cleaner
->    advanced the cursor of memcg tree. It is addressed by a flag to
->    indicate that the cursor has already been advanced.
+>=20
+> > +    items:
+> > +      - description: Specify the mailbox used to send message to se fi=
+rmware
+> > +      - description: Specify the mailbox used to receive message from
+> > + se firmware
+>=20
+> Drop redundant/obvious parts.
+Will replace above two description line with the below two.
+      - description: mailbox phandle to send message to se firmware
+      - description: mailbox phandle to receive message from se firmware
 
-Sorry, I also don't get this. Obviously, we should skip offline memcg to
-shrink, the reason is that offline memcg would reparent its LRU and 
-objcg, so moving cursor to the next online one is fine? Maybe I missed 
-something?
+>=20
+> So two mailboxes?
+Two handles of the same mailbox.
 
-Thanks.
+>=20
+> > +
+> > +  mbox-names:
+> > +    items:
+> > +      - const: tx
+> > +      - const: rx
+> > +      - const: txdb
+> > +      - const: rxdb
+>=20
+> 4 mailboxes? This cannot be different.
+mbox-names can have any of the above mentioned 4 values.
+And  two values are minimum, required.
 
-> 
-> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> Signed-off-by: Takero Funaki <flintglass@gmail.com>
-> ---
->   mm/zswap.c | 94 ++++++++++++++++++++++++++++++++++++++++++------------
->   1 file changed, 73 insertions(+), 21 deletions(-)
-> 
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index a50e2986cd2f..29944d8145af 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -171,6 +171,7 @@ static struct list_lru zswap_list_lru;
->   /* The lock protects zswap_next_shrink updates. */
->   static DEFINE_SPINLOCK(zswap_shrink_lock);
->   static struct mem_cgroup *zswap_next_shrink;
-> +static bool zswap_next_shrink_changed;
->   static struct work_struct zswap_shrink_work;
->   static struct shrinker *zswap_shrinker;
->   
-> @@ -775,12 +776,39 @@ void zswap_folio_swapin(struct folio *folio)
->   	}
->   }
->   
-> +/*
-> + * This function should be called when a memcg is being offlined.
-> + *
-> + * Since the global shrinker shrink_worker() may hold a reference
-> + * of the memcg, we must check and release the reference in
-> + * zswap_next_shrink.
-> + *
-> + * shrink_worker() must handle the case where this function releases
-> + * the reference of memcg being shrunk.
-> + */
->   void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)
->   {
->   	/* lock out zswap shrinker walking memcg tree */
->   	spin_lock(&zswap_shrink_lock);
-> -	if (zswap_next_shrink == memcg)
-> -		zswap_next_shrink = mem_cgroup_iter(NULL, zswap_next_shrink, NULL);
-> +	if (zswap_next_shrink == memcg) {
-> +		/*
-> +		 * We advances the cursor to put back the offlined memcg.
-> +		 * shrink_worker() should not advance the cursor again.
-> +		 */
-> +		zswap_next_shrink_changed = true;
-> +
-> +		do {
-> +			zswap_next_shrink = mem_cgroup_iter(NULL,
-> +					zswap_next_shrink, NULL);
-> +		} while (zswap_next_shrink &&
-> +				!mem_cgroup_online(zswap_next_shrink));
-> +		/*
-> +		 * We verified the next memcg is online.  Even if the next
-> +		 * memcg is being offlined here, another cleaner must be
-> +		 * waiting for our lock.  We can leave the online memcg
-> +		 * reference.
-> +		 */
-> +	}
->   	spin_unlock(&zswap_shrink_lock);
->   }
->   
-> @@ -1319,18 +1347,42 @@ static void shrink_worker(struct work_struct *w)
->   	/* Reclaim down to the accept threshold */
->   	thr = zswap_accept_thr_pages();
->   
-> -	/* global reclaim will select cgroup in a round-robin fashion. */
-> +	/* global reclaim will select cgroup in a round-robin fashion.
-> +	 *
-> +	 * We save iteration cursor memcg into zswap_next_shrink,
-> +	 * which can be modified by the offline memcg cleaner
-> +	 * zswap_memcg_offline_cleanup().
-> +	 *
-> +	 * Since the offline cleaner is called only once, we cannot leave an
-> +	 * offline memcg reference in zswap_next_shrink.
-> +	 * We can rely on the cleaner only if we get online memcg under lock.
-> +	 *
-> +	 * If we get an offline memcg, we cannot determine the cleaner has
-> +	 * already been called or will be called later. We must put back the
-> +	 * reference before returning from this function. Otherwise, the
-> +	 * offline memcg left in zswap_next_shrink will hold the reference
-> +	 * until the next run of shrink_worker().
-> +	 */
->   	do {
->   		spin_lock(&zswap_shrink_lock);
-> -		zswap_next_shrink = mem_cgroup_iter(NULL, zswap_next_shrink, NULL);
-> -		memcg = zswap_next_shrink;
->   
->   		/*
-> -		 * We need to retry if we have gone through a full round trip, or if we
-> -		 * got an offline memcg (or else we risk undoing the effect of the
-> -		 * zswap memcg offlining cleanup callback). This is not catastrophic
-> -		 * per se, but it will keep the now offlined memcg hostage for a while.
-> -		 *
-> +		 * Start shrinking from the next memcg after zswap_next_shrink.
-> +		 * To not skip a memcg, do not advance the cursor when it has
-> +		 * already been advanced by the offline cleaner.
-> +		 */
-> +		do {
-> +			if (zswap_next_shrink_changed) {
-> +				/* cleaner advanced the cursor */
-> +				zswap_next_shrink_changed = false;
-> +			} else {
-> +				zswap_next_shrink = mem_cgroup_iter(NULL,
-> +						zswap_next_shrink, NULL);
-> +			}
-> +			memcg = zswap_next_shrink;
-> +		} while (memcg && !mem_cgroup_tryget_online(memcg));
-> +
-> +		/*
->   		 * Note that if we got an online memcg, we will keep the extra
->   		 * reference in case the original reference obtained by mem_cgroup_iter
->   		 * is dropped by the zswap memcg offlining callback, ensuring that the
-> @@ -1344,17 +1396,11 @@ static void shrink_worker(struct work_struct *w)
->   			goto resched;
->   		}
->   
-> -		if (!mem_cgroup_tryget_online(memcg)) {
-> -			/* drop the reference from mem_cgroup_iter() */
-> -			mem_cgroup_iter_break(NULL, memcg);
-> -			zswap_next_shrink = NULL;
-> -			spin_unlock(&zswap_shrink_lock);
-> -
-> -			if (++failures == MAX_RECLAIM_RETRIES)
-> -				break;
-> -
-> -			goto resched;
-> -		}
-> +		/*
-> +		 * We verified the memcg is online and got an extra memcg
-> +		 * reference.  Our memcg might be offlined concurrently but the
-> +		 * respective offline cleaner must be waiting for our lock.
-> +		 */
->   		spin_unlock(&zswap_shrink_lock);
->   
->   		ret = shrink_memcg(memcg);
-> @@ -1368,6 +1414,12 @@ static void shrink_worker(struct work_struct *w)
->   resched:
->   		cond_resched();
->   	} while (zswap_total_pages() > thr);
-> +
-> +	/*
-> +	 * We can still hold the original memcg reference.
-> +	 * The reference is stored in zswap_next_shrink, and then reused
-> +	 * by the next shrink_worker().
-> +	 */
->   }
->   
->   /*********************************
+>=20
+> > +    minItems: 2
+> > +
+> > +  memory-region:
+> > +    description: contains the phandle to reserved external memory.
+>=20
+> Drop
+Will remove the line " description: contains the phandle to reserved extern=
+al memory."
+
+>=20
+> > +    items:
+> > +      - description: It is used by secure-enclave firmware. It is an o=
+ptional
+> > +          property based on compatible and identifier to communication
+> interface.
+> > +          (see bindings/reserved-memory/reserved-memory.txt)
+> > +
+> > +  sram:
+> > +    description: contains the phandle to sram.
+>=20
+> Drop
+Will remove " description: contains the phandle to sram."
+
+>=20
+> > +    items:
+> > +      - description: Phandle to the device SRAM. It is an optional pro=
+perty
+> > +          based on compatible and identifier to communication interfac=
+e.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - mboxes
+> > +  - mbox-names
+> > +
+> > +additionalProperties: false
+>=20
+> Keep it after allOf block
+
+In V2, it is after allOf block.
+In previous comments, it was commented to place allOf block, after required=
+.
+I am little confused.
+
+>=20
+>=20
+> > +
+> > +allOf:
+> > +  # memory-region
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - fsl,imx8ulp-se
+> > +              - fsl,imx93-se
+> > +    then:
+> > +      required:
+> > +        - memory-region
+> > +    else:
+> > +      properties:
+> > +        memory-region: false
+> > +
+> > +  # sram
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - fsl,imx8ulp-se
+> > +    then:
+> > +      required:
+> > +        - sram
+> > +
+> > +    else:
+> > +      properties:
+> > +        sram: false
+> > +
+> > +examples:
+> > +  - |
+> > +    firmware {
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +      firmware@0 {
+> > +        compatible =3D "fsl,imx95-se";
+> > +        reg =3D <0x0>;
+> > +        mboxes =3D <&ele_mu0 0 0>, <&ele_mu0 1 0>;
+> > +        mbox-names =3D "tx", "rx";
+> > +      };
+>=20
+> One example is enough.
+Accepted.
+
+>=20
+>=20
+> Best regards,
+> Krzysztof
+
