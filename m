@@ -1,166 +1,121 @@
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2086.outbound.protection.outlook.com [40.92.103.86])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA801B974;
-	Mon,  8 Jul 2024 07:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720422717; cv=fail; b=oBi9RD41ykrwyMbRTq1sJ81sphR8b457TRofdnHdPot+mftf931t+Auc3GuMOGDh8nc6ywMwQVJLSVDxNL59sScORogFGC9D4N1v6Ra4TXaCKNuD+1WOSAqqFQRpfICfj7fuzNYyJF1BJ8a+LpFIunJc2CEkr1sJ/IomO/1RNsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720422717; c=relaxed/simple;
-	bh=jX38H/jQW1l8cWOvploavVudiSpCl4dJL0H7qlfXy68=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hQmphJz+zU6+XjcY/CuS+ltp3MFAsRr19TUvW4KWis9qDAkgYALJXPYF6uJ0MbG69BkRpL4FrnZZT5K9W2caAWHWiyLJaAftgr32p6ZBsxj3FcA3cPTBLAXuV9eeTR8pcISacgR6Y9U2WVKtYxGVmVSXmh8EWBRwEjd9sI667bo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=EG6CfMm3; arc=fail smtp.client-ip=40.92.103.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874371CFB2
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 07:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720423034; cv=none; b=khPKPYlEcH6+zO4b/RNFk81HnBAq28yojkqefHEj1VnJ+7AB6GjD9b3WIuMoZYemBFS1i6R/8/p5j4ZVDo0O1NCDCn2akQwSr+4LNvqi38MeXoQlDJmK7sJA7X6hXmKkv1DXYDLb46PWjvY0c55Kc7zTmKUTHPsJoNh3fRpTn4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720423034; c=relaxed/simple;
+	bh=vN1qPV7aqV+lGUAD0aSzllM6M3CntoLPoPMO+06F8OI=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=GTYIribDQmzWVNp+PMaIMKDh6evYqPjkNhHsjo45cr2c5wB3KcmsHAbgKS1oKcO4JsVmkCbpTWIIrcRHWK6yVao9pxCCRV9GeoiauDHYwIakXwgVEkj6vjiNWFMg3cad1nnijoXqfr76bcJBTl1RcmTvOtslSPNlzvqmz3dJA/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WadghP79; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="EG6CfMm3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oFebkLIS13gOOEEyPtKanTX//EmJngEs7FYtKBRxZJgXJWzzBMyM+ybHslRMtNsir4nYrR8a6bADkpeNEkui1Zs8viebK+/UwVi3BkPDaQTEVZGE3oSZTzFB5AJ+bE2xUWwPO6Kmg/3ABzZDgqsTPf5iJmjwUep+7WQfpBpCbC6RwNOMcd01X2vHkP4R26Gl/wNLKbZQtDgPbhrv1e0LPDDoxhUFm+Wvf0UnZSsIBg+Fx+SMg2KH53Qrvc3dE+VEBP+Sd66stEyaeVVacmw/iTkdHqziwPONSGlrdM/z6eYSrHjHGweAmVu0dOSb8eX7J2yBuXveV+X6oQyn9Vpsjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lPpEuvVXl2NNqEItLR5sL9PS/9JtEz5hrMRoCpU9MY4=;
- b=je87wFh8QBUSNB9ebiqfULVVPDWL/Dwkc4hEYr0tgvBwKHgxdvcNgim3K7TjXn7LA+5doe6Rgu5DNDYJ2VJYwISSKq8Wk33sD/CRZHiuEKH+gK6nQN2CQkHa5RCbCWmvpjJQd5ciERZmhcvXvAa17ZFG8y34wZTmJypD81PaeR5j0n6H2yGV0GTU1k8ukf48YKQgc01Gp3ncdiyr4FI+wdPOYGrV20Wwh+cC3pACCeh7yhCSN6MVYVWjyGSsP0xVkyRrb+zTpkrG95y4qI1/wW1xdKuOQ/8U1f1m9qG/4gpAfD/SEZFO13O2mtuWQeQSU/b2wq3mYgDXxlC6X842EA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lPpEuvVXl2NNqEItLR5sL9PS/9JtEz5hrMRoCpU9MY4=;
- b=EG6CfMm3L/H50eEDqdxI/fqLE0SCHKNATh9G9sGh2OmQD49i+nhpcvx05jegsw8Zp4Zbb32MuL1AP+7D6ucLWkDJbctBjzVgsbqSu6+A0eFbfVbq7c8+Z6iBdBv7U8wgL3gy+ZfQnAPZxBMMAjztvg+NV7HpXtQvvVxnnz/iDYNT8a6eVglOrCVyIn1aClxJHV3EUiiV6gRgRYWsj6viPACmKkxpWYBMsltKsqbT6rtDgjrvsXqhxX8yVvdNRI6i6qeAQOC3xnolndoo9T5nLdVhwSe0ssC1GkeK5xjoIaBNYTbSyuLgOXgCQewXjDF2bQDVNbxmdWGG8nd74Xh4mQ==
-Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:138::5)
- by PN3P287MB0082.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:d6::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Mon, 8 Jul
- 2024 07:11:43 +0000
-Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- ([fe80::a94:ad0a:9071:806c]) by MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- ([fe80::a94:ad0a:9071:806c%3]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
- 07:11:43 +0000
-Message-ID:
- <MA0P287MB2822676C9CF9443B9A3CB657FEDA2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
-Date: Mon, 8 Jul 2024 15:11:37 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] drivers: hwmon: sophgo: Add SG2042 external
- hardware monitor support
-To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <IA1PR20MB4953967EA6AF3A6EFAE6AB10BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <IA1PR20MB4953EC4C486B8D4B186BB848BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <MA0P287MB2822935DEA9EE418F3411CFAFEDA2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
- <IA1PR20MB4953230DCEDD7DF01134A8A9BBDA2@IA1PR20MB4953.namprd20.prod.outlook.com>
-From: Chen Wang <unicorn_wang@outlook.com>
-In-Reply-To: <IA1PR20MB4953230DCEDD7DF01134A8A9BBDA2@IA1PR20MB4953.namprd20.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [oc1yEjBa3zVZtTUQ5G6VQQSsnP4wgOvR]
-X-ClientProxiedBy: SI1PR02CA0033.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::14) To MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:138::5)
-X-Microsoft-Original-Message-ID:
- <f8829b4c-5ba3-45ff-a2cd-234e3c3c7e44@outlook.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WadghP79"
+X-Envelope-To: zenghui.yu@linux.dev
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720423030;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T36XZ8NE/xxyJanvS7KHX10z9vs3L4mHUQHRi7pq3/w=;
+	b=WadghP79cOsglEKSb5MnvjchwOCRyosqU8qghV3Cfr90y2v4qkvBKAFnB9MviYBzSGLu1O
+	pYyIkptuEw/cJqv0bSkOL247XTq9tCYFXJlysw9xyD4ImNRBFKJ7LVGo8Rw/IPKeynmPY0
+	GEgK0tjn7RmI7hs1b9Q4XIWv+MpKHqI=
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: alexs@kernel.org
+X-Envelope-To: siyanteng@loongson.cn
+X-Envelope-To: corbet@lwn.net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA0P287MB2822:EE_|PN3P287MB0082:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19e69aa7-2018-425a-b368-08dc9f1d3868
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|19110799003|8060799006|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	DLBETb3AD5yfkpn3sxeSaVc6JYZrjaP59CL5yTW9oTB3kWGK4bEEt9vHz5oezFdbjVQOsdn3YOZT9R0/PUVUi4eTGquaYkvieljK/pZkHT8IIbvJSqrjZ9zxtD+hUzdECBrmKByVv9p+O0G2lXsgSynS8BFzsbhEKnl50pRDQhqgtPisxO/X1e2OjggEusPduq2qDcjxhZMx5zea3djR4x3Z8COfgIBZ4VLY3Yj4D70nKhOgexXcOm5E/eKRVXrD9pzCpnRxH3A7/1d/AZ1RikoQhcBYawK0K1Yi9lmjYkwWmuanHdJ2Y5EC/zxb5NP736vleFKrTfqvINeGJ1LlFiCV2FKv9eN3V+DTLdPDOSb9Y8OR+61ao1jF+UQpL27DCI16+5dZ/xK6JBl6pP8Mil0hIxNre4BJFYIivyOyRSDQ10FAIQHbWoNFR5EvyRAs80FenZoXRbuuDE5klRC8kEDsYmABNIffq/gGreJYc6hZ5dVn17XS6WhZsgk8YeqBdlsjZb7PS0wCyeObq9vs27WaQjwioD8tzgXDU8ltrssm4Y7EKdLbvSbXKKDeuUlg+8BjgVwvak1kj6HDulCsC6DnPyvcBVvXi4+qKNgwH6O01RQP8bYCV/ilp0gqpNJK3t86EX+pv6rXVegwnAF/Ag==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M3Z2dnk2bXNzdHcxUEYxdEN6eGlXWWhFTW81VUkzSWFpenpFMTY3Y0U4Z29R?=
- =?utf-8?B?RTNmK0tKbU9HQU92SXJVaFUxTkEzQ1BaK2kvREJkZzUvL0N5YW9OM2NrUzJO?=
- =?utf-8?B?RjB4WkJ5cU0xREQ5NFFZQWpPTkh3Si9qcFBBTWdUNWNQNmFtekRtYU5XdVh0?=
- =?utf-8?B?L1gvSzdsQ1N6K21MckhyY2Jtc0ZNU1kwVE5uNndiditLZytSY09DYmt6MFJt?=
- =?utf-8?B?Z2hPQXlleUpZV3d6RVNJWWUyZVhmL09LMUZZQ0Jqbk8yZnRQc01xYWk4d1hG?=
- =?utf-8?B?TURlSTc3UVlFaGNrMHlFaDB3aDhJTElORjdVa1BtWW1neWhsYjgreHlhUkgy?=
- =?utf-8?B?SFdETmlEZXQyOCtreTRnK3JTYm9Ca2t2RDhzWkF0RnZER3VHdlUyenIvTFVP?=
- =?utf-8?B?cVhXZm5EQVoyTGtmNlFJUHNjam1sQ2hFekM5SXdsTHE2aTQrazBDOWdwMEc0?=
- =?utf-8?B?V0JoN0RieHozVU50blNTZ1dnTmFWcDdYUHc0cENMQW15RnJXRjNiWWpwM092?=
- =?utf-8?B?QVNVUTg1RGhWeTdPK2Vocmd3b0dVVHluTEtPanE2TVpGYXJLSlZ6NmlvekhW?=
- =?utf-8?B?VTRXeFhnNGhtdnVUelk2ek1YQlRXaXNVTHV0dTRTZEhaMjBaNVpOdTJUM2hU?=
- =?utf-8?B?T3JsbkRBK2orZ2hpWmN1dEhRV25vbFFlUk1GMGJ2OTBFaWpCV1FrditOQ1lt?=
- =?utf-8?B?SEJUSDJqTjBlWWJvcldVZ3VjblRpckZEZEx3aWg0aHhLQnJjdW9aSWN2MXFO?=
- =?utf-8?B?Wnh1czNweUFBWnVxNlh1NHRJM3JPa2FHVGg0eHlMWFo0Nko1S3dzTG54SkFp?=
- =?utf-8?B?ditMM1ptdCswMU5YZFMrYWFzeGh5cG1lcktzYldFVCs1SWY0c0lEMkVTZ1o1?=
- =?utf-8?B?NkRWS3VqS3lwK3c0bDZlQVNEYjJvdHcxc0pmUUV5UzI4NExyOVZ3djVlcmVD?=
- =?utf-8?B?KzJNalBxUXI2VlBJU1I1YlcvNFZFRFcwdnFxNkFDVy9jMGIwQWhjcVRsSjRN?=
- =?utf-8?B?VC9vRjYzV2FtZ0FVSGNNQlhpTDBGY2x4Ky8yN1IxRW05eDZLUHdQTHhLN2hD?=
- =?utf-8?B?RVoxYXNPdUJ5Ynd2c1NNTG01ckU5YU83TE5VSG5HUlU5dWR2SWJQaXA5S0pS?=
- =?utf-8?B?Nm9PTHJDUUpiVVpMTjVxWVUzdkVXd3VNVTlxaXRzNVBmaWNERlVpMHlpL1lu?=
- =?utf-8?B?WmpCRmI5MUdrbFIyWHZHY25Jc0duWk5rMnNDSjNuWGFQMVJOMHQ3Sk1DK0J3?=
- =?utf-8?B?L3F2ZzFMR29pU1ZRVE1JbXJicmRBTDF6NTNqY1BrNitmd2JORUtKaW9wa1R6?=
- =?utf-8?B?ZWZkODg4Z3Fkb1BYdUJCTU1qWlhuRnVDdjVlVFh5SDh2U2pZMDljOERONlVa?=
- =?utf-8?B?RjVGTnJOMEg3bThmWU1haFBNS0dTaW14L2lWQ21aUHorT0pkay9lN0gxQ01T?=
- =?utf-8?B?QUZBTm9vWks5VVpnV2grQzg5WGY4V2NCU1BXSmFaZHRVWlNxelN1QmFCN1Jn?=
- =?utf-8?B?T0hkNUJnTldQNktzSms0dVJ3Tm1qVXdQUmROZEdwdHc1OVBCMU52K0w3NzhG?=
- =?utf-8?B?elpLdzh5V2dnbjRPSXBvdkZGTkx0MEEveE9WL1RJallyY3E2dlBsQnZDN2d1?=
- =?utf-8?B?NG0zdFQrOVdmb0dJYlVSNE9JRnJrNTNmRHFyemI2cDRoV21hRnAvV1FGS2Fy?=
- =?utf-8?Q?/m1oMrv3xQVQieiRysmj?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19e69aa7-2018-425a-b368-08dc9f1d3868
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 07:11:43.0601
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0082
+Date: Mon, 08 Jul 2024 07:17:08 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: si.yanteng@linux.dev
+Message-ID: <8096f15395443a9d6c0bc059baa43db1c743b0ac@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] docs/zh_CN/virt: Update the translation of
+ guest-halt-polling.rst
+To: "Zenghui Yu" <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net, "Zenghui Yu"
+ <zenghui.yu@linux.dev>
+In-Reply-To: <20240707161444.98715-1-zenghui.yu@linux.dev>
+References: <20240707161444.98715-1-zenghui.yu@linux.dev>
+X-Migadu-Flow: FLOW_OUT
+
+2024=E5=B9=B47=E6=9C=888=E6=97=A5 00:14, "Zenghui Yu" <zenghui.yu@linux.d=
+ev> =E5=86=99=E5=88=B0:
 
 
-On 2024/7/8 8:53, Inochi Amaoto wrote:
-> On Mon, Jul 08, 2024 at 08:25:55AM GMT, Chen Wang wrote:
->> On 2024/7/3 10:30, Inochi Amaoto wrote:
->>> SG2042 use an external MCU to provide basic hardware information
->>> and thermal sensors.
->>>
->>> Add driver support for the onboard MCU of SG2042.
->>>
->>> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
->>> ---
->>>    Documentation/hwmon/index.rst |   1 +
->>>    Documentation/hwmon/sgmcu.rst |  44 +++
->>>    drivers/hwmon/Kconfig         |  11 +
->>>    drivers/hwmon/Makefile        |   1 +
->>>    drivers/hwmon/sgmcu.c         | 585 ++++++++++++++++++++++++++++++++++
->>>    5 files changed, 642 insertions(+)
->>>    create mode 100644 Documentation/hwmon/sgmcu.rst
->>>    create mode 100644 drivers/hwmon/sgmcu.c
->>>
->>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->>> index 03d313af469a..189626b3a055 100644
->>> --- a/Documentation/hwmon/index.rst
->>> +++ b/Documentation/hwmon/index.rst
->>> @@ -203,6 +203,7 @@ Hardware Monitoring Kernel Drivers
->>>       sch5636
->>>       scpi-hwmon
->>>       sfctemp
->>> +   sgmcu
->> This driver is for sg2042 only, right? "sgmcu" looks be general for all
->> sophgo products.
-> Yes, according to sophgo, it use this mechanism for multiple products,
-> so I switch to a general name.
 
-But multiple != ALL.
-
-[......]
+>=20
+>=20Update to commit 1954d51592b5 ("Documentation: virt: correct location=
+ of
+>=20
+>=20haltpoll module params") to fix the obvious mistake.
+>=20
+>=20Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
 
+BTW=EF=BC=8C
+
+Since the maintainers may have set up email filtering rules,=20
+let's=20send --to them.
+
+
+Thanks,
+Yanteng
+>=20
+>=20---
+>=20
+>=20 Documentation/translations/zh_CN/virt/guest-halt-polling.rst | 2 +-
+>=20
+>=20 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/virt/guest-halt-polling=
+.rst b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+>=20
+>=20index b798d1cf0b48..463d1d829062 100644
+>=20
+>=20--- a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+>=20
+>=20+++ b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
+>=20
+>=20@@ -76,7 +76,7 @@ guest_halt_poll_ns=E5=B0=86=E4=BF=9D=E6=8C=81=E9=AB=
+=98=E4=BD=8D=EF=BC=89=E3=80=82
+>=20
+>=20=20
+>=20
+>  =E9=BB=98=E8=AE=A4=E5=80=BC: Y
+>=20
+>=20=20
+>=20
+> -=E6=A8=A1=E5=9D=97=E5=8F=82=E6=95=B0=E5=8F=AF=E4=BB=A5=E4=BB=8EDebugfs=
+=E6=96=87=E4=BB=B6=E4=B8=AD=E8=AE=BE=E7=BD=AE=EF=BC=8C=E5=9C=A8::
+>=20
+>=20+=E6=A8=A1=E5=9D=97=E5=8F=82=E6=95=B0=E5=8F=AF=E4=BB=A5=E4=BB=8Esysfs=
+=E6=96=87=E4=BB=B6=E4=B8=AD=E8=AE=BE=E7=BD=AE=EF=BC=8C=E5=9C=A8::
+>=20
+>=20=20
+>=20
+>  /sys/module/haltpoll/parameters/
+>=20
+>=20=20
+>=20
+> --=20
+>=20
+> 2.34.1
+>
