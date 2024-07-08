@@ -1,140 +1,269 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF3115217A;
-	Mon,  8 Jul 2024 23:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFA6A8BE
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 23:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720480624; cv=none; b=nmoPYbMAp/xO4rTbMzz6IPlLjb0Go1978DkudWJzH+NwwgSCRxe6jt8AEKRi+IY9mZQePa88+XswvW4lw2OwLtDDi34iR49yYQdUGbOXhDtAvthcuWK+b5B1DkXjDgIZUmlEXjK5cAz/TD+EsoCQQGvMOhKcUM5rqO+hPdV8F8k=
+	t=1720482152; cv=none; b=ghTWXu3pB1tNGlhnDG6hZjCIFr+xyemuLvyKH2tE47b6qG/5qli7ueuDt5s1WvpZ+FBF1KGeq8ezrxS9hPmN/yQkYDqZ1Ta9p5CQtBEyZdj17uG/7kDjuqpGLrNayEHDdzclVqvTCMpbI4d8t86zzjhVvO6yM8yVr2Aziv7VFIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720480624; c=relaxed/simple;
-	bh=ot1u6OTzxoyDTwo+eK/wbJjVct3Ek2PtZgKlmu5NiR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MCZBNk/MKdvvaea95sSN0Bc1nzRaAfv7uSc2gEjRwIB4XS+tVC7DtdLyExej0qlkIF/K1zshbqlPtSZre5QNdMamWq4l2Y2Pj31+caSTDQJmnhy9Af0/XGsR+TGBUmfxG8ns47FqNE4SJ3qjjuFxRmutwQ+4SnwVA8lLYe/6Ux8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gpER7pGo; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1720482152; c=relaxed/simple;
+	bh=fXFkuGwJtPDomAOLHssxdyjY3IJRo5Ot7cYvZXhXmlo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EAW2+jQCtj0WAnCtxdbvsNXvVvycPRxGQSnSchluvvGM8LKmylPn9b8R9ArW4YwUmK1zwKGdHhPWAkR2W8Ln0MJ8qVgDiA3RVbAbEscqGh4cOGRei4Zxg3i76oj0xA4DGNryIQWssHlfd/4SrGzDUHTvGfwYSClPPPlg6N3LDkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qLX822zE; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gpER7pGo"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 468BNucm015979;
-	Mon, 8 Jul 2024 23:16:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ot1u6OTzxoyDTwo+eK/wbJjVct3Ek2PtZgKlmu5NiR0=; b=gpER7pGokSnPyMBQ
-	E0hK8d59ydXgFrXdwqvaoPS6I9NqI3c6kNDqEeYVKTosJGdhxshJeoTaLDp1dn26
-	GaRqk8LR+SGWXqIfXhC6YNYpFPxtx8yw6hv6jonZAyIpzhkE1VaqZvW7UyjOBWmt
-	OQaj2fnRxqC6vzfgzVKZ6MahNyRA3YEmSHvfExQtGn3koviqQJxtrcBqF9ZU4Dqh
-	NVm2dopJ/zWn7+KsHOA++XIYmYNRgr+yRXgmFBYFUC4mFIlnsSVhbNaxaWIo8Uj0
-	45iY2rahdcKvNQz1hXhYbBc78rX/gigM2r5voKu274PqUpwrXF/hbWpmFgDy8sW9
-	4cEXMA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406y3hcnwx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jul 2024 23:16:41 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 468NGdZ6015320
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 8 Jul 2024 23:16:39 GMT
-Received: from [10.110.59.6] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 8 Jul 2024
- 16:16:38 -0700
-Message-ID: <3634f704-a496-4341-a01d-07182248eccf@quicinc.com>
-Date: Mon, 8 Jul 2024 16:16:37 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qLX822zE"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44664ad946eso52911cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2024 16:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720482148; x=1721086948; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nM7n3F0up3r61YyqcXWbM5R0i4/2z/TwS0sdB2eyKMU=;
+        b=qLX822zEyhHMlRTalWzQlCqVc/P+rTL27UkR4/x9GMkJeZnvaDJSTrP+t4G7sZ5uuP
+         679VaqaHaTBkI8oiALiAPts3eo8uGczvFC/+SJLM/fP3Zi1ntgyI/xHjgraeI+HMFuPL
+         /cbs71caUk2FvmOychS5clNMw67aCHUpPVYNBTmOkvJL4kyQSlxaqviF4DGlqxBEmnqT
+         SOXOL/5PLbAjeDSRddIjB/QzqV9Xpv75qCLaPJ4UhYGGh70y+o3twvtNTGcv/OUvexrL
+         C46kFuyKXXxsIq01cvUHQrnj8esU27t63Av39hUqeQGUvlrRXB094DsqbUxdTPMz1r26
+         1Qhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720482148; x=1721086948;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nM7n3F0up3r61YyqcXWbM5R0i4/2z/TwS0sdB2eyKMU=;
+        b=WTtU4fg4eUHFgQvdZDX2KPbwn8xrNo6Ch3JhObDwy3vGS9ZxAAzzxQ/kcatkaoPoam
+         OxYhk4AWCP+Ug3RCqs+9kB/LpdnWWvOWI3QQ6R+IRpqzjf3FSZf6SW6z9VKF/DiUQ5XX
+         XhFX/g3RreqJfBi/6QMgsvS2JNEwfCaTYNzxlvRgBq8HU0nsxpz11KwZH62T7KyNlQN+
+         WK8B8xRU97IKXW7oJUev0CY41kckif34Y8ugXp+AzV3tX/skooCCimx1Mdonz7SFJY7A
+         ASkfxKun9sIXo3hmMEIFw1AwQ7E1yxBWQ0DahtZjeH1CBnSB7QFepHSeWOzVGhmEYUs1
+         DCtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4OX3t5Tb4+5r3B0cIa9qLGfmPF43X5J2pbFXlKpHdBQhI/CAda4JCAJRlFdSNPdtD7HxVr5ky5Ukzdcp2MUELNIZ2ABvGMLid
+X-Gm-Message-State: AOJu0YxOKmQqesyT8WORhm87jVaonN2dizLQ2x2SFMk52dbgF5kicsGX
+	2LJdmyB7PFuiAtYFItRCPyu7mFu/jmx5+R5oREpRzFXtkGSuVXWurJIVx18KympoUyn150FvqE2
+	O3hmfFk6G08Ny9GeC8yLyicD5Svlkp/gmCRel
+X-Google-Smtp-Source: AGHT+IF5waWqD1+AOGNDtNFnA/E3lGLbDiFUJIIuSfBZaHyKwMMyMoyshkPlNYgy3P4wdxcBdGual2ZDEbwUTDImpqE=
+X-Received: by 2002:ac8:6742:0:b0:447:e4cb:bf50 with SMTP id
+ d75a77b69052e-447fb2f6c08mr1579121cf.8.1720482148269; Mon, 08 Jul 2024
+ 16:42:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
- <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
- <f982842a-1804-420b-a539-a609ecf8fb8a@linux.intel.com>
- <3c358604-6926-4f90-8fc8-8139c68c3418@quicinc.com>
- <70bf10a7-7f87-4fd1-bd44-1733d3b2b15e@linux.intel.com>
- <b1fcef2a-2af9-4985-ae00-f348ca5df3f1@linux.intel.com>
- <ab734271-58ee-4981-926c-9b57f36b8ac6@linux.intel.com>
- <ccbf9366-f3de-4a80-bffc-e32a8409e1a7@quicinc.com>
- <adb4e27b-b328-4eef-87ca-9b8bad6639e6@linux.intel.com>
- <f9923336-3dd3-4f36-b5f6-f45f4ed09e0c@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <f9923336-3dd3-4f36-b5f6-f45f4ed09e0c@linux.intel.com>
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-9-jthoughton@google.com> <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
+ <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
+In-Reply-To: <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Mon, 8 Jul 2024 17:41:49 -0600
+Message-ID: <CAOUHufZ2Vd+Ea5vka20+SCVB446LZEA0mWy=RScN=7AChd869w@mail.gmail.com>
+Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: v9mYHUxrcmua7d02H3O-1kesImQnOIF4
-X-Proofpoint-GUID: v9mYHUxrcmua7d02H3O-1kesImQnOIF4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-08_13,2024-07-05_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- spamscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=713 impostorscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407080173
+Content-Transfer-Encoding: quoted-printable
 
-
-On 7/4/2024 4:25 AM, Pierre-Louis Bossart wrote:
->>> Just so I understand...is it really desired that userspace doesn't
->>> have the flexibility to choose which USB device is offloaded?  I know
->>> it complicates what needs to be done, but it could be just an
->>> additional feature that can be added later on.  Again, by default, we
->>> select the last USB headset plugged in to be enabled for offload by
->>> default.
->> If it chooses endpoint by itself perhaps you can send patch set without
->> controls first? This has added benefit of less patches in series, making
->> it easier to review and it won't block whole patch set by discussion on
->> controls feature. Controls can be added in followup series.
-> We do need read-only controls for userspace to know that offload is
-> possible and which card/device to use. That can be done in a first step
-> assuming there's a single device plugged-in.
-
-I agree, some kcontrol need to be present to at least determine:
-
-1. USB SND device is offload capable (ASoC card and PCM index)- Fetches associated (mapped) ASoC platform card and PCM index (read only)
-
-2. ASoC platform card offload status - Current offload status (read only)
-
-Those would be the minimum kcontrols we could have at this time.  I will remove the device selection part, and leave that for future discussions.  Does this sound good, Amadeusz/Pierre?
-
-> Dealing with multiple devices and defining rules or configuration
-> options to select the offloaded device is a second-level problem.
+On Mon, Jul 8, 2024 at 11:31=E2=80=AFAM James Houghton <jthoughton@google.c=
+om> wrote:
 >
-> In most cases the only thing that will be offloaded is a headset
-> anyways, so the selection could be rather static based on a
-> vendor/system ID, all other USB devices would be ignored.
+> On Fri, Jul 5, 2024 at 11:36=E2=80=AFAM Yu Zhao <yuzhao@google.com> wrote=
+:
+> >
+> > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@goog=
+le.com> wrote:
+> > >
+> > > Secondary MMUs are currently consulted for access/age information at
+> > > eviction time, but before then, we don't get accurate age information=
+.
+> > > That is, pages that are mostly accessed through a secondary MMU (like
+> > > guest memory, used by KVM) will always just proceed down to the oldes=
+t
+> > > generation, and then at eviction time, if KVM reports the page to be
+> > > young, the page will be activated/promoted back to the youngest
+> > > generation.
+> > >
+> > > The added feature bit (0x8), if disabled, will make MGLRU behave as i=
+f
+> > > there are no secondary MMUs subscribed to MMU notifiers except at
+> > > eviction time.
+> > >
+> > > Implement aging with the new mmu_notifier_test_clear_young_fast_only(=
+)
+> > > notifier. For architectures that do not support this notifier, this
+> > > becomes a no-op. For architectures that do implement it, it should be
+> > > fast enough to make aging worth it.
+> > >
+> > > Suggested-by: Yu Zhao <yuzhao@google.com>
+> > > Signed-off-by: James Houghton <jthoughton@google.com>
+> > > ---
+> > >
+> > > Notes:
+> > >     should_look_around() can sometimes use two notifiers now instead =
+of one.
+> > >
+> > >     This simply comes from restricting myself from not changing
+> > >     mmu_notifier_clear_young() to return more than just "young or not=
+".
+> > >
+> > >     I could change mmu_notifier_clear_young() (and
+> > >     mmu_notifier_test_young()) to return if it was fast or not. At th=
+at
+> > >     point, I could just as well combine all the notifiers into one no=
+tifier,
+> > >     like what was in v2 and v3.
+> > >
+> > >  Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
+> > >  include/linux/mmzone.h                        |   6 +-
+> > >  mm/rmap.c                                     |   9 +-
+> > >  mm/vmscan.c                                   | 185 ++++++++++++++--=
+--
+> > >  4 files changed, 164 insertions(+), 42 deletions(-)
+> >
+> > ...
+> >
+> > >  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned=
+ long end,
+> > >                            struct mm_walk *args)
+> > >  {
+> > > @@ -3357,8 +3416,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned=
+ long start, unsigned long end,
+> > >         struct pglist_data *pgdat =3D lruvec_pgdat(walk->lruvec);
+> > >         DEFINE_MAX_SEQ(walk->lruvec);
+> > >         int old_gen, new_gen =3D lru_gen_from_seq(max_seq);
+> > > +       struct mm_struct *mm =3D args->mm;
+> > >
+> > > -       pte =3D pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK=
+, &ptl);
+> > > +       pte =3D pte_offset_map_nolock(mm, pmd, start & PMD_MASK, &ptl=
+);
+> > >         if (!pte)
+> > >                 return false;
+> > >         if (!spin_trylock(ptl)) {
+> > > @@ -3376,11 +3436,12 @@ static bool walk_pte_range(pmd_t *pmd, unsign=
+ed long start, unsigned long end,
+> > >                 total++;
+> > >                 walk->mm_stats[MM_LEAF_TOTAL]++;
+> > >
+> > > -               pfn =3D get_pte_pfn(ptent, args->vma, addr);
+> > > +               pfn =3D get_pte_pfn(ptent, args->vma, addr, pgdat);
+> > >                 if (pfn =3D=3D -1)
+> > >                         continue;
+> > >
+> > > -               if (!pte_young(ptent)) {
+> > > +               if (!pte_young(ptent) &&
+> > > +                   !lru_gen_notifier_test_young(mm, addr)) {
+> > >                         walk->mm_stats[MM_LEAF_OLD]++;
+> > >                         continue;
+> > >                 }
+> > > @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned=
+ long start, unsigned long end,
+> > >                 if (!folio)
+> > >                         continue;
+> > >
+> > > -               if (!ptep_test_and_clear_young(args->vma, addr, pte +=
+ i))
+> > > -                       VM_WARN_ON_ONCE(true);
+> > > +               lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SI=
+ZE);
+> > > +               if (pte_young(ptent))
+> > > +                       ptep_test_and_clear_young(args->vma, addr, pt=
+e + i);
+> > >
+> > >                 young++;
+> > >                 walk->mm_stats[MM_LEAF_YOUNG]++;
+> >
+> >
+> > There are two ways to structure the test conditions in walk_pte_range()=
+:
+> > 1. a single pass into the MMU notifier (combine test/clear) which
+> > causes a cache miss from get_pfn_page() if the page is NOT young.
+> > 2. two passes into the MMU notifier (separate test/clear) if the page
+> > is young, which does NOT cause a cache miss if the page is NOT young.
+> >
+> > v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifier
+> > twice every 64 PTEs, and therefore the second option is a clear win.
+> >
+> > But you are doing twice per PTE. So what's the rationale behind going
+> > with the second option? Was the first option considered?
+>
+> Hi Yu,
+>
+> I didn't consider changing this from your v2[1]. Thanks for bringing it u=
+p.
+>
+> The only real change I have made is that I reordered the
+> (!test_spte_young() && !pte_young()) to what it is now (!pte_young()
+> && !lru_gen_notifier_test_young()) because pte_young() can be
+> evaluated much faster.
+>
+> I am happy to change the initial test_young() notifier to a
+> clear_young() (and drop the later clear_young(). In fact, I think I
+> should. Making the condition (!pte_young() &&
+> !lru_gen_notifier_clear_young()) makes sense to me. This returns the
+> same result as if it were !lru_gen_notifier_test_young() instead,
+> there is no need for a second clear_young(), and we don't call
+> get_pfn_folio() on pages that are not young.
 
-If the USB SND offload driver (ie qc_audio_offload) isn't compiled in, then it would be disabled.  Do we need some over-arching mechanism to disable the offload functionality?  Although, one thing I can see if I can add is some device classification within the USB offload vendor driver.
+We don't want to do that because we would lose the A-bit for a folio
+that's beyond the current reclaim scope, i.e., the cases where
+get_pfn_folio() returns NULL (a folio from another memcg, e.g.).
 
-Thanks
+> WDYT? Have I misunderstood your comment?
 
-Wesley Cheng
+I hope this is clear enough:
 
+@@ -3395,7 +3395,7 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
+long start, unsigned long end,
+                if (pfn =3D=3D -1)
+                        continue;
+
+-               if (!pte_young(ptent)) {
++               if (!pte_young(ptent) && !mm_has_notifiers(args->mm)) {
+                        walk->mm_stats[MM_LEAF_OLD]++;
+                        continue;
+                }
+@@ -3404,8 +3404,8 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
+long start, unsigned long end,
+                if (!folio)
+                        continue;
+
+-               if (!ptep_test_and_clear_young(args->vma, addr, pte + i))
+-                       VM_WARN_ON_ONCE(true);
++               if (!ptep_clear_young_notify(args->vma, addr, pte + i))
++                       continue;
+
+                young++;
+                walk->mm_stats[MM_LEAF_YOUNG]++;
+
+> Also, I take it your comment was not just about walk_pte_range() but
+> about the similar bits in lru_gen_look_around() as well, so I'll make
+> whatever changes we agree on there too (or maybe factor out the common
+> bits).
+>
+> [1]: https://lore.kernel.org/kvmarm/20230526234435.662652-11-yuzhao@googl=
+e.com/
+>
+> > In addition, what about the non-lockless cases? Would this change make
+> > them worse by grabbing the MMU lock twice per PTE?
+>
+> That's a good point. Yes I think calling the notifier twice here would
+> indeed exacerbate problems with a non-lockless notifier.
+
+I think so too, but I haven't verified it. Please do?
