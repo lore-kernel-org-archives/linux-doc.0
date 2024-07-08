@@ -1,147 +1,148 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581014A609;
-	Mon,  8 Jul 2024 16:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D47CEC7
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 16:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720454418; cv=none; b=cpef4LwpvUisNxFcRNT8jQrte1hEDXuNG5FutCzC2/+nwZCjgUMysIMOGNaNNYHNvWp3PpRDPVQzMa8DlaRmBSYaoXCv24sfGeWIIjLJ2nyCp5W+7Vfs3GVK5+qfBzxj7jptMvB1HByuD1WXm4Dob0JOkgCnbqLExX18jphDLTI=
+	t=1720454645; cv=none; b=Dffu14q2xyruiHCE19Z87LDlASMgpGJwhMdmKyTBhdU2CNPMjJQyc5FfleYzRdc8WBhLLnzeqFFwPcUbRXzAQS4mwX1Y6lgthElJhQeNTKlqYM792Oh74AiGmO/lCFVVA5dypgHaGbMoUpjDjlWlo0H0br4JmClkx5jGAguy+3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720454418; c=relaxed/simple;
-	bh=MuEF+GNm/VqqdPc7ws1S3BPo1gOfqoRwznKc1YlSbHY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UrWZ9p0Ue6YMJqTEm9fy9elHeZXAcsaYvJ7vAryQM/i8XLt/nx+ImD7JhYfgrxtVNIny5WPMy0/qORT/QeS9aJXrlBW4h4qW846B7LJvkVjiAj3czrQFxxy/xHsDHQTE0iv7Dha7OsW9Ei12OBzzaiA7t9cz/DkGYcVRZGXzfKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=N5dzKs15; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1720454645; c=relaxed/simple;
+	bh=mdC7qLfFrgQ8uCM8Z3hnLHwWYWU+viqJ55STx1SEfkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=COaETXQSnP74m2Wb3GzHqdL+rxzOIT53IzoSe8WSM9QdPaGjGqFCv9txovTK+41siLsfIDYxCG7tL8YUYNoSd6p7jbvzN2acz+4uVmPEgMf5RiSgmuxuUzDAVKGFoYnA5BWQUStnETdE+lbMDG8p517JAyst4kXYtfOWxQDbB7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=URFzPikS; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="N5dzKs15"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 468FxqG7054487;
-	Mon, 8 Jul 2024 10:59:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1720454392;
-	bh=d3mM+hxXZg7+ES3r8+HaF5X0gqA1QPFzoF7HByEy0NI=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=N5dzKs15cF5D5oonv+wjDp+JgXx52UK22pvnqbXXDOBHUq8Nkjds4radMVI27S3BJ
-	 8oJZsCnxx5PDl/phiZkLWowr7iGck4lrlE77UQhjaiakgiLJayZY4oMQFANWOZo/wg
-	 I+VU7LsSx7se3DZSKbkKMPXjPjYFlDmgS+3Ikdm8=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 468Fxq7p023140
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 8 Jul 2024 10:59:52 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
- Jul 2024 10:59:52 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 8 Jul 2024 10:59:51 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 468FxpAK033408;
-	Mon, 8 Jul 2024 10:59:51 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <sebastian.fricke@collabora.com>, <andriy.shevchenko@linux.intel.com>,
-        <jani.nikula@intel.com>, <jirislaby@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <rdunlap@infradead.org>,
-        <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andi.shyti@linux.intel.com>,
-        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH 5/6] lib: math_kunit: Add tests for new macros related to rounding to nearest value
-Date: Mon, 8 Jul 2024 21:29:42 +0530
-Message-ID: <20240708155943.2314427-6-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240708155943.2314427-1-devarsht@ti.com>
-References: <20240708155943.2314427-1-devarsht@ti.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="URFzPikS"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-58b0beaf703so5010208a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2024 09:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1720454642; x=1721059442; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r/Nh20E7oiLudtA0FS0qlhX52m/6CLHQileRH4RyzWg=;
+        b=URFzPikS5R1yeCqZMErFXW/dv/vk5FWrGul9qMVs7Jr0BuCLIB9HriDK1miOiVWpAg
+         JIoWn7MuxSDrNTV5cEoIFuXaOsBKhEhfISYQyQY/uWY4lJG5SMF8qrrIpqVGHus7VTjM
+         LcfnvAt8waFAoCc6AUpf6EpEEWravCksyZnG0x0EhlXlo1XUOJ0xghWu+7weqjXvF1VJ
+         b9iWQnNJNQZ4BfqqOTjlLha3s6zgvWQDSMzmlpzpmNSRIg2+6d0EgLfCT0FlnvwxeVau
+         DLWu0V9R/D8VZi5tWqqqPFgzVMJYHSXvw2sLErViqljUKQ0a5ABVaHPtqKQQ0L6NkDJ+
+         va9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720454642; x=1721059442;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r/Nh20E7oiLudtA0FS0qlhX52m/6CLHQileRH4RyzWg=;
+        b=WaDDn3M5nxwZlURiRSZDYdSymJ/r66pC8sXo+GCl11lIgYwqPW6weH87JAhVPnkxqq
+         Oz7KUKmYhX2x9JcgO4P3bud3mC7y9j8xcdN7pZgwvE6lw7NoLWpDujn+o2VY8RaPRL6M
+         sL2q2516t3Pt6ac6lkyNf8lurW7BDGj8iR+OZuOZOWUUXpEJMcH8vdq8diVMOHK+WgAY
+         cxZEGzAP8iRdj9/mrMrobQTYzdive0Q81JZtiVwigXpbAiUe90O/1j4WoznMB3ZKUMTB
+         M7IupPQGqr5YFIbxJZ/rgb1YxEDBkmcW0R8+yrfakpBlFyIVzxt62jB0jRlaThYb2ORF
+         +KoA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOnFdGOG+ljGSBWEArKFOBjnmxYN62KmACkH4om+vqbH+xr//2cxX8zNnAhUvfUAKUK4xcU19WskjkCwxDtoyl3eV0J8mk7XNM
+X-Gm-Message-State: AOJu0YxQ4QIAxqokFKtT76SCjz4MYy2wEWUjZv2CZ9frYjrMZf7wR9Vn
+	Jeh2UP2X459/ygJFnDycY/oaQLKRlOK4+gIxU0UXhsrWvgf20nIf+TK/OvgK/Xk=
+X-Google-Smtp-Source: AGHT+IHVj7SwwtCWqG3e/oHvkJvsv6UgptYMNeGBr1++0ZWNEn4UoPauERNteSei9ct3YpU1AQM7fQ==
+X-Received: by 2002:a05:6402:2353:b0:57c:c166:ba6 with SMTP id 4fb4d7f45d1cf-594bb58015cmr35695a12.19.1720454641745;
+        Mon, 08 Jul 2024 09:04:01 -0700 (PDT)
+Received: from localhost (109-81-92-226.rct.o2.cz. [109.81.92.226])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-594bc3efb13sm7321a12.42.2024.07.08.09.04.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 09:04:01 -0700 (PDT)
+Date: Mon, 8 Jul 2024 18:04:00 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: xiujianfeng <xiujianfeng@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, tj@kernel.org,
+	lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Sidhartha Kumar <sidhartha.kumar@oracle.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>
+Subject: Re: [PATCH -next] mm/hugetlb_cgroup: introduce peak and rsvd.peak to
+ v2
+Message-ID: <ZowN8FvmdiEGr_rC@tiehlicka>
+References: <20240702125728.2743143-1-xiujianfeng@huawei.com>
+ <20240702185851.e85a742f3391857781368f6c@linux-foundation.org>
+ <6843023e-3e80-0c1c-6aab-b386ffebd668@huawei.com>
+ <20240703133804.1d8ddf90f738a7d546399b3b@linux-foundation.org>
+ <ZovgDfGFJdc6lVN3@tiehlicka>
+ <5ce7be39-ac42-98c9-65fc-589385b8f65b@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ce7be39-ac42-98c9-65fc-589385b8f65b@huawei.com>
 
-Add tests for round_closest_up/down and roundclosest macros which round
-to nearest multiple of specified argument. These are tested with kunit
-tool as shared here [1] :
+On Mon 08-07-24 21:40:39, xiujianfeng wrote:
+> 
+> 
+> On 2024/7/8 20:48, Michal Hocko wrote:
+> > On Wed 03-07-24 13:38:04, Andrew Morton wrote:
+> >> On Wed, 3 Jul 2024 10:45:56 +0800 xiujianfeng <xiujianfeng@huawei.com> wrote:
+> >>
+> >>>
+> >>>
+> >>> On 2024/7/3 9:58, Andrew Morton wrote:
+> >>>> On Tue, 2 Jul 2024 12:57:28 +0000 Xiu Jianfeng <xiujianfeng@huawei.com> wrote:
+> >>>>
+> >>>>> Introduce peak and rsvd.peak to v2 to show the historical maximum
+> >>>>> usage of resources, as in some scenarios it is necessary to configure
+> >>>>> the value of max/rsvd.max based on the peak usage of resources.
+> >>>>
+> >>>> "in some scenarios it is necessary" is not a strong statement.  It
+> >>>> would be helpful to fully describe these scenarios so that others can
+> >>>> better understand the value of this change.
+> >>>>
+> >>>
+> >>> Hi Andrew,
+> >>>
+> >>> Is the following description acceptable for you?
+> >>>
+> >>>
+> >>> Since HugeTLB doesn't support page reclaim, enforcing the limit at
+> >>> page fault time implies that, the application will get SIGBUS signal
+> >>> if it tries to fault in HugeTLB pages beyond its limit. Therefore the
+> >>> application needs to know exactly how many HugeTLB pages it uses before
+> >>> hand, and the sysadmin needs to make sure that there are enough
+> >>> available on the machine for all the users to avoid processes getting
+> >>> SIGBUS.
+> > 
+> > yes, this is pretty much a definition of hugetlb.
+> > 
+> >>> When running some open-source software, it may not be possible to know
+> >>> the exact amount of hugetlb it consumes, so cannot correctly configure
+> >>> the max value. If there is a peak metric, we can run the open-source
+> >>> software first and then configure the max based on the peak value.
+> > 
+> > I would push back on this. Hugetlb workloads pretty much require to know
+> > the number of hugetlb pages ahead of time. Because you need to
+> > preallocate them for the global hugetlb pool. What I am really missing
+> > in the above justification is an explanation of how come you know how to
+> > configure the global pool but you do not know that for a particular
+> > cgroup. How exactly do you configure the global pool then?
+> 
+> Yes, in this scenario, it's indeed challenging to determine the
+> appropriate size for the global pool. Therefore, a feasible approach is
+> to initially configure a larger value. Once the software is running
+> within the container successfully, the maximum value for the container
+> and the size of the system's global pool can be determined based on the
+> peak value, otherwise, increase the size of the global pool and try
+> again. so I believe the peak metric is useful for this scenario.
 
-Link: https://gist.github.com/devarsht/3f9042825be3da4e133b8f4eda067876 [1]
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- lib/math/math_kunit.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+This sounds really backwards to me. Not that I care much about peak
+value itself. It is not really anything disruptive to add nor maintain
+but this approach to configuring the system just feels completely wrong.
+You shouldn't be really using hugetlb cgroup controller if you do not
+have a very specific idea about expected and therefore allowed hugetlb
+pool consumption.
 
-diff --git a/lib/math/math_kunit.c b/lib/math/math_kunit.c
-index be27f2afb8e4..05022f010be6 100644
---- a/lib/math/math_kunit.c
-+++ b/lib/math/math_kunit.c
-@@ -70,6 +70,26 @@ static void round_down_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, round_down((1 << 30) - 1, 1 << 29), 1 << 29);
- }
- 
-+static void round_closest_up_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_closest_up(17, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up(15, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up(14, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) - 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) + 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_up((1 << 30) - 1, 2), 1 << 30);
-+}
-+
-+static void round_closest_down_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, round_closest_down(17, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_down(15, 4), 16);
-+	KUNIT_EXPECT_EQ(test, round_closest_down(14, 4), 12);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) - 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) + 1, 1 << 30), 1 << 30);
-+	KUNIT_EXPECT_EQ(test, round_closest_down((1 << 30) - 1, 2), (1 << 30) - 2);
-+}
-+
- /* These versions can round to numbers that aren't a power of two */
- static void roundup_test(struct kunit *test)
- {
-@@ -95,6 +115,18 @@ static void rounddown_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, rounddown(4, 3), 3);
- }
- 
-+static void roundclosest_test(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, roundclosest(21, 5), 20);
-+	KUNIT_EXPECT_EQ(test, roundclosest(19, 5), 20);
-+	KUNIT_EXPECT_EQ(test, roundclosest(17, 5), 15);
-+	KUNIT_EXPECT_EQ(test, roundclosest((1 << 30), 3), (1 << 30) - 1);
-+	KUNIT_EXPECT_EQ(test, roundclosest((1 << 30) - 1, 1 << 29), 1 << 30);
-+
-+	KUNIT_EXPECT_EQ(test, roundclosest(4, 3), 3);
-+	KUNIT_EXPECT_EQ(test, roundclosest(5, 3), 6);
-+}
-+
- static void div_round_up_test(struct kunit *test)
- {
- 	KUNIT_EXPECT_EQ(test, DIV_ROUND_UP(0, 1), 0);
-@@ -272,8 +304,11 @@ static struct kunit_case math_test_cases[] = {
- 	KUNIT_CASE(int_sqrt_test),
- 	KUNIT_CASE(round_up_test),
- 	KUNIT_CASE(round_down_test),
-+	KUNIT_CASE(round_closest_up_test),
-+	KUNIT_CASE(round_closest_down_test),
- 	KUNIT_CASE(roundup_test),
- 	KUNIT_CASE(rounddown_test),
-+	KUNIT_CASE(roundclosest_test),
- 	KUNIT_CASE(div_round_up_test),
- 	KUNIT_CASE(div_round_closest_test),
- 	KUNIT_CASE_PARAM(gcd_test, gcd_gen_params),
 -- 
-2.39.1
-
+Michal Hocko
+SUSE Labs
