@@ -1,79 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E2A101E2;
-	Mon,  8 Jul 2024 11:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8E37C081;
+	Mon,  8 Jul 2024 11:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720438534; cv=none; b=rMtvLvHfDZuy2QKdzSjWgf3x4wsSLdifFPctKND5vRswnjbDScJN+2iWXv8Mf+e3/49HDM09N1RdB6QGJ/zIGeo75wYYAzmR4rW2Vf3NoDYQH9HMuAFTHx7D+CWILNeZYWZwjgaaBs9d2ThcHqAbsExYpjCgpqb7S3Gim3W4Wq4=
+	t=1720439334; cv=none; b=EO9QYmM9IHW+zJrHRpAka9p1ehdUt2NKC5Jclx9X0BoTqmwvTHGASteg+2fGYAKmzzaFJq/DnGcFa/PkwN9YKaDBn2Ncb3+j/j3MD/A64bPAZamfuk4r7VMUP79DlYzJyybUbkBdpOyu8NypQo+cmAWVaYFp5bOFaXA6RN7q/3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720438534; c=relaxed/simple;
-	bh=0q5Ds8WIeOv5Y3nTVZNg0tKqv7bBejypl3Rg0QFJqmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K9WPUCZY0oh592sGKdXVmYB6fysso1qerFhGIAPUJh4200o+E8PqYUocBDGYAYM6hCDUuEZ8HBowjmDAE7wMy55GCmRT8/lB0SaQHuBfaPv5GGtjdzfexNiVY9UH50adyBn8yjEMZJASz8MnInqoHhL6xqYE32nYXBs0Rf1rZLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XsDoAPbD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720439334; c=relaxed/simple;
+	bh=aS0g16LlmzLraDi70hLNiR0Upx3Nm/PgrSsD8O55+6g=;
+	h=Content-Type:To:Cc:Subject:References:Date:MIME-Version:From:
+	 Message-ID:In-Reply-To; b=GZ1WWxol95gNWLVbKIrzhUinweriSDulIwhftxF9Fb80E+vSJaMg0ZHEumdE/i1vckllEID5dxG8Iti3UyoqRp2Lc/54dajK0coQ2c/r0wadVpTCE4a6TbnnZNJ+c42KEP3yJUGqI0ahQtgDKVQhRsH3jhgfNpxZisSnxKbCZCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpM29nd7; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsDoAPbD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACDD9C116B1;
-	Mon,  8 Jul 2024 11:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720438534;
-	bh=0q5Ds8WIeOv5Y3nTVZNg0tKqv7bBejypl3Rg0QFJqmI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XsDoAPbDuJawip0mO7VPHOcAtC8umkEX+3mruYsdiHMQTMSnCjk6khCQQhBFOVU2q
-	 szsII3oJXeXPXn/TD1fBgYjrRriwN7ffC0ijh8PvFS/JWshQeFdlZKBesvFDDo5JNp
-	 ebFxkePURnK0zM1B3jsYHT4MNNEkTpuSUbDOJ0wqE7eJfaQfSWxRo0vWoC5QTabCIW
-	 I9ZALOcwRGl2VBpOZP15lKg6qpE8NWgViVA291vGz6q0ajZOlvg0o3swDvw0f3PyCc
-	 eOMz086l52tHH0De4Ngoa9ZI+DYKXoJrjaUifAz9HtEFirAu5kGY4AnRE4k3HNrj2S
-	 wF50L1Ci27E9g==
-Date: Mon, 8 Jul 2024 12:35:25 +0100
-From: Will Deacon <will@kernel.org>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: dan.j.williams@intel.com, vishal.l.verma@intel.com,
-	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
-	jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, dave.hansen@linux.intel.com,
-	ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org,
-	tytso@mit.edu, linmiaohe@huawei.com, david@redhat.com,
-	peterx@redhat.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
-	david@fromorbit.com
-Subject: Re: [PATCH 13/13] mm: Remove devmap related functions and page table
- bits
-Message-ID: <20240708113524.GD11567@willie-the-truck>
-References: <cover.66009f59a7fe77320d413011386c3ae5c2ee82eb.1719386613.git-series.apopple@nvidia.com>
- <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpM29nd7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720439333; x=1751975333;
+  h=to:cc:subject:references:date:mime-version:
+   content-transfer-encoding:from:message-id:in-reply-to;
+  bh=aS0g16LlmzLraDi70hLNiR0Upx3Nm/PgrSsD8O55+6g=;
+  b=kpM29nd7JY84iSogDdXuUk6eRUtnrdFUbQGQEbVxuzwqpbPYO+FNFWOh
+   A6Jvo1/qa7yTxxMdjzBDfEOsgH8v+d4zKOIymdxlERnb6FI2eUL4+IZx8
+   sz5sc5fTSw3x6+aJ+nCTkqR4rDBXg1KhvkqpV/hYkivRwiiknIbCmsk/1
+   SrwKKvHsUGIfm8R1UpNfVqJbf5xhzBkyXVkDmyIVGrPDjnoyyhglXRtIv
+   WmHJfkCyjqXN0dJGq3252feDSeedGLaGWEgbfLp5I0R5zBtaaKhIK4VzT
+   vqf3kl9YcZj7IaRoiCRUbPGHI88sEps/tHXJQR1DV/HNTGkJeKhE3j1hO
+   g==;
+X-CSE-ConnectionGUID: b2GEv2xQSOOM18TU/FlEUw==
+X-CSE-MsgGUID: E6hW8TUbSxuqJkGl5IHjZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="28242067"
+X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
+   d="scan'208";a="28242067"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 04:48:52 -0700
+X-CSE-ConnectionGUID: C1CYfNmxQCSddArW/f0+uQ==
+X-CSE-MsgGUID: hSjjsO+8TOKCW6pXb2WBXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
+   d="scan'208";a="52680457"
+Received: from hhuan26-mobl.amr.corp.intel.com ([10.246.119.97])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/AES256-SHA; 08 Jul 2024 04:48:50 -0700
+Content-Type: text/plain; charset=iso-8859-15; format=flowed; delsp=yes
+To: tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+ corbet@lwn.net, kamalesh.babulal@oracle.com, "Xiu Jianfeng"
+ <xiujianfeng@huawei.com>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 -next] cgroup/misc: Introduce misc.peak
+References: <20240703003646.2762150-1-xiujianfeng@huawei.com>
+Date: Mon, 08 Jul 2024 06:48:48 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47c26640cd85f3db2e0a2796047199bb984d1b3f.1719386613.git-series.apopple@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+From: "Haitao Huang" <haitao.huang@linux.intel.com>
+Organization: Intel
+Message-ID: <op.2qk9rmcawjvjmi@hhuan26-mobl.amr.corp.intel.com>
+In-Reply-To: <20240703003646.2762150-1-xiujianfeng@huawei.com>
+User-Agent: Opera Mail/1.0 (Win32)
 
-On Thu, Jun 27, 2024 at 10:54:28AM +1000, Alistair Popple wrote:
-> Now that DAX and all other reference counts to ZONE_DEVICE pages are
-> managed normally there is no need for the special devmap PTE/PMD/PUD
-> page table bits. So drop all references to these, freeing up a
-> software defined page table bit on architectures supporting it.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> ---
->  Documentation/mm/arch_pgtable_helpers.rst     |  6 +--
->  arch/arm64/Kconfig                            |  1 +-
->  arch/arm64/include/asm/pgtable-prot.h         |  1 +-
->  arch/arm64/include/asm/pgtable.h              | 24 +--------
+On Tue, 02 Jul 2024 19:36:46 -0500, Xiu Jianfeng <xiujianfeng@huawei.com>  
+wrote:
 
-Not only do you exclusively remove code, but you also give us back a
-pte bit! What's not to like?
-
-Acked-by: Will Deacon <will@kernel.org> # arm64
-
-Will
+> Introduce misc.peak to record the historical maximum usage of the
+> resource, as in some scenarios the value of misc.max could be
+> adjusted based on the peak usage of the resource.
+>
+Acked-by: haitao.huang@linux.intel.com
+BTW, from SGX point of view, I think it also makes sense to show peak  
+usage in the root group.
+Thanks
+Haitao
