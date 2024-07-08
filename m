@@ -1,81 +1,77 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6BC1D69E
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 16:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1CC1D6AA
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 17:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720457490; cv=none; b=s/KETEaoxTOrG/WpJbuLb/EuHHKo57505dViiwFnMtnwhao1sXVTVWphFJPNRkbDu9SjkgU0B/vutaz7BhbCimeOYf0Lzqw65xUuRX/C7aLj9PRRR1NOK6JefUwHb/3eFwy+4TE93SoPrjlcO8GaZZodVm4wnPw6PZbANlA1Me8=
+	t=1720459891; cv=none; b=rIwSP3MA7NiT5vA7dqRkcvguYsJRn0QD1z2vQ07tP40eRAZX519n6zB317Tl5TWPjmUo+5gOz9qlVvrwb5go4mbiEKi24QWtSpbU6fSTHs3bQcJitvMw5MWu1CTbiUbiIznr53rXlp32ovVlRItEzXVeGQNZMy0+t76w1iZojeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720457490; c=relaxed/simple;
-	bh=bT7f63TQT0nCVI2e044tDWWSBtyBG+UKBLYM/Q2ACJ8=;
+	s=arc-20240116; t=1720459891; c=relaxed/simple;
+	bh=k9PprvhII+V2/Bcah8BJRQ16KGDnAgfpyXIiDAbDvTw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pRnwQ0/WwYuaE/PR/XIb/l1A7YWtY3yGlbTSdJZnWgKTufttTMkvk0iJxPPCXe7bEbaYWgly1WOdt//0LOJ4wkhSxt/dkQxWa3adPmNsk/ovMjA0M0TF7evagzDAMWErp0hKuUr7PYpMSxyl5IYHGEwW9k2RFqDGzpQvX3/2rYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CKwtyjKJ; arc=none smtp.client-ip=209.85.214.170
+	 To:Cc:Content-Type; b=L0wbrbRhsEn9SS8ZJUQJQr9Z5nuX3AT0CHm/H7/EmmkWQDpLI5F9LBqkatO3wxSW9EIdNgpCXEjaPO9vvGOw5ilr9aIP7WpAaxJd6i5i5OjA2j/IeMslpF+DE7NqWrELjz9KSXpaTRrON/y87VbzSfUFIcJ01eYfBZnffu+8JsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jBgdMop1; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CKwtyjKJ"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f70ec6ff8bso6275ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2024 09:51:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jBgdMop1"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-447dabd9562so25341cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2024 10:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720457488; x=1721062288; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1720459888; x=1721064688; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZTLNn4LGmic6uz3SST2MPov4JwAtgFvBXVkhyUNj6Ls=;
-        b=CKwtyjKJf+SJzdT9BMAE2zgNNJESaz26MmRxY5V9XkOp6g8TDVYbg92xAJq0Bqa1D5
-         pQpO+c+aAm7YTNq5IApktSnyKs6GE4W+6Ytl2mb/hzEaJsFvpVpeQCb3MkjM2ghmE9uG
-         MJGEqG5Ym5YL/YW5cltx62c3fQJgEFuoxQz3JOJlEr9JK0M/8vwfIkpfiIuFB16I1HCA
-         wi7rnEuLPbhEhmH9F93rjJTWu/lzkc1kS/bOsp6vsMNFRtAkvovkd63ykGSndybQeHh7
-         F9WpEEGz4VVJvoz1zE4Fe/Q/JPCu2vlkTNA+sSLSoCfxMb1+0qkK0qG/LvsprA/IANXo
-         AzJQ==
+        bh=h5OvAknooFUouRttjkgdHPkXhVCuYFumFzAfg7hgFY0=;
+        b=jBgdMop1DJNQhCLVO37WkE7ne/GMHNFKcr4WKshJxlKV0YGhHTKt6ylyDRKT9fn6pC
+         w234/vaxpas21YBMkVY4mbo9IJiG8ef1sVVHZzR2qMs2ZpYdAdDOtz85zsDY0ttezhF7
+         URF6Gbnaeu02iN5CB+ImdtYtAYr3s2suJNHahsC0CekOJ4hLhm4tUkLmlzZwnj1hBnG7
+         U/jevXb41qwEld6ckOT1lQo/tSulIRzMpED6s74iGiyq+eHlJm1KmdboTxWZinxOYuUk
+         nHHCGNNtsHmVaQf1JM/t5wweBbxGBZJAPgx0iyr0GPC5PlIE++qtbKeXhuau12xRczDA
+         pFBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720457488; x=1721062288;
+        d=1e100.net; s=20230601; t=1720459888; x=1721064688;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZTLNn4LGmic6uz3SST2MPov4JwAtgFvBXVkhyUNj6Ls=;
-        b=MOXBNq4ly4Zwupb3+wV8VBKZry4aHPmJgbLybbKEt7/IP+NIikOuWuPvdoMLPrl6XS
-         XzuwcdEHoX0+5BmIfE2EDQglBUuqVbbZYk2ysLy81E9Q+zSo5C/46ATmCY86QyoMKRU2
-         RUyxCMxeEVUX7Q1KIOCiG1dxpDl525J+IemXhoOnOnyrtci548p0vSGY2CoaIXGMlOrC
-         33QYRBAstgJPn2Bi9Ep+NEdaYhWNOcxWKzbM4YnPWRIIu5nrDGwHPKSlMf2eenrsQSes
-         Xt6w1RsBAqT4TlvswgeiE4SzPW5tD3/AEEGVeP8pTlL8Q0StMeZlxqv118/m19RCuF2n
-         utNg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/ameT3LKrBr4GJ2WiCfvl37LsB5y99A8qa+zGNz+c6mougGMSSFCbHZrio9kA0y6pwwIaeQtzCzr0STi2Lqfp4QBxeHP3MGs8
-X-Gm-Message-State: AOJu0YyyCYn8hGli+K+yNmx8Pc86gS2YQkQn4nCP25lqSOmarE5m4Anh
-	krWKYU3NDM2xPexxCugrKH1EE7dembPaXVymRYjVgu3KhFmYxkHyhgTmUU6r0dJ16K7dtHRSy7+
-	b5fsUgj2z4C/UQm/Q7Eg7EdsyQ0/zdL+Rs9my
-X-Google-Smtp-Source: AGHT+IGMZBuODG5Qg+BsiQ0JMRrEsApbDVZodAf/W97JpFbZBYOVdGRDLcd2wERkfLVJkW8bcAp1r3ymFzBf2tplW5Q=
-X-Received: by 2002:a17:903:6d0:b0:1fa:cd15:985e with SMTP id
- d9443c01a7336-1fb30b895c8mr9496525ad.6.1720457488179; Mon, 08 Jul 2024
- 09:51:28 -0700 (PDT)
+        bh=h5OvAknooFUouRttjkgdHPkXhVCuYFumFzAfg7hgFY0=;
+        b=BuJdCjx/AGLv+y+K2koWNxd7TY6GN/VZR00xQtQl5ugdTInvqGAGMpv6u9uC8d5j8+
+         Nt6gycSpVYSBznFADit7O1V9C6soKVZbghmyph/XapQNbwS0j1DG/DnLPFXkw0Um9dxq
+         vfR6lenN+oMAG1Ud+JmFva4DmGbxVzRFoepceH24SAdQdS7guY+muy85hQLKMJ5UOmNn
+         mwoYJLdt36Z2rH4sFmujxuW+ejJCg41E/z1ktayrahwvvlzFNFzbJToXovNxVrXY2Apc
+         IvLkps6kyRp8YcWk6pVI+5QIKidDStyb9yJtOmI43Qr3y6ITyfHh10zmd2wOJgang2uO
+         9j4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXVA/BFY5XkHAr26DUhLeFHMyXIuBrflbI3sxRgFd7iQnulbuTBLvJL4rTskes99Qknn50ExA30ucpnxaiCngnhrR3SnTOaKgBU
+X-Gm-Message-State: AOJu0YyhHZa5xLrqQ01es551kgk0IP7VMg7kFGld8dqh7cKj44Sy/Clp
+	oPoMqYjCtSIvDcpA6gGQhJW3P+foyciPoGHjpy+mtzrevv9JC/FSQGU2pOdo65vqmQsqGnon15w
+	3KlU6pgkrK8nftgsDpkOgSrzUdaprKlZgawVO
+X-Google-Smtp-Source: AGHT+IH8n9BydNeekHTCqWhs8VlQPK1NNwxivhVTaYxOA+WSOHKqEde44rSbHv1zl8p/7A2Rz9umCfoVyqc4houcpcU=
+X-Received: by 2002:ac8:554f:0:b0:447:f44d:d0ed with SMTP id
+ d75a77b69052e-447fbc7904bmr5181cf.1.1720459888197; Mon, 08 Jul 2024 10:31:28
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
- <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
- <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
- <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
- <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
- <ZnCCZ5gQnA3zMQtv@google.com> <CADrL8HW=kCLoWBwoiSOCd8WHFvBdWaguZ2ureo4eFy9D67+owg@mail.gmail.com>
-In-Reply-To: <CADrL8HW=kCLoWBwoiSOCd8WHFvBdWaguZ2ureo4eFy9D67+owg@mail.gmail.com>
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-9-jthoughton@google.com> <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
+In-Reply-To: <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
 From: James Houghton <jthoughton@google.com>
-Date: Mon, 8 Jul 2024 09:50:51 -0700
-Message-ID: <CADrL8HUv6T4baOi=VTFV6ZA=Oyn3dEc6Hp9rXXH0imeYkwUhew@mail.gmail.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-To: Sean Christopherson <seanjc@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+Date: Mon, 8 Jul 2024 10:30:51 -0700
+Message-ID: <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
+Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+To: Yu Zhao <yuzhao@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
 	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
 	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
 	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -83,127 +79,147 @@ Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 28, 2024 at 7:38=E2=80=AFPM James Houghton <jthoughton@google.c=
-om> wrote:
+On Fri, Jul 5, 2024 at 11:36=E2=80=AFAM Yu Zhao <yuzhao@google.com> wrote:
 >
-> On Mon, Jun 17, 2024 at 11:37=E2=80=AFAM Sean Christopherson <seanjc@goog=
-le.com> wrote:
+> On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@google=
+.com> wrote:
 > >
-> > On Mon, Jun 17, 2024, James Houghton wrote:
-> > > On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc@g=
-oogle.com> wrote:
-> > > > Ooh!  Actually, after fiddling a bit to see how feasible fast-aging=
- in the shadow
-> > > > MMU would be, I'm pretty sure we can do straight there for nested T=
-DP.  Or rather,
-> > > > I suspect/hope we can get close enough for an initial merge, which =
-would allow
-> > > > aging_is_fast to be a property of the mmu_notifier, i.e. would simp=
-lify things
-> > > > because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for ea=
-ch notification.
-> > > >
-> > > > Walking KVM's rmaps requires mmu_lock because adding/removing rmap =
-entries is done
-> > > > in such a way that a lockless walk would be painfully complex.  But=
- if there is
-> > > > exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] point=
-s directly at
-> > > > that one SPTE.  And with nested TDP, unless L1 is doing something u=
-ncommon, e.g.
-> > > > mapping the same page into multiple L2s, that overwhelming vast maj=
-ority of rmaps
-> > > > have only one entry.  That's not the case for legacy shadow paging =
-because kernels
-> > > > almost always map a pfn using multiple virtual addresses, e.g. Linu=
-x's direct map
-> > > > along with any userspace mappings.
->
-> Hi Sean, sorry for taking so long to get back to you.
->
-> So just to make sure I have this right: if L1 is using TDP, the gfns
-> in L0 will usually only be mapped by a single spte. If L1 is not using
-> TDP, then all bets are off. Is that true?
->
-> If that is true, given that we don't really have control over whether
-> or not L1 decides to use TDP, the lockless shadow MMU walk will work,
-> but, if L1 is not using TDP, it will often return false negatives
-> (says "old" for an actually-young gfn). So then I don't really
-> understand conditioning the lockless shadow MMU walk on us (L0) using
-> the TDP MMU[1]. We care about L1, right?
-
-Ok I think I understand now. If L1 is using shadow paging, L2 is
-accessing memory the same way L1 would, so we use the TDP MMU at L0
-for this case (if tdp_mmu_enabled). If L1 is using TDP, then we must
-use the shadow MMU, so that's the interesting case.
-
-> (Maybe you're saying that, when the TDP MMU is enabled, the only cases
-> where the shadow MMU is used are cases where gfns are practically
-> always mapped by a single shadow PTE. This isn't how I understood your
-> mail, but this is what your hack-a-patch[1] makes me think.)
-
-So it appears that this interpretation is actually what you meant.
-
->
-> [1] https://lore.kernel.org/linux-mm/ZmzPoW7K5GIitQ8B@google.com/
->
+> > Secondary MMUs are currently consulted for access/age information at
+> > eviction time, but before then, we don't get accurate age information.
+> > That is, pages that are mostly accessed through a secondary MMU (like
+> > guest memory, used by KVM) will always just proceed down to the oldest
+> > generation, and then at eviction time, if KVM reports the page to be
+> > young, the page will be activated/promoted back to the youngest
+> > generation.
 > >
-> > ...
+> > The added feature bit (0x8), if disabled, will make MGLRU behave as if
+> > there are no secondary MMUs subscribed to MMU notifiers except at
+> > eviction time.
 > >
-> > > Hmm, interesting. I need to spend a little bit more time digesting th=
-is.
-> > >
-> > > Would you like to see this included in v6? (It'd be nice to avoid the
-> > > WAS_FAST stuff....) Should we leave it for a later series? I haven't
-> > > formed my own opinion yet.
+> > Implement aging with the new mmu_notifier_test_clear_young_fast_only()
+> > notifier. For architectures that do not support this notifier, this
+> > becomes a no-op. For architectures that do implement it, it should be
+> > fast enough to make aging worth it.
 > >
-> > I would say it depends on the viability and complexity of my idea.  E.g=
-. if it
-> > pans out more or less like my rough sketch, then it's probably worth ta=
-king on
-> > the extra code+complexity in KVM to avoid the whole WAS_FAST goo.
+> > Suggested-by: Yu Zhao <yuzhao@google.com>
+> > Signed-off-by: James Houghton <jthoughton@google.com>
+> > ---
 > >
-> > Note, if we do go this route, the implementation would need to be tweak=
-ed to
-> > handle the difference in behavior between aging and last-minute checks =
-for eviction,
-> > which I obviously didn't understand when I threw together that hack-a-p=
-atch.
+> > Notes:
+> >     should_look_around() can sometimes use two notifiers now instead of=
+ one.
 > >
-> > I need to think more about how best to handle that though, e.g. skippin=
-g GFNs with
-> > multiple mappings is probably the worst possible behavior, as we'd risk=
- evicting
-> > hot pages.  But falling back to taking mmu_lock for write isn't all tha=
-t desirable
-> > either.
+> >     This simply comes from restricting myself from not changing
+> >     mmu_notifier_clear_young() to return more than just "young or not".
+> >
+> >     I could change mmu_notifier_clear_young() (and
+> >     mmu_notifier_test_young()) to return if it was fast or not. At that
+> >     point, I could just as well combine all the notifiers into one noti=
+fier,
+> >     like what was in v2 and v3.
+> >
+> >  Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
+> >  include/linux/mmzone.h                        |   6 +-
+> >  mm/rmap.c                                     |   9 +-
+> >  mm/vmscan.c                                   | 185 ++++++++++++++----
+> >  4 files changed, 164 insertions(+), 42 deletions(-)
 >
-> I think falling back to the write lock is more desirable than evicting
-> a young page.
+> ...
 >
-> I've attached what I think could work, a diff on top of this series.
-> It builds at least. It uses rcu_read_lock/unlock() for
-> walk_shadow_page_lockless_begin/end(NULL), and it puts a
-> synchronize_rcu() in kvm_mmu_commit_zap_page().
+> >  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned l=
+ong end,
+> >                            struct mm_walk *args)
+> >  {
+> > @@ -3357,8 +3416,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned l=
+ong start, unsigned long end,
+> >         struct pglist_data *pgdat =3D lruvec_pgdat(walk->lruvec);
+> >         DEFINE_MAX_SEQ(walk->lruvec);
+> >         int old_gen, new_gen =3D lru_gen_from_seq(max_seq);
+> > +       struct mm_struct *mm =3D args->mm;
+> >
+> > -       pte =3D pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK, =
+&ptl);
+> > +       pte =3D pte_offset_map_nolock(mm, pmd, start & PMD_MASK, &ptl);
+> >         if (!pte)
+> >                 return false;
+> >         if (!spin_trylock(ptl)) {
+> > @@ -3376,11 +3436,12 @@ static bool walk_pte_range(pmd_t *pmd, unsigned=
+ long start, unsigned long end,
+> >                 total++;
+> >                 walk->mm_stats[MM_LEAF_TOTAL]++;
+> >
+> > -               pfn =3D get_pte_pfn(ptent, args->vma, addr);
+> > +               pfn =3D get_pte_pfn(ptent, args->vma, addr, pgdat);
+> >                 if (pfn =3D=3D -1)
+> >                         continue;
+> >
+> > -               if (!pte_young(ptent)) {
+> > +               if (!pte_young(ptent) &&
+> > +                   !lru_gen_notifier_test_young(mm, addr)) {
+> >                         walk->mm_stats[MM_LEAF_OLD]++;
+> >                         continue;
+> >                 }
+> > @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned l=
+ong start, unsigned long end,
+> >                 if (!folio)
+> >                         continue;
+> >
+> > -               if (!ptep_test_and_clear_young(args->vma, addr, pte + i=
+))
+> > -                       VM_WARN_ON_ONCE(true);
+> > +               lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SIZE=
+);
+> > +               if (pte_young(ptent))
+> > +                       ptep_test_and_clear_young(args->vma, addr, pte =
++ i);
+> >
+> >                 young++;
+> >                 walk->mm_stats[MM_LEAF_YOUNG]++;
 >
-> It doesn't get rid of the WAS_FAST things because it doesn't do
-> exactly what [1] does. It basically makes three calls now: lockless
-> TDP MMU, lockless shadow MMU, locked shadow MMU. It only calls the
-> locked shadow MMU bits if the lockless bits say !young (instead of
-> being conditioned on tdp_mmu_enabled). My choice is definitely
-> questionable for the clear path.
+>
+> There are two ways to structure the test conditions in walk_pte_range():
+> 1. a single pass into the MMU notifier (combine test/clear) which
+> causes a cache miss from get_pfn_page() if the page is NOT young.
+> 2. two passes into the MMU notifier (separate test/clear) if the page
+> is young, which does NOT cause a cache miss if the page is NOT young.
+>
+> v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifier
+> twice every 64 PTEs, and therefore the second option is a clear win.
+>
+> But you are doing twice per PTE. So what's the rationale behind going
+> with the second option? Was the first option considered?
 
-I still don't think we should get rid of the WAS_FAST stuff.
+Hi Yu,
 
-The assumption that the L1 VM will almost never share pages between L2
-VMs is questionable. The real question becomes: do we care to have
-accurate age information for this case? I think so.
+I didn't consider changing this from your v2[1]. Thanks for bringing it up.
 
-It's not completely trivial to get the lockless walking of the shadow
-MMU rmaps correct either (please see the patch I attached here[1]).
-And the WAS_FAST functionality isn't even that complex to begin with.
+The only real change I have made is that I reordered the
+(!test_spte_young() && !pte_young()) to what it is now (!pte_young()
+&& !lru_gen_notifier_test_young()) because pte_young() can be
+evaluated much faster.
 
-Thanks for your patience.
+I am happy to change the initial test_young() notifier to a
+clear_young() (and drop the later clear_young(). In fact, I think I
+should. Making the condition (!pte_young() &&
+!lru_gen_notifier_clear_young()) makes sense to me. This returns the
+same result as if it were !lru_gen_notifier_test_young() instead,
+there is no need for a second clear_young(), and we don't call
+get_pfn_folio() on pages that are not young.
 
-[1]: https://lore.kernel.org/linux-mm/CADrL8HW=3DkCLoWBwoiSOCd8WHFvBdWaguZ2=
-ureo4eFy9D67+owg@mail.gmail.com/
+WDYT? Have I misunderstood your comment?
+
+Also, I take it your comment was not just about walk_pte_range() but
+about the similar bits in lru_gen_look_around() as well, so I'll make
+whatever changes we agree on there too (or maybe factor out the common
+bits).
+
+[1]: https://lore.kernel.org/kvmarm/20230526234435.662652-11-yuzhao@google.=
+com/
+
+> In addition, what about the non-lockless cases? Would this change make
+> them worse by grabbing the MMU lock twice per PTE?
+
+That's a good point. Yes I think calling the notifier twice here would
+indeed exacerbate problems with a non-lockless notifier.
+
+Thanks!
