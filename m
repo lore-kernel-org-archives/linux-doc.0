@@ -1,182 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA583C0C;
-	Mon,  8 Jul 2024 06:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0811CF90
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 07:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720419381; cv=none; b=PKMXydOEdpVmzNaleCU+jkRu0W6ckW14icQqA303/qR8inz/0OCGkDxukEwYmRCTSnKl805miaiLPhs+1nPQFZ3shgE0Sl87drExdltmdZyNPeIt7tdKzwwmZVvjHJxLR5DlFAI6kKiYLwdCIBd0/fr4h50r73wmIxr2n4Uxcug=
+	t=1720422602; cv=none; b=GewRYqRMss6VYPEF4PbL1Avd/XtLnDZ/XHmigrngMLR6MZ3ms9EWKg3qX5k7mjjSAplRFLf7KZJ9Ft5bKRuCHSsP2k5uNDfdv/DHj4dpRvT7kdokE1tWljKgrtpzP28J9Tl3YrymC8MUapXO9RTW3fMIvrnPGG0AwKUk7il78B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720419381; c=relaxed/simple;
-	bh=nDJE18CH1b2XqBPQyCOcOyZPkrflQJKDXEmzhbVH/d0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PVPpjL1ianNI4V7cNRKQ1Tnm1zO1ExKyNjKsqQTPCpjfOkaZDeZ8Qu6RVNbAuILNpW98f63b0RpOofFcdwKRmJTRkj6n3kEDNx/+s2o6xrKlD98tr9/QKVFJMH5FN+oTRNEyaaWNPS4PN4sJir2eHov/EYvdoBHcI1aSBITtzDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EznK2/Nd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720422602; c=relaxed/simple;
+	bh=A9PTwI8YT5pVoNb3VF0TqdJ6oNcLPEppXqMXpIJsPU8=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=cY1KsPUPnyVq5ZS0aL6KFhT8RRflX1qawADODu/wDwY5XHzR/LG4W2cNYavXC5tN2EuMeawjXhNNxWYdxjnx1h0BnlIN4QLTUiX4mIKV2nWeVB2to0FsuGJCmTn/AQChX5nUerjAaKv/6WFTWVhpl2WLs3sHpiIyY2fxchXQNik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xKlPAyu3; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EznK2/Nd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBBFC116B1;
-	Mon,  8 Jul 2024 06:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720419380;
-	bh=nDJE18CH1b2XqBPQyCOcOyZPkrflQJKDXEmzhbVH/d0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EznK2/Nd6OwMmaJ6awGlqGtUBD1CFQ4THI0QacinMh1DrN0C4KAP651dhbIFtaeMV
-	 yP2Ek2X8MszbHtltYQA9p+KKBr9W/+zDm4HzPVYHdpSPkZemT0AGmX1lRF8ra4iJ06
-	 eve73KWFK8hqxxsb661+fH542zTFyOMkIjjWDkRZibDM6/QERJm6DnlMhfzqmj0zLF
-	 iuKc8rXpA32NniMgS01CUpkUb44kEN3addek9++e1jEvkJbsufETRBsCZTfUF6Ke8d
-	 A0IjbUtBGKn9y+VJ8GJBg9NMHlEa0MKi1gXPCB6MN2K767L90+6+OKDGLFQqCnbeMI
-	 gbELR/8G+2aBg==
-Message-ID: <c7688fba-0570-4dc6-80c4-23cd75ed29aa@kernel.org>
-Date: Mon, 8 Jul 2024 08:16:13 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xKlPAyu3"
+X-Envelope-To: wodemia@linux.alibaba.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720422597;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yz+4e8MYNxjZnBTV3vAkH7viLcR2ZQLRLOb85ovRbcE=;
+	b=xKlPAyu339fdpnB1rGFob2leS14pWrvlCiMa1Tba2QpFMfpNNdS+Z+jwEaOyBC2PijSHaD
+	228XRCzkOxb9tXGsyjMkjMuvGURPN01DfLJ6mRIr/bDTlAO2NwXUx9ad07wtwpAkxAyd4Z
+	UyEQ5IH5WDiqgl+v4iKAZKgJKOyiyS4=
+X-Envelope-To: alexs@kernel.org
+X-Envelope-To: siyanteng@loongson.cn
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v4 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20240705-imx-se-if-v4-0-52d000e18a1d@nxp.com>
- <20240705-imx-se-if-v4-2-52d000e18a1d@nxp.com>
- <450d1575-c9b3-413b-bfa9-8dc4352fa263@kernel.org>
- <AM9PR04MB8604B9A9F3D22C35679AD1D195DA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <AM9PR04MB8604B9A9F3D22C35679AD1D195DA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Mon, 08 Jul 2024 07:09:56 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: si.yanteng@linux.dev
+Message-ID: <296fd3f5f36a3d45de216029a6dcdf418d833632@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH v1] zh_CN/admin-guide: one typo fix
+To: "Tao Zou" <wodemia@linux.alibaba.com>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <siyanteng@loongson.cn>, "Jonathan Corbet" <corbet@lwn.net>
+Cc: "Tao Zou" <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240705022842.51451-1-wodemia@linux.alibaba.com>
+References: <20240705022842.51451-1-wodemia@linux.alibaba.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 08/07/2024 07:50, Pankaj Gupta wrote:
->> Drop redundant/obvious parts.
-> Will replace above two description line with the below two.
->       - description: mailbox phandle to send message to se firmware
->       - description: mailbox phandle to receive message from se firmware
-> 
->>
->> So two mailboxes?
-> Two handles of the same mailbox.
-> 
->>
->>> +
->>> +  mbox-names:
->>> +    items:
->>> +      - const: tx
->>> +      - const: rx
->>> +      - const: txdb
->>> +      - const: rxdb
->>
->> 4 mailboxes? This cannot be different.
-> mbox-names can have any of the above mentioned 4 values.
-> And  two values are minimum, required.
+2024=E5=B9=B47=E6=9C=885=E6=97=A5 10:28, "Tao Zou" <wodemia@linux.alibaba=
+.com> =E5=86=99=E5=88=B0:
 
-No, I said it cannot be different. If two are minimum, then you can have
-here 4, right? But earlier you said you can have only 2. It does not
-make any sense.
 
-> 
->>
->>> +    minItems: 2
->>> +
->>> +  memory-region:
->>> +    description: contains the phandle to reserved external memory.
->>
->> Drop
-> Will remove the line " description: contains the phandle to reserved external memory."
-> 
->>
->>> +    items:
->>> +      - description: It is used by secure-enclave firmware. It is an optional
->>> +          property based on compatible and identifier to communication
->> interface.
->>> +          (see bindings/reserved-memory/reserved-memory.txt)
->>> +
->>> +  sram:
->>> +    description: contains the phandle to sram.
->>
->> Drop
-> Will remove " description: contains the phandle to sram."
-> 
->>
->>> +    items:
->>> +      - description: Phandle to the device SRAM. It is an optional property
->>> +          based on compatible and identifier to communication interface.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - mboxes
->>> +  - mbox-names
->>> +
->>> +additionalProperties: false
->>
->> Keep it after allOf block
-> 
-> In V2, it is after allOf block.
-> In previous comments, it was commented to place allOf block, after required.
-> I am little confused.
 
-So why did you implement it entirely different? Read the comment from
-Conor and from me again. I am sorry, but repeating the same three times
-(once by Conor, twice by me) is quite a waste of time.
+>=20
+>=20Fix one chinese typo error.
+>=20
+>=20Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-Open example-schema. How is it done there?
-
-Best regards,
-Krzysztof
-
+Thanks,
+Yanteng
+>=20
+>=20---
+>=20
+>=20The previous translation patch v4 has already been appied, and the ch=
+anges from v4 to v5 were missed.
+>=20
+>=20This patch is one typofix, and includes the changes from v4 to v5.
+>=20
+>=20=20
+>=20
+>  Documentation/translations/zh_CN/admin-guide/numastat.rst | 2 +-
+>=20
+>=20 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rs=
+t b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+>=20
+>=20index c0f54d9a6b05..4d9817b91870 100644
+>=20
+>=20--- a/Documentation/translations/zh_CN/admin-guide/numastat.rst
+>=20
+>=20+++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+>=20
+>=20@@ -13,7 +13,7 @@ Numa=E7=AD=96=E7=95=A5=E5=91=BD=E4=B8=AD/=E6=9C=AA=
+=E5=91=BD=E4=B8=AD=E7=BB=9F=E8=AE=A1
+>=20
+>=20=20
+>=20
+>  =E6=89=80=E6=9C=89=E6=95=B0=E6=8D=AE=E7=9A=84=E5=8D=95=E4=BD=8D=E9=83=
+=BD=E6=98=AF=E9=A1=B5=E9=9D=A2=E3=80=82=E5=B7=A8=E9=A1=B5=E6=9C=89=E7=8B=
+=AC=E7=AB=8B=E7=9A=84=E8=AE=A1=E6=95=B0=E5=99=A8=E3=80=82
+>=20
+>=20=20
+>=20
+> -numa_hit=E3=80=81numa_miss=E5=92=8Cnuma_foreign=E8=AE=A1=E6=95=B0=E5=
+=99=A8=E5=8F=8D=E5=BA=94=E4=BA=86=E8=BF=9B=E7=A8=8B=E6=98=AF=E5=90=A6=E8=
+=83=BD=E5=A4=9F=E5=9C=A8=E4=BB=96=E4=BB=AC=E5=81=8F=E5=A5=BD=E7=9A=84=E8=
+=8A=82=E7=82=B9=E4=B8=8A=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E3=80=82
+>=20
+>=20+numa_hit=E3=80=81numa_miss=E5=92=8Cnuma_foreign=E8=AE=A1=E6=95=B0=E5=
+=99=A8=E5=8F=8D=E6=98=A0=E4=BA=86=E8=BF=9B=E7=A8=8B=E6=98=AF=E5=90=A6=E8=
+=83=BD=E5=A4=9F=E5=9C=A8=E4=BB=96=E4=BB=AC=E5=81=8F=E5=A5=BD=E7=9A=84=E8=
+=8A=82=E7=82=B9=E4=B8=8A=E5=88=86=E9=85=8D=E5=86=85=E5=AD=98=E3=80=82
+>=20
+>=20 =E5=A6=82=E6=9E=9C=E8=BF=9B=E7=A8=8B=E6=88=90=E5=8A=9F=E5=9C=A8=E5=
+=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E4=B8=8A=E5=88=86=E9=85=8D=E5=
+=86=85=E5=AD=98=E5=88=99=E5=9C=A8=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=
+=82=B9=E4=B8=8A=E5=A2=9E=E5=8A=A0numa_hit=E8=AE=A1=E6=95=B0=EF=BC=8C=E5=
+=90=A6=E5=88=99=E5=9C=A8=E5=81=8F=E5=A5=BD=E7=9A=84=E8=8A=82=E7=82=B9=E4=
+=B8=8A=E5=A2=9E
+>=20
+>=20 =E5=8A=A0numa_foreign=E8=AE=A1=E6=95=B0=E5=90=8C=E6=97=B6=E5=9C=A8=
+=E5=AE=9E=E9=99=85=E5=86=85=E5=AD=98=E5=88=86=E9=85=8D=E7=9A=84=E8=8A=82=
+=E7=82=B9=E4=B8=8A=E5=A2=9E=E5=8A=A0numa_miss=E8=AE=A1=E6=95=B0=E3=80=82
+>=20
+>=20=20
+>=20
+> --=20
+>=20
+> 2.39.3 (Apple Git-146)
+>
