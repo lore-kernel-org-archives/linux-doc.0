@@ -1,107 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C750115253B;
-	Mon,  8 Jul 2024 15:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8808145340;
+	Mon,  8 Jul 2024 16:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720454049; cv=none; b=Lbsyjndbh1jK6yEMpdB6UV0da/Ukv9aUX0Q9MCd8g+trlWpx5lASIwLvEgopLkJ4tGG3HAPA23C00Qlk0WgEWVkMpL6mY5/WsmZUP6xe9tPqqoU5dmyBzsOudtZZs7LR/+4FsrEzMV2du2VRJ4K02ybddMvRe5/y8oZsk5jjbf4=
+	t=1720454410; cv=none; b=d8sq/9xghSr+Lr4abLE3ydDGe/2Oy1HdL/6alfnZ52wgE7OieKc5DQ+RaDxNyOIn/OqV9EOMsRf8vV9nfox/tT2/L/YZxH19iugbNCS9UGNRDdGY7uvQ+vTMQVDdWCO16nsgGxBUMCof9G47n2TEnHwCC4KrQlu5jzjQqhJt28U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720454049; c=relaxed/simple;
-	bh=pHEQop1T1fiyamd9jcpDhT/4UZTaEZSdDGTRt6fHlCQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pProLFYyJcMk9tKQ6Ysv7W6yOuCABZdT0rgyfEs5x6+21JBGPo9D7ld0xHFZZc5xj9L6uSsxp9lC2eamXiV0D+m4pWUEsmpxcnR18iTMTcKr/dFE223o/18K9+ldaGw9i5G1/STJhxHaxA8wAajwcFsAP0EsDEbASQSlz+wTgpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKGmbJG/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720454410; c=relaxed/simple;
+	bh=nFbJnq23XTYikyNFznKLNb2hOHJ7fDlvEzP7lvzRdss=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ArKThmqxh+zb2qJRVT2ON51U2LEy/+/DMSeFGFI7kAJNjw2jwJF6M2LxPjvTAHo8BTchDU6ID+PhVT//mQI2o8bS4uiQl1ildd+L1D6v4RQBpcgCgD25793wZy41E8gYxzM9IXY3IowDC1BCRj6tD6KVYJXW3ddjd8X7V2rAJAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=d857G0Wz; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKGmbJG/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB567C116B1;
-	Mon,  8 Jul 2024 15:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720454049;
-	bh=pHEQop1T1fiyamd9jcpDhT/4UZTaEZSdDGTRt6fHlCQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UKGmbJG/7ixB3W/bGJpEZHxm4Uec9QfxZrgFj7++PEuKgl87p3bp8kWMv6leWLkSL
-	 SVE0ZwRWnyuoBKzcBAsY3hxdEa0X62Miv77RfoVOdaXSkuwwXlhguWYSVRCWyNSR8w
-	 UqoXJK6nxT/+k+DVz/Gl3FaKt6L25Cz9EQCL5H/2V/kCaXMFeFETwv0moyo4jhoEX4
-	 t/GJxOCYUspDoZ2uG4F5c2jWw9oAwJGe+MWpZhRyY2YBRCjpOE3bHMVzXy3RGvcUua
-	 XA3VRpPMWHL8cD2MZY1fzsiDd6vNFGncezD7lV3qig4l7B5Ga6JVX4VgJuYhxQ3ZER
-	 Zj6EIUg8C99vQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 08 Jul 2024 11:53:42 -0400
-Subject: [PATCH v4 9/9] tmpfs: add support for multigrain timestamps
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="d857G0Wz"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 468FxkRq046174;
+	Mon, 8 Jul 2024 10:59:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1720454386;
+	bh=S1jiyaqWjuWtWeLWTjTTn+GeFYYElSU9yqWMjOuLZc8=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=d857G0Wz2wf8dAWlvF9zVBUZ9LG20T6juG/8uicnGa8Pzqz8GwMKe47w+S9XOg0oq
+	 nFpzvjq/ciHuiVJNyfyPiGhfyhG0zM00HTBs6RC4sb1hDhhADafX435TSsOySpbjUj
+	 PAeXws324cSdW0T3ko3xAsdHev7ZQgp7UK8GOKKg=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 468FxkGm021706
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 8 Jul 2024 10:59:46 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
+ Jul 2024 10:59:46 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 8 Jul 2024 10:59:45 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 468Fxj1A103461;
+	Mon, 8 Jul 2024 10:59:45 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sebastian.fricke@collabora.com>, <andriy.shevchenko@linux.intel.com>,
+        <jani.nikula@intel.com>, <jirislaby@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <rdunlap@infradead.org>,
+        <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <devarsht@ti.com>, <andi.shyti@linux.intel.com>,
+        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+Subject: [PATCH 1/6] math.h: Add macros for rounding to closest value
+Date: Mon, 8 Jul 2024 21:29:38 +0530
+Message-ID: <20240708155943.2314427-2-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20240708155943.2314427-1-devarsht@ti.com>
+References: <20240708155943.2314427-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240708-mgtime-v4-9-a0f3c6fb57f3@kernel.org>
-References: <20240708-mgtime-v4-0-a0f3c6fb57f3@kernel.org>
-In-Reply-To: <20240708-mgtime-v4-0-a0f3c6fb57f3@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Chandan Babu R <chandan.babu@oracle.com>, 
- "Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
- Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
- Kent Overstreet <kent.overstreet@linux.dev>, kernel-team@fb.com, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-mm@kvack.org, 
- linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=775; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=pHEQop1T1fiyamd9jcpDhT/4UZTaEZSdDGTRt6fHlCQ=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBmjAuElSf4XFk52fOEHI6qnk5nkcaimuSsPCsyx
- xjkO5P9aUmJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZowLhAAKCRAADmhBGVaC
- FesvEADXYZRR3EQySwlhPXaMFRM3Jq6pfSUAjqchFJ5ZK46/YfRIrrnfJ4JbxYnbmshpJcBbFpR
- 0/5Av6Pr9UhcqUkFzuoN+lTegRgHwDiMg9lrS8JZ+RlrxJ/mI1jSkec7pdJeCA1o+uEspCwJlVV
- l2Cm9Wm5OJidm0vx4cGXlLZzmA4IHAdkNfWh2OXgnzFFtS0l40kW+3PF0/WGTPKccPdHhD862y6
- aGl4SZcQo2KyHwKsueuBZ4tdmXuTa0JkEAbMT4bH3FxqToAIDJA4U0MF44gKItQuNoJ2ZaL2Q80
- a3i190J0Loaigui6n9Cpypmy9nDd74qzubrfpMJbIqFWEwRZmDlHfRnv7nbY871QEYQ4xpJ3ili
- ceNhjnXNEO+drx5Re8ocxYDKT6KguzKI/aKc2WahemLhWKP7yaspe4q9VcpmjmlwAgf5tUCteyd
- vL0qw+tr6LTcIURjivpx/9GIxekvsxkhqUC8fzHzoPesyDiTUDc40q83qFeo7qhD1gSz4BEHkE9
- 0xREDDycM33VqUVh2mPB/yAqqTCv4QDPuSl6S7UbBkaTsKVuI4Ib3fx3f0H3D85+gcTUpsfJwua
- sVJEZzud7NP7tgknaFzBM7ymq8J2fUaKNM/KfI0Xna2HmKe/3idcid7UzQ8mWcD7n4ta6cF7NGN
- kEUJE/n2ZdSh2Sg==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Enable multigrain timestamps, which should ensure that there is an
-apparent change to the timestamp whenever it has been written after
-being actively observed via getattr.
+Add below rounding related macros:
 
-tmpfs only requires the FS_MGTIME flag.
+round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round up in case two nearest values are
+possible.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round down in case two nearest values are
+possible.
+
+roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+generally be used only when y is not multiple of 2 as otherwise
+round_closest* macros should be used which are much faster.
+
+Examples:
+ * round_closest_up(17, 4) = 16
+ * round_closest_up(15, 4) = 16
+ * round_closest_up(14, 4) = 16
+ * round_closest_down(17, 4) = 16
+ * round_closest_down(15, 4) = 16
+ * round_closest_down(14, 4) = 12
+ * roundclosest(21, 5) = 20
+ * roundclosest(19, 5) = 20
+ * roundclosest(17, 5) = 15
+
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- mm/shmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+which uses similar macro locally and which is updated in further patch
+in the series to use this generic macro instead along with other drivers
+having similar requirements.
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 440e2a9d8726..6dc817064140 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4649,7 +4649,7 @@ static struct file_system_type shmem_fs_type = {
- 	.parameters	= shmem_fs_parameters,
- #endif
- 	.kill_sb	= kill_litter_super,
--	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP | FS_MGTIME,
- };
+Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
+---
+ include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+
+diff --git a/include/linux/math.h b/include/linux/math.h
+index dd4152711de7..79e3dfda77fc 100644
+--- a/include/linux/math.h
++++ b/include/linux/math.h
+@@ -34,6 +34,52 @@
+  */
+ #define round_down(x, y) ((x) & ~__round_mask(x, y))
  
- void __init shmem_init(void)
-
++/**
++ * round_closest_up - round closest to be multiple of specified value (which is
++ *                    power of 2) with preference to rounding up
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples:
++ * * round_closest_up(17, 4) = 16
++ * * round_closest_up(15, 4) = 16
++ * * round_closest_up(14, 4) = 16
++ */
++#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
++
++/**
++ * round_closest_down - round closest to be multiple of specified value (which
++ *			is power of 2) with preference to rounding down
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples:
++ * * round_closest_down(17, 4) = 16
++ * * round_closest_down(15, 4) = 16
++ * * round_closest_down(14, 4) = 12
++ */
++#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
++
+ #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+ 
+ #define DIV_ROUND_DOWN_ULL(ll, d) \
+@@ -77,6 +123,23 @@
+ }							\
+ )
+ 
++/**
++ * roundclosest - round to nearest multiple
++ * @x: the value to round
++ * @y: multiple to round nearest to
++ *
++ * Rounds @x to nearest multiple of @y.
++ * The rounded value can be greater than or less than @x depending
++ * upon it's nearness to @x. If @y will always be a power of 2, consider
++ * using the faster round_closest_up() or round_closest_down().
++ *
++ * Examples:
++ * * roundclosest(21, 5) = 20
++ * * roundclosest(19, 5) = 20
++ * * roundclosest(17, 5) = 15
++ */
++#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
++
+ /*
+  * Divide positive or negative dividend by positive or negative divisor
+  * and round to closest integer. Result is undefined for negative
 -- 
-2.45.2
+2.39.1
 
