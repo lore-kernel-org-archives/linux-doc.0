@@ -1,583 +1,846 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2082.outbound.protection.outlook.com [40.92.103.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6076FA8;
-	Sun,  7 Jul 2024 20:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720382958; cv=none; b=FnxZfF/xECsSJXOiWa9DgJEvNujI+LYygMAAIb1D2vknm6PC5T+n5sD1H1S4TEQHXyFSgyz1B7FGQNcuHcGG7iuJZk2GbNyHcpKDFwlZCjmeMej7Phosm1p2Vwo3/kutsXgKGIpVf+x5OlyQV2OVXm0eYHAJT3sUXQ05XffU8FI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720382958; c=relaxed/simple;
-	bh=deby0RdK1PJBn3kWNlU3vKG44+lDbCBwJ1YUEKYb29o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QjDyE2YtOcxDUQGR1hoh9giJf/NVqEUgjZqqd4fE1kIkEjutgqmbRtHvVMF1wB4s6JcDk2qjatVYpDcwdL3Sy3B92PAHqHBVxlLJeLnLnrVv+iTEqnVebnNIF1jLFj/4zNW34FtU/teA0kHEaOTKBpEdgotMTsQkWNXxNAEWAA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B8IyIaW3; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8A6365;
+	Mon,  8 Jul 2024 00:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.103.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720398377; cv=fail; b=Wp5rrf6rPVI3eiGt21Ohy2Skgw8ldLILZ3hytiDgsXoo8zsi3gzH6p+2vbTc2CO+sNpt6HkhrU4y6Xaj1aUvf+1uAoV6S/Nza5pmWLXjZTyUN3aPfr+Js0+aL+Wvk5Y7gW+sR+frJU4nbp8szD9czD1g9YAFmzAMuahDwBvGrh0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720398377; c=relaxed/simple;
+	bh=sOK4HSVO4HOzVZTNRjD++Z57TnRCb5SlY4gmn1oSGiU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Fd5cHpcaCRH1SyszTSZRj63e3eWiI2xz+omgL52tWfbIXTD6f97c0ISBdks5WRPQNLYlbp3VuY4qKXzz3p0pGmUfd7icFNaGUj/3IUlh6LryhM3gl71gDXxBh5g0iuBgVdsOc3g9/COgFzI3oYl7UmF7ceJfvUsd6CTif0zPa0Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=m0R9v5Zv; arc=fail smtp.client-ip=40.92.103.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B8IyIaW3"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-58ba3e37feeso4394141a12.3;
-        Sun, 07 Jul 2024 13:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720382955; x=1720987755; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6BlEf2DUil7lwQ7mBYkwtG3dWZjHsv00b/WRtslpkTE=;
-        b=B8IyIaW3FKL6sIPlhgDFnZEcqrrHFE6pPVT7430iGI+k5VSBR/shcAH32MSeonr/Tg
-         CkcrZJ9QTUibowqspeGLnh/6JOKzMXk+p1QqasrYzAVAvnJOi2SINr/P6zYg8lxQWnEI
-         2yFgzKa1fyp2/LU7tiSEC5XmiPQviVPFPFM/IUKFZRQBQl1Ce0qr70wxXbzQolKV1+Yx
-         jICjr/0hMJ2wybP2vId8AykA1EP6Akd76/bSLRJuDChvqjGGMY/x8oQ15b9mAkJLf3PN
-         nmSqp+LbflePAizs93DAhh+uRCDNx1wRAPTRFu27HSmjmHj1FT8mPfv4aGEg5mW7Gxiz
-         udmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720382955; x=1720987755;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6BlEf2DUil7lwQ7mBYkwtG3dWZjHsv00b/WRtslpkTE=;
-        b=rOSZe3TlgYeZV3C9l+HQtsYqGE6vXtL96nxA5bpb2zM9bqkIi9u4VTP/7+xS1xsvTD
-         8g5nkCnibyDLcADY0zrO1L6JkM2MhHfFTImr50/4/sWqkb952dfRzA81CjhRTVnvd87R
-         HLGBrLYko9EAUqhDRZY1gTmjdzqseMjNUypJ/gUeOOpqOfV8pZzy66dUgm1aNT03k8lb
-         RY3RGeaZR/2mIUiTnh/Jfp1JNaMZZi9M59dB0vNz+Rem1J6u4yV1+1rLSqNTlThYe0qQ
-         HJx5aGBGRrJQ2PF8SWh2faG+xyu/LgtO4rxUgB0xooXpluc+afegrTaHm2ADTzdH5wBN
-         IM4g==
-X-Forwarded-Encrypted: i=1; AJvYcCX47wbSSWppylE4cjjWdnp8ns2YJl04rDFMtYrP0ahWu4pQFCsMl6Oc7gc8Aw+H7ovUILkbnUeYLcUeH6jA7fk7mChug13KHPbNW96QIi2e0ir2+U60p7Z4F01JVdpzb+Y2nubDFPwH
-X-Gm-Message-State: AOJu0YwcSaYWlBmD38fVgNTp7Rf0s5DHDdJIkmLfAxo6ZMOzQf9KYVJG
-	K1cZz+0wu9JeoqbL2f97Gno5JRFdoSOMa3YS9IgZKfJApgzLBzXOpSVzCvz838Gl7n7ad8QMHWN
-	1v1Ri/rmOcU2H7mpQqovCnnnRdW0=
-X-Google-Smtp-Source: AGHT+IEoFbe8L1tXcTvJd3WzLdgGZd18zzfH3EQI/PDKA3xsNbwOn20kUmB37MAuxFjMS7sFoLoTJDFO/Av+w6Wy94Q=
-X-Received: by 2002:a05:6402:2803:b0:58e:450b:da08 with SMTP id
- 4fb4d7f45d1cf-58e5b4aefdfmr7574085a12.31.1720382954719; Sun, 07 Jul 2024
- 13:09:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="m0R9v5Zv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=egQsAH5MYri7O0tVbfy6NTRnaMxCUyV1EJtWavmi0jkWkanwdPw2uGKlYOK+YBti3Mfb8Z7lCjS+LyYK2kZby0/aGz+Wc+dXwnCntcZcL1zsvrwAPHOhMWUPtoy0jpUvmLOk6yVHQ8bfDhYYdB+a84zHfU6gq2NtTkVvGNwdJ19E1o6cm5mubbQKXau0r11QRNYypBr9blrFwrovu10Mbw1KbJEXJOTzEN0u4Hho4AnSYOkZU87SHBVtwE053QW6w35w50i/AnvrhtOQKpZiwVvSYL972WhfjNrPq9qCJRBv/m/hQKnUBe5RhS3NWtWVk0dEO4VfhPHUF038XUYrGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=upmYSeavjK4SIMyWGP3qWEoQnHfUuQmze9tXDb7FJW4=;
+ b=IXG6WtF81v+Te2mVAyArsEtainYDTo0FryQ/VGM6VC2KnroWOLg9PoUt9NEeoR26U7rlBxOpy58SnAbQWzGiKbXb4lwpfIyBV/angmm9Ycqa5QYNJuace/T10xQTxDCyWk4nVVH2hFxUJZFTFBNy14+65d3NQKemEioM9WsqW5wlAM17z+TKXt6tmRO7fu3p7i7RjbVIUQ9ZhqWvMyAI70JrWKSZLT/PZt9arNy+Diwk01ru5oR/uSEQNOGBFnRpneWazT6S5Gn+9ipaaf/i7tRmR6zuDT//0JEq6+LWxJMwzylaqJWa96MMG/dEO+jcKdqpXGcKkQHZp6d85zaAqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=upmYSeavjK4SIMyWGP3qWEoQnHfUuQmze9tXDb7FJW4=;
+ b=m0R9v5ZvCjhg1dfZ4LPU+xlKCITQ+bKlAU3FzeldT7BnaNu+6aaaJ8Mzt/4DWkeIwHjsn6TnaFDxatldV/MIfyyt54wvHWr6ZWUeQmZan+i5GQhSnVZAgIbSA/iqZC6+qlchetewGLmYbBpbpl5nrbgCQ26ro3rX9UXAOTc95Dk9dBQ8m4KANiwqvQJ1PnsdwEhu514pPFUxsdr281p3yZUn1GM8yiNW5+beOYAdk779XN4+w/O36uMMZ0ManBbpMiAXHA1rDqvMr88ROQ9cXbw8PMuA52T54emjBhT/weRaRjj29TackD8dQftHqGCBII22zDFFvp/QEZ5h9BNJQQ==
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:138::5)
+ by PN0P287MB0653.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:162::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Mon, 8 Jul
+ 2024 00:26:07 +0000
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c]) by MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c%3]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
+ 00:26:07 +0000
+Message-ID:
+ <MA0P287MB2822935DEA9EE418F3411CFAFEDA2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+Date: Mon, 8 Jul 2024 08:25:55 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] drivers: hwmon: sophgo: Add SG2042 external
+ hardware monitor support
+To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <IA1PR20MB4953967EA6AF3A6EFAE6AB10BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB4953EC4C486B8D4B186BB848BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
+From: Chen Wang <unicorn_wang@outlook.com>
+In-Reply-To: <IA1PR20MB4953EC4C486B8D4B186BB848BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [JMoqFQ/e/yIZGNIKhthL7ocupKX2TlOF]
+X-ClientProxiedBy: TYXPR01CA0061.jpnprd01.prod.outlook.com
+ (2603:1096:403:a::31) To MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:138::5)
+X-Microsoft-Original-Message-ID:
+ <5a41ac32-6660-4c0f-94c7-7097d9953b38@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706132201.26136-1-sergio.collado@gmail.com> <375dbc3c-e741-4bdb-88ff-35e68d43c36d@gmail.com>
-In-Reply-To: <375dbc3c-e741-4bdb-88ff-35e68d43c36d@gmail.com>
-From: =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>
-Date: Sun, 7 Jul 2024 22:08:38 +0200
-Message-ID: <CAA76j938DZ27g75S0i_hCSC3G2hPiJa2NRiB8+k9UAeuW-geJw@mail.gmail.com>
-Subject: Re: [PATCH] docs/sp_SP: Add translation for scheduler/sched-design-CFS.rst
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>, 
-	Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>, Shrikanth Hegde <sshegde@linux.vnet.ibm.com>, 
-	Wenyu Huang <huangwenyu5@huawei.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bilbao@vt.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB2822:EE_|PN0P287MB0653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13abe859-2f39-4c62-b1d9-08dc9ee48da1
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|19110799003|8060799006|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	zesxG79x3aP7nOQ8ZVP31h2dMD6hXvOHSZv+WThNnL26LC5uVNG/ou4AtPOHZtzLDqTc82qTYtxpbn81IxYPLZKQPtHpadwzk81EQEJEMnLMuPmzp74YG/GazUH3Ok/loIXvysMkQE+YAD5lvKY0daM/WR+W+N710N3U3JnSB10gpUnAOH1GBVYKVes3wt8nvP5U822DIhcb3qhaw84Ivi17YBoc6eUh/vwHUessJqCWflOfAdWBuL+VEroWR/4VvKGxP4mtS+0lA/M8sa8kthXPUTRIjhnn63zjBez/8pVx5J5j+JuUwtFYsQ7WWoCkFlbDAFiMK3/ceAdngJebSYC1EkK9+eP2TNXvQfdmrnWN71nCfuwttqgELcPpwkhrqdGxoJwGBI4/MEeb+J3aEIkYEJMxMIvLtkFZCzQetZuOUDlZKPBDgXeNbxUJ430w2Uu0K/M7YbeDrmYJKd22JA+PhxPxfPZvyOrqx03RsAH5UyCKb/XeZlz9kW5saakeLe3TksoevoMXu5N8S+Egk1MCSkg1D6VIWVWXP9cTP5pFFfkdfMo1QB9QiaL+k0vKUQntfO5V0FVYDvR+9o2nr2SSCDxJqJFJQ3xk6w2D3bEdLH+k5xL4bjOpjS+jka0YYXRjOg1PYynzO7v+9XlcGA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eENOU2NtZGdxNmRtRlh5bDh4bGhiYnlkREtHY1dSbndoeFNpdkJDMys4K1VY?=
+ =?utf-8?B?bHBuN3ZOTDg1cy9lTFMzSS9hcWptK3NUSU9EMGxOODl5OUhLOE5iQ2tTaFJl?=
+ =?utf-8?B?dXBlOUpsWS9BTjlFTHNZcjdMY1R5QTFTZmZCTHBBU1BnSElDazA2a1hLRnFh?=
+ =?utf-8?B?RjBVelJXNFowcEJMZC9XMy9sbkFrTGRYYjNaRGNCYnU5ZUtkaHZTOUdxcGRW?=
+ =?utf-8?B?bkl1K3drVHV3V1BCMEJXb3RkWTRrNmtaMW1xOWVSelErRFh6d29WYitPdGJr?=
+ =?utf-8?B?T1J5QUpoZElSazRPdUpqcDVFWlk4dU5HZWtnODJETWNudms3Z0Y0cytrZTVS?=
+ =?utf-8?B?QVArQ2llbzJ3OWxoRDB6b0NQVW85ZHErM3NncVlvUzNyb0VhSzU2N3pKRHlB?=
+ =?utf-8?B?eWZoVUttS3JqN2RZeFRoQzBDV0RFeEZFcHNOTFFqWnNYajRJM2pCQ3E4WmVT?=
+ =?utf-8?B?TGlYdWR2b2ZMK3hNcVQ1YUQ1bll3NXB0Uk8wdEhaRjl2ZVBBdld2S2J0RFh5?=
+ =?utf-8?B?R2hwclJwZ2hJaTlxTTRycDJqeHpUZWJVT3dYZDdKaWRnQ2lmdUZLaG0zSmQ3?=
+ =?utf-8?B?R29ST0Z3eTNyZG9qSFlaanJmY2FaVkNYdlZzcXhLYUI4cEV2NUNvcURlYkli?=
+ =?utf-8?B?d1RoSGgyMlBWMXJMait1YjgzMDYvcVdGQWJSZnFMa1hidFF1TTgxZENiYStJ?=
+ =?utf-8?B?NGNmelZseHJUZllNOEJRMnB0TjNuWWNuT1drZ2xNS1VuNXVyM1h2c3FsaTRk?=
+ =?utf-8?B?YndUcVRPV2xNQ25pUWNpU1VLSDhtSDA3MGxmMWt4NUlZZzAyZEtXYW81Nkcw?=
+ =?utf-8?B?eFhyOWQ2OWpiNFJ6YVlxaFRhUW83eVNtV1N3MDZzcDZ0NlhQN0dtZHFpVnpp?=
+ =?utf-8?B?MkFIaTI4T1ZHa096K0ttWXhQV09kVTQvZHdxcmsvZ1FQNGdqN21EeHVNYndH?=
+ =?utf-8?B?Y0ZVYXBLK0tma29MeDI1L25CWVRUVWg1bzFNeXVmSzN4ZHhQcXF0dFZjdEFH?=
+ =?utf-8?B?a09GbU8xR242YWViUUtEWmMrUVRkelYrWnZ1Nk9hcWlyZGZ0bVRFWktpek91?=
+ =?utf-8?B?dEFMRm9PV0ZQcWFpbFBqK05CZUkxK3BuWVh1MVJjaDh3Uks3NDc0MUJ5SXZP?=
+ =?utf-8?B?WDVSWE80ck9paThDWE1adzllOXV4d0ltZGFCS0xOQkloVFN4dS9UeEwybnBZ?=
+ =?utf-8?B?cmMxdXZMVkxCZy9hM09oSEZUTXd1YjBxWlBjOE90MlRqamlKQ25UcFBkZEpq?=
+ =?utf-8?B?alFnTjBVZlQ2dENWcUhkUzlYUWEwcCtXand3enZsOGtQUlAvMm4zbTllQlF3?=
+ =?utf-8?B?aGQ2am5JeWl0dGY3aEk4azVyc2dxKzI2N1duRU5jMFAyMHBTRDhpbEpPMnJ5?=
+ =?utf-8?B?VXUzd1RGcGZSTlBrUEVvelJ3dVJPQmZycFRIRnZWcVY2SHRoWWVZN1NGaDln?=
+ =?utf-8?B?bldUUS96TjBuRVpNdFZNVFRvTFlzT3RlbUhTN245VW5YM0h2VUNrQkNxMVg3?=
+ =?utf-8?B?RnArdW50UkhibjIrV2FXSjM0UitIZGh0VTFmTjltV1RvVE1DdW9WQ2lydnBm?=
+ =?utf-8?B?OFRMb25QaWRqMU93K013b1VuZWx0WktScXlVUXQxMUMrSDIzUUpJQ05UQUJO?=
+ =?utf-8?B?bHpnUHJxckFMckdPcTB0dVQ3ZzFBWk5saEhKQktnWDZVclFVcm9VN0lCNUVn?=
+ =?utf-8?Q?M9CMuKCbNnfSpZqJFd7P?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13abe859-2f39-4c62-b1d9-08dc9ee48da1
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 00:26:06.6172
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0653
 
-Thanks for the review!
 
-Maybe we could consider updating the original documentation with the
-EEVDF scheduler info.
+On 2024/7/3 10:30, Inochi Amaoto wrote:
+> SG2042 use an external MCU to provide basic hardware information
+> and thermal sensors.
+>
+> Add driver support for the onboard MCU of SG2042.
+>
+> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> ---
+>   Documentation/hwmon/index.rst |   1 +
+>   Documentation/hwmon/sgmcu.rst |  44 +++
+>   drivers/hwmon/Kconfig         |  11 +
+>   drivers/hwmon/Makefile        |   1 +
+>   drivers/hwmon/sgmcu.c         | 585 ++++++++++++++++++++++++++++++++++
+>   5 files changed, 642 insertions(+)
+>   create mode 100644 Documentation/hwmon/sgmcu.rst
+>   create mode 100644 drivers/hwmon/sgmcu.c
+>
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 03d313af469a..189626b3a055 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -203,6 +203,7 @@ Hardware Monitoring Kernel Drivers
+>      sch5636
+>      scpi-hwmon
+>      sfctemp
+> +   sgmcu
+This driver is for sg2042 only, right? "sgmcu" looks be general for all 
+sophgo products.
+>      sht15
+>      sht21
+>      sht3x
+> diff --git a/Documentation/hwmon/sgmcu.rst b/Documentation/hwmon/sgmcu.rst
+> new file mode 100644
+> index 000000000000..5669dcfb2a33
+> --- /dev/null
+> +++ b/Documentation/hwmon/sgmcu.rst
+Same question as upon.
+> @@ -0,0 +1,44 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver sgmcu
+> +=====================
+> +
+> +Supported chips:
+> +
+> +  * Onboard MCU for sg2042
+> +
+> +    Addresses scanned: -
+> +
+> +    Prefix: 'sgmcu'
+Same question as upon.
+> +
+> +Authors:
+> +
+> +  - Inochi Amaoto <inochiama@outlook.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver supprts hardware monitoring for onboard MCU with
+> +PMBus interface.
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not auto-detect devices. You will have to instantiate
+> +the devices explicitly.
+> +Please see Documentation/i2c/instantiating-devices.rst for details.
+> +
+> +Platform data support
+> +---------------------
+> +
+> +The driver supports standard PMBus driver platform data.
+> +
+> +Sysfs Attributes
+> +----------------
+> +
+> +================= =============================================
+> +temp1_input       Measured temperature of SoC
+> +temp1_crit        Critical high temperature
+> +temp1_crit_hyst   hysteresis temperature restore from Critical
+> +temp2_input       Measured temperature of the base board
+> +================= =============================================
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index e14ae18a973b..1100dd11f7f5 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -2079,6 +2079,17 @@ config SENSORS_SFCTEMP
+>   	  This driver can also be built as a module.  If so, the module
+>   	  will be called sfctemp.
+>
+> +config SENSORS_SGMCU
+Same question as upon.
+> +	tristate "Sophgo onboard MCU support"
+Same question as upon.
+> +	depends on I2C
+> +	depends on ARCH_SOPHGO || COMPILE_TEST
+> +	help
+> +	  Support for onboard MCU of Sophgo SoCs. This mcu provides power
+> +	  control and some basic information.
+> +
+> +	  This driver can be built as a module. If so, the module
+> +	  will be called sgmcu.
+> +
+>   config SENSORS_SURFACE_FAN
+>   	tristate "Surface Fan Driver"
+>   	depends on SURFACE_AGGREGATOR
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index e3f25475d1f0..e9b78ff8338e 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -195,6 +195,7 @@ obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
+>   obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
+>   obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
+>   obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
+> +obj-$(CONFIG_SENSORS_SGMCU)	+= sgmcu.o
+Same question as upon.
+>   obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
+>   obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
+>   obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
+> diff --git a/drivers/hwmon/sgmcu.c b/drivers/hwmon/sgmcu.c
+> new file mode 100644
+> index 000000000000..d941d6fe741f
+> --- /dev/null
+> +++ b/drivers/hwmon/sgmcu.c
+Same question as upon.
+> @@ -0,0 +1,585 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2024 Inochi Amaoto <inochiama@outlook.com>
+> + *
+> + * Sophgo power control mcu for SG2042
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/i2c.h>
+> +#include <linux/err.h>
+> +#include <linux/hwmon.h>
+> +
+> +/* fixed MCU registers */
+> +#define REG_BOARD_TYPE				0x00
+> +#define REG_MCU_FIRMWARE_VERSION		0x01
+> +#define REG_PCB_VERSION				0x02
+> +#define REG_PWR_CTRL				0x03
+> +#define REG_SOC_TEMP				0x04
+> +#define REG_BOARD_TEMP				0x05
+> +#define REG_RST_COUNT				0x0a
+> +#define REG_UPTIME				0x0b
+> +#define REG_RESET_REASON			0x0d
+> +#define REG_MCU_TYPE				0x18
+> +#define REG_CRITICAL_ACTIONS			0x65
+> +#define REG_CRITICAL_TEMP			0x66
+> +#define REG_REPOWER_TEMP			0x67
+> +
+> +#define CRITICAL_ACTION_REBOOT			0x1
+> +#define CRITICAL_ACTION_POWEROFF		0x2
+> +
+> +#define DEFAULT_REPOWER_TEMP			60
+> +#define MAX_REPOWER_TEMP			100
+> +
+> +#define sg2042_mcu_read_byte(client, reg)			\
+> +	i2c_smbus_read_byte_data(client, reg)
+> +#define sg2042_mcu_write_byte(client, reg, value)		\
+> +	i2c_smbus_write_byte_data(client, reg, value)
+> +#define sg2042_mcu_read_block(client, reg, array)		\
+> +	i2c_smbus_read_i2c_block_data(client, reg, sizeof(array), array)
+> +
+> +#define DEFINE_MCU_ATTR_READ_FUNC(_name, _type, _format)		\
+> +	static ssize_t _name##_show(struct device *dev,			\
+> +				    struct device_attribute *attr,	\
+> +				    char *buf)				\
+> +	{								\
+> +		struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);	\
+> +		_type ret;						\
+> +		ret = sg2042_mcu_get_##_name(mcu->client);		\
+> +		if (ret < 0)						\
+> +			return ret;					\
+> +		return sprintf(buf, _format "\n", ret);			\
+> +	}
+> +
+> +#define DEFINE_MCU_DEBUG_ATTR_READ_FUNC(_name, _type, _format)		\
+> +	static int _name##_show(struct seq_file *seqf,			\
+> +				    void *unused)			\
+> +	{								\
+> +		struct sg2042_mcu_data *mcu = seqf->private;		\
+> +		_type ret;						\
+> +		ret = sg2042_mcu_get_##_name(mcu->client);		\
+> +		if (ret < 0)						\
+> +			return ret;					\
+> +		seq_printf(seqf, _format "\n", ret);			\
+> +		return 0;						\
+> +	}
+> +
+> +#define _CREATE_DEBUG_ENTRY(name, perm, d, data)			\
+> +	debugfs_create_file(#name, perm, d, data, &name##_fops)
+> +
+> +struct sg2042_mcu_board_data {
+> +	u8		id;
+> +	const char	*name;
+> +};
+> +
+> +struct sg2042_mcu_data {
+> +	struct i2c_client			*client;
+> +	const struct sg2042_mcu_board_data	*board_info;
+> +	struct dentry				*debugfs;
+> +};
+> +
+> +static const struct sg2042_mcu_board_data sg2042_boards_data[] = {
+> +	{
+> +		.id = 0x80,
+> +		.name = "SG2042 evb x8",
+> +	},
+> +	{
+> +		.id = 0x81,
+> +		.name = "SG2042R evb",
+> +	},
+> +	{
+> +		.id = 0x83,
+> +		.name = "SG2042 evb x4",
+> +	},
+> +	{
+> +		.id = 0x90,
+> +		.name = "Milk-V Pioneer",
+> +	},
+> +};
 
-Best regards,
- Sergio.
+Upstream kernel DTS only supports Milk-V pioneer, evb boards are not 
+supported in plan. Can we figure a method to let user extend this 
+outside kernel or just ask vendor to patch this when necessary?
 
-On Sat, 6 Jul 2024 at 21:00, Carlos Bilbao
-<carlos.bilbao.osdev@gmail.com> wrote:
->
-> Hello,
->
-> On 7/6/24 08:22, Sergio Gonz=C3=A1lez Collado wrote:
-> > Translate Documentation/scheduler/sched-design-CFS.rst into Spanish
-> >
-> > Signed-off-by: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
-> > ---
-> >  Documentation/scheduler/sched-design-CFS.rst  |   2 +
-> >  Documentation/translations/sp_SP/index.rst    |   1 +
-> >  .../translations/sp_SP/scheduler/index.rst    |   8 +
-> >  .../sp_SP/scheduler/sched-design-CFS.rst      | 275 ++++++++++++++++++
-> >  4 files changed, 286 insertions(+)
-> >  create mode 100644 Documentation/translations/sp_SP/scheduler/index.rs=
-t
-> >  create mode 100644 Documentation/translations/sp_SP/scheduler/sched-de=
-sign-CFS.rst
-> >
-> > diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentati=
-on/scheduler/sched-design-CFS.rst
-> > index e030876fbd68..bc1e507269c6 100644
-> > --- a/Documentation/scheduler/sched-design-CFS.rst
-> > +++ b/Documentation/scheduler/sched-design-CFS.rst
-> > @@ -1,3 +1,5 @@
-> > +.. _sched_design_CFS:
-> > +
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >  CFS Scheduler
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation=
-/translations/sp_SP/index.rst
-> > index 274ef4ad96b9..aae7018b0d1a 100644
-> > --- a/Documentation/translations/sp_SP/index.rst
-> > +++ b/Documentation/translations/sp_SP/index.rst
-> > @@ -78,3 +78,4 @@ Traducciones al espa=C3=B1ol
-> >
-> >     process/index
-> >     wrappers/memory-barriers
-> > +   scheduler/index
-> > diff --git a/Documentation/translations/sp_SP/scheduler/index.rst b/Doc=
-umentation/translations/sp_SP/scheduler/index.rst
-> > new file mode 100644
-> > index 000000000000..768488d6f001
-> > --- /dev/null
-> > +++ b/Documentation/translations/sp_SP/scheduler/index.rst
-> > @@ -0,0 +1,8 @@
-> > +.. include:: ../disclaimer-sp.rst
-> > +
-> > +.. _sp_scheduler_index:
-> > +
-> > +.. toctree::
-> > +    :maxdepth: 1
-> > +
-> > +    sched-design-CFS
-> > diff --git a/Documentation/translations/sp_SP/scheduler/sched-design-CF=
-S.rst b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-> > new file mode 100644
-> > index 000000000000..43e29297d7fa
-> > --- /dev/null
-> > +++ b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-> > @@ -0,0 +1,275 @@
-> > +.. include:: ../disclaimer-sp.rst
-> > +
-> > +:Original: :ref:`Documentation/scheduler/sched-design-CFS.rst <sched_d=
-esign_CFS>`
-> > +:Translator: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
-> > +
-> > +.. _sp_sched_desing_CFS:
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Gestor de tareas CFS
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +1.  VISI=C3=93N GENERAL
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +CFS viene de las siglas en ingl=C3=A9s de "Gestor te tareas totalmente=
- justo"
->
->
-> Change 'te' to 'de'. For the rest of the review, I'll say instead:
-> 's/old/new', in this case, s/te/de.
->
->
-> > +("Completely Fair Scheduler"), y es el nuevo gestor de tareas de escri=
-torio
-> > +implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustit=
-uto de
-> > +el previo gestor de tareas SCHED_OTHER.
->
->
-> Although I usually don't do this, considering that CFS is no longer the
-> most recent scheduler, let's add a note here:
->
-> Nota: El planificador EEVDF fue incorporado m=C3=A1s recientemente al ker=
-nel.
->
->
-> > +
-> > +El 80% del dise=C3=B1o de CFS puede ser resumido en una =C3=BAnica fra=
-se: CFS
-> > +b=C3=A1sicamente modela una "CPU ideal, precisa y multi-tarea" sobre h=
-ardware
-> > +real.
-> > +
-> > +"una CPU multitarea ideal" es una CPU (inexistente :-)) que tiene un 1=
-00%
-> > +de potencia y que puede ejecutar cualquier tarea exactamente a la mism=
-a
-> > +velocidad, en paralelo, y cada una a 1/n velocidad. Por ejemplo, si ha=
-y dos
-> > +tareas ejecut=C3=A1ndose, entonces cada una usa un 50% de la potencia =
---- es decir,
-> > +como si se ejecutaran en paralelo.
-> > +
-> > +En un hardware real, se puede ejecutar una =C3=BAnica tarea a la vez, =
-as=C3=AD que
->
->
-> s/En un hardware/En hardware
->
->
-> > +se ha usado el concepto de "tiempo de ejecuci=C3=B3n virtual". El tiem=
-po
-> > +de ejecuci=C3=B3n virtual de una tarea, espec=C3=ADfica cuando la sigu=
-iente porci=C3=B3n
->
->
-> s/tarea,/tarea
->
->
-> > +de ejecuci=C3=B3n podr=C3=ADa empezar en la CPU ideal multi-tarea desc=
-rita anteriormente.
-> > +En la pr=C3=A1ctica, el tiempo de ejecuci=C3=B3n virtual de una tarea =
-es el
-> > +tiempo de ejecuci=C3=B3n real normalizado con respecto al n=C3=BAmero =
-total de
-> > +tareas ejecut=C3=A1ndose.
-> > +
-> > +
-> > +2.  UNOS CUANTOS DETALLES DE IMPLEMENTACI=C3=93N
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +En CFS, el tiempo de ejecuci=C3=B3n virtual se expresa y se monitoriza=
- por
-> > +cada tarea, en su valor de p->se.vruntime (en unidades de nanosegundos=
-).
-> > +De este modo, es posible temporizar con precisi=C3=B3n y medir el "tie=
-mpo
-> > +de CPU esperado" que una tarea deber=C3=ADa tener.
-> > +
-> > +Un peque=C3=B1o detalle: en hardware "ideal", en cualquier momento tod=
-as las
-> > +tareas pueden tener el mismo valor de p->se.vruntime --- i.e., tareas
-> > +se podr=C3=ADan ejecutar simult=C3=A1neamente y ninguna tarea podr=C3=
-=ADa escaparse del
-> > +"balance" de la partici=C3=B3n "ideal" del tiempo compartido de la CPU=
-.
-> > +
-> > +La l=C3=B3gica de elecci=C3=B3n del tareas de CFS se basa en el valor =
-de p->se.vruntime
-> > +y por tanto es muy sencilla: siempre intenta ejecutar la tarea con el =
-valor
-> > +p->se.vruntime m=C3=A1s peque=C3=B1o (i.e., la tarea que se ha ejecuta=
-do menos hasta el
-> > +momento). CFS siempre intenta dividir el espacio de tiempo entre tarea=
-s
-> > +en ejecuci=C3=B3n tan pr=C3=B3ximo a la "ejecuci=C3=B3n multitarea ide=
-al del hardware" como
-> > +sea posible.
-> > +
-> > +El resto del dise=C3=B1o de CFS simplemente se escapa de este simple c=
-oncepto,
-> > +con unos cuantos a=C3=B1adidos como los niveles "nice" ("nice" signifi=
-ca "amable"
-> > +en ingl=C3=A9s), multi-tarea y varias variantes del algoritmo para ide=
-ntificar
-> > +tareas "durmiendo".
-> > +
-> > +
-> > +3.  EL =C3=81RBOL ROJO-NEGRO
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +El dise=C3=B1o de CFS es bastante radical: no utiliza las antiguas est=
-ructuras
-> > +de datos para las colas de ejecuci=C3=B3n (en ingl=C3=A9s "runqueues")=
-, pero usa una
-> > +estructura de =C3=A1rbol rojo-negro (en ingl=C3=A9s "red-black tree") =
-ordenado cronol=C3=B3gicamente
-> > +para construir un l=C3=ADnea de ejecuci=C3=B3n en el futuro, y por eso=
- no tiene ning=C3=BAn
-> > +artificio de "cambio de tareas" (algo que previamente era usado por el=
- gestor
-> > +anterior y RSDL/SD).
-> > +
-> > +CFS tambi=C3=A9n mantiene el valor de rq->cfs.min_vruntime, el cual cr=
-ece
-> > +monot=C3=B3nicamente siguiendo el valor m=C3=A1s peque=C3=B1o de vrunt=
-ime de entre todas
-> > +las tareas en la cola de ejecuci=C3=B3n. La cantidad total de trabajo =
-realizado
-> > +por el sistema es monitorizado usado min_vruntime; este valor es usado
-> > +para situar las nuevas tareas en la parte izquierda del =C3=A1rbol tan=
-to
-> > +como sea posible.
-> > +
-> > +El valor total de tareas ejecut=C3=A1ndose en la cola de ejecuci=C3=B3=
-n es
-> > +contabilizado mediante el valor rq->cfs.load, el cual es la suma de lo=
-s
-> > +de esas tareas que est=C3=A1n en la cola de ejecuci=C3=B3n.
-> > +
-> > +CFS mantiene un =C3=A1rbol rojo-negro cronol=C3=B3giamente ordenado, d=
-onde todas las
->
->
-> s/cronol=C3=B3giamente/cronol=C3=B3gicamente
->
->
-> > +tareas que pueden ser ejecutadas est=C3=A1n ordenadas por su valor de
-> > +p->se.vruntime. CFS selecciona la tarea m=C3=A1s hacia la izquierda de=
- este
-> > +=C3=A1rbol y la mantiene. Seg=C3=BAn el sistema contin=C3=BAa, las tar=
-eas ejecutadas
-> > +se ponen en este =C3=A1rbol m=C3=A1s y m=C3=A1s hacia la derecha --- l=
-entamente pero
-> > +de forma continuada dando una oportunidad a cada tarea de ser la que
-> > +est=C3=A1 "la m=C3=A1s hacia la izquierda" y por tanto obtener la CPU =
-una cantidad
-> > +determinista de tiempo.
-> > +
-> > +Resumiendo, CFS funciona as=C3=AD: ejecuta una tarea un tiempo, y cuan=
-do la
-> > +tarea se gestiona (o sucede un tic del gestor de tareas) se considera
-> > +que el tiempo de uso de la CPU se ha completado, y se a=C3=B1ade a
-> > +p->se.vruntime. Una vez p->se.vruntime ha aumentado lo suficiente como
-> > +para que otra tarea sea "la tarea m=C3=A1s hacia la izquierda" del =C3=
-=A1rbol
-> > +rojo-negro ordenado cronol=C3=B3gicamente esta mantienen (m=C3=A1s una=
- cierta peque=C3=B1a
-> > +cantidad de distancia relativa a la tarea m=C3=A1s hacia la izquierda =
-para
-> > +que no se sobre-reserven tareas y perjudique a la cache), entonces la
-> > +nueva tarea "que est=C3=A1 a la izquierda del todo", es la que se elig=
-e
-> > +para que se ejecute, y la tarea en ejecuci=C3=B3n es interrumpida.
-> > +
-> > +4.  ALGUNAS CARACTER=C3=8DSTICAS DE CFS
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +CFS usa una granularidad de nanosegundos y no depende de ning=C3=BAn
-> > +jiffie o detalles como HZ. De este modo el gestor de tareas CFS no tie=
-ne
->
->
-> s/modo/modo,
->
->
-> > +noci=C3=B3n de "ventanas de tiempo" de la forma en que ten=C3=ADa el g=
-estor de
-> > +tareas previo, y tampoco tiene heur=C3=ADsticos. =C3=9Anicamente hay u=
-n par=C3=A1metro
-> > +central ajustable (se ha de cambiar en CONFIG_SCHED_DEBUG):
-> > +
-> > +   /sys/kernel/debug/sched/base_slice_ns
-> > +
-> > +El cual puede ser usado para afinar desde el gestor de tareas del "esc=
-ritorio"
-> > +(i.e., bajas latencias) hacia cargas de "servidor" (i.e., bueno con
-> > +procesamientos). Su valor por defecto es adecuado para tareas de escri=
-torio.
-> > +SCHED_BATCH tambi=C3=A9n es gestionado por el gestor de tareas CFS.
-> > +
-> > +Debido a su dise=C3=B1o, el gestor de tareas CFS no es proclive a ning=
-uno de los
-> > +ataques que existen a d=C3=ADa de hoy contra los heur=C3=ADsticos del =
-gestor de tareas:
-> > +fiftyp.c, thud.c, chew.c, ring-test.c, massive_intr.c todos trabajan
-> > +correctamente y no tienen impacto en la interacci=C3=B3n y se comporta=
-n de la forma
-> > +esperada.
-> > +
-> > +El gestor de tareas CFS tiene una gesti=C3=B3n mucho m=C3=A1s firme de=
- los niveles
-> > +"nice" y SCHED_BATCH que los previos gestores de tareas: ambos tipos d=
-e
-> > +tareas est=C3=A1n aisladas de forma m=C3=A1s eficiente.
-> > +
-> > +El balanceo de tareas SMP ha sido rehecho/mejorado: el avance por las
-> > +colas de ejecuci=C3=B3n de tareas ha desaparecido del c=C3=B3digo de b=
-alanceo de
-> > +carga, y ahora se usan iteradores en la gesti=C3=B3n de m=C3=B3dulos. =
-El balanceo
-> > +del c=C3=B3digo ha sido simplificado como resultado esto.
-> > +
-> > +5.  Pol=C3=ADticas de gesti=C3=B3n de tareas
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +CFS implementa tres pol=C3=ADticas de gesti=C3=B3n de tareas:
-> > +
-> > +  - SCHED_NORMAL (tradicionalmente llamada SCHED_OTHER): Gesti=C3=B3n =
-de
-> > +    tareas que se usan para tareas normales.
-> > +
-> > +  - SCHED_BATCH: No interrumpe tareas tan amenudo como las tareas
->
->
-> s/amenudo/a menudo
->
->
-> > +    normales har=C3=ADan, por eso permite a las tareas ejecutarse dura=
-nte
-> > +    ventanas de tiempo mayores y hace un uso m=C3=A1s efectivo de las
-> > +    caches pero al coste de la interactividad. Esto es adecuado
-> > +    para trabajos de procesado de datos.
-> > +
-> > +  - SCHED_IDLE: Esta pol=C3=ADtica es m=C3=A1s d=C3=A9bil incluso que =
-nice 19, pero
-> > +    no es un gestor "idle" para evitar caer en el problema de la
-> > +    inversi=C3=B3n de prioridades que causar=C3=ADa un bloqueo de la m=
-=C3=A1quina
-> > +    (deadlock).
-> > +
-> > +SCHED_FIFO/_RR se implementan en sched/rt.c y son espec=C3=ADficos de
-> > +POSIX.
-> > +
-> > +El comando chrt de util-linux-ng 2.13.1.1. puede asignar cualquiera de
-> > +estas pol=C3=ADticas excepto SCHED_IDLE.
-> > +
-> > +
-> > +6.  CLASES DE GESTI=C3=93N
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +El nuevo gestor de tareas CFS ha sido dise=C3=B1ado de tal modo para i=
-ncluir
-> > +"clases de gesti=C3=B3n", una jerarqu=C3=ADa ampliable de m=C3=B3dulos=
- que pueden tener
-> > +distintas pol=C3=ADticas de gesti=C3=B3n de tareas. Estos m=C3=B3dulos=
- encapsulan los
-> > +detalles de las politicas de gestion y son manejadas por el n=C3=BAcle=
-o del
->
->
-> s/gestion/gesti=C3=B3n
->
->
-> > +gestor de tareas sin que este tenga que presuponer mucho sobre estas c=
-lases.
-> > +
-> > +sched/fair.c implementa el gestor de tareas CFS descrito arriba.
->
->
-> s/arriba/antes
->
->
-> > +
-> > +sched/rt.c implementa la sem=C3=A1ntica de SCHED_FIFO y SCHED_RR, de u=
-na forma
-> > +m=C3=A1s sencilla que el gestor de tareas anterior. Usa 100 colas de e=
-jecuci=C3=B3n
-> > +(por todos los 100 niveles de prioridad RT, en vez de las 140 que nece=
-sitaba
-> > +el gestor de tareas anterior) y no necesita las listas de expiraci=C3=
-=B3n.
-> > +
-> > +Las clases de gesti=C3=B3n de tareas son implementadas por medio de la=
- estructura
-> > +sched_class, la cual tiene llamadas a las funciones que deben de llama=
-rse
-> > +cuando quiera que ocurra un evento interesante.
-> > +
-> > +Esta es la lista parcial de llamadas:
-> > +
-> > + - enqueue_task(...)
-> > +
-> > +   Llamada cuando una tarea entra en el estado de lista para ejecuci=
-=C3=B3n.
-> > +   Pone la entidad a ser gestionada (la tarea) en el =C3=A1rbol rojo-n=
-egro
-> > +   e incrementa la variable nr_running.
-> > +
-> > + - dequeue_task(...)
-> > +
-> > +   Cuando una tarea deja de ser ejecutable, esta funci=C3=B3n se llama=
- para
-> > +   mantener a la entidad gestionada fuera del =C3=A1rbol rojo-negor. E=
-sto
-> > +   decrementa la variable nr_running.
-> > +
-> > + - yield_task(...)
-> > +
-> > +   Esta funci=C3=B3n es b=C3=A1sicamente desencolar, seguido por encol=
-ar, a menos que
-> > +   sysctl compat_yield est=C3=A9 activado; en ese caso, sit=C3=BAa la =
-entidad a gestionar
-> > +   en la parte m=C3=A1s hacia la derecha del =C3=A1rbol rojo-negro.
-> > +
-> > + - check_preempt_curr(...)
-> > +
-> > +   Esta funci=C3=B3n comprueba si una tarea que ha entrado en el estad=
-o de
-> > +   poder ser ejecutada, podr=C3=ADa reemplazar a la tarea que actualme=
-nte
-> > +   se est=C3=A9 ejecutando.
-> > +
-> > + - pick_next_task(...)
-> > +
-> > +   Esta funci=C3=B3n elige la tarea m=C3=A1s apropiada para ser ejecut=
-ada a continuaci=C3=B3n.
-> > +
-> > + - set_curr_task(...)
-> > +
-> > +   Esta funci=C3=B3n se llama cuando una tarea cambia su clase de gest=
-i=C3=B3n o
-> > +   cambia su grupo de tareas.
-> > +
-> > + - task_tick(...)
-> > +
-> > +   Esta funci=C3=B3n es llamada la mayor=C3=ADa de las veces desde la =
-funci=C3=B3n de tiempo
-> > +   tick; esto puede llevar a un cambio de procesos. Esto dirige el ree=
-mplazo
-> > +   de las tareas.
-> > +
-> > +
-> > +7.  EXTENSIONES DE GRUPOS PARA CFS
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Normalmente, el gestor de tareas gestiona tareas individuales e intent=
-a
-> > +proporcionar una cantidad justa de CPU a cada tarea. Algunas veces, pu=
-ede
-> > +ser deseable agrupar las tareas y proporcionarles una cantidad justa
-> > +de tiempo de CPU a cada una de las tareas de ese grupo. Por ejemplo,
-> > +podr=C3=ADa ser deseable que primero se proporcione una cantidad justa=
- de
-> > +tiempo de CPU a cada usuario del sistema y despu=C3=A9s a cada tarea
-> > +que pertenezca a un usuario.
-> > +
-> > +CONFIG_CGROUP_SCHED destaca en conseguir exactamente eso. Permite a la=
-s
-> > +tareas ser agrupadas y divide el tiempo de CPU de forma just entre eso=
-s
-> > +grupos.
-> > +
-> > +CONFIG_RT_GROUP_SCHED permite agrupar tareas de tiempo real (i.e.,
-> > +SCHED_FIFO y SCHED_RR).
-> > +
-> > +CONFIG_FAIR_GROUP_SCHED permite agrupar tareas de CFS (i.e., SCHED_NOR=
-MAL y
-> > +SCHED_BATCH).
-> > +
-> > +Estas opciones necesitan CONFIG_CGROUPS para ser definidas, y permitir
-> > +al administrador crear grupos arbitrarios de tareas, usando el pseudo
-> > +sistema de archivos "cgroup". Vease la documentaci=C3=B3n para m=C3=A1=
-s informaci=C3=B3n
-> > +sobre este sistema de archivos: Documentation/admin-guide/cgroup-v1/cg=
-roups.rst
-> > +
-> > +Cuando CONFIG_FAIR_GROUP_SCHED es definido, un archivo
-> > +"cpu.shares" es creado por cada grupo creado usado en el pseudo
-> > +sistema de archivos. V=C3=A9anse por ejemplo los pasos a continuaci=C3=
-=B3n
-> > +para crear grupos de tareas y modificar cuanto comparten de la CPU
-> > +usando el pseudo sistema de archivos "cgroup" ::
-> > +
-> > +     # mount -t tmpfs cgroup_root /sys/fs/cgroup
-> > +     # mkdir /sys/fs/cgroup/cpu
-> > +     # mount -t cgroup -ocpu none /sys/fs/cgroup/cpu
-> > +     # cd /sys/fs/cgroup/cpu
-> > +
-> > +     # mkdir multimedia      # crear un grupo de tareas "multimedia"
-> > +     # mkdir browser         # crear un grupo de tareas "browser"
-> > +
-> > +     # #Configurar el grupo multimedia para tener el doble de tiempo d=
-e CPU
-> > +     # #que el grupo browser
-> > +
-> > +     # echo 2048 > multimedia/cpu.shares
-> > +     # echo 1024 > browser/cpu.shares
-> > +
-> > +     # firefox &     # Lanzar firefox y moverlo al grupo "browser"
-> > +     # echo <firefox_pid> > browser/tasks
-> > +
-> > +     # #Lanzar gmplayer (o su programa favorito de reproducci=C3=B3n d=
-e pel=C3=ADculas)
-> > +     # echo <movie_player_pid> > multimedia/tasks
->
->
-> Sergio, thank you for contributing to the documentation in Spanish. This =
-is
-> excellent work! Please, send a v2 with these minor changes, and you can
-> add:
-> Reviewed-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-> Thanks,
-> Carlos
+> +
+> +static const char *sg2042_mcu_reset_reason[8] = {
+> +	"Power supply overheat",
+> +	"Power supply failure",
+> +	"12V power supply failure",
+> +	"Reset commant",
+> +	"Unknown",
+> +	"Unknown",
+> +	"Unknown",
+> +	"SoC overheat",
+> +};
+> +
+> +static struct dentry *sgmcu_debugfs;
+> +
+> +static int sg2042_mcu_get_board_type(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_BOARD_TYPE);
+> +}
+> +
+> +static int sg2042_mcu_get_firmware_version(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_MCU_FIRMWARE_VERSION);
+> +}
+> +
+> +static int sg2042_mcu_get_pcb_version(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_PCB_VERSION);
+> +}
+> +
+> +static int sg2042_mcu_get_soc_temp(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_SOC_TEMP);
+> +}
+> +
+> +static int sg2042_mcu_get_board_temp(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_BOARD_TEMP);
+> +}
+> +
+> +static int sg2042_mcu_get_reset_count(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_RST_COUNT);
+> +}
+> +
+> +static s32 sg2042_mcu_get_uptime(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	u8 time_val[2];
+> +
+> +	ret = sg2042_mcu_read_block(client, REG_UPTIME, time_val);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return (s32)(time_val[0]) + ((s32)(time_val[1]) << 8);
+> +}
+> +
+> +static int sg2042_mcu_get_reset_reason(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_RESET_REASON);
+> +}
+> +
+> +static int sg2042_mcu_get_mcu_type(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_MCU_TYPE);
+> +}
+> +
+> +static int sg2042_mcu_get_soc_crit_action(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_CRITICAL_ACTIONS);
+> +}
+> +
+> +static int sg2042_mcu_get_soc_crit_temp(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_CRITICAL_TEMP);
+> +}
+> +
+> +static int sg2042_mcu_get_soc_hyst_temp(struct i2c_client *client)
+> +{
+> +	return sg2042_mcu_read_byte(client, REG_REPOWER_TEMP);
+> +}
+> +
+> +static int sg2042_mcu_set_soc_crit_action(struct i2c_client *client,
+> +					  u8 value)
+> +{
+> +	return sg2042_mcu_write_byte(client, REG_CRITICAL_ACTIONS, value);
+> +}
+> +
+> +static int sg2042_mcu_set_soc_crit_temp(struct i2c_client *client,
+> +					u8 value)
+> +{
+> +	return sg2042_mcu_write_byte(client, REG_CRITICAL_TEMP, value);
+> +}
+> +
+> +static int sg2042_mcu_set_soc_hyst_temp(struct i2c_client *client,
+> +					u8 value)
+> +{
+> +	return sg2042_mcu_write_byte(client, REG_REPOWER_TEMP, value);
+> +}
+> +
+> +DEFINE_MCU_ATTR_READ_FUNC(reset_count, int, "%d");
+> +DEFINE_MCU_ATTR_READ_FUNC(uptime, s32, "%d");
+> +
+> +static ssize_t reset_reason_show(struct device *dev,
+> +				 struct device_attribute *attr,
+> +				 char *buf)
+> +{
+> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> +	int ret, val, i;
+> +
+> +	val = sg2042_mcu_get_reset_reason(mcu->client);
+> +	if (val < 0)
+> +		return val;
+> +
+> +	ret = sprintf(buf, "Reason: 0x%02x\n", val);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sg2042_mcu_reset_reason); i++) {
+> +		if (val & BIT(i))
+> +			ret += sprintf(buf + ret, "bit %d: %s\n", i,
+> +						  sg2042_mcu_reset_reason[i]);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t critical_action_show(struct device *dev,
+> +				    struct device_attribute *attr,
+> +				    char *buf)
+> +{
+> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> +	int ret;
+> +	const char *action;
+> +
+> +	ret = sg2042_mcu_get_soc_crit_action(mcu->client);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (ret == CRITICAL_ACTION_REBOOT)
+> +		action = "reboot";
+> +	else if (ret == CRITICAL_ACTION_POWEROFF)
+> +		action = "poweroff";
+> +	else
+> +		action = "unknown";
+> +
+> +	return sprintf(buf, "%s\n", action);
+> +}
+> +
+> +static ssize_t critical_action_store(struct device *dev,
+> +				     struct device_attribute *attr,
+> +				     const char *buf, size_t count)
+> +{
+> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> +	int value;
+> +
+> +	if (sysfs_streq("reboot", buf))
+> +		value = CRITICAL_ACTION_REBOOT;
+> +	else if (sysfs_streq("poweroff", buf))
+> +		value = CRITICAL_ACTION_POWEROFF;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return sg2042_mcu_set_soc_crit_action(mcu->client, value);
+> +}
+> +
+> +static DEVICE_ATTR_RO(reset_count);
+> +static DEVICE_ATTR_RO(uptime);
+> +static DEVICE_ATTR_RO(reset_reason);
+> +static DEVICE_ATTR_RW(critical_action);
+> +
+> +DEFINE_MCU_DEBUG_ATTR_READ_FUNC(firmware_version, int, "0x%02x");
+> +DEFINE_MCU_DEBUG_ATTR_READ_FUNC(pcb_version, int, "0x%02x");
+> +
+> +static int board_type_show(struct seq_file *seqf, void *unused)
+> +{
+> +	struct sg2042_mcu_data *mcu = seqf->private;
+> +
+> +	seq_printf(seqf, "%s\n", mcu->board_info->name ?: "Unknown");
+> +
+> +	return 0;
+> +}
+> +
+> +static int mcu_type_show(struct seq_file *seqf, void *unused)
+> +{
+> +	struct sg2042_mcu_data *mcu = seqf->private;
+> +	int ret;
+> +
+> +	ret = sg2042_mcu_get_mcu_type(mcu->client);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	seq_puts(seqf, ret ? "GD32\n" : "STM32\n");
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SHOW_ATTRIBUTE(firmware_version);
+> +DEFINE_SHOW_ATTRIBUTE(pcb_version);
+> +DEFINE_SHOW_ATTRIBUTE(mcu_type);
+> +DEFINE_SHOW_ATTRIBUTE(board_type);
+> +
+> +// TODO: to debugfs
+> +
+> +static struct attribute *sg2042_mcu_attrs[] = {
+> +	&dev_attr_reset_count.attr,
+> +	&dev_attr_uptime.attr,
+> +	&dev_attr_reset_reason.attr,
+> +	&dev_attr_critical_action.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group sg2042_mcu_attr_group = {
+> +	.attrs	= sg2042_mcu_attrs,
+> +};
+> +
+> +static const struct hwmon_channel_info * const sg2042_mcu_info[] = {
+> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
+> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_CRIT |
+> +					HWMON_T_CRIT_HYST,
+> +				 HWMON_T_INPUT),
+> +	NULL
+> +};
+> +
+> +static int sg2042_mcu_read_temp(struct device *dev,
+> +				u32 attr, int channel,
+> +				long *val)
+> +{
+> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> +	long tmp;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_input:
+> +		switch (channel) {
+> +		case 0:
+> +			tmp = sg2042_mcu_get_soc_temp(mcu->client);
+> +			if (tmp < 0)
+> +				return tmp;
+> +			*val = tmp * 1000;
+> +			break;
+> +		case 1:
+> +			tmp = sg2042_mcu_get_board_temp(mcu->client);
+> +			if (tmp < 0)
+> +				return tmp;
+> +			*val = tmp * 1000;
+> +			break;
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +		break;
+> +	case hwmon_temp_crit:
+> +		if (channel)
+> +			return -EOPNOTSUPP;
+> +
+> +		tmp = sg2042_mcu_get_soc_crit_temp(mcu->client);
+> +		if (tmp < 0)
+> +			return tmp;
+> +		*val = tmp * 1000;
+> +		break;
+> +	case hwmon_temp_crit_hyst:
+> +		if (channel)
+> +			return -EOPNOTSUPP;
+> +
+> +		tmp = sg2042_mcu_get_soc_hyst_temp(mcu->client);
+> +		if (tmp < 0)
+> +			return tmp;
+> +		*val = tmp * 1000;
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int sg2042_mcu_read(struct device *dev,
+> +			   enum hwmon_sensor_types type,
+> +			   u32 attr, int channel, long *val)
+> +{
+> +	switch (type) {
+> +	case hwmon_chip:
+> +		if (attr != hwmon_chip_update_interval)
+> +			return -EOPNOTSUPP;
+> +		*val = 1000;
+> +		break;
+> +	case hwmon_temp:
+> +		return sg2042_mcu_read_temp(dev, attr, channel, val);
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int sg2042_mcu_write(struct device *dev,
+> +			    enum hwmon_sensor_types type,
+> +			    u32 attr, int channel, long val)
+> +{
+> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> +	u8 down_temp, repower_temp;
+> +	int ret;
+> +
+> +	if (type != hwmon_temp || attr != hwmon_temp_crit || !channel)
+> +		return -EOPNOTSUPP;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_crit:
+> +		ret = sg2042_mcu_get_soc_hyst_temp(mcu->client);
+> +		if (ret < 0)
+> +			repower_temp = DEFAULT_REPOWER_TEMP;
+> +		else
+> +			repower_temp = ret;
+> +
+> +		down_temp = val / 1000;
+> +		if (down_temp < repower_temp)
+> +			return -EINVAL;
+> +
+> +		return sg2042_mcu_set_soc_crit_temp(mcu->client,
+> +						    (u8)(val / 1000));
+> +	case hwmon_temp_crit_hyst:
+> +		ret = sg2042_mcu_get_soc_crit_temp(mcu->client);
+> +		if (ret < 0)
+> +			return -ENODEV;
+> +
+> +		down_temp = ret;
+> +		repower_temp = val / 1000;
+> +		if (down_temp < repower_temp)
+> +			return -EINVAL;
+> +
+> +		return sg2042_mcu_set_soc_hyst_temp(mcu->client,
+> +						    (u8)(val / 1000));
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static umode_t sg2042_mcu_is_visible(const void *_data,
+> +				     enum hwmon_sensor_types type,
+> +				     u32 attr, int channel)
+> +{
+> +	switch (type) {
+> +	case hwmon_chip:
+> +		if (attr == hwmon_chip_update_interval)
+> +			return 0444;
+> +		break;
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_input:
+> +			if (channel < 2)
+> +				return 0444;
+> +			break;
+> +		case hwmon_temp_crit:
+> +		case hwmon_temp_crit_hyst:
+> +			if (channel == 0)
+> +				return 0664;
+> +			break;
+> +		default:
+> +			return 0;
+> +		}
+> +		break;
+> +	default:
+> +		return 0;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops sg2042_mcu_ops = {
+> +	.is_visible = sg2042_mcu_is_visible,
+> +	.read = sg2042_mcu_read,
+> +	.write = sg2042_mcu_write,
+> +};
+> +
+> +static const struct hwmon_chip_info sg2042_mcu_chip_info = {
+> +	.ops = &sg2042_mcu_ops,
+> +	.info = sg2042_mcu_info,
+> +};
+> +
+> +static void sg2042_mcu_debugfs_init(struct sg2042_mcu_data *mcu,
+> +				    struct device *dev)
+> +{
+> +	mcu->debugfs = debugfs_create_dir(dev_name(dev), sgmcu_debugfs);
+> +	if (mcu->debugfs) {
+> +		_CREATE_DEBUG_ENTRY(firmware_version, 0444, mcu->debugfs, mcu);
+> +		_CREATE_DEBUG_ENTRY(pcb_version, 0444, mcu->debugfs, mcu);
+> +		_CREATE_DEBUG_ENTRY(mcu_type, 0444, mcu->debugfs, mcu);
+> +		_CREATE_DEBUG_ENTRY(board_type, 0444, mcu->debugfs, mcu);
+> +	}
+> +}
+> +
+> +static int sg2042_mcu_check_board(u8 id)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sg2042_boards_data); i++) {
+> +		if (sg2042_boards_data[i].id == id)
+> +			return i;
+> +	}
+> +
+> +	return -ENODEV;
+> +}
+> +
+> +static int sg2042_mcu_i2c_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	struct device *dev = &client->dev;
+> +	struct sg2042_mcu_data *mcu;
+> +	struct device *hwmon_dev;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA |
+> +						I2C_FUNC_SMBUS_BLOCK_DATA))
+> +		return -EIO;
+> +
+> +	ret = sg2042_mcu_get_board_type(client);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = sg2042_mcu_check_board(ret);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	mcu = devm_kmalloc(dev, sizeof(*mcu), GFP_KERNEL);
+> +	if (!mcu)
+> +		return -ENOMEM;
+> +
+> +	mcu->client = client;
+> +	mcu->board_info = &sg2042_boards_data[ret];
+> +
+> +	ret = sysfs_create_group(&dev->kobj, &sg2042_mcu_attr_group);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	i2c_set_clientdata(client, mcu);
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
+> +							 mcu,
+> +							 &sg2042_mcu_chip_info,
+> +							 NULL);
+> +
+> +	sg2042_mcu_debugfs_init(mcu, dev);
+> +
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static void sg2042_mcu_i2c_remove(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +
+> +	sysfs_remove_group(&dev->kobj, &sg2042_mcu_attr_group);
+> +}
+> +
+> +static const struct i2c_device_id sg2042_mcu_id[] = {
+> +	{ "sg2042_hwmon_mcu", 0 },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(i2c, sg2042_mcu_id);
+> +
+> +static const struct of_device_id sg2042_mcu_of_id[] = {
+> +	{ .compatible = "sophgo,sg2042-hwmon-mcu" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, sg2042_mcu_of_id);
+> +
+> +static struct i2c_driver sg2042_mcu_driver = {
+> +	.driver = {
+> +		.name = "sg2042-mcu",
+> +		.of_match_table = sg2042_mcu_of_id,
+> +	},
+> +	.probe = sg2042_mcu_i2c_probe,
+> +	.remove = sg2042_mcu_i2c_remove,
+> +	.id_table = sg2042_mcu_id,
+> +};
+> +
+> +static int __init sg2042_mcu_init(void)
+> +{
+> +	sgmcu_debugfs = debugfs_create_dir("sgmcu", NULL);
+> +	return i2c_add_driver(&sg2042_mcu_driver);
+> +}
+> +
+> +static void __exit sg2042_mcu_exit(void)
+> +{
+> +	debugfs_remove_recursive(sgmcu_debugfs);
+> +	i2c_del_driver(&sg2042_mcu_driver);
+> +}
+> +
+> +module_init(sg2042_mcu_init);
+> +module_exit(sg2042_mcu_exit);
+> +
+> +MODULE_AUTHOR("Inochi Amaoto <inochiama@outlook.com>");
+> +MODULE_DESCRIPTION("MCU I2C driver for SG2042 soc platform");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.45.2
 >
