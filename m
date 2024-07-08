@@ -1,843 +1,1009 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11olkn2067.outbound.protection.outlook.com [40.92.20.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5042218E;
-	Mon,  8 Jul 2024 00:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.20.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720400079; cv=fail; b=KtaA62vnlH7nYME0MvSlHyOjsQzB6oPzLkFQ6myDQKOV3j+SJC95YcbGqqaBTSoO7CM2/b1JvGvPJEODhxhq5CRurK43Nd08K7/R0GO440XFwMQdo3uwTif4VNr1NHHHX7iJDL/yVc3iBDHcQrOaT9e43wp0UXom6HL4wNI88Tc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720400079; c=relaxed/simple;
-	bh=Kl7BsptdOhk50c6kGTd79jAX10fG59rlV/765W1FSLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Ynw6SqDMfsIoVpJn6IN2k7Mtl5v3PNVUxNOYT8t7vmSyGQ60E8mLkpza3gH4zqENz28i6gyScxqau3TIQCTribNoZOQx2aAk0JwRV0E9Q45SHEbJNMZTviLXQkM5lX+fEahMmGxqWHUZNE5qTyhrve1OMj6E9cu//DCR64wByOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=VrkcOEyv; arc=fail smtp.client-ip=40.92.20.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="VrkcOEyv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hQi63y7nbmT8qTOSDU664SZvQer56Sg8P789//DYcbZBCOcjETLwRFe/rpxbuq4VDJnUyQycO+vtFkv9gZucCVopREhNlwKcjriO8jYChaDk0nIArdVSbZvZ4hDz7iVkdHcYNgdckc1my/U0ds++Ar6aVLFBl9BWhBGc6eBuNUW81pg/iSnpCBHxny2E+R3LKQw5bC19s49LGL5BD7f6XhpmSxvnezDoVNEAPgr4lb8FL9BJpXU22THpVwXu6G4X37e7gz7sV9jMYosI5GRFxDDs6XelkwWtSpJIR6D/XbC2TQO0bx+fyHGf8efUx2Cy7d1ML7jzFb0zwWjKLHX4QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iq8n54y7bezz/dqtp3AOKOz3j1keW6hW7yEUhsGBrp8=;
- b=fFtXV7KQk38s8BcuiNSLFJx3B/hQP8KG2/Ed6Xk07s32tzEqBAVbR1680eZCUtBGHhL2UI81Mie+pf6Ar7jHsI/e7PVVc0ET8tXlOFkxUNaVd/iIPk2/FQ2pdhOqWEgR0kkBccmFNgp/RKey4oJGqYzF45yRs7v4MZZsBzuc/Uq6nt2kJN4xqbkGmaoAn5rLWSPIXxyAOpbPG4CBVOhEgwKUeuLdxhTTIfQFX4i55//i//doHpUh2rTLJDKcydDq7w5/ttYXQWHAyi3FWSyNid4QM6gDWr4AFVCdQqD9Xqrs9MZekP/3Wv9WcBQpcsJI8Wtm6lnKdOIEZxCTHhOl4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iq8n54y7bezz/dqtp3AOKOz3j1keW6hW7yEUhsGBrp8=;
- b=VrkcOEyvsFEagNfWiqYoQH9qz5NFMtk9Mm0pZMcXeBU/kBZvOfsv3n4fCE1A6gAxldBg5Zsg+dTXKsiuAcDlvkAe7mx+Sc4RiTouNMI9Z4nHc99qf3OuVDAkFwMU1RAHJnw7muOMbplLtdCeNJP33S8D0oA09l5cb/48vNLa1QjeBLaQUr0cTw/tea0inQ/yVeX7IKNbdAEhe6BKyWl39Vwrevz9byZpDWrdtiOOLGdbuJirOpAvu0nQycG45YGlB/xYLTfEXfaAjl/5ioxEISgpzEVCHH6DHSgOH8i3F7llpvoaemv6vS60uNmRd22qcq8WQm2tM6BAPHBjmsg+/g==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by PH8PR20MB5340.namprd20.prod.outlook.com (2603:10b6:510:1bf::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.34; Mon, 8 Jul
- 2024 00:54:33 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149%6]) with mapi id 15.20.7741.033; Mon, 8 Jul 2024
- 00:54:33 +0000
-Date: Mon, 8 Jul 2024 08:53:57 +0800
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v6 2/2] drivers: hwmon: sophgo: Add SG2042 external
- hardware monitor support
-Message-ID:
- <IA1PR20MB4953230DCEDD7DF01134A8A9BBDA2@IA1PR20MB4953.namprd20.prod.outlook.com>
-References: <IA1PR20MB4953967EA6AF3A6EFAE6AB10BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <IA1PR20MB4953EC4C486B8D4B186BB848BBDD2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <MA0P287MB2822935DEA9EE418F3411CFAFEDA2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MA0P287MB2822935DEA9EE418F3411CFAFEDA2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
-X-TMN: [5pIKicaKQfMplTqfHRA5Nx0u/uGwHLAJ0dymnOwytVk=]
-X-ClientProxiedBy: TYAPR03CA0005.apcprd03.prod.outlook.com
- (2603:1096:404:14::17) To IA1PR20MB4953.namprd20.prod.outlook.com
- (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <dvea5ezucmu4oya5swv2cm3v3klg6qnx23shajnlmamnmq4sfd@vzfoymn6ntz4>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB139184F;
+	Mon,  8 Jul 2024 02:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720405022; cv=none; b=MuHEZjFoaWB3BNxILJXsG8SJ5fKy/sRmOeEIrWBPTLf1MvWEGjXh0TNsp47oy7SOxNO5hCZb/aCfhH/pSa6vZ2+xr9GVrKrKNZaxPR9E4KZzcTv4/bg446RO29/f5F/DuulH3gThycv5QN864+HjFhmxDudfY629E2VOVSQ0YdE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720405022; c=relaxed/simple;
+	bh=xrVR+xGrtnUCLFblKaqq8QZfJ6v6IDHubhTuoFkLag4=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Y6Gu4oi8p/blwXiHvffzWjQm6xgM/nY/lqpE0mhRtbLJ1D4217Q8BZ6UHpdgGMdVo6zUEyAEjxmmOIkb+pLQrWLG/seeGc+IvijpP7jB3Y0A7k/qObuY0Pyyw0hwr/8aXfHRb36MYBdOlIBLHzM0xQg8dYsX7M78DpSq3A34YhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8CxO_AXTItmq+EBAA--.5720S3;
+	Mon, 08 Jul 2024 10:16:55 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8DxfccNTItmXxg_AA--.14786S3;
+	Mon, 08 Jul 2024 10:16:49 +0800 (CST)
+Subject: Re: [PATCH V2 2/2] LoongArch: Add AVEC irqchip support
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: kernel@xen0n.name, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+ gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+ yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+ dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+ zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+ zhoubinbin@loongson.cn, loongarch@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240705015315.16541-1-zhangtianyang@loongson.cn>
+ <CAAhV-H7-pWhXh7cruA97WfumZydJQnsWkPB2f47qrnw=sTcC6g@mail.gmail.com>
+ <732083e2-1cee-094e-4a72-3ac3f2b21f32@loongson.cn>
+ <CAAhV-H6heORGsTeBpb4SoN-fmwXM3aNDUyB2jYm0HXW7tXxbGg@mail.gmail.com>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <f2578dff-921f-9332-2eaf-35654b082471@loongson.cn>
+Date: Mon, 8 Jul 2024 10:16:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|PH8PR20MB5340:EE_
-X-MS-Office365-Filtering-Correlation-Id: 998708f5-a311-494e-e132-08dc9ee88806
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|19110799003|8060799006|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	71kSFpinhuUT5VTsXruBnL/8/+HvMAMQ01s60SHHYUjOKnWCG/4lMsRLtwngPDKDExvJY6mLDqukXikfg8T2BNSRUGwB/XVd043eStibqCHBB9L7D0qqV+pOFIyeKWTz9KluEFxsiLBPiZwU10gOjkEiNCw30BIPxoWigDnj2n5T+UANqLpNmySTDRWVdJIfirZgRFfWR6O/lhVj9TWZP9Q9Opxc5xEhcvXG4enLfUadm8EpFXHd4cnr1HL/940fNoNc+0LKSS2UfwTDTjRFYJVytnVa2yYtpMrpiuwy3PQXBC73DSIhuqdTOFnDbEzRhnaS8YuM4O9YpJO7uYo0RJxDyTz/jdgk7rGIOrCyGE3oLPwozk7SUfQphLyquFUbWpH9j/NbgBWLD5eEKHaOydRoWV5KEhSJIuK7Pl0Cq/eQN8/OJvRZ7/vmVjSse1Y34n5EmGZKtIm2uh9JaycpqfMB8Srvpl3BJkAelGQEKPlR2QklkDrz4H3c8aIlGWlhPLeaTKY4xUUZVh2CrDQX0zlE9jGZ8jcb1H0drBBgz0Qq4DGN013Ls6vWDlYmEtWg5MMgl+Pxogc8N4nEE7jfaxfu3UYl65eFgxOLFaLDEZS6frsINejwONcC1pW9D/BlJc0l46KCk0kUGq9rYBkjFxF84NLNuxEGkHGM6hDcS1fk2ILpuV1uZSZWdty5mdyh
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?A0ZL8UQAcHrUAabcTT/f/KVQnaMNOGbhOv05dg1/U5eEuA7ZYxntydNWQssg?=
- =?us-ascii?Q?aVySP6sRY4cDyXmY6qpeMEVQGIHlInayV6tOk5PaLea2NN/Fgnd+IS6gq07y?=
- =?us-ascii?Q?h1nem2epPcR38X2nkdCiWeUs0Y7HsKW85EhFRowkVd4kw0JaZH5F4oKqn/y9?=
- =?us-ascii?Q?KFqeVWNFHdtN/+1yGLLWjez4KYSPpaRSdc1NSC/RIlhZSM0kRNKOXOFiDQzc?=
- =?us-ascii?Q?Z4oqYrLwt6x2xPotpz7F2YgGiG4oyDRnSY6X5JPhOSbVybvqv0lz+2fM5lh+?=
- =?us-ascii?Q?QnV+3b49RSLsdWIq3bGzmlYnHr2UHJqWDR6vbJ27jK7OV/AS8D/THMODWsTX?=
- =?us-ascii?Q?0fnoyFFpFiBW4muYTPTH7UGZJoxmdzV5VrneIgFKW5taLDU8Cw+YEN4xxLJI?=
- =?us-ascii?Q?7SvjXaAxusoRzU8Qqs09eAlg2oNuMVbkxZAWywR/CsBryGQLYb2UObR1guu6?=
- =?us-ascii?Q?8e2D4a+YOXrjCunyYHL8X07NkAdLba8T1VhBwGx31WvFuKtbuAbtPMHCWpD8?=
- =?us-ascii?Q?uLVUk6kTstF5rzdbVo/Bkc9QFUcgzFivQU3n32U2RcVjG55t/n2awzwncj76?=
- =?us-ascii?Q?6xNCxvTVi2zGuvOfIg57+H2TbGmHL3qYa6SQRT65GC5jZ2bgJUzr5TjmkQQD?=
- =?us-ascii?Q?P8zlMELQiWJp8LqG2iZj7J6M5ldRGN/e9pOYCuxOFopdYiDdnICj9cgkt9wB?=
- =?us-ascii?Q?//bJAB9l3icUsEKKsFB+XkhzAyr70lvRUNRXpQr5U8m6cO6AGQ934zGXe9lQ?=
- =?us-ascii?Q?pmUtccBuyB2rDJeySYKcb1zDZy/ndlLQoIsUe1RexkXsI3Hae1oPiaRQJhc8?=
- =?us-ascii?Q?fIrqRRFi37lNS4ru1zTyHy6+zoYvXthAlQQK2C3RPVKPTOeMyqvJ1Zz5ImF9?=
- =?us-ascii?Q?llFzWi3drUmQvxaNcthVFY8kCzi1mPkoN1RsHTWOkNCwUVtumve9jKOtDVU9?=
- =?us-ascii?Q?MJrCnmOOdpRh9jlSTIg4EGTJbUGB98SCprXnMboCf+NKUO8Qgc5mg/vnYCum?=
- =?us-ascii?Q?sN/iHHL9EWzRf4OjjHdCeJ50ek5Pt2F9MTuysfF7Om3AVuDSJFfejT6+5uL8?=
- =?us-ascii?Q?5qFDVRhXrUqd+q4LP5xTbQREsnoPiN8Hi2QO+hLOAWbsl+4Hh2wbPKdGut/G?=
- =?us-ascii?Q?JRs1tKDtOnkacVBBsvX1xyPnbnYBFxvo10vZp0dnT3FDhzuGueMgVqx3CinJ?=
- =?us-ascii?Q?bZ8TkOznaNiwmKV7zh6yYZ89/VfcjiDdCeBFz04iFqaKzF6KBoRpRE/SCnBO?=
- =?us-ascii?Q?cyMp8eYzbezGEr5hoDPg?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 998708f5-a311-494e-e132-08dc9ee88806
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2024 00:54:33.5272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR20MB5340
+In-Reply-To: <CAAhV-H6heORGsTeBpb4SoN-fmwXM3aNDUyB2jYm0HXW7tXxbGg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:AQAAf8DxfccNTItmXxg_AA--.14786S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9fXoWfXw4UCrWfGFy8uFWDtFyDXFc_yoW5tr48Zo
+	WrJF1fJr18Gr1UAryDJ3s0qa4jvw1UCrWUA347ZrsxAF1Utw12krWUGw17JFW7Ga4kGrsr
+	Ja4UGrn7Zayaqrn8l-sFpf9Il3svdjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8wcxFpf
+	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+	UjIYCTnIWjp_UUUOb7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4j6r4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+	Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+	CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48J
+	MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcbAwUUUUU
 
-On Mon, Jul 08, 2024 at 08:25:55AM GMT, Chen Wang wrote:
-> 
-> On 2024/7/3 10:30, Inochi Amaoto wrote:
-> > SG2042 use an external MCU to provide basic hardware information
-> > and thermal sensors.
-> > 
-> > Add driver support for the onboard MCU of SG2042.
-> > 
-> > Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
-> > ---
-> >   Documentation/hwmon/index.rst |   1 +
-> >   Documentation/hwmon/sgmcu.rst |  44 +++
-> >   drivers/hwmon/Kconfig         |  11 +
-> >   drivers/hwmon/Makefile        |   1 +
-> >   drivers/hwmon/sgmcu.c         | 585 ++++++++++++++++++++++++++++++++++
-> >   5 files changed, 642 insertions(+)
-> >   create mode 100644 Documentation/hwmon/sgmcu.rst
-> >   create mode 100644 drivers/hwmon/sgmcu.c
-> > 
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > index 03d313af469a..189626b3a055 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -203,6 +203,7 @@ Hardware Monitoring Kernel Drivers
-> >      sch5636
-> >      scpi-hwmon
-> >      sfctemp
-> > +   sgmcu
-> This driver is for sg2042 only, right? "sgmcu" looks be general for all
-> sophgo products.
 
-Yes, according to sophgo, it use this mechanism for multiple products,
-so I switch to a general name.
+在 2024/7/6 下午12:50, Huacai Chen 写道:
+> On Sat, Jul 6, 2024 at 10:46 AM Tianyang Zhang
+> <zhangtianyang@loongson.cn> wrote:
+>>
+>> 在 2024/7/5 下午2:58, Huacai Chen 写道:
+>>> Hi, Tianyang,
+>>>
+>>> You can squash two patches into one, as Song does:
+>>> https://lore.kernel.org/lkml/20240624084410.1026648-1-gaosong@loongson.cn/
+>> Ok. I have resend the patch with two-in-one mode
+> I ask several questions but you only take this one.
+>
+> Huacai
 
-> >      sht15
-> >      sht21
-> >      sht3x
-> > diff --git a/Documentation/hwmon/sgmcu.rst b/Documentation/hwmon/sgmcu.rst
-> > new file mode 100644
-> > index 000000000000..5669dcfb2a33
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/sgmcu.rst
-> Same question as upon.
-> > @@ -0,0 +1,44 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Kernel driver sgmcu
-> > +=====================
-> > +
-> > +Supported chips:
-> > +
-> > +  * Onboard MCU for sg2042
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Prefix: 'sgmcu'
-> Same question as upon.
-> > +
-> > +Authors:
-> > +
-> > +  - Inochi Amaoto <inochiama@outlook.com>
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver supprts hardware monitoring for onboard MCU with
-> > +PMBus interface.
-> > +
-> > +Usage Notes
-> > +-----------
-> > +
-> > +This driver does not auto-detect devices. You will have to instantiate
-> > +the devices explicitly.
-> > +Please see Documentation/i2c/instantiating-devices.rst for details.
-> > +
-> > +Platform data support
-> > +---------------------
-> > +
-> > +The driver supports standard PMBus driver platform data.
-> > +
-> > +Sysfs Attributes
-> > +----------------
-> > +
-> > +================= =============================================
-> > +temp1_input       Measured temperature of SoC
-> > +temp1_crit        Critical high temperature
-> > +temp1_crit_hyst   hysteresis temperature restore from Critical
-> > +temp2_input       Measured temperature of the base board
-> > +================= =============================================
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index e14ae18a973b..1100dd11f7f5 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -2079,6 +2079,17 @@ config SENSORS_SFCTEMP
-> >   	  This driver can also be built as a module.  If so, the module
-> >   	  will be called sfctemp.
-> > 
-> > +config SENSORS_SGMCU
-> Same question as upon.
-> > +	tristate "Sophgo onboard MCU support"
-> Same question as upon.
-> > +	depends on I2C
-> > +	depends on ARCH_SOPHGO || COMPILE_TEST
-> > +	help
-> > +	  Support for onboard MCU of Sophgo SoCs. This mcu provides power
-> > +	  control and some basic information.
-> > +
-> > +	  This driver can be built as a module. If so, the module
-> > +	  will be called sgmcu.
-> > +
-> >   config SENSORS_SURFACE_FAN
-> >   	tristate "Surface Fan Driver"
-> >   	depends on SURFACE_AGGREGATOR
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index e3f25475d1f0..e9b78ff8338e 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -195,6 +195,7 @@ obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
-> >   obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
-> >   obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
-> >   obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
-> > +obj-$(CONFIG_SENSORS_SGMCU)	+= sgmcu.o
-> Same question as upon.
-> >   obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
-> >   obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
-> >   obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
-> > diff --git a/drivers/hwmon/sgmcu.c b/drivers/hwmon/sgmcu.c
-> > new file mode 100644
-> > index 000000000000..d941d6fe741f
-> > --- /dev/null
-> > +++ b/drivers/hwmon/sgmcu.c
-> Same question as upon.
-> > @@ -0,0 +1,585 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2024 Inochi Amaoto <inochiama@outlook.com>
-> > + *
-> > + * Sophgo power control mcu for SG2042
-> > + */
-> > +
-> > +#include <linux/debugfs.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +
-> > +/* fixed MCU registers */
-> > +#define REG_BOARD_TYPE				0x00
-> > +#define REG_MCU_FIRMWARE_VERSION		0x01
-> > +#define REG_PCB_VERSION				0x02
-> > +#define REG_PWR_CTRL				0x03
-> > +#define REG_SOC_TEMP				0x04
-> > +#define REG_BOARD_TEMP				0x05
-> > +#define REG_RST_COUNT				0x0a
-> > +#define REG_UPTIME				0x0b
-> > +#define REG_RESET_REASON			0x0d
-> > +#define REG_MCU_TYPE				0x18
-> > +#define REG_CRITICAL_ACTIONS			0x65
-> > +#define REG_CRITICAL_TEMP			0x66
-> > +#define REG_REPOWER_TEMP			0x67
-> > +
-> > +#define CRITICAL_ACTION_REBOOT			0x1
-> > +#define CRITICAL_ACTION_POWEROFF		0x2
-> > +
-> > +#define DEFAULT_REPOWER_TEMP			60
-> > +#define MAX_REPOWER_TEMP			100
-> > +
-> > +#define sg2042_mcu_read_byte(client, reg)			\
-> > +	i2c_smbus_read_byte_data(client, reg)
-> > +#define sg2042_mcu_write_byte(client, reg, value)		\
-> > +	i2c_smbus_write_byte_data(client, reg, value)
-> > +#define sg2042_mcu_read_block(client, reg, array)		\
-> > +	i2c_smbus_read_i2c_block_data(client, reg, sizeof(array), array)
-> > +
-> > +#define DEFINE_MCU_ATTR_READ_FUNC(_name, _type, _format)		\
-> > +	static ssize_t _name##_show(struct device *dev,			\
-> > +				    struct device_attribute *attr,	\
-> > +				    char *buf)				\
-> > +	{								\
-> > +		struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);	\
-> > +		_type ret;						\
-> > +		ret = sg2042_mcu_get_##_name(mcu->client);		\
-> > +		if (ret < 0)						\
-> > +			return ret;					\
-> > +		return sprintf(buf, _format "\n", ret);			\
-> > +	}
-> > +
-> > +#define DEFINE_MCU_DEBUG_ATTR_READ_FUNC(_name, _type, _format)		\
-> > +	static int _name##_show(struct seq_file *seqf,			\
-> > +				    void *unused)			\
-> > +	{								\
-> > +		struct sg2042_mcu_data *mcu = seqf->private;		\
-> > +		_type ret;						\
-> > +		ret = sg2042_mcu_get_##_name(mcu->client);		\
-> > +		if (ret < 0)						\
-> > +			return ret;					\
-> > +		seq_printf(seqf, _format "\n", ret);			\
-> > +		return 0;						\
-> > +	}
-> > +
-> > +#define _CREATE_DEBUG_ENTRY(name, perm, d, data)			\
-> > +	debugfs_create_file(#name, perm, d, data, &name##_fops)
-> > +
-> > +struct sg2042_mcu_board_data {
-> > +	u8		id;
-> > +	const char	*name;
-> > +};
-> > +
-> > +struct sg2042_mcu_data {
-> > +	struct i2c_client			*client;
-> > +	const struct sg2042_mcu_board_data	*board_info;
-> > +	struct dentry				*debugfs;
-> > +};
-> > +
-> > +static const struct sg2042_mcu_board_data sg2042_boards_data[] = {
-> > +	{
-> > +		.id = 0x80,
-> > +		.name = "SG2042 evb x8",
-> > +	},
-> > +	{
-> > +		.id = 0x81,
-> > +		.name = "SG2042R evb",
-> > +	},
-> > +	{
-> > +		.id = 0x83,
-> > +		.name = "SG2042 evb x4",
-> > +	},
-> > +	{
-> > +		.id = 0x90,
-> > +		.name = "Milk-V Pioneer",
-> > +	},
-> > +};
-> 
-> Upstream kernel DTS only supports Milk-V pioneer, evb boards are not
-> supported in plan. Can we figure a method to let user extend this outside
-> kernel or just ask vendor to patch this when necessary?
-> 
-> > +
-> > +static const char *sg2042_mcu_reset_reason[8] = {
-> > +	"Power supply overheat",
-> > +	"Power supply failure",
-> > +	"12V power supply failure",
-> > +	"Reset commant",
-> > +	"Unknown",
-> > +	"Unknown",
-> > +	"Unknown",
-> > +	"SoC overheat",
-> > +};
-> > +
-> > +static struct dentry *sgmcu_debugfs;
-> > +
-> > +static int sg2042_mcu_get_board_type(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_BOARD_TYPE);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_firmware_version(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_MCU_FIRMWARE_VERSION);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_pcb_version(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_PCB_VERSION);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_soc_temp(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_SOC_TEMP);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_board_temp(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_BOARD_TEMP);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_reset_count(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_RST_COUNT);
-> > +}
-> > +
-> > +static s32 sg2042_mcu_get_uptime(struct i2c_client *client)
-> > +{
-> > +	int ret;
-> > +	u8 time_val[2];
-> > +
-> > +	ret = sg2042_mcu_read_block(client, REG_UPTIME, time_val);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	return (s32)(time_val[0]) + ((s32)(time_val[1]) << 8);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_reset_reason(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_RESET_REASON);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_mcu_type(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_MCU_TYPE);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_soc_crit_action(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_CRITICAL_ACTIONS);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_soc_crit_temp(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_CRITICAL_TEMP);
-> > +}
-> > +
-> > +static int sg2042_mcu_get_soc_hyst_temp(struct i2c_client *client)
-> > +{
-> > +	return sg2042_mcu_read_byte(client, REG_REPOWER_TEMP);
-> > +}
-> > +
-> > +static int sg2042_mcu_set_soc_crit_action(struct i2c_client *client,
-> > +					  u8 value)
-> > +{
-> > +	return sg2042_mcu_write_byte(client, REG_CRITICAL_ACTIONS, value);
-> > +}
-> > +
-> > +static int sg2042_mcu_set_soc_crit_temp(struct i2c_client *client,
-> > +					u8 value)
-> > +{
-> > +	return sg2042_mcu_write_byte(client, REG_CRITICAL_TEMP, value);
-> > +}
-> > +
-> > +static int sg2042_mcu_set_soc_hyst_temp(struct i2c_client *client,
-> > +					u8 value)
-> > +{
-> > +	return sg2042_mcu_write_byte(client, REG_REPOWER_TEMP, value);
-> > +}
-> > +
-> > +DEFINE_MCU_ATTR_READ_FUNC(reset_count, int, "%d");
-> > +DEFINE_MCU_ATTR_READ_FUNC(uptime, s32, "%d");
-> > +
-> > +static ssize_t reset_reason_show(struct device *dev,
-> > +				 struct device_attribute *attr,
-> > +				 char *buf)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> > +	int ret, val, i;
-> > +
-> > +	val = sg2042_mcu_get_reset_reason(mcu->client);
-> > +	if (val < 0)
-> > +		return val;
-> > +
-> > +	ret = sprintf(buf, "Reason: 0x%02x\n", val);
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(sg2042_mcu_reset_reason); i++) {
-> > +		if (val & BIT(i))
-> > +			ret += sprintf(buf + ret, "bit %d: %s\n", i,
-> > +						  sg2042_mcu_reset_reason[i]);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static ssize_t critical_action_show(struct device *dev,
-> > +				    struct device_attribute *attr,
-> > +				    char *buf)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> > +	int ret;
-> > +	const char *action;
-> > +
-> > +	ret = sg2042_mcu_get_soc_crit_action(mcu->client);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	if (ret == CRITICAL_ACTION_REBOOT)
-> > +		action = "reboot";
-> > +	else if (ret == CRITICAL_ACTION_POWEROFF)
-> > +		action = "poweroff";
-> > +	else
-> > +		action = "unknown";
-> > +
-> > +	return sprintf(buf, "%s\n", action);
-> > +}
-> > +
-> > +static ssize_t critical_action_store(struct device *dev,
-> > +				     struct device_attribute *attr,
-> > +				     const char *buf, size_t count)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> > +	int value;
-> > +
-> > +	if (sysfs_streq("reboot", buf))
-> > +		value = CRITICAL_ACTION_REBOOT;
-> > +	else if (sysfs_streq("poweroff", buf))
-> > +		value = CRITICAL_ACTION_POWEROFF;
-> > +	else
-> > +		return -EINVAL;
-> > +
-> > +	return sg2042_mcu_set_soc_crit_action(mcu->client, value);
-> > +}
-> > +
-> > +static DEVICE_ATTR_RO(reset_count);
-> > +static DEVICE_ATTR_RO(uptime);
-> > +static DEVICE_ATTR_RO(reset_reason);
-> > +static DEVICE_ATTR_RW(critical_action);
-> > +
-> > +DEFINE_MCU_DEBUG_ATTR_READ_FUNC(firmware_version, int, "0x%02x");
-> > +DEFINE_MCU_DEBUG_ATTR_READ_FUNC(pcb_version, int, "0x%02x");
-> > +
-> > +static int board_type_show(struct seq_file *seqf, void *unused)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = seqf->private;
-> > +
-> > +	seq_printf(seqf, "%s\n", mcu->board_info->name ?: "Unknown");
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int mcu_type_show(struct seq_file *seqf, void *unused)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = seqf->private;
-> > +	int ret;
-> > +
-> > +	ret = sg2042_mcu_get_mcu_type(mcu->client);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	seq_puts(seqf, ret ? "GD32\n" : "STM32\n");
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +DEFINE_SHOW_ATTRIBUTE(firmware_version);
-> > +DEFINE_SHOW_ATTRIBUTE(pcb_version);
-> > +DEFINE_SHOW_ATTRIBUTE(mcu_type);
-> > +DEFINE_SHOW_ATTRIBUTE(board_type);
-> > +
-> > +// TODO: to debugfs
-> > +
-> > +static struct attribute *sg2042_mcu_attrs[] = {
-> > +	&dev_attr_reset_count.attr,
-> > +	&dev_attr_uptime.attr,
-> > +	&dev_attr_reset_reason.attr,
-> > +	&dev_attr_critical_action.attr,
-> > +	NULL
-> > +};
-> > +
-> > +static const struct attribute_group sg2042_mcu_attr_group = {
-> > +	.attrs	= sg2042_mcu_attrs,
-> > +};
-> > +
-> > +static const struct hwmon_channel_info * const sg2042_mcu_info[] = {
-> > +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
-> > +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_CRIT |
-> > +					HWMON_T_CRIT_HYST,
-> > +				 HWMON_T_INPUT),
-> > +	NULL
-> > +};
-> > +
-> > +static int sg2042_mcu_read_temp(struct device *dev,
-> > +				u32 attr, int channel,
-> > +				long *val)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> > +	long tmp;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_temp_input:
-> > +		switch (channel) {
-> > +		case 0:
-> > +			tmp = sg2042_mcu_get_soc_temp(mcu->client);
-> > +			if (tmp < 0)
-> > +				return tmp;
-> > +			*val = tmp * 1000;
-> > +			break;
-> > +		case 1:
-> > +			tmp = sg2042_mcu_get_board_temp(mcu->client);
-> > +			if (tmp < 0)
-> > +				return tmp;
-> > +			*val = tmp * 1000;
-> > +			break;
-> > +		default:
-> > +			return -EOPNOTSUPP;
-> > +		}
-> > +		break;
-> > +	case hwmon_temp_crit:
-> > +		if (channel)
-> > +			return -EOPNOTSUPP;
-> > +
-> > +		tmp = sg2042_mcu_get_soc_crit_temp(mcu->client);
-> > +		if (tmp < 0)
-> > +			return tmp;
-> > +		*val = tmp * 1000;
-> > +		break;
-> > +	case hwmon_temp_crit_hyst:
-> > +		if (channel)
-> > +			return -EOPNOTSUPP;
-> > +
-> > +		tmp = sg2042_mcu_get_soc_hyst_temp(mcu->client);
-> > +		if (tmp < 0)
-> > +			return tmp;
-> > +		*val = tmp * 1000;
-> > +		break;
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static int sg2042_mcu_read(struct device *dev,
-> > +			   enum hwmon_sensor_types type,
-> > +			   u32 attr, int channel, long *val)
-> > +{
-> > +	switch (type) {
-> > +	case hwmon_chip:
-> > +		if (attr != hwmon_chip_update_interval)
-> > +			return -EOPNOTSUPP;
-> > +		*val = 1000;
-> > +		break;
-> > +	case hwmon_temp:
-> > +		return sg2042_mcu_read_temp(dev, attr, channel, val);
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static int sg2042_mcu_write(struct device *dev,
-> > +			    enum hwmon_sensor_types type,
-> > +			    u32 attr, int channel, long val)
-> > +{
-> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> > +	u8 down_temp, repower_temp;
-> > +	int ret;
-> > +
-> > +	if (type != hwmon_temp || attr != hwmon_temp_crit || !channel)
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	switch (attr) {
-> > +	case hwmon_temp_crit:
-> > +		ret = sg2042_mcu_get_soc_hyst_temp(mcu->client);
-> > +		if (ret < 0)
-> > +			repower_temp = DEFAULT_REPOWER_TEMP;
-> > +		else
-> > +			repower_temp = ret;
-> > +
-> > +		down_temp = val / 1000;
-> > +		if (down_temp < repower_temp)
-> > +			return -EINVAL;
-> > +
-> > +		return sg2042_mcu_set_soc_crit_temp(mcu->client,
-> > +						    (u8)(val / 1000));
-> > +	case hwmon_temp_crit_hyst:
-> > +		ret = sg2042_mcu_get_soc_crit_temp(mcu->client);
-> > +		if (ret < 0)
-> > +			return -ENODEV;
-> > +
-> > +		down_temp = ret;
-> > +		repower_temp = val / 1000;
-> > +		if (down_temp < repower_temp)
-> > +			return -EINVAL;
-> > +
-> > +		return sg2042_mcu_set_soc_hyst_temp(mcu->client,
-> > +						    (u8)(val / 1000));
-> > +	default:
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +}
-> > +
-> > +static umode_t sg2042_mcu_is_visible(const void *_data,
-> > +				     enum hwmon_sensor_types type,
-> > +				     u32 attr, int channel)
-> > +{
-> > +	switch (type) {
-> > +	case hwmon_chip:
-> > +		if (attr == hwmon_chip_update_interval)
-> > +			return 0444;
-> > +		break;
-> > +	case hwmon_temp:
-> > +		switch (attr) {
-> > +		case hwmon_temp_input:
-> > +			if (channel < 2)
-> > +				return 0444;
-> > +			break;
-> > +		case hwmon_temp_crit:
-> > +		case hwmon_temp_crit_hyst:
-> > +			if (channel == 0)
-> > +				return 0664;
-> > +			break;
-> > +		default:
-> > +			return 0;
-> > +		}
-> > +		break;
-> > +	default:
-> > +		return 0;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct hwmon_ops sg2042_mcu_ops = {
-> > +	.is_visible = sg2042_mcu_is_visible,
-> > +	.read = sg2042_mcu_read,
-> > +	.write = sg2042_mcu_write,
-> > +};
-> > +
-> > +static const struct hwmon_chip_info sg2042_mcu_chip_info = {
-> > +	.ops = &sg2042_mcu_ops,
-> > +	.info = sg2042_mcu_info,
-> > +};
-> > +
-> > +static void sg2042_mcu_debugfs_init(struct sg2042_mcu_data *mcu,
-> > +				    struct device *dev)
-> > +{
-> > +	mcu->debugfs = debugfs_create_dir(dev_name(dev), sgmcu_debugfs);
-> > +	if (mcu->debugfs) {
-> > +		_CREATE_DEBUG_ENTRY(firmware_version, 0444, mcu->debugfs, mcu);
-> > +		_CREATE_DEBUG_ENTRY(pcb_version, 0444, mcu->debugfs, mcu);
-> > +		_CREATE_DEBUG_ENTRY(mcu_type, 0444, mcu->debugfs, mcu);
-> > +		_CREATE_DEBUG_ENTRY(board_type, 0444, mcu->debugfs, mcu);
-> > +	}
-> > +}
-> > +
-> > +static int sg2042_mcu_check_board(u8 id)
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(sg2042_boards_data); i++) {
-> > +		if (sg2042_boards_data[i].id == id)
-> > +			return i;
-> > +	}
-> > +
-> > +	return -ENODEV;
-> > +}
-> > +
-> > +static int sg2042_mcu_i2c_probe(struct i2c_client *client)
-> > +{
-> > +	int ret;
-> > +	struct device *dev = &client->dev;
-> > +	struct sg2042_mcu_data *mcu;
-> > +	struct device *hwmon_dev;
-> > +
-> > +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA |
-> > +						I2C_FUNC_SMBUS_BLOCK_DATA))
-> > +		return -EIO;
-> > +
-> > +	ret = sg2042_mcu_get_board_type(client);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = sg2042_mcu_check_board(ret);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	mcu = devm_kmalloc(dev, sizeof(*mcu), GFP_KERNEL);
-> > +	if (!mcu)
-> > +		return -ENOMEM;
-> > +
-> > +	mcu->client = client;
-> > +	mcu->board_info = &sg2042_boards_data[ret];
-> > +
-> > +	ret = sysfs_create_group(&dev->kobj, &sg2042_mcu_attr_group);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	i2c_set_clientdata(client, mcu);
-> > +
-> > +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
-> > +							 mcu,
-> > +							 &sg2042_mcu_chip_info,
-> > +							 NULL);
-> > +
-> > +	sg2042_mcu_debugfs_init(mcu, dev);
-> > +
-> > +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> > +}
-> > +
-> > +static void sg2042_mcu_i2c_remove(struct i2c_client *client)
-> > +{
-> > +	struct device *dev = &client->dev;
-> > +
-> > +	sysfs_remove_group(&dev->kobj, &sg2042_mcu_attr_group);
-> > +}
-> > +
-> > +static const struct i2c_device_id sg2042_mcu_id[] = {
-> > +	{ "sg2042_hwmon_mcu", 0 },
-> > +	{},
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, sg2042_mcu_id);
-> > +
-> > +static const struct of_device_id sg2042_mcu_of_id[] = {
-> > +	{ .compatible = "sophgo,sg2042-hwmon-mcu" },
-> > +	{},
-> > +};
-> > +MODULE_DEVICE_TABLE(of, sg2042_mcu_of_id);
-> > +
-> > +static struct i2c_driver sg2042_mcu_driver = {
-> > +	.driver = {
-> > +		.name = "sg2042-mcu",
-> > +		.of_match_table = sg2042_mcu_of_id,
-> > +	},
-> > +	.probe = sg2042_mcu_i2c_probe,
-> > +	.remove = sg2042_mcu_i2c_remove,
-> > +	.id_table = sg2042_mcu_id,
-> > +};
-> > +
-> > +static int __init sg2042_mcu_init(void)
-> > +{
-> > +	sgmcu_debugfs = debugfs_create_dir("sgmcu", NULL);
-> > +	return i2c_add_driver(&sg2042_mcu_driver);
-> > +}
-> > +
-> > +static void __exit sg2042_mcu_exit(void)
-> > +{
-> > +	debugfs_remove_recursive(sgmcu_debugfs);
-> > +	i2c_del_driver(&sg2042_mcu_driver);
-> > +}
-> > +
-> > +module_init(sg2042_mcu_init);
-> > +module_exit(sg2042_mcu_exit);
-> > +
-> > +MODULE_AUTHOR("Inochi Amaoto <inochiama@outlook.com>");
-> > +MODULE_DESCRIPTION("MCU I2C driver for SG2042 soc platform");
-> > +MODULE_LICENSE("GPL");
-> > --
-> > 2.45.2
-> > 
+Hi ,Huacai
+
+Sorry for my careless first.
+
+>
+>>> On Fri, Jul 5, 2024 at 9:53 AM Tianyang Zhang <zhangtianyang@loongson.cn> wrote:
+>>>> Introduce the advanced extended interrupt controllers. This feature will
+>>>> allow each core to have 256 independent interrupt vectors and MSI
+>>>> interrupts can be independently routed to any vector on any CPU.
+>>>>
+>>>> Co-developed-by: Jianmin Lv <lvjianmin@loongson.cn>
+>>>> Signed-off-by: Jianmin Lv <lvjianmin@loongson.cn>
+>>>> Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
+>>>> Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
+>>>> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+>>>> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+>>>> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+>>>> ---
+>>>>    arch/loongarch/Kconfig                    |   1 +
+>>>>    arch/loongarch/include/asm/cpu-features.h |   1 +
+>>>>    arch/loongarch/include/asm/cpu.h          |   2 +
+>>>>    arch/loongarch/include/asm/hw_irq.h       |  10 +
+>>>>    arch/loongarch/include/asm/irq.h          |  12 +-
+>>>>    arch/loongarch/include/asm/loongarch.h    |  20 +-
+>>>>    arch/loongarch/include/asm/smp.h          |   2 +
+>>>>    arch/loongarch/kernel/cpu-probe.c         |   3 +-
+>>>>    arch/loongarch/kernel/smp.c               |   5 +
+>>>>    drivers/irqchip/Makefile                  |   2 +-
+>>>>    drivers/irqchip/irq-loongarch-avec.c      | 440 ++++++++++++++++++++++
+>>>>    drivers/irqchip/irq-loongarch-cpu.c       |   4 +-
+>>>>    drivers/irqchip/irq-loongson-eiointc.c    |   3 +
+>>>>    drivers/irqchip/irq-loongson-pch-msi.c    |  43 ++-
+>>>>    14 files changed, 538 insertions(+), 10 deletions(-)
+>>>>    create mode 100644 drivers/irqchip/irq-loongarch-avec.c
+>>>>
+>>>> Changes log:
+>>>> V0->V1:
+>>>>           1.Modified some formats and declarations
+>>>>           2.Removed kmalloc/kfree when adding affinity related data to pending_list,
+>>>>             and used moving tag to replace the original behavior
+>>>>           3.Adjusted the process that enables AVEC interrupts, now it is at the end of all processes
+>>>>           4.Removed CPUHP related callbacks, now irq_matrix_online/irq_matrix_offline is completed in start_secondary/loongson_cpu_disable
+>>>>           5.Adjusted compatibility issues for CONFIG_ACPI
+>>>>           6.About question:
+>>>>           > irr = csr_read64(LOONGARCH_CSR_IRR0 + vector / 64);
+>>>>           > should be good enough, no?
+>>>>           csr_read64 was built-in as __csrrd_d, it doesn't seem to support variables as parameters
+>>>>           >>>>
+>>>>           drivers/irqchip/irq-loongarch-avec.c: In function ‘complete_irq_moving’:
+>>>>           ./arch/loongarch/include/asm/loongarch.h:164:25: error: invalid argument to built-in function
+>>>>             164 | #define csr_read64(reg) __csrrd_d(reg)
+>>>>                 |                         ^~~~~~~~~
+>>>>           drivers/irqchip/irq-loongarch-avec.c:170:23: note: in expansion of macro ‘csr_read64’
+>>>>             170 |                 irr = csr_read64(LOONGARCH_CSR_IRR_BASE + vector / VECTORS_PER_REG);
+>>>>                 |                       ^~~~~~~~~~
+>>>>           >>>>
+>>>>           So we have temporarily retained the previous implementation.
+>>>>
+>>>> V1->V2:
+>>>>           Fixed up coding style. Made on/offline functions void
+>>>>           Added compatibility when CONFIG_SMP is turned off
+>>>>
+>>>> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+>>>> index e38139c576ee..a66e49b5a68c 100644
+>>>> --- a/arch/loongarch/Kconfig
+>>>> +++ b/arch/loongarch/Kconfig
+>>>> @@ -83,6 +83,7 @@ config LOONGARCH
+>>>>           select GENERIC_ENTRY
+>>>>           select GENERIC_GETTIMEOFDAY
+>>>>           select GENERIC_IOREMAP if !ARCH_IOREMAP
+>>>> +       select GENERIC_IRQ_MATRIX_ALLOCATOR
+>>>>           select GENERIC_IRQ_MULTI_HANDLER
+>>>>           select GENERIC_IRQ_PROBE
+>>>>           select GENERIC_IRQ_SHOW
+>>>> diff --git a/arch/loongarch/include/asm/cpu-features.h b/arch/loongarch/include/asm/cpu-features.h
+>>>> index 2eafe6a6aca8..16a716f88a5c 100644
+>>>> --- a/arch/loongarch/include/asm/cpu-features.h
+>>>> +++ b/arch/loongarch/include/asm/cpu-features.h
+>>>> @@ -65,5 +65,6 @@
+>>>>    #define cpu_has_guestid                cpu_opt(LOONGARCH_CPU_GUESTID)
+>>>>    #define cpu_has_hypervisor     cpu_opt(LOONGARCH_CPU_HYPERVISOR)
+>>>>    #define cpu_has_ptw            cpu_opt(LOONGARCH_CPU_PTW)
+>>>> +#define cpu_has_avecint                cpu_opt(LOONGARCH_CPU_AVECINT)
+>>>>
+>>>>    #endif /* __ASM_CPU_FEATURES_H */
+>>>> diff --git a/arch/loongarch/include/asm/cpu.h b/arch/loongarch/include/asm/cpu.h
+>>>> index 48b9f7168bcc..843f9c4ec980 100644
+>>>> --- a/arch/loongarch/include/asm/cpu.h
+>>>> +++ b/arch/loongarch/include/asm/cpu.h
+>>>> @@ -99,6 +99,7 @@ enum cpu_type_enum {
+>>>>    #define CPU_FEATURE_GUESTID            24      /* CPU has GuestID feature */
+>>>>    #define CPU_FEATURE_HYPERVISOR         25      /* CPU has hypervisor (running in VM) */
+>>>>    #define CPU_FEATURE_PTW                        26      /* CPU has hardware page table walker */
+>>>> +#define CPU_FEATURE_AVECINT            27      /* CPU has avec interrupt */
+>>>>
+>>>>    #define LOONGARCH_CPU_CPUCFG           BIT_ULL(CPU_FEATURE_CPUCFG)
+>>>>    #define LOONGARCH_CPU_LAM              BIT_ULL(CPU_FEATURE_LAM)
+>>>> @@ -127,5 +128,6 @@ enum cpu_type_enum {
+>>>>    #define LOONGARCH_CPU_GUESTID          BIT_ULL(CPU_FEATURE_GUESTID)
+>>>>    #define LOONGARCH_CPU_HYPERVISOR       BIT_ULL(CPU_FEATURE_HYPERVISOR)
+>>>>    #define LOONGARCH_CPU_PTW              BIT_ULL(CPU_FEATURE_PTW)
+>>>> +#define LOONGARCH_CPU_AVECINT          BIT_ULL(CPU_FEATURE_AVECINT)
+>>>>
+>>>>    #endif /* _ASM_CPU_H */
+>>>> diff --git a/arch/loongarch/include/asm/hw_irq.h b/arch/loongarch/include/asm/hw_irq.h
+>>>> index af4f4e8fbd85..772692e765c0 100644
+>>>> --- a/arch/loongarch/include/asm/hw_irq.h
+>>>> +++ b/arch/loongarch/include/asm/hw_irq.h
+>>>> @@ -9,6 +9,16 @@
+>>>>
+>>>>    extern atomic_t irq_err_count;
+>>>>
+>>>> +/*
+>>>> + * 256 vectors Map:
+>>>> + *
+>>>> + * 0 - 15: mapping legacy IPs, e.g. IP0-12.
+>>>> + * 16 - 255: mapping a vector for external IRQ.
+>>> In handle_cpu_irq() we handle CPUINTC irqs from low to high, which
+>>> means when we handle AVECINTC (IP13), IP0-12 have been handled
+>>> already, so should we really mapping IP012 to AVECINTC?
+In fact, retaining 0-15 vector is for compatibility with future 
+extensions, and currently it has not been done in practice.
+
+The AVEC interrupt controller can completely replace the current core-ip 
+0-12 interrupt. When we implement the
+
+function described above, core-ip 0-12 will no longer have its original 
+function
+
+Of course, this is a long-term plan
+>>>
+>>>> + *
+>>>> + */
+>>>> +#define NR_VECTORS             256
+>>>> +#define IRQ_MATRIX_BITS                NR_VECTORS
+>>>> +#define NR_LEGACY_VECTORS      16
+>>> Should we define them in irq.h and update NR_IRQS there?]
+Yes, you are right, this may indeed cause potential problems
+>>>
+>>>>    /*
+>>>>     * interrupt-retrigger: NOP for now. This may not be appropriate for all
+>>>>     * machines, we'll see ...
+>>>> diff --git a/arch/loongarch/include/asm/irq.h b/arch/loongarch/include/asm/irq.h
+>>>> index 480418bc5071..cf3b635a9b86 100644
+>>>> --- a/arch/loongarch/include/asm/irq.h
+>>>> +++ b/arch/loongarch/include/asm/irq.h
+>>>> @@ -65,7 +65,7 @@ extern struct acpi_vector_group msi_group[MAX_IO_PICS];
+>>>>    #define LOONGSON_LPC_LAST_IRQ          (LOONGSON_LPC_IRQ_BASE + 15)
+>>>>
+>>>>    #define LOONGSON_CPU_IRQ_BASE          16
+>>>> -#define LOONGSON_CPU_LAST_IRQ          (LOONGSON_CPU_IRQ_BASE + 14)
+>>>> +#define LOONGSON_CPU_LAST_IRQ          (LOONGSON_CPU_IRQ_BASE + 15)
+>>>>
+>>>>    #define LOONGSON_PCH_IRQ_BASE          64
+>>>>    #define LOONGSON_PCH_ACPI_IRQ          (LOONGSON_PCH_IRQ_BASE + 47)
+>>>> @@ -101,6 +101,16 @@ int pch_msi_acpi_init(struct irq_domain *parent,
+>>>>                                           struct acpi_madt_msi_pic *acpi_pchmsi);
+>>>>    int pch_pic_acpi_init(struct irq_domain *parent,
+>>>>                                           struct acpi_madt_bio_pic *acpi_pchpic);
+>>>> +
+>>>> +#ifdef CONFIG_ACPI
+>>> No #ifdef needed.
+ok , I adjust here next patch
+>>>
+>>>> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
+>>>> +               struct acpi_madt_msi_pic *pch_msi_entry);
+>>> No line break needed.
+ok
+>>>
+>>>> +int __init loongarch_avec_acpi_init(struct irq_domain *parent);
+>>>> +void complete_irq_moving(void);
+>>>> +void loongarch_avec_offline_cpu(unsigned int cpu);
+>>>> +void loongarch_avec_online_cpu(unsigned int cpu);
+>>>> +#endif
+>>>> +
+>>>>    int find_pch_pic(u32 gsi);
+>>>>    struct fwnode_handle *get_pch_msi_handle(int pci_segment);
+>>>>
+>>>> diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/include/asm/loongarch.h
+>>>> index eb09adda54b7..16a910359977 100644
+>>>> --- a/arch/loongarch/include/asm/loongarch.h
+>>>> +++ b/arch/loongarch/include/asm/loongarch.h
+>>>> @@ -72,7 +72,6 @@
+>>>>    #define  CPUCFG1_RPLV                  BIT(23)
+>>>>    #define  CPUCFG1_HUGEPG                        BIT(24)
+>>>>    #define  CPUCFG1_CRC32                 BIT(25)
+>>>> -#define  CPUCFG1_MSGINT                        BIT(26)
+>>>>
+>>>>    #define LOONGARCH_CPUCFG2              0x2
+>>>>    #define  CPUCFG2_FP                    BIT(0)
+>>>> @@ -252,8 +251,8 @@
+>>>>    #define  CSR_ESTAT_EXC_WIDTH           6
+>>>>    #define  CSR_ESTAT_EXC                 (_ULCAST_(0x3f) << CSR_ESTAT_EXC_SHIFT)
+>>>>    #define  CSR_ESTAT_IS_SHIFT            0
+>>>> -#define  CSR_ESTAT_IS_WIDTH            14
+>>>> -#define  CSR_ESTAT_IS                  (_ULCAST_(0x3fff) << CSR_ESTAT_IS_SHIFT)
+>>>> +#define  CSR_ESTAT_IS_WIDTH            15
+>>>> +#define  CSR_ESTAT_IS                  (_ULCAST_(0x7fff) << CSR_ESTAT_IS_SHIFT)
+>>>>
+>>>>    #define LOONGARCH_CSR_ERA              0x6     /* ERA */
+>>>>
+>>>> @@ -999,10 +998,18 @@
+>>>>    #define CSR_FWPC_SKIP_SHIFT            16
+>>>>    #define CSR_FWPC_SKIP                  (_ULCAST_(1) << CSR_FWPC_SKIP_SHIFT)
+>>>>
+>>>> +#define LOONGARCH_CSR_IRR0             0xa0
+>>>> +#define LOONGARCH_CSR_IRR1             0xa1
+>>>> +#define LOONGARCH_CSR_IRR2             0xa2
+>>>> +#define LOONGARCH_CSR_IRR3             0xa3
+>>>> +#define LOONGARCH_CSR_IRR_BASE         LOONGARCH_CSR_IRR0
+>>>> +
+>>>> +#define        LOONGARCH_CSR_ILR               0xa4
+>>> What is ILR stand for?
+Interrupt Load Register, ILR
+>>>> +
+>>>>    /*
+>>>>     * CSR_ECFG IM
+>>>>     */
+>>>> -#define ECFG0_IM               0x00001fff
+>>>> +#define ECFG0_IM               0x00005fff
+>>>>    #define ECFGB_SIP0             0
+>>>>    #define ECFGF_SIP0             (_ULCAST_(1) << ECFGB_SIP0)
+>>>>    #define ECFGB_SIP1             1
+>>>> @@ -1045,6 +1052,7 @@
+>>>>    #define  IOCSRF_EIODECODE              BIT_ULL(9)
+>>>>    #define  IOCSRF_FLATMODE               BIT_ULL(10)
+>>>>    #define  IOCSRF_VM                     BIT_ULL(11)
+>>>> +#define  IOCSRF_AVEC                   BIT_ULL(15)
+>>>>
+>>>>    #define LOONGARCH_IOCSR_VENDOR         0x10
+>>>>
+>>>> @@ -1055,6 +1063,7 @@
+>>>>    #define LOONGARCH_IOCSR_MISC_FUNC      0x420
+>>>>    #define  IOCSR_MISC_FUNC_TIMER_RESET   BIT_ULL(21)
+>>>>    #define  IOCSR_MISC_FUNC_EXT_IOI_EN    BIT_ULL(48)
+>>>> +#define  IOCSR_MISC_FUNC_AVEC_EN       BIT_ULL(51)
+>>>>
+>>>>    #define LOONGARCH_IOCSR_CPUTEMP                0x428
+>>>>
+>>>> @@ -1375,9 +1384,10 @@ __BUILD_CSR_OP(tlbidx)
+>>>>    #define INT_TI         11      /* Timer */
+>>>>    #define INT_IPI                12
+>>>>    #define INT_NMI                13
+>>>> +#define INT_AVEC       14
+>>>>
+>>>>    /* ExcCodes corresponding to interrupts */
+>>>> -#define EXCCODE_INT_NUM                (INT_NMI + 1)
+>>>> +#define EXCCODE_INT_NUM                (INT_AVEC + 1)
+>>>>    #define EXCCODE_INT_START      64
+>>>>    #define EXCCODE_INT_END                (EXCCODE_INT_START + EXCCODE_INT_NUM - 1)
+>>>>
+>>>> diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/asm/smp.h
+>>>> index 278700cfee88..2399004596a3 100644
+>>>> --- a/arch/loongarch/include/asm/smp.h
+>>>> +++ b/arch/loongarch/include/asm/smp.h
+>>>> @@ -69,9 +69,11 @@ extern int __cpu_logical_map[NR_CPUS];
+>>>>    #define ACTION_BOOT_CPU        0
+>>>>    #define ACTION_RESCHEDULE      1
+>>>>    #define ACTION_CALL_FUNCTION   2
+>>>> +#define ACTION_CLEAR_VECT      3
+>>>>    #define SMP_BOOT_CPU           BIT(ACTION_BOOT_CPU)
+>>>>    #define SMP_RESCHEDULE         BIT(ACTION_RESCHEDULE)
+>>>>    #define SMP_CALL_FUNCTION      BIT(ACTION_CALL_FUNCTION)
+>>>> +#define SMP_CLEAR_VECT         BIT(ACTION_CLEAR_VECT)
+>>>>
+>>>>    struct secondary_data {
+>>>>           unsigned long stack;
+>>>> diff --git a/arch/loongarch/kernel/cpu-probe.c b/arch/loongarch/kernel/cpu-probe.c
+>>>> index 55320813ee08..3b2e72e8f9bd 100644
+>>>> --- a/arch/loongarch/kernel/cpu-probe.c
+>>>> +++ b/arch/loongarch/kernel/cpu-probe.c
+>>>> @@ -106,7 +106,6 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
+>>>>                   elf_hwcap |= HWCAP_LOONGARCH_CRC32;
+>>>>           }
+>>>>
+>>>> -
+>>>>           config = read_cpucfg(LOONGARCH_CPUCFG2);
+>>>>           if (config & CPUCFG2_LAM) {
+>>>>                   c->options |= LOONGARCH_CPU_LAM;
+>>>> @@ -176,6 +175,8 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
+>>>>                   c->options |= LOONGARCH_CPU_EIODECODE;
+>>>>           if (config & IOCSRF_VM)
+>>>>                   c->options |= LOONGARCH_CPU_HYPERVISOR;
+>>>> +       if (config & IOCSRF_AVEC)
+>>>> +               c->options |= LOONGARCH_CPU_AVECINT;
+>>>>
+>>>>           config = csr_read32(LOONGARCH_CSR_ASID);
+>>>>           config = (config & CSR_ASID_BIT) >> CSR_ASID_BIT_SHIFT;
+>>>> diff --git a/arch/loongarch/kernel/smp.c b/arch/loongarch/kernel/smp.c
+>>>> index 0dfe2388ef41..6dfedef306f3 100644
+>>>> --- a/arch/loongarch/kernel/smp.c
+>>>> +++ b/arch/loongarch/kernel/smp.c
+>>>> @@ -234,6 +234,9 @@ static irqreturn_t loongson_ipi_interrupt(int irq, void *dev)
+>>>>                   per_cpu(irq_stat, cpu).ipi_irqs[IPI_CALL_FUNCTION]++;
+>>>>           }
+>>>>
+>>>> +       if (action & SMP_CLEAR_VECT)
+>>>> +               complete_irq_moving();
+>>> SMP_CLEAR_VECT trigger complete_irq_moving(), but in
+>>> complete_irq_moving() it calls mp_ops.send_ipi_single(cpu,
+>>> ACTION_CLEAR_VECT), which will trigger loongson_ipi_interrupt() again.
+>>> I'm a bit confused here. Could you please explain the design goal of
+>>> SMP_CLEAR_VECT here?
+SMP_CLEAR_VECT is used to release the affinity of interrupts on old CPUs
+
+Due to the possibility of certain interrupts occurring during interrupt 
+affinity modification,
+
+which can result in the original CPU receiving this interrupt vector, it 
+is necessary to
+
+determine whether the interrupt has been processed through the original CPU.
+
+When the original CPU discovers that an interrupt that needs to clear 
+affinity has not
+
+been processed locally in the SMP_CLEAR_VECT process, it will suspend 
+SMP_CLEAR_VECT
+
+again and end the process, allowing the avec interrupt that has already 
+been routed
+
+to the current CPU to be processed.
+
+Then, it will enter the SMP_CLEAR_VECT process again for judgment
+
+>>>
+>>>> +
+>>>>           return IRQ_HANDLED;
+>>>>    }
+>>>>
+>>>> @@ -388,6 +391,7 @@ int loongson_cpu_disable(void)
+>>>>           irq_migrate_all_off_this_cpu();
+>>>>           clear_csr_ecfg(ECFG0_IM);
+>>>>           local_irq_restore(flags);
+>>>> +       loongarch_avec_offline_cpu(cpu);
+>>>>           local_flush_tlb_all();
+>>>>
+>>>>           return 0;
+>>>> @@ -566,6 +570,7 @@ asmlinkage void start_secondary(void)
+>>>>            * early is dangerous.
+>>>>            */
+>>>>           WARN_ON_ONCE(!irqs_disabled());
+>>>> +       loongarch_avec_online_cpu(cpu);
+>>>>           loongson_smp_finish();
+>>>>
+>>>>           cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
+>>>> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+>>>> index 2df72b7b165b..de091a9f7c88 100644
+>>>> --- a/drivers/irqchip/Makefile
+>>>> +++ b/drivers/irqchip/Makefile
+>>>> @@ -110,7 +110,7 @@ obj-$(CONFIG_LS1X_IRQ)                      += irq-ls1x.o
+>>>>    obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)      += irq-ti-sci-intr.o
+>>>>    obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)      += irq-ti-sci-inta.o
+>>>>    obj-$(CONFIG_TI_PRUSS_INTC)            += irq-pruss-intc.o
+>>>> -obj-$(CONFIG_IRQ_LOONGARCH_CPU)                += irq-loongarch-cpu.o
+>>>> +obj-$(CONFIG_IRQ_LOONGARCH_CPU)                += irq-loongarch-cpu.o irq-loongarch-avec.o
+>>>>    obj-$(CONFIG_LOONGSON_LIOINTC)         += irq-loongson-liointc.o
+>>>>    obj-$(CONFIG_LOONGSON_EIOINTC)         += irq-loongson-eiointc.o
+>>>>    obj-$(CONFIG_LOONGSON_HTPIC)           += irq-loongson-htpic.o
+>>>> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
+>>>> new file mode 100644
+>>>> index 000000000000..81dbccbea5a2
+>>>> --- /dev/null
+>>>> +++ b/drivers/irqchip/irq-loongarch-avec.c
+>>>> @@ -0,0 +1,440 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Copyright (C) 2020-2024 Loongson Technologies, Inc.
+>>>> + */
+>>>> +
+>>>> +#include <linux/cpuhotplug.h>
+>>>> +#include <linux/init.h>
+>>>> +#include <linux/interrupt.h>
+>>>> +#include <linux/irq.h>
+>>>> +#include <linux/irqchip.h>
+>>>> +#include <linux/irqchip/chained_irq.h>
+>>>> +#include <linux/irqdomain.h>
+>>>> +#include <linux/kernel.h>
+>>>> +#include <linux/msi.h>
+>>>> +#include <linux/radix-tree.h>
+>>>> +#include <linux/spinlock.h>
+>>>> +
+>>>> +#include <asm/loongarch.h>
+>>>> +#include <asm/setup.h>
+>>>> +
+>>>> +#define VECTORS_PER_REG                64
+>>>> +#define ILR_INVALID_MASK       0x80000000UL
+>>>> +#define ILR_VECTOR_MASK                0xffUL
+>>>> +#define AVEC_MSG_OFFSET                0x100000
+>>>> +
+>>>> +static phys_addr_t msi_base_v2;
+>>>> +static DEFINE_PER_CPU(struct irq_desc * [NR_VECTORS], irq_map);
+>>>> +
+>>>> +#ifdef CONFIG_SMP
+>>>> +struct pending_list {
+>>>> +       struct list_head        head;
+>>>> +};
+>>>> +
+>>>> +static DEFINE_PER_CPU(struct pending_list, pending_list);
+>>>> +#endif
+>>>> +
+>>>> +struct loongarch_avec_chip {
+>>>> +       struct fwnode_handle    *fwnode;
+>>>> +       struct irq_domain       *domain;
+>>>> +       struct irq_matrix       *vector_matrix;
+>>>> +       raw_spinlock_t          lock;
+>>>> +};
+>>>> +
+>>>> +static struct loongarch_avec_chip loongarch_avec;
+>>>> +
+>>>> +struct loongarch_avec_data {
+>>>> +       struct list_head        entry;
+>>>> +       unsigned int            cpu;
+>>>> +       unsigned int            vec;
+>>>> +       unsigned int            prev_cpu;
+>>>> +       unsigned int            prev_vec;
+>>>> +       unsigned int            moving          : 1,
+>>>> +                               managed         : 1;
+>>>> +};
+>>>> +
+>>>> +static struct cpumask intersect_mask;
+>>>> +
+>>>> +static int assign_irq_vector(struct irq_data *irqd, const struct cpumask *dest,
+>>>> +                            unsigned int *cpu)
+>>>> +{
+>>>> +       return irq_matrix_alloc(loongarch_avec.vector_matrix, dest, false, cpu);
+>>>> +}
+>>>> +
+>>>> +static inline void loongarch_avec_ack_irq(struct irq_data *d)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +static inline void loongarch_avec_unmask_irq(struct irq_data *d)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +static inline void loongarch_avec_mask_irq(struct irq_data *d)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +#ifdef CONFIG_SMP
+>>>> +static inline void pending_list_init(int cpu)
+>>>> +{
+>>>> +       struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
+>>>> +
+>>>> +       INIT_LIST_HEAD(&plist->head);
+>>>> +}
+>>>> +
+>>>> +static void loongarch_avec_sync(struct loongarch_avec_data *adata)
+>>>> +{
+>>>> +       struct pending_list *plist;
+>>>> +
+>>>> +       if (cpu_online(adata->prev_cpu)) {
+>>>> +               plist = per_cpu_ptr(&pending_list, adata->prev_cpu);
+>>>> +               list_add_tail(&adata->entry, &plist->head);
+>>>> +               adata->moving = true;
+>>>> +               mp_ops.send_ipi_single(adata->prev_cpu, ACTION_CLEAR_VECT);
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +static int loongarch_avec_set_affinity(struct irq_data *data, const struct cpumask *dest,
+>>>> +                                      bool force)
+>>>> +{
+>>>> +       struct loongarch_avec_data *adata;
+>>>> +       unsigned int cpu, vector;
+>>>> +       unsigned long flags;
+>>>> +       int ret;
+>>>> +
+>>>> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+>>>> +       adata = irq_data_get_irq_chip_data(data);
+>>>> +
+>>>> +       if (adata->vec && cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest)) {
+>>>> +               raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +               return 0;
+>>>> +       }
+>>>> +       if (adata->moving)
+>>>> +               return -EBUSY;
+>>>> +
+>>>> +       cpumask_and(&intersect_mask, dest, cpu_online_mask);
+>>>> +
+>>>> +       ret = assign_irq_vector(data, &intersect_mask, &cpu);
+>>>> +       if (ret < 0) {
+>>>> +               raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +               return ret;
+>>>> +       }
+>>>> +       vector = ret;
+>>>> +       adata->cpu = cpu;
+>>>> +       adata->vec = vector;
+>>>> +       per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
+>>>> +       loongarch_avec_sync(adata);
+>>>> +
+>>>> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +       irq_data_update_effective_affinity(data, cpumask_of(cpu));
+>>>> +
+>>>> +       return IRQ_SET_MASK_OK;
+>>>> +}
+>>>> +
+>>>> +void complete_irq_moving(void)
+>>>> +{
+>>>> +       struct pending_list *plist = this_cpu_ptr(&pending_list);
+>>>> +       struct loongarch_avec_data *adata, *tmp;
+>>>> +       int cpu, vector, bias;
+>>>> +       u64 irr;
+>>>> +
+>>>> +       raw_spin_lock(&loongarch_avec.lock);
+>>>> +
+>>>> +       list_for_each_entry_safe(adata, tmp, &plist->head, entry) {
+>>>> +               cpu = adata->prev_cpu;
+>>>> +               vector = adata->prev_vec;
+>>>> +               bias = vector / VECTORS_PER_REG;
+>>>> +               switch (bias) {
+>>>> +               case 0:
+>>>> +                       irr = csr_read64(LOONGARCH_CSR_IRR0);
+>>>> +               case 1:
+>>>> +                       irr = csr_read64(LOONGARCH_CSR_IRR1);
+>>>> +               case 2:
+>>>> +                       irr = csr_read64(LOONGARCH_CSR_IRR2);
+>>>> +               case 3:
+>>>> +                       irr = csr_read64(LOONGARCH_CSR_IRR3);
+>>>> +               }
+>>>> +
+>>>> +               if (irr & (1UL << (vector % VECTORS_PER_REG))) {
+>>>> +                       mp_ops.send_ipi_single(cpu, ACTION_CLEAR_VECT);
+>>>> +                       continue;
+>>>> +               }
+>>>> +               list_del(&adata->entry);
+>>>> +               irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, adata->managed);
+>>>> +               this_cpu_write(irq_map[vector], NULL);
+>>>> +               adata->prev_cpu = adata->cpu;
+>>>> +               adata->prev_vec = adata->vec;
+>>>> +               adata->moving = 0;
+>>>> +       }
+>>>> +       raw_spin_unlock(&loongarch_avec.lock);
+>>>> +}
+>>>> +
+>>>> +void loongarch_avec_offline_cpu(unsigned int cpu)
+>>>> +{
+>>>> +       struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
+>>>> +       unsigned long flags;
+>>>> +
+>>>> +       if (!loongarch_avec.vector_matrix)
+>>>> +               return;
+>>>> +
+>>>> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+>>>> +       if (list_empty(&plist->head))
+>>>> +               irq_matrix_offline(loongarch_avec.vector_matrix);
+>>>> +       else
+>>>> +               pr_warn("cpu %d advanced extioi is busy\n", cpu);
+>>>> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +}
+>>>> +
+>>>> +void loongarch_avec_online_cpu(unsigned int cpu)
+>>>> +{
+>>>> +       unsigned long flags;
+>>>> +
+>>>> +       if (!loongarch_avec.vector_matrix)
+>>>> +               return;
+>>>> +
+>>>> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+>>>> +
+>>>> +       irq_matrix_online(loongarch_avec.vector_matrix);
+>>>> +
+>>>> +       pending_list_init(cpu);
+>>>> +
+>>>> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +}
+>>>> +
+>>>> +#else
+>>>> +#define loongarch_avec_set_affinity            NULL
+>>> Empty function is prefered here.
+
+ok ,I got it
+
+Thanks
+
+Tianyang
+
+>>>
+>>>
+>>> Huacai
+>>>
+>>>> +#endif
+>>>> +
+>>>> +static void loongarch_avec_compose_msg(struct irq_data *d,
+>>>> +               struct msi_msg *msg)
+>>>> +{
+>>>> +       struct loongarch_avec_data *avec_data;
+>>>> +
+>>>> +       avec_data = irq_data_get_irq_chip_data(d);
+>>>> +
+>>>> +       msg->address_hi = 0xfd;
+>>>> +       msg->address_lo = ((avec_data->vec & 0xff) << 4) |
+>>>> +                         ((cpu_logical_map(avec_data->cpu & 0xffff)) << 12);
+>>>> +       msg->data = 0x0;
+>>>> +
+>>>> +}
+>>>> +
+>>>> +static struct irq_chip loongarch_avec_controller = {
+>>>> +       .name                   = "AVECINTC",
+>>>> +       .irq_ack                = loongarch_avec_ack_irq,
+>>>> +       .irq_mask               = loongarch_avec_mask_irq,
+>>>> +       .irq_unmask             = loongarch_avec_unmask_irq,
+>>>> +       .irq_set_affinity       = loongarch_avec_set_affinity,
+>>>> +       .irq_compose_msi_msg    = loongarch_avec_compose_msg,
+>>>> +};
+>>>> +
+>>>> +static void loongarch_avec_dispatch(struct irq_desc *desc)
+>>>> +{
+>>>> +       struct irq_chip *chip = irq_desc_get_chip(desc);
+>>>> +       unsigned long vector;
+>>>> +       struct irq_desc *d;
+>>>> +
+>>>> +       chained_irq_enter(chip, desc);
+>>>> +       vector = csr_read64(LOONGARCH_CSR_ILR);
+>>>> +       if (vector & ILR_INVALID_MASK)
+>>>> +               return;
+>>>> +
+>>>> +       vector &= ILR_VECTOR_MASK;
+>>>> +
+>>>> +       d = this_cpu_read(irq_map[vector]);
+>>>> +       if (d) {
+>>>> +               generic_handle_irq_desc(d);
+>>>> +       } else {
+>>>> +               pr_warn("IRQ ERROR:Unexpected irq  occur on cpu %d[vector %ld]\n",
+>>>> +                       smp_processor_id(), vector);
+>>>> +       }
+>>>> +
+>>>> +       chained_irq_exit(chip, desc);
+>>>> +}
+>>>> +
+>>>> +static int loongarch_avec_alloc(struct irq_domain *domain, unsigned int virq,
+>>>> +                               unsigned int nr_irqs, void *arg)
+>>>> +{
+>>>> +       struct loongarch_avec_data *adata;
+>>>> +       struct irq_data *irqd;
+>>>> +       unsigned int cpu, vector, i, ret;
+>>>> +       unsigned long flags;
+>>>> +
+>>>> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+>>>> +       for (i = 0; i < nr_irqs; i++) {
+>>>> +               irqd = irq_domain_get_irq_data(domain, virq + i);
+>>>> +               adata = kzalloc(sizeof(*adata), GFP_KERNEL);
+>>>> +               if (!adata) {
+>>>> +                       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +                       return -ENOMEM;
+>>>> +               }
+>>>> +               ret = assign_irq_vector(irqd, cpu_online_mask, &cpu);
+>>>> +               if (ret < 0) {
+>>>> +                       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +                       return ret;
+>>>> +               }
+>>>> +               vector = ret;
+>>>> +               adata->prev_cpu = adata->cpu = cpu;
+>>>> +               adata->prev_vec = adata->vec = vector;
+>>>> +               adata->managed = irqd_affinity_is_managed(irqd);
+>>>> +               irq_domain_set_info(domain, virq + i, virq + i, &loongarch_avec_controller,
+>>>> +                               adata, handle_edge_irq, NULL, NULL);
+>>>> +               adata->moving = 0;
+>>>> +               irqd_set_single_target(irqd);
+>>>> +               irqd_set_affinity_on_activate(irqd);
+>>>> +
+>>>> +               per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(irqd);
+>>>> +       }
+>>>> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +static void clear_free_vector(struct irq_data *irqd)
+>>>> +{
+>>>> +       struct loongarch_avec_data *adata = irq_data_get_irq_chip_data(irqd);
+>>>> +       bool managed = irqd_affinity_is_managed(irqd);
+>>>> +
+>>>> +       per_cpu(irq_map, adata->cpu)[adata->vec] = NULL;
+>>>> +       irq_matrix_free(loongarch_avec.vector_matrix, adata->cpu, adata->vec, managed);
+>>>> +       adata->cpu = 0;
+>>>> +       adata->vec = 0;
+>>>> +#ifdef CONFIG_SMP
+>>>> +       if (!adata->moving)
+>>>> +               return;
+>>>> +
+>>>> +       per_cpu(irq_map, adata->prev_cpu)[adata->prev_vec] = 0;
+>>>> +       irq_matrix_free(loongarch_avec.vector_matrix, adata->prev_cpu,
+>>>> +                       adata->prev_vec, adata->managed);
+>>>> +       adata->prev_vec = 0;
+>>>> +       adata->prev_cpu = 0;
+>>>> +       adata->moving = 0;
+>>>> +       list_del_init(&adata->entry);
+>>>> +#endif
+>>>> +}
+>>>> +
+>>>> +static void loongarch_avec_free(struct irq_domain *domain, unsigned int virq,
+>>>> +               unsigned int nr_irqs)
+>>>> +{
+>>>> +       struct irq_data *d;
+>>>> +       unsigned long flags;
+>>>> +       unsigned int i;
+>>>> +
+>>>> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+>>>> +       for (i = 0; i < nr_irqs; i++) {
+>>>> +               d = irq_domain_get_irq_data(domain, virq + i);
+>>>> +               if (d) {
+>>>> +                       clear_free_vector(d);
+>>>> +                       irq_domain_reset_irq_data(d);
+>>>> +
+>>>> +               }
+>>>> +       }
+>>>> +
+>>>> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+>>>> +}
+>>>> +
+>>>> +static const struct irq_domain_ops loongarch_avec_domain_ops = {
+>>>> +       .alloc          = loongarch_avec_alloc,
+>>>> +       .free           = loongarch_avec_free,
+>>>> +};
+>>>> +
+>>>> +static int __init irq_matrix_init(void)
+>>>> +{
+>>>> +       int i;
+>>>> +
+>>>> +       loongarch_avec.vector_matrix = irq_alloc_matrix(NR_VECTORS, 0, NR_VECTORS - 1);
+>>>> +       if (!loongarch_avec.vector_matrix)
+>>>> +               return -ENOMEM;
+>>>> +       for (i = 0; i < NR_LEGACY_VECTORS; i++)
+>>>> +               irq_matrix_assign_system(loongarch_avec.vector_matrix, i, false);
+>>>> +
+>>>> +       irq_matrix_online(loongarch_avec.vector_matrix);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +static int __init loongarch_avec_init(struct irq_domain *parent)
+>>>> +{
+>>>> +       int ret = 0, parent_irq;
+>>>> +       unsigned long tmp;
+>>>> +
+>>>> +       raw_spin_lock_init(&loongarch_avec.lock);
+>>>> +
+>>>> +       loongarch_avec.fwnode = irq_domain_alloc_named_fwnode("CORE_AVEC");
+>>>> +       if (!loongarch_avec.fwnode) {
+>>>> +               pr_err("Unable to allocate domain handle\n");
+>>>> +               ret = -ENOMEM;
+>>>> +               goto out;
+>>>> +       }
+>>>> +
+>>>> +       loongarch_avec.domain = irq_domain_create_tree(loongarch_avec.fwnode,
+>>>> +                       &loongarch_avec_domain_ops, NULL);
+>>>> +       if (!loongarch_avec.domain) {
+>>>> +               pr_err("core-vec: cannot create IRQ domain\n");
+>>>> +               ret = -ENOMEM;
+>>>> +               goto out_free_handle;
+>>>> +       }
+>>>> +
+>>>> +       parent_irq = irq_create_mapping(parent, INT_AVEC);
+>>>> +       if (!parent_irq) {
+>>>> +               pr_err("Failed to mapping hwirq\n");
+>>>> +               ret = -EINVAL;
+>>>> +               goto out_remove_domain;
+>>>> +       }
+>>>> +       irq_set_chained_handler_and_data(parent_irq, loongarch_avec_dispatch, NULL);
+>>>> +
+>>>> +       ret = irq_matrix_init();
+>>>> +       if (ret) {
+>>>> +               pr_err("Failed to init irq matrix\n");
+>>>> +               goto out_free_matrix;
+>>>> +       }
+>>>> +#ifdef CONFIG_SMP
+>>>> +       pending_list_init(0);
+>>>> +#endif
+>>>> +       tmp = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+>>>> +       tmp |= IOCSR_MISC_FUNC_AVEC_EN;
+>>>> +       iocsr_write64(tmp, LOONGARCH_IOCSR_MISC_FUNC);
+>>>> +
+>>>> +       return ret;
+>>>> +
+>>>> +out_free_matrix:
+>>>> +       kfree(loongarch_avec.vector_matrix);
+>>>> +out_remove_domain:
+>>>> +       irq_domain_remove(loongarch_avec.domain);
+>>>> +out_free_handle:
+>>>> +       irq_domain_free_fwnode(loongarch_avec.fwnode);
+>>>> +out:
+>>>> +       return ret;
+>>>> +}
+>>>> +
+>>>> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
+>>>> +                                    const unsigned long end)
+>>>> +{
+>>>> +       struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
+>>>> +
+>>>> +       msi_base_v2 = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+>>>> +       return pch_msi_acpi_init_v2(loongarch_avec.domain, pchmsi_entry);
+>>>> +}
+>>>> +
+>>>> +static inline int __init acpi_cascade_irqdomain_init(void)
+>>>> +{
+>>>> +       return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+>>>> +}
+>>>> +
+>>>> +int __init loongarch_avec_acpi_init(struct irq_domain *parent)
+>>>> +{
+>>>> +       int ret = 0;
+>>>> +
+>>>> +       ret = loongarch_avec_init(parent);
+>>>> +       if (ret) {
+>>>> +               pr_err("Failed to init irq domain\n");
+>>>> +               return ret;
+>>>> +       }
+>>>> +
+>>>> +       ret = acpi_cascade_irqdomain_init();
+>>>> +       if (ret) {
+>>>> +               pr_err("Failed to cascade IRQ domain\n");
+>>>> +               return ret;
+>>>> +       }
+>>>> +
+>>>> +       return ret;
+>>>> +}
+>>>> diff --git a/drivers/irqchip/irq-loongarch-cpu.c b/drivers/irqchip/irq-loongarch-cpu.c
+>>>> index 9d8f2c406043..1ecac59925c6 100644
+>>>> --- a/drivers/irqchip/irq-loongarch-cpu.c
+>>>> +++ b/drivers/irqchip/irq-loongarch-cpu.c
+>>>> @@ -138,7 +138,9 @@ static int __init acpi_cascade_irqdomain_init(void)
+>>>>           if (r < 0)
+>>>>                   return r;
+>>>>
+>>>> -       return 0;
+>>>> +       if (cpu_has_avecint)
+>>>> +               r = loongarch_avec_acpi_init(irq_domain);
+>>>> +       return r;
+>>>>    }
+>>>>
+>>>>    static int __init cpuintc_acpi_init(union acpi_subtable_headers *header,
+>>>> diff --git a/drivers/irqchip/irq-loongson-eiointc.c b/drivers/irqchip/irq-loongson-eiointc.c
+>>>> index c7ddebf312ad..1f9a30488137 100644
+>>>> --- a/drivers/irqchip/irq-loongson-eiointc.c
+>>>> +++ b/drivers/irqchip/irq-loongson-eiointc.c
+>>>> @@ -359,6 +359,9 @@ static int __init acpi_cascade_irqdomain_init(void)
+>>>>           if (r < 0)
+>>>>                   return r;
+>>>>
+>>>> +       if (cpu_has_avecint)
+>>>> +               return 0;
+>>>> +
+>>>>           r = acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+>>>>           if (r < 0)
+>>>>                   return r;
+>>>> diff --git a/drivers/irqchip/irq-loongson-pch-msi.c b/drivers/irqchip/irq-loongson-pch-msi.c
+>>>> index dd4d699170f4..1926857f9a41 100644
+>>>> --- a/drivers/irqchip/irq-loongson-pch-msi.c
+>>>> +++ b/drivers/irqchip/irq-loongson-pch-msi.c
+>>>> @@ -16,7 +16,6 @@
+>>>>    #include <linux/slab.h>
+>>>>
+>>>>    static int nr_pics;
+>>>> -
+>>>>    struct pch_msi_data {
+>>>>           struct mutex    msi_map_lock;
+>>>>           phys_addr_t     doorbell;
+>>>> @@ -100,6 +99,17 @@ static struct irq_chip middle_irq_chip = {
+>>>>           .irq_compose_msi_msg    = pch_msi_compose_msi_msg,
+>>>>    };
+>>>>
+>>>> +static struct irq_chip pch_msi_irq_chip_v2 = {
+>>>> +       .name                   = "MSI",
+>>>> +       .irq_ack                = irq_chip_ack_parent,
+>>>> +};
+>>>> +
+>>>> +static struct msi_domain_info pch_msi_domain_info_v2 = {
+>>>> +       .flags          = MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+>>>> +                       MSI_FLAG_MULTI_PCI_MSI | MSI_FLAG_PCI_MSIX,
+>>>> +       .chip   = &pch_msi_irq_chip_v2,
+>>>> +};
+>>>> +
+>>>>    static int pch_msi_parent_domain_alloc(struct irq_domain *domain,
+>>>>                                           unsigned int virq, int hwirq)
+>>>>    {
+>>>> @@ -268,6 +278,9 @@ struct fwnode_handle *get_pch_msi_handle(int pci_segment)
+>>>>    {
+>>>>           int i;
+>>>>
+>>>> +       if (cpu_has_avecint)
+>>>> +               return pch_msi_handle[0];
+>>>> +
+>>>>           for (i = 0; i < MAX_IO_PICS; i++) {
+>>>>                   if (msi_group[i].pci_segment == pci_segment)
+>>>>                           return pch_msi_handle[i];
+>>>> @@ -289,4 +302,32 @@ int __init pch_msi_acpi_init(struct irq_domain *parent,
+>>>>
+>>>>           return ret;
+>>>>    }
+>>>> +
+>>>> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
+>>>> +               struct acpi_madt_msi_pic *msi_entry)
+>>>> +{
+>>>> +       struct irq_domain *msi_domain;
+>>>> +
+>>>> +       if (pch_msi_handle[0])
+>>>> +               return 0;
+>>>> +
+>>>> +       pch_msi_handle[0] = irq_domain_alloc_named_fwnode("msipic-v2");
+>>>> +       if (!pch_msi_handle[0]) {
+>>>> +               pr_err("Unable to allocate domain handle\n");
+>>>> +               kfree(pch_msi_handle[0]);
+>>>> +               return -ENOMEM;
+>>>> +       }
+>>>> +
+>>>> +       msi_domain = pci_msi_create_irq_domain(pch_msi_handle[0],
+>>>> +                       &pch_msi_domain_info_v2,
+>>>> +                       parent);
+>>>> +       if (!msi_domain) {
+>>>> +               pr_err("Failed to create PCI MSI domain\n");
+>>>> +               kfree(pch_msi_handle[0]);
+>>>> +               return -ENOMEM;
+>>>> +       }
+>>>> +
+>>>> +       pr_info("IRQ domain MSIPIC-V2 init done.\n");
+>>>> +       return 0;
+>>>> +}
+>>>>    #endif
+>>>> --
+>>>> 2.20.1
+>>>>
+>>>>
+>>
+
