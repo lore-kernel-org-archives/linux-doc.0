@@ -1,124 +1,98 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAF01474BE;
-	Tue,  9 Jul 2024 23:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97901474BE;
+	Tue,  9 Jul 2024 23:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720568873; cv=none; b=do5q4Miz6ExHbeKC6W73R/yPGAqu/EgMUmLILezp+vVT8L8cJX+ZE5LJ2JSjkuoxjnCoVGjZBY+3GvPf2imnJXi3+5V5zo2dE4WgzmXTtaCplIuZnV7SwTi28yz8Kob0ClnBnV7e8sKgCti/TRjioIStuOstYB+E/af9SyzXl9U=
+	t=1720569064; cv=none; b=TFvvw2c/yr6PwYfrGzm6e1X5N/XUsWe2WItObIjs2vjViq9ID1xxFxLYHEd15GReIPunxWkAJpg+eR5iv4qftlpHDkkmAlxBt+N1fD5ex+L9etrXb97uHhGmV9ZdAfmgOnh2OXFkguOpnxM9eHSSl1l0qR6X5CrjLcJfqXJQKvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720568873; c=relaxed/simple;
-	bh=tIRE9KmLtc76s2mAlYfT2NzFMidl50saX5dJqrpwYP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e1ZqGyYugMy6Sh/3Vo5ZIYKtfLEWXQV/WYYxiUGXYLQmxt7pQ3GkLGyFI6IMWtVnirkbg8wBAiKC7SDcK9UXvQq9i1E+spvElvf7rT1s0hZLuOOI3fmtdtoT2dOqtEqM4L4USdyNvxYIOYWAMWQWrSwHKhmcWz9qzzZbNJ4tHoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bxa2QnG8; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720569064; c=relaxed/simple;
+	bh=06szhZhvI5y/0ml1HztEAZfKngl9g/YYJWu9WNQ4sLM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rI+84Xf2G2rgFW86L2Zm+CaVFbcWAOIddwGqcFuW3PFvXG158EE3UuvVWI2bS9S2T+3Fy8Ii4WSpCg5yrDIJKu8pZgiPXCIWcBiZepm8uPvj+9eFzRhhlsc8i4kNrQEkMWZbuILInTWRCiF6gSxpigOPwAX40AGoaZHbzdrBjSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DCzTmhwt; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bxa2QnG8"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ee9505cd37so47094641fa.2;
-        Tue, 09 Jul 2024 16:47:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720568869; x=1721173669; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mq/A9aOkBamVBWV7aSMjKHp0LFUAAImFzSMnmFWp048=;
-        b=Bxa2QnG8KFRMveHpvl45h1sAG+03olxIk1/ZHJz3r8VyXXpwgeO3ZnKWjt436dSBnP
-         JQkL2XvT4idDsW/J3lTd9Sxn15mUSyOFjoVBJ+9mRzEsPo9Lo7jj+Y9iTNrSu3KOHliE
-         14ozzfOjyvmN8OjeCygc7bWylOWHmAu0oO9qRlGaV+pYcHgcdh+B9nvM3OfI0vhW6iSN
-         QNHCFYMzhNiSxc2bhjrXi/72q3onn5rNfpPjPwazl27doAiEZqIoTTjXGFJwsDlOTG2u
-         qJtUA31LQoyGWElUmkbI3D/aeDOH6zvpzx5jHm9VEtNKGfKQrg8ElCiUJPsjvQGNat/u
-         38Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720568869; x=1721173669;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mq/A9aOkBamVBWV7aSMjKHp0LFUAAImFzSMnmFWp048=;
-        b=f9/E62ayLqTZL4yxtaxIvbjQfy/d4t9c2EFOYyhnooEZSt88/PGXQ4Kc41DLrDyDAJ
-         Ib2MEeDd2tNrUfgBZeC60ANzqySz36InguHoTaSX+VbgZOzupW/KB+RRvKxsVtJDrTdU
-         KF/X4stZfYgs5iwWpfiTNRkmvHvXFpXDxs9Xee2cZ0KhupuCkagqloAF7VcnW6RVbZ7W
-         ONB2MiegBKdxB6yoDjB2/7N8aCANzAmUh/k7oJiGtkG8Q45yxH8XmclL4137vVaqfqxl
-         paf1javnw8Eix2IocfHflA4BykLDjOejFZ90XzSoLXF8c6Q40NfA3K0Q3lj4YJuWuZjl
-         M1Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCXG7j9Cz/tHdc4iU/d5thMLK4p49npM6qageSXx77Mm+x5Qj7toqHsr90AiIerR+T+A/SWVYSnSeak5nslOp/7ARn2W2POua3X+HDxb1fRy0iJzUwyJMdqG1L7R21hOzkss/409L56TeYH5PjhPpYIFD5MILU0sDNAHVNhQWng3weKHWQ==
-X-Gm-Message-State: AOJu0YyGHdLo8fe9IU1eADKOI3raBuTu9m8TSAu3ydmV6Eo8lP8S5m+D
-	9adZBxcujlXuIyJdrScQleJXW060OTbwVnck1Pl6QdDkbQL/zzbg
-X-Google-Smtp-Source: AGHT+IFR1lSNlGa657B6x4/YQYbJFtspl99U97GZRVKphke00G2h1klOiEvAgjx1eDOhCLqCcJHV1w==
-X-Received: by 2002:a2e:3608:0:b0:2ec:4428:b6fd with SMTP id 38308e7fff4ca-2eeb30ba12dmr23925291fa.9.1720568868822;
-        Tue, 09 Jul 2024 16:47:48 -0700 (PDT)
-Received: from andrea ([84.242.162.60])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-594bd45a1b6sm1563341a12.60.2024.07.09.16.47.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 16:47:48 -0700 (PDT)
-Date: Wed, 10 Jul 2024 01:47:43 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
-Message-ID: <Zo3MH8idihW4o+6Z@andrea>
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-2-alexghiti@rivosinc.com>
- <Zn1Hwpcamaz1YaEM@andrea>
- <4008aeca-352f-489e-ba07-7a11f5ab7ccb@ghiti.fr>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DCzTmhwt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=1MnKJi0jeAHhcjlp5AtWFQ8iIjqs+OJI3rZ7gK/CmMU=; b=DCzTmhwt94ownkzIzPjjLO9YFf
+	eu92ryb30Y5fTRUbNpYryFLMftlaguCeCXoN5EOazjbAsFOs+tBSCQRNU7Q9+73B6Auj6hO18pDHa
+	tVqNTGWjeWJdyOsHdlhu3/6ety3pwwmck57aAkc4fbaq1wmZauOvq+WLqpISS8yRZqCLos8OaPI4C
+	hs61AA6++huLcis6+2wfhFY8FKzdLoiDZGfl8hPNz2QPC/0WLP/nmKUoFVXt2uML9oLLHVZjGnISQ
+	SNynxgD4UGwrFpzo35YzDs92U2UM4UsY3+jCn/D4vFLAhvCA1+Qv96t7MNQa7spkBp1odrX3/w5pV
+	UYTO+k7A==;
+Received: from [50.53.4.147] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sRKbT-00000008U6L-2tpi;
+	Tue, 09 Jul 2024 23:50:35 +0000
+Message-ID: <420ac42f-dad2-4fd9-b36a-6405d14b6e25@infradead.org>
+Date: Tue, 9 Jul 2024 16:50:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4008aeca-352f-489e-ba07-7a11f5ab7ccb@ghiti.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/9] Documentation: add a new file documenting
+ multigrain timestamps
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong"
+ <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>,
+ Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>,
+ Kent Overstreet <kent.overstreet@linux.dev>, kernel-team@fb.com,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-mm@kvack.org,
+ linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240708-mgtime-v4-0-a0f3c6fb57f3@kernel.org>
+ <20240708-mgtime-v4-5-a0f3c6fb57f3@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240708-mgtime-v4-5-a0f3c6fb57f3@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > Is this second IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) check actually needed?
-> > (just wondering - no real objection)
+
+
+On 7/8/24 8:53 AM, Jeff Layton wrote:
+> Add a high-level document that describes how multigrain timestamps work,
+> rationale for them, and some info about implementation and tradeoffs.
 > 
-> To me yes, otherwise a toolchain without zacas support would fail to
-> assemble the amocas instruction.
-
-To elaborate on my question:  Such a toolchain may be able to recognize
-that the block of code following the zacas: label (and comprising the
-amocas instruction) can't be reached/executed if the first IS_ENABLED()
-evaluates to false (due to the goto end; statement), and consequently it
-may compile out the entire block/instruction no matter the presence or
-not of the second IS_ENABLE() check.  IOW, such a toolchain/compiler may
-not actually have to assemble the amocas instruction under such config.
-In fact, this is how the current gcc trunk (which doesn't support zacas)
-seems to behave.  And this very same optimization/code removal seems to
-be performed by clang when CONFIG_RISCV_ISA_ZACAS=n.  IAC, I'd agree it
-is good to be explicit in the sources and keep both of these checks.
-
-
-> > Why the semicolon?
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  Documentation/filesystems/multigrain-ts.rst | 120 ++++++++++++++++++++++++++++
+>  1 file changed, 120 insertions(+)
 > 
-> That fixes a clang warning reported by Nathan here:
-> https://lore.kernel.org/linux-riscv/20240528193110.GA2196855@thelio-3990X/
+> diff --git a/Documentation/filesystems/multigrain-ts.rst b/Documentation/filesystems/multigrain-ts.rst
+> new file mode 100644
+> index 000000000000..e4f52a9e3c51
+> --- /dev/null
+> +++ b/Documentation/filesystems/multigrain-ts.rst
+> @@ -0,0 +1,120 @@
 
-I see.  Thanks for the pointer.
+> +Inode Timestamp Ordering
+> +========================
+> +
+> +In addition just providing info about changes to individual files, file
 
+   In addition to just
 
-> > This is because the compiler doesn't realize __ret is actually
-> > initialized, right?  IAC, seems a bit unexpected to initialize
-> > with (old) (which indicates SUCCESS of the CMPXCHG operation);
-> > how about using (new) for the initialization of __ret instead?
-> > would (new) still work for you?
-> 
-> But amocas rd register must contain the expected old value in order to
-> actually work right?
+> +timestamps also serve an important purpose in applications like "make". These
+> +programs measure timestamps in order to determine whether source files might be
+> +newer than cached objects.
 
-Agreed.  Thanks for the clarification.
-
-  Andrea
