@@ -1,61 +1,63 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2F313A25F
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 11:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBFA158A2C
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 11:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720523970; cv=none; b=VaLaKfrlK/bMPuDvGRMdQbiSKmtqwTS/1VxsuF3ksFJDiV5rRZn05e0cZsf9ak6tykMd+B7hiQN9GlutSai69eToududvlwJ239OvNFht2t9zX6frKogTDfJgOTQn/I0UjrDkTeanGaa8MOtA07sIZ6Fc/lNVsQ6+yd8DfW5CLI=
+	t=1720523976; cv=none; b=Lyyo9LrwkwsoPbFUhIi/tBMwiam8jx+vri7GaM/gDuqFULHU7yDxFVtXbviLx7TRB/SS8tLOxC6Y2sHjqvB5q/O702FN0I7zwwX7CMokeQn05KrR/MxQ/t6ICeH64vNimWRrupKY+hJDP5gABS2Fj3CjV1OSgqafi291fIBe36A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720523970; c=relaxed/simple;
-	bh=BItnevYQftOCRFmTco7LyFoPZ4oUphW+9VYSudo+9NU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cDi71xKTfCwqECuzUpv1QzZYKqbfPaOqOzjm4//ULcev3Wz9t02ltdHk7FJjlCot1eg5JXamsP2JRhXnVloLvjaytXEPWgZMkD+ymkkrOzwAetVvgs8yrCRmVO7cHPsDFPay59rpCk4Afjrq9GhK0ij/8ncnnimqGF5OE6btuas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AsKztbHE; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1720523976; c=relaxed/simple;
+	bh=c6/xDqIBUH9kZJ3dSSFqPpC8zcL9m+9ITWVHyL9+N9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BaKwQQrKlq8zYdhJZsEomMOBvgpsvF7L2P9FdYP7ywCAiKQ2fPmiPoexE6ybBnBHyHiDPfgD1+jOit12rf0GW2CGI8d+Hb7wFF0TCB2/3ff5PxEmd5oL46FSJ3ExaJHisI6LEFq09Sr4cXPHZQwVjKWemfIFzL6vsbhWhk7Q+zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BUljBhmw; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AsKztbHE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BUljBhmw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720523967;
+	s=mimecast20190719; t=1720523973;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qwbHLNXPzAR/N/8uXrZSRmFQ5c/uLTMXj08MAhKvTTE=;
-	b=AsKztbHEKoLn0J3GYHUncxFaFy3gVR3kIaTIetzSQCElMA94IIgPUTh+tYUrA4Z+yhmU1F
-	CKOpDyk+PBUW11NWx+SyfBwIvBzjZUVZbu/UNnG4N4+t2x2PbHxtEnXY3+mVZ7Uo5jJbME
-	cjYVk0VlWrxWm6od/h4rnvIcUe5FOxs=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i9cY1BbeC8V5UfvyXbcs6HntSp+BaCe1he0FDoMTU60=;
+	b=BUljBhmwm8qa7IQuWBqfD3mvCUJL+IkfUINJ0i6bd2HLHFPhggKvtffHLys6C6yMBtxp1e
+	BYvY38KIDYLySpf0GIZOhZCLo33NBbcxYJS790qc/u4CJ6jSHoxx+U+SyUTNNKvBL94SJD
+	bRlx1Fijf7KHxAE92tmguU021HVNvoI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-67-YL7LuBAtPfOlw2P_ve3A-Q-1; Tue, 09 Jul 2024 07:19:25 -0400
-X-MC-Unique: YL7LuBAtPfOlw2P_ve3A-Q-1
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2ee94b0e2e1so45863421fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2024 04:19:25 -0700 (PDT)
+ us-mta-207-dst0vMx7PCiGSLG9Z8YAwA-1; Tue, 09 Jul 2024 07:19:31 -0400
+X-MC-Unique: dst0vMx7PCiGSLG9Z8YAwA-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-42674318a4eso5406205e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2024 04:19:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720523964; x=1721128764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qwbHLNXPzAR/N/8uXrZSRmFQ5c/uLTMXj08MAhKvTTE=;
-        b=Yla2zS9mxMAfVgawr2ggbeVdhiKphISi0GiLY7JT6hm54WX3obY/sC+YlwMWCrVRL1
-         +w3WU/FhKIvb5d5rHRbxm7t/bQqV5YY2HsklBysH0c/aWQcZWKK1DX0Fkxt4y4g+YbhW
-         8NArXpiTrYlK8Z3TMNtKk1cBSzt4Z6whpaoKoCUsGZ7LXr+I7DD/J11Ff4eMl+a+sOp8
-         akFd9JWu2Gq1Qecf4VgvlMQ4diOU13+j5Qh6WE6csckq8IuSup69zg5JHU2ApXFx2g6L
-         UA44G6vEz2hFnxAzoyFXDaNmd+HY8TqmahUrQNb/VDdkBGZkHTmrv9sWAsvFHJxT44CH
-         k3bw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzZ9c01udloiVdrBInMw0n87ev02dElTuW0KVcvPZYOt5K+B/ze9hWwJLW9t5/7cUbkQvnvKKL00/ryBOS3a01d8Ewq2MiteSd
-X-Gm-Message-State: AOJu0Yw6/hIeewgeuRa3v4Y9+qSb8I6DXWwHGOaxHGMTFHBJaTaJDMLN
-	CijW8TixDEj4MQnI4V82htIuks0FnzCvFPWjIeMdMIrHPbxgu541z1q/9mThof8Q1AAJuGciLmW
-	unSD5+TAsgaNt7M/SVJ4dYQXKuUiTs+VBXLHfbNu+9ilAMLaxHSbIN5RmWQ==
-X-Received: by 2002:a2e:9f03:0:b0:2ee:4ccf:ca4f with SMTP id 38308e7fff4ca-2eeb3101de6mr16104941fa.31.1720523964486;
-        Tue, 09 Jul 2024 04:19:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFGxEpvT2wnJU72VkvZj7q8tuPCVpDDqG6kBc7TA4IZyQG8gcuy+uWDWNgH2hnWmFNmVBcCQ==
-X-Received: by 2002:a2e:9f03:0:b0:2ee:4ccf:ca4f with SMTP id 38308e7fff4ca-2eeb3101de6mr16104291fa.31.1720523962911;
-        Tue, 09 Jul 2024 04:19:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720523971; x=1721128771;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i9cY1BbeC8V5UfvyXbcs6HntSp+BaCe1he0FDoMTU60=;
+        b=uJDuXOifOio6ny5sPXIU6j9uz6cFFMm313MvHI4RnpCZ3ufqMk67D86TOVX+BTlvKD
+         1OdrTUGC2mjhYHtC3KONsN/Zv4loWj1E/V5bQa44IhTDCjJzueVNv0ZgPP22mEZX8Fb5
+         7g3oFuZAf3yDifHfrFe1008g9lJOrvFNVoX310PLNbpxBAHiZz6E+4YfANKh8Wyvwpvz
+         OLVeQuZOfcvLUJAt64ofHK9G7gqvWoq4oICWDUsDnRc0Fz+kDSsEc8mzIlg2OM+wzlgd
+         g3HaDtRIbLSOgHsbsxdrmr/Cj2w7AzkLNuUz3hn+ANnDnySgUBhPGgAOVgY6mbhFMZCa
+         6kjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVB2qzV3cBWPGzmdcnVTt+oz59Xe2cxRviqj+wRjBU99HXFMbp7LggF5vngbhrJC0/AHBvzw07iVQM7cw2xcJyxKgsPh9jCEzWp
+X-Gm-Message-State: AOJu0YwdLaEhh+WKsZXTZdMep80xwr51L4Tan5/apQ81l8Ls3lX8a1EQ
+	ZGqilHtkjb67lHf/DH1qJtaa4uQK+hTloqmSiJnn3Rin/vwux17q7TfErL3VeKVq8LNwL3yaKcN
+	KfIvHblzf1jHfNHFMn+r5RNZtY8LXq87KLOYsqZCgUnK810YgfLgZi33N7Q==
+X-Received: by 2002:a05:600c:4aa9:b0:426:5b44:2be7 with SMTP id 5b1f17b1804b1-426707cea49mr20582995e9.10.1720523970699;
+        Tue, 09 Jul 2024 04:19:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGrv6eA6i9gD88/LrJNrSNZthLrsY3bNl7E4tsBwJPh0TpR+xUYGQAK1zetmlYXCP/zrmOVNQ==
+X-Received: by 2002:a05:600c:4aa9:b0:426:5b44:2be7 with SMTP id 5b1f17b1804b1-426707cea49mr20582835e9.10.1720523970311;
+        Tue, 09 Jul 2024 04:19:30 -0700 (PDT)
 Received: from localhost (p200300cfd74b1c2b6d9a10b1cecd2745.dip0.t-ipconnect.de. [2003:cf:d74b:1c2b:6d9a:10b1:cecd:2745])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfa078fsm2244778f8f.71.2024.07.09.04.19.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab106sm2254684f8f.103.2024.07.09.04.19.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 04:19:21 -0700 (PDT)
+        Tue, 09 Jul 2024 04:19:27 -0700 (PDT)
 From: Hanna Czenczek <hreitz@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -68,10 +70,12 @@ Cc: Hanna Czenczek <hreitz@redhat.com>,
 	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Vivek Goyal <vgoyal@redhat.com>
-Subject: [PATCH 0/2] virtio-fs: Add 'file' mount option
-Date: Tue,  9 Jul 2024 13:19:16 +0200
-Message-ID: <20240709111918.31233-1-hreitz@redhat.com>
+Subject: [PATCH 1/2] virtio-fs: Add 'file' mount option
+Date: Tue,  9 Jul 2024 13:19:17 +0200
+Message-ID: <20240709111918.31233-2-hreitz@redhat.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240709111918.31233-1-hreitz@redhat.com>
+References: <20240709111918.31233-1-hreitz@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,32 +84,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+This new option allows mounting filesystems whose root node is a regular
+file instead of a directory.
 
-We want to be able to mount filesystems that just consist of one regular
-file via virtio-fs, i.e. no root directory, just a file as the root
-node.
+FUSE itself has the more generic 'rootmode' option, which theoretically
+allows mounting filesystems with an even greater variety of root node
+modes.  There are two reasons why we do not let virtio-fs provide that
+same option:
 
-While that is possible via FUSE itself (through the 'rootmode' mount
-option, which is automatically set by the fusermount help program to
-match the mount point's inode mode), there is no virtio-fs option yet
-that would allow changing the rootmode from S_IFDIR to S_IFREG.
+First, with FUSE, this option is supposed to be set automatically by
+e.g. the fusermount helper program to match the root node's mode, no
+user involvement necessary.  It is easy for fusermount to stat() the
+mount point (whose mode must match the filesystem's root node mode) and
+fill the 'rootmode' option appropriately.  In the case of virtio-fs,
+however, mounting is often done manually by the user, there is no helper
+program; and I as a user find the simple '-o file' preferable over the
+more cryptic '-o rootmode=0100000'.
 
-To do that, this series introduces a new 'file' mount option that does
-precisely that.  Alternatively, we could provide the same 'rootmode'
-option that FUSE has, but as laid out in patch 1's commit description,
-that option is a bit cumbersome for virtio-fs (in a way that it is not
-for FUSE), and its usefulness as a more general option is limited.
+Second, inode modes other than S_IFDIR and S_IFREG have limited use with
+virtio-fs anyway:
+- Device files are host-specific, so passing them via virtio-fs from
+  host to guest (or between different guests) seems rarely useful,
+- FIFOs and Unix domain sockets currently do not allow communication
+  between guest and host (or between different guests), which is really
+  the only reason why they would be used as virtio-fs filesystem root
+  nodes,
+- and symlinks in general do not make much sense as filesystem root
+  nodes.
 
+The more generic 'rootmode' option is therefore not very useful for
+virtio-fs, while being harder to use.
 
-Hanna Czenczek (2):
-  virtio-fs: Add 'file' mount option
-  virtio-fs: Document 'file' mount option
+Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+---
+ fs/fuse/virtio_fs.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- fs/fuse/virtio_fs.c                    | 9 ++++++++-
- Documentation/filesystems/virtiofs.rst | 5 ++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
-
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 1a52a51b6b07..ba1a6ac31000 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -107,11 +107,13 @@ static const struct constant_table dax_param_enums[] = {
+ enum {
+ 	OPT_DAX,
+ 	OPT_DAX_ENUM,
++	OPT_FILE,
+ };
+ 
+ static const struct fs_parameter_spec virtio_fs_parameters[] = {
+ 	fsparam_flag("dax", OPT_DAX),
+ 	fsparam_enum("dax", OPT_DAX_ENUM, dax_param_enums),
++	fsparam_flag("file", OPT_FILE),
+ 	{}
+ };
+ 
+@@ -133,6 +135,10 @@ static int virtio_fs_parse_param(struct fs_context *fsc,
+ 	case OPT_DAX_ENUM:
+ 		ctx->dax_mode = result.uint_32;
+ 		break;
++	case OPT_FILE:
++		ctx->rootmode = S_IFREG;
++		ctx->rootmode_present = true;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -1401,7 +1407,8 @@ static const struct fuse_iqueue_ops virtio_fs_fiq_ops = {
+ 
+ static inline void virtio_fs_ctx_set_defaults(struct fuse_fs_context *ctx)
+ {
+-	ctx->rootmode = S_IFDIR;
++	if (!ctx->rootmode_present)
++		ctx->rootmode = S_IFDIR;
+ 	ctx->default_permissions = 1;
+ 	ctx->allow_other = 1;
+ 	ctx->max_read = UINT_MAX;
 -- 
 2.45.1
 
