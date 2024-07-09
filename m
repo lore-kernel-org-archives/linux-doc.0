@@ -1,115 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF08158875
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 11:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5784814884D;
+	Tue,  9 Jul 2024 12:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720523983; cv=none; b=dpua+R2Ol94i8MeIwxrb+l5ZFwbdr8zXVV+8fk2ZkMhLk2JO78xdlVbwKc4RFcR0EoqsPPsCdz5bpKEahRi6aRMOy+6LgpLaiHZjqVoUjF+RzyNDDVmwz7KwIfDZYXxz/53icPQjDDnM3dYll2J8KE1x5iJTYEGZhNXdJSTWUMs=
+	t=1720529258; cv=none; b=t+sKkxoQ3HfBhoPCk3HqI3HLPfRdnS+8K2DDOksZqfA4sjv37iMXzsIqPeJ4O1igl57xCqTbyqmlqvSsQTcfQWkcE5p3JBs6mVGC9dbCGv9thPhKtughmkmFm3H8d+WmAxP7C4+mkPHa/PiILqbDPl+Hdj3pYJZudRFy7kjrWM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720523983; c=relaxed/simple;
-	bh=Xjz3MTVYq/NAB3daYzBwLF+8t3T7ssr4yfGhYIRspPk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SIREjzUobiakQRljaK3c4cRkFXMfSkiN0o26GLaZ9/t13s525m985rDpHF52fWCMGU9HGm1XIA/l2BXwp7ofVQUmeN3ndPrixWZ8+W78j30vIkr4yqy+v65IAj8zOH7XQuuLlHBy7Sm2OikPRNknoiOSG79pjyMCvjzhpnpnujo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RIoi1ErR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RIoi1ErR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720523981;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YN0cRtZ4yjTFsrRdrBTPFQCjU2aNbe9nzOGwlrFJ09U=;
-	b=RIoi1ErRETfh6dpZ6yUo1icvgk5JYEVBa1p1k4Vc2JgArS1RoVefFshq11UnyPDqA8nlcj
-	SsAxcJRIRKquLEkiIc6hTfv3cFP/fxC7ketBBsp4+rjOh+rETJ8CSPG+yR1UzNN6/aedJE
-	IIyE9roqFS14wtncNbiMgN7s6WDY4mE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-jq8rk6vIMl2o6rsnwPPPMA-1; Tue, 09 Jul 2024 07:19:39 -0400
-X-MC-Unique: jq8rk6vIMl2o6rsnwPPPMA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-36796a0687bso3815099f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2024 04:19:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720523978; x=1721128778;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YN0cRtZ4yjTFsrRdrBTPFQCjU2aNbe9nzOGwlrFJ09U=;
-        b=uikNKSJ+wbsLZUUPDIwci8H659oYoqLLiHjBNZH0oWbXe1gsjvxutWUnAtJYa0h+Y9
-         FPRHkkRnZY5zePwULOOJUoWLDKT19CtFUskwoYfg/dC8U4hsgOknFAlkb4MwEOpPdw84
-         stoGS3i385iyNLybPbZdPpDyyYQshperfqJU0/1m7koN9gB++uoS73lIyPARUtcEWKx/
-         TA1p4z4bIWJqvTzB1gMXYICUxntSgLLwR2nRVJdx0VJ0Fo/6RnAYsF7L5VMvbun3O/bm
-         DiJ9k8PUFoIipNnMlPs6owHRtY+NUsJRAiqQjJMnXJB9kJB/C4wdnBCzd/TMY4dL2N9O
-         bkWg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFhn1Mc9S3y+gAVplA6c8AJSas2qCGowsX6S9mbqgVqO4QWc/9pw+fKTQwD07MaCRBDjgqU1PbfHRfMSnQJiwjmC6E1BsWI4Vc
-X-Gm-Message-State: AOJu0YyJGG1Zo303MOnzbuc8P7WFZTGYl0QxmhTOgWV/y7tbVKOx/pI7
-	Mqkm9cFW3OSt7d2oKu6qrxBboudSHNpsNLUa+m2qZgQwueZDC/41fsWsdTY2T/BRarrvD5WFWmC
-	x1p6xyG9DheEnJlMmf3gzajVAyP8Xo+sitMUQjgZ/Uld0GTiBQh4yYV216g==
-X-Received: by 2002:adf:f20b:0:b0:366:ecd1:2f38 with SMTP id ffacd0b85a97d-367cea45cb1mr1566734f8f.7.1720523978450;
-        Tue, 09 Jul 2024 04:19:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFoGPU/A2758fnfW+6Bj1ZJdPWuqnkDg1NjoVhU3Nny/eh6gvsNgugn821lvXZApx4Cx1TO8g==
-X-Received: by 2002:adf:f20b:0:b0:366:ecd1:2f38 with SMTP id ffacd0b85a97d-367cea45cb1mr1566715f8f.7.1720523977994;
-        Tue, 09 Jul 2024 04:19:37 -0700 (PDT)
-Received: from localhost (p200300cfd74b1c2b6d9a10b1cecd2745.dip0.t-ipconnect.de. [2003:cf:d74b:1c2b:6d9a:10b1:cecd:2745])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde7e08asm2270192f8f.11.2024.07.09.04.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 04:19:31 -0700 (PDT)
-From: Hanna Czenczek <hreitz@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: Hanna Czenczek <hreitz@redhat.com>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	German Maglione <gmaglione@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vivek Goyal <vgoyal@redhat.com>
-Subject: [PATCH 2/2] virtio-fs: Document 'file' mount option
-Date: Tue,  9 Jul 2024 13:19:18 +0200
-Message-ID: <20240709111918.31233-3-hreitz@redhat.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240709111918.31233-1-hreitz@redhat.com>
-References: <20240709111918.31233-1-hreitz@redhat.com>
+	s=arc-20240116; t=1720529258; c=relaxed/simple;
+	bh=jeafSfU6kSGM0NFXPJKjaC+qtsmI/lzr3VOIOahaqgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TCIroOC/ImMgzkDBIb2bpVr+ySlBwbtlo0mqZM+f+jDgTefd1+i2BwBj9K6GjbNMU0RE2cOthzcuwUAYz2KOeB/r02wMC+682RVPiRI7DeFWVKEJt92GGyz9zG/GBifwaG9CfhnfR8G7yKzJlvkMw9rHYsN/vkY9dwPBARihClc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WJLNS60Stzcn9S;
+	Tue,  9 Jul 2024 20:47:04 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
+	by mail.maildlp.com (Postfix) with ESMTPS id ECB7D180064;
+	Tue,  9 Jul 2024 20:47:30 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 9 Jul 2024 20:47:30 +0800
+Message-ID: <a78f241f-9601-1033-0013-b9aa83bdeb9c@huawei.com>
+Date: Tue, 9 Jul 2024 20:47:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH -next] mm/hugetlb_cgroup: introduce peak and rsvd.peak to
+ v2
+Content-Language: en-US
+To: Michal Hocko <mhocko@suse.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, <tj@kernel.org>,
+	<lizefan.x@bytedance.com>, <hannes@cmpxchg.org>, <corbet@lwn.net>,
+	<cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, Sidhartha Kumar
+	<sidhartha.kumar@oracle.com>, Miaohe Lin <linmiaohe@huawei.com>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>
+References: <20240702125728.2743143-1-xiujianfeng@huawei.com>
+ <20240702185851.e85a742f3391857781368f6c@linux-foundation.org>
+ <6843023e-3e80-0c1c-6aab-b386ffebd668@huawei.com>
+ <20240703133804.1d8ddf90f738a7d546399b3b@linux-foundation.org>
+ <ZovgDfGFJdc6lVN3@tiehlicka>
+ <5ce7be39-ac42-98c9-65fc-589385b8f65b@huawei.com>
+ <ZowN8FvmdiEGr_rC@tiehlicka>
+From: xiujianfeng <xiujianfeng@huawei.com>
+In-Reply-To: <ZowN8FvmdiEGr_rC@tiehlicka>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
 
-Add the new mount option to the virtio-fs documentation.
 
-While at it, remove the note that virtio-fs would support FUSE mount
-options, because it does not.
 
-Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
----
- Documentation/filesystems/virtiofs.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On 2024/7/9 0:04, Michal Hocko wrote:
+> On Mon 08-07-24 21:40:39, xiujianfeng wrote:
+>>
+>>
+>> On 2024/7/8 20:48, Michal Hocko wrote:
+>>> On Wed 03-07-24 13:38:04, Andrew Morton wrote:
+>>>> On Wed, 3 Jul 2024 10:45:56 +0800 xiujianfeng <xiujianfeng@huawei.com> wrote:
+>>>>
+>>>>>
+>>>>>
+>>>>> On 2024/7/3 9:58, Andrew Morton wrote:
+>>>>>> On Tue, 2 Jul 2024 12:57:28 +0000 Xiu Jianfeng <xiujianfeng@huawei.com> wrote:
+>>>>>>
+>>>>>>> Introduce peak and rsvd.peak to v2 to show the historical maximum
+>>>>>>> usage of resources, as in some scenarios it is necessary to configure
+>>>>>>> the value of max/rsvd.max based on the peak usage of resources.
+>>>>>>
+>>>>>> "in some scenarios it is necessary" is not a strong statement.  It
+>>>>>> would be helpful to fully describe these scenarios so that others can
+>>>>>> better understand the value of this change.
+>>>>>>
+>>>>>
+>>>>> Hi Andrew,
+>>>>>
+>>>>> Is the following description acceptable for you?
+>>>>>
+>>>>>
+>>>>> Since HugeTLB doesn't support page reclaim, enforcing the limit at
+>>>>> page fault time implies that, the application will get SIGBUS signal
+>>>>> if it tries to fault in HugeTLB pages beyond its limit. Therefore the
+>>>>> application needs to know exactly how many HugeTLB pages it uses before
+>>>>> hand, and the sysadmin needs to make sure that there are enough
+>>>>> available on the machine for all the users to avoid processes getting
+>>>>> SIGBUS.
+>>>
+>>> yes, this is pretty much a definition of hugetlb.
+>>>
+>>>>> When running some open-source software, it may not be possible to know
+>>>>> the exact amount of hugetlb it consumes, so cannot correctly configure
+>>>>> the max value. If there is a peak metric, we can run the open-source
+>>>>> software first and then configure the max based on the peak value.
+>>>
+>>> I would push back on this. Hugetlb workloads pretty much require to know
+>>> the number of hugetlb pages ahead of time. Because you need to
+>>> preallocate them for the global hugetlb pool. What I am really missing
+>>> in the above justification is an explanation of how come you know how to
+>>> configure the global pool but you do not know that for a particular
+>>> cgroup. How exactly do you configure the global pool then?
+>>
+>> Yes, in this scenario, it's indeed challenging to determine the
+>> appropriate size for the global pool. Therefore, a feasible approach is
+>> to initially configure a larger value. Once the software is running
+>> within the container successfully, the maximum value for the container
+>> and the size of the system's global pool can be determined based on the
+>> peak value, otherwise, increase the size of the global pool and try
+>> again. so I believe the peak metric is useful for this scenario.
+> 
+> This sounds really backwards to me. Not that I care much about peak
+> value itself. It is not really anything disruptive to add nor maintain
+> but this approach to configuring the system just feels completely wrong.
+> You shouldn't be really using hugetlb cgroup controller if you do not
+> have a very specific idea about expected and therefore allowed hugetlb
+> pool consumption.
+> 
 
-diff --git a/Documentation/filesystems/virtiofs.rst b/Documentation/filesystems/virtiofs.rst
-index fd4d2484e949..201ac9ee13c5 100644
---- a/Documentation/filesystems/virtiofs.rst
-+++ b/Documentation/filesystems/virtiofs.rst
-@@ -43,7 +43,10 @@ Mount options
- -------------
- 
- virtiofs supports general VFS mount options, for example, remount,
--ro, rw, context, etc. It also supports FUSE mount options.
-+ro, rw, context, etc.
-+
-+The ``file`` mount option allows mounting a filesystem whose root node is not a
-+directory but a regular file.
- 
- atime behavior
- ^^^^^^^^^^^^^^
--- 
-2.45.1
+Thanks for sharing your thoughts.
 
+Since the peak metric exists in the legacy hugetlb controller, do you
+have any idea what scenario it's used for? I found it was introduced by
+commit abb8206cb077 ("hugetlb/cgroup: add hugetlb cgroup control
+files"), however there is no any description about the scenario.
