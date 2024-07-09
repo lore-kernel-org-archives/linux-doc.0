@@ -1,78 +1,83 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695F3364AB;
-	Tue,  9 Jul 2024 15:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020A419CCED;
+	Tue,  9 Jul 2024 15:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720537708; cv=none; b=bsD/efpMFQ1DRk7HmRT3YgDH6FmxKK9Cd1CCmDJE5kn0syGMkB+BTF7ukA6GcEAR4sh7P3HiyHP9I2/eovrmxQDtPmEOPNnSfr4DS9W7hPc62IRrQZ1I9gM0/d9a/dQ7Yg+WCQK6iBIv/LVB7K6iiRosm9hFxZZWT5WuMnj9AEA=
+	t=1720537827; cv=none; b=nAL5FcCtPI4+AeLpwSHdCHk5A1PIrdP0XDzMa/xnH/+9CGiC2ktwv/GK8s8VDvDJoeiXNJGNV6eDeKb1HF4xAe+3s7b5uNzi6Vv37yLBOYQgAgbkD3sZ6Hl+5xjn+lWz/1MSOfNnB6yxEjGVtWS+Taqua2XIyD0s2axtu32jes0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720537708; c=relaxed/simple;
-	bh=Ar9lAiUCjYvL61z7OCjl3X6GHb52GEYA7SN0yPdX5Vk=;
+	s=arc-20240116; t=1720537827; c=relaxed/simple;
+	bh=bexX9PeTKg244ul9jCnM1y4ygq1g4p/lXHMFhQ58Kyc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O4YEDKCxD7vbzip1uj6DpwwT6UVWEpNcQ2ie4eXYP6FpndJli4NvDFQbJYKsecUUKae5GNlVZXYqyIRXfdt+Usdm9nq+PAsuJhWW4qwz+51By/pQimbDBLE8fbjGV11QH3kQOy6JwD/V2c5RF9hlvrwYHHBaalkgP1yRzRx2cCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dlNdrblm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Pm/sOkN88JcNkQruh7DnszvjznHOqcgbIugbJ9rhRGURUu37e7jJF2SfwZxQ8qrRPRTNkQoV3VfGhgPiCPE1ffkDxGkkC9JOTk2y3xEpiH354Pt1tObKucwDpkPqpBf2mJdPluHEPp/6p4qyqnFlme9/J6eoO1s9Sn1+2AQUfJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MoJF/HEC; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dlNdrblm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 846ED41A36
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MoJF/HEC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3363F41A36
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720537706; bh=Ar9lAiUCjYvL61z7OCjl3X6GHb52GEYA7SN0yPdX5Vk=;
+	t=1720537825; bh=6Jn3oeMGCWhaaCzq7lNvNUsv84+X5NCreXdp/K5oSy8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=dlNdrblmyPxOeknj1lmNfNWjfKpvHr1188AUc2hk4pUYNhz7N1wFS/RPUzx+m8erx
-	 tTPeOtLYvYzaiwhYGmvAqlxD/2Y2fTIf9+feENFdFG+6oeweO6eYLI5RuyvLjc3uNW
-	 m9ZSY3ZYX2xM4zGD5HAisrVJqDw1aso6ANmn4wjSh5jSADSF+PffIe+rmXtdzSccgE
-	 ahK9SlBmVjuh+KpCAbhW8VcT9l4OjGpc0JJVoapT3RL3iGltWwkGvAg+RF+3TWCqq3
-	 xDgJMKo6s/QKL2JS8RMeTeUk6uqRjkDIlnqI1a9DSsu+BHir1BbVrp5pXToR6XdPMe
-	 3pF63qEGY9isA==
+	b=MoJF/HEC6yGUDX4wYbrSIF6UzPcRTyGfCi/rHeauo5hEIz4noiGM4ouu5GZUms7c9
+	 eah7Lhc2aA+df4Oe3Wa6C3PxQOje/bp8kcumTpxewBd+Q4Lc/LdaLzUfXfGZVWPVqY
+	 r+yiiWQpzcAWqiBFAhhEptrkLODqu66zNS/imzuyKp9niutjrhwCYAgT1J4RYC8ILy
+	 mxx1mxtaIkthiMGVjiPM2fTErNi1dSXTbSSw1LXN8CnjZWwfwqoOa/+otNyRJcR4ug
+	 ke6lTo2/HQur6CtK4AZQ0LBuxn7iQrPHF/oPx6UHJKYzynHTJCaF4cjqnS0VRUI34L
+	 26ZMCLdUagp6w==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 846ED41A36;
-	Tue,  9 Jul 2024 15:08:26 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3363F41A36;
+	Tue,  9 Jul 2024 15:10:25 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Tao Zou <wodemia@linux.alibaba.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>
-Cc: Tao Zou <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] zh_CN/admin-guide: one typo fix
-In-Reply-To: <20240705022842.51451-1-wodemia@linux.alibaba.com>
-References: <20240705022842.51451-1-wodemia@linux.alibaba.com>
-Date: Tue, 09 Jul 2024 09:08:25 -0600
-Message-ID: <87cynm8uxi.fsf@trenco.lwn.net>
+To: Richard Genoud <richard.genoud@bootlin.com>, Bin Liu <b-liu@ti.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Richard Genoud
+ <richard.genoud@bootlin.com>
+Subject: Re: [PATCH] writing_musb_glue_layer.rst: USB Configuration Wiki
+ Page is down
+In-Reply-To: <20240618151938.1827064-1-richard.genoud@bootlin.com>
+References: <20240618151938.1827064-1-richard.genoud@bootlin.com>
+Date: Tue, 09 Jul 2024 09:10:24 -0600
+Message-ID: <878qya8uu7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 
-VGFvIFpvdSA8d29kZW1pYUBsaW51eC5hbGliYWJhLmNvbT4gd3JpdGVzOg0KDQo+IEZpeCBvbmUg
-Y2hpbmVzZSB0eXBvIGVycm9yLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBUYW8gWm91IDx3b2RlbWlh
-QGxpbnV4LmFsaWJhYmEuY29tPg0KPiAtLS0NCj4gVGhlIHByZXZpb3VzIHRyYW5zbGF0aW9uIHBh
-dGNoIHY0IGhhcyBhbHJlYWR5IGJlZW4gYXBwaWVkLCBhbmQgdGhlIGNoYW5nZXMgZnJvbSB2NCB0
-byB2NSB3ZXJlIG1pc3NlZC4NCj4gVGhpcyBwYXRjaCBpcyBvbmUgdHlwb2ZpeCwgYW5kIGluY2x1
-ZGVzIHRoZSBjaGFuZ2VzIGZyb20gdjQgdG8gdjUuDQo+ICANCj4gIERvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL251bWFzdGF0LnJzdCB8IDIgKy0NCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPg0KPiBkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUvbnVtYXN0YXQu
-cnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUvbnVtYXN0
-YXQucnN0DQo+IGluZGV4IGMwZjU0ZDlhNmIwNS4uNGQ5ODE3YjkxODcwIDEwMDY0NA0KPiAtLS0g
-YS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9udW1hc3RhdC5y
-c3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUv
-bnVtYXN0YXQucnN0DQo+IEBAIC0xMyw3ICsxMyw3IEBAIE51bWHnrZbnlaXlkb3kuK0v5pyq5ZG9
-5Lit57uf6K6hDQo+ICANCj4gIOaJgOacieaVsOaNrueahOWNleS9jemDveaYr+mhtemdouOAguW3
-qOmhteacieeLrOeri+eahOiuoeaVsOWZqOOAgg0KPiAgDQo+IC1udW1hX2hpdOOAgW51bWFfbWlz
-c+WSjG51bWFfZm9yZWlnbuiuoeaVsOWZqOWPjeW6lOS6hui/m+eoi+aYr+WQpuiDveWkn+WcqOS7
-luS7rOWBj+WlveeahOiKgueCueS4iuWIhumFjeWGheWtmOOAgg0KPiArbnVtYV9oaXTjgIFudW1h
-X21pc3PlkoxudW1hX2ZvcmVpZ27orqHmlbDlmajlj43mmKDkuobov5vnqIvmmK/lkKbog73lpJ/l
-nKjku5bku6zlgY/lpb3nmoToioLngrnkuIrliIbphY3lhoXlrZjjgIINCj4gIOWmguaenOi/m+eo
-i+aIkOWKn+WcqOWBj+WlveeahOiKgueCueS4iuWIhumFjeWGheWtmOWImeWcqOWBj+WlveeahOiK
-gueCueS4iuWinuWKoG51bWFfaGl06K6h5pWw77yM5ZCm5YiZ5Zyo5YGP5aW955qE6IqC54K55LiK
-5aKeDQo+ICDliqBudW1hX2ZvcmVpZ27orqHmlbDlkIzml7blnKjlrp7pmYXlhoXlrZjliIbphY3n
-moToioLngrnkuIrlop7liqBudW1hX21pc3PorqHmlbDjgIINCg0KQXBwbGllZCwgdGhhbmtzLg0K
-DQpqb24NCg==
+Richard Genoud <richard.genoud@bootlin.com> writes:
+
+> The http://processors.wiki.ti.com EOL in january 2021
+>
+> The old documentation is still available through the wayback machine.
+>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> ---
+>
+> I didn't find the new web site, that's why I fall back on the wayback
+> machine.
+> Bin Liu, if you know a better alternative, feel free to nak this patch
+> and send it.
+>
+>  Documentation/driver-api/usb/writing_musb_glue_layer.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/usb/writing_musb_glue_layer.rst b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
+> index 10416cc11cd5..e755c8551bba 100644
+> --- a/Documentation/driver-api/usb/writing_musb_glue_layer.rst
+> +++ b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
+> @@ -717,4 +717,4 @@ https://www.maximintegrated.com/app-notes/index.mvp/id/1822
+>  :ref:`Writing USB Device Drivers <writing-usb-driver>`
+>  
+>  Texas Instruments USB Configuration Wiki Page:
+> -http://processors.wiki.ti.com/index.php/Usbgeneralpage
+> +https://web.archive.org/web/20201215135015/http://processors.wiki.ti.com/index.php/Usbgeneralpage
+
+I've applied this, thanks.
+
+jon
