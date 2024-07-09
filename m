@@ -1,143 +1,631 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B9E1B86CC
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 17:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4071B86ED
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 17:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720547074; cv=none; b=an5719IZJKNxfNzxWhHh5+9Qad7Z6rRr8KbJwTYBuUBzh0v+UXneGOMX0qbDfzJsxkE36GIF9NrmDvLBrgILnoZFE6UXp2/8kqimU3nxh2v8xagKARKKkCUGNtIprlKT1gt5XD9/+Unr/K+FYJnz8qjkJ8PNnWxTELvPQMiWRB4=
+	t=1720547379; cv=none; b=HnKDE1Lw29PtHXD2GqkVJ8mKRo2xEb+Gx0E2neJT3uriH49GtdRy3l0NWBvBE3XoyDk9cZPUm1Ock12IoylhgbS/HvCeSzVhFMFHFOibXYBaRXndlOpxDC24JrmwkAR5aU0uEc8g3H3GeN3ck3/+5LqGaoaC9bRcL2jLwx+2oxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720547074; c=relaxed/simple;
-	bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CnwOrvgQqLbbxYsdzIrTra5HiDvW0vXxej22c4P+o/5zE2ku+TyceuoS7ErCeB1WZNQgtaHt7mH88EFTqrAEKbxyHld0+iHdCVicBweqBvTYSVabaePTW9n87zB2fgwK/gLQO3FAjNsPtXfp/ypRx34QJNaNn8slvbfGKbTQJYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ewCWYayD; arc=none smtp.client-ip=209.85.219.49
+	s=arc-20240116; t=1720547379; c=relaxed/simple;
+	bh=dY+lUZ8Mpz7G3y7r8O4eTqL6qKCOvVANRZDSPBHjLvY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Lk+xHtH58orGT0DpJ8ee5Rsec0tsVsdwRpLJyCIC17OQFvJuAWjwddZpHciEQMyWJmaBb2OkdWrR+xcZO/f5hCmhzUdiTbjEY4BN9I+04fG2GDBt2P14XQ5/nyVAe5HE0HiKiHlWC5uIb51HINzSVev63LMyPRz9c6O0sjDMcjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LQcVGKeb; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ewCWYayD"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6b5f2ac0fb9so23990556d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2024 10:44:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LQcVGKeb"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6502e4c5aafso54939207b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jul 2024 10:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720547071; x=1721151871; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
-        b=ewCWYayDHVUQdeU7eo2bk/WEAaCcmScYF5VGMzYJUNAEQIDrbdFRnBatWQWtFxwVeN
-         dbU9TtoCuHjCskHM7K6E3cikXg840iI3fIc1GdPIjyEmdqsOorJb9au7N62m6+cL1V06
-         das8EpWHOh5cWQCzX2BzZRLDb+qFqumYiZWj2rJLiIx39U5/FJoyBQ0Fsv2tMon6l9r8
-         e9tDwkMGjXGga07LvbQGEIK5lDW6EU8IX8I2ma5niR0188M3D0Y0hswlzKoW6OF0C+Jg
-         qVUOuYrfQbb5lsxNwOG1C3loL+HLND7P+o+dAPoWt9cq6+QcyHCN40Wsb8AQdRbdKnQp
-         Uztw==
+        d=google.com; s=20230601; t=1720547376; x=1721152176; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vVrOFEvDX+XM8YnlH+Wmmy/8FZGIo1WsbeGzDkgNVps=;
+        b=LQcVGKeb4FAkIGUOzeblNM/6Za6oLjARwtPqIGS+ThO9j7YvnUeBJjZwPt0VNS47Go
+         e36dkhntWAP6pcWqWLhI3HGiFZnK/4jU9oZVXDLh5OGJXlwDyVehs3mmXKACzmoWJSv+
+         iNJRlV4OX62e0qmqwvqJM5GTmGn79im2ORPfA5+Z8GDbiLyy11xoRVBYotzrriq5LLjG
+         noVJ92cAEej+SVTMJVofxqWwti7g216m8gqXHtmLurLjH3Au4uI9cr7OKjJNf5j+jwiR
+         QmM8kYJT1qtDT1foiGiI/KOr+8hKHTKBpSB51jpzT9TWU2tMLEWi9uEdrHXO/3jfUPMM
+         mChw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720547071; x=1721151871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
-        b=W9IsQ7V6wzo/tNHYGklphyASHsSEo61VXG3SkFYGI2aRCv+mVgFlrov3mpZhBMMJei
-         M304uCG/IS9E076gJ/IVg5lhDjxJLUMPVq7a0dLouVskoQMz9hM1e0pzQT3Nk3T0KsXR
-         9dGZt4T1Zm0rjXOPqrKaLT+FG0hjDUzpY/w+JjbkzAHdDP60PwZqi0iIiHXYkAJJAYAt
-         yIhDiut2GEYE1dKVKz5DAXZhi2dZIiDdPurIJ2T6+38bOn/p+W6PnyCVAf5Tjo//KnO6
-         GKQs/T1KYlpsD3dDlc5bBb2abBJs9jTOKa1ECNYz+MyI5+IdlnKra2ViTs4Itx3u2YHz
-         iLzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnWYtBC0ZTH/pWlGI/E5bOzvYG6penneX7DPnPa9YT/5wBEK0ksFbgNvFUhZnF1FXKMiKwtKXq2syD9x5qwiY2kbv69PV6S1Ky
-X-Gm-Message-State: AOJu0YzeKWuiw7LupxHPfVbGoTtvAJmEVqUFC+FX1GdmAo2LIOHCwCey
-	XShXF3I+xQWmyza0ltYAxfTYviOUcFqMq0eGTD2xnS3vsEIb5/bX84M8EVHzeCMc0Imf8MSiOe3
-	wCZnMxUfWbEdVe7Q/IFJ5Kj8fJ8MLnMeEdREq
-X-Google-Smtp-Source: AGHT+IH16U57va8G1AYAXy2voaQ3uaav9TjEwbgydjk5ADdt1gmfzeqqJI7aDLdE+wjZ6VeQ0SWzZOZUCWRm4uKL9HM=
-X-Received: by 2002:a05:6214:c23:b0:6b5:752e:a33a with SMTP id
- 6a1803df08f44-6b61c212bf8mr38578236d6.57.1720547071067; Tue, 09 Jul 2024
- 10:44:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720547376; x=1721152176;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vVrOFEvDX+XM8YnlH+Wmmy/8FZGIo1WsbeGzDkgNVps=;
+        b=PMxK1R9sb1Lgs4z1k9OoqWKHHTTKIDnMIkZqq/Dts63jzBDoUYo74B0t+6qGlNLOSo
+         msFp836+WkDK07XuBv7XLV2v3u54VDMynRygmr9VQq6icFRB9kjrr+bS/VZPgymo3xEC
+         qDF84fKlZP77XM/VEyzEv7p2fNEoQrTmFRB4L3jMYsHfF+wwxkzf9KEm/N70iZSEbbXa
+         bXha1LV1F3enj7lkdfpyVUNnEHVAtDtuFPPBYEMIVwnpGjPQygI2fUQgA5BT7k3XGZMi
+         AaS+UPao5/DSvw34RV7WVcxwuWdf85xEgF7Y5rGfJnbrG8qzvtDXaNwfPwTFM2QmMwvO
+         BJZw==
+X-Forwarded-Encrypted: i=1; AJvYcCWx9gmLlm7YQXq3iw4ZwNX6Mr+H9SVoy1kKOpeZavjIk5g8+0Vxy70UwSS8G4cfspoHy8ik9Iz12IbgRfpwfWuC/jcq4HzUS61O
+X-Gm-Message-State: AOJu0YzcWssHYWP2c6PVjIj7PS3ZDOJ+GB5/SmtnBrMDqbLmcIWK/p3B
+	XGNEPOxOSZh0m9ZJvozD0kbtyruzpsbcyqNShF43tkAetQZ/wLl3Dg7n38hdkQGYoEbyU+5HphZ
+	CMw==
+X-Google-Smtp-Source: AGHT+IFsZ6Q+oxAaPQSUV2QgR6LdQz2eaiEWblLJAUmt8IoOc2zaha2Rbw12EZbueXNK3o+GzpRzKLUZke0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:2b11:b0:644:c4d6:add0 with SMTP id
+ 00721157ae682-659177ca45amr105927b3.1.1720547375567; Tue, 09 Jul 2024
+ 10:49:35 -0700 (PDT)
+Date: Tue, 9 Jul 2024 10:49:34 -0700
+In-Reply-To: <CADrL8HUv6T4baOi=VTFV6ZA=Oyn3dEc6Hp9rXXH0imeYkwUhew@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-4-almasrymina@google.com> <CAMArcTUqqxam+BPwGExOFOLVi3t=dwA-5sSagKC5dndv07GDLQ@mail.gmail.com>
- <CAHS8izNS5jZjPfc-sARbHV7mzqzH+UhHfAtCTKRRTfSAdhY4Cw@mail.gmail.com> <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-In-Reply-To: <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 9 Jul 2024 10:44:16 -0700
-Message-ID: <CAHS8izNgaqC--GGE2xd85QB=utUnOHmioCsDd1TNxJWKemaD_g@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to netdevice
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
+ <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
+ <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
+ <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
+ <ZnCCZ5gQnA3zMQtv@google.com> <CADrL8HW=kCLoWBwoiSOCd8WHFvBdWaguZ2ureo4eFy9D67+owg@mail.gmail.com>
+ <CADrL8HUv6T4baOi=VTFV6ZA=Oyn3dEc6Hp9rXXH0imeYkwUhew@mail.gmail.com>
+Message-ID: <Zo137P7BFSxAutL2@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 9, 2024 at 8:37=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
-e:
->
-...
-> And I found another bug.
->
-> [ 236.625141] BUG: KASAN: slab-use-after-free in
-> net_devmem_unbind_dmabuf+0x364/0x440
-...
-> Reproducer:
-> ./ncdevmem -f <interface name> -l -p 5201 -v 7 -t 0 -q 2 &
-> sleep 10
-> modprobe -rv bnxt_en
-> killall ncdevmem
->
-> I think it's a devmemTCP core bug so this issue would be reproduced
-> with other drivers.
->
+On Mon, Jul 08, 2024, James Houghton wrote:
+> On Fri, Jun 28, 2024 at 7:38=E2=80=AFPM James Houghton <jthoughton@google=
+.com> wrote:
+> >
+> > On Mon, Jun 17, 2024 at 11:37=E2=80=AFAM Sean Christopherson <seanjc@go=
+ogle.com> wrote:
+> > >
+> > > On Mon, Jun 17, 2024, James Houghton wrote:
+> > > > On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc=
+@google.com> wrote:
+> > > > > Ooh!  Actually, after fiddling a bit to see how feasible fast-agi=
+ng in the shadow
+> > > > > MMU would be, I'm pretty sure we can do straight there for nested=
+ TDP.  Or rather,
+> > > > > I suspect/hope we can get close enough for an initial merge, whic=
+h would allow
+> > > > > aging_is_fast to be a property of the mmu_notifier, i.e. would si=
+mplify things
+> > > > > because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for =
+each notification.
+> > > > >
+> > > > > Walking KVM's rmaps requires mmu_lock because adding/removing rma=
+p entries is done
+> > > > > in such a way that a lockless walk would be painfully complex.  B=
+ut if there is
+> > > > > exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] poi=
+nts directly at
+> > > > > that one SPTE.  And with nested TDP, unless L1 is doing something=
+ uncommon, e.g.
+> > > > > mapping the same page into multiple L2s, that overwhelming vast m=
+ajority of rmaps
+> > > > > have only one entry.  That's not the case for legacy shadow pagin=
+g because kernels
+> > > > > almost always map a pfn using multiple virtual addresses, e.g. Li=
+nux's direct map
+> > > > > along with any userspace mappings.
+> >
+> > Hi Sean, sorry for taking so long to get back to you.
+> >
+> > So just to make sure I have this right: if L1 is using TDP, the gfns
+> > in L0 will usually only be mapped by a single spte. If L1 is not using
+> > TDP, then all bets are off. Is that true?
+> >
+> > If that is true, given that we don't really have control over whether
+> > or not L1 decides to use TDP, the lockless shadow MMU walk will work,
+> > but, if L1 is not using TDP, it will often return false negatives
+> > (says "old" for an actually-young gfn). So then I don't really
+> > understand conditioning the lockless shadow MMU walk on us (L0) using
+> > the TDP MMU[1]. We care about L1, right?
+>=20
+> Ok I think I understand now. If L1 is using shadow paging, L2 is
+> accessing memory the same way L1 would, so we use the TDP MMU at L0
+> for this case (if tdp_mmu_enabled). If L1 is using TDP, then we must
+> use the shadow MMU, so that's the interesting case.
 
-Thanks again for testing Taehee. I haven't looked into reproducing yet
-but the issue seems obvious from the repro and the trace. What happens
-is that when we bind an rxq we add it to bound_rxq_list, and then when
-we unbind we access the rxq in the list, without checking if it's
-still alive. With your sequence, the rxq is freed before the unbind
-happens, I think, so we hit a use-after-free.
+Yep.
+=20
+> > (Maybe you're saying that, when the TDP MMU is enabled, the only cases
+> > where the shadow MMU is used are cases where gfns are practically
+> > always mapped by a single shadow PTE. This isn't how I understood your
+> > mail, but this is what your hack-a-patch[1] makes me think.)
+>=20
+> So it appears that this interpretation is actually what you meant.
 
-The fix, I think, should be simple, we need to remember to remove the
-rxq from bound_rxq_list as it is deallocated so there is no access
-after free.
+Yep.
 
-Btw, I have all the rest of the feedback addressed (including netlink
-introspection) and I was in the process of rebasing and build-testing
-a new version, to try to get in before net-next closes if at all
-possible. I don't think I'll be able to fix this particular issue in
-time, but I should be able to submit a fix targeting the net tree
-during the merged window, if that's OK. If folks feel this issue is
-blocking, please let me know so I don't send another version before
-net-next reopens.
+> > [1] https://lore.kernel.org/linux-mm/ZmzPoW7K5GIitQ8B@google.com/
+> >
+> > >
+> > > ...
+> > >
+> > > > Hmm, interesting. I need to spend a little bit more time digesting =
+this.
+> > > >
+> > > > Would you like to see this included in v6? (It'd be nice to avoid t=
+he
+> > > > WAS_FAST stuff....) Should we leave it for a later series? I haven'=
+t
+> > > > formed my own opinion yet.
+> > >
+> > > I would say it depends on the viability and complexity of my idea.  E=
+.g. if it
+> > > pans out more or less like my rough sketch, then it's probably worth =
+taking on
+> > > the extra code+complexity in KVM to avoid the whole WAS_FAST goo.
+> > >
+> > > Note, if we do go this route, the implementation would need to be twe=
+aked to
+> > > handle the difference in behavior between aging and last-minute check=
+s for eviction,
+> > > which I obviously didn't understand when I threw together that hack-a=
+-patch.
+> > >
+> > > I need to think more about how best to handle that though, e.g. skipp=
+ing GFNs with
+> > > multiple mappings is probably the worst possible behavior, as we'd ri=
+sk evicting
+> > > hot pages.  But falling back to taking mmu_lock for write isn't all t=
+hat desirable
+> > > either.
+> >
+> > I think falling back to the write lock is more desirable than evicting
+> > a young page.
+> >
+> > I've attached what I think could work, a diff on top of this series.
+> > It builds at least. It uses rcu_read_lock/unlock() for
+> > walk_shadow_page_lockless_begin/end(NULL), and it puts a
+> > synchronize_rcu() in kvm_mmu_commit_zap_page().
+> >
+> > It doesn't get rid of the WAS_FAST things because it doesn't do
+> > exactly what [1] does. It basically makes three calls now: lockless
+> > TDP MMU, lockless shadow MMU, locked shadow MMU. It only calls the
+> > locked shadow MMU bits if the lockless bits say !young (instead of
+> > being conditioned on tdp_mmu_enabled). My choice is definitely
+> > questionable for the clear path.
+>=20
+> I still don't think we should get rid of the WAS_FAST stuff.
 
+I do :-)
+
+> The assumption that the L1 VM will almost never share pages between L2
+> VMs is questionable. The real question becomes: do we care to have
+> accurate age information for this case? I think so.
+
+I think you're conflating two different things.  WAS_FAST isn't about accur=
+acy,
+it's about supporting lookaround in conditionally fast secondary MMUs.
+
+Accuracy only comes into play when we're talking about the last-minute chec=
+k,
+which, IIUC, has nothing to do with WAS_FAST because any potential lookarou=
+nd has
+already been performed.
+
+> It's not completely trivial to get the lockless walking of the shadow
+> MMU rmaps correct either (please see the patch I attached here[1]).
+
+Heh, it's not correct.  Invoking synchronize_rcu() in kvm_mmu_commit_zap_pa=
+ge()
+is illegal, as mmu_lock (rwlock) is held and synchronize_rcu() might_sleep(=
+).
+
+For kvm_test_age_rmap_fast(), KVM can blindly read READ_ONCE(*sptep).  KVM =
+might
+read garbage, but that would be an _extremely_ rare scenario, and reporting=
+ a
+zapped page as being young is acceptable in that 1 in a billion situation.
+
+For kvm_age_rmap_fast(), i.e. where KVM needs to write, I'm pretty sure KVM=
+ can
+handle that by rechecking the rmap and using CMPXCHG to write the SPTE.  If=
+ the
+rmap is unchanged, then the old SPTE value is guaranteed to be valid, in th=
+e sense
+that its value most definitely came from a KVM shadow page table.  Ah, drat=
+, that
+won't work, because very theoretically, the page table could be freed, real=
+located,
+and rewritten with the exact same value by something other than KVM.  Hrm.
+
+Looking more closely, I think we can go straight to supporting rmap walks o=
+utside
+of mmu_lock.  There will still be a "lock", but it will be a *very* rudimen=
+tary
+lock, akin to the TDP MMU's REMOVED_SPTE approach.  Bit 0 of rmap_head->val=
+ is
+used to indicate "many", while bits 63:3/31:2 on 64-bit/32-bit KVM hold the
+pointer (to a SPTE or a list).  That means bit 1 is available for shenaniga=
+ns.
+
+If we use bit 1 to lock the rmap, then the fast mmu_notifier can safely wal=
+k the
+entire rmap chain.  And with a reader/write scheme, the rmap walks that are
+performed under mmu_lock don't need to lock the rmap, which means flows lik=
+e
+kvm_mmu_zap_collapsible_spte() don't need to be modified to avoid recursive
+self-deadlock.  Lastly, the locking can be conditioned on the rmap being va=
+lid,
+i.e. having at least one SPTE.  That way the common case of a gfn not havin=
+g any
+rmaps is a glorified nop.
+
+Adding the locking isn't actually all that difficult, with the *huge* cavea=
+t that
+the below patch is compile-tested only.  The vast majority of the churn is =
+to make
+it so existing code ignores the new KVM_RMAP_LOCKED bit.
+
+I don't know that we should pursue such an approach in this series unless w=
+e have
+to.  E.g. if we can avoid WAS_FAST or don't have to carry too much intermed=
+iate
+complexity, then it'd probably be better to land the TDP MMU support first =
+and
+then add nested TDP support later.
+
+At the very least, it does make me more confident that a fast walk of the r=
+maps
+is very doable (at least for nested TDP), i.e. makes me even more steadfast
+against adding WAS_FAST.
+
+> And the WAS_FAST functionality isn't even that complex to begin with.
+
+I agree the raw code isn't terribly complex, but it's not trivial either.  =
+And the
+concept and *behavior* is complex, which is just as much of a maintenance b=
+urden
+as the code itself.  E.g. it requires knowing that KVM has multiple MMUs bu=
+ried
+behind a single mmu_notifier, and that a "hit" on the fast MMU will trigger
+lookaround on the fast MMU, but not the slow MMU.  Understanding and descri=
+bing
+the implications of that behavior isn't easy.  E.g. if GFN=3DX is young in =
+the TDP
+MMU, but X+1..X+N are young only in the shadow MMU, is doing lookaround and=
+ making
+decisions based purely on the TDP MMU state the "right" behavior?
+
+I also really don't like bleeding KVM details into the mmu_nofitier APIs.  =
+The
+need for WAS_FAST is 100% a KVM limitation.  AFAIK, no other secondary MMU =
+has
+multiple MMU implementations active behind a single notifier, and other tha=
+n lack
+of support, nothing fundamentally prevents a fast query in the shadow MMU.
+
+---
+ arch/x86/kvm/mmu/mmu.c | 163 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 128 insertions(+), 35 deletions(-)
+
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 842a3a4cdfe9..bfcfdc0a8600 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -935,9 +935,59 @@ static struct kvm_memory_slot *gfn_to_memslot_dirty_bi=
+tmap(struct kvm_vcpu *vcpu
+  * About rmap_head encoding:
+  *
+  * If the bit zero of rmap_head->val is clear, then it points to the only =
+spte
+- * in this rmap chain. Otherwise, (rmap_head->val & ~1) points to a struct
++ * in this rmap chain. Otherwise, (rmap_head->val & ~3) points to a struct
+  * pte_list_desc containing more mappings.
+  */
++#define KVM_RMAP_MANY	BIT(0)
++#define KVM_RMAP_LOCKED	BIT(1)
++
++static unsigned long kvm_rmap_lock(struct kvm_rmap_head *rmap_head)
++{
++	unsigned long old_val, new_val;
++
++	old_val =3D READ_ONCE(rmap_head->val);
++	if (!old_val)
++		return 0;
++
++	do {
++		while (old_val & KVM_RMAP_LOCKED) {
++			old_val =3D READ_ONCE(rmap_head->val);
++			cpu_relax();
++		}
++		if (!old_val)
++			return 0;
++
++		new_val =3D old_val | KVM_RMAP_LOCKED;
++	} while (!try_cmpxchg(&rmap_head->val, &old_val, new_val));
++
++	return old_val;
++}
++
++static unsigned long kvm_rmap_write_lock(struct kvm_rmap_head *rmap_head)
++{
++	return kvm_rmap_lock(rmap_head);
++}
++
++static void kvm_rmap_write_ulock(struct kvm_rmap_head *rmap_head,
++			    unsigned long new_val)
++{
++	WARN_ON_ONCE(new_val & KVM_RMAP_LOCKED);
++	WRITE_ONCE(rmap_head->val, new_val);
++}
++
++static unsigned long kvm_rmap_read_lock(struct kvm_rmap_head *rmap_head)
++{
++	return kvm_rmap_lock(rmap_head);
++}
++
++static void kvm_rmap_read_unlock(struct kvm_rmap_head *rmap_head,
++				 unsigned long old_val)
++{
++	if (!old_val)
++		return;
++
++	WRITE_ONCE(rmap_head->val, old_val & ~KVM_RMAP_LOCKED);
++}
+=20
+ /*
+  * Returns the number of pointers in the rmap chain, not counting the new =
+one.
+@@ -945,21 +995,24 @@ static struct kvm_memory_slot *gfn_to_memslot_dirty_b=
+itmap(struct kvm_vcpu *vcpu
+ static int pte_list_add(struct kvm_mmu_memory_cache *cache, u64 *spte,
+ 			struct kvm_rmap_head *rmap_head)
+ {
++	unsigned long old_val, new_val;
+ 	struct pte_list_desc *desc;
+ 	int count =3D 0;
+=20
+-	if (!rmap_head->val) {
+-		rmap_head->val =3D (unsigned long)spte;
+-	} else if (!(rmap_head->val & 1)) {
++	old_val =3D kvm_rmap_write_lock(rmap_head);
++
++	if (!old_val) {
++		new_val =3D (unsigned long)spte;
++	} else if (!(old_val & KVM_RMAP_MANY)) {
+ 		desc =3D kvm_mmu_memory_cache_alloc(cache);
+-		desc->sptes[0] =3D (u64 *)rmap_head->val;
++		desc->sptes[0] =3D (u64 *)old_val;
+ 		desc->sptes[1] =3D spte;
+ 		desc->spte_count =3D 2;
+ 		desc->tail_count =3D 0;
+-		rmap_head->val =3D (unsigned long)desc | 1;
++		new_val =3D (unsigned long)desc | KVM_RMAP_MANY;
+ 		++count;
+ 	} else {
+-		desc =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++		desc =3D (struct pte_list_desc *)(old_val & ~KVM_RMAP_MANY);
+ 		count =3D desc->tail_count + desc->spte_count;
+=20
+ 		/*
+@@ -968,21 +1021,25 @@ static int pte_list_add(struct kvm_mmu_memory_cache =
+*cache, u64 *spte,
+ 		 */
+ 		if (desc->spte_count =3D=3D PTE_LIST_EXT) {
+ 			desc =3D kvm_mmu_memory_cache_alloc(cache);
+-			desc->more =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++			desc->more =3D (struct pte_list_desc *)(old_val & ~KVM_RMAP_MANY);
+ 			desc->spte_count =3D 0;
+ 			desc->tail_count =3D count;
+-			rmap_head->val =3D (unsigned long)desc | 1;
++			new_val =3D (unsigned long)desc | KVM_RMAP_MANY;
++		} else {
++			new_val =3D old_val;
+ 		}
+ 		desc->sptes[desc->spte_count++] =3D spte;
+ 	}
++
++	kvm_rmap_write_ulock(rmap_head, new_val);
++
+ 	return count;
+ }
+=20
+-static void pte_list_desc_remove_entry(struct kvm *kvm,
+-				       struct kvm_rmap_head *rmap_head,
++static void pte_list_desc_remove_entry(struct kvm *kvm, unsigned long *rma=
+p_val,
+ 				       struct pte_list_desc *desc, int i)
+ {
+-	struct pte_list_desc *head_desc =3D (struct pte_list_desc *)(rmap_head->v=
+al & ~1ul);
++	struct pte_list_desc *head_desc =3D (struct pte_list_desc *)(*rmap_val & =
+~KVM_RMAP_MANY);
+ 	int j =3D head_desc->spte_count - 1;
+=20
+ 	/*
+@@ -1009,9 +1066,9 @@ static void pte_list_desc_remove_entry(struct kvm *kv=
+m,
+ 	 * head at the next descriptor, i.e. the new head.
+ 	 */
+ 	if (!head_desc->more)
+-		rmap_head->val =3D 0;
++		*rmap_val =3D 0;
+ 	else
+-		rmap_head->val =3D (unsigned long)head_desc->more | 1;
++		*rmap_val =3D (unsigned long)head_desc->more | KVM_RMAP_MANY;
+ 	mmu_free_pte_list_desc(head_desc);
+ }
+=20
+@@ -1019,24 +1076,26 @@ static void pte_list_remove(struct kvm *kvm, u64 *s=
+pte,
+ 			    struct kvm_rmap_head *rmap_head)
+ {
+ 	struct pte_list_desc *desc;
++	unsigned long rmap_val;
+ 	int i;
+=20
+-	if (KVM_BUG_ON_DATA_CORRUPTION(!rmap_head->val, kvm))
+-		return;
++	rmap_val =3D kvm_rmap_write_lock(rmap_head);
++	if (KVM_BUG_ON_DATA_CORRUPTION(!rmap_val, kvm))
++		goto out;
+=20
+-	if (!(rmap_head->val & 1)) {
+-		if (KVM_BUG_ON_DATA_CORRUPTION((u64 *)rmap_head->val !=3D spte, kvm))
+-			return;
++	if (!(rmap_val & KVM_RMAP_MANY)) {
++		if (KVM_BUG_ON_DATA_CORRUPTION((u64 *)rmap_val !=3D spte, kvm))
++			goto out;
+=20
+-		rmap_head->val =3D 0;
++		rmap_val =3D 0;
+ 	} else {
+-		desc =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++		desc =3D (struct pte_list_desc *)(rmap_val & ~KVM_RMAP_MANY);
+ 		while (desc) {
+ 			for (i =3D 0; i < desc->spte_count; ++i) {
+ 				if (desc->sptes[i] =3D=3D spte) {
+-					pte_list_desc_remove_entry(kvm, rmap_head,
++					pte_list_desc_remove_entry(kvm, &rmap_val,
+ 								   desc, i);
+-					return;
++					goto out;
+ 				}
+ 			}
+ 			desc =3D desc->more;
+@@ -1044,6 +1103,9 @@ static void pte_list_remove(struct kvm *kvm, u64 *spt=
+e,
+=20
+ 		KVM_BUG_ON_DATA_CORRUPTION(true, kvm);
+ 	}
++
++out:
++	kvm_rmap_write_ulock(rmap_head, rmap_val);
+ }
+=20
+ static void kvm_zap_one_rmap_spte(struct kvm *kvm,
+@@ -1058,17 +1120,19 @@ static bool kvm_zap_all_rmap_sptes(struct kvm *kvm,
+ 				   struct kvm_rmap_head *rmap_head)
+ {
+ 	struct pte_list_desc *desc, *next;
++	unsigned long rmap_val;
+ 	int i;
+=20
+-	if (!rmap_head->val)
++	rmap_val =3D kvm_rmap_write_lock(rmap_head);
++	if (!rmap_val)
+ 		return false;
+=20
+-	if (!(rmap_head->val & 1)) {
+-		mmu_spte_clear_track_bits(kvm, (u64 *)rmap_head->val);
++	if (!(rmap_val & KVM_RMAP_MANY)) {
++		mmu_spte_clear_track_bits(kvm, (u64 *)rmap_val);
+ 		goto out;
+ 	}
+=20
+-	desc =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++	desc =3D (struct pte_list_desc *)(rmap_val & ~KVM_RMAP_MANY);
+=20
+ 	for (; desc; desc =3D next) {
+ 		for (i =3D 0; i < desc->spte_count; i++)
+@@ -1078,20 +1142,21 @@ static bool kvm_zap_all_rmap_sptes(struct kvm *kvm,
+ 	}
+ out:
+ 	/* rmap_head is meaningless now, remember to reset it */
+-	rmap_head->val =3D 0;
++	kvm_rmap_write_ulock(rmap_head, 0);
+ 	return true;
+ }
+=20
+ unsigned int pte_list_count(struct kvm_rmap_head *rmap_head)
+ {
++	unsigned long rmap_val =3D READ_ONCE(rmap_head->val) & ~KVM_RMAP_LOCKED;
+ 	struct pte_list_desc *desc;
+=20
+-	if (!rmap_head->val)
++	if (!rmap_val)
+ 		return 0;
+-	else if (!(rmap_head->val & 1))
++	else if (!(rmap_val & KVM_RMAP_MANY))
+ 		return 1;
+=20
+-	desc =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++	desc =3D (struct pte_list_desc *)(rmap_val & ~KVM_RMAP_MANY);
+ 	return desc->tail_count + desc->spte_count;
+ }
+=20
+@@ -1134,6 +1199,7 @@ static void rmap_remove(struct kvm *kvm, u64 *spte)
+  */
+ struct rmap_iterator {
+ 	/* private fields */
++	struct rmap_head *head;
+ 	struct pte_list_desc *desc;	/* holds the sptep if not NULL */
+ 	int pos;			/* index of the sptep */
+ };
+@@ -1148,18 +1214,19 @@ struct rmap_iterator {
+ static u64 *rmap_get_first(struct kvm_rmap_head *rmap_head,
+ 			   struct rmap_iterator *iter)
+ {
++	unsigned long rmap_val =3D READ_ONCE(rmap_head->val) & ~KVM_RMAP_LOCKED;
+ 	u64 *sptep;
+=20
+-	if (!rmap_head->val)
++	if (!rmap_val)
+ 		return NULL;
+=20
+-	if (!(rmap_head->val & 1)) {
++	if (!(rmap_val & KVM_RMAP_MANY)) {
+ 		iter->desc =3D NULL;
+-		sptep =3D (u64 *)rmap_head->val;
++		sptep =3D (u64 *)rmap_val;
+ 		goto out;
+ 	}
+=20
+-	iter->desc =3D (struct pte_list_desc *)(rmap_head->val & ~1ul);
++	iter->desc =3D (struct pte_list_desc *)(rmap_val & ~KVM_RMAP_MANY);
+ 	iter->pos =3D 0;
+ 	sptep =3D iter->desc->sptes[iter->pos];
+ out:
+@@ -1553,6 +1620,32 @@ static __always_inline bool kvm_handle_gfn_range(str=
+uct kvm *kvm,
+ 	return ret;
+ }
+=20
++static __always_inline bool kvm_handle_gfn_range_lockless(struct kvm *kvm,
++							  struct kvm_gfn_range *range,
++							  rmap_handler_t handler)
++{
++	struct kvm_rmap_head *rmap_head;
++	unsigned long rmap_val;
++	bool ret =3D false;
++	gfn_t gfn;
++	int level;
++
++	for (gfn =3D range->start; gfn < range->end; gfn++) {
++		for (level =3D PG_LEVEL_4K; level <=3D KVM_MAX_HUGEPAGE_LEVEL; level++) =
+{
++			rmap_head =3D gfn_to_rmap(gfn, level, range->slot);
++			rmap_val =3D kvm_rmap_read_lock(rmap_head);
++
++			if (rmap_val)
++				ret |=3D handler(kvm, rmap_head, range->slot, gfn, level);
++
++			kvm_rmap_read_unlock(rmap_head, rmap_val);
++		}
++	}
++
++	return ret;
++}
++
++
+ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	bool flush =3D false;
+
+base-commit: 771df9ffadb8204e61d3e98f36c5067102aab78f
 --=20
-Thanks,
-Mina
