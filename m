@@ -1,81 +1,81 @@
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCDB014E2D9;
-	Tue,  9 Jul 2024 08:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.175.24.41
+Received: from dysnomia.uberspace.de (dysnomia.uberspace.de [185.26.156.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2237612E1F1
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 09:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.26.156.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720515356; cv=none; b=czrYWvoEYu30wlm9FNYCwhyntxoex8hr765WwBIkXssupByiE2KdaU2qFJjxswTHAwKsJ2wJ29Uu5eIKDt+KfixSa1JQnsYVt5SETy88XjV7XCDpeBuShXYQL7xmhsZjPs0MCx0zvkofMPU68T9F1wpHFV8bhGKYnXq0xXIgIJI=
+	t=1720518976; cv=none; b=ft1DbWBpZIV4QPOG4CnA5zxeCtuifz5CNQrqHcftvhRD3MVpxt/VigXcPU7ZY/+T2UxjFxJMlnQZg+hWxuTVj/FrcVnvj3fWVAzSW3gzoFSUBzYFnSfaqK++BULLFo5Ufvwg8xlTptllVzCjotOvcyiXXzFxUZucC24rlKZ/Tyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720515356; c=relaxed/simple;
-	bh=oVjVFSnFCha3efjxmv3xh62Kiit5wNco299Vz9gRcDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glgJBAlTIubOzzc7MmlpERUE1n1X+4bzwXkph31wYN2XaTBN8Fnmysf3QzuDhXITm0yQvhbWakR1obJop5u0MZv3thRHxSbbYBG0hBfUXH0dIV5DYjDJxV/GL/i1DMKlsoRZr61s4KZukaxTQq9vgPQUGqqk5jRfnJRO38mLpP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de; spf=pass smtp.mailfrom=alpha.franken.de; arc=none smtp.client-ip=193.175.24.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
-Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
-	id 1sR6dK-0000Pq-00; Tue, 09 Jul 2024 10:55:34 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id C567EC0411; Tue,  9 Jul 2024 10:55:21 +0200 (CEST)
-Date: Tue, 9 Jul 2024 10:55:21 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-Message-ID: <Zoz6+YmUk7CBsNFw@alpha.franken.de>
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
- <Zn1FuxNw2CUttzdg@alpha.franken.de>
- <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
- <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk>
- <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
+	s=arc-20240116; t=1720518976; c=relaxed/simple;
+	bh=J28vytkAXeItdQ7/bjBTdps+euXBoHmzPP3WrYWLhbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AtvC0jJ6D/QRTiSKjyPIW3BmFatASbui7HVUKeHVv3JKySYZ4LtwaoyaQU09scB4rYj2p/52i050x57UyYcQRwTx378LrgWHtta/+mluKeDuzEbOD56HVgf1qNBKiN0M0cD48GVECDAuUGwyAdnPBiJrxW6gzh5wlTFyN16h5WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lublin.se; spf=pass smtp.mailfrom=lublin.se; dkim=fail (0-bit key) header.d=lublin.se header.i=@lublin.se header.b=afTHkUMp reason="key not found in DNS"; arc=none smtp.client-ip=185.26.156.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lublin.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lublin.se
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=lublin.se header.i=@lublin.se header.b="afTHkUMp"
+Received: (qmail 32309 invoked by uid 989); 9 Jul 2024 09:49:29 -0000
+Authentication-Results: dysnomia.uberspace.de;
+	auth=pass (plain)
+Received: from unknown (HELO unkown) (::1)
+	by dysnomia.uberspace.de (Haraka/3.0.1) with ESMTPSA; id C17CC1C002A; Tue, 09 Jul 2024 11:49:28 +0200 (CEST)
+From: Daniel Lublin <daniel@lublin.se>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Daniel Lublin <daniel@lublin.se>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: add reference from dynamic debug to loglevel kernel params
+Date: Tue,  9 Jul 2024 11:49:10 +0200
+Message-ID: <4c1da56d2f123af8566744ab61c9d41e0b32de64.1720518466.git.daniel@lublin.se>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
+X-Rspamd-Bar: +
+X-Rspamd-Report: BAYES_HAM(-0.125073) MIME_GOOD(-0.1) MID_CONTAINS_FROM(1) FORGED_SENDER(0.3) R_MISSING_CHARSET(0.5)
+X-Rspamd-Score: 1.574926
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=lublin.se; s=uberspace;
+	h=from:to:cc:subject:date;
+	bh=J28vytkAXeItdQ7/bjBTdps+euXBoHmzPP3WrYWLhbA=;
+	b=afTHkUMprtqCajiP7pGX0Eh0e6h8gzpRZUD8HlnOdKYMvkFUlXg+OfBVWbuNk3GSE7FX2aJWeE
+	VzEeFiWyHdj0xIzO8tAbPFwHtqCJDTpJOqcyiwq0G90tZ+cJD/2nz/OBR7sYz6mVqqBW+66kRO8y
+	ts9FzRAxc7ARdvBSorrrz69YNoeA/Lh0tDJrdvy/rFElFEInFG5LsrdBueoH6daXJiNVRfBggvkf
+	v2+dXoNq/SPUhh/LHU/6d6OqMQnPY14z6gQ7fkT5UHEgl0YkOsuWaRH77mabWXF0aFn82JGgudPX
+	Mm1bsnDIZr0AmCvG4WoPhrn6Crlhud04LQzrR3KUBAAplpM3TWHIr/9eo/kDzc4glHBD7bf14CEc
+	5Ec+9Suqloc40Fp7KMevI1snh+IHduFe8GmBITJ6Y8YjKfeh6I64m6+Go5kovM8G8TlXJNtGNb9L
+	0ls8dVW4sSJbKGMZraPIRGVSKxROpcXox0H5m5unPvt9/z+TCULJhcrK2LL5b2KOMYs/HLJTvZ+X
+	vyRX/5ekCgA77BpAiftXSxzFRSIllJ9/b22sKP4XXIUHz2IIaBzwQplmcYcBRItaFAfCP0w5i1fJ
+	bWds3DE6MF5na+zfcGsQMoKqtWBsRJZxAVNjJjUTCdvxm+MSpo6T1Nw5OYgz0Vn7qlbZFWKrB5rQ
+	k=
 
-On Fri, Jun 28, 2024 at 01:33:06AM +0100, Jiaxun Yang wrote:
-> 
-> 
-> 在2024年6月27日六月 下午8:54，Maciej W. Rozycki写道：
-> > On Thu, 27 Jun 2024, Jiaxun Yang wrote:
-> >
-> >> >> @@ -318,6 +318,10 @@ void mips_set_personality_nan(struct arch_elf_state *state)
-> >> >>  	t->thread.fpu.fcr31 = c->fpu_csr31;
-> >> >>  	switch (state->nan_2008) {
-> >> >>  	case 0:
-> >> >> +		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
-> >> >> +			t->thread.fpu.fcr31 &= ~FPU_CSR_NAN2008;
-> >> >> +		if (!(c->fpu_msk31 & FPU_CSR_ABS2008))
-> >> >> +			t->thread.fpu.fcr31 &= ~FPU_CSR_ABS2008;
-> >> >
-> >> > why is this needed?
-> >> 
-> >> Because t->thread.fpu.fcr31 comes from c->fpu_csr31, in this case we the default
-> >> value of c->fpu_csr31 is read from hardware and we don't know what would that be.
-> >
-> >  But it has always been like this.  What has changed with your patch that 
-> > you need to mask the bit out now?
-> 
-> After this patch kernel's copy of t->thread.fpu.fcr31 can disagree with hardware.
-> When disagree happens, we trigger emulation.
-> 
-> Before that patch for nan legacy binary running on nan2008 CPU t->thread.fpu.fcr31
-> will still be nan2008 (for ieee754=relaxed) so that's not relevant.
+Signed-off-by: Daniel Lublin <daniel@lublin.se>
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I'm considering to apply your patch, how much testing/verification did
-this patch see ? Do have some test binaries ?
-
-Thomas.
-
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 0e9b48daf690..7e55097e559d 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -26,6 +26,12 @@ Dynamic debug provides:
+    - format string
+    - class name (as known/declared by each module)
+ 
++NOTE: To actually get the debug-print output on the console, you may
++need to adjust the kernel ``loglevel=``, or use ``ignore_loglevel``.
++Read about these kernel parameters in
++:ref:`Documentation/admin-guide/kernel-parameters.rst
++<kernelparameters>`.
++
+ Viewing Dynamic Debug Behaviour
+ ===============================
+ 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+2.45.2
+
