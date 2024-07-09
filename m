@@ -1,212 +1,183 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A088019DF69
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 16:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5685F1B86CA;
+	Tue,  9 Jul 2024 17:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720541356; cv=none; b=Q1pKsNWh2lUp1ISLYzR7HUWxKHkez+LM29sEPDpaxQjR8yGrT1R5746MMNYmqg4gn+dzKEhpvSQLy4qr6dPdTkB9SY6qWTJ0ZMCYj5AcHQQDZ00fokuiQH6tDTOwmcv6cz/DEbpMycYGLK6o4LiJyw4tL+UWpE1sR39idO9kQHw=
+	t=1720545504; cv=none; b=Co9KcPkD9Csx+jcrVY+zErm1RcGKWHmYxqMiF77np1rvIgq1cD9E9jZd64moCYsi/lRp0uk4tB16Y3cLPW9GlnDJWp0K0nLF58ItMC57zkjOsB75ccYYgXXiPs3lx3XuA6OtZL4dXrvmw/BQeX3/tOY0DcViTdk+bQO95LWOAfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720541356; c=relaxed/simple;
-	bh=FGRnS6HrOy8B60pAUYJYvZ43kcQMTlUlioArToOkYZA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LroJSrmNGbhTjF3WJL7ICQsmFzB1h2zpznXUKjzCgYaDgSZr0mfcdlYTr2WVbddntVt8oavs1r8RnDgKIfXa3fHYx8wZiwcr/srO9kQBLMkZLFhlpdySuZAncE24YfpNNmgMnUcTNZ3E4pxlRedOLxeWmoxu/zjtuD3zm+5kGP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ldo0q05F; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ldo0q05F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720541353;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zsIWbJCIxtXdUtyfcJ/HuCRS5/rhV3Z8dkkrqoWXNu8=;
-	b=Ldo0q05F8PW/QjPLAM848yySfL5SECgOAgll6rkSWdLe5Th42kLMCpPTX9NiA5mJZ55uQl
-	OpZj76kGs81kbGnMQ8u+VabQ+sDWrM/h6kGODZrqLmSVHQwK2EscH5cR79h9VcJjYUAt/M
-	C9w79xgB3TXnx57f5RS3X3EjY8XYvtk=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-15-PxWcNCzsPEK7IR4Uy1xlTg-1; Tue,
- 09 Jul 2024 12:09:10 -0400
-X-MC-Unique: PxWcNCzsPEK7IR4Uy1xlTg-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40AFE1955F67;
-	Tue,  9 Jul 2024 16:09:08 +0000 (UTC)
-Received: from [10.22.34.7] (unknown [10.22.34.7])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 29E8C3000181;
-	Tue,  9 Jul 2024 16:09:05 +0000 (UTC)
-Message-ID: <4291c0ed-bc37-46de-b081-271e8b299b1d@redhat.com>
-Date: Tue, 9 Jul 2024 12:09:05 -0400
+	s=arc-20240116; t=1720545504; c=relaxed/simple;
+	bh=dDYjlvdOukoB51Fv46MKa71KJ52MdbQvPCavAdr9N+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kiXLLwBCoDyKmfxt3m/jiKYLCPBqgN5BWceoJZLrnrlYiF97O7bfO14doa2Il3z+UU2PnyI85j9JMKE86ElL3K8snltLD5T+R4d+kR7ZSOkXx4C3Q2Yi+9bJLW38xU6hDPLSwfC8T2Pd+6doq/xH4bkHLmx3RvUcsXsppaRxaX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 921F01063;
+	Tue,  9 Jul 2024 10:18:45 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E37CF3F766;
+	Tue,  9 Jul 2024 10:18:15 -0700 (PDT)
+Date: Tue, 9 Jul 2024 18:18:09 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sebastian.fricke@collabora.com, andriy.shevchenko@linux.intel.com,
+	jani.nikula@intel.com, jirislaby@kernel.org, corbet@lwn.net,
+	broonie@kernel.org, rdunlap@infradead.org,
+	linux-doc@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andi.shyti@linux.intel.com,
+	nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
+Message-ID: <Zo1w0Z57Y0NlcK6m@e133380.arm.com>
+References: <20240708155943.2314427-1-devarsht@ti.com>
+ <20240708155943.2314427-2-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-cgroup v2] cgroup: Show # of subsystem CSSes in root
- cgroup.stat
-To: Kamalesh Babulal <kamalesh.babulal@oracle.com>, Tejun Heo
- <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240709132814.2198740-1-longman@redhat.com>
- <1c0d9ee1-e80a-46da-a48d-2ab23dd04673@oracle.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <1c0d9ee1-e80a-46da-a48d-2ab23dd04673@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240708155943.2314427-2-devarsht@ti.com>
 
-On 7/9/24 11:58, Kamalesh Babulal wrote:
->
-> On 7/9/24 6:58 PM, Waiman Long wrote:
->> The /proc/cgroups file shows the number of cgroups for each of the
->> subsystems.  With cgroup v1, the number of CSSes is the same as the
->> number of cgroups. That is not the case anymore with cgroup v2. The
->> /proc/cgroups file cannot show the actual number of CSSes for the
->> subsystems that are bound to cgroup v2.
->>
->> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
->> we can't tell by looking at /proc/cgroups which cgroup subsystems may be
->> responsible.  This patch adds CSS counts in the cgroup_subsys structure
->> to keep track of the number of CSSes for each of the cgroup subsystems.
->>
->> As cgroup v2 had deprecated the use of /proc/cgroups, the root
->> cgroup.stat file is extended to show the number of outstanding CSSes
->> associated with all the non-inhibited cgroup subsystems that have been
->> bound to cgroup v2.  This will help us pinpoint which subsystems may be
->> responsible for the increasing number of dying (nr_dying_descendants)
->> cgroups.
->>
->> The cgroup-v2.rst file is updated to discuss this new behavior.
->>
->> With this patch applied, a sample output from root cgroup.stat file
->> was shown below.
->>
->> 	nr_descendants 53
->> 	nr_dying_descendants 34
->> 	nr_cpuset 1
->> 	nr_cpu 40
->> 	nr_io 40
->> 	nr_memory 87
->> 	nr_perf_event 54
->> 	nr_hugetlb 1
->> 	nr_pids 53
->> 	nr_rdma 1
->> 	nr_misc 1
->>
->> In this particular case, it can be seen that memory cgroup is the most
->> likely culprit for causing the 34 dying cgroups.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>   Documentation/admin-guide/cgroup-v2.rst | 10 ++++++++--
->>   include/linux/cgroup-defs.h             |  3 +++
->>   kernel/cgroup/cgroup.c                  | 19 +++++++++++++++++++
->>   3 files changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->> index 52763d6b2919..65af2f30196f 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -981,6 +981,12 @@ All cgroup core files are prefixed with "cgroup."
->>   		A dying cgroup can consume system resources not exceeding
->>   		limits, which were active at the moment of cgroup deletion.
->>   
->> +	  nr_<cgroup_subsys>
->> +		Total number of cgroups associated with that cgroup
->> +		subsystem, e.g. cpuset or memory.  These cgroup counts
->> +		will only be shown in the root cgroup and for subsystems
->> +		bound to cgroup v2.
->> +
->>     cgroup.freeze
->>   	A read-write single value file which exists on non-root cgroups.
->>   	Allowed values are "0" and "1". The default is "0".
->> @@ -2930,8 +2936,8 @@ Deprecated v1 Core Features
->>   
->>   - "cgroup.clone_children" is removed.
->>   
->> -- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
->> -  at the root instead.
->> +- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
->> +  "cgroup.stat" files at the root instead.
->>   
->>   
->>   Issues with v1 and Rationales for v2
->> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
->> index b36690ca0d3f..522ab77f0406 100644
->> --- a/include/linux/cgroup-defs.h
->> +++ b/include/linux/cgroup-defs.h
->> @@ -776,6 +776,9 @@ struct cgroup_subsys {
->>   	 * specifies the mask of subsystems that this one depends on.
->>   	 */
->>   	unsigned int depends_on;
->> +
->> +	/* Number of CSSes, used only for /proc/cgroups */
->> +	atomic_t nr_csses;
->>   };
->>   
->>   extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
->> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
->> index c8e4b62b436a..48eba2737b1a 100644
->> --- a/kernel/cgroup/cgroup.c
->> +++ b/kernel/cgroup/cgroup.c
->> @@ -3669,12 +3669,27 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
->>   static int cgroup_stat_show(struct seq_file *seq, void *v)
->>   {
->>   	struct cgroup *cgroup = seq_css(seq)->cgroup;
->> +	struct cgroup_subsys *ss;
->> +	int i;
->>   
->>   	seq_printf(seq, "nr_descendants %d\n",
->>   		   cgroup->nr_descendants);
->>   	seq_printf(seq, "nr_dying_descendants %d\n",
->>   		   cgroup->nr_dying_descendants);
->>   
->> +	if (cgroup_parent(cgroup))
->> +		return 0;
->> +
->> +	/*
->> +	 * For the root cgroup, shows the number of csses associated
->> +	 * with each of non-inhibited cgroup subsystems bound to it.
->> +	 */
->> +	do_each_subsys_mask(ss, i, ~cgrp_dfl_inhibit_ss_mask) {
->> +		if (ss->root != &cgrp_dfl_root)
->> +			continue;
->> +		seq_printf(seq, "nr_%s %d\n", ss->name,
->> +			   atomic_read(&ss->nr_csses));
->> +	} while_each_subsys_mask();
->>   	return 0;
->>   }
->>   
-> Thanks for adding nr_csses, the patch looks good to me. A preference comment,
-> nr_<subsys>_css format, makes it easier to interpret the count.
->
-> With or without the changes to the cgroup subsys format:
->
-> Reviewed-by: Kamalesh Babulal <kamalesh.babulal@oracle.com>
+On Mon, Jul 08, 2024 at 09:29:38PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
+> 
+> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
+> 
+> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round down in case two nearest values are
+> possible.
+> 
+> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+> generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
+> 
+> Examples:
+>  * round_closest_up(17, 4) = 16
+>  * round_closest_up(15, 4) = 16
+>  * round_closest_up(14, 4) = 16
+>  * round_closest_down(17, 4) = 16
+>  * round_closest_down(15, 4) = 16
+>  * round_closest_down(14, 4) = 12
+>  * roundclosest(21, 5) = 20
+>  * roundclosest(19, 5) = 20
+>  * roundclosest(17, 5) = 15
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+> which uses similar macro locally and which is updated in further patch
+> in the series to use this generic macro instead along with other drivers
+> having similar requirements.
+> 
+> Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
+> ---
+>  include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/include/linux/math.h b/include/linux/math.h
+> index dd4152711de7..79e3dfda77fc 100644
+> --- a/include/linux/math.h
+> +++ b/include/linux/math.h
+> @@ -34,6 +34,52 @@
+>   */
+>  #define round_down(x, y) ((x) & ~__round_mask(x, y))
+>  
+> +/**
+> + * round_closest_up - round closest to be multiple of specified value (which is
+> + *                    power of 2) with preference to rounding up
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+> + * The value can be either rounded up or rounded down depending upon rounded
+> + * value's closeness to the specified value. If there are two closest possible
+> + * values, i.e. the difference between the specified value and it's rounded up
+> + * and rounded down values is same then preference is given to rounded up
+> + * value.
+> + *
+> + * To perform arbitrary rounding to closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples:
+> + * * round_closest_up(17, 4) = 16
+> + * * round_closest_up(15, 4) = 16
+> + * * round_closest_up(14, 4) = 16
+> + */
+> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
+> +
+> +/**
+> + * round_closest_down - round closest to be multiple of specified value (which
+> + *			is power of 2) with preference to rounding down
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+> + * The value can be either rounded up or rounded down depending upon rounded
+> + * value's closeness to the specified value. If there are two closest possible
+> + * values, i.e. the difference between the specified value and it's rounded up
+> + * and rounded down values is same then preference is given to rounded up
+> + * value.
+> + *
+> + * To perform arbitrary rounding to closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples:
+> + * * round_closest_down(17, 4) = 16
+> + * * round_closest_down(15, 4) = 16
+> + * * round_closest_down(14, 4) = 12
+> + */
+> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
+> +
 
-Thanks for the review.
+Naming aside, is there an actual use case for having both roundclosest()
+and round_closest_up() today?
 
-CSS is a kernel internal name for cgroup subsystem state. Non kernel 
-developers or users may not know what CSS is and cgroup-v2.rst doesn't 
-mention CSS at all. So I don't think it is a good idea to add the "_css" 
-suffix. From the user point of view, the proper term to use here is the 
-number of cgroups, just like what "nr_descendants" and 
-"nr_dying_descendants" are referring to before this patch. The only 
-issue that I didn't address is the use of the proper plural form which 
-is hard for cgroup subsystem names that we have.
+(i.e., is there any potential caller that would actually care about the
+rounding direction for borderline cases?)
 
-Cheers,
-Longman
+>  #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+>  
+>  #define DIV_ROUND_DOWN_ULL(ll, d) \
+> @@ -77,6 +123,23 @@
+>  }							\
+>  )
+>  
+> +/**
+> + * roundclosest - round to nearest multiple
+> + * @x: the value to round
+> + * @y: multiple to round nearest to
+> + *
+> + * Rounds @x to nearest multiple of @y.
+> + * The rounded value can be greater than or less than @x depending
+> + * upon it's nearness to @x. If @y will always be a power of 2, consider
+> + * using the faster round_closest_up() or round_closest_down().
+> + *
+> + * Examples:
+> + * * roundclosest(21, 5) = 20
+> + * * roundclosest(19, 5) = 20
+> + * * roundclosest(17, 5) = 15
+> + */
+> +#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
 
+Won't this go wrong if (x) + (y) / 2 overflows?  This may happen even in
+some cases where the correctly rounded value would be in range.
 
+The existing rounddown() already leaves something to be desired IIUC: if
+given a negative dividend, it looks like it actually rounds up, at least
+on some arches.  But maybe people don't use it that way very often.
+Perhaps I'm missing something.
+
+[...]
+
+Cheers
+---Dave
