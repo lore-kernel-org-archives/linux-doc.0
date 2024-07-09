@@ -1,269 +1,362 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFA6A8BE
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jul 2024 23:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4F0374CC;
+	Tue,  9 Jul 2024 00:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720482152; cv=none; b=ghTWXu3pB1tNGlhnDG6hZjCIFr+xyemuLvyKH2tE47b6qG/5qli7ueuDt5s1WvpZ+FBF1KGeq8ezrxS9hPmN/yQkYDqZ1Ta9p5CQtBEyZdj17uG/7kDjuqpGLrNayEHDdzclVqvTCMpbI4d8t86zzjhVvO6yM8yVr2Aziv7VFIA=
+	t=1720486429; cv=none; b=iVHB64ribf6nnYArWc905+TtZOGXfTeKFTmDe1VVu+YuovqMYGUBuj7lchLitYYt53j5AGxTOy/Vr+dmEVnNomSUtm34151nx6t+yZcNfhTV1k3fQw7oAFZDR/DyKdL/FC56Nj9Xnxw/qkDmLcTxXUkNTW+Ty63WwSgtqZs4zbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720482152; c=relaxed/simple;
-	bh=fXFkuGwJtPDomAOLHssxdyjY3IJRo5Ot7cYvZXhXmlo=;
+	s=arc-20240116; t=1720486429; c=relaxed/simple;
+	bh=NnywyARqUgF3HMX96va5rp2PkBbO6S9CU+xsjNvVucQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EAW2+jQCtj0WAnCtxdbvsNXvVvycPRxGQSnSchluvvGM8LKmylPn9b8R9ArW4YwUmK1zwKGdHhPWAkR2W8Ln0MJ8qVgDiA3RVbAbEscqGh4cOGRei4Zxg3i76oj0xA4DGNryIQWssHlfd/4SrGzDUHTvGfwYSClPPPlg6N3LDkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qLX822zE; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=qcvG/BiX2L5ueoKx+u1IV7V+sVhP1L1ntoiMiRxsCE885A1rrH3ILrRCqiv4eFBVAwoi0A6CAoRHgYq+kbFbB4D+f5tiiVspQFUQY/aYVe6fAFGRxK3l/cGrI5I8vFd6XP1WUackRM4wI02KyZpN1ZZWtTonsB6CoevJGcFCJ98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dxLXFXD2; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qLX822zE"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44664ad946eso52911cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jul 2024 16:42:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dxLXFXD2"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dfab4779d95so4858904276.0;
+        Mon, 08 Jul 2024 17:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720482148; x=1721086948; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720486426; x=1721091226; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nM7n3F0up3r61YyqcXWbM5R0i4/2z/TwS0sdB2eyKMU=;
-        b=qLX822zEyhHMlRTalWzQlCqVc/P+rTL27UkR4/x9GMkJeZnvaDJSTrP+t4G7sZ5uuP
-         679VaqaHaTBkI8oiALiAPts3eo8uGczvFC/+SJLM/fP3Zi1ntgyI/xHjgraeI+HMFuPL
-         /cbs71caUk2FvmOychS5clNMw67aCHUpPVYNBTmOkvJL4kyQSlxaqviF4DGlqxBEmnqT
-         SOXOL/5PLbAjeDSRddIjB/QzqV9Xpv75qCLaPJ4UhYGGh70y+o3twvtNTGcv/OUvexrL
-         C46kFuyKXXxsIq01cvUHQrnj8esU27t63Av39hUqeQGUvlrRXB094DsqbUxdTPMz1r26
-         1Qhw==
+        bh=MxUewbS9CHNfJzvJo7a2g8V9O8ZPqq3ROM3y+MnW49k=;
+        b=dxLXFXD2RpPvIwpRMGd0wqv3k1yEyx40TTDQiwlOSYLR08fCQry3P0oDygWfQETZ8g
+         ehE1xBLcZXU6e5oGsbz7BfaHIL/d7Un6vCLtHuAJMgCm0suzVvDTvixh8D3q4hocrckT
+         G5j74AAfx+/bbvHkTqjGUHMhK/sUDYLuyLVDQvsVIkvajUmgd+G1MhDtttbxKCtcp+Tc
+         wNH7Y63yxhGn2bmbd2+yA1US4QyS4GTTd2Vi4xZmOeDV/b8v4VnnquMTFnaw1Is6wDrq
+         /Uryow99RvXtFYH9baRRpKbiq2VYyrq36F+Hc+gXzYMC0MQb4sXEfQ1/Svr7tm/jUi4S
+         XgOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720482148; x=1721086948;
+        d=1e100.net; s=20230601; t=1720486426; x=1721091226;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nM7n3F0up3r61YyqcXWbM5R0i4/2z/TwS0sdB2eyKMU=;
-        b=WTtU4fg4eUHFgQvdZDX2KPbwn8xrNo6Ch3JhObDwy3vGS9ZxAAzzxQ/kcatkaoPoam
-         OxYhk4AWCP+Ug3RCqs+9kB/LpdnWWvOWI3QQ6R+IRpqzjf3FSZf6SW6z9VKF/DiUQ5XX
-         XhFX/g3RreqJfBi/6QMgsvS2JNEwfCaTYNzxlvRgBq8HU0nsxpz11KwZH62T7KyNlQN+
-         WK8B8xRU97IKXW7oJUev0CY41kckif34Y8ugXp+AzV3tX/skooCCimx1Mdonz7SFJY7A
-         ASkfxKun9sIXo3hmMEIFw1AwQ7E1yxBWQ0DahtZjeH1CBnSB7QFepHSeWOzVGhmEYUs1
-         DCtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4OX3t5Tb4+5r3B0cIa9qLGfmPF43X5J2pbFXlKpHdBQhI/CAda4JCAJRlFdSNPdtD7HxVr5ky5Ukzdcp2MUELNIZ2ABvGMLid
-X-Gm-Message-State: AOJu0YxOKmQqesyT8WORhm87jVaonN2dizLQ2x2SFMk52dbgF5kicsGX
-	2LJdmyB7PFuiAtYFItRCPyu7mFu/jmx5+R5oREpRzFXtkGSuVXWurJIVx18KympoUyn150FvqE2
-	O3hmfFk6G08Ny9GeC8yLyicD5Svlkp/gmCRel
-X-Google-Smtp-Source: AGHT+IF5waWqD1+AOGNDtNFnA/E3lGLbDiFUJIIuSfBZaHyKwMMyMoyshkPlNYgy3P4wdxcBdGual2ZDEbwUTDImpqE=
-X-Received: by 2002:ac8:6742:0:b0:447:e4cb:bf50 with SMTP id
- d75a77b69052e-447fb2f6c08mr1579121cf.8.1720482148269; Mon, 08 Jul 2024
- 16:42:28 -0700 (PDT)
+        bh=MxUewbS9CHNfJzvJo7a2g8V9O8ZPqq3ROM3y+MnW49k=;
+        b=vQjNU6gYsCPkG1Ow8CI6hyYkvigqabJcEB+zMx8Q6nEsMyod15YHR50a7ktiL8M1KD
+         FeLSYTewCRk4r0XsuSDi4HP9iNZ+edxOuFY/tGXrrfuZWvaUCdw6tyPHwcVEjAlcDZcw
+         RQBlis4VKAYegVrduSxhtnWuRgiVEh8iDTI/v8xWExOkNc+HXfhDfqgA7uQ14Fyf+wUi
+         LK46PVazrHj6lGxOu99VaO45tREYhgkBf0f9au5TYkhF25yMTM5dd6cK2AI8luBnc2+l
+         vuSshB/wf0rZ85hAWjFYV/ev5yl0FpHj/9bl0TFu/wdAvYbWRYM95Z6YXhpgi1h962wU
+         2Krg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8BxjbBan3NoThzHSRSXA8oBvLW1pwX18O42kLfBfxP0RCGwSLfSH8WsIq73PCWYh7KkXy08JRKnOdqvvLiMBOPIcRZaZugH/Z27dUKdUI74Ui/p5b3JdCXZgiDEQ8yReukLipf1vQ
+X-Gm-Message-State: AOJu0YyCrNRc+wamy2Os6gIz0q/CHapxBWbl7v07uSHNCLYaSjxsJ3N6
+	gmyqpGnynRCkGl+0SG5AsWSEqwTfQLw6BMhvkRsiWNVX/372O8o7VIkWKbTUg7fu3tKYEL3Xcoe
+	e91YUMcqelTIDFzq2+84sTOYPjrQ=
+X-Google-Smtp-Source: AGHT+IHXiWsau9JPn2ls9GoEdNvbqKjBaLXu+xKi9eBrGLKMZtfZmdFEZFw1ZBab9RxCU+60Rc5TxW9YcW0zTeo8fsQ=
+X-Received: by 2002:a25:9386:0:b0:de5:4cd0:8da4 with SMTP id
+ 3f1490d57ef6-e041b078252mr1702340276.33.1720486426111; Mon, 08 Jul 2024
+ 17:53:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-9-jthoughton@google.com> <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
- <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
-In-Reply-To: <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
-From: Yu Zhao <yuzhao@google.com>
-Date: Mon, 8 Jul 2024 17:41:49 -0600
-Message-ID: <CAOUHufZ2Vd+Ea5vka20+SCVB446LZEA0mWy=RScN=7AChd869w@mail.gmail.com>
-Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
- in aging
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20240706022523.1104080-1-flintglass@gmail.com>
+In-Reply-To: <20240706022523.1104080-1-flintglass@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 8 Jul 2024 17:53:33 -0700
+Message-ID: <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 8, 2024 at 11:31=E2=80=AFAM James Houghton <jthoughton@google.c=
-om> wrote:
+On Fri, Jul 5, 2024 at 7:25=E2=80=AFPM Takero Funaki <flintglass@gmail.com>=
+ wrote:
 >
-> On Fri, Jul 5, 2024 at 11:36=E2=80=AFAM Yu Zhao <yuzhao@google.com> wrote=
-:
-> >
-> > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@goog=
-le.com> wrote:
-> > >
-> > > Secondary MMUs are currently consulted for access/age information at
-> > > eviction time, but before then, we don't get accurate age information=
-.
-> > > That is, pages that are mostly accessed through a secondary MMU (like
-> > > guest memory, used by KVM) will always just proceed down to the oldes=
-t
-> > > generation, and then at eviction time, if KVM reports the page to be
-> > > young, the page will be activated/promoted back to the youngest
-> > > generation.
-> > >
-> > > The added feature bit (0x8), if disabled, will make MGLRU behave as i=
-f
-> > > there are no secondary MMUs subscribed to MMU notifiers except at
-> > > eviction time.
-> > >
-> > > Implement aging with the new mmu_notifier_test_clear_young_fast_only(=
-)
-> > > notifier. For architectures that do not support this notifier, this
-> > > becomes a no-op. For architectures that do implement it, it should be
-> > > fast enough to make aging worth it.
-> > >
-> > > Suggested-by: Yu Zhao <yuzhao@google.com>
-> > > Signed-off-by: James Houghton <jthoughton@google.com>
-> > > ---
-> > >
-> > > Notes:
-> > >     should_look_around() can sometimes use two notifiers now instead =
-of one.
-> > >
-> > >     This simply comes from restricting myself from not changing
-> > >     mmu_notifier_clear_young() to return more than just "young or not=
-".
-> > >
-> > >     I could change mmu_notifier_clear_young() (and
-> > >     mmu_notifier_test_young()) to return if it was fast or not. At th=
-at
-> > >     point, I could just as well combine all the notifiers into one no=
-tifier,
-> > >     like what was in v2 and v3.
-> > >
-> > >  Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
-> > >  include/linux/mmzone.h                        |   6 +-
-> > >  mm/rmap.c                                     |   9 +-
-> > >  mm/vmscan.c                                   | 185 ++++++++++++++--=
---
-> > >  4 files changed, 164 insertions(+), 42 deletions(-)
-> >
-> > ...
-> >
-> > >  static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned=
- long end,
-> > >                            struct mm_walk *args)
-> > >  {
-> > > @@ -3357,8 +3416,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned=
- long start, unsigned long end,
-> > >         struct pglist_data *pgdat =3D lruvec_pgdat(walk->lruvec);
-> > >         DEFINE_MAX_SEQ(walk->lruvec);
-> > >         int old_gen, new_gen =3D lru_gen_from_seq(max_seq);
-> > > +       struct mm_struct *mm =3D args->mm;
-> > >
-> > > -       pte =3D pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK=
-, &ptl);
-> > > +       pte =3D pte_offset_map_nolock(mm, pmd, start & PMD_MASK, &ptl=
-);
-> > >         if (!pte)
-> > >                 return false;
-> > >         if (!spin_trylock(ptl)) {
-> > > @@ -3376,11 +3436,12 @@ static bool walk_pte_range(pmd_t *pmd, unsign=
-ed long start, unsigned long end,
-> > >                 total++;
-> > >                 walk->mm_stats[MM_LEAF_TOTAL]++;
-> > >
-> > > -               pfn =3D get_pte_pfn(ptent, args->vma, addr);
-> > > +               pfn =3D get_pte_pfn(ptent, args->vma, addr, pgdat);
-> > >                 if (pfn =3D=3D -1)
-> > >                         continue;
-> > >
-> > > -               if (!pte_young(ptent)) {
-> > > +               if (!pte_young(ptent) &&
-> > > +                   !lru_gen_notifier_test_young(mm, addr)) {
-> > >                         walk->mm_stats[MM_LEAF_OLD]++;
-> > >                         continue;
-> > >                 }
-> > > @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned=
- long start, unsigned long end,
-> > >                 if (!folio)
-> > >                         continue;
-> > >
-> > > -               if (!ptep_test_and_clear_young(args->vma, addr, pte +=
- i))
-> > > -                       VM_WARN_ON_ONCE(true);
-> > > +               lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SI=
-ZE);
-> > > +               if (pte_young(ptent))
-> > > +                       ptep_test_and_clear_young(args->vma, addr, pt=
-e + i);
-> > >
-> > >                 young++;
-> > >                 walk->mm_stats[MM_LEAF_YOUNG]++;
-> >
-> >
-> > There are two ways to structure the test conditions in walk_pte_range()=
-:
-> > 1. a single pass into the MMU notifier (combine test/clear) which
-> > causes a cache miss from get_pfn_page() if the page is NOT young.
-> > 2. two passes into the MMU notifier (separate test/clear) if the page
-> > is young, which does NOT cause a cache miss if the page is NOT young.
-> >
-> > v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifier
-> > twice every 64 PTEs, and therefore the second option is a clear win.
-> >
-> > But you are doing twice per PTE. So what's the rationale behind going
-> > with the second option? Was the first option considered?
 >
-> Hi Yu,
+
+Woah, thanks for the copious of details :)
+
+> This series addresses some issues and introduces a minor improvement in
+> the zswap global shrinker.
 >
-> I didn't consider changing this from your v2[1]. Thanks for bringing it u=
-p.
+> This version addresses issues discovered during the review of v1:
+> https://lore.kernel.org/linux-mm/20240608155316.451600-1-flintglass@gmail=
+.com/
+> and includes three additional patches to fix another issue uncovered by
+> applying v1.
 >
-> The only real change I have made is that I reordered the
-> (!test_spte_young() && !pte_young()) to what it is now (!pte_young()
-> && !lru_gen_notifier_test_young()) because pte_young() can be
-> evaluated much faster.
+> Changes in v2:
+> - Added 3 patches to reduce resource contention.
+> mm: zswap: fix global shrinker memcg iteration:
+> - Change the loop style (Yosry, Nhat, Shakeel)
+> - To not skip online memcg, save zswap_last_shrink to detect cursor chang=
+e by cleaner.  (Yosry, Nhat, Shakeel)
+> mm: zswap: fix global shrinker error handling logic:
+> - Change error code for no-writeback memcg. (Yosry)
+> - Use nr_scanned to check if lru is empty. (Yosry)
 >
-> I am happy to change the initial test_young() notifier to a
-> clear_young() (and drop the later clear_young(). In fact, I think I
-> should. Making the condition (!pte_young() &&
-> !lru_gen_notifier_clear_young()) makes sense to me. This returns the
-> same result as if it were !lru_gen_notifier_test_young() instead,
-> there is no need for a second clear_young(), and we don't call
-> get_pfn_folio() on pages that are not young.
-
-We don't want to do that because we would lose the A-bit for a folio
-that's beyond the current reclaim scope, i.e., the cases where
-get_pfn_folio() returns NULL (a folio from another memcg, e.g.).
-
-> WDYT? Have I misunderstood your comment?
-
-I hope this is clear enough:
-
-@@ -3395,7 +3395,7 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
-long start, unsigned long end,
-                if (pfn =3D=3D -1)
-                        continue;
-
--               if (!pte_young(ptent)) {
-+               if (!pte_young(ptent) && !mm_has_notifiers(args->mm)) {
-                        walk->mm_stats[MM_LEAF_OLD]++;
-                        continue;
-                }
-@@ -3404,8 +3404,8 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
-long start, unsigned long end,
-                if (!folio)
-                        continue;
-
--               if (!ptep_test_and_clear_young(args->vma, addr, pte + i))
--                       VM_WARN_ON_ONCE(true);
-+               if (!ptep_clear_young_notify(args->vma, addr, pte + i))
-+                       continue;
-
-                young++;
-                walk->mm_stats[MM_LEAF_YOUNG]++;
-
-> Also, I take it your comment was not just about walk_pte_range() but
-> about the similar bits in lru_gen_look_around() as well, so I'll make
-> whatever changes we agree on there too (or maybe factor out the common
-> bits).
+> Changes in v1:
+> mm: zswap: fix global shrinker memcg iteration:
+> - Drop and reacquire spinlock before skipping a memcg.
+> - Add some comment to clarify the locking mechanism.
+> mm: zswap: proactive shrinking before pool size limit is hit:
+> - Remove unneeded check before scheduling work.
+> - Change shrink start threshold to accept_thr_percent + 1%.
 >
-> [1]: https://lore.kernel.org/kvmarm/20230526234435.662652-11-yuzhao@googl=
-e.com/
 >
-> > In addition, what about the non-lockless cases? Would this change make
-> > them worse by grabbing the MMU lock twice per PTE?
+> Patches
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
 >
-> That's a good point. Yes I think calling the notifier twice here would
-> indeed exacerbate problems with a non-lockless notifier.
+> 1. Fix the memcg iteration logic that abort iteration on offline memcgs.
+> 2. Fix the error path that aborts on expected error codes.
+> 3. Add proactive shrinking at accept threshold + 1%.
+> 4. Drop the global shrinker workqueue WQ_MEM_RECLAIM flag to not block
+>    pageout.
+> 5. Store incompressible pages as-is to accept all pages.
+> 6. Interrupt the shrinker to avoid blocking page-in/out.
+>
+> Patches 1 to 3 should be applied in this order to avoid potential loops
+> caused by the first issue. Patch 3 and later can be applied
+> independently, but the first two issues must be resolved to ensure the
+> shrinker can evict pages. Patches 4 to 6 address resource contention
+> issues in the current shrinker uncovered by applying patch 3.
+>
+> With this series applied, the shrinker will continue to evict pages
+> until the accept_threshold_percent proactively, as documented in patch
+> 3. As a side effect of changes in the hysteresis logic, zswap will no
+> longer reject pages under the max pool limit.
+>
+> The series is rebased on mainline 6.10-rc6.
+>
+>
+> The counters below are from vmstat and zswap debugfs stats. The times
+> are average seconds using /usr/bin/time -v.
+>
+> pre-patch, 6.10-rc4
+> |                    | Start       | End         | Delta      |
+> |--------------------|-------------|-------------|------------|
+> | pool_limit_hit     | 845         | 845         | 0          |
+> | pool_total_size    | 201539584   | 201539584   | 0          |
+> | stored_pages       | 63138       | 63138       | 0          |
+> | written_back_pages | 12          | 12          | 0          |
+> | pswpin             | 387         | 32412       | 32025      |
+> | pswpout            | 153078      | 197138      | 44060      |
+> | zswpin             | 0           | 0           | 0          |
+> | zswpout            | 63150       | 63150       | 0          |
+> | zswpwb             | 12          | 12          | 0          |
+>
+> | Time              |              |
+> |-------------------|--------------|
+> | elapsed           | 8.473        |
+> | user              | 1.881        |
+> | system            | 0.814        |
+>
+> post-patch, 6.10-rc4 with patch 1 to 5
 
-I think so too, but I haven't verified it. Please do?
+You mean 1 to 6? There are 6 patches, no?
+
+Just out of pure curiosity, could you include the stats from patch 1-3 only=
+?
+
+> |                    | Start       | End         | Delta      |
+> |--------------------|-------------|-------------|------------|
+> | pool_limit_hit     | 81861       | 81861       | 0          |
+> | pool_total_size    | 75001856    | 87117824    | 12115968   |
+> | reject_reclaim_fail| 0           | 32          | 32         |
+> | same_filled_pages  | 135         | 135         | 0          |
+> | stored_pages       | 23919       | 27549       | 3630       |
+> | written_back_pages | 97665       | 106994      | 10329      |
+> | pswpin             | 4981        | 8223        | 3242       |
+> | pswpout            | 179554      | 188883      | 9329       |
+
+The pswpin delta actually decreases. Nice :)
+
+> | zswpin             | 293863      | 590014      | 296151     |
+> | zswpout            | 455338      | 764882      | 309544     |
+> | zswpwb             | 97665       | 106994      | 10329      |
+>
+> | Time              |              |
+> |-------------------|--------------|
+> | elapsed           | 4.525        |
+> | user              | 1.839        |
+> | system            | 1.467        |
+>
+> Although the pool_limit_hit is not increased in both cases,
+> zswap_store() rejected pages before this patch. Note that, before this
+> series, zswap_store() did not increment pool_limit_hit on rejection by
+> limit hit hysteresis (only the first few hits were counted).
+
+Yeah hysteresis + the broken global shrinker puts the system in a very
+bad state. Thanks for showing this.
+
+>
+> From the pre-patch result, the existing zswap global shrinker cannot
+> write back effectively and locks the old pages in the pool. The
+> pswpin/out indicates the active process uses the swap device directly.
+>
+> From the post-patch result, zswpin/out/wb are increased as expected,
+> indicating the active process uses zswap and the old pages of the
+> background services are evicted from the pool. pswpin/out are
+> significantly reduced from pre-patch results.
+
+Lovely :)
+
+>
+>
+> System responsiveness issue (patch 4 to 6)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> After applying patches 1 to 3, I encountered severe responsiveness
+> degradation while zswap global shrinker is running under heavy memory
+> pressure.
+>
+> Visible issue to resolve
+> -------------------------------
+> The visible issue happens with patches 1 to 3 applied when a large
+> amount of memory allocation happens and zswap cannot store the incoming
+> pages.
+> While global shrinker is writing back pages, system stops responding as
+> if under heavy memory thrashing.
+>
+> This issue is less likely to happen without patches 1 to 3 or zswap is
+> disabled. I believe this is because the global shrinker could not write
+> back a meaningful amount of pages, as described in patch 2.
+>
+> Root cause and changes to resolve the issue
+> -------------------------------
+> It seems that zswap shrinker blocking IO for memory reclaim and faults
+> is the root cause of this responsiveness issue. I introduced three
+> patches to reduce possible blocking in the following problematic
+> situations:
+>
+> 1. Contention on workqueue thread pools by shrink_worker() using
+> WQ_MEM_RECLAIM unnecessarily.
+>
+> Although the shrinker runs simultaneously with memory reclaim, shrinking
+> is not required to reclaim memory since zswap_store() can reject pages
+> without interfering with memory reclaim progress. shrink_worker() should
+> not use WQ_MEM_RECLAIM and should be delayed when another work in
+> WQ_MEM_RECLAIM is reclaiming memory. The existing code requires
+> allocating memory inside shrink_worker(), potentially blocking other
+> latency-sensitive reclaim work.
+>
+> 2. Contention on swap IO.
+>
+> Since zswap_writeback_entry() performs write IO in 4KB pages, it
+> consumes a lot of IOPS, increasing the IO latency of swapout/in. We
+> should not perform IO for background shrinking while zswap_store() is
+> rejecting pages or zswap_load() is failing to find stored pages. This
+> series implements two mitigation logics to reduce the IO contention:
+>
+> 2-a. Do not reject pages in zswap_store().
+> This is mostly achieved by patch 3. With patch 3, zswap can prepare
+> space proactively and accept pages while the global shrinker is running.
+>
+> To avoid rejection further, patch 5 (store incompressible pages) is
+> added. This reduces rejection by storing incompressible pages. When
+> zsmalloc is used, we can accept incompressible pages with small memory
+> overhead. It is a minor optimization, but I think it is worth
+> implementing. This does not improve performance on current zbud but does
+> not incur a performance penalty.
+>
+> 2-b. Interrupt writeback while pagein/out.
+> Once zswap runs out of prepared space, we cannot accept incoming pages,
+> incurring direct writes to the swap disk. At this moment, the shrinker
+> is proactively evicting pages, leading to IO contention with memory
+> reclaim.
+>
+> Performing low-priority IO is straightforward but requires
+> reimplementing a low-priority version of __swap_writepage(). Instead, in
+> patch 6, I implemented a heuristic, delaying the next zswap writeback
+> based on the elapsed time since zswap_store() rejected a page.
+>
+> When zswap_store() hits the max pool size and rejects pages,
+> swap_writepage() immediately performs the writeback to disk. The time
+> jiffies is saved to tell shrink_worker() to sleep up to
+> ZSWAP_GLOBAL_SHRINK_DELAY msec.
+>
+> The same logic applied to zswap_load(). When zswap cannot find a page in
+> the stored pool, pagein requires read IO from the swap device. The
+> global shrinker should be interrupted here.
+>
+> This patch proposes a constant delay of 500 milliseconds, aligning with
+> the mq-deadline target latency.
+>
+> Visible change
+> -------------------------------
+> With patches 4 to 6, the global shrinker pauses the writeback while
+> pagein/out operations are using the swap device. This change reduces
+> resource contention and makes memory reclaim/faults complete faster,
+> thereby reducing system responsiveness degradation.
+
+Ah this is interesting. Did you actually see improvement in your real
+deployment (i.e not the benchmark) with patch 4-6 in?
+
+>
+> Intended scenario for memory reclaim:
+> 1. zswap pool < accept_threshold as the initial state. This is achieved
+>    by patch 3, proactive shrinking.
+> 2. Active processes start allocating pages. Pageout is buffered by zswap
+>    without IO.
+> 3. zswap reaches shrink_start_threshold. zswap continues to buffer
+>    incoming pages and starts writeback immediately in the background.
+> 4. zswap reaches max pool size. zswap interrupts the global shrinker and
+>    starts rejecting pages. Write IO for the rejected page will consume
+>    all IO resources.
+
+This sounds like the proactive shrinker is still not aggressive
+enough, and/or there are some sort of misspecifications of the zswap
+setting... Correct me if I'm wrong, but the new proactive global
+shrinker begins 1% after the acceptance threshold, and shrinks down to
+acceptance threshold, right? How are we still hitting the pool
+limit...
+
+My concern is that we are knowingly (and perhaps unnecessarily)
+creating an LRU inversion here - preferring swapping out the rejected
+pages over the colder pages in the zswap pool. Shouldn't it be the
+other way around? For instance, can we spiral into the following
+scenario:
+
+1. zswap pool becomes full.
+2. Memory is still tight, so anonymous memory will be reclaimed. zswap
+keeps rejecting incoming pages, and putting a hold on the global
+shrinker.
+3. The pages that are swapped out are warmer than the ones stored in
+the zswap pool, so they will be more likely to be swapped in (which,
+IIUC, will also further delay the global shrinker).
+
+and the cycle keeps going on and on?
+
+Have you experimented with synchronous reclaim in the case the pool is
+full? All the way to the acceptance threshold is too aggressive of
+course - you might need to find something in between :)
+
+> 5. Active processes stop allocating pages. After the delay, the shrinker
+>    resumes writeback until the accept threshold.
+>
+> Benchmark
+> -------------------------------
+> To demonstrate that the shrinker writeback is not interfering with
+> pagein/out operations, I measured the elapsed time of allocating 2GB of
+> 3/4 compressible data by a Python script, averaged over 10 runs:
+>
+> |                      | elapsed| user  | sys   |
+> |----------------------|--------|-------|-------|
+> | With patches 1 to 3  | 13.10  | 0.183 | 2.049 |
+> | With all patches     | 11.17  | 0.116 | 1.490 |
+> | zswap off (baseline) | 11.81  | 0.149 | 1.381 |
+>
+> Although this test cannot distinguish responsiveness issues caused by
+> zswap writeback from normal memory thrashing between plain pagein/out,
+> the difference from the baseline indicates that the patches reduced
+> performance degradation on pageout caused by zswap writeback.
+>
+
+I wonder if this contention would show up in PSI metrics
+(/proc/pressure/io, or the cgroup variants if you use them ). Maybe
+correlate reclaim counters (pgscan, zswpout, pswpout, zswpwb etc.)
+with IO pressure to show the pattern, i.e the contention problem was
+there before, and is now resolved? :)
