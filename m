@@ -1,80 +1,78 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ED843147;
-	Tue,  9 Jul 2024 15:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B451C19CD06;
+	Tue,  9 Jul 2024 15:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720537217; cv=none; b=ZOK9AH2dP2kA8ogKtOUa90aFMyfoE2khNa2Tw87wx3ZBDgizO3KYzrWycQqamebS/xk5SMripPZelXvCXEisD3qIgvl4K+rEcSoT6Pvm9f72x2HfA3vhLwmgYocvDYd5l44jYAU8Eni1rGpyhYChO4htyIrwc0QfUqNmgUpsoDI=
+	t=1720537551; cv=none; b=Fz+lVeHbMrI6a0q012JejyZug0SbA+mFOdliN+HRdQSbDM44AJw0JfAGgwnjocYLvF0b2JHdv//DO7DkoVirXKzsWHv1UVYaqpikq9o0DYeiAHOsG6A3WAYuJhk5Db6LJkcDQeTJPGBc5+pjdSExTPnc8Ful3af37n4P2n+lNo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720537217; c=relaxed/simple;
-	bh=JiW69Fz66dH9tgT9IJ3kGFv2cPDr8WCP9lwPp3BIadc=;
+	s=arc-20240116; t=1720537551; c=relaxed/simple;
+	bh=7KdeIUNPQsG0ykPqrhHdQv+6oei5r5cewGe9Q/8P314=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MiXu+FTHjaAOuRjQsu41/Ewvvy4fST3tZGdojmjaUFTFozfhDiZH0EC5MKBtHco6G4YUOL0YgpgF6DGFCdf+xETuMgamwcIY0FLCnwRSmHuHa+jmEyWMHnmyYPHLl/KPNxNUeVgGbtYztfgjIHPZCikVWOvcvcaCgwelFFG3SGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XTIoUTUC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=o2dWNQIdn3hjWFSOV1QF4zTx1ubszTD33Ws7K0s1hFPsZ9I2gDTN4pwa2XpZjdKCZ/helaA/SuQ08lCk7fpuymnVnVb1nCQ9HgdUMIEs5TXTpMOSgiYodFGnQLIX4XRxBJkzIlN7TzZbo6yD+5l9BNcFTymzoIKN0NeMIxyUMOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eIzA8XJL; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XTIoUTUC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E13141A36
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eIzA8XJL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C004A41A36
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720537215; bh=w7U51+W3a2iY26LqogPIRTKUQM3cm8SRY2qgrigSplU=;
+	t=1720537548; bh=dr+FHBndTm677S+33kFUBxiFu4NosuJH12ccmibY21o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XTIoUTUC9LA0ptJLnNBtG+uS7FLx3uNQtp5V4uyJCqyKfBXZJiSPmpNh3aUtVKLR5
-	 A0/XOVQPYab/TFQT5mEEcdlJM855FZcpqXnfrI8I18kj3e9HDZ2vWKvPl7+ACOfPBP
-	 lKfJkwINRudB0kWkXBDcHf78dPRcU+4gL5HDnkP8FlxagtDt2iYyTxKoxwSbOxAlc1
-	 HVAYYPueN415heiHNWU6Yw1eeBGStuk7clPQKxTZ9DmlBOzYusvyPFKRzo+emvvi4z
-	 S9FxXExmlu+On/WOU75E9KORRoCu2uvDItHHSGwafOxrfeXLA6E/eI61JaQK8V+ZXh
-	 LYcKsRS8b/jbA==
+	b=eIzA8XJLh3P3z/5hP4lrSoDlSCA9VT0aJ7t6V9gmHL/efl2Pvhafgw+dsljohMkf1
+	 Z7BFfJG6HJewJlTBr7+hTEa9wpyasb3TUFaWXz9d/8oZ2NbioEj3+epuvTYvanwnB1
+	 MPXNYjIho4YNXfOpnz2QDuMrXQJ7WlIu8MwRRHJRhz8f0tCk4cv7C3yeEtbFTQsfzF
+	 1GcV8SsjmksyhyUFHw/mJ1d+T92GGrVOyJouS+z2zpCH8vKxet4xhtb+9TbrFdE9wv
+	 xCe/kxI4bp+rSzOi/8wZUjpzc5Is/nS9kR7iDHZDzfL8KQhf/x2KvF0oW8fMCZZuSl
+	 mLpp5EYvgu85g==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9E13141A36;
-	Tue,  9 Jul 2024 15:00:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C004A41A36;
+	Tue,  9 Jul 2024 15:05:48 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Lublin <daniel@lublin.se>
-Cc: Daniel Lublin <daniel@lublin.se>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: add reference from dynamic debug to
- loglevel kernel params
-In-Reply-To: <4633bdb82c1c7c014d79840887878624a55c59f8.1720533043.git.daniel@lublin.se>
-References: <4633bdb82c1c7c014d79840887878624a55c59f8.1720533043.git.daniel@lublin.se>
-Date: Tue, 09 Jul 2024 09:00:14 -0600
-Message-ID: <87plrm8vb5.fsf@trenco.lwn.net>
+To: Sergio =?utf-8?Q?Gonz=C3=A1lez?= Collado <sergio.collado@gmail.com>,
+ Ingo Molnar
+ <mingo@kernel.org>, Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>,
+ Shrikanth Hegde <sshegde@linux.vnet.ibm.com>, Wenyu Huang
+ <huangwenyu5@huawei.com>, Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bilbao@vt.edu,
+ Sergio =?utf-8?Q?Gonz=C3=A1lez?= Collado <sergio.collado@gmail.com>
+Subject: Re: [PATCH v2] docs/sp_SP: Add translation for
+ scheduler/sched-design-CFS.rst
+In-Reply-To: <20240707195047.14359-1-sergio.collado@gmail.com>
+References: <20240707195047.14359-1-sergio.collado@gmail.com>
+Date: Tue, 09 Jul 2024 09:05:47 -0600
+Message-ID: <87le2a8v1w.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Daniel Lublin <daniel@lublin.se> writes:
+Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com> writes:
 
-> This is useful information for somebody who has managed to dig into
-> enabling debug output, but is wondering why there is no such output
-> appearing on the console.
+> Translate Documentation/scheduler/sched-design-CFS.rst into Spanish
 >
-> Signed-off-by: Daniel Lublin <daniel@lublin.se>
+> Signed-off-by: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
+> Reviewed-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
 > ---
->  Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index 0e9b48daf690..7c036590cd07 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -26,6 +26,11 @@ Dynamic debug provides:
->     - format string
->     - class name (as known/declared by each module)
->  
-> +NOTE: To actually get the debug-print output on the console, you may
-> +need to adjust the kernel ``loglevel=``, or use ``ignore_loglevel``.
-> +Read about these kernel parameters in
-> +Documentation/admin-guide/kernel-parameters.rst.
-> +
+>  v1 -> v2: Corrected typos and added a note about EEVDF
+> ---
+>  Documentation/scheduler/sched-design-CFS.rst  |   2 +
+>  Documentation/translations/sp_SP/index.rst    |   1 +
+>  .../translations/sp_SP/scheduler/index.rst    |   8 +
+>  .../sp_SP/scheduler/sched-design-CFS.rst      | 277 ++++++++++++++++++
+>  4 files changed, 288 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/scheduler/index.rst
+>  create mode 100644 Documentation/translations/sp_SP/scheduler/sched-desi=
+gn-CFS.rst
 
-I've applied this, thanks.
+Applied, thanks.
 
 jon
