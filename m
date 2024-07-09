@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BE019CCE1;
-	Tue,  9 Jul 2024 15:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695F3364AB;
+	Tue,  9 Jul 2024 15:08:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720537608; cv=none; b=DjGB3XLuWrSWfW/vyWEMOczpNACE5CfQQu32PHtYYbInP9IBEdGorgkjs3x3MNSV3/Ad1CmMyPX4VaAWP2wVadYdy/HyC31HxfQNrReNFAHDM00FqQMUDATT43wjqftkV/Xm2eNEzArNyaQ/IMdbUI9eXVIc6i7GEh50CfyQ4+c=
+	t=1720537708; cv=none; b=bsD/efpMFQ1DRk7HmRT3YgDH6FmxKK9Cd1CCmDJE5kn0syGMkB+BTF7ukA6GcEAR4sh7P3HiyHP9I2/eovrmxQDtPmEOPNnSfr4DS9W7hPc62IRrQZ1I9gM0/d9a/dQ7Yg+WCQK6iBIv/LVB7K6iiRosm9hFxZZWT5WuMnj9AEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720537608; c=relaxed/simple;
-	bh=Ev+hYYCgQuT+OInBf7HOjWwJu3rpgA3FZ5vehiFufpk=;
+	s=arc-20240116; t=1720537708; c=relaxed/simple;
+	bh=Ar9lAiUCjYvL61z7OCjl3X6GHb52GEYA7SN0yPdX5Vk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SYzTsIy2GGmVcj+1SenBQ9gyntmogBxaqAPb3R1GDttqV655AYpDGgxRSebtILqFL0TBl25aOgxDo5+/o8Cg6g3t2ZWHlSPuM0JyInfT4VhPqez/gcL/AX1vHU+imut/xQq2YSyqIP3dHpk4ULcOE7XrU2fV54XseQuhyNC+MKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tZ0Ke6Ij; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=O4YEDKCxD7vbzip1uj6DpwwT6UVWEpNcQ2ie4eXYP6FpndJli4NvDFQbJYKsecUUKae5GNlVZXYqyIRXfdt+Usdm9nq+PAsuJhWW4qwz+51By/pQimbDBLE8fbjGV11QH3kQOy6JwD/V2c5RF9hlvrwYHHBaalkgP1yRzRx2cCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dlNdrblm; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tZ0Ke6Ij"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5831541A36
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dlNdrblm"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 846ED41A36
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1720537606; bh=+aZefzjyqJcmqhE79dhI7IuzKowlLWiHzqxibVnrW0E=;
+	t=1720537706; bh=Ar9lAiUCjYvL61z7OCjl3X6GHb52GEYA7SN0yPdX5Vk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tZ0Ke6IjtuJUW90INGiHySZBmgCKtM9RT94BUkyaztoM77aRUPtHhc57hNdSZ6aKC
-	 zWcHKRjxyLLqjGiGrJF+10PXHvqE3yBYanquhPyXVNA/rdpMXMJsWBHGDKgI/HDlQz
-	 7GO0Hd4kHDrbxjqhYKyRMVDoGu3v33TTlmP//Eq4xknw2Uy6GSKbtkBU4cAjhjZhSB
-	 gEVq9tdqKnjhT+2h0oqUD35FaLIqauFsiNZqUv/b9a5mt4cttC6FaBOFwdd205TePF
-	 1E0JQW2Exhkg74YOryQpexp5JMVnkb0Xr7+2fTV0I0pc65/zLkEEnWGNRHPIIuCoEO
-	 ICp+gAo/skEXg==
+	b=dlNdrblmyPxOeknj1lmNfNWjfKpvHr1188AUc2hk4pUYNhz7N1wFS/RPUzx+m8erx
+	 tTPeOtLYvYzaiwhYGmvAqlxD/2Y2fTIf9+feENFdFG+6oeweO6eYLI5RuyvLjc3uNW
+	 m9ZSY3ZYX2xM4zGD5HAisrVJqDw1aso6ANmn4wjSh5jSADSF+PffIe+rmXtdzSccgE
+	 ahK9SlBmVjuh+KpCAbhW8VcT9l4OjGpc0JJVoapT3RL3iGltWwkGvAg+RF+3TWCqq3
+	 xDgJMKo6s/QKL2JS8RMeTeUk6uqRjkDIlnqI1a9DSsu+BHir1BbVrp5pXToR6XdPMe
+	 3pF63qEGY9isA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5831541A36;
-	Tue,  9 Jul 2024 15:06:46 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 846ED41A36;
+	Tue,  9 Jul 2024 15:08:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zenghui Yu <zenghui.yu@linux.dev>, linux-doc@vger.kernel.org,
+To: Tao Zou <wodemia@linux.alibaba.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>
+Cc: Tao Zou <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Cc: alexs@kernel.org, siyanteng@loongson.cn, Zenghui Yu <zenghui.yu@linux.dev>
-Subject: Re: [PATCH] docs/zh_CN/virt: Update the translation of
- guest-halt-polling.rst
-In-Reply-To: <20240707161444.98715-1-zenghui.yu@linux.dev>
-References: <20240707161444.98715-1-zenghui.yu@linux.dev>
-Date: Tue, 09 Jul 2024 09:06:45 -0600
-Message-ID: <87h6cy8v0a.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v1] zh_CN/admin-guide: one typo fix
+In-Reply-To: <20240705022842.51451-1-wodemia@linux.alibaba.com>
+References: <20240705022842.51451-1-wodemia@linux.alibaba.com>
+Date: Tue, 09 Jul 2024 09:08:25 -0600
+Message-ID: <87cynm8uxi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,33 +49,30 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-Zenghui Yu <zenghui.yu@linux.dev> writes:
-
-> Update to commit 1954d51592b5 ("Documentation: virt: correct location of
-> haltpoll module params") to fix the obvious mistake.
->
-> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
-> ---
->  Documentation/translations/zh_CN/virt/guest-halt-polling.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst=
- b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
-> index b798d1cf0b48..463d1d829062 100644
-> --- a/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
-> +++ b/Documentation/translations/zh_CN/virt/guest-halt-polling.rst
-> @@ -76,7 +76,7 @@ guest_halt_poll_ns=E5=B0=86=E4=BF=9D=E6=8C=81=E9=AB=98=
-=E4=BD=8D=EF=BC=89=E3=80=82
->=20=20
->  =E9=BB=98=E8=AE=A4=E5=80=BC: Y
->=20=20
-> -=E6=A8=A1=E5=9D=97=E5=8F=82=E6=95=B0=E5=8F=AF=E4=BB=A5=E4=BB=8EDebugfs=
-=E6=96=87=E4=BB=B6=E4=B8=AD=E8=AE=BE=E7=BD=AE=EF=BC=8C=E5=9C=A8::
-> +=E6=A8=A1=E5=9D=97=E5=8F=82=E6=95=B0=E5=8F=AF=E4=BB=A5=E4=BB=8Esysfs=E6=
-=96=87=E4=BB=B6=E4=B8=AD=E8=AE=BE=E7=BD=AE=EF=BC=8C=E5=9C=A8::
->=20=20
-Applied, thanks.
-
-jon
+VGFvIFpvdSA8d29kZW1pYUBsaW51eC5hbGliYWJhLmNvbT4gd3JpdGVzOg0KDQo+IEZpeCBvbmUg
+Y2hpbmVzZSB0eXBvIGVycm9yLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBUYW8gWm91IDx3b2RlbWlh
+QGxpbnV4LmFsaWJhYmEuY29tPg0KPiAtLS0NCj4gVGhlIHByZXZpb3VzIHRyYW5zbGF0aW9uIHBh
+dGNoIHY0IGhhcyBhbHJlYWR5IGJlZW4gYXBwaWVkLCBhbmQgdGhlIGNoYW5nZXMgZnJvbSB2NCB0
+byB2NSB3ZXJlIG1pc3NlZC4NCj4gVGhpcyBwYXRjaCBpcyBvbmUgdHlwb2ZpeCwgYW5kIGluY2x1
+ZGVzIHRoZSBjaGFuZ2VzIGZyb20gdjQgdG8gdjUuDQo+ICANCj4gIERvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL2FkbWluLWd1aWRlL251bWFzdGF0LnJzdCB8IDIgKy0NCj4gIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPg0KPiBkaWZmIC0tZ2l0
+IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUvbnVtYXN0YXQu
+cnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUvbnVtYXN0
+YXQucnN0DQo+IGluZGV4IGMwZjU0ZDlhNmIwNS4uNGQ5ODE3YjkxODcwIDEwMDY0NA0KPiAtLS0g
+YS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9hZG1pbi1ndWlkZS9udW1hc3RhdC5y
+c3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRtaW4tZ3VpZGUv
+bnVtYXN0YXQucnN0DQo+IEBAIC0xMyw3ICsxMyw3IEBAIE51bWHnrZbnlaXlkb3kuK0v5pyq5ZG9
+5Lit57uf6K6hDQo+ICANCj4gIOaJgOacieaVsOaNrueahOWNleS9jemDveaYr+mhtemdouOAguW3
+qOmhteacieeLrOeri+eahOiuoeaVsOWZqOOAgg0KPiAgDQo+IC1udW1hX2hpdOOAgW51bWFfbWlz
+c+WSjG51bWFfZm9yZWlnbuiuoeaVsOWZqOWPjeW6lOS6hui/m+eoi+aYr+WQpuiDveWkn+WcqOS7
+luS7rOWBj+WlveeahOiKgueCueS4iuWIhumFjeWGheWtmOOAgg0KPiArbnVtYV9oaXTjgIFudW1h
+X21pc3PlkoxudW1hX2ZvcmVpZ27orqHmlbDlmajlj43mmKDkuobov5vnqIvmmK/lkKbog73lpJ/l
+nKjku5bku6zlgY/lpb3nmoToioLngrnkuIrliIbphY3lhoXlrZjjgIINCj4gIOWmguaenOi/m+eo
+i+aIkOWKn+WcqOWBj+WlveeahOiKgueCueS4iuWIhumFjeWGheWtmOWImeWcqOWBj+WlveeahOiK
+gueCueS4iuWinuWKoG51bWFfaGl06K6h5pWw77yM5ZCm5YiZ5Zyo5YGP5aW955qE6IqC54K55LiK
+5aKeDQo+ICDliqBudW1hX2ZvcmVpZ27orqHmlbDlkIzml7blnKjlrp7pmYXlhoXlrZjliIbphY3n
+moToioLngrnkuIrlop7liqBudW1hX21pc3PorqHmlbDjgIINCg0KQXBwbGllZCwgdGhhbmtzLg0K
+DQpqb24NCg==
