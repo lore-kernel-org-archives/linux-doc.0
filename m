@@ -1,124 +1,82 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3956D2B9DA;
-	Tue,  9 Jul 2024 13:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9223D15ECF2;
+	Tue,  9 Jul 2024 13:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720531248; cv=none; b=ilKh/6kXjR5RkA8aS1jvzMsq+5ask4ykaXt0aaHeo+PcjEzN8A2RW3Uf5rQYFCxFxBRAeHb5pVe+OmHR4k+9DVLriDJIju/pi/SaHBX83NmDcS1/Zxr2v2BxX00PVIAtuQoBovhz2fTQ7Y7+kvpnDkI8ZPOGGzX77OtUfwiFRIc=
+	t=1720531377; cv=none; b=nbJRXPR0JD7qsxJQiDringim0287VCkZM9C4NOT8WZAz7DRPaQzn3J7IZEi4GnjjERggqMzOFzuYzYzsa1BBF2+/5fGSW7LrfYSnMYDDOqRuxh28AsivpRVUDuqOHwDq3qwI1YuI9yP1RwQXTabZu6+ESyMQUutZpXDZKJOTZ2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720531248; c=relaxed/simple;
-	bh=IWo9o+BR5hri80OXw059McKLXefmWML8DKmyfp52TPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KlCJeJaZQ8n7fpR2jWh8+ke2fRY1ZHY0YUeJ1LUvZzMrtvwkvevrMcFZdZMdivd3v78eyvTBYB1Ye7BUJviioEKBc6LjBrjsgL0hJ+JqJ47DXQjNqfM/pT51znU9hWj+rIPBnwt5SBPf8yga6wrNiVUlKVqDPyC0F1E0ruLVNZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eg0Cjm/T; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1720531377; c=relaxed/simple;
+	bh=BVpjp6awWafgQXlCutdW0mSjCD1HUnZvA3Y66INIa58=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JA9FXYH1pheKG42bVGbfXnSdImZ4aT4AgMRLIzeXYyJ//aG4dn1AQhCgC1PP8IyXgTxe7gU8tuI1+WGcjh95uV/kpUebsfWbmMdAytlc06m69e712BEgWp9iJGxNTqUCde7gXb/cF7XTUebcGvsZjWR7Nui2hHRLJ+7h9+xdjAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=k15TyeHi; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eg0Cjm/T"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2B18E1BF20B;
-	Tue,  9 Jul 2024 13:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720531243;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jdgtcZmaR8+U0BJCpEZXKmWLsv2ubjnvbI1hvNLijts=;
-	b=eg0Cjm/TBMLMJTS1BOIpLtUkMz04COoBTpzrwORid+BpxEyX+kDNujFxtgVc2TKgi/6s+X
-	ZsQYZUVdQRO1F2olaO6cOrSqVISF8oPJdFlM0kXMx3QFu4eOENVEkOFMZBkDKg2LBTLBbK
-	OwhnizFilnKwzPZCCR2kKpnElseJBhkd0kVqq6NtQfUfzX/zAP/yBrcu9QzMVCGtkzXWAX
-	NJO0AQtf6fBqo7TgbU1q4WRitgzmkvmsqwmNhDZ9bBB7uMDIdwLtF1P4qAtmm6hB3qycjz
-	0qCzV/9RVb3Wa2i/uyJ4HNvffzu8LoVD6q7E5B+SYUfbyBAvJOSnoAP8m8UoJw==
-Date: Tue, 9 Jul 2024 15:20:41 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald Hunter
- <donald.hunter@gmail.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v6 5/7] net: ethtool: Add new power limit get
- and set features
-Message-ID: <20240709152041.7493ffc5@kmaincent-XPS-13-7390>
-In-Reply-To: <20240708113300.3544d36d@kernel.org>
-References: <20240704-feature_poe_power_cap-v6-0-320003204264@bootlin.com>
-	<20240704-feature_poe_power_cap-v6-5-320003204264@bootlin.com>
-	<20240705184116.13d8235a@kernel.org>
-	<20240708113846.215a2fde@kmaincent-XPS-13-7390>
-	<20240708113300.3544d36d@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="k15TyeHi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 284AE41A87
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1720531369; bh=B0IUPEucc7szkKko6Xb/IW+jrIcuCp7pfsHDSlyPkHU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=k15TyeHifGFb3NNzyQwTSKXhp61NeT9c/bwZLYioczuUayP7qWRIJTeWZEgyoZ9yH
+	 2wmvFn5CPCI7a7BFNcwNDHNGoKkdHeurMeFY6VhIyGo2x5s7Nndbn/1I2jkmH9e0gV
+	 1H32pszl3u9vIGBaiedhcuLm98kl2JuaokZh5mvDqwoTBAOlaKoU++leBl6mn6QDW9
+	 vMZEMiVQDSLDUJeHTkb6SrCiSs5CYAXlrapFaiKOfYfsO9vxQdHFgWq9KPEwXAeZuP
+	 jolxaeRKOKvLBluLxr+k5vzmvWSvdWIE0fPzSAROG5L9nCSc3hK0Aii3u0/PjiXMJQ
+	 kQ2sevom2I2Wg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 284AE41A87;
+	Tue,  9 Jul 2024 13:22:49 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Lublin <daniel@lublin.se>
+Cc: Daniel Lublin <daniel@lublin.se>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: add reference from dynamic debug to
+ loglevel kernel params
+In-Reply-To: <4c1da56d2f123af8566744ab61c9d41e0b32de64.1720518466.git.daniel@lublin.se>
+References: <4c1da56d2f123af8566744ab61c9d41e0b32de64.1720518466.git.daniel@lublin.se>
+Date: Tue, 09 Jul 2024 07:22:48 -0600
+Message-ID: <87y16a8ztj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-On Mon, 8 Jul 2024 11:33:00 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Daniel Lublin <daniel@lublin.se> writes:
 
-> On Mon, 8 Jul 2024 11:38:46 +0200 Kory Maincent wrote:
->  [...] =20
->  [...] =20
->=20
-> Don't worry I understand the code well enough to resolve any conflicts
-> (famous last words?). And if we fix as part of ethnl_set_pse_validate()
-> then there's no conflict, AFAICT.
+> Signed-off-by: Daniel Lublin <daniel@lublin.se>
+> ---
+>  Documentation/admin-guide/dynamic-debug-howto.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-As you can see in the patch I just sent
-https://lore.kernel.org/netdev/20240709131201.166421-1-kory.maincent@bootli=
-n.com/T/#u
-the fix is not in set_pse_validate() therefore you will have a merge confli=
-ct.
+This change should really have a changelog.
 
-You could do this to solve the merge conflict:
---- a/net/ethtool/pse-pd.c
-+++ b/net/ethtool/pse-pd.c
-@@ -256,6 +256,7 @@ static int
- ethnl_set_pse(struct ethnl_req_info *req_info, struct genl_info *info)
- {
-        struct net_device *dev =3D req_info->dev;
-+       struct pse_control_config config =3D {};
-        struct nlattr **tb =3D info->attrs;
-        struct phy_device *phydev;
-        int ret =3D 0;
-@@ -273,15 +274,13 @@ ethnl_set_pse(struct ethnl_req_info *req_info, struct=
- genl_info *info)
-        }
-=20
-        /* These values are already validated by the ethnl_pse_set_policy */
-+       if (tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
-+               config.podl_admin_control =3D nla_get_u32(tb[ETHTOOL_A_PODL=
-_PSE_ADMIN_CONTROL]);
-+       if (tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL])
-+               config.c33_admin_control =3D nla_get_u32(tb[ETHTOOL_A_C33_P=
-SE_ADMIN_CONTROL]);
-+
-        if (tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] ||
-            tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL]) {
--               struct pse_control_config config =3D {};
--
--               if (pse_has_podl(phydev->psec))
--                       config.podl_admin_control =3D nla_get_u32(tb[ETHTOO=
-L_A_PODL_PSE_ADMIN_CONTROL]);
--               if (pse_has_c33(phydev->psec))
--                       config.c33_admin_control =3D nla_get_u32(tb[ETHTOOL=
-_A_C33_PSE_ADMIN_CONTROL]);
--
-                ret =3D pse_ethtool_set_config(phydev->psec, info->extack,
-                                             &config);
-                if (ret)
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> index 0e9b48daf690..7e55097e559d 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -26,6 +26,12 @@ Dynamic debug provides:
+>     - format string
+>     - class name (as known/declared by each module)
+>  
+> +NOTE: To actually get the debug-print output on the console, you may
+> +need to adjust the kernel ``loglevel=``, or use ``ignore_loglevel``.
+> +Read about these kernel parameters in
+> +:ref:`Documentation/admin-guide/kernel-parameters.rst
+> +<kernelparameters>`.
 
+Rather than use :ref:, you can just say
+"Documentation/admin-guide/kernel-parameters.rst" and the right thing
+will happen.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks,
+
+jon
