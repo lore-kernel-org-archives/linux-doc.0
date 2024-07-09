@@ -1,172 +1,209 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF73A15575C
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 13:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA24158D92
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jul 2024 13:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720531590; cv=none; b=u0OHq4lYBhTW4Q7E+b4Q2UT95q5GY0uQBMya2PcwXk2zouAaQolkODkVFHgmVuDgkqUNArtrEf9OyPnVSjwJQh272yMpU0cW/xm/6JERqbkinFok5eIZLwHdgcUfWAf1Jv0r5Q1o5SsUpo0kiAxHwp7ZT7KPWVY+18+hWQj1Pz8=
+	t=1720531750; cv=none; b=Wb329hYyfUfsZqXu3lyiiZ3zJFOLjZqIZJhotEDllZm1UtiSuI3TgRGRueLUhrE4V07WMZ85a5idGB0fVVIB2r7yJnB+QcAuggn5PdNLne9UuHW2Ke5MTKcIb/ptGHu7amtsokLbjD+FqEX4LXrxqYNAEKWUnlKSlrMxRcPftvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720531590; c=relaxed/simple;
-	bh=6WKOe37mxUTkug8sK5724WFmpZAnjnbPNun28ZV3tSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sJAhBjA2YVAGQ6r44xif7QWsKy1yyplAdd07hQWE/13esnie/TzuzbCkEwZjRhvAV+DXgSRS9JU9aRUdJobP7PF4Tay57CJNjtuO2g7v0dWJWQDvAd15eGsUU16iUETDF4bR+w0i0gTp8ZM3aTsnPXweZlY4zA7nxcpJtaoHEak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uJu15Kp0; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1720531750; c=relaxed/simple;
+	bh=c+nnO9LMTahdthMrpi4qg1EXjDO3xxfybk7lUVAGKz4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PTi1Er7tLiS0fdomJ2/gkRY2Bu4LFrtZncd0sgmUTQKy+CBGortVNSF5mQbfMkIE4cbdSTSv1GtTAq93HNPxBSTBnDeE0jGkgEoT9haaY4hki9I9sQZi86kxKzynVi4cPMwcVuruiQzNFhl4Sy40Qxp4i5PyJtpbLo6em/Rg9Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hquBD+Ca; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uJu15Kp0"
-X-Envelope-To: flintglass@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1720531585;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hquBD+Ca"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720531747;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fXJuI7uI1qCv8xGpT5wNFuY2vtyb8QTYfSJpVlZ43kY=;
-	b=uJu15Kp0Gc3uZ5gTkAbUQdOALV9UDlVCIFe+aqLZ33fbq+d79F2WBUIylcKdM3M5dIMr9T
-	SUItIfy9gyqmeWg5MmnuJbO3dYb11sw5Nz3ITLBAs5r/PnPH6UgjeXBAJU9ehyCuyGlI3T
-	UbZqN6NB5P4bmntG0BFIzyF/UMuA+WU=
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: yosryahmed@google.com
-X-Envelope-To: nphamcs@gmail.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: akpm@linux-foundation.org
-X-Envelope-To: cerasuolodomenico@gmail.com
-X-Envelope-To: linux-mm@kvack.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-Message-ID: <cc5ba793-59a4-4904-a1b3-723ebaa3a93e@linux.dev>
-Date: Tue, 9 Jul 2024 21:26:12 +0800
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qubRVCLAojwM88nAZiz+jBh5XpRB8iC1kGfHwMyytLA=;
+	b=hquBD+CaODtzoJ+sfUkPExG+8BOizjwv6XWMyPxR73g6jb5f1gNhIR7rTtKhX+8N1qdI9e
+	BzjjyDuxts3sjy56PorsH8QvmzUCeVt3uCC+g7UtGseGfH6Ykze3KRIiYHkRIyjQ3yiUSy
+	zW6yb6xXDbNmvxxooUhH5CNlWA3oeGo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-498-VogK5-7ONjKpEcMdc7WqKg-1; Tue,
+ 09 Jul 2024 09:29:03 -0400
+X-MC-Unique: VogK5-7ONjKpEcMdc7WqKg-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCBE81920C78;
+	Tue,  9 Jul 2024 13:28:57 +0000 (UTC)
+Received: from llong.com (unknown [10.22.34.7])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F28CE1955DDD;
+	Tue,  9 Jul 2024 13:28:40 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH-cgroup v2] cgroup: Show # of subsystem CSSes in root cgroup.stat
+Date: Tue,  9 Jul 2024 09:28:14 -0400
+Message-Id: <20240709132814.2198740-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 5/6] mm: zswap: store incompressible page as-is
-To: Takero Funaki <flintglass@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed
- <yosryahmed@google.com>, Nhat Pham <nphamcs@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-6-flintglass@gmail.com>
- <0afc769e-241a-404e-b2c9-a6a27bdd3c72@linux.dev>
- <CAPpoddfySkGpD5hKgqUAAMgMp2vWcivg1AzcyYh_NP1-ZsGkug@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Chengming Zhou <chengming.zhou@linux.dev>
-In-Reply-To: <CAPpoddfySkGpD5hKgqUAAMgMp2vWcivg1AzcyYh_NP1-ZsGkug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On 2024/7/8 21:44, Takero Funaki wrote:
-> 2024年7月8日(月) 12:56 Chengming Zhou <chengming.zhou@linux.dev>:
-> 
->>>        comp_ret = crypto_wait_req(crypto_acomp_compress(acomp_ctx->req), &acomp_ctx->wait);
->>>        dlen = acomp_ctx->req->dlen;
->>> -     if (comp_ret)
->>> +
->>> +     /* coa_compress returns -EINVAL for errors including insufficient dlen */
->>> +     if (comp_ret && comp_ret != -EINVAL)
->>>                goto unlock;
->>
->> Seems we don't need to care about? "comp_ret" is useless anymore.
->>
->> Just:
->>
->> if (comp_ret || dlen > PAGE_SIZE - 64)
->>          dlen = PAGE_SIZE;
->>
->> And remove the checkings of comp_ret at the end.
->>
-> 
->>
->> We actually don't need to hold mutex if we are just copying folio.
->>
->> Thanks.
->>
-> 
-> Thanks for reviewing.
-> 
-> For comp_ret, can we consolidate all possible error codes as
-> incompressible data?
+The /proc/cgroups file shows the number of cgroups for each of the
+subsystems.  With cgroup v1, the number of CSSes is the same as the
+number of cgroups. That is not the case anymore with cgroup v2. The
+/proc/cgroups file cannot show the actual number of CSSes for the
+subsystems that are bound to cgroup v2.
 
-Maybe we still want these debug counters? I'm not sure.
+So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+we can't tell by looking at /proc/cgroups which cgroup subsystems may be
+responsible.  This patch adds CSS counts in the cgroup_subsys structure
+to keep track of the number of CSSes for each of the cgroup subsystems.
 
-With your proposal, I think we don't care about compression failures
-anymore, in all cases it's just ok to fallback to just copy the folio.
+As cgroup v2 had deprecated the use of /proc/cgroups, the root
+cgroup.stat file is extended to show the number of outstanding CSSes
+associated with all the non-inhibited cgroup subsystems that have been
+bound to cgroup v2.  This will help us pinpoint which subsystems may be
+responsible for the increasing number of dying (nr_dying_descendants)
+cgroups.
 
-> if we do not need to distinguish -EINVAL and the others, diff v2..v3
-> can be like:
-> 
-> @@ -62,8 +62,6 @@ static u64 zswap_pool_limit_hit;
->   static u64 zswap_written_back_pages;
->   /* Store failed due to a reclaim failure after pool limit was reached */
->   static u64 zswap_reject_reclaim_fail;
-> -/* Store failed due to compression algorithm failure */
-> -static u64 zswap_reject_compress_fail;
->   /* Compressed page was too big for the allocator to (optimally) store */
->   static u64 zswap_reject_compress_poor;
->   /* Store failed because underlying allocator could not get memory */
-> @@ -1043,10 +1041,6 @@ static bool zswap_compress(struct folio *folio,
-> struct zswap_entry *entry)
->          comp_ret =
-> crypto_wait_req(crypto_acomp_compress(acomp_ctx->req),
-> &acomp_ctx->wait);
->          dlen = acomp_ctx->req->dlen;
-> 
-> -       /* coa_compress returns -EINVAL for errors including
-> insufficient dlen */
-> -       if (comp_ret && comp_ret != -EINVAL)
-> -               goto unlock;
-> -
->          /*
->           * If the data cannot be compressed well, store the data as-is.
->           * Switching by a threshold at
-> @@ -1056,7 +1050,8 @@ static bool zswap_compress(struct folio *folio,
-> struct zswap_entry *entry)
->           */
->          if (comp_ret || dlen > PAGE_SIZE - 64) {
->                  /* we do not use compressed result anymore */
-> -               comp_ret = 0;
-> +               mutex_unlock(&acomp_ctx->mutex);
-> +               acomp_ctx = NULL;
->                  dlen = PAGE_SIZE;
->          }
->          zpool = zswap_find_zpool(entry);
-> @@ -1083,12 +1078,11 @@ static bool zswap_compress(struct folio
-> *folio, struct zswap_entry *entry)
->   unlock:
->          if (alloc_ret == -ENOSPC)
->                  zswap_reject_compress_poor++;
-> -       else if (comp_ret)
-> -               zswap_reject_compress_fail++;
+The cgroup-v2.rst file is updated to discuss this new behavior.
 
-If you want to keep these debug counters, you can move these forward.
+With this patch applied, a sample output from root cgroup.stat file
+was shown below.
 
->          else if (alloc_ret)
->                  zswap_reject_alloc_fail++;
-> 
-> -       mutex_unlock(&acomp_ctx->mutex);
-> +       if (acomp_ctx)
-> +               mutex_unlock(&acomp_ctx->mutex);
->          return comp_ret == 0 && alloc_ret == 0;
+	nr_descendants 53
+	nr_dying_descendants 34
+	nr_cpuset 1
+	nr_cpu 40
+	nr_io 40
+	nr_memory 87
+	nr_perf_event 54
+	nr_hugetlb 1
+	nr_pids 53
+	nr_rdma 1
+	nr_misc 1
 
-And here we don't care about comp_ret anymore.
+In this particular case, it can be seen that memory cgroup is the most
+likely culprit for causing the 34 dying cgroups.
 
-Thanks.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 10 ++++++++--
+ include/linux/cgroup-defs.h             |  3 +++
+ kernel/cgroup/cgroup.c                  | 19 +++++++++++++++++++
+ 3 files changed, 30 insertions(+), 2 deletions(-)
 
->   }
-> 
-> @@ -1886,8 +1880,6 @@ static int zswap_debugfs_init(void)
->                             zswap_debugfs_root, &zswap_reject_alloc_fail);
->          debugfs_create_u64("reject_kmemcache_fail", 0444,
->                             zswap_debugfs_root, &zswap_reject_kmemcache_fail);
-> -       debugfs_create_u64("reject_compress_fail", 0444,
-> -                          zswap_debugfs_root, &zswap_reject_compress_fail);
->          debugfs_create_u64("reject_compress_poor", 0444,
->                             zswap_debugfs_root, &zswap_reject_compress_poor);
->          debugfs_create_u64("written_back_pages", 0444,
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 52763d6b2919..65af2f30196f 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -981,6 +981,12 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
+ 
++	  nr_<cgroup_subsys>
++		Total number of cgroups associated with that cgroup
++		subsystem, e.g. cpuset or memory.  These cgroup counts
++		will only be shown in the root cgroup and for subsystems
++		bound to cgroup v2.
++
+   cgroup.freeze
+ 	A read-write single value file which exists on non-root cgroups.
+ 	Allowed values are "0" and "1". The default is "0".
+@@ -2930,8 +2936,8 @@ Deprecated v1 Core Features
+ 
+ - "cgroup.clone_children" is removed.
+ 
+-- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
+-  at the root instead.
++- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
++  "cgroup.stat" files at the root instead.
+ 
+ 
+ Issues with v1 and Rationales for v2
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index b36690ca0d3f..522ab77f0406 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -776,6 +776,9 @@ struct cgroup_subsys {
+ 	 * specifies the mask of subsystems that this one depends on.
+ 	 */
+ 	unsigned int depends_on;
++
++	/* Number of CSSes, used only for /proc/cgroups */
++	atomic_t nr_csses;
+ };
+ 
+ extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index c8e4b62b436a..48eba2737b1a 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3669,12 +3669,27 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
+ static int cgroup_stat_show(struct seq_file *seq, void *v)
+ {
+ 	struct cgroup *cgroup = seq_css(seq)->cgroup;
++	struct cgroup_subsys *ss;
++	int i;
+ 
+ 	seq_printf(seq, "nr_descendants %d\n",
+ 		   cgroup->nr_descendants);
+ 	seq_printf(seq, "nr_dying_descendants %d\n",
+ 		   cgroup->nr_dying_descendants);
+ 
++	if (cgroup_parent(cgroup))
++		return 0;
++
++	/*
++	 * For the root cgroup, shows the number of csses associated
++	 * with each of non-inhibited cgroup subsystems bound to it.
++	 */
++	do_each_subsys_mask(ss, i, ~cgrp_dfl_inhibit_ss_mask) {
++		if (ss->root != &cgrp_dfl_root)
++			continue;
++		seq_printf(seq, "nr_%s %d\n", ss->name,
++			   atomic_read(&ss->nr_csses));
++	} while_each_subsys_mask();
+ 	return 0;
+ }
+ 
+@@ -5375,6 +5390,7 @@ static void css_free_rwork_fn(struct work_struct *work)
+ 		int id = css->id;
+ 
+ 		ss->css_free(css);
++		atomic_dec(&ss->nr_csses);
+ 		cgroup_idr_remove(&ss->css_idr, id);
+ 		cgroup_put(cgrp);
+ 
+@@ -5567,6 +5583,7 @@ static struct cgroup_subsys_state *css_create(struct cgroup *cgrp,
+ 	if (IS_ERR(css))
+ 		return css;
+ 
++	atomic_inc(&ss->nr_csses);
+ 	init_and_link_css(css, ss, cgrp);
+ 
+ 	err = percpu_ref_init(&css->refcnt, css_release, 0, GFP_KERNEL);
+@@ -6005,6 +6022,8 @@ static void __init cgroup_init_subsys(struct cgroup_subsys *ss, bool early)
+ 	/* Create the root cgroup state for this subsystem */
+ 	ss->root = &cgrp_dfl_root;
+ 	css = ss->css_alloc(NULL);
++	atomic_set(&ss->nr_csses, 1);
++
+ 	/* We don't handle early failures gracefully */
+ 	BUG_ON(IS_ERR(css));
+ 	init_and_link_css(css, ss, &cgrp_dfl_root.cgrp);
+-- 
+2.39.3
+
