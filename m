@@ -1,259 +1,278 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2075.outbound.protection.outlook.com [40.107.20.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2741C1304A3;
-	Tue,  9 Jul 2024 05:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720504785; cv=none; b=f0FrumRoNiJzOMS5KZ0Y3zZi6WOvtDBVMO8EoSYSFi3K5ayg1kK6ebRBAq0SAvLBzqrv/SsynWuPWEkmIRhT5hTH266bdTJkeg09WGYgzkeu+9abTe+YoH1CSOXK3KRUXbgVymWR4J7Tzs3++/fOiThYuZjQMpgJUzG04zKYlmc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720504785; c=relaxed/simple;
-	bh=rV+4oAZg91tmW2GlW2fUqugFTjYvSHme2pjvx/QymmE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mry/lCaSMxS8Vz0uXtX3XWNk+CblzyVy7C47O9LpeICG8Udv15Vgc0LRsMh5WUHS9mgyqObQ2WSytbTJyRsfXe5H9AoEsgBiGx21/x17/WRJOCUMMlTiC6wuFqUGDJvJNuAffZ+LFCgcGB/gpff1k0eN3OPTEtbO7th5OUVnG5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42561c16ffeso33708545e9.3;
-        Mon, 08 Jul 2024 22:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720504782; x=1721109582;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PDntGN+T80+6QoF3T0bYQHIMVziDiAyD/iDwnXqy4eM=;
-        b=tcEmvEs2i/XrRIJy6oEjQNJ118WG3DnhuQaef1bT2du63Cj+lcFr3d+69Whu/hCwTk
-         JJPo3rWcmXrP1+78s2PsCeozCF7cpF1P9TLBdiXcW8sg2dKYfJG4ccZG0QKwTIQ9uxQo
-         0m/LS9c/RQyQ1gVOSQQhvXZBcPrMKimBmhNq2OQYzfY2m7OQo7rG+X7xdYOC7bN2eXBY
-         fQFtc0Q5IbxhKLPoj9BSo+sCD4ZswBH9e1aipTfTOmGXuABDEq05Rek4scgGdDu3nGBB
-         c8DLUsXwc3gY9phPexIyyqgay9MpWcIMLqJFoOzPVZLWM4qvfE4HCFQ2mTXWYsbwkCnd
-         8cDw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUtpAjljwGcEHNaSS7gjBHhGhf6Olpm6xWS0xn29aINiPAfbI9hAsBM9tFZXD4gGrYBJvrX+6NxLKvSkXERKCENWabhYEr4K9KAUv+UbH2OH9jxePdLJykCquwx+xUx4CUrbD4yOK4zRwKquf57y0p+ON92mGl1/f4L27Uan/oyxcdRPA=
-X-Gm-Message-State: AOJu0Yw3ZwjdinMo+r1VrhWEx7ZQfSmdqY4Mb5m7uFu88Jpbnm3AU6kX
-	UK1o3VlH2ud5paQIHZtFBKyQ4ft740sughD78gt7r26XhuIxLx1Crf/6+ktScIQ=
-X-Google-Smtp-Source: AGHT+IHsfKqHKPgYYtKpHDE7FgVPSfYsXo90trFZ+VNdJQeq4PDmhDtmSLLmEcIKoXsDSwZq9AhSvA==
-X-Received: by 2002:a05:600c:1c9f:b0:426:591d:adb6 with SMTP id 5b1f17b1804b1-426708fa8efmr9375595e9.35.1720504782352;
-        Mon, 08 Jul 2024 22:59:42 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4265e90aa1dsm122404375e9.13.2024.07.08.22.59.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 22:59:41 -0700 (PDT)
-Message-ID: <a0e31542-e77b-4efa-959d-f7f5a8719616@kernel.org>
-Date: Tue, 9 Jul 2024 07:59:40 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901B7376EC;
+	Tue,  9 Jul 2024 06:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720505476; cv=fail; b=FZe/ZEPhYEwp7pn59RHyeYnRoeyV9du/2Y+h+qt9Ervd0tW2B4sU27x7knJEW9lrk0iQFnsJr54J5rKTDKvhvWGRIK+pFTbQqykivQ3dxIEwLWFgQ+D5CQRv9Hkkz5IIsn85E3wc7q7ijFmlEoqBT/wK9Wd3iK03aro1fqgrxwY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720505476; c=relaxed/simple;
+	bh=IgYOzuMKR5cr7dIFiJ5ZwtfEojjtu/hcvotp0MqWKks=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WlFybbahBypJVzErrNSBf4+4qCoz40Vo0gxmgXAbxZ+06w1mnFCY1EuFqDd8Xi/RcRk20/9SrXNeA1Y8xDix5/hi3mDraWUWnXkVX/TLuODX4owtmUM9Dg3QQmVD8/Faib0BTvVvi6mUC1VcFxhqqkgSG41/4aezIhRe529LkNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=NCJGeXZO; arc=fail smtp.client-ip=40.107.20.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="NCJGeXZO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S0ObGqTRe1ConIM+qiK3lbcqtoyPlIOEaSHh1XgAbFEb791HAQKaFF5/PawglM1LWfhhsanoFuA3KIGFcyJf85g/oHpDftQQe1X6WMAUEazJ3vV9+ksyzw5jrwFMYqOspKt9aZoeYdyuffNRqNuE9D4G6bU8bKisgd5JlDge5x0t1vcfeujOzcmKzy1htv+jpSoCQJctWRU5T0Aqv2c0S6T3iTzw2grt0dmlfeOmWdhQyfGNORc6gSXcbMKTyU881SG0dB2jpGQOzS4Sk0kaFGC/hBwiXLOzxzgD68RbNEaq0DkZMDKh+1hTCoDhyQ7qtnqC63qQjbTYMknnbyZsnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M3q5CIewp1Iqsb/6Or8N9aLfH7ZaOXZ4EWf2k74AfH4=;
+ b=LhWOZRKnIS3hozNZ5Exs1ejn9uBitkpI940RfQniJYXKONnCk1D7oLGUm7x3lWAPTV7ct7aJcbUSY4FL52yJZEKzeKe3Qqr8K68qgZf3sPrhMu9Rts2mGdIpRd0L/DeHenz/IBVC57Han9K3DLLhcxUvNhuuF+mL4uUQ/lsZb14n4T+ubJY/HUCLsj26WY9uEweLOfB6uXO6KcSbdlLqHkGnmVsM/nUaoNuI7PTysC5plmmEA7t0EWxhQYnm2NDDTaVfVJQTBlv/FVe6Grj+oFtIXc/pw4+bnY5bmE3MhUFLU3u16RIya0zWXEgbQQqzNWhKMo9IcMg7V0Gs5WvWOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M3q5CIewp1Iqsb/6Or8N9aLfH7ZaOXZ4EWf2k74AfH4=;
+ b=NCJGeXZOIdNk+hVF+tz/JDsPv6BcD0LjAKwP/zk3EAkFVI3rY6c8G4VjQt4D5FXh6LXe/gULWAoUKCX5GQ2RSweFueGHFo7LfeWBFLR9SpSNOoIv5nZAhGXNJ4aAR/TFcr3saY+cS2pjqX5jNk6uL4chUV7FKMEz2FDf8AoyouM=
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
+ by AS4PR04MB9691.eurprd04.prod.outlook.com (2603:10a6:20b:4f4::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Tue, 9 Jul
+ 2024 06:11:11 +0000
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
+ 06:11:11 +0000
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v4 5/5] firmware: imx: adds miscdev
+Thread-Topic: [EXT] Re: [PATCH v4 5/5] firmware: imx: adds miscdev
+Thread-Index: AQHazuMaW6O/AO44ZkGR+7lF1ox0ArHom00AgAVT9yA=
+Date: Tue, 9 Jul 2024 06:11:11 +0000
+Message-ID:
+ <AM9PR04MB8604BFB982C535C8E9C6C0F095DB2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+References: <20240705-imx-se-if-v4-0-52d000e18a1d@nxp.com>
+ <20240705-imx-se-if-v4-5-52d000e18a1d@nxp.com>
+ <f7c62def-cba4-46bf-aeda-829d2c378ee3@infradead.org>
+In-Reply-To: <f7c62def-cba4-46bf-aeda-829d2c378ee3@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|AS4PR04MB9691:EE_
+x-ms-office365-filtering-correlation-id: 68432436-66b5-4a2c-1184-08dc9fddee5b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|1800799024|376014|366016|921020|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?rnhBltbnbBrE7VUmiq50XNq+8LlxBEjQGXCDHbvLRnLNTO7rPWHbwK4SD8qJ?=
+ =?us-ascii?Q?HzePdTvxADylg4yv2yoBQYqA+m5hd5VR/Hq76+Ld6jDDnFIOSTP3m2jipAZ7?=
+ =?us-ascii?Q?7Taw0/wESefAUUbxulAh7MAE1demVyS01drsttAnss4z0IOnsAW2OMkJ1Wkg?=
+ =?us-ascii?Q?6yiO2Rl4qT2o711cmmRb9GbEyvxAhJqxwxApAd2zWBursv+Ypg5woTKc8HM1?=
+ =?us-ascii?Q?w/McU/y4VThqqzj7a+3gO4E9Ft7PBFKN+4iOnoNq+s9fLX7Ydrcqamyi115S?=
+ =?us-ascii?Q?8r+qtyEa1vu4fI8Iv0zrqZ6S7LbzSo/t1RJQ5fG45iZ2xJ7IpHdxet2r7Sny?=
+ =?us-ascii?Q?nBkCCV0PS9sTYMfzseXf5evOBAOMP9bOPD4tEmkcs+FfcjusGnB/iaQEizwf?=
+ =?us-ascii?Q?MrbK2XsUPraR3ulXHfPPwlA2BEzH195kdFaZ35N/ZZl+xLeWzygPMgbTl6Ll?=
+ =?us-ascii?Q?wuglamXzpL6Qbwik2cDqNc3T37wi/z4rG/FoKBmqkGkF1komJ/ACwysLqGvk?=
+ =?us-ascii?Q?pZIuzmAQv2hVmzauUBl5eNMqqCLbTdp422PiqGi9fR6Bni3h8QDSDRnsTWIp?=
+ =?us-ascii?Q?x6Qfq21A4td79LV+J312UbRyyes5HvOYpTUuulhnMJbTWjb/w0XBUwUNKagN?=
+ =?us-ascii?Q?Mj6ZcvWaHPaSOs0no6nhSggtMeOtdKQjVudhGwPRHLWM3Tp3yMAmpwRPbR8u?=
+ =?us-ascii?Q?t8WuBp9EROGO6L9uWMCksMoXalPyXA6Du3G4Q/PmobHxLTo1PgzSpVcupwsg?=
+ =?us-ascii?Q?EiCavE1BJU4qN32z/4dbBIhgl9DC9lQoM+1Hn65PeeYmHYjW+NeHrcYUm9Q4?=
+ =?us-ascii?Q?wNBKUJv95l4kbL/56l5UcOlgsIKDsBv3emZuvrxMAk0AHKO/yo89sZZNt2NQ?=
+ =?us-ascii?Q?AzQTMamUiIBBdIDAI99hCbELw9VOYpt1qWb3w1iPB2GfCus9tcB1Aew7G3Uy?=
+ =?us-ascii?Q?J7pVNcX7oHSxSmzrbOqwKvoEI2sUlgB+8+HVFm+ZXN4djlEURLk7PpcTzSRr?=
+ =?us-ascii?Q?GrjOrYzFZqrXpNzmZlRhb5cr1ZqYGry+piomCosC8vx92OEOphZ+ORkdyHW+?=
+ =?us-ascii?Q?NgnGUQbq5RlE6eF5f+bQRqqCMl6FYNYK/lQxxzmARTg2lPegOcnLJemxjB93?=
+ =?us-ascii?Q?InJtCBLJhFauYW1lDg4+YPfzBH0EeNfWLOaBIhMEMDkCI9WfIOSW6xDcQD9A?=
+ =?us-ascii?Q?vup50+pgzL9id1ub3ZXaARrJenVq93sXlk2y2DOb97G2T/KY85TLdVNvyDA2?=
+ =?us-ascii?Q?xBLHarbLe/Xnb9wY8CQeKgQZaGMKqcKn7Jr7dJqNKSj+LVxA1UYRD3VfCtxJ?=
+ =?us-ascii?Q?adHcBVjurB+SRM3nerAu2xDrOSl5E0QLBsyHNB1NE5fZ2MnoQ9fphzHag+rV?=
+ =?us-ascii?Q?7mTFVktOZkPwl4GCR3lfnsUhpu6/2q/g/6msRcUUgvIlO7fxlFooWaUxXbrv?=
+ =?us-ascii?Q?p5uQ47QBznA=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?mAh5nDv5QgjdhviSf3up8p3dKNdF2/YYYTzk06sG4TGQ62T94ThZc8DVmCNd?=
+ =?us-ascii?Q?mLQuYgZIvyKDPqtHpe9cxDKOBbZq8iF88guwM6NEmx7HEMPqCPTlALqS+Vr4?=
+ =?us-ascii?Q?vl5Lts3EHQGJwiU098FqG1hhYMn1zzHDrnHWUKPzCI9X1Vqfak+2VARcCcKO?=
+ =?us-ascii?Q?XhtR5MOZkfIa98JtZEg05dswry1m8N/3Z4JrVNiO3KwtKVDRGPoD5z9uwpYv?=
+ =?us-ascii?Q?BbTUFv/fWLE7Jylo19zNIkO5w0DZuxIAcAI2yZCknjnj6CxBoAX+w6F6pGtq?=
+ =?us-ascii?Q?PBRiT512jAeVaSmkSQ0YB8Vjll5wmddOAJuGJJitO3ezPrEPagE2W/BYVBxD?=
+ =?us-ascii?Q?57DX3gIYL7JuCfZJwXaPfTp1ztP/eeukU8Lg32IJ0L4uwqNAI45KMZv/d3Y9?=
+ =?us-ascii?Q?nlMM9tzbak3wkqld24c31wYk4+T/44MF0eKcEjUdQOnxWqTFM+QJWxv3LmHe?=
+ =?us-ascii?Q?zieR0dUCkJ7ckIx0aJ3wzinMwVDTpkww/DQYGh+kNIiD/I2qXm3crwpGezng?=
+ =?us-ascii?Q?fkVtABU3EPUa8u+qEY5/rVqv2FaRhiyGbEeMh5Q9kPBJmprjxfWaNlpcYZ/i?=
+ =?us-ascii?Q?jXZyyJN/FrgZHTCw/KMTZvvwwqD2GfZA4sCX3O992JsAdrTDjwBVhbdWECj4?=
+ =?us-ascii?Q?W5LRCkYFEhsHDY4emAcZwjAN08XsTW+KNt5GaoyXqUt7TZ3Z9QXU+dJUrySO?=
+ =?us-ascii?Q?oIoKe6OzWN8Oda8vZEq4951N74eIE1COpzW0Y/z3b4pKpsrjOMOvpA7As7pk?=
+ =?us-ascii?Q?QJeEyHBzpAYr7CmxiNCWcvNBh3wf2uv+hTROQ9VOb2HcZPz+nstqCHxnctHc?=
+ =?us-ascii?Q?JAf3MnZp1SosaYHezLiUUeUZhUSYdQ/p2yYK7df1+fp36GNQ1r7Tk5En9NB7?=
+ =?us-ascii?Q?+FVqxnNNjpZRuXHW7KeKBaWiMT6jE7SaHJi9FpjMBEc53n+DWhDGOwRDBdFA?=
+ =?us-ascii?Q?c71k8wuKaSaKwhUSYyzbrSusGuTE+uhtcQCR3EY/bPPsruKBH47W6+sW+Cmh?=
+ =?us-ascii?Q?7pS5Me295n+kLfgdtTr7/9P7D+0bikDDuID8B5Geus1JT6DpTsrxbB8H9/Tt?=
+ =?us-ascii?Q?BA0sD78WfNGcVF7LAZaMBj2hEF0pacjfue0M3+JH9g70UDzmpCgKMU6x6k3q?=
+ =?us-ascii?Q?FnaJXwHImIMYPuCTMlMT+8WqQ3SGjq76X/kxkLdBNsU6R5GYDpwAzIYoTcm8?=
+ =?us-ascii?Q?g3824bjhua4XnPS2GwZRkVArrwVQIcaz4CLStNMMxbEN7mNk98Ufx7ai503H?=
+ =?us-ascii?Q?m1vOY1WjBk6apCzTd+1+whgOsbvECkW2EPy5fjWB7XeM0AuP0aJ0E/yxFWf8?=
+ =?us-ascii?Q?wbISRBaO5K8Bx5rzbBIpoyTnge1CFuChjW7JTZKQv4yWL1bobnjOaoeAc0OJ?=
+ =?us-ascii?Q?DoMSQ+ZU5mjhsSnbb0dNWOe/AxXFFHEUctEpxFsMFq2zBun53bwO2T587Ben?=
+ =?us-ascii?Q?oHKkeIV1D/YRxVX7y+3O6R9KJRGPLUijghDXh+m645vJB6hJ82Kg9GL8OULe?=
+ =?us-ascii?Q?r2C+qpsLruGdYTB96LVmC/+gRO+XIEuloYKtJ2tWzztt/gnFVt8/xpYZSRMc?=
+ =?us-ascii?Q?KIBxoPHrvLkU2D7cAsIENQzice+ZJkDY6WdSptRU?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
-To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, sebastian.fricke@collabora.com,
- andriy.shevchenko@linux.intel.com, jani.nikula@intel.com, corbet@lwn.net,
- broonie@kernel.org, rdunlap@infradead.org, linux-doc@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
- andi.shyti@linux.intel.com, nicolas@ndufresne.ca, davidgow@google.com,
- dlatypov@google.com
-References: <20240708155943.2314427-1-devarsht@ti.com>
- <20240708155943.2314427-2-devarsht@ti.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20240708155943.2314427-2-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68432436-66b5-4a2c-1184-08dc9fddee5b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2024 06:11:11.4842
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W83hTTYnm7pbLwh5hRO7CBrOZ8i8u5UKRsiFp3LQdXUtPBnjE7uBxGECqsWCVjDXUuuu+JRQvzyxGTo5SXfa+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9691
 
-On 08. 07. 24, 17:59, Devarsh Thakkar wrote:
-> Add below rounding related macros:
-> 
-> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round up in case two nearest values are
-> possible.
-> 
-> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round down in case two nearest values are
-> possible.
-> 
-> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-> generally be used only when y is not multiple of 2 as otherwise
-> round_closest* macros should be used which are much faster.
-> 
-> Examples:
->   * round_closest_up(17, 4) = 16
->   * round_closest_up(15, 4) = 16
->   * round_closest_up(14, 4) = 16
->   * round_closest_down(17, 4) = 16
->   * round_closest_down(15, 4) = 16
->   * round_closest_down(14, 4) = 12
->   * roundclosest(21, 5) = 20
 
-With consistency in mind, why is there no underscore?
 
->   * roundclosest(19, 5) = 20
->   * roundclosest(17, 5) = 15
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
-> which uses similar macro locally and which is updated in further patch
-> in the series to use this generic macro instead along with other drivers
-> having similar requirements.
-> 
-> Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
-> ---
->   include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 63 insertions(+)
-> 
-> diff --git a/include/linux/math.h b/include/linux/math.h
-> index dd4152711de7..79e3dfda77fc 100644
-> --- a/include/linux/math.h
-> +++ b/include/linux/math.h
-> @@ -34,6 +34,52 @@
->    */
->   #define round_down(x, y) ((x) & ~__round_mask(x, y))
->   
-> +/**
-> + * round_closest_up - round closest to be multiple of specified value (which is
-> + *                    power of 2) with preference to rounding up
-> + * @x: the value to round
-> + * @y: multiple to round closest to (must be a power of 2)
-> + *
-> + * Rounds @x to closest multiple of @y (which must be a power of 2).
-> + * The value can be either rounded up or rounded down depending upon rounded
-> + * value's closeness to the specified value. If there are two closest possible
-> + * values, i.e. the difference between the specified value and it's rounded up
-> + * and rounded down values is same then preference is given to rounded up
-> + * value.
-> + *
-> + * To perform arbitrary rounding to closest value (not multiple of 2), use
-> + * roundclosest().
-> + *
-> + * Examples:
-> + * * round_closest_up(17, 4) = 16
-> + * * round_closest_up(15, 4) = 16
-> + * * round_closest_up(14, 4) = 16
-> + */
-> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
-> +
-> +/**
-> + * round_closest_down - round closest to be multiple of specified value (which
-> + *			is power of 2) with preference to rounding down
-> + * @x: the value to round
-> + * @y: multiple to round closest to (must be a power of 2)
-> + *
-> + * Rounds @x to closest multiple of @y (which must be a power of 2).
-> + * The value can be either rounded up or rounded down depending upon rounded
-> + * value's closeness to the specified value. If there are two closest possible
-> + * values, i.e. the difference between the specified value and it's rounded up
-> + * and rounded down values is same then preference is given to rounded up
-> + * value.
+> -----Original Message-----
+> From: Randy Dunlap <rdunlap@infradead.org>
+> Sent: Saturday, July 6, 2024 2:17 AM
+> To: Pankaj Gupta <pankaj.gupta@nxp.com>; Jonathan Corbet
+> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Shawn Guo
+> <shawnguo@kernel.org>; Sascha Hauer <s.hauer@pengutronix.de>;
+> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> <festevam@gmail.com>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+> Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org
+> Subject: [EXT] Re: [PATCH v4 5/5] firmware: imx: adds miscdev
+>=20
+> Caution: This is an external email. Please take care when clicking links =
+or
+> opening attachments. When in doubt, report the message using the 'Report
+> this email' button
+>=20
+>=20
+> On 7/5/24 6:52 AM, Pankaj Gupta wrote:
+> > diff --git a/Documentation/ABI/testing/se-cdev
+> b/Documentation/ABI/testing/se-cdev
+> > new file mode 100644
+> > index 000000000000..97a5b2ca115d
+> > --- /dev/null
+> > +++ b/Documentation/ABI/testing/se-cdev
+> > @@ -0,0 +1,43 @@
+> > +What:                /dev/<se>_mu[0-9]+_ch[0-9]+
+> > +Date:                May 2024
+> > +KernelVersion:       6.8
+> > +Contact:     linux-imx@nxp.com, pankaj.gupta@nxp.com
+> > +Description:
+> > +             NXP offers multiple hardware IP(s) for  secure enclaves l=
+ike EdgeLock-
+>=20
+>                                                      ^^^ one space only
 
-Too heavy sentence. Did you mean "its" not "it's"?
+Will replace "for  secure enclaves", with "for secure enclaves"
 
-What about:
-There can be two closest values. I.e. the difference between the 
-specified value and its rounded up and down values is the same. In that 
-case, the rounded up value is preferred.
-?
 
-The same for round_closest_up().
+>=20
+> > +             Enclave(ELE), SECO. The character device file descriptors
+> > +             /dev/<se>_mu*_ch* are the interface between user-space NX=
+P's
+> secure-
+>=20
+> Please use "userspace" or "user space".
 
-> + *
-> + * To perform arbitrary rounding to closest value (not multiple of 2), use
-> + * roundclosest().
-> + *
-> + * Examples:
-> + * * round_closest_down(17, 4) = 16
-> + * * round_closest_down(15, 4) = 16
-> + * * round_closest_down(14, 4) = 12
-> + */
-> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
-> +
->   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
->   
->   #define DIV_ROUND_DOWN_ULL(ll, d) \
-> @@ -77,6 +123,23 @@
->   }							\
->   )
->   
-> +/**
-> + * roundclosest - round to nearest multiple
-> + * @x: the value to round
-> + * @y: multiple to round nearest to
-> + *
-> + * Rounds @x to nearest multiple of @y.
-> + * The rounded value can be greater than or less than @x depending
+Accepted.
+>=20
+> > +             enclave shared library and the kernel driver.
+> > +
+> > +             The ioctl(2)-based ABI is defined and documented in
+> > +             [include]<linux/firmware/imx/ele_mu_ioctl.h>
+>=20
+> End the line above with a period.
 
-greater or less than
+Accepted.
 
-> + * upon it's nearness to @x.
-
-"its"
-
-> If @y will always be a power of 2, consider
-
-If @y is always a power...
-
-> + * using the faster round_closest_up() or round_closest_down().
-> + *
-> + * Examples:
-> + * * roundclosest(21, 5) = 20
-> + * * roundclosest(19, 5) = 20
-> + * * roundclosest(17, 5) = 15
-> + */
-> +#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
-> +
->   /*
->    * Divide positive or negative dividend by positive or negative divisor
->    * and round to closest integer. Result is undefined for negative
-
--- 
-js
-
+>=20
+> > +              ioctl(s) are used primarily for:
+> > +                     - shared memory management
+> > +                     - allocation of I/O buffers
+> > +                     - getting mu info
+> > +                     - setting a dev-ctx as receiver to receive all th=
+e commands from
+> FW
+> > +                     - getting SoC info
+> > +                     - send command and receive command response
+> > +
+> > +             The following file operations are supported:
+> > +
+> > +             open(2)
+> > +               Currently the only useful flags are O_RDWR.
+> > +
+> > +             read(2)
+> > +               Every read() from the opened character device context i=
+s waiting on
+> > +               wait_event_interruptible, that gets set by the register=
+ed mailbox
+> callback
+> > +               function, indicating a message received from the firmwa=
+re on
+> message-
+> > +               unit.
+> > +
+> > +             write(2)
+> > +               Every write() to the opened character device context ne=
+eds to
+> acquire
+> > +               mailbox_lock before sending message on to the message u=
+nit.
+> > +
+> > +             close(2)
+> > +               Stops and frees up the I/O contexts that were associate=
+d
+> > +               with the file descriptor.
+> > +
+> > +Users:
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu
+> b.com%2Fnxp-imx%2Fimx-secure-
+> enclave.git&data=3D05%7C02%7Cpankaj.gupta%40nxp.com%7Cce675eed648
+> 24848da5308dc9d33ae7f%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0
+> %7C0%7C638558092493138985%7CUnknown%7CTWFpbGZsb3d8eyJWIjoi
+> MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0
+> %7C%7C%7C&sdata=3DfJ97U1mUja7gSpb%2FE1GOx6JdsYpfAUf9rnTuul4TOHs
+> %3D&reserved=3D0,
+> > +
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu
+> b.com%2Fnxp-imx%2Fimx-
+> smw.git&data=3D05%7C02%7Cpankaj.gupta%40nxp.com%7Cce675eed648248
+> 48da5308dc9d33ae7f%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C
+> 0%7C638558092493147090%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4
+> wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C
+> %7C%7C&sdata=3DoH0zIc2YQeERpc8lDXuyvQsGMtKjKZSp46t6X9irntU%3D&re
+> served=3D0
+> > +             crypto/skcipher,
+> > +             drivers/nvmem/imx-ocotp-ele.c
+>=20
+> --
+> ~Randy
