@@ -1,173 +1,89 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83AB36AF8
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 15:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44791194ACF;
+	Wed, 10 Jul 2024 15:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720626975; cv=none; b=Qo5nN7xkpBmKETKIhWRAuzngOXLyRpGRtfKY6KQFPQuLYv/KPUm4WldV0hICKA6Asv883OlBZeOSvEA0DEoMx3F3u/jVOSsAIbFeXWkO3pr6TQJiPI/riTw4HIaQ7LwVnMaEG54ENgjtnSOTLLDbj3UyWRr0mWcyhvFxQbipb0M=
+	t=1720627000; cv=none; b=Ubk1J8xN+AjpFPC3oyxn9cz6+lYGu7Xkd3KQzXIGpNIYRzdnUECoiNGX0uToNAn9Z80/VhSN80xaLDaUb1ZUtIXAjDhsur4akC68tVCa/IfFfk+XPIazT0xOMTauQoUKLLDsTpHnNES7rKZrG9MqL49zDc6Bz1X+bxTGbbY1+6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720626975; c=relaxed/simple;
-	bh=B/nG4TR56/cwzYMHqCDCNFF2y43gf1Y4lESNrmlv6BY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mB15tm4QfNVQq2c6mNvG2AHPY1gfHIw3OULGLbEUnyTtiQEOsBf5p2V1U0c/OHQ1gzjPw6dBK8Ile4iIp6JmoFUfv5qJISmLy6UoHtYU7wwOWcYs3aug7MacM2mk3aKrFoXBxUYpL0xg7U+AKLgw0gzTcYXLDPjIfmYE69a/Us0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ZTthLxzi; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1720627000; c=relaxed/simple;
+	bh=LnSN3f1kBTQZBMgn9k+Kpjy3WQodTEYNn6I5AuMkXR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TuEeR10RyODCEz/6odpBqwPSHdV90x2mLplpPnogrs5Yyq2V6R4cHtnzZd8+0lenBfbBz/UiAs0CFtPEg7WBmVknPX+WBtahQzv7hASpvvmD9qcnmlCCabSfj2kDuySohBJ4u0ZQlo+hmNPXX0hJI3SM7q41J2HyGGUQzamsifQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nhh6UqTy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ZTthLxzi"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a77e85cb9b4so477302966b.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 08:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1720626971; x=1721231771; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ISPkngAyeCTHdiiqdfhGRhrD7gcMn5QvhxpyUZ/8MrQ=;
-        b=ZTthLxziALFZ68HvrQ8nyU5KluBqycIZqUnWteKz1XM5wzs8yuAs9O7XOtW11aqeEK
-         k4yyftRCct9SCgCcDZFhGM0FpO/EhDiN/7SXgQ72x1LaY6hbCWFCDxFwk+dplsDWUIwZ
-         o++A4sX5zj1V3ornTDcfAF3vVlm5ArDZSQrCnwnAMJ4crq4lvHBeLAXQkH4f3W1PxAve
-         5GImhS8Ogx8oDjIH6s5Uo456PB3bJyq7u85JWCsjJ5vRnP85lqBdCRFqcc+ee/Kurv/V
-         TALLGuBd5q/BQooDt16UW9bd0gsF7UZ8VvP9NUuMsNzrp1IEZlFbjs2KuoKYRmLrPTtX
-         /FjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720626971; x=1721231771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ISPkngAyeCTHdiiqdfhGRhrD7gcMn5QvhxpyUZ/8MrQ=;
-        b=DILaLYT9ECYhuYMKKmlXx8KA8ETTATjqnaZl7tnTKbyz30iI5VAuS1gWcHS9fiGg1E
-         kkQn0YR0bzeBAwa3txGkAr+VT8DWszRcqiT28mn6C3+YUKlaMQGkiTo7NVCvRv1a4wyE
-         ZHcszJVnlc/XhUBGHLdl4lKWlK0u0VhZjs2tRc4g58IwBr4P64lVrrdwp9dKsNnzjF6c
-         yfqsCxrQrcfgtiTwMqA9QCsRNws95QuOdVmBoomqcl+247klH5HT4fpJ02nTJRmtj108
-         TwKTycoLZpIVth/hmTgsw8ePU/zefmTTd5CvabLgDdFdyfnrEiYUAerF5ik0a2AgNuXq
-         v7Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjQjesQARhqdMjmh2qQdTrtqs0OXV+6CHt442Vl+YFMCBZrpOktFnTb+rsPsEEs+t4hQduxYjshsk8dIkM8fc1kEm4ncqlcLoV
-X-Gm-Message-State: AOJu0Yy+5uX1VbOOTLsZBmgPIE00cCYI9lOrbIrBtI+TQm3vkgzlVnpo
-	EnPq1zoaEy9sMAXqYdSs/1ExvyiKc5xYnj1nxS1yRUY/Nchjx0m+64e8Z2ZipCQZhhK82PlBehe
-	GQRaY7AANmq7uvdMD+QNMt6vd3oBkRX1fFhSgWQ==
-X-Google-Smtp-Source: AGHT+IHs4uU/4yOkk+bzRj18biX0XTt2Rbdp+dHRjb7JtDRHUJObhcKGm+ZUnkDr1LXg3IpCyRDMKsne4rSn0QUuPgI=
-X-Received: by 2002:a17:906:e950:b0:a77:e1c2:3ab with SMTP id
- a640c23a62f3a-a780b884b52mr389055966b.50.1720626971164; Wed, 10 Jul 2024
- 08:56:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nhh6UqTy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7A0C4AF0F;
+	Wed, 10 Jul 2024 15:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720627000;
+	bh=LnSN3f1kBTQZBMgn9k+Kpjy3WQodTEYNn6I5AuMkXR0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Nhh6UqTyrSr0wo2AywZf2hg4eQ0qQGSBsIOTv4oGyXQTX6vabooxsZHLJX1VF1c59
+	 tSODVeFqtFA2V8MxwFzIpm4gp/4O29+s9eX715D6Rq36F5EKQOe6ryT2OR0gglz/UO
+	 UKohM+G9agXaWRQxMn6sSbc3DQYzoRrBXaqJz1VydZ+/IN+BVAkeuET3oh+YhAxE0R
+	 h9ouVOeN7urrk1jU9/IKmO48m/vG2HGtWSX6NNlntfMbLGdNMTy7dwUnWPRVqrmgpi
+	 D7BDS6Sqpuuv8GoHSGy+v01VvLPT8j1t851KKG4kjk87hcVQlLRJ/CcXiE7RBN/SZj
+	 F4nU4p5RcNZyw==
+Date: Wed, 10 Jul 2024 08:56:37 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v16 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240710085637.4284c7d7@kernel.org>
+In-Reply-To: <20240710001749.1388631-4-almasrymina@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+	<20240710001749.1388631-4-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240625005001.37901-1-jesse@rivosinc.com> <20240625005001.37901-4-jesse@rivosinc.com>
-In-Reply-To: <20240625005001.37901-4-jesse@rivosinc.com>
-From: Evan Green <evan@rivosinc.com>
-Date: Wed, 10 Jul 2024 08:55:35 -0700
-Message-ID: <CALs-HsvE9PzTrhVO0umh3KaJuLQLdk-h8sYKBg7XA4a-MXAmOg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/8] RISC-V: Check scalar unaligned access on all CPUs
-To: Jesse Taube <jesse@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Andrew Jones <ajones@ventanamicro.com>, Charlie Jenkins <charlie@rivosinc.com>, 
-	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Eric Biggers <ebiggers@google.com>, Greentime Hu <greentime.hu@sifive.com>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin <costa.shul@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>, 
-	Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Ben Dooks <ben.dooks@codethink.co.uk>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 24, 2024 at 5:51=E2=80=AFPM Jesse Taube <jesse@rivosinc.com> wr=
-ote:
->
-> Originally, the check_unaligned_access_emulated_all_cpus function
-> only checked the boot hart. This fixes the function to check all
-> harts.
->
-> Fixes: 71c54b3d169d ("riscv: report misaligned accesses emulation to hwpr=
-obe")
-> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> Cc: stable@vger.kernel.org
-> ---
-> V1 -> V2:
->  - New patch
-> V2 -> V3:
->  - Split patch
-> ---
->  arch/riscv/kernel/traps_misaligned.c | 23 ++++++-----------------
->  1 file changed, 6 insertions(+), 17 deletions(-)
->
-> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/tra=
-ps_misaligned.c
-> index b62d5a2f4541..8fadbe00dd62 100644
-> --- a/arch/riscv/kernel/traps_misaligned.c
-> +++ b/arch/riscv/kernel/traps_misaligned.c
-> @@ -526,31 +526,17 @@ int handle_misaligned_store(struct pt_regs *regs)
->         return 0;
->  }
->
-> -static bool check_unaligned_access_emulated(int cpu)
-> +static void check_unaligned_access_emulated(struct work_struct *unused)
->  {
-> +       int cpu =3D smp_processor_id();
->         long *mas_ptr =3D per_cpu_ptr(&misaligned_access_speed, cpu);
->         unsigned long tmp_var, tmp_val;
-> -       bool misaligned_emu_detected;
->
->         *mas_ptr =3D RISCV_HWPROBE_MISALIGNED_UNKNOWN;
->
->         __asm__ __volatile__ (
->                 "       "REG_L" %[tmp], 1(%[ptr])\n"
->                 : [tmp] "=3Dr" (tmp_val) : [ptr] "r" (&tmp_var) : "memory=
-");
-> -
-> -       misaligned_emu_detected =3D (*mas_ptr =3D=3D RISCV_HWPROBE_MISALI=
-GNED_EMULATED);
-> -       /*
-> -        * If unaligned_ctl is already set, this means that we detected t=
-hat all
-> -        * CPUS uses emulated misaligned access at boot time. If that cha=
-nged
-> -        * when hotplugging the new cpu, this is something we don't handl=
-e.
-> -        */
-> -       if (unlikely(unaligned_ctl && !misaligned_emu_detected)) {
-> -               pr_crit("CPU misaligned accesses non homogeneous (expecte=
-d all emulated)\n");
-> -               while (true)
-> -                       cpu_relax();
-> -       }
+On Wed, 10 Jul 2024 00:17:36 +0000 Mina Almasry wrote:
+> +		err = gen_pool_add_owner(binding->chunk_pool, dma_addr,
+> +					 dma_addr, len, dev_to_node(&dev->dev),
+> +					 owner);
+> +		if (err) {
 
-This chunk was meant to detect and refuse to run on a system where a
-heterogeneous CPU is hotplugged into a previously homogenous system.
-The commit message doesn't mention this change, how come you
-deleted it?
+	kfree(owner);
 
+right? If the insert fails gen_pool_for_each_chunk() won't see it
 
-> -
-> -       return misaligned_emu_detected;
->  }
->
->  bool check_unaligned_access_emulated_all_cpus(void)
-> @@ -562,8 +548,11 @@ bool check_unaligned_access_emulated_all_cpus(void)
->          * accesses emulated since tasks requesting such control can run =
-on any
->          * CPU.
->          */
-> +       schedule_on_each_cpu(check_unaligned_access_emulated);
-> +
->         for_each_online_cpu(cpu)
-> -               if (!check_unaligned_access_emulated(cpu))
-> +               if (per_cpu(misaligned_access_speed, cpu)
-> +                   !=3D RISCV_HWPROBE_MISALIGNED_EMULATED)
->                         return false;
->
->         unaligned_ctl =3D true;
-> --
-> 2.45.2
->
+> +			err = -EINVAL;
+> +			goto err_free_chunks;
+> +		}
