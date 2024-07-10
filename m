@@ -1,55 +1,55 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-ua1-f73.google.com (mail-ua1-f73.google.com [209.85.222.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC401591F3
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0E15EFB7
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720654967; cv=none; b=AV+Lnp86/irw8ZsZfCylHJXm7pGKQQlwzMgsu96i6qE2Zchyv6oFHIUfep6EXM9W8N4ovf9QvYcvNAFef/g3/vXX7DnIHHtljRj6v00+K1PCliisnz92dtp733Rlc/t4Vf4O0JE04i0w78Su4bTekqMlmb/viirYE1qEeMjuNgc=
+	t=1720654969; cv=none; b=lnyA7Wg9BDb34WOBLT6FYQmIKD1zbSY0S7qZ2oGHWISKuGRH1rFh87YBHnavLtylpA1KQYRb8Il7DHISJMwNNyHUjZQfy1c+SVF8G/tBE/Xexe9hUuccZqviRiriQXSEVNljYe/0XIHLv3Zo6BXQY13FiLU5M8KAE2CZ9k/d6wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720654967; c=relaxed/simple;
-	bh=9qd4I5Nt4ZpEq1/DgTQG1WlNzpdV6maR7Ymqr0dBes4=;
+	s=arc-20240116; t=1720654969; c=relaxed/simple;
+	bh=0X56a4gN8b7VQgThnVkXYUH34LPfOMnmnpB6+EHKoT8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hDGB+K3hAPEGR6KP3hlCqiBt3f8vdfpcqouv4VrQ1mltKnre2IRZBnWB0d133VoNw2Gn/irqNlYq8QB01wmvpJVBm3b6xCKwHhThK7JIWTrS0mXJFjesj/orwBgdRdroqwSdlAO0fY9QqxDewtdDk4B1bjoeWDoOqlEoasPilOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eEvDKZC0; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=cfPZve13huhLDTdotza5cuGYToLtwYj2qEVevEvOVKYzzof5Vw26nUEa5E4AN+uPKSKThEkeDQNhy36h8mQm++vvhY5DT4ihA+R2CxUuAelYZzb4sjI4JsRTjAaDmKCaKUR03M/5eiAFuDR6Lp+iRO+JVudCr5oUu0nsZ0D4X/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4Z2/FJYK; arc=none smtp.client-ip=209.85.222.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eEvDKZC0"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e02b7adfb95so493875276.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 16:42:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4Z2/FJYK"
+Received: by mail-ua1-f73.google.com with SMTP id a1e0cc1a2514c-8103e4731c5so84014241.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 16:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720654963; x=1721259763; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1720654965; x=1721259765; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8Rmzp/FnvTnt3i+tgLuvGyYDZdc9771iECvmROSKp8=;
-        b=eEvDKZC0qcAwFW44NHp9Ty3319OenqXh6hjnUhLIDiyiwOJH8lphTbC+E1LPBwmDom
-         46LBH4m3KC8SMAX1CKZOsUWQiJb0q8OJWZJ1Jk6Ez+RJW5DeoVTY1M2EtUOQZ6x/871M
-         9/mTORt4Z78JiWwyLY3T8LWQW1UMFKLfSP9iKUD4JLiEeOBJbB+C42y4s5CPhQQSUfck
-         ZzdpNELz7exs9jZ/y4Gr+B8R3V6mWIzPXgoN5eIgH2KEHCPsfUcZiEy+aWLE8EebuCu2
-         629ewLBI/nvpxdjEkS7UATUHmt8Yh6K1/qqbPGpSZ+3tvKn+z0oBYn11CZtUbCfk/eE6
-         /lzw==
+        bh=TURU+uj4JjtASnposo8ch9F78eTbKidxkEMdeXOCkww=;
+        b=4Z2/FJYKjWb84XWgA4jz6adOCqXSO4ooYNzTgDHYNBGqj0E9z42IvXZnNdXQKNxBum
+         jcKCUM3z8KOnd5wJ6ui3CbRqBDUsgUJxziiXiPB/zifpnk/VQjQhxMh/y+PuaVr/F/Us
+         lRWbcVWEEFZ5dWzasCENbA/TX3DR5FBP0gU8C45OMuslryx/Y8c5cxxKYXgBPCKAo5ck
+         m8L3XgxLOYRXHGtPZL4CiSQoC17DUn0V2xmj/OoEohSpqapaQxzmChQxiaRfXAlWxgyV
+         GueGUp9AeTIfH0uBlAKKZtpU6yGEuBpMXuBSxBJoZwbJl4wnR7mfGa2Wa03Rh3CptsZJ
+         I4hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720654963; x=1721259763;
+        d=1e100.net; s=20230601; t=1720654965; x=1721259765;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8Rmzp/FnvTnt3i+tgLuvGyYDZdc9771iECvmROSKp8=;
-        b=IdVsnh080uX9Md971iMWgN4qzZYN4FQl4sOfR5Wpj5CR2oBJRbBU7F7P3/MfJWvitu
-         7L9TLatrVBWZJXX/85a3KNV1/upCGhlSW6hBpouK+jpJt5aHdXX/6DqiJaTcbLkmbKVB
-         +jCFL5GwT4WsiKL6ctnAFKRL22EbUCn76XcOOiqAon953KDoJZ6U71uOUwR6MlveZmDH
-         XZVuoNgnMsm/d+Ttopw39q3IJk9RmJ/mDRoVFPTrSFbMUiDFI5vKWzv9HEF+f5NIzJvC
-         0j4lblG/TwlTpOPItpuy8jhdefMKe8I0Tpc2j2pC2uDJc+9c3Gklers1NcYIa1gqkg5L
-         xb4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUanyOKtRkkgkUev5a9aFnE2rOUvDcKrntJ8VGudl4MOH+5BpTBus8OSLhjYUmoCtulnoQkrRKPWz9aZZnuH/STQDs1SagE1BlV
-X-Gm-Message-State: AOJu0YxC5twwL2xa4PDWxpsK7+x2Y+B+3cQfz21KFdO5RKoNH3Z9Hiee
-	1dHgYEQ/DPQ+qB4/WCeQMd6SgTLBetdJfXy1IiX9K+aWcjseYE5e2mFOD69DMnioWvdTpUrIKT9
-	9O1+QmeTJUrSVrcxa8g==
-X-Google-Smtp-Source: AGHT+IGzfu/is15/zbZN55ThZYoCmQ5oYPE0p+29NB0c/bvGkmqxURl5E0ogcz1hwkdaxZ/C24+OiRdX8VZRICmx
+        bh=TURU+uj4JjtASnposo8ch9F78eTbKidxkEMdeXOCkww=;
+        b=RWvMckSYJhYYx0sMTtIFuUWxdI6t4DqMk3ObbU8P8jtJ7RemRU0/HLowKT3pPWizVh
+         F9czWX3klT/rxWJzi9erhLrQ33ds/ifBGIwTF3dSauj+KZjeoIE3N0C2MupR9efGVl8+
+         CpznO+MjEJ9hj55sUNXoz74vNi4B+bKSaTLdhLywbllsYYgbUzI2hl3vYxyorsbkR5X7
+         9s/ehh4zEUE6XT30ACy9l+q/VOZP72Ng3PTmfOAaq8x2mutySnzuHyJJj83z1SXFvc/J
+         /lVbHmvOgLgj0rNIUEtQoAVsh06aLEAYr+K3scTD97fYis0FStfvqy9P0Uuw7MXFCfN7
+         hXOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOIWjjOOL5bACS5oNm7KG8AJDTHcDYFY9zdNGYe2soCcVtfprZzBFipPneRs70d9zVYvUBbpCcPSIIE3UIK7dvWulxtAp9Orc+
+X-Gm-Message-State: AOJu0Yxdkh5iloNNmzeIXpuonLF3Zub7xv0mFdmIzFgFn30CaFeP0LSW
+	xqNZDt87gd0NLuVkmH3QF3F4iAMxw6dk6Qnj1GSCVm6qiRuOp/CJx+J2v2+4Bi7gGSbmG7YxCIA
+	OkYMlrYM36pVTHorbQA==
+X-Google-Smtp-Source: AGHT+IHwjQCn8pz3/iqiomOrjrLQUXcW8j3Cmfdd9IBi0Npw4AjyC0JLSC59kn9LukO94PmnEj6ZVNwxW2iE6Npb
 X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:6902:2101:b0:e03:31ec:8a24 with
- SMTP id 3f1490d57ef6-e041b17dfb5mr382792276.8.1720654962919; Wed, 10 Jul 2024
- 16:42:42 -0700 (PDT)
-Date: Wed, 10 Jul 2024 23:42:09 +0000
+ (user=jthoughton job=sendgmr) by 2002:a05:6102:2929:b0:48f:137a:78b2 with
+ SMTP id ada2fe7eead31-490321d3690mr113577137.5.1720654965123; Wed, 10 Jul
+ 2024 16:42:45 -0700 (PDT)
+Date: Wed, 10 Jul 2024 23:42:11 +0000
 In-Reply-To: <20240710234222.2333120-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240710234222.2333120-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.45.2.993.g49e7a77208-goog
-Message-ID: <20240710234222.2333120-6-jthoughton@google.com>
-Subject: [RFC PATCH 05/18] KVM: Add KVM_PFN_ERR_USERFAULT
+Message-ID: <20240710234222.2333120-8-jthoughton@google.com>
+Subject: [RFC PATCH 07/18] KVM: Provide attributes to kvm_arch_pre_set_memory_attributes
 From: James Houghton <jthoughton@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
@@ -72,50 +72,27 @@ Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
 	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-When a GFN -> HVA translation (__gfn_to_hva_many()) fails with
-KVM_HVA_ERR_USERFAULT as part of a GFN -> PFN conversion
-(__gfn_to_pfn_memslot()), we need to return some kind of KVM_PFN_ERR.
-
-Introduce a new KVM_PFN_ERR_USERFAULT so that callers know that it is a
-userfault.
+This is needed so that architectures can do the right thing (including
+at least unmapping newly userfault-enabled gfns) when KVM Userfault is
+enabled for a particular range.
 
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- include/linux/kvm_host.h | 1 +
- virt/kvm/kvm_main.c      | 8 +++++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ virt/kvm/kvm_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 4cca896fb44a..2005906c78c8 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -97,6 +97,7 @@
- #define KVM_PFN_ERR_HWPOISON	(KVM_PFN_ERR_MASK + 1)
- #define KVM_PFN_ERR_RO_FAULT	(KVM_PFN_ERR_MASK + 2)
- #define KVM_PFN_ERR_SIGPENDING	(KVM_PFN_ERR_MASK + 3)
-+#define KVM_PFN_ERR_USERFAULT	(KVM_PFN_ERR_MASK + 4)
- 
- /*
-  * error pfns indicate that the gfn is in slot but faild to
 diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 758deb90a050..840e02c75fe3 100644
+index 840e02c75fe3..77eb9f0de02d 100644
 --- a/virt/kvm/kvm_main.c
 +++ b/virt/kvm/kvm_main.c
-@@ -3009,9 +3009,11 @@ kvm_pfn_t __gfn_to_pfn_memslot(const struct kvm_memory_slot *slot, gfn_t gfn,
- 	if (kvm_is_error_hva(addr)) {
- 		if (writable)
- 			*writable = false;
--
--		return addr == KVM_HVA_ERR_RO_BAD ? KVM_PFN_ERR_RO_FAULT :
--						    KVM_PFN_NOSLOT;
-+		if (addr == KVM_HVA_ERR_RO_BAD)
-+			return KVM_PFN_ERR_RO_FAULT;
-+		if (addr == KVM_HVA_ERR_USERFAULT)
-+			return KVM_PFN_ERR_USERFAULT;
-+		return KVM_PFN_NOSLOT;
- 	}
- 
- 	/* Do not map writable pfn in the readonly memslot. */
+@@ -2514,6 +2514,7 @@ static int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+ 	struct kvm_mmu_notifier_range pre_set_range = {
+ 		.start = start,
+ 		.end = end,
++		.arg.attributes = attributes,
+ 		.handler = kvm_pre_set_memory_attributes,
+ 		.on_lock = kvm_mmu_invalidate_begin,
+ 		.flush_on_ret = true,
 -- 
 2.45.2.993.g49e7a77208-goog
 
