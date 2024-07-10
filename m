@@ -1,245 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9701F823C3;
-	Wed, 10 Jul 2024 07:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5966B8248C
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 07:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720595500; cv=none; b=MwYEVQ9oM2jyd0Nv2sGtdiozSAi1aLlEVmvX2GxqHHVA8H5K57+buHE+pOR91WYO78xTsT5EHlB/diGZVUfbPYSj8C/Jkr03JGnue9t5HNlKrUkqqFtjkes5y7duuHQ5lQoHexGvby5P+b58SvUD+/UJkTR2mwisDL6A4QQa9Hk=
+	t=1720596497; cv=none; b=ehrTzlqOovB0ug3d8tg04p4d0LEvlFeDh1T8Knq0zWQ0ncQCh8wdXIFOp01Yc+h4xaazhs681BDjD5QSqYPOSoJa1nmFnHnPg3qtpp2HE4Q0U4cjbwTeBN4yclFj9MYP1YAeK3/QhpUlz20cIgwxSr8+1vPJ8EhpKKT7Qm5oEIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720595500; c=relaxed/simple;
-	bh=yRGnsgGlGwr5grPehw5y2cKQYkE2B7D3quzhosQ5QRE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UaIa4fHSNdkZBRs46sq4oV/nnA2mKr190gF9er7Spdh8OYPhEnpOIOY18ifx84t5V0WBCwA4AYEQAbb631c2nLj/VwmXaZ5VivO/vaNhGSIcSAFTseacwILd1DKDWT9WfkrqYJx6LIkhsnz0PJ1nbhykig8H1kjo7Nrg/olW5Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTmO8E+F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720596497; c=relaxed/simple;
+	bh=t0iU2Z6LXaDVQOAsEZaNjePxzLrEKQENdJp9p5vZ130=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rH8bpBBMmRipUC9PikKplq4r08xXJC80nLlYouDe+1/PA+vnFtzRI+1LDHECwiZ8CoDadCllzEbX48FmXDqUzGesily8yERYN1X4jPYfglj0VANmg9zoB4w6LmTGVd8hellgex5n3g2qHNSvEvEdtINDfys2MKQ55c3uXf+sce8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ixmd3HwV; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTmO8E+F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD7BC4AF12;
-	Wed, 10 Jul 2024 07:11:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720595500;
-	bh=yRGnsgGlGwr5grPehw5y2cKQYkE2B7D3quzhosQ5QRE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HTmO8E+F8eose52/VnA/B0vmpjX9ymccYf6jHURxa/cwWqbcKY1pwUBErJriDAWxL
-	 ccuTwsM8pBwWhlEU1jsC9Lno19lIKOuuO8ckSAzbmSsCDbWLDLjHp5dvGp0T08pyw2
-	 CSihJe+CRobM4xiHozvntm+D9urrj1SXB33cE2PCNkAqMh0kBI8mKm8FJtKP8+i7eh
-	 DyR76B1Llvo5yz1tr55Rq02lmpLR32C+tIkGMQh7fliPvQ2/NwMsHOD9kNAsggJvQM
-	 g19lhnGDGyiVX5GQ53AR4vpKVCZ2X6pr36iiSR+OqDV6974ETZqew55iwT5lhI4OmC
-	 ftY/AO2RszF5Q==
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a77c349bb81so538597566b.3;
-        Wed, 10 Jul 2024 00:11:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVjeBTPPeQGOVcdqZHoM71ISnluEV2t9/nbe11apDBMJ1NdBOQ2lmy/edk2O7fI55lH/fbaHw3ve2du36PhbsgyF5ubDalqaGZHTjZ9Uj86WJVPsZgYWO2HqggO7YU3lyl0VBcK5wQkcXK1k033XsWix1lemoEKeo7yQowCge3Y2wroMgw2rVmHzYtxrV8VVPZYYcDQXA5GGmo0hkqyYiy6SVyxPQ==
-X-Gm-Message-State: AOJu0YxJ5yPePFDv0JQ8EJQjKFUMzuDHrefGXP30/fQqzn4ZFqvySwUt
-	Wu522K3d5QiPZiN4KBNQ2eAvaOot3I8N3szlvIkvXI41XnGzK60ELtHhcwRJCB66ZGvj+ivb5dT
-	AS7bBv6gfKpbqzncT8HQIAcW3ZNk=
-X-Google-Smtp-Source: AGHT+IFW/4IhCaqk+cMkQ0EHa+zFblHpkhI9EPOEKdDUo/9mDGAR8HGdktmPIDk+sr/xPlO+uLv+eef+gW+ddkeQnWc=
-X-Received: by 2002:a17:907:20f1:b0:a75:25ff:550d with SMTP id
- a640c23a62f3a-a780b6b361cmr259682466b.26.1720595498854; Wed, 10 Jul 2024
- 00:11:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ixmd3HwV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720596495;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n95TDK+RqtiwdgfYUckpkFIosjWztnGEOG4KxdP5hZk=;
+	b=ixmd3HwVY+7wqxg+3o3mIS3iMwAxGbCgwHtpa6M44nYoEUrQkeoX2Bw/GRIgDd1dkEPWO6
+	UiZmSceA3b+UntMMmDUVyjTOYNfLzFpmwGawxnOgfTvSJgI+26/wEjYHZxX8KfLwZSSg5c
+	YResy9C9w2yITmjJoxksRX8h+ovxMM4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-MK76cbRKPhy-54hm0Z7dGA-1; Wed, 10 Jul 2024 03:28:13 -0400
+X-MC-Unique: MK76cbRKPhy-54hm0Z7dGA-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4266edc9c85so14908705e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 00:28:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720596492; x=1721201292;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n95TDK+RqtiwdgfYUckpkFIosjWztnGEOG4KxdP5hZk=;
+        b=rg+eb1Y8nEjR146YRG4TtvRUWqG3XkqfqptapscVJq/T4/duqmXKzvnmQrsLNDhYQp
+         XDNnH5zlYBLP205nAYrlH8ntDQrTxU1W+Ff0Fs6VjD25VtpKkbxO2VsBnyxBsofE/EAv
+         Jjj4t4BymHrCeVzDGF/UBqb3ktDtMvV7gbS1aO3+W+KJWfWWd9bChrkDriJzD40kv7dd
+         phP/7dSE7Qy5U2vnoPZvGNiYR+zpaMs4ilN1cuQdw+HMQ60F0Xm3MREQk/jzk44leE+P
+         cLucWeX3I4jpLrkkQhVraofXxZNdxmGfFdpaoqcmz7ONOjlOb8sSWMtOMsEiJEF/No/4
+         DwBg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9z2ura4VoioKoY90i1bJoJIFaHG98/oiDU3ZYpajNor76zjYXe6yqew72sx4GrhKcyUyamzfLxfV7pM569bj/0ssKTR5NvC5d
+X-Gm-Message-State: AOJu0YxYAxXgERsQ5boFV7U2DMpEi0KRvAOBaEm/sQ8BEGgNzJQQvCBl
+	J4Qe6ruu0paeGSLWD+9bmQ5iOWupeiC+25wk3ImfRoZerAJASrOlHD1HR7mN8FGkLXGmlXZIEJn
+	9Om4/KV5H0QYnK4+dICxMDIq35oOH/phH/A6e4cG7ryUg6bxsNZqQznPRig==
+X-Received: by 2002:a05:600c:1c99:b0:426:6921:e3e5 with SMTP id 5b1f17b1804b1-426707e1b09mr30936555e9.24.1720596492069;
+        Wed, 10 Jul 2024 00:28:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEwrcVA7uKWc1/M59Kozuw/Yvh6ebknkoW2lkhMKRk/kGZKnKiNQoeiG2NF73aLG23n5KNAxQ==
+X-Received: by 2002:a05:600c:1c99:b0:426:6921:e3e5 with SMTP id 5b1f17b1804b1-426707e1b09mr30936325e9.24.1720596491435;
+        Wed, 10 Jul 2024 00:28:11 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d74b:1ce0:c033:e72e:9d5f:f8c4? (p200300cfd74b1ce0c033e72e9d5ff8c4.dip0.t-ipconnect.de. [2003:cf:d74b:1ce0:c033:e72e:9d5f:f8c4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266e6478d7sm88212165e9.31.2024.07.10.00.28.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jul 2024 00:28:10 -0700 (PDT)
+Message-ID: <8ebfc48f-9a93-45ed-ba88-a4e4447d997a@redhat.com>
+Date: Wed, 10 Jul 2024 09:28:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com> <20240619-xtheadvector-v3-5-bff39eb9668e@rivosinc.com>
-In-Reply-To: <20240619-xtheadvector-v3-5-bff39eb9668e@rivosinc.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Wed, 10 Jul 2024 15:11:27 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQdjDouYTC9+kq-TdXhQch50p121yq8mTwXsGd6g_TSVA@mail.gmail.com>
-Message-ID: <CAJF2gTQdjDouYTC9+kq-TdXhQch50p121yq8mTwXsGd6g_TSVA@mail.gmail.com>
-Subject: Re: [PATCH v3 05/13] riscv: vector: Use vlenb from DT for thead
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] virtio-fs: Add 'file' mount option
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+ Miklos Szeredi <mszeredi@redhat.com>, German Maglione
+ <gmaglione@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>
+References: <20240709111918.31233-1-hreitz@redhat.com>
+ <20240709175652.GB1040492@perftesting>
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20240709175652.GB1040492@perftesting>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 20, 2024 at 7:57=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
->
-> If thead,vlenb is provided in the device tree, prefer that over reading
-> the vlenb csr.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  arch/riscv/Kconfig.vendor           | 13 ++++++++++
->  arch/riscv/include/asm/cpufeature.h |  2 ++
->  arch/riscv/kernel/cpufeature.c      | 48 +++++++++++++++++++++++++++++++=
-++++++
->  arch/riscv/kernel/vector.c          | 12 +++++++++-
->  4 files changed, 74 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
-> index 9897442bd44f..b096548fe0ff 100644
-> --- a/arch/riscv/Kconfig.vendor
-> +++ b/arch/riscv/Kconfig.vendor
-> @@ -26,6 +26,19 @@ config RISCV_ISA_VENDOR_EXT_THEAD
->           extensions. Without this option enabled, T-Head vendor extensio=
-ns will
->           not be detected at boot and their presence not reported to user=
-space.
->
-> +         If you don't know what to do here, say Y.
-> +
-> +config RISCV_ISA_XTHEADVECTOR
-> +       bool "xtheadvector extension support"
-> +       depends on RISCV_ISA_VENDOR_EXT_THEAD
-> +       depends on RISCV_ISA_V
-> +       depends on FPU
-> +       default y
-> +       help
-> +         Say N here if you want to disable all xtheadvector related proc=
-edures
-> +         in the kernel. This will disable vector for any T-Head board th=
-at
-> +         contains xtheadvector rather than the standard vector.
-> +
->           If you don't know what to do here, say Y.
->  endmenu
->
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
-/cpufeature.h
-> index b029ca72cebc..e0a3164c7a06 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
->  /* Per-cpu ISA extensions. */
->  extern struct riscv_isainfo hart_isa[NR_CPUS];
->
-> +extern u32 thead_vlenb_of;
-> +
->  void riscv_user_isa_enable(void);
->
->  #define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
- {     \
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 2107c59575dd..077be4ab1f9a 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -37,6 +37,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
-ead_mostly;
->  /* Per-cpu ISA extensions. */
->  struct riscv_isainfo hart_isa[NR_CPUS];
->
-> +u32 thead_vlenb_of;
-> +
->  /**
->   * riscv_isa_extension_base() - Get base extension word
->   *
-> @@ -625,6 +627,46 @@ static void __init riscv_fill_vendor_ext_list(int cp=
-u)
->         }
->  }
->
-> +static int has_thead_homogeneous_vlenb(void)
-> +{
-> +       int cpu;
-> +       u32 prev_vlenb =3D 0;
-> +       u32 vlenb;
-> +
-> +       /* Ignore thead,vlenb property if xtheavector is not enabled in t=
-he kernel */
-> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
-> +               return 0;
-> +
-> +       for_each_possible_cpu(cpu) {
-> +               struct device_node *cpu_node;
-> +
-> +               cpu_node =3D of_cpu_device_node_get(cpu);
-> +               if (!cpu_node) {
-> +                       pr_warn("Unable to find cpu node\n");
-> +                       return -ENOENT;
-> +               }
-> +
-> +               if (of_property_read_u32(cpu_node, "thead,vlenb", &vlenb)=
-) {
-> +                       of_node_put(cpu_node);
-> +
-> +                       if (prev_vlenb)
-> +                               return -ENOENT;
-> +                       continue;
-> +               }
-> +
-> +               if (prev_vlenb && vlenb !=3D prev_vlenb) {
-> +                       of_node_put(cpu_node);
-> +                       return -ENOENT;
-> +               }
-> +
-> +               prev_vlenb =3D vlenb;
-> +               of_node_put(cpu_node);
-> +       }
-> +
-> +       thead_vlenb_of =3D vlenb;
-> +       return 0;
-> +}
-> +
->  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwca=
-p)
->  {
->         unsigned int cpu;
-> @@ -689,6 +731,12 @@ static int __init riscv_fill_hwcap_from_ext_list(uns=
-igned long *isa2hwcap)
->                 riscv_fill_vendor_ext_list(cpu);
->         }
->
-> +       if (riscv_isa_vendor_extension_available(THEAD_VENDOR_ID, XTHEADV=
-ECTOR) &&
-> +           has_thead_homogeneous_vlenb() < 0) {
-> +               pr_warn("Unsupported heterogeneous vlenb detected, vector=
- extension disabled.\n");
-> +               elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
-> +       }
-> +
-XTHEADVECTOR is 0.7.1 for old XuanTie processors; we only have
-homogeneous vlenb=3D128 chips.
+On 09.07.24 19:56, Josef Bacik wrote:
+> On Tue, Jul 09, 2024 at 01:19:16PM +0200, Hanna Czenczek wrote:
+>> Hi,
+>>
+>> We want to be able to mount filesystems that just consist of one regular
+>> file via virtio-fs, i.e. no root directory, just a file as the root
+>> node.
+>>
+>> While that is possible via FUSE itself (through the 'rootmode' mount
+>> option, which is automatically set by the fusermount help program to
+>> match the mount point's inode mode), there is no virtio-fs option yet
+>> that would allow changing the rootmode from S_IFDIR to S_IFREG.
+>>
+>> To do that, this series introduces a new 'file' mount option that does
+>> precisely that.  Alternatively, we could provide the same 'rootmode'
+>> option that FUSE has, but as laid out in patch 1's commit description,
+>> that option is a bit cumbersome for virtio-fs (in a way that it is not
+>> for FUSE), and its usefulness as a more general option is limited.
+>>
+> All this does is make file an alias for something a little easier for users to
+> read, which can easily be done in libfuse.  Add the code to lib/mount.c to alias
+> 'file' to turn it into rootmode=S_IFREG when it sends it to the kernel, it's not
+> necessary to do this in the kernel.  Thanks,
 
-So:
+This series is not about normal FUSE filesystems (file_system_type 
+fuse_fs_type, “fuse”), but about virtio-fs (file_system_type 
+virtio_fs_type, “virtiofs”), i.e. a case where libfuse and fusermount 
+are not involved at all.  As far as I’m aware, mounting a virtio-fs 
+filesystem with a non-directory root inode is currently not possible at all.
 
-Acked-by: Guo Ren <guoren@kernel.org>
+Hanna
 
->         if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
->                 return -ENOENT;
->
-> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 6727d1d3b8f2..3ba2f2432483 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
->  {
->         unsigned long this_vsize;
->
-> -       /* There are 32 vector registers with vlenb length. */
-> +       /*
-> +        * There are 32 vector registers with vlenb length.
-> +        *
-> +        * If the thead,vlenb property was provided by the firmware, use =
-that
-> +        * instead of probing the CSRs.
-> +        */
-> +       if (thead_vlenb_of) {
-> +               this_vsize =3D thead_vlenb_of * 32;
-> +               return 0;
-> +       }
-> +
->         riscv_v_enable();
->         this_vsize =3D csr_read(CSR_VLENB) * 32;
->         riscv_v_disable();
->
-> --
-> 2.34.1
->
-
-
---=20
-Best Regards
- Guo Ren
