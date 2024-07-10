@@ -1,143 +1,126 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697EB192483;
-	Wed, 10 Jul 2024 17:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74789194C74
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 17:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720632128; cv=none; b=HJNR9Hq//Gaq4z2pR3C6/gd87u13bye9oUuzNcmKOpKauv7Ugr+5e7Be73AzJCt+bI1CkOz0beTC5ZdmHM/5QCmryEL2+UNKSmvPb0CEexWJimF54gzeHi9IP7+YOkBPJMe3Vk4cP8HNXHu6MVLewly1FSV0zk37D0ccU6g1oiE=
+	t=1720632517; cv=none; b=cVIwiZxQUcVkdyOHgsQmTXSlqAqRkJG8SlIgCMHG4Y4XeNZhr1mUKyFSbSNXPZa+3AJ3jzXaKj1u8/8puB+UtLqrDk7+ihDZnH9KSIOXFbCMP/bseUbqJDKUEMTb+6CdiFhggNS0KjT6NszzGHYQA2K3k2wUxYEW1l6m0+DCC44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720632128; c=relaxed/simple;
-	bh=GKBilYZzZSvzFe9eBoJB8C4sbemHoQd1ohpfDLjVs4U=;
+	s=arc-20240116; t=1720632517; c=relaxed/simple;
+	bh=RwBkRnspfY067bb6ognTwxNjNjflmlXmo/mSTueNUYA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cUsDgp09x66AQgNXWUEhg2mpbjL+v3tgMbvNrKyU7k6cxhLbSN9o2V2Sd82KTvsd49RNF2o9AN7htY/HhlV0jH3ME6Wqzw4mBJnh1iUHEKGWh2OeM7DQ79ytsd+8eKAq90Y+9SroDkRnIFQZJ8pfHK+PIWNpeoITtV2FsDUJWio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UNR7ijrZ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Odrmwdnc4gkknwo3ow3mNPU75ero/+zGIvv5PJSlUY2zjuB4Wf6IWbaVCNb6EcTAJIr1JlVvxtVZON7aYHiwi+5epiXo9zzB7lz9v0296f+2Q5yu2yz6oesWXTPH9KEPy/iF1w2BDj8q3WZuHlF443lA4pAbi/glIUqPVPBQyLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZVlXKA5W; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UNR7ijrZ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C165940E019C;
-	Wed, 10 Jul 2024 17:22:03 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 7OnBJBiEPE2j; Wed, 10 Jul 2024 17:22:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1720632120; bh=A47f9h7AWiBXL3tI1gj46//myn+haFpb6GR9nxNA+H4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UNR7ijrZGmPUBwT5PPtNVjeDFrDBY3dtwNkHSGB5Eq3igELvuNSYjZ3fqCAOCUOXp
-	 SEwZvHwD8zudUj8ZCzXUor9FSkKT7jvtFANhcory0A6HYJqt7yFWwnozNXkTqiigMj
-	 OWEVveZn7dV0DR9C4zqENdC3GzOpdFmM+93n9Q+SIbc7vNZ3DZcIu9Hvf1xxGRuZIT
-	 d/Q8cKEn/nxBKUY/vBLK47O50Ei+HXzhl2EB7dc1RPRc94oeJ9d0TEf9VsKfF2e89p
-	 j2R+YrX6bk94cPrCjTZPsVUrGQyleAxh/CqUHXxLnIitp1UDR5Sjbs43dvdIsdxZRY
-	 0APwEgSdIHcXg0p0pB+jra/4vSZNfWLGI5Bz5+ZRXTS20rAtQTil146NOdZPbLaRTE
-	 jb1XYrmgrFbnOuTU2y8KrEOO67dE4lVCEYersZOm5VV923UdUq95epZBwnXqVfiYMj
-	 ctSWKh+V4eaW0UQST7NYmlkAZ8E6mTrflawIK3kEw9hihr+W3p0BsWqlKyN5kL7PG+
-	 1szhiojgCZiNmtXA1KPqp3JeXk780H6ChzsVi9C8b5nEBMfQPw/gbK2E4Hh2M+gWI+
-	 aITqkbqFeEGJoJaCGJ45TJVEtFEdbAiaE5s/asUtV2XmYOSOr1jY78pHPag9A0fm4Z
-	 oizOcgxSMHzz5aAGztCobSP8=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZVlXKA5W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720632514;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wreloBAAo/tU+/q8kHI1jlzRZShfnjQFT0OfmHDhVRY=;
+	b=ZVlXKA5WOj4eO2TkQA/0Uat9UuoQCUiAW4sgk1MyE22rkumufVv25oSSBYA4BwD5aKYiMG
+	172bwLSsJTHSVNVOlp0qEha2gZPdI6f+Snn0tcIu+DmAHlBSfo5wj6E+xa0jSfdqQDlo9i
+	ARp5BintoOXBLRApMMv2qcb1Uxe9Vqs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-118-dAGoerbrN0WOYbV4KrMO1A-1; Wed,
+ 10 Jul 2024 13:28:33 -0400
+X-MC-Unique: dAGoerbrN0WOYbV4KrMO1A-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7AC6240E019D;
-	Wed, 10 Jul 2024 17:21:08 +0000 (UTC)
-Date: Wed, 10 Jul 2024 19:21:07 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Yian Chen <yian.chen@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v4 05/16] x86/cpu: Remove redundant comment during
- feature setup
-Message-ID: <20240710172107.GHZo7DA3pQ1Mkj8gy7@fat_crate.local>
-References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
- <20240710160655.3402786-6-alexander.shishkin@linux.intel.com>
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C5C2B1944D30;
+	Wed, 10 Jul 2024 17:28:31 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.5])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA8C319560AA;
+	Wed, 10 Jul 2024 17:28:30 +0000 (UTC)
+Date: Wed, 10 Jul 2024 19:28:28 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	German Maglione <gmaglione@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 0/2] virtio-fs: Add 'file' mount option
+Message-ID: <20240710172828.GB542210@dynamic-pd01.res.v6.highway.a1.net>
+References: <20240709111918.31233-1-hreitz@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ljOl8xcTJy+dyx2L"
 Content-Disposition: inline
-In-Reply-To: <20240710160655.3402786-6-alexander.shishkin@linux.intel.com>
+In-Reply-To: <20240709111918.31233-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On Wed, Jul 10, 2024 at 07:06:41PM +0300, Alexander Shishkin wrote:
-> From: Sohil Mehta <sohil.mehta@intel.com>
-> 
-> The code below the comment is self explanatory. Instead of updating the
-> comment with the newly added LASS feature, it is better to just remove
-> it.
-> 
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> ---
->  arch/x86/kernel/cpu/common.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-> index dcf61a66e462..33a76256a6f5 100644
-> --- a/arch/x86/kernel/cpu/common.c
-> +++ b/arch/x86/kernel/cpu/common.c
-> @@ -1841,7 +1841,6 @@ static void identify_cpu(struct cpuinfo_x86 *c)
->  	/* Disable the PN if appropriate */
->  	squash_the_stupid_serial_number(c);
->  
-> -	/* Set up SMEP/SMAP/UMIP */
->  	setup_smep(c);
->  	setup_smap(c);
->  	setup_umip(c);
-> -- 
 
-A separate patch just for that?! You're kidding, right?
+--ljOl8xcTJy+dyx2L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Just merge it with the previous one.
+On Tue, Jul 09, 2024 at 01:19:16PM +0200, Hanna Czenczek wrote:
+> Hi,
+>=20
+> We want to be able to mount filesystems that just consist of one regular
+> file via virtio-fs, i.e. no root directory, just a file as the root
+> node.
+>=20
+> While that is possible via FUSE itself (through the 'rootmode' mount
+> option, which is automatically set by the fusermount help program to
+> match the mount point's inode mode), there is no virtio-fs option yet
+> that would allow changing the rootmode from S_IFDIR to S_IFREG.
+>=20
+> To do that, this series introduces a new 'file' mount option that does
+> precisely that.  Alternatively, we could provide the same 'rootmode'
+> option that FUSE has, but as laid out in patch 1's commit description,
+> that option is a bit cumbersome for virtio-fs (in a way that it is not
+> for FUSE), and its usefulness as a more general option is limited.
+>=20
+>=20
+> Hanna Czenczek (2):
+>   virtio-fs: Add 'file' mount option
+>   virtio-fs: Document 'file' mount option
+>=20
+>  fs/fuse/virtio_fs.c                    | 9 ++++++++-
+>  Documentation/filesystems/virtiofs.rst | 5 ++++-
+>  2 files changed, 12 insertions(+), 2 deletions(-)
+>=20
+> --=20
+> 2.45.1
+>=20
 
--- 
-Regards/Gruss,
-    Boris.
+Looks good to me. Maybe add the 'file' option to FUSE as well to keep
+them in sync (eventually rootmode could be exposed to virtiofs too, if
+necessary)?
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--ljOl8xcTJy+dyx2L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmaOxLwACgkQnKSrs4Gr
+c8iirgf+OVAaFjj58l9FRT8id/lUnMYW7PCddnI/WfoYIHzPrjjFu6gLJ6YdJfhF
+k7CaZKtDu/cN51Gu6prqyUs07/87lNpwcPxtD5xejWye4LqBk729w6AIrz7TgKfO
+0sGr9o/Q9PCFLw66q2E0r7uOWADgg319kek4mEIxzy/bjlg51rxyO2f1PKb/vU4c
+F24bqKhKkct3CUN0q12wCnTC0KIwLe6xozvsAm2gEJMRWoGROD3fuht1RZVpsFSY
+UY489HiwxcGY0RPJfre0yAMvMhCGnoYyjWSjDeCuIv0fyYGX6KWglzpqukPVd05L
+ZxbxnKhoLmjURpujEXj0e+flsWmIug==
+=YMpw
+-----END PGP SIGNATURE-----
+
+--ljOl8xcTJy+dyx2L--
+
