@@ -1,73 +1,106 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1581515ECDB
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCD3158861
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720655355; cv=none; b=TBSpWrJjN7plVtboeuwt0sP04UFnPt722SQtYLx2fz22kfg5PgG7/1ur1D/hxVeSuI+l/MIMPNhvlSVoXsqMEpf3jyMVZ68oMHwX0i9IPN3qesXbNDJxUa0m39adhzUql4mZI/WL+NpENj+v7D56zD3HkYRj6ocomYNyVYCkQp8=
+	t=1720655504; cv=none; b=PPiXBtpLFG1YQMxpOu6UhjiriI0Sv8Cus5CaPThCKKsGv3wDLY6dHMBrNSfOf7Yo780cGTYeJVQ8tf93rucb3g6qHu9PqvWvgHFeGhskCBCO1rZ60EnJTrmekKpmzpxP3XG2Zh7qt5yIMM1+v7DqhxwSKROIK+Jo2DGN5nVK4sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720655355; c=relaxed/simple;
-	bh=WpUWnTWcQ9yZbCFEuArGMs4Fxk919PYBB/xOGitk7xM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ll6rFYWqtLgkOkA7HSKR8WH5EanONWQ/R29YdTTt/OtRZt9fyGhys5gT2FZ6e+wIZwz0h/JiJFHWIZs1Pxqe3rebHbKrWs7rV6ayMOUUKsNbVE3bC5I0yKUE2coIGuluSXySgTfDQWZ6KeKmZVELmkX7mlHZse09CdnMLDPXhu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TxVFDFfZ; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1720655504; c=relaxed/simple;
+	bh=npGFZ7+tSqeY2xxryGCHThpOWXBJ+gAv7JI9axGTi9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MuKAbMZfRfZVoEtoMhk0DEXsuGMWWc2exfPKGSt8UkrAiDorA6GrKcRxYe9iaN7I0xPDQf5CBi9cvyESvi6IKXPK6nYBJoB5/WzTeUvWcAqrNC4t+u7ib+Z/R+3+zEgOGDaV0FrtttETNsuVyk00gfehp/2PFcSs+rkl9TsSv5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YpTVwY0G; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TxVFDFfZ"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-447df43324fso64801cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 16:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720655353; x=1721260153; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WpUWnTWcQ9yZbCFEuArGMs4Fxk919PYBB/xOGitk7xM=;
-        b=TxVFDFfZrvROa1IKZ3G5x2ZkEvq9G8gQk4z8oeAb/KpPpPvQOH/gIU0KLHUwUU6GFn
-         zHjX3/emlwa1Wq8KkRnLm/gAk7ZSpGZd+0D0hWyGHNdvypxPkVvYAwNkIG7hDC0jmwns
-         6BwPHSONhiwDP92nugSYgG/1eVSF9OzY4SWiAe45CXyIaey6oVcoW7jc7pvnOLXgCnNK
-         AR5QwzdR+o+LAOiRAiEgiegcIRa2yNMefFsu/Zjn+6Ok0C22D+4MxmqggJiAH2ljTTCy
-         rHuCbdu4xAxVsXkUPgUR1XYB3+y2/ecAqd96rNfabcyRGfdJAU47FpwBR8yJMOjCJI9u
-         H6Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720655353; x=1721260153;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WpUWnTWcQ9yZbCFEuArGMs4Fxk919PYBB/xOGitk7xM=;
-        b=d5kTTN+9Zj9ZkAIHMYd2UUsQ9so6P2XH43nBTtjFfp5Mxp6LS9RwuwC0hqnGytU8bn
-         obPEJpsumZ3zwzQV70sMcB4zYEVtasP+Jt0YPtRIhZNRjXJdHl03TQ0H6iWkpZnO7ovZ
-         mHxCA6sLe2nrfpciI1JD34GqGnKwg+ZBZe0SJenyRCRONuZNpIxdWAM8lJgxAkBqOk0R
-         m/srs6+jqXO0rBpTclLKdT1cHWYlXX+73ATjIMPcQObPrfHm3EFQVCmr0fKW3Sa7Do+q
-         HpfnATSPpBdDYK6B+z7ggZSNthk3P6OK1gYYkhHUI+m3xezdrM5cpl8cKl56WwEHILP2
-         EtCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtNrNyffp0f9W3atTnMuzGW+8/fJO04DaTbr6/Ts0qctB1OfQyuOw8x9lOyLGJRBSjR3NV1qNZpKLoaUzCc3O2ukvPwk9GWNbp
-X-Gm-Message-State: AOJu0Yz6cSZpvC+j+lfivyMHNlsc1SOuVO07kCTHInS6Crm3SrlCATQ1
-	aq36nfJeKaMR79HW+xKwS+ZxK9j1QQTlBwFeYg5Wrweb0yqpjez7SAfGCrC1/MN+WsYYLGgGVmD
-	7tdxXiyYU/AV7VWXNJZiqh6lBvMg+PPdCi8lM
-X-Google-Smtp-Source: AGHT+IEuslvTU7O114maCMu6s7q1QatazKYK4Au3LHFSN1TQt2fd6q24xfMVdE/dWH6oyRO5MWqPuiKjKkMbsPD4dqw=
-X-Received: by 2002:ac8:7386:0:b0:447:ec33:f488 with SMTP id
- d75a77b69052e-44d0aa4788bmr1329661cf.4.1720655352838; Wed, 10 Jul 2024
- 16:49:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YpTVwY0G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720655501;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NA5BtkAtts8DBgOsaPfYF+PKA9KEchHy7+koVC7lhY8=;
+	b=YpTVwY0GBWj/zG6qgS6Pfi9bw0Ef1gDOU5Bl87LvXi/pjCb5nsIYGkPQisW0XfpPGSrsCJ
+	YMd1+jF7T62NNYBuIRevx59cjXwjgIbY2WHHWP3JWPRpt64UQasAdj6zehHQ731/fEzxzs
+	vX69caKvda+VSvtQvEDIK28Q/KaKz60=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-gbRn394WMUSJ9IOq0kwrXQ-1; Wed,
+ 10 Jul 2024 19:51:35 -0400
+X-MC-Unique: gbRn394WMUSJ9IOq0kwrXQ-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7AAEF1955F43;
+	Wed, 10 Jul 2024 23:51:33 +0000 (UTC)
+Received: from [10.22.48.10] (unknown [10.22.48.10])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5DBBC1955F40;
+	Wed, 10 Jul 2024 23:51:31 +0000 (UTC)
+Message-ID: <fc72e655-bb17-4b55-b00e-1fc640d35d77@redhat.com>
+Date: Wed, 10 Jul 2024 19:51:30 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240710234222.2333120-1-jthoughton@google.com>
-In-Reply-To: <20240710234222.2333120-1-jthoughton@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 10 Jul 2024 16:48:36 -0700
-Message-ID: <CADrL8HUHRMwUPhr7jLLBgD9YLFAnVHc=N-C=8er-x6GUtV97pQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/18] KVM: Post-copy live migration for guest_memfd
-To: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
+To: Tejun Heo <tj@kernel.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>
+References: <20240710182353.2312025-1-longman@redhat.com>
+ <Zo8ELsGOyFwkpKUj@slm.duckdns.org>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <Zo8ELsGOyFwkpKUj@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Ah, I put the wrong email for Peter! I'm so sorry!
+
+On 7/10/24 17:59, Tejun Heo wrote:
+> Hello,
+>
+> On Wed, Jul 10, 2024 at 02:23:52PM -0400, Waiman Long wrote:
+>> With this patch applied, a sample output from root cgroup.stat file
+>> was shown below.
+>>
+>> 	nr_descendants 54
+>> 	nr_dying_descendants 44
+>> 	nr_cpuset 1
+>> 	nr_cpu 40
+>> 	nr_io 40
+>> 	nr_memory 54
+>> 	nr_dying_memory 44
+>> 	nr_perf_event 55
+>> 	nr_hugetlb 1
+>> 	nr_pids 54
+>> 	nr_rdma 1
+>> 	nr_misc 1
+> So, css may be too specific a name but this looks a bit disorganized. How
+> about using controller as the common prefix? Maybe something like:
+>
+> 	nr_controllers_cpu 40
+> 	nr_controllers_io 40
+> 	nr_controllers_memory 54
+> 	nr_controller_perf_event 55
+> 	...
+> 	nr_dying_controllers_memory 44
+>
+> If controllers is too long, we can shorten it somehow or use subsys, maybe?
+
+I think "controllers" is too long. I am fine with "subsys". Will make 
+change in the next version.
+
+Thanks,
+Longman
+
