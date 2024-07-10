@@ -1,247 +1,191 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB5A8120F;
-	Wed, 10 Jul 2024 21:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FBF13C679
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 21:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720646483; cv=none; b=Opgcno9RxczLnj/ek33/4BUbVTlwJBcxp5P7wYTxIH0Mi7Yy5G8v9Az1V3QLWBHltlrS/Fr+NxuGBq4R6GyumcWLJUuqHD/viND1k7Z9FEn14mwtUqe2NB7Ocozv8OOWs4VyB7QDE0HdaGipimhG5CzcshxgLoB7PyDmD7dgYUQ=
+	t=1720647845; cv=none; b=GZqzJHms0l3haJ2JTG1nYS6PzcBO1gEZJH7vU0FdhPxUMrcB6OFxQiTNmg0n6tCSr9PJJkXRloViy2URxf83mePvYzeiYOqKQYRwKg4Oe4Q2zwRzCs5HTcEPfmjRanM1KqU/jENjZIkWONKtwFytu0OdBTM+l/MV1tqe1xzj3cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720646483; c=relaxed/simple;
-	bh=zRuM6d9U739C8YtmXCDkI9vP6Yy6wL+ZAZ8jYMcFhT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t5gyWnFemzagcfYDJLHg365S7WJ+DY/q08sVS0+J53evLUb6isrD8gK1ej7fobicNYIDDFMlzJ/BP/5AMKgC0UWEMtCWby91y0UO2tuH0AKe2PSRADKKfDhnPrTJQ/IYv+xXqe2pWincNbLQ+O/dfvmGbI6Vc8SCXZeFPQaPfzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGQ5he8o; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720647845; c=relaxed/simple;
+	bh=JlkXkPNCHAMxS7MA8G46VWrDL1vn//5PG0aHUe4khZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCZoXPG9R7RSZB+1tj42y74jmIX9fzY4P8VbXhMPsGa80+K9MQcgJGEzLKFyjhhV1kT5GHm/LNcEG/MsfrDFSGlavZF8yu7N7z87pTshuZekjWiKBUiXHsiiJDzvteuhnzOlyzpdg16zO2rz0ePpHBz5/za/b+KOYaHM0MBtpIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OWoal2kw; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGQ5he8o"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e03caab48a2so208096276.1;
-        Wed, 10 Jul 2024 14:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720646480; x=1721251280; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWwzDBJy8f277WXqXl6R3RMuPRUwh+qJXOSNVB7ffMc=;
-        b=WGQ5he8oQ8efhXYYMCgpG4JQUQZEbmp1ia/G1TPlXpNiNz0dVtxJuwWMt6vC9ah0OW
-         bGSyRipbnTJeWpzCUtzEI4rlyZXfaLNEVGnJiV6oMkXjYl2mZ7V5hoe/ClkN7bmcAnvU
-         /YwE53IbjZ8ZtQ1Cm7N2o5HDs98+NwSOOycVox9MQynTolLPEde1aEymTnab2uugYcMS
-         lNK2sk9cyxAd55UY634xganeYRGMoTLAHQphhJYRu6/wsZLP3ZGN55azwzcoaJOcCvKi
-         LyaDMC39xg7cyJ6xT29HqsTCQm+6J6S7jwJgKgBoneDW5eSrX2BzjEJkjUalevu80fNb
-         mWEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720646480; x=1721251280;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWwzDBJy8f277WXqXl6R3RMuPRUwh+qJXOSNVB7ffMc=;
-        b=cbDAEDgL4ujzSFvyvRdtIPTnjhWQif5+LmJ2P3w/uVurJkcQdI95mhcKq3yXEHQheL
-         OjqiepFEGuUkgeZ/2cDcCLfygSElHIZpCVR867YBPwxmQXKsg7zjGzFKcJX8HdhdBLOP
-         GmkDcVh+qbt9rhoO4tt94wNqT/X5UeXbn7iCliJMkhviwQuPCSOJzTmdaDv4YYcB7/7h
-         QUgi1J8h0MzM3khacBk31fQWJLqnwX1Hf3M5M89IiXqu7UQYU6u2PVGQykWK/8CwqFOm
-         59VhKyFkUwklVktrtAi2JoxS3XsZamDOfC4yqXXOkIRlpBTl8s2UPJtDeYhWXuNHCUdy
-         arAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEcPNRAFaQzweLl0hbQ+QG2Oi/qLngPLYGIu2ayW0/5io8NTqrIi72Ryuog+JqaSjvzHzF5UmO/d0NEfFklUwcdqGPZQs6mV9LG+RAJP5OAvWJFJZ1yseGBIHVArrVR8frYMwP+/RT
-X-Gm-Message-State: AOJu0YyHHtH0J7aSOd4hj2/R29+/9AA6smJUGwfd7yGS+5zDWZsCeX2z
-	gx5W1hw4bwZOkCRuB3jW5UimOBoVbKpi1eZ31IIQEOaz7lAVKCNMYv4xJ5kkJaH6Wssc19mXDGz
-	ZwOr+sh/p0obAULVhB6jXIO7FFGs=
-X-Google-Smtp-Source: AGHT+IH6bYgfsoNbVGtdjaiR7EunA/HaBDZYQjDSrczVs0R6MHfQSww7S19jaEyCiiHD4LMGaazU7obguZVGu0/l9pM=
-X-Received: by 2002:a25:7d02:0:b0:e03:5b97:cbec with SMTP id
- 3f1490d57ef6-e0577fb65e5mr780329276.10.1720646480390; Wed, 10 Jul 2024
- 14:21:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OWoal2kw"
+X-Envelope-To: longman@redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1720647838;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T2jivA9hjHCAK5sQZqUP1uRcXYWNdTNA3VPhubHQ2uk=;
+	b=OWoal2kwFKT01xXbu0bs8ombjc1N9kJwxVLZDphIEd/7TZQ1f0gi16q/3KRFGcNeg8o1x9
+	9stCtfyaWDE0xoRZ1UKv4tVkicKkqVHoEG4W2sm44p3TmvHO57LNjl7+Tbju7vj5oBVHMK
+	sYF4Nx8TVVRakcLiwDao5kWNlVOZqSs=
+X-Envelope-To: tj@kernel.org
+X-Envelope-To: lizefan.x@bytedance.com
+X-Envelope-To: hannes@cmpxchg.org
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: cgroups@vger.kernel.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: kamalesh.babulal@oracle.com
+Date: Wed, 10 Jul 2024 21:43:53 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Waiman Long <longman@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>
+Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
+Message-ID: <Zo8AmTVEdirZdgol@google.com>
+References: <20240710182353.2312025-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-7-flintglass@gmail.com> <CAKEwX=NJjDL3aW3hXioxh=yASSsHbDBWubV9cE2RiH+tSXpscw@mail.gmail.com>
-In-Reply-To: <CAKEwX=NJjDL3aW3hXioxh=yASSsHbDBWubV9cE2RiH+tSXpscw@mail.gmail.com>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Thu, 11 Jul 2024 06:21:09 +0900
-Message-ID: <CAPpoddfpU1rN5ST49vBBJ_=MHKehQQrwsz_hwBd6xyzi4-uQkQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] mm: zswap: interrupt shrinker writeback while
- pagein/out IO
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240710182353.2312025-1-longman@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 4:17 Nhat Pham <nphamcs@gmail.=
-com>:
+On Wed, Jul 10, 2024 at 02:23:52PM -0400, Waiman Long wrote:
+> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+> help manage different structures in various cgroup subsystems by being
+> an embedded element inside a larger structure like cpuset or mem_cgroup.
+> 
+> The /proc/cgroups file shows the number of cgroups for each of the
+> subsystems.  With cgroup v1, the number of CSSes is the same as the
+> number of cgroups.  That is not the case anymore with cgroup v2. The
+> /proc/cgroups file cannot show the actual number of CSSes for the
+> subsystems that are bound to cgroup v2.
+> 
+> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+> we can't tell by looking at /proc/cgroups which cgroup subsystems may
+> be responsible.
+> 
+> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+> cgroup.stat file is now being extended to show the number of live and
+> dying CSSes associated with all the non-inhibited cgroup subsystems
+> that have been bound to cgroup v2 as long as it is not zero.  The number
+> includes CSSes in the current cgroup as well as in all the descendants
+> underneath it.  This will help us pinpoint which subsystems are
+> responsible for the increasing number of dying (nr_dying_descendants)
+> cgroups.
+> 
+> The cgroup-v2.rst file is updated to discuss this new behavior.
+> 
+> With this patch applied, a sample output from root cgroup.stat file
+> was shown below.
+> 
+> 	nr_descendants 54
+> 	nr_dying_descendants 44
+> 	nr_cpuset 1
+> 	nr_cpu 40
+> 	nr_io 40
+> 	nr_memory 54
+> 	nr_dying_memory 44
+> 	nr_perf_event 55
+> 	nr_hugetlb 1
+> 	nr_pids 54
+> 	nr_rdma 1
+> 	nr_misc 1
+> 
+> Another sample output from system.slice/cgroup.stat was:
+> 
+> 	nr_descendants 32
+> 	nr_dying_descendants 37
+> 	nr_cpu 30
+> 	nr_io 30
+> 	nr_memory 32
+> 	nr_dying_memory 37
+> 	nr_perf_event 33
+> 	nr_pids 32
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
->
-> Do you see this problem actually manifesting in real life? Does not
-> sound infeasible to me, but I wonder how likely this is the case.
->
-> Do you have any userspace-visible metrics, or any tracing logs etc.
-> that proves that it actually happens?
->
-> This might also affect the dynamic shrinker as well FWIW.
->
+I like it way more than the previous version, thank you for the update.
 
-Although it is rare, on a small VM with 0.5GB RAM, performing `apt
-upgrade` for ubuntu kernel update degrades system responsiveness.
-Since kernel upgrade is memory consuming for zstd compressed
-initramfs, there is heavy memory pressure like the benchmark.
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 14 ++++++-
+>  include/linux/cgroup-defs.h             |  7 ++++
+>  kernel/cgroup/cgroup.c                  | 50 ++++++++++++++++++++++++-
+>  3 files changed, 68 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 52763d6b2919..9031419271cd 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -981,6 +981,16 @@ All cgroup core files are prefixed with "cgroup."
+>  		A dying cgroup can consume system resources not exceeding
+>  		limits, which were active at the moment of cgroup deletion.
+>  
+> +	  nr_<cgroup_subsys>
+> +		Total number of live cgroups associated with that cgroup
+> +		subsystem (e.g. memory) at and beneath the current
+> +		cgroup.  An entry will only be shown if it is not zero.
+> +
+> +	  nr_dying_<cgroup_subsys>
+> +		Total number of dying cgroups associated with that cgroup
+> +		subsystem (e.g. memory) beneath the current cgroup.
+> +		An entry will only be shown if it is not zero.
+> +
+>    cgroup.freeze
+>  	A read-write single value file which exists on non-root cgroups.
+>  	Allowed values are "0" and "1". The default is "0".
+> @@ -2930,8 +2940,8 @@ Deprecated v1 Core Features
+>  
+>  - "cgroup.clone_children" is removed.
+>  
+> -- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
+> -  at the root instead.
+> +- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
+> +  "cgroup.stat" files at the root instead.
+>  
+>  
+>  Issues with v1 and Rationales for v2
+> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+> index b36690ca0d3f..62de18874508 100644
+> --- a/include/linux/cgroup-defs.h
+> +++ b/include/linux/cgroup-defs.h
+> @@ -210,6 +210,13 @@ struct cgroup_subsys_state {
+>  	 * fields of the containing structure.
+>  	 */
+>  	struct cgroup_subsys_state *parent;
+> +
+> +	/*
+> +	 * Keep track of total numbers of visible and dying descendant CSSes.
+> +	 * Protected by cgroup_mutex.
+> +	 */
+> +	int nr_descendants;
+> +	int nr_dying_descendants;
+>  };
+>  
+>  /*
+> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> index c8e4b62b436a..18c982a06446 100644
+> --- a/kernel/cgroup/cgroup.c
+> +++ b/kernel/cgroup/cgroup.c
+> @@ -3669,12 +3669,34 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
+>  static int cgroup_stat_show(struct seq_file *seq, void *v)
+>  {
+>  	struct cgroup *cgroup = seq_css(seq)->cgroup;
+> +	struct cgroup_subsys_state *css;
+> +	int ssid;
+>  
+> +	/* cgroup_mutex required for for_each_css() */
+> +	cgroup_lock();
 
-Unfortunately I could not get evidence that clearly indicates the
-contention. Perhaps IO latency can be a metric?
-While allocating large memory, perf showed that __swap_writepage() was
-consuming time and was called mostly from kswapd and some fraction
-from user faults of python script and from shrink_worker. CPU was
-mostly idling even in a single CPU system, so lock contention and
-compression should not be the reason. I believe these behaviors
-suggest contention on writeback IO.
-As shown in the benchmark,  reducing shrinker writeback by patches 3
-to 6 reduced elapsed time, which also indicates IO contention.
+I *guess* it can be done under a rcu_read_lock(), isn't it?
+That would eliminate a need for the second patch as well, which
+is questionable (e.g. one unprivileged user can block others?)
 
-> > +/*
-> > + * To avoid IO contention between pagein/out and global shrinker write=
-back,
-> > + * track the last jiffies of pagein/out and delay the writeback.
-> > + * Default to 500msec in alignment with mq-deadline read timeout.
->
-> If there is a future version, could you include the reason why you
-> select 500msec in the patch's changelog as well?
->
-
-The 500ms can be any value longer than the average interval of each
-pageout/in and is not significant for behavior. If subsequent pageout
-rejection occurs while the shrinker is sleeping, writeback will be
-delayed again by 500ms from the last timestamp update. If pageout
-occurs at a 1ms interval on average, the minimal delay should be 1+ms.
-
-I chose 500ms from the mq-deadline scheduler that tries to perform
-read IO in a 500ms timeframe by default (bfq for HDD uses a shorter
-timeout).
-When the shrinker performs writeback IO with a 500ms delay from the
-last pagein, the write IO will be of lower priority than the read IO
-waiting in the queue, as the pagein read becomes the highest priority
-by the deadline. This logic emulates low-priority write IO by
-voluntarily delaying IO.
-
-
->
-> Hmmm is there a reason why we do not just do:
->
-> zswap_shrinker_delay_start =3D jiffies;
->
-> or, more unnecessarily:
->
-> unsigned long now =3D jiffies;
->
-> zswap_shrinker_delay_start =3D now;
->
-> IOW, why the branching here? Does not seem necessary to me, but
-> perhaps there is a correctness/compiler reason I'm not seeing?
->
-> In fact, if it's the first version, then we could manually inline it.
->
-
-That was to avoid invalidating the CPU cache of the shared variable
-unnecessarily. Removing the branch and manually inlining it for v3.
-
-
-> Additionally/alternatively, I wonder if it is more convenient to do it
-> at the mm/page_io.c zswap callsites, i.e whenever zswap_store() and
-> zswap_load() returns false, then delay the shrinker before proceeding
-> with the IO steps.
->
-
-Should we expose the timestamp variable? It is only used in zswap
-internally, and the timestamp is not required when zswap is disabled.
-
-> >         do {
-> > +               /*
-> > +                * delay shrinking to allow the last rejected page comp=
-letes
-> > +                * its writeback
-> > +                */
-> > +               sleepuntil =3D delay + READ_ONCE(zswap_shrinker_delay_s=
-tart);
->
-> I assume we do not care about racy access here right? Same goes for
-> updates - I don't see any locks protecting these operations (but I
-> could be missing something).
->
-
-Right. Do we need atomic or spinlock for safety?
- I think the bare store/load of unsigned long is sufficient here. The
-possible deviation by concurrent updates is mostly +/-1 jiffy. Sleep
-does not need ms accuracy.
-
-Ah, I found a mistake here. v2 missed continue statement in the loop.
-The delay should be extended if zswap_store() rejects another page. In
-v2, one writeback was allowed per 500ms, which was not my intended
-behavior.
-The corrected logic for v3 should be:
-
-               if (time_before(now, sleepuntil) &&
-                               time_before(sleepuntil, now + delay + 1)) {
-                       fsleep(jiffies_to_usecs(sleepuntil - now));
-                       /* check if subsequent pageout/in extended delay */
-                       continue;
-               }
-
-
-2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 9:57 Nhat Pham <nphamcs@gmail.=
-com>:
->
-> Hmm what about this scenario: when we disable zswap writeback on a
-> cgroup, if zswap_store() fails, we are delaying the global shrinker
-> for no gain essentially. There is no subsequent IO. I don't think we
-> are currently handling this, right?
->
-> >
-> > The same logic applies to zswap_load(). When zswap cannot find requeste=
-d
-> > page from pool and read IO is performed, shrinker should be interrupted=
-.
-> >
->
-> Yet another (less concerning IMHO) scenario is when a cgroup disables
-> zswap by setting zswap.max =3D 0 (for instance, if the sysadmin knows
-> that this cgroup's data are really cold, and/or that the workload is
-> latency-tolerant, and do not want it to take up valuable memory
-> resources of other cgroups). Every time this cgroup reclaims memory,
-> it would disable the global shrinker (including the new proactive
-> behavior) for other cgroup, correct? And, when they do need to swap
-> in, it would further delay the global shrinker. Would this break of
-> isolation be a problem?
->
-> There are other concerns I raised in the cover letter's response as
-> well - please take a look :)
-
-I haven't considered these cases much, but I suppose the global
-shrinker should be delayed in both cases as well. In general, any
-pagein/out should be prefered over shrinker writeback throughput.
-
-When zswap writeback was disabled for a memcg
-(memcg.zswap.writeback=3D0), I suppose disabling/delaying writeback is
-harmless.
-If the rejection incurs no IO, there is no more memory pressure and
-shrinking is not urgent. We can postpone the shrinker writeback. If
-the rejection incurs IO (i.e. mm choose another page from a memcg with
-writeback enabled), again we should delay the shrinker.
-
-For pageout from latency-tolerant memcg (zswap.max=3D0), I think pageout
-latency may affect other memcgs.
-For example, when a latency-sensitive workload tries to allocate
-memory, mm might choose to swap out pages from zswap-disabled memcg.
-The slow direct pageout may indirectly delay allocation of the
-latency-sensitive workload. IOW, we cannot determine which workload
-would be blocked by a slow pageout based on which memcg owns the page.
-In this case, it would be better to delay shrinker writeback even if
-the owner is latency tolerant memcg.
-Also for pagein, we cannot determine how urgent the pagein is.
-
-Delaying shrinker on any pagein/out diminishes proactive shrinking
-progress, but that is still better than the existing shrinker that
-cannot shrink.
+Thanks!
