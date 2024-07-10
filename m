@@ -1,237 +1,247 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00908198E60
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 20:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB5A8120F;
+	Wed, 10 Jul 2024 21:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720643359; cv=none; b=VN+WaYsfQhFhbtrLV3CVwsms6ku4aBrW9H0/k1GimKGZyLIMJmNUydCDgafY2619Y8eqfh7fbW3rq+pNWvef3HnMM0ccdY+Uj1ZKx0bVbtNtE9K2+ZCIOdj/nb7V3TH0HCmMIJI4LJxdNS8bsRbbtPqVEmsyBSwrSY/QpreS0ac=
+	t=1720646483; cv=none; b=Opgcno9RxczLnj/ek33/4BUbVTlwJBcxp5P7wYTxIH0Mi7Yy5G8v9Az1V3QLWBHltlrS/Fr+NxuGBq4R6GyumcWLJUuqHD/viND1k7Z9FEn14mwtUqe2NB7Ocozv8OOWs4VyB7QDE0HdaGipimhG5CzcshxgLoB7PyDmD7dgYUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720643359; c=relaxed/simple;
-	bh=lUBEgBl64OukQYoXw+IzWRxkunsos7uu5wD0WIADxEc=;
+	s=arc-20240116; t=1720646483; c=relaxed/simple;
+	bh=zRuM6d9U739C8YtmXCDkI9vP6Yy6wL+ZAZ8jYMcFhT0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MNWgWy5zfVe0vNkhwbcMvHGbGkusgskRhvGlB8b7kEobWV9gL1aGfE466FfGg6B5XspZ9vgpxMbrdSIJDqz8VJwUOq/IYLtjHA3uwkfOc/QD0zTFJfWTDLuB64L3Flt3PU2pfb11d3Qho7pmoi0uioM1jaygqpRnyCMMOygRzX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BJZxbkmN; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=t5gyWnFemzagcfYDJLHg365S7WJ+DY/q08sVS0+J53evLUb6isrD8gK1ej7fobicNYIDDFMlzJ/BP/5AMKgC0UWEMtCWby91y0UO2tuH0AKe2PSRADKKfDhnPrTJQ/IYv+xXqe2pWincNbLQ+O/dfvmGbI6Vc8SCXZeFPQaPfzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGQ5he8o; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BJZxbkmN"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7037c464792so61792a34.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 13:29:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGQ5he8o"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e03caab48a2so208096276.1;
+        Wed, 10 Jul 2024 14:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720643356; x=1721248156; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720646480; x=1721251280; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ip/0MDOrHp5lX/Irp7UEa2BIGo3LvwiW3nUCmkpVR3o=;
-        b=BJZxbkmNVvsrwsOuaaprwEqVg0CMet2325nHNs5uvMq63SzxrXSfmdtUd5/igfuBB5
-         jgvxXpBg+b5P9K4cSsYXndaGhb9pG6io8fOpsrAVQd6eQbisUPDp5GX2yK3xOT31K+hB
-         rLXwaUbLpXIB9Q8v6gUxwPZvMaiutAxat3yGpdgYDau0bKKtb1PqBwTj9smNTxWa9uqn
-         ZOCLTZyhZ/8hIrlgllUXJArVcKmiCm1dWbpOErCJbkZe5/sFJt4kL9PtuqFW0Ove1CUu
-         Nh8cY4TxxbDibsYnfTcPZ/+y1o+vX+c63l8fC/vydJq0Ce+I40QGkc0fyN+PLM3HKAgI
-         +oSg==
+        bh=JWwzDBJy8f277WXqXl6R3RMuPRUwh+qJXOSNVB7ffMc=;
+        b=WGQ5he8oQ8efhXYYMCgpG4JQUQZEbmp1ia/G1TPlXpNiNz0dVtxJuwWMt6vC9ah0OW
+         bGSyRipbnTJeWpzCUtzEI4rlyZXfaLNEVGnJiV6oMkXjYl2mZ7V5hoe/ClkN7bmcAnvU
+         /YwE53IbjZ8ZtQ1Cm7N2o5HDs98+NwSOOycVox9MQynTolLPEde1aEymTnab2uugYcMS
+         lNK2sk9cyxAd55UY634xganeYRGMoTLAHQphhJYRu6/wsZLP3ZGN55azwzcoaJOcCvKi
+         LyaDMC39xg7cyJ6xT29HqsTCQm+6J6S7jwJgKgBoneDW5eSrX2BzjEJkjUalevu80fNb
+         mWEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720643356; x=1721248156;
+        d=1e100.net; s=20230601; t=1720646480; x=1721251280;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ip/0MDOrHp5lX/Irp7UEa2BIGo3LvwiW3nUCmkpVR3o=;
-        b=dgJDHWWo8lzCojHeQUwz5hROkkroGPlwOm/AT199k3BgYwhn3bWXIDlQmbQglRB9VI
-         T2H4c5guyT5nEs8Wtr7a1vNiwap9O8b8AcN68NgE0dWBl4OyIHJ3YZuTl/xu26Je7XMa
-         30zHcQvXoDVLP1L9HfcuB5IKkcPN7Rm7CAOJV8Si2O6+rMBc69ASO852NFi23TduCcSt
-         V5oeRXlHG+uMz/R0nJkgeDF806ErZwiW5unDnADel5fjfsO+nqj5kQFHBD3GiqlJ2oum
-         JGd670zX8s2fi1qlk8xjlugfbrBKNvhFY2F2WmEt94u5B0/RPf2O8PU0SROaWcp0HudF
-         VDPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQUFdFpsSv4OVIFxOpDiiuEtmdY4Ired+dmIvIr3sbsvqvC16jFKsYnQBYCbtd/yMlzZl/v7zLRvfEJeEAcSnRFpue25ztEKz3
-X-Gm-Message-State: AOJu0YxfhH1E0YgD/zAignktl/WZ/I0X1d/T1NGLQATuA4eGixii+lBV
-	UaItuhj/iDAD2ucvjdGguvgq6v4uC+ZcqUniRWqqRIXkjy71vEuB73ew3PIdPba+W7LBvCBdW+F
-	51+P3Rnc9FDK4hrJxTfkXeATS2oKjTAZRK5Se
-X-Google-Smtp-Source: AGHT+IFh61JWNinxflrD0b4ZVWkvEczGu6mIg9bnLfCV6X6pe63Th6j/ytHY2kvRgro//9ydMtTk5x6Go2aTaB1/aws=
-X-Received: by 2002:a05:6830:22ed:b0:704:4995:3733 with SMTP id
- 46e09a7af769-704499539f5mr3557560a34.31.1720643355799; Wed, 10 Jul 2024
- 13:29:15 -0700 (PDT)
+        bh=JWwzDBJy8f277WXqXl6R3RMuPRUwh+qJXOSNVB7ffMc=;
+        b=cbDAEDgL4ujzSFvyvRdtIPTnjhWQif5+LmJ2P3w/uVurJkcQdI95mhcKq3yXEHQheL
+         OjqiepFEGuUkgeZ/2cDcCLfygSElHIZpCVR867YBPwxmQXKsg7zjGzFKcJX8HdhdBLOP
+         GmkDcVh+qbt9rhoO4tt94wNqT/X5UeXbn7iCliJMkhviwQuPCSOJzTmdaDv4YYcB7/7h
+         QUgi1J8h0MzM3khacBk31fQWJLqnwX1Hf3M5M89IiXqu7UQYU6u2PVGQykWK/8CwqFOm
+         59VhKyFkUwklVktrtAi2JoxS3XsZamDOfC4yqXXOkIRlpBTl8s2UPJtDeYhWXuNHCUdy
+         arAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEcPNRAFaQzweLl0hbQ+QG2Oi/qLngPLYGIu2ayW0/5io8NTqrIi72Ryuog+JqaSjvzHzF5UmO/d0NEfFklUwcdqGPZQs6mV9LG+RAJP5OAvWJFJZ1yseGBIHVArrVR8frYMwP+/RT
+X-Gm-Message-State: AOJu0YyHHtH0J7aSOd4hj2/R29+/9AA6smJUGwfd7yGS+5zDWZsCeX2z
+	gx5W1hw4bwZOkCRuB3jW5UimOBoVbKpi1eZ31IIQEOaz7lAVKCNMYv4xJ5kkJaH6Wssc19mXDGz
+	ZwOr+sh/p0obAULVhB6jXIO7FFGs=
+X-Google-Smtp-Source: AGHT+IH6bYgfsoNbVGtdjaiR7EunA/HaBDZYQjDSrczVs0R6MHfQSww7S19jaEyCiiHD4LMGaazU7obguZVGu0/l9pM=
+X-Received: by 2002:a25:7d02:0:b0:e03:5b97:cbec with SMTP id
+ 3f1490d57ef6-e0577fb65e5mr780329276.10.1720646480390; Wed, 10 Jul 2024
+ 14:21:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240710001749.1388631-1-almasrymina@google.com>
- <20240710001749.1388631-6-almasrymina@google.com> <20240710094900.0f808684@kernel.org>
-In-Reply-To: <20240710094900.0f808684@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 10 Jul 2024 13:29:03 -0700
-Message-ID: <CAHS8izPnFxeEMEQkxq=A9Rp7T8ADJ__3eWfeQmC2hEBYQVzcvw@mail.gmail.com>
-Subject: Re: [PATCH net-next v16 05/13] page_pool: devmem support
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
-	Matthew Wilcox <willy@infradead.org>
+References: <20240706022523.1104080-1-flintglass@gmail.com>
+ <20240706022523.1104080-7-flintglass@gmail.com> <CAKEwX=NJjDL3aW3hXioxh=yASSsHbDBWubV9cE2RiH+tSXpscw@mail.gmail.com>
+In-Reply-To: <CAKEwX=NJjDL3aW3hXioxh=yASSsHbDBWubV9cE2RiH+tSXpscw@mail.gmail.com>
+From: Takero Funaki <flintglass@gmail.com>
+Date: Thu, 11 Jul 2024 06:21:09 +0900
+Message-ID: <CAPpoddfpU1rN5ST49vBBJ_=MHKehQQrwsz_hwBd6xyzi4-uQkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] mm: zswap: interrupt shrinker writeback while
+ pagein/out IO
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 10, 2024 at 9:49=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 4:17 Nhat Pham <nphamcs@gmail.=
+com>:
+
 >
-> On Wed, 10 Jul 2024 00:17:38 +0000 Mina Almasry wrote:
-> > @@ -68,17 +107,103 @@ static inline netmem_ref page_to_netmem(struct pa=
-ge *page)
+> Do you see this problem actually manifesting in real life? Does not
+> sound infeasible to me, but I wonder how likely this is the case.
+>
+> Do you have any userspace-visible metrics, or any tracing logs etc.
+> that proves that it actually happens?
+>
+> This might also affect the dynamic shrinker as well FWIW.
+>
+
+Although it is rare, on a small VM with 0.5GB RAM, performing `apt
+upgrade` for ubuntu kernel update degrades system responsiveness.
+Since kernel upgrade is memory consuming for zstd compressed
+initramfs, there is heavy memory pressure like the benchmark.
+
+Unfortunately I could not get evidence that clearly indicates the
+contention. Perhaps IO latency can be a metric?
+While allocating large memory, perf showed that __swap_writepage() was
+consuming time and was called mostly from kswapd and some fraction
+from user faults of python script and from shrink_worker. CPU was
+mostly idling even in a single CPU system, so lock contention and
+compression should not be the reason. I believe these behaviors
+suggest contention on writeback IO.
+As shown in the benchmark,  reducing shrinker writeback by patches 3
+to 6 reduced elapsed time, which also indicates IO contention.
+
+> > +/*
+> > + * To avoid IO contention between pagein/out and global shrinker write=
+back,
+> > + * track the last jiffies of pagein/out and delay the writeback.
+> > + * Default to 500msec in alignment with mq-deadline read timeout.
+>
+> If there is a future version, could you include the reason why you
+> select 500msec in the patch's changelog as well?
+>
+
+The 500ms can be any value longer than the average interval of each
+pageout/in and is not significant for behavior. If subsequent pageout
+rejection occurs while the shrinker is sleeping, writeback will be
+delayed again by 500ms from the last timestamp update. If pageout
+occurs at a 1ms interval on average, the minimal delay should be 1+ms.
+
+I chose 500ms from the mq-deadline scheduler that tries to perform
+read IO in a 500ms timeframe by default (bfq for HDD uses a shorter
+timeout).
+When the shrinker performs writeback IO with a 500ms delay from the
+last pagein, the write IO will be of lower priority than the read IO
+waiting in the queue, as the pagein read becomes the highest priority
+by the deadline. This logic emulates low-priority write IO by
+voluntarily delaying IO.
+
+
+>
+> Hmmm is there a reason why we do not just do:
+>
+> zswap_shrinker_delay_start =3D jiffies;
+>
+> or, more unnecessarily:
+>
+> unsigned long now =3D jiffies;
+>
+> zswap_shrinker_delay_start =3D now;
+>
+> IOW, why the branching here? Does not seem necessary to me, but
+> perhaps there is a correctness/compiler reason I'm not seeing?
+>
+> In fact, if it's the first version, then we could manually inline it.
+>
+
+That was to avoid invalidating the CPU cache of the shared variable
+unnecessarily. Removing the branch and manually inlining it for v3.
+
+
+> Additionally/alternatively, I wonder if it is more convenient to do it
+> at the mm/page_io.c zswap callsites, i.e whenever zswap_store() and
+> zswap_load() returns false, then delay the shrinker before proceeding
+> with the IO steps.
+>
+
+Should we expose the timestamp variable? It is only used in zswap
+internally, and the timestamp is not required when zswap is disabled.
+
+> >         do {
+> > +               /*
+> > +                * delay shrinking to allow the last rejected page comp=
+letes
+> > +                * its writeback
+> > +                */
+> > +               sleepuntil =3D delay + READ_ONCE(zswap_shrinker_delay_s=
+tart);
+>
+> I assume we do not care about racy access here right? Same goes for
+> updates - I don't see any locks protecting these operations (but I
+> could be missing something).
+>
+
+Right. Do we need atomic or spinlock for safety?
+ I think the bare store/load of unsigned long is sufficient here. The
+possible deviation by concurrent updates is mostly +/-1 jiffy. Sleep
+does not need ms accuracy.
+
+Ah, I found a mistake here. v2 missed continue statement in the loop.
+The delay should be extended if zswap_store() rejects another page. In
+v2, one writeback was allowed per 500ms, which was not my intended
+behavior.
+The corrected logic for v3 should be:
+
+               if (time_before(now, sleepuntil) &&
+                               time_before(sleepuntil, now + delay + 1)) {
+                       fsleep(jiffies_to_usecs(sleepuntil - now));
+                       /* check if subsequent pageout/in extended delay */
+                       continue;
+               }
+
+
+2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 9:57 Nhat Pham <nphamcs@gmail.=
+com>:
+>
+> Hmm what about this scenario: when we disable zswap writeback on a
+> cgroup, if zswap_store() fails, we are delaying the global shrinker
+> for no gain essentially. There is no subsequent IO. I don't think we
+> are currently handling this, right?
+>
 > >
-> >  static inline int netmem_ref_count(netmem_ref netmem)
-> >  {
-> > +     /* The non-pp refcount of net_iov is always 1. On net_iov, we onl=
-y
-> > +      * support pp refcounting which uses the pp_ref_count field.
-> > +      */
-> > +     if (netmem_is_net_iov(netmem))
-> > +             return 1;
-> > +
-> >       return page_ref_count(netmem_to_page(netmem));
-> >  }
+> > The same logic applies to zswap_load(). When zswap cannot find requeste=
+d
+> > page from pool and read IO is performed, shrinker should be interrupted=
+.
+> >
 >
-> How can this work if we had to revert the patch which made all of
-> the networking stack take pp-aware refs? Maybe we should add the
-> refcount, and let it be bumped, but WARN() if the net_iov is released
-> with refcount other than 1? Or we need a very solid explanation why
-> the conversion had to be reverted and this is fine.
+> Yet another (less concerning IMHO) scenario is when a cgroup disables
+> zswap by setting zswap.max =3D 0 (for instance, if the sysadmin knows
+> that this cgroup's data are really cold, and/or that the workload is
+> latency-tolerant, and do not want it to take up valuable memory
+> resources of other cgroups). Every time this cgroup reclaims memory,
+> it would disable the global shrinker (including the new proactive
+> behavior) for other cgroup, correct? And, when they do need to swap
+> in, it would further delay the global shrinker. Would this break of
+> isolation be a problem?
 >
+> There are other concerns I raised in the cover letter's response as
+> well - please take a look :)
 
-Right, as you are aware, page refcounting is based on 2 refcounts: pp
-refs and full page refs. To be honest I find the 2-ref flow confusing
-and I made an effort to avoid porting this bit to net_iovs. net_iovs
-just supports 1 refcount, which is the pp-ref.
+I haven't considered these cases much, but I suppose the global
+shrinker should be delayed in both cases as well. In general, any
+pagein/out should be prefered over shrinker writeback throughput.
 
-My intention is that when a reference is needed on a net_iov, we
-obtain the pp-ref, and when we drop a reference on a net_iov, we drop
-the pp_ref. This is able to work for net_iov but not pages, because
-(as you explained to me) pages can be inserted into the net stack with
-full page refs. So when it comes to refcounting pages we need to be
-careful which ref to obtain or drop depending on is_pp_netmem() and
-skb->pp_recycle (as pp_recycle serves as a concurrency check, like you
-explained).
+When zswap writeback was disabled for a memcg
+(memcg.zswap.writeback=3D0), I suppose disabling/delaying writeback is
+harmless.
+If the rejection incurs no IO, there is no more memory pressure and
+shrinking is not urgent. We can postpone the shrinker writeback. If
+the rejection incurs IO (i.e. mm choose another page from a memcg with
+writeback enabled), again we should delay the shrinker.
 
-AFAICT, since net_iovs always originate from the net stack, we can
-make the simplification that they're always seeded with 1 pp-ref, and
-never support non-pp-refs. This simplifies the refcounting such that:
+For pageout from latency-tolerant memcg (zswap.max=3D0), I think pageout
+latency may affect other memcgs.
+For example, when a latency-sensitive workload tries to allocate
+memory, mm might choose to swap out pages from zswap-disabled memcg.
+The slow direct pageout may indirectly delay allocation of the
+latency-sensitive workload. IOW, we cannot determine which workload
+would be blocked by a slow pageout based on which memcg owns the page.
+In this case, it would be better to delay shrinker writeback even if
+the owner is latency tolerant memcg.
+Also for pagein, we cannot determine how urgent the pagein is.
 
-1. net_iov are always is_pp_netmem (they are never disconnected from
-the pp as they never have elevated non-pp refcount), and
-2. net_iov refcounting doesn't need to check skb->pp_recycle for
-refcounting, because we can be sure that the caller always has a
-non-pp ref (since it's the only one supported).
-
-Currently, as written, I just realized I did not add net_iov support
-to __skb_frag_ref(). But net_iov does support skb_pp_frag_ref(). So
-there is no way to increment a non-pp ref for net_iov.
-
-If we want to add __skb_frag_ref() support for net_iov I suggest something =
-like:
-
-diff --git a/include/linux/skbuff_ref.h b/include/linux/skbuff_ref.h
-index 0f3c58007488a..02f7f4c7d4821 100644
---- a/include/linux/skbuff_ref.h
-+++ b/include/linux/skbuff_ref.h
-@@ -17,7 +17,13 @@
-  */
- static inline void __skb_frag_ref(skb_frag_t *frag)
- {
--       get_page(skb_frag_page(frag));
-+       netmem_ref netmem =3D skb_frag_netmem(frag);
-+
-+       /* netmem always uses pp-refs for refcounting. Never non-pp refs. *=
-/
-+       if (!netmem_is_net_iov(netmem))
-+               get_page(netmem_to_page(netmem));
-+       else
-+               page_pool_ref_netmem(netmem);
- }
-
-If you don't like the 1 ref simplification, I can definitely add a
-second refcount as you suggest, but AFAICT the simplification is safe
-due to how net_iov are originated, and maybe also because devmem usage
-in the net stack is limited due to all the skb_is_readable() checks,
-and it's possible that the edge cases don't reproduce. I was looking
-to find a concrete bug report with devmem before taking a hammer and
-adding a secondary refcount, rather than do it preemptively, but I'm
-happy to look into it if you insist.
-
-> >  static inline unsigned long netmem_to_pfn(netmem_ref netmem)
-> >  {
-> > +     if (netmem_is_net_iov(netmem))
-> > +             return 0;
-> > +
-> >       return page_to_pfn(netmem_to_page(netmem));
-> >  }
->
-> Can we move this out and rename it to netmem_pfn_trace() ?
-> Silently returning 0 is not generally okay, but since it's only
-> for tracing we don't care.
->
-
-Yes, I will do.
-
-> > +static inline struct net_iov *__netmem_clear_lsb(netmem_ref netmem)
-> > +{
-> > +     return (struct net_iov *)((__force unsigned long)netmem & ~NET_IO=
-V);
-> > +}
-> > +
-> > +static inline unsigned long netmem_get_pp_magic(netmem_ref netmem)
-> > +{
-> > +     return __netmem_clear_lsb(netmem)->pp_magic;
-> > +}
-> > +
-> > +static inline void netmem_or_pp_magic(netmem_ref netmem, unsigned long=
- pp_magic)
-> > +{
-> > +     __netmem_clear_lsb(netmem)->pp_magic |=3D pp_magic;
-> > +}
-> > +
-> > +static inline void netmem_clear_pp_magic(netmem_ref netmem)
-> > +{
-> > +     __netmem_clear_lsb(netmem)->pp_magic =3D 0;
-> > +}
-> > +
-> > +static inline struct page_pool *netmem_get_pp(netmem_ref netmem)
-> > +{
-> > +     return __netmem_clear_lsb(netmem)->pp;
-> > +}
-> > +
-> > +static inline void netmem_set_pp(netmem_ref netmem, struct page_pool *=
-pool)
-> > +{
-> > +     __netmem_clear_lsb(netmem)->pp =3D pool;
-> > +}
->
-> Why is all this stuff in the main header? It's really low level.
-> Please put helpers which are only used by the core in a header
-> under net/core/, like net/core/dev.h
-
-Sorry, will do.
-
---
-Thanks,
-Mina
+Delaying shrinker on any pagein/out diminishes proactive shrinking
+progress, but that is still better than the existing shrinker that
+cannot shrink.
