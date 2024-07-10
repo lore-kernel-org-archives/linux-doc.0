@@ -1,104 +1,209 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C473E16D32D
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2AE15ECE2
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 23:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720654978; cv=none; b=TkvAMoUfQyV/WUzKKfWkFt+6MrBPt+kSvP/5YT4buqHis5e1jwtn8VWoy49UgQ5dzgsqUodbS96mHmWjPshX0LNvHKL6d3vQ1iuLLRUaGP+poBbXRmViK0sBYHr8ZlzxpP17LjdBHu0Qp3e3HlvXvzd8ktGBRVTcFmiPfXs7WQg=
+	t=1720655354; cv=none; b=CgQj6SZ4BNJSM1gIDaOTrwm0YRaKrrPCPBNcCLZ+CfWvILhqIpKednstXqvtZvgW9gTWpV0AemGY1Lne1utGa3f4U6etWK53yNPvEWK1ynpcAczGVX4dvm44Me6K+1VIfp3RB3St/CBVNUl+L54+mwU0ERxcjCWSnK9RV1dgwMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720654978; c=relaxed/simple;
-	bh=iHtMvGL4vF0q+lVnlkIHLSBIYFMj+gNaWi3Gs2hOk8E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mT+66wdrohkG1sLYjXiM5YNenJPeyAihKxmmPAvs6ymxaq5FShb4fZZixS2VfnaNwzgTIas4GDbt8DMDJyBOnTKSD05ab2mUGgoJVFEPRVGrGTxO5U0iwjj6OQaXHMolBf999Z1uVGsHOUSgIa+amVaYE9X84qYtnkkIm+96TZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SiNK7uLO; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
+	s=arc-20240116; t=1720655354; c=relaxed/simple;
+	bh=xErRzgL2ci3yf1V+chWf3igrRYsqFLOzJFR6C1U9pkE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KRtoD49rkIzcEeIYx61nVqdugCe7wBJFsPgwWdSP1tKVDMvBeYfhR2uP4B8EeibsAIEZAh2i4DijHTM+1XlRBD9odVjFhpJKYHI6PDMcoSL6AChBmi+41gGefkx9EzI980faX0ojFgCCc5hs8ZUJBoh2NxiHgIlnig09UgeDfuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WSLk4Jte; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SiNK7uLO"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e03a59172dbso416107276.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 16:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720654975; x=1721259775; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=x2NbmmZjpjJMl8d0fx4CDZHX67FcpWijiAzz4EJchKg=;
-        b=SiNK7uLOX8sumtAb7yl27cqs0OHIVqIv1p2Id4nqTJufixjPgISkGXCE4yOeXipwJU
-         RsM0jTf1Turqukq2i1ej5FjE6ot7dx4aEql2yJdiHShzNbmcO9kwlCTpD/AmRj4FX2u9
-         hpsdi86UjiwTTU0lNHJwfqcoDCCr34iupDpGkn7BV+0lG1Wm5ii5YYe2fJ8rzDT1yZgu
-         /P0TEKgctg0YDDqIP1C79/0pUKC6FJCr7c0ei/mvVnLXo5xj2XlJ/fWjbkvRjGsTkPEe
-         G+Mu6jI3/SUEf0uBAxKpDF2GvWHTv5ARSJhPOPNSL7qoBBjafrDgQTsUm6yYizG6z3h1
-         VTbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720654975; x=1721259775;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x2NbmmZjpjJMl8d0fx4CDZHX67FcpWijiAzz4EJchKg=;
-        b=EgnSvmZBKI1k/V9xRi3lMMNeHV7Z+13tMT2zBcbWilpnEJZ6hUOwqg1jKSfpxJ2ZGC
-         NnKcap5b6RcCjsmPFZU9C3sKtcGHnY6fkxpJb5Tzf4O69b9nBGV4C0tGcK7GZ9Cqtzpz
-         5Tql6VTzcW+RDtxpnqrHYj3pB3BrgkWghrxciTkaU9e79D1WlUHdO7ZPtqJUaOQAPVMa
-         ZOg4/22ElKBSodL0Z1GQTU5u03oDkRKjsJI/6kWqeTjRrO9YlVIuaA1Qz+un+kAPAY6e
-         uSLER6M/+tZD0bvvNuYNQNHpGwfYBSV2VIs/x1Qa+MN0VyFZprCPO5xzWDnR9CPGpw27
-         7bhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhd8Rrio8q0CydWHJAPKrnhEsp4kXMaVfQY0hJA1loS3BC5u+xk3rD6Dpr8JNa7b/NjXH9/2rM5F2ldwRRUWcCHqBk5tyhSq1T
-X-Gm-Message-State: AOJu0YzG4ViSYioy8g+m7mszcCe5zThrxKQaCYsPp+V5JhzhFdIDDdlY
-	VJ5fVBmwctn5248X7T5kOvf7KBwuSjYN0xV8tWsorI7pi6y88DRU/eLysH17XT9AZ1Y4SKMa88p
-	rBYqV+x1F5QkewhnrEw==
-X-Google-Smtp-Source: AGHT+IHxJ11Jc4Pg7WkmO3SlYHVbY6IW+Wqfxro8+OBFjX0tT/erDtqX8VfrApEznbWBw0W1kCfLjttZO6MW2F1P
-X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:6902:2604:b0:dfa:8ed1:8f1b with
- SMTP id 3f1490d57ef6-e041b039d25mr256249276.1.1720654975664; Wed, 10 Jul 2024
- 16:42:55 -0700 (PDT)
-Date: Wed, 10 Jul 2024 23:42:22 +0000
-In-Reply-To: <20240710234222.2333120-1-jthoughton@google.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WSLk4Jte"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720655351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NvMGbDK6gdZgu1QxmY35VViJYMc88dUgJ5oCbQmvDJs=;
+	b=WSLk4JteIvM/IlbPqelqEyOdS903w63zHXhLGhtY8bS1iRQIBcfzF4vseLJh9Mkn5xUQDh
+	/LrTUlm1fmdXoitc+W1y4uGhvS3hn5yEy8ubn85q7mPJAMRz7ArX0lWlwd60IYcxt4gO6l
+	G7Qlx5aNogCR3NBNQDKEa2KzME/BzBI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-RbA8F_4XO52R5Ef7XlCXJA-1; Wed,
+ 10 Jul 2024 19:49:05 -0400
+X-MC-Unique: RbA8F_4XO52R5Ef7XlCXJA-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A330519560B6;
+	Wed, 10 Jul 2024 23:49:03 +0000 (UTC)
+Received: from [10.22.48.10] (unknown [10.22.48.10])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0AEFF3000181;
+	Wed, 10 Jul 2024 23:49:00 +0000 (UTC)
+Message-ID: <50b74abc-093b-467c-91bc-5ff786d3affd@redhat.com>
+Date: Wed, 10 Jul 2024 19:49:00 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240710234222.2333120-1-jthoughton@google.com>
-X-Mailer: git-send-email 2.45.2.993.g49e7a77208-goog
-Message-ID: <20240710234222.2333120-19-jthoughton@google.com>
-Subject: [RFC PATCH 18/18] KVM: selftests: Remove restriction in vm_set_memory_attributes
-From: James Houghton <jthoughton@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Peter Xu <peterx@redhat.org>, Axel Rasmussen <axelrasmussen@google.com>, 
-	David Matlack <dmatlack@google.com>, James Houghton <jthoughton@google.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Kamalesh Babulal <kamalesh.babulal@oracle.com>
+References: <20240710182353.2312025-1-longman@redhat.com>
+ <Zo8AmTVEdirZdgol@google.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <Zo8AmTVEdirZdgol@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Allow the test to run with a new attribute (USERFAULT). The flows could
-very well need changing, but we can at least demonstrate functionality
-without further changes.
+On 7/10/24 17:43, Roman Gushchin wrote:
+> On Wed, Jul 10, 2024 at 02:23:52PM -0400, Waiman Long wrote:
+>> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+>> help manage different structures in various cgroup subsystems by being
+>> an embedded element inside a larger structure like cpuset or mem_cgroup.
+>>
+>> The /proc/cgroups file shows the number of cgroups for each of the
+>> subsystems.  With cgroup v1, the number of CSSes is the same as the
+>> number of cgroups.  That is not the case anymore with cgroup v2. The
+>> /proc/cgroups file cannot show the actual number of CSSes for the
+>> subsystems that are bound to cgroup v2.
+>>
+>> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+>> we can't tell by looking at /proc/cgroups which cgroup subsystems may
+>> be responsible.
+>>
+>> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+>> cgroup.stat file is now being extended to show the number of live and
+>> dying CSSes associated with all the non-inhibited cgroup subsystems
+>> that have been bound to cgroup v2 as long as it is not zero.  The number
+>> includes CSSes in the current cgroup as well as in all the descendants
+>> underneath it.  This will help us pinpoint which subsystems are
+>> responsible for the increasing number of dying (nr_dying_descendants)
+>> cgroups.
+>>
+>> The cgroup-v2.rst file is updated to discuss this new behavior.
+>>
+>> With this patch applied, a sample output from root cgroup.stat file
+>> was shown below.
+>>
+>> 	nr_descendants 54
+>> 	nr_dying_descendants 44
+>> 	nr_cpuset 1
+>> 	nr_cpu 40
+>> 	nr_io 40
+>> 	nr_memory 54
+>> 	nr_dying_memory 44
+>> 	nr_perf_event 55
+>> 	nr_hugetlb 1
+>> 	nr_pids 54
+>> 	nr_rdma 1
+>> 	nr_misc 1
+>>
+>> Another sample output from system.slice/cgroup.stat was:
+>>
+>> 	nr_descendants 32
+>> 	nr_dying_descendants 37
+>> 	nr_cpu 30
+>> 	nr_io 30
+>> 	nr_memory 32
+>> 	nr_dying_memory 37
+>> 	nr_perf_event 33
+>> 	nr_pids 32
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> I like it way more than the previous version, thank you for the update.
+>
+>> ---
+>>   Documentation/admin-guide/cgroup-v2.rst | 14 ++++++-
+>>   include/linux/cgroup-defs.h             |  7 ++++
+>>   kernel/cgroup/cgroup.c                  | 50 ++++++++++++++++++++++++-
+>>   3 files changed, 68 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 52763d6b2919..9031419271cd 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -981,6 +981,16 @@ All cgroup core files are prefixed with "cgroup."
+>>   		A dying cgroup can consume system resources not exceeding
+>>   		limits, which were active at the moment of cgroup deletion.
+>>   
+>> +	  nr_<cgroup_subsys>
+>> +		Total number of live cgroups associated with that cgroup
+>> +		subsystem (e.g. memory) at and beneath the current
+>> +		cgroup.  An entry will only be shown if it is not zero.
+>> +
+>> +	  nr_dying_<cgroup_subsys>
+>> +		Total number of dying cgroups associated with that cgroup
+>> +		subsystem (e.g. memory) beneath the current cgroup.
+>> +		An entry will only be shown if it is not zero.
+>> +
+>>     cgroup.freeze
+>>   	A read-write single value file which exists on non-root cgroups.
+>>   	Allowed values are "0" and "1". The default is "0".
+>> @@ -2930,8 +2940,8 @@ Deprecated v1 Core Features
+>>   
+>>   - "cgroup.clone_children" is removed.
+>>   
+>> -- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
+>> -  at the root instead.
+>> +- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
+>> +  "cgroup.stat" files at the root instead.
+>>   
+>>   
+>>   Issues with v1 and Rationales for v2
+>> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+>> index b36690ca0d3f..62de18874508 100644
+>> --- a/include/linux/cgroup-defs.h
+>> +++ b/include/linux/cgroup-defs.h
+>> @@ -210,6 +210,13 @@ struct cgroup_subsys_state {
+>>   	 * fields of the containing structure.
+>>   	 */
+>>   	struct cgroup_subsys_state *parent;
+>> +
+>> +	/*
+>> +	 * Keep track of total numbers of visible and dying descendant CSSes.
+>> +	 * Protected by cgroup_mutex.
+>> +	 */
+>> +	int nr_descendants;
+>> +	int nr_dying_descendants;
+>>   };
+>>   
+>>   /*
+>> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+>> index c8e4b62b436a..18c982a06446 100644
+>> --- a/kernel/cgroup/cgroup.c
+>> +++ b/kernel/cgroup/cgroup.c
+>> @@ -3669,12 +3669,34 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
+>>   static int cgroup_stat_show(struct seq_file *seq, void *v)
+>>   {
+>>   	struct cgroup *cgroup = seq_css(seq)->cgroup;
+>> +	struct cgroup_subsys_state *css;
+>> +	int ssid;
+>>   
+>> +	/* cgroup_mutex required for for_each_css() */
+>> +	cgroup_lock();
+> I *guess* it can be done under a rcu_read_lock(), isn't it?
+> That would eliminate a need for the second patch as well, which
+> is questionable (e.g. one unprivileged user can block others?)
 
-Signed-off-by: James Houghton <jthoughton@google.com>
----
- tools/testing/selftests/kvm/include/kvm_util.h | 7 -------
- 1 file changed, 7 deletions(-)
+I am just following the instruction in the for_each_css() macro:
 
-diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing/selftests/kvm/include/kvm_util.h
-index 63c2aaae51f3..12876268780c 100644
---- a/tools/testing/selftests/kvm/include/kvm_util.h
-+++ b/tools/testing/selftests/kvm/include/kvm_util.h
-@@ -384,13 +384,6 @@ static inline void vm_set_memory_attributes(struct kvm_vm *vm, uint64_t gpa,
- 		.flags = 0,
- 	};
- 
--	/*
--	 * KVM_SET_MEMORY_ATTRIBUTES overwrites _all_ attributes.  These flows
--	 * need significant enhancements to support multiple attributes.
--	 */
--	TEST_ASSERT(!attributes || attributes == KVM_MEMORY_ATTRIBUTE_PRIVATE,
--		    "Update me to support multiple attributes!");
--
- 	vm_ioctl(vm, KVM_SET_MEMORY_ATTRIBUTES, &attr);
- }
- 
--- 
-2.45.2.993.g49e7a77208-goog
+  *
+  * Should be called under cgroup_mutex.
+  */
+
+I think taking rcu_read_lock() should also work in this case. Will try 
+it out and update the patch after some testing.
+
+Thanks,
+Longman
 
