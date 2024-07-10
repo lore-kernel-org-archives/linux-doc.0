@@ -1,194 +1,109 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C827219F9;
-	Wed, 10 Jul 2024 22:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84E913C685;
+	Wed, 10 Jul 2024 22:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720650428; cv=none; b=uHw/UV5aLzwSfnkRFUdk1yf9017t9c1oEiEicAKWyUY4zJd7MKBuJl5VgiqHjG9pJqDRBY8exkY/otCJB7trB3sjyUbU2Qlh4qhZn4jCKwQLMrvudRMdZIWoXzb57pY/Xp3d4GX30NKgquA+v76zS0ohEvYRbyUiQkD4JPceuLc=
+	t=1720650817; cv=none; b=RtBlj6Z3OhusV2J8Y/0qvZxjWRDqncjJvdLtUBPJCs8pH+xBRcE/8VnlVcl82IcOQ4S8/20YhoOrSVM/ZFRgIPE/V6cieCYtjlfFU9Dal786xdL9t+YHGskYPlO4C06GkTwVjvcfvUE8myboQWZZ2qf+DiRLkRjcGOPNoQcjAVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720650428; c=relaxed/simple;
-	bh=G1+nNhIsGUQHbss19tlUCSGwPVzvI+a7IrCT1i0Lyqo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cdx1Uz43u5NLdXVHVCaOwhgSbRlSY/mBL7Y7LSnGQEVAuzs1HwgDCt+Mr8Bn2aFhmMOvzsLd0u2aiw6mDoKTPK9pmfrkdCVWdsfLWXLYk9qnVlYK8LLBhfK5F9WdsRauFU5hlkGZJ9rJpk5iVaYfub3xzxYN7DdMrCDMgMmcF2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNtUg6xm; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720650817; c=relaxed/simple;
+	bh=7xsnAqLc4rT1FvFy/8gthJ9Rs0Qx2xqN6hIj1IsWJNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LfmSY811XHfVt6l65vF0HtsklzlYaRtuLqTK+7adDLDAvlj+qaEtJNNKAevFiyYZ1ysAH9r/6Bz5QjNa3mlWFaTR0B252fdz018ecL/KLkL1oogEu0x0qQyN8ARu895Cl0rLOlBfe/pnpQ6oJFPpKDrr4U6d4AwsEpTbiySIk0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9zNEi31; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNtUg6xm"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e03a9f7c6a6so228046276.3;
-        Wed, 10 Jul 2024 15:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720650426; x=1721255226; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/Cc2aQVQ5C4YUCt2A1KuP8JFLG/zHl92A4qTb1v1cg=;
-        b=kNtUg6xmzEvX9mqenkyG0qUg1YYcIJtJmm/lVuoqvZLJurbQylljZeqC0xOZhKeBKB
-         DL2CUvAN3VfeZFLBDngmC4xYTiII1a2uD60Yrxows4LkfrvGrcofWVg0XK/ZaO8JJZLB
-         /ds/adsLkMLpZX3FC6Xr0Ok3qdfhZEjdt0S7WqdqoNrorVJgg7GXg0tSFsN4qsA7Iapc
-         Gu59/9gNSQlyFoNyJoHuKt/gsiigwD5xolxDEWM4uZsLh3v6KZt6HJ0Im/EvIjFp2kzT
-         S7BtmhCAJyfK3PTAZN7RHMjnpOSV9tcCP+s0rTTU3oiVqPgqFxBZVlR5EmxZCG74KrQ7
-         WJhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720650426; x=1721255226;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I/Cc2aQVQ5C4YUCt2A1KuP8JFLG/zHl92A4qTb1v1cg=;
-        b=XclFOzzOZASXhaToJPVDH29jYQN86LWi/x6CU5qhnUqZxHB/g+z79wJuQafl84UVyj
-         N/NT9U3ase/hRo66W4WTWcwrt1CHfaJUEcjhqSww8DoEp/AHaae+a0e/DwHSBAtjGadM
-         pt6Nf8BlkE4zpoHEprDY/s+9ObDSbeKArhIB9jKNjbKSb8EVarQPL3ne54Y22oaQse5u
-         xNYNXJxumcxPvrfD/CJtHCDeF/gVJEzBz7mcpBbHt6Ilbms8Ps0WQMraTyK7fe1mnzJ3
-         zWc50phUaGEbJFf/Wj7Cs+MnSRT9DeGRf9VMqqVUh6TRep1iIcHaG9rhC2TK4RU5d553
-         kKyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUY/hk/KnkndEfcGflZI3bvgs0thn5PjkIGNnkN3eovjLtRK2Ylyyp6oYKqjtNdF4uZ2F6LuT7ocPvcv09KSbsCmgHm1RABEdVvglTID+Nr0iFm0e/q2o4Yiw2MlibLL+ZsUhBmG68
-X-Gm-Message-State: AOJu0YwvableGWw8JAXi8fJnEqJE6DAHudQkj8ASgP9FU1rIvuns1r8n
-	GLF036PDyWXYfomKeah1LR9BtpKNbfvG/oILQpwtu27YN0CzpKrg+aMCFfCvuUsIGJOO3tbEFyT
-	5QGkrEiPYOsWSPV5BXNs7TG8m6/E=
-X-Google-Smtp-Source: AGHT+IE3MSNblNyjPTWlXtNx8ItMNm10tT48kqwkStoBU3USdjc5JBVU9DQ4bDKUP4uy6AFDnPXlKLFcfHrwVbPwkz4=
-X-Received: by 2002:a25:8387:0:b0:dfb:bf0:59db with SMTP id
- 3f1490d57ef6-e041b120cdamr7581879276.41.1720650426328; Wed, 10 Jul 2024
- 15:27:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9zNEi31"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720650816; x=1752186816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7xsnAqLc4rT1FvFy/8gthJ9Rs0Qx2xqN6hIj1IsWJNo=;
+  b=I9zNEi31EOIIrFePRKwLwNpteqy13vSQ+d7hgBuRVHc7aV74qxN2ibFO
+   87AXrb6jK9FkxlyNRL+D1+BdZ5JZR/SkXPudxUlUAqsbnUpc1+oq3o5Io
+   G1d2CXq1xYjHAWisVYn4GR2aSCEETGOCwTpiSzDq+aKaXwUaF/SiX/WTL
+   j/o5i2NX12oezLRc7n3udLw5jcif0qlDEudW5j6U6JmBcde2+suIw82WN
+   R/rJw9CjXQvNk+e+Qz6cQI7AneH/VRUvCSPlAEt3qodkPHRHzhdGnQwyr
+   bR/2nw/hhPG5Q6UMtVTdKlFgp4Ri0KKjbkHEN6eSp0vXHhkHQ3t5Zgj9T
+   g==;
+X-CSE-ConnectionGUID: Tb+0NgX9Q6+9rpzIlzRJYg==
+X-CSE-MsgGUID: SMr6LeEyRSmU0PnRTpvMgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="17822630"
+X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
+   d="scan'208";a="17822630"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 15:33:35 -0700
+X-CSE-ConnectionGUID: OPGhT1HVT0+ytRpZQYdHYg==
+X-CSE-MsgGUID: I+fF4Wv9SkKH6ucqKAiA1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
+   d="scan'208";a="48448372"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2024 15:33:25 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 94A4829E; Thu, 11 Jul 2024 01:33:23 +0300 (EEST)
+Date: Thu, 11 Jul 2024 01:33:23 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, 
+	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, 
+	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
+	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Yian Chen <yian.chen@intel.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
+	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
+Subject: Re: [PATCH v4 03/16] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <cqacx3crogegwyslm25kwcdcezgg2n44lhy3mg5qkka3vgn4xa@lhqsoseyduus>
+References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
+ <20240710160655.3402786-4-alexander.shishkin@linux.intel.com>
+ <20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com> <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
-In-Reply-To: <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Thu, 11 Jul 2024 07:26:55 +0900
-Message-ID: <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local>
 
-2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 9:53 Nhat Pham <nphamcs@gmail.=
-com>:
+On Wed, Jul 10, 2024 at 07:18:36PM +0200, Borislav Petkov wrote:
+> On Wed, Jul 10, 2024 at 07:06:39PM +0300, Alexander Shishkin wrote:
+> >  static void text_poke_memcpy(void *dst, const void *src, size_t len)
+> >  {
+> > -	memcpy(dst, src, len);
+> > +	stac();
+> > +	__inline_memcpy(dst, src, len);
+> > +	clac();
+> 
+> I think you need LASS-specific stac()/clac() or an alternative_2 or so. You
+> can't cause that perf penalty on !LASS machines.
 
-> > post-patch, 6.10-rc4 with patch 1 to 5
->
-> You mean 1 to 6? There are 6 patches, no?
+Hm. Do we have text_poke() in hot path?
 
-oops. with patches 1 to 6.
+Even if we do, I doubt flipping AC flag would make any performance
+difference in context of all locking and TLB flushing we do in this
+codepath.
 
->
-> Just out of pure curiosity, could you include the stats from patch 1-3 on=
-ly?
->
-
-I will rerun the bench in v3. I assume this bench does not reflect
-patches 4 to 6, as delta pool_limit_hit=3D0 means no rejection from
-zswap.
-
-> Ah this is interesting. Did you actually see improvement in your real
-> deployment (i.e not the benchmark) with patch 4-6 in?
->
-
-As replied in patch 6, memory consuming tasks like `apt upgrade` for instan=
-ce.
-
-> >
-> > Intended scenario for memory reclaim:
-> > 1. zswap pool < accept_threshold as the initial state. This is achieved
-> >    by patch 3, proactive shrinking.
-> > 2. Active processes start allocating pages. Pageout is buffered by zswa=
-p
-> >    without IO.
-> > 3. zswap reaches shrink_start_threshold. zswap continues to buffer
-> >    incoming pages and starts writeback immediately in the background.
-> > 4. zswap reaches max pool size. zswap interrupts the global shrinker an=
-d
-> >    starts rejecting pages. Write IO for the rejected page will consume
-> >    all IO resources.
->
-> This sounds like the proactive shrinker is still not aggressive
-> enough, and/or there are some sort of misspecifications of the zswap
-> setting... Correct me if I'm wrong, but the new proactive global
-> shrinker begins 1% after the acceptance threshold, and shrinks down to
-> acceptance threshold, right? How are we still hitting the pool
-> limit...
->
-
-Proactive shrinking should not be aggressive. With patches 4 and 6, I
-modified the global shrinker to be less aggressive against pagein/out.
-Shrinking proactively cannot avoid hitting the pool limit when memory
-pressure grows faster.
-
-> My concern is that we are knowingly (and perhaps unnecessarily)
-> creating an LRU inversion here - preferring swapping out the rejected
-> pages over the colder pages in the zswap pool. Shouldn't it be the
-> other way around? For instance, can we spiral into the following
-> scenario:
->
-> 1. zswap pool becomes full.
-> 2. Memory is still tight, so anonymous memory will be reclaimed. zswap
-> keeps rejecting incoming pages, and putting a hold on the global
-> shrinker.
-> 3. The pages that are swapped out are warmer than the ones stored in
-> the zswap pool, so they will be more likely to be swapped in (which,
-> IIUC, will also further delay the global shrinker).
->
-> and the cycle keeps going on and on?
-
-I agree this does not follow LRU, but I think the LRU priority
-inversion is unavoidable once the pool limit is hit.
-The accept_thr_percent should be lowered to reduce the probability of
-LRU inversion if it matters. (it is why I implemented proactive
-shrinker.)
-
-When the writeback throughput is slower than memory usage grows,
-zswap_store() will have to reject pages sooner or later.
-If we evict the oldest stored pages synchronously before rejecting a
-new page (rotating pool to keep LRU), it will affect latency depending
-how much writeback is required to store the new page. If the oldest
-pages were compressed well, we would have to evict too many pages to
-store a warmer page, which blocks the reclaim progress. Fragmentation
-in the zspool may also increase the required writeback amount.
-We cannot accomplish both maintaining LRU priority and maintaining
-pageout latency.
-
-Additionally, zswap_writeback_entry() is slower than direct pageout. I
-assume this is because shrinker performs 4KB IO synchronously. I am
-seeing shrinking throughput is limited by disk IOPS * 4KB while much
-higher throughput can be achieved by disabling zswap. direct pageout
-can be faster than zswap writeback, possibly because of bio
-optimization or sequential allocation of swap.
-
-
-> Have you experimented with synchronous reclaim in the case the pool is
-> full? All the way to the acceptance threshold is too aggressive of
-> course - you might need to find something in between :)
->
-
-I don't get what the expected situation is.
-The benchmark of patch 6 is performing synchronous reclaim in the case
-the pool is full, since bulk memory allocation (write to mmapped
-space) is much faster than writeback throughput. The zswap pool is
-filled instantly at the beginning of benchmark runs. The
-accept_thr_percent is not significant for the benchmark, I think.
-
-
->
-> I wonder if this contention would show up in PSI metrics
-> (/proc/pressure/io, or the cgroup variants if you use them ). Maybe
-> correlate reclaim counters (pgscan, zswpout, pswpout, zswpwb etc.)
-> with IO pressure to show the pattern, i.e the contention problem was
-> there before, and is now resolved? :)
-
-Unfortunately, I could not find a reliable metric other than elapsed
-time. It seems PSI does not distinguish stalls for rejected pageout
-from stalls for shrinker writeback.
-For counters, this issue affects latency but does not increase the
-number of pagein/out. Is there any better way to observe the origin of
-contention?
-
-Thanks.
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
