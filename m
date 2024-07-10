@@ -1,172 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE4034545;
-	Wed, 10 Jul 2024 17:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1719534545;
+	Wed, 10 Jul 2024 17:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720631810; cv=none; b=VuVwc6igdi9i+bvt3kv1ciM0o0aAZQ/OZ16V7u8PUfYyNGFKqxpFhvZHKsorQsbQZ3YnqDziJuFugDiydgk1cqZP+2L1wI0K5fFfR8T9YmSuaM3bJHjU9QDOS6uk3BH4BT8dpIqiynzzXGG64QqlACvgvH8L+I7sNGa3IIi/J9I=
+	t=1720631985; cv=none; b=ApmJsuqDJCJ/J7jBblA+3bu3ZCQvC7OsJrh5czf/rycNjR7ZoZfgJXWYIbRd4rmPuXnFlzxxtwy/dSt4zesJ+sMoErDTDPsIY8lVptX+13alo4p+ihFEvCxYbBoE9k8aI2RIlwxLYsEyky+liaC81voyZvewtyt2PUO5uhdyy80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720631810; c=relaxed/simple;
-	bh=gbQbaUuiVBZ3rY0fazMfEsDsmp1EJvBByE9rwhcqv1M=;
+	s=arc-20240116; t=1720631985; c=relaxed/simple;
+	bh=1WCxG06P7mAa9HcCvP5iXR0Vo/X3kjtL5preMakYO/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g3ylZxPg4GPLoSzOw7X9M18OOsyb6YINupmHzIyb2sE0rspVZfMKhrMRgQUSnjkh1+48pobcTUiQ6yFsPWAp/Aq/9YXCsfR8dfLeVzNRRaej9ZBgVed2ruPPztG7O4RASCCeyfDOtSJAeLJXCYYBFOUteWlwpW7e4j7CmkiS6g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gj3wTGeG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YfPkgUMGsTn6vu4zEwOlx8dB92L3nNHVSxBfFQ84B4PvspD9RgWxGQuhUs6s1dZh44anuNeAQ+0a+mdOZoJSBWb/EPU33L64BeuDOk9oTXG0Ah2SBYwaoG9p/+4CtWOnlUtGatXPSQ8bXRbAci98wOtadtMhl2pGgHMCkVXvmL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NCoX9DS0; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gj3wTGeG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67AEFC32781;
-	Wed, 10 Jul 2024 17:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720631810;
-	bh=gbQbaUuiVBZ3rY0fazMfEsDsmp1EJvBByE9rwhcqv1M=;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NCoX9DS0"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 067A140E0206;
+	Wed, 10 Jul 2024 17:19:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ewiBphV7D_KG; Wed, 10 Jul 2024 17:19:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1720631974; bh=eCwsCaHH3nNUtEHLmttXrdCWSWB8LWlW1inXQHgFI2g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gj3wTGeGvkQA66hJtscYz2CdurW/XaWmXT1LUad7xHcQlV6bJlMPYB6BYkarkGJzM
-	 qb1fJH/GWYe++EsAN1YPqxKxmTx70mi2pArTryxpc+tBbCuVT8RugoF5J51N45APGN
-	 x+ezB+0+cMxlPHdLjUWzayfTJu8mxxY70OY7vRayQ0pqy+eEScxUw5lPNBlw9PM4pl
-	 gHRJ2FF3NJhmef1/MM9944Z03bUSEMfjwNa8lSQVOBXi6SLTpzX79Nj4r2tZ5j+E5e
-	 PNrecmTOcerZ2rr+jDaPAfXGPZUcWnJiE7MQ+AaJcdd8y8iMm1ukZWkjVH5FmwuAtd
-	 4eGDODAKNmXiA==
-Date: Wed, 10 Jul 2024 18:16:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	b=NCoX9DS0Ni66Z7QLBuk8BAgkpRB3a8dX0WXg52nC8Alpt048IoglDMnzFPmDykUDE
+	 vrEMEEghVqlC4rBNAlavEojIR7BspEXgwcqhUg4QxK30YOOkw/qcn+H7agBtEnS/gP
+	 GSqsFsem29H0Sr7bJnM5Y3gcoGtip61mlRSstEOoScOPINSMVh9g16slgqjYIPRjki
+	 nkdroKhfUK4oK+cztBJa+6ln1C/plo4S9bx/qonmeLxWRYXyyTbh3ycJvRKSx4peeD
+	 rpY6wnJ6YFHH4kmhMB09+6RKCkwf0RuU7Hj0cs+I35un8YJKydi8tBbkPxWyTxR0Xi
+	 nq2TTyXOo0tUciciJqfoXj2kiIEDozBP7QAeAtnHrMVEuS3g9Bj+FdnI5QbQQMRtcR
+	 z3c+42afC9o0KFKGW7PoLoldJy1DIrfXEu9zYQztsH1yBQA00bRqPpiEYBHpGSzdHe
+	 eLwK7c2zolYIV7Yh6X2u35GvmoThRluK1+ULhK5txGl0p8i24yFINvw0Sqr0KETd/y
+	 hRq4eFmWabSWSY61oCH8bie/wuTkpOvMKgBdmzqpZ7uQrdG9ycBIU/cH/uAk83uman
+	 fNPbjtQUkShDarIUH5FL14Eqm1U6Agle73ym+89GSQejo10IZJ1bMTV5LH+SbJ9iD7
+	 Azz0lvwfp9KVHAz0C/eRh7M0=
+Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8E6EC40E0027;
+	Wed, 10 Jul 2024 17:18:42 +0000 (UTC)
+Date: Wed, 10 Jul 2024 19:18:36 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Xiongwei Song <xiongwei.song@windriver.com>,
+	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Tony Luck <tony.luck@intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Breno Leitao <leitao@debian.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Yian Chen <yian.chen@intel.com>,
+	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
+	Juergen Gross <jgross@suse.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 13/39] KVM: arm64: Manage GCS registers for guests
-Message-ID: <Zo7B_sRyUyxv7xmO@finisterre.sirena.org.uk>
-References: <20240625-arm64-gcs-v9-0-0f634469b8f0@kernel.org>
- <20240625-arm64-gcs-v9-13-0f634469b8f0@kernel.org>
- <86v81d2s5t.wl-maz@kernel.org>
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Yuntao Wang <ytcoode@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
+	Huang Shijie <shijie@os.amperecomputing.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v4 03/16] x86/alternatives: Disable LASS when patching
+ kernel alternatives
+Message-ID: <20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local>
+References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
+ <20240710160655.3402786-4-alexander.shishkin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tsBiN+tG2JsDrdFj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <86v81d2s5t.wl-maz@kernel.org>
-X-Cookie: Your love life will be... interesting.
+In-Reply-To: <20240710160655.3402786-4-alexander.shishkin@linux.intel.com>
 
+On Wed, Jul 10, 2024 at 07:06:39PM +0300, Alexander Shishkin wrote:
+>  static void text_poke_memcpy(void *dst, const void *src, size_t len)
+>  {
+> -	memcpy(dst, src, len);
+> +	stac();
+> +	__inline_memcpy(dst, src, len);
+> +	clac();
 
---tsBiN+tG2JsDrdFj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I think you need LASS-specific stac()/clac() or an alternative_2 or so. You
+can't cause that perf penalty on !LASS machines.
 
-On Wed, Jul 10, 2024 at 04:17:02PM +0100, Marc Zyngier wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+-- 
+Regards/Gruss,
+    Boris.
 
-> > +	if (ctxt_has_gcs(ctxt)) {
-
-> Since this is conditioned on S1PIE, it should be only be evaluated
-> when PIE is enabled in the guest.
-
-So make ctxt_has_gcs() embed a check of ctxt_has_s1pie()?
-
-> > +		ctxt_sys_reg(ctxt, GCSPR_EL1)	= read_sysreg_el1(SYS_GCSPR);
-> > +		ctxt_sys_reg(ctxt, GCSCR_EL1)	= read_sysreg_el1(SYS_GCSCR);
-> > +		ctxt_sys_reg(ctxt, GCSCRE0_EL1)	= read_sysreg_s(SYS_GCSCRE0_EL1);
-
-> Why is this part of the EL1 context? It clearly only matters to EL0
-> execution, so it could be switched in load/put on nVHE as well. And
-> actually, given that the whole thing is strictly for userspace, why do
-> we switch *anything* eagerly at all?
-
-GCS can also be used independently at EL1 (and EL2 for that matter),
-it's not purely for userspace even though this series only implements
-use in userspace.  GCSPR_EL1 and GCSCR_EL1 control the use of GCS at
-EL1, not EL0, and the guest might be using GCS at EL1 even if the host
-doesn't.
-
-GCSCRE0_EL1 is for EL0 though, it ended up here mainly because it's an
-_EL1 register and we are already context switching PIRE0_EL1 in the EL1
-functions so it seemed consistent to follow the same approach for GCS.
-The _el1 and _user save/restore functions are called from the same place
-for both VHE and nVHE so the practical impact of the placement should be
-minimal AFAICT.  Unlike PIRE0_EL1 GCSCRE0_EL1 only has an impact for
-code runnning at EL0 so I can move it to the _user functions.
-
-TBH I'm not following your comments about switching eagerly too here at
-all, where would you expect to see the switching done?  You've said
-something along these lines before which prompted me to send a patch to
-only save the S1PIE registers if they'd been written to which you were
-quite reasonably not happy with given the extra traps it would cause:
-
-   https://lore.kernel.org/r/20240301-kvm-arm64-defer-regs-v1-1-401e3de92e97@kernel.org
-
-but I'm at a loss as to how to make things less eager otherwise.
-
-> > @@ -2306,7 +2323,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
-> >  		   ID_AA64PFR0_EL1_GIC |
-> >  		   ID_AA64PFR0_EL1_AdvSIMD |
-> >  		   ID_AA64PFR0_EL1_FP), },
-> > -	ID_SANITISED(ID_AA64PFR1_EL1),
-> > +	ID_WRITABLE(ID_AA64PFR1_EL1, ~(ID_AA64PFR1_EL1_RES0 |
-> > +				       ID_AA64PFR1_EL1_BT)),
-
-> I don't know what you're trying to do here, but that's not right. If
-> you want to make this register writable, here's the shopping list:
-
-> https://lore.kernel.org/all/87ikxsi0v9.wl-maz@kernel.org/
-
-Yes, trying to make things writable.  I do see we need to exclude more
-bits there and I'm not clear why I excluded BTI, looks like I forgot to
-add a TODO comment at some point and finish that off.  Sorry about that.
-
-In the linked mail you say you want to see all fields explicitly
-handled, could you be more direct about what such explicit handling
-would look like?  I see a number of examples in the existing code like:
-
-	ID_WRITABLE(ID_AA64ZFR0_EL1, ~ID_AA64ZFR0_EL1_RES0),
-
-	ID_WRITABLE(ID_AA64ISAR0_EL1, ~ID_AA64ISAR0_EL1_RES0),
-	ID_WRITABLE(ID_AA64ISAR1_EL1, ~(ID_AA64ISAR1_EL1_GPI |
-					ID_AA64ISAR1_EL1_GPA |
-					ID_AA64ISAR1_EL1_API |
-					ID_AA64ISAR1_EL1_APA)),
-
-which look to my eye very similar to the above, they do not visibliy
-explictly enumerate every field in the registers and given that there's
-a single mask specified it's not clear how that would look.  If
-ID_WRITABLE() took separate read/write masks and combined them it'd be
-more obvious but it's just not written that way.
-
---tsBiN+tG2JsDrdFj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaOwf0ACgkQJNaLcl1U
-h9BiTwgAhG9qd8c+aLOWRDYY+jgC3wxTF25VtO52AztM2Y4fyGfPMHg+GgALH/zW
-kZPNqJcbu5fDOfkUg3obwE/dUqdlZDlbmmJBnaP1E9p3sXWuQ9sedlO17lyf3w8h
-mzzFxLDCS0j01M5YNj4ql9LmC4sTOWyuzvzKDzDnLfM93Jdj6nhT4S0si+iQdBB8
-PFhjdtH6qVUmQNG3ik40q/IPe+nA4u0mgs7XpKj8PuPtVDxe4SNhB8cZ8R+pEJBZ
-f3EHvbndiotEBkFARu84AC/F3XfNhGNYlaZg/fwr2yfpfpFV/1Cz0LABhH9WojA0
-z7VzLkWe/+pqYeMUNAJY6H+YDudaLA==
-=InCr
------END PGP SIGNATURE-----
-
---tsBiN+tG2JsDrdFj--
+https://people.kernel.org/tglx/notes-about-netiquette
