@@ -1,73 +1,76 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E2918FA0D
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 09:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B051194140
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 10:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720604381; cv=none; b=sc1Z24QFUvtl+fiC/6q30fYZuoLpcet6pEF5ji6zFAQH8jnURaX2G7J3/J8pK8ZgYLf1jTCiYGFJQFJ0bxo95aPMtJna/WP6QL2Rfc+zWIW8eGZTZmOD9pZcR26JZbfO8+IAtPFue46+DCSJyvW5412pCOXxSYNOHANIjGBXvqg=
+	t=1720607808; cv=none; b=GAlEM9VhKuQqWQxrY7x9BvHAdLQtQZydUplTdCyMFzonXJQLleQDPAMXxhHA8inQKtj5WvxZHkvZrf1Lsqfk3ftTweelwbIXbhwcNZKcgvKahwiGtqScCQQkOTGUSP+EEhpLxhiU267U46c8nZ0Z/gyhNyp2hBWUcUrs9DpbT9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720604381; c=relaxed/simple;
-	bh=cxtEiy+7tR/t7lkZzdUeJaDgyf2ynisU5m3GLGZQV+k=;
+	s=arc-20240116; t=1720607808; c=relaxed/simple;
+	bh=kqLm5P45NxwgK+tmNpa+OcNHo84diEsXJjayzggqo7c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZOBi5R+TpY/T5qgDYyyYPINd8J7pYzPtWBbroRpWvMkF2Dh5NYcGKYJUZBoLy/TlEHCA6/e2r5GUXyH7pcVv3FLyB/cIKfrOKV2WDZLdKxg4O4Ncq1Jz/96Zx0aLeMaPB9JTTMowi/+sHCW6twXCbLSbvYcYMAguA7rPvMxxbug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Aha13ut8; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	 MIME-Version:Content-Type; b=aVfE2Ye71ZESvmYbgQsJzRnILxrIr2d0Cn6XQXsyzBLuhJEszZB6zXFhK7LTwtgzJNhpYwEA8s7EcWJBWWizXFhfVXpz8L+9ltWx5Fcj4xcmbTTjgwZiy/TgBa22W8RrIDtuq/AHsWcK8uOV0bEbSHMpUSxwNNe/5NFf5oG9Hf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e+BAytUE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Aha13ut8"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52e9f863c46so6656194e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jul 2024 02:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1720604377; x=1721209177; darn=vger.kernel.org;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ARVuzbVHjxxG9dv9mtR/lCDpdt7FDrvxjkqdsUuuHF8=;
-        b=Aha13ut8dblHu0ABPDwI2kSoZ9SFD7Bvf9rgZkld4VATzEQYgx0eqIQzx/2VdTHpF2
-         1px2UkPPqR7oAUuqUcxiU6tjPtw0R9od6D5NJUSad2M5uHptuV15ayLc6vU7kw1umRkn
-         O3BMOBo0OiXN94YsZyal9FZI5gFK3HCxit87kyQns7z/skvTDwEb5UlKw690vhHkTCFU
-         iDLJBU5KTYS/kUcljpKezM1pkCXLUDTUkCMxwsl+FbmBvIYwskC7ww82+kRng0PuPI00
-         mbGXVe9M8464iY2JEH9UY9ZmqLseW3zx+mC2r+NlRIHfIQtsLEZvpW4q7s2OTj3HsPQ4
-         EsGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720604377; x=1721209177;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ARVuzbVHjxxG9dv9mtR/lCDpdt7FDrvxjkqdsUuuHF8=;
-        b=kbA+TpUUxxZiGk6Q3TrpbR5n4ZxvJM9e8xtxhQVmz3NgJTHasTNg/A+0ts1Q3NRnOY
-         PcVR+ctprMVmk2U7Ko40OGIGJ9b4f9hXezDIn6grBgWTCGru2p/DAodTYkLZL8Q3K/o8
-         hGFFh5+DtCNvd25THQh5/RiavV5Ca1366XXso5Hs7wb5CbyJOY1CUb1sc+g6tCTbqJmj
-         Fx6/tRHaiGfa8o8SaSwjlUGP/5ykJLtiXkYcMgJTbhyXG/RUVo02rFYdfUG53Z9tfYQV
-         bLOVY4eb1Tt/o0E9alqTPR0CSZxmGk11UItNLkG1wnE3PdvYe1MGvjcJaTUeyIBnJd//
-         l/xA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEPv8Pf8fj629TrUNIWpj3nWryoiSBMLnKIw2CKPNm+KoDYDXdDxkBxJAtMs0OqfuuTZhj/TArp9mhRgdyzIHnPH37o14gM+6P
-X-Gm-Message-State: AOJu0YwzbrBZKu1GCSFo6iDi5wb2KSQVPQDxlJl4jXysn/QVXabQRD4c
-	YD50DUuwhGgGihMPO850VyNlVTnvNjl0JsUMaIlLt/XBQ+YWPn/+MGOCKoncdv4=
-X-Google-Smtp-Source: AGHT+IH5HuyWqm0xlysU+IQkoWroaRhheIPJ9ojT9MNnUnqo/Xdu38e9HBXnOtzD4O+1giys97jgbA==
-X-Received: by 2002:a05:6512:3b82:b0:52c:fd49:d42 with SMTP id 2adb3069b0e04-52eb9990d58mr3224222e87.14.1720604377061;
-        Wed, 10 Jul 2024 02:39:37 -0700 (PDT)
-Received: from localhost ([149.71.16.99])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f74159csm73618475e9.42.2024.07.10.02.39.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 02:39:36 -0700 (PDT)
-From: Punit Agrawal <punit.agrawal@bytedance.com>
-To: paul.walmsley@sifive.com, palmer@dabbelt.com
-Cc: punit.agrawal@bytedance.com,  sunilvl@ventanamicro.com,
-  jesse@rivosinc.com,  jrtc27@jrtc27.com,  corbet@lwn.net,
- aou@eecs.berkeley.edu,  cleger@rivosinc.com,  evan@rivosinc.com,
-  conor.dooley@microchip.com,  costa.shul@redhat.com,
-  andy.chiu@sifive.com,  samitolvanen@google.com,
-  linux-doc@vger.kernel.org,  linux-riscv@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  Anup Patel <anup@brainfault.org>, Yunhui
- Cui <cuiyunhui@bytedance.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v4] RISC-V: Provide the frequency of time CSR via hwprobe
-In-Reply-To: <20240702033731.71955-2-cuiyunhui@bytedance.com> (Yunhui Cui's
-	message of "Tue, 2 Jul 2024 11:37:31 +0800")
-References: <20240702033731.71955-1-cuiyunhui@bytedance.com>
-	<20240702033731.71955-2-cuiyunhui@bytedance.com>
-Date: Wed, 10 Jul 2024 10:39:35 +0100
-Message-ID: <87jzhtmvqg.fsf@bytedance.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e+BAytUE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720607806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TbJg6z7j+ZQBtm21UhpDM4r/48rTnLX4yDmOeuhoEeA=;
+	b=e+BAytUEUePovg/uo48HWDv8cwIBr34355jzalrP+4UHFE3qDQcsbxbVMrAX840DDO1S6V
+	H+JbYaTmfzfZd9H/aXoKFR/IhLH1djsixXwQBPhisg7QD5SF1PPVBo/C3wOn5gENg/ngd/
+	FFZuel0R/Jo/yWst4t8xzBd2tR3e90g=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-186-a07wZjSjMfOCkc_bgrfTiQ-1; Wed,
+ 10 Jul 2024 06:36:41 -0400
+X-MC-Unique: a07wZjSjMfOCkc_bgrfTiQ-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07722196CE01;
+	Wed, 10 Jul 2024 10:36:36 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.45.224.154])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A378D19560AE;
+	Wed, 10 Jul 2024 10:36:24 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,  Will Deacon
+ <will@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Marc Zyngier <maz@kernel.org>,  Oliver Upton
+ <oliver.upton@linux.dev>,  James Morse <james.morse@arm.com>,  Suzuki K
+ Poulose <suzuki.poulose@arm.com>,  Arnd Bergmann <arnd@arndb.de>,  Oleg
+ Nesterov <oleg@redhat.com>,  Eric Biederman <ebiederm@xmission.com>,
+  Shuah Khan <shuah@kernel.org>,  "Rick P. Edgecombe"
+ <rick.p.edgecombe@intel.com>,  Deepak Gupta <debug@rivosinc.com>,  Ard
+ Biesheuvel <ardb@kernel.org>,  Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+  Kees Cook <kees@kernel.org>,  "H.J. Lu" <hjl.tools@gmail.com>,  Paul
+ Walmsley <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,
+  Albert Ou <aou@eecs.berkeley.edu>,  Christian Brauner
+ <brauner@kernel.org>,  Thiago Jung Bauermann
+ <thiago.bauermann@linaro.org>,  Ross Burton <ross.burton@arm.com>,
+  linux-arm-kernel@lists.infradead.org,  linux-doc@vger.kernel.org,
+  kvmarm@lists.linux.dev,  linux-fsdevel@vger.kernel.org,
+  linux-arch@vger.kernel.org,  linux-mm@kvack.org,
+  linux-kselftest@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-riscv@lists.infradead.org, "Schimpe, Christina"
+ <christina.schimpe@intel.com>, "Pandey, Sunil K"
+ <sunil.k.pandey@intel.com>
+Subject: Re: [PATCH v9 05/39] arm64/gcs: Document the ABI for Guarded
+ Control Stacks
+In-Reply-To: <20240625-arm64-gcs-v9-5-0f634469b8f0@kernel.org> (Mark Brown's
+	message of "Tue, 25 Jun 2024 15:57:33 +0100")
+References: <20240625-arm64-gcs-v9-0-0f634469b8f0@kernel.org>
+	<20240625-arm64-gcs-v9-5-0f634469b8f0@kernel.org>
+Date: Wed, 10 Jul 2024 12:36:21 +0200
+Message-ID: <87a5iph6u2.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -76,43 +79,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi,
+* Mark Brown:
 
-Yunhui Cui <cuiyunhui@bytedance.com> writes:
 
-> From: Palmer Dabbelt <palmer@rivosinc.com>
->
-> The RISC-V architecture makes a real time counter CSR (via RDTIME
-> instruction) available for applications in U-mode but there is no
-> architected mechanism for an application to discover the frequency
-> the counter is running at. Some applications (e.g., DPDK) use the
-> time counter for basic performance analysis as well as fine grained
-> time-keeping.
->
-> Add support to the hwprobe system call to export the time CSR
-> frequency to code running in U-mode.
->
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> Reviewed-by: Evan Green <evan@rivosinc.com>
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-> Acked-by: Punit Agrawal <punit.agrawal@bytedance.com>
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 2 ++
->  arch/riscv/include/asm/hwprobe.h      | 2 +-
->  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->  arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
->  4 files changed, 9 insertions(+), 1 deletion(-)
+> +4.  Signal handling
+> +--------------------
+> +
+> +* A new signal frame record gcs_context encodes the current GCS mode and
+> +  pointer for the interrupted context on signal delivery.  This will always
+> +  be present on systems that support GCS.
+> +
+> +* The record contains a flag field which reports the current GCS configuration
+> +  for the interrupted context as PR_GET_SHADOW_STACK_STATUS would.
+> +
+> +* The signal handler is run with the same GCS configuration as the interrupted
+> +  context.
+> +
+> +* When GCS is enabled for the interrupted thread a signal handling specific
+> +  GCS cap token will be written to the GCS, this is an architectural GCS cap
+> +  token with bit 63 set and the token type (bits 0..11) all clear.  The
+> +  GCSPR_EL0 reported in the signal frame will point to this cap token.
 
-The commit looks ready to be merged. Will this picked up for the 6.11
-release?
+How does this marker interfere with Top Byte Ignore (TBI; I hope I got
+the name right)?  The specification currently does not say that only
+addresses pushed to the shadow stack with the top byte cleared, which
+potentially makes the markup ambiguous.  On x86-64, the same issue may
+exist with LAM.  I have not tested yet what happens there.  On AArch64
+and RISC-V, it may be more natural to use the LSB instead of the LSB for
+the mark bit because of its instruction alignment.
 
-Once this is merged, we can send out the DPDK change relying on the
-newly added key.
+We also have a gap on x86-64 for backtrace generation because the
+interrupted instruction address does not end up on the shadow stack.
+This address is potentially quite interesting for backtrace generation.
+I assume it's currently missing because the kernel does not resume
+execution using a regular return instruction.  It would be really useful
+if it could be pushed to the shadow stack, or recoverable from the
+shadow stack in some other way (e.g., the address of the signal context
+could be pushed instead).  That would need some form of marker as well.
 
 Thanks,
-Punit
-
-[...]
+Florian
 
