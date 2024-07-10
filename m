@@ -1,99 +1,50 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2CC198E9C;
-	Wed, 10 Jul 2024 10:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4FB18FC61;
+	Wed, 10 Jul 2024 10:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720607841; cv=none; b=Hv0HxayG7aFN4ZTjhLyD65pBBQ2KCtiTRzi33FH2Z6UfPANrnNz8rXcHOSDX1tPraBAzq11oUOuyqWpl6Bn2ETUzYjYp5h17tbmskVH47H8skaW2xlfHNVApz+Dmt4wltV9G8PSRtDMO25kt+KxX65gBpPEFItn4i8XMo7yVvQ8=
+	t=1720608650; cv=none; b=pMQIhI17+URqm+yezYmSlABeyNlvV8pBFJaal8xOk+YXdBB62mCeO950eQp1w4C7uGKU94Wg3amrkPXKTpDfhjq0hdU5DFVR5huk9qu3HYdVk1ZreyrIq8PVg3sw7XMm8baSX48LR/esU84ipqRiWosXQn9l2T3NY+FgVmuJDHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720607841; c=relaxed/simple;
-	bh=vldLU5ousstfmDh5bnJGfW4ITCUolQrrvfqTIfAcNhk=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=DguMVwVHLBvyAzKVzOgLvUPmkuu0NWP+GC4I4NNbUN/a1wDJnX13pZwNnMWr5Ia6CsXY5vLSTh2O3xn+sydmqxVMtL9jKd902xJvgFttwfBSP/AHnKY2QoEARi4M1xnFgkUox1VAJwa6yaOpoo0wYrp+eqyZ9jgoiU8EFWLC6oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlBuPgO9; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720608650; c=relaxed/simple;
+	bh=FlX1+w93lB8zvcMp18OB5EDWF9p6KvhUpbHoFQjJfG8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lyxvIs94wfrY76xxPQ8n86cZyX3QT11+2E3c+h3HHpuJK8KYxulLTFLE2Gb9gQg4b+u+BDhIK3fbweXdAFZ7QpQD6wW0GCV5aE7lxRAip814oon2ee7W6RutYfhlO4GdQvl0pP6/6L9NPFwpZNFwZ5hIwQtfICLbwJc1XNCJaCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=gNkQsN12; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlBuPgO9"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-367a464e200so3285421f8f.2;
-        Wed, 10 Jul 2024 03:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720607839; x=1721212639; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vldLU5ousstfmDh5bnJGfW4ITCUolQrrvfqTIfAcNhk=;
-        b=KlBuPgO9Ni7hnunhFgMgIA5zfzNEFeChtT6L92zZsk7NVi+a6DXH00NltdsV+1JGOF
-         +wAfiLNBKARiC0gp98zW5QQDz95rPNscpaAt3Ipiqmwbr2fkU81JfkQfGP2BkcNfnYeU
-         Nas2o6m4bm6zPKP6tN576VMfVIJuw6nm4wAx+jMsLlBnFiH5D/XaDIxA/MFZ/8n/4T2F
-         xpoen2BuFzDjXmPUoH1b+P80wDBbDmvacCfY/Hi7iKHAbQH5ihK+DnAVzePfymUVBIbc
-         ZMaijunVuxG5cdCeypcchBzA/FfNxJyygx9oVpy3YIsglSKNlkqaY/s9AWLvn8sYXElF
-         HN+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720607839; x=1721212639;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vldLU5ousstfmDh5bnJGfW4ITCUolQrrvfqTIfAcNhk=;
-        b=GFWGgB5rUZhPpPqKNjcrShUl6dkusNTKfT4NxyeH1BaXyZ5KGfH/l3V6hWI3pW3xPL
-         uENsQQRkh4+D841Tq+0y8w4ovQZHfDWjD8KizgFtoInGrDN5mXTCZPidq9ZlmYdWhRZj
-         /8tM6mAu25g/qSFYSjuDFEWtjsn5Hs8AMNw4H8UitnqmdvOBqUdzYOsMtAaDLMYc5VqA
-         KuTQ551JTUaOX/21byPMWJUdNBrvtHLPiWlK/b4QZKJMxWXFqLKDZn4M13n6KnHFYm4J
-         Xu0o8PLprI/GjpN/FHFUTjv35ZuRS8rKQVcGh3/P9o7hZgxlQU8vIx+gOxDeW4HxfwXC
-         A7aA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9s9+3NHl1H6i6sTDQswpWtmEGhfyloLCMsEa3vcdubtI6OsuCRM+GXD1GGwqyRghYrpcfBwyDq157YoF3nvise9L1ULkQq5/vuy32Ne7lamUIk+vV7LESX7UFIKBSfeJJuErUWIWM7kukr8yCOAdmdTOJUQGkpZzfFC86sEQWsYhWZSA3k/0J7IK7/jIvMuB8GwlZT5BNVfEeydoUsFyITUVn34KbInZ7kKZxmJ9oeIVKT6B9V6PJvEBLwIuwWY3yxAkd1YIjeBUc7WaroSxDYgGXAaIJqcwboE5mW379ni0EOdvG1BiC+Wg5wZ291Z0tU7B55KLO5uSUc/LFjGEbWqjp7akx9Q0v4rbl1l9dqZAlrRf27U8cOKU/a4jC+5N4QQr6xqSPHV1tflYpCLPlbffSMyYIYxoze3wpmHMrskLB778fmQPefwJIGIxKpqkaCrVYE+vX5Opk4ByHne8rx1/FIcPi7em575stxA==
-X-Gm-Message-State: AOJu0YzMd7Gs6UtSeFhGnZjYj4qXsihrnPKo4fpw94lolZiRv9Anvbih
-	O8eMTpXtPqE5t7Hh03t6bwHzDmUINeLbZbIquG4NnbB2AM9/IEJw
-X-Google-Smtp-Source: AGHT+IHfVxi0Lmy20qi3zZkkAs93779qbLSUYFgab3guGNLSJuv1zXb2yWVvs5PzjNax6/VrOLGUkw==
-X-Received: by 2002:a05:6000:e90:b0:367:9748:ee7f with SMTP id ffacd0b85a97d-367cead931emr3298090f8f.65.1720607838413;
-        Wed, 10 Jul 2024 03:37:18 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:d1a7:2644:c75e:c5ee])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab6d3sm4896005f8f.112.2024.07.10.03.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 03:37:17 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-alpha@vger.kernel.org,
-  linux-mips@vger.kernel.org,  linux-parisc@vger.kernel.org,
-  sparclinux@vger.kernel.org,  linux-trace-kernel@vger.kernel.org,
-  linux-arch@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  bpf@vger.kernel.org,  linux-media@vger.kernel.org,
-  dri-devel@lists.freedesktop.org,  Jakub Kicinski <kuba@kernel.org>,
-  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet
- <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Jonathan Corbet
- <corbet@lwn.net>,  Richard Henderson <richard.henderson@linaro.org>,  Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>,  Matt Turner <mattst88@gmail.com>,
-  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,  "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,  Helge Deller <deller@gmx.de>,
-  Andreas Larsson <andreas@gaisler.com>,  Jesper Dangaard Brouer
- <hawk@kernel.org>,  Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-  Steven Rostedt <rostedt@goodmis.org>,  Masami Hiramatsu
- <mhiramat@kernel.org>,  Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>,  Arnd Bergmann <arnd@arndb.de>,  Steffen
- Klassert <steffen.klassert@secunet.com>,  Herbert Xu
- <herbert@gondor.apana.org.au>,  David Ahern <dsahern@kernel.org>,  Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>,  Shuah Khan
- <shuah@kernel.org>,  Sumit Semwal <sumit.semwal@linaro.org>,  =?utf-8?Q?C?=
- =?utf-8?Q?hristian_K=C3=B6nig?= <christian.koenig@amd.com>,  Bagas Sanjaya
- <bagasdotme@gmail.com>,
-  Christoph Hellwig <hch@infradead.org>,  Nikolay Aleksandrov
- <razor@blackwall.org>,  Taehee Yoo <ap420073@gmail.com>,  Pavel Begunkov
- <asml.silence@gmail.com>,  David Wei <dw@davidwei.uk>,  Jason Gunthorpe
- <jgg@ziepe.ca>,  Yunsheng Lin <linyunsheng@huawei.com>,  Shailend Chand
- <shailend@google.com>,  Harshitha Ramamurthy <hramamurthy@google.com>,
-  Shakeel Butt <shakeel.butt@linux.dev>,  Jeroen de Borst
- <jeroendb@google.com>,  Praveen Kaligineedi <pkaligineedi@google.com>,
-  Stanislav Fomichev <sdf@google.com>
-Subject: Re: [PATCH net-next v16 02/13] net: netdev netlink api to bind
- dma-buf to a net device
-In-Reply-To: <20240710001749.1388631-3-almasrymina@google.com> (Mina Almasry's
-	message of "Wed, 10 Jul 2024 00:17:35 +0000")
-Date: Wed, 10 Jul 2024 11:30:12 +0100
-Message-ID: <m25xtd1qvf.fsf@gmail.com>
-References: <20240710001749.1388631-1-almasrymina@google.com>
-	<20240710001749.1388631-3-almasrymina@google.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="gNkQsN12"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1720608644;
+	bh=Sq7A/5BKly+8nmwJr6uA8HAvkZyan3OjiLaHZGsUBSs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gNkQsN1224trz3k4ZWtlSM1G2KLEdd/BtBlc5HWriCQ8icpbMXsA06qGyoYX4LDO2
+	 NM5UWiPY1/r02uvgFChIZnKZ2prBo6qFY9ruKG91mEbhpfuXQD3PlXTjZOI4XgJyEk
+	 ILwDsYRxvQDkAzvSTWdTntj6Tq1wTT5JdQzkOekLokSjdDUi9DaaMfQ/P/E0P7Xhcm
+	 eYChzWePjRQLpsfH51QBI6UjFNwfh5r/5Bpu6wwMI0m5rd2VkbGwthVyBlJImTVXq5
+	 gHDSg22GwdMTWhYmoyHbUFJXVapTWqKd6suvRvPKpyQ6seUhUf1s+tu2v4XaOQjA8g
+	 arChLBtLNmvaw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WJvlk6F7Lz4wZx;
+	Wed, 10 Jul 2024 20:50:42 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/powerpc: Remove retired CPUs from list of
+ supported CPUs
+In-Reply-To: <e33ba7b242a104259fbcf1a4d4bdb0f1d1db6882.1720539170.git.christophe.leroy@csgroup.eu>
+References: <e33ba7b242a104259fbcf1a4d4bdb0f1d1db6882.1720539170.git.christophe.leroy@csgroup.eu>
+Date: Wed, 10 Jul 2024 20:50:41 +1000
+Message-ID: <877cdt5xmm.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,12 +53,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mina Almasry <almasrymina@google.com> writes:
+Christophe Leroy <christophe.leroy@csgroup.eu> writes:
+> 601, power4, 401, 403, 405, e200 and IBM-A2 support was removed by
+> by following commits:
+> - Commit 8b14e1dff067 ("powerpc: Remove support for PowerPC 601")
+> - Commit 471d7ff8b51b ("powerpc/64s: Remove POWER4 support")
+> - Commit 1b5c0967ab8a ("powerpc/40x: Remove support for IBM 403GCX")
+> - Commit 39c8bf2b3cc1 ("powerpc: Retire e200 core (mpc555x processor)")
+> - Commit fb5a515704d7 ("powerpc: Remove platforms/wsp and associated
+> pieces")
 
-> API takes the dma-buf fd as input, and binds it to the netdevice. The
-> user can specify the rx queues to bind the dma-buf to.
->
-> Suggested-by: Stanislav Fomichev <sdf@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+There was also: 468a33028edd ("powerpc: Drop support for pre-POWER4 cpus")
 
-Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+> Remove them from the list of supported CPUs.
+
+The CPU families doc is not intended to be a list of supported CPUs,
+it's more of a family tree which includes the currently supported CPUs.
+
+Even when I first added it there were CPUs mentioned that weren't
+supported. (I realise the paragraph at the top of the file doesn't make
+that clear)
+
+I don't mind removing cores that are unsupported and unconnected to
+other things, eg. A2, e200 and the 40x.
+
+But for 601 and the early POWER cores I'd rather we marked the
+unsupported ones with an asterisk or something. That way the family tree
+still connects and includes all the history, otherwise I think it risks
+being confusing.
+
+Or maybe we use a different box outline (~) for unsupported cores? eg:
+
+   +~~~~~~~~~~~~~~+                 +~~~~~~~~~~~~~~~~+
+   |  Old POWER   | --------------> | RS64 (threads) |
+   +~~~~~~~~~~~~~~+                 +~~~~~~~~~~~~~~~~+
+          |
+          |
+          v
+   +~~~~~~~~~~~~~~+                 +----------------+      +------+
+   |     601      | --------------> |      603       | ---> | e300 |
+   +~~~~~~~~~~~~~~+                 +----------------+      +------+
+          |                                 |
+          |                                 |
+          v                                 v
+   +--------------+    +-----+      +----------------+      +-------+
+   |     604      |    | 755 | <--- |    750 (G3)    | ---> | 750CX |
+   +--------------+    +-----+      +----------------+      +-------+
+          |                                 |                   |
+          |                                 |                   |
+          v                                 v                   v
+   +~~~~~~~~~~~~~~+                 +----------------+      +-------+
+   | 620 (64 bit) |                 |      7400      |      | 750CL |
+   +~~~~~~~~~~~~~~+                 +----------------+      +-------+
+          |                                 |                   |
+          |                                 |                   |
+          v                                 v                   v
+   +~~~~~~~~~~~~~~+                 +----------------+      +-------+
+   |  POWER3/630  |                 |      7410      |      | 750FX |
+   +~~~~~~~~~~~~~~+                 +----------------+      +-------+
+
+
+cheers
