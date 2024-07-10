@@ -1,71 +1,68 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99143AC0C;
-	Wed, 10 Jul 2024 22:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C827219F9;
+	Wed, 10 Jul 2024 22:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720649414; cv=none; b=PK7HJQNjIj7+XdlGKdBqtWJAx0BC3YrsK/DDFNcxwEoYnEyY4VQIP1x8F6EESiyeZQIrWbdA/VJEp3mHQTAZFyakm6YnFJWgka9xLMUYCP0xR+zIvMoDvWaPYU+QDkCj5tdOMGKZTWUFjfO3gZw+OdgbeHIuZFKtpz5h8LrSERI=
+	t=1720650428; cv=none; b=uHw/UV5aLzwSfnkRFUdk1yf9017t9c1oEiEicAKWyUY4zJd7MKBuJl5VgiqHjG9pJqDRBY8exkY/otCJB7trB3sjyUbU2Qlh4qhZn4jCKwQLMrvudRMdZIWoXzb57pY/Xp3d4GX30NKgquA+v76zS0ohEvYRbyUiQkD4JPceuLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720649414; c=relaxed/simple;
-	bh=b+KDBfyJTvpOZK52j2sic8bzlpb8x3Gm1lYmzzPuA/c=;
+	s=arc-20240116; t=1720650428; c=relaxed/simple;
+	bh=G1+nNhIsGUQHbss19tlUCSGwPVzvI+a7IrCT1i0Lyqo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LLhYFuSA/CDnhHZjbvrBYq/nfmUffJ78PAtbp6YRxlZvgVj8tii+iwhzjQaL0CZu9a2dPGuwqCy9s/eJesstzzkKUa3XPLKxWtSGnjMKsGdre+OASGpKo8usguKRO0gmUf1O6aKp0hPmyqXni7T6NTQh23Lbd670N+uKGrh822Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GScWEtYm; arc=none smtp.client-ip=209.85.219.54
+	 To:Cc:Content-Type; b=Cdx1Uz43u5NLdXVHVCaOwhgSbRlSY/mBL7Y7LSnGQEVAuzs1HwgDCt+Mr8Bn2aFhmMOvzsLd0u2aiw6mDoKTPK9pmfrkdCVWdsfLWXLYk9qnVlYK8LLBhfK5F9WdsRauFU5hlkGZJ9rJpk5iVaYfub3xzxYN7DdMrCDMgMmcF2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNtUg6xm; arc=none smtp.client-ip=209.85.219.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GScWEtYm"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b73dc6e7aaso2019546d6.0;
-        Wed, 10 Jul 2024 15:10:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNtUg6xm"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e03a9f7c6a6so228046276.3;
+        Wed, 10 Jul 2024 15:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720649411; x=1721254211; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720650426; x=1721255226; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZVjrUx+weY5vD7cc11tkTR78ZpLmg3aZMvb61tjOLWY=;
-        b=GScWEtYm0IbPYb/Tw9ZUG7lBKVlKtNFow2vS86VFn9lWccMuWlfksev4Oyx6WVFWSi
-         0WmEdbeA2eAfXQhGiOS1yESkrciVQrfL62LI/RSj4L9DpQoT8ldbx8vt0iRsqTa3lB0P
-         GIhcz0zXp0VDfzP+XRmWQo/gqBgNA0X1Golx7+iuNGVNNDVfrvW7P8KuOYeOZBJQ5LWr
-         Iy/do2rismvls9koBiAYVF5DzgD1VQ/Sz7Jvojp0cAOAqYUEkVIGfRQPuzn4fQc1FyU5
-         jgFGxOXrJkK5S5aEhOTTq53mxuZGGC/WiNhEDTeMhccZbEuLSPeB7EZY/i5W5fKj5NCc
-         up7A==
+        bh=I/Cc2aQVQ5C4YUCt2A1KuP8JFLG/zHl92A4qTb1v1cg=;
+        b=kNtUg6xmzEvX9mqenkyG0qUg1YYcIJtJmm/lVuoqvZLJurbQylljZeqC0xOZhKeBKB
+         DL2CUvAN3VfeZFLBDngmC4xYTiII1a2uD60Yrxows4LkfrvGrcofWVg0XK/ZaO8JJZLB
+         /ds/adsLkMLpZX3FC6Xr0Ok3qdfhZEjdt0S7WqdqoNrorVJgg7GXg0tSFsN4qsA7Iapc
+         Gu59/9gNSQlyFoNyJoHuKt/gsiigwD5xolxDEWM4uZsLh3v6KZt6HJ0Im/EvIjFp2kzT
+         S7BtmhCAJyfK3PTAZN7RHMjnpOSV9tcCP+s0rTTU3oiVqPgqFxBZVlR5EmxZCG74KrQ7
+         WJhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720649411; x=1721254211;
+        d=1e100.net; s=20230601; t=1720650426; x=1721255226;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZVjrUx+weY5vD7cc11tkTR78ZpLmg3aZMvb61tjOLWY=;
-        b=qGeI3RNw8pLIs7DN/pzyD2zA0oiQxpRxUiH/3EcozBGyoDLznWrxqCXvqxo+w4dYUF
-         MFTkqzaDZm29PZ8sgUeyrc/xTh7/pA5fY+LTQ0I6E5fBY6JOxLB3im4JyYm0zr/v7Q67
-         ZDlcmOPC3YJ50KzfWg25mNOzN4T8D6pUTwHZXR4714Nn24YIcUiXEjFkEF/Vc44UlYmg
-         xMUyAihKMhWUNZ4YApW4OjMi2gjzKFDL+9y/JVxVqhiUf02/nRqMrYUy0vvnCEGu2vw2
-         wPP0E2NVhNocuDxu1LM/oX6RBRfI0qqgg3Ubb1t8FcgOFZ5Il5DAB4dz5PStuVX9IY/Z
-         +oBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVBRRMnbeql8i9bktddrYw4ZRBe6XGbTKcj9YTAXMJ5h0gLiIaSB4A9XpKWjP6Ix1SQAl9SUqFrGAWNNEvOa1xoAOGadtvK0eAg5zPgvnzKJoTplStFbL3bR64stoq+JzEX2Kve6pj
-X-Gm-Message-State: AOJu0YxEKs/oA637aaj7ys8a9+2tMK4hoN2e19544Cdtqy4f7u0mFKqc
-	XJo0SMvWNny0Fb335ZLEEgKWlslOZ8xbbMe1N+5jWt5TzrLgvQe/q5yBxgDRCc3JVGiToZygSKX
-	vZIkOMef6THsG5gLAj/gwIeZLgEc=
-X-Google-Smtp-Source: AGHT+IGZPx0x7zW5guu7Qw+p3cdui2ZtjmYISMR5K/xNjwu28e4BdvnWdG95ho4IIMQE0Fb1eXVE0yO/B6kn0DRHGqA=
-X-Received: by 2002:a05:6214:d01:b0:6b5:49c9:ed53 with SMTP id
- 6a1803df08f44-6b61bf4c959mr83436136d6.37.1720649411397; Wed, 10 Jul 2024
- 15:10:11 -0700 (PDT)
+        bh=I/Cc2aQVQ5C4YUCt2A1KuP8JFLG/zHl92A4qTb1v1cg=;
+        b=XclFOzzOZASXhaToJPVDH29jYQN86LWi/x6CU5qhnUqZxHB/g+z79wJuQafl84UVyj
+         N/NT9U3ase/hRo66W4WTWcwrt1CHfaJUEcjhqSww8DoEp/AHaae+a0e/DwHSBAtjGadM
+         pt6Nf8BlkE4zpoHEprDY/s+9ObDSbeKArhIB9jKNjbKSb8EVarQPL3ne54Y22oaQse5u
+         xNYNXJxumcxPvrfD/CJtHCDeF/gVJEzBz7mcpBbHt6Ilbms8Ps0WQMraTyK7fe1mnzJ3
+         zWc50phUaGEbJFf/Wj7Cs+MnSRT9DeGRf9VMqqVUh6TRep1iIcHaG9rhC2TK4RU5d553
+         kKyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUY/hk/KnkndEfcGflZI3bvgs0thn5PjkIGNnkN3eovjLtRK2Ylyyp6oYKqjtNdF4uZ2F6LuT7ocPvcv09KSbsCmgHm1RABEdVvglTID+Nr0iFm0e/q2o4Yiw2MlibLL+ZsUhBmG68
+X-Gm-Message-State: AOJu0YwvableGWw8JAXi8fJnEqJE6DAHudQkj8ASgP9FU1rIvuns1r8n
+	GLF036PDyWXYfomKeah1LR9BtpKNbfvG/oILQpwtu27YN0CzpKrg+aMCFfCvuUsIGJOO3tbEFyT
+	5QGkrEiPYOsWSPV5BXNs7TG8m6/E=
+X-Google-Smtp-Source: AGHT+IE3MSNblNyjPTWlXtNx8ItMNm10tT48kqwkStoBU3USdjc5JBVU9DQ4bDKUP4uy6AFDnPXlKLFcfHrwVbPwkz4=
+X-Received: by 2002:a25:8387:0:b0:dfb:bf0:59db with SMTP id
+ 3f1490d57ef6-e041b120cdamr7581879276.41.1720650426328; Wed, 10 Jul 2024
+ 15:27:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-7-flintglass@gmail.com> <CAKEwX=NJjDL3aW3hXioxh=yASSsHbDBWubV9cE2RiH+tSXpscw@mail.gmail.com>
- <CAPpoddfpU1rN5ST49vBBJ_=MHKehQQrwsz_hwBd6xyzi4-uQkQ@mail.gmail.com>
-In-Reply-To: <CAPpoddfpU1rN5ST49vBBJ_=MHKehQQrwsz_hwBd6xyzi4-uQkQ@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 10 Jul 2024 15:10:00 -0700
-Message-ID: <CAKEwX=OJyrBdCJDLV2v7wLh+hz4Mh1Kjr2Te1eds8JvUY+Jm5w@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] mm: zswap: interrupt shrinker writeback while
- pagein/out IO
-To: Takero Funaki <flintglass@gmail.com>
+References: <20240706022523.1104080-1-flintglass@gmail.com> <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
+In-Reply-To: <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
+From: Takero Funaki <flintglass@gmail.com>
+Date: Thu, 11 Jul 2024 07:26:55 +0900
+Message-ID: <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
+To: Nhat Pham <nphamcs@gmail.com>
 Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
 	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
 	Andrew Morton <akpm@linux-foundation.org>, 
@@ -74,211 +71,124 @@ Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 10, 2024 at 2:21=E2=80=AFPM Takero Funaki <flintglass@gmail.com=
-> wrote:
->
-> 2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 4:17 Nhat Pham <nphamcs@gmai=
-l.com>:
->
-> >
-> > Do you see this problem actually manifesting in real life? Does not
-> > sound infeasible to me, but I wonder how likely this is the case.
-> >
-> > Do you have any userspace-visible metrics, or any tracing logs etc.
-> > that proves that it actually happens?
-> >
-> > This might also affect the dynamic shrinker as well FWIW.
-> >
->
-> Although it is rare, on a small VM with 0.5GB RAM, performing `apt
-> upgrade` for ubuntu kernel update degrades system responsiveness.
-> Since kernel upgrade is memory consuming for zstd compressed
-> initramfs, there is heavy memory pressure like the benchmark.
->
-> Unfortunately I could not get evidence that clearly indicates the
-> contention. Perhaps IO latency can be a metric?
+2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 9:53 Nhat Pham <nphamcs@gmail.=
+com>:
 
-IO latency, IO pressure, etc. I'm not sure either, as I do not have
-the benchmark setup at hand - just throwing out ideas :)
+> > post-patch, 6.10-rc4 with patch 1 to 5
+>
+> You mean 1 to 6? There are 6 patches, no?
 
-> While allocating large memory, perf showed that __swap_writepage() was
-> consuming time and was called mostly from kswapd and some fraction
-> from user faults of python script and from shrink_worker. CPU was
-> mostly idling even in a single CPU system, so lock contention and
-> compression should not be the reason. I believe these behaviors
-> suggest contention on writeback IO.
-
-Sounds fair to me.
-
-> As shown in the benchmark,  reducing shrinker writeback by patches 3
-> to 6 reduced elapsed time, which also indicates IO contention.
->
-> > > +/*
-> > > + * To avoid IO contention between pagein/out and global shrinker wri=
-teback,
-> > > + * track the last jiffies of pagein/out and delay the writeback.
-> > > + * Default to 500msec in alignment with mq-deadline read timeout.
-> >
-> > If there is a future version, could you include the reason why you
-> > select 500msec in the patch's changelog as well?
-> >
->
-> The 500ms can be any value longer than the average interval of each
-> pageout/in and is not significant for behavior. If subsequent pageout
-> rejection occurs while the shrinker is sleeping, writeback will be
-> delayed again by 500ms from the last timestamp update. If pageout
-> occurs at a 1ms interval on average, the minimal delay should be 1+ms.
->
-> I chose 500ms from the mq-deadline scheduler that tries to perform
-> read IO in a 500ms timeframe by default (bfq for HDD uses a shorter
-> timeout).
-> When the shrinker performs writeback IO with a 500ms delay from the
-> last pagein, the write IO will be of lower priority than the read IO
-> waiting in the queue, as the pagein read becomes the highest priority
-> by the deadline. This logic emulates low-priority write IO by
-> voluntarily delaying IO.
->
->
-> >
-> > Hmmm is there a reason why we do not just do:
-> >
-> > zswap_shrinker_delay_start =3D jiffies;
-> >
-> > or, more unnecessarily:
-> >
-> > unsigned long now =3D jiffies;
-> >
-> > zswap_shrinker_delay_start =3D now;
-> >
-> > IOW, why the branching here? Does not seem necessary to me, but
-> > perhaps there is a correctness/compiler reason I'm not seeing?
-> >
-> > In fact, if it's the first version, then we could manually inline it.
-> >
->
-> That was to avoid invalidating the CPU cache of the shared variable
-> unnecessarily. Removing the branch and manually inlining it for v3.
-
-Ah I see. Seems a tad overengineering IMHO, but I'll leave this up to you.
-
-If you keep the current version, please add a comment.
+oops. with patches 1 to 6.
 
 >
+> Just out of pure curiosity, could you include the stats from patch 1-3 on=
+ly?
 >
-> > Additionally/alternatively, I wonder if it is more convenient to do it
-> > at the mm/page_io.c zswap callsites, i.e whenever zswap_store() and
-> > zswap_load() returns false, then delay the shrinker before proceeding
-> > with the IO steps.
-> >
->
-> Should we expose the timestamp variable? It is only used in zswap
-> internally, and the timestamp is not required when zswap is disabled.
 
-Not necessarily the timestamp. If you keep the helper, you can just
-expose that helper (and have a no-op when !CONFIG_ZSWAP in the zswap.h
-header file).
+I will rerun the bench in v3. I assume this bench does not reflect
+patches 4 to 6, as delta pool_limit_hit=3D0 means no rejection from
+zswap.
+
+> Ah this is interesting. Did you actually see improvement in your real
+> deployment (i.e not the benchmark) with patch 4-6 in?
+>
+
+As replied in patch 6, memory consuming tasks like `apt upgrade` for instan=
+ce.
+
+> >
+> > Intended scenario for memory reclaim:
+> > 1. zswap pool < accept_threshold as the initial state. This is achieved
+> >    by patch 3, proactive shrinking.
+> > 2. Active processes start allocating pages. Pageout is buffered by zswa=
+p
+> >    without IO.
+> > 3. zswap reaches shrink_start_threshold. zswap continues to buffer
+> >    incoming pages and starts writeback immediately in the background.
+> > 4. zswap reaches max pool size. zswap interrupts the global shrinker an=
+d
+> >    starts rejecting pages. Write IO for the rejected page will consume
+> >    all IO resources.
+>
+> This sounds like the proactive shrinker is still not aggressive
+> enough, and/or there are some sort of misspecifications of the zswap
+> setting... Correct me if I'm wrong, but the new proactive global
+> shrinker begins 1% after the acceptance threshold, and shrinks down to
+> acceptance threshold, right? How are we still hitting the pool
+> limit...
+>
+
+Proactive shrinking should not be aggressive. With patches 4 and 6, I
+modified the global shrinker to be less aggressive against pagein/out.
+Shrinking proactively cannot avoid hitting the pool limit when memory
+pressure grows faster.
+
+> My concern is that we are knowingly (and perhaps unnecessarily)
+> creating an LRU inversion here - preferring swapping out the rejected
+> pages over the colder pages in the zswap pool. Shouldn't it be the
+> other way around? For instance, can we spiral into the following
+> scenario:
+>
+> 1. zswap pool becomes full.
+> 2. Memory is still tight, so anonymous memory will be reclaimed. zswap
+> keeps rejecting incoming pages, and putting a hold on the global
+> shrinker.
+> 3. The pages that are swapped out are warmer than the ones stored in
+> the zswap pool, so they will be more likely to be swapped in (which,
+> IIUC, will also further delay the global shrinker).
+>
+> and the cycle keeps going on and on?
+
+I agree this does not follow LRU, but I think the LRU priority
+inversion is unavoidable once the pool limit is hit.
+The accept_thr_percent should be lowered to reduce the probability of
+LRU inversion if it matters. (it is why I implemented proactive
+shrinker.)
+
+When the writeback throughput is slower than memory usage grows,
+zswap_store() will have to reject pages sooner or later.
+If we evict the oldest stored pages synchronously before rejecting a
+new page (rotating pool to keep LRU), it will affect latency depending
+how much writeback is required to store the new page. If the oldest
+pages were compressed well, we would have to evict too many pages to
+store a warmer page, which blocks the reclaim progress. Fragmentation
+in the zspool may also increase the required writeback amount.
+We cannot accomplish both maintaining LRU priority and maintaining
+pageout latency.
+
+Additionally, zswap_writeback_entry() is slower than direct pageout. I
+assume this is because shrinker performs 4KB IO synchronously. I am
+seeing shrinking throughput is limited by disk IOPS * 4KB while much
+higher throughput can be achieved by disabling zswap. direct pageout
+can be faster than zswap writeback, possibly because of bio
+optimization or sequential allocation of swap.
 
 
+> Have you experimented with synchronous reclaim in the case the pool is
+> full? All the way to the acceptance threshold is too aggressive of
+> course - you might need to find something in between :)
 >
-> > >         do {
-> > > +               /*
-> > > +                * delay shrinking to allow the last rejected page co=
-mpletes
-> > > +                * its writeback
-> > > +                */
-> > > +               sleepuntil =3D delay + READ_ONCE(zswap_shrinker_delay=
-_start);
-> >
-> > I assume we do not care about racy access here right? Same goes for
-> > updates - I don't see any locks protecting these operations (but I
-> > could be missing something).
-> >
->
-> Right. Do we need atomic or spinlock for safety?
->  I think the bare store/load of unsigned long is sufficient here. The
-> possible deviation by concurrent updates is mostly +/-1 jiffy. Sleep
-> does not need ms accuracy.
->
-> Ah, I found a mistake here. v2 missed continue statement in the loop.
-> The delay should be extended if zswap_store() rejects another page. In
-> v2, one writeback was allowed per 500ms, which was not my intended
-> behavior.
-> The corrected logic for v3 should be:
->
->                if (time_before(now, sleepuntil) &&
->                                time_before(sleepuntil, now + delay + 1)) =
-{
->                        fsleep(jiffies_to_usecs(sleepuntil - now));
->                        /* check if subsequent pageout/in extended delay *=
-/
->                        continue;
->                }
->
->
-> 2024=E5=B9=B47=E6=9C=889=E6=97=A5(=E7=81=AB) 9:57 Nhat Pham <nphamcs@gmai=
-l.com>:
-> >
-> > Hmm what about this scenario: when we disable zswap writeback on a
-> > cgroup, if zswap_store() fails, we are delaying the global shrinker
-> > for no gain essentially. There is no subsequent IO. I don't think we
-> > are currently handling this, right?
-> >
-> > >
-> > > The same logic applies to zswap_load(). When zswap cannot find reques=
-ted
-> > > page from pool and read IO is performed, shrinker should be interrupt=
-ed.
-> > >
-> >
-> > Yet another (less concerning IMHO) scenario is when a cgroup disables
-> > zswap by setting zswap.max =3D 0 (for instance, if the sysadmin knows
-> > that this cgroup's data are really cold, and/or that the workload is
-> > latency-tolerant, and do not want it to take up valuable memory
-> > resources of other cgroups). Every time this cgroup reclaims memory,
-> > it would disable the global shrinker (including the new proactive
-> > behavior) for other cgroup, correct? And, when they do need to swap
-> > in, it would further delay the global shrinker. Would this break of
-> > isolation be a problem?
-> >
-> > There are other concerns I raised in the cover letter's response as
-> > well - please take a look :)
->
-> I haven't considered these cases much, but I suppose the global
-> shrinker should be delayed in both cases as well. In general, any
-> pagein/out should be prefered over shrinker writeback throughput.
->
-> When zswap writeback was disabled for a memcg
-> (memcg.zswap.writeback=3D0), I suppose disabling/delaying writeback is
-> harmless.
-> If the rejection incurs no IO, there is no more memory pressure and
-> shrinking is not urgent. We can postpone the shrinker writeback. If
-> the rejection incurs IO (i.e. mm choose another page from a memcg with
-> writeback enabled), again we should delay the shrinker.
 
-You are delaying writeback globally right? IOW, other cgroup is also affect=
-ed?
+I don't get what the expected situation is.
+The benchmark of patch 6 is performing synchronous reclaim in the case
+the pool is full, since bulk memory allocation (write to mmapped
+space) is much faster than writeback throughput. The zswap pool is
+filled instantly at the beginning of benchmark runs. The
+accept_thr_percent is not significant for the benchmark, I think.
 
-Say we are under memory pressure, with two cgroups under reclaim - one
-with zswap writeback disabled. The one with writeback disabled will
-constantly fail at zswap_store(), and delay the global shrinking
-action, which could have targeted the other cgroup (which should
-proceed fully because there is no contention here since the first
-cgroup is not swapping either).
 
 >
-> For pageout from latency-tolerant memcg (zswap.max=3D0), I think pageout
-> latency may affect other memcgs.
-> For example, when a latency-sensitive workload tries to allocate
-> memory, mm might choose to swap out pages from zswap-disabled memcg.
-> The slow direct pageout may indirectly delay allocation of the
-> latency-sensitive workload. IOW, we cannot determine which workload
-> would be blocked by a slow pageout based on which memcg owns the page.
-> In this case, it would be better to delay shrinker writeback even if
-> the owner is latency tolerant memcg.
-> Also for pagein, we cannot determine how urgent the pagein is.
->
-> Delaying shrinker on any pagein/out diminishes proactive shrinking
-> progress, but that is still better than the existing shrinker that
-> cannot shrink.
+> I wonder if this contention would show up in PSI metrics
+> (/proc/pressure/io, or the cgroup variants if you use them ). Maybe
+> correlate reclaim counters (pgscan, zswpout, pswpout, zswpwb etc.)
+> with IO pressure to show the pattern, i.e the contention problem was
+> there before, and is now resolved? :)
 
-This is fair though :)
+Unfortunately, I could not find a reliable metric other than elapsed
+time. It seems PSI does not distinguish stalls for rejected pageout
+from stalls for shrinker writeback.
+For counters, this issue affects latency but does not increase the
+number of pagein/out. Is there any better way to observe the origin of
+contention?
+
+Thanks.
