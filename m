@@ -1,109 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E77782D94;
-	Thu, 11 Jul 2024 10:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EECD12F365;
+	Thu, 11 Jul 2024 10:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720694235; cv=none; b=cngtYjPP4jxkBhDTZFwnmr7GxdBqLX07SpSHF2uPKJ5OfFi7l4Obda7raFk9mWdo/Oe44v5v7z/yTg8gjfGLSR0xDip8MDmNDy9xNeff1vzepFO+1D1vG1NZgddNgchQISV4gQ3D5ZJEbCs5xzedlZS7Ksvf5g0Bp05+x8t2WIc=
+	t=1720695029; cv=none; b=lO+uCycttCNydUfDs5TwHUCOXlyyPkLDp9uokNBxrozxFrap6VCHaFH7YZLzPy1flZBgQXBwsfR9x0Plqo3n5ohCh3/MuqMWxayUZBe1fnzYaCKTDmD7QE4/hb+A8g02WxsAYkBZXn1lfGrPDIulpOtPfESshrjTIbaRwiQ/lao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720694235; c=relaxed/simple;
-	bh=DFEfePK8cAElLfJIiPmawLyu7JjbXJrgS7m+m6Pnd5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NonNTTUFgG1viNBhs2uII1f0rVqO5sVEfjM9DMwibMd8HdMbVcsK6DvM+DdiinAyOCE1RUl+99vPprXMqdxcC5QQGqVWaPnzv63VJhRTKEE2nK8lsfN73PS+NYHRIt0keto51XYzr0dm+JKfB7HvqVmDSdrqObV4faEhVIe0w2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTxGISw4; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTxGISw4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720694234; x=1752230234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DFEfePK8cAElLfJIiPmawLyu7JjbXJrgS7m+m6Pnd5Q=;
-  b=DTxGISw4HxEBg4N6eo2Y/r5Q5hTCl9vse9VjYw7Q9RkHup80RX6z8VPO
-   4wG2HK1RIbRGAZPEry/PnxcALaMrNLpilyaGWkphvaq+J1zISSeiL/BQf
-   JP6ZXP1+piRcqDX14LM7m15OSl6Q5guUaqfHJ8wlzC4bfkT+gXzKz/U4G
-   Y7Pfy/2U19ZZU47JsWkaCWbQOO/XNK/lWq4HhEnUNe96IwjiGrKKGDbLT
-   zpRDyl7/pqRoNLc7tlrdeyQTd6lWtXXsHg9wL/MhZuLPT0NDtwcjbdNAF
-   HqpwUr9SIfjIUDkbRa9N9C49H2JPs5q24FwrPDCoo9Cadk5n3o5YqScg6
-   g==;
-X-CSE-ConnectionGUID: cE3gteqFT1+i/6VXoueBlQ==
-X-CSE-MsgGUID: KMNCtYJhSp+jJ6vZI2b7Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="29468679"
-X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="29468679"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 03:37:13 -0700
-X-CSE-ConnectionGUID: RTya0ugrQZuBYIYVmuGQgw==
-X-CSE-MsgGUID: KADa2dLDQ/mTpNQID6JOXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,199,1716274800"; 
-   d="scan'208";a="49272803"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jul 2024 03:37:02 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 0BAD329E; Thu, 11 Jul 2024 13:37:00 +0300 (EEST)
-Date: Thu, 11 Jul 2024 13:37:00 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Xiongwei Song <xiongwei.song@windriver.com>, 
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Brijesh Singh <brijesh.singh@amd.com>, Michael Roth <michael.roth@amd.com>, 
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ingo Molnar <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Kai Huang <kai.huang@intel.com>, 
-	Sandipan Das <sandipan.das@amd.com>, Breno Leitao <leitao@debian.org>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Yian Chen <yian.chen@intel.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>, Juergen Gross <jgross@suse.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Yuntao Wang <ytcoode@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Namhyung Kim <namhyung@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
-Subject: Re: [PATCH v4 07/16] x86/cpu: Defer CR pinning setup until after EFI
- initialization
-Message-ID: <3dbaf7fm65xl6kou5fj4tzty7emsdecs3juu4rm7266pgzcfk3@z3mehcszkw7j>
-References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
- <20240710160655.3402786-8-alexander.shishkin@linux.intel.com>
- <20240711081153.GC4587@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1720695029; c=relaxed/simple;
+	bh=j3LRkam5HWHIbp7v5gKW1hLYjKVtdjDe5VGZuKDG4jo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MSPulTBMutQ6ONbWFF128MG8vMmwJ0ZUN7B/Dh8RbUX0UweP2zhgR+RYv42c6NZdPteUFi6tmIGzmD0Cm1Hj7KNSvR3qegGDwtXOFtteuia4jsTuK6DCPTW4KDJdQNuGZeo/pYmSs+hT38jdOWLrIwqrKj7hTiv0aCP/9cRi6QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4WKWhx1TF9z9sSd;
+	Thu, 11 Jul 2024 12:50:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id o0b594mVLDho; Thu, 11 Jul 2024 12:50:25 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4WKWhx0n6Nz9sSV;
+	Thu, 11 Jul 2024 12:50:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 097478B778;
+	Thu, 11 Jul 2024 12:50:25 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id Xq-Gfk8HJ7XO; Thu, 11 Jul 2024 12:50:24 +0200 (CEST)
+Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.233.107])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 83A168B764;
+	Thu, 11 Jul 2024 12:50:24 +0200 (CEST)
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/powerpc: Mention 40x is removed
+Date: Thu, 11 Jul 2024 12:50:21 +0200
+Message-ID: <c2d64bebc514ca892a12e51a68821a6317048d3a.1720694954.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240711081153.GC4587@noisy.programming.kicks-ass.net>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720695022; l=1613; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=j3LRkam5HWHIbp7v5gKW1hLYjKVtdjDe5VGZuKDG4jo=; b=Wq8oiOcpAfRUrVsYCRB5hx2gY5s2R68t8KTD0mC8TZXhf7eg3/5jbxnTvXLZahghqUG4faej2 Gt07yMKtSZSDeQQvbE19Y3iuroPTXViBAibEH/HleUPcnPeugm/3A6Q
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 11, 2024 at 10:11:53AM +0200, Peter Zijlstra wrote:
-> On Wed, Jul 10, 2024 at 07:06:43PM +0300, Alexander Shishkin wrote:
-> > In order to map the EFI runtime services, set_virtual_address_map
-> > needs to be called, which resides in the lower half of the address
-> > space. This means that LASS needs to be temporarily disabled around
-> > this call. This can only be done before the CR pinning is set up.
-> > 
-> > Move CR pinning setup behind the EFI initialization.
-> > 
-> > Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> > Suggested-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> 
-> So the previous patch makes us not boot, and this fixes it up? Perhaps
-> order things differently?
+Commit 732b32daef80 ("powerpc: Remove core support for 40x") removed 40x.
 
-Maybe just move LASS enabling (patch 04/16) to the very end of the
-patchset?
+Update documentation accordingly.
 
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+ Documentation/arch/powerpc/cpu_families.rst | 18 ------------------
+ Documentation/arch/powerpc/elf_hwcaps.rst   |  1 +
+ 2 files changed, 1 insertion(+), 18 deletions(-)
+
+diff --git a/Documentation/arch/powerpc/cpu_families.rst b/Documentation/arch/powerpc/cpu_families.rst
+index eb7e60649b43..f55433c6b8f3 100644
+--- a/Documentation/arch/powerpc/cpu_families.rst
++++ b/Documentation/arch/powerpc/cpu_families.rst
+@@ -128,24 +128,6 @@ IBM BookE
+ - All 32 bit::
+ 
+    +--------------+
+-   |     401      |
+-   +--------------+
+-          |
+-          |
+-          v
+-   +--------------+
+-   |     403      |
+-   +--------------+
+-          |
+-          |
+-          v
+-   +--------------+
+-   |     405      |
+-   +--------------+
+-          |
+-          |
+-          v
+-   +--------------+
+    |     440      |
+    +--------------+
+           |
+diff --git a/Documentation/arch/powerpc/elf_hwcaps.rst b/Documentation/arch/powerpc/elf_hwcaps.rst
+index 4c896cf077c2..fce7489877b5 100644
+--- a/Documentation/arch/powerpc/elf_hwcaps.rst
++++ b/Documentation/arch/powerpc/elf_hwcaps.rst
+@@ -91,6 +91,7 @@ PPC_FEATURE_HAS_MMU
+ 
+ PPC_FEATURE_HAS_4xxMAC
+     The processor is 40x or 44x family.
++    Unused in the kernel since 732b32daef80 ("powerpc: Remove core support for 40x")
+ 
+ PPC_FEATURE_UNIFIED_CACHE
+     The processor has a unified L1 cache for instructions and data, as
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.44.0
+
