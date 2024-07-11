@@ -1,67 +1,45 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC1C1607AD
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 13:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E247148FE8;
+	Thu, 11 Jul 2024 14:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720705775; cv=none; b=tUTMpnWQji7zP/0AQ0w4LC2EZwnPhak6gSdIRG+KGTlFMWV3JTbvRbBYVHywKehO++x1odoCZjWeht+ZVDsf9JdnCT2V2rT/cxLlmMEpGdlnpwuTI7BnRd8gPnpe3deyv44BMlagXp304qqlAT9/W3OUePQPiF0F/jXijp1tXIw=
+	t=1720706523; cv=none; b=Dt+uhmm18pMmweQxr2MvVGqX/S8dNgIhTchJoFwJ051LBAqL/zLYMqkAO4I+hshvRPsK+ij/HUVQe0WQ2oh7+aOb0KJBJ6WulQMC2mfND5N46Kkh7W9j3Weph2CkskyILTpLgzYyDmjSAEjEeJt73j7ggY2SdsSLxn073nhLqnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720705775; c=relaxed/simple;
-	bh=+3RA/WCEZOLvNp1kfnEI1aI9/Vj5N0p7XqouO3rUMnA=;
+	s=arc-20240116; t=1720706523; c=relaxed/simple;
+	bh=2JKn8yTk+sDGYeVvGEuG8XwEYm6R1GQpA2r8MI+me6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6y7t4hdZa3LBLGAa2hrVlaQRt0XsIo7MJ5vuhmc403PI1KUBm7FcaEOdCb4tj52F8ZNJWRu4LcvFNJdsDxQxct1I1s7EMHUQOZdG0ryWGzrjuqfAgxLf8RD8aB3awsKh6oJOVoS99H2RhkvPwyN+1ZfjpwdC6iY1z1f0cmfrHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=A+MukzNr; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="A+MukzNr"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7a05b4fa525so69670985a.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 06:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1720705772; x=1721310572; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4c/thh0gX3Wuy0Qhdv01QxrBoTYgtRK1bsGV9IACHGk=;
-        b=A+MukzNrL8Sk1y0udzdaX/RHYy4Ys5oqxxPuqsjU3dNC7hF90THiWfJp7fsXsDjNVz
-         /uLmAmprzkMpOuN3T59Fu7nvJXneA8Jc0ls1Yf1AQBscX7xCShPrQ71/sWtl2GvuDDDe
-         JeEVx6VFSNGCrpK9ZN26h7pSqAMpvyDvytEPFVG8YkrouQV06VVDAIrOeEws/no26G4Y
-         QAhonNFkPDH9St3lEfd9oKmE7aAWRmurVhKMsmEg/+0/r8dd+LkdTNgiHBmPjQTO8cAl
-         4O27JgpgRz3+i7rMpsKblD5XESq5TS3ADqDyp5Ld1sw1+PLg5DlPlI6HcshEPx5T8gnZ
-         kiFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720705772; x=1721310572;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4c/thh0gX3Wuy0Qhdv01QxrBoTYgtRK1bsGV9IACHGk=;
-        b=EcujXoL4Tw7EjquGKWPcVGYMxBAQAJo+KssslpEDTbLZCjdUjPOqdx5yehsWVWpKOY
-         DCZBEgCMICClSGuCOSXXePvNhzoOsPtHsC/46AMXgNFVpjn/2blvEe4QPIVLVw8I2gkN
-         R3LuGjzpQ8ii1Yq2gvAKX8IC3BTRaeId97zkJTNNz8JreTDuYKrJDURvjItB+R9UKcnX
-         AIuZy6ogUq4I9QDl8EhGhDd6Ugzz86k5po4d8TLS9tHWshtgeYr8HObOo6Uw6J+7e27N
-         81Mt6qu4M3CcodKsNy8PWhNUjnoSjH4bk3vwQokVokEKHAtFjKpdpiLFVI74ah7Uqj0M
-         FQUg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZkzum9OKXQ3CsHQtqow5c5iArnuY1OZsk1/pqY0yQTqTRH7Wr+XIeh+s8U+gvrH2Puor9/I8Yp9xU72bAjhnOKxn+oVWdiCzG
-X-Gm-Message-State: AOJu0YzHwp4pHltwo5nNTa9f2YxcKvP7q9fRcTlmW3QQEIZiEM5TcndM
-	VJ1+jv+CfzbS5iPiI3uF+hnhlEXfwx7sCL6qK1BvbnEGO/RPWLNH5AA906ArmfA=
-X-Google-Smtp-Source: AGHT+IHwEOYVfSWxKEQP0w8KFn4k/nB2bnIk+/F2DNotqRksDFSC7MbAwOqVXy2Rh4H9nIWY4EYR3Q==
-X-Received: by 2002:a05:620a:4723:b0:79f:e0d:e052 with SMTP id af79cd13be357-7a1469bce11mr482286985a.9.1720705772260;
-        Thu, 11 Jul 2024 06:49:32 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190b4468sm291254485a.128.2024.07.11.06.49.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 06:49:31 -0700 (PDT)
-Date: Thu, 11 Jul 2024 09:49:27 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=HY7yYTPSI/OdYl2jEuwJN7DVI2gCM7zfybHT4gcXAZKkDd0KxQ0RzeDpw54TmJ1ptrvlkH7uJbsIvbCqEUju9323AuiSOvU92yaNNHq4OMFHGo3r81uOWd0/2kpvFTGFUvqOG2HAbBVL3El7AxbN+JuTNaYu4ycYcqJUOeL4d/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0928FFEC;
+	Thu, 11 Jul 2024 07:02:26 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF2C23F766;
+	Thu, 11 Jul 2024 07:01:57 -0700 (PDT)
+Date: Thu, 11 Jul 2024 15:01:55 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
-Message-ID: <20240711134927.GB456706@cmpxchg.org>
-References: <20240710182353.2312025-1-longman@redhat.com>
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v5 7/7] input: keyboard: support i.MX95 BBM module
+Message-ID: <Zo_l02sbfjv_64B2@pluto>
+References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
+ <20240621-imx95-bbm-misc-v2-v5-7-b85a6bf778cb@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,44 +48,194 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710182353.2312025-1-longman@redhat.com>
+In-Reply-To: <20240621-imx95-bbm-misc-v2-v5-7-b85a6bf778cb@nxp.com>
 
-On Wed, Jul 10, 2024 at 02:23:52PM -0400, Waiman Long wrote:
-> @@ -3669,12 +3669,34 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
->  static int cgroup_stat_show(struct seq_file *seq, void *v)
->  {
->  	struct cgroup *cgroup = seq_css(seq)->cgroup;
-> +	struct cgroup_subsys_state *css;
-> +	int ssid;
+On Fri, Jun 21, 2024 at 03:04:42PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
+> 
+> The BBM module provides BUTTON feature. To i.MX95, this module
+> is managed by System Manager and exported using System Management
+> Control Interface(SCMI). Linux could use i.MX SCMI BBM Extension
+> protocol to use BUTTON feature.
+
+Hi Peng,
+
+one remarks down below.
+
+> 
+> This driver is to use SCMI interface to enable pwrkey.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/input/keyboard/Kconfig          |  11 ++
+>  drivers/input/keyboard/Makefile         |   1 +
+>  drivers/input/keyboard/imx-sm-bbm-key.c | 225 ++++++++++++++++++++++++++++++++
+>  3 files changed, 237 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+> index 1d0c5f4c0f99..1c3fef7d34af 100644
+> --- a/drivers/input/keyboard/Kconfig
+> +++ b/drivers/input/keyboard/Kconfig
+> @@ -466,6 +466,17 @@ config KEYBOARD_IMX
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called imx_keypad.
 >  
-> +	/* cgroup_mutex required for for_each_css() */
-> +	cgroup_lock();
->  	seq_printf(seq, "nr_descendants %d\n",
->  		   cgroup->nr_descendants);
->  	seq_printf(seq, "nr_dying_descendants %d\n",
->  		   cgroup->nr_dying_descendants);
->  
-> +	/*
-> +	 * Show the number of live and dying csses associated with each of
-> +	 * non-inhibited cgroup subsystems bound to cgroup v2 if non-zero.
-> +	 */
-> +	for_each_css(css, ssid, cgroup) {
-> +		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
-> +		    (cgroup_subsys[ssid]->root !=  &cgrp_dfl_root))
-> +			continue;
+> +config KEYBOARD_IMX_BBM_SCMI
+> +	tristate "IMX BBM SCMI Key Driver"
+> +	depends on IMX_SCMI_BBM_EXT || COMPILE_TEST
+> +	default y if ARCH_MXC
+> +	help
+> +	  This is the BBM key driver for NXP i.MX SoCs managed through
+> +	  SCMI protocol.
 > +
-> +		seq_printf(seq, "nr_%s %d\n", cgroup_subsys[ssid]->name,
-> +			   css->nr_descendants + 1);
-> +		/* Current css is online */
-> +		if (css->nr_dying_descendants)
-> +			seq_printf(seq, "nr_dying_%s %d\n",
-> +				   cgroup_subsys[ssid]->name,
-> +				   css->nr_dying_descendants);
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called scmi-imx-bbm-key.
+> +
+>  config KEYBOARD_IMX_SC_KEY
+>  	tristate "IMX SCU Key Driver"
+>  	depends on IMX_SCU
+> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
+> index aecef00c5d09..624c90adde89 100644
+> --- a/drivers/input/keyboard/Makefile
+> +++ b/drivers/input/keyboard/Makefile
+> @@ -31,6 +31,7 @@ obj-$(CONFIG_KEYBOARD_IPAQ_MICRO)	+= ipaq-micro-keys.o
+>  obj-$(CONFIG_KEYBOARD_IQS62X)		+= iqs62x-keys.o
+>  obj-$(CONFIG_KEYBOARD_IMX)		+= imx_keypad.o
+>  obj-$(CONFIG_KEYBOARD_IMX_SC_KEY)	+= imx_sc_key.o
+> +obj-$(CONFIG_KEYBOARD_IMX_BBM_SCMI)	+= imx-sm-bbm-key.o
+>  obj-$(CONFIG_KEYBOARD_HP6XX)		+= jornada680_kbd.o
+>  obj-$(CONFIG_KEYBOARD_HP7XX)		+= jornada720_kbd.o
+>  obj-$(CONFIG_KEYBOARD_LKKBD)		+= lkkbd.o
+> diff --git a/drivers/input/keyboard/imx-sm-bbm-key.c b/drivers/input/keyboard/imx-sm-bbm-key.c
+> new file mode 100644
+> index 000000000000..907dad383b8f
+> --- /dev/null
+> +++ b/drivers/input/keyboard/imx-sm-bbm-key.c
+> @@ -0,0 +1,225 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2024 NXP.
+> + */
+> +
+> +#include <linux/input.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/rtc.h>
+> +#include <linux/scmi_protocol.h>
+> +#include <linux/scmi_imx_protocol.h>
+> +#include <linux/suspend.h>
+> +
+> +#define DEBOUNCE_TIME		30
+> +#define REPEAT_INTERVAL		60
+> +
+> +struct scmi_imx_bbm {
+> +	struct scmi_protocol_handle *ph;
+> +	const struct scmi_imx_bbm_proto_ops *ops;
+> +	struct notifier_block nb;
+> +	int keycode;
+> +	int keystate;  /* 1:pressed */
+> +	bool suspended;
+> +	struct delayed_work check_work;
+> +	struct input_dev *input;
+> +};
+> +
+> +static void scmi_imx_bbm_pwrkey_check_for_events(struct work_struct *work)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = container_of(to_delayed_work(work),
+> +						  struct scmi_imx_bbm, check_work);
+> +	struct scmi_protocol_handle *ph = bbnsm->ph;
+> +	struct input_dev *input = bbnsm->input;
+> +	u32 state = 0;
+> +	int ret;
+> +
+> +	ret = bbnsm->ops->button_get(ph, &state);
+> +	if (ret) {
+> +		pr_err("%s: %d\n", __func__, ret);
+> +		return;
 > +	}
+> +
+> +	pr_debug("%s: state: %d, keystate %d\n", __func__, state, bbnsm->keystate);
+> +
+> +	/* only report new event if status changed */
+> +	if (state ^ bbnsm->keystate) {
+> +		bbnsm->keystate = state;
+> +		input_event(input, EV_KEY, bbnsm->keycode, state);
+> +		input_sync(input);
+> +		pm_relax(bbnsm->input->dev.parent);
+> +		pr_debug("EV_KEY: %x\n", bbnsm->keycode);
+> +	}
+> +
+> +	/* repeat check if pressed long */
+> +	if (state)
+> +		schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(REPEAT_INTERVAL));
+> +}
+> +
+> +static int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
+> +{
+> +	struct input_dev *input = bbnsm->input;
+> +
+> +	pm_wakeup_event(input->dev.parent, 0);
+> +
+> +	schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(DEBOUNCE_TIME));
+> +
+> +	/*
+> +	 * Directly report key event after resume to make no key press
+> +	 * event is missed.
+> +	 */
+> +	if (READ_ONCE(bbnsm->suspended)) {
+> +		bbnsm->keystate = 1;
+> +		input_event(input, EV_KEY, bbnsm->keycode, 1);
+> +		input_sync(input);
+> +		WRITE_ONCE(bbnsm->suspended, false);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void scmi_imx_bbm_pwrkey_act(void *pdata)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = pdata;
+> +
+> +	cancel_delayed_work_sync(&bbnsm->check_work);
+> +}
+> +
+> +static int scmi_imx_bbm_key_notifier(struct notifier_block *nb, unsigned long event, void *data)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = container_of(nb, struct scmi_imx_bbm, nb);
+> +	struct scmi_imx_bbm_notif_report *r = data;
+> +
+> +	if (r->is_button) {
+> +		pr_debug("BBM Button Power key pressed\n");
+> +		scmi_imx_bbm_pwrkey_event(bbnsm);
+> +	} else {
+> +		/* Should never reach here */
+> +		pr_err("Unexpected BBM event: %s\n", __func__);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int scmi_imx_bbm_pwrkey_init(struct scmi_device *sdev)
+> +{
+> +	const struct scmi_handle *handle = sdev->handle;
+> +	struct device *dev = &sdev->dev;
+> +	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
+> +	struct input_dev *input;
+> +	int ret;
+> +
+> +	if (device_property_read_u32(dev, "linux,code", &bbnsm->keycode)) {
+> +		bbnsm->keycode = KEY_POWER;
+> +		dev_warn(dev, "key code is not specified, using default KEY_POWER\n");
+> +	}
+> +
+> +	INIT_DELAYED_WORK(&bbnsm->check_work, scmi_imx_bbm_pwrkey_check_for_events);
 
-I think it'd be better to print the dying count unconditionally. It
-makes the output more predictable for parsers, and also it's clearer
-to users which data points are being tracked and reported.
+To stay on the safe side I would issue a cancel_delayed_work_sync()
+somewhere along the remove() path of this driver...just to be sure
+there is not an  actively scheduled deleayed work queued while we are
+shutting down.....I maybe overly paranoic...but seems a safe thing to do O_o
 
-With that, and TJ's "subsys" suggestion for the name, it looks good to
-me. Thanks!
+Thanks,
+Cristian
