@@ -1,73 +1,183 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0159157A59;
-	Thu, 11 Jul 2024 10:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267B72209B;
+	Thu, 11 Jul 2024 10:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720693263; cv=none; b=cY9JxxhDzBYqajFD5qgdPTWff/eOoIaX9KO/Df7JkegFa7UC4l7bDVxNFiv4kgrcC14yjTeCie04bS5+jkYsQ3ETzOjsgAprmzVtdVqS/3zdhOKIICQT7Yp64dDQFoZxAT7+q8KMTupUgJ/WOQfp6T+3JYY6ZGJUlO1DvcjcCAM=
+	t=1720693420; cv=none; b=vBzhHDp1B3LAWnSPygtl93n4lDDVElCT6+pjJhTJzRM/+LuuP2fL33sBeqajcivSQLffRCzOxurv1LDPSNc63pe/ZZWpceUVsJE30bzqStCPBja28HZ/zSFS565f4hpxcSOsOmknO+um6SfOacZ7maLQQeiM6Ad8wUn/fCVwMUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720693263; c=relaxed/simple;
-	bh=hncl9QviZuWKAdztx7PuMEvcvja4nPPgccko85HZQ6o=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=sfAlwGbwTkEAzjV2QALz3st0T+4Az4b7cRymuhdrAwogF3wLIgJEgJqqNB7fVaDXJ7GNuAsD1PQpHezb+9RYXmKEMrSlc0BnfYuLn3QQwSAd2U5F9lO5/kLZCBrs0l2SYZpIGTkkPHv1SQAVTGEhgxkMDc4RoQKcyiRhITesVw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 8ADB392009C; Thu, 11 Jul 2024 12:20:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 84DCB92009B;
-	Thu, 11 Jul 2024 11:20:51 +0100 (BST)
-Date: Thu, 11 Jul 2024 11:20:51 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-    Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, 
-    "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
-    =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-In-Reply-To: <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
-Message-ID: <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com> <Zn1FuxNw2CUttzdg@alpha.franken.de> <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com> <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk> <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
- <Zoz6+YmUk7CBsNFw@alpha.franken.de> <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com> <Zo457UgAkhbAgm2R@alpha.franken.de> <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk> <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1720693420; c=relaxed/simple;
+	bh=mRiJQf8HlUUGHS/Aw8yW+dJgWms8uN86w7mo04vnImw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NEKOBHygYjY0mjZUmRfpu0j6PZVd7suMg9bl3gH7j1/w9LXLeXXQMEKUd6M9thIyHBgLuZGJUKIUfPPCCRnu3ASJfULVNK0EuSYDeCdcrDwDJMVcCFPIoUcHOMFXbkqhhZ/aS4B8SXUJzTy+LeV6Cao4NrrJUAbKE0sBqRcPeXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4WKW1P1dvfzQkjL;
+	Thu, 11 Jul 2024 18:19:37 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
+	by mail.maildlp.com (Postfix) with ESMTPS id 246CF1401E0;
+	Thu, 11 Jul 2024 18:23:34 +0800 (CST)
+Received: from hulk-vt.huawei.com (10.67.174.26) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 11 Jul 2024 18:23:33 +0800
+From: Xiu Jianfeng <xiujianfeng@huawei.com>
+To: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
+	<corbet@lwn.net>, <haitao.huang@linux.intel.com>, <rdunlap@infradead.org>,
+	<kamalesh.babulal@oracle.com>
+CC: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] cgroup/misc: Introduce misc.events.local
+Date: Thu, 11 Jul 2024 10:14:57 +0000
+Message-ID: <20240711101457.2963104-1-xiujianfeng@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
 
-On Thu, 11 Jul 2024, Jiaxun Yang wrote:
+Currently the event counting provided by misc.events is hierarchical,
+it's not practical if user is only concerned with events of a
+specified cgroup. Therefore, introduce misc.events.local collect events
+specific to the given cgroup.
 
-> >> that's just one case, what about NaN2008 binaries on a legacy MIPS CPU ?
-> >
-> >  It would be good to check with hard-float QEMU configured for writable 
-> > FCSR.NAN2008 (which is one way original code was verified) that things 
-> > have not regressed.  And also what happens if once our emulation has 
-> > triggered for the unsupported FCSR.NAN2008 mode, an attempt is made to 
-> > flip the mode bit via ptrace(2), e.g. under GDB, which I reckon our 
-> > emulation permits for non-legacy CPUs (and which I think should not be 
-> > allowed under the new setting).
-> 
-> PTrace is working as expected (reflects emulated value).
+This is analogous to memory.events.local and pids.events.local.
 
- Yes, sure for reads, but how about *writing* to the bit?
+Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst |  5 ++++
+ include/linux/misc_cgroup.h             |  3 ++
+ kernel/cgroup/misc.c                    | 39 +++++++++++++++++++++----
+ 3 files changed, 41 insertions(+), 6 deletions(-)
 
-> The actual switchable NaN hardware (M5150, P5600) uses a dedicated Config7
-> bit rather than writable FCSR.NAN2008 to control NaN2008 mode. This is undocumented
-> and not present on some RTL releases. FCSR.NAN2008 is R/O as per The MIPS32 Instruction
-> Set Manual. This renders the purposed test pointless.
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index adf77ed92687..6c6075ed4aa5 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2692,6 +2692,11 @@ Miscellaneous controller provides 3 interface files. If two misc resources (res_
+ 		The number of times the cgroup's resource usage was
+ 		about to go over the max boundary.
+ 
++  misc.events.local
++        Similar to misc.events but the fields in the file are local to the
++        cgroup i.e. not hierarchical. The file modified event generated on
++        this file reflects only the local events.
++
+ Migration and Ownership
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/include/linux/misc_cgroup.h b/include/linux/misc_cgroup.h
+index 618392d41975..49eef10c8e59 100644
+--- a/include/linux/misc_cgroup.h
++++ b/include/linux/misc_cgroup.h
+@@ -40,6 +40,7 @@ struct misc_res {
+ 	atomic64_t watermark;
+ 	atomic64_t usage;
+ 	atomic64_t events;
++	atomic64_t events_local;
+ };
+ 
+ /**
+@@ -53,6 +54,8 @@ struct misc_cg {
+ 
+ 	/* misc.events */
+ 	struct cgroup_file events_file;
++	/* misc.events.local */
++	struct cgroup_file events_local_file;
+ 
+ 	struct misc_res res[MISC_CG_RES_TYPES];
+ };
+diff --git a/kernel/cgroup/misc.c b/kernel/cgroup/misc.c
+index b92daf5d234d..0e26068995a6 100644
+--- a/kernel/cgroup/misc.c
++++ b/kernel/cgroup/misc.c
+@@ -134,6 +134,17 @@ static void misc_cg_update_watermark(struct misc_res *res, u64 new_usage)
+ 	}
+ }
+ 
++static void misc_cg_event(enum misc_res_type type, struct misc_cg *cg)
++{
++	atomic64_inc(&cg->res[type].events_local);
++	cgroup_file_notify(&cg->events_local_file);
++
++	for (; parent_misc(cg); cg = parent_misc(cg)) {
++		atomic64_inc(&cg->res[type].events);
++		cgroup_file_notify(&cg->events_file);
++	}
++}
++
+ /**
+  * misc_cg_try_charge() - Try charging the misc cgroup.
+  * @type: Misc res type to charge.
+@@ -177,10 +188,7 @@ int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg, u64 amount)
+ 	return 0;
+ 
+ err_charge:
+-	for (j = i; j; j = parent_misc(j)) {
+-		atomic64_inc(&j->res[type].events);
+-		cgroup_file_notify(&j->events_file);
+-	}
++	misc_cg_event(type, i);
+ 
+ 	for (j = cg; j != i; j = parent_misc(j))
+ 		misc_cg_cancel_charge(type, j, amount);
+@@ -368,20 +376,33 @@ static int misc_cg_capacity_show(struct seq_file *sf, void *v)
+ 	return 0;
+ }
+ 
+-static int misc_events_show(struct seq_file *sf, void *v)
++static int __misc_events_show(struct seq_file *sf, bool local)
+ {
+ 	struct misc_cg *cg = css_misc(seq_css(sf));
+ 	u64 events;
+ 	int i;
+ 
+ 	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
+-		events = atomic64_read(&cg->res[i].events);
++		if (local)
++			events = atomic64_read(&cg->res[i].events_local);
++		else
++			events = atomic64_read(&cg->res[i].events);
+ 		if (READ_ONCE(misc_res_capacity[i]) || events)
+ 			seq_printf(sf, "%s.max %llu\n", misc_res_name[i], events);
+ 	}
+ 	return 0;
+ }
+ 
++static int misc_events_show(struct seq_file *sf, void *v)
++{
++	return __misc_events_show(sf, false);
++}
++
++static int misc_events_local_show(struct seq_file *sf, void *v)
++{
++	return __misc_events_show(sf, true);
++}
++
+ /* Misc cgroup interface files */
+ static struct cftype misc_cg_files[] = {
+ 	{
+@@ -409,6 +430,12 @@ static struct cftype misc_cg_files[] = {
+ 		.file_offset = offsetof(struct misc_cg, events_file),
+ 		.seq_show = misc_events_show,
+ 	},
++	{
++		.name = "events.local",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.file_offset = offsetof(struct misc_cg, events_local_file),
++		.seq_show = misc_events_local_show,
++	},
+ 	{}
+ };
+ 
+-- 
+2.34.1
 
- Yes, for R6 and arguably R5, but not for R3.  Architecture specification 
-revisions 3.50 through 5.02 define FCSR.NAN2008 (and also FCSR.ABS2008) as 
-either R/O or R/W, at the implementer's discretion, so it is a conforming 
-implementation to have these bits writable and our FPU emulator reflects 
-it.  I won't go into the details here as to why the later revisions of the 
-specification have been restricted to the R/O implementation only.
-
- NB architecture specification revisions 3.50 through 5.01 also have the 
-FCSR.MAC2008 bit defined, removed altogether later on.
-
-  Maciej
