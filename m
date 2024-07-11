@@ -1,74 +1,49 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E818B38398;
-	Thu, 11 Jul 2024 18:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9F816EB47;
+	Thu, 11 Jul 2024 18:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720723475; cv=none; b=PaLSE1qWaosII5bfJ70ucGL4H0yIx6ntC2RpMUSyuWvboT65HsctHeYPecPhWZtYg+OpeAaN8xfEupyngy6vcHul+48d5E8/QHKAZP58tNmjoylAb3icfe3+HbboU0lG5V4p5gO0ufe/I+tp+c3P04l04QUKqKlLqetlJGgFXs0=
+	t=1720723725; cv=none; b=OegOGU06SvUvw0iIWp2M5WFYKelI35Zezklam36Bmvyt6SWLhOppke6e6U4SAyEslqiM93imGAhTusryKxcxnixwTHavGjdSnqbJcde/ltaOKVBXLfrbiEed8BS8Df7ul6KgtU5rMEGoKcjyu+ZF5uTUr/siFzNCMA8u7qopNCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720723475; c=relaxed/simple;
-	bh=SEFCc513xCNJSG9UVFgYdr0OMgjdLx1OXfmbJqmjliM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q72k0+ufvOggFoj2+mg/lb6eN3b+8P1CE7jM8h9txyLS6RRArjpM5cIW0NC2UKk+XB8L27dL/b++4qo7VqyZukuggU8CDpwjWCwAV5W8UcldIJ7qCIwd8iWYChlL7XScprigQs5m8ES8Di345+McJ4CfVGVU47VlX2RB3STWk2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWjcuDWx; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720723725; c=relaxed/simple;
+	bh=xImh/e9JhSxNtzbEgiJpo+w6gMpGyqEXopSKCcJ76JE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=oSBnDCjDtyEc1giFbc4oNF8ox+s8aLQVF8i9xzmzVibSNrfxGk9TG7Purwyl2f4nvYfBNvl/PI0mEWR4wjQ8Z56ufxW936bOIfQ049/baHOwKWkFNyiSw4QYlsYtMoihRJZTATJiBiZ7fxFXSMWNTaAjiqCYNPn5ie0cSSiwwks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZygdmSj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWjcuDWx"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70b09cb7776so1058170b3a.1;
-        Thu, 11 Jul 2024 11:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720723473; x=1721328273; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=81F7Jmh/XxgGOMMJv6GwxpQ3JjZzTcsp+Xpu4neomkU=;
-        b=dWjcuDWxsfVUuiF945u1ZCgmgACDVu/3GgmrU9cg9CBgaSyPFA59Luaqx7WPPrAq2B
-         WUV8gx9p+VPW5Ddeni9YBV6JGlSiBcac1wBa3SlQ51vzMwhyBButUlVMXoGZjfTDxhok
-         xyA+3ZZAl51/tDm0WKhoGcYu4KyGJef3Jj+QH9P+bKx2CtgsTmiCYydMtdYGDiHjIEax
-         33a93OQGo4PmZiM6/prAXcBz4nNSxiqVXGbdaOJNYQXs024C/61k8XSuLhxvEpp8vFqR
-         17+UCVwScx2Ib3PskNojIQEftZVvmlySk8rSgRP+hrSWSz39ewhT38xzTqNlRFRYqWMw
-         8ktw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720723473; x=1721328273;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=81F7Jmh/XxgGOMMJv6GwxpQ3JjZzTcsp+Xpu4neomkU=;
-        b=qsemrLiIDZUbMzfSZXegzJeQNfv6pMFGPRYu6hsZGV8SUu+VYXFV5kUuXMnp1BL9G6
-         ZnaSJIHebYMi7YLwFtJrzSf4/m4hYmje3CFy/xcxGs+C+jG7H8NoS913CCiUrOeqp6mn
-         dlarPOi8qvg1qffD/oktHqS86nVLtAXm85qOyKQ8GW6aFjPRV/ZCfrD6/NObk2pcxuYK
-         o/+dcZi049zFN5gE+xX4q31MndVcdERhAELOuW6TLZ2k5uHMZgoO1MlCUjAFgyhpFC7t
-         NWEY8NWVPjkR28ZvYOUOxWvxHlowdnwn2J2xo3BmSPFcpBoM+gmhpASrWwPrNnHM8W3B
-         mYsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWs6cy1Rx713wZGSOh/OVaCf9NgtYxfWwFNXmPgyX9h3kUuSnL7IjsXvbR2ERmVdhobtPamyiKXNkH8dyrRJLuDnhXIqxco0IZZ8wFLItFqODAv6XVRTSB7nU9BxFwb7d8MNB0DMsPX27luIKopzwXU9EQ8oYmyy81Z/EmE5h3WmA==
-X-Gm-Message-State: AOJu0YyDEbRaK6NNLJKV7nVwHp/Ry+hPS7uMKj+mJzA2Ll9xrL9mw7Yd
-	oHk7FHBUwS0z6237Ob6Ib0hIP3ONV4C6j3AU1eArii9XaJ3+0EJK
-X-Google-Smtp-Source: AGHT+IGrNhyhr4lJ/caU15aCmXa8NIU4JW+ZCRr9qtS57I+xiOizFgSPzdyXR1KOhdGx0whGrYN7uA==
-X-Received: by 2002:a05:6a20:3941:b0:1c2:8b7f:5eb4 with SMTP id adf61e73a8af0-1c29820c03bmr10025148637.5.1720723473090;
-        Thu, 11 Jul 2024 11:44:33 -0700 (PDT)
-Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b54ea2279sm3622293b3a.171.2024.07.11.11.44.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 11:44:32 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Thu, 11 Jul 2024 08:44:31 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZygdmSj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C3AC116B1;
+	Thu, 11 Jul 2024 18:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720723724;
+	bh=xImh/e9JhSxNtzbEgiJpo+w6gMpGyqEXopSKCcJ76JE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=LZygdmSjEBpl4BTzHjE4t6PNNOmKPMRI7FZ/b1BLxrLEXxaj8fb4aIjEFQNjxcYoz
+	 PS6pWF6WsLll9Lm97lHZxJUp5EMg0QhRasnMH++9lIhSWQE9EiYRulC6i3E29wKIJm
+	 EgQ/e6l6JHagNIE9p2YTnS0RKbuxF0+SYDd6fwSoYifX5W4kL91Xywnx3dSdzIBr/2
+	 iYuBu5xUHRJteBQbjTGqISKKM2NpN7GsRB0WzDkoa5ecwVxOIrpxaaLvuz8nK5cImL
+	 K8rELPM3xoktpef/j0j0HJ8Cu7qBURte99paPdTDbtyH1qAe4CDpYNTgJ8WwUF+KxO
+	 0gLOhoseGdpMg==
+Date: Thu, 11 Jul 2024 13:48:42 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
-Message-ID: <ZpAoD7_o8bf6yVGr@slm.duckdns.org>
-References: <20240710182353.2312025-1-longman@redhat.com>
- <20240711134927.GB456706@cmpxchg.org>
- <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
- <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
- <76e70789-986a-44c2-bfdc-d636f425e5ae@redhat.com>
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_parass@quicinc.com, Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
+ notification
+Message-ID: <20240711184842.GA285502@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,21 +52,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <76e70789-986a-44c2-bfdc-d636f425e5ae@redhat.com>
+In-Reply-To: <a56de2dc-30a0-a292-c03c-16ec5393eea8@quicinc.com>
 
-Hello,
+On Thu, Jul 11, 2024 at 11:57:35AM +0530, Krishna Chaitanya Chundru wrote:
+> On 7/10/2024 5:41 PM, Bjorn Helgaas wrote:
+> > On Wed, Jul 10, 2024 at 04:38:15PM +0530, Krishna chaitanya chundru wrote:
+> > > Add support to pass D-state change notification to Endpoint
+> > > function driver.
+> ...
 
-On Thu, Jul 11, 2024 at 01:39:38PM -0400, Waiman Long wrote:
-> On 7/11/24 13:18, Tejun Heo wrote:
-...
-> Currently, I use the for_each_css() macro for iteration. If you mean
-> displaying all the possible cgroup subsystems even if they are not enabled
-> for the current cgroup, I will have to manually do the iteration.
+> > I don't understand the connection between PERST# state and the device
+> > D state.  D3cold is defined to mean main power is absent.  Is the
+> > endpoint firmware still running when main power is absent?
+>
+> Host as part of its d3cold sequence will assert the perst. so we are
+> reading perst to know the link the state.
 
-Just wrapping it with for_each_subsys() should do, no? for_each_css() won't
-iterate anything if css doesn't exist for the cgroup.
+I think it's true that when the device is in D3cold, PERST# will be
+asserted (PCIe CEM r5.0, sec 2.2.3, fig 2-6).
 
-Thanks.
+But I don't think it's necessarily true that when PERST# is asserted,
+the device is in D3cold.  For example, PCIe Mini CEM r2.1, sec
+3.2.5.3, says "The system may also use PERST# to cause a warm reset of
+the add-in card."  In a warm reset, the component remains powered up,
+i.e., it is not in D3cold (PCIe r6.0, sec 6.6.1).
 
--- 
-tejun
+I would think the endpoint firmware would be able to directly read the
+state of main power or the LTSSM state of the link, without having to
+use PERST# to infer it.
+
+I guess the ultimate point of figuring out D3hot vs D3cold is to
+figure out whether to use PME or WAKE#?  I'm a little bit dubious
+about that being racy, as I mentioned elsewhere.  If there were a way
+to attempt PME and fall back to WAKE# if you can determine that PME
+failed, maybe that would be safer and obviate the need for the D-state
+tracking?
+
+> Qcom devices are drawing power from the PCIe, so even when PCIe is in
+> D3cold endpoint firmware can still run.
+> 
+> - Krishna Chaitanya.
+> > > Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> > > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> > > ---
+> > >   drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
+> > >   1 file changed, 7 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > index 236229f66c80..817fad805c51 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> > > @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+> > >   	struct device *dev = pci->dev;
+> > >   	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
+> > >   	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
+> > > +	pci_power_t state;
+> > >   	u32 dstate, val;
+> > >   	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
+> > > @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+> > >   		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
+> > >   					   DBI_CON_STATUS_POWER_STATE_MASK;
+> > >   		dev_dbg(dev, "Received D%d state event\n", dstate);
+> > > -		if (dstate == 3) {
+> > > +		state = dstate;
+> > > +		if (dstate == PCI_D3hot) {
+> > >   			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
+> > >   			val |= PARF_PM_CTRL_REQ_EXIT_L1;
+> > >   			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
+> > > +
+> > > +			if (gpiod_get_value(pcie_ep->reset))
+> > > +				state = PCI_D3cold;
+> > >   		}
+> > > +		pci_epc_dstate_notify(pci->ep.epc, state);
+> > >   	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
+> > >   		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
+> > >   		dw_pcie_ep_linkup(&pci->ep);
+> > > 
+> > > -- 
+> > > 2.42.0
+> > > 
