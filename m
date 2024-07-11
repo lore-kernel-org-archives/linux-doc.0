@@ -1,128 +1,82 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D031423CE;
-	Thu, 11 Jul 2024 01:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B5101E4;
+	Thu, 11 Jul 2024 01:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720661084; cv=none; b=tLiu9PRhzkWD3JY2PyiNg/mlFmg2goudIBLpYkDasv/jucKSPNsyMDdX+vKcxYPBstSqKUGZy6Liw5DUSwHKSXXlV7QAhWa10uZ/16slEWfaVh7gSVCe7hv/B1w7+KgZ8N5GTZS37IlsTzVn2VipbZzJaGej2OKv2scZdtAcZQY=
+	t=1720661762; cv=none; b=B9R9OXe9g0dV02ttm6LG4dfmO4GAjo4YY16sf86dogVBnyf1ivL4xAQJlXHlUDI+TebYFhLNoAc4yCNXZPlClrx3QSjq8IPNgw1uGsepOqm2ZygYcK6eakn1yFiDGu3lONYVuPPobT8BczLLpiucSK0/NEUp/nO7cK9ADPsfnvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720661084; c=relaxed/simple;
-	bh=WqUc+50yatqec/bDZPWg223qG82aa7ffR9EbPqWYqiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcpihtUB1xp/nUrmopkys0xrhpOSGuVpKac/gMXJ9CrhZ8AD2cIW48rqelNEgFv/pJiaE1kqLMuOVXK97yyJz3LzH0Z+dK/mSRMVs+7y8jt30DpvBITyp2xR3lz2etUIPTxZXccQB6Dl2ZMnX5ynVaNAfEGDc7jAGe0cHNK3OX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=iUx4xrVf; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1720661762; c=relaxed/simple;
+	bh=Hqr9mmbkEJ+SKI+sb4EdVGkA9dVoZOX7yW+I50QePp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TJa1AAbj7Bnf0520iErKBWewyxfK6lpnv+bVKKNm9N2jbuO89Pi9EtAmU/n4H6VHXkA3elDXpKHmYJ9Ohy4dWsG+D9MF717ySfMLnsWG4TP05XzquezfOK5MWAi7uAjjCyw7NNIEa/Vw/MLeh4ajH4ZRxWQws/YxzZczoDWt5pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZ+GOJjB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="iUx4xrVf"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3DF3E40E0206;
-	Thu, 11 Jul 2024 01:24:37 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bZpwJXXJsqwJ; Thu, 11 Jul 2024 01:24:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1720661072; bh=0ivUAjF+gH7cy3ad9SGegCyTH8sP11rPRTgqRJ5uBdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iUx4xrVfYT6hRqeHWPrTHUQNQvN7/SsR9BrcwyDOxS/pZGAbDkbTQSPBY4U9khXoO
-	 L/yMcukpwPEli97wKwnyxu41q3pK+cFpMz/gOGFcoh5PleAvuqE+7ceaFmh0eHRfC9
-	 RBgtlSII3GbPGP5551p5hzWHej9gFKKu/U8YbV96OZavc9f2+Wi3tHLa2XZ45srCDM
-	 grXPnXvmUROV+0T3xSGubGq2ntBWtBsC5MabrFeiqe9rH0N0q+7+e8MXHWwBB9SFuf
-	 KGDbGS10RvPfuLZnAb8vk1Slr6AVN7URb109PSBB83bjL8kAVI1LonY3n3J8Ix+MYr
-	 BJftN1Z+8hTAKdoGjm/nwmg0xdCpCLOl7Wjt+XZeS29CppenSs/6m4H7t6Tp6PXf5E
-	 E/C20NPCHLlh/VFT880vmxXy5lbDR8bfO8vTUqz8dJH7/zDbgxL6GPBjOWuiB267uS
-	 8cknKtl/8/BSSa87DA7RBzo3cm1wwMplZBDaCb2zqxT96Yo0/v1I45/PtjmUfYhvJ7
-	 a64aSB8Eeodbb71qBWwZuAkcBvKtZzTEDW5VXkGS/MRSq3VnLQyRTcI2mQe3XG3BR2
-	 ANH70NwERMx05P8cVwb2TD9Q17KTUiHD8Y3SXEFf66iRef2/C7/8NMOuXq1vWdyUHC
-	 VuGxSkmTcQ5A4ULzpwd9eSjE=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D09D440E0194;
-	Thu, 11 Jul 2024 01:23:40 +0000 (UTC)
-Date: Thu, 11 Jul 2024 03:23:33 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Yian Chen <yian.chen@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v4 03/16] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20240711012333.GAZo80FU30_x77otP4@fat_crate.local>
-References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
- <20240710160655.3402786-4-alexander.shishkin@linux.intel.com>
- <20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local>
- <cqacx3crogegwyslm25kwcdcezgg2n44lhy3mg5qkka3vgn4xa@lhqsoseyduus>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZ+GOJjB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F41FC32781;
+	Thu, 11 Jul 2024 01:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720661762;
+	bh=Hqr9mmbkEJ+SKI+sb4EdVGkA9dVoZOX7yW+I50QePp4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rZ+GOJjB93xoU6UJ2PdTrOFqj6GaZIkE9XcK6GAgChSeAygix+EySdQXQ0WR5Kz+H
+	 WCjNqakxEQLT6/Af+MwzHg1x4tCzR5hPjqsoOlVcL/1rcSJr6S9AeA4ZN0I0HittDJ
+	 bUGA3V+8b3i7ULWXkwvf6D//5Kzlg+/oUCcYIVgmnTeKxMRKg41EwjPD3SBCwBSYov
+	 ZTEFlT3e4YHM2jDotLjffFrrNk34zKJndcvFAfee3/1+SOhBbUPU7HaStIvkVPR6dW
+	 dYaO9ltHOHaCeXYK60ww88Q9AHqSlwIEYVIfGHWIGsPp/F1t2GYOu4fF58ce+oWeZp
+	 iBrKtAm718JUA==
+Date: Wed, 10 Jul 2024 18:35:59 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v16 13/13] netdev: add dmabuf introspection
+Message-ID: <20240710183559.64c9071f@kernel.org>
+In-Reply-To: <20240710001749.1388631-14-almasrymina@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+	<20240710001749.1388631-14-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cqacx3crogegwyslm25kwcdcezgg2n44lhy3mg5qkka3vgn4xa@lhqsoseyduus>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 11, 2024 at 01:33:23AM +0300, Kirill A. Shutemov wrote:
-> Hm. Do we have text_poke() in hot path?
+On Wed, 10 Jul 2024 00:17:46 +0000 Mina Almasry wrote:
+> Add dmabuf information to page_pool stats:
 > 
-> Even if we do, I doubt flipping AC flag would make any performance
-> difference in context of all locking and TLB flushing we do in this
-> codepath.
+> $ ./cli.py --spec ../netlink/specs/netdev.yaml --dump page-pool-get
 
-$ dmesg | grep text_poke | wc -l
-237
+Aha, thanks!
 
-In a silly guest.
-
-And regardless, we don't do unnecessary toggling of rFLAGS.AC.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
