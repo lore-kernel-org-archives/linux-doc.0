@@ -1,183 +1,117 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFED16D4CA
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 20:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0999371B51;
+	Thu, 11 Jul 2024 20:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720729522; cv=none; b=N9SnLoNeVHKKha1MsB+jnMZ8jgMJnBYOBCmCxQnpTfQS9CkBUBwQFzWzOhgHtp94WIWSX6HoxKSJEQ40k6kqDtdxBHeGUmfI9rNtgYZJ4k0i8P4a+favTKmI8kkZ9pZ3hOT4QfvxUrIZCLHxzFIshLCHpoKjC5yw2E9wj2mGgAY=
+	t=1720729969; cv=none; b=UeFQn2m8NWtOEueL5+bUl/14hDV8F04/8ZaLhljIAjmYCQFuHy6j+lKh7+0+rQithXOw6ukzC1tJwbSxJJgoe9PHF68BHK6SnJq44mVH6Troh2IhdSzo9Jn9A44jbKhN2AS81XnjdxFDXRMkLAD0jrjj4apUe16QShD9FGflEsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720729522; c=relaxed/simple;
-	bh=8bclKTm0mQjAtWAC6LCIUWGn+6C2ewID31E27vLw+5I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LvRnYRob5YRltYs213CQxspRf3geEFOi00r435iaBZG9ZglXklw2ijYl22usib438/2qjJHdDcoeFruhnoQpfzIxhegbyh1dbJ69NXusjDt3Ef8tFvVuFH29Q8yAR6f+z9QcGHN8aqP/q8olwYcXW6x/oYQCclHEG6SvfaG/tmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=kZIcqYJ7; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1720729969; c=relaxed/simple;
+	bh=Bfi0xFDAdZFAiE6w3WjlXCIy3ZKkk/pUFo1x5TCS4E8=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=oQY/NQ5DWt9fkxweIKA+58JflvOxe8ILOIgvqSTBKzO1yZ+wMqmd6yC8nQBD9tEh7fPU8za39dIgE7hSVNSYRgC8GUXIQDrqM3St3klIHxnz3s/V0jVXUu+RaId+iAlZ0lr4gB2wwGC3PLhSC9hE4ZMnwuOrB/SWmBY4CeuCzJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WM1ehqaI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="kZIcqYJ7"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-76cb5b6b3e4so854594a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 13:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1720729520; x=1721334320; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iMO3QJaNwKPEg2fkW9ocZ2ZzNc4qbi0eB4IVGf7OvXg=;
-        b=kZIcqYJ7b/9cyKAWeBRIyVZIhogyPJn8VDyodMfD2HELSbV08Tu+Q7tbPuSFGUrhzc
-         rz8pduoj3KReGbpNaAHHy5tJ12s3N5lZsGOk1tTxoYSHx6WBgi5VQYGubna81BPclV1E
-         gOxIMmJe6QVt2RTnpYY+fPHo/t7TvhZOm3iJ6iuLWLuqKygFYhIltmJcGTDugrIzR3e0
-         UoZ+ciLmDuTpLhAo7bArPSAlC6AIX0RF4PzdrMnSE5qkXJXupAntI0qeHY4PF1VSee18
-         mcVA4qPU6ovg8yY/4PThpcBdig3Nc1IedfTaBScqOfy2tDqoopdABkO1PXHB/A8kvoG6
-         xOrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720729520; x=1721334320;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iMO3QJaNwKPEg2fkW9ocZ2ZzNc4qbi0eB4IVGf7OvXg=;
-        b=NoDzUz/GxU+jYXuIgpPkN/Hq9D+AuUS7sHc/8kdRnx/eoZcW4+RQOVqXbCt7Heq/h1
-         g6MpEtEqkBt3n5ZInCw2FGF2Og8uVTULS1pKWfcsgGQ758TctWBV1AznEeeIPfbl2xaN
-         2zByEECDYBjzLlcYTZ9SMJfVoP9nWpO+QuQ5BlzZTdndfTckr3SB4DoHI0qmQ2o2V9PC
-         ZLAs8WPL8ujwkkYNSKwfhXaHHa8674nhF/y0l1mMEVYsUs0QiAemBtNT8ueKh0GRlh3e
-         atRF7nyrmJsafm6G1zj2EzRSyn65hhEjX8wowwykT2i+YQKhIqaSf3Axd8P5OrW9mvL8
-         CAvg==
-X-Forwarded-Encrypted: i=1; AJvYcCW9Q0A6hOzze/IeXPUBXBO8SHLcBKdU8s1mwiS1rEGZwnxESNlO9UtFzyRchd2++60OX1FgK+R52P0sVJqP+CA9/p0EY/u01iTv
-X-Gm-Message-State: AOJu0YxiCLwv/Y80LkU/JrtfRowiwtg133DvlcP6m+09QULNdr0JZyC0
-	PncB5ULKKtTRSF4RKYEFYezyjqo502YN0LSTLwoZdTpd0I6Kg33YYOeR/Mrn8/c=
-X-Google-Smtp-Source: AGHT+IGd8D3/XoSU3Ju/bMAEpeWWMsStCF3C8xFRAptThUUyXilcXDIM/pIU++epptacQ5dkqr485g==
-X-Received: by 2002:a05:6a21:1690:b0:1c0:e322:e8c5 with SMTP id adf61e73a8af0-1c29821b544mr9879373637.26.1720729519712;
-        Thu, 11 Jul 2024 13:25:19 -0700 (PDT)
-Received: from [10.4.10.38] (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ad3460sm54408745ad.295.2024.07.11.13.25.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 13:25:19 -0700 (PDT)
-Message-ID: <ed410b0f-0062-4fbb-97e0-86fd492fb5ca@rivosinc.com>
-Date: Thu, 11 Jul 2024 16:25:01 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WM1ehqaI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EEB8C116B1;
+	Thu, 11 Jul 2024 20:32:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720729968;
+	bh=Bfi0xFDAdZFAiE6w3WjlXCIy3ZKkk/pUFo1x5TCS4E8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=WM1ehqaIpRfhHRpE3w+gqtQdSy3PLBJJdwXf3TTpQmK0OrumdmSHCf3gItr4ODIu4
+	 0+C5n/5QnsYHcPT8R6kB1SYvJjKyu0pQXpjT6JGKNA5pd3WPXHyf9KRC897JvFPYBu
+	 6Vs9M5B0gcmECSwye9QtGiK1YC86jr7/mPVJoVS/8WPNkFVlT0Wa/tZsN1bgzgizd7
+	 ue7VimVbd5zDby6mdrwh5V8CtdWjf+/jUgnqxQoEKRgJCNOUOe5pmnJmuhMBzf/9Eb
+	 T1XrbrUhHftPi2H4yWhYR/OixMk9tQgWjc9C8DBInJGeKLiaCqZafwEfVV0lvpeZhY
+	 8evIpWTlFjBuA==
+Date: Thu, 11 Jul 2024 14:32:47 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] RISC-V: Check scalar unaligned access on all CPUs
-To: Evan Green <evan@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
- <cleger@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>,
- Charlie Jenkins <charlie@rivosinc.com>, Xiao Wang <xiao.w.wang@intel.com>,
- Andy Chiu <andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>,
- Greentime Hu <greentime.hu@sifive.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>,
- Costa Shulyupin <costa.shul@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
- Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, stable@vger.kernel.org
-References: <20240625005001.37901-1-jesse@rivosinc.com>
- <20240625005001.37901-4-jesse@rivosinc.com>
- <CALs-HsvE9PzTrhVO0umh3KaJuLQLdk-h8sYKBg7XA4a-MXAmOg@mail.gmail.com>
-Content-Language: en-US
-From: Jesse Taube <jesse@rivosinc.com>
-In-Reply-To: <CALs-HsvE9PzTrhVO0umh3KaJuLQLdk-h8sYKBg7XA4a-MXAmOg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-doc@vger.kernel.org, 
+ Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Michael Hennerich <michael.hennerich@analog.com>
+In-Reply-To: <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
+References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
+ <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
+Message-Id: <172072996727.2951364.2243340017408650155.robh@kernel.org>
+Subject: Re: [PATCH v4 1/3] dt-bindings: iio: adc: add AD4695 and similar
+ ADCs
 
 
-
-On 7/10/24 11:55, Evan Green wrote:
-> On Mon, Jun 24, 2024 at 5:51 PM Jesse Taube <jesse@rivosinc.com> wrote:
->>
->> Originally, the check_unaligned_access_emulated_all_cpus function
->> only checked the boot hart. This fixes the function to check all
->> harts.
->>
->> Fixes: 71c54b3d169d ("riscv: report misaligned accesses emulation to hwprobe")
->> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
->> Cc: stable@vger.kernel.org
->> ---
->> V1 -> V2:
->>   - New patch
->> V2 -> V3:
->>   - Split patch
->> ---
->>   arch/riscv/kernel/traps_misaligned.c | 23 ++++++-----------------
->>   1 file changed, 6 insertions(+), 17 deletions(-)
->>
->> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
->> index b62d5a2f4541..8fadbe00dd62 100644
->> --- a/arch/riscv/kernel/traps_misaligned.c
->> +++ b/arch/riscv/kernel/traps_misaligned.c
->> @@ -526,31 +526,17 @@ int handle_misaligned_store(struct pt_regs *regs)
->>          return 0;
->>   }
->>
->> -static bool check_unaligned_access_emulated(int cpu)
->> +static void check_unaligned_access_emulated(struct work_struct *unused)
->>   {
->> +       int cpu = smp_processor_id();
->>          long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
->>          unsigned long tmp_var, tmp_val;
->> -       bool misaligned_emu_detected;
->>
->>          *mas_ptr = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
->>
->>          __asm__ __volatile__ (
->>                  "       "REG_L" %[tmp], 1(%[ptr])\n"
->>                  : [tmp] "=r" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
->> -
->> -       misaligned_emu_detected = (*mas_ptr == RISCV_HWPROBE_MISALIGNED_EMULATED);
->> -       /*
->> -        * If unaligned_ctl is already set, this means that we detected that all
->> -        * CPUS uses emulated misaligned access at boot time. If that changed
->> -        * when hotplugging the new cpu, this is something we don't handle.
->> -        */
->> -       if (unlikely(unaligned_ctl && !misaligned_emu_detected)) {
->> -               pr_crit("CPU misaligned accesses non homogeneous (expected all emulated)\n");
->> -               while (true)
->> -                       cpu_relax();
->> -       }
+On Thu, 11 Jul 2024 14:15:41 -0500, David Lechner wrote:
+> Add device tree bindings for AD4695 and similar ADCs.
 > 
-> This chunk was meant to detect and refuse to run on a system where a
-> heterogeneous CPU is hotplugged into a previously homogenous system.
-> The commit message doesn't mention this change, how come you
-> deleted it?
-
-Sorry for the long wait.
-I do not remember why I removed this.
-Your right it shouldn't be removed, I added it back.
-
-Thanks,
-Jesse Taube
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
 > 
+> Note, this may trigger a DT build warning "common-mode-channel: missing
+> type definition" if the builder doesn't include the recently added
+> common-mode-channel property [1]. This should be safe to ignore (passes
+> make dt_binding_check locally).
 > 
->> -
->> -       return misaligned_emu_detected;
->>   }
->>
->>   bool check_unaligned_access_emulated_all_cpus(void)
->> @@ -562,8 +548,11 @@ bool check_unaligned_access_emulated_all_cpus(void)
->>           * accesses emulated since tasks requesting such control can run on any
->>           * CPU.
->>           */
->> +       schedule_on_each_cpu(check_unaligned_access_emulated);
->> +
->>          for_each_online_cpu(cpu)
->> -               if (!check_unaligned_access_emulated(cpu))
->> +               if (per_cpu(misaligned_access_speed, cpu)
->> +                   != RISCV_HWPROBE_MISALIGNED_EMULATED)
->>                          return false;
->>
->>          unaligned_ctl = true;
->> --
->> 2.45.2
->>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=testing&id=d86deaec1c5b0fb60c3619e8d2ae7a1d722fd2ad
+> 
+> v4 changes:
+> * Picked up Conor's reviewed-by tag.
+> 
+> v3 changes:
+> * Change interrupts to be per pin instead of per signal.
+> * Drop diff-channels and single-channel properties.
+> * Odd numbered pins added to common-mode-channel property enum.
+> * REFGND and COM values changes to avoid confusion with pin numbers.
+> * Add inX-supply properties for odd numbed input pins.
+> 
+> v2 changes:
+> * Drop *-wlcsp compatible strings
+> * Don't use fallback compatible strings
+> * Reword supply descriptions
+> * Use standard channel properties instead of adi,pin-pairing
+> * Fix unnecessary | character
+> * Fix missing blank line
+> * Add header file with common mode channel macros
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 256 +++++++++++++++++++++
+>  MAINTAINERS                                        |  10 +
+>  include/dt-bindings/iio/adi,ad4695.h               |   9 +
+>  3 files changed, 275 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml: common-mode-channel: missing type definition
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
