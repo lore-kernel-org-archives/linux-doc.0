@@ -1,117 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0999371B51;
-	Thu, 11 Jul 2024 20:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669C13D626;
+	Thu, 11 Jul 2024 20:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720729969; cv=none; b=UeFQn2m8NWtOEueL5+bUl/14hDV8F04/8ZaLhljIAjmYCQFuHy6j+lKh7+0+rQithXOw6ukzC1tJwbSxJJgoe9PHF68BHK6SnJq44mVH6Troh2IhdSzo9Jn9A44jbKhN2AS81XnjdxFDXRMkLAD0jrjj4apUe16QShD9FGflEsI=
+	t=1720730023; cv=none; b=eeZ63rVtvDGEhFygEe+EGkGfOLjBlIXnbyyKWCkwyd0QkhZV9bCzaLH61hWZnh5K8XYu8fwkPHmbpFStQsj3qEA54OZUMccTEbFVN8uomyyoyxjoFuQODOIQSDvlurVo6NT/KrwKFvbOb0aubAkTLzp9i/4q1SBrM6H4IqggfQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720729969; c=relaxed/simple;
-	bh=Bfi0xFDAdZFAiE6w3WjlXCIy3ZKkk/pUFo1x5TCS4E8=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=oQY/NQ5DWt9fkxweIKA+58JflvOxe8ILOIgvqSTBKzO1yZ+wMqmd6yC8nQBD9tEh7fPU8za39dIgE7hSVNSYRgC8GUXIQDrqM3St3klIHxnz3s/V0jVXUu+RaId+iAlZ0lr4gB2wwGC3PLhSC9hE4ZMnwuOrB/SWmBY4CeuCzJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WM1ehqaI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720730023; c=relaxed/simple;
+	bh=u9OIK/7LLd4/30SCi4eE3ANtbzLqHBtUVdKoP1X3Lu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V7RoT7Ku42YS2f5nEClL8nog14ARw8G2QSj1h2EOVNjA5IBpVaPrRRw0vEZGgP2HfKX54HKL9K2TL7Tz/ntDcd417j/9DpQ41GJtuqNhBZM23CfecwTHMNS6XID6bLSN+bUPRfnQGsC6mHTkQaL8MOEA3LwYPoPsiReiqalGFmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pCY61RYf; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WM1ehqaI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EEB8C116B1;
-	Thu, 11 Jul 2024 20:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720729968;
-	bh=Bfi0xFDAdZFAiE6w3WjlXCIy3ZKkk/pUFo1x5TCS4E8=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=WM1ehqaIpRfhHRpE3w+gqtQdSy3PLBJJdwXf3TTpQmK0OrumdmSHCf3gItr4ODIu4
-	 0+C5n/5QnsYHcPT8R6kB1SYvJjKyu0pQXpjT6JGKNA5pd3WPXHyf9KRC897JvFPYBu
-	 6Vs9M5B0gcmECSwye9QtGiK1YC86jr7/mPVJoVS/8WPNkFVlT0Wa/tZsN1bgzgizd7
-	 ue7VimVbd5zDby6mdrwh5V8CtdWjf+/jUgnqxQoEKRgJCNOUOe5pmnJmuhMBzf/9Eb
-	 T1XrbrUhHftPi2H4yWhYR/OixMk9tQgWjc9C8DBInJGeKLiaCqZafwEfVV0lvpeZhY
-	 8evIpWTlFjBuA==
-Date: Thu, 11 Jul 2024 14:32:47 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pCY61RYf"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ADB9E1BF204;
+	Thu, 11 Jul 2024 20:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1720730018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IouwIgo+kP+HswbewtSJ8i0mZUqTEtq++kfOp3rA2cc=;
+	b=pCY61RYf9XpU6OIywfEq/tnfP//rltf0nVP6mHpAIyZ9HRqzcuYkkUUEqws8i+jLDHWAdi
+	Cx9TMIeayt/qDOsq0yfzsOzfmrWnvSQ/+80UE/7t+gGK3f+aBhk4tDwyJUUgLYdN9+1ow3
+	AzGh0WM37wucGQbgYBl9QNSK6VUjNONo4XrAhRDJrI6I49NquqUDu8KoWWmg1HX0nDkvbw
+	51umsal5Q9HuB3QqBZzWHYgTQsRU8HdfCug1Ys06Q0ZKwKoCUBL8wCuJK6N/qpHL3u8BV4
+	Y3WmyHRxSp2MzP1KS5tLPLXWUdoa1kkSVMPzVeNWyOxMSQoI6gi/az8Js3LLDQ==
+Date: Thu, 11 Jul 2024 22:33:37 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v5 6/7] rtc: support i.MX95 BBM RTC
+Message-ID: <202407112033378dbbea83@mail.local>
+References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
+ <20240621-imx95-bbm-misc-v2-v5-6-b85a6bf778cb@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-doc@vger.kernel.org, 
- Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- linux-iio@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Michael Hennerich <michael.hennerich@analog.com>
-In-Reply-To: <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
-References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
- <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
-Message-Id: <172072996727.2951364.2243340017408650155.robh@kernel.org>
-Subject: Re: [PATCH v4 1/3] dt-bindings: iio: adc: add AD4695 and similar
- ADCs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240621-imx95-bbm-misc-v2-v5-6-b85a6bf778cb@nxp.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
+
+Hello,
+
+On 21/06/2024 15:04:41+0800, Peng Fan (OSS) wrote:
+> +	ret = bbnsm->ops->rtc_time_get(ph, 0, &val);
+> +	if (ret) {
+> +		dev_err(dev, "%s: %d\n", __func__, ret);
+
+This is not super useful, you should drop the various dev_err or pr_err
+as there is no action the user can take to solve the erro apart from
+retrying.
+
+> +		return ret;
+> +	}
+> +
+> +	rtc_time64_to_tm(val, tm);
+> +
+> +	return 0;
+> +}
+> +
+> +static int scmi_imx_bbm_set_time(struct device *dev, struct rtc_time *tm)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
+> +	struct scmi_protocol_handle *ph = bbnsm->ph;
+> +	u64 val;
+> +	int ret;
+> +
+> +	val = rtc_tm_to_time64(tm);
+> +
+> +	ret = bbnsm->ops->rtc_time_set(ph, 0, val);
+> +	if (ret)
+> +		dev_err(dev, "%s: %d\n", __func__, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_bbm_alarm_irq_enable(struct device *dev, unsigned int enable)
+> +{
+
+How can userspace disable the alarm?
+
+> +	return 0;
+> +}
+> +
+> +static int scmi_imx_bbm_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
+> +	struct scmi_protocol_handle *ph = bbnsm->ph;
+> +	struct rtc_time *alrm_tm = &alrm->time;
+> +	u64 val;
+> +	int ret;
+> +
+> +	val = rtc_tm_to_time64(alrm_tm);
+> +
+> +	ret = bbnsm->ops->rtc_alarm_set(ph, 0, val);
+> +	if (ret)
+> +		dev_err(dev, "%s: %d\n", __func__, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct rtc_class_ops smci_imx_bbm_rtc_ops = {
+> +	.read_time = scmi_imx_bbm_read_time,
+> +	.set_time = scmi_imx_bbm_set_time,
+> +	.set_alarm = scmi_imx_bbm_set_alarm,
+> +	.alarm_irq_enable = scmi_imx_bbm_alarm_irq_enable,
+> +};
+> +
+> +static int scmi_imx_bbm_rtc_notifier(struct notifier_block *nb, unsigned long event, void *data)
+> +{
+> +	struct scmi_imx_bbm *bbnsm = container_of(nb, struct scmi_imx_bbm, nb);
+> +	struct scmi_imx_bbm_notif_report *r = data;
+> +
+> +	if (r->is_rtc)
+> +		rtc_update_irq(bbnsm->rtc_dev, 1, RTC_AF | RTC_IRQF);
+> +	else
+> +		pr_err("Unexpected bbm event: %s\n", __func__);
+> +
+> +	return 0;
+> +}
+> +
+> +static int scmi_imx_bbm_rtc_init(struct scmi_device *sdev)
+> +{
+> +	const struct scmi_handle *handle = sdev->handle;
+> +	struct device *dev = &sdev->dev;
+> +	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	bbnsm->rtc_dev = devm_rtc_allocate_device(dev);
+> +	if (IS_ERR(bbnsm->rtc_dev))
+> +		return PTR_ERR(bbnsm->rtc_dev);
+> +
+> +	bbnsm->rtc_dev->ops = &smci_imx_bbm_rtc_ops;
+> +	bbnsm->rtc_dev->range_min = 0;
+
+range_min is set to 0 by default, this is not necessary
+
+> +	bbnsm->rtc_dev->range_max = U32_MAX;
+> +
+> +	ret = devm_rtc_register_device(bbnsm->rtc_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	bbnsm->nb.notifier_call = &scmi_imx_bbm_rtc_notifier;
+> +	return handle->notify_ops->devm_event_notifier_register(sdev, SCMI_PROTOCOL_IMX_BBM,
+> +								SCMI_EVENT_IMX_BBM_RTC,
+> +								NULL, &bbnsm->nb);
+
+Note that failing after devm_rtc_register_device opens the driver to a
+race condition as the character device will exist at that time.
 
 
-On Thu, 11 Jul 2024 14:15:41 -0500, David Lechner wrote:
-> Add device tree bindings for AD4695 and similar ADCs.
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
-> 
-> Note, this may trigger a DT build warning "common-mode-channel: missing
-> type definition" if the builder doesn't include the recently added
-> common-mode-channel property [1]. This should be safe to ignore (passes
-> make dt_binding_check locally).
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=testing&id=d86deaec1c5b0fb60c3619e8d2ae7a1d722fd2ad
-> 
-> v4 changes:
-> * Picked up Conor's reviewed-by tag.
-> 
-> v3 changes:
-> * Change interrupts to be per pin instead of per signal.
-> * Drop diff-channels and single-channel properties.
-> * Odd numbered pins added to common-mode-channel property enum.
-> * REFGND and COM values changes to avoid confusion with pin numbers.
-> * Add inX-supply properties for odd numbed input pins.
-> 
-> v2 changes:
-> * Drop *-wlcsp compatible strings
-> * Don't use fallback compatible strings
-> * Reword supply descriptions
-> * Use standard channel properties instead of adi,pin-pairing
-> * Fix unnecessary | character
-> * Fix missing blank line
-> * Add header file with common mode channel macros
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 256 +++++++++++++++++++++
->  MAINTAINERS                                        |  10 +
->  include/dt-bindings/iio/adi,ad4695.h               |   9 +
->  3 files changed, 275 insertions(+)
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml: common-mode-channel: missing type definition
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
