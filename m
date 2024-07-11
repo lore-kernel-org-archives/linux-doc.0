@@ -1,175 +1,113 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7968216C862
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 16:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37622381AD;
+	Thu, 11 Jul 2024 16:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720714297; cv=none; b=EtuUBFYknTuSdTxHW4bImqGfx9/K58Moac16wzJ712OfZ7EVPW2Y2NPIoAE6uUgy4Tz5pTOWMBdPXueNAQfAQcTpk887ZHFv3AF5UNqF8arNi3H6v2pQVhgz5xZkDQzvpSBALHRi7kqnN5W6FpLq6eQadxNL4JLAexTigNO2MqI=
+	t=1720716432; cv=none; b=jo3h5pS+SLdj05IQzQ4K2Oj/Hp8q2HncgHkWweENmSDH6zHf+SqTduvgmNPSsdqE7+I7bMRxo79O9Xztoz3sN/7VlvYqP2ttgiGhGYxp5+l7ZgzA0jcDYEcEXPyyO9arudbKS/zV8vFNXWaMjK15pWSIwJcvQXZDXIV1sib/bcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720714297; c=relaxed/simple;
-	bh=RRwESqfur9hjuj4i+nTtpR38U3Kz44Xajo3B8ZD7Kg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WUY1Y1cW4Qzlk/w7rFvfXf57fLwfl+liuiS7YgABHfkhY+vZvuGrbf42FgmIxVU8UrS1ZZ9KMHMajbDNtxoMvNjhmEQlcb6CumS71FZwh/hkmkT+HIJTEnT1p2gW1YCRqvuba8kWrlYUP2duqyw+ekodaPH3pSPoQZgM9DEh57M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pNMks953; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1720716432; c=relaxed/simple;
+	bh=zjKGt7H07M4pHCU9lW4ij/982X9n70FZYJhQRgYo+h0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=CwTA9g2xKZX9hvZmD/x5sFP+CimRiH0ljJXUg52t5raBDW3WYxIAHxVmiMYKj4SJkpP71io/YhjMr88980DZOEhfpUVNsZ8g+I7G3GpQaj9lwkNTN46eoF8yh8cBOjwdjHgrC/Y0F8+5j5Si337emO71ayd07qgSxHIHkEqsR6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDAEbHv5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pNMks953"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3d9bcb47182so598614b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 09:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720714294; x=1721319094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XoNnDXcZA2Pho5pGFkRE/EwXRyBHfQQdctIQQyizVyE=;
-        b=pNMks953QGk94QoHHKD0Lce0pwov1e4tScjATNeUNi8BzhU2pO288Al9WySil0ub4G
-         2kJYizs93Wfb/DWiJPI0Q0DFCsIUaAEWgbkBrPbMPlOW3FvbJkVXaioCYJl6qPVCWqc0
-         4Jt5vt50oCfbt1T4rgs/lODz/yDq1oHdoHsI1HUO1yxCGkvRJEjTb3DvRU3f2JjBvNy/
-         zvvbnvYcU/9h9T80DGT/BkmzEsf1UtCovL6AV42jcazxnv7MS+EXM1gydXLs6VUfwfI/
-         43cirTu0qvFQXnEbW0QbrAaPCWSz3eO9DDw19vAzsTs86ZCsBznTC8dhTC11fmtIPx1z
-         hCiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720714294; x=1721319094;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XoNnDXcZA2Pho5pGFkRE/EwXRyBHfQQdctIQQyizVyE=;
-        b=jfYfq7ZCYtOXWkiuRPnAS1Yim0Bc3wxPoD9h+yK5ZH3LtnsmoYGWAjaYNT8q8PEBzE
-         5AL446Pb/Wj+K95PYmq6o6+DtB/vQhXD5WIJr1s0c2AXe09GBoXj6HYxHjmxlp4qgXHw
-         WmEuAWOC5B4Lytz+Y29ycKN/FzKxBP7aokZcKFOkW/uALDq1bgf368TSBAMvJYxSaP9w
-         1mprNh06WxcDXWQeaUTmxgg5WDwq0Ac22LaKQqT2eU4fvDWdsV4rbO0x+fVE28rctm+S
-         GZfdO6NkQ65Dy1AxfjOgTfpzoepTMagJ+YNJw4jyJEoAl0nFU+ER+yDifGteGHW5kTB/
-         mXxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZiUj3Zg8WFdDCrcgqB409Q7GaAe/McdTDivbU40ufd93P7nCNWTMkFyYXE/Vv8zm2f0PG+GK2BbAwWZgBJ7LeHF/mVismNSOw
-X-Gm-Message-State: AOJu0YzLJFPUPKqgxYgX990HC61T0cUy+ay3WBN4jwcjAkzavZLL7tMG
-	gg0NCPq6c/TS7XyR4+JBH0r6GcJ3bDycNQoY/lleHiJziBVD+7aHViYO89uteUY=
-X-Google-Smtp-Source: AGHT+IG5JmkBdbNyGrb7Fgc/ruuuW4qvTAb5wDj98aD29n/TX0gIJrTNfnFqyrY1biP0mOEFCNiCCA==
-X-Received: by 2002:a05:6808:15a3:b0:3da:a16e:1764 with SMTP id 5614622812f47-3daa16e1f72mr1604710b6e.4.1720714294529;
-        Thu, 11 Jul 2024 09:11:34 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374f882f0sm1251113a34.39.2024.07.11.09.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 09:11:34 -0700 (PDT)
-Message-ID: <14695107-a119-4f68-b55a-509cbcf8a64a@baylibre.com>
-Date: Thu, 11 Jul 2024 11:11:33 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDAEbHv5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83252C4AF07;
+	Thu, 11 Jul 2024 16:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720716431;
+	bh=zjKGt7H07M4pHCU9lW4ij/982X9n70FZYJhQRgYo+h0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=uDAEbHv5tSBif6DWfuyRc6xa2Jjph3rGHMIE7faBVxp3oCT1EN0M8FD/RbJC0uvVm
+	 K/AaQLW6f7vyAJTlPnH6z8TVSz7VymQHE/i1ayxIBMQBli3frcs+zHD1xwj+DT3/gQ
+	 UCdZ0HAcir/EkpkMVQ81V/lblG/5KbfkUjzDwmWu6LsOGonfwiVA8Y+rztE9WtFSWC
+	 XF7d2txz9ewDXWu8nrCcai+VaV3qUgMKxB0nh6IsGTntMH+9PuoZIPbfU27kkAxX++
+	 v4H/5qWR7VnDpgndnOMWO5E5DypfDq4g7h5aQzd0Zg3/4CNZnrDsaGB3AnaPgO5DHh
+	 j0vJ+bTv/Ru5A==
+Date: Thu, 11 Jul 2024 11:47:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_parass@quicinc.com
+Subject: Re: [PATCH v6 5/5] bus: mhi: ep: wake up host if the MHI state is in
+ M3
+Message-ID: <20240711164709.GA286955@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] iio: adc: ad4695: Add driver for AD4695 and
- similar ADCs
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Ramona Gradinariu <ramona.gradinariu@analog.com>
-References: <20240624-iio-adc-ad4695-v3-0-a22c302f06bf@baylibre.com>
- <20240624-iio-adc-ad4695-v3-2-a22c302f06bf@baylibre.com>
- <20240629202003.1b72f0d0@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240629202003.1b72f0d0@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240710-wakeup_host-v6-5-ef00f31ea38d@quicinc.com>
 
-On 6/29/24 2:20 PM, Jonathan Cameron wrote:
-> On Mon, 24 Jun 2024 17:01:54 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
-> 
+On Wed, Jul 10, 2024 at 04:46:12PM +0530, Krishna chaitanya chundru wrote:
+> If the MHI state is in M3 then most probably the host kept the
+> device in D3 hot or D3 cold, due to that endpoint transactions will not
+> reach the host, endpoint needs to wakes up the host to bring the host
+> to D0 which eventually bring back the MHI state to M0.
 
-...
+s/needs to wakes up/needs to wake up/
 
->> +
->> +/**
->> + * ad4695_read_one_sample - Read a single sample using single-cycle mode
->> + * @st: The AD4695 state
->> + * @address: The address of the channel to read
->> + *
->> + * Upon return, the sample will be stored in the raw_data field of @st.
->> + *
->> + * Context: can sleep, must be called with iio_device_claim_direct held
->> + * Return: 0 on success, a negative error code on failure
->> + */
->> +static int ad4695_read_one_sample(struct ad4695_state *st, unsigned int address)
->> +{
->> +	struct spi_transfer xfer[2] = { };
->> +	int ret;
->> +
->> +	ret = ad4695_set_single_cycle_mode(st, address);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/*
->> +	 * Setting the first channel to the temperature channel isn't supported
->> +	 * in single-cycle mode, so we have to do an extra xfer to read the
->> +	 * temperature.
->> +	 */
->> +	if (address == AD4695_CMD_TEMP_CHAN) {
->> +		/* We aren't reading, so we can make this a short xfer. */
-> I'd be tempted to let the compiler figure out it can combine storage for xfer and
-> do something like
-> 		struct spi_transfer xfer[2] = {
-> 			{
-> 				.bits_per_word = 8,
-> 				.tx_buf = ...
-> 
-> 			}, {
-> 			},
-> 		};
-> 
-> 		st->cnv_cmd2 = ...
-> etc
-> 
-> Advantage is that it is clearly structured data.   Up to you though to
-> decide if this is worth doing. I don't care that much!
-> 
-> 
->> +		st->cnv_cmd2 = AD4695_CMD_TEMP_CHAN << 3;
->> +		xfer[0].bits_per_word = 8;
->> +		xfer[0].tx_buf = &st->cnv_cmd2;
->> +		xfer[0].len = 1;
->> +		xfer[0].cs_change = 1;
->> +		xfer[0].cs_change_delay.value = AD4695_T_CONVERT_NS;
->> +		xfer[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
->> +
->> +		/* Then read the result and exit conversion mode. */
->> +		st->cnv_cmd = AD4695_CMD_EXIT_CNV_MODE << 11;
->> +		xfer[1].bits_per_word = 16;
->> +		xfer[1].tx_buf = &st->cnv_cmd;
->> +		xfer[1].rx_buf = &st->raw_data;
->> +		xfer[1].len = 2;
->> +
->> +		return spi_sync_transfer(st->spi, xfer, 2);
->> +	}
-> 
-> then an else here to reduce the scope of another xfer structure.
+s/D3 hot/D3hot/
+s/D3 cold/D3cold/
+to match other uses and make grep more effective.
 
-Tempting, but then I risk the complaint of else after return. :-)
+> while queueing packets if the MHI state is in M3 wakeup host to bring
+> back link to M0.
 
-I also realized that the second xfer above is the same as the one
-below, so could skip the return here and avoid some duplicated code
-(just need to add an index variable instead of hard-coding xfer[0]).
+s/while/While/
+s/MHI state is in M3/MHI is in M3/ (twice)
 
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>  drivers/bus/mhi/ep/main.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 > 
->> +
->> +	/*
->> +	 * The conversion has already been done and we just have to read the
->> +	 * result and exit conversion mode.
->> +	 */
->> +	st->cnv_cmd = AD4695_CMD_EXIT_CNV_MODE << 11;
->> +	xfer[0].bits_per_word = 16;
->> +	xfer[0].tx_buf = &st->cnv_cmd;
->> +	xfer[0].rx_buf = &st->raw_data;
->> +	xfer[0].len = 2;
->> +
->> +	return spi_sync_transfer(st->spi, xfer, 1);
->> +}
+> diff --git a/drivers/bus/mhi/ep/main.c b/drivers/bus/mhi/ep/main.c
+> index b3eafcf2a2c5..b8713e5c1e1a 100644
+> --- a/drivers/bus/mhi/ep/main.c
+> +++ b/drivers/bus/mhi/ep/main.c
+> @@ -25,6 +25,26 @@ static DEFINE_IDA(mhi_ep_cntrl_ida);
+>  static int mhi_ep_create_device(struct mhi_ep_cntrl *mhi_cntrl, u32 ch_id);
+>  static int mhi_ep_destroy_device(struct device *dev, void *data);
+>  
+> +static int mhi_ep_wake_host(struct mhi_ep_cntrl *mhi_cntrl)
+> +{
+> +	enum mhi_state state;
+> +	bool mhi_reset;
+> +	u32 count = 0;
+> +
+> +	mhi_cntrl->wakeup_host(mhi_cntrl);
+> +
+> +	/* Wait for Host to set the M0 state */
+> +	while (count++ < M0_WAIT_COUNT) {
+> +		msleep(M0_WAIT_DELAY_MS);
 
+Tangent: the "M0_WAIT_DELAY_MS" name suggests that is the maximum
+delay, but it seems the actual maximum delay is
+M0_WAIT_DELAY_MS * M0_WAIT_COUNT.
+
+Tangent 2: unless there's a reason to be different, it would be nice
+to use the same loop structure as the similar delay in mhi_ep_enable().
+
+> +		mhi_ep_mmio_get_mhi_state(mhi_cntrl, &state, &mhi_reset);
+> +		if (state == MHI_STATE_M0)
+> +			return 0;
+> +	}
+> +
+> +	return -ENODEV;
+> +}
