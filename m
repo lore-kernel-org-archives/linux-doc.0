@@ -1,61 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48663376E5;
-	Thu, 11 Jul 2024 16:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E72B16D4EF;
+	Thu, 11 Jul 2024 16:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720716703; cv=none; b=fB3gPlKmE4ef5BSqNjA06gTnYaX7kaZtuJz4X3R+ZOn1WctczqlTa9hStjFTvQnVwCoPWcpWF66MCgL0Ufod/jzzt6sMOD8g0wo0lYXuL9nDHYRqVzOkyCp9wtuOpikGchiiyeb2uRLSgRhyghWKuM6RmkXj42BGniiYUvo0P4Y=
+	t=1720716985; cv=none; b=Rhgbgp9Y+H5q2Rt4LbB9B421kjbCB2B8aVfyrZblxmBHvBtLg6uOhG92IHOUylGzxTI1PLUNBW35mpFBdgIDiTt7ssHpVqnblqqVFPnNr7HYSJPQ/hlQd6KcpxjoU0dTpsYXhPTD/vKgSaCqeqo6wWLeHnr1U7e5iS8tGTckMw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720716703; c=relaxed/simple;
-	bh=kmGbtXEsMjJy/wpU2hA6AuW+oaSd10dmF9hCafZ07GI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mA90HvSnsn+MnFClJXV6JAEb2gUoDBuZiHZq2RJ7WbvFcmBrU4LxTP5FbfApaY0dZrt/apPf3RYh+AtJTFUJwRWk31LD5bDbBF0sqX9Ukk7D3vfBsedGUC+Fi5I6GnKHXRrnKcayQJzmVmw9VwmlHw9roOt5GwX0Oxq2Rs4AM6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6jgLrTt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720716985; c=relaxed/simple;
+	bh=Srjffhq/QEL0D7rE/5f2aF0wpNTGUpr1FwqNehchXIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=iouaA9ULWM9AKpf0kKa7ONPDVR/TwyT0y2Rc+5flMsTgkZ2LxoCmlN/xFNUQIcXOLM+v10uA7PD6ftcUEz0WQm8e76TH9+8spIyfepbo1RpASNv9Pi1K/FqDF6xItWkvGfPnouiv0p4un2PISbizEctEhtU3pRuH8IhGUvm5XXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D/ITI5ct; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6jgLrTt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F39C116B1;
-	Thu, 11 Jul 2024 16:51:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D/ITI5ct"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D3EC116B1;
+	Thu, 11 Jul 2024 16:56:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720716702;
-	bh=kmGbtXEsMjJy/wpU2hA6AuW+oaSd10dmF9hCafZ07GI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e6jgLrTtoFWdwMS9eTSIt8y+gfMtPQ6WtVeTi1Jm5Rq6rJCBtKhgBiX0lwnGPSYjz
-	 POgkbYDJfaPdVrYeQQGmx4PJsSG4cOb1yCZtWnD3QLF1Tcu07O28a7iM3Ib8SCmAba
-	 JCIqali4EF+aY3T9oeQZMZXdXI0fMkjynqP+7mzVM5WSTUgZj6kIvgwZVpG0cgcp+W
-	 e8q6UrKbd27jWhCKkIc3AoSE6kxE8nUsGAsUBC1eSgA/xf4Xr5ZSYa6nPHeCw0XVqp
-	 qdkcXBQXKoXs8bxCODrFuPDRFEVzsL979JH7tQAhIa9HLRl39RllYBG+c3j0n63EdM
-	 pAgpLsnfPQNcQ==
-Date: Thu, 11 Jul 2024 09:51:42 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Uros Bizjak <ubizjak@gmail.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
-	kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-mm@kvack.org,
-	linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 4/9] fs: have setattr_copy handle multigrain
- timestamps appropriately
-Message-ID: <20240711165142.GP612460@frogsfrogsfrogs>
-References: <20240711-mgtime-v5-0-37bb5b465feb@kernel.org>
- <20240711-mgtime-v5-4-37bb5b465feb@kernel.org>
+	s=k20201202; t=1720716985;
+	bh=Srjffhq/QEL0D7rE/5f2aF0wpNTGUpr1FwqNehchXIk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=D/ITI5ctT+p8Atevf5B6g/Ceu8qZ3fwMQ7EDLaaeC8WeeMOO0D44puOPfPD7v8K7g
+	 5ULh4H9RpT1tx0fjIQdusPInxMlnZAb4eHJK7SpkKi1gDGYLjYO9Ym+sUEuRZsj+KU
+	 i6JuclcW/ZsllAv29Nfc0Qd06A0dS+bH5HHsuvEr5OZsRov1QvkaKd1wFQYcMGPuB0
+	 JJr29Fz992iKD1lBp6Oe9Y4qONPZ9L995ub7Qs0NGFHw9kCttEtBbcuz8Ir0iay1qc
+	 SD6AJyThQrEiXouo5hsOhC7+MC7Nhywg+SVT3gknNHaSEfPRKYB75Ec64izEkjQBwU
+	 AKV4mNbEZuE+w==
+Date: Thu, 11 Jul 2024 11:56:23 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
+	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
+	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
+	quic_parass@quicinc.com
+Subject: Re: [PATCH v6 4/5] PCI: epf-mhi: Add wakeup host op
+Message-ID: <20240711165623.GA287126@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,113 +51,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240711-mgtime-v5-4-37bb5b465feb@kernel.org>
+In-Reply-To: <20240710-wakeup_host-v6-4-ef00f31ea38d@quicinc.com>
 
-On Thu, Jul 11, 2024 at 07:08:08AM -0400, Jeff Layton wrote:
-> The setattr codepath is still using coarse-grained timestamps, even on
-> multigrain filesystems. To fix this, we need to fetch the timestamp for
-> ctime updates later, at the point where the assignment occurs in
-> setattr_copy.
-> 
-> On a multigrain inode, ignore the ia_ctime in the attrs, and always
-> update the ctime to the current clock value. Update the atime and mtime
-> with the same value (if needed) unless they are being set to other
-> specific values, a'la utimes().
-> 
-> Note that we don't want to do this universally however, as some
-> filesystems (e.g. most networked fs) want to do an explicit update
-> elsewhere before updating the local inode.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+On Wed, Jul 10, 2024 at 04:46:11PM +0530, Krishna chaitanya chundru wrote:
+> Add wakeup host op for MHI EPF.
+> If the D-state is in D3cold toggle wake signal, otherwise send PME.
 
-Makes sense to me,
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Feels racy.  Maybe it doesn't matter?  I guess it's unavoidable that
+we could be in D3hot, commit to sending PME, and then main power goes
+away so we're now in D3cold and the PME is not delivered?  Is there a
+way to recover from that?
 
---D
+s/D-state is in D3cold/D-state is D3cold/
+s/toggle wake/assert WAKE#/
 
-> ---
->  fs/attr.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 46 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/attr.c b/fs/attr.c
-> index 825007d5cda4..e03ea6951864 100644
-> --- a/fs/attr.c
-> +++ b/fs/attr.c
-> @@ -271,6 +271,42 @@ int inode_newsize_ok(const struct inode *inode, loff_t offset)
->  }
->  EXPORT_SYMBOL(inode_newsize_ok);
->  
-> +/**
-> + * setattr_copy_mgtime - update timestamps for mgtime inodes
-> + * @inode: inode timestamps to be updated
-> + * @attr: attrs for the update
-> + *
-> + * With multigrain timestamps, we need to take more care to prevent races
-> + * when updating the ctime. Always update the ctime to the very latest
-> + * using the standard mechanism, and use that to populate the atime and
-> + * mtime appropriately (unless we're setting those to specific values).
-> + */
-> +static void setattr_copy_mgtime(struct inode *inode, const struct iattr *attr)
-> +{
-> +	unsigned int ia_valid = attr->ia_valid;
-> +	struct timespec64 now;
-> +
-> +	/*
-> +	 * If the ctime isn't being updated then nothing else should be
-> +	 * either.
-> +	 */
-> +	if (!(ia_valid & ATTR_CTIME)) {
-> +		WARN_ON_ONCE(ia_valid & (ATTR_ATIME|ATTR_MTIME));
-> +		return;
-> +	}
-> +
-> +	now = inode_set_ctime_current(inode);
-> +	if (ia_valid & ATTR_ATIME_SET)
-> +		inode_set_atime_to_ts(inode, attr->ia_atime);
-> +	else if (ia_valid & ATTR_ATIME)
-> +		inode_set_atime_to_ts(inode, now);
-> +
-> +	if (ia_valid & ATTR_MTIME_SET)
-> +		inode_set_mtime_to_ts(inode, attr->ia_mtime);
-> +	else if (ia_valid & ATTR_MTIME)
-> +		inode_set_mtime_to_ts(inode, now);
-> +}
-> +
->  /**
->   * setattr_copy - copy simple metadata updates into the generic inode
->   * @idmap:	idmap of the mount the inode was found from
-> @@ -303,12 +339,6 @@ void setattr_copy(struct mnt_idmap *idmap, struct inode *inode,
->  
->  	i_uid_update(idmap, attr, inode);
->  	i_gid_update(idmap, attr, inode);
-> -	if (ia_valid & ATTR_ATIME)
-> -		inode_set_atime_to_ts(inode, attr->ia_atime);
-> -	if (ia_valid & ATTR_MTIME)
-> -		inode_set_mtime_to_ts(inode, attr->ia_mtime);
-> -	if (ia_valid & ATTR_CTIME)
-> -		inode_set_ctime_to_ts(inode, attr->ia_ctime);
->  	if (ia_valid & ATTR_MODE) {
->  		umode_t mode = attr->ia_mode;
->  		if (!in_group_or_capable(idmap, inode,
-> @@ -316,6 +346,16 @@ void setattr_copy(struct mnt_idmap *idmap, struct inode *inode,
->  			mode &= ~S_ISGID;
->  		inode->i_mode = mode;
->  	}
-> +
-> +	if (is_mgtime(inode))
-> +		return setattr_copy_mgtime(inode, attr);
-> +
-> +	if (ia_valid & ATTR_ATIME)
-> +		inode_set_atime_to_ts(inode, attr->ia_atime);
-> +	if (ia_valid & ATTR_MTIME)
-> +		inode_set_mtime_to_ts(inode, attr->ia_mtime);
-> +	if (ia_valid & ATTR_CTIME)
-> +		inode_set_ctime_to_ts(inode, attr->ia_ctime);
->  }
->  EXPORT_SYMBOL(setattr_copy);
->  
-> 
-> -- 
-> 2.45.2
-> 
-> 
+Rewrap into single paragraph or add blank line between.
