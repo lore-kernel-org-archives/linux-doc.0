@@ -1,271 +1,164 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F3B12B62
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 03:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D1B83CD6;
+	Thu, 11 Jul 2024 06:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720668384; cv=none; b=iBZRbSXLUm5Ph+HZo9/lVpHKBWyAPkVsrFmjU94D3jrmnxcYwaqAoeQvewjouVPc4OGfUGVR3zz4vgVONU8PMr6ze1RAs6IzeueP34uGAMxoy1nN30MpXnoR84lq5vSk/9WLV+sm36fI6XWaZsAZNCvEYJdJ3FAj6S+yf9iLBUI=
+	t=1720679286; cv=none; b=I1eRbtSHG3AvbgWxGuV9REI4qjRBGdPU3VVRfWymedJ49gxknoRL6KJpBpg+cDNcaMuGaxVoXe3fWptykMHdptDM8yqQ9lmqHQFNUMG5kOJNK3VAzXxLNU6ADiI91loRxYgifjMxasGd5u4fe5HiUdt4GVYzWlp2EZAop60XNVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720668384; c=relaxed/simple;
-	bh=Xyd5IOnHeH56MqaVRrnmE0m5UZbI67hrKEPt2DvQM1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQKNtoTkES88Ib/aC0q8vtS5c5Xl6KT45zbOJk3F+dYoNyJlUJOUqhmscWVyFLhWKY0pC8+ZlboYLwtmvMjtkkl5iz7IhJRewUMdps4k8u5H8VhPcAlUKuHw1qLRCF1VG/T7AsrZb629eFNnN1fuSZMzQv9SG7g801zPccKIs4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X3yTOF3o; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1720679286; c=relaxed/simple;
+	bh=2uxmTCZV6wdZ4BdAvADYGh/dTaVrMo39/6i3EygQAOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=aIDAog4JivppiOrtklD3NxUgn00oGgA9fx5cVQi0lfZYqmIaUMElrB0C32OopGBoaJPokpCUteTNklNptI91FvB2fLA+kolCccfzMeZp/8LgHGTOxa4pDNsDctOLQUviR/QXZjqSldumzjY9lMt+U4QrzvXh1tv7YPUlFOgF9GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dt6ZFSZZ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X3yTOF3o"
-X-Envelope-To: longman@redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1720668378;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CXlYjjpXIw/MDcAYR6pZoCOa4GgMCUHEw/QIM7QU9bM=;
-	b=X3yTOF3oq921aF/Q68UdTEyNt9IzPftsEKCzypCukgVZGHJMJoxdwhOo1IFsv8KhWnv8D9
-	/otwpaYwZ3RM5hnrs1HI1TA0lEHJ7DCkEwJPAjZesGYGJ9yZzDjbL93vw42vuxtJLSdWqE
-	o652pueWst3yyHv8bGiVF/eTYyYaHXI=
-X-Envelope-To: tj@kernel.org
-X-Envelope-To: lizefan.x@bytedance.com
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: mkoutny@suse.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: cgroups@vger.kernel.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: kamalesh.babulal@oracle.com
-Date: Thu, 11 Jul 2024 03:26:11 +0000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>
-Subject: Re: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <Zo9Q063eF8CdVyR1@google.com>
-References: <20240711025153.2356213-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dt6ZFSZZ"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4mj1P014569;
+	Thu, 11 Jul 2024 06:27:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	rBpuZLrNCGsTn/D1eggkjYSZqxJ/1YdlhMGfNazg0sQ=; b=dt6ZFSZZUaT6STyB
+	iO6+vM3PnuEqICxk3rKDRwRjMGhoxLP/V5bL1La6Q7l7ldkBKyzqi28izNb8Ivfx
+	zt/zw1M8WEm5tETsasJ6z4LTn7lPSNPe7s2LlS0pWfFFIFAf1wKNbnwcGv2XvMD+
+	9R1srS1SkbrZKcfB/RVvu89/uzRFoth1khidkr+6fEtDTS6GRjcef7nEL4LLCM95
+	k2tm/jZV2uL1N4V7XJtibPvf3v6HiWiPkcbAaqZkAjkAwTwAdm3jae7fY7Emq3uz
+	UH6ZHVeGZdjkAyQYhx/JPVrNfdQbaIOUOOiTfFf12cB066nB251R6v3eHHcNZ5NX
+	AsXbIw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 409kdtk89k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jul 2024 06:27:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46B6RijT020417
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jul 2024 06:27:44 GMT
+Received: from [10.216.38.48] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
+ 2024 23:27:38 -0700
+Message-ID: <a56de2dc-30a0-a292-c03c-16ec5393eea8@quicinc.com>
+Date: Thu, 11 Jul 2024 11:57:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240711025153.2356213-1-longman@redhat.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v7 2/4] PCI: qcom-ep: Add support for D-state change
+ notification
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <quic_vbadigan@quicinc.com>, <quic_ramkri@quicinc.com>,
+        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
+        <quic_parass@quicinc.com>, Manivannan Sadhasivam
+	<mani@kernel.org>
+References: <20240710121118.GA240905@bhelgaas>
+From: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20240710121118.GA240905@bhelgaas>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mXHbW_6Y4FDFYiXrAqEIVIrBokao0TBO
+X-Proofpoint-GUID: mXHbW_6Y4FDFYiXrAqEIVIrBokao0TBO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-11_03,2024-07-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ impostorscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407110043
 
-On Wed, Jul 10, 2024 at 10:51:53PM -0400, Waiman Long wrote:
-> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
-> help manage different structures in various cgroup subsystems by being
-> an embedded element inside a larger structure like cpuset or mem_cgroup.
-> 
-> The /proc/cgroups file shows the number of cgroups for each of the
-> subsystems.  With cgroup v1, the number of CSSes is the same as the
-> number of cgroups.  That is not the case anymore with cgroup v2. The
-> /proc/cgroups file cannot show the actual number of CSSes for the
-> subsystems that are bound to cgroup v2.
-> 
-> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
-> we can't tell by looking at /proc/cgroups which cgroup subsystems may
-> be responsible.
-> 
-> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-> cgroup.stat file is now being extended to show the number of live and
-> dying CSSes associated with all the non-inhibited cgroup subsystems
-> that have been bound to cgroup v2 as long as it is not zero.  The number
-> includes CSSes in the current cgroup as well as in all the descendants
-> underneath it.  This will help us pinpoint which subsystems are
-> responsible for the increasing number of dying (nr_dying_descendants)
-> cgroups.
-> 
-> The cgroup-v2.rst file is updated to discuss this new behavior.
-> 
-> With this patch applied, a sample output from root cgroup.stat file
-> was shown below.
-> 
-> 	nr_descendants 55
-> 	nr_dying_descendants 35
-> 	nr_subsys_cpuset 1
-> 	nr_subsys_cpu 40
-> 	nr_subsys_io 40
-> 	nr_subsys_memory 55
-> 	nr_dying_subsys_memory 35
-> 	nr_subsys_perf_event 56
-> 	nr_subsys_hugetlb 1
-> 	nr_subsys_pids 55
-> 	nr_subsys_rdma 1
-> 	nr_subsys_misc 1
-> 
-> Another sample output from system.slice/cgroup.stat was:
-> 
-> 	nr_descendants 32
-> 	nr_dying_descendants 33
-> 	nr_subsys_cpu 30
-> 	nr_subsys_io 30
-> 	nr_subsys_memory 32
-> 	nr_dying_subsys_memory 33
-> 	nr_subsys_perf_event 33
-> 	nr_subsys_pids 32
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 14 ++++++-
->  include/linux/cgroup-defs.h             |  7 ++++
->  kernel/cgroup/cgroup.c                  | 52 ++++++++++++++++++++++++-
->  3 files changed, 70 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 52763d6b2919..356cd430c888 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -981,6 +981,16 @@ All cgroup core files are prefixed with "cgroup."
->  		A dying cgroup can consume system resources not exceeding
->  		limits, which were active at the moment of cgroup deletion.
->  
-> +	  nr_subsys_<cgroup_subsys>
-> +		Total number of live cgroups associated with that cgroup
-> +		subsystem (e.g. memory) at and beneath the current
-> +		cgroup.  An entry will only be shown if it is not zero.
-> +
-> +	  nr_dying_subsys_<cgroup_subsys>
-> +		Total number of dying cgroups associated with that cgroup
-> +		subsystem (e.g. memory) beneath the current cgroup.
-> +		An entry will only be shown if it is not zero.
-> +
->    cgroup.freeze
->  	A read-write single value file which exists on non-root cgroups.
->  	Allowed values are "0" and "1". The default is "0".
-> @@ -2930,8 +2940,8 @@ Deprecated v1 Core Features
->  
->  - "cgroup.clone_children" is removed.
->  
-> -- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
-> -  at the root instead.
-> +- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
-> +  "cgroup.stat" files at the root instead.
->  
->  
->  Issues with v1 and Rationales for v2
-> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-> index b36690ca0d3f..62de18874508 100644
-> --- a/include/linux/cgroup-defs.h
-> +++ b/include/linux/cgroup-defs.h
-> @@ -210,6 +210,13 @@ struct cgroup_subsys_state {
->  	 * fields of the containing structure.
->  	 */
->  	struct cgroup_subsys_state *parent;
-> +
-> +	/*
-> +	 * Keep track of total numbers of visible and dying descendant CSSes.
-> +	 * Protected by cgroup_mutex.
-> +	 */
-> +	int nr_descendants;
-> +	int nr_dying_descendants;
->  };
->  
->  /*
-> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> index c8e4b62b436a..cf4fc1c109e2 100644
-> --- a/kernel/cgroup/cgroup.c
-> +++ b/kernel/cgroup/cgroup.c
-> @@ -3669,12 +3669,36 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
->  static int cgroup_stat_show(struct seq_file *seq, void *v)
->  {
->  	struct cgroup *cgroup = seq_css(seq)->cgroup;
-> +	struct cgroup_subsys_state *css;
-> +	int ssid;
->  
->  	seq_printf(seq, "nr_descendants %d\n",
->  		   cgroup->nr_descendants);
->  	seq_printf(seq, "nr_dying_descendants %d\n",
->  		   cgroup->nr_dying_descendants);
->  
-> +	/*
-> +	 * Show the number of live and dying csses associated with each of
-> +	 * non-inhibited cgroup subsystems bound to cgroup v2 if non-zero.
-> +	 *
-> +	 * Without proper lock protection, racing is possible. So the
-> +	 * numbers may not be consistent when that happens.
-> +	 */
-> +	rcu_read_lock();
-> +	for_each_css(css, ssid, cgroup) {
-> +		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
-> +		    (cgroup_subsys[ssid]->root !=  &cgrp_dfl_root))
-> +			continue;
-> +
-> +		seq_printf(seq, "nr_subsys_%s %d\n", cgroup_subsys[ssid]->name,
-> +			   css->nr_descendants + 1);
-> +		/* Current css is online */
-> +		if (css->nr_dying_descendants)
-> +			seq_printf(seq, "nr_dying_subsys_%s %d\n",
-> +				   cgroup_subsys[ssid]->name,
-> +				   css->nr_dying_descendants);
-> +	}
-> +	rcu_read_unlock();
->  	return 0;
->  }
->  
-> @@ -5424,6 +5448,8 @@ static void css_release_work_fn(struct work_struct *work)
->  	list_del_rcu(&css->sibling);
->  
->  	if (ss) {
-> +		struct cgroup_subsys_state *parent_css;
-> +
->  		/* css release path */
->  		if (!list_empty(&css->rstat_css_node)) {
->  			cgroup_rstat_flush(cgrp);
-> @@ -5433,6 +5459,14 @@ static void css_release_work_fn(struct work_struct *work)
->  		cgroup_idr_replace(&ss->css_idr, NULL, css->id);
->  		if (ss->css_released)
->  			ss->css_released(css);
-> +
-> +		WARN_ON_ONCE(css->nr_descendants || css->nr_dying_descendants);
-> +		parent_css = css->parent;
-> +		while (parent_css) {
-> +			parent_css->nr_dying_descendants--;
-> +			parent_css = parent_css->parent;
-> +		}
-> +		css_put(css->parent);	/* Parent can be freed now */
->  	} else {
->  		struct cgroup *tcgrp;
->  
-> @@ -5517,8 +5551,11 @@ static int online_css(struct cgroup_subsys_state *css)
->  		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
->  
->  		atomic_inc(&css->online_cnt);
-> -		if (css->parent)
-> +		if (css->parent) {
->  			atomic_inc(&css->parent->online_cnt);
-> +			while ((css = css->parent))
-> +				css->nr_descendants++;
-> +		}
->  	}
->  	return ret;
->  }
-> @@ -5540,6 +5577,19 @@ static void offline_css(struct cgroup_subsys_state *css)
->  	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
->  
->  	wake_up_all(&css->cgroup->offline_waitq);
-> +
-> +	/*
-> +	 * Get a reference to parent css to ensure reliable access to its
-> +	 * nr_dying_descendants until after this child css is ready to be
-> +	 * freed.
-> +	 */
-> +	if (css->parent)
-> +		css_get(css->parent);
 
-I think this blob can be dropped: css has a reference to their parent up to
-very last moment, see css_free_rwork_fn().
-And the corresponding css_put() can be dropped too.
 
-With this thing fixed, please, feel free to add
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev> .
+On 7/10/2024 5:41 PM, Bjorn Helgaas wrote:
+> On Wed, Jul 10, 2024 at 04:38:15PM +0530, Krishna chaitanya chundru wrote:
+>> Add support to pass D-state change notification to Endpoint
+>> function driver.
+> 
+> Blank line between paragraphs.
+> 
+Ack.
+>> Read perst value to determine if the link is in D3Cold/D3hot.
+> 
+> I assume this reads the state of the PERST# signal driven by the host.
+> Style it to match the spec usage ("PERST#") to make that connection
+> clearer.
+> 
+Ack.
+> D3cold/D3hot is a device state and doesn't apply to a link.  Link
+> states are L0, L1, L2, L3,etc.  Also in cover letter.
+> 
+Ack.
+> I don't understand the connection between PERST# state and the device
+> D state.  D3cold is defined to mean main power is absent.  Is the
+> endpoint firmware still running when main power is absent?
+> 
+Host as part of its d3cold sequence will assert the perst. so we are
+reading perst to know the link the state.
 
-Thank you!
+Qcom devices are drawing power from the PCIe, so even when PCIe is in
+D3cold endpoint firmware can still run.
+
+- Krishna Chaitanya.
+>> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+>> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+>> ---
+>>   drivers/pci/controller/dwc/pcie-qcom-ep.c | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+>> index 236229f66c80..817fad805c51 100644
+>> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+>> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+>> @@ -648,6 +648,7 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+>>   	struct device *dev = pci->dev;
+>>   	u32 status = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_STATUS);
+>>   	u32 mask = readl_relaxed(pcie_ep->parf + PARF_INT_ALL_MASK);
+>> +	pci_power_t state;
+>>   	u32 dstate, val;
+>>   
+>>   	writel_relaxed(status, pcie_ep->parf + PARF_INT_ALL_CLEAR);
+>> @@ -671,11 +672,16 @@ static irqreturn_t qcom_pcie_ep_global_irq_thread(int irq, void *data)
+>>   		dstate = dw_pcie_readl_dbi(pci, DBI_CON_STATUS) &
+>>   					   DBI_CON_STATUS_POWER_STATE_MASK;
+>>   		dev_dbg(dev, "Received D%d state event\n", dstate);
+>> -		if (dstate == 3) {
+>> +		state = dstate;
+>> +		if (dstate == PCI_D3hot) {
+>>   			val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
+>>   			val |= PARF_PM_CTRL_REQ_EXIT_L1;
+>>   			writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
+>> +
+>> +			if (gpiod_get_value(pcie_ep->reset))
+>> +				state = PCI_D3cold;
+>>   		}
+>> +		pci_epc_dstate_notify(pci->ep.epc, state);
+>>   	} else if (FIELD_GET(PARF_INT_ALL_LINK_UP, status)) {
+>>   		dev_dbg(dev, "Received Linkup event. Enumeration complete!\n");
+>>   		dw_pcie_ep_linkup(&pci->ep);
+>>
+>> -- 
+>> 2.42.0
+>>
