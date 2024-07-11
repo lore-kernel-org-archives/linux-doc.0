@@ -1,112 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B18416D4FF
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 17:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F0115B10A
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 17:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720719591; cv=none; b=hfMRf7z9zSKyWEYRtU719JX6CmMC8AFtoRQdL+7DY4OPYsMv5CaCykfWxv/UiRg/nuKTnIB04FznPhEMaUEhb1s04EjnAIPx6KXrd4HdssL30Mfkhu0UoTMJPEZYs23A5zGip9f2/RZYVnAQAEnfddGDIgcPHyYZHxzyhsnWzgU=
+	t=1720720508; cv=none; b=px3VFQ5/9R0rg7u4zRfI0npBKCPZSV6Q4qVmfXnZb9TLCcjWmWNH+mfLtxn8wJL8tktx755aHNxJPoACq7spGElLnIWGo4Lh+kGAqbNBd0/datO7sVokPTxiUtPwRszumQ8hqE6UpT2vSx2iA2QKFDSPK1sPQWnfHBGCoKi/hAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720719591; c=relaxed/simple;
-	bh=GGNdZmFRFBz6EaOq4XOW+ceRx/DPUWKVqohHaWzsrxA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KsADivQFMAQOhDMp+SDaDEJwILJ+LzTSqV5fwLBT5m+ccRiwsb36RafPAsRckHyLij7nz/iX6zGPX642YkIvbfCGx4AqN6Z8yoq0Wd3Tbw5Zd/AVnm1QvKv4LgeISkqkBxKWqtHijilDxvYAeIPHuMaKU5vHum4tql7nIF8YXbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P/xa2m9G; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1720720508; c=relaxed/simple;
+	bh=Q2jGwB5t17HqynNj9nfvA8d60yx74p0B3SdLkap6ocU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W6Wvg51Ww4FjIsErbCD2QJeLgR6PM3cVgx4dh44IEWYfLrbztDRdS/n1PzzuOEnXhYlxW8cb75KsNHjznTKNwkgD7b51ykHE3KWCBveusdOiRMUKeIDX3FW5EJ4TK3knRx8O2xeR/K1F7X7qrpGO+T6BMyEcqI23N4K1iwMylJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ec78memJ; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P/xa2m9G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720719589;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r9jBDSWTVfESQnrltmAdAwRr7rLlVt6HaSz0exzsPXg=;
-	b=P/xa2m9GNg030QayStsgEFoqJZMEHv/Ce9qGz7KTR8mushhN5uFjdZ80UudU4xF9nYwHEP
-	BnyzH+/eEqCBsCnxS8WEjdwgqHpBPLMX5dyNp3Nd8MTOytmmMb0K3TBehJJFVscYic2hha
-	4f0ybXnupKacHCUt0wPu+NAlJP4EZSQ=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-382-E3hYc5UjPuKko9-vw5Gu-A-1; Thu,
- 11 Jul 2024 13:39:44 -0400
-X-MC-Unique: E3hYc5UjPuKko9-vw5Gu-A-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 90EF319560B1;
-	Thu, 11 Jul 2024 17:39:41 +0000 (UTC)
-Received: from [10.22.64.119] (unknown [10.22.64.119])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 75F0D19560AE;
-	Thu, 11 Jul 2024 17:39:39 +0000 (UTC)
-Message-ID: <76e70789-986a-44c2-bfdc-d636f425e5ae@redhat.com>
-Date: Thu, 11 Jul 2024 13:39:38 -0400
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ec78memJ"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fb67f59805so10605ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 10:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720720506; x=1721325306; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q2jGwB5t17HqynNj9nfvA8d60yx74p0B3SdLkap6ocU=;
+        b=Ec78memJ1/Eo5Ob2Ad/TE2bIkk5ya+uZzFIhtw/BJxVgCTJB7sW6DO9ci9xikD+PM9
+         PibWhD8BCTtmiS4+QyiZkgaTorlcyGRwlgQxpo4Tlc4yvPgSrGGVaWo5Vl8cRnmgH3MV
+         /Yl2JLzPMI4o+IzM63435sXjO7MVwWAWC+yg17l0R65YUu2MuKUkszlJJmeZZYwuaWu6
+         a2TOvVc8PLjI5GGApRcfsKCMJfBKP+WIjlcoDjOyj8WqCMBidGg1x8p8E1VFqgjjg0tG
+         GMDSOsXr428dBdEOzgAz0DYnNoiogBA50L8F5+IcR/jsfmDQF0wGCvbH5KT/DvAdCnun
+         BsEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720720506; x=1721325306;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q2jGwB5t17HqynNj9nfvA8d60yx74p0B3SdLkap6ocU=;
+        b=ZLaxTE9CPRuMes/01LTyq73HiJ0cqf5Zd+N6Yr1HSfFmjBMMFqogokITsGTBf0epLj
+         R6upuDKlmd1dWaL/mmMHRtzIVV9YOtfntV3FbSojdMXhmVquVxNK0AIdwQXSP7RlRWsY
+         1AxJ2FmfR50Zn0UgTvewHeom/HxwrI007yk6DiLmfzgwVRl4M64g9KkY9UOc+HrxJDAt
+         sgOOBMvXaJivbmVMo8jc3sY05EafK5W/E5NzSI/eEu95J/qKkCZPWZOfFccBXFcpVrtL
+         rQrlCI1DH5x/bOKRL2xoD+XfbWtekniv9cPaOi4fLyB+3Ao8XV+YCVXq+iwoBqc1icgr
+         FFtg==
+X-Forwarded-Encrypted: i=1; AJvYcCX+wcJ+9lgXZfwoewCnHambai0Vk8HYusl6Mh/CDQytENZWUVwJaLCrtM+b14vlfGi6F0Jhc0OuYJN6yoHOX9i6zYgwPUO5NCsw
+X-Gm-Message-State: AOJu0YwVCkBBaMNRMloNV9ar21gPLVcQ80OEKU9s/ONOVVuS9hLupR8W
+	UuLOIjKAJ4goWOEExAzg7INWaNG7KYF930f98gRdZIUfQgGCMiW3E5QIW/+1ny9zavnOjb3Ns/M
+	dbAr2wxDL8VQlcrnRiuGBkYlQnyJYoiZMC75R
+X-Google-Smtp-Source: AGHT+IHPl0hMtGzIful8PbEv97szuh+yMniIwD4UrUN5WZPWkOFkV7tC3++A18niRRomq2oAuqh7wl6DUv9+EvJrdGI=
+X-Received: by 2002:a17:903:32c4:b0:1f7:3764:1e19 with SMTP id
+ d9443c01a7336-1fbf24ced64mr106635ad.20.1720720506068; Thu, 11 Jul 2024
+ 10:55:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
-To: Tejun Heo <tj@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>,
- Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kamalesh Babulal <kamalesh.babulal@oracle.com>,
- Roman Gushchin <roman.gushchin@linux.dev>
-References: <20240710182353.2312025-1-longman@redhat.com>
- <20240711134927.GB456706@cmpxchg.org>
- <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
- <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <20240710234222.2333120-1-jthoughton@google.com>
+In-Reply-To: <20240710234222.2333120-1-jthoughton@google.com>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 11 Jul 2024 10:54:29 -0700
+Message-ID: <CADrL8HVFARsLq0Tyw8XF3PR02gELQhbYM8ZDdWNx0eD_jyDW8w@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/18] KVM: Post-copy live migration for guest_memfd
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 7/11/24 13:18, Tejun Heo wrote:
-> Hello,
+On Wed, Jul 10, 2024 at 4:42=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+> Solution: hook into the gfn -> pfn translation
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 >
-> On Thu, Jul 11, 2024 at 10:05:22AM -0400, Waiman Long wrote:
->> Given the fact that for_each_css() iteration is filtering out csses that are
->> absent, the dying counts follow the same logic of skipping it if there is no
->> dying css. That also makes it easier to identify cgroups with dying
->> descendant csses as we don't need filter out entries with a 0 dying count.
->> It also makes the output less verbose and let user focus more on what are
->> significant.
->>
->> I do understand that it makes it inconsistent with the ways nr_descendants
->> and nr_dying_descendants are being handled as entries with 0 count are also
->> displayed. I can update the patch to display those entries with 0 dying
->> subsys count if other people also think that is the better way forward.
-> I think it'd be better to have all the keys. There are some dynamic keys in
-> stat files but those are mostly for things which can come and go (e.g. block
-> and misc devices), so yeah, I think it'd be better to show all the keys even
-> when they're zero.
-Currently, I use the for_each_css() macro for iteration. If you mean 
-displaying all the possible cgroup subsystems even if they are not 
-enabled for the current cgroup, I will have to manually do the iteration.
+> The only way to implement post-copy with a non-KVM-specific
+> userfaultfd-like system would be to introduce the concept of a
+> file-userfault[2] to intercept faults on a guest_memfd.
 >
-> Also, I personally would much prefer if the same prefixes are collected
-> together - ie. totals first and then dying. It's just a lot easier on the
-> eyes that way.
+> Instead, we take the simpler approach of adding a KVM-specific API, and
+> we hook into the GFN -> HVA or GFN -> PFN translation steps (for
+> traditional memslots and for guest_memfd respectively).
 >
-> 	nr_subsys_cpu
-> 	nr_subsys_memory
-> 	nr_subsys_io
-> 	...
-> 	nr_dying_subsys_cpu
-> 	nr_dying_subsys_memory
-> 	nr_dying_subsys_io
-> 	...
+> I have intentionally added support for traditional memslots, as the
+> complexity that it adds is minimal, and it is useful for some VMMs, as
+> it can be used to fully implement post-copy live migration.
 
-That is fine. I can group entries with the same prefix together.
+I want to clarify this sentence a little.
 
-Cheers,
-Longman
+Today, because guest_memfd is only accessed by vCPUs (and is only ever
+used for guest-private memory), the concept of "asynchronous
+userfaults" isn't exactly necessary. However, when guest_memfd
+supports shared memory and KVM is itself able to access it,
+asynchronous userfaults become useful in the same way that they are
+useful for the non-guest_memfd case.
 
+In a world where guest_memfd requires asynchronous userfaults, adding
+support for traditional memslots on top of that is quite simple, and
+it somewhat simplies the UAPI.
+
+And for why it is useful for userspace to be able to use KVM Userfault
+to implement post-copy live migration, David mentioned this in his
+initial RFC[1].
+
+[1]: https://lore.kernel.org/kvm/CALzav=3Dd23P5uE=3DoYqMpjFohvn0CASMJxXB_XE=
+OEi-jtqWcFTDA@mail.gmail.com/#t
