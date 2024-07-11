@@ -1,103 +1,197 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B429274416;
-	Thu, 11 Jul 2024 08:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E850152534
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 08:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720685808; cv=none; b=ZxX2Z1VKaVJqxXZM4jrnn5lrmncYEv9A1uRJ1u+COX+6AtY5CPFEt/9EyKDwz1i2ka0KAWjT1sE2C2NLw3GtxwvNgR6rbVihmCj4TT2ef+ngWJ7Px54Nzfyr5R0gq0XNtUZQazquinxh2iZznFzJonPNSbTSrtwTz2SEhTcF3xg=
+	t=1720686108; cv=none; b=I001+pXgFTCcNyGNoRBKLE+jt8EJSfq2F9Z5BQhHdrv9nT85FRspKOEGOUnLBt0x8zfW6Qiz/bfvzOjjYJ2gOaCg1oEf9JHDuvnRKqpKkJpb/GjIOLyMyGVoLCrc/AiK1e/hwKuBrh6mIJ/EId0qhGD+YYN8DwzQ0FkZspnnhYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720685808; c=relaxed/simple;
-	bh=QgeL2GqOGBjF1DLizKD6yRiZVHfq/LMsmIek5y8EN78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e78/wjfPUsM2BZgAS6G6gKNmHUCXPCldysCMWGoWcfSAwNoU7q9PUsAcQ02nUnHnLRpLu9hgiV+pMl41ovuyuEw4+7fLfTUmC+Oq7HkLsWBMIZvhYMYhcvEylRIe12wotBwVRAOlFhRmr4lcPBRnqs3h+NKLa79ltDqvVX4IEp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TtsbYuzi; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1720686108; c=relaxed/simple;
+	bh=1xxDXjpGAFXEHEahJ2l+juFbIpG4cDc0ZoITaziOE6k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aYKgWIa7+o6A4zUM6F00BPcn5jPLVjwchx/mGNfPVHSEjD197lB9b+7gSEsOKHk+AybvvXWJ2yQxE/6L0t+gPT1nAxiADGz8NcyFXeyU2GklBpVMr9xanOepvjof3bEzBkNkMAKP3Dg5Orjt1jtXKt9ZPwzN7hcgkhf0o0z42AM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYX/9QC3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TtsbYuzi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=QgeL2GqOGBjF1DLizKD6yRiZVHfq/LMsmIek5y8EN78=; b=TtsbYuziPKcH1tdpn2eTwcTjtU
-	n8A4XZ7GqNLHvESSPfJUll7xTTbgAAYN6N11zqioYiG6A5lameU28MOTp4rKr6AN9MiZO7W3nux2v
-	RNzgqOru1J9b8ebLF0GIR/tlkBmPuhycRtPGScgAEF1o7fgAV+8s/NZWvwblJxXTz8T7L3ntsfCKN
-	p/btlCalKJ8kKNxCm0WvkppjIOnoMAoEBqdlCH5gcQz/J93dt7o6KgSn1CIjeauEzvOSIOHpIPwpk
-	odoRBLHMH7CYhFTCgf5b4eESGzFBA8ym1lZDeOGl4vyj9aa8VTsR6/C6+OkalqOL4DZqNnA3/VQ+A
-	5vlW/4hA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sRoya-0000000Akum-45Ao;
-	Thu, 11 Jul 2024 08:16:29 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 92D8830050D; Thu, 11 Jul 2024 10:16:28 +0200 (CEST)
-Date: Thu, 11 Jul 2024 10:16:28 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Xin Li <xin3.li@intel.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sohil Mehta <sohil.mehta@intel.com>, Ingo Molnar <mingo@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Breno Leitao <leitao@debian.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Yian Chen <yian.chen@intel.com>,
-	Alexei Starovoitov <ast@kernel.org>, Hou Tao <houtao1@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Kees Cook <kees@kernel.org>, Eric Biggers <ebiggers@google.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Yuntao Wang <ytcoode@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Tejun Heo <tj@kernel.org>, Changbin Du <changbin.du@huawei.com>,
-	Huang Shijie <shijie@os.amperecomputing.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v4 03/16] x86/alternatives: Disable LASS when patching
- kernel alternatives
-Message-ID: <20240711081628.GF4587@noisy.programming.kicks-ass.net>
-References: <20240710160655.3402786-1-alexander.shishkin@linux.intel.com>
- <20240710160655.3402786-4-alexander.shishkin@linux.intel.com>
- <20240710171836.GGZo7CbFJeZwLCZUAt@fat_crate.local>
- <cqacx3crogegwyslm25kwcdcezgg2n44lhy3mg5qkka3vgn4xa@lhqsoseyduus>
- <7bbf9cae-6392-47a4-906c-7c27b1b1223d@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYX/9QC3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720686106;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kKV/dPvVX6U52egC8PZ7aZ2NliJFdW0DzA0apscZF0I=;
+	b=QYX/9QC3mXQsq8jiQ7yhUOBGf0AcuLfddEKV5bqjfHVyeak0JVdvgDQcUDsN9BrZKiss/D
+	JXh0A4tLSHueRTeeaj0pqkSaVe+WvzGKdYAWAoBHLiZUUVO8pW/K39j5kvSM8tWxepRCzz
+	EHONHnI74HyUfCCzGfF2RcG+OWHz6iY=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-126-KeKBr5grMzO2RnIDZAIHxg-1; Thu, 11 Jul 2024 04:21:41 -0400
+X-MC-Unique: KeKBr5grMzO2RnIDZAIHxg-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-52e96ca162dso539282e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 01:21:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720686098; x=1721290898;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kKV/dPvVX6U52egC8PZ7aZ2NliJFdW0DzA0apscZF0I=;
+        b=gtzQtelnLYcJL//Heyk2d82rgGPT2+i897moX4tGY9LmCCOJc6e+ESZIjkr3UoHz9G
+         t4OJmahdQW4sEDuYIDjaZS3w6IbnZrnYDTPvka5SF2OmXaMxaw9K/DqEBt40SK1+ybv2
+         Ghnzz2AiG0udJOZfldqBAPoMzRjWRWvg/pTGzRmUoLuirTwCapglOLDsEZlCWpnI7b8J
+         uPBc0Nqb94Hqw8+BUe2sM/fVVa8lUamn5tXcK9fhJ45mo57TysSqa25oRoh0C2jYjoao
+         THAXOS3tJSQ0diCLhEY5jcjC8tsZ1ObsOa+6wKsT8vJupNz9SsRLih1phlSXM66hqSya
+         d8Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUpukyUDnG9E5XReRaIpHUYMjrSa5oCzrnTPToVT2IytgUDSDsSS5dYuAig5WVQWJ28YLWlWPAO50uRCw4heApOehvxD711VP+o
+X-Gm-Message-State: AOJu0YzirZqa/1rFDlWbGbF+9NhT6lHw8qPJnkC/UtE/yKxWZJODdq22
+	HM6ek0/prny/G627kUKaCZsCS5Y34NS2VvNaOBRXshEaDBvzHIEeIWe58zfEPs2FJ0NWCylLiUY
+	yJbqX8PwkQWmP5LGFK8y+T+7fLUAQpH5uGYGUABFHrwJiOM7PFW7x0swGuP3Lh3xcDQ==
+X-Received: by 2002:a05:6512:3b82:b0:52c:fd49:d42 with SMTP id 2adb3069b0e04-52eb9990d58mr4923502e87.14.1720686098455;
+        Thu, 11 Jul 2024 01:21:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFH0rhNWoQXyAZvVPXz6Dy+zSV2dNxofBw3iBdTfkvhRQGIY/Lb1Q8H4R8Fjr+Cd7QoIGRnBw==
+X-Received: by 2002:a05:6512:3b82:b0:52c:fd49:d42 with SMTP id 2adb3069b0e04-52eb9990d58mr4923470e87.14.1720686097583;
+        Thu, 11 Jul 2024 01:21:37 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d74b:1cd5:1c4c:c09:d73b:c07d? (p200300cfd74b1cd51c4c0c09d73bc07d.dip0.t-ipconnect.de. [2003:cf:d74b:1cd5:1c4c:c09:d73b:c07d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab080sm7104914f8f.104.2024.07.11.01.21.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jul 2024 01:21:36 -0700 (PDT)
+Message-ID: <453a5eb6-204f-403a-b41d-faefdbcb8f50@redhat.com>
+Date: Thu, 11 Jul 2024 10:21:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7bbf9cae-6392-47a4-906c-7c27b1b1223d@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] virtio-fs: Add 'file' mount option
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+ Miklos Szeredi <mszeredi@redhat.com>, German Maglione
+ <gmaglione@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>
+References: <20240709111918.31233-1-hreitz@redhat.com>
+ <20240709175652.GB1040492@perftesting>
+ <8ebfc48f-9a93-45ed-ba88-a4e4447d997a@redhat.com>
+ <20240710184222.GA1167307@perftesting>
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20240710184222.GA1167307@perftesting>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 10, 2024 at 04:05:31PM -0700, Dave Hansen wrote:
+On 10.07.24 20:42, Josef Bacik wrote:
+> On Wed, Jul 10, 2024 at 09:28:08AM +0200, Hanna Czenczek wrote:
+>> On 09.07.24 19:56, Josef Bacik wrote:
+>>> On Tue, Jul 09, 2024 at 01:19:16PM +0200, Hanna Czenczek wrote:
+>>>> Hi,
+>>>>
+>>>> We want to be able to mount filesystems that just consist of one regular
+>>>> file via virtio-fs, i.e. no root directory, just a file as the root
+>>>> node.
+>>>>
+>>>> While that is possible via FUSE itself (through the 'rootmode' mount
+>>>> option, which is automatically set by the fusermount help program to
+>>>> match the mount point's inode mode), there is no virtio-fs option yet
+>>>> that would allow changing the rootmode from S_IFDIR to S_IFREG.
+>>>>
+>>>> To do that, this series introduces a new 'file' mount option that does
+>>>> precisely that.  Alternatively, we could provide the same 'rootmode'
+>>>> option that FUSE has, but as laid out in patch 1's commit description,
+>>>> that option is a bit cumbersome for virtio-fs (in a way that it is not
+>>>> for FUSE), and its usefulness as a more general option is limited.
+>>>>
+>>> All this does is make file an alias for something a little easier for users to
+>>> read, which can easily be done in libfuse.  Add the code to lib/mount.c to alias
+>>> 'file' to turn it into rootmode=S_IFREG when it sends it to the kernel, it's not
+>>> necessary to do this in the kernel.  Thanks,
+>> This series is not about normal FUSE filesystems (file_system_type
+>> fuse_fs_type, “fuse”), but about virtio-fs (file_system_type virtio_fs_type,
+>> “virtiofs”), i.e. a case where libfuse and fusermount are not involved at
+>> all.  As far as I’m aware, mounting a virtio-fs filesystem with a
+>> non-directory root inode is currently not possible at all.
+> Ok so I think I had it backwards in my head, my apologies.
+>
+> That being said I still don't understand why this requires a change to virtiofs
+> at all.
+>
+> I have a virtiofs thing attached to my VM.  Inside the vm I do
+>
+> mount -t virtiofs <name of thing I've attached to the vm> /directory
+>
+> and then on the host machine, virtiofsd is a "normal" FUSE driver, except it's
+> talking over the socket you setup between the guest and the host.  I assume this
+> is all correct?
+>
+> So then the question is, why does it matter what virtiofsd is exposing?  I guess
+> that's the better question.  The guest shouldn't have to care if it's a
+> directory or a file right?  The mountpoint is going to be a directory, whatever
+> is backing it shouldn't matter.  Could you describe the exact thing you're
+> trying to accomplish?  Thanks,
 
-> But, I'm 100% sure that we want to distinguish a LASS-necessitated
-> stac()/clac() from a SMAP-necessitated one somehow.
+The mount point needs to be of the same mode as the root node of the 
+mounted filesystem, or it’ll be inaccessible after mounting[1].  In this 
+case, I want to export a regular file as the root node, so the root node 
+must be a regular file, too:
 
-Yeah, if only to make it easier to understand the code.
+host$ echo foo > /tmp/bar
+
+host$ virtiofsd --shared-dir /tmp/bar --socket-path /tmp/viofsd.sock 
+--sandbox none
+
+
+guest# mkdir /tmp/mnt-dir
+
+guest# mount -t virtiofs virtiofs-tag /tmp/mnt-dir
+
+guest# stat /tmp/mnt-dir
+stat: cannot statx '/tmp/mnt-dir': Input/output error
+
+guest# cat /tmp/mnt-dir
+cat: /tmp/mnt-dir: Input/output error
+
+guest# ls /tmp/mnt-dir
+ls: cannot access '/tmp/mnt-dir': Input/output error
+
+guest# umount /tmp/mnt-dir
+
+(following with this series applied)
+
+guest# touch /tmp/mnt-file
+
+guest# mount -t virtiofs virtiofs-tag /tmp/mnt-file -o file
+
+guest# stat /tmp/mnt-file
+   File: /tmp/mnt-file
+   Size: 4               Blocks: 8          IO Block: 4096   regular file
+[...]
+
+guest# cat /tmp/mnt-file
+foo
+
+guest# ls --file-type /tmp/mnt-file
+/tmp/mnt-file
+
+guest# ls --file-type /tmp
+mnt-dir/
+mnt-file
+[...]
+
+
+[1] As far as I remember, FUSE/virtio-fs will present the root node’s 
+mode as 'rootmode' during mounting, and so the d_is_dir() equality 
+checks in do_move_mount() and graft_tree() just check whether that 
+matches the mount point’s mode.  So, like in the example above, mounting 
+a filesystem whose root node is a regular file to a directory mount 
+point without '-o file' succeeds.  But accessing it then fails, probably 
+because the mismatch is then noticed somewhere (virtiofsd receives a 
+GETATTR request, that’s it), i.e. the root node is supposed to be a 
+directory, but it turns out not to be after all.
+
+Hanna
+
