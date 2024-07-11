@@ -1,151 +1,78 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7551016A930
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 14:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D32578283;
+	Thu, 11 Jul 2024 14:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720709078; cv=none; b=Rgi2uG1hNbzuXrRCDqu/V61sjTkqVVs0zcGvNcpO6fwiVY7wT8nj481UaII9EEjf4ujV//WnOFkC52fv3WvxHMR9NQ+hEDRNStPdlHVb140Pp8RsAeAhGx5RCak4d7VhTX/UhAbVpIR0lwHodjbSouLOQRc66kc0YQJB4NzjqTc=
+	t=1720709399; cv=none; b=OE00La1Aybz1lZoDnqTXwV5hu/8mfHZWPUj1C0nA4GW1tyupOgCfksdyc0Q9arWOEy8QlMZ6OApLaIs5zKjFKbnwGlUoMtIkFWgW11+UFDM2kGk3Lv8lqSw4Kz+AqoGZ+VciEMPEv22X4FdhA2k32TvIREgqfnB6mE71bZkZ4aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720709078; c=relaxed/simple;
-	bh=MMu6kiGgrdyVeIGgo0o2g5ISXoiklOJgpiyd0c6Mhcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mCWxO5ltvvmUYd1cKIezGcfprAjH8VCK1MsRQPLA2TMNGHSSLPTaXNABOERnZGbaq/UVZ3PAw2UEq7pm2hqk2PSoEhPjti2neDbIA7NlxFMuPwP0TbB1VPpg/Xp9qN7nRr+TMrmtT613MP0IvwuvoXvVdnSwEueH/BPjx+t442M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=none smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda-com.20230601.gappssmtp.com header.i=@toxicpanda-com.20230601.gappssmtp.com header.b=q1PXf1Gy; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toxicpanda.com
+	s=arc-20240116; t=1720709399; c=relaxed/simple;
+	bh=pccx1xqoPjK9OuUCpS2BEJckKXw84NRAAK7BokOHo94=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=asucMaMyQ2bzMZGrvfBaZDVW519myEVw5raU475Hxf60eF2ceG5QQf1yY/+1QvBiyij5RiQvG0FGxCnX8KRPUPNrd4siMQCuYHXSKoYABaPLv99yE298MIsBNcPBbQIDVDpQyEgKXyY5T4Vg+ochxbUNBH9ozbRMAT8T9eGMcsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=j88/7H4p; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IlGeZ13L; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda-com.20230601.gappssmtp.com header.i=@toxicpanda-com.20230601.gappssmtp.com header.b="q1PXf1Gy"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-65651296d91so8568727b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 07:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda-com.20230601.gappssmtp.com; s=20230601; t=1720709075; x=1721313875; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p6PLNSJZMY2HBtPFlfBgNDPZWDEOAS/uY6eb53FVzXU=;
-        b=q1PXf1GybYh1aDXkOQriXh3etXHQaQvAEvEHvmjzflwesjMtmTkIcKjsvkM3cvyMew
-         1ADOSrKUCZeN1Bc6ndt1rYxk0DDfHkzu9xezqPuUzubgvhJWQPvuMkrPn/0U5ZZxfo9i
-         fctEzUyU1X+gwXWNkJGT6Qb6Rul3J21Wfk7CiQmTfo+8/rA+YGP6qKw6dLORH3DeagL/
-         y8faZ8jpGGnpY3BUumaQJl7BBvPzevdG9+6FJ6dQodNUGNJSp/gYUNCG5drWdvmjx5Mn
-         cv8yTWT0bLgjhtN0Oa3FCF0hNCixvqUBhriTBD67tVMd36sVAEQFtLzVdeP7ReM7JUpg
-         nXbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720709075; x=1721313875;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p6PLNSJZMY2HBtPFlfBgNDPZWDEOAS/uY6eb53FVzXU=;
-        b=SBP7ruuffi021Uh3RZ+Ra+h18qpWJRZ1+xgdVOTJRjC39ERCTqbE2hJjJreGmGGa4D
-         cLZHJgCty3bbxd3T9q19A8dvq0+ZmsQCvBebtYh1ltix7beEaT+Ree6Yz+oICSj34Krn
-         F/y5arAvhBvYUs2+ljiEOg7KVD0QfC3bcSPNvb4O3GlN4MRf6xBAXGKvgjPIue+gY0Ht
-         AUpvFiTcqmlO8z/t3YypS7MPernWgzXzbvIv1H+mo1qjRDTS7mPyPptUFR25D9aE/QiF
-         +kpDkiMaDbmfis4xCI3Es7wBGXcSaqmFNyhWze06hw7jteE80T5BC0HNQjFn89ZpJiSj
-         qQDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfcQdOQqLFoWyD7Vh5CS+Ri0zJirG3mm95hmpmnBYnECLWB+1uPsWtbJVFKiCw8Rd2xFdo5hfbfGp67WA+Aare5BmMLZmIN+MW
-X-Gm-Message-State: AOJu0YwGnAiSjR6XDsdMvSLnMMhpcyppMQHkDuBUBKNEq9PBTrjnQdvc
-	b3CDZ3wYIOUnt7schUTJxLck4FvOPyJisgtzCc2A6E8tklJQqDgrfiOOuXvldDI=
-X-Google-Smtp-Source: AGHT+IFAnEDVnsGx1tZ1AxBo1QTn+tOSC2MfALvNb6Q+MllvTQBzHLMq8T3kjDK5yp3+1lqcT3GiRg==
-X-Received: by 2002:a05:690c:3385:b0:62f:2553:d3b3 with SMTP id 00721157ae682-658ef3414eemr120805467b3.29.1720709075414;
-        Thu, 11 Jul 2024 07:44:35 -0700 (PDT)
-Received: from localhost (syn-076-182-020-124.res.spectrum.com. [76.182.20.124])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e4936079sm11198567b3.15.2024.07.11.07.44.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 07:44:34 -0700 (PDT)
-Date: Thu, 11 Jul 2024 10:44:34 -0400
-From: Josef Bacik <josef@toxicpanda.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Uros Bizjak <ubizjak@gmail.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
-	kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-mm@kvack.org,
-	linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 0/9] fs: multigrain timestamp redux
-Message-ID: <20240711144434.GB1235314@perftesting>
-References: <20240711-mgtime-v5-0-37bb5b465feb@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="j88/7H4p";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IlGeZ13L"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1720709395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BbdG/TttFE3xcEPdHpWdCeUTzVY0jQF13snsXgRUZSU=;
+	b=j88/7H4pxxED0hNYv6vGsokIh+L+L+6pHo0xxUFuebBlo7iZ0bE/ANqfUGRJiggq7lmt13
+	RrS8EnEl04SlG9rj4H1+RCmfFbFEdjhqFyeXUR2FEe+ucQapGCcYFzXUBPP59X41YUTHWM
+	llhDy+Q//u5X3cMouDKjAV7FEG0XOhA6V9t1OedM2ttsc5tCDW6dgShHKHyjbRYnJGuNJW
+	REDgB0aWR03sKt9B0/h9x9fn0Fcs+f6bQ/dyNj3ahBxgWrjaZKmnNM3o8FojdpLKo3TT0P
+	NOXBTvk+0EW8Z0D2nKu7Alb7mU8CABe/rYeQgDTdpl8Jec7oss6GWurHW04WIQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1720709395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BbdG/TttFE3xcEPdHpWdCeUTzVY0jQF13snsXgRUZSU=;
+	b=IlGeZ13LIh63bYhT3sHcKW+d/BsN7lwEkxhbAcrGUDd9m/kaTjGgTsTBfP62B9uInVhcgR
+	7dK+IDVfE08STmDg==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net,
+ alexs@kernel.org, siyanteng@loongson.cn, chenhuacai@kernel.org,
+ kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn,
+ wangliupu@loongson.cn, lvjianmin@loongson.cn, yijun@loongson.cn,
+ mhocko@suse.com, akpm@linux-foundation.org, dianders@chromium.org,
+ maobibo@loongson.cn, xry111@xry111.site, zhaotianrui@loongson.cn,
+ nathan@kernel.org, yangtiezhu@loongson.cn, zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V4][RESEND] LoongArch: Add AVEC irqchip support
+In-Reply-To: <245cd3c4-fdcd-768a-1c7c-e7abd1086864@loongson.cn>
+References: <20240710043859.13053-1-zhangtianyang@loongson.cn>
+ <87zfqpus3h.ffs@tglx> <245cd3c4-fdcd-768a-1c7c-e7abd1086864@loongson.cn>
+Date: Thu, 11 Jul 2024 16:49:55 +0200
+Message-ID: <87wmlst23w.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240711-mgtime-v5-0-37bb5b465feb@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 11, 2024 at 07:08:04AM -0400, Jeff Layton wrote:
-> tl;dr for those who have been following along:
-> 
-> There are several changes in this version. The conversion of ctime to
-> be a ktime_t value has been dropped, and we now use an unused bit in
-> the nsec field as the QUERIED flag (like the earlier patchset did).
-> 
-> The floor value is now tracked as a monotonic clock value, and is
-> converted to a realtime value on an as-needed basis. This eliminates the
-> problem of trying to detect when the realtime clock jumps backward.
-> 
-> Longer patch description for those just joining in:
-> 
-> At LSF/MM this year, we had a discussion about the inode change
-> attribute. At the time I mentioned that I thought I could salvage the
-> multigrain timestamp work that had to be reverted last year [1].
-> 
-> That version had to be reverted because it was possible for a file to
-> get a coarse grained timestamp that appeared to be earlier than another
-> file that had recently gotten a fine-grained stamp.
-> 
-> This version corrects the problem by establishing a per-time_namespace
-> ctime_floor value that should prevent this from occurring. In the above
-> situation, the two files might end up with the same timestamp value, but
-> they won't appear to have been modified in the wrong order.
-> 
-> That problem was discovered by the test-stat-time gnulib test. Note that
-> that test still fails on multigrain timestamps, but that's because its
-> method of determining the minimum delay that will show a timestamp
-> change will no longer work with multigrain timestamps. I have a patch to
-> change the testcase to use a different method that is in the process of
-> being merged.
-> 
-> The testing I've done seems to show performance parity with multigrain
-> timestamps enabled vs. disabled, but it's hard to rule this out
-> regressing some workload.
-> 
-> This set is based on top of Christian's vfs.misc branch (which has the
-> earlier change to track inode timestamps as discrete integers). If there
-> are no major objections, I'd like to have this considered for v6.12,
-> after a nice long full-cycle soak in linux-next.
-> 
-> PS: I took a stab at a conversion for bcachefs too, but it's not
-> trivial. bcachefs handles timestamps backward from the way most
-> block-based filesystems do. Instead of updating them in struct inode and
-> eventually copying them to a disk-based representation, it does the
-> reverse and updates the timestamps in its in-core image of the on-disk
-> inode, and then copies that into struct inode. Either that will need to
-> be changed, or we'll need to come up with a different way to do this for
-> bcachefs.
-> 
-> [1]: https://lore.kernel.org/linux-fsdevel/20230807-mgctime-v7-0-d1dec143a704@kernel.org/
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+On Thu, Jul 11 2024 at 09:40, Tianyang Zhang wrote:
+> =E5=9C=A8 2024/7/11 =E4=B8=8A=E5=8D=8812:30, Thomas Gleixner =E5=86=99=E9=
+=81=93:
+> I have reviewed the kernel submission documentation and found that the
+> usage of RESEND is inappropriate. The next time there is a modification
+> issue, I will update the version and resubmit it
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+Please address the review feedback of the original V4 and send a V5 with
+a proper documentation of changes from V4 to V5.
 
 Thanks,
 
-Josef
+        tglx
