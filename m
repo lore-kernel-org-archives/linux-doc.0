@@ -1,294 +1,109 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEEC16EB71
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 19:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8817D450FA;
+	Thu, 11 Jul 2024 19:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720725361; cv=none; b=qd6CAjIVBTZqgyX9CaG9vUKG7QpefCXUhfJwixxa/Zq3FHlOMAK3CYDDYrRCtKgs8bKTmmuKvMy9sFWdfWnAv1tyCPiMQ0iPoj4gR8oeZKkG7fsVs7EDW4tinlgzo9jnDkicGrl/Jsc/+21uXEsSFRmhUKx5V38lZ2zZWndpyMI=
+	t=1720725706; cv=none; b=OvXrXZjRUvO3wU2zY6QaHSSLl0UpBzxAf2y0VwqeA2Xwaz7x14w9f0eUZI7aEVVHRv+HxsqQXer5bvErNv5lrfxfDWyJKVETyCm1GxNr4ag3tlHTpDrEKpb13Tm/8x1c/XHGx6MuNWZeh4CBX6h4HGwOMzrHB58EXBW4teesm8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720725361; c=relaxed/simple;
-	bh=rfl4NqLSWlS05DBQ/b/yyrEHhOHNJuLHuF0KFUBQ8WQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A217vcOhlWtJYKGZIO+V1imAoCSgpJndNn2aN4IWVfgDtQin+Dda4+HSWJGKUl0Ac/GAkaB3jANVhCN5/oliXcYTi8U3B27ewAnL/AWGAPL6YJc75jQpaiGP7YKwdG2kKqftxnD+k6fMC5yD3yvzcQSUjpdyKqNgnkuShl3SO+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JmmgWgmd; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1720725706; c=relaxed/simple;
+	bh=fw4YxU9DPg/09cxxvjQAAiL0/MXAP2kW8a5griN92rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Psfqrt5fczOfM4L6/r4R+VgFv7ZakxL2gltpyyOW1SaNXV6GDH/LlzMP/hlFZJ5MN7U99TXGeEueQL0GCRccdM6XdgKjYtAe8U6c2jencCXJqhW3nKM7Kciv2m2ol1N0/s8ks8cxaWlT5Z5FQl739ab72L9hG1ldZUlrSGfcrQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hbuyTOqT; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JmmgWgmd"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7035c367c4cso737006a34.2
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 12:15:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hbuyTOqT"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fbc0a1494dso8725985ad.3;
+        Thu, 11 Jul 2024 12:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720725357; x=1721330157; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FQsqhGLGVhBM8gUHS+cpX5FO8rzqQp9edFEv9d41aaM=;
-        b=JmmgWgmdmS0xJrmZvb2FgnJj5GF4iYM830PTlPlE62YxEYFus5eG5kL2lF55Dp2JZi
-         L1ceYnD9GcxutoEEjGcIRLd+uOJEkxR+PJ6cUtYAqFuafASFt88Cbk6iznfetJfuq5Y5
-         SagQug/pT7aw9myDa9XT8phPnh9cfNpHzj7jAqLbIvp9/L7jwUxccv/VcRhmpte3iooR
-         O6OUI9cfN+9XgmZBACHv+RZP9LuDvvZ76XG4YlHlmcLCB9Ptt9SyavRlr7Zb281jMycq
-         4gdtzNmIGn6MAfjJ181wnfVh8ZBb0/0t1mZ17xIxxLktRJazb9C7U24d0y+BVOL9CSqb
-         qdRA==
+        d=gmail.com; s=20230601; t=1720725705; x=1721330505; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MWrdrdY+AbHhwYGUF4k8vyBspATH5/TSpWx5tvkKe7Q=;
+        b=hbuyTOqTkPxdaylbE866pRw8uo4xU8oI8XO6C6xrawHW6AY2T72G0Q94FCbygs9sAA
+         47taaRP5eDVeqcSpxAFiTGQ0G4XrmwZnw5IncXgcN/CWgb9M3d5h2xNGfMkQjUcIpQNy
+         T4tjHFYIz1yBmAjesM3jFtktpkX6UIrOyVfIkjvoqydSJwChY1oH4qZxIoMZzKb9VBs3
+         Re6n2annlMXQjigLcYCfd9BiHekHhOUreSpOLTnAi8LNkDMj2ZDh+x7YBFVQP/PvSHKz
+         pbOPoS5nurYxNWwtu/1F4eb23EQiyoq7yPt2DHxEssj07LruMynobCQntFT48mDl6v/v
+         nxIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720725357; x=1721330157;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1720725705; x=1721330505;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FQsqhGLGVhBM8gUHS+cpX5FO8rzqQp9edFEv9d41aaM=;
-        b=tBYtxQPPw7Pateg6fbIwRZQlNjx/PfReAAdFZ4hLWaDIOd9bDIVxT1AhfjvqbIcYPk
-         5rL2hRFuAJD3qR9fn/Xp9IfbzfL6moAiwAnXQYXUg+7roIyFEaPNMqEXZW16MIrKWnzX
-         Y8/+FSLBP4KWBxSd6ojJdJputZ+3b9k7otlUwfn1Xmsyz9BIO8FPdp/JNguxjV1fHhxp
-         mPW8Ssseth5icaBFbomyCFNP+EN9N7al5EVoTXuQBIIrp+vuEUvBHrBSZV7t0Jz4RK8g
-         1/lnVwXoqGM3zbOaPCz/b3KHqgbfvZO70Ib3bGawyANmstx9fD0aELU/d4r9tFW26kje
-         GAkg==
-X-Forwarded-Encrypted: i=1; AJvYcCUem/iFTZtYvQFrFxNBxrPCm0+I8QVvDYikaLRHqvhxG6oYUvzwbUK6z3RGwmvPjkHhWnRAxmooCEF2d1/bd48nvcA4cJkQpxQ6
-X-Gm-Message-State: AOJu0Ywjr/gC39djw4/f+Exvk3B5p0R3aMsFEKik0YnCeQnu8ETTNCHQ
-	bDu5Tfi4OK3pFfPErPRUBMKVIbjKVDcWtXDQoAuGYOFfJ3e4OTB/bWf8EyTofU8=
-X-Google-Smtp-Source: AGHT+IG0klzgerAO/xrKkUieBiUkvbWh4y2QvKVH/NtvFh0NkVz3/6q0epMkr/bBMKGH1LwyLmJt7g==
-X-Received: by 2002:a05:6870:6587:b0:25e:1ced:744 with SMTP id 586e51a60fabf-25eaebc7d95mr8337902fac.47.1720725357602;
-        Thu, 11 Jul 2024 12:15:57 -0700 (PDT)
-Received: from localhost.localdomain (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25eaa083bbcsm1826670fac.26.2024.07.11.12.15.56
+        bh=MWrdrdY+AbHhwYGUF4k8vyBspATH5/TSpWx5tvkKe7Q=;
+        b=AmK6XjuNpiCwC8rBqwD9fDSLpVpVwzB73rXuED5ATdi9tpe1yvjKBPr5WRAU4q2MrX
+         iNrvCsR87gILacK/lF2PmrKdGwR+47tWsy7kPl0jFm2dOhfEfuRG0H6RTsU1u5DnEEDp
+         gxShXhv2NTf3Iz0ZCa8WY9L84KfuyJgIiH+Vj5N6o9xaUdckNHzByEAoREERSjmgCJEh
+         Z1aFi3K+14g/Cdjg1rn7yjvLigLsIdcbzxn53J24+bRly+7yu6VAuXiTX8D35H8AwKVM
+         U8UiCC845dmcuDvWw2ahMjaNNAbtDtVnSF9wNH5b80yWm4IYpoZDXpszBvS3DfaoNutw
+         f3iw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCTEq5JheNKM4zBAN7FEi3kvXt4R91Ey1RmnRgV+iVs9V2oO3IMUS+Y6cNFc804oZyR8QyV+E62qExLvPCYaumCi3bP4gStvXM2+xX/RwHMvw4QZr/Fv4ASk9wcU1Do351DMV1OZFmoLAzigYumukEe5fjLH7uYwEc05O5gqJzIg==
+X-Gm-Message-State: AOJu0Ywia+TaqP7BwlI35YVfGg/1yk4YA2kdt6F87Mjb/2fGagIBx2Yc
+	9lGxT/mX6844oHjNyHT0y3XEG1HA2KDwRdgxpjrgVrs6he1/bSJ6
+X-Google-Smtp-Source: AGHT+IE88lbRrDg58N/X+QvujRkinKh4rLaZ6IM0tXxRjwSSlzV/+Hh4E53wuEvz0FrCYWvqA23nzA==
+X-Received: by 2002:a17:902:db0e:b0:1fb:1afb:b864 with SMTP id d9443c01a7336-1fbb6ce527dmr79957615ad.5.1720725704768;
+        Thu, 11 Jul 2024 12:21:44 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a1089dsm55457055ad.41.2024.07.11.12.21.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 12:15:57 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4 3/3] Documentation: iio: Document ad4695 driver
-Date: Thu, 11 Jul 2024 14:15:43 -0500
-Message-ID: <20240711-iio-adc-ad4695-v4-3-c31621113b57@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
-References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
+        Thu, 11 Jul 2024 12:21:44 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Thu, 11 Jul 2024 09:21:43 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
+Message-ID: <ZpAwx358QVr4V7RN@slm.duckdns.org>
+References: <20240710182353.2312025-1-longman@redhat.com>
+ <20240711134927.GB456706@cmpxchg.org>
+ <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
+ <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
+ <76e70789-986a-44c2-bfdc-d636f425e5ae@redhat.com>
+ <ZpAoD7_o8bf6yVGr@slm.duckdns.org>
+ <e5348a85-22eb-48a6-876d-3180de5c7171@redhat.com>
+ <ZpArhD49OonR6Oz6@slm.duckdns.org>
+ <c54651db-1a06-49f6-aea7-02768ad70756@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c54651db-1a06-49f6-aea7-02768ad70756@redhat.com>
 
-The Analog Devices Inc. AD4695 (and similar chips) are complex ADCs that
-will benefit from a detailed driver documentation.
+Hello,
 
-This documents the current features supported by the driver.
+On Thu, Jul 11, 2024 at 03:13:12PM -0400, Waiman Long wrote:
+> That will means cgroup subsystems that are seldomly used like rdma, misc or
+> even hugetlb will always be shown in all the cgroup.stat output. I actually
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
+Hmm... yeah, that does increase the amount of output, but I don't know. The
+trade-off is between consistency and brevity and I think I'd go for
+consistency here.
 
-v4 changes: none
+> prefer just showing those that are enabled. As for dying memory cgroups,
+> they will only be shown in its online ancestors. We currently don't know how
 
-v3 changes:
-* Rework DT examples for DT bindings changes
+So, one peculiarity with memory is that when you enable io, it gets
+implicitly enabled together and we likely wanna show that.
 
-v2 changes:
-* Rework DT examples for DT bindings changes
-* Fix wrong MAINTAINERS update
----
- Documentation/iio/ad4695.rst | 155 +++++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst  |   1 +
- MAINTAINERS                  |   1 +
- 3 files changed, 157 insertions(+)
+> many level down are each of the dying ones.
 
-diff --git a/Documentation/iio/ad4695.rst b/Documentation/iio/ad4695.rst
-new file mode 100644
-index 000000000000..a33e573d61d6
---- /dev/null
-+++ b/Documentation/iio/ad4695.rst
-@@ -0,0 +1,155 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+AD4695 driver
-+=============
-+
-+ADC driver for Analog Devices Inc. AD4695 and similar devices. The module name
-+is ``ad4695``.
-+
-+
-+Supported devices
-+=================
-+
-+The following chips are supported by this driver:
-+
-+* `AD4695 <https://www.analog.com/AD4695>`_
-+* `AD4696 <https://www.analog.com/AD4696>`_
-+* `AD4697 <https://www.analog.com/AD4697>`_
-+* `AD4698 <https://www.analog.com/AD4698>`_
-+
-+
-+Supported features
-+==================
-+
-+SPI wiring modes
-+----------------
-+
-+The driver currently supports the following SPI wiring configuration:
-+
-+4-wire mode
-+^^^^^^^^^^^
-+
-+In this mode, CNV and CS are tied together and there is a single SDO line.
-+
-+.. code-block::
-+
-+    +-------------+         +-------------+
-+    |          CS |<-+------| CS          |
-+    |         CNV |<-+      |             |
-+    |     ADC     |         |     HOST    |
-+    |             |         |             |
-+    |         SDI |<--------| SDO         |
-+    |         SDO |-------->| SDI         |
-+    |        SCLK |<--------| SCLK        |
-+    +-------------+         +-------------+
-+
-+To use this mode, in the device tree, omit the ``cnv-gpios`` and
-+``spi-rx-bus-width`` properties.
-+
-+Channel configuration
-+---------------------
-+
-+Since the chip supports multiple ways to configure each channel, this must be
-+described in the device tree based on what is actually wired up to the inputs.
-+
-+There are three typical configurations:
-+
-+An ``INx`` pin is used as the positive input with the ``REFGND``, ``COM`` or
-+the next ``INx`` pin as the negative input.
-+
-+Pairing with REFGND
-+^^^^^^^^^^^^^^^^^^^
-+
-+Each ``INx`` pin can be used as a pseudo-differential input in conjunction with
-+the ``REFGND`` pin. The device tree will look like this:
-+
-+.. code-block::
-+
-+    channel@0 {
-+        reg = <0>; /* IN0 */
-+    };
-+
-+If no other channel properties are needed (e.g. ``adi,no-high-z``), the channel
-+node can be omitted entirely.
-+
-+This will appear on the IIO bus as the ``voltage0`` channel. The processed value
-+(*raw × scale*) will be the voltage present on the ``IN0`` pin relative to
-+``REFGND``. (Offset is always 0 when pairing with ``REFGND``.)
-+
-+Pairing with COM
-+^^^^^^^^^^^^^^^^
-+
-+Each ``INx`` pin can be used as a pseudo-differential input in conjunction with
-+the ``COM`` pin. The device tree will look like this:
-+
-+.. code-block::
-+
-+    com-supply = <&vref_div_2>;
-+
-+    channel@1 {
-+        reg = <1>; /* IN1 */
-+        common-mode-channel = <AD4695_COMMON_MODE_COM>;
-+        bipolar;
-+    };
-+
-+This will appear on the IIO bus as the ``voltage1`` channel. The processed value
-+(*(raw + offset) × scale*) will be the voltage measured on the ``IN1`` pin
-+relative to ``REFGND``. (The offset is determined by the ``com-supply`` voltage.)
-+
-+The macro comes from:
-+
-+.. code-block::
-+
-+    #include <dt-bindings/iio/adi,ad4695.h>
-+
-+Pairing two INx pins
-+^^^^^^^^^^^^^^^^^^^^
-+
-+An even-numbered ``INx`` pin and the following odd-numbered ``INx`` pin can be
-+used as a pseudo-differential input. The device tree for using ``IN2`` as the
-+positive input and ``IN3`` as the negative input will look like this:
-+
-+.. code-block::
-+
-+    in3-supply = <&vref_div_2>;
-+
-+    channel@2 {
-+        reg = <2>; /* IN2 */
-+        common-mode-channel = <3>; /* IN3 */
-+        bipolar;
-+    };
-+
-+This will appear on the IIO bus as the ``voltage2`` channel. The processed value
-+(*(raw + offset) × scale*) will be the voltage measured on the ``IN1`` pin
-+relative to ``REFGND``. (Offset is determined by the ``in3-supply`` voltage.)
-+
-+VCC supply
-+----------
-+
-+The chip supports being powered by an external LDO via the ``VCC`` input or an
-+internal LDO via the ``LDO_IN`` input. The driver looks at the device tree to
-+determine which is being used. If ``ldo-supply`` is present, then the internal
-+LDO is used. If ``vcc-supply`` is present, then the external LDO is used and
-+the internal LDO is disabled.
-+
-+Reference voltage
-+-----------------
-+
-+The chip supports an external reference voltage via the ``REF`` input or an
-+internal buffered reference voltage via the ``REFIN`` input. The driver looks
-+at the device tree to determine which is being used. If ``ref-supply`` is
-+present, then the external reference voltage is used and the internal buffer is
-+disabled. If ``refin-supply`` is present, then the internal buffered reference
-+voltage is used.
-+
-+Unimplemented features
-+----------------------
-+
-+- Additional wiring modes
-+- Buffered reads
-+- Threshold events
-+- Oversampling
-+- Gain/offset calibration
-+- GPIO support
-+- CRC support
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 9cb4c50cb20d..a12520b2138e 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -18,6 +18,7 @@ Industrial I/O Kernel Drivers
- .. toctree::
-    :maxdepth: 1
- 
-+   ad4695
-    ad7944
-    adis16475
-    adis16480
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e97a4b929c2..18846fe48b91 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1216,6 +1216,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
-+F:	Documentation/iio/ad4695.rst
- F:	drivers/iio/adc/ad4695.c
- F:	include/dt-bindings/iio/adi,ad4695.h
- 
+I didn't understand the last sentence.
+
+Thanks.
 
 -- 
-2.43.0
-
+tejun
