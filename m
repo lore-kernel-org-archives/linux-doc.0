@@ -1,49 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052CD450FA;
-	Thu, 11 Jul 2024 17:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD59D512;
+	Thu, 11 Jul 2024 17:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720717497; cv=none; b=Z4cw74cet8dMyVNYtrBRiVa9q8KYQ0D0f+lLVTJKuvsb6rRx4j1jevS7LSksrAW1Oy8OuYDFuOUe4fC8IP7x7K3hzHbE4ELpieoBwAjRvvoue5IHZ8FSNkwNrfJSx78V1OEm9OHNMmxj7vmL+84kjvOnzVbY+a9ZW4Gamn4vXYU=
+	t=1720718339; cv=none; b=pOsNPTRbGJ1SxcxTLu+9ADpk7mbgjXKa+m7lmZj36kW24Arthz7kXcrPM2zrdcpWK6gEoKV2AurPIdXLZ4jv9vrS3Q0s49K31eFThqRgELAkg8SC2RbjvdrnxcF0hUDWErVCRCki0tjW08icfkJZbDude3pCDiCp0vaGJ1vAdHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720717497; c=relaxed/simple;
-	bh=8bA1Af5JkTKsPfzcax7n6cvmceZSVM+9DQAXTzJTRpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=hVkl1p7txz8RPwZbPiaNiOZ0Yf3uFAKQIGGh3y/lEoKZrL9Qkw2P5X0p66L9zZr+uO4V8pGUIjdUCGxTbzJ0VROoXOxTLhSjjzeWRiKRuiHHtvqo/H9jnDble+acZve3gyaRKMNzVGmEcikkowmR4Pr+A75dkYC55gAL4KaHKFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VweLSb3c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720718339; c=relaxed/simple;
+	bh=l8gmed0L0C4Q2DliY85SBMGvYdzoCEqEAyoyi/JV7zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNmEOgbazgylHnkMWMw/do5xjQ4ACUVxqqNrtcifAMuWhxFJ3T4JWZB370R9pZ8caPNb650uJ5c7HpCqmV57WNXqZs6FdFVD6t7tL2EPLWkbSXa/gmDsiXf452gyk2WDDDpaRN2S90JJmhNpMpVh72BO8BxMycWo8RdJTiX458o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0JqEfFL; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VweLSb3c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B3EC116B1;
-	Thu, 11 Jul 2024 17:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720717496;
-	bh=8bA1Af5JkTKsPfzcax7n6cvmceZSVM+9DQAXTzJTRpc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=VweLSb3cn8veFY/O7cKAlfEIwL3f2HLsE7eAtPdboROuKAnEbFm8vDuj3NQQ0noao
-	 dN7r3qfljVRi538GReGxRpj/BZP6uhySPravw3Uif9gWH09HvlUsmyMNqhJWCN2tiY
-	 x0gVO7rJZxk8OL2BbRGPUUPmGfyW/FA4bQ35Lco/dQlFGfQ1t+daYbjcQ0dezjNRcQ
-	 Js4nQR/KKCirmE+Yn0JLq6WCIHpsGVNO4Taf0Lk16eAsHo+vvB9oWCGeMwhv1D6zbn
-	 irDjHcQbE+kCucOfJrocRzdzuxEnojQ+F1ZaM4ay4bcSKmAVQUE04h07Ef6Et2QUwQ
-	 VbuDzDmJbTkxQ==
-Date: Thu, 11 Jul 2024 12:04:54 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0JqEfFL"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70b0e7f6f8bso1028089b3a.3;
+        Thu, 11 Jul 2024 10:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720718337; x=1721323137; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h1h9L8S/uuR5Z/csLwbrsOismxp//KQ6g1/Q63+1jMo=;
+        b=l0JqEfFLCoV10GZLUYcx+EuXZcibmDnCm9RnX/T8yT9zv8H7fMgYoFzMYXQ3OpMAV0
+         pmFE4ueapIm4K8iNgblRD/6Pcndn7r3dNYTVmI33QOL23PpA2a2OJ1E20e5qcjSdlCVG
+         jW8CeZSJDjoIsBrhlKcCE7bIbrWVwsfTRi/IUDI8cjxhlceXVXTgO58uyxkpXhipaPf/
+         nRdEOQ74jgC/ysij7SASbBi9ELsOWXF6Tt4sUPjOmZ72NRKArZpmAdHZu5REPYvnWDxK
+         leBEyAZrq28hhSovN4YG9qi8Fh/M3K/mNcUsHbzLZL2PfQ0zXt9DiKDe+eY4wX4POExg
+         cpxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720718337; x=1721323137;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h1h9L8S/uuR5Z/csLwbrsOismxp//KQ6g1/Q63+1jMo=;
+        b=fSqJJiMsED4eCS34AdR0M+pLzZh2znZKsw/8KGynf+hILRdI06TSHK86+k+NVfZndF
+         cVRY+EQT/RCdFoTvU819yprV07DbYSValiEbuyqNwVfRnM0bCZL1+7Le8d4/VkJXHBxF
+         AzLPNyTzkAYmxTnpIyj357uyPNfYT2PZqY2qEi0Anb1ZRpQ2NZziLo/bRiSUWSlZQk08
+         7/Jl9Ai4aId7z/P4psq6GhmWEKtjG8N1K9gcUjjTb96+iM707LtImI7vax5XpNJbl0Ya
+         MCNx+5guupUmLumwynxoUMXpN6kEehsZrdCuUeWYR+rtZQIKelvthsnyTDH7E8jc2iqd
+         oEOg==
+X-Forwarded-Encrypted: i=1; AJvYcCX0eE5Q4OgWLefdF18Ncaf6zK0WwRUk/iEcRe87aDtaRcbiAxi7aj1SIr3FA8DfzdjRdYyvG5XOc4rcmgkPNd2QyHp3J9K6H7S/CMb4B7MNyskhwDSLHi3ibL8eqQKvMNYMrsebWuLiYDE4ldlH2UwDDDBiVcM38JkChfcfXL1DmQ==
+X-Gm-Message-State: AOJu0YxsUx/jNeplM3GxR9ZEqi6ieMRql/gREgE/uXwXu98LmJPT999v
+	u0BcBy4K+ARaS5PWkTgTakdOwvfRO8J+coYa2734uDKgUndC+udK
+X-Google-Smtp-Source: AGHT+IF7E2Tx5gAA/RZJJYJHO3X4+gOjxBCC2IwlaeutVliKaIhYBbYvEe0pfQFTGfPYjydJhhH8ow==
+X-Received: by 2002:a05:6a20:244e:b0:1c2:8d59:d14c with SMTP id adf61e73a8af0-1c29820c62bmr10449348637.21.1720718337012;
+        Thu, 11 Jul 2024 10:18:57 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a2bef3sm53052935ad.105.2024.07.11.10.18.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jul 2024 10:18:56 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Thu, 11 Jul 2024 07:18:55 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-	quic_parass@quicinc.com
-Subject: Re: [PATCH v6 3/5] PCI: qcom-ep: Add wake up host op to
- dw_pcie_ep_ops
-Message-ID: <20240711170454.GA287440@bhelgaas>
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
+Message-ID: <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
+References: <20240710182353.2312025-1-longman@redhat.com>
+ <20240711134927.GB456706@cmpxchg.org>
+ <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,78 +75,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240710-wakeup_host-v6-3-ef00f31ea38d@quicinc.com>
+In-Reply-To: <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
 
-On Wed, Jul 10, 2024 at 04:46:10PM +0530, Krishna chaitanya chundru wrote:
-> Add wakeup host op to dw_pcie_ep_ops to wake up host.
-> If the wakeup type is PME, then trigger inband PME by writing to the PARF
-> PARF_PM_CTRL register, otherwise toggle #WAKE.
+Hello,
 
-Wrap into single paragraph or add blank line between.
-
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-> ---
->  drivers/pci/controller/dwc/pcie-qcom-ep.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+On Thu, Jul 11, 2024 at 10:05:22AM -0400, Waiman Long wrote:
+> Given the fact that for_each_css() iteration is filtering out csses that are
+> absent, the dying counts follow the same logic of skipping it if there is no
+> dying css. That also makes it easier to identify cgroups with dying
+> descendant csses as we don't need filter out entries with a 0 dying count.
+> It also makes the output less verbose and let user focus more on what are
+> significant.
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> index 627a33a1c5ca..d17e8542d07a 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> @@ -97,6 +97,7 @@
->  /* PARF_PM_CTRL register fields */
->  #define PARF_PM_CTRL_REQ_EXIT_L1		BIT(1)
->  #define PARF_PM_CTRL_READY_ENTR_L23		BIT(2)
-> +#define PARF_PM_CTRL_XMT_PME			BIT(4)
->  #define PARF_PM_CTRL_REQ_NOT_ENTR_L1		BIT(5)
->  
->  /* PARF_MHI_CLOCK_RESET_CTRL fields */
-> @@ -817,10 +818,34 @@ static void qcom_pcie_ep_init(struct dw_pcie_ep *ep)
->  		dw_pcie_ep_reset_bar(pci, bar);
->  }
->  
-> +static bool qcom_pcie_ep_wakeup_host(struct dw_pcie_ep *ep, u8 func_no, bool send_pme)
-> +{
-> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> +	struct qcom_pcie_ep *pcie_ep = to_pcie_ep(pci);
-> +	struct device *dev = pci->dev;
-> +	u32 val;
-> +
-> +	if (send_pme) {
-> +		dev_dbg(dev, "Waking up the host using PME\n");
-> +		val = readl_relaxed(pcie_ep->parf + PARF_PM_CTRL);
-> +		writel_relaxed(val | PARF_PM_CTRL_XMT_PME, pcie_ep->parf + PARF_PM_CTRL);
-> +		writel_relaxed(val, pcie_ep->parf + PARF_PM_CTRL);
-> +
-> +	} else {
-> +		dev_dbg(dev, "Waking up the host by toggling WAKE#\n");
-> +		gpiod_set_value_cansleep(pcie_ep->wake, 1);
-> +		usleep_range(WAKE_DELAY_US, WAKE_DELAY_US + 500);
+> I do understand that it makes it inconsistent with the ways nr_descendants
+> and nr_dying_descendants are being handled as entries with 0 count are also
+> displayed. I can update the patch to display those entries with 0 dying
+> subsys count if other people also think that is the better way forward.
 
-PCIe r6.0, sec 5.3.3.2, says
+I think it'd be better to have all the keys. There are some dynamic keys in
+stat files but those are mostly for things which can come and go (e.g. block
+and misc devices), so yeah, I think it'd be better to show all the keys even
+when they're zero.
 
-  When WAKE# is used as a wakeup mechanism, once WAKE# has been
-  asserted, the asserting Function must continue to drive the signal
-  low until main power has been restored to the component as indicated
-  by Fundamental Reset going inactive.
+Also, I personally would much prefer if the same prefixes are collected
+together - ie. totals first and then dying. It's just a lot easier on the
+eyes that way.
 
-That doesn't seem compatible with a simple delay as you have here.
+	nr_subsys_cpu
+	nr_subsys_memory
+	nr_subsys_io
+	...
+	nr_dying_subsys_cpu
+	nr_dying_subsys_memory
+	nr_dying_subsys_io
+	...
 
-> +		gpiod_set_value_cansleep(pcie_ep->wake, 0);
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static const struct dw_pcie_ep_ops pci_ep_ops = {
->  	.init = qcom_pcie_ep_init,
->  	.raise_irq = qcom_pcie_ep_raise_irq,
->  	.get_features = qcom_pcie_epc_get_features,
-> +	.wakeup_host = qcom_pcie_ep_wakeup_host,
->  };
->  
->  static int qcom_pcie_ep_probe(struct platform_device *pdev)
-> 
-> -- 
-> 2.42.0
-> 
+Thanks.
+
+-- 
+tejun
