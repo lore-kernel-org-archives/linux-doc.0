@@ -1,146 +1,185 @@
-Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2138.outbound.protection.outlook.com [40.107.117.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E058801;
-	Thu, 11 Jul 2024 01:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720662834; cv=none; b=Ba5x5lFSlW7PZHMMVyqUGGvu4TFcckt8TcsvhZeHZY+Pb6GNs0gh1+9xApLOU+zyYagNDcrlc46b9lGmEc5R7G0vOaQ85uIxRSMqbvqM7yemwCdmvxnDXIN9kPvBdrM8l4fFcOVSRBYbfMLbYFWxZP79VD/Tg6eg9FH10PJ4fiU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720662834; c=relaxed/simple;
-	bh=V0su/2TVwxm7ML1o7WKw5VLN0Yqb3uJ2r3KKs/Mko04=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=RwyQK9Y9ZvMM1UnvTFnKIPhTePQqVRc2C4x3Z6I6r8IkusdNZqaYUe/NMOdNJrIOZj8XZ3oae8aGhEy0hOU8xDJEkwXT2vtWPAI5Ras5hLaKW5oLi0UHT20QTnDSNJgzAYoQy72Pu4XVMGwxtXu2uSFQyB8cPa/g3c2y+Kx8AWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=bIzmUleh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IrUfFWem; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53D68F4E;
+	Thu, 11 Jul 2024 02:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720665324; cv=fail; b=COZysZVyG2RKhbdBHLIIqOQYgkWDBqYNel8C5ustAasOWwSkZA/qO7IZQNlZiOIFXCQLT7OGgXOEQeCC/YqqbpqoRYPk/Qzp8KVuj7+wXIX9+nw47VfQZL5Vm0JoyzDMQWqlNg3WPTqMtFHS4aAw558G/ojTGH22PLxp68E/Il4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720665324; c=relaxed/simple;
+	bh=YKRFrflXlBJ4GiQ8A3L6pCOCcEJceq+41xW0ZEF8hl4=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=s2zZgcuOc71hL5APUL0qcHUgYDltPvxw7IHLyXNjM02XgQwVzGubqKzrPAicnfhwRbL//AgRBoK8S3k8EN7fh79YihLDTkFYFoAKOFxEl/zA0X9Nz2RHIyxJjM6ki/RSr0searTqfy/LCiisXjYu7sSR2mf3ojk8dZa+spVxvjk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=uqWF7hIb; arc=fail smtp.client-ip=40.107.117.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="bIzmUleh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IrUfFWem"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 240B81140C0B;
-	Wed, 10 Jul 2024 21:53:52 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
-  by compute3.internal (MEProxy); Wed, 10 Jul 2024 21:53:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1720662832;
-	 x=1720749232; bh=blYGdh72QWxBvqFvSyMrnSkviyCQU3tEmPuUaU4E6Tc=; b=
-	bIzmUleh48on1QgxG+ZuzhrpJAeYJ/kbOcUPCiGo4dIAf5rnMxS2iseRZ6MDsMJk
-	i52NmQXfJHFeihqlghPgG9etJvRfCJxyW9PyRNTirvvb9UDPZvHB6BldDeVkemsz
-	f1g07ids4dd5gAd6grKGiQrb/T6cbY/gzQt/5D31Cv/g5nC4Y1tuW2ngojv+Kv7/
-	WWOLUeJvhWcGnzSkKmXrjRCTRNMp0e4bbXCspQ5wPxY+5njtQYvn0Ed/WEx5eYLy
-	mDDYZaRm+Ty6l7EkMCzX5nBB1/7s39KckghwW9p31DqGyUXd2NiZ2NYUQMzMkZ5+
-	MtBWqhV5vN0Ek12DE8N1eQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720662832; x=
-	1720749232; bh=blYGdh72QWxBvqFvSyMrnSkviyCQU3tEmPuUaU4E6Tc=; b=I
-	rUfFWem8XnqFRRqjqo/UDmUFkDnDNxf3jzyOUWLE06VIqceIOobQEFdf52OXGoS7
-	g1/Ip/IJw51aONCKCT/jHPC9zx/GvNKu2ZLI/cWlml2ipNtEvFWVbupYx29X0pWp
-	OUrRyPWy+PSrB76iy5sIriOlCSpIa0z8x0tWlMhrsBrVt+lF8WOVX4ZFPlgACvMz
-	kKsmdyRi0L3Mjk/i/nYyYHn1tO5KGxPzVGqaBR8L8bolY6ukTuJ68dyXdMLBA3wM
-	vCgiLkV1rQ6T+37sanPEXxeCnlx6dsKkqxZUCeO4Cf4GUGC5AuC/yGgtEm1/E4xP
-	qMM1oZjyZzyombBBuXssQ==
-X-ME-Sender: <xms:LjuPZsHoNiCaX2K7bdug5uYm-7FMWD8pyc0FabfSifBRdaSHisu8Eg>
-    <xme:LjuPZlWcYETmflykB6ZZRJNh5BoPHe3sA2DfDNo60O3gBzzj8uqG2sdcLpdi7wLY9
-    4kN6KGNQ_5n2XcMHX0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeefgdehfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
-    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
-    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:LzuPZmJGU7Xj4JwVgAsOMedQx2RGSk1eLkCNiCpX7A3UX4NZwnOL_w>
-    <xmx:LzuPZuFv7ChyOVk8h10Bkt9MhLlUDQZUSw0lHOdoUdcSPAj1Yckl2A>
-    <xmx:LzuPZiWN31a3zsnRpU_SRQA6lcsjqzrsB24DXwz6PbYoWCPRkr4JiA>
-    <xmx:LzuPZhPzAIvZmpSw7CVR44Bvq2FmVzpF1Lm_nAkaJYZu_Rx0Cf1Q3Q>
-    <xmx:MDuPZkIApB6PeRPf7sMNFo96_LJpq-_AIPoUQswEwMCbzEI1B-iM94SG>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DE20E36A0074; Wed, 10 Jul 2024 21:53:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="uqWF7hIb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LkbS8WlFetkWyOxih4LCiCEjmKOmoMiV5MqvR7L0yiIK0DuXfO0Ac+z/Dv53k/Ifz7JtRbuUSfRz3M9jmioXPqUjxv8ZvU23okFd/P2JPgFh2CYC/1Y4iFO6PP+9DXWxmLHZi41WUm1uKA5aYuv3wXafJ61UjdN0W3505gSDhR4/Z6Bh6qxJkaH1M0/XnCotfg63IEXPwEmmujDhbmcmdQ+9F+BZLzFMl3QascMV1fBt+JDhm7QNXrfqh6SvZFcYebXb/EIWadHWDXvs79+9REK5Qz/KxUrFwMpWy7WOkz6zKcBct77QTusn0+yXhApPETjfkNOBUVTNevgKc1vyfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=60c8ldv8Gtq05aGi/r8oign4rTfAuTYPALNPyBHGn0k=;
+ b=bPo4fXsaZzxhWkylgVCm0qvJfwa0XCNlzhMllabAZSpzkMisWWoL9xAKhHmtb2mnKepgSID9eVYW34W2O6JCZtGsdK8B8sGzr61pt4Mk1Job3glFtndb1aRGzdzbRYRHulIaoBx4WY8cqwx6ImNgCBIQTD8/TnvSfHXy6PiXiE05wG3LZt/GWC9nZoK8Wwzwmym8y2FJAXoNXysw/cnRoWpInVbwtqXIXJyJeo2l1v4J3zSBhp8LFsP8lAk6rwaVTW0VP0a67kkbovkNjMEz4i+g6KSI90pIneDMYBDbYRJRFscZ+IjhCX8ucziXQXbjNDI9W2ApBAKb696CDRvoYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
+ dkim=pass header.d=fibocom.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=60c8ldv8Gtq05aGi/r8oign4rTfAuTYPALNPyBHGn0k=;
+ b=uqWF7hIbroaPy05LnbZJ0NtAds261JGYZE1lu6Mhe+36k5xoRSqlRPPasBYGgCLszw8d8kLVUgLNRLjd7wjpJznnodmf4jE9J+KQ8uMu2An0ygOaHfEIllSCvceOPgDZhr5zaq4ihco/phq+1ylvG/kBx3rtY/tlA/J9D+ugmis=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fibocom.com;
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
+ by TYZPR02MB5713.apcprd02.prod.outlook.com (2603:1096:400:1c2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 02:35:16 +0000
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b%7]) with mapi id 15.20.7741.033; Thu, 11 Jul 2024
+ 02:35:16 +0000
+From: Jinjian Song <jinjian.song@fibocom.com>
+To: chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com,
+	haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com,
+	ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	matthias.bgg@gmail.com,
+	corbet@lwn.net,
+	linux-mediatek@lists.infradead.org,
+	Jinjian Song <jinjian.song@fibocom.com>
+Subject: [net-next v5 0/2] net: wwan: t7xx: Add t7xx debug port 
+Date: Thu, 11 Jul 2024 10:34:58 +0800
+Message-Id: <20240711023500.6972-1-jinjian.song@fibocom.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYAPR01CA0175.jpnprd01.prod.outlook.com
+ (2603:1096:404:ba::19) To TY0PR02MB5766.apcprd02.prod.outlook.com
+ (2603:1096:400:1b5::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
- <Zn1FuxNw2CUttzdg@alpha.franken.de>
- <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
- <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk>
- <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
- <Zoz6+YmUk7CBsNFw@alpha.franken.de>
- <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
- <Zo457UgAkhbAgm2R@alpha.franken.de>
- <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
-Date: Thu, 11 Jul 2024 09:53:30 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
-Cc: "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|TYZPR02MB5713:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0ffc7d9-7c56-4d40-bd82-08dca1521929
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?IANn1ypzf6L8ddVNyJVou0Em+ReHSM3YcgqPDN49kFcSfKTVchSn0b8pvuCA?=
+ =?us-ascii?Q?P07AbqJdGQ+DxOxS1MWwP0BVEv2JWlYgbFeYfs9s0XKSzESnbtmM2A0mWukO?=
+ =?us-ascii?Q?NfxI+2xbYVZil88wTPCGBXRWYQivpKbcmr4D4AIB/fn7GdTLFiR6z5cLZ4kL?=
+ =?us-ascii?Q?4MgM9gQM5yROmkXnQZ7erIJthHmp6XVdVCO4ttbeFkIDCtLH/rD29iIf7jb+?=
+ =?us-ascii?Q?0M2qESc2B/Y30DdWqhX8YUMUvY1YL/lh65mTSq+/ofF5kJQSEErBuIY7+c2n?=
+ =?us-ascii?Q?n/wRRD5P0qkBNEeHWZ0/j7zPNTo1VfBXNs8eNiIH/6o9SQFkgQYDsi+DsWaD?=
+ =?us-ascii?Q?ViB566LYued2FaslEdiJzLWxrvknCE5wSviK9Hpms5eiC5Y6YGejAOu2yG4P?=
+ =?us-ascii?Q?eHhB2lWC5wmizRYHtQWDHdu8gqti36gDI+3EvRQj7XgwP0n1Xt7erjBlcxZB?=
+ =?us-ascii?Q?wgKiVi/WL6ayo31FxJI1frZBul0RWtFPzKa7Teq0Yup8VmHZVslj8qCdaxD2?=
+ =?us-ascii?Q?E7DrDajDevgKl0CUsrvDh2G4Rwy1kOBdzMToLo8D2lnmewn2eo/3L2aLp53E?=
+ =?us-ascii?Q?D1a1/Y6OVXhWy8PXCc21YEOLnuukRJCCY8ncOzUmwXdehhXZZgxK2XEJrGVH?=
+ =?us-ascii?Q?9epxxNq3SCa3EJyHrXqMPxnd20kQmKiKvd1AKpTrGXDYO4j45rxx4ctF71U3?=
+ =?us-ascii?Q?FH4D0RuEcQvxzjGvrAyfZPY6IXpRB7pQe/aUDFUGDpcfZMrBiTk8lcmLYsh9?=
+ =?us-ascii?Q?uV4m0Ol39QqiqwTD/KalsdxeUKE1kuB5QGiIWP6LJqUj9mPe+fy4+dpHiyb9?=
+ =?us-ascii?Q?JFWak9yUDJT5+rpgKpc4oF+6ltcF8uajQjGt0wanz50+jcieWYnZWsYCg1+Q?=
+ =?us-ascii?Q?JqXv3uzircyDkiCLjZeOaK72OHtvxsQrvGCm9H968jLeHuNyKCmeAGyZEPQl?=
+ =?us-ascii?Q?4/8OqPa/kXg2HFoxS4j8qk0Xi3TkC4l5ggG0Zt3VV9gfYfWkwZvQlnywpuSl?=
+ =?us-ascii?Q?JqKf4LSjjjHtBJZcvqwLSjzsKOryYSIiHUO38khUsHMa7oU35cGhkCfFmo8B?=
+ =?us-ascii?Q?c+l31uIYkWa88HAUODYnGSEjMgHDSiFdlTs/wMISuRbFbD3OoWXTiKLw5lel?=
+ =?us-ascii?Q?r5Qbs1q/7OgVTpclsM416CBMfmGnaPSx5GEoHdJUifjgCzYTBmIE2/YdCadH?=
+ =?us-ascii?Q?aNV5zb6A1uDgY/XY+5RzWHnf2Aub1ZF0hITCIwnenqDuekl6+kOWwv49yf5I?=
+ =?us-ascii?Q?VBAEFhq0myXdoGvNkcs6m8VsGPYsEMOTnh4NH8hJ4xxNM64nxeDC0KQYbesy?=
+ =?us-ascii?Q?z/TfiMPAz4pujsW9AwxiMMajXLHZAl1YuOpzIhXW4Hm7uqStKdRo/E3eLXMA?=
+ =?us-ascii?Q?IkModnjgVGNKMy/5/Kgto9Iy91BXFOzQFYAzo7oR7nDk4G8fP95ylvZOnZNa?=
+ =?us-ascii?Q?6xmtuzn0f7k=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(7416014)(38350700014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?b4kDI+jEDTw/pBnhMTI/ZGWoYv/vbTaJ+WB/a+t0vvvD4bo5jbcYC7Pbc0Cy?=
+ =?us-ascii?Q?W32xqNG4ehKhRaea7/UoJWieh+3hex1DaqYTMa+lY1jSIpFD0R+v9DSrOfIt?=
+ =?us-ascii?Q?tKUKlUuPKfbuFZexye2vT5HcvKgppB7bH7wdV4j7OcJjhRcCCEWDN5g1Hhk7?=
+ =?us-ascii?Q?uTjGujM1fhOGSD3c6GkWMJJQOV/YdBTAdOfaHC3Jj7ssmewqSvLYTO7iau57?=
+ =?us-ascii?Q?WLGdd20mu+LnNbRpIQyYOIMY1hfMJUbq19GhFaPSS2xCQIyMh+DaIHol8Rxj?=
+ =?us-ascii?Q?OpCLAsgxTgLgqAQknKqobF7klJdRzPmgT66Ly/bCdm+TUZ0131UtHN9bNVBA?=
+ =?us-ascii?Q?dEuHtbRi6az68y+ALVuhhQmJNhcSSvR6RuEqFt5jw+gf4GsTZl8veqNWxRTs?=
+ =?us-ascii?Q?xQ4hhqABiAHNir0Uy1/MRbi2SEPWxGLtkSbcwJ9mrj6BW9K4CODpMweKyG9i?=
+ =?us-ascii?Q?BiJvaeGlArVZYo3ziHHBmiQgZIXHbFcWZ6JYM6tfl+uUuKhAC9M8bLjfAfz3?=
+ =?us-ascii?Q?0Be+P4oxKzsOlnlb5ekAeHu38NWFbxZcKly6MxcbFflT4pT15jFsA/eRIqj1?=
+ =?us-ascii?Q?ks7jrL9YoSRD2lwK8h3miUB6sjEszCGY+oATI6eEj/wQSQhfOgGikJWhtrgE?=
+ =?us-ascii?Q?JhU1tFdC3cfvGL7vR4Ag/nlGP5uSrLRkGUkQkyEjoTMKmvP5TNBiC8qqm+Uo?=
+ =?us-ascii?Q?PKzGFeiX7mEkHW6XCUUJLD+H27idWvHKybC8HDUf5nzNdhUvZxsN2FaJnbMr?=
+ =?us-ascii?Q?Qf/7RekcyBA4OfvNQVsywkY4hDfya847hQFyb/GdoCKHIfPwVYdF7S/lBcyN?=
+ =?us-ascii?Q?U1bnaUNr6XIABhr1ViheW6vMqXe8fliS2s/wfQ+HJ+xaEb4c7hzhcDwbC9OE?=
+ =?us-ascii?Q?xgdeTmMQj8y5nGhEL2KIb8QRcL882prF+OkTE+jKa/zZKjWBpXUYigOj6Gsn?=
+ =?us-ascii?Q?TKKpJH2DqcRpSQavmJ6cgYezooJO/WWml4bAVE6vA7Jxd5EwF5QlJAjhthlc?=
+ =?us-ascii?Q?6XRAS+lphj4h2OQN0NLqTY8dT75tmnZnIQQWC/kOgpACW6jTwMR6Cf91sVRj?=
+ =?us-ascii?Q?B0yTWTz0oOVUJSrytrUkgWYQAMxxwzjtN2BtOZSD0Uk5qRrrVVTQIonp8/kx?=
+ =?us-ascii?Q?oVW6PtzV3S2Snq4TI+CufVzuSXz8XjJxDLBp5Z6KYzNWUt3727UL60+U0nHg?=
+ =?us-ascii?Q?GqgLrToY9u50PAMq5DDDtJzxBxP7zRKQ6/76GjIuWQNt08XpLcxkI5KJgBna?=
+ =?us-ascii?Q?BFx0SYLRpPqqODgMgqB8jgKRuwdbfWHaFQ1wjmf+LiGZ/Iin1grGP5wlBqGw?=
+ =?us-ascii?Q?icMxzWRvPwlRVx3l8PsHlw5eOobxi3xvpmaTZlVGaZe8ldKqSBetxRI3Paph?=
+ =?us-ascii?Q?1wsLQu23qZfzOs057wCdbNAAArpz3Gxny3/dfgOMYkteVmssgX7oRipuSCjP?=
+ =?us-ascii?Q?JhkiKdeZzhPzkiD7rwJTTaAD4LJewOIPBy7oLrvtAZK8F6a1SknhijFxXQOj?=
+ =?us-ascii?Q?vCr8KlTbyFkAsssJptqev9BD6J9HNlYEZx99wJbwdfGm0TrArhcaiEL0o/cY?=
+ =?us-ascii?Q?2y2Zdqy4KQzXQVZcwZG5eNg5MP7hZx3aIDQrXiYvgsl4wReu8mdZ1ZmcMEL5?=
+ =?us-ascii?Q?gQ=3D=3D?=
+X-OriginatorOrg: fibocom.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0ffc7d9-7c56-4d40-bd82-08dca1521929
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 02:35:16.4018
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L/Qhg8wA6Q7/6RMfA4YiFKRZGi8MZb5cbHYzDiRkFrB5N8A9X6iqfWcKjpw3RiKazhjkugyFGz/iLT3z5cA+9W0O1hSeFjctm5q0ohNS7e8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR02MB5713
 
+Add support for t7xx WWAN device to debug by ADB (Android Debug Bridge)
+port and MTK MIPCi (Modem Information Process Center) port.
 
+Application can use ADB (Android Debg Bridge) port to implement
+functions (shell, pull, push ...) by ADB protocol commands.
 
-=E5=9C=A82024=E5=B9=B47=E6=9C=8810=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
-=8D=885:21=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
-> On Wed, 10 Jul 2024, Thomas Bogendoerfer wrote:
->
->> > > I'm considering to apply your patch, how much testing/verificatio=
-n did
->> > > this patch see ? Do have some test binaries ?
->> >=20
->> > It has been tested against Debian rootfs. There is no need to test =
-againt special binary,
->> > but you need NaN2008 hardware such as Loongson 3A4000.
->>=20
->> that's just one case, what about NaN2008 binaries on a legacy MIPS CP=
-U ?
->
->  It would be good to check with hard-float QEMU configured for writabl=
-e=20
-> FCSR.NAN2008 (which is one way original code was verified) that things=20
-> have not regressed.  And also what happens if once our emulation has=20
-> triggered for the unsupported FCSR.NAN2008 mode, an attempt is made to=20
-> flip the mode bit via ptrace(2), e.g. under GDB, which I reckon our=20
-> emulation permits for non-legacy CPUs (and which I think should not be=20
-> allowed under the new setting).
+Application can use MIPC (Modem Information Process Center) port
+to debug antenna tunner or noise profiling through this MTK modem
+diagnostic interface.
 
-PTrace is working as expected (reflects emulated value).
+Jinjian Song (2):
+  wwan: core: Add WWAN ADB and MIPC port type
+  net: wwan: t7xx: Add debug port
 
-The actual switchable NaN hardware (M5150, P5600) uses a dedicated Confi=
-g7
-bit rather than writable FCSR.NAN2008 to control NaN2008 mode. This is u=
-ndocumented
-and not present on some RTL releases. FCSR.NAN2008 is R/O as per The MIP=
-S32 Instruction
-Set Manual. This renders the purposed test pointless.
+ .../networking/device_drivers/wwan/t7xx.rst   | 47 +++++++++++++
+ drivers/net/wwan/t7xx/t7xx_pci.c              | 67 +++++++++++++++++--
+ drivers/net/wwan/t7xx/t7xx_pci.h              |  7 ++
+ drivers/net/wwan/t7xx/t7xx_port.h             |  3 +
+ drivers/net/wwan/t7xx/t7xx_port_proxy.c       | 45 ++++++++++++-
+ drivers/net/wwan/t7xx/t7xx_port_proxy.h       |  1 +
+ drivers/net/wwan/t7xx/t7xx_port_wwan.c        |  8 ++-
+ drivers/net/wwan/wwan_core.c                  |  8 +++
+ include/linux/wwan.h                          |  4 ++
+ 9 files changed, 180 insertions(+), 10 deletions(-)
 
-That being said, I'll catch some time later to test behaviour with purpo=
-sed QEMU modification
-but I think it's good to go now.=20
+-- 
+2.34.1
 
-Thanks
-- Jiaxun
-
->
->   Maciej
-
---=20
-- Jiaxun
