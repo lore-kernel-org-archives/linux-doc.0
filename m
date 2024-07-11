@@ -1,140 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E8319F485
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 21:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAA91A00C1
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 21:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720735041; cv=none; b=FnvR7t1wvZecjNVq1rydGFvqm2W+QpfCouwFh1ywlsJSp9ol2jn1l2Xb10XaqMZWajxcD0b5qqJ0uPkPmFqZSQAnt3TZtOXOeDXDg23PpMpnXAqCQzENha6JxsWoHCECw1GPf2ySr58bMV6wFaUjV4oxM8UGGT49nD0CWjEk4lo=
+	t=1720735149; cv=none; b=WtfUqoqUNAWdF56g5LAeYdnAYeNLgm6KAfdtE7tnK8FZdvEd+OjSRcduuDswZNV4bpweD3NUZLvkaKBGi5uI2gRmU73/BHnmJkxJUaMIfNZeypW1O1jUo1oC/XbyBftHnKjIlcaQfKan5zSOCXvL87i8PCyO7CI4Jl/F/gxZxXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720735041; c=relaxed/simple;
-	bh=fI6yQPBGaJd6Dt0pOr97WwmWU63uK/Ow13/IyMF6wwk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=R64eB6VNBKGbok2LOMxt1eHsGxFrCJNaVD3sR8ltnDtAc2punNJLHanRPB++dYMqM2WR/20ErKVaiFA3iXig0NY75ZLJi8o7cxv2Em0JAXnVBat+xmKUSCNpGcGevBcZk4b7usYveYM91MZ4iHOvR+eaheeht2HGDgyzaaH+yyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H9ZCsvSi; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1720735149; c=relaxed/simple;
+	bh=HOG3wYdYaZAZL/0D4w5yHwPQ5t9WN+pCQCO4qB9lyik=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HbgPKzVchzY9PSk6ELXZF7dQbuB8nG4O028bbXCZqZHp4YYkn1FnB3eCt+FYF51rqQbq1kj2i3zd4gi/OYGe8nLi8Myreo7XVr8tZxzZ2psAeoWYFmm93avRYl660b4zjuqY6GEfEhOAbb2gOKVlsGdt9SSNaA1wLaVYUKPBnfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=xbF7c+RW; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H9ZCsvSi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720735038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZESGIe+T4x/4v/aHPLwag6NIYST3OqGfVKCQ2tuMUgM=;
-	b=H9ZCsvSiG0AQTuNSkbFdA8U/CB6au+kPN6iPJ0fiKUz5fyWRnlb0qzDBg5DFVX2JCj1xRv
-	PmQQ0jY2NkP+0hI3SMEqwZLYkUxtFF0mzT2PVlXT4KjGuxRCzetPsMqa1cqfNZEPdyA/9v
-	ojZfQWS0IykWBW34oBdLZYywm+Fca90=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-388-9kXdp_WGN7qgzxNQfFEdvA-1; Thu,
- 11 Jul 2024 17:57:15 -0400
-X-MC-Unique: 9kXdp_WGN7qgzxNQfFEdvA-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D82F19560B1;
-	Thu, 11 Jul 2024 21:57:13 +0000 (UTC)
-Received: from [10.22.64.119] (unknown [10.22.64.119])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C303919560AA;
-	Thu, 11 Jul 2024 21:57:11 +0000 (UTC)
-Message-ID: <7a2e9bd2-a0fd-4429-b22f-6a246ceb6155@redhat.com>
-Date: Thu, 11 Jul 2024 17:57:10 -0400
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="xbF7c+RW"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-70b4267ccfcso1263810b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 14:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1720735146; x=1721339946; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/kw+IcYp8bgUiJbh37Eb+rjf6jAd1bzt2laJrXIeEks=;
+        b=xbF7c+RWElPVM/a/9XU+PMfIUJ/+DQpmCtqplvdzsZdMQW0hPcXTv6GY1I8Gc96McK
+         Hu+9LjVTlci01bsycifHjys+itAroanqdiD2tJ0gAHNiSvjSR6a95ZCEoPOjhkP04YXz
+         vtbUx6m/ilv6MQ2YNUcu1IQzSaVQZAu9A4GZvtxH/si3V6BwVYxMKqZ1utUQOKRROZDJ
+         fZNtia1stFWpt/bdyOuRx34uHsxcq9VGpk1IxzunIKzuQesTNMZvXt7RL3H24ErxdHmo
+         Tqn2HTKCPy3aMLiZjonYFdmvP8nzCDmPexKAdAcIKCAm5gzUQDru7g5yPTePltvXKI6f
+         56iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720735146; x=1721339946;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/kw+IcYp8bgUiJbh37Eb+rjf6jAd1bzt2laJrXIeEks=;
+        b=axtilIb+hRe/HQErMfIh7OtgjuvMjFjXGH1/A47wQ74+tdXGbr5B8HTjZZDOEbfNbo
+         RTQwxuektYDVvEMlWEJzwV90WhZzSjE2K8jQlqO91XixWbKghZllBCXrl2+kooLKEvE6
+         gbVEBLwJJ8ZQW8us0yCzu2IYSw2wJyqQK34rShWU81SXzHlYuwgTnM+fI2iBPRwF6Fto
+         yghSIdeblKhzoCT1IJjh0jay2WoaDOWP9g2x1yxOSFWdHNf9XZvBlte30PQXNs82aZds
+         Y6KheWxhTORbtcwztC9aK+r6tNCVopx47BbXsYc5ocuidB2dJCugcroeP4Y1UlHJmQEB
+         O63A==
+X-Forwarded-Encrypted: i=1; AJvYcCWXBGxPbe0czgsbaPgTnX8pxK79taGCBWnqYoS/Mprj70jNqMx0sVZQkYWNo98JOFqTyq8XejYOB79eCJAnXh/ZjbmbhlArmZVB
+X-Gm-Message-State: AOJu0YxUIMSFl0KgMc7QzFldsEBjBLu3sfFOVXpv5NNOwrGRGUh4oARn
+	OP7CfkjOHve2WBYt1IicxsyTohbZMgOGQiEf3VHs3JU0zdRE5YPB+Yxazmt6xfo=
+X-Google-Smtp-Source: AGHT+IFQBa/vIEx5Z0khrKTKGJiYkqA2a1gi0Teh5Yh2zckpKKSH2Er9zsMFqmnL0nQM5VYY6+YdWQ==
+X-Received: by 2002:a05:6a00:846:b0:706:58a8:f686 with SMTP id d2e1a72fcca58-70b43678a11mr12384423b3a.32.1720735145519;
+        Thu, 11 Jul 2024 14:59:05 -0700 (PDT)
+Received: from jesse-desktop.. (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b43898b10sm6169431b3a.7.2024.07.11.14.58.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jul 2024 14:59:05 -0700 (PDT)
+From: Jesse Taube <jesse@rivosinc.com>
+To: linux-riscv@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Jesse Taube <jesse@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Xiao Wang <xiao.w.wang@intel.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v4 0/7] RISC-V: Detect and report speed of unaligned vector accesses
+Date: Thu, 11 Jul 2024 17:58:39 -0400
+Message-ID: <20240711215846.834365-1-jesse@rivosinc.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] cgroup: Show # of subsystem CSSes in cgroup.stat
-From: Waiman Long <longman@redhat.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kamalesh Babulal <kamalesh.babulal@oracle.com>,
- Roman Gushchin <roman.gushchin@linux.dev>
-References: <20240710182353.2312025-1-longman@redhat.com>
- <20240711134927.GB456706@cmpxchg.org>
- <4e1078d6-6970-4eea-8f73-56a3815794b5@redhat.com>
- <ZpAT_xu0oXjQsKM7@slm.duckdns.org>
- <76e70789-986a-44c2-bfdc-d636f425e5ae@redhat.com>
- <ZpAoD7_o8bf6yVGr@slm.duckdns.org>
- <e5348a85-22eb-48a6-876d-3180de5c7171@redhat.com>
- <ZpArhD49OonR6Oz6@slm.duckdns.org>
- <c54651db-1a06-49f6-aea7-02768ad70756@redhat.com>
- <20240711195946.GA1094169@cmpxchg.org>
- <e42f41af-e8a9-4544-9194-003d6b0f0ba8@redhat.com>
-Content-Language: en-US
-In-Reply-To: <e42f41af-e8a9-4544-9194-003d6b0f0ba8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On 7/11/24 17:00, Waiman Long wrote:
-> On 7/11/24 15:59, Johannes Weiner wrote:
->> On Thu, Jul 11, 2024 at 03:13:12PM -0400, Waiman Long wrote:
->>> On 7/11/24 14:59, Tejun Heo wrote:
->>>> On Thu, Jul 11, 2024 at 02:51:38PM -0400, Waiman Long wrote:
->>>>> On 7/11/24 14:44, Tejun Heo wrote:
->>>>>> Hello,
->>>>>>
->>>>>> On Thu, Jul 11, 2024 at 01:39:38PM -0400, Waiman Long wrote:
->>>>>>> On 7/11/24 13:18, Tejun Heo wrote:
->>>>>> ...
->>>>>>> Currently, I use the for_each_css() macro for iteration. If you 
->>>>>>> mean
->>>>>>> displaying all the possible cgroup subsystems even if they are 
->>>>>>> not enabled
->>>>>>> for the current cgroup, I will have to manually do the iteration.
->>>>>> Just wrapping it with for_each_subsys() should do, no? 
->>>>>> for_each_css() won't
->>>>>> iterate anything if css doesn't exist for the cgroup.
->>>>> OK, I wasn't sure if you were asking to list all the possible 
->>>>> cgroup v2
->>>>> cgroup subsystems even if they weren't enabled in the current cgroup.
->>>>> Apparently, that is the case. I prefer it that way too.
->>>> Yeah, I think listing all is better. If the list corresponded 
->>>> directly to
->>>> cgroup.controllers, it may make sense to only show enabled ones but 
->>>> we can
->>>> have dying ones and implicitly enabled memory and so on, so I think 
->>>> it'd be
->>>> cleaner to just list them all.
->>> That will means cgroup subsystems that are seldomly used like rdma, 
->>> misc
->>> or even hugetlb will always be shown in all the cgroup.stat output. I
->>> actually prefer just showing those that are enabled. As for dying 
->>> memory
->>> cgroups, they will only be shown in its online ancestors. We currently
->>> don't know how many level down are each of the dying ones.
->> It seems odd to me to not show dead ones after a cgroup has disabled
->> the controller again. They still consume memory, after all, and so
->> continue to be property of that cgroup afterwards.
->>
->> Instead of doing for_each_css(), would it make more sense to have
->>
->>     struct cgroup {
->>         ...
->>         int nr_dying_subsys[CGROUP_SUBSYS_COUNT];
->
-> What exactly does new this array for? Is this for copying out 
-> css->nr_dying_descendants before disabling a controller? The number 
-> may be out of date when it is used. I would think we should store the 
-> actual css and clearing it again once the css is ready to be freed.
->
-> Anyway, I would suggest doing it as a separate add-on patch if we 
-> decide to do it instead of adding it to the current patch.
+Adds support for detecting and reporting the speed of unaligned vector
+accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+emulated all CPUs. The vec_misaligned_speed key keeps the same format
+as the scalar unaligned access speed key.
 
-Alternatively, we could delay the clearing of cgroup->subsys[] entry 
-from offline time to until the css is ready to be freed. We do need to 
-add check about the CSS_ONLINE flag when we only want to deal with 
-online csses.
+This set does not emulate unaligned vector accesses on CPUs that do not
+support them. Only reports if userspace can run them and speed of
+unaligned vector accesses if supported.
 
-Cheers,
-Longman
+If Zicclsm is present, the kernel will set both scalar and vector unaligned access speed to FAST.
+
+This patch requires the following patche to be applied first:
+RISC-V: fix vector insn load/store width mask
+https://lore.kernel.org/all/20240606182800.415831-1-jesse@rivosinc.com/
+
+V1 -> V2:
+ - New patch: dt-bindings: riscv: Add Zicclsm ISA extension description.
+ - New patch: RISC-V: Check scalar unaligned access on all CPUs
+ - New patch: RISC-V: hwprobe: Document unaligned vector perf
+V2 -> V3:
+ - New patch: RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+ - Split patch: RISC-V: Check scalar unaligned access on all CPUs
+ - New patch: RISC-V: Check Zicclsm to set unaligned access speed
+V3 -> V4:
+ - Drop patch: RISC-V: Check Zicclsm to set unaligned access speed
+
+Jesse Taube (7):
+  RISC-V: Add Zicclsm to cpufeature and hwprobe
+  dt-bindings: riscv: Add Zicclsm ISA extension description.
+  RISC-V: Check scalar unaligned access on all CPUs
+  RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+  RISC-V: Detect unaligned vector accesses supported
+  RISC-V: Report vector unaligned access speed hwprobe
+  RISC-V: hwprobe: Document unaligned vector perf key
+
+ Documentation/arch/riscv/hwprobe.rst          |  21 +++
+ .../devicetree/bindings/riscv/extensions.yaml |   7 +
+ arch/riscv/Kconfig                            |  57 ++++++-
+ arch/riscv/include/asm/cpufeature.h           |   7 +-
+ arch/riscv/include/asm/entry-common.h         |  11 --
+ arch/riscv/include/asm/hwcap.h                |   1 +
+ arch/riscv/include/asm/hwprobe.h              |   2 +-
+ arch/riscv/include/asm/vector.h               |   1 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |   6 +
+ arch/riscv/kernel/Makefile                    |   3 +-
+ arch/riscv/kernel/copy-unaligned.h            |   5 +
+ arch/riscv/kernel/cpufeature.c                |   1 +
+ arch/riscv/kernel/fpu.S                       |   4 +-
+ arch/riscv/kernel/sys_hwprobe.c               |  42 +++++
+ arch/riscv/kernel/traps_misaligned.c          | 134 ++++++++++++++--
+ arch/riscv/kernel/unaligned_access_speed.c    | 148 +++++++++++++++++-
+ arch/riscv/kernel/vec-copy-unaligned.S        |  58 +++++++
+ arch/riscv/kernel/vector.c                    |   2 +-
+ 18 files changed, 472 insertions(+), 38 deletions(-)
+ create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
+
+-- 
+2.45.2
 
