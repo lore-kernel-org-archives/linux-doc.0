@@ -1,558 +1,275 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2091.outbound.protection.outlook.com [40.107.255.91])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6118A225CF;
-	Thu, 11 Jul 2024 02:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720665333; cv=fail; b=nIMj/JlHDeA1vCdTXexarny2fOgmUL23EBzK6RYEmuZm4cFsaxMvRaup2IzxUtMEBwqC7X5M95M9RKCdas3IAELU/QwpKKUQty65UQ3EMJRl3QDOCAZqarGsIkbqtvU7ntZthlFCOCWod7S5OVFgOYtuSAl4OxYXtRZQy5mAdLY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720665333; c=relaxed/simple;
-	bh=1PNojwSDsHgW7W3uQ9YJkPEVrI8qjBhplnR8GxAp2MA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FhCkQatJIrHRjsDmBRGRr2k6dPHmDBcC/QcgnDHw2YDTJTrmXz6b4h25PsaJduxD0Rco5i+YPNnfvhIlLXEGHbVX21/ATzaIlFSRdkux1ZHVCeLqYrJa8c26FM0NLI1Ksilm4f28Qolsa8GbxRh0F/FJqCCAliafKFfZ0HE/B9o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=p5SAVGSN; arc=fail smtp.client-ip=40.107.255.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF629D530
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 02:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720666334; cv=none; b=ex5HUKb+GXNKMVnUU5aAC8lIvBjLUe13Rni9TRXQoo4gNn9y5HWG3zd1g1XO/SKhggqLJGqvIA0gGRpOFubl3k9woT0xsB6DM18v1ts/8N8QAC4A7bwPvETKEa9B3YbrhgaJKxkFQ8xjDbyCZ7n9E6mnjtxmg/mTN142GDsMVhI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720666334; c=relaxed/simple;
+	bh=FppPta8Wrk96RamSKkoljEslgs0EOHMKhyn4vsdD0I8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VrJD/U+Y0J79WUsAlCXK3VWe6jUWB2FXYuy5Ms4g7L5nrbuDFkjK1Q1lbmkrkYgeT9utNnN3Gd3bkpcGXrsfy+CBYxjWMiiUX+J3SIJl8rYKLypKxtSAdkpO8qMoM+IwrwNpOx73nZbHfGnZJ/FrDlC6guurbAHzSGXSksZ8h4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R0TBHvAc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="p5SAVGSN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iUnSj59MwMykP2P9ipleZG3L3ErJIyVGVaeku9/VR0JeCEL9GA4PgM3K1k294YX16WT6tkNXarxzALTxEJPPRfcaou3tHldzFxvNHz2VZ2eeKVvD0cSRNX6wJqERC3/+fHcbgOKAWRY2IV72m1OpkoHT2Qsj7koDwkDJWNkgL7zVfig51dA1iFhdsoEefd38eX7er91BaazKrKkiZljJlunkobSzAtyMfuc1VD8r8Ahzk5V9vuzdbs/holWDCwvuTaq6QBmwrbrQNrkLtziBunMjBTREsAlLxPoM5M5YUWc6TcDeZqTTNojk1IxX43dSCkgc5SowWuE4Yl2bT6C6sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NZTIlXFBMXbsYpmoUNS0lZqscPH099e7SC//Jpl8ni4=;
- b=GUFegy+fn8nqWbnkus5iHJI7CW701IhsqL/gqoYz/JP6vNksqhevVVyf5xzRv7/Toau02q6EISR044BWuLcgWFjIrrXnryj/2jsWA6Zk8lHDS3+gHsOWuy+7Ok4IFL23ixak5JXMRYtR/4uu9DWetEV8GbCW8UXh+qS6xFpEnprhDoir9tH9edX953H4OVZxHt086n8l6clrMWdpy5IgAbpRhduMSdfr/wZTZ7SSs5ND67nAeIDY8Hx031t9Bv/UiE9vuRek2hLCITuRuwvgGgInkggXHASND7zYwWvKP8fXIppA1dlkSQFxoMSDI4VVje39BvDFQ8lGa79yqJUO9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NZTIlXFBMXbsYpmoUNS0lZqscPH099e7SC//Jpl8ni4=;
- b=p5SAVGSNW7f5wTUU2uQ86h3EAzs58Zt1oPe8B3XTkzTkyxLUSOnkE98xQ+YG1WVx0/AeJWVThgqwzz1hhtZ0/p+NRrRoHnhG2uP1SDq+p//N3YpC94Dzu/5rKRpzBgXVogIq16AFGKRVeFRVJhEbd+RyO+x08GCMIKeieb/f6WQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
- by KL1PR02MB7168.apcprd02.prod.outlook.com (2603:1096:820:116::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
- 2024 02:35:24 +0000
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b%7]) with mapi id 15.20.7741.033; Thu, 11 Jul 2024
- 02:35:23 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R0TBHvAc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720666330;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=92l2pxOLBp79wlU4ETdvGY8byD0aiwHvUYtVVJGRsGM=;
+	b=R0TBHvAc6QLX/IeG4OYPcBDelV4tS4SEMahx3VJwx5A43+BOVprV8spNSkMX3rjZu0HM/m
+	0n6Z71EB3yROhveG6vMu45EAduWzZJUP58c8JM+VzhAm/5iB5H5vFJxs+4+0XsyD+cb68N
+	TqnCIZamw6JmLw627xzusNwhYwV+Vkw=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-134-oYZhr-OkNI-ROLMJdFnKdw-1; Wed,
+ 10 Jul 2024 22:52:07 -0400
+X-MC-Unique: oYZhr-OkNI-ROLMJdFnKdw-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7805819560AB;
+	Thu, 11 Jul 2024 02:52:05 +0000 (UTC)
+Received: from llong.com (unknown [10.22.48.10])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2ACFB1955F3B;
+	Thu, 11 Jul 2024 02:52:02 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	corbet@lwn.net,
-	linux-mediatek@lists.infradead.org,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v5 2/2] net: wwan: t7xx: Add debug port
-Date: Thu, 11 Jul 2024 10:35:00 +0800
-Message-Id: <20240711023500.6972-3-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240711023500.6972-1-jinjian.song@fibocom.com>
-References: <20240711023500.6972-1-jinjian.song@fibocom.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYAPR01CA0175.jpnprd01.prod.outlook.com
- (2603:1096:404:ba::19) To TY0PR02MB5766.apcprd02.prod.outlook.com
- (2603:1096:400:1b5::6)
+	linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in cgroup.stat
+Date: Wed, 10 Jul 2024 22:51:53 -0400
+Message-Id: <20240711025153.2356213-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|KL1PR02MB7168:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac7a1673-8408-447c-61f7-08dca1521db3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|52116014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dWGRDgYkhk67Bw3pjQKgMVxy660v/kHzRVWNRlnVExJLlZXYiQcq5APxX2hw?=
- =?us-ascii?Q?p5R38KNEEZlKQDJZ+89xhEzwZFJWwDHgWZOFFuoJ0g4rAgTX6dzwdsUQlU6I?=
- =?us-ascii?Q?aQPxNba1o5kG9C7pKPMyarOtQBw3ulPw5jfmO5+K2pq+92pXmYbM92XoNoMG?=
- =?us-ascii?Q?qbHRcTvWDMPkqdvElGVdaeGoAIvrGHkVGX3WQXOXtTMBEREdtTRg5J0M/EBh?=
- =?us-ascii?Q?8tcBjixLBSX2PGPZ2dLSiylQGAdP/YW7xr4RMf3/TCfkcLRsYjM0A8zvuKgE?=
- =?us-ascii?Q?Yuai4woHN0r+hbSHYv4MSDnqtrYaIYlHz2a16lKPbLEBajg3Nu8ZRp7PULdE?=
- =?us-ascii?Q?uOC8uHdXSfk9AxpPBGAxCPxDVROcVXbU7W3VESLzbN/htgY/9KMoih9gU3lD?=
- =?us-ascii?Q?Hv0NZw8bqktiAnioHGrK95Db2Jt3wIorv4Xpy3HEN8DwJz9iGswa8jyaKhWM?=
- =?us-ascii?Q?Pt4imL71f7y/sQPRFZ1fHe3yxyfte1bnnZh1WbFfShajtqBTZc5Olx/eo8qH?=
- =?us-ascii?Q?2vGxRPOmX5rt9zu15BxPmghuFrLzkDy6bRW5WPv4gciZkBDTqaFuk583pq0a?=
- =?us-ascii?Q?5I6UtWPETiIgJYtSnJ/ghp3yxGZOITy3JKdjtAZ8F6A9F703RAR1hCxdh3LT?=
- =?us-ascii?Q?5saMuxRa9EIfV6xenEvXzTJMGODKdzNjXR8+zQA11NmWEF0rMvAWRs67CF0E?=
- =?us-ascii?Q?WJZvyJ/nQxe8HzUTNotfYai5YTokIpQ11b/KwZYy+JN9TZqO3ajTQckT08rN?=
- =?us-ascii?Q?Cz/pADwpEMZvthsKTswfqNEbBe+CvEflOhcm85R2umWtcWRh7yvz8770ox5o?=
- =?us-ascii?Q?sNlToSe0rafqCfO0I203WqxsaNvxBqYgr01X9+MLra0Jl2vEaR8P/aewf6QQ?=
- =?us-ascii?Q?UMWAfcYBkhFDv2Np3j7tswmSbfyYtyujtSJm49vfTY8cagxw5CtLy7Tsk0ja?=
- =?us-ascii?Q?RhEoa5/UuOSu8hgfVYBT08CachFkEcTyw3S/GC1dlYgQ01ILObXg8y9Ux/4Q?=
- =?us-ascii?Q?w2apSSHBKgabnxDN35XhH5lFOIbPBY9m5sE0rQkbQXSfa1zlRdGIl3i2dFk2?=
- =?us-ascii?Q?YQxavQ1g15s0+6u5q83hElY7bagEqx9qzPDu7maziF2gaWKTCLrvbk5EOc0I?=
- =?us-ascii?Q?k2OkWolPF+gw/STSQT1SzwXemQja3lXzh7UR5z+C2zRaQI/lTDzG+Wd7lnRZ?=
- =?us-ascii?Q?6A27zMuSaXr0o3eWQ8vhho0XMNHd1wLCr2rY1fn8Hsr5VqRQwsOr9jPFXDSe?=
- =?us-ascii?Q?ENc29vUVdsssk5LaQn737RoquYMfVOCRp71YQAsKfDKgCWsb3fxy96WoAmn+?=
- =?us-ascii?Q?pEaT5zjqSB0qZHIQJNCWzco0H1lgkc+LXum3f/Rha0HMmPuQWHCKGvzWgZsL?=
- =?us-ascii?Q?GVc2pJQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(52116014)(38350700014)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?S12Iky+oOuXtP4mAhyNb+nyx2V+X+FvN8awQYihVG0ne5YoSumTX8Q9JOPne?=
- =?us-ascii?Q?4ed9BQLDWbPX8WaFFRvwGcdIs9rLr4UVguJuGUXgzXD3usf30TwhE/nrBsKv?=
- =?us-ascii?Q?WwMVoC27EDbkM4+94CtwrvdK/5CleTTG+wV22f57OgdE4h/UdGYBp0fqpXAT?=
- =?us-ascii?Q?4O3MjiItTBElXlG0UFWzH14RrpjvoP9WpR/1TjJN6qz0AL63aGx3DV4X2/XH?=
- =?us-ascii?Q?Ee+vBiKxjTJTZiUGEWGInzhGjsogKNWxJNISt0qqY2Q1q+k8lbU5J2P4u4FZ?=
- =?us-ascii?Q?Am7mJDnQn5+DQmMHqsFodCP4kOFey6pOUZGYzJZ5nVCkgwlgKrkPdmYRzT1O?=
- =?us-ascii?Q?V9LjBfBusOlOq1+u5BZ6XTlKS8yh+J6fYpaHhYls/Qhl0pQ/WpA5AZbyrFsT?=
- =?us-ascii?Q?o0qOZw/knl6EyaNx2uX0/oyoILklg5Js/UFcUR2nh+DhMPcrB3VIBCkJifcY?=
- =?us-ascii?Q?EexTVNt/GQTuNkTlYdNIceL7hn5WvXi1U+u0fWbHiZRHYbhp4HG/wiUUFMB6?=
- =?us-ascii?Q?pv04QSiV1a27bO66DEZoA6z/A4Ruh/Y+RCOmWF0i/ioHZTcoE/FxXVONU/Ig?=
- =?us-ascii?Q?IREnJAfPJ9uXGOP0mHH29+pHyoDpmPVZt202gUdmSGq6tk4T8DuvkvIh373I?=
- =?us-ascii?Q?hjSx0HqChWe3PbxwVhX2auerzVhJcrfTgl29n0sFrCZVg0arx+t0RPyjcs/Q?=
- =?us-ascii?Q?WeYNeShcTdUZ/O/Vya5T57/WlDgdIgzgacHBD8G1MsCD6ZiEyk3Ci0aHVYoN?=
- =?us-ascii?Q?VZGpVXotH/Ks/LFNInLUDgzKHOsywN4avun2i1g8crVST+UjE8PkPpCLwesJ?=
- =?us-ascii?Q?u/ZxzgnBbxn32x/EiXByfMizy0ZcCkSRLcMlO/VXujhBiYOo7gXYlfrjK0ek?=
- =?us-ascii?Q?H8pYFxQhvscXY0/devQAzAZp+1dw+/XtDcRp0wbN1XfVUX0ob5HAgUXWB63H?=
- =?us-ascii?Q?/R4ZGkJ4Mto8EaV+Qx+PEpc8ROmgL+lfOZeZrE9nwwrQVBduqxsuOFoNEI3X?=
- =?us-ascii?Q?mkLlXVC9n3lo8GYpiWd8ydl3l89F5B8U6w1Uhvu0gs1TUElaLs2s97zovVB7?=
- =?us-ascii?Q?FRCf3pG8MnHtrkz60TN0KKcdujDh8sjwP/JCsY/Ul9byvbFmW4GJ/lDj0UgK?=
- =?us-ascii?Q?GBmhQmSKOuGhdDUEH2bJU2u8CJXGpL8IF5mCc480lFh8Z1TzQqkdmqPwnZkt?=
- =?us-ascii?Q?r0icLgxXIyR6KshmK2BFSarrI/H7BItgVRVWmsIhq2wjilgGMEpx7IZA5suW?=
- =?us-ascii?Q?ohTAX6CV0IOKON8qfk3VpkHZPvqZrRIiIGULAUUaKZA+f5Np6xSWrLtJp3UA?=
- =?us-ascii?Q?CTBnf/h3CKfmqNvA1pJzsHfyMzEbM2KhSLtrwRuGhQURiXSQ+YTvnEFXGzy3?=
- =?us-ascii?Q?NZh7Lr1dA2qkpdwic4xknwZgYvmwoQtRXWfnu/ndTBml4EVXJBkVZpvResuJ?=
- =?us-ascii?Q?Y69tmbl2Gie91TBuq2+ZI8vYkL+tzfX+SFdkg6DLZZZtLDJIKpXmgdg4iUit?=
- =?us-ascii?Q?6f7OhuLz2QrsfJ+huh9hCj2sQnzMDinPWD3Yojw8yPfVUs+qADIFZf4eFmgW?=
- =?us-ascii?Q?lOTRGL5XYAaOX5Wwj1gRKv3UefIla9V007OV6tTUuDJL8zKXQwqjO93P29SE?=
- =?us-ascii?Q?Xw=3D=3D?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac7a1673-8408-447c-61f7-08dca1521db3
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 02:35:23.8306
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3U0gLyvSAwSSXU7GpAcrh+jh3Y+4hrJVtT9fVTje6DLXPhrnt5EmdejiaA0PFtyCRtqBrCIppAxlFtg6bBzh123Z2Dt1OBhF8bShWPbZhTY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB7168
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Add support for userspace to switch on the debug port(ADB,MIPC).
- - ADB port: /dev/wwan0adb0
- - MIPC port: /dev/wwan0mipc0
+Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+help manage different structures in various cgroup subsystems by being
+an embedded element inside a larger structure like cpuset or mem_cgroup.
 
-Application can use ADB (Android Debg Bridge) port to implement
-functions (shell, pull, push ...) by ADB protocol commands.
-E.g., ADB commands:
- - A_OPEN: OPEN(local-id, 0, "destination")
- - A_WRTE: WRITE(local-id, remote-id, "data")
- - A_OKEY: READY(local-id, remote-id, "")
- - A_CLSE: CLOSE(local-id, remote-id, "")
+The /proc/cgroups file shows the number of cgroups for each of the
+subsystems.  With cgroup v1, the number of CSSes is the same as the
+number of cgroups.  That is not the case anymore with cgroup v2. The
+/proc/cgroups file cannot show the actual number of CSSes for the
+subsystems that are bound to cgroup v2.
 
-Link: https://android.googlesource.com/platform/packages/modules/adb/+/refs/heads/main/README.md
+So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+we can't tell by looking at /proc/cgroups which cgroup subsystems may
+be responsible.
 
-Application can use MIPC (Modem Information Process Center) port
-to debug antenna tunner or noise profiling through this MTK modem
-diagnostic interface.
+As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+cgroup.stat file is now being extended to show the number of live and
+dying CSSes associated with all the non-inhibited cgroup subsystems
+that have been bound to cgroup v2 as long as it is not zero.  The number
+includes CSSes in the current cgroup as well as in all the descendants
+underneath it.  This will help us pinpoint which subsystems are
+responsible for the increasing number of dying (nr_dying_descendants)
+cgroups.
 
-By default, debug ports are not exposed, so using the command
-to enable or disable debug ports.
+The cgroup-v2.rst file is updated to discuss this new behavior.
 
-Switch on debug port:
- - debug: 'echo debug > /sys/bus/pci/devices/${bdf}/t7xx_port_mode
+With this patch applied, a sample output from root cgroup.stat file
+was shown below.
 
-Switch off debug port:
- - normal: 'echo normal > /sys/bus/pci/devices/${bdf}/t7xx_port_mode
+	nr_descendants 55
+	nr_dying_descendants 35
+	nr_subsys_cpuset 1
+	nr_subsys_cpu 40
+	nr_subsys_io 40
+	nr_subsys_memory 55
+	nr_dying_subsys_memory 35
+	nr_subsys_perf_event 56
+	nr_subsys_hugetlb 1
+	nr_subsys_pids 55
+	nr_subsys_rdma 1
+	nr_subsys_misc 1
 
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+Another sample output from system.slice/cgroup.stat was:
+
+	nr_descendants 32
+	nr_dying_descendants 33
+	nr_subsys_cpu 30
+	nr_subsys_io 30
+	nr_subsys_memory 32
+	nr_dying_subsys_memory 33
+	nr_subsys_perf_event 33
+	nr_subsys_pids 32
+
+Signed-off-by: Waiman Long <longman@redhat.com>
 ---
-v5:
- * modify line length warning in t7xx_proxy_port_debug() 
-v4:
- * modify commit message t7xx_mode to t7xx_port_mode
-v3:
- * add sysfs interface t7xx_port_mode
- * delete spin_lock_init in t7xx_proxy_port_debug()
- * modify document t7xx.rst
-v2:
- * add WWAN ADB and MIPC port
----
- .../networking/device_drivers/wwan/t7xx.rst   | 47 +++++++++++++
- drivers/net/wwan/t7xx/t7xx_pci.c              | 67 +++++++++++++++++--
- drivers/net/wwan/t7xx/t7xx_pci.h              |  7 ++
- drivers/net/wwan/t7xx/t7xx_port.h             |  3 +
- drivers/net/wwan/t7xx/t7xx_port_proxy.c       | 45 ++++++++++++-
- drivers/net/wwan/t7xx/t7xx_port_proxy.h       |  1 +
- drivers/net/wwan/t7xx/t7xx_port_wwan.c        |  8 ++-
- 7 files changed, 168 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 14 ++++++-
+ include/linux/cgroup-defs.h             |  7 ++++
+ kernel/cgroup/cgroup.c                  | 52 ++++++++++++++++++++++++-
+ 3 files changed, 70 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/wwan/t7xx.rst b/Documentation/networking/device_drivers/wwan/t7xx.rst
-index f346f5f85f15..02c8a47c2328 100644
---- a/Documentation/networking/device_drivers/wwan/t7xx.rst
-+++ b/Documentation/networking/device_drivers/wwan/t7xx.rst
-@@ -67,6 +67,28 @@ Write from userspace to set the device mode.
- ::
-   $ echo fastboot_switching > /sys/bus/pci/devices/${bdf}/t7xx_mode
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 52763d6b2919..356cd430c888 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -981,6 +981,16 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
  
-+t7xx_port_mode
-+--------------
-+The sysfs interface provides userspace with access to the port mode, this interface
-+supports read and write operations.
++	  nr_subsys_<cgroup_subsys>
++		Total number of live cgroups associated with that cgroup
++		subsystem (e.g. memory) at and beneath the current
++		cgroup.  An entry will only be shown if it is not zero.
 +
-+Port mode:
++	  nr_dying_subsys_<cgroup_subsys>
++		Total number of dying cgroups associated with that cgroup
++		subsystem (e.g. memory) beneath the current cgroup.
++		An entry will only be shown if it is not zero.
 +
-+- ``normal`` represents switching off debug ports
-+- ``debug`` represents switching on debug ports
-+
-+Currently supported debug ports (ADB/MIPC).
-+
-+Read from userspace to get the current port mode.
-+
-+::
-+  $ cat /sys/bus/pci/devices/${bdf}/t7xx_port_mode
-+
-+Write from userspace to set the port mode.
-+
-+::
-+  $ echo debug > /sys/bus/pci/devices/${bdf}/t7xx_port_mode
-+
- Management application development
- ==================================
- The driver and userspace interfaces are described below. The MBIM protocol is
-@@ -139,6 +161,25 @@ Please note that driver needs to be reloaded to export /dev/wwan0fastboot0
- port, because device needs a cold reset after enter ``fastboot_switching``
- mode.
+   cgroup.freeze
+ 	A read-write single value file which exists on non-root cgroups.
+ 	Allowed values are "0" and "1". The default is "0".
+@@ -2930,8 +2940,8 @@ Deprecated v1 Core Features
  
-+ADB port userspace ABI
-+----------------------
-+
-+/dev/wwan0adb0 character device
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver exposes a ADB protocol interface by implementing ADB WWAN Port.
-+The userspace end of the ADB channel pipe is a /dev/wwan0adb0 character device.
-+Application shall use this interface for ADB protocol communication.
-+
-+MIPC port userspace ABI
-+-----------------------
-+
-+/dev/wwan0mipc0 character device
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+The driver exposes a diagnostic interface by implementing MIPC (Modem
-+Information Process Center) WWAN Port. The userspace end of the MIPC channel
-+pipe is a /dev/wwan0mipc0 character device.
-+Application shall use this interface for MTK modem diagnostic communication.
-+
- The MediaTek's T700 modem supports the 3GPP TS 27.007 [4] specification.
+ - "cgroup.clone_children" is removed.
  
- References
-@@ -164,3 +205,9 @@ speak the Mobile Interface Broadband Model (MBIM) protocol"*
- [5] *fastboot "a mechanism for communicating with bootloaders"*
+-- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
+-  at the root instead.
++- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
++  "cgroup.stat" files at the root instead.
  
- - https://android.googlesource.com/platform/system/core/+/refs/heads/main/fastboot/README.md
-+
-+[6] *ADB (Android Debug Bridge) "a mechanism to keep track of Android devices and
-+emulators instances connected to or running on a given host developer machine with
-+ADB protocol"*
-+
-+- https://android.googlesource.com/platform/packages/modules/adb/+/refs/heads/main/README.md
-diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/t7xx/t7xx_pci.c
-index e0b1e7a616ca..b15c470acd3c 100644
---- a/drivers/net/wwan/t7xx/t7xx_pci.c
-+++ b/drivers/net/wwan/t7xx/t7xx_pci.c
-@@ -41,6 +41,7 @@
- #include "t7xx_pcie_mac.h"
- #include "t7xx_reg.h"
- #include "t7xx_state_monitor.h"
-+#include "t7xx_port_proxy.h"
  
- #define T7XX_PCI_IREG_BASE		0
- #define T7XX_PCI_EREG_BASE		2
-@@ -61,7 +62,13 @@ static const char * const t7xx_mode_names[] = {
- 	[T7XX_FASTBOOT_DUMP] = "fastboot_dump",
+ Issues with v1 and Rationales for v2
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index b36690ca0d3f..62de18874508 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -210,6 +210,13 @@ struct cgroup_subsys_state {
+ 	 * fields of the containing structure.
+ 	 */
+ 	struct cgroup_subsys_state *parent;
++
++	/*
++	 * Keep track of total numbers of visible and dying descendant CSSes.
++	 * Protected by cgroup_mutex.
++	 */
++	int nr_descendants;
++	int nr_dying_descendants;
  };
  
-+static const char * const t7xx_port_mode_names[] = {
-+	[T7XX_DEBUG] = "debug",
-+	[T7XX_NORMAL] = "normal",
-+};
-+
- static_assert(ARRAY_SIZE(t7xx_mode_names) == T7XX_MODE_LAST);
-+static_assert(ARRAY_SIZE(t7xx_port_mode_names) == T7XX_PORT_MODE_LAST);
+ /*
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index c8e4b62b436a..cf4fc1c109e2 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3669,12 +3669,36 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
+ static int cgroup_stat_show(struct seq_file *seq, void *v)
+ {
+ 	struct cgroup *cgroup = seq_css(seq)->cgroup;
++	struct cgroup_subsys_state *css;
++	int ssid;
  
- static ssize_t t7xx_mode_store(struct device *dev,
- 			       struct device_attribute *attr,
-@@ -109,13 +116,61 @@ static ssize_t t7xx_mode_show(struct device *dev,
+ 	seq_printf(seq, "nr_descendants %d\n",
+ 		   cgroup->nr_descendants);
+ 	seq_printf(seq, "nr_dying_descendants %d\n",
+ 		   cgroup->nr_dying_descendants);
  
- static DEVICE_ATTR_RW(t7xx_mode);
- 
--static struct attribute *t7xx_mode_attr[] = {
-+static ssize_t t7xx_port_mode_store(struct device *dev,
-+				    struct device_attribute *attr,
-+				    const char *buf, size_t count)
-+{
-+	struct t7xx_pci_dev *t7xx_dev;
-+	struct pci_dev *pdev;
-+	int index = 0;
++	/*
++	 * Show the number of live and dying csses associated with each of
++	 * non-inhibited cgroup subsystems bound to cgroup v2 if non-zero.
++	 *
++	 * Without proper lock protection, racing is possible. So the
++	 * numbers may not be consistent when that happens.
++	 */
++	rcu_read_lock();
++	for_each_css(css, ssid, cgroup) {
++		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
++		    (cgroup_subsys[ssid]->root !=  &cgrp_dfl_root))
++			continue;
 +
-+	pdev = to_pci_dev(dev);
-+	t7xx_dev = pci_get_drvdata(pdev);
-+	if (!t7xx_dev)
-+		return -ENODEV;
-+
-+	index = sysfs_match_string(t7xx_port_mode_names, buf);
-+	if (index == T7XX_DEBUG) {
-+		t7xx_proxy_port_debug(t7xx_dev, true);
-+		WRITE_ONCE(t7xx_dev->port_mode, T7XX_DEBUG);
-+	} else if (index == T7XX_NORMAL) {
-+		t7xx_proxy_port_debug(t7xx_dev, false);
-+		WRITE_ONCE(t7xx_dev->port_mode, T7XX_NORMAL);
++		seq_printf(seq, "nr_subsys_%s %d\n", cgroup_subsys[ssid]->name,
++			   css->nr_descendants + 1);
++		/* Current css is online */
++		if (css->nr_dying_descendants)
++			seq_printf(seq, "nr_dying_subsys_%s %d\n",
++				   cgroup_subsys[ssid]->name,
++				   css->nr_dying_descendants);
 +	}
-+
-+	return count;
-+};
-+
-+static ssize_t t7xx_port_mode_show(struct device *dev,
-+				   struct device_attribute *attr,
-+				   char *buf)
-+{
-+	enum t7xx_port_mode port_mode = T7XX_NORMAL;
-+	struct t7xx_pci_dev *t7xx_dev;
-+	struct pci_dev *pdev;
-+
-+	pdev = to_pci_dev(dev);
-+	t7xx_dev = pci_get_drvdata(pdev);
-+	if (!t7xx_dev)
-+		return -ENODEV;
-+
-+	port_mode = READ_ONCE(t7xx_dev->port_mode);
-+	if (port_mode < T7XX_PORT_MODE_LAST)
-+		return sysfs_emit(buf, "%s\n", t7xx_port_mode_names[port_mode]);
-+
-+	return sysfs_emit(buf, "%s\n", t7xx_port_mode_names[T7XX_NORMAL]);
-+}
-+
-+static DEVICE_ATTR_RW(t7xx_port_mode);
-+
-+static struct attribute *t7xx_attr[] = {
- 	&dev_attr_t7xx_mode.attr,
-+	&dev_attr_t7xx_port_mode.attr,
- 	NULL
- };
- 
--static const struct attribute_group t7xx_mode_attribute_group = {
--	.attrs = t7xx_mode_attr,
-+static const struct attribute_group t7xx_attribute_group = {
-+	.attrs = t7xx_attr,
- };
- 
- void t7xx_mode_update(struct t7xx_pci_dev *t7xx_dev, enum t7xx_mode mode)
-@@ -806,7 +861,7 @@ static int t7xx_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	t7xx_pcie_mac_interrupts_dis(t7xx_dev);
- 
- 	ret = sysfs_create_group(&t7xx_dev->pdev->dev.kobj,
--				 &t7xx_mode_attribute_group);
-+				 &t7xx_attribute_group);
- 	if (ret)
- 		goto err_md_exit;
- 
-@@ -822,7 +877,7 @@ static int t7xx_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- err_remove_group:
- 	sysfs_remove_group(&t7xx_dev->pdev->dev.kobj,
--			   &t7xx_mode_attribute_group);
-+			   &t7xx_attribute_group);
- 
- err_md_exit:
- 	t7xx_md_exit(t7xx_dev);
-@@ -837,7 +892,7 @@ static void t7xx_pci_remove(struct pci_dev *pdev)
- 	t7xx_dev = pci_get_drvdata(pdev);
- 
- 	sysfs_remove_group(&t7xx_dev->pdev->dev.kobj,
--			   &t7xx_mode_attribute_group);
-+			   &t7xx_attribute_group);
- 	t7xx_md_exit(t7xx_dev);
- 
- 	for (i = 0; i < EXT_INT_NUM; i++) {
-diff --git a/drivers/net/wwan/t7xx/t7xx_pci.h b/drivers/net/wwan/t7xx/t7xx_pci.h
-index 49a11586d8d8..973d0f1f8f9a 100644
---- a/drivers/net/wwan/t7xx/t7xx_pci.h
-+++ b/drivers/net/wwan/t7xx/t7xx_pci.h
-@@ -53,6 +53,12 @@ enum t7xx_mode {
- 	T7XX_MODE_LAST, /* must always be last */
- };
- 
-+enum t7xx_port_mode {
-+	T7XX_NORMAL,
-+	T7XX_DEBUG,
-+	T7XX_PORT_MODE_LAST, /* must always be last */
-+};
-+
- /* struct t7xx_pci_dev - MTK device context structure
-  * @intr_handler: array of handler function for request_threaded_irq
-  * @intr_thread: array of thread_fn for request_threaded_irq
-@@ -94,6 +100,7 @@ struct t7xx_pci_dev {
- 	struct dentry		*debugfs_dir;
- #endif
- 	u32			mode;
-+	u32			port_mode;
- };
- 
- enum t7xx_pm_id {
-diff --git a/drivers/net/wwan/t7xx/t7xx_port.h b/drivers/net/wwan/t7xx/t7xx_port.h
-index f74d3bab810d..9f5d6d288c97 100644
---- a/drivers/net/wwan/t7xx/t7xx_port.h
-+++ b/drivers/net/wwan/t7xx/t7xx_port.h
-@@ -42,6 +42,8 @@ enum port_ch {
- 	/* to AP */
- 	PORT_CH_AP_CONTROL_RX = 0x1000,
- 	PORT_CH_AP_CONTROL_TX = 0x1001,
-+	PORT_CH_AP_ADB_RX = 0x100a,
-+	PORT_CH_AP_ADB_TX = 0x100b,
- 
- 	/* to MD */
- 	PORT_CH_CONTROL_RX = 0x2000,
-@@ -100,6 +102,7 @@ struct t7xx_port_conf {
- 	struct port_ops		*ops;
- 	char			*name;
- 	enum wwan_port_type	port_type;
-+	bool			debug;
- };
- 
- struct t7xx_port {
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.c b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-index 7d6388bf1d7c..0b1640ceff71 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-@@ -39,6 +39,8 @@
- 
- #define Q_IDX_CTRL			0
- #define Q_IDX_MBIM			2
-+#define Q_IDX_MIPC			2
-+#define Q_IDX_ADB			3
- #define Q_IDX_AT_CMD			5
- 
- #define INVALID_SEQ_NUM			GENMASK(15, 0)
-@@ -100,7 +102,27 @@ static const struct t7xx_port_conf t7xx_port_conf[] = {
- 		.path_id = CLDMA_ID_AP,
- 		.ops = &ctl_port_ops,
- 		.name = "t7xx_ap_ctrl",
--	},
-+	}, {
-+		.tx_ch = PORT_CH_AP_ADB_TX,
-+		.rx_ch = PORT_CH_AP_ADB_RX,
-+		.txq_index = Q_IDX_ADB,
-+		.rxq_index = Q_IDX_ADB,
-+		.path_id = CLDMA_ID_AP,
-+		.ops = &wwan_sub_port_ops,
-+		.name = "adb",
-+		.port_type = WWAN_PORT_ADB,
-+		.debug = true,
-+	}, {
-+		.tx_ch = PORT_CH_MIPC_TX,
-+		.rx_ch = PORT_CH_MIPC_RX,
-+		.txq_index = Q_IDX_MIPC,
-+		.rxq_index = Q_IDX_MIPC,
-+		.path_id = CLDMA_ID_MD,
-+		.ops = &wwan_sub_port_ops,
-+		.name = "mipc",
-+		.port_type = WWAN_PORT_MIPC,
-+		.debug = true,
-+	}
- };
- 
- static const struct t7xx_port_conf t7xx_early_port_conf[] = {
-@@ -505,13 +527,32 @@ static void t7xx_proxy_init_all_ports(struct t7xx_modem *md)
- 		spin_lock_init(&port->port_update_lock);
- 		port->chan_enable = false;
- 
--		if (port_conf->ops && port_conf->ops->init)
-+		if (!port_conf->debug && port_conf->ops && port_conf->ops->init)
- 			port_conf->ops->init(port);
- 	}
- 
- 	t7xx_proxy_setup_ch_mapping(port_prox);
++	rcu_read_unlock();
+ 	return 0;
  }
  
-+void t7xx_proxy_port_debug(struct t7xx_pci_dev *t7xx_dev, bool show)
-+{
-+	struct port_proxy *port_prox = t7xx_dev->md->port_prox;
-+	struct t7xx_port *port;
-+	int i;
+@@ -5424,6 +5448,8 @@ static void css_release_work_fn(struct work_struct *work)
+ 	list_del_rcu(&css->sibling);
+ 
+ 	if (ss) {
++		struct cgroup_subsys_state *parent_css;
 +
-+	for_each_proxy_port(i, port, port_prox) {
-+		const struct t7xx_port_conf *port_conf = port->port_conf;
+ 		/* css release path */
+ 		if (!list_empty(&css->rstat_css_node)) {
+ 			cgroup_rstat_flush(cgrp);
+@@ -5433,6 +5459,14 @@ static void css_release_work_fn(struct work_struct *work)
+ 		cgroup_idr_replace(&ss->css_idr, NULL, css->id);
+ 		if (ss->css_released)
+ 			ss->css_released(css);
 +
-+		if (port_conf->debug &&
-+		    port_conf->ops && port_conf->ops->init) {
-+			if (show)
-+				port_conf->ops->init(port);
-+			else
-+				port_conf->ops->uninit(port);
++		WARN_ON_ONCE(css->nr_descendants || css->nr_dying_descendants);
++		parent_css = css->parent;
++		while (parent_css) {
++			parent_css->nr_dying_descendants--;
++			parent_css = parent_css->parent;
 +		}
-+	}
-+}
++		css_put(css->parent);	/* Parent can be freed now */
+ 	} else {
+ 		struct cgroup *tcgrp;
+ 
+@@ -5517,8 +5551,11 @@ static int online_css(struct cgroup_subsys_state *css)
+ 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
+ 
+ 		atomic_inc(&css->online_cnt);
+-		if (css->parent)
++		if (css->parent) {
+ 			atomic_inc(&css->parent->online_cnt);
++			while ((css = css->parent))
++				css->nr_descendants++;
++		}
+ 	}
+ 	return ret;
+ }
+@@ -5540,6 +5577,19 @@ static void offline_css(struct cgroup_subsys_state *css)
+ 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
+ 
+ 	wake_up_all(&css->cgroup->offline_waitq);
 +
- void t7xx_port_proxy_set_cfg(struct t7xx_modem *md, enum port_cfg_id cfg_id)
- {
- 	struct port_proxy *port_prox = md->port_prox;
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.h b/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-index 7f5706811445..a9c19c1253e6 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-+++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.h
-@@ -98,6 +98,7 @@ extern struct port_ops ctl_port_ops;
- extern struct port_ops t7xx_trace_port_ops;
- #endif
++	/*
++	 * Get a reference to parent css to ensure reliable access to its
++	 * nr_dying_descendants until after this child css is ready to be
++	 * freed.
++	 */
++	if (css->parent)
++		css_get(css->parent);
++
++	while ((css = css->parent)) {
++		css->nr_descendants--;
++		css->nr_dying_descendants++;
++	}
+ }
  
-+void t7xx_proxy_port_debug(struct t7xx_pci_dev *t7xx_dev, bool show);
- void t7xx_port_proxy_reset(struct port_proxy *port_prox);
- void t7xx_port_proxy_uninit(struct port_proxy *port_prox);
- int t7xx_port_proxy_init(struct t7xx_modem *md);
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_wwan.c b/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-index 4b23ba693f3f..7fc569565ff9 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_wwan.c
-@@ -169,7 +169,9 @@ static int t7xx_port_wwan_init(struct t7xx_port *port)
- {
- 	const struct t7xx_port_conf *port_conf = port->port_conf;
- 
--	if (port_conf->port_type == WWAN_PORT_FASTBOOT)
-+	if (port_conf->port_type == WWAN_PORT_FASTBOOT ||
-+	    port_conf->port_type == WWAN_PORT_ADB ||
-+	    port_conf->port_type == WWAN_PORT_MIPC)
- 		t7xx_port_wwan_create(port);
- 
- 	port->rx_length_th = RX_QUEUE_MAXLEN;
-@@ -224,7 +226,9 @@ static void t7xx_port_wwan_md_state_notify(struct t7xx_port *port, unsigned int
- {
- 	const struct t7xx_port_conf *port_conf = port->port_conf;
- 
--	if (port_conf->port_type == WWAN_PORT_FASTBOOT)
-+	if (port_conf->port_type == WWAN_PORT_FASTBOOT ||
-+	    port_conf->port_type == WWAN_PORT_ADB ||
-+	    port_conf->port_type == WWAN_PORT_MIPC)
- 		return;
- 
- 	if (state != MD_STATE_READY)
+ /**
 -- 
-2.34.1
+2.39.3
 
