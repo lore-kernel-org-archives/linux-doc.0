@@ -1,102 +1,91 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF8B172BDE
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2024 15:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDD2172BC2;
+	Fri, 12 Jul 2024 15:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720797174; cv=none; b=Qy7WLXsk0vVl3p6thN9Uu/FCdmL1XQJV6YIUeUzforux6WL/Jtd3JilTME4mUYuKX4vLQt648bOoI0efDK6CtRd+x+8oJFyGwGY6jwjqxGuQPWGCzQpzF3qkbmYnpQzMeqA3xQf5Z52xPOTbRgv8HNAVw86or0jpxEErqbVOSQM=
+	t=1720797961; cv=none; b=YZxc3qJFdVjPJijhYWQ8Tg0Wtq6t0XmbBY5kjE8e7oUgt5J9p1/dedtwpuXR1fJfB1EJgRCnWpVJZAjP0QuglLnpLI5wv4iFdWWatgIJtXCa5DFBVDUOFH51GFL4S+7EXZcYiXSka+C7awJNP1FrsBy+ABE8+ck5Oc3tkZpjuKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720797174; c=relaxed/simple;
-	bh=9BeUzXJjHysaSyowS0b6W+lvKasnTxqlLnwfpZRUPQg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Vd+jPsf7xN4/Tb+CNR12wwsuc4cTLu3UtKViUEZoirundPLNWHvNadc1WTbLuTpQoNXQ5Cafdjmm4zMDHhTQIM//t5rmeOS4hXuwsdPSESalWgVgGAOmb9MUu3wOBakvl0qM4Yid11li3lLKj/XKY1t4uiTvFxZJYYtr6jvoDbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=blOvoGIz; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1720797961; c=relaxed/simple;
+	bh=KYARmYzWdFF+lUPLXqpoHVYjXil7w463cbdxrC/8cb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4VV720wBDO9QnVan2gaVKouelwQQBhY51LLlyFFBvEcH0BVGIBFlipSXXdq6lqgHSQ7+3Z543UWxHDqyCOFWRdkZoPEDc706uJchuNlktut89ubDMblUy0bMPjLjp1B53+mcFTts4DHF3K5YtCob/puRVOXAxlzOkqLLVRzHh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcn8ip1L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="blOvoGIz"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1faf91cbe19so14153735ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2024 08:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720797172; x=1721401972; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUu8mGS1OQxBMeoqKcwdn/WJeVzZBowT4FUswTBpL4Q=;
-        b=blOvoGIzxsHDi8Y+0Vgl4RtYLBGA1dDa4UPElgJ6nVS4ncmkyaVTsCu45OuAuk6x+/
-         V9x0E7pARXOdGeG/yQvjX08uSWIjb7OKPmH84CabpJi7rD1Cbc7JE//048fnX9D4Fdfx
-         n16Ma+ZRJVK4A/VLSNHgvpZ/4lON+jxijAQ+3Uw5Oc692EI2/DT1dokIIv2yMd3FsvDW
-         jJsQ4cynRYWtvhu3kxI1Y1iDz3VW15fpzzx0C8jaJk8vpVoJeo6BZJ0mRcOaFdER8hFp
-         6PO7nBlKE3WGO+UIAYYdc3oTW1YfZ7DXyFs4qNq/KBR4HZfCTazrbCl+JeLpA5uciKWZ
-         3awg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720797172; x=1721401972;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUu8mGS1OQxBMeoqKcwdn/WJeVzZBowT4FUswTBpL4Q=;
-        b=Neq2MmRKKskcMXy6GnOqwCB6xKp9fFvW2JLvh2m6LJxG01XQ+3szaOlzN415XkodSf
-         +huV/FdVWMFCLSYD28tQ1/hRzDYFxEu+joN96IuKxgj9TefTbsZc6CO0kbna1P1CoBwI
-         XWtSaof5DOoKdeUWCo4rJAYjSV681+QqAX8ldcmMAwo2tM6FBp6nJCrA7FU+wWr9VK9N
-         TLZsvXe5g5ksSfX/i2JyNcbvGjZcSTuDicfQPukXuvrorUm0mof6Lk49JwU3UtX1ikE2
-         xHkHfQhiWLv+3kyQys6fZRepSdszHJ27rKYG02ecyI6jvVBxUkHGMOoddcawmGr2aU3B
-         wTkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWku+5HcGHPngkrvgrVvACAGQqKMBiZyMksnWwHT+PsHqayITiE0+5aGAcunj84SrHXATDa/LgwxX3lqjeQxAHrxSni4/8VQiwc
-X-Gm-Message-State: AOJu0Yw9sSDVOjnLASqgl0FiEmsbWOaodlvovtv5dtFkXuojuey/lXbC
-	SX237fSYm3FIsh0Ip4yyNps1GyRNxPldrgy7bTNU8hu1uC9XSyZXLU+72jI9Ri7XH/BYrB60Xw/
-	bPQ==
-X-Google-Smtp-Source: AGHT+IEUE3RwZfydvmvGzSOcHXyGrTF07p1ZkjrHKehYizMX0HteiU6qGOi9myjkfJZgQKr0WaGhxCPzpHg=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:903:2bcb:b0:1f7:1d6a:786c with SMTP id
- d9443c01a7336-1fbb6edea46mr234215ad.11.1720797172460; Fri, 12 Jul 2024
- 08:12:52 -0700 (PDT)
-Date: Fri, 12 Jul 2024 08:12:51 -0700
-In-Reply-To: <SA1PR11MB67348BD07CCCF8D52FCAC8FEA8A42@SA1PR11MB6734.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcn8ip1L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5872C32782;
+	Fri, 12 Jul 2024 15:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720797960;
+	bh=KYARmYzWdFF+lUPLXqpoHVYjXil7w463cbdxrC/8cb4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fcn8ip1LYZ3aWgnW1+WeBCqBGRB6vczy6YCHpgBqiziVpb/CuJwd9aqW/ZSy0OmQX
+	 JId6ZU30NBENgmZANyGRTPPMp5W0gr91QFt5TS5+/2Bk6IX0l2JbsNrLLdcU1rOeEL
+	 W2GZPa1JcyVeYHNQ/O05Kh8y5Iz7uUv/de+MJMSbWN4yhR+WO+pSDKBXkS3knQ74Ew
+	 jSul8YGJhfzhgSbBd2d6RrxmleVM9BbmX0Pbv//YEDJ+GGUhw5eFFN1JjFcrvRAS4k
+	 BuFQpMLCAC+acs5kmbHyTzK+olU/sa9pKT0CUrkinH0lRx+HSnaxYLDisJX+suyQaW
+	 LhbBRKcnjnUbw==
+Date: Fri, 12 Jul 2024 16:25:56 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
+ off-list
+Message-ID: <7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
+References: <20240712144903.392284-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-10-xin3.li@intel.com>
- <ZmoYvcbFBPJ5ARma@google.com> <SA1PR11MB67348BD07CCCF8D52FCAC8FEA8A42@SA1PR11MB6734.namprd11.prod.outlook.com>
-Message-ID: <ZpFH86n_YY5ModwK@google.com>
-Subject: Re: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and guest
-From: Sean Christopherson <seanjc@google.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"vkuznets@redhat.com" <vkuznets@redhat.com>, "peterz@infradead.org" <peterz@infradead.org>, 
-	Ravi V Shankar <ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DC9qwPNpfcMJaT2k"
+Content-Disposition: inline
+In-Reply-To: <20240712144903.392284-1-kuba@kernel.org>
+X-Cookie: Individualists unite!
 
-On Wed, Jul 10, 2024, Xin3 Li wrote:
-> > On Wed, Feb 07, 2024, Xin Li wrote:
-> > > Switch MSR_IA32_FRED_RSP0 between host and guest in
-> > > vmx_prepare_switch_to_{host,guest}().
-> > >
-> > > MSR_IA32_FRED_RSP0 is used during ring 3 event delivery only, thus
-> > > KVM, running on ring 0, can run safely with guest FRED RSP0, i.e., no
-> > > need to switch between host/guest FRED RSP0 during VM entry and exit.
-> > >
-> > > KVM should switch to host FRED RSP0 before returning to user level,
-> > > and switch to guest FRED RSP0 before entering guest mode.
-> > 
-> > Heh, if only KVM had a framework that was specifically designed for context
-> > switching MSRs on return to userspace.  Translation: please use the
-> > user_return_msr() APIs.
-> 
-> IIUC the user return MSR framework works for MSRs that are per CPU
-> constants, but like MSR_KERNEL_GS_BASE, MSR_IA32_FRED_RSP0 is a per
-> *task* constant, thus we can't use it.
 
-Ah, in that case, the changelog is very misleading and needs to be fixed.
-Alternatively, is the desired RSP0 value tracked anywhere other than the MSR?
-E.g. if it's somewhere in task_struct, then kvm_on_user_return() would restore
-the current task's desired RSP0.  Even if we don't get fancy, avoiding the RDMSR
-to get the current task's value would be nice.
+--DC9qwPNpfcMJaT2k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Jul 12, 2024 at 07:49:03AM -0700, Jakub Kicinski wrote:
+
+> +Open development
+> +----------------
+> +
+> +Discussions about user reported issues, and development of new code
+> +should be conducted in a manner typical for the larger subsystem.
+> +It is common for development within a single company to be conducted
+> +behind closed doors. However, maintainers must not redirect discussions
+> +and development related to the upstream code from the upstream mailing lists
+> +to closed forums or private conversations. Reasonable exceptions to this
+> +guidance include discussions about security related issues.
+
+Reviewed-by: Mark Brown <broonie@kernel.org>
+
+I do think it's fine for people to have open places like github as an
+option as well, so long as they're optional for contributors and things
+pass through the lists in a normal fashion at some point.  Directing
+people towards existing relevant discussions/reviews can work well.  The
+main issues are taking things out of all visibility and blocking
+contributors.
+
+--DC9qwPNpfcMJaT2k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaRSwQACgkQJNaLcl1U
+h9BjQQf/bRORmkxt7au1YJa+jROFfyMEP5aK5W3ub5/kzoLQjhFragaTD4u19oCp
+W67h814hjD+3bAxGne42OOC7PmKUcy5/EbLGfWDnRLeNO4eof7EhtBzABH+zPZBz
+MBfzb4FkFWSgcS+Bk3E6XdT+7vu+3W886FMiEnZ6FoO+ksfugviQItoKpXHcQlXr
+Yc5cd3dFt6Vpo7P8Z8Cdif5ThgwEJsTJWamEiSNp3xyRlsCB6KGHmivTlscwiJPD
+G5lmIsKIsg0h+abIz+QDXphMa8Hju+b8ZLGgXGTNoETwli/yS3NAuCipTDYKsC4r
+QB6pBMhyVdbjlP46xJdExUIh4poo/w==
+=tcp5
+-----END PGP SIGNATURE-----
+
+--DC9qwPNpfcMJaT2k--
