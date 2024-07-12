@@ -1,213 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92E81426C;
-	Fri, 12 Jul 2024 18:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234FC1DFD2;
+	Fri, 12 Jul 2024 18:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720807439; cv=none; b=q2H1Z2MkbHM/23SRdUq29WAN99FQSOdpUR9+ciqAnRYreSPVnsFVplMvW1rFVsqaS6BZtsrMjwmWMS38uTz5XNcc4Dx63TB6Aav45T9vjUInLZ1HhbUvMbij6ynFYZ7YPQg7I+o8uyUkEE60zvH6Y/Xc9T/V++Jp3x7Rv6asKKc=
+	t=1720807922; cv=none; b=YdaElfX1QO/9alzeAUO5qvzE6yWJU4GPH2y9dPADyt39fWi4t4QKfTYVRHPWM10wYGsQ7XrUn3d9bUF1q7p2TF4fUVgdHhAkmRNu6vz2IMdZe3nvuLx2eYIky6NYyt+tuSLjrIsP8rqEoyW/Fkoqfo4q1m430ImEW3mg8UbICAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720807439; c=relaxed/simple;
-	bh=YdhC12U5itgKxqr69NX603o+N3odPAcmCvIKxGDxGf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QpcSX65wybRwTgdLh0e/Aq0drJYJlRf18Suauc/ZWEDYafhioVml+n4LArGxOs5oyl4YKIR/CPUaCPNPkawJjUCYW0XCTs8FykXS2Mr1sftCAduaTcsDLgVlr7Vj7dKn6d77aLfcM/7uuN5Ng9TsVkBPeKtoAQU3KTQ9z22FzAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4MXN3kq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720807922; c=relaxed/simple;
+	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DVLm4Xh3iqoSF7s6p60TAr60j7mIRMiTI38ZAMFIsgcSJI9eZeRKvs7nRqMxhZJg6psjILLC8iyuNr8FvF105VDWewX+rM48M7yWSNxjOotaOR9F+RMdUM9HPTZ0amtazdsFvqhYOalqIL1wMVsdBLO+lbRwn99Hg6Vv2VJNNL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRR6MviD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4MXN3kq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028F1C32782;
-	Fri, 12 Jul 2024 18:03:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRR6MviD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291C4C4AF07;
+	Fri, 12 Jul 2024 18:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720807439;
-	bh=YdhC12U5itgKxqr69NX603o+N3odPAcmCvIKxGDxGf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q4MXN3kqqSE4oo1tx8R+NhLvcPeRcj5FbpqkyDkqzPumnReJj+eSnRoQmBWGKwKxf
-	 VVk6QPIoe3cOXsHG7EFwErKWwFQy+exX2TybdHm1GFdZhPrXn6SZCSJKVcCr0n/NDl
-	 as86teConu5ENQofD9s0F+Unckg4Jqhvm129geRYAJs8fZBj1KS+GYNJ1I80rYfAJu
-	 MxDYyB9DiXE/NGqg9ryCKXi+SpTOGJVjB8XeieozImBKYSFyllNgWz6EMJI0O0kpXT
-	 0OvSdILp5/hY4xJdPJH3Q4acWHXCG2obkdHDUNjr7gm3zyzWc5mbHIHbhqvgCgf4vt
-	 eSsGVmexmI9tg==
-Date: Fri, 12 Jul 2024 12:03:58 -0600
-From: Rob Herring <robh@kernel.org>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 2/5] dt-bindings: arm: fsl: add imx-se-fw binding doc
-Message-ID: <20240712180358.GA1286437-robh@kernel.org>
-References: <20240712-imx-se-if-v5-0-66a79903a872@nxp.com>
- <20240712-imx-se-if-v5-2-66a79903a872@nxp.com>
+	s=k20201202; t=1720807921;
+	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eRR6MviD29mZz/RL8Z3TJcV2Rzi0jqHm62TsZj2fgA8g8tUSA1AG8JqHnk9JRZdCo
+	 ld/FOBFZyhxdFyxzB4JG6yDJtNRF8uir+X2OsoZCQ/BlOzvr0t9lxQlI+R3xWfdEmx
+	 3vmHlrXlNcGaY6BYR4gfZpJmF9jiVVe/qIiG4MC5yncN53QdolzsOzY0bKALBOVQ8v
+	 4jeiIOZxC3TE5MzK/EE9O+lMSUtB2pp9WDWAyDKrcvkgXIeKMMhfQS2IfLjm8gEzjr
+	 Qbd5uC+M1ou5x7Pgwgl/2OXC4hruS6wvIoeOGxUJqSKADGUlDpcM6OhxKgT247QSC+
+	 R0XaCi5Xe6b2Q==
+Date: Fri, 12 Jul 2024 20:11:56 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
+ off-list
+Message-ID: <20240712201156.1413e80e@foz.lan>
+In-Reply-To: <1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
+References: <20240712144903.392284-1-kuba@kernel.org>
+	<7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
+	<1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240712-imx-se-if-v5-2-66a79903a872@nxp.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 12, 2024 at 11:49:57AM +0530, Pankaj Gupta wrote:
-> The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
-> creates an embedded secure enclave within the SoC boundary to enable
-> features like:
-> - HSM
-> - SHE
-> - V2X
-> 
-> Secure-Enclave(s) communication interface are typically via message
-> unit, i.e., based on mailbox linux kernel driver. This driver enables
-> communication ensuring well defined message sequence protocol between
-> Application Core and enclave's firmware.
-> 
-> Driver configures multiple misc-device on the MU, for multiple
-> user-space applications, to be able to communicate over single MU.
-> 
-> It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> ---
->  .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 111 +++++++++++++++++++++
->  1 file changed, 111 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
-> new file mode 100644
-> index 000000000000..bd99505de6e6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
-> @@ -0,0 +1,111 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
-> +
-> +maintainers:
-> +  - Pankaj Gupta <pankaj.gupta@nxp.com>
-> +
-> +description: |
-> +  NXP's SoC may contain one or multiple embedded secure-enclave HW
-> +  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
-> +  enables features like
-> +    - Hardware Security Module (HSM),
-> +    - Security Hardware Extension (SHE), and
-> +    - Vehicular to Anything (V2X)
-> +
-> +  Communication interface to the secure-enclaves is based on the
-> +  messaging unit(s).
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "firmware@[0-9a-f]+$"
-> +
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8ulp-se
-> +      - fsl,imx93-se
-> +      - fsl,imx95-se
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: Identifier of the communication interface to secure-enclave.
+Em Fri, 12 Jul 2024 09:42:07 -0600
+Shuah Khan <skhan@linuxfoundation.org> escreveu:
 
-I don't understand what this is. How does someone determine what the 
-value should be? Are there constraints on the values?
+> On 7/12/24 09:25, Mark Brown wrote:
+> > On Fri, Jul 12, 2024 at 07:49:03AM -0700, Jakub Kicinski wrote:
+> >   
+> >> +Open development
+> >> +----------------
+> >> +
+> >> +Discussions about user reported issues, and development of new code
+> >> +should be conducted in a manner typical for the larger subsystem.
+> >> +It is common for development within a single company to be conducted
+> >> +behind closed doors.
 
-> +
-> +  mboxes:
-> +    items:
-> +      - description: mailbox phandle to send message to se firmware
+True. So what?
 
-"mailbox phandle to " is redundant. Drop.
+> >> However, maintainers must not redirect discussions
+> >> +and development related to the upstream code from the upstream mailing lists
+> >> +to closed forums or private conversations. Reasonable exceptions to this
+> >> +guidance include discussions about security related issues.  
 
-> +      - description: mailbox phandle to receive message from se firmware
-> +
-> +  mbox-names:
-> +    description: two names are to be listed, one for rx and other one for tx.
-> +      The name can be any of the below list.
+Not sure what this somewhat obscure message wants to accomplish.
 
-I think this can be dropped. The schema says all this.
+It is quite common to have developers and maintainers discussing 
+outside public forums and internally at the companies they're working 
+for. There are lots of reasonable exceptions besides security. On my
+years of experience, the reasons I've seen more often are:
 
-> +    items:
-> +      - const: tx
-> +      - const: rx
-> +
-> +  memory-region:
-> +    items:
-> +      - description: The phandle to the reserved external memory, the only
-> +          accessible memoryregion to secure enclave(SE) firmware. It is an
-> +          optional property based on compatible.
-> +          (see bindings/reserved-memory/reserved-memory.txt)
+1. language and/or cultural barriers;
+2. teaching and mentoring new developers to start contributing upstream;
+3. need to have internal discussions in the light of some IP protected
+   material.
 
-Drop. 'maxItems: 1' is sufficient.
+(1) and (2) are very common for non-native English speakers
+and for newbies, and we do want to have more contributions from
+them. (3) is unavoidable, as discussions related to protected
+IP can't be disclosed due to legal reasons.
 
-> +
-> +  sram:
-> +    items:
-> +      - description: It is an optional property based on compatible.
+Also, if you take it to the letter, have discussions on LPC, 
+summits BoFs, other events handled by the open source community 
+and wall conversations are "closed forums/private conversations".
+I've seen a lot of good results produced on such private
+conversations that solved relevant conflicts and got
+materialized as great contributions.
 
-Drop. 'maxItems: 1' is sufficient.
+There's nothing wrong with that, provided that the outcoming of
+such internal discussions are reflected publicly as patches,
+summit minutes, LWN articles, etc.
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - mboxes
-> +  - mbox-names
-> +
-> +allOf:
-> +  # memory-region
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx8ulp-se
-> +              - fsl,imx93-se
-> +    then:
-> +      required:
-> +        - memory-region
-> +    else:
-> +      properties:
-> +        memory-region: false
-> +
-> +  # sram
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx8ulp-se
-> +    then:
-> +      required:
-> +        - sram
-> +
-> +    else:
-> +      properties:
-> +        sram: false
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    firmware {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      firmware@0 {
-> +        compatible = "fsl,imx95-se";
-> +        reg = <0x0>;
-> +        mboxes = <&ele_mu0 0 0>, <&ele_mu0 1 0>;
-> +        mbox-names = "tx", "rx";
-> +      };
-> +    };
-> +...
-> 
-> -- 
-> 2.34.1
-> 
+The only issues I see with such talks is that the work when
+co-authored should be properly marked as such and that 
+reviewews/acks taken behind doors don't have the same meaning
+as an upstream review, as they may be due to some internal 
+formalities.
+
+IMO, the best would instead to give a positive message. E. g.
+something like:
+
+	Maintainers must encourage discussions and reviews to happen
+	at public mailing lists, avoiding whenever possible to have
+	internal discussions.
+
+Regards,
+Mauro
