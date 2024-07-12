@@ -1,82 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9DF152500;
-	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53167EF09;
+	Fri, 12 Jul 2024 11:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720779633; cv=none; b=GyngVUEuWDwdcW1ReeiMcAjwg3gmoiyAaFZSPu2NfSAhjIAdi5+/l+rYHnlaLmyIz+4/e4utlJ3+brpjlL8BrAvLWwyxsU5SGc084KP4m1Q8YmnD7DVpzYvbxZ7OlZdpMQ1CzZ31z4Q3jon8fjSAOEMSp68YvUvRv5R0FF1cUqM=
+	t=1720782987; cv=none; b=eq3sX5OYdVb5h29djmOedXYz901a4kObA69tZsnsEHi1s43NfdZ0UvpIftCv9D0iKEQ47v3ljuuOlAxaHhjxN19F1+ntqosdHVfYhCM/ILvxxzgD7mMQa+k5JfSYVZNEK1vkT4EjMYy//uFNrvyCR8TzOAV7bEg8MbypQNlFGlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720779633; c=relaxed/simple;
-	bh=VVoIxpcBpsu5DTyIieNUadbasv+xGN5WhTLbUa6mR/c=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=lZ1lqtg80/x17W1ZwNJNVOyja4jYyr8DW88RUW/jLl9db/cSheCF6h/Cwd7tb/xfaeD0TTIHKXrN8DRPVEvmC2qKp7MYY3Lq3iS8i6Lr3Cc6XhKu+D51xOPJZkMK5i3S661lkZopq3ZXjWOkw8+3d5TI3CDcvcu5mffA3DF1n/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HuCJckfV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720782987; c=relaxed/simple;
+	bh=4D3VUr5iKTjELUQa9dMeWOYc70Xny/JwIm71cTE/6J0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DDw/JcImbXrKAUiS5gyq1a9QST+8AIt6yW37F7LdmE0J/ytx/mrKpsH76IKUHLZ/QaFlxTEHnKvxXXKlioANa5tt5938zg+3Udj0d6XujqjbyT3bsHW8rzsuyrSUUC9EFyJGSDjYsHv0TVsEcnMgi3vylJK0dENIk6LtH51O6yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMi8z5NY; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HuCJckfV"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A3984C4AF0B;
-	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720779632;
-	bh=VVoIxpcBpsu5DTyIieNUadbasv+xGN5WhTLbUa6mR/c=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=HuCJckfV+Y2YomYDLLyNFm4QYZDL+JVt6WlrvWFNYv6yVHh+6d8bHsc2cHao9BEVH
-	 7+E5qsJrddW46aPiQAOXRfzEHH1QqtIIybderNU55GqK6rQJTon8+Zx/clW7BIkc1m
-	 b5VBcEAyekiCYDfxuO662s8FQXmWEecRNfBw9b63v2EiczLsNSsrsaatrWkwY3RWFZ
-	 AXhm4TZtuLKSkDy/3obgSBFF/UuPVIfScVJggzpu3/xoTWaV450mdXkWhUppfUQJfF
-	 SrWD0hBQ7HXir7SIl28OHO2epJ8m/fkNAZEV20EujfQPjAF/A1C7Gu0JV6flCEimTN
-	 j/JbUo4xYZn+Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 90E99C43468;
-	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMi8z5NY"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a77d85f7fa3so298000566b.0;
+        Fri, 12 Jul 2024 04:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720782984; x=1721387784; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4D3VUr5iKTjELUQa9dMeWOYc70Xny/JwIm71cTE/6J0=;
+        b=kMi8z5NYNOzS/V45/sgo3CJRY7Non/jtb/Awx63j/rtDfg+zLikUH8YFq3HwCkOXES
+         scEvTMNKkiDJxMN9Vlde9WUCQPjjbyN+u+/8gRg5hGC56cqbHxVwX0sCKNZqyth4LLKd
+         sOuZl2o1vWHKm4v5NqFacgH+JXHXvLlNHutJCDDiYRO/zi2QRvNYmS+YvoYDLY2QAbg0
+         RINGjOhVMrrJSqjyuKok6H/istJpGXI8L5kFi1kcC5YDgCu+jmUicTS7FkvRzo6Q+eJM
+         7lTLs9iuQNrr5UV620iPxvzdSCEVVaM1pHal9k1gw3DMrxVHuxRmmK6QhnGdJES2rLxE
+         DF7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720782984; x=1721387784;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4D3VUr5iKTjELUQa9dMeWOYc70Xny/JwIm71cTE/6J0=;
+        b=XTOa145f2h6WDXGyRb9Q5Ck7FWZtxmWqFfsG9x51Fb/FKMrCDkWKIPS3af0nwi8yOt
+         uj9RzMoJXyJaDlrrEAsfc1tTiACNi73rXhCjp8I5u+7QEWd8KovNqUwu2gQvlBBcQh/z
+         tyq/G0vCFO+1Zmn/TA2CdQCk6p43N+KsVjk2Y1d8GS9CF4nhXUwDJsGHVheyEoF0dGw0
+         WMiLDmjelmmznQmCkEelrAS7e2T2Y1LpKQ1bdKYB8JaDWdiIPwxiZJbRGNavGLGA/lAJ
+         rHUIeiVq1LRytwFxyolEtBiYHE4ZcxUbPTbgzRttopycctDTGiB1YPooCe5s33iTQ1s1
+         /wUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYT6IWHBMaEkYQmxo7JtW8rZqDo9WKranUjnF18EECRhctOnkGq9fzLh9vKTQjI4bfOBY4vEG4t1MbMv2zOENv/TJRh5IHRPebsU8SEjaWKrD3ZyDctK8yVKaUoPEamfdAtbEI8qmwOQbA/y4aF+e7YZZu7+9X8FjuTWrvnQ6een1JOruT/Ak2EtNY7ep79xxH8Y4D2CZTc/6oPjp7ZQ==
+X-Gm-Message-State: AOJu0Ywz6/apMKhIFVuTkgGEw34HMaJpgpayap+Jy0m/vLaX8yC0Z5/n
+	nUSRTlIEYV1s8dw5q0DpF3L969SHLZ8WHxlVIil5US1WqXok0OeR
+X-Google-Smtp-Source: AGHT+IHov9UcHLOTIUHHGjZ0+vLxZW+uxcYU1PpSvmr1evSQk0koh0mjZsRSVODNh/gz2dC2iD+rdg==
+X-Received: by 2002:a17:906:a047:b0:a77:d4e1:f66e with SMTP id a640c23a62f3a-a799d38065amr170747966b.20.1720782983892;
+        Fri, 12 Jul 2024 04:16:23 -0700 (PDT)
+Received: from ?IPv6:2003:f6:ef1c:c500:ee59:d953:f148:40ba? (p200300f6ef1cc500ee59d953f14840ba.dip0.t-ipconnect.de. [2003:f6:ef1c:c500:ee59:d953:f148:40ba])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a7ff0a5sm334600766b.117.2024.07.12.04.16.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jul 2024 04:16:23 -0700 (PDT)
+Message-ID: <4423e91156fa708edd2bde728ce861132bda3d6d.camel@gmail.com>
+Subject: Re: [PATCH v4 2/3] iio: adc: ad4695: Add driver for AD4695 and
+ similar ADCs
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
+ <jic23@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?=
+	 <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Ramona Gradinariu
+	 <ramona.gradinariu@analog.com>
+Date: Fri, 12 Jul 2024 13:20:18 +0200
+In-Reply-To: <20240711-iio-adc-ad4695-v4-2-c31621113b57@baylibre.com>
+References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
+	 <20240711-iio-adc-ad4695-v4-2-c31621113b57@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5] riscv: hwprobe: export highest virtual userspace address
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <172077963258.4770.205626830375405089.git-patchwork-notify@kernel.org>
-Date: Fri, 12 Jul 2024 10:20:32 +0000
-References: <20240410144558.1104006-1-cleger@rivosinc.com>
-In-Reply-To: <20240410144558.1104006-1-cleger@rivosinc.com>
-To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@ci.codeaurora.org
-Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rehn@rivosinc.com, charlie@rivosinc.com,
- sorear@fastmail.com, jrtc27@jrtc27.com
 
-Hello:
+On Thu, 2024-07-11 at 14:15 -0500, David Lechner wrote:
+> This is a new driver for Analog Devices Inc. AD4695 and similar ADCs.
+> The initial driver supports initializing the chip including configuring
+> all possible LDO and reference voltage sources as well as any possible
+> voltage input channel wiring configuration.
+>=20
+> Only the 4-wire SPI wiring mode where the CNV pin is tied to the CS pin
+> is supported at this time. And reading sample data from the ADC can only
+> be done in direct mode for now.
+>=20
+> Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
+>=20
 
-This patch was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+LGTM,
 
-On Wed, 10 Apr 2024 16:45:57 +0200 you wrote:
-> Some userspace applications (OpenJDK for instance) uses the free MSBs
-> in pointers to insert additional information for their own logic and
-> need to get this information from somewhere. Currently they rely on
-> parsing /proc/cpuinfo "mmu=svxx" string to obtain the current value of
-> virtual address usable bits [1]. Since this reflect the raw supported
-> MMU mode, it might differ from the logical one used internally which is
-> why arch_get_mmap_end() is used. Exporting the highest mmapable address
-> through hwprobe will allow a more stable interface to be used. For that
-> purpose, add a new hwprobe key named
-> RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS which will export the highest
-> userspace virtual address.
-> 
-> [...]
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
 
-Here is the summary with links:
-  - [v5] riscv: hwprobe: export highest virtual userspace address
-    https://git.kernel.org/riscv/c/c9b8cd139c1d
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+- Nuno S=C3=A1
 
 
