@@ -1,55 +1,55 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAB7F7FB;
-	Fri, 12 Jul 2024 22:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABF451C21;
+	Fri, 12 Jul 2024 22:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720823803; cv=none; b=sZHFw7Ua7c7WcHb9An0fr2l7m8WoWOT/oD2ORVSMWa0sxNDgQQGjII01eCtYSGeoIJp3Eluk8QguGz569bT4VxTPRFbtha7VuXOHj/dgXWFFHs3xA7V3OlSibcw3HwWVjkP2e4xj54WIl5ykesh3vU7QyhfJeJtrkCfHALGexPw=
+	t=1720824464; cv=none; b=uLxrSTP6mQ4uFXGKr/W1TEjQ7Kr9d0Nk/VzUTN/KazpqDm+ml9AL4QogN43JZNoqKKiZX12ILGT30TTt8vM0HX9j+IXrqMqU0mVjkSy1hiVQ9+Kmk/nQpHOIh4KrKZrUOxdltlZb76R4w5qSQwmPX+gAz+ayaRizKEKb7gaBKvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720823803; c=relaxed/simple;
-	bh=qkASzPzjNMSeYMQLDsLAKiFjJF2MAimi/PdOy1+z6fI=;
+	s=arc-20240116; t=1720824464; c=relaxed/simple;
+	bh=93N5LhNbppX6DibUZOyQ9a4CYvTrdXRCEM5Ojg9KJEI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OOQtd167mdzE4ek/7i4Dd7sbX1aHk9cAMrQJN1ah4BYPV8oGgRaIda9wqQRG4FYZgTmPH5l2Re0Y8z8pMaJlqvAeZiCDaapuMxUIaquHlEuwFcf3shBANN9bnBsQta7Tek3kWozUbFd7E1OK8WR8wkmufzaCnv8QaKrds/ZSIiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i0RF8ug1; arc=none smtp.client-ip=209.85.219.175
+	 To:Cc:Content-Type; b=e86Lt4qfG7+7W0cTUZqqQByAlXSe62E7vN4MtMYgjsZeqw0YVrP1SPsLto/l1Lg2URH5dDphWrrWKkPYHyCQ8wjQ8OIUICKmnhccunvtRhHd2Jk0qXyn2s9up/JIwMGifily68p67tY91+Nja9MwYuXmhCLnkx8IhPnjIXjDCUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZW5+6xRc; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i0RF8ug1"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e035f4e3473so2357174276.3;
-        Fri, 12 Jul 2024 15:36:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZW5+6xRc"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6b2c95b6c5aso13222576d6.2;
+        Fri, 12 Jul 2024 15:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720823801; x=1721428601; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720824461; x=1721429261; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qkASzPzjNMSeYMQLDsLAKiFjJF2MAimi/PdOy1+z6fI=;
-        b=i0RF8ug1Iwzl1yIbQ4pofuDD6SNJIELVk9Lf3916WlzMozlDt1P92bDImvz8jHqtBc
-         57u2DVAHOLmBaoOVn+eRRz5ij6IX9L54tLjsrck7rNOFGKETh1KdRqSP/WuuwoTaAMIm
-         9Yuoz1huy7K5kYC/wVHQRhgMFUhjbkK76RIIT8c4SWbji84mh4NzLFzFm5mFOJibR1JC
-         VOmmNpLuAp6rI4LNSQD/jab37ZkpfJOPZjyPjtSptBRFDjjc41fSYuUbQBaIibPbVvqn
-         yk0McQuN0DfHhUw3sTVIFTTX6nZadhF0sYI5ESbVF+kQGsD16KknGMEc+0azgwUnGIhy
-         j+kA==
+        bh=5ngiJf14XEWABtOeJ3ozB6Gsd22dnKoZDQl3XHj467I=;
+        b=ZW5+6xRcNorfAjVn+i/5X+xVOynbXHoTm8NrMsMERnxr8/iUB1ZO0tHYn9Qc0fcV6/
+         THBnZ1eoEMO2p0/EAJO5/4HSr+gYjr21/SE24c9ts8jn5a6s3D0FyXjZ5f6lFQ3nj4fD
+         bvXZHPH4jL9yBjOkNZzZRC8L8gJ5FkvZB2CN75TOCrJEeK6ewRgzyEsozowZON9g001N
+         pBi/1y5Aj0DBw9q//MRvrJonDoQfXjp9LQjmN3h/Ua0Kzt+pnSAgOfdvMw5hvHKU5lpp
+         BdBDjSYAWr8IQIPtaxKl+h6lZv4KnY49rX8teqe9t92Nnfk2xXMx+ULg8rXPgfz1gJEP
+         Mb7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720823801; x=1721428601;
+        d=1e100.net; s=20230601; t=1720824461; x=1721429261;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qkASzPzjNMSeYMQLDsLAKiFjJF2MAimi/PdOy1+z6fI=;
-        b=wOg603HpddM39yCmUZH95unBOJ/xJUjTX6j0GptUzbHEiv2jGnTgvipS+0G9GT+SkW
-         jNKc+aThYMpOnukpTRQt3KjCgxf+hOsLFt/mlz4y7FOfN9OexFnHdCTmVQdBdaz/50DM
-         ruFahXQT22lZXxadIXivCL9qYioNamk1YpkXQ1PyiRLPB/F/Wl+uWmJirDDXSEDdLqiR
-         Zy52aeG5Ky9IcBTp2dnjWuEEcZo8n6y3eL/0cVPz3hzPeVLgK96uRsbyEQtb2Wbr3SpN
-         XvPpkMhsc7cqbM+9rSSD22feVzbmpbRzgmPt0+x2NAfNIZ59cVCIKeYKlx5K3GbSODwR
-         sMnA==
-X-Forwarded-Encrypted: i=1; AJvYcCULIJK0cVo1l1Yot2KGRrO0zAE1GE6QFN4qAhyA42hYkWu4juz6isWiV0SSBUyGfFL5zReg3i5j5Wyk6SMHPBgvFpgGxAjl/Zpk+JXEjpIWfIAlpzw7x49eNzwLJ9tOCWOgoaznH4S9
-X-Gm-Message-State: AOJu0YxZfBS3XW8geLhrqW9c4+183kFb80g2JQdHjwOIMBItPwI7JyNe
-	Qe0/dSr3BJDsUYy7GgEQDCYGXQcqsQcRptnaRV9atQiu5xQkohFcfMa8cjOb3YB9c/nvcrblPQe
-	43v1LWyjfzTazxh6HyRqRqziRvFs=
-X-Google-Smtp-Source: AGHT+IEfRngAry3fAk2Q0OflTPBnSqJsQeCzMJqXZvzmBdMAdeDaSX1xQkT/TMFBVwfkVTmmZPmrn/0AjlgcY2vWGa0=
-X-Received: by 2002:a5b:b92:0:b0:e03:b61f:22e6 with SMTP id
- 3f1490d57ef6-e041b039ad6mr14440524276.9.1720823800917; Fri, 12 Jul 2024
- 15:36:40 -0700 (PDT)
+        bh=5ngiJf14XEWABtOeJ3ozB6Gsd22dnKoZDQl3XHj467I=;
+        b=AEX9y//DycfgihFjxG+DVjjVJ2/grhEwt01LKfmw6TGGVdQiAkWDeZQB2brbCti14j
+         IX/IZonRVmXW6XiTI8MEGe1lXf0MkF5ZtDQ1xSN0FN2KK+CPRMoX0ed2YXfcRwTRJkiU
+         u7ewW4UJisuhnCeNQQwAcPK7tky1TkLz2KLRhhJwVSQ4rDc42F2+dVeQEMDsORAtJDJJ
+         SpSNHUSrMAms3AL1CL+8uzLl+ugAQpP/bkSpVAteDM4QrJItTdUFQ+SVDJcQFpi1FDI+
+         vJRx2ntAWxNKIOBbnxKsXAX9r+rV6uOWibb0qdkoiI3zrsww+xSkdXq0Lvg/6/PLFiTp
+         buJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUANOk6fv4f/46u2UUM6BTftF4bFiS8tSY+gaP7HZw0Vawv49xVKj21iOlDXT/+dljzcmCe3NU/g871YvjxyrvcCd49BwjRf3DJI3jbrraQG38uo3BsCC7tGh8Zhm7tqZG3yvP7ho4D
+X-Gm-Message-State: AOJu0Yy1qX84c5TJu2njf0RwVZNTF87dZ61G9k+iiHkNa8X4zCtLPGkD
+	yBKVNee12fjmTvwGb61rC3SUvG9ZKjVud7CIagp67VgMfinHfX9WfPTngMVHYrAtZwN0EaEgipV
+	RKvrM9zcAK1ZjULkM8yEkDh6mnJg=
+X-Google-Smtp-Source: AGHT+IGTFXf8puoeZ5MyN9OXLWTgTyU6STMwzKLWRJXmrpsdd3JWi3k+aSwvASu4YXbdUjpZiK89WwJzJgF/GnYNF80=
+X-Received: by 2002:a05:6214:1c86:b0:6b5:dd7d:f899 with SMTP id
+ 6a1803df08f44-6b61bc7e962mr146069556d6.1.1720824461341; Fri, 12 Jul 2024
+ 15:47:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,105 +57,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240706022523.1104080-1-flintglass@gmail.com>
- <20240706022523.1104080-6-flintglass@gmail.com> <CAKEwX=MmwqevpoGnskXrsYQWKOR8yx4t0moasVO=risu0P7-uA@mail.gmail.com>
- <CAPpoddenrRxWkSHTrrWEN9=uYGiQtvLDCifhAPyy2jkcdwfE-A@mail.gmail.com>
-In-Reply-To: <CAPpoddenrRxWkSHTrrWEN9=uYGiQtvLDCifhAPyy2jkcdwfE-A@mail.gmail.com>
+ <20240706022523.1104080-6-flintglass@gmail.com> <0afc769e-241a-404e-b2c9-a6a27bdd3c72@linux.dev>
+ <CAPpoddfySkGpD5hKgqUAAMgMp2vWcivg1AzcyYh_NP1-ZsGkug@mail.gmail.com> <cc5ba793-59a4-4904-a1b3-723ebaa3a93e@linux.dev>
+In-Reply-To: <cc5ba793-59a4-4904-a1b3-723ebaa3a93e@linux.dev>
 From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 12 Jul 2024 15:36:29 -0700
-Message-ID: <CAKEwX=O+7=rTjaUEQ+3v=f9UHF_GOXWQO9HVZtLZOPCTRh6sVw@mail.gmail.com>
+Date: Fri, 12 Jul 2024 15:47:30 -0700
+Message-ID: <CAKEwX=Oqe8qz0YKi1pJaEgXAPC-7cXg7_NRfXb1_0VJp35X7AQ@mail.gmail.com>
 Subject: Re: [PATCH v2 5/6] mm: zswap: store incompressible page as-is
-To: Takero Funaki <flintglass@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+To: Chengming Zhou <chengming.zhou@linux.dev>
+Cc: Takero Funaki <flintglass@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Yosry Ahmed <yosryahmed@google.com>, Jonathan Corbet <corbet@lwn.net>, 
 	Andrew Morton <akpm@linux-foundation.org>, 
 	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 7, 2024 at 2:38=E2=80=AFAM Takero Funaki <flintglass@gmail.com>=
- wrote:
+On Tue, Jul 9, 2024 at 6:26=E2=80=AFAM Chengming Zhou <chengming.zhou@linux=
+.dev> wrote:
 >
-> 2024=E5=B9=B47=E6=9C=887=E6=97=A5(=E6=97=A5) 8:53 Nhat Pham <nphamcs@gmai=
-l.com>:
+> On 2024/7/8 21:44, Takero Funaki wrote:
+> > 2024=E5=B9=B47=E6=9C=888=E6=97=A5(=E6=9C=88) 12:56 Chengming Zhou <chen=
+gming.zhou@linux.dev>:
 > >
-> > I tried to propose something similar in the past. Please read the
-> > following discussion:
+> >>>        comp_ret =3D crypto_wait_req(crypto_acomp_compress(acomp_ctx->=
+req), &acomp_ctx->wait);
+> >>>        dlen =3D acomp_ctx->req->dlen;
+> >>> -     if (comp_ret)
+> >>> +
+> >>> +     /* coa_compress returns -EINVAL for errors including insufficie=
+nt dlen */
+> >>> +     if (comp_ret && comp_ret !=3D -EINVAL)
+> >>>                goto unlock;
+> >>
+> >> Seems we don't need to care about? "comp_ret" is useless anymore.
+> >>
+> >> Just:
+> >>
+> >> if (comp_ret || dlen > PAGE_SIZE - 64)
+> >>          dlen =3D PAGE_SIZE;
+> >>
+> >> And remove the checkings of comp_ret at the end.
+> >>
 > >
-> > https://lore.kernel.org/all/CAJD7tka6XRyzYndRNEFZmi0Zj4DD2KnVzt=3DvMGhf=
-F4iN2B4VKw@mail.gmail.com/
+> >>
+> >> We actually don't need to hold mutex if we are just copying folio.
+> >>
+> >> Thanks.
+> >>
 > >
-> > But, the TLDR is Yosry was (rightly) concerned that with this
-> > approach, memory reclaiming could end up increasing memory usage
-> > rather than reducing (since we do not free up the page that fail to
-> > zswap-out, and we need extra memory for the zswap metadata of that
-> > page).
+> > Thanks for reviewing.
 > >
-> > So my vote on this patch would be NACK, until we get around this issue
-> > somehow :)
+> > For comp_ret, can we consolidate all possible error codes as
+> > incompressible data?
 >
-> It seems the discussion on the thread mixed up memory allocation
-> failure (system runs out of memory reserve) and incompressible pages
-> (compression algorithm successfully compressed but the result is equal
-> to or larger than PAGE_SIZE).
->
-> zswap has been storing pages into dedicated pages 1:1 when compressed
-> to near PAGE_SIZE. Using zsmalloc, current zswap stores pages
-> compressed to between 3633 bytes (=3Dhugeclass+1) to 4095 bytes
-> (=3DPAGE_SIZE-1) into 1 page. This patch changes the range to 3633 to
-> 4096 by treating PAGE_SIZE as a special case. I could not find a
-> reason to reject only PAGE_SIZE while accepting PAGE_SIZE-1.
->
+> Maybe we still want these debug counters? I'm not sure.
 
-I'm not actually sure if this is true in practice. While yes, zsmalloc
-has the capability to store near-PAGE_SIZE objects, this also depends
-on the compression algorithm.
-
-At Meta, we use zstd. What I have found is that a lot of the time, it
-just flat out rejects the page if it's too poorly compressed. Without
-this change, we will not have to suffer the memory overhead of the
-zswap_entry structures for these rejected pages, whereas we will with
-this change.
-
-We might need to run some tracing to get a histogram of the
-distribution of post-compression sizes.
-
-> zswap wastes memory for metadata for all accepted pages but reduces IO
-
-Key word: accepted. The compression algorithm might already have some
-built in logic to reject poorly compressed pages, preventing the cases
-where the overhead might be too high for the saving.
-
-> amount and latency by compressed buffer memory. For pages between 3633
-> to 4096 bytes, zswap reduces the latency only. This is still
-> beneficial because the rare incompressible pages trigger urgent
-> pageout IO and incur a head-of-line blocking on the subsequent pages.
-> It also keeps LRU priority for pagein latency.
->
-> In the worst case or with a malicious dataset, zswap will waste a
-> significant amount of memory, but this patch does not affect nor
-> resolve the scenario. For example, if a user allocates pages
-> compressed to 3633 bytes, current zswap using zsmalloc cannot gain
-> memory as the compression ratio, including zsmalloc overhead, becomes
-> 1:1. This also applies to zbud. The compression ratio will be 1:1 as
-> zbud cannot find buddies smaller than 463 bytes. zswap will be less
-> efficient but still work in this situation since the max pool percent
-> and background writeback ensure the pool size does not overwhelm
-> usable memory.
->
-> I suppose the current zswap has accepted the possible waste of memory,
-> at least since the current zswap_compress() logic was implemented. If
-> zswap had to ensure the compression ratio is better than 1:1, and only
-> prefers reducing IO amount (not latency), there would have been a
-> compression ratio threshold to reject pages not compressible to under
-> 2048 bytes. I think accepting nearly incompressible pages is
-> beneficial and changing the range to 4096 does not negatively affect
-> the current behavior.
-
-FWIW, I do agree with your approach (storing incompressible pages in
-the zswap pool to maintain LRU ordering) - this is *essentially* what
-I was trying to do too with the attempt I mentioned above.
-
-I'll let Johannes and Yosry chime in as well, since they were the
-original folks who raised these concerns :) If they're happy then I'll
-revoke my NACK.
+I'm a bit torn, but ATM I have no strong opinions on these two error
+codes. If you do decide to consolidate these two, may I ask you to
+separate it into its own patch so that we can review + discuss it
+separately?
