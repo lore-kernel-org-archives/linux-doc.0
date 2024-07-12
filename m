@@ -1,94 +1,169 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83D416C879
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 23:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB184A28;
+	Fri, 12 Jul 2024 00:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720741987; cv=none; b=CwGiFta1U79jeLRBjSVpYn9E5Mt++0g2Mg2CEMI5ma3pnjziApX4UEW67puBA0t0043fInoe3dGcvTN1qxmdk4CSupeFvvzyBXrX2cc+h8+txqWJL02PXnc+egQZypriDMeq1f98akgyO00eFz1894Egw6DG70ehdpjZ76S5Iw0=
+	t=1720744629; cv=none; b=kdV1wrxH4L2yxv4eQJH8h0OlJ7MfKupZxJ/3u590SpNoauaE2/3x8NOorAJArGUcFZITA8mgvTD9xzVauX6c/weg0hD6LFk3of3AHiVe71BQ8bHWMjNPoXRme7THXBsne1yY9aE3jJ34ip9aJGWu2T1Xbsv5NeTy4aM/ZYVir+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720741987; c=relaxed/simple;
-	bh=eHwJddF+i82eOhfzBTfbWQn49KtPf7X+mrBUinBbdfU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l3NivrjAXyLC3AZpW0AX6ki588tbzzjBs1iY61KEiT4d/x/plsNDi++6GdTeYA2VHBaeTBEPdHJ2sPomoJQjkwAH4K5THGdY2E1kSjEcyyy+YxhwaZ0xgvZ+hOVDxw6uBdW45LoSM/xc03yfipiE7IYBA00tMrDs4E/U333iOfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S+/L+bZg; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1720744629; c=relaxed/simple;
+	bh=/ebUXyV+RPOCirS3YaDlQ6O5GI5gRfLlgbsh5ADbg8s=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=CNg+lhRPq0zhhmtYN3cLbQGvoBQF+7OR3MDBCxaSeuM70yIb9H6AeyKwhFSY5IA81rGksmbemma4oXA2PDIUkKiyEnoxGbNwTiePWpUwxE8akj/fk+krRan8krJqqyjQCCkMGnue3TUgOpD6Je9FBY1W9uzMccFZx1K3bR8mjBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=FsosVVXB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vpP7hlSv; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S+/L+bZg"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-58bac81f3f9so1824628a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jul 2024 16:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720741984; x=1721346784; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J1ii8KLMLxRl5UF5VTiJZsw30BNj3HWI5MJg1fOCFrg=;
-        b=S+/L+bZgkdvJz05Cm9iyiIJDNm355VyPSA9HsiMLiZePQFhWs/DcuEv9Z0lRvRBJXp
-         guoj09t5IIQW2MpNUCgrlm5qgH3wF6HThmSWHv0ELUuBD5V0vSRXXX5U5Vbmb614S1lF
-         9XgXKONT+TSjTnLj/MJxJUSV3h6nWye1mLgO9OK6JEsGV8r+hymtICdfta7Cb1GWWAhO
-         OppbjFfIfhJZ86SzrewF/axThpXAlVYvncLP7Qz60FObvN80dBBPn69O8VeuiS+WRT8y
-         +cRp2OSB2287rjKizRLGuA1nSo6RaI2FiaEIdA26v6OudFPv/q8yfkFmYNHlkzuhM+gP
-         5v2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720741984; x=1721346784;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J1ii8KLMLxRl5UF5VTiJZsw30BNj3HWI5MJg1fOCFrg=;
-        b=PFkBhmo6xLMHsK1zVdsFlSsduwPQIlk0CuXMo8gde40IYnCuwRhZhfZ0aQVHq7YbYW
-         tgSnNS/n9QGcB3LWeWNx1sjvJLaNoRo35i78W4Xm4uSezpqNAz0GmMzFoZGFAMbwcKTX
-         PoOFqiiukb21Ipzc2qHzrY7hdFXsJD75Dn4/cKaZ6BENF5D6ajiZfhOtBlBbF0VdBBuW
-         1Skilc6mR5xBCwc00TBKsBmfNT4Q53pKX6SK+DmzDUIepOucl7AwMj3KfmygdFIVpXUx
-         X+290Ki74EdVZJZL/sPMjXKXpz4zk0FsIRtHH3yJHaF98VjtsktkP7RKbYaU5HGx9nEL
-         eQag==
-X-Forwarded-Encrypted: i=1; AJvYcCW4WgTklXMfYar+Qx8seAK2huw//b/Yt99aQ87Nv0jBpztSiZ0McOu1jIBlmvHq/KoWrXTKYOPKiwYuu9D3XM5zjAafjDIdhTg/
-X-Gm-Message-State: AOJu0YyfJ5xIjWcUjKWOplOZ2ekk8RIHxPHxv/ZEcjW1DoXgCXBvNcse
-	fxVfyjev02xgcSN1hko5EFfXcHFe1Ee8pLBk+/h0qWOrtvuehgiWwJMddz6lWRcDRuPhjKMi1fe
-	kxgWdgGdsr0DIGd+7FGUM4HRXScavYVRXYtyQ
-X-Google-Smtp-Source: AGHT+IGg/L+LIOLGS8JdBlkXQAM9OjIKvUIv0USQWI0ixWzGE8fSPNkcsknZoKiaKzNv9LECa/JaMTAQzxubG6QsFVs=
-X-Received: by 2002:a17:906:cc9a:b0:a77:c7d7:5ece with SMTP id
- a640c23a62f3a-a780b701683mr557985866b.35.1720741984043; Thu, 11 Jul 2024
- 16:53:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="FsosVVXB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vpP7hlSv"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 5EF3C1386B6D;
+	Thu, 11 Jul 2024 20:37:06 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+  by compute3.internal (MEProxy); Thu, 11 Jul 2024 20:37:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1720744626;
+	 x=1720831026; bh=QRDiPsb95Cfr0uPU9/xmF1u6tyqUMbrTsI9uk4kLr6c=; b=
+	FsosVVXBC8/gnSHWueJDtAuOJTlSrG+Wt0Zp52SEU7dQhA3vtZkgBpiaEnsaFmsi
+	VWxjuOc2slOjvCS1DHos0aN7wr61d85aWMuq/7s+plYTsnV9ZDX50EUQnQ4ilg/2
+	ZeelDwgq3kj+GbIOcxLfdZB73Xc8+EkYvig6jzVoHZFmb8blMG0JmtPjtIbaBF9G
+	nHc2kn6T2LDPX+0f6lJdfv5EMYrXV/QMQYgwJ+wSASRvVlZ1N6gp+yelk12/OPnW
+	TJIJslMaqw96r2GyQky+75CflWewXwtqZ31Wx/Arn+d5xWASQECWS4ixgIz/zA79
+	opVNP/Kn9xybFshaFulEnQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720744626; x=
+	1720831026; bh=QRDiPsb95Cfr0uPU9/xmF1u6tyqUMbrTsI9uk4kLr6c=; b=v
+	pP7hlSv76DDjl6ougIdqfgK0ifgQFZ/QQGmQUT72Dy2l1s9SCQ0r439J6eDBF9Oz
+	fTE2zQM1ucCxNh3P8CRRhPaxB9EvazO2j4T2ZZhv0cfP+J9IpIhD26hzpskwGl2v
+	SDYuW8riZvcyjACup1W0icO6vFl8GQu3D6IRpPTcbU+eK8dMy9TQ5wfBxhCymrLl
+	j+70bEQrpiWr+29AM91KHZkL2axwVsU9z9jYeFmA9Ciu1oLjIszUQ3qGvFN+oiGP
+	uV6fpU4Ep6+H9qL1dpgp4v7LN5KMbRQjHBdNZKCMYkPHdQ8L+SnMfyZv3Vt1PBij
+	Sgzf42l5eVpdNsumfyldg==
+X-ME-Sender: <xms:sXqQZjnAy_7JwwRmtVoA50MlDdFGbwiZbmYdys0Sb6XsMVtrwsz_Tg>
+    <xme:sXqQZm0q9nWcspWJSVHf1o0WGutAHmY967PniPqL4y47iFf1LkumQm0f1tH5mSw-G
+    IavEo2MyTRqwdN5e1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeehgdefkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
+    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
+    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:sXqQZppWyv0hLAO4bSYbyojH9AobwSzorc5H7FLZi_n1sDnGJ4vbJQ>
+    <xmx:sXqQZrmn0H8_bae7tViNKN1xkEw3M_H_80hCsrELgvsZxK4ZsgWwIw>
+    <xmx:sXqQZh1kVyslV27StSt5hd4hLnFAwm3CbKLzHeIZEhYAe3r6YNsMvQ>
+    <xmx:sXqQZqtKyultxy5QixScOtMoqSb8hD7KQ753ZINBJa3yofPtUvSR3A>
+    <xmx:snqQZrqlfW61wsHrLedah0LNMis8bcX2fJg5CZDvZL0vwxJvHhuabXhX>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B5FF036A0074; Thu, 11 Jul 2024 20:37:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240710234222.2333120-1-jthoughton@google.com> <20240710234222.2333120-15-jthoughton@google.com>
-In-Reply-To: <20240710234222.2333120-15-jthoughton@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Thu, 11 Jul 2024 16:52:38 -0700
-Message-ID: <CALzav=d=LaVCFTLxzJD8C_=6+fxjsoLxdKOnxKBgn_QdNDOoXw@mail.gmail.com>
-Subject: Re: [RFC PATCH 14/18] KVM: Add asynchronous userfaults, KVM_READ_USERFAULT
-To: James Houghton <jthoughton@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, Peter Xu <peterx@redhat.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com>
+In-Reply-To: <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
+References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
+ <Zn1FuxNw2CUttzdg@alpha.franken.de>
+ <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
+ <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk>
+ <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
+ <Zoz6+YmUk7CBsNFw@alpha.franken.de>
+ <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
+ <Zo457UgAkhbAgm2R@alpha.franken.de>
+ <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
+ <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
+ <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
+Date: Fri, 12 Jul 2024 08:36:45 +0800
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 10, 2024 at 4:42=E2=80=AFPM James Houghton <jthoughton@google.c=
-om> wrote:
->
-> +       case KVM_READ_USERFAULT: {
-> +               struct kvm_fault fault;
-> +               gfn_t gfn;
-> +
-> +               r =3D kvm_vm_ioctl_read_userfault(kvm, &gfn);
-> +               if (r)
-> +                       goto out;
-> +
-> +               fault.address =3D gfn;
-> +
-> +               /* TODO: if this fails, this gfn is lost. */
-> +               r =3D -EFAULT;
-> +               if (copy_to_user(&fault, argp, sizeof(fault)))
 
-You could do the copy under the spin_lock() with
-copy_to_user_nofault() to avoid losing gfn.
+
+=E5=9C=A82024=E5=B9=B47=E6=9C=8811=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
+=8D=886:20=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
+> On Thu, 11 Jul 2024, Jiaxun Yang wrote:
+>
+>> >> that's just one case, what about NaN2008 binaries on a legacy MIPS=
+ CPU ?
+>> >
+>> >  It would be good to check with hard-float QEMU configured for writ=
+able=20
+>> > FCSR.NAN2008 (which is one way original code was verified) that thi=
+ngs=20
+>> > have not regressed.  And also what happens if once our emulation ha=
+s=20
+>> > triggered for the unsupported FCSR.NAN2008 mode, an attempt is made=
+ to=20
+>> > flip the mode bit via ptrace(2), e.g. under GDB, which I reckon our=20
+>> > emulation permits for non-legacy CPUs (and which I think should not=
+ be=20
+>> > allowed under the new setting).
+>>=20
+>> PTrace is working as expected (reflects emulated value).
+>
+>  Yes, sure for reads, but how about *writing* to the bit?
+
+Tested flipping nan2008 bits with ieee754=3Demulated with ptrace, it wor=
+ks on some extent.
+(flipping the bit to unsupported value immediately triggered emulation).
+
+>
+>> The actual switchable NaN hardware (M5150, P5600) uses a dedicated Co=
+nfig7
+>> bit rather than writable FCSR.NAN2008 to control NaN2008 mode. This i=
+s undocumented
+>> and not present on some RTL releases. FCSR.NAN2008 is R/O as per The =
+MIPS32 Instruction
+>> Set Manual. This renders the purposed test pointless.
+>
+>  Yes, for R6 and arguably R5, but not for R3.  Architecture specificat=
+ion=20
+> revisions 3.50 through 5.02 define FCSR.NAN2008 (and also FCSR.ABS2008=
+) as=20
+> either R/O or R/W, at the implementer's discretion, so it is a conform=
+ing=20
+> implementation to have these bits writable and our FPU emulator reflec=
+ts=20
+> it.  I won't go into the details here as to why the later revisions of=
+ the=20
+> specification have been restricted to the R/O implementation only.
+>
+>  NB architecture specification revisions 3.50 through 5.01 also have t=
+he=20
+> FCSR.MAC2008 bit defined, removed altogether later on.
+
+Thanks for the information, I don't have access to those manuals so I wa=
+s unaware
+of that. R/W NAN2008 is prohibited by AVP as well.
+
+I briefly tested NaN2008 distro on QEMU modified with r/w NaN2008 bits i=
+n ieee754=3D
+strict mode, it seems working fine.
+
+Thanks
+>
+>   Maciej
+
+--=20
+- Jiaxun
