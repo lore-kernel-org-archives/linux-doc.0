@@ -1,169 +1,88 @@
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB184A28;
-	Fri, 12 Jul 2024 00:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B733C9460;
+	Fri, 12 Jul 2024 01:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720744629; cv=none; b=kdV1wrxH4L2yxv4eQJH8h0OlJ7MfKupZxJ/3u590SpNoauaE2/3x8NOorAJArGUcFZITA8mgvTD9xzVauX6c/weg0hD6LFk3of3AHiVe71BQ8bHWMjNPoXRme7THXBsne1yY9aE3jJ34ip9aJGWu2T1Xbsv5NeTy4aM/ZYVir+g=
+	t=1720747955; cv=none; b=XpSGR+AD5Vo3wBM783koGXCNfvkTkW83ErJktsxzw9+YOdO7IraJufgyqmU3E11CHq1ghl3WC9RBq4KhoxGbPPqmA84gHmNr5s8WLowTPwLA06cFvgZ9F9VEAebDOQTgvTXit8XZ+QTXmH6pRjbh7V+uCDYoC+rAJGZmGumRMzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720744629; c=relaxed/simple;
-	bh=/ebUXyV+RPOCirS3YaDlQ6O5GI5gRfLlgbsh5ADbg8s=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=CNg+lhRPq0zhhmtYN3cLbQGvoBQF+7OR3MDBCxaSeuM70yIb9H6AeyKwhFSY5IA81rGksmbemma4oXA2PDIUkKiyEnoxGbNwTiePWpUwxE8akj/fk+krRan8krJqqyjQCCkMGnue3TUgOpD6Je9FBY1W9uzMccFZx1K3bR8mjBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=FsosVVXB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vpP7hlSv; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="FsosVVXB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vpP7hlSv"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 5EF3C1386B6D;
-	Thu, 11 Jul 2024 20:37:06 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
-  by compute3.internal (MEProxy); Thu, 11 Jul 2024 20:37:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1720744626;
-	 x=1720831026; bh=QRDiPsb95Cfr0uPU9/xmF1u6tyqUMbrTsI9uk4kLr6c=; b=
-	FsosVVXBC8/gnSHWueJDtAuOJTlSrG+Wt0Zp52SEU7dQhA3vtZkgBpiaEnsaFmsi
-	VWxjuOc2slOjvCS1DHos0aN7wr61d85aWMuq/7s+plYTsnV9ZDX50EUQnQ4ilg/2
-	ZeelDwgq3kj+GbIOcxLfdZB73Xc8+EkYvig6jzVoHZFmb8blMG0JmtPjtIbaBF9G
-	nHc2kn6T2LDPX+0f6lJdfv5EMYrXV/QMQYgwJ+wSASRvVlZ1N6gp+yelk12/OPnW
-	TJIJslMaqw96r2GyQky+75CflWewXwtqZ31Wx/Arn+d5xWASQECWS4ixgIz/zA79
-	opVNP/Kn9xybFshaFulEnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720744626; x=
-	1720831026; bh=QRDiPsb95Cfr0uPU9/xmF1u6tyqUMbrTsI9uk4kLr6c=; b=v
-	pP7hlSv76DDjl6ougIdqfgK0ifgQFZ/QQGmQUT72Dy2l1s9SCQ0r439J6eDBF9Oz
-	fTE2zQM1ucCxNh3P8CRRhPaxB9EvazO2j4T2ZZhv0cfP+J9IpIhD26hzpskwGl2v
-	SDYuW8riZvcyjACup1W0icO6vFl8GQu3D6IRpPTcbU+eK8dMy9TQ5wfBxhCymrLl
-	j+70bEQrpiWr+29AM91KHZkL2axwVsU9z9jYeFmA9Ciu1oLjIszUQ3qGvFN+oiGP
-	uV6fpU4Ep6+H9qL1dpgp4v7LN5KMbRQjHBdNZKCMYkPHdQ8L+SnMfyZv3Vt1PBij
-	Sgzf42l5eVpdNsumfyldg==
-X-ME-Sender: <xms:sXqQZjnAy_7JwwRmtVoA50MlDdFGbwiZbmYdys0Sb6XsMVtrwsz_Tg>
-    <xme:sXqQZm0q9nWcspWJSVHf1o0WGutAHmY967PniPqL4y47iFf1LkumQm0f1tH5mSw-G
-    IavEo2MyTRqwdN5e1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfeehgdefkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
-    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
-    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:sXqQZppWyv0hLAO4bSYbyojH9AobwSzorc5H7FLZi_n1sDnGJ4vbJQ>
-    <xmx:sXqQZrmn0H8_bae7tViNKN1xkEw3M_H_80hCsrELgvsZxK4ZsgWwIw>
-    <xmx:sXqQZh1kVyslV27StSt5hd4hLnFAwm3CbKLzHeIZEhYAe3r6YNsMvQ>
-    <xmx:sXqQZqtKyultxy5QixScOtMoqSb8hD7KQ753ZINBJa3yofPtUvSR3A>
-    <xmx:snqQZrqlfW61wsHrLedah0LNMis8bcX2fJg5CZDvZL0vwxJvHhuabXhX>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B5FF036A0074; Thu, 11 Jul 2024 20:37:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	s=arc-20240116; t=1720747955; c=relaxed/simple;
+	bh=rJ3vx6DcRyTyvUbMooZUPFlcyNAKa33aLGT5HMoHFDM=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=PNheTVsVyY9RlMVvYgkybV5dLwzN+C+v9q0Dcsh5zGKb6mGfdDySjjmSvpuxkS0jKc3s//RNKz4cd9b0ZQZfzrYi3fIPi2uFRFQooG6GVhgcsR3Th8oZG9Wu5tWl3DSIFFY4tD8+hH6df5tTCpxmRK8ba5ivGhR9FTA8NlF+JFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8Bx7vCmh5Bm4IIDAA--.10619S3;
+	Fri, 12 Jul 2024 09:32:22 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxosSih5BmMiFFAA--.16317S3;
+	Fri, 12 Jul 2024 09:32:21 +0800 (CST)
+Subject: Re: [PATCH V4][RESEND] LoongArch: Add AVEC irqchip support
+To: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net, alexs@kernel.org,
+ siyanteng@loongson.cn, chenhuacai@kernel.org, kernel@xen0n.name,
+ jiaxun.yang@flygoat.com, gaoliang@loongson.cn, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, yijun@loongson.cn, mhocko@suse.com,
+ akpm@linux-foundation.org, dianders@chromium.org, maobibo@loongson.cn,
+ xry111@xry111.site, zhaotianrui@loongson.cn, nathan@kernel.org,
+ yangtiezhu@loongson.cn, zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240710043859.13053-1-zhangtianyang@loongson.cn>
+ <87zfqpus3h.ffs@tglx> <245cd3c4-fdcd-768a-1c7c-e7abd1086864@loongson.cn>
+ <87wmlst23w.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <70c3ae84-2dba-d965-950d-fdb770fe669f@loongson.cn>
+Date: Fri, 12 Jul 2024 09:32:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
- <Zn1FuxNw2CUttzdg@alpha.franken.de>
- <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
- <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk>
- <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
- <Zoz6+YmUk7CBsNFw@alpha.franken.de>
- <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
- <Zo457UgAkhbAgm2R@alpha.franken.de>
- <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
- <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
- <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
-Date: Fri, 12 Jul 2024 08:36:45 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87wmlst23w.ffs@tglx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:AQAAf8CxosSih5BmMiFFAA--.16317S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrGr47Jw47AryfAry3XF4rtFc_yoWxGwbEgw
+	17G3W7C3W2y3WIkayUJr13JFWxCa429r4rtr1DXr4Yqw1kXrWkX3Z2vr92vw15Jan7WFn8
+	JryrtryUCF9FgosvyTuYvTs0mTUanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbDAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+	JVW8Jr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF
+	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r
+	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij
+	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr
+	0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0mhrUUUUU=
 
 
-
-=E5=9C=A82024=E5=B9=B47=E6=9C=8811=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
-=8D=886:20=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
-> On Thu, 11 Jul 2024, Jiaxun Yang wrote:
+在 2024/7/11 下午10:49, Thomas Gleixner 写道:
+> On Thu, Jul 11 2024 at 09:40, Tianyang Zhang wrote:
+>> 在 2024/7/11 上午12:30, Thomas Gleixner 写道:
+>> I have reviewed the kernel submission documentation and found that the
+>> usage of RESEND is inappropriate. The next time there is a modification
+>> issue, I will update the version and resubmit it
+> Please address the review feedback of the original V4 and send a V5 with
+> a proper documentation of changes from V4 to V5.
 >
->> >> that's just one case, what about NaN2008 binaries on a legacy MIPS=
- CPU ?
->> >
->> >  It would be good to check with hard-float QEMU configured for writ=
-able=20
->> > FCSR.NAN2008 (which is one way original code was verified) that thi=
-ngs=20
->> > have not regressed.  And also what happens if once our emulation ha=
-s=20
->> > triggered for the unsupported FCSR.NAN2008 mode, an attempt is made=
- to=20
->> > flip the mode bit via ptrace(2), e.g. under GDB, which I reckon our=20
->> > emulation permits for non-legacy CPUs (and which I think should not=
- be=20
->> > allowed under the new setting).
->>=20
->> PTrace is working as expected (reflects emulated value).
+> Thanks,
 >
->  Yes, sure for reads, but how about *writing* to the bit?
+>          tglx
 
-Tested flipping nan2008 bits with ieee754=3Demulated with ptrace, it wor=
-ks on some extent.
-(flipping the bit to unsupported value immediately triggered emulation).
+Ok, I will compile all the collected opinions and submit the V5 version 
+based on the original V4 patch
 
->
->> The actual switchable NaN hardware (M5150, P5600) uses a dedicated Co=
-nfig7
->> bit rather than writable FCSR.NAN2008 to control NaN2008 mode. This i=
-s undocumented
->> and not present on some RTL releases. FCSR.NAN2008 is R/O as per The =
-MIPS32 Instruction
->> Set Manual. This renders the purposed test pointless.
->
->  Yes, for R6 and arguably R5, but not for R3.  Architecture specificat=
-ion=20
-> revisions 3.50 through 5.02 define FCSR.NAN2008 (and also FCSR.ABS2008=
-) as=20
-> either R/O or R/W, at the implementer's discretion, so it is a conform=
-ing=20
-> implementation to have these bits writable and our FPU emulator reflec=
-ts=20
-> it.  I won't go into the details here as to why the later revisions of=
- the=20
-> specification have been restricted to the R/O implementation only.
->
->  NB architecture specification revisions 3.50 through 5.01 also have t=
-he=20
-> FCSR.MAC2008 bit defined, removed altogether later on.
 
-Thanks for the information, I don't have access to those manuals so I wa=
-s unaware
-of that. R/W NAN2008 is prohibited by AVP as well.
+Tianyang
 
-I briefly tested NaN2008 distro on QEMU modified with r/w NaN2008 bits i=
-n ieee754=3D
-strict mode, it seems working fine.
-
-Thanks
->
->   Maciej
-
---=20
-- Jiaxun
