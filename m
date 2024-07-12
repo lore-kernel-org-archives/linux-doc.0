@@ -1,40 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C15317996;
-	Fri, 12 Jul 2024 06:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9DF152500;
+	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720766512; cv=none; b=ePbnCRh8QlQwh0qyWV2KMBr0EiUsQg6xDJHWgG23UFvH59qEG1kAAPs6z1uh3cGY4105XOSZ/1Qvr8cn036cgErX4ySHyHx8/p03/nlHXpenCo4U1ArqHODbBBaWGmYUMvuMO9hcn/zdYE3SpSrdQQEM325Dqnnp+pQ6s04SMgM=
+	t=1720779633; cv=none; b=GyngVUEuWDwdcW1ReeiMcAjwg3gmoiyAaFZSPu2NfSAhjIAdi5+/l+rYHnlaLmyIz+4/e4utlJ3+brpjlL8BrAvLWwyxsU5SGc084KP4m1Q8YmnD7DVpzYvbxZ7OlZdpMQ1CzZ31z4Q3jon8fjSAOEMSp68YvUvRv5R0FF1cUqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720766512; c=relaxed/simple;
-	bh=yAw59STucqdoVIH1PxfAXM1wGfcmkq3fRDsmT9Q1lIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FXWKyR14E2JEvAZkctG0uNdEqb3zDhsolFgvX2/OQWKHHaf1yaoMh6zZuzvL/iRPV6Lb69aSe4K9zyx8tqdYSfT0jJ4KDtn7A4xVKbkiQz7tSmcDxWdU1klz8q40fthbniRpCd9oIxzsL8HIecSRL9+KJtSaN2ua1DXJyB8RMIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYWdu5wP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720779633; c=relaxed/simple;
+	bh=VVoIxpcBpsu5DTyIieNUadbasv+xGN5WhTLbUa6mR/c=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=lZ1lqtg80/x17W1ZwNJNVOyja4jYyr8DW88RUW/jLl9db/cSheCF6h/Cwd7tb/xfaeD0TTIHKXrN8DRPVEvmC2qKp7MYY3Lq3iS8i6Lr3Cc6XhKu+D51xOPJZkMK5i3S661lkZopq3ZXjWOkw8+3d5TI3CDcvcu5mffA3DF1n/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HuCJckfV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYWdu5wP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9312EC3277B;
-	Fri, 12 Jul 2024 06:41:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HuCJckfV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A3984C4AF0B;
+	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720766511;
-	bh=yAw59STucqdoVIH1PxfAXM1wGfcmkq3fRDsmT9Q1lIo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hYWdu5wP1CDRiGy7DGdfX+QAz6OaQlFYYsuD99o3STjYrye+JuMGfXhHyQylgllba
-	 KADh1OaLyalIS6kjvYKY0noagZOEsCsr0x/Q7dubPAA9aLBUulnjEJX1NUKbsZz7h7
-	 Z5Bm8iGp7fsNOMZIKCZzWxIgvw7d0jCSZSRCXvwd0jrnVg1RF4fcQxqOflbr3fg0MW
-	 VkSyNhj3sLVszp4HM4HOaZkee9vD0L8uTfYRk9osv9jLfk3WJHSwCUNR6nozUXvZOO
-	 WmlDJtoFaHgZU9ep/5O209f3wWneWypAZ99ILMH81qgHfmQ/IiHEbkknhhWdoYnV8D
-	 secw2Tbw2VveQ==
-From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To: tglx@linutronix.de
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] irqdomain: Fix the kernel-doc and plug it into Documentation
-Date: Fri, 12 Jul 2024 08:41:48 +0200
-Message-ID: <20240712064148.157040-1-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.45.2
+	s=k20201202; t=1720779632;
+	bh=VVoIxpcBpsu5DTyIieNUadbasv+xGN5WhTLbUa6mR/c=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=HuCJckfV+Y2YomYDLLyNFm4QYZDL+JVt6WlrvWFNYv6yVHh+6d8bHsc2cHao9BEVH
+	 7+E5qsJrddW46aPiQAOXRfzEHH1QqtIIybderNU55GqK6rQJTon8+Zx/clW7BIkc1m
+	 b5VBcEAyekiCYDfxuO662s8FQXmWEecRNfBw9b63v2EiczLsNSsrsaatrWkwY3RWFZ
+	 AXhm4TZtuLKSkDy/3obgSBFF/UuPVIfScVJggzpu3/xoTWaV450mdXkWhUppfUQJfF
+	 SrWD0hBQ7HXir7SIl28OHO2epJ8m/fkNAZEV20EujfQPjAF/A1C7Gu0JV6flCEimTN
+	 j/JbUo4xYZn+Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 90E99C43468;
+	Fri, 12 Jul 2024 10:20:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,88 +37,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5] riscv: hwprobe: export highest virtual userspace address
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <172077963258.4770.205626830375405089.git-patchwork-notify@kernel.org>
+Date: Fri, 12 Jul 2024 10:20:32 +0000
+References: <20240410144558.1104006-1-cleger@rivosinc.com>
+In-Reply-To: <20240410144558.1104006-1-cleger@rivosinc.com>
+To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@ci.codeaurora.org
+Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rehn@rivosinc.com, charlie@rivosinc.com,
+ sorear@fastmail.com, jrtc27@jrtc27.com
 
-There were several undocumented fields in structs irq_domain_ops and
-irq_domain_info. Document them.
+Hello:
 
-irq_domain_ops::revmap_size contained "[]" in the description, which is
-not allowed in sphinx. Remove that.
+This patch was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-Finally, plug the whole header (irqdomain.h) into genericirq.rst, so
-that the docs is autogenerated and hyperlinks to these structure
-created.
+On Wed, 10 Apr 2024 16:45:57 +0200 you wrote:
+> Some userspace applications (OpenJDK for instance) uses the free MSBs
+> in pointers to insert additional information for their own logic and
+> need to get this information from somewhere. Currently they rely on
+> parsing /proc/cpuinfo "mmu=svxx" string to obtain the current value of
+> virtual address usable bits [1]. Since this reflect the raw supported
+> MMU mode, it might differ from the logical one used internally which is
+> why arch_get_mmap_end() is used. Exporting the highest mmapable address
+> through hwprobe will allow a more stable interface to be used. For that
+> purpose, add a new hwprobe key named
+> RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS which will export the highest
+> userspace virtual address.
+> 
+> [...]
 
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/core-api/genericirq.rst |  2 ++
- include/linux/irqdomain.h             | 20 +++++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+Here is the summary with links:
+  - [v5] riscv: hwprobe: export highest virtual userspace address
+    https://git.kernel.org/riscv/c/c9b8cd139c1d
 
-diff --git a/Documentation/core-api/genericirq.rst b/Documentation/core-api/genericirq.rst
-index 582bde9bf5a9..25f94dfd66fa 100644
---- a/Documentation/core-api/genericirq.rst
-+++ b/Documentation/core-api/genericirq.rst
-@@ -410,6 +410,8 @@ which are used in the generic IRQ layer.
- .. kernel-doc:: include/linux/interrupt.h
-    :internal:
- 
-+.. kernel-doc:: include/linux/irqdomain.h
-+
- Public Functions Provided
- =========================
- 
-diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index 02cd486ac354..de6105f68fec 100644
---- a/include/linux/irqdomain.h
-+++ b/include/linux/irqdomain.h
-@@ -74,11 +74,24 @@ void of_phandle_args_to_fwspec(struct device_node *np, const u32 *args,
-  * struct irq_domain_ops - Methods for irq_domain objects
-  * @match: Match an interrupt controller device node to a host, returns
-  *         1 on a match
-+ * @select: Match an interrupt controller fw specification. It is more generic
-+ *	    than @match as it receives a complete struct irq_fwspec. Therefore,
-+ *	    @select is preferred if provided. Returns 1 on a match.
-  * @map: Create or update a mapping between a virtual irq number and a hw
-  *       irq number. This is called only once for a given mapping.
-  * @unmap: Dispose of such a mapping
-  * @xlate: Given a device tree node and interrupt specifier, decode
-  *         the hardware irq number and linux irq type value.
-+ * @alloc: Allocate @nr_irqs interrupts starting from @virq.
-+ * @free: Free @nr_irqs interrupts starting from @virq.
-+ * @activate: Activate one interrupt in HW (@irqd). If @reserve is set, only
-+ *	      reserve the vector. If unset, assign the vector (called from
-+ *	      request_irq()).
-+ * @deactivate: Disarm one interrupt (@irqd).
-+ * @translate: Given @fwspec, decode the hardware irq number (@out_hwirq) and
-+ *	       linux irq type value (@out_type). This is a generalised @xlate
-+ *	       (over struct irq_fwspec) and is preferred if provided.
-+ * @debug_show: For domains to show specific data for an interrupt in debugfs.
-  *
-  * Functions below are provided by the driver and called whenever a new mapping
-  * is created or an old mapping is disposed. The driver can then proceed to
-@@ -131,6 +144,9 @@ struct irq_domain_chip_generic;
-  * Optional elements:
-  * @fwnode:	Pointer to firmware node associated with the irq_domain. Pretty easy
-  *		to swap it for the of_node via the irq_domain_get_of_node accessor
-+ * @bus_token:	@fwnode's device_node might be used for several irq domains. But
-+ *		in connection with @bus_token, the pair shall be unique in a
-+ *		system.
-  * @gc:		Pointer to a list of generic chips. There is a helper function for
-  *		setting up one or more generic chips for interrupt controllers
-  *		drivers using the generic chip library which uses this pointer.
-@@ -144,7 +160,9 @@ struct irq_domain_chip_generic;
-  * @exit:	Function called when the domain is destroyed
-  *
-  * Revmap data, used internally by the irq domain code:
-- * @revmap_size:	Size of the linear map table @revmap[]
-+ * @hwirq_max:		Top limit for the HW irq number. Especially to avoid
-+ *			conflicts/failures with reserved HW irqs. Can be ~0.
-+ * @revmap_size:	Size of the linear map table @revmap
-  * @revmap_tree:	Radix map tree for hwirqs that don't fit in the linear map
-  * @revmap:		Linear table of irq_data pointers
-  */
+You are awesome, thank you!
 -- 
-2.45.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
