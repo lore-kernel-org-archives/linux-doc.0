@@ -1,114 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234FC1DFD2;
-	Fri, 12 Jul 2024 18:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE08182C3;
+	Fri, 12 Jul 2024 18:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720807922; cv=none; b=YdaElfX1QO/9alzeAUO5qvzE6yWJU4GPH2y9dPADyt39fWi4t4QKfTYVRHPWM10wYGsQ7XrUn3d9bUF1q7p2TF4fUVgdHhAkmRNu6vz2IMdZe3nvuLx2eYIky6NYyt+tuSLjrIsP8rqEoyW/Fkoqfo4q1m430ImEW3mg8UbICAM=
+	t=1720808173; cv=none; b=pLBUJc/8r0KataBKqy66zgg90LMmjCAgEaJKznTHG+c6neUP3pBbrxRuEhW9YMNNO7YFqW+cNCshqKHhDlDOSOEkLf5LYsjf2lEmFssbTH0AtNoGrtpqdTbFCltoCko8rkit4vzxbGSc99mkzVkodPStoITFiNhVVoV88KhktsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720807922; c=relaxed/simple;
-	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DVLm4Xh3iqoSF7s6p60TAr60j7mIRMiTI38ZAMFIsgcSJI9eZeRKvs7nRqMxhZJg6psjILLC8iyuNr8FvF105VDWewX+rM48M7yWSNxjOotaOR9F+RMdUM9HPTZ0amtazdsFvqhYOalqIL1wMVsdBLO+lbRwn99Hg6Vv2VJNNL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRR6MviD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720808173; c=relaxed/simple;
+	bh=t8snUp8OlpFu84YVregM/JCFkWMWslnOdGZMoDXezMA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=telkF/hHJXsXBXWWIca5KkOKnyXMBCEhKVMDt/IIV0PrceTd4G4a19wutrwFfINFH7U2nFddWz4Lv/HBuCCUHRvM+wAv8lD222xZQ5EPh+HTqFTFgnw+2VpZzKWVxUyBbSx32bSLGvgxFbtjdICX37t6unk+4OBYgQ8+vyNd0bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=sBhmwunQ; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRR6MviD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291C4C4AF07;
-	Fri, 12 Jul 2024 18:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720807921;
-	bh=lUavLk1QqNbkhDsolfXZxLlW3avOJgYqwuEkxCmZj7c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eRR6MviD29mZz/RL8Z3TJcV2Rzi0jqHm62TsZj2fgA8g8tUSA1AG8JqHnk9JRZdCo
-	 ld/FOBFZyhxdFyxzB4JG6yDJtNRF8uir+X2OsoZCQ/BlOzvr0t9lxQlI+R3xWfdEmx
-	 3vmHlrXlNcGaY6BYR4gfZpJmF9jiVVe/qIiG4MC5yncN53QdolzsOzY0bKALBOVQ8v
-	 4jeiIOZxC3TE5MzK/EE9O+lMSUtB2pp9WDWAyDKrcvkgXIeKMMhfQS2IfLjm8gEzjr
-	 Qbd5uC+M1ou5x7Pgwgl/2OXC4hruS6wvIoeOGxUJqSKADGUlDpcM6OhxKgT247QSC+
-	 R0XaCi5Xe6b2Q==
-Date: Fri, 12 Jul 2024 20:11:56 +0200
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
- off-list
-Message-ID: <20240712201156.1413e80e@foz.lan>
-In-Reply-To: <1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
-References: <20240712144903.392284-1-kuba@kernel.org>
-	<7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
-	<1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="sBhmwunQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1720808139; x=1721412939; i=markus.elfring@web.de;
+	bh=t8snUp8OlpFu84YVregM/JCFkWMWslnOdGZMoDXezMA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=sBhmwunQYOeOrhcHiiqMEEhfttL86bQ6UpIJ7eurXNKlxyEXUHj72ldM7RkJK1/C
+	 HSvcDboK/o8S34W3v+z3vwAceoWMgW4xD2CKlZePx+F4kOGPNHK/T+PL8F2/2aZVX
+	 Paaa0DA6Yzet+1vGesTjcvmNfzElXDMZMoPVeHgkry5D5uRZzKhpao6rGM5h9BNAm
+	 I5NzoerbMTF3RaCzTo1XULvGUXtc1T5lmS+Mq0sptl0eZNNQoIYzQXtBTD5pnmlcY
+	 Itr2zHuXNGDUnyt+qmajJJz7pnu2wQ+LdkjLnF7lWZPnu04c+jbydEr9W6F3/mtx/
+	 UFxX5juKkLcYvBPx7A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgRQJ-1rsRYi1UkB-00gF3g; Fri, 12
+ Jul 2024 20:15:39 +0200
+Message-ID: <10a70b9a-4ae5-4293-9fee-317b46390179@web.de>
+Date: Fri, 12 Jul 2024 20:15:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, imx@lists.linux.dev, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
+References: <20240712-imx-se-if-v5-0-66a79903a872@nxp.com>
+Subject: Re: [PATCH v5 0/5] Changes in v5:
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240712-imx-se-if-v5-0-66a79903a872@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:RnONSGcbcr2GQOx/W/vt/PcQTj0CXwIS349iWWj5F/2VEFs7rgf
+ 1wyaCcRS7m/gvK1PsNgspSi/TI7yFkPR0jKr/hAWhuX2CQxfWuP9Bl+qwVuTSl2BoSrGiYE
+ XXxe5TygU/1NcgBIH1twGqP7yngMnjaJWoL7yOmBR3uah5jtqHMsh1fcnuZScBGmxj8Xt3M
+ ouJUI1xNTK8AGskf2Ge1g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:J+whdxPLS+w=;1+u74jRR5R8v8owJqhj4Udbaom0
+ gn0WvXhiefGxk7qvXxJmgcorpzUD1SLyNDTYQfAYadbmKDTB5dvm/jqaiC0nQVz3X/QKm1oAN
+ Swbtydo8YfFPHce0W76VpqbJM78L0CTtw9sKZwmxBq4W7Nz+lIUjp+C9drnmh87Qqzl2r11lV
+ 0uRx0MsP+QvNG0st9Q5dYL5T4hGVoythYs+VTSJ2PnWs26KxG0hYVS021gL0vRaM6dPrhVSM1
+ SjIkTbWzDZbRXat8LAvEc8n/vQ2TXXUqLjNqiwr4uA8uIy4Oxa7jdhMZt4jAFujwU1Mu6kEAa
+ EIGp+daHUoH8S121f9dR0e/lBaEqIJ5+xEikiYldyXzhokdLtbpSWz8ctt4DioNN8Me0i8UGP
+ mMM2E+938CHFba6EHEZVl4W2gcwWMIZsyxX+UAowfhtA3hfEAsyHw8dsZ+bc8gcX+NsXDNS+3
+ QSx1t4IonG23OZbMpb5Gcf6WKKFAvP0Wt6kVt2wCqGq9Hizq79Ir7LG3FI5Ge9rrgNn3m92El
+ 6diMjONEMuHqLEFAZHAiBPTPd5PxbehAS1s199q8w++wdLHr7IJQw/coHpxuugm7kpH76QeCT
+ KKDqZOikl+O3oV/drKBEopwE6svqv04KPhZKJkH7h2jLgU8MFjxqi13Mb6F5DYreKyjP4c38o
+ i1HtgnvmnDBgjYEuHF7mWHqQSl1rK/Ppm+W3Od9+npPkml9OGOfaDyAhWNBpJ/PyhBt5VrGpb
+ STPkO0MsBuaCkFYriSwXPy7FbHlS2hF9D0gmhB8y6ah/BKGCcm+YgcwjL/OQijx/RwLCas3k5
+ rcP9xgywgNqZR8Nl8fDC6m6g==
 
-Em Fri, 12 Jul 2024 09:42:07 -0600
-Shuah Khan <skhan@linuxfoundation.org> escreveu:
-
-> On 7/12/24 09:25, Mark Brown wrote:
-> > On Fri, Jul 12, 2024 at 07:49:03AM -0700, Jakub Kicinski wrote:
-> >   
-> >> +Open development
-> >> +----------------
-> >> +
-> >> +Discussions about user reported issues, and development of new code
-> >> +should be conducted in a manner typical for the larger subsystem.
-> >> +It is common for development within a single company to be conducted
-> >> +behind closed doors.
-
-True. So what?
-
-> >> However, maintainers must not redirect discussions
-> >> +and development related to the upstream code from the upstream mailing lists
-> >> +to closed forums or private conversations. Reasonable exceptions to this
-> >> +guidance include discussions about security related issues.  
-
-Not sure what this somewhat obscure message wants to accomplish.
-
-It is quite common to have developers and maintainers discussing 
-outside public forums and internally at the companies they're working 
-for. There are lots of reasonable exceptions besides security. On my
-years of experience, the reasons I've seen more often are:
-
-1. language and/or cultural barriers;
-2. teaching and mentoring new developers to start contributing upstream;
-3. need to have internal discussions in the light of some IP protected
-   material.
-
-(1) and (2) are very common for non-native English speakers
-and for newbies, and we do want to have more contributions from
-them. (3) is unavoidable, as discussions related to protected
-IP can't be disclosed due to legal reasons.
-
-Also, if you take it to the letter, have discussions on LPC, 
-summits BoFs, other events handled by the open source community 
-and wall conversations are "closed forums/private conversations".
-I've seen a lot of good results produced on such private
-conversations that solved relevant conflicts and got
-materialized as great contributions.
-
-There's nothing wrong with that, provided that the outcoming of
-such internal discussions are reflected publicly as patches,
-summit minutes, LWN articles, etc.
-
-The only issues I see with such talks is that the work when
-co-authored should be properly marked as such and that 
-reviewews/acks taken behind doors don't have the same meaning
-as an upstream review, as they may be due to some internal 
-formalities.
-
-IMO, the best would instead to give a positive message. E. g.
-something like:
-
-	Maintainers must encourage discussions and reviews to happen
-	at public mailing lists, avoiding whenever possible to have
-	internal discussions.
+Please choose more appropriate subjects (also for subsequent cover letter variations).
 
 Regards,
-Mauro
+Markus
