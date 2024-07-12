@@ -1,87 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8494316F856;
-	Fri, 12 Jul 2024 14:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E4C171092
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2024 15:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720795745; cv=none; b=B83Mf7vh3PVwO/b7gTQ20ojmrSmnLgaQ7A6+B3gjIU9yasauSjhWS2ajVoCoTQOuZ415hZWDQshe5kYIeQG5TBxvurcIG96y6En1WAF5axFkmVZxscQFqyGplwrknMH1vrfXzdJc5J6O5oWGSkKgJGNndzvZ/rkPmRsndOHNUGM=
+	t=1720796806; cv=none; b=MjLfBgV8KdX5eEpcAM0O14mXPMmI8ACpy/O48+ygGHSxustRNke5Qc+sHRiz1nsgGyHzNzTseH5p8Q96Rr9UhShzOV7mVoLrHarLb/u3AWYsrCICR0pHJK9Jdch1rIH+nvdBx/h/IZkDPLC++lTdtYdxHjC1dJm+xxEbLXbf8x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720795745; c=relaxed/simple;
-	bh=0SqwIJO7LAMGvr6FODKuMskVBIlrJiXiKhXR+FTph7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K0gEJ4zaLgRVRGKZze0a93Iu3vI+pk59nwG1RtEd38zqHpZ1qYqTVkiL+0hdO6wQHY9nUCn81sQLVOq+8bLiIPnZm13aCmtwh19sqUu7oa05dRDTmTKlKxdPjVfE41xjp81ovaJFRvYQHy2B2LVdlsu7lftD4RtsS6nTnFq1SYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNzT4Tq7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720796806; c=relaxed/simple;
+	bh=IRMr7qGL1jXVji2zM5H94uxxDduKUZFIvjlx9E9l6rI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FqTrk2rjb5dX5mmPSANNwW+DaT2nKW06OW4nFwhNfS+BeY0HID90z5RpvQuli1pbPySNQTASa6XPVxmK6NelH644C1qq5NW9E4sT1DRRRAtU+jaWs+w2AMAsqtiYgEkGVpP64q7tU77/hWlpwa4Vp4mOw5V8E8U/Zjy6AVF4yBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q8oTn/vo; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNzT4Tq7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D6FC32782;
-	Fri, 12 Jul 2024 14:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720795745;
-	bh=0SqwIJO7LAMGvr6FODKuMskVBIlrJiXiKhXR+FTph7c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=lNzT4Tq78VU2a+kVXOC1xdgmh0U3Z0riIss0rHkWHJo0g39KJM2TKRWiwodtUq/Qj
-	 L+TGY2gWzFwLFg3MWg9vFCSTVT1jYv5A/o+0AstR7ILpUXy/wXE3EnntBRhj4NnJNA
-	 Doc7dosivAFL1lc3jLivYWj81f3pbb+RwMkAAVPowtMmm1S50vsuf+o/FowX4DBDD4
-	 luNvQMERlE9wp6hMF4TjCqpBuByuRr6o8EpBCRxjQhz4Y8y/2KZ/rEn9Ptmk5Tdxml
-	 ABx/yx/3e3zh0YycdDRMDrHphOFd+eJ/X3D1dvl4S5B8YYqRyxigFdgjpZUpiVpBTe
-	 WWr+aTDYAUZiQ==
-From: Jakub Kicinski <kuba@kernel.org>
-To: corbet@lwn.net
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: maintainer: discourage taking conversations off-list
-Date: Fri, 12 Jul 2024 07:49:03 -0700
-Message-ID: <20240712144903.392284-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q8oTn/vo"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1fba2bb1ad5so12024665ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jul 2024 08:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720796804; x=1721401604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZWyWnNJQfLis8OltmFTp+D+i2eRVmZlaO2glliGRcpM=;
+        b=Q8oTn/voHhU1nR6xhOLR9ObopibWX7Wp1OVlm+AaD1ehuzWBJEbCse0G8m6wPAWKIV
+         5G6zTtXc04mR1PfAPfcV60J5+/1zpGER+zKT+VoYGrST4kYw9Pn1ZG2kHqbU8gpEGs6S
+         93szTtxfQYYCDHPJTcfLKQ81BIixkSKn22w0L/LxPLsZbRFDl29CjwMx8BrOS4zFwcbD
+         XjFP7T2OrGyLOpgP0oMWtmzU993VRnX8zmP5YM9en7aAtXkli9XkimUWLJ0Aw1VBYpFI
+         Cf5xaoouSrw2Chg7lCCsrNbgS/JsDCItP7eq4VVc7gwn+/l0SbgxJS7GCdAXYUJGP4Le
+         3p+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720796804; x=1721401604;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZWyWnNJQfLis8OltmFTp+D+i2eRVmZlaO2glliGRcpM=;
+        b=YX0G4CTs6l/WqYHmF+fYZKNTltisPHSoNiGH7rcKnP/4y6kwa9Lr4V65itS1zE6oPu
+         /LgdgMdBX3w98sOeBf4NEIbccxOSJ20unQVfgSmQxQPUJ2uI9hEtxhyC4SzpsMaKZdTG
+         aKkHSLi4iJR2BhugY+J0lgFTQVk+tl3VaveF9qvnWqqceBWLXL/lwFvuCSDpbuXeTXpD
+         OZdLyTDk820rTAnId2lbKcBXE6xeaczaQNPKNWStWkGeUToBEElBf/IK/urQiT7XyDMk
+         x6hVcDiU8JrHWzudvIPXiLeiTPYsPmPz4w5U94ucFDivBRE8qVYl3QJlLVV69CLYVSJn
+         88vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHdY87E83bfrOQxRY4kmX3WqeaAdoe2cQQC5NEU5jfoma8seFkgKEodmhcAHSKy9+CSr2k2mjRDXovjmFfzHqqN8xzfZJd/xIW
+X-Gm-Message-State: AOJu0YwwVKn+lzlu9ZZVSf5ftggFJRiedNsa19i06ZKtH3yRPg4Kd/Cz
+	qm7B8EvbzKuoGxVq1nWZ+BALkQjlLHndEfmhQB+0LhpVkswcfHakmOsxeg7dxv/AbVWMe824pB9
+	bow==
+X-Google-Smtp-Source: AGHT+IGDfGxGyoOOVJXHRxv/7+Ukhncjw5VneesB3o9h2h6VbTln8g5EPSE4uE3ENM6QWIp1Ic1twbCkqos=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:ec8b:b0:1fb:415d:81c5 with SMTP id
+ d9443c01a7336-1fbb6eb7039mr251225ad.8.1720796804378; Fri, 12 Jul 2024
+ 08:06:44 -0700 (PDT)
+Date: Fri, 12 Jul 2024 08:06:42 -0700
+In-Reply-To: <CADrL8HW4PLTeC9Gq3Fd43-idjzOw8mXOzzG_RP1TYVoGp1_g+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
+ <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
+ <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
+ <ZnCCZ5gQnA3zMQtv@google.com> <CADrL8HW=kCLoWBwoiSOCd8WHFvBdWaguZ2ureo4eFy9D67+owg@mail.gmail.com>
+ <CADrL8HUv6T4baOi=VTFV6ZA=Oyn3dEc6Hp9rXXH0imeYkwUhew@mail.gmail.com>
+ <Zo137P7BFSxAutL2@google.com> <CADrL8HW4PLTeC9Gq3Fd43-idjzOw8mXOzzG_RP1TYVoGp1_g+g@mail.gmail.com>
+Message-ID: <ZpFGYvCAQWhldWJZ@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Multiple vendors seem to prefer taking discussions off list, and
-ask contributors to work with them privately rather than just send
-patches to the list. I'd imagine this is because it's hard to fit in
-time for random developers popping up with features to review into
-packed schedule. From what I've seen "work in private" usually means
-someone on the company side will be assigned to handle the interaction,
-possibly months later. In worst case, the person scheduled to help
-the contributor takes over and writes the code themselves.
-This is not how the community is supposed to work.
+On Wed, Jul 10, 2024, James Houghton wrote:
+> On Tue, Jul 9, 2024 at 10:49=E2=80=AFAM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> >
+> > On Mon, Jul 08, 2024, James Houghton wrote:
+> > > On Fri, Jun 28, 2024 at 7:38=E2=80=AFPM James Houghton <jthoughton@go=
+ogle.com> wrote:
+> > > >
+> > > > On Mon, Jun 17, 2024 at 11:37=E2=80=AFAM Sean Christopherson <seanj=
+c@google.com> wrote:
+> > > I still don't think we should get rid of the WAS_FAST stuff.
+> >
+> > I do :-)
+> >
+> > > The assumption that the L1 VM will almost never share pages between L=
+2
+> > > VMs is questionable. The real question becomes: do we care to have
+> > > accurate age information for this case? I think so.
+> >
+> > I think you're conflating two different things.  WAS_FAST isn't about a=
+ccuracy,
+> > it's about supporting lookaround in conditionally fast secondary MMUs.
+> >
+> > Accuracy only comes into play when we're talking about the last-minute =
+check,
+> > which, IIUC, has nothing to do with WAS_FAST because any potential look=
+around has
+> > already been performed.
+>=20
+> Sorry, I thought you meant: have the MMU notifier only ever be
+> lockless (when tdp_mmu_enabled), and just return a potentially wrong
+> result in the unlikely case that L1 is sharing pages between L2s.
+>=20
+> I think it's totally fine to just drop WAS_FAST. So then we can either
+> do look-around (1) always, or (2) only when there is a secondary MMU
+> with has_fast_aging. (2) is pretty simple, I'll just do that.
+>=20
+> We can add some shadow MMU lockless support later to make the
+> look-around not as useless for the nested TDP case.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- .../maintainer/feature-and-driver-maintainers.rst     | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+...
 
-diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
-index f04cc183e1de..ac7798280201 100644
---- a/Documentation/maintainer/feature-and-driver-maintainers.rst
-+++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
-@@ -83,6 +83,17 @@ bugs as well, if the report is of reasonable quality or indicates a
- problem that might be severe -- especially if they have *Supported*
- status of the codebase in the MAINTAINERS file.
- 
-+Open development
-+----------------
-+
-+Discussions about user reported issues, and development of new code
-+should be conducted in a manner typical for the larger subsystem.
-+It is common for development within a single company to be conducted
-+behind closed doors. However, maintainers must not redirect discussions
-+and development related to the upstream code from the upstream mailing lists
-+to closed forums or private conversations. Reasonable exceptions to this
-+guidance include discussions about security related issues.
-+
- Selecting the maintainer
- ========================
- 
--- 
-2.45.2
+> > Adding the locking isn't actually all that difficult, with the *huge* c=
+aveat that
+> > the below patch is compile-tested only.  The vast majority of the churn=
+ is to make
+> > it so existing code ignores the new KVM_RMAP_LOCKED bit.
+>=20
+> This is very interesting, thanks for laying out how this could be
+> done. I don't want to hold this series up on getting the details of
+> the shadow MMU lockless walk exactly right. :)
 
+...
+
+> 1. Drop the WAS_FAST complexity.
+> 2. Add a function like mm_has_fast_aging_notifiers(), use that to
+> determine if we should be doing look-around.
+
+I would prefer a flag over a function.  Long-term, if my pseudo-lockless rm=
+ap
+idea pans out, KVM can set the flag during VM creation.  Until then, KVM ca=
+n set
+the flag during creation and then toggle it in (un)account_shadowed().  Rac=
+es
+will be possible, but they should be extremely rare and quite benign, all t=
+hings
+considered.
