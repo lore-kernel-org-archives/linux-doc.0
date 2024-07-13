@@ -1,37 +1,40 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B261759F;
-	Sat, 13 Jul 2024 04:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1FA1BC3F;
+	Sat, 13 Jul 2024 07:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720844537; cv=none; b=q17n4cwoZkvj/hwRf0jSnDsgtDlyyGlVhDxKD1EcnKZQirfCuaXuyn38Ade0Jv/o+xh4iEwYx8KZDn6QFlyD2aTq8QLjO9duIXmQpd4CUIvR5bodBQo7MwwKY8ov0dSLvt1QO9i4khiobSz2XefPSp8rbZ/dZZloH79uh6A0sH4=
+	t=1720855027; cv=none; b=SbLE3SlGqY7aHO9sO/RHyoOUz6CxkoLueFBldLvaYRmo+DdIWwgSjk2m+AOp3/Gv7aqtZ7B5B1C7d85uWyuhgONuCmWpZmM4U4pAx7XcC3S4Pm+jBqzlAjb0sg/1Hv7ijVnJ9opqnORVjmLQqqjlMj4GKGocRNx/EGlIJEM0RF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720844537; c=relaxed/simple;
-	bh=wmr/ouVD2eMUIMbyLlnD82DQQxr1X9SgVFwdU/a40Sc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VbTsT3Zz4NZwCtF/NoQbsyXlS0FZbhERJFhYQZfhzkLMztReCyI/f1rCwa3Znm87RC9rhT5HU8np+mdYQmpi+lQRcdc5OIDp6DJfggInOq+QTak1gsHUNi6SM66IGH4m+hoc6QI/xqITSjx/1h8B+D4xFqYYN9pyQTM6aYXmy2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HHYZ4I+3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1720855027; c=relaxed/simple;
+	bh=shyD0e0NYVMkydaTgXlDzFg6ynFBBFkSK2k1pJF+MeU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=fK52++7/YCAJs1SgrxIFZp4regBBaT73ii2CUSST8jvipSUEw9ic2ia+X6sZeuUOEl1h1i9RI8RqlyzZ3m+QQdb4nqmeTt+tMevS2T2ufk5yN2xke61ENE6FdMm5Z7n6wOlsyAAkNozeUpHhquFGlh8GuaU1kMpdT2qW0lHrV34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Zt4UDs4L; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HHYZ4I+3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JSPtA+5qlIyfotm1HU/6yE5V/V+Kh/C7Nj2+UevhCtc=; b=HHYZ4I+3UUQFRRUi3Gu8d3bwfJ
-	aY4sXVVeIyu5KDTcexwZc6PLi0YqrnrHXviUVoinsg6mcsX5kxjS98Ps1IiyviHhMW8dNDzydypu0
-	8BJpXleIYVgEeejxxoF0XKgySrDCTArZPmeceCPjppq1WpZJbgWFX4UAskF93SxCt7F5cYlNOsBPS
-	ZfA5dnKN1lzpw3UVT/zVJOjR8nQWn8hAHBkZ1Ngj7+d0zBp3jnHjBBg0Yxy6PgRVc8yVgrB1JWjS7
-	2fb+L2XFa2Ud6DSY7YTjRazuogepsEfYVGvOKWjbPQH3qlm4uCbajey2tf9+KeYeYpm5gvoQUIBtX
-	hzRccf1Q==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sSUGz-00000001rFy-3vmi;
-	Sat, 13 Jul 2024 04:22:14 +0000
-Message-ID: <201d597e-e0c7-411b-a29c-dfc3111aa863@infradead.org>
-Date: Fri, 12 Jul 2024 21:22:13 -0700
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Zt4UDs4L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1720854935; x=1721459735; i=markus.elfring@web.de;
+	bh=lGT0IGqj2Gekx2many9OW4kUSA4BtqO3fHSBiEHG7Co=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Zt4UDs4LDu79Ah5JLNzCDgnKk7z/+vmUQXvR071IRYhGZHmv6y5gwoYhmxunOF1O
+	 zh3xPPsUtsKEY5s7dGer6h7/UonJ2zO0odpPnIeUcr52QE3qjSg9TVw+HLHn/y4W4
+	 XeRYlyhUtNIdAd8/C9PjnRnInfaCbJLveyPhu7Ax3BTHRtAEvBg0ztu+mF6DLhVn+
+	 JkIoIXrCHbbLw4tsUO9B0FOmeBGnfi9V0ZooR3ZOYdoUkICxqBkv+XH1A2Dsg0YAu
+	 6MU8JytAeCamW+dRDklDf8jG7/KXHLBq9GN/Gwo2XNMNXuT8DDgp+8vp/WbXiJYIZ
+	 9nZ3i98F26GcKtMHNg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mho0A-1rp5UN04AK-00hfT6; Sat, 13
+ Jul 2024 09:15:35 +0200
+Message-ID: <20128914-b270-4bda-a778-fed63594d04c@web.de>
+Date: Sat, 13 Jul 2024 09:15:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,132 +42,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] docs: scheduler: Start documenting the EEVDF
- scheduler
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, corbet@lwn.net,
- sergio.collado@gmail.com, peterz@infradead.org
-Cc: bilbao@vt.edu, jembid@ucm.es, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240713003213.4008440-1-carlos.bilbao.osdev@gmail.com>
- <20240713003213.4008440-2-carlos.bilbao.osdev@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240713003213.4008440-2-carlos.bilbao.osdev@gmail.com>
+To: Babu Moger <babu.moger@amd.com>, x86@kernel.org,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Fenghua Yu <fenghua.yu@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Reinette Chatre
+ <reinette.chatre@intel.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Breno Leitao <leitao@debian.org>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ James Morse <james.morse@arm.com>, Jim Mattson <jmattson@google.com>,
+ Jithu Joseph <jithu.joseph@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Julia Lawall <julia.lawall@inria.fr>, Kai Huang <kai.huang@intel.com>,
+ Kan Liang <kan.liang@linux.intel.com>, Kim Phillips <kim.phillips@amd.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Peter Newman <peternewman@google.com>,
+ Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Sandipan Das <sandipan.das@amd.com>, Sean Christopherson
+ <seanjc@google.com>, Stephane Eranian <eranian@google.com>,
+ Tejun Heo <tj@kernel.org>, Yan-Jie Wang <yanjiewtw@gmail.com>
+References: <cce527151843aaa1a6001c75a17ee46108821233.1720043311.git.babu.moger@amd.com>
+Subject: Re: [PATCH v5 17/20] x86/resctrl: Introduce the interface switch
+ between monitor modes
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <cce527151843aaa1a6001c75a17ee46108821233.1720043311.git.babu.moger@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:vsSa49I+alWCwjjBRb4HSU9SeADlcRzgkQR9G0b8HtQScw8ruUW
+ yIgXhZveFRKGppoF1fUI33fDlzpreQKy8OYkFLBpLPBwpYtFcQQV5ILiWGYzBciP/bdsIWz
+ vs1nAUNE5/7dVlxwAoqX2SRunjrz2FuYIskXSwNd+T8z4i398jz3viD3ob+COvx5Zo3VFyg
+ 8nwZRbU37sU2gwO//WjYg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:4Glvimh4XDE=;/vyFPVQ7oI8a53UCQmZl8fDRNZm
+ 925StIsKb2edSkWnUyEALe/s8j4t655y5owxGRWoortSWccxiDTBPPBJQYOpEBqvFUWOcOBTh
+ 8SZYVyV07dRYb4dJd2ALOTgQjhs2Fd1oNZTUfiSj0PHKa5/zKcSeU8NzVQbBkD7ov3NYih8Iy
+ LhyT2I9o1hCH7/oqoWkKeILYwnJ4QlBGt8/evO7R5ZI3fAHc+9KOKh21RzSvkQMWbBvvmVN4j
+ 53niiaZX/zMavsvdkSG9Hzw34mKrupshlASksjS1o4Lq+gN6bbQ7tDoKOyBEdJ9CQtcszpC4C
+ JaL0ETTZPa7SUZgzjBX/nwTzPtzQiL8f99rTc0Xcha5IR+ml6FD0pArDmrLzmT8D9B3nZ7NgP
+ Kkovw2WrSTce6x837tK/315x4mc6Oc++BUoDMbw2Hk3RXiACbKADJba0W71h7B047bh6nqZNi
+ w7JGobiSut+V0lZXQONv6Xynfd+w42yy+S2tulPnMMlrB+XzyrW7XE9lDTpaqUToaLmyw0nIq
+ yORGkJHcTKZ+eXMEdoqtxjqVzi6TRdoJ2qBKB+v/86TFw4H2aE54l0lQuPh91d8sqbb1LbvAq
+ P2H28vtf21i/faPh+3NyBdfPzM4UpQAsBs+6jii2vdN80o5emEMenxvVBxVZdeWEKYjQYCgYC
+ nQ2nP9SPiXQbndushjUTFuF04Vb5WO7A+1ZaJIlAnGZZupJDmbwGl8TEuSUwZO914XEA3MWEZ
+ HpKQcOutvwWrfO7lGFJdZ+5zAeJiNEqwnrn+QE1COpGh+whIL4V+ZCNVHf4tWm+gRGwQ3AQPq
+ S2mtPnCu4KbpxWo2QJPr0QNg==
 
-Hi,
-
-On 7/12/24 5:32 PM, Carlos Bilbao wrote:
-> Add some documentation regarding the newly introduced scheduler EEVDF.
-> 
-> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-> ---
->  Documentation/scheduler/index.rst            |  1 +
->  Documentation/scheduler/sched-design-CFS.rst | 10 +++--
->  Documentation/scheduler/sched-eevdf.rst      | 44 ++++++++++++++++++++
->  3 files changed, 51 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/scheduler/sched-eevdf.rst
-> 
-> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
-> index 43bd8a145b7a..444a6fef1464 100644
-> --- a/Documentation/scheduler/index.rst
-> +++ b/Documentation/scheduler/index.rst
-> @@ -11,6 +11,7 @@ Scheduler
->      sched-arch
->      sched-bwc
->      sched-deadline
-> +    sched-eevdf
-
-I would have probably put EEVDF just after CFS instead of before it...
-whatever.
-
->      sched-design-CFS
->      sched-domains
->      sched-capacity
-> diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-> index bc1e507269c6..b703c6dcb3cd 100644
-> --- a/Documentation/scheduler/sched-design-CFS.rst
-> +++ b/Documentation/scheduler/sched-design-CFS.rst
-> @@ -8,10 +8,12 @@ CFS Scheduler
->  1.  OVERVIEW
->  ============
->  
-> -CFS stands for "Completely Fair Scheduler," and is the new "desktop" process
-> -scheduler implemented by Ingo Molnar and merged in Linux 2.6.23.  It is the
-> -replacement for the previous vanilla scheduler's SCHED_OTHER interactivity
-> -code.
-> +CFS stands for "Completely Fair Scheduler," and is the "desktop" process
-> +scheduler implemented by Ingo Molnar and merged in Linux 2.6.23. When
-> +originally merged, it was the replacement for the previous vanilla
-> +scheduler's SCHED_OTHER interactivity code. Nowadays, CFS is making room
-> +for EEVDF, for which documentation can be found in
-> +:ref:`sched_design_EEVDF`.
->  
->  80% of CFS's design can be summed up in a single sentence: CFS basically models
->  an "ideal, precise multi-tasking CPU" on real hardware.
-> diff --git a/Documentation/scheduler/sched-eevdf.rst b/Documentation/scheduler/sched-eevdf.rst
-> new file mode 100644
-> index 000000000000..31ad8f995360
-> --- /dev/null
-> +++ b/Documentation/scheduler/sched-eevdf.rst
-> @@ -0,0 +1,44 @@
-> +.. _sched_design_EEVDF:
+=E2=80=A6
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -910,6 +910,40 @@ static int rdtgroup_num_mbm_cntrs_show(struct kernf=
+s_open_file *of,
+>  	return 0;
+>  }
+>
+> +static ssize_t rdtgroup_mbm_mode_write(struct kernfs_open_file *of,
+> +				       char *buf, size_t nbytes,
+> +				       loff_t off)
+> +{
+=E2=80=A6
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
 > +
-> +===============
-> +EEVDF Scheduler
-> +===============
+> +	rdt_last_cmd_clear();
+=E2=80=A6
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	cpus_read_unlock();
 > +
-> +The "Earliest Eligible Virtual Deadline First" (EEVDF) was first introduced
-> +in a scientific publication in 1995 [1]. The Linux kernel began
-> +transitioning to EEVDF in version 6.6 (as a new option in 2024), moving
-> +away from the earlier Completely Fair Scheduler (CFS) in favor of a version
-> +of EEVDF proposed by Peter Zijlstra in 2023 [2-4]. More information
-> +regarding CFS can be found in :ref:`sched_design_CFS`.
-> +
-> +Similarly to CFS, EEVDF aims to distribute CPU time equally among all
-> +runnable tasks with the same priority. To do so, it assigns a virtual run
-> +time to each task, creating a "lag" value that can be used to determine
-> +whether a task has received its fair share of CPU time. In this way, a task
-> +with a positive lag is owed CPU time, while a negative lag means the task
-> +has exceeded its portion. EEVDF picks tasks with lag greater or equal to
-> +zero and calculates a virtual deadline (VD) for each, selecting the task
-> +with the earliest VD to execute next. It's important to note that this
-> +allows latency-sensitive tasks with shorter time slices to be prioritized,
-> +which helps with their responsiveness.
-> +
-> +There are ongoing discussions on how to manage lag, especially for sleeping
-> +tasks; but at the time of writing EEVDF uses a "decaying" mechanism based
-> +on virtual run time (VRT). This prevents tasks from exploiting the system
-> +by sleeping briefly to reset their negative lag: when a task sleeps, it
-> +remains on the run queue but marked for "deferred dequeue," allowing its
-> +lag to decay over VRT. Hence, long-sleeping tasks eventually have their lag
-> +reset. Finally, tasks can preempt others if their VD is earlier, and tasks
-> +can request specific time slices using the new sched_setattr() system call,
-> +which further facilitates the job of latency-sensitive applications.
-> +
-> +4. REFERENCES
-> +=============
+> +	return ret ?: nbytes;
+> +}
+=E2=80=A6
 
-Why is this section numbered 4?
-No other sections here are numbered.
+Would you become interested to apply statements like the following?
 
-> +
-> +[1] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=805acf7726282721504c8f00575d91ebfd750564
-> +
-> +[2] https://lore.kernel.org/lkml/a79014e6-ea83-b316-1e12-2ae056bda6fa@linux.vnet.ibm.com/
-> +
-> +[3] https://lwn.net/Articles/969062/
-> +
-> +[4] https://lwn.net/Articles/925371/
+* guard(cpus_read_lock)();
+  https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/cleanup.=
+h#L133
 
-Other than those 2 comments:
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+* guard(mutex)(&rdtgroup_mutex);
+  https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/mutex.h#=
+L196
 
 
-Thanks.
-
--- 
-~Randy
+Regards,
+Markus
