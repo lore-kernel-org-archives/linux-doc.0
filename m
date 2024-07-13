@@ -1,65 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476FA802;
-	Sat, 13 Jul 2024 00:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2239746E;
+	Sat, 13 Jul 2024 00:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720829573; cv=none; b=Qc994ivnpS5pwHqj17gpZ9LGgB2DOBfnly4L8S42F9WVO+0zkojl2gogkJcep+H0TkVo0nC7C3QJ1+2BrRMubZMGO6WE7ttorBNM7Fn76clHCWWJNXzyXeS6OWbj7V6maTRxVUejo8dN8Pp0PoOHfSxmDl7hDKV59qAWIfVn2Dg=
+	t=1720830738; cv=none; b=Z5dVSz7HRqOwxSlloI1qaMLSg+VKckTtx7wguhClr0kQaNevj/vWFWSrtb4qDy2Wtn8WoGhUWb8zcoFvHx6ka1sxPh/czfFh8xQSHGBcaTLfl/ctNgCNrhpT+DJdEVSnfSPFXFYwa1qennwhKGvZg5g+CNh0wHrn8mBje3zXEOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720829573; c=relaxed/simple;
-	bh=rLdXh0nmhzxcQj5pZff6ZjJBGpWhaOblrwrgaWUyc9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NX0XpJ/el8QUPN9ROj3+mqtRRz8ix3VVK7WII0NGzBUGKue5dWPQlhxkzhZywDXAoRKeHKcNgEW6XFM7Rgr1yy3CXdU8PvaP1hTjQs7HhB14VNFpj7Y/hqh0AuODqezpvKmijl6gglQ1XUNxc4p1FkWJqGowQDPymfwLsVIkxaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qm2e5kRf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720830738; c=relaxed/simple;
+	bh=d3mtS8Zq1pnyZqlhIydhbreLOT6EbIGTzwBzZYoAJUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fjdztEmBTNEkGLl8phBVs377lzwvysk87VGNKQ/vq1NHfmTELhCpi0Yv3AC4MYj1Xp4Bb8aP9WRyQItObjES7qHxWF8PR4n/RG3mB1rTpWsKAwlocHKyq0ie+Jiiz944ThfI1KCdIqPVd9FD03aVaVqz/nyzno4PuK1m22NmhzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E26ExgJb; arc=none smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qm2e5kRf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF61C32782;
-	Sat, 13 Jul 2024 00:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720829572;
-	bh=rLdXh0nmhzxcQj5pZff6ZjJBGpWhaOblrwrgaWUyc9U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qm2e5kRfebHT7u9I9H/KnVYGLOMOJTKvfByj/rgjkujtWG6o2NRNwHiCsMrtlKDpR
-	 hvyG92E4j0zZNcqSgYn77dT0BMAsgJCTRlqN2P1bCo84Iw9ES9+zS1WEO7xE7DwlEl
-	 /HPo/9zbQT6yUvB4jMayIxHtF+9No5fGqAnMfrclBj6bH/KTirT2gHCl34wHxCDcEZ
-	 zVeGyVDV5ktqxx7G5yB7rErle/4Otis5x0KmVpN9PsS8mgutlS6dl0JuaTxGrZLVWi
-	 YqhfTkhW44osmXMHIH+hfTQydy/O3DZLfV5iy1hKq7y65ZJgGnIMvgX/NqlYqcRx0G
-	 xcJoxJv1vw9Ng==
-Date: Fri, 12 Jul 2024 17:12:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
- <corbet@lwn.net>, <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
- off-list
-Message-ID: <20240712171251.297aca44@kernel.org>
-In-Reply-To: <6691c3aca15f4_8e85329470@dwillia2-xfh.jf.intel.com.notmuch>
-References: <20240712144903.392284-1-kuba@kernel.org>
-	<7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
-	<1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
-	<20240712201156.1413e80e@foz.lan>
-	<20240712164504.76b15e31@kernel.org>
-	<6691c3aca15f4_8e85329470@dwillia2-xfh.jf.intel.com.notmuch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E26ExgJb"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5c669a0b5d1so1342116eaf.3;
+        Fri, 12 Jul 2024 17:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720830736; x=1721435536; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r3+iIt+iB5ajjxkFjvCjSBa/DXxUn6LEHuoyEw/QZGs=;
+        b=E26ExgJb2U11rlb8F7MntaUT1KXQaC9JPtjZrzEkkJBmLLXsP8tpQYQKB8PmSjMi91
+         vNxKo+u7M/UwelHvzf0w6wkPq5vWinQN3aXpcas1nSenN4rcwr5764eSzpS6JIhBp17Z
+         YtvBbUizQszJAM0jfpu/p8AyeAYbLPXc+NkuUmvo8E/VtCATcdrS1j0OPB23OTsjhECF
+         tFO15WBfYvHylXfHhlgDgm6icB8vw6pDdQWXMJt+UgZxKbYdhaU3p0UBPuVr8ITUJ23/
+         zmt4n9yrA5OMxfNnlWg/digo0xWEgykS0BO6kdz90gWR5JomLjr5oIX89iVRk+7KRWLq
+         9Pqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720830736; x=1721435536;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r3+iIt+iB5ajjxkFjvCjSBa/DXxUn6LEHuoyEw/QZGs=;
+        b=RM5U1u2GOmtiKsd1hZj05SKB2c7qU/CtpAVafP2n7l6KanXIlVRLN75dq4bNaDSt7u
+         O7nedwwZROP+5+CZ8CPlGQepZT1KNMRVHzcBy0IOLBzfmnp0WiYmmWgyYuUSe3rQdk6E
+         4K+ma/y0ZtPX92uzXigzsdAzjgQwR7x79LnUmllNE69u59I0GTyv9Z5ZetfDEkeJKp1D
+         LtwO4TuTbGqJYkHTAWuABySMxpHtJKYJxTlbjYzrOHR2NS+5762QNZWwMVIRPGL84j4L
+         NG51uWmhpB+WGxCa3H8809glYsYfeYNel7Y3jfdH2AiA3aqNxw1APRdyk3joUeisN6s4
+         aePQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRu6/+bBjJF0KGdMJvimUOGKfR4EKFr4JEfdYZw/8jlZ2iUGC8/YwFzRnpTkC5EsGqvC2unlhsN+Vg6k0h0OO2niAX+uuutsZV/w7AvFx4qn8ghznYijsPjUo/Wzq+ZZ+8z9QagpKW
+X-Gm-Message-State: AOJu0YzJ2SUqcTHqu6q+DIexONURqTbiki9hjF8NnmDyugJgpHpOo1Cj
+	EnCSOF06pVmR+CQTcEqg5ETH6buhDP7Zd1HPoo2mDhOHmEFR9dS6BuCyuw==
+X-Google-Smtp-Source: AGHT+IH/cEWrX6kE84kdatGw1rNHDlmGYn66XQAZj9kExyy3V7hBJ+ulUID6yOvQVefycBd9dASD9Q==
+X-Received: by 2002:a05:6820:200b:b0:5b9:e7db:1cf8 with SMTP id 006d021491bc7-5cce44e2a66mr4835330eaf.4.1720830735772;
+        Fri, 12 Jul 2024 17:32:15 -0700 (PDT)
+Received: from pipaware.localdomain ([69.219.169.121])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ce776c4c31sm25978eaf.45.2024.07.12.17.32.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jul 2024 17:32:15 -0700 (PDT)
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+To: corbet@lwn.net,
+	sergio.collado@gmail.com,
+	peterz@infradead.org
+Cc: bilbao@vt.edu,
+	jembid@ucm.es,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Subject: [PATCH 0/1] docs: scheduler: Start documenting the EEVDF scheduler
+Date: Fri, 12 Jul 2024 19:32:11 -0500
+Message-ID: <20240713003213.4008440-1-carlos.bilbao.osdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Jul 2024 17:00:44 -0700 Dan Williams wrote:
-> To be honest I am lost trying to understand who the audience is and what
-> the actionable takeaway is from the guidance. It sounds like you are
-> trying to educate drive-by submitters to push back against requests to
-> take issues off the list. I think that's a reasonable education
-> campaign, but doesn't that kind of "submitter bill-of-rights" note
-> belong in Documentation/admin-guide/reporting-{issues,regressions}.rst
-> as explicit "how to work your issue upstream" guidance?
+I was in the process of updating the CFS documentation, as Sergio proposed,
+when I realized we don't have any EEVDF documentation to point to. I have
+started it. I know it isn't a lot of info about EEVDF in the doc, but (1) I
+wanted to get the ball rolling, and (2) I prefer to keep it light until we
+have a solid idea of how EEVDF will actually end up. This could take a
+while. When or if it stops being an option, we can revisit it.
 
-Fair point. Not sure if reporting-* is a good place, I care about code
-contributions 10x more than issues and other discussions. No strong
-preference on the placement, as long as its documented...
+Sergio, if you’d like to update the Spanish translations of CFS and add one
+for this new EEVDF doc, please go for it! ;)
+
+Thanks,
+Carlos
+
+P.S.: Jon, I have triple-checked for compilation warnings, but if you
+      encounter any, please LMK the versions of your tools so I can match
+      them moving forward.
+
+Carlos:
+  docs: scheduler: Start documenting the EEVDF scheduler
+
+---
+ Documentation/scheduler/index.rst            |  1 +
+ Documentation/scheduler/sched-design-CFS.rst | 10 +++--
+ Documentation/scheduler/sched-eevdf.rst      | 44 ++++++++++++++++++++
+ 3 files changed, 51 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/scheduler/sched-eevdf.rst
+
