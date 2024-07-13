@@ -1,131 +1,230 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1FA1BC3F;
-	Sat, 13 Jul 2024 07:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9988548781;
+	Sat, 13 Jul 2024 07:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720855027; cv=none; b=SbLE3SlGqY7aHO9sO/RHyoOUz6CxkoLueFBldLvaYRmo+DdIWwgSjk2m+AOp3/Gv7aqtZ7B5B1C7d85uWyuhgONuCmWpZmM4U4pAx7XcC3S4Pm+jBqzlAjb0sg/1Hv7ijVnJ9opqnORVjmLQqqjlMj4GKGocRNx/EGlIJEM0RF8=
+	t=1720856594; cv=none; b=rYdrhkiJR9JnTp0ulgm91YoOUV8Nj9Hvtk67FFx/6i3wNG3EIuwgekWvjJomo/Pc3CirdxYsDATQfPbiYz0fJOmQtJNCD/+s+P5aJrtjKyaPQhdcpHoxYNzcatO6tb8thYd6pc4POhtlaedmlQ13p6srGzi308lWkGBZajXqT80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720855027; c=relaxed/simple;
-	bh=shyD0e0NYVMkydaTgXlDzFg6ynFBBFkSK2k1pJF+MeU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=fK52++7/YCAJs1SgrxIFZp4regBBaT73ii2CUSST8jvipSUEw9ic2ia+X6sZeuUOEl1h1i9RI8RqlyzZ3m+QQdb4nqmeTt+tMevS2T2ufk5yN2xke61ENE6FdMm5Z7n6wOlsyAAkNozeUpHhquFGlh8GuaU1kMpdT2qW0lHrV34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Zt4UDs4L; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1720856594; c=relaxed/simple;
+	bh=2uik8qwcSwuaULcD2kRT26Br/TWazbaNt+SmM1E0yBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hsRt+mNKg5WsyemsYEeZEtfZQPfHGEKMuUGlbDM4qasLFZHFobQdJYjRun+u+Whev94ONbqe6ECwC3Xa1Gui6cOg7lDy24UVbZAJcdZEMYv8zPPwwv4a9qiYVa8Vx+aGrmNWb0h+AQjki6KycG2GA7PcV3Nro+ceOQ9wZoU6dSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q6s0ul86; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Zt4UDs4L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1720854935; x=1721459735; i=markus.elfring@web.de;
-	bh=lGT0IGqj2Gekx2many9OW4kUSA4BtqO3fHSBiEHG7Co=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Zt4UDs4LDu79Ah5JLNzCDgnKk7z/+vmUQXvR071IRYhGZHmv6y5gwoYhmxunOF1O
-	 zh3xPPsUtsKEY5s7dGer6h7/UonJ2zO0odpPnIeUcr52QE3qjSg9TVw+HLHn/y4W4
-	 XeRYlyhUtNIdAd8/C9PjnRnInfaCbJLveyPhu7Ax3BTHRtAEvBg0ztu+mF6DLhVn+
-	 JkIoIXrCHbbLw4tsUO9B0FOmeBGnfi9V0ZooR3ZOYdoUkICxqBkv+XH1A2Dsg0YAu
-	 6MU8JytAeCamW+dRDklDf8jG7/KXHLBq9GN/Gwo2XNMNXuT8DDgp+8vp/WbXiJYIZ
-	 9nZ3i98F26GcKtMHNg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mho0A-1rp5UN04AK-00hfT6; Sat, 13
- Jul 2024 09:15:35 +0200
-Message-ID: <20128914-b270-4bda-a778-fed63594d04c@web.de>
-Date: Sat, 13 Jul 2024 09:15:14 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6s0ul86"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909CAC32781;
+	Sat, 13 Jul 2024 07:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720856594;
+	bh=2uik8qwcSwuaULcD2kRT26Br/TWazbaNt+SmM1E0yBk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q6s0ul86ROLIVi7jxGNiRgkMaGpC5ZYJczJgwaJWPU4UwNmFtsUTJa1rW4vohoIVX
+	 VJkPQlZLJ2MAdJR6FosYnwZkr75pG0Yo8qQgwKTDiahU1ooy3qF3/Hv+DJBOgXKQGA
+	 WiB/FbYsDVVZp/oaOgPz9SRj0BFbInZd5zdH6egb8UTiaJarlRRfJSKajDNq/QWiVX
+	 WFedGtZklIk36t0gMqX2Z7WUXkEl1jTpyYCUsjLjz3XdEGqonWH/RTNr/caa9wMzDU
+	 qOw9+IJXijE2QXvh+ocQa4rdT1fW4MMRrxdYg3PWXhMe4NUHlZog0v2K2cXgMeqGN5
+	 GkxK/wfgJspdA==
+Date: Sat, 13 Jul 2024 09:43:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: maintainer: discourage taking conversations
+ off-list
+Message-ID: <20240713094309.6b203768@foz.lan>
+In-Reply-To: <20240712164504.76b15e31@kernel.org>
+References: <20240712144903.392284-1-kuba@kernel.org>
+	<7570937c-ead6-40bc-b17f-4ade34a2acf6@sirena.org.uk>
+	<1a30aea2-e8e4-487d-81e4-dda5c1e8665e@linuxfoundation.org>
+	<20240712201156.1413e80e@foz.lan>
+	<20240712164504.76b15e31@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Babu Moger <babu.moger@amd.com>, x86@kernel.org,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Fenghua Yu <fenghua.yu@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Reinette Chatre
- <reinette.chatre@intel.com>, Thomas Gleixner <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Breno Leitao <leitao@debian.org>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- James Morse <james.morse@arm.com>, Jim Mattson <jmattson@google.com>,
- Jithu Joseph <jithu.joseph@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>, Kai Huang <kai.huang@intel.com>,
- Kan Liang <kan.liang@linux.intel.com>, Kim Phillips <kim.phillips@amd.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Peter Newman <peternewman@google.com>,
- Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Sandipan Das <sandipan.das@amd.com>, Sean Christopherson
- <seanjc@google.com>, Stephane Eranian <eranian@google.com>,
- Tejun Heo <tj@kernel.org>, Yan-Jie Wang <yanjiewtw@gmail.com>
-References: <cce527151843aaa1a6001c75a17ee46108821233.1720043311.git.babu.moger@amd.com>
-Subject: Re: [PATCH v5 17/20] x86/resctrl: Introduce the interface switch
- between monitor modes
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <cce527151843aaa1a6001c75a17ee46108821233.1720043311.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vsSa49I+alWCwjjBRb4HSU9SeADlcRzgkQR9G0b8HtQScw8ruUW
- yIgXhZveFRKGppoF1fUI33fDlzpreQKy8OYkFLBpLPBwpYtFcQQV5ILiWGYzBciP/bdsIWz
- vs1nAUNE5/7dVlxwAoqX2SRunjrz2FuYIskXSwNd+T8z4i398jz3viD3ob+COvx5Zo3VFyg
- 8nwZRbU37sU2gwO//WjYg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4Glvimh4XDE=;/vyFPVQ7oI8a53UCQmZl8fDRNZm
- 925StIsKb2edSkWnUyEALe/s8j4t655y5owxGRWoortSWccxiDTBPPBJQYOpEBqvFUWOcOBTh
- 8SZYVyV07dRYb4dJd2ALOTgQjhs2Fd1oNZTUfiSj0PHKa5/zKcSeU8NzVQbBkD7ov3NYih8Iy
- LhyT2I9o1hCH7/oqoWkKeILYwnJ4QlBGt8/evO7R5ZI3fAHc+9KOKh21RzSvkQMWbBvvmVN4j
- 53niiaZX/zMavsvdkSG9Hzw34mKrupshlASksjS1o4Lq+gN6bbQ7tDoKOyBEdJ9CQtcszpC4C
- JaL0ETTZPa7SUZgzjBX/nwTzPtzQiL8f99rTc0Xcha5IR+ml6FD0pArDmrLzmT8D9B3nZ7NgP
- Kkovw2WrSTce6x837tK/315x4mc6Oc++BUoDMbw2Hk3RXiACbKADJba0W71h7B047bh6nqZNi
- w7JGobiSut+V0lZXQONv6Xynfd+w42yy+S2tulPnMMlrB+XzyrW7XE9lDTpaqUToaLmyw0nIq
- yORGkJHcTKZ+eXMEdoqtxjqVzi6TRdoJ2qBKB+v/86TFw4H2aE54l0lQuPh91d8sqbb1LbvAq
- P2H28vtf21i/faPh+3NyBdfPzM4UpQAsBs+6jii2vdN80o5emEMenxvVBxVZdeWEKYjQYCgYC
- nQ2nP9SPiXQbndushjUTFuF04Vb5WO7A+1ZaJIlAnGZZupJDmbwGl8TEuSUwZO914XEA3MWEZ
- HpKQcOutvwWrfO7lGFJdZ+5zAeJiNEqwnrn+QE1COpGh+whIL4V+ZCNVHf4tWm+gRGwQ3AQPq
- S2mtPnCu4KbpxWo2QJPr0QNg==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-=E2=80=A6
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -910,6 +910,40 @@ static int rdtgroup_num_mbm_cntrs_show(struct kernf=
-s_open_file *of,
->  	return 0;
->  }
+Em Fri, 12 Jul 2024 16:45:04 -0700
+Jakub Kicinski <kuba@kernel.org> escreveu:
+
+> On Fri, 12 Jul 2024 20:11:56 +0200 Mauro Carvalho Chehab wrote:
+> > Not sure what this somewhat obscure message wants to accomplish.
+> > 
+> > It is quite common to have developers and maintainers discussing 
+> > outside public forums and internally at the companies they're working 
+> > for. There are lots of reasonable exceptions besides security. On my
+> > years of experience, the reasons I've seen more often are:
+> > 
+> > 1. language and/or cultural barriers;
+> > 2. teaching and mentoring new developers to start contributing upstream;
+> > 3. need to have internal discussions in the light of some IP protected
+> >    material.
+> > 
+> > (1) and (2) are very common for non-native English speakers
+> > and for newbies, and we do want to have more contributions from
+> > them. (3) is unavoidable, as discussions related to protected
+> > IP can't be disclosed due to legal reasons.  
+> 
+> Those are valid points but I don't know how to weave them in without
+> losing clarity.
 >
-> +static ssize_t rdtgroup_mbm_mode_write(struct kernfs_open_file *of,
-> +				       char *buf, size_t nbytes,
-> +				       loff_t off)
-> +{
-=E2=80=A6
-> +	cpus_read_lock();
-> +	mutex_lock(&rdtgroup_mutex);
-> +
-> +	rdt_last_cmd_clear();
-=E2=80=A6
-> +	mutex_unlock(&rdtgroup_mutex);
-> +	cpus_read_unlock();
-> +
-> +	return ret ?: nbytes;
-> +}
-=E2=80=A6
+> The goal is also to call out such behavior to
+> _contributors_, 
 
-Would you become interested to apply statements like the following?
+Then, placing it under Documentation/maintainer is not the right
+place ;-)
 
-* guard(cpus_read_lock)();
-  https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/cleanup.=
-h#L133
+> so that they know they can reach out to more senior
+> maintainers if it happens to them. We don't know when discussion is
+> taken private (by definition). Otherwise contributors get mistreated 
+> by some corpo-maintainer and they turn away from Linux :(
+> 
+> > Also, if you take it to the letter, have discussions on LPC, 
+> > summits BoFs, other events handled by the open source community 
+> > and wall conversations are "closed forums/private conversations".
+> > I've seen a lot of good results produced on such private
+> > conversations that solved relevant conflicts and got
+> > materialized as great contributions.
+> > 
+> > There's nothing wrong with that, provided that the outcoming of
+> > such internal discussions are reflected publicly as patches,
+> > summit minutes, LWN articles, etc.  
+> 
+> Would it help if we speak of "open forums" instead of mailing list?
+> I think LPC including "hallway track" fall squarely under "conducted 
+> in a manner typical for the larger subsystem." Here's slightly edited 
+> version:
 
-* guard(mutex)(&rdtgroup_mutex);
-  https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/mutex.h#=
-L196
+Well, hallway track, invitation-only events and such aren't exactly
+"open forums".
 
+> 
+>   Open development
+>   ----------------
 
-Regards,
-Markus
+Assuming that this got moved to a contributor's document, as from your
+comments the target audience is ocasional community contributors,
+see my comments below.
+
+> 
+>   Discussions about user reported issues, and development of new code
+>   should be conducted in a manner typical for the larger subsystem.
+
+This seems to vague and meaningless to an occasional community
+developer.
+
+For instance, how someone that sends a contribution to subsystem X 
+knows if the subsystem is a "larger subsystem", so it is "typical"?
+What's the "typical" rules?
+
+Btw, larger subsystems usually have their own set of rules. A couple
+of them are documented at maintainer-profile.rst, but most don't.
+
+>   It is common for development within a single company to be conducted
+>   behind closed doors.
+
+IMO, this is somewhat out of scope. I mean, what a contributor should
+expect from this?
+
+I bet a new contributor to a driver made by company X, after reading
+this paragraph, would try to submit patches privately to company X
+maintainers, which seems to be the opposite from the message you
+wanted to give.
+
+>   However, development and discussions initiated
+>   by community members must not be redirected from public to closed forums
+>   or to private email conversations. Reasonable exceptions to this guidance
+>   include discussions about security related issues.
+
+In the light of a contributor focused document, I would be a lot
+more direct here, using a text similar to this:
+
+	Please don't send patches or reply privately to discussions
+	initiated on public forums, as most maintainers won't appreciate
+	such kind of behavior. Private communications outside company's
+	own internal discussions are usually tolerated only when there 
+	are very good reasons for that, like when talking about
+	undisclosed security issues.
+
+> 
+> > The only issues I see with such talks is that the work when
+> > co-authored should be properly marked as such and that 
+> > reviewews/acks taken behind doors don't have the same meaning
+> > as an upstream review, as they may be due to some internal 
+> > formalities.
+> > 
+> > IMO, the best would instead to give a positive message. E. g.
+> > something like:
+> > 
+> > 	Maintainers must encourage discussions and reviews to happen
+> > 	at public mailing lists, avoiding whenever possible to have
+> > 	internal discussions.  
+> 
+> That's not the message, tho. If someone emails a company privately 
+> that's fine. If company has internal processes for its development -
+> also fine (as explicitly called out). I'm trying to set the baseline,
+> not describe the ideal world.
+> 
+> I am specifically calling out that if someone submits a patch, or
+> reports a regression the correct response is to review it on the list.
+> Like a normal person.
+
+It is clear now, but as Dan pointed out, this is the wrong document
+for contributors, as Documentation/maintainers are focused on
+maintainers ;-)
+
+So, if something has to be added there, it should be to try to
+setup a baseline for maintainer's typical behavior.
+
+> Not reply privately that "it's on the company roadmap, just wait" :|
+> Or reply with a patch company has "forgotten to upstream"..
+
+I'm afraid that, in the first case, we'll still see this privately,
+as companies won't be disclosing publicly what it is on their
+roadmaps.
+
+"Forgotten" patches should indeed be sent publicly for review.
+The text I added earlier should hopefully cover it.
+
+Perhaps a note about that at the beginning of
+Documentation/process/submitting-patches.rst could be more
+effective, e. g. something like this:
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 66029999b587..3bdfb820a707 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -16,6 +16,9 @@ for a list of items to check before submitting code.
+ For device tree binding patches, read
+ Documentation/devicetree/bindings/submitting-patches.rst.
+ 
++Please notice that Linux patches are meant to be submitted publicly.
++Don't submit patches privately, except for security patches.
++
+ This documentation assumes that you're using ``git`` to prepare your patches.
+ If you're unfamiliar with ``git``, you would be well-advised to learn how to
+ use it, it will make your life as a kernel developer and in general much
+
+> Maybe it's a cultural thing, but to me this is where the relentless
+> positivity is counter-productive. I don't want to encourage people
+> to be angles. I want them not to do the shitty thing.
+
+Again, you placed the comments at the maintainer's document, where
+the scope of of "don't do this" is too limited. I would expect
+that people that volunteered themselves to do some maintainership 
+are more willing to react to positive messages about the expected
+maintainer's behavior.
+
+On a contributor's document, though, I agree with you that a set
+of rules like don't do top posting, don't submit patches privately,
+and such are more effective.
+
+Thanks,
+Mauro
