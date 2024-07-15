@@ -1,1082 +1,1423 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B943F184101;
-	Mon, 15 Jul 2024 07:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721028056; cv=none; b=hAZXta8kmS2H0mMyW54w6TgIxdydIuAdoAxdG2Fu7RLSacLitnap8feolyHSSm9L9ZwQDKrnDJgRkZQ1+0ufEbeOFSGng0BcjuoIXP0Zh7LU58jxXjG7PWWb2Qjgsp+MZ7jkmfXvu0DM8/kZr4FXvhMVemADhORmSZDlpmtkR7E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721028056; c=relaxed/simple;
-	bh=53ODXE9q7+1ZdY6LNGlewhzknok7Pl4acjqiRWn9sIs=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=pqeCMZJ6UOAvEfaQSRIr8DojSMGOa7uJaVs9Q1MXDRQQFF285VdWbfdnoX1yNHRKKebTx6q/uOlyqs0YWCEGNWumccJW/0Kdm5SC3pHvm8qxPcT6rHKj2Xjd5MGrYk+s62w+XXZhAWdxlZ5yp9vnSccPYPz0OAjmYOxPcCw37IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8Bx3+vTzZRmnIUEAA--.11947S3;
-	Mon, 15 Jul 2024 15:20:51 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxDMfPzZRmiXFJAA--.34675S3;
-	Mon, 15 Jul 2024 15:20:49 +0800 (CST)
-Subject: Re: [PATCH V5] LoongArch: Add AVEC irqchip support
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn,
- kernel@xen0n.name, tglx@linutronix.de, jiaxun.yang@flygoat.com,
- gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
- yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
- dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
- zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
- zhoubinbin@loongson.cn, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240715033440.26506-1-zhangtianyang@loongson.cn>
- <CAAhV-H4ae17YFfF-=kVdMrw3VriL5Nbzf0ZEBbkN3D0VX_+C1Q@mail.gmail.com>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <121c4651-0580-0ea7-45a2-4624a6fbf61c@loongson.cn>
-Date: Mon, 15 Jul 2024 15:20:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10369184100;
+	Mon, 15 Jul 2024 07:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.148.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721028326; cv=fail; b=tMPiaqIroqSp1/R1ZH7sIAwBlreYVL+Dg4zF/dJw84JzlSi2J517bp9BPV5vVbIxG8Dzz4TuDtHJshg6QxMmd92q01dmr787c4mq3eFj80gbtosl0Fs0U+xYMrRJj1jPgM8r8Pt2qMSNwlDAK6QeFNJWVhq3NDAOeegqMR+i4Vc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721028326; c=relaxed/simple;
+	bh=GThWbSvzhdyZcqIWBuaJctuXhkJfBIom14Cbrr8wt+4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TcICz8CLKXNoGuRiDEgW/D01gQhC759DwKFYV05/8IYE9ltsvcmopOWM0c1nTnw6LF/4Z8GhdRiFPc9ugj0Yf+Zci3CFKGN+NWYKn7vhTIIsgeXb4VsLkOGXeMKbalKdDQKQN/knXkjFZJ1IEcrdaqkSlHS4ZgEV9YKiPWn/7lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=USZEFDYB; arc=fail smtp.client-ip=67.231.148.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="USZEFDYB"
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46F0Mkkr011749;
+	Mon, 15 Jul 2024 00:25:00 -0700
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 40cs5d8wkt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Jul 2024 00:25:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L22sUnu0NYbvPpJJFtNM6P1RL7GFb3tJgkCZQzJYw2klIQXUTCcuT4VqHqEcLFfX6fqDjBNlYEgfn9rT2121tk6nQr9O/ZcSnX0tUAKE0aFC7mwrm/wLkcBy+7zskBSAcIgh23kUB1W/ejViQhpu7Y4dAML8+ClUykSYgkWvIBED+R4Yjp7hODIyDV750d4BHUm6IScMzz0CwjbfJKzNDeQBbINHP5cM+Unbc+4OwiAYuhhU6LluWz96vH/BorEaHWersKDefj+cgeavjQfxyIW11OoTl/wisDjqQgDzgV0hT76/Dugz5VUrAkga3k1xSn5NzweWeymj2GA/8Vhbyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZFGPdGYOFIM4z44FAXKeoB8wEodBqYcGAuQnLj+dRhc=;
+ b=HocEcVxHM+7SJpTLlqhUDwsf9aleEkBQlPMDP7D9w7d9mPpeCVOE9ZA4aQ2eplqCJVTmkOHnQViK1vXRIMV9f9eTvJ6MyC1Vu4WeGcsk+bWlavpcfbe8vyM9+K60vVbL2G8l5hrurxLr03ZIp9eSaonI3NejtZSXpQL0gaEFIcJ0+NTwPthLqaQeYFuZB+qiEFkfasPQEHr2nRltLsREf4OCn7zzG39A5QubtUj6JT4H8ICmC8pzyJhWp38/YO/nUIOvNHiMhvi3fEa1A9oMZE0zG7zQZYIJB2CEsJE81T10caKbAB+9ql6r1CXSCYKuv0pWz3LwVPUo3lDkXuuEFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZFGPdGYOFIM4z44FAXKeoB8wEodBqYcGAuQnLj+dRhc=;
+ b=USZEFDYBxC98VAmyFmN1CsQLHSabRrgqCY4geGRnTveO8iLmerZ6gz9x3EbtXZPccmr26sAdJLzblJFt4klZFHsbQknhkkiPicuE7dg5aegRxqJ/VyMHOo209a2SVTHZzVZDo/03fDKFfdJ+PNycbubXJondUqQ+ybfVDFigmDE=
+Received: from MW4PR18MB5084.namprd18.prod.outlook.com (2603:10b6:303:1a7::8)
+ by SJ0PR18MB4393.namprd18.prod.outlook.com (2603:10b6:a03:2e1::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.22; Mon, 15 Jul
+ 2024 07:24:57 +0000
+Received: from MW4PR18MB5084.namprd18.prod.outlook.com
+ ([fe80::1fe2:3c84:eebf:a905]) by MW4PR18MB5084.namprd18.prod.outlook.com
+ ([fe80::1fe2:3c84:eebf:a905%6]) with mapi id 15.20.7762.027; Mon, 15 Jul 2024
+ 07:24:57 +0000
+Message-ID: <90430412-438a-4403-95cd-3e8553122282@marvell.com>
+Date: Mon, 15 Jul 2024 12:54:47 +0530
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v5 5/5] firmware: imx: adds miscdev
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org
+References: <20240712-imx-se-if-v5-0-66a79903a872@nxp.com>
+ <20240712-imx-se-if-v5-5-66a79903a872@nxp.com>
+Content-Language: en-US
+From: Amit Singh Tomar <amitsinght@marvell.com>
+In-Reply-To: <20240712-imx-se-if-v5-5-66a79903a872@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0153.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26::8) To MW4PR18MB5084.namprd18.prod.outlook.com
+ (2603:10b6:303:1a7::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H4ae17YFfF-=kVdMrw3VriL5Nbzf0ZEBbkN3D0VX_+C1Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:AQAAf8AxDMfPzZRmiXFJAA--.34675S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfKr48uFW5Jr48tFyDCry5Jrc_yoW5KrWfXo
-	WSvF1Svw1xGr13Gr98J34qqFyjvw1UCrWDAa9ruwsxCF1Utay5KrWUGw1YkFW3Gan5GFsr
-	Ga47GrnrZay7trn5l-sFpf9Il3svdjkaLaAFLSUrUUUU5b8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUOn7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Gr1j6F4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
-	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
-	Jw0_WrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
-	xGrwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAK
-	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8TCJP
-	UUUUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR18MB5084:EE_|SJ0PR18MB4393:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7eb08c4d-6896-436e-30cc-08dca49f3aa5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?MER5OS9DSlZSQkthNWpvbEFKajlxc3dUZGFpTGd5Q1lwdEEvTmkrUGdXMUVY?=
+ =?utf-8?B?NFo1UmMzRUxtb2tuODY0MEJnZFFxS1kyYi9aejFjL2src0tRejVPNzhrTC84?=
+ =?utf-8?B?Z2Y4MXplSndEbTBVTktZd05wN2hwU3FlSjhBa3ZXb0JQOGtrODVONlVxU0pR?=
+ =?utf-8?B?NURjTTd4OHpwMVMrOHB0cW12WlR0em1jR0tTYmoyNWdrTjhodnRuRHdSWVhP?=
+ =?utf-8?B?Zy9xNVpVNXk5WkxVMWtWN0RhSldZVEhSbm9kS0hTMk5ERU1nYmRpeEx4VWwx?=
+ =?utf-8?B?RzhiYW1DeS92QUhPazRINWFlMDZ6Z0d4RWk2ck50STE0RVF0R2ZVTjBsVDJk?=
+ =?utf-8?B?SUtWSSt2MGdOOGlRR2RGM0RKUTU0V1gydGtBbGJQVUEvdjFzREVVVnIwaUll?=
+ =?utf-8?B?YWlKQnVhdWJiM0o5bmplMlpnbTE5bXdIRHd5aFJmdWVHNW55RUpuc2ZLcTl3?=
+ =?utf-8?B?UG1zR1VhV003a1NBeE1GTmMyYWRKZCtLekZtdWxOaE5ObXE4T0VVdXpUNW84?=
+ =?utf-8?B?NXJDR3g4VTRET2hqcHFaMTZTK1BLTEhxYStpNVJWTWI0WHg1d2labkJqOFdm?=
+ =?utf-8?B?cG9HbFlSd0tVaEdpaTRGbDdjVzBtVFpuemdObGVnVlhiakZ0VE5EYk4zV3k5?=
+ =?utf-8?B?TksrakhuK3RUYS84ZmFhTFZrUllWN2lOckVaZGlMb1VyMDV3SS96dG5WcVNm?=
+ =?utf-8?B?cEQrQXBtT0QxVzdESDB2QlMxY00vZjNIODlnajdaK050djAwelhaWE9aUVJZ?=
+ =?utf-8?B?ZTlRTWtJcnlsQ3NINXlKeDg1UEJKUllneS9ldDJ2UzFxUXIxTHhveGsvZ1hj?=
+ =?utf-8?B?aUpGYXJPVWc1MGJnbnA0NUhpQVdsTkp5UHRNRmRMVHpkc3pjdFpBVXJwRWty?=
+ =?utf-8?B?WXBXa2F5WHdRL210N2RIZFNiT2JHbGQ1QjR5WkE3aWN4Y01mNVFidWh3ZU1p?=
+ =?utf-8?B?ZnhxTng1ZFFjUERrd1dxMjFGaS8wRXVXYnRka3hnWjdSb204VmllQUkzS3ZE?=
+ =?utf-8?B?bmQrYmVaSW96aTVhZjNGMVhXNjUzRTF3aWhWOTFWdTFuT0txNWF6SmlidFJn?=
+ =?utf-8?B?UnMwUWJkcjVvaGlwNmdaQ1hya2dBcUwybyt4UERrNUw1MVNwODluVGNqb2tJ?=
+ =?utf-8?B?V2Z3TTRwUm9yU2xrM1A1bHpRS21RQy9mc05nM0xHMldGbVl0UVZCRUEzemtw?=
+ =?utf-8?B?TDFDV0FBRWdTeStlRXozYzZyNFlseUdxVFA5cTNJa0I5eGRRczRUdENTWGhl?=
+ =?utf-8?B?MmVSbmFZWmJOWFZ4TEdOSTNvS3RmNG04aitKUWdhTDB5YUtuVGhsdjJEaGhM?=
+ =?utf-8?B?dmJUTk9GYkpURnVEM3FpOEExYVI0ZlJseGYwUnFVdExiRC9rMjQ4WWxxRktY?=
+ =?utf-8?B?MzlTVld5Rm9kV0M2Vmk0STZtdklhRjIwK2hxVkgzMU9nT2lPWDNIZFA3WVl4?=
+ =?utf-8?B?QStnVmNBUkErY0NXNEJDUGxrNGxLZVUxZzFqZUI5Rmg4RzBEeXNEd1pNc2Q4?=
+ =?utf-8?B?Y2NDNzhEQys2c25jc1EvaHZWMG9MZTZoMzFTelA4WC9UVTdCR0pKQ0dBZE9P?=
+ =?utf-8?B?dkxNWDREMjZRZWVpVk16S1ZyYUcvdE90bVpocUh1NTR4TXdSeVNDckZmemNU?=
+ =?utf-8?B?R3YzRyt4Y1RLVkw5dHFNMVErdk1UTDNqMXI1YXVNdVk0RmJqQ3VvRnplZTNL?=
+ =?utf-8?B?UUh3R3JHY2g5WUNsbjhvcjJDaktGa1FQSDhCMHo2UElCUWRFN25RU2gzMldm?=
+ =?utf-8?B?Qm4vaFh2OHVsa0RES3N4a1dFeFBwMkZ6N3YrVHg4RFVSajNRc0lIZGF0cmpk?=
+ =?utf-8?Q?YvKltTYRewYRJllPYO5V0nJy9Eh1JFTx0nLlg=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR18MB5084.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?N2JNRWk2aDVSWm9tSnk4TnpRQmdNWFN6dWhRanFxVUNWVzl6MkNLMTIzS0to?=
+ =?utf-8?B?SGhpbElyRlRKNTlCZHV4MENaQjFKSG5qQVM3RnF1MGpOaUxTd3ArZTVMWnls?=
+ =?utf-8?B?T293SU0yc3FIUERsdWpnOGZDNExLTlVLcmFNYTlqbUhRUzJtdE1xcnlBajRw?=
+ =?utf-8?B?ZmllTFl4VzlGVnR5akVZRkZWRW41MTBrSEhOWkJXdlhkZ2NLS2FYaTI4SW1I?=
+ =?utf-8?B?a3FJNW9sR2JJSGpMckJxOFBBNk5adDZ5MkE3dlpxUUJFbmVyaUxOQ2tzZHU3?=
+ =?utf-8?B?ZWRoSWc0ZStodWtJS08wclp6OWdjSFc5RGdIUVZicmZFZXVJY1FtTUp1dU5y?=
+ =?utf-8?B?RDk0cUFpS1k0cmFFeE1xK2p0NFh2cDMzQ1VuN1lmT3NEa0pNOHBPaGduL3hM?=
+ =?utf-8?B?eGp5S1QrQXcwbGRBUUZybk1sb0RlbUdqMnhqRW95Si8zdUMyYktwTlR2WjV2?=
+ =?utf-8?B?TUE3VTZDalo1bVYwTVAwYXphdW9yV2hOdGozY3Z3SURCNTR2c1RoNUxaazFh?=
+ =?utf-8?B?T0FaNGplQS9jUVhKNlA4ZnB1aW5EL0NmQ2liQWxKR1RrOHNvZzRYQmovVzRx?=
+ =?utf-8?B?bWFqekZIVG40OHVmbElEVzVobGg5a0o4S0F6T2NRQ2djRUZzYkhkc0VLVTJn?=
+ =?utf-8?B?NnFvbmgzaG1HdkU1MnlWSUF0WmF3NldhTDUwdXdLWDdlT1VuWFc0WHFYTE9r?=
+ =?utf-8?B?ZTlGWHhXdk5FT0JDKzU0NkViK1Z3RmNBQ1IrNWtQVkV0SHVMeEp5dTZzSUJS?=
+ =?utf-8?B?aWVXTUZqSkdGNkF6NWpkalN6aDZnUzZSWHh2Y20vcEhFWWhNWktKN3ArR01z?=
+ =?utf-8?B?RU4zbWU2bXo5R04xZk04UStHbE9uTlBINy94TCt5cGxCdTJZeXNZcHJpNHky?=
+ =?utf-8?B?SGV0NkowN0MxMjc5YkVXZGxLT05TZVpxd0Rxd2luOU1lL3k4QWk3Y09DR1N0?=
+ =?utf-8?B?TVpjQkVScUxGOFM0c1lFNzcwQjE2NjdOa2R2ZlBMbVlkTkkrOHRaQVU0Y3lk?=
+ =?utf-8?B?TXhiLy82bG41WjY0RFd5L2NzQmwvaUpYN2p5WUpyaTNXeldxdUxvVkd4b1Qz?=
+ =?utf-8?B?SU45bnRnMDRWUUVXbnhBVFBCWGlOTXhCYmVxVDhRVTJ5K2pPK0pPVFdzR25Q?=
+ =?utf-8?B?OUtESkNuVHdOS25nU3plUFgwdVF2eSs5RUZOZHBJd0MveXdjTzIzc29xcm53?=
+ =?utf-8?B?MjZzZzhkU01UbVVEWjdEc294ZVRKWHNkR2hlN3NJbFdlNEQyWDArME1MNXZO?=
+ =?utf-8?B?YXJyUmF2NkRsc3JEWFhHamJhV1JIeWtsZmZ3bFAxa3VoeE9iaEp4YkJPdnZ1?=
+ =?utf-8?B?bGptYnZDa1V5Zit0eTRuZDVKOGtZYSs0NDFRQmJQdlFlMUtHWnM2cTZYOFRC?=
+ =?utf-8?B?L2QyZHRwMUNSdURtaitGS2d3Z3ROOHRINkFsWVhjQ1JGcDN3RktJMjRocVRF?=
+ =?utf-8?B?Z2NHV1FzVXRVcm9oOVF6Vk84QlRXVkZHdjFwOXJvSHJZL3NxbGVWWVZGUHdO?=
+ =?utf-8?B?Z3JjWnBVRzF0K2VHc0tvTGd6RGlML1QxMnJwcU9yYmE2NkpEMkdyZHpoUm04?=
+ =?utf-8?B?bDJMb1B6RUhUaC9iSXV4Ky9xcUVyOVlodGpybzBRTFA0ZUYvbjFZM3ZsVFlN?=
+ =?utf-8?B?TjlSaVdWaFlIZnpYMUdIaG5VWHVlR0xqQVdaYTd4a3FjaGpnUGovamt3UEc2?=
+ =?utf-8?B?cWpSOWtTamwveEJwVFZLQ3dsejFCK3Z5TFJJOTIvL0dFbmlreWwzRFIxaHNS?=
+ =?utf-8?B?SnZ5bkZnOG5qenlzY1FrcFlQMlczWWpHQkJ6YkNzZm52ekdzWmtYMUZXV0U0?=
+ =?utf-8?B?SUVHeUQyTlVMM3pGZUtGSEJ0Q3FJakVaQzZDTDdSTWtZelhhVHVUaU1IOTFn?=
+ =?utf-8?B?eXlZSEc2dVlZeS9vQWJnRC9DelVSNTcrSVhFbGdYZDhlOHo1MXlUWkR5WHc4?=
+ =?utf-8?B?TXA2b3FNa1JnSVdqTExSeGVXOGllWUJPUnIwNFBqYkdJbUQ5OHJlNzBWSEpm?=
+ =?utf-8?B?OC96MXEzMjRIQUd0dFlnemF5OFBHS3VZcThMcGI5d29udzQ5cHI2MCtyVTMv?=
+ =?utf-8?B?MWJWbW1LYmVjQmpwdmJlcmF2WEZHZThzMXBOQ0lUTExQZktRWkpBanA5QlZB?=
+ =?utf-8?Q?7533U1iBjlDsJ9J4gI2V08rHU?=
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb08c4d-6896-436e-30cc-08dca49f3aa5
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR18MB5084.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2024 07:24:57.3491
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pq2Dselp6UP8BCArh8bIsjzP6MziwoZvHVpFFr9gOon+B3802NBu6xdDsTNXymJIED6fYs2WBnSmM8X6F3ypNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR18MB4393
+X-Proofpoint-ORIG-GUID: iTCT1UoYXgxuFbmgumthwFMPG_hz5y1_
+X-Proofpoint-GUID: iTCT1UoYXgxuFbmgumthwFMPG_hz5y1_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-15_03,2024-07-11_01,2024-05-17_01
 
-Hi, Huacai
+On 7/12/2024 11:50 AM, Pankaj Gupta wrote:
+> 
+> Adds the driver for communication interface to secure-enclave,
+> for exchanging messages with NXP secure enclave HW IP(s) like
+> EdgeLock Enclave from:
+> - User-Space Applications via character driver.
+> 
+> ABI documentation for the NXP secure-enclave driver.
+> 
+> User-space library using this driver:
+> - i.MX Secure Enclave library:
+>     -- URL:https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsecure-2Denclave.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=A4zE7ce-kjpGZKtsRrqZiqW7asUowcGapT0QWWzWW3k&e=  <https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsecure-2Denclave.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=A4zE7ce-kjpGZKtsRrqZiqW7asUowcGapT0QWWzWW3k&e=>,
+> - i.MX Secure Middle-Ware:
+>     -- URL:https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsmw.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=T2WGFwKVpY19AaCUWWaSX7SllYLFZ6bFKZspKqc2Nuw&e=  <https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsmw.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=T2WGFwKVpY19AaCUWWaSX7SllYLFZ6bFKZspKqc2Nuw&e=>
+> 
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> ---
+>    Documentation/ABI/testing/se-cdev |  43 +++
+>    drivers/firmware/imx/ele_common.c | 192 ++++++++++-
+>    drivers/firmware/imx/ele_common.h |   4 +
+>    drivers/firmware/imx/se_ctrl.c    | 697 ++++++++++++++++++++++++++++++++++++++
+>    drivers/firmware/imx/se_ctrl.h    |  49 +++
+>    include/uapi/linux/se_ioctl.h     |  94 +++++
+>    6 files changed, 1076 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/se-cdev b/Documentation/ABI/testing/se-cdev
+> new file mode 100644
+> index 000000000000..3451c909ccc4
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/se-cdev
+> @@ -0,0 +1,43 @@
+> +What:		/dev/<se>_mu[0-9]+_ch[0-9]+
+> +Date:		May 2024
+> +KernelVersion:	6.8
+> +Contact:	linux-imx@nxp.com, pankaj.gupta@nxp.com
+> +Description:
+> +		NXP offers multiple hardware IP(s) for secure enclaves like EdgeLock-
+> +		Enclave(ELE), SECO. The character device file descriptors
+> +		/dev/<se>_mu*_ch* are the interface between userspace NXP's secure-
+> +		enclave shared library and the kernel driver.
+> +
+> +		The ioctl(2)-based ABI is defined and documented in
+> +		[include]<linux/firmware/imx/ele_mu_ioctl.h>.
+> +		ioctl(s) are used primarily for:
+> +			- shared memory management
+> +			- allocation of I/O buffers
+> +			- getting mu info
+> +			- setting a dev-ctx as receiver to receive all the commands from FW
+> +			- getting SoC info
+> +			- send command and receive command response
+> +
+> +		The following file operations are supported:
+> +
+> +		open(2)
+> +		  Currently the only useful flags are O_RDWR.
+> +
+> +		read(2)
+> +		  Every read() from the opened character device context is waiting on
+> +		  wait_event_interruptible, that gets set by the registered mailbox callback
+> +		  function, indicating a message received from the firmware on message-
+> +		  unit.
+> +
+> +		write(2)
+> +		  Every write() to the opened character device context needs to acquire
+> +		  mailbox_lock before sending message on to the message unit.
+> +
+> +		close(2)
+> +		  Stops and frees up the I/O contexts that were associated
+> +		  with the file descriptor.
+> +
+> +Users:		https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsecure-2Denclave.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=A4zE7ce-kjpGZKtsRrqZiqW7asUowcGapT0QWWzWW3k&e=  <https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsecure-2Denclave.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=A4zE7ce-kjpGZKtsRrqZiqW7asUowcGapT0QWWzWW3k&e=>,
+> +		https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsmw.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=T2WGFwKVpY19AaCUWWaSX7SllYLFZ6bFKZspKqc2Nuw&e=  <https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_nxp-2Dimx_imx-2Dsmw.git&d=DwICaQ&c=nKjWec2b6R0mOyPaz7xtfQ&r=V_GK7jRuCHDErm6txmgDK1-MbUihtnSQ3gPgB-A-JKU&m=3B5Yr-4HUlH7ooyxfcf-aduiDYoo4kM4RS1h04NEzdn8QxoJjMviHugQtMh04YXm&s=T2WGFwKVpY19AaCUWWaSX7SllYLFZ6bFKZspKqc2Nuw&e=>
+> +		crypto/skcipher,
+> +		drivers/nvmem/imx-ocotp-ele.c
+> diff --git a/drivers/firmware/imx/ele_common.c b/drivers/firmware/imx/ele_common.c
+> index b2be32550e9b..88169cd8f369 100644
+> --- a/drivers/firmware/imx/ele_common.c
+> +++ b/drivers/firmware/imx/ele_common.c
+> @@ -78,6 +78,149 @@ int ele_msg_send_rcv(struct se_if_priv *priv, void *tx_msg, void *rx_msg)
+>    	return err;
+>    }
+>    
+> +int ele_miscdev_msg_rcv(struct se_if_device_ctx *dev_ctx,
+> +			void *rx_buf,
+> +			int rx_buf_sz)
+> +{
+> +	struct se_msg_hdr *header;
+> +	int err;
+> +
+> +	err = wait_event_interruptible(dev_ctx->wq, dev_ctx->pending_hdr != 0);
+> +	if (err) {
+> +		dev_err(dev_ctx->dev,
+> +			"%s: Err[0x%x]:Interrupted by signal.\n",
+> +			dev_ctx->miscdev.name, err);
+> +		goto exit;
+> +	}
+> +
+> +	header = (struct se_msg_hdr *) dev_ctx->temp_resp;
+> +
+> +	if (header->tag == dev_ctx->priv->rsp_tag) {
+> +		if (dev_ctx->priv->waiting_rsp_dev && dev_ctx->priv->waiting_rsp_dev != dev_ctx) {
+> +			dev_warn(dev_ctx->dev,
+> +			"Dev-ctx waiting for response mismatch (%s != %s).\n",
+> +			dev_ctx->miscdev.name, dev_ctx->priv->waiting_rsp_dev->miscdev.name);
+> +			err = -EPERM;
+> +			goto exit;
+> +		}
+> +	}
+> +
+> +	dev_dbg(dev_ctx->dev,
+> +		"%s: %s %s\n",
+> +		dev_ctx->miscdev.name,
+> +		__func__,
+> +		"message received, start transmit to user");
+> +
+> +	/*
+> +	 * Check that the size passed as argument is larger than
+> +	 * the one carried in the message.
+> +	 *
+> +	 * In case of US-command/response, the dev_ctx->temp_resp_size
+> +	 * is set before sending the command.
+> +	 *
+> +	 * In case of NVM Slave-command/response, the dev_ctx->temp_resp_size
+> +	 * is set after receing the message from mailbox.
+> +	 */
+> +	if (dev_ctx->temp_resp_size > rx_buf_sz) {
+> +		dev_err(dev_ctx->dev,
+> +			"%s: User buffer too small (%d < %d)\n",
+> +			dev_ctx->miscdev.name,
+> +			rx_buf_sz, dev_ctx->temp_resp_size);
+> +		 dev_ctx->temp_resp_size = rx_buf_sz;
+> +	}
+> +
+> +	/* We may need to copy the output data to user before
+> +	 * delivering the completion message.
+> +	 */
+> +	err = se_dev_ctx_cpy_out_data(dev_ctx, true);
+> +	if (err < 0)
+> +		goto exit;
+> +
+> +	/* Copy data from the buffer */
+> +	print_hex_dump_debug("to user ", DUMP_PREFIX_OFFSET, 4, 4,
+> +			     dev_ctx->temp_resp, dev_ctx->temp_resp_size, false);
+> +	if (copy_to_user(rx_buf, dev_ctx->temp_resp, dev_ctx->temp_resp_size)) {
+> +		dev_err(dev_ctx->dev,
+> +			"%s: Failed to copy to user\n",
+> +			dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +	err = dev_ctx->temp_resp_size;
+> +exit:
+> +	if (err < 0)
+> +		se_dev_ctx_cpy_out_data(dev_ctx, false);
+> +
+> +	/* free memory allocated on the shared buffers. */
+> +	dev_ctx->secure_mem.pos = 0;
+> +	dev_ctx->non_secure_mem.pos = 0;
+> +
+> +	dev_ctx->pending_hdr = 0;
+> +	se_dev_ctx_shared_mem_cleanup(dev_ctx);
+> +
+> +	return err;
+> +}
+> +
+> +int ele_miscdev_msg_send(struct se_if_device_ctx *dev_ctx,
+> +			 void *tx_msg, int tx_msg_sz)
+> +{
+> +	struct se_if_priv *priv = dev_ctx->priv;
+> +	struct se_msg_hdr *header;
+> +	u32 size_to_send;
+> +	int err;
+> +
+> +	header = (struct se_msg_hdr *) tx_msg;
+> +
+> +	/*
+> +	 * Check that the size passed as argument matches the size
+> +	 * carried in the message.
+> +	 */
+> +	size_to_send = header->size << 2;
+> +
+> +	if (size_to_send != tx_msg_sz) {
+> +		err = -EINVAL;
+> +		dev_err(priv->dev,
+> +			"%s: User buf hdr(0x%x) sz mismatced with input-sz (%d != %d).\n",
+> +			dev_ctx->miscdev.name, *(u32 *)header, size_to_send, tx_msg_sz);
+> +		goto exit;
+> +	}
+> +
+> +	/* Check the message is valid according to tags */
+> +	if (header->tag == priv->rsp_tag) {
+> +		/* Check the device context can send the command */
+> +		if (dev_ctx != priv->cmd_receiver_dev) {
+> +			dev_err(priv->dev,
+> +				"%s: Channel not configured to send resp to FW.",
+> +				dev_ctx->miscdev.name);
+> +			err = -EPERM;
+> +			goto exit;
+> +		}
+> +	} else if (header->tag == priv->cmd_tag) {
+> +		if (priv->waiting_rsp_dev != dev_ctx) {
+> +			dev_err(priv->dev,
+> +				"%s: Channel not configured to send cmd to FW.",
+> +				dev_ctx->miscdev.name);
+> +			err = -EPERM;
+> +			goto exit;
+> +		}
+> +		lockdep_assert_held(&priv->se_if_cmd_lock);
 
-在 2024/7/15 下午2:48, Huacai Chen 写道:
-> Hi, Tianyang,
->
-> On Mon, Jul 15, 2024 at 11:34 AM Tianyang Zhang
-> <zhangtianyang@loongson.cn> wrote:
->> Introduce the advanced extended interrupt controllers. This feature will
->> allow each core to have 256 independent interrupt vectors and MSI
->> interrupts can be independently routed to any vector on any CPU.
->>
->> Co-developed-by: Jianmin Lv <lvjianmin@loongson.cn>
->> Signed-off-by: Jianmin Lv <lvjianmin@loongson.cn>
->> Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
->> Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
->> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
->> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
->> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
->> ---
->>   .../arch/loongarch/irq-chip-model.rst         |  33 ++
->>   .../zh_CN/arch/loongarch/irq-chip-model.rst   |  37 +-
->>   arch/loongarch/Kconfig                        |   1 +
->>   arch/loongarch/include/asm/cpu-features.h     |   1 +
->>   arch/loongarch/include/asm/cpu.h              |   2 +
->>   arch/loongarch/include/asm/hardirq.h          |   3 +-
->>   arch/loongarch/include/asm/irq.h              |  23 +-
->>   arch/loongarch/include/asm/loongarch.h        |  18 +-
->>   arch/loongarch/include/asm/smp.h              |   2 +
->>   arch/loongarch/kernel/cpu-probe.c             |   3 +-
->>   arch/loongarch/kernel/paravirt.c              |   5 +
->>   arch/loongarch/kernel/smp.c                   |   5 +
->>   drivers/irqchip/Makefile                      |   2 +-
->>   drivers/irqchip/irq-loongarch-avec.c          | 433 ++++++++++++++++++
->>   drivers/irqchip/irq-loongarch-cpu.c           |   4 +-
->>   drivers/irqchip/irq-loongson-eiointc.c        |   3 +
->>   drivers/irqchip/irq-loongson-pch-msi.c        |  42 +-
->>   17 files changed, 603 insertions(+), 14 deletions(-)
->>   create mode 100644 drivers/irqchip/irq-loongarch-avec.c
->>
->> Changes log:
->>   V0->V1:
->>           1.Modified some formats and declarations
->>           2.Removed kmalloc/kfree when adding affinity related data to pending_list,
->>             and used moving tag to replace the original behavior
->>           3.Adjusted the process that enables AVEC interrupts, now it is at the end of all processes
->>           4.Removed CPUHP related callbacks, now irq_matrix_online/irq_matrix_offline is completed in start_secondary/loongson_cpu_disable
->>           5.Adjusted compatibility issues for CONFIG_ACPI
->>           6.About question:
->>           > irr = csr_read64(LOONGARCH_CSR_IRR0 + vector / 64);
->>           > should be good enough, no?
->>           csr_read64 was built-in as __csrrd_d, it doesn't seem to support variables as parameters
->>           >>>>
->>           drivers/irqchip/irq-loongarch-avec.c: In function ‘complete_irq_moving’:
->>           ./arch/loongarch/include/asm/loongarch.h:164:25: error: invalid argument to built-in function
->>             164 | #define csr_read64(reg) __csrrd_d(reg)
->>                 |                         ^~~~~~~~~
->>           drivers/irqchip/irq-loongarch-avec.c:170:23: note: in expansion of macro ‘csr_read64’
->>             170 |                 irr = csr_read64(LOONGARCH_CSR_IRR_BASE + vector / VECTORS_PER_REG);
->>                 |                       ^~~~~~~~~~
->>           >>>>
->>           So we have temporarily retained the previous implementation.
->>
->>   V1->V2:
->>           Fixed up coding style. Made on/offline functions void
->>           Added compatibility when CONFIG_SMP is turned off
->>
->>   V2->V3:
->>          Squash two patches into one
->>
->>   V3->V4:
->>          Update NR_IRQS
->>          Update Register's name
->>          Fixed up coding style
->>   V4->V5:
->>          Retain feature CPUCFG1_MSGINT
->>          Fixed up coding style
->>          Delete the test code introduced by V4, and now msi msg address still uses the 32-bit address
->>
->> diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
->> index 7988f4192363..a90c78c8e5bb 100644
->> --- a/Documentation/arch/loongarch/irq-chip-model.rst
->> +++ b/Documentation/arch/loongarch/irq-chip-model.rst
->> @@ -85,6 +85,39 @@ to CPUINTC directly::
->>       | Devices |
->>       +---------+
->>
->> +Advanced Extended IRQ model
->> +===========================
->> +
->> +In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
->> +to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go to AVEC,
->> +and then go to CPUINTC, Other devices interrupts go to PCH-PIC/PCH-LPC and gathered
->> +by EIOINTC, and then go to CPUINTC directly::
->> +
->> + +-----+     +--------------------------+     +-------+
->> + | IPI | --> |           CPUINTC        | <-- | Timer |
->> + +-----+     +--------------------------+     +-------+
->> +              ^        ^             ^
->> +              |        |             |
->> +      +--------+  +---------+ +---------+     +-------+
->> +      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
->> +      +--------+  +---------+ +---------+     +-------+
->> +           ^            ^
->> +           |            |
->> +         +---------+  +---------+
->> +         | PCH-MSI |  | PCH-PIC |
->> +         +---------+  +---------+
->> +            ^          ^       ^
->> +            |          |       |
->> +    +---------+ +---------+ +---------+
->> +    | Devices | | PCH-LPC | | Devices |
->> +    +---------+ +---------+ +---------+
->> +                     ^
->> +                     |
->> +                +---------+
->> +                | Devices |
->> +                +---------+
->> +
->> +
->>   ACPI-related definitions
->>   ========================
->>
->> diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
->> index f1e9ab18206c..b54567380c90 100644
->> --- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
->> +++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
->> @@ -9,9 +9,8 @@
->>   LoongArch的IRQ芯片模型（层级关系）
->>   ==================================
->>
->> -目前，基于LoongArch的处理器（如龙芯3A5000）只能与LS7A芯片组配合工作。LoongArch计算机
->> -中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、LIOINTC（
->> -Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
->> +LoongArch计算机中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、
->> +LIOINTC（Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
->>   HTVECINTC（Hyper-Transport Vector Interrupt Controller）、PCH-PIC（LS7A芯片组的主中
->>   断控制器）、PCH-LPC（LS7A芯片组的LPC中断控制器）和PCH-MSI（MSI中断控制器）。
->>
->> @@ -87,6 +86,38 @@ PCH-LPC/PCH-MSI，然后被EIOINTC统一收集，再直接到达CPUINTC::
->>       | Devices |
->>       +---------+
->>
->> +高级扩展IRQ模型
->> +=======================
->> +
->> +在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
->> +CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVEC，而后通过AVEC送达CPUINTC，而
->> +其他所有设备的中断则分别发送到所连接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直
->> +接到达CPUINTC::
->> +
->> + +-----+     +--------------------------+     +-------+
->> + | IPI | --> |           CPUINTC        | <-- | Timer |
->> + +-----+     +--------------------------+     +-------+
->> +              ^        ^             ^
->> +              |        |             |
->> +      +--------+  +---------+ +---------+     +-------+
->> +      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
->> +      +--------+  +---------+ +---------+     +-------+
->> +              ^        ^
->> +              |        |
->> +      +---------+  +-------------+
->> +      | PCH-MSI |  |   PCH-PIC   |
->> +      +---------+  +-------------+
->> +            ^          ^       ^
->> +            |          |       |
->> +    +---------+ +---------+ +---------+
->> +    | Devices | | PCH-LPC | | Devices |
->> +    +---------+ +---------+ +---------+
->> +                     ^
->> +                     |
->> +                +---------+
->> +                | Devices |
->> +                +---------+
->> +
->>   ACPI相关的定义
->>   ==============
->>
->> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
->> index e38139c576ee..a66e49b5a68c 100644
->> --- a/arch/loongarch/Kconfig
->> +++ b/arch/loongarch/Kconfig
->> @@ -83,6 +83,7 @@ config LOONGARCH
->>          select GENERIC_ENTRY
->>          select GENERIC_GETTIMEOFDAY
->>          select GENERIC_IOREMAP if !ARCH_IOREMAP
->> +       select GENERIC_IRQ_MATRIX_ALLOCATOR
->>          select GENERIC_IRQ_MULTI_HANDLER
->>          select GENERIC_IRQ_PROBE
->>          select GENERIC_IRQ_SHOW
->> diff --git a/arch/loongarch/include/asm/cpu-features.h b/arch/loongarch/include/asm/cpu-features.h
->> index 2eafe6a6aca8..16a716f88a5c 100644
->> --- a/arch/loongarch/include/asm/cpu-features.h
->> +++ b/arch/loongarch/include/asm/cpu-features.h
->> @@ -65,5 +65,6 @@
->>   #define cpu_has_guestid                cpu_opt(LOONGARCH_CPU_GUESTID)
->>   #define cpu_has_hypervisor     cpu_opt(LOONGARCH_CPU_HYPERVISOR)
->>   #define cpu_has_ptw            cpu_opt(LOONGARCH_CPU_PTW)
->> +#define cpu_has_avecint                cpu_opt(LOONGARCH_CPU_AVECINT)
->>
->>   #endif /* __ASM_CPU_FEATURES_H */
->> diff --git a/arch/loongarch/include/asm/cpu.h b/arch/loongarch/include/asm/cpu.h
->> index 48b9f7168bcc..843f9c4ec980 100644
->> --- a/arch/loongarch/include/asm/cpu.h
->> +++ b/arch/loongarch/include/asm/cpu.h
->> @@ -99,6 +99,7 @@ enum cpu_type_enum {
->>   #define CPU_FEATURE_GUESTID            24      /* CPU has GuestID feature */
->>   #define CPU_FEATURE_HYPERVISOR         25      /* CPU has hypervisor (running in VM) */
->>   #define CPU_FEATURE_PTW                        26      /* CPU has hardware page table walker */
->> +#define CPU_FEATURE_AVECINT            27      /* CPU has avec interrupt */
->>
->>   #define LOONGARCH_CPU_CPUCFG           BIT_ULL(CPU_FEATURE_CPUCFG)
->>   #define LOONGARCH_CPU_LAM              BIT_ULL(CPU_FEATURE_LAM)
->> @@ -127,5 +128,6 @@ enum cpu_type_enum {
->>   #define LOONGARCH_CPU_GUESTID          BIT_ULL(CPU_FEATURE_GUESTID)
->>   #define LOONGARCH_CPU_HYPERVISOR       BIT_ULL(CPU_FEATURE_HYPERVISOR)
->>   #define LOONGARCH_CPU_PTW              BIT_ULL(CPU_FEATURE_PTW)
->> +#define LOONGARCH_CPU_AVECINT          BIT_ULL(CPU_FEATURE_AVECINT)
->>
->>   #endif /* _ASM_CPU_H */
->> diff --git a/arch/loongarch/include/asm/hardirq.h b/arch/loongarch/include/asm/hardirq.h
->> index d41138abcf26..b09891e4a4b2 100644
->> --- a/arch/loongarch/include/asm/hardirq.h
->> +++ b/arch/loongarch/include/asm/hardirq.h
->> @@ -12,11 +12,12 @@
->>   extern void ack_bad_irq(unsigned int irq);
->>   #define ack_bad_irq ack_bad_irq
->>
->> -#define NR_IPI 2
->> +#define NR_IPI 3
->>
->>   enum ipi_msg_type {
->>          IPI_RESCHEDULE,
->>          IPI_CALL_FUNCTION,
->> +       IPI_CLEAR_VECT,
->>   };
->>
->>   typedef struct {
->> diff --git a/arch/loongarch/include/asm/irq.h b/arch/loongarch/include/asm/irq.h
->> index 480418bc5071..899e6f9a9eaa 100644
->> --- a/arch/loongarch/include/asm/irq.h
->> +++ b/arch/loongarch/include/asm/irq.h
->> @@ -39,11 +39,22 @@ void spurious_interrupt(void);
->>
->>   #define NR_IRQS_LEGACY 16
->>
->> +/*
->> + * 256 vectors Map:
->> + *
->> + * 0 - 15: mapping legacy IPs, e.g. IP0-12.
->> + * 16 - 255: mapping a vector for external IRQ.
->> + *
->> + */
->> +#define NR_VECTORS             256
->> +#define IRQ_MATRIX_BITS                NR_VECTORS
->> +#define NR_LEGACY_VECTORS      16
->> +
->>   #define arch_trigger_cpumask_backtrace arch_trigger_cpumask_backtrace
->>   void arch_trigger_cpumask_backtrace(const struct cpumask *mask, int exclude_cpu);
->>
->>   #define MAX_IO_PICS 2
->> -#define NR_IRQS        (64 + (256 * MAX_IO_PICS))
->> +#define NR_IRQS        ((64 + (64 * MAX_IO_PICS)) + NR_VECTORS * NR_CPUS)
-> You still forgot to update NR_IRQS. And it is better to implement
-> arch_probe_nr_irqs() as other architectures because NR_IRQS is very
-> large now.
->
-> Since there is no other serious problems now (I think), to save
-> everyone's time please wait me to fix the above issue and other
-> bike-sheds. Then you can test my version and submit it as V6.
->
->
-> Huacai
-Considering hardware limitations, we should indeed use 
-64+256*(MAX_IO_PICS + NR_CPUS) as NR_iRQS.
+nit: Placement of this call is bit unusual (or do have some reason to 
+it), it might be better to place it at the beginning of the function.
 
-If we choose CONFIG_SPARSE_IRQ, in my understanding, the value of 
-nr_irqs is only used as a marker for
-
-the maximum value of the system, even if the value is too large and will 
-not have a serious negative impact on the system.
-
-Therefore, it may not be necessary to use arch_probe_nr_irqs
-
-
-Tianyang
->>   struct acpi_vector_group {
->>          int node;
->> @@ -65,7 +76,7 @@ extern struct acpi_vector_group msi_group[MAX_IO_PICS];
->>   #define LOONGSON_LPC_LAST_IRQ          (LOONGSON_LPC_IRQ_BASE + 15)
->>
->>   #define LOONGSON_CPU_IRQ_BASE          16
->> -#define LOONGSON_CPU_LAST_IRQ          (LOONGSON_CPU_IRQ_BASE + 14)
->> +#define LOONGSON_CPU_LAST_IRQ          (LOONGSON_CPU_IRQ_BASE + 15)
->>
->>   #define LOONGSON_PCH_IRQ_BASE          64
->>   #define LOONGSON_PCH_ACPI_IRQ          (LOONGSON_PCH_IRQ_BASE + 47)
->> @@ -101,6 +112,14 @@ int pch_msi_acpi_init(struct irq_domain *parent,
->>                                          struct acpi_madt_msi_pic *acpi_pchmsi);
->>   int pch_pic_acpi_init(struct irq_domain *parent,
->>                                          struct acpi_madt_bio_pic *acpi_pchpic);
->> +
->> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
->> +               struct acpi_madt_msi_pic *pch_msi_entry);
->> +int __init loongarch_avec_acpi_init(struct irq_domain *parent);
->> +void complete_irq_moving(void);
->> +void loongarch_avec_offline_cpu(unsigned int cpu);
->> +void loongarch_avec_online_cpu(unsigned int cpu);
->> +
->>   int find_pch_pic(u32 gsi);
->>   struct fwnode_handle *get_pch_msi_handle(int pci_segment);
->>
->> diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/include/asm/loongarch.h
->> index eb09adda54b7..c21dc52338e3 100644
->> --- a/arch/loongarch/include/asm/loongarch.h
->> +++ b/arch/loongarch/include/asm/loongarch.h
->> @@ -252,8 +252,8 @@
->>   #define  CSR_ESTAT_EXC_WIDTH           6
->>   #define  CSR_ESTAT_EXC                 (_ULCAST_(0x3f) << CSR_ESTAT_EXC_SHIFT)
->>   #define  CSR_ESTAT_IS_SHIFT            0
->> -#define  CSR_ESTAT_IS_WIDTH            14
->> -#define  CSR_ESTAT_IS                  (_ULCAST_(0x3fff) << CSR_ESTAT_IS_SHIFT)
->> +#define  CSR_ESTAT_IS_WIDTH            15
->> +#define  CSR_ESTAT_IS                  (_ULCAST_(0x7fff) << CSR_ESTAT_IS_SHIFT)
->>
->>   #define LOONGARCH_CSR_ERA              0x6     /* ERA */
->>
->> @@ -999,10 +999,17 @@
->>   #define CSR_FWPC_SKIP_SHIFT            16
->>   #define CSR_FWPC_SKIP                  (_ULCAST_(1) << CSR_FWPC_SKIP_SHIFT)
->>
->> +#define LOONGARCH_CSR_ISR0             0xa0
->> +#define LOONGARCH_CSR_ISR1             0xa1
->> +#define LOONGARCH_CSR_ISR2             0xa2
->> +#define LOONGARCH_CSR_ISR3             0xa3
->> +
->> +#define        LOONGARCH_CSR_IRR               0xa4
->> +
->>   /*
->>    * CSR_ECFG IM
->>    */
->> -#define ECFG0_IM               0x00001fff
->> +#define ECFG0_IM               0x00005fff
->>   #define ECFGB_SIP0             0
->>   #define ECFGF_SIP0             (_ULCAST_(1) << ECFGB_SIP0)
->>   #define ECFGB_SIP1             1
->> @@ -1045,6 +1052,7 @@
->>   #define  IOCSRF_EIODECODE              BIT_ULL(9)
->>   #define  IOCSRF_FLATMODE               BIT_ULL(10)
->>   #define  IOCSRF_VM                     BIT_ULL(11)
->> +#define  IOCSRF_AVEC                   BIT_ULL(15)
->>
->>   #define LOONGARCH_IOCSR_VENDOR         0x10
->>
->> @@ -1055,6 +1063,7 @@
->>   #define LOONGARCH_IOCSR_MISC_FUNC      0x420
->>   #define  IOCSR_MISC_FUNC_TIMER_RESET   BIT_ULL(21)
->>   #define  IOCSR_MISC_FUNC_EXT_IOI_EN    BIT_ULL(48)
->> +#define  IOCSR_MISC_FUNC_AVEC_EN       BIT_ULL(51)
->>
->>   #define LOONGARCH_IOCSR_CPUTEMP                0x428
->>
->> @@ -1375,9 +1384,10 @@ __BUILD_CSR_OP(tlbidx)
->>   #define INT_TI         11      /* Timer */
->>   #define INT_IPI                12
->>   #define INT_NMI                13
->> +#define INT_AVEC       14
->>
->>   /* ExcCodes corresponding to interrupts */
->> -#define EXCCODE_INT_NUM                (INT_NMI + 1)
->> +#define EXCCODE_INT_NUM                (INT_AVEC + 1)
->>   #define EXCCODE_INT_START      64
->>   #define EXCCODE_INT_END                (EXCCODE_INT_START + EXCCODE_INT_NUM - 1)
->>
->> diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/asm/smp.h
->> index 278700cfee88..2399004596a3 100644
->> --- a/arch/loongarch/include/asm/smp.h
->> +++ b/arch/loongarch/include/asm/smp.h
->> @@ -69,9 +69,11 @@ extern int __cpu_logical_map[NR_CPUS];
->>   #define ACTION_BOOT_CPU        0
->>   #define ACTION_RESCHEDULE      1
->>   #define ACTION_CALL_FUNCTION   2
->> +#define ACTION_CLEAR_VECT      3
->>   #define SMP_BOOT_CPU           BIT(ACTION_BOOT_CPU)
->>   #define SMP_RESCHEDULE         BIT(ACTION_RESCHEDULE)
->>   #define SMP_CALL_FUNCTION      BIT(ACTION_CALL_FUNCTION)
->> +#define SMP_CLEAR_VECT         BIT(ACTION_CLEAR_VECT)
->>
->>   struct secondary_data {
->>          unsigned long stack;
->> diff --git a/arch/loongarch/kernel/cpu-probe.c b/arch/loongarch/kernel/cpu-probe.c
->> index 55320813ee08..3b2e72e8f9bd 100644
->> --- a/arch/loongarch/kernel/cpu-probe.c
->> +++ b/arch/loongarch/kernel/cpu-probe.c
->> @@ -106,7 +106,6 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
->>                  elf_hwcap |= HWCAP_LOONGARCH_CRC32;
->>          }
->>
->> -
->>          config = read_cpucfg(LOONGARCH_CPUCFG2);
->>          if (config & CPUCFG2_LAM) {
->>                  c->options |= LOONGARCH_CPU_LAM;
->> @@ -176,6 +175,8 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
->>                  c->options |= LOONGARCH_CPU_EIODECODE;
->>          if (config & IOCSRF_VM)
->>                  c->options |= LOONGARCH_CPU_HYPERVISOR;
->> +       if (config & IOCSRF_AVEC)
->> +               c->options |= LOONGARCH_CPU_AVECINT;
->>
->>          config = csr_read32(LOONGARCH_CSR_ASID);
->>          config = (config & CSR_ASID_BIT) >> CSR_ASID_BIT_SHIFT;
->> diff --git a/arch/loongarch/kernel/paravirt.c b/arch/loongarch/kernel/paravirt.c
->> index 1633ed4f692f..834c99cb4df4 100644
->> --- a/arch/loongarch/kernel/paravirt.c
->> +++ b/arch/loongarch/kernel/paravirt.c
->> @@ -97,6 +97,11 @@ static irqreturn_t pv_ipi_interrupt(int irq, void *dev)
->>                  info->ipi_irqs[IPI_CALL_FUNCTION]++;
->>          }
->>
->> +       if (action & SMP_CLEAR_VECT) {
->> +               complete_irq_moving();
->> +               info->ipi_irqs[IPI_CLEAR_VECT]++;
->> +       }
->> +
->>          return IRQ_HANDLED;
->>   }
->>
->> diff --git a/arch/loongarch/kernel/smp.c b/arch/loongarch/kernel/smp.c
->> index 0dfe2388ef41..6dfedef306f3 100644
->> --- a/arch/loongarch/kernel/smp.c
->> +++ b/arch/loongarch/kernel/smp.c
->> @@ -234,6 +234,9 @@ static irqreturn_t loongson_ipi_interrupt(int irq, void *dev)
->>                  per_cpu(irq_stat, cpu).ipi_irqs[IPI_CALL_FUNCTION]++;
->>          }
->>
->> +       if (action & SMP_CLEAR_VECT)
->> +               complete_irq_moving();
->> +
->>          return IRQ_HANDLED;
->>   }
->>
->> @@ -388,6 +391,7 @@ int loongson_cpu_disable(void)
->>          irq_migrate_all_off_this_cpu();
->>          clear_csr_ecfg(ECFG0_IM);
->>          local_irq_restore(flags);
->> +       loongarch_avec_offline_cpu(cpu);
->>          local_flush_tlb_all();
->>
->>          return 0;
->> @@ -566,6 +570,7 @@ asmlinkage void start_secondary(void)
->>           * early is dangerous.
->>           */
->>          WARN_ON_ONCE(!irqs_disabled());
->> +       loongarch_avec_online_cpu(cpu);
->>          loongson_smp_finish();
->>
->>          cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
->> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
->> index 9f6f88274bec..1062e713cea4 100644
->> --- a/drivers/irqchip/Makefile
->> +++ b/drivers/irqchip/Makefile
->> @@ -109,7 +109,7 @@ obj-$(CONFIG_LS1X_IRQ)                      += irq-ls1x.o
->>   obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)      += irq-ti-sci-intr.o
->>   obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)      += irq-ti-sci-inta.o
->>   obj-$(CONFIG_TI_PRUSS_INTC)            += irq-pruss-intc.o
->> -obj-$(CONFIG_IRQ_LOONGARCH_CPU)                += irq-loongarch-cpu.o
->> +obj-$(CONFIG_IRQ_LOONGARCH_CPU)                += irq-loongarch-cpu.o irq-loongarch-avec.o
->>   obj-$(CONFIG_LOONGSON_LIOINTC)         += irq-loongson-liointc.o
->>   obj-$(CONFIG_LOONGSON_EIOINTC)         += irq-loongson-eiointc.o
->>   obj-$(CONFIG_LOONGSON_HTPIC)           += irq-loongson-htpic.o
->> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
->> new file mode 100644
->> index 000000000000..744f46638def
->> --- /dev/null
->> +++ b/drivers/irqchip/irq-loongarch-avec.c
->> @@ -0,0 +1,433 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) 2020-2024 Loongson Technologies, Inc.
->> + */
->> +
->> +#include <linux/cpuhotplug.h>
->> +#include <linux/init.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/irq.h>
->> +#include <linux/irqchip.h>
->> +#include <linux/irqchip/chained_irq.h>
->> +#include <linux/irqdomain.h>
->> +#include <linux/kernel.h>
->> +#include <linux/msi.h>
->> +#include <linux/radix-tree.h>
->> +#include <linux/spinlock.h>
->> +
->> +#include <asm/loongarch.h>
->> +#include <asm/setup.h>
->> +
->> +#define VECTORS_PER_REG                64
->> +#define IRR_INVALID_MASK       0x80000000UL
->> +#define IRR_VECTOR_MASK                0xffUL
->> +#define AVEC_MSG_OFFSET                0x100000
->> +
->> +static phys_addr_t msi_base_v2;
->> +static DEFINE_PER_CPU(struct irq_desc * [NR_VECTORS], irq_map);
->> +
->> +#ifdef CONFIG_SMP
->> +struct pending_list {
->> +       struct list_head        head;
->> +};
->> +
->> +static DEFINE_PER_CPU(struct pending_list, pending_list);
->> +static struct cpumask intersect_mask;
->> +#endif
->> +
->> +struct loongarch_avec_chip {
->> +       struct fwnode_handle    *fwnode;
->> +       struct irq_domain       *domain;
->> +       struct irq_matrix       *vector_matrix;
->> +       raw_spinlock_t          lock;
->> +};
->> +
->> +static struct loongarch_avec_chip loongarch_avec;
->> +
->> +struct loongarch_avec_data {
->> +       struct list_head        entry;
->> +       unsigned int            cpu;
->> +       unsigned int            vec;
->> +       unsigned int            prev_cpu;
->> +       unsigned int            prev_vec;
->> +       unsigned int            moving          : 1,
->> +                               managed         : 1;
->> +};
->> +
->> +static inline void loongarch_avec_ack_irq(struct irq_data *d)
->> +{
->> +}
->> +
->> +static inline void loongarch_avec_unmask_irq(struct irq_data *d)
->> +{
->> +}
->> +
->> +static inline void loongarch_avec_mask_irq(struct irq_data *d)
->> +{
->> +}
->> +
->> +#ifdef CONFIG_SMP
->> +static inline void pending_list_init(int cpu)
->> +{
->> +       struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
->> +
->> +       INIT_LIST_HEAD(&plist->head);
->> +}
->> +
->> +static void loongarch_avec_sync(struct loongarch_avec_data *adata)
->> +{
->> +       struct pending_list *plist;
->> +
->> +       if (cpu_online(adata->prev_cpu)) {
->> +               plist = per_cpu_ptr(&pending_list, adata->prev_cpu);
->> +               list_add_tail(&adata->entry, &plist->head);
->> +               adata->moving = true;
->> +               mp_ops.send_ipi_single(adata->prev_cpu, ACTION_CLEAR_VECT);
->> +       }
->> +}
->> +
->> +static int loongarch_avec_set_affinity(struct irq_data *data, const struct cpumask *dest,
->> +                                      bool force)
->> +{
->> +       struct loongarch_avec_data *adata;
->> +       unsigned int cpu, vector;
->> +       unsigned long flags;
->> +       int ret;
->> +
->> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
->> +       adata = irq_data_get_irq_chip_data(data);
->> +
->> +       if (adata->vec && cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest)) {
->> +               raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +               return 0;
->> +       }
->> +       if (adata->moving)
->> +               return -EBUSY;
->> +
->> +       cpumask_and(&intersect_mask, dest, cpu_online_mask);
->> +
->> +       ret = irq_matrix_alloc(loongarch_avec.vector_matrix, &intersect_mask, false, &cpu);
->> +       if (ret < 0) {
->> +               raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +               return ret;
->> +       }
->> +       vector = ret;
->> +       adata->cpu = cpu;
->> +       adata->vec = vector;
->> +       per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
->> +       loongarch_avec_sync(adata);
->> +
->> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +       irq_data_update_effective_affinity(data, cpumask_of(cpu));
->> +
->> +       return IRQ_SET_MASK_OK;
->> +}
->> +
->> +void complete_irq_moving(void)
->> +{
->> +       struct pending_list *plist = this_cpu_ptr(&pending_list);
->> +       struct loongarch_avec_data *adata, *tmp;
->> +       int cpu, vector, bias;
->> +       u64 isr;
->> +
->> +       raw_spin_lock(&loongarch_avec.lock);
->> +
->> +       list_for_each_entry_safe(adata, tmp, &plist->head, entry) {
->> +               cpu = adata->prev_cpu;
->> +               vector = adata->prev_vec;
->> +               bias = vector / VECTORS_PER_REG;
->> +               switch (bias) {
->> +               case 0:
->> +                       isr = csr_read64(LOONGARCH_CSR_ISR0);
->> +               case 1:
->> +                       isr = csr_read64(LOONGARCH_CSR_ISR1);
->> +               case 2:
->> +                       isr = csr_read64(LOONGARCH_CSR_ISR2);
->> +               case 3:
->> +                       isr = csr_read64(LOONGARCH_CSR_ISR3);
->> +               }
->> +
->> +               if (isr & (1UL << (vector % VECTORS_PER_REG))) {
->> +                       mp_ops.send_ipi_single(cpu, ACTION_CLEAR_VECT);
->> +                       continue;
->> +               }
->> +               list_del(&adata->entry);
->> +               irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, adata->managed);
->> +               this_cpu_write(irq_map[vector], NULL);
->> +               adata->prev_cpu = adata->cpu;
->> +               adata->prev_vec = adata->vec;
->> +               adata->moving = 0;
->> +       }
->> +       raw_spin_unlock(&loongarch_avec.lock);
->> +}
->> +
->> +void loongarch_avec_offline_cpu(unsigned int cpu)
->> +{
->> +       struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
->> +       unsigned long flags;
->> +
->> +       if (!loongarch_avec.vector_matrix)
->> +               return;
->> +
->> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
->> +       if (list_empty(&plist->head))
->> +               irq_matrix_offline(loongarch_avec.vector_matrix);
->> +       else
->> +               pr_warn("cpu %d advanced extioi is busy\n", cpu);
->> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +}
->> +
->> +void loongarch_avec_online_cpu(unsigned int cpu)
->> +{
->> +       unsigned long flags;
->> +
->> +       if (!loongarch_avec.vector_matrix)
->> +               return;
->> +
->> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
->> +
->> +       irq_matrix_online(loongarch_avec.vector_matrix);
->> +
->> +       pending_list_init(cpu);
->> +
->> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +}
->> +
->> +#else
->> +#define loongarch_avec_set_affinity            NULL
->> +#endif
->> +
->> +static void loongarch_avec_compose_msg(struct irq_data *d,
->> +               struct msi_msg *msg)
->> +{
->> +       struct loongarch_avec_data *avec_data;
->> +
->> +       avec_data = irq_data_get_irq_chip_data(d);
->> +
->> +       msg->address_hi = 0x0;
->> +       msg->address_lo = (msi_base_v2 | (avec_data->vec & 0xff) << 4) |
->> +                         ((cpu_logical_map(avec_data->cpu & 0xffff)) << 12);
->> +       msg->data = 0x0;
->> +
->> +}
->> +
->> +static struct irq_chip loongarch_avec_controller = {
->> +       .name                   = "AVECINTC",
->> +       .irq_ack                = loongarch_avec_ack_irq,
->> +       .irq_mask               = loongarch_avec_mask_irq,
->> +       .irq_unmask             = loongarch_avec_unmask_irq,
->> +       .irq_set_affinity       = loongarch_avec_set_affinity,
->> +       .irq_compose_msi_msg    = loongarch_avec_compose_msg,
->> +};
->> +
->> +static void loongarch_avec_dispatch(struct irq_desc *desc)
->> +{
->> +       struct irq_chip *chip = irq_desc_get_chip(desc);
->> +       unsigned long vector;
->> +       struct irq_desc *d;
->> +
->> +       chained_irq_enter(chip, desc);
->> +       vector = csr_read64(LOONGARCH_CSR_IRR);
->> +       if (vector & IRR_INVALID_MASK)
->> +               return;
->> +
->> +       vector &= IRR_VECTOR_MASK;
->> +
->> +       d = this_cpu_read(irq_map[vector]);
->> +       if (d) {
->> +               generic_handle_irq_desc(d);
->> +       } else {
->> +               pr_warn("IRQ ERROR:Unexpected irq  occur on cpu %d[vector %ld]\n",
->> +                       smp_processor_id(), vector);
->> +       }
->> +
->> +       chained_irq_exit(chip, desc);
->> +}
->> +
->> +static int loongarch_avec_alloc(struct irq_domain *domain, unsigned int virq,
->> +                               unsigned int nr_irqs, void *arg)
->> +{
->> +       struct loongarch_avec_data *adata;
->> +       struct irq_data *irqd;
->> +       unsigned int cpu, vector, i, ret;
->> +       unsigned long flags;
->> +
->> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
->> +       for (i = 0; i < nr_irqs; i++) {
->> +               irqd = irq_domain_get_irq_data(domain, virq + i);
->> +               adata = kzalloc(sizeof(*adata), GFP_KERNEL);
->> +               if (!adata) {
->> +                       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +                       return -ENOMEM;
->> +               }
->> +               ret = irq_matrix_alloc(loongarch_avec.vector_matrix, cpu_online_mask, false, &cpu);
->> +               if (ret < 0) {
->> +                       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +                       return ret;
->> +               }
->> +               vector = ret;
->> +               adata->prev_cpu = adata->cpu = cpu;
->> +               adata->prev_vec = adata->vec = vector;
->> +               adata->managed = irqd_affinity_is_managed(irqd);
->> +               irq_domain_set_info(domain, virq + i, virq + i, &loongarch_avec_controller,
->> +                               adata, handle_edge_irq, NULL, NULL);
->> +               adata->moving = 0;
->> +               irqd_set_single_target(irqd);
->> +               irqd_set_affinity_on_activate(irqd);
->> +
->> +               per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(irqd);
->> +       }
->> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +
->> +       return 0;
->> +}
->> +
->> +static void clear_free_vector(struct irq_data *irqd)
->> +{
->> +       struct loongarch_avec_data *adata = irq_data_get_irq_chip_data(irqd);
->> +       bool managed = irqd_affinity_is_managed(irqd);
->> +
->> +       per_cpu(irq_map, adata->cpu)[adata->vec] = NULL;
->> +       irq_matrix_free(loongarch_avec.vector_matrix, adata->cpu, adata->vec, managed);
->> +       adata->cpu = 0;
->> +       adata->vec = 0;
->> +#ifdef CONFIG_SMP
->> +       if (!adata->moving)
->> +               return;
->> +
->> +       per_cpu(irq_map, adata->prev_cpu)[adata->prev_vec] = 0;
->> +       irq_matrix_free(loongarch_avec.vector_matrix, adata->prev_cpu,
->> +                       adata->prev_vec, adata->managed);
->> +       adata->prev_vec = 0;
->> +       adata->prev_cpu = 0;
->> +       adata->moving = 0;
->> +       list_del_init(&adata->entry);
->> +#endif
->> +}
->> +
->> +static void loongarch_avec_free(struct irq_domain *domain, unsigned int virq,
->> +               unsigned int nr_irqs)
->> +{
->> +       struct irq_data *d;
->> +       unsigned long flags;
->> +       unsigned int i;
->> +
->> +       raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
->> +       for (i = 0; i < nr_irqs; i++) {
->> +               d = irq_domain_get_irq_data(domain, virq + i);
->> +               if (d) {
->> +                       clear_free_vector(d);
->> +                       irq_domain_reset_irq_data(d);
->> +
->> +               }
->> +       }
->> +
->> +       raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
->> +}
->> +
->> +static const struct irq_domain_ops loongarch_avec_domain_ops = {
->> +       .alloc          = loongarch_avec_alloc,
->> +       .free           = loongarch_avec_free,
->> +};
->> +
->> +static int __init irq_matrix_init(void)
->> +{
->> +       int i;
->> +
->> +       loongarch_avec.vector_matrix = irq_alloc_matrix(NR_VECTORS, 0, NR_VECTORS - 1);
->> +       if (!loongarch_avec.vector_matrix)
->> +               return -ENOMEM;
->> +       for (i = 0; i < NR_LEGACY_VECTORS; i++)
->> +               irq_matrix_assign_system(loongarch_avec.vector_matrix, i, false);
->> +
->> +       irq_matrix_online(loongarch_avec.vector_matrix);
->> +
->> +       return 0;
->> +}
->> +
->> +static int __init loongarch_avec_init(struct irq_domain *parent)
->> +{
->> +       int ret = 0, parent_irq;
->> +       unsigned long tmp;
->> +
->> +       raw_spin_lock_init(&loongarch_avec.lock);
->> +
->> +       loongarch_avec.fwnode = irq_domain_alloc_named_fwnode("CORE_AVEC");
->> +       if (!loongarch_avec.fwnode) {
->> +               pr_err("Unable to allocate domain handle\n");
->> +               ret = -ENOMEM;
->> +               goto out;
->> +       }
->> +
->> +       loongarch_avec.domain = irq_domain_create_tree(loongarch_avec.fwnode,
->> +                       &loongarch_avec_domain_ops, NULL);
->> +       if (!loongarch_avec.domain) {
->> +               pr_err("core-vec: cannot create IRQ domain\n");
->> +               ret = -ENOMEM;
->> +               goto out_free_handle;
->> +       }
->> +
->> +       parent_irq = irq_create_mapping(parent, INT_AVEC);
->> +       if (!parent_irq) {
->> +               pr_err("Failed to mapping hwirq\n");
->> +               ret = -EINVAL;
->> +               goto out_remove_domain;
->> +       }
->> +       irq_set_chained_handler_and_data(parent_irq, loongarch_avec_dispatch, NULL);
->> +
->> +       ret = irq_matrix_init();
->> +       if (ret) {
->> +               pr_err("Failed to init irq matrix\n");
->> +               goto out_free_matrix;
->> +       }
->> +#ifdef CONFIG_SMP
->> +       pending_list_init(0);
->> +#endif
->> +       tmp = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
->> +       tmp |= IOCSR_MISC_FUNC_AVEC_EN;
->> +       iocsr_write64(tmp, LOONGARCH_IOCSR_MISC_FUNC);
->> +
->> +       return ret;
->> +
->> +out_free_matrix:
->> +       kfree(loongarch_avec.vector_matrix);
->> +out_remove_domain:
->> +       irq_domain_remove(loongarch_avec.domain);
->> +out_free_handle:
->> +       irq_domain_free_fwnode(loongarch_avec.fwnode);
->> +out:
->> +       return ret;
->> +}
->> +
->> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
->> +                                    const unsigned long end)
->> +{
->> +       struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
->> +
->> +       msi_base_v2 = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
->> +       return pch_msi_acpi_init_v2(loongarch_avec.domain, pchmsi_entry);
->> +}
->> +
->> +static inline int __init acpi_cascade_irqdomain_init(void)
->> +{
->> +       return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
->> +}
->> +
->> +int __init loongarch_avec_acpi_init(struct irq_domain *parent)
->> +{
->> +       int ret = 0;
->> +
->> +       ret = loongarch_avec_init(parent);
->> +       if (ret) {
->> +               pr_err("Failed to init irq domain\n");
->> +               return ret;
->> +       }
->> +
->> +       ret = acpi_cascade_irqdomain_init();
->> +       if (ret) {
->> +               pr_err("Failed to cascade IRQ domain\n");
->> +               return ret;
->> +       }
->> +
->> +       return ret;
->> +}
->> diff --git a/drivers/irqchip/irq-loongarch-cpu.c b/drivers/irqchip/irq-loongarch-cpu.c
->> index 9d8f2c406043..1ecac59925c6 100644
->> --- a/drivers/irqchip/irq-loongarch-cpu.c
->> +++ b/drivers/irqchip/irq-loongarch-cpu.c
->> @@ -138,7 +138,9 @@ static int __init acpi_cascade_irqdomain_init(void)
->>          if (r < 0)
->>                  return r;
->>
->> -       return 0;
->> +       if (cpu_has_avecint)
->> +               r = loongarch_avec_acpi_init(irq_domain);
->> +       return r;
->>   }
->>
->>   static int __init cpuintc_acpi_init(union acpi_subtable_headers *header,
->> diff --git a/drivers/irqchip/irq-loongson-eiointc.c b/drivers/irqchip/irq-loongson-eiointc.c
->> index c7ddebf312ad..1f9a30488137 100644
->> --- a/drivers/irqchip/irq-loongson-eiointc.c
->> +++ b/drivers/irqchip/irq-loongson-eiointc.c
->> @@ -359,6 +359,9 @@ static int __init acpi_cascade_irqdomain_init(void)
->>          if (r < 0)
->>                  return r;
->>
->> +       if (cpu_has_avecint)
->> +               return 0;
->> +
->>          r = acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
->>          if (r < 0)
->>                  return r;
->> diff --git a/drivers/irqchip/irq-loongson-pch-msi.c b/drivers/irqchip/irq-loongson-pch-msi.c
->> index dd4d699170f4..8b7aae22e782 100644
->> --- a/drivers/irqchip/irq-loongson-pch-msi.c
->> +++ b/drivers/irqchip/irq-loongson-pch-msi.c
->> @@ -16,7 +16,6 @@
->>   #include <linux/slab.h>
->>
->>   static int nr_pics;
->> -
->>   struct pch_msi_data {
->>          struct mutex    msi_map_lock;
->>          phys_addr_t     doorbell;
->> @@ -100,6 +99,17 @@ static struct irq_chip middle_irq_chip = {
->>          .irq_compose_msi_msg    = pch_msi_compose_msi_msg,
->>   };
->>
->> +static struct irq_chip pch_msi_irq_chip_v2 = {
->> +       .name                   = "MSI",
->> +       .irq_ack                = irq_chip_ack_parent,
->> +};
->> +
->> +static struct msi_domain_info pch_msi_domain_info_v2 = {
->> +       .flags          = MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
->> +                       MSI_FLAG_MULTI_PCI_MSI | MSI_FLAG_PCI_MSIX,
->> +       .chip   = &pch_msi_irq_chip_v2,
->> +};
->> +
->>   static int pch_msi_parent_domain_alloc(struct irq_domain *domain,
->>                                          unsigned int virq, int hwirq)
->>   {
->> @@ -268,6 +278,9 @@ struct fwnode_handle *get_pch_msi_handle(int pci_segment)
->>   {
->>          int i;
->>
->> +       if (cpu_has_avecint)
->> +               return pch_msi_handle[0];
->> +
->>          for (i = 0; i < MAX_IO_PICS; i++) {
->>                  if (msi_group[i].pci_segment == pci_segment)
->>                          return pch_msi_handle[i];
->> @@ -289,4 +302,31 @@ int __init pch_msi_acpi_init(struct irq_domain *parent,
->>
->>          return ret;
->>   }
->> +
->> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent, struct acpi_madt_msi_pic *msi_entry)
->> +{
->> +       struct irq_domain *msi_domain;
->> +
->> +       if (pch_msi_handle[0])
->> +               return 0;
->> +
->> +       pch_msi_handle[0] = irq_domain_alloc_named_fwnode("msipic-v2");
->> +       if (!pch_msi_handle[0]) {
->> +               pr_err("Unable to allocate domain handle\n");
->> +               kfree(pch_msi_handle[0]);
->> +               return -ENOMEM;
->> +       }
->> +
->> +       msi_domain = pci_msi_create_irq_domain(pch_msi_handle[0],
->> +                       &pch_msi_domain_info_v2,
->> +                       parent);
->> +       if (!msi_domain) {
->> +               pr_err("Failed to create PCI MSI domain\n");
->> +               kfree(pch_msi_handle[0]);
->> +               return -ENOMEM;
->> +       }
->> +
->> +       pr_info("IRQ domain MSIPIC-V2 init done.\n");
->> +       return 0;
->> +}
->>   #endif
->> --
->> 2.36.0
->>
->>
+> +	} else {
+> +		dev_err(priv->dev,
+> +			"%s: The message does not have a valid TAG\n",
+> +			dev_ctx->miscdev.name);
+> +		err = -EINVAL;
+> +		goto exit;
+> +	}
+> +	err = ele_msg_send(priv, tx_msg);
+> +	if (err < 0)
+> +		goto exit;
+> +
+> +	err = size_to_send;
+> +exit:
+> +	return err;
+> +}
+> +
+>    static bool exception_for_size(struct se_if_priv *priv,
+>    				struct se_msg_hdr *header)
+>    {
+> @@ -99,6 +242,7 @@ static bool exception_for_size(struct se_if_priv *priv,
+>    void se_if_rx_callback(struct mbox_client *mbox_cl, void *msg)
+>    {
+>    	struct device *dev = mbox_cl->dev;
+> +	struct se_if_device_ctx *dev_ctx;
+>    	struct se_if_priv *priv;
+>    	struct se_msg_hdr *header;
+>    	u32 rx_msg_sz;
+> @@ -114,8 +258,50 @@ void se_if_rx_callback(struct mbox_client *mbox_cl, void *msg)
+>    	header = msg;
+>    	rx_msg_sz = header->size << 2;
+>    
+> -	if (header->tag == priv->rsp_tag) {
+> -		if (!priv->waiting_rsp_dev) {
+> +	/* Incoming command: wake up the receiver if any. */
+> +	if (header->tag == priv->cmd_tag) {
+> +		dev_dbg(dev, "Selecting cmd receiver\n");
+> +		dev_ctx = priv->cmd_receiver_dev;
+> +		/* Pre-allocated buffer of MAX_NVM_MSG_LEN
+> +		 * as the NVM command are initiated by FW.
+> +		 * Size is revealed as part of this call function.
+> +		 */
+> +		if (rx_msg_sz > MAX_NVM_MSG_LEN) {
+> +			dev_err(dev,
+> +				"%s: Msg recvd hdr(0x%x) with greater[%d] than allocated buf-sz.\n",
+> +				dev_ctx->miscdev.name,
+> +				*(u32 *) header,
+> +				rx_msg_sz);
+> +		} else
+> +			memcpy(dev_ctx->temp_resp, msg, rx_msg_sz);
+> +
+> +		/* NVM buffer size are not known prior receiving it from FW.
+> +		 */
+> +		dev_ctx->temp_resp_size = rx_msg_sz;
+> +
+> +		/* Allow user to read */
+> +		dev_ctx->pending_hdr = 1;
+> +		wake_up_interruptible(&dev_ctx->wq);
+> +
+> +		return;
+> +	} else if (header->tag == priv->rsp_tag) {
+> +		if (priv->waiting_rsp_dev) {
+> +			dev_dbg(dev, "Selecting rsp waiter\n");
+> +			dev_ctx = priv->waiting_rsp_dev;
+> +			if (rx_msg_sz != dev_ctx->temp_resp_size
+> +				&& !exception_for_size(priv, header))
+> +				dev_err(dev,
+> +					"%s: Msg RSP hdr(0x%x) with different sz(%d != %d).\n",
+> +					dev_ctx->miscdev.name,
+> +					*(u32 *) header,
+> +					rx_msg_sz, dev_ctx->temp_resp_size);
+> +			else
+> +				memcpy(dev_ctx->temp_resp, msg, rx_msg_sz);
+> +
+> +			/* Allow user to read */
+> +			dev_ctx->pending_hdr = 1;
+> +			wake_up_interruptible(&dev_ctx->wq);
+> +		} else {
+>    			/*
+>    			 * Reading the EdgeLock Enclave response
+>    			 * to the command, sent by other
+> @@ -132,8 +318,8 @@ void se_if_rx_callback(struct mbox_client *mbox_cl, void *msg)
+>    
+>    			complete(&priv->done);
+>    			spin_unlock(&priv->lock);
+> -			return;
+>    		}
+> +		return;
+>    	}
+>    
+>    	dev_err(dev, "Failed to select a device for message: %.8x\n",
+> diff --git a/drivers/firmware/imx/ele_common.h b/drivers/firmware/imx/ele_common.h
+> index 5ef775a42ab3..7b1c6bfc138b 100644
+> --- a/drivers/firmware/imx/ele_common.h
+> +++ b/drivers/firmware/imx/ele_common.h
+> @@ -17,6 +17,10 @@ uint32_t se_add_msg_crc(uint32_t *msg, uint32_t msg_len);
+>    int ele_msg_rcv(struct se_if_priv *priv);
+>    int ele_msg_send(struct se_if_priv *priv, void *tx_msg);
+>    int ele_msg_send_rcv(struct se_if_priv *priv, void *tx_msg, void *rx_msg);
+> +int ele_miscdev_msg_rcv(struct se_if_device_ctx *dev_ctx,
+> +			void *rx_msg, int rx_msg_sz);
+> +int ele_miscdev_msg_send(struct se_if_device_ctx *dev_ctx,
+> +			 void *tx_msg, int tx_msg_sz);
+>    void se_if_rx_callback(struct mbox_client *mbox_cl, void *msg);
+>    int se_val_rsp_hdr_n_status(struct se_if_priv *priv,
+>    			    struct se_msg_hdr *header,
+> diff --git a/drivers/firmware/imx/se_ctrl.c b/drivers/firmware/imx/se_ctrl.c
+> index a844794d2b39..8fb2af0f0dd3 100644
+> --- a/drivers/firmware/imx/se_ctrl.c
+> +++ b/drivers/firmware/imx/se_ctrl.c
+> @@ -23,6 +23,7 @@
+>    #include <linux/slab.h>
+>    #include <linux/string.h>
+>    #include <linux/sys_soc.h>
+> +#include <uapi/linux/se_ioctl.h>
+>    
+>    #include "ele_base_msg.h"
+>    #include "ele_common.h"
+> @@ -196,6 +197,608 @@ static int se_soc_info(struct se_if_priv *priv,
+>    	return 0;
+>    }
+>    
+> +static int se_ioctl_cmd_snd_rcv_rsp_handler(struct se_if_device_ctx *dev_ctx,
+> +					    u64 arg)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev_ctx->dev);
+> +	struct se_ioctl_cmd_snd_rcv_rsp_info cmd_snd_rcv_rsp_info;
+> +	struct se_api_msg *tx_msg __free(kfree) = NULL;
+> +	struct se_api_msg *rx_msg __free(kfree) = NULL;
+> +	int err = 0;
+> +
+> +	if (copy_from_user(&cmd_snd_rcv_rsp_info, (u8 *)arg,
+> +			   sizeof(cmd_snd_rcv_rsp_info))) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed to copy cmd_snd_rcv_rsp_info from user\n",
+> +			dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +	if (cmd_snd_rcv_rsp_info.tx_buf_sz < SE_MU_HDR_SZ) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: User buffer too small(%d < %d)\n",
+> +			dev_ctx->miscdev.name,
+> +			cmd_snd_rcv_rsp_info.tx_buf_sz,
+> +			SE_MU_HDR_SZ);
+> +		err = -ENOSPC;
+> +		goto exit;
+> +	}
+> +
+> +	rx_msg = kzalloc(cmd_snd_rcv_rsp_info.rx_buf_sz, GFP_KERNEL);
+> +	if (!rx_msg) {
+> +		err = -ENOMEM;
+> +		goto exit;
+> +	}
+> +
+> +	tx_msg = memdup_user(cmd_snd_rcv_rsp_info.tx_buf,
+> +			     cmd_snd_rcv_rsp_info.tx_buf_sz);
+> +	if (IS_ERR(tx_msg)) {
+> +		err = PTR_ERR(tx_msg);
+> +		goto exit;
+> +	}
+> +
+> +	if (tx_msg->header.tag != priv->cmd_tag) {
+> +		err = -EINVAL;
+> +		goto exit;
+> +	}
+> +
+> +	scoped_guard(mutex, &priv->se_if_cmd_lock);
+> +	priv->waiting_rsp_dev = dev_ctx;
+> +	dev_ctx->temp_resp_size = cmd_snd_rcv_rsp_info.rx_buf_sz;
+> +
+> +	/* Device Context that is assigned to be a
+> +	 * FW's command receiver, has pre-allocated buffer.
+> +	 */
+> +	if (dev_ctx != priv->cmd_receiver_dev)
+> +		dev_ctx->temp_resp = rx_msg;
+> +
+> +	err = ele_miscdev_msg_send(dev_ctx,
+> +				   tx_msg,
+> +				   cmd_snd_rcv_rsp_info.tx_buf_sz);
+> +	if (err < 0)
+> +		goto exit;
+> +
+> +	cmd_snd_rcv_rsp_info.tx_buf_sz = err;
+> +
+> +	err = ele_miscdev_msg_rcv(dev_ctx,
+> +				  cmd_snd_rcv_rsp_info.rx_buf,
+> +				  cmd_snd_rcv_rsp_info.rx_buf_sz);
+> +
+> +	if (err < 0)
+> +		goto exit;
+> +
+> +	cmd_snd_rcv_rsp_info.rx_buf_sz = err;
+> +
+> +exit:
+> +	dev_ctx->temp_resp_size = 0;
+> +	priv->waiting_rsp_dev = NULL;
+> +	if (dev_ctx != priv->cmd_receiver_dev)
+> +		dev_ctx->temp_resp = NULL;
+> +
+> +	if (copy_to_user((void *)arg, &cmd_snd_rcv_rsp_info,
+> +			 sizeof(cmd_snd_rcv_rsp_info))) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed to copy cmd_snd_rcv_rsp_info from user\n",
+> +			dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +	}
+> +	return err;
+> +}
+> +
+> +/*
+> + * File operations for user-space
+> + */
+> +
+> +/* Write a message to the MU. */
+> +static ssize_t se_if_fops_write(struct file *fp, const char __user *buf,
+> +				size_t size, loff_t *ppos)
+> +{
+> +	struct se_api_msg *tx_msg __free(kfree) = NULL;
+> +	struct se_if_device_ctx *dev_ctx;
+> +	struct se_if_priv *priv;
+> +	int err;
+> +
+> +	dev_ctx = container_of(fp->private_data,
+> +			       struct se_if_device_ctx,
+> +			       miscdev);
+> +	priv = dev_ctx->priv;
+> +	dev_dbg(priv->dev,
+> +		"%s: write from buf (%p)%zu, ppos=%lld\n",
+> +			dev_ctx->miscdev.name,
+> +			buf, size, ((ppos) ? *ppos : 0));
+> +
+> +	if (down_interruptible(&dev_ctx->fops_lock))
+> +		return -EBUSY;
+> +
+> +	if (dev_ctx->status != SE_IF_CTX_OPENED) {
+> +		err = -EINVAL;
+> +		goto exit;
+> +	}
+> +
+> +	if (size < SE_MU_HDR_SZ) {
+> +		dev_err(priv->dev,
+> +			"%s: User buffer too small(%zu < %d)\n",
+> +				dev_ctx->miscdev.name,
+> +				size, SE_MU_HDR_SZ);
+> +		err = -ENOSPC;
+> +		goto exit;
+> +	}
+> +	tx_msg = memdup_user(buf, size);
+> +	if (IS_ERR(tx_msg)) {
+> +		err = PTR_ERR(tx_msg);
+> +		goto exit;
+> +	}
+> +
+> +	print_hex_dump_debug("from user ", DUMP_PREFIX_OFFSET, 4, 4,
+> +			     tx_msg, size, false);
+> +
+> +	err = ele_miscdev_msg_send(dev_ctx, tx_msg, size);
+> +
+> +exit:
+> +	up(&dev_ctx->fops_lock);
+> +	return err;
+> +}
+> +
+> +/*
+> + * Read a message from the MU.
+> + * Blocking until a message is available.
+> + */
+> +static ssize_t se_if_fops_read(struct file *fp, char __user *buf,
+> +			       size_t size, loff_t *ppos)
+> +{
+> +	struct se_if_device_ctx *dev_ctx;
+> +	struct se_if_priv *priv;
+> +	int err;
+> +
+> +	dev_ctx = container_of(fp->private_data,
+> +			       struct se_if_device_ctx,
+> +			       miscdev);
+> +	priv = dev_ctx->priv;
+> +	dev_dbg(priv->dev,
+> +		"%s: read to buf %p(%zu), ppos=%lld\n",
+> +			dev_ctx->miscdev.name,
+> +			buf, size, ((ppos) ? *ppos : 0));
+> +
+> +	if (down_interruptible(&dev_ctx->fops_lock))
+> +		return -EBUSY;
+> +
+> +	if (dev_ctx->status != SE_IF_CTX_OPENED) {
+> +		err = -EINVAL;
+> +		goto exit;
+> +	}
+> +
+> +	err = ele_miscdev_msg_rcv(dev_ctx, buf, size);
+> +
+> +exit:
+> +	up(&dev_ctx->fops_lock);
+> +	return err;
+> +}
+> +
+> +static int se_ioctl_get_mu_info(struct se_if_device_ctx *dev_ctx,
+> +				u64 arg)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev_ctx->dev);
+> +	struct se_if_node_info *if_node_info;
+> +	struct se_ioctl_get_if_info info;
+> +	int err = 0;
+> +
+> +	if_node_info = (struct se_if_node_info *)priv->info;
+> +
+> +	info.se_if_id = if_node_info->se_if_id;
+> +	info.interrupt_idx = 0;
+> +	info.tz = 0;
+> +	info.did = if_node_info->se_if_did;
+> +	info.cmd_tag = if_node_info->cmd_tag;
+> +	info.rsp_tag = if_node_info->rsp_tag;
+> +	info.success_tag = if_node_info->success_tag;
+> +	info.base_api_ver = if_node_info->base_api_ver;
+> +	info.fw_api_ver = if_node_info->fw_api_ver;
+> +
+> +	dev_dbg(priv->dev,
+> +		"%s: info [se_if_id: %d, irq_idx: %d, tz: 0x%x, did: 0x%x]\n",
+> +			dev_ctx->miscdev.name,
+> +			info.se_if_id, info.interrupt_idx, info.tz, info.did);
+> +
+> +	if (copy_to_user((u8 *)arg, &info, sizeof(info))) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed to copy mu info to user\n",
+> +				dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +exit:
+> +	return err;
+> +}
+> +
+> +/* Need to copy the output data to user-device context.
+> + */
+> +int se_dev_ctx_cpy_out_data(struct se_if_device_ctx *dev_ctx, bool do_cpy)
+> +{
+> +	struct se_buf_desc *b_desc, *temp;
+> +
+> +	list_for_each_entry_safe(b_desc, temp, &dev_ctx->pending_out, link) {
+> +		if (b_desc->usr_buf_ptr && b_desc->shared_buf_ptr && do_cpy) {
+> +
+> +			dev_dbg(dev_ctx->dev,
+> +				"%s: Copy output data to user\n",
+> +				dev_ctx->miscdev.name);
+> +			if (copy_to_user(b_desc->usr_buf_ptr,
+> +					 b_desc->shared_buf_ptr,
+> +					 b_desc->size)) {
+> +				dev_err(dev_ctx->dev,
+> +					"%s: Failure copying output data to user.",
+> +					dev_ctx->miscdev.name);
+> +				return -EFAULT;
+> +			}
+> +		}
+> +
+> +		if (b_desc->shared_buf_ptr)
+> +			memset(b_desc->shared_buf_ptr, 0, b_desc->size);
+> +
+> +		list_del(&b_desc->link);
+> +		kfree(b_desc);
+> +	}
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Clean the used Shared Memory space,
+> + * whether its Input Data copied from user buffers, or
+> + * Data received from FW.
+> + */
+> +void se_dev_ctx_shared_mem_cleanup(struct se_if_device_ctx *dev_ctx)
+> +{
+> +	struct list_head *dev_ctx_lists[] = {&dev_ctx->pending_in,
+> +						 &dev_ctx->pending_out};
+> +	struct se_buf_desc *b_desc, *temp;
+> +	int i;
+> +
+> +	for (i = 0; i < 2; i++) {
+> +		list_for_each_entry_safe(b_desc, temp,
+> +					 dev_ctx_lists[i], link) {
+> +
+> +			if (b_desc->shared_buf_ptr)
+> +				memset(b_desc->shared_buf_ptr, 0, b_desc->size);
+> +
+> +			list_del(&b_desc->link);
+> +			kfree(b_desc);
+> +		}
+> +	}
+> +}
+> +
+> +/*
+> + * Copy a buffer of data to/from the user and return the address to use in
+> + * messages
+> + */
+> +static int se_ioctl_setup_iobuf_handler(struct se_if_device_ctx *dev_ctx,
+> +					    u64 arg)
+> +{
+> +	struct se_shared_mem *shared_mem = NULL;
+> +	struct se_ioctl_setup_iobuf io = {0};
+> +	struct se_buf_desc *b_desc = NULL;
+> +	int err = 0;
+> +	u32 pos;
+> +
+> +	if (copy_from_user(&io, (u8 *)arg, sizeof(io))) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed copy iobuf config from user\n",
+> +				dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +	dev_dbg(dev_ctx->priv->dev,
+> +			"%s: io [buf: %p(%d) flag: %x]\n",
+> +			dev_ctx->miscdev.name,
+> +			io.user_buf, io.length, io.flags);
+> +
+> +	if (io.length == 0 || !io.user_buf) {
+> +		/*
+> +		 * Accept NULL pointers since some buffers are optional
+> +		 * in FW commands. In this case we should return 0 as
+> +		 * pointer to be embedded into the message.
+> +		 * Skip all data copy part of code below.
+> +		 */
+> +		io.ele_addr = 0;
+> +		goto copy;
+> +	}
+> +
+> +	/* Select the shared memory to be used for this buffer. */
+> +	if (io.flags & SE_MU_IO_FLAGS_USE_SEC_MEM) {
+> +		/* App requires to use secure memory for this buffer.*/
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed allocate SEC MEM memory\n",
+> +				dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	} else {
+> +		/* No specific requirement for this buffer. */
+> +		shared_mem = &dev_ctx->non_secure_mem;
+> +	}
+> +
+> +	/* Check there is enough space in the shared memory. */
+> +	if (shared_mem->size < shared_mem->pos ||
+> +		round_up(io.length, 8u) >= (shared_mem->size - shared_mem->pos)) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Not enough space in shared memory\n",
+> +				dev_ctx->miscdev.name);
+> +		err = -ENOMEM;
+> +		goto exit;
+> +	}
+> +
+> +	/* Allocate space in shared memory. 8 bytes aligned. */
+> +	pos = shared_mem->pos;
+> +	shared_mem->pos += round_up(io.length, 8u);
+> +	io.ele_addr = (u64)shared_mem->dma_addr + pos;
+> +
+> +	if ((io.flags & SE_MU_IO_FLAGS_USE_SEC_MEM) &&
+> +	    !(io.flags & SE_MU_IO_FLAGS_USE_SHORT_ADDR)) {
+> +		/*Add base address to get full address.*/
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed allocate SEC MEM memory\n",
+> +				dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +	memset(shared_mem->ptr + pos, 0, io.length);
+> +	if ((io.flags & SE_IO_BUF_FLAGS_IS_INPUT) ||
+> +	    (io.flags & SE_IO_BUF_FLAGS_IS_IN_OUT)) {
+> +		/*
+> +		 * buffer is input:
+> +		 * copy data from user space to this allocated buffer.
+> +		 */
+> +		if (copy_from_user(shared_mem->ptr + pos, io.user_buf,
+> +				   io.length)) {
+> +			dev_err(dev_ctx->priv->dev,
+> +				"%s: Failed copy data to shared memory\n",
+> +				dev_ctx->miscdev.name);
+> +			err = -EFAULT;
+> +			goto exit;
+> +		}
+> +	}
+> +
+> +	b_desc = kzalloc(sizeof(*b_desc), GFP_KERNEL);
+> +	if (!b_desc) {
+> +		err = -ENOMEM;
+> +		goto exit;
+> +	}
+> +
+> +copy:
+> +	/* Provide the EdgeLock Enclave address to user space only if success.*/
+> +	if (copy_to_user((u8 *)arg, &io, sizeof(io))) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed to copy iobuff setup to user\n",
+> +				dev_ctx->miscdev.name);
+> +		kfree(b_desc);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +	if (b_desc) {
+> +		b_desc->shared_buf_ptr = shared_mem->ptr + pos;
+> +		b_desc->usr_buf_ptr = io.user_buf;
+> +		b_desc->size = io.length;
+> +
+> +		if (io.flags & SE_IO_BUF_FLAGS_IS_INPUT) {
+> +			/*
+> +			 * buffer is input:
+> +			 * add an entry in the "pending input buffers" list so
+> +			 * that copied data can be cleaned from shared memory
+> +			 * later.
+> +			 */
+> +			list_add_tail(&b_desc->link, &dev_ctx->pending_in);
+> +		} else {
+> +			/*
+> +			 * buffer is output:
+> +			 * add an entry in the "pending out buffers" list so data
+> +			 * can be copied to user space when receiving Secure-Enclave
+> +			 * response.
+> +			 */
+> +			list_add_tail(&b_desc->link, &dev_ctx->pending_out);
+> +		}
+> +	}
+> +
+> +exit:
+> +	return err;
+> +}
+> +
+> +/* IOCTL to provide SoC information */
+> +static int se_ioctl_get_se_soc_info_handler(struct se_if_device_ctx *dev_ctx,
+> +					     u64 arg)
+> +{
+> +	const struct se_if_node_info_list *info_list;
+> +	struct se_ioctl_get_soc_info soc_info;
+> +	int err = -EINVAL;
+> +
+> +	info_list = device_get_match_data(dev_ctx->priv->dev);
+> +	if (!info_list)
+> +		goto exit;
+> +
+> +	soc_info.soc_id = info_list->soc_id;
+> +	soc_info.soc_rev = dev_ctx->priv->soc_rev;
+> +
+> +	err = (int)copy_to_user((u8 *)arg, (u8 *)(&soc_info), sizeof(soc_info));
+> +	if (err) {
+> +		dev_err(dev_ctx->priv->dev,
+> +			"%s: Failed to copy soc info to user\n",
+> +			dev_ctx->miscdev.name);
+> +		err = -EFAULT;
+> +		goto exit;
+> +	}
+> +
+> +exit:
+> +	return err;
+> +}
+> +
+> +/* Open a character device. */
+> +static int se_if_fops_open(struct inode *nd, struct file *fp)
+> +{
+> +	struct se_if_device_ctx *dev_ctx = container_of(fp->private_data,
+> +							struct se_if_device_ctx,
+> +							miscdev);
+> +	int err = 0;
+> +
+> +	/* Avoid race if opened at the same time */
+> +	if (down_trylock(&dev_ctx->fops_lock))
+> +		return -EBUSY;
+> +
+> +	/* Authorize only 1 instance. */
+> +	if (dev_ctx->status != SE_IF_CTX_FREE) {
+> +		err = -EBUSY;
+> +		goto exit;
+> +	}
+> +
+> +	/*
+> +	 * Allocate some memory for data exchanges with S40x.
+> +	 * This will be used for data not requiring secure memory.
+> +	 */
+> +	dev_ctx->non_secure_mem.ptr = dmam_alloc_coherent(dev_ctx->dev,
+> +					MAX_DATA_SIZE_PER_USER,
+> +					&dev_ctx->non_secure_mem.dma_addr,
+> +					GFP_KERNEL);
+> +	if (!dev_ctx->non_secure_mem.ptr) {
+> +		err = -ENOMEM;
+> +		goto exit;
+> +	}
+> +
+> +	dev_ctx->non_secure_mem.size = MAX_DATA_SIZE_PER_USER;
+> +	dev_ctx->non_secure_mem.pos = 0;
+> +	dev_ctx->status = SE_IF_CTX_OPENED;
+> +
+> +	dev_ctx->pending_hdr = 0;
+> +
+> +	goto exit;
+> +
+> +	dmam_free_coherent(dev_ctx->priv->dev, MAX_DATA_SIZE_PER_USER,
+> +			   dev_ctx->non_secure_mem.ptr,
+> +			   dev_ctx->non_secure_mem.dma_addr);
+> +
+> +exit:
+> +	up(&dev_ctx->fops_lock);
+> +	return err;
+> +}
+> +
+> +/* Close a character device. */
+> +static int se_if_fops_close(struct inode *nd, struct file *fp)
+> +{
+> +	struct se_if_device_ctx *dev_ctx = container_of(fp->private_data,
+> +							struct se_if_device_ctx,
+> +							miscdev);
+> +	struct se_if_priv *priv = dev_ctx->priv;
+> +
+> +	/* Avoid race if closed at the same time */
+> +	if (down_trylock(&dev_ctx->fops_lock))
+> +		return -EBUSY;
+> +
+> +	/* The device context has not been opened */
+> +	if (dev_ctx->status != SE_IF_CTX_OPENED)
+> +		goto exit;
+> +
+> +	/* check if this device was registered as command receiver. */
+> +	if (priv->cmd_receiver_dev == dev_ctx) {
+> +		priv->cmd_receiver_dev = NULL;
+> +		kfree(dev_ctx->temp_resp);
+> +	}
+> +
+> +	/* check if this device was registered as waiting response. */
+> +	if (priv->waiting_rsp_dev == dev_ctx) {
+> +		priv->waiting_rsp_dev = NULL;
+> +		mutex_unlock(&priv->se_if_cmd_lock);
+> +	}
+> +
+> +	/* Unmap secure memory shared buffer. */
+> +	if (dev_ctx->secure_mem.ptr)
+> +		devm_iounmap(dev_ctx->dev, dev_ctx->secure_mem.ptr);
+> +
+> +	dev_ctx->secure_mem.ptr = NULL;
+> +	dev_ctx->secure_mem.dma_addr = 0;
+> +	dev_ctx->secure_mem.size = 0;
+> +	dev_ctx->secure_mem.pos = 0;
+> +
+> +	/* Free non-secure shared buffer. */
+> +	dmam_free_coherent(dev_ctx->priv->dev, MAX_DATA_SIZE_PER_USER,
+> +			   dev_ctx->non_secure_mem.ptr,
+> +			   dev_ctx->non_secure_mem.dma_addr);
+> +
+> +	dev_ctx->non_secure_mem.ptr = NULL;
+> +	dev_ctx->non_secure_mem.dma_addr = 0;
+> +	dev_ctx->non_secure_mem.size = 0;
+> +	dev_ctx->non_secure_mem.pos = 0;
+> +	se_dev_ctx_shared_mem_cleanup(dev_ctx);
+> +	dev_ctx->status = SE_IF_CTX_FREE;
+> +
+> +exit:
+> +	up(&dev_ctx->fops_lock);
+> +	return 0;
+> +}
+> +
+> +/* IOCTL entry point of a character device */
+> +static long se_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct se_if_device_ctx *dev_ctx = container_of(fp->private_data,
+> +							struct se_if_device_ctx,
+> +							miscdev);
+> +	struct se_if_priv *se_if_priv = dev_ctx->priv;
+> +	int err = -EINVAL;
+> +
+> +	/* Prevent race during change of device context */
+> +	if (down_interruptible(&dev_ctx->fops_lock))
+> +		return -EBUSY;
+> +
+> +	switch (cmd) {
+> +	case SE_IOCTL_ENABLE_CMD_RCV:
+> +		if (!se_if_priv->cmd_receiver_dev) {
+> +			err = 0;
+> +			se_if_priv->cmd_receiver_dev = dev_ctx;
+> +			dev_ctx->temp_resp = kzalloc(MAX_NVM_MSG_LEN, GFP_KERNEL);
+> +			if (!dev_ctx->temp_resp)
+> +				err = -ENOMEM;
+> +		}
+> +		break;
+> +	case SE_IOCTL_GET_MU_INFO:
+> +		err = se_ioctl_get_mu_info(dev_ctx, arg);
+> +		break;
+> +	case SE_IOCTL_SETUP_IOBUF:
+> +		err = se_ioctl_setup_iobuf_handler(dev_ctx, arg);
+> +		break;
+> +	case SE_IOCTL_GET_SOC_INFO:
+> +		err = se_ioctl_get_se_soc_info_handler(dev_ctx, arg);
+> +		break;
+> +	case SE_IOCTL_CMD_SEND_RCV_RSP:
+> +		err = se_ioctl_cmd_snd_rcv_rsp_handler(dev_ctx, arg);
+> +		break;
+> +
+> +	default:
+> +		err = -EINVAL;
+> +		dev_dbg(se_if_priv->dev,
+> +			"%s: IOCTL %.8x not supported\n",
+> +				dev_ctx->miscdev.name,
+> +				cmd);
+> +	}
+> +
+> +	up(&dev_ctx->fops_lock);
+> +	return (long)err;
+> +}
+> +
+> +/* Char driver setup */
+> +static const struct file_operations se_if_fops = {
+> +	.open		= se_if_fops_open,
+> +	.owner		= THIS_MODULE,
+> +	.release	= se_if_fops_close,
+> +	.unlocked_ioctl = se_ioctl,
+> +	.read		= se_if_fops_read,
+> +	.write		= se_if_fops_write,
+> +};
+> +
+> +/* interface for managed res to unregister a character device */
+> +static void if_misc_deregister(void *miscdevice)
+> +{
+> +	misc_deregister(miscdevice);
+> +}
+> +
+>    /* interface for managed res to free a mailbox channel */
+>    static void if_mbox_free_channel(void *mbox_chan)
+>    {
+> @@ -233,6 +836,7 @@ static void se_if_probe_cleanup(struct platform_device *pdev)
+>    {
+>    	struct device *dev = &pdev->dev;
+>    	struct se_if_priv *priv;
+> +	int i;
+>    
+>    	priv = dev_get_drvdata(dev);
+>    
+> @@ -252,6 +856,17 @@ static void se_if_probe_cleanup(struct platform_device *pdev)
+>    		priv->imem.buf = NULL;
+>    	}
+>    
+> +	if (priv->ctxs) {
+> +		for (i = 0; i < priv->max_dev_ctx; i++) {
+> +			if (priv->ctxs[i]) {
+> +				devm_remove_action(dev,
+> +						   if_misc_deregister,
+> +						   &priv->ctxs[i]->miscdev);
+> +				misc_deregister(&priv->ctxs[i]->miscdev);
+> +			}
+> +		}
+> +	}
+> +
+>    	/* No need to check, if reserved memory is allocated
+>    	 * before calling for its release. Or clearing the
+>    	 * un-set bit.
+> @@ -259,6 +874,74 @@ static void se_if_probe_cleanup(struct platform_device *pdev)
+>    	of_reserved_mem_device_release(dev);
+>    }
+>    
+> +static int init_device_context(struct se_if_priv *priv)
+> +{
+> +	const struct se_if_node_info *info = priv->info;
+> +	struct se_if_device_ctx *dev_ctx;
+> +	u8 *devname;
+> +	int ret = 0;
+> +	int i;
+> +
+> +	priv->ctxs = devm_kzalloc(priv->dev, sizeof(dev_ctx) * priv->max_dev_ctx,
+> +				  GFP_KERNEL);
+> +
+> +	if (!priv->ctxs) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	/* Create users */
+> +	for (i = 0; i < priv->max_dev_ctx; i++) {
+> +		dev_ctx = devm_kzalloc(priv->dev, sizeof(*dev_ctx), GFP_KERNEL);
+> +		if (!dev_ctx) {
+> +			ret = -ENOMEM;
+> +			return ret;
+> +		}
+> +
+> +		dev_ctx->dev = priv->dev;
+> +		dev_ctx->status = SE_IF_CTX_FREE;
+> +		dev_ctx->priv = priv;
+> +
+> +		priv->ctxs[i] = dev_ctx;
+> +
+> +		/* Default value invalid for an header. */
+> +		init_waitqueue_head(&dev_ctx->wq);
+> +
+> +		INIT_LIST_HEAD(&dev_ctx->pending_out);
+> +		INIT_LIST_HEAD(&dev_ctx->pending_in);
+> +		sema_init(&dev_ctx->fops_lock, 1);
+> +
+> +		devname = devm_kasprintf(priv->dev, GFP_KERNEL, "%s_ch%d",
+> +					 info->se_name, i);
+> +		if (!devname) {
+> +			ret = -ENOMEM;
+> +			return ret;
+> +		}
+> +
+> +		dev_ctx->miscdev.name = devname;
+> +		dev_ctx->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +		dev_ctx->miscdev.fops = &se_if_fops;
+> +		dev_ctx->miscdev.parent = priv->dev;
+> +		ret = misc_register(&dev_ctx->miscdev);
+> +		if (ret) {
+> +			dev_err(priv->dev, "failed to register misc device %d\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +
+> +		ret = devm_add_action(priv->dev, if_misc_deregister,
+> +				      &dev_ctx->miscdev);
+> +		if (ret) {
+> +			dev_err(priv->dev,
+> +				"failed[%d] to add action to the misc-dev\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>    static void se_load_firmware(const struct firmware *fw, void *context)
+>    {
+>    	struct se_if_priv *priv = (struct se_if_priv *) context;
+> @@ -427,6 +1110,16 @@ static int se_if_probe(struct platform_device *pdev)
+>    		ret = 0;
+>    	}
+>    
+> +	if (info->max_dev_ctx) {
+> +		ret = init_device_context(priv);
+> +		if (ret) {
+> +			dev_err(dev,
+> +				"Failed[0x%x] to create device contexts.\n",
+> +				ret);
+> +			goto exit;
+> +		}
+> +	}
+> +
+>    	dev_info(dev, "i.MX secure-enclave: %s interface to firmware, configured.\n",
+>    		 info->se_name);
+>    	return ret;
+> @@ -467,6 +1160,10 @@ static int se_resume(struct device *dev)
+>    {
+>    	struct se_if_priv *priv = dev_get_drvdata(dev);
+>    	const struct se_if_node_info *info = priv->info;
+> +	int i;
+> +
+> +	for (i = 0; i < priv->max_dev_ctx; i++)
+> +		wake_up_interruptible(&priv->ctxs[i]->wq);
+>    
+>    	if (info && info->imem_mgmt)
+>    		se_restore_imem_state(priv);
+> diff --git a/drivers/firmware/imx/se_ctrl.h b/drivers/firmware/imx/se_ctrl.h
+> index 4be2235d2170..b49346372746 100644
+> --- a/drivers/firmware/imx/se_ctrl.h
+> +++ b/drivers/firmware/imx/se_ctrl.h
+> @@ -13,15 +13,62 @@
+>    #define MAX_FW_LOAD_RETRIES		50
+>    
+>    #define RES_STATUS(x)			FIELD_GET(0x000000ff, x)
+> +#define MAX_DATA_SIZE_PER_USER		(65 * 1024)
+> +#define MAX_NVM_MSG_LEN			(256)
+>    #define MESSAGING_VERSION_6		0x6
+>    #define MESSAGING_VERSION_7		0x7
+>    
+> +#define SE_MU_IO_FLAGS_USE_SEC_MEM	(0x02u)
+> +#define SE_MU_IO_FLAGS_USE_SHORT_ADDR	(0x04u)
+> +
+>    struct se_imem_buf {
+>    	u8 *buf;
+>    	phys_addr_t phyaddr;
+>    	u32 size;
+>    };
+>    
+> +struct se_buf_desc {
+> +	u8 *shared_buf_ptr;
+> +	u8 *usr_buf_ptr;
+> +	u32 size;
+> +	struct list_head link;
+> +};
+> +
+> +/* Status of a char device */
+> +enum se_if_dev_ctx_status_t {
+> +	SE_IF_CTX_FREE,
+> +	SE_IF_CTX_OPENED
+> +};
+> +
+> +struct se_shared_mem {
+> +	dma_addr_t dma_addr;
+> +	u32 size;
+> +	u32 pos;
+> +	u8 *ptr;
+> +};
+> +
+> +/* Private struct for each char device instance. */
+> +struct se_if_device_ctx {
+> +	struct device *dev;
+> +	struct se_if_priv *priv;
+> +	struct miscdevice miscdev;
+> +
+> +	enum se_if_dev_ctx_status_t status;
+> +	wait_queue_head_t wq;
+> +	struct semaphore fops_lock;
+> +
+> +	u32 pending_hdr;
+> +	struct list_head pending_in;
+> +	struct list_head pending_out;
+> +
+> +	struct se_shared_mem secure_mem;
+> +	struct se_shared_mem non_secure_mem;
+> +
+> +	struct se_api_msg *temp_resp;
+> +	u32 temp_resp_size;
+> +	struct notifier_block se_notify;
+> +};
+> +
+>    /* Header of the messages exchange with the EdgeLock Enclave */
+>    struct se_msg_hdr {
+>    	u8 ver;
+> @@ -80,4 +127,6 @@ struct se_if_priv {
+>    	struct se_imem_buf imem;
+>    };
+>    
+> +int se_dev_ctx_cpy_out_data(struct se_if_device_ctx *dev_ctx, bool do_cpy);
+> +void se_dev_ctx_shared_mem_cleanup(struct se_if_device_ctx *dev_ctx);
+>    #endif
+> diff --git a/include/uapi/linux/se_ioctl.h b/include/uapi/linux/se_ioctl.h
+> new file mode 100644
+> index 000000000000..c2d0a92ef626
+> --- /dev/null
+> +++ b/include/uapi/linux/se_ioctl.h
+> @@ -0,0 +1,94 @@
+> +/* SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause*/
+> +/*
+> + * Copyright 2024 NXP
+> + */
+> +
+> +#ifndef SE_IOCTL_H
+> +#define SE_IOCTL_H
+> +
+> +/* IOCTL definitions. */
+> +
+> +struct se_ioctl_setup_iobuf {
+> +	u8 *user_buf;
+> +	u32 length;
+> +	u32 flags;
+> +	u64 ele_addr;
+> +};
+> +
+> +struct se_ioctl_shared_mem_cfg {
+> +	u32 base_offset;
+> +	u32 size;
+> +};
+> +
+> +struct se_ioctl_get_if_info {
+> +	u8 se_if_id;
+> +	u8 interrupt_idx;
+> +	u8 tz;
+> +	u8 did;
+> +	u8 cmd_tag;
+> +	u8 rsp_tag;
+> +	u8 success_tag;
+> +	u8 base_api_ver;
+> +	u8 fw_api_ver;
+> +};
+> +
+> +struct se_ioctl_cmd_snd_rcv_rsp_info {
+> +	u32 *tx_buf;
+> +	int tx_buf_sz;
+> +	u32 *rx_buf;
+> +	int rx_buf_sz;
+> +};
+> +
+> +struct se_ioctl_get_soc_info {
+> +	u16 soc_id;
+> +	u16 soc_rev;
+> +};
+> +
+> +/* IO Buffer Flags */
+> +#define SE_IO_BUF_FLAGS_IS_OUTPUT	(0x00u)
+> +#define SE_IO_BUF_FLAGS_IS_INPUT	(0x01u)
+> +#define SE_IO_BUF_FLAGS_USE_SEC_MEM	(0x02u)
+> +#define SE_IO_BUF_FLAGS_USE_SHORT_ADDR	(0x04u)
+> +#define SE_IO_BUF_FLAGS_IS_IN_OUT	(0x10u)
+> +
+> +/* IOCTLS */
+> +#define SE_IOCTL			0x0A /* like MISC_MAJOR. */
+> +
+> +/*
+> + * ioctl to designated the current fd as logical-reciever.
+> + * This is ioctl is send when the nvm-daemon, a slave to the
+> + * firmware is started by the user.
+> + */
+> +#define SE_IOCTL_ENABLE_CMD_RCV	_IO(SE_IOCTL, 0x01)
+> +
+> +/*
+> + * ioctl to get the buffer allocated from the memory, which is shared
+> + * between kernel and FW.
+> + * Post allocation, the kernel tagged the allocated memory with:
+> + *  Output
+> + *  Input
+> + *  Input-Output
+> + *  Short address
+> + *  Secure-memory
+> + */
+> +#define SE_IOCTL_SETUP_IOBUF	_IOWR(SE_IOCTL, 0x03, \
+> +					struct se_ioctl_setup_iobuf)
+> +
+> +/*
+> + * ioctl to get the mu information, that is used to exchange message
+> + * with FW, from user-spaced.
+> + */
+> +#define SE_IOCTL_GET_MU_INFO	_IOR(SE_IOCTL, 0x04, \
+> +					struct se_ioctl_get_if_info)
+> +/*
+> + * ioctl to get SoC Info from user-space.
+> + */
+> +#define SE_IOCTL_GET_SOC_INFO      _IOR(SE_IOCTL, 0x06, \
+> +					struct se_ioctl_get_soc_info)
+> +
+> +/*
+> + * ioctl to send command and receive response from user-space.
+> + */
+> +#define SE_IOCTL_CMD_SEND_RCV_RSP _IOWR(SE_IOCTL, 0x07, \
+> +					struct se_ioctl_cmd_snd_rcv_rsp_info)
+> +#endif
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
