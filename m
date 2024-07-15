@@ -1,238 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E94F18D4B5
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 14:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03B19180A70;
+	Mon, 15 Jul 2024 14:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721052031; cv=none; b=eTFmu+r51RxaZIuNTUq6XVDV/sUT8MgZbLZArnGDYIL0cilwUuYeANExVZt3u65klAls7qy8ikI2Rmj1qrWbt7jtYbzQazfESg9eNIU9cmbCS3FfFasMeAugoBFJ1780d5oCYLaXnC1zk7xFSu8dqeNK9ivAORSB4Kg6eWWCyWc=
+	t=1721052126; cv=none; b=LsukFUycVUBYatlKtlPZuSnAHDY+r8uIvOvYfRIdyuJCZqYtEoYhn8cbBqme3/LNrp7Kj1+xgSH1G7qIO5Pxv54h8bDg1vK46TtkKnIiKbSt9rKF/LqEjZALGqtzop4dkZurJ4++tt45N8iAScXEfJfTLws8FOWuozwEtIa9BRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721052031; c=relaxed/simple;
-	bh=RgfB9i51/BJ2f/wvWX+DMEe+gK+qdqWx8xFVzEBeYjQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N4RIjTaQqLC/yEgngr3iE/9f+l0XThvRuC8EX8rsuzzhcw89GP3ScCJUowRXEBDn/pfQA22JFKCzWJJXyOhoJbHsr0xGn2+iuw+FNZJKNlCc6J1ZCZrfJYwF7d4AOB7ctUC3h48HsbxU+KnZz/2EDzsaxYgpJTofuDhaosIwoYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iouLH9V0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iouLH9V0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721052029;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GVYJ4ne2AQmg1BRrD/nHV6rBCTnsNSLJ9SYDD3aJK7U=;
-	b=iouLH9V0r7NXjv492HxJHVYgNUUd3aKxDRXlH/51Cx3yG4yWglxd665w6HJnwHVgDt6z2B
-	DCFvYSKRjY9Zysnwbqc0a94sxl3x+56j0jldsBJxj1dVn9rohbVg5zXe6jYsjsuzFXsawU
-	EAPsmTnaPTlpHIM6k8ZPLISc+wwyVcA=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-3-mbyqor8aNMOa0P2D-TnHjQ-1; Mon,
- 15 Jul 2024 10:00:23 -0400
-X-MC-Unique: mbyqor8aNMOa0P2D-TnHjQ-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 75D031955D4C;
-	Mon, 15 Jul 2024 14:00:20 +0000 (UTC)
-Received: from [10.22.9.29] (unknown [10.22.9.29])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 078DA1955D42;
-	Mon, 15 Jul 2024 14:00:17 +0000 (UTC)
-Message-ID: <3061f280-5a4a-4ff6-8b90-ab667a7e8e48@redhat.com>
-Date: Mon, 15 Jul 2024 10:00:17 -0400
+	s=arc-20240116; t=1721052126; c=relaxed/simple;
+	bh=B4E4p8BrMrhrC5orvlrwTPX8j2UKBdQTzuEZehStOlw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Z4gWdg2OnIxvUbGaCvDiPZ/n+2bjmvUdUb/5VtE61xgOed7TR+4fMc4TCbH8ykk5PSZ5rLcHiiYeHOmhMaZ1I8xuq7EGsGkBpRxN1cxljZG8h52SX2ScMkcCGsiW5CfzFXYm9Q7tncypzGeSqDcaiIvQc42Kgq2OY2Crwvy78GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 045B892009D; Mon, 15 Jul 2024 16:01:58 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id F103C92009C;
+	Mon, 15 Jul 2024 15:01:58 +0100 (BST)
+Date: Mon, 15 Jul 2024 15:01:58 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, 
+    "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
+    =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
+In-Reply-To: <ac94941f-3ac3-4820-b94d-aeb72a7a7a5c@app.fastmail.com>
+Message-ID: <alpine.DEB.2.21.2407151422040.51207@angie.orcam.me.uk>
+References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com> <Zn1FuxNw2CUttzdg@alpha.franken.de> <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com> <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk> <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
+ <Zoz6+YmUk7CBsNFw@alpha.franken.de> <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com> <Zo457UgAkhbAgm2R@alpha.franken.de> <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk> <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
+ <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk> <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com> <alpine.DEB.2.21.2407121250350.38148@angie.orcam.me.uk> <dad7b36f-2e37-44db-939e-cdb454875e2a@app.fastmail.com> <alpine.DEB.2.21.2407150225310.58077@angie.orcam.me.uk>
+ <ac94941f-3ac3-4820-b94d-aeb72a7a7a5c@app.fastmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-patch v6] cgroup: Show # of subsystem CSSes in cgroup.stat
-To: Kamalesh Babulal <kamalesh.babulal@oracle.com>, Tejun Heo
- <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Roman Gushchin <roman.gushchin@linux.dev>
-References: <20240712232959.2494935-1-longman@redhat.com>
- <8481d9d6-04dd-4c33-ad38-fc8ca1667d16@oracle.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <8481d9d6-04dd-4c33-ad38-fc8ca1667d16@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=US-ASCII
 
-On 7/13/24 11:50, Kamalesh Babulal wrote:
-> On 7/13/24 4:59 AM, Waiman Long wrote:
->> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
->> help manage different structures in various cgroup subsystems by being
->> an embedded element inside a larger structure like cpuset or mem_cgroup.
->>
->> The /proc/cgroups file shows the number of cgroups for each of the
->> subsystems.  With cgroup v1, the number of CSSes is the same as the
->> number of cgroups.  That is not the case anymore with cgroup v2. The
->> /proc/cgroups file cannot show the actual number of CSSes for the
->> subsystems that are bound to cgroup v2.
->>
->> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
->> we can't tell by looking at /proc/cgroups which cgroup subsystems may
->> be responsible.
->>
->> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
->> cgroup.stat file is now being extended to show the number of live and
->> dying CSSes associated with all the non-inhibited cgroup subsystems
->> that have been bound to cgroup v2 as long as they are not both zero.
->> The number includes CSSes in the current cgroup as well as in all the
->> descendants underneath it.  This will help us pinpoint which subsystems
->> are responsible for the increasing number of dying (nr_dying_descendants)
->> cgroups.
->>
->> The CSSes dying counts are stored in the cgroup structure itself
->> instead of inside the CSS as suggested by Johannes. This will allow
->> us to accurately track dying counts of cgroup subsystems that have
->> recently been disabled in a cgroup. It is now possible that a zero
->> subsystem number is coupled with a non-zero dying subsystem number.
->>
->> The cgroup-v2.rst file is updated to discuss this new behavior.
->>
->> With this patch applied, a sample output from root cgroup.stat file
->> was shown below.
->>
->> 	nr_descendants 56
->> 	nr_subsys_cpuset 1
->> 	nr_subsys_cpu 43
->> 	nr_subsys_io 43
->> 	nr_subsys_memory 56
->> 	nr_subsys_perf_event 57
->> 	nr_subsys_hugetlb 1
->> 	nr_subsys_pids 56
->> 	nr_subsys_rdma 1
->> 	nr_subsys_misc 1
->> 	nr_dying_descendants 30
->> 	nr_dying_subsys_cpuset 0
->> 	nr_dying_subsys_cpu 0
->> 	nr_dying_subsys_io 0
->> 	nr_dying_subsys_memory 30
->> 	nr_dying_subsys_perf_event 0
->> 	nr_dying_subsys_hugetlb 0
->> 	nr_dying_subsys_pids 0
->> 	nr_dying_subsys_rdma 0
->> 	nr_dying_subsys_misc 0
->>
->> Another sample output from system.slice/cgroup.stat was:
->>
->> 	nr_descendants 32
->> 	nr_subsys_cpu 30
->> 	nr_subsys_io 30
->> 	nr_subsys_memory 32
->> 	nr_subsys_perf_event 33
->> 	nr_subsys_pids 32
->> 	nr_dying_descendants 32
->> 	nr_dying_subsys_cpu 0
->> 	nr_dying_subsys_io 0
->> 	nr_dying_subsys_memory 32
->> 	nr_dying_subsys_perf_event 0
->> 	nr_dying_subsys_pids 0
->>
-> [...]
->
->> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
->> index c8e4b62b436a..73774c841100 100644
->> --- a/kernel/cgroup/cgroup.c
->> +++ b/kernel/cgroup/cgroup.c
->> @@ -3669,12 +3669,43 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
->>   static int cgroup_stat_show(struct seq_file *seq, void *v)
->>   {
->>   	struct cgroup *cgroup = seq_css(seq)->cgroup;
->> +	struct cgroup_subsys_state *css;
->> +	int dying_cnt[CGROUP_SUBSYS_COUNT];
->> +	int ssid;
->>   
->>   	seq_printf(seq, "nr_descendants %d\n",
->>   		   cgroup->nr_descendants);
->> +
->> +	/*
->> +	 * Show the number of live and dying csses associated with each of
->> +	 * non-inhibited cgroup subsystems that is either enabled in current
->> +	 * cgroup or has non-zero dying count.
->> +	 *
->> +	 * Without proper lock protection, racing is possible. So the
->> +	 * numbers may not be consistent when that happens.
->> +	 */
->> +	rcu_read_lock();
->> +	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
->> +		dying_cnt[ssid] = -1;
->> +		if (BIT(ssid) & cgrp_dfl_inhibit_ss_mask)
->> +			continue;
->> +		css = rcu_dereference_raw(cgroup->subsys[ssid]);
->> +		if (!css && !cgroup->nr_dying_subsys[ssid])
->> +			continue;
-> Sorry, If I have misread the discussion from the other thread about displaying
-> nr_descendants and nr_dying_subsys_<subsys>. I believe the idea was to print
-> them for enabled and disabled cgroup controllers, so the output stays consistent
-> and does not vary depending on the enabled controllers or previously enabled
-> controller with nr_dying_subsys > 0.
->
-> For example, on a rebooted vm:
->
-> # cd /sys/fs/cgroup/
-> # cat cgroup.subtree_control
-> cpu memory pids
->
-> # mkdir foo
-> # cat foo/cgroup.stat
-> nr_descendants 0
-> nr_subsys_cpu 1
-> nr_subsys_memory 1
-> nr_subsys_perf_event 1
-> nr_subsys_pids 1
-> nr_dying_descendants 0
-> nr_dying_subsys_cpu 0
-> nr_dying_subsys_memory 0
-> nr_dying_subsys_perf_event 0
-> nr_dying_subsys_pids 0
->
-> # echo '+cpuset' > cgroup.subtree_control
->
-> # cat foo/cgroup.stat
-> nr_descendants 0
-> nr_subsys_cpuset 1
-> nr_subsys_cpu 1
-> nr_subsys_memory 1
-> nr_subsys_perf_event 1
-> nr_subsys_pids 1
-> nr_dying_descendants 0
-> nr_dying_subsys_cpuset 0
-> nr_dying_subsys_cpu 0
-> nr_dying_subsys_memory 0
-> nr_dying_subsys_perf_event 0
-> nr_dying_subsys_pids 0
+On Mon, 15 Jul 2024, Jiaxun Yang wrote:
 
-I am fine with fine with that. I will update the patch as suggested.
+> >  I don't know what prctl(2) has to do with this.  If you don't implement 
+> > this part, then your change will cause Linux to behave inconsistently and 
+> > therefore I'll have to NAK it.
+> 
+> I think your concern was regarding user space application needs to set NaN2008 bits
+> at runtime?
 
-Thanks,
-Longman
+ Nope, following the objective of your change: the EF_MIPS_NAN2008 ELF 
+file header flag instructs the kernel to choose between hardware and 
+emulated hard float and that's not supposed to change later on throughout 
+the life of the program, because it's not something the program can do 
+itself, because writes to FCSR.NAN2008 are ignored by hardware.  And it's 
+not a functional regression, because flipping FCSR.NAN2008 isn't allowed 
+by hardware concerned anyway, we just want to have it consistent including 
+the debugger interface.
 
->> +
->> +		dying_cnt[ssid] = cgroup->nr_dying_subsys[ssid];
->> +		seq_printf(seq, "nr_subsys_%s %d\n", cgroup_subsys[ssid]->name,
->> +			   css ? (css->nr_descendants + 1) : 0);
->> +	}
->> +
->>   	seq_printf(seq, "nr_dying_descendants %d\n",
->>   		   cgroup->nr_dying_descendants);
->> -
->> +	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
->> +		if (dying_cnt[ssid] >= 0)
->> +			seq_printf(seq, "nr_dying_subsys_%s %d\n",
->> +				   cgroup_subsys[ssid]->name, dying_cnt[ssid]);
->> +	}
->> +	rcu_read_unlock();
->>   	return 0;
->>   }
->>   
+> >  It's not much to do anyway, as I have prepared `ptrace_setfcr31' already 
+> > to handle masking correctly, so all you have to do is to set the mask as 
+> > required for the right thing to happen.  I shouldn't have needed to point 
+> > you at it though, as that code is easy to find.
+> 
+> I think I got your point, will try to implement it.
 
+ Thank you.
+
+> >  This doesn't matter either, as your change only addresses the case where 
+> > FCSR.NAN2008 isn't writable anyway, which is the sole reason you want to 
+> > switch between native hard float support and emulation, doesn't it?
+> >
+> >  In fact where FCSR.NAN2008 is writable your new mode has to be equivalent
+> > to "ieee754=strict", because then there is no need to trigger emulation 
+> > for either NaN mode.  Please do verify that this is the case.
+> 
+> This had been verified with perf math-emu counters to ensure no unnecessary emulation
+> is triggered.
+
+ Thanks.
+
+> >  That doesn't matter for us here (and I have a bad suspicion anyway), but 
+> > the Debian team is of course free to do what they want here, the GNU GPL 
+> > applies.
+> 
+> We care about our downstream users, don't we?
+
+ There is a balance for us to keep.  Requests made have to be reasonable
+and code contributed has to be architected well and meet quality criteria.  
+Every change carries its associated cost and especially with the limited 
+manpower available we can't afford having a technical debt created.  Any 
+unclean piece of code accepted will strike us back sooner or later.
+
+> They asked me to help and that was my solution. I sincerely want to get this change upstreamed
+> to cover some downstream use cases.
+
+ If it's your own genuine from-scratch implementation, then I have more 
+faith in it.
+
+> I don't know what theory do you have here, but that's all stories behind.
+
+ I have seen odd requests and code changes stemming from embarassing lack 
+of understanding how things work with the MIPS architecture.
+
+> >  And also they can always use the "nofpu" kernel parameter to run their 
+> > verification.  I used it for mine back at ImgTec before 2008 NaN hardware 
+> > was available, also to verify emulation, which I wrote too.  Perhaps that 
+> > is also the right solution for Debian actually?
+> 
+> I'll suggest to them, thanks.
+
+ I note that it's been like this since 2015 and it has been documented:
+
+	ieee754=	[MIPS] Select IEEE Std 754 conformance mode
+			Format: { strict | legacy | 2008 | relaxed }
+			Default: strict
+[...]
+			The FPU emulator is always able to support both NaN
+			encodings, so if no FPU hardware is present or it has
+			been disabled with 'nofpu', then the settings of
+			'legacy' and '2008' strap the emulator accordingly,
+			'relaxed' straps the emulator for both legacy-NaN and
+			2008-NaN, whereas 'strict' enables legacy-NaN only on
+			legacy processors and both NaN encodings on MIPS32 or
+			MIPS64 CPUs.
+
+(see the part following the last comma in particular).  It usually makes 
+sense to read documentation and I'd expect MIPS Debian port experts to do 
+it from time to time.
+
+  Maciej
