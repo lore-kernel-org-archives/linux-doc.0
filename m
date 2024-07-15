@@ -1,199 +1,164 @@
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6510E18C338;
-	Mon, 15 Jul 2024 12:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0826118C176;
+	Mon, 15 Jul 2024 12:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721047024; cv=none; b=Hbmf6+z9waM2r5+OkvL3Po+6BLefhEsuRP9P3vQX7SAFoUP6N2U7Hp2cg3L08kYKJ6L9eO3OL0HKCvPYaM7ZFgdvx0U7V4tudVdyRNezmP1Iv+SiDi5aQriX590BWLFqIlPFwEgM7QpkT7bf0YRCUl60KPXtll2Jc9LVCPnyl60=
+	t=1721047751; cv=none; b=UTiZOO4klNFjygCkS4m+7E39WP7fmJuCBRgSK0ZNDUcehapXaEMWxVO1J/n8LtobChAJ4gJyT+IugEg/LSWwQUS7+82jMKwW6UD7FWKWCjXDuDfvWU25FPmzDwIvTjnlE91zp6+Fljj+D9kz9wF4o2Sf5MDxDisAX4KWpbegyMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721047024; c=relaxed/simple;
-	bh=N3PTOC6sWEpSEYoAWJezS70/M83GsLYtwX/g0boo1Rs=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=uV0M02EuU1U/ZDbGeMkolyyD6IBJsO/L9A5S+OYqJF1t+ibtw0eYsKlMMuPD4Uk5ExiPiafi9O2M+m+w7WtjLCpEQD16gceA7+TsqRLEkhmL1YsUhWhnSSRA0oAi5TyToEzdTFEU+L8ogVBtj7Ggl/53P7v+SO2fGIqgcvs0ZzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=Xz9fG1bV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oKUh37pE; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+	s=arc-20240116; t=1721047751; c=relaxed/simple;
+	bh=xFFgpft1Mea2W1k9CRfnoGMXT8jsvAC5W7aI49zY2Ho=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XsbhcRmzenHvMKxFjCO9t2VfP7tScdIiWJSDyORlINKZm+M11+6hne6RDEpdCfZn0eJGxYTSeOgHtvfVbmf7DmaOEK/Kpzzx1J264z8avgOWZQZwHNSrC/GFgIFel4fgsapAITcGgYeZUkYePxKcPHjySrVMnsOU4ymXVmdxGdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hHO0YxtV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="Xz9fG1bV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oKUh37pE"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 819B41388C65;
-	Mon, 15 Jul 2024 08:37:01 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
-  by compute3.internal (MEProxy); Mon, 15 Jul 2024 08:37:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1721047021;
-	 x=1721133421; bh=HlZuP9r9uYA4qH3ebyoGUrlDKd8G/Hmiliqj2CCJC58=; b=
-	Xz9fG1bVRVN43aT4AhxhFpEMazClSDNF7Eg2mqLdC5s6NT/xPx6KGSEuwf3yx7+O
-	maQQ2LC/r5LbsE4GnQxb7r1yTwuOyvhVwxFAlR/z6phCR9QzLRbJIP0GQR79aLHc
-	5Sf1xQ/WvCepSN7tabfAbODA0zP0Q2EKP0Azdo97Hk+/vUQiLCMZqzUt9mSLeIpk
-	937HwPxwlISrhNgjl6xiA9LVySU+iTUosJMpjg+G7APhksyGciloIugDYppIwBLj
-	U2VKdeY9gkskWCfYsBRohonzEkM0JfirAVMmqiOIdK68dgdRLzVaYfusOSd5rU/f
-	AWvePFNQDrgT63GUyEeHWQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1721047021; x=
-	1721133421; bh=HlZuP9r9uYA4qH3ebyoGUrlDKd8G/Hmiliqj2CCJC58=; b=o
-	KUh37pEGj46IICxdEHFxb2Vi1hvn6iRj+NAwSnU7X9RO4x9xZ5C0UMp9ZYUGlw+0
-	+noF80C9JagRVfcgEjZWZlgo+Qdv3gwFYFARFan/M4Gt+PWQorvmuPqkbFkFHMki
-	9gpl+rwSG2UkStLoh118nIlLKio+AABh6/9T//xLV24wxALjAFn2zkonvMUFCB5C
-	PO7xgmqexSZ35gDHNgYHiYatDzg+tJtBul4AxvKTFJeTBUrxmi7KKIF3HIblTqcD
-	CofruPOOr/7UZTNAwvhOR0uvkP4GgyhhKfg4iLga0pcfOrLOiSKsh2GdqaljC13L
-	hotDYNnaDy/oergy/KzPQ==
-X-ME-Sender: <xms:6xeVZuoVzlmsmk3PgpB2ntcL77tFGXdSHwUAZxCagTionCIwhLvsSw>
-    <xme:6xeVZsqsHcwRGF4y7zrwywCIlM5zZk3X_oyePYCoI3SznMdWf4jO3A1_taNg87int
-    cQ1bzJS9KS96_4J9Jc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrgedvgdehgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
-    rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-    eqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefhjeeu
-    geevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:6xeVZjNmeP-Qft_UbzQurJRx5PSp0FubXQM0vys6I45YN5UICEDG_g>
-    <xmx:6xeVZt7B_KceenXlmU6Ykxjh7i2rhGH9wKg2Kkmv4o0nDiAf0yExjA>
-    <xmx:6xeVZt7DtxX-0Mm4WXRKNZyeV197AoLACvoJ1NxX5-Kgt5Xef9ktnQ>
-    <xmx:6xeVZth1xu4A2nWri4iB1zY3ScYH6rVge9Ohbn_vebUmGprLZmd2Qg>
-    <xmx:7ReVZqvJ9MKpOEYA9FFwYA8bYTl9nArgoKWvU76gddVGYYFr_IwZTzKf>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id C7DBC36A0074; Mon, 15 Jul 2024 08:36:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hHO0YxtV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE245C32782;
+	Mon, 15 Jul 2024 12:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721047750;
+	bh=xFFgpft1Mea2W1k9CRfnoGMXT8jsvAC5W7aI49zY2Ho=;
+	h=From:Subject:Date:To:Cc:From;
+	b=hHO0YxtV0sA7lKQy/qpLsAUoBj1SK5dbWWh/2CEfEcmYykhD36/pSSmr7qi/ixBVF
+	 jQ0qVn2G1Kctx7Xm/CRjFjBCp0cmcJrckKdNxBA084n9hdWkj55fal7wkSfI0Bwhkn
+	 e2/wyIH70/thsGeXp+3qb9BEC1AxXsogak1p2XusxeoG/s9fCWGxD7amUEZz6nz/Kz
+	 +eSbbBfQMq8Oguwj6tUjlMYhaHKipf4O+J+TxukYaaBTMYbvn4bFjCkS0gS6nEDygw
+	 LOhWc+6Z9oxKKkF9i/dNle20vVbucj4mcDeyWNQz+SaZ0KzI1jvKqTywtRnUVppgrM
+	 frsjZG+6s597g==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v6 0/9] fs: multigrain timestamp redux
+Date: Mon, 15 Jul 2024 08:48:51 -0400
+Message-Id: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ac94941f-3ac3-4820-b94d-aeb72a7a7a5c@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2407150225310.58077@angie.orcam.me.uk>
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
- <Zn1FuxNw2CUttzdg@alpha.franken.de>
- <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
- <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk>
- <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
- <Zoz6+YmUk7CBsNFw@alpha.franken.de>
- <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
- <Zo457UgAkhbAgm2R@alpha.franken.de>
- <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
- <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com>
- <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
- <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com>
- <alpine.DEB.2.21.2407121250350.38148@angie.orcam.me.uk>
- <dad7b36f-2e37-44db-939e-cdb454875e2a@app.fastmail.com>
- <alpine.DEB.2.21.2407150225310.58077@angie.orcam.me.uk>
-Date: Mon, 15 Jul 2024 20:35:21 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALMalWYC/2XOQW7DIBAF0KtErEs0AwyGrHqPqgsw4KA0doUjq
+ 1Xkuwdn4Tjy8o/mff07G2PJcWSnw52VOOUxD30N+uPA2rPru8hzqJkJEAq00Pza3fI1cmqDAY8
+ mGARWn39LTPnvWfT1XfM5j7eh/D97J1yuu4oJOXCHxkoSAZJJn5dY+vhzHErHlo5JvFwDuDpRH
+ dqgUDirINidk1tHq5PVGfIiOGe9lLRzauvM6tSyE5JsdfLUJLlztHH42knVycZ78kpTiv7NzfP
+ 8AGWAWtd9AQAA
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Chandan Babu R <chandan.babu@oracle.com>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
+ Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
+ Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
+ Kent Overstreet <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3631; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=xFFgpft1Mea2W1k9CRfnoGMXT8jsvAC5W7aI49zY2Ho=;
+ b=kA0DAAgBAA5oQRlWghUByyZiAGaVGr2g4UrC2NR/JuNqzaZKyhN0Ef4ZmpMvcH7PbDDPZHHRV
+ IkCMwQAAQgAHRYhBEvA17JEcbKhhOr10wAOaEEZVoIVBQJmlRq9AAoJEAAOaEEZVoIVTjQP/jX+
+ FkDKAs3wVJ5Axae25xxqh3+9eKr0TZGpOgkPagjwLT6v3f9XdjTx2D+ny31MbxZx/8McTCh5CqJ
+ MGiEx4rfChljA39Fo/tW9wXGqNRPbnTWdKXc4PfP6WoC0NVtDBRFQtLB9NypjpBFG8NEMhzxWHi
+ 7d4e3cfDb9xiU6JM0NjmIligXvUQiWXAKnzPfPQO2IFF4dbLuMieQdwv2aJcpR6dFseL1XsEWSP
+ CEvJfHO1LicNtZ2HnTCUN4THmgXqRq2+DCAh13kGt63mbgaWg2ZdMaxzjlKn0Q6PzgYGca0jJJS
+ /6R4MROk86E+GnGt7CkR42Qll5QKwzReKTCAlZBQBuECkMcOTMGUaJnMKBb4aSH+pgfdEO53CQ3
+ f/jO/nubRe3e1M7r7xjT3fGDfTXAecDgT8CjXnAlGDjyXfapx+cjnMSROMycWqsPxaVAlZmSKXt
+ nxZ5qgK/wv5IwQt9KknfIKDoV6xiK+u27ekJ+feAYc/e5dUd+m2AzN+LIf3X0K8n917ky5sZKvB
+ mhpyaxFsNuX78/dILLUSGbie3FmjWHzJokfYwLfrwSUt3LYE4YXJ/gXEgHs+eQhmU8HV0GiD4QQ
+ nKvv2railk/i6NH5pvQy2msnvWcNvs2yvwaMevWsvEqFLM6yFTMJH90b3Rw/l3SSF7mq6YQrGzf
+ DJstS
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
+I think this is pretty much ready for linux-next now. Since the latest
+changes are pretty minimal, I've left the Reviewed-by's intact. It would
+be nice to have acks or reviews from maintainers for ext4 and tmpfs too.
 
+I did try to plumb this into bcachefs too, but the way it handles
+timestamps makes that pretty difficult. It keeps the active copies in an
+internal representation of the on-disk inode and periodically copies
+them to struct inode. This is backward from the way most blockdev
+filesystems do this.
 
-=E5=9C=A82024=E5=B9=B47=E6=9C=8815=E6=97=A5=E4=B8=83=E6=9C=88 =E4=B8=8B=E5=
-=8D=888:15=EF=BC=8CMaciej W. Rozycki=E5=86=99=E9=81=93=EF=BC=9A
-[..]
->  I don't know what prctl(2) has to do with this.  If you don't impleme=
-nt=20
-> this part, then your change will cause Linux to behave inconsistently =
-and=20
-> therefore I'll have to NAK it.
+Christian, would you be willing to pick these up  with an eye toward
+v6.12 after the merge window settles?
 
-I think your concern was regarding user space application needs to set N=
-aN2008 bits
-at runtime?
+Thanks!
 
-In this case, the best interface to inform kernel about NaN2008 changes =
-is prctl.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v6:
+- Normalize timespec64 in inode_set_ctime_to_ts
+- use DEFINE_PER_CPU counters for better vfs consistency
+- skip ctime cmpxchg if the result means nothing will change
+- add trace_ctime_xchg_skip to track skipped ctime updates
+- use __print_flags in ctime_ns_xchg tracepoint
+- Link to v5: https://lore.kernel.org/r/20240711-mgtime-v5-0-37bb5b465feb@kernel.org
 
-I may misinterpret your comments.
+Changes in v5:
+- refetch coarse time in coarse_ctime if not returning floor
+- timestamp_truncate before swapping new ctime value into place
+- track floor value as atomic64_t
+- cleanups to Documentation file
+- Link to v4: https://lore.kernel.org/r/20240708-mgtime-v4-0-a0f3c6fb57f3@kernel.org
 
->
->  It's not much to do anyway, as I have prepared `ptrace_setfcr31' alre=
-ady=20
-> to handle masking correctly, so all you have to do is to set the mask =
-as=20
-> required for the right thing to happen.  I shouldn't have needed to po=
-int=20
-> you at it though, as that code is easy to find.
+Changes in v4:
+- reordered tracepoint fields for better packing
+- rework percpu counters again to also count fine grained timestamps
+- switch to try_cmpxchg for better efficiency
+- Link to v3: https://lore.kernel.org/r/20240705-mgtime-v3-0-85b2daa9b335@kernel.org
 
-I think I got your point, will try to implement it.
+Changes in v3:
+- Drop the conversion of i_ctime fields to ktime_t, and use an unused bit
+  of the i_ctime_nsec field as QUERIED flag.
+- Better tracepoints for tracking floor and ctime updates
+- Reworked percpu counters to be more useful
+- Track floor as monotonic value, which eliminates clock-jump problem
 
->
->> We are unable to prevent user applications write NAN2008 bits for the=
- "switchable
->> QEMU" as well. So I'd perfer leave it as is, and let this feature go =
-into 6.11 so people
->> can start to use it.
->
->  This doesn't matter either, as your change only addresses the case wh=
-ere=20
-> FCSR.NAN2008 isn't writable anyway, which is the sole reason you want =
-to=20
-> switch between native hard float support and emulation, doesn't it?
->
->  In fact where FCSR.NAN2008 is writable your new mode has to be equiva=
-lent
-> to "ieee754=3Dstrict", because then there is no need to trigger emulat=
-ion=20
-> for either NaN mode.  Please do verify that this is the case.
+Changes in v2:
+- Added Documentation file
+- Link to v1: https://lore.kernel.org/r/20240626-mgtime-v1-0-a189352d0f8f@kernel.org
 
-This had been verified with perf math-emu counters to ensure no unnecess=
-ary emulation
-is triggered.
+---
+Jeff Layton (9):
+      fs: add infrastructure for multigrain timestamps
+      fs: tracepoints around multigrain timestamp events
+      fs: add percpu counters for significant multigrain timestamp events
+      fs: have setattr_copy handle multigrain timestamps appropriately
+      Documentation: add a new file documenting multigrain timestamps
+      xfs: switch to multigrain timestamps
+      ext4: switch to multigrain timestamps
+      btrfs: convert to multigrain timestamps
+      tmpfs: add support for multigrain timestamps
 
->
->> This is actually a request from Debian MIPS team so they can get glib=
-c tests run on
->> mismatched NaN hardware.
->
->  That doesn't matter for us here (and I have a bad suspicion anyway), =
-but=20
-> the Debian team is of course free to do what they want here, the GNU G=
-PL=20
-> applies.
+ Documentation/filesystems/multigrain-ts.rst | 120 +++++++++++++
+ fs/attr.c                                   |  52 +++++-
+ fs/btrfs/file.c                             |  25 +--
+ fs/btrfs/super.c                            |   3 +-
+ fs/ext4/super.c                             |   2 +-
+ fs/inode.c                                  | 251 +++++++++++++++++++++++++---
+ fs/stat.c                                   |  39 ++++-
+ fs/xfs/libxfs/xfs_trans_inode.c             |   6 +-
+ fs/xfs/xfs_iops.c                           |  10 +-
+ fs/xfs/xfs_super.c                          |   2 +-
+ include/linux/fs.h                          |  34 +++-
+ include/trace/events/timestamp.h            | 124 ++++++++++++++
+ mm/shmem.c                                  |   2 +-
+ 13 files changed, 592 insertions(+), 78 deletions(-)
+---
+base-commit: bb83a76c647a96db4c9ae77b0577170da4d7bd77
+change-id: 20240626-mgtime-5cd80b18d810
 
-We care about our downstream users, don't we?
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
 
-There are some lags on Debian buildd queue for mips64el due to lack of h=
-igh performance
-hardware with huge memory.
-They were about to source some Loongson 3A4000, which is NaN2008 only. B=
-ut many packages
-test cases are failing on it due to NaN2008.
-They asked me to help and that was my solution. I sincerely want to get =
-this change upstreamed
-to cover some downstream use cases.
-
-I don't know what theory do you have here, but that's all stories behind.
-
->
->  And also they can always use the "nofpu" kernel parameter to run thei=
-r=20
-> verification.  I used it for mine back at ImgTec before 2008 NaN hardw=
-are=20
-> was available, also to verify emulation, which I wrote too.  Perhaps t=
-hat=20
-> is also the right solution for Debian actually?
-
-I'll suggest to them, thanks.
-
->
->   Maciej
-
---=20
-- Jiaxun
