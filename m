@@ -1,205 +1,151 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED041B947;
-	Mon, 15 Jul 2024 16:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3775E46556
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 16:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721061502; cv=none; b=bwKgVTeSxjoEOe7dHlqGMVqhAbcLTlah9QZZ1/yS5kYxTpA+GguTyMvURlGHG6BtSfKnoBoj8nnvNkDqlgYAzFTuGIcUEd+pzTpaVVyryMzCvj4au2PZ51HiSAYDOmaO0lE7h0hq86Fnl1zCKp9l1naDGSmknlMpSmWe5J+wCVs=
+	t=1721061629; cv=none; b=qIL7rg+KCFqyPMKLSmthJwtJ++Tjnr0D8DuN9ZkIYlIJNzA+ckTbk2t/KgAO6l0bUJ+SFhVHXWpHIENkUpZ12MtAkijvb5g5+v/vUcFSNTMvVvgRma22vwHdEeje7+shhnFmj7iik8QqAJTiYkDaxExaMhkPN867IIPziAjbr5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721061502; c=relaxed/simple;
-	bh=qgu/lqYAbsMY3Y/CR7P9kueQ+mkWNglW5jmKaUpiKvA=;
+	s=arc-20240116; t=1721061629; c=relaxed/simple;
+	bh=kBWBnjXh7VOgbtn1rxNBCQXca9txmQle+V4SDlhC8HI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sybipmr/AOxG4AVnh2kZMxA1w32TYxJtHE0DCETYJN4r7LjA5tyCUAzCfMuf+zXI4VKnfi0555d9/63fka+l4aErwRjmRd1xiOmyh8KUt9xTc5sywiQCIVZQM2FXaJp135vM0MQSYQfDTI1pZblbOrxYU9dg1XMLMqJQD9M4UzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e03a8955ae3so4321537276.1;
-        Mon, 15 Jul 2024 09:38:20 -0700 (PDT)
+	 To:Cc:Content-Type; b=XFDhEQCi+Qd2tESZf7BqumhobV/1yrMzYLctpmaxMKzrZTmSEyeBnA6LZfEgNwhQF197mxJsAX8hG+IdazRN/ZKvVHe9YEX42G+wuJkHVk3ffrWOaotHAS+lwc7a2O2iX0uNqEhUXwqSr9s9bWMJk5zWBMckegP/JU2/7txYKs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XU6zqNTr; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XU6zqNTr"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6b5e760eb36so27096856d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 09:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1721061623; x=1721666423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q43fP/YwIscAu2HdaErO2TBIovUlIaQMWdgLOPVgO94=;
+        b=XU6zqNTryXv3s8FpkljJm3gLDCklCN+bU5KnWRob2tJPRx1V8AfNoH+9fSaeZnOQRa
+         nF+wGCC1PehulayCbhiCwIn/+9hrCBTjCmSW/TktrSojHIWaBulYlntSdZz009aGY4In
+         dLoCPE9Q4FIzYAW+kH69YRnrhP/a48uUpNks4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721061500; x=1721666300;
+        d=1e100.net; s=20230601; t=1721061623; x=1721666423;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hCfzf+ZYr6fSEcwCU6k1QzgjmW+yoSht8cV8vDR8q08=;
-        b=WOIddJhQ+CCxKcLVsnfVlrzCHG12LZ7FFDW4q9dIGW9EkLO3Eq99zOHqvUO3/H8tVI
-         z6eMIOXCphXxSvRVoytgBxtJ7jq8sJX7bltpuurbpu5H/Bj98dzV6sctqnnNlTBHd9bb
-         E4M/tv/US5d9pq25TkR/gn+s+FrmgJSt8yyT1akCXxl7gR6VcCRzgz+p4+ZaaTUo3WLx
-         ATRfhgNuZOOWvZMd89VRD7hXhVxPwMFnTRIZfVKVn/MH/7nUmgiPKPWGTt6zt0N3k4nG
-         mHb6TWbM5JwV126ZyzTug7XSkq5x5giHZvo5XAqn1HSWrbok6VzFrAFKK1IDZ72NeTWB
-         BTiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0ib2Qmob+fiSsfgAHoDrh+jumD18QAVltRMcWQkU7Qqyb9kpwH2tAOjF1JqP69gbuZkV8B3HIjqR0NDh7RoEdA7gUJEf0oxkit4Z96hmoPOUUXpe0RixhgmfkHCU+RCqBOE9tE3V26agQE7+coReP3BAqyigyPAyC/fVWI2NN3VVmSg==
-X-Gm-Message-State: AOJu0Yz18Hr49e0wpxoEgYVMk2IAFj7SbHc5aDg28zaNgAXZ3HOuSaQp
-	PrJlpby0iIVdUuqNn97HWjyZPbUGY6rE/ADtFPS6Oe1dkpNxdW6BDHWre6Vbnydwb4/RFmGutyq
-	inm7Avg5Qtnbg3g2cx5syRdQoCM0=
-X-Google-Smtp-Source: AGHT+IHO3MFh0Zcrn7/0Ez1ZK0BiKXuuGpYtz6OSAt++roYQ1HSLajvoAdDxIfBC3vp6Cxha1htLluUOJucczWkgPy8=
-X-Received: by 2002:a05:6902:c01:b0:e03:a1e4:441c with SMTP id
- 3f1490d57ef6-e05d3abf469mr140440276.16.1721061499918; Mon, 15 Jul 2024
- 09:38:19 -0700 (PDT)
+        bh=Q43fP/YwIscAu2HdaErO2TBIovUlIaQMWdgLOPVgO94=;
+        b=KEJhHzPc0iu1vhJ4/C0qR9Qs6vODZZA286U9XMY6RTrZVJ7nRhQNITZHmeyjgf0Lbi
+         Qc4n1WouJVC689nC/aCp0EAKbpMBznfxja7Gg8ubmyIibqpiqrmXVY3pwiSLFtVwEZ64
+         oyrKVni3LxLY1tOhQcfVf1d3nopyY2JVm17dLkL386D7jhdcbZiweKixMZWM2HyUNtxc
+         xtWptZmMN0aOQ8ggoRGNv7mglcjSjOBB5vJ/NkABqsiZzLvQ237vUbEJ2q3ovoHNAoZT
+         NKxZiLDO4f0AhvORNZPun1fgF6ePKSyufu9dAAJG1QavaC7wL1Vl439Ia0uXh4xjk+oW
+         GkFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXm/XRqTEFu2noHGOZhzyRrvWbQg8hckbpaiRsb29O6kpxjHTuX0WXValP4/xw4yjk3mi6NzQGqtF2uKgRNczKqNaNYgLqm1qK1
+X-Gm-Message-State: AOJu0YyvCj9f5YC5cb7vmrZqZZkyDB7M8tJ5Wu15rJJUiYxJw+EeKD3t
+	TaPNpYYVoJnPo6l4vp26t4xLgTkT/mm15QXNSx8F+94ZJpYcTj765muMWzOCQM/USBRktHyTeD4
+	=
+X-Google-Smtp-Source: AGHT+IGcJJyw0jBolKvZLF7RX5nZfyooNXBQVFzJTJusaCN9snArWsC+AgiNNm8ExbPLlNt0NhYBlw==
+X-Received: by 2002:a05:6214:19cb:b0:6b5:e663:4d4d with SMTP id 6a1803df08f44-6b77deb47a3mr2908416d6.30.1721061623121;
+        Mon, 15 Jul 2024 09:40:23 -0700 (PDT)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b76197d5b3sm22775056d6.41.2024.07.15.09.40.21
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jul 2024 09:40:22 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-447f8aa87bfso7401cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 09:40:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUJLydzP7AuVzxIvxIbZccVJo9hGeoLlPGOmeful6CQ68WtkC1R01eF9PQfmu1l85/h8z1smYkP5LugefeUP3FW2n72ke+kCf6w
+X-Received: by 2002:ac8:6908:0:b0:447:e497:95d0 with SMTP id
+ d75a77b69052e-44f5ac90b7dmr6164531cf.17.1721061621306; Mon, 15 Jul 2024
+ 09:40:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
- <Zn1FuxNw2CUttzdg@alpha.franken.de> <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
- <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk> <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
- <Zoz6+YmUk7CBsNFw@alpha.franken.de> <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
- <Zo457UgAkhbAgm2R@alpha.franken.de> <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
- <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com> <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
- <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com> <alpine.DEB.2.21.2407121250350.38148@angie.orcam.me.uk>
- <dad7b36f-2e37-44db-939e-cdb454875e2a@app.fastmail.com> <alpine.DEB.2.21.2407150225310.58077@angie.orcam.me.uk>
- <ac94941f-3ac3-4820-b94d-aeb72a7a7a5c@app.fastmail.com> <alpine.DEB.2.21.2407151422040.51207@angie.orcam.me.uk>
-In-Reply-To: <alpine.DEB.2.21.2407151422040.51207@angie.orcam.me.uk>
-From: YunQiang Su <syq@debian.org>
-Date: Tue, 16 Jul 2024 00:38:08 +0800
-Message-ID: <CAKcpw6UNM2xNw7vXhTSSq-bZ+TO_0Yy=frPtE3N4sZkNUSio1A@mail.gmail.com>
-Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
-	Nick Clifton <nickc@redhat.com>
+References: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+ <CAD=FV=VwebY8F3XjeVt6kvKwB7QZ8Khn5oJJoDThuemiGx9y+g@mail.gmail.com>
+In-Reply-To: <CAD=FV=VwebY8F3XjeVt6kvKwB7QZ8Khn5oJJoDThuemiGx9y+g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 15 Jul 2024 09:40:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UdsuEiyPK2K3sYdQm50WNukA5pxD=wUaEAVQStNnNA_A@mail.gmail.com>
+Message-ID: <CAD=FV=UdsuEiyPK2K3sYdQm50WNukA5pxD=wUaEAVQStNnNA_A@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Chris Morgan <macromorgan@hotmail.com>, 
+	Yuran Pereira <yuran.pereira@hotmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Maciej W. Rozycki <macro@orcam.me.uk> =E4=BA=8E2024=E5=B9=B47=E6=9C=8815=E6=
-=97=A5=E5=91=A8=E4=B8=80 22:02=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, 15 Jul 2024, Jiaxun Yang wrote:
->
-> > >  I don't know what prctl(2) has to do with this.  If you don't implem=
-ent
-> > > this part, then your change will cause Linux to behave inconsistently=
- and
-> > > therefore I'll have to NAK it.
-> >
-> > I think your concern was regarding user space application needs to set =
-NaN2008 bits
-> > at runtime?
->
->  Nope, following the objective of your change: the EF_MIPS_NAN2008 ELF
-> file header flag instructs the kernel to choose between hardware and
-> emulated hard float and that's not supposed to change later on throughout
-> the life of the program, because it's not something the program can do
-> itself, because writes to FCSR.NAN2008 are ignored by hardware.  And it's
-> not a functional regression, because flipping FCSR.NAN2008 isn't allowed
-> by hardware concerned anyway, we just want to have it consistent includin=
-g
-> the debugger interface.
->
-> > >  It's not much to do anyway, as I have prepared `ptrace_setfcr31' alr=
-eady
-> > > to handle masking correctly, so all you have to do is to set the mask=
- as
-> > > required for the right thing to happen.  I shouldn't have needed to p=
-oint
-> > > you at it though, as that code is easy to find.
-> >
-> > I think I got your point, will try to implement it.
->
->  Thank you.
->
-> > >  This doesn't matter either, as your change only addresses the case w=
-here
-> > > FCSR.NAN2008 isn't writable anyway, which is the sole reason you want=
- to
-> > > switch between native hard float support and emulation, doesn't it?
-> > >
-> > >  In fact where FCSR.NAN2008 is writable your new mode has to be equiv=
-alent
-> > > to "ieee754=3Dstrict", because then there is no need to trigger emula=
-tion
-> > > for either NaN mode.  Please do verify that this is the case.
-> >
-> > This had been verified with perf math-emu counters to ensure no unneces=
-sary emulation
-> > is triggered.
->
->  Thanks.
->
-> > >  That doesn't matter for us here (and I have a bad suspicion anyway),=
- but
-> > > the Debian team is of course free to do what they want here, the GNU =
-GPL
-> > > applies.
-> >
-> > We care about our downstream users, don't we?
->
->  There is a balance for us to keep.  Requests made have to be reasonable
-> and code contributed has to be architected well and meet quality criteria=
-.
-> Every change carries its associated cost and especially with the limited
-> manpower available we can't afford having a technical debt created.  Any
-> unclean piece of code accepted will strike us back sooner or later.
->
-> > They asked me to help and that was my solution. I sincerely want to get=
- this change upstreamed
-> > to cover some downstream use cases.
->
->  If it's your own genuine from-scratch implementation, then I have more
-> faith in it.
->
-> > I don't know what theory do you have here, but that's all stories behin=
-d.
->
->  I have seen odd requests and code changes stemming from embarassing lack
-> of understanding how things work with the MIPS architecture.
->
+Hi,
 
-I won't think that your reply makes any sense since you have a typo here.  =
-;)
-
-There is nothing in the world perfect I guess, while we need to
-continue our life
-and there are always new problems needing to be solved in our life.
-
-Once the problem happens, we need a solution for it.
-I think that a solution is a good one if it
-    won't break something more
-    we cannot forecast it will break something more in future
-    It won't be very hard to rollback or drop it in future
-
-I don't think that it is a good behavioral pattern to say "let's
-destroy the world
-since it is not perfect".  Anyway we live in a world full of tradeoffs.
-
-> > >  And also they can always use the "nofpu" kernel parameter to run the=
-ir
-> > > verification.  I used it for mine back at ImgTec before 2008 NaN hard=
-ware
-> > > was available, also to verify emulation, which I wrote too.  Perhaps =
-that
-> > > is also the right solution for Debian actually?
+On Fri, Jun 21, 2024 at 1:46=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Fri, Jun 21, 2024 at 1:45=E2=80=AFPM Douglas Anderson <dianders@chromi=
+um.org> wrote:
 > >
-> > I'll suggest to them, thanks.
+> > At shutdown if you've got a _properly_ coded DRM modeset driver then
+> > you'll get these two warnings at shutdown time:
+> >
+> >   Skipping disable of already disabled panel
+> >   Skipping unprepare of already unprepared panel
+> >
+> > These warnings are ugly and sound concerning, but they're actually a
+> > sign of a properly working system. That's not great.
+> >
+> > We're not ready to get rid of the calls to drm_panel_disable() and
+> > drm_panel_unprepare() because we're not 100% convinced that all DRM
+> > modeset drivers are properly calling drm_atomic_helper_shutdown() or
+> > drm_helper_force_disable_all() at the right times. However, having the
+> > warning show up for correctly working systems is bad.
+> >
+> > As a bit of a workaround, add some "if" tests to try to avoid the
+> > warning on correctly working systems. Also add some comments and
+> > update the TODO items in the hopes that future developers won't be too
+> > confused by what's going on here.
+> >
+> > Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> > This patch came out of discussion on dri-devel on 2024-06-21
+> > [1]. NOTE: I have put all changes into one patch since it didn't seem
+> > to add anything to break up the updating of the TODO or the comments
+> > in the core into separate patches since the patch is all about one
+> > topic and all code is expected to land in the same tree.
+> >
+> > Previous versions:
+> > v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d=
+5f49b29f746b93621749c@changeid/
+> > v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49=
+b29f746b93621749c@changeid
+> >
+> > [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=3Ddri-devel=
+&date=3D2024-06-21
+> >
+> >  Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
+> >  drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
+> >  drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
+> >  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
+> >  4 files changed, 68 insertions(+), 37 deletions(-)
 >
->  I note that it's been like this since 2015 and it has been documented:
+> Ugh! I realized right after I hit "send" that I forgot to mark this as
+> V2 and give it version history. Sorry! :( Please consider this to be
+> v2. It's basically totally different than v1 based on today's IRC
+> discussion, which should be linked above.
 >
->         ieee754=3D        [MIPS] Select IEEE Std 754 conformance mode
->                         Format: { strict | legacy | 2008 | relaxed }
->                         Default: strict
-> [...]
->                         The FPU emulator is always able to support both N=
-aN
->                         encodings, so if no FPU hardware is present or it=
- has
->                         been disabled with 'nofpu', then the settings of
->                         'legacy' and '2008' strap the emulator accordingl=
-y,
->                         'relaxed' straps the emulator for both legacy-NaN=
- and
->                         2008-NaN, whereas 'strict' enables legacy-NaN onl=
-y on
->                         legacy processors and both NaN encodings on MIPS3=
-2 or
->                         MIPS64 CPUs.
->
-> (see the part following the last comma in particular).  It usually makes
-> sense to read documentation and I'd expect MIPS Debian port experts to do
-> it from time to time.
->
->   Maciej
->
+> If I need to send a new version I will send it as v3.
+
+Is anyone willing to give me a Reviewed-by and/or Acked by for this
+patch? ...or does anything want me to make any changes? Given all the
+discussion we had, it would be nice to get this landed before we
+forget what we agreed upon. :-P
+
+-Doug
