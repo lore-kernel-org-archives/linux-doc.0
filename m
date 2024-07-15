@@ -1,145 +1,314 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BBE4C62;
-	Mon, 15 Jul 2024 14:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BEA3A1A0
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 15:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721055569; cv=none; b=hCwJJ4ZUyWqYkxYQfSw684sH+YSsrFH3+hWvR585S3DqUAs8izVM+dm4Yzc+ugtxzF/bu0G+FATeewiIzq0v8v04tSyfMXl8YDyoZFamJ1MkCZVRj1wRm9uJCaNWRymMyk+uPT4tBcfZ+YuNPcNKwz6+23v/hW+BPOaw1PpFU8c=
+	t=1721055654; cv=none; b=kVyrh0GkLlrL6jToO4Vtwlm2H9m48w9GEnp+anpf6A9p0QIrtX8Nz/DJXUH9/uDSOBUmodlLmPw+EJR9hjoIzLcvPPJcCPmdg7qt6uUhzJQGGH0bIkWshB2p1DIapZnp65SRz9w/IaLyc5S7fDQsY6CGgJxvg1l3Zhz8ShqDg3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721055569; c=relaxed/simple;
-	bh=Czc/8/j1UJ3uadHtlcCbqCzh/BKvAh+WALaaInDEGXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ec518dhYxFSE4jjUilijYZdhtbFtewqAdFtIaqGmOE7xiCCa2dKl2eegn2otcddwDW2w5ExgRypyxHQaTd83Bu+uF34yUHvch48bYInicAKiFqzr1NBn/GyE+kMMiYVksJsgEN8KFbliJhaHrlsX7AkjD/ELEV9Q2FsSoR8imNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OElLUgnL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721055654; c=relaxed/simple;
+	bh=j325IHElo6ZuouPg44z5dlzCsgdNWRS3ROXO9BZUDDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=swIE13EkkMyXsWF+MpewaFX4rAkzyykl0n+yUe/3XyAF8+gG1uX80nj2lOZpnJ4Ufjs64Z5ajVCvby2rBv3ud6t0XkjYOlX+JizZY2nPGmXEmvzAYn+ARoMH9xBocsTgrtfb/gh6MURW88bLnbBy2ibAk+cMSFLDm/vZxMxdVJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DPYHKv+O; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OElLUgnL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F5CC32782;
-	Mon, 15 Jul 2024 14:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721055568;
-	bh=Czc/8/j1UJ3uadHtlcCbqCzh/BKvAh+WALaaInDEGXA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OElLUgnLsRq0inC4mUNDR8o/kzoSy4XbVw14Cl5B7g69gp8OV4U3zpNLSBr46nEQe
-	 PaiPFWqZ43OQ/YHPXYUd76MGawWnwFPHfz522XqJoASVZ1HxUZ/3Qf6bGjZC+ESXSi
-	 EkTd2ApSD9mNLweuV2Y1pvgPOXUxlW764zizHd6TgDfNNXH9KVWdUghsU5FJ/OeKL3
-	 dB2uQ1w8Lwe1DfJ8g4BLoC6GrjhVt6FBhicdhy/YZhlguR4yYFaiBpi08GUZgJqnnu
-	 AxCBVi1DTkCtUlwp0QEFAwNkamVFBhSCMyGHrm391x0qBOI2lO4DgyOQaMIS5c3D4y
-	 s+2EvuEyiNj9g==
-Date: Mon, 15 Jul 2024 07:59:26 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
- danieller@nvidia.com, ecree.xilinx@gmail.com, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Willem de Bruijn <willemb@google.com>, Shannon Nelson
- <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
-Subject: Re: [PATCH net-next v17 13/14] net: ethtool: Add support for
- tsconfig command to get/set hwtstamp config
-Message-ID: <20240715075926.7f3e368c@kernel.org>
-In-Reply-To: <20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
-References: <20240709-feature_ptp_netnext-v17-0-b5317f50df2a@bootlin.com>
-	<20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPYHKv+O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721055652;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tb4l87oDxCeQh2eMPiDUUXOzH1cMP9tAKpWCk95Hjis=;
+	b=DPYHKv+O2Ou/fJ3zlrRir2d4mPDbw3UF9jHEwQ/FL1IWRWVcvUiPYphzjMCibVxg86XBol
+	Bpud0h4rHCNqQa7blUrNn4n+rjoqkYlsPExBKY1c2p053vcBbGp05IB675bJXNKJ9dFGI6
+	va6XwsJ+mWEyf/TTpGp5w1877jne1K0=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-663-dNr3_IDpMXi3AMx9JZ2hiA-1; Mon,
+ 15 Jul 2024 11:00:48 -0400
+X-MC-Unique: dNr3_IDpMXi3AMx9JZ2hiA-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 83E751955F43;
+	Mon, 15 Jul 2024 15:00:44 +0000 (UTC)
+Received: from llong.com (unknown [10.22.9.29])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B268A1955D42;
+	Mon, 15 Jul 2024 15:00:41 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in cgroup.stat
+Date: Mon, 15 Jul 2024 11:00:34 -0400
+Message-Id: <20240715150034.2583772-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Tue, 09 Jul 2024 15:53:45 +0200 Kory Maincent wrote:
-> +	/* Get the hwtstamp config from netlink */
-> +	if (tb[ETHTOOL_A_TSCONFIG_TX_TYPES]) {
-> +		ret = ethnl_parse_bitset(&req_tx_type, &mask,
-> +					 __HWTSTAMP_TX_CNT,
-> +					 tb[ETHTOOL_A_TSCONFIG_TX_TYPES],
-> +					 ts_tx_type_names, info->extack);
-> +		if (ret < 0)
-> +			goto err_clock_put;
-> +
-> +		/* Select only one tx type at a time */
-> +		if (ffs(req_tx_type) != fls(req_tx_type)) {
-> +			ret = -EINVAL;
-> +			goto err_clock_put;
-> +		}
-> +
-> +		hwtst_config.tx_type = ffs(req_tx_type) - 1;
-> +	}
-> +	if (tb[ETHTOOL_A_TSCONFIG_RX_FILTERS]) {
-> +		ret = ethnl_parse_bitset(&req_rx_filter, &mask,
-> +					 __HWTSTAMP_FILTER_CNT,
-> +					 tb[ETHTOOL_A_TSCONFIG_RX_FILTERS],
-> +					 ts_rx_filter_names, info->extack);
-> +		if (ret < 0)
-> +			goto err_clock_put;
-> +
-> +		/* Select only one rx filter at a time */
-> +		if (ffs(req_rx_filter) != fls(req_rx_filter)) {
-> +			ret = -EINVAL;
-> +			goto err_clock_put;
-> +		}
-> +
-> +		hwtst_config.rx_filter = ffs(req_rx_filter) - 1;
-> +	}
-> +	if (tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]) {
-> +		ret = nla_get_u32(tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]);
-> +		if (ret < 0)
-> +			goto err_clock_put;
-> +		hwtst_config.flags = ret;
-> +	}
+Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+help manage different structures in various cgroup subsystems by being
+an embedded element inside a larger structure like cpuset or mem_cgroup.
 
-We should be tracking mod on these, too. Separately from the provider
-mod bit, let's not call the driver and send notification if nothing
-changed.
+The /proc/cgroups file shows the number of cgroups for each of the
+subsystems.  With cgroup v1, the number of CSSes is the same as the
+number of cgroups.  That is not the case anymore with cgroup v2. The
+/proc/cgroups file cannot show the actual number of CSSes for the
+subsystems that are bound to cgroup v2.
 
-> +	ret = net_hwtstamp_validate(&hwtst_config);
-> +	if (ret)
-> +		goto err_clock_put;
-> +
-> +	/* Disable current time stamping if we try to enable another one */
-> +	if (mod && (hwtst_config.tx_type || hwtst_config.rx_filter)) {
-> +		struct kernel_hwtstamp_config zero_config = {0};
-> +
-> +		ret = dev_set_hwtstamp_phylib(dev, &zero_config, info->extack);
-> +		if (ret < 0)
-> +			goto err_clock_put;
-> +	}
-> +
-> +	/* Changed the selected hwtstamp source if needed */
-> +	if (mod) {
-> +		struct hwtstamp_provider *__hwtstamp;
-> +
-> +		__hwtstamp = rcu_replace_pointer_rtnl(dev->hwtstamp, hwtstamp);
-> +		if (__hwtstamp)
-> +			call_rcu(&__hwtstamp->rcu_head,
-> +				 remove_hwtstamp_provider);
-> +	}
-> +
-> +	ret = dev_set_hwtstamp_phylib(dev, &hwtst_config, info->extack);
-> +	if (ret < 0)
-> +		return ret;
+So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+we can't tell by looking at /proc/cgroups which cgroup subsystems may
+be responsible.
 
-We can't unwind to old state here?
+As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+cgroup.stat file is now being extended to show the number of live and
+dying CSSes associated with all the non-inhibited cgroup subsystems that
+have been bound to cgroup v2. The number includes CSSes in the current
+cgroup as well as in all the descendants underneath it.  This will help
+us pinpoint which subsystems are responsible for the increasing number
+of dying (nr_dying_descendants) cgroups.
 
-> +	return 1;
+The CSSes dying counts are stored in the cgroup structure itself
+instead of inside the CSS as suggested by Johannes. This will allow
+us to accurately track dying counts of cgroup subsystems that have
+recently been disabled in a cgroup. It is now possible that a zero
+subsystem number is coupled with a non-zero dying subsystem number.
 
-Driver can change hwtst_config right? "upgrade" the rx_filter 
-to a broader one, IIRC. Shouldn't we reply to the set command with 
-the resulting configuration, in case it changed? Basically provide 
-the same info as the notification would.
+The cgroup-v2.rst file is updated to discuss this new behavior.
+
+With this patch applied, a sample output from root cgroup.stat file
+was shown below.
+
+	nr_descendants 56
+	nr_subsys_cpuset 1
+	nr_subsys_cpu 43
+	nr_subsys_io 43
+	nr_subsys_memory 56
+	nr_subsys_perf_event 57
+	nr_subsys_hugetlb 1
+	nr_subsys_pids 56
+	nr_subsys_rdma 1
+	nr_subsys_misc 1
+	nr_dying_descendants 30
+	nr_dying_subsys_cpuset 0
+	nr_dying_subsys_cpu 0
+	nr_dying_subsys_io 0
+	nr_dying_subsys_memory 30
+	nr_dying_subsys_perf_event 0
+	nr_dying_subsys_hugetlb 0
+	nr_dying_subsys_pids 0
+	nr_dying_subsys_rdma 0
+	nr_dying_subsys_misc 0
+
+Another sample output from system.slice/cgroup.stat was:
+
+	nr_descendants 34
+	nr_subsys_cpuset 0
+	nr_subsys_cpu 32
+	nr_subsys_io 32
+	nr_subsys_memory 34
+	nr_subsys_perf_event 35
+	nr_subsys_hugetlb 0
+	nr_subsys_pids 34
+	nr_subsys_rdma 0
+	nr_subsys_misc 0
+	nr_dying_descendants 30
+	nr_dying_subsys_cpuset 0
+	nr_dying_subsys_cpu 0
+	nr_dying_subsys_io 0
+	nr_dying_subsys_memory 30
+	nr_dying_subsys_perf_event 0
+	nr_dying_subsys_hugetlb 0
+	nr_dying_subsys_pids 0
+	nr_dying_subsys_rdma 0
+	nr_dying_subsys_misc 0
+
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 12 +++++-
+ include/linux/cgroup-defs.h             | 14 +++++++
+ kernel/cgroup/cgroup.c                  | 55 ++++++++++++++++++++++++-
+ 3 files changed, 77 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 52763d6b2919..abf3adad04bd 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -981,6 +981,14 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
+ 
++	  nr_subsys_<cgroup_subsys>
++		Total number of live cgroup subsystems (e.g memory
++		cgroup) at and beneath the current cgroup.
++
++	  nr_dying_subsys_<cgroup_subsys>
++		Total number of dying cgroup subsystems (e.g. memory
++		cgroup) at and beneath the current cgroup.
++
+   cgroup.freeze
+ 	A read-write single value file which exists on non-root cgroups.
+ 	Allowed values are "0" and "1". The default is "0".
+@@ -2930,8 +2938,8 @@ Deprecated v1 Core Features
+ 
+ - "cgroup.clone_children" is removed.
+ 
+-- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
+-  at the root instead.
++- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
++  "cgroup.stat" files at the root instead.
+ 
+ 
+ Issues with v1 and Rationales for v2
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index b36690ca0d3f..3cb049f104f6 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -210,6 +210,14 @@ struct cgroup_subsys_state {
+ 	 * fields of the containing structure.
+ 	 */
+ 	struct cgroup_subsys_state *parent;
++
++	/*
++	 * Keep track of total numbers of visible descendant CSSes.
++	 * The total number of dying CSSes is tracked in
++	 * css->cgroup->nr_dying_subsys[ssid].
++	 * Protected by cgroup_mutex.
++	 */
++	int nr_descendants;
+ };
+ 
+ /*
+@@ -470,6 +478,12 @@ struct cgroup {
+ 	/* Private pointers for each registered subsystem */
+ 	struct cgroup_subsys_state __rcu *subsys[CGROUP_SUBSYS_COUNT];
+ 
++	/*
++	 * Keep track of total number of dying CSSes at and below this cgroup.
++	 * Protected by cgroup_mutex.
++	 */
++	int nr_dying_subsys[CGROUP_SUBSYS_COUNT];
++
+ 	struct cgroup_root *root;
+ 
+ 	/*
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index c8e4b62b436a..601600afdd20 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3669,12 +3669,40 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
+ static int cgroup_stat_show(struct seq_file *seq, void *v)
+ {
+ 	struct cgroup *cgroup = seq_css(seq)->cgroup;
++	struct cgroup_subsys_state *css;
++	int dying_cnt[CGROUP_SUBSYS_COUNT];
++	int ssid;
+ 
+ 	seq_printf(seq, "nr_descendants %d\n",
+ 		   cgroup->nr_descendants);
++
++	/*
++	 * Show the number of live and dying csses associated with each of
++	 * non-inhibited cgroup subsystems that is bound to cgroup v2.
++	 *
++	 * Without proper lock protection, racing is possible. So the
++	 * numbers may not be consistent when that happens.
++	 */
++	rcu_read_lock();
++	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
++		dying_cnt[ssid] = -1;
++		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
++		    (cgroup_subsys[ssid]->root !=  &cgrp_dfl_root))
++			continue;
++		css = rcu_dereference_raw(cgroup->subsys[ssid]);
++		dying_cnt[ssid] = cgroup->nr_dying_subsys[ssid];
++		seq_printf(seq, "nr_subsys_%s %d\n", cgroup_subsys[ssid]->name,
++			   css ? (css->nr_descendants + 1) : 0);
++	}
++
+ 	seq_printf(seq, "nr_dying_descendants %d\n",
+ 		   cgroup->nr_dying_descendants);
+-
++	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
++		if (dying_cnt[ssid] >= 0)
++			seq_printf(seq, "nr_dying_subsys_%s %d\n",
++				   cgroup_subsys[ssid]->name, dying_cnt[ssid]);
++	}
++	rcu_read_unlock();
+ 	return 0;
+ }
+ 
+@@ -5424,6 +5452,8 @@ static void css_release_work_fn(struct work_struct *work)
+ 	list_del_rcu(&css->sibling);
+ 
+ 	if (ss) {
++		struct cgroup *parent_cgrp;
++
+ 		/* css release path */
+ 		if (!list_empty(&css->rstat_css_node)) {
+ 			cgroup_rstat_flush(cgrp);
+@@ -5433,6 +5463,14 @@ static void css_release_work_fn(struct work_struct *work)
+ 		cgroup_idr_replace(&ss->css_idr, NULL, css->id);
+ 		if (ss->css_released)
+ 			ss->css_released(css);
++
++		cgrp->nr_dying_subsys[ss->id]--;
++		WARN_ON_ONCE(css->nr_descendants || cgrp->nr_dying_subsys[ss->id]);
++		parent_cgrp = cgroup_parent(cgrp);
++		while (parent_cgrp) {
++			parent_cgrp->nr_dying_subsys[ss->id]--;
++			parent_cgrp = cgroup_parent(parent_cgrp);
++		}
+ 	} else {
+ 		struct cgroup *tcgrp;
+ 
+@@ -5517,8 +5555,11 @@ static int online_css(struct cgroup_subsys_state *css)
+ 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
+ 
+ 		atomic_inc(&css->online_cnt);
+-		if (css->parent)
++		if (css->parent) {
+ 			atomic_inc(&css->parent->online_cnt);
++			while ((css = css->parent))
++				css->nr_descendants++;
++		}
+ 	}
+ 	return ret;
+ }
+@@ -5540,6 +5581,16 @@ static void offline_css(struct cgroup_subsys_state *css)
+ 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
+ 
+ 	wake_up_all(&css->cgroup->offline_waitq);
++
++	css->cgroup->nr_dying_subsys[ss->id]++;
++	/*
++	 * Parent css and cgroup cannot be freed until after the freeing
++	 * of child css, see css_free_rwork_fn().
++	 */
++	while ((css = css->parent)) {
++		css->nr_descendants--;
++		css->cgroup->nr_dying_subsys[ss->id]++;
++	}
+ }
+ 
+ /**
+-- 
+2.39.3
+
