@@ -1,145 +1,74 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204221C698
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 17:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D5954670;
+	Mon, 15 Jul 2024 18:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721064656; cv=none; b=Iu2OENZytTHdd6YViuPRmaUOqy2bSvq9yYLG37XXcRL3zQIe68hH9RQ4Opz19bVOHkCISigooldcTIrNp9Iz4DKfR7fN4i3r5OwT4ubaefTIIO8OHi24MUZ2a5i5ur29xwjVFtasNkc6IsWUxwZYeW+MLubTNQDgt5lT1JTM+f4=
+	t=1721067270; cv=none; b=rt/osF3CNhRYmEMfYV3MC0s333lK6ZFw523ylWnvPBnUngh08KzAvCOeZGwhhv1MFtuVYL/Ll0I3PjRuB+575U+g8jc8m1fXO+xE1ez9Fy/ObUIAQcEnnQSh/dzvByGZ27I+zAHALIk4YNqG8DEkcEkaGzIOWpbWJyfX1rw+xXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721064656; c=relaxed/simple;
-	bh=fuFomPvJjEWyq0rlb0WrUHt+YwwZeluRKdzkdP8nJAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5pGVN0+Z6sC4YkJsDEzLbCSTgRF9UkPYOL559L0PsF8XBUCmHVwI1q89PnMF7nbhefERvk1LsZSEy7X3IdJIuvygoKxDqflLzB/hFHIKySuauQTFzUTQcHQ+SWPKgSnZg7dS2G6t4mIAUaee4Nt38gcgOBCLIOLMOqywEzowtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uvvXtNFy; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1721067270; c=relaxed/simple;
+	bh=Vst/VQ3nh42dO0+xMguh5P+lia20vLXcic79o+sw9M0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JfV73kMeqriy6+EIBtvJzhrg5rnHxSR9hcyQwxuHlgCtNJ4/iVKuJjaUwHIK6lzlEU0uriX5Opvvu+XKlQJ7/ZNMOdHSMkm5M23Rgm0hcdhcqqq5QPcyk1ubOBlCP/fKdXV6ev4laBkTDntHoq4x/evSLhIACxa0akQGkyjzU0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JG39VngA; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uvvXtNFy"
-X-Envelope-To: longman@redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721064652;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=48LNjXEtpZ7HdIqiCDkMz54KvHv8Y9hqJYhmD6bl1e4=;
-	b=uvvXtNFyX8YfglFp7KW0c7WheJq834hIGYDnFgi1aHq9ZXcRN1DSMfwUrMXcDWueTS1HXR
-	rZEKQ01xtPmjcWDbCakRM9cSMfoPpDPbV21vxY49WDm1HgkHjDvLq8Ygg/VGgXqKs6E3jQ
-	sXpMIPGyv6RPrne82akxBSPw7Sa7p4I=
-X-Envelope-To: tj@kernel.org
-X-Envelope-To: lizefan.x@bytedance.com
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: mkoutny@suse.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: cgroups@vger.kernel.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: kamalesh.babulal@oracle.com
-Date: Mon, 15 Jul 2024 17:30:46 +0000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>
-Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <ZpVcxlx1VR3FaoYI@google.com>
-References: <20240715150034.2583772-1-longman@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JG39VngA"
+Received: from CPC-beaub-VBQ1L.redmond.corp.microsoft.com (unknown [4.155.48.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 58B8620B7177;
+	Mon, 15 Jul 2024 11:14:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 58B8620B7177
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1721067263;
+	bh=cn0VFPnkmYUn1zOQLdurhEoYBVivIcxYhlAZ1gbroHA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JG39VngAye0J7UD0qu40eimfKRgTREWqIKntTvLhpgaHub8usVRbYtcqnTwiPzO45
+	 zaKTzmYrOV+H1eWL1AHVo2nooVUXCj/gPe7jp256Lfxzt74GsbQSs/jjFB6nFNDvoe
+	 i1ZUV0K7a9lgFexjGCX6/Hn+wvTj8pejWh0ZdUdg=
+From: Beau Belgrave <beaub@linux.microsoft.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	corbet@lwn.net
+Cc: linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] Documentation: Document user_events ioctl code
+Date: Mon, 15 Jul 2024 18:14:13 +0000
+Message-Id: <20240715181413.1157-1-beaub@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240715150034.2583772-1-longman@redhat.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
-> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
-> help manage different structures in various cgroup subsystems by being
-> an embedded element inside a larger structure like cpuset or mem_cgroup.
-> 
-> The /proc/cgroups file shows the number of cgroups for each of the
-> subsystems.  With cgroup v1, the number of CSSes is the same as the
-> number of cgroups.  That is not the case anymore with cgroup v2. The
-> /proc/cgroups file cannot show the actual number of CSSes for the
-> subsystems that are bound to cgroup v2.
-> 
-> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
-> we can't tell by looking at /proc/cgroups which cgroup subsystems may
-> be responsible.
-> 
-> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-> cgroup.stat file is now being extended to show the number of live and
-> dying CSSes associated with all the non-inhibited cgroup subsystems that
-> have been bound to cgroup v2. The number includes CSSes in the current
-> cgroup as well as in all the descendants underneath it.  This will help
-> us pinpoint which subsystems are responsible for the increasing number
-> of dying (nr_dying_descendants) cgroups.
-> 
-> The CSSes dying counts are stored in the cgroup structure itself
-> instead of inside the CSS as suggested by Johannes. This will allow
-> us to accurately track dying counts of cgroup subsystems that have
-> recently been disabled in a cgroup. It is now possible that a zero
-> subsystem number is coupled with a non-zero dying subsystem number.
-> 
-> The cgroup-v2.rst file is updated to discuss this new behavior.
-> 
-> With this patch applied, a sample output from root cgroup.stat file
-> was shown below.
-> 
-> 	nr_descendants 56
-> 	nr_subsys_cpuset 1
-> 	nr_subsys_cpu 43
-> 	nr_subsys_io 43
-> 	nr_subsys_memory 56
-> 	nr_subsys_perf_event 57
-> 	nr_subsys_hugetlb 1
-> 	nr_subsys_pids 56
-> 	nr_subsys_rdma 1
-> 	nr_subsys_misc 1
-> 	nr_dying_descendants 30
-> 	nr_dying_subsys_cpuset 0
-> 	nr_dying_subsys_cpu 0
-> 	nr_dying_subsys_io 0
-> 	nr_dying_subsys_memory 30
-> 	nr_dying_subsys_perf_event 0
-> 	nr_dying_subsys_hugetlb 0
-> 	nr_dying_subsys_pids 0
-> 	nr_dying_subsys_rdma 0
-> 	nr_dying_subsys_misc 0
-> 
-> Another sample output from system.slice/cgroup.stat was:
-> 
-> 	nr_descendants 34
-> 	nr_subsys_cpuset 0
-> 	nr_subsys_cpu 32
-> 	nr_subsys_io 32
-> 	nr_subsys_memory 34
-> 	nr_subsys_perf_event 35
-> 	nr_subsys_hugetlb 0
-> 	nr_subsys_pids 34
-> 	nr_subsys_rdma 0
-> 	nr_subsys_misc 0
-> 	nr_dying_descendants 30
-> 	nr_dying_subsys_cpuset 0
-> 	nr_dying_subsys_cpu 0
-> 	nr_dying_subsys_io 0
-> 	nr_dying_subsys_memory 30
-> 	nr_dying_subsys_perf_event 0
-> 	nr_dying_subsys_hugetlb 0
-> 	nr_dying_subsys_pids 0
-> 	nr_dying_subsys_rdma 0
-> 	nr_dying_subsys_misc 0
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
+The user events trace subsystem uses the 0x2A/'*' code for ioctls. These
+are published via the uapi/linux/user_events.h header file.
 
-Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+Add a line indicating user events as the owner of the 0x2A/'*' code and
+reserve the first 32 sequence numbers.
 
-Thanks!
+Signed-off-by: Beau Belgrave <beaub@linux.microsoft.com>
+---
+ V2 Changes: Reserved first 32 sequence numbers for growth.
+
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index a141e8e65c5d..d953549f0b2b 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -97,6 +97,8 @@ Code  Seq#    Include File                                           Comments
+ '%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
+                                                                      <mailto:alexander.shishkin@linux.intel.com>
+ '&'   00-07  drivers/firewire/nosy-user.h
++'*'   00-1F  uapi/linux/user_events.h                                User Events Subsystem
++                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
+ '1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
+                                                                      <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
+ '2'   01-04  linux/i2o.h
+-- 
+2.34.1
+
