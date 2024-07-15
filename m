@@ -1,256 +1,272 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82353B7A8;
-	Mon, 15 Jul 2024 19:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721070358; cv=fail; b=S5o0+afcMtnl9h3z8SRLfx+NbCjSKuJtJBjUzISZzi3u6jX/LZuy1GdHtphMwilnXptLAAZ5XSIowBNvL3V3qwfmioWjKcv+EY75SouhkbMuppGBXD9OYHnFAB6i0rabvjaJ4AwMZwgu8oltuT9KwlryfooleLVc3iLV37tAC8Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721070358; c=relaxed/simple;
-	bh=eLo73X8pdJB6ImeFA0BK1fwfdiDF6x9M2KiOJhUD4os=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ryv8yvMowsENHHEDF7GBeHFhy2CtQwhIMUQH7CZq+lfl+AidoBq4AqEVE+RdvM5h1mIpBH7WOZf+6rHJNdKS/Dv1tgDXI/515OKmRb2PrrUNKCNlQBpO3loBJnlEoR5uRFNQOU8e2ObcJL8oiKUl3cBDEjsS36/j0FP52xXvl60=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0nbhtwGI; arc=fail smtp.client-ip=40.107.243.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458C113541B
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 19:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721071084; cv=none; b=i9uHKmBwVhyqPnZdChzLav42lwCpD/9/3kuSQS7+eYHgOrC721aaBbuJT0loR2NjIUd0PkrC95OvcbeW/5/HiyCexYpp+F0/o9m9Qpe0BGGvvN1G90ofykxwt5s1HhV8DBHD6rghFeNr+QP3ROkJzSbS3zMemUeDHemjEpRogts=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721071084; c=relaxed/simple;
+	bh=FlJP6cQ93Ht9xaenF/ZPVLXhGWE9+r0LZIr/jJpJbKA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqTqKUBmT8RYn2urXRNzFf/ZbxXP45ooSRdTOy8C82W8kDV+jitGjxOKQrdfkWHMDJD/wQuhrqSzA38hHXKpRfqv3GN0Sh0jWU0p8SCelstFicw2vMA5F3qLSs5jCRKuVfMU0yW+RTNcIT7VJZoHa3udVPSbj0PyQe95Dn16z5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c1+eF4zl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0nbhtwGI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WUfzPoyBl0fIy5VjXLNZ3ok0ogHbE3e75KyU9Ui956gKCUo6opNfhH9DCJFRdwVpbKu5n82eDZNdrizChsak2LkZWbAtmmLt7qFd9zn0pLhKEnGSOS2cMQVSyTRzuz5Rc6euhWFaD6THhvNwWZfdp2/JPlX3WDPzKJYqQjIIiw3TuVCFlTglbAlclu17B9kQR3JVyoMIqt7378Hl6eLeMkCVpM0Y9wWkbSPzK70e7bl/Yncp+IVBfjUSgZon8aT2bZyCtjFHLFTfanpW+q66CUZ2aIwO853BJL9sCe38Sa3O4oEyvvspe6cEYbD8Ydxfk2A0FrQAAxkCQcWQRZXDEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y9LLak0TWAfapB0AZsyB+EGkvDIoPcb03xUJzKu1ei8=;
- b=iZaRUQWpISFoH6gY2zL3Hrcss94H3LnJ7AG/9zZD/H5tZpZkeeUSfJSDgsQ+/++vXnUK6h/jLHMNVCi1ogPA1itcZS/uCUCLw7rC8p0PxLofQJiNwACSDjdR1h+u5g8wCJuclckN7Hb7dwXNT03BmA1IARKZncn0a3ihZlIFMmfCh/u6757piL7bv25a0PEuygCSpV3S7x4rq4oG6LZLjeXIDkJb2+b/8cJaxxefMT7LiP6qRsDdT/VGdami9O9D+u/CgEZ/+eoFBpdQOg/1Nxm4Ffxps9UT4TRWLpKF3+aVb/s9ttQG7mHGLXl+Eg/YRe8y+ka+mWl4FTt8RruxfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y9LLak0TWAfapB0AZsyB+EGkvDIoPcb03xUJzKu1ei8=;
- b=0nbhtwGIXtVA6QxPPPU4NTUywN1vll2O4ikOkxCFNC5ktxGNdErdE6BdT+U3Gi4m49A0UteaWfkTRcmvcty9W4FkqZJv6aTneKd5PL/kdXWqt3rbA3Qw27Qw2sdMA5PiW9CySsirAT/c2SanTgrwpTzaIpC5ZIILPfx7sHb1SlI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB7353.namprd12.prod.outlook.com (2603:10b6:510:20c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Mon, 15 Jul
- 2024 19:05:52 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7762.027; Mon, 15 Jul 2024
- 19:05:52 +0000
-Message-ID: <07216753-8b36-46e3-ae39-31bedb50fc0b@amd.com>
-Date: Mon, 15 Jul 2024 14:05:47 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v5 03/20] x86/resctrl: Consolidate monitoring related data
- from rdt_resource
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1720043311.git.babu.moger@amd.com>
- <29280097cecb6a4717d7e8a19249c9790684f67f.1720043311.git.babu.moger@amd.com>
- <7868eaf0-8e06-4a53-a29c-c057ada46bdc@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <7868eaf0-8e06-4a53-a29c-c057ada46bdc@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9P223CA0023.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:806:26::28) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c1+eF4zl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721071081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z+7wzqu/n+rBhls7jS0HpDNowfWD9bZEGhHazVfPs+A=;
+	b=c1+eF4zlbwZbK7GfFrljffldrGepCOxa9GcKkWXIC3k0JXJCRZQnE+TLxdzEyga4wMW1NS
+	lrU6YOwgkkI2np3C6HySRawKI0eL9Z8e4xWe8Y1qBZ/kpVNFYRCUsY8yf/Cri1EwDcmhNT
+	6gRpyDpsZbtK6MPbQPSPNZlaKhkP+Mg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-10-CAJcaEkYPWuXQXt0JtVqsQ-1; Mon,
+ 15 Jul 2024 15:17:57 -0400
+X-MC-Unique: CAJcaEkYPWuXQXt0JtVqsQ-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 601431955D4F;
+	Mon, 15 Jul 2024 19:17:55 +0000 (UTC)
+Received: from [10.22.9.29] (unknown [10.22.9.29])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 877591955D44;
+	Mon, 15 Jul 2024 19:17:52 +0000 (UTC)
+Message-ID: <e41a9286-8103-4897-83fc-f9185f4488e3@redhat.com>
+Date: Mon, 15 Jul 2024 15:17:51 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB7353:EE_
-X-MS-Office365-Filtering-Correlation-Id: 63934ad4-2b7c-497b-dde7-08dca5012541
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OHZSNmhZbDVNTWhxMkVhc25QK3ZBbTBJeE0vUUFFc1FtSnloSEh5ZFBsWlVW?=
- =?utf-8?B?bWQvTWczdC9YUmg3ZG51NnZXLzM0T01PTXd6WXZaWjhUNWErUW51SmFZeWx4?=
- =?utf-8?B?TXVzb3hrbElmc2FjR2VoZ0JFWkFGL2JBTk9UakVpdklqc3VkRlMzTG9qNHRo?=
- =?utf-8?B?YzhJa08rZm1CNlIwUFY5b0pZSzZMMFBiMGlCZyt5MytlL0grZ1BnTDlaTERU?=
- =?utf-8?B?Wi9udmtsclpYa0RteVg4eUdHNWZySTRrZzFBQVRPSHQwN2daeGJJQjVMYWtQ?=
- =?utf-8?B?VlZvM0p2RHhYQkdtV1JpNVQ5WTZ6VlNYZmRLVUxKZEZkOGZnRytSZlZScG9D?=
- =?utf-8?B?eUFNUitYZ3BjQXcrejJULytpNlVMbG82dmtaR2VsWmtrK2gxSUVvSkhkN3Zu?=
- =?utf-8?B?RXlsbTB4YWNZMStuQUFFaUZiQlBHVWg0M2FWOWN0ZldoRFQwMHIrcVk0Z2ZU?=
- =?utf-8?B?NzhmR2NPb3hRQkJmTHBTdE12L0J0MExSa3dEbElncitHZXVnaUhSZGQ1WE5W?=
- =?utf-8?B?MFI0eWs2VFNYTjhjN2RqVUgxZDZnWUNQVGpNQktNZFNxaVU1WFJNTmcvSGlq?=
- =?utf-8?B?QVord1ZCVjF3azR4djBsTEl2bEpOUUdJRVhFUTYzVVFxUGlNTHVzRFd4TExH?=
- =?utf-8?B?d1hKZVdUdFR0OFZQNUNZcGNBL3dHVTdjK0ptcG95Q1NkL21BTlg2TnVzNUhJ?=
- =?utf-8?B?UmtOOE9WdDJmVStsOEowc2h2YTc5dW4vd2JNNzJCcW1wMENrL2hkREZ3RWYw?=
- =?utf-8?B?WDBPRWM2Tm1hajVIL2M1anJvdWI1bkZUa1czekxBTmMrYW9KejRBS090UmZN?=
- =?utf-8?B?OVpsV2d0NkhWeG1sanFYdTlCQ20yQkIra05iQUd1V0ZLRHdKaklKc2RiZWNF?=
- =?utf-8?B?SmJ2VFpRN0VGNTAxeE9zd2ZCRGdkWC9seDNtbExnQUdUbnB4M0VuR012dDdh?=
- =?utf-8?B?a3ZBVmpCRGM0emlZRTlGbjUzQjdrWjhPYWRwOXRwSUVScFdCUWdITm5QVnIz?=
- =?utf-8?B?ZmJOQlMrZG1xTEErZ2RqdjdoRGlranRFQ3FRb3RYN09vSEhKYWNiVmU2YmUy?=
- =?utf-8?B?OVlvUUtNY1Q2VllJZ0lNR3ZYK1pRaG1MVWlzOFk0VWg5czJ2L28zRG5yNlRt?=
- =?utf-8?B?STdFWURXWHRaNzBQWGxBSEd5c3RvdVFucU0zNnRvTmJBZFNveHNnQnllTkNN?=
- =?utf-8?B?VzArSzFxRjRiV2dUSEphQW1OUUpQTFcxZ0Vlajd4Q1BwYVNtbWd2SFNKUFkx?=
- =?utf-8?B?azVYR0ZHK1NIbm5XcnM0dXNLSmlJSytWR094ekdyZjVzZllMdW1QWXdQdWNo?=
- =?utf-8?B?L3FSU25seWpTRjhDeEllaEx3dVg4YXJMZUs1L1EzYk5yVklVeXU4QU1zT1Z1?=
- =?utf-8?B?TGZaenA2ZU5GVjVhMEd5TXl5dmdxZ2tGVlR1c3Rqdm5CQTJwbTl6ZnFBaFZm?=
- =?utf-8?B?OHRrdit6MStUQVdZaXZwSE84MTkzVUFLekxGYmwrVVJSZitFQ0RNUHp5OGU1?=
- =?utf-8?B?TjFWVDhYT0hyQlB5eUtrZFpZUjc2cnRXUTI4cGJMWENIUC8wY0NPYXorOWQw?=
- =?utf-8?B?alpQUnBXbFhMTkppZ2l2SUFIR056dnJIbDlPZVJwMG1sZDBWam80OTNGdkhZ?=
- =?utf-8?B?QkFxbCsyVU5YVm1kWnMvSzIyemE5aGt1amFJcDg0ZUpkTnlSVE02ODNDSTRR?=
- =?utf-8?B?RzUyMWNyUjh5NnlTc2dsQjRITmpBS2N4WFFzTkRSc1hRQVBEbjNmY01yS3Bj?=
- =?utf-8?B?WlZnUUJHbEJ3YVBPZmVoNTFFN1YzOXJ6N2lxVm9yZ0tSdVZNcFdZaVVFZE5m?=
- =?utf-8?B?bkhjKys0N1h0WHBRTEg2UT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OVhYNVMySitVMmUzRWx5N0Y3T2s2RmVGSk9Ddm5aVXM2T3pMRlBObHc4bEwy?=
- =?utf-8?B?ck9oVDREdWdCelcwcENEdXlFaG5TbFpUQWxwZFJ4WStyL0lkTlozMDFNUm1H?=
- =?utf-8?B?SmUrMzg2amVROEYrVnFYTlBONzB2d3ZsR3F4akdOamFEVkFqWUpvK3V6WC9i?=
- =?utf-8?B?WUhsdEduYkxMZy83MGFOYlRmTVNFRGlLc3R3S0c2OUNtMUlKTTY1d2NQay83?=
- =?utf-8?B?SUdzcGY5MnJ3b25RL2VyQjdNZ2xteFJtdi85R00rWlF5UTVKSE8yVU5QaGxq?=
- =?utf-8?B?ODRGRU5RTmZjM1llQzZvTHRxdGlpdEpMTXl4L0pEOVFxclgzTm9rNENlMHhE?=
- =?utf-8?B?MWRlL3RuYm8zeWdmdTRxb0M0a2phOW1JU0o2VXp0cm1JNjlxMUcyM0tFbHdI?=
- =?utf-8?B?NnNjWlh3empZTW5ka0s2RFZVTnZ5UjJTZmVyZlFKTHVTOFlJeDJYb09QYWtE?=
- =?utf-8?B?MFBETTI2eldDWFBidGpYbmtDTktEUkNEWmtvRHYrSjFPUkJNYTNMOUhxdGEr?=
- =?utf-8?B?SG4xekJlTjV0eEFEVS8xTGp6c2d0dXpCT1ZnYUpEempjc1VMQTlRNlp0WVFa?=
- =?utf-8?B?bmY0d3ZEdjl1TDRLa0c1WjFwbmpnbmRzOVYrVFptcnVOazM1UjBnV2grM3By?=
- =?utf-8?B?Q0lVT0FISktvRDBpT0tTK2RIZ1pjUU9zTHdXL1JFQ09ZWVJ5cmFpckwzQTVQ?=
- =?utf-8?B?akZ5bkFESlA4V0tKWHVPNElIRmdOaVdUUUYzQVBHbEtYMUorK3dKWGZGM01v?=
- =?utf-8?B?UlVGT3BrdXE0cG44ZDdBSXBrTzRVTjhzR0ZMaWFZeTgvUzEwYVEwV0g3SWRZ?=
- =?utf-8?B?RzdaN1dubU1SSnY4aEptQ2M1elBXVUc5RnZKYkVMS3RsR1p5TExTMUhiZXBX?=
- =?utf-8?B?UkxlUnJqM2RCNThoRUNLQlBhYm5nSnkzU2hMS0hvd0dpd1VST1hBdm8xRStB?=
- =?utf-8?B?Y2pRMGtVU003R2xoa1laakljRmpGbUZ0RkJtd2RYejlVejd5ZGdQUWNjSXVW?=
- =?utf-8?B?Zm9VUXhKSkRZd0QzZUtsZU9LTlY4bjRWL3czQWhUbzBDcTZvRXlFOCtTZUJH?=
- =?utf-8?B?RlA5cUVKcGFHc2hvVGtmdmw5TVBLWXRBaURlQkVUNlFLMXpPTUJ6MXE3aFhG?=
- =?utf-8?B?WjRGZFNrTDNGQjlIUnc4cHJCYW11a0JuRjFqV1ZiQTJvcmNFOUkyMGgrcE9M?=
- =?utf-8?B?c0ZBNTNsUjhYRlZOUlBQYnNudlIzLzl4ZFdCN1RxTmFFN1dmNlFaNnJTUkho?=
- =?utf-8?B?MVRLSDNzYitEbFUzeHU0K2s0UlF4VmhzMVhlQlFtdEx4Vm5pZ3lSdENNOU4x?=
- =?utf-8?B?OWtTY2JnQTdIbGN1YTA4azUrcmhqU3ZnQXB2NVB2L3lpUis2ZmRiSWlFUnRz?=
- =?utf-8?B?S0ozUW1XS1gyaXJFcXFGNWtsR3I1S0IrZjBmS2lnQUVpMWsxMWFLT0tJMkM2?=
- =?utf-8?B?c3VHQldzUlExbUs5Z0I0TG5PdlNOL2UyQnlVZE4zTll6L2R5bVpHdm5BWCth?=
- =?utf-8?B?RkRkVGRUSmNxYmZ0M0RJSTJabkljd2l1UDdIOGxHbVMydzMxeDlVdlhXcHA0?=
- =?utf-8?B?VlhCZ1RwK2xqeWZwaEV2WnJrQWQ3TDZPYnR1RlVUZkhjSTdRTjdhcVVDK2tF?=
- =?utf-8?B?UHk2d3RGeTF6aGVPYm5yS3pOK28venN5a0tlU0NpYytFYUZFazlkVTBuemZs?=
- =?utf-8?B?SG5MOHp6ZlJlV0JPYlFQUnh1MWdDeTIvaVhvYk1jM0JDckJOeTVsMmJDZ0Z6?=
- =?utf-8?B?WUVlYWJndjZkYW4zN2tJVEFacjk3OTJDY2ZlSGpTeUl0eTJlVlNrZDNYOXVJ?=
- =?utf-8?B?MmthQitJTG03N1hGZXhPa1RGK1p4TzB4TjJVQnFqYTJPRk9UZmhzdm1jQ3ZO?=
- =?utf-8?B?cStQdG1KNXdOK0ZSV3dpNGxFV2VWMVJkVEFzWXRKR0l6d29VTkVNZ3FQWndx?=
- =?utf-8?B?UmpmV2JwRWtLV1NsbThHT3gvVnVxS2MvU0w5djYyUDZxcURVOGh6bzd2NnFj?=
- =?utf-8?B?Ly9rZkNZYUdYa0s2VWlRSFRTUE9Hd0hudHFHTkdNNm93ell1SnBZVndWbkF2?=
- =?utf-8?B?MzB5V1p2SHpQbTlsdGJVL1BySS9CRFJZRXMzVFc5TU8wa2RyTnRSM09UMmVn?=
- =?utf-8?Q?+Q4Q=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63934ad4-2b7c-497b-dde7-08dca5012541
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2024 19:05:52.0487
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IG3R6Zt5VhGB5cX5WDoTdtq6Ex3pxFiZfnGKiH9gaCxZSLfx86ujbnC/7dvWT1zv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7353
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-cgroup v2 4/5] cgroup/cpuset: Make cpuset.cpus.exclusive
+ independent of cpuset.cpus
+To: Petr Malat <oss@malat.biz>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Xavier <ghostxavier@sina.com>,
+ Peter Hunt <pehunt@redhat.com>
+References: <20240617143945.454888-1-longman@redhat.com>
+ <20240617143945.454888-5-longman@redhat.com>
+ <CANMuvJkDjuPpcqMBM+zzNL3wA-1zVrshrMuy22kQKmLDxbsB7Q@mail.gmail.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <CANMuvJkDjuPpcqMBM+zzNL3wA-1zVrshrMuy22kQKmLDxbsB7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Hi Reinette,
+On 7/15/24 11:56, Petr Malat wrote:
+> Hi,
+> I finally got some time to test this and it works exactly as we needed it to.
+> Thanks a lot,
+>    Petr
 
-On 7/12/24 16:57, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/3/24 2:48 PM, Babu Moger wrote:
->> The cache allocation and memory bandwidth allocation feature properties
->> are consolidated into cache and membw structures respectively. In
-> 
-> Let "In preparation ... " start a new paragraph.
-> 
-> Quoting Documentation/process/maintainer-tip.rst:
->     It's also useful to structure the changelog into several paragraphs
->     and not lump everything together into a single one. A good structure
->     is to explain the context, the problem and the solution in separate
->     paragraphs and this order.
+Thanks for the verification.
 
-Ok. Sure,
-> 
->> preparation for more monitoring properties that will clobber the existing
->> resource struct more, re-organize the monitoring specific properties into
->> separate structure.
-> 
-> "re-organize the monitoring specific properties into separate structure" ->
-> "re-organize the monitoring specific properties to also be in a separate
-> structure."
+Cheers,
+Longman
 
-Sure.
-> 
+> On Mon, Jun 17, 2024 at 10:39:44AM -0400, Waiman Long wrote:
+>> The "cpuset.cpus.exclusive.effective" value is currently limited to a
+>> subset of its "cpuset.cpus". This makes the exclusive CPUs distribution
+>> hierarchy subsumed within the larger "cpuset.cpus" hierarchy. We have to
+>> decide on what CPUs are used locally and what CPUs can be passed down as
+>> exclusive CPUs down the hierarchy and combine them into "cpuset.cpus".
 >>
->> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> The advantage of the current scheme is to have only one hierarchy to
+>> worry about. However, it make it harder to use as all the "cpuset.cpus"
+>> values have to be properly set along the way down to the designated remote
+>> partition root. It also makes it more cumbersome to find out what CPUs
+>> can be used locally.
+>>
+>> Make creation of remote partition simpler by breaking the
+>> dependency of "cpuset.cpus.exclusive" on "cpuset.cpus" and make
+>> them independent entities. Now we have two separate hierarchies -
+>> one for setting "cpuset.cpus.effective" and the other one for setting
+>> "cpuset.cpus.exclusive.effective". We may not need to set "cpuset.cpus"
+>> when we activate a partition root anymore.
+>>
+>> Also update Documentation/admin-guide/cgroup-v2.rst and cpuset.c comment
+>> to document this change.
+>>
+>> Suggested-by: Petr Malat <oss@malat.biz>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
 >> ---
-> 
-> ...
-> 
->> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
->> index b0875b99e811..e43fc5bb5a3a 100644
->> --- a/include/linux/resctrl.h
->> +++ b/include/linux/resctrl.h
->> @@ -182,6 +182,16 @@ enum resctrl_scope {
->>       RESCTRL_L3_NODE,
->>   };
->>   +/**
->> + * struct resctrl_mon - Monitoring related data
->> + * @num_rmid:        Number of RMIDs available
->> + * @evt_list:        List of monitoring events
->> + */
->> +struct resctrl_mon {
->> +    int            num_rmid;
->> +    struct list_head    evt_list;
->> +};
+>>   Documentation/admin-guide/cgroup-v2.rst |  4 +-
+>>   kernel/cgroup/cpuset.c                  | 67 +++++++++++++++++--------
+>>   2 files changed, 49 insertions(+), 22 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 722e4762c4e0..2e4e74bea6ef 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -2380,8 +2380,8 @@ Cpuset Interface Files
+>>   	cpuset-enabled cgroups.
+>>
+>>   	This file shows the effective set of exclusive CPUs that
+>> -	can be used to create a partition root.  The content of this
+>> -	file will always be a subset of "cpuset.cpus" and its parent's
+>> +	can be used to create a partition root.  The content
+>> +	of this file will always be a subset of its parent's
+>>   	"cpuset.cpus.exclusive.effective" if its parent is not the root
+>>   	cgroup.  It will also be a subset of "cpuset.cpus.exclusive"
+>>   	if it is set.  If "cpuset.cpus.exclusive" is not set, it is
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index 144bfc319809..fe76045aa528 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -87,7 +87,7 @@ static const char * const perr_strings[] = {
+>>   	[PERR_NOTEXCL]   = "Cpu list in cpuset.cpus not exclusive",
+>>   	[PERR_NOCPUS]    = "Parent unable to distribute cpu downstream",
+>>   	[PERR_HOTPLUG]   = "No cpu available due to hotplug",
+>> -	[PERR_CPUSEMPTY] = "cpuset.cpus is empty",
+>> +	[PERR_CPUSEMPTY] = "cpuset.cpus and cpuset.cpus.exclusive are empty",
+>>   	[PERR_HKEEPING]  = "partition config conflicts with housekeeping setup",
+>>   };
+>>
+>> @@ -127,19 +127,28 @@ struct cpuset {
+>>   	/*
+>>   	 * Exclusive CPUs dedicated to current cgroup (default hierarchy only)
+>>   	 *
+>> -	 * This exclusive CPUs must be a subset of cpus_allowed. A parent
+>> -	 * cgroup can only grant exclusive CPUs to one of its children.
+>> +	 * The effective_cpus of a valid partition root comes solely from its
+>> +	 * effective_xcpus and some of the effective_xcpus may be distributed
+>> +	 * to sub-partitions below & hence excluded from its effective_cpus.
+>> +	 * For a valid partition root, its effective_cpus have no relationship
+>> +	 * with cpus_allowed unless its exclusive_cpus isn't set.
+>>   	 *
+>> -	 * When the cgroup becomes a valid partition root, effective_xcpus
+>> -	 * defaults to cpus_allowed if not set. The effective_cpus of a valid
+>> -	 * partition root comes solely from its effective_xcpus and some of the
+>> -	 * effective_xcpus may be distributed to sub-partitions below & hence
+>> -	 * excluded from its effective_cpus.
+>> +	 * This value will only be set if either exclusive_cpus is set or
+>> +	 * when this cpuset becomes a local partition root.
+>>   	 */
+>>   	cpumask_var_t effective_xcpus;
+>>
+>>   	/*
+>>   	 * Exclusive CPUs as requested by the user (default hierarchy only)
+>> +	 *
+>> +	 * Its value is independent of cpus_allowed and designates the set of
+>> +	 * CPUs that can be granted to the current cpuset or its children when
+>> +	 * it becomes a valid partition root. The effective set of exclusive
+>> +	 * CPUs granted (effective_xcpus) depends on whether those exclusive
+>> +	 * CPUs are passed down by its ancestors and not yet taken up by
+>> +	 * another sibling partition root along the way.
+>> +	 *
+>> +	 * If its value isn't set, it defaults to cpus_allowed.
+>>   	 */
+>>   	cpumask_var_t exclusive_cpus;
+>>
+>> @@ -230,6 +239,17 @@ static struct list_head remote_children;
+>>    *   2 - partition root without load balancing (isolated)
+>>    *  -1 - invalid partition root
+>>    *  -2 - invalid isolated partition root
+>> + *
+>> + *  There are 2 types of partitions - local or remote. Local partitions are
+>> + *  those whose parents are partition root themselves. Setting of
+>> + *  cpuset.cpus.exclusive are optional in setting up local partitions.
+>> + *  Remote partitions are those whose parents are not partition roots. Passing
+>> + *  down exclusive CPUs by setting cpuset.cpus.exclusive along its ancestor
+>> + *  nodes are mandatory in creating a remote partition.
+>> + *
+>> + *  For simplicity, a local partition can be created under a local or remote
+>> + *  partition but a remote partition cannot have any partition root in its
+>> + *  ancestor chain except the cgroup root.
+>>    */
+>>   #define PRS_MEMBER		0
+>>   #define PRS_ROOT		1
+>> @@ -709,6 +729,19 @@ static inline void free_cpuset(struct cpuset *cs)
+>>   	kfree(cs);
+>>   }
+>>
+>> +/* Return user specified exclusive CPUs */
+>> +static inline struct cpumask *user_xcpus(struct cpuset *cs)
+>> +{
+>> +	return cpumask_empty(cs->exclusive_cpus) ? cs->cpus_allowed
+>> +						 : cs->exclusive_cpus;
+>> +}
 >> +
->>   /**
->>    * struct rdt_resource - attributes of a resctrl resource
->>    * @rid:        The index of the resource
->> @@ -207,11 +217,11 @@ struct rdt_resource {
->>       int            rid;
->>       bool            alloc_capable;
->>       bool            mon_capable;
->> -    int            num_rmid;
->>       enum resctrl_scope    ctrl_scope;
->>       enum resctrl_scope    mon_scope;
->>       struct resctrl_cache    cache;
->>       struct resctrl_membw    membw;
->> +    struct resctrl_mon    mon;
->>       struct list_head    ctrl_domains;
->>       struct list_head    mon_domains;
->>       char            *name;
->> @@ -221,7 +231,6 @@ struct rdt_resource {
->>       int            (*parse_ctrlval)(struct rdt_parse_data *data,
->>                            struct resctrl_schema *s,
->>                            struct rdt_ctrl_domain *d);
->> -    struct list_head    evt_list;
->>       unsigned long        fflags;
->>       bool            cdp_capable;
->>   };
-> 
-> struct rdt_resource's kernel-doc still refers to the members
-> removed in this patch. Its kernel-doc also needs an update for the new
-> member added.
+>> +static inline bool xcpus_empty(struct cpuset *cs)
+>> +{
+>> +	return cpumask_empty(cs->cpus_allowed) &&
+>> +	       cpumask_empty(cs->exclusive_cpus);
+>> +}
+>> +
+>>   static inline struct cpumask *fetch_xcpus(struct cpuset *cs)
+>>   {
+>>   	return !cpumask_empty(cs->exclusive_cpus) ? cs->exclusive_cpus :
+>> @@ -1593,7 +1626,7 @@ EXPORT_SYMBOL_GPL(cpuset_cpu_is_isolated);
+>>    * Return: true if xcpus is not empty, false otherwise.
+>>    *
+>>    * Starting with exclusive_cpus (cpus_allowed if exclusive_cpus is not set),
+>> - * it must be a subset of cpus_allowed and parent's effective_xcpus.
+>> + * it must be a subset of parent's effective_xcpus.
+>>    */
+>>   static bool compute_effective_exclusive_cpumask(struct cpuset *cs,
+>>   						struct cpumask *xcpus)
+>> @@ -1603,12 +1636,7 @@ static bool compute_effective_exclusive_cpumask(struct cpuset *cs,
+>>   	if (!xcpus)
+>>   		xcpus = cs->effective_xcpus;
+>>
+>> -	if (!cpumask_empty(cs->exclusive_cpus))
+>> -		cpumask_and(xcpus, cs->exclusive_cpus, cs->cpus_allowed);
+>> -	else
+>> -		cpumask_copy(xcpus, cs->cpus_allowed);
+>> -
+>> -	return cpumask_and(xcpus, xcpus, parent->effective_xcpus);
+>> +	return cpumask_and(xcpus, user_xcpus(cs), parent->effective_xcpus);
+>>   }
+>>
+>>   static inline bool is_remote_partition(struct cpuset *cs)
+>> @@ -1887,8 +1915,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+>>   	 */
+>>   	adding = deleting = false;
+>>   	old_prs = new_prs = cs->partition_root_state;
+>> -	xcpus = !cpumask_empty(cs->exclusive_cpus)
+>> -		? cs->effective_xcpus : cs->cpus_allowed;
+>> +	xcpus = user_xcpus(cs);
+>>
+>>   	if (cmd == partcmd_invalidate) {
+>>   		if (is_prs_invalid(old_prs))
+>> @@ -1916,7 +1943,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+>>   		return is_partition_invalid(parent)
+>>   		       ? PERR_INVPARENT : PERR_NOTPART;
+>>   	}
+>> -	if (!newmask && cpumask_empty(cs->cpus_allowed))
+>> +	if (!newmask && xcpus_empty(cs))
+>>   		return PERR_CPUSEMPTY;
+>>
+>>   	nocpu = tasks_nocpu_error(parent, cs, xcpus);
+>> @@ -3130,9 +3157,9 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+>>   				       ? partcmd_enable : partcmd_enablei;
+>>
+>>   		/*
+>> -		 * cpus_allowed cannot be empty.
+>> +		 * cpus_allowed and exclusive_cpus cannot be both empty.
+>>   		 */
+>> -		if (cpumask_empty(cs->cpus_allowed)) {
+>> +		if (xcpus_empty(cs)) {
+>>   			err = PERR_CPUSEMPTY;
+>>   			goto out;
+>>   		}
+>> --
+>> 2.39.3
+>>
 
-Yea. My bad. Will correct it.
-
--- 
-Thanks
-Babu Moger
