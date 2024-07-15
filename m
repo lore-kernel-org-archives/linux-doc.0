@@ -1,314 +1,267 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BEA3A1A0
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 15:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B8F6FC2;
+	Mon, 15 Jul 2024 15:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721055654; cv=none; b=kVyrh0GkLlrL6jToO4Vtwlm2H9m48w9GEnp+anpf6A9p0QIrtX8Nz/DJXUH9/uDSOBUmodlLmPw+EJR9hjoIzLcvPPJcCPmdg7qt6uUhzJQGGH0bIkWshB2p1DIapZnp65SRz9w/IaLyc5S7fDQsY6CGgJxvg1l3Zhz8ShqDg3g=
+	t=1721057276; cv=none; b=i9YL7E6cB5ITMP5DEr6FKCHyNpWVwgw/ikQ0oSaVpfjdKx3GFhcPVUcOtHDWs949IZe0XoUuMgdIzNGOjbd4ye53n5i5IpADw0+o0MgzbS9CKMj4OSdIfsq7yFSZ62SJpVHhabKl31kIMCRlrtezFSLLYRIs/4jrrUeqmq5/Czc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721055654; c=relaxed/simple;
-	bh=j325IHElo6ZuouPg44z5dlzCsgdNWRS3ROXO9BZUDDs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=swIE13EkkMyXsWF+MpewaFX4rAkzyykl0n+yUe/3XyAF8+gG1uX80nj2lOZpnJ4Ufjs64Z5ajVCvby2rBv3ud6t0XkjYOlX+JizZY2nPGmXEmvzAYn+ARoMH9xBocsTgrtfb/gh6MURW88bLnbBy2ibAk+cMSFLDm/vZxMxdVJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DPYHKv+O; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1721057276; c=relaxed/simple;
+	bh=gg+vq8Y4TJyOICzzmZCezAVjGNolO80EswIgpDJWrlw=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUdUdz+Fp0Z8+2orkdGOoL3fjk2E+XbIeRMI4+nltA+IurP9kzrrZ9hCxsc0DBV4eEveVRfSp3LgixuVHu7ownnLvbbTf1vJW9XEhXlh2TdJp6ESibtQexQM+GQdsKz+w/Qm3/gn1PRf/D4Pc2YohIVAYVsqhpEWvJpC6K/M+78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C2UsImvE; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPYHKv+O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721055652;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tb4l87oDxCeQh2eMPiDUUXOzH1cMP9tAKpWCk95Hjis=;
-	b=DPYHKv+O2Ou/fJ3zlrRir2d4mPDbw3UF9jHEwQ/FL1IWRWVcvUiPYphzjMCibVxg86XBol
-	Bpud0h4rHCNqQa7blUrNn4n+rjoqkYlsPExBKY1c2p053vcBbGp05IB675bJXNKJ9dFGI6
-	va6XwsJ+mWEyf/TTpGp5w1877jne1K0=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-663-dNr3_IDpMXi3AMx9JZ2hiA-1; Mon,
- 15 Jul 2024 11:00:48 -0400
-X-MC-Unique: dNr3_IDpMXi3AMx9JZ2hiA-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 83E751955F43;
-	Mon, 15 Jul 2024 15:00:44 +0000 (UTC)
-Received: from llong.com (unknown [10.22.9.29])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B268A1955D42;
-	Mon, 15 Jul 2024 15:00:41 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in cgroup.stat
-Date: Mon, 15 Jul 2024 11:00:34 -0400
-Message-Id: <20240715150034.2583772-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2UsImvE"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2eea7e2b073so58694791fa.0;
+        Mon, 15 Jul 2024 08:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721057272; x=1721662072; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V/pUmvJtOvJT1+h6Zd6ybwkW7CguoUMaPj5VZN3w6pQ=;
+        b=C2UsImvEYCm0QePEWUqDNFPFyKSGAW8cz6vPylHYwm9H5zThW7+YCTfj2hirL+w2Vm
+         BGmwyzjs/2xDKBFceDW0v95NjPzNdPtvG26r9JNk0J203Lctx91M7PlYuE7EAM78qeS3
+         XtQjjWv1dmrWVcRWNGWijC2xV/LiYuf82aXQtJI1/TvD9Cc3n02pZzZHPhdhcz9Bl42y
+         0w1DdzXfI3E8+T/ME6BRn3c2Wk3EJCN0/aHXT1nSlllVmc6vOIMbxa5Tyu0IA5d3VdAG
+         YFqzocDdYez2jGFPD2KmyNzDPjtT0NIeEJTum7rhI0Tc4O2lfJPx0bSD6DgzqVB4kl2v
+         +IFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721057272; x=1721662072;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V/pUmvJtOvJT1+h6Zd6ybwkW7CguoUMaPj5VZN3w6pQ=;
+        b=jr9knjkgWPwTsgWjND3dyV80mBMx33lLKKCoM3ClVZS7xzq86JJuRgTv9/yE/+1Xdq
+         Hcz5Crvjs0vZUyGfJOpOLm1BVkdtl1d9ScYd4rmklEBOHLudQmmd2ZYJO1WFFvVCdL5m
+         zwC4vAxSDNmV/3vKvRiwyW8eowTyW2rNwQsKbsZVZwwPmBID8WsRMbK+Oy5nvOvdC0Wt
+         ncAkKH8PHhKFRJXSaJvcHZDJ0hr8JTdcY/W3XMzxOn14L+huS8Vm+P3AuIoEvE3oIuVI
+         DNEZobdRuyoBmyqnRqvkaVnY2WVDhyAqJoynay6o7UbOrskGgl8Ny+FctuMCuVaYbkl8
+         UwBw==
+X-Forwarded-Encrypted: i=1; AJvYcCW50+mSuVHbXyTDBgcQj8QoRlpA+uk0Uz6+W9ul0rHpZRTDsqkaSmC+Fwzc7K9xcnr2YuKowVLDlwPT2WRKE72xVio0AeMgL6aL7MtwGmvyqKta8/jdDdPKE2M92ndmbqrniE64PgDr
+X-Gm-Message-State: AOJu0YyWwukBXW0gIHEdIT48Fc2ot35xcYZWQBOb8V3rBM9FqGloqoP/
+	rzbKwhWy1EAY1d7cJ9DVaHP2n6Tv/pIP1iO4+yfhmgx3GJPqZw/n
+X-Google-Smtp-Source: AGHT+IHTUFkcLvT7zfoIubiQt6y5xEmasMztX/4RmLkdeCIQZWx2Y+/wGoIdOJOOVPc3lgif44e7PA==
+X-Received: by 2002:a2e:8949:0:b0:2ee:8698:10ed with SMTP id 38308e7fff4ca-2eef2da56f0mr1459491fa.49.1721057271886;
+        Mon, 15 Jul 2024 08:27:51 -0700 (PDT)
+Received: from fedora ([213.94.26.172])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a5ef57aesm89145505e9.45.2024.07.15.08.27.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 08:27:51 -0700 (PDT)
+Date: Mon, 15 Jul 2024 17:27:49 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Marius Vlad <marius.vlad@collabora.com>,
+	Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+	brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+	hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+	mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <ZpU_9WnG_6xfTaTL@fedora>
+References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
+ <20240508181744.7030-1-jose.exposito89@gmail.com>
+ <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
+ <Zj5JIah0jWnIn2Ix@localhost.localdomain>
+ <ZkHKhtBmyS12i3fH@fedora>
+ <ZkHXS6iBLgRoApNl@xpredator>
+ <ZkI-ZjAYCJaMvmQD@fedora>
+ <Zkd_C77S-ERpMiqu@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+In-Reply-To: <Zkd_C77S-ERpMiqu@localhost.localdomain>
 
-Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
-help manage different structures in various cgroup subsystems by being
-an embedded element inside a larger structure like cpuset or mem_cgroup.
+On Fri, May 17, 2024 at 06:00:11PM +0200, Louis Chauvet wrote:
+> > > > Hi Louis,
+> > > > 
+> > > > If you could share a RFC/WIP series it would be awesome!
+> 
+> Hi all!
+> 
+> I just uploaded my WIP series to github here [1]. Most of the work is 
+> extracted from the current ConfigFS series, I just splitted and completed 
+> what was done. I also tried to take in account the comments from Sima.
+> 
+> All commits should compile and `modprobe/rmmod/kms_plane` should not 
+> crashing. The commits are not totaly clean, but it should be only cosmetic 
+> stuff (formatting in the wrong commit for example). The commit messages 
+> are not written yet, but the title should be sufficient to understand the 
+> content of each commit.
+> 
+> This is how I plan to split this work in series: (hash may change over 
+> time, I will force push to clean commits)
+> 
+> Some preparation stuff (no functionnal change):
+> 	256d7045ec70 drm/vkms: Formatting and typo fix
+> 	cc2de5004c42 drm/vkms: Rename index to possible_crtc
+> 	a74cefc87b9c drm/vkms: Add documentation
+> 
+> More preparation to split everything properly (no functionnal change):
+> 	ad2d0b07558f drm/vkms: Properly extract vkms_formats header
+> 	f9639cca2d43 drm/vkms: Extract vkms_writeback header
+> 	7edda8012b44 drm/vkms: Extract vkms_plane header
+> 	ced09ed9d0f7 drm/vkms: Rename macro to avoid confusion
+> 	9f00e4823529 drm/vkms: Extract vkms_crtc header
+> 	b510e480ed92 drm/vkms: Extract vkms_composer header
 
-The /proc/cgroups file shows the number of cgroups for each of the
-subsystems.  With cgroup v1, the number of CSSes is the same as the
-number of cgroups.  That is not the case anymore with cgroup v2. The
-/proc/cgroups file cannot show the actual number of CSSes for the
-subsystems that are bound to cgroup v2.
+Thanks for all your work Louis!!
 
-So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
-we can't tell by looking at /proc/cgroups which cgroup subsystems may
-be responsible.
+I reviewed the first 9 patches and added a few comments on your
+GitHub fork.
 
-As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-cgroup.stat file is now being extended to show the number of live and
-dying CSSes associated with all the non-inhibited cgroup subsystems that
-have been bound to cgroup v2. The number includes CSSes in the current
-cgroup as well as in all the descendants underneath it.  This will help
-us pinpoint which subsystems are responsible for the increasing number
-of dying (nr_dying_descendants) cgroups.
+I think that this first batch of patches is independent of the
+VKMS ConfigFS work and, if you want, you could send it as it is.
 
-The CSSes dying counts are stored in the cgroup structure itself
-instead of inside the CSS as suggested by Johannes. This will allow
-us to accurately track dying counts of cgroup subsystems that have
-recently been disabled in a cgroup. It is now possible that a zero
-subsystem number is coupled with a non-zero dying subsystem number.
+To try to make your work a bit easier, I applied the suggested
+fixes and rebased on top of "upstream-drm-misc-next" your patches.
 
-The cgroup-v2.rst file is updated to discuss this new behavior.
+You can find them here:
+https://github.com/JoseExposito/linux/commits/patch-vkms-header-refactor/
 
-With this patch applied, a sample output from root cgroup.stat file
-was shown below.
+> Switch all the vkms object to managed (this part need a careful review, 
+> I am new with DRM, so I probably did some error):
+> 	ddef3c09ead6 drm/vkms: Switch to managed for connector
+> 	8859cad0e192 drm/vkms: Switch to managed for encoder
+> 	d2b8d93fb684 drm/vkms: Switch to managed for crtc
+> 	d1ad316b0f0d drm/vkms: Rename all vkms_crtc instance to be consistent
+> 
+> Temporaly remove debugfs entry, I plan to remove this commit:
+> 	079d875c015e drm/vkms: remove debugfs entry about the current vkms configuration
+> 
+> Clean up vkms_device and unlink vkms_config from vkms_device.
+> 	c782dbe9edc3 drm/vkms: Remove vkms_config from vkms_device
+> 	8a27c13634a3 drm/vkms: Remove (useles?) group
+> 	8fb24e1cdf88 drm/vkms: Introduce directly the default device as global/Remove default vkms config
+> 
+> More cleanup:
+> 	2572d90723ac drm/vkms: Remove possible crtc from parameters
+> 
+> Switching to platform driver (same thing, it is my first time, I probably 
+> messed up things):
+> 	63be09e05760 drm/vkms: Use a real platform driver
+> 	5f4cf18b07d3 drm/vkms: Extract device driver in its own file
+> 
+> The configFS implementation itself. It only allows to create/enable/delete 
+> a device:
+> 	b34651685f2e drm/vkms: Introduce configfs
+> 
+> Those commits were a POC to confirm that it works. They need to be 
+> replaced by the "real" configuration (creation&link of crtc/connector/planes...)
+> 	dd55451ccef2 drm/vkms: Make overlay configurable with configfs
+> 	9dca357f1ee3 drm/vkms: Make cursor configurable with configfs
+> 	bd721f41fad9 drm/vkms: Make writeback configurable with configfs
 
-	nr_descendants 56
-	nr_subsys_cpuset 1
-	nr_subsys_cpu 43
-	nr_subsys_io 43
-	nr_subsys_memory 56
-	nr_subsys_perf_event 57
-	nr_subsys_hugetlb 1
-	nr_subsys_pids 56
-	nr_subsys_rdma 1
-	nr_subsys_misc 1
-	nr_dying_descendants 30
-	nr_dying_subsys_cpuset 0
-	nr_dying_subsys_cpu 0
-	nr_dying_subsys_io 0
-	nr_dying_subsys_memory 30
-	nr_dying_subsys_perf_event 0
-	nr_dying_subsys_hugetlb 0
-	nr_dying_subsys_pids 0
-	nr_dying_subsys_rdma 0
-	nr_dying_subsys_misc 0
+I'm still testing/understanding these patches.
+I'll keep adding review comments :)
 
-Another sample output from system.slice/cgroup.stat was:
-
-	nr_descendants 34
-	nr_subsys_cpuset 0
-	nr_subsys_cpu 32
-	nr_subsys_io 32
-	nr_subsys_memory 34
-	nr_subsys_perf_event 35
-	nr_subsys_hugetlb 0
-	nr_subsys_pids 34
-	nr_subsys_rdma 0
-	nr_subsys_misc 0
-	nr_dying_descendants 30
-	nr_dying_subsys_cpuset 0
-	nr_dying_subsys_cpu 0
-	nr_dying_subsys_io 0
-	nr_dying_subsys_memory 30
-	nr_dying_subsys_perf_event 0
-	nr_dying_subsys_hugetlb 0
-	nr_dying_subsys_pids 0
-	nr_dying_subsys_rdma 0
-	nr_dying_subsys_misc 0
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 12 +++++-
- include/linux/cgroup-defs.h             | 14 +++++++
- kernel/cgroup/cgroup.c                  | 55 ++++++++++++++++++++++++-
- 3 files changed, 77 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 52763d6b2919..abf3adad04bd 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -981,6 +981,14 @@ All cgroup core files are prefixed with "cgroup."
- 		A dying cgroup can consume system resources not exceeding
- 		limits, which were active at the moment of cgroup deletion.
+Best wishes,
+José Expósito
  
-+	  nr_subsys_<cgroup_subsys>
-+		Total number of live cgroup subsystems (e.g memory
-+		cgroup) at and beneath the current cgroup.
-+
-+	  nr_dying_subsys_<cgroup_subsys>
-+		Total number of dying cgroup subsystems (e.g. memory
-+		cgroup) at and beneath the current cgroup.
-+
-   cgroup.freeze
- 	A read-write single value file which exists on non-root cgroups.
- 	Allowed values are "0" and "1". The default is "0".
-@@ -2930,8 +2938,8 @@ Deprecated v1 Core Features
- 
- - "cgroup.clone_children" is removed.
- 
--- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" file
--  at the root instead.
-+- /proc/cgroups is meaningless for v2.  Use "cgroup.controllers" or
-+  "cgroup.stat" files at the root instead.
- 
- 
- Issues with v1 and Rationales for v2
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index b36690ca0d3f..3cb049f104f6 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -210,6 +210,14 @@ struct cgroup_subsys_state {
- 	 * fields of the containing structure.
- 	 */
- 	struct cgroup_subsys_state *parent;
-+
-+	/*
-+	 * Keep track of total numbers of visible descendant CSSes.
-+	 * The total number of dying CSSes is tracked in
-+	 * css->cgroup->nr_dying_subsys[ssid].
-+	 * Protected by cgroup_mutex.
-+	 */
-+	int nr_descendants;
- };
- 
- /*
-@@ -470,6 +478,12 @@ struct cgroup {
- 	/* Private pointers for each registered subsystem */
- 	struct cgroup_subsys_state __rcu *subsys[CGROUP_SUBSYS_COUNT];
- 
-+	/*
-+	 * Keep track of total number of dying CSSes at and below this cgroup.
-+	 * Protected by cgroup_mutex.
-+	 */
-+	int nr_dying_subsys[CGROUP_SUBSYS_COUNT];
-+
- 	struct cgroup_root *root;
- 
- 	/*
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index c8e4b62b436a..601600afdd20 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -3669,12 +3669,40 @@ static int cgroup_events_show(struct seq_file *seq, void *v)
- static int cgroup_stat_show(struct seq_file *seq, void *v)
- {
- 	struct cgroup *cgroup = seq_css(seq)->cgroup;
-+	struct cgroup_subsys_state *css;
-+	int dying_cnt[CGROUP_SUBSYS_COUNT];
-+	int ssid;
- 
- 	seq_printf(seq, "nr_descendants %d\n",
- 		   cgroup->nr_descendants);
-+
-+	/*
-+	 * Show the number of live and dying csses associated with each of
-+	 * non-inhibited cgroup subsystems that is bound to cgroup v2.
-+	 *
-+	 * Without proper lock protection, racing is possible. So the
-+	 * numbers may not be consistent when that happens.
-+	 */
-+	rcu_read_lock();
-+	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
-+		dying_cnt[ssid] = -1;
-+		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
-+		    (cgroup_subsys[ssid]->root !=  &cgrp_dfl_root))
-+			continue;
-+		css = rcu_dereference_raw(cgroup->subsys[ssid]);
-+		dying_cnt[ssid] = cgroup->nr_dying_subsys[ssid];
-+		seq_printf(seq, "nr_subsys_%s %d\n", cgroup_subsys[ssid]->name,
-+			   css ? (css->nr_descendants + 1) : 0);
-+	}
-+
- 	seq_printf(seq, "nr_dying_descendants %d\n",
- 		   cgroup->nr_dying_descendants);
--
-+	for (ssid = 0; ssid < CGROUP_SUBSYS_COUNT; ssid++) {
-+		if (dying_cnt[ssid] >= 0)
-+			seq_printf(seq, "nr_dying_subsys_%s %d\n",
-+				   cgroup_subsys[ssid]->name, dying_cnt[ssid]);
-+	}
-+	rcu_read_unlock();
- 	return 0;
- }
- 
-@@ -5424,6 +5452,8 @@ static void css_release_work_fn(struct work_struct *work)
- 	list_del_rcu(&css->sibling);
- 
- 	if (ss) {
-+		struct cgroup *parent_cgrp;
-+
- 		/* css release path */
- 		if (!list_empty(&css->rstat_css_node)) {
- 			cgroup_rstat_flush(cgrp);
-@@ -5433,6 +5463,14 @@ static void css_release_work_fn(struct work_struct *work)
- 		cgroup_idr_replace(&ss->css_idr, NULL, css->id);
- 		if (ss->css_released)
- 			ss->css_released(css);
-+
-+		cgrp->nr_dying_subsys[ss->id]--;
-+		WARN_ON_ONCE(css->nr_descendants || cgrp->nr_dying_subsys[ss->id]);
-+		parent_cgrp = cgroup_parent(cgrp);
-+		while (parent_cgrp) {
-+			parent_cgrp->nr_dying_subsys[ss->id]--;
-+			parent_cgrp = cgroup_parent(parent_cgrp);
-+		}
- 	} else {
- 		struct cgroup *tcgrp;
- 
-@@ -5517,8 +5555,11 @@ static int online_css(struct cgroup_subsys_state *css)
- 		rcu_assign_pointer(css->cgroup->subsys[ss->id], css);
- 
- 		atomic_inc(&css->online_cnt);
--		if (css->parent)
-+		if (css->parent) {
- 			atomic_inc(&css->parent->online_cnt);
-+			while ((css = css->parent))
-+				css->nr_descendants++;
-+		}
- 	}
- 	return ret;
- }
-@@ -5540,6 +5581,16 @@ static void offline_css(struct cgroup_subsys_state *css)
- 	RCU_INIT_POINTER(css->cgroup->subsys[ss->id], NULL);
- 
- 	wake_up_all(&css->cgroup->offline_waitq);
-+
-+	css->cgroup->nr_dying_subsys[ss->id]++;
-+	/*
-+	 * Parent css and cgroup cannot be freed until after the freeing
-+	 * of child css, see css_free_rwork_fn().
-+	 */
-+	while ((css = css->parent)) {
-+		css->nr_descendants--;
-+		css->cgroup->nr_dying_subsys[ss->id]++;
-+	}
- }
- 
- /**
--- 
-2.39.3
-
+> Kind regards,
+> Louis Chauvet
+> 
+> 
+> [1]: https://github.com/Fomys/linux/tree/b4/new-configfs
+> 
+> > > > Since you are already working on the kernel patches (and I guess IGT?),
+> > > > I'll start working on a libdrm high level API to interact with VKMS from
+> > > > user-space on top of your patches. I'll share a link as soon as I have a
+> > > > draft PR.
+> > > 
+> > > Just out of curiosity what API would that be? These should fairly
+> > > simple that they can be configured from a shell script 
+> > > (mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff with 
+> > > bunch scripts like that.
+> > 
+> > My plan is to add a very thin C API around mkdir/rmdir/etc.
+> > 
+> > It is true that VKMS can be configure easily using a bash script; however,
+> > compositors with test suites written in C (or with bindings to libdrm) would
+> > have to write similar wrappers around the mkdir/rmdir/etc calls.
+> > I think that it could be beneficial for them to have a shared wrapper available
+> > in libdrm.
+> >  
+> > > Perphas landing the I-G-T tests first (assuming we're settled 
+> > > on how exactly this would work) might be of greated help to get a green lit 
+> > > the kernel driver side? Skip if vkms/configfs/something else that tells
+> > > us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
+> > > 
+> > > The lastest iteration was shared by Jim at 
+> > > https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabora.com/
+> > > 
+> > > That way sub-sequent BAT CI would pick up issues, and can also used
+> > > independently by Louis. Should also divide the work-load evenly with
+> > > Louis focusing on the just the driver. Happy to review and test it.
+> > > 
+> > > > 
+> > > > > Maybe we can discuss a bit the comment from Daniel (split init between 
+> > > > > default/configfs, use or not a real platform device...)
+> > > > > 
+> > > > > For the split, I think the first solution (struct vkms_config) can be 
+> > > > > easier to understand and to implement, for two reasons:
+> > > > > - No need to distinguish between the "default" and the "configfs" devices 
+> > > > >   in the VKMS "core". All is managed with only one struct vkms_config.
+> > > > > - Most of the lifetime issue should be gone. The only thing to 
+> > > > >   synchronize is passing this vkms_config from ConfigFS to VKMS.
+> > > > 
+> > > > I agree, this seems like the easiest solution.
+> > > > 
+> > > > > The drawback of this is that it can become difficult to do the "runtime" 
+> > > > > configuration (today only hotplug, but I plan to add more complex stuff 
+> > > > > like DP emulation, EDID selection, MST support...). Those configuration 
+> > > > > must be done "at runtime" and will require a strong synchronization with 
+> > > > > the vkms "core".
+> > > > > 
+> > > > > Maybe we can distinguish between the "creation" and the "runtime 
+> > > > > configuration", in two different configFS directory? Once a device is 
+> > > > > created, it is moved to the "enabled" directory and will have a different 
+> > > > > set of attribute (connection status, current EDID...)
+> > > > 
+> > > > Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled`),
+> > > > would it make sense to use sysfs instead of another configfs directory?
+> > > > The advantage is that with sysfs the kernel controls the lifetime of the
+> > > > objects and I think it *might* simplify the code, but I'll need to write a
+> > > > proof of concept to see if this works.
+> > > Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is a
+> > > view into a kernel objects, mostly for viewing and slight modifications
+> > > but not manipulating, adding/removing, on the fly, various things. Sort
+> > > of see it the other way around, device enabled with sysfs but
+> > > configuration happens through ConfigFS. At least from a user-space pov.
+> > > > 
+> > > > > For the platform driver part, it seems logic to me to use a "real" 
+> > > > > platform driver and a platform device for each pipeline, but I don't have 
+> > > > > the experience to tell if this is a good idea or not.
+> > > > 
+> > > > I'm afraid I don't know which approach could work better. Trusting Sima and
+> > > > Maíra on this one.
+> > > > 
+> > > > Jose
+> > > > 
+> > > > > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
+> > > > > 
+> > > > > Thanks,
+> > > > > Louis Chauvet
+> > > > > 
+> > > > > -- 
+> > > > > Louis Chauvet, Bootlin
+> > > > > Embedded Linux and Kernel engineering
+> > > > > https://bootlin.com
+> > 
+> > 
+> 
+> -- 
+> Louis Chauvet, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
