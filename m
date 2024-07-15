@@ -1,151 +1,159 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3775E46556
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 16:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A626045016
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 17:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721061629; cv=none; b=qIL7rg+KCFqyPMKLSmthJwtJ++Tjnr0D8DuN9ZkIYlIJNzA+ckTbk2t/KgAO6l0bUJ+SFhVHXWpHIENkUpZ12MtAkijvb5g5+v/vUcFSNTMvVvgRma22vwHdEeje7+shhnFmj7iik8QqAJTiYkDaxExaMhkPN867IIPziAjbr5g=
+	t=1721064181; cv=none; b=qR7rjiHC7k8EIh+JImklQJwqVqO9E+XMX3AAEbtc53DWgKoTAvioAVw/c3SKfnlaxGKgYHBpRi0grqQEwQ7VW21ofGxQzf30gWAjsZx+ZfJoK0hidoTexDjVNIOysKdCgAzzogEObTk9M0YIHb/NfRHZMpxcYUxUMhxs/fFBfNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721061629; c=relaxed/simple;
-	bh=kBWBnjXh7VOgbtn1rxNBCQXca9txmQle+V4SDlhC8HI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XFDhEQCi+Qd2tESZf7BqumhobV/1yrMzYLctpmaxMKzrZTmSEyeBnA6LZfEgNwhQF197mxJsAX8hG+IdazRN/ZKvVHe9YEX42G+wuJkHVk3ffrWOaotHAS+lwc7a2O2iX0uNqEhUXwqSr9s9bWMJk5zWBMckegP/JU2/7txYKs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XU6zqNTr; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1721064181; c=relaxed/simple;
+	bh=J67CIHRUbdGmnrl2ITF7KM9nbk16I0qPrrmM1VDeTB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNc/OVr/v0G8fqGa3KG/hRMBc5ajiOxnvHv08gP8LDoAyqYjCe2Jl4sng+gSjo8vv+A1ufP/KQrpNQGq7DoM36QoAL/jdD98kxm+xgRPl6I2pij7G6WMmmeQLZGFMZeow9Rb4zZT9SH+lwj+ZGrmG+71Zi0takIrSlMPzK9yULA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=h8boxVwV; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XU6zqNTr"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6b5e760eb36so27096856d6.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 09:40:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="h8boxVwV"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6b5ecafbf88so23657476d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 10:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1721061623; x=1721666423; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q43fP/YwIscAu2HdaErO2TBIovUlIaQMWdgLOPVgO94=;
-        b=XU6zqNTryXv3s8FpkljJm3gLDCklCN+bU5KnWRob2tJPRx1V8AfNoH+9fSaeZnOQRa
-         nF+wGCC1PehulayCbhiCwIn/+9hrCBTjCmSW/TktrSojHIWaBulYlntSdZz009aGY4In
-         dLoCPE9Q4FIzYAW+kH69YRnrhP/a48uUpNks4=
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721064177; x=1721668977; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+LS+Pt/xtcW0R8fRx1VsexXvG+4qSHFVI3AS2OkJyMY=;
+        b=h8boxVwVszPgvAy2Pz9wr2EtA4dvTht84DNysl8x4DX0e6r/WQYo8rXRPEPrUycRi2
+         nxOh+IWdZpwfm2OemdTrkM08qY9Orzwf8qaoEM4lw+qfwVa0G4kjE9yt5sCSdnfv/Jib
+         POxpd6S+XywCoOoCjcHU7aqiEaN1X5pRkWv2CsiLpdbKRjalfyAov7x8MwqWAxuyPtmZ
+         lxkhFEaQrLuD7WJjZxon6Tok2I6AQ8ucXwVqWVbnD8HU7Xla7iq4ITQZUlaRgwARgkIP
+         sTKI/pYfauyDqJLOPRmS/R2/c4FFLcYQRQcd4NvO9yLKo6mgqs8SKjRQxvLWvCrjdUn0
+         foXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721061623; x=1721666423;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q43fP/YwIscAu2HdaErO2TBIovUlIaQMWdgLOPVgO94=;
-        b=KEJhHzPc0iu1vhJ4/C0qR9Qs6vODZZA286U9XMY6RTrZVJ7nRhQNITZHmeyjgf0Lbi
-         Qc4n1WouJVC689nC/aCp0EAKbpMBznfxja7Gg8ubmyIibqpiqrmXVY3pwiSLFtVwEZ64
-         oyrKVni3LxLY1tOhQcfVf1d3nopyY2JVm17dLkL386D7jhdcbZiweKixMZWM2HyUNtxc
-         xtWptZmMN0aOQ8ggoRGNv7mglcjSjOBB5vJ/NkABqsiZzLvQ237vUbEJ2q3ovoHNAoZT
-         NKxZiLDO4f0AhvORNZPun1fgF6ePKSyufu9dAAJG1QavaC7wL1Vl439Ia0uXh4xjk+oW
-         GkFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXm/XRqTEFu2noHGOZhzyRrvWbQg8hckbpaiRsb29O6kpxjHTuX0WXValP4/xw4yjk3mi6NzQGqtF2uKgRNczKqNaNYgLqm1qK1
-X-Gm-Message-State: AOJu0YyvCj9f5YC5cb7vmrZqZZkyDB7M8tJ5Wu15rJJUiYxJw+EeKD3t
-	TaPNpYYVoJnPo6l4vp26t4xLgTkT/mm15QXNSx8F+94ZJpYcTj765muMWzOCQM/USBRktHyTeD4
-	=
-X-Google-Smtp-Source: AGHT+IGcJJyw0jBolKvZLF7RX5nZfyooNXBQVFzJTJusaCN9snArWsC+AgiNNm8ExbPLlNt0NhYBlw==
-X-Received: by 2002:a05:6214:19cb:b0:6b5:e663:4d4d with SMTP id 6a1803df08f44-6b77deb47a3mr2908416d6.30.1721061623121;
-        Mon, 15 Jul 2024 09:40:23 -0700 (PDT)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b76197d5b3sm22775056d6.41.2024.07.15.09.40.21
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jul 2024 09:40:22 -0700 (PDT)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-447f8aa87bfso7401cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 09:40:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUJLydzP7AuVzxIvxIbZccVJo9hGeoLlPGOmeful6CQ68WtkC1R01eF9PQfmu1l85/h8z1smYkP5LugefeUP3FW2n72ke+kCf6w
-X-Received: by 2002:ac8:6908:0:b0:447:e497:95d0 with SMTP id
- d75a77b69052e-44f5ac90b7dmr6164531cf.17.1721061621306; Mon, 15 Jul 2024
- 09:40:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721064177; x=1721668977;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+LS+Pt/xtcW0R8fRx1VsexXvG+4qSHFVI3AS2OkJyMY=;
+        b=C2p38J7ccByfq72/SHRUx7uTyUV/85C6jFIbuwWsxFmwKX4W3/6IoeZTmWfhF7KFPd
+         F2XnVH6Ylr6lO1ZBfPUM+/l4zVCRwn1P9gddB9sNfp1I2MVWH2QjS6x5Io8qOnh4Lzw9
+         aDFY+lby2LN9V5So/xe5fqYp6NQjNTvASO6lFFAtLGGhlADi/JUOKOIVsb++pvMEQqs9
+         0IltrOWAp6iirKm0Zuft/QP8xz64aevIn0LHNHa8jaaUwPq+ZSYUJhjN+SlfrSNNvX33
+         BXx2Ff+oj350pzcCJANYvkXu8oXxjMjcSrjDMQ1mlYaBqr875GbW04dRtZ8OtSUKjCnS
+         nZzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaGQpDtLfWCyRmgOmt84uGvgVND3K4GnUY9FZucjXZcyxpChnDV4hMLVRYP+xEjhdgRGHwqDGGMoROZGn+pTMHiwBJOvw2ceZM
+X-Gm-Message-State: AOJu0Yyhl3wNbSrSC2vYCC+SjxvpP23K3+sQSh4TEHtOTSQc2aqy+21Q
+	3f9aXLv2cpSvJ+0OoB1v2pDytNf166eJijpJ9pLUU5hZskc0QhwIgtIDmK5y8Yc=
+X-Google-Smtp-Source: AGHT+IHfPdDjkIPhp1T/zEM1IxAuupFbb40dXjl3O3lyXkmAszC9Y7O4atftQvaNDw/ztZPARS2yJw==
+X-Received: by 2002:a05:6214:4018:b0:6b0:6dba:c947 with SMTP id 6a1803df08f44-6b77de71b14mr4032816d6.18.1721064177246;
+        Mon, 15 Jul 2024 10:22:57 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b7619a7218sm23200826d6.73.2024.07.15.10.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 10:22:56 -0700 (PDT)
+Date: Mon, 15 Jul 2024 13:22:55 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
+ cgroup.stat
+Message-ID: <20240715172255.GB1321673@cmpxchg.org>
+References: <20240715150034.2583772-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
- <CAD=FV=VwebY8F3XjeVt6kvKwB7QZ8Khn5oJJoDThuemiGx9y+g@mail.gmail.com>
-In-Reply-To: <CAD=FV=VwebY8F3XjeVt6kvKwB7QZ8Khn5oJJoDThuemiGx9y+g@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 15 Jul 2024 09:40:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UdsuEiyPK2K3sYdQm50WNukA5pxD=wUaEAVQStNnNA_A@mail.gmail.com>
-Message-ID: <CAD=FV=UdsuEiyPK2K3sYdQm50WNukA5pxD=wUaEAVQStNnNA_A@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Maxime Ripard <mripard@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Chris Morgan <macromorgan@hotmail.com>, 
-	Yuran Pereira <yuran.pereira@hotmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715150034.2583772-1-longman@redhat.com>
 
-Hi,
+On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
+> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+> help manage different structures in various cgroup subsystems by being
+> an embedded element inside a larger structure like cpuset or mem_cgroup.
+> 
+> The /proc/cgroups file shows the number of cgroups for each of the
+> subsystems.  With cgroup v1, the number of CSSes is the same as the
+> number of cgroups.  That is not the case anymore with cgroup v2. The
+> /proc/cgroups file cannot show the actual number of CSSes for the
+> subsystems that are bound to cgroup v2.
+> 
+> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+> we can't tell by looking at /proc/cgroups which cgroup subsystems may
+> be responsible.
+> 
+> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+> cgroup.stat file is now being extended to show the number of live and
+> dying CSSes associated with all the non-inhibited cgroup subsystems that
+> have been bound to cgroup v2. The number includes CSSes in the current
+> cgroup as well as in all the descendants underneath it.  This will help
+> us pinpoint which subsystems are responsible for the increasing number
+> of dying (nr_dying_descendants) cgroups.
+> 
+> The CSSes dying counts are stored in the cgroup structure itself
+> instead of inside the CSS as suggested by Johannes. This will allow
+> us to accurately track dying counts of cgroup subsystems that have
+> recently been disabled in a cgroup. It is now possible that a zero
+> subsystem number is coupled with a non-zero dying subsystem number.
+> 
+> The cgroup-v2.rst file is updated to discuss this new behavior.
+> 
+> With this patch applied, a sample output from root cgroup.stat file
+> was shown below.
+> 
+> 	nr_descendants 56
+> 	nr_subsys_cpuset 1
+> 	nr_subsys_cpu 43
+> 	nr_subsys_io 43
+> 	nr_subsys_memory 56
+> 	nr_subsys_perf_event 57
+> 	nr_subsys_hugetlb 1
+> 	nr_subsys_pids 56
+> 	nr_subsys_rdma 1
+> 	nr_subsys_misc 1
+> 	nr_dying_descendants 30
+> 	nr_dying_subsys_cpuset 0
+> 	nr_dying_subsys_cpu 0
+> 	nr_dying_subsys_io 0
+> 	nr_dying_subsys_memory 30
+> 	nr_dying_subsys_perf_event 0
+> 	nr_dying_subsys_hugetlb 0
+> 	nr_dying_subsys_pids 0
+> 	nr_dying_subsys_rdma 0
+> 	nr_dying_subsys_misc 0
+> 
+> Another sample output from system.slice/cgroup.stat was:
+> 
+> 	nr_descendants 34
+> 	nr_subsys_cpuset 0
+> 	nr_subsys_cpu 32
+> 	nr_subsys_io 32
+> 	nr_subsys_memory 34
+> 	nr_subsys_perf_event 35
+> 	nr_subsys_hugetlb 0
+> 	nr_subsys_pids 34
+> 	nr_subsys_rdma 0
+> 	nr_subsys_misc 0
+> 	nr_dying_descendants 30
+> 	nr_dying_subsys_cpuset 0
+> 	nr_dying_subsys_cpu 0
+> 	nr_dying_subsys_io 0
+> 	nr_dying_subsys_memory 30
+> 	nr_dying_subsys_perf_event 0
+> 	nr_dying_subsys_hugetlb 0
+> 	nr_dying_subsys_pids 0
+> 	nr_dying_subsys_rdma 0
+> 	nr_dying_subsys_misc 0
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-On Fri, Jun 21, 2024 at 1:46=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Fri, Jun 21, 2024 at 1:45=E2=80=AFPM Douglas Anderson <dianders@chromi=
-um.org> wrote:
-> >
-> > At shutdown if you've got a _properly_ coded DRM modeset driver then
-> > you'll get these two warnings at shutdown time:
-> >
-> >   Skipping disable of already disabled panel
-> >   Skipping unprepare of already unprepared panel
-> >
-> > These warnings are ugly and sound concerning, but they're actually a
-> > sign of a properly working system. That's not great.
-> >
-> > We're not ready to get rid of the calls to drm_panel_disable() and
-> > drm_panel_unprepare() because we're not 100% convinced that all DRM
-> > modeset drivers are properly calling drm_atomic_helper_shutdown() or
-> > drm_helper_force_disable_all() at the right times. However, having the
-> > warning show up for correctly working systems is bad.
-> >
-> > As a bit of a workaround, add some "if" tests to try to avoid the
-> > warning on correctly working systems. Also add some comments and
-> > update the TODO items in the hopes that future developers won't be too
-> > confused by what's going on here.
-> >
-> > Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > This patch came out of discussion on dri-devel on 2024-06-21
-> > [1]. NOTE: I have put all changes into one patch since it didn't seem
-> > to add anything to break up the updating of the TODO or the comments
-> > in the core into separate patches since the patch is all about one
-> > topic and all code is expected to land in the same tree.
-> >
-> > Previous versions:
-> > v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d=
-5f49b29f746b93621749c@changeid/
-> > v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49=
-b29f746b93621749c@changeid
-> >
-> > [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=3Ddri-devel=
-&date=3D2024-06-21
-> >
-> >  Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
-> >  drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
-> >  drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
-> >  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
-> >  4 files changed, 68 insertions(+), 37 deletions(-)
->
-> Ugh! I realized right after I hit "send" that I forgot to mark this as
-> V2 and give it version history. Sorry! :( Please consider this to be
-> v2. It's basically totally different than v1 based on today's IRC
-> discussion, which should be linked above.
->
-> If I need to send a new version I will send it as v3.
+Looks good to me!
 
-Is anyone willing to give me a Reviewed-by and/or Acked by for this
-patch? ...or does anything want me to make any changes? Given all the
-discussion we had, it would be nice to get this landed before we
-forget what we agreed upon. :-P
-
--Doug
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
