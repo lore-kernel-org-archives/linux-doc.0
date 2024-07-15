@@ -1,103 +1,104 @@
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3231804F;
-	Mon, 15 Jul 2024 21:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656283AC0F
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 21:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721078703; cv=none; b=VM/R780TAnhqrTrGMo5kDaW9hrdY074voaP565mSPKAb/YWKsANRWcXmZM678LU269Z1XHr/esdiKgm9bfniltRVSVx+ElkSV/7qN5Rnlxiiz4ngRECXeTw5xf9ZAPRiGLE7G40HIoCWMscTKmf/hyfDT26mDR26cQDrBZEQPV0=
+	t=1721079480; cv=none; b=pNhPQ2urlI52l7nMXeC9A73jh2pSwUz2l1dKbZoUTJ7d/aT/LccOs167bXybvVfYJW5RU37iWBSJC5NGzBQao9gDC2Pwe12cRXHtTgC+2oYV+A8v0o5K0SKrcYCDN28P+tZaRP0+XcF/O50H5anGHu/pno1nLp3ea7yJilEfbvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721078703; c=relaxed/simple;
-	bh=EOR6hLpb2QL0HN/C/iiaOi7zohEItObVsEXC/2N1c/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DNT2QEO3TRTjfvXM7qoHdARIaXDJ9v2CQWliUzEOdtQiPt+TUDDaXx520P4IG8J/RH6XVkcU1Xh0zAK6cs2DavRQzFfGJDg34TEjpYUgIul1qBwnIVWGbNnP607yNc0pYMaUkeoMRhStWlX20Oi63o9so0ACNf/27+sX8cqmNeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=aVVAMbjT; arc=none smtp.client-ip=148.163.148.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
+	s=arc-20240116; t=1721079480; c=relaxed/simple;
+	bh=XdO7wIyX46Gc6A4zpOoYKHrIE5C8ZCiQW+adQqLkIOM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IfSlyGj2KuZmnzKny1jrKF61AH7tI/oZrFHPN3WAzwZWZ/JMRInCS9QH4Uw4i12CZIu8L8xh8gORUIMU0axkkSx2mb3+xYFiiI+zUe+LJFSwAvf7SNNsqvzl1Msc1iGYXNUttbjKsrRu38O6YQYxuu6z9sRgfoENnFW8y5h4OWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Gt7UYiuZ; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="aVVAMbjT"
-Received: from pps.filterd (m0355088.ppops.net [127.0.0.1])
-	by m0355088.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 46FJCCRi020132;
-	Mon, 15 Jul 2024 21:24:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=DKIM202306; bh=BjZA6cqy2VyDO6Dw9aWlEv2
-	X8FH5oILJsXW/xzu0lXA=; b=aVVAMbjTlYzZiDF044tztmfGh60RuiitddUwRXH
-	bvsb4ZFu3HiZRKRpYRw1fhR/ZVEskDPvx0JmPXAgI0fiyTGF0lPIm+EaS/+iAuHw
-	SvYbBBzSqZpuGJ6Tb0a7WPkAhF2mISBMItic3KpGNxxDiT8Xrzm727cS4XOG8QCc
-	uBAkKT+M3DJNyYJF+lj859upgPCaQbkgimV17bF4Max5q5PZOpEFeC5jP3Y9TXa9
-	Lr67ptiICvTYzeixY0pwN4UFvrzPJUFR2Ov/5KeZkDE7AitQrJKdTN2aZyS3AWiS
-	8Pu+raFmacmd4CSET2suMXJ/CTPr1ONyQjp0ZIidq4aZNTg==
-Received: from va32lpfpp01.lenovo.com ([104.232.228.21])
-	by m0355088.ppops.net (PPS) with ESMTPS id 40c6rt313e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Jul 2024 21:24:28 +0000 (GMT)
-Received: from va32lmmrp02.lenovo.com (va32lmmrp02.mot.com [10.62.176.191])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4WNFZg5VHXzfBb1;
-	Mon, 15 Jul 2024 21:24:27 +0000 (UTC)
-Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mbland)
-	by va32lmmrp02.lenovo.com (Postfix) with ESMTPSA id 4WNFZg3Gbfz2XqJt;
-	Mon, 15 Jul 2024 21:24:27 +0000 (UTC)
-Date: Mon, 15 Jul 2024 16:24:26 -0500
-From: Maxwell Bland <mbland@motorola.com>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-mm@kvack.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Maxwell Bland <mbland@motorola.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, oliver.sang@intel.com
-Subject: Re: [PATCH v5 1/6] mm: add ARCH_SUPPORTS_NON_LEAF_PTDUMP
-Message-ID: <z5rp6yyr6ofr7fgiyt2nxwqszls4otirx6eohq6d3qozxtujzq@72talp4b36tc>
-References: <yrgrhwfbl7rnmgekiolmojutaqf24x5zphyrwijakzma5pjhre@3yncjv5tqvar>
- <202407051002.96bf438-oliver.sang@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Gt7UYiuZ"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-25957dfd971so2375999fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 14:37:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721079478; x=1721684278; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tYT7RZte+jpSY6YDB1OuEYOLCT1GQosdmk1JeVvIqQo=;
+        b=Gt7UYiuZMpSUFOAnI2A2VIqiLf3ai6Ckptsck00+Y7szPSRsJC9D5MxdZP3ttNTWmf
+         8ULv4xWypebnfH1Vvci17QIHiAL0Fr7HrWie0erviyGsyhiR/LgtVtWG+PCJNfP6ZsbC
+         W3Trv4vA6mByS2pI9aUpQv5Fj6bMUv/3JQuIqpE8BZh5bAs58kvCMh935p233MsS3lWZ
+         76lTjTJwEXWlf34RRjn0DLOJVmB0skICLhe4hsnl2PffhANYFKxpy7E2QeUD2QddKmLb
+         QAnmLWjWRx0ZaEZ924rxXx8hiw6PBdbSUj2WMQDbs5ToPxEGP4ZPofV3g/gxUIK8gIQW
+         nlPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721079478; x=1721684278;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYT7RZte+jpSY6YDB1OuEYOLCT1GQosdmk1JeVvIqQo=;
+        b=MDTNhIzBJofJN6qdkpZyTHs/asyOd/6fxjkmtpbMKia9+z0vRFIHVuQMFSIoh3h9AG
+         DjZezxJSph8+zTFTUYKum3Z0FW6Qqos3w1GzuMRDbfkNGIhu0jLsaGorbSRGq0wgi9E8
+         hZtoWRVsXTkohTuc5j25stGxjp4xzDHG669++WlBebo36RnfTo7hiJV5uwwzt+8M2qsB
+         Imzo3ZEVT/2J2mnuUXnhTv08aEewPZXAViyXAy0JXexuk2vIytDpZsTApLFAelH7kL0N
+         NsqEjpgsRrFQgWg+IoQUS7V4ifPE6H0PgZsFmnrpnA0uKu00B5RHg4aXYvhcxMXJf9gj
+         Ru1g==
+X-Forwarded-Encrypted: i=1; AJvYcCU3nsk2cl68yObZAcMGSUznEOqtxW56Au8HECmyWuGG2fWy63ssB5fbJOnCx/vaA8ewLsmVuMOgj4y0EuIQEafR7o/KuIi/2lJX
+X-Gm-Message-State: AOJu0Yz1hdYM4OvwWkjVteCBl2v+tbD9RcwI5MqUghJvuGblYCeOxWhz
+	nBFRFIyqzM9MWyw7PhynLCywLnWpXfmBc5Qj3N4A6tKnSn1+XsQrFNueAQjNRqvQfF0nwN5+Ea0
+	tvMmpqdp2ONbtFgXLnD1DcAyDKjzTuVLp8sHj
+X-Google-Smtp-Source: AGHT+IFo5Jg9Iet8BbL/iNTVTBM9bSolkTbUgSvwA/5qBUXi+M06ocwSdrUcSEL7avW0kur1t8VRn6Y+Ut7Wj828r/M=
+X-Received: by 2002:a05:6870:390a:b0:25e:bdf7:2883 with SMTP id
+ 586e51a60fabf-260bde68931mr39462fac.25.1721079478153; Mon, 15 Jul 2024
+ 14:37:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202407051002.96bf438-oliver.sang@intel.com>
-X-Proofpoint-ORIG-GUID: zDZ_79cIOTAZBVzo0qy3rebeIdidkjtE
-X-Proofpoint-GUID: zDZ_79cIOTAZBVzo0qy3rebeIdidkjtE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-15_15,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 bulkscore=0 clxscore=1011 adultscore=0 mlxlogscore=960
- suspectscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407150167
+References: <20240710234222.2333120-1-jthoughton@google.com> <20240710234222.2333120-3-jthoughton@google.com>
+In-Reply-To: <20240710234222.2333120-3-jthoughton@google.com>
+From: Anish Moorthy <amoorthy@google.com>
+Date: Mon, 15 Jul 2024 14:37:22 -0700
+Message-ID: <CAF7b7moeOeJEv+zPQ-VQrP8M+O7r8Ru3GZjfrAKj25Hc0pQGnw@mail.gmail.com>
+Subject: Re: [RFC PATCH 02/18] KVM: Add KVM_CAP_USERFAULT and KVM_MEMORY_ATTRIBUTE_USERFAULT
+To: James Houghton <jthoughton@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, Peter Xu <peterx@redhat.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 05, 2024 at 10:52:26AM GMT, kernel test robot wrote:
-> 
-> 
-> Hello,
-> 
-> kernel test robot noticed "WARNING:at_arch/x86/mm/dump_pagetables.c:#note_page" on:
-> 
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20240705/202407051002.96bf438-oliver.sang@intel.com
-> 
+Not to nitpick an RFC, but since the stuff in this patch seems less
+likely to change I think you should avoid using #ifdefs
 
-Note this config has CONFIG_ARCH_SUPPORTS_NON_LEAF_PTDUMP=y, added by
-this patchset, but x86 does not yet support non-leaf ptdump semantics.
+For instance
 
-x86 support is on my TODOs, but I am caught up in other work (a LSM
-and/or *.ko preventing dynamically-allocated datastructure write
-gadgets! (-: ).
+On Wed, Jul 10, 2024 at 4:43=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+> +static inline bool kvm_userfault_enabled(struct kvm *kvm)
+> +{
+> +#ifdef CONFIG_KVM_USERFAULT
+> +       return !!rcu_access_pointer(kvm->userfault_ctx);
+> +#else
+> +       return false;
+> +#endif
+> +}
 
-Regards,
-Maxwell Bland
+can be
+
+> +static inline bool kvm_userfault_enabled(struct kvm *kvm)
+> +{
+> +    if (IS_ENABLED(CONFIG_KVM_USERFAULT)) {
+> +       return !!rcu_access_pointer(kvm->userfault_ctx);
+> +    } else {
+> +       return false;
+> +   }
+> +}
+
+(however kernel style tells you to write that :), the cap-supported
+check can be moved into kvm_vm_ioctl_enable_userfault(), etc
