@@ -1,96 +1,145 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A89818EFE9;
-	Mon, 15 Jul 2024 14:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BBE4C62;
+	Mon, 15 Jul 2024 14:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721054765; cv=none; b=qYLQyqVPl2arzg39i1N7Gb/YeoOTi/1uerVZQxgddoLVDEcWmRKk3cYbAxEdeEs74EZBHLQGBFG315hshzfH3TfeiNidW3f1Jp+AeRToNGL4mgkq0Yojmn7Lxra+JFZxrdxFJ2I+Nyh6/XQZw4zdsrd2LKnyhmFNGN425HpA9ic=
+	t=1721055569; cv=none; b=hCwJJ4ZUyWqYkxYQfSw684sH+YSsrFH3+hWvR585S3DqUAs8izVM+dm4Yzc+ugtxzF/bu0G+FATeewiIzq0v8v04tSyfMXl8YDyoZFamJ1MkCZVRj1wRm9uJCaNWRymMyk+uPT4tBcfZ+YuNPcNKwz6+23v/hW+BPOaw1PpFU8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721054765; c=relaxed/simple;
-	bh=Luxwy5irdYgQUpZWRewadQ4SktmxJK8LzxEEBAj36cQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ke96P5WSmwmJ5wj3l/QVurn9vvXXmRREcR0Aex65/1kDpCIlard6htg5jdefZw+ombhQFi7Nt3mCtKkzJ7R1t87ssuHMaPYxGnK0NJnL227E53jBCkQ3RILTC6Ml3RRxxT26H6h+7aAv3eeg2JmIBA61OqXvm52qY8mekqu3YV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sHFL7hFB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1721055569; c=relaxed/simple;
+	bh=Czc/8/j1UJ3uadHtlcCbqCzh/BKvAh+WALaaInDEGXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ec518dhYxFSE4jjUilijYZdhtbFtewqAdFtIaqGmOE7xiCCa2dKl2eegn2otcddwDW2w5ExgRypyxHQaTd83Bu+uF34yUHvch48bYInicAKiFqzr1NBn/GyE+kMMiYVksJsgEN8KFbliJhaHrlsX7AkjD/ELEV9Q2FsSoR8imNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OElLUgnL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sHFL7hFB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KBMY6ImByh0nc1MFLk705Vqteq2mAvd0PlwRDlPJeHY=; b=sHFL7hFBYeFIyG7ArQgc7k42mz
-	45fduOq8+alHbbYpPXET3Rcv8zVKQ1R9BCRgw9aAaXDC+hesqu/eqMF1H/WbvJfOtkikf8qiIoozr
-	yrGG+k4g2TE+kDamzL3SuH3MkNy+89XfNb9OqFI6lshk/dZEoxUftTEmbwy7IE2xF8JmEZpQynSK+
-	5ywyBy1DSJ1OgYGYGGCX3n68TzJXRuQscRgNux+vsXLdYKon525WrB+vD/fSIh9HaUFor57/xvyuB
-	0hOfLgrzX7D9/BRtk+HVjsjefD7TQ5WRDhd4+uWBXtzJgtFffuToqYUR5qJe1TzyJyrfHytDKteuo
-	LBXkvzLQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTMxh-00000007Qkf-3bKR;
-	Mon, 15 Jul 2024 14:45:57 +0000
-Message-ID: <2ee554e6-944f-4a2a-afb0-50fec5d37d26@infradead.org>
-Date: Mon, 15 Jul 2024 07:45:55 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OElLUgnL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F5CC32782;
+	Mon, 15 Jul 2024 14:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721055568;
+	bh=Czc/8/j1UJ3uadHtlcCbqCzh/BKvAh+WALaaInDEGXA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OElLUgnLsRq0inC4mUNDR8o/kzoSy4XbVw14Cl5B7g69gp8OV4U3zpNLSBr46nEQe
+	 PaiPFWqZ43OQ/YHPXYUd76MGawWnwFPHfz522XqJoASVZ1HxUZ/3Qf6bGjZC+ESXSi
+	 EkTd2ApSD9mNLweuV2Y1pvgPOXUxlW764zizHd6TgDfNNXH9KVWdUghsU5FJ/OeKL3
+	 dB2uQ1w8Lwe1DfJ8g4BLoC6GrjhVt6FBhicdhy/YZhlguR4yYFaiBpi08GUZgJqnnu
+	 AxCBVi1DTkCtUlwp0QEFAwNkamVFBhSCMyGHrm391x0qBOI2lO4DgyOQaMIS5c3D4y
+	 s+2EvuEyiNj9g==
+Date: Mon, 15 Jul 2024 07:59:26 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, donald.hunter@gmail.com,
+ danieller@nvidia.com, ecree.xilinx@gmail.com, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v17 13/14] net: ethtool: Add support for
+ tsconfig command to get/set hwtstamp config
+Message-ID: <20240715075926.7f3e368c@kernel.org>
+In-Reply-To: <20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
+References: <20240709-feature_ptp_netnext-v17-0-b5317f50df2a@bootlin.com>
+	<20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Docs/admin-guide: Remove pmf leftover reference from
- the index
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20240715104102.4615-1-ilpo.jarvinen@linux.intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240715104102.4615-1-ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 09 Jul 2024 15:53:45 +0200 Kory Maincent wrote:
+> +	/* Get the hwtstamp config from netlink */
+> +	if (tb[ETHTOOL_A_TSCONFIG_TX_TYPES]) {
+> +		ret = ethnl_parse_bitset(&req_tx_type, &mask,
+> +					 __HWTSTAMP_TX_CNT,
+> +					 tb[ETHTOOL_A_TSCONFIG_TX_TYPES],
+> +					 ts_tx_type_names, info->extack);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +
+> +		/* Select only one tx type at a time */
+> +		if (ffs(req_tx_type) != fls(req_tx_type)) {
+> +			ret = -EINVAL;
+> +			goto err_clock_put;
+> +		}
+> +
+> +		hwtst_config.tx_type = ffs(req_tx_type) - 1;
+> +	}
+> +	if (tb[ETHTOOL_A_TSCONFIG_RX_FILTERS]) {
+> +		ret = ethnl_parse_bitset(&req_rx_filter, &mask,
+> +					 __HWTSTAMP_FILTER_CNT,
+> +					 tb[ETHTOOL_A_TSCONFIG_RX_FILTERS],
+> +					 ts_rx_filter_names, info->extack);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +
+> +		/* Select only one rx filter at a time */
+> +		if (ffs(req_rx_filter) != fls(req_rx_filter)) {
+> +			ret = -EINVAL;
+> +			goto err_clock_put;
+> +		}
+> +
+> +		hwtst_config.rx_filter = ffs(req_rx_filter) - 1;
+> +	}
+> +	if (tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]) {
+> +		ret = nla_get_u32(tb[ETHTOOL_A_TSCONFIG_HWTSTAMP_FLAGS]);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +		hwtst_config.flags = ret;
+> +	}
 
+We should be tracking mod on these, too. Separately from the provider
+mod bit, let's not call the driver and send notification if nothing
+changed.
 
-On 7/15/24 3:41 AM, Ilpo Järvinen wrote:
-> pmf.rst was removed by the commit 2fd66f7d3b0d ("platform/x86/amd/pmf:
-> Remove update system state document") but the reference in the
-> admin-guide index remained in place which triggers this warning:
-> 
-> Documentation/admin-guide/index.rst:75: WARNING: toctree contains
-> reference to nonexisting document 'admin-guide/pmf'
-> 
-> Remove pmf also from the index to avoid the warning.
-> 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> +	ret = net_hwtstamp_validate(&hwtst_config);
+> +	if (ret)
+> +		goto err_clock_put;
+> +
+> +	/* Disable current time stamping if we try to enable another one */
+> +	if (mod && (hwtst_config.tx_type || hwtst_config.rx_filter)) {
+> +		struct kernel_hwtstamp_config zero_config = {0};
+> +
+> +		ret = dev_set_hwtstamp_phylib(dev, &zero_config, info->extack);
+> +		if (ret < 0)
+> +			goto err_clock_put;
+> +	}
+> +
+> +	/* Changed the selected hwtstamp source if needed */
+> +	if (mod) {
+> +		struct hwtstamp_provider *__hwtstamp;
+> +
+> +		__hwtstamp = rcu_replace_pointer_rtnl(dev->hwtstamp, hwtstamp);
+> +		if (__hwtstamp)
+> +			call_rcu(&__hwtstamp->rcu_head,
+> +				 remove_hwtstamp_provider);
+> +	}
+> +
+> +	ret = dev_set_hwtstamp_phylib(dev, &hwtst_config, info->extack);
+> +	if (ret < 0)
+> +		return ret;
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+We can't unwind to old state here?
 
-Thanks.
+> +	return 1;
 
-> ---
-> 
-> I'll put this patch into pdx86/for-next that introduces the problem
-> before making the PR to Linus.
-> 
->  Documentation/admin-guide/index.rst | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index 32ea52f1d150..e85b1adf5908 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -121,7 +121,6 @@ configure specific aspects of kernel behavior to your liking.
->     parport
->     perf-security
->     pm/index
-> -   pmf
->     pnp
->     rapidio
->     RAS/index
-
--- 
-~Randy
+Driver can change hwtst_config right? "upgrade" the rx_filter 
+to a broader one, IIRC. Shouldn't we reply to the set command with 
+the resulting configuration, in case it changed? Basically provide 
+the same info as the notification would.
