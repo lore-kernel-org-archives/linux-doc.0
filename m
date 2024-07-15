@@ -1,267 +1,205 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A38D1758F
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 15:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED041B947;
+	Mon, 15 Jul 2024 16:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721059021; cv=none; b=P2U604WuKeDC5eqsyGvEQ+OBwFec90gkpDeZrW0SL02Cic2RQXBYcOOI+fnMrAqIfCwoHpmY/UK1U+I6UjTT7/Qvwa9cCRw1WL0z4j+U5xZ17faRfxe56uJYfIUJVHjRP/vkOKZenvrejkDUbK+8achPNGhtjspjxkk1CPaFeUE=
+	t=1721061502; cv=none; b=bwKgVTeSxjoEOe7dHlqGMVqhAbcLTlah9QZZ1/yS5kYxTpA+GguTyMvURlGHG6BtSfKnoBoj8nnvNkDqlgYAzFTuGIcUEd+pzTpaVVyryMzCvj4au2PZ51HiSAYDOmaO0lE7h0hq86Fnl1zCKp9l1naDGSmknlMpSmWe5J+wCVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721059021; c=relaxed/simple;
-	bh=ZBtcNEWCuxhE/P0iBIIXs/8CPUxtsXT1UYTc2Z9/CtU=;
-	h=From:References:MIME-Version:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gC11mU11pa8sAA1YHsXZ8OGnHJ7QdA7YPrhhjVK5SLaAI/pjP1sFZbiTJw4ZRlDRmhs/jjRW9HdybnNHhxRsfJ8qA32yRlfOX6d+PT1jLF+1+lkRjhVcSs9gN5N8YQz2pIGguCln5OWw0AMIGZSnHZ9IMe0FxnZxPrDV3h7bmoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=malat.biz; spf=none smtp.mailfrom=malat.biz; dkim=pass (2048-bit key) header.d=malat-biz.20230601.gappssmtp.com header.i=@malat-biz.20230601.gappssmtp.com header.b=Dmx8UYpw; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=malat.biz
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=malat.biz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=malat-biz.20230601.gappssmtp.com header.i=@malat-biz.20230601.gappssmtp.com header.b="Dmx8UYpw"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-4ef76f04977so1544066e0c.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 08:56:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=malat-biz.20230601.gappssmtp.com; s=20230601; t=1721059017; x=1721663817; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NIlhy0lO57++coqHRC76uJUG9zQeSE560AUgvjRiuDo=;
-        b=Dmx8UYpwDkTjJ6GOwgwX9IUhKZpTKd5vNjM38Q1pR9YSeAloZS/Z0MTOXpNHoQXq6Q
-         TgL8dPL3izZAJHActixyBz5zCCDKnw9JsRX/dLoMbgSuP0YhPkb9/682Dc17UAaubhtA
-         9/BbIzR+EAf3LP3yc7U6CugJQ1WOJ/PK5gYy8GIoA7L5VgQpjQ6hQJZHoIToU/BOl7o8
-         53i5EPEvbqj42UD31scJlPob84vLJkGOxniItSC5I5RO+qY7WRdJ1NiBJ4Y9BFqhU/3i
-         ZGcUNw6HwP1vh6SZ1XGeAgcqIKYRRY+UmR7oDO58NWdqn7iWsmAHv+Yiyi87eKVCmDAT
-         7QjA==
+	s=arc-20240116; t=1721061502; c=relaxed/simple;
+	bh=qgu/lqYAbsMY3Y/CR7P9kueQ+mkWNglW5jmKaUpiKvA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sybipmr/AOxG4AVnh2kZMxA1w32TYxJtHE0DCETYJN4r7LjA5tyCUAzCfMuf+zXI4VKnfi0555d9/63fka+l4aErwRjmRd1xiOmyh8KUt9xTc5sywiQCIVZQM2FXaJp135vM0MQSYQfDTI1pZblbOrxYU9dg1XMLMqJQD9M4UzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e03a8955ae3so4321537276.1;
+        Mon, 15 Jul 2024 09:38:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721059017; x=1721663817;
-        h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NIlhy0lO57++coqHRC76uJUG9zQeSE560AUgvjRiuDo=;
-        b=vfjkSCZJTQMSpLvVQH2dwl+00cRPrNPR3+DB1ZioBXdOOHu4CMcIpjak/QVyKZxQPv
-         aS5f5Y2JSlMvopKy2sPKrDNZslZdV5UN9LjNWncq3/Q4YWz8VauemIXKgCvrruST+hab
-         b0p9KGt71sBH26BYeH4Lb/3LlYtFEzZ99ned8XQ+IsY4Ec1F0uKxA9BGREOezUvbeNSn
-         K150bdsGj4FibKyvLYpUVPmXY/uiahkSBSPc2t2+ivtV68NGuKVxLk5m4f1d0IrSSZAq
-         p4F82h1m5FJMZ+sFTB2oHc8AtWgHovA138Vf/1syhurlID9oU3POWP0TBJneIFFqEZcc
-         JGAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsh56Q1TJG0QKgJfoMqWcIYcCpg/ln6V7KAZt31oRp+1TUT0K+7Dl5y8EAjvKVpo1pgwHWWQxso6GHB63wNZN7Ra9ZMXf0fHEK
-X-Gm-Message-State: AOJu0YxtAmQweqVIrEtwQn0WZLRLjh1Pnx6aUsP3tufdr7WFQLWu2wzq
-	j2AjqYNodUzMRxfHpjXVhsP04Ja/aMZATTskichn/PLJJitJFMN0Wol19zA4CJ1K2rD26xLcgpH
-	jMvrDmYIupMS0Nrfo3up7Kq4Arerh36AcOVak
-X-Google-Smtp-Source: AGHT+IEmzZqImG52QCCrXwn9JJsfJfxkA/GrxQgE9tQ6QY334XrPRQCbcN4FcvO2F6j15dGqOU5nJSRvlsuk4rTZEuU=
-X-Received: by 2002:a05:6122:d8f:b0:4ef:5744:483 with SMTP id
- 71dfb90a1353d-4f4cd2b16aemr416439e0c.6.1721059015976; Mon, 15 Jul 2024
- 08:56:55 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 15 Jul 2024 08:56:55 -0700
-From: Petr Malat <oss@malat.biz>
-References: <20240617143945.454888-1-longman@redhat.com> <20240617143945.454888-5-longman@redhat.com>
+        d=1e100.net; s=20230601; t=1721061500; x=1721666300;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hCfzf+ZYr6fSEcwCU6k1QzgjmW+yoSht8cV8vDR8q08=;
+        b=WOIddJhQ+CCxKcLVsnfVlrzCHG12LZ7FFDW4q9dIGW9EkLO3Eq99zOHqvUO3/H8tVI
+         z6eMIOXCphXxSvRVoytgBxtJ7jq8sJX7bltpuurbpu5H/Bj98dzV6sctqnnNlTBHd9bb
+         E4M/tv/US5d9pq25TkR/gn+s+FrmgJSt8yyT1akCXxl7gR6VcCRzgz+p4+ZaaTUo3WLx
+         ATRfhgNuZOOWvZMd89VRD7hXhVxPwMFnTRIZfVKVn/MH/7nUmgiPKPWGTt6zt0N3k4nG
+         mHb6TWbM5JwV126ZyzTug7XSkq5x5giHZvo5XAqn1HSWrbok6VzFrAFKK1IDZ72NeTWB
+         BTiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0ib2Qmob+fiSsfgAHoDrh+jumD18QAVltRMcWQkU7Qqyb9kpwH2tAOjF1JqP69gbuZkV8B3HIjqR0NDh7RoEdA7gUJEf0oxkit4Z96hmoPOUUXpe0RixhgmfkHCU+RCqBOE9tE3V26agQE7+coReP3BAqyigyPAyC/fVWI2NN3VVmSg==
+X-Gm-Message-State: AOJu0Yz18Hr49e0wpxoEgYVMk2IAFj7SbHc5aDg28zaNgAXZ3HOuSaQp
+	PrJlpby0iIVdUuqNn97HWjyZPbUGY6rE/ADtFPS6Oe1dkpNxdW6BDHWre6Vbnydwb4/RFmGutyq
+	inm7Avg5Qtnbg3g2cx5syRdQoCM0=
+X-Google-Smtp-Source: AGHT+IHO3MFh0Zcrn7/0Ez1ZK0BiKXuuGpYtz6OSAt++roYQ1HSLajvoAdDxIfBC3vp6Cxha1htLluUOJucczWkgPy8=
+X-Received: by 2002:a05:6902:c01:b0:e03:a1e4:441c with SMTP id
+ 3f1490d57ef6-e05d3abf469mr140440276.16.1721061499918; Mon, 15 Jul 2024
+ 09:38:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240617143945.454888-5-longman@redhat.com>
-Date: Mon, 15 Jul 2024 08:56:55 -0700
-Message-ID: <CANMuvJkDjuPpcqMBM+zzNL3wA-1zVrshrMuy22kQKmLDxbsB7Q@mail.gmail.com>
-Subject: Re: [PATCH-cgroup v2 4/5] cgroup/cpuset: Make cpuset.cpus.exclusive
- independent of cpuset.cpus
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Xavier <ghostxavier@sina.com>, Peter Hunt <pehunt@redhat.com>
+References: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
+ <Zn1FuxNw2CUttzdg@alpha.franken.de> <9cc26415-9cbc-47fa-a132-7d8c000874a4@app.fastmail.com>
+ <alpine.DEB.2.21.2406272053180.43454@angie.orcam.me.uk> <fbd421a6-cf37-49ab-bdbe-6128a7cae8be@app.fastmail.com>
+ <Zoz6+YmUk7CBsNFw@alpha.franken.de> <7797a7b2-1bb2-4c45-b65d-678f685dfa3d@app.fastmail.com>
+ <Zo457UgAkhbAgm2R@alpha.franken.de> <alpine.DEB.2.21.2407101015120.38148@angie.orcam.me.uk>
+ <a8741e38-837b-4fbb-8656-1e6d50bdfcc0@app.fastmail.com> <alpine.DEB.2.21.2407110315170.38148@angie.orcam.me.uk>
+ <de07ff44-41ee-4158-b629-90a1835bd9cb@app.fastmail.com> <alpine.DEB.2.21.2407121250350.38148@angie.orcam.me.uk>
+ <dad7b36f-2e37-44db-939e-cdb454875e2a@app.fastmail.com> <alpine.DEB.2.21.2407150225310.58077@angie.orcam.me.uk>
+ <ac94941f-3ac3-4820-b94d-aeb72a7a7a5c@app.fastmail.com> <alpine.DEB.2.21.2407151422040.51207@angie.orcam.me.uk>
+In-Reply-To: <alpine.DEB.2.21.2407151422040.51207@angie.orcam.me.uk>
+From: YunQiang Su <syq@debian.org>
+Date: Tue, 16 Jul 2024 00:38:08 +0800
+Message-ID: <CAKcpw6UNM2xNw7vXhTSSq-bZ+TO_0Yy=frPtE3N4sZkNUSio1A@mail.gmail.com>
+Subject: Re: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+	Nick Clifton <nickc@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-I finally got some time to test this and it works exactly as we needed it to.
-Thanks a lot,
-  Petr
+Maciej W. Rozycki <macro@orcam.me.uk> =E4=BA=8E2024=E5=B9=B47=E6=9C=8815=E6=
+=97=A5=E5=91=A8=E4=B8=80 22:02=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, 15 Jul 2024, Jiaxun Yang wrote:
+>
+> > >  I don't know what prctl(2) has to do with this.  If you don't implem=
+ent
+> > > this part, then your change will cause Linux to behave inconsistently=
+ and
+> > > therefore I'll have to NAK it.
+> >
+> > I think your concern was regarding user space application needs to set =
+NaN2008 bits
+> > at runtime?
+>
+>  Nope, following the objective of your change: the EF_MIPS_NAN2008 ELF
+> file header flag instructs the kernel to choose between hardware and
+> emulated hard float and that's not supposed to change later on throughout
+> the life of the program, because it's not something the program can do
+> itself, because writes to FCSR.NAN2008 are ignored by hardware.  And it's
+> not a functional regression, because flipping FCSR.NAN2008 isn't allowed
+> by hardware concerned anyway, we just want to have it consistent includin=
+g
+> the debugger interface.
+>
+> > >  It's not much to do anyway, as I have prepared `ptrace_setfcr31' alr=
+eady
+> > > to handle masking correctly, so all you have to do is to set the mask=
+ as
+> > > required for the right thing to happen.  I shouldn't have needed to p=
+oint
+> > > you at it though, as that code is easy to find.
+> >
+> > I think I got your point, will try to implement it.
+>
+>  Thank you.
+>
+> > >  This doesn't matter either, as your change only addresses the case w=
+here
+> > > FCSR.NAN2008 isn't writable anyway, which is the sole reason you want=
+ to
+> > > switch between native hard float support and emulation, doesn't it?
+> > >
+> > >  In fact where FCSR.NAN2008 is writable your new mode has to be equiv=
+alent
+> > > to "ieee754=3Dstrict", because then there is no need to trigger emula=
+tion
+> > > for either NaN mode.  Please do verify that this is the case.
+> >
+> > This had been verified with perf math-emu counters to ensure no unneces=
+sary emulation
+> > is triggered.
+>
+>  Thanks.
+>
+> > >  That doesn't matter for us here (and I have a bad suspicion anyway),=
+ but
+> > > the Debian team is of course free to do what they want here, the GNU =
+GPL
+> > > applies.
+> >
+> > We care about our downstream users, don't we?
+>
+>  There is a balance for us to keep.  Requests made have to be reasonable
+> and code contributed has to be architected well and meet quality criteria=
+.
+> Every change carries its associated cost and especially with the limited
+> manpower available we can't afford having a technical debt created.  Any
+> unclean piece of code accepted will strike us back sooner or later.
+>
+> > They asked me to help and that was my solution. I sincerely want to get=
+ this change upstreamed
+> > to cover some downstream use cases.
+>
+>  If it's your own genuine from-scratch implementation, then I have more
+> faith in it.
+>
+> > I don't know what theory do you have here, but that's all stories behin=
+d.
+>
+>  I have seen odd requests and code changes stemming from embarassing lack
+> of understanding how things work with the MIPS architecture.
+>
 
-On Mon, Jun 17, 2024 at 10:39:44AM -0400, Waiman Long wrote:
-> The "cpuset.cpus.exclusive.effective" value is currently limited to a
-> subset of its "cpuset.cpus". This makes the exclusive CPUs distribution
-> hierarchy subsumed within the larger "cpuset.cpus" hierarchy. We have to
-> decide on what CPUs are used locally and what CPUs can be passed down as
-> exclusive CPUs down the hierarchy and combine them into "cpuset.cpus".
+I won't think that your reply makes any sense since you have a typo here.  =
+;)
+
+There is nothing in the world perfect I guess, while we need to
+continue our life
+and there are always new problems needing to be solved in our life.
+
+Once the problem happens, we need a solution for it.
+I think that a solution is a good one if it
+    won't break something more
+    we cannot forecast it will break something more in future
+    It won't be very hard to rollback or drop it in future
+
+I don't think that it is a good behavioral pattern to say "let's
+destroy the world
+since it is not perfect".  Anyway we live in a world full of tradeoffs.
+
+> > >  And also they can always use the "nofpu" kernel parameter to run the=
+ir
+> > > verification.  I used it for mine back at ImgTec before 2008 NaN hard=
+ware
+> > > was available, also to verify emulation, which I wrote too.  Perhaps =
+that
+> > > is also the right solution for Debian actually?
+> >
+> > I'll suggest to them, thanks.
 >
-> The advantage of the current scheme is to have only one hierarchy to
-> worry about. However, it make it harder to use as all the "cpuset.cpus"
-> values have to be properly set along the way down to the designated remote
-> partition root. It also makes it more cumbersome to find out what CPUs
-> can be used locally.
+>  I note that it's been like this since 2015 and it has been documented:
 >
-> Make creation of remote partition simpler by breaking the
-> dependency of "cpuset.cpus.exclusive" on "cpuset.cpus" and make
-> them independent entities. Now we have two separate hierarchies -
-> one for setting "cpuset.cpus.effective" and the other one for setting
-> "cpuset.cpus.exclusive.effective". We may not need to set "cpuset.cpus"
-> when we activate a partition root anymore.
+>         ieee754=3D        [MIPS] Select IEEE Std 754 conformance mode
+>                         Format: { strict | legacy | 2008 | relaxed }
+>                         Default: strict
+> [...]
+>                         The FPU emulator is always able to support both N=
+aN
+>                         encodings, so if no FPU hardware is present or it=
+ has
+>                         been disabled with 'nofpu', then the settings of
+>                         'legacy' and '2008' strap the emulator accordingl=
+y,
+>                         'relaxed' straps the emulator for both legacy-NaN=
+ and
+>                         2008-NaN, whereas 'strict' enables legacy-NaN onl=
+y on
+>                         legacy processors and both NaN encodings on MIPS3=
+2 or
+>                         MIPS64 CPUs.
 >
-> Also update Documentation/admin-guide/cgroup-v2.rst and cpuset.c comment
-> to document this change.
+> (see the part following the last comma in particular).  It usually makes
+> sense to read documentation and I'd expect MIPS Debian port experts to do
+> it from time to time.
 >
-> Suggested-by: Petr Malat <oss@malat.biz>
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst |  4 +-
->  kernel/cgroup/cpuset.c                  | 67 +++++++++++++++++--------
->  2 files changed, 49 insertions(+), 22 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 722e4762c4e0..2e4e74bea6ef 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2380,8 +2380,8 @@ Cpuset Interface Files
->  	cpuset-enabled cgroups.
->
->  	This file shows the effective set of exclusive CPUs that
-> -	can be used to create a partition root.  The content of this
-> -	file will always be a subset of "cpuset.cpus" and its parent's
-> +	can be used to create a partition root.  The content
-> +	of this file will always be a subset of its parent's
->  	"cpuset.cpus.exclusive.effective" if its parent is not the root
->  	cgroup.  It will also be a subset of "cpuset.cpus.exclusive"
->  	if it is set.  If "cpuset.cpus.exclusive" is not set, it is
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 144bfc319809..fe76045aa528 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -87,7 +87,7 @@ static const char * const perr_strings[] = {
->  	[PERR_NOTEXCL]   = "Cpu list in cpuset.cpus not exclusive",
->  	[PERR_NOCPUS]    = "Parent unable to distribute cpu downstream",
->  	[PERR_HOTPLUG]   = "No cpu available due to hotplug",
-> -	[PERR_CPUSEMPTY] = "cpuset.cpus is empty",
-> +	[PERR_CPUSEMPTY] = "cpuset.cpus and cpuset.cpus.exclusive are empty",
->  	[PERR_HKEEPING]  = "partition config conflicts with housekeeping setup",
->  };
->
-> @@ -127,19 +127,28 @@ struct cpuset {
->  	/*
->  	 * Exclusive CPUs dedicated to current cgroup (default hierarchy only)
->  	 *
-> -	 * This exclusive CPUs must be a subset of cpus_allowed. A parent
-> -	 * cgroup can only grant exclusive CPUs to one of its children.
-> +	 * The effective_cpus of a valid partition root comes solely from its
-> +	 * effective_xcpus and some of the effective_xcpus may be distributed
-> +	 * to sub-partitions below & hence excluded from its effective_cpus.
-> +	 * For a valid partition root, its effective_cpus have no relationship
-> +	 * with cpus_allowed unless its exclusive_cpus isn't set.
->  	 *
-> -	 * When the cgroup becomes a valid partition root, effective_xcpus
-> -	 * defaults to cpus_allowed if not set. The effective_cpus of a valid
-> -	 * partition root comes solely from its effective_xcpus and some of the
-> -	 * effective_xcpus may be distributed to sub-partitions below & hence
-> -	 * excluded from its effective_cpus.
-> +	 * This value will only be set if either exclusive_cpus is set or
-> +	 * when this cpuset becomes a local partition root.
->  	 */
->  	cpumask_var_t effective_xcpus;
->
->  	/*
->  	 * Exclusive CPUs as requested by the user (default hierarchy only)
-> +	 *
-> +	 * Its value is independent of cpus_allowed and designates the set of
-> +	 * CPUs that can be granted to the current cpuset or its children when
-> +	 * it becomes a valid partition root. The effective set of exclusive
-> +	 * CPUs granted (effective_xcpus) depends on whether those exclusive
-> +	 * CPUs are passed down by its ancestors and not yet taken up by
-> +	 * another sibling partition root along the way.
-> +	 *
-> +	 * If its value isn't set, it defaults to cpus_allowed.
->  	 */
->  	cpumask_var_t exclusive_cpus;
->
-> @@ -230,6 +239,17 @@ static struct list_head remote_children;
->   *   2 - partition root without load balancing (isolated)
->   *  -1 - invalid partition root
->   *  -2 - invalid isolated partition root
-> + *
-> + *  There are 2 types of partitions - local or remote. Local partitions are
-> + *  those whose parents are partition root themselves. Setting of
-> + *  cpuset.cpus.exclusive are optional in setting up local partitions.
-> + *  Remote partitions are those whose parents are not partition roots. Passing
-> + *  down exclusive CPUs by setting cpuset.cpus.exclusive along its ancestor
-> + *  nodes are mandatory in creating a remote partition.
-> + *
-> + *  For simplicity, a local partition can be created under a local or remote
-> + *  partition but a remote partition cannot have any partition root in its
-> + *  ancestor chain except the cgroup root.
->   */
->  #define PRS_MEMBER		0
->  #define PRS_ROOT		1
-> @@ -709,6 +729,19 @@ static inline void free_cpuset(struct cpuset *cs)
->  	kfree(cs);
->  }
->
-> +/* Return user specified exclusive CPUs */
-> +static inline struct cpumask *user_xcpus(struct cpuset *cs)
-> +{
-> +	return cpumask_empty(cs->exclusive_cpus) ? cs->cpus_allowed
-> +						 : cs->exclusive_cpus;
-> +}
-> +
-> +static inline bool xcpus_empty(struct cpuset *cs)
-> +{
-> +	return cpumask_empty(cs->cpus_allowed) &&
-> +	       cpumask_empty(cs->exclusive_cpus);
-> +}
-> +
->  static inline struct cpumask *fetch_xcpus(struct cpuset *cs)
->  {
->  	return !cpumask_empty(cs->exclusive_cpus) ? cs->exclusive_cpus :
-> @@ -1593,7 +1626,7 @@ EXPORT_SYMBOL_GPL(cpuset_cpu_is_isolated);
->   * Return: true if xcpus is not empty, false otherwise.
->   *
->   * Starting with exclusive_cpus (cpus_allowed if exclusive_cpus is not set),
-> - * it must be a subset of cpus_allowed and parent's effective_xcpus.
-> + * it must be a subset of parent's effective_xcpus.
->   */
->  static bool compute_effective_exclusive_cpumask(struct cpuset *cs,
->  						struct cpumask *xcpus)
-> @@ -1603,12 +1636,7 @@ static bool compute_effective_exclusive_cpumask(struct cpuset *cs,
->  	if (!xcpus)
->  		xcpus = cs->effective_xcpus;
->
-> -	if (!cpumask_empty(cs->exclusive_cpus))
-> -		cpumask_and(xcpus, cs->exclusive_cpus, cs->cpus_allowed);
-> -	else
-> -		cpumask_copy(xcpus, cs->cpus_allowed);
-> -
-> -	return cpumask_and(xcpus, xcpus, parent->effective_xcpus);
-> +	return cpumask_and(xcpus, user_xcpus(cs), parent->effective_xcpus);
->  }
->
->  static inline bool is_remote_partition(struct cpuset *cs)
-> @@ -1887,8 +1915,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
->  	 */
->  	adding = deleting = false;
->  	old_prs = new_prs = cs->partition_root_state;
-> -	xcpus = !cpumask_empty(cs->exclusive_cpus)
-> -		? cs->effective_xcpus : cs->cpus_allowed;
-> +	xcpus = user_xcpus(cs);
->
->  	if (cmd == partcmd_invalidate) {
->  		if (is_prs_invalid(old_prs))
-> @@ -1916,7 +1943,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
->  		return is_partition_invalid(parent)
->  		       ? PERR_INVPARENT : PERR_NOTPART;
->  	}
-> -	if (!newmask && cpumask_empty(cs->cpus_allowed))
-> +	if (!newmask && xcpus_empty(cs))
->  		return PERR_CPUSEMPTY;
->
->  	nocpu = tasks_nocpu_error(parent, cs, xcpus);
-> @@ -3130,9 +3157,9 @@ static int update_prstate(struct cpuset *cs, int new_prs)
->  				       ? partcmd_enable : partcmd_enablei;
->
->  		/*
-> -		 * cpus_allowed cannot be empty.
-> +		 * cpus_allowed and exclusive_cpus cannot be both empty.
->  		 */
-> -		if (cpumask_empty(cs->cpus_allowed)) {
-> +		if (xcpus_empty(cs)) {
->  			err = PERR_CPUSEMPTY;
->  			goto out;
->  		}
-> --
-> 2.39.3
+>   Maciej
 >
