@@ -1,108 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEE9192B87;
-	Mon, 15 Jul 2024 12:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1DD18C34A
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 12:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721047777; cv=none; b=uwpygMcF2vmKoIlHhwHwUCQU50tCA/3zigK+GT8slZfDFidEYhdMaK6ZcOeItGiCGjUbKmLdq+Itrsn/IS+3+o4Qcv1GY1PKmpH7exxNxS/uM+S+NZgneFDA9aM+ZYKx5xCgwUgyp6fvwKpXsn3Nkx4aXkaEUXByoPhW40m2nC8=
+	t=1721048208; cv=none; b=MpTZJU+UyO6Sq6f6kr0EbJ4XDzga6LfcX/EWdjAlQZmRkU2FlK7kjm2ke9CZlZY9/azG65SlfRKXmmXkwzb3QLdHWegneD7Ky8sJIFiG1NkBRJs3hXlqIX0cN2UefZeUBX5QNurb+xENJGfv5PeH8lhVG51bDIiSzMSkp6Kb4IE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721047777; c=relaxed/simple;
-	bh=EGo15KA9RzWejobFOdJXVIKVsZGyPzCyG1uwa3tZn1I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s9B6lq+lVLKPmuKibwIjee5i3KhVAieXkmRkfe+vx8SY/1p/cGZvEeeWRiH8QKdSeqWoS+5YckKgYFhLPiVvhg+jnUgcFJ5Q4Pj6PzjH74e/sHZy8ouz5pKhhhsesRBKi3O+P+Df0xbuvmPjsADFW9GcoiFoNgejhsONpPILqpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Op5sWagJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721048208; c=relaxed/simple;
+	bh=FXxvxDNMjpNVzwzqZhWBa1tOHGY8zYU9VrOR2o556sE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XGK0uuxUdm0KuMS2xlz+ZrFtFniiTqQj9p/jwXJXgzBH7RObYkcfIneP8/LCgyKi7tpNp6+cCNQpesL2Qd4wtWVD1owfAjFuHeWoQI2PQUX+/+MBoqGnqRRQfpcYfP6BvjsO0rl+NB/FnbzIJHp+UxF7P5NA0bwq6yEUETlC7Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QexLbJ93; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Op5sWagJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 312FFC4AF0A;
-	Mon, 15 Jul 2024 12:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721047776;
-	bh=EGo15KA9RzWejobFOdJXVIKVsZGyPzCyG1uwa3tZn1I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Op5sWagJjl+DaoEpT6U6Roz5G+OZlHnYlPX1GVRhRCs1ph5A4POU7AelkpSydaFE1
-	 0S/6XZ5jrsy1l+pU8jT0i8xNz7C46rPcqZFpDt+RZwciCR30kKbKz24evOTitf1+Vr
-	 FzJPtBPOU5iclZk+mYyMWcBFe2aGVnk/Rn4MMAL/btOLEN7TC8VvQMsoRlssdnUhcZ
-	 RS8B6yYf90rMB3TbhzRrgFQYyqfAqu/Tv/l74Z/8C5XrCGsIXk7l2nSGlPXuk9Pf3/
-	 YnBJu+MnFdqez9L3jJ10joq8GI/5b45+aubtvZlH8RUDpFYLgxThEgXVu7Ys1oCnQc
-	 YomcYnBGoWouQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 15 Jul 2024 08:49:00 -0400
-Subject: [PATCH v6 9/9] tmpfs: add support for multigrain timestamps
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QexLbJ93"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a77c4309fc8so547981166b.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 05:56:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721048205; x=1721653005; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XxfNNMp1rG3SXkek7cMYvB8iok7DNluaUVkXIU0Xf14=;
+        b=QexLbJ93JEyxZvu628I2UWvMqo8uXieaqS/fpZhsOWLWPD7aNNjLthPyQ+49lhkSOc
+         qBjx9AIiFwKY/lNLixLAfIQz2hzT5G7i6k5CwSz9v7RP7JSMJ9+s20TdV0yoeKMbvnZT
+         WOLcvr9D9LEDKan+HDj9esjlMQw+nFMmFFev9OreNwxHm1MiohItvszOBqAuUqUKDwD7
+         dea37r/x4Z3bbgHq3VXaYPO7JatHogAuW+EY01pM2U9RW4x5BtaP25v8zs105zzVVCC1
+         a/pXz1USpbpACQ4j4UzbXoybrK7WwMrDj2A7pqPyeZ4DBneAcs+eknHi0Vrj2wyeivK3
+         4sDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721048205; x=1721653005;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XxfNNMp1rG3SXkek7cMYvB8iok7DNluaUVkXIU0Xf14=;
+        b=uuaoZHPTwum/LGJH0Dd0oEObDLJHNosT1ilP3p9gA7I9bu54OO+oeZFRWS0DTgTHdN
+         oaT3CYcqV9wOv1ZKscPPYZwCuy/LcELsamBm2bjuv4HJeeKh9yZhrDLqJHuWMVV3GH3k
+         W76gMtjgHLY45ULUhqbXPm6DRdOpDr59HrlbWtLQZxJQ5XRV0q6MKm4BfCZ4iPG1WL8Z
+         ONdf5RWu3peW2KymkWQ65fOWX8475jDJsi2nAYWFKOvOtSMZUCgALl12hVBffk/ugUv/
+         qElP7XpJx+CAgf4DdZWxUkrvBHpKtrvPtGo+6Ld2TgCDmm0T5zlQehqQRAlGIEEykvKG
+         swxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSEm3Gov0C8deXGN/uywYbQ+TYEB+ru9bB/s4Ovd/S6Gi9WqFof7Q1hl/tRRxw5fIh4+yL8faCicO6yU9pFBc1dV5GFihKOhXB
+X-Gm-Message-State: AOJu0YxAQMtxMAJkjcT0uD+bX1GADFhhu+sQ6+cQzQXJOqt6zmMJ0HUT
+	8XLrNWYjXBC0dYunQ+QmwTTo2prtoLesyu23WVxLaUxGdj9yfnS3q5YXJF5zVgHslgUsrZMN5id
+	xFMMjl4I8GQZSMjY0SBfe7o8MTTp/l2EHXy1DUA==
+X-Google-Smtp-Source: AGHT+IEQxCwmk3v9bZId3rguAE4ZhEMOX7OQcvnvy46JJ2wjs4mq+MuCAlAfeu4173n5ppDi6qdRzxNLjJYPZQTWSyo=
+X-Received: by 2002:a17:906:fa08:b0:a72:b811:4d43 with SMTP id
+ a640c23a62f3a-a780b883462mr1101581166b.59.1721048205077; Mon, 15 Jul 2024
+ 05:56:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240715-mgtime-v6-9-48e5d34bd2ba@kernel.org>
-References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
-In-Reply-To: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Chandan Babu R <chandan.babu@oracle.com>, 
- "Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
- Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
- Kent Overstreet <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=824; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=EGo15KA9RzWejobFOdJXVIKVsZGyPzCyG1uwa3tZn1I=;
- b=owEBbQKS/ZANAwAIAQAOaEEZVoIVAcsmYgBmlRrD4m6AcCbQEbB3V0ipLp+HPBka/5rUVsmDG
- +UI6LP4LSyJAjMEAAEIAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCZpUawwAKCRAADmhBGVaC
- FehwEACB/2bL0lHsL7x+6a2mF1cA08ExumwGUUpjqhfW/iUJDZW8NksCANkEjZy3jkVO2UFom9k
- MsZ5dg106pC96JwTEgOw+Wz+KchU1EDu+k20LB4uv5tnPDvb/ET5ncKyvxJ5+wX90wtxidCfK4h
- TWJwKVyQsBqdLsZ9w4OXei8HGv99hsDxrY/rhQ1KaOY6CEdzPcQOpCJbSKZ0n3rRR4X3KCEm0A4
- vJv7X1XCzEgq0XUFHxamtkbmLAiGeaDng0kVnJQntBpaoFWUvbE8nUnCKwO42rKF9RgKHFMFhr9
- Hr5D7G1iySVSJQ2BR5sJDVgMk5HGd1iyI2pVyeFVC6McOAbLpkl2Q5lHCE8kJkxFjd8KLcIwiVW
- o50Xzk8xJyxBuopmF8fzBrgaXB7Vsova2nDppB4/gexJo9H/PagYElk6p9zsOndkBubvDxLfP3h
- EJ+mL8K/MHCwpTOt1Ef72Y4QbrbvjsKee5N/8O7YTpBbai8Df1rRFhQrunoWqFh94wkmlSaFm7q
- bvYRMax6wvvOUL4sKAulaMdnh/m92gAeta1TxcYbI7XC5LI0f/7NQjMaSTQW+lXe6+Um8SHiZvY
- H5DVd1+vLNraR6/Ry+rSfK0uCHPXRyQadKt9ly2ZbezoPAN3Fslo6ewd+azr8Y3pyp9SvkpysRm
- d24+EIjmNvSAjGw==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+References: <20240626130347.520750-1-alexghiti@rivosinc.com>
+ <20240626130347.520750-4-alexghiti@rivosinc.com> <Zn1StcN3H0r/eHjh@andrea>
+ <1cd452af-58cd-468c-9bb6-90f67711d0b0@ghiti.fr> <Zo3NBHUEMMec/6uD@andrea>
+In-Reply-To: <Zo3NBHUEMMec/6uD@andrea>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Mon, 15 Jul 2024 14:56:34 +0200
+Message-ID: <CAHVXubjCdse-3z3hKR81VpdvjxVaxPUZdmTwc4fvHordcfHVng@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] riscv: Implement cmpxchg8/16() using Zabha
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Nathan Chancellor <nathan@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Enable multigrain timestamps, which should ensure that there is an
-apparent change to the timestamp whenever it has been written after
-being actively observed via getattr.
+Hi Andrea,
 
-tmpfs only requires the FS_MGTIME flag.
+On Wed, Jul 10, 2024 at 1:51=E2=80=AFAM Andrea Parri <parri.andrea@gmail.co=
+m> wrote:
+>
+> > > I admit that I found this all quite difficult to read; IIUC, this is
+> > > missing an IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) check.
+> >
+> > I'm not sure we need the zacas check here, since we could use a toolcha=
+in
+> > that supports zabha but not zacas, run this on a zabha/zacas platform a=
+nd it
+> > would work.
+>
+> One specific set-up I was concerned about is as follows:
+>
+>   1) hardware implements both zabha and zacas
+>   2) toolchain supports both zabha and zacas
+>   3) CONFIG_RISCV_ISA_ZABHA=3Dy and CONFIG_RISCV_ISA_ZACAS=3Dn
+>
+> Since CONFIG_RISCV_ISA_ZABHA=3Dy, the first asm goto will get executed
+> and, since the hardware implements zacas, that will result in a nop.
+> Then the second asm goto will get executed and, since the hardware
+> implements zabha, it will result in the j zabha.  In conclusion, the
+> amocas instruction following the zabha: label will get executed, thus
+> violating (the semantics of) CONFIG_RISCV_ISA_ZACAS=3Dn.  IIUC, the diff
+> I've posted previously in this thread shared a similar limitation/bug.
 
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- mm/shmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So you mean that when disabling Zacas, we should actually disable
+*all* the CAS instructions, even the Zabha ones. It makes sense and
+allows for a single way to disable the CAS instructions but keeping
+the other atomic operations.
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 7f2b609945a5..75a9a73a769f 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4660,7 +4660,7 @@ static struct file_system_type shmem_fs_type = {
- 	.parameters	= shmem_fs_parameters,
- #endif
- 	.kill_sb	= kill_litter_super,
--	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP,
-+	.fs_flags	= FS_USERNS_MOUNT | FS_ALLOW_IDMAP | FS_MGTIME,
- };
- 
- void __init shmem_init(void)
+I'll fix that and add a comment.
 
--- 
-2.45.2
+Thanks,
 
+Alex
+
+>
+>   Andrea
