@@ -1,119 +1,89 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1DD18C34A
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 12:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D95918C341;
+	Mon, 15 Jul 2024 12:59:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721048208; cv=none; b=MpTZJU+UyO6Sq6f6kr0EbJ4XDzga6LfcX/EWdjAlQZmRkU2FlK7kjm2ke9CZlZY9/azG65SlfRKXmmXkwzb3QLdHWegneD7Ky8sJIFiG1NkBRJs3hXlqIX0cN2UefZeUBX5QNurb+xENJGfv5PeH8lhVG51bDIiSzMSkp6Kb4IE=
+	t=1721048378; cv=none; b=Fzh/PGSa4BEe/Z9DWDUyLZzNtBSxgdDNLM3ihFoK+wTVAbhJBf+JFtE2d9DrkcY1ORh/sjih1z0Yv8c05YVa2oqbUnl5ZhQBb43Y4iD9P9UmoJhBz0k0xR+OAPvarQ8528Bd2Edt+LnjocVaDltV8bm8TSkVABqiFYAAs+6kq0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721048208; c=relaxed/simple;
-	bh=FXxvxDNMjpNVzwzqZhWBa1tOHGY8zYU9VrOR2o556sE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XGK0uuxUdm0KuMS2xlz+ZrFtFniiTqQj9p/jwXJXgzBH7RObYkcfIneP8/LCgyKi7tpNp6+cCNQpesL2Qd4wtWVD1owfAjFuHeWoQI2PQUX+/+MBoqGnqRRQfpcYfP6BvjsO0rl+NB/FnbzIJHp+UxF7P5NA0bwq6yEUETlC7Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QexLbJ93; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QexLbJ93"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a77c4309fc8so547981166b.3
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 05:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721048205; x=1721653005; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XxfNNMp1rG3SXkek7cMYvB8iok7DNluaUVkXIU0Xf14=;
-        b=QexLbJ93JEyxZvu628I2UWvMqo8uXieaqS/fpZhsOWLWPD7aNNjLthPyQ+49lhkSOc
-         qBjx9AIiFwKY/lNLixLAfIQz2hzT5G7i6k5CwSz9v7RP7JSMJ9+s20TdV0yoeKMbvnZT
-         WOLcvr9D9LEDKan+HDj9esjlMQw+nFMmFFev9OreNwxHm1MiohItvszOBqAuUqUKDwD7
-         dea37r/x4Z3bbgHq3VXaYPO7JatHogAuW+EY01pM2U9RW4x5BtaP25v8zs105zzVVCC1
-         a/pXz1USpbpACQ4j4UzbXoybrK7WwMrDj2A7pqPyeZ4DBneAcs+eknHi0Vrj2wyeivK3
-         4sDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721048205; x=1721653005;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XxfNNMp1rG3SXkek7cMYvB8iok7DNluaUVkXIU0Xf14=;
-        b=uuaoZHPTwum/LGJH0Dd0oEObDLJHNosT1ilP3p9gA7I9bu54OO+oeZFRWS0DTgTHdN
-         oaT3CYcqV9wOv1ZKscPPYZwCuy/LcELsamBm2bjuv4HJeeKh9yZhrDLqJHuWMVV3GH3k
-         W76gMtjgHLY45ULUhqbXPm6DRdOpDr59HrlbWtLQZxJQ5XRV0q6MKm4BfCZ4iPG1WL8Z
-         ONdf5RWu3peW2KymkWQ65fOWX8475jDJsi2nAYWFKOvOtSMZUCgALl12hVBffk/ugUv/
-         qElP7XpJx+CAgf4DdZWxUkrvBHpKtrvPtGo+6Ld2TgCDmm0T5zlQehqQRAlGIEEykvKG
-         swxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSEm3Gov0C8deXGN/uywYbQ+TYEB+ru9bB/s4Ovd/S6Gi9WqFof7Q1hl/tRRxw5fIh4+yL8faCicO6yU9pFBc1dV5GFihKOhXB
-X-Gm-Message-State: AOJu0YxAQMtxMAJkjcT0uD+bX1GADFhhu+sQ6+cQzQXJOqt6zmMJ0HUT
-	8XLrNWYjXBC0dYunQ+QmwTTo2prtoLesyu23WVxLaUxGdj9yfnS3q5YXJF5zVgHslgUsrZMN5id
-	xFMMjl4I8GQZSMjY0SBfe7o8MTTp/l2EHXy1DUA==
-X-Google-Smtp-Source: AGHT+IEQxCwmk3v9bZId3rguAE4ZhEMOX7OQcvnvy46JJ2wjs4mq+MuCAlAfeu4173n5ppDi6qdRzxNLjJYPZQTWSyo=
-X-Received: by 2002:a17:906:fa08:b0:a72:b811:4d43 with SMTP id
- a640c23a62f3a-a780b883462mr1101581166b.59.1721048205077; Mon, 15 Jul 2024
- 05:56:45 -0700 (PDT)
+	s=arc-20240116; t=1721048378; c=relaxed/simple;
+	bh=tCAUoz16SFgMtRJJXCi3TzLWuHeXMPwnhI3T1kOUIJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rpH3daOH9B+Ik8dwKzoXl799EkgbPHc+XsLSDZCsHeHefsnn8/k0gTtgeEiHGL+AlZvI8ZUC169kWABZ3fIkZ/C2YFyFIG/rhgu0TyslMr2gaXgOAP2FsmKO6MQTIyypyigdUXiKwWmDWrylXo48pJCcJploJNElNtygkOttVps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC521DA7;
+	Mon, 15 Jul 2024 06:00:00 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11C1A3F73F;
+	Mon, 15 Jul 2024 05:59:32 -0700 (PDT)
+Date: Mon, 15 Jul 2024 13:59:30 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add NXP i.MX95
+ SCMI documentation
+Message-ID: <ZpUdMmvucei9lLPI@bogus>
+References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
+ <20240621-imx95-bbm-misc-v2-v5-1-b85a6bf778cb@nxp.com>
+ <Zo_bFnjWixZF6seV@pluto>
+ <DB9PR04MB8461684315E753DAFDDBACA788A12@DB9PR04MB8461.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-4-alexghiti@rivosinc.com> <Zn1StcN3H0r/eHjh@andrea>
- <1cd452af-58cd-468c-9bb6-90f67711d0b0@ghiti.fr> <Zo3NBHUEMMec/6uD@andrea>
-In-Reply-To: <Zo3NBHUEMMec/6uD@andrea>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Mon, 15 Jul 2024 14:56:34 +0200
-Message-ID: <CAHVXubjCdse-3z3hKR81VpdvjxVaxPUZdmTwc4fvHordcfHVng@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] riscv: Implement cmpxchg8/16() using Zabha
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Nathan Chancellor <nathan@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB9PR04MB8461684315E753DAFDDBACA788A12@DB9PR04MB8461.eurprd04.prod.outlook.com>
 
-Hi Andrea,
-
-On Wed, Jul 10, 2024 at 1:51=E2=80=AFAM Andrea Parri <parri.andrea@gmail.co=
-m> wrote:
+On Mon, Jul 15, 2024 at 11:47:56AM +0000, Peng Fan wrote:
+> > Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add NXP
+> > i.MX95 SCMI documentation
+> > 
+> > On Fri, Jun 21, 2024 at 03:04:36PM +0800, Peng Fan (OSS) wrote:
+> > > From: Peng Fan <peng.fan@nxp.com>
+> > >
+> > > Add NXP i.MX95 System Control Management Interface(SCMI)
+> > vendor
+> > > extensions protocol documentation.
+> > >
+> > 
+> > Hi,
+> > 
+> > beside the final location of this file in the tree, and a few nitpicks down
+> > below.
+> 
+> Thanks for reviewing the patches. Except Documentation/firmware-guide,
+> I not have good idea where to put the API doc.
+> 
+> Sudeep,
+>   Do you have any suggestions?
 >
-> > > I admit that I found this all quite difficult to read; IIUC, this is
-> > > missing an IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) check.
-> >
-> > I'm not sure we need the zacas check here, since we could use a toolcha=
-in
-> > that supports zabha but not zacas, run this on a zabha/zacas platform a=
-nd it
-> > would work.
->
-> One specific set-up I was concerned about is as follows:
->
->   1) hardware implements both zabha and zacas
->   2) toolchain supports both zabha and zacas
->   3) CONFIG_RISCV_ISA_ZABHA=3Dy and CONFIG_RISCV_ISA_ZACAS=3Dn
->
-> Since CONFIG_RISCV_ISA_ZABHA=3Dy, the first asm goto will get executed
-> and, since the hardware implements zacas, that will result in a nop.
-> Then the second asm goto will get executed and, since the hardware
-> implements zabha, it will result in the j zabha.  In conclusion, the
-> amocas instruction following the zabha: label will get executed, thus
-> violating (the semantics of) CONFIG_RISCV_ISA_ZACAS=3Dn.  IIUC, the diff
-> I've posted previously in this thread shared a similar limitation/bug.
 
-So you mean that when disabling Zacas, we should actually disable
-*all* the CAS instructions, even the Zabha ones. It makes sense and
-allows for a single way to disable the CAS instructions but keeping
-the other atomic operations.
+Not really. But I am OK to keep it under drivers/firmware/arm_scmi/vendor/docs
+or something similar.
 
-I'll fix that and add a comment.
-
-Thanks,
-
-Alex
-
->
->   Andrea
+--
+Regards,
+Sudeep
