@@ -1,217 +1,230 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2074.outbound.protection.outlook.com [40.107.212.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A26134AB;
-	Mon, 15 Jul 2024 18:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721068332; cv=none; b=EPRbosleZ8iUGcCnUA48JrIowgcSERA3cKtvGfgz9T20m7/cGlcxAlQIR2E+Yz1lx4DqvJOUxd8eZPs9VmRnPyWy5MklXZ2Qra6niD1bDIHxuG0xtzfkHQdi4cYGcOqhEMB70UVfCAxB8NqDCuSwW6jT1q80SD5Lsh2uSTso25U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721068332; c=relaxed/simple;
-	bh=ptmSNcvJ6w8YaJLfeSDUkalrnWlDNwljsvsfC+1nMSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtfnPB1ntDq7QOcKAbyvomZ5uLXwuw5gGrmekIvcVoesUZuUj8/82abMdaAzYbgVKq0CFuWlMzC/frF0ub9woUjy06+5N8kSEXWz72a3NiUy6QNWufYxj58k/FhPicy/m/hUGpr9cTkf1UiDxbnJvUlZWoEzFyC5ysG+O8e42Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAQFezqM; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F405D17BA4;
+	Mon, 15 Jul 2024 18:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721068603; cv=fail; b=kvYP3FMisEeijziPTWi43lW23pb1272P4+5VreoOP1YPKm5+CXbXnxf5p63FRmV6dGIQ7kVjxhN2SQTq0fLO/VuGlAcTTZuA55N4Mml0OMxJ9Yy9wc9IBBVMN9s8CrFNKUe+AIbBKkDVBZF3gtVe3N+NID7BQn1l8MDCyX9q6B8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721068603; c=relaxed/simple;
+	bh=+Qsi2hWpC64KvFfiaSICL9ONGrDdR+R2/DrEN5D9JvQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Ot6xiy2yZ/z//lJJm2sgPyoy+xdupWjbpfbo6XqWuVQQ5TCS+gEETZgFIlbb5gkj7Ic7JMiRIyxB3xbG0K7+GPJkvqEySVT9BQWvp5RUSgyiO7PBItzdfpSblqxcgbnR5EuzrFEgtXyKXFCQX2rxpr7bet0Ue3PCdt7kc65aXgg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jF6tQqlm; arc=fail smtp.client-ip=40.107.212.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAQFezqM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFBECC32782;
-	Mon, 15 Jul 2024 18:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721068332;
-	bh=ptmSNcvJ6w8YaJLfeSDUkalrnWlDNwljsvsfC+1nMSo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hAQFezqMEUEEB9I7Nxx8TIwu0q+VMSFhhWm+i036ArK6vufJmh/QUpF9e9G3BWl7U
-	 /smXWql8lshx+RMf250RPupAJezpnZFl9Rb1dPjTpxZK/Z6v9BOqW+nZnJ+Rd2GiTU
-	 OfFAzLWPkU707JHaY4a2rxxfupAAlo7SxhFI63/DwsAG4R3Z8UXG4ZQ5WUL9zu8p11
-	 5q2uICvDIgcdda+498pCuOLLA44blyviEjZTinZ4Sg+F/i+WWvAn2Mm3ugb42O7G/d
-	 VY5BS1XfeerBLeSjQZS7uOwQZkPYIvTq0qxeXY3FO4DWhaqtwwun6pM5/aMYzl7U+h
-	 L9QpoRkhP7gXw==
-Date: Mon, 15 Jul 2024 11:32:11 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Chandan Babu R <chandan.babu@oracle.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Uros Bizjak <ubizjak@gmail.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-mm@kvack.org, linux-nfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 3/9] fs: add percpu counters for significant
- multigrain timestamp events
-Message-ID: <20240715183211.GD103014@frogsfrogsfrogs>
-References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
- <20240715-mgtime-v6-3-48e5d34bd2ba@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jF6tQqlm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rbSDXlRoYJ2nDTO0XXbRJLltdVZsqXPVTrMW+56FstOZq0lcAsmmz6FeyfN7WoxQpSQc6IQEq00qe0BeN5aOpY703+8+3DNUi0aPhMaPx5zk8E6IiTmxASvfcExx86UttmoVAizJLaw2szxDpzZsYiqHS5q2mGzTF6m5eUA6DSmP4YEScgbCrMCSaxaZXB+eHIYGPpSvDGkjpiL4R7mX5oh5iCibN228jI6y1uJVZWTnHonQlArL99tSXzbKxGfi/SEPid815vwH+saOlewSJLjxv48xtG76LjgwdkvftAXcOqN6ItAhI6Zh1SUlQvBf5kgrZ87/ijhEq7CWwhb2bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vKk26PqQqQ8dkuoNuyIfU0VU5X0w9RDit8NDznTJDcQ=;
+ b=uPhZGkU47JTv420dLqh5mJ86Fo7Wnl3DFSpCJcdFkNgj0G/Uj2V7BpLwD3q7H83HUigGARwn5j8eQJr7sTgM/RyDwTJkHMjor6x8jWBQ7VujaHhFFY4OiFwUiWMRvCG1b+V+Oebh+9fuHHpSeVWfNaseczoL2abBOTR7DXhtriv6cesl+0cwfzMybA7nCm2oQ5i6gq1weESMtp+MF2fc1s7pqTdzfpoIDM1UI9q1D5c12mk4JkW1h+zccx/VkMpds7Inn2TArs+Fm7jgyN2Ud/XYkicK/o8BPnaoos6TGH0eDaxIHEZhogBpNfH3SjaG2g8az3XO9vk+d9L+kheVNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKk26PqQqQ8dkuoNuyIfU0VU5X0w9RDit8NDznTJDcQ=;
+ b=jF6tQqlmeyYwVKcpKqU69b8ZPbsH6YY2wYJnoMbdddrwbLxtKa41Mg86MyaobUdIkf/SBjXYlrtm+C4lbctowv6pdEb7b8hVBnNFZTB8j4XVTFvi360L5tMHQnR+84l5oTKvGzoSLg1Zs/i3QpSmys63jFlLYoMzqksXOkgtjo8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS7PR12MB6333.namprd12.prod.outlook.com (2603:10b6:8:96::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Mon, 15 Jul
+ 2024 18:36:38 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7762.027; Mon, 15 Jul 2024
+ 18:36:38 +0000
+Message-ID: <4ab74f69-ecd7-4dea-ac92-adcd9923b0bd@amd.com>
+Date: Mon, 15 Jul 2024 13:36:34 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5 01/20] x86/cpufeatures: Add support for Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1720043311.git.babu.moger@amd.com>
+ <724d0234ca56d71f9d8d893806870181d027f556.1720043311.git.babu.moger@amd.com>
+ <1c51aa93-5b86-4361-87d5-3d5d48fac4e6@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <1c51aa93-5b86-4361-87d5-3d5d48fac4e6@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY3PR04CA0014.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::19) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240715-mgtime-v6-3-48e5d34bd2ba@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB6333:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcd2ea5a-96c6-4e41-c123-08dca4fd103d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?d21jQ1UzZFZCWlJKaVJMbjlMNHRBcWtEcTB0N2o0cWltWUJlT0sxL0FnVTdM?=
+ =?utf-8?B?WHJ6cDBqd3Y2TFJ3S25LMkRaZjBxVzZwUytpK2loR3NwUHlkdGIxWGo5SFpQ?=
+ =?utf-8?B?dHMyTS9ud1VwTi9CRnp3TnI5eTMvcmpmQWhKTFJQbStCajVOTVVzUWpQUitq?=
+ =?utf-8?B?WkZrNU53cThKU2wva1ZIS1FFR0pDS1U4MC9XZ0VkTk9HQlh0NzZIa0hDajJG?=
+ =?utf-8?B?WlQ0Q1VkODM4Y3MwZTZsT0xqY1RxWXdWejlkRnkrMVo1OGNpdktIVlFHR2Uy?=
+ =?utf-8?B?dEJObHRISkJnNWF0amoreVFQQ3haUElkTy80NkhCT0NKbXJPT3RzRDhQMDJp?=
+ =?utf-8?B?R1creHI1SFY4VWppWjZUNDJZekg4c3k4UXhkSVhCUDNCQ0tXOFp1V1dpOHVI?=
+ =?utf-8?B?Z0xFaXNWc1QxS2VYcHRYMGYvUlR0cFlucjZ1WVlrUm1nd0dlblBtaEFDM1Ra?=
+ =?utf-8?B?NWtvbDdtdnB3Qi9kb0dzTHR6OWF6OFo0ZjZMRVdJUHBtMHNrZ0IyNXltNmE3?=
+ =?utf-8?B?ZFNCQ1VHSFBvWXRPQ0VUemp3enlnMlBNM2xFek1NR1lsZ3VkQjM2eDFFRmI1?=
+ =?utf-8?B?VnFjeSttbWRZZzNpNm1nUTZjdGZhRHROZWpCQnVBbjUzMW45cjR3VWpXZmxW?=
+ =?utf-8?B?QSt6NGV3RkEyWVpiaXVhMHNMZFFmVit5RUN3MjVlZ3N1MjZXOHdiK1lhNG91?=
+ =?utf-8?B?bjFHRjVyL01XeUJ0QW81dnZ2ajM1elI1bklxZE5xWmcvU290c0Mrc09WRWFG?=
+ =?utf-8?B?dDRoc2cvWkQ4azNlbVh4c2orL3lhcnJsUzJBQ0kwMVF4SkNMRHUxb0I4bmUy?=
+ =?utf-8?B?RXpPcWlDSmlaYlRkUENpLzRuZEdjR0ZEYm9HZExvb1grWDNBZnd5TklkZ2x5?=
+ =?utf-8?B?azI1cytYUkV1emVicDBiNi9MOTFsVHRoVGF0M3I5UVJ3SGZpbHFtQU1LSHVh?=
+ =?utf-8?B?UmN3L01PM1FubkNTa0Rha1p0K2VmNVgrak0yMVBUd0FBc0ZuWmx5UjNQWWFN?=
+ =?utf-8?B?S0lsdm8vMlBiSHoxM0p6dVphOGthQk1zclNWUmI5S3JKZndjS1JFY212SlN3?=
+ =?utf-8?B?ZktTYTR2eUpaaVNmT1BnVDE1Tnk0MzR2UEwwZlljRW01dldCVnUxWUNpWW9u?=
+ =?utf-8?B?Z3Z5RzdFLy8rdGpQTEV1TkNqZ0x2c1dnQ1hXV2w5MTRlcDVhREI3RFd0UjVB?=
+ =?utf-8?B?OWJKY0V4bGJ0djZMMDcraUhERU90Ym85ZWc5b1FjeEhOcVRKYnhpaXVrbk0r?=
+ =?utf-8?B?Z2VXeUNxaXZsblJYRk5SeHZLYVhtbHVmd09RRTBYZ3U0UGxpSzA0T1ZRaWEx?=
+ =?utf-8?B?M1A1V2NEcG80akdiT1dUTE5CYzBhZE14M0U3dmh1OFJJZHNWeURhemMxZ1l2?=
+ =?utf-8?B?aUNPenRkdmNjcnVjQkYycktlRkZUVEVrcENWMGtRN3ZkL2Vtekd6RzRTcW1I?=
+ =?utf-8?B?d1lwbllSMTJUK3ZyRVBRTXBjRThyRVJ2TTJyY3VLZDU1ampkZmdDK0tYbkp1?=
+ =?utf-8?B?TFgvWGt5ZXZxMEVKVXNCNFFFKzZtWUdhNkNaL3piQWlHVkZ5cU9Wc29icWVP?=
+ =?utf-8?B?ZmZweEV1R3FRZnJTMm1vN3g4ckE1bXBHOG1FQkxhK3ozRU11M3ZCdnZXalpZ?=
+ =?utf-8?B?VDlkSFVDQ3F4allscVY2OW9SRCszVXJBTjVhT2xPcnkvdFZ6MXRPd09MQlFX?=
+ =?utf-8?B?M2JSWE9BNzNNVkFGMjFIQ1NEQll1eStOSjZTdGErQjh2YkFCZk8xMXczZXF6?=
+ =?utf-8?Q?/zeZIoox/c/QV2PUYk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dHRWSmp6NlE1TW94MCtZM2Uwa3hwVnZSK0toa1ZBWEVlYmd1c0JPYldNQVd2?=
+ =?utf-8?B?VjRpelFHMjlkZnBzSjlhbUwxbnI4NmVPOEVoSnJHTHE0OVM1eDI5VjR2WjRJ?=
+ =?utf-8?B?WElDbnJabkVHUUFOUjd1N0dZRzc3Wm1KcjBoR1NUQVQ3NWIvVzNNYlh4YjVY?=
+ =?utf-8?B?TThDdzJNK1QrS01wOSttYWxVcGgvbzdtM2FkZHdTbGtEdkR2N0FsSWRWeFpM?=
+ =?utf-8?B?d1Y1Ukduckc4Vm9PcjF6cGNxRkI3WnhXZGpUcVU5cHBVRkhwcXplcTJjUE5L?=
+ =?utf-8?B?SjN1YzRLOVFLa3I5bG0yVk8yNmNncHc3U0NqSmZWTnY1bGZtZ0xXc2dOeEJv?=
+ =?utf-8?B?eXEyZXRKWGdPa2dTMGIxOWsxZFA5c0NTa0VLaFd5OVhNZlZ2UG8zaVpXZ1Qr?=
+ =?utf-8?B?bHZRUldOZlQrQ1NDeHpNSFM2NXgrOG5rMXBEbG5XTjZjYk1IMGp5MlJmQWRn?=
+ =?utf-8?B?c1FCM3RmSEJ2QlVuNjRnV0FqZjg3OEwvRXorbW41T28wR0xzYjMzeERwVVpZ?=
+ =?utf-8?B?V2l6M2hpNXZNaG9Ca2lTamRaa0hjU1grYkJ0VnNrNWJzaXpmUVBsa1p2ZExP?=
+ =?utf-8?B?NnkyZHZXaERlTENaa3Y3YkxEMDBHN1pWUFVGOFI1Umo4ZDErRjhFQnlxcFJr?=
+ =?utf-8?B?L2xWek5qZURaSlNsWWh2MS9WNVI3aTM0cjBGQ0RtM1FUNC9MZ3Vjd0k0TjU1?=
+ =?utf-8?B?NmFrSjVkMTJheEg3R1A5VEh0RXJMdldkZnhJbU4zNCt2L0dBQTE5bmR1QlQ5?=
+ =?utf-8?B?U2ozTnlVRlZEdXVGOUp2RDlOeVpDQ0JPN2d5aGxxUmY0TTI0ZkIyZHY0bjRz?=
+ =?utf-8?B?MVNZTmpuY1ExM0crdGF4V1BudDRmQXVaUTE4UTV6b2VZY0lJdFZJQkJrck1q?=
+ =?utf-8?B?bUVjQjdFWEF5T3hpcENQWTg2RUM0Nk5tbmtRTWJCalNvWWNSeWdMK04vcVoy?=
+ =?utf-8?B?ODM3TWZqU1dWVGJCL053a0VsTXZtcExQY1M2UmhzUnpXU1R4UGhMeGdtNHBu?=
+ =?utf-8?B?NjNKWjlkdzEyd0xaMHkyL3lzbmJUYVpzTmlHR2VTbEVQMlY1VEl6QVB3S0xR?=
+ =?utf-8?B?YkdJUHpDalVPTnFGLzR1dTRoOEMwdmxCMUQ5Mk82dmNxbDVLQ0hlYkVTelRm?=
+ =?utf-8?B?dW5wVmNxamNQSUV6d0hnclZyTkNuQVA0OXFBYk9jYXNMUnMvVXIxOWx0NUF3?=
+ =?utf-8?B?NzJjU1FXeENCRnZKaW1jbkE2RktpZ2hoRjNLQUt3SmhNcC9PdjkweDBiK2ZJ?=
+ =?utf-8?B?VEpFdVcxdVNKODNEaXNtdWlKNWd3N1ZpRzV4bXA0eWdEelhPNmRSSWtXSk95?=
+ =?utf-8?B?RHR6bmtmZ25rNW9KaENNWk95Y3ZpM29TTnY1a2RhUmsyOHRNRVRoNUZlMUpY?=
+ =?utf-8?B?cGhSdHBsbkl4TlFxSzNSeTJid2Y2UkRXSmN6cTRqZy9BVTNDZitXMzNETTRX?=
+ =?utf-8?B?Ryt6cnJ4TzRmaDhwL2wzYWllYWQzZEVSSndNeDdPUk8rMVJtS25aUGFNblZO?=
+ =?utf-8?B?T0tEN3gwYWdzMEZ3TTdHZ2JoM21aOU1XOHo2SjhCblBPYnpMT0N3NWVRNTBD?=
+ =?utf-8?B?T2tlTHdRbnRjamhiSGtrSE1wbEFoOE5yRnVneTV3RGx5TGhRRndrZTFFaDZK?=
+ =?utf-8?B?ejFzR1JOb1VucVloeGlPYkdYa2xQdWpyaDBjWnVsNEU1ZHlSc0lPVlZTTEx0?=
+ =?utf-8?B?N2xSNVRPRW9lOEZHckhaQmd3WTNUaDg2amhPL0FrUkJwZFBLMTlINElVUncz?=
+ =?utf-8?B?Y2RwdVJWeENtU2JpcGRFd1N5eU1EQUpmOEx6YWQvbFhqSStwWVNLd3FDck9t?=
+ =?utf-8?B?V3BmUE1GMXYzTmdrOFNGbDdpMkt4Z1huUTJOU1kweVNKb1EwTlRmSGlXcmgx?=
+ =?utf-8?B?MTlmWkdmbUxjTUwwaExxckJpMDdwMGZPa1lic29JWWV6cDc0aFZWRWp1YUpW?=
+ =?utf-8?B?blZ3R2RTN3J6bWg5YU9HMzlKajQwRWo3bEZHc3d1K3hvNStDdXhNMzQ2aE1u?=
+ =?utf-8?B?ZG85Tnl6c2xFTmlnYmNRclNEUmRUZW02Sm8yQzJXemVNa2JUTk40b0dYUHZp?=
+ =?utf-8?B?WnUwZWNDY3pvZ2F1MUlRNXhvT3lNWXpSbjU1K1pqU2ZMU1JTMHg1S2pVSGpL?=
+ =?utf-8?Q?hDOY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcd2ea5a-96c6-4e41-c123-08dca4fd103d
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2024 18:36:38.7467
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ifJb+LbNEsGMzsSOTn3uRW8alpXDw5BwjQT8j/CCKVDYeVVdczma4cIBSP9rrwUp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6333
 
-On Mon, Jul 15, 2024 at 08:48:54AM -0400, Jeff Layton wrote:
-> Four percpu counters for counting various stats around mgtimes, and a
-> new debugfs file for displaying them:
-> 
-> - number of attempted ctime updates
-> - number of successful i_ctime_nsec swaps
-> - number of fine-grained timestamp fetches
-> - number of floor value swaps
-> 
-> Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/inode.c | 70 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 69 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 869994285e87..fff844345c35 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -21,6 +21,8 @@
->  #include <linux/list_lru.h>
->  #include <linux/iversion.h>
->  #include <linux/rw_hint.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/debugfs.h>
->  #include <trace/events/writeback.h>
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/timestamp.h>
-> @@ -80,6 +82,10 @@ EXPORT_SYMBOL(empty_aops);
->  
->  static DEFINE_PER_CPU(unsigned long, nr_inodes);
->  static DEFINE_PER_CPU(unsigned long, nr_unused);
-> +static DEFINE_PER_CPU(unsigned long, mg_ctime_updates);
-> +static DEFINE_PER_CPU(unsigned long, mg_fine_stamps);
-> +static DEFINE_PER_CPU(unsigned long, mg_floor_swaps);
-> +static DEFINE_PER_CPU(unsigned long, mg_ctime_swaps);
+Hi Reinette,
 
-Should this all get switched off if CONFIG_DEBUG_FS=n?
+On 7/12/24 16:55, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 7/3/24 2:48 PM, Babu Moger wrote:
+>> Users can create as many monitor groups as RMIDs supported by the hardware.
+>> However, bandwidth monitoring feature on AMD system only guarantees that
+>> RMIDs currently assigned to a processor will be tracked by hardware. The
+>> counters of any other RMIDs which are no longer being tracked will be
+>> reset to zero. The MBM event counters return "Unavailable" for the RMIDs
+>> that are not tracked by hardware. So, there can be only limited number of
+>> groups that can give guaranteed monitoring numbers. With ever changing
+>> configurations there is no way to definitely know which of these groups
+>> are being tracked for certain point of time. Users do not have the option
+>> to monitor a group or set of groups for certain period of time without
+>> worrying about RMID being reset in between.
+>>
+>> The ABMC feature provides an option to the user to assign a hardware
+>> counter to an RMID and monitor the bandwidth as long as it is assigned.
+>> The assigned RMID will be tracked by the hardware until the user unassigns
+>> it manually. There is no need to worry about counters being reset during
+>> this period. Additionally, the user can specify a bitmask identifying the
+>> specific bandwidth types from the given source to track with the counter.
+>>
+>> Without ABMC enabled, monitoring will work in current mode without
+>> assignment option.
+>>
+>> Linux resctrl subsystem provides the interface to count maximum of two
+>> memory bandwidth events per group, from a combination of available total
+>> and local events. Keeping the current interface, users can enable a maximum
+>> of 2 ABMC counters per group. User will also have the option to enable only
+>> one counter to the group. If the system runs out of assignable ABMC
+>> counters, kernel will display an error. Users need to disable an already
+>> enabled counter to make space for new assignments.
+>>
+>> The feature can be detected via CPUID_Fn80000020_EBX_x00 bit 5.
+>> Bits Description
+>> 5    ABMC (Assignable Bandwidth Monitoring Counters)
+>>
+>> The feature details are documented in APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC).
+>>
+>> Note: Checkpatch checks/warnings are ignored to maintain coding style.
+> 
+> This note may be more appropriate below the '---' separator line.
 
---D
+Sure.
 
->  
->  static struct kmem_cache *inode_cachep __ro_after_init;
->  
-> @@ -101,6 +107,42 @@ static inline long get_nr_inodes_unused(void)
->  	return sum < 0 ? 0 : sum;
->  }
->  
-> +static long get_mg_ctime_updates(void)
-> +{
-> +	int i;
-> +	long sum = 0;
-> +	for_each_possible_cpu(i)
-> +		sum += per_cpu(mg_ctime_updates, i);
-> +	return sum < 0 ? 0 : sum;
-> +}
-> +
-> +static long get_mg_fine_stamps(void)
-> +{
-> +	int i;
-> +	long sum = 0;
-> +	for_each_possible_cpu(i)
-> +		sum += per_cpu(mg_fine_stamps, i);
-> +	return sum < 0 ? 0 : sum;
-> +}
-> +
-> +static long get_mg_floor_swaps(void)
-> +{
-> +	int i;
-> +	long sum = 0;
-> +	for_each_possible_cpu(i)
-> +		sum += per_cpu(mg_floor_swaps, i);
-> +	return sum < 0 ? 0 : sum;
-> +}
-> +
-> +static long get_mg_ctime_swaps(void)
-> +{
-> +	int i;
-> +	long sum = 0;
-> +	for_each_possible_cpu(i)
-> +		sum += per_cpu(mg_ctime_swaps, i);
-> +	return sum < 0 ? 0 : sum;
-> +}
-> +
->  long get_nr_dirty_inodes(void)
->  {
->  	/* not actually dirty inodes, but a wild approximation */
-> @@ -2655,6 +2697,7 @@ struct timespec64 inode_set_ctime_current(struct inode *inode)
->  
->  			/* Get a fine-grained time */
->  			fine = ktime_get();
-> +			this_cpu_inc(mg_fine_stamps);
->  
->  			/*
->  			 * If the cmpxchg works, we take the new floor value. If
-> @@ -2663,11 +2706,14 @@ struct timespec64 inode_set_ctime_current(struct inode *inode)
->  			 * as good, so keep it.
->  			 */
->  			old = floor;
-> -			if (!atomic64_try_cmpxchg(&ctime_floor, &old, fine))
-> +			if (atomic64_try_cmpxchg(&ctime_floor, &old, fine))
-> +				this_cpu_inc(mg_floor_swaps);
-> +			else
->  				fine = old;
->  			now = ktime_mono_to_real(fine);
->  		}
->  	}
-> +	this_cpu_inc(mg_ctime_updates);
->  	now_ts = timestamp_truncate(ktime_to_timespec64(now), inode);
->  	cur = cns;
->  
-> @@ -2682,6 +2728,7 @@ struct timespec64 inode_set_ctime_current(struct inode *inode)
->  		/* If swap occurred, then we're (mostly) done */
->  		inode->i_ctime_sec = now_ts.tv_sec;
->  		trace_ctime_ns_xchg(inode, cns, now_ts.tv_nsec, cur);
-> +		this_cpu_inc(mg_ctime_swaps);
->  	} else {
->  		/*
->  		 * Was the change due to someone marking the old ctime QUERIED?
-> @@ -2751,3 +2798,24 @@ umode_t mode_strip_sgid(struct mnt_idmap *idmap,
->  	return mode & ~S_ISGID;
->  }
->  EXPORT_SYMBOL(mode_strip_sgid);
-> +
-> +static int mgts_show(struct seq_file *s, void *p)
-> +{
-> +	long ctime_updates = get_mg_ctime_updates();
-> +	long ctime_swaps = get_mg_ctime_swaps();
-> +	long fine_stamps = get_mg_fine_stamps();
-> +	long floor_swaps = get_mg_floor_swaps();
-> +
-> +	seq_printf(s, "%lu %lu %lu %lu\n",
-> +		   ctime_updates, ctime_swaps, fine_stamps, floor_swaps);
-> +	return 0;
-> +}
-> +
-> +DEFINE_SHOW_ATTRIBUTE(mgts);
-> +
-> +static int __init mg_debugfs_init(void)
-> +{
-> +	debugfs_create_file("multigrain_timestamps", S_IFREG | S_IRUGO, NULL, NULL, &mgts_fops);
-> +	return 0;
-> +}
-> +late_initcall(mg_debugfs_init);
 > 
-> -- 
-> 2.45.2
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
 > 
-> 
+> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+
+-- 
+Thanks
+Babu Moger
