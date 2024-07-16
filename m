@@ -1,186 +1,306 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBF2199E92;
-	Tue, 16 Jul 2024 11:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5100117CA10
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 12:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721130600; cv=none; b=hkVOQ+IaKuyiR0nFoL9TLwaoIwwM/YqOJy21KpHKQP/kLYc3W2As/YaOiYy81SjujeVuSWlVOiyYVljyCv3nwBQKKXF9CTZXPt+6vxwTxs6yL4+PMM6eJsIX9NeRcaZFnP4+lQa5IOR8XOw2+ukLgfl3Y1nExR08dblzVmKKzMU=
+	t=1721132413; cv=none; b=kswP3uZIaafCdi67uzPZCOQixuoryYy1iw48i/jHYsESvz8FLJ5Rgdxja+HtdBBwDanwMyt28OaoJxDMHBTaM/ay6/zf3esGMQNs7K02hOSHdN2zCwE9wxEvYV1nGIbnMW864WffWtHzktaE3zPQ3OtTjiaPLevJws+27VNx65w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721130600; c=relaxed/simple;
-	bh=Qp5s5s0qoFrNJjn2rOJBg5QOeCH0WdccBxFNyY6GhaE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SMi2uzGQ+ys0Bp9bu3tGx+oR7q9O2I+KPgsZRXChSHrvGeibwkt3NfypfD0VaIOcot5dtJFC7T3c84nWNj4sl5LRBtMKQ9VdqUq8Nqh2BlRYtLj+2bb1ICn+lhJGR5c1DoB+Plm3gxW25+YqyDSTLiLmJk2LEJOPtZ6yFc35C8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B8JmIpLa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721132413; c=relaxed/simple;
+	bh=NPFmz/N6G3Ip3lB/40h8jCNz3HQpYtZd62s4Uir8yVY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PJtP2QKapnRuafEx0TAxZUYx9y6c1rShTnQbkvSyPuYZWvFlWcpaO4cRJjKakNEr+e9y1EnRAO3FoL9y6zQxGYsI0WaJzz1FBHz/xrmRB2vEbX8Ifcve8dobZqkLFkAPgfqMtE7uEfEdYOjcKUwq5HYgL3xtofKlL3KrBFWUbcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=m81PWCUS; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B8JmIpLa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A4E6C4AF0F;
-	Tue, 16 Jul 2024 11:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721130600;
-	bh=Qp5s5s0qoFrNJjn2rOJBg5QOeCH0WdccBxFNyY6GhaE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=B8JmIpLaAZeAbGcmudTjGR5Gybg5aOVhP1oHkxizq2rAjztO7/nwGy0RQ66h/bNkX
-	 PZ46C0L0PtMDJO7CXi22W85q0nlTsZWvQROmW8zfhFYQz47ysKN0UrIynvi7/Ho5W6
-	 pwjKlY1V/ddcoXlopvkjTfGO81STbEFNw0yKlMIAEY51b4kh/JsGXuwDeVRH9rxkut
-	 z5Zs+3opt4JYkZq8wcE47YJrERwj2bagpVaYfaepLfrWVc62qGz4tE0F4WfmJa50Rr
-	 vCa1Vn5zpHtUPBbMlNMg24Vsu9SEuVvv0++3z/Fwrg3UCwpYGyzsR9nzQVFLIUSgxe
-	 r519v4q/YxeRA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9EDC3DA49;
-	Tue, 16 Jul 2024 11:50:00 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
-Date: Tue, 16 Jul 2024 19:49:54 +0800
-Subject: [PATCH 2/2] hwmon: document: add gpd-fan
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="m81PWCUS"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a77c2d89af8so612906466b.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 05:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721132409; x=1721737209; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/wgyK3rI/+GRYXc3I3puXIGSeacbfUlZLjUaC5dlWKs=;
+        b=m81PWCUSKVoucZp1MciQ0ROjqMYeWq30mutTME71+Ze4PetsOU/Po1WY64iGU3Cq0f
+         uJYmkSmn9zLARYfzqWhiCfNFy29fljpudhlUwT2ptODTh25buk9XKGOGF7YUBHu+YeId
+         KREfsUbYrnYRE03IFqRjj/yHU3rd1hxzlEq2T5mE6URyjBAQSdNrA/YysAAMhvxU2fXQ
+         QYV/fu+mhL4T/xilppRMbll5NdNYZu+XsSPn+KuAGbLpf+F79d9Otzwc2J5DEEDbZa5f
+         2q03ZPG0iDTXLCte1jqnnW0fbRGwLGgLK19ufdkiENM7yALZ9TVtwEdWug5kC5sbFiBK
+         588g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721132409; x=1721737209;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/wgyK3rI/+GRYXc3I3puXIGSeacbfUlZLjUaC5dlWKs=;
+        b=R2qQUdL0uE+FZ0E/Y1o8g708BgHawfJTd85uqxXmNojiSQ+/SF5ARpHVxvELjiQ+X5
+         54p/5NyHFzHjX+SWkwMOcy0SMOI1/E/hYdpOhx2xv30VdsY+gBqyhi4xb6O1iyq2wpyS
+         BpyXY88e79h30/y1+W1K57l+vYyrZhH5qWjh7kshn+TioorWEKWKIYtUrkoDNHFe6t9n
+         Uv3ctXSM00bwumzpxRzWtw00K4o5BV1tkA+XpJCYaeMZMettULr6SjJMUcUs6QPRRRNL
+         Gfl76Xx7TDv8Gora6jAiFQ8wrc4Lidpl6DB31H3nNwkZmPQBckaYk+xnpbNnXJzGR7bt
+         NajA==
+X-Forwarded-Encrypted: i=1; AJvYcCVWPZZhMU7iVuq7wfea5BXSkB5X9+5ZebcyrpGkh5pqL8ZGdw4nFt2umL7rLZOT1tjVjd97eutrJbhsLZ2B24qvVa2IZZ48IvYe
+X-Gm-Message-State: AOJu0YzYM/SNx1IDvb7CiaV1aQluCedKdYIAw0r8yhDkthQb6MbreDiH
+	3znRfz1qxINc1bmgGaDINJv7zh/zKjdA0lL635k+lPb2QwT7GkpX0OeSafOMwW2aW9kcWanZ+xQ
+	f025TmAFApanAFiDGoQt1jkZtFBzp03GMv4upTw==
+X-Google-Smtp-Source: AGHT+IG9FrD1fBVgqj60WTDAt3AQCQU/Sf+dX7Y3PES5xjXq+TMnTztj457Qr4E/dPajDDm9BXML7CFjSdsFPn+WNxQ=
+X-Received: by 2002:a17:906:2409:b0:a6f:c268:ff2e with SMTP id
+ a640c23a62f3a-a79ea3d7952mr139799466b.5.1721132408420; Tue, 16 Jul 2024
+ 05:20:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240716-gpd_fan-v1-2-34051dd71a06@gmail.com>
-References: <20240716-gpd_fan-v1-0-34051dd71a06@gmail.com>
-In-Reply-To: <20240716-gpd_fan-v1-0-34051dd71a06@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Cryolitia PukNgae <Cryolitia@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
- =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3005;
- i=Cryolitia@gmail.com; h=from:subject:message-id;
- bh=rCZFBuF0vMkbp2kqIBIiOPphrC0bJhpWObJgki8Zq9M=;
- b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFHUy9wQU5Bd0FJQVQ1ZEYzTDhpb
- zdkQWNzbVlnQm1sbDVsOTlwMDU3YXZQVkZ1bjlkWFNqVG5tbld2CklaZEY1aDJuMmwvY1Jzd1lj
- L0NKQVRNRUFBRUlBQjBXSVFSME5XMHB5dmR3U0JGOENDWStYUmR5L0lxTzNRVUMKWnBaZVpRQUt
- DUkErWFJkeS9JcU8zUm9QQi85b1VDL3ZqOWpxWVFZcnlXLzR0c1VIenV6bkNkSFJkMlRRYXpOZg
- pFYmZoTFhBQ3REN1BrMURVckJYUUNtVHpuK0RrRWpMbk1qd0tyTmEvTHJOT3VBeFNuNHZWNmRhY
- XBvWmpyempiCmxieGJ1QmpBblhQbjVKWnJzOHlWRGNoYlBJM3lkd0w1cEVYaVlQQ0RoSEtxeDRu
- VDVWaWMwSjBrS3JXNlN6MGEKd3hKMUtqN3U1RDE3RFE0bndmUXEwOExub1VtamxML1N3eHZ3Y0l
- ZS0o3ODRUTzZvOTF1QklJL051ZmpDc1BCbgpVRENralJiWS9TY3dXNnJBeGpJclcxTmx4ZWFoSm
- w4TFBrZjFVRjZJcit1MnBia1lyRHp1U0xHd3h2SElJNWpUCklxZllHUE9tVHZ3RlVHNy9LaFV1d
- Gx0eER4SG8yS0xmdlAvK0lnN0oreXFaR0Y4VQo9SEYvYQotLS0tLUVORCBQR1AgTUVTU0FHRS0t
- LS0tCg==
-X-Developer-Key: i=Cryolitia@gmail.com; a=openpgp;
- fpr=1C3C6547538D7152310C0EEA84DD0C0130A54DF7
-X-Endpoint-Received: by B4 Relay for Cryolitia@gmail.com/default with
- auth_id=186
-X-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
-Reply-To: Cryolitia@gmail.com
+References: <20240626130347.520750-2-alexghiti@rivosinc.com>
+ <202407041157.odTZAYZ6-lkp@intel.com> <20240705172750.GF987634@thelio-3990X>
+In-Reply-To: <20240705172750.GF987634@thelio-3990X>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 16 Jul 2024 14:19:57 +0200
+Message-ID: <CAHVXubhvk_CbBX=hWFGt+1HEM4cj=cAc1NsCEknn=B8UDcXVSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Zacas
+To: Nathan Chancellor <nathan@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
+Cc: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrea Parri <parri.andrea@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Hi Nathan,
 
-Add GPD fan driver document
+On Fri, Jul 5, 2024 at 7:27=E2=80=AFPM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Thu, Jul 04, 2024 at 11:38:46AM +0800, kernel test robot wrote:
+> > Hi Alexandre,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on soc/for-next]
+> > [also build test ERROR on linus/master v6.10-rc6 next-20240703]
+> > [cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core=
+]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/=
+riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for=
+-next
+> > patch link:    https://lore.kernel.org/r/20240626130347.520750-2-alexgh=
+iti%40rivosinc.com
+> > patch subject: [PATCH v2 01/10] riscv: Implement cmpxchg32/64() using Z=
+acas
+> > config: riscv-randconfig-002-20240704 (https://download.01.org/0day-ci/=
+archive/20240704/202407041157.odTZAYZ6-lkp@intel.com/config)
+> > compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7c=
+bf1a2591520c2491aa35339f227775f4d3adf6)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20240704/202407041157.odTZAYZ6-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202407041157.odTZAYZ6-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> kernel/sched/core.c:11873:7: error: cannot jump from this asm goto s=
+tatement to one of its possible targets
+> >                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UN=
+SET))
+> >                        ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '_=
+_arch_cmpxchg'
+> >                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,        =
+    \
+> >                    ^
+> >    kernel/sched/core.c:11840:7: note: possible target of asm goto state=
+ment
+> >            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+> >                 ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '=
+__arch_cmpxchg'
+> >                                                                        =
+    \
+> >                                                                        =
+    ^
+> >    kernel/sched/core.c:11872:2: note: jump exits scope of variable with=
+ __attribute__((cleanup))
+> >            scoped_guard (irqsave) {
+> >            ^
+> >    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_gu=
+ard'
+> >            for (CLASS(_name, scope)(args),                             =
+    \
+> >                              ^
+> >    kernel/sched/core.c:11840:7: error: cannot jump from this asm goto s=
+tatement to one of its possible targets
+> >            if (!try_cmpxchg(&pcpu_cid->cid, &cid, lazy_cid))
+> >                 ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:144:3: note: expanded from macro '_=
+_arch_cmpxchg'
+> >                    asm goto(ALTERNATIVE("nop", "j %[zacas]", 0,        =
+    \
+> >                    ^
+> >    kernel/sched/core.c:11873:7: note: possible target of asm goto state=
+ment
+> >                    if (try_cmpxchg(&pcpu_cid->cid, &lazy_cid, MM_CID_UN=
+SET))
+> >                        ^
+> >    include/linux/atomic/atomic-instrumented.h:4880:2: note: expanded fr=
+om macro 'try_cmpxchg'
+> >            raw_try_cmpxchg(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+> >            ^
+> >    include/linux/atomic/atomic-arch-fallback.h:192:9: note: expanded fr=
+om macro 'raw_try_cmpxchg'
+> >            ___r =3D raw_cmpxchg((_ptr), ___o, (_new)); \
+> >                   ^
+> >    include/linux/atomic/atomic-arch-fallback.h:55:21: note: expanded fr=
+om macro 'raw_cmpxchg'
+> >    #define raw_cmpxchg arch_cmpxchg
+> >                        ^
+> >    arch/riscv/include/asm/cmpxchg.h:212:2: note: expanded from macro 'a=
+rch_cmpxchg'
+> >            _arch_cmpxchg((ptr), (o), (n), ".rl", "", "     fence rw, rw=
+\n")
+> >            ^
+> >    arch/riscv/include/asm/cmpxchg.h:189:3: note: expanded from macro '_=
+arch_cmpxchg'
+> >                    __arch_cmpxchg(".w", ".w" sc_sfx, prepend, append,  =
+    \
+> >                    ^
+> >    arch/riscv/include/asm/cmpxchg.h:161:10: note: expanded from macro '=
+__arch_cmpxchg'
+> >                                                                        =
+    \
+> >                                                                        =
+    ^
+> >    kernel/sched/core.c:11872:2: note: jump bypasses initialization of v=
+ariable with __attribute__((cleanup))
+> >            scoped_guard (irqsave) {
+> >            ^
+> >    include/linux/cleanup.h:169:20: note: expanded from macro 'scoped_gu=
+ard'
+> >            for (CLASS(_name, scope)(args),                             =
+    \
+> >                              ^
+> >    2 errors generated.
+>
+> Ugh, this is an unfortunate interaction with clang's jump scope analysis
+> and asm goto in LLVM releases prior to 17 :/
+>
+> https://github.com/ClangBuiltLinux/linux/issues/1886#issuecomment-1645979=
+992
+>
+> Unfortunately, 'if (0)' does not prevent this (the analysis runs early
+> in the front end as far as I understand it), we would need to workaround
+> this with full preprocessor guards...
 
-Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
----
- Documentation/hwmon/gpd-fan.rst | 68 +++++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst   |  1 +
- MAINTAINERS                     |  1 +
- 3 files changed, 70 insertions(+)
+Thanks for jumping in on this one, I was quite puzzled :)
 
-diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
-new file mode 100644
-index 000000000000..0e5bb8b5feed
---- /dev/null
-+++ b/Documentation/hwmon/gpd-fan.rst
-@@ -0,0 +1,68 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver gpd-fan
-+=========================
-+
-+Authors:
-+    - Cryolitia PukNgae <Cryolitia@gmail.com>
-+
-+Description:
-+------------
-+
-+Handheld devices from GPD provide fan readings and fan control through
-+their embedded controllers.
-+
-+Supported devices
-+-----------------
-+
-+Currently the driver supports the following handhelds:
-+
-+ - GPD Win Mini (7840U)
-+ - GPD Win Mini (8840U)
-+ - GPD Win Max 2
-+ - GPD Win Max 2 2023 (7840U)
-+ - GPD Win Max 2 2024 (8840U)
-+ - GPD Win 4 (6800U)
-+ - GPD Win 4 (7840U)
-+
-+Module parameters
-+-----------------
-+
-+gpd_fan_model
-+  Force specific which module quirk should be use.
-+
-+   - wm2
-+       - GPD Win 4 (7840U)
-+       - GPD Win Max 2 (6800U)
-+       - GPD Win Max 2 2023 (7840U)
-+       - GPD Win Max 2 2024 (8840U)
-+   - win4
-+       - GPD Win 4 (6800U)
-+   - win_mini
-+       - GPD Win Mini (7840U)
-+       - GPD Win Mini (8840U)
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported:
-+
-+fan1_input
-+  Read Only. Reads current fan RMP.
-+
-+pwm1_enable
-+  Read Write. Enable manual fan control. Write "0" to disable control and run
-+  full speed. Write "1" to set to manual, write "2" to let the EC control decide
-+  fan speed. Read this attribute to see current status.
-+
-+pwm1
-+  Read Write. Read this attribute to see current duty cycle in the range [0-255].
-+  When pwm1_enable is set to "1" (manual) write any value in the range [0-255]
-+  to set fan speed.
-+
-+pwm1_mode
-+  Read Only. Should always be "1" by now to indicate the fan being under PWM mode.
-+
-+update_interval
-+  Read Write. Set the interval in milliseconds to update fan speed. The default
-+  and minimum time is 1 second
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 913c11390a45..97add26f53b7 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -80,6 +80,7 @@ Hardware Monitoring Kernel Drivers
-    gigabyte_waterforce
-    gsc-hwmon
-    gl518sm
-+   gpd-fan
-    gxp-fan-ctrl
-    hih6130
-    hp-wmi-sensors
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ced72cec42b..5079b5bfe4b1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9376,6 +9376,7 @@ GPD FAN DRIVER
- M:	Cryolitia PukNgae <Cryolitia@gmail.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/hwmon/gpd-fan.rst
- F:	drivers/hwmon/gpd-fan.c
- 
- GPD POCKET FAN DRIVER
+>
+> Another alternative would be to require LLVM 17+ for RISC-V, which may
+> not be the worst alternative, since I think most people doing serious
+> work with clang will probably be living close to tip of tree anyways
+> because of all the extension work that goes on upstream.
 
--- 
-2.45.2
+Stupid question but why the fix in llvm 17 was not backported to
+previous versions?
 
+Anyway, I'd rather require llvm 17+ than add a bunch of preprocessor
+guards in this file (IIUC what you said above) as it is complex
+enough.
 
+@Conor Dooley @Palmer Dabbelt WDYT? Is there any interest in
+supporting llvm < 17? We may encounter this bug again in the future so
+I'd be in favor of moving to llvm 17+.
+
+Thanks again Nathan,
+
+Alex
+
+>
+> I am open to other thoughts though.
+>
+> Cheers,
+> Nathan
