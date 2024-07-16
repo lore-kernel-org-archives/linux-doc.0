@@ -1,337 +1,910 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BBA19ADBE;
-	Tue, 16 Jul 2024 16:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721148685; cv=fail; b=qQ4YfAvMkQ5dS0OBh1JPsID9pRqBnHWrurQkmj3pEH1deIdeCIYiWSNM+950iJUbcfMgleoxzDJnng56WcQXJtnDnZ1eZAFB+nML0YP0Ot2PYovex/vcYb0Km/jquBdALqXtnVbQu5vLDD5+h9kkkdHuCdXQ9slcbKACUe0RZw0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721148685; c=relaxed/simple;
-	bh=MnBc46LmB+aI0JklVBoJNmLXyeuLIFfbnK1TFa8MB10=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZAIEuEHqnnuqMnPy4JmZIuYXHlZX2DKacDzaBPc0/829DyH1353OJcQlPOYq/5yqYWHdvnbYBgyjzenH2o/PvYIF5abpn/I/MF+r6JWa3BITIiNzbpNdSjhnGXLH1a60IdtLUnJp+s2temt4b+G4wsdwqh3igbQhem6vbQB10sA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=e4SrYK+e; arc=fail smtp.client-ip=40.107.93.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A238F86;
+	Tue, 16 Jul 2024 16:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721149103; cv=none; b=CvRN53f3VKa+JiRpy98hDEJL3gzU2R7OzrvVMb7lvbDw8vVJOwVXKXTkhG+MF2UPiPwlnMA2uETeZSbqL7W1gAxT0aWNvBciOvmM7eZEogbqgGZdT1kCP2aB0r7XH0OjYcWI9VfZ9XIraPlV00Npf6PcF/Gve0fDzKOQ+G03wCo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721149103; c=relaxed/simple;
+	bh=0RQYnVjyp4pFyv/293aCSUF0BtFJllwmUp34GcRFnIk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=cArEk8aRIUQZKmkT9h2t6AJOhMHIRr1ZpL0EdC7DqeHAt//xXKEvT+BGpOcaU4SWDBpBEhD91Zs98yR+4mAaYzvyT5FUAMU0nyBr9ztTk27kIuaDs5E/nk7WAXifRAqi5TvN0SToYZEorjN1Crg/hRPnzNVhDhK3h9eIPfFL8t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKkmAWIj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="e4SrYK+e"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cVCAhF+Tiv3VD8JW5BhDcexMsoiXVLBV4WDCFSMZYdZQ6hk8kEBKy2hKjLbWEr+tbPcyI6peK176zibdv9cdPBs+vAiKGzj+mfFFiwFu09F4klDIMQ3XxI+6PTdsW+PB1vtDvBo6t/fmISXVgY7anbg79aTkRB0d7g+sIINIrHD8j7EHyQuyETmQDUIIjsU9xM3wkxZPGoZ9Q4KEKZ9qy+hEgk1TqhLOyqvpXfJujtI3lwmeJIS5GLN41bRNBFT4UxzOw3viiyI7bxFweWF6iQ8mNPuSEqZ8/6PAi0mA1H5NmXlFLX2YfuKCCfsHepxI9IdD6dTKjwuLtrPHp04b2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PBx31m0fw3OosUejhBW/WTG6/MMy8CUaq1aeJkuyA64=;
- b=GLTKZIyCdL26eb4fbX00Jne2YdThYZEz+xKQJfTdRaZFtMYjTJeSEAqB6+OgMdMkFG4yN7MyPfR071vX9WidkEM2PAMYKB7IA1q/pCb/S5/10axY5m+nh921f6KXYRpzta9HGjgu2N9uJyPVOLUasPce1tcHTzZ8Aj3BxM2Ig0YrUoJVII4NbC3Fkz5WYVtIji4rzMlnEWbCS0zc93Tpc/EsGPUGyvKfW/zpyp1bMArS4GLnOLfiTASNgaC6hjjP88sGVEB7xE66Cr4qINTytk3SiUR5TWo7dtZ7WyLz/jlc8pM1pux4IbQH+2wu+5I+sW8wOVFGglMCCTYMvKNQNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBx31m0fw3OosUejhBW/WTG6/MMy8CUaq1aeJkuyA64=;
- b=e4SrYK+elxom3hs215XtHe/xtFbOk+i6C/3iFt+FAncjbf7CchP9x7RQCkgzf1gi5nEdT7aK1BqCEMb15dd64NSkQ9FuYX/CytUeG+yM6fCo8OlJ3eQQNgDea6vFc29bDhvOhEC0EpumTMqcz2s9C3v9AfaPckOICz7wa/VL0dM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH0PR12MB7080.namprd12.prod.outlook.com (2603:10b6:510:21d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Tue, 16 Jul
- 2024 16:51:17 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
- 16:51:17 +0000
-Message-ID: <5005f017-a499-43e8-ab3d-cddf7c9d8053@amd.com>
-Date: Tue, 16 Jul 2024 11:51:13 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v5 07/20] x86/resctrl: Introduce the interface to display
- monitor mode
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1720043311.git.babu.moger@amd.com>
- <4b8e3a4dcd8b6c7d7ce80a54cd2a129cbd2eedda.1720043311.git.babu.moger@amd.com>
- <bad25f0e-8c74-46ad-8bd0-d25f954f1714@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <bad25f0e-8c74-46ad-8bd0-d25f954f1714@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR11CA0185.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::10) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKkmAWIj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58476C4AF0D;
+	Tue, 16 Jul 2024 16:58:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721149103;
+	bh=0RQYnVjyp4pFyv/293aCSUF0BtFJllwmUp34GcRFnIk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=UKkmAWIj6vZy3fgSz2NXkyNo8PEtquJXUIewr9iUnxmLOLc3kD3I0q1aE53DFHb+q
+	 WcBvi8bbToqJ12BVPmQdA4WIJXyAIzqmMtOLbhTjVEShqenVTPl9SXFpz8RsKyHv8w
+	 6BiCRBIy1eWU3XH9AzMTCJ7Htbu2QLtC7l8Yasccjnt4m3ON/Dj50UW7wCQaOEIBkL
+	 Y4oEVA8eTIJfGSyrOMI872P1BQhrjCQFHROPLcLkOMtGI7f4xKPoULcRSzjRW7kYaR
+	 oMhyhJ8T3nKVNgm4jLLNS1I8PMt5Rht/tE1Zsu9w3tY/uzizXvzuJfPWMSSB6eQw8a
+	 4gIkgQzDaiWzw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46558C3DA49;
+	Tue, 16 Jul 2024 16:58:23 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
+Date: Wed, 17 Jul 2024 00:58:07 +0800
+Subject: [PATCH v2 1/2] hwmon: add GPD devices sensor driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH0PR12MB7080:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0dffef1-8efa-4bec-e932-08dca5b782e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NjhJU2JKRE9YR3BMRURrcDlVdHVIbGcwbVhHdllMVXBzUUtyVGhmV2ExbUJZ?=
- =?utf-8?B?QS9VQ001cUtUb3RycmxlR1RwTnJXMEs3emdzaDg5SEN4NjhtQU5XR2NJYW5u?=
- =?utf-8?B?NEVldzhnMG5DSmhONm9oKzJleTBmS1YzWnkraEp0enl3WE9GRUZWcXR0bDlL?=
- =?utf-8?B?ZGsvQjBnaENTSVh5ekhZVFFPMXJ5VHgxZUdnT04vYXd0MFdGWlhTZ3ZLNDYr?=
- =?utf-8?B?dU8vcnhEcU9uNG9pUENsVWhlTlEyWWlhbjBwMUdmMGx4ZG1pTUpkdzZCOSto?=
- =?utf-8?B?Ui9EMG9pM0l3cW1kSVNnM09DcEV2ZHoyNmpHZ1ZPaDEyeHYyV0JrakRPNTBo?=
- =?utf-8?B?OUlSQ0JORkFhOXZOMW5UUEt2SDdoeVVkQVkrUXdGUTYvWUFjV1RIbEZXTy9w?=
- =?utf-8?B?MzMxZDNHeFFlUit1SmlVeVNDbjg4MU1qS1BxaWdCdUZTK1d3VmJoUU03THNS?=
- =?utf-8?B?Vkcvc25MYVgzZXdza2xUaDFYejlSdW9UZUNheTVsa01Vc00vV2dpbVdFcWNa?=
- =?utf-8?B?Z3QzeVd4R08vYk1IL05pRnhibEhCSG1nQXNhekxsOTZEZit0eFdicGh2Q29v?=
- =?utf-8?B?aDV2Q3RBM09ib2d4TnJpdTlJN2ZadHdiNXJuTFd0d09rNmszZGNXL0F6bk1J?=
- =?utf-8?B?d1Y2SEZ0YWhUTVJpbHBXWkxRK1pOeG9CdmZQMUNRTlFHbEVFZkYrQWtsR3Z1?=
- =?utf-8?B?c1c4Nzl6Zi9ZV0NiV0k4V256Z3k5WGI0S3BBU0FQazAzMEhEVFpRdVJYYm5z?=
- =?utf-8?B?QXduek5ORDU1azRNdXE0RGk1NVlqNXJxNm5ZT3gxRXIzL0hXN3VtTjM4QThi?=
- =?utf-8?B?TERsenV3RzkyVzlPazNnbnZnaTlwallHRG1UWFpkMVBrUFMzNHExaG9LN243?=
- =?utf-8?B?NVhIWHZoeVUyZ21sb1g5Z1QrV3VJRjBJUWc2NTI1bDE4ZkFNbndwbEYrY2hL?=
- =?utf-8?B?bG1FVHRKWUN0WFY1MHZTMndES3JjSzFjaUhlbnkwVldwWVpKU0JhQkEyWUR0?=
- =?utf-8?B?LzVRM3FBZlV2RUROMUhML1JBUkV4OWkwZlA3RHQyLzVwcnpJSWp1Y09idmdm?=
- =?utf-8?B?S0k5ZCsrREM5aXBjQXdCd09iQ1N5V1dNSUkwTm1zMVV5bDBIT3JLeG5QS3pW?=
- =?utf-8?B?TFd3enJPTjRwWmZtWXEwdzZhSklWNG1DeTdaMkdtRmt0ZGVVYjVKZXFEaGsx?=
- =?utf-8?B?MVI5MVd4T1BTcCtoL056WTY0djEzSHhpL0dpbUZCYk1hMUJpZDJKRUpndUcy?=
- =?utf-8?B?a3dOeHFqdVhaL0JhRUplZ1o1U3BuNzhobTJkRVJhZ2haVW00MmVOU3FiZDFE?=
- =?utf-8?B?U2Fsa21oT01sSkp4ZW5MYkdDdmM4eFZyVkgyYXRXL3k1dG9zUStDTWFDNmFQ?=
- =?utf-8?B?cE1ERmVlRm9xWDRIZERmTUhFaWFqd3VoRElSTTlJa2djbG1wZGNhVWxUL2hB?=
- =?utf-8?B?REUrSVo1S0QvekdkeTBqQlh2NFVmU3dqT0F5ZkpNdG41bjV6UUZ1bFh1d1Z1?=
- =?utf-8?B?R3h1THQwU09ja1A1Mmx3cFFIV0dLcGhVMEs2MWpJQk9uWUtLeC82L0p5WVVt?=
- =?utf-8?B?TVdrTW5oMUZHYVhKVFdHOU5Zbm9IL1Z0YzdLNTIzb3VlMnpRRDhNc2t6NDBI?=
- =?utf-8?B?TzRLUFNDOW1senJ4Zk11SnpMYjJyVkdpa3BaMDU0TFg2RG5OdFdCMTZJeU1Z?=
- =?utf-8?B?c0VVUURnSUVmZHFjN00rckhlaGJxakVOeDBHQmk5ejlxRE9CQzJpSjR5aTdr?=
- =?utf-8?B?Uy90SjJvYVloMG9XQnhJbHo2cjNmWkpsYjBERi9NcDdJQU04bHRZK3JLVHEy?=
- =?utf-8?B?eVFLaVpJTXQ4bENyd1pmUT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WnNvTUh6ZCtQYkpRUHkwUnkwMzBHR2k5a2d5cWQ2eW85TXNwWkJ2S0RQbVp0?=
- =?utf-8?B?MTFJMWwvRVh6MXlMbm1rREJKUEhnaXR6MXEyUXZtY3NNcVpabjlCY0d0NTNl?=
- =?utf-8?B?a2RSdUIwT1JkM3MrODZOZzZ6Z2krek5tUVMxRWlrVi9DWWlDUUdENy91NEtX?=
- =?utf-8?B?QVZHdHRjazBjcE5sdDVNdHRZUFRFM0FZaTlPRExRUkpoaEtBMW5mRCt1bWF1?=
- =?utf-8?B?dlJ4UWdweklGdy9GT0piOWpRN01yUU9nWHVwaUNIY0xGK1RNSjV0ZzJOQ1dz?=
- =?utf-8?B?MXR1T1M4OUFYR0czcCtIQkhjRW84SlVuZWwxSnJ0bjJtMWR0N3JZWU1sR0ts?=
- =?utf-8?B?UCtMWHIyMTVSNmtIblJSM3dwQmJnKzJSTXRlNU11dDR5cWJWUFdsZ1l0SWdt?=
- =?utf-8?B?aUthamo4QjhjY3FldE4zS3NmU0FaRk1Fa2ZDVVM3WlFCczM0cUxLc3NST0JJ?=
- =?utf-8?B?S0ExZnhDcEVkUS91eVdxWVVqZzdicFQ5WW5ZSkNwdjNzQzE1ZWx3YkFSRnZS?=
- =?utf-8?B?cHZDL3QreUhTanEyeUo1NHB5TGp6bCtQcmpSemRZZE1kZTFaTjNQajRPYlVF?=
- =?utf-8?B?YytmZ2JPRHhnSEpIdVNKTFJqcFNFYjZiZ3hJZEtpTUE0YzFsVG9TNzZRY2Fm?=
- =?utf-8?B?bDduL2ErL0ZRS3RwdVBLc3BNcFJEWE4yUjcvRmhqaVBCTmIxWHZCV2RFZG5O?=
- =?utf-8?B?Wm9PU2F0QXd3cUtIZ3RQbXYzREdBbHU4QTFlV2RkOXNDWlBBYUwvUG9RdVNk?=
- =?utf-8?B?L0ZBVG1rTDRnaXlwZU5JRzVrOEpHTWFpMFhtUG1QdmtiamlPZ3B1V1lkMS8y?=
- =?utf-8?B?c0xTN0lMVVg4OWhOSk1Da0RrR3hYcmxGVVlYeVlBSjVNRHVrWkZ2ZkxXa2VK?=
- =?utf-8?B?cE1EUllWM0U4eXJLdGcrUE5GUWxBQ1lEUENQaWMweGxBY1FwVjc1RGcvNUxZ?=
- =?utf-8?B?bXRQZ2xMN0lKeTR2eGJ6Ynh1YjZuMG9GYkNnOHB0TzZLZUVIcjJWK0cwKzB1?=
- =?utf-8?B?dXhLc2VzSDJSVW5Kakt2SS81ZVRTdVdxUExoaG9SakovWGhCVVdvNnpIaVV4?=
- =?utf-8?B?WUZQZmJjS0tCcGs2emFqZzhaNDVFeUJxQ3JuSklzTHN2dGQ5UVNzYWZBUHNS?=
- =?utf-8?B?aGd6OUg5Tlo0VXdDc1dGVWNvU3Zlbi82V3ZOQWVKR2RkZVRBMjlyaTM3MzIx?=
- =?utf-8?B?QnRXbVhtVU56ZGJ2QVozMHFkOUdwMGNyZ0pCY28vV1BXYVRIQ2JEaG4xWjdO?=
- =?utf-8?B?Z05tNnBnS1gyRm5BY3VFT1hGZFZlbi9XUW5ZVmxVeUE4SVRpM1ByRTRtM1d1?=
- =?utf-8?B?K0lVc0JjRjZLbW0rMGpEUVVLNjBFek41V0dJN3h4Ulo5RVNSZ1hpTUdrZHkv?=
- =?utf-8?B?c1NLd254ZTdUdkNZeUw5TXZFUmNQbm1SYVBnVCtPNUdDb0tLVFQzZmIvR2p3?=
- =?utf-8?B?ekZWejBMNWE2ay8wYk9vbWI5TFltOElaeGIzWUl0NEFCVldMUisyV1ZUZVV5?=
- =?utf-8?B?cmo5QXVIVE5NcWhkSldwZ2lvUm1GVDdkbU1laHRlUVIxNHovOVM5N1duNjJP?=
- =?utf-8?B?SC9OZDcvYW9kam1sZDR5a1hHcEdIRytBS2FBUWhSM05lOVRqZ1kwbUdHczhx?=
- =?utf-8?B?VllxTnd5akNmNkVNK3BlMVkvVlNNOE9YblFqbi92RXFFakh0N2x3R29uR3d1?=
- =?utf-8?B?OFlvTDdpSWtPcmJOYm9HUEF1cUszZUNhNjFoWlZrNHFuZW80eHhtYUxFV0xu?=
- =?utf-8?B?c29HV0dLZjFJOWhPWEwzSE5PUGxsYmlYV2grMHl6TnprWWg1STJoL0xJZmwy?=
- =?utf-8?B?WmVjeHlhL1V6Y1lXQVlraGJGT0V3RDBERWorZnlqZG1wdWNDT1pZdUJwUURE?=
- =?utf-8?B?eElhd0pTSGVMV0ZldWExbzBlVmFCY2RlUEhpazJLdjBaNzBla08rSm16aUpN?=
- =?utf-8?B?MXVZaDNXM0xxSFVkWlMya0UzQlVZU0hUZnREa0MxdHVwbVM3eGxLK0JocUJH?=
- =?utf-8?B?UHR4MHZKMWd0NktHdmhHcHFTbjNKVjIwaXd0cjFiTjZyUWY0Z2xxZ2RYb3ZC?=
- =?utf-8?B?RmNEdjRkcVNMYXlBUHdnYmVYQ2oyaVpxT2NIWndUSHM0bGFFSzFGdGJtTHhl?=
- =?utf-8?Q?WuQ8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0dffef1-8efa-4bec-e932-08dca5b782e9
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 16:51:17.5595
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: enT30WyttS8vMcw1zVy6xLNmo0oiDokKI7dkM2bXaygXgP6jzYxJ7mImZb6TX2Zx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7080
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240717-gpd_fan-v2-1-f7b7e6b9f21b@gmail.com>
+References: <20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com>
+In-Reply-To: <20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Cryolitia PukNgae <Cryolitia@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
+ =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=22557;
+ i=Cryolitia@gmail.com; h=from:subject:message-id;
+ bh=I5bBtpH0jOTLydUB/+NvtZDdUHzjmbR73PxmQ1IgAoQ=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFHUy9wQU5Bd0FJQVQ1ZEYzTDhpb
+ zdkQWNzbVlnQm1scWFzeWpRT2RJZnVXRGNGYjh4ZzIydWtMQVMwCmlIL1VZTlYxK0VmaEtCMlNV
+ bWVKQVRNRUFBRUlBQjBXSVFSME5XMHB5dmR3U0JGOENDWStYUmR5L0lxTzNRVUMKWnBhbXJBQUt
+ DUkErWFJkeS9JcU8zVHBRQi85MFVmWWZQRFp1blF0VnpKOFhPaWtVVDI5L1dQSU0vSThNRDB5ag
+ pMbVdFaHJWME0yQ2ZXc1NSdElIS3F3ckJNVjEyb1BiaUpDNFAxckwxSzNmd3JYcjRyOEdFQUpKZ
+ EFDMmRSR2RuCk13VlJRZnFNN2VaMkFBVzJwSytHeEsxZnFmQm8ySkJVU0NJNCtEZmV0YzVUZ0ZH
+ Q1ZyZlg3SlNoaTZvaG5vMUcKZUtVSGFScHdaWS9rVjRQaE9Wcy9iRityOGlqamZ6UE9ZWjM4b0Z
+ BdmtQc0VRVXFDdW9NeUo0bi9TbkJkcVRRRQpSSlRndS82LzdpUmlacXAxZWxvQ25DVk50TXJpcS
+ 9GcnNhTzhiWTlYbVBReE45THo3OHdROG9LL1FONkhDRHBrCk10SVVIYnVFcjZ2dXYxVjZhOTVVd
+ y9hZUhoVEg0NnhmVEZDOFk4b29GMVdFU1B2MQo9UmwrYgotLS0tLUVORCBQR1AgTUVTU0FHRS0t
+ LS0tCg==
+X-Developer-Key: i=Cryolitia@gmail.com; a=openpgp;
+ fpr=1C3C6547538D7152310C0EEA84DD0C0130A54DF7
+X-Endpoint-Received: by B4 Relay for Cryolitia@gmail.com/default with
+ auth_id=186
+X-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Reply-To: Cryolitia@gmail.com
 
-Hi Reinette,
+From: Cryolitia PukNgae <Cryolitia@gmail.com>
 
-On 7/12/24 17:06, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 7/3/24 2:48 PM, Babu Moger wrote:
->> The ABMC feature provides an option to the user to assign a hardware
->> counter to an RMID and monitor the bandwidth as long as it is assigned.
->> ABMC mode is enabled by default when supported. System can be one mode
->> at a time (Legacy monitor mode or ABMC mode).
->>
->> Provide an interface to display the monitor mode on the system.
->>      $cat /sys/fs/resctrl/info/L3_MON/mbm_mode
->>      [abmc]
->>      legacy
-> 
-> <insert snippet about what happens when user switches from one mode
-> to another>
+Sensors driver for GPD Handhelds that expose fan reading and control via
+hwmon sysfs.
 
-Sure.
+Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+devices. This driver implements these functions through x86 port-mapped IO.
+I have tested it on my device.
 
-> 
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v5: Changed interface name to mbm_mode.
->>      It will be always available even if ABMC feature is not supported.
->>      Added description in resctrl.rst about ABMC mode.
->>      Fixed display abmc and legacy consistantly.
->>
->> v4: Fixed the checks for legacy and abmc mode. Default it ABMC.
->>
->> v3: New patch to display ABMC capability.
->> ---
->>   Documentation/arch/x86/resctrl.rst     | 30 ++++++++++++++++++++++++++
->>   arch/x86/kernel/cpu/resctrl/monitor.c  |  2 ++
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 26 ++++++++++++++++++++++
->>   3 files changed, 58 insertions(+)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst
->> b/Documentation/arch/x86/resctrl.rst
->> index 30586728a4cd..108e494fd7cc 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -257,6 +257,36 @@ with the following files:
->>           # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
->>           0=0x30;1=0x30;3=0x15;4=0x15
->>   +"mbm_mode":
->> +    Reports the list of assignable monitoring features supported. The
->> +    enclosed brackets indicate which feature is enabled.
->> +    ::
->> +
->> +      cat /sys/fs/resctrl/info/L3_MON/mbm_mode
->> +      [abmc]
->> +      legacy
->> +
-> 
-> "mbm_cntr" mode can be documented here with the details on how AMD's ABMC is
-> one example of how it may be implemented on a system.
+Tested-by: Marcin Strągowski <marcin@stragowski.com>
+Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
+---
+ MAINTAINERS             |   6 +
+ drivers/hwmon/Kconfig   |  10 +
+ drivers/hwmon/Makefile  |   1 +
+ drivers/hwmon/gpd-fan.c | 759 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 776 insertions(+)
 
-Will display as "mbm_cntr_assignable".
-
-Yes. Will add details specific about AMD's ABMC.
-
-> 
->> +    The bandwidth monitoring feature on AMD system only guarantees that
->> +    RMIDs currently assigned to a processor will be tracked by hardware.
->> +    The counters of any other RMIDs which are no longer being tracked
->> +    will be reset to zero. The MBM event counters return "Unavailable"
->> +    for the RMIDs that are not tracked by hardware. So, there can be
->> +    only limited number of groups that can give guaranteed monitoring
->> +    numbers. With ever changing configurations there is no way to
->> +    definitely know which of these groups are being tracked for certain
->> +    point of time. Users do not have the option to monitor a group or
->> +    set of groups for certain period of time without worrying about
->> +    RMID being reset in between.
->> +
->> +    The ABMC feature provides an option to the user to assign a
->> +    hardware counter to an RMID and monitor the bandwidth as long as
->> +    it is assigned. The assigned RMID will be tracked by the hardware
->> +    until the user unassigns it manually. There is no need to worry
->> +    about counters being reset during this period.
->> +
->> +    Without ABMC enabled, monitoring will work in "legacy" mode
->> +    without assignment option.
-> 
-> Let "legacy" be a distinct mode, instead of an alternative to ABMC.
-
-Will add as another mode.
-
-> 
->> +
->>   "max_threshold_occupancy":
->>           Read/write file provides the largest value (in
->>           bytes) at which a previously used LLC_occupancy
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
->> b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index 12793762ca24..6c4cb36b4b50 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -1245,6 +1245,8 @@ int __init rdt_get_mon_l3_config(struct
->> rdt_resource *r)
->>           }
->>       }
->>   +    resctrl_file_fflags_init("mbm_mode", RFTYPE_MON_INFO);
->> +
-> 
-> Is this special flag assignment necessary? With file always visible I
-> think it
-> can just be initialized in res_common_files below with the flag already
-> assigned?
-
-Yes. We can do that.
-
-> 
->>       l3_mon_evt_init(r);
->>         r->mon_capable = true;
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 471fc0dbd7c3..3988d7b86817 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -845,6 +845,26 @@ static int rdtgroup_rmid_show(struct
->> kernfs_open_file *of,
->>       return ret;
->>   }
->>   +static int rdtgroup_mbm_mode_show(struct kernfs_open_file *of,
->> +                  struct seq_file *s, void *v)
->> +{
->> +    struct rdt_resource *r = of->kn->parent->priv;
->> +
->> +    if (r->mon.abmc_capable) {
->> +        if (resctrl_arch_get_abmc_enabled()) {
->> +            seq_puts(s, "[abmc]\n");
->> +            seq_puts(s, "legacy\n");
->> +        } else {
->> +            seq_puts(s, "abmc\n");
->> +            seq_puts(s, "[legacy]\n");
->> +        }
->> +    } else {
->> +        seq_puts(s, "[legacy]\n");
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   #ifdef CONFIG_PROC_CPU_RESCTRL
->>     /*
->> @@ -1901,6 +1921,12 @@ static struct rftype res_common_files[] = {
->>           .seq_show    = mbm_local_bytes_config_show,
->>           .write        = mbm_local_bytes_config_write,
->>       },
->> +    {
->> +        .name        = "mbm_mode",
->> +        .mode        = 0444,
->> +        .kf_ops        = &rdtgroup_kf_single_ops,
->> +        .seq_show    = rdtgroup_mbm_mode_show,
->> +    },
->>       {
->>           .name        = "cpus",
->>           .mode        = 0644,
-> 
-> Reinette
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index af4b4c271342..9ced72cec42b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9372,6 +9372,12 @@ F:	drivers/phy/samsung/phy-gs101-ufs.c
+ F:	include/dt-bindings/clock/google,gs101.h
+ K:	[gG]oogle.?[tT]ensor
+ 
++GPD FAN DRIVER
++M:	Cryolitia PukNgae <Cryolitia@gmail.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	drivers/hwmon/gpd-fan.c
++
+ GPD POCKET FAN DRIVER
+ M:	Hans de Goede <hdegoede@redhat.com>
+ L:	platform-driver-x86@vger.kernel.org
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index b60fe2e58ad6..368165a25979 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -727,6 +727,16 @@ config SENSORS_GL520SM
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called gl520sm.
+ 
++config SENSORS_GPD
++	tristate "GPD EC fan control"
++	depends on X86
++	help
++	  If you say yes here you get support for fan readings and
++	  control over GPD handheld devices.
++
++	  Can also be built as a module. In that case it will be
++	  called gpd-fan.
++
+ config SENSORS_G760A
+ 	tristate "GMT G760A"
+ 	depends on I2C
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index b1c7056c37db..91c288451290 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -87,6 +87,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
+ obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
+ obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
+ obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
++obj-$(CONFIG_SENSORS_GPD)	+= gpd-fan.o
+ obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
+ obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+ obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
+diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
+new file mode 100644
+index 000000000000..b7e7e73528af
+--- /dev/null
++++ b/drivers/hwmon/gpd-fan.c
+@@ -0,0 +1,759 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <linux/acpi.h>
++#include <linux/debugfs.h>
++#include <linux/dmi.h>
++#include <linux/hwmon.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/ioport.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++
++#define DRIVER_NAME "gpdfan"
++
++static char *gpd_fan_model = "";
++module_param(gpd_fan_model, charp, 0444);
++
++static DEFINE_MUTEX(gpd_fan_locker);
++
++enum FUN_PWM_ENABLE {
++	DISABLE = 0,
++	MANUAL = 1,
++	AUTOMATIC = 2,
++};
++
++struct driver_private_data {
++	enum FUN_PWM_ENABLE pwm_enable;
++	u8 pwm_value;
++
++	u16 fan_speed_cached;
++	u8 read_pwm_cached;
++
++	// minimum 1000 mill seconds
++	u32 update_interval_per_second;
++
++	unsigned long fan_speed_last_update;
++	unsigned long read_pwm_last_update;
++
++	const struct model_quirk *const quirk;
++};
++
++struct model_ec_address {
++	const u8 addr_port;
++	const u8 data_port;
++	const u16 manual_control_enable;
++	const u16 rpm_read;
++	const u16 pwm_write;
++	const u16 pwm_max;
++};
++
++struct model_quirk {
++	const char *model_name;
++
++	bool tested;
++
++	const struct model_ec_address address;
++
++	int (*const read_rpm)(struct driver_private_data *, u16 *);
++
++	int (*const set_pwm_enable)(struct driver_private_data *,
++				    enum FUN_PWM_ENABLE);
++
++	int (*const read_pwm)(struct driver_private_data *, u8 *);
++
++	int (*const write_pwm)(const struct driver_private_data *, u8);
++};
++
++static int gpd_ecram_read(const struct model_ec_address *const address,
++			  const u16 offset, u8 *const val)
++{
++	int ret = mutex_lock_interruptible(&gpd_fan_locker);
++
++	if (ret)
++		return ret;
++
++	u16 addr_port = address->addr_port;
++	u16 data_port = address->data_port;
++
++	outb(0x2E, addr_port);
++	outb(0x11, data_port);
++	outb(0x2F, addr_port);
++	outb((u8)((offset >> 8) & 0xFF), data_port);
++
++	outb(0x2E, addr_port);
++	outb(0x10, data_port);
++	outb(0x2F, addr_port);
++	outb((u8)(offset & 0xFF), data_port);
++
++	outb(0x2E, addr_port);
++	outb(0x12, data_port);
++	outb(0x2F, addr_port);
++	*val = inb(data_port);
++
++	mutex_unlock(&gpd_fan_locker);
++	return 0;
++}
++
++static int gpd_ecram_write(const struct model_ec_address *const address,
++			   const u16 offset, const u8 value)
++{
++	int ret = mutex_lock_interruptible(&gpd_fan_locker);
++
++	if (ret)
++		return ret;
++
++	u16 addr_port = address->addr_port;
++	u16 data_port = address->data_port;
++
++	outb(0x2E, addr_port);
++	outb(0x11, data_port);
++	outb(0x2F, addr_port);
++	outb((u8)((offset >> 8) & 0xFF), data_port);
++
++	outb(0x2E, addr_port);
++	outb(0x10, data_port);
++	outb(0x2F, addr_port);
++	outb((u8)(offset & 0xFF), data_port);
++
++	outb(0x2E, addr_port);
++	outb(0x12, data_port);
++	outb(0x2F, addr_port);
++	outb(value, data_port);
++
++	mutex_unlock(&gpd_fan_locker);
++	return 0;
++}
++
++#define DEFINE_GPD_READ_CACHED(name, type)                                    \
++	static int gpd_read_cached_##name(                                    \
++		struct driver_private_data *const data,                       \
++		int (*read_uncached)(const struct driver_private_data *,      \
++				     type *))                                 \
++	{                                                                     \
++		if (time_after(                                               \
++			    jiffies,                                          \
++			    data->name##_last_update +                        \
++				    HZ * data->update_interval_per_second)) { \
++			type var;                                             \
++			int ret = read_uncached(data, &var);                  \
++			if (ret)                                              \
++				return ret;                                   \
++			data->name##_cached = var;                            \
++			data->name##_last_update = jiffies;                   \
++		}                                                             \
++		return 0;                                                     \
++	}
++
++DEFINE_GPD_READ_CACHED(fan_speed, u16);
++DEFINE_GPD_READ_CACHED(read_pwm, u8);
++
++static int gpd_read_rpm_uncached(const struct driver_private_data *const data,
++				 u16 *const val)
++{
++	u8 high, low;
++	int ret;
++	const struct model_ec_address *const address = &data->quirk->address;
++
++	ret = gpd_ecram_read(address, address->rpm_read, &high);
++	if (ret)
++		return ret;
++	ret = gpd_ecram_read(address, address->rpm_read + 1, &low);
++	if (ret)
++		return ret;
++
++	*val = high << 8 | low;
++	return 0;
++}
++
++static int gpd_read_rpm(struct driver_private_data *const data, u16 *const val)
++{
++	int ret = gpd_read_cached_fan_speed(data, gpd_read_rpm_uncached);
++	*val = data->fan_speed_cached;
++	return ret;
++}
++
++static int gpd_read_pwm(struct driver_private_data *const data, u8 *const val)
++{
++	*val = data->pwm_value;
++	return 0;
++}
++
++static int gpd_write_pwm(const struct driver_private_data *const data,
++			 const u8 val)
++{
++	const struct model_ec_address *const address = &data->quirk->address;
++
++	u8 actual = val * (address->pwm_max - 1) / 255 + 1;
++
++	return gpd_ecram_write(address, address->pwm_write, actual);
++}
++
++static int gpd_win_mini_set_pwm_enable(struct driver_private_data *const data,
++				       const enum FUN_PWM_ENABLE pwm_enable)
++{
++	switch (pwm_enable) {
++	case DISABLE:
++		return gpd_write_pwm(data, 255);
++	case MANUAL:
++		return gpd_write_pwm(data, data->pwm_value);
++	case AUTOMATIC:
++		return gpd_write_pwm(data, 0);
++	}
++	return 0;
++}
++
++static int gpd_win_mini_write_pwm(const struct driver_private_data *const data,
++				  const u8 val)
++{
++	if (data->pwm_enable == MANUAL)
++		return gpd_write_pwm(data, val);
++	return 0;
++}
++
++static const struct model_quirk gpd_win_mini_quirk = {
++	.model_name = "win_mini",
++	.tested = false,
++	.address = {
++		.addr_port = 0x4E,
++		.data_port = 0x4F,
++		.manual_control_enable = 0x047A,
++		.rpm_read = 0x0478,
++		.pwm_write = 0x047A,
++		.pwm_max = 244,
++	},
++	.read_rpm = gpd_read_rpm,
++	.set_pwm_enable = gpd_win_mini_set_pwm_enable,
++	.read_pwm = gpd_read_pwm,
++	.write_pwm = gpd_win_mini_write_pwm,
++};
++
++static int
++gpd_win4_read_rpm_uncached(const struct driver_private_data *const data,
++			   u16 *const val)
++{
++	const struct model_ec_address *const address = &data->quirk->address;
++	u8 PWMCTR;
++
++	gpd_ecram_read(address, 0x1841, &PWMCTR);
++	if (PWMCTR != 0x7F)
++		gpd_ecram_write(address, 0x1841, 0x7F);
++
++	int ret = gpd_read_rpm_uncached(data, val);
++
++	if (ret)
++		return ret;
++
++	if (*val == 0) {
++		//re-init EC
++		u8 chip_id;
++
++		gpd_ecram_read(address, 0x2000, &chip_id);
++		if (chip_id == 0x55) {
++			u8 chip_ver;
++
++			if (gpd_ecram_read(address, 0x1060, &chip_ver)) {
++				gpd_ecram_write(address, 0x1060,
++						chip_ver | 0x80);
++			}
++		}
++	}
++	return 0;
++}
++
++static int gpd_win4_read_rpm(struct driver_private_data *const data,
++			     u16 *const val)
++{
++	int ret = gpd_read_cached_fan_speed(data, gpd_win4_read_rpm_uncached);
++
++	*val = data->fan_speed_cached;
++	return ret;
++}
++
++static const struct model_quirk gpd_win4_quirk = {
++	.model_name = "win4",
++	.tested = false,
++	.address = {
++		.addr_port = 0x2E,
++		.data_port = 0x2F,
++		.manual_control_enable = 0xC311,
++		.rpm_read = 0xC880,
++		.pwm_write = 0xC311,
++		.pwm_max = 127,
++	},
++	.read_rpm = gpd_win4_read_rpm,
++	// same as GPD Win Mini
++	.set_pwm_enable = gpd_win_mini_set_pwm_enable,
++	.read_pwm = gpd_read_pwm,
++	// same as GPD Win Mini
++	.write_pwm = gpd_win_mini_write_pwm,
++};
++
++static int
++gpd_wm2_read_rpm_uncached(const struct driver_private_data *const data,
++			  u16 *const val)
++{
++	const struct model_ec_address *const address = &data->quirk->address;
++
++	for (u16 pwm_ctr_offset = 0x1841; pwm_ctr_offset <= 0x1843;
++		 pwm_ctr_offset++) {
++		u8 PWMCTR;
++
++		gpd_ecram_read(address, pwm_ctr_offset, &PWMCTR);
++		if (PWMCTR != 0xB8)
++			gpd_ecram_write(address, pwm_ctr_offset, 0xB8);
++	}
++	return gpd_read_rpm_uncached(data, val);
++}
++
++static int gpd_wm2_read_rpm(struct driver_private_data *const data,
++			    u16 *const val)
++{
++	int ret = gpd_read_cached_fan_speed(data, gpd_wm2_read_rpm_uncached);
++	*val = data->fan_speed_cached;
++	return ret;
++}
++
++static int
++gpd_wm2_read_pwm_uncached(const struct driver_private_data *const data,
++			  u8 *const val)
++{
++	const struct model_ec_address *const address = &data->quirk->address;
++	u8 var;
++
++	int ret = gpd_ecram_read(address, address->pwm_write, &var);
++
++	*val = var * 255 / address->pwm_max;
++
++	return ret;
++}
++
++static int gpd_wm2_read_pwm(struct driver_private_data *const data,
++			    u8 *const val)
++{
++	int ret = gpd_read_cached_read_pwm(data, gpd_wm2_read_pwm_uncached);
++	*val = data->read_pwm_cached;
++	return ret;
++}
++
++static int gpd_wm2_set_pwm_enable(struct driver_private_data *const data,
++				  const enum FUN_PWM_ENABLE enable)
++{
++	const struct model_ec_address *const address = &data->quirk->address;
++
++	switch (enable) {
++	case DISABLE: {
++		int ret = gpd_write_pwm(data, 255);
++
++		if (ret)
++			return ret;
++
++		return gpd_ecram_write(address, address->manual_control_enable,
++				       1);
++	}
++	case MANUAL: {
++		int ret = gpd_write_pwm(data, data->pwm_value);
++
++		if (ret)
++			return ret;
++
++		return gpd_ecram_write(address, address->manual_control_enable,
++				       1);
++	}
++	case AUTOMATIC: {
++		int ret = gpd_ecram_write(address,
++					  address->manual_control_enable, 0);
++
++		// Immediately refresh the PWM value
++		gpd_read_cached_read_pwm(data, gpd_wm2_read_pwm_uncached);
++
++		return ret;
++	}
++	}
++	return 0;
++}
++
++static int gpd_wm2_write_pwm(const struct driver_private_data *const data,
++			     const u8 val)
++{
++	if (data->pwm_enable != DISABLE)
++		return gpd_write_pwm(data, val);
++
++	return 0;
++}
++
++static const struct model_quirk gpd_wm2_quirk = {
++	.model_name = "wm2",
++	.tested = true,
++	.address = {
++		.addr_port = 0x4E,
++		.data_port = 0x4F,
++		.manual_control_enable = 0x0275,
++		.rpm_read = 0x0218,
++		.pwm_write = 0x1809,
++		.pwm_max = 184,
++	},
++	.read_rpm = gpd_wm2_read_rpm,
++	.set_pwm_enable = gpd_wm2_set_pwm_enable,
++	.read_pwm = gpd_wm2_read_pwm,
++	.write_pwm = gpd_wm2_write_pwm,
++};
++
++static const struct dmi_system_id gpd_devices[] = {
++	{
++		// GPD Win Mini
++		// GPD Win Mini with AMD Ryzen 8840U
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "G1617-01")
++		},
++		.driver_data = (void *) &gpd_win_mini_quirk,
++	},
++	{
++		// GPD Win 4 with AMD Ryzen 6800U
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
++			DMI_MATCH(DMI_BOARD_VERSION, "Default string"),
++		},
++		.driver_data = (void *) &gpd_win4_quirk,
++	},
++	{
++		// GPD Win 4 with Ryzen 7840U
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
++			DMI_MATCH(DMI_BOARD_VERSION, "Ver. 1.0"),
++		},
++		.driver_data = (void *) &gpd_wm2_quirk,
++	},
++	{
++		// GPD Win Max 2 with Ryzen 6800U
++		// GPD Win Max 2 2023 with Ryzen 7840U
++		// GPD Win Max 2 2024 with Ryzen 8840U
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "G1619-04"),
++		},
++		.driver_data = (void *) &gpd_wm2_quirk,
++	},
++	{}
++};
++
++static const struct model_quirk *gpd_module_quirks[] = { &gpd_win_mini_quirk,
++							 &gpd_win4_quirk,
++							 &gpd_wm2_quirk, NULL };
++
++static umode_t gpd_fan_hwmon_is_visible(__always_unused
++					const void *drvdata,
++					enum hwmon_sensor_types type, u32 attr,
++					__always_unused int channel)
++{
++	if (type == hwmon_fan && attr == hwmon_fan_input) {
++		return 0444;
++	} else if (type == hwmon_pwm) {
++		switch (attr) {
++		case hwmon_pwm_mode:
++			return 0444;
++		case hwmon_pwm_enable:
++		case hwmon_pwm_input:
++			return 0644;
++		}
++	} else if (type == hwmon_chip && attr == hwmon_chip_update_interval) {
++		return 0644;
++	}
++	return 0;
++}
++
++static int gpd_fan_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
++			      u32 attr, __always_unused int channel,
++			      long *val)
++{
++	struct driver_private_data *data = dev_get_drvdata(dev);
++
++	if (type == hwmon_fan) {
++		switch (attr) {
++		case hwmon_fan_input: {
++			u16 var;
++			int ret = data->quirk->read_rpm(data, &var);
++
++			*val = var;
++			return ret;
++		}
++		}
++	} else if (type == hwmon_pwm) {
++		switch (attr) {
++		case hwmon_pwm_mode:
++			*val = 1;
++			return 0;
++		case hwmon_pwm_enable:
++			*val = data->pwm_enable;
++			return 0;
++		case hwmon_pwm_input: {
++			u8 var;
++			int ret = data->quirk->read_pwm(data, &var);
++			*val = var;
++			return ret;
++		}
++		}
++	} else if (type == hwmon_chip) {
++		switch (attr) {
++		case hwmon_chip_update_interval:
++			*val = 1000 * data->update_interval_per_second;
++			return 0;
++		}
++	}
++	return -EINVAL;
++}
++
++static int gpd_fan_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
++			       u32 attr, __always_unused int channel,
++			       long val)
++{
++	struct driver_private_data *data = dev_get_drvdata(dev);
++
++	if (type == hwmon_pwm) {
++		switch (attr) {
++		case hwmon_pwm_enable:
++			if (!in_range(val, 0, 3))
++				return -EINVAL;
++			data->pwm_enable = val;
++			return data->quirk->set_pwm_enable(data,
++							   data->pwm_enable);
++		case hwmon_pwm_input: {
++			u8 var = clamp_val(val, 0, 255);
++
++			data->pwm_value = var;
++			return data->quirk->write_pwm(data, var);
++		}
++		}
++	} else if (type == hwmon_chip) {
++		if (attr == hwmon_chip_update_interval) {
++			int interval = val / 1000;
++
++			if (interval < 1)
++				interval = 1;
++			data->update_interval_per_second = interval;
++			return 0;
++		}
++	}
++	return -EINVAL;
++}
++
++static const struct hwmon_ops gpd_fan_ops = {
++	.is_visible = gpd_fan_hwmon_is_visible,
++	.read = gpd_fan_hwmon_read,
++	.write = gpd_fan_hwmon_write,
++};
++
++static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
++	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
++	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
++	HWMON_CHANNEL_INFO(pwm,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE | HWMON_PWM_MODE),
++	NULL
++};
++
++static struct hwmon_chip_info gpd_fan_chip_info = {
++	.ops = &gpd_fan_ops,
++	.info = gpd_fan_hwmon_channel_info
++};
++
++struct dentry *DEBUG_FS_ENTRY;
++
++static int debugfs_manual_control_get(void *data, u64 *val)
++{
++	struct model_ec_address *address = data;
++	u8 u8_val;
++
++	int ret = gpd_ecram_read(address, address->manual_control_enable,
++				 &u8_val);
++	*val = (u64)u8_val;
++	return ret;
++}
++
++static int debugfs_manual_control_set(void *data, u64 val)
++{
++	struct model_ec_address *address = data;
++
++	return gpd_ecram_write(address, address->manual_control_enable,
++			       clamp_val(val, 0, 255));
++}
++
++static int debugfs_pwm_get(void *data, u64 *val)
++{
++	struct model_ec_address *address = data;
++	u8 u8_val;
++	int ret = gpd_ecram_read(address, address->pwm_write, &u8_val);
++
++	*val = (u64)u8_val;
++	return ret;
++}
++
++static int debugfs_pwm_set(void *data, u64 val)
++{
++	struct model_ec_address *address = data;
++
++	return gpd_ecram_write(address, address->pwm_write,
++			       clamp_val(val, 0, 255));
++}
++
++DEFINE_DEBUGFS_ATTRIBUTE(debugfs_manual_control_fops,
++			 debugfs_manual_control_get, debugfs_manual_control_set,
++			 "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(debugfs_pwm_fops, debugfs_pwm_get, debugfs_pwm_set,
++			 "%llu\n");
++
++static int gpd_fan_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct driver_private_data *data;
++
++	data = dev_get_platdata(&pdev->dev);
++	if (IS_ERR_OR_NULL(data))
++		return -ENODEV;
++
++	const struct resource *plat_res =
++		platform_get_resource(pdev, IORESOURCE_IO, 0);
++	if (IS_ERR_OR_NULL(plat_res)) {
++		pr_warn("Failed to get platform resource\n");
++		return -ENODEV;
++	}
++
++	const struct resource *region_res = devm_request_region(
++		dev, plat_res->start, resource_size(plat_res), DRIVER_NAME);
++	if (IS_ERR_OR_NULL(region_res)) {
++		pr_warn("Failed to request region\n");
++		return -EBUSY;
++	}
++
++	const struct device *dev_reg = devm_hwmon_device_register_with_info(
++		dev, DRIVER_NAME, data, &gpd_fan_chip_info, NULL);
++	if (IS_ERR_OR_NULL(dev_reg)) {
++		pr_warn("Failed to register hwmon device\n");
++		return -EBUSY;
++	}
++
++	struct dentry *debug_fs_entry = debugfs_create_dir(DRIVER_NAME, NULL);
++
++	if (!IS_ERR(debug_fs_entry)) {
++		DEBUG_FS_ENTRY = debug_fs_entry;
++		debugfs_create_file_size("manual_control_reg",
++					 0600, DEBUG_FS_ENTRY,
++					 (void *)&data->quirk->address,
++					 &debugfs_manual_control_fops,
++					 sizeof(u8));
++		debugfs_create_file_size("pwm_reg", 0600,
++					 DEBUG_FS_ENTRY,
++					 (void *)&data->quirk->address,
++					 &debugfs_pwm_fops, sizeof(u8));
++	}
++
++	pr_debug("GPD Devices fan driver probed\n");
++	return 0;
++}
++
++static int gpd_fan_remove(__always_unused struct platform_device *pdev)
++{
++	struct driver_private_data *data = dev_get_platdata(&pdev->dev);
++
++	data->pwm_enable = AUTOMATIC;
++	data->quirk->set_pwm_enable(data, AUTOMATIC);
++
++	if (!IS_ERR_OR_NULL(DEBUG_FS_ENTRY)) {
++		debugfs_remove_recursive(DEBUG_FS_ENTRY);
++		DEBUG_FS_ENTRY = NULL;
++	}
++
++	pr_debug("GPD Devices fan driver removed\n");
++	return 0;
++}
++
++static struct platform_driver gpd_fan_driver = {
++	.probe = gpd_fan_probe,
++	.remove = gpd_fan_remove,
++	.driver = {
++		.name = KBUILD_MODNAME,
++	},
++};
++
++static struct platform_device *gpd_fan_platform_device;
++
++static int __init gpd_fan_init(void)
++{
++	const struct model_quirk *match = NULL;
++
++	for (const struct model_quirk **p = gpd_module_quirks; *p != NULL;
++		 p++) {
++		if (strcmp(gpd_fan_model, (*p)->model_name) == 0) {
++			match = *p;
++			break;
++		}
++	}
++
++	if (match == NULL) {
++		match = dmi_first_match(gpd_devices)->driver_data;
++		if (!IS_ERR_OR_NULL(match) && !match->tested) {
++			pr_warn("GPD Fan Driver do have the quirk for your device, but it's not tested. Please tested carefully by model parameter gpd_fan_model=%s and report.\n",
++				match->model_name);
++			match = NULL;
++		}
++	}
++
++	if (IS_ERR_OR_NULL(match)) {
++		pr_debug("GPD Devices not supported\n");
++		return -ENODEV;
++	}
++
++	pr_info("Loading GPD fan model quirk: %s\n", match->model_name);
++
++	struct driver_private_data data = {
++		.pwm_enable = AUTOMATIC,
++		.pwm_value = 255,
++		.fan_speed_cached = 0,
++		.read_pwm_cached = 0,
++		.update_interval_per_second = 1,
++		.fan_speed_last_update = jiffies,
++		.read_pwm_last_update = jiffies,
++		.quirk = match,
++	};
++
++	struct resource gpd_fan_resources[] = {
++		{
++			.start = data.quirk->address.addr_port,
++			.end = data.quirk->address.data_port,
++			.flags = IORESOURCE_IO,
++		},
++	};
++
++	gpd_fan_platform_device = platform_create_bundle(
++		&gpd_fan_driver, gpd_fan_probe, gpd_fan_resources, 1, &data,
++		sizeof(struct driver_private_data));
++
++	if (IS_ERR(gpd_fan_platform_device)) {
++		pr_warn("Failed to create platform device\n");
++		return PTR_ERR(gpd_fan_platform_device);
++	}
++
++	pr_debug("GPD Devices fan driver loaded\n");
++	return 0;
++}
++
++static void __exit gpd_fan_exit(void)
++{
++	platform_device_unregister(gpd_fan_platform_device);
++	platform_driver_unregister(&gpd_fan_driver);
++	pr_debug("GPD Devices fan driver unloaded\n");
++}
++
++module_init(gpd_fan_init)
++
++	module_exit(gpd_fan_exit)
++
++		MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Cryolitia <Cryolitia@gmail.com>");
++MODULE_DESCRIPTION("GPD Devices fan control driver");
++MODULE_ALIAS("dmi:*:svnGPD:pnG1617-01:*");
++MODULE_ALIAS("dmi:*:svnGPD:pnG1618-04:*");
++MODULE_ALIAS("dmi:*:svnGPD:pnG1619-04:*");
 
 -- 
-Thanks
-Babu Moger
+2.45.2
+
+
