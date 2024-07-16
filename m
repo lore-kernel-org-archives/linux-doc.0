@@ -1,133 +1,195 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DB71EB2F
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 17:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23A019DF99;
+	Tue, 16 Jul 2024 17:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721150462; cv=none; b=TTFKAao6qQ1arGMeURgzf8D5flMsk6XhLQLMsp//FSCWIJF4Qfr3S7QJ5E1DYFa8PAWKNJsbG9nLExzLq0dLUggQ7CRkXGsGLvs3QnZaanUGoFht2dMFc/NBhkaM2MWMI45vSzxkDjv45EAmrVMEIdVkDrOJpeTdLOsrZ/HJvqQ=
+	t=1721150869; cv=none; b=b0RtRIF/gBGtc0Kip/4S0vOhzXHhlnBOZwPVHMG6wwHUtkInaZ+xgWM1xQfFnYsESYn6IXz5/luxytVzZiqHbwlPcl88nkyeSFzj4J3VWWIhBwtNmt+a/zOtJF44ykRAv7ftobxGY0/O/UKHtG/pYwl/978VeJ2ZR8dUvCBjpiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721150462; c=relaxed/simple;
-	bh=1sv+QNc/DGMhPMVsZ2FxSdhckTqknm0RzzQv130owTc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F+sigpksnGV6xV7moosC8u7ySyPTXHVqAerq+oZUBBqfziISCIBYoDN83C47nlCxka3+dKdk4zI7uq6ud930JPywDKd+yErwUJRkhXLZHWr4HKQggaMxjjLwpiYFC0CI9IS/Fpr9cyi24XPSTLLORHW2YOHDmxNqSMTzgQdAZec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=PPx/N/dl; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
+	s=arc-20240116; t=1721150869; c=relaxed/simple;
+	bh=h+GCeSWcUYctXZXlj1V41jWJSf5OrDhk5X5onAb7v4Q=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NGppE9Doib2y/6+j2ffuGkDcILQYjWBRXLWfBosrt9K1DNG85s/fjvb3rGRJ52h4qObCHzpVZ2WIPIBZTw/TP4pPrFe4XHQa+5GANTlBgTf0Q2ofWPcZ7KPER4ds3UMzEPUMY6B89zJNV7ADA3yFavdBVX8C3rKg9OQ8U9i9jG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EhXub2Br; arc=none smtp.client-ip=209.85.215.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="PPx/N/dl"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-6bce380eb9bso3215532a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 10:21:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EhXub2Br"
+Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-765590154b4so3467753a12.0;
+        Tue, 16 Jul 2024 10:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vimeo.com; s=google; t=1721150460; x=1721755260; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1sv+QNc/DGMhPMVsZ2FxSdhckTqknm0RzzQv130owTc=;
-        b=PPx/N/dl4nc/iPKwhzJnMr8F7jmHQU2IeCfojlCZ4plhnHeqePoMjId55lRYLL8+AK
-         fFcmA++DEiWyXhXpVV4EL3gRhVwRO5RnmO1FfTPd5YV/0yOM5/HZLRt/F2pkPGMDld8B
-         ex6YqAVPEdFBiz84S83pNu0GAQM66dXD2THG8=
+        d=gmail.com; s=20230601; t=1721150867; x=1721755667; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ih/q/UvhIgqWhBI1/wWLOdp0IK/oM/eG+khKgDhTSXE=;
+        b=EhXub2Br8R7LfdAdm26MxEXKqYngtM3RwW406ezaEt/EpOBOM47Cc6J6h1HFqyDP5O
+         dHKXniXMNVfMUTF7rRJ/VHXt+GNQpa1/bk27LrfZZve2SKCRUC4CT7fxsLvympBvrjnM
+         rUrodK+7zyY6YyeQjCF9PvmLqrpOkqrHfIfyytiSWuMhuBeP0jA15YJdjb929gqW+16u
+         rTgt015g1NHyJsxNvR4XkCsaQ/XGBNMOLhUNHn3hwdY/JZi9Fevz7ZwfRLFvDtFBtByM
+         apIIU0nYvI90YfTZgUtGPVdZa9eTY15LpepYQvP+i6pyuptjOtJkIlv8YCAIuxZYAGyE
+         GovQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721150460; x=1721755260;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1sv+QNc/DGMhPMVsZ2FxSdhckTqknm0RzzQv130owTc=;
-        b=RZWgKnbuJezGavnUdbzYezpBkmtWuZCH+7FSvyVvzEou2G8Ckx7itKSa/eIQneEidI
-         6f+Ntw/ChFLbR8YwL+jHRgjCAUsj/Aw4CVbZKk4TFFAhRu3ZG9TSocXU42MHUfh8+NIW
-         dg/kTQA/yEfxfw7cRBr7CGTtGhlmvKS3H+IMYeNmCao/Ojvcrswa8TvzX5q0Y2k3qJTx
-         D5FzocuFD8neTI9cAH2DFjlKNcc9fBrxffHD1+oEwYiKwHCW7J++L9nqh5bmv8lfQP2b
-         PtkhXuq0JzxM3+EbBJbYTdFybyQ1UT3ZbrsZXexrolL65oiDB4qi+KOJCuGzubk2fceM
-         u8nw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlvu56RnJy5alINjwXr6sexVd9gpazOPBQVo294nXTPRK1P+mWOFmF5ZXs6A1Jy04GZnEF9GcbsK4ayz+Wlp5cHPj5XaZgvROm
-X-Gm-Message-State: AOJu0Yz2MZmPW3XRAiS/QX/I6iM4niEEqIf5G5LrjNF8GRHka3cFCN8g
-	q2+nPQsvaVx10pFd90cWkhqCflvZsKbO/P0KCUk/acwXaIdjv9kS0HlQnIvCa73e7yD8xMuf6zP
-	Jx6Y5RDlkfjcoi+NTJbCE/v56P89bXp27xi0+r3xxPSt52tvtBdo=
-X-Google-Smtp-Source: AGHT+IE0jogasMR5Vo1zc09nO8WrQEH9BAm8Vis6rzWXoOwDzxBtbsrDWTNwvTcelBY4lZmxg6D9GIcINCHKQHMTUNA=
-X-Received: by 2002:a05:6a20:430b:b0:1c0:f594:198c with SMTP id
- adf61e73a8af0-1c3f11f7552mr3997701637.11.1721150460103; Tue, 16 Jul 2024
- 10:21:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721150867; x=1721755667;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ih/q/UvhIgqWhBI1/wWLOdp0IK/oM/eG+khKgDhTSXE=;
+        b=r1FqXeXKcDw+t2vxdzj+R3iaeIzhmr9rlop6nOGaTt9pjRsJayajJRub/WLKUsJdaQ
+         sqHl1ll6OYkCnNjmTlvFWnBhcvCuHwMa/o13++Jv1VkadDlWT3YKhlwqhMGIQIztGaYT
+         yyXFArSBRQuaQSjZ/Cx6cp6E0MbHHg104Jo8Ekhqplf7SN5GX7IeebzycXObMviD/Cbi
+         0jC2DxFFo2p48KZfjZEsEgXfjFwHLhLUNmEtIDghSJTUG++mtgn2m0f5ciFVK4HrMqCC
+         B7ymwZyq4qxMvSOxUj9vp27soPz3VWizD+a69x0+7pQZtV1f5sR51RJUmNv3CDrk8lVK
+         Zv+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXLhW1zZ/iGS0043ud/Hg2UzyqjecHNfLMUoXgF/Jr1Ncs3Ci/Cjv47XASe15a/2qq97dJUoSXtlHhyIZjaF9nWC0BHfXTbAuE+NdElHi+gDErkPhw5w2ay/cFuUwF0UAYgdYLiDX0=
+X-Gm-Message-State: AOJu0YxMm1PJ4zaYtgGfpyum07Dt1GCJEoJEIeslIXiNod9MLyQRkRSs
+	17j75U5Sc3ubYoVv605XDCGuEsnQ8Wr3fxZR7SmDSeM9SBfG2eafOIqdACeaNexQjgEjA0E=
+X-Google-Smtp-Source: AGHT+IFvMYxLsUXk+MH/pF4Ib34JkQ8ZKXwGTVxz4X7Uj/nka+rUqpjGN9yCUMKyduk2bUHYrTS3zg==
+X-Received: by 2002:a05:6a21:9985:b0:1c0:f677:e98f with SMTP id adf61e73a8af0-1c3f1287d4amr3546928637.46.1721150866854;
+        Tue, 16 Jul 2024 10:27:46 -0700 (PDT)
+Received: from [198.18.0.1] ([2602:fada:0:47::a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cacd3f10dfsm8600345a91.17.2024.07.16.10.27.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jul 2024 10:27:46 -0700 (PDT)
+From: Cryolitia PukNgae <cryolitia@gmail.com>
+X-Google-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Message-ID: <bff5cb83-54fe-4e18-a0fe-32d90d90726f@gmail.com>
+Date: Wed, 17 Jul 2024 01:27:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka> <ZpajW9BKCFcCCTr-@slm.duckdns.org> <ZpanW41dQ8DimbA3@google.com>
-In-Reply-To: <ZpanW41dQ8DimbA3@google.com>
-From: David Finkel <davidf@vimeo.com>
-Date: Tue, 16 Jul 2024 13:20:48 -0400
-Message-ID: <CAFUnj5PeQ-FefK+ja0BtwHZFF0QyJdN9imZQESOj+tRjHSmvow@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: document: add gpd-fan
+To: Randy Dunlap <rdunlap@infradead.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+ =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
+References: <20240716-gpd_fan-v1-0-34051dd71a06@gmail.com>
+ <20240716-gpd_fan-v1-2-34051dd71a06@gmail.com>
+ <c81b25ec-3e6a-4b9b-8e3b-9991f1645d47@infradead.org>
+Content-Language: en-US
+In-Reply-To: <c81b25ec-3e6a-4b9b-8e3b-9991f1645d47@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 16, 2024 at 1:01=E2=80=AFPM Roman Gushchin <roman.gushchin@linu=
-x.dev> wrote:
+
+On 2024/7/16 22:36, Randy Dunlap wrote:
+> Hi--
 >
-> On Tue, Jul 16, 2024 at 06:44:11AM -1000, Tejun Heo wrote:
-> > Hello,
-> >
-> > On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
-> > ...
-> >
-> > The removal of resets was intentional. The problem was that it wasn't c=
-lear
-> > who owned those counters and there's no way of telling who reset what w=
-hen.
-> > It was easy to accidentally end up with multiple entities that think th=
-ey
-> > can get timed measurement by resetting.
-> >
-> > So, in general, I don't think this is a great idea. There are shortcomi=
-ngs
-> > to how memory.peak behaves in that its meaningfulness quickly declines =
-over
-> > time. This is expected and the rationale behind adding memory.peak, IIR=
-C,
-> > was that it was difficult to tell the memory usage of a short-lived cgr=
-oup.
-> >
-> > If we want to allow peak measurement of time periods, I wonder whether =
-we
-> > could do something similar to pressure triggers - ie. let users registe=
-r
-> > watchers so that each user can define their own watch periods. This is =
-more
-> > involved but more useful and less error-inducing than adding reset to a
-> > single counter.
+> On 7/16/24 4:49 AM, Cryolitia PukNgae via B4 Relay wrote:
+>> From: Cryolitia PukNgae <Cryolitia@gmail.com>
+>>
+>> Add GPD fan driver document
+>>
+>> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
+>> ---
+>>   Documentation/hwmon/gpd-fan.rst | 68 +++++++++++++++++++++++++++++++++++++++++
+>>   Documentation/hwmon/index.rst   |  1 +
+>>   MAINTAINERS                     |  1 +
+>>   3 files changed, 70 insertions(+)
+>>
+>> diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
+>> new file mode 100644
+>> index 000000000000..0e5bb8b5feed
+>> --- /dev/null
+>> +++ b/Documentation/hwmon/gpd-fan.rst
+>> @@ -0,0 +1,68 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-or-later
+>> +
+>> +Kernel driver gpd-fan
+>> +=========================
+>> +
+>> +Authors:
+>> +    - Cryolitia PukNgae <Cryolitia@gmail.com>
+>> +
+>> +Description:
+> No ending ':' above, please.
 >
-> It's definitely a better user interface and I totally agree with you rega=
-rding
-> the shortcomings of the proposed interface with a global reset. But if yo=
-u let
-> users to register a (potentially large) number of watchers, it might be q=
-uite
-> bad for the overall performance, isn't it? To mitigate it, we'll need to =
-reduce
-> the accuracy of peak values. And then the question is why not just poll i=
-t
-> periodically from userspace?
-
-FWIW, as a stop-gap, we did implement periodic polling from userspace for
-the system that motivated this change, but that is unlikely to catch
-memory-usage
-spikes that have shorter timescales than the polling interval. For
-now, we're keeping
-it on cgroups v1, but that's looking like a long-term untenable position.
-
-
-Thanks,
-
-
---=20
-David Finkel
-Senior Principal Software Engineer, Core Services
+>> +------------
+>> +
+>> +Handheld devices from GPD provide fan readings and fan control through
+>> +their embedded controllers.
+>> +
+>> +Supported devices
+>> +-----------------
+>> +
+>> +Currently the driver supports the following handhelds:
+>> +
+>> + - GPD Win Mini (7840U)
+>> + - GPD Win Mini (8840U)
+>> + - GPD Win Max 2
+>> + - GPD Win Max 2 2023 (7840U)
+>> + - GPD Win Max 2 2024 (8840U)
+>> + - GPD Win 4 (6800U)
+>> + - GPD Win 4 (7840U)
+>> +
+>> +Module parameters
+>> +-----------------
+>> +
+>> +gpd_fan_model
+>> +  Force specific which module quirk should be use.
+>                                                   used.
+>
+>> +
+>> +   - wm2
+>> +       - GPD Win 4 (7840U)
+>> +       - GPD Win Max 2 (6800U)
+>> +       - GPD Win Max 2 2023 (7840U)
+>> +       - GPD Win Max 2 2024 (8840U)
+>> +   - win4
+>> +       - GPD Win 4 (6800U)
+>> +   - win_mini
+>> +       - GPD Win Mini (7840U)
+>> +       - GPD Win Mini (8840U)
+> so how is the module parameter used? like so?
+>
+>     gpd_fan_model=wm2
+>
+>> +
+>> +Sysfs entries
+>> +-------------
+>> +
+>> +The following attributes are supported:
+>> +
+>> +fan1_input
+>> +  Read Only. Reads current fan RMP.
+> Should that be                    RPM
+> ?
+>
+>> +
+>> +pwm1_enable
+>> +  Read Write. Enable manual fan control. Write "0" to disable control and run
+>       Read/Write
+> or
+>       Read-Write
+>
+>> +  full speed. Write "1" to set to manual, write "2" to let the EC control decide
+>> +  fan speed. Read this attribute to see current status.
+>> +
+>> +pwm1
+>> +  Read Write. Read this attribute to see current duty cycle in the range [0-255].
+>       Read-Write
+> or
+>       Read/Write
+>
+>> +  When pwm1_enable is set to "1" (manual) write any value in the range [0-255]
+>> +  to set fan speed.
+>> +
+>> +pwm1_mode
+>> +  Read Only. Should always be "1" by now to indicate the fan being under PWM mode.
+>                      Drop             by now
+>
+>> +
+>> +update_interval
+>> +  Read Write. Set the interval in milliseconds to update fan speed. The default
+>       Read-Write
+> or
+>       Read/Write
+>
+>> +  and minimum time is 1 second
+Thanks for review! v2 sent.
