@@ -1,100 +1,90 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5466919FA75
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 17:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DCF1EA73;
+	Tue, 16 Jul 2024 17:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721149286; cv=none; b=j/uQd0OLcCMw5B8cPf8/EWsVAbx7rFFNjfin7BBZ5DghBdUhkablRjtJe7y8rtRWlK2hnNQhaUfTSGca/F2d4f3P61HXgtu30QWF58h28lQsdxmClKgqTD/EXB7JZz4+NKCEH+LFuqocKjfIS+Y8Sc6jJetg9WtOOVLxhjRhYAk=
+	t=1721149702; cv=none; b=V5jZhEBwtozg4szRb65iy7oQfPMvt/IGO0EdPRJnempjTmj9IJ9Tf/kXmzSkl7zRFdjPF71oLL42NbE9Zsyr6+xu4kUT1Zraavo5fYCpeHah3dky5NF6E6fAs/lzFSDO1gtEIhjV08zvtV+8Lbe6xIUZ1AKbz9s6vGGpIcZ1HPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721149286; c=relaxed/simple;
-	bh=Y8Pz78H+tOW6Qf4pdXFzK/B47iOTlAXAxYFkbxoikv0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P4iiqSeKR2WE/rcFmq+MOcTkgBIsbdX8GDCCvy0Zoaqx0YOvDyJuK5c/mfCsKcacQWbzwVPXJfhKu/ZCozjXoifvejOq6kLNZAWbdALFlrddac3P2kzPxNLc0G9hBIp2JFJiU2oxNiSYutxc1NuwmZEx3+1ItbQSgT06npyxUxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=R462tVje; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1721149702; c=relaxed/simple;
+	bh=1IZ0LxFfpSrfSX4fF+3HezktrqETVbE3RFzYhp6KnE0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XQrrgqnPMiTF0Lki6Tjuc+Q1tou1f9P8i+99V8HOtxqW7NE2oWYRkdhEJzMzsDVUYrCPm6LYLL7KPz5DD8OXDdRThdiCQ7ruLY1ZMzOQ+mBNh4mf+au9WiHumWZYRkzRaABeVRYQTewGea4/b33YOlYvlYYxlPciKL7oukvGgcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ii5kWSDM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="R462tVje"
-X-Envelope-To: tj@kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721149281;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+iafsuuzbArPekZqOmrPqo2BPh9YPyJZoOs5qGZ3sE=;
-	b=R462tVjetdP9ddVUy8veVB1JfcQxuEvR1SZrFmrNDDojNeR9L+JqyBSVtSZjyCHcwAfpX0
-	e8UHz0sGXsYFh7wlvFIRd+3YCJbMsgKYCk8282VKnpfHLoHEUyYhImUCVwaFCjO1z3eiEG
-	cHBGnDVmc9Z/ELPYWvzDttRssutFvFk=
-X-Envelope-To: mhocko@suse.com
-X-Envelope-To: davidf@vimeo.com
-X-Envelope-To: muchun.song@linux.dev
-X-Envelope-To: akpm@linux-foundation.org
-X-Envelope-To: core-services@vimeo.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: shakeelb@google.com
-X-Envelope-To: shuah@kernel.org
-X-Envelope-To: hannes@cmpxchg.org
-X-Envelope-To: lizefan.x@bytedance.com
-X-Envelope-To: cgroups@vger.kernel.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-mm@kvack.org
-X-Envelope-To: linux-kselftest@vger.kernel.org
-Date: Tue, 16 Jul 2024 17:01:15 +0000
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Tejun Heo <tj@kernel.org>
-Cc: Michal Hocko <mhocko@suse.com>, David Finkel <davidf@vimeo.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <ZpanW41dQ8DimbA3@google.com>
-References: <20240715203625.1462309-1-davidf@vimeo.com>
- <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka>
- <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ii5kWSDM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A9B3418B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1721149700; bh=pMLrNQUbUzAAJ9qLuz/fLnxffMGzeo8x5u8wY7n5w4k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Ii5kWSDMC/n3Zgx/Ra6+hxECnS2gVJM6w4HAsSvJC7mr6xGymaJSKJpaOJte+NUZu
+	 QPIiVIB1KpSlGb/9dEZw0Qlxcgj9v9iOkuCQplFBtKMzwCTa3iRmUHMxt7VGMI+Rjd
+	 X++MpX9RqjyNJQMTxuDaBLMgO91VhO91FBe+Hj8hbhIovLXFN9OW7gI/DRO8RrvXHY
+	 Ef2Z/6Ls7kW9QdykkiMkFutGMMmRICP4KdO/Z9u/5b5izh8u4mwXLnyz6xr/Ysk1Mp
+	 pYtY/tNelQHhg0Vyu8V+5EM7ajL9Rr9ec21j5vhjh7IJjoQxfSGpa2DoFeaW6ZI2nG
+	 nPtJfzdZOG29g==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2A9B3418B2;
+	Tue, 16 Jul 2024 17:08:20 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, mchehab@kernel.org, dan.j.williams@intel.com,
+ laurent.pinchart@ideasonboard.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs: maintainer: discourage taking conversations
+ off-list
+In-Reply-To: <20240713235020.820910-1-kuba@kernel.org>
+References: <20240713235020.820910-1-kuba@kernel.org>
+Date: Tue, 16 Jul 2024 11:08:18 -0600
+Message-ID: <87wmlltgcd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZpajW9BKCFcCCTr-@slm.duckdns.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On Tue, Jul 16, 2024 at 06:44:11AM -1000, Tejun Heo wrote:
-> Hello,
-> 
-> On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
-> ...
-> 
-> The removal of resets was intentional. The problem was that it wasn't clear
-> who owned those counters and there's no way of telling who reset what when.
-> It was easy to accidentally end up with multiple entities that think they
-> can get timed measurement by resetting.
-> 
-> So, in general, I don't think this is a great idea. There are shortcomings
-> to how memory.peak behaves in that its meaningfulness quickly declines over
-> time. This is expected and the rationale behind adding memory.peak, IIRC,
-> was that it was difficult to tell the memory usage of a short-lived cgroup.
-> 
-> If we want to allow peak measurement of time periods, I wonder whether we
-> could do something similar to pressure triggers - ie. let users register
-> watchers so that each user can define their own watch periods. This is more
-> involved but more useful and less error-inducing than adding reset to a
-> single counter.
+Jakub Kicinski <kuba@kernel.org> writes:
 
-It's definitely a better user interface and I totally agree with you regarding
-the shortcomings of the proposed interface with a global reset. But if you let
-users to register a (potentially large) number of watchers, it might be quite
-bad for the overall performance, isn't it? To mitigate it, we'll need to reduce
-the accuracy of peak values. And then the question is why not just poll it
-periodically from userspace?
+> Multiple vendors seem to prefer taking discussions off list, and
+> ask contributors to work with them privately rather than just send
+> patches to the list. I'd imagine this is because it's hard to fit in
+> time for random developers popping up with features to review into
+> packed schedule. From what I've seen "work in private" usually means
+> someone on the company side will be assigned to handle the interaction,
+> possibly months later. In worst case, the person scheduled to help
+> the contributor takes over and writes the code themselves.
+> This is not how the community is supposed to work.
+>
+> The discussion on v1 wasn't very conclusive. I am not capable of
+> distilling many of the suggestions into meaningful changes.
+> I believe the paragraph works in the context of the document.
+>
+> FWIW the paragraph has been consulted with 2 contributors to whom
+> the described situation has happened.
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+
+After pondering on this for a while, I've decided to go ahead and apply
+this.  The intent is good; we can always improve the execution if
+somebody has a good idea.
+
+I do have to say that all of the "must" language in this document is a
+bit off-putting and may well convince potential maintainers that they
+don't actually want to play this game.
+
+Thanks,
+
+jon
