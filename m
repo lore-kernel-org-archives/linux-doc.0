@@ -1,114 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BE8AD24;
-	Tue, 16 Jul 2024 01:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2DAC15B
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 02:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721091905; cv=none; b=Xp40ndxZrH3FNxQLkWAAwSoQv4DXcYK6a5wvVD3mftQGkEos8bw75C59OU00MCX/hblKJqSGlDa3pk6ZvDEpGs03nn/GejNu5h2/Sm8iNZ/sbzy92Zz8fFqiavI6mkiB+6PEsG9zADbP1M475nX00NC+dJWywNNyPHohR+FxzGk=
+	t=1721097028; cv=none; b=YksUP8UNFVuLD/apaPrS+ArPsgYQywCdM+2ERo3wh8Ho2X4chFqzyEvIpOe0x63K1eG+b8GoX3D5Ui2iVu5OUyNz3ohSAR4CfCx2HZ/Cjdh6zn0gCQoEcB1441fEbHE0xXsKfWggnK9qelQN5Q/L9xlXFyU3VMW3UMFQg1ASKvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721091905; c=relaxed/simple;
-	bh=QG29vkIJ/KvY/97Bru3A84cybIUnamlVoJnN1kflOmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gat1JSeWJMNyVgZJJP0NKoorwJHhciKRRoeTJGtpOttT1aLO+2MgYBW7GG/SCayCo9UYd5cziUToW53Nc78E7+CkV0JU9s32kUPOWtNfGdvpSKyZaqaqk5TIGcKoZCjpIBUkjIeRGY3icnOmK8yKAOaet+Z+vjJjA8JczotbbZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ToyINu31; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721097028; c=relaxed/simple;
+	bh=L/UYxKhv+weNiH5QZ9tdfwVpDaTTe0xo/PJfa52jczc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dnMNyCWT5JqUksrA6rOtBm0FjTfCCqKZWolZwMC9QN4Lg4sxVJi+e4J+c4wd7r6u7xFdjFaiTVc3Px1TJ5QDLK/sulIZoW4srUWiN5HPJhLfh8ox1QVR5n8AhbutHcfuILMouHKbrRAWQUcIpUcSvIuhUO0XlcOHug/1/ANXNNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Qt4uvdiB; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ToyINu31"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53982C4AF0B;
-	Tue, 16 Jul 2024 01:05:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721091905;
-	bh=QG29vkIJ/KvY/97Bru3A84cybIUnamlVoJnN1kflOmU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ToyINu31o0mwiMTvB5jB7n0JqZmTDkbSgm3t3bwVwzYP75J65cEK6v6oyb8tYVOhv
-	 v283nYUQlfOOu5dkmJkSXA7x3GfOcAgcUwSZ23oscxwuTlMrDQv9GuHJ9AuZDnkjU3
-	 KGEZWRS6uz9S2DA8GajHIs6NU9sefPICsgdx2qDIbes6U6ElBomuJN3h+6C0pwpDmx
-	 abIAgm1tiGWHam/Y9EjCnlpXRq5alYhZmF4YpzXbnIkpfqe18YXG0uxRhfKfoIz+qJ
-	 Brbx0sk7a7jc2ovVW4SEzYnEvoOaLtrMtixOVW1ayPOwJnQ7UnVjRjO8mfbe4KjanQ
-	 Ei/CYG98ITPjw==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2eea7e2b0e6so66159281fa.3;
-        Mon, 15 Jul 2024 18:05:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKcym/LGhXmcssf/ceKZ7NWc59TOS+A321xZJpD/ZOzICcYpdEHVgWwPvYVkm2NtqXmkQsYuTITfOQJBvRbtehNHibRk5QUmhU7YLZ3lh4YxyaN2opC1i7Mrmb6OqHL0lv/Ho3y0jta1opkKRYE4cO0wK2AnLILdBb5ZWZe7nj4uu7DA==
-X-Gm-Message-State: AOJu0YxUXds6735nTgt9PB/5ot5W5pEE6qZgQaAf5q8yvMtQzogiXozI
-	eb/K8W87KDZ8CNDe9Qq3MTOKWcHo5QXteuofT1x/F+W2vrpT/dNIkypYfZvTpjnmmXVLe2QLlWa
-	zmthnOVEIOAZaxOtI/u19NrK8ZhQ=
-X-Google-Smtp-Source: AGHT+IEN6H27w2IkU8okfWfdkHSr98KLu1OkcEMwEZm2647siY5rx5myWRTdnfrOyys1KrSYGu4NevvkqFvZHj/70C0=
-X-Received: by 2002:a05:6512:138c:b0:52e:9b92:4990 with SMTP id
- 2adb3069b0e04-52edf0192ffmr286040e87.32.1721091903625; Mon, 15 Jul 2024
- 18:05:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Qt4uvdiB"
+X-Envelope-To: nphamcs@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1721097023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dp+t4TVVT4KvEUTsJDJgPzRF5rh9Mr0HlvSnhg7VjDo=;
+	b=Qt4uvdiBJ63KRbdjDcIfbEAfuFSOjdTP5wypoxktEPs0O++jZOkRTi49OXjTCCJxLlbDWS
+	MNLwDDGYMCDu7RRnH7Kbhcfa8ooasRcIDJAZDeIjbBwDTOkzj3jJoQKqMMEEQm73D6X8H+
+	dFVFlRPIbfBVkUXuw2SPsxsFc6fk6w4=
+X-Envelope-To: flintglass@gmail.com
+X-Envelope-To: hannes@cmpxchg.org
+X-Envelope-To: yosryahmed@google.com
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: cerasuolodomenico@gmail.com
+X-Envelope-To: linux-mm@kvack.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+Message-ID: <19ceab41-1537-4fbc-b75d-7a2f5c50c0f3@linux.dev>
+Date: Tue, 16 Jul 2024 10:30:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-11-alexghiti@rivosinc.com> <CAJF2gTSG7HzV7mgZpkWLbSBNn2dRv_NaSmCimd+kRdU=EZrmmg@mail.gmail.com>
- <CAHVXubizLq=qZgVQ2vBFe5zVuLRP0DGw=UN4U_Wkx2P2xsP3Mw@mail.gmail.com> <a096151c-c349-455f-8939-3b739d73f016@redhat.com>
-In-Reply-To: <a096151c-c349-455f-8939-3b739d73f016@redhat.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 16 Jul 2024 09:04:52 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRrZwVk2xyhF_PsJGKCfkvun-rifG8MjDBcGDt3YBuhPg@mail.gmail.com>
-Message-ID: <CAJF2gTRrZwVk2xyhF_PsJGKCfkvun-rifG8MjDBcGDt3YBuhPg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha extension
-To: Waiman Long <longman@redhat.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 5/6] mm: zswap: store incompressible page as-is
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Takero Funaki <flintglass@gmail.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240706022523.1104080-1-flintglass@gmail.com>
+ <20240706022523.1104080-6-flintglass@gmail.com>
+ <0afc769e-241a-404e-b2c9-a6a27bdd3c72@linux.dev>
+ <CAPpoddfySkGpD5hKgqUAAMgMp2vWcivg1AzcyYh_NP1-ZsGkug@mail.gmail.com>
+ <cc5ba793-59a4-4904-a1b3-723ebaa3a93e@linux.dev>
+ <CAKEwX=Oqe8qz0YKi1pJaEgXAPC-7cXg7_NRfXb1_0VJp35X7AQ@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Chengming Zhou <chengming.zhou@linux.dev>
+In-Reply-To: <CAKEwX=Oqe8qz0YKi1pJaEgXAPC-7cXg7_NRfXb1_0VJp35X7AQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jul 16, 2024 at 3:30=E2=80=AFAM Waiman Long <longman@redhat.com> wr=
-ote:
->
-> On 7/15/24 03:27, Alexandre Ghiti wrote:
-> > Hi Guo,
-> >
-> > On Sun, Jul 7, 2024 at 4:20=E2=80=AFAM Guo Ren <guoren@kernel.org> wrot=
-e:
-> >> On Wed, Jun 26, 2024 at 9:14=E2=80=AFPM Alexandre Ghiti <alexghiti@riv=
-osinc.com> wrote:
-> >>> In order to produce a generic kernel, a user can select
-> >>> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> >>> spinlock implementation if Zabha is not present.
-> >>>
-> >>> Note that we can't use alternatives here because the discovery of
-> >>> extensions is done too late and we need to start with the qspinlock
-> >> That's not true; we treat spinlock as qspinlock at first.
-> > That's what I said: we have to use the qspinlock implementation at
-> > first *because* we can't discover the extensions soon enough to use
-> > the right spinlock implementation before the kernel uses a spinlock.
-> > And since the spinlocks are used *before* the discovery of the
-> > extensions, we cannot use the current alternative mechanism or we'd
-> > need to extend it to add an "initial" value which does not depend on
-> > the available extensions.
->
-> With qspinlock, the lock remains zero after a lock/unlock sequence. That
-> is not the case with ticket lock. Assuming that all the discovery will
-> be done before SMP boot, the qspinlock slowpath won't be activated and
-> so we don't need the presence of any extension. I believe that is the
-> main reason why qspinlock is used as the initial default and not ticket
-> lock.
-Thx Waiman,
-Yes, qspinlock is a clean guy, but ticket lock is a dirty one.
+On 2024/7/13 06:47, Nhat Pham wrote:
+> On Tue, Jul 9, 2024 at 6:26 AM Chengming Zhou <chengming.zhou@linux.dev> wrote:
+>>
+>> On 2024/7/8 21:44, Takero Funaki wrote:
+>>> 2024年7月8日(月) 12:56 Chengming Zhou <chengming.zhou@linux.dev>:
+>>>
+>>>>>         comp_ret = crypto_wait_req(crypto_acomp_compress(acomp_ctx->req), &acomp_ctx->wait);
+>>>>>         dlen = acomp_ctx->req->dlen;
+>>>>> -     if (comp_ret)
+>>>>> +
+>>>>> +     /* coa_compress returns -EINVAL for errors including insufficient dlen */
+>>>>> +     if (comp_ret && comp_ret != -EINVAL)
+>>>>>                 goto unlock;
+>>>>
+>>>> Seems we don't need to care about? "comp_ret" is useless anymore.
+>>>>
+>>>> Just:
+>>>>
+>>>> if (comp_ret || dlen > PAGE_SIZE - 64)
+>>>>           dlen = PAGE_SIZE;
+>>>>
+>>>> And remove the checkings of comp_ret at the end.
+>>>>
+>>>
+>>>>
+>>>> We actually don't need to hold mutex if we are just copying folio.
+>>>>
+>>>> Thanks.
+>>>>
+>>>
+>>> Thanks for reviewing.
+>>>
+>>> For comp_ret, can we consolidate all possible error codes as
+>>> incompressible data?
+>>
+>> Maybe we still want these debug counters? I'm not sure.
+> 
+> I'm a bit torn, but ATM I have no strong opinions on these two error
+> codes. If you do decide to consolidate these two, may I ask you to
+> separate it into its own patch so that we can review + discuss it
+> separately?
 
-Hi Alexandre,
-Therefore, the switch point(before reset_init()) is late enough to
-change the lock mechanism, and this satisfies the requirements of
-apply_boot_alternatives(), apply_early_boot_alternatives(), and
-apply_module_alternatives().
-
->
-> Cheers,
-> Longman
->
-
-
---=20
-Best Regards
- Guo Ren
+Yeah, I also have no strong opinions on these two error codes,
+it's just ok to keep them.
