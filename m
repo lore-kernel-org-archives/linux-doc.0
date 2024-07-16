@@ -1,90 +1,175 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DCF1EA73;
-	Tue, 16 Jul 2024 17:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CE11EA73
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 17:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721149702; cv=none; b=V5jZhEBwtozg4szRb65iy7oQfPMvt/IGO0EdPRJnempjTmj9IJ9Tf/kXmzSkl7zRFdjPF71oLL42NbE9Zsyr6+xu4kUT1Zraavo5fYCpeHah3dky5NF6E6fAs/lzFSDO1gtEIhjV08zvtV+8Lbe6xIUZ1AKbz9s6vGGpIcZ1HPE=
+	t=1721149827; cv=none; b=H30j7kpAcyQbK6WBZwowWv/FE74Q+qDyu6dTVQcI0TASR2LOkOI7XxrfiyJVeLtuk5jZx/KdfHMaBtk6sNf3OJclllngB/sjlVnAdAJUz5uKZxIBmfYs2V0miOrf0Oc7QRcRoc6W+amyuUovdDyRt6v1ceeifSrBEDlyoEGbDwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721149702; c=relaxed/simple;
-	bh=1IZ0LxFfpSrfSX4fF+3HezktrqETVbE3RFzYhp6KnE0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XQrrgqnPMiTF0Lki6Tjuc+Q1tou1f9P8i+99V8HOtxqW7NE2oWYRkdhEJzMzsDVUYrCPm6LYLL7KPz5DD8OXDdRThdiCQ7ruLY1ZMzOQ+mBNh4mf+au9WiHumWZYRkzRaABeVRYQTewGea4/b33YOlYvlYYxlPciKL7oukvGgcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ii5kWSDM; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1721149827; c=relaxed/simple;
+	bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z67ul/0RFvvzlnPl0hyquoi6GMOm8lVczphMqhacXHNNyXrZ4VwSciL34riCcu3WCl4ANk7M3WqnhpM/G479UYE/UBB/k+OJr5qP887QcZXutGxO8Cr7Bn627VtnTMkSgrlpL6GIIp/P9j7hwwBbEo1wtmbL43Jfy3nxD5fjaAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=cDIVqv+i; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ii5kWSDM"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A9B3418B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1721149700; bh=pMLrNQUbUzAAJ9qLuz/fLnxffMGzeo8x5u8wY7n5w4k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Ii5kWSDMC/n3Zgx/Ra6+hxECnS2gVJM6w4HAsSvJC7mr6xGymaJSKJpaOJte+NUZu
-	 QPIiVIB1KpSlGb/9dEZw0Qlxcgj9v9iOkuCQplFBtKMzwCTa3iRmUHMxt7VGMI+Rjd
-	 X++MpX9RqjyNJQMTxuDaBLMgO91VhO91FBe+Hj8hbhIovLXFN9OW7gI/DRO8RrvXHY
-	 Ef2Z/6Ls7kW9QdykkiMkFutGMMmRICP4KdO/Z9u/5b5izh8u4mwXLnyz6xr/Ysk1Mp
-	 pYtY/tNelQHhg0Vyu8V+5EM7ajL9Rr9ec21j5vhjh7IJjoQxfSGpa2DoFeaW6ZI2nG
-	 nPtJfzdZOG29g==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2A9B3418B2;
-	Tue, 16 Jul 2024 17:08:20 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, mchehab@kernel.org, dan.j.williams@intel.com,
- laurent.pinchart@ideasonboard.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: maintainer: discourage taking conversations
- off-list
-In-Reply-To: <20240713235020.820910-1-kuba@kernel.org>
-References: <20240713235020.820910-1-kuba@kernel.org>
-Date: Tue, 16 Jul 2024 11:08:18 -0600
-Message-ID: <87wmlltgcd.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="cDIVqv+i"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70cdc91d25dso458090b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 10:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vimeo.com; s=google; t=1721149825; x=1721754625; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
+        b=cDIVqv+iM/AnXJILCmq8Yxd7QWlwoAgm1dCouMbj+cLW/yTXHbV1U7DGrXaec7lbf6
+         0fGrPY1JF89fxxPPdqx9qjAWyCyBeIaOCcsU8pjSSuaN191XdkSOYsbmlkMTlEnlvTbm
+         uvUk66BzJu2XEWsjkHELtq0Px5RhEnUXBa3Yk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721149825; x=1721754625;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
+        b=GCD1t0hd9zwzdHKMUCSwYL529ny/TYENY4Mj5+C0+sRyTiGkNKWDBKW4IhD0kkugzf
+         h/q4Fea9RJesjRYSzXSnNivop2Yn7qB7oHzMPP6lfIjqBJ9KjA9VEieW05HYjhhxSC5P
+         8z7TIyZCvN2+aPMYY3Y8FZ0gQ9sTEoVQFHeJh9ZrQT0ZxeQrH9Xy59T8MSinnUmccwiF
+         eWT8KGiOEcFIXh52F1gT0emmXLgSPHqd4piopx9kTNgUGkWLuqz2Q8XrVQRu5FtT2ltH
+         KMSu5BL1rCFwuCt9VyUmz+r/tQlF32SEsBxCpOBmzZOYgjp0H4YLAj1/S6skbXmv1n9N
+         /bAg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3aOdM214MAAPf37Qq00O7WHUwYp0ObXXoFskPsrU6CDv9UrEUpPZs0se8Q4xNSSFPe3nqOqq+OmhhotXUI/XNGNVqDE9JziuO
+X-Gm-Message-State: AOJu0YynxO+rKPtb6547XDtbJp3xyye3KpQr/wsVu5+k9sXule3SpjRU
+	ZGesh8H69vUbiqI/3kxyZIM53lZV89rgbbe9pFcg7yZ/qBLziK1PG6WmUVeZ7RWj8JH+0mMqKw0
+	OphS+AjTo2fk1CtO5C1ZPS3t56sBr3WRAq1iuvQ==
+X-Google-Smtp-Source: AGHT+IGxrFhf+t9CbrOmTbCaTrzVOqPOdzLWgYcjX29oem9uwcU5xToAeNAhBIZrmTimW7gqvO45de+d88JBZoYD3qY=
+X-Received: by 2002:a05:6a21:32a7:b0:1c3:18f8:ebc9 with SMTP id
+ adf61e73a8af0-1c3f1271886mr3158626637.41.1721149825418; Tue, 16 Jul 2024
+ 10:10:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
+ <ZpZ6IZL482XZT1fU@tiehlicka> <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+In-Reply-To: <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+From: David Finkel <davidf@vimeo.com>
+Date: Tue, 16 Jul 2024 13:10:14 -0400
+Message-ID: <CAFUnj5M9CTYPcEM3=4i4rTfiU4sY4Qq8V1DXHJ00YYD2xFBvew@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Tejun Heo <tj@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
+	Jonathan Corbet <corbet@lwn.net>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jakub Kicinski <kuba@kernel.org> writes:
-
-> Multiple vendors seem to prefer taking discussions off list, and
-> ask contributors to work with them privately rather than just send
-> patches to the list. I'd imagine this is because it's hard to fit in
-> time for random developers popping up with features to review into
-> packed schedule. From what I've seen "work in private" usually means
-> someone on the company side will be assigned to handle the interaction,
-> possibly months later. In worst case, the person scheduled to help
-> the contributor takes over and writes the code themselves.
-> This is not how the community is supposed to work.
+On Tue, Jul 16, 2024 at 12:44=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
 >
-> The discussion on v1 wasn't very conclusive. I am not capable of
-> distilling many of the suggestions into meaningful changes.
-> I believe the paragraph works in the context of the document.
+> Hello,
 >
-> FWIW the paragraph has been consulted with 2 contributors to whom
-> the described situation has happened.
+> On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
+> ...
+> > > This behavior is particularly useful for work scheduling systems that
+> > > need to track memory usage of worker processes/cgroups per-work-item.
+> > > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > > opinions), these systems need to track the peak memory usage to compu=
+te
+> > > system/container fullness when binpacking workitems.
 >
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Swap still has bad reps but there's nothing drastically worse about it th=
+an
+> page cache. ie. If you're under memory pressure, you get thrashing one wa=
+y
+> or another. If there's no swap, the system is just memlocking anon memory
+> even when they are a lot colder than page cache, so I'm skeptical that no
+> swap + mostly anon + kernel OOM kills is a good strategy in general
+> especially given that the system behavior is not very predictable under O=
+OM
+> conditions.
 
-After pondering on this for a while, I've decided to go ahead and apply
-this.  The intent is good; we can always improve the execution if
-somebody has a good idea.
+The reason we need peak memory information is to let us schedule work in a =
+way
+that we generally avoid OOM conditions.
+For the workloads I work on, we generally have very little in the
+page-cache, since
+the data isn't stored locally most of the time, but streamed from
+other storage/database
+systems. For those cases, demand-paging will cause large variations in
+servicing time,
+and we'd rather restart the process than have unpredictable latency.
+The same is true for the batch/queue-work system I wrote this patch to supp=
+ort.
+We keep very little data on the local disk, so the page cache is
+relatively small.
 
-I do have to say that all of the "must" language in this document is a
-bit off-putting and may well convince potential maintainers that they
-don't actually want to play this game.
+
+>
+> > As mentioned down the email thread, I consider usefulness of peak value
+> > rather limited. It is misleading when memory is reclaimed. But
+> > fundamentally I do not oppose to unifying the write behavior to reset
+> > values.
+>
+> The removal of resets was intentional. The problem was that it wasn't cle=
+ar
+> who owned those counters and there's no way of telling who reset what whe=
+n.
+> It was easy to accidentally end up with multiple entities that think they
+> can get timed measurement by resetting.
+>
+> So, in general, I don't think this is a great idea. There are shortcoming=
+s
+> to how memory.peak behaves in that its meaningfulness quickly declines ov=
+er
+> time. This is expected and the rationale behind adding memory.peak, IIRC,
+> was that it was difficult to tell the memory usage of a short-lived cgrou=
+p.
+>
+> If we want to allow peak measurement of time periods, I wonder whether we
+> could do something similar to pressure triggers - ie. let users register
+> watchers so that each user can define their own watch periods. This is mo=
+re
+> involved but more useful and less error-inducing than adding reset to a
+> single counter.
+
+I appreciate the ownership issues with the current resetting interface
+in the other locations.
+However, this peak RSS data is not used by all that many applications
+(as evidenced by
+the fact that the memory.peak file was only added a bit over a year ago).
+I think there are enough cases where ownership is enforced externally
+that mirroring the
+existing interface to cgroup2 is sufficient.
+
+I do think a more stateful interface would be nice, but I don't know
+whether I have enough
+knowledge of memcg to implement that in a reasonable amount of time.
+
+Ownership aside, I think being able to reset the high watermark of a
+process makes it
+significantly more useful. Creating new cgroups and moving processes
+around is significantly
+heavier-weight.
 
 Thanks,
 
-jon
+>
+> Johannes, what do you think?
+>
+> Thanks.
+>
+> --
+> tejun
+
+
+
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
