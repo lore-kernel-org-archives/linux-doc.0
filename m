@@ -1,175 +1,304 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CE11EA73
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 17:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C330019F495
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 17:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721149827; cv=none; b=H30j7kpAcyQbK6WBZwowWv/FE74Q+qDyu6dTVQcI0TASR2LOkOI7XxrfiyJVeLtuk5jZx/KdfHMaBtk6sNf3OJclllngB/sjlVnAdAJUz5uKZxIBmfYs2V0miOrf0Oc7QRcRoc6W+amyuUovdDyRt6v1ceeifSrBEDlyoEGbDwc=
+	t=1721149868; cv=none; b=AUGM/xggmzTBrXs2GQoGfahRTz2J4Ej7EAJeiDZiIcQat9Aqd6IlHThFyugdbHwDAVzGq+mRTnAj9Y+VzM3sxuQJHif64Bvpzjvv5izUqAq7ogaR85ghQ+M68sizJ2LNZrnqu/fv5/pK5FSk3ZipiJKD3mfHagSP5seFmLRHo5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721149827; c=relaxed/simple;
-	bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
+	s=arc-20240116; t=1721149868; c=relaxed/simple;
+	bh=d9Y3PppBIVaDeA7OUV7QSIfz7XlMBytja2woDfy2rK4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z67ul/0RFvvzlnPl0hyquoi6GMOm8lVczphMqhacXHNNyXrZ4VwSciL34riCcu3WCl4ANk7M3WqnhpM/G479UYE/UBB/k+OJr5qP887QcZXutGxO8Cr7Bn627VtnTMkSgrlpL6GIIp/P9j7hwwBbEo1wtmbL43Jfy3nxD5fjaAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=cDIVqv+i; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
+	 To:Cc:Content-Type; b=LvLzv3R07YVPFF4NP0xyRH46Lbjp0CQ+G0itiSrEmcc1sSm9GhbCvfmgk1cpY4LcHf0aNgq3ztlOhZCCxWKrVFnityIv7pnF9SKh2pwqYT1UnwdtK/jX10TEuN87fVYP5dSj73S7R9atfbWBt91EzjGkWeZcrrTbwiq8Hsj6TxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0d13dRIA; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="cDIVqv+i"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70cdc91d25dso458090b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 10:10:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0d13dRIA"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-447df43324fso10201cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 10:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vimeo.com; s=google; t=1721149825; x=1721754625; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1721149866; x=1721754666; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
-        b=cDIVqv+iM/AnXJILCmq8Yxd7QWlwoAgm1dCouMbj+cLW/yTXHbV1U7DGrXaec7lbf6
-         0fGrPY1JF89fxxPPdqx9qjAWyCyBeIaOCcsU8pjSSuaN191XdkSOYsbmlkMTlEnlvTbm
-         uvUk66BzJu2XEWsjkHELtq0Px5RhEnUXBa3Yk=
+        bh=DV9GhdKZyJ6M+6gQqAdxuqd09DQjKmEarDGs4L0SsCI=;
+        b=0d13dRIAB5GTTXQ4R7HHUgEVpJYZdGKUMMbUtQpJgzyU8RQsXfveZc9oW75Ewq9YSL
+         IEmfRYqrGMOgwwwPltsqqValwqQu093pHuiXFfFsoaB+CyvKxw+BXcSv8vClj5xftCQ/
+         UBvcIRM31f0qCvnI+VRiD90lVs6S31HYav7cqBAqzRb/uC6nx4dY9DDraJqXMjFlHB7r
+         ZQgXDb32SxPXo2OtLoG0twic7Xnrvseeev7Xx8zDRIpZVv7PHT+2AVoaniDUyOqPPrRG
+         voOn7ts2bzDpplC8xhO+rmLZmsyLdFW+gTBoYKSkjX/It98bYqM2k7XqSQYFX25XEz09
+         xR9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721149825; x=1721754625;
+        d=1e100.net; s=20230601; t=1721149866; x=1721754666;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/1c3365id7LMdS2yg0ILYdAqscK4GzKxY0IS4H4GUy4=;
-        b=GCD1t0hd9zwzdHKMUCSwYL529ny/TYENY4Mj5+C0+sRyTiGkNKWDBKW4IhD0kkugzf
-         h/q4Fea9RJesjRYSzXSnNivop2Yn7qB7oHzMPP6lfIjqBJ9KjA9VEieW05HYjhhxSC5P
-         8z7TIyZCvN2+aPMYY3Y8FZ0gQ9sTEoVQFHeJh9ZrQT0ZxeQrH9Xy59T8MSinnUmccwiF
-         eWT8KGiOEcFIXh52F1gT0emmXLgSPHqd4piopx9kTNgUGkWLuqz2Q8XrVQRu5FtT2ltH
-         KMSu5BL1rCFwuCt9VyUmz+r/tQlF32SEsBxCpOBmzZOYgjp0H4YLAj1/S6skbXmv1n9N
-         /bAg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3aOdM214MAAPf37Qq00O7WHUwYp0ObXXoFskPsrU6CDv9UrEUpPZs0se8Q4xNSSFPe3nqOqq+OmhhotXUI/XNGNVqDE9JziuO
-X-Gm-Message-State: AOJu0YynxO+rKPtb6547XDtbJp3xyye3KpQr/wsVu5+k9sXule3SpjRU
-	ZGesh8H69vUbiqI/3kxyZIM53lZV89rgbbe9pFcg7yZ/qBLziK1PG6WmUVeZ7RWj8JH+0mMqKw0
-	OphS+AjTo2fk1CtO5C1ZPS3t56sBr3WRAq1iuvQ==
-X-Google-Smtp-Source: AGHT+IGxrFhf+t9CbrOmTbCaTrzVOqPOdzLWgYcjX29oem9uwcU5xToAeNAhBIZrmTimW7gqvO45de+d88JBZoYD3qY=
-X-Received: by 2002:a05:6a21:32a7:b0:1c3:18f8:ebc9 with SMTP id
- adf61e73a8af0-1c3f1271886mr3158626637.41.1721149825418; Tue, 16 Jul 2024
- 10:10:25 -0700 (PDT)
+        bh=DV9GhdKZyJ6M+6gQqAdxuqd09DQjKmEarDGs4L0SsCI=;
+        b=JWSIu83T+vNIarkfDqSbP5Z1dP1Csc2XWvTf1+h+XCnMMX1G6heCUB+IafxVdJ0+c+
+         f7hDInP1HW+AYBMhGw9xMvsjetGzMbmk3fGyqxi9kJ+NWqCEZScu3YfrpVaQHeLjCWtd
+         Ewo37V/Fslh7P81p4mDQXes5rwJQbcu02EW/zuUv+6L0jp2FGuMA7vnI03eO/sB4chJK
+         8J0sL2/8RO0n1vVIinAtPvCo6K3HIrt5maSgzcS2Y8nJTIImYjMWarRvM5JRP9TBd83G
+         N1PN7XgCNWzdjnz9sfNP7/o+OOoNLh1SuClmkYuNu9LZXQSfnUbso+d0EPrpZOSNzMA4
+         GoSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUF1lbelYOuG0/KGdc0iGIBf/ei4zc+/HIaKE2/0h3HHWKwFUsNBQ45KhQS8JchWJANhI54vc71GVeovSTpTRgXF24i5B76OArJ
+X-Gm-Message-State: AOJu0Yx1yR2doyGTNlwWanOGp0PAf5W756WHQ6ZBcD5hvAJH5RB9aR3A
+	H6bbSelRc/HZ0i2JQqXqgxK8PN7LlEX4k8WXMNfcCWlpUx/FW1eIbyi3SzresoC3vEB21IbB+ZO
+	DXnICApwvpk/Ah8Ro0ZDuvG5i6h4HdUUo/1l+
+X-Google-Smtp-Source: AGHT+IFaV9/2Z7WSL/mHSXyBRuqYSsif3Jd7vrRf+CGU9hcp7x64cONNeb1r2bfZCOcTK8Iuat3cjGzcxnXcLyg9ASI=
+X-Received: by 2002:a05:622a:2a0f:b0:444:dc9a:8e95 with SMTP id
+ d75a77b69052e-44f7b927bc1mr3465511cf.15.1721149865452; Tue, 16 Jul 2024
+ 10:11:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka> <ZpajW9BKCFcCCTr-@slm.duckdns.org>
-In-Reply-To: <ZpajW9BKCFcCCTr-@slm.duckdns.org>
-From: David Finkel <davidf@vimeo.com>
-Date: Tue, 16 Jul 2024 13:10:14 -0400
-Message-ID: <CAFUnj5M9CTYPcEM3=4i4rTfiU4sY4Qq8V1DXHJ00YYD2xFBvew@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: Tejun Heo <tj@kernel.org>
-Cc: Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
-	Jonathan Corbet <corbet@lwn.net>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeelb@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
+References: <20240710234222.2333120-1-jthoughton@google.com> <DS0PR11MB637397059B5DAE2AA7B819BCDCA12@DS0PR11MB6373.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB637397059B5DAE2AA7B819BCDCA12@DS0PR11MB6373.namprd11.prod.outlook.com>
+From: James Houghton <jthoughton@google.com>
+Date: Tue, 16 Jul 2024 10:10:27 -0700
+Message-ID: <CADrL8HUv+RvazbOyx+NJ1oNd8FdMGd_T61Kjtia1cqJsN=WiOA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/18] KVM: Post-copy live migration for guest_memfd
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, Peter Xu <peterx@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2024 at 12:44=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
+On Mon, Jul 15, 2024 at 8:28=E2=80=AFAM Wang, Wei W <wei.w.wang@intel.com> =
+wrote:
 >
-> Hello,
->
-> On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
-> ...
-> > > This behavior is particularly useful for work scheduling systems that
-> > > need to track memory usage of worker processes/cgroups per-work-item.
-> > > Since memory can't be squeezed like CPU can (the OOM-killer has
-> > > opinions), these systems need to track the peak memory usage to compu=
-te
-> > > system/container fullness when binpacking workitems.
->
-> Swap still has bad reps but there's nothing drastically worse about it th=
-an
-> page cache. ie. If you're under memory pressure, you get thrashing one wa=
-y
-> or another. If there's no swap, the system is just memlocking anon memory
-> even when they are a lot colder than page cache, so I'm skeptical that no
-> swap + mostly anon + kernel OOM kills is a good strategy in general
-> especially given that the system behavior is not very predictable under O=
-OM
-> conditions.
-
-The reason we need peak memory information is to let us schedule work in a =
-way
-that we generally avoid OOM conditions.
-For the workloads I work on, we generally have very little in the
-page-cache, since
-the data isn't stored locally most of the time, but streamed from
-other storage/database
-systems. For those cases, demand-paging will cause large variations in
-servicing time,
-and we'd rather restart the process than have unpredictable latency.
-The same is true for the batch/queue-work system I wrote this patch to supp=
-ort.
-We keep very little data on the local disk, so the page cache is
-relatively small.
-
-
->
-> > As mentioned down the email thread, I consider usefulness of peak value
-> > rather limited. It is misleading when memory is reclaimed. But
-> > fundamentally I do not oppose to unifying the write behavior to reset
-> > values.
->
-> The removal of resets was intentional. The problem was that it wasn't cle=
-ar
-> who owned those counters and there's no way of telling who reset what whe=
-n.
-> It was easy to accidentally end up with multiple entities that think they
-> can get timed measurement by resetting.
->
-> So, in general, I don't think this is a great idea. There are shortcoming=
+> On Thursday, July 11, 2024 7:42 AM, James Houghton wrote:
+> > This patch series implements the KVM-based demand paging system that wa=
 s
-> to how memory.peak behaves in that its meaningfulness quickly declines ov=
-er
-> time. This is expected and the rationale behind adding memory.peak, IIRC,
-> was that it was difficult to tell the memory usage of a short-lived cgrou=
-p.
->
-> If we want to allow peak measurement of time periods, I wonder whether we
-> could do something similar to pressure triggers - ie. let users register
-> watchers so that each user can define their own watch periods. This is mo=
-re
-> involved but more useful and less error-inducing than adding reset to a
-> single counter.
+> > first introduced back in November[1] by David Matlack.
+> >
+> > The working name for this new system is KVM Userfault, but that name is=
+ very
+> > confusing so it will not be the final name.
+> >
+> Hi James,
+> I had implemented a similar approach for TDX post-copy migration, there a=
+re quite
+> some differences though. Got some questions about your design below.
 
-I appreciate the ownership issues with the current resetting interface
-in the other locations.
-However, this peak RSS data is not used by all that many applications
-(as evidenced by
-the fact that the memory.peak file was only added a bit over a year ago).
-I think there are enough cases where ownership is enforced externally
-that mirroring the
-existing interface to cgroup2 is sufficient.
-
-I do think a more stateful interface would be nice, but I don't know
-whether I have enough
-knowledge of memcg to implement that in a reasonable amount of time.
-
-Ownership aside, I think being able to reset the high watermark of a
-process makes it
-significantly more useful. Creating new cgroups and moving processes
-around is significantly
-heavier-weight.
-
-Thanks,
+Thanks for the feedback!!
 
 >
-> Johannes, what do you think?
+> > Problem: post-copy with guest_memfd
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > Post-copy live migration makes it possible to migrate VMs from one host=
+ to
+> > another no matter how fast they are writing to memory while keeping the=
+ VM
+> > paused for a minimal amount of time. For post-copy to work, we
+> > need:
+> >  1. to be able to prevent KVM from being able to access particular page=
+s
+> >     of guest memory until we have populated it  2. for userspace to kno=
+w when
+> > KVM is trying to access a particular
+> >     page.
+> >  3. a way to allow the access to proceed.
+> >
+> > Traditionally, post-copy live migration is implemented using userfaultf=
+d, which
+> > hooks into the main mm fault path. KVM hits this path when it is doing =
+HVA ->
+> > PFN translations (with GUP) or when it itself attempts to access guest =
+memory.
+> > Userfaultfd sends a page fault notification to userspace, and KVM goes =
+to sleep.
+> >
+> > Userfaultfd works well, as it is not specific to KVM; everyone who atte=
+mpts to
+> > access guest memory will block the same way.
+> >
+> > However, with guest_memfd, we do not use GUP to translate from GFN to H=
+PA
+> > (nor is there an intermediate HVA).
+> >
+> > So userfaultfd in its current form cannot be used to support post-copy =
+live
+> > migration with guest_memfd-backed VMs.
+> >
+> > Solution: hook into the gfn -> pfn translation
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > The only way to implement post-copy with a non-KVM-specific userfaultfd=
+-like
+> > system would be to introduce the concept of a file-userfault[2] to inte=
+rcept
+> > faults on a guest_memfd.
+> >
+> > Instead, we take the simpler approach of adding a KVM-specific API, and=
+ we
+> > hook into the GFN -> HVA or GFN -> PFN translation steps (for tradition=
+al
+> > memslots and for guest_memfd respectively).
 >
-> Thanks.
 >
-> --
-> tejun
+> Why taking KVM_EXIT_MEMORY_FAULT faults for the traditional shared
+> pages (i.e. GFN -> HVA)?
+> It seems simpler if we use KVM_EXIT_MEMORY_FAULT for private pages only, =
+leaving
+> shared pages to go through the existing userfaultfd mechanism:
+> - The need for =E2=80=9Casynchronous userfaults,=E2=80=9D introduced by p=
+atch 14, could be eliminated.
+> - The additional support (e.g., KVM_MEMORY_EXIT_FLAG_USERFAULT) for priva=
+te page
+>   faults exiting to userspace for postcopy might not be necessary, becaus=
+e all pages on the
+>   destination side are initially =E2=80=9Cshared,=E2=80=9D and the guest=
+=E2=80=99s first access will always cause an
+>   exit to userspace for shared->private conversion. So VMM is able to lev=
+erage the exit to
+>   fetch the page data from the source (VMM can know if a page data has be=
+en fetched
+>   from the source or not).
 
+You're right that, today, including support for guest-private memory
+*only* indeed simplifies things (no async userfaults). I think your
+strategy for implementing post-copy would work (so, shared->private
+conversion faults for vCPU accesses to private memory, and userfaultfd
+for everything else).
 
+I'm not 100% sure what should happen in the case of a non-vCPU access
+to should-be-private memory; today it seems like KVM just provides the
+shared version of the page, so conventional use of userfaultfd
+shouldn't break anything.
 
---=20
-David Finkel
-Senior Principal Software Engineer, Core Services
+But eventually guest_memfd itself will support "shared" memory, and
+(IIUC) it won't use VMAs, so userfaultfd won't be usable (without
+changes anyway). For a non-confidential VM, all memory will be
+"shared", so shared->private conversions can't help us there either.
+Starting everything as private almost works (so using private->shared
+conversions as a notification mechanism), but if the first time KVM
+attempts to use a page is not from a vCPU (and is from a place where
+we cannot easily return to userspace), the need for "async userfaults"
+comes back.
+
+For this use case, it seems cleaner to have a new interface. (And, as
+far as I can tell, we would at least need some kind of "async
+userfault"-like mechanism.)
+
+Another reason why, today, KVM Userfault is helpful is that
+userfaultfd has a couple drawbacks. Userfaultfd migration with
+HugeTLB-1G is basically unusable, as HugeTLB pages cannot be mapped at
+PAGE_SIZE. Some discussion here[1][2].
+
+Moving the implementation of post-copy to KVM means that, throughout
+post-copy, we can avoid changes to the main mm page tables, and we
+only need to modify the second stage page tables. This saves the
+memory needed to store the extra set of shattered page tables, and we
+save the performance overhead of the page table modifications and
+accounting that mm does.
+
+There's some more discussion about these points in David's RFC[3].
+
+[1]: https://lore.kernel.org/linux-mm/20230218002819.1486479-1-jthoughton@g=
+oogle.com/
+[2]: https://lore.kernel.org/linux-mm/ZdcKwK7CXgEsm-Co@x1n/
+[3]: https://lore.kernel.org/kvm/CALzav=3Dd23P5uE=3DoYqMpjFohvn0CASMJxXB_XE=
+OEi-jtqWcFTDA@mail.gmail.com/
+
+>
+> >
+
+> > I have intentionally added support for traditional memslots, as the com=
+plexity
+> > that it adds is minimal, and it is useful for some VMMs, as it can be u=
+sed to
+> > fully implement post-copy live migration.
+> >
+> > Implementation Details
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > Let's break down how KVM implements each of the three core requirements
+> > for implementing post-copy as laid out above:
+> >
+> > --- Preventing access: KVM_MEMORY_ATTRIBUTE_USERFAULT ---
+> >
+> > The most straightforward way to inform KVM of userfault-enabled pages i=
+s to
+> > use a new memory attribute, say KVM_MEMORY_ATTRIBUTE_USERFAULT.
+> >
+> > There is already infrastructure in place for modifying and checking mem=
+ory
+> > attributes. Using this interface is slightly challenging, as there is n=
+o UAPI for
+> > setting/clearing particular attributes; we must set the exact attribute=
+s we want.
+> >
+> > The synchronization that is in place for updating memory attributes is =
+not
+> > suitable for post-copy live migration either, which will require updati=
+ng
+> > memory attributes (from userfault to no-userfault) very frequently.
+> >
+> > Another potential interface could be to use something akin to a dirty b=
+itmap,
+> > where a bitmap describes which pages within a memslot (or VM) should tr=
+igger
+> > userfaults. This way, it is straightforward to make updates to the user=
+fault
+> > status of a page cheap.
+> >
+> > When KVM Userfault is enabled, we need to be careful not to map a userf=
+ault
+> > page in response to a fault on a non-userfault page. In this RFC, I've =
+taken the
+> > simplest approach: force new PTEs to be PAGE_SIZE.
+> >
+> > --- Page fault notifications ---
+> >
+> > For page faults generated by vCPUs running in guest mode, if the page t=
+he
+> > vCPU is trying to access is a userfault-enabled page, we use
+>
+> Why is it necessary to add the per-page control (with uAPIs for VMM to se=
+t/clear)?
+> Any functional issues if we just have all the page faults exit to userspa=
+ce during the
+> post-copy period?
+> - As also mentioned above, userspace can easily know if a page needs to b=
+e
+>   fetched from the source or not, so upon a fault exit to userspace, VMM =
+can
+>   decide to block the faulting vcpu thread or return back to KVM immediat=
+ely.
+> - If improvement is really needed (would need profiling first) to reduce =
+number
+>   of exits to userspace, a  KVM internal status (bitmap or xarray) seems =
+sufficient.
+>   Each page only needs to exit to userspace once for the purpose of fetch=
+ing its data
+>   from the source in postcopy. It doesn't seem to need userspace to enabl=
+e the exit
+>   again for the page (via a new uAPI), right?
+
+We don't necessarily need a way to go from no-fault -> fault for a
+page, that's right[4]. But we do need a way for KVM to be able to
+allow the access to proceed (i.e., go from fault -> no-fault). IOW, if
+we get a fault and come out to userspace, we need a way to tell KVM
+not to do that again. In the case of shared->private conversions, that
+mechanism is toggling the memory attributes for a gfn. For
+conventional userfaultfd, that's using UFFDIO_COPY/CONTINUE/POISON.
+Maybe I'm misunderstanding your question.
+
+[4]: It is helpful for poison emulation for HugeTLB-backed VMs today,
+but this is not important.
