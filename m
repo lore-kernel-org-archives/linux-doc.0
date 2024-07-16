@@ -1,76 +1,140 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849751DDCE;
-	Tue, 16 Jul 2024 21:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A44E50297
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 22:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721164832; cv=none; b=a7IK+myJ0PzrWYR63I6m1tO1LWHio0m0HL/J2EF4dqKcjsW0yqN0pmQwWet/hwrZ/hcZCuAKwqkLFlTP8wjD02OwVRs6KTvx4+Gj7S4+bvyyINccoyefqLQcP5QG7i+O7oG/VPnki+qDL92xm/wzI7RzpEJN1ZSHxe6zUcdT0hg=
+	t=1721167590; cv=none; b=sVHC1QCQYJuEJc2TbYhxmZF/BhsmkGyuHKtQyYn7QDIrgK52EkrJmj5YmtGJPoP7SGadX3YKZtRJ1Eobxj/lrYDjk6XS4LrDNiUzM0TAgvf04/DD86OFrEnbbNQ9ELnP88K4nt3gEoBvHmyo8TzSXApPHrFkZdLYdY4uKE7WRE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721164832; c=relaxed/simple;
-	bh=BiIEMnt3VLJ8mhdACxgk/r6mWtVLFHNRdt9CT6QnSI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I/Faz4jiNjS67LHM7pPg5b0BxZLzCPRORiuOJ8fhJWrThOIsZsLOVZRF51ggv7u9lyFiQitR3YMUFH3JsDNJMeyexniYTDCXA59OtYU/bf72+Vu4ebjk2D1yP37Xv6fQPqoSg7C7jjYwKCCM7dSaaMBJCsWFczNCLWpV6IzZfgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yqk9WCqv; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1721167590; c=relaxed/simple;
+	bh=w2aJTmvDOMvn6K+ayRVj7cPeNTzCuJAPOw72W6PM9lM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Osq+N6Cqxj6iRmAAKXUXGbl7ZYP1pOigteDMiKMTRe4npoj0HmZbEH22UK+nEPhmlMknRGxQy93xgtsc+lC2dUIZJV1uFCWx+Jmu8WUWwJWF70463KRR+uyJEQG+/9Hi6t6pPh/nM7Li4V84/HOfcYiUScgLWjUQoN6XG9nxCCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=iFYn1rCP; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yqk9WCqv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Qcrz6OS3najszlPDYkCVo47XTxdWQRpn0VG/UoztZD0=; b=Yqk9WCqvBf9XyguN8OmLaQE2yp
-	u5PFgSs5SfoxOGvMSmtXqfNYGbCBrKMRZCMe27dWUWHrWig/kz9+xjkpTrngqaGWcFCW9zk3wPlLm
-	TkOjDTtZYBRloZB95yXsf0+t0idFpZH91NfGje/4bl1yViGjAq/QlfUvRL6t/9/h7F0p4WDHufd4R
-	MSDtiCMjJ8E33NEVdupz206CuTAvAASnp9f/EFEvEB8SDcN6rFs3Z+ZErulo5ilX8M8zI2rkER41y
-	Q+AVYWpOhif66XaynXKbIqrUDB3VkWTASlnxaK2lB1XknLybidBzlzWrc6zSrkltw4gNVA/c7nRkW
-	PewW2tJQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sTpb1-0000000Bnj2-3Rtk;
-	Tue, 16 Jul 2024 21:20:27 +0000
-Message-ID: <f7b0b9e1-22b8-4b43-858d-4023eef602db@infradead.org>
-Date: Tue, 16 Jul 2024 14:20:25 -0700
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="iFYn1rCP"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-78aeee1068aso3065076a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 15:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vimeo.com; s=google; t=1721167588; x=1721772388; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w2aJTmvDOMvn6K+ayRVj7cPeNTzCuJAPOw72W6PM9lM=;
+        b=iFYn1rCPz8Yjz2EqLEmXGiJwH/zAtHBURGmwCoilfR2SeKKpx4O0cDZlR2kk31aShx
+         GFn72ubRuT+2Rp7ns/omxxe3uiBjun9JBL+Kb5/ElpuqkjlY3ZCKKl+6zkcLC43yvdq6
+         vgenCo2lVDOAIw1tMNUvFiaHR6sKyHFJ/LcgE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721167588; x=1721772388;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w2aJTmvDOMvn6K+ayRVj7cPeNTzCuJAPOw72W6PM9lM=;
+        b=pQN6mzBsrMvoEQVt6n16frxr3R1GYopC/O+MnD7wDJ6ZlPuUKfXyioGbZ8MuOy1p8s
+         q8Sy7CDORdUYApft5tjBGBIhA+3mCqLsNFm1hk8u91Wz5uqJl4qsTSYFJrXYdr/n+FRD
+         J+EV9NAwdig34Rn525s7PbYbEyy5lfnzYhbDCGNY3HdGSUj6StzjW0NKGdJw4RPu2u73
+         9v3ozpbxwxngakOdD1y4JZPnkWS9I3hqI4CifCG2Z4QzwGzEP89pktumng0IJDK+WnhN
+         a9+QNwbmBg0sMcm8IbML259EbDhZRtRxKd85PWhZ4jBXd1cIzXysl5E8nlOlDr/lMkul
+         0vtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXkxhBDZSBejG2EAEaU/WzvaV9bdevIeb2ntaZxETa3Qojj6cxX3/LTyeli3G5efgpWcyOCWfoPfeU+3o7XKJnvlN4pO0R4gMh
+X-Gm-Message-State: AOJu0Yyqb3VMG7LWObxpCZApS0mlNEdAcG9RRt/HG0oQe7TP/T4ft7lc
+	c88uaXlKLZGXDcvMGNht/aKNmxE8SPPe+x5NISmKE1WbcVv0pUiGvYZ7MupiAqSHIjRXBNArTMh
+	iA0jV3BzejEyENws9CXRvm95kK4lobaWwwTlAWg==
+X-Google-Smtp-Source: AGHT+IHa4OUEBjwkyORdqOTlwB6SwJ3UGLm7iossoLCCGBgQW/WBnp341S1YhpWMm7wMFcfIxWpuIGR1HiBOvvInuxU=
+X-Received: by 2002:a05:6a20:a123:b0:1c0:7ec3:c7ae with SMTP id
+ adf61e73a8af0-1c3f12ac92dmr4304824637.47.1721167588247; Tue, 16 Jul 2024
+ 15:06:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: document: add gpd-fan
-To: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
-References: <20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com>
- <20240717-gpd_fan-v2-2-f7b7e6b9f21b@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240717-gpd_fan-v2-2-f7b7e6b9f21b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
+ <ZpZ6IZL482XZT1fU@tiehlicka> <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+ <Zpa1VGL5Mz63FZ0Z@tiehlicka> <ZpbRSv_dxcNNfc9H@slm.duckdns.org>
+In-Reply-To: <ZpbRSv_dxcNNfc9H@slm.duckdns.org>
+From: David Finkel <davidf@vimeo.com>
+Date: Tue, 16 Jul 2024 18:06:17 -0400
+Message-ID: <CAFUnj5MTRsFzd_EHJ7UcyjrWWUicg7wRrs2XdnVnvGiG3KmULQ@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Tejun Heo <tj@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
+	Jonathan Corbet <corbet@lwn.net>, Roman Gushchin <roman.gushchin@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 16, 2024 at 4:00=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello,
+>
+> On Tue, Jul 16, 2024 at 08:00:52PM +0200, Michal Hocko wrote:
+> ...
+> > > If we want to allow peak measurement of time periods, I wonder whethe=
+r we
+> > > could do something similar to pressure triggers - ie. let users regis=
+ter
+> > > watchers so that each user can define their own watch periods. This i=
+s more
+> > > involved but more useful and less error-inducing than adding reset to=
+ a
+> > > single counter.
+> >
+> > I would rather not get back to that unless we have many more users that
+> > really need that. Absolute value of the memory consumption is a long
+> > living concept that doesn't make much sense most of the time. People
+> > just tend to still use it because it is much simpler to compare two dif=
+ferent
+> > values rather than something as dynamic as PSI similar metrics.
+>
+> The initial justification for adding memory.peak was that it's mostly to
+> monitor short lived cgroups. Adding reset would make it used more widely,
+> which isn't necessarily a bad thing and people most likely will find ways=
+ to
+> use it creatively. I'm mostly worried that that's going to create a mess
+> down the road. Yeah, so, it's not widely useful now but adding reset make=
+s
+> it more useful and in a way which can potentially paint us into a corner.
+
+This is a pretty low-overhead feature as-is, but we can reduce it further b=
+y
+changing it so instead of resetting the watermark on any non-empty string,
+we reset only on one particular string.
+
+I'm thinking of something like "global_reset\n", so if we do something like=
+ the
+PSI interface later, users can write "fd_local_reset\n", and get that
+nicer behavior.
+
+This also has the benefit of allowing "echo global_reset >
+/sys/fs/cgroup/.../memory.peak" to do the right thing.
+(better names welcome)
+
+>
+> But then again, maybe this is really niche, future usages will still rema=
+in
+> very restricted, and adding something more akin to PSI triggers is way
+> over-engineering it.
+
+Yeah, I think this is niche enough that it isn't worth over-engineering.
+There is some value to keeping broad compatibility for things moving
+from cgroups v1, too.
+
+>
+> Thanks.
+>
+> --
+> tejun
 
 
-
-On 7/16/24 9:58 AM, Cryolitia PukNgae via B4 Relay wrote:
-> From: Cryolitia PukNgae <Cryolitia@gmail.com>
-> 
-> Add GPD fan driver document
-> 
-> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
-> ---
->  Documentation/hwmon/gpd-fan.rst | 69 +++++++++++++++++++++++++++++++++++++++++
->  Documentation/hwmon/index.rst   |  1 +
->  MAINTAINERS                     |  1 +
->  3 files changed, 71 insertions(+)
-> 
-
-Hi,
-The issues that I had with v1 are now fixed.
-I can't really comment on the hwmon-related contents of the file.
-
-Thanks.
-~Randy
+Thanks again,
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
