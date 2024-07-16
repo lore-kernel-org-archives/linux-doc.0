@@ -1,390 +1,75 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121A122309
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 07:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF574687;
+	Tue, 16 Jul 2024 07:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721114414; cv=none; b=u25qIDr0UdxlPO9HEinf6phOFDdDqomYMhy28Ix3NgF9IjvZSOFLJBGd8PCpJx60Bc1URS9RwnS5oRYKvmFZoxMoyVa0j4COEpMVspuzrdfqk4R2pPeN1/wyWKf0fz9wycPSHnHXnQdB5Kdq7RnsTJCBqRXKMJSglH6ekXewoSg=
+	t=1721115059; cv=none; b=F/tPjmlb+6BfkErHw/c5MlH5e7HQqPC+o8w9xc/CDW5HHqaUrZIWN8SBHhm06H2iDfnCxTLnM61xD5Xpe6rFo+TDThVMyXtuQJX96nKT09dFjp2ZRUJYQI+in3/YDNBd2uUUW4JnvXJ6szehf3twN4lUvFOM1T3JPLz0KkOiyYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721114414; c=relaxed/simple;
-	bh=ALc31W3uCWR9Lj90vJOo0hS+MiAERAOjPCudFEnehiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PZG0EBBRsO98bTIpdvo1fGaE2HvGCYmoKbhK/K1BTsLeNKy4Fm3TWGIrhE8soHMpFQETTQQUN+GIxjgjxW/14w3oIycwummf2bU62zmy/1uxtCHjyOf+1X/s4cY8LSPDy5ZdBfou8xIBAcTvgyvDbZwgwIufVnDse/rM/h8X26I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=X45JPT+l; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="X45JPT+l"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-58e76294858so10523419a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 00:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721114409; x=1721719209; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ryz13jWMVfVyvMNCAq2D9GKM+ZrB7awLhm0ebTfWLrE=;
-        b=X45JPT+lWTv8rZv7AX8dSaoryrvqvZEm0c6I/iavHHezAE+F/PlQ14MH53bE1y+DkZ
-         eDkNvqqNVx1t6sHI/4KCua9AgrT2XHRu7anGDWc+s+RKtEEPZOf77vUthb/TbGba4fw9
-         ovGJ3vRmarMJdAyTZkOM35adZth2rCa+VV8/K5S7LH5Ojl3Qfru+una0bvdEOtSI1Jnm
-         fqIFplLxnJhCn/wYvm6NdSa5ld7BV2IU26erwLwsoaEOypM8E/1dXIjqZN9kxZA1AfMG
-         bpS0iBGmah/oYI7VJ5VSQ/x8eXhBMzQM0GxMoUdnt7Bfk1gOyUpiKvqE2nKFWck5Jhx+
-         TwDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721114409; x=1721719209;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ryz13jWMVfVyvMNCAq2D9GKM+ZrB7awLhm0ebTfWLrE=;
-        b=GDQH7VYYTA/eTCmgMGtHPAO7zhhE/yLQ1G3LFcQ6ttJxBRe00S2w/5IZpEU+9MUazE
-         yaIqKvIBbKv8PJRpo6dB09Qc66M416MujZK2eeaXDVb5CW1Y9PkWuAgxjb/BUnQr12Hc
-         kMX0l39k72lsGEJVuabNd/D1nv0k78Ert9t+qe+tq4NcTy/PAMEpeFufDoX1G6tmvcYZ
-         pEvSO/1Y+T+0rGmQhhzZFiJANgdQOeS0YpAY7K11Oq1ksvNjgKbUEPMT9N8+4OMfZ4Ur
-         C8dgl665pmwzuD5N0DopL/VdeNkWHZlIaOVvKXD+jNhsiCOZkNPFa34W0K0QFdseTk7C
-         IjPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUUuTtwPbsMmhoGi/CEF6+ZLimbgZSb3+Q27N1/B2B0cb6WZezi3QEXOXDqz5pLvAOAIZv0vQ8uNHTxBa1fWYzHSfiJSfypBqyP
-X-Gm-Message-State: AOJu0YxRTQhrnT+b/k5gQtykRlaYkt3iVBzbWfDsnw9OuXHjl9uv2SlI
-	1eohgTsq4qfByEAjUHPXMKrBFMQ/njjWDvmrq3f9cknq/a7gdbQ2nmjkFQ36mqA=
-X-Google-Smtp-Source: AGHT+IF7KAqVc8tB1cq8XGEqVn4hBgytdxCDM1K+wyDBEAdRIboXhu5uwo7R0OApSSiVBd/NbepQxQ==
-X-Received: by 2002:a17:906:4a4d:b0:a72:afd9:6109 with SMTP id a640c23a62f3a-a79edbfb0c9mr77909566b.16.1721114409305;
-        Tue, 16 Jul 2024 00:20:09 -0700 (PDT)
-Received: from localhost (109-81-86-75.rct.o2.cz. [109.81.86.75])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc5d1f57sm275518966b.72.2024.07.16.00.20.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 00:20:09 -0700 (PDT)
-Date: Tue, 16 Jul 2024 09:20:08 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: David Finkel <davidf@vimeo.com>
-Cc: Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <ZpYfKI6W1uSMkt5i@tiehlicka>
-References: <20240715203625.1462309-1-davidf@vimeo.com>
- <20240715203625.1462309-2-davidf@vimeo.com>
- <CAFUnj5Oh_OsP4TikWTGT6cKKTnWLaBYpE5PGzcxLTp7b=UqLkQ@mail.gmail.com>
- <CAFUnj5MahNvM+B2zynVtcnYKJ7LZHwBNEcPKGAdz-tesDeOXcw@mail.gmail.com>
+	s=arc-20240116; t=1721115059; c=relaxed/simple;
+	bh=cVPIPkX7v007ff3LU6KGGLWVrARomilM8CycTdtwLNM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nIftgWwJ4zith0auYlcX2FxIVH9AqaG3d3r4Hu8OrFqolUVPqieEs7HqH8E1IYp0wdB5ATS6WsgNg0bAKb2g02GJB+rFMNVqrdtrHpdcKUl70dEXnzI/dACNhIZAk1tjieYA/G5HSZ8GAeYQpg0ohWHogqMBUQE66iBcOR7Fxgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WNW0Q2p7Dzdhvy;
+	Tue, 16 Jul 2024 15:29:10 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (unknown [7.193.23.208])
+	by mail.maildlp.com (Postfix) with ESMTPS id 93EF5140158;
+	Tue, 16 Jul 2024 15:30:53 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.178.219) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 16 Jul 2024 15:30:52 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <quic_jhugo@quicinc.com>, <quic_carlv@quicinc.com>,
+	<quic_pkanojiy@quicinc.com>, <ogabbay@kernel.org>, <corbet@lwn.net>,
+	<wanghaibin.wang@huawei.com>, Zenghui Yu <yuzenghui@huawei.com>
+Subject: [PATCH] accel/qaic: Remove the description of DRM_IOCTL_QAIC_PART_DEV
+Date: Tue, 16 Jul 2024 15:30:36 +0800
+Message-ID: <20240716073036.453-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFUnj5MahNvM+B2zynVtcnYKJ7LZHwBNEcPKGAdz-tesDeOXcw@mail.gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
 
-On Mon 15-07-24 16:46:36, David Finkel wrote:
-> > On Mon, Jul 15, 2024 at 4:38 PM David Finkel <davidf@vimeo.com> wrote:
-> > >
-> > > Other mechanisms for querying the peak memory usage of either a process
-> > > or v1 memory cgroup allow for resetting the high watermark. Restore
-> > > parity with those mechanisms.
-> > >
-> > > For example:
-> > >  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
-> > >    the high watermark.
-> > >  - writing "5" to the clear_refs pseudo-file in a processes's proc
-> > >    directory resets the peak RSS.
-> > >
-> > > This change copies the cgroup v1 behavior so any write to the
-> > > memory.peak and memory.swap.peak pseudo-files reset the high watermark
-> > > to the current usage.
-> > >
-> > > This behavior is particularly useful for work scheduling systems that
-> > > need to track memory usage of worker processes/cgroups per-work-item.
-> > > Since memory can't be squeezed like CPU can (the OOM-killer has
-> > > opinions),
+The partition device ioctl was removed during the development of the
+initial version of qaic driver. Remove its description from the
+documentation to avoid confusing readers.
 
-I do not understand the OOM-killer reference here. Why does it matter?
-Could you explain please?
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+---
+ Documentation/accel/qaic/qaic.rst | 6 ------
+ 1 file changed, 6 deletions(-)
 
-> > > these systems need to track the peak memory usage to compute
-> > > system/container fullness when binpacking workitems.
-
-Could you elaborate some more on how you are using this please? I expect
-you recycle memcgs for different runs of workers and reset peak
-consumptions before a new run and record it after it is done. The thing
-which is not really clear to me is how the peak value really helps if it
-can vary a lot among different runs. But maybe I misunderstand.
-
-> > >
-> > > Signed-off-by: David Finkel <davidf@vimeo.com>
-> > > ---
-> > >  Documentation/admin-guide/cgroup-v2.rst       | 20 +++---
-> > >  mm/memcontrol.c                               | 23 ++++++
-> > >  .../selftests/cgroup/test_memcontrol.c        | 72 ++++++++++++++++---
-> > >  3 files changed, 99 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > > index 8fbb0519d556..201d8e5d9f82 100644
-> > > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > > @@ -1322,11 +1322,13 @@ PAGE_SIZE multiple when read back.
-> > >         reclaim induced by memory.reclaim.
-> > >
-> > >    memory.peak
-> > > -       A read-only single value file which exists on non-root
-> > > -       cgroups.
-> > > +       A read-write single value file which exists on non-root cgroups.
-> > > +
-> > > +       The max memory usage recorded for the cgroup and its descendants since
-> > > +       either the creation of the cgroup or the most recent reset.
-> > >
-> > > -       The max memory usage recorded for the cgroup and its
-> > > -       descendants since the creation of the cgroup.
-> > > +       Any non-empty write to this file resets it to the current memory usage.
-> > > +       All content written is completely ignored.
-> > >
-> > >    memory.oom.group
-> > >         A read-write single value file which exists on non-root
-> > > @@ -1652,11 +1654,13 @@ PAGE_SIZE multiple when read back.
-> > >         Healthy workloads are not expected to reach this limit.
-> > >
-> > >    memory.swap.peak
-> > > -       A read-only single value file which exists on non-root
-> > > -       cgroups.
-> > > +       A read-write single value file which exists on non-root cgroups.
-> > > +
-> > > +       The max swap usage recorded for the cgroup and its descendants since
-> > > +       the creation of the cgroup or the most recent reset.
-> > >
-> > > -       The max swap usage recorded for the cgroup and its
-> > > -       descendants since the creation of the cgroup.
-> > > +       Any non-empty write to this file resets it to the current swap usage.
-> > > +       All content written is completely ignored.
-> > >
-> > >    memory.swap.max
-> > >         A read-write single value file which exists on non-root
-> > > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> > > index 8f2f1bb18c9c..abfa547615d6 100644
-> > > --- a/mm/memcontrol.c
-> > > +++ b/mm/memcontrol.c
-> > > @@ -25,6 +25,7 @@
-> > >   * Copyright (C) 2020 Alibaba, Inc, Alex Shi
-> > >   */
-> > >
-> > > +#include <linux/cgroup-defs.h>
-> > >  #include <linux/page_counter.h>
-> > >  #include <linux/memcontrol.h>
-> > >  #include <linux/cgroup.h>
-> > > @@ -6915,6 +6916,16 @@ static u64 memory_peak_read(struct cgroup_subsys_state *css,
-> > >         return (u64)memcg->memory.watermark * PAGE_SIZE;
-> > >  }
-> > >
-> > > +static ssize_t memory_peak_write(struct kernfs_open_file *of,
-> > > +                                char *buf, size_t nbytes, loff_t off)
-> > > +{
-> > > +       struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-> > > +
-> > > +       page_counter_reset_watermark(&memcg->memory);
-> > > +
-> > > +       return nbytes;
-> > > +}
-> > > +
-> > >  static int memory_min_show(struct seq_file *m, void *v)
-> > >  {
-> > >         return seq_puts_memcg_tunable(m,
-> > > @@ -7232,6 +7243,7 @@ static struct cftype memory_files[] = {
-> > >                 .name = "peak",
-> > >                 .flags = CFTYPE_NOT_ON_ROOT,
-> > >                 .read_u64 = memory_peak_read,
-> > > +               .write = memory_peak_write,
-> > >         },
-> > >         {
-> > >                 .name = "min",
-> > > @@ -8201,6 +8213,16 @@ static u64 swap_peak_read(struct cgroup_subsys_state *css,
-> > >         return (u64)memcg->swap.watermark * PAGE_SIZE;
-> > >  }
-> > >
-> > > +static ssize_t swap_peak_write(struct kernfs_open_file *of,
-> > > +                                char *buf, size_t nbytes, loff_t off)
-> > > +{
-> > > +       struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-> > > +
-> > > +       page_counter_reset_watermark(&memcg->swap);
-> > > +
-> > > +       return nbytes;
-> > > +}
-> > > +
-> > >  static int swap_high_show(struct seq_file *m, void *v)
-> > >  {
-> > >         return seq_puts_memcg_tunable(m,
-> > > @@ -8283,6 +8305,7 @@ static struct cftype swap_files[] = {
-> > >                 .name = "swap.peak",
-> > >                 .flags = CFTYPE_NOT_ON_ROOT,
-> > >                 .read_u64 = swap_peak_read,
-> > > +               .write = swap_peak_write,
-> > >         },
-> > >         {
-> > >                 .name = "swap.events",
-> > > diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-> > > index 41ae8047b889..681972de673b 100644
-> > > --- a/tools/testing/selftests/cgroup/test_memcontrol.c
-> > > +++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-> > > @@ -161,12 +161,12 @@ static int alloc_pagecache_50M_check(const char *cgroup, void *arg)
-> > >  /*
-> > >   * This test create a memory cgroup, allocates
-> > >   * some anonymous memory and some pagecache
-> > > - * and check memory.current and some memory.stat values.
-> > > + * and checks memory.current, memory.peak, and some memory.stat values.
-> > >   */
-> > > -static int test_memcg_current(const char *root)
-> > > +static int test_memcg_current_peak(const char *root)
-> > >  {
-> > >         int ret = KSFT_FAIL;
-> > > -       long current;
-> > > +       long current, peak, peak_reset;
-> > >         char *memcg;
-> > >
-> > >         memcg = cg_name(root, "memcg_test");
-> > > @@ -180,12 +180,32 @@ static int test_memcg_current(const char *root)
-> > >         if (current != 0)
-> > >                 goto cleanup;
-> > >
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak != 0)
-> > > +               goto cleanup;
-> > > +
-> > >         if (cg_run(memcg, alloc_anon_50M_check, NULL))
-> > >                 goto cleanup;
-> > >
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak < MB(50))
-> > > +               goto cleanup;
-> > > +
-> > > +       peak_reset = cg_write(memcg, "memory.peak", "\n");
-> > > +       if (peak_reset != 0)
-> > > +               goto cleanup;
-> > > +
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak > MB(30))
-> > > +               goto cleanup;
-> > > +
-> > >         if (cg_run(memcg, alloc_pagecache_50M_check, NULL))
-> > >                 goto cleanup;
-> > >
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak < MB(50))
-> > > +               goto cleanup;
-> > > +
-> > >         ret = KSFT_PASS;
-> > >
-> > >  cleanup:
-> > > @@ -817,13 +837,14 @@ static int alloc_anon_50M_check_swap(const char *cgroup, void *arg)
-> > >
-> > >  /*
-> > >   * This test checks that memory.swap.max limits the amount of
-> > > - * anonymous memory which can be swapped out.
-> > > + * anonymous memory which can be swapped out. Additionally, it verifies that
-> > > + * memory.swap.peak reflects the high watermark and can be reset.
-> > >   */
-> > > -static int test_memcg_swap_max(const char *root)
-> > > +static int test_memcg_swap_max_peak(const char *root)
-> > >  {
-> > >         int ret = KSFT_FAIL;
-> > >         char *memcg;
-> > > -       long max;
-> > > +       long max, peak;
-> > >
-> > >         if (!is_swap_enabled())
-> > >                 return KSFT_SKIP;
-> > > @@ -840,6 +861,12 @@ static int test_memcg_swap_max(const char *root)
-> > >                 goto cleanup;
-> > >         }
-> > >
-> > > +       if (cg_read_long(memcg, "memory.swap.peak"))
-> > > +               goto cleanup;
-> > > +
-> > > +       if (cg_read_long(memcg, "memory.peak"))
-> > > +               goto cleanup;
-> > > +
-> > >         if (cg_read_strcmp(memcg, "memory.max", "max\n"))
-> > >                 goto cleanup;
-> > >
-> > > @@ -862,6 +889,27 @@ static int test_memcg_swap_max(const char *root)
-> > >         if (cg_read_key_long(memcg, "memory.events", "oom_kill ") != 1)
-> > >                 goto cleanup;
-> > >
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak < MB(29))
-> > > +               goto cleanup;
-> > > +
-> > > +       peak = cg_read_long(memcg, "memory.swap.peak");
-> > > +       if (peak < MB(29))
-> > > +               goto cleanup;
-> > > +
-> > > +       if (cg_write(memcg, "memory.swap.peak", "\n"))
-> > > +               goto cleanup;
-> > > +
-> > > +       if (cg_read_long(memcg, "memory.swap.peak") > MB(10))
-> > > +               goto cleanup;
-> > > +
-> > > +
-> > > +       if (cg_write(memcg, "memory.peak", "\n"))
-> > > +               goto cleanup;
-> > > +
-> > > +       if (cg_read_long(memcg, "memory.peak"))
-> > > +               goto cleanup;
-> > > +
-> > >         if (cg_run(memcg, alloc_anon_50M_check_swap, (void *)MB(30)))
-> > >                 goto cleanup;
-> > >
-> > > @@ -869,6 +917,14 @@ static int test_memcg_swap_max(const char *root)
-> > >         if (max <= 0)
-> > >                 goto cleanup;
-> > >
-> > > +       peak = cg_read_long(memcg, "memory.peak");
-> > > +       if (peak < MB(29))
-> > > +               goto cleanup;
-> > > +
-> > > +       peak = cg_read_long(memcg, "memory.swap.peak");
-> > > +       if (peak < MB(19))
-> > > +               goto cleanup;
-> > > +
-> > >         ret = KSFT_PASS;
-> > >
-> > >  cleanup:
-> > > @@ -1295,7 +1351,7 @@ struct memcg_test {
-> > >         const char *name;
-> > >  } tests[] = {
-> > >         T(test_memcg_subtree_control),
-> > > -       T(test_memcg_current),
-> > > +       T(test_memcg_current_peak),
-> > >         T(test_memcg_min),
-> > >         T(test_memcg_low),
-> > >         T(test_memcg_high),
-> > > @@ -1303,7 +1359,7 @@ struct memcg_test {
-> > >         T(test_memcg_max),
-> > >         T(test_memcg_reclaim),
-> > >         T(test_memcg_oom_events),
-> > > -       T(test_memcg_swap_max),
-> > > +       T(test_memcg_swap_max_peak),
-> > >         T(test_memcg_sock),
-> > >         T(test_memcg_oom_group_leaf_events),
-> > >         T(test_memcg_oom_group_parent_events),
-> > > --
-> > > 2.40.1
-> > >
-> >
-> >
-> > --
-> > David Finkel
-> > Senior Principal Software Engineer, Core Services
-> 
-> 
-> 
-> -- 
-> David Finkel
-> Senior Principal Software Engineer, Core Services
-
+diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
+index efb7771273bb..62a8d2b4711d 100644
+--- a/Documentation/accel/qaic/qaic.rst
++++ b/Documentation/accel/qaic/qaic.rst
+@@ -147,12 +147,6 @@ DRM_IOCTL_QAIC_PERF_STATS_BO
+   recent execution of a BO. This allows userspace to construct an end to end
+   timeline of the BO processing for a performance analysis.
+ 
+-DRM_IOCTL_QAIC_PART_DEV
+-  This IOCTL allows userspace to request a duplicate "shadow device". This extra
+-  accelN device is associated with a specific partition of resources on the
+-  AIC100 device and can be used for limiting a process to some subset of
+-  resources.
+-
+ DRM_IOCTL_QAIC_DETACH_SLICE_BO
+   This IOCTL allows userspace to remove the slicing information from a BO that
+   was originally provided by a call to DRM_IOCTL_QAIC_ATTACH_SLICE_BO. This
 -- 
-Michal Hocko
-SUSE Labs
+2.33.0
+
