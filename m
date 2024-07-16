@@ -1,87 +1,139 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54576145345;
-	Tue, 16 Jul 2024 12:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BFC1990D6
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 13:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721134474; cv=none; b=Fnf8EpJB3VIEXt4EWRm1+EqINqcTemI7+u4M9fnONaZhExcKG6nu5xlkIqv4UrTfFQaOKi2GJ43Opz8ho0sdaLcwvbe5GSRX/M82JzPTQ3lZBG5VYhAW7HYq4gx1Q/yOiJ+ebPk+gGNu2IZ6fnot5+J4Rr/GL0uHNYxAJWljKhU=
+	t=1721135974; cv=none; b=lts0jfm/ziw8xGd/aLMCSEtW6s2Lhu9hD77FviiKU0AUtblwlk4MADEFeNlx38TmxMsLU7GhkLWnxG2EXd98XR2psOFxr+9Q+DE/UHZEno+ZDoHZxNHQJgQCvCmq6xLSmGnSx6h8q4ACozxpAACYT/enpPcGEwiNuxKz3aOidK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721134474; c=relaxed/simple;
-	bh=w443Y11DSvLdjuKg9qpLGp5NVOHIdcdYJsD2BsPm4BA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XF+bXVpW2QD7YZy2nZNQam7gdXlfDjGVTiap33Sw+S0a44QQZpyAHQLKJyavarh0s8iIko4xT0n35PRkwjWN4oDXvGYZFitqvHZHC3CkzbYKnVw2ID2Joqkz/hZEJWXfct8g+6WZARIhvXKMXriW6TETJG7PaKqCJ+9jQE2JjQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8o1cY6Q; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721135974; c=relaxed/simple;
+	bh=WTugn9Q1KNgE9p5PV4NC3ozQPXXa0gX5GdqP2g+iyWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K4p5ZtjY58JlsPg1aq79BB9YEkge+yw5ux7tQ88HesyyTh3U4P9wemrsAKTRLAwtYI6JVEGPVJVnos0fNFMUVlQ1/qBUoEIQxfOiH7WcLarXI3xw8yxuPhFZJpgLlIc/7GTkhtC8PcTwZSTiTvT7rn0FnneYnn4cjj3/00+6dCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=aawiP+2H; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8o1cY6Q"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52e954d7bd5so502928e87.2;
-        Tue, 16 Jul 2024 05:54:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="aawiP+2H"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52e9944764fso6369543e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 06:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721134470; x=1721739270; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w443Y11DSvLdjuKg9qpLGp5NVOHIdcdYJsD2BsPm4BA=;
-        b=l8o1cY6Q+kHHe12nGttEXjjCTnJZcFDqII+WTm7NbiUnZwbdwdZxqomMnRA9h99LAq
-         om52ehAtDxPVBf2NaB+KSY+ZlEtGm1kyVFgKDz4KrL0/+Mq/XIpIHtr0khBs8DReGxhR
-         N/+Yalm7pRAe3inx8Yna+pN7rCV/wIrH/lxugWp0mOBdqTBKD/44eXKVRkNGPIlf+f6Z
-         V9zEigT4ECCvFDCQwI5fhaCxbOZP1YoBM15RFXbWvli2GoH4FQ2xcapfasO/gj2G501l
-         diAUoFOiyItu+YGhxKjdEtvzrDe5wdTzomF66ITHm/hSD9XsaNIpCQc0e8UStdttTfqD
-         L3Gg==
+        d=suse.com; s=google; t=1721135969; x=1721740769; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TAlKCocTKV2Z8OTI/zDyKU1Nj0a/ekaC0DzlUNA8/NA=;
+        b=aawiP+2HZlJsT+7i8ESkmGcUfAL4E3Lt9J5tBa5JEHZyQFryNu9lS0GC7br9t2VNoC
+         xvrjVNwGGXY/GApM6cVrLAIG0WgLGOUV37RTPbB/ApcOqA/VoduVdIlHkkbcZMHcF18+
+         4xKThyiuGnnIMsMPmqVu5OFr7ixp4ZWdsgmUaVtul5zS8Q4MFOJwmy6qyWqDLHrRfFDk
+         TaeBbQOhatHYniRwvE8NLvzZxmGrigikUTP1upfpmNKheWKLYWESpP/8tkryMKR7PE0w
+         dLOeaItwjPY1hB/f1S2bvnukLWavLOwMjD+Z20AlN/akIDfqWprgETE/bP091S2mVqO0
+         0xSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721134470; x=1721739270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w443Y11DSvLdjuKg9qpLGp5NVOHIdcdYJsD2BsPm4BA=;
-        b=JexbJZ1evlEZGYlTaQRK8mZO5X2805Iyv1wJZn/16oasICZ2RU7gH2OnXolVKgaRz8
-         FfZTC+G80wl5gKaflsIN84oLEb68HKXc+89s6eHWR0MW1xE+a8H3QpC4X6WQxYgNr7LA
-         N/+Nwi/1J2j5n6otNOy5t77Z8zSkLRfm/r59i5LswCdUCpdCQBY6rT9AhRC8D3x7Ukmw
-         EJ4NsvNZ0Usu8+lnNeu4YB7bRrN8p4NrbOQJH88zxHam0PzgaKwjpq5bMSr5RkuvGO9a
-         O+J7/yrpzqZ1+0oHa6U3eMe7dYUNoDu77Jji6K2VgyRab3HRmRe4TU0IbOyCPlblVvlB
-         Dnqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWB3uVuxOsjKMfw0QnGwR4FKKKZYG2PxwBxb1m4HSRf4FpCpYXxy47Shaq3bFCTC09OEkZeM1Fbri4HlAKSHvaiqn3sf9qaRhrZTTUgzGrMyXR9HMsGBg8j3z2CEu5r3gFzqqfwqhawJJXFluHkrrcdTXE3Q41qQN5WFjFpymDd6DO7MA==
-X-Gm-Message-State: AOJu0YwvHaG27E01gLRZetj/yZTDhHNzRTzbPGkn0k7OeR7d9g3E63zH
-	5YcqDUg7eCtrID/o4dOP++MOC4mnnO0FQNMbxNGRTcmYeGX0lWnLIwLTP0ayjv2tw5yt6sBaONF
-	+OtDdl9PlVoZ5SOJF3/KA6n+N/rQ=
-X-Google-Smtp-Source: AGHT+IG/vrVAKsY/0W0RBArGdtvKS4CIa8jX+XOvYmA8Zc1PfQP9HbEO8nW0OSq4gwRGiSV2PfZYdZTJA1TRv6MNPlg=
-X-Received: by 2002:a05:6512:2381:b0:52e:7bb4:942d with SMTP id
- 2adb3069b0e04-52ede18f4famr1143999e87.1.1721134470099; Tue, 16 Jul 2024
- 05:54:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721135969; x=1721740769;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TAlKCocTKV2Z8OTI/zDyKU1Nj0a/ekaC0DzlUNA8/NA=;
+        b=PN2pQGb2wLCU0Z+d9OVMtj/dZNAd1CqpgZKtPbaCfSYn7rdzT+hNTqHVbD8SWIL2wn
+         exTdnD0uCPPkMJBCGo5UKph9f73ce7KAOfAXKQyQUqp6U8PxcLWZooTKYgM5KcDOyxN1
+         sQkAVw/mb6+SGFWnOGjmAjD4W54P0t4aukfXcCAPuuQLGFvrKwRU0Ewv4nCIeW7Mouhk
+         GCS4n051uP//ldavy1xCw2IDA9IodIkkdX4bbO6TkihalTmNgkTd+pKkc9Rv9f4w42G7
+         c+OjYzXt0v+VZYH9kvBTgWii4vdnSTXNuL15VvSKvgOQXS8zRoTR/h9fHNhezx/rD3uS
+         jKHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+gNe80ddrjKNN1yAPzM9uf7HSiLj0j7FEQzd07zoyLURgHa0e4TCdhd5zBOTgpj2DZ/XyQ6yJi1N9OU6aAuEull/5WpRbkkeS
+X-Gm-Message-State: AOJu0YxBYmo2fiSgKFjxoIvCPr2fBRKsscKd3T+vEop8CnlP5/WJhWFz
+	r8esyqBWOSQ1bs0n9/YdI/pGaE1QKgeWrZtwDTLF7wxM5IfUZJbrCh2A6+JbCFY=
+X-Google-Smtp-Source: AGHT+IGZhu210XhKfrl+D1o9RMwwEuk7GJineTGDspE4fOHXEfuk0VNWxNHYri5ev4eeWcldkYD7VQ==
+X-Received: by 2002:a05:6512:23aa:b0:52d:b1e4:b337 with SMTP id 2adb3069b0e04-52edef1e04bmr1616823e87.21.1721135969582;
+        Tue, 16 Jul 2024 06:19:29 -0700 (PDT)
+Received: from localhost (109-81-86-75.rct.o2.cz. [109.81.86.75])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-59b255275ccsm4956445a12.49.2024.07.16.06.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jul 2024 06:19:29 -0700 (PDT)
+Date: Tue, 16 Jul 2024 15:19:28 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: David Finkel <davidf@vimeo.com>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <ZpZzYM6kdQmq7TPI@tiehlicka>
+References: <20240715203625.1462309-1-davidf@vimeo.com>
+ <20240715203625.1462309-2-davidf@vimeo.com>
+ <CAFUnj5Oh_OsP4TikWTGT6cKKTnWLaBYpE5PGzcxLTp7b=UqLkQ@mail.gmail.com>
+ <CAFUnj5MahNvM+B2zynVtcnYKJ7LZHwBNEcPKGAdz-tesDeOXcw@mail.gmail.com>
+ <ZpYfKI6W1uSMkt5i@tiehlicka>
+ <CAFUnj5Mb82Yjih4-xZMS2Ge+1Oj+zm-ZVaoTak_SisZnv6G-0w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240712-imx-se-if-v5-0-66a79903a872@nxp.com> <20240712-imx-se-if-v5-5-66a79903a872@nxp.com>
- <ZpGr6qKjJKz14J+y@lizhi-Precision-Tower-5810> <AM9PR04MB860496FEE467B7CC7C2DF50895A22@AM9PR04MB8604.eurprd04.prod.outlook.com>
-In-Reply-To: <AM9PR04MB860496FEE467B7CC7C2DF50895A22@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 16 Jul 2024 09:54:18 -0300
-Message-ID: <CAOMZO5ChgVzfnh0COEbvDGKcmVPEjS83St0tRmKdhvKJDAt7xQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] firmware: imx: adds miscdev
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Frank Li <frank.li@nxp.com>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFUnj5Mb82Yjih4-xZMS2Ge+1Oj+zm-ZVaoTak_SisZnv6G-0w@mail.gmail.com>
 
-On Tue, Jul 16, 2024 at 1:50=E2=80=AFAM Pankaj Gupta <pankaj.gupta@nxp.com>=
- wrote:
+On Tue 16-07-24 08:47:59, David Finkel wrote:
+> On Tue, Jul 16, 2024 at 3:20 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 15-07-24 16:46:36, David Finkel wrote:
+> > > > On Mon, Jul 15, 2024 at 4:38 PM David Finkel <davidf@vimeo.com> wrote:
+> > > > >
+> > > > > Other mechanisms for querying the peak memory usage of either a process
+> > > > > or v1 memory cgroup allow for resetting the high watermark. Restore
+> > > > > parity with those mechanisms.
+> > > > >
+> > > > > For example:
+> > > > >  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
+> > > > >    the high watermark.
+> > > > >  - writing "5" to the clear_refs pseudo-file in a processes's proc
+> > > > >    directory resets the peak RSS.
+> > > > >
+> > > > > This change copies the cgroup v1 behavior so any write to the
+> > > > > memory.peak and memory.swap.peak pseudo-files reset the high watermark
+> > > > > to the current usage.
+> > > > >
+> > > > > This behavior is particularly useful for work scheduling systems that
+> > > > > need to track memory usage of worker processes/cgroups per-work-item.
+> > > > > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > > > > opinions),
+> >
+> > I do not understand the OOM-killer reference here. Why does it matter?
+> > Could you explain please?
+> 
+> Sure, we're attempting to bin-packing work based on past items of the same type.
+> With CPU, we can provision for the mean CPU-time per-wall-time to get
+> a lose "cores"
+> concept that we use for binpacking. With CPU, if we end up with a bit
+> of contention,
+> everything just gets a bit slower while the schedule arbitrates among cgroups.
+> 
+> However, with memory, you only have so much physical memory for the outer memcg.
+> If we pack things too tightly on memory, the OOM-killer is going to kill
+> something to free up memory. In some cases that's fine, but provisioning for the
+> peak memory for that "type" of work-item mostly avoids this issue.
 
-> Thanks for the explanation, Frank.
-> Will replace scope_guard with guard().
+It is still not clear to me how the memory reclaim falls into that. Are
+your workloads mostly unreclaimable (e.g. anon mostly consumers without
+any swap)? Why I am asking? Well, if the workload's memory is
+reclaimable then the peak memory consumption is largely misleading
+because an unknown portion of that memory consumption is hidden by the
+reclaimed portion of it. This is not really specific to the write
+handlers to reset the value though so I do not want to digress this
+patch too much. I do not have objections to the patch itself. Clarifying
+the usecase with your followup here would be nice.
 
-Please properly trim your replies to only the relevant context.
-
-Keeping the full message makes it too hard to locate your reply within
-such a big thread.
+Thanks for the clarification!
+-- 
+Michal Hocko
+SUSE Labs
