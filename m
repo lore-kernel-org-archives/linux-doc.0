@@ -1,210 +1,316 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11011034.outbound.protection.outlook.com [52.101.65.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3617CF16;
-	Tue, 16 Jul 2024 09:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721123784; cv=fail; b=HqkUtgZi2+sm0m4PRIvutOu2hXO6JkFXeetiVCoUA/tm/YzzpZwhehujQSwL+bSsQS7VD2+5uSJEDyMX8zds6JxRuBAthwp2d66FaNBlNFPZcOPy42oAbzWmODxj56MghGUE0gzj2kqcuZ5fEeD2olNKR1OYVzVBjwBKNckK0lY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721123784; c=relaxed/simple;
-	bh=o1id2tT7bDGpH658q1BFK+X6qmVC12rGiU9rN8Nrsjg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IC6T/g5PHoJpDT4F2HKyaJ+EM5CkemqkxVS+fgqkUBnkiTWgXUavTzWN9LcB3+Z3cgP+0x71TmPbIhXoyuv54nEmfbv6cSRJ0hGqnMeTXWGRZrRMqfm2rmmMvKPbcudFuuu+BvQptK54Xm+ZiEi8z4n6KCAVDIL/TVt5RMPmI24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=Y9pN6CNO; arc=fail smtp.client-ip=52.101.65.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA7B147C7D
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 10:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721127236; cv=none; b=r3io1ecvUDMgDGjD99KjBRg6CPPR8TeqXERLI8nl22EWAL5x5MaVPTdiI53pNZOCX+zEUNwZVpGuMoaU4pdoBLwWAJ3iURaMqHCuJy1o24mdxHg/aKZCd8ewKLN9/ebZMUbcSwFjFsuNulMS0uw252/u715Tr3kF89inrDGgfHY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721127236; c=relaxed/simple;
+	bh=OxYUo3dMEPdGobtzyErxpqUUU6F1LF/gvlaNAT7uPJ8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oQ/hDMUip3HK21DMYgMbSEdbREKIpk9DvX74ZVu1x/kTB/iXv0zmTZ5GVDerd/ymaB+KNj/I640eK9zScPRDNwTh0bLlBq/9E8Tg8mh2uAaL3L74pnXZqmc2lpq9FQhZESdP29NJY0dvAobdXvs4HVBDlDwteNKSSn0AUlDiwWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JCRTNPMB; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="Y9pN6CNO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KU8fjw7A5gq67L7XyomzT5N7Ewr1r2grOD0Mj6X+S3+xEwezOQym1hLNiuXvZ5my6CYafTmvvIJICla5WuClMyadJlTPySSDmZAQp8SA983ovC/OnXAFBVhwUSdGADS8lcBoPx+IUURURfOMmF+ZTo0FkaSqaek8UDypYm5btwiTRWh6BENt5FnHzarxUDz/IOdN/7n4kY13TcXMz1dPOBmdNcVTCbryEXCj4Jv/+Fovi+jHOnLl5qNrMGNGyUHFe3142DD/rzf4yvb3O8TpIx9/kD5z3YQKo/Z6gEDmKlwhTe3rttmtT1YRuQJGXTBYtOzLQImzfPvG+kFdde3qOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Su3nPn5CQDvNz2YKKX/zEG/xTyxhTIkHeapBvBI4xmk=;
- b=AUVQWcG/NLVSdmvammqwN+k5S5nU7m3JHqO4UvELHBYDqTGz9xvAKwNaFBcsrjpFIK289pLrTI9jtRAmtr5L83S7v80X4aMnI5MWqQgQsuYe7K/VuAt54OdNkcxTdhL0R91EkliPPrcW0IN0dpsaVXo1g+7vIi+5ksQvBVp1rx3Q+yzBngmImoLgcPJF3VAg940K4rGonh7liD7awMOhD28JPACYLd1bFoGogur9pmsc6EFq8eXX+e/49DAxVj4nK1F6zgqiUW3zOM15NCNtb8dISuO6pR8bzK6f5sGJiRs2DzXSj8tVlWTdE36k+zKMlPF9XlTv8my/pknJvZK26g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Su3nPn5CQDvNz2YKKX/zEG/xTyxhTIkHeapBvBI4xmk=;
- b=Y9pN6CNOZgd7m7o5TEXkExC+vmBYQOcR8H7nMl9UhHkZy6HYeVqAMpopMqTO08Vrf/5hlR3L0XMhv6Hc61HTKoq2VapleNBitCemhcg92O/agLiSyV51ZJMJH/NHV9U+tyJtjyf2fN1VAemNn1YCMfdMHkqmBPBFXsfIhBsU4SI=
-Received: from AS8PR04MB8450.eurprd04.prod.outlook.com (2603:10a6:20b:346::5)
- by AM7PR04MB6984.eurprd04.prod.outlook.com (2603:10a6:20b:de::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.14; Tue, 16 Jul
- 2024 09:56:18 +0000
-Received: from AS8PR04MB8450.eurprd04.prod.outlook.com
- ([fe80::c1b2:719:a52f:26cc]) by AS8PR04MB8450.eurprd04.prod.outlook.com
- ([fe80::c1b2:719:a52f:26cc%7]) with mapi id 15.20.7762.020; Tue, 16 Jul 2024
- 09:56:18 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-CC: Cristian Marussi <cristian.marussi@arm.com>, "Peng Fan (OSS)"
-	<peng.fan@oss.nxp.com>, Jonathan Corbet <corbet@lwn.net>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>, "linux-rtc@vger.kernel.org"
-	<linux-rtc@vger.kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>
-Subject: RE: [PATCH v5 1/7] Documentation: firmware-guide: add NXP i.MX95 SCMI
- documentation
-Thread-Topic: [PATCH v5 1/7] Documentation: firmware-guide: add NXP i.MX95
- SCMI documentation
-Thread-Index: AQHaw6gJ3kigbFXI4ku+minp7wB8vbHxoakAgAYwAHCAABSwAIABXqTg
-Date: Tue, 16 Jul 2024 09:56:18 +0000
-Message-ID:
- <AS8PR04MB8450D6EB9E61E73802F402A888A22@AS8PR04MB8450.eurprd04.prod.outlook.com>
-References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
- <20240621-imx95-bbm-misc-v2-v5-1-b85a6bf778cb@nxp.com>
- <Zo_bFnjWixZF6seV@pluto>
- <DB9PR04MB8461684315E753DAFDDBACA788A12@DB9PR04MB8461.eurprd04.prod.outlook.com>
- <ZpUdMmvucei9lLPI@bogus>
-In-Reply-To: <ZpUdMmvucei9lLPI@bogus>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR04MB8450:EE_|AM7PR04MB6984:EE_
-x-ms-office365-filtering-correlation-id: 9af58311-c212-40bd-4caf-08dca57d89eb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?+G9ANsonxQScfzBwhgfoQXQVjKtT1nqO894MEBqXDZy+0j87cySd57WgxrKa?=
- =?us-ascii?Q?KJ7AOS85K2iRAhB6sHrHm5RruGCXHe4YwqkBQINGy0NQnJBJOLoC422OhKRD?=
- =?us-ascii?Q?lzoG3VImrvXslyIFK0cQFGTg33a6tIQfLZ/aeB11uFuD38wZZo7nhlxO8L4D?=
- =?us-ascii?Q?YAtsG1AkfEbJJ0YfkdXPlRClUCSvCcIz/+AynG9OY7cLNQkDsZBTMpyOOT5B?=
- =?us-ascii?Q?azL5W7glEC9vz7m2UlIuMYk0RXVuUl2frK8MkmaOigjCp6MJ3vOGRpplmNHt?=
- =?us-ascii?Q?Vpv9Pi2DZ+U8+Kzk8r0v/HnZg3/8i62GFsXtSzPgPwfFxvO0a/xPcRj7N9mw?=
- =?us-ascii?Q?FbkCZ3jlhfK2pJxAgEkvXxC622CGi5h9dHHuia6N+Y5vGA9rsI4xsZ/mv8Bv?=
- =?us-ascii?Q?edj7iOd9Zbb9Xy+2WRWjQ4QZL0ImHU6BlVb9XTUcihJbFe6RyN8LBrt+MPtJ?=
- =?us-ascii?Q?pV8tRa6+05OnmvAlI7c9H4VrtmpKrZXdqGy87mJHU+SXHp5EhvEj2s6TonLE?=
- =?us-ascii?Q?1iPrXoFzzEr8nWd4fgQP7CJTLaFanUTHtgvYWZ26PEkA5L3i9ca+G37tYqQS?=
- =?us-ascii?Q?1nZ0txOL3BfOF5aOAZWf8FzvF1dttU/e60X8Rm+YQjxhmuvzJoI5GAk++uyZ?=
- =?us-ascii?Q?kXmIOVaXYpGm8qwHMSGVa+RYHMIMIFGDuAmGYCRZbxDCPeFvOB0P7/rPbX9b?=
- =?us-ascii?Q?kfaOhIrq6wEB0Zr7CegZg3Ch0VT0ycAlGL2HI321Gb24T0FU4/SBeng8lEks?=
- =?us-ascii?Q?5yFsNMumL4yvX+DrIRdW5UtUsRMhSfFtt5eQb7Rft6NV3ps6Fjaobd9zCrs9?=
- =?us-ascii?Q?JOM8qGhZtxwMKWC7oafeFU0HibaFiAERCf8gAbXMDZWiPuV6iMNXro4VmnhJ?=
- =?us-ascii?Q?EcEFeuH9VT0guHZ0iMF/EniF1lYP77otGutnRfMIm8DoG7s2jsUjCcWbbkB7?=
- =?us-ascii?Q?5H4Triue46i2mfBGgBaknauEvP5LJR9lrkQbe5drYJDj+3Y1lphb40Pb1tEs?=
- =?us-ascii?Q?D0WslF03P+5Zr0bBrR/cNDw1ojOWP/Tpgq7p8Ft6LjzGmdPDxLTHBVEN3AZL?=
- =?us-ascii?Q?GPFCKcvBh0bL3hjq/z1ek1CNUItTpESKCCs8lxVk90sVV8nwYiDsnahQs36U?=
- =?us-ascii?Q?TpL8nbKc6WE2WqX8HWGLgwg8LsAV81t8zEJsm5HVRYZ+hcnwwmgNJogjkgZz?=
- =?us-ascii?Q?Jsn/5eXWtBvJAssQjIFgAAMK3inNDQVRQZ1zFBQO1z3Y6B2NPm5tVsWXX1dK?=
- =?us-ascii?Q?YYz8aeuxe796mrflyY5RfIlu6JkkyHpnZDbIk57lb5rQd+IjptYDQr2S/cKS?=
- =?us-ascii?Q?xrXJJlKsZ3uzPlCVKvcLxg/x8poc2iWPTbcyHy2CfdfMHXbauer9hV+rXR9E?=
- =?us-ascii?Q?yEHiLBs=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8450.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?UkbI9L7CEB8G5sq/OAdP6fB6ekkNaFKVIGbpKIXPMgQFXbEgNl/FJPXXuRqa?=
- =?us-ascii?Q?GqaJXa/40yGDl6yDSeO9K04vek4e8et4jYEVWxl1UyeeHsqo5SztDkYMiR9k?=
- =?us-ascii?Q?n1yMOPe5ukO3dTRMDnJHHmll/ukDZdgkspLp8r4HLc0DclRb9CMelVPsG/OE?=
- =?us-ascii?Q?R7rTAtAb4Ktr2VgLm6RNnn52FekDir2t9bfaZlGoe1O6k3tnfBt8VGdLmJda?=
- =?us-ascii?Q?Q5QLSpa5EIwQxG+HEadCiaMRKh8zEUpjxIzQIoJOZJjo+CVqfg2kR6DkymP6?=
- =?us-ascii?Q?PwKf+Vqe+Rc89RSRbK/N6Dg1M9mlbwwPhmmesC+RDyCSuKVXAlJ6m+Wmb/kF?=
- =?us-ascii?Q?Njsqf9IMUIE6X514aOZaqWeZL77dyvjI7cMWqDOV9vbBb2X7LlkgHvWOVbrq?=
- =?us-ascii?Q?bmmdt8YVpCU9bCFBaONTLU+tJqnjRh6fJNiqz63hnZGsOSpN94UfFI5StAQ1?=
- =?us-ascii?Q?j1Baor58h9eOGi2YmgY6XcDesx5gQLn+SxGSQjqU2o20JG1F/Wx+KuCPea+k?=
- =?us-ascii?Q?1NbZHg4u8e3RES9Otd8ClCNvEWdG7ROc6patLlvadw/7IHM2x2UW/eXrlyNQ?=
- =?us-ascii?Q?5aY12VpJXuwUZhDtdQVJDovw4ou09HDx4YyYb11WlLaefhFGQOB4P66njORP?=
- =?us-ascii?Q?Yu1rVRMSTo25ri56aHmM9uCH7opTFWOK66iNlMxpUjx4y6x56IRZdZSNCcKd?=
- =?us-ascii?Q?FDOTPJdtq8dZhw6zoJX7hvqj4HDrXoPENHODweIKBlkeUVgFu9+QvdJf3s+B?=
- =?us-ascii?Q?ciUzAwCAARzgpCGT/K3Rp4rfz48+hcMn2cTI30V9+46fCXj0+CaARDhey/XP?=
- =?us-ascii?Q?Y0HVW/TzZj2fRpuuPCUVyZ05VK6Ibfa6P8CHrv2Ktbd8bRlN1dLeygnA7gDA?=
- =?us-ascii?Q?7IaUBan9Rg+e52CCNMcL8ZkoS51YWT1srFV+cx+SDl9XGg1AzETgYS5yOAwO?=
- =?us-ascii?Q?lGlA42FaxwvcvjobMraXFXtx3vG3b7aSkn3mQIHAe3euJ52NssCm6DhhYB7F?=
- =?us-ascii?Q?GkVY9xfO4Gtye7y6EYFjxo/f9pFTSVIDnEuRvpE0IYBKKduqCGs9H0L979f0?=
- =?us-ascii?Q?yXpKPUx51UCoOC0elbbXoY8Na4XkP2OIwAyiLcy7U9p2HUB6qHUlskS0yr1y?=
- =?us-ascii?Q?fJYJgx8Ci5GlRIpnvInk21h9Yeo43PM5k3kmyoUl/t6f8d4J57hNm7JQ/5NZ?=
- =?us-ascii?Q?WfPHTRO+4yzFbqsvKL1D8QvdI9qrM69glNS4Ws7YhDKUauJvRRm71Fig+Q+Q?=
- =?us-ascii?Q?BfWx9Pfn5Q1yM57qjA0UIV8gah4VI68++edRxQQNoyTKYCVigbRvQqroGokI?=
- =?us-ascii?Q?gI8OWPKfktinSvRO/+AKSXn4j3MPmIryOiZEkkPjlp/tfcUtYMNP77eJjcAm?=
- =?us-ascii?Q?qfZ1Qm8JHF8S5h/y63Ah2s7blDZ3FtiLY1Sbs+vEdFJRXcRnhd5wW8kXEO5c?=
- =?us-ascii?Q?GQbJh2CSr6L6VbsN8jNGh/s0/Pyodbv6+b73Ql36cJIf49WDd8tzxMv/N2ok?=
- =?us-ascii?Q?sEbR5NRJTyRUbVX8nDvHdINasyFNLYPDrm+XNPp7meEQazefra7ctaJJ+6Hf?=
- =?us-ascii?Q?OrTTuW03B5GUh8Er++o=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JCRTNPMB"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-367b8a60b60so2941419f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 03:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721127233; x=1721732033; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
+        b=JCRTNPMBG0l3s0VDQhluZ20TIiRc+2tMKD0M29iGUgATHaAPJZnolA+1SQPMkUgPmQ
+         EykPjQGlCMAbSSVcuwWgqJm+oufxSE8Cf9VNob2ih8gXsrbluDhA3mcLGgbRRzRyJ/N3
+         c0R4cSkKzEeoOOzfF7D5LeF244O+spJ1x/PWt7IZNvSmnNzn2/vFcYoswmCXMzlLmtYm
+         YfnbDfOwDd+lhugun+Zs/q+iX7K0zsHxP+Dp8q3+ZqSdrf+vpE4ph12gcYKS5yG6aTPO
+         vEtMN7S2hEVkHbvmVIhP3rvK67nAPexk9jc4xtNdI/xw8rJNWjXocahREzTpQWaYzQcq
+         qabA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721127233; x=1721732033;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nXzIcAqpxHG7tPPh/elMPV6grh+ccM9HxfPCceHHxTA=;
+        b=EWQUgo1D3BnIkchEyZOCN/W9Qf0l9O+IAv4DASveLUbN9pgwFVPv9zd3LvreqPM0WO
+         QIIvIJi1vnhyjFJEc0dcgmSSEilI8WIXV5u0Vinrl+XOSO+55cJjbuGtHXbggqp2vUIz
+         IzbsdhT7M4350sRfo71+CJIjWw7v83M5HQorCjlAVen/iPP3qi7D8AUACADHNXQ+nzm6
+         jpBEL5uBTWGffQ6CVRFiN0xCm/vR43Y56Fig02pnLIZ7dMYTP7Gzu64eoLOrUAUG1Cqe
+         MKmZQwuefXLhAHbq4XWujea+iJ5G4AcL8t4WDUqT7TJ+QCypHErLQbe5KEO0UDy5MEMW
+         /t6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXs08Bmco8eV8UMMwTlvtTSib2mRGeOLPMcBd6Gr1nGAlcp1IqegUdMM1K8sbMLTslSiQd7YjvRdMAxiIKW8GupAgFuydwYttpP
+X-Gm-Message-State: AOJu0YyU+D67dR97umEolR6cIE6Jnynrw3Fnogb7YORmbBIY9O5IK8x6
+	u0IAtz79Ndae7B9VxVnrIl27w4cRAv1GI1Sl88kTEpmUfggwb2MtIBdatMjqKZk=
+X-Google-Smtp-Source: AGHT+IF/XfpK3F6pBtU8SrWLC0nhPop0clUEctwox321fqXnnzwSGm7+wIyzDM/lhazbOaJDVhnWBg==
+X-Received: by 2002:a5d:6646:0:b0:367:8a9e:6bed with SMTP id ffacd0b85a97d-3682635b6e4mr874072f8f.61.1721127232379;
+        Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197? ([2a01:e0a:982:cbb0:f5ba:a94c:e43a:d197])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3680dafbf19sm8614509f8f.68.2024.07.16.03.53.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jul 2024 03:53:52 -0700 (PDT)
+Message-ID: <b35eb84d-5ed4-469c-8df3-d7e895bb910c@linaro.org>
+Date: Tue, 16 Jul 2024 12:53:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8450.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9af58311-c212-40bd-4caf-08dca57d89eb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2024 09:56:18.2793
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MrspTodSoOzubXk3TrvOXQp5EZ25QnQYWrmkNt3RN8MkJmE3nwGcBVcesLQORg5fPGpod8X9PHuIML0smSA57Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6984
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: Avoid warnings w/ panel-simple/panel-edp at
+ shutdown
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240621134427.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add NXP
-> i.MX95 SCMI documentation
->=20
-> On Mon, Jul 15, 2024 at 11:47:56AM +0000, Peng Fan wrote:
-> > > Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add
-> NXP
-> > > i.MX95 SCMI documentation
-> > >
-> > > On Fri, Jun 21, 2024 at 03:04:36PM +0800, Peng Fan (OSS) wrote:
-> > > > From: Peng Fan <peng.fan@nxp.com>
-> > > >
-> > > > Add NXP i.MX95 System Control Management Interface(SCMI)
-> > > vendor
-> > > > extensions protocol documentation.
-> > > >
-> > >
-> > > Hi,
-> > >
-> > > beside the final location of this file in the tree, and a few
-> > > nitpicks down below.
-> >
-> > Thanks for reviewing the patches. Except Documentation/firmware-
-> guide,
-> > I not have good idea where to put the API doc.
-> >
-> > Sudeep,
-> >   Do you have any suggestions?
-> >
->=20
-> Not really. But I am OK to keep it under
-> drivers/firmware/arm_scmi/vendor/docs
-> or something similar.
+On 21/06/2024 22:44, Douglas Anderson wrote:
+> At shutdown if you've got a _properly_ coded DRM modeset driver then
+> you'll get these two warnings at shutdown time:
+> 
+>    Skipping disable of already disabled panel
+>    Skipping unprepare of already unprepared panel
+> 
+> These warnings are ugly and sound concerning, but they're actually a
+> sign of a properly working system. That's not great.
+> 
+> We're not ready to get rid of the calls to drm_panel_disable() and
+> drm_panel_unprepare() because we're not 100% convinced that all DRM
+> modeset drivers are properly calling drm_atomic_helper_shutdown() or
+> drm_helper_force_disable_all() at the right times. However, having the
+> warning show up for correctly working systems is bad.
+> 
+> As a bit of a workaround, add some "if" tests to try to avoid the
+> warning on correctly working systems. Also add some comments and
+> update the TODO items in the hopes that future developers won't be too
+> confused by what's going on here.
+> 
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> This patch came out of discussion on dri-devel on 2024-06-21
+> [1]. NOTE: I have put all changes into one patch since it didn't seem
+> to add anything to break up the updating of the TODO or the comments
+> in the core into separate patches since the patch is all about one
+> topic and all code is expected to land in the same tree.
+> 
+> Previous versions:
+> v0: https://lore.kernel.org/r/20240604172305.v3.24.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid/
+> v1: https://lore.kernel.org/r/20240611074846.1.Ieb287c2c3ee3f6d3b0d5f49b29f746b93621749c@changeid
+> 
+> [1] https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&date=2024-06-21
+> 
+>   Documentation/gpu/todo.rst           | 35 +++++++++++++---------------
+>   drivers/gpu/drm/drm_panel.c          | 18 ++++++++++++++
+>   drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++-------
+>   drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++-------
+>   4 files changed, 68 insertions(+), 37 deletions(-)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 2ea6ffc9b22b..96c453980ab6 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -475,25 +475,22 @@ Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
+>   As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
+>   drm_panel"), we have a check in the drm_panel core to make sure nobody
+>   double-calls prepare/enable/disable/unprepare. Eventually that should probably
+> -be turned into a WARN_ON() or somehow made louder, but right now we actually
+> -expect it to trigger and so we don't want it to be too loud.
+> -
+> -Specifically, that warning will trigger for panel-edp and panel-simple at
+> -shutdown time because those panels hardcode a call to drm_panel_disable()
+> -and drm_panel_unprepare() at shutdown and remove time that they call regardless
+> -of panel state. On systems with a properly coded DRM modeset driver that
+> -calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
+> -the warning to fire.
+> -
+> -Unfortunately we can't safely remove the calls in panel-edp and panel-simple
+> -until we're sure that all DRM modeset drivers that are used with those panels
+> -properly call drm_atomic_helper_shutdown(). This TODO item is to validate
+> -that all DRM modeset drivers used with panel-edp and panel-simple properly
+> -call drm_atomic_helper_shutdown() and then remove the calls to
+> -disable/unprepare from those panels. Alternatively, this TODO item could be
+> -removed by convincing stakeholders that those calls are fine and downgrading
+> -the error message in drm_panel_disable() / drm_panel_unprepare() to a
+> -debug-level message.
+> +be turned into a WARN_ON() or somehow made louder.
+> +
+> +At the moment, we expect that we may still encounter the warnings in the
+> +drm_panel core when using panel-simple and panel-edp. Since those panel
+> +drivers are used with a lot of different DRM modeset drivers they still
+> +make an extra effort to disable/unprepare the panel themsevles at shutdown
+> +time. Specifically we could still encounter those warnings if the panel
+> +driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
+> +driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
+> +callback. Warnings could be avoided in such a case by using something like
+> +device links to ensure that the panel gets shutdown() after the DRM modeset
+> +driver.
+> +
+> +Once all DRM modeset drivers are known to shutdown properly, the extra
+> +calls to disable/unprepare in remove/shutdown in panel-simple and panel-edp
+> +should be removed and this TODO item marked complete.
+>   
+>   Contact: Douglas Anderson <dianders@chromium.org>
+>   
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index cfbe020de54e..19ab0a794add 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -161,6 +161,15 @@ int drm_panel_unprepare(struct drm_panel *panel)
+>   	if (!panel)
+>   		return -EINVAL;
+>   
+> +	/*
+> +	 * If you are seeing the warning below it likely means one of two things:
+> +	 * - Your panel driver incorrectly calls drm_panel_unprepare() in its
+> +	 *   shutdown routine. You should delete this.
+> +	 * - You are using panel-edp or panel-simple and your DRM modeset
+> +	 *   driver's shutdown() callback happened after the panel's shutdown().
+> +	 *   In this case the warning is harmless though ideally you should
+> +	 *   figure out how to reverse the order of the shutdown() callbacks.
+> +	 */
+>   	if (!panel->prepared) {
+>   		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
+>   		return 0;
+> @@ -245,6 +254,15 @@ int drm_panel_disable(struct drm_panel *panel)
+>   	if (!panel)
+>   		return -EINVAL;
+>   
+> +	/*
+> +	 * If you are seeing the warning below it likely means one of two things:
+> +	 * - Your panel driver incorrectly calls drm_panel_disable() in its
+> +	 *   shutdown routine. You should delete this.
+> +	 * - You are using panel-edp or panel-simple and your DRM modeset
+> +	 *   driver's shutdown() callback happened after the panel's shutdown().
+> +	 *   In this case the warning is harmless though ideally you should
+> +	 *   figure out how to reverse the order of the shutdown() callbacks.
+> +	 */
+>   	if (!panel->enabled) {
+>   		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
+>   		return 0;
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 3a574a9b46e7..8723cd190913 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -954,16 +954,24 @@ static void panel_edp_shutdown(struct device *dev)
+>   	 * drm_atomic_helper_shutdown() at shutdown time and that should
+>   	 * cause the panel to be disabled / unprepared if needed. For now,
+>   	 * however, we'll keep these calls due to the sheer number of
+> -	 * different DRM modeset drivers used with panel-edp. The fact that
+> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+> -	 * will try to disable/unprepare means that we can get a warning about
+> -	 * trying to disable/unprepare an already disabled/unprepared panel,
+> -	 * but that's something we'll have to live with until we've confirmed
+> -	 * that all DRM modeset drivers are properly calling
+> -	 * drm_atomic_helper_shutdown().
+> +	 * different DRM modeset drivers used with panel-edp. Once we've
+> +	 * confirmed that all DRM modeset drivers using this panel properly
+> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
+> +	 * calls below.
+> +	 *
+> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
+> +	 * PANEL DRIVERS.
+> +	 *
+> +	 * FIXME: If we're still haven't figured out if all DRM modeset
+> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
+> +	 * managed to make sure that DRM modeset drivers get their shutdown()
+> +	 * callback before the panel's shutdown() callback (perhaps using
+> +	 * device link), we could add a WARN_ON here to help move forward.
+>   	 */
+> -	drm_panel_disable(&panel->base);
+> -	drm_panel_unprepare(&panel->base);
+> +	if (panel->base.enabled)
+> +		drm_panel_disable(&panel->base);
+> +	if (panel->base.prepared)
+> +		drm_panel_unprepare(&panel->base);
+>   }
+>   
+>   static void panel_edp_remove(struct device *dev)
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 8345ed891f5a..022ffab2324a 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -726,16 +726,24 @@ static void panel_simple_shutdown(struct device *dev)
+>   	 * drm_atomic_helper_shutdown() at shutdown time and that should
+>   	 * cause the panel to be disabled / unprepared if needed. For now,
+>   	 * however, we'll keep these calls due to the sheer number of
+> -	 * different DRM modeset drivers used with panel-simple. The fact that
+> -	 * we're calling these and _also_ the drm_atomic_helper_shutdown()
+> -	 * will try to disable/unprepare means that we can get a warning about
+> -	 * trying to disable/unprepare an already disabled/unprepared panel,
+> -	 * but that's something we'll have to live with until we've confirmed
+> -	 * that all DRM modeset drivers are properly calling
+> -	 * drm_atomic_helper_shutdown().
+> +	 * different DRM modeset drivers used with panel-simple. Once we've
+> +	 * confirmed that all DRM modeset drivers using this panel properly
+> +	 * call drm_atomic_helper_shutdown() we can simply delete the two
+> +	 * calls below.
+> +	 *
+> +	 * TO BE EXPLICIT: THE CALLS BELOW SHOULDN'T BE COPIED TO ANY NEW
+> +	 * PANEL DRIVERS.
+> +	 *
+> +	 * FIXME: If we're still haven't figured out if all DRM modeset
+> +	 * drivers properly call drm_atomic_helper_shutdown() but we _have_
+> +	 * managed to make sure that DRM modeset drivers get their shutdown()
+> +	 * callback before the panel's shutdown() callback (perhaps using
+> +	 * device link), we could add a WARN_ON here to help move forward.
+>   	 */
+> -	drm_panel_disable(&panel->base);
+> -	drm_panel_unprepare(&panel->base);
+> +	if (panel->base.enabled)
+> +		drm_panel_disable(&panel->base);
+> +	if (panel->base.prepared)
+> +		drm_panel_unprepare(&panel->base);
+>   }
+>   
+>   static void panel_simple_remove(struct device *dev)
 
-ok, Cristian's patch not applied.
-https://lore.kernel.org/all/20240418095121.3238820-3-cristian.marussi@arm.c=
-om/
+LGTM and see if we have negative feedback
 
-So I will use
-drivers/firmware/arm_scmi/imx/docs in
-v6 patchset
-
-Regards,
-Peng.
-
->=20
-> --
-> Regards,
-> Sudeep
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
