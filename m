@@ -1,178 +1,281 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4831862C
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 06:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721112197; cv=none; b=Gy8CFO//wID60pJO41ejydJ6VDsVLzRtwzRc0XlHDbI5QouZHuty1qjSIt2pPL4b7QEof1bBU07qeDecb2VtpbExOxPKu2kw/Gnjb+cghUTOyHyzpEtgzSLvcdfv95OsShGv1bqCtWLV+2A8hplBvToq/k+iqDrMoRpR7xQnMHE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721112197; c=relaxed/simple;
-	bh=cX22zFtwRimUJm86XkOeZW6MomrWL+u3D25yx7dtpx4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qx0ZBKN/38RK3fadfQNpLIiCcWbrFO0wUvA9+bogX7oO2CMnwlajb2stytiVkYVNxnOMh0SPKdHwW+GhfGflkstBHWWC4PFjjK0exgBUMfnyEw4To12WIYlUUowie44KNYXSkigrrIftIAgwmgRiz04mWlZso9DUM396aw6Eslw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mduuE7GG; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB6C219F6;
+	Tue, 16 Jul 2024 07:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721113584; cv=fail; b=K3VEiyYDbVI+9K5Lx6l2xhY+gylpq7l5WYTA9tHEOg0zobWVd0LUJiAU0RLaCL8rSk2H61Ns3qbiJSzdRgurOyndl/x5cvZrWlhFDJBr3NAsK5WfgKm4yYCPqk6KgCLAw+9tJCqu+/1VDnqqv5eeNFyYkx2W1c+qrUvErC/NyUw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721113584; c=relaxed/simple;
+	bh=Z7+DUAKwSFDHfAsUp73OlkF81m9FtXJFOeAS7Artwuo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pMCIHfaf1ZYxNFnprZZYcJO0eKiPecwiy6o4NzLT54L4VaaflIqjafgxT8iX8WbNz7qEuSinETAQw3D2DNexBJ8gEZecWi9fLXv47mUAoijiKkbtv9WOX5Vty8BUdw5hU5Gyj9r5zlN4WnnJvf1ndky1HADB/GIPjwTuWUsdBJQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hpGPlBDh; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=toomteGe; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mduuE7GG"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a77e5929033so614433466b.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jul 2024 23:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hpGPlBDh";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="toomteGe"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46G2tT82025506;
+	Tue, 16 Jul 2024 07:05:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	corp-2023-11-20; bh=huVsarbt0PQqy5nxw/xMenY1wVvkP9AxlM9b4f340Ws=; b=
+	hpGPlBDhKNohYLSzOWoiEy6cLE4bbe9ajrcbMqSxBbfUaioQWjYqK/oLJQhgLFz9
+	6YoK2GJv+4w65MYMFpoqaEY5YAknBi1RhIr7Ff7W/EPfP2EOMp+qP6IqWiq3nKnW
+	SOEM5TeXMSvnj9IK15sDWvGEH5NM8mK4pXtO+I6Aor0SqlgQAF5b9OeJPtnIiO9D
+	08Wjd2flcjtwbXunWoApVH7WO1QyTPC6TRygZeGrcFnqx7zSp67q6lbOPvnOTyCT
+	rgDaVDdcG7ns2F96wv7T9445xnnLU2gtFpxiEhobGRnBVFOQ9t6HhSWGxmkJj3Gh
+	LCrCnWXYAS7K3Ty4N/8CWQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 40bhmcmwkp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Jul 2024 07:05:57 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 46G6E8Ej023520;
+	Tue, 16 Jul 2024 07:05:56 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2046.outbound.protection.outlook.com [104.47.51.46])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 40bg1f733h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Jul 2024 07:05:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hFPFI4mHwk8mBmb5tG1lL0nMwzb9oWZr/OF8889wzFPMuwIg+J9s5ozdMNN8GQ07PkLhYqnPqGSRzEITLyV9v3e8kON8+CO/7imhq1/grc72y2vR+uoeRQGyD8h+B5s9RYv6pAmZtmIkTwqED1c2cBp44qzIV1DsMthLQYi+TZ+yWxKA2+wcLC0UxB2aH2yZk4Oy3LY7B2Az6wp6hAEZcCf3sMjAnQZ2A1/oqT+OsvMZRI19bWct3rcqb3P46hEFV/K7ehDciJ1QGrqX3KZHnkaigtTXLEJqn7Cwjrt+qYJKT4SGjqRyMgYLT1QxPiL5SF1uKYony0ktOr8CahvGBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=huVsarbt0PQqy5nxw/xMenY1wVvkP9AxlM9b4f340Ws=;
+ b=DJFEYRFZNgShELLpVYqu8joDB6qdXqMl70mwBFkJSA6Imqlsv319YkadMnZaLFZj/czyn+D6AjDskN3PkXzW24hZoFDBMB4g5PLqc8/1L3FDu4n3R5MSpay6yCsMC7qOJXHZTNJ8XU9vkPF1lw3I+luVUMd4gHyac7T9XkjBqIhU5UEZKofQnSahZgQ8yL3Y4+dTkztvn/mOXXPLuB6Uj6/vPDqT1W3DCJukEusfnxUkJf7m/0p1rqrVJ8UMhoWekQprFql5PT6Evsl6U0lMT+O4mkmzdBOHcurHDUwdaRBaayMWAdtjO+vCNi1F8ngJmzvtvi7QJlLP7oEbQdiwpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721112194; x=1721716994; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cCRSoAuECKcouO/voz6zEzYgSUjC3FMdxbyfDTdU7og=;
-        b=mduuE7GGAjVzi3bl1ujtG7kPW1V32jLVMMytoJFuMyyRn5WP1Lg0uPv0pZZBMgMyFI
-         VI5MiFafzskKFKJG6tXWgAu2aW3nUtLiwfzi7qB/ivvof6jQQkV8JGjk8PjgcCDxvomU
-         s9S4cUyE/p2Tg/1+wJNvY3nbuljE7E+7mNA6JRQEj0MF46+hzf0XUL8pCZR9LdAXBIMc
-         uoSh1+rZuG6Da3ZPqmdiL9SP2U60VcQ0jnTlhRUUWfXRHnYMpguGQSZayr9bCIVvQL8L
-         jBcq0jEPcaUvJFSP18ZRjr+DbjZC/AH/K7SItf7SfR0OB8Hc0O7FQ/hmE37OGDi7BRpU
-         nnnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721112194; x=1721716994;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cCRSoAuECKcouO/voz6zEzYgSUjC3FMdxbyfDTdU7og=;
-        b=f9a48Al0SKPISaOhOPxpF3YZWCHNX9SWLGpoPVHZY5jpplnfhN7hRVOHMCmtVJstJh
-         PgbnCxGCthtG1I59uk5DRzuVshvitaWhvTDoPrC9uNY9u/QCl21/ejNSxWBEtlH3JVAW
-         T0j+zC/UKc9IIFfrRrRPz28o6UqYvZxYZU61q6zVInfrQuAPeX8wd7CUszh1vff5Hgtu
-         JxUayXrnA6qe5XeLLzRqXn8Cdsh5cuk7xdv2TiZmrU2Ig9t/inYz5ptDNu6HroeJcMKR
-         SKeFsmkCz33zOX7HFrbhVAfnHD3fRV/RVaqvB1fnfOCQIkKZW8n9xk2cIiVfg978LTMZ
-         hhAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2j6HplztQfMkimT4b9AYeWJQlwfHI2fe7/6DJ8/tDWtM5XmE54ll9XMWbcJ1hdp8d4BZkFevLdZBOlIINL+zhkwf+aVv5ZePy
-X-Gm-Message-State: AOJu0YzT0Zffq0etDHMqgxgI784Lfi91huwKVDNCP1znxhT89gn4fPqK
-	gYxHuXXIiJX509MAvLBCKfPGYPYTgnCEiPDjAX4+NGQwP83XzNr3owmBwARKdWXbj8T0vxNK7s9
-	c1bThnYKlYGfT0aYAFRCat0RqlGD0UgKp/+XAkA==
-X-Google-Smtp-Source: AGHT+IGqVByFr0luOwoskb/AgZKNB8jHzqqvJMaLn4zx34p82HWK9+YsdjHaH5Pd8zOz5r4AWhXGqXuvh7iA0eU4fIA=
-X-Received: by 2002:a17:906:c784:b0:a72:676a:7d7b with SMTP id
- a640c23a62f3a-a79ea3da90fmr69418966b.9.1721112194052; Mon, 15 Jul 2024
- 23:43:14 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=huVsarbt0PQqy5nxw/xMenY1wVvkP9AxlM9b4f340Ws=;
+ b=toomteGegobDVD3+wmh7hMheefcAKU768PdIdNG2ll3Fbwb18xfB3R714KcwqZbQ0N05P+w12Hq5xuSFefKfdFW/CZ+NkbRMaTaWjU8O7hnckrYK2jxI3tNhiN2Unh4tfCzL3zbMnfalMMBN9Jzg0q/cH0cIY2qrACu5dcoFzXw=
+Received: from SA2PR10MB4777.namprd10.prod.outlook.com (2603:10b6:806:116::5)
+ by PH8PR10MB6291.namprd10.prod.outlook.com (2603:10b6:510:1c2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Tue, 16 Jul
+ 2024 07:05:54 +0000
+Received: from SA2PR10MB4777.namprd10.prod.outlook.com
+ ([fe80::1574:73dc:3bac:83ce]) by SA2PR10MB4777.namprd10.prod.outlook.com
+ ([fe80::1574:73dc:3bac:83ce%5]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
+ 07:05:54 +0000
+Message-ID: <d095d235-e769-4472-9fad-339830277301@oracle.com>
+Date: Tue, 16 Jul 2024 12:35:35 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
+ cgroup.stat
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Roman Gushchin <roman.gushchin@linux.dev>
+References: <20240715150034.2583772-1-longman@redhat.com>
+Content-Language: en-US
+From: Kamalesh Babulal <kamalesh.babulal@oracle.com>
+In-Reply-To: <20240715150034.2583772-1-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SGAP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::35)
+ To SA2PR10MB4777.namprd10.prod.outlook.com (2603:10b6:806:116::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240626130347.520750-1-alexghiti@rivosinc.com>
- <20240626130347.520750-11-alexghiti@rivosinc.com> <CAJF2gTSG7HzV7mgZpkWLbSBNn2dRv_NaSmCimd+kRdU=EZrmmg@mail.gmail.com>
- <CAHVXubizLq=qZgVQ2vBFe5zVuLRP0DGw=UN4U_Wkx2P2xsP3Mw@mail.gmail.com>
- <a096151c-c349-455f-8939-3b739d73f016@redhat.com> <CAJF2gTRrZwVk2xyhF_PsJGKCfkvun-rifG8MjDBcGDt3YBuhPg@mail.gmail.com>
-In-Reply-To: <CAJF2gTRrZwVk2xyhF_PsJGKCfkvun-rifG8MjDBcGDt3YBuhPg@mail.gmail.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Tue, 16 Jul 2024 08:43:02 +0200
-Message-ID: <CAHVXubh00OyazGP2C6sg0N2=kWqV-HXpzEiZCDdex8hcmLEM2g@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha extension
-To: Guo Ren <guoren@kernel.org>
-Cc: Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PR10MB4777:EE_|PH8PR10MB6291:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4595edce-c774-45eb-1771-08dca565bbc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?cjBWWVc1V09aWWtBQ05pWG9tWDhSeHl0OG5xVXdPVUdHWFdzZXlFMnJscURt?=
+ =?utf-8?B?a3lnbkh2YTA3UWVVSllBcXhGYUxHUnlkYlRhdDZuQ0NtNlREMkhZb1BiTXN5?=
+ =?utf-8?B?anlaV2toTnplbUs1R2QwMlJzVTV5bDNheU5qV3h5SXdKKzRJRzNmbzdIZjZu?=
+ =?utf-8?B?bmt3QTY5ODNHTHVyTWlva0NtSFRqZWU0aHZsL2M5dVBVV2F0cG9veldOaExD?=
+ =?utf-8?B?Q2tKSjVCcm1lYWxFSFZPeUhGMTh1YVpvRE43amVJekhaRjhIV1Zjam9YbXNC?=
+ =?utf-8?B?bmttWDV0cHcwejZlUHVSelZDcy9EZndNRmVoTEQ4SlRjNkxJY1dFdEZvL0Fq?=
+ =?utf-8?B?WDJSYjcxamp5WS9nZUQ3cEU1bFg3Ui94YUN0R1Nlcmo4Y0VZb3grelQwVmJN?=
+ =?utf-8?B?aUFpSmNTMWl4UXV6YmtHOEVObGl5czdzYmdjWFVGOCtiOWlUYVliRjFmNERT?=
+ =?utf-8?B?ZkdiZFdnZmJtVVdtVzkvRWtHUFR4b3NWQjNOdE5adzJKcnZnUHUrSW9oK0Ur?=
+ =?utf-8?B?djNWSElqdE9tU2hidnA2QXNFMlBINkRESWFodFdnU0F5VUhzdjNGeVZhYXlu?=
+ =?utf-8?B?N2l4YTVBTTdKTGMrc21qSmtHTU9TcW1nWUFYVGhMZEZoR1RzNDBuY1JzMmJS?=
+ =?utf-8?B?RUVuSXNoamNHRzlSVXAvQm1NVmJVTkRZN0tFaXRtbTN0d2loVktBR3lBOFNL?=
+ =?utf-8?B?NEtIeWRaUnFqcmgxK0gxZTdsWDI2akZhK3BFd21KRUF3ODBNVVdQNFA0V3FN?=
+ =?utf-8?B?QkE5SmxELzdnbmNKS1EwV0hvM2g1NG1HUmFJWUgxVFVOU0xlaW5wS3JKQUk0?=
+ =?utf-8?B?OGh0U0ZBUTRPTnFYTHEyL05ucTMvbUlrRVRmMmdCK1FZSmFtb1FndlhZWVUv?=
+ =?utf-8?B?N3RhbkxMSExyL2Nob2QvZjB5emRYSC9jSExLNlV4Wm5wdHF0QlJpcnk3Qzlj?=
+ =?utf-8?B?M21sWEo2aUQ4RjlBVmQ4aFl0ZjdWYW55NEJRUVNJc1ZiSGdxQXBBRTJEMU05?=
+ =?utf-8?B?Z1dIdEs3RFBiQmUzVmZkcFdQZEdFOWxpUlNOMXR0MDRnRlpVaXVmNlBFYjBq?=
+ =?utf-8?B?USszRE9pRFBvOTNOUFd3ZEs5cWU4U2E0K0J0dXp6UUFPYjhHU0pCbUJRODgz?=
+ =?utf-8?B?TVlXZEhCcS8zaUE1TVVqYW5IbTlpMHdVOGo1akd1eXJmb0ZjZFBBdjhvU0tw?=
+ =?utf-8?B?dnRMRnJVZjBLUzNRV0NDMTRhb2h3WjVGMjhtcDhoYzZNdVdkYVozaThZblB0?=
+ =?utf-8?B?THNnRHF5SjB6dmpwZ1piTmc3dXhid0Z5VmxmNEpkNlF0R2Nxa0hmYjFhSjhK?=
+ =?utf-8?B?YWZvOEVNa2dPUHJoZXc5YVlCenNWanhWcEw5dFRiQThCakkyaXExU0FpbC9t?=
+ =?utf-8?B?VUhxWnlhdU9la3dzREdKR0laUUJ1Z01NQURUZ0wzSUNoMG5vUkNubGtBam95?=
+ =?utf-8?B?bUpRRzFxaGRhRXJvSldEbWh3SEFvODE5Nlc0VGVyNEx5SXI0bjJtaHg0NUpv?=
+ =?utf-8?B?MVRDZG1na0R2cjZsRDVmSGdCNGdiMXZVb0VWdG9MNGxVbS9wbCtZUmpyL1dN?=
+ =?utf-8?B?UHRnakdueVhDN3IvQXpKNDhncGJPMmVQM2QybTczM0pmSHZsc1JzdVpUbHpj?=
+ =?utf-8?B?UWRESnp3ZkJuWDhrSVRocnBNMHNOSlZTWk14RHBmYUFxcG1EYVd1a01IdzM5?=
+ =?utf-8?B?ODMydWZyU2M4Y05laVF2WkNiMUcvSTgvaE01K0FoenNOUnZmSERTOElxMjB1?=
+ =?utf-8?Q?ck7ZcYHpuSHU/71yMs=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR10MB4777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?cEZ1Q0QyWjV3M083ZWQzdU5DeGczd2ExQS9uSURsVXcrYUhENGJHRHdUbFRu?=
+ =?utf-8?B?c0p0SmpNeXIwZHlreEVxWE1kNWN1SytpeEwwWG1iaVFPZk1mSmR6VXpic0Fn?=
+ =?utf-8?B?VG50cStncFEzWllqSDNWSXlDY3ZPN3NyaXFnSG1jc1FmWVJvdjBSbnN2MUxM?=
+ =?utf-8?B?VE1ZUmt1Mm93dEQrVzJFTWJRSzRyUzczV01abUNONW1odzhPUTVjcXhZczV1?=
+ =?utf-8?B?c3NIUkRUY1Bqa3lHTW42OGV5dXJsempTc252VkVodlMzK3VUU0FkN3pkaEdP?=
+ =?utf-8?B?ODlNQ1dhdWdTcHl6c2xFbzNhMkV5ZXVFc1YvWWF0RTVaMjF2NlUvQ3YxMStW?=
+ =?utf-8?B?b3dtbjF4RkhGWUxBbzByaUdaaDRuU3VrSk01Z245VlFiQnkwUEdYbFB3aCtT?=
+ =?utf-8?B?aXpqWFFKN0FwMG9yZmMrMGwvRnpsTGJMM1llelZrUVpiWTh4MnJ5UFBQWmw0?=
+ =?utf-8?B?blA4a09YUEdNcG0yWHRsWjkyVnFsVW5jcHd1aVJJUTVCbitkUWp6Nk5JbUxo?=
+ =?utf-8?B?R3hodTl1NjAwQVZFRWdONUdSazlpWi9XbURJSW1jYXhkMkdHblk0bWZCRFl6?=
+ =?utf-8?B?Q1ExUTE3U3A0cmp5REhZZXlhYUhBY0JWTWFhVEdxLzB3NkRMeEFmMlNGakU3?=
+ =?utf-8?B?eXc4VjQxV0Z6aHNFUjBydEtZT2l6eTNoVTNocGE0WVQ1dmFmR25MOE9pMlpm?=
+ =?utf-8?B?OTBtcW1DOXBIeDM0VHpFSHhDK09rdGk3SVE1aUNBOUFhbFhPRCtjNEwyZ0t6?=
+ =?utf-8?B?MVZxYy85bUxCTmlhQUNPMjh4U1RtMDZtTG4wWkNvY09xekJZYjVrTzN4M0FV?=
+ =?utf-8?B?Mnd5T0FCOWY0TVo5R1dwSVpFOHI1ancyZGNKM0R6R3FHMlFrQXBraWY0TDRP?=
+ =?utf-8?B?QU5Venh6bjRYTFN1a2NlR280SEhwZmxRNVQ0M2prMDJjeGp0a3VKNHMwY3Qr?=
+ =?utf-8?B?ZHNlWnlOdkd1ZkgvMERkcER6SmNMTkJRZGgvTUg0R3pwdnZGZHE1T0h6eERO?=
+ =?utf-8?B?S25jSnZIM25WTk5wYTBUaDZYQ2Q5UXI1MUM1OXBhV2FTc2dORGtmSWxxdnB5?=
+ =?utf-8?B?RVQrb1dEcUhydDJ1UGlwUDFxQmd4MWk2Qmh6SklZQXQ2WE84QUR4eFU0dnNU?=
+ =?utf-8?B?aDVGTWRybk9udmU1YmltMjdrazVBVDNJbXV6UElnaUVSRXJNV2JwejhucDRE?=
+ =?utf-8?B?TU9lamFXZDd0bWhhUjdaZlArUkx3RTJ3VXF6V09TQmJNMXRVRTRSZVJIUURS?=
+ =?utf-8?B?SEg1SVJvemRKUzlpZjdsb0JLckJxZmlGZnZBcWRjNVpmZTQxM0RpbDJPLzJN?=
+ =?utf-8?B?d0dOUWVtdi9YUi9VdG84TmRhMllyK3ZKSUgwdlNGVU9JME1aTFdDU2lzN0tr?=
+ =?utf-8?B?Q1RkVHFaam9GcGJaYVRVMS95NEJJSEh0SW5BcVVvdlhxaVRid1RvbGxLZTc1?=
+ =?utf-8?B?MlBnS3ZoRHlvNC9TQjNueVg2OWdEZENQSVgvMG1ZdFRyTUFCVmdOcE4wV1c1?=
+ =?utf-8?B?MzdBNWFXbWR2VlYxenZDbTg5TXpUZ0crS1NEMnhuTHBCQVJSbnk2UWxaU2o3?=
+ =?utf-8?B?KzcyOXRpVFhIUlJCdnZkYWJBTUQvalFLZ054UmVFcUp0VFJMMTlpd0hPWlNQ?=
+ =?utf-8?B?b0xac0ZGMDRJT0IzZUZVQVRqMUdiZ1dSNzQ1OWJHUnpnTkZZUm9yb0NYUEdR?=
+ =?utf-8?B?U3QrZXFmVnpRN0lxS3d5NkcwOVFON29kMXZQTFZsTVdlSEhZdFNqMjhKTWkv?=
+ =?utf-8?B?Z3dVZGZqYjcwTjlDNXpGbWU3MVd0VmlMZFNpMFlQRjNZL0x1cDkxcFZyamU4?=
+ =?utf-8?B?SEo5aHk0ZjBiM0htT2pxbkhWQXVuSHRYT3h5UXhxVzRtOGlBRDRoNllvNnlr?=
+ =?utf-8?B?MFhxU3RVWm1SY2YyRHFNMi9lUWErTno5SmdWUDBxZDVKbDNjaDZuNEJjN1hh?=
+ =?utf-8?B?dnlEdjBOb09ld3luT0thMENNa0RqejNmdE1LZFExL0gxT2VVTlJ1UVZxK1cr?=
+ =?utf-8?B?Q2x1ZGFlbzVCK0tDTlRXTkVVdDIyR1oybmlVdXc0WXNBQUpybmNZL0ovUFg1?=
+ =?utf-8?B?MlJROTEvUGlkdGZlWnBtN0N6bEJ4TmJQQmd1MWZLc25TNU41MnlPS3BQZ0F6?=
+ =?utf-8?B?UHpFdlFMeVUxQldJbVlxcWxIRXN2cWdyS0lEU0RJdEhrUEhNS1Q5NHR5UVND?=
+ =?utf-8?B?bVE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	RDRj5Ufy9T5YRJNkpqGmbE9wWlzHHeBtFknLPcv37fDPAbaU2vV7+DmJOBdAklT+sgScQkdisbDsEbneuaHwqn8af5OCj9HA7193htvnxS03AvWBa4fpsMG+9n/5k1AKo1UjLOKC0Grg+5Y89QAn/AwOalOmtQMzpyO8Bf/eAklSPk4eumo+y5sq42sVjkww+zhZM831fhNv6iXL+N5BAC3ITZ4ePyZnsHCJriLFNQb4YaZDuokyLQtUIwcjGGsooTyGVYT5+EluTRRt0T5qPG2sal54v7n+Qbpc4TOIeiQtXRelWtzEHHXIv9GHORosqh8BgWLssDZ98mw1xme1P23jpQLtQaRpkltwXqpxjrSrR9A9l9mIGCQ0u+vquQNGnRl5UkL8ZAh7b/qSPZarpp/odgF9mGpvekh8TlBQAyNo9lQmCuHGCTuaw+Vq3/Py0W/ZCW9usumvWHbf1N/g6PiSiYuJQ7ENcTUxT2kDCZbYikDmN6tXmL3ML+nF7rAsKl5FgnbAuU2d60ubRqWYGk6OV3dNe3G1gnrEIi+aqtIaNNRJZ3GnQwfizhISWQltJu440PwbLWtrsaznDIp3bksqBzyx20mKbph4l68q0SI=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4595edce-c774-45eb-1771-08dca565bbc1
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 07:05:54.5457
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sqjTmKXDpD1Nibm6Fvn+qZji8r9H6WSmgaJ6BxacKmGKADnnmJL0gurnQC0M/aL4stLSSmJRwvxZYtwrCbQEwtdwzJDno+TnyxeQfUxUyTM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6291
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-15_19,2024-07-11_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2406180000 definitions=main-2407160051
+X-Proofpoint-GUID: 9nSDxTZdTmXUpbh3ZpsOUDoI0s9B3oem
+X-Proofpoint-ORIG-GUID: 9nSDxTZdTmXUpbh3ZpsOUDoI0s9B3oem
 
-Hi Guo, Waiman,
 
-On Tue, Jul 16, 2024 at 3:05=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote:
->
-> On Tue, Jul 16, 2024 at 3:30=E2=80=AFAM Waiman Long <longman@redhat.com> =
-wrote:
-> >
-> > On 7/15/24 03:27, Alexandre Ghiti wrote:
-> > > Hi Guo,
-> > >
-> > > On Sun, Jul 7, 2024 at 4:20=E2=80=AFAM Guo Ren <guoren@kernel.org> wr=
-ote:
-> > >> On Wed, Jun 26, 2024 at 9:14=E2=80=AFPM Alexandre Ghiti <alexghiti@r=
-ivosinc.com> wrote:
-> > >>> In order to produce a generic kernel, a user can select
-> > >>> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> > >>> spinlock implementation if Zabha is not present.
-> > >>>
-> > >>> Note that we can't use alternatives here because the discovery of
-> > >>> extensions is done too late and we need to start with the qspinlock
-> > >> That's not true; we treat spinlock as qspinlock at first.
-> > > That's what I said: we have to use the qspinlock implementation at
-> > > first *because* we can't discover the extensions soon enough to use
-> > > the right spinlock implementation before the kernel uses a spinlock.
-> > > And since the spinlocks are used *before* the discovery of the
-> > > extensions, we cannot use the current alternative mechanism or we'd
-> > > need to extend it to add an "initial" value which does not depend on
-> > > the available extensions.
-> >
-> > With qspinlock, the lock remains zero after a lock/unlock sequence. Tha=
-t
-> > is not the case with ticket lock. Assuming that all the discovery will
-> > be done before SMP boot, the qspinlock slowpath won't be activated and
-> > so we don't need the presence of any extension. I believe that is the
-> > main reason why qspinlock is used as the initial default and not ticket
-> > lock.
-> Thx Waiman,
-> Yes, qspinlock is a clean guy, but ticket lock is a dirty one.
 
-Guys, we all agree on that, that's why I kept this behaviour in this patchs=
-et.
+On 7/15/24 8:30 PM, Waiman Long wrote:
+> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+> help manage different structures in various cgroup subsystems by being
+> an embedded element inside a larger structure like cpuset or mem_cgroup.
+> 
+> The /proc/cgroups file shows the number of cgroups for each of the
+> subsystems.  With cgroup v1, the number of CSSes is the same as the
+> number of cgroups.  That is not the case anymore with cgroup v2. The
+> /proc/cgroups file cannot show the actual number of CSSes for the
+> subsystems that are bound to cgroup v2.
+> 
+> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+> we can't tell by looking at /proc/cgroups which cgroup subsystems may
+> be responsible.
+> 
+> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+> cgroup.stat file is now being extended to show the number of live and
+> dying CSSes associated with all the non-inhibited cgroup subsystems that
+> have been bound to cgroup v2. The number includes CSSes in the current
+> cgroup as well as in all the descendants underneath it.  This will help
+> us pinpoint which subsystems are responsible for the increasing number
+> of dying (nr_dying_descendants) cgroups.
+> 
+> The CSSes dying counts are stored in the cgroup structure itself
+> instead of inside the CSS as suggested by Johannes. This will allow
+> us to accurately track dying counts of cgroup subsystems that have
+> recently been disabled in a cgroup. It is now possible that a zero
+> subsystem number is coupled with a non-zero dying subsystem number.
+> 
+> The cgroup-v2.rst file is updated to discuss this new behavior.
+> 
+> With this patch applied, a sample output from root cgroup.stat file
+> was shown below.
+> 
+> 	nr_descendants 56
+> 	nr_subsys_cpuset 1
+> 	nr_subsys_cpu 43
+> 	nr_subsys_io 43
+> 	nr_subsys_memory 56
+> 	nr_subsys_perf_event 57
+> 	nr_subsys_hugetlb 1
+> 	nr_subsys_pids 56
+> 	nr_subsys_rdma 1
+> 	nr_subsys_misc 1
+> 	nr_dying_descendants 30
+> 	nr_dying_subsys_cpuset 0
+> 	nr_dying_subsys_cpu 0
+> 	nr_dying_subsys_io 0
+> 	nr_dying_subsys_memory 30
+> 	nr_dying_subsys_perf_event 0
+> 	nr_dying_subsys_hugetlb 0
+> 	nr_dying_subsys_pids 0
+> 	nr_dying_subsys_rdma 0
+> 	nr_dying_subsys_misc 0
+> 
+> Another sample output from system.slice/cgroup.stat was:
+> 
+> 	nr_descendants 34
+> 	nr_subsys_cpuset 0
+> 	nr_subsys_cpu 32
+> 	nr_subsys_io 32
+> 	nr_subsys_memory 34
+> 	nr_subsys_perf_event 35
+> 	nr_subsys_hugetlb 0
+> 	nr_subsys_pids 34
+> 	nr_subsys_rdma 0
+> 	nr_subsys_misc 0
+> 	nr_dying_descendants 30
+> 	nr_dying_subsys_cpuset 0
+> 	nr_dying_subsys_cpu 0
+> 	nr_dying_subsys_io 0
+> 	nr_dying_subsys_memory 30
+> 	nr_dying_subsys_perf_event 0
+> 	nr_dying_subsys_hugetlb 0
+> 	nr_dying_subsys_pids 0
+> 	nr_dying_subsys_rdma 0
+> 	nr_dying_subsys_misc 0
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
->
-> Hi Alexandre,
-> Therefore, the switch point(before reset_init()) is late enough to
-> change the lock mechanism, and this satisfies the requirements of
-> apply_boot_alternatives(), apply_early_boot_alternatives(), and
-> apply_module_alternatives().
+The patch looks good to me.
 
-I can't find reset_init().
-
-The discovery of the extensions is done in riscv_fill_hwcap() called
-from setup_arch()
-https://elixir.bootlin.com/linux/latest/source/arch/riscv/kernel/setup.c#L2=
-88.
-So *before* this point, we have no knowledge of the available
-extensions on the platform.  Let's imagine now that we use an
-alternative for the qspinlock implementation, it will look like this
-(I use only zabha here, that's an example):
-
---- a/arch/riscv/include/asm/spinlock.h
-+++ b/arch/riscv/include/asm/spinlock.h
-@@ -16,8 +16,12 @@ DECLARE_STATIC_KEY_TRUE(qspinlock_key);
- #define SPINLOCK_BASE_DECLARE(op, type, type_lock)                     \
- static __always_inline type arch_spin_##op(type_lock lock)             \
- {                                                                      \
--       if (static_branch_unlikely(&qspinlock_key))                     \
--               return queued_spin_##op(lock);                          \
-+       asm goto(ALTERNATIVE("j %[no_zabha]", "nop", 0,                 \
-+                                     RISCV_ISA_EXT_ZABHA, 1)            \
-+                         : : : : no_zabha);                            \
-+                                                                       \
-+       return queued_spin_##op(lock);                                  \
-+no_zabha:                                                              \
-        return ticket_spin_##op(lock);                                  \
- }
-
-apply_early_boot_alternatives() can't be used to patch the above
-alternative since it is called from setup_vm(), way before we know the
-available extensions.
-apply_boot_alternatives(), instead, is called after riscv_fill_hwcap()
-and then will be able to patch the alternatives correctly
-https://elixir.bootlin.com/linux/latest/source/arch/riscv/kernel/setup.c#L2=
-90.
-
-But then, before apply_boot_alternatives(), any use of a spinlock
-(printk does so) will use a ticket spinlock implementation, and not
-the qspinlock implementation. How do you fix that?
-
->
-> >
-> > Cheers,
-> > Longman
-> >
->
->
-> --
-> Best Regards
->  Guo Ren
+Reviewed-by: Kamalesh Babulal <kamalesh.babulal@oracle.com>
