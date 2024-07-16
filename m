@@ -1,168 +1,453 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776BF13CA99;
-	Tue, 16 Jul 2024 12:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0547A4D8A3
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 12:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721133920; cv=none; b=XAdG/EIJGMbBFG/GfiN6oTw06IIWQjxmOKeLdyStmC+THmE/xuS7/5Mnx5dRkRx09mcgiTBOq289jAR5GJG6qFFwzje8vgQgLRkVFuUl5Q9u3X0ejJvnHe9OvKOfXJgWsFpJRI25+uK7s29ljZjAxixT1fyAYT5MOtruFOoc684=
+	t=1721134095; cv=none; b=gFeevPTBepNaPLt0voXItq4H2CZZYHkK/+MUQdZupMoAgh/TLXYd2MPhqYnUxr334uxTaS8hg1oVGQavMMtLfEroPOoBNeIpcD1anFygdiClhXfZf5AJiumYOzvKYgU1ERpXLUkwyFAs2L8VLTrhdeasj2E1N8jouVbEJQa47KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721133920; c=relaxed/simple;
-	bh=+AQCaC6DcBfkCdsqvpZHVphZxm3GlWguUrFsg0hQi1M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=c7oP3Ue7ihZpIfneOFwNxCbQrOtaX/wBa/AdytapVzCilABlDGvk10UNqi/g7QV9YS7/skbdSGEwYJ2wVG9OijQZ1vTM3GAhdr6wHXv1ug/x2MIj85e3tHTRwoucZeKARwA8FzVpyc+h7fe6VYOFdn1TOHzbbVVmEeDrSLpFxSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hiwl5Hui; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721134095; c=relaxed/simple;
+	bh=dZLZA30H5lqyfqiCA5PLYPY6BacfckgNKzHy7P+N+BA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e/UwSO2K3uTDy6jZQLaFMP8wU/+Hg9zgrsfabkOW0p0NU9CqvDvAvm4Snpy9x+G0ZjbKoaruOFnpBoGpAcJx2/aUrRnq2u/NY5iDSWt6/TFtV8H0BwO1mobLlsVvhmHrqdiuFrs4aqTzU2NsDSbRazTmpeHBCjeR5GMv5+0rqXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=Hx1I42zg; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hiwl5Hui"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642BBC4AF0C;
-	Tue, 16 Jul 2024 12:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721133920;
-	bh=+AQCaC6DcBfkCdsqvpZHVphZxm3GlWguUrFsg0hQi1M=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=hiwl5HuiPDv3S+z3HiJqFrbZ+bTUzUtnHvIQzdEXsCA8ByBoQB/KThY4Bxp11pjuQ
-	 6FevPHpetfq5h2qtwBRaxEB/k4Em+9dM82l63QNeuJL1GD7tSz+LetemTkMaRTCc7b
-	 d30H5rqim+FNCCUzqAs501bOVYCOtYLWazAlBZATbVuxFMIjpVgkEBk2Jy3iuUtRoo
-	 8kElGEpnszndKDjojw2Kw/wD5Gmk427rG/bw2jKJGkmvNXNwnPDffuuDyj4x2s4nvs
-	 AKRupHoIgWHhzz2k703WaBfTkioqf+ypD5KsV5hRrN8WMXzGREKRha0o1Yk0oAyzKZ
-	 AFlUYHdVbIiVA==
-Message-ID: <60af7cff6b1cf00388e932804c81ed368fcc9f02.camel@kernel.org>
-Subject: Re: [PATCH v6 0/9] fs: multigrain timestamp redux
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Chandan Babu R <chandan.babu@oracle.com>,  "Darrick J. Wong"
- <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
- <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik
- <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Hugh Dickins
- <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
- Corbet <corbet@lwn.net>, Dave Chinner <david@fromorbit.com>, Andi Kleen
- <ak@linux.intel.com>, Christoph Hellwig <hch@infradead.org>, Uros Bizjak
- <ubizjak@gmail.com>, Kent Overstreet <kent.overstreet@linux.dev>, Arnd
- Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-mm@kvack.org,  linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Tue, 16 Jul 2024 08:45:16 -0400
-In-Reply-To: <20240716-zerlegen-haudegen-ba86a22f4322@brauner>
-References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
-	 <20240716-zerlegen-haudegen-ba86a22f4322@brauner>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3 (3.52.3-1.fc40app2) 
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="Hx1I42zg"
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-382458be75bso23795395ab.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 05:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vimeo.com; s=google; t=1721134091; x=1721738891; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P1Inyqx4hFkx/0tFCh/+I7H14Me6CfgzvTl8nNfgBkM=;
+        b=Hx1I42zgfEP6RtG6c8pLbKov2gugTwbbpzw6OHvoitAhe8LIelzhAT4zjsk/6ZZDrp
+         bL+ZO310Sz3fmfHY6xeRxnjDarMNP0hqLN029uSfEt8c5qss7Q7sx4YjKZwfOv6pMtK/
+         DE3QO4JaWZsFxxY1i6+7ydjWkPKCGazE4h8/g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721134091; x=1721738891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P1Inyqx4hFkx/0tFCh/+I7H14Me6CfgzvTl8nNfgBkM=;
+        b=En4H4hz+bj9eNWKfp+uG8v9pTBy4OZ9VSmfhbSi8xznFtkIS4SZ/Z8A0AADL7MZ0vZ
+         FPd7x/IYkcBBHVBLV3jIuIaUQdbpeoEopfPCEwbdX2JLXloSjHRxul+WTaQZ2UB2AzAW
+         SxaTLXWWT/BLBJwJiRC77N2RFsFQe+ne2AVI/jyg6z85HpVDazgT79GU4rr+jWHSO5a9
+         +dxrfU6QFhMRJP7SIPZ1dd8LbS6u361sQlzxlKZHdmgEGxoGg21IhSNSrklmYAEkNtkS
+         S1gbGF4r2pMlSYMfo7ESZhRTM43v3V7l+9EVvxC6yLL5gNrzA3nvwdlxPvmHp4d1ikj7
+         EhbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3NxWioCcDRRSzLAVC7YF8N1OZEEb06+hRF56U2pRH8agvVYk7kAGsaI4Ia76Jty6jIRbv6NV79ETp3qgdhKJxUaob7f+RE9pD
+X-Gm-Message-State: AOJu0YzPo9MiAQsKW51Qx7aH4dyiIKxELuaZERIOBNbJAAc+if/lg2n4
+	QDH5Sd6BdlM9wrTKDWzUg97wpHvziDtcQP6Dlc8Ld120GYpuDDdcowDwZOU0poHdI86s/tjhoW7
+	ULcI1I9f2EdK8gK5Az6reA0YzSAwoUZVC83nGxg==
+X-Google-Smtp-Source: AGHT+IE+pFu/o/3E1h/NjccXjXKorJXCuoVzp+n3829K8lRaP9muWQ8Ln8LjOfnsMtjH9SYYlvTwLasgQhYmPNQq150=
+X-Received: by 2002:a05:6e02:b44:b0:382:6913:236 with SMTP id
+ e9e14a558f8ab-393d1fd87e6mr26539445ab.18.1721134090976; Tue, 16 Jul 2024
+ 05:48:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
+ <CAFUnj5Oh_OsP4TikWTGT6cKKTnWLaBYpE5PGzcxLTp7b=UqLkQ@mail.gmail.com>
+ <CAFUnj5MahNvM+B2zynVtcnYKJ7LZHwBNEcPKGAdz-tesDeOXcw@mail.gmail.com> <ZpYfKI6W1uSMkt5i@tiehlicka>
+In-Reply-To: <ZpYfKI6W1uSMkt5i@tiehlicka>
+From: David Finkel <davidf@vimeo.com>
+Date: Tue, 16 Jul 2024 08:47:59 -0400
+Message-ID: <CAFUnj5Mb82Yjih4-xZMS2Ge+1Oj+zm-ZVaoTak_SisZnv6G-0w@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Michal Hocko <mhocko@suse.com>
+Cc: Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2024-07-16 at 09:37 +0200, Christian Brauner wrote:
-> On Mon, Jul 15, 2024 at 08:48:51AM GMT, Jeff Layton wrote:
-> > I think this is pretty much ready for linux-next now. Since the latest
-> > changes are pretty minimal, I've left the Reviewed-by's intact. It woul=
-d
-> > be nice to have acks or reviews from maintainers for ext4 and tmpfs too=
-.
-> >=20
-> > I did try to plumb this into bcachefs too, but the way it handles
-> > timestamps makes that pretty difficult. It keeps the active copies in a=
-n
-> > internal representation of the on-disk inode and periodically copies
-> > them to struct inode. This is backward from the way most blockdev
-> > filesystems do this.
-> >=20
-> > Christian, would you be willing to pick these up  with an eye toward
-> > v6.12 after the merge window settles?
->=20
-> Yup. About to queue it up. I'll try to find some time to go through it
-> so I might have some replies later but that shouldn't hold up linux-next
-> at all.
+On Tue, Jul 16, 2024 at 3:20=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
+e:
+>
+> On Mon 15-07-24 16:46:36, David Finkel wrote:
+> > > On Mon, Jul 15, 2024 at 4:38=E2=80=AFPM David Finkel <davidf@vimeo.co=
+m> wrote:
+> > > >
+> > > > Other mechanisms for querying the peak memory usage of either a pro=
+cess
+> > > > or v1 memory cgroup allow for resetting the high watermark. Restore
+> > > > parity with those mechanisms.
+> > > >
+> > > > For example:
+> > > >  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount rese=
+ts
+> > > >    the high watermark.
+> > > >  - writing "5" to the clear_refs pseudo-file in a processes's proc
+> > > >    directory resets the peak RSS.
+> > > >
+> > > > This change copies the cgroup v1 behavior so any write to the
+> > > > memory.peak and memory.swap.peak pseudo-files reset the high waterm=
+ark
+> > > > to the current usage.
+> > > >
+> > > > This behavior is particularly useful for work scheduling systems th=
+at
+> > > > need to track memory usage of worker processes/cgroups per-work-ite=
+m.
+> > > > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > > > opinions),
+>
+> I do not understand the OOM-killer reference here. Why does it matter?
+> Could you explain please?
 
-Great!
+Sure, we're attempting to bin-packing work based on past items of the same =
+type.
+With CPU, we can provision for the mean CPU-time per-wall-time to get
+a lose "cores"
+concept that we use for binpacking. With CPU, if we end up with a bit
+of contention,
+everything just gets a bit slower while the schedule arbitrates among cgrou=
+ps.
 
-There is one minor update to the percpu counter patch to compile those
-out when debugfs isn't enabled, so it may be best to pick the series
-from the "mgtime" branch in my public git tree. Let me know if you'd
-rather I re-post the series though.
+However, with memory, you only have so much physical memory for the outer m=
+emcg.
+If we pack things too tightly on memory, the OOM-killer is going to kill
+something to free up memory. In some cases that's fine, but provisioning fo=
+r the
+peak memory for that "type" of work-item mostly avoids this issue.
+
+My apologies. I should have reworded this sentence before resending.
+(there was a question about it last time, too)
+
+
+>
+> > > > these systems need to track the peak memory usage to compute
+> > > > system/container fullness when binpacking workitems.
+>
+> Could you elaborate some more on how you are using this please? I expect
+> you recycle memcgs for different runs of workers and reset peak
+> consumptions before a new run and record it after it is done. The thing
+> which is not really clear to me is how the peak value really helps if it
+> can vary a lot among different runs. But maybe I misunderstand.
+>
+
+That's mostly correct. The workers are long-lived and will handle many
+work-items over their lifetimes (to amortize startup overheads).
+The particular system that uses this classifies work in "queues", which
+can be loosely assumed to use the same resources between runs, since
+they're doing similar work.
+
+To mitigate the effect of outliers, we take a high quantile of the peak mem=
+ory
+consumed by work items within a queue when estimating the memory dimension
+to binpack future work-items.
+
+> > > >
+> > > > Signed-off-by: David Finkel <davidf@vimeo.com>
+> > > > ---
+> > > >  Documentation/admin-guide/cgroup-v2.rst       | 20 +++---
+> > > >  mm/memcontrol.c                               | 23 ++++++
+> > > >  .../selftests/cgroup/test_memcontrol.c        | 72 +++++++++++++++=
++---
+> > > >  3 files changed, 99 insertions(+), 16 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentatio=
+n/admin-guide/cgroup-v2.rst
+> > > > index 8fbb0519d556..201d8e5d9f82 100644
+> > > > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > > > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > > > @@ -1322,11 +1322,13 @@ PAGE_SIZE multiple when read back.
+> > > >         reclaim induced by memory.reclaim.
+> > > >
+> > > >    memory.peak
+> > > > -       A read-only single value file which exists on non-root
+> > > > -       cgroups.
+> > > > +       A read-write single value file which exists on non-root cgr=
+oups.
+> > > > +
+> > > > +       The max memory usage recorded for the cgroup and its descen=
+dants since
+> > > > +       either the creation of the cgroup or the most recent reset.
+> > > >
+> > > > -       The max memory usage recorded for the cgroup and its
+> > > > -       descendants since the creation of the cgroup.
+> > > > +       Any non-empty write to this file resets it to the current m=
+emory usage.
+> > > > +       All content written is completely ignored.
+> > > >
+> > > >    memory.oom.group
+> > > >         A read-write single value file which exists on non-root
+> > > > @@ -1652,11 +1654,13 @@ PAGE_SIZE multiple when read back.
+> > > >         Healthy workloads are not expected to reach this limit.
+> > > >
+> > > >    memory.swap.peak
+> > > > -       A read-only single value file which exists on non-root
+> > > > -       cgroups.
+> > > > +       A read-write single value file which exists on non-root cgr=
+oups.
+> > > > +
+> > > > +       The max swap usage recorded for the cgroup and its descenda=
+nts since
+> > > > +       the creation of the cgroup or the most recent reset.
+> > > >
+> > > > -       The max swap usage recorded for the cgroup and its
+> > > > -       descendants since the creation of the cgroup.
+> > > > +       Any non-empty write to this file resets it to the current s=
+wap usage.
+> > > > +       All content written is completely ignored.
+> > > >
+> > > >    memory.swap.max
+> > > >         A read-write single value file which exists on non-root
+> > > > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > > > index 8f2f1bb18c9c..abfa547615d6 100644
+> > > > --- a/mm/memcontrol.c
+> > > > +++ b/mm/memcontrol.c
+> > > > @@ -25,6 +25,7 @@
+> > > >   * Copyright (C) 2020 Alibaba, Inc, Alex Shi
+> > > >   */
+> > > >
+> > > > +#include <linux/cgroup-defs.h>
+> > > >  #include <linux/page_counter.h>
+> > > >  #include <linux/memcontrol.h>
+> > > >  #include <linux/cgroup.h>
+> > > > @@ -6915,6 +6916,16 @@ static u64 memory_peak_read(struct cgroup_su=
+bsys_state *css,
+> > > >         return (u64)memcg->memory.watermark * PAGE_SIZE;
+> > > >  }
+> > > >
+> > > > +static ssize_t memory_peak_write(struct kernfs_open_file *of,
+> > > > +                                char *buf, size_t nbytes, loff_t o=
+ff)
+> > > > +{
+> > > > +       struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of)=
+);
+> > > > +
+> > > > +       page_counter_reset_watermark(&memcg->memory);
+> > > > +
+> > > > +       return nbytes;
+> > > > +}
+> > > > +
+> > > >  static int memory_min_show(struct seq_file *m, void *v)
+> > > >  {
+> > > >         return seq_puts_memcg_tunable(m,
+> > > > @@ -7232,6 +7243,7 @@ static struct cftype memory_files[] =3D {
+> > > >                 .name =3D "peak",
+> > > >                 .flags =3D CFTYPE_NOT_ON_ROOT,
+> > > >                 .read_u64 =3D memory_peak_read,
+> > > > +               .write =3D memory_peak_write,
+> > > >         },
+> > > >         {
+> > > >                 .name =3D "min",
+> > > > @@ -8201,6 +8213,16 @@ static u64 swap_peak_read(struct cgroup_subs=
+ys_state *css,
+> > > >         return (u64)memcg->swap.watermark * PAGE_SIZE;
+> > > >  }
+> > > >
+> > > > +static ssize_t swap_peak_write(struct kernfs_open_file *of,
+> > > > +                                char *buf, size_t nbytes, loff_t o=
+ff)
+> > > > +{
+> > > > +       struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of)=
+);
+> > > > +
+> > > > +       page_counter_reset_watermark(&memcg->swap);
+> > > > +
+> > > > +       return nbytes;
+> > > > +}
+> > > > +
+> > > >  static int swap_high_show(struct seq_file *m, void *v)
+> > > >  {
+> > > >         return seq_puts_memcg_tunable(m,
+> > > > @@ -8283,6 +8305,7 @@ static struct cftype swap_files[] =3D {
+> > > >                 .name =3D "swap.peak",
+> > > >                 .flags =3D CFTYPE_NOT_ON_ROOT,
+> > > >                 .read_u64 =3D swap_peak_read,
+> > > > +               .write =3D swap_peak_write,
+> > > >         },
+> > > >         {
+> > > >                 .name =3D "swap.events",
+> > > > diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/too=
+ls/testing/selftests/cgroup/test_memcontrol.c
+> > > > index 41ae8047b889..681972de673b 100644
+> > > > --- a/tools/testing/selftests/cgroup/test_memcontrol.c
+> > > > +++ b/tools/testing/selftests/cgroup/test_memcontrol.c
+> > > > @@ -161,12 +161,12 @@ static int alloc_pagecache_50M_check(const ch=
+ar *cgroup, void *arg)
+> > > >  /*
+> > > >   * This test create a memory cgroup, allocates
+> > > >   * some anonymous memory and some pagecache
+> > > > - * and check memory.current and some memory.stat values.
+> > > > + * and checks memory.current, memory.peak, and some memory.stat va=
+lues.
+> > > >   */
+> > > > -static int test_memcg_current(const char *root)
+> > > > +static int test_memcg_current_peak(const char *root)
+> > > >  {
+> > > >         int ret =3D KSFT_FAIL;
+> > > > -       long current;
+> > > > +       long current, peak, peak_reset;
+> > > >         char *memcg;
+> > > >
+> > > >         memcg =3D cg_name(root, "memcg_test");
+> > > > @@ -180,12 +180,32 @@ static int test_memcg_current(const char *roo=
+t)
+> > > >         if (current !=3D 0)
+> > > >                 goto cleanup;
+> > > >
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak !=3D 0)
+> > > > +               goto cleanup;
+> > > > +
+> > > >         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+> > > >                 goto cleanup;
+> > > >
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak < MB(50))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       peak_reset =3D cg_write(memcg, "memory.peak", "\n");
+> > > > +       if (peak_reset !=3D 0)
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak > MB(30))
+> > > > +               goto cleanup;
+> > > > +
+> > > >         if (cg_run(memcg, alloc_pagecache_50M_check, NULL))
+> > > >                 goto cleanup;
+> > > >
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak < MB(50))
+> > > > +               goto cleanup;
+> > > > +
+> > > >         ret =3D KSFT_PASS;
+> > > >
+> > > >  cleanup:
+> > > > @@ -817,13 +837,14 @@ static int alloc_anon_50M_check_swap(const ch=
+ar *cgroup, void *arg)
+> > > >
+> > > >  /*
+> > > >   * This test checks that memory.swap.max limits the amount of
+> > > > - * anonymous memory which can be swapped out.
+> > > > + * anonymous memory which can be swapped out. Additionally, it ver=
+ifies that
+> > > > + * memory.swap.peak reflects the high watermark and can be reset.
+> > > >   */
+> > > > -static int test_memcg_swap_max(const char *root)
+> > > > +static int test_memcg_swap_max_peak(const char *root)
+> > > >  {
+> > > >         int ret =3D KSFT_FAIL;
+> > > >         char *memcg;
+> > > > -       long max;
+> > > > +       long max, peak;
+> > > >
+> > > >         if (!is_swap_enabled())
+> > > >                 return KSFT_SKIP;
+> > > > @@ -840,6 +861,12 @@ static int test_memcg_swap_max(const char *roo=
+t)
+> > > >                 goto cleanup;
+> > > >         }
+> > > >
+> > > > +       if (cg_read_long(memcg, "memory.swap.peak"))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       if (cg_read_long(memcg, "memory.peak"))
+> > > > +               goto cleanup;
+> > > > +
+> > > >         if (cg_read_strcmp(memcg, "memory.max", "max\n"))
+> > > >                 goto cleanup;
+> > > >
+> > > > @@ -862,6 +889,27 @@ static int test_memcg_swap_max(const char *roo=
+t)
+> > > >         if (cg_read_key_long(memcg, "memory.events", "oom_kill ") !=
+=3D 1)
+> > > >                 goto cleanup;
+> > > >
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak < MB(29))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       peak =3D cg_read_long(memcg, "memory.swap.peak");
+> > > > +       if (peak < MB(29))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       if (cg_write(memcg, "memory.swap.peak", "\n"))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       if (cg_read_long(memcg, "memory.swap.peak") > MB(10))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +
+> > > > +       if (cg_write(memcg, "memory.peak", "\n"))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       if (cg_read_long(memcg, "memory.peak"))
+> > > > +               goto cleanup;
+> > > > +
+> > > >         if (cg_run(memcg, alloc_anon_50M_check_swap, (void *)MB(30)=
+))
+> > > >                 goto cleanup;
+> > > >
+> > > > @@ -869,6 +917,14 @@ static int test_memcg_swap_max(const char *roo=
+t)
+> > > >         if (max <=3D 0)
+> > > >                 goto cleanup;
+> > > >
+> > > > +       peak =3D cg_read_long(memcg, "memory.peak");
+> > > > +       if (peak < MB(29))
+> > > > +               goto cleanup;
+> > > > +
+> > > > +       peak =3D cg_read_long(memcg, "memory.swap.peak");
+> > > > +       if (peak < MB(19))
+> > > > +               goto cleanup;
+> > > > +
+> > > >         ret =3D KSFT_PASS;
+> > > >
+> > > >  cleanup:
+> > > > @@ -1295,7 +1351,7 @@ struct memcg_test {
+> > > >         const char *name;
+> > > >  } tests[] =3D {
+> > > >         T(test_memcg_subtree_control),
+> > > > -       T(test_memcg_current),
+> > > > +       T(test_memcg_current_peak),
+> > > >         T(test_memcg_min),
+> > > >         T(test_memcg_low),
+> > > >         T(test_memcg_high),
+> > > > @@ -1303,7 +1359,7 @@ struct memcg_test {
+> > > >         T(test_memcg_max),
+> > > >         T(test_memcg_reclaim),
+> > > >         T(test_memcg_oom_events),
+> > > > -       T(test_memcg_swap_max),
+> > > > +       T(test_memcg_swap_max_peak),
+> > > >         T(test_memcg_sock),
+> > > >         T(test_memcg_oom_group_leaf_events),
+> > > >         T(test_memcg_oom_group_parent_events),
+> > > > --
+> > > > 2.40.1
+> > > >
+> > >
+> > >
+> > > --
+> > > David Finkel
+> > > Senior Principal Software Engineer, Core Services
+> >
+> >
+> >
+> > --
+> > David Finkel
+> > Senior Principal Software Engineer, Core Services
+>
+> --
+> Michal Hocko
+> SUSE Labs
 
 Thanks!
+
 --=20
-Jeff Layton <jlayton@kernel.org>
+David Finkel
+Senior Principal Software Engineer, Core Services
