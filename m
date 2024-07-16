@@ -1,496 +1,448 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2055.outbound.protection.outlook.com [40.107.102.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5E419FA89;
-	Tue, 16 Jul 2024 19:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721158100; cv=none; b=pTPxkjZWSp9GRq4a7o1/EVnXEBFDWhqMkyNLCs68f7IOWBqfxD+9z60FCcPre3F3GNlDgmY1Tioi0JSIRwU5TdBEp/JiwmxCmTMzOH9S2gypyCfVpt2dn0hacNBKzmnc72+41MGfrUPjhTR7Uq2TH6SUZ/PalwaVnsM4o2ihuzc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721158100; c=relaxed/simple;
-	bh=fwZzjZvpJ3NtNYL2pxXVDsofjYRn+aeMt0sGGQb+k3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=spcrJdl7d/SONV4+V8blRSEoZfiLW8U4Z1FBD29PsW51KpcBvCq3CKQMxHSv1MDy/TuU48p3Ri5+MwXxiUaiAZXHDGP+IDBTuZu5B4L/FRDIsALsjB5KKs/xTA+aAlCaRraFoUi2tCAtIMTgY4VyMqnkDS4qhEAcF2v768p18ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFXv4IV6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4F71A0721;
+	Tue, 16 Jul 2024 19:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721158488; cv=fail; b=JmMYauL+5PhCYle5Z2Ezj5/aUlXpYqzu21zAcnCZF979NHTYz35rXK113OxHSSdNbwj8CdA9yq/sXj1AL/5Ioe6isVVQXz2GGcZMQpKa/2WcZwcD0y9xMmEQlQRlHUVI/3D/z79kCNKKzbAKz4VGeRtVuHB+pVeAyDs9yS2tv+8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721158488; c=relaxed/simple;
+	bh=xWI7h9/dAObsgIqdGZKxfLGMR1DnmLw9WeJ2PvJ5PPw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IFNizPfPZnJ6ao0RRIkaVW+ZcBsXiOSDbO99g2uy1YP72DeMpnTjK+GMyEY/Y1qVF5lJPLr43HO9nTJi2wNu8s5kFlIg9e05kyKO7AvIPySAj2OgNxOy5ftiLf+BPhh2Iq17Nf14SP4rfKcIBOT6WtNNk0hBFXk50etvtvt7zro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=kortUOuN; arc=fail smtp.client-ip=40.107.102.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFXv4IV6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9BDC116B1;
-	Tue, 16 Jul 2024 19:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721158100;
-	bh=fwZzjZvpJ3NtNYL2pxXVDsofjYRn+aeMt0sGGQb+k3U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IFXv4IV6sa+x2zE/ELDtws5cZOkWvdHOZ76ERZa+wp9M7UjYDRKvlZhGAcZN/aErN
-	 BSkn/LAXcKiemmuQKne9K5CmBiMfUiRyo7bftcYo9d89FjWGR3dYw4rpHgMcxJZjKw
-	 n6MwqS+SUihuNsNPcgS4YwPr1LUDltnYI10iM+7LLHsSHbDQFs1TshQH9VKn7T4gZa
-	 gsG7NVwRA0QmzGlPwboOqyDXZTlVjdz76IeMJjXDNNF41WzqR5lyvWf9pjqKBalkyj
-	 l+1nYCBrmTsG2mNZD7jI9OkcQV+153cQCwJjDc0T1UOM6A4ulz3K12+wFjfvEiwSuV
-	 pcCfEZBd232pA==
-Message-ID: <7e4e45e1-9a77-4780-a5bd-ac44cd7c6cdd@kernel.org>
-Date: Tue, 16 Jul 2024 21:28:15 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="kortUOuN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xsy3Q+ZtjjzA/eUmZbRs2dY39SJWM4rF3oO1lL2gh+kSU/kmOlsnWSVewzkBpMZxuwaK/Gi3qJsKwFyT8ftMJdYHQLrAj62YlIntczX44MqiWZ+1TP0KX2bY/cmxOpVtQpTyPiYYN3r+ScEuFnD3BQv6YS4yUkiNe5/BxZj7JRo3RRWJk7kfl+4Rk40v3WABoEel0Ikiv10kDov5tcfLu+iI0RC4V6LzAzq72kjKVrf7IxcAHJXr6GXuc8nFDt0yfWaGAayoDl9BHtUt5W8LYmf69GWvPQjeyEEtOIoDBHoxoz3kefjW3x74+kmfkgRLyzGMFRPY0g3FVQCZwf9Y9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uBpYVLfY+mV90IClpY0LWjyFsgaWGTkGct0681DpC6I=;
+ b=AaF12ey3FP6JZzpyHvIQ3M11ZnmmDy+79/YBOANAKolMtvMbUqY+aCaVQ9wohWTbTa2mxAXNmyhjYxW4E2DFGUC9AL+eR/6ORoMpk+CzaTKCPRm7MDdn+/PDeULQVkLK8xQdzQP1IgSzwlCeXlrfYu7m9uUDml8c/eTa32TUCN98CkHnauI6DEsc8kNWJEp8ueGDVKXOZTF/0vnB3ax/7Htv6haze49rrbXZqTGBsKsHLPJuNLC80VccolOVTdITPtu8y0EMkc75HUIlunzy3S8Vhn05YSMJ3YtX8viJMXt6T81uMVxyjN7iHAE9MG6QRpaTfBeuEfITri61mTmizg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uBpYVLfY+mV90IClpY0LWjyFsgaWGTkGct0681DpC6I=;
+ b=kortUOuNdShEp8ir6mtUK3tRsYi+sIFPDfsntBj+W4vm2SWwglr9QOae4Gd0ypxvaSjtoqDl5ijiOGDFXG8pcQBCC952oL+HocUAlGZtf0MRKDWejFpp2KfrgwNi3nv+EZ3qdUG8ZuSnFWYUj3tff+PqwXoJviNP0JsRDj8q0Vk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH3PR12MB8234.namprd12.prod.outlook.com (2603:10b6:610:125::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.24; Tue, 16 Jul
+ 2024 19:34:44 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7762.027; Tue, 16 Jul 2024
+ 19:34:44 +0000
+Message-ID: <779eaea8-ab16-47b0-b1bd-4dda439ae3d7@amd.com>
+Date: Tue, 16 Jul 2024 14:34:39 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5 11/20] x86/resctrl: Remove MSR reading of event
+ configuration value
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1720043311.git.babu.moger@amd.com>
+ <82e8c5c888220b7659d7cd57fb291412ba62b120.1720043311.git.babu.moger@amd.com>
+ <0ffec8d1-a27f-48b4-997a-8cc057de701e@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <0ffec8d1-a27f-48b4-997a-8cc057de701e@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY5PR17CA0024.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::37) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hwmon: add GPD devices sensor driver
-To: Cryolitia@gmail.com, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
- =?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
-References: <20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com>
- <20240717-gpd_fan-v2-1-f7b7e6b9f21b@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240717-gpd_fan-v2-1-f7b7e6b9f21b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB8234:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40031af4-3f9f-4bb2-0655-08dca5ce584c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TUJFUXV0cWhrUTNBdG5JdWpmRXN1N1k5K3hXbC9ZVmR4Q1h1YklqYmJsWVU5?=
+ =?utf-8?B?eUxlUUtCTXZiYWY4MnpTRVRzT1ljYlVUY01GdDZVeTh3NTFBUXczMFhndlU1?=
+ =?utf-8?B?RlFJWjRvZXF6TExTZ0ErN0dNWjVLV2ZwSzBEUnA1a215UlVPM0lmWEJqZ2lV?=
+ =?utf-8?B?cWlzckdERGZKRW1TMXgrRFpHNGZVWmp1WDEvRHlmZmlhTHlYbHhIYU02Q3Bx?=
+ =?utf-8?B?ajRnWG5nODdQV1JqYmlyT2RoeVBIQWdBRytKMC94Wnc0Y2NQT3A2TmlaVVVz?=
+ =?utf-8?B?dnUzOW9tdXordHJDQlpsZXY3S2x6K2RWN0JJK3B6RjhUQlJ6cHJzMTBnUEVJ?=
+ =?utf-8?B?VjZSMzNkbjdkYWlJMi9WRXRFT1ZvaUtWZUJkTWtxcE8vbDZvekdrRVVicDFQ?=
+ =?utf-8?B?eTM0QUFuamVBaFhBd0h0M3RYNFZLdUREMkdiMjJVZmdDeDkvYnlPQjR4OHpu?=
+ =?utf-8?B?RSthdUJ3a1VUVmhzZUV1bEhabVhLaXZ3RW52bENJMU1WMHhPUkxyR3ZYZk5y?=
+ =?utf-8?B?bEhuazNMZy9oRzVEdFprTkxUUnVQZStaQU56MHNVaEZJcDF2c05xMmt2SEo3?=
+ =?utf-8?B?R1o3RUt3aGNRTHdYU1o3Y21zSTZjK0FJQ2w5WVAyQS9LdUFqa3FpcFJSajdD?=
+ =?utf-8?B?aUVnQXVBakw3YmZtRTJJV0t3S1l1MmN4UVVDakNtbVFlVkJGaFFUYkhrZGoz?=
+ =?utf-8?B?UWg5b0h3dzR4T1I0MXg1b0ZEUHZhcDFWYUtTcmlIV2dZRWtJQVFFM2xJZmE3?=
+ =?utf-8?B?MGl5YU9qbHcxRUo4QUg3Q0lXNUs2S0xWZkliOVFSRjhsdnFhdHdTSlk5b0Vv?=
+ =?utf-8?B?QXlpcyt2cTg5K0JIcVIxZ3h5U2QybjRtVVZKSHk5eDVUTTJmNUFPejdHZ28z?=
+ =?utf-8?B?WlNQcys4Q2tMWEJtTVk5WnBUN3AvVThkUUZJd3RRZzhPRVU5b1o4Y1ZROXNJ?=
+ =?utf-8?B?WDBlOVN1WGtZVi9nUGJLSDV5Y0VRdkI0R3RtbGpIVGNORHdXYTBRTDhZK0Jq?=
+ =?utf-8?B?K1J4YnJ2bG9OcHc3djNRTm54eWI3SEN2UkZrZlJDRXVWUjhsWlVhTUxldTdW?=
+ =?utf-8?B?Z1hMZ3pnUXAvS0o5TjdLaEVPSTl6bXJvVmptSHBqZS9rQWF5d0dUaVNxd21M?=
+ =?utf-8?B?UmhoU1g4RlBOK2VXTHE3aTljZHkxL0hjaTlrbFo4UEZmUEZ2THI0dmZRVHhW?=
+ =?utf-8?B?ZlBmU0VwWnJDNzhGdTFMM3NaOUtRbkNMSWdZM2drZTcvTVRwd0E0a25nTWsv?=
+ =?utf-8?B?VU53T2dWWmdJemJ3elp0RHFHU09ZeldKdzNzVVp4djBXdkJlWnVqc1Npb2oy?=
+ =?utf-8?B?b2xSQjNTanpaN0FiQXJCcWUrTEt3WGJsRmJwL3ZJd1lMdmxBWWlVOXlHQUpZ?=
+ =?utf-8?B?cWxqRWJFU2duNE5NMmhuYjkyREFrVlpsMnRhd2twSEVZTFY5TmdxbEc3OUVu?=
+ =?utf-8?B?ZWp6M1hlYXlJdTZ5TGdZN1ZzUFJYWGE5Tnd2UHYrV1RHdXFVeGVOU3Y0N0Y4?=
+ =?utf-8?B?cGM5MkVFZEQvRm50MVRaUkR3Y29Ba1g2TllJbmkwZzJnNFFPLzg5VC85MWpT?=
+ =?utf-8?B?dlJmblV5dWFHQmlTWUJjOHVrcWM4ZlZhOU5nSjMzYUJiUThSSzMvd3AzcUJu?=
+ =?utf-8?B?YUZXQXdKUG00eTVUL1NUTGxYNWk4eDIzNjNZaWRoaWx6dzROcWk3ZVJaM3dC?=
+ =?utf-8?B?ZkN3SkhoNDFIRk9salQzeXYvbjgvcFdycWMyWnZxWGgwaEwvakVzenJkQllt?=
+ =?utf-8?Q?n2eoA2GRJcV42ngJGE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OU9WL05JeGhuNHdnY0JHWGk5Wkk3QVozdUNnRGJBR0EzN1AwZTJqSnc2UDJV?=
+ =?utf-8?B?Q2FsUUlEbGg5aHBONmdZNlliZDlHY202ZzFjUkxZckxjb1JYcURwenRTZmFv?=
+ =?utf-8?B?QjNsR3NNVEo3cm5iNkJ1bzQ4bWdxRHlIUWhvenZndnp0YmFQWERwRlRPd0RV?=
+ =?utf-8?B?c1FCQjJ2VWRLay8vK2tXcHRiWGFFZFFOanp4Qm5reStqbmhCUi82blpPUFEv?=
+ =?utf-8?B?RVpBSk1YMTN3R3pTUDcvRWttMkRlT01lNm1zSWJpWVJQd3NXaWFrNXd3L0Fm?=
+ =?utf-8?B?cUxWZ1JYVVdBMUxFbTMvWkora1U5NnRiMDIzWHcxUGtoTTNHdkhweWZuQXJs?=
+ =?utf-8?B?UmZCbGc3Zlk5VTJ2eExQZWhlZjAwRFU1NVJkNFlSZ3NMS3MyYUIrWWZEV2hK?=
+ =?utf-8?B?M2szZHZCNmtTaWhOQnNPN2lOUjdkQUVhUWhhTkNxMmo4YU1CUC9GQWNSYVYw?=
+ =?utf-8?B?Q0hSbmNUQzNEU2tUWEgrS0ZZTkh5bm9SUDRsQ3NtTkhsMFB6L0dXb1hPWUZD?=
+ =?utf-8?B?YzRpM3hxOHFpdnlRcCtsaSs4TmJEMlk2QlN1VjZBYVkvVUpTSlN2aDJreVpJ?=
+ =?utf-8?B?UXBvWEY1WTRydi9IcGZGblBOOWZhQmc0MFZOTndFMWNOUjRMRWl5MjFJbkxq?=
+ =?utf-8?B?YUxzRkhGaFNkTG83LzV2MXJzNGVMZVQrR21MZ2VJaXkwTHZaZzlUcWUzUVh6?=
+ =?utf-8?B?cnlvaGpZR1BieDdkQ1ZUN084bGM3WXBrNE56a25ETjg2QUdkMXVMeDFtK0Ni?=
+ =?utf-8?B?b1dodCtrdTA3SkNOS0NpRFpEQUdDLy96M2dOQWE5QjlxbjVXVkdrYXZwaGE1?=
+ =?utf-8?B?dXV6UkJ6UEFFdUdlZ0VXejNHOGp4Z3BBeGtBTThXZXV3d0dkS2xqeTZYTVlE?=
+ =?utf-8?B?ckVWUTdkQ3Zvc0xiVzEwUDQxYmRvalpPVlpCYm1vUG9sdUdHL08xc0daNHhH?=
+ =?utf-8?B?akl5aGNiVHdUYjJ2cXBoNXB3bFprUEIxakw5R25lRFdtQUxBcDFtUUUxdUpW?=
+ =?utf-8?B?NHljWUxBWlNVRndTMWtHd2JRdkNET2FRMzFlOWRNZTdFaU1IK2dnTmNzQWZx?=
+ =?utf-8?B?blQ1Zi80RlR0MUJhZFBSdWpCMFp6Zlo1VnY0bDhBYW1aQ25sRnl1RnhsN2lX?=
+ =?utf-8?B?bFZZY2k2UEhXcDI4ZU5tVEVzaE4xRDJWQVdmRStqYVdqSCtKWGF1OXBmdERK?=
+ =?utf-8?B?MWRvSXdLOWp1U3JCWUZnRXZiZXFyRHlLUk1YUzZaWm51cStERnlZeGo3MGNP?=
+ =?utf-8?B?TWEvWTJiSStsMVE3NzF3NEdjVlNVeW9YYUU1N1BzNVVnOEdpeEV4S2NLYm5V?=
+ =?utf-8?B?S1RTWVF4T3JsOHBTYjhEaVNMbVZkZTdIbm9uWWJQMnk0MUkyUXY3bjBQOUZO?=
+ =?utf-8?B?d3duQjlZN0Z2aGU5T05BNk1vWU93eEx0bkp3UVJ2QWl1UXFuWW1LS2xlTkJo?=
+ =?utf-8?B?TnVOa3R6ajJSU1luS0ltMjBUZ3hBVlhmcTkwZWZRelFvdlNHM1Y5cDRyYm93?=
+ =?utf-8?B?UlFnM2VGSzFZYWFCU0NRaVk2ZEx3eGVTVUtYWjBNU2xsNGRXaWNDaVdFSHlN?=
+ =?utf-8?B?UjBkR1VSUHlyVVdnWi9tTFdWTHdXODBVWlh5TDRYaGljQ3BDSEowa2JQTlVr?=
+ =?utf-8?B?d0M5TnRpQWhmLzBoam5hYTNrMDBKUzB2SzhhQk1WeDByTGd1bUF0WERKaHla?=
+ =?utf-8?B?Y1hZWXJ0bGRkSHNrVFBXRlJIUjYycE9nMlRwZDhZYVNYSk8yL3RpS01FczR4?=
+ =?utf-8?B?eU9kYzNzVGlveHhZdHVJMERWWVJhYzBKNFJxTHEzNjBrUy9UTXB4TktudHBN?=
+ =?utf-8?B?OHBjQlYrbmJlbU5lUUZCUEJhT0ExTHJ2TFJpNTl1UitrdW5EcU9samFmNU5o?=
+ =?utf-8?B?MG81VC9oUURkdWMvVWFjclFmc2xHNFJrNDhLcHA0YnFkaldDa3hsRE1hZDBT?=
+ =?utf-8?B?MXJXTDcxNWEvVm94UXZSd044VUpycDVTV1JDTDBQeGJ3TWNhcXFSaytCRTNp?=
+ =?utf-8?B?akFpRWtUNHpPS3NlZzBBNDV5ZVMrdjFEeHBJL1c3ZzZTS0NQcVdPZFpwT2po?=
+ =?utf-8?B?SjZjUUQ2djNJS1JDdUVyaFQwWnZoYmdDTHk5YVI3cndOOFhBcTJOOEpuM21E?=
+ =?utf-8?Q?oeko=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40031af4-3f9f-4bb2-0655-08dca5ce584c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2024 19:34:44.4278
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J2LJWGuV8IIvK5IWPM14NfzgtQuRM02pcixq7sKuZ19dPISY5/EHvNBg2R/YPjEq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8234
 
-On 16/07/2024 18:58, Cryolitia PukNgae via B4 Relay wrote:
-> From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Hi Reinette,
+
+On 7/12/24 17:10, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> Sensors driver for GPD Handhelds that expose fan reading and control via
-> hwmon sysfs.
+> On 7/3/24 2:48 PM, Babu Moger wrote:
+>> The event configuration is domain specific and initialized during domain
+>> initialization. It is not required to read the configuration register
+>> every time user asks for it. Use the value stored in rdt_mon_hw_domain
 > 
-> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
-> devices. This driver implements these functions through x86 port-mapped IO.
-> I have tested it on my device.
+> rdt_mon_hw_domain -> rdt_hw_mon_domain
 > 
-> Tested-by: Marcin Strągowski <marcin@stragowski.com>
-> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
-> ---
->  MAINTAINERS             |   6 +
->  drivers/hwmon/Kconfig   |  10 +
->  drivers/hwmon/Makefile  |   1 +
->  drivers/hwmon/gpd-fan.c | 759 ++++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 776 insertions(+)
+>> instead. Also update the configuration value when user writes it.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index af4b4c271342..9ced72cec42b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9372,6 +9372,12 @@ F:	drivers/phy/samsung/phy-gs101-ufs.c
->  F:	include/dt-bindings/clock/google,gs101.h
->  K:	[gG]oogle.?[tT]ensor
->  
-> +GPD FAN DRIVER
-> +M:	Cryolitia PukNgae <Cryolitia@gmail.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/hwmon/gpd-fan.c
-> +
->  GPD POCKET FAN DRIVER
->  M:	Hans de Goede <hdegoede@redhat.com>
->  L:	platform-driver-x86@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index b60fe2e58ad6..368165a25979 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -727,6 +727,16 @@ config SENSORS_GL520SM
->  	  This driver can also be built as a module. If so, the module
->  	  will be called gl520sm.
->  
-> +config SENSORS_GPD
-> +	tristate "GPD EC fan control"
-> +	depends on X86
-> +	help
-> +	  If you say yes here you get support for fan readings and
-> +	  control over GPD handheld devices.
-> +
-> +	  Can also be built as a module. In that case it will be
-> +	  called gpd-fan.
-> +
->  config SENSORS_G760A
->  	tristate "GMT G760A"
->  	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index b1c7056c37db..91c288451290 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -87,6 +87,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
->  obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
->  obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
->  obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
-> +obj-$(CONFIG_SENSORS_GPD)	+= gpd-fan.o
->  obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
->  obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
->  obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
-> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
-> new file mode 100644
-> index 000000000000..b7e7e73528af
-> --- /dev/null
-> +++ b/drivers/hwmon/gpd-fan.c
-> @@ -0,0 +1,759 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/dmi.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/ioport.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +
-> +#define DRIVER_NAME "gpdfan"
-> +
-> +static char *gpd_fan_model = "";
-> +module_param(gpd_fan_model, charp, 0444);
-> +
-> +static DEFINE_MUTEX(gpd_fan_locker);
-> +
-> +enum FUN_PWM_ENABLE {
+> Please separate the context/problem/solution clearly.
 
-FUN?
+Sure.
 
-> +	DISABLE = 0,
-> +	MANUAL = 1,
-> +	AUTOMATIC = 2,
-> +};
-> +
-> +struct driver_private_data {
-> +	enum FUN_PWM_ENABLE pwm_enable;
-> +	u8 pwm_value;
-> +
-> +	u16 fan_speed_cached;
-> +	u8 read_pwm_cached;
-> +
-> +	// minimum 1000 mill seconds
-> +	u32 update_interval_per_second;
-> +
-> +	unsigned long fan_speed_last_update;
-> +	unsigned long read_pwm_last_update;
-> +
-> +	const struct model_quirk *const quirk;
-> +};
-> +
-> +struct model_ec_address {
-> +	const u8 addr_port;
-> +	const u8 data_port;
-> +	const u16 manual_control_enable;
-> +	const u16 rpm_read;
-> +	const u16 pwm_write;
-> +	const u16 pwm_max;
-> +};
-> +
-> +struct model_quirk {
-> +	const char *model_name;
-> +
-> +	bool tested;
+> 
+>>
+>> Introduce resctrl_arch_event_config_get() and
+>> resctrl_arch_event_config_set() to get/set architecture domain specific
+>> mbm_total_cfg/mbm_local_cfg values.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>> v5: Introduced resctrl_arch_event_config_get and
+>>      resctrl_arch_event_config_get() based on our discussion.
+>>     
+>> https://lore.kernel.org/lkml/68e861f9-245d-4496-a72e-46fc57d19c62@amd.com/
+>>
+>> v4: New patch.
+>> ---
+>>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 112 +++++++++++++++----------
+>>   include/linux/resctrl.h                |   4 +
+>>   2 files changed, 72 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index b2b751741dd8..91c5d45ac367 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -1591,10 +1591,59 @@ static int rdtgroup_size_show(struct
+>> kernfs_open_file *of,
+>>   }
+>>     struct mon_config_info {
+>> +    struct rdt_mon_domain *d;
+>>       u32 evtid;
+>>       u32 mon_config;
+>>   };
+> 
+> as seen above, mon_config is a u32
+> 
+>>   +#define INVALID_CONFIG_VALUE   UINT_MAX
+> 
+> So an invalid config value can be U32_MAX?
 
-Why would you add here untested models?
+Sure.
 
-> +
-> +	const struct model_ec_address address;
-> +
-> +	int (*const read_rpm)(struct driver_private_data *, u16 *);
-> +
-> +	int (*const set_pwm_enable)(struct driver_private_data *,
-> +				    enum FUN_PWM_ENABLE);
-> +
+> 
+>> +
+>> +unsigned int resctrl_arch_event_config_get(struct rdt_mon_domain *d,
+>> +                       enum resctrl_event_id eventid)
+>> +{
+>> +    struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
+>> +
+>> +    switch (eventid) {
+>> +    case QOS_L3_OCCUP_EVENT_ID:
+>> +        break;
+>> +    case QOS_L3_MBM_TOTAL_EVENT_ID:
+>> +        return hw_dom->mbm_total_cfg;
+>> +    case QOS_L3_MBM_LOCAL_EVENT_ID:
+>> +        return hw_dom->mbm_local_cfg;
+>> +    }
+>> +
+>> +    /* Never expect to get here */
+>> +    WARN_ON_ONCE(1);
+>> +
+>> +    return INVALID_CONFIG_VALUE;
+>> +}
+>> +
+>> +void resctrl_arch_event_config_set(void *info)
+>> +{
+>> +    struct mon_config_info *mon_info = info;
+>> +    struct rdt_hw_mon_domain *hw_dom;
+>> +    unsigned int index;
+>> +
+>> +    index = mon_event_config_index_get(mon_info->evtid);
+>> +    if (index == INVALID_CONFIG_VALUE) {
+> 
+> INVALID_CONFIG_INDEX?
 
-Drop all or most of these blank lines.
+Yes.
 
-> +	int (*const read_pwm)(struct driver_private_data *, u8 *);
-> +
-> +	int (*const write_pwm)(const struct driver_private_data *, u8);
-> +};
-> +
-> +static int gpd_ecram_read(const struct model_ec_address *const address,
-> +			  const u16 offset, u8 *const val)
-> +{
-> +	int ret = mutex_lock_interruptible(&gpd_fan_locker);
+> 
+>> +        pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+>> +        return;
+>> +    }
+>> +    wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+>> +
+>> +    hw_dom = resctrl_to_arch_mon_dom(mon_info->d);
+>> +
+>> +    switch (mon_info->evtid) {
+>> +    case QOS_L3_OCCUP_EVENT_ID:
+>> +        break;
+>> +    case QOS_L3_MBM_TOTAL_EVENT_ID:
+>> +        hw_dom->mbm_total_cfg = mon_info->mon_config;
+>> +        break;
+>> +    case QOS_L3_MBM_LOCAL_EVENT_ID:
+>> +        hw_dom->mbm_local_cfg =  mon_info->mon_config;
+> 
+> Please add a break here.
 
-Don't mix mutexes with variable declaration. See existing examples how
-this looks like.
+Sure.
+> 
+>> +    }
+>> +}
+>> +
+>>   #define INVALID_CONFIG_INDEX   UINT_MAX
+>>     /**
+>> @@ -1619,33 +1668,11 @@ unsigned int mon_event_config_index_get(u32 evtid)
+>>       }
+>>   }
+>>   -static void mon_event_config_read(void *info)
+>> -{
+>> -    struct mon_config_info *mon_info = info;
+>> -    unsigned int index;
+>> -    u64 msrval;
+>> -
+>> -    index = mon_event_config_index_get(mon_info->evtid);
+>> -    if (index == INVALID_CONFIG_INDEX) {
+>> -        pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+>> -        return;
+>> -    }
+>> -    rdmsrl(MSR_IA32_EVT_CFG_BASE + index, msrval);
+>> -
+>> -    /* Report only the valid event configuration bits */
+>> -    mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
+>> -}
+>> -
+>> -static void mondata_config_read(struct rdt_mon_domain *d, struct
+>> mon_config_info *mon_info)
+>> -{
+>> -    smp_call_function_any(&d->hdr.cpu_mask, mon_event_config_read,
+>> mon_info, 1);
+>> -}
+>> -
+>>   static int mbm_config_show(struct seq_file *s, struct rdt_resource *r,
+>> u32 evtid)
+>>   {
+>> -    struct mon_config_info mon_info = {0};
+>>       struct rdt_mon_domain *dom;
+>>       bool sep = false;
+>> +    int val;
+>>         cpus_read_lock();
+>>       mutex_lock(&rdtgroup_mutex);
+>> @@ -1654,11 +1681,13 @@ static int mbm_config_show(struct seq_file *s,
+>> struct rdt_resource *r, u32 evtid
+>>           if (sep)
+>>               seq_puts(s, ";");
+>>   -        memset(&mon_info, 0, sizeof(struct mon_config_info));
+>> -        mon_info.evtid = evtid;
+>> -        mondata_config_read(dom, &mon_info);
+>> +        val = resctrl_arch_event_config_get(dom, evtid);
+> 
+> There are too many types used interchangeably. The mon_config is a "u32",
+> but the new function
+> returns "unsigned int", which is then assigned to an "int". Please just
+> use one type
+> consistently, it is a u32 so resctrl_arch_event_config_get() can return
+> u32 and "val" should
+> be u32.
+> 
 
+Sure. Will do.
 
-> +
-> +static const struct model_quirk gpd_win4_quirk = {
+>> +        if (val == INVALID_CONFIG_VALUE) {
+>> +            rdt_last_cmd_puts("Invalid event configuration\n");
+> 
+> I do not see a reason to print message to user space here. If this error
+> is encountered
+> then it is a kernel bug and resctrl_arch_event_config_get() would already
+> have triggered
+> a WARN.
+> 
+> Since this is a "never should happen" scenario I wonder if we can not just
+> print
+> the INVALID_CONFIG_VALUE to user space?
 
-You mix data definition with functions. That's confusing code. Look at
-other recent drivers how this is organized, usually definitions are
-together.
+Ok. Will remove the check and the message.
 
-> +	.model_name = "win4",
-> +	.tested = false,
-> +	.address = {
-> +		.addr_port = 0x2E,
-> +		.data_port = 0x2F,
-> +		.manual_control_enable = 0xC311,
-> +		.rpm_read = 0xC880,
-> +		.pwm_write = 0xC311,
-> +		.pwm_max = 127,
-> +	},
-> +	.read_rpm = gpd_win4_read_rpm,
-> +	// same as GPD Win Mini
-> +	.set_pwm_enable = gpd_win_mini_set_pwm_enable,
-> +	.read_pwm = gpd_read_pwm,
-> +	// same as GPD Win Mini
-> +	.write_pwm = gpd_win_mini_write_pwm,
-> +};
-> +> +static int
-> +gpd_wm2_read_rpm_uncached(const struct driver_private_data *const data,
-> +			  u16 *const val)
-> +{
-> +	const struct model_ec_address *const address = &data->quirk->address;
-> +
-> +	for (u16 pwm_ctr_offset = 0x1841; pwm_ctr_offset <= 0x1843;
-> +		 pwm_ctr_offset++) {
-> +		u8 PWMCTR;
-> +
-> +		gpd_ecram_read(address, pwm_ctr_offset, &PWMCTR);
-> +		if (PWMCTR != 0xB8)
-> +			gpd_ecram_write(address, pwm_ctr_offset, 0xB8);
-> +	}
-> +	return gpd_read_rpm_uncached(data, val);
-> +}
-> +
-> +static int gpd_wm2_read_rpm(struct driver_private_data *const data,
-> +			    u16 *const val)
+> 
+> 
+>> +            break;
+>> +        }
+>>   -        seq_printf(s, "%d=0x%02x", dom->hdr.id, mon_info.mon_config);
+>> +        seq_printf(s, "%d=0x%02x", dom->hdr.id, val);
+>>           sep = true;
+>>       }
+>>       seq_puts(s, "\n");
+>> @@ -1689,33 +1718,27 @@ static int mbm_local_bytes_config_show(struct
+>> kernfs_open_file *of,
+>>       return 0;
+>>   }
+>>   -static void mon_event_config_write(void *info)
+>> -{
+>> -    struct mon_config_info *mon_info = info;
+>> -    unsigned int index;
+>> -
+>> -    index = mon_event_config_index_get(mon_info->evtid);
+>> -    if (index == INVALID_CONFIG_INDEX) {
+>> -        pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+>> -        return;
+>> -    }
+>> -    wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+>> -}
+>>     static void mbm_config_write_domain(struct rdt_resource *r,
+>>                       struct rdt_mon_domain *d, u32 evtid, u32 val)
+>>   {
+>>       struct mon_config_info mon_info = {0};
+>> +    int config_val;
+>>         /*
+>> -     * Read the current config value first. If both are the same then
+>> +     * Check the current config value first. If both are the same then
+>>        * no need to write it again.
+>>        */
+>> -    mon_info.evtid = evtid;
+>> -    mondata_config_read(d, &mon_info);
+>> -    if (mon_info.mon_config == val)
+>> +    config_val = resctrl_arch_event_config_get(d, evtid);
+>> +    if (config_val == INVALID_CONFIG_VALUE) {
+>> +        rdt_last_cmd_puts("Invalid event configuration\n");
+> 
+> same here about unneeded print to user space. When this is encountered it is
+> a kernel bug.
 
-All your functions are really weird.
+Ok. Will remove the check and the message.
 
-The const here is just meaningless. So meaningless that just wrong and
-confusing, even though technically correct.
+> 
+>> +        return;
+>> +    }
+>> +    if (config_val == val)
+>>           return;
+>>   +    mon_info.d = d;
+>> +    mon_info.evtid = evtid;
+>>       mon_info.mon_config = val;
+>>         /*
+>> @@ -1724,7 +1747,8 @@ static void mbm_config_write_domain(struct
+>> rdt_resource *r,
+>>        * are scoped at the domain level. Writing any of these MSRs
+>>        * on one CPU is observed by all the CPUs in the domain.
+>>        */
+>> -    smp_call_function_any(&d->hdr.cpu_mask, mon_event_config_write,
+>> +    smp_call_function_any(&d->hdr.cpu_mask,
+>> +                  resctrl_arch_event_config_set,
+>>                     &mon_info, 1);
+>>         /*
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index 62f0f002ef41..f017258ebf85 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -352,6 +352,10 @@ void resctrl_arch_reset_rmid(struct rdt_resource
+>> *r, struct rdt_mon_domain *d,
+>>    */
+>>   void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct
+>> rdt_mon_domain *d);
+>>   +void resctrl_arch_event_config_set(void *info);
+>> +unsigned int resctrl_arch_event_config_get(struct rdt_mon_domain *d,
+>> +                       enum resctrl_event_id eventid);
+>> +
+>>   extern unsigned int resctrl_rmid_realloc_threshold;
+>>   extern unsigned int resctrl_rmid_realloc_limit;
+>>   
+> 
+> Reinette
+> 
 
-This applies everywhere - drop this odd style and keep only meaningful
-const.
-
-
-...
-
-> +
-> +static int gpd_fan_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct driver_private_data *data;
-> +
-> +	data = dev_get_platdata(&pdev->dev);
-> +	if (IS_ERR_OR_NULL(data))
-> +		return -ENODEV;
-> +
-> +	const struct resource *plat_res =
-> +		platform_get_resource(pdev, IORESOURCE_IO, 0);
-> +	if (IS_ERR_OR_NULL(plat_res)) {
-> +		pr_warn("Failed to get platform resource\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	const struct resource *region_res = devm_request_region(
-> +		dev, plat_res->start, resource_size(plat_res), DRIVER_NAME);
-> +	if (IS_ERR_OR_NULL(region_res)) {
-> +		pr_warn("Failed to request region\n");
-> +		return -EBUSY;
-> +	}
-> +
-> +	const struct device *dev_reg = devm_hwmon_device_register_with_info(
-
-
-Declarations go to the top of the function.
-
-> +		dev, DRIVER_NAME, data, &gpd_fan_chip_info, NULL);
-> +	if (IS_ERR_OR_NULL(dev_reg)) {
-> +		pr_warn("Failed to register hwmon device\n");
-> +		return -EBUSY;
-> +	}
-> +
-> +	struct dentry *debug_fs_entry = debugfs_create_dir(DRIVER_NAME, NULL);
-> +
-> +	if (!IS_ERR(debug_fs_entry)) {
-> +		DEBUG_FS_ENTRY = debug_fs_entry;
-> +		debugfs_create_file_size("manual_control_reg",
-> +					 0600, DEBUG_FS_ENTRY,
-> +					 (void *)&data->quirk->address,
-> +					 &debugfs_manual_control_fops,
-> +					 sizeof(u8));
-> +		debugfs_create_file_size("pwm_reg", 0600,
-> +					 DEBUG_FS_ENTRY,
-> +					 (void *)&data->quirk->address,
-> +					 &debugfs_pwm_fops, sizeof(u8));
-> +	}
-> +
-> +	pr_debug("GPD Devices fan driver probed\n");
-
-Drop
-
-> +	return 0;
-> +}
-> +
-> +static int gpd_fan_remove(__always_unused struct platform_device *pdev)
-> +{
-> +	struct driver_private_data *data = dev_get_platdata(&pdev->dev);
-> +
-> +	data->pwm_enable = AUTOMATIC;
-> +	data->quirk->set_pwm_enable(data, AUTOMATIC);
-> +
-> +	if (!IS_ERR_OR_NULL(DEBUG_FS_ENTRY)) {
-> +		debugfs_remove_recursive(DEBUG_FS_ENTRY);
-> +		DEBUG_FS_ENTRY = NULL;
-> +	}
-> +
-> +	pr_debug("GPD Devices fan driver removed\n");
-
-Drop
-
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver gpd_fan_driver = {
-> +	.probe = gpd_fan_probe,
-> +	.remove = gpd_fan_remove,
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-> +	},
-> +};
-> +
-> +static struct platform_device *gpd_fan_platform_device;
-
-static, so how do you support more than one device?
-
-> +
-> +static int __init gpd_fan_init(void)
-> +{
-> +	const struct model_quirk *match = NULL;
-> +
-> +	for (const struct model_quirk **p = gpd_module_quirks; *p != NULL;
-> +		 p++) {
-> +		if (strcmp(gpd_fan_model, (*p)->model_name) == 0) {
-> +			match = *p;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (match == NULL) {
-> +		match = dmi_first_match(gpd_devices)->driver_data;
-> +		if (!IS_ERR_OR_NULL(match) && !match->tested) {
-> +			pr_warn("GPD Fan Driver do have the quirk for your device, but it's not tested. Please tested carefully by model parameter gpd_fan_model=%s and report.\n",
-> +				match->model_name);
-> +			match = NULL;
-> +		}
-> +	}
-> +
-> +	if (IS_ERR_OR_NULL(match)) {
-> +		pr_debug("GPD Devices not supported\n");
-
-Drop
-
-> +		return -ENODEV;
-> +	}
-> +
-> +	pr_info("Loading GPD fan model quirk: %s\n", match->model_name);
-
-Drop
-
-> +
-> +	struct driver_private_data data = {
-> +		.pwm_enable = AUTOMATIC,
-> +		.pwm_value = 255,
-> +		.fan_speed_cached = 0,
-> +		.read_pwm_cached = 0,
-> +		.update_interval_per_second = 1,
-> +		.fan_speed_last_update = jiffies,
-> +		.read_pwm_last_update = jiffies,
-> +		.quirk = match,
-> +	};
-> +
-> +	struct resource gpd_fan_resources[] = {
-> +		{
-> +			.start = data.quirk->address.addr_port,
-> +			.end = data.quirk->address.data_port,
-> +			.flags = IORESOURCE_IO,
-> +		},
-> +	};
-> +
-> +	gpd_fan_platform_device = platform_create_bundle(
-> +		&gpd_fan_driver, gpd_fan_probe, gpd_fan_resources, 1, &data,
-> +		sizeof(struct driver_private_data));
-> +
-> +	if (IS_ERR(gpd_fan_platform_device)) {
-> +		pr_warn("Failed to create platform device\n");
-
-Drop
-
-> +		return PTR_ERR(gpd_fan_platform_device);
-> +	}
-> +
-> +	pr_debug("GPD Devices fan driver loaded\n");
-
-Drop such debug statements, kernel cannot print anything on module
-loading/unloading.
-
-
-> +	return 0;
-> +}
-> +
-> +static void __exit gpd_fan_exit(void)
-> +{
-> +	platform_device_unregister(gpd_fan_platform_device);
-> +	platform_driver_unregister(&gpd_fan_driver);
-> +	pr_debug("GPD Devices fan driver unloaded\n");
-
-Drop such debug statements, kernel cannot print anything on module
-loading/unloading.
-
-> +}
-> +
-> +module_init(gpd_fan_init)
-> +
-> +	module_exit(gpd_fan_exit)
-> +
-> +		MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Cryolitia <Cryolitia@gmail.com>");
-
-That's some odd indentation above.
-
-Best regards,
-Krzysztof
-
+-- 
+Thanks
+Babu Moger
