@@ -1,75 +1,75 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF574687;
-	Tue, 16 Jul 2024 07:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE07224D4;
+	Tue, 16 Jul 2024 07:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721115059; cv=none; b=F/tPjmlb+6BfkErHw/c5MlH5e7HQqPC+o8w9xc/CDW5HHqaUrZIWN8SBHhm06H2iDfnCxTLnM61xD5Xpe6rFo+TDThVMyXtuQJX96nKT09dFjp2ZRUJYQI+in3/YDNBd2uUUW4JnvXJ6szehf3twN4lUvFOM1T3JPLz0KkOiyYM=
+	t=1721115450; cv=none; b=srNkX6lVZ/yW529soNU/zFzEqv5qYKdgPtq29a0Er4c5qC1ars/UG9GjFUqLMSkyDEb0i0ydD2oaape2meXcW/wJ2trgw4WJ+HYG03Zg6hOwt8QswhvBqSlGIknuTH713xkxxdukT7NZscBpcp0pQ29nLFt2joIhAxbGox6Jws4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721115059; c=relaxed/simple;
-	bh=cVPIPkX7v007ff3LU6KGGLWVrARomilM8CycTdtwLNM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nIftgWwJ4zith0auYlcX2FxIVH9AqaG3d3r4Hu8OrFqolUVPqieEs7HqH8E1IYp0wdB5ATS6WsgNg0bAKb2g02GJB+rFMNVqrdtrHpdcKUl70dEXnzI/dACNhIZAk1tjieYA/G5HSZ8GAeYQpg0ohWHogqMBUQE66iBcOR7Fxgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WNW0Q2p7Dzdhvy;
-	Tue, 16 Jul 2024 15:29:10 +0800 (CST)
-Received: from kwepemm600007.china.huawei.com (unknown [7.193.23.208])
-	by mail.maildlp.com (Postfix) with ESMTPS id 93EF5140158;
-	Tue, 16 Jul 2024 15:30:53 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.178.219) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 16 Jul 2024 15:30:52 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <quic_jhugo@quicinc.com>, <quic_carlv@quicinc.com>,
-	<quic_pkanojiy@quicinc.com>, <ogabbay@kernel.org>, <corbet@lwn.net>,
-	<wanghaibin.wang@huawei.com>, Zenghui Yu <yuzenghui@huawei.com>
-Subject: [PATCH] accel/qaic: Remove the description of DRM_IOCTL_QAIC_PART_DEV
-Date: Tue, 16 Jul 2024 15:30:36 +0800
-Message-ID: <20240716073036.453-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+	s=arc-20240116; t=1721115450; c=relaxed/simple;
+	bh=JO3qgQV4sy0U2AaNeNeVdHcFGwZZ9gH4KsehfrW9qEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QEBaMWA/vPoyv7KCkJHlyFPvPGOQmGJvGvnPfWyQVAQycOoLResNc7ALAxc6USkTVrULmQQfHY/Kb7tc3OYJ8IKCPOew6zWylwMzEWAeZId1X4n0/2bW72i8ydMsHpKxAS6Ai38fugkxeIKrA6C2DCt4t1OY5P2dRRvRTKs05KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEQi10vB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEQi10vB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58AD8C116B1;
+	Tue, 16 Jul 2024 07:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721115449;
+	bh=JO3qgQV4sy0U2AaNeNeVdHcFGwZZ9gH4KsehfrW9qEQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EEQi10vBr2zTt+8+q5Ijrg1zn14enr23N3t5Mf+Q3ATK9FrfwUmwEv56VRw9Kckim
+	 n4y41pPCHpgM4PnaReJbhjOJEVf0LJb9qQVWL92truLKYQ3hcDUaEpqxZyHqhO9sWd
+	 eZmbvlpev0t+zz5ob76vCO5il2QAEvnnGlYgA4SwL+RCuIgz86JRtUJCijofa8Ul6T
+	 Wxx8XUEI3j2AY72qRNZ3dB05A3G0RZ4eoIf61KtN/LENtNSG7mjzbfddZBZhMJ1Qf3
+	 kZt4tlF88NMZbRNhCeDzOk1CHtFNZw9xVR6pUTaOUpJ57izYQ3KxxofTtLXAsLfnEn
+	 oLRLkdByOqrGQ==
+Date: Tue, 16 Jul 2024 09:37:19 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Chandan Babu R <chandan.babu@oracle.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+	David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
+	Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/9] fs: multigrain timestamp redux
+Message-ID: <20240716-zerlegen-haudegen-ba86a22f4322@brauner>
+References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600007.china.huawei.com (7.193.23.208)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
 
-The partition device ioctl was removed during the development of the
-initial version of qaic driver. Remove its description from the
-documentation to avoid confusing readers.
+On Mon, Jul 15, 2024 at 08:48:51AM GMT, Jeff Layton wrote:
+> I think this is pretty much ready for linux-next now. Since the latest
+> changes are pretty minimal, I've left the Reviewed-by's intact. It would
+> be nice to have acks or reviews from maintainers for ext4 and tmpfs too.
+> 
+> I did try to plumb this into bcachefs too, but the way it handles
+> timestamps makes that pretty difficult. It keeps the active copies in an
+> internal representation of the on-disk inode and periodically copies
+> them to struct inode. This is backward from the way most blockdev
+> filesystems do this.
+> 
+> Christian, would you be willing to pick these up  with an eye toward
+> v6.12 after the merge window settles?
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
----
- Documentation/accel/qaic/qaic.rst | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index efb7771273bb..62a8d2b4711d 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -147,12 +147,6 @@ DRM_IOCTL_QAIC_PERF_STATS_BO
-   recent execution of a BO. This allows userspace to construct an end to end
-   timeline of the BO processing for a performance analysis.
- 
--DRM_IOCTL_QAIC_PART_DEV
--  This IOCTL allows userspace to request a duplicate "shadow device". This extra
--  accelN device is associated with a specific partition of resources on the
--  AIC100 device and can be used for limiting a process to some subset of
--  resources.
--
- DRM_IOCTL_QAIC_DETACH_SLICE_BO
-   This IOCTL allows userspace to remove the slicing information from a BO that
-   was originally provided by a call to DRM_IOCTL_QAIC_ATTACH_SLICE_BO. This
--- 
-2.33.0
-
+Yup. About to queue it up. I'll try to find some time to go through it
+so I might have some replies later but that shouldn't hold up linux-next
+at all.
