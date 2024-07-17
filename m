@@ -1,182 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD6B171A5;
-	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA77171A1;
+	Wed, 17 Jul 2024 06:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721198795; cv=none; b=prvpuAXYukATqNOr2hjJI6lIklPXan7soKqeQwGRVlR6GSE+tHKw5OdRPZ85jTFf3UcCZsvDkVazeotaQRibxQx30ad62dCi3W7kuvRFiHfLshob/NWc7Nz4mqYa8S6iSyiFoXK1iGrnkE707k6X+uVe+GE4YF0q//rnNSp/iV4=
+	t=1721199356; cv=none; b=Z1UxCj2mSZxn/uMmhLsUtsaMDUG9DsGMIe+zUHP2ivvnu1SVBAYeNVLpmyKiLbE019PbRbzzvS+MxSejEqUxBFEPF6RP+oCPCo+jkaz1WBmxyJxq+rAqlIPQxMbAOcUEFyDbOO4vWGFm014yUTEx+IQXUHPLUGvjbKUE5LVOses=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721198795; c=relaxed/simple;
-	bh=gDkyXHZ+uvQOh5+CSatxWv2gpcXQE70zzlSXyGIc6hE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FtnoLwWrZGWMPiWtShr8VAT9EuuonTPBvGpP9L+mJMLGHlER2Wxl3u9CdZL1mDBa1947Bx6J3c0lpr/VU3MIFgEOsA1exFHVT1gp0bbHU3gy4jZg8htFte9qWD0ADJQIfd9VWy31hzhd3g4uPG3Iyv6fcFaHou4ddZcIaWU/AHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0sQhONX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721199356; c=relaxed/simple;
+	bh=WUKjxeCHiwFtmo+gm+BNy9YZfIYrgx0j4AH0tWl7VOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=IYxUoOkx7Rh9yKgKjaHP8IwTURoHw01dPaTYXsOqoTqql/vZ+lA0p9qS4abSdX8jt+94PPvqqrYmP5G9nK31ilhq643KJxhx/X3O5ES8Bdfy8gZd7avDQLviaxUlftLV0ro39bYdPYM/+VjJBesDZDsXzBnZIV3ot2Yzl0fwszk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p5EzZrYW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0sQhONX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DCEAC4AF0F;
-	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p5EzZrYW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61994C4AF0C;
+	Wed, 17 Jul 2024 06:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721198794;
-	bh=gDkyXHZ+uvQOh5+CSatxWv2gpcXQE70zzlSXyGIc6hE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=j0sQhONXQkMQx0HLA7rnDBt+78XNSJuiAeA+Ihyzle1LMF9XJfg5z4XXolNJJS9Nd
-	 MCxJ78I+e7j+rEB4dWC6Iy1d63/44JBIN1GNR3Q81iWGmnoKcwhQ+69jh+oskv6Hgu
-	 He9IuaF/NC2Rlvy72qH+UU4sWHQLYHau2Yx3tsfj7dw0cutd9RsRQCQQV28y2iuuqf
-	 0CDv718/VcieD7KqS8R4/ZaOQ8D2ErZ27q1J4NFKfxY6JeshoOpQ/bQRWt3ljxPC/3
-	 H5ix9SIghltT0nnu3B4+KVulHSslwbuzbWhE58ZZXRDDZWAHsBCTl8ENNG14H3XIev
-	 ASgYHp6nvmrjQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 717B8C3DA42;
-	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
-Date: Wed, 17 Jul 2024 14:46:27 +0800
-Subject: [PATCH v3 2/2] hwmon: document: add gpd-fan
+	s=k20201202; t=1721199356;
+	bh=WUKjxeCHiwFtmo+gm+BNy9YZfIYrgx0j4AH0tWl7VOc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=p5EzZrYWhoooorSQcFP16ktfLMDg5rNQK9Sh8ivta4yqXV2Yxljgrro1Up2zcRd1O
+	 zBI2nMFnfW748MnEo+H33KmGRAK2hq9rEg5VtlbyiNQs+u4GRDUND3XLBRiXg0KvI/
+	 0Ew5dZv0zEeHnn0q32/u7ug3zIE89KuZ8TSN503FqTMTA5pAJTXz78DeWu/GvgUOFP
+	 i8Z0BD3Qe8oc/dA1FiV2IJRODuqXmuUR+mktkX3xri9B7draEhWX6WDwpWttyjFkzr
+	 QIdX4plD/IjMr8thTcuUb5uaOdCYvq6XjHUOWic1cLYBUcC3kxmvEvSJ7GHS7KXwo4
+	 vU1xfONTGT9uQ==
+Message-ID: <656bc50f-3c8b-48de-a1ba-ff27749ebb78@kernel.org>
+Date: Wed, 17 Jul 2024 08:55:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/11] dt-bindings: riscv: Add Ziccrse ISA extension
+ description
+To: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet
+ <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
+ <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+ Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arch@vger.kernel.org
+References: <20240717061957.140712-1-alexghiti@rivosinc.com>
+ <20240717061957.140712-11-alexghiti@rivosinc.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240717061957.140712-11-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240717-gpd_fan-v3-2-8d7efb1263b7@gmail.com>
-References: <20240717-gpd_fan-v3-0-8d7efb1263b7@gmail.com>
-In-Reply-To: <20240717-gpd_fan-v3-0-8d7efb1263b7@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Cryolitia PukNgae <Cryolitia@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
- Yao Zi <ziyao@disroot.org>, 
- =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2841;
- i=Cryolitia@gmail.com; h=from:subject:message-id;
- bh=w5ysSKMT+Erogd22vy685m5vnNbd3B3fdSDLl++agfw=;
- b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFHUy9wQU5Bd0FJQVQ1ZEYzTDhpb
- zdkQWNzbVlnQm1sMmpHdDgvaC9wT3M5N3kreUNJazZBSWVaZk1PCkZGaXRkV3VCVlBML1ZqZE54
- ZFNKQVRNRUFBRUlBQjBXSVFSME5XMHB5dmR3U0JGOENDWStYUmR5L0lxTzNRVUMKWnBkb3hnQUt
- DUkErWFJkeS9JcU8zYUxvQi93TGdxNnBuS05NRWJNWGI1enZaME4zaXA1SndCbzAzd1dSL0NURQ
- pFTERiY0ozZ2N2QUpXYzd5MDU2WXd0UCs5VVRuaDczam9zcjR5dlRaMXdYNEs1MUIycFJFeHhvd
- ERPaUl6NXdDCjFSak5rYVZNNTVmT1VMWldYYmFVeW1zS1VpRnNLMGhLa0lhbEdmcTN5anNxY2Fq
- Wk1teWhGb3dkZkdNRW0ycmoKbE94aU5qM1RUVHVzTXNOdzFselJlcGZCMkRGYWpPYU5HbnRRa2Z
- ta3pmM0dlUEJBL3hZZEo1ajI2WFRGVnhnUgpVVG9mMWxUMGcra0MyN3dpZzZLNThNV3pQbkJ5cG
- JESGVjRDhyVytMUVAzT0QwVFE1a1ljS0FweDBkdDhTOEhIClUyZ1hmbnFkRXB0eUZpK2UxOXhXS
- mhhNlY0NHJ6NjNicmhtNFV5WDd2TzZMVitsRgo9dlVpQQotLS0tLUVORCBQR1AgTUVTU0FHRS0t
- LS0tCg==
-X-Developer-Key: i=Cryolitia@gmail.com; a=openpgp;
- fpr=1C3C6547538D7152310C0EEA84DD0C0130A54DF7
-X-Endpoint-Received: by B4 Relay for Cryolitia@gmail.com/default with
- auth_id=186
-X-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
-Reply-To: Cryolitia@gmail.com
 
-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+On 17/07/2024 08:19, Alexandre Ghiti wrote:
+> Add description for the Ziccrse ISA extension which was introduced in
+> the riscv profiles specification v0.9.2.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-Add GPD fan driver document
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
----
- Documentation/hwmon/gpd-fan.rst | 63 +++++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst   |  1 +
- MAINTAINERS                     |  1 +
- 3 files changed, 65 insertions(+)
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
 
-diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
-new file mode 100644
-index 000000000000..68189cdc5b45
---- /dev/null
-+++ b/Documentation/hwmon/gpd-fan.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver gpd-fan
-+=========================
-+
-+Author:
-+    - Cryolitia PukNgae <Cryolitia@gmail.com>
-+
-+Description
-+------------
-+
-+Handheld devices from Shenzhen GPD Technology Co., Ltd. provide fan readings and fan control through
-+their embedded controllers.
-+
-+Supported devices
-+-----------------
-+
-+Currently the driver supports the following handhelds:
-+
-+ - GPD Win Mini (7840U)
-+ - GPD Win Mini (8840U)
-+ - GPD Win Max 2
-+ - GPD Win Max 2 2023 (7840U)
-+ - GPD Win Max 2 2024 (8840U)
-+ - GPD Win 4 (6800U)
-+ - GPD Win 4 (7840U)
-+
-+Module parameters
-+-----------------
-+
-+gpd_fan_model
-+  Force specific which module quirk should be used.
-+  Use it like "gpd_fan_model=wm2".
-+
-+   - wm2
-+       - GPD Win 4 (7840U)
-+       - GPD Win Max 2 (6800U)
-+       - GPD Win Max 2 2023 (7840U)
-+       - GPD Win Max 2 2024 (8840U)
-+   - win4
-+       - GPD Win 4 (6800U)
-+   - win_mini
-+       - GPD Win Mini (7840U)
-+       - GPD Win Mini (8840U)
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported:
-+
-+fan1_input
-+  Read Only. Reads current fan RPM.
-+
-+pwm1_enable
-+  Read/Write. Enable manual fan control. Write "0" to disable control and run at
-+  full speed. Write "1" to set to manual, write "2" to let the EC control decide
-+  fan speed. Read this attribute to see current status.
-+
-+pwm1
-+  Read/Write. Read this attribute to see current duty cycle in the range [0-255].
-+  When pwm1_enable is set to "1" (manual) write any value in the range [0-255]
-+  to set fan speed.
-+
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 913c11390a45..97add26f53b7 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -80,6 +80,7 @@ Hardware Monitoring Kernel Drivers
-    gigabyte_waterforce
-    gsc-hwmon
-    gl518sm
-+   gpd-fan
-    gxp-fan-ctrl
-    hih6130
-    hp-wmi-sensors
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ced72cec42b..5079b5bfe4b1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9376,6 +9376,7 @@ GPD FAN DRIVER
- M:	Cryolitia PukNgae <Cryolitia@gmail.com>
- L:	linux-hwmon@vger.kernel.org
- S:	Maintained
-+F:	Documentation/hwmon/gpd-fan.rst
- F:	drivers/hwmon/gpd-fan.c
- 
- GPD POCKET FAN DRIVER
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
 
--- 
-2.45.2
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
 
+Best regards,
+Krzysztof
 
