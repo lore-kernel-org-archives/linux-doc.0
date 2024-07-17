@@ -1,132 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AE414F6C;
-	Wed, 17 Jul 2024 06:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8225C33D8;
+	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721198542; cv=none; b=Vurol9e6+77yxdAa0ThBW/w3smkeiuE/doC0DVmXhcaf3R0J2KlcuA+C1IrCgzRf/HyTyGXiFBZtBFELW6N8StGR9f8mQegH0LkL0wRFfeiXKNzTg6ksUVC4e5H3DBXKJ65OqJYq69hT3qOsFsXqFLgePiXxJgjTvFE4F/K8RD8=
+	t=1721198794; cv=none; b=Wt1KbCs87wYnZCW+UnFHC6ZZu8CHYwkRF53HG50UX+AK9QXfFlmzzkMpGMiC/R6ETujRpG1ChvEnuv7bSOutvBKd3VZPgC2b/yE5arupZBPUcmIX2lv5e6gF5dDEijtrh4OOtRA9GPCuCE2Nnjl9TP/EbaY18gkgk1WoIPC01pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721198542; c=relaxed/simple;
-	bh=spQRPZaYq5tzQGw7T8xlS+i7lp0wAGAT4aBxUl8eZco=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oB+cxNKo240403p/cZUv6dQy/P13yE37ERNxdymBekWARwTGaV2cFksZLzWvn24E2ujjkJOKWptCeL2anjLHd9YXUgtJegn1OHKV+TU32XGdCrJKQxQe72+T77i9jzFaA9tMv4GnUrK8NvTweVs3xCvWmilH3AAX7OGflKvAJ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0hHQEEj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721198794; c=relaxed/simple;
+	bh=uMqIIpyBOEqt0CJmGAlMj+e7wF3ct3u+0A8IBPGTYoU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=W87FyNN3tjI7D5rOab5TzkNBLbe/xZIhUcE3lppwgdE9IqvJDjbkCYDheZ8wa7hduu582o/E2NkQHuLvRVZsjFi2GEh5230PYLb3jOSSzljnS0/WeyGUF7jxIGysEpNX3TK6Aw6QDAvWoONagdPZ8OlFoot1g1Mu0a1JmzMtoII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8w08Aol; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0hHQEEj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D2AC32782;
-	Wed, 17 Jul 2024 06:42:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8w08Aol"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E9D6C4AF09;
+	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721198541;
-	bh=spQRPZaYq5tzQGw7T8xlS+i7lp0wAGAT4aBxUl8eZco=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=D0hHQEEjWyhI/GgZFL35GxpL/9QIa/DMN1CV7+7LwSiCdcM0HYp7NFQsuBjzkxFu7
-	 uTzAXqxcYHlcI4F7z8viOvmXocI5nqeKBYtOkeMHuLGwrJsEz/tBzESq0nuxB1r72a
-	 ovN6hnxaWRAec682e6xGTlWsceSdS7P3nbDuiJQn64fHmZRabijnuy1QZbQpC9Cs5i
-	 7E5H2sPGjyjRNzUvdBBOjqPoaxQtxCyMixY8rYBDX7+tJkN1DVJrwAc3EmMj7oEOf0
-	 2MvxB2JFWR/zv7jonR/WI6x9BOvm0QF18r/NoKvjbnqRNUL0UstN9eUkccBBpTLO9p
-	 /dtey7YdQPTfA==
-Message-ID: <032ca0b4-94e2-4ada-8ea1-9915cba01e86@kernel.org>
-Date: Wed, 17 Jul 2024 08:42:11 +0200
+	s=k20201202; t=1721198794;
+	bh=uMqIIpyBOEqt0CJmGAlMj+e7wF3ct3u+0A8IBPGTYoU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=A8w08Aol4NsvGHucRsXWDe35HVmylrYgdApVMyGZM+l9fZTx15gq377yjJd+0Cn01
+	 ygFI3mE3ed7h6IWg8AZdoMWy0FzZc+26D5cignaMx/cSRsPZO0U90DsYEh3yGCZOR/
+	 nDiQn4DavEJ5x5P8NVtziGmTIa7HOL4V6gVKLXbY90ZeRd+KsttVP8AWtmogF96WLI
+	 2J5OnQYbcZNJ5zWlb+7F3Ip0z5vC8ibLzwd2TWg4bf+xsTmw8XoWbNE8Bo0jeN7Pvp
+	 UV3fDvxncuNFsGiejFTchBJ/IQWYfLrvri+uYbYX0Sek6Njz93ByV+To3CHD1rE7nk
+	 VTGNGk4JxXAGA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BBCC3DA4B;
+	Wed, 17 Jul 2024 06:46:34 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
+Subject: [PATCH v3 0/2] hwmon: add GPD devices sensor driver
+Date: Wed, 17 Jul 2024 14:46:25 +0800
+Message-Id: <20240717-gpd_fan-v3-0-8d7efb1263b7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/11] dt-bindings: riscv: Add Zabha ISA extension
- description
-To: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet
- <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org
-References: <20240717061957.140712-1-alexghiti@rivosinc.com>
- <20240717061957.140712-3-alexghiti@rivosinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240717061957.140712-3-alexghiti@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMFol2YC/2WMyQqDMBRFf0XeuikZNNGu+h+llGgGH9SBpIQW8
+ d8b3VTo8lzuOQtEG9BGuBQLBJsw4jRmEKcCul6P3hI0mYFTXlLFJPGzeTg9kko5QRsuurouIb/
+ nYB2+99LtnrnH+JrCZw8ntq3/jcQIJaKkFTNGMU3l1Q8an+duGmBrJH701M/j2XOqVVa2jeOsP
+ Xrrun4BYCwYZtYAAAA=
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Cryolitia PukNgae <Cryolitia@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>, 
+ Yao Zi <ziyao@disroot.org>, 
+ =?utf-8?q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1328;
+ i=Cryolitia@gmail.com; h=from:subject:message-id;
+ bh=uMqIIpyBOEqt0CJmGAlMj+e7wF3ct3u+0A8IBPGTYoU=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFHUy9wQU5Bd0FJQVQ1ZEYzTDhpb
+ zdkQWNzbVlnQm1sMmpGNjY3UjRtOGNzS1BDOXJxOXRzeU1sVXVwCkVpVzlYQnhLRWlpQTRwcVR1
+ M0tKQVRNRUFBRUlBQjBXSVFSME5XMHB5dmR3U0JGOENDWStYUmR5L0lxTzNRVUMKWnBkb3hRQUt
+ DUkErWFJkeS9JcU8zVC9HQi85a0l3eitoUEE3NXd3V3ZrWUdSTjYzQXJkQW1hNDRoeHExS2JuZQ
+ ppNjFxS0k4RWs2M20xbCt5ZXlrQ29HczZ3SFZRZVI2UjQ3Q2kvTDFhcUUzSFVFalRubW1vc2E1R
+ UFTNitPenhUCi9qNU1OWG11QlY5WVdmZDl4U0lGNmQyY2JFOEw1NkZaK0U5cU9NUmFjWmxaSUlS
+ UGFPUU1EdEFKbHcreUE4S0UKT0hxYjBTVStQSW9Oc0FwbVlsamNmdlhkWXh0MlV0dDlSSEpZZ3E
+ zZUJNMGttY2ZSUm9Dd0NCVDhTVDVCejhCbgpWVCtuV08vc1lUOVFwdXZodDhiNUozcFl5anRDZl
+ JyZy8xYkNxNmprUm1NdnZVTEt3NGl6Q1U2Y1ZJYUZxbEd6CjZ5cXQ1SmZQM1JGY05YQzUzcjRUc
+ 0phbVArajAwSjNIQkVEbTZYS2hFb0J3TDk2WAo9dzdnUQotLS0tLUVORCBQR1AgTUVTU0FHRS0t
+ LS0tCg==
+X-Developer-Key: i=Cryolitia@gmail.com; a=openpgp;
+ fpr=1C3C6547538D7152310C0EEA84DD0C0130A54DF7
+X-Endpoint-Received: by B4 Relay for Cryolitia@gmail.com/default with
+ auth_id=186
+X-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Reply-To: Cryolitia@gmail.com
 
-On 17/07/2024 08:19, Alexandre Ghiti wrote:
-> Add description for the Zabha ISA extension which was ratified in April
-> 2024.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Sensors driver for GPD Handhelds that expose fan reading and control via
+hwmon sysfs.
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+devices. This driver implements these functions through x86 port-mapped IO.
+I have tested it on my device.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
+Tested-by: Marcin Strągowski <marcin@stragowski.com>
+Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
+---
+Changes in v3:
+- Re-arrange code, thanks to Krzysztof Kozlowski, Guenter Roeck, Yao Zi!
+- Link to v2: https://lore.kernel.org/r/20240717-gpd_fan-v2-0-f7b7e6b9f21b@gmail.com
 
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+Changes in v2:
+- Improved documentation, thanks to Randy Dunlap!
+- Link to v1: https://lore.kernel.org/r/20240716-gpd_fan-v1-0-34051dd71a06@gmail.com
+
+---
+Cryolitia PukNgae (2):
+      hwmon: add GPD devices sensor driver
+      hwmon: document: add gpd-fan
+
+ Documentation/hwmon/gpd-fan.rst |  63 ++++
+ Documentation/hwmon/index.rst   |   1 +
+ MAINTAINERS                     |   7 +
+ drivers/hwmon/Kconfig           |  10 +
+ drivers/hwmon/Makefile          |   1 +
+ drivers/hwmon/gpd-fan.c         | 674 ++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 756 insertions(+)
+---
+base-commit: d67978318827d06f1c0fa4c31343a279e9df6fde
+change-id: 20240716-gpd_fan-57f30923c884
 
 Best regards,
-Krzysztof
+-- 
+Cryolitia PukNgae <Cryolitia@gmail.com>
+
 
