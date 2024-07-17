@@ -1,133 +1,165 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF29125DE
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 06:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F47513AF2
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 06:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721197565; cv=none; b=JTkNOF7ey5q38h+iVlRnw/O/9wrJvfA8tR2Dw5oVTdL/KjW5Brys47WsDmVe4ykPTVKiz/pgPr+2YxIq9T4QGJILjenJhBZwZZt4Qy5p3iRtXuJ3E/fJNk2wvJXMRZlGYBb6ZYnlylUth8lEbxgjbZcGYwjXq6kXrJ7idEazImI=
+	t=1721197571; cv=none; b=hNQAb9jx1EwZCYC6h+H0t4sG2L3M9P2X6QTfoqH2UPKjnZj2WogBt84EG3Pm70GW7C2vBtnh7meveBmynkGmZUByYpDhxrREBkducMvg19d2N8wDpfgVw3VrR2vqSBYRJSXF3Fc0Mp4bCLZg/b1OfphL0+b9T+ZIDroJQnPyIIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721197565; c=relaxed/simple;
-	bh=ByuZeLQzwZ5x3nXl8kE+pf2jxHURXs8b01VJ/XfnZeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=njBKtvu0lcvMU2i0uoua0k0XuxNCziSLZz0mD3FOe12GZQHfmzDDB3gLSBIQ5wby0/aeRxy+1rr1LJVU1hJL3dze1CwOIb03A8Baqj8zPUPF04OLflCkOkc4sZGiofOpbYlHsPJnj01bCCFt6lXaf1mkJPN75p7f6Pf2xXcJHVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=e4bTEgSD; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721197571; c=relaxed/simple;
+	bh=B1CnHSwQzyKmmdw+P7nNrDoltmKChpydt1ud39gLqxQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gbCvhvqOp+pSBjaiIDht1YCuRC/AH9p/89+xAdWEeBrOg11EPbEB2JZUQOB8x/hYqk8IC/5XOuts4Hb1I1fXUbuchLhlRziP492I0Gdyn+lY65PPppVr11E5UN3oOdUFgiln1H7mp/nwn50zqhs49WFp58DqiKExldIUNE0rask=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=FQgOsYRw; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="e4bTEgSD"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52ea2f58448so8653017e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 23:26:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="FQgOsYRw"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-36796aee597so3854623f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 23:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721197562; x=1721802362; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kRZCoDkETaEFOBCewGIFpdrgG+eZN4FZNraXMVegoL0=;
-        b=e4bTEgSDEfWn7rENkpLoF+hCc9fKY8oY++rP9JBYSRBR7RxLje7itpWbdi3VSGWjIn
-         asaYcjERfn+fP3lnAyyXvTbzvs+etHxKUeSntA4XHTyTX+S9OZeiCBxdT45wnXD2lJ6W
-         tS9ccv3uPT2fFP9ZIO5EMwGVcnwKvNO09kxXAXmULeZTzcVB74tfbvBXxemzePDl4BJz
-         B1GiEYq3ZU+6305EFZUeX6liW5EpBfbK467EgIPNG5AyrEF5vT3byKYjiAhq2FdHpgyS
-         qhxVkO8h1V367NglYzcuxBdJpPtYH4VZBF/AlHvAjvdP+hmS2OIenbbumhhI99Znyl/1
-         R8SQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721197568; x=1721802368; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3zMQJJ1+QlmFm418V6AGBGbWQY3rNoVY0h/UyfCjPDE=;
+        b=FQgOsYRwvLW0Cu4ZvNaG5VIIAj9nXfg+4Vxz5MVKLHJGXYneZ5jZ09G6DFlGlwZQQO
+         Y96ai4rvo3iqFPOamN2ubA4HbLsuGEFv1KylQ8xJo9WnOYi4zVCev7mqAgDEY9Y9vOi1
+         T6WDpjCbV1gNEWZhwtkF6CGhEZQZbp9menI/4ieaykkk4UicX2bLv1Qb1YF5eoWj/tE2
+         ZAa0ORNJ8b1GQpO/LOGZo3fTBHUPBsARKvjViKzZ+UquwosuFf9OQABeBIn/xOAyGicB
+         vlvdDITzLP3subtegbjYr+e4wl91Pu/Tvd0cldkhG8jMzhMwh1uyg6Djq/YcNukH+boM
+         UI9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721197562; x=1721802362;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRZCoDkETaEFOBCewGIFpdrgG+eZN4FZNraXMVegoL0=;
-        b=HCmf4HrAHPyEgTon63CUgC0R67DdekEq3qePJozJOTBz2fsi9FCvXnGN0yEPhpmcX4
-         fNKaud4HKgpicczM2y8CmhnCPm10Hf0HcKPe/0hLhFKR+HbZi10744pCogOMmuU9MFbQ
-         m4uHqphZniocYm2KVc7D4zixpBRVOZH2KXOIg4oWrAUU0JODS4OJRlTOsHPSAWxU+8bb
-         S/yX27to7iygqj562/htFu+3iM1pa1sRn4n+C/4r8kHghIJ90zxW1el+/5t/CXbzOIX6
-         Kx2Itj2dWzGHujFR0TlzFPCSkwyHmi0cTxhAnFBzZiNpbhczjxa01h7TM8RWLfpF60S8
-         n10Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX6WCYR4+VldzMnfCfcPc8JfajRmBWmc+D2E7WHJA2fWGR+XKFRCkhSA+RAwQHM4PtV0bLINyc/V4m4ow80ALHAuF+q2SLGReVv
-X-Gm-Message-State: AOJu0YzwC9H7vY7S//Xs8hlIh/m+6XoJwgT3T20aH6wszgybZclWDVPS
-	WBVPy4lTODEHMSF/P+Wx6qtr/aicRCXzk8Mq1PRsPQXGcepiLfoZBRKvLAqqJ3A=
-X-Google-Smtp-Source: AGHT+IGDEwk+nZqPqfNzpH3tY2qHsGGwHFWpWnZPOMmrbDmZO3jaXfhbMrl3VS0/+lWJ0Ywpz+aWEA==
-X-Received: by 2002:a05:6512:104a:b0:52e:9ec8:a3fd with SMTP id 2adb3069b0e04-52ee542718dmr459428e87.45.1721197561796;
-        Tue, 16 Jul 2024 23:26:01 -0700 (PDT)
-Received: from localhost (109-81-86-75.rct.o2.cz. [109.81.86.75])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc5b4f87sm406498866b.48.2024.07.16.23.26.01
+        d=1e100.net; s=20230601; t=1721197568; x=1721802368;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3zMQJJ1+QlmFm418V6AGBGbWQY3rNoVY0h/UyfCjPDE=;
+        b=lpYPh79S2lb+t6GuMAjB30i/0VJHHLw9z0WUPlxPjMXedk+DyscLRsh+gaD7OH8+9V
+         XTk2pt0/zodsrXCJ+LUWXoIUIvSrlS5+XS2Zmm3zHjzS4w8/gKtsgamuiXko7szdn7jp
+         jewSNFx3YYAIYJulavAzQ2KHqKG3VfrsxP4a5vE2D5KCvURqdak99osWUSp4I3WzvrbQ
+         yr9zN8Pt/sxgT4Y/FMxav5BlNffQhnPejar3OS3OP0uk2/GNZX2J1B4bAIVj6kf+8RD7
+         RleRos0MDUdfm6OMABQACFRd4A3WPij7umR/TmGlgyqgNnViWP/LLK71oZy0PjiuX53e
+         sFUg==
+X-Forwarded-Encrypted: i=1; AJvYcCULf+8zck6AFJkD3C72N4s99zTUeml7ImIZm/E3NINgBMEUxU5/d0AGZYjHxYl8KgpT60aTQk7DsXo87VwtDUDs1+65As55M788
+X-Gm-Message-State: AOJu0YyeJlwGyWD/umT6NnNx8p34bl2GxXawrEJ83eY73Gal1ae7vdzx
+	EpShNWdN3Smy6qsGfT8SD5H4C1OkLJ4sGPYqUgPeEPxzjodgeq6vvUBGJfSfkPM=
+X-Google-Smtp-Source: AGHT+IE6uNjEd3rgzo2cnMZIenDe0Lf33upNb/sgH/fJlHpS9fKERnXLFFmQs0acmED+vAQAC04L2Q==
+X-Received: by 2002:adf:e681:0:b0:368:3079:4277 with SMTP id ffacd0b85a97d-3683165b50amr545623f8f.28.1721197567667;
+        Tue, 16 Jul 2024 23:26:07 -0700 (PDT)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-368111d3e7dsm10358022f8f.87.2024.07.16.23.26.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 23:26:01 -0700 (PDT)
-Date: Wed, 17 Jul 2024 08:26:00 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: David Finkel <davidf@vimeo.com>
-Cc: Tejun Heo <tj@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <Zpdj-DVZ5U5EdvqL@tiehlicka>
-References: <20240715203625.1462309-1-davidf@vimeo.com>
- <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka>
- <ZpajW9BKCFcCCTr-@slm.duckdns.org>
- <Zpa1VGL5Mz63FZ0Z@tiehlicka>
- <ZpbRSv_dxcNNfc9H@slm.duckdns.org>
- <CAFUnj5MTRsFzd_EHJ7UcyjrWWUicg7wRrs2XdnVnvGiG3KmULQ@mail.gmail.com>
+        Tue, 16 Jul 2024 23:26:07 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v3 06/11] riscv: Implement xchg8/16() using Zabha
+Date: Wed, 17 Jul 2024 08:19:52 +0200
+Message-Id: <20240717061957.140712-7-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240717061957.140712-1-alexghiti@rivosinc.com>
+References: <20240717061957.140712-1-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFUnj5MTRsFzd_EHJ7UcyjrWWUicg7wRrs2XdnVnvGiG3KmULQ@mail.gmail.com>
 
-On Tue 16-07-24 18:06:17, David Finkel wrote:
-> On Tue, Jul 16, 2024 at 4:00 PM Tejun Heo <tj@kernel.org> wrote:
-> >
-> > Hello,
-> >
-> > On Tue, Jul 16, 2024 at 08:00:52PM +0200, Michal Hocko wrote:
-> > ...
-> > > > If we want to allow peak measurement of time periods, I wonder whether we
-> > > > could do something similar to pressure triggers - ie. let users register
-> > > > watchers so that each user can define their own watch periods. This is more
-> > > > involved but more useful and less error-inducing than adding reset to a
-> > > > single counter.
-> > >
-> > > I would rather not get back to that unless we have many more users that
-> > > really need that. Absolute value of the memory consumption is a long
-> > > living concept that doesn't make much sense most of the time. People
-> > > just tend to still use it because it is much simpler to compare two different
-> > > values rather than something as dynamic as PSI similar metrics.
-> >
-> > The initial justification for adding memory.peak was that it's mostly to
-> > monitor short lived cgroups. Adding reset would make it used more widely,
-> > which isn't necessarily a bad thing and people most likely will find ways to
-> > use it creatively. I'm mostly worried that that's going to create a mess
-> > down the road. Yeah, so, it's not widely useful now but adding reset makes
-> > it more useful and in a way which can potentially paint us into a corner.
-> 
-> This is a pretty low-overhead feature as-is, but we can reduce it further by
-> changing it so instead of resetting the watermark on any non-empty string,
-> we reset only on one particular string.
-> 
-> I'm thinking of something like "global_reset\n", so if we do something like the
-> PSI interface later, users can write "fd_local_reset\n", and get that
-> nicer behavior.
-> 
-> This also has the benefit of allowing "echo global_reset >
-> /sys/fs/cgroup/.../memory.peak" to do the right thing.
-> (better names welcome)
+This adds runtime support for Zabha in xchg8/16() operations.
 
-This would be a different behavior than in v1 and therefore confusing
-for those who rely on this in v1 already. So I wouldn't overengineer it
-and keep the semantic as simple as possible. If we decide to add PSI
-triggers they are completely independent on peak value because that is
-reclaim based interface which by definition makes peak value very
-dubious.
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ arch/riscv/include/asm/cmpxchg.h | 32 +++++++++++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
+
+diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
+index 608d98522557..091e6612ddb3 100644
+--- a/arch/riscv/include/asm/cmpxchg.h
++++ b/arch/riscv/include/asm/cmpxchg.h
+@@ -11,8 +11,27 @@
+ #include <asm/fence.h>
+ #include <asm/alternative.h>
+ 
+-#define __arch_xchg_masked(sc_sfx, prepend, append, r, p, n)		\
++#define __arch_xchg_masked(sc_sfx, swap_sfx, prepend, sc_append,	\
++			   swap_append, r, p, n)			\
+ ({									\
++	__label__ no_zabha, end;					\
++									\
++	if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA)) {			\
++		asm goto(ALTERNATIVE("j %[no_zabha]", "nop", 0,		\
++				     RISCV_ISA_EXT_ZABHA, 1)		\
++			 : : : : no_zabha);				\
++									\
++		__asm__ __volatile__ (					\
++			prepend						\
++			"	amoswap" swap_sfx " %0, %z2, %1\n"	\
++			swap_append					\
++			: "=&r" (r), "+A" (*(p))			\
++			: "rJ" (n)					\
++			: "memory");					\
++		goto end;						\
++	}								\
++									\
++no_zabha:;								\
+ 	u32 *__ptr32b = (u32 *)((ulong)(p) & ~0x3);			\
+ 	ulong __s = ((ulong)(p) & (0x4 - sizeof(*p))) * BITS_PER_BYTE;	\
+ 	ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)	\
+@@ -28,12 +47,14 @@
+ 	       "	or   %1, %1, %z3\n"				\
+ 	       "	sc.w" sc_sfx " %1, %1, %2\n"			\
+ 	       "	bnez %1, 0b\n"					\
+-	       append							\
++	       sc_append						\
+ 	       : "=&r" (__retx), "=&r" (__rc), "+A" (*(__ptr32b))	\
+ 	       : "rJ" (__newx), "rJ" (~__mask)				\
+ 	       : "memory");						\
+ 									\
+ 	r = (__typeof__(*(p)))((__retx & __mask) >> __s);		\
++									\
++end:;									\
+ })
+ 
+ #define __arch_xchg(sfx, prepend, append, r, p, n)			\
+@@ -56,8 +77,13 @@
+ 									\
+ 	switch (sizeof(*__ptr)) {					\
+ 	case 1:								\
++		__arch_xchg_masked(sc_sfx, ".b" swap_sfx,		\
++				   prepend, sc_append, swap_append,	\
++				   __ret, __ptr, __new);		\
++		break;							\
+ 	case 2:								\
+-		__arch_xchg_masked(sc_sfx, prepend, sc_append,		\
++		__arch_xchg_masked(sc_sfx, ".h" swap_sfx,		\
++				   prepend, sc_append, swap_append,	\
+ 				   __ret, __ptr, __new);		\
+ 		break;							\
+ 	case 4:								\
 -- 
-Michal Hocko
-SUSE Labs
+2.39.2
+
