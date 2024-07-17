@@ -1,162 +1,143 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AFDED8
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 18:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182291822FB
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 18:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721239548; cv=none; b=URjHMpDZvWAX148E/WQU/9ZYRkDavrE7L+jbSl3IHyr4hLktamwzrsQ8ZLGKNiJK2TLUrMe/eqt6HSHUE9sRyVjXVGWSrYg4OF+OEqGwMlyBPqAWMlmPAQybSo199RDThkw6q76C/veZ5QMTMOXMiYqbqYC8c1jXVpuh1vybSRU=
+	t=1721239655; cv=none; b=lzcbe3+Fsn5bGHmMdNefurAmfzz9Hodl3ft6kMhjQtxxQhUUvOjymCeq6PWJSSmAlk+0Ik12ukAvenQSyndH3q3bAfNsrMdilEPFPFJlTBZcj7koJtKhIONlfFZn00AHc0wlGqtbZ54kFU8yFFlGX8nSHowvJL5cE/vSS/i78j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721239548; c=relaxed/simple;
-	bh=EcbaqaLncNt5/+ldvNun3H3cqM4FhEED9qsUEKX0xf8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DXm2IXxj+wsL+5o8v5Ur6FQ/opKSctx8Be0jSnl9rhqu4XSJ8YfkUA1RymHuW3yOO+oYGoUwglSe7k9u0LRh3PpdTQDUFna3IGTvfWIXEJYeu0+b1frV5Gng4GjoM2yOAAf154MMJqNWQipyM3dg1+wpFWd2PUtgzZcy6skiFvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AluEkjKR; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1721239655; c=relaxed/simple;
+	bh=cX/HYhhasEuFJwnG1YqRdIVoDeWNBrAYfRpYXvHUq88=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T3sniAdnMJ+oxO97OIbBuN98p72bnr+ajbrenIOVFIeZrp0oWcH/A0QY2wMgtO4Vz9wrQyQaL8K5q9QJ/ctO1iM3reMZu4EmvI0yi/aIONK5luHONMDO4nyRTvWS0J+dh/390agCGJDtRN3OHDU9TDtBalwoIs7cD6qbNjJLKYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=f3vmhvEu; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AluEkjKR"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2eecd2c6432so846151fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 11:05:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="f3vmhvEu"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-70b07bdbfbcso913417b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 11:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721239545; x=1721844345; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EcbaqaLncNt5/+ldvNun3H3cqM4FhEED9qsUEKX0xf8=;
-        b=AluEkjKRyBp9OBpRnAu7adluTpuIbylOMPvcHsJALuXuJou0MfT3Dls7+xg1yTJIrZ
-         +j4suVjjMdNeLFIFNbFCDNz4Yt337buSfpbA3a4alLFZXEqKsV/CIl/0B7RcuWv6qdg6
-         76K9Z93c76YoX318syjkwcgrwg3bICRtk7Lw2gtkakbdwEax0eD/GHxiWWI4PJ+arquH
-         nvAl2qYhSAC+WvFwUcmMKJpupna/GLIuufIdrBTP3aTND8XWd6cl+Gbc1Ign0zbwXdtq
-         9apdkQ7/ZMi5TN+DL5hhU+V2am2B9GqL/K1eDl3IlXH7Vmq+lWalc0u1jk+H9HbG5BCi
-         PC3w==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721239653; x=1721844453; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d+q85MMx8ReifEh26OnOcH4ON5TNG8DhWzEzhvIX3E4=;
+        b=f3vmhvEuV9hZ6eBRfW81eq0kOEX31ItFTX5n3XPMXakB7a46CBwjfxB6tHWkZMBmw2
+         xUpZw1m0IImnBkTPoanIy3Davd7AFJJzdkcpf6MwIoQGa3AH530ZVTrCG2QZbCCGH0SX
+         xfs8LL6hTGaZ0XdkAJr9QFNNKzooOEaEhwydAji/jOQfUtzPLDcdqQj30TGWFDllnktn
+         4eSJtHChCENFjlI6FJSW3CuiJ4xc/igjps9mk6SX9daQyiM8Akc+d/ZLBNB5tJCztPat
+         d15kxn8/xZy9p874S0aqPsHiCATn1Y9sAg+9BF4Kcax/klN2OvdJrQPRCw6K/KuIy2vu
+         MAmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721239545; x=1721844345;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EcbaqaLncNt5/+ldvNun3H3cqM4FhEED9qsUEKX0xf8=;
-        b=pHWgvgMVXiq5siPQcDxkove79eegZfBcyagJRylZOcm58tpH2fBcLBnChmRUoHqlJj
-         eqMaekY6/k+vO825HpwG8iCXU4Rtn2Ms73pXUyiMYGHJImVq8ALheDczMVr8qzE3tkmT
-         zjK3mQGVNOZfmGELcnvwG8liuvKH191469KxKEGbudynAo7VB5lC7JpkihurHl1ahrDG
-         2F53A8622Se+voFR713ce7SszMGPUTp3NXMeHbaa4I+cIrIUCpM3uZc1+qWsX7fObXQD
-         i+reLXanfoG5h/kB2Jf/x0LbJhYWpG/PIHlAWGCxdq2vhtOHHuIVYr9tR2XPDhGDPBIl
-         d1oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIPkSfy9HWE8b1XdG3Qu7jebSZ846Dq/g6fTaIyR0Rfors8dbcGMbK5OwD8X2Su5BGtOBK7u4lO2H9inALlFsaO0hbAzBDtCfa
-X-Gm-Message-State: AOJu0Yy3b0xu+cAYkSZi3bMEu04FJ4UpIq70VpyzaoBGZYXfBZW37AEb
-	dDoI8lo1TqswZRwYpUxFYcvEuk9Dy7jJxJdj6YeNyNZk9td8gyfGB3UEM1XF41aEMAcbV3ulea3
-	JhunIM1lBNN+WU9RSFFG5d/vOo5Bto1yL5v+L
-X-Google-Smtp-Source: AGHT+IHmEPpkW9BMRf7R+mnkbP964r6rm53YMQ2kLWJrWHw4ELd3YcPcVXt2ZFtW89ezovDBD1g4Tm5CJK5P3Fnz80o=
-X-Received: by 2002:a2e:9a87:0:b0:2ee:8566:32cb with SMTP id
- 38308e7fff4ca-2ef05c73758mr1514341fa.16.1721239544904; Wed, 17 Jul 2024
- 11:05:44 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721239653; x=1721844453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d+q85MMx8ReifEh26OnOcH4ON5TNG8DhWzEzhvIX3E4=;
+        b=NPEBed9qFKNQPqHyOydNjDftitpDna9DwspkkUt7TY3wHC7GlqNOuepe7ZB0Lu9acv
+         4whEGu0xJ4w8sNBCSxRsuntlPxbpUoPbu8bb+GI1eBrccImgEr+I/c939EuNZ5HklN8X
+         9PH4sZMH4Ad4zS5P5Y3dHtsZSvlE9lAbF24ShLAj9bMWZWL2aoardPL4hzDt+dwi+MDl
+         yV0xbXyGPN9wRiFIomozbYPLq79s+8rsAkAQ2n+SqfcyfFLIPrxRVKXYcod41GBHcAuT
+         J00z1rEFa9V3na6uFEGX9Sr04nPIHVehjkmmoNk5Wn+YLXX2uaE91j8+XXZrpsWqMbL1
+         xwXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSF5V6UGLDtjxPcb3aq6OHDW5wy+0dv58EtYVpuX6BSxJ3MTe8sSVY5vN3/WUVnkYvqN6iHZVLxMAcdzl/7olo77y4sxsv+cBW
+X-Gm-Message-State: AOJu0YwyG14C/97iJG2I0+Wt40ifDHS4S4G1oWTatm3v62H/tA4WXLaq
+	6Xt8E7o4CWBAFXLtLAmphrH8bwKKa46JMTrtChnfc6gTfFgWsodE2PXsQ4eFQXw=
+X-Google-Smtp-Source: AGHT+IEM7NbPBiq56WjI7wp5uxcZnnktec6blz44hAygeP3ZH/gozFqg+Zse6oBeox6vYNKlbyAg5Q==
+X-Received: by 2002:a05:6a21:329f:b0:1c3:b20d:ac33 with SMTP id adf61e73a8af0-1c4077ba37emr758100637.3.1721239653262;
+        Wed, 17 Jul 2024 11:07:33 -0700 (PDT)
+Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7eb9c969sm8432332b3a.35.2024.07.17.11.07.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jul 2024 11:07:32 -0700 (PDT)
+From: Jesse Taube <jesse@rivosinc.com>
+To: linux-riscv@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Jesse Taube <jesse@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Xiao Wang <xiao.w.wang@intel.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 0/7] RISC-V: Detect and report speed of unaligned vector accesses
+Date: Wed, 17 Jul 2024 14:07:20 -0400
+Message-ID: <20240717180727.4180475-1-jesse@rivosinc.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
- <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
- <CAJD7tkYnBw-QiGXTb4BPScuS1VePBkuRx1qG8p92zN9TeD+gKg@mail.gmail.com> <CAKEwX=OPDkwnSno-8r9AsOpmzkZ90SzeX02xz0eDTqbL2_QL2g@mail.gmail.com>
-In-Reply-To: <CAKEwX=OPDkwnSno-8r9AsOpmzkZ90SzeX02xz0eDTqbL2_QL2g@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Wed, 17 Jul 2024 11:05:06 -0700
-Message-ID: <CAJD7tkapE+qSmjFXnLBNamMvn3Lxbx=yvDF3gXW_qba45WU1tA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Takero Funaki <flintglass@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 17, 2024 at 10:49=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> On Tue, Jul 16, 2024 at 7:53=E2=80=AFPM Yosry Ahmed <yosryahmed@google.co=
-m> wrote:
-> >
-> > [..]
-> > >
-> > > > My concern is that we are knowingly (and perhaps unnecessarily)
-> > > > creating an LRU inversion here - preferring swapping out the reject=
-ed
-> > > > pages over the colder pages in the zswap pool. Shouldn't it be the
-> > > > other way around? For instance, can we spiral into the following
-> > > > scenario:
-> > > >
-> > > > 1. zswap pool becomes full.
-> > > > 2. Memory is still tight, so anonymous memory will be reclaimed. zs=
-wap
-> > > > keeps rejecting incoming pages, and putting a hold on the global
-> > > > shrinker.
-> > > > 3. The pages that are swapped out are warmer than the ones stored i=
-n
-> > > > the zswap pool, so they will be more likely to be swapped in (which=
-,
-> > > > IIUC, will also further delay the global shrinker).
-> > > >
-> > > > and the cycle keeps going on and on?
-> > >
-> > > I agree this does not follow LRU, but I think the LRU priority
-> > > inversion is unavoidable once the pool limit is hit.
-> > > The accept_thr_percent should be lowered to reduce the probability of
-> > > LRU inversion if it matters. (it is why I implemented proactive
-> > > shrinker.)
-> >
-> > Why?
-> >
-> > Let's take a step back. You are suggesting that we throttle zswap
-> > writeback to allow reclaim to swapout warmer pages to swap device. As
-> > Nhat said, we are proliferating LRU inversion instead of fixing it.
-> >
-> > I think I had a similar discussion with Johannes about this before,
-> > and we discussed that if zswap becomes full, we should instead
-> > throttle reclaim and allow zswap writeback to proceed (i.e. the
-> > opposite of what this series is doing). This would be similar to how
-> > we throttle reclaim today to wait for dirty pages to be written back.
-> >
->
-> I completely agree with this analysis and proposal - it's somewhat
-> similar to what I have in mind, but more fleshed out :)
->
-> > This should reduce/fix the LRU inversion instead of proliferating it,
-> > and it should reduce the total amout of IO as colder pages should go
-> > to disk while warmer pages go to zswap. I am wondering if we can reuse
-> > the reclaim_throttle() mechanism here.
-> >
-> > One concern I have is that we will also throttle file pages if we use
-> > reclaim_throttle(), since I don't see per-type throttling there. This
-> > could be fine, since we similarly throttle zswap reclaim if there are
-> > too many dirty file pages. I am not super familiar with reclaim
-> > throttling, so maybe I missed something obvious or there is a better
-> > way, but I believe that from a high level this should be the right way
-> > to go.
->
-> I don't think we have any infrastructure for anon-only throttling in
-> vmscan logic, but it sounds trivial to implement if necessary :)
->
-> >
-> > I actually think if we do this properly, and throttle reclaim when
-> > zswap becomes full, we may be able to drop the acceptance hysteresis
-> > and rely on the throttling mechanism to make sure we stop reclaim
-> > until we free up enough space in zswap to avoid consistently hitting
-> > the limit, but this could be a future extension.
->
-> Agree - this hysteresis heuristics needs to die.
->
-> IMHO, I think we should still have the proactive global shrinking
-> action that Takero is proposing in patch 3. The throttling is nice,
-> but it'd be even nicer if we can get ahead of that :)
+Adds support for detecting and reporting the speed of unaligned vector
+accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+emulated all CPUs. The vec_misaligned_speed key keeps the same format
+as the scalar unaligned access speed key.
 
-I have always thought that the shrinker should play this role in one
-way or another. Instead of an arbitrary watermark and asynchronous
-work, it incrementally pushes the zswap LRU toward disk as reclaim
-activity increases.
+This set does not emulate unaligned vector accesses on CPUs that do not
+support them. Only reports if userspace can run them and speed of
+unaligned vector accesses if supported.
 
-Is the point behind proactive shrinking is to reduce the latency in
-the reclaim path?
+The Zicclsm is patches are no longer related to this set.
+
+Jesse Taube (7):
+  RISC-V: Add Zicclsm to cpufeature and hwprobe
+  dt-bindings: riscv: Add Zicclsm ISA extension description.
+  RISC-V: Check scalar unaligned access on all CPUs
+  RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+  RISC-V: Detect unaligned vector accesses supported
+  RISC-V: Report vector unaligned access speed hwprobe
+  RISC-V: hwprobe: Document unaligned vector perf key
+
+ Documentation/arch/riscv/hwprobe.rst          |  21 +++
+ .../devicetree/bindings/riscv/extensions.yaml |   7 +
+ arch/riscv/Kconfig                            |  57 ++++++-
+ arch/riscv/include/asm/cpufeature.h           |   7 +-
+ arch/riscv/include/asm/entry-common.h         |  11 --
+ arch/riscv/include/asm/hwcap.h                |   1 +
+ arch/riscv/include/asm/hwprobe.h              |   2 +-
+ arch/riscv/include/asm/vector.h               |   2 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |   6 +
+ arch/riscv/kernel/Makefile                    |   3 +-
+ arch/riscv/kernel/copy-unaligned.h            |   5 +
+ arch/riscv/kernel/cpufeature.c                |   1 +
+ arch/riscv/kernel/fpu.S                       |   4 +-
+ arch/riscv/kernel/sys_hwprobe.c               |  42 +++++
+ arch/riscv/kernel/traps_misaligned.c          | 134 ++++++++++++++--
+ arch/riscv/kernel/unaligned_access_speed.c    | 148 +++++++++++++++++-
+ arch/riscv/kernel/vec-copy-unaligned.S        |  58 +++++++
+ arch/riscv/kernel/vector.c                    |   2 +-
+ 18 files changed, 473 insertions(+), 38 deletions(-)
+ create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
+
+-- 
+2.45.2
+
