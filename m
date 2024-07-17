@@ -1,179 +1,366 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-52004.amazon.com (smtp-fw-52004.amazon.com [52.119.213.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9623FBB3;
-	Wed, 17 Jul 2024 12:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7578C181305;
+	Wed, 17 Jul 2024 14:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721217747; cv=none; b=m8BKI7yiHWIkM/+fmiLw35EuN5h1Lp+KOtD+r6zcBozzjz5Z+hQQph+d3JGaBmmVy8rm7iyRDVefC1VMVDkvBmi36tP08TtHe2LLntrkjMWBrD5TY01+mqH6apqL4LyD/Lj8vOef+jx9BPoSgZjxY+HWuzgqcCsJqJtVX2/oIkQ=
+	t=1721225561; cv=none; b=KPlmM+qXGI4tihquRn1P3eozI/RK5mX9b0ZXv5Q6RSeZ1IHr3WtkIW5hCO9gSEAhkIIuge4q7bNHLMCkBW9gYbu+kc26614GSFQixkcZ+C0yruV4sGrckXTCu1BBMe4oIQ+tDJAxJLP4sQZoAdr06gY2/ePZyZtCyrfiI3lEIeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721217747; c=relaxed/simple;
-	bh=oM3E3goVqw64c2eh3l0kIUzj/O0do9v5lib+X/nif1s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V6ywvpTeaNrgAiOkF20vY1Tc5RfCqeC3htLoOLxrcj9mNHanb8uTt7ZVsQiEgyml0EUFucncwmZwki80VnLlPB6lGc/vLVbpwfAkCPItTU+LaPL1xTkxVndn84aP/XXxKMO/71iNiwK5W5738xBkMdQIpW1cR4RCezbCURYyosc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khuYUIcp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721225561; c=relaxed/simple;
+	bh=1lR02oMQv+V2tbmfFFsl0y0YQ25gtfrRxBx4+/lkn14=;
+	h=Subject:MIME-Version:Content-Type:Date:Message-ID:CC:From:To:
+	 References:In-Reply-To; b=jrxcKn+KTUP1woDvvPC9zuDhK7icHkc4Mu86NSsRc9W3hr3BZEU8mBvea8I+0BwmcgV8KwFYgyX8plYsWkX1JpGAUmCOqNdbAkohuno+rF/NNnheaOHSxFfCkX2oyHYmMfBUys/YmhXkaZR8PzaZOwHt3K/pxrD8573xFVJW/GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.es; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=C/B/+NXF; arc=none smtp.client-ip=52.119.213.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.es
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khuYUIcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D682C32782;
-	Wed, 17 Jul 2024 12:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721217746;
-	bh=oM3E3goVqw64c2eh3l0kIUzj/O0do9v5lib+X/nif1s=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=khuYUIcplwyWI5Bbl2oW6+exSQ1OQDSFHDacuVQsTYYB0JaLL84lDNX0K24YFsoHc
-	 CtSOPiRUOdsjIrBxU3iiwVHZN3G6AH8utEC9LJf3P6U6JGqYjZryTR5hkEObv3f39L
-	 PXkiRhiRQRcXmL7gsfrcAxWuyu63uUyinRrLZfYV7PfZqMUCvoQHP96SrpaQh7DX6Y
-	 689cgJYV3O8KdJ5ra8kFou3FQls1ZED5UuD/CHESluuyuqaXaaWUvE7KAgECA+daqT
-	 8U1rjrGtihBV5blj0amkTeWWYLWpadRA9cXACBXDviE83mnYOtTn+sh5gT6MjM4cVV
-	 zVMM8l9DXT3EA==
-Message-ID: <c31f243363c8521831b949b78c16e8d2ba93adff.camel@kernel.org>
-Subject: Re: [PATCH v6 5/9] Documentation: add a new file documenting
- multigrain timestamps
-From: Jeff Layton <jlayton@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>,  Chandan Babu R
- <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, Theodore
- Ts'o <tytso@mit.edu>,  Andreas Dilger <adilger.kernel@dilger.ca>, Chris
- Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba
- <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Dave Chinner
- <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, Christoph Hellwig
- <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, Kent Overstreet
- <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, Randy Dunlap
- <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
-  linux-doc@vger.kernel.org
-Date: Wed, 17 Jul 2024 08:02:23 -0400
-In-Reply-To: <20240717113132.dvzsczxjr67224bx@quack3>
-References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
-	 <20240715-mgtime-v6-5-48e5d34bd2ba@kernel.org>
-	 <20240717113132.dvzsczxjr67224bx@quack3>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3 (3.52.3-1.fc40app2) 
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="C/B/+NXF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1721225559; x=1752761559;
+  h=mime-version:content-transfer-encoding:date:message-id:
+   cc:from:to:references:in-reply-to:subject;
+  bh=L0gJtkXsccFAdkb5G8v7DotagDjkLmoYlxnspKJJ7cY=;
+  b=C/B/+NXFQBMqkgATYsMf/Htj5kSSQ8zP8W4rU3bb8MglrCgvkwpXyrcB
+   6tLQB/T0rKGzfDsGDePdrJELyeIjDinZt/kwRYZolfKvLuiyTp/VcqOR1
+   wKHhDqH2DKmudYpPrraM4moOewXVKzjvDj99OV6X16atmEn/EGOV4rYjs
+   I=;
+X-IronPort-AV: E=Sophos;i="6.09,214,1716249600"; 
+   d="scan'208";a="219459791"
+Subject: Re: [PATCH 01/18] KVM: x86: hyper-v: Introduce XMM output support
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
+  by smtp-border-fw-52004.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 14:12:34 +0000
+Received: from EX19MTAEUA002.ant.amazon.com [10.0.10.100:58146]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.34.96:2525] with esmtp (Farcaster)
+ id c3db9657-0cf7-4e75-85b4-18627a7435c3; Wed, 17 Jul 2024 14:12:33 +0000 (UTC)
+X-Farcaster-Flow-ID: c3db9657-0cf7-4e75-85b4-18627a7435c3
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Wed, 17 Jul 2024 14:12:33 +0000
+Received: from localhost (10.13.235.138) by EX19D004EUC001.ant.amazon.com
+ (10.252.51.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Wed, 17 Jul 2024
+ 14:12:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Wed, 17 Jul 2024 14:12:23 +0000
+Message-ID: <D2RVJ6QCVNOU.XC0OC54QHI51@amazon.com>
+CC: <pbonzini@redhat.com>, <seanjc@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-hyperv@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <graf@amazon.de>,
+	<dwmw2@infradead.org>, <pdurrant@amazon.com>, <mlevitsk@redhat.com>,
+	<jgowans@amazon.com>, <corbet@lwn.net>, <decui@microsoft.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <amoorthy@google.com>
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, <linux-kernel@vger.kernel.org>,
+	<kvm@vger.kernel.org>
+X-Mailer: aerc 0.17.0-152-g73bcb4661460-dirty
+References: <20240609154945.55332-1-nsaenz@amazon.com>
+ <20240609154945.55332-2-nsaenz@amazon.com> <87tth0rku3.fsf@redhat.com>
+In-Reply-To: <87tth0rku3.fsf@redhat.com>
+X-ClientProxiedBy: EX19D046UWB003.ant.amazon.com (10.13.139.174) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-On Wed, 2024-07-17 at 13:31 +0200, Jan Kara wrote:
-> On Mon 15-07-24 08:48:56, Jeff Layton wrote:
-> > Add a high-level document that describes how multigrain timestamps work=
-,
-> > rationale for them, and some info about implementation and tradeoffs.
-> >=20
-> > Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->=20
-> One comment below. With that fixed feel free to add:
->=20
-> Reviewed-by: Jan Kara <jack@suse.cz>
->=20
-> > +Implementation Notes
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Multigrain timestamps are intended for use by local filesystems that g=
-et
-> > +ctime values from the local clock. This is in contrast to network file=
-systems
-> > +and the like that just mirror timestamp values from a server.
+Hi Vitaly,
+Thanks for having a look at this.
+
+On Mon Jul 8, 2024 at 2:59 PM UTC, Vitaly Kuznetsov wrote:
+> Nicolas Saenz Julienne <nsaenz@amazon.com> writes:
+>
+> > Prepare infrastructure to be able to return data through the XMM
+> > registers when Hyper-V hypercalls are issues in fast mode. The XMM
+> > registers are exposed to user-space through KVM_EXIT_HYPERV_HCALL and
+> > restored on successful hypercall completion.
+> >
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
+> >
+> > ---
+> >
+> > There was some discussion in the RFC about whether growing 'struct
+> > kvm_hyperv_exit' is ABI breakage. IMO it isn't:
+> > - There is padding in 'struct kvm_run' that ensures that a bigger
+> >   'struct kvm_hyperv_exit' doesn't alter the offsets within that struct=
+.
+> > - Adding a new field at the bottom of the 'hcall' field within the
+> >   'struct kvm_hyperv_exit' should be fine as well, as it doesn't alter
+> >   the offsets within that struct either.
+> > - Ultimately, previous updates to 'struct kvm_hyperv_exit's hint that
+> >   its size isn't part of the uABI. It already grew when syndbg was
+> >   introduced.
+>
+> Yes but SYNDBG exit comes with KVM_EXIT_HYPERV_SYNDBG. While I don't see
+> any immediate issues with the current approach, we may want to introduce
+> something like KVM_EXIT_HYPERV_HCALL_XMM: the userspace must be prepared
+> to handle this new information anyway and it is better to make
+> unprepared userspace fail with 'unknown exit' then to mishandle a
+> hypercall by ignoring XMM portion of the data.
+
+OK, I'll go that way. Just wanted to get a better understanding of why
+you felt it was necessary.
+
+> >
+> >  Documentation/virt/kvm/api.rst     | 19 ++++++++++
+> >  arch/x86/include/asm/hyperv-tlfs.h |  2 +-
+> >  arch/x86/kvm/hyperv.c              | 56 +++++++++++++++++++++++++++++-
+> >  include/uapi/linux/kvm.h           |  6 ++++
+> >  4 files changed, 81 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/ap=
+i.rst
+> > index a71d91978d9ef..17893b330b76f 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -8893,3 +8893,22 @@ Ordering of KVM_GET_*/KVM_SET_* ioctls
+> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >
+> >  TBD
 > > +
-> > +For most filesystems, it's sufficient to just set the FS_MGTIME flag i=
-n the
-> > +fstype->fs_flags in order to opt-in, providing the ctime is only ever =
-set via
-> > +inode_set_ctime_current(). If the filesystem has a ->getattr routine t=
-hat
-> > +doesn't call generic_fillattr, then you should have it call fill_mg_cm=
-time to
-> > +fill those values.
->=20
-> I think you should explicitely mention that ->setattr() implementation
-> needs to use setattr_copy() or otherwise mimic its behavior...
->=20
-> 								Honza
+> > +10. Hyper-V CPUIDs
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +This section only applies to x86.
+>
+> We can probably use
+>
+> :Architectures: x86
+>
+> which we already use.
 
-I've added a sentence like you suggest to the patch in my tree. Thanks
-for all the reviews!
---=20
-Jeff Layton <jlayton@kernel.org>
+Noted.
+
+> > +
+> > +New Hyper-V feature support is no longer being tracked through KVM
+> > +capabilities.  Userspace can check if a particular version of KVM supp=
+orts a
+> > +feature using KMV_GET_SUPPORTED_HV_CPUID.  This section documents how =
+Hyper-V
+> > +CPUIDs map to KVM functionality.
+> > +
+> > +10.1 HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE
+> > +------------------------------------------
+> > +
+> > +:Location: CPUID.40000003H:EDX[bit 15]
+> > +
+> > +This CPUID indicates that KVM supports retuning data to the guest in r=
+esponse
+> > +to a hypercall using the XMM registers. It also extends ``struct
+> > +kvm_hyperv_exit`` to allow passing the XMM data from userspace.
+>
+> It's always good to document things, thanks! I'm, however, wondering
+> what should we document as part of KVM API. In the file, we already
+> have:
+> - "4.118 KVM_GET_SUPPORTED_HV_CPUID"
+> - "struct kvm_hyperv_exit" description in "5. The kvm_run structure"
+>
+> The later should definitely get extended to cover XMM and I guess the
+> former can accomodate the 'no longer being tracked' comment. With that,
+> maybe there's no need for a new section?
+
+I'll try to fit it that way.
+
+> > diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/=
+hyperv-tlfs.h
+> > index 3787d26810c1c..6a18c9f77d5fe 100644
+> > --- a/arch/x86/include/asm/hyperv-tlfs.h
+> > +++ b/arch/x86/include/asm/hyperv-tlfs.h
+> > @@ -49,7 +49,7 @@
+> >  /* Support for physical CPU dynamic partitioning events is available*/
+> >  #define HV_X64_CPU_DYNAMIC_PARTITIONING_AVAILABLE    BIT(3)
+> >  /*
+> > - * Support for passing hypercall input parameter block via XMM
+> > + * Support for passing hypercall input and output parameter block via =
+XMM
+> >   * registers is available
+> >   */
+> >  #define HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE         BIT(4)
+>
+> This change of the comment is weird (or I may have forgotten something
+> important), could you please elaborate?. Currently, we have:
+>
+> /*
+>  * Support for passing hypercall input parameter block via XMM
+>  * registers is available
+>  */
+> #define HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE         BIT(4)
+> ...
+> /*
+>  * Support for returning hypercall output block via XMM
+>  * registers is available
+>  */
+> #define HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE                BIT(15)
+>
+> which seems to be correct. TLFS also defines
+>
+> Bit 4: XmmRegistersForFastHypercallAvailable
+>
+> in CPUID 0x40000009.EDX (Nested Hypervisor Feature Identification) which
+> probably covers both but we don't set this leaf in KVM currently ...
+
+You're right, this comment update no longer applies. It used to in an
+older version of the patch, but slipped through the cracks as I rebased
+it. Sorry.
+
+> > diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> > index 8a47f8541eab7..42f44546fe79c 100644
+> > --- a/arch/x86/kvm/hyperv.c
+> > +++ b/arch/x86/kvm/hyperv.c
+> > @@ -1865,6 +1865,7 @@ struct kvm_hv_hcall {
+> >       u16 rep_idx;
+> >       bool fast;
+> >       bool rep;
+> > +     bool xmm_dirty;
+> >       sse128_t xmm[HV_HYPERCALL_MAX_XMM_REGISTERS];
+> >
+> >       /*
+> > @@ -2396,9 +2397,49 @@ static int kvm_hv_hypercall_complete(struct kvm_=
+vcpu *vcpu, u64 result)
+> >       return ret;
+> >  }
+> >
+> > +static void kvm_hv_write_xmm(struct kvm_hyperv_xmm_reg *xmm)
+> > +{
+> > +     int reg;
+> > +
+> > +     kvm_fpu_get();
+> > +     for (reg =3D 0; reg < HV_HYPERCALL_MAX_XMM_REGISTERS; reg++) {
+> > +             const sse128_t data =3D sse128(xmm[reg].low, xmm[reg].hig=
+h);
+> > +             _kvm_write_sse_reg(reg, &data);
+> > +     }
+> > +     kvm_fpu_put();
+> > +}
+> > +
+> > +static bool kvm_hv_is_xmm_output_hcall(u16 code)
+> > +{
+> > +     return false;
+> > +}
+> > +
+> > +static bool kvm_hv_xmm_output_allowed(struct kvm_vcpu *vcpu)
+> > +{
+> > +     struct kvm_vcpu_hv *hv_vcpu =3D to_hv_vcpu(vcpu);
+> > +
+> > +     return !hv_vcpu->enforce_cpuid ||
+> > +            hv_vcpu->cpuid_cache.features_edx &
+> > +                    HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE;
+> > +}
+> > +
+> >  static int kvm_hv_hypercall_complete_userspace(struct kvm_vcpu *vcpu)
+> >  {
+> > -     return kvm_hv_hypercall_complete(vcpu, vcpu->run->hyperv.u.hcall.=
+result);
+> > +     bool fast =3D !!(vcpu->run->hyperv.u.hcall.input & HV_HYPERCALL_F=
+AST_BIT);
+> > +     u16 code =3D vcpu->run->hyperv.u.hcall.input & 0xffff;
+> > +     u64 result =3D vcpu->run->hyperv.u.hcall.result;
+> > +
+> > +     if (hv_result_success(result) && fast &&
+> > +         kvm_hv_is_xmm_output_hcall(code)) {
+>
+> Assuming hypercalls with XMM output are always 'fast', should we include
+> 'fast' check in kvm_hv_is_xmm_output_hcall()?
+
+Sounds good, yes.
+
+> > +             if (unlikely(!kvm_hv_xmm_output_allowed(vcpu))) {
+> > +                     kvm_queue_exception(vcpu, UD_VECTOR);
+> > +                     return 1;
+> > +             }
+> > +
+> > +             kvm_hv_write_xmm(vcpu->run->hyperv.u.hcall.xmm);
+> > +     }
+> > +
+> > +     return kvm_hv_hypercall_complete(vcpu, result);
+> >  }
+> >
+> >  static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, struct kvm_h=
+v_hcall *hc)
+> > @@ -2553,6 +2594,7 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+> >       hc.rep_cnt =3D (hc.param >> HV_HYPERCALL_REP_COMP_OFFSET) & 0xfff=
+;
+> >       hc.rep_idx =3D (hc.param >> HV_HYPERCALL_REP_START_OFFSET) & 0xff=
+f;
+> >       hc.rep =3D !!(hc.rep_cnt || hc.rep_idx);
+> > +     hc.xmm_dirty =3D false;
+> >
+> >       trace_kvm_hv_hypercall(hc.code, hc.fast, hc.var_cnt, hc.rep_cnt,
+> >                              hc.rep_idx, hc.ingpa, hc.outgpa);
+> > @@ -2673,6 +2715,15 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+> >               break;
+> >       }
+> >
+> > +     if (hv_result_success(ret) && hc.xmm_dirty) {
+> > +             if (unlikely(!kvm_hv_xmm_output_allowed(vcpu))) {
+> > +                     kvm_queue_exception(vcpu, UD_VECTOR);
+> > +                     return 1;
+> > +             }
+> > +
+> > +             kvm_hv_write_xmm((struct kvm_hyperv_xmm_reg *)hc.xmm);
+> > +     }
+> > +
+> >  hypercall_complete:
+> >       return kvm_hv_hypercall_complete(vcpu, ret);
+> >
+> > @@ -2682,6 +2733,8 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+> >       vcpu->run->hyperv.u.hcall.input =3D hc.param;
+> >       vcpu->run->hyperv.u.hcall.params[0] =3D hc.ingpa;
+> >       vcpu->run->hyperv.u.hcall.params[1] =3D hc.outgpa;
+> > +     if (hc.fast)
+> > +             memcpy(vcpu->run->hyperv.u.hcall.xmm, hc.xmm, sizeof(hc.x=
+mm));
+> >       vcpu->arch.complete_userspace_io =3D kvm_hv_hypercall_complete_us=
+erspace;
+> >       return 0;
+> >  }
+> > @@ -2830,6 +2883,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struc=
+t kvm_cpuid2 *cpuid,
+> >                       ent->ebx |=3D HV_ENABLE_EXTENDED_HYPERCALLS;
+> >
+> >                       ent->edx |=3D HV_X64_HYPERCALL_XMM_INPUT_AVAILABL=
+E;
+> > +                     ent->edx |=3D HV_X64_HYPERCALL_XMM_OUTPUT_AVAILAB=
+LE;
+> >                       ent->edx |=3D HV_FEATURE_FREQUENCY_MSRS_AVAILABLE=
+;
+> >                       ent->edx |=3D HV_FEATURE_GUEST_CRASH_MSR_AVAILABL=
+E;
+> >
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index d03842abae578..fbdee8d754595 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -90,6 +90,11 @@ struct kvm_pit_config {
+> >
+> >  #define KVM_PIT_SPEAKER_DUMMY     1
+> >
+> > +struct kvm_hyperv_xmm_reg {
+> > +     __u64 low;
+> > +     __u64 high;
+> > +};
+> > +
+> >  struct kvm_hyperv_exit {
+> >  #define KVM_EXIT_HYPERV_SYNIC          1
+> >  #define KVM_EXIT_HYPERV_HCALL          2
+> > @@ -108,6 +113,7 @@ struct kvm_hyperv_exit {
+> >                       __u64 input;
+> >                       __u64 result;
+> >                       __u64 params[2];
+> > +                     struct kvm_hyperv_xmm_reg xmm[6];
+>
+> In theory, we have HV_HYPERCALL_MAX_XMM_REGISTERS in TLFS (which you
+> already use in the code). While I'm not sure it makes sense to make KVM
+> ABI dependent on TLFS changes (probably not), we may want to leave a
+> short comment explaining where '6' comes from.
+
+Will do.
+
+Thanks,
+Nicolas
