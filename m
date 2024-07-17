@@ -1,180 +1,204 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2073.outbound.protection.outlook.com [40.107.96.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FA2182A5C
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 20:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721249101; cv=none; b=SJClcTuDyj2rHUWgLM1yALtCRA4DhkbQGtO0OCfrXezQ9aYKllkYjrOuVeXF9S+uLozPb3PMM0XTSdgPIVbUUrsCFjiXlMAxhZrkYof06BKM+Cs8XTwsos8Ihr49fvVMnEXN3h6fC0qH3pLdKegUfNCvAZ4ySEb+1ho2a48LQAQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721249101; c=relaxed/simple;
-	bh=gncgT7PRK6mABDbe37Ugg0maXzZBrhOvLbl/Lihmm/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KpaXXUbE58QNtHDWw++ywpD38vfEyfYy4qLh7qsx20CNusikBQokXbEBhsmoRx30YdsiZcZzRrvWrNY5mAIDEcxXXEuvALKObbenyygrp33TsAtj40H/Gk5tMqk/tHKzDLzo3Ppqix+2bfmmRIuKJTG6a0dbMo2G3tV1Rnx06P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=V2q6bgzU; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E43D24205;
+	Wed, 17 Jul 2024 20:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721249725; cv=fail; b=KHUxgtygcp2w3xxLp5S7EKykiMmksqZ6isMOULScaboOE7cBNN+VeR7r7GaYuRSs5V/75w32gM8NYRMcUv2RG+zrPDXAfIsOcxYFdUABPVZdZXQJ3sbfDOz3UhBZNpmBFgbIuGn6y8KGbo/UtrcmyhMYDQzgnj6g0jlv/kzpCKo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721249725; c=relaxed/simple;
+	bh=AryFSUHqX9RU+hU4h8HORXhf1ce89m7g1yoc59JqK+w=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QVvCZYAEzw9nO51rDiyIxBnu1vSwW2zNBUDVG4V+2sakfmMHyHeSl0C+AppP0UhzZVaP7s8rea1mU8gIeHe7sqcFnTvWgrDkFGyFnKW6xyzkgZv1sQQgWo0ungwjMLqT8i/k1opcYlod5rq4eArl80/PhkI20FHZ76aZPLVpAko=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3P/iCMEA; arc=fail smtp.client-ip=40.107.96.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="V2q6bgzU"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3d853e31de8so80422b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 13:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721249098; x=1721853898; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IYtwH57V8kt1/aiLa729CYDDtj9L/fOjcfkBpY+TAD4=;
-        b=V2q6bgzUiODWLPsVr3UkmyCWSy8VWfCAOi82lq1IBJu6f5KrEMuY2l0JVVbiAWGz+M
-         L0fTaokisQVJOHi0ium6hVI3EiHDjRJZMj8p9h6yvg7Z2JskQFFKTXC5qOHT3RR9qrOd
-         Vl+gEEKZDO7Dl8WB0bEdCd/HHnzCw0IozfdfvRZJanxqWeoQME8fZau6Z42Yh4cVyGxO
-         LFuL/8X5bfWq6ohazPD7gG5agPxKHh9I/LKYS9+NKpmnCdTGFSf4JqJvBU5GayEjUucK
-         X/d89uW8lyFOSQpGN+3Xryany8mn9Uvp/IL7uj4hdzKmy1MKGd65sJar28jX5Hjh2lLv
-         zKGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721249098; x=1721853898;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYtwH57V8kt1/aiLa729CYDDtj9L/fOjcfkBpY+TAD4=;
-        b=KeLcO0jt/3Oz03vCKJ7oOUX+1f+eMBKOnirZNM8ZdeMwJc2+qj6Rz1VR3bcHvJXyON
-         BR5PD+8jPve+bTmbqYyfcgvQQX2KzmxagRREQY1dlB6JZ4VVd8rfkLyQmsj8QrZbUcF0
-         OEWqmkIIhJeiiqpF09241z1S9KT/0VYjMU9/TWPU9JpfWMRyedb0iiRpZgfazr6B1ERS
-         8Tmix30RtHa0BJSbkz7TcrmTgSWMSgULbjNihwipVC51XJDAw1dpTDSjcQeFEcjwm/BP
-         ee6YTxcEZe3h7zRH6msyWuu+okOq3ZCaiUGIXw1ouCuBIYnPbb6hwIIRsFx09kIkBCr0
-         qGSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUshkdNs0A+Yk752M6YD/clD2UFSxTxIXFNetHweh7EpCZLj1xvxTGg0r8k3qGXudp2hfg0s9sTdN6Jhqgb+8cJx0EzL3TNqkr0
-X-Gm-Message-State: AOJu0Yxfe2F9LuPvzNHnAWd+RBeLQz4AfugxDCoVngFKzsG6I4IiFlIT
-	D25Hsdi6x0MK2s9uL7YNuOJX0jddJsgIwIB0s7Za8nxVe8oA7zvV013k4yucI6U=
-X-Google-Smtp-Source: AGHT+IF4+/Pck83cU63sy8DWfGHaNuyZzaqpdVdmLEhKuF8kgFuxUsMp0AUq43ixoy0Rip5ijHUwjA==
-X-Received: by 2002:a05:6808:188f:b0:3d9:2b95:3306 with SMTP id 5614622812f47-3dad52bd2e4mr2359887b6e.42.1721249098162;
-        Wed, 17 Jul 2024 13:44:58 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a160b98dc1sm445620285a.1.2024.07.17.13.44.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 13:44:57 -0700 (PDT)
-Date: Wed, 17 Jul 2024 16:44:53 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: David Finkel <davidf@vimeo.com>
-Cc: Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	Shakeel Butt <shakeel.butt@linux.dev>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <20240717204453.GD1321673@cmpxchg.org>
-References: <20240715203625.1462309-1-davidf@vimeo.com>
- <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka>
- <ZpajW9BKCFcCCTr-@slm.duckdns.org>
- <20240717170408.GC1321673@cmpxchg.org>
- <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3P/iCMEA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZkbUetksdZDf1SnvpUN3mAVWBvLxTIbRXDMYNddX9y3OgSiojLtlXfHv3sO6oSQvLW04VXuPBbvylmzGtjQZBqPf8VsgNxJr4HgTs2tfgAShgJaHo1RtcNKwi1dom4Wmf24+GNwRed/86xqfWuuxrcvvXmQUht1x/HpCDQ8t5GK/rmG3tovv2DMcLqJzcpFgcn2hJ2BrMPaxeO1Up4+pmVFr8lCrsBu4JgVv/00eWYV7roDWfEE98AM6FepGvuUaIqZYyJnkg8l5S6LAuTh68p92V0O4u0ltpWZehEAt3YfYQ5tENz/etS5t3cHZlm6d2hqaGdtgS5qK7cW2FwiXKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ptY3iz/SRdcYrROG7Q9Za6gbXt0fXG74XO37aohEZZY=;
+ b=dAK8H8RBPeVcAwVcXCE9Ev9fKCjQlCWRsbEIN/SFiJEnwxASanQx84KRSFtQDEG6FrJ1wlGHoSb/v0+P8//0NjxejwltRyYlbe+98yLuu070vmETur6cx2bSFjKxHGwaG6Axb9gNSoIv5aG5o2t1oUENUvP7tBo82N2xOJv1/hVUZ9pZIyt4E903osNRN9Q15pGS0tGR2S4JGjOwJ63hvltTY2JjHiAmdYPAof79Pf9B48oKWUh+dpMozBEIfNePFAzkmtgJuqdqhukcJUu2/xTjMQGTi2mh0A5QqgdkLyNZntLNhnxUhFVT2N0l072wPJFWGI7QzTzd/vGk/rpHug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ptY3iz/SRdcYrROG7Q9Za6gbXt0fXG74XO37aohEZZY=;
+ b=3P/iCMEAwA8NDZBlhK8ITarQgxCY1325XTrB+U/XUIt4YazG2Pn5t+zSzJ9wCNV0F4bNUutUlShe7W+l++0aQuUQm5g3+WPpYX9p68ujaJQgpNTaS4UqZFaG6u5LAWqk8Y+OpfdVVGPQB44oqdYFuQUOgPXfQ8gR/kdZIOz09gM=
+Received: from DS7P222CA0007.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::24) by
+ SJ2PR12MB8805.namprd12.prod.outlook.com (2603:10b6:a03:4d0::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Wed, 17 Jul
+ 2024 20:55:20 +0000
+Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
+ (2603:10b6:8:2e:cafe::60) by DS7P222CA0007.outlook.office365.com
+ (2603:10b6:8:2e::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.16 via Frontend
+ Transport; Wed, 17 Jul 2024 20:55:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7784.11 via Frontend Transport; Wed, 17 Jul 2024 20:55:20 +0000
+Received: from weiserver.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 17 Jul
+ 2024 15:55:17 -0500
+From: Wei Huang <wei.huang2@amd.com>
+To: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>
+CC: <Jonathan.Cameron@Huawei.com>, <helgaas@kernel.org>, <corbet@lwn.net>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <alex.williamson@redhat.com>, <gospo@broadcom.com>,
+	<michael.chan@broadcom.com>, <ajit.khaparde@broadcom.com>,
+	<somnath.kotur@broadcom.com>, <andrew.gospodarek@broadcom.com>,
+	<manoj.panicker2@amd.com>, <Eric.VanTassell@amd.com>, <wei.huang2@amd.com>,
+	<vadim.fedorenko@linux.dev>, <horms@kernel.org>, <bagasdotme@gmail.com>,
+	<bhelgaas@google.com>
+Subject: [PATCH V3 00/10] PCIe TPH and cache direct injection support
+Date: Wed, 17 Jul 2024 15:55:01 -0500
+Message-ID: <20240717205511.2541693-1-wei.huang2@amd.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|SJ2PR12MB8805:EE_
+X-MS-Office365-Filtering-Correlation-Id: 437752b0-a835-4b32-376c-08dca6a2c544
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|7416014|376014|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?aHKe33DFSNjjmIJAHQV21kNg+Yda1lMs3K6WH4YN5/aCNCp2d1kVSbYhmtqZ?=
+ =?us-ascii?Q?vQD7yWJAgC5u7mrHywMox56ldrFrbXDvhzg2m1zs7NTbHDxHxCGSSPWzyqdj?=
+ =?us-ascii?Q?9OTRyXG8TYP0qCe25sGfVcRz0WXaHoKBVxgEWRQwxINCZ+LS+zJwi3+5KzGs?=
+ =?us-ascii?Q?7Zgm7ARzQBIllwq1f/T131j3UsGX72XHH4Jc0CfrRwAMN4XKPABT7juq8BUW?=
+ =?us-ascii?Q?cAB0iFizvz/VdYPy2BoYsPtdCMi6mvBhFXu4fkLy9lyGLV2g2SbEkdKZlweu?=
+ =?us-ascii?Q?GgmLvGzvq5lxLIoCpXQjf3487OBDYsp02sDtKlAv+pLL++eem+2qJGpLKeXN?=
+ =?us-ascii?Q?e40wxoIBumEPEzp1NNOr1pjF6/Gp2d4mBj14mSFmefWctxQJBoGoiSiIoiUX?=
+ =?us-ascii?Q?pFPMFYTrnghWwHVdniBtmfSzY64VSI3WzZwIQi4DDHBx15DSQB7OnGujD2/B?=
+ =?us-ascii?Q?NCKpgIcTr9uIIRPJ4UVTlwwvZ51xq3h5AEuJoiI8ZFnN0bgcs9WtNWaVZEYb?=
+ =?us-ascii?Q?mIdgmUH3047svwawDRCBJteWe2Xo2afJbi8gbf+d45zIWmjVJ29gsnhFxeDD?=
+ =?us-ascii?Q?HgHoTnHhuXHFX6UJ7BPXu3cMKPI0/FfA+/P8qd9d71J24AHkU2GSmogNCYP5?=
+ =?us-ascii?Q?JpIkSUSvIt/TPsytfWf4FmW19BhHxqH0C8s9Eh3xuEdX0A5TZK1S06M8BArc?=
+ =?us-ascii?Q?W4eGrBjwOlkUeGoNldmsa2r9oGj79pwtIY5NzDdJRKZppQa4BYKIOUmzA4CC?=
+ =?us-ascii?Q?/IsW82wyC4UdIz1LPz9EuMhKx8XrrJJdeMWPil0DZLuuzQTQXlCjw/tNmvI/?=
+ =?us-ascii?Q?oWVTsTpgGr6tw8EK+CfPe0hChiZm9K5erjqjR8+W9RuBoL1hI5aaoJ1UnOxR?=
+ =?us-ascii?Q?wpi6Pe737HG4F5kjhYr4S5DLaMNxNlSMq7Zu0Ozba//fAh3kWfUXzJ1NTZRY?=
+ =?us-ascii?Q?ihVs1U5ijyg70uEzccMZ6WoD7qA9h4BlqaVsgfFhn6jD71r8K6wBG3CSsW3Y?=
+ =?us-ascii?Q?+OPhY0EaTPMfEQAgvLn5mrjLX7gTLvWrMmJH4nFEQ7k31igrHaB5wR15S+Mv?=
+ =?us-ascii?Q?Td2SPDeZ0yM8UjzaVmgMCRwZZr1QcjHxjzP9WRsAxXmAeJMfvKMQJWnfJQTe?=
+ =?us-ascii?Q?VIk+S4/rONslbRlZVwKAl/h9eGAWi6OpY16ggLm7d8HPbGaMvDybQiFDvFi7?=
+ =?us-ascii?Q?J2tnFEdxTb68icVL88cyr81u+MCIW1wT68P5avB7pAEfaUE3t7zstKQUeeHp?=
+ =?us-ascii?Q?MaJHvz6oWYZa583Z/XsIM+ZFw2kPsYl7/jB3P6bLnv1P+AOjMoi5bel5S20G?=
+ =?us-ascii?Q?cUydWQSfXdnvxN0omhw7Ek3KgZ5961JMKDcmXP4biolvPlma6nkoDyHiXCUa?=
+ =?us-ascii?Q?Q3Lg+aA2HAXnyO59YbblTCYKqgA8y0be2BsEF4gekuQPRrSncw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2024 20:55:20.3012
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 437752b0-a835-4b32-376c-08dca6a2c544
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE3E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8805
 
-On Wed, Jul 17, 2024 at 04:14:07PM -0400, David Finkel wrote:
-> On Wed, Jul 17, 2024 at 1:04 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> >
-> > On Tue, Jul 16, 2024 at 06:44:11AM -1000, Tejun Heo wrote:
-> > > Hello,
-> > >
-> > > On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
-> > > ...
-> > > > > This behavior is particularly useful for work scheduling systems that
-> > > > > need to track memory usage of worker processes/cgroups per-work-item.
-> > > > > Since memory can't be squeezed like CPU can (the OOM-killer has
-> > > > > opinions), these systems need to track the peak memory usage to compute
-> > > > > system/container fullness when binpacking workitems.
-> > >
-> > > Swap still has bad reps but there's nothing drastically worse about it than
-> > > page cache. ie. If you're under memory pressure, you get thrashing one way
-> > > or another. If there's no swap, the system is just memlocking anon memory
-> > > even when they are a lot colder than page cache, so I'm skeptical that no
-> > > swap + mostly anon + kernel OOM kills is a good strategy in general
-> > > especially given that the system behavior is not very predictable under OOM
-> > > conditions.
-> > >
-> > > > As mentioned down the email thread, I consider usefulness of peak value
-> > > > rather limited. It is misleading when memory is reclaimed. But
-> > > > fundamentally I do not oppose to unifying the write behavior to reset
-> > > > values.
-> > >
-> > > The removal of resets was intentional. The problem was that it wasn't clear
-> > > who owned those counters and there's no way of telling who reset what when.
-> > > It was easy to accidentally end up with multiple entities that think they
-> > > can get timed measurement by resetting.
-> > >
-> > > So, in general, I don't think this is a great idea. There are shortcomings
-> > > to how memory.peak behaves in that its meaningfulness quickly declines over
-> > > time. This is expected and the rationale behind adding memory.peak, IIRC,
-> > > was that it was difficult to tell the memory usage of a short-lived cgroup.
-> > >
-> > > If we want to allow peak measurement of time periods, I wonder whether we
-> > > could do something similar to pressure triggers - ie. let users register
-> > > watchers so that each user can define their own watch periods. This is more
-> > > involved but more useful and less error-inducing than adding reset to a
-> > > single counter.
-> > >
-> > > Johannes, what do you think?
-> >
-> > I'm also not a fan of the ability to reset globally.
-> >
-> > I seem to remember a scheme we discussed some time ago to do local
-> > state tracking without having the overhead in the page counter
-> > fastpath. The new data that needs to be tracked is a pc->local_peak
-> > (in the page_counter) and an fd->peak (in the watcher's file state).
-> >
-> > 1. Usage peak is tracked in pc->watermark, and now also in pc->local_peak.
-> >
-> > 2. Somebody opens the memory.peak. Initialize fd->peak = -1.
-> >
-> > 3. If they write, set fd->peak = pc->local_peak = usage.
-> >
-> > 4. Usage grows.
-> >
-> > 5. They read(). A conventional reader has fd->peak == -1, so we return
-> >    pc->watermark. If the fd has been written to, return max(fd->peak, pc->local_peak).
-> >
-> > 6. Usage drops.
-> >
-> > 7. New watcher opens and writes. Bring up all existing watchers'
-> >    fd->peak (that aren't -1) to pc->local_peak *iff* latter is bigger.
-> >    Then set the new fd->peak = pc->local_peak = current usage as in 3.
-> >
-> > 8. See 5. again for read() from each watcher.
-> >
-> > This way all fd's can arbitrarily start tracking new local peaks with
-> > write(). The operation in the charging fast path is cheap. The write()
-> > is O(existing_watchers), which seems reasonable. It's fully backward
-> > compatible with conventional open() + read() users.
-> 
-> That scheme seems viable, but it's a lot more work to implement and maintain
-> than a simple global reset.
-> 
-> Since that scheme maintains a separate pc->local_peak, it's not mutually
-> exclusive with implementing a global reset now. (as long as we reserve a
-> way to distinguish the different kinds of writes).
-> 
-> As discussed on other sub-threads, this might be too niche to be worth
-> the significant complexity of avoiding a global reset. (especially when
-> users would likely be moving from cgroups v1 which does have a global reset)
+Hi All,
 
-The problem is that once global resetting is allowed, it makes the
-number reported in memory.peak unreliable for everyone. You just don't
-know, and can't tell, if somebody wrote to it recently. It's not too
-much of a leap to say this breaks the existing interface contract.
+TPH (TLP Processing Hints) is a PCIe feature that allows endpoint devices to
+provide optimization hints for requests that target memory space. These hints,
+in a format called steering tag (ST), are provided in the requester's TLP
+headers and allow the system hardware, including the Root Complex, to
+optimize the utilization of platform resources for the requests.
 
-You have to decide whether the above is worth implementing. But my
-take is that the downsides of the simpler solution outweigh its
-benefits.
+Upcoming AMD hardware implement a new Cache Injection feature that leverages
+TPH. Cache Injection allows PCIe endpoints to inject I/O Coherent DMA writes
+directly into an L2 within the CCX (core complex) closest to the CPU core that
+will consume it. This technology is aimed at applications requiring high
+performance and low latency, such as networking and storage applications.
+
+This series introduces generic TPH support in Linux, allowing STs to be
+retrieved from ACPI _DSM (as defined by ACPI) and used by PCIe endpoint
+drivers as needed. As a demonstration, it includes an example usage in the
+Broadcom BNXT driver. When running on Broadcom NICs with the appropriate
+firmware, Cache Injection shows substantial memory bandwidth savings and
+better network bandwidth using real-world benchmarks. This solution is
+vendor-neutral, as both TPH and ACPI _DSM are industry standards.
+
+V2->V3:
+ * Rebase on top of pci/next tree (tag: pci-v6.11-changes)
+ * Redefine PCI TPH registers (pci_regs.h) without breaking uapi
+ * Fix commit subjects/messages for kernel options (Jonathan and Bjorn)
+ * Break API functions into three individual patches for easy review
+ * Rewrite lots of code in tph.c/tph.h based on feedback (Jonathan and Bjorn)
+
+V1->V2:
+ * Rebase on top of pci.git/for-linus (6.10-rc1)
+ * Address mismatched data types reported by Sparse (Sparse check passed)
+ * Add a new API, pcie_tph_intr_vec_supported(), for checking IRQ mode support
+ * Skip bnxt affinity notifier registration if pcie_tph_intr_vec_supported()=false
+ * Minor fixes in bnxt driver (i.e. warning messages)
+
+Manoj Panicker (1):
+  bnxt_en: Add TPH support in BNXT driver
+
+Michael Chan (1):
+  bnxt_en: Pass NQ ID to the FW when allocating RX/RX AGG rings
+
+Wei Huang (8):
+  PCI: Introduce PCIe TPH support framework
+  PCI: Add TPH related register definition
+  PCI/TPH: Add pci=notph to prevent use of TPH
+  PCI/TPH: Add pci=nostmode to force No ST Mode
+  PCI/TPH: Introduce API to check interrupt vector mode support
+  PCI/TPH: Introduce API to retrieve TPH steering tags from ACPI
+  PCI/TPH: Introduce API to update TPH steering tags in PCIe devices
+  PCI/TPH: Add TPH documentation
+
+ Documentation/PCI/index.rst                   |   1 +
+ Documentation/PCI/tph.rst                     |  57 +++
+ .../admin-guide/kernel-parameters.txt         |   2 +
+ Documentation/driver-api/pci/pci.rst          |   3 +
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  62 ++-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   4 +
+ drivers/pci/pci-driver.c                      |  12 +-
+ drivers/pci/pci.c                             |  24 +
+ drivers/pci/pci.h                             |   6 +
+ drivers/pci/pcie/Kconfig                      |  11 +
+ drivers/pci/pcie/Makefile                     |   1 +
+ drivers/pci/pcie/tph.c                        | 443 ++++++++++++++++++
+ drivers/pci/probe.c                           |   1 +
+ include/linux/pci-tph.h                       |  42 ++
+ include/linux/pci.h                           |   6 +
+ include/uapi/linux/pci_regs.h                 |  28 +-
+ 16 files changed, 696 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/PCI/tph.rst
+ create mode 100644 drivers/pci/pcie/tph.c
+ create mode 100644 include/linux/pci-tph.h
+
+-- 
+2.45.1
+
