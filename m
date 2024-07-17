@@ -1,197 +1,132 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A11AD2C
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 02:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED66B46BF
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 02:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721184021; cv=none; b=kIzVz+gdFyJIUhWuIRI7CmMvV0sTDkQNzvlxZKaQXGMbBLWcaV0Z61sPGuuhOyJJeo9wxQEp7AbeK8S3giLdC5Rw8DJdce6feEmpGVKxBSBTv1j6BwnwWqkVzxUEFkUdqnHeqFOp2L39cT5dDS0IE6YznyGvORr9BDeDeG0WNzQ=
+	t=1721184829; cv=none; b=i9m9a2g51PKcvFuvGkX3oqKaYvpj1T3w1OzJkZoo3VfQGm+UZho4SbZbVUzH5NPNIMp74RkYpPc4RPBBIubpMJ4Tu1nuvsCSZ9qzyP+iPerc+3fpN4V5tB5/vDKBblVVm/dId0R2G9G9Y5lRmsl8WibLZt+C6t1mwsQvkPCQ7W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721184021; c=relaxed/simple;
-	bh=75XATE9RKK2TR951t5MjICEmUyfWO3oof1OVB4NBLCE=;
+	s=arc-20240116; t=1721184829; c=relaxed/simple;
+	bh=yEGEQC6kdWCldeHXYChp8fv+9XVImMxRQifNP0QHeHw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TaU1Tu4TUs3Zuo96IxgICBLGCOTM+frT9rJita2cYoNL3G21FCcRcRoQwf3KkfrsOljmYMu6oPf+uPzYKY43zv3mLehUbpUe2ZT5gx/hT8u5hYHhVEsQNHzozyJwhvYH6g/znBL+W+pII42lMT8N8ZCfZMNvlLoPrln2hmmviBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3hPNjBW3; arc=none smtp.client-ip=209.85.221.42
+	 To:Cc:Content-Type; b=Q4SqmRb21QuZ0iCmUgavVDn0qDpBsGXHbFHMS5L3J+euXVcgKp6WC/BnC2AoqFPt7XIswMclwdSk5DKIUA03KdTfOtl/bOREbIPsG9owQC9y0IB92C/MGhK4lNcBnl0NGGcumoTyxX3GG+L2K35ShYZQmO/dsJztJzGKcZhklhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YbHZAYqI; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3hPNjBW3"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-367963ea053so5107062f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 19:40:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YbHZAYqI"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a77e5929033so732176866b.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jul 2024 19:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721184018; x=1721788818; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zm3VZqqxmL9kr77/aMbZkRuLYRNgUU0cP/KPPl+urNY=;
-        b=3hPNjBW3OpgusCGrsnu+GGmK8NVaEYII4YBjf3si2GEa9BHT4jGjcMsfQVHMXR8L6z
-         Jy+T0amhc7alM6IxtrBGHGajgYrQmRibY37d9AiBfJHA5Kw8UCjj8pdWviezLMJ2LhoH
-         90JYFdwKyFubnn3VBF9qsr23W6ZWpgQ7zwF/SmYYnVuuu1qozz9oDdGO0B3JG8jxkAaV
-         wg7cGtQQEMSZqHQuyQ2kLidXjLXtUKGioC2yFmdloxb81lCxKUSgL/N58TT4oEHo1oy9
-         1WJHKfGC2hCamwZGdPlOW3XAW+WXsi2QC9+4rA7+UJunhT2TtAbN4Fo5LlHxwaXPd9Mc
-         FwXQ==
+        d=google.com; s=20230601; t=1721184826; x=1721789626; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yEGEQC6kdWCldeHXYChp8fv+9XVImMxRQifNP0QHeHw=;
+        b=YbHZAYqI+Yvhg5Vq1uxktW73dA9SDc2FXfmfJWp8FTGqLgk0xF+DLcLKKn+vXg4CJ7
+         blmjsKflXSXjRO8xG1XT2O+SnkSgGUB/mS9fy3wbM3D9qUlW/Dx46Eel9enAqa5myaSl
+         316c40Kilgv1BW7GiDb6+Nv3ZzmOAC9fbA8EEdB90TM/8l+g7PDjLVOS/7ogUye7aUlB
+         dEKy68RevjTHHebHUEoboRy13icPBwU3YGBhWhveZIyGolYA/S+bcFZAe3aucmLgFYpf
+         P8TESu3wW2Pk4sFyy0AUJ+kvkyZNNEDHWYt/0i6n3LOSpsJjM0ahITKLG1zywNaK/kKY
+         jkGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721184018; x=1721788818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zm3VZqqxmL9kr77/aMbZkRuLYRNgUU0cP/KPPl+urNY=;
-        b=LnPzRNLtO1mbMv8vw3Lgbm5nElpQs6cLoJ613y6gMBc9Qk1pddUvx+NqBUuJozSyjL
-         N8PxwQZoveIj8GE9FURMQ0zpi//WmP2G9LsnIFC+MOpdvjNr/PGVR4MjjiVqcAK7RqXd
-         Mwx2Pl6lT9sVZqan75Czq66Z5jX+bAxEOMZFlWtWTNgBmDD62eeftvvtCiYdoWaaRamC
-         WeLtjaxVlVlJBfA0KjXaspdb2QGA7vLo7Lb4eVuYKJzcphpL0lqy7Txd0Li6iFcgzdWU
-         KtyoNbPLnq10GdZuLfhPewGVHlLKRcf/JJ+8esjhfC1kw1x/JDj204nkPrPD6Dcl0UWP
-         AvgA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhhM8JlF6gePlmkIdCcf+PnjfTIB058hZ+xmQKCk0+K+mRohxUdO+bCd3Hb+Mu7O7pYzO5dwmHZ/vQFjhTM2MQx0jlkIGQ/h80
-X-Gm-Message-State: AOJu0YyPpzgBkiglkqGwMhwZ2eM8uLcYLwWBwjDSozjeH9nFxk2V1sGg
-	wOm+a8eNHlizmfZeyqnxzIItBll/lWzhD1NXzA75Bkwv3WmRZDH7vEcsx8IqzHk79pq4/J9rKqw
-	0dxXfhje1XTGbAY+FNd8g0p952lU16ee5x88y
-X-Google-Smtp-Source: AGHT+IGQJ3deHF+c7iwxQd/1wvM8XLYmCaUkv2t0Cl8krKimBCrVFIGo89cvJXhgULf848FrvUlMSsoQF2E/ZdHjGYQ=
-X-Received: by 2002:a05:6000:e87:b0:367:8a2f:a6db with SMTP id
- ffacd0b85a97d-3683176a8f0mr198641f8f.58.1721184017376; Tue, 16 Jul 2024
- 19:40:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721184826; x=1721789626;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yEGEQC6kdWCldeHXYChp8fv+9XVImMxRQifNP0QHeHw=;
+        b=i9eobCzEsXycWQsIgEEYJbPHIm5EdZKGwh6AXAWHtKb/JUqN0Y/GEu3X8P23d3M1Qn
+         pPCuafe9GSmRlGfMdCfKV/joQt5V6Wq6QmyIfjg8cY6HPh03E95iXuKyS2y4JLhSLXt8
+         DNr3/Bzhgu7mnxGGqhThiPzTDUzRkVHBFvJZMMUBmFX+E54XzHvYJhdJO0c0iJCASgVG
+         hYHBlyIjaCcbEakI35YikIv4p7kpk1i8mPcYVNp0nWN6bNYwlS2o7kXqLiOiYR9u339s
+         dO2vPhTVfvDXg061pVMN3xMkOXHzJbsZQ3u1WTGAS5tgWKeuo1enddfUDWX3nJHQAyJ7
+         zPUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/ChjjO4VtRef26Ef7VGNxcwcnDYfHfbcUQlAjmdvff3qJB3jpxqQw9L2gv1d9AFdjw/Tc7BWhTg7ZxfDBqpEJj98jgnOdxf4h
+X-Gm-Message-State: AOJu0YzYLc9DNMHkKlzWQzpCgc5+oQNJUmy4o+kVffIqJGwhET67UJe6
+	kf90qfyGVb2Uq1OAETbuBN+gLTUFBLjDHkQ3ptHOs0smCJAA5sa4ZAfKuJ/tBOCUzj3Jrlqfg0k
+	32spfj64GQIV99KIp3GE6KlCBnGKF3ps/7wHo
+X-Google-Smtp-Source: AGHT+IHLCpBENZziitiorcnDoDIwuhSfSKnvt9S11GYpvblphLkDbkyMOFs/ks7fVFpa0wDqc9XixU0eg27USliSloQ=
+X-Received: by 2002:a17:906:88b:b0:a77:e2e3:3554 with SMTP id
+ a640c23a62f3a-a7a011aa0a3mr20816866b.28.1721184825809; Tue, 16 Jul 2024
+ 19:53:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com> <20240706022523.1104080-3-flintglass@gmail.com>
-In-Reply-To: <20240706022523.1104080-3-flintglass@gmail.com>
+References: <20240706022523.1104080-1-flintglass@gmail.com>
+ <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com> <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
+In-Reply-To: <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
 From: Yosry Ahmed <yosryahmed@google.com>
-Date: Tue, 16 Jul 2024 19:39:39 -0700
-Message-ID: <CAJD7tkaZsGU13XoKLWQy+AxNAWCZHYmr4DhAYvs32ppQwzCwmw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] mm: zswap: fix global shrinker error handling logic
+Date: Tue, 16 Jul 2024 19:53:09 -0700
+Message-ID: <CAJD7tkYnBw-QiGXTb4BPScuS1VePBkuRx1qG8p92zN9TeD+gKg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
 To: Takero Funaki <flintglass@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+Cc: Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
 	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
 	Andrew Morton <akpm@linux-foundation.org>, 
 	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 5, 2024 at 7:25=E2=80=AFPM Takero Funaki <flintglass@gmail.com>=
- wrote:
+[..]
 >
-> This patch fixes zswap global shrinker that did not shrink zpool as
-> expected.
+> > My concern is that we are knowingly (and perhaps unnecessarily)
+> > creating an LRU inversion here - preferring swapping out the rejected
+> > pages over the colder pages in the zswap pool. Shouldn't it be the
+> > other way around? For instance, can we spiral into the following
+> > scenario:
+> >
+> > 1. zswap pool becomes full.
+> > 2. Memory is still tight, so anonymous memory will be reclaimed. zswap
+> > keeps rejecting incoming pages, and putting a hold on the global
+> > shrinker.
+> > 3. The pages that are swapped out are warmer than the ones stored in
+> > the zswap pool, so they will be more likely to be swapped in (which,
+> > IIUC, will also further delay the global shrinker).
+> >
+> > and the cycle keeps going on and on?
 >
-> The issue it addresses is that `shrink_worker()` did not distinguish
-> between unexpected errors and expected error codes that should be
-> skipped, such as when there is no stored page in a memcg. This led to
-> the shrinking process being aborted on the expected error codes.
->
-> The shrinker should ignore these cases and skip to the next memcg.
-> However,  skipping all memcgs presents another problem. To address this,
-> this patch tracks progress while walking the memcg tree and checks for
-> progress once the tree walk is completed.
->
-> To handle the empty memcg case, the helper function `shrink_memcg()` is
-> modified to check if the memcg is empty and then return -ENOENT.
->
-> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> Signed-off-by: Takero Funaki <flintglass@gmail.com>
-> ---
->  mm/zswap.c | 31 +++++++++++++++++++++++++------
->  1 file changed, 25 insertions(+), 6 deletions(-)
->
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 29944d8145af..f092932e652b 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -1317,10 +1317,10 @@ static struct shrinker *zswap_alloc_shrinker(void=
-)
->
->  static int shrink_memcg(struct mem_cgroup *memcg)
->  {
-> -       int nid, shrunk =3D 0;
-> +       int nid, shrunk =3D 0, scanned =3D 0;
->
->         if (!mem_cgroup_zswap_writeback_enabled(memcg))
-> -               return -EINVAL;
-> +               return -ENOENT;
->
->         /*
->          * Skip zombies because their LRUs are reparented and we would be
-> @@ -1334,19 +1334,30 @@ static int shrink_memcg(struct mem_cgroup *memcg)
->
->                 shrunk +=3D list_lru_walk_one(&zswap_list_lru, nid, memcg=
-,
->                                             &shrink_memcg_cb, NULL, &nr_t=
-o_walk);
-> +               scanned +=3D 1 - nr_to_walk;
->         }
-> +
-> +       if (!scanned)
-> +               return -ENOENT;
-> +
->         return shrunk ? 0 : -EAGAIN;
->  }
->
->  static void shrink_worker(struct work_struct *w)
->  {
->         struct mem_cgroup *memcg;
-> -       int ret, failures =3D 0;
-> +       int ret, failures =3D 0, progress;
->         unsigned long thr;
->
->         /* Reclaim down to the accept threshold */
->         thr =3D zswap_accept_thr_pages();
->
-> +       /*
-> +        * We might start from the last memcg.
-> +        * That is not a failure.
-> +        */
-> +       progress =3D 1;
-> +
+> I agree this does not follow LRU, but I think the LRU priority
+> inversion is unavoidable once the pool limit is hit.
+> The accept_thr_percent should be lowered to reduce the probability of
+> LRU inversion if it matters. (it is why I implemented proactive
+> shrinker.)
 
-I think this is unneeded complexity imo. Doing one less retry if we
-happen to start at the last memcg should be fine.
+Why?
 
->         /* global reclaim will select cgroup in a round-robin fashion.
->          *
->          * We save iteration cursor memcg into zswap_next_shrink,
-> @@ -1390,9 +1401,12 @@ static void shrink_worker(struct work_struct *w)
->                  */
->                 if (!memcg) {
->                         spin_unlock(&zswap_shrink_lock);
-> -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
-> +
-> +                       /* tree walk completed but no progress */
-> +                       if (!progress && ++failures =3D=3D MAX_RECLAIM_RE=
-TRIES)
->                                 break;
->
-> +                       progress =3D 0;
->                         goto resched;
->                 }
->
-> @@ -1407,10 +1421,15 @@ static void shrink_worker(struct work_struct *w)
->                 /* drop the extra reference */
->                 mem_cgroup_put(memcg);
->
-> -               if (ret =3D=3D -EINVAL)
-> -                       break;
-> +               /* not a writeback candidate memcg */
+Let's take a step back. You are suggesting that we throttle zswap
+writeback to allow reclaim to swapout warmer pages to swap device. As
+Nhat said, we are proliferating LRU inversion instead of fixing it.
 
-Unneeded comment.
+I think I had a similar discussion with Johannes about this before,
+and we discussed that if zswap becomes full, we should instead
+throttle reclaim and allow zswap writeback to proceed (i.e. the
+opposite of what this series is doing). This would be similar to how
+we throttle reclaim today to wait for dirty pages to be written back.
 
-> +               if (ret =3D=3D -ENOENT)
-> +                       continue;
-> +
->                 if (ret && ++failures =3D=3D MAX_RECLAIM_RETRIES)
->                         break;
-> +
-> +               ++progress;
-> +               /* reschedule as we performed some IO */
+This should reduce/fix the LRU inversion instead of proliferating it,
+and it should reduce the total amout of IO as colder pages should go
+to disk while warmer pages go to zswap. I am wondering if we can reuse
+the reclaim_throttle() mechanism here.
 
-Unneeded comment.
+One concern I have is that we will also throttle file pages if we use
+reclaim_throttle(), since I don't see per-type throttling there. This
+could be fine, since we similarly throttle zswap reclaim if there are
+too many dirty file pages. I am not super familiar with reclaim
+throttling, so maybe I missed something obvious or there is a better
+way, but I believe that from a high level this should be the right way
+to go.
 
+I actually think if we do this properly, and throttle reclaim when
+zswap becomes full, we may be able to drop the acceptance hysteresis
+and rely on the throttling mechanism to make sure we stop reclaim
+until we free up enough space in zswap to avoid consistently hitting
+the limit, but this could be a future extension.
 
->  resched:
->                 cond_resched();
->         } while (zswap_total_pages() > thr);
-> --
-> 2.43.0
->
+Johannes, any thoughts here?
+
+Anyway, since patches 1-2 are independent of the rest of the series,
+feel free to send them separately, and we can continue the discussion
+on the best way forward for the rest of the series.
