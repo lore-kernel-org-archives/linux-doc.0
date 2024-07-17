@@ -1,163 +1,180 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2058.outbound.protection.outlook.com [40.107.243.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51501CD3D;
-	Wed, 17 Jul 2024 20:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721248571; cv=fail; b=Vm/GGz+QSp6L/PUNSLXR7K1h75uIhmoPXcv9UeZ72KR9hs+lLGazYfmM3FVVaAmmsaB4DCbbRlhbS8ARnJitem/Iegv0iHIqXM+ZnFGPqiNYcRWD5QEi0f5GJzFCv1q6oZZ523te/l7UU3vJsdd/ZfNzHOLrQ08SmAUX31A09/Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721248571; c=relaxed/simple;
-	bh=Y+C0R/bAZUqZ6x+dqUN5PzomqR4RrP/GmYtCdWwO9ug=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=X7A57CB2NYLGL+NHsadsc8vL4MxYcWHTaaCYTrvS6ixrEsgx07R36+rUrDfwt12GVgRiyQpSwK8YA+joDzDqj2HJiPMTp5Eeib8DBcBOYiBL5N9VhSYK1eAkxWJUoBvPNZitLGjHsjIxDxGgJ2/kgekfarhLnVvAmHY1fWXgHEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=V7luiNLk; arc=fail smtp.client-ip=40.107.243.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FA2182A5C
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 20:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721249101; cv=none; b=SJClcTuDyj2rHUWgLM1yALtCRA4DhkbQGtO0OCfrXezQ9aYKllkYjrOuVeXF9S+uLozPb3PMM0XTSdgPIVbUUrsCFjiXlMAxhZrkYof06BKM+Cs8XTwsos8Ihr49fvVMnEXN3h6fC0qH3pLdKegUfNCvAZ4ySEb+1ho2a48LQAQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721249101; c=relaxed/simple;
+	bh=gncgT7PRK6mABDbe37Ugg0maXzZBrhOvLbl/Lihmm/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KpaXXUbE58QNtHDWw++ywpD38vfEyfYy4qLh7qsx20CNusikBQokXbEBhsmoRx30YdsiZcZzRrvWrNY5mAIDEcxXXEuvALKObbenyygrp33TsAtj40H/Gk5tMqk/tHKzDLzo3Ppqix+2bfmmRIuKJTG6a0dbMo2G3tV1Rnx06P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=V2q6bgzU; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="V7luiNLk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ChjG7vUMewNWXAYVRPm+7FhxmYlQWRCjhlkfDt2HIEkZl6/WoXqtVRU+1dFls52QWb0u3nnYZFq0psV991CTEw2gXa1L/uCMKCIPeKpgG1p5gzm5hxhhFP2TjtYjjqcHjYKr577/IGhL+9Szr/HAeVwCOxQPakpUMMxDiZ7lcEViolhcs6wIA7G4omsfpmWOU4TIoTsP0SpvnqqgTnaq8cV5cSVW+aL3h/N5gpRUjg5wuwFFvaQ6e55HfnGjBB4evgOLWKw6lBU7HzWM5oRD8nzpM+04X26L31pJjO3sh36VtnFdYo3hy6Zrox95AifZEqLDwYUea6FMHXMar3YUmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iX5oClJbmzThQ3+CbJd1l69msMWpX7vpS4OrW/HwBoQ=;
- b=l45295JjQKr16OSogvBpHWjf+B3ylGVjuQhObrm+aVZVQdgAfNB7UETdUrh03KE3BXsB+roqU/kVCw5BLTWcBQRq1uYela+Li+Wt/LunvRvmq1OAqdUMg0XiQWcY7h8VMMUhh5yuar77n850fX3qPZpw4V8Umuoqza3YkvrvQgetgtufntNOPmBJXR+4+sJu6yue/4ZiQaVl3L5hV3ZyMLIEmotg6gUNqP8l4blHj3DvhbJxZ1St/BVECYCe/vGxh8aXVde3aJq1RR2VIoX7SQG6iyrCxd0veKq3CreJWUsbfPmuYjH2d1qqAksamzkGqCB5ZQhp8RC3CCtfjNlB8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iX5oClJbmzThQ3+CbJd1l69msMWpX7vpS4OrW/HwBoQ=;
- b=V7luiNLkhG60LfU0yt1forVYoQqYGMdxZMRMONyIMvVHUjKCvM++7Bocar2yMdOWQ4x7Z2N+QoRTxr2DaOMyx54vSEKLUwSIonM9a3XkEIsGVh//s9WWMiKJqFgY+hUoABhmmxuY41jp8+aUQLZwqrj4OuwgMReIPP8+ERKWUR6mD5OeJn4QRPczyob2Pw/edB0BkVgkuipLR/HIsCgg26E80BnwcFifXGyuSVDEOA6TH6TlRi0U0oHklapCqQ6vCZO9cWJb23uvrYZoa+QQwUTUAn6XhF7n3ZmVG1vFUechAsZX65skHeQb3SvFrAjl0L1bXiwJtaElc7Iet+/zig==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4373.namprd12.prod.outlook.com (2603:10b6:208:261::8)
- by PH0PR12MB7931.namprd12.prod.outlook.com (2603:10b6:510:289::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.28; Wed, 17 Jul
- 2024 20:36:04 +0000
-Received: from MN2PR12MB4373.namprd12.prod.outlook.com
- ([fe80::fa75:d0d9:e989:8bb]) by MN2PR12MB4373.namprd12.prod.outlook.com
- ([fe80::fa75:d0d9:e989:8bb%4]) with mapi id 15.20.7762.030; Wed, 17 Jul 2024
- 20:36:03 +0000
-From: Benjamin Poirier <bpoirier@nvidia.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Thorsten Blum <thorsten.blum@toblux.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: Add detailed explanation for 'N' taint flag
-Date: Wed, 17 Jul 2024 16:35:21 -0400
-Message-ID: <20240717203521.514348-1-bpoirier@nvidia.com>
-X-Mailer: git-send-email 2.45.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR0101CA0338.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6b::6) To MN2PR12MB4373.namprd12.prod.outlook.com
- (2603:10b6:208:261::8)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="V2q6bgzU"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3d853e31de8so80422b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 13:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721249098; x=1721853898; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IYtwH57V8kt1/aiLa729CYDDtj9L/fOjcfkBpY+TAD4=;
+        b=V2q6bgzUiODWLPsVr3UkmyCWSy8VWfCAOi82lq1IBJu6f5KrEMuY2l0JVVbiAWGz+M
+         L0fTaokisQVJOHi0ium6hVI3EiHDjRJZMj8p9h6yvg7Z2JskQFFKTXC5qOHT3RR9qrOd
+         Vl+gEEKZDO7Dl8WB0bEdCd/HHnzCw0IozfdfvRZJanxqWeoQME8fZau6Z42Yh4cVyGxO
+         LFuL/8X5bfWq6ohazPD7gG5agPxKHh9I/LKYS9+NKpmnCdTGFSf4JqJvBU5GayEjUucK
+         X/d89uW8lyFOSQpGN+3Xryany8mn9Uvp/IL7uj4hdzKmy1MKGd65sJar28jX5Hjh2lLv
+         zKGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721249098; x=1721853898;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IYtwH57V8kt1/aiLa729CYDDtj9L/fOjcfkBpY+TAD4=;
+        b=KeLcO0jt/3Oz03vCKJ7oOUX+1f+eMBKOnirZNM8ZdeMwJc2+qj6Rz1VR3bcHvJXyON
+         BR5PD+8jPve+bTmbqYyfcgvQQX2KzmxagRREQY1dlB6JZ4VVd8rfkLyQmsj8QrZbUcF0
+         OEWqmkIIhJeiiqpF09241z1S9KT/0VYjMU9/TWPU9JpfWMRyedb0iiRpZgfazr6B1ERS
+         8Tmix30RtHa0BJSbkz7TcrmTgSWMSgULbjNihwipVC51XJDAw1dpTDSjcQeFEcjwm/BP
+         ee6YTxcEZe3h7zRH6msyWuu+okOq3ZCaiUGIXw1ouCuBIYnPbb6hwIIRsFx09kIkBCr0
+         qGSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUshkdNs0A+Yk752M6YD/clD2UFSxTxIXFNetHweh7EpCZLj1xvxTGg0r8k3qGXudp2hfg0s9sTdN6Jhqgb+8cJx0EzL3TNqkr0
+X-Gm-Message-State: AOJu0Yxfe2F9LuPvzNHnAWd+RBeLQz4AfugxDCoVngFKzsG6I4IiFlIT
+	D25Hsdi6x0MK2s9uL7YNuOJX0jddJsgIwIB0s7Za8nxVe8oA7zvV013k4yucI6U=
+X-Google-Smtp-Source: AGHT+IF4+/Pck83cU63sy8DWfGHaNuyZzaqpdVdmLEhKuF8kgFuxUsMp0AUq43ixoy0Rip5ijHUwjA==
+X-Received: by 2002:a05:6808:188f:b0:3d9:2b95:3306 with SMTP id 5614622812f47-3dad52bd2e4mr2359887b6e.42.1721249098162;
+        Wed, 17 Jul 2024 13:44:58 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a160b98dc1sm445620285a.1.2024.07.17.13.44.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jul 2024 13:44:57 -0700 (PDT)
+Date: Wed, 17 Jul 2024 16:44:53 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: David Finkel <davidf@vimeo.com>
+Cc: Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <20240717204453.GD1321673@cmpxchg.org>
+References: <20240715203625.1462309-1-davidf@vimeo.com>
+ <20240715203625.1462309-2-davidf@vimeo.com>
+ <ZpZ6IZL482XZT1fU@tiehlicka>
+ <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+ <20240717170408.GC1321673@cmpxchg.org>
+ <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4373:EE_|PH0PR12MB7931:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7800a848-d654-43b1-bc05-08dca6a013b4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?stWY0T22l0eFGk20nSYGSsq828rcZ4TJAHtnHtp9WkMMen8XHTpju3gYUi+E?=
- =?us-ascii?Q?w2N65E656XK0RvjypizxIyxUgwdWlGdY1Y9x7pR79PC/OWMt6ZQBiDT8pPw2?=
- =?us-ascii?Q?iY1LU/Jqetz3J/1Z60Blcmki8Zt2QIip7GuC/pQCbf/cjXjwT6Y5QuM0emRt?=
- =?us-ascii?Q?oCbYW4UZYWPCsW9G5vm9XcQNNWYkrtyLuW49Q/3jxfGXi9DdjLkQFbsp+uV7?=
- =?us-ascii?Q?BMUpcuxsoeEIqCdyp+L5uIjUeVkTzCuNLMrRVIfEizxEWvHlpdAuOwEJGCMd?=
- =?us-ascii?Q?i6m3sdccPN8qKeIEwqafpnDsSVcFjF2ywzduJS32IqqZyW26tqNzJ1/QBozR?=
- =?us-ascii?Q?VBK33rCuakwtQ+TMjA1bikfxejnphByhbgRgxyb7m654pJL2dDyr2SwTR31E?=
- =?us-ascii?Q?2drHBIiXxyi3UicklG400OLRUnZrLY/+Y5MMpYz6K74UYS4q6IZrlbll9wqb?=
- =?us-ascii?Q?r8QUvFqAKjN1oGI8oqMjebDoMqDF5nYvWd9Ymvvd13pNbswQgcMBXmqV7Ree?=
- =?us-ascii?Q?uBswmiqFlC7oXzo3MoYz7/Tz60k+JRJaNcyH4FW0jFu03D9kPox1YqmRy0k8?=
- =?us-ascii?Q?Wip0/szRG+H1zuA5d+McZsjZYmLp8KeNOvaKE4HA2Rig0qKKpkA8/nMEh5go?=
- =?us-ascii?Q?nfwbF93andOm+JxdSQ8mJy1OMxaKlpBUObTLX3Gu9s4iaxA6QLAvfEGK78x1?=
- =?us-ascii?Q?EZNm5Xw45CJqDaEHJENWaRZX1Bom+W5pUCLgrOtGlGSxz1FmR6jswmIrvTbb?=
- =?us-ascii?Q?BJm0HzdswFwSmDHwtJUeUdWJVmoTnh/OqmvrOWxz0l1hcWIBUaaYPWeXbG5R?=
- =?us-ascii?Q?zZZZNwsIqL6dOl5JSdDYW+P4Xq+0ASUNU8+XCwEvQh46yjPiq6+Ra8PJIn8b?=
- =?us-ascii?Q?yS6Gy80+Jg2ByrM1nb79hpu04DyR9D0/eXCw6FE7FRyj7HmsMJ8WJ8+9SMhR?=
- =?us-ascii?Q?dnqHFlfSLuDvlJ61atQUYygpF6sHd44vqT67k5BiHmfKILTpW8jGbAYSv9L8?=
- =?us-ascii?Q?HgJnSuqq+qogqkvHE9z1kc2AIcjDvKInRFZNmej0oOy0WW/70vYvOVxuUQfT?=
- =?us-ascii?Q?7hhc2QFSs6BT55eTsaHtH9s4xvg1y8nZpmCiM2yMTUqUt5VzIFO/XMgf28f+?=
- =?us-ascii?Q?TVNOXRRXL0RGL1RQSectlwxr3VGNjM7OleL2G9KpkvOYrvVT8mppgbkx/EsK?=
- =?us-ascii?Q?l3CCHRVb4xdUoiizFrCg4Cg3nSz7Q6lrDAzzBsQMuYMDEcKISW6NaohbA6gi?=
- =?us-ascii?Q?cfWBVFosDLq4KwEa1t3Zkk564aWFm4bN4Ak2juBJ3QtTfHm4Iq1AYlrNGWHx?=
- =?us-ascii?Q?Z0JCU1M5uVoPEqEjMW616yN7633hDqwj6XmgwWVo0065Vw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?M0X3fHEy7xaaxdykhcW5g1qcpirRFlO5cNJo68bC+YTk97E9bcbwmtW1d5MV?=
- =?us-ascii?Q?RhbZEzpqp/0P8OJu4/4JHD3KKjNnuU/kChd/V8Si8fAmS92j3OSxyVbdXs/H?=
- =?us-ascii?Q?T/kHGhU2joGnQBANlVKuHqA7MyZCXslEMQ2z0TSR3m05B3+9JJT+7JbiMw6D?=
- =?us-ascii?Q?izE7JYdAnGFziepscWoneKtQsX6HLpEjhJp91MdF0kmvzY9NEbuNtINaZiBs?=
- =?us-ascii?Q?2cN/LRaDMbbIvhdrsCKzzgo3T4ljh0PHVAAGhkW93yjMhMj+teZPb3zhY517?=
- =?us-ascii?Q?2mP575taezKa4sRhdyly5dT8LqKdhRBdgiUe88lKMh3L2f1+Of0h7wgfsa2x?=
- =?us-ascii?Q?P7eJV2uI2kiz7Gk5quhGw17b1bcmdv+8mcNsdOV4nK0I/mG0X1EUHgr8Dj1X?=
- =?us-ascii?Q?aRcp/L0a9JDnO3VRSxGz5eBDtI/xYw+bJ1q0KxeBzBP4DnF+BuwmjFvua0QW?=
- =?us-ascii?Q?/Aj27WfXv1dRAGAAHlfO75n8oQ+UJGfeQ44CrGKSTM7Zd6mXkL/OJ26qdwuh?=
- =?us-ascii?Q?w9msrItJ7j+SdmDYbLrTFYqBhzVQpAS+BHxjkKjA9V8jOY8WuF8KR6+Su1Rz?=
- =?us-ascii?Q?uZYZCCrMSPat2KtcuQzJ7G/JuBtCltxs8MZAIdAiYZNiNMdC1Khz6qRcrZhR?=
- =?us-ascii?Q?a5/DCjlxsRUd2GQGKM3d5VTmuJMBiLR7IOI9axMKWQrPrjSUb5mK3QdsmWs0?=
- =?us-ascii?Q?N2jAM4U1YKCKwvX43o5lTxJbIapVVhgYQLRN7jrx6IULbmRGxKMcbFkjG5bD?=
- =?us-ascii?Q?oXx9XyJdRiaNFvsNzZbI25eVP2IvbAUhCQvG9Q9LrOe44zBjDZwnVNmPXejo?=
- =?us-ascii?Q?8kBr9JhjMLLIc/DF/hQXeHa7WCiSyAtClGsQQ7xSxidvFZCDHzymb8f1WRbC?=
- =?us-ascii?Q?qLAtY/X7HldC/JdvinydVn+/v7lZxdTNoeBg1s6R9H7BA0u90TSQnfxvgDI5?=
- =?us-ascii?Q?ieMCuq5g6Sjuc8dSPECZ2BunbDF9XsfjfR1zxaUOmT73ESwVh70s58wIJ/fh?=
- =?us-ascii?Q?LqhwOYNkA0TF9T6QmVljdTg/gX7wCFlp9279fE9rwuYH5P9r7MjZJH299Cet?=
- =?us-ascii?Q?oUSm/Mf+Kgb0EdCsqMUsJz/QtweSM6XEXmEWJ4fCOlE9qCoB/YcOw1FriSKy?=
- =?us-ascii?Q?cPe0GFGuZ4ueKuTdMuJvE4CnihTiqwUVPGXXLaJnG/WryhFXmoP1YthtfIYi?=
- =?us-ascii?Q?HC1BzlShYpv7LfqTUII4wHTcH3O5dWUhbDohEvyMeNx5FhQA4mxo2jpB39Cz?=
- =?us-ascii?Q?QDLnLYgrg6CGhMQ2vnStCOukOUZfgAiFNEvNuhrYeZ1rKUF+hy8+4d6KMtq0?=
- =?us-ascii?Q?FLUOwif98kLWfX2H644RysODR1s8M2TVNzhy/G9Qox085xfrfVLo715mSOU9?=
- =?us-ascii?Q?AphCkW2PFeCoK9mCnPRaOeeckte1ZSsAxxTVIcpmC212dxQMG5l61B8a6UHm?=
- =?us-ascii?Q?o7iLpcyfdhlXMwksa9pRA5KYL7hX+M9zUYt2+ZuY95gF2D31yx+FEAa72hcc?=
- =?us-ascii?Q?khO5R1oJngNJMUiThfz2LYzRYakgigmtzrvnIKke9Jmas2pwgPabmv3339aN?=
- =?us-ascii?Q?S45pQABV8sqcSRYHdFrMxJMCMfuoT+R5dSxOCjnO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7800a848-d654-43b1-bc05-08dca6a013b4
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4373.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2024 20:36:03.6953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8HXoos+NuG+OnnzSNweTUAXsPzjad7z890A70+qMkKgyQwnG0SikBiAmL3my4l2kLRymkF7klNevnBcRghuNVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7931
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
 
-Every taint flag has an entry in the "More detailed explanation" section
-except for the 'N' flag. That omission was probably just an oversight so
-add an entry for that flag.
+On Wed, Jul 17, 2024 at 04:14:07PM -0400, David Finkel wrote:
+> On Wed, Jul 17, 2024 at 1:04 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+> >
+> > On Tue, Jul 16, 2024 at 06:44:11AM -1000, Tejun Heo wrote:
+> > > Hello,
+> > >
+> > > On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
+> > > ...
+> > > > > This behavior is particularly useful for work scheduling systems that
+> > > > > need to track memory usage of worker processes/cgroups per-work-item.
+> > > > > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > > > > opinions), these systems need to track the peak memory usage to compute
+> > > > > system/container fullness when binpacking workitems.
+> > >
+> > > Swap still has bad reps but there's nothing drastically worse about it than
+> > > page cache. ie. If you're under memory pressure, you get thrashing one way
+> > > or another. If there's no swap, the system is just memlocking anon memory
+> > > even when they are a lot colder than page cache, so I'm skeptical that no
+> > > swap + mostly anon + kernel OOM kills is a good strategy in general
+> > > especially given that the system behavior is not very predictable under OOM
+> > > conditions.
+> > >
+> > > > As mentioned down the email thread, I consider usefulness of peak value
+> > > > rather limited. It is misleading when memory is reclaimed. But
+> > > > fundamentally I do not oppose to unifying the write behavior to reset
+> > > > values.
+> > >
+> > > The removal of resets was intentional. The problem was that it wasn't clear
+> > > who owned those counters and there's no way of telling who reset what when.
+> > > It was easy to accidentally end up with multiple entities that think they
+> > > can get timed measurement by resetting.
+> > >
+> > > So, in general, I don't think this is a great idea. There are shortcomings
+> > > to how memory.peak behaves in that its meaningfulness quickly declines over
+> > > time. This is expected and the rationale behind adding memory.peak, IIRC,
+> > > was that it was difficult to tell the memory usage of a short-lived cgroup.
+> > >
+> > > If we want to allow peak measurement of time periods, I wonder whether we
+> > > could do something similar to pressure triggers - ie. let users register
+> > > watchers so that each user can define their own watch periods. This is more
+> > > involved but more useful and less error-inducing than adding reset to a
+> > > single counter.
+> > >
+> > > Johannes, what do you think?
+> >
+> > I'm also not a fan of the ability to reset globally.
+> >
+> > I seem to remember a scheme we discussed some time ago to do local
+> > state tracking without having the overhead in the page counter
+> > fastpath. The new data that needs to be tracked is a pc->local_peak
+> > (in the page_counter) and an fd->peak (in the watcher's file state).
+> >
+> > 1. Usage peak is tracked in pc->watermark, and now also in pc->local_peak.
+> >
+> > 2. Somebody opens the memory.peak. Initialize fd->peak = -1.
+> >
+> > 3. If they write, set fd->peak = pc->local_peak = usage.
+> >
+> > 4. Usage grows.
+> >
+> > 5. They read(). A conventional reader has fd->peak == -1, so we return
+> >    pc->watermark. If the fd has been written to, return max(fd->peak, pc->local_peak).
+> >
+> > 6. Usage drops.
+> >
+> > 7. New watcher opens and writes. Bring up all existing watchers'
+> >    fd->peak (that aren't -1) to pc->local_peak *iff* latter is bigger.
+> >    Then set the new fd->peak = pc->local_peak = current usage as in 3.
+> >
+> > 8. See 5. again for read() from each watcher.
+> >
+> > This way all fd's can arbitrarily start tracking new local peaks with
+> > write(). The operation in the charging fast path is cheap. The write()
+> > is O(existing_watchers), which seems reasonable. It's fully backward
+> > compatible with conventional open() + read() users.
+> 
+> That scheme seems viable, but it's a lot more work to implement and maintain
+> than a simple global reset.
+> 
+> Since that scheme maintains a separate pc->local_peak, it's not mutually
+> exclusive with implementing a global reset now. (as long as we reserve a
+> way to distinguish the different kinds of writes).
+> 
+> As discussed on other sub-threads, this might be too niche to be worth
+> the significant complexity of avoiding a global reset. (especially when
+> users would likely be moving from cgroups v1 which does have a global reset)
 
-Fixes: 2852ca7fba9f ("panic: Taint kernel if tests are run")
-Signed-off-by: Benjamin Poirier <bpoirier@nvidia.com>
----
- Documentation/admin-guide/tainted-kernels.rst | 2 ++
- 1 file changed, 2 insertions(+)
+The problem is that once global resetting is allowed, it makes the
+number reported in memory.peak unreliable for everyone. You just don't
+know, and can't tell, if somebody wrote to it recently. It's not too
+much of a leap to say this breaks the existing interface contract.
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index f92551539e8a..700aa72eecb1 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -182,3 +182,5 @@ More detailed explanation for tainting
-      produce extremely unusual kernel structure layouts (even performance
-      pathological ones), which is important to know when debugging. Set at
-      build time.
-+
-+ 18) ``N`` if an in-kernel test, such as a KUnit test, has been run.
--- 
-2.45.2
-
+You have to decide whether the above is worth implementing. But my
+take is that the downsides of the simpler solution outweigh its
+benefits.
