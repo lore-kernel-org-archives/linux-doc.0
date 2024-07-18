@@ -1,212 +1,255 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC876BFA3
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 23:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837361DA2F
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 01:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721260140; cv=none; b=jFjtS/L9ENCDIU3ApLFTlzYtE5R7kfks49spn58urf5yk7dAg2/qyJ2TdY6My0XlhUHNmqLpsuQXsTEWxplFwsppfa5P8zm+a6eIA3DzixN22yIobP538ulkTeisGCpIl8X/HxRzDeFujDP7YgOSCl2LyZU1o/RK11WAkPEYXgA=
+	t=1721265005; cv=none; b=MwAtsAJZlAxoJpZLwipFIpCSW7Om2iNHCPspJBMAoSCZfIOvy0wYcOi8gLliFf67h8G+5svaoA6p/y+IbQ50jjzpXemqb89Xg7pHyp+1ezsX5LOie9Htz+FksCVjYlyTN6DqpOG9o2PTvGahM/48MVd66d/vQ6MvL0JUnm0DPv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721260140; c=relaxed/simple;
-	bh=rFGWRbA8LImYI7D6/VoMbgWhNQuVGH5ne03bNKO7LCU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h3tahaqVv893QZ7gu3J3T3vvMDmers1z1RNWrcXjl2pgcIuTGm+pE7+mHc/5JZUfHN9Mxk8ZRcqrhtjeY+aJ48NBDD+CRIgXJdn/OS3NTFAWM9FaCvK99Jr/+I+vOfkaZ0+2BisZrypu5PdPQlSOigH5WjmKu0uVg6PEhIukE58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LrODtn/N; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1721265005; c=relaxed/simple;
+	bh=UeqdEqQ9qaqakkZP50KbE0lEAt7K9mATOftkyIAZ5no=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ipVyEgIhmB50SWlReJIV2rGvKf0x5vx35cBYtNMWKMX6pbGHpVUezMGQAOvHE3+pMztgigDjnaAKkB3/opXICgAt1fyexMExZMUPadR5VONJn1xpu+9YVNkHU61TUQlPvMDRJKQjQnkR5Z4AcHCaVICM1Ns7oDheT2NOg0j6utg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mHvQQSxJ; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LrODtn/N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721260133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLUKdVmMIVj2UT/Y/3PcvR4JLQHbiTWGV5wC2CziSEs=;
-	b=LrODtn/NdLK2FRpUpV27McuBZLuujlXSFhVYBvhY4Cz+037e/8kVPXe0INV6ZSrXtY1Q/x
-	E5EzdmdtqlObdvVfE9zomNGnI5/dYhxa+favzo5VgB3MRM0J+zRcpni+xkySNh51zTOUCM
-	dWmQFmt+VQiMiBqB9ToT4mdmg7YXwrQ=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-456-9N8rRVGjNWKkkl7rh5i1Lg-1; Wed,
- 17 Jul 2024 19:48:47 -0400
-X-MC-Unique: 9N8rRVGjNWKkkl7rh5i1Lg-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C44FC1955D4A;
-	Wed, 17 Jul 2024 23:48:44 +0000 (UTC)
-Received: from [10.22.16.209] (unknown [10.22.16.209])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E8233000185;
-	Wed, 17 Jul 2024 23:48:40 +0000 (UTC)
-Message-ID: <85a67b00-9ae7-42a1-87e0-19b5563b9a0f@redhat.com>
-Date: Wed, 17 Jul 2024 19:48:40 -0400
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mHvQQSxJ"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-44a8b140a1bso151911cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 18:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721264998; x=1721869798; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JMJuhChikF4wLeOBxp1PV2NNfAI2pBpeeewnSnEI4VI=;
+        b=mHvQQSxJvJCF0R5IblScC8QinYv6mb30jXdR/vtIkVqD3fWca4xopYcOJI/C3HmnOw
+         TkLxVLXpwLs/3sckbQTgimpcTWKQNg7Id/au5xbOTsXjbDTbsmX0ZlxKuXOql6NUX4NU
+         tGoZ0D360+GdfQepvTlvTDazgemRzpDyy1zqQldFhY1Xseua97637Cs5gtkfCUWhLJ03
+         NrhODM+ZW1v1Py4tLjwUyfwevHk6RiKLBEXpU9tph4qI59sOzL51YpV/8LcABwvBkteO
+         wMabcYzZShfJA6njWd0Y8qp3MT8Jzn9MLXEMjKjp9a9SnAmqc01oRhNDiwM2eUSP1SR8
+         3tkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721264998; x=1721869798;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JMJuhChikF4wLeOBxp1PV2NNfAI2pBpeeewnSnEI4VI=;
+        b=JhV0pWBll3nW4GOMtBhfPvIe8esYXQHRaGYqFPoXy7cZXOs4c53cO7jJU9Zt4W+e7r
+         1xuqO0U5Ml/NeAbpwXEAV4vo3Zi/oUS2lPwcCFKKm2xMgQtIBdA58SRfH1loYt5fJwv0
+         wCbRS32+EYj3V16WQy1kBKN17qsiFg/bT04DQOcJKFEuF6uNFTnb2KVrLqZ+snogzCVe
+         43Z9DfUnhJNmjkbJHYncxfJmHMyl3SgXFWkwwaQ0CAv8w4YNZLvmB6gKZB/9588H4ksB
+         XDsvPdPXGEPcVisCJ3He2iRW8AqgfiBCPkw2ZzsxUv6Tdt+5AiogFFcZSD6YjNtHwc0N
+         EJVA==
+X-Forwarded-Encrypted: i=1; AJvYcCVP++Dhy7C+PmtJ0xQKiT5KyhP2mkBaClqzzBDSZVkxlg6FzUdcbH/lDcmGeKf/e/BcV5jMQ9f5yuPnzbB0kol7iXQcP93+H6+X
+X-Gm-Message-State: AOJu0YxaFJyr2c+5fJi/+YDnQ0itqhGi/U1u5IZ5zbzCA0uAxYly6tmM
+	VXWoQvR7qjV1aeWQ2ycZ+TXdUMXQBW6Yw2du6pGrBeURY/37TA2NGHWcnOn2r81QFss9NXraR3y
+	+/gcTsfiePN/KgYyq7L7HjgWt3YMiGhyRw8NA
+X-Google-Smtp-Source: AGHT+IEZhvA4xdp3JDyHouO5xbLvgcqjQtJ68LnXmSiZSDoBs5IOa7uIURj+JfJnO87UzHFxvFPd5/pxTPCSC15wyGA=
+X-Received: by 2002:a05:622a:17ce:b0:447:e04d:51b1 with SMTP id
+ d75a77b69052e-44f923eff22mr662261cf.11.1721264998174; Wed, 17 Jul 2024
+ 18:09:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: David Finkel <davidf@vimeo.com>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
- Jonathan Corbet <corbet@lwn.net>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
-References: <20240715203625.1462309-1-davidf@vimeo.com>
- <20240715203625.1462309-2-davidf@vimeo.com> <ZpZ6IZL482XZT1fU@tiehlicka>
- <ZpajW9BKCFcCCTr-@slm.duckdns.org> <20240717170408.GC1321673@cmpxchg.org>
- <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
- <20240717204453.GD1321673@cmpxchg.org>
- <CAFUnj5OGJtR0wqOZVUh8QQ3gaw4gmatsEN1LcBdcwN_wx-LUug@mail.gmail.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <CAFUnj5OGJtR0wqOZVUh8QQ3gaw4gmatsEN1LcBdcwN_wx-LUug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20240710234222.2333120-1-jthoughton@google.com>
+ <DS0PR11MB637397059B5DAE2AA7B819BCDCA12@DS0PR11MB6373.namprd11.prod.outlook.com>
+ <CADrL8HUv+RvazbOyx+NJ1oNd8FdMGd_T61Kjtia1cqJsN=WiOA@mail.gmail.com> <DS0PR11MB63735DAF7F168405D120A5C6DCA32@DS0PR11MB6373.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB63735DAF7F168405D120A5C6DCA32@DS0PR11MB6373.namprd11.prod.outlook.com>
+From: James Houghton <jthoughton@google.com>
+Date: Wed, 17 Jul 2024 18:09:21 -0700
+Message-ID: <CADrL8HWM-DX48GudKuc-N5KizZCqy-RvppejzktmtHS62VbaeA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/18] KVM: Post-copy live migration for guest_memfd
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/17/24 17:13, David Finkel wrote:
-> On Wed, Jul 17, 2024 at 4:44 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
->> On Wed, Jul 17, 2024 at 04:14:07PM -0400, David Finkel wrote:
->>> On Wed, Jul 17, 2024 at 1:04 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
->>>> On Tue, Jul 16, 2024 at 06:44:11AM -1000, Tejun Heo wrote:
->>>>> Hello,
->>>>>
->>>>> On Tue, Jul 16, 2024 at 03:48:17PM +0200, Michal Hocko wrote:
->>>>> ...
->>>>>>> This behavior is particularly useful for work scheduling systems that
->>>>>>> need to track memory usage of worker processes/cgroups per-work-item.
->>>>>>> Since memory can't be squeezed like CPU can (the OOM-killer has
->>>>>>> opinions), these systems need to track the peak memory usage to compute
->>>>>>> system/container fullness when binpacking workitems.
->>>>> Swap still has bad reps but there's nothing drastically worse about it than
->>>>> page cache. ie. If you're under memory pressure, you get thrashing one way
->>>>> or another. If there's no swap, the system is just memlocking anon memory
->>>>> even when they are a lot colder than page cache, so I'm skeptical that no
->>>>> swap + mostly anon + kernel OOM kills is a good strategy in general
->>>>> especially given that the system behavior is not very predictable under OOM
->>>>> conditions.
->>>>>
->>>>>> As mentioned down the email thread, I consider usefulness of peak value
->>>>>> rather limited. It is misleading when memory is reclaimed. But
->>>>>> fundamentally I do not oppose to unifying the write behavior to reset
->>>>>> values.
->>>>> The removal of resets was intentional. The problem was that it wasn't clear
->>>>> who owned those counters and there's no way of telling who reset what when.
->>>>> It was easy to accidentally end up with multiple entities that think they
->>>>> can get timed measurement by resetting.
->>>>>
->>>>> So, in general, I don't think this is a great idea. There are shortcomings
->>>>> to how memory.peak behaves in that its meaningfulness quickly declines over
->>>>> time. This is expected and the rationale behind adding memory.peak, IIRC,
->>>>> was that it was difficult to tell the memory usage of a short-lived cgroup.
->>>>>
->>>>> If we want to allow peak measurement of time periods, I wonder whether we
->>>>> could do something similar to pressure triggers - ie. let users register
->>>>> watchers so that each user can define their own watch periods. This is more
->>>>> involved but more useful and less error-inducing than adding reset to a
->>>>> single counter.
->>>>>
->>>>> Johannes, what do you think?
->>>> I'm also not a fan of the ability to reset globally.
->>>>
->>>> I seem to remember a scheme we discussed some time ago to do local
->>>> state tracking without having the overhead in the page counter
->>>> fastpath. The new data that needs to be tracked is a pc->local_peak
->>>> (in the page_counter) and an fd->peak (in the watcher's file state).
->>>>
->>>> 1. Usage peak is tracked in pc->watermark, and now also in pc->local_peak.
->>>>
->>>> 2. Somebody opens the memory.peak. Initialize fd->peak = -1.
->>>>
->>>> 3. If they write, set fd->peak = pc->local_peak = usage.
->>>>
->>>> 4. Usage grows.
->>>>
->>>> 5. They read(). A conventional reader has fd->peak == -1, so we return
->>>>     pc->watermark. If the fd has been written to, return max(fd->peak, pc->local_peak).
->>>>
->>>> 6. Usage drops.
->>>>
->>>> 7. New watcher opens and writes. Bring up all existing watchers'
->>>>     fd->peak (that aren't -1) to pc->local_peak *iff* latter is bigger.
->>>>     Then set the new fd->peak = pc->local_peak = current usage as in 3.
->>>>
->>>> 8. See 5. again for read() from each watcher.
->>>>
->>>> This way all fd's can arbitrarily start tracking new local peaks with
->>>> write(). The operation in the charging fast path is cheap. The write()
->>>> is O(existing_watchers), which seems reasonable. It's fully backward
->>>> compatible with conventional open() + read() users.
->>> That scheme seems viable, but it's a lot more work to implement and maintain
->>> than a simple global reset.
->>>
->>> Since that scheme maintains a separate pc->local_peak, it's not mutually
->>> exclusive with implementing a global reset now. (as long as we reserve a
->>> way to distinguish the different kinds of writes).
->>>
->>> As discussed on other sub-threads, this might be too niche to be worth
->>> the significant complexity of avoiding a global reset. (especially when
->>> users would likely be moving from cgroups v1 which does have a global reset)
->> The problem is that once global resetting is allowed, it makes the
->> number reported in memory.peak unreliable for everyone. You just don't
->> know, and can't tell, if somebody wrote to it recently. It's not too
->> much of a leap to say this breaks the existing interface contract.
-> It does make it hard to tell when it was reset, however, it also allows some
-> very powerful commandline interactions that aren't possible if you need to
-> keep a persistent fd open.
+On Wed, Jul 17, 2024 at 8:03=E2=80=AFAM Wang, Wei W <wei.w.wang@intel.com> =
+wrote:
 >
-> I have run things in cgroups to measure peak memory and CPU-time for
-> things that have subprocesses. If I needed to keep a persistent fd open
-> in order to reset the high watermark, it would have been far less useful.
+> On Wednesday, July 17, 2024 1:10 AM, James Houghton wrote:
+> > You're right that, today, including support for guest-private memory
+> > *only* indeed simplifies things (no async userfaults). I think your str=
+ategy for
+> > implementing post-copy would work (so, shared->private conversion fault=
+s for
+> > vCPU accesses to private memory, and userfaultfd for everything else).
 >
-> Honestly, I don't see a ton of value in tracking the peak memory if I
-> can't reset it.
-> It's not my use-case, but, there are a lot of cases where process-startup uses
-> a lot more memory than the steady-state, so the sysadmin might want to
-> measure that startup peak and any later peaks separately.
+> Yes, it works and has been used for our internal tests.
 >
-> In my use-case, I do have a long-lived process managing the cgroups
-> for its workers, so I could keep an fd around and reset it as necessary.
-> However, I do sometimes shell into the relevant k8s container and poke
-> at the cgroups with a shell, and having to dup that managing processes'
-> FD somehow to check the high watermark while debugging would be
-> rather annoying. (although definitely not a dealbreaker)
+> >
+> > I'm not 100% sure what should happen in the case of a non-vCPU access t=
+o
+> > should-be-private memory; today it seems like KVM just provides the sha=
+red
+> > version of the page, so conventional use of userfaultfd shouldn't break
+> > anything.
 >
->> You have to decide whether the above is worth implementing. But my
->> take is that the downsides of the simpler solution outweigh its
->> benefits.
-> There are a few parts to my reticence to implement something
-> more complicated.
->   1) Correctly cleaning up when one of those FDs gets closed can
->       be subtle
->   2) It's a lot of code, in some very sensitive portions of the kernel,
->       so I'd need to test that code a lot more than I do for slapping
->       a new entrypoint on the existing watermark reset of the
->       page_counter.
->   3) For various reasons, the relevant workload runs on
->       Google Kubernetes Engine with their Container Optimised OS.
->       If the patch is simple enough, I can request that Google
->       cherry-pick the relevant commit, so we don't have to wait
->       over a year for the next LTS kernel to roll out before we
->       can switch to cgroups v2.
->
-> It would be a nice personal challenge to implement the solution
-> you suggest, but it's definitely not something I'd knock out in the
-> next couple days.
+> This seems to be the trusted IO usage (not aware of other usages, emulate=
+d device
+> backends, such as vhost, work with shared pages). Migration support for t=
+rusted device
+> passthrough doesn't seem to be architecturally ready yet. Especially for =
+postcopy,
+> AFAIK, even the legacy VM case lacks the support for device passthrough (=
+not sure if
+> you've made it internally). So it seems too early to discuss this in deta=
+il.
 
-How about letting .peak shows two numbers? The first one is the peak 
-since the creation of the cgroup and cannot be reset. The second one is 
-a local maximum that can be reset to 0. We just to keep track of one 
-more counter that should be simple enough to implement.
+We don't migrate VMs with passthrough devices.
 
-Cheers,
-Longman
+I still think the way KVM handles non-vCPU accesses to private memory
+is wrong: surely it is an error, yet we simply provide the shared
+version of the page. *shrug*
 
+>
+> >
+> > But eventually guest_memfd itself will support "shared" memory,
+>
+> OK, I thought of this. Not sure how feasible it would be to extend gmem f=
+or
+> shared memory. I think questions like below need to be investigated:
+
+An RFC for it got posted recently[1]. :)
+
+> #1 what are the tangible benefits of gmem based shared memory, compared t=
+o the
+>      legacy shared memory that we have now?
+
+For [1], unmapping guest memory from the direct map.
+
+> #2 There would be some gaps to make gmem usable for shared pages. For
+>       example, would it support userspace to map (without security concer=
+ns)?
+
+At least in [1], userspace would be able to mmap it, but KVM would
+still not be able to GUP it (instead going through the normal
+guest_memfd path).
+
+> #3 if gmem gets extended to be something like hugetlb (e.g. 1GB), would i=
+t result
+>      in the same issue as hugetlb?
+
+Good question. At the end of the day, the problem is that GUP relies
+on host mm page table mappings, and HugeTLB can't map things with
+PAGE_SIZE PTEs.
+
+At least as of [1], given that KVM doesn't GUP guest_memfd memory, we
+don't rely on the host mm page table layout, so we don't have the same
+problem.
+
+For VMMs that want to catch userspace (or non-GUP kernel) accesses via
+a guest_memfd VMA, then it's possible it has the same issue. But for
+VMMs that don't care to catch these kinds of accesses (the kind of
+user that would use KVM Userfault to implement post-copy), it doesn't
+matter.
+
+[1]: https://lore.kernel.org/kvm/20240709132041.3625501-1-roypat@amazon.co.=
+uk/
+
+>
+> The support of using gmem for shared memory isn't in place yet, and this =
+seems
+> to be a dependency for the support being added here.
+
+Perhaps I've been slightly preemptive. :) I still think there's useful
+discussion here.
+
+> > and
+> > (IIUC) it won't use VMAs, so userfaultfd won't be usable (without chang=
+es
+> > anyway). For a non-confidential VM, all memory will be "shared", so sha=
+red-
+> > >private conversions can't help us there either.
+> > Starting everything as private almost works (so using private->shared
+> > conversions as a notification mechanism), but if the first time KVM att=
+empts to
+> > use a page is not from a vCPU (and is from a place where we cannot easi=
+ly
+> > return to userspace), the need for "async userfaults"
+> > comes back.
+>
+> Yeah, this needs to be resolved for KVM userfaults. If gmem is used for p=
+rivate
+> pages only, this wouldn't be an issue (it will be covered by userfaultfd)=
+.
+
+We're on the same page here.
+
+>
+>
+> >
+> > For this use case, it seems cleaner to have a new interface. (And, as f=
+ar as I can
+> > tell, we would at least need some kind of "async userfault"-like mechan=
+ism.)
+> >
+> > Another reason why, today, KVM Userfault is helpful is that userfaultfd=
+ has a
+> > couple drawbacks. Userfaultfd migration with HugeTLB-1G is basically
+> > unusable, as HugeTLB pages cannot be mapped at PAGE_SIZE. Some discussi=
+on
+> > here[1][2].
+> >
+> > Moving the implementation of post-copy to KVM means that, throughout
+> > post-copy, we can avoid changes to the main mm page tables, and we only
+> > need to modify the second stage page tables. This saves the memory need=
+ed
+> > to store the extra set of shattered page tables, and we save the perfor=
+mance
+> > overhead of the page table modifications and accounting that mm does.
+>
+> It would be nice to see some data for comparisons between kvm faults and =
+userfaultfd
+> e.g., end to end latency of handling a page fault via getting data from t=
+he source.
+> (I didn't find data from the link you shared. Please correct me if I miss=
+ed it)
+
+I don't have an A/B comparison for kernel end-to-end fault latency. :(
+But I can tell you that with 32us or so network latency, it's not a
+huge difference (assuming Anish's series[2]).
+
+The real performance issue comes when we are collapsing the page
+tables at the end. We basically have to do ~2x of everything (TLB
+flushes, etc.), plus additional accounting that HugeTLB/THP does
+(adjusting refcount/mapcount), etc. And one must optimize how the
+unmap MMU notifiers are called so as to not stall vCPUs unnecessarily.
+
+[2]: https://lore.kernel.org/kvm/20240215235405.368539-1-amoorthy@google.co=
+m/
+
+>
+>
+> > We don't necessarily need a way to go from no-fault -> fault for a page=
+, that's
+> > right[4]. But we do need a way for KVM to be able to allow the access t=
+o
+> > proceed (i.e., go from fault -> no-fault). IOW, if we get a fault and c=
+ome out to
+> > userspace, we need a way to tell KVM not to do that again.
+> > In the case of shared->private conversions, that mechanism is toggling =
+the memory
+> > attributes for a gfn.  For conventional userfaultfd, that's using
+> > UFFDIO_COPY/CONTINUE/POISON.
+> > Maybe I'm misunderstanding your question.
+>
+> We can come back to this after the dependency discussion above is done. (=
+If gmem is only
+> used for private pages, the support for postcopy, including changes requi=
+red for VMMs, would
+> be simpler)
