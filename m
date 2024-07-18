@@ -1,156 +1,111 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB685589B
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 05:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE78768EE
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 07:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721282225; cv=none; b=KdyLamlsCMpzEaAXZevne7UbRIHyF5DeC3qZC2/7DFeOcMNHs+TgZfsmGIJ+eVNIsGkTYQuMIVRmwzqjSiBcPIBpTgsRjMo0KTnK3jMBm/51i1ZSXRltuYUnInXMgQWh7FrzV+lM947SzGcZ1BFS96iUCmpKEUwM/AnT9hnyXBE=
+	t=1721287305; cv=none; b=dseinJHFJBfJs12i1ad2KF0bW4LZsDltqVI8buPFaJ5cfquE8C/4n1ikUkyEQ+8PmikZ3r0vZPivcfwJEp3auyRblYYRPW9PpdzSHN+aaNVOQlDcLqk1zXkOGp9Gmv6AzwGEFlPpIewCYte/lL/j1H9pUew5PmUBC+t54dIII6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721282225; c=relaxed/simple;
-	bh=KeuIp37sSItJMXw0CV0CrfmTbBjDl/do/7WyW3FFCf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NE1N27Jpr1Cmha/hdtBCvH3GnDbVjyJW1D6K3cP9b3DE7ptjgTiB5H/SHcEFNS55r1Sp2yOm+YLFfsC1PG+JmXDbOA+BmPu3p/H9UH/4E7RCfN1JU38tfpJmDBN7CjQLkzRFE+p5t38rjoFtrtbtvqmUnyBTN+9Wjnq1v2H76Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jkreMo74; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1721287305; c=relaxed/simple;
+	bh=QVa3X98w8qyr8FW0n7dAND2AxvsnqzpDtMSU7c9ZPvY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UlGQoar6IkIY1PfYv2niMfUNb7uohFjzFWBWBNOO49vyYyQoeOHaF96J242vBQd/O0GPJ2xRAN90gws9Vlp4ofxNVpV5TvT+2Snz8GYAwPt+0kXKf0A97DbNiK6SWbmXpEOZHoIUBS+P4inzwfxsvT7QVz7YCX9g7Rosxxc8Kjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Bx7jI98m; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jkreMo74"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-44e534a1fbeso133881cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jul 2024 22:57:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Bx7jI98m"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-58f9874aeb4so485251a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 00:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721282223; x=1721887023; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pqrE9ATA+AordmR8IlRV7jP0PZ5Ao0LIRPGNfYSqazY=;
-        b=jkreMo74z1iWolTeUXgLaIfmyrDvltZ45CDzDI/PTvTcSM24JOTsHMiHQGOxAITs5O
-         pceSLKdnS/WImXgxvN3QWHITaYpidljmt5sI631RFr38yAogIzVLY40yiza97tsTObhg
-         FXC0qTkXhkiqYyJACf0xaYXIpzeTfGkt20Azj4cmFI+FXE7ilX6Bw9zB3rjtT8V7qgBi
-         Z/ykgHBd+tDyc00yz22z3GzeiRDDtzqMUcILsqkw6j/Vvo25N1P7BbWTaNyrucx+kMAu
-         wrL51FyU2ad5llzt23+voIoQZKbGm5iK1dCJSxd1b/V9wKf+2gKBO+P9xZP9TbuPiKnL
-         WvdQ==
+        d=suse.com; s=google; t=1721287302; x=1721892102; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z36h3EgWdW0oeGo8MwGOQHC0vdVkypcTjZjQ6VZXxVU=;
+        b=Bx7jI98m2uAugcAu/DA4b2jO+dWPh7Xsk/BNOnTaz8v7Swj20+Vf+XSsLu2Qqu1an3
+         Xpad0rqUtJ5WBN3FdpVz7ofIW+x3XmZYNWFmPfij4rnVAyu3LCmMvFjFnX7KHncEbBXL
+         2NbpTsTZTNkQFyoxlvkN539FDzBwfJVfJgMwb7teoetnsVRvWp069jgFlVLZHkRgnxIa
+         Lz6VHpD0aof0+rWMNIOOdipFi9yiM0Wd4LJG24DjkmUTSNGvuqDo5CvJ3ToVvBv+18Re
+         NwaHaY7/mZowuRaOmJ/AlrLvQCmji0U08pNpTIGuMOiEDHSqoU07z7Lk2eV+Ur/JHYvT
+         P4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721282223; x=1721887023;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pqrE9ATA+AordmR8IlRV7jP0PZ5Ao0LIRPGNfYSqazY=;
-        b=BMWuol5Ooa4JkqsXqFmURYRNQjt8PYRQ2zZvBleTsME9yJyJ4Y/aLYLEC7yoEhhpal
-         B2Dq1AogA/a1Fye4kAB+bwrsqM9++qqwxLhcYZnkEK6x9aypIx0ByMeGHBWsJdJxk/mc
-         r6MqznKugPGHIu5mR6KnP9zYVCfUnIGTANsl5pI0CNZwOon2yVXsgsUCf0TrHHtQcojP
-         14arBGlHyeNWIdUng9C07L0hNEIL1DQPWAMzzEIn7l4w70Ckfcvcn3L+mc7PIoVHQAmy
-         s/yxiGdugQ8gPvY2t2IvDZtXUU7LAGInBvaIrrABKK1OXQuZ83j6rlsf0zAWb+wj957X
-         1Udw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFv5d0jv3dEYJdvfu94Rh4kyAcWQ9Hj29ljgrFwcxSOlTfHnyqgIz+/Am/5D45w9AEzp4FAhtkYV4xBQZnMH62QIHStNvN1Pn3
-X-Gm-Message-State: AOJu0YzqzFdt5fOo41V4EwYMAIylu4Wv7F8qo8qPoLBAbNwhOLv1Vj0P
-	SieH/bo736DJF95eZ0xrRXqYaZrTznaTQ83KnIt+0E0LsKXhvhbNNCqlJqnzvtQpaddu3uoWa41
-	5vWfZl0XnDrhTLgguScekN2WTatkQ3V7cNVxd
-X-Google-Smtp-Source: AGHT+IEHHebV8szgYxu+TdmREfwXaIWJ71JkN72nWUWJgLbrKQzDy3gUd6anWSr9AFwpg2m30Bn4GExHGqf3oA18zwc=
-X-Received: by 2002:a05:622a:1f98:b0:43f:ff89:dfb9 with SMTP id
- d75a77b69052e-44f91ad706fmr1237151cf.6.1721282222486; Wed, 17 Jul 2024
- 22:57:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721287302; x=1721892102;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z36h3EgWdW0oeGo8MwGOQHC0vdVkypcTjZjQ6VZXxVU=;
+        b=T2ogzIfm9+TvO+HGdxlbLiCmq8kGBaOo2lkLKlAh8gd8rkArpGsKXv4i3kHLFb7er9
+         TQsxdnVX3TAh2vzIpUszbmeWHHrTOWDSMTUYkvRSsgTdvywGap45bNR0LmAZzlrslH1c
+         8+KMVA0q1NtGULzJp+W8qLIDJRcS0FsTJxVHr3IxaTyYEvCn6+pdYpw9qQ5WU6SYAgkT
+         XPRTQDDvXdDIZu2FF4nhSCr746j0+ae7gJoG+RZd7PbiFdQbynojvF8bp7g92A4xWoNr
+         HhcuKagX8dKv3zyoBA+RBuf+7GPXZKLR7D7Vk+l5jnF23goxH8Tf/JMis/1HSJzyIveX
+         MATg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/fJHjiohM8/ESfVK41H1MH+O0H4xQuFrqzxo3uqD4S/Fr4m6N8Jkl8BScZQVweW6Dv5SK35es9wsq4iPbGphFhYszvHegq1m2
+X-Gm-Message-State: AOJu0YzVvnU+f4/9N0noxx54frtrxDuNP2gskzdW0G2IYWFs+g1Uncmr
+	rKaECmxRcgupJWmTCq6+TIqdb9CDkgmQRIQ6eL/2jV3Z6Nzp7vmjBOz/FBKmJ3I=
+X-Google-Smtp-Source: AGHT+IF97x7bn4mYrwvYkME2x6ecrHUwJBDJGcc/b2qRODahL6q5Up4jRxMNik+dgw6dPDV5AHUrtA==
+X-Received: by 2002:a17:907:76f0:b0:a77:f5ca:f847 with SMTP id a640c23a62f3a-a7a011199famr260206966b.3.1721287301660;
+        Thu, 18 Jul 2024 00:21:41 -0700 (PDT)
+Received: from localhost (109-81-94-157.rct.o2.cz. [109.81.94.157])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc820e3dsm528650066b.194.2024.07.18.00.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jul 2024 00:21:41 -0700 (PDT)
+Date: Thu, 18 Jul 2024 09:21:40 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: David Finkel <davidf@vimeo.com>, Tejun Heo <tj@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <ZpjChBcIFUFulH91@tiehlicka>
+References: <20240715203625.1462309-1-davidf@vimeo.com>
+ <20240715203625.1462309-2-davidf@vimeo.com>
+ <ZpZ6IZL482XZT1fU@tiehlicka>
+ <ZpajW9BKCFcCCTr-@slm.duckdns.org>
+ <20240717170408.GC1321673@cmpxchg.org>
+ <CAFUnj5OA0KaC54M9vd8W+NZJwz5Jw25u-BStO=Bi2An=98Ruwg@mail.gmail.com>
+ <20240717204453.GD1321673@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240717210047.work.412-kees@kernel.org>
-In-Reply-To: <20240717210047.work.412-kees@kernel.org>
-From: David Gow <davidgow@google.com>
-Date: Thu, 18 Jul 2024 13:56:51 +0800
-Message-ID: <CABVgOSnUzuS6WDdZfX+1S1G7eotxtJWyvL_QmOMRuga1kOpViw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: KUnit: Update filename best practices
-To: Kees Cook <kees@kernel.org>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240717204453.GD1321673@cmpxchg.org>
 
-On Thu, 18 Jul 2024 at 05:00, Kees Cook <kees@kernel.org> wrote:
->
-> Based on feedback from Linus[1], change the suggested file naming for
-> KUnit tests.
->
-> Link: https://lore.kernel.org/lkml/CAHk-=wgim6pNiGTBMhP8Kd3tsB7_JTAuvNJ=XYd3wPvvk=OHog@mail.gmail.com/ [1]
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: David Gow <davidgow@google.com>
-> Cc: Brendan Higgins <brendan.higgins@linux.dev>
-> Cc: Rae Moar <rmoar@google.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: linux-doc@vger.kernel.org
-> ---
+On Wed 17-07-24 16:44:53, Johannes Weiner wrote:
+[...]
+> The problem is that once global resetting is allowed, it makes the
+> number reported in memory.peak unreliable for everyone. You just don't
+> know, and can't tell, if somebody wrote to it recently. It's not too
+> much of a leap to say this breaks the existing interface contract.
 
-Looks good to me. Maybe we could make it clearer that the suffix is
-important for the module name, so if the module is made of multiple
-source files, it will need to have the _test (or, now, _kunit) suffix
-added in the Makefile.
+I do not remember any bug reports from v1 where there was a max usage
+misreported because of uncoordinated value reseting. So while you are
+right that this is theoretically possible I am not convinced this is a
+real problem in practice.
 
-Having the extra suffix on the module name shouldn't annoy modprobe as
-much, as it doesn't need the file extension. So, e.g., if we have
-foo_bar.ko and tests/foo_bar_kunit.ko:
-- insmod doesn't have tab completion issues, as insmod foo[TAB] will
-complete the filename to foo_bar.ko.
-- modprobe also is fine, as modprobe foo[TAB] will complete the module
-name partially to foo_bar (and adding _k[TAB] will complete to
-foo_bar_kunit).
+On the other hand it seems there is a wider agreement this shouldn't be
+added to v2 and I do respect that.
+ 
+> You have to decide whether the above is worth implementing. But my
+> take is that the downsides of the simpler solution outweigh its
+> benefits.
 
-(It could still be annoying with fancy shells which show menus, or
-something, but they'll be equally annoyed by all of the other options,
-as far as I can tell.)
+While this seems quite elegant I am not convinced this is really worth
+the additional code for a metric like peak memory consumption which is a
+very limited metric in a presence of memory reclaim.
 
-So:
-- s/_test/_kunit for the default.
-- Explicitly mention the module name, in addition to the filename.
-Maybe also "if the module is made of multiple source files, specify
-the module name (with the _kunit suffix) in the Makefile" or similar.
-
-Cheers,
--- David
-
-
->  Documentation/dev-tools/kunit/style.rst | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/style.rst b/Documentation/dev-tools/kunit/style.rst
-> index b6d0d7359f00..761dee3f89ca 100644
-> --- a/Documentation/dev-tools/kunit/style.rst
-> +++ b/Documentation/dev-tools/kunit/style.rst
-> @@ -188,15 +188,20 @@ For example, a Kconfig entry might look like:
->  Test File and Module Names
->  ==========================
->
-> -KUnit tests can often be compiled as a module. These modules should be named
-> -after the test suite, followed by ``_test``. If this is likely to conflict with
-> -non-KUnit tests, the suffix ``_kunit`` can also be used.
-> -
-> -The easiest way of achieving this is to name the file containing the test suite
-> -``<suite>_test.c`` (or, as above, ``<suite>_kunit.c``). This file should be
-> -placed next to the code under test.
-> +Whether a KUnit test is compiled as a separate module or via an
-> +``#include`` in a core kernel source file, the files should be named
-> +after the test suite, followed by ``_test``, and live in a ``tests``
-> +subdirectory to avoid conflicting with regular modules or the core kernel
-> +source file names (e.g. for tab-completion). If this would conflict with
-> +non-KUnit tests, the suffix ``_kunit`` can be used instead.
-> +
-> +So for the common case, name the file containing the test suite
-> +``tests/<suite>_test.c`` (or, if needed, ``tests/<suite>_kunit.c``). The
-> +``tests`` directory should be placed at the same level as the
-> +code under test. For example, tests for ``lib/string.c`` live in
-> +``lib/tests/string_test.c``.
->
->  If the suite name contains some or all of the name of the test's parent
->  directory, it may make sense to modify the source filename to reduce redundancy.
-> -For example, a ``foo_firmware`` suite could be in the ``foo/firmware_test.c``
-> +For example, a ``foo_firmware`` suite could be in the ``tests/foo/firmware_test.c``
->  file.
-> --
-> 2.34.1
->
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
