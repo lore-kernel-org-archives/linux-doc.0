@@ -1,318 +1,187 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C6213C802;
-	Thu, 18 Jul 2024 13:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F56713E033
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 13:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721308303; cv=none; b=k/xA8hI93JVO1vNe5JpiA3xmEZoGn0PLna3DEjPCpydQiRr/1zMFyOPHwRc7INPr2IZJFdadHqeGsxeIxFG+evFbaUd2HpEy3+NmLowhjmnISrN/4Lr9mROpomogtqxJQYLUub9z8pmnjYJZemH5a3SJn/yz4O+nJt/jhDntuL4=
+	t=1721311162; cv=none; b=XQx7N9MH01P5DAKensZsTbqPQoAfcjlYUZkd4uxleRtn9onw0fnVfClOchimjjiBagtCmi7Y04hsW8EKqBsxWwwmVbN0AjGqjbqSd/vV7Y0OJsQ1KG1eqBu3C0HNLfJbeYitUCU9hRl/FUVpflpb0Pfgbk2UGB9MrSgo+gMt4fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721308303; c=relaxed/simple;
-	bh=h8nVFlgb9Xd54gcrrMTusWTBlTcF4WJ91u1miu+YWIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F/DBPFaQ9fxMiVxK40UBEj4PjZD1ZFM6L/EVCm2Hv7kdLYpnAcx4TuOwcVizeBKrRq1snVCVFcQw7RnbNsWwJOJrxrphkzWiWFzzU4Fcu33/6OmkP2qgSgiZoxVVOqKiUDVnwFIKIFHbNYrrGdKGuLIwT+/Cb7I/W+Gl/ObyQ4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 04B676000B;
-	Thu, 18 Jul 2024 13:11:32 +0000 (UTC)
-Message-ID: <8b817513-a901-4445-b523-54ad8ceaf8c8@ghiti.fr>
-Date: Thu, 18 Jul 2024 15:11:32 +0200
+	s=arc-20240116; t=1721311162; c=relaxed/simple;
+	bh=T8bAsK99/W2j3NZ1VELdAZTOdjS+fYWbu5w670iDhg8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=tQGaoocuaQQo9bV87d7T1HgN3c2tyloqRLNgeuW7zN/vi3hRHqmO7gXtjPYHXdwIF30BeMirEe1tFU1wLbGQdCri4TLtIAIv7VtPqC0rkpfD6CEHSI6vDnqaU/64tVDzhvn6TjnmuoaLriKq7ygZKisFkMFklkmHGVGSSHnwocs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vdsfmwzt; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vdsfmwzt"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1fca868b53cso68565ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 06:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721311159; x=1721915959; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CUVmMYfxbiF1qMd6LNSBVnSoJ9dOPghzfJiSlpscXu0=;
+        b=vdsfmwztIUIdYphYfWGvLpnqWDien4lEnmw1vBb04O6ha9iEHMUST+Smy/gMm3I4yB
+         0adcFe6PqhzlCuvSzHuGCtnR4/poZO6gPdIK+sfJfPLer/rLI7b2shX7lxI+e+9RzfH2
+         2C+WrTMkRBJ5DOPow0kqKnMwjUoJIR3Kwm8m7ZssezfojMzniY4jkfdvGLpwg3Z3lQSi
+         5WDK8+O6XGMoaLDWC1eZKdO63htWORD5wvUSqPubj5xXsk3ZjlyCzFObepvKP11LY6w9
+         l8xrvxeD8iAXfVN61AjC5SxNT5ytNZoIbT1t2HoutwkHy2AgYGBEQqgS/fbAA0n0FhCP
+         3x9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721311159; x=1721915959;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CUVmMYfxbiF1qMd6LNSBVnSoJ9dOPghzfJiSlpscXu0=;
+        b=ktRtzHbp6EGj5neZO/RjwKrnLG+N8aWxSTDyDRkWB6Wqco82eaiJ8y9XYMvkJhkB4S
+         Qn+6LsskE5R7r11VYZtg1Hai8+gJRqOVrJEaadDm7e+0xTzhb5QF9UUZC6l7/K2KsMKn
+         +aj1EAtrjXrmxq7+Ze44OJrn+BFabJ6kNJoC9OcRfXNIDxoUOSlAAgF/oSHQp9eJ52Dh
+         RP95ZowveuiHmXr3l89NyGwCQQ9nMtLpSeSNyvzBlNdkYhr1ao7B8qpFRwNZbe+9s3GT
+         KRvq0E4rrnU2G+ymElCEShgI7xU4wmi8QMOrjzF9iVci5G8WeuFOiTJ5SfKPDdIN/FKw
+         qupQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVc32XcPkZBcheJZT8WhrnjASFMiZCKBROd9oiPDnxzAR+W4vEzRZOBoJz4mlWKdv/vBna6gMkSiK/EXg/MxoHhAP6Kx348LJ1f
+X-Gm-Message-State: AOJu0YwwnDqyx5ajOUKXydXS3X52ENNWbWHR7qPMYPgGf0b0//9fwzYK
+	fifcJ30ebi/dG0LM8JVNxJSWHe4aOGmJ2TxkrWQ19fR3ifdNxftpkopNUptg8P7Pcd/zzGEGDtn
+	fwQ==
+X-Google-Smtp-Source: AGHT+IHT4qxBt2UqkBpDq67/VkzDurpRxyf3IhB2d+KduaJBwouF6xPXKPAFEVZfRpq+CtWXOejhaTdCwxU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:f601:b0:1fb:4b59:d0f5 with SMTP id
+ d9443c01a7336-1fc4e10ec8emr673635ad.3.1721311158695; Thu, 18 Jul 2024
+ 06:59:18 -0700 (PDT)
+Date: Thu, 18 Jul 2024 06:59:17 -0700
+In-Reply-To: <SA1PR11MB67348CCC02DE80B2DAA4C7A0A8A32@SA1PR11MB6734.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/11] riscv: Add qspinlock support
-Content-Language: en-US
-To: Guo Ren <guoren@kernel.org>, Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-References: <20240717061957.140712-1-alexghiti@rivosinc.com>
- <20240717061957.140712-12-alexghiti@rivosinc.com>
- <CAJF2gTQtT5KxpjjOs5QMcrxz6wEKTjHgxrgXZvXy1HbQ3AhhTQ@mail.gmail.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <CAJF2gTQtT5KxpjjOs5QMcrxz6wEKTjHgxrgXZvXy1HbQ3AhhTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
+Mime-Version: 1.0
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-10-xin3.li@intel.com>
+ <ZmoYvcbFBPJ5ARma@google.com> <SA1PR11MB67348BD07CCCF8D52FCAC8FEA8A42@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <ZpFH86n_YY5ModwK@google.com> <SA1PR11MB67341A4D3E4D11DAE8AF6D2EA8A62@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <ZpFZg-9MTveHfn_4@google.com> <SA1PR11MB67349D5D7B0E26A49B8A1112A8A62@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <SA1PR11MB67348CCC02DE80B2DAA4C7A0A8A32@SA1PR11MB6734.namprd11.prod.outlook.com>
+Message-ID: <ZpkfkSMPiXrS9r2K@google.com>
+Subject: Re: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and guest
+From: Sean Christopherson <seanjc@google.com>
+To: Xin3 Li <xin3.li@intel.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"vkuznets@redhat.com" <vkuznets@redhat.com>, "peterz@infradead.org" <peterz@infradead.org>, 
+	Ravi V Shankar <ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Guo,
+On Wed, Jul 17, 2024, Xin3 Li wrote:
+> > > > > E.g. if it's somewhere in task_struct, then kvm_on_user_return()
+> > > > > would restore the current task's desired RSP0.
+> > > >
+> > > > So you're suggesting to extend the framework to allow per task constants?
+> > >
+> > > Yeah, or more likely, special case MSR_IA32_FRED_RSP0.  If KVM didn't
+> > > already have the user return framework, I wouldn't suggest this as I
+> > > doubt avoiding WRMSR when switching between vCPU tasks will be very
+> > > meaningful, but it's easy to handle FRED_RSP0, so why not.
+> > 
+> > Great, I will take the patch.
+> 
+> I tried to make this work, however because FRED RSP0 is per task and
+> keeps changing during context switch[1], we lose track of FRED RSP0
+> values from both host and guest,
 
-On 17/07/2024 11:30, Guo Ren wrote:
-> On Wed, Jul 17, 2024 at 2:31 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->> In order to produce a generic kernel, a user can select
->> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
->> spinlock implementation if Zabha or Ziccrse are not present.
->>
->> Note that we can't use alternatives here because the discovery of
->> extensions is done too late and we need to start with the qspinlock
->> implementation because the ticket spinlock implementation would pollute
->> the spinlock value, so let's use static keys.
->>
->> This is largely based on Guo's work and Leonardo reviews at [1].
->>
->> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
->> Signed-off-by: Guo Ren <guoren@kernel.org>
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> ---
->>   .../locking/queued-spinlocks/arch-support.txt |  2 +-
->>   arch/riscv/Kconfig                            | 29 ++++++++++++++
->>   arch/riscv/include/asm/Kbuild                 |  4 +-
->>   arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++++++++
->>   arch/riscv/kernel/setup.c                     | 33 ++++++++++++++++
->>   include/asm-generic/qspinlock.h               |  2 +
->>   include/asm-generic/ticket_spinlock.h         |  2 +
->>   7 files changed, 109 insertions(+), 2 deletions(-)
->>   create mode 100644 arch/riscv/include/asm/spinlock.h
->>
->> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
->> index 22f2990392ff..cf26042480e2 100644
->> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
->> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
->> @@ -20,7 +20,7 @@
->>       |    openrisc: |  ok  |
->>       |      parisc: | TODO |
->>       |     powerpc: |  ok  |
->> -    |       riscv: | TODO |
->> +    |       riscv: |  ok  |
->>       |        s390: | TODO |
->>       |          sh: | TODO |
->>       |       sparc: |  ok  |
->> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->> index 0bbaec0444d0..5040c7eac70d 100644
->> --- a/arch/riscv/Kconfig
->> +++ b/arch/riscv/Kconfig
->> @@ -72,6 +72,7 @@ config RISCV
->>          select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
->>          select ARCH_WANTS_NO_INSTR
->>          select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
->> +       select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
->>          select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
->>          select BUILDTIME_TABLE_SORT if MMU
->>          select CLINT_TIMER if RISCV_M_MODE
->> @@ -482,6 +483,34 @@ config NODES_SHIFT
->>            Specify the maximum number of NUMA Nodes available on the target
->>            system.  Increases memory reserved to accommodate various tables.
->>
->> +choice
->> +       prompt "RISC-V spinlock type"
->> +       default RISCV_COMBO_SPINLOCKS
->> +
->> +config RISCV_TICKET_SPINLOCKS
->> +       bool "Using ticket spinlock"
->> +
->> +config RISCV_QUEUED_SPINLOCKS
->> +       bool "Using queued spinlock"
->> +       depends on SMP && MMU
->> +       select ARCH_USE_QUEUED_SPINLOCKS
->> +       help
->> +         The queued spinlock implementation requires the forward progress
->> +         guarantee of cmpxchg()/xchg() atomic operations: CAS with Zabha or
->> +         LR/SC with Ziccrse provide such guarantee.
->> +
->> +         Select this if and only if Zabha or Ziccrse is available on your
->> +         platform.
->> +
->> +config RISCV_COMBO_SPINLOCKS
->> +       bool "Using combo spinlock"
->> +       depends on SMP && MMU
->> +       select ARCH_USE_QUEUED_SPINLOCKS
->> +       help
->> +         Embed both queued spinlock and ticket lock so that the spinlock
->> +         implementation can be chosen at runtime.
->> +endchoice
->> +
->>   config RISCV_ALTERNATIVE
->>          bool
->>          depends on !XIP_KERNEL
->> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
->> index 504f8b7e72d4..ad72f2bd4cc9 100644
->> --- a/arch/riscv/include/asm/Kbuild
->> +++ b/arch/riscv/include/asm/Kbuild
->> @@ -2,10 +2,12 @@
->>   generic-y += early_ioremap.h
->>   generic-y += flat.h
->>   generic-y += kvm_para.h
->> +generic-y += mcs_spinlock.h
->>   generic-y += parport.h
->> -generic-y += spinlock.h
->>   generic-y += spinlock_types.h
->> +generic-y += ticket_spinlock.h
->>   generic-y += qrwlock.h
->>   generic-y += qrwlock_types.h
->> +generic-y += qspinlock.h
->>   generic-y += user.h
->>   generic-y += vmlinux.lds.h
->> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
->> new file mode 100644
->> index 000000000000..4856d50006f2
->> --- /dev/null
->> +++ b/arch/riscv/include/asm/spinlock.h
->> @@ -0,0 +1,39 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +
->> +#ifndef __ASM_RISCV_SPINLOCK_H
->> +#define __ASM_RISCV_SPINLOCK_H
->> +
->> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
->> +#define _Q_PENDING_LOOPS       (1 << 9)
->> +
->> +#define __no_arch_spinlock_redefine
->> +#include <asm/ticket_spinlock.h>
->> +#include <asm/qspinlock.h>
->> +#include <asm/alternative.h>
->> +
->> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
->> +
->> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                     \
->> +static __always_inline type arch_spin_##op(type_lock lock)             \
->> +{                                                                      \
->> +       if (static_branch_unlikely(&qspinlock_key))                     \
->> +               return queued_spin_##op(lock);                          \
->> +       return ticket_spin_##op(lock);                                  \
->> +}
->> +
->> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
->> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
->> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
->> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
->> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
->> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
->> +
->> +#else
->> +
->> +#include <asm/ticket_spinlock.h>
->> +
->> +#endif
->> +
->> +#include <asm/qrwlock.h>
->> +
->> +#endif /* __ASM_RISCV_SPINLOCK_H */
->> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->> index 4f73c0ae44b2..d7c31c9b8ead 100644
->> --- a/arch/riscv/kernel/setup.c
->> +++ b/arch/riscv/kernel/setup.c
->> @@ -244,6 +244,38 @@ static void __init parse_dtb(void)
->>   #endif
->>   }
->>
->> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
->> +EXPORT_SYMBOL(qspinlock_key);
->> +
->> +static void __init riscv_spinlock_init(void)
->> +{
->> +       char *using_ext;
->> +
->> +       if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) &&
->> +           IS_ENABLED(CONFIG_RISCV_ISA_ZABHA)) {
->> +               using_ext = "using Zabha";
->> +
->> +               asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0, RISCV_ISA_EXT_ZACAS, 1)
->> +                        : : : : no_zacas);
->> +               asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA_EXT_ZABHA, 1)
->> +                        : : : : qspinlock);
->> +       }
-> I'm okay with this patch.
+Ah, right, the host value is volatile.  And MSR_IA32_FRED_RSP0 is passed through
+to the guest, so the guest value is volatile/unknown too.
 
+> thus we need to:
+> 
+> 1) *always* save guest FRED RSP0 in vmx_prepare_switch_to_host().
+> 
+> 2) *always* restore guest FRED RSP0 in vmx_prepare_switch_to_guest(),
+>    because sometimes context switches happen but the CPU does NOT
+>    return to user mode thus the user return framework detects no change.
+> 
+> So it essentially becomes the same as what the original patch does.
+> 
+> I guess It's probably not worth the change, how do you think?
 
-Great, thanks!
+One idea would be to have the kernel write MSR_IA32_FRED_RSP0 on return to
+userspace instead of on context switch.  As is, amusingly, there's no need to
+restore the host value if a context switch occurs as the kernel will have written
+the new task's value.  RSP0 only needs to be manually restored if the kernel
+returns to userspace for the vCPU task.  Using a TI flag to track if RSP0 needs
+to be loaded would avoid a fair number of WRMSRs in both KVM and the kernel.
 
+E.g.
 
-> I suggest putting an arg such as "enable_qspinlock," which people
-> could use on the non-ZABHA machines. I hope it could happen in this
-> series. That's all I need, thank you very much.
-
-
-Do you think that's really necessary? I added Ziccrse support just 
-below, to me that fits your needs to use qspinlocks on !Ziccrse.
-
-BTW, can I add you SoB on this patch? Or a Co-developed-by or anything 
-to show that you greatly contributed to this patch?
-
-Thanks,
-
-Alex
-
-
->
->> +
->> +no_zacas:
->> +       using_ext = "using Ziccrse";
->> +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0,
->> +                            RISCV_ISA_EXT_ZICCRSE, 1)
->> +                : : : : qspinlock);
->> +
->> +       static_branch_disable(&qspinlock_key);
->> +       pr_info("Ticket spinlock: enabled\n");
->> +
->> +       return;
->> +
->> +qspinlock:
->> +       pr_info("Queued spinlock %s: enabled\n", using_ext);
->> +}
->> +
->>   extern void __init init_rt_signal_env(void);
->>
->>   void __init setup_arch(char **cmdline_p)
->> @@ -295,6 +327,7 @@ void __init setup_arch(char **cmdline_p)
->>          riscv_set_dma_cache_alignment();
->>
->>          riscv_user_isa_enable();
->> +       riscv_spinlock_init();
->>   }
->>
->>   bool arch_cpu_is_hotpluggable(int cpu)
->> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
->> index 0655aa5b57b2..bf47cca2c375 100644
->> --- a/include/asm-generic/qspinlock.h
->> +++ b/include/asm-generic/qspinlock.h
->> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->>   }
->>   #endif
->>
->> +#ifndef __no_arch_spinlock_redefine
->>   /*
->>    * Remapping spinlock architecture specific functions to the corresponding
->>    * queued spinlock functions.
->> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->>   #define arch_spin_lock(l)              queued_spin_lock(l)
->>   #define arch_spin_trylock(l)           queued_spin_trylock(l)
->>   #define arch_spin_unlock(l)            queued_spin_unlock(l)
->> +#endif
->>
->>   #endif /* __ASM_GENERIC_QSPINLOCK_H */
->> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
->> index cfcff22b37b3..325779970d8a 100644
->> --- a/include/asm-generic/ticket_spinlock.h
->> +++ b/include/asm-generic/ticket_spinlock.h
->> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->>          return (s16)((val >> 16) - (val & 0xffff)) > 1;
->>   }
->>
->> +#ifndef __no_arch_spinlock_redefine
->>   /*
->>    * Remapping spinlock architecture specific functions to the corresponding
->>    * ticket spinlock functions.
->> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->>   #define arch_spin_lock(l)              ticket_spin_lock(l)
->>   #define arch_spin_trylock(l)           ticket_spin_trylock(l)
->>   #define arch_spin_unlock(l)            ticket_spin_unlock(l)
->> +#endif
->>
->>   #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
->> --
->> 2.39.2
->>
->
+diff --git a/arch/x86/include/asm/entry-common.h b/arch/x86/include/asm/entry-common.h
+index ce8f50192ae3..76724cc42869 100644
+--- a/arch/x86/include/asm/entry-common.h
++++ b/arch/x86/include/asm/entry-common.h
+@@ -57,6 +57,11 @@ static inline void arch_exit_to_user_mode_prepare(struct pt_regs *regs,
+        if (unlikely(ti_work & _TIF_NEED_FPU_LOAD))
+                switch_fpu_return();
+ 
++       if (cpu_feature_enabled(X86_FEATURE_FRED) &&
++           (ti_work & _TIF_NEED_RSP0_LOAD))
++               wrmsrns(MSR_IA32_FRED_RSP0,
++                       (unsigned long)task_stack_page(current) + THREAD_SIZE);
++
+ #ifdef CONFIG_COMPAT
+        /*
+         * Compat syscalls set TS_COMPAT.  Make sure we clear it before
+diff --git a/arch/x86/include/asm/switch_to.h b/arch/x86/include/asm/switch_to.h
+index c3bd0c0758c9..1674d98a8850 100644
+--- a/arch/x86/include/asm/switch_to.h
++++ b/arch/x86/include/asm/switch_to.h
+@@ -71,8 +71,7 @@ static inline void update_task_stack(struct task_struct *task)
+        this_cpu_write(cpu_tss_rw.x86_tss.sp1, task->thread.sp0);
+ #else
+        if (cpu_feature_enabled(X86_FEATURE_FRED)) {
+-               /* WRMSRNS is a baseline feature for FRED. */
+-               wrmsrns(MSR_IA32_FRED_RSP0, (unsigned long)task_stack_page(task) + THREAD_SIZE);
++               set_thread_flag(TIF_NEED_RSP0_LOAD);
+        } else if (cpu_feature_enabled(X86_FEATURE_XENPV)) {
+                /* Xen PV enters the kernel on the thread stack. */
+                load_sp0(task_top_of_stack(task));
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 5c6bb26463e8..cb7e3bcb001f 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -1338,15 +1338,9 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+ 
+        wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
+ 
+-       if (guest_can_use(vcpu, X86_FEATURE_FRED)) {
+-               /*
+-                * MSR_IA32_FRED_RSP0 is top of task stack, which never changes.
+-                * Thus it should be initialized only once.
+-                */
+-               if (unlikely(vmx->msr_host_fred_rsp0 == 0))
+-                       vmx->msr_host_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+-               wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
+-       }
++       if (cpu_feature_enabled(X86_FEATURE_FRED) &&
++           guest_can_use(vcpu, X86_FEATURE_FRED))
++               wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
+ #else
+        savesegment(fs, fs_sel);
+        savesegment(gs, gs_sel);
+@@ -1392,9 +1386,10 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
+ #ifdef CONFIG_X86_64
+        wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
+ 
+-       if (guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
++       if (cpu_feature_enabled(X86_FEATURE_FRED) &&
++           guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
+                vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+-               wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_host_fred_rsp0);
++               set_thread_flag(TIF_NEED_RSP0_LOAD);
+        }
+ #endif
+        load_fixmap_gdt(raw_smp_processor_id());
