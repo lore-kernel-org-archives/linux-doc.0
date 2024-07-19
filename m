@@ -1,277 +1,406 @@
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.6])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3798657CBC
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 09:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.6
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5565CB8;
+	Fri, 19 Jul 2024 09:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721380025; cv=none; b=SPPBpslRIUqcH+J4VBFKhE+PkC8DXGEwVsz8eDqJ5/g3MP9rZq+rJ+9SlX9rD91Pw4SxHS5l3eaNLG6fNV0poGqv1TkMgIwar8ax78wI86ZQYTM4Fb/tVI5XRKGvFVYbs13Yzb0LIVAlLRk/Bg6I/YPYVcKKRuKX4LySyxxRNAM=
+	t=1721380112; cv=none; b=RoJc6W00fvXdvfaWjuM5m0azoSetYg5lBxTXgysfbpjqcW1UkhzgHHng6uFj1zjvBRB8Oa6oWsYlJzEMJhvr7riuv+zBwiQYlClMEk2aDH2X78/IFBB22C2UyL4BZIwAJUiCKvfUEnTpQsSe1zkQqSFPThkY4mF1c33S08kJlYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721380025; c=relaxed/simple;
-	bh=ToRWqfs0O5QgOCyCuB9Y1MQzfjwUaAmBcZ9LF3vdgXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IzkeiDug5ziULN51bL5u3oVwCAjz5T580H0MRsbKBGqUcmz6Usw6RJwfnJo6eADVccpaAhGfDZNreMyV/tNRCWFWpDu4uSDE68SAb7erLAQczmE3vQq6Tc4Oauk7Hr4yvZ/nbv5ZDxY6qdVN14eJ7qRfK+rcRlv0tWWJ5oIEggY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=W4kigf+1; arc=none smtp.client-ip=220.197.31.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="W4kigf+1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version:
-	Content-Type; bh=GhZQKUvweYqZGanauNSoF59A0TnHp5xSiJGnUnKdOZQ=;
-	b=W4kigf+1ZI68Kk7Up/RMUWZEwbAbG7bKkxTuAvD5ZRWdLHE39v6widuLeCrM0t
-	hc2u8rPn4kb1hlg0yOi+LH3rEDdkqfyuojRIjJ/CmCFVlfsxF+wYkgwKcGCjoZl3
-	j38DbjXOimzhs+nN4smtfdoYf+aCG9tsR5LH08oJRmpvg=
-Received: from localhost.localdomain (unknown [39.156.73.13])
-	by gzga-smtp-mta-g1-2 (Coremail) with SMTP id _____wD3__v2IZpm4Ih5AQ--.25148S2;
-	Fri, 19 Jul 2024 16:21:13 +0800 (CST)
-From: cuiyudong123@126.com
-To: siyanteng@loongson.cn,
-	corbet@lwn.net
-Cc: alexs@kernel.org,
-	dzm91@hust.edu.cn,
-	linux-doc@vger.kernel.org,
-	Yudong Cui <cuiyudong@kylinos.cn>
-Subject: [PATCH v4]   docs/zh_CN: Add userspace-api/mseal Chinese translation
-Date: Fri, 19 Jul 2024 16:20:41 +0800
-Message-ID: <20240719082048.1619-1-cuiyudong123@126.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	s=arc-20240116; t=1721380112; c=relaxed/simple;
+	bh=He02kKzrsD2yBHhzq3uOUmA+8OIua1ghEBETXy8gKN0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jSMP5htCwBZD8vMa2StY9+Kwrms91MO/sqVYb+bO8Q/+ZMZzXoRgAMQ6uMfuFUTHgrW+9slYdYldyCpAZM5jejmUeQYz4RgJWjzfiRkOpUAjkb4+6ykRi64TK5PVW9scQHvqSisJ1z6SbsvpwEexBfbESS2c1V4c9bxaGuWhgUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.130])
+	by gateway (Coremail) with SMTP id _____8DxzOoBLZpmyPoAAA--.5075S3;
+	Fri, 19 Jul 2024 17:08:17 +0800 (CST)
+Received: from [192.168.100.8] (unknown [223.64.68.130])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxTcf_LJpmfGZPAA--.47895S3;
+	Fri, 19 Jul 2024 17:08:15 +0800 (CST)
+Message-ID: <e62835be-0f54-44f3-9a61-6b2ee1f2ec89@loongson.cn>
+Date: Fri, 19 Jul 2024 17:08:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] scripts: fix all issues reported by pylint
+To: Dongliang Mu <dzm91@hust.edu.cn>, chengziqiu@hust.edu.cn,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240719041400.3909775-1-dzm91@hust.edu.cn>
+ <20240719041400.3909775-2-dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20240719041400.3909775-2-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3__v2IZpm4Ih5AQ--.25148S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3AF47Kr17Jr17uF4rur4xXrb_yoW3CFy3pa
-	4qkryfWF4rJry7Ar1I9r10gF4UGF18Xay3Aryxt3WYvry5AFy0vr4YkFWfW3s7Wr48Ca15
-	Xa1FkF45C34xKrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGzuAUUUUU=
-X-CM-SenderInfo: 5fxl535grqwiist6ij2wof0z/1tbi2wkXtmVLawpH6gABsQ
+X-CM-TRANSID:AQAAf8AxTcf_LJpmfGZPAA--.47895S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoWfJF4DKF4kJr4UCw48Aw13Awc_yoWkAw1Upa
+	4rGFn7ArW3AFyUJw1xJw4jvFyayr93JrWjqryjv3s7Ar4DKasagF42k34Sv3yxWr1fXFWa
+	qFWYkryYvw1jk3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64
+	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
+	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 
-From: Yudong Cui <cuiyudong@kylinos.cn>
 
-  Translate the following documents into Chinese:
+在 2024/7/19 12:13, Dongliang Mu 写道:
+> This patch 1) fixes all the issues (not most) reported by pylint,
+> 2) add the functionability to tackle documents that need translation,
+> 3) add logging to adjust the logging level and log file
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-  - userspace-api/mseal.rst
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-  commit c010d0990082("mseal: add documentation")
 
----
-V1 -> V2: Resolved compilation warnings and optimized the translation of documentation
-V2 -> V3: Fix code formatting errors
-V3 -> V4: Revise the code according to the suggestion
----
+Thanks,
 
-Signed-off-by: Yudong Cui <cuiyudong@kylinos.cn>
----
- .../zh_CN/userspace-api/index.rst             |   1 +
- .../zh_CN/userspace-api/mseal.rst             | 185 ++++++++++++++++++
- 2 files changed, 186 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/mseal.rst
+Yanteng
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-index 5b14721c8264..b7da307ec6bb 100644
---- a/Documentation/translations/zh_CN/userspace-api/index.rst
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -27,6 +27,7 @@ Linux 内核用户空间API指南
-    ebpf/index
-    sysfs-platform_profile
-    futex2
-+   mseal
- 
- TODOList:
- 
-diff --git a/Documentation/translations/zh_CN/userspace-api/mseal.rst b/Documentation/translations/zh_CN/userspace-api/mseal.rst
-new file mode 100644
-index 000000000000..d4eece7bfc6a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/mseal.rst
-@@ -0,0 +1,185 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/userspace-api/mseal.rst
-+
-+:翻译:
-+
-+ 崔玉栋 cuiyudong <cuiyudong@kylinos.cn>
-+
-+==========
-+mseal 简介
-+==========
-+
-+:作者: Jeff Xu <jeffxu@chromium.org>
-+
-+现代处理器支持诸如RW和NX位的内存权限。这个内存权限特性提高了内存破坏漏洞
-+(memory corruption bug) 的安全性。为了防止攻击者写入任意内存并进行执行，
-+内存必须用X位标记，否则会发生异常。
-+
-+内存封装还额外保护了映射本身不被修改。这对于缓解内存损坏问题很有用，就像
-+是一个损坏的指针被传递给内存管理系统这种问题。例如，这样的原始攻击者可以
-+破坏控制流完整性保证，因为应该被信任的只读内存可能变得可写，或者 .text
-+页面可能会被重新映射。运行时加载程序可以自动应用内存密封来密封.text和
-+.rodata页面，并且应用程序可以在运行时额外密封安全关键数据。
-+
-+XNU内核中已经存在类似的特性
-+VM_FLAGS_PERMANENT 标志 [1] 和 OpenBSD 上的可变系统调用 [2]。
-+
-+用户 API
-+========
-+mseal()
-+-------
-+The mseal() 系统调用具有以下签名:
-+
-+``int mseal(void addr, size_t len, unsigned long flags)``
-+
-+**addr/len**: 虚拟内存地址范围。
-+
-+由 ``addr``/``len`` 设置的地址范围必须满足:
-+   - 起始地址必须在已分配的VMA中。
-+   - 起始地址必须与页面对齐。
-+   - 结束地址 (``addr`` + ``len``) 必须在已分配的VMA中。
-+   - 起始地址和结束地址之间没有间隙 (未分配的内存) 。
-+
-+这个 ``len`` 将由内核隐式地进行分页对齐。
-+
-+**flags**: 保留供将来使用。
-+
-+**返回值**:
-+
-+- ``0``: 成功。
-+
-+- ``-EINVAL``:
-+    - 无效的输入 ``flags``。
-+    - 起始地址 (``addr``) 未对齐页。
-+    - 地址范围 (``addr`` + ``len``) 溢出。
-+
-+- ``-ENOMEM``:
-+    - 起始地址 (``addr``) 未分配。
-+    - 结束地址 (``addr`` + ``len``) 未分配。
-+    - 一个间隙 (unallocated memory) 起始地址和结束地址之间。
-+
-+- ``-EPERM``:
-+    - 内存密封仅在64位CPU上支持，32位不受支持。
-+
-+- 对于上述错误情况，用户可以假设给定的内存范围为未修改，即没有部分更新。
-+
-+- 可能还有其他未在此处列出的内部错误/情况，例如，在合并/拆分VMA
-+  （虚拟内存区域）时发生错误，或者进程达到了支持的最大VMA数量。
-+  在这些情况下，给定内存范围可能会发生部分更新。然而，这些情况应该很罕见。
-+
-+**内存密封后的阻塞操作**:
-+    通过 munmap() 和 mremap() 取消映射、移动到另一个位置以及缩小大小可以
-+    留下一个空白的空间，因此可以用具有一组新属性的VMA替换它。
-+
-+    通过mremap()，将不同的VMA移动或扩展到当前位置。
-+
-+    通过mmap(MAP_FIXED)修改VMA。
-+
-+    通过 mremap() 进行的大小扩展似乎不会对已密封的 VMA（虚拟内存区域）
-+    造成任何特定的风险。尽管如此，由于使用场景不明确，这一点还是被包括了进来。
-+    无论如何，用户都可以依赖合并操作来扩展已密封的 VMA。
-+
-+    mprotect() 和 pkey_mprotect()。
-+
-+    当用户没有内存的写入权限时，匿名内存会出现一些破坏性的 madvice()
-+    行为（例如 MADV_DONTNEED）。这些行为可以通过丢弃页面来更改区域内
-+    容，这实际上是匿名内存的 memset(0)。
-+
-+    对于阻塞的操作，内核将返回 -EPERM 。
-+
-+    对于阻塞操作，可以期望给定的地址不会被修改，
-+    即不会发生部分更新。请注意，这与现有的内存管理系统调用行为不同，
-+    后者在发现错误并返回给用户空间之前会进行部分更新。举个例子来说：
-+
-+    假设代码顺序如下:
-+
-+    - ptr = mmap(null, 8192, PROT_NONE);
-+    - munmap(ptr + 4096, 4096);
-+    - ret1 = mprotect(ptr, 8192, PROT_READ);
-+    - mseal(ptr, 4096);
-+    - ret2 = mprotect(ptr, 8192, PROT_NONE);
-+
-+    ret1 将变成 -ENOMEM, ptr指向的页更新为PROT_READ。
-+
-+    ret2 将变成 -EPERM, 这个页面仍然是 PROT_READ。
-+
-+**注意**:
-+
-+- mseal() 仅适用于64位CPU，不支持32位CPU。
-+
-+- 用户可以多次调用 mseal() , 对已经密封的内存执行 mseal() 是一个无操作（不报错）。
-+
-+- 不支持munseal() 。
-+
-+用例:
-+=====
-+- glibc:
-+  在加载 ELF 可执行文件时，动态链接器可以对非可写内存段应用密封操作。
-+
-+- Chrome 浏览器: 保护部分对安全敏感的数据结构。
-+
-+关于哪些内存应该被密封的注意事项:
-+=================================
-+
-+重要的是要注意，密封会改变映射的生命周期，即已密封的映射在进程终止
-+或执行 exec 系统调用之前不会被取消映射。应用程序可以从用户空间对任何虚拟
-+内存区域应用密封，但在应用密封之前，至关重要的是彻底分析映射的生命周期。
-+
-+例如:
-+
-+- aio/shm
-+
-+  aio/shm 可以代表用户空间调用 mmap()/munmap() , 例如 ksys_shmdt() 在 shm.c 中。
-+  这些映射的生命周期并不与进程的生命周期绑定。如果这些内存区域从用户空间被密封，
-+  那么 munmap() 将失败，导致在进程的生命周期内 VMA（虚拟内存区域）地址空间中
-+  出现泄漏。
-+
-+- Brk (heap)
-+
-+  目前，用户空间的应用程序可以通过调用 malloc() 和 mseal() 来密封堆（heap）的
-+  部分内存。让我们假设以下来自用户空间的调用:
-+
-+  - ptr = malloc(size);
-+  - mprotect(ptr, size, RO);
-+  - mseal(ptr, size);
-+  - free(ptr);
-+
-+  技术上，在 mseal() 被添加之前，用户可以通过调用 mprotect(RO)
-+  来改变堆的保护属性。只要用户在调用 free() 之前将保护属性改回 RW（读写），
-+  这块内存范围就可以被重用。
-+
-+  然而，引入 mseal() 之后，堆的部分内存将被密封，用户仍然可以释放这部分内存，
-+  但内存将保持为 RO（只读）。如果堆管理器重新使用这个地址来分配另一块内存，
-+  进程可能在不久后崩溃。因此，不要对任何可能会被回收的内存应用密封，
-+  这是非常重要的。
-+
-+  此外，即使应用程序从未对指针 ptr 调用 free()，堆管理器也可能会
-+  调用 brk 系统调用来缩小堆的大小。在内核中，brk 缩小操作会调用 munmap()。
-+  因此，根据 ptr 的位置，brk 缩小操作的结果是不确定的。
-+
-+其他说明:
-+=========
-+正如 Jann Horn 在 [3] 中指出的那样,仍然有几种方法可以写入 RO（只读）内存，
-+这在某种程度上是设计上的考虑。这些情况不会被 mseal() 涵盖。如果应用程序想
-+要阻止这类情况，可以考虑使用沙箱工具（如 seccomp、LSM 等）。
-+
-+这些情况是：
-+
-+- 通过/proc/self/mem接口写入只读内存。
-+- 通过ptrace(如PTRACE_POKETEXT)写入只读内存。
-+- userfaultfd。
-+
-+这个补丁的灵感来自于 Stephen Röttger’s 在 V8 CFI（控制流完整性）中的工作 [4]。
-+ChromeOS中的Chrome浏览器将是此API的第一个用户。
-+
-+参考:
-+=====
-+[1] https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/osfmk/mach/vm_statistics.h#L274
-+
-+[2] https://man.openbsd.org/mimmutable.2
-+
-+[3] https://lore.kernel.org/lkml/CAG48ez3ShUYey+ZAFsU2i1RpQn0a5eOs2hzQ426FkcgnfUGLvA@mail.gmail.com
-+
-+[4] https://docs.google.com/document/d/1O2jwK4dxI3nRcOJuPYkonhTkNQfbmwdvxQMyXgeaRHo/edit#heading=h.bvaojj9fu6hc
--- 
-2.33.0
+> ---
+>   scripts/checktransupdate.py | 214 ++++++++++++++++++++++++------------
+>   1 file changed, 141 insertions(+), 73 deletions(-)
+>
+> diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
+> index 5a0fc99e3f93..578c3fecfdfd 100755
+> --- a/scripts/checktransupdate.py
+> +++ b/scripts/checktransupdate.py
+> @@ -10,31 +10,28 @@ differences occur, report the file and commits that need to be updated.
+>   
+>   The usage is as follows:
+>   - ./scripts/checktransupdate.py -l zh_CN
+> -This will print all the files that need to be updated in the zh_CN locale.
+> +This will print all the files that need to be updated or translated in the zh_CN locale.
+>   - ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>   This will only print the status of the specified file.
+>   
+>   The output is something like:
+> -Documentation/translations/zh_CN/dev-tools/testing-overview.rst (1 commits)
+> +Documentation/dev-tools/kfence.rst
+> +No translation in the locale of zh_CN
+> +
+> +Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>   commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+> +1 commits needs resolving in total
+>   """
+>   
+>   import os
+> -from argparse import ArgumentParser, BooleanOptionalAction
+> +import time
+> +import logging
+> +from argparse import ArgumentParser, ArgumentTypeError, BooleanOptionalAction
+>   from datetime import datetime
+>   
+> -flag_p_c = False
+> -flag_p_uf = False
+> -flag_debug = False
+> -
+> -
+> -def dprint(*args, **kwargs):
+> -    if flag_debug:
+> -        print("[DEBUG] ", end="")
+> -        print(*args, **kwargs)
+> -
+>   
+>   def get_origin_path(file_path):
+> +    """Get the origin path from the translation path"""
+>       paths = file_path.split("/")
+>       tidx = paths.index("translations")
+>       opaths = paths[:tidx]
+> @@ -43,17 +40,16 @@ def get_origin_path(file_path):
+>   
+>   
+>   def get_latest_commit_from(file_path, commit):
+> -    command = "git log --pretty=format:%H%n%aD%n%cD%n%n%B {} -1 -- {}".format(
+> -        commit, file_path
+> -    )
+> -    dprint(command)
+> +    """Get the latest commit from the specified commit for the specified file"""
+> +    command = f"git log --pretty=format:%H%n%aD%n%cD%n%n%B {commit} -1 -- {file_path}"
+> +    logging.debug(command)
+>       pipe = os.popen(command)
+>       result = pipe.read()
+>       result = result.split("\n")
+>       if len(result) <= 1:
+>           return None
+>   
+> -    dprint("Result: {}".format(result[0]))
+> +    logging.debug("Result: %s", result[0])
+>   
+>       return {
+>           "hash": result[0],
+> @@ -64,17 +60,19 @@ def get_latest_commit_from(file_path, commit):
+>   
+>   
+>   def get_origin_from_trans(origin_path, t_from_head):
+> +    """Get the latest origin commit from the translation commit"""
+>       o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
+>       while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
+>           o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
+>       if o_from_t is not None:
+> -        dprint("tracked origin commit id: {}".format(o_from_t["hash"]))
+> +        logging.debug("tracked origin commit id: %s", o_from_t["hash"])
+>       return o_from_t
+>   
+>   
+>   def get_commits_count_between(opath, commit1, commit2):
+> -    command = "git log --pretty=format:%H {}...{} -- {}".format(commit1, commit2, opath)
+> -    dprint(command)
+> +    """Get the commits count between two commits for the specified file"""
+> +    command = f"git log --pretty=format:%H {commit1}...{commit2} -- {opath}"
+> +    logging.debug(command)
+>       pipe = os.popen(command)
+>       result = pipe.read().split("\n")
+>       # filter out empty lines
+> @@ -83,50 +81,120 @@ def get_commits_count_between(opath, commit1, commit2):
+>   
+>   
+>   def pretty_output(commit):
+> -    command = "git log --pretty='format:%h (\"%s\")' -1 {}".format(commit)
+> -    dprint(command)
+> +    """Pretty print the commit message"""
+> +    command = f"git log --pretty='format:%h (\"%s\")' -1 {commit}"
+> +    logging.debug(command)
+>       pipe = os.popen(command)
+>       return pipe.read()
+>   
+>   
+> +def valid_commit(commit):
+> +    """Check if the commit is valid or not"""
+> +    msg = pretty_output(commit)
+> +    return "Merge tag" not in msg
+> +
+>   def check_per_file(file_path):
+> +    """Check the translation status for the specified file"""
+>       opath = get_origin_path(file_path)
+>   
+>       if not os.path.isfile(opath):
+> -        dprint("Error: Cannot find the origin path for {}".format(file_path))
+> +        logging.error("Cannot find the origin path for {file_path}")
+>           return
+>   
+>       o_from_head = get_latest_commit_from(opath, "HEAD")
+>       t_from_head = get_latest_commit_from(file_path, "HEAD")
+>   
+>       if o_from_head is None or t_from_head is None:
+> -        print("Error: Cannot find the latest commit for {}".format(file_path))
+> +        logging.error("Cannot find the latest commit for %s", file_path)
+>           return
+>   
+>       o_from_t = get_origin_from_trans(opath, t_from_head)
+>   
+>       if o_from_t is None:
+> -        print("Error: Cannot find the latest origin commit for {}".format(file_path))
+> +        logging.error("Error: Cannot find the latest origin commit for %s", file_path)
+>           return
+>   
+>       if o_from_head["hash"] == o_from_t["hash"]:
+> -        if flag_p_uf:
+> -            print("No update needed for {}".format(file_path))
+> -        return
+> +        logging.debug("No update needed for %s", file_path)
+>       else:
+> -        print("{}".format(file_path), end="\t")
+> +        logging.info(file_path)
+>           commits = get_commits_count_between(
+>               opath, o_from_t["hash"], o_from_head["hash"]
+>           )
+> -        print("({} commits)".format(len(commits)))
+> -        if flag_p_c:
+> -            for commit in commits:
+> -                msg = pretty_output(commit)
+> -                if "Merge tag" not in msg:
+> -                    print("commit", msg)
+> +        count = 0
+> +        for commit in commits:
+> +            if valid_commit(commit):
+> +                logging.info("commit %s", pretty_output(commit))
+> +                count += 1
+> +        logging.info("%d commits needs resolving in total\n", count)
+> +
+> +
+> +def valid_locales(locale):
+> +    """Check if the locale is valid or not"""
+> +    script_path = os.path.dirname(os.path.abspath(__file__))
+> +    linux_path = os.path.join(script_path, "..")
+> +    if not os.path.isdir(f"{linux_path}/Documentation/translations/{locale}"):
+> +        raise ArgumentTypeError("Invalid locale: {locale}")
+> +    return locale
+> +
+> +
+> +def list_files_with_excluding_folders(folder, exclude_folders, include_suffix):
+> +    """List all files with the specified suffix in the folder and its subfolders"""
+> +    files = []
+> +    stack = [folder]
+> +
+> +    while stack:
+> +        pwd = stack.pop()
+> +        # filter out the exclude folders
+> +        if os.path.basename(pwd) in exclude_folders:
+> +            continue
+> +        # list all files and folders
+> +        for item in os.listdir(pwd):
+> +            ab_item = os.path.join(pwd, item)
+> +            if os.path.isdir(ab_item):
+> +                stack.append(ab_item)
+> +            else:
+> +                if ab_item.endswith(include_suffix):
+> +                    files.append(ab_item)
+> +
+> +    return files
+> +
+> +
+> +class DmesgFormatter(logging.Formatter):
+> +    """Custom dmesg logging formatter"""
+> +    def format(self, record):
+> +        timestamp = time.time()
+> +        formatted_time = f"[{timestamp:>10.6f}]"
+> +        log_message = f"{formatted_time} {record.getMessage()}"
+> +        return log_message
+> +
+> +
+> +def config_logging(log_level, log_file="checktransupdate.log"):
+> +    """configure logging based on the log level"""
+> +    # set up the root logger
+> +    logger = logging.getLogger()
+> +    logger.setLevel(log_level)
+> +
+> +    # Create console handler
+> +    console_handler = logging.StreamHandler()
+> +    console_handler.setLevel(log_level)
+> +
+> +    # Create file handler
+> +    file_handler = logging.FileHandler(log_file)
+> +    file_handler.setLevel(log_level)
+> +
+> +    # Create formatter and add it to the handlers
+> +    formatter = DmesgFormatter()
+> +    console_handler.setFormatter(formatter)
+> +    file_handler.setFormatter(formatter)
+> +
+> +    # Add the handler to the logger
+> +    logger.addHandler(console_handler)
+> +    logger.addHandler(file_handler)
+>   
+>   
+>   def main():
+> +    """Main function of the script"""
+>       script_path = os.path.dirname(os.path.abspath(__file__))
+>       linux_path = os.path.join(script_path, "..")
+>   
+> @@ -134,62 +202,62 @@ def main():
+>       parser.add_argument(
+>           "-l",
+>           "--locale",
+> +        default="zh_CN",
+> +        type=valid_locales,
+>           help="Locale to check when files are not specified",
+>       )
+> +
+>       parser.add_argument(
+> -        "--print-commits",
+> +        "--print-missing-translations",
+>           action=BooleanOptionalAction,
+>           default=True,
+> -        help="Print commits between the origin and the translation",
+> +        help="Print files that do not have translations",
+>       )
+>   
+>       parser.add_argument(
+> -        "--print-updated-files",
+> -        action=BooleanOptionalAction,
+> -        default=False,
+> -        help="Print files that do no need to be updated",
+> -    )
+> +        '--log',
+> +        default='INFO',
+> +        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+> +        help='Set the logging level')
+>   
+>       parser.add_argument(
+> -        "--debug",
+> -        action=BooleanOptionalAction,
+> -        help="Print debug information",
+> -        default=False,
+> -    )
+> +        '--logfile',
+> +        default='checktransupdate.log',
+> +        help='Set the logging file (default: checktransupdate.log)')
+>   
+>       parser.add_argument(
+>           "files", nargs="*", help="Files to check, if not specified, check all files"
+>       )
+>       args = parser.parse_args()
+>   
+> -    global flag_p_c, flag_p_uf, flag_debug
+> -    flag_p_c = args.print_commits
+> -    flag_p_uf = args.print_updated_files
+> -    flag_debug = args.debug
+> +    # Configure logging based on the --log argument
+> +    log_level = getattr(logging, args.log.upper(), logging.INFO)
+> +    config_logging(log_level)
+>   
+> -    # get files related to linux path
+> +    # Get files related to linux path
+>       files = args.files
+>       if len(files) == 0:
+> -        if args.locale is not None:
+> -            files = (
+> -                os.popen(
+> -                    "find {}/Documentation/translations/{} -type f".format(
+> -                        linux_path, args.locale
+> -                    )
+> -                )
+> -                .read()
+> -                .split("\n")
+> -            )
+> -        else:
+> -            files = (
+> -                os.popen(
+> -                    "find {}/Documentation/translations -type f".format(linux_path)
+> -                )
+> -                .read()
+> -                .split("\n")
+> -            )
+> -
+> -    files = list(filter(lambda x: x != "", files))
+> +        offical_files = list_files_with_excluding_folders(
+> +            os.path.join(linux_path, "Documentation"), ["translations", "output"], "rst"
+> +        )
+> +
+> +        for file in offical_files:
+> +            # split the path into parts
+> +            path_parts = file.split(os.sep)
+> +            # find the index of the "Documentation" directory
+> +            kindex = path_parts.index("Documentation")
+> +            # insert the translations and locale after the Documentation directory
+> +            new_path_parts = path_parts[:kindex + 1] + ["translations", args.locale] \
+> +                           + path_parts[kindex + 1 :]
+> +            # join the path parts back together
+> +            new_file = os.sep.join(new_path_parts)
+> +            if os.path.isfile(new_file):
+> +                files.append(new_file)
+> +            else:
+> +                if args.print_missing_translations:
+> +                    logging.info(os.path.relpath(os.path.abspath(file), linux_path))
+> +                    logging.info("No translation in the locale of %s\n", args.locale)
+> +
+>       files = list(map(lambda x: os.path.relpath(os.path.abspath(x), linux_path), files))
+>   
+>       # cd to linux root directory
 
