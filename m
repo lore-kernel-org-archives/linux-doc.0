@@ -1,340 +1,919 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AFA8BEE
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 01:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E7C15CB;
+	Fri, 19 Jul 2024 01:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721351129; cv=none; b=OvqPLfi+1rgBddrVTxv8Y2Kt84hDCuAY/36t5yuTgu/BQx/+8ngTfBlYlVTT6GxZeb7+6/v8RJTMKS/cQ4jrUPGz08Lw3h6KgC6lqUXJ/78+AdiCuwxnVTV0ZX6MMunc7QBpV4b8ZXk9tGF0z2nDW1RqCZewcel/tjMWnCvrzmQ=
+	t=1721353292; cv=none; b=cBJ9ClIOuW2vYNsro1wnjIMZ9zANzOJMFcBDV2YV4XHU3iYECrgJqkKX3tPyq8yk1x3KMXtPiibsx3obmKAMcJrNdukGgNPoANsAH6VucjSAzcJ7n/VuBPRh6+qIafE9w6wTWzoypwJP1/0L9nV+vHRji+BAqUvDHA191DOPH9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721351129; c=relaxed/simple;
-	bh=P5tdODM4uOWKJAr8TMb/PKCNU1wa6kKfGQv2OEGO0JE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=ADMWqA7x7rrwx5pkRagH05/sqtLWTTqE0UaJIWQWwiCtf9kXRdX0Kqb+mkC0j6gVq1tigxcM23NG1VUUk+7sazI/hxTH50uUVDhhzDLLJHsYkspka1B5LMSLeEmhvWjpJpkn6OITwURibDOXis5wS2MzVpJQJm9yPvuoRvJcjdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=ml2aDEIe; arc=none smtp.client-ip=209.85.166.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1721353292; c=relaxed/simple;
+	bh=q1EGcJk7RyObbqMA8od6LNN+T+wtm1aJy635Z9rzEUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shTEqLUIzBdiz1G16ri/3xaUHXepYVPGX+QDDl3Pz5cAay2cioeztcvOSk+OVO2+jbb2LNhRzUPKb5XS7UKaVHrBNscW3dhEkWWUsA4Z3QG2wdMb+2J8e51ohpyPwIay+wfaDy5aJqXRH0nCYhpp9rXnHgVJ8VD7+ysBEJn58r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hfsjEDq8; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="ml2aDEIe"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7fe8d029fbeso50827839f.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jul 2024 18:05:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hfsjEDq8"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-70365f905b6so880024a34.0;
+        Thu, 18 Jul 2024 18:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1721351126; x=1721955926; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FMAHxtscGqlGqItcz1n/Ls2fY0sL2MuwrS/B9YqzrMM=;
-        b=ml2aDEIeit5UD4dKey7do30YQPgAslpxBq/oGg+CURlPO/Y8T4/shxPccXIdm985pD
-         1uVyWT4Tq2cEGE9FlVFnUv1JBTUEb4GVJ7OZ+kr/1JDN5+6Bhe4z4Sg9FWRz+Hh2ELuA
-         nIGgcoZNcOMmpU9se8Y9qZZOafqbJSxwPYF15yWMN3hKHqu6y5d19CMB+Kdt0AZpeCTR
-         df/ncnIjuqWJ+nGFgIWsp5sX1u3HMaECQ5vAQPZMa0ye66HRA1ZpMEps8zun/fSuDZea
-         kIZtbrrzUmcKdDGIAh+IR8FgR7KMJzrV4sQ7i7kKkg3qg3ZV6Nmdh3XgYl9A+XMoOX7r
-         Vd6w==
+        d=gmail.com; s=20230601; t=1721353288; x=1721958088; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l50yEJglWf59Kiv3Q4rkQjT11IyhbXOFeWDA0N9D3Xo=;
+        b=hfsjEDq81joSuctTLnIslSWQ5CBwxxCIQtGEecdLTkasfnTYzxX2ssJSVyIbDmZUOc
+         kv/CnS4uiIshLb1Z+kryppISAHgT7yihT60YkiYrhy1zzHCRRP6rOxilOrMkhdDtveq1
+         1IXd/qf//d68Co3jV0n3+jW0ND2EOUXrPemytRhbznPxKrIHv0zi8gJtPqzzaPUUGWqJ
+         flIvabbVqUVtwrhAPLse554qjjoFQxqhIME4avGr13oxSaqIyX+tidgEsg+x0R1NzG9N
+         aVUTWpQ1tD3Pubgx6h9keAy2V+O3x7zXmzXpxksowTdEuyN+wB/XlPgZMMwiVd5ArJLf
+         Yg0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721351126; x=1721955926;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1721353288; x=1721958088;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FMAHxtscGqlGqItcz1n/Ls2fY0sL2MuwrS/B9YqzrMM=;
-        b=nde+QlQKy08WGiBDvnCHhoBIugbXQjEHZMZ2ywA+IqwEvifU+5jlpjhObZAvtbSDzn
-         zU5ksCtFeInUtqD8vsDPeV8aB8DRbK+ZQU1ON87C+Quks8zsQIUG88/hHap9oUW3KDNu
-         CZpIumTKR2RjmAyy9iKNiIL5ZH4WBAj9QU/Z7d5OrWBTZ8fU6S97r3dXQ0LnFAGzjsDu
-         2LyYbxMEf9XfHeuiFy7Caq5XxHPTLNHfNGUw92ObWCze6DcMecywe/EV6qdWAsbIh1hi
-         vFpyCD3ZNV29EMI3DUo1GFZtJLWvr4RpvAW26Ef6+fMIjQqLgh5CW2/nAKZK0UiXnZPw
-         qRFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhk75PV0XnqPHJ+sdvMmnAx0ROXHYWrdgta/aWcZYxk97KDmIfRLEZGyZVzY5eyNRXJ1x8vrB1DfNccC0oMdrNB9gNwmE/ml1g
-X-Gm-Message-State: AOJu0YyXkZKZpt76I+hiCID/UCnsUp2uD3Rhkx3KvZd0GbIsCl0uUgMj
-	ixMRZRWb5Uv4Z7oP1xfC9DRbeRIcA7Hthxrx9/W/fXnfLXWuVvw823MYaRwXS1w=
-X-Google-Smtp-Source: AGHT+IGTr5yippsBWg1d4Fb5evY8uvrbI/lZKSa+eJ+BxjsJNRV5+mZtYRjoliAsRZT3xzQpYODt/g==
-X-Received: by 2002:a05:6602:2b8c:b0:7f9:b435:4f5 with SMTP id ca18e2360f4ac-81710dc020amr846001239f.11.1721351126397;
-        Thu, 18 Jul 2024 18:05:26 -0700 (PDT)
-Received: from [100.64.0.1] ([147.124.94.167])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4c2343ab670sm105595173.120.2024.07.18.18.05.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jul 2024 18:05:26 -0700 (PDT)
-Message-ID: <b28bc3c6-19de-4d40-8af2-6e5ce78ba89c@sifive.com>
-Date: Thu, 18 Jul 2024 20:05:23 -0500
+        bh=l50yEJglWf59Kiv3Q4rkQjT11IyhbXOFeWDA0N9D3Xo=;
+        b=txWzNT+4phG86PvHlA01g8/VuSYaj0VCe2YeRZTjTnpN25jXAfoIStsfPAIXS1kzrX
+         CWKeyRjyPSK6QZNC0NZgiU44zv/vEr3AXOR2gF7rewBNhCRU10f8CWlQw+qb8pFp+kzI
+         Vbu9Z/Gc66SOKhHj1tPKF4T6po9dX1iOMZfZnBSw1OTyTdCtBpPeqT1y3/Q4faJMp5qu
+         dsMnCfOHHbrBzvuq0DjoO38kqY2sRsSLRbUHkxvSyuCS18iUCxD6O0N+UYi1nz6xw/EK
+         4l93AebuQqxlNVRiKbmLtDgEK4gcEhEU49wjRAdAxUQx571Nc66OM7JpnNdqHkK3TZcD
+         zBlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzoctoqyngiGaAYRaAFcQpDFrsEgx4Ja0NaphcZj3OdcqcEtISwa4vcEl2js4OjVR6LW54Vw4EI/unrheN8jlG+xxJ7W/HcTd4td4VrRP4c5XspGlXerLnu5ihQXL0EmOpezqk8FmY9iWjAOciKx66ODzmhVGiWp9WwOj7nJJLqabnomI=
+X-Gm-Message-State: AOJu0YyPmYUwDX1bUQJJKc53WnvoLsjYG1ev5wCaOTGpQxRf68uw7/8J
+	9CvURvzFC5fAniFMuKhHAyIZe36F36OMCOYg58TiP4CoH1+PG5fShAhbmA==
+X-Google-Smtp-Source: AGHT+IF98V3E7w+t57G9S4XLmMpHHgI2yPU+N4xjbu4dXlOuejsIXmUDLlWMq0kANMfV29v5HWf/4g==
+X-Received: by 2002:a05:6870:7252:b0:25e:5ff:7591 with SMTP id 586e51a60fabf-260d91cba0cmr6134692fac.22.1721353288188;
+        Thu, 18 Jul 2024 18:41:28 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70cff6168e6sm177996b3a.212.2024.07.18.18.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jul 2024 18:41:27 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 18 Jul 2024 18:41:25 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Cryolitia@gmail.com
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+	Yao Zi <ziyao@disroot.org>,
+	Marcin =?utf-8?Q?Str=C4=85gowski?= <marcin@stragowski.com>
+Subject: Re: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+Message-ID: <cf41c18f-8b35-4970-a274-2834a15c9f08@roeck-us.net>
+References: <20240718-gpd_fan-v4-0-116e5431a9fe@gmail.com>
+ <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/11] riscv: Add qspinlock support
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-References: <20240717061957.140712-1-alexghiti@rivosinc.com>
- <20240717061957.140712-12-alexghiti@rivosinc.com>
-Content-Language: en-US
-From: Samuel Holland <samuel.holland@sifive.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org
-In-Reply-To: <20240717061957.140712-12-alexghiti@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
 
-Hi Alex,
+On Thu, Jul 18, 2024 at 10:22:23AM +0800, Cryolitia PukNgae via B4 Relay wrote:
+> From: Cryolitia PukNgae <Cryolitia@gmail.com>
+> 
+> Sensors driver for GPD Handhelds that expose fan reading and control via
+> hwmon sysfs.
+> 
+> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+> devices. This driver implements these functions through x86 port-mapped IO.
+> I have only tested it on my device Win Max 2 2023.
+> 
+> Tested-by: Marcin Strągowski <marcin@stragowski.com>
+> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
 
-On 2024-07-17 1:19 AM, Alexandre Ghiti wrote:
-> In order to produce a generic kernel, a user can select
-> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> spinlock implementation if Zabha or Ziccrse are not present.
-> 
-> Note that we can't use alternatives here because the discovery of
-> extensions is done too late and we need to start with the qspinlock
-> implementation because the ticket spinlock implementation would pollute
-> the spinlock value, so let's use static keys.
-> 
-> This is largely based on Guo's work and Leonardo reviews at [1].
-> 
-> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+I am havng a hard time reviewing this driver. I am going to pint out a few
+issues, but this is far from a complete review.
+
+Guenter
+
 > ---
->  .../locking/queued-spinlocks/arch-support.txt |  2 +-
->  arch/riscv/Kconfig                            | 29 ++++++++++++++
->  arch/riscv/include/asm/Kbuild                 |  4 +-
->  arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++++++++
->  arch/riscv/kernel/setup.c                     | 33 ++++++++++++++++
->  include/asm-generic/qspinlock.h               |  2 +
->  include/asm-generic/ticket_spinlock.h         |  2 +
->  7 files changed, 109 insertions(+), 2 deletions(-)
->  create mode 100644 arch/riscv/include/asm/spinlock.h
+>  MAINTAINERS             |   6 +
+>  drivers/hwmon/Kconfig   |  10 +
+>  drivers/hwmon/Makefile  |   1 +
+>  drivers/hwmon/gpd-fan.c | 683 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 700 insertions(+)
 > 
-> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> index 22f2990392ff..cf26042480e2 100644
-> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> @@ -20,7 +20,7 @@
->      |    openrisc: |  ok  |
->      |      parisc: | TODO |
->      |     powerpc: |  ok  |
-> -    |       riscv: | TODO |
-> +    |       riscv: |  ok  |
->      |        s390: | TODO |
->      |          sh: | TODO |
->      |       sparc: |  ok  |
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 0bbaec0444d0..5040c7eac70d 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -72,6 +72,7 @@ config RISCV
->  	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
->  	select ARCH_WANTS_NO_INSTR
->  	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
-> +	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
->  	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
->  	select BUILDTIME_TABLE_SORT if MMU
->  	select CLINT_TIMER if RISCV_M_MODE
-> @@ -482,6 +483,34 @@ config NODES_SHIFT
->  	  Specify the maximum number of NUMA Nodes available on the target
->  	  system.  Increases memory reserved to accommodate various tables.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index af4b4c271342..9ced72cec42b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9372,6 +9372,12 @@ F:	drivers/phy/samsung/phy-gs101-ufs.c
+>  F:	include/dt-bindings/clock/google,gs101.h
+>  K:	[gG]oogle.?[tT]ensor
 >  
-> +choice
-> +	prompt "RISC-V spinlock type"
-> +	default RISCV_COMBO_SPINLOCKS
+> +GPD FAN DRIVER
+> +M:	Cryolitia PukNgae <Cryolitia@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hwmon/gpd-fan.c
 > +
-> +config RISCV_TICKET_SPINLOCKS
-> +	bool "Using ticket spinlock"
-> +
-> +config RISCV_QUEUED_SPINLOCKS
-> +	bool "Using queued spinlock"
-> +	depends on SMP && MMU
-
-This needs:
-
-	depends on NONPORTABLE
-
-> +	select ARCH_USE_QUEUED_SPINLOCKS
+>  GPD POCKET FAN DRIVER
+>  M:	Hans de Goede <hdegoede@redhat.com>
+>  L:	platform-driver-x86@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index b60fe2e58ad6..368165a25979 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -727,6 +727,16 @@ config SENSORS_GL520SM
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called gl520sm.
+>  
+> +config SENSORS_GPD
+> +	tristate "GPD EC fan control"
+> +	depends on X86
 > +	help
-> +	  The queued spinlock implementation requires the forward progress
-> +	  guarantee of cmpxchg()/xchg() atomic operations: CAS with Zabha or
-> +	  LR/SC with Ziccrse provide such guarantee.
+> +	  If you say yes here you get support for fan readings and
+> +	  control over GPD handheld devices.
 > +
-> +	  Select this if and only if Zabha or Ziccrse is available on your
-> +	  platform.
+> +	  Can also be built as a module. In that case it will be
+> +	  called gpd-fan.
 > +
-> +config RISCV_COMBO_SPINLOCKS
-> +	bool "Using combo spinlock"
-> +	depends on SMP && MMU
-> +	select ARCH_USE_QUEUED_SPINLOCKS
-> +	help
-> +	  Embed both queued spinlock and ticket lock so that the spinlock
-> +	  implementation can be chosen at runtime.
-> +endchoice
-> +
->  config RISCV_ALTERNATIVE
->  	bool
->  	depends on !XIP_KERNEL
-> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-> index 504f8b7e72d4..ad72f2bd4cc9 100644
-> --- a/arch/riscv/include/asm/Kbuild
-> +++ b/arch/riscv/include/asm/Kbuild
-> @@ -2,10 +2,12 @@
->  generic-y += early_ioremap.h
->  generic-y += flat.h
->  generic-y += kvm_para.h
-> +generic-y += mcs_spinlock.h
->  generic-y += parport.h
-> -generic-y += spinlock.h
->  generic-y += spinlock_types.h
-> +generic-y += ticket_spinlock.h
->  generic-y += qrwlock.h
->  generic-y += qrwlock_types.h
-> +generic-y += qspinlock.h
->  generic-y += user.h
->  generic-y += vmlinux.lds.h
-> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+>  config SENSORS_G760A
+>  	tristate "GMT G760A"
+>  	depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index b1c7056c37db..91c288451290 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -87,6 +87,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
+>  obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
+>  obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
+>  obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
+> +obj-$(CONFIG_SENSORS_GPD)	+= gpd-fan.o
+>  obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
+>  obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+>  obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
+> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
 > new file mode 100644
-> index 000000000000..4856d50006f2
+> index 000000000000..7cf435ef1f1d
 > --- /dev/null
-> +++ b/arch/riscv/include/asm/spinlock.h
-> @@ -0,0 +1,39 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +++ b/drivers/hwmon/gpd-fan.c
+> @@ -0,0 +1,683 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright (c) 2024 Cryolitia PukNgae
 > +
-> +#ifndef __ASM_RISCV_SPINLOCK_H
-> +#define __ASM_RISCV_SPINLOCK_H
+> +/*
+> + * Based on this repo:
+> + * https://github.com/Cryolitia/gpd-fan-driver
+> + */
 > +
-> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> +#define _Q_PENDING_LOOPS	(1 << 9)
+> +#include <linux/acpi.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/ioport.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
 > +
-> +#define __no_arch_spinlock_redefine
-> +#include <asm/ticket_spinlock.h>
-> +#include <asm/qspinlock.h>
-> +#include <asm/alternative.h>
+> +#define DRIVER_NAME	"gpdfan"
 > +
-> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+> +// model param, see document
+> +static char *gpd_fan_model = "";
+> +module_param(gpd_fan_model, charp, 0444);
 > +
-> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)			\
-> +static __always_inline type arch_spin_##op(type_lock lock)		\
-> +{									\
-> +	if (static_branch_unlikely(&qspinlock_key))			\
-> +		return queued_spin_##op(lock);				\
-> +	return ticket_spin_##op(lock);					\
+> +// EC read/write locker
+> +// Should never access EC at the same time, otherwise system down.
+> +static DEFINE_MUTEX(gpd_fan_lock);
+> +
+> +// general struct declare start
+> +
+> +enum FAN_PWM_ENABLE {
+> +	DISABLE = 0,
+> +	MANUAL = 1,
+> +	AUTOMATIC = 2,
+> +};
+> +
+> +struct gpd_driver_priv {
+> +	enum FAN_PWM_ENABLE pwm_enable;
+> +	u8 pwm_value;
+> +
+> +	u16 fan_speed_cached;
+> +	u8 read_pwm_cached;
+> +
+> +	unsigned long fan_speed_last_update;
+> +	unsigned long read_pwm_last_update;
+> +
+> +	const struct gpd_model_quirk *const quirk;
+
+What is the benefit of declaring the _pointer_ a constant ?
+
+> +};
+> +
+> +struct gpd_model_ec_address {
+> +	const u8 addr_port;
+> +	const u8 data_port;
+> +	const u16 manual_control_enable;
+> +	const u16 rpm_read;
+> +	const u16 pwm_write;
+> +	const u16 pwm_max;
+> +};
+> +
+> +struct gpd_model_quirk {
+> +	const char *model_name;
+> +	const struct gpd_model_ec_address address;
+> +
+> +	s32 (*read_rpm)(struct gpd_driver_priv *data);
+> +	int (*set_pwm_enable)(struct gpd_driver_priv *data,
+> +			      enum FAN_PWM_ENABLE);
+> +	s16 (*read_pwm)(struct gpd_driver_priv *data);
+> +	int (*write_pwm)(const struct gpd_driver_priv *data, u8 val);
+> +};
+> +
+> +// general struct declare end
+> +
+> +// model quirk function declare start
+> +
+> +static s32 gpd_read_rpm(struct gpd_driver_priv *data);
+> +static s16 gpd_read_pwm(struct gpd_driver_priv *data);
+> +static int gpd_write_pwm(const struct gpd_driver_priv *data, u8 val);
+> +
+> +static int gpd_win_mini_set_pwm_enable(struct gpd_driver_priv *data,
+> +				       enum FAN_PWM_ENABLE pwm_enable);
+> +static int gpd_win_mini_write_pwm(const struct gpd_driver_priv *data, u8 val);
+> +
+> +static s32 gpd_win4_read_rpm(struct gpd_driver_priv *data);
+> +
+> +static s32 gpd_wm2_read_rpm(struct gpd_driver_priv *data);
+> +static s16 gpd_wm2_read_pwm(struct gpd_driver_priv *data);
+> +static int gpd_wm2_set_pwm_enable(struct gpd_driver_priv *data,
+> +				  enum FAN_PWM_ENABLE enable);
+> +static int gpd_wm2_write_pwm(const struct gpd_driver_priv *data, u8 val);
+> +
+
+Forward declarations point to a bad driver design. Please reorder the code
+to avoid it.
+
+> +// model quirk function declare end
+> +
+> +// model quirk struct declare start
+> +
+
+Isn't that obvious ?
+
+> +static const struct gpd_model_quirk gpd_win_mini_quirk = {
+> +	.model_name	= "win_mini",
+> +	.address	= {
+> +				.addr_port		= 0x4E,
+> +				.data_port		= 0x4F,
+> +				.manual_control_enable	= 0x047A,
+> +				.rpm_read		= 0x0478,
+> +				.pwm_write		= 0x047A,
+> +				.pwm_max		= 244,
+> +			},
+> +	.read_rpm	= gpd_read_rpm,
+> +	.set_pwm_enable	= gpd_win_mini_set_pwm_enable,
+> +	.read_pwm	= gpd_read_pwm,
+> +	.write_pwm	= gpd_win_mini_write_pwm,
+
+I am not in favor of those embedded function pointers, just like I
+am not in favor of function pointers passed as arguments. Both make
+the code difficult to read and understand. I would suggest to consider
+changing the code to avoid it.
+, 
+> +};
+> +
+> +static const struct gpd_model_quirk gpd_win4_quirk = {
+> +	.model_name	= "win4",
+> +	.address	= {
+> +				.addr_port		= 0x2E,
+> +				.data_port		= 0x2F,
+> +				.manual_control_enable	= 0xC311,
+> +				.rpm_read		= 0xC880,
+> +				.pwm_write		= 0xC311,
+> +				.pwm_max		= 127,
+> +			},
+> +	.read_rpm	= gpd_win4_read_rpm,
+> +	// same as GPD Win Mini
+> +	.set_pwm_enable	= gpd_win_mini_set_pwm_enable,
+> +	.read_pwm	= gpd_read_pwm,
+> +	// same as GPD Win Mini
+
+I do not see te value in those comments.
+
+> +	.write_pwm	= gpd_win_mini_write_pwm,
+> +};
+> +
+> +static const struct gpd_model_quirk gpd_wm2_quirk = {
+> +	.model_name	= "wm2",
+> +	.address	= {
+> +				.addr_port		= 0x4E,
+> +				.data_port		= 0x4F,
+> +				.manual_control_enable	= 0x0275,
+> +				.rpm_read		= 0x0218,
+> +				.pwm_write		= 0x1809,
+> +				.pwm_max		= 184,
+> +			},
+> +	.read_rpm	= gpd_wm2_read_rpm,
+> +	.set_pwm_enable	= gpd_wm2_set_pwm_enable,
+> +	.read_pwm	= gpd_wm2_read_pwm,
+> +	.write_pwm	= gpd_wm2_write_pwm,
+> +};
+> +
+> +// model quirk struct declare end
+> +
+Isn't that obvious ?
+
+> +static const struct dmi_system_id gpd_devices[] = {
+> +	{
+> +		// GPD Win Mini
+> +		// GPD Win Mini with AMD Ryzen 8840U
+> +		.matches	= {
+> +					DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +					DMI_MATCH(DMI_PRODUCT_NAME, "G1617-01")
+> +				},
+> +		.driver_data	= &gpd_win_mini_quirk,
+
+As 0-day points out, .driver data is not a pointer to a constant.
+
+> +	},
+> +	{
+> +		// GPD Win 4 with AMD Ryzen 6800U
+> +		.matches	= {
+> +					DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +					DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+> +					DMI_MATCH(DMI_BOARD_VERSION, "Default string"),
+> +				},
+> +		.driver_data	= &gpd_win4_quirk,
+> +	},
+> +	{
+> +		// GPD Win 4 with Ryzen 7840U
+> +		.matches	= {
+> +					DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +					DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+> +					DMI_MATCH(DMI_BOARD_VERSION, "Ver. 1.0"),
+> +				},
+> +		.driver_data	= &gpd_wm2_quirk,
+> +	},
+> +	{
+> +		// GPD Win Max 2 with Ryzen 6800U
+> +		// GPD Win Max 2 2023 with Ryzen 7840U
+> +		// GPD Win Max 2 2024 with Ryzen 8840U
+> +		.matches	= {
+> +					DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +					DMI_MATCH(DMI_PRODUCT_NAME, "G1619-04"),
+> +				},
+> +		.driver_data	= &gpd_wm2_quirk,
+> +	},
+> +	{}
+> +};
+> +
+> +static const struct gpd_model_quirk *gpd_module_quirks[] = {
+> +	&gpd_win_mini_quirk, &gpd_win4_quirk, &gpd_wm2_quirk, NULL
+> +};
+> +
+> +// device EC truly access function start
+> +
+
+What is a "truly access function" ?
+
+> +static int gpd_ecram_read(const struct gpd_model_ec_address *address,
+> +			  u16 offset, u8 *val)
+> +{
+> +	int ret;
+> +	u16 addr_port = address->addr_port;
+> +	u16 data_port = address->data_port;
+> +
+> +	ret = mutex_lock_interruptible(&gpd_fan_lock);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x11, data_port);
+> +	outb(0x2F, addr_port);
+> +	outb((u8)((offset >> 8) & 0xFF), data_port);
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x10, data_port);
+> +	outb(0x2F, addr_port);
+> +	outb((u8)(offset & 0xFF), data_port);
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x12, data_port);
+> +	outb(0x2F, addr_port);
+> +	*val = inb(data_port);
+> +
+> +	mutex_unlock(&gpd_fan_lock);
+> +	return 0;
 > +}
 > +
-> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-> +
-> +#else
-> +
-> +#include <asm/ticket_spinlock.h>
-> +
-> +#endif
-> +
-> +#include <asm/qrwlock.h>
-> +
-> +#endif /* __ASM_RISCV_SPINLOCK_H */
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index 4f73c0ae44b2..d7c31c9b8ead 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -244,6 +244,38 @@ static void __init parse_dtb(void)
->  #endif
->  }
->  
-> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
-> +EXPORT_SYMBOL(qspinlock_key);
-> +
-> +static void __init riscv_spinlock_init(void)
+> +static int gpd_ecram_write(const struct gpd_model_ec_address *address,
+> +			   u16 offset, u8 value)
 > +{
-> +	char *using_ext;
+> +	int ret;
+> +	u16 addr_port = address->addr_port;
+> +	u16 data_port = address->data_port;
 > +
-> +	if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) &&
-> +	    IS_ENABLED(CONFIG_RISCV_ISA_ZABHA)) {
-> +		using_ext = "using Zabha";
+> +	ret = mutex_lock_interruptible(&gpd_fan_lock);
 > +
-> +		asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0, RISCV_ISA_EXT_ZACAS, 1)
-> +			 : : : : no_zacas);
-> +		asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA_EXT_ZABHA, 1)
-> +			 : : : : qspinlock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x11, data_port);
+> +	outb(0x2F, addr_port);
+> +	outb((u8)((offset >> 8) & 0xFF), data_port);
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x10, data_port);
+> +	outb(0x2F, addr_port);
+> +	outb((u8)(offset & 0xFF), data_port);
+> +
+> +	outb(0x2E, addr_port);
+> +	outb(0x12, data_port);
+> +	outb(0x2F, addr_port);
+> +	outb(value, data_port);
+> +
+> +	mutex_unlock(&gpd_fan_lock);
+> +	return 0;
+> +}
+> +
+> +// device EC truly access function end
+> +
+> +// device quirk function implement start
+> +
+> +static s32
+> +gpd_read_cached_fan_speed(struct gpd_driver_priv *data,
+> +			  s32 (*read_uncached)(const struct gpd_driver_priv *))
+> +{
+> +	// Update per 1000 milliseconds
+> +	if (time_after(jiffies, data->fan_speed_last_update + HZ)) {
+> +		s32 ret = read_uncached(data);
+> +
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		data->fan_speed_cached = ret;
+> +		data->fan_speed_last_update = jiffies;
+> +	}
+> +	return data->fan_speed_cached;
+> +}
+> +
+> +static s32
+> +gpd_read_cached_pwm(struct gpd_driver_priv *data,
+> +		    s16 (*read_uncached)(const struct gpd_driver_priv *))
+> +{
+> +	// Update per 1000 milliseconds
+> +	if (time_after(jiffies, data->read_pwm_last_update + HZ)) {
+> +		s16 ret = read_uncached(data);
+> +
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		data->read_pwm_cached = ret;
+> +		data->read_pwm_last_update = jiffies;
+> +	}
+> +	return data->read_pwm_cached;
+> +}
+> +
+> +static s32 gpd_read_rpm_uncached(const struct gpd_driver_priv *data)
+> +{
+> +	u8 high, low;
+> +	int ret;
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +
+> +	ret = gpd_ecram_read(address, address->rpm_read, &high);
+> +	if (ret)
+> +		return ret;
+> +	ret = gpd_ecram_read(address, address->rpm_read + 1, &low);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return (u16)high << 8 | low;
+> +}
+> +
+> +static s32 gpd_read_rpm(struct gpd_driver_priv *data)
+> +{
+> +	return gpd_read_cached_fan_speed(data, gpd_read_rpm_uncached);
+> +}
+> +
+> +static s16 gpd_read_pwm(struct gpd_driver_priv *data)
+> +{
+> +	return data->pwm_value;
+> +}
+> +
+> +static int gpd_write_pwm(const struct gpd_driver_priv *data, u8 val)
+> +{
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +	u8 actual;
+> +
+> +	// PWM value's range in EC is 1 - pwm_max, cast 0 - 255 to it.
+> +	actual = val * (address->pwm_max - 1) / 255 + 1;
+> +	return gpd_ecram_write(address, address->pwm_write, actual);
+> +}
+> +
+> +static int gpd_win_mini_set_pwm_enable(struct gpd_driver_priv *data,
+> +				       enum FAN_PWM_ENABLE pwm_enable)
+> +{
+> +	switch (pwm_enable) {
+> +	case DISABLE:
+> +		return gpd_write_pwm(data, 255);
+> +	case MANUAL:
+> +		return gpd_write_pwm(data, data->pwm_value);
+> +	case AUTOMATIC:
+> +		return gpd_write_pwm(data, 0);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int gpd_win_mini_write_pwm(const struct gpd_driver_priv *data, u8 val)
+> +{
+> +	if (data->pwm_enable == MANUAL)
+> +		return gpd_write_pwm(data, val);
+> +	return 0;
+> +}
+> +
+> +static s32 gpd_win4_read_rpm_uncached(const struct gpd_driver_priv *data)
+> +{
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +	u8 PWMCTR;
+> +	s32 ret;
+> +
+> +	gpd_ecram_read(address, 0x1841, &PWMCTR);
+> +	if (PWMCTR != 0x7F)
+> +		gpd_ecram_write(address, 0x1841, 0x7F);
+> +
+> +	ret = gpd_read_rpm_uncached(data);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (ret == 0) {
+> +		//re-init EC
+> +		u8 chip_id;
+> +
+> +		gpd_ecram_read(address, 0x2000, &chip_id);
+> +		if (chip_id == 0x55) {
+> +			u8 chip_ver;
+> +
+> +			if (gpd_ecram_read(address, 0x1060, &chip_ver)) {
+> +				gpd_ecram_write(address, 0x1060,
+> +						chip_ver | 0x80);
+> +			}
+> +		}
+> +	}
+> +	return ret;
+> +}
+> +
+> +static s32 gpd_win4_read_rpm(struct gpd_driver_priv *data)
+> +{
+> +	return gpd_read_cached_fan_speed(data, gpd_win4_read_rpm_uncached);
+> +}
+> +
+> +static s32 gpd_wm2_read_rpm_uncached(const struct gpd_driver_priv *data)
+> +{
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +
+> +	for (u16 pwm_ctr_offset = 0x1841; pwm_ctr_offset <= 0x1843;
+> +	     pwm_ctr_offset++) {
+> +		u8 PWMCTR;
+> +
+> +		gpd_ecram_read(address, pwm_ctr_offset, &PWMCTR);
+> +		if (PWMCTR != 0xB8)
+> +			gpd_ecram_write(address, pwm_ctr_offset, 0xB8);
+> +	}
+> +	return gpd_read_rpm_uncached(data);
+> +}
+> +
+> +static s32 gpd_wm2_read_rpm(struct gpd_driver_priv *data)
+> +{
+> +	return gpd_read_cached_fan_speed(data, gpd_wm2_read_rpm_uncached);
+> +}
+> +
+> +static s16 gpd_wm2_read_pwm_uncached(const struct gpd_driver_priv *data)
+> +{
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +	u8 var;
+> +	int ret = gpd_ecram_read(address, address->pwm_write, &var);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return var * 255 / address->pwm_max;
+> +}
+> +
+> +static s16 gpd_wm2_read_pwm(struct gpd_driver_priv *data)
+> +{
+> +	return gpd_read_cached_pwm(data, gpd_wm2_read_pwm_uncached);
+> +}
+> +
+> +static int gpd_wm2_set_pwm_enable(struct gpd_driver_priv *data,
+> +				  enum FAN_PWM_ENABLE enable)
+> +{
+> +	const struct gpd_model_ec_address *address = &data->quirk->address;
+> +	int ret;
+> +
+> +	switch (enable) {
+> +	case DISABLE:
+> +		ret = gpd_write_pwm(data, 255);
+> +
+> +		if (ret)
+> +			return ret;
+> +
+> +		return gpd_ecram_write(address, address->manual_control_enable,
+> +				       1);
+> +	case MANUAL:
+> +		ret = gpd_write_pwm(data, data->pwm_value);
+> +
+> +		if (ret)
+> +			return ret;
+> +
+> +		return gpd_ecram_write(address, address->manual_control_enable,
+> +				       1);
+> +	case AUTOMATIC:
+> +		ret = gpd_ecram_write(address, address->manual_control_enable,
+> +				      0);
+> +
+> +		// Immediately refresh the PWM value
+> +		gpd_read_cached_pwm(data, gpd_wm2_read_pwm_uncached);
+> +
+> +		return ret;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int gpd_wm2_write_pwm(const struct gpd_driver_priv *data, u8 val)
+> +{
+> +	if (data->pwm_enable != DISABLE)
+> +		return gpd_write_pwm(data, val);
+> +
+> +	return 0;
+> +}
+> +
+> +// device quirk function implement end
+> +
+> +// hwmon subsystem start
+> +
+> +static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
+> +					enum hwmon_sensor_types type, u32 attr,
+> +					__always_unused int channel)
+> +{
+> +	if (type == hwmon_fan && attr == hwmon_fan_input) {
+> +		return 0444;
+> +	} else if (type == hwmon_pwm) {
+> +		switch (attr) {
+> +		case hwmon_pwm_enable:
+> +		case hwmon_pwm_input:
+> +			return 0644;
+> +		default:
+> +			return 0;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int gpd_fan_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> +			      u32 attr, __always_unused int channel, long *val)
+> +{
+> +	struct gpd_driver_priv *data = dev_get_drvdata(dev);
+> +
+> +	if (type == hwmon_fan) {
+> +		switch (attr) {
+> +		case hwmon_fan_input:
+> +			s32 ret = data->quirk->read_rpm(data);
+> +
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			*val = ret;
+> +			return 0;
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	}
+> +	if (type == hwmon_pwm) {
+> +		switch (attr) {
+> +		case hwmon_pwm_enable:
+> +			*val = data->pwm_enable;
+> +			return 0;
+> +		case hwmon_pwm_input:
+> +			s16 ret = data->quirk->read_pwm(data);
+> +
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			*val = ret;
+> +			return 0;
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	}
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static int gpd_fan_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> +			       u32 attr, __always_unused int channel, long val)
+> +{
+> +	struct gpd_driver_priv *data = dev_get_drvdata(dev);
+> +
+> +	if (type == hwmon_pwm) {
+> +		switch (attr) {
+> +		case hwmon_pwm_enable:
+> +			if (!in_range(val, 0, 3))
+> +				return -EINVAL;
+> +			data->pwm_enable = val;
+> +			return data->quirk->set_pwm_enable(data,
+> +							   data->pwm_enable);
+> +		case hwmon_pwm_input:
+> +			u8 var = clamp_val(val, 0, 255);
+> +
+> +			data->pwm_value = var;
+> +			return data->quirk->write_pwm(data, var);
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	}
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static const struct hwmon_ops gpd_fan_ops = {
+> +	.is_visible	= gpd_fan_hwmon_is_visible,
+> +	.read		= gpd_fan_hwmon_read,
+> +	.write		= gpd_fan_hwmon_write,
+> +};
+> +
+> +static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
+> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+> +	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE), NULL
+> +};
+> +
+> +static struct hwmon_chip_info gpd_fan_chip_info = {
+> +	.ops	= &gpd_fan_ops,
+> +	.info	= gpd_fan_hwmon_channel_info
+> +};
+> +
+> +// hwmon subsystem end
+> +
+> +static int gpd_fan_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct gpd_driver_priv *data;
+> +	const struct resource *plat_res;
+> +	const struct device *dev_reg;
+> +	const struct resource *region_res;
+> +
+> +	data = dev_get_platdata(&pdev->dev);
+> +	if (IS_ERR(data))
+> +		return -ENODEV;
+> +
+
+With all the "const" spread through the driver, this one is really odd.
+I have never seen a driver there the _platform data_ is used to store
+instance-specific information. Normally _that_ information is considered
+constant and not modified by a driver.  I really have to say that it is
+extremely odd to have the init function
+declare values such as pwm enable and pwm value and use it in the driver.
+
+Please provide a rationale for this unusual approach.
+
+Also, dev_get_platdata() returns whever it finds in dev->platform_data.
+I find it difficult to understand why that would ever be an ERR_PTR().
+Please explain.
+
+> +	plat_res = platform_get_resource(pdev, IORESOURCE_IO, 0);
+> +	if (IS_ERR(plat_res))
+> +		return dev_err_probe(dev, PTR_ERR(plat_res),
+> +				     "Failed to get platform resource\n");
+> +
+> +	region_res = devm_request_region(dev, plat_res->start,
+> +					 resource_size(plat_res), DRIVER_NAME);
+> +	if (IS_ERR(region_res))
+> +		return dev_err_probe(dev, PTR_ERR(region_res),
+> +				     "Failed to request region\n");
+> +
+> +	dev_reg = devm_hwmon_device_register_with_info(
+> +		dev, DRIVER_NAME, data, &gpd_fan_chip_info, NULL);
+
+CHECK: Lines should not end with a '('
+#756: FILE: drivers/hwmon/gpd-fan.c:593:
++	dev_reg = devm_hwmon_device_register_with_info(
+
+Plus on top of that multi-line code should be aligned with '('.
+
+> +	if (IS_ERR(dev_reg))
+> +		return dev_err_probe(dev, PTR_ERR(region_res),
+> +				     "Failed to register hwmon device\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int gpd_fan_remove(struct platform_device *pdev)
+> +{
+> +	struct gpd_driver_priv *data = dev_get_platdata(&pdev->dev);
+> +
+> +	data->pwm_enable = AUTOMATIC;
+> +	data->quirk->set_pwm_enable(data, AUTOMATIC);
+> +
+
+This is even more unusual. Can you point me to other drivers in the kernel
+using that same approach for handling device specific private data ?
+
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver gpd_fan_driver = {
+> +	.probe	= gpd_fan_probe,
+> +	.remove	= gpd_fan_remove,
+> +	.driver	= {
+> +		.name	= KBUILD_MODNAME,
+> +	},
+> +};
+> +
+> +static struct platform_device *gpd_fan_platform_device;
+> +
+> +static int __init gpd_fan_init(void)
+> +{
+> +	const struct gpd_model_quirk *match = NULL;
+> +
+> +	for (const struct gpd_model_quirk **p = gpd_module_quirks; *p; p++) {
+> +		if (strcmp(gpd_fan_model, (*p)->model_name) == 0) {
+
+		!strcmp
+
+> +			match = *p;
+> +			break;
+> +		}
 > +	}
 > +
-> +no_zacas:
-> +	using_ext = "using Ziccrse";
-> +	asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0,
-> +			     RISCV_ISA_EXT_ZICCRSE, 1)
-> +		 : : : : qspinlock);
+> +	if (!match)
+> +		match = dmi_first_match(gpd_devices)->driver_data;
+
+This assumes that dmi_first_match(gpd_devices) always returns a valid
+pointer. How is that guaranteed ?
+
 > +
-> +	static_branch_disable(&qspinlock_key);
-> +	pr_info("Ticket spinlock: enabled\n");
+> +	if (!match)
+> +		return -ENODEV;
+
+And why check for driver_data after dmi_first_match() returned a
+valid pointer ? What would be the point of creating a match entry
+in gpd_devices without valid driver_data pointer ?
+
 > +
-> +	return;
+> +	struct gpd_driver_priv data = {
+> +		.pwm_enable		= AUTOMATIC,
+> +		.pwm_value		= 255,
+
+This is unusual, to say it mildly. Since the pwm value is never read
+from the controller/chip, this is just a random value.
+
+> +		.fan_speed_cached	= 0,
+> +		.read_pwm_cached	= 0,
+> +		.fan_speed_last_update	= jiffies,
+> +		.read_pwm_last_update	= jiffies,
+
+Is it on purpose that the values won't be updated for a second
+after registering the driver ? If so, please provide a rationale.
+
+> +		.quirk			= match,
+> +	};
 > +
-> +qspinlock:
-> +	pr_info("Queued spinlock %s: enabled\n", using_ext);
+> +	struct resource gpd_fan_resources[] = {
+> +		{
+> +			.start	= data.quirk->address.addr_port,
+> +			.end	= data.quirk->address.data_port,
+> +			.flags	= IORESOURCE_IO,
+> +		},
+> +	};
+> +
+> +	gpd_fan_platform_device = platform_create_bundle(
+
+CHECK: Lines should not end with a '('
+#820: FILE: drivers/hwmon/gpd-fan.c:657:
++	gpd_fan_platform_device = platform_create_bundle(
+
+> +		&gpd_fan_driver, gpd_fan_probe, gpd_fan_resources, 1, &data,
+> +		sizeof(struct gpd_driver_priv));
+> +
+> +	if (IS_ERR(gpd_fan_platform_device)) {
+> +		pr_warn("Failed to create platform device\n");
+> +		return PTR_ERR(gpd_fan_platform_device);
+> +	}
+> +
+> +	return 0;
 > +}
-
-This function would be much easier to read with
-riscv_has_extension_[un]likely(), or even riscv_isa_extension_available() since
-it only gets called once. Thankfully the concerns about using those inside
-macros don't apply here :)
-
-Regards,
-Samuel
-
 > +
->  extern void __init init_rt_signal_env(void);
->  
->  void __init setup_arch(char **cmdline_p)
-> @@ -295,6 +327,7 @@ void __init setup_arch(char **cmdline_p)
->  	riscv_set_dma_cache_alignment();
->  
->  	riscv_user_isa_enable();
-> +	riscv_spinlock_init();
->  }
->  
->  bool arch_cpu_is_hotpluggable(int cpu)
-> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
-> index 0655aa5b57b2..bf47cca2c375 100644
-> --- a/include/asm-generic/qspinlock.h
-> +++ b/include/asm-generic/qspinlock.h
-> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->  }
->  #endif
->  
-> +#ifndef __no_arch_spinlock_redefine
->  /*
->   * Remapping spinlock architecture specific functions to the corresponding
->   * queued spinlock functions.
-> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->  #define arch_spin_lock(l)		queued_spin_lock(l)
->  #define arch_spin_trylock(l)		queued_spin_trylock(l)
->  #define arch_spin_unlock(l)		queued_spin_unlock(l)
-> +#endif
->  
->  #endif /* __ASM_GENERIC_QSPINLOCK_H */
-> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
-> index cfcff22b37b3..325779970d8a 100644
-> --- a/include/asm-generic/ticket_spinlock.h
-> +++ b/include/asm-generic/ticket_spinlock.h
-> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->  	return (s16)((val >> 16) - (val & 0xffff)) > 1;
->  }
->  
-> +#ifndef __no_arch_spinlock_redefine
->  /*
->   * Remapping spinlock architecture specific functions to the corresponding
->   * ticket spinlock functions.
-> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->  #define arch_spin_lock(l)		ticket_spin_lock(l)
->  #define arch_spin_trylock(l)		ticket_spin_trylock(l)
->  #define arch_spin_unlock(l)		ticket_spin_unlock(l)
-> +#endif
->  
->  #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
-
+> +static void __exit gpd_fan_exit(void)
+> +{
+> +	platform_device_unregister(gpd_fan_platform_device);
+> +	platform_driver_unregister(&gpd_fan_driver);
+> +}
+> +
+> +module_init(gpd_fan_init)
+> +module_exit(gpd_fan_exit)
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Cryolitia <Cryolitia@gmail.com>");
+> +MODULE_DESCRIPTION("GPD Devices fan control driver");
+> +MODULE_ALIAS("dmi:*:svnGPD:pnG1617-01:*");
+> +MODULE_ALIAS("dmi:*:svnGPD:pnG1618-04:*");
+> +MODULE_ALIAS("dmi:*:svnGPD:pnG1619-04:*");
