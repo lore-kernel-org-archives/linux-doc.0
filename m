@@ -1,184 +1,159 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EEEB660;
-	Fri, 19 Jul 2024 14:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526BA1459F9
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 15:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721400918; cv=none; b=Z0gY/pwrBwI4lGLCcIe0r86JTOA1Y7nhZq8SbLEuNoKIuCM6dene+DD85PHBB9K7PpNEr+aNeujxLICAuVCPYz6NlFud5ub6jwT07xeOwKI6t7zqmCzIFOcJ7XjxQxLXiPCW48DAQ1r8w6LifVbCmciA4LgfyLJSKlBjfnUKSeA=
+	t=1721404744; cv=none; b=qcQeTnu8T+uOia7Q+ez/PjxTPlfbRMfcVDOGDwGPRmJPUhvKNz2jUiBJxBd421EjOqe4XGrXyFGm9aIVzo6gvik3jZQWgJKJhzHRFEDH0r4/vuPpwnCJ2yuexN2cfFa8T7Zr9w4saafdhJzF/H5an5hCkPXnoDgxfHtLbmUmUVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721400918; c=relaxed/simple;
-	bh=UFJUDW/bCm3fdyE41VwDorx2jlc1r2meX5s1I0gY3A0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hqNKv4rIKEd+GmQAk7b6CpuRNIeBjMuq3FLpkbEVCvM68rGmdI7yweGLslo50GCyqWadZlX4WTQAKu1wtp8sW09DW/uYDQSgEu6MZG6zTXKwu03X3v+zsG97j1/0eLJ0SAjE0lrwaX6npuuumeoOjRdwEjlj055CaNBkp6pV3Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gbNlRTfo; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721404744; c=relaxed/simple;
+	bh=S6gA3Pky3kRLWgK4099csZaRIGqlKAMPaKHzObsFk4A=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=nrJhDxBAYXq1ouVxntfW3pJqEcfjHbptuPBieablY//jeElHID66Ku9duInaa3lzEE3coZnUTY8G6yBfXqAQTTO/JprTRdKLgG/PJXiFV28nDXSgaxMtmFUoDE4gyozgS4g9In8teWt6OiJdLGeus9u5fnl29OYnumGHQXVjbak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aouf/E/9; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gbNlRTfo"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e05ecb3dbf6so2170536276.0;
-        Fri, 19 Jul 2024 07:55:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aouf/E/9"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e036440617fso5063420276.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 08:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721400915; x=1722005715; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=68yuc6NN728LxmvmV/7h6sci0WMOrieT8WjUycM9Czs=;
-        b=gbNlRTfo/vf18yLCbpxnk8Dvm3ykmQnif106HyZwtuP05599vTGsKwpqfyQ/XpqVQd
-         xqaQZIczknRm2qf5JGc76fMOdyRnsNZEUCLC5j5++pkGKkL+fb7RmHapXITjYr4wdDNK
-         cvUHhsajaMq8HEHwlljn03IZg3x1u/d/0wFILUvMSnDoU15Ao08jHedChvV+w419/6RU
-         tVNMYxiylkbjAWNRRMxJWBCMXXXBzWHXeBfud0usuKGQu5rp+hq9qWenZKuvAxxWx9IP
-         X1Lnh2oYSkSXgfgotv9ceGipNgkNnk1sFu85SRw6X7Y5peo/xwbK4p5hccKXh9oPGa1/
-         sr5A==
+        d=google.com; s=20230601; t=1721404742; x=1722009542; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hmVLmXG6HUEZ1zgQ+Jo6sV2CT1wbQkb6tcz4M5bcpCY=;
+        b=aouf/E/9E4Ri8oCj1ZuzrffA5K4UHrrHMfyFMzseXcKnahwdZYIsBWsh/SXgn2Sv3o
+         Qprc7KNA6bMINzwZrfu5W2fD65E0KQ7ElwopVSlGedZH4RJ2u32dSHTBQpmzkt1J9YeB
+         Afbj/V14ksvd+lygVbawphe3RtpaCGPB5puHI7M5jS7zcKMx4kCVy+Ue5LYrlmqv803y
+         wYdzRIA1Khh+z4DzbpEOaBkcWH878WETOcGj3KULf8223SGini0WuvQrb+YlqKjtY5gl
+         R8mnE3A0yna9a+wPb3hOJZJ32VdllhYXZj532xAWH1yM2PEVfD223dH0uj11aYYYftmM
+         zY3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721400915; x=1722005715;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=68yuc6NN728LxmvmV/7h6sci0WMOrieT8WjUycM9Czs=;
-        b=Yl/KczsjV033D34eeEYyiOm7KdKEVEtYZlMbnKzZ5tc+vAf39X37E9mPYWrNOQUup3
-         eOTrMH9brS37eDBjp2fDfIGYttfMOjjLhnlM7L27v5qOG1Pi5x5RfkiaoixapCnCxGnu
-         wguAMWcwsPSpkxntoHo+xoh6xQ+FdWHeI9gHzRnqrCQPN8lICPE9X7WI4bOdkFw0iKnf
-         KbCKdvKOHrJrODyQ03jL97w6EImBROl1WC5DOv1YZ4311/SdYqocBp5SPHTXjfzXCEHa
-         /4D3YF/6mNyX6Frb5abOlhfVI5gRhwdZfBLLbPObfIq4n4qCjQ1aaCgahuIpvUIZBU5m
-         XeCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrN8Ijqwcv4ZNkHQPdHQ3GWuOpMmg/cxnOYYrwmMNAzg98+tDcAzEgiQKjzr0lKekBbRNkr6CcU/H2SQObFAu+YhlnGLKMurkyWzMyWYHfEDxKot4fI1AuzbU4GzR/cs00GAaDhat4
-X-Gm-Message-State: AOJu0YzBzJFphYq1Nvd13hKMUROyQ8EAik1oWJ1ReVba17Zb0g1MLSE1
-	Wz+wC7lgyt0vi0Jm5MT/euRb+YOUDG69xQ4jMkuTJLSUV5XPXHJKjg+EC4BH+HGUnGTCsJjUSuo
-	sd0Xe796q1OZKI81TtYGEP7sGnsI=
-X-Google-Smtp-Source: AGHT+IEdWHvsEjt7ddW74Wyq0ZsZOLuJ6QzPGM5zDey3dQwCJ7dfrCLIeBNvrcVeDz8GSRNcsMm0TcVaglXnrrbmG50=
-X-Received: by 2002:a05:6902:18d3:b0:dff:2f2c:d6ad with SMTP id
- 3f1490d57ef6-e05fec14a25mr8202645276.51.1721400915435; Fri, 19 Jul 2024
- 07:55:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721404742; x=1722009542;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hmVLmXG6HUEZ1zgQ+Jo6sV2CT1wbQkb6tcz4M5bcpCY=;
+        b=WGkLBz9NhUq065bHvZegg5yMN8pjfrqQurXajuIPXP/86E/BiTKVqUO0uz+8xwvxpy
+         mqQ+tJq0ySjFOf3xKgcng6e5hviicnRe4Ssn67b/wZ+Cy9DjVXBJ1ijYW7+nyvSdxrZ/
+         6VnS5iE+nafH4LVC3ev9Fzi7lo2ekvoKxH5T7rnv98fdttHW6QPxn/zCuFCPYc76bgp2
+         yj0Mtr0affJIq6QzQJeZ/6I7qzCk1xnu9/L8Rqm2DK87IUvu+0HhyvKNF9Z4IFHp2UmI
+         USA4p5yY21/w1eLFESieblHe3z/urgSz+b6aHgocrXzBvn/O5dqgWC2IFP4s3qNvG5jW
+         Lz5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUpn2fzaEUhW+KaEiCRIBoItR6lpLupV3Asc5+c2tIsu9oDLXEK8t+wD8WL37Xor2HC/vQCMCxvPr780QJzPJvipgzJz8ff9NSl
+X-Gm-Message-State: AOJu0Yzn49LwaFPkeqpyEQZS9lKCJcj+38lfGqtGtZQ718xNIanDvq5h
+	LuqALRKP80ggViSo4t5WF80Trkdc+T+t7MS+dDz0RNPDYby7fmo/D8QcGL58HjZ/Duv7/kkFStH
+	nkA==
+X-Google-Smtp-Source: AGHT+IEpJ18W6MbHK885Kx8gIxJoghb67upLSE4Rrad0klqxY1BrfqtTnDl4Xu8dBPLpSgMh4ccA4wiMAMM=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:114b:b0:e05:6532:166 with SMTP id
+ 3f1490d57ef6-e086fdea67cmr166276.1.1721404741724; Fri, 19 Jul 2024 08:59:01
+ -0700 (PDT)
+Date: Fri, 19 Jul 2024 08:59:00 -0700
+In-Reply-To: <099D0BF1-BDC6-489F-B780-174AFEE8F491@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240706022523.1104080-1-flintglass@gmail.com>
- <CAKEwX=NL1gOe9k5+JB8Q-UAoZ4ie8SBGg7XTjaqM7j4-hiHv=A@mail.gmail.com>
- <CAPpoddefXD1RAjyW2+X_ankGYNpQgY0Y0+xd1yOFgCc_egaX8A@mail.gmail.com>
- <CAJD7tkYnBw-QiGXTb4BPScuS1VePBkuRx1qG8p92zN9TeD+gKg@mail.gmail.com>
- <CAKEwX=OPDkwnSno-8r9AsOpmzkZ90SzeX02xz0eDTqbL2_QL2g@mail.gmail.com> <CAJD7tkapE+qSmjFXnLBNamMvn3Lxbx=yvDF3gXW_qba45WU1tA@mail.gmail.com>
-In-Reply-To: <CAJD7tkapE+qSmjFXnLBNamMvn3Lxbx=yvDF3gXW_qba45WU1tA@mail.gmail.com>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Fri, 19 Jul 2024 23:55:04 +0900
-Message-ID: <CAPpoddfu-FJ9XujHXnT-z+Js1on+z7P6GPgbWdGwhOhbrh4QSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] mm: zswap: global shrinker fix and proactive shrink
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-10-xin3.li@intel.com>
+ <ZmoYvcbFBPJ5ARma@google.com> <SA1PR11MB67348BD07CCCF8D52FCAC8FEA8A42@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <ZpFH86n_YY5ModwK@google.com> <099D0BF1-BDC6-489F-B780-174AFEE8F491@zytor.com>
+Message-ID: <ZpqNREwyn4LzN2tp@google.com>
+Subject: Re: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and guest
+From: Sean Christopherson <seanjc@google.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Xin3 Li <xin3.li@intel.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "vkuznets@redhat.com" <vkuznets@redhat.com>, 
+	"peterz@infradead.org" <peterz@infradead.org>, Ravi V Shankar <ravi.v.shankar@intel.com>, 
+	"xin@zytor.com" <xin@zytor.com>
+Content-Type: text/plain; charset="us-ascii"
 
-Thank you all for your reviews and comments.
+On Thu, Jul 18, 2024, H. Peter Anvin wrote:
+> On July 12, 2024 8:12:51 AM PDT, Sean Christopherson <seanjc@google.com> wrote:
+> >On Wed, Jul 10, 2024, Xin3 Li wrote:
+> >> > On Wed, Feb 07, 2024, Xin Li wrote:
+> >> > > Switch MSR_IA32_FRED_RSP0 between host and guest in
+> >> > > vmx_prepare_switch_to_{host,guest}().
+> >> > >
+> >> > > MSR_IA32_FRED_RSP0 is used during ring 3 event delivery only, thus
+> >> > > KVM, running on ring 0, can run safely with guest FRED RSP0, i.e., no
+> >> > > need to switch between host/guest FRED RSP0 during VM entry and exit.
+> >> > >
+> >> > > KVM should switch to host FRED RSP0 before returning to user level,
+> >> > > and switch to guest FRED RSP0 before entering guest mode.
+> >> > 
+> >> > Heh, if only KVM had a framework that was specifically designed for context
+> >> > switching MSRs on return to userspace.  Translation: please use the
+> >> > user_return_msr() APIs.
+> >> 
+> >> IIUC the user return MSR framework works for MSRs that are per CPU
+> >> constants, but like MSR_KERNEL_GS_BASE, MSR_IA32_FRED_RSP0 is a per
+> >> *task* constant, thus we can't use it.
+> >
+> >Ah, in that case, the changelog is very misleading and needs to be fixed.
+> >Alternatively, is the desired RSP0 value tracked anywhere other than the MSR?
+> >E.g. if it's somewhere in task_struct, then kvm_on_user_return() would restore
+> >the current task's desired RSP0.  Even if we don't get fancy, avoiding the RDMSR
+> >to get the current task's value would be nice.
+> 
+> Hm, perhaps the right thing to do is to always invoke this function before a
+> context switch happens if that happens before return to user space?
 
-2024=E5=B9=B47=E6=9C=8818=E6=97=A5(=E6=9C=A8) 3:05 Yosry Ahmed <yosryahmed@=
-google.com>:
->
-> On Wed, Jul 17, 2024 at 10:49=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wr=
-ote:
-> >
-> > On Tue, Jul 16, 2024 at 7:53=E2=80=AFPM Yosry Ahmed <yosryahmed@google.=
-com> wrote:
-> > >
-> > > [..]
-> > > >
-> > > > > My concern is that we are knowingly (and perhaps unnecessarily)
-> > > > > creating an LRU inversion here - preferring swapping out the reje=
-cted
-> > > > > pages over the colder pages in the zswap pool. Shouldn't it be th=
-e
-> > > > > other way around? For instance, can we spiral into the following
-> > > > > scenario:
-> > > > >
-> > > > > 1. zswap pool becomes full.
-> > > > > 2. Memory is still tight, so anonymous memory will be reclaimed. =
-zswap
-> > > > > keeps rejecting incoming pages, and putting a hold on the global
-> > > > > shrinker.
-> > > > > 3. The pages that are swapped out are warmer than the ones stored=
- in
-> > > > > the zswap pool, so they will be more likely to be swapped in (whi=
-ch,
-> > > > > IIUC, will also further delay the global shrinker).
-> > > > >
-> > > > > and the cycle keeps going on and on?
-> > > >
-> > > > I agree this does not follow LRU, but I think the LRU priority
-> > > > inversion is unavoidable once the pool limit is hit.
-> > > > The accept_thr_percent should be lowered to reduce the probability =
-of
-> > > > LRU inversion if it matters. (it is why I implemented proactive
-> > > > shrinker.)
-> > >
-> > > Why?
-> > >
-> > > Let's take a step back. You are suggesting that we throttle zswap
-> > > writeback to allow reclaim to swapout warmer pages to swap device. As
-> > > Nhat said, we are proliferating LRU inversion instead of fixing it.
-> > >
-> > > I think I had a similar discussion with Johannes about this before,
-> > > and we discussed that if zswap becomes full, we should instead
-> > > throttle reclaim and allow zswap writeback to proceed (i.e. the
-> > > opposite of what this series is doing). This would be similar to how
-> > > we throttle reclaim today to wait for dirty pages to be written back.
-> > >
-> >
-> > I completely agree with this analysis and proposal - it's somewhat
-> > similar to what I have in mind, but more fleshed out :)
-> >
-> > > This should reduce/fix the LRU inversion instead of proliferating it,
-> > > and it should reduce the total amout of IO as colder pages should go
-> > > to disk while warmer pages go to zswap. I am wondering if we can reus=
-e
-> > > the reclaim_throttle() mechanism here.
-> > >
-> > > One concern I have is that we will also throttle file pages if we use
-> > > reclaim_throttle(), since I don't see per-type throttling there. This
-> > > could be fine, since we similarly throttle zswap reclaim if there are
-> > > too many dirty file pages. I am not super familiar with reclaim
-> > > throttling, so maybe I missed something obvious or there is a better
-> > > way, but I believe that from a high level this should be the right wa=
-y
-> > > to go.
-> >
-> > I don't think we have any infrastructure for anon-only throttling in
-> > vmscan logic, but it sounds trivial to implement if necessary :)
-> >
-> > >
-> > > I actually think if we do this properly, and throttle reclaim when
-> > > zswap becomes full, we may be able to drop the acceptance hysteresis
-> > > and rely on the throttling mechanism to make sure we stop reclaim
-> > > until we free up enough space in zswap to avoid consistently hitting
-> > > the limit, but this could be a future extension.
-> >
-> > Agree - this hysteresis heuristics needs to die.
-> >
-> > IMHO, I think we should still have the proactive global shrinking
-> > action that Takero is proposing in patch 3. The throttling is nice,
-> > but it'd be even nicer if we can get ahead of that :)
->
-> I have always thought that the shrinker should play this role in one
-> way or another. Instead of an arbitrary watermark and asynchronous
-> work, it incrementally pushes the zswap LRU toward disk as reclaim
-> activity increases.
->
-> Is the point behind proactive shrinking is to reduce the latency in
-> the reclaim path?
+Actually, if the _TIF_NEED_RSP0_LOAD doesn't provide a meaningful benefit (or
+y'all just don't want it :-) ), what KVM could do is restore MSR_IA32_FRED_RSP0
+when putting the vCPU and the vCPU is not being scheduled out, i.e. if and only
+if KVM can't guarantee a context switch.
 
-For proactive shrinking, I thought the latency and throughput of
-pageout should be prioritized, assuming that delaying the reclaim
-progress by rejection or synchronous writeback is not always
-acceptable. Similarly, patch 6 accepted breaking LRU priority to avoid
-degrading pageout performance compared to zswap-disabled systems.
+If the vCPU/task is being scheduled out, update_task_stack() is guaranteed to
+write MSR_IA32_FRED_RSP0 with the new task's value.
 
-But It seems like zswap prefers the LRU heuristics and a larger pool.
-The shrinker should writeback synchronously after the pool limit is
-hit until the max pool size, and zswap should backpressure the
-reclaim, right?  If so, my proposal is in the opposite direction. I
-will submit patches 1 and 2 as v3.
+On top of kvm/next, which adds the necessary vcpu->scheduled_out:
+
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 5c6bb26463e8..4532ae943f2a 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -1338,15 +1338,9 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+ 
+        wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
+ 
+-       if (guest_can_use(vcpu, X86_FEATURE_FRED)) {
+-               /*
+-                * MSR_IA32_FRED_RSP0 is top of task stack, which never changes.
+-                * Thus it should be initialized only once.
+-                */
+-               if (unlikely(vmx->msr_host_fred_rsp0 == 0))
+-                       vmx->msr_host_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+-               wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
+-       }
++       if (cpu_feature_enabled(X86_FEATURE_FRED) &&
++           guest_can_use(vcpu, X86_FEATURE_FRED))
++               wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
+ #else
+        savesegment(fs, fs_sel);
+        savesegment(gs, gs_sel);
+@@ -1392,9 +1386,13 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
+ #ifdef CONFIG_X86_64
+        wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
+ 
+-       if (guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
++       if (cpu_feature_enabled(X86_FEATURE_FRED) &&
++           guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
+                vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+-               wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_host_fred_rsp0);
++
++               if (!vcpu->scheduled_out)
++                       wrmsrns(MSR_IA32_FRED_RSP0,
++                                (unsigned long)task_stack_page(task) + THREAD_SIZE);
+        }
+ #endif
+        load_fixmap_gdt(raw_smp_processor_id());
+
