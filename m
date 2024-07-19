@@ -1,95 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4F91DFCF;
-	Fri, 19 Jul 2024 14:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B031E871;
+	Fri, 19 Jul 2024 14:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721398665; cv=none; b=ZK4ESQDVetdPPOPdAOwk+LyOHNTMVvYtFBwdIURMWBN6FqpJ0kUcaremghNRzftJtJvLqhD1ADDnA40BH4L+JVHdYVEDJAjadjqHp4qGqwHN9B/f6rulRt9XjvVL0jb+2qAMN0WbDqxs1vvnExcCZEImPGJ99hUx8K5tvoW308I=
+	t=1721399069; cv=none; b=FnhQqoVZuV/aKz+nzGs0wT1otglXQzUX6fRlwMrm28dxv8Xe9iK6fIZNkGuuWtvFMSW3U70Tk9rSuGD7W3N/le9rFt5hjt9HBG0zrCqnuJ9wwsreaNWDZM90p98jNx99TFfd1MuJFNCnkT3z1mSn06JpH4XQysNLvOJz1MBguRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721398665; c=relaxed/simple;
-	bh=Ut4xJGgBxh3iieppbyZRMpYk4TtvlneYmX7qcNK+sLg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ulkk2vv9dMTu2PHC+wNksIGlSi2Dg4P0/iD/BHklmmvwRGNLzr8llHMSVNuUQPxd734bsrJgMhnTsECVk1A3igue3/X2PZAd7hf6bCCP17sx8ze7VFYUANRA1Mly4tzHsJmQW+X+YBf0y7hmjC6qHPXrXF8/s42hlLXyS7VzyIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2/ceORH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721399069; c=relaxed/simple;
+	bh=nqNiyXDyPdSoo5vVKalW8O+1Xy1hqhSh7kpPxwmZDCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFaT/vrNrjHw5mmnf+lrktP5ujX3Kl0EDse/2tujWOMJVm72IrFW7K6S4X2g1dhO9vkEflGQYAwZ19IhEdAzcXvalv42TNz4MoTiR5JzP2cVOqwRcMLm8r9PSvdheQInRJGtkr3ayZ0rqpd3rZWr8Rcji4gbsU0YW9VLZUNwD78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rxmqcdVH; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2/ceORH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3B886C4AF0F;
-	Fri, 19 Jul 2024 14:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721398665;
-	bh=Ut4xJGgBxh3iieppbyZRMpYk4TtvlneYmX7qcNK+sLg=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Y2/ceORHodio7oV9WhkR+jBmMPluxzGw421lIlMI7/DRijceIWdEbXmCHP87X/NiI
-	 q6kmtcvUqg4H1KbtDPFojosaSOgLHxv6NYV7ZvMQdA9sYb5cDqQDVl2R2vbQzU53xK
-	 XqnhDZ/EEnjneyTlsXN3qxWnJaFWL4MbCR0Ln7fd5udDwkvzTEjNq+88mZcMnJ6rAb
-	 Jk+JkHvrbfnGadaHmbGDmRUuE+jO8Dtaaf1VbqNSlXuSTc7qhSJUXQvFcKy2FL1E5H
-	 Mib6RDlcE8tQHdnafxzNDJCKnP9YEZhAGiga5ClLdsaQ00QYgdy+POLHjT68Rv7rLd
-	 mm6jhjkRCbqTw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE3EC3DA59;
-	Fri, 19 Jul 2024 14:17:45 +0000 (UTC)
-From: Nikita Shubin via B4 Relay <devnull+n.shubin.yadro.com@kernel.org>
-Date: Fri, 19 Jul 2024 17:17:38 +0300
-Subject: [PATCH] workqueue: doc: Fix function name
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rxmqcdVH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=loR+NtcqS5n8AOftDgXNtGcQ9Ox7BWghyEic45EGsso=; b=rxmqcdVHMT0kNgTPPR203ha6f/
+	kJ4diTZd+wEUujjzjxjUejYs6ek7K6Bamwc3YnhmXup/Rmra03D4Vi7wrOGwnmn09WSHNY5TBjF3U
+	mBL0aqaZ8Km/YoaPDBojj0FvydVYuiI1/509XhaaxlPGTuhKCvqZzclrZpjgUPo4wddBJ3o+2Ntqn
+	WdW+ac6rWwspQENcu/QhKszNtvcGaX0K3AHQp4YpuHCnfNfWciDfG7y4aa67NBlNquanJTX/ewZ1S
+	4qlhfKt2OgzKt3sbBRIJnPTz6ppSn2S3DokilauzNaVfZZPSClptcKRALZ4tnjpKjYUJbFjrYK6II
+	vZnwhR7A==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sUoWs-0000000380P-0Etw;
+	Fri, 19 Jul 2024 14:24:14 +0000
+Date: Fri, 19 Jul 2024 15:24:13 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: n.shubin@yadro.com
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, nikita.shubin@maquefel.me,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@yadro.com
+Subject: Re: [PATCH] workqueue: doc: Fix function name
+Message-ID: <Zpp3DQNQ5GCM_kd5@casper.infradead.org>
+References: <20240719-fix_doc-v1-1-9d176e38ba98@yadro.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240719-fix_doc-v1-1-9d176e38ba98@yadro.com>
-X-B4-Tracking: v=1; b=H4sIAIF1mmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDc0NL3bTMiviU/GRdk9TkFHOjpDRLS2MTJaDqgqJUoBTYpOjY2loAeap
- 64VkAAAA=
-To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: nikita.shubin@maquefel.me, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux@yadro.com, 
- Nikita Shubin <n.shubin@yadro.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721398668; l=1021;
- i=n.shubin@yadro.com; s=20230718; h=from:subject:message-id;
- bh=6/ib8dGatUxNJG05zdhXdZ6AZtRqyM3pThPJjlGkNx4=;
- b=cRAqQq5yIutUty/S5LFaNNALEemsa2GMaE7bcvIREB7a+QH+jWdV0HWSn1WcK8HJtofYCtPStjOf
- pwbD37WFDYGkuWv43RJQHnqG8SQJ3rvz4JK2+m0QFSCME1jQTWW1
-X-Developer-Key: i=n.shubin@yadro.com; a=ed25519;
- pk=vqf5YIUJ7BJv3EJFaNNxWZgGuMgDH6rwufTLflwU9ac=
-X-Endpoint-Received: by B4 Relay for n.shubin@yadro.com/20230718 with
- auth_id=161
-X-Original-From: Nikita Shubin <n.shubin@yadro.com>
-Reply-To: n.shubin@yadro.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240719-fix_doc-v1-1-9d176e38ba98@yadro.com>
 
-From: Nikita Shubin <n.shubin@yadro.com>
+On Fri, Jul 19, 2024 at 05:17:38PM +0300, Nikita Shubin via B4 Relay wrote:
+> -case. Use ``alloc_ordered_queue()`` instead.
+> +case. Use ``alloc_ordered_workqueue()`` instead.
 
-s/alloc_ordered_queue()/alloc_ordered_workqueue()/
+If we remove the `` markers, this turns into a nice link to
+the kernel-doc for alloc_ordered_workqueue.  ie:
 
-Signed-off-by: Nikita Shubin <n.shubin@yadro.com>
----
- Documentation/core-api/workqueue.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index bcc370c876be..f28d7a1ab4b1 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -260,7 +260,7 @@ Some users depend on strict execution ordering where only one work item
- is in flight at any given time and the work items are processed in
- queueing order. While the combination of ``@max_active`` of 1 and
- ``WQ_UNBOUND`` used to achieve this behavior, this is no longer the
--case. Use ``alloc_ordered_queue()`` instead.
-+case. Use ``alloc_ordered_workqueue()`` instead.
- 
- 
- Example Execution Scenarios
-
----
-base-commit: 080402007007ca1bed8bcb103625137a5c8446c6
-change-id: 20240719-fix_doc-4ecd72bf9934
-
-Best regards,
--- 
-Nikita Shubin <n.shubin@yadro.com>
-
-
++case. Use alloc_ordered_workqueue() instead.
