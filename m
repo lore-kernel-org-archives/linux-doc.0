@@ -1,97 +1,89 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D210B3236
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 04:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB1610A0E
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 04:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721362696; cv=none; b=C/uXaOpWOEWjDVp4YhBN0dxcCTIzK4LIGyQI1h3spHRkICkXWrqydMCtug+7p/YK2F+MTTzfAil/zz8H9iR/VDUOjjJMFyhc2gXsDjCXKiwiO8D9IM1d1SM1dxmZ2o7Xx7eI6ao4whhgGt0GIFIrdeaNEdP4Y+Nw9UhjzZ191vE=
+	t=1721362871; cv=none; b=Zm1w9D+CiKDXgxz/hND1fLkcOLB1j22dOI45NQYjITlEZaKj2dcB7vfCTbH+YM0IkBUXVqrkx+SMnWnK5kobSVaxLVODvt48Aws7MbrMzLHBRPu/mJYLpo9aKBVKx+jaWOU4jBfcEp+1MzmFohalwAunYfgAZgGfQTa8hjNh+4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721362696; c=relaxed/simple;
-	bh=LE3/f6duBFPu0vIb34drDDB06LjrQV/Lo+MYstXpeII=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GCbXCtRuHc268Fn3XNngMbUODBZ204tlIZcWMDFL4TP+Uac9GUx7f3sGHkA+ioBb8C+4jI9p35K6ewRwLX4TdODQ+UG6Nuk3KDUP8AQMv7HeLMyjCKtMHGfcSV/ysLjbQfcy6qFum1NCYT18fP5QnwoD/53D8+xv/B109YUDeOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+	s=arc-20240116; t=1721362871; c=relaxed/simple;
+	bh=QaeqEE2KOopVRP6CpIlKNpbtOgIadgmB0WZT6P/ushM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qvlFx0+6ccIOQdVc27hcFj/+WW/wyX/bU5PajhK2evcGZcQZc03QB+4QspVltpMc0zwHY4kSnq6Fi8//TeUtR/ndeKYCK/snCFr9Om1EM9MTe9sQNAFYqStIcWw5yipoQnVkLVDkD8C+ueWwWCcLSnsjQXexZMkJXbewgSpLDxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrACH6G3d6JlmcXZ4AQ--.45837S2;
-	Fri, 19 Jul 2024 12:17:33 +0800 (CST)
-Received: from [10.12.169.159] (unknown [10.12.169.159])
-	by gateway (Coremail) with SMTP id _____wC3WXfc6Jlm0iBZAA--.34697S2;
-	Fri, 19 Jul 2024 12:17:33 +0800 (CST)
-Message-ID: <c03055c6-5c96-48a6-9d2e-60110f144d36@hust.edu.cn>
-Date: Fri, 19 Jul 2024 12:17:32 +0800
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrAAXeG0K6Jlmv2p4AQ--.46078S2;
+	Fri, 19 Jul 2024 12:14:02 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wAnhh4I6JlmCSoKAA--.20209S2;
+	Fri, 19 Jul 2024 12:14:01 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: chengziqiu@hust.edu.cn
+Cc: linux-doc@vger.kernel.org,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Subject: [PATCH v3 0/2] Fix checktransupdate.py and add help documents
+Date: Fri, 19 Jul 2024 12:13:32 +0800
+Message-ID: <20240719041400.3909775-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Fix checktransupdate.py and add help documents
-To: chengziqiu@hust.edu.cn, Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
-Cc: linux-doc@vger.kernel.org
-References: <20240719041400.3909775-1-dzm91@hust.edu.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20240719041400.3909775-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrACH6G3d6JlmcXZ4AQ--.45837S2
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAAXeG0K6Jlmv2p4AQ--.46078S2
 Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFyrWr15Jr13ZFWfuF1kuFg_yoW8GrWkpF
-	yYkr1fu3Z5tw13Zw1fG3yDZr43CrW8AF4Ygry7Xwn8ZF4qqwnYvr43Ka1F9FWDGrWfZayY
-	vFWjkrW2kr9ayFDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-Coremail-Antispam: 1UD129KBjvJXoW7GFy8JF4rJr18XFy8CFWDXFb_yoW8Jry8pF
+	yYkrWfuas8Kw4aqw1fG3yDZr43AFW8CF4YgF9rJwnxZF4Dtw4Fvr43K3WFv3yDGrWfZayY
+	qrWYkrW09r9avFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBFb7Iv0xC_Ar1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
-	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
-	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x07jfpndUUUUU=
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8x
+	CEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0U
+	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Cr0_Gr1UMcIj6x8Erc
+	xFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWU
+	JVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r
+	4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0x
+	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
+	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0piF1vhUUUUU=
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
+This patch set fixes all the issues in the checktransupdate.py reported
+by pylint, and add help documents in both English and Chinese.
 
-On 2024/7/19 12:13, Dongliang Mu wrote:
-> This patch set fixes all the issues in the checktransupdate.py reported
-> by pylint, and add help documents in both English and Chinese.
+v3:
+1) fixes all the issues (not most) reported by pylint,
+2) add the functionability to tackle documents that need translation,
+3) add logging to adjust the logging level and log file
+4) fix some issues by Yanteng and Jani
 
-It seems to-cmd and cc-cmd cannot handle cover letter. Forward by hand.
+v2:
+fix some issues according to Randy
 
->
-> v3:
-> 1) fixes all the issues (not most) reported by pylint,
-> 2) add the functionability to tackle documents that need translation,
-> 3) add logging to adjust the logging level and log file
-> 4) fix some issues by Yanteng and Jani
->
-> v2:
-> fix some issues according to Randy
->
-> v1:
-> This patch fixes most issues with the following contents:
-> - add or revise comments for all functions
-> - use format string suggested by python
->
-> Add help documentation of scripts/checktransupdate.py
->
-> Dongliang Mu (2):
->    scripts: fix all issues reported by pylint
->    doc-guide: add help documentation checktransupdate.rst
->
->   Documentation/doc-guide/checktransupdate.rst  |  53 +++++
->   Documentation/doc-guide/index.rst             |   1 +
->   .../zh_CN/doc-guide/checktransupdate.rst      |  55 +++++
->   .../translations/zh_CN/doc-guide/index.rst    |   1 +
->   scripts/checktransupdate.py                   | 214 ++++++++++++------
->   5 files changed, 251 insertions(+), 73 deletions(-)
->   create mode 100644 Documentation/doc-guide/checktransupdate.rst
->   create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
->
+v1:
+This patch fixes most issues with the following contents:
+- add or revise comments for all functions
+- use format string suggested by python
+
+Add help documentation of scripts/checktransupdate.py
+
+Dongliang Mu (2):
+  scripts: fix all issues reported by pylint
+  doc-guide: add help documentation checktransupdate.rst
+
+ Documentation/doc-guide/checktransupdate.rst  |  53 +++++
+ Documentation/doc-guide/index.rst             |   1 +
+ .../zh_CN/doc-guide/checktransupdate.rst      |  55 +++++
+ .../translations/zh_CN/doc-guide/index.rst    |   1 +
+ scripts/checktransupdate.py                   | 214 ++++++++++++------
+ 5 files changed, 251 insertions(+), 73 deletions(-)
+ create mode 100644 Documentation/doc-guide/checktransupdate.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+
+-- 
+2.43.0
 
