@@ -1,224 +1,97 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B093236;
-	Fri, 19 Jul 2024 04:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D210B3236
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 04:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721362519; cv=none; b=ohOmq5bHDHQ8GlgK5l/bfmlDrokB9+xox57gWY7dVxiDRAXsSDDpJn9slGAPmRH0u23uWq4FMd1b5z5/Ga4KROAuAZQEqm7a6YTLJ422vPBXPKQrnGGHQLLW0bTMRwLTF/N16e046VR8PlwAaZeT5MOMa++u+kir0RKLGugfEro=
+	t=1721362696; cv=none; b=C/uXaOpWOEWjDVp4YhBN0dxcCTIzK4LIGyQI1h3spHRkICkXWrqydMCtug+7p/YK2F+MTTzfAil/zz8H9iR/VDUOjjJMFyhc2gXsDjCXKiwiO8D9IM1d1SM1dxmZ2o7Xx7eI6ao4whhgGt0GIFIrdeaNEdP4Y+Nw9UhjzZ191vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721362519; c=relaxed/simple;
-	bh=ewcG7xqXr6f2MmXfeYswZvnssTP40xufMckIKbFuPx4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ujm6X6T8nbk/mOVJj+y1/HvTvVUBYq/Dp1GhdxzNFCXen3J/yb1J+U9LSX/5DJS3VMuZEjb2YHfZyKFwwdY6RoYLIRke0QSzgdd9X9Ox6uwzRvYkUWwSJqV9a9vztlc2LaqPWnw+ylVaoAtDUNXGItcbwEEEClvoopOGNLH4bzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+	s=arc-20240116; t=1721362696; c=relaxed/simple;
+	bh=LE3/f6duBFPu0vIb34drDDB06LjrQV/Lo+MYstXpeII=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GCbXCtRuHc268Fn3XNngMbUODBZ204tlIZcWMDFL4TP+Uac9GUx7f3sGHkA+ioBb8C+4jI9p35K6ewRwLX4TdODQ+UG6Nuk3KDUP8AQMv7HeLMyjCKtMHGfcSV/ysLjbQfcy6qFum1NCYT18fP5QnwoD/53D8+xv/B109YUDeOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrACnrn4v6JlmkWx4AQ--.34901S2;
-	Fri, 19 Jul 2024 12:14:39 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wAnhh4I6JlmCSoKAA--.20209S4;
-	Fri, 19 Jul 2024 12:14:38 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: chengziqiu@hust.edu.cn,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] doc-guide: add help documentation checktransupdate.rst
-Date: Fri, 19 Jul 2024 12:13:34 +0800
-Message-ID: <20240719041400.3909775-3-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240719041400.3909775-1-dzm91@hust.edu.cn>
-References: <20240719041400.3909775-1-dzm91@hust.edu.cn>
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrACH6G3d6JlmcXZ4AQ--.45837S2;
+	Fri, 19 Jul 2024 12:17:33 +0800 (CST)
+Received: from [10.12.169.159] (unknown [10.12.169.159])
+	by gateway (Coremail) with SMTP id _____wC3WXfc6Jlm0iBZAA--.34697S2;
+	Fri, 19 Jul 2024 12:17:33 +0800 (CST)
+Message-ID: <c03055c6-5c96-48a6-9d2e-60110f144d36@hust.edu.cn>
+Date: Fri, 19 Jul 2024 12:17:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACnrn4v6JlmkWx4AQ--.34901S2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] Fix checktransupdate.py and add help documents
+To: chengziqiu@hust.edu.cn, Yanteng Si <siyanteng@loongson.cn>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
+Cc: linux-doc@vger.kernel.org
+References: <20240719041400.3909775-1-dzm91@hust.edu.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20240719041400.3909775-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HgEQrACH6G3d6JlmcXZ4AQ--.45837S2
 Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gw1kGw1kuw4UtrW5ZFWrXwb_yoW7CFWxpa
-	4YkFyxW3Z7Kw13Ar1fKa4DZr13AFyxCa15KF1xt3ZYvFn8tw4vqr43ta4rKFWDJrWrZay5
-	XFWYkrWI9rWFvaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQIb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyrWr15Jr13ZFWfuF1kuFg_yoW8GrWkpF
+	yYkr1fu3Z5tw13Zw1fG3yDZr43CrW8AF4Ygry7Xwn8ZF4qqwnYvr43Ka1F9FWDGrWfZayY
+	vFWjkrW2kr9ayFDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
 	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
 	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26F
-	4j6r4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42
-	xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1Eks3UUUUU==
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
+	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
+	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x07jfpndUUUUU=
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-This commit adds help documents - doc-guide/checktransupdate.rst
-and zh_CN/doc-guide/checktransupdate.rst for scripts/checktransupdate.py
-, including English and Chinese versions
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/doc-guide/checktransupdate.rst  | 53 ++++++++++++++++++
- Documentation/doc-guide/index.rst             |  1 +
- .../zh_CN/doc-guide/checktransupdate.rst      | 55 +++++++++++++++++++
- .../translations/zh_CN/doc-guide/index.rst    |  1 +
- 4 files changed, 110 insertions(+)
- create mode 100644 Documentation/doc-guide/checktransupdate.rst
- create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+On 2024/7/19 12:13, Dongliang Mu wrote:
+> This patch set fixes all the issues in the checktransupdate.py reported
+> by pylint, and add help documents in both English and Chinese.
 
-diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
-new file mode 100644
-index 000000000000..dabbf9ecd187
---- /dev/null
-+++ b/Documentation/doc-guide/checktransupdate.rst
-@@ -0,0 +1,53 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Check translation update
-+
-+This script helps track the translation status of the documentation in
-+different locales, i.e., whether the documentation is up-to-date with
-+the English counterpart.
-+
-+How it works
-+------------
-+
-+It uses ``git log`` command to track the latest English commit from the
-+translation commit (order by author date) and the latest English commits
-+from HEAD. If any differences occur, the file is considered as out-of-date,
-+then commits that need to be updated will be collected and reported.
-+
-+Features implemented
-+
-+-  check all files in a certain locale
-+-  check a single file or a set of files
-+-  provide options to change output format
-+-  track the translation status of files that have no translation
-+
-+Usage
-+-----
-+
-+::
-+
-+   ./scripts/checktransupdate.py --help
-+
-+Please refer to the output of argument parser for usage details.
-+
-+Samples
-+
-+-  ``./scripts/checktransupdate.py -l zh_CN``
-+   This will print all the files that need to be updated in the zh_CN locale.
-+-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-+   This will only print the status of the specified file.
-+
-+Then the output is something like:
-+
-+::
-+
-+    Documentation/dev-tools/kfence.rst
-+    No translation in the locale of zh_CN
-+
-+    Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+    commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
-+    1 commits needs resolving in total
-+
-+Features to be implemented
-+
-+- files can be a folder instead of only a file
-diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
-index 7c7d97784626..24d058faa75c 100644
---- a/Documentation/doc-guide/index.rst
-+++ b/Documentation/doc-guide/index.rst
-@@ -12,6 +12,7 @@ How to write kernel documentation
-    parse-headers
-    contributing
-    maintainer-profile
-+   checktransupdate
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-new file mode 100644
-index 000000000000..d20b4ce66b9f
---- /dev/null
-+++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-@@ -0,0 +1,55 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/doc-guide/checktransupdate.rst
-+
-+:译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+检查翻译更新
-+
-+这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
-+
-+工作原理
-+------------
-+
-+它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
-+最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
-+
-+实现的功能
-+
-+- 检查特定语言中的所有文件
-+- 检查单个文件或一组文件
-+- 提供更改输出格式的选项
-+- 跟踪没有翻译过的文件的翻译状态
-+
-+用法
-+-----
-+
-+::
-+
-+    ./scripts/checktransupdate.py --help
-+
-+具体用法请参考参数解析器的输出
-+
-+示例
-+
-+-  ``./scripts/checktransupdate.py -l zh_CN``
-+   这将打印 zh_CN 语言中需要更新的所有文件。
-+-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-+   这将只打印指定文件的状态。
-+
-+然后输出类似如下的内容：
-+
-+::
-+
-+    Documentation/dev-tools/kfence.rst
-+    No translation in the locale of zh_CN
-+
-+    Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+    commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
-+    1 commits needs resolving in total
-+
-+待实现的功能
-+
-+- 文件参数可以是文件夹而不仅仅是单个文件
-diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
-index 78c2e9a1697f..0ac1fc9315ea 100644
---- a/Documentation/translations/zh_CN/doc-guide/index.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/index.rst
-@@ -18,6 +18,7 @@
-    parse-headers
-    contributing
-    maintainer-profile
-+   checktransupdate
- 
- .. only::  subproject and html
- 
--- 
-2.43.0
+It seems to-cmd and cc-cmd cannot handle cover letter. Forward by hand.
+
+>
+> v3:
+> 1) fixes all the issues (not most) reported by pylint,
+> 2) add the functionability to tackle documents that need translation,
+> 3) add logging to adjust the logging level and log file
+> 4) fix some issues by Yanteng and Jani
+>
+> v2:
+> fix some issues according to Randy
+>
+> v1:
+> This patch fixes most issues with the following contents:
+> - add or revise comments for all functions
+> - use format string suggested by python
+>
+> Add help documentation of scripts/checktransupdate.py
+>
+> Dongliang Mu (2):
+>    scripts: fix all issues reported by pylint
+>    doc-guide: add help documentation checktransupdate.rst
+>
+>   Documentation/doc-guide/checktransupdate.rst  |  53 +++++
+>   Documentation/doc-guide/index.rst             |   1 +
+>   .../zh_CN/doc-guide/checktransupdate.rst      |  55 +++++
+>   .../translations/zh_CN/doc-guide/index.rst    |   1 +
+>   scripts/checktransupdate.py                   | 214 ++++++++++++------
+>   5 files changed, 251 insertions(+), 73 deletions(-)
+>   create mode 100644 Documentation/doc-guide/checktransupdate.rst
+>   create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+>
 
