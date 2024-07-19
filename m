@@ -1,55 +1,55 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F6D78C8B
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 11:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7189A8286A
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 11:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721389710; cv=none; b=RctooTm5GzDAP7fyY7/uYyraU5Kb0rg1TdSBNMP0YT6w7jtKdInm0OgGRdY2JgMSZWzPVZ4M0v0zBR84+h2P3FZZZuO4vaqwROlwd7xZblXTF5NmcIKUWvk+0xjAf9eDSF/IfMnVhZMJhH1tv8++oJc3ixZwye0pIuRrYyred5A=
+	t=1721390029; cv=none; b=LUsagKlJxeruWjOqQ79U8flabOSHssnirnUjZd//2uM6z2MfXwvYIU7D+Y/kOg4DwPz0qmMY+y0uMS2zeqTTsmY68LHzzQ0Qp54hwLEK2rDwnB1tLQsNuUe2H5U3MlBAZNvw03DWlVZW8qydwdZqOx/CgzAUWlus7asaEeo1DpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721389710; c=relaxed/simple;
-	bh=VIr7avXxyVGtPtQKv2DO3WrLdv5hi1IxLIOGpcqtRR4=;
+	s=arc-20240116; t=1721390029; c=relaxed/simple;
+	bh=dV6hPGqCTplkmjMjTl/xHBuQA6O9MX8PRHWQrzyLooI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NFYZOYfLWJ4IIY3Y7ONjcfy59esfrFngEoqwAUY3ulMKmGZd/2imyLyaE/o9Q7fflURgzfbDnQEBVCOzqYns5Ky4HHkEskwcSw8Lw4n5O1IB33MsOVdb3JlUqINV/nUEpz0oCY96ompIwaG33bh8aYFHTNwMhjFWIivkxx0p7Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=kPS8bFRx; arc=none smtp.client-ip=209.85.218.46
+	 To:Cc:Content-Type; b=Xs+y2pfxrONZy7Ql3yzBIHER6JsEE9QMyn9aW9LXaQuGmHpCS3EdX5FBBTe6fvH+ZXQhkY2gfdc8kXTCOTepxReNE2kKS5AqoTEAhhKfr7Vcc1R1wj2XxN8gnHBoVRe8z86ZpGK9dakboyRJth6KrtXc6BwMV/agHeU7l7gF824=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=eAmn1VEP; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="kPS8bFRx"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a77c080b521so188809866b.3
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 04:48:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="eAmn1VEP"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52ea79e689eso2443100e87.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 04:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721389706; x=1721994506; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721390026; x=1721994826; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z/Xw96+xbR06X3LlcELpC9ytGPNzFgVehD8LoUveeyY=;
-        b=kPS8bFRxa2FW7M2Cd+wT3E0FUCXmUpQ7PHSUPToM6yUg9Hk2WjnHt39dsKiWLmQZHi
-         5taBBDSMOi01MAjG5yZHlPnQhEbcpMQIZyeeD646+OM0vvifpxrCzrIwCHkrrOVw7hHl
-         qOIkmJrXHqMW6ILUkRweyizEubM9Y2in6/hpI9g27YSjZPS7JRYTaKG3XTXuezFaK74V
-         gejYiDWizlySEJp8sA5ZU6KFnDbv/gLedz/MJdkHXhmVxJj/z7EVnq4i6U8YJnucXYDC
-         tUsCP/5mt8rPhUIsChTwI46tpwBvFSlOhCaik/qLG/86ftdmdsRkU7XdMx5VpGIVSB5q
-         NMOg==
+        bh=1mIiUr3p2/BCwaGTV2nolMgj2ODsZ5EfHyXypE/fPLs=;
+        b=eAmn1VEPWwA/nIwO2h/cJEs8dCUIEclqnPEDmTDZAgPcZJAX3FeAZQdWhkv2E8rbXf
+         lcBv/jXxSYT3aqjcQT24CLehVVBmNi883C4DICmY/zmil5/TBVnP9iUUH6C7fHiQ2rtc
+         H7GqCyVHlqLxYuc8DzSBMTlcD7Chl8Upi/mBGMtDp00SDjwjx6HgzkyrorgYw87xZdhx
+         i+tU2O3cKYyRavtc1MG+r2avkxEhR+8m5+RaqqIQJr1+M3lvRTlwE8bW+lmGIdf+9VU0
+         I3uT4Py+bo9vBVCY04QtYPwx/T8fQ/5prRiGz81gWJIb9F6DNgOvcWziba9qRKEB/y7M
+         Crdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721389706; x=1721994506;
+        d=1e100.net; s=20230601; t=1721390026; x=1721994826;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z/Xw96+xbR06X3LlcELpC9ytGPNzFgVehD8LoUveeyY=;
-        b=pifhEqfAVEdYzsACOE+G1OxVugIJU/it+4GK16pK13Uq6sd23Jce21PzxxtiOO8ap8
-         pke5/dS4MHS1fvF0ZOHEEaanKCtF8kGmkEW+jNKqI28qyWFwEc0u+XK2Q0/dy61O1LGV
-         WO2/kR6CiTLWYxsrOOPTDK2ID7dfkLGh9x/pVaoHIEdK2mOlooSAszAa9xk1WRLcmKWB
-         HwdrWerzlf86xBkYz0ct7ONrmztmmStgaoHls431P3FkH2iALoc2HBr9ET3b8UhvTxdp
-         fMjmDgwMstwIAdL0IFwv4n8fYpdQh7/7ViPrY5H+FzX0hNwnGvP9y8+i6/jCUK1KRkhD
-         9mZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXm+dFqjfzu5qksDaO361E94Z4h6d6r8X2qu3J2cggPNEVeiRVlZ4jnMPNR+/ZC7uLkp1YjoUEeZVlgV+j+SYsseO3hzJklpHte
-X-Gm-Message-State: AOJu0Yy8BhVsXVj7h+nOGpa9Z3rj6eyaxxntiWLPlOtJRQNWBz5qRGxL
-	RWfGtldcdz6Gsa+dye48bG9YxZHlfR6UmmJxJIALzI9E8k9t2KpHlhLyAGcWJocO1DkXvwcvz45
-	sCNJDOriT+5v1jRv7IKQk5BYEWELob0bbjSERmw==
-X-Google-Smtp-Source: AGHT+IEdKcseE4INrgAR92Yrajh44cv2+uhdnjrBw05t2SUjURQi/PLFnDuvPESt5SEDtBUypb3cGZn1JGyYqocY6o4=
-X-Received: by 2002:a17:906:40d5:b0:a77:cd3c:e9b7 with SMTP id
- a640c23a62f3a-a7a0133ac71mr561742266b.57.1721389706263; Fri, 19 Jul 2024
- 04:48:26 -0700 (PDT)
+        bh=1mIiUr3p2/BCwaGTV2nolMgj2ODsZ5EfHyXypE/fPLs=;
+        b=nF2Ufm9M++KuP83KCHeb2klsFh8+FaW2dbtmr6IdByHGRrh2JclfAJQmhENICyPuoZ
+         5/aRwAJk+nHMzVR4gB0XKZ6VsY/dl7tRZLGSpzvy1Qt/z0WjkKVMKXmXALDZkSvKo1p8
+         alOxuffI9HPXT7k/1zMDwoAteWEf6IxgXxjgkLJGjEp1GPvBDS4AKzVo6y9mzCGq5tPV
+         OR8fEdniYbmp+PHkpSTmjs2v9KASF63iCZToyGjogZ5lLkK4RQr+t9mgk3ZES2oGp0D2
+         bnjYItJmLKi8to4ShoiMj4oPIh9fjvkhNumrnhuVjl9SzwUY1Kr+zlu2+tzFqueLhQPm
+         g4ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUdL5sn093B6kMc7asqAuBHmeA50Z4YkyniOrXDNg2D2e7d5+QybIUf4CoY3Vj51mVe3A8lGL58viKpMhk/D6Xs/eR3L/jmPyFD
+X-Gm-Message-State: AOJu0Yzjp1+G6fmCGWkS6moMz18edgPuA+Pbew8ciVJcNrh8WyY7BO+H
+	O1ATeoWHtzUFkYfgukVdnOJnw1ioV1kYqQA9jNMZokkTAAiP0c1Tu/W5JUlRBQxGsbBa/VY/v03
+	KxGaCc6XtLf4oYNld486g4PDpC8ifAfTMyp6HTQ==
+X-Google-Smtp-Source: AGHT+IFlcdJmTsMY0cKUKH2ToMUnql08a8Q064+0Lm1AKnjhcTS7jcjWo61JnZj+DmiIghnAlI2BYVA7p5rpDzNh/zk=
+X-Received: by 2002:a05:6512:b9e:b0:52c:df55:e110 with SMTP id
+ 2adb3069b0e04-52ee53a7675mr7380350e87.12.1721390025579; Fri, 19 Jul 2024
+ 04:53:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,10 +58,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240717061957.140712-1-alexghiti@rivosinc.com>
  <20240717061957.140712-2-alexghiti@rivosinc.com> <8de44944-62b4-44df-88e1-bcf7417fea6e@sifive.com>
-In-Reply-To: <8de44944-62b4-44df-88e1-bcf7417fea6e@sifive.com>
+ <CAHVXubgU-g+yqn0GS-9SyehsN4m5bHVYvJjCwFQxi3HV2505bQ@mail.gmail.com>
+In-Reply-To: <CAHVXubgU-g+yqn0GS-9SyehsN4m5bHVYvJjCwFQxi3HV2505bQ@mail.gmail.com>
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Fri, 19 Jul 2024 13:48:15 +0200
-Message-ID: <CAHVXubgU-g+yqn0GS-9SyehsN4m5bHVYvJjCwFQxi3HV2505bQ@mail.gmail.com>
+Date: Fri, 19 Jul 2024 13:53:34 +0200
+Message-ID: <CAHVXubimBAwvQ9Mg3o_BkqQmvmTZOHDV4q=ekJjQie71yhFWUg@mail.gmail.com>
 Subject: Re: [PATCH v3 01/11] riscv: Implement cmpxchg32/64() using Zacas
 To: Samuel Holland <samuel.holland@sifive.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -76,176 +77,224 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2024 at 2:45=E2=80=AFAM Samuel Holland
-<samuel.holland@sifive.com> wrote:
+On Fri, Jul 19, 2024 at 1:48=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
 >
-> Hi Alex,
->
-> On 2024-07-17 1:19 AM, Alexandre Ghiti wrote:
-> > This adds runtime support for Zacas in cmpxchg operations.
+> On Fri, Jul 19, 2024 at 2:45=E2=80=AFAM Samuel Holland
+> <samuel.holland@sifive.com> wrote:
 > >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  arch/riscv/Kconfig               | 17 +++++++++++++++++
-> >  arch/riscv/Makefile              |  3 +++
-> >  arch/riscv/include/asm/cmpxchg.h | 26 +++++++++++++++++++++++---
-> >  3 files changed, 43 insertions(+), 3 deletions(-)
+> > Hi Alex,
 > >
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index 05ccba8ca33a..1caaedec88c7 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -596,6 +596,23 @@ config RISCV_ISA_V_PREEMPTIVE
-> >         preemption. Enabling this config will result in higher memory
-> >         consumption due to the allocation of per-task's kernel Vector c=
-ontext.
-> >
-> > +config TOOLCHAIN_HAS_ZACAS
-> > +     bool
-> > +     default y
-> > +     depends on !64BIT || $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_za=
-cas)
-> > +     depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_z=
-acas)
-> > +     depends on AS_HAS_OPTION_ARCH
-> > +
-> > +config RISCV_ISA_ZACAS
-> > +     bool "Zacas extension support for atomic CAS"
-> > +     depends on TOOLCHAIN_HAS_ZACAS
-> > +     default y
-> > +     help
-> > +       Enable the use of the Zacas ISA-extension to implement kernel a=
-tomic
-> > +       cmpxchg operations when it is detected at boot.
-> > +
-> > +       If you don't know what to do here, say Y.
-> > +
-> >  config TOOLCHAIN_HAS_ZBB
-> >       bool
-> >       default y
-> > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> > index 06de9d365088..9fd13d7a9cc6 100644
-> > --- a/arch/riscv/Makefile
-> > +++ b/arch/riscv/Makefile
-> > @@ -85,6 +85,9 @@ endif
-> >  # Check if the toolchain supports Zihintpause extension
-> >  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE) :=3D $(riscv-march-y)_=
-zihintpause
-> >
-> > +# Check if the toolchain supports Zacas
-> > +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) :=3D $(riscv-march-y)_zacas
-> > +
-> >  # Remove F,D,V from isa string for all. Keep extensions between "fd" a=
-nd "v" by
-> >  # matching non-v and non-multi-letter extensions out with the filter (=
-[^v_]*)
-> >  KBUILD_CFLAGS +=3D -march=3D$(shell echo $(riscv-march-y) | sed -E 's/=
-(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
-> > diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/=
-cmpxchg.h
-> > index 808b4c78462e..5d38153e2f13 100644
-> > --- a/arch/riscv/include/asm/cmpxchg.h
-> > +++ b/arch/riscv/include/asm/cmpxchg.h
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/bug.h>
-> >
-> >  #include <asm/fence.h>
-> > +#include <asm/alternative.h>
-> >
-> >  #define __arch_xchg_masked(sc_sfx, prepend, append, r, p, n)         \
-> >  ({                                                                   \
-> > @@ -134,21 +135,40 @@
-> >       r =3D (__typeof__(*(p)))((__retx & __mask) >> __s);              =
+> > On 2024-07-17 1:19 AM, Alexandre Ghiti wrote:
+> > > This adds runtime support for Zacas in cmpxchg operations.
+> > >
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > ---
+> > >  arch/riscv/Kconfig               | 17 +++++++++++++++++
+> > >  arch/riscv/Makefile              |  3 +++
+> > >  arch/riscv/include/asm/cmpxchg.h | 26 +++++++++++++++++++++++---
+> > >  3 files changed, 43 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > index 05ccba8ca33a..1caaedec88c7 100644
+> > > --- a/arch/riscv/Kconfig
+> > > +++ b/arch/riscv/Kconfig
+> > > @@ -596,6 +596,23 @@ config RISCV_ISA_V_PREEMPTIVE
+> > >         preemption. Enabling this config will result in higher memory
+> > >         consumption due to the allocation of per-task's kernel Vector=
+ context.
+> > >
+> > > +config TOOLCHAIN_HAS_ZACAS
+> > > +     bool
+> > > +     default y
+> > > +     depends on !64BIT || $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_=
+zacas)
+> > > +     depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima=
+_zacas)
+> > > +     depends on AS_HAS_OPTION_ARCH
+> > > +
+> > > +config RISCV_ISA_ZACAS
+> > > +     bool "Zacas extension support for atomic CAS"
+> > > +     depends on TOOLCHAIN_HAS_ZACAS
+> > > +     default y
+> > > +     help
+> > > +       Enable the use of the Zacas ISA-extension to implement kernel=
+ atomic
+> > > +       cmpxchg operations when it is detected at boot.
+> > > +
+> > > +       If you don't know what to do here, say Y.
+> > > +
+> > >  config TOOLCHAIN_HAS_ZBB
+> > >       bool
+> > >       default y
+> > > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> > > index 06de9d365088..9fd13d7a9cc6 100644
+> > > --- a/arch/riscv/Makefile
+> > > +++ b/arch/riscv/Makefile
+> > > @@ -85,6 +85,9 @@ endif
+> > >  # Check if the toolchain supports Zihintpause extension
+> > >  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE) :=3D $(riscv-march-y=
+)_zihintpause
+> > >
+> > > +# Check if the toolchain supports Zacas
+> > > +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) :=3D $(riscv-march-y)_zaca=
+s
+> > > +
+> > >  # Remove F,D,V from isa string for all. Keep extensions between "fd"=
+ and "v" by
+> > >  # matching non-v and non-multi-letter extensions out with the filter=
+ ([^v_]*)
+> > >  KBUILD_CFLAGS +=3D -march=3D$(shell echo $(riscv-march-y) | sed -E '=
+s/(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
+> > > diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/as=
+m/cmpxchg.h
+> > > index 808b4c78462e..5d38153e2f13 100644
+> > > --- a/arch/riscv/include/asm/cmpxchg.h
+> > > +++ b/arch/riscv/include/asm/cmpxchg.h
+> > > @@ -9,6 +9,7 @@
+> > >  #include <linux/bug.h>
+> > >
+> > >  #include <asm/fence.h>
+> > > +#include <asm/alternative.h>
+> > >
+> > >  #define __arch_xchg_masked(sc_sfx, prepend, append, r, p, n)        =
  \
-> >  })
-> >
-> > -#define __arch_cmpxchg(lr_sfx, sc_sfx, prepend, append, r, p, co, o, n=
-)      \
-> > +#define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, =
-o, n)  \
-> >  ({                                                                   \
-> > +     __label__ no_zacas, end;                                        \
-> >       register unsigned int __rc;                                     \
-> >                                                                       \
-> > +     if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {                       \
-> > +             asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0,         \
-> > +                                  RISCV_ISA_EXT_ZACAS, 1)            \
-> > +                      : : : : no_zacas);                             \
-> > +                                                                     \
-> > +             __asm__ __volatile__ (                                  \
-> > +                     prepend                                         \
-> > +                     "       amocas" sc_cas_sfx " %0, %z2, %1\n"     \
-> > +                     append                                          \
-> > +                     : "+&r" (r), "+A" (*(p))                        \
-> > +                     : "rJ" (n)                                      \
-> > +                     : "memory");                                    \
-> > +             goto end;                                               \
-> > +     }                                                               \
-> > +                                                                     \
-> > +no_zacas:                                                            \
-> >       __asm__ __volatile__ (                                          \
-> >               prepend                                                 \
-> >               "0:     lr" lr_sfx " %0, %2\n"                          \
-> >               "       bne  %0, %z3, 1f\n"                             \
-> > -             "       sc" sc_sfx " %1, %z4, %2\n"                     \
-> > +             "       sc" sc_cas_sfx " %1, %z4, %2\n"                 \
-> >               "       bnez %1, 0b\n"                                  \
-> >               append                                                  \
->
-> This would probably be a good place to use inline ALTERNATIVE instead of =
-an asm
-> goto. It saves overall code size, and a jump in the non-Zacas case, at th=
-e cost
-> of 3 nops in the Zacas case. (And all the nops can go after the amocas, w=
-here
-> they will likely be hidden by the amocas latency.)
-
-That's what Conor proposed indeed.
-
-I have just given it a try, but it does not work. The number of
-instructions in the zacas asm inline is different in the case of the
-fully-ordered version so I cannot set a unique number of nops. I could
-pass this information from arch_cmpxchg() down to __arch_cmpxchg() but
-those macros are already complex enough so I'd rather not add another
-parameter.
-
-This suggestion unfortunately cannot be applied to
-__arch_cmpxchg_masked(), nor __arch_xchg_masked().
-
-So unless you and Conor really insist, I'll drop the idea!
-
-Thanks,
-
-Alex
-
-
->
-> Regards,
-> Samuel
->
-> >               "1:\n"                                                  \
-> >               : "=3D&r" (r), "=3D&r" (__rc), "+A" (*(p))               =
+> > >  ({                                                                  =
+ \
+> > > @@ -134,21 +135,40 @@
+> > >       r =3D (__typeof__(*(p)))((__retx & __mask) >> __s);            =
    \
-> >               : "rJ" (co o), "rJ" (n)                                 \
-> >               : "memory");                                            \
-> > +                                                                     \
-> > +end:;                                                                 =
-       \
-> >  })
+> > >  })
+> > >
+> > > -#define __arch_cmpxchg(lr_sfx, sc_sfx, prepend, append, r, p, co, o,=
+ n)      \
+> > > +#define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co=
+, o, n)  \
+> > >  ({                                                                  =
+ \
+> > > +     __label__ no_zacas, end;                                       =
+ \
+> > >       register unsigned int __rc;                                    =
+ \
+> > >                                                                      =
+ \
+> > > +     if (IS_ENABLED(CONFIG_RISCV_ISA_ZACAS)) {                      =
+ \
+> > > +             asm goto(ALTERNATIVE("j %[no_zacas]", "nop", 0,        =
+ \
+> > > +                                  RISCV_ISA_EXT_ZACAS, 1)           =
+ \
+> > > +                      : : : : no_zacas);                            =
+ \
+> > > +                                                                    =
+ \
+> > > +             __asm__ __volatile__ (                                 =
+ \
+> > > +                     prepend                                        =
+ \
+> > > +                     "       amocas" sc_cas_sfx " %0, %z2, %1\n"    =
+ \
+> > > +                     append                                         =
+ \
+> > > +                     : "+&r" (r), "+A" (*(p))                       =
+ \
+> > > +                     : "rJ" (n)                                     =
+ \
+> > > +                     : "memory");                                   =
+ \
+> > > +             goto end;                                              =
+ \
+> > > +     }                                                              =
+ \
+> > > +                                                                    =
+ \
+> > > +no_zacas:                                                           =
+ \
+> > >       __asm__ __volatile__ (                                         =
+ \
+> > >               prepend                                                =
+ \
+> > >               "0:     lr" lr_sfx " %0, %2\n"                         =
+ \
+> > >               "       bne  %0, %z3, 1f\n"                            =
+ \
+> > > -             "       sc" sc_sfx " %1, %z4, %2\n"                    =
+ \
+> > > +             "       sc" sc_cas_sfx " %1, %z4, %2\n"                =
+ \
+> > >               "       bnez %1, 0b\n"                                 =
+ \
+> > >               append                                                 =
+ \
 > >
-> >  #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)         =
-       \
-> > @@ -156,7 +176,7 @@
-> >       __typeof__(ptr) __ptr =3D (ptr);                                 =
- \
-> >       __typeof__(*(__ptr)) __old =3D (old);                            =
- \
-> >       __typeof__(*(__ptr)) __new =3D (new);                            =
- \
-> > -     __typeof__(*(__ptr)) __ret;                                     \
-> > +     __typeof__(*(__ptr)) __ret =3D (old);                            =
- \
-> >                                                                       \
-> >       switch (sizeof(*__ptr)) {                                       \
-> >       case 1:                                                         \
+> > This would probably be a good place to use inline ALTERNATIVE instead o=
+f an asm
+> > goto. It saves overall code size, and a jump in the non-Zacas case, at =
+the cost
+> > of 3 nops in the Zacas case. (And all the nops can go after the amocas,=
+ where
+> > they will likely be hidden by the amocas latency.)
 >
+> That's what Conor proposed indeed.
+>
+> I have just given it a try, but it does not work. The number of
+> instructions in the zacas asm inline is different in the case of the
+> fully-ordered version so I cannot set a unique number of nops. I could
+> pass this information from arch_cmpxchg() down to __arch_cmpxchg() but
+> those macros are already complex enough so I'd rather not add another
+> parameter.
+>
+> This suggestion unfortunately cannot be applied to
+> __arch_cmpxchg_masked(), nor __arch_xchg_masked().
+>
+> So unless you and Conor really insist, I'll drop the idea!
+
+Or I can pass a nop when the full barrier is not needed, and it works!
+I'll probably keep this version then since it avoids the introduction
+of new macros or the use of a static branch to circumvent the llvm
+bug.
+
+>
+> Thanks,
+>
+> Alex
+>
+>
+> >
+> > Regards,
+> > Samuel
+> >
+> > >               "1:\n"                                                 =
+ \
+> > >               : "=3D&r" (r), "=3D&r" (__rc), "+A" (*(p))             =
+     \
+> > >               : "rJ" (co o), "rJ" (n)                                =
+ \
+> > >               : "memory");                                           =
+ \
+> > > +                                                                    =
+ \
+> > > +end:;                                                               =
+         \
+> > >  })
+> > >
+> > >  #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)       =
+         \
+> > > @@ -156,7 +176,7 @@
+> > >       __typeof__(ptr) __ptr =3D (ptr);                               =
+   \
+> > >       __typeof__(*(__ptr)) __old =3D (old);                          =
+   \
+> > >       __typeof__(*(__ptr)) __new =3D (new);                          =
+   \
+> > > -     __typeof__(*(__ptr)) __ret;                                    =
+ \
+> > > +     __typeof__(*(__ptr)) __ret =3D (old);                          =
+   \
+> > >                                                                      =
+ \
+> > >       switch (sizeof(*__ptr)) {                                      =
+ \
+> > >       case 1:                                                        =
+ \
+> >
