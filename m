@@ -1,67 +1,67 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82AA14831C
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 19:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C9C1487DF
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 19:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721419041; cv=none; b=QeUC3ovxKx7ko8dMZRv6PqdvWHsO7M+qESHwjz+xnuSAyGYrGb74RQxZt77qaK2rabvIUPDSSxSUMst54kqHQCYnFhkQ3KbXpxVJg5V6C/A3gb3ToVy1bxJ7vQKE/kxE+rzIqzNQCwMf4PwygtFj/wVaYu6q0RVG0UW+VoirY0c=
+	t=1721419053; cv=none; b=gocWMFChhOZwE/SKifeUp0CwGrh3FmE/mlzflmvk9igVmxFpYZ9tIe+WGW5KfsDAmDgkB4J+gQHcJ9TDWuj8G3i07kAVFKw9WaRHmIYXXDwrKWWl2IdRybUiXAnYy748PotkFYw7+dyIp1d0hfyPsR35UDTic8UheU2glaZGPG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721419041; c=relaxed/simple;
-	bh=TPczUa5e3h8bDIU3taB7K6gYSZd2QQEpQ+m4m+73HB4=;
+	s=arc-20240116; t=1721419053; c=relaxed/simple;
+	bh=B8aLNC8rU70Zjs3Uh/UPocyKDEXo99TS0oP0YsHJFOw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zao6U9nS2Ts6cthJKV7KQNh61bG1uFsMvWSXRHMUuTxo8O430TyKFifaPlSBpuhZDLhm3LmIjgQHnLvCzpmMfo7ipoC6HHQh9XLuccI4jw6igWzabnc/slO4lWQOkRT3kHsJxzbiRXiX4Ipd0oZ3ymBG7d0PFA4yg6hwiPurBfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=CceJsyfj; arc=none smtp.client-ip=209.85.218.54
+	 To:Cc:Content-Type; b=HouMdF5RMu6/RUiuCzCfH0qmuXygBG9W8bUdXaPVBg+xbeWB/ppGEKFUzSMAXafY+ECqMJo4uQW/WYaFH4Vuqub0KAZXb5iqrOzO1W/dgHSjDLNgfbhlvXoJD8+s2b6XjB0FYBR6uo6Rea0AYIjyXkXj0KEy5QiAdLhVrOgtRAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=A+R42Y3m; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="CceJsyfj"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a77c1658c68so252122666b.0
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 12:57:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="A+R42Y3m"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52ea0f18500so2091799e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jul 2024 12:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721419038; x=1722023838; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721419050; x=1722023850; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TPczUa5e3h8bDIU3taB7K6gYSZd2QQEpQ+m4m+73HB4=;
-        b=CceJsyfjslID070s5z8Me/F/ASStsjDtCN0nfuPJew1ieFbwRksb56dnTt/GG7cRO3
-         jvaTlWFIvWNFY3YPIhmQfIzI/BQnJp601Kg0RJspDdXT9Kb+Vu+vN13dtnfomHED/Cmu
-         bUNS9ENSYmF4NTh2GnfmfagDq8q8oTknsxPpyZVahmXAneBxxgBLkShXcNzOa5Svpbfh
-         rY/jL5ShbuhN++rYM3TXuWlox98iUxojWNjGQMRc5+Nt6H2ij/Q4R8/cY9spxjKUIWIC
-         oXTAJSFjVor6lD4D+/MZ7iO+IQ9ax5wP5N8GYJkY2YdDiHOSyRs6SzVUlpn8kHBrjslO
-         NXRA==
+        bh=B8aLNC8rU70Zjs3Uh/UPocyKDEXo99TS0oP0YsHJFOw=;
+        b=A+R42Y3m3ym4LzcnmLSS7/8k7CTsDnmjgpQcStQK2tcUhTLfAqQ8Y0hyBBAq6GIvi2
+         kgqLjdUIT3auWETyaWc0OLZtLA4AKh2o9mb9qs7nGju2i9KBx5xJ4IHml5OY/QeY3Pws
+         RN/Vy0UWCzP3fQPzVC0hRST6EnRaK/RjZHj/lUHL9+dPoyP15KwCDDSlf/WD/FYJ0f07
+         gCggk8+/NLxyjnGNYN6g3JvaMM0Rnqdiz65Ee2em2rWaXhA296hJqxiaKryrisvBW99O
+         sWIgayOl1Rb39si1ERv6kfkGeKzWmRYSU6YfBmTrMVp2vd/6jeVzQai4Z6l87LY0DG9e
+         51Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721419038; x=1722023838;
+        d=1e100.net; s=20230601; t=1721419050; x=1722023850;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TPczUa5e3h8bDIU3taB7K6gYSZd2QQEpQ+m4m+73HB4=;
-        b=cQ2ABI7QwQgUff6f3EuzrpphFUPqzoVFvyy04Z5O+4seOTSSl3TeTc8ZIsOjrcgvA8
-         hzQUfx4RxmU78zzyZnw8inyst27/xohy1X+kX06XSSwKefjVofgWGkIPGku8CN90U/5W
-         giyVoDg++6E+v4an9bij+gEEeohSrtOEiyn2/FxjEOF2MTU8aN7cPntxcDsnvgfigE1o
-         JGWlUEgDZXEc8ijjE89O/6m1bU2VrRrVaWi1bz/YJLGIutxwErxPsK2Qztrzp1s6FQ5j
-         jWcMH7VV/SNLr2fXs3vciJeSq/bpYGISYM3atfQV2nNXVEBHBE1/Btbn9eAwvcA7d2zV
-         /M0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU9ZEAH437yFoSYMKeqCN9Py+yz+NeGx5gelORjkFOh4mdpB21SC4k86oaXp3QDcRji7ATw9naucODXAJ5HIELHqT/cz1H7/gXv
-X-Gm-Message-State: AOJu0Ywam0B6rFDXOCtui+W/zv9fGwWoouDfUufMGDQedTrjfDJA7xba
-	LBznFG0oDdp2vv/GU8EwzXDFA3WxTu+mnJgEeBwRcjsEZLEoxpcUBn4MKcmP1Z7YAH8pomDJB1E
-	4rGf5VbZJgWxlpzC8XCKhW9tAN9hlZBm4pwsyHw==
-X-Google-Smtp-Source: AGHT+IFVF+CVdbaJkg3y+N7bCWjdUcp+1bJmmf0A4XaMnmetAxeY3PLap/EOWXN321STq9oPaIZpGUHPeCqe5U+TJJ4=
-X-Received: by 2002:a17:906:2849:b0:a72:685b:7c98 with SMTP id
- a640c23a62f3a-a7a0119e3efmr641117366b.37.1721419038069; Fri, 19 Jul 2024
- 12:57:18 -0700 (PDT)
+        bh=B8aLNC8rU70Zjs3Uh/UPocyKDEXo99TS0oP0YsHJFOw=;
+        b=nAx18P1T7+lGYcXb69RutixLYi0PvS+Eo3ssZCR5R63f70zZ/Abj6xr/vhXT2qsaTp
+         Um+5ADYqFIoEdjxM6/j5+ckltVRtJWU4frkLo4r9f1Ml2vJrRPP8ty6gZ2kyhiBsGvNU
+         tll+rVuekq7OF2qDPLpxglVa2A4tBvQhp9+LpGaKE8m01H/OO0kJ0htne/IC/ETcDzd6
+         0mp+SNIVCsxFMpn0XWTO3dcoUEmGR1TYxNbMI7Jr2Fd7ZXJOhiZyLjFh+Pc2imI6qbLA
+         ybJ0q3MRCcNn7LR49LaMQCevhhverS7kpPT7PpV/meud9YRCU2qtYMzNicK+UbSs9HNx
+         Vk6A==
+X-Forwarded-Encrypted: i=1; AJvYcCXzIpmRl6X24qtXKTTNrDLaY20jY8wjV+djVkj+f0UAJ5bYLWHml6Lc9R5YYeRoJajZ1VvGEFZexnL9438Ej5VazfmzRliQ1iu0
+X-Gm-Message-State: AOJu0YzHYJCXN3qcC3lPJyrYY34OaQMHnPuBzqITyAoy3o/ZHqn3fhHj
+	gJB1p/XTW521SdbDDcV6kYPjuH2g/+BmDmBLslboM+QTugHIW5cfvhYya409TIPZhAGMPnMLr2Q
+	qxozmVK42tJaVldfxFrKBGGCawHRjfh3pIYXuWA==
+X-Google-Smtp-Source: AGHT+IGLg0Zec4iHQMawiM7bkM9+i3kahZr0JAjZ2I8oWLHvoCCPg25fvrVDiKEktiVDPxl/yiCHdhaZSmY8GsEWCOg=
+X-Received: by 2002:ac2:4c55:0:b0:52c:e10b:cb36 with SMTP id
+ 2adb3069b0e04-52ee53dc66fmr6231799e87.33.1721419050254; Fri, 19 Jul 2024
+ 12:57:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240717180727.4180475-1-jesse@rivosinc.com> <20240717180727.4180475-5-jesse@rivosinc.com>
-In-Reply-To: <20240717180727.4180475-5-jesse@rivosinc.com>
+References: <20240717180727.4180475-1-jesse@rivosinc.com> <20240717180727.4180475-8-jesse@rivosinc.com>
+In-Reply-To: <20240717180727.4180475-8-jesse@rivosinc.com>
 From: Evan Green <evan@rivosinc.com>
-Date: Fri, 19 Jul 2024 12:56:42 -0700
-Message-ID: <CALs-HsvWv+85EX2iFUgnZG7RdFndfn8WhVx_OB6ROPjzLKw+zg@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+Date: Fri, 19 Jul 2024 12:56:54 -0700
+Message-ID: <CALs-Hsu-jNSpoOq836GQjREChEYVWy=osYzS0KQzBB79_uKSrA@mail.gmail.com>
+Subject: Re: [PATCH v5 7/7] RISC-V: hwprobe: Document unaligned vector perf key
 To: Jesse Taube <jesse@rivosinc.com>
 Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>, 
 	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -77,19 +77,17 @@ Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
 	Sami Tolvanen <samitolvanen@google.com>, Ben Dooks <ben.dooks@codethink.co.uk>, 
 	Alexandre Ghiti <alexghiti@rivosinc.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
 	Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 17, 2024 at 11:07=E2=80=AFAM Jesse Taube <jesse@rivosinc.com> w=
+On Wed, Jul 17, 2024 at 11:08=E2=80=AFAM Jesse Taube <jesse@rivosinc.com> w=
 rote:
 >
-> Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED to allow
-> for the addition of RISCV_VECTOR_MISALIGNED in a later patch.
+> Document key for reporting the speed of unaligned vector accesses.
+> The descriptions are the same as the scalar equivalent values.
 >
 > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
 
 Reviewed-by: Evan Green <evan@rivosinc.com>
