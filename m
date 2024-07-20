@@ -1,202 +1,72 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767929A2;
-	Sat, 20 Jul 2024 10:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9133E5FB9B;
+	Sat, 20 Jul 2024 10:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721469756; cv=none; b=pTPnASwKBqaA/Zu7PYphROZg+2RPHo9stTmhloArBWU9ynR+mWgwXFwGeq0VWHhsfZr2pRFzV8bFqfGxN5FhjXqYa4aDaRusvlP2Wq0RiGlfqZ1cGNlLe6J0RniZqcsuPhvNw8tluN4IAin7ufr5wQVeIngE6H7n2FYpgcaRU4w=
+	t=1721472385; cv=none; b=RPULO+m7F+zb6V+YQbfZ/t+n1qHD19T6PIT4IEYuCkJw/vSR/Oec0RasuNzkwu0FGGhRWJvCVXjE3wYUIo+DFWz7UXPjqd/Hl0qfWRA6scDNY2ByoPN8QWKSUGoWZACEKXOeyH8kv6wySfHDR9qqvfPSbjbjbgjco0EjRwKV+pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721469756; c=relaxed/simple;
-	bh=TdgC1DumvO3cTlhncpZT+dQdYCgP8kFCxJBqjpYwm7M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VwT3zwfzX3c1Anhfkk+s6aY/I7u75oxoN5HrA7bfMkk1eZB2IMfPqLOW8/AmN9T6Bc1IEzqLu3+svZVk6s4Elb9TSbPfEM7tU60dt7+yFCC4NOY+bkQWPjKLct8KAlwhdrawE2hqOxH/CvlLgHlb+eIxz5OKls/A5onYQT1fUYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UGqLdvc9; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1721472385; c=relaxed/simple;
+	bh=addw+UV070SE9KBd9DI/7W8xv9e6PI3NlKQHVV5pUps=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OD+PMP5Qst7FHF0KEttmJbL0iqdJ938boVwXdaYC8HR0dNEecFIvmTKJbLphltGsCkqpwvag4uP83qJQm5015x9CNGI4NE/2395jwwrG8cdoG9U222Rsy4gYPARwSUzuUa5Telyy8HFwctrTsTz0nIGBTHWVS6RYgt8DeTysFo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqLVkqwn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UGqLdvc9"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46KA22Cg066837;
-	Sat, 20 Jul 2024 05:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1721469722;
-	bh=6JTac/kdbI/faRkxndDnZRZM2W2p9sv96m2Wf45ymFs=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=UGqLdvc9md/tR3tkdYoeCFk4555ujsRcpxsB+PFQUSsI3h7+x3LQR8tkp4PWVf+Ex
-	 CdfVletzNWBvjJSayOrsg0/TY4v1DRz+2oe7TRR9HHgq7Y/qwGWDngedGWuclvrltU
-	 eCyi7zzgDOndNbyp5ZTvrjA9D6+qMZVXGTaiz6rU=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46KA22Vn004145
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 20 Jul 2024 05:02:02 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 20
- Jul 2024 05:02:02 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 20 Jul 2024 05:02:02 -0500
-Received: from [10.249.130.181] ([10.249.130.181])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46KA1qHA099904;
-	Sat, 20 Jul 2024 05:01:53 -0500
-Message-ID: <87e07706-03dc-42a2-b3fe-eaae24aa3c97@ti.com>
-Date: Sat, 20 Jul 2024 15:31:51 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqLVkqwn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C075C2BD10;
+	Sat, 20 Jul 2024 10:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721472385;
+	bh=addw+UV070SE9KBd9DI/7W8xv9e6PI3NlKQHVV5pUps=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EqLVkqwng42PKrDzFzUuR3mjoqJ56VFAqsXnrKlPDtnpXXjnDaEXQCKMWnAQIF6X1
+	 ryZIxEeqcvGB0EpRf/bZ9VL6uuQ9j7TGmvrg7TypYsaKYRmJhH4682L5dgsHw3Mqsg
+	 gPdimcC8TQWJbn/I89tUEQ47Axatry02MG3MM95oO82Ebntk1Rze05M7SFnLgY9BvH
+	 HoKcQmpVk2gLHFVM21HXPGfbUocYa6+WNnVU8dcf3U/zKBvpBkAAIvZRh8Iku4kCnV
+	 9IUAIxn8Df03RpoIbQwZr8Qk3tQFjUwMeKQDsF7H3xcU7ncVAzusjKXdlw/UerAYZC
+	 a38SWESCw7FZw==
+Date: Sat, 20 Jul 2024 11:46:16 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Michael Hennerich
+ <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: Re: [PATCH v4 2/3] iio: adc: ad4695: Add driver for AD4695 and
+ similar ADCs
+Message-ID: <20240720114616.33fa8e08@jic23-huawei>
+In-Reply-To: <20240711-iio-adc-ad4695-v4-2-c31621113b57@baylibre.com>
+References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com>
+	<20240711-iio-adc-ad4695-v4-2-c31621113b57@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
-To: Nikolay Borisov <nik.borisov@suse.com>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sebastian.fricke@collabora.com>,
-        <andriy.shevchenko@linux.intel.com>, <jani.nikula@intel.com>,
-        <jirislaby@kernel.org>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <andi.shyti@linux.intel.com>, <nicolas@ndufresne.ca>,
-        <davidgow@google.com>, <dlatypov@google.com>
-References: <20240708155943.2314427-1-devarsht@ti.com>
- <20240708155943.2314427-2-devarsht@ti.com>
- <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Nikolay,
+On Thu, 11 Jul 2024 14:15:42 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Sorry for the delay.
-
-On 09/07/24 14:19, Nikolay Borisov wrote:
+> This is a new driver for Analog Devices Inc. AD4695 and similar ADCs.
+> The initial driver supports initializing the chip including configuring
+> all possible LDO and reference voltage sources as well as any possible
+> voltage input channel wiring configuration.
 > 
+> Only the 4-wire SPI wiring mode where the CNV pin is tied to the CS pin
+> is supported at this time. And reading sample data from the ADC can only
+> be done in direct mode for now.
 > 
-> On 8.07.24 г. 18:59 ч., Devarsh Thakkar wrote:
->> Add below rounding related macros:
->>
->> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
->> power of 2, with a preference to round up in case two nearest values are
->> possible.
->>
->> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
->> power of 2, with a preference to round down in case two nearest values
->> are
->> possible.
->>
->> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
->> generally be used only when y is not multiple of 2 as otherwise
->> round_closest* macros should be used which are much faster.
->>
->> Examples:
->>   * round_closest_up(17, 4) = 16
->>   * round_closest_up(15, 4) = 16
->>   * round_closest_up(14, 4) = 16
->>   * round_closest_down(17, 4) = 16
->>   * round_closest_down(15, 4) = 16
->>   * round_closest_down(14, 4) = 12
->>   * roundclosest(21, 5) = 20
->>   * roundclosest(19, 5) = 20
->>   * roundclosest(17, 5) = 15
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> ---
->> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
->> which uses similar macro locally and which is updated in further patch
->> in the series to use this generic macro instead along with other drivers
->> having similar requirements.
->>
->> Link:
->> https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
->> ---
->>   include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 63 insertions(+)
->>
->> diff --git a/include/linux/math.h b/include/linux/math.h
->> index dd4152711de7..79e3dfda77fc 100644
->> --- a/include/linux/math.h
->> +++ b/include/linux/math.h
->> @@ -34,6 +34,52 @@
->>    */
->>   #define round_down(x, y) ((x) & ~__round_mask(x, y))
->>   +/**
->> + * round_closest_up - round closest to be multiple of specified value
->> (which is
->> + *                    power of 2) with preference to rounding up
->> + * @x: the value to round
->> + * @y: multiple to round closest to (must be a power of 2)
->> + *
->> + * Rounds @x to closest multiple of @y (which must be a power of 2).
->> + * The value can be either rounded up or rounded down depending upon
->> rounded
->> + * value's closeness to the specified value. If there are two closest
->> possible
->> + * values, i.e. the difference between the specified value and it's
->> rounded up
->> + * and rounded down values is same then preference is given to
->> rounded up
->> + * value.
->> + *
->> + * To perform arbitrary rounding to closest value (not multiple of
->> 2), use
->> + * roundclosest().
->> + *
->> + * Examples:
->> + * * round_closest_up(17, 4) = 16
->> + * * round_closest_up(15, 4) = 16
->> + * * round_closest_up(14, 4) = 16
->> + */
->> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
->> +
->> +/**
->> + * round_closest_down - round closest to be multiple of specified
->> value (which
->> + *            is power of 2) with preference to rounding down
->> + * @x: the value to round
->> + * @y: multiple to round closest to (must be a power of 2)
->> + *
->> + * Rounds @x to closest multiple of @y (which must be a power of 2).
->> + * The value can be either rounded up or rounded down depending upon
->> rounded
->> + * value's closeness to the specified value. If there are two closest
->> possible
->> + * values, i.e. the difference between the specified value and it's
->> rounded up
->> + * and rounded down values is same then preference is given to
->> rounded up
->> + * value.
->> + *
->> + * To perform arbitrary rounding to closest value (not multiple of
->> 2), use
->> + * roundclosest().
->> + *
->> + * Examples:
->> + * * round_closest_down(17, 4) = 16
->> + * * round_closest_down(15, 4) = 16
->> + * * round_closest_down(14, 4) = 12
->> + */
->> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
-> 
-> This is already identical to the existing round_down, no ?
-> 
+> Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+My line length gremlin side is active today. I rewrapped a bunch of
+places where adding line breaks kept lines under 80 chars without
+affecting the readability.
 
-Nopes both are different as described in the comments, round_down rounds
-down to next specified power of 2, but round_closest_down rounds to
-closest multiple of the specified power (which could be higher or lower)
-and if there are two closest multiples then it gives preference to lower
-value as shown in below examples :
- - round_closest_down(15, 4) = 16
- - round_down(15,4) = 12
- - round_closest_down(14, 4) = 12
- - round_closest_up(14, 4) = 16
-
-Regards
-Devarsh
