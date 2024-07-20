@@ -1,77 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151DD28EB;
-	Sat, 20 Jul 2024 13:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8AF1E481;
+	Sat, 20 Jul 2024 16:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721481032; cv=none; b=cDBHLRgZ4YIREXqCa+zXcuA8Of7wMfdzsZy24F6uiWu/MHfB3Ph0z2d55wVMrDImHagSL00hd+ENpqPIzfYKelvsPR2WzrXXFuSC7WhYu6InLnSJSOnL00OCKS9bj0CyExmReKns3v4qIwIbFtGtvMOvbS51Cd+AS9O6in86ep4=
+	t=1721494491; cv=none; b=PDFCTbaAEFcBDioWkXpvYzY7aIvUW2rRBjMdrLHlRDxWzVnFoQehaZP6x6EXvmYcdHnBdgl3nkEgE+6tAoLxFEW72XxKINGHT0EKiylL2Aov5uZYZ/QzlSP9lWApGT2b1pcqexfEd+J+JhaiUep0fLWsJV1RiGf6Iucnj7P5Eiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721481032; c=relaxed/simple;
-	bh=w3g4rGKp1i6RnV37sD1l0NUQVyU9HXKxlieDmNs59Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BuUrPfmxi7lHqybVtnE2ynMFGzrIzy87C+2QeApSMEwnt+AzDgCdDfHaMoGKbABEwfxvg0Wlt4rgTaIpWP3Zh10hMSMGkaczqyJFOg6Qx5CSvmIA5Ikaq0wYWBrOQmRpCha6f4JEZlCkCtTgkV7/l/gXD9792Kb+44jxHH7xJrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZMwn6sT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721494491; c=relaxed/simple;
+	bh=0fk7KXJgdWQwlGKxQxqidUKlJ+05k9Mh8dJZvLqYVW4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QE/HbnyfnSc2C8aA8p4UBl86E/frcCjLN0J86bnRdJ+m+YyYB8gwjQt3uhdVVa5fNlVZnxoVO5rrp8Hu9e1VcN4wTkldgNfpLgreQdiAe0o/8t/6mUhKzTW8kwNRher6qMBUIrvSL99MIaPVtLc7kxPfOUrnBUCqCnbbgMSEhaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MF5xzDDC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZMwn6sT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CEBC2BD10;
-	Sat, 20 Jul 2024 13:10:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MF5xzDDC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FAEC4AF0E;
+	Sat, 20 Jul 2024 16:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721481031;
-	bh=w3g4rGKp1i6RnV37sD1l0NUQVyU9HXKxlieDmNs59Qc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OZMwn6sTsC3l2EL/wWuO5y/NN3qMtblLg8IfWRwd/s2BWQuWqDJ8CrtEfRDb0YOcE
-	 XjbYJr5UDkdo2GGrr+aYx4SrzYJw4qvsNd+blYA+VcsDdHYp46GTsA4CsEwP+VLlEj
-	 g1u8X40YQtVmi10bh+M+HENk6syTFs4VWrUMx93psUybM6/yrXdTD1fvyz7W9GcpaU
-	 DsN8NWTWpH2Rnid+kSINARtUPTm3wecHcq/ykOAjklCRID7RhdqXiZVw20dx1JxA61
-	 uKZM73JvTdzexyZRZb3rqof5ChK1eZ2DX/s7YMtX34Plq8aaLlzX3HkuoGVqve/lvP
-	 LdIhJQH25I9gg==
-Date: Sat, 20 Jul 2024 14:10:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <broonie@kernel.org>, <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <conor+dt@kernel.org>, <nuno.sa@analog.com>, <dlechner@baylibre.com>,
- <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-spi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 0/7] Add support for AD4000 series of ADCs
-Message-ID: <20240720141021.23ba6a40@jic23-huawei>
-In-Reply-To: <cover.1720810545.git.marcelo.schmitt@analog.com>
-References: <cover.1720810545.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	s=k20201202; t=1721494491;
+	bh=0fk7KXJgdWQwlGKxQxqidUKlJ+05k9Mh8dJZvLqYVW4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MF5xzDDCPkE0nx+jeh0dtTqk/hE1+DfJeW8E5HxhC88Jktm2yCoF7tbMmuKNyvueJ
+	 XsWhUJqTWW2XIFGcSDQN9gvO4b4+gPVvQhfzXOao5nB1oT8+CiFWy1HOxdNDouifBJ
+	 W153RPHfVKEgDDzmZzmX8fjH6HSI06YHsezyqvvaj7TapQAVmD0wektpXqxBFLx0i9
+	 zW8r+DqmsxBm8SP4MDp6Z/J8jPrLKFgkop9YLOUnqEz2lfrpOwnkl19HXvazFemGA8
+	 Ha2YstgqmJ0sM1BWIJxJQ67oq79t2GL75qTogf5ZgaSNZ7AqmSBm7XbVYnmqX/OfSq
+	 x7LFQYl7KjBkA==
+From: Kees Cook <kees@kernel.org>
+To: David Gow <davidgow@google.com>
+Cc: Kees Cook <kees@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Rae Moar <rmoar@google.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2] Documentation: KUnit: Update filename best practices
+Date: Sat, 20 Jul 2024 09:54:45 -0700
+Message-Id: <20240720165441.it.320-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2804; i=kees@kernel.org; h=from:subject:message-id; bh=0fk7KXJgdWQwlGKxQxqidUKlJ+05k9Mh8dJZvLqYVW4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmm+vUHND5tIObdZT01gSwxbAVlJ0GL/6uV0k5h hwGEQTM8ZSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZpvr1AAKCRCJcvTf3G3A Ju7wD/9kzfOMxcJkYF3W8uzaMNovwrY1AV46Tajm946YnUH10f/RGf37PAHvOpEWSWtSfffvuNI 8sIXadYOHXgJRJja36uRaEPXyCjuRN+HdkyVBXRCLiLDwR0UCQ7l0/j0jI9ak6EjN5Ml7+xzuuz AsVEXKp/SgcCL4uYec2ElI8T3vqAhTmlnOMezYovLr/BpZxtZDCyC0bk96R9l2YMUvqoyP/JMUr 4OWEOvj/s53v0Z1OOa8Q+5/KZ411s7v9yA+JB7Bp75fhpQU67UsNI4EM4hHSYmvafLwuovlFIPs 7+zElpMpZIocLqOob6LmTTk30mLGw7PyC9edSNV4hKxa3XacksbP9LdO/c7xFI4JRramu37MhDZ erST4YpQHAXJaIJQyMrPDvm0pmLCfpeVDyVguGDWt8gk+S29S8HZqN6KwcXbFy/GRCokl669SJK Cxh+NrC/Fll3QJb30SvMaD3vyMAZxl3C4N5P1JcwwLjPQl9tvB4OQTu7QfL7B3g2ZohsCZLhMVT lAaLzmwQ3+IYC4vfVk/UMfHlfMOUZWhdRDwjNhALR7A1agEHM6HO+4oT2ZmP0fC9hdh392iHTNM qihcV1KBwGAe15ahbhhOCPCiZwR1gSCsI8TaN6HlDPzz6tSen31djgxAbKVr6+UBCnTSJB/wCZ1 SaZGkpHm4R+sg
+ fw==
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Jul 2024 16:20:00 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+Based on feedback from Linus[1] and follow-up discussions, change the
+suggested file naming for KUnit tests.
 
-> This patch series extends the SPI bitbang, gpio, and spi-engine controllers to
-> support configurable MOSI line idle states.
-> It then introduces the ad4000 driver which uses the MOSI idle configuration to
-> provide improved support for the AD4000 series of ADCs.
-> Documentation is added describing the new extension to the SPI protocol.
-> The currently supported wiring modes for AD4000 devices were documented under
-> IIO documentation directory.
-> 
-Hi Marcelo,
+Link: https://lore.kernel.org/lkml/CAHk-=wgim6pNiGTBMhP8Kd3tsB7_JTAuvNJ=XYd3wPvvk=OHog@mail.gmail.com/ [1]
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: David Gow <davidgow@google.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: Rae Moar <rmoar@google.com>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-hardening@vger.kernel.org
+---
+ Documentation/dev-tools/kunit/style.rst | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-All looks good to me. 
-So at this point, as long as Mark is happy with the SPI changes, I think we are
-waiting for Mark to pick the SPI parts and tag that so I can merge
-that into the IIO tree with the driver.  I assume Mark won't
-do that until after rc1.  All the dependencies are upstream already but mid
-merge window isn't a good point to use as a base for anything!
+diff --git a/Documentation/dev-tools/kunit/style.rst b/Documentation/dev-tools/kunit/style.rst
+index b6d0d7359f00..1538835cd0e2 100644
+--- a/Documentation/dev-tools/kunit/style.rst
++++ b/Documentation/dev-tools/kunit/style.rst
+@@ -188,15 +188,20 @@ For example, a Kconfig entry might look like:
+ Test File and Module Names
+ ==========================
+ 
+-KUnit tests can often be compiled as a module. These modules should be named
+-after the test suite, followed by ``_test``. If this is likely to conflict with
+-non-KUnit tests, the suffix ``_kunit`` can also be used.
+-
+-The easiest way of achieving this is to name the file containing the test suite
+-``<suite>_test.c`` (or, as above, ``<suite>_kunit.c``). This file should be
+-placed next to the code under test.
++Whether a KUnit test is compiled as a separate module or via an
++``#include`` in a core kernel source file, the file should be named
++after the test suite, followed by ``_kunit``, and live in a ``tests``
++subdirectory to avoid conflicting with regular modules (e.g. if "foobar"
++is the core module, then "foobar_kunit" is the KUnit test module) or the
++core kernel source file names (e.g. for tab-completion). Many existing
++tests use a ``_test`` suffix, but this is considered deprecated.
++
++So for the common case, name the file containing the test suite
++``tests/<suite>_kunit.c``. The ``tests`` directory should be placed at
++the same level as the code under test. For example, tests for
++``lib/string.c`` live in ``lib/tests/string_kunit.c``.
+ 
+ If the suite name contains some or all of the name of the test's parent
+-directory, it may make sense to modify the source filename to reduce redundancy.
+-For example, a ``foo_firmware`` suite could be in the ``foo/firmware_test.c``
+-file.
++directory, it may make sense to modify the source filename to reduce
++redundancy. For example, a ``foo_firmware`` suite could be in the
++``tests/foo/firmware_kunit.c`` file.
+-- 
+2.34.1
 
-Give this a poke after rc2 or so if you don't see progress.
-
-Thanks,
-
-Jonathan
