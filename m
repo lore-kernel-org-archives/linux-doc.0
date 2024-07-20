@@ -1,134 +1,107 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7093201;
-	Sat, 20 Jul 2024 00:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AC93C38;
+	Sat, 20 Jul 2024 00:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721434032; cv=none; b=jybI+l8rsYIaIp+HYpyoks5SSAYnoROrPjWN6ugcXmnkzBEMBoM1vbY9mA0EGXbpKHEnPZQ/gYmFx9eVx3jjm+f0teG9K8hVC+AiQPtJJT7dAl1UI4pChPhySW/cUCRAOAny+CULDRp42h8LT4IGzNM581LxyrJq6bjaIEisxE8=
+	t=1721434932; cv=none; b=r1sfFtGhIuHIrCKuVuXWghzZPuOrKFg1NrotWLSS/eil+3vCgmvkKQQA5qO2XKI15uMHNn73oxe2XzlpstPenozqiUqf9w2gopGwx6yXDi0OSnoWD8HEZnZlNbkpFxRBZrbOPQWWfZ+V8lRZR/MQZbSlibaAwwnrCcabvuwvfjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721434032; c=relaxed/simple;
-	bh=k3hBCtkSebA8AJGEiTfejozm3uyEXASbHLVBRsrHJSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aB2HoT3J4i2mPLBaVawRp5KALxJhNZ4c0I7dxM27WdtCbA1Beqa7ZVQGGBds2jg+I9YN/w+tr4oL3Zw3T9hbJdG3Qmt9dvqWmnEyHKl3kaaj1xSeO4XjK02pP5/sMHpqk6hUh+aAgDeV7ZOxoEIhzBtJkuTPT25ZXpymZ5ovBCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIPt5FH1; arc=none smtp.client-ip=209.85.160.46
+	s=arc-20240116; t=1721434932; c=relaxed/simple;
+	bh=zUBoNm9L2P4BvJzYef7TGM7Ywv7sEDHUhFsMSJtHLwA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BON3UoWpC1kkwiGiO86p1LssyggTs6Uf1EB1V7IrG14phAXDcn1b83q+41IW/bwdgr5xesCjT7nMLjNiY7rgonbFqkj17aT/+3Qq5XTGNT9bIZXEamKRzFvNxGvm0MWp5Wq3uP1nlTyAtaOd/bwlP2Tx0r4yY7F+2z46dLnH3Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KcXwX2Fu; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIPt5FH1"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-25e3bc751daso1249413fac.3;
-        Fri, 19 Jul 2024 17:07:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KcXwX2Fu"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-703631c4930so1287715a34.1;
+        Fri, 19 Jul 2024 17:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721434030; x=1722038830; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZuvNILcrHmZjVuCm63Mu8D6irELlymR43t41iUuR3/0=;
-        b=nIPt5FH1JiXzelGySuhqniPX+dVipI3PpoBVKWlwHGqNQROeDVeV+NzqtcOBuTowXL
-         UxNMlMfILJ1BK7STT7xMkhoTfpF+DvD5GoT+pZmriUsbz2Pyh8l7QDxWQM0BPDnau16X
-         kE9QJQsDPGmlapqAmialg8zBV+fWRfzuRB4v/R42SAXX7OLkPCFd674MzEcT6263+S3R
-         u+S2+jBpPaM1DZfXifgcZTI1fLBoZKoqnnCZgFqoolWh/xnn93nUj5GXx/8O2gWOEJkQ
-         DyIAz1BFltOcxkd4Vn+e+3k/czfzm1MXr32XhJlWvuz8cm0cRNXjaikf7Uk5Sxc985Jr
-         gffw==
+        d=gmail.com; s=20230601; t=1721434929; x=1722039729; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yz6ITHoYpXMaOJQ35n8YuM9L6Fu6ZwJjDXvHlnNVuXQ=;
+        b=KcXwX2FuKFE2NNZEkGCFptsoW9pbETjr140TrAMDD4OY3WTvmXlzlYVWPx/LjVAlZK
+         LpUoOSdRdYNdqlTgbSxJU2n642yd8bSS9M82pKnFNKeOW4SfTMLzuBZQIYzbGLP9IG8a
+         oKYsAigdiVFDBDNBzmoBvkkq5Gy9THcBwMFb0jJ8fH4bCmyzoD7glTo005OgNd/T7cic
+         B4lPfQRzttkdtWannnB8gq47oiH6h56JGQTedacAXylXoighNhcA+KpZZeJTPfqcvvlW
+         cn6AaxVDZEn0Cc0gQh/kk6caszTeFEv+kQxw86sO/r4SbUxWvAVmEnQnZ3fZO39St0ZD
+         qAOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721434030; x=1722038830;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZuvNILcrHmZjVuCm63Mu8D6irELlymR43t41iUuR3/0=;
-        b=hdHpjKtFvN9K8ye9bGd3NIpMP14SA4+S0ULzdng4fEmlQLL3JgQmZj33/fd73Gvj1l
-         j0P77u/FXF3J5HrHEHR9JPBWAQAFlgHSRsJ4XLZPnyRwGMsPHa30VhVRY8AbhTMAo9pv
-         RTrIkIKLDBb7JWvAqH6kJPSPpMa99KzieWTpK6nBq776GGucDQXxv2EKC4YRhdtPFzTE
-         CeAFjbOl/SaC01Pe9P5UjdkUKwzxUiFvSWjh3egUkjbJgksb7RmlEbybH7TFNt1k8uRy
-         K1bnELElgP1AZSYJDocshqJvkoIFrcmzU1x16jaqJSmU/iruu538F+eaWwz0+fHfBToJ
-         CWyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyXlGJKjnoH52mS/8GQugluwyHyjwyB/rhxJM05CsYsThR2vwQk3sAa5Wh52es/xUchsp4SAU+XuaEO4T9VXHfiYKdg8nrwhVj5W5rD32J9vn/dMiToplZ8kFJu20xYuMxego4vp8m
-X-Gm-Message-State: AOJu0Yw49MdcWXi3vurtxwV8uSKGKOtXCK4CuNPEsgbK9uXOrMnaJY3C
-	Qkt8PSHEpdemqUgdD+U6xN/ohIvngIqSY4j7OKVHoYBty4oicD1Q
-X-Google-Smtp-Source: AGHT+IGswl4b/RLWR3aV8ZSPIJWzAyWE1Vi1y7/s9z4GFnEpVS6pXmbk8+gCTcqsD1JycoFXVtoNPQ==
-X-Received: by 2002:a05:6870:9613:b0:254:b337:eebc with SMTP id 586e51a60fabf-261215e714fmr1159283fac.35.1721434030220;
-        Fri, 19 Jul 2024 17:07:10 -0700 (PDT)
-Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708f60a582fsm526556a34.12.2024.07.19.17.07.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jul 2024 17:07:09 -0700 (PDT)
-Message-ID: <55674f3f-30d5-4da4-8fe2-0efafec5d3bb@gmail.com>
-Date: Fri, 19 Jul 2024 19:07:08 -0500
+        d=1e100.net; s=20230601; t=1721434929; x=1722039729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yz6ITHoYpXMaOJQ35n8YuM9L6Fu6ZwJjDXvHlnNVuXQ=;
+        b=fOmHjkaqEqC7vQSUL0FJmACVnwQNRfUBBpsyRHfvHPH1lMbhVSoCF3mLDQT3xu77Wf
+         fYDFQ1L+CNIuEk1OZL8o+MH5hQzcELC5xEDzi3Nat35lGtRPcocoebf2OPChCRjvVbQJ
+         SwpBQb7FOdjreBaoHM8x9ppU8A+0Yqlv9HDjH3YhAWZlxXqldLUt6cQsXUFv4tJNDn9P
+         89gwtFGfE4K8F38oLp+S+fnEniyQrw6FxsFrDQ8RvXbge6Lb+WWZwZazAu1jZGOQkZSF
+         33wmTIJEl2ghS4/NLtafoXyNYVaCf5zPWFAK/iG/sZsYVnQQLLCTLzySqqhpVpHJxSez
+         pcew==
+X-Forwarded-Encrypted: i=1; AJvYcCV4OjaIJtd7gQwem/E9WDdBI97iAEywNvHo9Wjf4a4ACNihd80uqhTK0rz88Ifz/O0iom1AVwZA0pw25kX4dp8Od9XK1VUKF+C+ng6Pg+g0UFrg2LnxPRSfNZlkH3QKdf7RGztfx4ao
+X-Gm-Message-State: AOJu0Yx/WfZkCmWuyAMUJ5RY+yQcEKlJQIaVdWlPv2nM1foROHvdAqyT
+	SJDNAWG71kDEDT367PfHTwGR2kvorZyqJZ/sjlsGX5t/nSuJRnTo
+X-Google-Smtp-Source: AGHT+IHn3A1VKak6m7x8LOKpMncwCKH6km0VzLzhUhWEGqJ6XworJesHKzARz6Iv4UZfKRG75yw5rA==
+X-Received: by 2002:a05:6830:65cc:b0:704:fd0:9524 with SMTP id 46e09a7af769-708fdaa265emr1580054a34.8.1721434929085;
+        Fri, 19 Jul 2024 17:22:09 -0700 (PDT)
+Received: from pipaware.austin.rr.com ([2603:8080:2300:de:3d70:f8:6869:93de])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708f60a582fsm532142a34.12.2024.07.19.17.22.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jul 2024 17:22:08 -0700 (PDT)
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+To: corbet@lwn.net,
+	sergio.collado@gmail.com,
+	peterz@infradead.org,
+	rdunlap@infradead.org
+Cc: bilbao@vt.edu,
+	jembid@ucm.es,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Subject: [PATCH v3 0/1] docs: scheduler: Start documenting the EEVDF scheduler
+Date: Fri, 19 Jul 2024 19:22:05 -0500
+Message-ID: <20240720002207.444286-1-carlos.bilbao.osdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] docs: scheduler: Start documenting the EEVDF
- scheduler
-To: Jonathan Corbet <corbet@lwn.net>, sergio.collado@gmail.com,
- peterz@infradead.org, rdunlap@infradead.org
-Cc: bilbao@vt.edu, jembid@ucm.es, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240713140455.4072847-1-carlos.bilbao.osdev@gmail.com>
- <20240713140455.4072847-2-carlos.bilbao.osdev@gmail.com>
- <878qy1uvyw.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <878qy1uvyw.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/16/24 11:45, Jonathan Corbet wrote:
+I was in the process of updating the CFS documentation, as Sergio proposed,
+when I realized we don't have any EEVDF documentation to point to. I have
+started it. I know it isn't a lot of info about EEVDF in the doc, but (1) I
+wanted to get the ball rolling, and (2) I prefer to keep it light until we
+have a solid idea of how EEVDF will actually end up. This could take a
+while. When or if it stops being an option, we can revisit it.
 
-> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
->
->> Add some documentation regarding the newly introduced scheduler EEVDF.
-> A nit, but one I wish more people would make note of...
->
-> [...]
->
->> --- a/Documentation/scheduler/sched-design-CFS.rst
->> +++ b/Documentation/scheduler/sched-design-CFS.rst
->> @@ -8,10 +8,12 @@ CFS Scheduler
->>  1.  OVERVIEW
->>  ============
->>  
->> -CFS stands for "Completely Fair Scheduler," and is the new "desktop" process
->> -scheduler implemented by Ingo Molnar and merged in Linux 2.6.23.  It is the
->> -replacement for the previous vanilla scheduler's SCHED_OTHER interactivity
->> -code.
->> +CFS stands for "Completely Fair Scheduler," and is the "desktop" process
->> +scheduler implemented by Ingo Molnar and merged in Linux 2.6.23. When
->> +originally merged, it was the replacement for the previous vanilla
->> +scheduler's SCHED_OTHER interactivity code. Nowadays, CFS is making room
->> +for EEVDF, for which documentation can be found in
->> +:ref:`sched_design_EEVDF`.
-> If, here, you just say "can be found in
-> Documentation/scheduler/sched-eevdf.rst", the right cross-reference will
-> be created and ...
->
->>  80% of CFS's design can be summed up in a single sentence: CFS basically models
->>  an "ideal, precise multi-tasking CPU" on real hardware.
->> diff --git a/Documentation/scheduler/sched-eevdf.rst b/Documentation/scheduler/sched-eevdf.rst
->> new file mode 100644
->> index 000000000000..019327da333a
->> --- /dev/null
->> +++ b/Documentation/scheduler/sched-eevdf.rst
->> @@ -0,0 +1,44 @@
->> +.. _sched_design_EEVDF:
-> ...you can take out this unnecessary label.
-
-
-Love it! Labels are a source of warnings.
-
-Sending v3 now.
-
-
->
-> Thanks,
->
-> jon
-
+Sergio, if you’d like to update the Spanish translations of CFS and add one
+for this new EEVDF doc, please go for it! ;)
 
 Thanks,
-
 Carlos
 
+P.S.: Jon, I have triple-checked for compilation warnings, but if you
+      encounter any, please LMK the versions of your tools so I can match
+      them moving forward.
+
+Carlos:
+  docs: scheduler: Start documenting the EEVDF scheduler
+
+---
+Changelog:
+  v3: Removed labels and used instead paths to documents.
+  v2: Move file within scheduler index. Remove incorrect subsection
+      numbering.
+
+---
+ Documentation/scheduler/index.rst            |  1 +
+ Documentation/scheduler/sched-design-CFS.rst | 10 +++--
+ Documentation/scheduler/sched-eevdf.rst      | 43 ++++++++++++++++++++
+ 3 files changed, 50 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/scheduler/sched-eevdf.rst
