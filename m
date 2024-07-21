@@ -1,116 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EE710A0C;
-	Sun, 21 Jul 2024 23:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3585944E;
+	Sun, 21 Jul 2024 23:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721603417; cv=none; b=P6bF2+L5e918p0IKy+8cw1TEwpZSvuALqVOOiaTvDYTcg0Jz0mezOsTLt+CRTzfCfUAqkLaDPFjsLK/qBd6WAGj+CXrhbwg4OeYoxUf33xJsqeeEftzA9I3gqwM8367NVUyhFrCtKO8udgGhAN/R+7mbUjpU4/CZCwc5WX0mgVQ=
+	t=1721603804; cv=none; b=rEPZ58sZTbLK87HI1KxEuFOO+VvuFjwpanPP8etaPQ6cu+Yj3BmXhSPDkcxSeQB2OhtwehlJpbYVxPTqyCieDF85YNeDkcE9zGKrE3AK5sGk1e5nFiWk2ELzl7FCYXYn6Zgk65X644jWs8O08oKy3xLB3haYvMQ93d2dZeHbPe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721603417; c=relaxed/simple;
-	bh=bw+VvhlF0vZLry6Yx1OT7P3zYLo5EWWOODFGnE6NXKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qMeFX+zsIfLpRzCLqlV1ZFmLibdPq1EfAQkkpXWFb/85YdXsiQCe2ckx43ieVNYsmwfqWb+ntIER/521paMv9cwOsXcK1wf4N73xwA2xDLo/mW8Q8vx1bzbDaWh4OyDS64ZAXBlXmwqgo5z0WSjuJjiCd453IXukV1XtngU35Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+AD9s1O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721603804; c=relaxed/simple;
+	bh=ZSxWRDewKCAJA+So2y3dwsQUT2XrzaphGCUkvI6yl8o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fWvT7F+b84YFOWfxtOCLwJ1kDT867obn/nVBdKdDKh7SDZugDBJQh2/16C37Nsw/EGiU/AQkzWW1AU48ry9rBekzfqAhMeDN4oWcb8wuICruLBK1jKDA2vqzRd6MDu6iGGMmmU0hBaoo/vpEOodUfIHdXcqMuSPa8ScsHhRzbZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DnQTnJXs; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+AD9s1O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3995EC116B1;
-	Sun, 21 Jul 2024 23:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721603416;
-	bh=bw+VvhlF0vZLry6Yx1OT7P3zYLo5EWWOODFGnE6NXKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V+AD9s1OlZ1radzKjhu5pCExQ5gPuD5aYt2osC0mWdHJTU5I+8Ml0yYaoKpv2xjoX
-	 r4RBUNLfOqM0bnCVOCfaxJgzZr+RFKl13qwZT6vM79uAHLixOhZvR2lmwf6GBIZ2gX
-	 y1Sa6SzlrKh9VfC4C5d5uyYgrZxFIL8JUimZyR6t4rZWZWpugwvZBAB7MMTzDfbLXb
-	 tvsLKXGaHkR1HPysCg5Kn2X8HSTL0WWVUqZOXVxwnEWb0oW0BIfAzsaMEb0Nz53qsT
-	 6zzjyjg8Zb5B9u2LtRBKJ/5YJ28svRUgdc9ollLn4LV2GYOgX+BuT4L0zJXF19qlif
-	 yFoGvcYZUwDAw==
-Date: Sun, 21 Jul 2024 16:10:14 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: =?utf-8?B?0JTQsNCy0YvQtNC+0LIg0JjQstCw0L0g0JDQu9C10LrRgdC10LXQstC40Yc=?= <davydoff33@yandex.ru>
-Cc: linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, corbet@lwn.net,
-	masahiroy@kernel.org, nicolas@fjasle.eu
-Subject: Re: [PATCH]: kbuild doc typo fix
-Message-ID: <20240721231014.GA9588@thelio-3990X>
-References: <1935A993-DAB0-4092-A1FE-B6501EE8E0DC@yandex.ru>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DnQTnJXs"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 66A9641A2D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1721603794; bh=o4HlVwTjHpCEvylGNow+fqaaYnMegiBN6/gKCzs0O8c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DnQTnJXs5Xo6MNHIPQ7WIaieUla9MRlXUdVAwrnvgEctbhZT6S5WL2JEQDY+hw3HL
+	 /bh4p50yCFzdRWU/C6DMM3ohFVAX4qge27DAPHh2t8/4XAAI+QELgK/9J/vAsaXWHc
+	 D9fB82L1D1sy+5BNfCZ3CldmtinScoRPV8T7QuAbq1xc51eITD68GvicdQMTKZpVew
+	 gQkhszWAUsK6i2OvAYBzG1QbgCtL9mPmohEj/xa3G+oeSZiI6jHADKANvf9xF3Dt7I
+	 DRPx3YSyY2KWFMZV2ulOr66wPEq1PomfOChTP9yvrzxVnXOH8jld8Qasl7AeN18jtV
+	 F9Z92OlIZVMAw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 66A9641A2D;
+	Sun, 21 Jul 2024 23:16:34 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Lasse Collin <lasse.collin@tukaani.org>, Andrew Morton
+ <akpm@linux-foundation.org>
+Cc: Lasse Collin <lasse.collin@tukaani.org>, Sam James <sam@gentoo.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 08/16] docs: Add XZ_EXTERN to c_id_attributes
+In-Reply-To: <20240721133633.47721-9-lasse.collin@tukaani.org>
+References: <20240721133633.47721-1-lasse.collin@tukaani.org>
+ <20240721133633.47721-9-lasse.collin@tukaani.org>
+Date: Sun, 21 Jul 2024 17:16:33 -0600
+Message-ID: <87r0bms5da.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1935A993-DAB0-4092-A1FE-B6501EE8E0DC@yandex.ru>
+Content-Type: text/plain
 
-Hi Ivan,
+Lasse Collin <lasse.collin@tukaani.org> writes:
 
-First of all, thank you for noticing this and sending a patch!
-
-I think the title of this commit could be improved a little bit. I think
-using the prefix "kbuild: doc:" would be good, as that seems to be the
-most common prefix I see when I look at 'git log --oneline' for this
-file. This is not really a typo fix but more of a generalization because
-clang is now a viable alternative to GCC, which could also be included
-in commit message below. I suspect that was probably not the case when
-this documentation was written.
-
-On Sun, Jul 21, 2024 at 02:37:33PM +0300, Давыдов Иван Алексеевич wrote:
-> In this part of the documentation, $(CC) is meant, but gcc is written.
-> 
-> Signed-off-by: Ivan Davydov <mailto:davydoff33@yandex.ru>
-
-As for the patch itself, I cannot apply it directly from mutt or the
-mailing list because it is quoted-printable:
-
-  $ curl -LSs https://lore.kernel.org/all/1935A993-DAB0-4092-A1FE-B6501EE8E0DC@yandex.ru/raw | git apply -3v
-  error: git diff header lacks filename information when removing 1 leading pathname component (line 63)
-
-I suspect that is also why your signoff has a mailto: in it. Consider
-looking at git-send-email or b4 send for sending your patches so that
-your mail client does not mangle them in this way:
-
-https://nickdesaulniers.github.io/blog/2017/05/16/submitting-your-first-patch-to-the-linux-kernel-and-responding-to-feedback/
-https://b4.docs.kernel.org/en/latest/contributor/send.html
-
+> include/linux/xz.h uses XZ_EXTERN in function prototypes. It's needed in
+> the preboot code. Adding XZ_EXTERN c_id_attributes silences warnings and
+> makes the intradocument links to the xz_dec functions work.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Sam James <sam@gentoo.org>
+> Signed-off-by: Lasse Collin <lasse.collin@tukaani.org>
 > ---
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 991ce6081e35..be43990f1e7f 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -578,7 +578,7 @@ cc-option
->    Note: cc-option uses KBUILD_CFLAGS for $(CC) options
+>  Documentation/conf.py | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 0c2205d536b3..2fc1fea858e1 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -123,6 +123,9 @@ if major >= 3:
 >  
->  cc-option-yn
-> -  cc-option-yn is used to check if gcc supports a given option
-> +  cc-option-yn is used to check if $(CC) supports a given option
->    and return "y" if supported, otherwise "n".
->  
->    Example::
-> @@ -596,7 +596,7 @@ cc-option-yn
->    Note: cc-option-yn uses KBUILD_CFLAGS for $(CC) options
->  
->  cc-disable-warning
-> -  cc-disable-warning checks if gcc supports a given warning and returns
-> +  cc-disable-warning checks if $(CC) supports a given warning and returns
->    the commandline switch to disable it. This special function is needed,
->    because gcc 4.4 and later accept any unknown -Wno-* option and only
->    warn about it if there is another warning in the source file.
-> @@ -606,7 +606,7 @@ cc-disable-warning
->      KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
->  
->    In the above example, -Wno-unused-but-set-variable will be added to
-> -  KBUILD_CFLAGS only if gcc really accepts it.
-> +  KBUILD_CFLAGS only if $(CC) really accepts it.
->  
->  gcc-min-version
->    gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
+>              # include/linux/btf.h
+>              "__bpf_kfunc",
+> +
+> +            # include/linux/xz.h
+> +            "XZ_EXTERN",
+>          ]
 
-Other than the comments above, which are simple process things, this
-change overall looks correct. Consider fixing those up and sending a v2
-and I will be happy to provide a Reviewed-by tag.
+I spent a little while trying to figure out why we need XZ_EXTERN at all
+but lost in the #includes... Oh well.  For the purposes of the docs
+build:
 
-Cheers,
-Nathan
+Acked-by: Jonathan Corbet <corbet@lwn.net>
+
+Thanks,
+
+jon
