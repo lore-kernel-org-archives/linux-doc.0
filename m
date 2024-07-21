@@ -1,97 +1,74 @@
-Received: from forward206a.mail.yandex.net (forward206a.mail.yandex.net [178.154.239.87])
+Received: from mailscanner01.zoner.fi (mailscanner01.zoner.fi [84.34.166.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2A03FE4;
-	Sun, 21 Jul 2024 11:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48351161339;
+	Sun, 21 Jul 2024 13:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.34.166.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721561878; cv=none; b=WEcePOGq9ygy6m616M1sBXIfYElU5YpEmktNCMuntsvtyXNXYg6q7RDdWNHUEMZ4mBAYYBpZ1+9Dtd66xhpc8Iy0lMWDgGR215AVj8ao1czTEMnai4Eohyz16X3HHCdXlnRFJMDw+D7QZjRHWkxlqlqBVY25+WcSuUh8qodF15k=
+	t=1721569038; cv=none; b=N71yo7fG6ztoP4/g3k1LW/fmDtwCnuEXiF0JN4K3tOFCctHHOa8E+xSQ+xYbq2pJl5zec9xw9hAFQAyYxMqT2q6pkcVa5YqhnxvM1CggNKqXpDq1kx+0+4kg8GYZ+Prag8ygWhAw/uf87JRCS8yqDJvTqMbYzV3e9ku01VsYoRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721561878; c=relaxed/simple;
-	bh=dVZ3mJwUqx0JZWB6HE9/U2wqRzOY6T9qFkeYDT8b+mg=;
-	h=Date:Subject:From:To:CC:Message-ID:Mime-version:Content-type; b=Sa2FemPrKyDoC+z9gw2o/wW+GbnOHPG1Q5zaxrwNsSANDFzSEYZcXU/kwVI7Iq2Yjthxq4+9N9r9qY4MvMFOsXF5rr2eqiwX/qhoKWzvYyOS0VudaxPbyj88jwYlyYX88NUf2c79LuDv/Rp+yRWK4/OLb2Ky93WjsNFpyOkMzqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=qgKCVSRH; arc=none smtp.client-ip=178.154.239.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="qgKCVSRH"
-Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
-	by forward206a.mail.yandex.net (Yandex) with ESMTPS id 4A334650D0;
-	Sun, 21 Jul 2024 14:37:45 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-31.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-31.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0f:26bf:0:640:efa0:0])
-	by forward101a.mail.yandex.net (Yandex) with ESMTPS id 689FB60917;
-	Sun, 21 Jul 2024 14:37:36 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-31.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id XbKEDM4oEuQ0-hGbF1Fuy;
-	Sun, 21 Jul 2024 14:37:35 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1721561855; bh=+AxDBEZ+NCtHbhlME5+tAv5H7FdjBO8oIgOMDjt1xb4=;
-	h=Message-ID:CC:To:From:Subject:Date;
-	b=qgKCVSRHtVulRsCHRl5g+qop0D1pqPz3IuSOIqm/pVOeNXx+Uhp++/qftSXLRfRFp
-	 sioG3mWdJ3V88lSwCUr0A57lVv7pf7ZPxWEUAwL8Qnz5xwK1JmYXT8YgO2zDAIW57A
-	 ayCLeRvR+XH6EkLinMFph/I4Nn0cG83cNCpW5oww=
-Authentication-Results: mail-nwsmtp-smtp-production-main-31.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-User-Agent: Microsoft-MacOutlook/16.85.24051916
-Date: Sun, 21 Jul 2024 14:37:33 +0300
-Subject: [PATCH]: kbuild doc typo fix
-From: =?UTF-8?B?0JTQsNCy0YvQtNC+0LI=?= =?UTF-8?B?INCY0LLQsNC9?=
- =?UTF-8?B?INCQ0LvQtdC60YHQtdC10LLQuNGH?= <davydoff33@yandex.ru>
-To: <linux-doc@vger.kernel.org>,
-	<linux-kbuild@vger.kernel.org>,
-	<corbet@lwn.net>,
-	<masahiroy@kernel.org>
-CC: <nathan@kernel.org>,
-	<nicolas@fjasle.eu>
-Message-ID: <1935A993-DAB0-4092-A1FE-B6501EE8E0DC@yandex.ru>
-Thread-Topic: [PATCH]: kbuild doc typo fix
+	s=arc-20240116; t=1721569038; c=relaxed/simple;
+	bh=btuh87Wo1Si4JoyLKgPbaICd08yIQ6Fy/xTh7FmbF1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WRaJ4UA+2KMu+eqWLKU1rbojJTvgmPQaCoEGoSdStzbXOQrWfpwmEn0HXNzD+gWKZc55FV5e1VptI6nVU77EXmSftNn0g9Z6zPEJ3aNku+xfCj/GWJntKBjUxanal6MrWtFU5b2SyiMfOF2mPgXPxm87OXJB4sbpMvEN4zofaoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org; spf=pass smtp.mailfrom=tukaani.org; arc=none smtp.client-ip=84.34.166.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tukaani.org
+Received: from www25.zoner.fi (www25.zoner.fi [84.34.147.45])
+	by mailscanner01.zoner.fi (Postfix) with ESMTPS id AFEFD42E35;
+	Sun, 21 Jul 2024 16:37:14 +0300 (EEST)
+Received: from mail.zoner.fi ([84.34.147.244])
+	by www25.zoner.fi with esmtp (Exim 4.97.1)
+	(envelope-from <lasse.collin@tukaani.org>)
+	id 1sVWkR-00000001SmU-1Gdu;
+	Sun, 21 Jul 2024 16:37:14 +0300
+From: Lasse Collin <lasse.collin@tukaani.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lasse Collin <lasse.collin@tukaani.org>,
+	Sam James <sam@gentoo.org>,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 08/16] docs: Add XZ_EXTERN to c_id_attributes
+Date: Sun, 21 Jul 2024 16:36:23 +0300
+Message-ID: <20240721133633.47721-9-lasse.collin@tukaani.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240721133633.47721-1-lasse.collin@tukaani.org>
+References: <20240721133633.47721-1-lasse.collin@tukaani.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-version: 1.0
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-In this part of the documentation, $(CC) is meant, but gcc is written.
+include/linux/xz.h uses XZ_EXTERN in function prototypes. It's needed in
+the preboot code. Adding XZ_EXTERN c_id_attributes silences warnings and
+makes the intradocument links to the xz_dec functions work.
 
-Signed-off-by: Ivan Davydov=C2=A0<mailto:davydoff33@yandex.ru>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Sam James <sam@gentoo.org>
+Signed-off-by: Lasse Collin <lasse.collin@tukaani.org>
 ---
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/make=
-files.rst
-index 991ce6081e35..be43990f1e7f 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -578,7 +578,7 @@ cc-option
-   Note: cc-option uses KBUILD_CFLAGS for $(CC) options
-=20
- cc-option-yn
--  cc-option-yn is used to check if gcc supports a given option
-+  cc-option-yn is used to check if $(CC) supports a given option
-   and return "y" if supported, otherwise "n".
-=20
-   Example::
-@@ -596,7 +596,7 @@ cc-option-yn
-   Note: cc-option-yn uses KBUILD_CFLAGS for $(CC) options
-=20
- cc-disable-warning
--  cc-disable-warning checks if gcc supports a given warning and returns
-+  cc-disable-warning checks if $(CC) supports a given warning and returns
-   the commandline switch to disable it. This special function is needed,
-   because gcc 4.4 and later accept any unknown -Wno-* option and only
-   warn about it if there is another warning in the source file.
-@@ -606,7 +606,7 @@ cc-disable-warning
-     KBUILD_CFLAGS +=3D $(call cc-disable-warning, unused-but-set-variable)
-=20
-   In the above example, -Wno-unused-but-set-variable will be added to
--  KBUILD_CFLAGS only if gcc really accepts it.
-+  KBUILD_CFLAGS only if $(CC) really accepts it.
-=20
- gcc-min-version
-   gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater t=
-han
----
+ Documentation/conf.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 0c2205d536b3..2fc1fea858e1 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -123,6 +123,9 @@ if major >= 3:
+ 
+             # include/linux/btf.h
+             "__bpf_kfunc",
++
++            # include/linux/xz.h
++            "XZ_EXTERN",
+         ]
+ 
+ else:
+-- 
+2.45.2
 
