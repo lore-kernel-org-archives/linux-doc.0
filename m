@@ -1,276 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA971DDD6;
-	Sun, 21 Jul 2024 18:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721585348; cv=fail; b=eMeWRzHRCP6BLgeShoNnFDpcRE4WKLPFJq8xE5RoBmExASHMOGNxqU04PdNI0AzKlVdnmv+cap3zbCYoGkeJiN0aFfyYYJ61giQD4RBIsP1ajXIvu7efdjJcq5JpfTtpfb39UOSYpQJa43Mv7tCTdUxz8yeEAH/d9H0wBrFCO4A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721585348; c=relaxed/simple;
-	bh=YVv5MRmaTgNkDhNo2sqXs3oAC8X6H2kBTTTSTTlZkfA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fPis4q6N9dMQ+XTx8quN8kSYiMtN0fDej6zkSsVGONt/XKbLWHlz3RkRcTfZaB7n4AK23d6VwQFSKeX3usZzmGkJpMouJaI2/b+BwY6riBkCTv9xxce+4M2TmeNU5u+G1rNEWjs2SHj86nUKfVO6ySbiEv3jTeHJkbzzL+vnu88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVx0voeg; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVx0voeg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721585347; x=1753121347;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YVv5MRmaTgNkDhNo2sqXs3oAC8X6H2kBTTTSTTlZkfA=;
-  b=fVx0voeg1BzNbtPsP65FTK6giQ4plxDN1VnCn/xBqElbTURUYho0pk7M
-   GFS4P8MCEunIf2xvVqp9MxfUtIX2jftPKf6f+qV6vMVcGkm0q6TIJg1CL
-   we2/AZvuvLiRndKejVAsHkNYok5OxtW7EbK9zu+ctiKQwPHkLDzIv3KmD
-   kjVkWdqpHGv46RkdsrC//T6vO5b5nrprejxJZBOEW5BfiPQ0CK0HnFFTV
-   8teIc6twQ6BSoi1tN6ubkIKJ5W5+gUafMkg/meXq2SfMavonnhj32HYTm
-   WKSb8yRP2Y6hV4oQQW18pyLplv2A/fzHquPF5PpA+OV5hYPJJhbk0OT1U
-   A==;
-X-CSE-ConnectionGUID: Q0V4mx33Q1iZ7seGqo0ZxQ==
-X-CSE-MsgGUID: zybH0RzcThe5pc/TE04eGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11140"; a="30573662"
-X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="30573662"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2024 11:09:06 -0700
-X-CSE-ConnectionGUID: V+fJX+trQ6KMFUxH33FbXA==
-X-CSE-MsgGUID: dzJ2VtWHTfihdFn0Yzen2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,225,1716274800"; 
-   d="scan'208";a="56757759"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Jul 2024 11:09:05 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sun, 21 Jul 2024 11:09:04 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sun, 21 Jul 2024 11:09:04 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sun, 21 Jul 2024 11:09:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iCv28PC+JKC/sDqawU3pfYARHLB8GtTZzX7Ai6w5P/VpXmwMquZgH7tQpEhT+yumIJHur7+yU61Tf3gtuo4GRTyrVevfXNoFdNmim3UIof1Q4FuunQWFYxFeN3B+5axGJ5jSut188A7QmjyTlR3IHTB6o1Z9W05vdrfuZ2VtPgRtSwQuOaeEUkm5DqiV1ym8lNOtohBJ0LCCG8uamugxhmqHH7zaBQyGCb0fkVdFYdYwYVl1+rAbSsm43ulVP/Olb8jf+5kl8KSl9Df8L+uL5z5lRZArOVND6R2XQjOT4ba7aSaVk2QdaYjpRMWC1lth9qEVj2S+chtdVq0lX6vD6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YVv5MRmaTgNkDhNo2sqXs3oAC8X6H2kBTTTSTTlZkfA=;
- b=GtT507yMIWTyWnO2/V9mcf07jNqOAbt8m6/n8OaU7+WUe9YkyPx2M/mTOmrBXKNIJK31J38Yyx20Rjbgv2jegrwqguRyEx24lZOgcFnSQ9chbksNvYGtf9mR0C65FATOX2GGKv8Dw3xcZ3FOMb8zUAX+lNyPElgh60KGykM8d8Wgn+Fg6e/EAGZTM0t7LY6VY9m41h1Iww56vlKpi8XYjo8jZs6wX8QdJKhBpURagnzZG8T1aCs/R2i2/dZeszW0MkvvRxcWplTtTFcxN+NR1PPVUrAGAZotfK2X/TvRshAye6fWMFvEdPdPdXGEa6UT2JfEC6RBotmHpgEvOf7aYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
- by CY5PR11MB6391.namprd11.prod.outlook.com (2603:10b6:930:38::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.18; Sun, 21 Jul
- 2024 18:09:02 +0000
-Received: from SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::fcf6:46d6:f050:8a8c]) by SA1PR11MB6734.namprd11.prod.outlook.com
- ([fe80::fcf6:46d6:f050:8a8c%4]) with mapi id 15.20.7784.016; Sun, 21 Jul 2024
- 18:09:01 +0000
-From: "Li, Xin3" <xin3.li@intel.com>
-To: Sean Christopherson <seanjc@google.com>, "H. Peter Anvin" <hpa@zytor.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "pbonzini@redhat.com"
-	<pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
-	"vkuznets@redhat.com" <vkuznets@redhat.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-	"xin@zytor.com" <xin@zytor.com>
-Subject: RE: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and
- guest
-Thread-Topic: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and
- guest
-Thread-Index: AQHaWe/p8mDo/Zfb1Ue0O++EkKDe07HFceqAgCsrPICAA4rmgIAJ0EaAgAE88QCAAzp44A==
-Date: Sun, 21 Jul 2024 18:09:01 +0000
-Message-ID: <SA1PR11MB6734B878A371049E274D6E60A8AF2@SA1PR11MB6734.namprd11.prod.outlook.com>
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-10-xin3.li@intel.com> <ZmoYvcbFBPJ5ARma@google.com>
- <SA1PR11MB67348BD07CCCF8D52FCAC8FEA8A42@SA1PR11MB6734.namprd11.prod.outlook.com>
- <ZpFH86n_YY5ModwK@google.com>
- <099D0BF1-BDC6-489F-B780-174AFEE8F491@zytor.com>
- <ZpqNREwyn4LzN2tp@google.com>
-In-Reply-To: <ZpqNREwyn4LzN2tp@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|CY5PR11MB6391:EE_
-x-ms-office365-filtering-correlation-id: 5628728f-2c34-4c4f-b69d-08dca9b03348
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?L1Rha1llbUlYSTdUNldiUkRjYkZnTnU0V3VQU0NKRzU2ME1RK2ZpSHJTK0ZH?=
- =?utf-8?B?Y3h3NGlCaEpNYlQzeWpiOVdPMjI3TTY5OTdwZDZZenVvTEh1cXF6MXhmQjhs?=
- =?utf-8?B?Um5CZzBuRGNzT1h4VG1MdkJZMTg1ZUw5a0h1N2pGdVY3MHp3alpmWG9Mbnk0?=
- =?utf-8?B?aEs5bVp3NlEya1luRnZ0RU5KOU02TDBnRHBmd1VWWUxncTZRbG9reStOY2Jn?=
- =?utf-8?B?aWFIZER2NVM5a0NUSUZwNVlqR3NNN0FwMFU5MTdsOWhxVUhvL1NOR1hqTGxl?=
- =?utf-8?B?ZkFEU3JtaEZMSEtDTzVPZ09lbENZMVg1NWNKcmVPbEFSWUdGalhuTlBMdWI3?=
- =?utf-8?B?enlJbitjMzZLK1JEOHJVYnlSSS9BOHFORGtsWU81eDJUUzJYc3FWZ0JycXZv?=
- =?utf-8?B?M0VQWThhZXNDMDVUMEJuV2w2RFlFWDFFdGNTRk9VejVVVTB5RWkrZ2FUdldG?=
- =?utf-8?B?OE9zR01RTFhoc3JCbXQ4UmxOVWFiSVZhdS9iaVVwbXdnSE9qeE44bXpaWmZZ?=
- =?utf-8?B?VVcrb3AxL1ZQTGJYbXJFTTRMdkpIUHJLVWdkVUUrWmRzSEJuTzhZK0gwUjgz?=
- =?utf-8?B?Uk15bjZpVUJnbGlhZk51QzRzTkd0SDdYTVNocDA0b3JlbENZRVNhdmdROHkr?=
- =?utf-8?B?WWhiVHAweEhqVDZKbGYxZUU3cVRkUHp4TGx1amFqWDZ5RmdKeUFQVXFMdCsz?=
- =?utf-8?B?WXRIMFdOZmFrUjdRS1dhbGttNzVJbG9FZzJNeXhUa1ZyU0NKanp6MnQ5OFlh?=
- =?utf-8?B?L3BkdGYzNE5veEpOUGQvMm14RkJZWFhKQXNYRVFUVG8zRnRXWHdYbDB5blFx?=
- =?utf-8?B?bXlob3RuUmQzQ05FaHdwU2Q3M29RcnpvOTkrcllybE1qZzI4Q3NKV3VoVnRC?=
- =?utf-8?B?Q2NtSnVvZURoclBXMWo3T1k0ZnVkVXpwQjhLTXhaeTA4VWpUY2hlS0VBSktI?=
- =?utf-8?B?K2RMYXA4SnNGYnZnNCtGTmRnMkFhS3FnSkJoOGJPMFhaOG5MNDBFYm5EWVRM?=
- =?utf-8?B?SzZVMm5WZVJteUx1R3ZkVTRwR2FySWtNejQwdVNsZVV4YUdqYmtOYUFpaVRh?=
- =?utf-8?B?SUUvWkM5T3BmaVExNk9NcWxjVUhlTGhkS0VRK2tqTExjeDNWV1EwbmtCOUJt?=
- =?utf-8?B?emh0Tmg2WG9ZZTRnVWREZ3I2c1pYWjhUdWNFekNxQjgwS2NMT0Z1T1o3dnRK?=
- =?utf-8?B?dkptUnVRdFB0NHM1ZTk0Q1h1ZGxKRldybmlWVGtYTTNtM0JBdEwrRC9JU3k4?=
- =?utf-8?B?YTlIM0xpL01CcXRiTHk0aFpwTnZIVExmNklmOGtwaDUybE0yNWRtQnNPNW40?=
- =?utf-8?B?cm9mRHFWTGREdTYrSHBxaHROcVdhd0llR09SemlLOGUrbXhMai9vMm10UGZv?=
- =?utf-8?B?eCtWdHNrZW4zYW0zNHVleUQ4SE9jd2lsMEFYQkphMk9aYi8wMDBLZUNwMHpx?=
- =?utf-8?B?QkVoZWVaOGM0YkFsNDNVWlQ0ZG5LWngxTWdDWEttcVhxakwvUVY0eGZMZi90?=
- =?utf-8?B?Zit1WU5MUW5Kdi9kOENRc1hHVW1oVUp3VHZ3TFFFMEU2TVRjKzh1OXAvblJW?=
- =?utf-8?B?RmhOYzNnSzlHM3RXblZraWJKYkNXUW04WmMwL0FERm1zQksxcmNCdjJVWllk?=
- =?utf-8?B?SjRWbXZzT0ZsbDJad3c2N1JpbkNieHA5aDhTK0dnTHV2WG0wSTJoWnB1QzVy?=
- =?utf-8?B?MFk3MXdOcEczYkErSUxGb3ZCbXNVVXhGdFZMVkI4M3pxZGRWTksyUndnb0RE?=
- =?utf-8?B?LzlFbmh3SmJRU0RITUlCcW1tUFk5b01PclFtRVJwMks4WW1uUG5WTHNjNjhr?=
- =?utf-8?B?ZXl2ZEtVeTVzOXoyWEhIVnY1VG9HUHh4eTMxNnIrcTFSakxmQ3Myd1l5b21U?=
- =?utf-8?B?T21rS0xYenBWVUs0cktMQXRsSmNyb0hIbk9aNnpkZ082NVE9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NEdyeEZhZFRmN3pPZ2FsNzl1NUdXWjVadTBxVWtsUTZHajJUbEZLSXZWcGtB?=
- =?utf-8?B?YmNiOGNnQkovZDdLTGFoc0JzUi9wQWN0MlpmallvU0sxb3pJc2c2bzE2WFdi?=
- =?utf-8?B?aC9RVkQ3Vm9IQ3BERzQ3VldxdzZGWm90VE1hMmlERGRZeXhzOUZ3L3FiMlM2?=
- =?utf-8?B?RHQrK1FUVzF4SVV5NS9lSEJkUlo3MENxTXhQTk4xSjJHdjlCdUdwOHZUNkZS?=
- =?utf-8?B?ejArSmlSblBUaldNemVoVEFpd2pJY0FkbnVNR2EzbEFDaG11eXpjQ0dsL2Nt?=
- =?utf-8?B?TFdwdXU0c1ZQQkZTMzNIMlJMWThPclVaeUFsb2pVWWVGMkI3ZWpzRVc4b3p5?=
- =?utf-8?B?blY3TGNOM2x0d2NiYlMzQkxBd2MvWFZ5YjliM3JheFVhZmFtZVNNY0RFUGNU?=
- =?utf-8?B?RTBCdnRGZnlXZERNMHd6aVJVTHUrcGpYSTVnMEhjNVQ3ci84Zzh1YWJGSEY5?=
- =?utf-8?B?SC9CWTZidTc5YlhSZjZ3bzA5c0N2YjY0ZnI3Wi9MYTJ1THhLdVBLSFdpRkRB?=
- =?utf-8?B?OE8wRThzZERadUtyZ3ErcmlEMTVZRFJlalpFQlYvTEtqMjF2MVVzQSs5enNX?=
- =?utf-8?B?VmMrWFBLM0tjUW0xWndETVpkdnQzSk1EVVRWekowcmRHSnpLMDc0dGRoa3A2?=
- =?utf-8?B?TzIwZlMrR0pjb05DeWtIMTVYdmFvQmJCM0huSThVTk1KU04xQXVwb1dDMDA4?=
- =?utf-8?B?WGFsYUY3eWErTFpJUmZnZHJvQ0IwMC82RU5iaE5IQVkzeUNLSEEwT3lTZjk0?=
- =?utf-8?B?ZnlzbHZEa0ZhMHcyemdoZHBSUTYrVWN0cTQ5aGl0bGVwc3pzQTl3UStkK21k?=
- =?utf-8?B?ZGZnV1JxV2xNQ1pGU0JibTZEdlJ5K1VPWEtLMW5lQ3E1cW9RVElldGJGRzAw?=
- =?utf-8?B?RVlYQU9lOGYzZFVudmVpcFJZZ0pjVmZpNkoyTHF4ZkNSemUzK2dNQm8vcm1l?=
- =?utf-8?B?S1FvNXZJb2VzQk0xTURCRlNxNTZOR1hWRTBVeXROMUFWYUFNVzI1OElFbW5t?=
- =?utf-8?B?K0lGVnZ0RnlUbThpOVdXVjIySWtBZXJYeUVRZjZRVllsOEMyZUQxTkdGS3FH?=
- =?utf-8?B?YWphdjZKOGhtQ2ZUclBUb1VtNTZDRklUTkxJK0I0TDRsRjVFV0ZQVERzQi9j?=
- =?utf-8?B?ZVpOUU1hdTZCcW4zMXZHbmVRU3ZhTVBJdFpEdXFMODd2VkZVRk1OOEdIZnM2?=
- =?utf-8?B?akNLRnQrK2JMUVhTL0thYXZCRitiVEo0b252UUFhTEliOFNWditSbGFXNEoz?=
- =?utf-8?B?RDhwZGVoY2ZCZS9acXkyejQ1VUR0djQ4VlAvQXRZQ3lLMjcySzQ3MGREc2o3?=
- =?utf-8?B?MHlWOGFDN1VYRWRBT3hQN0l3TmNQdmFLL0ZmcDVKcVEyMWlVT29LcUN5VlBF?=
- =?utf-8?B?eHB1YVFadHFDZm0yaEdkWnk5QlBFV1FJOHlyTmFTQmpDS1V4YVkrY2xqeHdO?=
- =?utf-8?B?V2xWZUdGTWtWNms3NmlDd1BkVCsxQzZ3U2dsL3dIWnZEOTBPYmdGa3pQVzFD?=
- =?utf-8?B?bVoya1RnNVlCUDNBQUZTckYvaFljSGFSSVlxMEJjVzBKQ1pNcVVCRDhZR1JH?=
- =?utf-8?B?eGNJTUJQZk5iMnI2TytPOVI4SDNybGQ0bTR4UTRrL2d3aEtTcldwT1lGRDJR?=
- =?utf-8?B?OHowVVpXRzdwQm14cXhsYkFYUWRGSEJKYi9XUFVwSWMzNytsWFVXT3ZoaDBY?=
- =?utf-8?B?MUZXUEgzY0pPRm9CUFY4L2gxSGJSdFJtQkJrVEdkWVQ2cDF6Rmk4dGl4ekpO?=
- =?utf-8?B?c0dpRjNJRTR6YVNuVmFwMTdUaHI5TjNFNG0xTmR4UDR4aTE5U2xkUUtRa09U?=
- =?utf-8?B?SW8zWVJVRStrVGJUZmNqYS92YnhpOTJOT1AxSWkyRTFWNFVlQ2pQRFoyYWpQ?=
- =?utf-8?B?MHBGU0R3emRUVlpQQWxOWEZKQjh1RU1DOUM2VGszWEkxWDErMitxbWxSdUpR?=
- =?utf-8?B?QzBVV09ucTExeTV3Um4yTFkveFFOS0UzT2hWRDErS0dMRm5HSDhTM0drVlFp?=
- =?utf-8?B?cG5qckdvWGNpcVhvMS9XMTZRVXhoQlJxbTl4bSs5c0dPdTlGUm1rRDRRWVFn?=
- =?utf-8?B?MnFScVdwcU9QUzIxQXpqY1VPSnNsczFFbXhySERaRjdlRXRCbG16VitVTkJQ?=
- =?utf-8?Q?yGWE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABD12745B
+	for <linux-doc@vger.kernel.org>; Sun, 21 Jul 2024 22:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721599724; cv=none; b=sNF4HEUsMMagifohm3Kmvq9p77vrbua1OwkQySjg9OpGAbHDF7FpBlAjVkbgfLO6MzvQrOADaVKVMPNDmsrzQgMvbZb27KI8KTiehBtYkZNwV2dcAlpSAtV8fFarc/YJepK1okladuoP2ktC7hIo19e9lBPngaCxLchR/ah/Hso=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721599724; c=relaxed/simple;
+	bh=3cX0kwDU5b8rcZZ955opofqi6LaYdUQoIbhhqN5BgBg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HxTOlvrB8rQJWv7o9jN5NIs2yTUpi+c1M6tPiQxkg3FrvIETV41kz34EN1ewFSh5C2Mxw7IJ2BmXeRxHHrTIto0i6VBRC8p9IFPXrsRjHHpQmwp+TgkLXlhwZ4CWWEWs6MImA3S8ktdgX5oftNl+VNCijOM8bWJzlYmyBBbl734=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sVejC-00032t-UZ; Mon, 22 Jul 2024 00:08:26 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sVej8-001EsY-As; Mon, 22 Jul 2024 00:08:22 +0200
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1sVej8-00FrrZ-0y;
+	Mon, 22 Jul 2024 00:08:22 +0200
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: [PATCH v7 0/3] usb: gadget: 9pfs transport
+Date: Mon, 22 Jul 2024 00:08:16 +0200
+Message-Id: <20240116-ml-topic-u9p-v7-0-3a1eeef77fbe@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5628728f-2c34-4c4f-b69d-08dca9b03348
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2024 18:09:01.8988
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NapsaEXDXhqOEcbl6s5fle25n1nVyuwd+4Hy5qz97rLMROdrVuLbvqTyRR2GyiY+VAyyWpc9tuMsUgz1RzyHHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6391
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANCGnWYC/33PyW7DIBQF0F+JWJcGHlPoqv9RdcHwiJE8CTtWq
+ sj/XuxtXS8vuu9c8SITlowT+bi8SMElT3noazBvFxIa19+R5lgzAQaSca5p19J5GHOgDzvSm1V
+ gpBIMPSf1xLsJqS+uD8121LVde93b19reCmPBlJ/73td3zU2e5qH87PML317/WVo4ZdTFWxBMJ
+ +skfo7Y3x9zGfr8fI9INm2BMwGq4KUOPikLVsOhIM4EUYWgwQmNIUTHDwV5JsgqGACMcPPMxeN
+ fqDNBVUFhZM5HJTCpQ0GfCboK2iprTDQ6pvRHWNf1Fy3S2EYYAgAA
+To: Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, v9fs@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, kernel@pengutronix.de, 
+ Michael Grzeschik <m.grzeschik@pengutronix.de>, 
+ Jan Luebbe <jlu@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5135;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=3cX0kwDU5b8rcZZ955opofqi6LaYdUQoIbhhqN5BgBg=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBmnYbR3Uh79e1ZCyJnyO/OFLUPnjQIm0qcam8qJ
+ is/9ERDo8qJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZp2G0QAKCRC/aVhE+XH0
+ q4DCD/96ozjKJyLgTMTB4I6AtbzdKKDqNptoPcCYUSu4kmixGTTeDvSD9tfRH4pCIO7u9A2uCtW
+ DTCJC46AxfLNXs3CIRb+KNz3vtWzpeRdVEY0S4lvMNJ/ONxtCugygfwToBdO3TKNbB7bJqZAzXY
+ fdSUrr4TARcGHsaJSMottN7CzX6TwekEiL+Cm6F2L2ioHWgfpVCVFhLVYlOO1bWtHz3IMUxSE88
+ qJwnlIV70+kbgciH3GKD2stVPKKwZQTAIhHdNaA692Rq05p/kcesTLAYrSVUuOnSDkrbGRbXMdJ
+ +39rhcdULffBrdGsyq2+yKBYUp9/XYZ+z6I6RMqU8g3P94cMUZJAfvhOWFA31RZJY0nD5ERPo1Z
+ 03TEO68mfHD1oBPTuLhZyziEj5AToqDAQ5ys/6AR8BFb0+eNm9pxCaweti6sqd+NkXSwv4RmNXl
+ CI9lCkAs2Ua2kG6osbd8lpXYcS7CmGyjT0DD7cyXfwC6B7PdRKvoVpfqHUuQTHfhFtIa8fJzKVz
+ y0An/ftmzJnKAfykBKOZ+1THeN76Yd2D5VcLna+wWZ0BynBSoQxn+IShNXwgyS914I0JLcpGF0T
+ w9/wd+cGPMqq/2ueaoHQOTD6iEjIlzoGMbQahxVL1wGVIG4a7gMgfKQgcvV7LlGZNoZCWKnelHl
+ kYV54pNBXrNB/9A==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-IA0KPiBPbiBUaHUsIEp1bCAxOCwgMjAyNCwgSC4gUGV0ZXIgQW52aW4gd3JvdGU6DQo+ID4gT24g
-SnVseSAxMiwgMjAyNCA4OjEyOjUxIEFNIFBEVCwgU2VhbiBDaHJpc3RvcGhlcnNvbiA8c2Vhbmpj
-QGdvb2dsZS5jb20+DQo+IHdyb3RlOg0KPiA+ID5PbiBXZWQsIEp1bCAxMCwgMjAyNCwgWGluMyBM
-aSB3cm90ZToNCj4gPiA+PiA+IE9uIFdlZCwgRmViIDA3LCAyMDI0LCBYaW4gTGkgd3JvdGU6DQo+
-ID4gPj4gPiA+IFN3aXRjaCBNU1JfSUEzMl9GUkVEX1JTUDAgYmV0d2VlbiBob3N0IGFuZCBndWVz
-dCBpbg0KPiA+ID4+ID4gPiB2bXhfcHJlcGFyZV9zd2l0Y2hfdG9fe2hvc3QsZ3Vlc3R9KCkuDQo+
-ID4gPj4gPiA+DQo+ID4gPj4gPiA+IE1TUl9JQTMyX0ZSRURfUlNQMCBpcyB1c2VkIGR1cmluZyBy
-aW5nIDMgZXZlbnQgZGVsaXZlcnkgb25seSwNCj4gPiA+PiA+ID4gdGh1cyBLVk0sIHJ1bm5pbmcg
-b24gcmluZyAwLCBjYW4gcnVuIHNhZmVseSB3aXRoIGd1ZXN0IEZSRUQNCj4gPiA+PiA+ID4gUlNQ
-MCwgaS5lLiwgbm8gbmVlZCB0byBzd2l0Y2ggYmV0d2VlbiBob3N0L2d1ZXN0IEZSRUQgUlNQMCBk
-dXJpbmcgVk0NCj4gZW50cnkgYW5kIGV4aXQuDQo+ID4gPj4gPiA+DQo+ID4gPj4gPiA+IEtWTSBz
-aG91bGQgc3dpdGNoIHRvIGhvc3QgRlJFRCBSU1AwIGJlZm9yZSByZXR1cm5pbmcgdG8gdXNlcg0K
-PiA+ID4+ID4gPiBsZXZlbCwgYW5kIHN3aXRjaCB0byBndWVzdCBGUkVEIFJTUDAgYmVmb3JlIGVu
-dGVyaW5nIGd1ZXN0IG1vZGUuDQo+ID4gPj4gPg0KPiA+ID4+ID4gSGVoLCBpZiBvbmx5IEtWTSBo
-YWQgYSBmcmFtZXdvcmsgdGhhdCB3YXMgc3BlY2lmaWNhbGx5IGRlc2lnbmVkDQo+ID4gPj4gPiBm
-b3IgY29udGV4dCBzd2l0Y2hpbmcgTVNScyBvbiByZXR1cm4gdG8gdXNlcnNwYWNlLiAgVHJhbnNs
-YXRpb246DQo+ID4gPj4gPiBwbGVhc2UgdXNlIHRoZQ0KPiA+ID4+ID4gdXNlcl9yZXR1cm5fbXNy
-KCkgQVBJcy4NCj4gPiA+Pg0KPiA+ID4+IElJVUMgdGhlIHVzZXIgcmV0dXJuIE1TUiBmcmFtZXdv
-cmsgd29ya3MgZm9yIE1TUnMgdGhhdCBhcmUgcGVyIENQVQ0KPiA+ID4+IGNvbnN0YW50cywgYnV0
-IGxpa2UgTVNSX0tFUk5FTF9HU19CQVNFLCBNU1JfSUEzMl9GUkVEX1JTUDAgaXMgYSBwZXINCj4g
-PiA+PiAqdGFzayogY29uc3RhbnQsIHRodXMgd2UgY2FuJ3QgdXNlIGl0Lg0KPiA+ID4NCj4gPiA+
-QWgsIGluIHRoYXQgY2FzZSwgdGhlIGNoYW5nZWxvZyBpcyB2ZXJ5IG1pc2xlYWRpbmcgYW5kIG5l
-ZWRzIHRvIGJlIGZpeGVkLg0KPiA+ID5BbHRlcm5hdGl2ZWx5LCBpcyB0aGUgZGVzaXJlZCBSU1Aw
-IHZhbHVlIHRyYWNrZWQgYW55d2hlcmUgb3RoZXIgdGhhbiB0aGUgTVNSPw0KPiA+ID5FLmcuIGlm
-IGl0J3Mgc29tZXdoZXJlIGluIHRhc2tfc3RydWN0LCB0aGVuIGt2bV9vbl91c2VyX3JldHVybigp
-DQo+ID4gPndvdWxkIHJlc3RvcmUgdGhlIGN1cnJlbnQgdGFzaydzIGRlc2lyZWQgUlNQMC4gIEV2
-ZW4gaWYgd2UgZG9uJ3QgZ2V0DQo+ID4gPmZhbmN5LCBhdm9pZGluZyB0aGUgUkRNU1IgdG8gZ2V0
-IHRoZSBjdXJyZW50IHRhc2sncyB2YWx1ZSB3b3VsZCBiZSBuaWNlLg0KPiA+DQo+ID4gSG0sIHBl
-cmhhcHMgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvIGlzIHRvIGFsd2F5cyBpbnZva2UgdGhpcyBmdW5j
-dGlvbg0KPiA+IGJlZm9yZSBhIGNvbnRleHQgc3dpdGNoIGhhcHBlbnMgaWYgdGhhdCBoYXBwZW5z
-IGJlZm9yZSByZXR1cm4gdG8gdXNlciBzcGFjZT8NCj4gDQo+IEFjdHVhbGx5LCBpZiB0aGUgX1RJ
-Rl9ORUVEX1JTUDBfTE9BRCBkb2Vzbid0IHByb3ZpZGUgYSBtZWFuaW5nZnVsIGJlbmVmaXQgKG9y
-DQo+IHknYWxsIGp1c3QgZG9uJ3Qgd2FudCBpdCA6LSkgKSwgDQoNCldlIHdhbnQgaXQg8J+Yii4N
-Cg0KTXkgY29uY2VybiB3YXMgYWRkaW5nIGFuIGV4dHJhIGNoZWNrIG9mICh0aV93b3JrICYgX1RJ
-Rl9ORUVEX1JTUDBfTE9BRCkNCmludG8gYSBob3QgZnVuY3Rpb24gYXJjaF9leGl0X3RvX3VzZXJf
-bW9kZV9wcmVwYXJlKCkuICBIUEEgY2hlY2tlZCB0aGUNCmZ1bmN0aW9uIGFuZCBzdWdnZXN0ZWQg
-dG8gdGVzdCB0aV93b3JrIGZvciB6ZXJvIGFuZCB0aGVuIHByb2Nlc3MNCmluZGl2aWR1YWwgYml0
-cyBpbiBpdDoNCg0KZGlmZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL2VudHJ5LWNvbW1v
-bi5oIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vZW50cnktY29tbW9uLmgNCmluZGV4IGZiMjgwOWIy
-MGIwYS4uNGM3OGI5OTA2MGI1IDEwMDY0NA0KLS0tIGEvYXJjaC94ODYvaW5jbHVkZS9hc20vZW50
-cnktY29tbW9uLmgNCisrKyBiL2FyY2gveDg2L2luY2x1ZGUvYXNtL2VudHJ5LWNvbW1vbi5oDQpA
-QCAtNDcsMTUgKzQ3LDE3IEBAIHN0YXRpYyBfX2Fsd2F5c19pbmxpbmUgdm9pZCBhcmNoX2VudGVy
-X2Zyb21fdXNlcl9tb2RlKHN0cnVjdCBwdF9yZWdzICpyZWdzKQ0KIHN0YXRpYyBpbmxpbmUgdm9p
-ZCBhcmNoX2V4aXRfdG9fdXNlcl9tb2RlX3ByZXBhcmUoc3RydWN0IHB0X3JlZ3MgKnJlZ3MsDQog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVk
-IGxvbmcgdGlfd29yaykNCiB7DQotICAgICAgIGlmICh0aV93b3JrICYgX1RJRl9VU0VSX1JFVFVS
-Tl9OT1RJRlkpDQotICAgICAgICAgICAgICAgZmlyZV91c2VyX3JldHVybl9ub3RpZmllcnMoKTsN
-CisgICAgICAgaWYgKHRpX3dvcmspIHsNCisgICAgICAgICAgICAgICBpZiAodGlfd29yayAmIF9U
-SUZfVVNFUl9SRVRVUk5fTk9USUZZKQ0KKyAgICAgICAgICAgICAgICAgICAgICAgZmlyZV91c2Vy
-X3JldHVybl9ub3RpZmllcnMoKTsNCg0KLSAgICAgICBpZiAodW5saWtlbHkodGlfd29yayAmIF9U
-SUZfSU9fQklUTUFQKSkNCi0gICAgICAgICAgICAgICB0c3NfdXBkYXRlX2lvX2JpdG1hcCgpOw0K
-KyAgICAgICAgICAgICAgIGlmICh1bmxpa2VseSh0aV93b3JrICYgX1RJRl9JT19CSVRNQVApKQ0K
-KyAgICAgICAgICAgICAgICAgICAgICAgdHNzX3VwZGF0ZV9pb19iaXRtYXAoKTsNCg0KLSAgICAg
-ICBmcHJlZ3NfYXNzZXJ0X3N0YXRlX2NvbnNpc3RlbnQoKTsNCi0gICAgICAgaWYgKHVubGlrZWx5
-KHRpX3dvcmsgJiBfVElGX05FRURfRlBVX0xPQUQpKQ0KLSAgICAgICAgICAgICAgIHN3aXRjaF9m
-cHVfcmV0dXJuKCk7DQorICAgICAgICAgICAgICAgZnByZWdzX2Fzc2VydF9zdGF0ZV9jb25zaXN0
-ZW50KCk7DQorICAgICAgICAgICAgICAgaWYgKHVubGlrZWx5KHRpX3dvcmsgJiBfVElGX05FRURf
-RlBVX0xPQUQpKQ0KKyAgICAgICAgICAgICAgICAgICAgICAgc3dpdGNoX2ZwdV9yZXR1cm4oKTsN
-CisgICAgICAgfQ0KDQogI2lmZGVmIENPTkZJR19DT01QQVQNCiAgICAgICAgLyoNCg0KQmFzZWQg
-b24gaXQsIEkgbWVhc3VyZWQgaG93IG1hbnkgMHMgYXJlIG91dCBvZiBldmVyeSBvbmUgbWlsbGlv
-biB0aV93b3JrDQp2YWx1ZXMgaW4ga2VybmVsIGJ1aWxkIHRlc3RzLCBpdCdzIG92ZXIgOTklLCBp
-LmUuLCB1bmxpa2VseSh0aV93b3JrKS4NCg0KV2hlbiBib290aW5nIGEgS1ZNIGd1ZXN0LCBpdCBi
-ZWNvbWVzIDc1JSwgd2hpY2ggaXMgZXhwZWN0ZWQuICBBZnRlciB0aGUNCmd1ZXN0IGlzIHVwIHJ1
-bm5pbmcga2VybmVsIGJ1aWxkIGluIGl0LCBpdCdzIDk5JSBhZ2Fpbi4NCg0KU28gYXQgbGVhc3Qg
-dGhpcyBwYXRjaCBzZWVtcyBhIGxvdy1oYW5naW5nIGZydWl0LCBhbmQgSSBoYXZlIHNlbnQgaXQg
-dG8NCkludGVsIDBkYXkgZm9yIGJyb2FkZXIgcGVyZiB0ZXN0cy4NCg0KQXMgY29udGV4dCBzd2l0
-Y2hlcyBhcmUgd2F5IGxlc3MgZnJlcXVlbnQgdGhhbiBleGl0IHRvIHVzZXIgbW9kZSwgSSBkbw0K
-Tk9UIGV4cGVjdCBpdCBtYWtlcyBhIGRpZmZlcmVuY2UgdG8gd3JpdGUgTVNSX0lBMzJfRlJFRF9S
-U1AwIG9uIGV4aXQgdG8NCnVzZXIgbW9kZSBpbnN0ZWFkIG9mIG9uIGNvbnRleHQgc3dpdGNoIGVz
-cGVjaWFsbHkgd2hlbiB3ZSBkbyBpdCBvbiB0b3ANCm9mIHRoZSBhYm92ZSBwYXRjaC4NCg==
+This series is adding support to mount usb hostside exported 9pfs
+filesystems via the usb gadget interface. It also includes a simple tool
+(p9_fwd.py) to translate an tcp 9pfs transport and reuse it via the usb
+interface.
+
+    +--------------------------+    |    +--------------------------+
+    |  9PFS mounting client    |    |    |  9PFS exporting server   |
+ SW |                          |    |    |                          |
+    |   (this:trans_usbg)      |    |    |(e.g. diod or nfs-ganesha)|
+    +-------------^------------+    |    +-------------^------------+
+                  |                 |                  |
+                  |                 |           +------v------+
+                  |                 |           |  p9_fwd.py  |
+                  |                 |           +------^------+
+                  |                 |                  |
+------------------|------------------------------------|-------------
+                  |                 |                  |
+    +-------------v------------+    |    +-------------v------------+
+    |                          |    |    |                          |
+ HW |   USB Device Controller  <--------->   USB Host Controller    |
+    |                          |    |    |                          |
+    +--------------------------+    |    +--------------------------+
+
+The USB host exports a filesystem, while the gadget on the USB device
+side makes it mountable.
+
+Diod (9pfs server) and the forwarder are on the development host, where
+the root filesystem is actually stored. The gadget is initialized during
+boot (or later) on the embedded board. Then the forwarder will find it
+on the USB bus and start forwarding requests.
+
+In this case the 9p requests come from the device and are handled by the
+host. The reason is that USB device ports are normally not available on
+PCs, so a connection in the other direction would not work.
+
+One use-case is to use it as an alternative to NFS root booting during
+the development of embedded Linux devices.
+
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+Changes in v7:
+- added back the req_lock spinlock
+- Link to v6: https://lore.kernel.org/r/20240116-ml-topic-u9p-v6-0-695977d76dff@pengutronix.de
+
+Changes in v6:
+- fixed the python script not to have path set by default
+- improved the lock init
+- fixed usb9pfs status change to connected
+- Link to v5: https://lore.kernel.org/r/20240116-ml-topic-u9p-v5-0-5ed0abd53ef5@pengutronix.de
+
+Changes in v5:
+- fixed lockup in mount -> remount -> monut scenario
+- improved p9_fwd transport script with more options
+- Link to v4: https://lore.kernel.org/r/20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de
+
+Changes in v4:
+- reworked the naming scheme to be set by the configfs instance
+- added conn_cancel function to properly stop the transfers
+- ensured that umount -f will work even when the host side has crahed
+- added all the review feedback from Andrzej Pietrasiewicz
+- Link to v3: https://lore.kernel.org/r/20240116-ml-topic-u9p-v3-0-c62a36eccda1@pengutronix.de
+
+Changes in v3:
+- dropped patch "usb: gadget: legacy: add 9pfs multi gadget" as discussed with gregkh
+- Link to v2: https://lore.kernel.org/r/20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de
+
+Changes in v2:
+- improved the commit messages
+- introduced an patch to move the header u_f.h to include/linux/usb to compile usb gadget functions treewide
+- moved usbg gadget function to net/9p/
+- adderessed several comments in function driver, like the cleanup path and kbuild errors
+- improved the documentation in Documentation/filesystems/9p.rst
+- Link to v1: https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de
+
+---
+Michael Grzeschik (3):
+      usb: gadget: function: move u_f.h to include/linux/usb/func_utils.h
+      net/9p/usbg: Add new usb gadget function transport
+      tools: usb: p9_fwd: add usb gadget packet forwarder script
+
+ Documentation/filesystems/9p.rst                   |  58 +-
+ drivers/usb/gadget/configfs.c                      |   2 +-
+ drivers/usb/gadget/function/f_fs.c                 |   2 +-
+ drivers/usb/gadget/function/f_hid.c                |   2 +-
+ drivers/usb/gadget/function/f_loopback.c           |   2 +-
+ drivers/usb/gadget/function/f_midi.c               |   2 +-
+ drivers/usb/gadget/function/f_midi2.c              |   2 +-
+ drivers/usb/gadget/function/f_sourcesink.c         |   2 +-
+ drivers/usb/gadget/u_f.c                           |   2 +-
+ .../gadget/u_f.h => include/linux/usb/func_utils.h |   2 +-
+ net/9p/Kconfig                                     |   6 +
+ net/9p/Makefile                                    |   4 +
+ net/9p/trans_usbg.c                                | 985 +++++++++++++++++++++
+ tools/usb/p9_fwd.py                                | 243 +++++
+ 14 files changed, 1304 insertions(+), 10 deletions(-)
+---
+base-commit: 2c9b3512402ed192d1f43f4531fb5da947e72bd0
+change-id: 20240116-ml-topic-u9p-895274530eb1
+
+Best regards,
+-- 
+Michael Grzeschik <m.grzeschik@pengutronix.de>
+
