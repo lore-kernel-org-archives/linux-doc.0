@@ -1,73 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A122C1E507;
-	Mon, 22 Jul 2024 14:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D542E8F70;
+	Mon, 22 Jul 2024 14:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721658560; cv=none; b=fG2qUhPdDsNQaeCFwCK6s0+uMIiusAHNAyhD6RukMeuvOtsecwidkPhNjxzQrs2evarNI+0trcoC2o4JWDnyi7Dv/xjjSt5aZaoBSuCJrorGOrNTqktYi6bibp1NBlEJnAmQ6ed0H9eCo+qIGb8E3qbXiFERVRIraXajPJuaej0=
+	t=1721658694; cv=none; b=mi2zRqTLwgPmi0cSEbhw96S17RzGjdQZSpYPL3klM9w1oYL8OzfAPKHN+1JazF0JY9q7BqJeRYS0VQKWnD1KONlA9b3z6v2chQGK+3/u07mTrwJdn9M8Ujbb1SkwZA82lAUjUmi2YCDRhpE2enPDBKnRNA6fBEk9k779Ho+C94k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721658560; c=relaxed/simple;
-	bh=nawEJ/cnK+iSS/sgAlnLxcMlOynnOMFPfCdkNDsifak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H1wr1wij3nSHIxBrUkdXCFHDEYVmI30NFk1rbOBS8b+5s7BREVzKi58/g3SEOh7xN9Z4jEHHBu0RPv/GU/8AJYWNOKgvi6Ob0lHFuOFwAZedsvPfpLyeiou1d0p39zPwi0dmFJxQpFE6nYtj5/JRVuoxoR9r24dw3OgXwSXjT28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWSXgA3x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721658694; c=relaxed/simple;
+	bh=19lbAMuG8/46S2vgOQ57EZ7eAEiw5QZgfuSPqQZDrsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2z2wjoXmnLpYkBpeA+5vmNE1ET12mSsNohMdue1lW2dOpQ8DsnbCL+6TibuoOUXEejP3C2CKMj2vDNuSInxzpQFP+27S3n3GSOtV7x5Mzg71oaSdJpICW5zXMmeevPLAdJUxiAV/kJmu8U5TjV3eiXHEZrCtaMyHrnfWJts7Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjmEXCND; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWSXgA3x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1589FC116B1;
-	Mon, 22 Jul 2024 14:29:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjmEXCND"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A25C4AF0B;
+	Mon, 22 Jul 2024 14:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721658560;
-	bh=nawEJ/cnK+iSS/sgAlnLxcMlOynnOMFPfCdkNDsifak=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nWSXgA3xRAz/MCfk1RLJ+jPvazzf0rgDA01B8eLfTx4eaV2+jRgeZENlOxxGSB5Fh
-	 08ufh+cDCWypD1qdPIy8ExOqzS8WjXBCYKBa56sxQxoT04f8hGuFg9lcf5aBEk3EG8
-	 ngKU5JvYA+5o4o64MNzkLO8sfQpkpK25jxLBrCDOpxFod2mVx/eTXAhY5P3hLWBMFF
-	 XVXJOU3dM7yIzZohiDT99MMK6Jb6M5NmAPkNEyizDFOQ4IM5poR0kiYA59zwO483fI
-	 9j+nesZMmw9Y2z8WD64YS0dZj49zcYa2h96tgpWaK82AmEASg01/VfSXp6fL7nmF2y
-	 ZCZg51/FxNqIg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH] MAINTAINERS: add Documentation/dev-tools/ to workflows@
-Date: Mon, 22 Jul 2024 07:29:13 -0700
-Message-ID: <20240722142913.1709594-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.45.2
+	s=k20201202; t=1721658693;
+	bh=19lbAMuG8/46S2vgOQ57EZ7eAEiw5QZgfuSPqQZDrsA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rjmEXCNDKBFkXhGlJsIiF/YiOAsxKiiVQ1yy0ea0mM7am81QSF76gClDv9enAtAlY
+	 k5zMblh91dP2iCOQWwD6UXBINMw2SURV0D5VkPmSTcCj+7qrLkiTc9H5X2ZXYxh7QX
+	 /ztn3FxVCqDdZwqpFFWuHB/egHyBWfmfrmpKrYkCGpLDHUdnmnfjb/anl9IGvbPEnH
+	 XugwdYQn62/PfBmN2Sx/MlckvPbNVxoeQqCGdrWIx9EJAnA97fRcl1FAgUYZvFPWh/
+	 St8tz1MT7X7blLPvAvrsbs+/p6oIUcWDkcQJuST7wIJtoLExPii3xtAVeQFrVH08LG
+	 pTi8SManLPJQA==
+Date: Mon, 22 Jul 2024 15:31:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v9 38/39] kselftest/arm64: Add a GCS stress test
+Message-ID: <19c8a2eb-1c52-43aa-a329-3dc245c966e6@sirena.org.uk>
+References: <20240625-arm64-gcs-v9-0-0f634469b8f0@kernel.org>
+ <20240625-arm64-gcs-v9-38-0f634469b8f0@kernel.org>
+ <875xt2xojp.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fZmP/tHPENLmAEIV"
+Content-Disposition: inline
+In-Reply-To: <875xt2xojp.fsf@linaro.org>
+X-Cookie: Everything you know is wrong!
 
-The goal of the workloads@ mailing list was to make it easier for
-maintainers who don't use lore+lei to subscribe to topics related
-to process changes. In other words it should cover changes to Documentation
-files which most maintainers should know about. Recent changes from Kees [1]
-to provide guidelines on naming KUnit files did not fall under workflows@
-since Documentation/dev-tools/ isn't covered. The patch volume for
-dev-tools isn't huge and most of the changes are interesting. Add it.
 
-Link: https://lore.kernel.org/20240720165441.it.320-kees@kernel.org/ # [1]
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+--fZmP/tHPENLmAEIV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec6904cbfd1f..a85234de4fd0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6680,6 +6680,7 @@ DOCUMENTATION PROCESS
- M:	Jonathan Corbet <corbet@lwn.net>
- L:	workflows@vger.kernel.org
- S:	Maintained
-+F:	Documentation/dev-tools/
- F:	Documentation/maintainer/
- F:	Documentation/process/
- 
--- 
-2.45.2
+On Thu, Jul 18, 2024 at 08:34:18PM -0300, Thiago Jung Bauermann wrote:
+> Mark Brown <broonie@kernel.org> writes:
 
+> # # Waiting for 9 children
+> # # Thread-4030: Failed to enable GCS
+> # # Thread-4031: Failed to enable GCS
+
+This is already fixed locally, just rebasing bitrot.
+
+--fZmP/tHPENLmAEIV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaebTsACgkQJNaLcl1U
+h9A1BAf/U0ze5vCUOiRu38u3xvKe2wO4c/NxU38BnN6U5lriKaPwnoC8WAtlYPBJ
+67+s8YadLJLRgDMtuUHW85HuikmcDmVUs5SUM7HwwVd6qMVx9FYmMls8aA9Powqn
+u0Y4vFhfQwlvL0aSBnYPBF2vjCXMYzN8EVHJaJhPJlB5HsZstADQQM77apbd9U2V
+BD0gJukw9LhNPPTmNyuuBnF9jXXCAUXEpEosdsWYl4f6+msBc5abKIt1agzRJhFE
+yYalLzSD/wqZOZGLXf/Cx/DzdJLC8/ahN8cI5MqCUDDQFLFnhV/vS2yld0/Cu0sw
+qwhjMxP9NPq+uiruBXIU7nGO40rudg==
+=Kw0J
+-----END PGP SIGNATURE-----
+
+--fZmP/tHPENLmAEIV--
