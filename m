@@ -1,94 +1,199 @@
-Received: from forward206a.mail.yandex.net (forward206a.mail.yandex.net [178.154.239.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0626168BE;
-	Mon, 22 Jul 2024 05:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19F215FD01;
+	Mon, 22 Jul 2024 07:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721628004; cv=none; b=EFIQALz1e+QVLH5JSNDsdKpA6nwkPEnbPYleotFU4jjhYIX/CEvczfiC28iujdPZXDMkLDFJROHWL3W6sLLJuFjoxWPl3yh5hXIqA59w52h26KlLVP0xqlSPILKs4ZwTgGxXMk+2sGw13mAE9drHr93kKjGxkM495Y2ornGUWq0=
+	t=1721635200; cv=none; b=W+F1M0yKBfIPyY3B5aCLiNOVRuSqusNoyrgDAApZ006uQ0H20aU9LcYHuoX4G6394qJiModWEGOZDpZl220VydTwXh52lnQGjyLhoFFrBKhC/VfF3yRJX/57OMx9CD4c6q+BlMsbGy7ra8zN4aPcnHydoZzi6pj2kARG8M9FpnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721628004; c=relaxed/simple;
-	bh=ierZ12X7z3oQ/lS0FGW+wClZ8Zy6pxAMzAPVSW5u0/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rer11ArVcqjgdpslVMTROHP51k8QaMDe5b2hb3r6IoIjIXuJGRedqNqjNxRcI6KzhE7uefkZlyun7v2GWXVZiBSNS+MQfihOCTkhmKHY/8X2M3kOisu51qJ0kz2ABQazQJnxAjRgNO2VlGDL8ydznFgVPk7dcujlCdrZaLQi16I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=uzxc5I7P; arc=none smtp.client-ip=178.154.239.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1721635200; c=relaxed/simple;
+	bh=DETe9cqRl472ht2Rv9JHngPeg4K1nkxpvGkPc2r2hGw=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=psPb0jBChHzRWFwx4xjvyhAx/+A2zFMR/xiyGYIMq05qCJcguQNd7yb5eCySrpylQyzN3HV6d43L7CQmkEBQpZX3iyEIQkOb3DOLBe5EDFf+1JzbVEAtkSinF2nyGfufTLpW0h4P2Bd1aMKeZxoKoDt8kabh+dUf0gOk0kv6/3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P2HyqMpG; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="uzxc5I7P"
-Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d100])
-	by forward206a.mail.yandex.net (Yandex) with ESMTPS id 29E02655B4;
-	Mon, 22 Jul 2024 08:59:57 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0d:409f:0:640:f1f0:0])
-	by forward100a.mail.yandex.net (Yandex) with ESMTPS id DBB2E47173;
-	Mon, 22 Jul 2024 08:59:48 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id kxFT5TaoI4Y0-wNpRrxye;
-	Mon, 22 Jul 2024 08:59:48 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1721627988; bh=ACG6XmQ70P6qOXNr3gtI5DEJ6qQRSPvIN83cuZz3xrY=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=uzxc5I7PfCdYUmh19FAJFyqAIqvpIzvJT+AtCSw0vhqBooQSlUfxOVEJja5b/5fzh
-	 Awk44VWd1AMOAL5S8iXLySM++6jM90GcX/Pvnzzj/8X3XUoBHY7XcalaqwEiL5eOEQ
-	 O78pLk/j0//2IL3IrqfoxlDEpP4MhLYfzCX7XdXM=
-Authentication-Results: mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Ivan Davydov <davydoff33@yandex.ru>
-To: linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	corbet@lwn.net,
-	masahiroy@kernel.org
-Cc: nathan@kernel.org,
-	nicolas@fjasle.eu,
-	Ivan Davydov <davydoff33@yandex.ru>
-Subject: [PATCH v2] kbuild: doc: gcc to CC change
-Date: Mon, 22 Jul 2024 08:57:31 +0300
-Message-ID: <20240722055810.2302-1-davydoff33@yandex.ru>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2HyqMpG"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fa9ecfb321so25681785ad.0;
+        Mon, 22 Jul 2024 00:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721635198; x=1722239998; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fYfE/3PpByzsoGwhv8BBvxXbgN0ILya8G+Bi1D7Wfn8=;
+        b=P2HyqMpGtsl4g9+JyhlYfycNz652hC8U5CQRs7Q2q9jKNcr/h/s5F0TQLZHRnIwg97
+         tdmYnpt4FmD9WZ2lW6IWXb28uJZo57n+duLzaQ61i+pXjrN4OMix5aXBbWR+MaBSNP5Z
+         KyHBdwuIkajWcE2n7FPWBj4yVWqQ9tFS5nZMo1J/8WIj4YHGigIv4CJLzI4eMFpfK8j5
+         ZCWLRfuirF0O9X9aYtRapcbl3eHpFOOpunrmg+bCk16XL61GkutrKlp2l02S6AYtM5Xi
+         rSrLOUovJy8XBK3w4AYcQmsO34/Ac4la9KwsbEnChhfrTiVLO7cfdnjtwX0lZTKOkk9d
+         112w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721635198; x=1722239998;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYfE/3PpByzsoGwhv8BBvxXbgN0ILya8G+Bi1D7Wfn8=;
+        b=P362MH3/83uToK5I3fekwxuCAuu4leykmn9vJHweYHlBpvi74esYGmUIBvCC2jw4kj
+         Agjq85p7CAJZLaDAK21HukNAYpfu+Dlywrjt5ArRHQdTqK20tWfCXsXtXB6zJ+j3gJds
+         r8HshK089qpAvThI1FGoiIODvDF1/LnPSef63U81BBgz5cU2TyPioqkh7aBp0xa85t35
+         Eg9sqkXYxHXuwE1JBqpVMhzPer67le5wnYNRbvuAhnSP4bJzYnX/yHPZbzavn/42Dm8n
+         mB1SPQ2r5TlFixYHFCluiIT9jgv+oJ8ptZ614cjlyMHEjoREPzUkpMdl99m3KqVZB/Fd
+         Sh2w==
+X-Forwarded-Encrypted: i=1; AJvYcCU7uSJpJjqPhStP9S9vQKiHam8++8JOy29b87mkuOVUR9r37aYuBnq/mHmWJ2PQtKpi+YMpq8uE1JbJm0mv+hNA106Vz9G9GBzQNG7II8yta7wYNS2oXpRXd1lMJCJaXz+uSzr1EyKr/c4rW55XePqUVhHSedmPf1+qyfu0IQqUwU4r4eU=
+X-Gm-Message-State: AOJu0YzF1migHdvPIYXqrpP6HEHX/toXipKBZly7EMlOfCKq6KxuFNAs
+	ctC859EsXf5xl+hEagym42VfBFGMUp15bGI9WXM6CmSKIcaG+puT
+X-Google-Smtp-Source: AGHT+IH1/q7piFxaPApp/nFcftg2U5jv2fki91ORtk9udTyWHUR7dl8pWdRwBt/h+VS8LKQYhXu4fw==
+X-Received: by 2002:a17:902:f549:b0:1fb:3e8c:95a6 with SMTP id d9443c01a7336-1fd7465ba9amr33047925ad.40.1721635197623;
+        Mon, 22 Jul 2024 00:59:57 -0700 (PDT)
+Received: from [198.18.0.1] ([2401:d9c0:2902::c2eb])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f3181f4sm48696385ad.163.2024.07.22.00.59.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jul 2024 00:59:57 -0700 (PDT)
+From: Cryolitia PukNgae <cryolitia@gmail.com>
+X-Google-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
+Message-ID: <3e1db249-f89e-4cc4-9e92-1f00f2e262f9@gmail.com>
+Date: Mon, 22 Jul 2024 15:59:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+ Yao Zi <ziyao@disroot.org>, =?UTF-8?Q?Marcin_Str=C4=85gowski?=
+ <marcin@stragowski.com>
+References: <20240718-gpd_fan-v4-0-116e5431a9fe@gmail.com>
+ <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
+ <cf41c18f-8b35-4970-a274-2834a15c9f08@roeck-us.net>
+Content-Language: en-US
+In-Reply-To: <cf41c18f-8b35-4970-a274-2834a15c9f08@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In this part of the documentation, $(CC) is meant, but gcc is written.
 
-Signed-off-by: Ivan Davydov <davydoff33@yandex.ru>
----
- Documentation/kbuild/makefiles.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 2024/7/19 09:41, Guenter Roeck wrote:
+> I am havng a hard time reviewing this driver. I am going to pint out a few
+> issues, but this is far from a complete review.
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 991ce6081e35..be43990f1e7f 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -578,7 +578,7 @@ cc-option
-   Note: cc-option uses KBUILD_CFLAGS for $(CC) options
- 
- cc-option-yn
--  cc-option-yn is used to check if gcc supports a given option
-+  cc-option-yn is used to check if $(CC) supports a given option
-   and return "y" if supported, otherwise "n".
- 
-   Example::
-@@ -596,7 +596,7 @@ cc-option-yn
-   Note: cc-option-yn uses KBUILD_CFLAGS for $(CC) options
- 
- cc-disable-warning
--  cc-disable-warning checks if gcc supports a given warning and returns
-+  cc-disable-warning checks if $(CC) supports a given warning and returns
-   the commandline switch to disable it. This special function is needed,
-   because gcc 4.4 and later accept any unknown -Wno-* option and only
-   warn about it if there is another warning in the source file.
-@@ -606,7 +606,7 @@ cc-disable-warning
-     KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
- 
-   In the above example, -Wno-unused-but-set-variable will be added to
--  KBUILD_CFLAGS only if gcc really accepts it.
-+  KBUILD_CFLAGS only if $(CC) really accepts it.
- 
- gcc-min-version
-   gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
--- 
-2.45.2
+I'm new to kernel development, so please forgive my mistakes and thank 
+you for your patience.
+
+I am modifying the source code of this driver according to your 
+suggestions, and I would like to discuss some of your comments first.
+
+>> +static const struct gpd_model_quirk gpd_win4_quirk = {
+>> +	.model_name	= "win4",
+>> +	.address	= {
+>> +				.addr_port		= 0x2E,
+>> +				.data_port		= 0x2F,
+>> +				.manual_control_enable	= 0xC311,
+>> +				.rpm_read		= 0xC880,
+>> +				.pwm_write		= 0xC311,
+>> +				.pwm_max		= 127,
+>> +			},
+>> +	.read_rpm	= gpd_win4_read_rpm,
+>> +	// same as GPD Win Mini
+>> +	.set_pwm_enable	= gpd_win_mini_set_pwm_enable,
+>> +	.read_pwm	= gpd_read_pwm,
+>> +	// same as GPD Win Mini
+> I do not see te value in those comments.
+
+It's the struct of win4, but it's part of functions are the same as 
+win_mini's.
+
+The comment is to remind that, it's by design to use win_mini's 
+function, not by mistake.
+
+>> +
+>> +static int gpd_fan_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct gpd_driver_priv *data;
+>> +	const struct resource *plat_res;
+>> +	const struct device *dev_reg;
+>> +	const struct resource *region_res;
+>> +
+>> +	data = dev_get_platdata(&pdev->dev);
+>> +	if (IS_ERR(data))
+>> +		return -ENODEV;
+>> +
+> With all the "const" spread through the driver, this one is really odd.
+> I have never seen a driver there the _platform data_ is used to store
+> instance-specific information. Normally _that_ information is considered
+> constant and not modified by a driver.  I really have to say that it is
+> extremely odd to have the init function
+> declare values such as pwm enable and pwm value and use it in the driver.
+>
+> Please provide a rationale for this unusual approach.
+I don't know how to pass which model the init function found. Is it a 
+good idea the use a global pointer to point to the instance-specific 
+information?
+>> +	plat_res = platform_get_resource(pdev, IORESOURCE_IO, 0);
+>> +	if (IS_ERR(plat_res))
+>> +		return dev_err_probe(dev, PTR_ERR(plat_res),
+>> +				     "Failed to get platform resource\n");
+>> +
+>> +	region_res = devm_request_region(dev, plat_res->start,
+>> +					 resource_size(plat_res), DRIVER_NAME);
+>> +	if (IS_ERR(region_res))
+>> +		return dev_err_probe(dev, PTR_ERR(region_res),
+>> +				     "Failed to request region\n");
+>> +
+>> +	dev_reg = devm_hwmon_device_register_with_info(
+>> +		dev, DRIVER_NAME, data, &gpd_fan_chip_info, NULL);
+> CHECK: Lines should not end with a '('
+> #756: FILE: drivers/hwmon/gpd-fan.c:593:
+> +	dev_reg = devm_hwmon_device_register_with_info(
+>
+> Plus on top of that multi-line code should be aligned with '('.
+
+The source code has been formatted by clang-format with kernel's 
+`.clang-format` file.
+
+But I would be glad to manually adjust it's style if needed.
+
+>> +static int gpd_fan_remove(struct platform_device *pdev)
+>> +{
+>> +	struct gpd_driver_priv *data = dev_get_platdata(&pdev->dev);
+>> +
+>> +	data->pwm_enable = AUTOMATIC;
+>> +	data->quirk->set_pwm_enable(data, AUTOMATIC);
+>> +
+> This is even more unusual. Can you point me to other drivers in the kernel
+> using that same approach for handling device specific private data ?
+
+It's to set EC back to default status if user rmmod the driver, to 
+prevent a hardware damage.
+
+For example, they may use a userspace program to adjusting the fan 
+curve, setting the EC to manually control mode. It happened that the 
+device was in low power consumption and fan speed during rmmod, and the 
+user remove the module and then performed some tasks that generated a 
+lot of heat. Since the module was uninstalled and the EC was still in 
+manual mode, there was nothing to protect the device.
+
+I don't know how to implement this part elegantly
+
+>> +
+>> +	struct gpd_driver_priv data = {
+>> +		.pwm_enable		= AUTOMATIC,
+>> +		.pwm_value		= 255,
+> This is unusual, to say it mildly. Since the pwm value is never read
+> from the controller/chip, this is just a random value.
+
+We cannot read pwm out on win_mini, only wm2 support it.
+
+It's also to prevent the device from damaging.
+
+Assuming the user switches to manual control mode immediately after 
+loading the module, the fan will always run at full speed until the user 
+specifies the fan speed.
 
