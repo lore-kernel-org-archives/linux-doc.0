@@ -1,61 +1,60 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E4F74BF5
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6AB82D93
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721685507; cv=none; b=imorK2scakK+o4V5bSTO3aIb+Skriu2jf+VpX7sn2s/m9E2cA6QUHMUynpXOFEToUVGl16SPXye0wS2njCEr+4e/3T40jugi6y1TGzU4d0wZIclhOuj4Hzvwx9x7aQpmEqynagwhodOiMsn3xAobq2oNkFT3WR6C3C9setatqtA=
+	t=1721685510; cv=none; b=idjKVQ6sHnfYWEKcZTAdvjszyPBzpVi0S4onAFViWYUyvP1oLbDT3GGlDwKDi1yEVheBZpJLhNOIoIz/tM1li4y4Q8WgWTw9tINlSqEziFEiQiPWj51Pro3VYxKJ2e9SLnNEZDGVVgRa8C++q9d+PxTEZJ8py47Adbg1Umir8L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721685507; c=relaxed/simple;
-	bh=/awdvkpT37Pcv9l+R6WHhK0Ytr8TrWH5wurC23dujZY=;
+	s=arc-20240116; t=1721685510; c=relaxed/simple;
+	bh=L3aaRS2j1B7ly0GhgM86XDS3MRCOslmFg/ArzwGxzO0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GMvm52AOFPKDgxmtCe9EjShFy2Wr2LMSZw1UjgXlLJQshNICWzdbQs7wTMlqdK1HNi1FMJN6RxD+oWiAl+P6L53DmT//8gXBMNYm8tXgJhDD/l+A6r+n7/OLnTLnJooivIrsc0L7wtwhvtsoeWCUCkAYrs/AF7qhdoZV7O4pcO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wAIV6Gh6; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:To:Cc; b=ggKnbxJ6zJZME+gglsfiZSKy1jDzCIAlhnkpXcFvjswK7V0TU/NOg0auID1GMX2HA7vCZHpi4eY7G+r+yhOyf1kMAtMs6WKKfdzWQzIx6ku+tRozzFhnQm1WhcWZ0XkoetHyPveXeE30eQ8C4K5nmbiobKQKmSRtodRFrmJTcy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=eEsZdZ4K; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wAIV6Gh6"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fc5549788eso36622205ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:58:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="eEsZdZ4K"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fc611a0f8cso27382505ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:58:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721685506; x=1722290306; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721685508; x=1722290308; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7liFIbqG3XLVQtLXjuEuZ9H5FIup228+UAuRj2s502A=;
-        b=wAIV6Gh6IyCg6aHC98bxC5muRWXa4ja0gHiWodDHiWRbrAsAohgjDdjhbbvNsAJ84o
-         llRESt3buUyOsHyci1PmdnKTexTgTRgPYUcCf/glJvwKRSLH0YMNl8xrgGSYECaS8pC9
-         3XHDapoTjPSTyTY3Rop1m+DSJ1IGiqslKR5CtnDYWCSC2Ca3/d8JVfNUWYtv1bpfrXQA
-         p+hi2RSPotiTsfX9sz6fq8K+6b/Q22Gy6GhU/EkxC2+bsD0cHKs2b+k0YGnqJ+kwAZOR
-         vBXE36B4VwTxixmscGtC0owxfTntrbmeWnt+xMxpAQvMJblCW0iYKwe7OUDxUrsbJc4+
-         4Atg==
+        bh=UhITSSlteAMwmsPUv9TpJ8KEJQbK1ok0BXYvmwnIXKY=;
+        b=eEsZdZ4KsCrjj7TAwmZqCUcq1hBHXmklA19TlvGZBjmHWi0btvwebV1lodtdjreLZc
+         Rpd3mCVkACt659ZBhziHVkfe7c1tfmvvgg1XfXiefX8EHcCNNF2L4J3JLNV4lau+G4xf
+         G+nOFJ12xlqA9+h3OMIhxRxoGU9Bdk90gOOqPIViPGBedyrep09QH52gtWzzUfX7ypBi
+         wsVHg6BzjhWsf58amQP7rewzQ4lLdiwrzBwCTg4seH5opJo5AdKoupVWl4/LAPKC2lO2
+         +wbu6On3OgQATxjeLArJ6x99hqhx8FkNSjw/IjiVEyIkvHVWarqTg4FXKICoa27F2e9e
+         LFYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721685506; x=1722290306;
+        d=1e100.net; s=20230601; t=1721685508; x=1722290308;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7liFIbqG3XLVQtLXjuEuZ9H5FIup228+UAuRj2s502A=;
-        b=vdHAoxdy3F0FmJzHYyFCeYWRlOHTfJwVbhLsPN+thuu+6fGO0W7lmJoeBXHmALIToE
-         /s6cxGLktWPbUeScSvaeAntExtOCHNAmyyZ7lKXVSO/8lebrmhtVSm0wWjI8wu9YeFnx
-         AYmyYbDitc2e/dGvf5LFYb7UYijHV4XRkQc1IEx/+itL9MII1NjPhNGuuBRGQA8j2Jf0
-         5WOW7j/bJWAqlez28WDO9TUkoUrlepVmX6LCfKAkYpGL6ynYOGzrDZEcsFhUMa586HKE
-         1c6AoQE+F5T6BityL1fA4dZcU1UedYBnwQKIJ1lty/qZnnEwxDIZ+nBoobZ+pRaF7ds7
-         LclA==
-X-Forwarded-Encrypted: i=1; AJvYcCXct2FQDobwLBVNHs1CIlVuWHi5RVpX9r1kVGUAnvXBeZTHF7mo6Dry70p2KFPVKYAQOH4fTmpPVCh8pnJaZx+bTlcyZJ9sL/cc
-X-Gm-Message-State: AOJu0YxasM+Ixiodh5JfD0oWIVI4K8eW+rWTKjrqdUmNdC5zUfCcMM97
-	vBB1aFTKl/3ENNLNg9jF9gdPN7u8PdnDB7pfhDSaz9wCaapYFQFhLDcKw90ZFGk=
-X-Google-Smtp-Source: AGHT+IEhQYp1BZWLj9eFDI4F+59SR/8t3UUInGJ4gX5TJPVL1PbpSo7Q3rXHcGW/E8u/+YVve3sRYQ==
-X-Received: by 2002:a17:903:18d:b0:1fd:9fd8:1b2f with SMTP id d9443c01a7336-1fd9fd82008mr51936315ad.8.1721685505924;
-        Mon, 22 Jul 2024 14:58:25 -0700 (PDT)
+        bh=UhITSSlteAMwmsPUv9TpJ8KEJQbK1ok0BXYvmwnIXKY=;
+        b=kqGJ9pSpYdGvW/e1y9sSriaFY1UX/vQTS1Cff/kn64ueGt2nlZEhBA8g/b+T+8Gjaz
+         gYol2v/M41NYnQNSQGjZBJcvHczfMFJo4ll9Pt53Tb41XPtHEfF8etUF3FL9D7J5BaNi
+         IFBKdpUJHt078T8NcQVNNQEACeWWwh8r5rzUWmym9k23MwmaNYQbn6g2BGK0u13B8yl3
+         c0IuTEmFySjkQTNZPNPcjeN8mGrRQT44w0XH1evj6/QAf8sKUwk2MUdA6DPS05Ljj2h+
+         p5t1Sy95rR9kF35WapvPTR29/TD8qC4AMknaUGYMmIkzFj2tpEejAoQojrhQvteSFbEC
+         RDEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIJc2/wk9i1fGRZ9dk8l3hPAlV0wyIAj93c4F+PvhmjkY7slqOHrWL176tb3aSt8UAPCesNjhOXlu9xA3RpqreGYYRn0SRhwfj
+X-Gm-Message-State: AOJu0YxRgznAvk2RKu+5gOX/40aENx24GOwYT+x2pnH1DnWVoNSDIzSC
+	S1c1nS4dqNsfBuOx0CP50xz7brWN1VxM/RHQnb9h/wpn8AYeUr9wBmd5rj9j73c=
+X-Google-Smtp-Source: AGHT+IF2VUxYR/aRNToCR+5ZrcyCmNKV+sSs8BINBXokqocI6vx0Q1B7xy0Kb+PiYoFTmuhV9YSoTA==
+X-Received: by 2002:a17:902:d510:b0:1fd:8eaf:eaa9 with SMTP id d9443c01a7336-1fd8eafeec5mr38070905ad.37.1721685508075;
+        Mon, 22 Jul 2024 14:58:28 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f44f0d4sm59997775ad.219.2024.07.22.14.58.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f44f0d4sm59997775ad.219.2024.07.22.14.58.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 14:58:25 -0700 (PDT)
+        Mon, 22 Jul 2024 14:58:27 -0700 (PDT)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Mon, 22 Jul 2024 14:58:11 -0700
-Subject: [PATCH v6 07/13] riscv: csr: Add CSR encodings for
- CSR_VXRM/CSR_VXSAT
+Date: Mon, 22 Jul 2024 14:58:12 -0700
+Subject: [PATCH v6 08/13] riscv: Add xtheadvector instruction definitions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,7 +63,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240722-xtheadvector-v6-7-c9af0130fa00@rivosinc.com>
+Message-Id: <20240722-xtheadvector-v6-8-c9af0130fa00@rivosinc.com>
 References: <20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com>
 In-Reply-To: <20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -84,46 +83,60 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  Charlie Jenkins <charlie@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721685488; l=1045;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721685488; l=1957;
  i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=/awdvkpT37Pcv9l+R6WHhK0Ytr8TrWH5wurC23dujZY=;
- b=HkA9GryhuoQSbrAEZ95j95Hqi2eIuaKpw8ZKsmN39SZQzbRBNWPE66zVFn20eiWNCV9omY0DH
- m+/5MZAQ7RODwQ/ViRBSsCcS8JUhXwkT+4tZRvwC/Z2ygfj/aiygn8J
+ bh=L3aaRS2j1B7ly0GhgM86XDS3MRCOslmFg/ArzwGxzO0=;
+ b=hqIK70baIF2TRsMNhma0nqEfic3E1nBlRr8r5IBs5B1G/V09ObAWM/kiUDmJLqlbsJt62gSOm
+ TBKkN9dv4EhDg1McKFXFHMYxPuqxf1K2g39tmBh7oLjWZiqSN3Lw1vA
 X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
  pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-The VXRM vector csr for xtheadvector has an encoding of 0xa and VXSAT
-has an encoding of 0x9.
+xtheadvector uses different encodings than standard vector for
+vsetvli and vector loads/stores. Write the instruction formats to be
+used in assembly code.
 
 Co-developed-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- arch/riscv/include/asm/csr.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ arch/riscv/include/asm/vendor_extensions/thead.h | 26 ++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-index 3eeb07d73065..c0a60c4ed911 100644
---- a/arch/riscv/include/asm/csr.h
-+++ b/arch/riscv/include/asm/csr.h
-@@ -300,9 +300,14 @@
- #define CSR_STIMECMP		0x14D
- #define CSR_STIMECMPH		0x15D
+diff --git a/arch/riscv/include/asm/vendor_extensions/thead.h b/arch/riscv/include/asm/vendor_extensions/thead.h
+index 48421d1553ad..27a253a20ab8 100644
+--- a/arch/riscv/include/asm/vendor_extensions/thead.h
++++ b/arch/riscv/include/asm/vendor_extensions/thead.h
+@@ -13,4 +13,30 @@
  
--#define VCSR_VXRM_MASK			3
--#define VCSR_VXRM_SHIFT			1
--#define VCSR_VXSAT_MASK			1
-+/* xtheadvector symbolic CSR names */
-+#define CSR_VXSAT		0x9
-+#define CSR_VXRM		0xa
+ extern struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_thead;
+ 
++/* Extension specific helpers */
 +
-+/* xtheadvector CSR masks */
-+#define CSR_VXRM_MASK		3
-+#define CSR_VXRM_SHIFT		1
-+#define CSR_VXSAT_MASK		1
- 
- /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
- #define CSR_SISELECT		0x150
++/*
++ * Vector 0.7.1 as used for example on T-Head Xuantie cores, uses an older
++ * encoding for vsetvli (ta, ma vs. d1), so provide an instruction for
++ * vsetvli	t4, x0, e8, m8, d1
++ */
++#define THEAD_VSETVLI_T4X0E8M8D1	".long	0x00307ed7\n\t"
++#define THEAD_VSETVLI_X0X0E8M8D1	".long	0x00307057\n\t"
++
++/*
++ * While in theory, the vector-0.7.1 vsb.v and vlb.v result in the same
++ * encoding as the standard vse8.v and vle8.v, compilers seem to optimize
++ * the call resulting in a different encoding and then using a value for
++ * the "mop" field that is not part of vector-0.7.1
++ * So encode specific variants for vstate_save and _restore.
++ */
++#define THEAD_VSB_V_V0T0		".long	0x02028027\n\t"
++#define THEAD_VSB_V_V8T0		".long	0x02028427\n\t"
++#define THEAD_VSB_V_V16T0		".long	0x02028827\n\t"
++#define THEAD_VSB_V_V24T0		".long	0x02028c27\n\t"
++#define THEAD_VLB_V_V0T0		".long	0x012028007\n\t"
++#define THEAD_VLB_V_V8T0		".long	0x012028407\n\t"
++#define THEAD_VLB_V_V16T0		".long	0x012028807\n\t"
++#define THEAD_VLB_V_V24T0		".long	0x012028c07\n\t"
++
+ #endif
 
 -- 
 2.44.0
