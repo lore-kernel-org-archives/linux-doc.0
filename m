@@ -1,243 +1,326 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA9F44C9E
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0131A89
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721682892; cv=none; b=UUoMsOU6C5BKf+ZLHYhN8daMZVdIs7z7NduX4axFDFZXPym5ZfdoLOAInzJrLhFJTcg4h5Umkp1X+PsKpBSpmwRYMO0dohGU2eGxSr7LRggPz0ujoWKSQswumJxu5OBkKy1R8oD53YHhwCIvggZ67Lxhvp+8xshI1NJZn4amcvM=
+	t=1721683452; cv=none; b=B20GM6SrgpW2a/ENdj7SWZvCIIaaMGL0k/UNRG3cp24QcEwA+zvY2fiKnVJdrhINeOFu5305oJQOdGJ4+u7M5luoLkx0SwPVPrjJXaOwPDomSPM8RJ/SPCg9wgY+ZMoxlVdrhq0tsx3qDOrJqiKWPYu5RaXpIVxLBCUTJFtg1T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721682892; c=relaxed/simple;
-	bh=1lagUwf3RC7JZReX5Mnpd7A0gWXy3u+C9i+YHhmoyxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHmERsytzErqkq3p4i/cials+GcDBuJp7LAs7h+gWklrNcYdjJrxAo8I4CQNH0b3Nvt92W5V8nDym7wdvLYB8iuETiHvTEnEmqb/NkQmOp+JwIFRCHcgLBHOSTs79pPFC2WORSz89746iCLzuQMyjN35j7b/X5weJeVeVyqNpXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=PHlu6V+Y; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1721683452; c=relaxed/simple;
+	bh=BThTVvfcR9JWFWvbsMUclsG5OU2SU4XBfxzGrpzk6tQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XtoUxCC0YKtOEtgTPMl4YBFy1noAZsi8bjgMvvsLRwbhv0vo66i2uB0DIHqGNRX+g3YqzPE6xBkUZB01ma7ASa5Io9KbFQgQsVvP+D2xx9fIgSr2V+ZbJs8SItYxIoc1Ag4yvMINRf4xf3o6ze+3lUZeAdI6jYeeEqKgWCbdX0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bn203gYy; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="PHlu6V+Y"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fd90c2fc68so798635ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:14:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bn203gYy"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-447f8aa87bfso110661cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721682889; x=1722287689; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=re4a/549teXfpxRZzb1IT6fF6eSAFMvkPvsA5nTBSEI=;
-        b=PHlu6V+Y1tSVP4PYEI+aO1Y5Vhvotnse984CQjdRHMQmysJnhxRkkpTU4Ma3NA+xAZ
-         XLCt/MIBou5dG4gsbvB0+RqFYiXwsuI5Lt7NC6j3co0V+i0SCmC+AGJn2JQar49XPQ4L
-         h4xyARp8Ja2IQBQGlXlO4oUfKbd8sRNsj2XqcVtmfJGYEKVZZ5OY+v5RdXg/zd/ulsQf
-         wIyGr3MtHBh6LnOU1EXiQzRdz5PQrMlwgTIlHhRPQSVNDhdmrCF8M/DX4gmEgBQxd+zU
-         gE5KdMaGu6kuEzwNwt7+1guX3B37fVCWVeIq7jbvJHMUn+o6AJ9EsjRx4BFdoYcqwlxF
-         rFvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721682889; x=1722287689;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1721683449; x=1722288249; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=re4a/549teXfpxRZzb1IT6fF6eSAFMvkPvsA5nTBSEI=;
-        b=KyUqn7lMvuQBZeMVEyHCBpIoNyJk4f6eu6IP7NDjRGanPkxWUatfsWxm91/l8FLQ07
-         tNJ5PuS6MOVj6giNesMEgqrKG6Z+Ee6wVr5OqvKi1e9e1NCwFliZxGCyhw/G9z+FpeVO
-         ceY3LUepP0hjT4fkurLVrUmep5IFJiTSeLsdkl4QZJ6v0T0OVliHCkgHfBNUfNeeArjn
-         Bvn4w7mQ/6iKtHsq4biWkqiwJpALcgiNOTVKpZORnGUA0FXzcIov6lLSxO3Lu6RjMZdw
-         QoBWJzHxCs5bum79si3qU7FaBvFg+KWztsbbS6shcUDZvJFCVQhwOGQduA51cyISDADA
-         596Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX/O0Nj3UrGBl9rPxF0aEvdudu4zd93FOb9ln+6pGzXZjdU848EsbOE7sVDeZY1alUtdEx5YPYXLqO0vzX1yE+DSukbORuEadoc
-X-Gm-Message-State: AOJu0YwFOgZnYbgdH+uv5glQ3FO7QkZUVY+Un+vlJPYwWD0yA6S9c3pI
-	3AO0b2I75K716jR0z/ILFqC9cSzgQ/6Z4iK71kKCDflb9RUYDDe9vVV99PpVXZY=
-X-Google-Smtp-Source: AGHT+IHNGpumvDD95UYgz2v1+PPZ4GlU1XFvLWIOWNaPJpQc9m08TfGb1igAHvmYgQ6MZbrThHXc8A==
-X-Received: by 2002:a17:902:db02:b0:1fb:4b87:6e9d with SMTP id d9443c01a7336-1fdb5f6b95fmr9284455ad.42.1721682888632;
-        Mon, 22 Jul 2024 14:14:48 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f485bd1sm59363665ad.275.2024.07.22.14.14.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 14:14:48 -0700 (PDT)
-Date: Mon, 22 Jul 2024 14:14:44 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 12/13] selftests: riscv: Fix vector tests
-Message-ID: <Zp7LxAWkDQMQhVLq@ghost>
-References: <20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com>
- <20240719-xtheadvector-v5-12-4b485fc7d55f@rivosinc.com>
- <20240722-0940cd64c0d8bb03f2427022@orel>
+        bh=jUvbV8cr91Az3570PAWe2v2K6wrQs4UKFeU0Jgh3ytQ=;
+        b=Bn203gYyHJKRDBqW1dMqZ5Y0TRawfmsMVyDcmt0WuJkQ88PB9D2B7/ppc5RvJArx4l
+         wdtTU9+SULb3Bc1DByTOH2r06ye+QTWqOs33q6C4ixNVrz5rorUAyomYj9X20bdzu9qz
+         TzWI0V83U3ZaoZrw0tb1OAYGSB6eoaUBRDs2qDVHrL70rjPYtRWUK8/71Z/I+dnIcZqN
+         h6VAbLcK6tncvsC6f2aNaLpuyJkQ6bX3wDyvLQDY4KvfwU34ZSKACwW3jmRv6l5EryNu
+         oc3VceXiWg4OOcY8M6f3QbpDUVOzTXIXtmIjNgwBCYRwWLh7RALpqY32TtEc5o5RUObp
+         bMig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721683449; x=1722288249;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jUvbV8cr91Az3570PAWe2v2K6wrQs4UKFeU0Jgh3ytQ=;
+        b=BJdbhKU5nMWY4wIgu3VnSsBc48fYMZm5KLxGu+g1jORCfzfow1MqUAEChk6Man2F5B
+         GlsO1ElF5b9XPnFPUCf5iU+29YBZVQzeIgFMWvtEYSVoR6FId1ycTnAb8fy8DTeVS2Pg
+         4hH4nGZIwN1EECRhWeR9tHSLJy/H5ETGK/5neeTl11XqygEfJba6RPHSOQo8+RWMHnr/
+         2BFcK3jzFvgjqDlwy515N/+n7L4gG4S6gDK3ftUcBKysR+jiPhDbwZm0pImlVvlbQ2j6
+         XcpgnLMJDkHyE3mNkrqTL4+RQwE5Wau35lbHrqVHIWHfx56KoaF8aO25relbikDjMQ/u
+         5Jjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHW3LnRiH/WA3C4ONhnRgv/uau0xmAf8fZkhMvfiP12pviFyT6zdmK2d24MOL2ijaQCeBlPbaHfXs4W2x3uLnUdPccoqKMA6Z3
+X-Gm-Message-State: AOJu0Yz7R+jl/FC9V+XGzD3reJ5Wc+cBEsG+AKbTLJqqcNk1GYbfLKpY
+	BlOoU4M02LpOH9LgmoIO253ZqKOEoD0toLx11ZgSfAsa4JgVT9uwsY+p3ciugOKC2qNEy8N2F74
+	DebkhWzzCfFKOQNiKvqrJ95/TDgka05R4vbk7
+X-Google-Smtp-Source: AGHT+IF65D9l0J9nysjn+Fs0bUa7Rk1bA005g2DJfpgR1lRIXz0pmT072M//KBwaPKskcNk0gii+b5JQqm5e6s9QHbM=
+X-Received: by 2002:a05:622a:164a:b0:447:e8bd:2fbe with SMTP id
+ d75a77b69052e-44faa96a947mr5161191cf.1.1721683448578; Mon, 22 Jul 2024
+ 14:24:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240722-0940cd64c0d8bb03f2427022@orel>
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-9-jthoughton@google.com> <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
+ <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
+ <CAOUHufZ2Vd+Ea5vka20+SCVB446LZEA0mWy=RScN=7AChd869w@mail.gmail.com> <CADrL8HVRSyS8ZADRTvHZ-QDKBRv1SFvVyJKkr-CW2mzpNjW5Zw@mail.gmail.com>
+In-Reply-To: <CADrL8HVRSyS8ZADRTvHZ-QDKBRv1SFvVyJKkr-CW2mzpNjW5Zw@mail.gmail.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Mon, 22 Jul 2024 15:23:29 -0600
+Message-ID: <CAOUHufapvh13G9CAwsGiap0=LjE+qor4i1hT=3APOtBSjtX4Kw@mail.gmail.com>
+Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 22, 2024 at 01:47:29PM -0500, Andrew Jones wrote:
-> On Fri, Jul 19, 2024 at 09:19:07AM GMT, Charlie Jenkins wrote:
-> > Overhaul the riscv vector tests to use kselftest_harness to help the
-> > test cases correctly report the results and decouple the individual test
-> > cases from each other. With this refactoring, only run the test cases is
-> > vector is reported and properly report the test case as skipped
-> > otherwise. The v_initval_nolibc test was previously not checking if
-> > vector was supported and used a function (malloc) which invalidates
-> > the state of the vector registers.
-> > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > ---
-> >  tools/testing/selftests/riscv/abi/ptrace           | Bin 0 -> 759368 bytes
-> >  tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
-> >  tools/testing/selftests/riscv/vector/Makefile      |  17 +-
-> >  .../selftests/riscv/vector/v_exec_initval_nolibc.c |  84 +++++++
-> >  tools/testing/selftests/riscv/vector/v_helpers.c   |  56 +++++
-> >  tools/testing/selftests/riscv/vector/v_helpers.h   |   5 +
-> >  tools/testing/selftests/riscv/vector/v_initval.c   |  16 ++
-> >  .../selftests/riscv/vector/v_initval_nolibc.c      |  68 ------
-> >  .../testing/selftests/riscv/vector/vstate_prctl.c  | 266 ++++++++++++---------
-> >  9 files changed, 324 insertions(+), 191 deletions(-)
-> > 
-> > diff --git a/tools/testing/selftests/riscv/abi/ptrace b/tools/testing/selftests/riscv/abi/ptrace
-> > new file mode 100755
-> > index 000000000000..2b03e77b4dcf
-> > Binary files /dev/null and b/tools/testing/selftests/riscv/abi/ptrace differ
-> > diff --git a/tools/testing/selftests/riscv/vector/.gitignore b/tools/testing/selftests/riscv/vector/.gitignore
-> > index 9ae7964491d5..7d9c87cd0649 100644
-> > --- a/tools/testing/selftests/riscv/vector/.gitignore
-> > +++ b/tools/testing/selftests/riscv/vector/.gitignore
-> > @@ -1,3 +1,4 @@
-> >  vstate_exec_nolibc
-> >  vstate_prctl
-> > -v_initval_nolibc
-> > +v_initval
-> > +v_exec_initval_nolibc
-> > diff --git a/tools/testing/selftests/riscv/vector/Makefile b/tools/testing/selftests/riscv/vector/Makefile
-> > index bfff0ff4f3be..995746359477 100644
-> > --- a/tools/testing/selftests/riscv/vector/Makefile
-> > +++ b/tools/testing/selftests/riscv/vector/Makefile
-> > @@ -2,18 +2,27 @@
-> >  # Copyright (C) 2021 ARM Limited
-> >  # Originally tools/testing/arm64/abi/Makefile
-> >  
-> > -TEST_GEN_PROGS := vstate_prctl v_initval_nolibc
-> > -TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc
-> > +TEST_GEN_PROGS := v_initval vstate_prctl
-> > +TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc v_exec_initval_nolibc sys_hwprobe.o v_helpers.o
-> >  
-> >  include ../../lib.mk
-> >  
-> > -$(OUTPUT)/vstate_prctl: vstate_prctl.c ../hwprobe/sys_hwprobe.S
-> > +$(OUTPUT)/sys_hwprobe.o: ../hwprobe/sys_hwprobe.S
-> > +	$(CC) -static -c -o$@ $(CFLAGS) $^
-> > +
-> > +$(OUTPUT)/v_helpers.o: v_helpers.c
-> > +	$(CC) -static -c -o$@ $(CFLAGS) $^
-> > +
-> > +$(OUTPUT)/vstate_prctl: vstate_prctl.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
-> >  	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
-> >  
-> >  $(OUTPUT)/vstate_exec_nolibc: vstate_exec_nolibc.c
-> >  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
-> >  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
-> >  
-> > -$(OUTPUT)/v_initval_nolibc: v_initval_nolibc.c
-> > +$(OUTPUT)/v_initval: v_initval.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
-> > +	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
-> > +
-> > +$(OUTPUT)/v_exec_initval_nolibc: v_exec_initval_nolibc.c
-> >  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
-> >  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
-> > diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> > new file mode 100644
-> > index 000000000000..74b13806baf0
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> > @@ -0,0 +1,84 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Get values of vector registers as soon as the program starts to test if
-> > + * is properly cleaning the values before starting a new program. Vector
-> > + * registers are caller saved, so no function calls may happen before reading
-> > + * the values. To further ensure consistency, this file is compiled without
-> > + * libc and without auto-vectorization.
-> > + *
-> > + * To be "clean" all values must be either all ones or all zeroes.
-> > + */
-> > +
-> > +#define __stringify_1(x...)	#x
-> > +#define __stringify(x...)	__stringify_1(x)
-> > +
-> > +int main(int argc, char **argv)
-> > +{
-> > +	char prev_value = 0, value;
-> > +	unsigned long vl;
-> > +	int first = 1;
-> > +
-> > +	asm volatile (
-> > +		".option push\n\t"
-> > +		".option arch, +v\n\t"
-> > +		"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
-> > +		".option pop\n\t"
-> > +		: [vl] "=r" (vl)
-> > +	);
-> > +
-> > +#define CHECK_VECTOR_REGISTER(register) ({					\
-> > +	for (int i = 0; i < vl; i++) {						\
-> > +		asm volatile (							\
-> > +			".option push\n\t"					\
-> > +			".option arch, +v\n\t"					\
-> > +			"vmv.x.s %0, " __stringify(register) "\n\t"		\
-> > +			"vsrl.vi " __stringify(register) ", " __stringify(register) ", 8\n\t" \
-> > +			".option pop\n\t"					\
-> > +			: "=r" (value));					\
-> > +		if (first) {							\
-> > +			first = 0;						\
-> > +		} else if (value != prev_value || !(value == 0x00 || value == 0xff)) { \
-> > +			printf("Register " __stringify(register) " values not clean! value: %u\n", value);	\
-> > +			exit(-1);						\
-> 
-> I think we should ensure all tests in tools/testing/selftests/riscv/ use
-> TAP output, exiting with ksft_finished(), or at least exit with 0 for
-> success. For example, vstate_exec_nolibc exits with 2 for success since
-> it exits with the return value of prctl(PR_RISCV_V_GET_CONTROL). And
-> vstate_prctl.c exits with several different negative values, which means
-> it'll exit with several different values around 255. To figure what went
-> wrong, one will have to convert those exit codes to the original negative
-> values in order to look them up. Having these types of inconsistent exit
-> values complicates QA.
-> 
-> Thanks,
-> drew
+On Mon, Jul 22, 2024 at 2:46=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> On Mon, Jul 8, 2024 at 4:42=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > On Mon, Jul 8, 2024 at 11:31=E2=80=AFAM James Houghton <jthoughton@goog=
+le.com> wrote:
+> > >
+> > > On Fri, Jul 5, 2024 at 11:36=E2=80=AFAM Yu Zhao <yuzhao@google.com> w=
+rote:
+> > > >
+> > > > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@=
+google.com> wrote:
+> > > > > @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsi=
+gned long start, unsigned long end,
+> > > > >                 if (!folio)
+> > > > >                         continue;
+> > > > >
+> > > > > -               if (!ptep_test_and_clear_young(args->vma, addr, p=
+te + i))
+> > > > > -                       VM_WARN_ON_ONCE(true);
+> > > > > +               lru_gen_notifier_clear_young(mm, addr, addr + PAG=
+E_SIZE);
+> > > > > +               if (pte_young(ptent))
+> > > > > +                       ptep_test_and_clear_young(args->vma, addr=
+, pte + i);
+> > > > >
+> > > > >                 young++;
+> > > > >                 walk->mm_stats[MM_LEAF_YOUNG]++;
+> > > >
+> > > >
+> > > > There are two ways to structure the test conditions in walk_pte_ran=
+ge():
+> > > > 1. a single pass into the MMU notifier (combine test/clear) which
+> > > > causes a cache miss from get_pfn_page() if the page is NOT young.
+> > > > 2. two passes into the MMU notifier (separate test/clear) if the pa=
+ge
+> > > > is young, which does NOT cause a cache miss if the page is NOT youn=
+g.
+> > > >
+> > > > v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifie=
+r
+> > > > twice every 64 PTEs, and therefore the second option is a clear win=
+.
+> > > >
+> > > > But you are doing twice per PTE. So what's the rationale behind goi=
+ng
+> > > > with the second option? Was the first option considered?
+> > >
+> > > Hi Yu,
+> > >
+> > > I didn't consider changing this from your v2[1]. Thanks for bringing =
+it up.
+> > >
+> > > The only real change I have made is that I reordered the
+> > > (!test_spte_young() && !pte_young()) to what it is now (!pte_young()
+> > > && !lru_gen_notifier_test_young()) because pte_young() can be
+> > > evaluated much faster.
+> > >
+> > > I am happy to change the initial test_young() notifier to a
+> > > clear_young() (and drop the later clear_young(). In fact, I think I
+> > > should. Making the condition (!pte_young() &&
+> > > !lru_gen_notifier_clear_young()) makes sense to me. This returns the
+> > > same result as if it were !lru_gen_notifier_test_young() instead,
+> > > there is no need for a second clear_young(), and we don't call
+> > > get_pfn_folio() on pages that are not young.
+> >
+> > We don't want to do that because we would lose the A-bit for a folio
+> > that's beyond the current reclaim scope, i.e., the cases where
+> > get_pfn_folio() returns NULL (a folio from another memcg, e.g.).
+> >
+> > > WDYT? Have I misunderstood your comment?
+> >
+> > I hope this is clear enough:
+> >
+> > @@ -3395,7 +3395,7 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
+> > long start, unsigned long end,
+> >                 if (pfn =3D=3D -1)
+> >                         continue;
+> >
+> > -               if (!pte_young(ptent)) {
+> > +               if (!pte_young(ptent) && !mm_has_notifiers(args->mm)) {
+> >                         walk->mm_stats[MM_LEAF_OLD]++;
+> >                         continue;
+> >                 }
+> > @@ -3404,8 +3404,8 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
+> > long start, unsigned long end,
+> >                 if (!folio)
+> >                         continue;
+> >
+> > -               if (!ptep_test_and_clear_young(args->vma, addr, pte + i=
+))
+> > -                       VM_WARN_ON_ONCE(true);
+> > +               if (!ptep_clear_young_notify(args->vma, addr, pte + i))
+>
+> walk->mm_stats[MM_LEAF_OLD]++ should be here, I take it.
+>
+> > +                       continue;
+> >
+> >                 young++;
+> >                 walk->mm_stats[MM_LEAF_YOUNG]++;
+> >
+> > > Also, I take it your comment was not just about walk_pte_range() but
+> > > about the similar bits in lru_gen_look_around() as well, so I'll make
+> > > whatever changes we agree on there too (or maybe factor out the commo=
+n
+> > > bits).
+> > >
+> > > [1]: https://lore.kernel.org/kvmarm/20230526234435.662652-11-yuzhao@g=
+oogle.com/
+> > >
+> > > > In addition, what about the non-lockless cases? Would this change m=
+ake
+> > > > them worse by grabbing the MMU lock twice per PTE?
+> > >
+> > > That's a good point. Yes I think calling the notifier twice here woul=
+d
+> > > indeed exacerbate problems with a non-lockless notifier.
+> >
+> > I think so too, but I haven't verified it. Please do?
+>
+> I have some results now, sorry for the wait.
+>
+> It seems like one notifier is definitely better. It doesn't look like
+> the read lock actually made anything worse with what I was testing
+> (faulting memory in while doing aging). This is kind of surprising,
 
-I do not follow. I am using the kselftest_harness
-(tools/testing/selftests/kselftest_harness.h) that does output using the
-TAP format. vstate_exec_nolibc is not a test in itself but is a helper.
-The Makefile for the vector tests describes this as:
+Not at all if you were only doing the aging path, which only takes the
+lock for read.
 
-TEST_GEN_PROGS := v_initval vstate_prctl
+Under memory pressure, we need to both the aging and eviction, and the
+latter has to take the lock for write (to unmap). And that's when the
+real contention happens, because the search space is too big -- the
+entire system memory for global reclaim -- unmapping can easily
+collide with clearing the A-bit.
 
-If you run the riscv collection of tests with:
-
-$ ./run_kselftest.sh --collection riscv
-
-You will see that the only vector test cases are v_initval and
-vstate_prctl, which both output as expected in TAP format.
-
-I do see that I messed up the return type of the is_vector_supported()
-function, I had meant to change that to a bool from an int since
-RISCV_HWPROBE_EXT_ZVE32X is greater than 32 bits. I will send a new
-version.
-
-- Charlie
-
+> but either way, I'll change it to the single notifier in v6. Thanks
+> Yu!
+>
+> Here are the results I'm basing this conclusion on, using the selftest
+> added at the end of this series.
+>
+> # Use taskset to minimize NUMA concern.
+> # Give an extra core for the aging thread.
+> # THPs disabled (echo never > /sys/kernel/mm/transparent_hugepage/enabled=
+)
+>
+> x86:
+>
+> # taskset -c 0-32 ./access_tracking_perf_test -l -v 32
+> # # One notifier
+> Populating memory             : 1.933017284s
+> Writing to populated memory   : 0.017323539s
+> Reading from populated memory : 0.013113260s
+> lru_gen: Aging                : 0.894133259s
+> lru_gen: Aging                : 0.738950525s
+> Writing to idle memory        : 0.059661329s
+> lru_gen: Aging                : 0.922719935s
+> lru_gen: Aging                : 0.829129877s
+> Reading from idle memory      : 0.059095098s
+> lru_gen: Aging                : 0.922689975s
+>
+> # # Two notifiers
+> Populating memory             : 1.842645795s
+> Writing to populated memory   : 0.017277075s
+> Reading from populated memory : 0.013047457s
+> lru_gen: Aging                : 0.900751764s
+> lru_gen: Aging                : 0.707203167s
+> Writing to idle memory        : 0.060663733s
+> lru_gen: Aging                : 1.539957250s  <------ got longer
+> lru_gen: Aging                : 0.797475887s
+> Reading from idle memory      : 0.084415591s
+> lru_gen: Aging                : 1.539417121s  <------ got longer
+>
+> arm64*:
+> (*Patched to do aging; not done in v5 or v6. Doing this to see if the rea=
+d
+> lock is made substantially worse by using two notifiers vs. one.)
+>
+> # taskset -c 0-16 ./access_tracking_perf_test -l -v 16 -m 3
+> # # One notifier
+> Populating memory             : 1.439261355s
+> Writing to populated memory   : 0.009755279s
+> Reading from populated memory : 0.007714120s
+> lru_gen: Aging                : 0.540183328s
+> lru_gen: Aging                : 0.455427973s
+> Writing to idle memory        : 0.010130399s
+> lru_gen: Aging                : 0.563424247s
+> lru_gen: Aging                : 0.500419850s
+> Reading from idle memory      : 0.008519640s
+> lru_gen: Aging                : 0.563178643s
+>
+> # # Two notifiers
+> Populating memory             : 1.526805625s
+> Writing to populated memory   : 0.009836118s
+> Reading from populated memory : 0.007757280s
+> lru_gen: Aging                : 0.537770978s
+> lru_gen: Aging                : 0.421915391s
+> Writing to idle memory        : 0.010281959s
+> lru_gen: Aging                : 0.971448688s  <------ got longer
+> lru_gen: Aging                : 0.466956547s
+> Reading from idle memory      : 0.008588559s
+> lru_gen: Aging                : 0.971030648s  <------ got longer
+>
+>
+> arm64, faulting memory in while aging:
+>
+> # perf record -g -- taskset -c 0-16 ./access_tracking_perf_test -l -v 16 =
+-m 3 -p
+> # # One notifier
+> vcpu wall time                : 1.433908058s
+> lru_gen avg pass duration     : 0.172128073s, (passes:11, total:1.8934088=
+07s)
+>
+> # # Two notifiers
+> vcpu wall time                : 1.450387765s
+> lru_gen avg pass duration     : 0.175652974s, (passes:10, total:1.7565297=
+44s)
+>
+> # perf report
+> # # One notifier
+> -    6.25%     0.00%  access_tracking  [kernel.kallsyms]  [k] try_to_inc_=
+max_seq
+>    - try_to_inc_max_seq
+>       - 6.06% walk_page_range
+>            __walk_page_range
+>          - walk_pgd_range
+>             - 6.04% walk_pud_range
+>                - 4.73% __mmu_notifier_clear_young
+>                   + 4.29% kvm_mmu_notifier_clear_young
+>
+> # # Two notifiers
+> -    6.43%     0.00%  access_tracking  [kernel.kallsyms]  [k] try_to_inc_=
+max_seq
+>    - try_to_inc_max_seq
+>       - 6.25% walk_page_range
+>            __walk_page_range
+>          - walk_pgd_range
+>             - 6.23% walk_pud_range
+>                - 2.75% __mmu_notifier_test_young
+>                   + 2.48% kvm_mmu_notifier_test_young
+>                - 2.39% __mmu_notifier_clear_young
+>                   + 2.19% kvm_mmu_notifier_clear_young
