@@ -1,48 +1,37 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0170F16D9D7
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 19:47:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004BD17BD5;
+	Mon, 22 Jul 2024 20:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721677651; cv=none; b=I7wUMCA0C4YHve1+AJSBrvHEIMQLDd2CTpkKLze7K9NCO/cro+PdY5yBGQ8n5M4HOTvcbmbatgTXWhwJ7dqXVU8FxgFMQnI1pXD2kjGoNZSUTOCNLy6dM3kgbFrc6Pc8n1sRKg7nnhU2gcz1Q7HhiDfeYnFbDoDpFed9jFv827U=
+	t=1721680831; cv=none; b=qJkhxImFORyzLzqhDKHktO5SnY6MJTO11VlyfEDMMM3oTx7LM0ScvykJqfcBmZDZdjqzM+BVezYnEbevnFl3ubcCEdNtmjs71WgHNvPnvi0K3FLB5tYthG2SFlTwR0B69oFP9S87gf/hyf8DKzKS9K6ypAo2DpDQZMoDlNCqHl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721677651; c=relaxed/simple;
-	bh=lxD+x4M5ZuRIs5SmkXUd3G0EwqlJokSJsLs34BG1Yj4=;
+	s=arc-20240116; t=1721680831; c=relaxed/simple;
+	bh=ZM0TEKHIPTb9upIze52L+kcVfI1EmrENKGNYYSecqTI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ucW15shYUDQQo/d4HborBKQeQRpASaiSlLwoAwcc8oXgvKf9i/OLsjS+n0QJ4IHoD6aH8VQvHpzplyptaSawyBtHe85HlhLaUTCVW/kV9lmy9BV1wqju6DzauwnKfn2mKXOVq1kgL6wsV1fqYT2fAM/u16nJg40UDbnCEWYnb0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QRRoPuBV; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=eTBIMEL9XT8pk1TXlQxkqzXeAt0jcZxsbcxmz6Lgniy5OaQkDkpOsIAulwKvtcuGYcUexGWY2kaKeAhf0TJ4DCvNxR+vB6d/9zapmVQaBSbnoR4J+F64/Q0oz1JNX0ZGoIpnD9Bq4TWohCJHI9JKv83v+bE7i1KSED94vNg86Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ymsfcAQz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QRRoPuBV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721677649;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4iHghnHlTR8qrrh0D9KWKWiFHRcAr406QMFW8Evv2TA=;
-	b=QRRoPuBVGG7DFJxatHmRjagW9uL4c7ISotiQSXUwwKbECQ/YJXep4ZN2IvKoSqfzAhkP3W
-	JYRUA68ccvxvVW5PBv/7zoiyt3/Ds4FPtG8Zg7LyB46TiCnaQd/U48l8TnzYfzavkBsBw7
-	XWpH0ex4KKtGPzwHnC6iH0i3Hx5c57U=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-245-BrAfaY91NDyFN1Rm5wFZKQ-1; Mon,
- 22 Jul 2024 15:47:26 -0400
-X-MC-Unique: BrAfaY91NDyFN1Rm5wFZKQ-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1A9D81955BD0;
-	Mon, 22 Jul 2024 19:47:23 +0000 (UTC)
-Received: from [10.22.17.2] (unknown [10.22.17.2])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8BA171955D44;
-	Mon, 22 Jul 2024 19:47:18 +0000 (UTC)
-Message-ID: <9abf7f84-c103-4280-825c-b382edb9b8fe@redhat.com>
-Date: Mon, 22 Jul 2024 15:47:17 -0400
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ymsfcAQz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=+GiUc2WmyvgkUASQSnB2Oz3syL/kRQ02gJ1uI6Lrwko=; b=ymsfcAQzaJhIg7/WsKWlP+nAAu
+	JWd8mlnq+xTX2yQ07mTgWQaujGtdVS/TtZ09hW3xc9F0yCLSWALGdnpK5NATRyYcjYjZVdombE83z
+	t/Hh77YIzpwCwaSNGgFd3mXfvP226OgerVrKrBIwmCnfxCn6V+/bH6V3d0HDvyRA5jw6AfUdmVdo0
+	I0FQg6RUdfeqt5QPSwxAdNxoPbJ5o41YacI+dQFRqaYKP5MS+K7NTVsX50maNGEU/fQbFtUD9ylly
+	3tzMNSFQFAj91Fa0Sm0jaYZMk0QBWcbTJGBAiy1TVi4ZOYW2bENmTO9iO3IJl74ynnmU2TVU9y+Ab
+	hbN5Bqtw==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sVzpb-0000000AVjU-2qib;
+	Mon, 22 Jul 2024 20:40:27 +0000
+Message-ID: <4e02ac87-2e00-4399-9f6c-a10ef828592b@infradead.org>
+Date: Mon, 22 Jul 2024 13:40:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,58 +39,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: David Finkel <davidf@vimeo.com>, Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Muchun Song <muchun.song@linux.dev>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
- Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org
-References: <20240722151713.2724855-1-davidf@vimeo.com>
- <20240722151713.2724855-2-davidf@vimeo.com> <Zp6jSoB14boeGhWH@google.com>
- <CAFUnj5MF4nKq0B7aWWyBpK3b5EZh7W4+xAmeg5SMwpd7gHptsA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] fwctl: Add documentation
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+ Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+ Aron Silverton <aron.silverton@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+ Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-cxl@vger.kernel.org, patches@lists.linux.dev
+References: <6-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <c1a2b518-f258-41f2-8b0c-173f32756f49@infradead.org>
+ <20240722161818.GK3371438@nvidia.com>
 Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <CAFUnj5MF4nKq0B7aWWyBpK3b5EZh7W4+xAmeg5SMwpd7gHptsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240722161818.GK3371438@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 7/22/24 15:30, David Finkel wrote:
->>> diff --git a/mm/page_counter.c b/mm/page_counter.c
->>> index db20d6452b71..40d5f4990218 100644
->>> --- a/mm/page_counter.c
->>> +++ b/mm/page_counter.c
->>> @@ -82,6 +82,8 @@ void page_counter_charge(struct page_counter *counter, unsigned long nr_pages)
->>>                 */
->>>                if (new > READ_ONCE(c->watermark))
->>>                        WRITE_ONCE(c->watermark, new);
->>> +             if (new > READ_ONCE(c->local_watermark))
->>> +                     WRITE_ONCE(c->local_watermark, new);
->> Hm, can't we have a single comparison on the hot path?
->> Also, we read and write c->local_watermark speculatively here, Idk if it's still
->> acceptable with an ability to reset watermarks "locally". Maybe it is, but
->> it definitely deserves at least a comment with an explanation.
-> Unfortunately, since the two watermarks may be reset at different
-> times I don't think we
-> can consolidate.
-> e.g. I think that if the usage peaked, dropped down a bit and then was
-> going back
-> up again when the "local_watermark" was reset, we'll continue only
-> bumping local_watermark,
-> but we don't want to touch "watermark" until we hit that watermark again.
-If we make page_counter_reset_watermark() reset the local_watermark as well,
-we can guarantee "local_watermark <= watermark" and wrap one check inside
-the other.
+Hi,
 
-         if (new > READ_ONCE(c->local_watermark)) {
-                 WRITE_ONCE(c->local_watermark, new);
-                 if (new > READ_ONCE(c->watermark))
-                         WRITE_ONCE(c->watermark, new);
-         }
+On 7/22/24 9:18 AM, Jason Gunthorpe wrote:
+> On Tue, Jun 25, 2024 at 03:04:42PM -0700, Randy Dunlap wrote:
+>>> +There are many things this interface must not allow user space to do (without a
+>>> +Taint or CAP), broadly derived from the principles of kernel lockdown. Some
+>>> +examples:
+>>> +
+>>> + 1. DMA to/from arbitrary memory, hang the system, run code in the device, or
+>>
+>> An RPC message is going to run code in the device. Should this say something instead
+>> like:
+>>
+>> download [or load] code to be executed in the device,
+> 
+> Yeah, it is a hard concept. It is kind of murky as even today's
+> devlink flash will let you load untrusted code into the device under
+> lockdown AFAICR.
+> 
+> How about:
+> 
+>  1. DMA to/from arbitrary memory, hang the system, compromise FW integrity with
+>     untrusted code, or otherwise compromise device or system security and
+>     integrity.
+> 
+> Which is a little broader I suppose.
 
-Cheers,
-Longman
+OK, somewhat better.
 
+>>> +The kernel remains the gatekeeper for this interface. If violations of the
+>>> +scopes, security or isolation principles are found, we have options to let
+>>> +devices fix them with a FW update, push a kernel patch to parse and block RPC
+>>
+>> fwctl does not do FW updates, is that correct?
+> 
+> I think it is up to the specific RPCs the device supports. Given there
+> is currently no way to marshal a large amount of data it is not a good
+> interface for FW update.
+> 
+> I'd encourage people to use devlink flash more broadly, but I also
+> wouldn't go out of the way to block FW update RPCs that might exist
+> from here.
+> 
+> I certainly wouldn't want people to make their own FW update ioctls
+> (as still seems to be happening) out of fear they shouldn't use
+> fwctl :\
+
+fair enough.
+
+> Looking particularly at mlx5, we've had devlink flash for a long time
+> now, but it hasn't suceeded to displace the mlx5 specific tools, for
+> whatever reason.
+> 
+> I grabbed all the changes here thanks!
+
+
+-- 
+~Randy
