@@ -1,81 +1,81 @@
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from m35-116.mailgun.net (m35-116.mailgun.net [69.72.35.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1817E1598F4;
-	Mon, 22 Jul 2024 14:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7D0125D6
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 15:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.72.35.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721660303; cv=none; b=S940kzsuxL+X3nchCia/NcNLH5G7kP2b8DBDVKHXmXiLH2ZciSDBVX8xZ9W+uaujqFATG12KevDJD3rBC89eOKuzZFAme+mtt6mY69LduM0PQ4iDfpOglFanZfR/VloYPDYFpCBcUXNS9eZ7T+TBxJgr2VPE0RJNGJQLHKudMjE=
+	t=1721661449; cv=none; b=Py8mLDQvXC481HiiHR8i8sqjTYEYGKAkCuqpzDcKVZT6XEVt6O0hdyZtm1fSh3ofmZT/p4wgthy45QPqmVrnSn7ueyaLX4n3oTA3LEtMaN91jniSYDYF05SyI0JUZro8MZdpZ7fJn10OqtJfTGBhi/NQO/UzQ+SMm5J2qsyL+P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721660303; c=relaxed/simple;
-	bh=VgvT5Q61KIMWA2CLu8ZknMiK/xT4j6mC8Y+9DX/EtCk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d3xi+kTy6tyezwwwX0hMhHvcMMphZwE3WAlEZfVhkCoqxNNKSPb4xJB6fmEJLK24J7Xg+Df9q/FMR8GgjfCGC5EBy5XBdsFC2BPMO6aZMJO6DxocXnVDJbhGxMmSHBYPOo8zta0kLPvu+g05K8NW0fKeRfi8zMlUfcqK0EmvRt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 4CBA5100DE9C5;
-	Mon, 22 Jul 2024 16:58:17 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 02B3AF5100; Mon, 22 Jul 2024 16:58:16 +0200 (CEST)
-Date: Mon, 22 Jul 2024 16:58:16 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, helgaas@kernel.org, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com, Paul Luse <paul.e.luse@intel.com>,
-	Jing Liu <jing2.liu@intel.com>
-Subject: Re: [PATCH V3 00/10] PCIe TPH and cache direct injection support
-Message-ID: <Zp5ziFP6JidCODF6@wunner.de>
-References: <20240717205511.2541693-1-wei.huang2@amd.com>
- <ZptwfEGaI1NNQYZf@wunner.de>
- <612bf6f2-17a4-46fe-a5cd-ecb7023235ef@amd.com>
+	s=arc-20240116; t=1721661449; c=relaxed/simple;
+	bh=H1NwTDWsm6JLac8CtJ+mqmRo778a1UcN1lvfUIsLWc0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FTrrxMR2YlLeRXOWV7mlgN9gOSxZPtPJeY/dnoI+kLZbKydRMSeWX3N3aieuZirnhAVkl83XnkA9oPu5XuU+Rm3pi0qYUufFDMpuifZkF9tPQGJT0Olg0+D3c+EC+vGHHksKOFCQR3lweu2NcVWH45DRLGmRTTMdyeC2zhna1to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=pass smtp.mailfrom=relay.vimeo.com; dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b=OQr5VMlP; arc=none smtp.client-ip=69.72.35.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=relay.vimeo.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b="OQr5VMlP"
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=relay.vimeo.com; q=dns/txt; s=mailo; t=1721661446; x=1721668646;
+ h=Content-Transfer-Encoding: MIME-Version: Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=H1NwTDWsm6JLac8CtJ+mqmRo778a1UcN1lvfUIsLWc0=;
+ b=OQr5VMlP/wKE7o98DO0LWIwQ8IQWZ1NvgSE4Frz0Y6Hg7Wj3dD3n4QWurrPR4IETU2fOKCKt13dVaVWqUcfLj/homg2/wtfmZfk27efuNfiFoBtUYp6cONl0DlEGSr4QlW3PhiPbKvF4rFjfAA3BjCOWxSygedLbnsazDoJ9hnA=
+X-Mailgun-Sending-Ip: 69.72.35.116
+X-Mailgun-Sid: WyJhZDBhNyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5ZDJhMWMiXQ==
+Received: from smtp.vimeo.com (215.71.185.35.bc.googleusercontent.com [35.185.71.215])
+ by 28a30437924b with SMTP id 669e780644aa569633205898 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 22 Jul 2024 15:17:26 GMT
+Sender: davidf=vimeo.com@relay.vimeo.com
+Received: from nutau (gke-sre-us-east1-main-4c35368b-n90a.c.vimeo-core.internal [10.56.27.205])
+	by smtp.vimeo.com (Postfix) with ESMTP id 0C76264D5F;
+	Mon, 22 Jul 2024 15:17:26 +0000 (UTC)
+Received: by nutau (Postfix, from userid 1001)
+	id 9F159B4090E; Mon, 22 Jul 2024 11:17:25 -0400 (EDT)
+From: David Finkel <davidf@vimeo.com>
+To: Muchun Song <muchun.song@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <shuah@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers (fd-local edition)
+Date: Mon, 22 Jul 2024 11:17:12 -0400
+Message-Id: <20240722151713.2724855-1-davidf@vimeo.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <612bf6f2-17a4-46fe-a5cd-ecb7023235ef@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 22, 2024 at 09:44:32AM -0500, Wei Huang wrote:
-> On 7/20/24 03:08, Lukas Wunner wrote:
-> > Paul Luse submitted a patch two years ago to save and restore
-> > TPH registers, perhaps you can include it in your patch set?
-> 
-> Thanks for pointing them out. I skimmed through Paul's patch and it is
-> straightforward to integrate.
-> 
-> Depending on Bjorn's preference, I can either integrate it into my
-> patchset with full credits to Paul and Jing, or Paul want to resubmit a
-> new version.
+My last patch[1] was met with a general desire for a safer scheme that
+avoided global resets, which expose unclear ownership.
 
-The former would likely be better as I'm not sure Paul has the time
-to respin the patch.  My recollection is that TPH save/restore support
-was dropped as a requirement for the Intel device this was originally
-developed for, but it would be a shame to lose the time and effort
-that already went into it and I think it might be useful for your
-use case as well to support reset recovery.
+Fortunately, Johannes[2] suggested a reasonably simple scheme to provide
+an FD-local reset, which eliminates most of those issues.
 
-> I read Bjorn's comments, lots of them have been addressed in my patchset
-> (e.g. move under /pci/pcie, support _DSM and dev->tph).
+The one open question I have is whether the cgroup/memcg itself is kept
+alive by an open FD, or if we need to update the memcg freeing code to
+traverse the new list of "watchers" so they don't try to access freed
+memory.
 
-Indeed, good job!
+Thank you,
 
-Thanks for taking a look!
+David Finkel
+Senior Principal Software Engineer, Core Services
+Vimeo Inc.
 
-Lukas
+[1]: https://lore.kernel.org/cgroups/20240715203625.1462309-1-davidf@vimeo.com/
+[2]: https://lore.kernel.org/cgroups/20240717170408.GC1321673@cmpxchg.org/
+
+
