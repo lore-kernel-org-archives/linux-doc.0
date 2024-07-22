@@ -1,88 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F58C2FD;
-	Mon, 22 Jul 2024 15:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721662227; cv=none; b=p8FN06doOpvaxjdxpphp8fwlG6O/IxIkn/c6iJut3nFZAdgI6JLcbN31k7Y7LGuB9e6rGetoRLOOFZ0XA+fw6eYX1bBDGkh/GX/ogb1olU8GjJH3YxHTRAevCspNEA2rRXEY18BgZxJhq7SbdbAHc6uD7sDz4hvmwJMMhRjvHpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721662227; c=relaxed/simple;
-	bh=qeOMl00DgHVITw+FjVR23dUDZQ0dZ2F3RbfRASJShYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WjkMXh2+Ieay6zEP/Wtr7UfLo4dPHN+SxoK+rirZ2t1ex+JnC55HDr6cbUYB1+fi2PG5vJbSfoVOEjouIdw5x3auBu+UTCH4DCINZW0o3Q1rJEKmmzQmC68U8fmVKQwRIG23RtRnQS68NBQquvB2ECLv2EB5xaeWPedWaQ83mLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Udibmumu; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BD616E867;
+	Mon, 22 Jul 2024 15:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721662708; cv=fail; b=V8/MnPrpUf5W43rFrpm+QDYisJ+eVjQTJaIir+9NP0QOuzwINelZviYXjyjuHJHpxFwZy2h57z8dJtz54rHB/K+Bq3yCVf6r9YcmfFvpesldavswZufbiDu15zhYVUo8ypxihDHKjW5P99sqEGipBjrG/h3mxowexRCkmiAIt3k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721662708; c=relaxed/simple;
+	bh=Hz4M3YZ64YiVSfSAGBOTXqxFFjqDNnEHscwSmPgKNKY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=N7eikB/brRSvHSOkIelPw1pY7s/2QJrqTCIgdX2r3PemXgAf0HuvlPQHT52m+V5+j9cxc6rkSueZO3ujVdIs71MoxhTKR6q5aMjVcCMo1AkMln2kFIgC8vBPsc+FZ85oBF6u8KcCzUdMKt3/1gA4Dj1U3Y28ywApAUkd7g4SJ2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EnKuZaJI; arc=fail smtp.client-ip=40.107.94.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Udibmumu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F691C116B1;
-	Mon, 22 Jul 2024 15:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721662227;
-	bh=qeOMl00DgHVITw+FjVR23dUDZQ0dZ2F3RbfRASJShYY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Udibmumu7SLzxEKxqIecKZDLnygO3K9IPmsYRL3I6hL5eYqNIVWX7mLjSpajAEdtJ
-	 +34Wwg7S23Sx/TsNHnSCLXzlaT8K9BzSvT0TpzDZp4qpSIexecgt4YBIFxTyDVKdR4
-	 zoGjpH6i7DCAVXe/q3qIV7BqGL/VhVJeejTJZQ5AjoBDa5DUQ2nz2ml/skzftzqSlC
-	 5qNp9evMwxpnZuVl0mgCMoNVIFBdte25OlWnbcPfa0aHZjnWFch12yFrsCVCKAOuGg
-	 mqnhjXYfz2YA35SyHO1xRH0Y7C6QIOmi+MTocaJsucU4+99bRjM3aqFDZEN/X/Fw9k
-	 bZ6cWyiYCD1kA==
-Date: Mon, 22 Jul 2024 17:30:17 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Chandan Babu R <chandan.babu@oracle.com>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
-	David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
-	Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 0/9] fs: multigrain timestamp redux
-Message-ID: <20240722-festmachen-lehrstellen-f86d1bd28997@brauner>
-References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
- <20240716-zerlegen-haudegen-ba86a22f4322@brauner>
- <60af7cff6b1cf00388e932804c81ed368fcc9f02.camel@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EnKuZaJI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g6JnrlTXczsMmZqdttw6U9jJLjh3cVYid8eAYGY+HVt25QsZpNQMgla43S4L0ac87lRfOt1/01Uof5PnFrcJ5yNXMmkQoKuD+Yl39CXXJ0VjKs7uYHpFiGcJdcI3jLzHyRLAgCNxRPOUmEgsHHzx+6Jrfv6pwku0uZTeN9o1RD8z+iI8GNVqZIpw6Ykitz1uTa6TUa1aYrgIpCB0urGypsYdLvf2kJX/A3iUL+pxvVUTDjVT/usbZEpSsdm+y/2DJqcn93S+6DcXaHlEmVBsDeF067oPEUefj4E18/TF9JggqTAlhq1C+wNBewL06Vg+of1xqAm4qUVsQtkwaxn7rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FvUblSXLKKV12PebTfmxceusgQRkuzmv8iHC+rEr5u0=;
+ b=dHF7vlP69GI8OGCvFqGYIG6nE5DU+tX0ARVCl4l7iXtjdT+k3XXUoMtWFGH829gmjeRHb/iFVzGv4NZsaFUCSoubLRjzC/qQPrMLWa7/qhvPDDFQX/KPwRX60LBNf7MNDSrq2DMTTO77HeI14sFy2P0kWV7wv3vX9/RGNVQb72Rhv+mPDcCim0rUDA1R32pq0zKf1Eq/K30BzYaUFC9uc7d5f8RUD4jW90uOhTpObn05lVV1eW47RVe/1dIXI3DUuDbDVwBfMHfvmJ5PfPqj0bINojQMqt2/Wox+kktm2SupWlkcBbw5+ZFX/gwfNvXjyJ1KOLy/DoJ7tPcoUTKrCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FvUblSXLKKV12PebTfmxceusgQRkuzmv8iHC+rEr5u0=;
+ b=EnKuZaJIUyfOcX5Sroc8m1YXnuRFOP9DA6w2/BPk9xo6u4JjFNYFS/XKIhLyCI8GyeHAJfYZoMk/VK0BvGAYmA6s6Y0kyHBgby7zveKZomKvYOEvFPNPVH6IYQHIksv4NnURDHfeei7k0S0EdNAPqnI87hunxCeYSXkkjSOCUrA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
+ by BL3PR12MB6617.namprd12.prod.outlook.com (2603:10b6:208:38c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.18; Mon, 22 Jul
+ 2024 15:38:23 +0000
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::92ad:22ff:bff2:d475%4]) with mapi id 15.20.7784.016; Mon, 22 Jul 2024
+ 15:38:22 +0000
+Message-ID: <04af4272-015f-461a-84f9-c6afcd30bf82@amd.com>
+Date: Mon, 22 Jul 2024 10:38:19 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 00/10] PCIe TPH and cache direct injection support
+To: David Wei <dw@davidwei.uk>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org
+Cc: Jonathan.Cameron@Huawei.com, helgaas@kernel.org, corbet@lwn.net,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
+ michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+ somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+ manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
+ horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com
+References: <20240717205511.2541693-1-wei.huang2@amd.com>
+ <6b8e2001-7f4a-40aa-a760-a4c709675fb6@davidwei.uk>
+Content-Language: en-US
+From: Wei Huang <wei.huang2@amd.com>
+In-Reply-To: <6b8e2001-7f4a-40aa-a760-a4c709675fb6@davidwei.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0132.namprd11.prod.outlook.com
+ (2603:10b6:806:131::17) To DM6PR12MB4877.namprd12.prod.outlook.com
+ (2603:10b6:5:1bb::24)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <60af7cff6b1cf00388e932804c81ed368fcc9f02.camel@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|BL3PR12MB6617:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa79e9d9-92b2-42f2-3989-08dcaa6451d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Y1paSkpaNDNjaDZ5SFVxOHl5eVBBcmF0V1pLQ1BXcHF2TG1tcTU4V1JDbWhj?=
+ =?utf-8?B?aXdoK3E2TmZoaUZHUFRQanRWM1NxUmlHZ0M2aGFYRDZGckNKVjV0RTFKVXNt?=
+ =?utf-8?B?UURKV3pDSlNXTkhoakNRSUVrY3BOS2JaTi9FOWtTMDZMVnFKT1Qxb1FMYTFh?=
+ =?utf-8?B?L2RqUmdUTzlCS2ZJNXNxUWd1dG16aWJSVEovSnZxc1dwcFRwQndOU2ZrM1ZW?=
+ =?utf-8?B?RnEvS0NyU05nV3RwaWNYenVWSDAwUkp6NVlKajlCYXVlaitnRWpBa3NlcDA1?=
+ =?utf-8?B?Tnl3ZjFsWmxvVlZ1VkJtY3NhaGhGbmRDaFROaG5MU2h5NFh5TmZSQzgwSGhG?=
+ =?utf-8?B?UTlPMG41VlRqblJaQi9yekFXaE1qT1VndDcrR1dUb1pjendjdTh3bzAvUjlM?=
+ =?utf-8?B?VWE1RjRhNmZFUHhVaHUwdnJzVWJQRWJlMURBYzM1RGJoK1JNWDQwbFI2bklE?=
+ =?utf-8?B?NzJuNU4wWHRFd1kyUURhaWw3ZDF0ang2V0JGUDIyYlRlL3o5aGlsbElMQXh5?=
+ =?utf-8?B?VmNlQ2JnVkhZNnVPRUVuS2IrVU84MTkxdzd2a2dxTGwzNzN3VTk5aER1WWZH?=
+ =?utf-8?B?L2JxMW5oREhNOHhMalF1blVWa1g3WGh0QkIrKzNFdThKSlFBNXhkRi9jdFBT?=
+ =?utf-8?B?SlUrbzFvQ0x3Vm14VTAxZUQyRk9mWWxDb1NQQjNXSkM0YjFjNXpyLzRvZWVE?=
+ =?utf-8?B?bzV4TUp4UEhMdnF6Zk5iOXBlcEdYbVhIb0dnM3FFRGpScThucGFKdEZwL096?=
+ =?utf-8?B?Z0x2YUNGSnV6RXhHcS9KUVZaVXJqNWw3UEFHdEx4bXladk1ldUMySHdmb3RL?=
+ =?utf-8?B?elN1QzZaSkhOanF1SmUyMllEbk5kOEZPQXZyZGhBVDhFZ0pCV2JHUHE0NGhN?=
+ =?utf-8?B?Z0FGWkMvT01lVEFxRWNpOU5oZlVpcmZVU2NCaC9lY1R2bDEvZGdrV3RtWXFy?=
+ =?utf-8?B?RWlmYm9SY3NQTHNmTXNNVzE5RXprMnZXRzgxNWQ4ZUFkQjMwSjR6Zm1MRVBp?=
+ =?utf-8?B?V2g2UEFjN1IxanNRTEdkNWllVy92UzAvREc3NjZlYStnbC9EZUlsRUU2QUVk?=
+ =?utf-8?B?UHFPUkU1NmZ2QXNXaDNQWFZmS24rOUFMVzhJNTRLdUNPUzhaZHk4WTFKRWRl?=
+ =?utf-8?B?T0s4L0pwblllVGl1bFcwVnpGTEkxWmRTYlhkem1nWXhDa1dkNWRZM3N6cTYy?=
+ =?utf-8?B?Uk1pWnkzQjdYaEZyd2pmdVdaZTZqK0pJekhISVpIaE9ac1I3M1hCK2IweTJI?=
+ =?utf-8?B?WWNiM1pWNExDSDNDMXkwRFNzWklYSE5vbWhsdmRDRTNXa2FPVmdIUWREelhG?=
+ =?utf-8?B?Ujg0a1pJUzFJVGFDVXN6ak80K0I2UmJCUHphUEtNcllDT3Y3a3F1bTVKd2Q5?=
+ =?utf-8?B?a0lvZU1ONzZwakRxWkI0ZGhFUXNXVDNneTE4WGRlak9uY1pyZnlveE9kVWc1?=
+ =?utf-8?B?VzBuRXQ0eU14aXRJS3NDelRibDVicWIzbUtSSml2dTlET2JQL0FaT01YWURZ?=
+ =?utf-8?B?cTIrcUhKSlFXNDJjc1hwYjVJME5XY3pIbGF6MDdzUGxWcjNBTFhKZjRxL1BT?=
+ =?utf-8?B?WlhkcGsrSnJEaXZjOXBrR0d6TWxvRFlQNitRc2Vzc2FRQTlGd2drWktCcExQ?=
+ =?utf-8?B?Ujk3eE5EZDFOSXEwZ0pkV2g0UU4xYlpPVVhmUGMzNjdBQ0VBVS9XcWdweHRE?=
+ =?utf-8?B?M2JhdG1zakVIWEkwMXZTWm5vbUxsbDB3enJSSlFVTEZrSkV5akNaVGE4UEFs?=
+ =?utf-8?B?d1daVithZHhZZ1M3VUJ3akNIQXdVaTRMRGVTK1dkeDVmcCtjaFVyVTNIY0pZ?=
+ =?utf-8?B?RlJCQ3U1YW45aVRJNlFDdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Y2paUWhzZ0FDc2pFbCsvT1Y1eEltNmFUaTZDK1A3dENOdFpZam5GSGtiMnpE?=
+ =?utf-8?B?aEU1T2tpblRMeFVJUGNHdmttRFhhdldreWk0elFpck9oRXhldXZnNUFlUFM2?=
+ =?utf-8?B?TFNjZGN6VVlMNCt4dFJacmFRZUZTM2EwNWZSd0NRTmdLR2x3M0w0c3BUczVG?=
+ =?utf-8?B?VDVicUhpdjhTZndaY29IK1hLRTRraENxSXgybWFWb1JaTFExNE1zRTExcGlJ?=
+ =?utf-8?B?aFZWZlVwanNZeENkRWZjSTJ5R05tbmhqNitYR1lWSGxXSzMxVEY0KzluM3Zh?=
+ =?utf-8?B?U0F6ZkdJOW0xTGJTVjlaUU9ES3BVc2VMbEpKMzFXTVBtcUpvMEVHV0ZxeHpB?=
+ =?utf-8?B?Y1A1UitlSUZBRW1jVVp3aStycXRXMktsSHZNc216cE11SmduLzZ0M3lwdGJO?=
+ =?utf-8?B?M2h5RmVYalpWSklGRmNTOFE2eVFnbis2aVZPZ0xvbDlqNWUxd1llRXZ5ZW1x?=
+ =?utf-8?B?TDNCeXZERGNIWG1aZXU4Q2ZaOHlVa05JQ0MwOWovd0ZGUGRtQzcrZjdockdX?=
+ =?utf-8?B?U1pJaitGa2VpUk5rZjk1NG0vMy9EOVBqTzRUa1lVTWxUUm5Wa3NJTmRMMHc5?=
+ =?utf-8?B?WW9zUE4ydmFKcmZPaHZWcGsvUFJoYjU0akpIWHpjcTNIWElrSlpxQjBrajVL?=
+ =?utf-8?B?Yk1QSFNOeUhUZjY5OVJpOFVxOStITDhCamdpdjFKVXNXdllNSVhqUUdRL0d4?=
+ =?utf-8?B?VkcySWRHV1I4bDFlWFNmekpORVJ4RHg1MktXTFRNUXhpaEloY1pwYyt6N1BB?=
+ =?utf-8?B?ZXlZbkd1YXdPRWRKQTRXRzRXSHJRc1JpTGJDMmd6bkpHT1Ewam1yZDFLQ3BR?=
+ =?utf-8?B?eUpVTEtUYmRKYk9VNVV5ODRwdThnakNjMXg0ajhMbTRiM093T0pLNzlmNkxE?=
+ =?utf-8?B?N08zQ3J6Y2pzOGRvSXF3MUFYRStPYUlpZmRJS1JuNUpScHpTTnAyOTVRVGlw?=
+ =?utf-8?B?OTd0K0pUL0ZBSnFQYWEvY1RYQlJWWWdja3F5UDBsSTVXMzdBQ0ZCdlVFV2FG?=
+ =?utf-8?B?VnpPeldndm44THRXZGFrY2RoMWF0ekxWb29XSTAwNWhoWWhQT1lMb3FOUGhl?=
+ =?utf-8?B?Wk1KSDZHaCsycGl2a1A3bGNNaCtSd0duMjFpcWplY0R5U0R4NmhCT2tNWm0r?=
+ =?utf-8?B?UUs3dnZMUzlSVEFjSWppaHBVV2RKVnhXTXdUUjhvL2JMQm5YVmZ3Q0JrSnlN?=
+ =?utf-8?B?eExZUUZrWThxU0o3L2hUanVyZlZBcStpT3k0TTVCOUJkdWxPaEo0dGxyS3Nx?=
+ =?utf-8?B?Um5CUnVpWk5MeHdodTk4WWhob1pjenVRT05YcWJybEFmSW5RSnYveG15djBz?=
+ =?utf-8?B?ZTJ4SWMwUGd5anlJRHdZcytvclE1a2ZqRUx5dGdkK1B3SUx1alA0RlB4Tklm?=
+ =?utf-8?B?Y3Fibk1BYmgvRVVQM0lTdnNPUnVVM21qbnRDeFpLSVZ5WW9RWTNNYTJhR2tP?=
+ =?utf-8?B?WWFkNzdKN0Z4WGhpQTdUMlB3V1NYODVVNGFFOUVoQXBuazVrenBwTnhUeXhC?=
+ =?utf-8?B?UzVkaGd1WExZakI3ZDJpVmFYeTk3dUR4S0hTZGJFZXZMeFJ0ZG41YzFYQTUr?=
+ =?utf-8?B?Q2VOYUhzUXJuQmJaNGQzeFlHVU9YZURibmVqcy9OR01namZRQ2c3dDBiZ2FN?=
+ =?utf-8?B?cWdzNmR6SG03OXBaM3Rjd3VkWHFLZCtTZlNFYy8wamZyYWxZaFc5dVNic2Fy?=
+ =?utf-8?B?aVhOREFuam81ZG40NlNlU2tqRGsyTTA5M0ovOHJKSVJ1dTYvR1RoV1ZjaEo2?=
+ =?utf-8?B?VncrbDZDM2tWb0xQdDVncXQ1dXJ1QVJnU1A0L2I3WUE4UmdTb0xrVkNpQVF5?=
+ =?utf-8?B?V1RKNFNZSlU2U1hTT09LWkJOTElFcm13UWVLdzMxY2RCeWdtSnoxQTRMY3My?=
+ =?utf-8?B?RmYweGdOUXlCR09BVWV1ZFM1Vm1NaVBGaWk1M05KNjI2UmhmQVl6ck9IUTJB?=
+ =?utf-8?B?VWN3dzBWa0tabDR1eTF5djRMMlg1V0toL3ZjRHl3a3BPbjJFRkdRZnhyZHNQ?=
+ =?utf-8?B?RXh1T0tVRituU3V6MXFhcWE4K01OWEhrQUU4aFJCSDBSSGV2QjlNY2FIbllw?=
+ =?utf-8?B?cVcrTzZ3UkxOU3dQUnc2K24wQnFTbXVacjZwS1F3UnNrYW1nc3F0Q1dPT21X?=
+ =?utf-8?Q?WwgD9juH1jqnqVr6o4CJ+cHna?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa79e9d9-92b2-42f2-3989-08dcaa6451d0
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2024 15:38:22.7548
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u6W0riYE/cH6Ob1xYLryLPmRKIvAJA9x0j2U1v1yHWHyThnIu3fVdfxPx2/99Rt1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6617
 
-On Tue, Jul 16, 2024 at 08:45:16AM GMT, Jeff Layton wrote:
-> On Tue, 2024-07-16 at 09:37 +0200, Christian Brauner wrote:
-> > On Mon, Jul 15, 2024 at 08:48:51AM GMT, Jeff Layton wrote:
-> > > I think this is pretty much ready for linux-next now. Since the latest
-> > > changes are pretty minimal, I've left the Reviewed-by's intact. It would
-> > > be nice to have acks or reviews from maintainers for ext4 and tmpfs too.
-> > > 
-> > > I did try to plumb this into bcachefs too, but the way it handles
-> > > timestamps makes that pretty difficult. It keeps the active copies in an
-> > > internal representation of the on-disk inode and periodically copies
-> > > them to struct inode. This is backward from the way most blockdev
-> > > filesystems do this.
-> > > 
-> > > Christian, would you be willing to pick these up  with an eye toward
-> > > v6.12 after the merge window settles?
-> > 
-> > Yup. About to queue it up. I'll try to find some time to go through it
-> > so I might have some replies later but that shouldn't hold up linux-next
-> > at all.
-> 
-> Great!
-> 
-> There is one minor update to the percpu counter patch to compile those
-> out when debugfs isn't enabled, so it may be best to pick the series
-> from the "mgtime" branch in my public git tree. Let me know if you'd
 
-I did that now and pushed to vfs.mgtime. Please take a look as I rebased
-onto current master and resolved conflicts in xfs and btrfs. Thanks!
+
+On 7/20/24 14:25, David Wei wrote:
+> On 2024-07-17 13:55, Wei Huang wrote:
+>> Hi All,
+>>
+>> TPH (TLP Processing Hints) is a PCIe feature that allows endpoint devices to
+>> provide optimization hints for requests that target memory space. These hints,
+>> in a format called steering tag (ST), are provided in the requester's TLP
+>> headers and allow the system hardware, including the Root Complex, to
+>> optimize the utilization of platform resources for the requests.
+>>
+>> Upcoming AMD hardware implement a new Cache Injection feature that leverages
+>> TPH. Cache Injection allows PCIe endpoints to inject I/O Coherent DMA writes
+>> directly into an L2 within the CCX (core complex) closest to the CPU core that
+>> will consume it. This technology is aimed at applications requiring high
+>> performance and low latency, such as networking and storage applications.
+> 
+> This sounds very exciting Wei and it's good to see bnxt support. When
+> you say 'upcoming AMD hardware' are you able to share exactly which? I
+> would like to try this out.
+
+I can't specify which server platforms yet. But you can find this
+feature in either BIOS options or decode it from ACPI DSDT table (search
+UUID e5c937d0-3553-4d7a-9117-ea4d19c3434d, Func 0x0F).
+
