@@ -1,326 +1,232 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0131A89
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B927B3BBEF
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 21:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721683452; cv=none; b=B20GM6SrgpW2a/ENdj7SWZvCIIaaMGL0k/UNRG3cp24QcEwA+zvY2fiKnVJdrhINeOFu5305oJQOdGJ4+u7M5luoLkx0SwPVPrjJXaOwPDomSPM8RJ/SPCg9wgY+ZMoxlVdrhq0tsx3qDOrJqiKWPYu5RaXpIVxLBCUTJFtg1T4=
+	t=1721685493; cv=none; b=KnaThV8lRnV+XUJWIzx1sj1iEQI/xgkYNPNjJ6k04/6ORu0P9wYvbwXhCWWWMDekQUF5iNDI7fTpMGHA3UgCuiJ5ljkjyuZxrltv5n34VWzfQdygNYHOnJSpWJRZSeJxCn3hXOqNj4zPED9byKkXRmuHv3JNP9WsUlV4rgTnfOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721683452; c=relaxed/simple;
-	bh=BThTVvfcR9JWFWvbsMUclsG5OU2SU4XBfxzGrpzk6tQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XtoUxCC0YKtOEtgTPMl4YBFy1noAZsi8bjgMvvsLRwbhv0vo66i2uB0DIHqGNRX+g3YqzPE6xBkUZB01ma7ASa5Io9KbFQgQsVvP+D2xx9fIgSr2V+ZbJs8SItYxIoc1Ag4yvMINRf4xf3o6ze+3lUZeAdI6jYeeEqKgWCbdX0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bn203gYy; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1721685493; c=relaxed/simple;
+	bh=yJtg1hTrBiZ4CAX9VN8QzkdggpJgnALtnkaOzGygba8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OZmrnXrcJacmUQY+SgAMg/9LdUCqsxAqfmTLohilOgD5plVD0nfSTpXJvgMlprBceti+ZBxJyKw2TZOuJm5WiL+z7bvLkeE4jo4C+pw5m9lxN3OwHWkQGaw2p3ZaRSUSrfiRmgiWS5fIeru4szQkeXCS2CBt6SASFtMKXcOm/Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QgRsKGqQ; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bn203gYy"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-447f8aa87bfso110661cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:24:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QgRsKGqQ"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7a1843b4cdbso78402a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 14:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721683449; x=1722288249; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jUvbV8cr91Az3570PAWe2v2K6wrQs4UKFeU0Jgh3ytQ=;
-        b=Bn203gYyHJKRDBqW1dMqZ5Y0TRawfmsMVyDcmt0WuJkQ88PB9D2B7/ppc5RvJArx4l
-         wdtTU9+SULb3Bc1DByTOH2r06ye+QTWqOs33q6C4ixNVrz5rorUAyomYj9X20bdzu9qz
-         TzWI0V83U3ZaoZrw0tb1OAYGSB6eoaUBRDs2qDVHrL70rjPYtRWUK8/71Z/I+dnIcZqN
-         h6VAbLcK6tncvsC6f2aNaLpuyJkQ6bX3wDyvLQDY4KvfwU34ZSKACwW3jmRv6l5EryNu
-         oc3VceXiWg4OOcY8M6f3QbpDUVOzTXIXtmIjNgwBCYRwWLh7RALpqY32TtEc5o5RUObp
-         bMig==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721685491; x=1722290291; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wKNXrH3uRfrUHwuvmyxzEYstiGhgKC7vXRXEaoabqN8=;
+        b=QgRsKGqQ5I7pUG4hSMn9P8LCtPMQtGRg1/NP3rMsUAHPIVy+Xb9PWS5O5k7tkBAcov
+         ExLQekVHQInMFoESOn25yuOhFotSlIu+QSAqBMZEYzDhuKYiI3rvnC9pxrGSShY+f6pz
+         LaRZeL+JtvGeB0iZOb0ynxLuQGhZNyrgHH8VbfU+g6eN90c3w2HxnFbOZ3YnxyJ2dd7f
+         hvvwuahV8/l8InTaPmDG0mhYmnaf4Tasaw9zU7m0VxQZX+aPONNe84DDRUMMk2KtXs3g
+         bMZu4QHEaiXsSYQSxh2BIQ0nl8d9Q0z8evzcHyHPRHFsWe8SORCjUg6jY41YSX6aHP5P
+         xQTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721683449; x=1722288249;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jUvbV8cr91Az3570PAWe2v2K6wrQs4UKFeU0Jgh3ytQ=;
-        b=BJdbhKU5nMWY4wIgu3VnSsBc48fYMZm5KLxGu+g1jORCfzfow1MqUAEChk6Man2F5B
-         GlsO1ElF5b9XPnFPUCf5iU+29YBZVQzeIgFMWvtEYSVoR6FId1ycTnAb8fy8DTeVS2Pg
-         4hH4nGZIwN1EECRhWeR9tHSLJy/H5ETGK/5neeTl11XqygEfJba6RPHSOQo8+RWMHnr/
-         2BFcK3jzFvgjqDlwy515N/+n7L4gG4S6gDK3ftUcBKysR+jiPhDbwZm0pImlVvlbQ2j6
-         XcpgnLMJDkHyE3mNkrqTL4+RQwE5Wau35lbHrqVHIWHfx56KoaF8aO25relbikDjMQ/u
-         5Jjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHW3LnRiH/WA3C4ONhnRgv/uau0xmAf8fZkhMvfiP12pviFyT6zdmK2d24MOL2ijaQCeBlPbaHfXs4W2x3uLnUdPccoqKMA6Z3
-X-Gm-Message-State: AOJu0Yz7R+jl/FC9V+XGzD3reJ5Wc+cBEsG+AKbTLJqqcNk1GYbfLKpY
-	BlOoU4M02LpOH9LgmoIO253ZqKOEoD0toLx11ZgSfAsa4JgVT9uwsY+p3ciugOKC2qNEy8N2F74
-	DebkhWzzCfFKOQNiKvqrJ95/TDgka05R4vbk7
-X-Google-Smtp-Source: AGHT+IF65D9l0J9nysjn+Fs0bUa7Rk1bA005g2DJfpgR1lRIXz0pmT072M//KBwaPKskcNk0gii+b5JQqm5e6s9QHbM=
-X-Received: by 2002:a05:622a:164a:b0:447:e8bd:2fbe with SMTP id
- d75a77b69052e-44faa96a947mr5161191cf.1.1721683448578; Mon, 22 Jul 2024
- 14:24:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721685491; x=1722290291;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wKNXrH3uRfrUHwuvmyxzEYstiGhgKC7vXRXEaoabqN8=;
+        b=GKx/f/qNSwLOr4/y9dGP41uzodL/5PIXPcWlz2VTJlfH0cPJCFE1iQqRF5aua5F8Cj
+         MsiujUDVeAz3HmZCkAETqZcQ8pMNap7OOzBcMxZLRcn0xeTs2E5e5DTdceMy/2v8ir0Y
+         TgQTwKJcoxCfru6i3z3nuktHtiTPqnFmpXwJyFzn6idSwiEM3CVgiSuvOlCDBjNP1jEj
+         /3bieLS6vv92LzRTUIy931SJM6FgFZgdQdHvfSjg6Y8tt1Q+FN9RDBHw1eowZJgti6lW
+         LqAVvwmA3M1owXOWTmnrW4mCqw+SDRIe/AKr2sjgiWhDaoK9vMdwqBO2nK9E+K/5l1rG
+         gYAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCEwsniJNSbnf8I/r4JAIwAwnS08+QvzZ23fLiQr/+5s/H+rM2JxTsJbr0Kp2K43nqBhKUR2TSHIJHV1GsSTcX6RWPReDdwtDF
+X-Gm-Message-State: AOJu0YxdNHHpUzs8iNLuQnr9tNqIqQkaOJkfqXycmnHXo+MHvyj1R/2i
+	uuNdHZDPcafAJDud4Q9mnnKeNuj5gbQk1OJvj1lXsWLma9rkc1fm/t+Ca3yk1HY=
+X-Google-Smtp-Source: AGHT+IEJKHWbrGpgFOQo0ZxK3srMWG+z72k5/Eg5bPpA7ScCrmMHr65nXQSYsTaNjh4B+JI/xRRVyw==
+X-Received: by 2002:a05:6a20:6a12:b0:1c0:e288:e5b3 with SMTP id adf61e73a8af0-1c42857a5damr7306720637.25.1721685491022;
+        Mon, 22 Jul 2024 14:58:11 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f44f0d4sm59997775ad.219.2024.07.22.14.58.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 14:58:10 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v6 00/13] riscv: Add support for xtheadvector
+Date: Mon, 22 Jul 2024 14:58:04 -0700
+Message-Id: <20240722-xtheadvector-v6-0-c9af0130fa00@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-9-jthoughton@google.com> <CAOUHufb2f_EwHY5LQ59k7Nh7aS1-ZbOKtkoysb8BtxRNRFMypQ@mail.gmail.com>
- <CADrL8HUJaG=O+jBVvXGVjJOriev9vxkZ6n27ekc5Pxv5D+fbcg@mail.gmail.com>
- <CAOUHufZ2Vd+Ea5vka20+SCVB446LZEA0mWy=RScN=7AChd869w@mail.gmail.com> <CADrL8HVRSyS8ZADRTvHZ-QDKBRv1SFvVyJKkr-CW2mzpNjW5Zw@mail.gmail.com>
-In-Reply-To: <CADrL8HVRSyS8ZADRTvHZ-QDKBRv1SFvVyJKkr-CW2mzpNjW5Zw@mail.gmail.com>
-From: Yu Zhao <yuzhao@google.com>
-Date: Mon, 22 Jul 2024 15:23:29 -0600
-Message-ID: <CAOUHufapvh13G9CAwsGiap0=LjE+qor4i1hT=3APOtBSjtX4Kw@mail.gmail.com>
-Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
- in aging
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOzVnmYC/23OTW7DIBAF4KtErEsFDD+mq96j6sLAULOoHUGEU
+ kW+eyfpoq7r5RvxvceNNawFG3s53VjFXlpZZgr26cTiNM4fyEuizJRQWhgQ/HqZcEwd42WpfAB
+ IkKQLWgEjcq6Yy/VR9/ZOeSqNnn092ru8X3+KrPB/i7rkgkNG42VyWQr/WktfWpnjc1w+2b2rq
+ 42Xu490Rd67UQ9WwpisPvCw9ft9IB9yBo/BWzvggde/3gm185q8CrQ8KJGClAfebPy/fUNeBz2
+ YHF0yJu/8uq7fLN52hqsBAAA=
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, 
+ Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+ Andrew Jones <ajones@ventanamicro.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721685488; l=6875;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=yJtg1hTrBiZ4CAX9VN8QzkdggpJgnALtnkaOzGygba8=;
+ b=EX6Nu4zGRD0+PPZ7gxDAwTcdVHl3/BJzl/QQ5Q2W2vu1jtJyYogBu9j/9LMXPyInz8LZGIQ2E
+ DOWFDmPCD1QAlslrRS5csADVT2AZrYHd7zb/5/HNIBCLHqTxQQ/ZpFy
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-On Mon, Jul 22, 2024 at 2:46=E2=80=AFPM James Houghton <jthoughton@google.c=
-om> wrote:
->
-> On Mon, Jul 8, 2024 at 4:42=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrote:
-> >
-> > On Mon, Jul 8, 2024 at 11:31=E2=80=AFAM James Houghton <jthoughton@goog=
-le.com> wrote:
-> > >
-> > > On Fri, Jul 5, 2024 at 11:36=E2=80=AFAM Yu Zhao <yuzhao@google.com> w=
-rote:
-> > > >
-> > > > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@=
-google.com> wrote:
-> > > > > @@ -3389,8 +3450,9 @@ static bool walk_pte_range(pmd_t *pmd, unsi=
-gned long start, unsigned long end,
-> > > > >                 if (!folio)
-> > > > >                         continue;
-> > > > >
-> > > > > -               if (!ptep_test_and_clear_young(args->vma, addr, p=
-te + i))
-> > > > > -                       VM_WARN_ON_ONCE(true);
-> > > > > +               lru_gen_notifier_clear_young(mm, addr, addr + PAG=
-E_SIZE);
-> > > > > +               if (pte_young(ptent))
-> > > > > +                       ptep_test_and_clear_young(args->vma, addr=
-, pte + i);
-> > > > >
-> > > > >                 young++;
-> > > > >                 walk->mm_stats[MM_LEAF_YOUNG]++;
-> > > >
-> > > >
-> > > > There are two ways to structure the test conditions in walk_pte_ran=
-ge():
-> > > > 1. a single pass into the MMU notifier (combine test/clear) which
-> > > > causes a cache miss from get_pfn_page() if the page is NOT young.
-> > > > 2. two passes into the MMU notifier (separate test/clear) if the pa=
-ge
-> > > > is young, which does NOT cause a cache miss if the page is NOT youn=
-g.
-> > > >
-> > > > v2 can batch up to 64 PTEs, i.e., it only goes into the MMU notifie=
-r
-> > > > twice every 64 PTEs, and therefore the second option is a clear win=
-.
-> > > >
-> > > > But you are doing twice per PTE. So what's the rationale behind goi=
-ng
-> > > > with the second option? Was the first option considered?
-> > >
-> > > Hi Yu,
-> > >
-> > > I didn't consider changing this from your v2[1]. Thanks for bringing =
-it up.
-> > >
-> > > The only real change I have made is that I reordered the
-> > > (!test_spte_young() && !pte_young()) to what it is now (!pte_young()
-> > > && !lru_gen_notifier_test_young()) because pte_young() can be
-> > > evaluated much faster.
-> > >
-> > > I am happy to change the initial test_young() notifier to a
-> > > clear_young() (and drop the later clear_young(). In fact, I think I
-> > > should. Making the condition (!pte_young() &&
-> > > !lru_gen_notifier_clear_young()) makes sense to me. This returns the
-> > > same result as if it were !lru_gen_notifier_test_young() instead,
-> > > there is no need for a second clear_young(), and we don't call
-> > > get_pfn_folio() on pages that are not young.
-> >
-> > We don't want to do that because we would lose the A-bit for a folio
-> > that's beyond the current reclaim scope, i.e., the cases where
-> > get_pfn_folio() returns NULL (a folio from another memcg, e.g.).
-> >
-> > > WDYT? Have I misunderstood your comment?
-> >
-> > I hope this is clear enough:
-> >
-> > @@ -3395,7 +3395,7 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
-> > long start, unsigned long end,
-> >                 if (pfn =3D=3D -1)
-> >                         continue;
-> >
-> > -               if (!pte_young(ptent)) {
-> > +               if (!pte_young(ptent) && !mm_has_notifiers(args->mm)) {
-> >                         walk->mm_stats[MM_LEAF_OLD]++;
-> >                         continue;
-> >                 }
-> > @@ -3404,8 +3404,8 @@ static bool walk_pte_range(pmd_t *pmd, unsigned
-> > long start, unsigned long end,
-> >                 if (!folio)
-> >                         continue;
-> >
-> > -               if (!ptep_test_and_clear_young(args->vma, addr, pte + i=
-))
-> > -                       VM_WARN_ON_ONCE(true);
-> > +               if (!ptep_clear_young_notify(args->vma, addr, pte + i))
->
-> walk->mm_stats[MM_LEAF_OLD]++ should be here, I take it.
->
-> > +                       continue;
-> >
-> >                 young++;
-> >                 walk->mm_stats[MM_LEAF_YOUNG]++;
-> >
-> > > Also, I take it your comment was not just about walk_pte_range() but
-> > > about the similar bits in lru_gen_look_around() as well, so I'll make
-> > > whatever changes we agree on there too (or maybe factor out the commo=
-n
-> > > bits).
-> > >
-> > > [1]: https://lore.kernel.org/kvmarm/20230526234435.662652-11-yuzhao@g=
-oogle.com/
-> > >
-> > > > In addition, what about the non-lockless cases? Would this change m=
-ake
-> > > > them worse by grabbing the MMU lock twice per PTE?
-> > >
-> > > That's a good point. Yes I think calling the notifier twice here woul=
-d
-> > > indeed exacerbate problems with a non-lockless notifier.
-> >
-> > I think so too, but I haven't verified it. Please do?
->
-> I have some results now, sorry for the wait.
->
-> It seems like one notifier is definitely better. It doesn't look like
-> the read lock actually made anything worse with what I was testing
-> (faulting memory in while doing aging). This is kind of surprising,
+xtheadvector is a custom extension that is based upon riscv vector
+version 0.7.1 [1]. All of the vector routines have been modified to
+support this alternative vector version based upon whether xtheadvector
+was determined to be supported at boot.
 
-Not at all if you were only doing the aging path, which only takes the
-lock for read.
+vlenb is not supported on the existing xtheadvector hardware, so a
+devicetree property thead,vlenb is added to provide the vlenb to Linux.
 
-Under memory pressure, we need to both the aging and eviction, and the
-latter has to take the lock for write (to unmap). And that's when the
-real contention happens, because the search space is too big -- the
-entire system memory for global reclaim -- unmapping can easily
-collide with clearing the A-bit.
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-> but either way, I'll change it to the single notifier in v6. Thanks
-> Yu!
->
-> Here are the results I'm basing this conclusion on, using the selftest
-> added at the end of this series.
->
-> # Use taskset to minimize NUMA concern.
-> # Give an extra core for the aging thread.
-> # THPs disabled (echo never > /sys/kernel/mm/transparent_hugepage/enabled=
-)
->
-> x86:
->
-> # taskset -c 0-32 ./access_tracking_perf_test -l -v 32
-> # # One notifier
-> Populating memory             : 1.933017284s
-> Writing to populated memory   : 0.017323539s
-> Reading from populated memory : 0.013113260s
-> lru_gen: Aging                : 0.894133259s
-> lru_gen: Aging                : 0.738950525s
-> Writing to idle memory        : 0.059661329s
-> lru_gen: Aging                : 0.922719935s
-> lru_gen: Aging                : 0.829129877s
-> Reading from idle memory      : 0.059095098s
-> lru_gen: Aging                : 0.922689975s
->
-> # # Two notifiers
-> Populating memory             : 1.842645795s
-> Writing to populated memory   : 0.017277075s
-> Reading from populated memory : 0.013047457s
-> lru_gen: Aging                : 0.900751764s
-> lru_gen: Aging                : 0.707203167s
-> Writing to idle memory        : 0.060663733s
-> lru_gen: Aging                : 1.539957250s  <------ got longer
-> lru_gen: Aging                : 0.797475887s
-> Reading from idle memory      : 0.084415591s
-> lru_gen: Aging                : 1.539417121s  <------ got longer
->
-> arm64*:
-> (*Patched to do aging; not done in v5 or v6. Doing this to see if the rea=
-d
-> lock is made substantially worse by using two notifiers vs. one.)
->
-> # taskset -c 0-16 ./access_tracking_perf_test -l -v 16 -m 3
-> # # One notifier
-> Populating memory             : 1.439261355s
-> Writing to populated memory   : 0.009755279s
-> Reading from populated memory : 0.007714120s
-> lru_gen: Aging                : 0.540183328s
-> lru_gen: Aging                : 0.455427973s
-> Writing to idle memory        : 0.010130399s
-> lru_gen: Aging                : 0.563424247s
-> lru_gen: Aging                : 0.500419850s
-> Reading from idle memory      : 0.008519640s
-> lru_gen: Aging                : 0.563178643s
->
-> # # Two notifiers
-> Populating memory             : 1.526805625s
-> Writing to populated memory   : 0.009836118s
-> Reading from populated memory : 0.007757280s
-> lru_gen: Aging                : 0.537770978s
-> lru_gen: Aging                : 0.421915391s
-> Writing to idle memory        : 0.010281959s
-> lru_gen: Aging                : 0.971448688s  <------ got longer
-> lru_gen: Aging                : 0.466956547s
-> Reading from idle memory      : 0.008588559s
-> lru_gen: Aging                : 0.971030648s  <------ got longer
->
->
-> arm64, faulting memory in while aging:
->
-> # perf record -g -- taskset -c 0-16 ./access_tracking_perf_test -l -v 16 =
--m 3 -p
-> # # One notifier
-> vcpu wall time                : 1.433908058s
-> lru_gen avg pass duration     : 0.172128073s, (passes:11, total:1.8934088=
-07s)
->
-> # # Two notifiers
-> vcpu wall time                : 1.450387765s
-> lru_gen avg pass duration     : 0.175652974s, (passes:10, total:1.7565297=
-44s)
->
-> # perf report
-> # # One notifier
-> -    6.25%     0.00%  access_tracking  [kernel.kallsyms]  [k] try_to_inc_=
-max_seq
->    - try_to_inc_max_seq
->       - 6.06% walk_page_range
->            __walk_page_range
->          - walk_pgd_range
->             - 6.04% walk_pud_range
->                - 4.73% __mmu_notifier_clear_young
->                   + 4.29% kvm_mmu_notifier_clear_young
->
-> # # Two notifiers
-> -    6.43%     0.00%  access_tracking  [kernel.kallsyms]  [k] try_to_inc_=
-max_seq
->    - try_to_inc_max_seq
->       - 6.25% walk_page_range
->            __walk_page_range
->          - walk_pgd_range
->             - 6.23% walk_pud_range
->                - 2.75% __mmu_notifier_test_young
->                   + 2.48% kvm_mmu_notifier_test_young
->                - 2.39% __mmu_notifier_clear_young
->                   + 2.19% kvm_mmu_notifier_clear_young
+Support for xtheadvector is also added to the vector kselftests.
+
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+
+---
+This series is a continuation of a different series that was fragmented
+into two other series in an attempt to get part of it merged in the 6.10
+merge window. The split-off series did not get merged due to a NAK on
+the series that added the generic riscv,vlenb devicetree entry. This
+series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+
+The original series is titled "riscv: Support vendor extensions and
+xtheadvector" [3].
+
+The series titled "riscv: Extend cpufeature.c to detect vendor
+extensions" is still under development and this series is based on that
+series! [4]
+
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board after 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [1] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [2] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
+
+[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+[4] https://lore.kernel.org/lkml/20240719-support_vendor_extensions-v3-4-0af7587bbec0@rivosinc.com/T/
+
+---
+Changes in v6:
+- Fix return type of is_vector_supported()/is_xthead_supported() to be bool
+- Link to v5: https://lore.kernel.org/r/20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com
+
+Changes in v5:
+- Rebase on for-next
+- Link to v4: https://lore.kernel.org/r/20240702-xtheadvector-v4-0-2bad6820db11@rivosinc.com
+
+Changes in v4:
+- Replace inline asm with C (Samuel)
+- Rename VCSRs to CSRs (Samuel)
+- Replace .insn directives with .4byte directives
+- Link to v3: https://lore.kernel.org/r/20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com
+
+Changes in v3:
+- Add back Heiko's signed-off-by (Conor)
+- Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+- Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
+
+Changes in v2:
+- Removed extraneous references to "riscv,vlenb" (Jess)
+- Moved declaration of "thead,vlenb" into cpus.yaml and added
+  restriction that it's only applicable to thead cores (Conor)
+- Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+  thead,vlenb (Jess)
+- Fix naming of hwprobe variables (Evan)
+- Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
+
+---
+Charlie Jenkins (12):
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      dt-bindings: cpus: add a thead vlen register length property
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Add thead and xtheadvector as a vendor extension
+      riscv: vector: Use vlenb from DT for thead
+      riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
+
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ arch/riscv/Kconfig.vendor                          |  26 ++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/include/asm/cpufeature.h                |   2 +
+ arch/riscv/include/asm/csr.h                       |  15 ++
+ arch/riscv/include/asm/hwprobe.h                   |   5 +-
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 223 ++++++++++++----
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
+ .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/cpufeature.c                     |  54 +++-
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+ arch/riscv/kernel/vector.c                         |  24 +-
+ arch/riscv/kernel/vendor_extensions.c              |  10 +
+ arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+ arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  68 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   8 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 34 files changed, 889 insertions(+), 273 deletions(-)
+---
+base-commit: 554462ced9ac97487c8f725fe466a9c20ed87521
+change-id: 20240530-xtheadvector-833d3d17b423
+-- 
+- Charlie
+
