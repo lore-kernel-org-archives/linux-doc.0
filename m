@@ -1,122 +1,87 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B101428F1
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 15:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F53916DEDA;
+	Mon, 22 Jul 2024 15:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721661542; cv=none; b=llU6OBH1izRTsqHYDSD4s3ZS6jx045NS8f3i897JIDyLv8DWmONwCr6j/JADxbzsMud19HvCk7ycYhKfHEKOCXk0XaPWkSMuO5tlOmgJ/EszD44cOLg0D80AvUYWsXBWjDqyxUzX2KXDStLMAevabw9wifPUdy8oLkSsVVKnZE8=
+	t=1721661901; cv=none; b=Aa97h+gXwy7+Gn1BJ+6ABsEdZabnsQLyycXII1GZheBIburAPn16475xjawG5frNpXZIQTRQcg7j2SeK9wwXPjRi9nU89bmCxnuAyogSlB8jty1sBDF6YSq5c9qaM0FShkI/TYQGdMzTujpnaU2k5jBMWFe+fgaijT/PESGOINE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721661542; c=relaxed/simple;
-	bh=tKK9/3I13MvhyzlrlIeNEK5w1H/w6SfkKGofIH4mavE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sn5s84t4IOJMP+y/APcnixN55zaL8qwDC9sMw4w/tmaEPp9C/Zi3nn7EeP3n4WHbEVpcIEye3XZhUjD1JX9nKz7BXgySk28hdN3HfDDPrh9ACn+4MjoomBjcNNG3Y/Fbfr2bV92J/4qKFhzxEylWSHrHGVQ6kqdlK3HoxN/xOWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=i4Cbwlc0; arc=none smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
+	s=arc-20240116; t=1721661901; c=relaxed/simple;
+	bh=8zr8aJusIKjq1c3Yq21mD14XAozGTnCpe2+gg4+iDKA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AB46H6gbXvU+AjPa3Yb9ObDKoQzpKRXXT3ZbN8K9lMF/+ZmDH0pipQ9WUH96DyBwKbPQkNZCigb3j/x1hLTJ6OJgQj6ClCLXYh05/Gn7iXaKFrS8fw8WRyaJkK/npz8xcNNKdFZBDXsBkMDBJ/BGTA2k30HP7yRiNvY+U45pthQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XhwVsjpX; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="i4Cbwlc0"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5cebd3bd468so2376462eaf.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 08:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vimeo.com; s=google; t=1721661539; x=1722266339; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tKK9/3I13MvhyzlrlIeNEK5w1H/w6SfkKGofIH4mavE=;
-        b=i4Cbwlc06yyXfGyahehPPMh3yr3UQydrIPvcHMTYu9nJItReGlduFJEqG4pbMakiJT
-         6Wmkunb+Ln/HBtjm79WClX52pQex1Uzv2ApvSABOFIQyEz1YRxW9Fq5RsqeVDzDPMXOo
-         4KfbQ9hsi865IdJmcsLSKi9F+UTj4dfe7qxbs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721661539; x=1722266339;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tKK9/3I13MvhyzlrlIeNEK5w1H/w6SfkKGofIH4mavE=;
-        b=rdq+LmnJnPEwPktQib2SFHIMVGnf1rLXZsgeKNnVUoQ1IfezjR+YP5HcS0QbI8lget
-         Jxvb/2DInUkUezak983PhDjBURWOJHZNw5ExPI7jwXWE6/jpuxvZHVv1K67yB41WAK+w
-         yKJTZaaAAXJAb3PWNzgSUCPlToWocKBojpPWodh/GFGWz7zHKVNm83HEP7J+fePBZOAz
-         E/W0inSENTp0+peYtAJIxdkmg32SwortEmEjyioGGvzFaFzqIDTI0EB43N5QsMMGWnpz
-         Uv0+CuHtB+ezHmeh9zqM3v2GZYjUG6c1dwrq/xekJtfSBEwvf/X63eaN1aRFSiSS+2mO
-         kv+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVHAbsn+qk0mdO6+FQrbVVhktgwkwV7DIOFl56Ubc5oMIi3UU2EdboTdqdE3yA8qvrW7NAJJ1t9a9K38BL7T6NOetOyeigtlKe2
-X-Gm-Message-State: AOJu0YxukBIrFVC8DQFg/es7rxKDGeJENjl5EX+KmqPBO0ec1x5TSHqP
-	T6ZLnVV8swdtiOqXLAj8SZPGyFUJekie7Y/mgNPb7i20cNykXZxKPI1S4zshl0Z/FmBsG1LP6eu
-	tcGS9w87QYHAoDSypps4P3y8wIzHh1cQa8RabcA==
-X-Google-Smtp-Source: AGHT+IH5LDxowoDamLUYoLl291IngnNdCcTq6/3wHFVuWdTaH42FkypxLhePVVQznXZrboSlC/zmNdEhr4+x0rPlRJ0=
-X-Received: by 2002:a05:6870:1715:b0:25e:1ced:744 with SMTP id
- 586e51a60fabf-263c7612bb6mr6127529fac.47.1721661538646; Mon, 22 Jul 2024
- 08:18:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XhwVsjpX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=JJJApbRmtktqJc+0w8peDfX0HfoBVe+zuGkewnxbDuU=; b=XhwVsjpXph8FBdCu4Xs7D3JqVB
+	f7CooCYLcvDmexAoScpNrssYxIc8WkvVzlF3oh3ajOECq6UdJj8a3ExgM60Ylc2LU9SezRGpRHfRM
+	eBCuZurnVfgfwOzubAWDvf7iAljjGFHKWJW2o3mDAbYbPusgQG5qU8SMz9qs1tXlvmk3eKGXBodpA
+	7i23dCWTHSL+QxL21FFtSwmwOJQkGkR7R2HzjNDpI2hsFCiYdig9JduoZsnSQKsSCQBlXdHW+cFCj
+	oXIa3cZcevwOZ6qfrILDVxDWXOSmo/jRCYE1FJ8yOibqbZ4HdSFRv7mClhLV6xxPAQtoKmO0xPTbH
+	+JXtIv0A==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sVuuJ-00000009w9e-2ius;
+	Mon, 22 Jul 2024 15:24:59 +0000
+Message-ID: <6f1f7e37-c5a3-4da8-9c03-6ef469ad90ac@infradead.org>
+Date: Mon, 22 Jul 2024 08:24:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240715203625.1462309-1-davidf@vimeo.com> <20240715203625.1462309-2-davidf@vimeo.com>
- <ZpZ6IZL482XZT1fU@tiehlicka> <ZpajW9BKCFcCCTr-@slm.duckdns.org>
- <20240717170408.GC1321673@cmpxchg.org> <CAFUnj5OkHp3fYjByCnXJQ51rog93DsimSoc1qxcU7UyKw-nFrw@mail.gmail.com>
- <fcb8f0ec-59ff-4f79-82dd-7eaf2530aef3@redhat.com>
-In-Reply-To: <fcb8f0ec-59ff-4f79-82dd-7eaf2530aef3@redhat.com>
-From: David Finkel <davidf@vimeo.com>
-Date: Mon, 22 Jul 2024 11:18:47 -0400
-Message-ID: <CAFUnj5MsGdswXbvy6neGzDsD=9=CuTCcezrkz0ofFsJedydUag@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: Waiman Long <longman@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shuah Khan <shuah@kernel.org>, 
-	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 18, 2024 at 11:23=E2=80=AFPM Waiman Long <longman@redhat.com> w=
-rote:
->
->
-> On 7/18/24 17:49, David Finkel wrote:
-> > I spent some time today attempting to implement this.
-> > Here's a branch on github that compiles, and I think is close to what y=
-ou
-> > described, but is definitely still a WIP:
-> >
-> > https://github.com/torvalds/linux/compare/master...dfinkel:linux:memcg2=
-_memory_peak_fd_session
-> >
-> > Since there seems to be significant agreement that this approach is bet=
-ter
-> > long-term as a kernel interface, if that continues, I can factor out so=
-me of
-> > the changes so it supports both memory.peak and memory.swap.peak,
-> > fix the tests, and clean up any style issues tomorrow.
-> >
-> > Also, If there are opinions on whether the cgroup_lock is a reasonable =
-way
-> > of handling this synchronization, or if I should add a more appropriate=
- spinlock
-> > or mutex onto either the pagecounter or the memcg, I'm all ears.
->
-> cgroup_lock() should only be used by the cgroup core code, though there
-> are exceptions.
->
-> You may or may not need lock protection depending on what data you want
-> to protect and if there is any chance that concurrent race may screw
-> thing up. If lock protection is really needed, add your own lock to
-> protect the data. Since your critical sections seem to be pretty short,
-> a regular spinlock will be enough.
-
-Thanks, using cgroup_lock() created a deadlock, and using a spinlock
-resolved that.
-
->
-> Cheers,
-> Longman
->
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: add Documentation/dev-tools/ to workflows@
+To: Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240722142913.1709594-1-kuba@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240722142913.1709594-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---=20
-David Finkel
-Senior Principal Software Engineer, Core Services
+
+On 7/22/24 7:29 AM, Jakub Kicinski wrote:
+> The goal of the workloads@ mailing list was to make it easier for
+
+                  workflows@
+as in $Subject.
+
+> maintainers who don't use lore+lei to subscribe to topics related
+> to process changes. In other words it should cover changes to Documentation
+> files which most maintainers should know about. Recent changes from Kees [1]
+> to provide guidelines on naming KUnit files did not fall under workflows@
+> since Documentation/dev-tools/ isn't covered. The patch volume for
+> dev-tools isn't huge and most of the changes are interesting. Add it.
+> 
+> Link: https://lore.kernel.org/20240720165441.it.320-kees@kernel.org/ # [1]
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ec6904cbfd1f..a85234de4fd0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6680,6 +6680,7 @@ DOCUMENTATION PROCESS
+>  M:	Jonathan Corbet <corbet@lwn.net>
+>  L:	workflows@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/dev-tools/
+>  F:	Documentation/maintainer/
+>  F:	Documentation/process/
+>  
+
+-- 
+~Randy
