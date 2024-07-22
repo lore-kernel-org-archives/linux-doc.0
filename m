@@ -1,317 +1,110 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1555435280
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 08:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76416182BD;
+	Mon, 22 Jul 2024 08:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721638196; cv=none; b=UcLaIHYcCOajPWUJtID7FPtMzZnxbD4G5bgqUTO06yfsBNXIXUvzdGwwU7I/TMObeH2ypghhC4XvfZoZd/FDTA4AVgotizSSjVNp/7BYwr2ZKqV8orOOCPVLEvssr5GtbRy3wICizqlUoa7/vLoc0ITbtOoxhicziPgSySTcJpQ=
+	t=1721638660; cv=none; b=G4ABlBFKlvLeybnPxS+7WQ3aliTqMj+7FYJkOJEzKxMTCnz7glKXbelCkKguztqQyeB6g5uGnmC9x2/Ww0B5azgCfisENOYm0/9NRBB/u/+oKa6p4yhBn1+XbVNI2+DKfFUPZ0BaF8B1zWjw2Fs18Hjf/WOfeD0AySPoMm42Cwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721638196; c=relaxed/simple;
-	bh=47VPo2UorIlNZcLnbJEBEqv9wf0h06RjopgrPHwuUC4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKK1jNQGxX5lVEf/MZ05OvODrR+ZjeZhUsHRsAlkNG8Dncne/a7pH9WG4Lu7BTsBD22SkV+TThnaDgRskg3wlNLX8cnRevF8UaCb2QUJrFwGG1QJw9GmY1FXFHivi1+TV6BxDz5lLRUul9S9qdGOXz8qbwppiw0DChxYiccwE4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KQpjxN6a; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721638660; c=relaxed/simple;
+	bh=5pdsAMvxf33KPLFdJQj2/+6yZV6fAT2tSKEZ5x9YW2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XlzOlaMFCVBOV9621swfsBUvDQbpSIK5OMW8ttv9ehO9eNuc+HksMvTTK5jROIXxeEkZx7OMR/iBo8BPFCuq2yrVfDyt5pYkfAEU7xl4Yyv8OAQk5te18bDDvd/OPR1tVFSO1E1+U8/7aiuNHgDU1sSnirlfsCeApflme7kFK1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZHxO8XN+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KQpjxN6a"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4266ed6c691so26528635e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 01:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721638192; x=1722242992; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ow+3TiyVj0GJ9511ydtr5o2dgkAgB9VcYLqHCc+aPiQ=;
-        b=KQpjxN6alDCYEMRWCY0UW1facRhmAikdpUe8c1yXpnumPnmFyr2b0McAofXuq5Xafz
-         3bRbXWENLIgHF1Mcq9EPyMdnCchI51m2uR5xfSGT7gqTrVeT89g9Lj50Rc49ZVbuFcUL
-         w2DthRbcVhyNET6QJBDQz6InO/WVCPoeFCu+SAQLICznZxIs+HbwMuheL2Sc6sD3pioj
-         ClRcqyWaN9PsXK9F3/FF/xkPUjNotUMc/7u0NABYdN3UlbwSfEYwYY+6nBgzVgaK/iz5
-         s1UsktkmbZkLhwAAW/Y5AweOVBsnCupTyzabxZyuk965jhz7h/h4I/MxQTJkiF7g1X8/
-         VhFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721638192; x=1722242992;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ow+3TiyVj0GJ9511ydtr5o2dgkAgB9VcYLqHCc+aPiQ=;
-        b=w7MaKSdgGxu0/XaVRjyLDLthVBmFrA26eB0uDzMLiQGJDREQys5xDULHf1ZG29MdTJ
-         bGKIWtIeOhT0Mz1DrcFoTPLmslVNpxIOF4gVpnMffw+glQbwZV5PReLidwY4vQAEkljg
-         Prix22CgO2SwrK5mH5zPCh6DsLFj6Gr3sgcOBz8spdOqY86nIuOYAUDhtsz4GbKY2y+i
-         HYJC36qY3AMwpFyayupXPgYAJZGlgrnwYk1+XVEM8Hk5UWwzHoPM2lq44AAHH7L2k95B
-         XoJqbo7VH2FwKtJrNX2Rtou0hkEI3V6QY+48+w5Ofv6VTeAvp6Br4Y7rDlvicCeZLuQ+
-         F9DA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXDafVzFl5VeqtqM5AO5z+SYgJg5bNbtp5dgjP5vJ3RlrbmFEK77M0GnesICUprVE3TxCGi3tnszdNp8754paPuNrtonc4AGi1
-X-Gm-Message-State: AOJu0Yz0jeKVQU9z1ciMlUeuWdwAL02HneM4J0IPoVINs9PIvr+hjkrN
-	0Bfd3ThhwSz3Wo5AXIPYMsMX/JaBBIKftgei7Fs/zm4ap7ibDd6tZOT1Tjx6/wk=
-X-Google-Smtp-Source: AGHT+IEV6ZArP3dSMTn33w6BUO0/tULLfdMjg6DA7wmDUW0v+Jzor4zkYN97P4gu9T/Bns/QI18YWA==
-X-Received: by 2002:a05:600c:4f0c:b0:426:5f8f:51a4 with SMTP id 5b1f17b1804b1-427daa2815cmr36000095e9.12.1721638192233;
-        Mon, 22 Jul 2024 01:49:52 -0700 (PDT)
-Received: from ?IPV6:2001:a61:137b:5001:be5a:c750:b487:ff1b? ([2001:a61:137b:5001:be5a:c750:b487:ff1b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427d6902a1fsm116372845e9.20.2024.07.22.01.49.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 01:49:52 -0700 (PDT)
-Message-ID: <82f03be5-b8b1-4df2-8b4b-0cae5d6d67ba@suse.com>
-Date: Mon, 22 Jul 2024 10:49:49 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZHxO8XN+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CFDC116B1;
+	Mon, 22 Jul 2024 08:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721638660;
+	bh=5pdsAMvxf33KPLFdJQj2/+6yZV6fAT2tSKEZ5x9YW2Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZHxO8XN+foJShMt2aKArXK1IdXRzJuQU27YCTJfFZwoQ7H7WCy+u8B9jpMyN4Efv1
+	 0yLHsB6MMrCBmpo0ZPenUlRjMWqnJh1Y9wc2R2tD0Rva4o+1LslX8kXPiTv+MVae33
+	 /8JuTUH2tJO4E1OweFMqLlLI3WblfWfg3JI2icKOLinTi0v7T9QoBdk0QchjJLeqwE
+	 dxBRpwjbGqPp+bb+NIRUsCl5S6uDGSt5Km5nUfoWpkzN8mXi2qjxgrLJU7L6CfTXfb
+	 JiyDmcT8gUs1CNjlwNzwaCMtGg8tmeq28UIbtrSDs0nIjnNel0R194B4XgVpFJKSUp
+	 SfzKjLHHdmA3g==
+Date: Mon, 22 Jul 2024 09:57:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v9 35/39] kselftest/arm64: Add a GCS test program built
+ with the system libc
+Message-ID: <875ccce5-69ab-4a43-b49c-977036df4173@sirena.org.uk>
+References: <20240625-arm64-gcs-v9-0-0f634469b8f0@kernel.org>
+ <20240625-arm64-gcs-v9-35-0f634469b8f0@kernel.org>
+ <87plray8we.fsf@linaro.org>
+ <a1ee93ab-2168-4228-a4e8-eab02c046bd3@sirena.org.uk>
+ <87ed7qxrlb.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] net/9p/usbg: Add new usb gadget function transport
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>, v9fs@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, kernel@pengutronix.de
-References: <20240116-ml-topic-u9p-v7-0-3a1eeef77fbe@pengutronix.de>
- <20240116-ml-topic-u9p-v7-2-3a1eeef77fbe@pengutronix.de>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20240116-ml-topic-u9p-v7-2-3a1eeef77fbe@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mfQxvhGMKqgo3PYf"
+Content-Disposition: inline
+In-Reply-To: <87ed7qxrlb.fsf@linaro.org>
+X-Cookie: Everything you know is wrong!
 
 
+--mfQxvhGMKqgo3PYf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 22.07.24 00:08, Michael Grzeschik wrote:
+On Thu, Jul 18, 2024 at 07:28:32PM -0300, Thiago Jung Bauermann wrote:
+> Mark Brown <broonie@kernel.org> writes:
 
-> +
-> +static int usb9pfs_queue_tx(struct f_usb9pfs *usb9pfs, struct usb_request *req,
-> +			    gfp_t gfp_flags)
-> +{
-> +	struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-> +	int ret = -ENOMEM;
+> > Do you have THP enabled?  That still doesn't work (I'm expecting it to
+> > be fixed with -rc1).
 
-No need. This will be overwritten.
+> I did have it enabled. After turning it off in the kernel config, the
+> test does pass. But I see 30 lines of "INVALID GCS" in dmesg while
+> running it. Is it expected?
 
-> +
-> +	if (!(usb9pfs->p9_tx_req->tc.size % usb9pfs->in_ep->maxpacket))
-> +		req->zero = 1;
-> +
-> +	req->buf = usb9pfs->p9_tx_req->tc.sdata;
-> +	req->length = usb9pfs->p9_tx_req->tc.size;
-> +
-> +	dev_dbg(&cdev->gadget->dev, "%s usb9pfs send --> %d/%d, zero: %d\n",
-> +		usb9pfs->in_ep->name, req->actual, req->length, req->zero);
-> +
-> +	ret = usb_ep_queue(usb9pfs->in_ep, req, gfp_flags);
-> +
-> +	dev_dbg(&cdev->gadget->dev, "tx submit --> %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int usb9pfs_queue_rx(struct f_usb9pfs *usb9pfs, struct usb_request *req,
-> +			    gfp_t gfp_flags)
-> +{
-> +	struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-> +	int ret = -ENOMEM;
+Oops, that's a debug print left in by mistake but does indicate
+everything's running well.
 
-Overwritten in literally the next statement.
+--mfQxvhGMKqgo3PYf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +	ret = usb_ep_queue(usb9pfs->out_ep, req, gfp_flags);
-> +
-> +	dev_dbg(&cdev->gadget->dev, "rx submit --> %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int usb9pfs_transmit(struct f_usb9pfs *usb9pfs)
-> +{
-> +	struct p9_req_t *p9_req = NULL;
-> +	unsigned long flags;
-> +	int ret = 0;
-> +
-> +	spin_lock_irqsave(&usb9pfs->lock, flags);
-> +	if (usb9pfs->p9_tx_req) {
-> +		spin_unlock_irqrestore(&usb9pfs->lock, flags);
-> +		return -EBUSY;
-> +	}
-> +
-> +	p9_req = list_first_entry_or_null(&usb9pfs->tx_req_list,
-> +					  struct p9_req_t, req_list);
-> +	if (!p9_req) {
-> +		spin_unlock_irqrestore(&usb9pfs->lock, flags);
-> +		return -ENOENT;
-> +	}
-> +
-> +	list_del(&p9_req->req_list);
+-----BEGIN PGP SIGNATURE-----
 
-You have deleted it from the list
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaeHvoACgkQJNaLcl1U
+h9AI+wf/RBDATTODyaTvKOScU1coj20M1RS7G89cHABna4bQRQtFNmjI7sd2fLpl
+JqGje1yPm1EVEweCnIKuP7DURmfjm7EYn+WqebEBO80n/p+2Md7qAy61du1uJEuV
+MlqV44RmEi/pKozAa0EFjN5rS14u0w86Up9k0SJEBX+0SjpZrUWhpkUQyj+B90B7
+WHY8XiMIv3UDvcI9oPowQAJuvIfM7hl8JD7njibxQX+fqex+DY0C1p0MOG8BQ0TM
+9Y+eI9rkpz8eDXTN1Tcm5HnTlBn5UJhFsuWnyZSkJ2jVXSvvYSieik4QRH9U4rqj
+tAPxlFXuzQeJGORQnqNCvINjO9Cc5w==
+=RXC2
+-----END PGP SIGNATURE-----
 
-> +	usb9pfs->p9_tx_req = p9_req;
-> +
-> +	p9_req_get(usb9pfs->p9_tx_req);
-> +
-> +	ret = usb9pfs_queue_tx(usb9pfs, usb9pfs->in_req, GFP_ATOMIC);
-
-This means that if this function returns an error, the deletion
-from the list may or may not have happened.
-
-> +	spin_unlock_irqrestore(&usb9pfs->lock, flags);
-> +
-> +	return ret;
-> +}
-> +
-> +static void usb9pfs_tx_complete(struct usb_ep *ep, struct usb_request *req)
-> +{
-> +	struct f_usb9pfs *usb9pfs = ep->driver_data;
-> +	struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-> +	int ret = 0;
-> +
-> +	if (req->status) {
-> +		dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
-> +			ep->name, req->status, req->actual, req->length);
-> +		return;
-> +	}
-> +
-> +	/* reset zero packages */
-> +	req->zero = 0;
-> +
-> +	dev_dbg(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
-> +		ep->name, req->status, req->actual, req->length);
-> +
-> +	WRITE_ONCE(usb9pfs->p9_tx_req->status, REQ_STATUS_SENT);
-> +
-> +	p9_req_put(usb9pfs->client, usb9pfs->p9_tx_req);
-> +
-> +	ret = usb9pfs_queue_rx(usb9pfs, usb9pfs->out_req, GFP_ATOMIC);
-> +	if (ret)
-> +		return;
-
-Ehhh ? Could you explain the error handling here?
-
-> +
-> +	return;
-> +}
-> +
-> +static struct p9_req_t *usb9pfs_rx_header(struct f_usb9pfs *usb9pfs, void *buf)
-> +{
-> +	struct p9_req_t *p9_rx_req;
-> +	struct p9_fcall	rc;
-> +	int ret;
-> +
-> +	/* start by reading header */
-> +	rc.sdata = buf;
-> +	rc.offset = 0;
-> +	rc.capacity = P9_HDRSZ;
-> +	rc.size = P9_HDRSZ;
-> +
-> +	p9_debug(P9_DEBUG_TRANS, "mux %p got %zu bytes\n", usb9pfs,
-> +		 rc.capacity - rc.offset);
-> +
-> +	ret = p9_parse_header(&rc, &rc.size, NULL, NULL, 0);
-> +	if (ret) {
-> +		p9_debug(P9_DEBUG_ERROR,
-> +			 "error parsing header: %d\n", ret);
-> +		return NULL;
-> +	}
-> +
-> +	p9_debug(P9_DEBUG_TRANS,
-> +		 "mux %p pkt: size: %d bytes tag: %d\n",
-> +		 usb9pfs, rc.size, rc.tag);
-> +
-> +	p9_rx_req = p9_tag_lookup(usb9pfs->client, rc.tag);
-> +	if (!p9_rx_req || p9_rx_req->status != REQ_STATUS_SENT) {
-> +		p9_debug(P9_DEBUG_ERROR, "Unexpected packet tag %d\n", rc.tag);
-> +		return NULL;
-> +	}
-> +
-> +	if (rc.size > p9_rx_req->rc.capacity) {
-> +		p9_debug(P9_DEBUG_ERROR,
-> +			 "requested packet size too big: %d for tag %d with capacity %zd\n",
-> +			 rc.size, rc.tag, p9_rx_req->rc.capacity);
-> +		p9_req_put(usb9pfs->client, p9_rx_req);
-> +		return NULL;
-> +	}
-> +
-> +	if (!p9_rx_req->rc.sdata) {
-> +		p9_debug(P9_DEBUG_ERROR,
-> +			 "No recv fcall for tag %d (req %p), disconnecting!\n",
-> +			 rc.tag, p9_rx_req);
-> +		p9_req_put(usb9pfs->client, p9_rx_req);
-> +		return NULL;
-> +	}
-> +
-> +	return p9_rx_req;
-> +}
-> +
-> +static void usb9pfs_rx_complete(struct usb_ep *ep, struct usb_request *req)
-> +{
-> +	struct f_usb9pfs *usb9pfs = ep->driver_data;
-> +	struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-> +	struct p9_req_t *p9_rx_req;
-> +	unsigned long flags;
-> +
-> +	if (req->status) {
-> +		dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
-> +			ep->name, req->status, req->actual, req->length);
-> +		return;
-> +	}
-> +
-> +	p9_rx_req = usb9pfs_rx_header(usb9pfs, req->buf);
-> +	if (!p9_rx_req)
-> +		return;
-> +
-> +	memcpy(p9_rx_req->rc.sdata, req->buf, req->actual);
-> +
-> +	p9_rx_req->rc.size = req->actual;
-> +
-> +	p9_client_cb(usb9pfs->client, p9_rx_req, REQ_STATUS_RCVD);
-> +	p9_req_put(usb9pfs->client, p9_rx_req);
-> +
-> +	spin_lock_irqsave(&usb9pfs->lock, flags);
-> +	usb9pfs->p9_tx_req = NULL;
-> +
-> +	spin_unlock_irqrestore(&usb9pfs->lock, flags);
-
-Why can usb9pfs_tx_complete() touch this without taking the spinlock?
-
-> +
-> +	usb9pfs_transmit(usb9pfs);
-
-This can fail. What happens then?
-
-> +
-> +	return;
-> +}
-> +
-
-
-[..]
-
-> +static int p9_usbg_cancel(struct p9_client *client, struct p9_req_t *req)
-
-This ought to be boolean
-
-> +{
-> +	struct f_usb9pfs *usb9pfs = client->trans;
-> +	unsigned long flags;
-> +	int ret = 1;
-> +
-> +	p9_debug(P9_DEBUG_TRANS, "client %p req %p\n", client, req);
-> +
-> +	spin_lock_irqsave(&usb9pfs->lock, flags);
-> +
-> +	if (req->status == REQ_STATUS_UNSENT) {
-> +		list_del(&req->req_list);
-> +		WRITE_ONCE(req->status, REQ_STATUS_FLSHD);
-> +		p9_req_put(client, req);
-> +		ret = 0;
-> +	}
-> +	spin_unlock_irqrestore(&usb9pfs->lock, flags);
-> +
-> +	return ret;
-> +}
-
-	Regards
-		Oliver
-
+--mfQxvhGMKqgo3PYf--
