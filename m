@@ -1,87 +1,88 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F53916DEDA;
-	Mon, 22 Jul 2024 15:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F58C2FD;
+	Mon, 22 Jul 2024 15:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721661901; cv=none; b=Aa97h+gXwy7+Gn1BJ+6ABsEdZabnsQLyycXII1GZheBIburAPn16475xjawG5frNpXZIQTRQcg7j2SeK9wwXPjRi9nU89bmCxnuAyogSlB8jty1sBDF6YSq5c9qaM0FShkI/TYQGdMzTujpnaU2k5jBMWFe+fgaijT/PESGOINE=
+	t=1721662227; cv=none; b=p8FN06doOpvaxjdxpphp8fwlG6O/IxIkn/c6iJut3nFZAdgI6JLcbN31k7Y7LGuB9e6rGetoRLOOFZ0XA+fw6eYX1bBDGkh/GX/ogb1olU8GjJH3YxHTRAevCspNEA2rRXEY18BgZxJhq7SbdbAHc6uD7sDz4hvmwJMMhRjvHpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721661901; c=relaxed/simple;
-	bh=8zr8aJusIKjq1c3Yq21mD14XAozGTnCpe2+gg4+iDKA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AB46H6gbXvU+AjPa3Yb9ObDKoQzpKRXXT3ZbN8K9lMF/+ZmDH0pipQ9WUH96DyBwKbPQkNZCigb3j/x1hLTJ6OJgQj6ClCLXYh05/Gn7iXaKFrS8fw8WRyaJkK/npz8xcNNKdFZBDXsBkMDBJ/BGTA2k30HP7yRiNvY+U45pthQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XhwVsjpX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1721662227; c=relaxed/simple;
+	bh=qeOMl00DgHVITw+FjVR23dUDZQ0dZ2F3RbfRASJShYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WjkMXh2+Ieay6zEP/Wtr7UfLo4dPHN+SxoK+rirZ2t1ex+JnC55HDr6cbUYB1+fi2PG5vJbSfoVOEjouIdw5x3auBu+UTCH4DCINZW0o3Q1rJEKmmzQmC68U8fmVKQwRIG23RtRnQS68NBQquvB2ECLv2EB5xaeWPedWaQ83mLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Udibmumu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XhwVsjpX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JJJApbRmtktqJc+0w8peDfX0HfoBVe+zuGkewnxbDuU=; b=XhwVsjpXph8FBdCu4Xs7D3JqVB
-	f7CooCYLcvDmexAoScpNrssYxIc8WkvVzlF3oh3ajOECq6UdJj8a3ExgM60Ylc2LU9SezRGpRHfRM
-	eBCuZurnVfgfwOzubAWDvf7iAljjGFHKWJW2o3mDAbYbPusgQG5qU8SMz9qs1tXlvmk3eKGXBodpA
-	7i23dCWTHSL+QxL21FFtSwmwOJQkGkR7R2HzjNDpI2hsFCiYdig9JduoZsnSQKsSCQBlXdHW+cFCj
-	oXIa3cZcevwOZ6qfrILDVxDWXOSmo/jRCYE1FJ8yOibqbZ4HdSFRv7mClhLV6xxPAQtoKmO0xPTbH
-	+JXtIv0A==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sVuuJ-00000009w9e-2ius;
-	Mon, 22 Jul 2024 15:24:59 +0000
-Message-ID: <6f1f7e37-c5a3-4da8-9c03-6ef469ad90ac@infradead.org>
-Date: Mon, 22 Jul 2024 08:24:57 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Udibmumu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F691C116B1;
+	Mon, 22 Jul 2024 15:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721662227;
+	bh=qeOMl00DgHVITw+FjVR23dUDZQ0dZ2F3RbfRASJShYY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Udibmumu7SLzxEKxqIecKZDLnygO3K9IPmsYRL3I6hL5eYqNIVWX7mLjSpajAEdtJ
+	 +34Wwg7S23Sx/TsNHnSCLXzlaT8K9BzSvT0TpzDZp4qpSIexecgt4YBIFxTyDVKdR4
+	 zoGjpH6i7DCAVXe/q3qIV7BqGL/VhVJeejTJZQ5AjoBDa5DUQ2nz2ml/skzftzqSlC
+	 5qNp9evMwxpnZuVl0mgCMoNVIFBdte25OlWnbcPfa0aHZjnWFch12yFrsCVCKAOuGg
+	 mqnhjXYfz2YA35SyHO1xRH0Y7C6QIOmi+MTocaJsucU4+99bRjM3aqFDZEN/X/Fw9k
+	 bZ6cWyiYCD1kA==
+Date: Mon, 22 Jul 2024 17:30:17 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Chandan Babu R <chandan.babu@oracle.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+	David Sterba <dsterba@suse.com>, Hugh Dickins <hughd@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dave Chinner <david@fromorbit.com>, Andi Kleen <ak@linux.intel.com>, 
+	Christoph Hellwig <hch@infradead.org>, Uros Bizjak <ubizjak@gmail.com>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/9] fs: multigrain timestamp redux
+Message-ID: <20240722-festmachen-lehrstellen-f86d1bd28997@brauner>
+References: <20240715-mgtime-v6-0-48e5d34bd2ba@kernel.org>
+ <20240716-zerlegen-haudegen-ba86a22f4322@brauner>
+ <60af7cff6b1cf00388e932804c81ed368fcc9f02.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: add Documentation/dev-tools/ to workflows@
-To: Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240722142913.1709594-1-kuba@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240722142913.1709594-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <60af7cff6b1cf00388e932804c81ed368fcc9f02.camel@kernel.org>
 
-
-
-On 7/22/24 7:29 AM, Jakub Kicinski wrote:
-> The goal of the workloads@ mailing list was to make it easier for
-
-                  workflows@
-as in $Subject.
-
-> maintainers who don't use lore+lei to subscribe to topics related
-> to process changes. In other words it should cover changes to Documentation
-> files which most maintainers should know about. Recent changes from Kees [1]
-> to provide guidelines on naming KUnit files did not fall under workflows@
-> since Documentation/dev-tools/ isn't covered. The patch volume for
-> dev-tools isn't huge and most of the changes are interesting. Add it.
+On Tue, Jul 16, 2024 at 08:45:16AM GMT, Jeff Layton wrote:
+> On Tue, 2024-07-16 at 09:37 +0200, Christian Brauner wrote:
+> > On Mon, Jul 15, 2024 at 08:48:51AM GMT, Jeff Layton wrote:
+> > > I think this is pretty much ready for linux-next now. Since the latest
+> > > changes are pretty minimal, I've left the Reviewed-by's intact. It would
+> > > be nice to have acks or reviews from maintainers for ext4 and tmpfs too.
+> > > 
+> > > I did try to plumb this into bcachefs too, but the way it handles
+> > > timestamps makes that pretty difficult. It keeps the active copies in an
+> > > internal representation of the on-disk inode and periodically copies
+> > > them to struct inode. This is backward from the way most blockdev
+> > > filesystems do this.
+> > > 
+> > > Christian, would you be willing to pick these up  with an eye toward
+> > > v6.12 after the merge window settles?
+> > 
+> > Yup. About to queue it up. I'll try to find some time to go through it
+> > so I might have some replies later but that shouldn't hold up linux-next
+> > at all.
 > 
-> Link: https://lore.kernel.org/20240720165441.it.320-kees@kernel.org/ # [1]
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> Great!
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ec6904cbfd1f..a85234de4fd0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6680,6 +6680,7 @@ DOCUMENTATION PROCESS
->  M:	Jonathan Corbet <corbet@lwn.net>
->  L:	workflows@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/dev-tools/
->  F:	Documentation/maintainer/
->  F:	Documentation/process/
->  
+> There is one minor update to the percpu counter patch to compile those
+> out when debugfs isn't enabled, so it may be best to pick the series
+> from the "mgtime" branch in my public git tree. Let me know if you'd
 
--- 
-~Randy
+I did that now and pushed to vfs.mgtime. Please take a look as I rebased
+onto current master and resolved conflicts in xfs and btrfs. Thanks!
