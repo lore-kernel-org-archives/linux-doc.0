@@ -1,213 +1,620 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3660217BCD
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 18:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D02179A8
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 19:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721674054; cv=none; b=rKjzzXUsqpkU7beZyCJRm+4EMkUzbGMmxjwWmDGp0b+RzYPSlaWUGkpIXw4o6bLHTGjGKVzi0R98Fm0fwZXSBoHd8o9Vgq8v0XK8DOWefW79y8BIKDCpvFjD3jFeRN2pIPdVlg2DjgIQ4+IbdCG9jO4ee19j8pUvkwjSv3GdL1w=
+	t=1721676625; cv=none; b=HfUycKGxE5Va0HXS4zV4DI+lWx2FDlZ/lkNOjPgD5kQUn50pxR0gNkjnSQcJQGC5Ml0n4O/Jj2OsLx+w4ZM2iJSUk0ZfQ8etfek/CMDWW0BDlhspUDtdBRGo669QLEAyRKPOXI600DGsvmvymbttekkl1FAyH69SbrjqlayT8vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721674054; c=relaxed/simple;
-	bh=asA28J//MR/tZw5E77Yd89aREdVKDUWw1npsUkxp9pc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0gFVqJ0m/M3eGdqQN3PZg9af52FRTs5AkCJ1UbdoSBiqY4LEdE3UWsaMprNdIPSN0Qajo20oxLrlvCseVKkIiZYwDoN/6yqOgWqjPBxL8tMUEm7JOsRHcib+nt6iWUxqbO8DneA8oDxQpYDlY0BQSxLv0V0MIiiKnfwsh+aeJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=ogialzVN; arc=none smtp.client-ip=209.85.166.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1721676625; c=relaxed/simple;
+	bh=mTBF6eCO7MOvjqpNiFncv3e78JXo++O4qjJeT+uWEQE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lOS98O2j5iM7nyR9OnWxP9gdLaggjuxvW3zbq2Mc5o/yk9JWWJ5168zbN/5/s+j5acH9qzdkSMr6BYjIdm0IfitOGawghk3iIQuYVj2e/FaZkZuP+K3u84oZmWNj4VmkxNdhP5dN8tj+VVhLOjg8IeFeArNJ4bq6EmnLdPyED3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=Fc+uyHVT; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="ogialzVN"
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-8152f0c63c1so180747439f.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 11:47:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="Fc+uyHVT"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-396eb81a1cfso19107695ab.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 12:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1721674051; x=1722278851; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OzTRfDaexdJXU/NKu+dqGzHLJmOKAxsba4iUWApjtBs=;
-        b=ogialzVNR6iKRPGZpusW/yYSZ8rOLkIEhAeG4vlJySRgYIT62Q7rMfuI/9/XGXJQ1Z
-         2TBlR2odsrfqMJhxOi4B0+lH0NYjjQuO/ykAZLJXvRH1wooDCsjjQISBJEvzXgDgbUcx
-         VWLFJ+BPI4voMyrliBzfPiGs7fgQciODdBFl4Ai+awG8xfzjejnQgVjWnzradQAr6Nbo
-         ev2mMm1PeA1lc71KcurutiosCp4ze1Yw7qFqPdHrPUdAl+RMwEsINkyie6HHHcb+UuRz
-         OCUy6gbrll0F4Mlbj1SKkTFl5vykvtkXAIDTv8OnFvd2xVdPZdJSHt39BTT41EWyZYgM
-         tw7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721674051; x=1722278851;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=vimeo.com; s=google; t=1721676622; x=1722281422; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OzTRfDaexdJXU/NKu+dqGzHLJmOKAxsba4iUWApjtBs=;
-        b=klG7SZW/i9ij4rHGYfDiC+rge9nLgaSCYDjQ+eygO6E9xrdq9383yTNfJGY2HKpRPg
-         PDTlUP1mkBTkUbHaOqEsmGuYnYwj4T6AuPpPuo49qj23LMdETfhvLr8XmcRZs/qLT1IH
-         KbrT4ImFwu6YMQO7ynewZVnhNiY768FAdUaotLKP3jcNDGUshXPtAetJnQ4M71REFm50
-         c2GBz8h6fjB+cLUpJUltlCoTr9GrYbfw+sjViqqhJjGToDz6BXx+K5PIiurngUuxkkeW
-         RZhEc5tbA0RCL8yvA6JTKkqmBVEVKLdDXg6kM4BnjvzkHvjIwgIut7bvb+y4VQVVg7+D
-         z8tg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSysQ/WNqCXz7NdZkIxr7tezZ9GU8T4Ws90/IMcMTwf1SvFd2USM27UlDqRyVRAXyIFE/4V0K78mqSud+v7rS7EhSFMzcjg9LM
-X-Gm-Message-State: AOJu0YwZPns2EPuMXuWBwsPVMVDM+7H+JqBHcRq4LVNu0+PVEWWVaM4p
-	GAOg6XdGGLc2or7ymc+gEefaC9oNaOl88+aL1CicXjGsPgKlIf/kDbBouuJdBSQ=
-X-Google-Smtp-Source: AGHT+IFOuPIoea3HTs+tbRyLXH40CUhD1wo+gozLPHK8gHW5C0xpq+X2GQXcdlWAxPs41NzeH0m9PA==
-X-Received: by 2002:a05:6602:48d:b0:804:2b28:75db with SMTP id ca18e2360f4ac-81ea3b3a2cfmr103988639f.10.1721674051211;
-        Mon, 22 Jul 2024 11:47:31 -0700 (PDT)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-819abb08682sm258753339f.1.2024.07.22.11.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jul 2024 11:47:30 -0700 (PDT)
-Date: Mon, 22 Jul 2024 13:47:29 -0500
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 12/13] selftests: riscv: Fix vector tests
-Message-ID: <20240722-0940cd64c0d8bb03f2427022@orel>
-References: <20240719-xtheadvector-v5-0-4b485fc7d55f@rivosinc.com>
- <20240719-xtheadvector-v5-12-4b485fc7d55f@rivosinc.com>
+        bh=lCogWQ6hD/OeHGvYBDDWltl6r0cm0G7fpS+PKDrNV4U=;
+        b=Fc+uyHVTCT+UY5RIcf3uEoHNB8066n0WvYjyVJOSM7yQsGZjQyho+k8poVVtqXEki6
+         tjzEqBl+M7nRq3gq8zo3fxx2BmeHaWcZSUschrOjCZ8YyUAq7Yf9Qbx7aN+ntK1v/nYW
+         X5fLWBMJMy8Ya0qTc6mNkh7LBPfFdCjqtP55c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721676622; x=1722281422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lCogWQ6hD/OeHGvYBDDWltl6r0cm0G7fpS+PKDrNV4U=;
+        b=eM74LTnRiDYpjFLafuCECWZa/jnCC4Q2F2bmSFwTwCmcOWSzfOBu7/InGt8Ss9wQGz
+         Y+6KPcNtJ36vayDms+QfdCWSGiIloJnNEDaRPEc0wW9gBh9UEcAnSaN0yXLHKhLZJjNh
+         ASx2TZCyXO3RF93ogxawmdGENnwYQZoIKiLl38o7wvtb0/lZV7HxI4Em1xAdJovYH/hp
+         rlchsR7Lea1PyZislX3YaI1dladatq2ooVG1vmncG/xuvZp4upQmcgjCjFTOFspK1k4v
+         cCP2AiqzMjhllcNIDbKntxRGc135CExaVIBuvMt+51mot7MurWtvrpgdg2KliRS0JI1u
+         v2SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9+lGpblaTduMmQ0XDRmuPcNBWE6Aop58wi1KOD6giHF3Mb3KLRvMkhPG+wAlUNl5Aw2/bOEulaSbf60bS/jYRNoCdXyecBqA1
+X-Gm-Message-State: AOJu0Yz1eA6mJk7IdHAE7bJ+G1tu1atKNx07K3TY2T6FbW5UQ6TkN05Z
+	hdzijPGZSrrDmK7HXywBtjx6YHKEERHRu5H7QYucHMZaizxkKsLaKG8ABc/XpvM3gh1FavOCPKN
+	5IYDPFf/jzLngq2XBCEpFC8zc+hvC0P7sJOY5gA==
+X-Google-Smtp-Source: AGHT+IF83ZXQr0fLbPoe7YkT770l6Q11YsMxlH/S2dgN5UrF5ZGga78MK5/YZxlwRWucw7FDi2La/ul03GNvdq2T69M=
+X-Received: by 2002:a05:6e02:1a6a:b0:375:cad3:5eb2 with SMTP id
+ e9e14a558f8ab-3993ff8ad77mr81167355ab.13.1721676622334; Mon, 22 Jul 2024
+ 12:30:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240719-xtheadvector-v5-12-4b485fc7d55f@rivosinc.com>
+References: <20240722151713.2724855-1-davidf@vimeo.com> <20240722151713.2724855-2-davidf@vimeo.com>
+ <Zp6jSoB14boeGhWH@google.com>
+In-Reply-To: <Zp6jSoB14boeGhWH@google.com>
+From: David Finkel <davidf@vimeo.com>
+Date: Mon, 22 Jul 2024 15:30:10 -0400
+Message-ID: <CAFUnj5MF4nKq0B7aWWyBpK3b5EZh7W4+xAmeg5SMwpd7gHptsA@mail.gmail.com>
+Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Muchun Song <muchun.song@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2024 at 09:19:07AM GMT, Charlie Jenkins wrote:
-> Overhaul the riscv vector tests to use kselftest_harness to help the
-> test cases correctly report the results and decouple the individual test
-> cases from each other. With this refactoring, only run the test cases is
-> vector is reported and properly report the test case as skipped
-> otherwise. The v_initval_nolibc test was previously not checking if
-> vector was supported and used a function (malloc) which invalidates
-> the state of the vector registers.
-> 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  tools/testing/selftests/riscv/abi/ptrace           | Bin 0 -> 759368 bytes
->  tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
->  tools/testing/selftests/riscv/vector/Makefile      |  17 +-
->  .../selftests/riscv/vector/v_exec_initval_nolibc.c |  84 +++++++
->  tools/testing/selftests/riscv/vector/v_helpers.c   |  56 +++++
->  tools/testing/selftests/riscv/vector/v_helpers.h   |   5 +
->  tools/testing/selftests/riscv/vector/v_initval.c   |  16 ++
->  .../selftests/riscv/vector/v_initval_nolibc.c      |  68 ------
->  .../testing/selftests/riscv/vector/vstate_prctl.c  | 266 ++++++++++++---------
->  9 files changed, 324 insertions(+), 191 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/riscv/abi/ptrace b/tools/testing/selftests/riscv/abi/ptrace
-> new file mode 100755
-> index 000000000000..2b03e77b4dcf
-> Binary files /dev/null and b/tools/testing/selftests/riscv/abi/ptrace differ
-> diff --git a/tools/testing/selftests/riscv/vector/.gitignore b/tools/testing/selftests/riscv/vector/.gitignore
-> index 9ae7964491d5..7d9c87cd0649 100644
-> --- a/tools/testing/selftests/riscv/vector/.gitignore
-> +++ b/tools/testing/selftests/riscv/vector/.gitignore
-> @@ -1,3 +1,4 @@
->  vstate_exec_nolibc
->  vstate_prctl
-> -v_initval_nolibc
-> +v_initval
-> +v_exec_initval_nolibc
-> diff --git a/tools/testing/selftests/riscv/vector/Makefile b/tools/testing/selftests/riscv/vector/Makefile
-> index bfff0ff4f3be..995746359477 100644
-> --- a/tools/testing/selftests/riscv/vector/Makefile
-> +++ b/tools/testing/selftests/riscv/vector/Makefile
-> @@ -2,18 +2,27 @@
->  # Copyright (C) 2021 ARM Limited
->  # Originally tools/testing/arm64/abi/Makefile
->  
-> -TEST_GEN_PROGS := vstate_prctl v_initval_nolibc
-> -TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc
-> +TEST_GEN_PROGS := v_initval vstate_prctl
-> +TEST_GEN_PROGS_EXTENDED := vstate_exec_nolibc v_exec_initval_nolibc sys_hwprobe.o v_helpers.o
->  
->  include ../../lib.mk
->  
-> -$(OUTPUT)/vstate_prctl: vstate_prctl.c ../hwprobe/sys_hwprobe.S
-> +$(OUTPUT)/sys_hwprobe.o: ../hwprobe/sys_hwprobe.S
-> +	$(CC) -static -c -o$@ $(CFLAGS) $^
-> +
-> +$(OUTPUT)/v_helpers.o: v_helpers.c
-> +	$(CC) -static -c -o$@ $(CFLAGS) $^
-> +
-> +$(OUTPUT)/vstate_prctl: vstate_prctl.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
->  	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
->  
->  $(OUTPUT)/vstate_exec_nolibc: vstate_exec_nolibc.c
->  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
->  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
->  
-> -$(OUTPUT)/v_initval_nolibc: v_initval_nolibc.c
-> +$(OUTPUT)/v_initval: v_initval.c $(OUTPUT)/sys_hwprobe.o $(OUTPUT)/v_helpers.o
-> +	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
-> +
-> +$(OUTPUT)/v_exec_initval_nolibc: v_exec_initval_nolibc.c
->  	$(CC) -nostdlib -static -include ../../../../include/nolibc/nolibc.h \
->  		-Wall $(CFLAGS) $(LDFLAGS) $^ -o $@ -lgcc
-> diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> new file mode 100644
-> index 000000000000..74b13806baf0
-> --- /dev/null
-> +++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-> @@ -0,0 +1,84 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Get values of vector registers as soon as the program starts to test if
-> + * is properly cleaning the values before starting a new program. Vector
-> + * registers are caller saved, so no function calls may happen before reading
-> + * the values. To further ensure consistency, this file is compiled without
-> + * libc and without auto-vectorization.
-> + *
-> + * To be "clean" all values must be either all ones or all zeroes.
-> + */
-> +
-> +#define __stringify_1(x...)	#x
-> +#define __stringify(x...)	__stringify_1(x)
-> +
-> +int main(int argc, char **argv)
-> +{
-> +	char prev_value = 0, value;
-> +	unsigned long vl;
-> +	int first = 1;
-> +
-> +	asm volatile (
-> +		".option push\n\t"
-> +		".option arch, +v\n\t"
-> +		"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
-> +		".option pop\n\t"
-> +		: [vl] "=r" (vl)
-> +	);
-> +
-> +#define CHECK_VECTOR_REGISTER(register) ({					\
-> +	for (int i = 0; i < vl; i++) {						\
-> +		asm volatile (							\
-> +			".option push\n\t"					\
-> +			".option arch, +v\n\t"					\
-> +			"vmv.x.s %0, " __stringify(register) "\n\t"		\
-> +			"vsrl.vi " __stringify(register) ", " __stringify(register) ", 8\n\t" \
-> +			".option pop\n\t"					\
-> +			: "=r" (value));					\
-> +		if (first) {							\
-> +			first = 0;						\
-> +		} else if (value != prev_value || !(value == 0x00 || value == 0xff)) { \
-> +			printf("Register " __stringify(register) " values not clean! value: %u\n", value);	\
-> +			exit(-1);						\
+Roman,
 
-I think we should ensure all tests in tools/testing/selftests/riscv/ use
-TAP output, exiting with ksft_finished(), or at least exit with 0 for
-success. For example, vstate_exec_nolibc exits with 2 for success since
-it exits with the return value of prctl(PR_RISCV_V_GET_CONTROL). And
-vstate_prctl.c exits with several different negative values, which means
-it'll exit with several different values around 255. To figure what went
-wrong, one will have to convert those exit codes to the original negative
-values in order to look them up. Having these types of inconsistent exit
-values complicates QA.
+Thanks for the review.
 
-Thanks,
-drew
+On Mon, Jul 22, 2024 at 2:22=E2=80=AFPM Roman Gushchin <roman.gushchin@linu=
+x.dev> wrote:
+>
+> On Mon, Jul 22, 2024 at 11:17:13AM -0400, David Finkel wrote:
+> > Other mechanisms for querying the peak memory usage of either a process
+> > or v1 memory cgroup allow for resetting the high watermark. Restore
+> > parity with those mechanisms, but with a less racy API.
+> >
+> > For example:
+> >  - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
+> >    the high watermark.
+> >  - writing "5" to the clear_refs pseudo-file in a processes's proc
+> >    directory resets the peak RSS.
+> >
+> > This change is an evolution of a previous patch, which mostly copied th=
+e
+> > cgroup v1 behavior, however, there were concerns about races/ownership
+> > issues with a global reset, so instead this change makes the reset
+> > filedescriptor-local.
+> >
+> > Writing a specific string to the memory.peak and memory.swap.peak
+> > pseudo-files reset the high watermark to the current usage for
+> > subsequent reads through that same fd.
+> >
+> > Notably, following Johannes's suggestion, this implementation moves the
+> > O(fds that have written) behavior onto the fd write(2) path. Instead, o=
+n
+> > the page-allocation path, we simply add one additional watermark to
+> > conditionally bump per-hierarchy level in the page-counter.
+> >
+> > This behavior is particularly useful for work scheduling systems that
+> > need to track memory usage of worker processes/cgroups per-work-item.
+> > Since memory can't be squeezed like CPU can (the OOM-killer has
+> > opinions), these systems need to track the peak memory usage to compute
+> > system/container fullness when binpacking workitems.
+> >
+> > Most notably, Vimeo's use-case involves a system that's doing global
+> > binpacking across many Kubernetes pods/containers, and while we can use
+> > PSI for some local decisions about overload, we strive to avoid packing
+> > workloads too tightly in the first place. To facilitate this, we track
+> > the peak memory usage. However, since we run with long-lived workers (t=
+o
+> > amortize startup costs) we need a way to track the high watermark while
+> > a work-item is executing. Polling runs the risk of missing short spikes
+> > that last for timescales below the polling interval, and peak memory
+> > tracking at the cgroup level is otherwise perfect for this use-case.
+> >
+> > As this data is used to ensure that binpacked work ends up with
+> > sufficient headroom, this use-case mostly avoids the inaccuracies
+> > surrounding reclaimable memory.
+> >
+> > Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> > Signed-off-by: David Finkel <davidf@vimeo.com>
+> > ---
+> >  Documentation/admin-guide/cgroup-v2.rst       |  26 +-
+> >  include/linux/cgroup.h                        |   7 +
+> >  include/linux/memcontrol.h                    |   5 +
+> >  include/linux/page_counter.h                  |   6 +
+> >  kernel/cgroup/cgroup-internal.h               |   2 +
+> >  kernel/cgroup/cgroup.c                        |   7 +
+> >  mm/memcontrol.c                               | 165 ++++++++++++-
+> >  mm/page_counter.c                             |   4 +
+> >  tools/testing/selftests/cgroup/cgroup_util.c  |  22 ++
+> >  tools/testing/selftests/cgroup/cgroup_util.h  |   2 +
+> >  .../selftests/cgroup/test_memcontrol.c        | 227 +++++++++++++++++-
+> >  11 files changed, 448 insertions(+), 25 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
+min-guide/cgroup-v2.rst
+> > index 8fbb0519d556..10a2f919128f 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1322,11 +1322,16 @@ PAGE_SIZE multiple when read back.
+> >       reclaim induced by memory.reclaim.
+> >
+> >    memory.peak
+> > -     A read-only single value file which exists on non-root
+> > -     cgroups.
+> > +     A read-write single value file which exists on non-root cgroups.
+> > +
+> > +     The max memory usage recorded for the cgroup and its descendants =
+since
+> > +     either the creation of the cgroup or the most recent reset for th=
+at fd.
+> >
+> > -     The max memory usage recorded for the cgroup and its
+> > -     descendants since the creation of the cgroup.
+> > +     A write of the string "fd_local_reset" to this file resets it to =
+the
+> > +     current memory usage for subsequent reads through the same
+>
+> Hi David!
+>
+> Not a very strong preference, but with the current design, do we really e=
+xpect
+> to have a non-local reset? If not, can we agree on a "reset" string inste=
+ad
+> for a sake of simplicity?
+
+I put in "fd_local_reset" as a bit of a straw-man. I'm fine with
+changing it to "reset"
+since the consensus seemed to be that a global reset was problematic.
+
+>
+> > +     file descriptor.
+> > +     Attempts to write any other string will return EINVAL
+> > +     (modulo leading and trailing whitespace).
+> >
+> >    memory.oom.group
+> >       A read-write single value file which exists on non-root
+> > @@ -1652,11 +1657,16 @@ PAGE_SIZE multiple when read back.
+> >       Healthy workloads are not expected to reach this limit.
+> >
+> >    memory.swap.peak
+> > -     A read-only single value file which exists on non-root
+> > -     cgroups.
+> > +     A read-write single value file which exists on non-root cgroups.
+> > +
+> > +     The max swap usage recorded for the cgroup and its descendants si=
+nce
+> > +     the creation of the cgroup or the most recent reset for that fd.
+> >
+> > -     The max swap usage recorded for the cgroup and its
+> > -     descendants since the creation of the cgroup.
+> > +     A write of the string "fd_local_reset" to this file resets it to =
+the
+> > +     current memory usage for subsequent reads through the same
+> > +     file descriptor.
+> > +     Attempts to write any other string will return EINVAL
+> > +     (modulo leading and trailing whitespace).
+> >
+> >    memory.swap.max
+> >       A read-write single value file which exists on non-root
+> > diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
+> > index 2150ca60394b..9bda441227ea 100644
+> > --- a/include/linux/cgroup.h
+> > +++ b/include/linux/cgroup.h
+> > @@ -855,4 +855,11 @@ static inline void cgroup_bpf_put(struct cgroup *c=
+grp) {}
+> >
+> >  struct cgroup *task_get_cgroup1(struct task_struct *tsk, int hierarchy=
+_id);
+> >
+> > +struct memcg_peak_mem_ctx {
+> > +     long                            local_watermark;
+> > +     struct memcg_peak_mem_ctx       *next, *prev;
+>
+> Please, take a look at include/linux/list.h and use it instead of
+> re-implementing list operations from scratch.
+
+I clearly didn't look hard enough for that.
+Thanks! I'll port this to use those helpers/macros.
+
+>
+> > +};
+> > +
+> > +struct memcg_peak_mem_ctx *memcg_extract_peak_mem_ctx(struct kernfs_op=
+en_file *of);
+> > +
+> >  #endif /* _LINUX_CGROUP_H */
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index 030d34e9d117..6be7507c6fd3 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -198,6 +198,11 @@ struct mem_cgroup {
+> >       struct page_counter kmem;               /* v1 only */
+> >       struct page_counter tcpmem;             /* v1 only */
+> >
+> > +     /* lists of memcg peak watching contexts on swap and memory */
+> > +     struct memcg_peak_mem_ctx *peak_memory_local_watermark_watchers;
+> > +     struct memcg_peak_mem_ctx *peak_swap_local_watermark_watchers;
+> > +     spinlock_t pagecounter_peak_watchers_lock;
+> > +
+> >       /* Range enforcement for interrupt charges */
+> >       struct work_struct high_work;
+> >
+> > diff --git a/include/linux/page_counter.h b/include/linux/page_counter.=
+h
+> > index 8cd858d912c4..047ceaece258 100644
+> > --- a/include/linux/page_counter.h
+> > +++ b/include/linux/page_counter.h
+> > @@ -26,6 +26,7 @@ struct page_counter {
+> >       atomic_long_t children_low_usage;
+> >
+> >       unsigned long watermark;
+> > +     unsigned long local_watermark; /* track min of fd-local resets */
+> >       unsigned long failcnt;
+> >
+> >       /* Keep all the read most fields in a separete cacheline. */
+> > @@ -81,4 +82,9 @@ static inline void page_counter_reset_watermark(struc=
+t page_counter *counter)
+> >       counter->watermark =3D page_counter_read(counter);
+> >  }
+> >
+> > +static inline void page_counter_reset_local_watermark(struct page_coun=
+ter *counter)
+> > +{
+> > +     counter->local_watermark =3D page_counter_read(counter);
+> > +}
+> > +
+> >  #endif /* _LINUX_PAGE_COUNTER_H */
+> > diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-int=
+ernal.h
+> > index 520b90dd97ec..5a97ba08e976 100644
+> > --- a/kernel/cgroup/cgroup-internal.h
+> > +++ b/kernel/cgroup/cgroup-internal.h
+> > @@ -81,6 +81,8 @@ struct cgroup_file_ctx {
+> >       struct {
+> >               struct cgroup_pidlist   *pidlist;
+> >       } procs1;
+> > +
+> > +     struct memcg_peak_mem_ctx peak;
+> >  };
+> >
+> >  /*
+> > diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> > index e32b6972c478..38b935ffa6cf 100644
+> > --- a/kernel/cgroup/cgroup.c
+> > +++ b/kernel/cgroup/cgroup.c
+> > @@ -1964,6 +1964,13 @@ static int cgroup2_parse_param(struct fs_context=
+ *fc, struct fs_parameter *param
+> >       return -EINVAL;
+> >  }
+> >
+> > +struct memcg_peak_mem_ctx *memcg_extract_peak_mem_ctx(struct kernfs_op=
+en_file *of)
+> > +{
+> > +     struct cgroup_file_ctx *ctx =3D of->priv;
+> > +
+> > +     return &ctx->peak;
+> > +}
+> > +
+> >  static void apply_cgroup_root_flags(unsigned int root_flags)
+> >  {
+> >       if (current->nsproxy->cgroup_ns =3D=3D &init_cgroup_ns) {
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 8f2f1bb18c9c..eb6614236371 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -25,6 +25,7 @@
+> >   * Copyright (C) 2020 Alibaba, Inc, Alex Shi
+> >   */
+> >
+> > +#include <linux/cgroup-defs.h>
+> >  #include <linux/page_counter.h>
+> >  #include <linux/memcontrol.h>
+> >  #include <linux/cgroup.h>
+> > @@ -5745,6 +5746,7 @@ static struct mem_cgroup *mem_cgroup_alloc(struct=
+ mem_cgroup *parent)
+> >       vmpressure_init(&memcg->vmpressure);
+> >       INIT_LIST_HEAD(&memcg->event_list);
+> >       spin_lock_init(&memcg->event_list_lock);
+> > +     spin_lock_init(&memcg->pagecounter_peak_watchers_lock);
+> >       memcg->socket_pressure =3D jiffies;
+> >  #ifdef CONFIG_MEMCG_KMEM
+> >       memcg->kmemcg_id =3D -1;
+> > @@ -6907,12 +6909,130 @@ static u64 memory_current_read(struct cgroup_s=
+ubsys_state *css,
+> >       return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
+> >  }
+> >
+> > -static u64 memory_peak_read(struct cgroup_subsys_state *css,
+> > -                         struct cftype *cft)
+> > +static struct page_counter *memcg_memory_extract_page_counter(struct m=
+em_cgroup *memcg)
+> >  {
+> > +     return &memcg->memory;
+> > +}
+> > +
+> > +static struct memcg_peak_mem_ctx **memcg_memory_extract_peak_watchers(=
+struct mem_cgroup *memcg)
+> > +{
+> > +     return &memcg->peak_memory_local_watermark_watchers;
+> > +}
+> > +
+> > +inline int swap_memory_peak_show(
+> > +     struct seq_file *sf, void *v,
+> > +     struct page_counter *(*extract_pc)(struct mem_cgroup *memcg))
+> > +{
+> > +     struct cgroup_subsys_state *css =3D seq_css(sf);
+> >       struct mem_cgroup *memcg =3D mem_cgroup_from_css(css);
+> > +     struct page_counter *pc =3D extract_pc(memcg);
+> > +
+> > +     struct kernfs_open_file *of =3D sf->private;
+> > +     struct memcg_peak_mem_ctx *ctx =3D memcg_extract_peak_mem_ctx(of)=
+;
+> > +     s64 fd_peak =3D ctx->local_watermark;
+> > +
+> > +     if (fd_peak =3D=3D -1) {
+> > +             seq_printf(sf, "%llu\n", (u64)pc->watermark * PAGE_SIZE);
+> > +             return 0;
+> > +     }
+> > +
+> > +     s64 pc_peak =3D pc->local_watermark;
+> > +     s64 wm =3D fd_peak > pc_peak ? fd_peak : pc_peak;
+> > +
+> > +     seq_printf(sf, "%lld\n", wm * PAGE_SIZE);
+> > +     return 0;
+> > +}
+> > +
+> > +static int memory_peak_show(struct seq_file *sf, void *v)
+> > +{
+> > +     return swap_memory_peak_show(sf, v, memcg_memory_extract_page_cou=
+nter);
+>
+> I think it's really too complex. Why not pass a single boolean argument
+> which will define to use memory page_counter or swap page_counter?
+> It will eliminate a need to pass pointers to functions and also eliminate
+> a need for introducing these helper functions in general.
+
+Yeah, that's definitely a cleaner option with only two alternatives.
+I'll make that change.
+
+>
+> > +}
+> > +
+> > +static int swap_memory_peak_open(struct kernfs_open_file *of)
+> > +{
+> > +     struct memcg_peak_mem_ctx *ctx =3D memcg_extract_peak_mem_ctx(of)=
+;
+> > +
+> > +     ctx->local_watermark =3D -1;
+> > +     return 0;
+> > +}
+> > +
+> > +inline void swap_memory_peak_release(
+> > +     struct kernfs_open_file *of,
+> > +     struct memcg_peak_mem_ctx **(*extract_watchers)(struct mem_cgroup=
+ *memcg))
+> > +{
+> > +     struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of));
+> > +     struct memcg_peak_mem_ctx *ctx =3D memcg_extract_peak_mem_ctx(of)=
+;
+> > +
+> > +     if (ctx->local_watermark =3D=3D -1) {
+> > +             /* fast path (no writes on this fd)*/
+> > +             return;
+> > +     }
+> > +     spin_lock(&memcg->pagecounter_peak_watchers_lock);
+> > +     if (ctx->next) {
+> > +             ctx->next->prev =3D ctx->prev;
+> > +     }
+> > +     if (ctx->prev) {
+> > +             ctx->prev->next =3D ctx->next;
+> > +     } else {
+> > +             struct memcg_peak_mem_ctx **watchers =3D extract_watchers=
+(memcg);
+> > +
+> > +             *watchers =3D ctx->next;
+> > +     }
+> > +     spin_unlock(&memcg->pagecounter_peak_watchers_lock);
+> > +}
+> >
+> > -     return (u64)memcg->memory.watermark * PAGE_SIZE;
+> > +static void memory_peak_release(struct kernfs_open_file *of)
+> > +{
+> > +     swap_memory_peak_release(of, memcg_memory_extract_peak_watchers);
+> > +}
+> > +
+> > +inline ssize_t swap_memory_peak_write(
+> > +     struct kernfs_open_file *of,
+> > +     char *buf, size_t nbytes, loff_t off,
+> > +     struct page_counter* (*extract_pc)(struct mem_cgroup *memcg),
+> > +     struct memcg_peak_mem_ctx **(*extract_watchers)(struct mem_cgroup=
+ *memcg))
+> > +{
+> > +     buf =3D strstrip(buf);
+> > +     /* Only allow "fd_local_reset" to keep the API clear */
+> > +     if (strcmp(buf, "fd_local_reset"))
+> > +             return -EINVAL;
+> > +     struct mem_cgroup *memcg =3D mem_cgroup_from_css(of_css(of));
+> > +     struct memcg_peak_mem_ctx *ctx =3D memcg_extract_peak_mem_ctx(of)=
+;
+>
+> Please, don't mix variable definitions and code. Also, please, use
+Ok, I'll factor that out
+
+> scripts/checkpatch.pl for checking the code before submission. I guess
+> it will raise several issues in this patch.
+
+Thanks, I did run checkpatch.pl on this patch, but I might have made a
+few changes
+since my last pass. (it didn't complain about mixing cod and definitions)
+
+I'll make another pass before mailing the next version.
+>
+> > +
+> > +     spin_lock(&memcg->pagecounter_peak_watchers_lock);
+> > +
+> > +     struct page_counter *pc =3D extract_pc(memcg);
+> > +
+> > +     page_counter_reset_local_watermark(pc);
+> > +     const unsigned long cur =3D pc->local_watermark;
+> > +     struct memcg_peak_mem_ctx **watchers =3D extract_watchers(memcg);
+> > +     struct memcg_peak_mem_ctx *peer_ctx;
+> > +
+> > +     for (peer_ctx =3D *watchers; peer_ctx; peer_ctx =3D peer_ctx->nex=
+t) {
+> > +             if (cur > peer_ctx->local_watermark)
+> > +                     peer_ctx->local_watermark =3D cur;
+> > +     }
+> > +     if (ctx->local_watermark =3D=3D -1) {
+> > +             /* only append to the list if we're not already there */
+> > +             if (peer_ctx) {
+> > +                     ctx->prev =3D peer_ctx;
+> > +                     peer_ctx->next =3D ctx;
+> > +             } else {
+> > +                     *watchers =3D ctx;
+> > +             }
+> > +     }
+> > +     ctx->local_watermark =3D cur;
+> > +     spin_unlock(&memcg->pagecounter_peak_watchers_lock);
+> > +
+> > +     return nbytes;
+> > +}
+> > +
+> > +static ssize_t memory_peak_write(struct kernfs_open_file *of, char *bu=
+f,
+> > +                              size_t nbytes, loff_t off)
+> > +{
+> > +     return swap_memory_peak_write(of, buf, nbytes, off,
+> > +                                   memcg_memory_extract_page_counter,
+> > +                                   memcg_memory_extract_peak_watchers)=
+;
+> >  }
+> >
+> >  static int memory_min_show(struct seq_file *m, void *v)
+> > @@ -7231,7 +7351,10 @@ static struct cftype memory_files[] =3D {
+> >       {
+> >               .name =3D "peak",
+> >               .flags =3D CFTYPE_NOT_ON_ROOT,
+> > -             .read_u64 =3D memory_peak_read,
+> > +             .open =3D swap_memory_peak_open,
+> > +             .release =3D memory_peak_release,
+> > +             .seq_show =3D memory_peak_show,
+> > +             .write =3D memory_peak_write,
+> >       },
+> >       {
+> >               .name =3D "min",
+> > @@ -8193,14 +8316,35 @@ static u64 swap_current_read(struct cgroup_subs=
+ys_state *css,
+> >       return (u64)page_counter_read(&memcg->swap) * PAGE_SIZE;
+> >  }
+> >
+> > -static u64 swap_peak_read(struct cgroup_subsys_state *css,
+> > -                       struct cftype *cft)
+> > +
+> > +static struct page_counter *memcg_swap_extract_page_counter(struct mem=
+_cgroup *memcg)
+> > +{
+> > +     return &memcg->swap;
+> > +}
+> > +
+> > +static struct memcg_peak_mem_ctx **memcg_swap_extract_peak_watchers(st=
+ruct mem_cgroup *memcg)
+> >  {
+> > -     struct mem_cgroup *memcg =3D mem_cgroup_from_css(css);
+> > +     return &memcg->peak_swap_local_watermark_watchers;
+> > +}
+> > +
+> > +static int swap_peak_show(struct seq_file *sf, void *v)
+> > +{
+> > +     return swap_memory_peak_show(sf, v, memcg_swap_extract_page_count=
+er);
+> > +}
+> >
+> > -     return (u64)memcg->swap.watermark * PAGE_SIZE;
+> > +static ssize_t swap_peak_write(struct kernfs_open_file *of, char *buf,
+> > +                            size_t nbytes, loff_t off)
+> > +{
+> > +     return swap_memory_peak_write(of, buf, nbytes, off,
+> > +                                   memcg_swap_extract_page_counter,
+> > +                                   memcg_swap_extract_peak_watchers);
+> > +}
+> > +static void swap_peak_release(struct kernfs_open_file *of)
+> > +{
+> > +     swap_memory_peak_release(of, memcg_swap_extract_peak_watchers);
+> >  }
+> >
+> > +
+> >  static int swap_high_show(struct seq_file *m, void *v)
+> >  {
+> >       return seq_puts_memcg_tunable(m,
+> > @@ -8282,7 +8426,10 @@ static struct cftype swap_files[] =3D {
+> >       {
+> >               .name =3D "swap.peak",
+> >               .flags =3D CFTYPE_NOT_ON_ROOT,
+> > -             .read_u64 =3D swap_peak_read,
+> > +             .open =3D swap_memory_peak_open,
+> > +             .release =3D swap_peak_release,
+> > +             .seq_show =3D swap_peak_show,
+> > +             .write =3D swap_peak_write,
+> >       },
+> >       {
+> >               .name =3D "swap.events",
+> > diff --git a/mm/page_counter.c b/mm/page_counter.c
+> > index db20d6452b71..40d5f4990218 100644
+> > --- a/mm/page_counter.c
+> > +++ b/mm/page_counter.c
+> > @@ -82,6 +82,8 @@ void page_counter_charge(struct page_counter *counter=
+, unsigned long nr_pages)
+> >                */
+> >               if (new > READ_ONCE(c->watermark))
+> >                       WRITE_ONCE(c->watermark, new);
+> > +             if (new > READ_ONCE(c->local_watermark))
+> > +                     WRITE_ONCE(c->local_watermark, new);
+>
+> Hm, can't we have a single comparison on the hot path?
+> Also, we read and write c->local_watermark speculatively here, Idk if it'=
+s still
+> acceptable with an ability to reset watermarks "locally". Maybe it is, bu=
+t
+> it definitely deserves at least a comment with an explanation.
+
+Unfortunately, since the two watermarks may be reset at different
+times I don't think we
+can consolidate.
+e.g. I think that if the usage peaked, dropped down a bit and then was
+going back
+up again when the "local_watermark" was reset, we'll continue only
+bumping local_watermark,
+but we don't want to touch "watermark" until we hit that watermark again.
+
+>
+> And btw thank you for including tests into the commit, it's really great =
+to see.
+> I'd suggest you to extract them into a separate commit and post it as a s=
+eries.
+Sure thing!
+I'll split them off into their own commit. (the tests are about half
+the line-delta)
+
+>
+> Thank you!
+
+
+Thanks for the prompt review!
+I'll try to get another revision out later today.
+
+
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
