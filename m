@@ -1,130 +1,188 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692518EB8
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 23:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721689584; cv=none; b=k30fxhscIQ8GSAPgxUYQFqmc6ZY0OtYP4sw+hswQ+OypxDO/IFdRFxzYm/kFyQtSHJ+oy8b0Daqw4p82IysvX3T501ksATEEQtSgrVs7nJcuAQ85KSXyVem1h7AHEWeYRYx+VRELt4cVy8+REu9fJ52Nz3F4mddARazDH2zjpmA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721689584; c=relaxed/simple;
-	bh=h3B/ptabEkBFRtNuCOTg/VeZx20EG7AeMAcYUrooFjg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rQ6IFiYjMNcXwakZbZxKPU3QMbaf3ZCBPbBiUrryxPqJrdxv+tU9PHCgAKd7lUHgnADQ+EwMIZJGzNvK8XWchNC8WG/O7BHccI6yTEahdu2X1JR3qq1hsTqOcZaKK+N/ph0AFJNO96goDDsCRl5Jx7dwgCk2XYn+iPruM/nA3eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=FDB1fnot; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B998417BCD;
+	Mon, 22 Jul 2024 23:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721692198; cv=fail; b=HNxCc4QwaPMonc0JMUengK/OzuSz580DSCvSkVpTZcEchgIotefuWzw5vQUwlIkEjfVrebFSUQmcgHTY+2sL5075e7EelyKN2IkC3yuleNkIuXpfIm+OXdnTD6+msv5dFEURmPQUPQ7cyrXJ3I+991N5ycFWghEa51ICaQpDgSg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721692198; c=relaxed/simple;
+	bh=3mJqeuo57AB+XYTC1Ut7MxxXv0UJN7yxvdXBnVZzaTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=rRNR3MMSxXGd3R6EUfWyuZoQiZtQBFik3a5/kvLz/o8st7LRW49U+AL23Cj7B9PdAgitZKarDBZdqVqzYVdPj9By4+3qAPzTSqmysz1gKM3HT4/fWqd+I06a0PiQQmKoQovPJCa2ZcdqAwMXmhPappd+1PHLbqhFWsfDg3YbBck=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=q3XvYOAa; arc=fail smtp.client-ip=40.107.243.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="FDB1fnot"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2cb5deb027dso2798459a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jul 2024 16:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vimeo.com; s=google; t=1721689582; x=1722294382; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hJTmpjGOdE4PBe1bESQVvDpEGil/BWgnfDXbEPkh0oQ=;
-        b=FDB1fnot6Jv/AQtvCabGlzCwoGKHGXsf0Xl5krhS1BpWP/1RX61xHZini/ejBIYKAo
-         0w7NfBcGD4C0gjGFamrucMyCmOxP4GVA08EzvMaDGBikJd4JpXOuL/48TWFGorXy00c0
-         iqdtTUjxSZV89FeJLeDayDsxtxFj0J17HsOkg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721689582; x=1722294382;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hJTmpjGOdE4PBe1bESQVvDpEGil/BWgnfDXbEPkh0oQ=;
-        b=Kv7RWfcGLPbIipSuP6kot3pYxy4aVtQnGr4M2dCKF678mr7ZDMOT3zYJKqB70vE4j+
-         Btc+xHk13i2oIE8mZ6iaSeq55b/YSGgLyvNG3GPt7Yul6b0tXgxvgSneV/hTsCvsosA2
-         qR00Grpdm97EKtXVDtheqa3J0Mwbw/f8NMhnhFMhONsGO6NBp7T+2jSB6jY90LFX/Qoz
-         hbxund/igjx8p/GuoQz+glM3lQJdviLm5Sz8uvuoqvvlUr5lECTqykaCWJz1o0yvcB9O
-         tY8SumoCQJuCNM5J9XIkprD9qbvvSS7ah99DGdcODJmcGB0W7uBci+ukUnmzco08oC+D
-         pSpg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4mL+smgdKtsEW/xHNEytwbW2/Dj4NlGZu/hGefk1IKpQkY6g985j5oJaRlPpDMgoS804Tme30qhUeaNFWpY4b0v/gn8ugELs/
-X-Gm-Message-State: AOJu0YzhsrfCtKS5xknwg/JDVcMSbPMLvQAKZExDkwzYuvN6LfaA+cAE
-	T/DUvLGgLXwRVwgOGk7X/Ab9pSzYae1P/lO0h24LmFjHK9DANhH6ee5R+06XQEY2SVKkXvBWSO3
-	61+hT+6kkzNca1KT4K53z/1AaY8Uc3ybHDzgC3g==
-X-Google-Smtp-Source: AGHT+IER6ikq3RTY3TyMM01zi2l2zzP3nCn5Yl0SNA2nd/2d6WglMNmwZD//tkR85CfK4zkR6essvr9J0t+vSd7lUOY=
-X-Received: by 2002:a17:90a:a114:b0:2cd:4593:2a8e with SMTP id
- 98e67ed59e1d1-2cd45932ad1mr5460589a91.15.1721689581952; Mon, 22 Jul 2024
- 16:06:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="q3XvYOAa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CSPvSqcI0L1tBEM7GmO5Di1RsiHQeuFdRUJ7OfhThanirLlIvvoHmVnbZ4d1AV7VENk9wUEG9X1In+kjoDEY1p2OtLKr6726ga0grV71+HPKx43Vh4BPtkLW4dhD64aUxZhORxxGRGR7rp6IAoIkqyXJK6z3YZsPR5ekEphN4L8tzgpPW7zTtd0NkWddo0pli/C+fmlNt9RmxMboOmytxWLjJ5yn/rISKgb6+deXJWA8fEup3jJU/72lKPvon6TSRNQpjvLNb5UH0BrNWqEW2h9sgKHYbKCbBz+kr/WKTXzZ6YwPwclvW6oYQ1Q1qQuwIjXvjnTEZjgMNV3OjgdCvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gTb0VBh2l5KyNbfQXO5J0dcduBA9qTcnCOE6hvP/aZ0=;
+ b=V3CMDLQ+apA0317NSTOWKAbppe4In9GR6B83t4ttp9A25rnQk9H1aVxbTXS7NqI5TxHVNwpZvGUxeldHZws/Xdkm2h0+I0koM2DuKM0Kl7CMuGpWawfSunfgQEzdLiwf8OinfDQdYL0GiRou/qW8C5b+NUGHSuO72S9E2IFk4pCg8Eq3Ykcjaw+HJx6n2Z73W7pmd8nr4LMGj6FPtmi8GdWDPUk01TWEVFWT2GRNpZcDCYG2EbASprx85HjsYEIRlJ55O56kSl+9f1oFu27eIsAYoOFFPMLbAzXCL6aMOfik/eFS+xq731DjZx/ipxEhSIRLQ+StL8I65Ejmk+zCYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gTb0VBh2l5KyNbfQXO5J0dcduBA9qTcnCOE6hvP/aZ0=;
+ b=q3XvYOAa8Oh4dFDi7F1K3j/D+J2zBp+rqjMeo44KrdbtmCxa9Ceb17vs2II/76RrgRSlgCHfy0HCGKh6BDEQMnpEUHbqM//lsp/nBbG1sjJ8BNcMRjnYnreFqN32+sn1yk+0ZcME9qv/8+1617r4caCTsc/HyPfdCXO/3D9O6ZsXXvyu7u4IJPxWeo7vQOC2NWYEd1k70gzRLZmoGWJe3moRVjqE4/e0hnLmZWSEEQW1DIIckw8J2Pjwh07lrN5xltZF0eM++M4uEBtx3cFL0hdGrs4iYe+8Jg4JScKQh1u+QO3exx1xfpeSNGD/CMp6uR7x0eVCtQYQtAHrVzOI2w==
+Received: from BL6PEPF0001641B.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1004:0:10) by DS7PR12MB8276.namprd12.prod.outlook.com
+ (2603:10b6:8:da::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.23; Mon, 22 Jul
+ 2024 23:49:50 +0000
+Received: from BN2PEPF00004FC0.namprd04.prod.outlook.com
+ (2a01:111:f403:f909::) by BL6PEPF0001641B.outlook.office365.com
+ (2603:1036:903:4::a) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36 via Frontend
+ Transport; Mon, 22 Jul 2024 23:49:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN2PEPF00004FC0.mail.protection.outlook.com (10.167.243.186) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7784.11 via Frontend Transport; Mon, 22 Jul 2024 23:49:50 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 22 Jul
+ 2024 16:49:36 -0700
+Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 22 Jul
+ 2024 16:49:35 -0700
+Message-ID: <d91ed522-9df6-4a83-9cc4-9f71f160f3e4@nvidia.com>
+Date: Mon, 22 Jul 2024 16:49:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240722151713.2724855-1-davidf@vimeo.com> <20240722151713.2724855-2-davidf@vimeo.com>
- <Zp6jSoB14boeGhWH@google.com> <CAFUnj5MF4nKq0B7aWWyBpK3b5EZh7W4+xAmeg5SMwpd7gHptsA@mail.gmail.com>
- <9abf7f84-c103-4280-825c-b382edb9b8fe@redhat.com>
-In-Reply-To: <9abf7f84-c103-4280-825c-b382edb9b8fe@redhat.com>
-From: David Finkel <davidf@vimeo.com>
-Date: Mon, 22 Jul 2024 19:06:10 -0400
-Message-ID: <CAFUnj5NJnxHg3uWASoS9N=7S8LRxYc1T5zGmQrPiBbF2PXHr-w@mail.gmail.com>
-Subject: Re: [PATCH] mm, memcg: cg2 memory{.swap,}.peak write handlers
-To: Waiman Long <longman@redhat.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com, 
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: KUnit: Update filename best practices
+To: Marco Elver <elver@google.com>, Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>, Brendan Higgins
+	<brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, Jonathan Corbet
+	<corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>,
+	<linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-hardening@vger.kernel.org>
+References: <20240720165441.it.320-kees@kernel.org>
+ <Zp4spjsaqQ85fVuk@elver.google.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <Zp4spjsaqQ85fVuk@elver.google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC0:EE_|DS7PR12MB8276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d0d4c7a-01d5-47c0-186f-08dcaaa8f9da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RTZndFkrSVFmbzAwbjhsK3EwUkFDQlorUnNhakhHNDF6TDlxN2ZtUm9XazZv?=
+ =?utf-8?B?NFBoLytkVkk4Z1FwNnltNUxWZTNQY1JpWjRTNGFJNE9aVnYvYll1Z0I0bXhU?=
+ =?utf-8?B?RHdGcUZkNUtZRndVN1pVdkxuYnNSL0VZS0l2QVUzNnphdzI2MkFzM3lnSjBI?=
+ =?utf-8?B?bXFIWnFDQ0I4UVd3eHE5SWRId1U0V0xiQUJ0WEZ0UjJJbEVqaDhIcnFrN1Vw?=
+ =?utf-8?B?dlhtWVUvV2p4ZEJMZTVmUTVFZEdqMHljWmc4RXNIdXdNM3NtZzgxaU54RldV?=
+ =?utf-8?B?UEFudWF3Y3FLbWNRTmF0TUI3RmR1eDBpeTNHRktnQWQ5Sk1NM0V2TVRtTnpW?=
+ =?utf-8?B?S2gwZjlNNWNkZG5ydGJWWjNMWSsxUi9ob2N3S1Q3dkJ5QW1qOGE3NjJIR1k0?=
+ =?utf-8?B?RHlIdDJkMGRvS1oxampFQndzcnVRbEFSUVR6d3BMUE5CWFJkYkNQdUlrNldz?=
+ =?utf-8?B?dkgxTFVLbkVYRHNyVDFTUWoyOTJrV2loY2tFdXhFSHlieVBmSzNPeDRJYktk?=
+ =?utf-8?B?WHdNWEZjenF6UEVhNzV3MlBHNExQL0l1a0hnRzlRUlQwNkVpb2hXclRVZ2I3?=
+ =?utf-8?B?ODVwbHYxTUdzanBaejVhOTNwaWlITkVtWE1Hc1I4VXd1QXNNVHFBditSLzBw?=
+ =?utf-8?B?T1hKendHdlNpSFNkUVUveDF3cU1KZURBNlNJZ2grdTJLY0VqTTBMcVdHcVYr?=
+ =?utf-8?B?SWxqeFpHTE1IV3IyRndzRWEyMWtKdzRFU0Q3MjEvZEhibUwxRTlFOFZ3MUFw?=
+ =?utf-8?B?Y05COUs0SDdmV1l6aktGMERZN25SaXpmNlcxcEtIcm1xcENkY1JEZXg0ck9m?=
+ =?utf-8?B?a1VNUk4xQTNEaitBMklabEJqeW9jSE0raUk5c2ZpWGM5OVl1Vk5rT0Y1djVZ?=
+ =?utf-8?B?WGozVG50QjNXOWpGdU04RmU3L1VYbE9NWmlka2h2SUg5OHFwdm1LRXVISXhH?=
+ =?utf-8?B?b1RGdHB4REU2NzRwSVF2WDZjR3dVUjRoK0NOWUFXMmFQZUUvOHpBc0NOTUxz?=
+ =?utf-8?B?MTJyQS9FN3JWYiswbENRY0Z4eXNPSHgzMy95cXNlamVRVlo2OTdaS2JVcy8v?=
+ =?utf-8?B?L0FIaFVEVElvcURHNGtVNDg3MFgyVHNHSWFtUzNvTjVPMGZxcGx2Y2xZaERE?=
+ =?utf-8?B?eUFDaUUvbGZ2WXRqb1pEOUdCR0IwUDN5TnBudllzTlA5eGxYeXZhK2phMnJD?=
+ =?utf-8?B?d25HbTJCTlh2WVk3ZFR4dHJ0NWxMODhpZVordy9JaXJaQ2N5WXBsZXNnSmJw?=
+ =?utf-8?B?MHZtbFBueGY3b3BzQjk2RGc4a3pKM3k2clp4bTRPR29UYnBYb053Z0VXSDFv?=
+ =?utf-8?B?S1h6eDZYVXNKcldRVm5DUmo5bzVZb0o1U0cxd00yVitJVXZ5NFhMa0RLUE9P?=
+ =?utf-8?B?SXdrdGNTRkNqZkErakJMZWxCcWt3Mis0bGowSEMrVTR1TVRSNEpYdXdMaG1l?=
+ =?utf-8?B?K0ZVc3dwOGRMQklsVHN5L1E3amovZ0tZOUlQcm5rbmJhUFBkOG4wSnlOWlJ3?=
+ =?utf-8?B?UERmUDRWVE5RT3pRWThXRGVKZnJPTjJ1bXRqR0VHa2QzOHBBdUlvUTBIRStj?=
+ =?utf-8?B?Rmc2YkdvMEVpY0xpaWNwSEV2UDRwdEJkdjA2QlV3STJnMXkvMjJoaHJmRGQr?=
+ =?utf-8?B?Z0JWdzdTMnkxS0E2Q0dRZFgrOGtTNzlpVTdobHJRTE5KaXZGOWhCQ2tycm0r?=
+ =?utf-8?B?RkVIZHBJUDdjMFlBQ28zZ2xWc2hVVUpBU2hIUFFlajcxUnppY1VDL0lVOU1y?=
+ =?utf-8?B?RGJGVTFyOEN1bnNrUVJRUnpuK25jckZUclJhY1QvblR2ZTlKcUtESE83SDV2?=
+ =?utf-8?B?cXg2SlJKck5NYnEveW5sSTFqZ1F3ZjVhWEp5bXVOU3FwY3Brc2tadmFlRDNo?=
+ =?utf-8?B?V3pudHF3am1jdWlhNDNKOEhqMUtaRlcwZzU5THR4RjR2aUZqSlZTQjhJdWo5?=
+ =?utf-8?Q?2rnYxSqgrAua6EfmSgXR2e9bI4A6odMn?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2024 23:49:50.0784
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d0d4c7a-01d5-47c0-186f-08dcaaa8f9da
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FC0.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8276
 
-On Mon, Jul 22, 2024 at 3:47=E2=80=AFPM Waiman Long <longman@redhat.com> wr=
-ote:
->
-> On 7/22/24 15:30, David Finkel wrote:
-> >>> diff --git a/mm/page_counter.c b/mm/page_counter.c
-> >>> index db20d6452b71..40d5f4990218 100644
-> >>> --- a/mm/page_counter.c
-> >>> +++ b/mm/page_counter.c
-> >>> @@ -82,6 +82,8 @@ void page_counter_charge(struct page_counter *count=
-er, unsigned long nr_pages)
-> >>>                 */
-> >>>                if (new > READ_ONCE(c->watermark))
-> >>>                        WRITE_ONCE(c->watermark, new);
-> >>> +             if (new > READ_ONCE(c->local_watermark))
-> >>> +                     WRITE_ONCE(c->local_watermark, new);
-> >> Hm, can't we have a single comparison on the hot path?
-> >> Also, we read and write c->local_watermark speculatively here, Idk if =
-it's still
-> >> acceptable with an ability to reset watermarks "locally". Maybe it is,=
- but
-> >> it definitely deserves at least a comment with an explanation.
-> > Unfortunately, since the two watermarks may be reset at different
-> > times I don't think we
-> > can consolidate.
-> > e.g. I think that if the usage peaked, dropped down a bit and then was
-> > going back
-> > up again when the "local_watermark" was reset, we'll continue only
-> > bumping local_watermark,
-> > but we don't want to touch "watermark" until we hit that watermark agai=
-n.
-> If we make page_counter_reset_watermark() reset the local_watermark as we=
-ll,
-> we can guarantee "local_watermark <=3D watermark" and wrap one check insi=
-de
-> the other.
->
->          if (new > READ_ONCE(c->local_watermark)) {
->                  WRITE_ONCE(c->local_watermark, new);
->                  if (new > READ_ONCE(c->watermark))
->                          WRITE_ONCE(c->watermark, new);
->          }
->
-> Cheers,
-> Longman
->
+On 7/22/24 2:55 AM, Marco Elver wrote:
+> On Sat, Jul 20, 2024 at 09:54AM -0700, Kees Cook wrote:
+...
+> I'm more confused now. This is just moving tests further away from what
+> they are testing for no good reason. If there's a directory "foo", then
+> moving things to "tests/foo" is unclear. It's unclear if "tests" is
+> inside parent of "foo" or actually a subdir of "foo". Per the paragraph
+> above, I inferred it's "foo/tests/foo/...", which is horrible. If it's
+> "../tests/foo/..." it's also bad because it's just moving tests further
+> away from what they are testing.
+> 
+> And keeping tests close to the source files under test is generally
+> considered good practice, as it avoids the friction required to discover
+> where tests live. Moving tests to "../tests" or "../../*/tests" in the
+> majority of cases is counterproductive.
+> 
+> It is more important for people to quickly discover tests nearby and
+> actually run them, vs. having them stashed away somewhere so they don't
+> bother us.
+> 
+> While we can apply common sense, all too often someone follows these
+> rules blindly and we end up with a mess.
+> 
 
-Hmm, yeah, given that we'll only be resetting one of the two, I think I'll
-use this option.
-The branch predictor should make that second check pretty
-much a noop in the common-case when we enter the outer if, too.
+Here, you've actually made a good argument for "blindly" following the
+new naming/location conventions: it's easier to find things if a
+standard naming and location convention is in place. Especially if
+we document it. Now if only someone would post a patch with such
+documentation... :)
 
-Thanks!
+I would add that the "_kunit" part of the name is especially helpful,
+because (as I mentioned earlier) these tests really are different enough
+that it's worth calling out. You can run them simply by loading the
+kernel module.
 
---=20
-David Finkel
-Senior Principal Software Engineer, Core Services
+So if I want to quickly run kunit tests, searching for "*_kunit.c" does
+help with that.
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
