@@ -1,154 +1,263 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7237313698E;
-	Tue, 23 Jul 2024 13:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21945153800;
+	Tue, 23 Jul 2024 14:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721743083; cv=none; b=RcGQmgj3Q/HoOeWzf5DvWsSBMqjAgGZTYss96UpZdw7H8y5eKkMIeqHft2tmfS6I3Y57yNo/mS0kBVmP6BZXnKvv5XELmE166IVigCwewjA/ybDFbDjttQXp0m87GIa9QW0Te3MevJcx4UkxefzZkhrIbs3sYjaOBJ3krgeD6hc=
+	t=1721743702; cv=none; b=NwzIZTFUpTU2jrI4oysIL1u9qdjnG9gBEKC0Jd7tYF47uqWGMDYpT1cf9K2L3X0ZFnlMDMFca3fXPZNH0NjiDxiM5gm28FzlhOSFnHcsI6Z49ic/ErLATyCXO6PiNNRp9BnUKCJZfyRYIb+2nEkVbSwpveeb3u2RlrnsFIlqUeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721743083; c=relaxed/simple;
-	bh=Tqg/mRP33sghqMs/WD/CVM2Fdu+Ue+osODMI05da5S0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MVMB6asc7eklRJhCVfaIRgugvh7R696Qu+2fKcCljqeI6Ea+syEWK0kdgYFGob53ItK5GGSXlWxb8X/6pG7zipcAXviL9OzNHdCUU/4jTm9VVUrhnir3vAcpwd2nxw19EDWff728jT97pEz2aB1WsJisoR5zDA3vy/kXkntvjH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czeE24oU; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721743702; c=relaxed/simple;
+	bh=rIR6ptMSospz1fBXm3NdOc/NDWzLkQ7d8uaI/p2zgvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgKusE9Y+A01ezD0WYHQl0uXF3KH69Yzy0JJZXZi9INpMOANsp5QBU16Nj6Cliuzd22nE0hU6Ni6jYLG/edxhRaf4NcqbEbXIJlb6AjZEmSDfE2i25ahqx0CLFPC4cW99QvEQKoyJ77/GTrfHXI3/bbYOWA94oJMKseYMTGtwvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8iOCGcg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czeE24oU"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2cb81c0ecb4so3098490a91.0;
-        Tue, 23 Jul 2024 06:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721743081; x=1722347881; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=glL/MXWvNCQhnTo0a4PeMJsyu3UmSgFct4D6KzdzJdA=;
-        b=czeE24oU6Lb3+CfQ//3cfUBP0CfHxb2vIXoYkfmKBdQotUAyewYeNrrOH0wmf0bcoX
-         1dJO1BiRY2kx+Ayiy7YOp39yox1t5vrvMNsDzii9Cg5QFFx4zVbr29s9JGgj5ncfXBy8
-         iD+oOi4S5sueeSRYxiUA2EMuqj1uO/v12BPrtfDQAWN9pZNSmQXTEAohHlqNBcTfXbs6
-         wAxohtsDb0+UwEY2xQmsunvI7r1ZHKK0VOIKjuXk7SiWASUD3cQTph++M04nACpQNdJp
-         aWVoNnqt+6k8XeVqIwBp3Fwcqk8tg0cXKVNOWNICUIPGOUOrDiSWDlh/7aZuVGsF9XxY
-         u+HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721743081; x=1722347881;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=glL/MXWvNCQhnTo0a4PeMJsyu3UmSgFct4D6KzdzJdA=;
-        b=hQkDpNUCnR6xRLZ9f6pb8hAzRblnyaW1NXOJ1g/7MBVOIV0CZwavpL0PEcFQ11+Ecs
-         O5ZO5rxPupuGnT01ZNGkQSWMZPfATg7NhXBxExhaGYDBkH/WW0OpvmPqt0CmniSBDdhC
-         sTuzdds85yln/WgDCrZgBNWl7Pwz4Gm6WW1opFo8IznUiEzD68ifGjcp++UcLjFil5Qf
-         njYWJXmmIH603wZBVOWPRLLQDcFkXyJ1cSviAnYT5JaHgthsbBVNw+JyDscA8FMkZ6ZT
-         vaZcrnfpJsK3yQoyGNqQLOPjcJNMMJMXF1DeWP4bjvttT5GKgiMQ7vGYfAjhxRrmsubo
-         Fpsg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0GPIHa9GeijQegUfhISuIWg4Meri+i+89EFEZBwz4ndDoGWs5pECholwsn8XR6QilwS+cNYQwUQH1RaJFFjDypPgP7A+yj1B77xnPmX1GsTuC06waK/GRTNdwe+Ls9w6ae3P82PTxZ+sileYnwiCIkhvmemOQb9PsUHntoSG4/96mcDUjqVQ=
-X-Gm-Message-State: AOJu0YyRfxMcSIWmbkpXqkHNEF/x+n83Ypvf4egsMBmI3PuInTKmq5UK
-	YYfQxQgoU1SWMk1UpDwX/NdeTOEgsEgN5l60OZIuUJO9qM/hA1S+8bMeNg==
-X-Google-Smtp-Source: AGHT+IEgJvFcPKZvb/pmtj/IlP2AW+3FPJdctk8gH8JF+Dxn3anpRuui1zPtJ5WCl23Z7XxsK1eb3g==
-X-Received: by 2002:a17:90a:300c:b0:2ca:f755:1040 with SMTP id 98e67ed59e1d1-2cd8cd51e66mr3340572a91.7.1721743080641;
-        Tue, 23 Jul 2024 06:58:00 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f436c6asm76621295ad.206.2024.07.23.06.57.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jul 2024 06:57:59 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <2de779a1-be76-4aab-8440-9b01a2cc22ce@roeck-us.net>
-Date: Tue, 23 Jul 2024 06:57:58 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8iOCGcg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 033A9C4AF0A;
+	Tue, 23 Jul 2024 14:08:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721743702;
+	bh=rIR6ptMSospz1fBXm3NdOc/NDWzLkQ7d8uaI/p2zgvs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J8iOCGcg/qL2HCfhahlZnvGRqWZNwaDk2N/N4zh/0cSy5XZ4yWFYIstWkt55VQsNh
+	 klFDOMaEkL7gVEG+JpVAjeOfWk8afIbNjGErk1QJ+Agi9GmSxJK6PoxFaILOHmvWst
+	 gNcSXRfHViqpM3OXE9+NYSqtYpJaFLiGIeY22UMmdt5x6NjL9IaetJ7B1Uxn8h//y9
+	 JFfj1xzKZZzlbjmIZuAjzHt+jKRNmnyOq1jyDJHjb88a3Hf5H40J91oqOVKuFm5M5W
+	 ziUyEsdK2fdsbRdgF1EUv78pTWOCIZP4vMcYs6T0h8GayaX7dKhKLwCdjAHgRBEbhF
+	 mhtjAfYLx+taA==
+Date: Tue, 23 Jul 2024 15:08:16 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
+ binding doc
+Message-ID: <20240723-smitten-shower-1d15c0f3cf97@spud>
+References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
+ <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
+ <20240722-popper-comfort-7538ea70c77b@spud>
+ <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Capitalize Farenheit
-To: David Hunter <david.hunter.linux@gmail.com>, wim@linux-watchdog.org,
- corbet@lwn.net, linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
-References: <20240723131849.264939-1-david.hunter.linux@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240723131849.264939-1-david.hunter.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Jzq89wAQ2QEgaltg"
+Content-Disposition: inline
+In-Reply-To: <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
 
-On 7/23/24 06:18, David Hunter wrote:
-> Not capitalizing "fahrenheit" is an extremely minor spelling mistake.
-> This commit fixes that.
-> 
 
-Please at least follow guidelines for submitting patches, specifically
+--Jzq89wAQ2QEgaltg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-  instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-  to do frotz", as if you are giving orders to the codebase to change
-  its behaviour.
-"
+On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
+>=20
+> > -----Original Message-----
+> > From: Conor Dooley <conor@kernel.org>
+> > Sent: Monday, July 22, 2024 10:20 PM
+> > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
+> > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
+> > linux-arm-kernel@lists.infradead.org
+> > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw =
+binding
+> > doc
 
-Guenter
+Please fix this ^
 
-> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
-> ---
->   Documentation/watchdog/watchdog-api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-> index 800dcd7586f2..78e228c272cf 100644
-> --- a/Documentation/watchdog/watchdog-api.rst
-> +++ b/Documentation/watchdog/watchdog-api.rst
-> @@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
->   support the GETBOOTSTATUS call.
->   
->   Some drivers can measure the temperature using the GETTEMP ioctl.  The
-> -returned value is the temperature in degrees fahrenheit::
-> +returned value is the temperature in degrees Fahrenheit::
->   
->       int temperature;
->       ioctl(fd, WDIOC_GETTEMP, &temperature);
+> >=20
+> > On Mon, Jul 22, 2024 at 10:21:37AM +0530, Pankaj Gupta wrote:
+> > > The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
+> > > creates an embedded secure enclave within the SoC boundary to enable
+> > > features like:
+> > > - HSM
+> > > - SHE
+> > > - V2X
+> > >
+> > > Secure-Enclave(s) communication interface are typically via message
+> > > unit, i.e., based on mailbox linux kernel driver. This driver enables
+> > > communication ensuring well defined message sequence protocol between
+> > > Application Core and enclave's firmware.
+> > >
+> > > Driver configures multiple misc-device on the MU, for multiple
+> > > user-space applications, to be able to communicate over single MU.
+> > >
+> > > It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
+> > >
+> > > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > ---
+> > >  .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 91
+> > ++++++++++++++++++++++
+> > >  1 file changed, 91 insertions(+)
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > > b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > > new file mode 100644
+> > > index 000000000000..7511d0e9cf98
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+> > > @@ -0,0 +1,91 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
+> > > +
+> > > +maintainers:
+> > > +  - Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > +
+> > > +description: |
+> > > +  NXP's SoC may contain one or multiple embedded secure-enclave HW
+> > > +  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
+> > > +  enables features like
+> > > +    - Hardware Security Module (HSM),
+> > > +    - Security Hardware Extension (SHE), and
+> > > +    - Vehicular to Anything (V2X)
+> > > +
+> > > +  Communication interface to the secure-enclaves(se) is based on the
+> > > + messaging unit(s).
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - fsl,imx8ulp-se
+> > > +      - fsl,imx93-se
+> > > +      - fsl,imx95-se
+> > > +
+> > > +  mboxes:
+> > > +    items:
+> > > +      - description: mailbox phandle to send message to se firmware
+> > > +      - description: mailbox phandle to receive message from se
+> > > + firmware
+> > > +
+> > > +  mbox-names:
+> > > +    items:
+> > > +      - const: tx
+> > > +      - const: rx
+> > > +
+> > > +  memory-region:
+> > > +    maxItems: 1
+> > > +
+> > > +  sram:
+> > > +    maxItems: 1
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - mboxes
+> > > +  - mbox-names
+> > > +
+> > > +allOf:
+> > > +  # memory-region
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - fsl,imx8ulp-se
+> > > +              - fsl,imx93-se
+> > > +    then:
+> > > +      required:
+> > > +        - memory-region
+> > > +    else:
+> > > +      properties:
+> > > +        memory-region: false
+> > > +
+> > > +  # sram
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - fsl,imx8ulp-se
+> > > +    then:
+> > > +      required:
+> > > +        - sram
+> > > +
+> > > +    else:
+> > > +      properties:
+> > > +        sram: false
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    senclave-firmware {
+> >=20
+> > Last revision this was "firmware", but now you've got something that ap=
+pears
+> > non-generic. Why did you change it?=20
+>=20
+> In case you missed, there was a previous email requesting your view on th=
+is change.
+> Having node as "firmware {", is very generic that has wide interpretation.
+> Hence, replaced firmware with "senclave-firmware".
 
+Which I came across after reading the updated series. If you ask me for
+my opinion on something, just wait til I reply to you before sending
+another version.
+
+> Why "senclave"?
+> Like sram, for secure RAM, I proposed senclave for secure enclave.
+>=20
+>=20
+> Moreover, there are plenty of examples of YAML(s), that were already comm=
+itted; that are using this:
+> linux_bkp$:> find Documentation/ -name "*.yaml" | xargs grep -r "\-firmwa=
+re {"
+
+Just because something got in before doesn't mean it should now.
+
+> Documentation/devicetree/bindings/crypto/xlnx,zynqmp-aes.yaml:      zynqm=
+p_firmware: zynqmp-firmware {
+> Documentation/devicetree/bindings/fpga/xlnx,zynqmp-pcap-fpga.yaml:      z=
+ynqmp_firmware: zynqmp-firmware {
+> Documentation/devicetree/bindings/gpio/xlnx,zynqmp-gpio-modepin.yaml:    =
+zynqmp-firmware {
+>  And more...
+>=20
+> If you any other suggested word to pre-fix , that narrows down this broad=
+ referenced word "firmware".
+
+> Please suggest.
+
+ I already did:
+> > The normal differentiator for multiple
+> > nodes is -[0-9]*, why can't you use that, if you're worried about multi=
+ple
+> > nodes?
+> Thanks Conor, for the suggestion this. Will use this. Thanks.
+
+--Jzq89wAQ2QEgaltg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZp+5UAAKCRB4tDGHoIJi
+0q7tAQCPrTH8oQp81LnUqAxW0aIBbOmWOERuWjwoAeRPTg11oAEAuQZuN8bt6s/u
+opD9Ek20yVXFya29Hbn2nTmfXQ0skAU=
+=l8OU
+-----END PGP SIGNATURE-----
+
+--Jzq89wAQ2QEgaltg--
