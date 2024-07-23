@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A5F13D898;
-	Tue, 23 Jul 2024 21:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025DB1DDD6;
+	Tue, 23 Jul 2024 22:22:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721771443; cv=none; b=hiYNPZUgfFOrW4ryVLquB0QRXY9lU73CDgnloY3jjcy6MESGqwSZ2RaRitfz6VHtM/bchBIyFNtL2e1nYXDMhfHi8dqhz9kNTbACMRLpz6tQxCmu7I0H0DsVkgtwfmw70U9GpCW/urHYXgtjm9PnlLKhOyIp5NVUpUnhJWftxfk=
+	t=1721773353; cv=none; b=dhbvL4/M/EwronNEgppu16olBbzjLqdeVxCgyzGj4Sb1P6AwSy7hKvniaGLytBq16p7gAQi2+JdJ6oOvor27gpZ6/swBAZvE10QcZxd6I9n+h9g9O2dC+zmgm4Ec0SZgHGN4ImHMXtzaPpwz8iNc9T0S1uqziVaMjtGZh287DiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721771443; c=relaxed/simple;
-	bh=bzv8yP69JRQobNQs9gMg1Wvqa9EoQrlbdR8UpvqyDl8=;
+	s=arc-20240116; t=1721773353; c=relaxed/simple;
+	bh=QcBPciMEEglSS9n38UzLJ7yUmdEkQ+0xU3UWCPIbcJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BzlPjnoJx/RhP8E1vj3kingyLO9BkQcDTy1RLOJ9CVEm1MKXsN5RsydR1SsH1Va0jn7FNORZomfrMjWbOpBWcKMpwUIVcilXn6ATy8ugxfx+uISI+lZHwNCKmYZuRA9SzPdp5IG7I2ZDou/g9IP0ULBxP14gCAHchCFysI9ax3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLEnu2BB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition:In-Reply-To; b=IcaojyQbM92Y750hpOz+/0tR8sVuDKsCWHRLeh/Fz5AQJmiWJAV0EiQ0P/F8ZUf6jQX9Qq9L9/tabro5fhF0Sy+ikyicZm+NLN72Q4jFwVtnxg3aF49ne9wgRgDBVCAZjLx2RqbPQV6pqxkn2Xm3/AwaRbzWPN34RXcw1D2AhTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2vaU5DY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLEnu2BB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466DAC4AF09;
-	Tue, 23 Jul 2024 21:50:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2vaU5DY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21A19C4AF0A;
+	Tue, 23 Jul 2024 22:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721771442;
-	bh=bzv8yP69JRQobNQs9gMg1Wvqa9EoQrlbdR8UpvqyDl8=;
+	s=k20201202; t=1721773352;
+	bh=QcBPciMEEglSS9n38UzLJ7yUmdEkQ+0xU3UWCPIbcJE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=ZLEnu2BBkIERneq3aiidNnhmPmlbxBiFs1WNDWeTQokn0M6o8IZrBHhQal7m4LRoB
-	 8NBn3cTmHkOixRNp88wsBNQHEgPqikS8mOlsBSMse0MsklOTizqeuarshk3+2YWKu1
-	 +NjNFJoIXqElCPCr4MnjLc6u6xoh7YprkTvuOWDhQEMx1WzyIGbylQ9qleXEbMQx91
-	 xKimD5TLTIg0608yT/XDMsCKSpHCWFyUX/IDyTULcrpxOB9Lo14V6piw7q5TQpHxw4
-	 KKM1kLoMh7mVt+PCgyS5GDycj7TWMTIEFGqwfgI9Kd84HIFHU/Zk+cATlBeBlHcBkA
-	 ill/Ng9TeAaug==
-Date: Tue, 23 Jul 2024 16:50:40 -0500
+	b=d2vaU5DYRNG3/ujzG2Lh9oaDL+cbPXoMlZ4dQpCGRZcElPGZKojhfIWcLMQ5+NRkq
+	 o378jrN3zQ2cd1dOTA2NyVaWrXE14PK/RP5sPlIrOZ2fH3ZmR/lj4XVCArxWigNZ9o
+	 6WAkjw9Mye34IcgOgNqXPUmycqrSXhnWWUEai0WyVREa6S+oXcbP+nLBka+pzYMGnS
+	 luAezrQkoRUzte/dI4WIi5liKNry5u40Ypr2lcH5z2g+808/Uj8F8NDC9B48cztNkd
+	 Ro5Q8K62LKn4qBVjkB43Bo24Utt1Mu8xbWhAuErdVt9ZaZmH1vTNlNmqRVzn1Rcsvs
+	 MXqz5VPRHlNVQ==
+Date: Tue, 23 Jul 2024 17:22:29 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Wei Huang <wei.huang2@amd.com>
 Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -39,8 +39,9 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
 	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
 	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
 	bhelgaas@google.com
-Subject: Re: [PATCH V3 08/10] PCI/TPH: Add TPH documentation
-Message-ID: <20240723215040.GA760037@bhelgaas>
+Subject: Re: [PATCH V3 06/10] PCI/TPH: Introduce API to retrieve TPH steering
+ tags from ACPI
+Message-ID: <20240723222229.GA759742@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,156 +50,205 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240717205511.2541693-9-wei.huang2@amd.com>
+In-Reply-To: <20240717205511.2541693-7-wei.huang2@amd.com>
 
-On Wed, Jul 17, 2024 at 03:55:09PM -0500, Wei Huang wrote:
-> Provide a document for TPH feature, including the description of
-> kernel options and driver API interface.
-> 
-> Co-developed-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-> Signed-off-by: Eric Van Tassell <Eric.VanTassell@amd.com>
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
-> Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
-> Reviewed-by: Somnath Kotur <somnath.kotur@broadcom.com>
-> Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  Documentation/PCI/index.rst          |  1 +
->  Documentation/PCI/tph.rst            | 57 ++++++++++++++++++++++++++++
+On Wed, Jul 17, 2024 at 03:55:07PM -0500, Wei Huang wrote:
+> Add an API function to allow endpoint device drivers to retrieve
+> steering tags for a specific cpu_uid. This is achieved by invoking
+> ACPI _DSM on device's root port.
 
-Wrap file to fit in 80 columns.  Looks like about 86 now, which is
-kind of a random size.
+s/an API function/<name of function>/
 
->  Documentation/driver-api/pci/pci.rst |  3 ++
->  3 files changed, 61 insertions(+)
->  create mode 100644 Documentation/PCI/tph.rst
-> 
-> diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-> index e73f84aebde3..5e7c4e6e726b 100644
-> --- a/Documentation/PCI/index.rst
-> +++ b/Documentation/PCI/index.rst
-> @@ -18,3 +18,4 @@ PCI Bus Subsystem
->     pcieaer-howto
->     endpoint/index
->     boot-interrupts
-> +   tph
-> diff --git a/Documentation/PCI/tph.rst b/Documentation/PCI/tph.rst
-> new file mode 100644
-> index 000000000000..103f4c3251e2
-> --- /dev/null
-> +++ b/Documentation/PCI/tph.rst
-> @@ -0,0 +1,57 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+Also include function name in subject line.
+
+> + * The st_info struct defines the steering tag returned by the firmware _DSM
+> + * method defined in PCI Firmware Spec r3.3, sect 4.6.15 "_DSM to Query Cache
+> + * Locality TPH Features"
+
+I don't know what I'm missing, but my copy of the r3.3 spec, dated Jan
+20, 2021, doesn't have sec 4.6.15.
+
+> +static u16 tph_extract_tag(enum tph_mem_type mem_type, u8 req_type,
+> +			   union st_info *st_tag)
+> +{
+> +	switch (req_type) {
+> +	case PCI_TPH_REQ_TPH_ONLY: /* 8 bit tags */
+> +		switch (mem_type) {
+> +		case TPH_MEM_TYPE_VM:
+> +			if (st_tag->vm_st_valid)
+> +				return st_tag->vm_st;
+> +			break;
+> +		case TPH_MEM_TYPE_PM:
+> +			if (st_tag->pm_st_valid)
+> +				return st_tag->pm_st;
+> +			break;
+> +		}
+> +		break;
+> +	case PCI_TPH_REQ_EXT_TPH: /* 16 bit tags */
+> +		switch (mem_type) {
+> +		case TPH_MEM_TYPE_VM:
+> +			if (st_tag->vm_xst_valid)
+> +				return st_tag->vm_xst;
+> +			break;
+> +		case TPH_MEM_TYPE_PM:
+> +			if (st_tag->pm_xst_valid)
+> +				return st_tag->pm_xst;
+> +			break;
+> +		}
+> +		break;
+> +	default:
+> +		pr_err("invalid steering tag in ACPI _DSM\n");
+
+Needs to mention a specific device.
+
+> +static acpi_status tph_invoke_dsm(acpi_handle handle, u32 cpu_uid, u8 ph,
+> +				  u8 target_type, bool cache_ref_valid,
+> +				  u64 cache_ref, union st_info *st_out)
+
+IMO you can omit ph, target_type, cache_ref_valid, etc until you have
+a need for them.  I don't see the point of parameters that always have
+the same constant values.
+
+> +{
+> +	union acpi_object arg3[3], in_obj, *out_obj;
 > +
-> +===========
-> +TPH Support
-> +===========
+> +	if (!acpi_check_dsm(handle, &pci_acpi_dsm_guid, 7, BIT(TPH_ST_DSM_FUNC_INDEX)))
+
+Wrap the code and comments in this file to fit in 80 columns instead
+of 85 or whatever you used.  Lines longer than 80 are OK for printf
+strings but pointless for comments, etc.
+
+> +		return AE_ERROR;
 > +
+> +	/* DWORD: feature ID (0 for processor cache ST query) */
+> +	arg3[0].integer.type = ACPI_TYPE_INTEGER;
+> +	arg3[0].integer.value = 0;
 > +
-> +:Copyright: 2024 Advanced Micro Devices, Inc.
-> +:Authors: - Eric van Tassell <eric.vantassell@amd.com>
-> +          - Wei Huang <wei.huang2@amd.com>
+> +	/* DWORD: target UID */
+> +	arg3[1].integer.type = ACPI_TYPE_INTEGER;
+> +	arg3[1].integer.value = cpu_uid;
 > +
-> +Overview
-> +========
-> +TPH (TLP Processing Hints) is a PCIe feature that allows endpoint devices
-> +to provide optimization hints, such as desired caching behavior, for
-> +requests that target memory space. These hints, in a format called steering
-> +tags, are provided in the requester's TLP headers and can empower the system
-> +hardware, including the Root Complex, to optimize the utilization of platform
-> +resources for the requests.
-
-I see that this is basically cribbed from sec 6.17, but it sort of
-conflates Processing Hints (Bi-directional data structure, Requester,
-Target, Target with Priority) with Steering Tags (hints about where to
-target a TLP), and "optimize the utilization of platform resources for
-the requests" is pretty vague marketing-speak.
-
-I think it might be useful to at least mention the Processing Hints
-because the distinction between PH and ST helps motivate the need for
-both "pci=notph" and "pci=nostmode".
-
-IIUC, we can enable TPH with the TPH Requester Enable bit, but I don't
-see an architected mechanism to control the PH bits in the TLP header.
-I assume there might be device-specific ways or it might be built into
-the hardware.
-
-Use "Steering Tags" to indicate that this is a term defined by the
-spec.
-
-> +User Guide
-> +==========
+> +	/* QWORD: properties */
+> +	arg3[2].integer.type = ACPI_TYPE_INTEGER;
+> +	arg3[2].integer.value = ph & 3;
+> +	arg3[2].integer.value |= (target_type & 1) << 2;
+> +	arg3[2].integer.value |= (cache_ref_valid & 1) << 3;
+> +	arg3[2].integer.value |= (cache_ref << 32);
 > +
-> +Kernel Options
-> +--------------
-> +There are two kernel command line options available to control TPH feature
+> +	in_obj.type = ACPI_TYPE_PACKAGE;
+> +	in_obj.package.count = ARRAY_SIZE(arg3);
+> +	in_obj.package.elements = arg3;
 > +
-> +   * "notph": TPH will be disabled for all endpoint devices.
-> +   * "nostmode": TPH will be enabled but the ST Mode will be forced to "No ST Mode".
+> +	out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, 7,
+> +				    TPH_ST_DSM_FUNC_INDEX, &in_obj);
 > +
-> +Device Driver API
-> +-----------------
-> +In brief, an endpoint device driver using the TPH interface to configure
-> +Interrupt Vector Mode will call pcie_tph_set_st() when setting up MSI-X
-> +interrupts as shown below:
-
-I think we should include a spec reference for more details here,
-e.g., PCIe r6.0, sec 6.17, 6.17.3.
-
-> +.. code-block:: c
+> +	if (!out_obj)
+> +		return AE_ERROR;
 > +
-> +    for (i = 0, j = 0; i < nr_rings; i++) {
-
-"j" is not relevant here and makes the example unnecessarily
-complicated.
-
-> +        ...
-> +        rc = request_irq(irq->vector, irq->handler, flags, irq->name, NULL);
-> +        ...
-> +        if (!pcie_tph_set_st(pdev, i, cpumask_first(irq->cpu_mask),
-> +                             TPH_MEM_TYPE_VM, PCI_TPH_REQ_TPH_ONLY))
-> +               pr_err("Error in configuring steering tag\n");
-
-pci_err().  I don't want to encourage drivers to print messages that
-have no connection to a specific device.
-
-> +        ...
-> +    }
+> +	if (out_obj->type != ACPI_TYPE_BUFFER) {
+> +		ACPI_FREE(out_obj);
+> +		return AE_ERROR;
+> +	}
 > +
-> +The caller is suggested to check if interrupt vector mode is supported using
-> +pcie_tph_intr_vec_supported() before updating the steering tags.
+> +	st_out->value = *((u64 *)(out_obj->buffer.pointer));
+> +
+> +	ACPI_FREE(out_obj);
+> +
+> +	return AE_OK;
+> +}
+> +
+>  /* Update the ST Mode Select field of TPH Control Register */
+>  static void set_ctrl_reg_mode_sel(struct pci_dev *pdev, u8 st_mode)
+>  {
+> @@ -89,3 +210,44 @@ bool pcie_tph_intr_vec_supported(struct pci_dev *pdev)
+>  	return true;
+>  }
+>  EXPORT_SYMBOL(pcie_tph_intr_vec_supported);
+> +
+> +/**
+> + * pcie_tph_get_st_from_acpi() - Retrieve steering tag for a specific CPU
+> + * using platform ACPI _DSM
 
-I guess this refers to "Interrupt Vector Mode", an ST mode of
-operation (PCIe r6.0, sec 6.17.3).  Helpful to style this as
-"Interrupt Vector Mode" to indicate that it is a technical term
-defined in the spec.
+1) TPH and Steering Tags are not ACPI-specific, even though the only
+current mechanism to learn the tags happens to be an ACPI _DSM, so I
+think we should omit "acpi" from the name drivers use.
 
-> If a device only
-> +supports TPH vendor specific mode, its driver can call pcie_tph_get_st_from_acpi()
-> +to retrieve the steering tag for a specific CPU and uses the tag to control TPH
-> +behavior.
+2) The spec doesn't restrict Steering Tags to be for a CPU; it says
+"processing resource such as a host processor or system cache
+hierarchy ..."  But obviously this interface only comprehends an ACPI
+CPU ID.  Maybe the function name should include "cpu".
 
-I'm not sure what "vendor specific mode" refers to here.  If it's the
-"Device Specific" ST Mode, use the exact language from the spec to
-help people find the details.
+3) Nobody outside the file calls this yet, so it should probably be
+static (and removed from the doc) until a driver needs it.
 
-> +.. kernel-doc:: drivers/pci/pcie/tph.c
-> +   :export:
-> +   :identifiers: pcie_tph_intr_vec_supported pcie_tph_get_st_from_acpi pcie_tph_set_st
-> diff --git a/Documentation/driver-api/pci/pci.rst b/Documentation/driver-api/pci/pci.rst
-> index aa40b1cc243b..3d896b2cf16e 100644
-> --- a/Documentation/driver-api/pci/pci.rst
-> +++ b/Documentation/driver-api/pci/pci.rst
-> @@ -46,6 +46,9 @@ PCI Support Library
->  .. kernel-doc:: drivers/pci/pci-sysfs.c
->     :internal:
+> + * @pdev: pci device
+> + * @cpu_acpi_uid: the acpi cpu_uid.
+> + * @mem_type: memory type (vram, nvram)
+> + * @req_type: request type (disable, tph, extended tph)
+> + * @tag: steering tag return value
+> + *
+> + * Return: 0 if success, otherwise errno
+> + */
+> +int pcie_tph_get_st_from_acpi(struct pci_dev *pdev, unsigned int cpu_acpi_uid,
+> +			      enum tph_mem_type mem_type, u8 req_type,
+> +			      u16 *tag)
+> +{
+> +	struct pci_dev *rp;
+> +	acpi_handle rp_acpi_handle;
+> +	union st_info info;
+> +
+> +	if (!pdev->tph_cap)
+> +		return -ENODEV;
+> +
+> +	/* find ACPI handler for device's root port */
+
+Superfluous comments since the code is obvious.  And this finds a
+"handle", not a "handler" :)
+
+> +	rp = pcie_find_root_port(pdev);
+> +	if (!rp || !rp->bus || !rp->bus->bridge)
+> +		return -ENODEV;
+> +	rp_acpi_handle = ACPI_HANDLE(rp->bus->bridge);
+> +
+> +	/* invoke _DSM to extract tag value */
+> +	if (tph_invoke_dsm(rp_acpi_handle, cpu_acpi_uid, 0, 0, false, 0, &info) != AE_OK) {
+> +		*tag = 0;
+> +		return -EINVAL;
+> +	}
+> +
+> +	*tag = tph_extract_tag(mem_type, req_type, &info);
+> +	pci_dbg(pdev, "%s: cpu=%d tag=%d\n", __func__, cpu_acpi_uid, *tag);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(pcie_tph_get_st_from_acpi);
+> diff --git a/include/linux/pci-tph.h b/include/linux/pci-tph.h
+> index 854677651d81..b12a592f3d49 100644
+> --- a/include/linux/pci-tph.h
+> +++ b/include/linux/pci-tph.h
+> @@ -9,15 +9,27 @@
+>  #ifndef LINUX_PCI_TPH_H
+>  #define LINUX_PCI_TPH_H
 >  
-> +.. kernel-doc:: drivers/pci/pcie/tph.c
-> +   :export:
-> +
->  PCI Hotplug Support Library
->  ---------------------------
->  
-> -- 
-> 2.45.1
-> 
+> +enum tph_mem_type {
+> +	TPH_MEM_TYPE_VM,	/* volatile memory type */
+> +	TPH_MEM_TYPE_PM		/* persistent memory type */
+
+Where does this come from?  I don't see "vram" or "volatile" used in
+the PCIe spec in this context.  Maybe this is from the PCI Firmware
+spec?
+
+> +static inline int pcie_tph_get_st_from_acpi(struct pci_dev *dev, unsigned int cpu_acpi_uid,
+> +					    enum tph_mem_type tag_type, u8 req_enable,
+> +					    u16 *tag)
+> +{ return false; }
+
+"false" is not "int".
+
+Apparently you want to return "success" in this case, when
+CONFIG_PCIE_TPH is not enabled?  I suggested leaving this non-exported
+for now, which would mean removing this altogether.  But if/when we do
+export it, I think maybe it should return error so a caller doesn't
+assume it succeeded, since *tag will be garbage.
+
+Bjorn
