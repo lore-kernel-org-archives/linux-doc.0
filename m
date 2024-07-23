@@ -1,85 +1,92 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0086F155A47
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 16:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027F013B287;
+	Tue, 23 Jul 2024 16:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721751500; cv=none; b=KB4rkeeOdAh22YnK4d2dAXRVVmSNIMkkrzZfTrmwnUe13dwx3Apc/lXCwC5b5BNkdgkgrT+VtduGyJUU6ECLwdTM4HdGihNhkGLl+YZpx+ukwHh3nw/LBy5gjoUEXV+b6P+4aciNZ1O7MGERbaEexdKTOVJQeNzdn+AzACPPH/U=
+	t=1721753301; cv=none; b=ggR9hWGNEXRNx07fB2XdtUbNG9TYp3pRGejujPhP6HB+2mP7hBKdumRn5XrUgKZje6glzUHBTy/KhI9VcYfHLDYr+j9r2u+dQU7ZOZL3A5DtbhskxkXx4dD48Wm/Tb7hXtnubqr/qxh6z07IwyVtPd4JfrGCRGuYowjwnAJ8cJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721751500; c=relaxed/simple;
-	bh=UMLw9slHziHEYEojOzNyrppIDmcWF77QgPc6AZRdqyc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kdpyIS+MGBC5szRiFJXJ7Oe0+zTJl2NgevWSaSlvsy533g3xU9E4CyOd7pL9Exwq1y5AOY5NqOLFFzX2JM5bAjjkEOMwNpG3NvLGB21Vr10y/k5l1o41d0il0ckwV0TyEfviXEnBi9PklWz+3aCQ2WW749ohcISxLt2CoHqjLts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YRzmDSZP; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1721753301; c=relaxed/simple;
+	bh=72kqMw43xIKt1+EjiOzFO8x8diXBtCq9Ge6RJyrtpfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GYaUU6LQgdVmcOA5pDk/YNXZSKGSxGqkjaNZQcZH9MqWxoNSbGkCGhRJqcHvlxKLXyqpoVZPQFI+dxgM92mZYeS8xfEGUGMQo7S1VZspSgeZQFqDuEK0kKxYHjj/iJyvuPp9Zaf30PkK4MiXC+aklcSkH1j1rcscE0NSwSw9480=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j77iUv5I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YRzmDSZP"
-X-Envelope-To: marcus.yu.56@gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721751492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TjjLwYRxXkUmNJ43uyex+kLv30jvSHho2eawfvU4UXw=;
-	b=YRzmDSZPsR+95xOlD0wKSpmxAJ8pZkUr43D0l3tRAtXtP1mi65cns+K68/mmxXV00upXrG
-	gMqyUIuIrLesR2ogiBJ6NFrRR7Fz0fwnHQ8ytobc2fRYz1WL3QztsyOFdeZci5v1sCeAwi
-	aTKXjQzyeKuMMVJw25wlGH1q2Ao3STQ=
-X-Envelope-To: skhan@linuxfoundation.org
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: pbonzini@redhat.com
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: chang.yu.56@protonmail.com
-X-Envelope-To: zenghui.yu@linux.dev
-Message-ID: <15b15e5d-2db0-4f34-80b3-1b83571f8cb4@linux.dev>
-Date: Wed, 24 Jul 2024 00:18:01 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j77iUv5I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40EB3C4AF0A;
+	Tue, 23 Jul 2024 16:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721753300;
+	bh=72kqMw43xIKt1+EjiOzFO8x8diXBtCq9Ge6RJyrtpfE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=j77iUv5I/A8gz1Vh8m5n44iIzE1I5OlMI40Gse0oetgBQ/NT/cT77RVVwu1chXQVX
+	 VPvbFUrDyck1eSeOsP8ygchWj/c+y2x2KznBeihlUNduZ0bXJneh/sG2DhwWwZnMSN
+	 tFtgdR7pODDyNmCBvPTj5owwmLpb/27SHlsfVXX6LJOI6ZeRgXpDOC7jhTT1Ek6523
+	 KPhLN2K151AnC9To+sfkvYtTAEWUCkR6GRHTHt6RxLfoLSRlkhzFAFtbBc7n6CHilL
+	 VKsHjynniyBLdBxncMBfU5AsdaGA/5fWc6Os0NLWAFmNCof3YOAsrjEDwiouZA4GKN
+	 Loic5wFhh6WSQ==
+Date: Tue, 23 Jul 2024 11:48:18 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
+	bhelgaas@google.com
+Subject: Re: [PATCH V3 09/10] bnxt_en: Add TPH support in BNXT driver
+Message-ID: <20240723164818.GA760263@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Fix "WARNING: Title underline too short."
-To: Chang Yu <marcus.yu.56@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
- pbonzini@redhat.com, linux-doc@vger.kernel.org, chang.yu.56@protonmail.com
-References: <Zp8xvjtQKdRSvJO_@gmail.com>
- <b9e7e293-38dc-472c-9d53-5dfec5dc4a28@linuxfoundation.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <b9e7e293-38dc-472c-9d53-5dfec5dc4a28@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240717205511.2541693-10-wei.huang2@amd.com>
 
-On 2024/7/23 23:53, Shuah Khan wrote:
-> On 7/22/24 22:29, Chang Yu wrote:
-> > Fix "Title underline too short" warning by extending the title line.
+On Wed, Jul 17, 2024 at 03:55:10PM -0500, Wei Huang wrote:
+> From: Manoj Panicker <manoj.panicker2@amd.com>
 > 
-> Please specify the subsystem this patch is intended for
-> in the summary - also check the correct format for the
-> summary in the submbitting patches document - you can
-> refer to other commits for the same file in "git log"
-> output.
-> 
-> example:
-> 
-> [PATCH] doc/kvm: Fix underline too short warning
-> 
-> Include the warning in the changelog
+> Implement TPH support in Broadcom BNXT device driver by invoking
+> pcie_tph_set_st() function when interrupt affinity is changed.
 
-And it'd be good to always CC all the lists that get_maintainer.pl tells
-you, i.e., the KVM list and LKML, even though this is a trivial change.
+*and* invoking pcie_tph_set_st() when setting up the IRQ in the first
+place, I guess?
 
-% ./scripts/get_maintainer.pl Documentation/virt/kvm/api.rst
-Paolo Bonzini <pbonzini@redhat.com> (supporter:KERNEL VIRTUAL MACHINE (KVM))
-Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-kvm@vger.kernel.org (open list:KERNEL VIRTUAL MACHINE (KVM))
-linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-linux-kernel@vger.kernel.org (open list)
+I guess this gives a significant performance benefit?  The series
+includes "pci=nostmode" so the benefit can be quantified, so now I'm
+curious about what you measured :)
 
-Thanks,
-Zenghui
+> +static void bnxt_rtnl_lock_sp(struct bnxt *bp);
+> +static void bnxt_rtnl_unlock_sp(struct bnxt *bp);
+
+These duplicate declarations can't be right, can they?  OK for
+work-in-progress, but it doesn't look like the final solution.
+
+> +static void __bnxt_irq_affinity_notify(struct irq_affinity_notify *notify,
+> +				       const cpumask_t *mask)
+> +{
+> +	struct bnxt_irq *irq;
+> +
+> +	irq = container_of(notify, struct bnxt_irq, affinity_notify);
+> +	cpumask_copy(irq->cpu_mask, mask);
+> +
+> +	if (!pcie_tph_set_st(irq->bp->pdev, irq->msix_nr,
+> +			     cpumask_first(irq->cpu_mask),
+> +			     TPH_MEM_TYPE_VM, PCI_TPH_REQ_TPH_ONLY))
+> +		netdev_dbg(irq->bp->dev, "error in setting steering tag\n");
+> +
+> +	if (netif_running(irq->bp->dev)) {
+> +		rtnl_lock();
+> +		bnxt_close_nic(irq->bp, false, false);
+> +		bnxt_open_nic(irq->bp, false, false);
+> +		rtnl_unlock();
+> +	}
+> +}
