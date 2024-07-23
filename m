@@ -1,48 +1,72 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65348137C35
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 14:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEF715444E
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 14:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721744920; cv=none; b=n2ya3W/Gzw//tORzhvs0a2eMDykeudaTC2QuunvJ4JXzbrzEcMtZvjlqmxWtGqXWBCYsIy8/t/QRZeKe/kuk2naanz8AX92VXC5W2hUUQ25dHS/g+B35r1Iv0TvlXFasaevCmAjRCTBy+DU2Mddd7bh2LW2m4WZGAyqOZPbOxVI=
+	t=1721744999; cv=none; b=G0lXeKvZgYiGXnvazSP9QRTivD/QY6DLY/K5Rbfoq/vZaFxK3ABU6k66Ea7+10k6sKKq333KOK4QkeWD1tbCfvqpEp5KV8H+jUIgqGu2IyknvjHKyDKTb3qi09rCVHn67116R43xzCoQ9PRnyghunGTGgYAN03Zc8Pk8cErtn6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721744920; c=relaxed/simple;
-	bh=6T/L5bxZz2nawLXtFCkHwUzGg9UXP3OG/DekgRv9/6M=;
+	s=arc-20240116; t=1721744999; c=relaxed/simple;
+	bh=E5EM6Cguo14Xt7RDH+bDU+nKhuhaz+MtYEJdPW2niJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vC0VEGNH76iual2KfauuXM9P7i5HXk8cfcjZB3zf0OOdvlN1PW5q5/yf8NWeW/Shz6KieV5jcXU9zLrFZHmDsJ6bx5jRIloeUH82YpjSvhhR/E7Ipm+bEKfxGBTb983UgjNq2WUmXlqQkb5wBgKsh9SDmFjH55bRyLMlpxyVaLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sWGV9-0000Wv-Hs; Tue, 23 Jul 2024 16:28:27 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sWGV8-001dfw-HI; Tue, 23 Jul 2024 16:28:26 +0200
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sWGV8-00DU4q-1L;
-	Tue, 23 Jul 2024 16:28:26 +0200
-Date: Tue, 23 Jul 2024 16:28:26 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 4/5] firmware: imx: add driver for NXP EdgeLock Enclave
-Message-ID: <Zp--Co8teXBO95QO@pengutronix.de>
-References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
- <20240722-imx-se-if-v6-4-ee26a87b824a@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mhTZ8jgOGz2i2yYqJwdFskaEJXFkZrY1xidh9Vkj8lkSUKf2kxNgD/kWP+HC7uB3ty6If9G5VWaXExwOZhAmjlehKiDmpla4VRa0BOtVv7GRs1TqffaZKNj4Up341C4sXkjqyJnZY37t2wRwTmPtkea55jNexZ9IaU8eIuOBd3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=MVW7s8Vu; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="MVW7s8Vu"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7036ab4a2acso2927442a34.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 07:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721744995; x=1722349795; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pOAklqx8oFvo8x3kYelMrVZA/e8PS7D7KCs7XOSGQQg=;
+        b=MVW7s8VuKJvaDigTkER4KTtAnSou56eSU+aHewQ6UpgRFasXGMd5hFkwMLd2tiKrwR
+         9cirn8qyX6n+OMOBTtdr4AuhVcTK0yQQvY/ciu5w+iK/ANLfB0iaQ9c5Yf8m5EiKXRba
+         tzQbD4YDYpEdDnVk9qUhTcpoqT0lq37sC+0yRVwlPQTdX8XgC/Uqtc6y6huUnu2b2Y79
+         WNi5fWxbJNz+kNN91vkvhvGii34MauBQ2Y1BQ7u2Ry3rEh1ZjFDhjsuP/a4NjrdopsPJ
+         ii+zMjxzY4gUA02e+4DwDSBfqVrHrlnCyVNO5ODueaFZwsRc764vny5EUqgWa/qCEqHb
+         MBvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721744995; x=1722349795;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pOAklqx8oFvo8x3kYelMrVZA/e8PS7D7KCs7XOSGQQg=;
+        b=CIIDuW7fsrny7nn7SHnueP/TInQHZd1TO8KN7ApJo+62lyJ9RlHR37YB/aAhJQrZyF
+         cOlPl9hyZPoduEeZ7v7gvVVipV80L5DDwH3Jxpp3pryQ54BnbUrMibxXXYl/w6lo28O/
+         WOcryy8RyP/Z0pa+Zc4+y/bxcCX+urvIQucT7h2NhgZ2/FiGzRpPqRQO2QcWw+td9zhs
+         cXDzH8U5o2LpbpAMGDmXrJceBA5cUK+0PCwryqeL2bHfLa3Hkw7AWkYDR+157gI+MUNq
+         mggQc88ydTt4IgJl13GpVweUyq3oV+tAGmdFKtN6LzZsh35KHmB+59vtvzpy9fNPQd8J
+         peSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtvi99HP6jRujvYTyfOfPcC4Ui8Lwnz4KH4p1Tv8CFFRYWdGZwHWF7k28a5EZ5/tB32Wpqf7VYXz3eIJCZOKuKPFCWTr/8WMgb
+X-Gm-Message-State: AOJu0YxCvXpf7ddZ6QFrm7yaOvPbvJL3qm3t+5vV5tH8eIZXy9ibKiax
+	GWSOUoxrKnsOXUcItRpBJLLn/A2gNF36RFqyXmqupj4bj6wN6259RxkQICRc4LE=
+X-Google-Smtp-Source: AGHT+IF3YHQUIJ8+SrZCGjkIAJzBT6BuX2rBtMjYzpxW0sLMa2dAZBOXVVA0gqNSq/4rVrK8BpqhKQ==
+X-Received: by 2002:a05:6830:6681:b0:703:884d:2fc7 with SMTP id 46e09a7af769-7091817df13mr4552774a34.24.1721744995346;
+        Tue, 23 Jul 2024 07:29:55 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b7acb07fd0sm47602486d6.130.2024.07.23.07.29.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jul 2024 07:29:54 -0700 (PDT)
+Date: Tue, 23 Jul 2024 10:29:50 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: David Finkel <davidf@vimeo.com>
+Cc: Muchun Song <muchun.song@linux.dev>, Tejun Heo <tj@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH 1/2] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <20240723142950.GA389003@cmpxchg.org>
+References: <20240722235554.2911971-1-davidf@vimeo.com>
+ <20240722235554.2911971-2-davidf@vimeo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,187 +75,324 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240722-imx-se-if-v6-4-ee26a87b824a@nxp.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20240722235554.2911971-2-davidf@vimeo.com>
 
-On Mon, Jul 22, 2024 at 10:21:39AM +0530, Pankaj Gupta wrote:
-> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE),
-> are embedded in the SoC to support the features like HSM, SHE & V2X,
-> using message based communication interface.
-> 
-> The secure enclave FW communicates on a dedicated messaging unit(MU)
-> based interface(s) with application core, where kernel is running.
-> It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
-> 
-> This patch adds the driver for communication interface to secure-enclave,
-> for exchanging messages with NXP secure enclave HW IP(s) like EdgeLock
-> Enclave (ELE) from Kernel-space, used by kernel management layers like
-> - DM-Crypt.
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> ---
->  drivers/firmware/imx/Kconfig        |  12 +
->  drivers/firmware/imx/Makefile       |   2 +
->  drivers/firmware/imx/ele_base_msg.c | 274 +++++++++++++++++++
->  drivers/firmware/imx/ele_base_msg.h |  95 +++++++
->  drivers/firmware/imx/ele_common.c   | 264 ++++++++++++++++++
->  drivers/firmware/imx/ele_common.h   |  44 +++
->  drivers/firmware/imx/se_ctrl.c      | 528 ++++++++++++++++++++++++++++++++++++
->  drivers/firmware/imx/se_ctrl.h      |  87 ++++++
->  include/linux/firmware/imx/se_api.h |  14 +
->  9 files changed, 1320 insertions(+)
-> 
-> diff --git a/drivers/firmware/imx/Kconfig b/drivers/firmware/imx/Kconfig
-> index 183613f82a11..0f6877a24f0b 100644
-> --- a/drivers/firmware/imx/Kconfig
-> +++ b/drivers/firmware/imx/Kconfig
-> @@ -22,3 +22,15 @@ config IMX_SCU
+Hi David,
+
+thanks for pursuing this! A couple of comments below.
+
+On Mon, Jul 22, 2024 at 07:55:53PM -0400, David Finkel wrote:
+> @@ -1322,11 +1322,16 @@ PAGE_SIZE multiple when read back.
+>  	reclaim induced by memory.reclaim.
 >  
->  	  This driver manages the IPC interface between host CPU and the
->  	  SCU firmware running on M4.
+>    memory.peak
+> -	A read-only single value file which exists on non-root
+> -	cgroups.
+> +	A read-write single value file which exists on non-root cgroups.
 > +
-> +config IMX_SEC_ENCLAVE
-> +	tristate "i.MX Embedded Secure Enclave - EdgeLock Enclave Firmware driver."
-> +	depends on IMX_MBOX && ARCH_MXC && ARM64
-> +	default m if ARCH_MXC
-> +
-> +	help
-> +	  It is possible to use APIs exposed by the iMX Secure Enclave HW IP called:
-> +	  - EdgeLock Enclave Firmware (for i.MX8ULP, i.MX93),
-> +	    like base, HSM, V2X & SHE using the SAB protocol via the shared Messaging
-> +	    Unit. This driver exposes these interfaces via a set of file descriptors
-> +	    allowing to configure shared memory, send and receive messages.
-> diff --git a/drivers/firmware/imx/Makefile b/drivers/firmware/imx/Makefile
-> index 8f9f04a513a8..aa9033e0e9e3 100644
-> --- a/drivers/firmware/imx/Makefile
-> +++ b/drivers/firmware/imx/Makefile
-> @@ -1,3 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_IMX_DSP)		+= imx-dsp.o
->  obj-$(CONFIG_IMX_SCU)		+= imx-scu.o misc.o imx-scu-irq.o rm.o imx-scu-soc.o
-> +sec_enclave-objs		= se_ctrl.o ele_common.o ele_base_msg.o
-> +obj-${CONFIG_IMX_SEC_ENCLAVE}	+= sec_enclave.o
-> diff --git a/drivers/firmware/imx/ele_base_msg.c b/drivers/firmware/imx/ele_base_msg.c
-> new file mode 100644
-> index 000000000000..7f16184a8b10
-> --- /dev/null
-> +++ b/drivers/firmware/imx/ele_base_msg.c
-> @@ -0,0 +1,274 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2024 NXP
-> + */
-> +
-> +#include <linux/types.h>
-> +
-> +#include <linux/completion.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/genalloc.h>
-> +
-> +#include "ele_base_msg.h"
-> +#include "ele_common.h"
-> +
-> +int ele_get_info(struct device *dev, struct ele_dev_info *s_info)
+> +	The max memory usage recorded for the cgroup and its descendants since
+> +	either the creation of the cgroup or the most recent reset for that FD.
+>  
+> -	The max memory usage recorded for the cgroup and its
+> -	descendants since the creation of the cgroup.
+> +	A write of the string "reset" to this file resets it to the
+> +	current memory usage for subsequent reads through the same
+> +	file descriptor.
+> +	Attempts to write any other non-empty string will return EINVAL
+> +	(modulo leading and trailing whitespace).
 
-I still think it's a bad idea to use some arbitrary struct device * as
-context pointer here. Users will be confused which device is expected
-here and bad things happen in case it's the wrong one.
+Why not allow any write to reset? This makes it harder to use, and I'm
+not sure accidental writes are a likely mistake to make.
 
-You should rather implement some ele_get() function which returns some
-pointer to be used as a context pointer here.
+> diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
+> index 2150ca60394b..7001ed74e339 100644
+> --- a/include/linux/cgroup.h
+> +++ b/include/linux/cgroup.h
+> @@ -12,6 +12,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/cpumask.h>
+>  #include <linux/nodemask.h>
+> +#include <linux/list.h>
+>  #include <linux/rculist.h>
+>  #include <linux/cgroupstats.h>
+>  #include <linux/fs.h>
+> @@ -855,4 +856,11 @@ static inline void cgroup_bpf_put(struct cgroup *cgrp) {}
+>  
+>  struct cgroup *task_get_cgroup1(struct task_struct *tsk, int hierarchy_id);
+>  
+> +struct memcg_peak_mem_ctx {
+> +	long				local_watermark;
+> +	struct list_head		peers;
+> +};
 
-> +int ele_service_swap(struct device *dev,
-> +		     phys_addr_t addr,
-> +		     u32 addr_size, u16 flag)
+Since this is generic cgroup code, and can be conceivably used by
+other controllers, let's keep the naming generic as well. How about:
+
+struct cgroup_of_peak {
+	long			value;
+	struct list_head	list;
+};
+
+cgroup-defs.h would be a better place for it.
+
+> +struct memcg_peak_mem_ctx *memcg_extract_peak_mem_ctx(struct kernfs_open_file *of);
+
+of_peak()
+
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index 030d34e9d117..cbc390234605 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -198,6 +198,11 @@ struct mem_cgroup {
+>  	struct page_counter kmem;		/* v1 only */
+>  	struct page_counter tcpmem;		/* v1 only */
+>  
+> +	/* lists of memcg peak watching contexts on swap and memory */
+> +	struct list_head peak_memory_local_watermark_watchers;
+> +	struct list_head peak_swap_local_watermark_watchers;
+> +	spinlock_t swap_memory_peak_watchers_lock;
+
+These names are too long. How about:
+
+	/* Registered local usage peak watchers */
+	struct list_head	memory_peaks;
+	struct list_head	swap_peaks;
+	spinlock_t		peaks_lock;
+
+> diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
+> index 8cd858d912c4..06bb84218960 100644
+> --- a/include/linux/page_counter.h
+> +++ b/include/linux/page_counter.h
+> @@ -26,6 +26,7 @@ struct page_counter {
+>  	atomic_long_t children_low_usage;
+>  
+>  	unsigned long watermark;
+> +	unsigned long local_watermark; /* track min of fd-local resets */
+>  	unsigned long failcnt;
+>  
+>  	/* Keep all the read most fields in a separete cacheline. */
+> @@ -78,7 +79,15 @@ int page_counter_memparse(const char *buf, const char *max,
+>  
+>  static inline void page_counter_reset_watermark(struct page_counter *counter)
+>  {
+> -	counter->watermark = page_counter_read(counter);
+> +	unsigned long cur = page_counter_read(counter);
+
+cur -> usage
+
+> @@ -6907,12 +6912,109 @@ static u64 memory_current_read(struct cgroup_subsys_state *css,
+>  	return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
+>  }
+>  
+> -static u64 memory_peak_read(struct cgroup_subsys_state *css,
+> -			    struct cftype *cft)
+> +inline int swap_memory_peak_show(
+> +	struct seq_file *sf, void *v, bool swap_cg)
+>  {
+
+Leave inlining to the compiler. Just static int.
+
+The name can be simply peak_show().
+
+Customary coding style is to line wrap at the last parameter that
+fits. Don't wrap if the line fits within 80 cols.
+
+static int peak_show(struct seq_file *sf, void *v, ...,
+		     ...)
+{
+	...
+}
+
+> +	struct cgroup_subsys_state *css = seq_css(sf);
+>  	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+> +	struct page_counter *pc;
+> +	struct kernfs_open_file *of = sf->private;
+> +	struct memcg_peak_mem_ctx *ctx = memcg_extract_peak_mem_ctx(of);
+> +	s64 fd_peak = ctx->local_watermark;
+>  
+> -	return (u64)memcg->memory.watermark * PAGE_SIZE;
+> +	if (swap_cg)
+> +		pc = &memcg->swap;
+> +	else
+> +		pc = &memcg->memory;
+> +
+> +	if (fd_peak == -1) {
+> +		seq_printf(sf, "%llu\n", (u64)pc->watermark * PAGE_SIZE);
+> +		return 0;
+> +	}
+> +
+> +	s64 pc_peak = pc->local_watermark;
+> +	s64 wm = fd_peak > pc_peak ? fd_peak : pc_peak;
+> +
+> +	seq_printf(sf, "%lld\n", wm * PAGE_SIZE);
+> +	return 0;
+> +}
+
+As per Roman's feedback, don't mix decls and code.
+
+You can simplify it by extracting css and memcg in the callers, then
+pass the right struct page counter *pc directly.
+
+That should eliminate most local variables as well.
+
+static int peak_show(struct seq_file *sf, void *v, struct page_counter *pc)
+{
+	struct cgroup_of_peak *ofp = of_peak(sf->private);
+	u64 peak;
+
+	/* User wants global or local peak? */
+	if (ofp->value == -1)
+		peak = pc->watermark;
+	else
+		peak = max(ofp->value, pc->local_watermark);
+
+	seq_printf(sf, "%lld\n", peak * PAGE_SIZE);
+}
+
+> +static int memory_peak_show(struct seq_file *sf, void *v)
 > +{
-> +	struct se_if_priv *priv = dev_get_drvdata(dev);
-> +	struct se_api_msg *tx_msg __free(kfree) = NULL;
-> +	struct se_api_msg *rx_msg __free(kfree) = NULL;
-> +	int ret = 0;
-> +
-> +	if (!priv) {
-> +		ret = -EINVAL;
-> +		goto exit;
-> +	}
-> +
-> +	tx_msg = kzalloc(ELE_SERVICE_SWAP_REQ_MSG_SZ, GFP_KERNEL);
-> +	if (!tx_msg) {
-> +		ret = -ENOMEM;
-> +		goto exit;
-> +	}
-> +
-> +	rx_msg = kzalloc(ELE_SERVICE_SWAP_RSP_MSG_SZ, GFP_KERNEL);
-> +	if (!rx_msg) {
-> +		ret = -ENOMEM;
-> +		goto exit;
-> +	}
-> +	priv->rx_msg_sz = ELE_SERVICE_SWAP_RSP_MSG_SZ;
-> +
-> +	ret = se_fill_cmd_msg_hdr(priv,
-> +				      (struct se_msg_hdr *)&tx_msg->header,
-> +				      ELE_SERVICE_SWAP_REQ,
-> +				      ELE_SERVICE_SWAP_REQ_MSG_SZ, true);
-> +	if (ret)
-> +		goto exit;
-> +
-> +	tx_msg->data[0] = flag;
-> +	tx_msg->data[1] = addr_size;
-> +	tx_msg->data[2] = ELE_NONE_VAL;
-> +	tx_msg->data[3] = lower_32_bits(addr);
+> +	return swap_memory_peak_show(sf, v, false);
 
-addr could be a 64bit address. Either handle this properly or return an
-error when addr doesn't fit into 32bit.
+And then do:
 
-> +int ele_fw_authenticate(struct device *dev, phys_addr_t addr)
+	struct mem_cgroup *memcg = mem_cgroup_from_css(seq_css(sf));
+
+	return peak_show(sf, v, &memcg->memory);
+
+Then do the same with ... &memcg->swap.
+
+> +inline ssize_t swap_memory_peak_write(
+> +	struct kernfs_open_file *of,
+> +	char *buf, size_t nbytes, loff_t off, bool swap_cg)
 > +{
-> +	struct se_if_priv *priv = dev_get_drvdata(dev);
-> +	struct se_api_msg *tx_msg __free(kfree) = NULL;
-> +	struct se_api_msg *rx_msg __free(kfree) = NULL;
-> +	int ret = 0;
+
+Same feedback as above. Please don't inline explicitly (unless it
+really is measurably a performance improvement in a critical path),
+and stick to surrounding coding style.
+
+Here too, pass page_counter directly and save the branches.
+
+> +	unsigned long cur;
+> +	struct memcg_peak_mem_ctx *peer_ctx;
+> +	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+> +	struct memcg_peak_mem_ctx *ctx = memcg_extract_peak_mem_ctx(of);
+> +	struct page_counter *pc;
+> +	struct list_head *watchers, *pos;
 > +
-> +	if (!priv) {
-> +		ret = -EINVAL;
-> +		goto exit;
+> +	buf = strstrip(buf);
+> +	/* Only allow "reset" to keep the API clear */
+> +	if (strcmp(buf, "reset"))
+> +		return -EINVAL;
+> +
+> +	if (swap_cg) {
+> +		pc = &memcg->swap;
+> +		watchers = &memcg->peak_swap_local_watermark_watchers;
+> +	} else {
+> +		pc = &memcg->memory;
+> +		watchers = &memcg->peak_memory_local_watermark_watchers;
 > +	}
 > +
-> +	tx_msg = kzalloc(ELE_FW_AUTH_REQ_SZ, GFP_KERNEL);
-> +	if (!tx_msg) {
-> +		ret = -ENOMEM;
-> +		goto exit;
+> +	spin_lock(&memcg->swap_memory_peak_watchers_lock);
+> +
+> +	page_counter_reset_local_watermark(pc);
+> +	cur = pc->local_watermark;
+> +
+> +	list_for_each(pos, watchers) {
+
+	list_for_each_entry()
+
+> +		peer_ctx = list_entry(pos, typeof(*ctx), peers);
+> +		if (cur > peer_ctx->local_watermark)
+> +			peer_ctx->local_watermark = cur;
 > +	}
-> +
-> +	rx_msg = kzalloc(ELE_FW_AUTH_RSP_MSG_SZ, GFP_KERNEL);
-> +	if (!rx_msg) {
-> +		ret = -ENOMEM;
-> +		goto exit;
-> +	}
-> +	priv->rx_msg_sz = ELE_FW_AUTH_RSP_MSG_SZ;
-> +
-> +	ret = se_fill_cmd_msg_hdr(priv,
-> +				  (struct se_msg_hdr *)&tx_msg->header,
-> +				  ELE_FW_AUTH_REQ,
-> +				  ELE_FW_AUTH_REQ_SZ,
-> +				  true);
-> +	if (ret)
-> +		goto exit;
-> +
-> +	tx_msg->data[1] = upper_32_bits(addr);
-> +	tx_msg->data[0] = lower_32_bits(addr);
-> +	tx_msg->data[2] = addr;
 
-Same here.
+I don't think this is quite right. local_peak could be higher than the
+current usage when a new watcher shows up. The other watchers should
+retain the higher local_peak, not the current usage.
 
-Sascha
+> +
+> +	if (ctx->local_watermark == -1)
+> +		/* only append to the list if we're not already there */
+> +		list_add_tail(&ctx->peers, watchers);
+> +
+> +	ctx->local_watermark = cur;
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+This makes me think that page_counter_reset_local_watermark() is not a
+good helper. It obscures what's going on. Try without it.
+
+AFAICS the list ordering doesn't matter, so keep it simple and use a
+plain list_add().
+
+	/*
+	 * A new local peak is being tracked in pc->local_watermark.
+	 * Save current local peak in all watchers.
+	 */
+	list_for_each_entry(pos, ...)
+		if (pc->local_watermark > pos->value)
+			pos->value = pc->local_watermark;
+
+	pc->local_watermark = page_counter_read(pc);
+
+	/* Initital write, register watcher */
+	if (ofp->value == -1)
+		list_add()
+
+	ofp->value = pc->local_watermark;
+
+> diff --git a/mm/page_counter.c b/mm/page_counter.c
+> index db20d6452b71..724d31508664 100644
+> --- a/mm/page_counter.c
+> +++ b/mm/page_counter.c
+> @@ -79,9 +79,22 @@ void page_counter_charge(struct page_counter *counter, unsigned long nr_pages)
+>  		/*
+>  		 * This is indeed racy, but we can live with some
+>  		 * inaccuracy in the watermark.
+> +		 *
+> +		 * Notably, we have two watermarks to allow for both a globally
+> +		 * visible peak and one that can be reset at a smaller scope.
+> +		 *
+> +		 * Since we reset both watermarks when the global reset occurs,
+> +		 * we can guarantee that watermark >= local_watermark, so we
+> +		 * don't need to do both comparisons every time.
+> +		 *
+> +		 * On systems with branch predictors, the inner condition should
+> +		 * be almost free.
+>  		 */
+> -		if (new > READ_ONCE(c->watermark))
+> -			WRITE_ONCE(c->watermark, new);
+> +		if (new > READ_ONCE(c->local_watermark)) {
+> +			WRITE_ONCE(c->local_watermark, new);
+> +			if (new > READ_ONCE(c->watermark))
+> +				WRITE_ONCE(c->watermark, new);
+> +		}
+>  	}
+>  }
+>  
+> @@ -131,10 +144,23 @@ bool page_counter_try_charge(struct page_counter *counter,
+>  		propagate_protected_usage(c, new);
+>  		/*
+>  		 * Just like with failcnt, we can live with some
+> -		 * inaccuracy in the watermark.
+> +		 * inaccuracy in the watermarks.
+> +		 *
+> +		 * Notably, we have two watermarks to allow for both a globally
+> +		 * visible peak and one that can be reset at a smaller scope.
+> +		 *
+> +		 * Since we reset both watermarks when the global reset occurs,
+> +		 * we can guarantee that watermark >= local_watermark, so we
+> +		 * don't need to do both comparisons every time.
+> +		 *
+> +		 * On systems with branch predictors, the inner condition should
+> +		 * be almost free.
+
+		/* See comment in page_counter_charge() */
+
+> diff --git a/tools/testing/selftests/cgroup/cgroup_util.c b/tools/testing/selftests/cgroup/cgroup_util.c
+> index 432db923bced..1e2d46636a0c 100644
+> --- a/tools/testing/selftests/cgroup/cgroup_util.c
+> +++ b/tools/testing/selftests/cgroup/cgroup_util.c
+> @@ -141,6 +141,16 @@ long cg_read_long(const char *cgroup, const char *control)
+>  	return atol(buf);
+>  }
+
+This should be in patch #2.
