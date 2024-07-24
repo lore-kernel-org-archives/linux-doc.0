@@ -1,446 +1,168 @@
-Received: from mailscanner01.zoner.fi (mailscanner01.zoner.fi [84.34.166.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BCC5695;
-	Wed, 24 Jul 2024 11:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.34.166.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0580015216A
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 11:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721819193; cv=none; b=lgGPDKHbmJc0mnZkcjPJVz5GWMo2Rv/meuJcmBjHmeBX2Za+lm/IitxqAvkMCLrYoY5FOVYXVOVwiD5fYKvX4RNsssueLMMqTYK3lR0igSJGzstFJPMxTKO3kTATIgYSTkzO4JnRV51SfanFpuniFxLZaOYW+kBu176euFXO25g=
+	t=1721821754; cv=none; b=LLLuAkFyBPN/AMJZ4YQKnzd23uKSELch0QvgHGj8WqNorXx4L5Y2mQ5DZTEnO5+aKHgT4Ws8gR0RIfzh4ATO+QwXiUvFQOyYfSbbiDCUrIBYdvpiPC4bFVtmKHPftYLt8W+ts/GbJEYghBSjiyGuaJo4iQYKMCnKLmtMZwwbbxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721819193; c=relaxed/simple;
-	bh=ff8Bbsg1u2Gy+Q+c7PZP+ntpv7D1uu1hH6zlC2C1iHk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pS7ScbUSD9M3dcd4ieJ2EjZhPqR/YSNn8AHpr5tmB+wT+c90x5VZnyWof5YmsDA/x+k/RBNzcZXv8T3btpJqwT6JZJEukqjtM8+hXoWdVY3aflQeuUZ8L/ff9DXoZFGqnF21kXwvlOXVqtCxKEXIerZpHDRCmkm+HmSMMmOZkt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org; spf=pass smtp.mailfrom=tukaani.org; arc=none smtp.client-ip=84.34.166.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tukaani.org
-Received: from www25.zoner.fi (www25.zoner.fi [84.34.147.45])
-	by mailscanner01.zoner.fi (Postfix) with ESMTPS id 3CC4A438B7;
-	Wed, 24 Jul 2024 14:06:28 +0300 (EEST)
-Received: from mail.zoner.fi ([84.34.147.244])
-	by www25.zoner.fi with esmtp (Exim 4.97.1)
-	(envelope-from <lasse.collin@tukaani.org>)
-	id 1sWZpA-0000000DBUh-3EBh;
-	Wed, 24 Jul 2024 14:06:28 +0300
-From: Lasse Collin <lasse.collin@tukaani.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lasse Collin <lasse.collin@tukaani.org>,
-	Sam James <sam@gentoo.org>,
-	linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 17/16] xz: Remove XZ_EXTERN and extern from functions
-Date: Wed, 24 Jul 2024 14:05:41 +0300
-Message-ID: <20240724110544.16430-1-lasse.collin@tukaani.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240721133633.47721-1-lasse.collin@tukaani.org>
-References: <20240721133633.47721-1-lasse.collin@tukaani.org>
+	s=arc-20240116; t=1721821754; c=relaxed/simple;
+	bh=q5BNZZnYXCfz5BQs4aahSBIwit5DV28WbPMtKTqD8JI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQwx9YcNGE+1Xk6yObZhSKlhTBtZp96sYIPGHONXkZNPeJbZsrdqtFAg8dvBoiOQyvgXcRww9IJoKIqL3Lrm/0MURtrO8P65+CimxwrI+4sG9JrNJ+ecv4H7WRBC4NAm/zTg2TJ04Ye0Hzjn5+DoGv5/SO7dFqsRD0PE4SyzGa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=NGiOWrAu; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="NGiOWrAu"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-79f178351d4so342241985a.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 04:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721821751; x=1722426551; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2AZJKrk8iITWmBZL5VKywEjtBZAHwrNAU5Vz8WqNcz8=;
+        b=NGiOWrAuyPKKBkVypFAkC8EbtbMdPeKi+kyPu6ibaQgF3oJEtIW4rMEEayeqj8QGVH
+         WKiCxiZFwo90fsVrp629GvKXhbDsDRkCQfMftZ064sRcrMu1gmNsKjGR8eqEHssxu5xE
+         yU/lc19SOTbXixogxf8AvtvEptODA35uK5fPcJsMslfHAT9i3OVIRz5FlBf7wDTqBiZT
+         1rE/1UiPaCrGDhW1/gJXK/4D2Y31SI2M/2c+jP9Ds+LnKYEDOZtt5eQ325J8SYPjOV8V
+         vrnORsc7sTBrw7PChCvkDQwd1GFYxCguq3oyVbroFwGhAYH4qIAB7oO3gtBQSVnMggDr
+         4gIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721821751; x=1722426551;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2AZJKrk8iITWmBZL5VKywEjtBZAHwrNAU5Vz8WqNcz8=;
+        b=eEL8a7Hb3B8jXmZaDwwz6SxA8M9vw98Up6Ti/tAoI/PxW2gNtHr5a/ermGTAMCpA+k
+         tViRWQL9x2r/2rc/G+rFQ0ZdmmKv/YMakLq6aYqyPCCUH2bFH1b+XkWxmun0wo0XFFoe
+         EH1Y37MFD6AA5NLcxFOyEtJzS0AW3hzN/MEMikuztcRInVS7vHHzJUVOAbkretYEweZ9
+         O+aEI3+Juo3VmE8fS+OdWhxvmBJwqWDGgQkwzglbIgQo7KWgO5jdi66NjgIlQ8uixxxS
+         X/rrbOYP5QNHWaTRnV5PPBc1eszxK/l4p6ROajOMKA5AfumNH4+JG8eENz0ugqRAEe1E
+         Mvrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVo5C0gJh8wyHCF+6xmEpXaGGZD4ElGJoKFSyEN27dMzfmVBG1dWOF4aOjKTOcIhACgClz7DEuA5GlO/3E+RTVbUfAAtdxZwNuh
+X-Gm-Message-State: AOJu0YwBIREO8WGNljU9kNUq6Gwa9SzD/OiVkEFj5Y6R8HORehoyFnIq
+	P+Tgpd+AyiRJobbM3eRsfffB2YhqO5k2r13BjiYlD7/ao3XWp9PpOWiuBhKXjd0=
+X-Google-Smtp-Source: AGHT+IH+ncWONYNFlORvxZR9kiEz5v28cZwt8KEfLHZR4owEBgNh00LBs1VgQWphxGekAbR+pUmsXg==
+X-Received: by 2002:a05:620a:4548:b0:79f:8a7:eb87 with SMTP id af79cd13be357-7a1a1344844mr1567340085a.42.1721821750783;
+        Wed, 24 Jul 2024 04:49:10 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a19907a6b2sm571074685a.101.2024.07.24.04.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 04:49:10 -0700 (PDT)
+Date: Wed, 24 Jul 2024 07:49:05 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Waiman Long <longman@redhat.com>
+Cc: David Finkel <davidf@vimeo.com>, Muchun Song <muchun.song@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Message-ID: <20240724114905.GB389003@cmpxchg.org>
+References: <20240723233149.3226636-1-davidf@vimeo.com>
+ <20240723233149.3226636-2-davidf@vimeo.com>
+ <22a95c76-4e9e-482e-b95d-cb0f01971d98@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22a95c76-4e9e-482e-b95d-cb0f01971d98@redhat.com>
 
-XZ_EXTERN was used to make internal functions static in the preboot code.
-However, in other decompressors this hasn't been done. On x86-64, this
-makes no difference to the kernel image size.
+On Tue, Jul 23, 2024 at 09:55:19PM -0400, Waiman Long wrote:
+> Could you use the "-v <n>" option of git-format-patch to add a version 
+> number to the patch title? Without that, it can be confusing as to 
+> whether the patch is new or a resend of the previous one.
 
-Omit XZ_EXTERN and let some of the internal functions be extern in the
-preboot code. Omitting XZ_EXTERN from include/linux/xz.h fixes warnings
-in "make htmldocs" and makes the intradocument links to xz_dec functions
-work in Documentation/staging/xz.rst. The alternative would have been to
-add "XZ_EXTERN" to c_id_attributes in Documentation/conf.py but omitting
-XZ_EXTERN seemed cleaner.
++1
 
-Link: https://lore.kernel.org/lkml/20240723205437.3c0664b0@kaneli/
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Lasse Collin <lasse.collin@tukaani.org>
----
+> > @@ -775,6 +775,11 @@ struct cgroup_subsys {
+> >   
+> >   extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
+> >   
+> > +struct cgroup_of_peak {
+> > +	long			value;
+> > +	struct list_head	list;
+> > +};
+> The name "cgroup_of_peak" is kind of confusing. Maybe local_peak?
 
-Notes:
-    This touches xz_config.h in PowerPC boot code. I haven't tested it but
-    zlib's functions are extern in the same context, thus this should be
-    a safe change on PowerPC.
-    
-    This replaces the patch 8/16 ("docs: Add XZ_EXTERN to c_id_attributes"):
-    https://lore.kernel.org/lkml/20240721133633.47721-9-lasse.collin@tukaani.org/
+It's the peak associated with an 'of' (which is a known concept in
+cgroup code), and it pairs up nicely with of_peak(). I'd prefer
+keeping that over local_peak.
 
- Documentation/staging/xz.rst  |  3 ---
- arch/powerpc/boot/xz_config.h |  3 ---
- include/linux/xz.h            | 35 ++++++++++++-----------------------
- lib/decompress_unxz.c         |  1 -
- lib/xz/xz_crc32.c             |  4 ++--
- lib/xz/xz_dec_bcj.c           |  9 ++++-----
- lib/xz/xz_dec_lzma2.c         | 10 ++++------
- lib/xz/xz_dec_stream.c        |  8 ++++----
- lib/xz/xz_private.h           | 20 ++++++++------------
- 9 files changed, 34 insertions(+), 59 deletions(-)
+> > @@ -26,6 +26,7 @@ struct page_counter {
+> >   	atomic_long_t children_low_usage;
+> >   
+> >   	unsigned long watermark;
+> > +	unsigned long local_watermark; /* track min of fd-local resets */
+> track "min"? I thought it is used to track local maximum after a reset.
 
-diff --git a/Documentation/staging/xz.rst b/Documentation/staging/xz.rst
-index e1054e9a8e65..6953a189e5f2 100644
---- a/Documentation/staging/xz.rst
-+++ b/Documentation/staging/xz.rst
-@@ -95,7 +95,4 @@ xz_dec API
- 
- This is available with ``#include <linux/xz.h>``.
- 
--``XZ_EXTERN`` is a macro used in the preboot code. Ignore it when
--reading this documentation.
--
- .. kernel-doc:: include/linux/xz.h
-diff --git a/arch/powerpc/boot/xz_config.h b/arch/powerpc/boot/xz_config.h
-index ebfadd39e192..9506a96ebbcc 100644
---- a/arch/powerpc/boot/xz_config.h
-+++ b/arch/powerpc/boot/xz_config.h
-@@ -50,11 +50,8 @@ static inline void put_unaligned_be32(u32 val, void *p)
- /* prevent the inclusion of the xz-preboot MM headers */
- #define DECOMPR_MM_H
- #define memmove memmove
--#define XZ_EXTERN static
- 
- /* xz.h needs to be included directly since we need enum xz_mode */
- #include "../../../include/linux/xz.h"
- 
--#undef XZ_EXTERN
--
- #endif
-diff --git a/include/linux/xz.h b/include/linux/xz.h
-index 701d62c02b9a..58ae1d746c6f 100644
---- a/include/linux/xz.h
-+++ b/include/linux/xz.h
-@@ -18,11 +18,6 @@
- #	include <stdint.h>
- #endif
- 
--/* In Linux, this is used to make extern functions static when needed. */
--#ifndef XZ_EXTERN
--#	define XZ_EXTERN extern
--#endif
--
- /**
-  * enum xz_mode - Operation mode
-  *
-@@ -190,7 +185,7 @@ struct xz_dec;
-  * ready to be used with xz_dec_run(). If memory allocation fails,
-  * xz_dec_init() returns NULL.
-  */
--XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
-+struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
- 
- /**
-  * xz_dec_run() - Run the XZ decoder
-@@ -210,7 +205,7 @@ XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
-  * get that amount valid data from the beginning of the stream. You must use
-  * the multi-call decoder if you don't want to uncompress the whole stream.
-  */
--XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
-+enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
- 
- /**
-  * xz_dec_reset() - Reset an already allocated decoder state
-@@ -223,14 +218,14 @@ XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
-  * xz_dec_run(). Thus, explicit call to xz_dec_reset() is useful only in
-  * multi-call mode.
-  */
--XZ_EXTERN void xz_dec_reset(struct xz_dec *s);
-+void xz_dec_reset(struct xz_dec *s);
- 
- /**
-  * xz_dec_end() - Free the memory allocated for the decoder state
-  * @s:          Decoder state allocated using xz_dec_init(). If s is NULL,
-  *              this function does nothing.
-  */
--XZ_EXTERN void xz_dec_end(struct xz_dec *s);
-+void xz_dec_end(struct xz_dec *s);
- 
- /**
-  * DOC: MicroLZMA decompressor
-@@ -244,10 +239,6 @@ XZ_EXTERN void xz_dec_end(struct xz_dec *s);
-  * 3/0/2, the first byte is 0xA2. This way the first byte can never be 0x00.
-  * Just like with LZMA2, lc + lp <= 4 must be true. The LZMA end-of-stream
-  * marker must not be used. The unused values are reserved for future use.
-- *
-- * These functions aren't used or available in preboot code and thus aren't
-- * marked with XZ_EXTERN. This avoids warnings about static functions that
-- * are never defined.
-  */
- 
- /*
-@@ -272,8 +263,8 @@ struct xz_dec_microlzma;
-  * struct xz_dec_microlzma. If memory allocation fails or
-  * dict_size is invalid, NULL is returned.
-  */
--extern struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
--						       uint32_t dict_size);
-+struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
-+						uint32_t dict_size);
- 
- /**
-  * xz_dec_microlzma_reset() - Reset the MicroLZMA decoder state
-@@ -289,9 +280,8 @@ extern struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
-  *              requiring stdbool.h. This should normally be set to true.
-  *              When this is set to false, error detection is weaker.
-  */
--extern void xz_dec_microlzma_reset(struct xz_dec_microlzma *s,
--				   uint32_t comp_size, uint32_t uncomp_size,
--				   int uncomp_size_is_exact);
-+void xz_dec_microlzma_reset(struct xz_dec_microlzma *s, uint32_t comp_size,
-+			    uint32_t uncomp_size, int uncomp_size_is_exact);
- 
- /**
-  * xz_dec_microlzma_run() - Run the MicroLZMA decoder
-@@ -329,15 +319,14 @@ extern void xz_dec_microlzma_reset(struct xz_dec_microlzma *s,
-  * may be changed normally like with XZ_PREALLOC. This way input data can be
-  * provided from non-contiguous memory.
-  */
--extern enum xz_ret xz_dec_microlzma_run(struct xz_dec_microlzma *s,
--					struct xz_buf *b);
-+enum xz_ret xz_dec_microlzma_run(struct xz_dec_microlzma *s, struct xz_buf *b);
- 
- /**
-  * xz_dec_microlzma_end() - Free the memory allocated for the decoder state
-  * @s:          Decoder state allocated using xz_dec_microlzma_alloc().
-  *              If s is NULL, this function does nothing.
-  */
--extern void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
-+void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
- 
- /*
-  * Standalone build (userspace build or in-kernel build for boot time use)
-@@ -358,13 +347,13 @@ extern void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
-  * This must be called before any other xz_* function to initialize
-  * the CRC32 lookup table.
-  */
--XZ_EXTERN void xz_crc32_init(void);
-+void xz_crc32_init(void);
- 
- /*
-  * Update CRC32 value using the polynomial from IEEE-802.3. To start a new
-  * calculation, the third argument must be zero. To continue the calculation,
-  * the previously returned value is passed as the third argument.
-  */
--XZ_EXTERN uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc);
-+uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc);
- #endif
- #endif
-diff --git a/lib/decompress_unxz.c b/lib/decompress_unxz.c
-index cae00395d7a6..32138bb8ef77 100644
---- a/lib/decompress_unxz.c
-+++ b/lib/decompress_unxz.c
-@@ -107,7 +107,6 @@
- #ifdef __KERNEL__
- #	include <linux/decompress/mm.h>
- #endif
--#define XZ_EXTERN STATIC
- 
- #ifndef XZ_PREBOOT
- #	include <linux/slab.h>
-diff --git a/lib/xz/xz_crc32.c b/lib/xz/xz_crc32.c
-index effdf34ec48d..6a7906a328ba 100644
---- a/lib/xz/xz_crc32.c
-+++ b/lib/xz/xz_crc32.c
-@@ -26,7 +26,7 @@
- 
- STATIC_RW_DATA uint32_t xz_crc32_table[256];
- 
--XZ_EXTERN void xz_crc32_init(void)
-+void xz_crc32_init(void)
- {
- 	const uint32_t poly = 0xEDB88320;
- 
-@@ -45,7 +45,7 @@ XZ_EXTERN void xz_crc32_init(void)
- 	return;
- }
- 
--XZ_EXTERN uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc)
-+uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc)
- {
- 	crc = ~crc;
- 
-diff --git a/lib/xz/xz_dec_bcj.c b/lib/xz/xz_dec_bcj.c
-index 42d7f268726f..8237db17eee3 100644
---- a/lib/xz/xz_dec_bcj.c
-+++ b/lib/xz/xz_dec_bcj.c
-@@ -572,9 +572,8 @@ static void bcj_flush(struct xz_dec_bcj *s, struct xz_buf *b)
-  * data in chunks of 1-16 bytes. To hide this issue, this function does
-  * some buffering.
-  */
--XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
--				     struct xz_dec_lzma2 *lzma2,
--				     struct xz_buf *b)
-+enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s, struct xz_dec_lzma2 *lzma2,
-+			   struct xz_buf *b)
- {
- 	size_t out_start;
- 
-@@ -682,7 +681,7 @@ XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
- 	return s->ret;
- }
- 
--XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
-+struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
- {
- 	struct xz_dec_bcj *s = kmalloc(sizeof(*s), GFP_KERNEL);
- 	if (s != NULL)
-@@ -691,7 +690,7 @@ XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
- 	return s;
- }
- 
--XZ_EXTERN enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id)
-+enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id)
- {
- 	switch (id) {
- #ifdef XZ_DEC_X86
-diff --git a/lib/xz/xz_dec_lzma2.c b/lib/xz/xz_dec_lzma2.c
-index 613939f5dd6c..83bb66b6016d 100644
---- a/lib/xz/xz_dec_lzma2.c
-+++ b/lib/xz/xz_dec_lzma2.c
-@@ -960,8 +960,7 @@ static bool lzma2_lzma(struct xz_dec_lzma2 *s, struct xz_buf *b)
-  * Take care of the LZMA2 control layer, and forward the job of actual LZMA
-  * decoding or copying of uncompressed chunks to other functions.
-  */
--XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
--				       struct xz_buf *b)
-+enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s, struct xz_buf *b)
- {
- 	uint32_t tmp;
- 
-@@ -1137,8 +1136,7 @@ XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
- 	return XZ_OK;
- }
- 
--XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
--						   uint32_t dict_max)
-+struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode, uint32_t dict_max)
- {
- 	struct xz_dec_lzma2 *s = kmalloc(sizeof(*s), GFP_KERNEL);
- 	if (s == NULL)
-@@ -1161,7 +1159,7 @@ XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
- 	return s;
- }
- 
--XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
-+enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
- {
- 	/* This limits dictionary size to 3 GiB to keep parsing simpler. */
- 	if (props > 39)
-@@ -1197,7 +1195,7 @@ XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
- 	return XZ_OK;
- }
- 
--XZ_EXTERN void xz_dec_lzma2_end(struct xz_dec_lzma2 *s)
-+void xz_dec_lzma2_end(struct xz_dec_lzma2 *s)
- {
- 	if (DEC_IS_MULTI(s->dict.mode))
- 		vfree(s->dict.buf);
-diff --git a/lib/xz/xz_dec_stream.c b/lib/xz/xz_dec_stream.c
-index 0058406ccd17..f9d003684d56 100644
---- a/lib/xz/xz_dec_stream.c
-+++ b/lib/xz/xz_dec_stream.c
-@@ -746,7 +746,7 @@ static enum xz_ret dec_main(struct xz_dec *s, struct xz_buf *b)
-  * actually succeeds (that's the price to pay of using the output buffer as
-  * the workspace).
-  */
--XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
-+enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
- {
- 	size_t in_start;
- 	size_t out_start;
-@@ -782,7 +782,7 @@ XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
- 	return ret;
- }
- 
--XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
-+struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
- {
- 	struct xz_dec *s = kmalloc(sizeof(*s), GFP_KERNEL);
- 	if (s == NULL)
-@@ -812,7 +812,7 @@ XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
- 	return NULL;
- }
- 
--XZ_EXTERN void xz_dec_reset(struct xz_dec *s)
-+void xz_dec_reset(struct xz_dec *s)
- {
- 	s->sequence = SEQ_STREAM_HEADER;
- 	s->allow_buf_error = false;
-@@ -824,7 +824,7 @@ XZ_EXTERN void xz_dec_reset(struct xz_dec *s)
- 	s->temp.size = STREAM_HEADER_SIZE;
- }
- 
--XZ_EXTERN void xz_dec_end(struct xz_dec *s)
-+void xz_dec_end(struct xz_dec *s)
- {
- 	if (s != NULL) {
- 		xz_dec_lzma2_end(s->lzma2);
-diff --git a/lib/xz/xz_private.h b/lib/xz/xz_private.h
-index a8b1cbe8d21d..5f1294a1408c 100644
---- a/lib/xz/xz_private.h
-+++ b/lib/xz/xz_private.h
-@@ -115,8 +115,7 @@
-  * Allocate memory for LZMA2 decoder. xz_dec_lzma2_reset() must be used
-  * before calling xz_dec_lzma2_run().
-  */
--XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
--						   uint32_t dict_max);
-+struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode, uint32_t dict_max);
- 
- /*
-  * Decode the LZMA2 properties (one byte) and reset the decoder. Return
-@@ -124,22 +123,20 @@ XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
-  * big enough, and XZ_OPTIONS_ERROR if props indicates something that this
-  * decoder doesn't support.
-  */
--XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s,
--					 uint8_t props);
-+enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props);
- 
- /* Decode raw LZMA2 stream from b->in to b->out. */
--XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
--				       struct xz_buf *b);
-+enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s, struct xz_buf *b);
- 
- /* Free the memory allocated for the LZMA2 decoder. */
--XZ_EXTERN void xz_dec_lzma2_end(struct xz_dec_lzma2 *s);
-+void xz_dec_lzma2_end(struct xz_dec_lzma2 *s);
- 
- #ifdef XZ_DEC_BCJ
- /*
-  * Allocate memory for BCJ decoders. xz_dec_bcj_reset() must be used before
-  * calling xz_dec_bcj_run().
-  */
--XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
-+struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
- 
- /*
-  * Decode the Filter ID of a BCJ filter. This implementation doesn't
-@@ -147,16 +144,15 @@ XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
-  * is needed. Returns XZ_OK if the given Filter ID is supported.
-  * Otherwise XZ_OPTIONS_ERROR is returned.
-  */
--XZ_EXTERN enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id);
-+enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id);
- 
- /*
-  * Decode raw BCJ + LZMA2 stream. This must be used only if there actually is
-  * a BCJ filter in the chain. If the chain has only LZMA2, xz_dec_lzma2_run()
-  * must be called directly.
-  */
--XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
--				     struct xz_dec_lzma2 *lzma2,
--				     struct xz_buf *b);
-+enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s, struct xz_dec_lzma2 *lzma2,
-+			   struct xz_buf *b);
- 
- /* Free the memory allocated for the BCJ filters. */
- #define xz_dec_bcj_end(s) kfree(s)
--- 
-2.45.2
+Yeah, the comment doesn't sound quite right.
 
+However, I think we'd be hard-pressed to explain correctly and
+comprehensively what this thing does in <40 characters.
+
+I'd just remove the comment tbh.
+
+> > @@ -78,7 +79,10 @@ int page_counter_memparse(const char *buf, const char *max,
+> >   
+> >   static inline void page_counter_reset_watermark(struct page_counter *counter)
+> >   {
+> > -	counter->watermark = page_counter_read(counter);
+> > +	unsigned long usage = page_counter_read(counter);
+> > +
+> > +	counter->watermark = usage;
+> > +	counter->local_watermark = usage;
+> >   }
+> >   
+> 
+> Could you set the local_watermark first before setting watermark? There 
+> is a very small time window that the invariant "local_watermark <= 
+> watermark" is not true.
+
+Does it matter? Only cgroup1 supports global resets; only cgroup2
+supports local peaks watching. This doesn't add anything to the race
+that already exists between reset and global watermark update on cg1.
+
+> > @@ -3950,12 +3955,90 @@ static u64 memory_current_read(struct cgroup_subsys_state *css,
+> >   	return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
+> >   }
+> >   
+> > -static u64 memory_peak_read(struct cgroup_subsys_state *css,
+> > -			    struct cftype *cft)
+> > +static int peak_show(struct seq_file *sf, void *v, struct page_counter *pc)
+> >   {
+> > -	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+> > +	struct cgroup_of_peak *ofp = of_peak(sf->private);
+> > +	s64 fd_peak = ofp->value, peak;
+> > +
+> > +	/* User wants global or local peak? */
+> > +	if (fd_peak == -1)
+> > +		peak = pc->watermark;
+> > +	else
+> > +		peak = max(fd_peak, (s64)pc->local_watermark);
+> Should you save the local_watermark value into ofp->value if 
+> local_watermark is bigger? This will ensure that each successive read of 
+> the fd is monotonically increasing. Otherwise the value may go up or 
+> down if there are multiple resets in between.
+
+The reset saves local_watermark into ofp->value if it's bigger..?
+
+I do see another problem, though. The compiler might issue multiple
+reads to ofp->value in arbitrary order. We could print max(-1, ...)
+which is nonsense. Saving ofp->value into a local variable is the
+right idea, but the compiler might still issue two reads anyway. It
+needs a READ_ONCE() to force a single read.
+
+I'd use unsigned long for fd_peak. This way the "specialness" is on
+the -1UL comparison. The max() must be between two positive numbers,
+so the (s64) there is confusing.
