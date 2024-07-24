@@ -1,1198 +1,355 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E678BB67E
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C410BB67E
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721785847; cv=none; b=UWOk/XeFHmyfMa3NuPXbSb41fhnBvYaPClMOr7mte3xwNILcOMPTVLAPAoLBmgsacZzQtEN8epJlanilTlWjQL8G7sb5Ev+uSMOlxyreDQyVsr/PwGXstKKCdVjHPg9/lKUvyJ4mBe7ybHiOnDAY91Y0a+DHcK2SbUSQ0EFFhbE=
+	t=1721786137; cv=none; b=ioielgqRsHtzwxlx2kDZg34AWOWyI3gZ9BQ50+ifP90N2LA/bIWqi6rEHsGogVCTW5xizTzheuUyCyNKiu/tKbb530S+s8EsgmlbwOEBNavRA9MwMuvSW9eVrRQZw26SSXiW77IcuiWrdl4UVdi++hMT/k0QNPh7kRtWGEo5Eo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721785847; c=relaxed/simple;
-	bh=zRS+eO+cKkeXfWKvwCkI2PO5V6D/NkMJs+1V6l46+xo=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=mgKlo+WA0kvGgMvMGTb047tUOX1LSMOJ90PBxFBtx8b5Y8NgD1H0jH36mn7UJlHzVZJqHxFQjEM8ohPhD4z7KG5NgmP8Rp4VeidmMWT0pdk0swg4rI4UpgrqAB+bQtD5hBoVa5NPL3vADyffI4HE01hRn1RiGokwOKwHjpVAwWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=POqf93El; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1721786137; c=relaxed/simple;
+	bh=YSV3AELW940LblRqbQXsJeV1QEzWEgmgn7ba9H+77h4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rKQFzV7MvTP0fv1efxxlrTRz2IWB5srkB0w8AN+wcr/9ePJt6+V7hhDBFSl20PdS7EqsDzfm4AMT4Nr2JnNeQPKg7BFDC4NuvqGX3JOIlOOvbcrzXWdcM+ZP8Xev9gR7jdfUX/68Mgwd7qeaQgc2duF9RVspoYHsGLHAXCKd/lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GMLJ9w7H; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="POqf93El"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GMLJ9w7H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721786134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K5OU1tlVEf37yozw1Jzdh4onEtDz5GT0HzAdLDY6Fx4=;
+	b=GMLJ9w7HYNE1WA/Ihl3pUrRhRLLWfKx3xRR0X3LwB8J6Ft0kMwpF+2RPV3QmMwuIm/bFE4
+	CuQxEY7kQXw91f9yIh8FkrZotdHR6b6wz5G8gkOQNrTLFtcXyaRpzTWVg+wfVyZbwawssn
+	x9hQUMMFe01pntDhMl07M3uQ/Qu58hU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-342-E8C6fW20MqeJSXc84qJx1g-1; Tue,
+ 23 Jul 2024 21:55:30 -0400
+X-MC-Unique: E8C6fW20MqeJSXc84qJx1g-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1466E1955EA7;
+	Wed, 24 Jul 2024 01:55:24 +0000 (UTC)
+Received: from [10.22.33.107] (unknown [10.22.33.107])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5239F1955DCD;
+	Wed, 24 Jul 2024 01:55:20 +0000 (UTC)
+Message-ID: <22a95c76-4e9e-482e-b95d-cb0f01971d98@redhat.com>
+Date: Tue, 23 Jul 2024 21:55:19 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1721785841;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6hiDB5EthwLUOsnlSaUBBIpBFgJY+HIEUij2SA8Fn1Q=;
-	b=POqf93ElgOZ6FWm75rLFdJ4JAIekrvAQSWQS1uhZWbzc8srnx95IWzKmI5Xfhz/HDR41PB
-	Y2uKsQrUbsj2K+rTIV+16YaxO6Zn7vklQftxjiM+3uDGHtPneExO2JM0MX5iy83p7GjAt2
-	jVXHJwSS9eRB9ByXm45+Lrs1F3x+Sm4=
-Date: Wed, 24 Jul 2024 01:50:38 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: si.yanteng@linux.dev
-Message-ID: <3d19ed86f0d18fa77c6ce1ce3d4f16bb68da8938@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] docs/zh_CN: Add dev-tools/kcsan Chinese translation
-To: "Haoyang Liu" <tttturtleruss@hust.edu.cn>, "Alex Shi" <alexs@kernel.org>,
- "Yanteng Si" <siyanteng@loongson.cn>, "Jonathan Corbet" <corbet@lwn.net>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
- <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>, "Justin
- Stitt" <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, "Haoyang Liu"
- <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-In-Reply-To: <20240720090828.363331-1-tttturtleruss@hust.edu.cn>
-References: <20240720090828.363331-1-tttturtleruss@hust.edu.cn>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: David Finkel <davidf@vimeo.com>, Muchun Song <muchun.song@linux.dev>,
+ Tejun Heo <tj@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>,
+ Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org
+References: <20240723233149.3226636-1-davidf@vimeo.com>
+ <20240723233149.3226636-2-davidf@vimeo.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20240723233149.3226636-2-davidf@vimeo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-2024=E5=B9=B47=E6=9C=8820=E6=97=A5 17:08, "Haoyang Liu" <tttturtleruss@hu=
-st.edu.cn> =E5=86=99=E5=88=B0:
-
-Hi Haoyang
-
->=20
->=20Translate dev-tools/kcsan into Chinese.
-Let's add a commit tag, then the checktransupdate.py can recognize it.
-
-
->=20
->=20Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->=20
-Remove=20the blankline, and have you ever run checkpatch.pl?
-
+On 7/23/24 19:31, David Finkel wrote:
+> Other mechanisms for querying the peak memory usage of either a process
+> or v1 memory cgroup allow for resetting the high watermark. Restore
+> parity with those mechanisms, but with a less racy API.
+>
+> For example:
+>   - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
+>     the high watermark.
+>   - writing "5" to the clear_refs pseudo-file in a processes's proc
+>     directory resets the peak RSS.
+>
+> This change is an evolution of a previous patch, which mostly copied the
+> cgroup v1 behavior, however, there were concerns about races/ownership
+> issues with a global reset, so instead this change makes the reset
+> filedescriptor-local.
+>
+> Writing a specific string to the memory.peak and memory.swap.peak
+> pseudo-files reset the high watermark to the current usage for
+> subsequent reads through that same fd.
+>
+> Notably, following Johannes's suggestion, this implementation moves the
+> O(fds that have written) behavior onto the fd write(2) path. Instead, on
+> the page-allocation path, we simply add one additional watermark to
+> conditionally bump per-hierarchy level in the page-counter.
+>
+> Additionally, this takes Longman's suggestion of nesting the
+> page-charging-path checks for the two watermarks to reduce the number of
+> common-case comparisons.
+>
+> This behavior is particularly useful for work scheduling systems that
+> need to track memory usage of worker processes/cgroups per-work-item.
+> Since memory can't be squeezed like CPU can (the OOM-killer has
+> opinions), these systems need to track the peak memory usage to compute
+> system/container fullness when binpacking workitems.
+>
+> Most notably, Vimeo's use-case involves a system that's doing global
+> binpacking across many Kubernetes pods/containers, and while we can use
+> PSI for some local decisions about overload, we strive to avoid packing
+> workloads too tightly in the first place. To facilitate this, we track
+> the peak memory usage. However, since we run with long-lived workers (to
+> amortize startup costs) we need a way to track the high watermark while
+> a work-item is executing. Polling runs the risk of missing short spikes
+> that last for timescales below the polling interval, and peak memory
+> tracking at the cgroup level is otherwise perfect for this use-case.
+>
+> As this data is used to ensure that binpacked work ends up with
+> sufficient headroom, this use-case mostly avoids the inaccuracies
+> surrounding reclaimable memory.
+>
+> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+> Suggested-by: Waiman Long <longman@redhat.com>
+> Signed-off-by: David Finkel <davidf@vimeo.com>
 > ---
->=20
->=20 .../translations/zh_CN/dev-tools/index.rst | 2 +-
->=20
->=20 .../translations/zh_CN/dev-tools/kcsan.rst | 321 ++++++++++++++++++
->=20
->=20 2 files changed, 322 insertions(+), 1 deletion(-)
->=20
->=20 create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.=
-rst
->=20
->=20diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/D=
-ocumentation/translations/zh_CN/dev-tools/index.rst
->=20
->=20index c540e4a7d5db..4cc94d288157 100644
->=20
->=20--- a/Documentation/translations/zh_CN/dev-tools/index.rst
->=20
->=20+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
->=20
->=20@@ -23,6 +23,7 @@ Documentation/translations/zh_CN/dev-tools/testing-=
-overview.rst
->=20
->=20 kcov
->=20
->=20 gcov
->=20
->=20 kasan
->=20
->=20+ kcsan
->=20
->=20 ubsan
->=20
->=20 kmemleak
->=20
->=20 gdb-kernel-debugging
->=20
->=20@@ -32,7 +33,6 @@ Todolist:
->=20
->=20 - checkpatch
->=20
->=20 - coccinelle
->=20
->=20 - kmsan
->=20
->=20- - kcsan
->=20
->=20 - kfence
->=20
->=20 - kgdb
->=20
->=20 - kselftest
->=20
->=20diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/D=
-ocumentation/translations/zh_CN/dev-tools/kcsan.rst
->=20
->=20new file mode 100644
->=20
->=20index 000000000000..1971f87eeb18
->=20
->=20--- /dev/null
->=20
->=20+++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
->=20
->=20@@ -0,0 +1,321 @@
->=20
->=20+.. SPDX-License-Identifier: GPL-2.0
->=20
->=20+
->=20
->=20+.. include:: ../disclaimer-zh_CN.rst
->=20
->=20+
->=20
->=20+:Original: Documentation/dev-tools/kcsan.rst
->=20
->=20+:Translator: =E5=88=98=E6=B5=A9=E9=98=B3 Haoyang Liu <tttturtleruss@=
-hust.edu.cn>
->=20
->=20+
->=20
->=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82 =EF=
-=BC=88KCSAN=EF=BC=89
->=20
->=20+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-Please trim the =E2=80=9C=3D=E2=80=9D length. Include similar below.
->=20
->=20+
->=20
->=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82=EF=
-=BC=88KCSAN=EF=BC=89=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8A=A8=E6=80=81=E7=AB=
-=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E5=99=A8=EF=BC=8C=E4=BE=9D=E8=B5=96=E7=BC=
-=96=E8=AF=91=E6=97=B6=E6=8F=92=E6=A1=A9=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=BD=
-=BF=E7=94=A8=E5=9F=BA=E4=BA=8E=E8=A7=82=E5=AF=9F
->=20
->=20+=E7=82=B9=E7=9A=84=E9=87=87=E6=A0=B7=E6=96=B9=E6=B3=95=E6=9D=A5=E6=
-=A3=80=E6=B5=8B=E7=AB=9E=E4=BA=89=E3=80=82KCSAN =E7=9A=84=E4=B8=BB=E8=A6=
-=81=E7=9B=AE=E7=9A=84=E6=98=AF=E6=A3=80=E6=B5=8B `=E6=95=B0=E6=8D=AE=E7=
-=AB=9E=E4=BA=89`_=E3=80=82
->=20
->=20+
->=20
->=20+=E4=BD=BF=E7=94=A8
->=20
->=20+----
->=20
->=20+
->=20
->=20+KCSAN =E5=8F=97 GCC =E5=92=8C Clang =E6=94=AF=E6=8C=81=E3=80=82=E4=
-=BD=BF=E7=94=A8 GCC =E9=9C=80=E8=A6=81=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=
-=9B=B4=E9=AB=98=EF=BC=8C=E4=BD=BF=E7=94=A8 Clang =E4=B9=9F=E9=9C=80=E8=A6=
-=81
->=20
->=20+=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=9B=B4=E9=AB=98=E3=80=82
->=20
->=20+
->=20
->=20+=E4=B8=BA=E4=BA=86=E5=90=AF=E7=94=A8 KCSAN=EF=BC=8C=E7=94=A8=E5=A6=
-=82=E4=B8=8B=E5=8F=82=E6=95=B0=E9=85=8D=E7=BD=AE=E5=86=85=E6=A0=B8::
->=20
->=20+
->=20
->=20+ CONFIG_KCSAN =3D y
->=20
->=20+
->=20
->=20+KCSAN =E6=8F=90=E4=BE=9B=E4=BA=86=E5=87=A0=E4=B8=AA=E5=85=B6=E4=BB=
-=96=E7=9A=84=E9=85=8D=E7=BD=AE=E9=80=89=E9=A1=B9=E6=9D=A5=E8=87=AA=E5=AE=
-=9A=E4=B9=89=E8=A1=8C=E4=B8=BA=EF=BC=88=E8=A7=81 ``lib/Kconfig.kcsan`` =
-=E4=B8=AD=E7=9A=84=E5=90=84=E8=87=AA=E7=9A=84
->=20
->=20+=E5=B8=AE=E5=8A=A9=E6=96=87=E6=A1=A3=E4=BB=A5=E8=8E=B7=E5=8F=96=E6=
-=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+=E9=94=99=E8=AF=AF=E6=8A=A5=E5=91=8A
->=20
->=20+~~~~~~~~~~
->=20
->=20+
->=20
->=20+=E4=B8=80=E4=B8=AA=E5=85=B8=E5=9E=8B=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
-=BA=89=E7=9A=84=E6=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
->=20
->=20+
->=20
->=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
->=20+ BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
->=20
->=20+
->=20
->=20+ write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
->=20
->=20+ test_kernel_write+0x1d/0x30
->=20
->=20+ access_thread+0x89/0xd0
->=20
->=20+ kthread+0x23e/0x260
->=20
->=20+ ret_from_fork+0x22/0x30
->=20
->=20+
->=20
->=20+ read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
->=20
->=20+ test_kernel_read+0x10/0x20
->=20
->=20+ access_thread+0x89/0xd0
->=20
->=20+ kthread+0x23e/0x260
->=20
->=20+ ret_from_fork+0x22/0x30
->=20
->=20+
->=20
->=20+ value changed: 0x00000000000009a6 -> 0x00000000000009b2
->=20
->=20+
->=20
->=20+ Reported by Kernel Concurrency Sanitizer on:
->=20
->=20+ CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->=20
->=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
-2 04/01/2014
->=20
->=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
->=20+
->=20
->=20+=E6=8A=A5=E5=91=8A=E7=9A=84=E5=A4=B4=E9=83=A8=E6=8F=90=E4=BE=9B=E4=
-=BA=86=E4=B8=80=E4=B8=AA=E5=85=B3=E4=BA=8E=E7=AB=9E=E4=BA=89=E4=B8=AD=E6=
-=B6=89=E5=8F=8A=E5=88=B0=E7=9A=84=E5=87=BD=E6=95=B0=E7=9A=84=E7=AE=80=E7=
-=9F=AD=E6=80=BB=E7=BB=93=E3=80=82=E9=9A=8F=E5=90=8E=E6=98=AF=E7=AB=9E=E4=
-=BA=89=E4=B8=AD=E7=9A=84=E4=B8=A4=E4=B8=AA=E7=BA=BF=E7=A8=8B=E7=9A=84
->=20
->=20+=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=92=8C=E5=A0=86=E6=A0=88=E4=
-=BF=A1=E6=81=AF=E3=80=82=E5=A6=82=E6=9E=9C KCSAN =E5=8F=91=E7=8E=B0=E4=BA=
-=86=E4=B8=80=E4=B8=AA=E5=80=BC=E7=9A=84=E5=8F=98=E5=8C=96=EF=BC=8C=E9=82=
-=A3=E4=B9=88=E9=82=A3=E4=B8=AA=E5=80=BC=E7=9A=84=E6=97=A7=E5=80=BC=E5=92=
-=8C=E6=96=B0=E5=80=BC=E4=BC=9A=E5=9C=A8
->=20
->=20+=E2=80=9Cvalue changed=E2=80=9D=E8=BF=99=E4=B8=80=E8=A1=8C=E5=8D=95=
-=E7=8B=AC=E6=98=BE=E7=A4=BA=E3=80=82
->=20
->=20+
->=20
->=20+=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=B8=8D=E5=A4=AA=E5=B8=B8=E8=A7=81=E7=
-=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=
-=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
->=20
->=20+
->=20
->=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
->=20+ BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
->=20
->=20+
->=20
->=20+ race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes =
-by task 515 on cpu 2:
->=20
->=20+ test_kernel_rmw_array+0x71/0xd0
->=20
->=20+ access_thread+0x89/0xd0
->=20
->=20+ kthread+0x23e/0x260
->=20
->=20+ ret_from_fork+0x22/0x30
->=20
->=20+
->=20
->=20+ value changed: 0x0000000000002328 -> 0x0000000000002329
->=20
->=20+
->=20
->=20+ Reported by Kernel Concurrency Sanitizer on:
->=20
->=20+ CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->=20
->=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
-2 04/01/2014
->=20
->=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
->=20+
->=20
->=20+=E8=BF=99=E4=B8=AA=E6=8A=A5=E5=91=8A=E6=98=AF=E5=BD=93=E5=8F=A6=E4=
-=B8=80=E4=B8=AA=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=8D=E5=8F=AF=E8=
-=83=BD=E8=A2=AB=E5=8F=91=E7=8E=B0=EF=BC=8C=E4=BD=86=E6=98=AF=E5=8F=AF=E4=
-=BB=A5=E4=BB=8E=E8=A7=82=E6=B5=8B=E7=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=
-=9D=80=E7=9A=84=E5=80=BC=E6=94=B9=E5=8F=98=E8=80=8C=E6=8E=A8=E6=96=AD
->=20
->=20+=E5=87=BA=E6=9D=A5=E7=9A=84=E6=97=B6=E5=80=99=E7=94=9F=E6=88=90=E7=
-=9A=84=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E6=80=BB=E6=98=AF=E4=
-=BC=9A=E5=B8=A6=E6=9C=89=E2=80=9Cvalue changed=E2=80=9D=E8=A1=8C=E3=80=82=
-=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E7=9A=84=E5=87=BA=E7=8E=B0=E9=80=9A=
-=E5=B8=B8=E6=98=AF=E5=9B=A0
->=20
->=20+=E4=B8=BA=E5=9C=A8=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=AD=E6=
-=B2=A1=E6=9C=89=E6=8F=92=E6=A1=A9=EF=BC=8C=E4=B9=9F=E5=8F=AF=E8=83=BD=E6=
-=98=AF=E5=9B=A0=E4=B8=BA=E5=85=B6=E4=BB=96=E5=8E=9F=E5=9B=A0=EF=BC=8C=E6=
-=AF=94=E5=A6=82 DMA =E8=AE=BF=E9=97=AE=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=
-=A5=E5=91=8A=E5=8F=AA=E4=BC=9A=E5=9C=A8
->=20
->=20+=E8=AE=BE=E7=BD=AE=E4=BA=86=E5=86=85=E6=A0=B8=E5=8F=82=E6=95=B0 ``CO=
-NFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=3Dy`` =E6=97=B6=E6=89=8D=E4=BC=9A=
-=E5=87=BA=E7=8E=B0=EF=BC=8C=E8=80=8C=E8=BF=99
->=20
->=20+=E4=B8=AA=E5=8F=82=E6=95=B0=E6=98=AF=E9=BB=98=E8=AE=A4=E5=90=AF=E7=
-=94=A8=E7=9A=84=E3=80=82
->=20
->=20+
->=20
->=20+=E9=80=89=E6=8B=A9=E6=80=A7=E5=88=86=E6=9E=90
->=20
->=20+~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=BA=9B=E7=89=B9=E5=AE=9A=E7=9A=84=E8=
-=AE=BF=E9=97=AE=EF=BC=8C=E5=87=BD=E6=95=B0=EF=BC=8C=E7=BC=96=E8=AF=91=E5=
-=8D=95=E5=85=83=E6=88=96=E8=80=85=E6=95=B4=E4=B8=AA=E5=AD=90=E7=B3=BB=E7=
-=BB=9F=EF=BC=8C=E5=8F=AF=E8=83=BD=E9=9C=80=E8=A6=81=E7=A6=81=E7=94=A8=E6=
-=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E3=80=82
->=20
->=20+=E5=AF=B9=E4=BA=8E=E9=9D=99=E6=80=81=E9=BB=91=E5=90=8D=E5=8D=95=EF=
-=BC=8C=E6=9C=89=E5=A6=82=E4=B8=8B=E5=8F=AF=E7=94=A8=E7=9A=84=E5=8F=82=E6=
-=95=B0=EF=BC=9A
->=20
->=20+
->=20
->=20+* KCSAN =E6=94=AF=E6=8C=81=E4=BD=BF=E7=94=A8 ``data_race(expr)`` =E6=
-=B3=A8=E8=A7=A3=EF=BC=8C=E8=BF=99=E4=B8=AA=E6=B3=A8=E8=A7=A3=E5=91=8A=E8=
-=AF=89 KCSAN =E4=BB=BB=E4=BD=95=E7=94=B1=E8=AE=BF=E9=97=AE
->=20
->=20+ ``expr`` =E6=89=80=E5=BC=95=E8=B5=B7=E7=9A=84=E6=95=B0=E6=8D=AE=E7=
-=AB=9E=E4=BA=89=E9=83=BD=E5=BA=94=E8=AF=A5=E8=A2=AB=E5=BF=BD=E7=95=A5=EF=
-=BC=8C=E5=85=B6=E4=BA=A7=E7=94=9F=E7=9A=84=E8=A1=8C=E4=B8=BA=E5=90=8E=E6=
-=9E=9C=E8=A2=AB=E8=AE=A4=E4=B8=BA=E6=98=AF=E5=AE=89=E5=85=A8=E7=9A=84=E3=
-=80=82=E8=AF=B7=E6=9F=A5=E9=98=85
->=20
->=20+ `"Marking Shared-Memory Accesses" in the LKMM`_ =E8=8E=B7=E5=BE=97=
-=E6=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=E3=80=82
->=20
->=20+
->=20
->=20+* =E4=B8=8E ``data_race(...)`` =E7=9B=B8=E4=BC=BC=EF=BC=8C=E5=8F=AF=
-=E4=BB=A5=E4=BD=BF=E7=94=A8=E7=B1=BB=E5=9E=8B=E9=99=90=E5=AE=9A=E7=AC=A6 =
-``__data_racy`` =E6=9D=A5=E6=A0=87=E8=AE=B0=E4=B8=80=E4=B8=AA=E5=8F=98=E9=
-=87=8F
->=20
->=20+ =EF=BC=8C=E6=89=80=E6=9C=89=E8=AE=BF=E9=97=AE=E8=AF=A5=E5=8F=98=E9=
-=87=8F=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
-=BA=89=E9=83=BD=E6=98=AF=E6=95=85=E6=84=8F=E4=B8=BA=E4=B9=8B=E5=B9=B6=E4=
-=B8=94=E5=BA=94=E8=AF=A5=E8=A2=AB KCSAN =E5=BF=BD=E7=95=A5::
->=20
->=20+
->=20
->=20+ struct foo {
->=20
->=20+ ...
->=20
->=20+ int __data_racy stats_counter;
->=20
->=20+ ...
->=20
->=20+ };
->=20
->=20+
->=20
->=20+* =E4=BD=BF=E7=94=A8=E5=87=BD=E6=95=B0=E5=B1=9E=E6=80=A7 ``__no_kcsa=
-n`` =E5=8F=AF=E4=BB=A5=E5=AF=B9=E6=95=B4=E4=B8=AA=E5=87=BD=E6=95=B0=E7=A6=
-=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B::
->=20
->=20+
->=20
->=20+ __no_kcsan
->=20
->=20+ void foo(void) {
->=20
->=20+ ...
->=20
->=20+
->=20
->=20+ =E4=B8=BA=E4=BA=86=E5=8A=A8=E6=80=81=E9=99=90=E5=88=B6=E8=AF=A5=E4=
-=B8=BA=E5=93=AA=E4=BA=9B=E5=87=BD=E6=95=B0=E7=94=9F=E6=88=90=E6=8A=A5=E5=
-=91=8A=EF=BC=8C=E6=9F=A5=E9=98=85 `Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=
-=BB=9F=E6=8E=A5=E5=8F=A3`_ =E9=BB=91=E5=90=8D=E5=8D=95/=E7=99=BD=E5=90=8D=
-=E5=8D=95=E7=89=B9=E6=80=A7=E3=80=82
->=20
->=20+
->=20
->=20+* =E4=B8=BA=E7=89=B9=E5=AE=9A=E7=9A=84=E7=BC=96=E8=AF=91=E5=8D=95=E5=
-=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=
-=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=82=E6=95=B0=E5=8A=A0=E5=
-=85=A5=E5=88=B0 ``Makefile`` =E4=B8=AD::
->=20
->=20+
->=20
->=20+ KCSAN_SANITIZE_file.o :=3D n
->=20
->=20+
->=20
->=20+* =E4=B8=BA ``Makefile`` =E4=B8=AD=E7=9A=84=E6=89=80=E6=9C=89=E7=BC=
-=96=E8=AF=91=E5=8D=95=E5=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=
-=9E=E4=BA=89=E6=A3=80=E6=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=
-=82=E6=95=B0=E6=B7=BB=E5=8A=A0=E5=88=B0=E7=9B=B8=E5=BA=94=E7=9A=84
->=20
->=20+ ``Makefile`` =E4=B8=AD::
->=20
->=20+
->=20
->=20+ KCSAN_SANITIZE :=3D n
->=20
->=20+
->=20
->=20+.. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel=
-.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/=
-Documentation/access-marking.txt
->=20
->=20+
->=20
->=20+=E6=AD=A4=E5=A4=96=EF=BC=8C=E5=8F=AF=E4=BB=A5=E6=A0=B9=E6=8D=AE=E5=
-=81=8F=E5=A5=BD=E8=AE=BE=E7=BD=AE KCSAN =E6=98=BE=E7=A4=BA=E6=88=96=E9=9A=
-=90=E8=97=8F=E6=95=B4=E4=B8=AA=E7=B1=BB=E5=88=AB=E7=9A=84=E6=95=B0=E6=8D=
-=AE=E7=AB=9E=E4=BA=89=E3=80=82=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E5=A6=
-=82=E4=B8=8B
->=20
->=20+Kconfig =E5=8F=82=E6=95=B0=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9:
->=20
->=20+
->=20
->=20+* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: =E5=A6=82=E6=9E=9C=E5=
-=90=AF=E7=94=A8=E4=BA=86=E8=AF=A5=E5=8F=82=E6=95=B0=E5=B9=B6=E4=B8=94=E9=
-=80=9A=E8=BF=87=E8=A7=82=E6=B5=8B=E7=82=B9=E8=A7=82=E6=B5=8B
->=20
->=20+ =E5=88=B0=E4=B8=80=E4=B8=AA=E6=9C=89=E5=86=B2=E7=AA=81=E7=9A=84=E5=
-=86=99=E6=93=8D=E4=BD=9C=EF=BC=8C=E4=BD=86=E6=98=AF=E5=AF=B9=E5=BA=94=E7=
-=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E4=B8=AD=E5=AD=98=E5=82=A8=E7=
-=9A=84=E5=80=BC=E6=B2=A1=E6=9C=89=E6=94=B9=E5=8F=98=EF=BC=8C=E5=88=99=E4=
-=B8=8D=E4=BC=9A=E6=8A=A5=E5=91=8A=E8=BF=99=E8=B5=B7=E6=95=B0=E6=8D=AE
->=20
->=20+ =E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: =E5=81=87=E8=AE=BE=E9=
-=BB=98=E8=AE=A4=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E4=B8=8D=E8=B6=85=E8=
-=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=80
->=20
->=20+ =E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E6=
-=98=AF=E5=8E=9F=E5=AD=90=E7=9A=84=E3=80=82=E5=81=87=E8=AE=BE=E8=BF=99=E4=
-=BA=9B=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E4=B8=8D=E4=BC=9A=E5=8F=97=E5=
-=88=B0=E4=B8=8D=E5=AE=89=E5=85=A8=E7=9A=84=E7=BC=96=E8=AF=91=E5=99=A8=E4=
-=BC=98=E5=8C=96=E5=BD=B1=E5=93=8D=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=BC
->=20
->=20+ =E8=87=B4=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E8=AF=A5=E9=
-=80=89=E9=A1=B9=E4=BD=BF KCSAN =E4=B8=8D=E6=8A=A5=E5=91=8A=E4=BB=85=E7=94=
-=B1=E4=B8=8D=E8=B6=85=E8=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=
-=80=E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E5=BC=
-=95=E8=B5=B7
->=20
->=20+ =E7=9A=84=E5=86=B2=E7=AA=81=E6=89=80=E5=AF=BC=E8=87=B4=E7=9A=84=E6=
-=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+* ``CONFIG_KCSAN_PERMISSIVE``: =E5=90=AF=E7=94=A8=E9=A2=9D=E5=A4=96=
-=E7=9A=84=E5=AE=BD=E6=9D=BE=E8=A7=84=E5=88=99=E6=9D=A5=E5=BF=BD=E7=95=A5=
-=E6=9F=90=E4=BA=9B=E5=B8=B8=E8=A7=81=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=95=B0=
-=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+ =E4=B8=8E=E4=B8=8A=E9=9D=A2=E7=9A=84=E8=A7=84=E5=88=99=E4=B8=8D=E5=
-=90=8C=EF=BC=8C=E8=BF=99=E6=9D=A1=E8=A7=84=E5=88=99=E6=9B=B4=E5=8A=A0=E5=
-=A4=8D=E6=9D=82=EF=BC=8C=E6=B6=89=E5=8F=8A=E5=88=B0=E5=80=BC=E6=94=B9=E5=
-=8F=98=E6=A8=A1=E5=BC=8F=EF=BC=8C=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=
-=92=8C=E5=9C=B0=E5=9D=80=E3=80=82=E8=BF=99=E4=B8=AA
->=20
->=20+ =E9=80=89=E9=A1=B9=E4=BE=9D=E8=B5=96=E7=BC=96=E8=AF=91=E9=80=89=E9=
-=A1=B9 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dy``=E3=80=82=E8=AF=B7=E6=
-=9F=A5=E7=9C=8B
->=20
->=20+ ``kernel/kcsan/permissive.h`` =E8=8E=B7=E5=8F=96=E6=9B=B4=E5=A4=9A=
-=E7=BB=86=E8=8A=82=E3=80=82=E5=AF=B9=E4=BA=8E=E5=8F=AA=E4=BE=A7=E9=87=8D=
-=E4=BA=8E=E7=89=B9=E5=AE=9A=E5=AD=90=E7=B3=BB=E7=BB=9F=E8=80=8C=E4=B8=8D=
-=E6=98=AF=E6=95=B4=E4=B8=AA
->=20
->=20+ =E5=86=85=E6=A0=B8=E6=8A=A5=E5=91=8A=E7=9A=84=E6=B5=8B=E8=AF=95=E8=
-=80=85=E5=92=8C=E7=BB=B4=E6=8A=A4=E8=80=85=EF=BC=8C=E5=BB=BA=E8=AE=AE=E7=
-=A6=81=E7=94=A8=E8=AF=A5=E9=80=89=E9=A1=B9=E3=80=82
->=20
->=20+
->=20
->=20+=E8=A6=81=E4=BD=BF=E7=94=A8=E5=B0=BD=E5=8F=AF=E8=83=BD=E4=B8=A5=E6=
-=A0=BC=E7=9A=84=E8=A7=84=E5=88=99=EF=BC=8C=E9=80=89=E6=8B=A9 ``CONFIG_KCS=
-AN_STRICT=3Dy``=EF=BC=8C=E8=BF=99=E5=B0=86=E9=85=8D=E7=BD=AE KCSAN =E5=B0=
-=BD=E5=8F=AF
->=20
->=20+=E8=83=BD=E7=B4=A7=E5=AF=86=E5=9C=B0=E9=81=B5=E5=BE=AA Linux =E5=86=
-=85=E6=A0=B8=E5=86=85=E5=AD=98=E4=B8=80=E8=87=B4=E6=80=A7=E6=A8=A1=E5=9E=
-=8B=EF=BC=88LKMM=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E6=8E=A5=E5=8F=A3
->=20
->=20+~~~~~~~~~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+=E6=96=87=E4=BB=B6 ``/sys/kernel/debug/kcsan`` =E6=8F=90=E4=BE=9B=E4=
-=BA=86=E5=A6=82=E4=B8=8B=E6=8E=A5=E5=8F=A3=EF=BC=9A
->=20
->=20+
->=20
->=20+* =E8=AF=BB ``/sys/kernel/debug/kcsan`` =E8=BF=94=E5=9B=9E=E4=B8=8D=
-=E5=90=8C=E7=9A=84=E8=BF=90=E8=A1=8C=E6=97=B6=E7=BB=9F=E8=AE=A1=E6=95=B0=
-=E6=8D=AE=E3=80=82
->=20
->=20+
->=20
->=20+* =E5=B0=86 ``on`` =E6=88=96 ``off`` =E5=86=99=E5=85=A5 ``/sys/kerne=
-l/debug/kcsan`` =E5=85=81=E8=AE=B8=E6=89=93=E5=BC=80=E6=88=96=E5=85=B3=E9=
-=97=AD KCSAN=E3=80=82
->=20
->=20+
->=20
->=20+* =E5=B0=86 ``!some_func_name`` =E5=86=99=E5=85=A5 ``/sys/kernel/deb=
-ug/kcsan`` =E4=BC=9A=E5=B0=86
->=20
->=20+ ``some_func_name`` =E6=B7=BB=E5=8A=A0=E5=88=B0=E6=8A=A5=E5=91=8A=E8=
-=BF=87=E6=BB=A4=E5=88=97=E8=A1=A8=E4=B8=AD=EF=BC=8C=E8=BF=99=E5=B0=86=EF=
-=BC=88=E9=BB=98=E8=AE=A4=EF=BC=89=E7=A6=81=E6=AD=A2=E6=8A=A5=E5=91=8A=E4=
-=BB=BB=E6=84=8F=E4=B8=80=E4=B8=AA=E9=A1=B6=E5=B1=82=E6=A0=88=E5=B8=A7
->=20
->=20+ =E5=9C=A8=E8=AF=A5=E5=88=97=E8=A1=A8=E4=B8=AD=E7=9A=84=E6=95=B0=E6=
-=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+* =E5=B0=86 ``blacklist`` =E6=88=96 ``whitelist`` =E5=86=99=E5=85=A5=
- ``/sys/kernel/debug/kcsan`` =E4=BC=9A=E6=94=B9=E5=8F=98=E6=8A=A5=E5=91=
-=8A
->=20
->=20+ =E8=BF=87=E6=BB=A4=E8=A1=8C=E4=B8=BA=E3=80=82=E4=BE=8B=E5=A6=82=EF=
-=BC=8C=E9=BB=91=E5=90=8D=E5=8D=95=E7=9A=84=E7=89=B9=E6=80=A7=E5=8F=AF=E4=
-=BB=A5=E7=94=A8=E6=9D=A5=E8=BF=87=E6=BB=A4=E6=8E=89=E7=BB=8F=E5=B8=B8=E5=
-=8F=91=E7=94=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E7=
-=99=BD=E5=90=8D=E5=8D=95=E7=89=B9=E6=80=A7=E5=8F=AF=E4=BB=A5=E5=B8=AE
->=20
->=20+ =E5=8A=A9=E5=A4=8D=E7=8E=B0=E5=92=8C=E4=BF=AE=E5=A4=8D=E6=B5=8B=E8=
-=AF=95=E3=80=82
->=20
->=20+
->=20
->=20+=E6=80=A7=E8=83=BD=E8=B0=83=E4=BC=98
->=20
->=20+~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+=E5=BD=B1=E5=93=8D KCSAN =E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=
-=BD=E5=92=8C bug =E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E7=9A=84=E6=A0=B8=
-=E5=BF=83=E5=8F=82=E6=95=B0=E6=98=AF=E4=BD=9C=E4=B8=BA=E5=86=85=E6=A0=B8=
-=E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E5=85=AC=E5=BC=80=E7=9A=84=
-=EF=BC=8C=E5=85=B6=E9=BB=98=E8=AE=A4
->=20
->=20+=E5=80=BC=E4=B9=9F=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E7=9B=B8=E5=
-=BA=94=E7=9A=84 Kconfig =E9=80=89=E9=A1=B9=E6=9B=B4=E6=94=B9=E3=80=82
->=20
->=20+
->=20
->=20+* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): =E5=9C=A8=E5=
-=8F=A6=E4=B8=80=E4=B8=AA=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=
-=B9=8B=E5=89=8D=E6=AF=8F
->=20
->=20+ =E4=B8=AA CPU =E8=A6=81=E8=B7=B3=E8=BF=87=E7=9A=84=E5=86=85=E5=AD=
-=98=E6=93=8D=E4=BD=9C=E6=AC=A1=E6=95=B0=E3=80=82=E6=9B=B4=E5=8A=A0=E9=A2=
-=91=E7=B9=81=E7=9A=84=E8=AE=BE=E7=BD=AE=E8=A7=82=E6=B5=8B=E7=82=B9=E5=B0=
-=86=E5=A2=9E=E5=8A=A0=E8=A7=82=E5=AF=9F=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=
-=85=E5=86=B5=E7=9A=84=E5=8F=AF=E8=83=BD=E6=80=A7
->=20
->=20+ =E3=80=82=E8=BF=99=E4=B8=AA=E5=8F=82=E6=95=B0=E5=AF=B9=E7=B3=BB=E7=
-=BB=9F=E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=BD=E5=92=8C=E7=AB=9E=E4=
-=BA=89=E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E5=BD=B1=E5=93=8D=E6=9C=80=E6=
-=98=BE=E8=91=97=E3=80=82
->=20
->=20+
->=20
->=20+* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): =E5=AF=B9=E4=
-=BA=8E=E4=BB=BB=E5=8A=A1=EF=BC=8C=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=
-=BD=AE=E4=B9=8B
->=20
->=20+ =E5=90=8E=E6=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=
-=A7=92=E5=BB=B6=E8=BF=9F=E3=80=82=E5=80=BC=E8=B6=8A=E5=A4=A7=EF=BC=8C=E6=
-=A3=80=E6=B5=8B=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=85=E5=86=B5=E7=9A=84=E5=
-=8F=AF=E8=83=BD=E6=80=A7=E8=B6=8A=E9=AB=98=E3=80=82
->=20
->=20+
->=20
->=20+* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): =
-=E5=AF=B9=E4=BA=8E=E4=B8=AD=E6=96=AD=EF=BC=8C
->=20
->=20+ =E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=B9=8B=E5=90=8E=E6=
-=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=A7=92=E5=BB=B6=E8=
-=BF=9F=E3=80=82=E4=B8=AD=E6=96=AD=E5=AF=B9=E4=BA=8E=E5=BB=B6=E8=BF=9F=E7=
-=9A=84=E8=A6=81=E6=B1=82=E6=9B=B4=E5=8A=A0=E4=B8=A5=E6=A0=BC=EF=BC=8C=E5=
-=85=B6=E5=BB=B6=E8=BF=9F=E9=80=9A=E5=B8=B8=E5=BA=94=E8=AF=A5=E5=B0=8F
->=20
->=20+ =E4=BA=8E=E4=B8=BA=E4=BB=BB=E5=8A=A1=E9=80=89=E6=8B=A9=E7=9A=84=E5=
-=BB=B6=E8=BF=9F=E3=80=82
->=20
->=20+
->=20
->=20+=E5=AE=83=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87 ``/sys/module=
-/kcsan/parameters/`` =E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E8=BF=9B=E8=A1=
-=8C=E8=B0=83=E6=95=B4=E3=80=82
->=20
->=20+
->=20
->=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89
->=20
->=20+--------
->=20
->=20+
->=20
->=20+=E5=9C=A8=E4=B8=80=E6=AC=A1=E6=89=A7=E8=A1=8C=E4=B8=AD=EF=BC=8C=E5=
-=A6=82=E6=9E=9C=E4=B8=A4=E4=B8=AA=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E5=
-=AD=98=E5=9C=A8 *=E5=86=B2=E7=AA=81*=EF=BC=8C=E5=9C=A8=E4=B8=8D=E5=90=8C=
-=E7=9A=84=E7=BA=BF=E7=A8=8B=E4=B8=AD=E5=B9=B6=E5=8F=91=E6=89=A7=E8=A1=8C=
-=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=87=B3=E5=B0=91
->=20
->=20+=E6=9C=89=E4=B8=80=E4=B8=AA=E8=AE=BF=E9=97=AE=E6=98=AF *=E7=AE=80=E5=
-=8D=95=E8=AE=BF=E9=97=AE*=EF=BC=8C=E5=88=99=E5=AE=83=E4=BB=AC=E5=B0=B1=E5=
-=BD=A2=E6=88=90=E4=BA=86 *=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89*=E3=80=82=
-=E5=A6=82=E6=9E=9C=E5=AE=83=E4=BB=AC=E8=AE=BF=E9=97=AE=E4=BA=86=E5=90=8C=
-=E4=B8=80=E4=B8=AA=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E5=B9=B6=E4=B8=94
->=20
->=20+=E8=87=B3=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=98=AF=E5=86=99=E6=
-=93=8D=E4=BD=9C=EF=BC=8C=E5=88=99=E7=A7=B0=E5=AE=83=E4=BB=AC=E5=AD=98=E5=
-=9C=A8 *=E5=86=B2=E7=AA=81*=E3=80=82=E6=9C=89=E5=85=B3=E6=9B=B4=E8=AF=A6=
-=E7=BB=86=E7=9A=84=E8=AE=A8=E8=AE=BA=E5=92=8C=E5=AE=9A=E4=B9=89=EF=BC=8C=
-=E8=A7=81
->=20
->=20+`"Plain Accesses and Data Races" in the LKMM`_=E3=80=82
->=20
->=20+
->=20
->=20+.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.=
-org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/D=
-ocumentation/explanation.txt#n1922
->=20
->=20+
->=20
->=20+=E4=B8=8E Linux =E5=86=85=E6=A0=B8=E5=86=85=E5=AD=98=E4=B8=80=E8=87=
-=B4=E6=80=A7=E6=A8=A1=E5=9E=8B=EF=BC=88LKMM=EF=BC=89=E7=9A=84=E5=85=B3=E7=
-=B3=BB
->=20
->=20+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+LKMM =E5=AE=9A=E4=B9=89=E4=BA=86=E5=90=84=E7=A7=8D=E5=86=85=E5=AD=98=
-=E6=93=8D=E4=BD=9C=E7=9A=84=E4=BC=A0=E6=92=AD=E5=92=8C=E6=8E=92=E5=BA=8F=
-=E8=A7=84=E5=88=99=EF=BC=8C=E8=AE=A9=E5=BC=80=E5=8F=91=E8=80=85=E5=8F=AF=
-=E4=BB=A5=E6=8E=A8=E7=90=86=E5=B9=B6=E5=8F=91=E4=BB=A3=E7=A0=81=E3=80=82=
-=E6=9C=80=E7=BB=88=E8=BF=99=E5=85=81=E8=AE=B8=E7=A1=AE
->=20
->=20+=E5=AE=9A=E5=B9=B6=E5=8F=91=E4=BB=A3=E7=A0=81=E5=8F=AF=E8=83=BD=E7=
-=9A=84=E6=89=A7=E8=A1=8C=E6=83=85=E5=86=B5=E5=B9=B6=E5=88=A4=E6=96=AD=E8=
-=BF=99=E4=BA=9B=E4=BB=A3=E7=A0=81=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E6=
-=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+KCSAN =E5=8F=AF=E4=BB=A5=E8=AF=86=E5=88=AB *=E8=A2=AB=E6=A0=87=E8=AE=
-=B0=E7=9A=84=E5=8E=9F=E5=AD=90=E6=93=8D=E4=BD=9C* =EF=BC=88 ``READ_ONCE``=
-, ``WRITE_ONCE`` , ``atomic_*``
->=20
->=20+=E7=AD=89=EF=BC=89=EF=BC=8C=E4=BB=A5=E5=8F=8A=E5=86=85=E5=AD=98=E5=
-=B1=8F=E9=9A=9C=E6=89=80=E9=9A=90=E5=90=AB=E7=9A=84=E4=B8=80=E9=83=A8=E5=
-=88=86=E9=A1=BA=E5=BA=8F=E4=BF=9D=E8=AF=81=E3=80=82=E5=90=AF=E7=94=A8 ``C=
-ONFIG_KCSAN_WEAK_MEMORY=3Dy``
->=20
->=20+=E9=85=8D=E7=BD=AE=EF=BC=8CKCSAN =E4=BC=9A=E5=AF=B9=E5=8A=A0=E8=BD=
-=BD=E6=88=96=E5=AD=98=E5=82=A8=E7=BC=93=E5=86=B2=E5=8C=BA=E8=BF=9B=E8=A1=
-=8C=E5=BB=BA=E6=A8=A1=EF=BC=8C=E5=B9=B6=E5=8F=AF=E4=BB=A5=E6=A3=80=E6=B5=
-=8B=E9=81=97=E6=BC=8F=E7=9A=84
->=20
->=20+``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``, ``smp_store_release()``=
-=EF=BC=8C=E4=BB=A5=E5=8F=8A=E6=89=80=E6=9C=89=E7=9A=84
->=20
->=20+=E5=85=B7=E6=9C=89=E7=AD=89=E6=95=88=E9=9A=90=E5=90=AB=E5=86=85=E5=
-=AD=98=E5=B1=8F=E9=9A=9C=E7=9A=84 ``atomic_*`` =E6=93=8D=E4=BD=9C=E3=80=
-=82
->=20
->=20+
->=20
->=20+=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8CKCSAN =E4=B8=8D=E4=BC=9A=E6=8A=
-=A5=E5=91=8A=E6=89=80=E6=9C=89=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=
-=85=E5=AD=98=E9=A1=BA=E5=BA=8F=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=
-=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=8C=E7=89=B9=E5=88=AB=E6=98=AF=E5=9C=
-=A8=E9=9C=80=E8=A6=81=E5=86=85=E5=AD=98=E5=B1=8F=E9=9A=9C
->=20
->=20+=E6=9D=A5=E7=A6=81=E6=AD=A2=E5=90=8E=E7=BB=AD=E5=86=85=E5=AD=98=E6=
-=93=8D=E4=BD=9C=E5=9C=A8=E5=B1=8F=E9=9A=9C=E4=B9=8B=E5=89=8D=E9=87=8D=E6=
-=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E3=80=82=E5=
-=9B=A0=E6=AD=A4=EF=BC=8C=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=BA=94=E8=
-=AF=A5=E4=BB=94=E7=BB=86=E8=80=83=E8=99=91=E9=82=A3=E4=BA=9B=E6=9C=AA
->=20
->=20+=E8=A2=AB=E6=A3=80=E6=9F=A5=E7=9A=84=E5=86=85=E5=AD=98=E9=A1=BA=E5=
-=BA=8F=E8=A6=81=E6=B1=82=E3=80=82
->=20
->=20+
->=20
->=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E4=BB=A5=E5=A4=96=E7=9A=84=E7=
-=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B
->=20
->=20+---------------------------
->=20
->=20+
->=20
->=20+=E5=AF=B9=E4=BA=8E=E6=9C=89=E7=9D=80=E5=A4=8D=E6=9D=82=E5=B9=B6=E5=
-=8F=91=E8=AE=BE=E8=AE=A1=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=8C=E7=AB=9E=E4=
-=BA=89=E7=8A=B6=E5=86=B5=E4=B8=8D=E6=80=BB=E6=98=AF=E8=A1=A8=E7=8E=B0=E4=
-=B8=BA=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E5=A6=82=E6=9E=9C=E5=
-=B9=B6=E5=8F=91=E6=93=8D=E4=BD=9C=E5=BC=95=E8=B5=B7=E4=BA=86=E6=84=8F=E2=
-=80=98
->=20
->=20+=E6=96=99=E4=B9=8B=E5=A4=96=E7=9A=84=E7=B3=BB=E7=BB=9F=E8=A1=8C=E4=
-=B8=BA=EF=BC=8C=E5=88=99=E8=AE=A4=E4=B8=BA=E5=8F=91=E7=94=9F=E4=BA=86=E7=
-=AB=9E=E4=BA=89=E7=8A=B6=E5=86=B5=E3=80=82=E5=8F=A6=E4=B8=80=E6=96=B9=E9=
-=9D=A2=EF=BC=8C=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=98=AF=E5=9C=A8 C =
-=E8=AF=AD=E8=A8=80=E5=B1=82=E9=9D=A2=E5=AE=9A=E4=B9=89
->=20
->=20+=E7=9A=84=E3=80=82=E4=B8=8B=E9=9D=A2=E7=9A=84=E5=AE=8F=E5=AE=9A=E4=
-=B9=89=E5=8F=AF=E4=BB=A5=E7=94=A8=E6=9D=A5=E6=A3=80=E6=B5=8B=E9=9D=9E=E6=
-=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E7=9A=84=E6=BC=8F=E6=B4=9E=E5=B9=B6=E5=
-=8F=91=E4=BB=A3=E7=A0=81=E7=9A=84=E5=B1=9E=E6=80=A7=E3=80=82
->=20
->=20+
->=20
->=20+.. kernel-doc:: include/linux/kcsan-checks.h
->=20
->=20+ :functions: ASSERT_EXCLUSIVE_WRITER ASSERT_EXCLUSIVE_WRITER_SCOPED
->=20
->=20+ ASSERT_EXCLUSIVE_ACCESS ASSERT_EXCLUSIVE_ACCESS_SCOPED
->=20
->=20+ ASSERT_EXCLUSIVE_BITS
->=20
->=20+
->=20
->=20+=E5=AE=9E=E7=8E=B0=E7=BB=86=E8=8A=82
->=20
->=20+-----------
->=20
->=20+
->=20
->=20+KCSAN =E9=9C=80=E8=A6=81=E8=A7=82=E6=B5=8B=E4=B8=A4=E4=B8=AA=E5=B9=
-=B6=E5=8F=91=E8=AE=BF=E9=97=AE=E3=80=82=E7=89=B9=E5=88=AB=E9=87=8D=E8=A6=
-=81=E7=9A=84=E6=98=AF=EF=BC=8C=E6=88=91=E4=BB=AC=E6=83=B3=E8=A6=81=EF=BC=
-=88a=EF=BC=89=E5=A2=9E=E5=8A=A0=E8=A7=82=E6=B5=8B=E5=88=B0=E7=AB=9E=E4=BA=
-=89=E7=9A=84=E6=9C=BA=E4=BC=9A=EF=BC=88=E5=B0=A4
->=20
->=20+=E5=85=B6=E6=98=AF=E5=BE=88=E5=B0=91=E5=8F=91=E7=94=9F=E7=9A=84=E7=
-=AB=9E=E4=BA=89=EF=BC=89=EF=BC=8C=E4=BB=A5=E5=8F=8A=EF=BC=88b=EF=BC=89=E8=
-=83=BD=E5=A4=9F=E5=AE=9E=E9=99=85=E8=A7=82=E6=B5=8B=E5=88=B0=E8=BF=99=E4=
-=BA=9B=E7=AB=9E=E4=BA=89=E3=80=82=E6=88=91=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=
-=80=9A=E8=BF=87=EF=BC=88a=EF=BC=89=E6=B3=A8=E5=85=A5
->=20
->=20+=E4=B8=8D=E5=90=8C=E7=9A=84=E5=BB=B6=E8=BF=9F=EF=BC=8C=E4=BB=A5=E5=
-=8F=8A=EF=BC=88b=EF=BC=89=E4=BD=BF=E7=94=A8=E5=9C=B0=E5=9D=80=E8=A7=82=E6=
-=B5=8B=E7=82=B9=EF=BC=88=E6=88=96=E6=96=AD=E7=82=B9=EF=BC=89=E6=9D=A5=E5=
-=AE=9E=E7=8E=B0=E3=80=82
->=20
->=20+
->=20
->=20+=E5=A6=82=E6=9E=9C=E6=88=91=E4=BB=AC=E5=9C=A8=E8=AE=BE=E7=BD=AE=E4=
-=BA=86=E5=9C=B0=E5=9D=80=E8=A7=82=E5=AF=9F=E7=82=B9=E7=9A=84=E6=83=85=E5=
-=86=B5=E4=B8=8B=E6=95=85=E6=84=8F=E5=BB=B6=E8=BF=9F=E4=B8=80=E4=B8=AA=E5=
-=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=EF=BC=8C=E7=84=B6=E5=90=8E=E8=A7=82=E5=
-=AF=9F=E5=88=B0=E8=A7=82=E5=AF=9F=E7=82=B9=E8=A2=AB=E8=A7=A6=E5=8F=91
->=20
->=20+=EF=BC=8C=E9=82=A3=E4=B9=88=E4=B8=A4=E4=B8=AA=E5=AF=B9=E5=90=8C=E4=
-=B8=80=E5=9C=B0=E5=9D=80=E7=9A=84=E8=AE=BF=E9=97=AE=E5=B0=B1=E5=8F=91=E7=
-=94=9F=E4=BA=86=E7=AB=9E=E4=BA=89=E3=80=82=E4=BD=BF=E7=94=A8=E7=A1=AC=E4=
-=BB=B6=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E8=BF=99=E6=98=AF `DataCollide=
-r
->=20
->=20+<http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pd=
-f>%60_ http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.p=
-df%3E%60_  =E4=B8=AD=E9=87=87=E7=94=A8
->=20
->=20+=E7=9A=84=E6=96=B9=E6=B3=95=E3=80=82=E4=B8=8E DataCollider =E4=B8=8D=
-=E5=90=8C=EF=BC=8CKCSAN =E4=B8=8D=E4=BD=BF=E7=94=A8=E7=A1=AC=E4=BB=B6=E8=
-=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E8=80=8C=E6=98=AF=E4=BE=9D=E8=B5=96=E4=
-=BA=8E=E7=BC=96=E8=AF=91=E5=99=A8=E6=8F=92=E8=A3=85=E5=92=8C=E2=80=9C=E8=
-=BD=AF
->=20
->=20+=E8=A7=82=E6=B5=8B=E7=82=B9=E2=80=9D=E3=80=82
->=20
->=20+
->=20
->=20+=E5=9C=A8 KCSAN =E4=B8=AD=EF=BC=8C=E8=A7=82=E5=AF=9F=E7=82=B9=E6=98=
-=AF=E9=80=9A=E8=BF=87=E4=B8=80=E7=A7=8D=E9=AB=98=E6=95=88=E7=9A=84=E7=BC=
-=96=E7=A0=81=E5=AE=9E=E7=8E=B0=E7=9A=84=EF=BC=8C=E8=AF=A5=E7=BC=96=E7=A0=
-=81=E5=B0=86=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E3=80=81=E5=A4=A7=E5=B0=
-=8F=E5=92=8C=E5=9C=B0=E5=9D=80=E5=AD=98=E5=82=A8
->=20
->=20+=E5=9C=A8=E4=B8=80=E4=B8=AA=E9=95=BF=E6=95=B4=E5=9E=8B=E5=8F=98=E9=
-=87=8F=E4=B8=AD=EF=BC=9B=E4=BD=BF=E7=94=A8=E2=80=9C=E8=BD=AF=E8=A7=82=E5=
-=AF=9F=E7=82=B9=E2=80=9D=E7=9A=84=E5=A5=BD=E5=A4=84=E6=98=AF=E5=85=B7=E6=
-=9C=89=E5=8F=AF=E7=A7=BB=E6=A4=8D=E6=80=A7=E5=92=8C=E6=9B=B4=E5=A4=A7=E7=
-=9A=84=E7=81=B5=E6=B4=BB=E6=80=A7=E3=80=82=E7=84=B6=E5=90=8E=EF=BC=8C
->=20
->=20+KCSAN=E4=BE=9D=E8=B5=96=E4=BA=8E=E7=BC=96=E8=AF=91=E5=99=A8=E5=AF=B9=
-=E6=99=AE=E9=80=9A=E8=AE=BF=E9=97=AE=E7=9A=84=E6=8F=92=E6=A1=A9=E3=80=82=
-=E5=AF=B9=E4=BA=8E=E6=AF=8F=E4=B8=AA=E6=8F=92=E6=A1=A9=E7=9A=84=E6=99=AE=
-=E9=80=9A=E8=AE=BF=E9=97=AE=EF=BC=9A
->=20
->=20+
->=20
->=20+1. =E6=A3=80=E6=B5=8B=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E4=B8=80=
-=E4=B8=AA=E5=A4=8D=E5=90=88=E7=9A=84=E8=A7=82=E6=B5=8B=E7=82=B9=EF=BC=8C=
-=E5=A6=82=E6=9E=9C=E5=AD=98=E5=9C=A8=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=87=B3=
-=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=93=8D=E4=BD=9C=E6=98=AF=E5=86=99=
-=E6=93=8D=E4=BD=9C=EF=BC=8C=E5=88=99=E6=88=91=E4=BB=AC=E5=8F=91
->=20
->=20+ =E7=8E=B0=E4=BA=86=E4=B8=80=E4=B8=AA=E7=AB=9E=E4=BA=89=E8=AE=BF=E9=
-=97=AE=E3=80=82
->=20
->=20+
->=20
->=20+2. =E5=A6=82=E6=9E=9C=E4=B8=8D=E5=AD=98=E5=9C=A8=E5=8C=B9=E9=85=8D=
-=E7=9A=84=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E5=88=99=E5=AE=9A=E6=9C=9F=
-=E7=9A=84=E8=AE=BE=E7=BD=AE=E4=B8=80=E4=B8=AA=E8=A7=82=E6=B5=8B=E7=82=B9=
-=E5=B9=B6=E9=9A=8F=E6=9C=BA=E5=BB=B6=E8=BF=9F=E4=B8=80=E5=B0=8F=E6=AE=B5=
-=E6=97=B6=E9=97=B4=E3=80=82
->=20
->=20+
->=20
->=20+3. =E5=9C=A8=E5=BB=B6=E8=BF=9F=E5=89=8D=E6=A3=80=E6=9F=A5=E6=95=B0=
-=E6=8D=AE=E5=80=BC=EF=BC=8C=E5=B9=B6=E5=9C=A8=E5=BB=B6=E8=BF=9F=E5=90=8E=
-=E9=87=8D=E6=96=B0=E6=A3=80=E6=9F=A5=E6=95=B0=E6=8D=AE=E5=80=BC=EF=BC=9B=
-=E5=A6=82=E6=9E=9C=E5=80=BC=E4=B8=8D=E5=8C=B9=E9=85=8D=EF=BC=8C=E6=88=91=
-=E4=BB=AC=E6=8E=A8=E6=B5=8B=E5=AD=98=E5=9C=A8=E4=B8=80=E4=B8=AA
->=20
->=20+ =E6=9C=AA=E7=9F=A5=E6=9D=A5=E6=BA=90=E7=9A=84=E7=AB=9E=E4=BA=89=E7=
-=8A=B6=E5=86=B5=E3=80=82
->=20
->=20+
->=20
->=20+=E4=B8=BA=E4=BA=86=E6=A3=80=E6=B5=8B=E6=99=AE=E9=80=9A=E8=AE=BF=E9=
-=97=AE=E5=92=8C=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B9=8B=E9=97=B4=E7=
-=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=8CKCSAN =E4=B9=9F=E5=AF=
-=B9=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E8=BF=9B=E8=A1=8C=E6=A0=87=E8=AE=
-=B0=EF=BC=8C=E4=BD=86=E4=BB=85=E7=94=A8=E4=BA=8E
->=20
->=20+=E6=A3=80=E6=9F=A5=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E8=A7=82=E5=
-=AF=9F=E7=82=B9=EF=BC=9B=E5=8D=B3 KCSAN =E4=B8=8D=E4=BC=9A=E5=9C=A8=E6=A0=
-=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B8=8A=E8=AE=BE=E7=BD=AE=E8=A7=82=E5=AF=
-=9F=E7=82=B9=E3=80=82=E9=80=9A=E8=BF=87=E4=B8=8D=E5=9C=A8=E6=A0=87=E8=AE=
-=B0=E6=93=8D=E4=BD=9C=E4=B8=8A=E8=AE=BE
->=20
->=20+=E7=BD=AE=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=
-=AF=B9=E4=B8=80=E4=B8=AA=E5=8F=98=E9=87=8F=E7=9A=84=E6=89=80=E6=9C=89=E5=
-=B9=B6=E5=8F=91=E8=AE=BF=E9=97=AE=E9=83=BD=E8=A2=AB=E6=AD=A3=E7=A1=AE=E6=
-=A0=87=E8=AE=B0=EF=BC=8CKCSAN =E5=B0=86=E6=B0=B8=E8=BF=9C=E4=B8=8D=E4=BC=
-=9A=E8=A7=A6=E5=8F=91=E8=A7=82=E5=AF=9F=E7=82=B9
->=20
->=20+=EF=BC=8C=E5=9B=A0=E6=AD=A4=E4=B9=9F=E4=B8=8D=E4=BC=9A=E6=8A=A5=E5=
-=91=8A=E8=BF=99=E4=BA=9B=E8=AE=BF=E9=97=AE=E3=80=82
->=20
->=20+
->=20
->=20+=E5=BC=B1=E5=86=85=E5=AD=98=E5=BB=BA=E6=A8=A1
->=20
->=20+~~~~~~~~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+KSCAN =E6=A3=80=E6=B5=8B=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=
-=85=E5=AD=98=E5=B1=8F=E9=9A=9C=E7=9A=84=E6=95=B0=E6=8D=AE=E6=A3=80=E6=B5=
-=8B=E7=9A=84=E6=96=B9=E6=B3=95=E6=98=AF=E5=B1=85=E4=BA=8E=E5=AF=B9=E8=AE=
-=BF=E9=97=AE=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E5=BB=BA=E6=A8=
-=A1=EF=BC=88=E4=BD=BF=E7=94=A8=E5=8F=82=E6=95=B0
->=20
->=20+``CONFIG_KCSAN_WEAK_MEMORY=3Dy``=EF=BC=89=E3=80=82=E6=AF=8F=E4=B8=AA=
-=E8=AE=BE=E7=BD=AE=E4=BA=86=E8=A7=82=E5=AF=9F=E7=82=B9=E7=9A=84=E6=99=AE=
-=E9=80=9A=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E4=B9=9F=E4=BC=9A=E8=A2=AB=
-=E9=80=89=E6=8B=A9=E5=9C=A8=E5=85=B6
->=20
->=20+=E5=87=BD=E6=95=B0=E8=8C=83=E5=9B=B4=E5=86=85=E8=BF=9B=E8=A1=8C=E6=
-=A8=A1=E6=8B=9F=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=BC=88=E6=9C=80=E5=
-=A4=9A=E4=B8=80=E4=B8=AA=E6=AD=A3=E5=9C=A8=E8=BF=9B=E8=A1=8C=E7=9A=84=E8=
-=AE=BF=E9=97=AE=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+=E4=B8=80=E6=97=A6=E6=9F=90=E4=B8=AA=E8=AE=BF=E9=97=AE=E8=A2=AB=E9=
-=80=89=E6=8B=A9=E7=94=A8=E4=BA=8E=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=
-=BC=8C=E5=AE=83=E5=B0=86=E5=9C=A8=E5=87=BD=E6=95=B0=E8=8C=83=E5=9B=B4=E5=
-=86=85=E4=B8=8E=E6=AF=8F=E4=B8=AA=E5=85=B6=E4=BB=96=E8=AE=BF=E9=97=AE=E8=
-=BF=9B=E8=A1=8C=E6=A3=80=E6=9F=A5=E3=80=82=E5=A6=82=E6=9E=9C=E9=81=87
->=20
->=20+=E5=88=B0=E9=80=82=E5=BD=93=E7=9A=84=E5=86=85=E5=AD=98=E5=B1=8F=E9=
-=9A=9C=EF=BC=8C=E8=AF=A5=E8=AE=BF=E9=97=AE=E5=B0=86=E4=B8=8D=E5=86=8D=E8=
-=A2=AB=E8=80=83=E8=99=91=E8=BF=9B=E8=A1=8C=E6=A8=A1=E6=8B=9F=E9=87=8D=E6=
-=96=B0=E6=8E=92=E5=BA=8F=E3=80=82
->=20
->=20+
->=20
->=20+=E5=BD=93=E5=86=85=E5=AD=98=E6=93=8D=E4=BD=9C=E7=9A=84=E7=BB=93=E6=
-=9E=9C=E5=BA=94=E8=AF=A5=E7=94=B1=E5=B1=8F=E9=9A=9C=E6=8E=92=E5=BA=8F=E6=
-=97=B6=EF=BC=8CKCSAN =E5=8F=AF=E4=BB=A5=E6=A3=80=E6=B5=8B=E5=88=B0=E4=BB=
-=85=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=B1=8F=E9=9A=9C=E8=80=8C=E5=AF=
-=BC=E8=87=B4=E7=9A=84=E5=86=B2=E7=AA=81=E7=9A=84
->=20
->=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E8=80=83=E8=99=91=E4=
-=B8=8B=E9=9D=A2=E7=9A=84=E4=BE=8B=E5=AD=90::
->=20
->=20+
->=20
->=20+ int x, flag;
->=20
->=20+ void T1(void)
->=20
->=20+ {
->=20
->=20+ x =3D 1; // data race!
->=20
->=20+ WRITE_ONCE(flag, 1); // correct: smp_store_release(&flag, 1)
->=20
->=20+ }
->=20
->=20+ void T2(void)
->=20
->=20+ {
->=20
->=20+ while (!READ_ONCE(flag)); // correct: smp_load_acquire(&flag)
->=20
->=20+ ... =3D x; // data race!
->=20
->=20+ }
->=20
->=20+
->=20
->=20+=E5=BD=93=E5=90=AF=E7=94=A8=E4=BA=86=E5=BC=B1=E5=86=85=E5=AD=98=E5=
-=BB=BA=E6=A8=A1=EF=BC=8CKCSAN =E5=B0=86=E8=80=83=E8=99=91=E5=AF=B9 ``T1``=
- =E4=B8=AD=E7=9A=84 ``x`` =E8=BF=9B=E8=A1=8C=E6=A8=A1=E6=8B=9F=E9=87=8D=
-=E6=96=B0=E6=8E=92=E5=BA=8F=E3=80=82=E5=9C=A8=E5=86=99=E5=85=A5
->=20
->=20+``flag`` =E4=B9=8B=E5=90=8E=EF=BC=8Cx=E5=86=8D=E6=AC=A1=E8=A2=AB=E6=
-=A3=80=E6=9F=A5=E6=98=AF=E5=90=A6=E6=9C=89=E5=B9=B6=E5=8F=91=E8=AE=BF=E9=
-=97=AE=EF=BC=9A=E5=9B=A0=E4=B8=BA ``T2`` =E5=8F=AF=E4=BB=A5=E5=9C=A8=E5=
-=86=99=E5=85=A5
->=20
->=20+``flag`` =E4=B9=8B=E5=90=8E=E7=BB=A7=E7=BB=AD=E8=BF=9B=E8=A1=8C=EF=
-=BC=8C=E5=9B=A0=E6=AD=A4=E6=A3=80=E6=B5=8B=E5=88=B0=E6=95=B0=E6=8D=AE=E7=
-=AB=9E=E4=BA=89=E3=80=82=E5=A6=82=E6=9E=9C=E9=81=87=E5=88=B0=E4=BA=86=E6=
-=AD=A3=E7=A1=AE=E7=9A=84=E5=B1=8F=E9=9A=9C=EF=BC=8C ``x`` =E5=9C=A8=E6=AD=
-=A3=E7=A1=AE
->=20
->=20+=E9=87=8A=E6=94=BE ``flag`` =E5=90=8E=E5=B0=86=E4=B8=8D=E4=BC=9A=E8=
-=A2=AB=E8=80=83=E8=99=91=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=BC=8C=E5=
-=9B=A0=E6=AD=A4=E4=B8=8D=E4=BC=9A=E6=A3=80=E6=B5=8B=E5=88=B0=E6=95=B0=E6=
-=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+=E5=9C=A8=E5=A4=8D=E6=9D=82=E6=80=A7=E4=B8=8A=E7=9A=84=E6=9D=83=E8=
-=A1=A1=E4=BB=A5=E5=8F=8A=E5=AE=9E=E9=99=85=E7=9A=84=E9=99=90=E5=88=B6=E6=
-=84=8F=E5=91=B3=E7=9D=80=E5=8F=AA=E8=83=BD=E6=A3=80=E6=B5=8B=E5=88=B0=E4=
-=B8=80=E9=83=A8=E5=88=86=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=85=E5=
-=AD=98=E5=B1=8F=E9=9A=9C=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=B0
->=20
->=20+=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E7=94=B1=E4=BA=8E=E5=BD=93=E5=
-=89=8D=E5=8F=AF=E7=94=A8=E7=9A=84=E7=BC=96=E8=AF=91=E5=99=A8=E6=94=AF=E6=
-=8C=81=EF=BC=8CKCSAN =E7=9A=84=E5=AE=9E=E7=8E=B0=E4=BB=85=E9=99=90=E4=BA=
-=8E=E5=BB=BA=E6=A8=A1=E2=80=9C=E7=BC=93=E5=86=B2=E2=80=9D=EF=BC=88=E5=BB=
-=B6=E8=BF=9F=E8=AE=BF=E9=97=AE=EF=BC=89=E7=9A=84
->=20
->=20+=E6=95=88=E6=9E=9C=EF=BC=8C=E5=9B=A0=E4=B8=BA=E8=BF=90=E8=A1=8C=E6=
-=97=B6=E4=B8=8D=E8=83=BD=E2=80=9C=E9=A2=84=E5=8F=96=E2=80=9D=E8=AE=BF=E9=
-=97=AE=E3=80=82=E5=90=8C=E6=97=B6=E8=A6=81=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=
-=A7=82=E6=B5=8B=E7=82=B9=E5=8F=AA=E8=AE=BE=E7=BD=AE=E5=9C=A8=E6=99=AE=E9=
-=80=9A=E8=AE=BF=E9=97=AE=E4=B8=8A=EF=BC=8C=E8=BF=99=E6=98=AF=E5=94=AF
->=20
->=20+=E4=B8=80=E4=B8=80=E4=B8=AA KCSAN =E4=BC=9A=E6=A8=A1=E6=8B=9F=E9=87=
-=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=
-=8B=E3=80=82=E8=BF=99=E6=84=8F=E5=91=B3=E7=9D=80=E6=A0=87=E8=AE=B0=E8=AE=
-=BF=E9=97=AE=E7=9A=84=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E4=B8=8D=E4=BC=
-=9A=E8=A2=AB=E5=BB=BA=E6=A8=A1=E3=80=82
->=20
->=20+
->=20
->=20+=E4=B8=8A=E8=BF=B0=E6=83=85=E5=86=B5=E7=9A=84=E4=B8=80=E4=B8=AA=E5=
-=90=8E=E6=9E=9C=E6=98=AF=E8=8E=B7=E5=8F=96=E6=93=8D=E4=BD=9C=E4=B8=8D=E9=
-=9C=80=E8=A6=81=E5=B1=8F=E9=9A=9C=E6=8F=92=E6=A1=A9=EF=BC=88=E4=B8=8D=E9=
-=9C=80=E8=A6=81=E9=A2=84=E5=8F=96=EF=BC=89=E3=80=82=E6=AD=A4=E5=A4=96=EF=
-=BC=8C=E5=BC=95=E5=85=A5=E5=9C=B0=E5=9D=80=E6=88=96=E6=8E=A7=E5=88=B6
->=20
->=20+=E4=BE=9D=E8=B5=96=E7=9A=84=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=
-=B8=8D=E9=9C=80=E8=A6=81=E7=89=B9=E6=AE=8A=E5=A4=84=E7=90=86=EF=BC=88=E6=
-=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B8=8D=E8=83=BD=E9=87=8D=E6=96=B0=E6=
-=8E=92=E5=BA=8F=EF=BC=8C=E5=90=8E=E7=BB=AD=E4=BE=9D=E8=B5=96=E7=9A=84=E8=
-=AE=BF=E9=97=AE=E4=B8=8D=E8=83=BD=E8=A2=AB=E9=A2=84=E5=8F=96=EF=BC=89
->=20
->=20+=E3=80=82
->=20
->=20+
->=20
->=20+=E5=85=B3=E9=94=AE=E5=B1=9E=E6=80=A7
->=20
->=20+~~~~~~~~~~~~~~
->=20
->=20+
->=20
->=20+1. **=E5=86=85=E5=AD=98=E5=BC=80=E9=94=80**=EF=BC=9A=E6=95=B4=E4=BD=
-=93=E7=9A=84=E5=86=85=E5=AD=98=E5=BC=80=E9=94=80=E5=8F=AA=E6=9C=89=E5=87=
-=A0 MiB=EF=BC=8C=E5=8F=96=E5=86=B3=E4=BA=8E=E9=85=8D=E7=BD=AE=E3=80=82=E5=
-=BD=93=E5=89=8D=E7=9A=84=E5=AE=9E=E7=8E=B0=E6=98=AF=E4=BD=BF=E7=94=A8=E4=
-=B8=80=E4=B8=AA=E5=B0=8F=E9=95=BF
->=20
->=20+ =E6=95=B4=E5=9E=8B=E6=95=B0=E7=BB=84=E6=9D=A5=E7=BC=96=E7=A0=81=E8=
-=A7=82=E6=B5=8B=E7=82=B9=E4=BF=A1=E6=81=AF=EF=BC=8C=E5=87=A0=E4=B9=8E=E5=
-=8F=AF=E4=BB=A5=E5=BF=BD=E7=95=A5=E4=B8=8D=E8=AE=A1=E3=80=82
->=20
->=20+
->=20
->=20+2. **=E6=80=A7=E8=83=BD=E5=BC=80=E9=94=80**=EF=BC=9AKCSAN =E7=9A=84=
-=E8=BF=90=E8=A1=8C=E6=97=B6=E6=97=A8=E5=9C=A8=E6=80=A7=E8=83=BD=E5=BC=80=
-=E9=94=80=E6=9C=80=E5=B0=8F=E5=8C=96=EF=BC=8C=E4=BD=BF=E7=94=A8=E4=B8=80=
-=E4=B8=AA=E9=AB=98=E6=95=88=E7=9A=84=E8=A7=82=E6=B5=8B=E7=82=B9=E7=BC=96=
-=E7=A0=81=EF=BC=8C=E5=9C=A8
->=20
->=20+ =E5=BF=AB=E9=80=9F=E8=B7=AF=E5=BE=84=E4=B8=AD=E4=B8=8D=E9=9C=80=E8=
-=A6=81=E8=8E=B7=E5=8F=96=E4=BB=BB=E4=BD=95=E9=94=81=E3=80=82=E5=9C=A8=E6=
-=8B=A5=E6=9C=89 8 =E4=B8=AA CPU =E7=9A=84=E7=B3=BB=E7=BB=9F=E4=B8=8A=E7=
-=9A=84=E5=86=85=E6=A0=B8=E5=90=AF=E5=8A=A8=E6=9D=A5=E8=AF=B4=EF=BC=9A
->=20
->=20+
->=20
->=20+ - =E4=BD=BF=E7=94=A8=E9=BB=98=E8=AE=A4 KCSAN =E9=85=8D=E7=BD=AE=E6=
-=97=B6=EF=BC=8C=E6=80=A7=E8=83=BD=E4=B8=8B=E9=99=8D 5 =E5=80=8D=EF=BC=9B
->=20
->=20+ - =E4=BB=85=E5=9B=A0=E8=BF=90=E8=A1=8C=E6=97=B6=E5=BF=AB=E9=80=9F=
-=E8=B7=AF=E5=BE=84=E5=BC=80=E9=94=80=E5=AF=BC=E8=87=B4=E6=80=A7=E8=83=BD=
-=E4=B8=8B=E9=99=8D 2.8 =E5=80=8D=EF=BC=88=E8=AE=BE=E7=BD=AE=E9=9D=9E=E5=
-=B8=B8=E5=A4=A7=E7=9A=84
->=20
->=20+ ``KCSAN_SKIP_WATCH`` =E5=B9=B6=E5=8F=96=E6=B6=88=E8=AE=BE=E7=BD=AE =
-``KCSAN_SKIP_WATCH_RANDOMIZE``=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+3. **=E6=B3=A8=E8=A7=A3=E5=BC=80=E9=94=80**=EF=BC=9AKCSAN =E8=BF=90=
-=E8=A1=8C=E6=97=B6=E4=B9=8B=E5=A4=96=E9=9C=80=E8=A6=81=E7=9A=84=E6=B3=A8=
-=E9=87=8A=E5=BE=88=E5=B0=91=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E9=9A=8F=
-=E7=9D=80=E5=86=85=E6=A0=B8=E7=9A=84=E5=8F=91=E5=B1=95=E7=BB=B4=E6=8A=A4=
-=E7=9A=84=E5=BC=80
->=20
->=20+ =E9=94=80=E4=B9=9F=E5=BE=88=E5=B0=8F=E3=80=82
->=20
->=20+
->=20
->=20+4. **=E6=A3=80=E6=B5=8B=E8=AE=BE=E5=A4=87=E7=9A=84=E7=AB=9E=E4=BA=89=
-=E5=86=99=E5=85=A5**=EF=BC=9A=E7=94=B1=E4=BA=8E=E8=AE=BE=E7=BD=AE=E8=A7=
-=82=E6=B5=8B=E7=82=B9=E6=97=B6=E4=BC=9A=E6=A3=80=E6=9F=A5=E6=95=B0=E6=8D=
-=AE=E5=80=BC=EF=BC=8C=E8=AE=BE=E5=A4=87=E7=9A=84=E7=AB=9E=E4=BA=89=E5=86=
-=99=E5=85=A5=E4=B9=9F=E5=8F=AF=E4=BB=A5
->=20
->=20+ =E8=A2=AB=E6=A3=80=E6=B5=8B=E5=88=B0=E3=80=82
->=20
->=20+
->=20
->=20+5. **=E5=86=85=E5=AD=98=E6=8E=92=E5=BA=8F**=EF=BC=9AKCSAN =E5=8F=AA=
-=E4=BA=86=E8=A7=A3=E4=B8=80=E9=83=A8=E5=88=86 LKMM =E6=8E=92=E5=BA=8F=E8=
-=A7=84=E5=88=99=EF=BC=9B=E8=BF=99=E5=8F=AF=E8=83=BD=E4=BC=9A=E5=AF=BC=E8=
-=87=B4=E6=BC=8F=E6=8A=A5=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=88
->=20
->=20+ =E5=81=87=E9=98=B4=E6=80=A7=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+6. **=E5=88=86=E6=9E=90=E5=87=86=E7=A1=AE=E7=8E=87**=EF=BC=9A =E5=AF=
-=B9=E4=BA=8E=E8=A7=82=E5=AF=9F=E5=88=B0=E7=9A=84=E6=89=A7=E8=A1=8C=EF=BC=
-=8C=E7=94=B1=E4=BA=8E=E4=BD=BF=E7=94=A8=E9=87=87=E6=A0=B7=E7=AD=96=E7=95=
-=A5=EF=BC=8C=E5=88=86=E6=9E=90=E6=98=AF * =E4=B8=8D=E5=81=A5=E5=85=A8 * =
-=E7=9A=84
->=20
->=20+ =EF=BC=88=E5=8F=AF=E8=83=BD=E6=9C=89=E5=81=87=E9=98=B4=E6=80=A7=EF=
-=BC=89=EF=BC=8C=E4=BD=86=E6=9C=9F=E6=9C=9B=E5=BE=97=E5=88=B0=E5=AE=8C=E6=
-=95=B4=E7=9A=84=E5=88=86=E6=9E=90=EF=BC=88=E6=B2=A1=E6=9C=89=E5=81=87=E9=
-=98=B3=E6=80=A7=EF=BC=89=E3=80=82
->=20
->=20+
->=20
->=20+=E8=80=83=E8=99=91=E7=9A=84=E6=9B=BF=E4=BB=A3=E6=96=B9=E6=A1=88
->=20
->=20+-------------------
->=20
->=20+
->=20
->=20+=E4=B8=80=E4=B8=AA=E5=86=85=E6=A0=B8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
-=BA=89=E6=A3=80=E6=B5=8B=E7=9A=84=E6=9B=BF=E4=BB=A3=E6=96=B9=E6=B3=95=E6=
-=98=AF `Kernel Thread Sanitizer (KTSAN)
->=20
->=20+<https://github.com/google/ktsan/wiki>%60_%E3%80%82KTSAN https://git=
-hub.com/google/ktsan/wiki%3E%60_%E3%80%82KTSAN  =E6=98=AF=E4=B8=80=E4=B8=
-=AA=E5=85=88=E8=A1=8C=E5=8F=91=E7=94=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=
-=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E5=99=A8
->=20
->=20+=EF=BC=8C=E5=AE=83=E6=98=BE=E5=BC=8F=E5=BB=BA=E7=AB=8B=E5=86=85=E5=
-=AD=98=E6=93=8D=E4=BD=9C=E4=B9=8B=E9=97=B4=E7=9A=84=E5=85=88=E8=A1=8C=E5=
-=8F=91=E7=94=9F=E9=A1=BA=E5=BA=8F=EF=BC=8C=E8=BF=99=E5=8F=AF=E4=BB=A5=E7=
-=94=A8=E6=9D=A5=E7=A1=AE=E5=AE=9A
->=20
->=20+`=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89`_ =E4=B8=AD=E5=AE=9A=E4=B9=89=
-=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
->=20
->=20+
->=20
->=20+=E4=B8=BA=E4=BA=86=E5=BB=BA=E7=AB=8B=E6=AD=A3=E7=A1=AE=E7=9A=84=E5=
-=85=88=E8=A1=8C=E5=8F=91=E7=94=9F=E5=85=B3=E7=B3=BB=EF=BC=8CKTSAN =E5=BF=
-=85=E9=A1=BB=E4=BA=86=E8=A7=A3 LKMM =E7=9A=84=E6=89=80=E6=9C=89=E6=8E=92=
-=E5=BA=8F=E8=A7=84=E5=88=99=E5=92=8C=E5=90=8C=E6=AD=A5=E5=8E=9F=E8=AF=AD=
-=E3=80=82=E4=B8=8D=E5=B9=B8
->=20
->=20+=E7=9A=84=E6=98=AF=EF=BC=8C=E4=BB=BB=E4=BD=95=E9=81=97=E6=BC=8F=E9=
-=83=BD=E4=BC=9A=E5=AF=BC=E8=87=B4=E5=A4=A7=E9=87=8F=E7=9A=84=E5=81=87=E9=
-=98=B3=E6=80=A7=EF=BC=8C=E8=BF=99=E5=9C=A8=E5=8C=85=E5=90=AB=E4=BC=97=E5=
-=A4=9A=E8=87=AA=E5=AE=9A=E4=B9=89=E5=90=8C=E6=AD=A5=E6=9C=BA=E5=88=B6=E7=
-=9A=84=E5=86=85=E6=A0=B8=E4=B8=8A=E4=B8=8B=E6=96=87=E4=B8=AD=E7=89=B9
->=20
->=20+=E5=88=AB=E6=9C=89=E5=AE=B3=E3=80=82=E4=B8=BA=E4=BA=86=E8=B7=9F=E8=
-=B8=AA=E5=89=8D=E5=9B=A0=E5=90=8E=E6=9E=9C=E5=85=B3=E7=B3=BB=EF=BC=8CKTSA=
-N =E7=9A=84=E5=AE=9E=E7=8E=B0=E9=9C=80=E8=A6=81=E4=B8=BA=E6=AF=8F=E4=B8=
-=AA=E5=86=85=E5=AD=98=E4=BD=8D=E7=BD=AE=E6=8F=90=E4=BE=9B=E5=85=83=E6=95=
-=B0=E6=8D=AE=EF=BC=88=E5=BD=B1=E5=AD=90=E5=86=85
->=20
->=20+=E5=AD=98=EF=BC=89=EF=BC=8C=E8=BF=99=E6=84=8F=E5=91=B3=E7=9D=80=E6=
-=AF=8F=E9=A1=B5=E5=86=85=E5=AD=98=E5=AF=B9=E5=BA=94 4 =E9=A1=B5=E5=BD=B1=
-=E5=AD=90=E5=86=85=E5=AD=98=EF=BC=8C=E5=9C=A8=E5=A4=A7=E5=9E=8B=E7=B3=BB=
-=E7=BB=9F=E4=B8=8A=E5=8F=AF=E8=83=BD=E4=BC=9A=E5=B8=A6=E6=9D=A5=E6=95=B0=
-=E5=8D=81 GiB =E7=9A=84=E5=BC=80=E9=94=80
->=20
->=20+=E3=80=82
->=20
->=20\ No newline at end of file
-Let's add a blankline at end of file.
+>   Documentation/admin-guide/cgroup-v2.rst |  26 ++++--
+>   include/linux/cgroup-defs.h             |   5 +
+>   include/linux/cgroup.h                  |   3 +
+>   include/linux/memcontrol.h              |   5 +
+>   include/linux/page_counter.h            |   6 +-
+>   kernel/cgroup/cgroup-internal.h         |   2 +
+>   kernel/cgroup/cgroup.c                  |   7 ++
+>   mm/memcontrol.c                         | 117 ++++++++++++++++++++++--
+>   mm/page_counter.c                       |  30 ++++--
+>   9 files changed, 174 insertions(+), 27 deletions(-)
+Could you use the "-v <n>" option of git-format-patch to add a version 
+number to the patch title? Without that, it can be confusing as to 
+whether the patch is new or a resend of the previous one.
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 86311c2907cd3..01554cf6e55b4 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1333,11 +1333,16 @@ The following nested keys are defined.
+>   	all the existing limitations and potential future extensions.
+>   
+>     memory.peak
+> -	A read-only single value file which exists on non-root
+> -	cgroups.
+> +	A read-write single value file which exists on non-root cgroups.
+> +
+> +	The max memory usage recorded for the cgroup and its descendants since
+> +	either the creation of the cgroup or the most recent reset for that FD.
+>   
+> -	The max memory usage recorded for the cgroup and its
+> -	descendants since the creation of the cgroup.
+> +	A write of the string "reset" to this file resets it to the
+> +	current memory usage for subsequent reads through the same
+> +	file descriptor.
+> +	Attempts to write any other non-empty string will return EINVAL
+> +	(modulo leading and trailing whitespace).
+>   
+>     memory.oom.group
+>   	A read-write single value file which exists on non-root
+> @@ -1663,11 +1668,16 @@ The following nested keys are defined.
+>   	Healthy workloads are not expected to reach this limit.
+>   
+>     memory.swap.peak
+> -	A read-only single value file which exists on non-root
+> -	cgroups.
+> +	A read-write single value file which exists on non-root cgroups.
+> +
+> +	The max swap usage recorded for the cgroup and its descendants since
+> +	the creation of the cgroup or the most recent reset for that FD.
+>   
+> -	The max swap usage recorded for the cgroup and its
+> -	descendants since the creation of the cgroup.
+> +	A write of the string "reset" to this file resets it to the
+> +	current memory usage for subsequent reads through the same
+> +	file descriptor.
+> +	Attempts to write any other non-empty string will return EINVAL
+> +	(modulo leading and trailing whitespace).
+>   
+>     memory.swap.max
+>   	A read-write single value file which exists on non-root
+> diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+> index ae04035b6cbe5..2188ea76ab327 100644
+> --- a/include/linux/cgroup-defs.h
+> +++ b/include/linux/cgroup-defs.h
+> @@ -775,6 +775,11 @@ struct cgroup_subsys {
+>   
+>   extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
+>   
+> +struct cgroup_of_peak {
+> +	long			value;
+> +	struct list_head	list;
+> +};
+The name "cgroup_of_peak" is kind of confusing. Maybe local_peak?
+> +This structure is used to store the initial page counter value when the reset command is issue
+>   /**
+>    * cgroup_threadgroup_change_begin - threadgroup exclusion for cgroups
+>    * @tsk: target task
+> diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
+> index c60ba0ab14627..3e0563753cc3e 100644
+> --- a/include/linux/cgroup.h
+> +++ b/include/linux/cgroup.h
+> @@ -11,6 +11,7 @@
+>   
+>   #include <linux/sched.h>
+>   #include <linux/nodemask.h>
+> +#include <linux/list.h>
+Doubly linked list is very commonly used data structure in the kernel. 
+It is implicitly included in a lot of headers. So I don't believe you 
+need to explicitly include it here.
+>   #include <linux/rculist.h>
+>   #include <linux/cgroupstats.h>
+>   #include <linux/fs.h>
+> @@ -854,4 +855,6 @@ static inline void cgroup_bpf_put(struct cgroup *cgrp) {}
+>   
+>   struct cgroup *task_get_cgroup1(struct task_struct *tsk, int hierarchy_id);
+>   
+> +struct cgroup_of_peak *of_peak(struct kernfs_open_file *of);
+> +
+>   #endif /* _LINUX_CGROUP_H */
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index 7e2eb091049a0..4fa4f0e931d26 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -192,6 +192,11 @@ struct mem_cgroup {
+>   		struct page_counter memsw;	/* v1 only */
+>   	};
+>   
+> +	/* registered local peak watchers */
+> +	struct list_head memory_peaks;
+> +	struct list_head swap_peaks;
+> +	spinlock_t	 peaks_lock;
+> +
+>   	/* Range enforcement for interrupt charges */
+>   	struct work_struct high_work;
+>   
+> diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
+> index 904c52f97284f..860f313182e77 100644
+> --- a/include/linux/page_counter.h
+> +++ b/include/linux/page_counter.h
+> @@ -26,6 +26,7 @@ struct page_counter {
+>   	atomic_long_t children_low_usage;
+>   
+>   	unsigned long watermark;
+> +	unsigned long local_watermark; /* track min of fd-local resets */
+track "min"? I thought it is used to track local maximum after a reset.
+>   	unsigned long failcnt;
+>   
+>   	/* Keep all the read most fields in a separete cacheline. */
+> @@ -78,7 +79,10 @@ int page_counter_memparse(const char *buf, const char *max,
+>   
+>   static inline void page_counter_reset_watermark(struct page_counter *counter)
+>   {
+> -	counter->watermark = page_counter_read(counter);
+> +	unsigned long usage = page_counter_read(counter);
+> +
+> +	counter->watermark = usage;
+> +	counter->local_watermark = usage;
+>   }
+>   
 
-BTW, the merge windows has open, so if you don't mind, could you send v2
-next week?
+Could you set the local_watermark first before setting watermark? There 
+is a very small time window that the invariant "local_watermark <= 
+watermark" is not true.
 
-Thanks,
-Yanteng
+>   void page_counter_calculate_protection(struct page_counter *root,
+> diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
+> index 520b90dd97eca..c964dd7ff967a 100644
+> --- a/kernel/cgroup/cgroup-internal.h
+> +++ b/kernel/cgroup/cgroup-internal.h
+> @@ -81,6 +81,8 @@ struct cgroup_file_ctx {
+>   	struct {
+>   		struct cgroup_pidlist	*pidlist;
+>   	} procs1;
+> +
+> +	struct cgroup_of_peak peak;
+>   };
+>   
+>   /*
+> diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+> index c8e4b62b436a4..0a97cb2ef1245 100644
+> --- a/kernel/cgroup/cgroup.c
+> +++ b/kernel/cgroup/cgroup.c
+> @@ -1972,6 +1972,13 @@ static int cgroup2_parse_param(struct fs_context *fc, struct fs_parameter *param
+>   	return -EINVAL;
+>   }
+>   
+> +struct cgroup_of_peak *of_peak(struct kernfs_open_file *of)
+> +{
+> +	struct cgroup_file_ctx *ctx = of->priv;
+> +
+> +	return &ctx->peak;
+> +}
+> +
+>   static void apply_cgroup_root_flags(unsigned int root_flags)
+>   {
+>   	if (current->nsproxy->cgroup_ns == &init_cgroup_ns) {
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 9603717886877..2176a2da1aa83 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -25,6 +25,7 @@
+>    * Copyright (C) 2020 Alibaba, Inc, Alex Shi
+>    */
+>   
+> +#include <linux/cgroup-defs.h>
+>   #include <linux/page_counter.h>
+>   #include <linux/memcontrol.h>
+>   #include <linux/cgroup.h>
+> @@ -41,6 +42,7 @@
+>   #include <linux/rcupdate.h>
+>   #include <linux/limits.h>
+>   #include <linux/export.h>
+> +#include <linux/list.h>
+>   #include <linux/mutex.h>
+>   #include <linux/rbtree.h>
+>   #include <linux/slab.h>
+> @@ -3558,6 +3560,9 @@ static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
+>   
+>   	INIT_WORK(&memcg->high_work, high_work_func);
+>   	vmpressure_init(&memcg->vmpressure);
+> +	INIT_LIST_HEAD(&memcg->memory_peaks);
+> +	INIT_LIST_HEAD(&memcg->swap_peaks);
+> +	spin_lock_init(&memcg->peaks_lock);
+>   	memcg->socket_pressure = jiffies;
+>   	memcg1_memcg_init(memcg);
+>   	memcg->kmemcg_id = -1;
+> @@ -3950,12 +3955,90 @@ static u64 memory_current_read(struct cgroup_subsys_state *css,
+>   	return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
+>   }
+>   
+> -static u64 memory_peak_read(struct cgroup_subsys_state *css,
+> -			    struct cftype *cft)
+> +static int peak_show(struct seq_file *sf, void *v, struct page_counter *pc)
+>   {
+> -	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+> +	struct cgroup_of_peak *ofp = of_peak(sf->private);
+> +	s64 fd_peak = ofp->value, peak;
+> +
+> +	/* User wants global or local peak? */
+> +	if (fd_peak == -1)
+> +		peak = pc->watermark;
+> +	else
+> +		peak = max(fd_peak, (s64)pc->local_watermark);
+Should you save the local_watermark value into ofp->value if 
+local_watermark is bigger? This will ensure that each successive read of 
+the fd is monotonically increasing. Otherwise the value may go up or 
+down if there are multiple resets in between.
+
+Cheers,
+Longman
+
