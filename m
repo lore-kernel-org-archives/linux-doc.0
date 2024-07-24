@@ -1,168 +1,84 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0580015216A
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 11:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B6F6A039;
+	Wed, 24 Jul 2024 12:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721821754; cv=none; b=LLLuAkFyBPN/AMJZ4YQKnzd23uKSELch0QvgHGj8WqNorXx4L5Y2mQ5DZTEnO5+aKHgT4Ws8gR0RIfzh4ATO+QwXiUvFQOyYfSbbiDCUrIBYdvpiPC4bFVtmKHPftYLt8W+ts/GbJEYghBSjiyGuaJo4iQYKMCnKLmtMZwwbbxQ=
+	t=1721825060; cv=none; b=LVPz2eTWtr3VfLkWuWaQhoSr+0wMFYH0q4B1bhtVnusXu+ftUcaSDz8Ut4swX1roHJtPZJrUG06D+hCWbS3qGz9xZcwCydPGz//qs9opQ35dGetLfJ58+wji5mHUVQzS4AG2E56VNy0FX9pJ7LiIZh0YIl/9xVYxtkCYRMEg5v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721821754; c=relaxed/simple;
-	bh=q5BNZZnYXCfz5BQs4aahSBIwit5DV28WbPMtKTqD8JI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WQwx9YcNGE+1Xk6yObZhSKlhTBtZp96sYIPGHONXkZNPeJbZsrdqtFAg8dvBoiOQyvgXcRww9IJoKIqL3Lrm/0MURtrO8P65+CimxwrI+4sG9JrNJ+ecv4H7WRBC4NAm/zTg2TJ04Ye0Hzjn5+DoGv5/SO7dFqsRD0PE4SyzGa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=NGiOWrAu; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1721825060; c=relaxed/simple;
+	bh=PqvZ44tvj3p31YMwQcFF+FFz38rl5gmSflhNBduG30s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FHFHVEPphYEWEx8AEmtNfiWGMINaoiWWWEFo56hUArY9Xwlc7SIW9kQwPvIm89t/w7s1cwsxp+6OnlVqb/s9j8IgcuRa8No4Fsjvp0jtfa9P1VUh6BSEbh3IUJJ+J8xuj2A0sDDBZ7UELAZlpGkiX4AjmrfHwrJPUe6hL1A0agg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=j7+6wc+o; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="NGiOWrAu"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-79f178351d4so342241985a.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 04:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1721821751; x=1722426551; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2AZJKrk8iITWmBZL5VKywEjtBZAHwrNAU5Vz8WqNcz8=;
-        b=NGiOWrAuyPKKBkVypFAkC8EbtbMdPeKi+kyPu6ibaQgF3oJEtIW4rMEEayeqj8QGVH
-         WKiCxiZFwo90fsVrp629GvKXhbDsDRkCQfMftZ064sRcrMu1gmNsKjGR8eqEHssxu5xE
-         yU/lc19SOTbXixogxf8AvtvEptODA35uK5fPcJsMslfHAT9i3OVIRz5FlBf7wDTqBiZT
-         1rE/1UiPaCrGDhW1/gJXK/4D2Y31SI2M/2c+jP9Ds+LnKYEDOZtt5eQ325J8SYPjOV8V
-         vrnORsc7sTBrw7PChCvkDQwd1GFYxCguq3oyVbroFwGhAYH4qIAB7oO3gtBQSVnMggDr
-         4gIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721821751; x=1722426551;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2AZJKrk8iITWmBZL5VKywEjtBZAHwrNAU5Vz8WqNcz8=;
-        b=eEL8a7Hb3B8jXmZaDwwz6SxA8M9vw98Up6Ti/tAoI/PxW2gNtHr5a/ermGTAMCpA+k
-         tViRWQL9x2r/2rc/G+rFQ0ZdmmKv/YMakLq6aYqyPCCUH2bFH1b+XkWxmun0wo0XFFoe
-         EH1Y37MFD6AA5NLcxFOyEtJzS0AW3hzN/MEMikuztcRInVS7vHHzJUVOAbkretYEweZ9
-         O+aEI3+Juo3VmE8fS+OdWhxvmBJwqWDGgQkwzglbIgQo7KWgO5jdi66NjgIlQ8uixxxS
-         X/rrbOYP5QNHWaTRnV5PPBc1eszxK/l4p6ROajOMKA5AfumNH4+JG8eENz0ugqRAEe1E
-         Mvrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVo5C0gJh8wyHCF+6xmEpXaGGZD4ElGJoKFSyEN27dMzfmVBG1dWOF4aOjKTOcIhACgClz7DEuA5GlO/3E+RTVbUfAAtdxZwNuh
-X-Gm-Message-State: AOJu0YwBIREO8WGNljU9kNUq6Gwa9SzD/OiVkEFj5Y6R8HORehoyFnIq
-	P+Tgpd+AyiRJobbM3eRsfffB2YhqO5k2r13BjiYlD7/ao3XWp9PpOWiuBhKXjd0=
-X-Google-Smtp-Source: AGHT+IH+ncWONYNFlORvxZR9kiEz5v28cZwt8KEfLHZR4owEBgNh00LBs1VgQWphxGekAbR+pUmsXg==
-X-Received: by 2002:a05:620a:4548:b0:79f:8a7:eb87 with SMTP id af79cd13be357-7a1a1344844mr1567340085a.42.1721821750783;
-        Wed, 24 Jul 2024 04:49:10 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a19907a6b2sm571074685a.101.2024.07.24.04.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 04:49:10 -0700 (PDT)
-Date: Wed, 24 Jul 2024 07:49:05 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Waiman Long <longman@redhat.com>
-Cc: David Finkel <davidf@vimeo.com>, Muchun Song <muchun.song@linux.dev>,
-	Tejun Heo <tj@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <shuah@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Message-ID: <20240724114905.GB389003@cmpxchg.org>
-References: <20240723233149.3226636-1-davidf@vimeo.com>
- <20240723233149.3226636-2-davidf@vimeo.com>
- <22a95c76-4e9e-482e-b95d-cb0f01971d98@redhat.com>
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="j7+6wc+o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1721825054;
+	bh=axqxpBEodghaFEC84iaFxG1Fg6FcJm7D5vj0S1d76bc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=j7+6wc+o2TsweX3Z5PfOS6gaprPUl8dm68CUZZ0KGwcd+w/QGQAZeI8cUJnIHFFD5
+	 ZMd6ju08+StXclLUSRcxlRhZ12+3dbPUmopVG4qtt6J3JczC3zhCp/+38NAgSGoTt2
+	 CApJVdT29LtWidDz2DDJNbg41Gn4UZgA0fomm5OJrVzn0Ex4t4PsZr1mlgxYVsshxe
+	 y6jYvqfWTiKhdullHOD/x/H/ZLOoUrrWUTzKbhdxW4hHdFeVVtbPwllNVIz5Rvdv+F
+	 lxEeRdXsJ3N/9oQvjaDOSdcTEPas3kShC9LIDyDAnKsHovrnaHTwjJzKX5TY7ieyM+
+	 k5vQbagJjdRIg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WTYcC2QHnz4wc2;
+	Wed, 24 Jul 2024 22:44:11 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Lasse Collin <lasse.collin@tukaani.org>, Andrew Morton
+ <akpm@linux-foundation.org>
+Cc: Lasse Collin <lasse.collin@tukaani.org>, Sam James <sam@gentoo.org>,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 17/16] xz: Remove XZ_EXTERN and extern from functions
+In-Reply-To: <20240724110544.16430-1-lasse.collin@tukaani.org>
+References: <20240721133633.47721-1-lasse.collin@tukaani.org>
+ <20240724110544.16430-1-lasse.collin@tukaani.org>
+Date: Wed, 24 Jul 2024 22:44:10 +1000
+Message-ID: <8734nzvu1x.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22a95c76-4e9e-482e-b95d-cb0f01971d98@redhat.com>
+Content-Type: text/plain
 
-On Tue, Jul 23, 2024 at 09:55:19PM -0400, Waiman Long wrote:
-> Could you use the "-v <n>" option of git-format-patch to add a version 
-> number to the patch title? Without that, it can be confusing as to 
-> whether the patch is new or a resend of the previous one.
+Lasse Collin <lasse.collin@tukaani.org> writes:
+> XZ_EXTERN was used to make internal functions static in the preboot code.
+> However, in other decompressors this hasn't been done. On x86-64, this
+> makes no difference to the kernel image size.
+>
+> Omit XZ_EXTERN and let some of the internal functions be extern in the
+> preboot code. Omitting XZ_EXTERN from include/linux/xz.h fixes warnings
+> in "make htmldocs" and makes the intradocument links to xz_dec functions
+> work in Documentation/staging/xz.rst. The alternative would have been to
+> add "XZ_EXTERN" to c_id_attributes in Documentation/conf.py but omitting
+> XZ_EXTERN seemed cleaner.
+>
+> Link: https://lore.kernel.org/lkml/20240723205437.3c0664b0@kaneli/
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Lasse Collin <lasse.collin@tukaani.org>
+> ---
+>
+> Notes:
+>     This touches xz_config.h in PowerPC boot code. I haven't tested it but
+>     zlib's functions are extern in the same context, thus this should be
+>     a safe change on PowerPC.
+     
+I gave it a quick build and boot, seems fine.
 
-+1
+Tested-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-> > @@ -775,6 +775,11 @@ struct cgroup_subsys {
-> >   
-> >   extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
-> >   
-> > +struct cgroup_of_peak {
-> > +	long			value;
-> > +	struct list_head	list;
-> > +};
-> The name "cgroup_of_peak" is kind of confusing. Maybe local_peak?
-
-It's the peak associated with an 'of' (which is a known concept in
-cgroup code), and it pairs up nicely with of_peak(). I'd prefer
-keeping that over local_peak.
-
-> > @@ -26,6 +26,7 @@ struct page_counter {
-> >   	atomic_long_t children_low_usage;
-> >   
-> >   	unsigned long watermark;
-> > +	unsigned long local_watermark; /* track min of fd-local resets */
-> track "min"? I thought it is used to track local maximum after a reset.
-
-Yeah, the comment doesn't sound quite right.
-
-However, I think we'd be hard-pressed to explain correctly and
-comprehensively what this thing does in <40 characters.
-
-I'd just remove the comment tbh.
-
-> > @@ -78,7 +79,10 @@ int page_counter_memparse(const char *buf, const char *max,
-> >   
-> >   static inline void page_counter_reset_watermark(struct page_counter *counter)
-> >   {
-> > -	counter->watermark = page_counter_read(counter);
-> > +	unsigned long usage = page_counter_read(counter);
-> > +
-> > +	counter->watermark = usage;
-> > +	counter->local_watermark = usage;
-> >   }
-> >   
-> 
-> Could you set the local_watermark first before setting watermark? There 
-> is a very small time window that the invariant "local_watermark <= 
-> watermark" is not true.
-
-Does it matter? Only cgroup1 supports global resets; only cgroup2
-supports local peaks watching. This doesn't add anything to the race
-that already exists between reset and global watermark update on cg1.
-
-> > @@ -3950,12 +3955,90 @@ static u64 memory_current_read(struct cgroup_subsys_state *css,
-> >   	return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
-> >   }
-> >   
-> > -static u64 memory_peak_read(struct cgroup_subsys_state *css,
-> > -			    struct cftype *cft)
-> > +static int peak_show(struct seq_file *sf, void *v, struct page_counter *pc)
-> >   {
-> > -	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-> > +	struct cgroup_of_peak *ofp = of_peak(sf->private);
-> > +	s64 fd_peak = ofp->value, peak;
-> > +
-> > +	/* User wants global or local peak? */
-> > +	if (fd_peak == -1)
-> > +		peak = pc->watermark;
-> > +	else
-> > +		peak = max(fd_peak, (s64)pc->local_watermark);
-> Should you save the local_watermark value into ofp->value if 
-> local_watermark is bigger? This will ensure that each successive read of 
-> the fd is monotonically increasing. Otherwise the value may go up or 
-> down if there are multiple resets in between.
-
-The reset saves local_watermark into ofp->value if it's bigger..?
-
-I do see another problem, though. The compiler might issue multiple
-reads to ofp->value in arbitrary order. We could print max(-1, ...)
-which is nonsense. Saving ofp->value into a local variable is the
-right idea, but the compiler might still issue two reads anyway. It
-needs a READ_ONCE() to force a single read.
-
-I'd use unsigned long for fd_peak. This way the "specialness" is on
-the -1UL comparison. The max() must be between two positive numbers,
-so the (s64) there is confusing.
+cheers
