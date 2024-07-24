@@ -1,55 +1,55 @@
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C03D22EF2
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6951CD3B
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721783483; cv=none; b=p23XiGpjuixmeyRBBi2VxRY8xzyI56GF5kk6whk1VSWGQjaVu+b+7BYDFcBxeaoPoYJKehtz2VaWbFqReD0TjC/TihLmf1cDNQxP39kDTfDHqr2jN3KSbc7rP0QRWFgnaXds5d8PVSJIzQJ/7Lkbv9tftvO+t0h28CGI87FwTrU=
+	t=1721783483; cv=none; b=uwvSBIZbqNSSrwrFtIrHddDEnsKZ8SXumz2XpOR/pwHp+JmfdZmir0sqNEAvtR1lB9udwpXc2X4b4wRzKizXjhNyKZJTmxn0p2THgEyxC3L5yJ5IFgYSul6DBGdVA37pLeCoLC+CCM2Z1F57fatbvx+NxAX83vB+hi4GYSIxsc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1721783483; c=relaxed/simple;
-	bh=GzvrAe/cY3CTCsf2eL2JXn03bXEL3fKmbljP7UMpANQ=;
+	bh=DccZZo0TDyPH4ENFSscndtleJxN6Z24xvjaSA+R9MWM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FFP94dyD8WJ7g3sFguQtuGdNe+Ju2TnXFLpSuhCwn5p+YJeaUVcg8zg+pTQsPFX8frfNmhgOn/yt67YLEC2b8UtqV/lhvBB97AMbVAHHMC+mQ178Welk2HcPFSMvm1R220Rg7D5NKAYRRqPvm97MNRIp2OvUbPKKqhKQpUog3yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bEVrWdvN; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=O0jyTi4rSeYWKnCs9NvWb5WL3UmoTdpQApVrdgtix+CwjIiDj+7h16CnABvtWSyANFJ6QTuAWfjF58eQU9Zr86hiiQhevvpRP4NJQ+UuCzmri3JXZuE+OXSR243x80yDtqH1LVyoOFdCKitKPFz54k1bOS6uM6l2E84W+wQiT5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YILXq27C; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bEVrWdvN"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-664b7a67ad4so176397487b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YILXq27C"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-650ab31aabdso167189217b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721783480; x=1722388280; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1721783479; x=1722388279; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JW+jUUoqcXqadXhonZGbNsXZ7+Zma3rlwNzyePdiaMw=;
-        b=bEVrWdvNOrCwwmsJ1hAAr8f5K+fJrCEQ9vgVVUnw4YVzIaIx6yEn2Dje8/gS/CuRNd
-         A0uzVz0nNdAgEtEEoYdODrERFRx7PPeprEKYQEhMJGtGggoOc+RnRtpuevreRJ3j2SSy
-         1m2K7jhiLQZfbBcu+0RI/HSJsRC1d4oVhtTn6a4YiIGuaC5E6nvIPlHJdVYHoPxlKnaT
-         IBdQag3yWPghnLXLIukxJuVUH/Hhc6JVP40ywaGSc8yOSkVT7Fju2wtQCkJ3CAhSZDeV
-         B4fNS0KVG/K/R4N6Prlx9uMfRHpimmnmFyMCynGAtfdJ2BEFuBy8ruZEhDoAUjEXFOU7
-         Tw6g==
+        bh=xYFUlEH9+669o/RlL44au3jQWbYqLeFR1nQhpVmQt2k=;
+        b=YILXq27Chf9AC/rwI7oxSVb7nHghzFDB5RurqJEV/hR7YbI2VBI3MsoZCOedd2SXzX
+         F6iQGrjxtOQc+E8iQAWYscp5PWX9h2DJ6Us54CPFDHaesffzVnF+ysl1O9bkA83lFeif
+         JFDXkyRiyqNHlqyNrOhZLFIKaKbticyyG4fm/cSIOwo4sA787I2JgFFAmCIcIfCMhXqS
+         o0VriYefUeYpJwu/d/3kyPiFgFGCuYidroCm57tFG+E4POPuBaxk4YPR8IOSHqjIX0B8
+         LfJrxolP6T5j4GQVgUoKS6mvkv9yxto3Oe7/u80VH5MYjeCfX4d3KBTu+EF/Mgr8e3yh
+         E9Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721783480; x=1722388280;
+        d=1e100.net; s=20230601; t=1721783479; x=1722388279;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JW+jUUoqcXqadXhonZGbNsXZ7+Zma3rlwNzyePdiaMw=;
-        b=Ya0cg8RiFZ+YX13LbujhLTagDZGSsVzMnv7NiuXKX6UB3rALpX2G+i9W3ivAxK1xhc
-         uvuZhKtXnZ7T2mTT54mkRmpjPFf41LPMOjbDFF3RJq2xCEGWs24wlqp/86FsNCMMjH8F
-         JbkpChmUOzXlhZjhMyC5sRVLVGUATcnEMvnAkyigK+UHs0NthJ65EQ+WoM5fMjEqZm0j
-         oqZITwmOoHQG7LaQ/KYPGwCLQqplco1UPdTlHndMEdOBC0VHXuiVUwVyMMysMjmLlnVJ
-         oq/4+HrXKC8HMc1FEqx0i9/9BC9IDzI4SL4KGoussndDcw17VmDHtIG/U0qxon47Api3
-         7v0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWcxBFoQZP0Q7LzaA28EME4ETzkBNri9wVQEeYnw2okXWHUMPHmMLM10Qv2DgqxBmdSy9cyN8kT20XeeJIlugzO9xxLMZ9xd6Za
-X-Gm-Message-State: AOJu0YyoxY1Btea5acbf/7KHv3Vtl+eSGjlUHO5/EggmJyYpYVWNckc/
-	tgBNHHMlNWR/y3n6ScXt1mMSm7hqBG/jMf2kMvsyjki+cbOgbPq27fWcSSYQHAyCzU5t3s6X/Qy
-	zKFjK1wN0a58KFmU6WA==
-X-Google-Smtp-Source: AGHT+IHToUjK35hNR0etsZGQeAjUCPxr50Jqta5Si1cnS8NseXl88g/0Ew0GUmmAUp0HML6hFdfWagbQP5rsIFm/
+        bh=xYFUlEH9+669o/RlL44au3jQWbYqLeFR1nQhpVmQt2k=;
+        b=Waovh3sdKpNFEUzBHQhicoPq58CyFS56isUgvGPtHtxAfZaSfYX5Vrm2GJ2j14PhiT
+         7SBxUcjMV1CZXQmC6P3YT+1r+ZvcUeYH0SwnTgMm6Kjjr5+MkRInffcpin/PPpBuu3bj
+         cEY14UMxUpSPUd3HxzK9F/edKomYP4UzH/48QlZbHgGqgHh7gjX2CErUGH35Noez38xz
+         KEXam7s54GeDgYjoQz+ZMUbHWudtF3I3AxUCkLAMU5Qby0O2fwBz2gyFp4gIzs221A+9
+         dH1SKwSXDIiNQ6R/MaHjQ0TyH4NpeOD7+538oiGnrR95D1oj1o9AdaijUfP3Z7/EE5F0
+         y+NA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlruL1sjauQkLRn5UzpEXJAbTy8WdIMFkrhOIJD7CItpw1zFWbYsbFWnuTUx5zQ7ckAzZfaSVKepwQTA64aTCRQIltY6jkvn65
+X-Gm-Message-State: AOJu0Yx4ACp0okAZeNBDyR9fSkHPlk5puVvudYMYebV/fSmsBxPJSHjv
+	bdtIzl57DLN7f5sRWryQRP9CTUrf6rwJz58N6ozgBqm76dPHzxNiQ53UP/kHhXkUbzLlE4OZGV2
+	XKgbJ0QuWJimY2Egbbw==
+X-Google-Smtp-Source: AGHT+IEN/Y2KcEHN/92i673drFtDbgqlQb3JUSQlrIWx5MUp4ovVZHssNawTpvQt6yIfvMN/stHEpv668SrbKdDV
 X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:690c:102:b0:66b:fb2f:1c2 with SMTP
- id 00721157ae682-671f4e0a6damr821967b3.7.1721783480393; Tue, 23 Jul 2024
- 18:11:20 -0700 (PDT)
-Date: Wed, 24 Jul 2024 01:10:33 +0000
+ (user=jthoughton job=sendgmr) by 2002:a05:690c:289:b0:630:28e3:2568 with SMTP
+ id 00721157ae682-671f1095e3fmr479257b3.3.1721783479490; Tue, 23 Jul 2024
+ 18:11:19 -0700 (PDT)
+Date: Wed, 24 Jul 2024 01:10:32 +0000
 In-Reply-To: <20240724011037.3671523-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240724011037.3671523-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
-Message-ID: <20240724011037.3671523-9-jthoughton@google.com>
-Subject: [PATCH v6 08/11] KVM: x86: Optimize kvm_{test_,}age_gfn a little bit
+Message-ID: <20240724011037.3671523-8-jthoughton@google.com>
+Subject: [PATCH v6 07/11] KVM: Pass fast_only to kvm_{test_,}age_gfn
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
@@ -77,69 +77,123 @@ Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 
-Optimize both kvm_age_gfn and kvm_test_age_gfn's interaction with the
-shadow MMU by, rather than checking if our memslot has rmaps, check if
-there are any indirect_shadow_pages at all.
+Provide the basics for architectures to implement a fast-only version of
+kvm_{test_,}age_gfn.
 
-Also, for kvm_test_age_gfn, reorder the TDP MMU check to be first. If we
-find that the range is young, we do not need to check the shadow MMU.
+Add CONFIG_HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY that architectures will
+set if they non-trivially implement test_young() and clear_young() when
+called with fast_only.
 
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- arch/x86/kvm/mmu/mmu.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ include/linux/kvm_host.h |  1 +
+ virt/kvm/Kconfig         |  4 ++++
+ virt/kvm/kvm_main.c      | 37 +++++++++++++++++++++----------------
+ 3 files changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 7b93ce8f0680..919d59385f89 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -1629,19 +1629,24 @@ static void rmap_add(struct kvm_vcpu *vcpu, const struct kvm_memory_slot *slot,
- 	__rmap_add(vcpu->kvm, cache, slot, spte, gfn, access);
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 8cd80f969cff..944c5fba2344 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -258,6 +258,7 @@ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+ #ifdef CONFIG_KVM_GENERIC_MMU_NOTIFIER
+ union kvm_mmu_notifier_arg {
+ 	unsigned long attributes;
++	bool fast_only;
+ };
+ 
+ struct kvm_gfn_range {
+diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+index 632334861001..cb4d5384c2f2 100644
+--- a/virt/kvm/Kconfig
++++ b/virt/kvm/Kconfig
+@@ -103,6 +103,10 @@ config KVM_GENERIC_MMU_NOTIFIER
+ config KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
+        bool
+ 
++config HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY
++       select KVM_GENERIC_MMU_NOTIFIER
++       bool
++
+ config KVM_GENERIC_MEMORY_ATTRIBUTES
+        depends on KVM_GENERIC_MMU_NOTIFIER
+        bool
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 959b6d5d8ce4..86fb2b560d98 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -697,18 +697,20 @@ static __always_inline int kvm_handle_hva_range(struct mmu_notifier *mn,
+ static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notifier *mn,
+ 							 unsigned long start,
+ 							 unsigned long end,
+-							 gfn_handler_t handler)
++							 gfn_handler_t handler,
++							 bool fast_only)
+ {
+ 	struct kvm *kvm = mmu_notifier_to_kvm(mn);
+ 	const struct kvm_mmu_notifier_range range = {
+-		.start		= start,
+-		.end		= end,
+-		.handler	= handler,
+-		.on_lock	= (void *)kvm_null_fn,
+-		.flush_on_ret	= false,
+-		.may_block	= false,
+-		.lockless	=
++		.start			= start,
++		.end			= end,
++		.handler		= handler,
++		.on_lock		= (void *)kvm_null_fn,
++		.flush_on_ret		= false,
++		.may_block		= false,
++		.lockless		=
+ 			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
++		.arg.fast_only		= fast_only,
+ 	};
+ 
+ 	return __kvm_handle_hva_range(kvm, &range).ret;
+@@ -900,7 +902,8 @@ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
+ 	 * cadence. If we find this inaccurate, we might come up with a
+ 	 * more sophisticated heuristic later.
+ 	 */
+-	return kvm_handle_hva_range_no_flush(mn, start, end, kvm_age_gfn);
++	return kvm_handle_hva_range_no_flush(mn, start, end, kvm_age_gfn,
++					     fast_only);
  }
  
-+static bool kvm_has_shadow_mmu_sptes(struct kvm *kvm)
-+{
-+	return !tdp_mmu_enabled || READ_ONCE(kvm->arch.indirect_shadow_pages);
-+}
-+
- bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
- {
- 	bool young = false;
+ static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
+@@ -911,7 +914,7 @@ static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
+ 	trace_kvm_test_age_hva(address, fast_only);
  
--	if (kvm_memslots_have_rmaps(kvm)) {
-+	if (tdp_mmu_enabled)
-+		young |= kvm_tdp_mmu_age_gfn_range(kvm, range);
-+
-+	if (kvm_has_shadow_mmu_sptes(kvm)) {
- 		write_lock(&kvm->mmu_lock);
- 		young = kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
- 		write_unlock(&kvm->mmu_lock);
- 	}
- 
--	if (tdp_mmu_enabled)
--		young |= kvm_tdp_mmu_age_gfn_range(kvm, range);
--
- 	return young;
+ 	return kvm_handle_hva_range_no_flush(mn, address, address + 1,
+-					     kvm_test_age_gfn);
++					     kvm_test_age_gfn, fast_only);
  }
  
-@@ -1649,15 +1654,15 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
+@@ -926,17 +929,19 @@ static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
+ }
+ 
+ static const struct mmu_notifier_ops kvm_mmu_notifier_ops = {
+-	.invalidate_range_start	= kvm_mmu_notifier_invalidate_range_start,
+-	.invalidate_range_end	= kvm_mmu_notifier_invalidate_range_end,
+-	.clear_flush_young	= kvm_mmu_notifier_clear_flush_young,
+-	.clear_young		= kvm_mmu_notifier_clear_young,
+-	.test_young		= kvm_mmu_notifier_test_young,
+-	.release		= kvm_mmu_notifier_release,
++	.invalidate_range_start		= kvm_mmu_notifier_invalidate_range_start,
++	.invalidate_range_end		= kvm_mmu_notifier_invalidate_range_end,
++	.clear_flush_young		= kvm_mmu_notifier_clear_flush_young,
++	.clear_young			= kvm_mmu_notifier_clear_young,
++	.test_young			= kvm_mmu_notifier_test_young,
++	.release			= kvm_mmu_notifier_release,
+ };
+ 
+ static int kvm_init_mmu_notifier(struct kvm *kvm)
  {
- 	bool young = false;
- 
--	if (kvm_memslots_have_rmaps(kvm)) {
-+	if (tdp_mmu_enabled)
-+		young |= kvm_tdp_mmu_test_age_gfn(kvm, range);
-+
-+	if (!young && kvm_has_shadow_mmu_sptes(kvm)) {
- 		write_lock(&kvm->mmu_lock);
- 		young = kvm_handle_gfn_range(kvm, range, kvm_test_age_rmap);
- 		write_unlock(&kvm->mmu_lock);
- 	}
- 
--	if (tdp_mmu_enabled)
--		young |= kvm_tdp_mmu_test_age_gfn(kvm, range);
--
- 	return young;
+ 	kvm->mmu_notifier.ops = &kvm_mmu_notifier_ops;
++	kvm->mmu_notifier.has_fast_aging =
++		IS_ENABLED(CONFIG_HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY);
+ 	return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
  }
  
 -- 
