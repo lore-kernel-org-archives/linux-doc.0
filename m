@@ -1,64 +1,66 @@
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389AB5221
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD056125
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721783477; cv=none; b=RVaaxW5azKonpzUe/+FLMA7QRw66U1wWM+QXaph3QeQ2KkQcDH0SPJwlIIl9Z4+MBGugIL79bXmvuFdSgzhzZdUpNFpaxmOz+2JMOpwJDWMon9O8SiewxFMOrhV9UdzWHd41QNkFjeXxM4P6YMqg6Nxvup4rzyUcSUSeXCDFVlM=
+	t=1721783478; cv=none; b=RegQOaCBXZqbZQKod5X0TkWXyMqi4sjkQfHAK7o2En57qLQlqbGywpZIsNvaeecGmkb8W6Au80yleoGgq6lks6/V7JBMYqDxodQjWc5pbLPGFg6drZ+DM6pi/CLAYfiJ4k5cEO9QxKIHyuYSyRzPR5lJbN4faWTH9QqBG4a4fZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721783477; c=relaxed/simple;
-	bh=xB/HZWznHKcMWgXIB+wI31jSoGcHZFlKoHxpW+3YZZ4=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=VFOD0HjT4IsAFANGBAy8O9kcgLSWKaKKOxdz9c9UeLjDvX/mKLPgd7TGEgQem7Vh9BfYU1GQyDMoouK1YS+aGGxufJVudG6l0NPqy81FwADGh6mpaN1TCTjwlSeIgdC/q8+a5zICmBvuuJsOJIjrXW32jpnmLqQ2lYf/jpCvdf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ST7bC6PX; arc=none smtp.client-ip=209.85.128.202
+	s=arc-20240116; t=1721783478; c=relaxed/simple;
+	bh=/2kdFrEbCqHGO5LP5EvePqfjzDFLCHiFO1sO9p5KwPk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=PAA8wZzzv/IWwzQ3V4zRdtasOtSqi+rLNbSqJPsagiRg6V5YuMNwLlzM9bYjrD15o7IqC05eErBVfikBXCvRRtVqBRKQTG783yh0LuGyfc3r+AvHjvpYm56Tyk5MyVt4dLDcLeZkpgPwiXleL1sv3Bc2D42sDocWOK+kiOB7hk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o2tsik2P; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ST7bC6PX"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-650fccfd1dfso170838317b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o2tsik2P"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-664916e5b40so7215557b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721783473; x=1722388273; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4cSOuBWS+C1ycbtiGXOUNR2uU8fUZDxisEhVyZ4yNKI=;
-        b=ST7bC6PXAKw5k66q3GDQy7G2hwyROXVvlJwIjyXzd/dhUZQoY7ccpsvcUq8omrXQqK
-         hJS20WOrX9cNY3U74zA4dvubkPoZKIa/2d85jZ22AiyCCEgoxEzVn990dA5LToxy+GKU
-         hF0N9dt/tO9ZIfr6UEJVYDLjc/R8QY2ObSWT7Aj5IP0V6FLPpqbk5HM7gDhJ3ZGFi6lV
-         AHBkPB8/we7xA9vNTt4u/LUqphGhMj5eVdQ6ZK/fRV6jbZMC2SpbPLfuNq5+Iq2DriWH
-         wIxSJv6kZp8YRzSGbbZH9ZdhvE2E2khpUV5l+5YW1kKPHlSSnsCd6/DOgKK/SX3NzJnq
-         C8mw==
+        d=google.com; s=20230601; t=1721783475; x=1722388275; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYE88dZwxum6KV/GhN2JgnjTuhwRm296Ss1xDF2ZSzg=;
+        b=o2tsik2PNa7ZGYeBObbjupExLxkjDImngS6WBXccvSNy91daNESSgStdln+DQjk7zH
+         WMCibL6D5pqdK0FZSDIc3ZK5tXKjS247xSYeu4gYtr2vgBcy1IdakQux2qQywdRSft3Q
+         gw6k0z/eVcYJUUtKpO4lSgdkOAWKE75GcvBMNse2C7Pvos9+2PPPImD+JdBGI6iWxhwC
+         mWGGblme7dFRX3dT690kUf8QK0iO8ZuK+UqjgBFn3QqisErfzNuH70556v7RncjN6XqO
+         2S42G3tUrIMGamm0iWwFK/yvw3T8uEajH12j6HnYaBOwwwzXIfSD/T0RhZoda+rSrS5+
+         mbDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721783473; x=1722388273;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4cSOuBWS+C1ycbtiGXOUNR2uU8fUZDxisEhVyZ4yNKI=;
-        b=oZ1KKjeaP5NB73F9H3MyW5IreQOQQEqlUAdlFB4ptf8aP8Frxr4qKPNmKljUo2ZlHU
-         xr734QcQGC2CIXxcTncmFBqN6Xdw+k3ON2jk2o4puOHHdbuZax5rUKM7BlLL1gse2DXh
-         7jH9zhLMmG9YB084sCL/N5Hi8d6M+2BrA3Xr6X9P0eM6BP1b7+MOVtdrBFq9K+Ll6v3B
-         rGK6jiS5AcfyLefP+LuuNDIS7n8NZ/2ZgNSnEwo7nQ0iYjpgHiPvd92Hr2SB1kk8/vP2
-         8lGQ6Ur1T+XnPVmVotpT32rD4gz3mL8jtrYa6XYmtQ1CPOftxpQe+D5miXXmcD5lTmRW
-         TS9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXSF+wkCdAbRzOiXR963tduoSzYn4LGFcY6QrxseDGI9xIUYWb2VDJ1qfAgoBqF/xQg4Q0Vw4OSEITufgT176J/Sh3/Qd12sElD
-X-Gm-Message-State: AOJu0YwNbygKMFl6FNx32mzepnmOCxPvotpN9zDmTSbtQbaRC0Fq8yrj
-	tSo4Sy3oJd8cW52hDB29EKLAjncQqHVHoSOmSEnNQf+n+wiJ1iWr5nicOXRL04EabrJgaSUYNxO
-	TNhOs/0r+IRwKpIFnjw==
-X-Google-Smtp-Source: AGHT+IHTWsfjxkFhlZ/efjqoG2otoOld5wqzU0dS4uuWsUR/MGeJLDWGi8tLphMhuDEGJQs1xgmW73pGbIUMunRM
+        d=1e100.net; s=20230601; t=1721783475; x=1722388275;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wYE88dZwxum6KV/GhN2JgnjTuhwRm296Ss1xDF2ZSzg=;
+        b=InnzAurA4aIYUcrNXsYTn38wLMWauEg5yAb92Gq5ueiYvb/8e2MZNFrLS45v4QrUJO
+         +rs7gP+9EjCn8PEFWpFriFXkZyXCnkH6nsGIhGD04FNUgkkcYIhsPTVobeAevUJJSCFA
+         UHpro8BuD/9w7mMhsU7KM/OujZbh3GfHxXsytAkM/6RP4fMYA3HtEbcpJZ113eOqppxt
+         ibH6Qr/IDoB03shXDEHarh/WUXgVkUWk2vbzBKUM1YJv/25yVg6QNP2X18mby40z4dxZ
+         iOsdnPiJ9oNTG5oBDNQrK0wkbAd4OCzB8T6HlXnIdJY253Sd7FSViP68HhEoZMXNih6d
+         iaMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJP0SoH9T6Hf35kgTFotjH5y7CWnHNsFMkI3ldgc+SkLbdzFsZoa3VMt4Nomrfor5J6dxwsohOCYJlXmZy/APxbT/9cm2hezCT
+X-Gm-Message-State: AOJu0YyOXD6hXLUmZ6nZMglgnCYQVHnRTe/Gc5QBg0qt8X4QErf2cogu
+	LzZhRV+4AQjLFfwhC9jJTQGzTGQbepd5X0Q6lovi/5BCjrTUynnQanir4eirIxVGO9ggmLOmRnT
+	J47SS9YpLQ9LdjDk01A==
+X-Google-Smtp-Source: AGHT+IFlbCwOv7FcHHPSyN/4LSWSns0pNrKnm/Gh8fQ5E5vmLdKRE2NJsut+pxEH6Bu3xVJUKO8eEZSj9XJO7SkF
 X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:690c:289:b0:627:a787:abf4 with SMTP
- id 00721157ae682-671f0bcbd75mr236647b3.3.1721783473255; Tue, 23 Jul 2024
- 18:11:13 -0700 (PDT)
-Date: Wed, 24 Jul 2024 01:10:25 +0000
+ (user=jthoughton job=sendgmr) by 2002:a0d:ff85:0:b0:665:7b0d:ed27 with SMTP
+ id 00721157ae682-672bcb1f07cmr141337b3.2.1721783474906; Tue, 23 Jul 2024
+ 18:11:14 -0700 (PDT)
+Date: Wed, 24 Jul 2024 01:10:27 +0000
+In-Reply-To: <20240724011037.3671523-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20240724011037.3671523-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
-Message-ID: <20240724011037.3671523-1-jthoughton@google.com>
-Subject: [PATCH v6 00/11] mm: multi-gen LRU: Walk secondary MMU page tables
- while aging
+Message-ID: <20240724011037.3671523-3-jthoughton@google.com>
+Subject: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn and kvm_age_gfn
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
@@ -75,151 +77,265 @@ Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 
-This patchset makes it possible for MGLRU to consult secondary MMUs
-while doing aging, not just during eviction. This allows for more
-accurate reclaim decisions, which is especially important for proactive
-reclaim.
+Walk the TDP MMU in an RCU read-side critical section. This requires a
+way to do RCU-safe walking of the tdp_mmu_roots; do this with a new
+macro. The PTE modifications are now done atomically, and
+kvm_tdp_mmu_spte_need_atomic_write() has been updated to account for the
+fact that kvm_age_gfn can now lockless update the accessed bit and the
+R/X bits).
 
-This series does the following:
- 1. Improve locking for the existing test/clear_young notifiers for x86
-    and arm64.
- 2. Add a fast_only parameter into test_young() and clear_young(), and
-    add helper functions for using the new parameter (e.g.
-    mmu_notifier_clear_young_fast_only(). Non-trivially implement the
-    fast-only test_young() and clear_young() for x86_64.
- 3. Incorporate mmu_notifier_clear_young_fast_only() into MGLRU aging.
- 4. Add an MGLRU mode (-l) to access_tracking_perf_test to show that
-    aging is working properly.
+If the cmpxchg for marking the spte for access tracking fails, we simply
+retry if the spte is still a leaf PTE. If it isn't, we return false
+to continue the walk.
 
-Please note that mmu_notifier_test_young_fast_only() is added but not
-used in this series. I am happy to remove it if that would be
-appropriate.
+Harvesting age information from the shadow MMU is still done while
+holding the MMU write lock.
 
-The fast-only notifiers serve a particular purpose: for aging, we
-neither want to delay other operations (e.g. unmapping for eviction)
-nor do we want to be delayed by these other operations ourselves. By
-default, the implementations of test_young() and clear_young() are meant
-to be *accurate*, not fast. The fast-only notifiers will only give age
-information that can be gathered fast.
+Suggested-by: Yu Zhao <yuzhao@google.com>
+Signed-off-by: James Houghton <jthoughton@google.com>
+---
+ arch/x86/include/asm/kvm_host.h |  1 +
+ arch/x86/kvm/Kconfig            |  1 +
+ arch/x86/kvm/mmu/mmu.c          | 10 ++++-
+ arch/x86/kvm/mmu/tdp_iter.h     | 27 +++++++------
+ arch/x86/kvm/mmu/tdp_mmu.c      | 67 +++++++++++++++++++++++++--------
+ 5 files changed, 77 insertions(+), 29 deletions(-)
 
-The fast-only notifiers are non-trivially implemented for only x86_64
-right now (as the KVM/x86 TDP MMU is the only secondary MMU that
-supports lockless Accessed bit harvesting).
-
-To make aging work for more than just x86, the fast-only clear_young()
-notifier must be non-trivially implemented by those other architectures
-and HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY needs to be set.
-
-access_tracking_perf_test now has a mode (-p) to check performance of
-MGLRU aging while the VM is faulting memory in. See the v4 cover
-letter[2] for performance data collected with this test.
-
-Previous versions of this series included logic in MGLRU and KVM to
-support batching the updates to secondary page tables. This version
-removes this logic, as it was complex and not necessary to enable
-proactive reclaim. This optimization, as well as enabling aging for
-arm64 and powerpc, can be done in a later series.
-
-=== Previous Versions ===
-
-Since v5[1]:
- - Reworked test_clear_young_fast_only() into a new parameter for the
-   existing notifiers (thanks Sean).
- - Added mmu_notifier.has_fast_aging to tell mm if calling fast-only
-   notifiers should be done.
- - Added mm_has_fast_young_notifiers() to inform users if calling
-   fast-only notifier helpers is worthwhile (for look-around to use).
- - Changed MGLRU to invoke a single notifier instead of two when
-   aging and doing look-around (thanks Yu).
- - For KVM/x86, check indirect_shadow_pages > 0 instead of
-   kvm_memslots_have_rmaps() when collecting age information
-   (thanks Sean).
- - For KVM/arm, some fixes from Oliver.
- - Small fixes to access_tracking_perf_test.
- - Added missing !MMU_NOTIFIER version of mmu_notifier_clear_young().
-
-Since v4[2]:
- - Removed Kconfig that controlled when aging was enabled. Aging will
-   be done whenever the architecture supports it (thanks Yu).
- - Added a new MMU notifier, test_clear_young_fast_only(), specifically
-   for MGLRU to use.
- - Add kvm_fast_{test_,}age_gfn, implemented by x86.
- - Fix locking for clear_flush_young().
- - Added KVM_MMU_NOTIFIER_YOUNG_LOCKLESS to clean up locking changes
-   (thanks Sean).
- - Fix WARN_ON and other cleanup for the arm64 locking changes
-   (thanks Oliver).
-
-Since v3[3]:
- - Vastly simplified the series (thanks David). Removed mmu notifier
-   batching logic entirely.
- - Cleaned up how locking is done for mmu_notifier_test/clear_young
-   (thanks David).
- - Look-around is now only done when there are no secondary MMUs
-   subscribed to MMU notifiers.
- - CONFIG_LRU_GEN_WALKS_SECONDARY_MMU has been added.
- - Fixed the lockless implementation of kvm_{test,}age_gfn for x86
-   (thanks David).
- - Added MGLRU functional and performance tests to
-   access_tracking_perf_test (thanks Axel).
- - In v3, an mm would be completely ignored (for aging) if there was a
-   secondary MMU but support for secondary MMU walking was missing. Now,
-   missing secondary MMU walking support simply skips the notifier
-   calls (except for eviction).
- - Added a sanity check for that range->lockless and range->on_lock are
-   never both provided for the memslot walk.
-
-For the changes since v2[4], see v3.
-
-Based on latest kvm/next.
-
-[1]: https://lore.kernel.org/linux-mm/20240611002145.2078921-1-jthoughton@google.com/
-[2]: https://lore.kernel.org/linux-mm/20240529180510.2295118-1-jthoughton@google.com/
-[3]: https://lore.kernel.org/linux-mm/20240401232946.1837665-1-jthoughton@google.com/
-[4]: https://lore.kernel.org/kvmarm/20230526234435.662652-1-yuzhao@google.com/
-
-James Houghton (11):
-  KVM: Add lockless memslot walk to KVM
-  KVM: x86: Relax locking for kvm_test_age_gfn and kvm_age_gfn
-  KVM: arm64: Relax locking for kvm_test_age_gfn and kvm_age_gfn
-  mm: Add missing mmu_notifier_clear_young for !MMU_NOTIFIER
-  mm: Add fast_only bool to test_young and clear_young MMU notifiers
-  mm: Add has_fast_aging to struct mmu_notifier
-  KVM: Pass fast_only to kvm_{test_,}age_gfn
-  KVM: x86: Optimize kvm_{test_,}age_gfn a little bit
-  KVM: x86: Implement fast_only versions of kvm_{test_,}age_gfn
-  mm: multi-gen LRU: Have secondary MMUs participate in aging
-  KVM: selftests: Add multi-gen LRU aging to access_tracking_perf_test
-
- Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
- arch/arm64/kvm/Kconfig                        |   1 +
- arch/arm64/kvm/hyp/pgtable.c                  |  15 +-
- arch/arm64/kvm/mmu.c                          |  30 +-
- arch/x86/include/asm/kvm_host.h               |   1 +
- arch/x86/kvm/Kconfig                          |   2 +
- arch/x86/kvm/mmu/mmu.c                        |  23 +-
- arch/x86/kvm/mmu/tdp_iter.h                   |  27 +-
- arch/x86/kvm/mmu/tdp_mmu.c                    |  67 ++-
- include/linux/kvm_host.h                      |   2 +
- include/linux/mmu_notifier.h                  |  67 ++-
- include/linux/mmzone.h                        |   6 +-
- include/trace/events/kvm.h                    |  19 +-
- mm/damon/vaddr.c                              |   2 -
- mm/mmu_notifier.c                             |  38 +-
- mm/rmap.c                                     |   9 +-
- mm/vmscan.c                                   | 148 +++++--
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/access_tracking_perf_test.c | 369 +++++++++++++++--
- .../selftests/kvm/include/lru_gen_util.h      |  55 +++
- .../testing/selftests/kvm/lib/lru_gen_util.c  | 391 ++++++++++++++++++
- virt/kvm/Kconfig                              |   7 +
- virt/kvm/kvm_main.c                           |  73 ++--
- 23 files changed, 1194 insertions(+), 165 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/include/lru_gen_util.h
- create mode 100644 tools/testing/selftests/kvm/lib/lru_gen_util.c
-
-
-base-commit: 332d2c1d713e232e163386c35a3ba0c1b90df83f
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 950a03e0181e..096988262005 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1456,6 +1456,7 @@ struct kvm_arch {
+ 	 * tdp_mmu_page set.
+ 	 *
+ 	 * For reads, this list is protected by:
++	 *	RCU alone or
+ 	 *	the MMU lock in read mode + RCU or
+ 	 *	the MMU lock in write mode
+ 	 *
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index 4287a8071a3a..6ac43074c5e9 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -23,6 +23,7 @@ config KVM
+ 	depends on X86_LOCAL_APIC
+ 	select KVM_COMMON
+ 	select KVM_GENERIC_MMU_NOTIFIER
++	select KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
+ 	select HAVE_KVM_IRQCHIP
+ 	select HAVE_KVM_PFNCACHE
+ 	select HAVE_KVM_DIRTY_RING_TSO
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 901be9e420a4..7b93ce8f0680 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -1633,8 +1633,11 @@ bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	bool young = false;
+ 
+-	if (kvm_memslots_have_rmaps(kvm))
++	if (kvm_memslots_have_rmaps(kvm)) {
++		write_lock(&kvm->mmu_lock);
+ 		young = kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
++		write_unlock(&kvm->mmu_lock);
++	}
+ 
+ 	if (tdp_mmu_enabled)
+ 		young |= kvm_tdp_mmu_age_gfn_range(kvm, range);
+@@ -1646,8 +1649,11 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	bool young = false;
+ 
+-	if (kvm_memslots_have_rmaps(kvm))
++	if (kvm_memslots_have_rmaps(kvm)) {
++		write_lock(&kvm->mmu_lock);
+ 		young = kvm_handle_gfn_range(kvm, range, kvm_test_age_rmap);
++		write_unlock(&kvm->mmu_lock);
++	}
+ 
+ 	if (tdp_mmu_enabled)
+ 		young |= kvm_tdp_mmu_test_age_gfn(kvm, range);
+diff --git a/arch/x86/kvm/mmu/tdp_iter.h b/arch/x86/kvm/mmu/tdp_iter.h
+index 2880fd392e0c..510936a8455a 100644
+--- a/arch/x86/kvm/mmu/tdp_iter.h
++++ b/arch/x86/kvm/mmu/tdp_iter.h
+@@ -25,6 +25,13 @@ static inline u64 kvm_tdp_mmu_write_spte_atomic(tdp_ptep_t sptep, u64 new_spte)
+ 	return xchg(rcu_dereference(sptep), new_spte);
+ }
+ 
++static inline u64 tdp_mmu_clear_spte_bits_atomic(tdp_ptep_t sptep, u64 mask)
++{
++	atomic64_t *sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
++
++	return (u64)atomic64_fetch_and(~mask, sptep_atomic);
++}
++
+ static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
+ {
+ 	KVM_MMU_WARN_ON(is_ept_ve_possible(new_spte));
+@@ -32,10 +39,11 @@ static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
+ }
+ 
+ /*
+- * SPTEs must be modified atomically if they are shadow-present, leaf
+- * SPTEs, and have volatile bits, i.e. has bits that can be set outside
+- * of mmu_lock.  The Writable bit can be set by KVM's fast page fault
+- * handler, and Accessed and Dirty bits can be set by the CPU.
++ * SPTEs must be modified atomically if they have bits that can be set outside
++ * of the mmu_lock. This can happen for any shadow-present leaf SPTEs, as the
++ * Writable bit can be set by KVM's fast page fault handler, the Accessed and
++ * Dirty bits can be set by the CPU, and the Accessed and R/X bits can be
++ * cleared by age_gfn_range.
+  *
+  * Note, non-leaf SPTEs do have Accessed bits and those bits are
+  * technically volatile, but KVM doesn't consume the Accessed bit of
+@@ -46,8 +54,7 @@ static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
+ static inline bool kvm_tdp_mmu_spte_need_atomic_write(u64 old_spte, int level)
+ {
+ 	return is_shadow_present_pte(old_spte) &&
+-	       is_last_spte(old_spte, level) &&
+-	       spte_has_volatile_bits(old_spte);
++	       is_last_spte(old_spte, level);
+ }
+ 
+ static inline u64 kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 old_spte,
+@@ -63,12 +70,8 @@ static inline u64 kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 old_spte,
+ static inline u64 tdp_mmu_clear_spte_bits(tdp_ptep_t sptep, u64 old_spte,
+ 					  u64 mask, int level)
+ {
+-	atomic64_t *sptep_atomic;
+-
+-	if (kvm_tdp_mmu_spte_need_atomic_write(old_spte, level)) {
+-		sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
+-		return (u64)atomic64_fetch_and(~mask, sptep_atomic);
+-	}
++	if (kvm_tdp_mmu_spte_need_atomic_write(old_spte, level))
++		return tdp_mmu_clear_spte_bits_atomic(sptep, mask);
+ 
+ 	__kvm_tdp_mmu_write_spte(sptep, old_spte & ~mask);
+ 	return old_spte;
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index c7dc49ee7388..3f13b2db53de 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -29,6 +29,11 @@ static __always_inline bool kvm_lockdep_assert_mmu_lock_held(struct kvm *kvm,
+ 
+ 	return true;
+ }
++static __always_inline bool kvm_lockdep_assert_rcu_read_lock_held(void)
++{
++	WARN_ON_ONCE(!rcu_read_lock_held());
++	return true;
++}
+ 
+ void kvm_mmu_uninit_tdp_mmu(struct kvm *kvm)
+ {
+@@ -178,6 +183,15 @@ static struct kvm_mmu_page *tdp_mmu_next_root(struct kvm *kvm,
+ 		     ((_only_valid) && (_root)->role.invalid))) {		\
+ 		} else
+ 
++/*
++ * Iterate over all TDP MMU roots in an RCU read-side critical section.
++ */
++#define for_each_tdp_mmu_root_rcu(_kvm, _root, _as_id)				\
++	list_for_each_entry_rcu(_root, &_kvm->arch.tdp_mmu_roots, link)		\
++		if (kvm_lockdep_assert_rcu_read_lock_held() &&			\
++		    (_as_id >= 0 && kvm_mmu_page_as_id(_root) != _as_id)) {	\
++		} else
++
+ #define for_each_tdp_mmu_root(_kvm, _root, _as_id)			\
+ 	__for_each_tdp_mmu_root(_kvm, _root, _as_id, false)
+ 
+@@ -1224,6 +1238,27 @@ static __always_inline bool kvm_tdp_mmu_handle_gfn(struct kvm *kvm,
+ 	return ret;
+ }
+ 
++static __always_inline bool kvm_tdp_mmu_handle_gfn_lockless(
++		struct kvm *kvm,
++		struct kvm_gfn_range *range,
++		tdp_handler_t handler)
++{
++	struct kvm_mmu_page *root;
++	struct tdp_iter iter;
++	bool ret = false;
++
++	rcu_read_lock();
++
++	for_each_tdp_mmu_root_rcu(kvm, root, range->slot->as_id) {
++		tdp_root_for_each_leaf_pte(iter, root, range->start, range->end)
++			ret |= handler(kvm, &iter, range);
++	}
++
++	rcu_read_unlock();
++
++	return ret;
++}
++
+ /*
+  * Mark the SPTEs range of GFNs [start, end) unaccessed and return non-zero
+  * if any of the GFNs in the range have been accessed.
+@@ -1237,28 +1272,30 @@ static bool age_gfn_range(struct kvm *kvm, struct tdp_iter *iter,
+ {
+ 	u64 new_spte;
+ 
++retry:
+ 	/* If we have a non-accessed entry we don't need to change the pte. */
+ 	if (!is_accessed_spte(iter->old_spte))
+ 		return false;
+ 
+ 	if (spte_ad_enabled(iter->old_spte)) {
+-		iter->old_spte = tdp_mmu_clear_spte_bits(iter->sptep,
+-							 iter->old_spte,
+-							 shadow_accessed_mask,
+-							 iter->level);
++		iter->old_spte = tdp_mmu_clear_spte_bits_atomic(iter->sptep,
++						shadow_accessed_mask);
+ 		new_spte = iter->old_spte & ~shadow_accessed_mask;
+ 	} else {
+-		/*
+-		 * Capture the dirty status of the page, so that it doesn't get
+-		 * lost when the SPTE is marked for access tracking.
+-		 */
++		new_spte = mark_spte_for_access_track(iter->old_spte);
++		if (__tdp_mmu_set_spte_atomic(iter, new_spte)) {
++			/*
++			 * The cmpxchg failed. If the spte is still a
++			 * last-level spte, we can safely retry.
++			 */
++			if (is_shadow_present_pte(iter->old_spte) &&
++			    is_last_spte(iter->old_spte, iter->level))
++				goto retry;
++			/* Otherwise, continue walking. */
++			return false;
++		}
+ 		if (is_writable_pte(iter->old_spte))
+ 			kvm_set_pfn_dirty(spte_to_pfn(iter->old_spte));
+-
+-		new_spte = mark_spte_for_access_track(iter->old_spte);
+-		iter->old_spte = kvm_tdp_mmu_write_spte(iter->sptep,
+-							iter->old_spte, new_spte,
+-							iter->level);
+ 	}
+ 
+ 	trace_kvm_tdp_mmu_spte_changed(iter->as_id, iter->gfn, iter->level,
+@@ -1268,7 +1305,7 @@ static bool age_gfn_range(struct kvm *kvm, struct tdp_iter *iter,
+ 
+ bool kvm_tdp_mmu_age_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+-	return kvm_tdp_mmu_handle_gfn(kvm, range, age_gfn_range);
++	return kvm_tdp_mmu_handle_gfn_lockless(kvm, range, age_gfn_range);
+ }
+ 
+ static bool test_age_gfn(struct kvm *kvm, struct tdp_iter *iter,
+@@ -1279,7 +1316,7 @@ static bool test_age_gfn(struct kvm *kvm, struct tdp_iter *iter,
+ 
+ bool kvm_tdp_mmu_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+-	return kvm_tdp_mmu_handle_gfn(kvm, range, test_age_gfn);
++	return kvm_tdp_mmu_handle_gfn_lockless(kvm, range, test_age_gfn);
+ }
+ 
+ /*
 -- 
 2.46.0.rc1.232.g9752f9e123-goog
 
