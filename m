@@ -1,376 +1,446 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2061.outbound.protection.outlook.com [40.107.21.61])
+Received: from mailscanner01.zoner.fi (mailscanner01.zoner.fi [84.34.166.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607F31C6A3;
-	Wed, 24 Jul 2024 11:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721818948; cv=fail; b=pl8Gnk8TVMf9JoElNJzrLZsIgHkp8XL7ly1xVkSzQhcA/+1a5yoFT/Y+z9FbERXsVr06qzh9YWktjhUqtn3vFRxPszm9Ww2/KAhhUQZ9EeIPfLyPe+7czHraa0DX4x6GZ28icUKZ/skzws+R1CG18BnBY5wXlcvd0On6mKdHFb4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721818948; c=relaxed/simple;
-	bh=nlBkID7V5o7oyv1N3hz7uTP5O2uOLiHyEOpDLUhnuwo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZMLIxC/jWoKqqrfsfYCm5j+9v2x8AMTWBOixpkSWur8fDZTUCAlJRDYeKafLUEPcpPmJTApBXh1A//faCTZRZGZR8jSq2luCLlUifAYYiUFxmUeZqmNQsz90EZMs07vwuCWEVj3ZFedj3y9jWRYrPSkaXLp++2iDjFu3Vl0esrk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FQ/zPnGZ; arc=fail smtp.client-ip=40.107.21.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FQ/zPnGZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UuRwODUebwBtnPYCOrxLnyRonWsSX1MUUMwRyknhGBzNacDPJa9ZkE5wqU2ypKPHHhms+7MupvN/IKnYIWM4kPuzpH1CEf7WCUPC4CYH4OQ+hLwbmgVKwcKigtexT8BcT7nAbV/8vuLLIGrdNRscWIEVYJ7fuU/idl/ivLKKgnUNXDdqnfJ7vgAGg9F2Wh1Nz0fw2do2ssoSzvhfi8gNY/qJrJNu5ww5TkRfbwZgyWf4vnNXvX0oLuR+ITIXXqXux6uoB0fZXHXQWO+lgwBn64VNu2GjY3QTJth4xMKp83TTbj7YLkmqzzPL6hA4xbmPEerqgvLNa/DPgWJPcl6VDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6cXUDe3X0wkUE6RzD0O8v0Uch0GCJq5VFj8SaN7VcVY=;
- b=t0/Vxytyzw5zuckvYxLSaccfCtNYxY32VEvmLUTKxxIEDHQStplPYcj0UXsvln1pgCVaePwp12HRszhEHJEs146k/Cjq8hNXuwlCbqRKnZBHdBqzxRLcnGAEo1LA80M0rvWVFyAV2bGI8YWPnzImLJGHxJ4+umUpxPwjQIn4Gf418TGkrMp6qpH9Q8pWF7qfO12kdyr8vmppuNkZVQ6+6CaSxIuV0SLG3ljGjCoCiLjdREWUS7OCsguDoCsu8rCzLi/lcBuAZDNLABGeOwbVlz3tY2/eJ1E1RLJGcsckbNguScSD/Rs0XiqKRqnQ7cMfFCwbWQIiQmofV5GvOxscCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6cXUDe3X0wkUE6RzD0O8v0Uch0GCJq5VFj8SaN7VcVY=;
- b=FQ/zPnGZtUxvO0chMD6tee5rJTygIsIWaH5J8Uw/kWZX27leVT6IEGAJl7rQ4m7LwA8em/6uDs8UpKwCKNxs9wIboEsLTOFedjAh3xvHoJcNpiXWh0kfWCG2u8qYe3c9KA5KyC4Kjax+3eMIHj+qlrFXGicyMCZkyEcQlYN0lFw0Ke7AMR/5P+EHOH8xEI6KJt+9wNtwbiztLdPrCgY1pSniElQ/rTn3EBAKhwBBteo3d+8cJPmKLXM8j2fm9NYyhw70Sw+0RvPkZQp/4pyeak+IWf0DVNE/Kqaj7DXwQMIRvUWsGEoMIKLivj06M/ZjbsUpUKqZEFf+illWASb1Gg==
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
- by AS8PR04MB8264.eurprd04.prod.outlook.com (2603:10a6:20b:3fd::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20; Wed, 24 Jul
- 2024 11:02:22 +0000
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.7784.017; Wed, 24 Jul 2024
- 11:02:21 +0000
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Thread-Topic: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Thread-Index: AQHa2/NU1sJztJxAoEWO7LSlO6AOebIC9paAgADLMzCAAJnWAIABTu8Q
-Date: Wed, 24 Jul 2024 11:02:21 +0000
-Message-ID:
- <AM9PR04MB86043E4B4B2FB206BF9223C695AA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
-References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
- <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
- <20240722-popper-comfort-7538ea70c77b@spud>
- <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240723-smitten-shower-1d15c0f3cf97@spud>
-In-Reply-To: <20240723-smitten-shower-1d15c0f3cf97@spud>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|AS8PR04MB8264:EE_
-x-ms-office365-filtering-correlation-id: 562de309-336d-4c81-0358-08dcabd017af
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?bc3z8CLt4fMA+7e3Lo25ZsH6x9InbJupvpedjRz5f23E5SyZHaqhRmDaADIL?=
- =?us-ascii?Q?ZRFBB7gIQFHEcCv/J5PwaKKDzEf0lLuIF8j6T9ZqbCtje0SB5h1FvEUtF2Lc?=
- =?us-ascii?Q?SD6j1/VyuH0rmyUdH3pc5FQhooG+IYCiOqHJgbj7hNJ1Fo5zu9ucgR/nTn4T?=
- =?us-ascii?Q?QS5bkaTC9WVJVRXZD78HjNkN8K68RiNSeMPgABt6M5pC2eYwPNyinATj11FN?=
- =?us-ascii?Q?uH/If0jhv0exdZdVmIPCE/4bCPpCE6uDs/SiC++NUC/+LMCQKYhloo5Ednlf?=
- =?us-ascii?Q?aMgR+20YB6DgqEWLB3p/s0dZxszaoobTq5U6B3TwW1Jviwr7oH+VoVp3pgf/?=
- =?us-ascii?Q?lsGtJy54g2JX23g2AO/l0a1QYf4qPETqUqptwfX3HmsicfLo3pUDHYBm5LXi?=
- =?us-ascii?Q?3N1JmpJvgTddaX4m1S8qf+6e8Qtt8vpY5lai4tS7xPJ2GtKqSDiJHVs3PMPZ?=
- =?us-ascii?Q?STHhmnWsEdLUgbDdpUPb5nS3EFDKXY7xksnsk5AW5wPyUa1Tj4kd5xSk0G43?=
- =?us-ascii?Q?ACpKwBigjFJmEtOflL8PWnO7hsYg7BwjDpIp1SeluOTqJfLDvOtj3nHlInb/?=
- =?us-ascii?Q?ZbEz7aBQI4X6fqk6C5pDjm/4xdo7lSUqZKDTh4Zw8pQSwPyVENsGgy2o7OsM?=
- =?us-ascii?Q?/8oGn2vhMI/c+5BLskJLOBKRQqkCfPhlR4VGUnFHiTvTsz1BLSXkYxxbyEdq?=
- =?us-ascii?Q?7MJL2gbdWgAFSeZszORx5XC8Q3L9419lWir5b3yqgvVzrRPRFRTtHgyZ+X/Q?=
- =?us-ascii?Q?HIBDse8k42YFcCpr0sofO3x1Bzat+ZjiXpVIAW4xYTjcHYPBEBVtReosfw+C?=
- =?us-ascii?Q?qXo8l49FkD74FRoYkE45XUpDw3fvoCvdx98M/2NDtmlVARMqO69+hcgyzH6v?=
- =?us-ascii?Q?uEkBx9pGuPSoUUoC3XfNSXey9/n5qM4tVDztLFYPO+I1YrcIoCZxyGyC/QoG?=
- =?us-ascii?Q?dD68ywQFT1s/6n9t8iH0AyFNfsSiwFuTgTu+94lIxJ256EDurTegKxMbYzL3?=
- =?us-ascii?Q?mdMKH5qmD9ZwC5KkZlpEBqE98L2rg930OOk3YzqyW6fj7bYh2h4QYoani6FH?=
- =?us-ascii?Q?9aLGE63tEPCGt79AQulU5ibYDOcWvUlwFTqzKTBuYTXpgQWb2DyGiw/Yag2A?=
- =?us-ascii?Q?7euxKn06kpat0GAovKLEy2St1wMZD7k0iQZ0dD4L1Dp9V/TXiCeJGkxIi7qg?=
- =?us-ascii?Q?CqVDP8EavMfGBbpUx1Q2OBike/hSNAVg4amEOwEzQZ+NSP4BzRUqQ6CCBmwn?=
- =?us-ascii?Q?QDBEX8LHL9ZJdYtGuuril05YCLyRGkYyb+vQO1msm3ioGlZjV4ZTDyXWvdxk?=
- =?us-ascii?Q?hg4QdactV0Dmx6X2bnyQUxYodnVViKq24qWH+tvYRoZOtneKjnZWe0oyAjEK?=
- =?us-ascii?Q?XQ1pcN8=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?WGL1fq1Onnp62VSQGX381FmIOZmTBq7Nboxc5cTXl+NNn//bWw6YqBejVbsn?=
- =?us-ascii?Q?jL8aiE1njgYAgQNfbtB9t31aHhbvPjZK5ebvzHk2LDEoZJLJeZkLzNwSJCB1?=
- =?us-ascii?Q?rK75fycpvLsI1t2iREybOI2QKicle7RUc1RrmZrb0rH8jyK+SkQh5wFQ4UYO?=
- =?us-ascii?Q?UtCFgs5a4K3JXrgcerXhVlq+z7PdP5iNpF5r8uBXKpmOlgMnDs/Y8JLQYF9v?=
- =?us-ascii?Q?naWKIJ0yzwbVAlzt606jLA14fVkXhZyOA7rozcitAkdS5EniLeIc2En8s7Hb?=
- =?us-ascii?Q?7Kxv2SCn5sn+Ugs1EC0zHLWaudAJhu5AICqcrXX6gcTL5GgPnTIZrtatTxPp?=
- =?us-ascii?Q?CWVoOwtwf/vEODG39T/YK7xnT/43S6yvPysf1/piJaAJejBX3oE+OPzN7f4S?=
- =?us-ascii?Q?zJB9wnOL64JHxsajRZYKVM5cc7isPzDR8TYpwqIOabnto/pf2e7PNJwTPgQB?=
- =?us-ascii?Q?ejFx3E5mplwWGPVKClH6uJPDe+X3d8LNrPrSvlymnOr4/MW3es7KYevvRRMC?=
- =?us-ascii?Q?8jb254RdquC+INxz8s8s27tiTROE9RpV0uKCvoQzpoTIpvodTp2OEVSv3MHN?=
- =?us-ascii?Q?GUpxRrkpNGw0q7q2Sdt1tM1kMmGrWElkc9I35fMNyypnvz+lhKMGZWaDTTO+?=
- =?us-ascii?Q?heQb2sS8iDYGb21dya2Kj5YR6opR1q4C5aYF80B5VpCOPla8qU3CVSRh0Rmq?=
- =?us-ascii?Q?iTQsNNLInmcf9Xt2cV6xDsGlPkTHBs2yGlD4Mj9yTE89JXtQOpsH26+ef0Gj?=
- =?us-ascii?Q?CNPC6wZO059/yeQcIRs7WUS5X5aMzxp6BTf6r8BSPekae2ZXvbwYYXI/yOu8?=
- =?us-ascii?Q?FqScrXq5fl2+z/eBDR1SBBD3jVs9pna7HgwrJWrHNFTnKA1n60pNKnuhJvOq?=
- =?us-ascii?Q?E5/FLD73WRewTGcnAZfftN202FKHUxrkkJSKoytLN/D/nkU3pu/NwgWkyrEj?=
- =?us-ascii?Q?50LiSx9YOQgoJjQPEDUdjFkLVMeV2RWynx0IHxbhcHOs+upb67i0v4nNJUSM?=
- =?us-ascii?Q?HvnrEKWoYD+183HyjRud9g5SON24Lir5zu1yMf55lgHqrVqLXFYz0bPuA3c7?=
- =?us-ascii?Q?ReYT0V2NNzrTgg6cCfZjSuIPSErrk5Naa7wy+VaLjPbRqpQ1vo6Jnb6c6Ds+?=
- =?us-ascii?Q?1ya5Lb9idWr/bkUmawJ0wkan130t8IwHze4MdXo+YDhcNtBrITeybJayg0WW?=
- =?us-ascii?Q?y6U3XowXlirp0sdI2gSXwqkfngRfvkKtCxQ+AVP00UPcCynNsV7zZUvqTnbn?=
- =?us-ascii?Q?DMnG/fplpHUnllMEaZuHHA9Hx1dK4AOQekB+GnDeEMa7WH0npZucUDHk3wzA?=
- =?us-ascii?Q?i3l2HAQczqtNvvmgOGVgaou8CQ47lXy+nt5eDmN8gU9pIZIV/PSrohhmLqRV?=
- =?us-ascii?Q?vFaW7/Vp2MqzRCUlIB95z8+4LR+zP2kMmGYLlo2kPqn6TcsjGtFiOmtfutR9?=
- =?us-ascii?Q?QplGG1T99WYmzreeSa44Tvxf6ycyvkpAvQSeL393b7v3905xVjFDApXIYIYU?=
- =?us-ascii?Q?a8EnRCliYMkj3y6L+6HM5LJfVpjLkTZp+oFkT0sns1IJnjc9Wle80kFp1oSV?=
- =?us-ascii?Q?Yuv5sDAeLKuFpE1Hs3vYJrc9w3BvXb0yx+gfssIC?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BCC5695;
+	Wed, 24 Jul 2024 11:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.34.166.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721819193; cv=none; b=lgGPDKHbmJc0mnZkcjPJVz5GWMo2Rv/meuJcmBjHmeBX2Za+lm/IitxqAvkMCLrYoY5FOVYXVOVwiD5fYKvX4RNsssueLMMqTYK3lR0igSJGzstFJPMxTKO3kTATIgYSTkzO4JnRV51SfanFpuniFxLZaOYW+kBu176euFXO25g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721819193; c=relaxed/simple;
+	bh=ff8Bbsg1u2Gy+Q+c7PZP+ntpv7D1uu1hH6zlC2C1iHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pS7ScbUSD9M3dcd4ieJ2EjZhPqR/YSNn8AHpr5tmB+wT+c90x5VZnyWof5YmsDA/x+k/RBNzcZXv8T3btpJqwT6JZJEukqjtM8+hXoWdVY3aflQeuUZ8L/ff9DXoZFGqnF21kXwvlOXVqtCxKEXIerZpHDRCmkm+HmSMMmOZkt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org; spf=pass smtp.mailfrom=tukaani.org; arc=none smtp.client-ip=84.34.166.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tukaani.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tukaani.org
+Received: from www25.zoner.fi (www25.zoner.fi [84.34.147.45])
+	by mailscanner01.zoner.fi (Postfix) with ESMTPS id 3CC4A438B7;
+	Wed, 24 Jul 2024 14:06:28 +0300 (EEST)
+Received: from mail.zoner.fi ([84.34.147.244])
+	by www25.zoner.fi with esmtp (Exim 4.97.1)
+	(envelope-from <lasse.collin@tukaani.org>)
+	id 1sWZpA-0000000DBUh-3EBh;
+	Wed, 24 Jul 2024 14:06:28 +0300
+From: Lasse Collin <lasse.collin@tukaani.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lasse Collin <lasse.collin@tukaani.org>,
+	Sam James <sam@gentoo.org>,
+	linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 17/16] xz: Remove XZ_EXTERN and extern from functions
+Date: Wed, 24 Jul 2024 14:05:41 +0300
+Message-ID: <20240724110544.16430-1-lasse.collin@tukaani.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240721133633.47721-1-lasse.collin@tukaani.org>
+References: <20240721133633.47721-1-lasse.collin@tukaani.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 562de309-336d-4c81-0358-08dcabd017af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2024 11:02:21.8515
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PWSA+tYiAhQGy3gjXD7UFey9yrD+vZlN0kphJsnFuD6zdM/EU+kQfjT3UlZQ1TOpcYRsRGBwPhmavjHMAi7a/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8264
+Content-Transfer-Encoding: 8bit
 
+XZ_EXTERN was used to make internal functions static in the preboot code.
+However, in other decompressors this hasn't been done. On x86-64, this
+makes no difference to the kernel image size.
 
+Omit XZ_EXTERN and let some of the internal functions be extern in the
+preboot code. Omitting XZ_EXTERN from include/linux/xz.h fixes warnings
+in "make htmldocs" and makes the intradocument links to xz_dec functions
+work in Documentation/staging/xz.rst. The alternative would have been to
+add "XZ_EXTERN" to c_id_attributes in Documentation/conf.py but omitting
+XZ_EXTERN seemed cleaner.
 
-> -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Tuesday, July 23, 2024 7:38 PM
-> To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
-> linux-arm-kernel@lists.infradead.org
-> Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-f=
-w
-> binding doc
->=20
-> On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
-> >
-> > > -----Original Message-----
-> > > From: Conor Dooley <conor@kernel.org>
-> > > Sent: Monday, July 22, 2024 10:20 PM
-> > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
-> Hauer
-> > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > imx-se-fw binding doc
->=20
-> Please fix this ^
->=20
-> > >
-> > > On Mon, Jul 22, 2024 at 10:21:37AM +0530, Pankaj Gupta wrote:
-> > > > The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X
-> > > > etc., creates an embedded secure enclave within the SoC boundary
-> > > > to enable features like:
-> > > > - HSM
-> > > > - SHE
-> > > > - V2X
-> > > >
-> > > > Secure-Enclave(s) communication interface are typically via
-> > > > message unit, i.e., based on mailbox linux kernel driver. This
-> > > > driver enables communication ensuring well defined message
-> > > > sequence protocol between Application Core and enclave's firmware.
-> > > >
-> > > > Driver configures multiple misc-device on the MU, for multiple
-> > > > user-space applications, to be able to communicate over single MU.
-> > > >
-> > > > It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
-> > > >
-> > > > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > ---
-> > > >  .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 91
-> > > ++++++++++++++++++++++
-> > > >  1 file changed, 91 insertions(+)
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
-> > > > b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..7511d0e9cf98
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
-> > > > @@ -0,0 +1,91 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
-> > > > +1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
-> > > > +
-> > > > +maintainers:
-> > > > +  - Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > +
-> > > > +description: |
-> > > > +  NXP's SoC may contain one or multiple embedded secure-enclave
-> > > > +HW
-> > > > +  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
-> > > > +  enables features like
-> > > > +    - Hardware Security Module (HSM),
-> > > > +    - Security Hardware Extension (SHE), and
-> > > > +    - Vehicular to Anything (V2X)
-> > > > +
-> > > > +  Communication interface to the secure-enclaves(se) is based on
-> > > > + the messaging unit(s).
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - fsl,imx8ulp-se
-> > > > +      - fsl,imx93-se
-> > > > +      - fsl,imx95-se
-> > > > +
-> > > > +  mboxes:
-> > > > +    items:
-> > > > +      - description: mailbox phandle to send message to se firmwar=
-e
-> > > > +      - description: mailbox phandle to receive message from se
-> > > > + firmware
-> > > > +
-> > > > +  mbox-names:
-> > > > +    items:
-> > > > +      - const: tx
-> > > > +      - const: rx
-> > > > +
-> > > > +  memory-region:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  sram:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - mboxes
-> > > > +  - mbox-names
-> > > > +
-> > > > +allOf:
-> > > > +  # memory-region
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            enum:
-> > > > +              - fsl,imx8ulp-se
-> > > > +              - fsl,imx93-se
-> > > > +    then:
-> > > > +      required:
-> > > > +        - memory-region
-> > > > +    else:
-> > > > +      properties:
-> > > > +        memory-region: false
-> > > > +
-> > > > +  # sram
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            enum:
-> > > > +              - fsl,imx8ulp-se
-> > > > +    then:
-> > > > +      required:
-> > > > +        - sram
-> > > > +
-> > > > +    else:
-> > > > +      properties:
-> > > > +        sram: false
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    senclave-firmware {
-> > >
-> > > Last revision this was "firmware", but now you've got something that
-> > > appears non-generic. Why did you change it?
-> >
-> > In case you missed, there was a previous email requesting your view on =
-this
-> change.
-> > Having node as "firmware {", is very generic that has wide interpretati=
-on.
-> > Hence, replaced firmware with "senclave-firmware".
->=20
-> Which I came across after reading the updated series. If you ask me for m=
-y
-> opinion on something, just wait til I reply to you before sending another
-> version.
+Link: https://lore.kernel.org/lkml/20240723205437.3c0664b0@kaneli/
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Lasse Collin <lasse.collin@tukaani.org>
+---
 
-Sure, will ensure that in future.
+Notes:
+    This touches xz_config.h in PowerPC boot code. I haven't tested it but
+    zlib's functions are extern in the same context, thus this should be
+    a safe change on PowerPC.
+    
+    This replaces the patch 8/16 ("docs: Add XZ_EXTERN to c_id_attributes"):
+    https://lore.kernel.org/lkml/20240721133633.47721-9-lasse.collin@tukaani.org/
 
->=20
-> > Why "senclave"?
-> > Like sram, for secure RAM, I proposed senclave for secure enclave.
-> >
-> >
-> > Moreover, there are plenty of examples of YAML(s), that were already
-> committed; that are using this:
-> > linux_bkp$:> find Documentation/ -name "*.yaml" | xargs grep -r "\-
-> firmware {"
->=20
-> Just because something got in before doesn't mean it should now.
->=20
-Ok, understood.
+ Documentation/staging/xz.rst  |  3 ---
+ arch/powerpc/boot/xz_config.h |  3 ---
+ include/linux/xz.h            | 35 ++++++++++++-----------------------
+ lib/decompress_unxz.c         |  1 -
+ lib/xz/xz_crc32.c             |  4 ++--
+ lib/xz/xz_dec_bcj.c           |  9 ++++-----
+ lib/xz/xz_dec_lzma2.c         | 10 ++++------
+ lib/xz/xz_dec_stream.c        |  8 ++++----
+ lib/xz/xz_private.h           | 20 ++++++++------------
+ 9 files changed, 34 insertions(+), 59 deletions(-)
 
-> > Documentation/devicetree/bindings/crypto/xlnx,zynqmp-aes.yaml:
-> zynqmp_firmware: zynqmp-firmware {
-> > Documentation/devicetree/bindings/fpga/xlnx,zynqmp-pcap-fpga.yaml:
-> zynqmp_firmware: zynqmp-firmware {
-> > Documentation/devicetree/bindings/gpio/xlnx,zynqmp-gpio-modepin.yaml:
-> zynqmp-firmware {
-> >  And more...
-> >
-> > If you any other suggested word to pre-fix , that narrows down this bro=
-ad
-> referenced word "firmware".
->=20
-> > Please suggest.
->=20
->  I already did:
+diff --git a/Documentation/staging/xz.rst b/Documentation/staging/xz.rst
+index e1054e9a8e65..6953a189e5f2 100644
+--- a/Documentation/staging/xz.rst
++++ b/Documentation/staging/xz.rst
+@@ -95,7 +95,4 @@ xz_dec API
+ 
+ This is available with ``#include <linux/xz.h>``.
+ 
+-``XZ_EXTERN`` is a macro used in the preboot code. Ignore it when
+-reading this documentation.
+-
+ .. kernel-doc:: include/linux/xz.h
+diff --git a/arch/powerpc/boot/xz_config.h b/arch/powerpc/boot/xz_config.h
+index ebfadd39e192..9506a96ebbcc 100644
+--- a/arch/powerpc/boot/xz_config.h
++++ b/arch/powerpc/boot/xz_config.h
+@@ -50,11 +50,8 @@ static inline void put_unaligned_be32(u32 val, void *p)
+ /* prevent the inclusion of the xz-preboot MM headers */
+ #define DECOMPR_MM_H
+ #define memmove memmove
+-#define XZ_EXTERN static
+ 
+ /* xz.h needs to be included directly since we need enum xz_mode */
+ #include "../../../include/linux/xz.h"
+ 
+-#undef XZ_EXTERN
+-
+ #endif
+diff --git a/include/linux/xz.h b/include/linux/xz.h
+index 701d62c02b9a..58ae1d746c6f 100644
+--- a/include/linux/xz.h
++++ b/include/linux/xz.h
+@@ -18,11 +18,6 @@
+ #	include <stdint.h>
+ #endif
+ 
+-/* In Linux, this is used to make extern functions static when needed. */
+-#ifndef XZ_EXTERN
+-#	define XZ_EXTERN extern
+-#endif
+-
+ /**
+  * enum xz_mode - Operation mode
+  *
+@@ -190,7 +185,7 @@ struct xz_dec;
+  * ready to be used with xz_dec_run(). If memory allocation fails,
+  * xz_dec_init() returns NULL.
+  */
+-XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
++struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
+ 
+ /**
+  * xz_dec_run() - Run the XZ decoder
+@@ -210,7 +205,7 @@ XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max);
+  * get that amount valid data from the beginning of the stream. You must use
+  * the multi-call decoder if you don't want to uncompress the whole stream.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
++enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
+ 
+ /**
+  * xz_dec_reset() - Reset an already allocated decoder state
+@@ -223,14 +218,14 @@ XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b);
+  * xz_dec_run(). Thus, explicit call to xz_dec_reset() is useful only in
+  * multi-call mode.
+  */
+-XZ_EXTERN void xz_dec_reset(struct xz_dec *s);
++void xz_dec_reset(struct xz_dec *s);
+ 
+ /**
+  * xz_dec_end() - Free the memory allocated for the decoder state
+  * @s:          Decoder state allocated using xz_dec_init(). If s is NULL,
+  *              this function does nothing.
+  */
+-XZ_EXTERN void xz_dec_end(struct xz_dec *s);
++void xz_dec_end(struct xz_dec *s);
+ 
+ /**
+  * DOC: MicroLZMA decompressor
+@@ -244,10 +239,6 @@ XZ_EXTERN void xz_dec_end(struct xz_dec *s);
+  * 3/0/2, the first byte is 0xA2. This way the first byte can never be 0x00.
+  * Just like with LZMA2, lc + lp <= 4 must be true. The LZMA end-of-stream
+  * marker must not be used. The unused values are reserved for future use.
+- *
+- * These functions aren't used or available in preboot code and thus aren't
+- * marked with XZ_EXTERN. This avoids warnings about static functions that
+- * are never defined.
+  */
+ 
+ /*
+@@ -272,8 +263,8 @@ struct xz_dec_microlzma;
+  * struct xz_dec_microlzma. If memory allocation fails or
+  * dict_size is invalid, NULL is returned.
+  */
+-extern struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
+-						       uint32_t dict_size);
++struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
++						uint32_t dict_size);
+ 
+ /**
+  * xz_dec_microlzma_reset() - Reset the MicroLZMA decoder state
+@@ -289,9 +280,8 @@ extern struct xz_dec_microlzma *xz_dec_microlzma_alloc(enum xz_mode mode,
+  *              requiring stdbool.h. This should normally be set to true.
+  *              When this is set to false, error detection is weaker.
+  */
+-extern void xz_dec_microlzma_reset(struct xz_dec_microlzma *s,
+-				   uint32_t comp_size, uint32_t uncomp_size,
+-				   int uncomp_size_is_exact);
++void xz_dec_microlzma_reset(struct xz_dec_microlzma *s, uint32_t comp_size,
++			    uint32_t uncomp_size, int uncomp_size_is_exact);
+ 
+ /**
+  * xz_dec_microlzma_run() - Run the MicroLZMA decoder
+@@ -329,15 +319,14 @@ extern void xz_dec_microlzma_reset(struct xz_dec_microlzma *s,
+  * may be changed normally like with XZ_PREALLOC. This way input data can be
+  * provided from non-contiguous memory.
+  */
+-extern enum xz_ret xz_dec_microlzma_run(struct xz_dec_microlzma *s,
+-					struct xz_buf *b);
++enum xz_ret xz_dec_microlzma_run(struct xz_dec_microlzma *s, struct xz_buf *b);
+ 
+ /**
+  * xz_dec_microlzma_end() - Free the memory allocated for the decoder state
+  * @s:          Decoder state allocated using xz_dec_microlzma_alloc().
+  *              If s is NULL, this function does nothing.
+  */
+-extern void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
++void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
+ 
+ /*
+  * Standalone build (userspace build or in-kernel build for boot time use)
+@@ -358,13 +347,13 @@ extern void xz_dec_microlzma_end(struct xz_dec_microlzma *s);
+  * This must be called before any other xz_* function to initialize
+  * the CRC32 lookup table.
+  */
+-XZ_EXTERN void xz_crc32_init(void);
++void xz_crc32_init(void);
+ 
+ /*
+  * Update CRC32 value using the polynomial from IEEE-802.3. To start a new
+  * calculation, the third argument must be zero. To continue the calculation,
+  * the previously returned value is passed as the third argument.
+  */
+-XZ_EXTERN uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc);
++uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc);
+ #endif
+ #endif
+diff --git a/lib/decompress_unxz.c b/lib/decompress_unxz.c
+index cae00395d7a6..32138bb8ef77 100644
+--- a/lib/decompress_unxz.c
++++ b/lib/decompress_unxz.c
+@@ -107,7 +107,6 @@
+ #ifdef __KERNEL__
+ #	include <linux/decompress/mm.h>
+ #endif
+-#define XZ_EXTERN STATIC
+ 
+ #ifndef XZ_PREBOOT
+ #	include <linux/slab.h>
+diff --git a/lib/xz/xz_crc32.c b/lib/xz/xz_crc32.c
+index effdf34ec48d..6a7906a328ba 100644
+--- a/lib/xz/xz_crc32.c
++++ b/lib/xz/xz_crc32.c
+@@ -26,7 +26,7 @@
+ 
+ STATIC_RW_DATA uint32_t xz_crc32_table[256];
+ 
+-XZ_EXTERN void xz_crc32_init(void)
++void xz_crc32_init(void)
+ {
+ 	const uint32_t poly = 0xEDB88320;
+ 
+@@ -45,7 +45,7 @@ XZ_EXTERN void xz_crc32_init(void)
+ 	return;
+ }
+ 
+-XZ_EXTERN uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc)
++uint32_t xz_crc32(const uint8_t *buf, size_t size, uint32_t crc)
+ {
+ 	crc = ~crc;
+ 
+diff --git a/lib/xz/xz_dec_bcj.c b/lib/xz/xz_dec_bcj.c
+index 42d7f268726f..8237db17eee3 100644
+--- a/lib/xz/xz_dec_bcj.c
++++ b/lib/xz/xz_dec_bcj.c
+@@ -572,9 +572,8 @@ static void bcj_flush(struct xz_dec_bcj *s, struct xz_buf *b)
+  * data in chunks of 1-16 bytes. To hide this issue, this function does
+  * some buffering.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
+-				     struct xz_dec_lzma2 *lzma2,
+-				     struct xz_buf *b)
++enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s, struct xz_dec_lzma2 *lzma2,
++			   struct xz_buf *b)
+ {
+ 	size_t out_start;
+ 
+@@ -682,7 +681,7 @@ XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
+ 	return s->ret;
+ }
+ 
+-XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
++struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
+ {
+ 	struct xz_dec_bcj *s = kmalloc(sizeof(*s), GFP_KERNEL);
+ 	if (s != NULL)
+@@ -691,7 +690,7 @@ XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call)
+ 	return s;
+ }
+ 
+-XZ_EXTERN enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id)
++enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id)
+ {
+ 	switch (id) {
+ #ifdef XZ_DEC_X86
+diff --git a/lib/xz/xz_dec_lzma2.c b/lib/xz/xz_dec_lzma2.c
+index 613939f5dd6c..83bb66b6016d 100644
+--- a/lib/xz/xz_dec_lzma2.c
++++ b/lib/xz/xz_dec_lzma2.c
+@@ -960,8 +960,7 @@ static bool lzma2_lzma(struct xz_dec_lzma2 *s, struct xz_buf *b)
+  * Take care of the LZMA2 control layer, and forward the job of actual LZMA
+  * decoding or copying of uncompressed chunks to other functions.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
+-				       struct xz_buf *b)
++enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s, struct xz_buf *b)
+ {
+ 	uint32_t tmp;
+ 
+@@ -1137,8 +1136,7 @@ XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
+ 	return XZ_OK;
+ }
+ 
+-XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
+-						   uint32_t dict_max)
++struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode, uint32_t dict_max)
+ {
+ 	struct xz_dec_lzma2 *s = kmalloc(sizeof(*s), GFP_KERNEL);
+ 	if (s == NULL)
+@@ -1161,7 +1159,7 @@ XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
+ 	return s;
+ }
+ 
+-XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
++enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
+ {
+ 	/* This limits dictionary size to 3 GiB to keep parsing simpler. */
+ 	if (props > 39)
+@@ -1197,7 +1195,7 @@ XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props)
+ 	return XZ_OK;
+ }
+ 
+-XZ_EXTERN void xz_dec_lzma2_end(struct xz_dec_lzma2 *s)
++void xz_dec_lzma2_end(struct xz_dec_lzma2 *s)
+ {
+ 	if (DEC_IS_MULTI(s->dict.mode))
+ 		vfree(s->dict.buf);
+diff --git a/lib/xz/xz_dec_stream.c b/lib/xz/xz_dec_stream.c
+index 0058406ccd17..f9d003684d56 100644
+--- a/lib/xz/xz_dec_stream.c
++++ b/lib/xz/xz_dec_stream.c
+@@ -746,7 +746,7 @@ static enum xz_ret dec_main(struct xz_dec *s, struct xz_buf *b)
+  * actually succeeds (that's the price to pay of using the output buffer as
+  * the workspace).
+  */
+-XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
++enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
+ {
+ 	size_t in_start;
+ 	size_t out_start;
+@@ -782,7 +782,7 @@ XZ_EXTERN enum xz_ret xz_dec_run(struct xz_dec *s, struct xz_buf *b)
+ 	return ret;
+ }
+ 
+-XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
++struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
+ {
+ 	struct xz_dec *s = kmalloc(sizeof(*s), GFP_KERNEL);
+ 	if (s == NULL)
+@@ -812,7 +812,7 @@ XZ_EXTERN struct xz_dec *xz_dec_init(enum xz_mode mode, uint32_t dict_max)
+ 	return NULL;
+ }
+ 
+-XZ_EXTERN void xz_dec_reset(struct xz_dec *s)
++void xz_dec_reset(struct xz_dec *s)
+ {
+ 	s->sequence = SEQ_STREAM_HEADER;
+ 	s->allow_buf_error = false;
+@@ -824,7 +824,7 @@ XZ_EXTERN void xz_dec_reset(struct xz_dec *s)
+ 	s->temp.size = STREAM_HEADER_SIZE;
+ }
+ 
+-XZ_EXTERN void xz_dec_end(struct xz_dec *s)
++void xz_dec_end(struct xz_dec *s)
+ {
+ 	if (s != NULL) {
+ 		xz_dec_lzma2_end(s->lzma2);
+diff --git a/lib/xz/xz_private.h b/lib/xz/xz_private.h
+index a8b1cbe8d21d..5f1294a1408c 100644
+--- a/lib/xz/xz_private.h
++++ b/lib/xz/xz_private.h
+@@ -115,8 +115,7 @@
+  * Allocate memory for LZMA2 decoder. xz_dec_lzma2_reset() must be used
+  * before calling xz_dec_lzma2_run().
+  */
+-XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
+-						   uint32_t dict_max);
++struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode, uint32_t dict_max);
+ 
+ /*
+  * Decode the LZMA2 properties (one byte) and reset the decoder. Return
+@@ -124,22 +123,20 @@ XZ_EXTERN struct xz_dec_lzma2 *xz_dec_lzma2_create(enum xz_mode mode,
+  * big enough, and XZ_OPTIONS_ERROR if props indicates something that this
+  * decoder doesn't support.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s,
+-					 uint8_t props);
++enum xz_ret xz_dec_lzma2_reset(struct xz_dec_lzma2 *s, uint8_t props);
+ 
+ /* Decode raw LZMA2 stream from b->in to b->out. */
+-XZ_EXTERN enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s,
+-				       struct xz_buf *b);
++enum xz_ret xz_dec_lzma2_run(struct xz_dec_lzma2 *s, struct xz_buf *b);
+ 
+ /* Free the memory allocated for the LZMA2 decoder. */
+-XZ_EXTERN void xz_dec_lzma2_end(struct xz_dec_lzma2 *s);
++void xz_dec_lzma2_end(struct xz_dec_lzma2 *s);
+ 
+ #ifdef XZ_DEC_BCJ
+ /*
+  * Allocate memory for BCJ decoders. xz_dec_bcj_reset() must be used before
+  * calling xz_dec_bcj_run().
+  */
+-XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
++struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
+ 
+ /*
+  * Decode the Filter ID of a BCJ filter. This implementation doesn't
+@@ -147,16 +144,15 @@ XZ_EXTERN struct xz_dec_bcj *xz_dec_bcj_create(bool single_call);
+  * is needed. Returns XZ_OK if the given Filter ID is supported.
+  * Otherwise XZ_OPTIONS_ERROR is returned.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id);
++enum xz_ret xz_dec_bcj_reset(struct xz_dec_bcj *s, uint8_t id);
+ 
+ /*
+  * Decode raw BCJ + LZMA2 stream. This must be used only if there actually is
+  * a BCJ filter in the chain. If the chain has only LZMA2, xz_dec_lzma2_run()
+  * must be called directly.
+  */
+-XZ_EXTERN enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s,
+-				     struct xz_dec_lzma2 *lzma2,
+-				     struct xz_buf *b);
++enum xz_ret xz_dec_bcj_run(struct xz_dec_bcj *s, struct xz_dec_lzma2 *lzma2,
++			   struct xz_buf *b);
+ 
+ /* Free the memory allocated for the BCJ filters. */
+ #define xz_dec_bcj_end(s) kfree(s)
+-- 
+2.45.2
 
-In case of imx8ulp, there is a single node.
-Having a same node name for both parent and child, is bit strange.=20
-firmware {
-	firmware {
-	};
-};
-
-Request you to allow to re-evaluate this point.
-Thanks.
-
-> > > The normal differentiator for multiple nodes is -[0-9]*, why can't
-> > > you use that, if you're worried about multiple nodes?
-> > Thanks Conor, for the suggestion this. Will use this. Thanks.
