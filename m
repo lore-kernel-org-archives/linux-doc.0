@@ -1,150 +1,94 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5FA16F828
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 18:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9946161327
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 19:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721846214; cv=none; b=gifTS5mM0XZpax2a04ojx8j8I/rjFlIFp/MhHfXvAGaFYQTWldx23z6OMGS7omHbbOpmtDu2g/UquwkQbH1+j7a3RvkYv9pQowzwFTKCruli+7s6WKHUYttXnNa9AgUM2Jg5jWlXCzgpvUSrfh9XPlbAq2u5zsh92lpkgyvnz5c=
+	t=1721848360; cv=none; b=cw8PJTSI87ry9y4bQ00vMqSqc4nFQqRqMnmpSr9nF6xy4GOko+4aJo4pXrGwD0YFpHPs9LmLYu0KIQHHoC7pWzhm/Me/NC6tI5c4+w7Brdh92+SJUZfP7NXWbLvpUMEbJBloJg49Sbum5Bx4rPCszVkMcE8a9V7xGs+TfTcmOwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721846214; c=relaxed/simple;
-	bh=a1/mTzZfYWixOKvw7hZJPsNckjOGKvrprzOVGR3f+AI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fbYZ0uXlJ5CYxjcfExINJT2twxT3rLK0gbZ8yReIjjW1aRlybeWdL6agZ/RMqUHpOsyfiR1k3gxAEmIMz05cw7JFXG/UBiiT3O8TYRm4ap2h3oKN8m3i5G+PDVLxgKxjYesyDIczN+mxqaxc2RFdJncqjfKM4Y5Qg1uZv0bcPHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=qYfacdvw; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1721848360; c=relaxed/simple;
+	bh=7q+lSYAzjSpXPm7u1rbeV2sRK/Cao+TBCvv9ILLotx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YVl+xd5V8tBKw/LS30wFKBX8i2CFB8MR7uvGMD3MaMGyBPc3cZ12EORTHkfiLIwb3Syafa7jZlHI1ZUqlPsHX6zGwxqiOj+vAc3YU+95o4TzDvRSGLaJ8s+LuKDqszIwpt1KMix0nCAsmY1nX5JHHJPPBoZt3h6zY11iryTHjxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzEGt6eY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="qYfacdvw"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2cb56c2c30eso894925a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 11:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721846213; x=1722451013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EB5PDESy6Qo0Jcu13SGskHFDRhed/H4Oxxes6IQLnyg=;
-        b=qYfacdvwxE87alPlFYRl6yItQaO4caMDifwmP+517389oqUxGCNsdUkE+8JSaN5+C3
-         wvWGzt7C6TyJDszw1Vd2l8gBjNS+cBO9GXr1yL80nT0sRbc/iC34TW3h1NMBeNzOmFGE
-         Cnjnp7oYXPvxfPiEggxyET+RR/PaKNniMPcOQ7H6I7obUHWBdQ5EGR+o3HG2zLe8ZO71
-         1bn7dT3XsT4DXRkmCYA9rzt4yly0KkDGleP0QWqU3NoCPhM97UPffFaok4SZgFS4ohPQ
-         TzR/9uHIKCMGSVjyeJh+C2KcBBt5T7UsGQ50auRHwDvizGB7cvo/q0lEUM0dGeJMhVcF
-         DItg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721846213; x=1722451013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EB5PDESy6Qo0Jcu13SGskHFDRhed/H4Oxxes6IQLnyg=;
-        b=kuqgrhRIYYqkATEIUQLdPIuz4o6a16hm/BbQtrVQJBFYNGiN+3Hi1NU9/YAyis3Gaw
-         ViaR3RCcRAzxtudoGXoK/jFpg7lVtIlZNWeQ0V0MV1c9HmMgi+uZk0sJs1KKuDUqOH43
-         HY3WgFyzBhI9gerCfPzosyRN1QiBtd2rZHxi5SS9/d5wARKosj9bDLz2C+sKV5a/t8WY
-         /BWqmBBJj/OCSOX8Pa0StzWK1ahEQnZG3FBwIX9EVQc/A5yLG7+s9yAcEig19hDEOGAz
-         lxZ9QCzebYSnzomnI0EvnHorrAJPlPh2SrMIArlLpVtoxCvuO5cKDLEck9W+uHgv2KXE
-         p34A==
-X-Forwarded-Encrypted: i=1; AJvYcCXg5ob7utTmOleE9v9BRx3P0tDWaNvRAi7ei3cCW7+64qOl3KKBISmDBL1VEqMP4PaOsPK1aXXGbOy/ZmDpgYM5Z+nVdTqfqYBc
-X-Gm-Message-State: AOJu0Yx9mOfe7Mhnf3HgHGKqjiuy8xccrg2VIqEGbm3E4sbu/viA7658
-	8PzGJVbztHSFxf0D7aK4diA7z9UNyfI5lNraTfYEgIU5fls6+G1XI6GXT1y+m4w=
-X-Google-Smtp-Source: AGHT+IFVaKgpzXil+XU1Q9k4O5zrYBjVM25TgY3w5TlHHmjl9+GYW2Lt07senY0UmNriHZYrgPG/Gw==
-X-Received: by 2002:a17:90b:1b06:b0:2c2:d6ca:3960 with SMTP id 98e67ed59e1d1-2cf21f48eaamr801050a91.17.1721846212621;
-        Wed, 24 Jul 2024 11:36:52 -0700 (PDT)
-Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb73a189esm1997830a91.2.2024.07.24.11.36.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 11:36:51 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v6 8/8] RISC-V: hwprobe: Document unaligned vector perf key
-Date: Wed, 24 Jul 2024 14:36:05 -0400
-Message-ID: <20240724183605.4038597-9-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240724183605.4038597-1-jesse@rivosinc.com>
-References: <20240724183605.4038597-1-jesse@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzEGt6eY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721848357; x=1753384357;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7q+lSYAzjSpXPm7u1rbeV2sRK/Cao+TBCvv9ILLotx0=;
+  b=XzEGt6eY85otGM8mIYviXSX8M7RAaaYqA53CWGr8Qooq3lAIfpj0/vMX
+   xpIJZ8f9WG14r24hltdyszTzVmoelLc0pZD7Cb4fgpvzvnmEWTxS/EdYk
+   Hwkr2v6zuN2rFLmi5HdNPJXTNh0IFRNmGPVHdrJltQ63JVHDK3H1QMUKs
+   gCenD6GRzq3hmU7Q3ppP+iea1T6lC2Z6HYxP2nS1QbsJmQexdaxDIEMhe
+   LZsaK4w8Rk5r4FDz+kj9G7G98BJttA+6oE2SnuOhCZeCCi+DRoZ0t1VN9
+   +7KNKdNWUehZXZCmCYyvz8RbrH/uzedrjuIZN4ghLuAS5xAFnWmoLhs6K
+   Q==;
+X-CSE-ConnectionGUID: ap5dZOyiSsWg/AArDiiJZA==
+X-CSE-MsgGUID: r63TumlbQBSUqspH17BLTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11143"; a="44975788"
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="44975788"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2024 12:12:36 -0700
+X-CSE-ConnectionGUID: +T3stGLdR9ORAQXOZlPfig==
+X-CSE-MsgGUID: fP7+wp9WSpqMXjKAVwDX7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,233,1716274800"; 
+   d="scan'208";a="56990066"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2024 12:12:34 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sWhPc-000nMS-1j;
+	Wed, 24 Jul 2024 19:12:32 +0000
+Date: Thu, 25 Jul 2024 03:11:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
+	Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
+	linux-doc@vger.kernel.org
+Subject: [cel:nfsd-5.10.y 1/4] htmldocs: Warning: samples/Kconfig references
+ a file that doesn't exist:
+ Documentation/admin-guide/filesystem-monitoring.rst
+Message-ID: <202407250319.rRnWvh4J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Document key for reporting the speed of unaligned vector accesses.
-The descriptions are the same as the scalar equivalent values.
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-5.10.y
+head:   26563b4f6da732a7f86aa9c3bf0ccaa4ec992337
+commit: e6452a24505de989f8acf095531983d170576a03 [1/4] samples: Add fs error monitoring example
+reproduce: (https://download.01.org/0day-ci/archive/20240725/202407250319.rRnWvh4J-lkp@intel.com/reproduce)
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
----
-V1 -> V2:
-  - New patch
-V2 -> V3:
- - Specify access width
-V3 -> V4:
- - Clarify we're talking about byte accesses using vector registers
- - Spell out _VECTOR_ in macros
-V4 -> V5:
- - No changes
-V5 -> V6:
- - No changes
----
- Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407250319.rRnWvh4J-lkp@intel.com/
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 78acd37b6477..f83a13dc4cbc 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -238,3 +238,19 @@ The following keys are defined:
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_VECTOR_MISALIGNED_PERF`: An enum value describing the
-+     performance of misaligned vector accesses on the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_UNKNOWN`: The performance of misaligned
-+    vector accesses is unknown.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_SLOW`: 32-bit misaligned accesses using vector
-+    registers are slower than the equivalent quantity of byte accesses via vector registers.
-+    Misaligned accesses may be supported directly in hardware, or trapped and emulated by software.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_FAST`: 32-bit misaligned accesses using vector
-+    registers are faster than the equivalent quantity of byte accesses via vector registers.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_UNSUPPORTED`: Misaligned vector accesses are
-+    not supported at all and will generate a misaligned address fault.
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+>> Warning: samples/Kconfig references a file that doesn't exist: Documentation/admin-guide/filesystem-monitoring.rst
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
+
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
