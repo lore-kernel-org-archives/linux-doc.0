@@ -1,106 +1,108 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F967173C
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 20:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C16F068;
+	Wed, 24 Jul 2024 21:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721853739; cv=none; b=GGUNAGNHbt97IwKhhAYHa/pMJT92itf1SUhF4BXr5e2nYekajkUtHGQaURFyC1REhWaNKkrdIuUw4U4xvuWCnONwAJTFVwhXXon2XE5Xslv9Jqiw4EAnvD+LrwE5x5kXsjeHa1A3Y6uqDUWLLWLo63uWbgDMOCogCdxh9AH5Lk4=
+	t=1721856035; cv=none; b=oxfHNGYFbxy4llalTCtX3Axf30HJ5SrwZqtMSNXA4eOmruzkuEH8XE+aFfQlRulyuJd4VtyB4IMQlCGMD3QdRMNluJ0rucmjNHTMutP56enDxkS5e6e5KFeCSWMkzyTxJSQuHS0T67tEYvJMBm5fj1efHrHzzeUv/2pqq0bKsPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721853739; c=relaxed/simple;
-	bh=VFIouTgzioPnV8PxR8/n0LUJ2CqqqOt9c1k3KYsJ+RM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pf0KrG9z6WX9OD64K8Pt+B92M0WjfqsUoczXBZaKVFgj1mauvnknfMORY2Dus09uhmeTs1akg8UDXjQEnVN62G45lowk3IG6Np1m/ZiVPbwfsxbFJCjBTvuuJ91K21zw7HCJMh3pHhXqSPJA+W2MqjQmR6uXffTgAdiAgFo7NLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ial28SqH; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1721856035; c=relaxed/simple;
+	bh=UAMquWpIpIMRQSj3d9vj/eyJdUUCFF9c9h86+1Jwbv0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uhOHDLH2y0CLkHL9gyIqvbe4ltugCxq/b5K+CJvbogJsTZMtBQhBkZ702/hRl2EdH0lgB7WwAMQDosKL5XcShYvgUXEPbVG5r/SbkxliaVZ5lNRnoXS82OUJvL6aNt1Yfki72IK/Am/zEehkJIswbftttSDobCHjvY1M4YiRIuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iuKufqnX; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ial28SqH"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2635abdc742so10059fac.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 13:42:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iuKufqnX"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2cb576db1c5so213508a91.1;
+        Wed, 24 Jul 2024 14:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1721853736; x=1722458536; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SwfIRXOiJ/heI64+FQNlpZPVBndoeV1RDDhZJ9SjarM=;
-        b=Ial28SqHYFLrCG9iuiDdtO25WPHoYZVH9wltjdc+WoNWIu0j77cI4Rn7hgHeYqz/s5
-         Tl0ufAIfVMuATzHgOLx2RLnLk5StqxboNsrtzlka3/iB4hh5Hdop/UzO8a9lXrbkprlm
-         ZuFObHVaeU/+xbASA9+gc7TmrvwzqvMneNMZg=
+        d=gmail.com; s=20230601; t=1721856034; x=1722460834; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UAMquWpIpIMRQSj3d9vj/eyJdUUCFF9c9h86+1Jwbv0=;
+        b=iuKufqnXSdI84GwNY3Ffwm6A35H5Jp1ZMddKeP/+Y/0aCO+65yOyTxSE+g00Of7iLw
+         mL5NLaaQLtK9JBzY9NvMa75PAqQ+LPrtY1PSi7D5n1DrdcXXS/rEmKrIGwqn0k5jOsRZ
+         u1A3Cz3VG/9SvDQ9zUHhx6SgYeCSQwhTZsJbdQB33L1151tfZyZQSHW0v4AsLW5j0xYa
+         WQOAQpNExPNZ8nr6/yJ3uxVUmkbWFaoxBfVAr6kbCfNfqmDEMb0L6ImiTEF5w/yj+Eu0
+         H7ivgRvIXpZu+ZsPjxfjMDsJimGwsCrMCbse+oaDLYIZ495e1lS9ZNIqzoTdXsmbFVhl
+         GcpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721853736; x=1722458536;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SwfIRXOiJ/heI64+FQNlpZPVBndoeV1RDDhZJ9SjarM=;
-        b=iM/hu9urXot7o67KqYs7NaxWcMoqDGpg1yc2mCK6efQ43zko2T9zR5Dlnz89BWFNJ3
-         wOS9p567P7dcZCUF+W0Zd6Nyz3yf6ycJmuq1FWd2x/bYhxHeEYfSnIKTfTpPp/bgKOHH
-         ei+/1c3+hhJePW7VAb/yDokia6E1tpbrYF6RKNypUsf7e1t0U83nBGPnovdY9mWC17Ui
-         OvaI8NCkVl332TPCldW2IRCGw4VjA2jKLKdmCOPvGBh6LpDjzDsdpIZFkOy0hT/Y62ZW
-         1HlOixKbG0eCB/VSLmdYeHOsjkhRz6kAmw7GXPeOwihXxrQSNlvQpy+xXVdzPH31HlJA
-         lMtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9UPjcRmT1NTb9x0nF9fRG3T3UUBGOgupQGVlt9SW8mQJsZdCv1ynRW8A19zea+9zji8eoDKC1ZcQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWUK3CoW3lvFk/u+yIKougs52f139IFFN/xtx+eSEYd2bT5LpS
-	FhL8vt/MasdgiO5gdBcKv0NJwle9csTFtcR8SRKXP2hfmSci79neaD5f1qwdWtA=
-X-Google-Smtp-Source: AGHT+IFmjQM/tsv5clvcDuEEZcPj/WQfIe3Hmew0qHt87NCUlyPGfYsebGMK7/9TgEQGvEpYbVMdPg==
-X-Received: by 2002:a05:6871:e2a3:b0:260:f1c6:2586 with SMTP id 586e51a60fabf-264c4538997mr198897fac.10.1721853736344;
-        Wed, 24 Jul 2024 13:42:16 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f9ec428bsm18707a12.63.2024.07.24.13.42.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jul 2024 13:42:15 -0700 (PDT)
-Message-ID: <49d2134c-20e2-4042-9d01-9d7ca28af052@linuxfoundation.org>
-Date: Wed, 24 Jul 2024 14:42:14 -0600
+        d=1e100.net; s=20230601; t=1721856034; x=1722460834;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UAMquWpIpIMRQSj3d9vj/eyJdUUCFF9c9h86+1Jwbv0=;
+        b=jo5iSFnCeCjdOYlZcuTotzPclPGXu0oJyjUbsf5hmrBQDVhlOcs1XRGKauViYal3+c
+         MAmmS/CGS2hA/vqjy00ZPwpiA7eSQrn0dgONWUs/L4vBFWW/e1q0cLWtaXWuGJPwFmU3
+         reX0QA70Q95prcowOAFvrQ7dMeqVh+1byLuXL0YVKs/SZu8zi8JQFD/VxTSHLv72wJta
+         wBk150SAEO1C+AEoIPZKftwhPoMqNAtmS54Glkw4jsemF0mswCnXQQ6ShqqitMs+vvgw
+         ZFBswZfxLQhLuC16K8f9US3xkhB8qDa4B+n3ppFiO1t4GPa6DXeZKacLG0n1qbup24ha
+         b9DA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRBLDkmX6RiNlBE+DSjtqXctcn+74sMmuleXY65moM1I3cIx+ytG+12kKAHpDTobObhaBpBksm/8QSqm6k+J5nIiprsdvIXazu7RghsWqhLA9CiDfKuiK5Hm6O4pubmf+S2rVPGV8W9enJpqmKNE/FAze67S6GhL63lEnhC6EmjioZf9QRFyI=
+X-Gm-Message-State: AOJu0Yxuh0lgTtMeK2b9ypz6fwlQ/ptLu4YW+Z1rs3KeCnOh7lsgaAKZ
+	DosWuylhjd7WXy14wATEdTyr23TSd5fsAH9/RKXIc2M2m1KjwtMx+SKf/m5BD8VNGak9Mns7CoE
+	Lw/J2XzFfLwWsSijHsvDg9SaRCqY=
+X-Google-Smtp-Source: AGHT+IFAqeQ63jXKHYj9WrIm/chDXE38dKQBRWtQsKDk7YJsAfKg35lISr1CS/rAuFWO3JOC+16MX0nri1Bkg27Nm+Q=
+X-Received: by 2002:a17:90a:bc1:b0:2c9:69cc:3a6a with SMTP id
+ 98e67ed59e1d1-2cf2380cc92mr943726a91.3.1721856033721; Wed, 24 Jul 2024
+ 14:20:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] KVM: Documentation: Fix title underline too short
- warning
-To: Chang Yu <marcus.yu.56@gmail.com>, pbonzini@redhat.com
-Cc: corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, chang.yu.56@protonmail.com,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <ZqB3lofbzMQh5Q-5@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <ZqB3lofbzMQh5Q-5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240717221133.459589-1-benno.lossin@proton.me>
+ <20240717221133.459589-2-benno.lossin@proton.me> <99DF6A0F-BAE9-4341-8B42-6C1F1C69E2C6@collabora.com>
+ <a5afc0ed-2193-42f2-a7ef-50fba68980a6@proton.me>
+In-Reply-To: <a5afc0ed-2193-42f2-a7ef-50fba68980a6@proton.me>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 24 Jul 2024 23:20:21 +0200
+Message-ID: <CANiq72nFo2qBpKfZp5vcsT3PHdrfP8WukTkpC4jCnYW7h9A6OQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/5] doc: rust: create safety standard
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/23/24 21:40, Chang Yu wrote:
-> Fix "WARNING: Title underline too short" by extending title line to the
-> proper length.
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
-> Changes in v2:
->   - Fix the format of the subject and the commit message.
-> 
-> 
->   Documentation/virt/kvm/api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index fe722c5dada9..a510ce749c3c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6368,7 +6368,7 @@ a single guest_memfd file, but the bound ranges must not overlap).
->   See KVM_SET_USER_MEMORY_REGION2 for additional details.
->   
->   4.143 KVM_PRE_FAULT_MEMORY
-> -------------------------
-> +---------------------------
->   
->   :Capability: KVM_CAP_PRE_FAULT_MEMORY
->   :Architectures: none
+On Wed, Jul 24, 2024 at 10:32=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
+me> wrote:
+>
+> There are also several clippy lints [1] that we could start using:
+> - missing_safety_doc
+> - multiple_unsafe_ops_per_block
+> - undocumented_unsafe_blocks
+> - unnecessary_safety_comment
+> - unnecessary_safety_doc
+>
+> I personally think we should enable all of them.
 
-Look good to me.
+We briefly talked about it today -- others agreed on going ahead with
+something like the diff I sent the other day, so I will send a formal
+patch -- it has been a while since we wanted to do this (long enough
+that we were the ones requesting one of those lints, and it got
+implemented since then... :)
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+And we can keep the `TODO`s as "good first issue"s (I already updated
+some days ago our good first issue about it:
+https://github.com/Rust-for-Linux/linux/issues/351).
 
-thanks,
--- Shuah
+We can also enable the others easily, most are essentially clean
+already anyway, so I will send that as well.
+
+The only one that may be more "annoying" is
+`multiple_unsafe_ops_per_block`. On the other hand, it could in fact
+force people to think about every "bullet point" of the requirements
+(the lint highlights nicely the different operations).
+
+Cheers,
+Miguel
