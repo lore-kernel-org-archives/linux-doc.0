@@ -1,441 +1,200 @@
-Received: from m47-110.mailgun.net (m47-110.mailgun.net [69.72.47.110])
+Received: from mail-ua1-f73.google.com (mail-ua1-f73.google.com [209.85.222.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24373149C47
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 23:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.72.47.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37074522A
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721777524; cv=none; b=KnwXxi56uvv6avnb3gdm+PJmuw9SEu8zEvvQI20eCLZHH212gNITXMHBOWi0YZYts2eCp2pzcRpw2XcCT2T7Tx8iBXOmuGzFpl08f8h1c12MdhUfoND3utjsF5NHTqR7mSV+RS8TXvLtquQ6JK6fy+uCd4EsRCf7CaZ6gnl0TOU=
+	t=1721783476; cv=none; b=Xv15syCb4dBIVPyAA0WKUYjEuBaZyQMIpTFk8Dy7/eY2XETkedRodrXvahLLlBKOrlRSu+gfvjRHlDmKXZhyzh8YgJjaNbO+biPdFpSE/uwLqBBcdorpq/abztEKmtDVmzOJ2UHWUDRU6O3O8KK2pTwfoi+H0yNGyDCHVSErKoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721777524; c=relaxed/simple;
-	bh=PUcsM/fIEpCBs64C6OM9dall8whx4qUci7W0ucIt04Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SEsP99B2DBpd0A51m2U7eG0Ou1yGc2/xzhjJt4HU0NnEoI7pmtKua+dmrMVn5Ge6luK+bmtyGJgmPin7D4C6a2bxZEg5U31to5We0M+KQVzNOUq8a6H5cbpGaarEhCcHeIeowZ2W/Vs3BCWhCa5Eu1vGq5/SE6d/XXvKOvN7T8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=pass smtp.mailfrom=relay.vimeo.com; dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b=lWbnB1Pr; arc=none smtp.client-ip=69.72.47.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=relay.vimeo.com
+	s=arc-20240116; t=1721783476; c=relaxed/simple;
+	bh=RKSd1y7ax+bYPdsM5caHwSz9TwOwV9CPseDLSIS736s=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=LGEO8eXfol3NPGvcelem7rJCrG4ZVSuCUQ+Apu2MkzxeTLbRcBF4/4WO/p7Qlqe0deNM5aPJE3ZsvZJcGOkNjQPOEw0S6FiS32DZFEg/gOFqKPGDWJ+ioeaJVT3CDVI8XZQ20UK3hYTtnjUno1jmTwJsL1BIGICMBlVd27/lhSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xrgjaWBA; arc=none smtp.client-ip=209.85.222.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b="lWbnB1Pr"
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=relay.vimeo.com; q=dns/txt; s=mailo; t=1721777522; x=1721784722;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To: Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
- bh=t2iHNmDNFh2Lhloylho+v4Z/hy/KUWvSDvmAzMoAG5g=;
- b=lWbnB1PrBinb3d0n/kkWO81D7lqKbSXoJ6L1wulURYA7PnHuQPBEI0pjEegpFpNA9rTAniSPqtZLgk93Qb5Fetj/yCQhltU/liMMGwNZPQ2Hf4p4EKX89RA3qn8KColnAnxR4lNS87O0iKfrW8YKvy8B23RTLv/KvHhzix3deWI=
-X-Mailgun-Sending-Ip: 69.72.47.110
-X-Mailgun-Sid: WyJhZDBhNyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5ZDJhMWMiXQ==
-Received: from smtp.vimeo.com (215.71.185.35.bc.googleusercontent.com [35.185.71.215])
- by 9ee007f60f00 with SMTP id 66a03d72cb8a873c2ea87612 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 23 Jul 2024 23:32:02 GMT
-Sender: davidf=vimeo.com@relay.vimeo.com
-Received: from nutau (gke-sre-us-east1-main-7f6ba6de-bm2w.c.vimeo-core.internal [10.56.27.208])
-	by smtp.vimeo.com (Postfix) with ESMTP id 6065164D5F;
-	Tue, 23 Jul 2024 23:32:02 +0000 (UTC)
-Received: by nutau (Postfix, from userid 1001)
-	id 40707B4133E; Tue, 23 Jul 2024 19:32:02 -0400 (EDT)
-From: David Finkel <davidf@vimeo.com>
-To: Muchun Song <muchun.song@linux.dev>,
-	Tejun Heo <tj@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Hocko <mhocko@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	David Finkel <davidf@vimeo.com>
-Subject: [PATCH 2/2] mm, memcg: cg2 memory{.swap,}.peak write tests
-Date: Tue, 23 Jul 2024 19:31:49 -0400
-Message-Id: <20240723233149.3226636-3-davidf@vimeo.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240723233149.3226636-1-davidf@vimeo.com>
-References: <20240723233149.3226636-1-davidf@vimeo.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xrgjaWBA"
+Received: by mail-ua1-f73.google.com with SMTP id a1e0cc1a2514c-82018e3c449so1882303241.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721783474; x=1722388274; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cbTYml8WJPEGh8qSfIdK1VudaJalVARhAdPc06J+ALw=;
+        b=xrgjaWBAvrVcofpzuhD0+nN3rsAk6PmOP6IeP2vMugcggg3njhqG0Z+wc/yq9UCoO9
+         NzlO+6u4CDXCO+1WlS6Vgz0D6lCVT4cLzhe9PEDItJuvzt73OaIyReawbrOsSP9QXbTq
+         MtVMff1MOIGrMSygnM1WbGpD7/a2eOrtxdvuMwK+KzgIZFgoNzGBXzzVLqaeLXkqM0kF
+         1G2UaHbsna6/+ZMtFhZUZ6d5tD4LD245sfr5Svop6e5njgJHG7zLnlecJhu8ksWlUAjq
+         wdNsw5y2g+YH4cWEaoMkeqclqvhuvkPYxlOjnC0GzLO20YZPHCMiTynU+oWDfXX91lcm
+         S/hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721783474; x=1722388274;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cbTYml8WJPEGh8qSfIdK1VudaJalVARhAdPc06J+ALw=;
+        b=S+tIlpzI1/5RXkQ1+alyC7xMHd/frSnVMMroUQsFR7fH8AyY2nEhMaszvTW2Xl8tux
+         gjLDHz1z8S7ykDWBXtFWWzlfZqh+K3fIqL+GGX+xW6L7+udFaM7BcxxxBJUuLRPW3wEw
+         EyRNgR3cnjFhA5eR5/bheSZfTifqx4bJNY4ePeHEsDTrXT0N9+RfXX8WypSet+ehC3Wm
+         xHj9HYBGpAkufzmoIInBNcJQIPGGGPFCQcwOGxZg+OHg9JaU6n/ubOoQTaKD6mCUwBZh
+         jpGrbLG7e7U4JZhsD6/3pANRO2shtRG0DzTDnIbzZI/D8VRZcYx6DmdF/TYsPPGDNKth
+         q6pQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYt9DPUeu4lqmShXFLdRyI9PWiqRrdJRFc7oQd8TZNTC1JCCdOi0pkS/CwyDPdbX9NnheH5kQpEzsBH3nNdIzB+uko00JPVYRv
+X-Gm-Message-State: AOJu0Yx6uDUC3pQ8XKHWIrkTPfObRWDhAd7iH+XeIQMo5R7raQVwx3mV
+	/DuPiE7OndlNT8280n7sSPQVjUJ+bskCf0Ko1AJMEnPa6P3yKlJ8jvvxMY3LbPxwZPHI8D9+b0H
+	sOEZTnbXUPnE0/K5hIw==
+X-Google-Smtp-Source: AGHT+IFU0dcKvF1oJPyuhM+g7ff3d/ALiIFFaW2tweOW7lf82u7TeCdfrHDEq+idZRCqJG0SfkAoO+hAK8jfDIhe
+X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
+ (user=jthoughton job=sendgmr) by 2002:a05:6102:54a5:b0:492:a760:c94c with
+ SMTP id ada2fe7eead31-493c199efb7mr42818137.4.1721783474197; Tue, 23 Jul 2024
+ 18:11:14 -0700 (PDT)
+Date: Wed, 24 Jul 2024 01:10:26 +0000
+In-Reply-To: <20240724011037.3671523-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20240724011037.3671523-1-jthoughton@google.com>
+X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
+Message-ID: <20240724011037.3671523-2-jthoughton@google.com>
+Subject: [PATCH v6 01/11] KVM: Add lockless memslot walk to KVM
+From: James Houghton <jthoughton@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Houghton <jthoughton@google.com>, 
+	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-Extend two existing tests to cover extracting memory usage through the
-newly mutable memory.peak and memory.swap.peak handlers.
+Provide flexibility to the architecture to synchronize as optimally as
+they can instead of always taking the MMU lock for writing.
 
-In particular, make sure to exercise adding and removing watchers with
-overlapping lifetimes so the less-trivial logic gets tested.
+Architectures that do their own locking must select
+CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS.
 
-Signed-off-by: David Finkel <davidf@vimeo.com>
+The immediate application is to allow architectures to implement the
+test/clear_young MMU notifiers more cheaply.
+
+Suggested-by: Yu Zhao <yuzhao@google.com>
+Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- tools/testing/selftests/cgroup/cgroup_util.c  |  22 ++
- tools/testing/selftests/cgroup/cgroup_util.h  |   2 +
- .../selftests/cgroup/test_memcontrol.c        | 226 +++++++++++++++++-
- 3 files changed, 242 insertions(+), 8 deletions(-)
+ include/linux/kvm_host.h |  1 +
+ virt/kvm/Kconfig         |  3 +++
+ virt/kvm/kvm_main.c      | 26 +++++++++++++++++++-------
+ 3 files changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/tools/testing/selftests/cgroup/cgroup_util.c b/tools/testing/selftests/cgroup/cgroup_util.c
-index 432db923bced0..1e2d46636a0ca 100644
---- a/tools/testing/selftests/cgroup/cgroup_util.c
-+++ b/tools/testing/selftests/cgroup/cgroup_util.c
-@@ -141,6 +141,16 @@ long cg_read_long(const char *cgroup, const char *control)
- 	return atol(buf);
- }
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 689e8be873a7..8cd80f969cff 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -266,6 +266,7 @@ struct kvm_gfn_range {
+ 	gfn_t end;
+ 	union kvm_mmu_notifier_arg arg;
+ 	bool may_block;
++	bool lockless;
+ };
+ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
+ bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
+diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
+index b14e14cdbfb9..632334861001 100644
+--- a/virt/kvm/Kconfig
++++ b/virt/kvm/Kconfig
+@@ -100,6 +100,9 @@ config KVM_GENERIC_MMU_NOTIFIER
+        select MMU_NOTIFIER
+        bool
  
-+long cg_read_long_fd(int fd)
-+{
-+	char buf[128];
++config KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
++       bool
 +
-+	if (pread(fd, buf, sizeof(buf), 0) <= 0)
-+		return -1;
-+
-+	return atol(buf);
-+}
-+
- long cg_read_key_long(const char *cgroup, const char *control, const char *key)
- {
- 	char buf[PAGE_SIZE];
-@@ -183,6 +193,18 @@ int cg_write(const char *cgroup, const char *control, char *buf)
- 	return ret == len ? 0 : ret;
- }
- 
-+/*
-+ * Returns fd on success, or -1 on failure.
-+ * (fd should be closed with close() as usual)
-+ */
-+int cg_open(const char *cgroup, const char *control, int flags)
-+{
-+	char path[PATH_MAX];
-+
-+	snprintf(path, sizeof(path), "%s/%s", cgroup, control);
-+	return open(path, flags);
-+}
-+
- int cg_write_numeric(const char *cgroup, const char *control, long value)
- {
- 	char buf[64];
-diff --git a/tools/testing/selftests/cgroup/cgroup_util.h b/tools/testing/selftests/cgroup/cgroup_util.h
-index e8d04ac9e3d23..19b131ee77072 100644
---- a/tools/testing/selftests/cgroup/cgroup_util.h
-+++ b/tools/testing/selftests/cgroup/cgroup_util.h
-@@ -34,9 +34,11 @@ extern int cg_read_strcmp(const char *cgroup, const char *control,
- extern int cg_read_strstr(const char *cgroup, const char *control,
- 			  const char *needle);
- extern long cg_read_long(const char *cgroup, const char *control);
-+extern long cg_read_long_fd(int fd);
- long cg_read_key_long(const char *cgroup, const char *control, const char *key);
- extern long cg_read_lc(const char *cgroup, const char *control);
- extern int cg_write(const char *cgroup, const char *control, char *buf);
-+extern int cg_open(const char *cgroup, const char *control, int flags);
- int cg_write_numeric(const char *cgroup, const char *control, long value);
- extern int cg_run(const char *cgroup,
- 		  int (*fn)(const char *cgroup, void *arg),
-diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-index 41ae8047b8895..30730a3c26412 100644
---- a/tools/testing/selftests/cgroup/test_memcontrol.c
-+++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-@@ -161,12 +161,12 @@ static int alloc_pagecache_50M_check(const char *cgroup, void *arg)
- /*
-  * This test create a memory cgroup, allocates
-  * some anonymous memory and some pagecache
-- * and check memory.current and some memory.stat values.
-+ * and checks memory.current, memory.peak, and some memory.stat values.
-  */
--static int test_memcg_current(const char *root)
-+static int test_memcg_current_peak(const char *root)
- {
- 	int ret = KSFT_FAIL;
--	long current;
-+	long current, peak, peak_reset;
- 	char *memcg;
- 
- 	memcg = cg_name(root, "memcg_test");
-@@ -180,15 +180,108 @@ static int test_memcg_current(const char *root)
- 	if (current != 0)
- 		goto cleanup;
- 
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak != 0)
-+		goto cleanup;
-+
- 	if (cg_run(memcg, alloc_anon_50M_check, NULL))
- 		goto cleanup;
- 
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak < MB(50))
-+		goto cleanup;
-+
-+	/*
-+	 * We'll open a few FDs for the same memory.peak file to exercise the free-path
-+	 * We need at least three to be closed in a different order than writes occurred to test
-+	 * the linked-list handling.
-+	 */
-+	int peak_fd = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (peak_fd == -1)
-+		goto cleanup;
-+
-+	bool fd2_closed = false, fd3_closed = false, fd4_closed = false;
-+	int peak_fd2 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (peak_fd2 == -1)
-+		goto cleanup;
-+
-+	int peak_fd3 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (peak_fd3 == -1)
-+		goto cleanup;
-+
-+	static const char reset_string[] = "reset\n";
-+
-+	peak_reset = write(peak_fd, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	peak_reset = write(peak_fd2, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	peak_reset = write(peak_fd3, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	/* Make sure a completely independent read isn't affected by our  FD-local reset above*/
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak < MB(50))
-+		goto cleanup;
-+
-+	fd2_closed = true;
-+	if (close(peak_fd2))
-+		goto cleanup;
-+
-+	int peak_fd4 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (peak_fd4 == -1)
-+		goto cleanup;
-+
-+	peak_reset = write(peak_fd4, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(peak_fd);
-+	if (peak > MB(30) || peak < 0)
-+		goto cleanup;
-+
- 	if (cg_run(memcg, alloc_pagecache_50M_check, NULL))
- 		goto cleanup;
- 
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak < MB(50))
-+		goto cleanup;
-+
-+	/* Make sure everything is back to normal */
-+	peak = cg_read_long_fd(peak_fd);
-+	if (peak < MB(50))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(peak_fd4);
-+	if (peak < MB(50))
-+		goto cleanup;
-+
-+	fd3_closed = true;
-+	if (close(peak_fd3))
-+		goto cleanup;
-+
-+	fd4_closed = true;
-+	if (close(peak_fd4))
-+		goto cleanup;
-+
- 	ret = KSFT_PASS;
- 
- cleanup:
-+	close(peak_fd);
-+	if (!fd2_closed)
-+		close(peak_fd2);
-+	if (!fd3_closed)
-+		close(peak_fd3);
-+	if (!fd4_closed)
-+		close(peak_fd4);
- 	cg_destroy(memcg);
- 	free(memcg);
- 
-@@ -817,13 +910,16 @@ static int alloc_anon_50M_check_swap(const char *cgroup, void *arg)
+ config KVM_GENERIC_MEMORY_ATTRIBUTES
+        depends on KVM_GENERIC_MMU_NOTIFIER
+        bool
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index d0788d0a72cc..33f8997a5c29 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -555,6 +555,7 @@ struct kvm_mmu_notifier_range {
+ 	on_lock_fn_t on_lock;
+ 	bool flush_on_ret;
+ 	bool may_block;
++	bool lockless;
+ };
  
  /*
-  * This test checks that memory.swap.max limits the amount of
-- * anonymous memory which can be swapped out.
-+ * anonymous memory which can be swapped out. Additionally, it verifies that
-+ * memory.swap.peak reflects the high watermark and can be reset.
-  */
--static int test_memcg_swap_max(const char *root)
-+static int test_memcg_swap_max_peak(const char *root)
- {
- 	int ret = KSFT_FAIL;
- 	char *memcg;
--	long max;
-+	long max, peak;
-+
-+	static const char reset_string[] = "reset\n";
+@@ -609,6 +610,10 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
+ 			 IS_KVM_NULL_FN(range->handler)))
+ 		return r;
  
- 	if (!is_swap_enabled())
- 		return KSFT_SKIP;
-@@ -840,6 +936,45 @@ static int test_memcg_swap_max(const char *root)
- 		goto cleanup;
- 	}
++	/* on_lock will never be called for lockless walks */
++	if (WARN_ON_ONCE(range->lockless && !IS_KVM_NULL_FN(range->on_lock)))
++		return r;
++
+ 	idx = srcu_read_lock(&kvm->srcu);
  
-+	int swap_peak_fd = cg_open(memcg, "memory.swap.peak",
-+				   O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (swap_peak_fd == -1)
-+		goto cleanup;
-+
-+	int mem_peak_fd = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
-+
-+	if (mem_peak_fd == -1)
-+		goto cleanup;
-+
-+	if (cg_read_long(memcg, "memory.swap.peak"))
-+		goto cleanup;
-+
-+	if (cg_read_long_fd(swap_peak_fd))
-+		goto cleanup;
-+
-+	/* switch the swap and mem fds into local-peak tracking mode*/
-+	int peak_reset = write(swap_peak_fd, reset_string, sizeof(reset_string));
-+
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	if (cg_read_long_fd(swap_peak_fd))
-+		goto cleanup;
-+
-+	if (cg_read_long(memcg, "memory.peak"))
-+		goto cleanup;
-+
-+	if (cg_read_long_fd(mem_peak_fd))
-+		goto cleanup;
-+
-+	peak_reset = write(mem_peak_fd, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	if (cg_read_long_fd(mem_peak_fd))
-+		goto cleanup;
-+
- 	if (cg_read_strcmp(memcg, "memory.max", "max\n"))
- 		goto cleanup;
+ 	for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
+@@ -640,15 +645,18 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
+ 			gfn_range.start = hva_to_gfn_memslot(hva_start, slot);
+ 			gfn_range.end = hva_to_gfn_memslot(hva_end + PAGE_SIZE - 1, slot);
+ 			gfn_range.slot = slot;
++			gfn_range.lockless = range->lockless;
  
-@@ -862,6 +997,61 @@ static int test_memcg_swap_max(const char *root)
- 	if (cg_read_key_long(memcg, "memory.events", "oom_kill ") != 1)
- 		goto cleanup;
+ 			if (!r.found_memslot) {
+ 				r.found_memslot = true;
+-				KVM_MMU_LOCK(kvm);
+-				if (!IS_KVM_NULL_FN(range->on_lock))
+-					range->on_lock(kvm);
+-
+-				if (IS_KVM_NULL_FN(range->handler))
+-					goto mmu_unlock;
++				if (!range->lockless) {
++					KVM_MMU_LOCK(kvm);
++					if (!IS_KVM_NULL_FN(range->on_lock))
++						range->on_lock(kvm);
++
++					if (IS_KVM_NULL_FN(range->handler))
++						goto mmu_unlock;
++				}
+ 			}
+ 			r.ret |= range->handler(kvm, &gfn_range);
+ 		}
+@@ -658,7 +666,7 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
+ 		kvm_flush_remote_tlbs(kvm);
  
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long(memcg, "memory.swap.peak");
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(mem_peak_fd);
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(swap_peak_fd);
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	/*
-+	 * open, reset and close the peak swap on another FD to make sure
-+	 * multiple extant fds don't corrupt the linked-list
-+	 */
-+	peak_reset = cg_write(memcg, "memory.swap.peak", (char *)reset_string);
-+	if (peak_reset)
-+		goto cleanup;
-+
-+	peak_reset = cg_write(memcg, "memory.peak", (char *)reset_string);
-+	if (peak_reset)
-+		goto cleanup;
-+
-+	/* actually reset on the fds */
-+	peak_reset = write(swap_peak_fd, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	peak_reset = write(mem_peak_fd, reset_string, sizeof(reset_string));
-+	if (peak_reset != sizeof(reset_string))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(swap_peak_fd);
-+	if (peak > MB(10))
-+		goto cleanup;
-+
-+	/*
-+	 * The cgroup is now empty, but there may be a page or two associated
-+	 * with the open FD accounted to it.
-+	 */
-+	peak = cg_read_long_fd(mem_peak_fd);
-+	if (peak > MB(1))
-+		goto cleanup;
-+
-+	if (cg_read_long(memcg, "memory.peak") < MB(29))
-+		goto cleanup;
-+
-+	if (cg_read_long(memcg, "memory.swap.peak") < MB(29))
-+		goto cleanup;
-+
- 	if (cg_run(memcg, alloc_anon_50M_check_swap, (void *)MB(30)))
- 		goto cleanup;
+ mmu_unlock:
+-	if (r.found_memslot)
++	if (r.found_memslot && !range->lockless)
+ 		KVM_MMU_UNLOCK(kvm);
  
-@@ -869,9 +1059,29 @@ static int test_memcg_swap_max(const char *root)
- 	if (max <= 0)
- 		goto cleanup;
+ 	srcu_read_unlock(&kvm->srcu, idx);
+@@ -679,6 +687,8 @@ static __always_inline int kvm_handle_hva_range(struct mmu_notifier *mn,
+ 		.on_lock	= (void *)kvm_null_fn,
+ 		.flush_on_ret	= true,
+ 		.may_block	= false,
++		.lockless	=
++			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
+ 	};
  
-+	peak = cg_read_long(memcg, "memory.peak");
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long(memcg, "memory.swap.peak");
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(mem_peak_fd);
-+	if (peak < MB(29))
-+		goto cleanup;
-+
-+	peak = cg_read_long_fd(swap_peak_fd);
-+	if (peak < MB(19))
-+		goto cleanup;
-+
- 	ret = KSFT_PASS;
+ 	return __kvm_handle_hva_range(kvm, &range).ret;
+@@ -697,6 +707,8 @@ static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notifier *mn
+ 		.on_lock	= (void *)kvm_null_fn,
+ 		.flush_on_ret	= false,
+ 		.may_block	= false,
++		.lockless	=
++			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
+ 	};
  
- cleanup:
-+	if (close(mem_peak_fd))
-+		ret = KSFT_FAIL;
-+	if (close(swap_peak_fd))
-+		ret = KSFT_FAIL;
- 	cg_destroy(memcg);
- 	free(memcg);
- 
-@@ -1295,7 +1505,7 @@ struct memcg_test {
- 	const char *name;
- } tests[] = {
- 	T(test_memcg_subtree_control),
--	T(test_memcg_current),
-+	T(test_memcg_current_peak),
- 	T(test_memcg_min),
- 	T(test_memcg_low),
- 	T(test_memcg_high),
-@@ -1303,7 +1513,7 @@ struct memcg_test {
- 	T(test_memcg_max),
- 	T(test_memcg_reclaim),
- 	T(test_memcg_oom_events),
--	T(test_memcg_swap_max),
-+	T(test_memcg_swap_max_peak),
- 	T(test_memcg_sock),
- 	T(test_memcg_oom_group_leaf_events),
- 	T(test_memcg_oom_group_parent_events),
+ 	return __kvm_handle_hva_range(kvm, &range).ret;
 -- 
-2.40.1
+2.46.0.rc1.232.g9752f9e123-goog
 
