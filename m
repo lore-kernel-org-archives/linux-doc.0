@@ -1,250 +1,250 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33A124B5B
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 05:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B004AED7;
+	Wed, 24 Jul 2024 06:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721797612; cv=none; b=rnd0Y4vCHeTVQiMOxvrfD5htQ99Ro9r0DUGxqVPAAcBjLTZP4zb1ZdhWFkyM/vm9BmEJEQO1fR7GHaAeypGja9xJxIPNwOsBH+HdWENgxb/tvTqRsNRlK7OiD90N/gdmZADPdXJC2tXPtnqdGaqMdTCL/uKE/LZWgCl6jU5tEB0=
+	t=1721801464; cv=none; b=IitvkZY6kyH5nH4pnmOiVA5YDLlCq/6LDiKxepjNlC3lnWEeVJzA6zN+Roc9zmTJ38pjp5JVI5w63CSLkjXFywIZQCecVM0DaFbSUp7kCajxBbA1qWDp5UBp2x8I4e4pOKa7E3AYgpC+fZK1MlzMD9wEPLPV/U3QOHS88TObhDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721797612; c=relaxed/simple;
-	bh=AgBSlFrpk8zESWW+69KIVV4zdYT86W9RdUq7IwmMi0o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kY1usiWyTxMCi5hpaxNZ/QwglRwBDdQq8YMB/tMurKbqUUebyOP3QhemF9g9br/ud7Hl45Fd+eeeOki3rg+hCfS0EcbYs7mJTP9JosHRH2EmISYSqnnzBEhxDn0XeBF/Qke7PQD5GbEdQo35+w5ylsVQfmjGAHMmjUE2i4PxeBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Mg9X+Hht; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Mg9X+Hht"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-44f9d7cb5c5so203841cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 22:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721797610; x=1722402410; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJm7ARutHzcy8kXrtF+ksc2xBDBrTqHqPQrdb+EUgdo=;
-        b=Mg9X+Hht8TF/7wvLHOSt/HRce9MjqXAu7REVcR5UqZ3LvsOB0mkxTKjEeKYOFmnDru
-         duDtF6+kA5BzzX8XlYIEEG8AxF8nLd2zouMBWfuZKoN3Nf439eXdHbrZB+NrCZzr5vHj
-         58w32lTMVRmaduKXsvj327TA/iOoM2UIuG05NfSfNLY3l1qqYHaysW4MTgf9/RDLs5qO
-         2yjbDdOGfI3JtJOcxGNLm1uRvXsJpkSAEJrHRoIonitS2fFNBQqciLccZq436kv/Gu6j
-         u1fE4LdZpbaUzYM6i5CWT5KjU7iACyECDEevBo+eRFc798v1vgBjM5Sq2eUWt/XZGAgC
-         xeow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721797610; x=1722402410;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pJm7ARutHzcy8kXrtF+ksc2xBDBrTqHqPQrdb+EUgdo=;
-        b=fkUMdhpNorjBaspir9HOcWVbnNJ6V1FHbetYfeyj0HjPWIWqvayPH+ROHx0EHeYP3J
-         cr7HI9y4I5ZxwumAm13Yn8Bw370i7sXoCNxFqYQyRbxfP7yMDBxU6Z92m4dKeqTItrkh
-         pdokcuvdPMEq+jKuMEhkj8wZHRpX3N9Bl6iHKfTtjzyO3Pmxb3mIQPyOPyawEMnoaSQo
-         b4z6DHqlZ1hbPiw6R5Cj6O2w4Hr4NfJkhPvwbDn9pSvBgeKO65bKl4oYJZ5/KsB5WfZ4
-         WFCdXT0/bTcBK8xZoMntimAY9C+x0FCJvSOr7WOFVK0fZclNdS6PymAPyHnpsPGPlbj8
-         0akQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkQ+DdA+ItYaPyscUkrIDwh5ElmpMYmAPE5SAINvIAtFycRbjIW2gVvpAEFoixDz7rnIp54fR/6rTZRpeJ7uiyLxbFrhbfRV8g
-X-Gm-Message-State: AOJu0YzXePq6WFmoFpAMp6B2Ot2Stp+GFMj/5vyuL9haXV6vFbnaXVuX
-	FvEzSOQF+LHyvYrD4IQz0rSlK95pKdjx/7nZ8WI1V3YN58DJuKIZ1uXqDAKkxVnHStnP4yY6C4H
-	Gjldg1Z4AZHUyqt2TEGexxcY+6lUZUeb3307+1gFzOPlMMr6MPtw6
-X-Google-Smtp-Source: AGHT+IE76U5azBGKDAqS1aO7ppAjfu/MPZN19CK8S9AIPI3hibVPDl9a8ilY3OfLS8+aPNfryjUpU3cXweXi42UIy5E=
-X-Received: by 2002:a05:622a:1450:b0:447:eeb1:3d2 with SMTP id
- d75a77b69052e-44fd4c88964mr2229121cf.27.1721797609699; Tue, 23 Jul 2024
- 22:06:49 -0700 (PDT)
+	s=arc-20240116; t=1721801464; c=relaxed/simple;
+	bh=HhCRy0NtMYex6dM384FhqkxTFtMrBMW4/heteqMc5LI=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=iuotWC6AlBIK7h2W0X80fVJP/pg82aN+Iqv8dR38PCAb3F6EOh/vIgLdVOJKtT2JXlg28VECHr/j8mBtHphJsciw5xeKX2i1JiubYO17c5Z3UziuQehGo50dmYB+r51F0KxZ9GE6SLXmFGAKEl5VqNoF4jA2nEW30iIxuOKElA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4WTNl02JJJzKhn;
+	Wed, 24 Jul 2024 14:04:28 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4WTNks4kVGz5psk6;
+	Wed, 24 Jul 2024 14:04:21 +0800 (CST)
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4WTNkf5Lbfz5B1Jc;
+	Wed, 24 Jul 2024 14:04:10 +0800 (CST)
+Received: from njy2app08.zte.com.cn ([10.40.13.206])
+	by mse-fl2.zte.com.cn with SMTP id 46O63q1P072789;
+	Wed, 24 Jul 2024 14:03:52 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njb2app07[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Wed, 24 Jul 2024 14:03:54 +0800 (CST)
+Date: Wed, 24 Jul 2024 14:03:54 +0800 (CST)
+X-Zmail-TransId: 2aff66a0994a3a2-81e8e
+X-Mailer: Zmail v1.0
+Message-ID: <202407241403542217WOxM8U3ABv-nWZT068xe@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240720165441.it.320-kees@kernel.org>
-In-Reply-To: <20240720165441.it.320-kees@kernel.org>
-From: David Gow <davidgow@google.com>
-Date: Wed, 24 Jul 2024 13:06:38 +0800
-Message-ID: <CABVgOS=oWSyhkCSAS1-oagEa8Sdj7T+ys9uzLpZbik9Chpvw_w@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: KUnit: Update filename best practices
-To: Kees Cook <kees@kernel.org>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000ef903b061df73e94"
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <corbet@lwn.net>, <dsahern@kernel.org>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Cc: <jiang.kun2@zte.com.cn>, <fan.yu9@zte.com.cn>, <xu.xin16@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+        <he.peilin@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBuZXQ6IFByb3ZpZGUgc3lzY3RsIHRvIHR1bmUgbG9jYWwgcG9ydCByYW5nZSB0byBJQU5BCgogc3BlY2lmaWNhdGlvbg==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 46O63q1P072789
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 66A0996B.000/4WTNl02JJJzKhn
 
---000000000000ef903b061df73e94
-Content-Type: text/plain; charset="UTF-8"
+From: Fan Yu <fan.yu9@zte.com.cn>
 
-On Sun, 21 Jul 2024 at 00:54, Kees Cook <kees@kernel.org> wrote:
->
-> Based on feedback from Linus[1] and follow-up discussions, change the
-> suggested file naming for KUnit tests.
->
-> Link: https://lore.kernel.org/lkml/CAHk-=wgim6pNiGTBMhP8Kd3tsB7_JTAuvNJ=XYd3wPvvk=OHog@mail.gmail.com/ [1]
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: David Gow <davidgow@google.com>
-> Cc: Brendan Higgins <brendan.higgins@linux.dev>
-> Cc: Rae Moar <rmoar@google.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-hardening@vger.kernel.org
-> ---
+The Importance of Following IANA Standards
+========================================
+IANA specifies User ports as 1024-49151, and it just so happens
+that my application uses port 33060 (reserved for MySQL Database Extended),
+which conflicts with the Linux default dynamic port range (32768-60999)[1].
 
-Thanks again for dealing with this, Kees.
+In fact, IANA assigns numbers in port range from 32768 to 49151,
+which is uniformly accepted by the industry. To do this,
+it is necessary for the kernel to follow the IANA specification.
 
->  Documentation/dev-tools/kunit/style.rst | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/style.rst b/Documentation/dev-tools/kunit/style.rst
-> index b6d0d7359f00..1538835cd0e2 100644
-> --- a/Documentation/dev-tools/kunit/style.rst
-> +++ b/Documentation/dev-tools/kunit/style.rst
-> @@ -188,15 +188,20 @@ For example, a Kconfig entry might look like:
->  Test File and Module Names
->  ==========================
->
-> -KUnit tests can often be compiled as a module. These modules should be named
-> -after the test suite, followed by ``_test``. If this is likely to conflict with
-> -non-KUnit tests, the suffix ``_kunit`` can also be used.
-> -
-> -The easiest way of achieving this is to name the file containing the test suite
-> -``<suite>_test.c`` (or, as above, ``<suite>_kunit.c``). This file should be
-> -placed next to the code under test.
-> +Whether a KUnit test is compiled as a separate module or via an
-> +``#include`` in a core kernel source file, the file should be named
-> +after the test suite, followed by ``_kunit``, and live in a ``tests``
-> +subdirectory to avoid conflicting with regular modules (e.g. if "foobar"
-> +is the core module, then "foobar_kunit" is the KUnit test module) or the
-> +core kernel source file names (e.g. for tab-completion). Many existing
-> +tests use a ``_test`` suffix, but this is considered deprecated.
+Drawbacks of existing implementations
+========================================
+In past discussions, follow the IANA specification by modifying the
+system defaults has been discouraged, which would greatly affect
+existing users[2].
 
-I think John's updated version here is better. Personally, I'd rather
-the bit about module names lead here, as I think that's the part most
-likely to cause actual issues, and the source file name bit is more of
-a "here are problems to avoid, and sensible defaults which avoid them"
-than "here's an utterly inviolable rule".
+Theoretically, this can be done by tuning net.ipv4.local_port_range,
+but there are inconveniences such as:
+(1) For cloud-native scenarios, each container is expected to follow
+the IANA specification uniformly, so it is necessary to do sysctl
+configuration in each container individually, which increases the user's
+resource management costs.
+(2) For new applications, since sysctl(net.ipv4.local_port_range) is
+isolated across namespaces, the container cannot inherit the host's value,
+so after startup, it remains at the kernel default value of 32768-60999,
+which reduces the ease of use of the system.
 
-Maybe:
-```
-KUnit tests are often compiled as a separate module. To avoid
-conflicting with regular modules, KUnit modules should be named after
-the test suite, followed by ``_kunit`` (e.g. if
-"foobar" is the core module, then "foobar_kunit" is the KUnit test module).
+Solution
+========================================
+In order to maintain compatibility, we provide a sysctl interface in
+host namespace, which makes it easy to tune local port range to
+IANA specification.
 
-Test source files, whether compiled as a separate module or an
-``#include`` in another source file, are best kept in a ``tests/
-subdirectory to not conflict with other source files (e.g. for
-tab-completion).
+When ip_local_port_range_use_iana=1, the local port range of all network
+namespaces is tuned to IANA specification (49152-60999), and IANA
+specification is also used for newly created network namespaces. Therefore,
+each container does not need to do sysctl settings separately, which
+improves the convenience of configuration.
+When ip_local_port_range_use_iana=0, the local port range of all network
+namespaces are tuned to the original kernel defaults (32768-60999).
+For example:
+	# cat /proc/sys/net/ipv4/ip_local_port_range 
+	32768   60999
+	# echo 1 > /proc/sys/net/ipv4/ip_local_port_range_use_iana
+	# cat /proc/sys/net/ipv4/ip_local_port_range 
+	49152   60999
 
-Note that the ``_test`` suffix has also been used in some existing
-tests. The ``_kunit`` suffix is preferred, as it makes the distinction
-between KUnit and non-KUnit tests clearer.
-```
+	# unshare -n
+	# cat /proc/sys/net/ipv4/ip_local_port_range 
+	49152   60999
 
-(But this is all largely bikeshedding at this point. As long as we end
-up describing the sensible defaults, and don't paint ourselves (and
-subsystem maintainers) into a corner, either should work.
+Notes
+========================================
+The lower value(49152), consistent with IANA dynamic port lower limit.
+The upper limit value(60999), which differs from the IANA dynamic upper
+limit due to the fact that Linux will use 61000-65535 as masquarading/NAT,
+but this does not conflict with the IANA specification[3].
 
-> +
-> +So for the common case, name the file containing the test suite
-> +``tests/<suite>_kunit.c``. The ``tests`` directory should be placed at
-> +the same level as the code under test. For example, tests for
-> +``lib/string.c`` live in ``lib/tests/string_kunit.c``.
->
->  If the suite name contains some or all of the name of the test's parent
-> -directory, it may make sense to modify the source filename to reduce redundancy.
-> -For example, a ``foo_firmware`` suite could be in the ``foo/firmware_test.c``
-> -file.
-> +directory, it may make sense to modify the source filename to reduce
-> +redundancy. For example, a ``foo_firmware`` suite could be in the
-> +``tests/foo/firmware_kunit.c`` file.
+Note that following the above specification reduces the number of ephemeral
+ports by half, increasing the risk of port exhaustion[2].
 
-I think that this should be ``foo/tests/firmware_kunit.c``. I'd even
-be okay with ``foo/tests/firmware.c``, as the module name needs
-manually updating in the makefile anyway, where it should either be
-``foo_firmware_kunit``, or included in a larger ``foo_kunit`` module.
+[1]:https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+[2]:https://lore.kernel.org/all/bf42f6fd-cd06-02d6-d7b6-233a0602c437@gmail.com/
+[3]:https://lore.kernel.org/all/20070512210830.514c7709@the-village.bc.nu/
 
--- David
+Co-developed-by: Kun Jiang <jiang.kun2@zte.com.cn>
+Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
+Signed-off-by: Kun Jiang <jiang.kun2@zte.com.cn>
+Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Yunkai Zhang <zhang.yunkai@zte.com.cn>
+Reviewed-by: Qiang Tu <tu.qiang35@zte.com.cn>
+Reviewed-by: Peilin He<he.peilin@zte.com.cn>
+Cc: Yang Yang <yang.yang29@zte.com.cn>
+---
+ Documentation/networking/ip-sysctl.rst | 13 +++++++++++++
+ net/ipv4/af_inet.c                     |  7 ++++++-
+ net/ipv4/sysctl_net_ipv4.c             | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+), 1 deletion(-)
 
---000000000000ef903b061df73e94
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index bd50df6a5a42..27f4928c2a1d 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1320,6 +1320,19 @@ ip_local_port_range - 2 INTEGERS
+ 	Must be greater than or equal to ip_unprivileged_port_start.
+ 	The default values are 32768 and 60999 respectively.
 
-MIIPqgYJKoZIhvcNAQcCoIIPmzCCD5cCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg0EMIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-JEfDtvHU6wy3MSBE3/TrMFcGA1UdIARQME4wCQYHZ4EMAQUBATBBBgkrBgEEAaAyASgwNDAyBggr
-BgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wDAYDVR0TAQH/
-BAIwADCBmgYIKwYBBQUHAQEEgY0wgYowPgYIKwYBBQUHMAGGMmh0dHA6Ly9vY3NwLmdsb2JhbHNp
-Z24uY29tL2NhL2dzYXRsYXNyM3NtaW1lY2EyMDIwMEgGCCsGAQUFBzAChjxodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcnQwHwYDVR0jBBgw
-FoAUfMwKaNei6x4schvRzV2Vb4378mMwRgYDVR0fBD8wPTA7oDmgN4Y1aHR0cDovL2NybC5nbG9i
-YWxzaWduLmNvbS9jYS9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcmwwDQYJKoZIhvcNAQELBQADggEB
-AGwXYwvLVjByVooZ+uKzQVW2nnClCIizd0jfARuMRTPNAWI2uOBSKoR0T6XWsGsVvX1vBF0FA+a9
-DQOd8GYqzEaKOiHDIjq/o455YXkiKhPpxDSIM+7st/OZnlkRbgAyq4rAhAjbZlceKp+1vj0wIvCa
-4evQZvJNnJvTb4Vcnqf4Xg2Pl57hSUAgejWvIGAxfiAKG8Zk09I9DNd84hucIS2UIgoRGGWw3eIg
-GQs0EfiilyTgsH8iMOPqUJ1h4oX9z1FpaiJzfxcvcGG46SCieSFP0USs9aMl7GeERue37kBf14Pd
-kOYIfx09Pcv/N6lHV6kXlzG0xeUuV3RxtLtszQgxggJqMIICZgIBATBoMFQxCzAJBgNVBAYTAkJF
-MRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFzIFIz
-IFNNSU1FIENBIDIwMjACEAFsPHWl8lqMEwx3lAnpufYwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZI
-hvcNAQkEMSIEIFywzNhdYJV6HJfTp3IFU/XOaeZ8PyR8L0g+R71aSkzGMBgGCSqGSIb3DQEJAzEL
-BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDcyNDA1MDY1MFowaQYJKoZIhvcNAQkPMVww
-WjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkq
-hkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQA4dRW9
-mJEuK+rO6FGScRoffagxNO32yLtyPCkbQhGuexUAb1+GBjx/9Ozjcqa5aIOi9mP8BpuftLOwJ4Vd
-Hwovr/ik6xDq4TUJi6WHW1pyt+DdEEzrCXjEqgtg3JCJhqOiv1BEryNENYIqq4xqTs1cX4Uczwwk
-PCUCJlgGEfLs8YMycPv/d0N36k5I+VONm4e+Sz8Ekf3FvIs0fZxLVXcrxQdGX7TEiS/Tuy6BZPrr
-vLqTP0u+ET23jGmazBl0MAf7we7urvybdPhX12FiQX7PQoPZ0kbdpIG1PbtiDGwkj4DzXtiJ7Qh3
-+aP6ae+GkxqMaV89yvUf50BnNTnRbBST
---000000000000ef903b061df73e94--
++ip_local_port_range_use_iana - BOOLEAN
++	Tune ip_local_port_range to IANA specification easily.
++	When ip_local_port_range_use_iana=1, the local port range of
++	all network namespaces is tuned to IANA specification (49152-60999),
++	and IANA specification is also used for newly created network namespaces.
++	Therefore, each container does not need to do sysctl settings separately,
++	which improves the convenience of configuration.
++	When ip_local_port_range_use_iana=0, the local port range of
++	all network namespaces are tuned to the original kernel
++	defaults (32768-60999).
++
++	Default: 0
++
+ ip_local_reserved_ports - list of comma separated ranges
+ 	Specify the ports which are reserved for known third-party
+ 	applications. These ports will not be used by automatic port
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index b24d74616637..42b6bc58dc45 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -123,6 +123,8 @@
+
+ #include <trace/events/sock.h>
+
++extern u8 sysctl_ip_local_port_range_use_iana;
++
+ /* The inetsw table contains everything that inet_create needs to
+  * build a new socket.
+  */
+@@ -1802,7 +1804,10 @@ static __net_init int inet_init_net(struct net *net)
+ 	/*
+ 	 * Set defaults for local port range
+ 	 */
+-	net->ipv4.ip_local_ports.range = 60999u << 16 | 32768u;
++	if (sysctl_ip_local_port_range_use_iana)
++		net->ipv4.ip_local_ports.range = 60999u << 16 | 49152u;
++	else
++		net->ipv4.ip_local_ports.range = 60999u << 16 | 32768u;
+
+ 	seqlock_init(&net->ipv4.ping_group_range.lock);
+ 	/*
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 162a0a3b6ba5..a38447889072 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -45,6 +45,8 @@ static unsigned int tcp_child_ehash_entries_max = 16 * 1024 * 1024;
+ static unsigned int udp_child_hash_entries_max = UDP_HTABLE_SIZE_MAX;
+ static int tcp_plb_max_rounds = 31;
+ static int tcp_plb_max_cong_thresh = 256;
++u8 sysctl_ip_local_port_range_use_iana;
++EXPORT_SYMBOL(sysctl_ip_local_port_range_use_iana);
+
+ /* obsolete */
+ static int sysctl_tcp_low_latency __read_mostly;
+@@ -95,6 +97,26 @@ static int ipv4_local_port_range(struct ctl_table *table, int write,
+ 	return ret;
+ }
+
++static int ipv4_local_port_range_use_iana(struct ctl_table *table, int write,
++					  void *buffer, size_t *lenp, loff_t *ppos)
++{
++	struct net *net;
++	int ret;
++
++	ret = proc_dou8vec_minmax(table, write, buffer, lenp, ppos);
++
++	if (write && ret == 0) {
++		for_each_net(net) {
++			if (sysctl_ip_local_port_range_use_iana)
++				set_local_port_range(net, 49152u, 60999u);
++			else
++				set_local_port_range(net, 32768u, 60999u);
++		}
++	}
++
++	return ret;
++}
++
+ /* Validate changes from /proc interface. */
+ static int ipv4_privileged_ports(struct ctl_table *table, int write,
+ 				void *buffer, size_t *lenp, loff_t *ppos)
+@@ -575,6 +597,15 @@ static struct ctl_table ipv4_table[] = {
+ 		.extra1		= &sysctl_fib_sync_mem_min,
+ 		.extra2		= &sysctl_fib_sync_mem_max,
+ 	},
++	{
++		.procname	= "ip_local_port_range_use_iana",
++		.data		= &sysctl_ip_local_port_range_use_iana,
++		.maxlen		= sizeof(u8),
++		.mode		= 0644,
++		.proc_handler	= ipv4_local_port_range_use_iana,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
+ };
+
+ static struct ctl_table ipv4_net_table[] = {
+-- 
+2.15.2
