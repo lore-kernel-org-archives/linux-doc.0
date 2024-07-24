@@ -1,1085 +1,1198 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289C453364
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E678BB67E
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 01:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721783487; cv=none; b=pI+Yw+aiwVQ3Y9R35Pj974xZ3yp+8DUG191yrN0Yj8d94IUBLJl7BWyFB+G/2rQnsAYFrtXxysiRSoLmy7Qop2tRdj4z3becZuWDWsFCjytWxajsvGmb3vtQ5zwvWMLgLpfEtAB/lqcqRR3aB/zasNug/B5hh3/+4IA2ytAF+90=
+	t=1721785847; cv=none; b=UWOk/XeFHmyfMa3NuPXbSb41fhnBvYaPClMOr7mte3xwNILcOMPTVLAPAoLBmgsacZzQtEN8epJlanilTlWjQL8G7sb5Ev+uSMOlxyreDQyVsr/PwGXstKKCdVjHPg9/lKUvyJ4mBe7ybHiOnDAY91Y0a+DHcK2SbUSQ0EFFhbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721783487; c=relaxed/simple;
-	bh=PhtD3PFYdeiOutyF9HwlCWz3fYiU3k2VEEc0rNY9zLo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MKCEczfHtIKQ5qbeR0oFAUNEZFi6TPqkjkcYKGIJUTIOwhOOUGYaOAPQbqxJT5Hsw3fuDJn8zi8HxeeyzkZS8rGlFTrnsdqTp3FbyaeJDVbtpfnUgHnVy8rlRTYBy+bswFBN+CHumVtq8DrM9kvbvw6OUzvHfq0MYHk2evwECXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tOIS22jB; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
+	s=arc-20240116; t=1721785847; c=relaxed/simple;
+	bh=zRS+eO+cKkeXfWKvwCkI2PO5V6D/NkMJs+1V6l46+xo=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=mgKlo+WA0kvGgMvMGTb047tUOX1LSMOJ90PBxFBtx8b5Y8NgD1H0jH36mn7UJlHzVZJqHxFQjEM8ohPhD4z7KG5NgmP8Rp4VeidmMWT0pdk0swg4rI4UpgrqAB+bQtD5hBoVa5NPL3vADyffI4HE01hRn1RiGokwOKwHjpVAwWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=POqf93El; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tOIS22jB"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-668e964ffd9so157558697b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jul 2024 18:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721783483; x=1722388283; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lFFc/b0SZHtH5PvRwJV5gBsUXTybIUywMYm4prtgkD8=;
-        b=tOIS22jBRlfqQN5ql6udOcyqKPq2gP0S7dlSK6iaowSgnBCMCsNh9TGaZOCxo66j2H
-         c0CIandDLaQLKFfikC0KkNaBfOlGfupJ4ZPE2CAb7FOtohoEm6l8G+dbKn0pNQlPdYRo
-         Hilu86XRpV1ymiKj648vsoMgEMlILs0RiLDw/Y9MZ0wWbzowu2XUcPkglINsOymNzmMj
-         sYK1780OE4a5Xui56iAhNLjuP1inQnK24s2AloUeqq6nWHBqo4RHCyUMUtVowY+6FK6g
-         Y5JUe77q1Oz87PjXVPeVZqIYHJqbd1HmnsU41HJUBSEnvoOLil95H7/8Uzt6Swv4p1AR
-         FmOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721783483; x=1722388283;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lFFc/b0SZHtH5PvRwJV5gBsUXTybIUywMYm4prtgkD8=;
-        b=YJDXCmZIELINQf6Jn/XMvy1JVg+Qec4KXKpGoMEXCt7LayU02LyR/65eEtvFCHg6SS
-         bj+iZpzOyqsbe6YpHRPa7cbwNNFDM+5Y44YXj2flPrZ0m57jUnernqN2JgxKxmmgAmD8
-         r4jV37lppAx9CV4zMUkPG4GBJZ0yq84t8bAHs0+pKzHEOCpU+BEN14/bwOwXDzOIDeqN
-         flUO3oPTMsi6oSRrENWjF1DwK0ns6RGkPSYKMIheBLDPuIyCVFteczkmazijtOwWvrDF
-         8H9XBhA2M/xpSMc9OXVJLpRYoZAJDHzYbUbcWqkZHqAWFxytfIF0rVD7pR4QjnN0fFVH
-         +SeA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9oDSSB8O3PtVfkkblUe3sE1TBpocoGWgpSX2ul8AaHGYTHgIL6EhaOiTm+0uks1qJm7dvWKlBn6IcaIPNyVMbz0mbdEKQQDnC
-X-Gm-Message-State: AOJu0YwumaT6Um60j5R0+Z1UFBTE5xDKamtyONgqFmPV07S3gcotaY2w
-	KKQ3qVaYsbu9lUrNF/7L5zMURtZ5/3dvXcgosW3fbXiXd42jHRM1U1MABcT4nfRaWvuvCt9kSDO
-	jdb6PPYpaIJl2hARNvw==
-X-Google-Smtp-Source: AGHT+IFEIajFgnErDuOT6uI6bOlya+mYXH6dqjGmzwZ7kR+UC01pVNZSxx8yQNnshgmFjkn15/YQFjmWZXqs5tUQ
-X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:690c:660d:b0:648:afcb:a7ce with
- SMTP id 00721157ae682-66a63f4a795mr4937557b3.3.1721783483291; Tue, 23 Jul
- 2024 18:11:23 -0700 (PDT)
-Date: Wed, 24 Jul 2024 01:10:36 +0000
-In-Reply-To: <20240724011037.3671523-1-jthoughton@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="POqf93El"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240724011037.3671523-1-jthoughton@google.com>
-X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
-Message-ID: <20240724011037.3671523-12-jthoughton@google.com>
-Subject: [PATCH v6 11/11] KVM: selftests: Add multi-gen LRU aging to access_tracking_perf_test
-From: James Houghton <jthoughton@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, James Houghton <jthoughton@google.com>, 
-	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1721785841;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6hiDB5EthwLUOsnlSaUBBIpBFgJY+HIEUij2SA8Fn1Q=;
+	b=POqf93ElgOZ6FWm75rLFdJ4JAIekrvAQSWQS1uhZWbzc8srnx95IWzKmI5Xfhz/HDR41PB
+	Y2uKsQrUbsj2K+rTIV+16YaxO6Zn7vklQftxjiM+3uDGHtPneExO2JM0MX5iy83p7GjAt2
+	jVXHJwSS9eRB9ByXm45+Lrs1F3x+Sm4=
+Date: Wed, 24 Jul 2024 01:50:38 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: si.yanteng@linux.dev
+Message-ID: <3d19ed86f0d18fa77c6ce1ce3d4f16bb68da8938@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+To: "Haoyang Liu" <tttturtleruss@hust.edu.cn>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <siyanteng@loongson.cn>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
+ <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>, "Justin
+ Stitt" <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, "Haoyang Liu"
+ <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+In-Reply-To: <20240720090828.363331-1-tttturtleruss@hust.edu.cn>
+References: <20240720090828.363331-1-tttturtleruss@hust.edu.cn>
+X-Migadu-Flow: FLOW_OUT
 
-This test now has two modes of operation:
-1. (default) To check how much vCPU performance was affected by access
-             tracking (previously existed, now supports MGLRU aging).
-2. (-p) To also benchmark how fast MGLRU can do aging while vCPUs are
-        faulting in memory.
+2024=E5=B9=B47=E6=9C=8820=E6=97=A5 17:08, "Haoyang Liu" <tttturtleruss@hu=
+st.edu.cn> =E5=86=99=E5=88=B0:
 
-Mode (1) also serves as a way to verify that aging is working properly
-for pages only accessed by KVM.  It will fail if one does not have the
-0x8 lru_gen feature bit.
+Hi Haoyang
 
-To support MGLRU, the test creates a memory cgroup, moves itself into
-it, then uses the lru_gen debugfs output to track memory in that cgroup.
-The logic to parse the lru_gen debugfs output has been put into
-selftests/kvm/lib/lru_gen_util.c.
+>=20
+>=20Translate dev-tools/kcsan into Chinese.
+Let's add a commit tag, then the checktransupdate.py can recognize it.
 
-Co-developed-by: Axel Rasmussen <axelrasmussen@google.com>
-Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-Signed-off-by: James Houghton <jthoughton@google.com>
----
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/access_tracking_perf_test.c | 369 +++++++++++++++--
- .../selftests/kvm/include/lru_gen_util.h      |  55 +++
- .../testing/selftests/kvm/lib/lru_gen_util.c  | 391 ++++++++++++++++++
- 4 files changed, 786 insertions(+), 30 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/include/lru_gen_util.h
- create mode 100644 tools/testing/selftests/kvm/lib/lru_gen_util.c
 
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index b084ba2262a0..0ab8d3f4628c 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -22,6 +22,7 @@ LIBKVM += lib/elf.c
- LIBKVM += lib/guest_modes.c
- LIBKVM += lib/io.c
- LIBKVM += lib/kvm_util.c
-+LIBKVM += lib/lru_gen_util.c
- LIBKVM += lib/memstress.c
- LIBKVM += lib/guest_sprintf.c
- LIBKVM += lib/rbtree.c
-diff --git a/tools/testing/selftests/kvm/access_tracking_perf_test.c b/tools/testing/selftests/kvm/access_tracking_perf_test.c
-index 3c7defd34f56..6ff64ac349a9 100644
---- a/tools/testing/selftests/kvm/access_tracking_perf_test.c
-+++ b/tools/testing/selftests/kvm/access_tracking_perf_test.c
-@@ -38,6 +38,7 @@
- #include <inttypes.h>
- #include <limits.h>
- #include <pthread.h>
-+#include <stdio.h>
- #include <sys/mman.h>
- #include <sys/types.h>
- #include <sys/stat.h>
-@@ -47,6 +48,20 @@
- #include "memstress.h"
- #include "guest_modes.h"
- #include "processor.h"
-+#include "lru_gen_util.h"
-+
-+static const char *TEST_MEMCG_NAME = "access_tracking_perf_test";
-+static const int LRU_GEN_ENABLED = 0x1;
-+static const int LRU_GEN_MM_WALK = 0x2;
-+static const int LRU_GEN_SECONDARY_MMU_WALK = 0x8;
-+static const char *CGROUP_PROCS = "cgroup.procs";
-+/*
-+ * If using MGLRU, this test assumes a cgroup v2 or cgroup v1 memory hierarchy
-+ * is mounted at cgroup_root.
-+ *
-+ * Can be changed with -r.
-+ */
-+static const char *cgroup_root = "/sys/fs/cgroup";
- 
- /* Global variable used to synchronize all of the vCPU threads. */
- static int iteration;
-@@ -62,6 +77,9 @@ static enum {
- /* The iteration that was last completed by each vCPU. */
- static int vcpu_last_completed_iteration[KVM_MAX_VCPUS];
- 
-+/* The time at which the last iteration was completed */
-+static struct timespec vcpu_last_completed_time[KVM_MAX_VCPUS];
-+
- /* Whether to overlap the regions of memory vCPUs access. */
- static bool overlap_memory_access;
- 
-@@ -74,6 +92,12 @@ struct test_params {
- 
- 	/* The number of vCPUs to create in the VM. */
- 	int nr_vcpus;
-+
-+	/* Whether to use lru_gen aging instead of idle page tracking. */
-+	bool lru_gen;
-+
-+	/* Whether to test the performance of aging itself. */
-+	bool benchmark_lru_gen;
- };
- 
- static uint64_t pread_uint64(int fd, const char *filename, uint64_t index)
-@@ -89,6 +113,50 @@ static uint64_t pread_uint64(int fd, const char *filename, uint64_t index)
- 
- }
- 
-+static void write_file_long(const char *path, long v)
-+{
-+	FILE *f;
-+
-+	f = fopen(path, "w");
-+	TEST_ASSERT(f, "fopen(%s) failed", path);
-+	TEST_ASSERT(fprintf(f, "%ld\n", v) > 0,
-+		    "fprintf to %s failed", path);
-+	TEST_ASSERT(!fclose(f), "fclose(%s) failed", path);
-+}
-+
-+static char *path_join(const char *parent, const char *child)
-+{
-+	char *out = NULL;
-+
-+	return asprintf(&out, "%s/%s", parent, child) >= 0 ? out : NULL;
-+}
-+
-+static char *memcg_path(const char *memcg)
-+{
-+	return path_join(cgroup_root, memcg);
-+}
-+
-+static char *memcg_file_path(const char *memcg, const char *file)
-+{
-+	char *mp = memcg_path(memcg);
-+	char *fp;
-+
-+	if (!mp)
-+		return NULL;
-+	fp = path_join(mp, file);
-+	free(mp);
-+	return fp;
-+}
-+
-+static void move_to_memcg(const char *memcg, pid_t pid)
-+{
-+	char *procs = memcg_file_path(memcg, CGROUP_PROCS);
-+
-+	TEST_ASSERT(procs, "Failed to construct cgroup.procs path");
-+	write_file_long(procs, pid);
-+	free(procs);
-+}
-+
- #define PAGEMAP_PRESENT (1ULL << 63)
- #define PAGEMAP_PFN_MASK ((1ULL << 55) - 1)
- 
-@@ -242,6 +310,8 @@ static void vcpu_thread_main(struct memstress_vcpu_args *vcpu_args)
- 		};
- 
- 		vcpu_last_completed_iteration[vcpu_idx] = current_iteration;
-+		clock_gettime(CLOCK_MONOTONIC,
-+			      &vcpu_last_completed_time[vcpu_idx]);
- 	}
- }
- 
-@@ -253,38 +323,68 @@ static void spin_wait_for_vcpu(int vcpu_idx, int target_iteration)
- 	}
- }
- 
-+static bool all_vcpus_done(int target_iteration, int nr_vcpus)
-+{
-+	for (int i = 0; i < nr_vcpus; ++i)
-+		if (READ_ONCE(vcpu_last_completed_iteration[i]) !=
-+		    target_iteration)
-+			return false;
-+
-+	return true;
-+}
-+
- /* The type of memory accesses to perform in the VM. */
- enum access_type {
- 	ACCESS_READ,
- 	ACCESS_WRITE,
- };
- 
--static void run_iteration(struct kvm_vm *vm, int nr_vcpus, const char *description)
-+static void run_iteration(struct kvm_vm *vm, int nr_vcpus, const char *description,
-+			  bool wait)
- {
--	struct timespec ts_start;
--	struct timespec ts_elapsed;
- 	int next_iteration, i;
- 
- 	/* Kick off the vCPUs by incrementing iteration. */
- 	next_iteration = ++iteration;
- 
--	clock_gettime(CLOCK_MONOTONIC, &ts_start);
--
- 	/* Wait for all vCPUs to finish the iteration. */
--	for (i = 0; i < nr_vcpus; i++)
--		spin_wait_for_vcpu(i, next_iteration);
-+	if (wait) {
-+		struct timespec ts_start;
-+		struct timespec ts_elapsed;
-+
-+		clock_gettime(CLOCK_MONOTONIC, &ts_start);
- 
--	ts_elapsed = timespec_elapsed(ts_start);
--	pr_info("%-30s: %ld.%09lds\n",
--		description, ts_elapsed.tv_sec, ts_elapsed.tv_nsec);
-+		for (i = 0; i < nr_vcpus; i++)
-+			spin_wait_for_vcpu(i, next_iteration);
-+
-+		ts_elapsed = timespec_elapsed(ts_start);
-+
-+		pr_info("%-30s: %ld.%09lds\n",
-+			description, ts_elapsed.tv_sec, ts_elapsed.tv_nsec);
-+	} else
-+		pr_info("%-30s\n", description);
- }
- 
--static void access_memory(struct kvm_vm *vm, int nr_vcpus,
--			  enum access_type access, const char *description)
-+static void _access_memory(struct kvm_vm *vm, int nr_vcpus,
-+			   enum access_type access, const char *description,
-+			   bool wait)
- {
- 	memstress_set_write_percent(vm, (access == ACCESS_READ) ? 0 : 100);
- 	iteration_work = ITERATION_ACCESS_MEMORY;
--	run_iteration(vm, nr_vcpus, description);
-+	run_iteration(vm, nr_vcpus, description, wait);
-+}
-+
-+static void access_memory(struct kvm_vm *vm, int nr_vcpus,
-+			  enum access_type access, const char *description)
-+{
-+	return _access_memory(vm, nr_vcpus, access, description, true);
-+}
-+
-+static void access_memory_async(struct kvm_vm *vm, int nr_vcpus,
-+				enum access_type access,
-+				const char *description)
-+{
-+	return _access_memory(vm, nr_vcpus, access, description, false);
- }
- 
- static void mark_memory_idle(struct kvm_vm *vm, int nr_vcpus)
-@@ -297,19 +397,115 @@ static void mark_memory_idle(struct kvm_vm *vm, int nr_vcpus)
- 	 */
- 	pr_debug("Marking VM memory idle (slow)...\n");
- 	iteration_work = ITERATION_MARK_IDLE;
--	run_iteration(vm, nr_vcpus, "Mark memory idle");
-+	run_iteration(vm, nr_vcpus, "Mark memory idle", true);
- }
- 
--static void run_test(enum vm_guest_mode mode, void *arg)
-+static void create_memcg(const char *memcg)
-+{
-+	const char *full_memcg_path = memcg_path(memcg);
-+	int ret;
-+
-+	TEST_ASSERT(full_memcg_path, "Failed to construct full memcg path");
-+retry:
-+	ret = mkdir(full_memcg_path, 0755);
-+	if (ret && errno == EEXIST) {
-+		TEST_ASSERT(!rmdir(full_memcg_path),
-+			    "Found existing memcg at %s, but rmdir failed",
-+			    full_memcg_path);
-+		goto retry;
-+	}
-+	TEST_ASSERT(!ret, "Creating the memcg failed: mkdir(%s) failed",
-+		    full_memcg_path);
-+
-+	pr_info("Created memcg at %s\n", full_memcg_path);
-+}
-+
-+/*
-+ * Test lru_gen aging speed while vCPUs are faulting memory in.
-+ *
-+ * This test will run lru_gen aging until the vCPUs have finished all of
-+ * the faulting work, reporting:
-+ *  - vcpu wall time (wall time for slowest vCPU)
-+ *  - average aging pass duration
-+ *  - total number of aging passes
-+ *  - total time spent aging
-+ *
-+ * This test produces the most useful results when the vcpu wall time and the
-+ * total time spent aging are similar (i.e., we want to avoid timing aging
-+ * while the vCPUs aren't doing any work).
-+ */
-+static void run_benchmark(enum vm_guest_mode mode, struct kvm_vm *vm,
-+			  struct test_params *params)
- {
--	struct test_params *params = arg;
--	struct kvm_vm *vm;
- 	int nr_vcpus = params->nr_vcpus;
-+	struct memcg_stats stats;
-+	struct timespec ts_start, ts_max, ts_vcpus_elapsed,
-+			ts_aging_elapsed, ts_aging_elapsed_avg;
-+	int num_passes = 0;
- 
--	vm = memstress_create_vm(mode, nr_vcpus, params->vcpu_memory_bytes, 1,
--				 params->backing_src, !overlap_memory_access);
-+	printf("Running lru_gen benchmark...\n");
- 
--	memstress_start_vcpu_threads(nr_vcpus, vcpu_thread_main);
-+	clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+	access_memory_async(vm, nr_vcpus, ACCESS_WRITE,
-+			    "Populating memory (async)");
-+	while (!all_vcpus_done(iteration, nr_vcpus)) {
-+		lru_gen_do_aging_quiet(&stats, TEST_MEMCG_NAME);
-+		++num_passes;
-+	}
-+
-+	ts_aging_elapsed = timespec_elapsed(ts_start);
-+	ts_aging_elapsed_avg = timespec_div(ts_aging_elapsed, num_passes);
-+
-+	/* Find out when the slowest vCPU finished. */
-+	ts_max = ts_start;
-+	for (int i = 0; i < nr_vcpus; ++i) {
-+		struct timespec *vcpu_ts = &vcpu_last_completed_time[i];
-+
-+		if (ts_max.tv_sec < vcpu_ts->tv_sec ||
-+		    (ts_max.tv_sec == vcpu_ts->tv_sec  &&
-+		     ts_max.tv_nsec < vcpu_ts->tv_nsec))
-+			ts_max = *vcpu_ts;
-+	}
-+
-+	ts_vcpus_elapsed = timespec_sub(ts_max, ts_start);
-+
-+	pr_info("%-30s: %ld.%09lds\n", "vcpu wall time",
-+		ts_vcpus_elapsed.tv_sec, ts_vcpus_elapsed.tv_nsec);
-+
-+	pr_info("%-30s: %ld.%09lds, (passes:%d, total:%ld.%09lds)\n",
-+		"lru_gen avg pass duration",
-+		ts_aging_elapsed_avg.tv_sec,
-+		ts_aging_elapsed_avg.tv_nsec,
-+		num_passes,
-+		ts_aging_elapsed.tv_sec,
-+		ts_aging_elapsed.tv_nsec);
-+}
-+
-+/*
-+ * Test how much access tracking affects vCPU performance.
-+ *
-+ * Supports two modes of access tracking:
-+ * - idle page tracking
-+ * - lru_gen aging
-+ *
-+ * When using lru_gen, this test additionally verifies that the pages are in
-+ * fact getting younger and older, otherwise the performance data would be
-+ * invalid.
-+ *
-+ * The forced lru_gen aging can race with aging that occurs naturally.
-+ */
-+static void run_test(enum vm_guest_mode mode, struct kvm_vm *vm,
-+		     struct test_params *params)
-+{
-+	int nr_vcpus = params->nr_vcpus;
-+	bool lru_gen = params->lru_gen;
-+	struct memcg_stats stats;
-+	// If guest_page_size is larger than the host's page size, the
-+	// guest (memstress) will only fault in a subset of the host's pages.
-+	long total_pages = nr_vcpus * params->vcpu_memory_bytes /
-+			   max(memstress_args.guest_page_size,
-+			       (uint64_t)getpagesize());
-+	int found_gens[5];
- 
- 	pr_info("\n");
- 	access_memory(vm, nr_vcpus, ACCESS_WRITE, "Populating memory");
-@@ -319,11 +515,78 @@ static void run_test(enum vm_guest_mode mode, void *arg)
- 	access_memory(vm, nr_vcpus, ACCESS_READ, "Reading from populated memory");
- 
- 	/* Repeat on memory that has been marked as idle. */
--	mark_memory_idle(vm, nr_vcpus);
-+	if (lru_gen) {
-+		/* Do an initial page table scan */
-+		lru_gen_do_aging(&stats, TEST_MEMCG_NAME);
-+		TEST_ASSERT(sum_memcg_stats(&stats) >= total_pages,
-+		  "Not all pages tracked in lru_gen stats.\n"
-+		  "Is lru_gen enabled? Did the memcg get created properly?");
-+
-+		/* Find the generation we're currently in (probably youngest) */
-+		found_gens[0] = lru_gen_find_generation(&stats, total_pages);
-+
-+		/* Do an aging pass now */
-+		lru_gen_do_aging(&stats, TEST_MEMCG_NAME);
-+
-+		/* Same generation, but a newer generation has been made */
-+		found_gens[1] = lru_gen_find_generation(&stats, total_pages);
-+		TEST_ASSERT(found_gens[1] == found_gens[0],
-+			    "unexpected gen change: %d vs. %d",
-+			    found_gens[1], found_gens[0]);
-+	} else
-+		mark_memory_idle(vm, nr_vcpus);
-+
- 	access_memory(vm, nr_vcpus, ACCESS_WRITE, "Writing to idle memory");
--	mark_memory_idle(vm, nr_vcpus);
-+
-+	if (lru_gen) {
-+		/* Scan the page tables again */
-+		lru_gen_do_aging(&stats, TEST_MEMCG_NAME);
-+
-+		/* The pages should now be young again, so in a newer generation */
-+		found_gens[2] = lru_gen_find_generation(&stats, total_pages);
-+		TEST_ASSERT(found_gens[2] > found_gens[1],
-+			    "pages did not get younger");
-+
-+		/* Do another aging pass */
-+		lru_gen_do_aging(&stats, TEST_MEMCG_NAME);
-+
-+		/* Same generation; new generation has been made */
-+		found_gens[3] = lru_gen_find_generation(&stats, total_pages);
-+		TEST_ASSERT(found_gens[3] == found_gens[2],
-+			    "unexpected gen change: %d vs. %d",
-+			    found_gens[3], found_gens[2]);
-+	} else
-+		mark_memory_idle(vm, nr_vcpus);
-+
- 	access_memory(vm, nr_vcpus, ACCESS_READ, "Reading from idle memory");
- 
-+	if (lru_gen) {
-+		/* Scan the pages tables again */
-+		lru_gen_do_aging(&stats, TEST_MEMCG_NAME);
-+
-+		/* The pages should now be young again, so in a newer generation */
-+		found_gens[4] = lru_gen_find_generation(&stats, total_pages);
-+		TEST_ASSERT(found_gens[4] > found_gens[3],
-+			    "pages did not get younger");
-+	}
-+}
-+
-+static void setup_vm_and_run(enum vm_guest_mode mode, void *arg)
-+{
-+	struct test_params *params = arg;
-+	int nr_vcpus = params->nr_vcpus;
-+	struct kvm_vm *vm;
-+
-+	vm = memstress_create_vm(mode, nr_vcpus, params->vcpu_memory_bytes, 1,
-+				 params->backing_src, !overlap_memory_access);
-+
-+	memstress_start_vcpu_threads(nr_vcpus, vcpu_thread_main);
-+
-+	if (params->benchmark_lru_gen)
-+		run_benchmark(mode, vm, params);
-+	else
-+		run_test(mode, vm, params);
-+
- 	memstress_join_vcpu_threads(nr_vcpus);
- 	memstress_destroy_vm(vm);
- }
-@@ -331,8 +594,8 @@ static void run_test(enum vm_guest_mode mode, void *arg)
- static void help(char *name)
- {
- 	puts("");
--	printf("usage: %s [-h] [-m mode] [-b vcpu_bytes] [-v vcpus] [-o]  [-s mem_type]\n",
--	       name);
-+	printf("usage: %s [-h] [-m mode] [-b vcpu_bytes] [-v vcpus] [-o]"
-+	       " [-s mem_type] [-l] [-r memcg_root]\n", name);
- 	puts("");
- 	printf(" -h: Display this help message.");
- 	guest_modes_help();
-@@ -342,6 +605,9 @@ static void help(char *name)
- 	printf(" -v: specify the number of vCPUs to run.\n");
- 	printf(" -o: Overlap guest memory accesses instead of partitioning\n"
- 	       "     them into a separate region of memory for each vCPU.\n");
-+	printf(" -l: Use MGLRU aging instead of idle page tracking\n");
-+	printf(" -p: Benchmark MGLRU aging while faulting memory in\n");
-+	printf(" -r: The memory cgroup hierarchy root to use (when -l is given)\n");
- 	backing_src_help("-s");
- 	puts("");
- 	exit(0);
-@@ -353,13 +619,15 @@ int main(int argc, char *argv[])
- 		.backing_src = DEFAULT_VM_MEM_SRC,
- 		.vcpu_memory_bytes = DEFAULT_PER_VCPU_MEM_SIZE,
- 		.nr_vcpus = 1,
-+		.lru_gen = false,
-+		.benchmark_lru_gen = false,
- 	};
- 	int page_idle_fd;
- 	int opt;
- 
- 	guest_modes_append_default();
- 
--	while ((opt = getopt(argc, argv, "hm:b:v:os:")) != -1) {
-+	while ((opt = getopt(argc, argv, "hm:b:v:os:lr:p")) != -1) {
- 		switch (opt) {
- 		case 'm':
- 			guest_modes_cmdline(optarg);
-@@ -376,6 +644,15 @@ int main(int argc, char *argv[])
- 		case 's':
- 			params.backing_src = parse_backing_src_type(optarg);
- 			break;
-+		case 'l':
-+			params.lru_gen = true;
-+			break;
-+		case 'p':
-+			params.benchmark_lru_gen = true;
-+			break;
-+		case 'r':
-+			cgroup_root = strdup(optarg);
-+			break;
- 		case 'h':
- 		default:
- 			help(argv[0]);
-@@ -383,12 +660,44 @@ int main(int argc, char *argv[])
- 		}
- 	}
- 
--	page_idle_fd = open("/sys/kernel/mm/page_idle/bitmap", O_RDWR);
--	__TEST_REQUIRE(page_idle_fd >= 0,
--		       "CONFIG_IDLE_PAGE_TRACKING is not enabled");
--	close(page_idle_fd);
-+	if (!params.lru_gen) {
-+		page_idle_fd = open("/sys/kernel/mm/page_idle/bitmap", O_RDWR);
-+		__TEST_REQUIRE(page_idle_fd >= 0,
-+			       "CONFIG_IDLE_PAGE_TRACKING is not enabled");
-+		close(page_idle_fd);
-+	} else {
-+		int lru_gen_fd, lru_gen_debug_fd;
-+		long mglru_features;
-+		char mglru_feature_str[8] = {};
-+
-+		lru_gen_fd = open("/sys/kernel/mm/lru_gen/enabled", O_RDONLY);
-+		__TEST_REQUIRE(lru_gen_fd >= 0,
-+			       "CONFIG_LRU_GEN is not enabled");
-+		TEST_ASSERT(read(lru_gen_fd, &mglru_feature_str, 7) > 0,
-+				 "couldn't read lru_gen features");
-+		mglru_features = strtol(mglru_feature_str, NULL, 16);
-+		__TEST_REQUIRE(mglru_features & LRU_GEN_ENABLED,
-+			       "lru_gen is not enabled");
-+		__TEST_REQUIRE(mglru_features & LRU_GEN_MM_WALK,
-+			       "lru_gen does not support MM_WALK");
-+		__TEST_REQUIRE(mglru_features & LRU_GEN_SECONDARY_MMU_WALK,
-+			       "lru_gen does not support SECONDARY_MMU_WALK");
-+
-+		lru_gen_debug_fd = open(DEBUGFS_LRU_GEN, O_RDWR);
-+		__TEST_REQUIRE(lru_gen_debug_fd >= 0,
-+				"Cannot access %s", DEBUGFS_LRU_GEN);
-+		close(lru_gen_debug_fd);
-+	}
-+
-+	TEST_ASSERT(!params.benchmark_lru_gen || params.lru_gen,
-+		    "-p specified without -l");
-+
-+	if (params.lru_gen) {
-+		create_memcg(TEST_MEMCG_NAME);
-+		move_to_memcg(TEST_MEMCG_NAME, getpid());
-+	}
- 
--	for_each_guest_mode(run_test, &params);
-+	for_each_guest_mode(setup_vm_and_run, &params);
- 
- 	return 0;
- }
-diff --git a/tools/testing/selftests/kvm/include/lru_gen_util.h b/tools/testing/selftests/kvm/include/lru_gen_util.h
-new file mode 100644
-index 000000000000..4eef8085a3cb
---- /dev/null
-+++ b/tools/testing/selftests/kvm/include/lru_gen_util.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Tools for integrating with lru_gen, like parsing the lru_gen debugfs output.
-+ *
-+ * Copyright (C) 2024, Google LLC.
-+ */
-+#ifndef SELFTEST_KVM_LRU_GEN_UTIL_H
-+#define SELFTEST_KVM_LRU_GEN_UTIL_H
-+
-+#include <inttypes.h>
-+#include <limits.h>
-+#include <stdlib.h>
-+
-+#include "test_util.h"
-+
-+#define MAX_NR_GENS 16 /* MAX_NR_GENS in include/linux/mmzone.h */
-+#define MAX_NR_NODES 4 /* Maximum number of nodes we support */
-+
-+static const char *DEBUGFS_LRU_GEN = "/sys/kernel/debug/lru_gen";
-+
-+struct generation_stats {
-+	int gen;
-+	long age_ms;
-+	long nr_anon;
-+	long nr_file;
-+};
-+
-+struct node_stats {
-+	int node;
-+	int nr_gens; /* Number of populated gens entries. */
-+	struct generation_stats gens[MAX_NR_GENS];
-+};
-+
-+struct memcg_stats {
-+	unsigned long memcg_id;
-+	int nr_nodes; /* Number of populated nodes entries. */
-+	struct node_stats nodes[MAX_NR_NODES];
-+};
-+
-+void print_memcg_stats(const struct memcg_stats *stats, const char *name);
-+
-+void read_memcg_stats(struct memcg_stats *stats, const char *memcg);
-+
-+void read_print_memcg_stats(struct memcg_stats *stats, const char *memcg);
-+
-+long sum_memcg_stats(const struct memcg_stats *stats);
-+
-+void lru_gen_do_aging(struct memcg_stats *stats, const char *memcg);
-+
-+void lru_gen_do_aging_quiet(struct memcg_stats *stats, const char *memcg);
-+
-+int lru_gen_find_generation(const struct memcg_stats *stats,
-+			    unsigned long total_pages);
-+
-+#endif /* SELFTEST_KVM_LRU_GEN_UTIL_H */
-diff --git a/tools/testing/selftests/kvm/lib/lru_gen_util.c b/tools/testing/selftests/kvm/lib/lru_gen_util.c
-new file mode 100644
-index 000000000000..3c02a635a9f7
---- /dev/null
-+++ b/tools/testing/selftests/kvm/lib/lru_gen_util.c
-@@ -0,0 +1,391 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2024, Google LLC.
-+ */
-+
-+#include <time.h>
-+
-+#include "lru_gen_util.h"
-+
-+/*
-+ * Tracks state while we parse memcg lru_gen stats. The file we're parsing is
-+ * structured like this (some extra whitespace elided):
-+ *
-+ * memcg (id) (path)
-+ * node (id)
-+ * (gen_nr) (age_in_ms) (nr_anon_pages) (nr_file_pages)
-+ */
-+struct memcg_stats_parse_context {
-+	bool consumed; /* Whether or not this line was consumed */
-+	/* Next parse handler to invoke */
-+	void (*next_handler)(struct memcg_stats *,
-+			     struct memcg_stats_parse_context *, char *);
-+	int current_node_idx; /* Current index in nodes array */
-+	const char *name; /* The name of the memcg we're looking for */
-+};
-+
-+static void memcg_stats_handle_searching(struct memcg_stats *stats,
-+					 struct memcg_stats_parse_context *ctx,
-+					 char *line);
-+static void memcg_stats_handle_in_memcg(struct memcg_stats *stats,
-+					struct memcg_stats_parse_context *ctx,
-+					char *line);
-+static void memcg_stats_handle_in_node(struct memcg_stats *stats,
-+				       struct memcg_stats_parse_context *ctx,
-+				       char *line);
-+
-+struct split_iterator {
-+	char *str;
-+	char *save;
-+};
-+
-+static char *split_next(struct split_iterator *it)
-+{
-+	char *ret = strtok_r(it->str, " \t\n\r", &it->save);
-+
-+	it->str = NULL;
-+	return ret;
-+}
-+
-+static void memcg_stats_handle_searching(struct memcg_stats *stats,
-+					 struct memcg_stats_parse_context *ctx,
-+					 char *line)
-+{
-+	struct split_iterator it = { .str = line };
-+	char *prefix = split_next(&it);
-+	char *memcg_id = split_next(&it);
-+	char *memcg_name = split_next(&it);
-+	char *end;
-+
-+	ctx->consumed = true;
-+
-+	if (!prefix || strcmp("memcg", prefix))
-+		return; /* Not a memcg line (maybe empty), skip */
-+
-+	TEST_ASSERT(memcg_id && memcg_name,
-+		    "malformed memcg line; no memcg id or memcg_name");
-+
-+	if (strcmp(memcg_name + 1, ctx->name))
-+		return; /* Wrong memcg, skip */
-+
-+	/* Found it! */
-+
-+	stats->memcg_id = strtoul(memcg_id, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed memcg id '%s'", memcg_id);
-+	if (!stats->memcg_id)
-+		return; /* Removed memcg? */
-+
-+	ctx->next_handler = memcg_stats_handle_in_memcg;
-+}
-+
-+static void memcg_stats_handle_in_memcg(struct memcg_stats *stats,
-+					struct memcg_stats_parse_context *ctx,
-+					char *line)
-+{
-+	struct split_iterator it = { .str = line };
-+	char *prefix = split_next(&it);
-+	char *id = split_next(&it);
-+	long found_node_id;
-+	char *end;
-+
-+	ctx->consumed = true;
-+	ctx->current_node_idx = -1;
-+
-+	if (!prefix)
-+		return; /* Skip empty lines */
-+
-+	if (!strcmp("memcg", prefix)) {
-+		/* Memcg done, found next one; stop. */
-+		ctx->next_handler = NULL;
-+		return;
-+	} else if (strcmp("node", prefix))
-+		TEST_ASSERT(false, "found malformed line after 'memcg ...',"
-+				   "token: '%s'", prefix);
-+
-+	/* At this point we know we have a node line. Parse the ID. */
-+
-+	TEST_ASSERT(id, "malformed node line; no node id");
-+
-+	found_node_id = strtol(id, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed node id '%s'", id);
-+
-+	ctx->current_node_idx = stats->nr_nodes++;
-+	TEST_ASSERT(ctx->current_node_idx < MAX_NR_NODES,
-+		    "memcg has stats for too many nodes, max is %d",
-+		    MAX_NR_NODES);
-+	stats->nodes[ctx->current_node_idx].node = found_node_id;
-+
-+	ctx->next_handler = memcg_stats_handle_in_node;
-+}
-+
-+static void memcg_stats_handle_in_node(struct memcg_stats *stats,
-+				       struct memcg_stats_parse_context *ctx,
-+				       char *line)
-+{
-+	/* Have to copy since we might not consume */
-+	char *my_line = strdup(line);
-+	struct split_iterator it = { .str = my_line };
-+	char *gen, *age, *nr_anon, *nr_file;
-+	struct node_stats *node_stats;
-+	struct generation_stats *gen_stats;
-+	char *end;
-+
-+	TEST_ASSERT(it.str, "failed to copy input line");
-+
-+	gen = split_next(&it);
-+
-+	/* Skip empty lines */
-+	if (!gen)
-+		goto out_consume; /* Skip empty lines */
-+
-+	if (!strcmp("memcg", gen) || !strcmp("node", gen)) {
-+		/*
-+		 * Reached next memcg or node section. Don't consume, let the
-+		 * other handler deal with this.
-+		 */
-+		ctx->next_handler = memcg_stats_handle_in_memcg;
-+		goto out;
-+	}
-+
-+	node_stats = &stats->nodes[ctx->current_node_idx];
-+	TEST_ASSERT(node_stats->nr_gens < MAX_NR_GENS,
-+		    "found too many generation lines; max is %d",
-+		    MAX_NR_GENS);
-+	gen_stats = &node_stats->gens[node_stats->nr_gens++];
-+
-+	age = split_next(&it);
-+	nr_anon = split_next(&it);
-+	nr_file = split_next(&it);
-+
-+	TEST_ASSERT(age && nr_anon && nr_file,
-+		    "malformed generation line; not enough tokens");
-+
-+	gen_stats->gen = (int)strtol(gen, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed generation number '%s'", gen);
-+
-+	gen_stats->age_ms = strtol(age, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed generation age '%s'", age);
-+
-+	gen_stats->nr_anon = strtol(nr_anon, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed anonymous page count '%s'",
-+		    nr_anon);
-+
-+	gen_stats->nr_file = strtol(nr_file, &end, 10);
-+	TEST_ASSERT(*end == '\0', "malformed file page count '%s'", nr_file);
-+
-+out_consume:
-+	ctx->consumed = true;
-+out:
-+	free(my_line);
-+}
-+
-+/* Pretty-print lru_gen @stats. */
-+void print_memcg_stats(const struct memcg_stats *stats, const char *name)
-+{
-+	int node, gen;
-+
-+	fprintf(stderr, "stats for memcg %s (id %lu):\n",
-+			name, stats->memcg_id);
-+	for (node = 0; node < stats->nr_nodes; ++node) {
-+		fprintf(stderr, "\tnode %d\n", stats->nodes[node].node);
-+		for (gen = 0; gen < stats->nodes[node].nr_gens; ++gen) {
-+			const struct generation_stats *gstats =
-+				&stats->nodes[node].gens[gen];
-+
-+			fprintf(stderr,
-+				"\t\tgen %d\tage_ms %ld"
-+				"\tnr_anon %ld\tnr_file %ld\n",
-+				gstats->gen, gstats->age_ms, gstats->nr_anon,
-+				gstats->nr_file);
-+		}
-+	}
-+}
-+
-+/* Re-read lru_gen debugfs information for @memcg into @stats. */
-+void read_memcg_stats(struct memcg_stats *stats, const char *memcg)
-+{
-+	FILE *f;
-+	ssize_t read = 0;
-+	char *line = NULL;
-+	size_t bufsz;
-+	struct memcg_stats_parse_context ctx = {
-+		.next_handler = memcg_stats_handle_searching,
-+		.name = memcg,
-+	};
-+
-+	memset(stats, 0, sizeof(struct memcg_stats));
-+
-+	f = fopen(DEBUGFS_LRU_GEN, "r");
-+	TEST_ASSERT(f, "fopen(%s) failed", DEBUGFS_LRU_GEN);
-+
-+	while (ctx.next_handler && (read = getline(&line, &bufsz, f)) > 0) {
-+		ctx.consumed = false;
-+
-+		do {
-+			ctx.next_handler(stats, &ctx, line);
-+			if (!ctx.next_handler)
-+				break;
-+		} while (!ctx.consumed);
-+	}
-+
-+	if (read < 0 && !feof(f))
-+		TEST_ASSERT(false, "getline(%s) failed", DEBUGFS_LRU_GEN);
-+
-+	TEST_ASSERT(stats->memcg_id > 0, "Couldn't find memcg: %s\n"
-+		    "Did the memcg get created in the proper mount?",
-+		    memcg);
-+	if (line)
-+		free(line);
-+	TEST_ASSERT(!fclose(f), "fclose(%s) failed", DEBUGFS_LRU_GEN);
-+}
-+
-+/*
-+ * Find all pages tracked by lru_gen for this memcg in generation @target_gen.
-+ *
-+ * If @target_gen is negative, look for all generations.
-+ */
-+static long sum_memcg_stats_for_gen(int target_gen,
-+				    const struct memcg_stats *stats)
-+{
-+	int node, gen;
-+	long total_nr = 0;
-+
-+	for (node = 0; node < stats->nr_nodes; ++node) {
-+		const struct node_stats *node_stats = &stats->nodes[node];
-+
-+		for (gen = 0; gen < node_stats->nr_gens; ++gen) {
-+			const struct generation_stats *gen_stats =
-+				&node_stats->gens[gen];
-+
-+			if (target_gen >= 0 && gen_stats->gen != target_gen)
-+				continue;
-+
-+			total_nr += gen_stats->nr_anon + gen_stats->nr_file;
-+		}
-+	}
-+
-+	return total_nr;
-+}
-+
-+/* Find all pages tracked by lru_gen for this memcg. */
-+long sum_memcg_stats(const struct memcg_stats *stats)
-+{
-+	return sum_memcg_stats_for_gen(-1, stats);
-+}
-+
-+/* Read the memcg stats and optionally print if this is a debug build. */
-+void read_print_memcg_stats(struct memcg_stats *stats, const char *memcg)
-+{
-+	read_memcg_stats(stats, memcg);
-+#ifdef DEBUG
-+	print_memcg_stats(stats, memcg);
-+#endif
-+}
-+
-+/*
-+ * If lru_gen aging should force page table scanning.
-+ *
-+ * If you want to set this to false, you will need to do eviction
-+ * before doing extra aging passes.
-+ */
-+static const bool force_scan = true;
-+
-+static void run_aging_impl(unsigned long memcg_id, int node_id, int max_gen)
-+{
-+	FILE *f = fopen(DEBUGFS_LRU_GEN, "w");
-+	char *command;
-+	size_t sz;
-+
-+	TEST_ASSERT(f, "fopen(%s) failed", DEBUGFS_LRU_GEN);
-+	sz = asprintf(&command, "+ %lu %d %d 1 %d\n",
-+		      memcg_id, node_id, max_gen, force_scan);
-+	TEST_ASSERT(sz > 0, "creating aging command failed");
-+
-+	pr_debug("Running aging command: %s", command);
-+	if (fwrite(command, sizeof(char), sz, f) < sz) {
-+		TEST_ASSERT(false, "writing aging command %s to %s failed",
-+			    command, DEBUGFS_LRU_GEN);
-+	}
-+
-+	TEST_ASSERT(!fclose(f), "fclose(%s) failed", DEBUGFS_LRU_GEN);
-+}
-+
-+static void _lru_gen_do_aging(struct memcg_stats *stats, const char *memcg,
-+			      bool verbose)
-+{
-+	int node, gen;
-+	struct timespec ts_start;
-+	struct timespec ts_elapsed;
-+
-+	pr_debug("lru_gen: invoking aging...\n");
-+
-+	/* Must read memcg stats to construct the proper aging command. */
-+	read_print_memcg_stats(stats, memcg);
-+
-+	if (verbose)
-+		clock_gettime(CLOCK_MONOTONIC, &ts_start);
-+
-+	for (node = 0; node < stats->nr_nodes; ++node) {
-+		int max_gen = 0;
-+
-+		for (gen = 0; gen < stats->nodes[node].nr_gens; ++gen) {
-+			int this_gen = stats->nodes[node].gens[gen].gen;
-+
-+			max_gen = max_gen > this_gen ? max_gen : this_gen;
-+		}
-+
-+		run_aging_impl(stats->memcg_id, stats->nodes[node].node,
-+			       max_gen);
-+	}
-+
-+	if (verbose) {
-+		ts_elapsed = timespec_elapsed(ts_start);
-+		pr_info("%-30s: %ld.%09lds\n", "lru_gen: Aging",
-+			ts_elapsed.tv_sec, ts_elapsed.tv_nsec);
-+	}
-+
-+	/* Re-read so callers get updated information */
-+	read_print_memcg_stats(stats, memcg);
-+}
-+
-+/* Do aging, and print how long it took. */
-+void lru_gen_do_aging(struct memcg_stats *stats, const char *memcg)
-+{
-+	return _lru_gen_do_aging(stats, memcg, true);
-+}
-+
-+/* Do aging, don't print anything. */
-+void lru_gen_do_aging_quiet(struct memcg_stats *stats, const char *memcg)
-+{
-+	return _lru_gen_do_aging(stats, memcg, false);
-+}
-+
-+/*
-+ * Find which generation contains more than half of @total_pages, assuming that
-+ * such a generation exists.
-+ */
-+int lru_gen_find_generation(const struct memcg_stats *stats,
-+			    unsigned long total_pages)
-+{
-+	int node, gen, gen_idx, min_gen = INT_MAX, max_gen = -1;
-+
-+	for (node = 0; node < stats->nr_nodes; ++node)
-+		for (gen_idx = 0; gen_idx < stats->nodes[node].nr_gens;
-+		     ++gen_idx) {
-+			gen = stats->nodes[node].gens[gen_idx].gen;
-+			max_gen = gen > max_gen ? gen : max_gen;
-+			min_gen = gen < min_gen ? gen : min_gen;
-+		}
-+
-+	for (gen = min_gen; gen < max_gen; ++gen)
-+		/* See if the most pages are in this generation. */
-+		if (sum_memcg_stats_for_gen(gen, stats) >
-+				total_pages / 2)
-+			return gen;
-+
-+	TEST_ASSERT(false, "No generation includes majority of %lu pages.",
-+		    total_pages);
-+
-+	/* unreachable, but make the compiler happy */
-+	return -1;
-+}
--- 
-2.46.0.rc1.232.g9752f9e123-goog
+>=20
+>=20Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>=20
+Remove=20the blankline, and have you ever run checkpatch.pl?
 
+> ---
+>=20
+>=20 .../translations/zh_CN/dev-tools/index.rst | 2 +-
+>=20
+>=20 .../translations/zh_CN/dev-tools/kcsan.rst | 321 ++++++++++++++++++
+>=20
+>=20 2 files changed, 322 insertions(+), 1 deletion(-)
+>=20
+>=20 create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.=
+rst
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/D=
+ocumentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20index c540e4a7d5db..4cc94d288157 100644
+>=20
+>=20--- a/Documentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20@@ -23,6 +23,7 @@ Documentation/translations/zh_CN/dev-tools/testing-=
+overview.rst
+>=20
+>=20 kcov
+>=20
+>=20 gcov
+>=20
+>=20 kasan
+>=20
+>=20+ kcsan
+>=20
+>=20 ubsan
+>=20
+>=20 kmemleak
+>=20
+>=20 gdb-kernel-debugging
+>=20
+>=20@@ -32,7 +33,6 @@ Todolist:
+>=20
+>=20 - checkpatch
+>=20
+>=20 - coccinelle
+>=20
+>=20 - kmsan
+>=20
+>=20- - kcsan
+>=20
+>=20 - kfence
+>=20
+>=20 - kgdb
+>=20
+>=20 - kselftest
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/D=
+ocumentation/translations/zh_CN/dev-tools/kcsan.rst
+>=20
+>=20new file mode 100644
+>=20
+>=20index 000000000000..1971f87eeb18
+>=20
+>=20--- /dev/null
+>=20
+>=20+++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
+>=20
+>=20@@ -0,0 +1,321 @@
+>=20
+>=20+.. SPDX-License-Identifier: GPL-2.0
+>=20
+>=20+
+>=20
+>=20+.. include:: ../disclaimer-zh_CN.rst
+>=20
+>=20+
+>=20
+>=20+:Original: Documentation/dev-tools/kcsan.rst
+>=20
+>=20+:Translator: =E5=88=98=E6=B5=A9=E9=98=B3 Haoyang Liu <tttturtleruss@=
+hust.edu.cn>
+>=20
+>=20+
+>=20
+>=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82 =EF=
+=BC=88KCSAN=EF=BC=89
+>=20
+>=20+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Please trim the =E2=80=9C=3D=E2=80=9D length. Include similar below.
+>=20
+>=20+
+>=20
+>=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82=EF=
+=BC=88KCSAN=EF=BC=89=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8A=A8=E6=80=81=E7=AB=
+=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E5=99=A8=EF=BC=8C=E4=BE=9D=E8=B5=96=E7=BC=
+=96=E8=AF=91=E6=97=B6=E6=8F=92=E6=A1=A9=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=BD=
+=BF=E7=94=A8=E5=9F=BA=E4=BA=8E=E8=A7=82=E5=AF=9F
+>=20
+>=20+=E7=82=B9=E7=9A=84=E9=87=87=E6=A0=B7=E6=96=B9=E6=B3=95=E6=9D=A5=E6=
+=A3=80=E6=B5=8B=E7=AB=9E=E4=BA=89=E3=80=82KCSAN =E7=9A=84=E4=B8=BB=E8=A6=
+=81=E7=9B=AE=E7=9A=84=E6=98=AF=E6=A3=80=E6=B5=8B `=E6=95=B0=E6=8D=AE=E7=
+=AB=9E=E4=BA=89`_=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=BD=BF=E7=94=A8
+>=20
+>=20+----
+>=20
+>=20+
+>=20
+>=20+KCSAN =E5=8F=97 GCC =E5=92=8C Clang =E6=94=AF=E6=8C=81=E3=80=82=E4=
+=BD=BF=E7=94=A8 GCC =E9=9C=80=E8=A6=81=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=
+=9B=B4=E9=AB=98=EF=BC=8C=E4=BD=BF=E7=94=A8 Clang =E4=B9=9F=E9=9C=80=E8=A6=
+=81
+>=20
+>=20+=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=9B=B4=E9=AB=98=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=BA=E4=BA=86=E5=90=AF=E7=94=A8 KCSAN=EF=BC=8C=E7=94=A8=E5=A6=
+=82=E4=B8=8B=E5=8F=82=E6=95=B0=E9=85=8D=E7=BD=AE=E5=86=85=E6=A0=B8::
+>=20
+>=20+
+>=20
+>=20+ CONFIG_KCSAN =3D y
+>=20
+>=20+
+>=20
+>=20+KCSAN =E6=8F=90=E4=BE=9B=E4=BA=86=E5=87=A0=E4=B8=AA=E5=85=B6=E4=BB=
+=96=E7=9A=84=E9=85=8D=E7=BD=AE=E9=80=89=E9=A1=B9=E6=9D=A5=E8=87=AA=E5=AE=
+=9A=E4=B9=89=E8=A1=8C=E4=B8=BA=EF=BC=88=E8=A7=81 ``lib/Kconfig.kcsan`` =
+=E4=B8=AD=E7=9A=84=E5=90=84=E8=87=AA=E7=9A=84
+>=20
+>=20+=E5=B8=AE=E5=8A=A9=E6=96=87=E6=A1=A3=E4=BB=A5=E8=8E=B7=E5=8F=96=E6=
+=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E9=94=99=E8=AF=AF=E6=8A=A5=E5=91=8A
+>=20
+>=20+~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E4=B8=80=E4=B8=AA=E5=85=B8=E5=9E=8B=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
+=BA=89=E7=9A=84=E6=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
+>=20
+>=20+
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+ BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
+>=20
+>=20+
+>=20
+>=20+ write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
+>=20
+>=20+ test_kernel_write+0x1d/0x30
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
+>=20
+>=20+ test_kernel_read+0x10/0x20
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ value changed: 0x00000000000009a6 -> 0x00000000000009b2
+>=20
+>=20+
+>=20
+>=20+ Reported by Kernel Concurrency Sanitizer on:
+>=20
+>=20+ CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
+>=20
+>=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
+2 04/01/2014
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+
+>=20
+>=20+=E6=8A=A5=E5=91=8A=E7=9A=84=E5=A4=B4=E9=83=A8=E6=8F=90=E4=BE=9B=E4=
+=BA=86=E4=B8=80=E4=B8=AA=E5=85=B3=E4=BA=8E=E7=AB=9E=E4=BA=89=E4=B8=AD=E6=
+=B6=89=E5=8F=8A=E5=88=B0=E7=9A=84=E5=87=BD=E6=95=B0=E7=9A=84=E7=AE=80=E7=
+=9F=AD=E6=80=BB=E7=BB=93=E3=80=82=E9=9A=8F=E5=90=8E=E6=98=AF=E7=AB=9E=E4=
+=BA=89=E4=B8=AD=E7=9A=84=E4=B8=A4=E4=B8=AA=E7=BA=BF=E7=A8=8B=E7=9A=84
+>=20
+>=20+=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=92=8C=E5=A0=86=E6=A0=88=E4=
+=BF=A1=E6=81=AF=E3=80=82=E5=A6=82=E6=9E=9C KCSAN =E5=8F=91=E7=8E=B0=E4=BA=
+=86=E4=B8=80=E4=B8=AA=E5=80=BC=E7=9A=84=E5=8F=98=E5=8C=96=EF=BC=8C=E9=82=
+=A3=E4=B9=88=E9=82=A3=E4=B8=AA=E5=80=BC=E7=9A=84=E6=97=A7=E5=80=BC=E5=92=
+=8C=E6=96=B0=E5=80=BC=E4=BC=9A=E5=9C=A8
+>=20
+>=20+=E2=80=9Cvalue changed=E2=80=9D=E8=BF=99=E4=B8=80=E8=A1=8C=E5=8D=95=
+=E7=8B=AC=E6=98=BE=E7=A4=BA=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=B8=8D=E5=A4=AA=E5=B8=B8=E8=A7=81=E7=
+=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=
+=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
+>=20
+>=20+
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+ BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
+>=20
+>=20+
+>=20
+>=20+ race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes =
+by task 515 on cpu 2:
+>=20
+>=20+ test_kernel_rmw_array+0x71/0xd0
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ value changed: 0x0000000000002328 -> 0x0000000000002329
+>=20
+>=20+
+>=20
+>=20+ Reported by Kernel Concurrency Sanitizer on:
+>=20
+>=20+ CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
+>=20
+>=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
+2 04/01/2014
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+
+>=20
+>=20+=E8=BF=99=E4=B8=AA=E6=8A=A5=E5=91=8A=E6=98=AF=E5=BD=93=E5=8F=A6=E4=
+=B8=80=E4=B8=AA=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=8D=E5=8F=AF=E8=
+=83=BD=E8=A2=AB=E5=8F=91=E7=8E=B0=EF=BC=8C=E4=BD=86=E6=98=AF=E5=8F=AF=E4=
+=BB=A5=E4=BB=8E=E8=A7=82=E6=B5=8B=E7=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=
+=9D=80=E7=9A=84=E5=80=BC=E6=94=B9=E5=8F=98=E8=80=8C=E6=8E=A8=E6=96=AD
+>=20
+>=20+=E5=87=BA=E6=9D=A5=E7=9A=84=E6=97=B6=E5=80=99=E7=94=9F=E6=88=90=E7=
+=9A=84=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E6=80=BB=E6=98=AF=E4=
+=BC=9A=E5=B8=A6=E6=9C=89=E2=80=9Cvalue changed=E2=80=9D=E8=A1=8C=E3=80=82=
+=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E7=9A=84=E5=87=BA=E7=8E=B0=E9=80=9A=
+=E5=B8=B8=E6=98=AF=E5=9B=A0
+>=20
+>=20+=E4=B8=BA=E5=9C=A8=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=AD=E6=
+=B2=A1=E6=9C=89=E6=8F=92=E6=A1=A9=EF=BC=8C=E4=B9=9F=E5=8F=AF=E8=83=BD=E6=
+=98=AF=E5=9B=A0=E4=B8=BA=E5=85=B6=E4=BB=96=E5=8E=9F=E5=9B=A0=EF=BC=8C=E6=
+=AF=94=E5=A6=82 DMA =E8=AE=BF=E9=97=AE=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=
+=A5=E5=91=8A=E5=8F=AA=E4=BC=9A=E5=9C=A8
+>=20
+>=20+=E8=AE=BE=E7=BD=AE=E4=BA=86=E5=86=85=E6=A0=B8=E5=8F=82=E6=95=B0 ``CO=
+NFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=3Dy`` =E6=97=B6=E6=89=8D=E4=BC=9A=
+=E5=87=BA=E7=8E=B0=EF=BC=8C=E8=80=8C=E8=BF=99
+>=20
+>=20+=E4=B8=AA=E5=8F=82=E6=95=B0=E6=98=AF=E9=BB=98=E8=AE=A4=E5=90=AF=E7=
+=94=A8=E7=9A=84=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E9=80=89=E6=8B=A9=E6=80=A7=E5=88=86=E6=9E=90
+>=20
+>=20+~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=BA=9B=E7=89=B9=E5=AE=9A=E7=9A=84=E8=
+=AE=BF=E9=97=AE=EF=BC=8C=E5=87=BD=E6=95=B0=EF=BC=8C=E7=BC=96=E8=AF=91=E5=
+=8D=95=E5=85=83=E6=88=96=E8=80=85=E6=95=B4=E4=B8=AA=E5=AD=90=E7=B3=BB=E7=
+=BB=9F=EF=BC=8C=E5=8F=AF=E8=83=BD=E9=9C=80=E8=A6=81=E7=A6=81=E7=94=A8=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E3=80=82
+>=20
+>=20+=E5=AF=B9=E4=BA=8E=E9=9D=99=E6=80=81=E9=BB=91=E5=90=8D=E5=8D=95=EF=
+=BC=8C=E6=9C=89=E5=A6=82=E4=B8=8B=E5=8F=AF=E7=94=A8=E7=9A=84=E5=8F=82=E6=
+=95=B0=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+* KCSAN =E6=94=AF=E6=8C=81=E4=BD=BF=E7=94=A8 ``data_race(expr)`` =E6=
+=B3=A8=E8=A7=A3=EF=BC=8C=E8=BF=99=E4=B8=AA=E6=B3=A8=E8=A7=A3=E5=91=8A=E8=
+=AF=89 KCSAN =E4=BB=BB=E4=BD=95=E7=94=B1=E8=AE=BF=E9=97=AE
+>=20
+>=20+ ``expr`` =E6=89=80=E5=BC=95=E8=B5=B7=E7=9A=84=E6=95=B0=E6=8D=AE=E7=
+=AB=9E=E4=BA=89=E9=83=BD=E5=BA=94=E8=AF=A5=E8=A2=AB=E5=BF=BD=E7=95=A5=EF=
+=BC=8C=E5=85=B6=E4=BA=A7=E7=94=9F=E7=9A=84=E8=A1=8C=E4=B8=BA=E5=90=8E=E6=
+=9E=9C=E8=A2=AB=E8=AE=A4=E4=B8=BA=E6=98=AF=E5=AE=89=E5=85=A8=E7=9A=84=E3=
+=80=82=E8=AF=B7=E6=9F=A5=E9=98=85
+>=20
+>=20+ `"Marking Shared-Memory Accesses" in the LKMM`_ =E8=8E=B7=E5=BE=97=
+=E6=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=8E ``data_race(...)`` =E7=9B=B8=E4=BC=BC=EF=BC=8C=E5=8F=AF=
+=E4=BB=A5=E4=BD=BF=E7=94=A8=E7=B1=BB=E5=9E=8B=E9=99=90=E5=AE=9A=E7=AC=A6 =
+``__data_racy`` =E6=9D=A5=E6=A0=87=E8=AE=B0=E4=B8=80=E4=B8=AA=E5=8F=98=E9=
+=87=8F
+>=20
+>=20+ =EF=BC=8C=E6=89=80=E6=9C=89=E8=AE=BF=E9=97=AE=E8=AF=A5=E5=8F=98=E9=
+=87=8F=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
+=BA=89=E9=83=BD=E6=98=AF=E6=95=85=E6=84=8F=E4=B8=BA=E4=B9=8B=E5=B9=B6=E4=
+=B8=94=E5=BA=94=E8=AF=A5=E8=A2=AB KCSAN =E5=BF=BD=E7=95=A5::
+>=20
+>=20+
+>=20
+>=20+ struct foo {
+>=20
+>=20+ ...
+>=20
+>=20+ int __data_racy stats_counter;
+>=20
+>=20+ ...
+>=20
+>=20+ };
+>=20
+>=20+
+>=20
+>=20+* =E4=BD=BF=E7=94=A8=E5=87=BD=E6=95=B0=E5=B1=9E=E6=80=A7 ``__no_kcsa=
+n`` =E5=8F=AF=E4=BB=A5=E5=AF=B9=E6=95=B4=E4=B8=AA=E5=87=BD=E6=95=B0=E7=A6=
+=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B::
+>=20
+>=20+
+>=20
+>=20+ __no_kcsan
+>=20
+>=20+ void foo(void) {
+>=20
+>=20+ ...
+>=20
+>=20+
+>=20
+>=20+ =E4=B8=BA=E4=BA=86=E5=8A=A8=E6=80=81=E9=99=90=E5=88=B6=E8=AF=A5=E4=
+=B8=BA=E5=93=AA=E4=BA=9B=E5=87=BD=E6=95=B0=E7=94=9F=E6=88=90=E6=8A=A5=E5=
+=91=8A=EF=BC=8C=E6=9F=A5=E9=98=85 `Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=
+=BB=9F=E6=8E=A5=E5=8F=A3`_ =E9=BB=91=E5=90=8D=E5=8D=95/=E7=99=BD=E5=90=8D=
+=E5=8D=95=E7=89=B9=E6=80=A7=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=BA=E7=89=B9=E5=AE=9A=E7=9A=84=E7=BC=96=E8=AF=91=E5=8D=95=E5=
+=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=
+=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=82=E6=95=B0=E5=8A=A0=E5=
+=85=A5=E5=88=B0 ``Makefile`` =E4=B8=AD::
+>=20
+>=20+
+>=20
+>=20+ KCSAN_SANITIZE_file.o :=3D n
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=BA ``Makefile`` =E4=B8=AD=E7=9A=84=E6=89=80=E6=9C=89=E7=BC=
+=96=E8=AF=91=E5=8D=95=E5=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=
+=9E=E4=BA=89=E6=A3=80=E6=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=
+=82=E6=95=B0=E6=B7=BB=E5=8A=A0=E5=88=B0=E7=9B=B8=E5=BA=94=E7=9A=84
+>=20
+>=20+ ``Makefile`` =E4=B8=AD::
+>=20
+>=20+
+>=20
+>=20+ KCSAN_SANITIZE :=3D n
+>=20
+>=20+
+>=20
+>=20+.. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel=
+.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/=
+Documentation/access-marking.txt
+>=20
+>=20+
+>=20
+>=20+=E6=AD=A4=E5=A4=96=EF=BC=8C=E5=8F=AF=E4=BB=A5=E6=A0=B9=E6=8D=AE=E5=
+=81=8F=E5=A5=BD=E8=AE=BE=E7=BD=AE KCSAN =E6=98=BE=E7=A4=BA=E6=88=96=E9=9A=
+=90=E8=97=8F=E6=95=B4=E4=B8=AA=E7=B1=BB=E5=88=AB=E7=9A=84=E6=95=B0=E6=8D=
+=AE=E7=AB=9E=E4=BA=89=E3=80=82=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E5=A6=
+=82=E4=B8=8B
+>=20
+>=20+Kconfig =E5=8F=82=E6=95=B0=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9:
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: =E5=A6=82=E6=9E=9C=E5=
+=90=AF=E7=94=A8=E4=BA=86=E8=AF=A5=E5=8F=82=E6=95=B0=E5=B9=B6=E4=B8=94=E9=
+=80=9A=E8=BF=87=E8=A7=82=E6=B5=8B=E7=82=B9=E8=A7=82=E6=B5=8B
+>=20
+>=20+ =E5=88=B0=E4=B8=80=E4=B8=AA=E6=9C=89=E5=86=B2=E7=AA=81=E7=9A=84=E5=
+=86=99=E6=93=8D=E4=BD=9C=EF=BC=8C=E4=BD=86=E6=98=AF=E5=AF=B9=E5=BA=94=E7=
+=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E4=B8=AD=E5=AD=98=E5=82=A8=E7=
+=9A=84=E5=80=BC=E6=B2=A1=E6=9C=89=E6=94=B9=E5=8F=98=EF=BC=8C=E5=88=99=E4=
+=B8=8D=E4=BC=9A=E6=8A=A5=E5=91=8A=E8=BF=99=E8=B5=B7=E6=95=B0=E6=8D=AE
+>=20
+>=20+ =E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: =E5=81=87=E8=AE=BE=E9=
+=BB=98=E8=AE=A4=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E4=B8=8D=E8=B6=85=E8=
+=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=80
+>=20
+>=20+ =E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E6=
+=98=AF=E5=8E=9F=E5=AD=90=E7=9A=84=E3=80=82=E5=81=87=E8=AE=BE=E8=BF=99=E4=
+=BA=9B=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E4=B8=8D=E4=BC=9A=E5=8F=97=E5=
+=88=B0=E4=B8=8D=E5=AE=89=E5=85=A8=E7=9A=84=E7=BC=96=E8=AF=91=E5=99=A8=E4=
+=BC=98=E5=8C=96=E5=BD=B1=E5=93=8D=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=BC
+>=20
+>=20+ =E8=87=B4=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E8=AF=A5=E9=
+=80=89=E9=A1=B9=E4=BD=BF KCSAN =E4=B8=8D=E6=8A=A5=E5=91=8A=E4=BB=85=E7=94=
+=B1=E4=B8=8D=E8=B6=85=E8=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=
+=80=E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E5=BC=
+=95=E8=B5=B7
+>=20
+>=20+ =E7=9A=84=E5=86=B2=E7=AA=81=E6=89=80=E5=AF=BC=E8=87=B4=E7=9A=84=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_PERMISSIVE``: =E5=90=AF=E7=94=A8=E9=A2=9D=E5=A4=96=
+=E7=9A=84=E5=AE=BD=E6=9D=BE=E8=A7=84=E5=88=99=E6=9D=A5=E5=BF=BD=E7=95=A5=
+=E6=9F=90=E4=BA=9B=E5=B8=B8=E8=A7=81=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=95=B0=
+=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+ =E4=B8=8E=E4=B8=8A=E9=9D=A2=E7=9A=84=E8=A7=84=E5=88=99=E4=B8=8D=E5=
+=90=8C=EF=BC=8C=E8=BF=99=E6=9D=A1=E8=A7=84=E5=88=99=E6=9B=B4=E5=8A=A0=E5=
+=A4=8D=E6=9D=82=EF=BC=8C=E6=B6=89=E5=8F=8A=E5=88=B0=E5=80=BC=E6=94=B9=E5=
+=8F=98=E6=A8=A1=E5=BC=8F=EF=BC=8C=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=
+=92=8C=E5=9C=B0=E5=9D=80=E3=80=82=E8=BF=99=E4=B8=AA
+>=20
+>=20+ =E9=80=89=E9=A1=B9=E4=BE=9D=E8=B5=96=E7=BC=96=E8=AF=91=E9=80=89=E9=
+=A1=B9 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dy``=E3=80=82=E8=AF=B7=E6=
+=9F=A5=E7=9C=8B
+>=20
+>=20+ ``kernel/kcsan/permissive.h`` =E8=8E=B7=E5=8F=96=E6=9B=B4=E5=A4=9A=
+=E7=BB=86=E8=8A=82=E3=80=82=E5=AF=B9=E4=BA=8E=E5=8F=AA=E4=BE=A7=E9=87=8D=
+=E4=BA=8E=E7=89=B9=E5=AE=9A=E5=AD=90=E7=B3=BB=E7=BB=9F=E8=80=8C=E4=B8=8D=
+=E6=98=AF=E6=95=B4=E4=B8=AA
+>=20
+>=20+ =E5=86=85=E6=A0=B8=E6=8A=A5=E5=91=8A=E7=9A=84=E6=B5=8B=E8=AF=95=E8=
+=80=85=E5=92=8C=E7=BB=B4=E6=8A=A4=E8=80=85=EF=BC=8C=E5=BB=BA=E8=AE=AE=E7=
+=A6=81=E7=94=A8=E8=AF=A5=E9=80=89=E9=A1=B9=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E8=A6=81=E4=BD=BF=E7=94=A8=E5=B0=BD=E5=8F=AF=E8=83=BD=E4=B8=A5=E6=
+=A0=BC=E7=9A=84=E8=A7=84=E5=88=99=EF=BC=8C=E9=80=89=E6=8B=A9 ``CONFIG_KCS=
+AN_STRICT=3Dy``=EF=BC=8C=E8=BF=99=E5=B0=86=E9=85=8D=E7=BD=AE KCSAN =E5=B0=
+=BD=E5=8F=AF
+>=20
+>=20+=E8=83=BD=E7=B4=A7=E5=AF=86=E5=9C=B0=E9=81=B5=E5=BE=AA Linux =E5=86=
+=85=E6=A0=B8=E5=86=85=E5=AD=98=E4=B8=80=E8=87=B4=E6=80=A7=E6=A8=A1=E5=9E=
+=8B=EF=BC=88LKMM=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E6=8E=A5=E5=8F=A3
+>=20
+>=20+~~~~~~~~~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E6=96=87=E4=BB=B6 ``/sys/kernel/debug/kcsan`` =E6=8F=90=E4=BE=9B=E4=
+=BA=86=E5=A6=82=E4=B8=8B=E6=8E=A5=E5=8F=A3=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+* =E8=AF=BB ``/sys/kernel/debug/kcsan`` =E8=BF=94=E5=9B=9E=E4=B8=8D=
+=E5=90=8C=E7=9A=84=E8=BF=90=E8=A1=8C=E6=97=B6=E7=BB=9F=E8=AE=A1=E6=95=B0=
+=E6=8D=AE=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``on`` =E6=88=96 ``off`` =E5=86=99=E5=85=A5 ``/sys/kerne=
+l/debug/kcsan`` =E5=85=81=E8=AE=B8=E6=89=93=E5=BC=80=E6=88=96=E5=85=B3=E9=
+=97=AD KCSAN=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``!some_func_name`` =E5=86=99=E5=85=A5 ``/sys/kernel/deb=
+ug/kcsan`` =E4=BC=9A=E5=B0=86
+>=20
+>=20+ ``some_func_name`` =E6=B7=BB=E5=8A=A0=E5=88=B0=E6=8A=A5=E5=91=8A=E8=
+=BF=87=E6=BB=A4=E5=88=97=E8=A1=A8=E4=B8=AD=EF=BC=8C=E8=BF=99=E5=B0=86=EF=
+=BC=88=E9=BB=98=E8=AE=A4=EF=BC=89=E7=A6=81=E6=AD=A2=E6=8A=A5=E5=91=8A=E4=
+=BB=BB=E6=84=8F=E4=B8=80=E4=B8=AA=E9=A1=B6=E5=B1=82=E6=A0=88=E5=B8=A7
+>=20
+>=20+ =E5=9C=A8=E8=AF=A5=E5=88=97=E8=A1=A8=E4=B8=AD=E7=9A=84=E6=95=B0=E6=
+=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``blacklist`` =E6=88=96 ``whitelist`` =E5=86=99=E5=85=A5=
+ ``/sys/kernel/debug/kcsan`` =E4=BC=9A=E6=94=B9=E5=8F=98=E6=8A=A5=E5=91=
+=8A
+>=20
+>=20+ =E8=BF=87=E6=BB=A4=E8=A1=8C=E4=B8=BA=E3=80=82=E4=BE=8B=E5=A6=82=EF=
+=BC=8C=E9=BB=91=E5=90=8D=E5=8D=95=E7=9A=84=E7=89=B9=E6=80=A7=E5=8F=AF=E4=
+=BB=A5=E7=94=A8=E6=9D=A5=E8=BF=87=E6=BB=A4=E6=8E=89=E7=BB=8F=E5=B8=B8=E5=
+=8F=91=E7=94=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E7=
+=99=BD=E5=90=8D=E5=8D=95=E7=89=B9=E6=80=A7=E5=8F=AF=E4=BB=A5=E5=B8=AE
+>=20
+>=20+ =E5=8A=A9=E5=A4=8D=E7=8E=B0=E5=92=8C=E4=BF=AE=E5=A4=8D=E6=B5=8B=E8=
+=AF=95=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E6=80=A7=E8=83=BD=E8=B0=83=E4=BC=98
+>=20
+>=20+~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E5=BD=B1=E5=93=8D KCSAN =E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=
+=BD=E5=92=8C bug =E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E7=9A=84=E6=A0=B8=
+=E5=BF=83=E5=8F=82=E6=95=B0=E6=98=AF=E4=BD=9C=E4=B8=BA=E5=86=85=E6=A0=B8=
+=E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E5=85=AC=E5=BC=80=E7=9A=84=
+=EF=BC=8C=E5=85=B6=E9=BB=98=E8=AE=A4
+>=20
+>=20+=E5=80=BC=E4=B9=9F=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E7=9B=B8=E5=
+=BA=94=E7=9A=84 Kconfig =E9=80=89=E9=A1=B9=E6=9B=B4=E6=94=B9=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): =E5=9C=A8=E5=
+=8F=A6=E4=B8=80=E4=B8=AA=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=
+=B9=8B=E5=89=8D=E6=AF=8F
+>=20
+>=20+ =E4=B8=AA CPU =E8=A6=81=E8=B7=B3=E8=BF=87=E7=9A=84=E5=86=85=E5=AD=
+=98=E6=93=8D=E4=BD=9C=E6=AC=A1=E6=95=B0=E3=80=82=E6=9B=B4=E5=8A=A0=E9=A2=
+=91=E7=B9=81=E7=9A=84=E8=AE=BE=E7=BD=AE=E8=A7=82=E6=B5=8B=E7=82=B9=E5=B0=
+=86=E5=A2=9E=E5=8A=A0=E8=A7=82=E5=AF=9F=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=
+=85=E5=86=B5=E7=9A=84=E5=8F=AF=E8=83=BD=E6=80=A7
+>=20
+>=20+ =E3=80=82=E8=BF=99=E4=B8=AA=E5=8F=82=E6=95=B0=E5=AF=B9=E7=B3=BB=E7=
+=BB=9F=E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=BD=E5=92=8C=E7=AB=9E=E4=
+=BA=89=E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E5=BD=B1=E5=93=8D=E6=9C=80=E6=
+=98=BE=E8=91=97=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): =E5=AF=B9=E4=
+=BA=8E=E4=BB=BB=E5=8A=A1=EF=BC=8C=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=
+=BD=AE=E4=B9=8B
+>=20
+>=20+ =E5=90=8E=E6=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=
+=A7=92=E5=BB=B6=E8=BF=9F=E3=80=82=E5=80=BC=E8=B6=8A=E5=A4=A7=EF=BC=8C=E6=
+=A3=80=E6=B5=8B=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=85=E5=86=B5=E7=9A=84=E5=
+=8F=AF=E8=83=BD=E6=80=A7=E8=B6=8A=E9=AB=98=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): =
+=E5=AF=B9=E4=BA=8E=E4=B8=AD=E6=96=AD=EF=BC=8C
+>=20
+>=20+ =E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=B9=8B=E5=90=8E=E6=
+=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=A7=92=E5=BB=B6=E8=
+=BF=9F=E3=80=82=E4=B8=AD=E6=96=AD=E5=AF=B9=E4=BA=8E=E5=BB=B6=E8=BF=9F=E7=
+=9A=84=E8=A6=81=E6=B1=82=E6=9B=B4=E5=8A=A0=E4=B8=A5=E6=A0=BC=EF=BC=8C=E5=
+=85=B6=E5=BB=B6=E8=BF=9F=E9=80=9A=E5=B8=B8=E5=BA=94=E8=AF=A5=E5=B0=8F
+>=20
+>=20+ =E4=BA=8E=E4=B8=BA=E4=BB=BB=E5=8A=A1=E9=80=89=E6=8B=A9=E7=9A=84=E5=
+=BB=B6=E8=BF=9F=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=AE=83=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87 ``/sys/module=
+/kcsan/parameters/`` =E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E8=BF=9B=E8=A1=
+=8C=E8=B0=83=E6=95=B4=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89
+>=20
+>=20+--------
+>=20
+>=20+
+>=20
+>=20+=E5=9C=A8=E4=B8=80=E6=AC=A1=E6=89=A7=E8=A1=8C=E4=B8=AD=EF=BC=8C=E5=
+=A6=82=E6=9E=9C=E4=B8=A4=E4=B8=AA=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E5=
+=AD=98=E5=9C=A8 *=E5=86=B2=E7=AA=81*=EF=BC=8C=E5=9C=A8=E4=B8=8D=E5=90=8C=
+=E7=9A=84=E7=BA=BF=E7=A8=8B=E4=B8=AD=E5=B9=B6=E5=8F=91=E6=89=A7=E8=A1=8C=
+=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=87=B3=E5=B0=91
+>=20
+>=20+=E6=9C=89=E4=B8=80=E4=B8=AA=E8=AE=BF=E9=97=AE=E6=98=AF *=E7=AE=80=E5=
+=8D=95=E8=AE=BF=E9=97=AE*=EF=BC=8C=E5=88=99=E5=AE=83=E4=BB=AC=E5=B0=B1=E5=
+=BD=A2=E6=88=90=E4=BA=86 *=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89*=E3=80=82=
+=E5=A6=82=E6=9E=9C=E5=AE=83=E4=BB=AC=E8=AE=BF=E9=97=AE=E4=BA=86=E5=90=8C=
+=E4=B8=80=E4=B8=AA=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E5=B9=B6=E4=B8=94
+>=20
+>=20+=E8=87=B3=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=98=AF=E5=86=99=E6=
+=93=8D=E4=BD=9C=EF=BC=8C=E5=88=99=E7=A7=B0=E5=AE=83=E4=BB=AC=E5=AD=98=E5=
+=9C=A8 *=E5=86=B2=E7=AA=81*=E3=80=82=E6=9C=89=E5=85=B3=E6=9B=B4=E8=AF=A6=
+=E7=BB=86=E7=9A=84=E8=AE=A8=E8=AE=BA=E5=92=8C=E5=AE=9A=E4=B9=89=EF=BC=8C=
+=E8=A7=81
+>=20
+>=20+`"Plain Accesses and Data Races" in the LKMM`_=E3=80=82
+>=20
+>=20+
+>=20
+>=20+.. _"Plain Accesses and Data Races" in the LKMM: https://git.kernel.=
+org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/D=
+ocumentation/explanation.txt#n1922
+>=20
+>=20+
+>=20
+>=20+=E4=B8=8E Linux =E5=86=85=E6=A0=B8=E5=86=85=E5=AD=98=E4=B8=80=E8=87=
+=B4=E6=80=A7=E6=A8=A1=E5=9E=8B=EF=BC=88LKMM=EF=BC=89=E7=9A=84=E5=85=B3=E7=
+=B3=BB
+>=20
+>=20+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+LKMM =E5=AE=9A=E4=B9=89=E4=BA=86=E5=90=84=E7=A7=8D=E5=86=85=E5=AD=98=
+=E6=93=8D=E4=BD=9C=E7=9A=84=E4=BC=A0=E6=92=AD=E5=92=8C=E6=8E=92=E5=BA=8F=
+=E8=A7=84=E5=88=99=EF=BC=8C=E8=AE=A9=E5=BC=80=E5=8F=91=E8=80=85=E5=8F=AF=
+=E4=BB=A5=E6=8E=A8=E7=90=86=E5=B9=B6=E5=8F=91=E4=BB=A3=E7=A0=81=E3=80=82=
+=E6=9C=80=E7=BB=88=E8=BF=99=E5=85=81=E8=AE=B8=E7=A1=AE
+>=20
+>=20+=E5=AE=9A=E5=B9=B6=E5=8F=91=E4=BB=A3=E7=A0=81=E5=8F=AF=E8=83=BD=E7=
+=9A=84=E6=89=A7=E8=A1=8C=E6=83=85=E5=86=B5=E5=B9=B6=E5=88=A4=E6=96=AD=E8=
+=BF=99=E4=BA=9B=E4=BB=A3=E7=A0=81=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+KCSAN =E5=8F=AF=E4=BB=A5=E8=AF=86=E5=88=AB *=E8=A2=AB=E6=A0=87=E8=AE=
+=B0=E7=9A=84=E5=8E=9F=E5=AD=90=E6=93=8D=E4=BD=9C* =EF=BC=88 ``READ_ONCE``=
+, ``WRITE_ONCE`` , ``atomic_*``
+>=20
+>=20+=E7=AD=89=EF=BC=89=EF=BC=8C=E4=BB=A5=E5=8F=8A=E5=86=85=E5=AD=98=E5=
+=B1=8F=E9=9A=9C=E6=89=80=E9=9A=90=E5=90=AB=E7=9A=84=E4=B8=80=E9=83=A8=E5=
+=88=86=E9=A1=BA=E5=BA=8F=E4=BF=9D=E8=AF=81=E3=80=82=E5=90=AF=E7=94=A8 ``C=
+ONFIG_KCSAN_WEAK_MEMORY=3Dy``
+>=20
+>=20+=E9=85=8D=E7=BD=AE=EF=BC=8CKCSAN =E4=BC=9A=E5=AF=B9=E5=8A=A0=E8=BD=
+=BD=E6=88=96=E5=AD=98=E5=82=A8=E7=BC=93=E5=86=B2=E5=8C=BA=E8=BF=9B=E8=A1=
+=8C=E5=BB=BA=E6=A8=A1=EF=BC=8C=E5=B9=B6=E5=8F=AF=E4=BB=A5=E6=A3=80=E6=B5=
+=8B=E9=81=97=E6=BC=8F=E7=9A=84
+>=20
+>=20+``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``, ``smp_store_release()``=
+=EF=BC=8C=E4=BB=A5=E5=8F=8A=E6=89=80=E6=9C=89=E7=9A=84
+>=20
+>=20+=E5=85=B7=E6=9C=89=E7=AD=89=E6=95=88=E9=9A=90=E5=90=AB=E5=86=85=E5=
+=AD=98=E5=B1=8F=E9=9A=9C=E7=9A=84 ``atomic_*`` =E6=93=8D=E4=BD=9C=E3=80=
+=82
+>=20
+>=20+
+>=20
+>=20+=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8CKCSAN =E4=B8=8D=E4=BC=9A=E6=8A=
+=A5=E5=91=8A=E6=89=80=E6=9C=89=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=
+=85=E5=AD=98=E9=A1=BA=E5=BA=8F=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=
+=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=8C=E7=89=B9=E5=88=AB=E6=98=AF=E5=9C=
+=A8=E9=9C=80=E8=A6=81=E5=86=85=E5=AD=98=E5=B1=8F=E9=9A=9C
+>=20
+>=20+=E6=9D=A5=E7=A6=81=E6=AD=A2=E5=90=8E=E7=BB=AD=E5=86=85=E5=AD=98=E6=
+=93=8D=E4=BD=9C=E5=9C=A8=E5=B1=8F=E9=9A=9C=E4=B9=8B=E5=89=8D=E9=87=8D=E6=
+=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E3=80=82=E5=
+=9B=A0=E6=AD=A4=EF=BC=8C=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=BA=94=E8=
+=AF=A5=E4=BB=94=E7=BB=86=E8=80=83=E8=99=91=E9=82=A3=E4=BA=9B=E6=9C=AA
+>=20
+>=20+=E8=A2=AB=E6=A3=80=E6=9F=A5=E7=9A=84=E5=86=85=E5=AD=98=E9=A1=BA=E5=
+=BA=8F=E8=A6=81=E6=B1=82=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E4=BB=A5=E5=A4=96=E7=9A=84=E7=
+=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B
+>=20
+>=20+---------------------------
+>=20
+>=20+
+>=20
+>=20+=E5=AF=B9=E4=BA=8E=E6=9C=89=E7=9D=80=E5=A4=8D=E6=9D=82=E5=B9=B6=E5=
+=8F=91=E8=AE=BE=E8=AE=A1=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=8C=E7=AB=9E=E4=
+=BA=89=E7=8A=B6=E5=86=B5=E4=B8=8D=E6=80=BB=E6=98=AF=E8=A1=A8=E7=8E=B0=E4=
+=B8=BA=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E5=A6=82=E6=9E=9C=E5=
+=B9=B6=E5=8F=91=E6=93=8D=E4=BD=9C=E5=BC=95=E8=B5=B7=E4=BA=86=E6=84=8F=E2=
+=80=98
+>=20
+>=20+=E6=96=99=E4=B9=8B=E5=A4=96=E7=9A=84=E7=B3=BB=E7=BB=9F=E8=A1=8C=E4=
+=B8=BA=EF=BC=8C=E5=88=99=E8=AE=A4=E4=B8=BA=E5=8F=91=E7=94=9F=E4=BA=86=E7=
+=AB=9E=E4=BA=89=E7=8A=B6=E5=86=B5=E3=80=82=E5=8F=A6=E4=B8=80=E6=96=B9=E9=
+=9D=A2=EF=BC=8C=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=98=AF=E5=9C=A8 C =
+=E8=AF=AD=E8=A8=80=E5=B1=82=E9=9D=A2=E5=AE=9A=E4=B9=89
+>=20
+>=20+=E7=9A=84=E3=80=82=E4=B8=8B=E9=9D=A2=E7=9A=84=E5=AE=8F=E5=AE=9A=E4=
+=B9=89=E5=8F=AF=E4=BB=A5=E7=94=A8=E6=9D=A5=E6=A3=80=E6=B5=8B=E9=9D=9E=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E7=9A=84=E6=BC=8F=E6=B4=9E=E5=B9=B6=E5=
+=8F=91=E4=BB=A3=E7=A0=81=E7=9A=84=E5=B1=9E=E6=80=A7=E3=80=82
+>=20
+>=20+
+>=20
+>=20+.. kernel-doc:: include/linux/kcsan-checks.h
+>=20
+>=20+ :functions: ASSERT_EXCLUSIVE_WRITER ASSERT_EXCLUSIVE_WRITER_SCOPED
+>=20
+>=20+ ASSERT_EXCLUSIVE_ACCESS ASSERT_EXCLUSIVE_ACCESS_SCOPED
+>=20
+>=20+ ASSERT_EXCLUSIVE_BITS
+>=20
+>=20+
+>=20
+>=20+=E5=AE=9E=E7=8E=B0=E7=BB=86=E8=8A=82
+>=20
+>=20+-----------
+>=20
+>=20+
+>=20
+>=20+KCSAN =E9=9C=80=E8=A6=81=E8=A7=82=E6=B5=8B=E4=B8=A4=E4=B8=AA=E5=B9=
+=B6=E5=8F=91=E8=AE=BF=E9=97=AE=E3=80=82=E7=89=B9=E5=88=AB=E9=87=8D=E8=A6=
+=81=E7=9A=84=E6=98=AF=EF=BC=8C=E6=88=91=E4=BB=AC=E6=83=B3=E8=A6=81=EF=BC=
+=88a=EF=BC=89=E5=A2=9E=E5=8A=A0=E8=A7=82=E6=B5=8B=E5=88=B0=E7=AB=9E=E4=BA=
+=89=E7=9A=84=E6=9C=BA=E4=BC=9A=EF=BC=88=E5=B0=A4
+>=20
+>=20+=E5=85=B6=E6=98=AF=E5=BE=88=E5=B0=91=E5=8F=91=E7=94=9F=E7=9A=84=E7=
+=AB=9E=E4=BA=89=EF=BC=89=EF=BC=8C=E4=BB=A5=E5=8F=8A=EF=BC=88b=EF=BC=89=E8=
+=83=BD=E5=A4=9F=E5=AE=9E=E9=99=85=E8=A7=82=E6=B5=8B=E5=88=B0=E8=BF=99=E4=
+=BA=9B=E7=AB=9E=E4=BA=89=E3=80=82=E6=88=91=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=
+=80=9A=E8=BF=87=EF=BC=88a=EF=BC=89=E6=B3=A8=E5=85=A5
+>=20
+>=20+=E4=B8=8D=E5=90=8C=E7=9A=84=E5=BB=B6=E8=BF=9F=EF=BC=8C=E4=BB=A5=E5=
+=8F=8A=EF=BC=88b=EF=BC=89=E4=BD=BF=E7=94=A8=E5=9C=B0=E5=9D=80=E8=A7=82=E6=
+=B5=8B=E7=82=B9=EF=BC=88=E6=88=96=E6=96=AD=E7=82=B9=EF=BC=89=E6=9D=A5=E5=
+=AE=9E=E7=8E=B0=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=A6=82=E6=9E=9C=E6=88=91=E4=BB=AC=E5=9C=A8=E8=AE=BE=E7=BD=AE=E4=
+=BA=86=E5=9C=B0=E5=9D=80=E8=A7=82=E5=AF=9F=E7=82=B9=E7=9A=84=E6=83=85=E5=
+=86=B5=E4=B8=8B=E6=95=85=E6=84=8F=E5=BB=B6=E8=BF=9F=E4=B8=80=E4=B8=AA=E5=
+=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=EF=BC=8C=E7=84=B6=E5=90=8E=E8=A7=82=E5=
+=AF=9F=E5=88=B0=E8=A7=82=E5=AF=9F=E7=82=B9=E8=A2=AB=E8=A7=A6=E5=8F=91
+>=20
+>=20+=EF=BC=8C=E9=82=A3=E4=B9=88=E4=B8=A4=E4=B8=AA=E5=AF=B9=E5=90=8C=E4=
+=B8=80=E5=9C=B0=E5=9D=80=E7=9A=84=E8=AE=BF=E9=97=AE=E5=B0=B1=E5=8F=91=E7=
+=94=9F=E4=BA=86=E7=AB=9E=E4=BA=89=E3=80=82=E4=BD=BF=E7=94=A8=E7=A1=AC=E4=
+=BB=B6=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E8=BF=99=E6=98=AF `DataCollide=
+r
+>=20
+>=20+<http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pd=
+f>%60_ http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.p=
+df%3E%60_  =E4=B8=AD=E9=87=87=E7=94=A8
+>=20
+>=20+=E7=9A=84=E6=96=B9=E6=B3=95=E3=80=82=E4=B8=8E DataCollider =E4=B8=8D=
+=E5=90=8C=EF=BC=8CKCSAN =E4=B8=8D=E4=BD=BF=E7=94=A8=E7=A1=AC=E4=BB=B6=E8=
+=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E8=80=8C=E6=98=AF=E4=BE=9D=E8=B5=96=E4=
+=BA=8E=E7=BC=96=E8=AF=91=E5=99=A8=E6=8F=92=E8=A3=85=E5=92=8C=E2=80=9C=E8=
+=BD=AF
+>=20
+>=20+=E8=A7=82=E6=B5=8B=E7=82=B9=E2=80=9D=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=9C=A8 KCSAN =E4=B8=AD=EF=BC=8C=E8=A7=82=E5=AF=9F=E7=82=B9=E6=98=
+=AF=E9=80=9A=E8=BF=87=E4=B8=80=E7=A7=8D=E9=AB=98=E6=95=88=E7=9A=84=E7=BC=
+=96=E7=A0=81=E5=AE=9E=E7=8E=B0=E7=9A=84=EF=BC=8C=E8=AF=A5=E7=BC=96=E7=A0=
+=81=E5=B0=86=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E3=80=81=E5=A4=A7=E5=B0=
+=8F=E5=92=8C=E5=9C=B0=E5=9D=80=E5=AD=98=E5=82=A8
+>=20
+>=20+=E5=9C=A8=E4=B8=80=E4=B8=AA=E9=95=BF=E6=95=B4=E5=9E=8B=E5=8F=98=E9=
+=87=8F=E4=B8=AD=EF=BC=9B=E4=BD=BF=E7=94=A8=E2=80=9C=E8=BD=AF=E8=A7=82=E5=
+=AF=9F=E7=82=B9=E2=80=9D=E7=9A=84=E5=A5=BD=E5=A4=84=E6=98=AF=E5=85=B7=E6=
+=9C=89=E5=8F=AF=E7=A7=BB=E6=A4=8D=E6=80=A7=E5=92=8C=E6=9B=B4=E5=A4=A7=E7=
+=9A=84=E7=81=B5=E6=B4=BB=E6=80=A7=E3=80=82=E7=84=B6=E5=90=8E=EF=BC=8C
+>=20
+>=20+KCSAN=E4=BE=9D=E8=B5=96=E4=BA=8E=E7=BC=96=E8=AF=91=E5=99=A8=E5=AF=B9=
+=E6=99=AE=E9=80=9A=E8=AE=BF=E9=97=AE=E7=9A=84=E6=8F=92=E6=A1=A9=E3=80=82=
+=E5=AF=B9=E4=BA=8E=E6=AF=8F=E4=B8=AA=E6=8F=92=E6=A1=A9=E7=9A=84=E6=99=AE=
+=E9=80=9A=E8=AE=BF=E9=97=AE=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+1. =E6=A3=80=E6=B5=8B=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E4=B8=80=
+=E4=B8=AA=E5=A4=8D=E5=90=88=E7=9A=84=E8=A7=82=E6=B5=8B=E7=82=B9=EF=BC=8C=
+=E5=A6=82=E6=9E=9C=E5=AD=98=E5=9C=A8=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=87=B3=
+=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=93=8D=E4=BD=9C=E6=98=AF=E5=86=99=
+=E6=93=8D=E4=BD=9C=EF=BC=8C=E5=88=99=E6=88=91=E4=BB=AC=E5=8F=91
+>=20
+>=20+ =E7=8E=B0=E4=BA=86=E4=B8=80=E4=B8=AA=E7=AB=9E=E4=BA=89=E8=AE=BF=E9=
+=97=AE=E3=80=82
+>=20
+>=20+
+>=20
+>=20+2. =E5=A6=82=E6=9E=9C=E4=B8=8D=E5=AD=98=E5=9C=A8=E5=8C=B9=E9=85=8D=
+=E7=9A=84=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E5=88=99=E5=AE=9A=E6=9C=9F=
+=E7=9A=84=E8=AE=BE=E7=BD=AE=E4=B8=80=E4=B8=AA=E8=A7=82=E6=B5=8B=E7=82=B9=
+=E5=B9=B6=E9=9A=8F=E6=9C=BA=E5=BB=B6=E8=BF=9F=E4=B8=80=E5=B0=8F=E6=AE=B5=
+=E6=97=B6=E9=97=B4=E3=80=82
+>=20
+>=20+
+>=20
+>=20+3. =E5=9C=A8=E5=BB=B6=E8=BF=9F=E5=89=8D=E6=A3=80=E6=9F=A5=E6=95=B0=
+=E6=8D=AE=E5=80=BC=EF=BC=8C=E5=B9=B6=E5=9C=A8=E5=BB=B6=E8=BF=9F=E5=90=8E=
+=E9=87=8D=E6=96=B0=E6=A3=80=E6=9F=A5=E6=95=B0=E6=8D=AE=E5=80=BC=EF=BC=9B=
+=E5=A6=82=E6=9E=9C=E5=80=BC=E4=B8=8D=E5=8C=B9=E9=85=8D=EF=BC=8C=E6=88=91=
+=E4=BB=AC=E6=8E=A8=E6=B5=8B=E5=AD=98=E5=9C=A8=E4=B8=80=E4=B8=AA
+>=20
+>=20+ =E6=9C=AA=E7=9F=A5=E6=9D=A5=E6=BA=90=E7=9A=84=E7=AB=9E=E4=BA=89=E7=
+=8A=B6=E5=86=B5=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=BA=E4=BA=86=E6=A3=80=E6=B5=8B=E6=99=AE=E9=80=9A=E8=AE=BF=E9=
+=97=AE=E5=92=8C=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B9=8B=E9=97=B4=E7=
+=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=8CKCSAN =E4=B9=9F=E5=AF=
+=B9=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E8=BF=9B=E8=A1=8C=E6=A0=87=E8=AE=
+=B0=EF=BC=8C=E4=BD=86=E4=BB=85=E7=94=A8=E4=BA=8E
+>=20
+>=20+=E6=A3=80=E6=9F=A5=E6=98=AF=E5=90=A6=E5=AD=98=E5=9C=A8=E8=A7=82=E5=
+=AF=9F=E7=82=B9=EF=BC=9B=E5=8D=B3 KCSAN =E4=B8=8D=E4=BC=9A=E5=9C=A8=E6=A0=
+=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B8=8A=E8=AE=BE=E7=BD=AE=E8=A7=82=E5=AF=
+=9F=E7=82=B9=E3=80=82=E9=80=9A=E8=BF=87=E4=B8=8D=E5=9C=A8=E6=A0=87=E8=AE=
+=B0=E6=93=8D=E4=BD=9C=E4=B8=8A=E8=AE=BE
+>=20
+>=20+=E7=BD=AE=E8=A7=82=E5=AF=9F=E7=82=B9=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=
+=AF=B9=E4=B8=80=E4=B8=AA=E5=8F=98=E9=87=8F=E7=9A=84=E6=89=80=E6=9C=89=E5=
+=B9=B6=E5=8F=91=E8=AE=BF=E9=97=AE=E9=83=BD=E8=A2=AB=E6=AD=A3=E7=A1=AE=E6=
+=A0=87=E8=AE=B0=EF=BC=8CKCSAN =E5=B0=86=E6=B0=B8=E8=BF=9C=E4=B8=8D=E4=BC=
+=9A=E8=A7=A6=E5=8F=91=E8=A7=82=E5=AF=9F=E7=82=B9
+>=20
+>=20+=EF=BC=8C=E5=9B=A0=E6=AD=A4=E4=B9=9F=E4=B8=8D=E4=BC=9A=E6=8A=A5=E5=
+=91=8A=E8=BF=99=E4=BA=9B=E8=AE=BF=E9=97=AE=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=BC=B1=E5=86=85=E5=AD=98=E5=BB=BA=E6=A8=A1
+>=20
+>=20+~~~~~~~~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+KSCAN =E6=A3=80=E6=B5=8B=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=
+=85=E5=AD=98=E5=B1=8F=E9=9A=9C=E7=9A=84=E6=95=B0=E6=8D=AE=E6=A3=80=E6=B5=
+=8B=E7=9A=84=E6=96=B9=E6=B3=95=E6=98=AF=E5=B1=85=E4=BA=8E=E5=AF=B9=E8=AE=
+=BF=E9=97=AE=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E5=BB=BA=E6=A8=
+=A1=EF=BC=88=E4=BD=BF=E7=94=A8=E5=8F=82=E6=95=B0
+>=20
+>=20+``CONFIG_KCSAN_WEAK_MEMORY=3Dy``=EF=BC=89=E3=80=82=E6=AF=8F=E4=B8=AA=
+=E8=AE=BE=E7=BD=AE=E4=BA=86=E8=A7=82=E5=AF=9F=E7=82=B9=E7=9A=84=E6=99=AE=
+=E9=80=9A=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E4=B9=9F=E4=BC=9A=E8=A2=AB=
+=E9=80=89=E6=8B=A9=E5=9C=A8=E5=85=B6
+>=20
+>=20+=E5=87=BD=E6=95=B0=E8=8C=83=E5=9B=B4=E5=86=85=E8=BF=9B=E8=A1=8C=E6=
+=A8=A1=E6=8B=9F=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=BC=88=E6=9C=80=E5=
+=A4=9A=E4=B8=80=E4=B8=AA=E6=AD=A3=E5=9C=A8=E8=BF=9B=E8=A1=8C=E7=9A=84=E8=
+=AE=BF=E9=97=AE=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=80=E6=97=A6=E6=9F=90=E4=B8=AA=E8=AE=BF=E9=97=AE=E8=A2=AB=E9=
+=80=89=E6=8B=A9=E7=94=A8=E4=BA=8E=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=
+=BC=8C=E5=AE=83=E5=B0=86=E5=9C=A8=E5=87=BD=E6=95=B0=E8=8C=83=E5=9B=B4=E5=
+=86=85=E4=B8=8E=E6=AF=8F=E4=B8=AA=E5=85=B6=E4=BB=96=E8=AE=BF=E9=97=AE=E8=
+=BF=9B=E8=A1=8C=E6=A3=80=E6=9F=A5=E3=80=82=E5=A6=82=E6=9E=9C=E9=81=87
+>=20
+>=20+=E5=88=B0=E9=80=82=E5=BD=93=E7=9A=84=E5=86=85=E5=AD=98=E5=B1=8F=E9=
+=9A=9C=EF=BC=8C=E8=AF=A5=E8=AE=BF=E9=97=AE=E5=B0=86=E4=B8=8D=E5=86=8D=E8=
+=A2=AB=E8=80=83=E8=99=91=E8=BF=9B=E8=A1=8C=E6=A8=A1=E6=8B=9F=E9=87=8D=E6=
+=96=B0=E6=8E=92=E5=BA=8F=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=BD=93=E5=86=85=E5=AD=98=E6=93=8D=E4=BD=9C=E7=9A=84=E7=BB=93=E6=
+=9E=9C=E5=BA=94=E8=AF=A5=E7=94=B1=E5=B1=8F=E9=9A=9C=E6=8E=92=E5=BA=8F=E6=
+=97=B6=EF=BC=8CKCSAN =E5=8F=AF=E4=BB=A5=E6=A3=80=E6=B5=8B=E5=88=B0=E4=BB=
+=85=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=B1=8F=E9=9A=9C=E8=80=8C=E5=AF=
+=BC=E8=87=B4=E7=9A=84=E5=86=B2=E7=AA=81=E7=9A=84
+>=20
+>=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E8=80=83=E8=99=91=E4=
+=B8=8B=E9=9D=A2=E7=9A=84=E4=BE=8B=E5=AD=90::
+>=20
+>=20+
+>=20
+>=20+ int x, flag;
+>=20
+>=20+ void T1(void)
+>=20
+>=20+ {
+>=20
+>=20+ x =3D 1; // data race!
+>=20
+>=20+ WRITE_ONCE(flag, 1); // correct: smp_store_release(&flag, 1)
+>=20
+>=20+ }
+>=20
+>=20+ void T2(void)
+>=20
+>=20+ {
+>=20
+>=20+ while (!READ_ONCE(flag)); // correct: smp_load_acquire(&flag)
+>=20
+>=20+ ... =3D x; // data race!
+>=20
+>=20+ }
+>=20
+>=20+
+>=20
+>=20+=E5=BD=93=E5=90=AF=E7=94=A8=E4=BA=86=E5=BC=B1=E5=86=85=E5=AD=98=E5=
+=BB=BA=E6=A8=A1=EF=BC=8CKCSAN =E5=B0=86=E8=80=83=E8=99=91=E5=AF=B9 ``T1``=
+ =E4=B8=AD=E7=9A=84 ``x`` =E8=BF=9B=E8=A1=8C=E6=A8=A1=E6=8B=9F=E9=87=8D=
+=E6=96=B0=E6=8E=92=E5=BA=8F=E3=80=82=E5=9C=A8=E5=86=99=E5=85=A5
+>=20
+>=20+``flag`` =E4=B9=8B=E5=90=8E=EF=BC=8Cx=E5=86=8D=E6=AC=A1=E8=A2=AB=E6=
+=A3=80=E6=9F=A5=E6=98=AF=E5=90=A6=E6=9C=89=E5=B9=B6=E5=8F=91=E8=AE=BF=E9=
+=97=AE=EF=BC=9A=E5=9B=A0=E4=B8=BA ``T2`` =E5=8F=AF=E4=BB=A5=E5=9C=A8=E5=
+=86=99=E5=85=A5
+>=20
+>=20+``flag`` =E4=B9=8B=E5=90=8E=E7=BB=A7=E7=BB=AD=E8=BF=9B=E8=A1=8C=EF=
+=BC=8C=E5=9B=A0=E6=AD=A4=E6=A3=80=E6=B5=8B=E5=88=B0=E6=95=B0=E6=8D=AE=E7=
+=AB=9E=E4=BA=89=E3=80=82=E5=A6=82=E6=9E=9C=E9=81=87=E5=88=B0=E4=BA=86=E6=
+=AD=A3=E7=A1=AE=E7=9A=84=E5=B1=8F=E9=9A=9C=EF=BC=8C ``x`` =E5=9C=A8=E6=AD=
+=A3=E7=A1=AE
+>=20
+>=20+=E9=87=8A=E6=94=BE ``flag`` =E5=90=8E=E5=B0=86=E4=B8=8D=E4=BC=9A=E8=
+=A2=AB=E8=80=83=E8=99=91=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=EF=BC=8C=E5=
+=9B=A0=E6=AD=A4=E4=B8=8D=E4=BC=9A=E6=A3=80=E6=B5=8B=E5=88=B0=E6=95=B0=E6=
+=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=9C=A8=E5=A4=8D=E6=9D=82=E6=80=A7=E4=B8=8A=E7=9A=84=E6=9D=83=E8=
+=A1=A1=E4=BB=A5=E5=8F=8A=E5=AE=9E=E9=99=85=E7=9A=84=E9=99=90=E5=88=B6=E6=
+=84=8F=E5=91=B3=E7=9D=80=E5=8F=AA=E8=83=BD=E6=A3=80=E6=B5=8B=E5=88=B0=E4=
+=B8=80=E9=83=A8=E5=88=86=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=A4=B1=E5=86=85=E5=
+=AD=98=E5=B1=8F=E9=9A=9C=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=B0
+>=20
+>=20+=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E7=94=B1=E4=BA=8E=E5=BD=93=E5=
+=89=8D=E5=8F=AF=E7=94=A8=E7=9A=84=E7=BC=96=E8=AF=91=E5=99=A8=E6=94=AF=E6=
+=8C=81=EF=BC=8CKCSAN =E7=9A=84=E5=AE=9E=E7=8E=B0=E4=BB=85=E9=99=90=E4=BA=
+=8E=E5=BB=BA=E6=A8=A1=E2=80=9C=E7=BC=93=E5=86=B2=E2=80=9D=EF=BC=88=E5=BB=
+=B6=E8=BF=9F=E8=AE=BF=E9=97=AE=EF=BC=89=E7=9A=84
+>=20
+>=20+=E6=95=88=E6=9E=9C=EF=BC=8C=E5=9B=A0=E4=B8=BA=E8=BF=90=E8=A1=8C=E6=
+=97=B6=E4=B8=8D=E8=83=BD=E2=80=9C=E9=A2=84=E5=8F=96=E2=80=9D=E8=AE=BF=E9=
+=97=AE=E3=80=82=E5=90=8C=E6=97=B6=E8=A6=81=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=
+=A7=82=E6=B5=8B=E7=82=B9=E5=8F=AA=E8=AE=BE=E7=BD=AE=E5=9C=A8=E6=99=AE=E9=
+=80=9A=E8=AE=BF=E9=97=AE=E4=B8=8A=EF=BC=8C=E8=BF=99=E6=98=AF=E5=94=AF
+>=20
+>=20+=E4=B8=80=E4=B8=80=E4=B8=AA KCSAN =E4=BC=9A=E6=A8=A1=E6=8B=9F=E9=87=
+=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E7=9A=84=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=
+=8B=E3=80=82=E8=BF=99=E6=84=8F=E5=91=B3=E7=9D=80=E6=A0=87=E8=AE=B0=E8=AE=
+=BF=E9=97=AE=E7=9A=84=E9=87=8D=E6=96=B0=E6=8E=92=E5=BA=8F=E4=B8=8D=E4=BC=
+=9A=E8=A2=AB=E5=BB=BA=E6=A8=A1=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=8A=E8=BF=B0=E6=83=85=E5=86=B5=E7=9A=84=E4=B8=80=E4=B8=AA=E5=
+=90=8E=E6=9E=9C=E6=98=AF=E8=8E=B7=E5=8F=96=E6=93=8D=E4=BD=9C=E4=B8=8D=E9=
+=9C=80=E8=A6=81=E5=B1=8F=E9=9A=9C=E6=8F=92=E6=A1=A9=EF=BC=88=E4=B8=8D=E9=
+=9C=80=E8=A6=81=E9=A2=84=E5=8F=96=EF=BC=89=E3=80=82=E6=AD=A4=E5=A4=96=EF=
+=BC=8C=E5=BC=95=E5=85=A5=E5=9C=B0=E5=9D=80=E6=88=96=E6=8E=A7=E5=88=B6
+>=20
+>=20+=E4=BE=9D=E8=B5=96=E7=9A=84=E6=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=
+=B8=8D=E9=9C=80=E8=A6=81=E7=89=B9=E6=AE=8A=E5=A4=84=E7=90=86=EF=BC=88=E6=
+=A0=87=E8=AE=B0=E8=AE=BF=E9=97=AE=E4=B8=8D=E8=83=BD=E9=87=8D=E6=96=B0=E6=
+=8E=92=E5=BA=8F=EF=BC=8C=E5=90=8E=E7=BB=AD=E4=BE=9D=E8=B5=96=E7=9A=84=E8=
+=AE=BF=E9=97=AE=E4=B8=8D=E8=83=BD=E8=A2=AB=E9=A2=84=E5=8F=96=EF=BC=89
+>=20
+>=20+=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=85=B3=E9=94=AE=E5=B1=9E=E6=80=A7
+>=20
+>=20+~~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+1. **=E5=86=85=E5=AD=98=E5=BC=80=E9=94=80**=EF=BC=9A=E6=95=B4=E4=BD=
+=93=E7=9A=84=E5=86=85=E5=AD=98=E5=BC=80=E9=94=80=E5=8F=AA=E6=9C=89=E5=87=
+=A0 MiB=EF=BC=8C=E5=8F=96=E5=86=B3=E4=BA=8E=E9=85=8D=E7=BD=AE=E3=80=82=E5=
+=BD=93=E5=89=8D=E7=9A=84=E5=AE=9E=E7=8E=B0=E6=98=AF=E4=BD=BF=E7=94=A8=E4=
+=B8=80=E4=B8=AA=E5=B0=8F=E9=95=BF
+>=20
+>=20+ =E6=95=B4=E5=9E=8B=E6=95=B0=E7=BB=84=E6=9D=A5=E7=BC=96=E7=A0=81=E8=
+=A7=82=E6=B5=8B=E7=82=B9=E4=BF=A1=E6=81=AF=EF=BC=8C=E5=87=A0=E4=B9=8E=E5=
+=8F=AF=E4=BB=A5=E5=BF=BD=E7=95=A5=E4=B8=8D=E8=AE=A1=E3=80=82
+>=20
+>=20+
+>=20
+>=20+2. **=E6=80=A7=E8=83=BD=E5=BC=80=E9=94=80**=EF=BC=9AKCSAN =E7=9A=84=
+=E8=BF=90=E8=A1=8C=E6=97=B6=E6=97=A8=E5=9C=A8=E6=80=A7=E8=83=BD=E5=BC=80=
+=E9=94=80=E6=9C=80=E5=B0=8F=E5=8C=96=EF=BC=8C=E4=BD=BF=E7=94=A8=E4=B8=80=
+=E4=B8=AA=E9=AB=98=E6=95=88=E7=9A=84=E8=A7=82=E6=B5=8B=E7=82=B9=E7=BC=96=
+=E7=A0=81=EF=BC=8C=E5=9C=A8
+>=20
+>=20+ =E5=BF=AB=E9=80=9F=E8=B7=AF=E5=BE=84=E4=B8=AD=E4=B8=8D=E9=9C=80=E8=
+=A6=81=E8=8E=B7=E5=8F=96=E4=BB=BB=E4=BD=95=E9=94=81=E3=80=82=E5=9C=A8=E6=
+=8B=A5=E6=9C=89 8 =E4=B8=AA CPU =E7=9A=84=E7=B3=BB=E7=BB=9F=E4=B8=8A=E7=
+=9A=84=E5=86=85=E6=A0=B8=E5=90=AF=E5=8A=A8=E6=9D=A5=E8=AF=B4=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+ - =E4=BD=BF=E7=94=A8=E9=BB=98=E8=AE=A4 KCSAN =E9=85=8D=E7=BD=AE=E6=
+=97=B6=EF=BC=8C=E6=80=A7=E8=83=BD=E4=B8=8B=E9=99=8D 5 =E5=80=8D=EF=BC=9B
+>=20
+>=20+ - =E4=BB=85=E5=9B=A0=E8=BF=90=E8=A1=8C=E6=97=B6=E5=BF=AB=E9=80=9F=
+=E8=B7=AF=E5=BE=84=E5=BC=80=E9=94=80=E5=AF=BC=E8=87=B4=E6=80=A7=E8=83=BD=
+=E4=B8=8B=E9=99=8D 2.8 =E5=80=8D=EF=BC=88=E8=AE=BE=E7=BD=AE=E9=9D=9E=E5=
+=B8=B8=E5=A4=A7=E7=9A=84
+>=20
+>=20+ ``KCSAN_SKIP_WATCH`` =E5=B9=B6=E5=8F=96=E6=B6=88=E8=AE=BE=E7=BD=AE =
+``KCSAN_SKIP_WATCH_RANDOMIZE``=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+3. **=E6=B3=A8=E8=A7=A3=E5=BC=80=E9=94=80**=EF=BC=9AKCSAN =E8=BF=90=
+=E8=A1=8C=E6=97=B6=E4=B9=8B=E5=A4=96=E9=9C=80=E8=A6=81=E7=9A=84=E6=B3=A8=
+=E9=87=8A=E5=BE=88=E5=B0=91=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E9=9A=8F=
+=E7=9D=80=E5=86=85=E6=A0=B8=E7=9A=84=E5=8F=91=E5=B1=95=E7=BB=B4=E6=8A=A4=
+=E7=9A=84=E5=BC=80
+>=20
+>=20+ =E9=94=80=E4=B9=9F=E5=BE=88=E5=B0=8F=E3=80=82
+>=20
+>=20+
+>=20
+>=20+4. **=E6=A3=80=E6=B5=8B=E8=AE=BE=E5=A4=87=E7=9A=84=E7=AB=9E=E4=BA=89=
+=E5=86=99=E5=85=A5**=EF=BC=9A=E7=94=B1=E4=BA=8E=E8=AE=BE=E7=BD=AE=E8=A7=
+=82=E6=B5=8B=E7=82=B9=E6=97=B6=E4=BC=9A=E6=A3=80=E6=9F=A5=E6=95=B0=E6=8D=
+=AE=E5=80=BC=EF=BC=8C=E8=AE=BE=E5=A4=87=E7=9A=84=E7=AB=9E=E4=BA=89=E5=86=
+=99=E5=85=A5=E4=B9=9F=E5=8F=AF=E4=BB=A5
+>=20
+>=20+ =E8=A2=AB=E6=A3=80=E6=B5=8B=E5=88=B0=E3=80=82
+>=20
+>=20+
+>=20
+>=20+5. **=E5=86=85=E5=AD=98=E6=8E=92=E5=BA=8F**=EF=BC=9AKCSAN =E5=8F=AA=
+=E4=BA=86=E8=A7=A3=E4=B8=80=E9=83=A8=E5=88=86 LKMM =E6=8E=92=E5=BA=8F=E8=
+=A7=84=E5=88=99=EF=BC=9B=E8=BF=99=E5=8F=AF=E8=83=BD=E4=BC=9A=E5=AF=BC=E8=
+=87=B4=E6=BC=8F=E6=8A=A5=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=EF=BC=88
+>=20
+>=20+ =E5=81=87=E9=98=B4=E6=80=A7=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+6. **=E5=88=86=E6=9E=90=E5=87=86=E7=A1=AE=E7=8E=87**=EF=BC=9A =E5=AF=
+=B9=E4=BA=8E=E8=A7=82=E5=AF=9F=E5=88=B0=E7=9A=84=E6=89=A7=E8=A1=8C=EF=BC=
+=8C=E7=94=B1=E4=BA=8E=E4=BD=BF=E7=94=A8=E9=87=87=E6=A0=B7=E7=AD=96=E7=95=
+=A5=EF=BC=8C=E5=88=86=E6=9E=90=E6=98=AF * =E4=B8=8D=E5=81=A5=E5=85=A8 * =
+=E7=9A=84
+>=20
+>=20+ =EF=BC=88=E5=8F=AF=E8=83=BD=E6=9C=89=E5=81=87=E9=98=B4=E6=80=A7=EF=
+=BC=89=EF=BC=8C=E4=BD=86=E6=9C=9F=E6=9C=9B=E5=BE=97=E5=88=B0=E5=AE=8C=E6=
+=95=B4=E7=9A=84=E5=88=86=E6=9E=90=EF=BC=88=E6=B2=A1=E6=9C=89=E5=81=87=E9=
+=98=B3=E6=80=A7=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E8=80=83=E8=99=91=E7=9A=84=E6=9B=BF=E4=BB=A3=E6=96=B9=E6=A1=88
+>=20
+>=20+-------------------
+>=20
+>=20+
+>=20
+>=20+=E4=B8=80=E4=B8=AA=E5=86=85=E6=A0=B8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
+=BA=89=E6=A3=80=E6=B5=8B=E7=9A=84=E6=9B=BF=E4=BB=A3=E6=96=B9=E6=B3=95=E6=
+=98=AF `Kernel Thread Sanitizer (KTSAN)
+>=20
+>=20+<https://github.com/google/ktsan/wiki>%60_%E3%80%82KTSAN https://git=
+hub.com/google/ktsan/wiki%3E%60_%E3%80%82KTSAN  =E6=98=AF=E4=B8=80=E4=B8=
+=AA=E5=85=88=E8=A1=8C=E5=8F=91=E7=94=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=
+=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E5=99=A8
+>=20
+>=20+=EF=BC=8C=E5=AE=83=E6=98=BE=E5=BC=8F=E5=BB=BA=E7=AB=8B=E5=86=85=E5=
+=AD=98=E6=93=8D=E4=BD=9C=E4=B9=8B=E9=97=B4=E7=9A=84=E5=85=88=E8=A1=8C=E5=
+=8F=91=E7=94=9F=E9=A1=BA=E5=BA=8F=EF=BC=8C=E8=BF=99=E5=8F=AF=E4=BB=A5=E7=
+=94=A8=E6=9D=A5=E7=A1=AE=E5=AE=9A
+>=20
+>=20+`=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89`_ =E4=B8=AD=E5=AE=9A=E4=B9=89=
+=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=BA=E4=BA=86=E5=BB=BA=E7=AB=8B=E6=AD=A3=E7=A1=AE=E7=9A=84=E5=
+=85=88=E8=A1=8C=E5=8F=91=E7=94=9F=E5=85=B3=E7=B3=BB=EF=BC=8CKTSAN =E5=BF=
+=85=E9=A1=BB=E4=BA=86=E8=A7=A3 LKMM =E7=9A=84=E6=89=80=E6=9C=89=E6=8E=92=
+=E5=BA=8F=E8=A7=84=E5=88=99=E5=92=8C=E5=90=8C=E6=AD=A5=E5=8E=9F=E8=AF=AD=
+=E3=80=82=E4=B8=8D=E5=B9=B8
+>=20
+>=20+=E7=9A=84=E6=98=AF=EF=BC=8C=E4=BB=BB=E4=BD=95=E9=81=97=E6=BC=8F=E9=
+=83=BD=E4=BC=9A=E5=AF=BC=E8=87=B4=E5=A4=A7=E9=87=8F=E7=9A=84=E5=81=87=E9=
+=98=B3=E6=80=A7=EF=BC=8C=E8=BF=99=E5=9C=A8=E5=8C=85=E5=90=AB=E4=BC=97=E5=
+=A4=9A=E8=87=AA=E5=AE=9A=E4=B9=89=E5=90=8C=E6=AD=A5=E6=9C=BA=E5=88=B6=E7=
+=9A=84=E5=86=85=E6=A0=B8=E4=B8=8A=E4=B8=8B=E6=96=87=E4=B8=AD=E7=89=B9
+>=20
+>=20+=E5=88=AB=E6=9C=89=E5=AE=B3=E3=80=82=E4=B8=BA=E4=BA=86=E8=B7=9F=E8=
+=B8=AA=E5=89=8D=E5=9B=A0=E5=90=8E=E6=9E=9C=E5=85=B3=E7=B3=BB=EF=BC=8CKTSA=
+N =E7=9A=84=E5=AE=9E=E7=8E=B0=E9=9C=80=E8=A6=81=E4=B8=BA=E6=AF=8F=E4=B8=
+=AA=E5=86=85=E5=AD=98=E4=BD=8D=E7=BD=AE=E6=8F=90=E4=BE=9B=E5=85=83=E6=95=
+=B0=E6=8D=AE=EF=BC=88=E5=BD=B1=E5=AD=90=E5=86=85
+>=20
+>=20+=E5=AD=98=EF=BC=89=EF=BC=8C=E8=BF=99=E6=84=8F=E5=91=B3=E7=9D=80=E6=
+=AF=8F=E9=A1=B5=E5=86=85=E5=AD=98=E5=AF=B9=E5=BA=94 4 =E9=A1=B5=E5=BD=B1=
+=E5=AD=90=E5=86=85=E5=AD=98=EF=BC=8C=E5=9C=A8=E5=A4=A7=E5=9E=8B=E7=B3=BB=
+=E7=BB=9F=E4=B8=8A=E5=8F=AF=E8=83=BD=E4=BC=9A=E5=B8=A6=E6=9D=A5=E6=95=B0=
+=E5=8D=81 GiB =E7=9A=84=E5=BC=80=E9=94=80
+>=20
+>=20+=E3=80=82
+>=20
+>=20\ No newline at end of file
+Let's add a blankline at end of file.
+
+BTW, the merge windows has open, so if you don't mind, could you send v2
+next week?
+
+Thanks,
+Yanteng
