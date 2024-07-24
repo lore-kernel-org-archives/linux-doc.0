@@ -1,510 +1,163 @@
-Received: from m35-116.mailgun.net (m35-116.mailgun.net [69.72.35.116])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA8C2595
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 16:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.72.35.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21871C696
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 16:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721837995; cv=none; b=Zuu1z8unZXjAU9OhsldtedN2t0BzrAAolXPfWYfh9ynOZ3IExa/eIEQZDkwODMLhHnW0KUcZNF/kB0XeHAW6dquwuScz6OnEvmdCErdMSbfq8SeWoI+cW9GtHCHagnifIKYbgPmHBiPUrPsaCmjGjjhZmr2iCt2UtXnUK5VttBE=
+	t=1721838360; cv=none; b=soHGtpCksVW58EqtKbrO7CJGyN9HIdWDbO5z2jurJuzbgQ9+oqBjYb/7xLkZPyfdITvmiNzwU1zgjjIKvlhWU5npZ/OW6A0phNEaAPXGZ2j6FEcOQFQldgGkvrpp1u15n7L9YSU397BJ0q90CCHGlLJgyvuD1+m8av/1eTp1Rx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721837995; c=relaxed/simple;
-	bh=/4Dw19IWRa6/tdm/qJEauEcfx/2asvQnwdpvcGWv4iA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LQfdRp6O8wWAvvDIq0y49UTbjELQCPxy81Y0huPGAP33g5cW/TOHpTRul5WiPVgWzKn4aWo7owHWdQNyjf3oO3yXGw2SZVgd6y4S5tU7V8x1vFA5efFp4yc57fEnBhmSyDBg4NL9RMkG2BeJjdvHK/81PW5w7MXSaU/GWjpXVMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=pass smtp.mailfrom=relay.vimeo.com; dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b=iEDnb+Sw; arc=none smtp.client-ip=69.72.35.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=relay.vimeo.com
+	s=arc-20240116; t=1721838360; c=relaxed/simple;
+	bh=AOGywo1iikFtBJXxpD5YsZIJ95hrAtPqukdcsVWqRio=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OUQdOaRqkzXEh1T09ODXZhRaoQBAMmtzRfP5juwvIKvORTjCCFLZTnqcu3r0oviYh3zlxm8DdG4MCJo8Yy1wmPNZa6CG77vKcX2wEYCEp3Rq4Mcwn9RsCi/YehpWJrlPFRAVtaPCY4PEK9F/pxDQFotL35AiYbbEdqaLP7U1QRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b=uEaY0P7x; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b="iEDnb+Sw"
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=relay.vimeo.com; q=dns/txt; s=mailo; t=1721837991; x=1721845191;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To: Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
- bh=heWQ7YrOsx+4DBKY279H6HgH8ge0lVhhSYfkiz6T6iE=;
- b=iEDnb+SwUdLTG9D0o+X/sXJlwcy0uQebJyyO8HaRalxye02kNZaffMXEHBq3RRER9UpROJ8/7TlxQJDsmHGMkJJ4wc70MOhYHGfauJrK/FZ2j0oOQ/tyaN6/DzOTuOUSLWHd0a2F5/zvwzjPWpYlQkQTxt73DHjyo9p1mAxfwPY=
-X-Mailgun-Sending-Ip: 69.72.35.116
-X-Mailgun-Sid: WyJhZDBhNyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5ZDJhMWMiXQ==
-Received: from smtp.vimeo.com (215.71.185.35.bc.googleusercontent.com [35.185.71.215])
- by f81c9394ec5c with SMTP id 66a129a68091003b4df3fe22 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 24 Jul 2024 16:19:50 GMT
-Sender: davidf=vimeo.com@relay.vimeo.com
-Received: from nutau (gke-sre-us-east1-main-4c35368b-n90a.c.vimeo-core.internal [10.56.27.205])
-	by smtp.vimeo.com (Postfix) with ESMTP id D08D363DD6;
-	Wed, 24 Jul 2024 16:19:49 +0000 (UTC)
-Received: by nutau (Postfix, from userid 1001)
-	id AB37FB4128D; Wed, 24 Jul 2024 12:19:49 -0400 (EDT)
-From: David Finkel <davidf@vimeo.com>
-To: Muchun Song <muchun.song@linux.dev>,
-	Tejun Heo <tj@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: core-services@vimeo.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Hocko <mhocko@kernel.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	David Finkel <davidf@vimeo.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 1/2] mm, memcg: cg2 memory{.swap,}.peak write handlers
-Date: Wed, 24 Jul 2024 12:19:41 -0400
-Message-Id: <20240724161942.3448841-2-davidf@vimeo.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240724161942.3448841-1-davidf@vimeo.com>
-References: <20240724161942.3448841-1-davidf@vimeo.com>
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20230601.gappssmtp.com header.i=@networkplumber-org.20230601.gappssmtp.com header.b="uEaY0P7x"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2c964f5a037so16842a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 09:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20230601.gappssmtp.com; s=20230601; t=1721838358; x=1722443158; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47rZGXNA+VPEE0h3H688PSCY3FqtCg4+Z4f3yZO4MI8=;
+        b=uEaY0P7xKtxJv/2X5WVnb0r4cJo6uzU5SP2RS1RC5gJDKUjzYnzwcCROyUhdYpemlN
+         MHoLdgRA78Ouewg6F09kaWLVllomyAE0lYzHMSM9GfN1JxZFfIKF5/JV/BmxkaUItF9w
+         LWReSf5RfH8ZBSedO/xX/23U5SkdypbA3sXd1FPKDjz73Mrc7FMNQFzr33iobtbMOTdy
+         tP4w4OWQ2qtq4jex34B4KlkCCXhuSC22pk72qZZaoL4adJoTtAXmsXcZJMuzIInAKx3i
+         cwrmldhYINE+XEXfQhqWCLlrc40PD8ZpYAZEbxySh4YgYaOeOjanozPKCI1Hv+x+Uxea
+         HD2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721838358; x=1722443158;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=47rZGXNA+VPEE0h3H688PSCY3FqtCg4+Z4f3yZO4MI8=;
+        b=sc1lwXx6DSANJhagNrUd2cGzKMn/IKtvpgj3q6MIqeSYim9a9D1mnLwN5XFcWEwcAh
+         +5mCofDUTLazzXkf9H9K3C016sC9qyTdphxq4hQvKXCWyCqmZD9AEVHvBw7lQnN+eVx3
+         vhgYlKWueQVv0CmVoZYCwh3FRR72Yb5naZNcGmK0e0KOgHrGBZhUY8x47pSAl6jZgdkT
+         vXK5gvefcT9xgoZ/U6PSuUvOMxYm8cDfRhPgLFbMFAaLVJ93BXBUHwx5sk//d+sGIRwV
+         f0l4EmwjXC45dbyRlOD4KIzLnWVB2AH1qOFieZ2O5VmEnGqwEeLh7ED5UI2GdGjX1Q8O
+         FRxA==
+X-Forwarded-Encrypted: i=1; AJvYcCWm3yM8A31U3Lna75iwq+oIfTgXA96BnJpSLiNvv74Oe9g0cmdLMvD57vvQENb3VqzGWkrFsthot9goNYlLFqcf28M5IVin0671
+X-Gm-Message-State: AOJu0Yxf/ib8B7FPbJgH6GBPANlW+ybpJlLqtHYmik9lO0/rapcDWJDb
+	30FWXhO7d23ocf+iQ1+AOn71YhYlYBnz8NfbD4ZenuUc6/9lwDHgK1hNHEfxHnU=
+X-Google-Smtp-Source: AGHT+IG37fSFaVfTdXtnEFGMTuetughKI1Zmm7Q9idfHFeWury0GvTkEpAx1HaZz6lMROu30tv4oTg==
+X-Received: by 2002:a17:90b:388d:b0:2c9:7616:dec7 with SMTP id 98e67ed59e1d1-2cf23770687mr13999a91.6.1721838357984;
+        Wed, 24 Jul 2024 09:25:57 -0700 (PDT)
+Received: from hermes.local (204-195-96-226.wavecable.com. [204.195.96.226])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cdb746f9a0sm1858462a91.38.2024.07.24.09.25.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 09:25:57 -0700 (PDT)
+Date: Wed, 24 Jul 2024 09:25:55 -0700
+From: Stephen Hemminger <stephen@networkplumber.org>
+To: <jiang.kun2@zte.com.cn>
+Cc: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+ <pabeni@redhat.com>, <corbet@lwn.net>, <dsahern@kernel.org>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <fan.yu9@zte.com.cn>,
+ <xu.xin16@zte.com.cn>, <zhang.yunkai@zte.com.cn>, <tu.qiang35@zte.com.cn>,
+ <he.peilin@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: Re: [PATCH] net: Provide sysctl to tune local port range to IANA  
+ specification
+Message-ID: <20240724092555.3ecc2538@hermes.local>
+In-Reply-To: <202407241403542217WOxM8U3ABv-nWZT068xe@zte.com.cn>
+References: <202407241403542217WOxM8U3ABv-nWZT068xe@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Other mechanisms for querying the peak memory usage of either a process
-or v1 memory cgroup allow for resetting the high watermark. Restore
-parity with those mechanisms, but with a less racy API.
+On Wed, 24 Jul 2024 14:03:54 +0800 (CST)
+<jiang.kun2@zte.com.cn> wrote:
 
-For example:
- - Any write to memory.max_usage_in_bytes in a cgroup v1 mount resets
-   the high watermark.
- - writing "5" to the clear_refs pseudo-file in a processes's proc
-   directory resets the peak RSS.
+> From: Fan Yu <fan.yu9@zte.com.cn>
+> 
+> The Importance of Following IANA Standards
+> ========================================
+> IANA specifies User ports as 1024-49151, and it just so happens
+> that my application uses port 33060 (reserved for MySQL Database Extended),
+> which conflicts with the Linux default dynamic port range (32768-60999)[1].
+> 
+> In fact, IANA assigns numbers in port range from 32768 to 49151,
+> which is uniformly accepted by the industry. To do this,
+> it is necessary for the kernel to follow the IANA specification.
+> 
+> Drawbacks of existing implementations
+> ========================================
+> In past discussions, follow the IANA specification by modifying the
+> system defaults has been discouraged, which would greatly affect
+> existing users[2].
+> 
+> Theoretically, this can be done by tuning net.ipv4.local_port_range,
+> but there are inconveniences such as:
+> (1) For cloud-native scenarios, each container is expected to follow
+> the IANA specification uniformly, so it is necessary to do sysctl
+> configuration in each container individually, which increases the user's
+> resource management costs.
+> (2) For new applications, since sysctl(net.ipv4.local_port_range) is
+> isolated across namespaces, the container cannot inherit the host's value,
+> so after startup, it remains at the kernel default value of 32768-60999,
+> which reduces the ease of use of the system.
+> 
+> Solution
+> ========================================
+> In order to maintain compatibility, we provide a sysctl interface in
+> host namespace, which makes it easy to tune local port range to
+> IANA specification.
+> 
+> When ip_local_port_range_use_iana=1, the local port range of all network
+> namespaces is tuned to IANA specification (49152-60999), and IANA
+> specification is also used for newly created network namespaces. Therefore,
+> each container does not need to do sysctl settings separately, which
+> improves the convenience of configuration.
+> When ip_local_port_range_use_iana=0, the local port range of all network
+> namespaces are tuned to the original kernel defaults (32768-60999).
+> For example:
+> 	# cat /proc/sys/net/ipv4/ip_local_port_range 
+> 	32768   60999
+> 	# echo 1 > /proc/sys/net/ipv4/ip_local_port_range_use_iana
+> 	# cat /proc/sys/net/ipv4/ip_local_port_range 
+> 	49152   60999
+> 
+> 	# unshare -n
+> 	# cat /proc/sys/net/ipv4/ip_local_port_range 
+> 	49152   60999
+> 
+> Notes
+> ========================================
+> The lower value(49152), consistent with IANA dynamic port lower limit.
+> The upper limit value(60999), which differs from the IANA dynamic upper
+> limit due to the fact that Linux will use 61000-65535 as masquarading/NAT,
+> but this does not conflict with the IANA specification[3].
+> 
+> Note that following the above specification reduces the number of ephemeral
+> ports by half, increasing the risk of port exhaustion[2].
+> 
+> [1]:https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.txt
+> [2]:https://lore.kernel.org/all/bf42f6fd-cd06-02d6-d7b6-233a0602c437@gmail.com/
+> [3]:https://lore.kernel.org/all/20070512210830.514c7709@the-village.bc.nu/
+> 
+> Co-developed-by: Kun Jiang <jiang.kun2@zte.com.cn>
+> Signed-off-by: Fan Yu <fan.yu9@zte.com.cn>
+> Signed-off-by: Kun Jiang <jiang.kun2@zte.com.cn>
+> Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+> Reviewed-by: Yunkai Zhang <zhang.yunkai@zte.com.cn>
+> Reviewed-by: Qiang Tu <tu.qiang35@zte.com.cn>
+> Reviewed-by: Peilin He<he.peilin@zte.com.cn>
+> Cc: Yang Yang <yang.yang29@zte.com.cn>
+> ---
 
-This change is an evolution of a previous patch, which mostly copied the
-cgroup v1 behavior, however, there were concerns about races/ownership
-issues with a global reset, so instead this change makes the reset
-filedescriptor-local.
+Yet another NAK
 
-Writing a specific string to the memory.peak and memory.swap.peak
-pseudo-files reset the high watermark to the current usage for
-subsequent reads through that same fd.
+Rather than buggy and verbose new sysctl, why not just allow setting
+the port range you want through existing sysctls?
 
-Notably, following Johannes's suggestion, this implementation moves the
-O(fds that have written) behavior onto the fd write(2) path. Instead, on
-the page-allocation path, we simply add one additional watermark to
-conditionally bump per-hierarchy level in the page-counter.
-
-Additionally, this takes Longman's suggestion of nesting the
-page-charging-path checks for the two watermarks to reduce the number of
-common-case comparisons.
-
-This behavior is particularly useful for work scheduling systems that
-need to track memory usage of worker processes/cgroups per-work-item.
-Since memory can't be squeezed like CPU can (the OOM-killer has
-opinions), these systems need to track the peak memory usage to compute
-system/container fullness when binpacking workitems.
-
-Most notably, Vimeo's use-case involves a system that's doing global
-binpacking across many Kubernetes pods/containers, and while we can use
-PSI for some local decisions about overload, we strive to avoid packing
-workloads too tightly in the first place. To facilitate this, we track
-the peak memory usage. However, since we run with long-lived workers (to
-amortize startup costs) we need a way to track the high watermark while
-a work-item is executing. Polling runs the risk of missing short spikes
-that last for timescales below the polling interval, and peak memory
-tracking at the cgroup level is otherwise perfect for this use-case.
-
-As this data is used to ensure that binpacked work ends up with
-sufficient headroom, this use-case mostly avoids the inaccuracies
-surrounding reclaimable memory.
-
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Suggested-by: Waiman Long <longman@redhat.com>
-Signed-off-by: David Finkel <davidf@vimeo.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  26 ++++--
- include/linux/cgroup-defs.h             |   5 +
- include/linux/cgroup.h                  |   3 +
- include/linux/memcontrol.h              |   5 +
- include/linux/page_counter.h            |  10 +-
- kernel/cgroup/cgroup-internal.h         |   2 +
- kernel/cgroup/cgroup.c                  |   7 ++
- mm/memcontrol.c                         | 117 ++++++++++++++++++++++--
- mm/page_counter.c                       |  30 ++++--
- 9 files changed, 178 insertions(+), 27 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 86311c2907cd3..01554cf6e55b4 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1333,11 +1333,16 @@ The following nested keys are defined.
- 	all the existing limitations and potential future extensions.
- 
-   memory.peak
--	A read-only single value file which exists on non-root
--	cgroups.
-+	A read-write single value file which exists on non-root cgroups.
-+
-+	The max memory usage recorded for the cgroup and its descendants since
-+	either the creation of the cgroup or the most recent reset for that FD.
- 
--	The max memory usage recorded for the cgroup and its
--	descendants since the creation of the cgroup.
-+	A write of the string "reset" to this file resets it to the
-+	current memory usage for subsequent reads through the same
-+	file descriptor.
-+	Attempts to write any other non-empty string will return EINVAL
-+	(modulo leading and trailing whitespace).
- 
-   memory.oom.group
- 	A read-write single value file which exists on non-root
-@@ -1663,11 +1668,16 @@ The following nested keys are defined.
- 	Healthy workloads are not expected to reach this limit.
- 
-   memory.swap.peak
--	A read-only single value file which exists on non-root
--	cgroups.
-+	A read-write single value file which exists on non-root cgroups.
-+
-+	The max swap usage recorded for the cgroup and its descendants since
-+	the creation of the cgroup or the most recent reset for that FD.
- 
--	The max swap usage recorded for the cgroup and its
--	descendants since the creation of the cgroup.
-+	A write of the string "reset" to this file resets it to the
-+	current memory usage for subsequent reads through the same
-+	file descriptor.
-+	Attempts to write any other non-empty string will return EINVAL
-+	(modulo leading and trailing whitespace).
- 
-   memory.swap.max
- 	A read-write single value file which exists on non-root
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index ae04035b6cbe5..2188ea76ab327 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -775,6 +775,11 @@ struct cgroup_subsys {
- 
- extern struct percpu_rw_semaphore cgroup_threadgroup_rwsem;
- 
-+struct cgroup_of_peak {
-+	long			value;
-+	struct list_head	list;
-+};
-+
- /**
-  * cgroup_threadgroup_change_begin - threadgroup exclusion for cgroups
-  * @tsk: target task
-diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
-index c60ba0ab14627..3e0563753cc3e 100644
---- a/include/linux/cgroup.h
-+++ b/include/linux/cgroup.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/sched.h>
- #include <linux/nodemask.h>
-+#include <linux/list.h>
- #include <linux/rculist.h>
- #include <linux/cgroupstats.h>
- #include <linux/fs.h>
-@@ -854,4 +855,6 @@ static inline void cgroup_bpf_put(struct cgroup *cgrp) {}
- 
- struct cgroup *task_get_cgroup1(struct task_struct *tsk, int hierarchy_id);
- 
-+struct cgroup_of_peak *of_peak(struct kernfs_open_file *of);
-+
- #endif /* _LINUX_CGROUP_H */
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 7e2eb091049a0..4fa4f0e931d26 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -192,6 +192,11 @@ struct mem_cgroup {
- 		struct page_counter memsw;	/* v1 only */
- 	};
- 
-+	/* registered local peak watchers */
-+	struct list_head memory_peaks;
-+	struct list_head swap_peaks;
-+	spinlock_t	 peaks_lock;
-+
- 	/* Range enforcement for interrupt charges */
- 	struct work_struct high_work;
- 
-diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
-index 904c52f97284f..e1295e3e1f195 100644
---- a/include/linux/page_counter.h
-+++ b/include/linux/page_counter.h
-@@ -26,6 +26,7 @@ struct page_counter {
- 	atomic_long_t children_low_usage;
- 
- 	unsigned long watermark;
-+	unsigned long local_watermark;
- 	unsigned long failcnt;
- 
- 	/* Keep all the read most fields in a separete cacheline. */
-@@ -78,7 +79,14 @@ int page_counter_memparse(const char *buf, const char *max,
- 
- static inline void page_counter_reset_watermark(struct page_counter *counter)
- {
--	counter->watermark = page_counter_read(counter);
-+	unsigned long usage = page_counter_read(counter);
-+
-+	/*
-+	 * Update local_watermark first, so it's always <= watermark
-+	 * (modulo CPU/compiler re-ordering)
-+	 */
-+	counter->local_watermark = usage;
-+	counter->watermark = usage;
- }
- 
- void page_counter_calculate_protection(struct page_counter *root,
-diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
-index 520b90dd97eca..c964dd7ff967a 100644
---- a/kernel/cgroup/cgroup-internal.h
-+++ b/kernel/cgroup/cgroup-internal.h
-@@ -81,6 +81,8 @@ struct cgroup_file_ctx {
- 	struct {
- 		struct cgroup_pidlist	*pidlist;
- 	} procs1;
-+
-+	struct cgroup_of_peak peak;
- };
- 
- /*
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index c8e4b62b436a4..0a97cb2ef1245 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -1972,6 +1972,13 @@ static int cgroup2_parse_param(struct fs_context *fc, struct fs_parameter *param
- 	return -EINVAL;
- }
- 
-+struct cgroup_of_peak *of_peak(struct kernfs_open_file *of)
-+{
-+	struct cgroup_file_ctx *ctx = of->priv;
-+
-+	return &ctx->peak;
-+}
-+
- static void apply_cgroup_root_flags(unsigned int root_flags)
- {
- 	if (current->nsproxy->cgroup_ns == &init_cgroup_ns) {
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 9603717886877..a6998a194c6b4 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -25,6 +25,7 @@
-  * Copyright (C) 2020 Alibaba, Inc, Alex Shi
-  */
- 
-+#include <linux/cgroup-defs.h>
- #include <linux/page_counter.h>
- #include <linux/memcontrol.h>
- #include <linux/cgroup.h>
-@@ -41,6 +42,7 @@
- #include <linux/rcupdate.h>
- #include <linux/limits.h>
- #include <linux/export.h>
-+#include <linux/list.h>
- #include <linux/mutex.h>
- #include <linux/rbtree.h>
- #include <linux/slab.h>
-@@ -3558,6 +3560,9 @@ static struct mem_cgroup *mem_cgroup_alloc(struct mem_cgroup *parent)
- 
- 	INIT_WORK(&memcg->high_work, high_work_func);
- 	vmpressure_init(&memcg->vmpressure);
-+	INIT_LIST_HEAD(&memcg->memory_peaks);
-+	INIT_LIST_HEAD(&memcg->swap_peaks);
-+	spin_lock_init(&memcg->peaks_lock);
- 	memcg->socket_pressure = jiffies;
- 	memcg1_memcg_init(memcg);
- 	memcg->kmemcg_id = -1;
-@@ -3950,12 +3955,90 @@ static u64 memory_current_read(struct cgroup_subsys_state *css,
- 	return (u64)page_counter_read(&memcg->memory) * PAGE_SIZE;
- }
- 
--static u64 memory_peak_read(struct cgroup_subsys_state *css,
--			    struct cftype *cft)
-+static int peak_show(struct seq_file *sf, void *v, struct page_counter *pc)
- {
--	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-+	struct cgroup_of_peak *ofp = of_peak(sf->private);
-+	u64 fd_peak = READ_ONCE(ofp->value), peak;
-+
-+	/* User wants global or local peak? */
-+	if (fd_peak == -1UL)
-+		peak = pc->watermark;
-+	else
-+		peak = max(fd_peak, pc->local_watermark);
-+
-+	seq_printf(sf, "%llu\n", peak * PAGE_SIZE);
-+	return 0;
-+}
- 
--	return (u64)memcg->memory.watermark * PAGE_SIZE;
-+static int memory_peak_show(struct seq_file *sf, void *v)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(seq_css(sf));
-+
-+	return peak_show(sf, v, &memcg->memory);
-+}
-+
-+static int peak_open(struct kernfs_open_file *of)
-+{
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+
-+	ofp->value = -1;
-+	return 0;
-+}
-+
-+static void peak_release(struct kernfs_open_file *of)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+
-+	if (ofp->value == -1) {
-+		/* fast path (no writes on this fd) */
-+		return;
-+	}
-+	spin_lock(&memcg->peaks_lock);
-+	list_del(&ofp->list);
-+	spin_unlock(&memcg->peaks_lock);
-+}
-+
-+static ssize_t peak_write(struct kernfs_open_file *of, char *buf, size_t nbytes,
-+			  loff_t off, struct page_counter *pc,
-+			  struct list_head *watchers)
-+{
-+	unsigned long usage;
-+	struct cgroup_of_peak *peer_ctx;
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+
-+	buf = strstrip(buf);
-+	/* Only allow "reset" to keep the API clear */
-+	if (strcmp(buf, "reset"))
-+		return -EINVAL;
-+
-+	spin_lock(&memcg->peaks_lock);
-+
-+	pc->local_watermark = page_counter_read(pc);
-+	usage = pc->local_watermark;
-+
-+	list_for_each_entry(peer_ctx, watchers, list)
-+		if (usage > peer_ctx->value)
-+			peer_ctx->value = usage;
-+
-+	/* initial write, register watcher */
-+	if (ofp->value == -1)
-+		list_add(&ofp->list, watchers);
-+
-+	ofp->value = usage;
-+	spin_unlock(&memcg->peaks_lock);
-+
-+	return nbytes;
-+}
-+
-+static ssize_t memory_peak_write(struct kernfs_open_file *of, char *buf,
-+				 size_t nbytes, loff_t off)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+
-+	return peak_write(of, buf, nbytes, off, &memcg->memory,
-+			  &memcg->memory_peaks);
- }
- 
- static int memory_min_show(struct seq_file *m, void *v)
-@@ -4307,7 +4390,10 @@ static struct cftype memory_files[] = {
- 	{
- 		.name = "peak",
- 		.flags = CFTYPE_NOT_ON_ROOT,
--		.read_u64 = memory_peak_read,
-+		.open = peak_open,
-+		.release = peak_release,
-+		.seq_show = memory_peak_show,
-+		.write = memory_peak_write,
- 	},
- 	{
- 		.name = "min",
-@@ -5099,12 +5185,20 @@ static u64 swap_current_read(struct cgroup_subsys_state *css,
- 	return (u64)page_counter_read(&memcg->swap) * PAGE_SIZE;
- }
- 
--static u64 swap_peak_read(struct cgroup_subsys_state *css,
--			  struct cftype *cft)
-+static int swap_peak_show(struct seq_file *sf, void *v)
- {
--	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(seq_css(sf));
-+
-+	return peak_show(sf, v, &memcg->swap);
-+}
-+
-+static ssize_t swap_peak_write(struct kernfs_open_file *of, char *buf,
-+			       size_t nbytes, loff_t off)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
- 
--	return (u64)memcg->swap.watermark * PAGE_SIZE;
-+	return peak_write(of, buf, nbytes, off, &memcg->swap,
-+			  &memcg->swap_peaks);
- }
- 
- static int swap_high_show(struct seq_file *m, void *v)
-@@ -5188,7 +5282,10 @@ static struct cftype swap_files[] = {
- 	{
- 		.name = "swap.peak",
- 		.flags = CFTYPE_NOT_ON_ROOT,
--		.read_u64 = swap_peak_read,
-+		.open = peak_open,
-+		.release = peak_release,
-+		.seq_show = swap_peak_show,
-+		.write = swap_peak_write,
- 	},
- 	{
- 		.name = "swap.events",
-diff --git a/mm/page_counter.c b/mm/page_counter.c
-index 0153f5bb31611..ad9bdde5d5d20 100644
---- a/mm/page_counter.c
-+++ b/mm/page_counter.c
-@@ -79,9 +79,22 @@ void page_counter_charge(struct page_counter *counter, unsigned long nr_pages)
- 		/*
- 		 * This is indeed racy, but we can live with some
- 		 * inaccuracy in the watermark.
-+		 *
-+		 * Notably, we have two watermarks to allow for both a globally
-+		 * visible peak and one that can be reset at a smaller scope.
-+		 *
-+		 * Since we reset both watermarks when the global reset occurs,
-+		 * we can guarantee that watermark >= local_watermark, so we
-+		 * don't need to do both comparisons every time.
-+		 *
-+		 * On systems with branch predictors, the inner condition should
-+		 * be almost free.
- 		 */
--		if (new > READ_ONCE(c->watermark))
--			WRITE_ONCE(c->watermark, new);
-+		if (new > READ_ONCE(c->local_watermark)) {
-+			WRITE_ONCE(c->local_watermark, new);
-+			if (new > READ_ONCE(c->watermark))
-+				WRITE_ONCE(c->watermark, new);
-+		}
- 	}
- }
- 
-@@ -129,12 +142,13 @@ bool page_counter_try_charge(struct page_counter *counter,
- 			goto failed;
- 		}
- 		propagate_protected_usage(c, new);
--		/*
--		 * Just like with failcnt, we can live with some
--		 * inaccuracy in the watermark.
--		 */
--		if (new > READ_ONCE(c->watermark))
--			WRITE_ONCE(c->watermark, new);
-+
-+		/* see comment on page_counter_charge */
-+		if (new > READ_ONCE(c->local_watermark)) {
-+			WRITE_ONCE(c->local_watermark, new);
-+			if (new > READ_ONCE(c->watermark))
-+				WRITE_ONCE(c->watermark, new);
-+		}
- 	}
- 	return true;
- 
--- 
-2.40.1
-
+You can configure this through existing sysctl files and startup in your distro.
