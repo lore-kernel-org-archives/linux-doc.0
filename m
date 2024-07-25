@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558BA19AD8E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AFF19B3CA;
 	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721913639; cv=none; b=o8am78CT76Ba9hCyPVSvogaNcu6gLwgtxp10AYd657j6NDWFPw2j7Q87GXp/4uRZjvgOk/qdCHYgSWreh+YYlacbWm21E5l0MkTVPFP7QKWXbk/sjM7fRjtdxd2L3YvxcAtjKNEXJYI3dqVJRFhPmq/n24D+x7yDi8wuRra9GTI=
+	t=1721913639; cv=none; b=FsMhwl8hGJe/mvUpYLx8VZSE3cIUMrIDtewak3zXeHlU9fBqC1fdTruN5nHaqWtzDHfZCXhsF36aP7Vgt/9ujF9AfN8bjELpPE/9Z1teh03G4Lpp7YWZL1wvsfKpHo+9WLGg6EwfCGYR8uY5cNtcy6LwZ8juu1G6wsn274rX7Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1721913639; c=relaxed/simple;
-	bh=WAxeB6xNpDOJhk2GtvF3lDer+9cUbsR1XhVgScJOEaQ=;
+	bh=VU016AbJh5L3ZwL7kApcuoKicYHOtsSYeeuPsrXTct4=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=i2C5TUkQfMg00HnP4u8+xGqNDgYWNL/LJIi5S3t2SrAjDYA0bltGRyY5Q3pNvgRHeORNbQNVkiAR2NVySCVlsmS7SZA2h7thr6rF98/efG9EJ5o3XaG0W87bxlGJyNl8/QgDw7IZlhJ2RNn6J1imazKbDtd6vc+8smwCbocGlzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6DUOhBp; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=bQXnKrCfsuojNbESgq8aStXz9HuZvTrfm8bjPM2tvcszCEKYf7Cy1S31GSlhD61CRMLxOlaPVIajOlh/uD41urqXZ738J7aKR+X7/BJsSAYhv0/emjvPwcpOorCnjLdBvL0ZMOhkL+LRUm+AtXGcFZtCtXa2/c9mgC9mr5oKiy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=siZHhB8f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6DUOhBp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DCD2C4AF0C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="siZHhB8f"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5B511C4AF12;
 	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1721913639;
-	bh=WAxeB6xNpDOJhk2GtvF3lDer+9cUbsR1XhVgScJOEaQ=;
+	bh=VU016AbJh5L3ZwL7kApcuoKicYHOtsSYeeuPsrXTct4=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=T6DUOhBpOSV58MvhGNSkQh/NCeOp04CvO3vLRRO5e39aRRvPY+YWBmEK2NbHkLbLU
-	 PgbDAS3On4M2FcbHAfeOqsstMgmCJ56Vr+ae+niaumiO0955+dt38qDUxI6k6f7acE
-	 ItmwZG/XsMrgordwf1jNxvEh5DABQMfiydai3flYhJDiQKL5949MS9Tf/3GMNjd54h
-	 3QpbRkQBvuxGMZz8cSTE8eZYjCRvd66wmkW8QxPKgutIwXY+pRxna0ieC6Vni7mv3y
-	 goQfyh9OtKfo7ZJv9bzSLpNOrBFjlKYjGv/wYVhjrAvIWzyTCudBsryXj6EiOjCU07
-	 iNRqP5eB4eb7Q==
+	b=siZHhB8fFv/POj2NExEStNEaE5qOfcNIwFWu1U3nv7iaTOrI3JWkKOErwLgTIZMt5
+	 TtXSLL/q/csMTLoavFLERs4L+FjXjMv+CTvPFxSvtrsZm8BIUdvmM7pGOejtt3WcRD
+	 SystoXljQGVtVhWm0iUcuANBf+n0GKpAh+3sVGGvQjYY/itUZNI6oHTGKpeu85P2tv
+	 7z9ZQ8/I23tWOCqg4EgBSgo+X7u1vqLKVVJvb3tw7PTggJj3Y+DpXtj/0p4ZY07zhU
+	 QOveMB0tsNWtmUjku2JOV06vjTyXsDRP6Hq+ixdR+/TI8m7D7J0uLtkVcazzYeRkMN
+	 V2P/+gsZz9vyQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1ADD1C4333D;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 523ACC4332D;
 	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,42 +37,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4] RISC-V: Provide the frequency of time CSR via hwprobe
+Subject: Re: [PATCH v2] riscv: Extend sv39 linear mapping max size to 128G
 From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <172191363910.6240.3368503310574547091.git-patchwork-notify@kernel.org>
+ <172191363932.6240.15191198914787494944.git-patchwork-notify@kernel.org>
 Date: Thu, 25 Jul 2024 13:20:39 +0000
-References: <20240702033731.71955-2-cuiyunhui@bytedance.com>
-In-Reply-To: <20240702033731.71955-2-cuiyunhui@bytedance.com>
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: linux-riscv@lists.infradead.org, punit.agrawal@bytedance.com,
- sunilvl@ventanamicro.com, jesse@rivosinc.com, jrtc27@jrtc27.com,
- corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, cleger@rivosinc.com, evan@rivosinc.com,
- conor.dooley@microchip.com, costa.shul@redhat.com, andy.chiu@sifive.com,
- samitolvanen@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, palmer@rivosinc.com, anup@brainfault.org
+References: <20240630110550.1731929-1-stuart.menefy@codasip.com>
+In-Reply-To: <20240630110550.1731929-1-stuart.menefy@codasip.com>
+To: Stuart Menefy <stuart.menefy@codasip.com>
+Cc: linux-riscv@lists.infradead.org, alexghiti@rivosinc.com, corbet@lwn.net,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
 Hello:
 
 This patch was applied to riscv/linux.git (for-next)
 by Palmer Dabbelt <palmer@rivosinc.com>:
 
-On Tue,  2 Jul 2024 11:37:31 +0800 you wrote:
-> From: Palmer Dabbelt <palmer@rivosinc.com>
+On Sun, 30 Jun 2024 12:05:49 +0100 you wrote:
+> This harmonizes all virtual addressing modes which can now all map
+> (PGDIR_SIZE * PTRS_PER_PGD) / 4 of physical memory.
 > 
-> The RISC-V architecture makes a real time counter CSR (via RDTIME
-> instruction) available for applications in U-mode but there is no
-> architected mechanism for an application to discover the frequency
-> the counter is running at. Some applications (e.g., DPDK) use the
-> time counter for basic performance analysis as well as fine grained
-> time-keeping.
+> The RISCV implementation of KASAN requires that the boundary between
+> shallow mappings are aligned on an 8G boundary. In this case we need
+> VMALLOC_START to be 8G aligned. So although we only need to move the
+> start of the linear mapping down by 4GiB to allow 128GiB to be mapped,
+> we actually move it down by 8GiB (creating a 4GiB hole between the
+> linear mapping and KASAN shadow space) to maintain the alignment
+> requirement.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v4] RISC-V: Provide the frequency of time CSR via hwprobe
-    https://git.kernel.org/riscv/c/2709e400c2e0
+  - [v2] riscv: Extend sv39 linear mapping max size to 128G
+    https://git.kernel.org/riscv/c/30c3ce044a70
 
 You are awesome, thank you!
 -- 
