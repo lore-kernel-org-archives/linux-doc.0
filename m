@@ -1,102 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558215C8FC;
-	Thu, 25 Jul 2024 21:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81663143889
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 21:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721942957; cv=none; b=uCiYQejkKDeNFwGrnC6E5rgZVdv0Vcfsp0AFhMgvOoujLtBildh27yLBwnBDro71RPyXyRCcd7hRvWRjKUBZx/U129F2MOSVL8ZjcHkXz8H6tiz1qc64u9cHN931IuBrRAmBs10ayJSoA6+kY62T90CHVx84EGnivFygQxHMldY=
+	t=1721944570; cv=none; b=qSmnVmJhYRAJLWTYF3ZZ7mbC71E9fTM6+kDU+L+cPJsC7u9FGA60MF3bwMRnJlR3/hgW1ygBu7MEZnx3TtfZcTEr5fcSgE2iaY1aBsPrmIni4aNebicGVzuuFQD+zT7hX9pg7RktXaVqwaIIlkFL8jfLcMd1WsGCPYdnJhzW6BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721942957; c=relaxed/simple;
-	bh=lnN5uNt25R6rIIaIjMOOnVgIMOYI1FYNCbwGHt7UT+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=FLZ7wM27uWFpC6J4NnxqjfV7Q2W0zLtp5nFAcVp2dHNjFKHzqmj5jM37XvyayrkUWgUqZAQCwLDLoLVgRhla8f5m/Kj/9LN7HnQ0hAfshnEUHLyExMQb8jOEVZRd5m4y108fW5CjcprmV+vAokZdQ8ARHQV6Mh94MP+N5+fJ9YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7uSG0EQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721944570; c=relaxed/simple;
+	bh=G0SV+4c0df7kDP/HmTtBo/ahkooNcX5psIcCqUvYfMo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mrC0tpxBavwQwrtnc1rk68zt8I5QG+a5qoZoj9JVs+bqPiFQHbDH/c6RTLeANIfFj4rPDN9sZdZex2S6HzHu7DIkKisFRt+0z9z19V/0VkKvyf9jrCNdttQv/yDNHmPm+SoDWANS5xJQJowaCpo4HZpzthMDmSS5lweFoRce2z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uqmAgIJK; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7uSG0EQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 999D0C116B1;
-	Thu, 25 Jul 2024 21:29:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721942956;
-	bh=lnN5uNt25R6rIIaIjMOOnVgIMOYI1FYNCbwGHt7UT+Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=I7uSG0EQKSCpqnl8k630y+G2a/d+iURlIhmmLhzu5a12ewKrdwMpdyAWqYfCPjlZx
-	 C5pFEjRpNNHjOmFpyF9hJGWNtcLWMd3G3c/4/r/CCUFV6oiyNVBv9bJEDZe9WtSoZ1
-	 AeXaGs03fedb7Zx2BVuHvYTkNMT/yS4GMDOXsJeWumnsoZJVO4BoIwF7tvCkxYtpQi
-	 TsPHWrgb4zpkYveRsySqJ9mdoBgojGr9OA3iqIekQ/e+lpQFiQkTEiSRsT5qGqkPde
-	 OYndUBteZH7p9W6PExNJcy767hejpsRouA+QwhvE3wd6ZLbPS8w+MhpKB7mxWlSsp4
-	 rR3fe24a/uC4A==
-Date: Thu, 25 Jul 2024 16:29:15 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com,
-	bhelgaas@google.com
-Subject: Re: [PATCH V3 03/10] PCI/TPH: Add pci=notph to prevent use of TPH
-Message-ID: <20240725212915.GA860294@bhelgaas>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uqmAgIJK"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-44fee2bfd28so15641cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 14:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721944567; x=1722549367; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o5zN0Ee2V5PvZ/loIwKVW1h0fdtsfazaCJoYyQYKYrE=;
+        b=uqmAgIJKpg5s7UutiKdKoBc9GtLlyX1yNbNEaw8svVLCSmzlfvDmhVQKD3jyO8T28p
+         qwUfXTbkWV4qB8LSsr6W/kjt9wk9NOOKzoxLDJTbdVSPKzq3tQCpq5OKaAwg8de2cOf9
+         V6nB+jT48JhIG+YAhOKN9dlfvY3XBkLnQqTLyI0OeoapAIH+iP/w+Imqubb4BLnmrpTe
+         Xyw23lWIAGiE64UG8GHlMN9fcaxF2BvMLPV4XZcShEuzE2iJ/HXmD34kaDIQdHktGFvA
+         9fjq8hFEZSzhg9P89ZWDC+kP6aZm1sRJB/2xvArd9cDszcbN4oglmC6GNxXMvic5mEpd
+         GmGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721944567; x=1722549367;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o5zN0Ee2V5PvZ/loIwKVW1h0fdtsfazaCJoYyQYKYrE=;
+        b=a/MrQblV/XPIHnGxg65aNIHYxbmMTJ5mJrDuli0mYBjj5C3SRRLs2pm9J2g0CDrain
+         uT/BioKZUGUYtAfLEnLtDTrCrGw/5LuiR21HsYqOaz0mC7IwavsZCkRyO6Q4tPKMMtXw
+         er77fKoy8y6SnGWnqXPbzFvmPJV+gwoOnDiGZr/QPGF3ry2Qj3zueIbqfWUii7Ix+X/b
+         UvlBrqZXvXJo6RWElvDeKfFq+lZQ4KrR58wII1ZQrJwNkkI0RTojmCmUi3wrmH13coTC
+         W1+iqHnKJjbseXaE3AJV5Xr34SqK+EUV1GSe67QQDLpQij4eSRouQfEcRl6sjnsQGWNk
+         aDAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUZ/p0wzBCEe2YKWQJ56DyZq/Q91YawhtRIAVKyvQG5xj4UmaZ77OQVPKqNbsi/8WWcWe+PygoQo7AeOfPl6QvdF8wojW6inM4
+X-Gm-Message-State: AOJu0YxM8RORE0m9yu/FES5xI3up32Bnc7TD4pi3Xakr5keMCHK9sYJs
+	AwJlCiaozAZhAP3H9O3CYEW35o91vhQA+bQaZDIre5yVz0HJBcLpDqPOTcvPeskwB1xunkWbNqA
+	j6JiTtcu0sn1l0OVyZVNLg8uv0Je9X5ArAYmn
+X-Google-Smtp-Source: AGHT+IFhP5/yTm7ISgwUHXy+IaF0SeriofzfJKq8H3XwJMAsEhtvrR3NBZlrFcMQ5LfszxCadNdzcI48wvWetEqqHuE=
+X-Received: by 2002:a05:622a:134b:b0:447:e76a:c04b with SMTP id
+ d75a77b69052e-44ff3a6ea56mr930791cf.10.1721944567177; Thu, 25 Jul 2024
+ 14:56:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28b953c3-ef66-4bd2-a024-ec860399ffbf@amd.com>
+References: <20240724011037.3671523-1-jthoughton@google.com> <20240724011037.3671523-4-jthoughton@google.com>
+In-Reply-To: <20240724011037.3671523-4-jthoughton@google.com>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 25 Jul 2024 14:55:30 -0700
+Message-ID: <CADrL8HV5M-n72KDseDKWpGrUVMjC147Jqz98PxyG2ZeRVbFu8g@mail.gmail.com>
+Subject: Re: [PATCH v6 03/11] KVM: arm64: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Sean Christopherson <seanjc@google.com>, 
+	Shaoqin Huang <shahuang@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 24, 2024 at 03:05:59PM -0500, Wei Huang wrote:
-> 
-> 
-> On 7/23/24 17:41, Bjorn Helgaas wrote:
-> > On Wed, Jul 17, 2024 at 03:55:04PM -0500, Wei Huang wrote:
-> >> TLP headers with incorrect steering tags (e.g. caused by buggy driver)
-> >> can potentially cause issues when the system hardware consumes the tags.
-> > 
-> > Hmm.  What kind of issues?  Crash?  Data corruption?  Poor
-> > performance?
-> 
-> Not crash or functionality errors. Usually it is QoS related because of
-> resource competition. AMD has
+On Tue, Jul 23, 2024 at 6:11=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> Replace the MMU write locks (taken in the memslot iteration loop) for
+> read locks.
+>
+> Grabbing the read lock instead of the write lock is safe because the
+> only requirement we have is that the stage-2 page tables do not get
+> deallocated while we are walking them. The stage2_age_walker() callback
+> is safe to race with itself; update the comment to reflect the
+> synchronization change.
+>
+> Signed-off-by: James Houghton <jthoughton@google.com>
+> ---
 
-Looks like you had more to say here?
+Here is some data to show that this patch at least *can* be helpful:
 
-I *assume* that both the PH hint and the Steering Tags are only
-*hints* and there's no excuse for hardware to corrupt anything (e.g.,
-by omitting cache maintenance) even if the hint turns out to be wrong.
-If that's the case, I assume "can potentially cause issues" really
-just means "might lead to lower performance".  That's what I want to
-clarify and confirm.
+# arm64 patched to do aging (i.e., set HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONL=
+Y)
+# The test is faulting memory in while doing aging as fast as possible.
+# taskset -c 0-32 ./access_tracking_perf_test -l -r /dev/cgroup/memory
+-p -v 32 -m 3
 
-> >> Provide a kernel option, with related helper functions, to completely
-> >> prevent TPH from being enabled.
-> > 
-> > Also would be nice to have a hint about the difference between "notph"
-> > and "nostmode".  Maybe that goes in the "nostmode" patch?  I'm not
-> > super clear on all the differences here.
-> 
-> I can combine them. Here is the combination and it meaning based on TPH
-> Control Register values:
-> 
-> Requestor Enable | ST Mode | Meaning
-> ---------------------------------------------------------------
-> 00               | xx      | TPH disabled (i.e. notph)
-> 01               | 00      | TPH enabled, NO ST Mode (i.e. nostmode)
-> 01 or 11         | 01      | Interrupt Vector mode
-> 01 or 11         | 10      | Device specific mode
-> 
-> If you have any other thoughts on how to approach these modes, please
-> let me know.
+# Write lock
+vcpu wall time                : 3.039207157s
+lru_gen avg pass duration     : 1.660541541s, (passes:2, total:3.321083083s=
+)
 
-IIRC, there's no interface in this series that reall does anything
-with TPH per se; drivers would only use the ST-related things.
+# Read lock
+vcpu wall time                : 3.010848445s
+lru_gen avg pass duration     : 0.306623698s, (passes:11, total:3.372860688=
+s)
 
-If that's the case, maybe "pci=notph" isn't needed yet.
+Aging is able to run significantly faster, but vCPU runtime isn't
+affected much (in this test).
 
-Bjorn
+It would be really nice to motivate this patch with a test that didn't
+require patching the kernel... Oliver and Marc, please let me know if
+you'd like to see more data. I'm also happy to simply drop this patch.
