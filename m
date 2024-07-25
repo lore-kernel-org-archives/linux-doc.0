@@ -1,73 +1,86 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C97625761
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 04:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1A218C3B;
+	Thu, 25 Jul 2024 04:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721881042; cv=none; b=so2dENlCKgHZQW/JfitsloLkgpVEsF4J11juoft8RRdMacqq4YHqY933hP8DBVRjSQ5mkBP4sE4b1B2anM6pm5CSS8iMDekX5T972dfFawTdkttkn2FpaJCYHiRwC8Z0SbyPgWpklEn4pwNymwRCCzratb/qDJHEtfVmaUvuMOM=
+	t=1721883452; cv=none; b=Dlb0QrnP/bb3SEml22P5kuO9XYyHJig089WVTsjgq0aB4j3BpnfyiXv5J9iSVVkyFwAASGqk3x2EfbBtACwPSfjyk8tfIb/Df73tZY6g94DYVOjUHrTyjJ9k/jGMX6xcDn4anliX1K/k/D0h0edbNlhMS2QyrISZDayOiJ7cS0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721881042; c=relaxed/simple;
-	bh=Kj0U9MTC5AyxWQYTo+VsBcBXCC89clLXpFMQ9HWKWsg=;
+	s=arc-20240116; t=1721883452; c=relaxed/simple;
+	bh=xszbH4goRWt0jsIYgEVr6nI8BiA9BMuNpDGdYj7KD3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iEGpkk669WnQPD8lXXtw4uFdX5ICaZUkkGDBUdcclDnIYlfP2/QeMdOA4e1ZomHONxQZ5nviE84l6evJI/nj018ND9eXbRF7LWTKvQUnttrqHXVkDHn5H0D7KmLls8MBMlh+JGJQGLzMyICcf621ojJ3CHzIFgCiq5wn4kAZCWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=eoMYAL0/; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HGu1x5kOZ4hNLp2GoICV1RRphYHKy7uLp8l7GdB1DAFz+Ns0zYHpgoHVbytMGfyUWhSITSgCToSvq/VjXW25LyKV9hvAQ1CSRlWK061Cllpmw37moHr7N/ohN7VtXUIdQW539YgzWqoLid/C131+gsKJJHcKCPAUOvXcSH3gAj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=iwDNzkFS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=P+POIIER; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="eoMYAL0/"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70d18112b60so372374b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jul 2024 21:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1721881041; x=1722485841; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+VMdQmHWFgj58kNWJtoryibFDwz3t5+vVkcIVzkHLE=;
-        b=eoMYAL0/Xr4/cduuK9twqtlGo7/Et7XYVIFE69mshHwfheHhrAM63vcFtaIzLv0l9+
-         E9mMHrtbLyHYEHQ7WI6kx5Neg+RkgVSp6vdV8OU86NaIGCCeTvDqkBR9akwLFtTM/n0J
-         i2C/mOx2xgK6LdCVXoXeP+7yydy3G5MxeQg4TnnKUHAgKAL03Z8+bniA9+7cQ2GDS8vf
-         4j0Qkezgnyx8LBO9NZtqyBkMVAM0SwBE6XrlILiTBsRDEd+gv0JnYW8/f+VlRAqCAOl0
-         9f6XYHQH3TUnVJvQDFsGOzyHpiRhvw3XWnXCNqJo5aMG6YFjVdc2BGmthVO0sf+RFEdK
-         hNEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721881041; x=1722485841;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h+VMdQmHWFgj58kNWJtoryibFDwz3t5+vVkcIVzkHLE=;
-        b=ldBPMSmt5ZNoikc8WfSkQy5g0p+kap1g5B4mxB7EyxJ5kvDK+6hAu0prkJOvZJi9+8
-         YVdkRvoa5YrpVnmKd9qr/Mx9EmXm4lpRcDRH28rW/xvFep80y8Q3NH4t95SjEbYSap7a
-         n/g/SuGNr4qKBFq6GqKltiBuGt9+GO8oKP1Iews8ybajMIfOu9IqXQkaLlguz7i3ejAy
-         eGOdlajUS+gJF6xuxC05MCfVoIbiy4wDdx0+5Cl4BR3h+P9I4w5rdBUzuJEHQ/mbim3l
-         uhHbzAQoYuK/3GXLlva+TdUTKcfIL1rVxviPZT41NxIPSd8d2um1stZQi8RJIESdnTJB
-         e5pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEvQdGBwvrgE1uBNkggv+PzO6teK8zMUqr4+lNV7rmuOPeHuUVfAxYmiVxfPy/7uK8XTa3Ez3JVJGW1whnaXScGeC7UAu6ifaS
-X-Gm-Message-State: AOJu0YwuAK4jLm0cvXtJNwKGmhkpYY3+UZKF9IO1CBKt7/nsuCwejjeh
-	MqwIn8+gY7cj0f8pI0xqxBzrXnfUbf69nrpbBL7tSpnmmZLthgCjtMF0MaAxbA8=
-X-Google-Smtp-Source: AGHT+IG8/lGGFfeqD0yKL6Ukrgul7u0XCxEnqHsWKKVCOGqLNIttHBNHSYlpgXB/YPJd1O/zSdOyZQ==
-X-Received: by 2002:a05:6a00:66cd:b0:704:151d:dcce with SMTP id d2e1a72fcca58-70eaa1e2e1emr2589164b3a.5.1721881040621;
-        Wed, 24 Jul 2024 21:17:20 -0700 (PDT)
-Received: from ghost ([2601:647:6700:2d90:4e8c:b287:20dc:e447])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead874b35sm322537b3a.167.2024.07.24.21.17.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 21:17:20 -0700 (PDT)
-Date: Wed, 24 Jul 2024 21:17:16 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Conor Dooley <conor@kernel.org>, robh@kernel.org, krzk+dt@kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	jszhang@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, samuel.holland@sifive.com, corbet@lwn.net,
-	shuah@kernel.org, guoren@kernel.org, Evan Green <evan@rivosinc.com>,
-	andy.chiu@sifive.com, jrtc27@jrtc27.com, ajones@ventanamicro.com,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v7 09/13] riscv: vector: Support xtheadvector save/restore
-Message-ID: <ZqHRzAI0O+zsZd3A@ghost>
-References: <20240724-xtheadvector-v7-9-b741910ada3e@rivosinc.com>
- <mhng-28424e23-c9b4-407e-97d8-9dbb09101781@palmer-ri-x1c9>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="iwDNzkFS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="P+POIIER"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id BD2881140233;
+	Thu, 25 Jul 2024 00:57:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 25 Jul 2024 00:57:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1721883448; x=1721969848; bh=ae2g/tIS5v
+	FUeEA0eBPcpC3xiZh+tD43rM1GfoFOZ5A=; b=iwDNzkFS78DR5gXbT+GXUpBXT5
+	rnubgiO365GLlfPaQnkUYn2F8MThsyIwnjsLIORY2JZ07OyEmbBRatDw1pQeRzSq
+	nlytT8mf48QcKBweBfrr/H/VKbZDC39pJyxDbRn3/f4mWdqTnds+6Zg92C+l5T1y
+	hHR0m41FjUQYYr88ktsHoEGFkqfudv+mzx5bW/ZWK41HYyBdnMyuzNJk/2bchC5y
+	ZJ5ElQD/bkle5L6wJGDb2hdgQvWzTGpZ9VHkGgo04TQuiGHFtcV9ndhccfYbK2jE
+	HtcZRJifK94ifvgyowFmWZCXIK8IRVQgGhU/6YtHnILksAi2AKJTt11v40WA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1721883448; x=1721969848; bh=ae2g/tIS5vFUeEA0eBPcpC3xiZh+
+	tD43rM1GfoFOZ5A=; b=P+POIIER7sxpl+rseT8YRBmJU0KPMuqeka2m4fck6fXv
+	Gdg7F1Waac1LoI3PBerXgADxX6eNdb03C2XqBQjMOtCkyBqMpBC0sSDp9OhRfQ5y
+	GDETq0dlvJfyvw4WLTUEziU4pBTIfpnu/tpA3GVkpBHgg0xGIQ1Jg69+MMKyyGUN
+	Mz6qKDFNY0I/fUeRV6hevyc+ANK3D6fxHpVPkvvji1Uzghu2trUhEKCcGjNEwN4n
+	z3EiGvJ+S3tGNXNPcG2eVd2/6NMoGMQaVHh0nTo/dSq0gCrEzMW4wOLjdv0NH0bD
+	dUzO2jSJ1/xFmCtZqbiHQ8Uag2wYWWnkzwtX5+WKlQ==
+X-ME-Sender: <xms:ONuhZoW5UmMiW2sG-P8a8yq3fxL2oUGxtTVMq1LD-KgKRXvR5m49HQ>
+    <xme:ONuhZsmXeEFre-99sNVzKiGQZc9a4QeXpZCFZdy_HY-SVb-pvWzdinXanPsEhJ0iA
+    ZzmT069lcio_g>
+X-ME-Received: <xmr:ONuhZsaOY2sI-Mj_cyMC4Gp6Vdy-aDBbu06ag8IbnLZshcTI6P7NAXaVDBRUIKd26n8TuZf-Ju9tp3zlqyvQ-9hjwtjMcDxX25vEdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddriedvgdeludcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehgedvve
+    dvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomhdpnhgspghrtghpthhtoheptd
+X-ME-Proxy: <xmx:ONuhZnUaFcM5At6qe-Tcx9aCFOQjhQ56MoFCuoMMq8mP8NFjuiZwFQ>
+    <xmx:ONuhZikm4RuI4ACwZMGKwy-yTof4vy_6cFy_2QZ1Ervl5ffhzm8v0A>
+    <xmx:ONuhZsex2GNuk6PUbDOhtIhn5L8wAymgfdc2igTUnjTn0ZodBbKeQA>
+    <xmx:ONuhZkENDhvl2jA4omr-AbF7W38PP_472A5QhKZM7R9XmG5JxN0Ahg>
+    <xmx:ONuhZl7S0-IAPBxLIQB_Jt4nkfFHE4NQ2wVsW7yEZAhQYoIdbfU_TqeZ>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Jul 2024 00:57:27 -0400 (EDT)
+Date: Thu, 25 Jul 2024 06:57:25 +0200
+From: Greg KH <greg@kroah.com>
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH 1/5] doc: rust: create safety standard
+Message-ID: <2024072520-yogurt-zoology-3c5f@gregkh>
+References: <20240717221133.459589-1-benno.lossin@proton.me>
+ <20240717221133.459589-2-benno.lossin@proton.me>
+ <2024071845-neuron-figure-2e26@gregkh>
+ <59ebc5f2-7d58-49f5-83f1-c954705f3953@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,56 +89,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <mhng-28424e23-c9b4-407e-97d8-9dbb09101781@palmer-ri-x1c9>
+In-Reply-To: <59ebc5f2-7d58-49f5-83f1-c954705f3953@proton.me>
 
-On Wed, Jul 24, 2024 at 08:23:27PM -0700, Palmer Dabbelt wrote:
-> On Wed, 24 Jul 2024 12:14:00 PDT (-0700), Charlie Jenkins wrote:
-> > Use alternatives to add support for xtheadvector vector save/restore
-> > routines.
+On Wed, Jul 24, 2024 at 07:13:08PM +0000, Benno Lossin wrote:
+> On 18.07.24 06:45, Greg KH wrote:
+> > On Wed, Jul 17, 2024 at 10:12:29PM +0000, Benno Lossin wrote:
+> >> +Because unsoundness issues have the potential for allowing safe code to experience UB, they are
+> >> +treated similarly to actual bugs with UB. Their fixes should also be included in the  stable tree.
 > > 
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> 
-> b4 isn't applying this, either on top of your last patch set or rc1 -- the
-> base commit in the header isn't a hash I have, so I'm not sure where it's
-> mean to apply to.
-> 
-> Also...
-> 
-> > ---
-> >  arch/riscv/include/asm/csr.h           |   6 +
-> >  arch/riscv/include/asm/switch_to.h     |   2 +-
-> >  arch/riscv/include/asm/vector.h        | 225 +++++++++++++++++++++++++--------
-> >  arch/riscv/kernel/cpufeature.c         |   5 +-
-> >  arch/riscv/kernel/kernel_mode_vector.c |   8 +-
-> >  arch/riscv/kernel/process.c            |   4 +-
-> >  arch/riscv/kernel/signal.c             |   6 +-
-> >  arch/riscv/kernel/vector.c             |  12 +-
-> >  8 files changed, 198 insertions(+), 70 deletions(-)
-> 
-> [...]
-> 
-> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> > index bf25215bad24..cb48092fdc5d 100644
-> > --- a/arch/riscv/kernel/cpufeature.c
-> > +++ b/arch/riscv/kernel/cpufeature.c
-> > @@ -845,10 +845,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
-> >  			riscv_isa_set_ext(ext, source_isa);
-> >  		}
+> > Odd extra space before "stable".
 > > 
-> > -<<<<<<< HEAD
-> >  		riscv_resolve_isa(source_isa, isainfo->isa, &this_hwcap, isa2hwcap);
-> > -=======
-> > ->>>>>>> 0f260ac829ca (riscv: Extend cpufeature.c to detect vendor extensions)
-> >  		riscv_fill_cpu_vendor_ext(cpu_node, cpu);
-> > 
-> >  		of_node_put(cpu_node);
+> > Also, link to the stable kernel rules here when you reference "stable
+> > tree"?  That will explain what you mean here.
 > 
-> This chunk isn't applying, and it's got a conflict marker in there.  So I
-> think that means something's gone off the rails?
+> Sure will add it, do you mean Documentation/process/stable-kernel-rules.rst?
 
-I really messed that up... Okay I sent a new version that is based off
-of your for-next that should work?
-
-- Charlie
-
+Yes please.
