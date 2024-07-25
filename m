@@ -1,105 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6251816D9DC;
-	Thu, 25 Jul 2024 07:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A683DBB7;
+	Thu, 25 Jul 2024 07:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721891397; cv=none; b=otYbrsIex7GWSjStTX4cfuhWCawtgh1yacHZ3FHTAaSw9BrsVvUgr02X2u1en+z7BSuPgBtTKWtA+JLz4FOj9IAQG3nVjuOFotsn7GYSlwVvkV8n75cVdaP3XZ5WtRCIxvRIBeMNQ9w+o/MnjQ+/+oUbBjWWhGxW8BZ7Rdy5Yjo=
+	t=1721893649; cv=none; b=Cjujx3FL1+q8/wWwyuZxuswrQESE++y2X+6JV0P10ueXdz4ZiEd107X8rojkUb4hu/KbcEA6kswdjChb+1CwN3Xhoa3M5bvHfsvy3J0nB1NA/mEzUOgN0+CHfdslUYdvgz7uIunKiM7Rjz3r5gneA/HvqG7EDEdDnkpNzBrTKD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721891397; c=relaxed/simple;
-	bh=AOP+f1AUPWbz/K5bIAQ4H4snBN1k66lwGOU3Y6KeJdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ctILZRvAx2STUy6FO+kvGz/9+86vKmxjV/6o6m/ladoKrUWGn/a9SKKG8uTqbwFhMqXPAEFFmzlqEtVOg2+b3CzDQOtUgH3G9ANFpSknsalmJ98TOhGfBhPQ3kSBpcXNK2DVEIe41SOZ4NCaPAzQR9U5AWGlVMiOa1tfTAr6RIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZSm1lJ5W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721893649; c=relaxed/simple;
+	bh=90friIihxzKBTsqDhvI/fTTRt+OmJpdawPIgELGbaME=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XStpQyKGNmyLXV6A+sKdxS7YGb+6nUmZs6ybDzs08VIAQf72pc5DOAqk+kHP61kQTMg/tGnj0QUBnCGpFaftI9N+aoh6jNzpZxwHArK/imAiQzl8f4hnqhCCIdxq1lo+ltRX4/Zhl/Aw1QVAlnaMcZAmwvCg5T8Ut5ws+rpNL+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=dGSchshJ; arc=none smtp.client-ip=185.70.40.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZSm1lJ5W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26ECC116B1;
-	Thu, 25 Jul 2024 07:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721891397;
-	bh=AOP+f1AUPWbz/K5bIAQ4H4snBN1k66lwGOU3Y6KeJdU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZSm1lJ5WbaB5i2Z6zTr8vXmO2M/UbYXBiW3cRqUUBXoE8FqyYJnIYoOfc5fGqniwi
-	 BLU8Ucl0cg1p5bXqztW86djfQd8zm3YiWwusl8/M3QWj2gbAbCiWxHoVCIBy79ux6o
-	 Vbw0PenUEJzOlsN+kkoEtVtmaw2yviCW689Bay+o=
-Date: Thu, 25 Jul 2024 09:09:54 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Rodolfo Giometti <giometti@enneenne.com>
-Cc: "Hall, Christopher S" <christopher.s.hall@intel.com>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Dong, Eddie" <eddie.dong@intel.com>,
-	"N, Pandith" <pandith.n@intel.com>,
-	"Mohan, Subramanian" <subramanian.mohan@intel.com>,
-	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"Zage, David" <david.zage@intel.com>
-Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
-Message-ID: <2024072500-matrix-antivirus-dc61@gregkh>
-References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
- <CY8PR11MB736490B761DBA045513AF078C4DD2@CY8PR11MB7364.namprd11.prod.outlook.com>
- <d463bd28-9890-47a5-97cc-14f96db2db22@enneenne.com>
- <87r0bvqdsz.ffs@tglx>
- <5198a2c2-49b2-4a8c-8d94-d6c9811b645b@enneenne.com>
- <PH7PR11MB6978F12032F4F3EBA83BFE10C2AA2@PH7PR11MB6978.namprd11.prod.outlook.com>
- <c785136d-40bc-4fa3-b982-e9e4417c0b73@enneenne.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="dGSchshJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1721893643; x=1722152843;
+	bh=miXt3IUXrmvbifOm8Nduijv7QdZ3CVgFQEo0EfymG6k=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=dGSchshJcFstBX2rDHy97as7r5bAMsyTwON7GxqFLBC9StlIWCYx5pn0B4enu40mb
+	 mKrb8tA/kuyS42vZjJvjMkUIMR4Cc3eTvpOmdJEer45Sx02wV9MefzXUZNmROwGB7U
+	 OnE/lo8xuLpoXt6Z4Q1ZLqa9ja84NJvIW+CpMPFS9TDDeE3SmReVqugIf8NQxW6yHp
+	 XSFd4xYOHlZcnWBaQ2+TitySvvMgFBQCahtTEwZk5XfQ74GF4tgIURrW4rqwyCStV6
+	 femjnLIOmnRFNUMeSZIepysP4dKJaqIJsBsiKFM1/8JD83ht+UpoZw/29Sk0mIh8iK
+	 NirgaJ3W9/A/g==
+Date: Thu, 25 Jul 2024 07:47:17 +0000
+To: Daniel Almeida <daniel.almeida@collabora.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH 2/5] doc: rust: safety standard: add examples
+Message-ID: <37d7b08d-f37a-45ff-9993-08fa7ed87443@proton.me>
+In-Reply-To: <B0E3D539-2D29-4BB4-9CB7-98672F590A57@collabora.com>
+References: <20240717221133.459589-1-benno.lossin@proton.me> <20240717221133.459589-3-benno.lossin@proton.me> <B0E3D539-2D29-4BB4-9CB7-98672F590A57@collabora.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 3da799b47d578a798619681f8a39d94fbb8240bb
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c785136d-40bc-4fa3-b982-e9e4417c0b73@enneenne.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 25, 2024 at 09:05:02AM +0200, Rodolfo Giometti wrote:
-> On 24/07/24 23:39, Hall, Christopher S wrote:
-> > Hello Rodolfo,
-> > 
-> > > From: Rodolfo Giometti <giometti@enneenne.com>
-> > > Sent: Monday, July 15, 2024 2:37 AM
-> > 
-> > > Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
-> > > 
-> > > On 15/07/24 10:06, Thomas Gleixner wrote:
-> > > > On Thu, Jul 04 2024 at 13:50, Rodolfo Giometti wrote:
-> > > > > On 03/07/24 16:47, D, Lakshmi Sowjanya wrote:
-> > > > > > 
-> > > > > > A gentle reminder for the review of the pps patchset.
-> > > > > 
-> > > > > I already acked these patchset, didn't I? =8-o
-> > > > > 
-> > > > > Please let me know if I missed something.
-> > > > 
-> > > > Sorry, I missed that V10 posting. It's too late now.
-> > > > 
-> > > > Rodolfo, can you pick it up after rc1 for the next merge window. All
-> > > > prerequisites should be in Linus tree then.
-> > > 
-> > > LinuxPPS has no dedicated tree as other Linux subsystems. Usually I send my
-> > > "Acked" to Greg Kroah-Hartman and Andrew Morton, and they push patches
-> > > by
-> > > themselves.
-> > 
-> > Is the PPS driver on track to be included in the 6.11 release candidate?
-> 
-> I hope so! ^_^"
+On 19.07.24 18:36, Daniel Almeida wrote:
+>> On 17 Jul 2024, at 19:12, Benno Lossin <benno.lossin@proton.me> wrote:
+>> +Sound ``unsafe`` Code
+>> +---------------------
+>> +
+>> +The Importance of the API Boundary
+>> +**********************************
+>> +
+>> +Is the following API sound?::
+>> +
+>> +    fn foo(r: &mut u32) {
+>> +        let ptr: *mut u32 =3D r;
+>> +        let val;
+>> +        unsafe {
+>> +            val =3D *ptr;
+>> +            *ptr =3D 0;
+>> +        }
+>> +    }
+>> +
+>> +It better be sound, but one could argue that it is unsound, since one c=
+ould replace the ptr
+>> +initialization by ``ptr =3D core::ptr::null_mut()``::
+>> +
+>> +    fn foo(r: &mut u32) {
+>> +        let ptr: *mut u32 =3D core::ptr::null_mut();
+>> +        let val;
+>> +        unsafe {
+>> +            val =3D *ptr;
+>> +            *ptr =3D 0;
+>> +        }
+>> +    }
+>> +
+>> +But this modification is not allowed, since it goes beyond the API boun=
+dary of ``foo``. This way
+>> +any ``unsafe`` code that relies on surrounding safe code could be shown=
+ to be unsound. Instead one
+>> +should only consider safe code using the API, in this case, there is no=
+ way to make the code
+>> +incorrect, since a reference is always valid to dereference during its =
+lifetime.
+>=20
+> I find this paragraph a bit confusing. Maybe this can be clarified a bit =
+further?
 
-Are the patches in linux-next?  If so, what tree did they go through?
-If not, they can't be merged into 6.11-rc1.
+I will try to rephrase this, tell me if it helps. When checking if an
+API is sound, you are not allowed to change the code behind the API.
+That is because `unsafe` code often relies on the surrounding safe code
+to work properly. In the example above, safe code ensures that the raw
+pointer `ptr` is valid. This is OK (and also very necessary), since we
+expect people to be *aware* of the `unsafe` block and thus more
+carefully review the changes in surrounding safe code. If you have safe
+code that only interfaces with other safe code you don't need to be this
+careful.
 
-> Unluckily the LinuxPPS is a minor subsystem with no dedicated tree, and
-> inclusion is not under my control.
+Note that this heavily depends on where you put the API boundary. In our
+case, we generally have this boundary: driver code <-> `kernel` crate.
+But if your driver requires very specific helper code that does not fit
+into the `kernel` crate, then you might also have an API boundary there.
 
-I pick up many "smaller" driver subsystems all the time, I just have to
-be asked to do so...
+If it doesn't help, then it would great to get some more detailed
+questions which part(s) you need help with.
 
-thanks,
+---
+Cheers,
+Benno
 
-greg k-h
