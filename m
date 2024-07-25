@@ -1,35 +1,45 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD295381C8;
-	Thu, 25 Jul 2024 17:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DEA23D0;
+	Thu, 25 Jul 2024 18:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721929667; cv=none; b=krSD1321lABceQ3UmhAFEg1LRXojTxl8bFXzkkJiFfb1WA1gGnSxJ5SLnb0GzqIZXRngHf1WNnApBfjlxWFeS3gjh7YeyWuXR9fWif5DPq9cvaEg1LJZPM0WgNawzgjRshbtS9mO1CEX974MCKzWmBSaNwmATYLTDKxtFCDKxIw=
+	t=1721930475; cv=none; b=NV6LLrWDSdcQtuZboN2tONqHrDMG+qWEbTAG3Zksa/k+DogtkD3yie/MP/uChaYqtfgokW0Plw32m4UsDyloYeVFUn6GiA/zD9S9KSz7UDRGa1TMwjSmQU3UrgzMAHGOosXxDUDBItmaosm7hBx7aXX6npMnv41CgzmptuLYwC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721929667; c=relaxed/simple;
-	bh=GfHEn3SpY/1xshfBTUlmNjztxmDXI5GHDYSbFF8UkQ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m3Mw78ZciuFm2eJHQq2Cyu9jKByZpOtVrJ/o/aJ6w9XwJ6nH8ThmMN25eQ5cyTnPFVfjZ21Fp4SjgMqFQyJ4pB0wAjzqGdNnRyaqvNAp5i5Fib9hucHXvGXAvyXO1hwA8J0+6CZ8suYOvXF9AkkwGTlDwd+IUQEo2aleJFSoHVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrADXfxSGj6JmIWlSAA--.26718S2;
-	Fri, 26 Jul 2024 01:46:46 +0800 (CST)
-Received: from russ.tail3da2e.ts.net (unknown [10.12.177.116])
-	by gateway (Coremail) with SMTP id _____wA3oHB5j6JmEy1vAA--.22887S2;
-	Fri, 26 Jul 2024 01:46:45 +0800 (CST)
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-To: Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	Haoyang Liu <tttturtleruss@hust.edu.cn>,
-	kasan-dev@googlegroups.com,
+	s=arc-20240116; t=1721930475; c=relaxed/simple;
+	bh=CQWswAaKiUd/1H9VPf7BR5G0SCIN5b4m3hSctlgX3fg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cB7keWDJuO/CmBpTmX+v0S99Ywy9hsoUrAMqCw01RnpiFiBTJzjVT7zMmsOhNUD9fj/0TMNC0I9Ut/PSuB6fq+XEukUIpLWqwyWxr/6QRTqxEt6WIv1l5htvNo1X5pgC0yKnR/uqXf1iBBnCdD6XaZgNsUKuaT9D5OkzUv3Nc7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=jtn4yVW3; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="jtn4yVW3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=0OL4xG2f7OPGglRnI+nOrrSi0qdVFdIQOVDEO5YpO0A=; b=jtn4yVW3DhhxhBUw
+	qWdikRA9VIGamBDT/1bZMXNEe+zxvdblkEIP4vBig9E6dlhZT6/ZTliT8yRtJS6baX7haqRqYD67U
+	P3pN8xt1+iS4AIyAYHug0BHfifSi1uEPspFxE2CVdmxUsAW9OMX0il9KsugZj3S5Jk8cXhyg9iFCO
+	6SBmZz7w4rRMmj4IgogJ4lSB512X+89uHdSY5+6HbqMRAGAVcuYze9fdUeBNHekhSqACllXo9vo3T
+	j+wywhpB2uu2pvEcwiSsSJ4iFpYBqnMsBCvGChWF/hDGaI5+/HimFBi77xpxmT/mwwChzExsrybtE
+	arI+pdQeUrZIctMk9A==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1sX2lt-00DEap-06;
+	Thu, 25 Jul 2024 18:00:57 +0000
+From: linux@treblig.org
+To: ericvh@kernel.org,
+	lucho@ionkov.net,
+	rdunlap@infradead.org
+Cc: v9fs@lists.linux.dev,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-Date: Fri, 26 Jul 2024 01:46:31 +0800
-Message-Id: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] Documentation/fs/9p: Expand goo.gl link
+Date: Thu, 25 Jul 2024 19:00:41 +0100
+Message-ID: <20240725180041.80862-1-linux@treblig.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,51 +47,33 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrADXfxSGj6JmIWlSAA--.26718S2
-Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFy5Cr1fGw1xur4kCry8Xwb_yoWkXrXE9F
-	WfXFs3J3s5JFyvgrnYkrsrWr47ua1rJrykAr4qkrZ8Gasay3ZxXF9YyrW5uF1UZ3y7uF9x
-	Ar4avrWayw1xCjkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbvkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-	87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2kKe7AKxV
-	WUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02
-	F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr1j6F4UJwAv7VCjz48v1s
-	IEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_
-	Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l42
-	xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E
-	14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-	CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
-	MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnI
-	WIevJa73UjIFyTuYvjxUVBHqDUUUU
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQsIAmagdi8lywAIs5
 
-The KTSAN doc has moved to
-https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
-Update the url in kcsan.rst accordingly.
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+The goo.gl URL shortener is deprecated and is due to stop
+expanding existing links in 2025.
+
+The old goo.gl link in the 9p docs doesn't work anyway,
+replace it by a kernel.org link suggested by Randy instead.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- Documentation/dev-tools/kcsan.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/filesystems/9p.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-index 02143f060b22..d81c42d1063e 100644
---- a/Documentation/dev-tools/kcsan.rst
-+++ b/Documentation/dev-tools/kcsan.rst
-@@ -361,7 +361,8 @@ Alternatives Considered
- -----------------------
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index 1e0e0bb6fdf9..d270a0aa8d55 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -31,7 +31,7 @@ Other applications are described in the following papers:
+ 	* PROSE I/O: Using 9p to enable Application Partitions
+ 	  http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
+ 	* VirtFS: A Virtualization Aware File System pass-through
+-	  http://goo.gl/3WPDg
++	  https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
  
- An alternative data race detection approach for the kernel can be found in the
--`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
-+`Kernel Thread Sanitizer (KTSAN)
-+<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
- KTSAN is a happens-before data race detector, which explicitly establishes the
- happens-before order between memory operations, which can then be used to
- determine data races as defined in `Data Races`_.
+ Usage
+ =====
 -- 
-2.25.1
+2.45.2
 
