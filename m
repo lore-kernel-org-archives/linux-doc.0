@@ -1,115 +1,149 @@
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A683DBB7;
-	Thu, 25 Jul 2024 07:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A358F198821
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 09:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721893649; cv=none; b=Cjujx3FL1+q8/wWwyuZxuswrQESE++y2X+6JV0P10ueXdz4ZiEd107X8rojkUb4hu/KbcEA6kswdjChb+1CwN3Xhoa3M5bvHfsvy3J0nB1NA/mEzUOgN0+CHfdslUYdvgz7uIunKiM7Rjz3r5gneA/HvqG7EDEdDnkpNzBrTKD8=
+	t=1721900317; cv=none; b=hdQygUv0h/KkA9HTKPNRijoP6/lYFZNAKIc/iUmdXp4Cvlz6f2X12Vu6toP19BSj8v0333ONQXF/ftski1onEFtlUuq1njSw/dEAbp3BL5ecMYVgC/7biEsNGTLrOR+7CFKtGnkM8Jm5MjEog9PfW+Fxs+l1KO5s7DoMEcgs3L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721893649; c=relaxed/simple;
-	bh=90friIihxzKBTsqDhvI/fTTRt+OmJpdawPIgELGbaME=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XStpQyKGNmyLXV6A+sKdxS7YGb+6nUmZs6ybDzs08VIAQf72pc5DOAqk+kHP61kQTMg/tGnj0QUBnCGpFaftI9N+aoh6jNzpZxwHArK/imAiQzl8f4hnqhCCIdxq1lo+ltRX4/Zhl/Aw1QVAlnaMcZAmwvCg5T8Ut5ws+rpNL+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=dGSchshJ; arc=none smtp.client-ip=185.70.40.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1721900317; c=relaxed/simple;
+	bh=hb9nkF2epFQFHjaDtYLTuSh5dWNP8eOlbA6nvUSQKwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oARJwL72bl8LHiqHrpSQm0OQYbjUC3qDY3qi2adJwdsGuXdtfigztgSnzqMcO4N9bQpZvYwZX/iqfzuFfiddaiqJcdskfY77IceeLgqOwddVIGuCvwOB8xODVTE7np25t/uWZm2qjMrcKRQRPAaK0VgzoXSna8ErO/WvxwjTr1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NkpYvZVZ; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="dGSchshJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1721893643; x=1722152843;
-	bh=miXt3IUXrmvbifOm8Nduijv7QdZ3CVgFQEo0EfymG6k=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=dGSchshJcFstBX2rDHy97as7r5bAMsyTwON7GxqFLBC9StlIWCYx5pn0B4enu40mb
-	 mKrb8tA/kuyS42vZjJvjMkUIMR4Cc3eTvpOmdJEer45Sx02wV9MefzXUZNmROwGB7U
-	 OnE/lo8xuLpoXt6Z4Q1ZLqa9ja84NJvIW+CpMPFS9TDDeE3SmReVqugIf8NQxW6yHp
-	 XSFd4xYOHlZcnWBaQ2+TitySvvMgFBQCahtTEwZk5XfQ74GF4tgIURrW4rqwyCStV6
-	 femjnLIOmnRFNUMeSZIepysP4dKJaqIJsBsiKFM1/8JD83ht+UpoZw/29Sk0mIh8iK
-	 NirgaJ3W9/A/g==
-Date: Thu, 25 Jul 2024 07:47:17 +0000
-To: Daniel Almeida <daniel.almeida@collabora.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 2/5] doc: rust: safety standard: add examples
-Message-ID: <37d7b08d-f37a-45ff-9993-08fa7ed87443@proton.me>
-In-Reply-To: <B0E3D539-2D29-4BB4-9CB7-98672F590A57@collabora.com>
-References: <20240717221133.459589-1-benno.lossin@proton.me> <20240717221133.459589-3-benno.lossin@proton.me> <B0E3D539-2D29-4BB4-9CB7-98672F590A57@collabora.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 3da799b47d578a798619681f8a39d94fbb8240bb
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NkpYvZVZ"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7ab5fc975dso30320766b.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 02:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1721900314; x=1722505114; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oW2kUzY/zrUY3o3SxhYU0xffCdGPSOZ86O2BpsusKg0=;
+        b=NkpYvZVZTTYiHJOVSvVF/DH4wjuyXWXv6Mnx/Yok6FIHhNwwfcFVwv5ZEo5rJm+g6o
+         xZzfJtUYPLHhcP4EPPo7mQ+6CpH3cdNnZMXdTUF6+pnJD3YZGpBXlYWXaxCS4ZEi/Gtp
+         b3900cN/QnDISXI6Z/gQ8eSyBaJcVnXfS+xRspN17BM3nwQEcJZ3+gpm0c7aFp92K7pe
+         8HfdHMG7G0PRzFPmTDofvLbFGRqWVfXP0aPXxXUJ5KAiAiHStqkTx1cdM7/8Bgze45eV
+         PMBp4/LD1ixPP8K6TWaQqwoKiCFcknamATCLDm/QgCkLlAui/0hs9UZxJzkDCLlamRAI
+         73Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721900314; x=1722505114;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oW2kUzY/zrUY3o3SxhYU0xffCdGPSOZ86O2BpsusKg0=;
+        b=GJPxlxfwLVCl8Hi+xjs9KpBuE5R8esaGOnR9M2URaDJNcT38pEL6lPLe3B+t7PWxek
+         nnT5AqsSa4JnSTxSPGebUNqRooJ6hfyAGtgGuUhkHeIXy+nBLOQ4qm3d8kp1+Wv8fmrd
+         OS5V4BYZe4H5Q+3F4EYBQoiHgomI2jfhYaLQPQAMtSynDZzssyKxHEJLEG9HsTZCThW9
+         KIAVfhaiiHILV8sr/0TGjQo/6s8Q0VTojgbpqmHMDlcMI1DJpPS9c/gFvkdQkj4jcV4n
+         LTilJ5nys/JtbP3nvmb420mr46CcH4D8YI0nmSWsfYj6T3fFRlIy6bwGL49CITuic9Cc
+         eIIg==
+X-Forwarded-Encrypted: i=1; AJvYcCVORxIhBL3CNhF/K4hch2wbnpnXjZtoaL4G7yJOUVKwm+sXPbrnZFjpCoxU6qyZ3VFfCIUnqph9gNaFqZy/+sWei1Y9LApvbNxC
+X-Gm-Message-State: AOJu0YzNdYaJCk0aUNkjDx4X4vMlrhJ0U/7GZrnc9MpSnv7SgMgZwCus
+	sFK9dvV/a6SfZwzHVovCREWGaV/avYtVysTVYCOSavoAgPlK5V2pls/ihPiuZlU=
+X-Google-Smtp-Source: AGHT+IECWpI5VnoSqnkn5P0EW43K3U3vSJvnZ8eWqaDqIzUWXmrhMeFaRkO1vIkoocBUmFGFlXDnzw==
+X-Received: by 2002:a17:906:c145:b0:a7a:a138:dbc1 with SMTP id a640c23a62f3a-a7acb3f02e1mr107001066b.20.1721900313753;
+        Thu, 25 Jul 2024 02:38:33 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad4116fsm52574866b.103.2024.07.25.02.38.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jul 2024 02:38:33 -0700 (PDT)
+Date: Thu, 25 Jul 2024 11:38:31 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: xiujianfeng <xiujianfeng@huawei.com>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, Tejun Heo <tj@kernel.org>, 
+	Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Subject: Re: [PATCH v5 2/5] cgroup/pids: Make event counters hierarchical
+Message-ID: <hs3oag7blyg5kkdu6ikbw7f6hefkdfk2qgqqnpothq7yx4qsts@gv2v4dbpfmv6>
+References: <20240521092130.7883-1-mkoutny@suse.com>
+ <20240521092130.7883-3-mkoutny@suse.com>
+ <f124ce60-196e-2392-c4a9-11cdcacf9927@huawei.com>
+ <cb0efc16-6df2-72b7-47ea-ce524d428cc1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q37u4k236h4pzrv7"
+Content-Disposition: inline
+In-Reply-To: <cb0efc16-6df2-72b7-47ea-ce524d428cc1@huawei.com>
+
+
+--q37u4k236h4pzrv7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 19.07.24 18:36, Daniel Almeida wrote:
->> On 17 Jul 2024, at 19:12, Benno Lossin <benno.lossin@proton.me> wrote:
->> +Sound ``unsafe`` Code
->> +---------------------
->> +
->> +The Importance of the API Boundary
->> +**********************************
->> +
->> +Is the following API sound?::
->> +
->> +    fn foo(r: &mut u32) {
->> +        let ptr: *mut u32 =3D r;
->> +        let val;
->> +        unsafe {
->> +            val =3D *ptr;
->> +            *ptr =3D 0;
->> +        }
->> +    }
->> +
->> +It better be sound, but one could argue that it is unsound, since one c=
-ould replace the ptr
->> +initialization by ``ptr =3D core::ptr::null_mut()``::
->> +
->> +    fn foo(r: &mut u32) {
->> +        let ptr: *mut u32 =3D core::ptr::null_mut();
->> +        let val;
->> +        unsafe {
->> +            val =3D *ptr;
->> +            *ptr =3D 0;
->> +        }
->> +    }
->> +
->> +But this modification is not allowed, since it goes beyond the API boun=
-dary of ``foo``. This way
->> +any ``unsafe`` code that relies on surrounding safe code could be shown=
- to be unsound. Instead one
->> +should only consider safe code using the API, in this case, there is no=
- way to make the code
->> +incorrect, since a reference is always valid to dereference during its =
-lifetime.
->=20
-> I find this paragraph a bit confusing. Maybe this can be clarified a bit =
-further?
+Hello Jianfeng.
 
-I will try to rephrase this, tell me if it helps. When checking if an
-API is sound, you are not allowed to change the code behind the API.
-That is because `unsafe` code often relies on the surrounding safe code
-to work properly. In the example above, safe code ensures that the raw
-pointer `ptr` is valid. This is OK (and also very necessary), since we
-expect people to be *aware* of the `unsafe` block and thus more
-carefully review the changes in surrounding safe code. If you have safe
-code that only interfaces with other safe code you don't need to be this
-careful.
+On Tue, Jul 16, 2024 at 11:27:39AM GMT, xiujianfeng <xiujianfeng@huawei.com=
+> wrote:
+> On 2024/7/3 14:59, xiujianfeng wrote:
+=2E..
+> >         for (; parent_pids(p); p =3D parent_pids(p)) {
+> >                 if (p =3D=3D pids_over_limit) {
+> >                         limit =3D true;
+> >                         atomic64_inc(&p->events_local[PIDCG_MAX]);
+> >                         cgroup_file_notify(&p->events_local_file);
+> >                 }
+> >                 if (limit)
+> >                         atomic64_inc(&p->events[PIDCG_MAX]);
+> >=20
+> >                 cgroup_file_notify(&p->events_file);
+> >         }
+> > }
+> >=20
+> > Consider this scenario: there are 4 groups A, B, C,and D. The
+> > relationships are as follows, the latter is the child of the former:
+> >=20
+> > root->A->B->C->D
+> >=20
+> > Then the user is polling on C.pids.events. When a process in D forks and
+> > fails due to B.max restrictions(pids_forking is D, and pids_over_limit
+> > is B), the user is awakened. However, when the user reads C.pids.events,
+> > he will find that the content has not changed. because the 'limit' is
+> > set to true started from B, and C.pids.events shows as below:
+> >=20
+> > seq_printf(sf, "max %lld\n", (s64)atomic64_read(&events[PIDCG_MAX]));
+> >=20
+> > Wouldn't this behavior confuse the user? Should the code to be changed
+> > to this?
 
-Note that this heavily depends on where you put the API boundary. In our
-case, we generally have this boundary: driver code <-> `kernel` crate.
-But if your driver requires very specific helper code that does not fit
-into the `kernel` crate, then you might also have an API boundary there.
+Two generic notes:
+- event notifications can be rate limited, so users won't necessarily
+  see every change,
+- upon notification it's better to read the event counter/status anyway
+  to base a response on it.
 
-If it doesn't help, then it would great to get some more detailed
-questions which part(s) you need help with.
+But your remark is justified, there is no reason in this case for
+"spurious" event notification. It's an omission from v3 version of the
+patch when there had been also pids.events:max.imposed (that'd trigger
+events from D up to the root, it's only internal PIDCG_FORKFAIL now).
 
----
-Cheers,
-Benno
+The upwards traversal loop can be simplified and fixed with only
+PIDCG_MAX exposed. Can you send it as a separate patch please?
 
+(Apologies for late response, somehow I didn't see your e-mails.)
+
+Michal
+
+--q37u4k236h4pzrv7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqIdEAAKCRAt3Wney77B
+SdzDAQDFHxjJt2JJhI0O9L5Frx7c6tdltnSjJD5lGd6xbuWuKAD/bywRNtDNhUNw
+boPmBSmMastkeBVP03nYhqm1kBlneQY=
+=o/0c
+-----END PGP SIGNATURE-----
+
+--q37u4k236h4pzrv7--
