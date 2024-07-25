@@ -1,107 +1,77 @@
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1A218C3B;
-	Thu, 25 Jul 2024 04:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D011B1BF31;
+	Thu, 25 Jul 2024 05:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721883452; cv=none; b=Dlb0QrnP/bb3SEml22P5kuO9XYyHJig089WVTsjgq0aB4j3BpnfyiXv5J9iSVVkyFwAASGqk3x2EfbBtACwPSfjyk8tfIb/Df73tZY6g94DYVOjUHrTyjJ9k/jGMX6xcDn4anliX1K/k/D0h0edbNlhMS2QyrISZDayOiJ7cS0Q=
+	t=1721883977; cv=none; b=uIgkhfCYMIypaV5YxYWWyrN3SFt85V2Fl6RoaiMkrlOPDzLStasJXelWkneLDrbL6Uy/3ze90T4DcQ+LWQhGSMcB9XprlvdcC1scvUIY5yZA7qF38NGt+DHmQsbfHIsIw+i7msSaYTax2mHYcKK9T1uCv4UYHXIIsBZC34w12YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721883452; c=relaxed/simple;
-	bh=xszbH4goRWt0jsIYgEVr6nI8BiA9BMuNpDGdYj7KD3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGu1x5kOZ4hNLp2GoICV1RRphYHKy7uLp8l7GdB1DAFz+Ns0zYHpgoHVbytMGfyUWhSITSgCToSvq/VjXW25LyKV9hvAQ1CSRlWK061Cllpmw37moHr7N/ohN7VtXUIdQW539YgzWqoLid/C131+gsKJJHcKCPAUOvXcSH3gAj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=iwDNzkFS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=P+POIIER; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1721883977; c=relaxed/simple;
+	bh=PlITPw0r+Wd1Bf6wMLsgTRpboomujwKay/y8VQCh4gY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uvl3vxo0O+1+hJlFL3pF0tNeAbMrgVEzQwYxMffl6jY9rHKOxT55YU9Z1TmlVdxoE5UJUP432PzCPxbKbp2ppFAmOyuLJuczEvqZLU8a6hE7UebU2mDzEHGWB4gq84vpJxIrNE0osqm7go7DRrxCpkiSUaVFgv/oPIdXxalWA7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fkDvBVWQ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="iwDNzkFS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="P+POIIER"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id BD2881140233;
-	Thu, 25 Jul 2024 00:57:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 25 Jul 2024 00:57:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1721883448; x=1721969848; bh=ae2g/tIS5v
-	FUeEA0eBPcpC3xiZh+tD43rM1GfoFOZ5A=; b=iwDNzkFS78DR5gXbT+GXUpBXT5
-	rnubgiO365GLlfPaQnkUYn2F8MThsyIwnjsLIORY2JZ07OyEmbBRatDw1pQeRzSq
-	nlytT8mf48QcKBweBfrr/H/VKbZDC39pJyxDbRn3/f4mWdqTnds+6Zg92C+l5T1y
-	hHR0m41FjUQYYr88ktsHoEGFkqfudv+mzx5bW/ZWK41HYyBdnMyuzNJk/2bchC5y
-	ZJ5ElQD/bkle5L6wJGDb2hdgQvWzTGpZ9VHkGgo04TQuiGHFtcV9ndhccfYbK2jE
-	HtcZRJifK94ifvgyowFmWZCXIK8IRVQgGhU/6YtHnILksAi2AKJTt11v40WA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1721883448; x=1721969848; bh=ae2g/tIS5vFUeEA0eBPcpC3xiZh+
-	tD43rM1GfoFOZ5A=; b=P+POIIER7sxpl+rseT8YRBmJU0KPMuqeka2m4fck6fXv
-	Gdg7F1Waac1LoI3PBerXgADxX6eNdb03C2XqBQjMOtCkyBqMpBC0sSDp9OhRfQ5y
-	GDETq0dlvJfyvw4WLTUEziU4pBTIfpnu/tpA3GVkpBHgg0xGIQ1Jg69+MMKyyGUN
-	Mz6qKDFNY0I/fUeRV6hevyc+ANK3D6fxHpVPkvvji1Uzghu2trUhEKCcGjNEwN4n
-	z3EiGvJ+S3tGNXNPcG2eVd2/6NMoGMQaVHh0nTo/dSq0gCrEzMW4wOLjdv0NH0bD
-	dUzO2jSJ1/xFmCtZqbiHQ8Uag2wYWWnkzwtX5+WKlQ==
-X-ME-Sender: <xms:ONuhZoW5UmMiW2sG-P8a8yq3fxL2oUGxtTVMq1LD-KgKRXvR5m49HQ>
-    <xme:ONuhZsmXeEFre-99sNVzKiGQZc9a4QeXpZCFZdy_HY-SVb-pvWzdinXanPsEhJ0iA
-    ZzmT069lcio_g>
-X-ME-Received: <xmr:ONuhZsaOY2sI-Mj_cyMC4Gp6Vdy-aDBbu06ag8IbnLZshcTI6P7NAXaVDBRUIKd26n8TuZf-Ju9tp3zlqyvQ-9hjwtjMcDxX25vEdw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddriedvgdeludcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehgedvve
-    dvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomhdpnhgspghrtghpthhtoheptd
-X-ME-Proxy: <xmx:ONuhZnUaFcM5At6qe-Tcx9aCFOQjhQ56MoFCuoMMq8mP8NFjuiZwFQ>
-    <xmx:ONuhZikm4RuI4ACwZMGKwy-yTof4vy_6cFy_2QZ1Ervl5ffhzm8v0A>
-    <xmx:ONuhZsex2GNuk6PUbDOhtIhn5L8wAymgfdc2igTUnjTn0ZodBbKeQA>
-    <xmx:ONuhZkENDhvl2jA4omr-AbF7W38PP_472A5QhKZM7R9XmG5JxN0Ahg>
-    <xmx:ONuhZl7S0-IAPBxLIQB_Jt4nkfFHE4NQ2wVsW7yEZAhQYoIdbfU_TqeZ>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Jul 2024 00:57:27 -0400 (EDT)
-Date: Thu, 25 Jul 2024 06:57:25 +0200
-From: Greg KH <greg@kroah.com>
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 1/5] doc: rust: create safety standard
-Message-ID: <2024072520-yogurt-zoology-3c5f@gregkh>
-References: <20240717221133.459589-1-benno.lossin@proton.me>
- <20240717221133.459589-2-benno.lossin@proton.me>
- <2024071845-neuron-figure-2e26@gregkh>
- <59ebc5f2-7d58-49f5-83f1-c954705f3953@proton.me>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fkDvBVWQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ljWC/5Z2caE7g4bTRZgshdWjFb5m9133Aw6+mYHyWdY=; b=fkDvBVWQOmdff2PIMNhXDhbp5j
+	Vjuf0wQ+WsS1hEM9EQdBGtianAqmtv21Tnt0AW7BAfX0iq0HPBcbIs2H0OtyPJ9gJ1lvW9fycVZfu
+	cQQ7CBPDID6UksaDzzT23rpePiZ0FDky93RZIyaYtePYZHvjMLpdw9M2zAZtWf1CyRT+fIsteR2TT
+	0Dl8wrQa/MHNJcET3iOiOPh1a6yro8tSZ5eQe9g4zhvf40i5K6iARQ23gkn+nrgJx2ELRzCP/tSeG
+	EOlhTcMLA2q+QbmbfD2iPTMNZgUYJwxrBTXEVWDlVcVuWX8zoIJp8ZCXpfCHrhEyAzYSPTd6V65PL
+	NJsq5FbQ==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sWqg1-0000000HQ9Q-2dlJ;
+	Thu, 25 Jul 2024 05:06:05 +0000
+Message-ID: <b7ec9dba-5ba7-40d1-b1a0-e85f3149f445@infradead.org>
+Date: Wed, 24 Jul 2024 22:06:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <59ebc5f2-7d58-49f5-83f1-c954705f3953@proton.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: 9p goo.gl link
+To: "Dr. David Alan Gilbert" <linux@treblig.org>, ericvh@kernel.org,
+ lucho@ionkov.net
+Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <ZqE9zUXO3agBjno7@gallifrey>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ZqE9zUXO3agBjno7@gallifrey>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 24, 2024 at 07:13:08PM +0000, Benno Lossin wrote:
-> On 18.07.24 06:45, Greg KH wrote:
-> > On Wed, Jul 17, 2024 at 10:12:29PM +0000, Benno Lossin wrote:
-> >> +Because unsoundness issues have the potential for allowing safe code to experience UB, they are
-> >> +treated similarly to actual bugs with UB. Their fixes should also be included in the  stable tree.
-> > 
-> > Odd extra space before "stable".
-> > 
-> > Also, link to the stable kernel rules here when you reference "stable
-> > tree"?  That will explain what you mean here.
+
+
+On 7/24/24 10:45 AM, Dr. David Alan Gilbert wrote:
+> Hi,
+>   I noticed there was a goo.gl link in Documentation/filesystems/9p.rst
 > 
-> Sure will add it, do you mean Documentation/process/stable-kernel-rules.rst?
+>     * VirtFS: A Virtualization Aware File System pass-through
+>       http://goo.gl/3WPDg
+> 
+> Given goo.gl is going away, I was going to expand the link, but
+> the link looks fairly ill; it goes to a sciweavers.org site
+> that has an abstract, but it doesn't seem to download the full document.
+> 
+> I can see links to the document around, but I'm not sure if there's
+> a 'right' address.
 
-Yes please.
+Yeah, it (or a variant of it) is available in quite a few places.
+
+I prefer this one:
+https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
+
+
+-- 
+~Randy
