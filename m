@@ -1,151 +1,323 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B344421350
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 18:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F026208A5;
+	Thu, 25 Jul 2024 18:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721931885; cv=none; b=S/IWJln0hRpE4/7+ZaLykeWXdkNuy7Ya3dCzpBNwNoGG45FkdS8MP3hvk4nA8OMsfsxoyxlm86tJAIgZ3XkvHYypD/LUoo/9SxUoeItq06DjlDLznkP56FQWzlKcG5oHiBTOC1rKshT4rWSc34qQyBDNsUtJTHvLyKZBw6Qv6fI=
+	t=1721933527; cv=none; b=Np/zrtBv1tZXgQTqFRaXqMohqqzSn1ScBM9nAJ9wcH80rRRdhz8EOzPmZoe0gfzSXRIwnXNskxU+D8F9xsAm6GHYgQWZZcWAmx7VXFdyKvgLgCBcqC4fGts1gKkEqSn6zLZHxRqlhy0rKHJgHc0gl6eFDKXUH/Vo8aQF59DcMOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721931885; c=relaxed/simple;
-	bh=i3R8nP9zLb+svWwS6BlGQj3N7iJXoBGSLMafotY8l+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tV6RXM7+zl7Ovkiu+ubLNUIY4AxkS4dTXkGWtSuCO1kWykjPEgeNV6fB+njVjpGrZi27zu6EG9VshCsH0Sh51MyTLGaNMNgq+8MDSQrv77HmFdWxctgtFyMtAsAOdtHdq7Tzy1A7nxv2FFhBt5uVdv0jNoASehBiVNaRIUDAaTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B0Sz0iC2; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1721933527; c=relaxed/simple;
+	bh=x5Q/vqQivDUshKWSSQsKeEPW9Hi9EddcG25YvAeNxWg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e6/APwBiuqtOR+pd96DZpJrEbL9XXaXbQBj6iojrWInOf6rqDhnA4aenBO0Z6T0BMR5S6VUXQi0PYLwR8f41vVl4DmoUvP5W4mGpivZ8Wb70HD13V7dztzApTpGFBbGxiz170cNCpyK8fhinQHsiaqzbMe6i5PloNgmLDoRVEFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=J12IDo0r; arc=none smtp.client-ip=185.70.40.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B0Sz0iC2"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc658b6b2eso11269025ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 11:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721931883; x=1722536683; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Se8gRYY5LIzNKXtdqfpnU7+bApyeWuI8Q5DVjozYskA=;
-        b=B0Sz0iC2mQxQ1OlnT48cw0EaJRrxh3u4oaSuWDITfETMQ5TAw5Jmtwp/Ub681JbEOg
-         k3ExGVrA1en2nRKW8pmyMzH0oe1eRaodEJl0IulyJxTfu3mu5Fks+/5rr8ZSvUbL8hz0
-         OFJ9Hu/4rLy1d+lsQKe6sHAQu25if6Eu8DWB5hP5pJc1jYVHRSG2Ma5H3WaDHI9zhH7r
-         MgO006Gm7ZZoJEAAGO0ztS9WVK0bDeaw2UyAYIvE3kS5HmANHOHpcSmUi2WS+vac6aGV
-         uqUZ488oQSxmby2BMrno2rluMLBeBTqFL68ccdCyckkGlUXRINoYtoQgR4qHqzSKLU6p
-         QcDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721931883; x=1722536683;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Se8gRYY5LIzNKXtdqfpnU7+bApyeWuI8Q5DVjozYskA=;
-        b=sEQJZDIJS5GUSHpEKpCLgXPmMLQPsyjvWWiScsN7cMAnsgG4g/id7jBatbf0/ZX2VU
-         6aQ7cQ2jr3/XtQ1PVcMGYAd55kolPZsssHHdxDaX/bqMJ3Vuillhc0eJC7q2/CmVqLwa
-         sY61J1bVcUf2vWXVNhFFrR4gN1RvVQwRtMCc1Ldcz7CY2XJWzwpNcJQnzGcP27TQa4+H
-         1RKxguU0C2kmAoL/VMZjlFYiRLnrHXKThs6zHYPoGThso7SoWGoATrVXB5VgTnObPd7f
-         RZAQ93Ueqo2SR/05VAuP2gv5KklJH5/lsgV9hsu+hvdQJ+oSB+SwdWXomn2S5MaZamwJ
-         VT9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVL5PluzTrNT/OjIUOXwgfU0Hre/ynI0rf1xDOhhseL8nJAvz7c6D74XXkiCt7ygB6FqDkpdTfYu3beCy2MwguBYg7JiN7lcRKr
-X-Gm-Message-State: AOJu0Yxx68J//pneYG7pMM50AnDW/UfVXSXipTEgXTPR06QAUK9WR6nE
-	rr4tsKVOJZxZ7JXagXqHfMpc/LeS7McT9wBTX804tI0DQ5i3udcpDEgPVlB/9w==
-X-Google-Smtp-Source: AGHT+IGk5VWe3MPnS2h4842sbCO2M3IxnHPFyqsvxia4EgfDcheEN/25uzJzuwNsHLA2SFZv0xA2tg==
-X-Received: by 2002:a17:902:da91:b0:1fc:5b68:ffb8 with SMTP id d9443c01a7336-1fed38ba92fmr44676985ad.30.1721931882617;
-        Thu, 25 Jul 2024 11:24:42 -0700 (PDT)
-Received: from google.com (61.139.125.34.bc.googleusercontent.com. [34.125.139.61])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7fa4045sm17298215ad.258.2024.07.25.11.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 11:24:42 -0700 (PDT)
-Date: Thu, 25 Jul 2024 11:24:37 -0700
-From: David Matlack <dmatlack@google.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 09/11] KVM: x86: Implement fast_only versions of
- kvm_{test_,}age_gfn
-Message-ID: <ZqKYZagP55dVD1m4@google.com>
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-10-jthoughton@google.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="J12IDo0r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1721933522; x=1722192722;
+	bh=2/iHL9RDUaFm8LFQlEZRxYfxCLwC3hkGSlCmcbv2QwU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=J12IDo0rtDuUOnv+9qJKuDBNGs0XZ1SA2KwTPCozDTVfsPG20Abj61JqRRQb85mio
+	 JzsFBbSe7WRQBZDVaNhU1wkEDfKRvufu6C2RtLIuzfGgktaeTNNSjGS4DfGm21FATP
+	 /kXsrgDEkenaYQAGHs3d4gvX97w0DCSFGsY1JGvW0BWRTomiWqq7yEiOSuRFkx8a1Z
+	 foIFhyABGGmrdXDhmOf+MZeU4s5QHYFdUsWYvsJrXEx/NfUaQtaV8vMvN+4Hgx3LD5
+	 OVek2zOriXvfn4T8+RgQ8OA1qaElZ7alAedc4pV+gRgb1PBDX5JLO1zwo54zhYfSNq
+	 VhwP5rEo+uB5g==
+Date: Thu, 25 Jul 2024 18:51:56 +0000
+To: Boqun Feng <boqun.feng@gmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@redhat.com>, Trevor Gross <tmgross@umich.edu>, gregkh@linuxfoundation.org
+Subject: Re: [RFC PATCH] rust: types: Add explanation for ARef pattern
+Message-ID: <ef9c98ea-b8ce-4017-9db8-177731996513@proton.me>
+In-Reply-To: <20240710032447.2161189-1-boqun.feng@gmail.com>
+References: <20240710032447.2161189-1-boqun.feng@gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 60bbb0953f2d803181d5422728035a11970ee060
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240724011037.3671523-10-jthoughton@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-07-24 01:10 AM, James Houghton wrote:
-> These fast-only versions simply ignore the shadow MMU. We can locklessly
-> handle the shadow MMU later.
-> 
-> Set HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY for X86_64 only, as that is
-> the only case where the TDP MMU might be used. Without the TDP MMU, the
-> fast-only notifiers will always be no-ops. It would be ideal not to
-> report has_fast_only if !tdp_mmu_enabled, but tdp_mmu_enabled can be
-> changed at any time.
-
-tdp_mmu_enabled is a read-only KVM parameter. And even when it was
-writable, it was still fixed for a given VM at VM creation time.
-
-Would it make more sense to have kvm_arch_post_init_vm() set
-has_fast_aging if the architecture supports it. And for x86 that means
-iff tdp_mmu_enabled.
-
-> 
-> Signed-off-by: James Houghton <jthoughton@google.com>
+On 10.07.24 05:24, Boqun Feng wrote:
+> As the usage of `ARef` and `AlwaysRefCounted` is growing, it makes sense
+> to add explanation of the "ARef pattern" to cover the most "DO" and "DO
+> NOT" cases when wrapping a self-refcounted C type.
+>=20
+> Hence an "ARef pattern" section is added in the documentation of `ARef`.
+>=20
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 > ---
->  arch/x86/kvm/Kconfig   | 1 +
->  arch/x86/kvm/mmu/mmu.c | 4 ++--
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index 6ac43074c5e9..ed9049cf1255 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -24,6 +24,7 @@ config KVM
->  	select KVM_COMMON
->  	select KVM_GENERIC_MMU_NOTIFIER
->  	select KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
-> +	select HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY if X86_64
->  	select HAVE_KVM_IRQCHIP
->  	select HAVE_KVM_PFNCACHE
->  	select HAVE_KVM_DIRTY_RING_TSO
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 919d59385f89..3c6c9442434a 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -1641,7 +1641,7 @@ bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
->  	if (tdp_mmu_enabled)
->  		young |= kvm_tdp_mmu_age_gfn_range(kvm, range);
->  
-> -	if (kvm_has_shadow_mmu_sptes(kvm)) {
-> +	if (!range->arg.fast_only && kvm_has_shadow_mmu_sptes(kvm)) {
->  		write_lock(&kvm->mmu_lock);
->  		young = kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
->  		write_unlock(&kvm->mmu_lock);
-> @@ -1657,7 +1657,7 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
->  	if (tdp_mmu_enabled)
->  		young |= kvm_tdp_mmu_test_age_gfn(kvm, range);
->  
-> -	if (!young && kvm_has_shadow_mmu_sptes(kvm)) {
-> +	if (!young && !range->arg.fast_only && kvm_has_shadow_mmu_sptes(kvm)) {
->  		write_lock(&kvm->mmu_lock);
->  		young = kvm_handle_gfn_range(kvm, range, kvm_test_age_rmap);
->  		write_unlock(&kvm->mmu_lock);
-> -- 
-> 2.46.0.rc1.232.g9752f9e123-goog
-> 
+> This is motivated by:
+>=20
+> =09https://lore.kernel.org/rust-for-linux/20240705110228.qqhhynbwwuwpcdeo=
+@vireshk-i7/
+>=20
+>  rust/kernel/types.rs | 156 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 156 insertions(+)
+>=20
+> diff --git a/rust/kernel/types.rs b/rust/kernel/types.rs
+> index bd189d646adb..70fdc780882e 100644
+> --- a/rust/kernel/types.rs
+> +++ b/rust/kernel/types.rs
+> @@ -329,6 +329,162 @@ pub unsafe trait AlwaysRefCounted {
+>  ///
+>  /// The pointer stored in `ptr` is non-null and valid for the lifetime o=
+f the [`ARef`] instance. In
+>  /// particular, the [`ARef`] instance owns an increment on the underlyin=
+g object's reference count.
+> +///
+> +/// # [`ARef`] pattern
+> +///
+> +/// "[`ARef`] pattern" is preferred when wrapping a C struct which has i=
+ts own refcounting
+
+I would have written "[...] struct which is reference-counted, because
+[...]", is there a specific reason you wrote "its own"?
+
+> +/// mechanism, because it decouples the operations on the object itself =
+(usually via a `&Foo`) vs the
+> +/// operations on a pointer to the object (usually via an `ARef<Foo>`). =
+For example, given a `struct
+
+Not exactly sure I understand your point here, what exactly is the
+advantage of decoupling the operations?
+In my mind the following points are the advantages of using `ARef`:
+(1) prevents having to implement multiple abstractions for a single C
+    object: say there is a `struct foo` that is both used via reference
+    counting and by-value on the stack. Without `ARef`, we would have to
+    write two abstractions, one for each use-case. With `ARef`, we can
+    have one `Foo` that can be wrapped with `ARef` to represent a
+    reference-counted object.
+(2) `ARef<T>` always represents a reference counted object, so it helps
+    with understanding the code. If you read `Foo`, you cannot be sure
+    if it is heap or stack allocated.
+(3) generalizes common code of reference-counted objects (ie avoiding
+    code duplication) and concentration of `unsafe` code.
+
+In my opinion (1) is the most important, then (2). And (3) is a nice
+bonus. If you agree with the list above (maybe you also have additional
+advantages of `ARef`?) then it would be great if you could also add them
+somewhere here.
+
+> +/// foo` defined in C, which has its own refcounting operations `get_foo=
+()` and `put_foo()`. Without
+> +/// "[`ARef`] pattern", i.e. **bad case**:
+
+Instead of "bad case" I would have written "i.e. you want to avoid this:".
+
+> +///
+> +/// ```ignore
+> +/// pub struct Foo(NonNull<foo>);
+> +///
+> +/// impl Foo {
+> +///     // An operation on the pointer.
+> +///     pub unsafe fn from_ptr(ptr: *mut foo) -> Self {
+> +///         // Note that whether `get_foo()` is needed here depends on t=
+he exact semantics of
+> +///         // `from_ptr()`: is it creating a new reference, or it conti=
+nues using the caller's
+> +///         // reference?
+> +///         unsafe { get_foo(ptr); }
+> +///
+> +///         unsafe { Foo(NonNull::new_unchecked(foo)) }
+> +///     }
+> +///
+> +///     // An operation on the object.
+> +///     pub fn get_bar(&self) -> Bar {
+> +///         unsafe { (*foo.0.as_ptr()).bar }
+> +///     }
+> +/// }
+> +///
+> +/// // Plus `impl Clone` and `impl Drop` are also needed to implement ma=
+nually.
+> +/// impl Clone for Foo {
+> +///     fn clone(&self) -> Self {
+> +///         unsafe { get_foo(self.0.as_ptr()); }
+> +///
+> +///         Foo(self.0)
+> +///     }
+> +/// }
+> +///
+> +/// impl Drop for Foo {
+> +///     fn drop(&mut self) {
+> +///         unsafe { put_foo(self.0.as_ptr()); }
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// In this case, it's hard to tell whether `Foo` represent an object of=
+ `foo` or a pointer to
+> +/// `foo`.
+> +///
+> +/// However, if using [`ARef`] pattern, `foo` can be wrapped as follow:
+> +///
+> +/// ```ignore
+> +/// /// Note: `Opaque` is needed in most cases since there usually exist=
+ C operations on
+
+I would disagree for the reason that `Opaque` is needed. You need it if
+the `foo` eg contains a bool, since C might just write a nonsense
+integer which would then result in immediate UB in Rust.
+Other reasons might be that certain bytes of `foo` are written to by
+other threads, even though on the Rust side we have `&mut Foo` (eg a
+`mutex`).
+
+> +/// /// `struct foo *`, and `#[repr(transparent)]` is needed for the saf=
+ety of converting a `*mut
+> +/// /// foo` to a `*mut Foo`
+> +/// #[repr(transparent)]
+> +/// pub struct Foo(Opaque<foo>);
+> +///
+> +/// impl Foo {
+> +///     pub fn get_bar(&self) -> Bar {
+> +///         // SAFETY: `self.0.get()` is a valid pointer.
+> +///         //
+> +///         // Note: Usually extra safety comments are needed here to ex=
+plain why accessing `.bar`
+> +///         // doesn't race with C side. Most cases are either calling a=
+ C function, which has its
+> +///         // own concurrent access protection, or holding a lock.
+> +///         unsafe { (*self.0.get()).bar }
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// ## Avoid `impl AlwaysRefCounted` if unnecesarry
+
+I would move this section below the next one.
+
+> +///
+> +/// If Rust code doesn't touch the part where the object lifetimes of `f=
+oo` are maintained, `impl
+> +/// AlwaysRefCounted` can be temporarily avoided: it can always be added=
+ later as an extension of
+> +/// the functionality of the Rust code. This is usually the case for cal=
+lbacks where the object
+> +/// lifetimes are already maintained by a framework. In such a case, an =
+`unsafe` `fn(*mut foo) ->
+> +/// &Foo` function usually suffices:
+> +///
+> +/// ```ignore
+> +/// impl Foo {
+> +///     /// # Safety
+> +///     ///
+> +///     /// `ptr` has to be a valid pointer to `foo` for the entire life=
+time `'a'.
+> +///     pub unsafe fn as_ref<'a>(ptr: *mut foo) -> &'a Self {
+> +///         // SAFETY: Per function safety requirement, reborrow is vali=
+d.
+> +///         unsafe { &*ptr.cast() }
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// ## Type invariants of `impl AlwaysRefCounted`
+
+I think you should first show how the example looks like with `ARef` and
+then talk about type invariants.
+
+> +///
+> +/// Types that `impl AlwaysRefCounted` usually needs an invariant to des=
+cribe why the type can meet
+> +/// the safety requirement of `AlwaysRefCounted`, e.g.
+> +///
+> +/// ```ignore
+> +/// /// # Invariants:
+> +/// ///
+> +/// /// Instances of this type are always refcounted, that is, a call to=
+ `get_foo` ensures that the
+> +/// /// allocation remains valid at least until the matching call to `pu=
+t_foo`.
+> +/// #[repr(transparent)]
+> +/// pub struct Foo(Opaque<foo>);
+> +///
+> +/// // SAFETY: `Foo` is always ref-counted per type invariants.
+> +/// unsafe impl AlwaysRefCounted for Foo {
+> +///     fn inc_ref(&self) {
+> +///         // SAFETY: `self.0.get()` is a valid pointer and per type in=
+variants, the existence of
+> +///         // `&self` means it has a non-zero reference count.
+> +///         unsafe { get_foo(self.0.get()); }
+> +///     }
+> +///
+> +///     unsafe dec_ref(obj: NonNull<Self>) {
+> +///         // SAFETY: The refcount of `obj` is non-zero per function sa=
+fety requirement, and the
+> +///         // cast is OK since `foo` is transparent to `Foo`.
+> +///         unsafe { put_foo(obj.cast()); }
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// After `impl AlwaysRefCounted for foo`, `clone()` (`get_foo()`) and `=
+drop()` (`put_foo()`)  are
+
+Typo: it should be `impl AlwaysRefCounted for Foo`.
+
+---
+Cheers,
+Benno
+
+> +/// available to `ARef<Foo>` thanks to the generic implementation.
+> +///
+> +/// ## `ARef<Self>` vs `&Self`
+> +///
+> +/// For an `impl AlwaysRefCounted` type, `ARef<Self>` represents an owne=
+r of one reference count,
+> +/// e.g.
+> +///
+> +/// ```ignore
+> +/// impl Foo {
+> +///     /// Gets a ref-counted reference of [`Self`].
+> +///     ///
+> +///     /// # Safety
+> +///     ///
+> +///     /// - `ptr` must be a valid pointer to `foo` with at least one r=
+eference count.
+> +///     pub unsafe fn from_ptr(ptr: *mut foo) -> ARef<Self> {
+> +///         // SAFETY: `ptr` is a valid pointer per function safety requ=
+irement. The cast is OK
+> +///         // since `foo` is transparent to `Foo`.
+> +///         //
+> +///         // Note: `.into()` here increases the reference count, so th=
+e returned value has its own
+> +///         // reference count.
+> +///         unsafe { &*(ptr.cast::<Foo>()) }.into()
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// Another function that returns an `ARef<Self>` but with a different s=
+emantics is
+> +/// [`ARef::from_raw`]: it takes away the refcount of the input pointer,=
+ i.e. no refcount
+> +/// incrementation inside the function.
+> +///
+> +/// However `&Self` represents a reference to the object, and the lifeti=
+me of the **reference** is
+> +/// known at compile-time. E.g. the `Foo::as_ref()` above.
+> +///
+> +/// ## `impl Drop` of an `impl AlwaysRefCounted` should not touch the re=
+fcount
+> +///
+> +/// [`ARef`] descreases the refcount automatically (in [`ARef::drop`]) w=
+hen it goes out of the
+> +/// scope, therefore there's no need to `impl Drop` for the type of obje=
+cts (e.g. `Foo`) to decrease
+> +/// the refcount.
+>  pub struct ARef<T: AlwaysRefCounted> {
+>      ptr: NonNull<T>,
+>      _p: PhantomData<T>,
+> --
+> 2.45.2
+>=20
+
