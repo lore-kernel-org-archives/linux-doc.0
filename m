@@ -1,89 +1,78 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2044.outbound.protection.outlook.com [40.107.244.44])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AB080C;
-	Thu, 25 Jul 2024 00:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D521B4C74;
+	Thu, 25 Jul 2024 01:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721867763; cv=fail; b=UqzdccvWoOd9GbByYACQ7jY209UDFXNhxM+BG9MlVlWg47ZB+UK4or1AQXAZ/Ah4pKuRNABgDhRerSFrYySt27a8Awh313CpkdMhwqRTrplnxq00ky/2HD7j710/Lqadb16+NmZ0aWugK6P0Kup6Q7KtcF1EfxjMH9GxZGRd59c=
+	t=1721870580; cv=fail; b=daAcJZwXmOwEvbVcRu9G2dtB89fVNRFw96xxYit7iaUb30NNEQcBnEkZh35HNXDFvHlM/ttIYoqVc07YR/aw6QwC7SwNHZhAVEGqP9XPFU6dyyv4QQ403ueUapeFTKQtkUTMgw/MMfwnCEzxR9o6DtDUStpdKAGxrghDJrDf61c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721867763; c=relaxed/simple;
-	bh=vwNTV2405fK6xuUJfj8WD8ZqZ7npJMRLNp6/YM3Pyng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H7baKEjJrscYR09tJlVh3Kw5/3omXmpcxEAe/6niFIbDoO5Eqa8U6ubYoJ3jqo/CAlOEyKZkx14iXekanmGIr/irqs94keYUhhncebvme5ErqSnYS7NGu+kzNj3ljQXkSG0wn/jHuZFGOL3KD0bxi7EbwN4E1Ueu6Itnz+Ki9jY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hWpdNJIL; arc=fail smtp.client-ip=40.107.244.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1721870580; c=relaxed/simple;
+	bh=EZ0vGHZIrhRpaZEaZRR3gpMihYRV8kuM6+i/jXfsvRE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dKeiSW97cW6rKinHTu4Ktm0hG4zABygz+aGLV1VTXhRwHdY4XQfAjPywAY4Qa2yx0HRARWytow7KDlYvGdixx1yeK2SM5f3HpCf4vLcyiEYXgb0IXkd6Qej9uYNtRmlGIOeXDTUjhOo3nK+jAF9SLBt1BE4zVMTDw2lUs7gpXrI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YzTWUPuC; arc=fail smtp.client-ip=40.107.244.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hWpdNJIL"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YzTWUPuC"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ql2kQs/nrB1x3RngwzaEsYgV2E7zITfyigh8wJkXK+emLxOe2S+yl0l1JLOzO+lLpKClu/ecEkuDS5w1TSMmMc/l6P0FBexiUjrQrGLnEdLyzkjH78+V+vy3EDKNKJt4mzvFfvQEmFSjGPsp9WmBMUkkV0qoevclNPtXTSwmj8dVNmPIUMiTnyI7OgANEhiQvuZExYoxxYG2LKW0IsCAMFP62ALUjufIMtZZPSwH//9DQ8v5KUGkF36MMwyy2PPS+ITuMshHzlN10UL+wcvfzSNa/s72vHz/bGBmMNBmTQ5/17OpJAs9twHHkjAEtlS0En5XLGRr9AlJWD2gLEa+Vw==
+ b=qY15aI5w1iywf6bQ/bdvyOli9BxiOQGpME1GTZXuhTqB7UZ+WytlpArFNfefaC3cajpvJWfiLL1Cje5+QXdYQ0xT8riC4QudyZ2L+fb6mrN/2WNnRT2Q6O4EUtbfn8dWvHVT8jacMSlKaIsldc3g28cF4fMfsUH0peJYpvhQQKozuCjZ750Sk9BLc5EPp/PX2CSRgrkwVxSDBS5blnMVCmCa40wk9WjY0keDIXHlAXFutU5cjCwFwQEaFl/TdjNVUmCv9VQF0i5J8TADnZ0S6r7g/ttJFEF1+NLNHpUKG03Y5+BP9LGAPt5IsGmxO5k+VzlYty9ckgRLKDzViuUolA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=puczn/Plvra1c85dji4K9vrlyWEUgXDf8mOWU9BkLB0=;
- b=WG6kF6teJD2vxyd1Z00JQ0D7v8IJNSdtMfc3jpIz/8iuz3PUiQ6OaaxOIoJaBi0z1xDLBYvSW+wD7fYUty6cnR80V+qxmkLn501OFV20KyKvELh1arGiux2FpMfT8LtfB56rsiSmeAY8jfuIsiG4r0MOgsevXb2uqQUsfLYnbVvjY+0eb3+SdNAIsP1K/1nHBEJotTgsXbbG9TO+V7T1gYZyfweqP7f9FSrhd8eUaEt0TVDcKP1pG+jI3zajbGUiWI6FoXzR+4tpcApa0WtR59J5rJ2CA+9A5+KeJFbd492CJ7jjSplGwsG27y34yvKSsypGcyZZP0MOx1BT9WYjCQ==
+ bh=dbWWOVValKQL8Aarog2PBRr4NpSqCSj3d4+OSW1ENFM=;
+ b=a7Rk8ugkOD6iDBO1yEMGMOBmEut6DVC+UD5UszZJjeS291LxWLuG4up1s3m+TLEUnZN2W6WUn73NtlvlIx5nD69+BYbEFAWv1EcRVLBk++YSYC7t8sA7K4v9u3DJwNq13VMqfr9/kMe19AN7TpYEZnYgDPo+vRJOpX60htCm1AMHZqLLM5VU1fmRgBVLm7QTNLgpwYR+4StN+6fHHsPKIDYiqJcsqxtdPkf9Pf9ic8cFx8vIMo8ga2uYStcBG11LHGp+1BwmnCi/GLXZwUELdhxI3UKvwoP2B6AorgI8K5bW9xhqjaAGVslKVKucot0SvE0LRH1whuDQJaOkXx43GA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=puczn/Plvra1c85dji4K9vrlyWEUgXDf8mOWU9BkLB0=;
- b=hWpdNJILJpAVIZDvejy+cbKEracGKV0LTQ6UUgJxG7q+54hJjR5qyEsD8sN3Sad97DFQRHPbUUzj/wWic6Mzb4k8QhHjXdMsYc5Ownw4TY14poUNzSOMmKmCVUTf25SMWukFCBX6auimKoQFWhCIqas2A4HguD43yJcISUQBC25iqj8fwXTZfud58ZBLwK0Iimj6jfAu0u51oCZTSkS+/S22vaQrUWBTaJPdYfdGGyTUcybuOHOlfWvWmDdUaWBB8GGerK9KIk36DmZ8gOxG1fwswWBVtwn3o8lYch/+b0XMmWYVFAshsSHFtgJ8fL9CYh5sDqOd6U7qOA1HkZZ/Cw==
+ bh=dbWWOVValKQL8Aarog2PBRr4NpSqCSj3d4+OSW1ENFM=;
+ b=YzTWUPuC6uVG0gmdvI8IWlh8+ZqIpODrlpAo52D8X0CXXVd3gjmGMoAxRxDornrfruDxdChR4CfExdzGxXTvJJ8DsnVgT3zhVXQ1bew+Z/YCMlGxAVpjo5UwFXRZvIBrVlDU8hmoxBV+IADQZ61F6SSHaVtqu5DM7+hlf9XtdGg=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
- MW4PR12MB7484.namprd12.prod.outlook.com (2603:10b6:303:212::14) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MN2PR12MB4254.namprd12.prod.outlook.com (2603:10b6:208:1d0::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.28; Thu, 25 Jul
- 2024 00:35:57 +0000
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::f018:13a9:e165:6b7e]) by DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::f018:13a9:e165:6b7e%4]) with mapi id 15.20.7784.017; Thu, 25 Jul 2024
- 00:35:57 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>,
- Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Dan Williams <dan.j.williams@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Davidlohr Bueso <dave@stgolabs.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heiko Carstens <hca@linux.ibm.com>, Huacai Chen <chenhuacai@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rob Herring <robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- loongarch@lists.linux.dev, nvdimm@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v2 00/25] mm: introduce numa_memblks
-Date: Wed, 24 Jul 2024 20:35:53 -0400
-X-Mailer: MailMate (1.14r6038)
-Message-ID: <6336C276-113E-4D93-A09E-13420A6438D8@nvidia.com>
-In-Reply-To: <1D474894-F8AC-427B-8F90-5A6808E77CC5@nvidia.com>
-References: <20240723064156.4009477-1-rppt@kernel.org>
- <1D474894-F8AC-427B-8F90-5A6808E77CC5@nvidia.com>
-Content-Type: multipart/signed;
- boundary="=_MailMate_0F561B29-1B56-4DB1-964E-7E202A4B673B_=";
- micalg=pgp-sha512; protocol="application/pgp-signature"
-X-ClientProxiedBy: MN2PR07CA0015.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::25) To DS7PR12MB5744.namprd12.prod.outlook.com
- (2603:10b6:8:73::18)
+ 2024 01:22:56 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7784.017; Thu, 25 Jul 2024
+ 01:22:56 +0000
+Message-ID: <54127ad5-8dce-b783-acf2-61bebd0db86d@amd.com>
+Date: Wed, 24 Jul 2024 20:22:50 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5 20/20] x86/resctrl: Introduce interface to modify
+ assignment states of the groups
+Content-Language: en-US
+To: Peter Newman <peternewman@google.com>, Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+ peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+ lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+ leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+ kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+ kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
+ james.morse@arm.com
+References: <cover.1720043311.git.babu.moger@amd.com>
+ <49aa5321f6e81825a0e9e44cef06c243634e341a.1720043311.git.babu.moger@amd.com>
+ <CALPaoCjL92Jwm=Ynt+pEpSt5KLVxnJL8KOKymZ=WP+cUufy_Uw@mail.gmail.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <CALPaoCjL92Jwm=Ynt+pEpSt5KLVxnJL8KOKymZ=WP+cUufy_Uw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN1PR12CA0102.namprd12.prod.outlook.com
+ (2603:10b6:802:21::37) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,311 +80,174 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|MW4PR12MB7484:EE_
-X-MS-Office365-Filtering-Correlation-Id: b00e961b-1ed9-4fc9-7d72-08dcac41c020
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN2PR12MB4254:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2df800dd-d002-45c0-a1f0-08dcac484fff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UEQXi1MXIgOm1aM3RiyjXJlXmZOZaqLT2V8uSuz9Cbf2rjo3wM6iyTrT4j3O?=
- =?us-ascii?Q?H54v2O1XISyG1nVe3kbMjS37hTS4i+asyndqWx2aFYNCEeEyaEBp/tdOTdXm?=
- =?us-ascii?Q?EaJcXBXsd5kSLNbXiThf5h7PMK+NqDnJYZBcMwSQEChgCD1WYwQ80VIsSnmX?=
- =?us-ascii?Q?XogmRWDb+wt+35+BOv7asQR3NQPUjyUcc7EUdFaD43qSlW0RqPYQkwKnarHK?=
- =?us-ascii?Q?pxcQEK1X+eRJh+kyatAoIS+HwYMm7ZiL0FxRaF8ZF4Y8Q/1MKS3QNlIlzo5N?=
- =?us-ascii?Q?I1f9bPPENtuMYoOi6p7jK4bHj6ZTsjKkf3IbrEU0DT/ANvNI/yWyBMcKNof7?=
- =?us-ascii?Q?DJ512UZqYym7fuhbPeAvEWQxUQb/rJqpWT4q6YBWMLfBlNIk8ymXKKmLnY4E?=
- =?us-ascii?Q?bD+UJHPp76tdurk4ejtNvMCGc7k6aFlZWp3IkHjKOl3amtX39dou6P71X+yi?=
- =?us-ascii?Q?jH/luSe5fp3YXhrlI0VXV5Y1yQJIkeqwWH3qT41W5LuXBeVtlI1GJoExd+yt?=
- =?us-ascii?Q?p+uYmW1fCn6oRcT9NSMMvLUv4TVYhUEG1r8ucg2m9kNPU9YPqrOwl//JEyQ0?=
- =?us-ascii?Q?CdiW/5YDYnogUU5J2YMoYSm56x5wtskRWZz7tOMocL+l3JArPLIb/JmcjJ3S?=
- =?us-ascii?Q?6lLeXhdaad4Jx84KjmY3bIC2AD7cl20+mv0hc3Jsn+mgtdKPxoZ3l75ChBG8?=
- =?us-ascii?Q?byc3uBxd5A//DDDOhM9qtNjXkBCODDiqTsxcTDKTSVs7mP39/ieUJBGHJsC8?=
- =?us-ascii?Q?yEgyl4ltt0ZvfwqBHf3Wb16Ytw7IwdkVxUqQ0A2Qaxnmb2vR/nxhMgjlf9WS?=
- =?us-ascii?Q?e5+KKmsfdj4Ytzz4iRW8uxULYTUQYDFlGwsQXNgbBgo0Q5XocyjfxyulnNT5?=
- =?us-ascii?Q?gLbA8u3kCfpCF7PtbYWKHrxIfFdlUm8x9Pljp669M0+7xNYCZ5aBn+VA3GYO?=
- =?us-ascii?Q?sYgmMVr7LFe8eGmXc4WadoSY9oyU68JTAvVRu9tRpNcKsKdMtunZKUC4UHOu?=
- =?us-ascii?Q?rJAABLzuNy/PPAT7pWdaVa7Cr+DHmm3AKb2oySQI/7oPMh1l0Y9LaUitVnyg?=
- =?us-ascii?Q?OBrw8GhIbJtMTbCJ4bl9r7OLLm8J0qPc/deR/8xa63bfC3fcSGC9thZT3+mg?=
- =?us-ascii?Q?9tT52qpFax4XYg+mA2rajFCU1wKnBfW6x8ukYoOkxzmAEIV1G2/6+R83tW4Y?=
- =?us-ascii?Q?wB7thchh3Qt+Bn9H0CUDo/QytfY8EexEDZi4TyfGuCbbB/CXYRYe2RTfuJNo?=
- =?us-ascii?Q?yrsknjiegZl9n3v5374i0o45UdjD65YTHmZWBdaj2gAD2+74Q1LzbAhEjHlu?=
- =?us-ascii?Q?E4Rm0zgk7LwT2WUopQmvDtV2s+xQBbkr1QxLFFbm4JhbyreH+20C0o+ORMOp?=
- =?us-ascii?Q?HcHFcqs=3D?=
+	=?utf-8?B?SkJkTlgwUjJyaFU4eGMyVjMrZTlVNmxLT1JLUFN3c1NOMkhOeThsRlFCSlYv?=
+ =?utf-8?B?b2hOK1NYeEc5VTRpNnNwZzFGa1M2TGtrL01ZU3R2T2hMY1Q5ckhTd2xXb1B3?=
+ =?utf-8?B?SDdaUGsxSHRZMFNPYU4waHdLREJha2lHc3J6TFJveDBjOGJneXlSY3Y3VGJH?=
+ =?utf-8?B?YTBHWHNzNUhScUtCY2I1RWFBVVNvUkJqUERmYWZsU0JiMFlrQXNqWEVVM1NR?=
+ =?utf-8?B?WEMxZzFsSmJtWloxYkM2Z24yM0RvaXVXanA5YjEwUnpReHYzTE8vS2hHTGQ0?=
+ =?utf-8?B?ODY3T0xpR1ltQmtzT25oS2lHNFpaQ2FkMFdPd3BuUlE4RzQzTTNvcE1haEN2?=
+ =?utf-8?B?U0FTWjVvekRjZXAxbUVyZm0xQk5GY3JOTExndlZNalNvdnllYUJscVN0aXE3?=
+ =?utf-8?B?a1owSXg0bWhlY2M1b3NhTzFibHRQNFRRb1lpalFxcXN1UnNPclcwb0VybVRv?=
+ =?utf-8?B?M1l3UVBUVXVJMDViVG01MkJ6QlRHYWRUSVAyb1pNbkt6N2V2ekx3dld3TlF1?=
+ =?utf-8?B?RkRYSS90c3JQRnhFcTBjTEVzUWI5VVgrYjVPaWtldEZ4QlJqVTNSV0pLek1y?=
+ =?utf-8?B?dzZxdVIzTkpYTms3N1hjczRDWkpaSDdNVGtrUE8yQk03NHZQcTNyYWZHV1NO?=
+ =?utf-8?B?dGEzWXJoeFpDdWJkVG9Pa0VqdEpiVEFyRzdySDgzKzdtVWJHa0JhVHkxMFJp?=
+ =?utf-8?B?NkpwK3RzNjJTdHhJb1hEWDcrcXVCNjJHS1RQR3Z5VUt0dndTcmVhRHYxUmtP?=
+ =?utf-8?B?TUxpOEt5bjFCRVdEaFpxZlJ2dmc5WFZFeGM5RVRFUFhMMzNscmVNR3l2dXhu?=
+ =?utf-8?B?SnkzSURLbkQwQjkya3B3aHBDeGRveFcvSFRtUG1RMWsvOG4xNWF0dW9mTUtr?=
+ =?utf-8?B?Q1k3eWM1VktaaE9hYUwyWVdSR1YrY041Z0N4bTZUOGFsR0JlNXBzU2NQdFdO?=
+ =?utf-8?B?SW5SbFRKUklmY3lndnc2eiszQkdOS0xRVDV6dStjQXFRaDJlTWdsaFh1WHZO?=
+ =?utf-8?B?Z3hBRUxUK1ZpNXhreTdXL24zc2ZId3Urdk1PQ3kvb1AzK1YwMEcyUHd6bFdG?=
+ =?utf-8?B?UXNCTnR5UloranpucEJDK0xLWnNDSmtnMStlajJkN1NKR0RwZUpyZlppUURu?=
+ =?utf-8?B?QzNVNHp3NnBXMmlFVjFIc0ZZanNDVHducUhLdldUM0txUHVtUDAvMi9pclZP?=
+ =?utf-8?B?ZnlLMEtlUnNBeWp0dXlpd0Erejc2OTdzVjJTMCtuWk1saUYzQUxQTWNudHNC?=
+ =?utf-8?B?R0I5Yk1yNmF5bytlY25uNjQzWVBicGlEVzN6TjV4cHduWWxtWGh6YlNiUE5t?=
+ =?utf-8?B?dFl4aEpPckd0bkl2RTZhcWVsSGtnYnlLU1VNLzZ1aXUwN05HUkFIRmU2T2Ex?=
+ =?utf-8?B?R0FEekl2SktpREtncFh2K1dxdG9saXdsR0M4RXZNcmQyTU96d2h1QnNyNjl3?=
+ =?utf-8?B?UEE4MlYreXpTNHVlUCs3WXVoenhxYWFJQUhENlNnVFJqZVc3ZEtNTmV1bkFi?=
+ =?utf-8?B?YVNZSlFLTVVWS3Qzemp3c1YwZFNTU201NjNNcFRSUVVYK1RSL1B6bDJCLzRH?=
+ =?utf-8?B?VERWaTNza2tBTnhDejZKb0RvQ2hSaGZCT2hnRDMzdjFLOUxGUTZGZEZ0S2tv?=
+ =?utf-8?B?RGg1V2ViNjJUeEFtMVdYTkJjQS90RGgwMmQyTUhpUWNuTmp1L2ZaWlQyMTg1?=
+ =?utf-8?B?ZUJvbnh4R01FM2hYV0RqQ0J0cG9RcmdLOHREeU1YOGxtKytRdUU5QWVCOHlw?=
+ =?utf-8?Q?05M9iOCYSgnQCJPTMI=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UEsv3FlW8LVidPVPWv/90sGVkaqGQ+ZEbdZlhWXe/wtU9RlqLpGMhCLF5rch?=
- =?us-ascii?Q?s5SA2lMNXvbNybnU5sUMjEu+e4S2hagZ5VE6YnNlPXRqRAeN+BqoLt2RIKIW?=
- =?us-ascii?Q?pey2iy2+iuFEYfcRqCo4TWHssFNamBvjanLWhh62QSI7mIaXvjB+nUxVpZUt?=
- =?us-ascii?Q?JWhumU5Z2Nu9UJgFVo+3T/DBDj/JTuoIXcXQzPTnBQu3iSEgejwZIn2X5ejG?=
- =?us-ascii?Q?Ii1vgjKZLuYTsslJJ95mJfXmYx4BxWQfwlHxy7H4bRNlm+NuowndZX1rRkcn?=
- =?us-ascii?Q?cSCaRiBg9IRmYMzzq8FXPgWL1uKpdSihsTYPcTh7YlLgG4YcteWHnWZYp8xp?=
- =?us-ascii?Q?isXF3oq1ngbTa2lvcQ99FFu80QppOQI/JGExZ6QIbjPq0SYni2vagX66M1NQ?=
- =?us-ascii?Q?rDbfOWs6QME5ZZ3oNS3attYJiuzoRKQVucgye3tmJdMR+JaTbnwC7FSsnUXM?=
- =?us-ascii?Q?122Q4jYG1/HzgIPbMHPYGKqmEZIJn6/oAdTLk28CYBr8JLMzSIgRhC+z1QLr?=
- =?us-ascii?Q?l/3V/0v0fpFHkEDltbJlYdTmjXUJjT7XECDwWjKwJW4A8TzdeYvC3WfA/Qah?=
- =?us-ascii?Q?mGeUUmGiDjENF92yjVm38ODm3NPlcd+IN8gBn233xF0SlfVsnBRqSSw9PUt3?=
- =?us-ascii?Q?fBs5HYxTkyjCiBU0RYIAjjSeqHDhAwaMX6Z8SPwcnTpsqUxtF5C1VQVJGTp0?=
- =?us-ascii?Q?Q2280epUAWrFPiJ9l8zR9I2bJo06gq7PNz2VLOc9oWuXoQIm2/dhoyy7IMJ8?=
- =?us-ascii?Q?ryVWD2dc/e/YeiPzBeXuAIw9r1G81skVA7tp4uU6bgLhidAOZBB/7537rMIi?=
- =?us-ascii?Q?N+iOwxnRk18uYlF4F5NbTzWHzDJdb4C6Ommhr3an8fDgiAB1nLL7vydlLlFK?=
- =?us-ascii?Q?TVKoEItAlHnLpheqFYyQYNfC9IwfiMlAgHsLtrgCSbBohMZ/sPeDLZ3ZEpAz?=
- =?us-ascii?Q?HXdJXUxh0m+7aRyK1OfSwFqRj3gW3irczLzpRZTVsgc2MQhJ5Wmb51UoTp6d?=
- =?us-ascii?Q?wJ5V3er1hczCDOr9vYfysSHBK+CMKGwBOU12faVlFjI/XgICCT/wBemmSiKE?=
- =?us-ascii?Q?v5/vqdCAJmql1qCEsszzDcpi2oXBvZG0sm+T7bYn80dc77PJmybB8RflEEao?=
- =?us-ascii?Q?5SJxHV2Dhg66B2ugohMEOzS3ZoqHdkmDa+lAOWxsqlLgjmjYXdYMHXQAUeVN?=
- =?us-ascii?Q?DZW1X9PNNR/bX3Z+8KLwZiY5hCODsdNZ3gX4IlkqQMdIILHAUvmn87IlZzAG?=
- =?us-ascii?Q?b1eGRayfLtVDyBTAmSCUGijUfyGZmrZmzWOraoNVCTarsqIADVfdVPEONiWA?=
- =?us-ascii?Q?QxZM2cEEo9V0lUqJ6Yr8t55jZpH4Ak7KjHesnV/0waulmjeDN83NsME4VOFr?=
- =?us-ascii?Q?l9rsqewyc8RoP/AQGBmZvqbVJ9s2hBLGqA0ibTNGWvjWLgw9K6xkIirWDGZ7?=
- =?us-ascii?Q?fwGCWRLfNGSsu55gEbNRiOs+Fe+2OP7pDxqqXlzBCO0TnHSPgzuV5nAk5eAq?=
- =?us-ascii?Q?KhQy1BtSjYggKa0b7yByUHQTXbVzDQt1CXJ/wk06Jfs39b+vvkBnokufUa2J?=
- =?us-ascii?Q?0d8bxPUlqFmVXhswEYGtjv/tohUIJypvoeSOohpg?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b00e961b-1ed9-4fc9-7d72-08dcac41c020
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
+	=?utf-8?B?SVM0YzVyektJN0hZVnFTa3FtWmJvNEJseHVvbWpueWt5RXpqOVRHUlpTYk9h?=
+ =?utf-8?B?NC9yeUVhUUVjVHNuSkNodFA5TTltcXlubG9QOHNKejR0RmdoNkx3K241MEVj?=
+ =?utf-8?B?eWVWaW5VMlVTUEN1V0FtWDRWc1ZpRHlIZHVFbUttZUpsQks2MDY4SzlFVlVh?=
+ =?utf-8?B?UDJENFNHUk1IVit1aHJSblg3ZkVJZkVFVytwTFdsN0Z6V2xwa0k1Z2ZQTndr?=
+ =?utf-8?B?NExGcjRxSE45VUR5VXY3YTFMZUdjZE5Oei9sek1VeXRnaEduVmxiZ1RCL2w2?=
+ =?utf-8?B?UWE2UVRiN01oWENHbGZ5YjRqU01BOTZHRXB2STNVdUJXUkVGQ0NPVTJva0Fo?=
+ =?utf-8?B?amNtQm0vTmpkSnAyOTNEVTVVUTBUSmw1SzZBY1ZIRWJVSGdITkRseDgySEJJ?=
+ =?utf-8?B?NjNTN3NCb1IxVTN1ZldjMXFXTHNEM3UwOHFPQ3V6QWxKQ3M1RGtDMWloNkhi?=
+ =?utf-8?B?KzRydFpLVEN4NmhacWd0ZWRZSDB1WGpDUFh3SnhDTGNrMkk3dUVvZTRIN3Jq?=
+ =?utf-8?B?WEFQZjRnNllGQkZ6MVRSL3ZRbjBDOWV6eHQ0eUJhVlovM0p1MEdCNmJOSlR4?=
+ =?utf-8?B?cm1zblA0bERaazVYZS9Va1VqMjBTdFF1S3pGMDh4UkdjZ3hrYVJhbHlURE5M?=
+ =?utf-8?B?UzVJSGs3ZHdRNHM0d0VaUWJqU0ZDc0oydUNjUmg2dXRRSGsxRFQ1eFdER0Uw?=
+ =?utf-8?B?d3JkTFdPRmRlbEtTNTlqUmtjUHIwMHkvVUExYm9waGxSOGhYc3VKbFd3aStt?=
+ =?utf-8?B?T2hZcDlyT3RUZWlFVTVRZkFjOTZzZmoxNjZXNjE0SEJvcTQyWFluSDZZbHFl?=
+ =?utf-8?B?RTRMT2xPWDV3ZlNnVkVaSWFqUlFaeFRIUzVQWUlEOGlrak4zZFRTbVB4T21t?=
+ =?utf-8?B?YkdMNHV6MWpWa3JJZUdocnNnWVJIWEJ3Nk1ZTnE3cHVhblBSUVJ0cW9iRS91?=
+ =?utf-8?B?anZxSXRyL2UxSGduNzdRQW9XZTk0VGtxekszbTlabUViQW9wY2dOcnpsNElh?=
+ =?utf-8?B?Uy9kTHBSem1vSlQ3anRBVE40TmFsVU5tUVZkRTdidEZwcGlkdHU5VlZEYjRL?=
+ =?utf-8?B?cGFrcmtkaHc4eXJ1ZWhxdzVFakFJQjFMc1o4OEVvZjBjVWZoenZkTXVIcUZr?=
+ =?utf-8?B?cjFCZGJVRzRsNnhMRUdocUwyb0dXSUhJTkdLMkRkV2Q2NEJtVUthNFEvL1NH?=
+ =?utf-8?B?aWdzRnJBajZsWmM2enpBNkk0Um5YSmFRYy9KcUFkQnNUbi9BTnRnYTRKbE43?=
+ =?utf-8?B?R21yQ04yekJzU3hiby9IdWQwZkZiNHhTV3dQU29mR2VQNndST0RIWW1Kd3lL?=
+ =?utf-8?B?ZDc2NGFlZnVHNDhqdGhFUVphaVphcm9GTzNWbjd2T3RZdjRUTFRta1h0ZVVG?=
+ =?utf-8?B?NEdYSFBSeEtvcWdxY2N4eVE4cUVCOEFZdkFxMDc1azJvNkVyU2p3azlzNXg1?=
+ =?utf-8?B?RlB0ZGFTS2owa1hsMXcrcS90am01eVJsaUNMaE5UZDd5dHVNQTZOQXBsS2JV?=
+ =?utf-8?B?OVU1QlFKM2FwTjZNTkp0bjBJYVU2Q1V3T2ROZmNLd0VQWFRocU00MXcvVVNB?=
+ =?utf-8?B?Q1M1elpqNFF3aFpzOE5BNUx2bXlMcG9WWlFkQzhJMzlMOTZrV2l1VzdrRUla?=
+ =?utf-8?B?WVAwMGJMejg3a2FuS2RCcllRQXFGbDBpcWNHbkNSQmFhc2FPREltOWRxL3ZE?=
+ =?utf-8?B?RkJXQ21ha3BrMDJ5alpVVEplR2RZSnhseDJiWUpXQit6bnA4S2I1bjBESGRE?=
+ =?utf-8?B?eHhTUzhFYmVaNlNnMFdoTm9vQTUrei9iSzVwOFhVSy82WnViOS9qRjFhUnY2?=
+ =?utf-8?B?UWlhaU84eWwwN0dkcTlhTFBiYXp2MjRUL2hDbzY3dklpOVdjTUdjNzlCQ0Ja?=
+ =?utf-8?B?eG15MXNYSzYzTlhWeUJmTTlldEhLMldHTUJwbnJWMjZmUG51V3MvNGN5UlpY?=
+ =?utf-8?B?UnJoMkFVZXY1alpnWmpKWlA5K3BFTkxXY1dtQmtUOEc4TDJOajMybFpxdFpy?=
+ =?utf-8?B?VlJ1Y0JQVlFIUHV6NGpka1I0b3YyL2Y5TlRRR3RBWVRLck5BYWoySmNVZFli?=
+ =?utf-8?B?RTJLWmRBWUYxYkhoTHNWU2d2Ym03K2NZMGZka2VyZkVGTUlrVWdYY0NOcDQ3?=
+ =?utf-8?Q?1bjk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2df800dd-d002-45c0-a1f0-08dcac484fff
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2024 00:35:57.7342
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2024 01:22:56.0980
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QK+rn9sLxym9rS/RFQjmNGqbhsvb1t1q656c7qz9/1Y4HHPzMxuVRfeqXlr3dlrx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7484
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7J7dKatv5BmLuZDiKKNTyedz05OEAEMr5DLmSZ/swY58M0aMoX2U1mcRJixnsr8X
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4254
 
---=_MailMate_0F561B29-1B56-4DB1-964E-7E202A4B673B_=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi Peter,
 
-On 24 Jul 2024, at 18:44, Zi Yan wrote:
-
-> On 23 Jul 2024, at 2:41, Mike Rapoport wrote:
->
->> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On 7/24/2024 7:03 PM, Peter Newman wrote:
+> Hi Babu,
+> 
+> On Wed, Jul 3, 2024 at 2:51 PM Babu Moger <babu.moger@amd.com> wrote:
 >>
->> Hi,
+>> Introduce the interface to enable events in ABMC mode.
 >>
->> Following the discussion about handling of CXL fixed memory windows on=
-
->> arm64 [1] I decided to bite the bullet and move numa_memblks from x86 =
-to
->> the generic code so they will be available on arm64/riscv and maybe on=
-
->> loongarch sometime later.
+>> Events can be enabled or disabled by writing to file
+>> /sys/fs/resctrl/info/L3_MON/mbm_control
 >>
->> While it could be possible to use memblock to describe CXL memory wind=
-ows,
->> it currently lacks notion of unpopulated memory ranges and numa_memblk=
-s
->> does implement this.
+>> Format is similar to the list format with addition of op-code for the
+>> assignment operation.
+>>   "<CTRL_MON group>/<MON group>/<op-code><flags>"
 >>
->> Another reason to make numa_memblks generic is that both arch_numa (ar=
-m64
->> and riscv) and loongarch use trimmed copy of x86 code although there i=
-s no
->> fundamental reason why the same code cannot be used on all these platf=
-orms.
->> Having numa_memblks in mm/ will make it's interaction with ACPI and FD=
-T
->> more consistent and I believe will reduce maintenance burden.
+>> Format for specific type of groups:
 >>
->> And with generic numa_memblks it is (almost) straightforward to enable=
- NUMA
->> emulation on arm64 and riscv.
+>>   * Default CTRL_MON group:
+>>           "//<domain_id><op-code><flags>"
 >>
->> The first 9 commits in this series are cleanups that are not strictly
->> related to numa_memblks.
->> Commits 10-16 slightly reorder code in x86 to allow extracting numa_me=
-mblks
->> and NUMA emulation to the generic code.
->> Commits 17-19 actually move the code from arch/x86/ to mm/ and commits=
- 20-22
->> does some aftermath cleanups.
->> Commit 23 switches arch_numa to numa_memblks.
->> Commit 24 enables usage of phys_to_target_node() and
->> memory_add_physaddr_to_nid() with numa_memblks.
->> Commit 25 moves the description for numa=3Dfake from x86 to admin-guid=
-e
+>>   * Non-default CTRL_MON group:
+>>           "<CTRL_MON group>//<domain_id><op-code><flags>"
 >>
->> [1] https://lore.kernel.org/all/20240529171236.32002-1-Jonathan.Camero=
-n@huawei.com/
+>>   * Child MON group of default CTRL_MON group:
+>>           "/<MON group>/<domain_id><op-code><flags>"
 >>
->> v1: https://lore.kernel.org/all/20240716111346.3676969-1-rppt@kernel.o=
-rg
->> * add cleanup for arch_alloc_nodedata and HAVE_ARCH_NODEDATA_EXTENSION=
+>>   * Child MON group of non-default CTRL_MON group:
+>>           "<CTRL_MON group>/<MON group>/<domain_id><op-code><flags>"
+> 
+> Just a reminder, Reinette and I had discussed[1] omitting the
+> domain_id for performing the same operation on all domains.
 
->> * add patch that moves description of numa=3Dfake kernel parameter fro=
-m
->>   x86 to admin-guide
->> * reduce rounding up of node_data allocations from PAGE_SIZE to
->>   SMP_CACHE_BYTES
->> * restore single allocation attempt of numa_distance
->> * fix several comments
->> * added review tags
->>
->> Mike Rapoport (Microsoft) (25):
->>   mm: move kernel/numa.c to mm/
->>   MIPS: sgi-ip27: make NODE_DATA() the same as on all other architectu=
-res
->>   MIPS: sgi-ip27: ensure node_possible_map only contains valid nodes
->>   MIPS: sgi-ip27: drop HAVE_ARCH_NODEDATA_EXTENSION
->>   MIPS: loongson64: rename __node_data to node_data
->>   MIPS: loongson64: drop HAVE_ARCH_NODEDATA_EXTENSION
->>   mm: drop CONFIG_HAVE_ARCH_NODEDATA_EXTENSION
->>   arch, mm: move definition of node_data to generic code
->>   arch, mm: pull out allocation of NODE_DATA to generic code
->>   x86/numa: simplify numa_distance allocation
->>   x86/numa: use get_pfn_range_for_nid to verify that node spans memory=
+Yes. I remember. Lets refresh our memory.
+> 
+> I would really appreciate this, otherwise our most typical operations
+> could be really tedious and needlessly serialized.
 
->>   x86/numa: move FAKE_NODE_* defines to numa_emu
->>   x86/numa_emu: simplify allocation of phys_dist
->>   x86/numa_emu: split __apicid_to_node update to a helper function
->>   x86/numa_emu: use a helper function to get MAX_DMA32_PFN
->>   x86/numa: numa_{add,remove}_cpu: make cpu parameter unsigned
->>   mm: introduce numa_memblks
->>   mm: move numa_distance and related code from x86 to numa_memblks
->>   mm: introduce numa_emulation
->>   mm: numa_memblks: introduce numa_memblks_init
->>   mm: numa_memblks: make several functions and variables static
->>   mm: numa_memblks: use memblock_{start,end}_of_DRAM() when sanitizing=
+> 
+> # cat mbm_control
+> //0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;8=tl;9=tl;10=tl;11=tl;12=tl;13=tl;14=tl;15=tl;16=tl;17=tl;18=tl;19=tl;20=tl;21=tl;22=tl;23=tl;24=tl;25=tl;26=tl;27=tl;28=tl;29=tl;30=tl;31=tl;
+> # echo '//-l' > mbm_control
 
->>     meminfo
->>   arch_numa: switch over to numa_memblks
->>   mm: make range-to-target_node lookup facility a part of numa_memblks=
+What is the expectation here?
+You want to unassign local event on all the domains?
 
->>   docs: move numa=3Dfake description to kernel-parameters.txt
->>
-> Hi,
->
-> I have tested this series on both x86_64 and arm64. It works fine on x8=
-6_64.
-> All numa=3Dfake=3D options work as they did before the series.
->
-> But I am not able to boot the kernel (no printout at all) on arm64 VM
-> (Mac mini M1 VMWare). By git bisecting, arch_numa: switch over to numa_=
-memblks
-> is the first patch causing the boot failure. I see the warning:
->
-> WARNING: modpost: vmlinux: section mismatch in reference: numa_add_cpu+=
-0x1c (section: .text) -> early_cpu_to_node (section: .init.text)
->
-> I am not sure if it is red herring or not, since changing early_cpu_to_=
-node
-> to cpu_to_node in numa_add_cpu() from mm/numa_emulation.c did get rid o=
-f the
-> warning, but the system still failed to boot.
->
-> Please note that you need binutils 2.40 to build the arm64 kernel, sinc=
-e there
-> is a bug(https://sourceware.org/bugzilla/show_bug.cgi?id=3D31924) in 2.=
-42 preventing
-> arm64 kernel from booting as well.
->
-> My config is attached.
+Domain id makes it easy to parse the command. Without that it parsing 
+code becomes  messy.
 
-I get more info after adding earlycon to the boot option.
-pgdat is NULL, causing issues when free_area_init_node() is dereferencing=
+How about something like this? We can use the max domain id to mean all 
+the domains. In the above case there are 32 domains(0-31). 32 is total 
+number of domains. We can get that details looking through all the 
+domains. We can print that detail when we list it.
 
-it at first WARN_ON.
+# cat mbm_control
+//0=tl;1=tl;2=tl;3=tl;... 31=tl;
+Max domain id is 31. Use domain-id 32 to apply the flags on all the 
+domains.
 
-FYI, my build is this series on top of v6.10 instead of the base commit,
-where the series applies cleanly on top v6.10.
+echo '//32-l' > mbm_control
 
-[    0.000000] Early memory node ranges
-[    0.000000]   node   0: [mem 0x0000000080000000-0x00000000ffd82fff]
-[    0.000000]   node   0: [mem 0x00000000ffd83000-0x00000000fffb5fff]
-[    0.000000]   node   0: [mem 0x00000000fffb6000-0x000000017befffff]
-[    0.000000]   node   0: [mem 0x000000017bf00000-0x000000017bfbffff]
-[    0.000000]   node   0: [mem 0x000000017bfc0000-0x000000017c02ffff]
-[    0.000000]   node   0: [mem 0x000000017c030000-0x000000017c03ffff]
-[    0.000000]   node   0: [mem 0x000000017c040000-0x000000017c09ffff]
-[    0.000000]   node   0: [mem 0x000000017c0a0000-0x000000017c13ffff]
-[    0.000000]   node   0: [mem 0x000000017c140000-0x000000017f41ffff]
-[    0.000000]   node   0: [mem 0x000000017f420000-0x000000017f4affff]
-[    0.000000]   node   0: [mem 0x000000017f4b0000-0x000000017f5bffff]
-[    0.000000]   node   0: [mem 0x000000017f5c0000-0x000000017f5dffff]
-[    0.000000]   node   0: [mem 0x000000017f5e0000-0x000000017fffffff]
-[    0.000000] pgdat: 0000000000000000, nid: 0
-[    0.000000] Unable to handle kernel paging request at virtual address =
-0000000000002220
-[    0.000000] Mem abort info:
-[    0.000000]   ESR =3D 0x0000000096000004
-[    0.000000]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-[    0.000000]   SET =3D 0, FnV =3D 0
-[    0.000000]   EA =3D 0, S1PTW =3D 0
-[    0.000000]   FSC =3D 0x04: level 0 translation fault
-[    0.000000] Data abort info:
-[    0.000000]   ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
-[    0.000000]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
-[    0.000000]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
-[    0.000000] [0000000000002220] user address but active_mm is swapper
-[    0.000000] Internal error: Oops: 0000000096000004 [#1] SMP
-[    0.000000] Modules linked in:
-[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 6.10.0+ #17
-[    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-[    0.000000] pc : free_area_init+0x720/0xf90
-[    0.000000] lr : free_area_init+0x714/0xf90
-[    0.000000] sp : ffff800081eb3c20
-[    0.000000] x29: ffff800081eb3c20 x28: 000000017b5e710c x27: ffff80008=
-2158000
-[    0.000000] x26: 000000017ffff168 x25: ffff800081ecc000 x24: 000000000=
-0000000
-[    0.000000] x23: 0000000000000000 x22: 0000000000000000 x21: ffff80008=
-21f0480
-[    0.000000] x20: 0000000000000000 x19: ffff8000818863f0 x18: 000000000=
-0000006
-[    0.000000] x17: 00000000007fb000 x16: 000000017f805000 x15: ffff80008=
-1eb36b0
-[    0.000000] x14: 0000000000000000 x13: 30203a64696e202c x12: ffff80008=
-1f3ef10
-[    0.000000] x11: 0000000000000001 x10: 0000000000000001 x9 : 000000000=
-0017fe8
-[    0.000000] x8 : c0000000ffffefff x7 : ffff800081ee6d40 x6 : 000000000=
-0057fa8
-[    0.000000] x5 : ffff800081f3eeb8 x4 : 0000000000000000 x3 : 000000000=
-0000000
-[    0.000000] x2 : 0000000000000000 x1 : ffff800081ec8c40 x0 : 000000000=
-000001f
-[    0.000000] Call trace:
-[    0.000000]  free_area_init+0x720/0xf90
-[    0.000000]  bootmem_init+0x158/0x218
-[    0.000000]  setup_arch+0x220/0x650
-[    0.000000]  start_kernel+0x74/0x7e0
-[    0.000000]  __primary_switched+0x80/0x90
-[    0.000000] Code: 97a64606 b940b7f6 a90dffff f876dab4 (b9622280)
-[    0.000000] ---[ end trace 0000000000000000 ]---
-[    0.000000] Kernel panic - not syncing: Attempted to kill the idle tas=
-k!
-[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the=
- idle task! ]---
+There is only on syscall but IPIs will be sent to all the domains.
 
---
-Best Regards,
-Yan, Zi
+Any other ideas?
 
---=_MailMate_0F561B29-1B56-4DB1-964E-7E202A4B673B_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename=signature.asc
-Content-Type: application/pgp-signature; name=signature.asc
+> -bash: echo: write error: Invalid argument
+> # cat ../last_cmd_status
+> Missing domain id
+> 
+> If you can't get to it in this series, I'll push a
+> scalability-oriented series after the basic assignment support is
+> merged.
 
------BEGIN PGP SIGNATURE-----
+Lets try to get this resolved in this series.
 
-iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmahneoPHHppeUBudmlk
-aWEuY29tAAoJEOJ/noEUByhUlwUQAJhiW3WWTu3PREnDrPSG03Ni98AT5kE27HQs
-kZfZpevoam3PiqHoTYaJz02RxXnfY/8qp2JwPiTSCkDJfMuncNS+JC9tEykJzxdw
-15Y+zyIufYtDgu80/xlyvj4qBqkxliiAhG50K8iZOWEYBdu4GpAM87AWY3Ff0Iv+
-niUUJ/vmsNUH1R3ZYdyP2b2PfSC3Ok9kfFlwE5Jm4LXY9Ju4ixrU5Ku9C1UtxyDb
-CGRv/et2yGKPbzM34rR6u6/JAAFbXoQW3uJrUmSr2UnTbFITW51gqDQ7urvUwxPA
-pnnqqUCNLGLfR7inpVqC0EOs4AMVfnj4ZkOxWihSD73lnUz5tE8kTrt3yf7+qVO5
-Q2GTniU/D9l38KVu8yuX9Z3/DULpJN/La58dWMxPKAQlOU21eFhufMAX8sNLga/j
-VeJTo8tVpqMyJLJuT4gP0sXlZknYhCmV4RzWc5s8QT54TfcIbaAx5I2LhRJwmuu9
-Gze5NXEqCyEQ4guQ6t2oEfmf8+Eanax26jFgm08ZfUuZwfsgynTnYAyo8JtAj4az
-VIGf+kKnKOQDiojSMBABaQoiBk6h6Sh5U1AXirqeSvNrmKISkEdydul9NijMidjN
-aC97As4te+mPqJ1QyZNdudbYCtrZZ6+X+88HoDMKgB9uHhXmGpdnSsjDJ89LD9tk
-ROfMsB3E
-=mFe0
------END PGP SIGNATURE-----
+> 
+> Thanks!
+> -Peter
+> 
+> [1] https://lore.kernel.org/lkml/CALPaoChcJq5zoPchB2j0aM+nZpQe1xoo7w2QQUjtH+c58Yyxag@mail.gmail.com/
 
---=_MailMate_0F561B29-1B56-4DB1-964E-7E202A4B673B_=--
+-- 
+- Babu Moger
