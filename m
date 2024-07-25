@@ -1,387 +1,152 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C6E19B5BE
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 16:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CA619AD8B
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 17:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721925580; cv=none; b=F4D61ZCnOPNZetKvQdaZhoYQ8C5p4UgLj8ZW1rAkQLgrbXkm8YTPCnpK70eJwDtOLuw+lsb5goB9v7Tsw0b6E/LWCeqh/+d4YAzdhVJ1XzJgsYBqd9N8/d4MXCMDp8iFZb37IrxGR4xfCABR0A9V2w1bB//rizIrpWKCMtZLn2c=
+	t=1721927522; cv=none; b=bOi13KadVEziQNuV/2Zw1hKQx7Ss1Ecsnv/LtN8Hy+3d2lfeDcLDXcCVMmK1K/IZ6ttlPmGQIVza3i4+T/zK04u5nui26MhVrhe9P1h5WpRqJkUIffHNoXgW7LeLTZ62VyGreZbCZmWc/aqDDJtp9Qw+A6uOnSShgy4gi1UWxds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721925580; c=relaxed/simple;
-	bh=w0v/iJYVRDvOuOk+qu46YJbJyYB3+t4haue0iNRD7WM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XVRjobhKE/SdfXh4+p35KwR7rcAchP97pw41LQVYF6yvaR7O2d0ZwbsOVDcg/Rz4mLFw5JGl4kf/sDlAqKODC9y5hgAEv7rD/B84kpigO8OaXqeZ/Hp20CKe8R+Jy8c7c1HIuDw0A5I9ZMYCAdiBn5K/lsebOOB+QbruM2uGFUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S0YKy6Mu; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1721927522; c=relaxed/simple;
+	bh=RBvveK3q34K8kjZG2JWeztuV3CxvsuNu0VJGLmoCGvc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cWSuiE3rxBA1/lVYTJSfTWf/MCbQuqKswxTDsN0xlK7yXYm/LLOhDODvj1n+6no/q2acpyoVPDn0EGoVGZ1LPMACOI5rjQdrzAu68qKBJHjs/HBa1rpKTsyXirabWX1bYlRneY6WasQuaUOP4bzEjCA+sgJZ/oJUFY+RF8G5i/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OxSU15V/; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S0YKy6Mu"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc569440e1so10469685ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 09:39:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OxSU15V/"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5a18a5dbb23so765a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 10:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721925578; x=1722530378; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QcSVy1tvOkU8yRLWC0qxdbVVrc8ZEhqmlAiyT2QSHkE=;
-        b=S0YKy6MuYJ0E+8qrH9Xa3OH0armCipBpLZVS/WSDO9404TnPqoFMtiZTILMqjEbA5d
-         xMqEEiSOmU1iLHEuIa4LfnJ2FY9Gd/OUDxPP5oHG4V/c8JMTq+ipl9yltGCMjqtR4dYH
-         suYF5LheXRoNIqt5j2yXMLBGu8heby5NmwLR0YmrNjIJTRrA0qK8i0MLjY6f4SNwy+Go
-         Q1Urtg7cVvf/eZrTPJMEsfSKkphJuoGGVH3ZOZQjA4fbGxnILVgXunOQiddvXtKSJGmm
-         Sd0x/jkPHQ9wh+Cr8H+L8/LS6e3t+mqbanlyk1k8GldHnZ8AbFPryMUn1s46aWWZXcDk
-         rGoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721925578; x=1722530378;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1721927519; x=1722532319; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QcSVy1tvOkU8yRLWC0qxdbVVrc8ZEhqmlAiyT2QSHkE=;
-        b=iMGyD8SH1CM3F99zp+g45vfLkJZrkWm6B8vuLb+CxAbahaCaPEOMk1GZrHVobNGvLY
-         VfA9uJ6o9we+0jfxIREF4CvLLH7QiDDBERZS3BWv4msdlJqK3MEFRjX8a+EPO17pE5TJ
-         eD1Yoha5Fpy0n8X3CKxYljtQroZKKt3go372a2/TUitH95QrHqAonYVucoaVxkJ/AJLZ
-         uHZP1K63fEVEQfezbeZ32M7lQrkt/wOaS8ub5fiHL8IHqGhWLBXfKUEKkA4a5Uu0E/hi
-         FuZouf6YXaROxsFfYWTRS9T1NLMpgBmpEFcZWubdkeFaZ2oYSi5wo5XuGPOwJUIlR3ig
-         YN/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUtmLfVCHgcZEOoaxan6i+xEeWN+NhY/34frpB5j9/OLuRpWAXQG4uHLhERRuefF1Twrz9x3NSG6McRfkjBNydZht+ubgQNNLJI
-X-Gm-Message-State: AOJu0YyHNaNspqJlKxV/Ytl5b+jI+/FLM3WYnU8PrS+uzU16hBCJp5tl
-	Wl6BH/ssSNsDFhvypOUjVuNP9BLS/2+IzThsRortFQAwOropIiWdJZLienlchQ==
-X-Google-Smtp-Source: AGHT+IHB3MBDNmfV4qXP0PeruhsiIcuNxKT7iPw0JA5SjJko2zFwnnPefUglyTGQ1O1zxG/RUL8Ssw==
-X-Received: by 2002:a17:903:1246:b0:1f8:6bae:28f with SMTP id d9443c01a7336-1fed3870ea6mr39885005ad.9.1721925577381;
-        Thu, 25 Jul 2024 09:39:37 -0700 (PDT)
-Received: from google.com (61.139.125.34.bc.googleusercontent.com. [34.125.139.61])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7ee4ce6sm16408675ad.157.2024.07.25.09.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 09:39:36 -0700 (PDT)
-Date: Thu, 25 Jul 2024 09:39:32 -0700
-From: David Matlack <dmatlack@google.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 01/11] KVM: Add lockless memslot walk to KVM
-Message-ID: <ZqJ_xANKf3bNcaHM@google.com>
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-2-jthoughton@google.com>
+        bh=h70lOV3n7u1xdXwh+MQKksDG4X07HM3XUttX39/0xs8=;
+        b=OxSU15V/YFEbPTKlBuNJsjPIsxNTgwSvsFdVS67sCeLH/c/jQjRCnlUT71s2BUWd3G
+         WltRHNdBPDBdgWCCXVfACHV+JSFajrltqMDn3YLZMpN3tIBqW/YGoKe/1l5OP5KRBJZ0
+         ki8CXTt+ZVP79w+HAo42wFfoSN0VoOa+zBty4F6dbCte2j9brnWPXmgpy6GLll3u2nl4
+         9+zYiHyCPChs1opwr/mWfaLQXbL/TKKNWgnKG6WKm+/k/OCCh7nHpqsMk0vH90Q/ED3j
+         ttV2Jrb77rJJI0vQUxdBe3BuwH1XZZRSlLluMdXqbmGXOgs8f0w40cuj+W+N9pcY7pEx
+         oi8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721927519; x=1722532319;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h70lOV3n7u1xdXwh+MQKksDG4X07HM3XUttX39/0xs8=;
+        b=QCow6m8fqz2PlUbHQO5XT/9J/l7qsVhzS5iJF4fX3DzaNtqCpOliivv4IkmMm/ekh8
+         8qPwb9QP9eIlSy4hyQM9KrFm/385p7XR8C36odARQpaBVLESef5a+AmblQuPA7/+hX7Y
+         dpyS8RhB76oZCWU8Pvccv0XfVZpNHTlau2P+M9DX2A/JtLmLf08BFFti9rXqFpjXjO58
+         TfiGL5ILn4gbevdLKH3d73LIHfyZMh7+jbAe6Wb6KVofjo5o7yisXHTgMyEZ8Jn9Tp+q
+         6fhK38J4rm4buF22L/wXADV1qCf6KK0d7AV4TN5uBuszz0SiI+FfP0UXr61JlZHevTFu
+         Rgiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWm6FpRx0T1+W6g4RYPcgNggK/Q2iZJV/bN6/wVDJIou9o8iUr1LMNbQHpsstGetaSjhoFUs32Y6KREXVzURz6KT9Za+mlcvxt
+X-Gm-Message-State: AOJu0YyBnN0SU5F1cR66ExkYrKhU8oJBCbP1p8RQMf9NPuyjZUzDoOdV
+	Vz1XSRJFXTJhBoJ3j8cAST4s+O779jrgkALeu1r4VFGDQx7VaWftyhDqaNVbtRq6IBbpfn6QeeP
+	o/FsrsuWj5CejzKz/sPByYVJuz8Y6rEYcQabM
+X-Google-Smtp-Source: AGHT+IGf+6lSI4qFFarQ0+G0tgl4raSviPNkL3zM1ta4TtBqeKQ5E4vnd254pihwECoRP6wIsmWYqjEKHdIGMxFmd64=
+X-Received: by 2002:a05:6402:34d5:b0:57d:436b:68d6 with SMTP id
+ 4fb4d7f45d1cf-5ac2d0513c3mr280213a12.7.1721927518444; Thu, 25 Jul 2024
+ 10:11:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240724011037.3671523-2-jthoughton@google.com>
+References: <cover.1720043311.git.babu.moger@amd.com> <49aa5321f6e81825a0e9e44cef06c243634e341a.1720043311.git.babu.moger@amd.com>
+ <CALPaoCjL92Jwm=Ynt+pEpSt5KLVxnJL8KOKymZ=WP+cUufy_Uw@mail.gmail.com> <54127ad5-8dce-b783-acf2-61bebd0db86d@amd.com>
+In-Reply-To: <54127ad5-8dce-b783-acf2-61bebd0db86d@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 25 Jul 2024 10:11:47 -0700
+Message-ID: <CALPaoCiv9pFg2kzG9i-mVy4D4EP600x38F+WSXR2DqoZ9GjecA@mail.gmail.com>
+Subject: Re: [PATCH v5 20/20] x86/resctrl: Introduce interface to modify
+ assignment states of the groups
+To: babu.moger@amd.com
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-07-24 01:10 AM, James Houghton wrote:
-> Provide flexibility to the architecture to synchronize as optimally as
-> they can instead of always taking the MMU lock for writing.
-> 
-> Architectures that do their own locking must select
-> CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS.
-> 
-> The immediate application is to allow architectures to implement the
-> test/clear_young MMU notifiers more cheaply.
-> 
-> Suggested-by: Yu Zhao <yuzhao@google.com>
-> Signed-off-by: James Houghton <jthoughton@google.com>
+Hi Babu,
 
-Aside from the cleanup suggestion (which should be in separate patches
-anyway):
+On Wed, Jul 24, 2024 at 6:23=E2=80=AFPM Moger, Babu <bmoger@amd.com> wrote:
+>
+> Hi Peter,
+>
+> On 7/24/2024 7:03 PM, Peter Newman wrote:
+> > Hi Babu,
+> >
+> > On Wed, Jul 3, 2024 at 2:51=E2=80=AFPM Babu Moger <babu.moger@amd.com> =
+wrote:
+> >>
+> >> Introduce the interface to enable events in ABMC mode.
+> >>
+> >> Events can be enabled or disabled by writing to file
+> >> /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>
+> >> Format is similar to the list format with addition of op-code for the
+> >> assignment operation.
+> >>   "<CTRL_MON group>/<MON group>/<op-code><flags>"
+> >>
+> >> Format for specific type of groups:
+> >>
+> >>   * Default CTRL_MON group:
+> >>           "//<domain_id><op-code><flags>"
+> >>
+> >>   * Non-default CTRL_MON group:
+> >>           "<CTRL_MON group>//<domain_id><op-code><flags>"
+> >>
+> >>   * Child MON group of default CTRL_MON group:
+> >>           "/<MON group>/<domain_id><op-code><flags>"
+> >>
+> >>   * Child MON group of non-default CTRL_MON group:
+> >>           "<CTRL_MON group>/<MON group>/<domain_id><op-code><flags>"
+> >
+> > Just a reminder, Reinette and I had discussed[1] omitting the
+> > domain_id for performing the same operation on all domains.
+>
+> Yes. I remember. Lets refresh our memory.
+> >
+> > I would really appreciate this, otherwise our most typical operations
+> > could be really tedious and needlessly serialized.
+>
+> >
+> > # cat mbm_control
+> > //0=3Dtl;1=3Dtl;2=3Dtl;3=3Dtl;4=3Dtl;5=3Dtl;6=3Dtl;7=3Dtl;8=3Dtl;9=3Dtl=
+;10=3Dtl;11=3Dtl;12=3Dtl;13=3Dtl;14=3Dtl;15=3Dtl;16=3Dtl;17=3Dtl;18=3Dtl;19=
+=3Dtl;20=3Dtl;21=3Dtl;22=3Dtl;23=3Dtl;24=3Dtl;25=3Dtl;26=3Dtl;27=3Dtl;28=3D=
+tl;29=3Dtl;30=3Dtl;31=3Dtl;
+> > # echo '//-l' > mbm_control
+>
+> What is the expectation here?
+> You want to unassign local event on all the domains?
 
-Reviewed-by: David Matlack <dmatlack@google.com>
+Correct.
 
-> ---
->  include/linux/kvm_host.h |  1 +
->  virt/kvm/Kconfig         |  3 +++
->  virt/kvm/kvm_main.c      | 26 +++++++++++++++++++-------
->  3 files changed, 23 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 689e8be873a7..8cd80f969cff 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -266,6 +266,7 @@ struct kvm_gfn_range {
->  	gfn_t end;
->  	union kvm_mmu_notifier_arg arg;
->  	bool may_block;
-> +	bool lockless;
->  };
->  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index b14e14cdbfb9..632334861001 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -100,6 +100,9 @@ config KVM_GENERIC_MMU_NOTIFIER
->         select MMU_NOTIFIER
->         bool
->  
-> +config KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
-> +       bool
-> +
->  config KVM_GENERIC_MEMORY_ATTRIBUTES
->         depends on KVM_GENERIC_MMU_NOTIFIER
->         bool
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index d0788d0a72cc..33f8997a5c29 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -555,6 +555,7 @@ struct kvm_mmu_notifier_range {
->  	on_lock_fn_t on_lock;
->  	bool flush_on_ret;
->  	bool may_block;
-> +	bool lockless;
->  };
->  
->  /*
-> @@ -609,6 +610,10 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
->  			 IS_KVM_NULL_FN(range->handler)))
->  		return r;
->  
-> +	/* on_lock will never be called for lockless walks */
-> +	if (WARN_ON_ONCE(range->lockless && !IS_KVM_NULL_FN(range->on_lock)))
-> +		return r;
-> +
->  	idx = srcu_read_lock(&kvm->srcu);
->  
->  	for (i = 0; i < kvm_arch_nr_memslot_as_ids(kvm); i++) {
-> @@ -640,15 +645,18 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
->  			gfn_range.start = hva_to_gfn_memslot(hva_start, slot);
->  			gfn_range.end = hva_to_gfn_memslot(hva_end + PAGE_SIZE - 1, slot);
->  			gfn_range.slot = slot;
-> +			gfn_range.lockless = range->lockless;
->  
->  			if (!r.found_memslot) {
->  				r.found_memslot = true;
-> -				KVM_MMU_LOCK(kvm);
-> -				if (!IS_KVM_NULL_FN(range->on_lock))
-> -					range->on_lock(kvm);
-> -
-> -				if (IS_KVM_NULL_FN(range->handler))
-> -					goto mmu_unlock;
-> +				if (!range->lockless) {
-> +					KVM_MMU_LOCK(kvm);
-> +					if (!IS_KVM_NULL_FN(range->on_lock))
-> +						range->on_lock(kvm);
-> +
-> +					if (IS_KVM_NULL_FN(range->handler))
-> +						goto mmu_unlock;
-> +				}
->  			}
->  			r.ret |= range->handler(kvm, &gfn_range);
->  		}
-> @@ -658,7 +666,7 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
->  		kvm_flush_remote_tlbs(kvm);
->  
->  mmu_unlock:
-> -	if (r.found_memslot)
-> +	if (r.found_memslot && !range->lockless)
->  		KVM_MMU_UNLOCK(kvm);
->  
->  	srcu_read_unlock(&kvm->srcu, idx);
-> @@ -679,6 +687,8 @@ static __always_inline int kvm_handle_hva_range(struct mmu_notifier *mn,
->  		.on_lock	= (void *)kvm_null_fn,
->  		.flush_on_ret	= true,
->  		.may_block	= false,
-> +		.lockless	=
-> +			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
->  	};
->  
->  	return __kvm_handle_hva_range(kvm, &range).ret;
-> @@ -697,6 +707,8 @@ static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notifier *mn
->  		.on_lock	= (void *)kvm_null_fn,
->  		.flush_on_ret	= false,
->  		.may_block	= false,
-> +		.lockless	=
-> +			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
+>
+> Domain id makes it easy to parse the command. Without that it parsing
+> code becomes  messy.
+>
+> How about something like this? We can use the max domain id to mean all
+> the domains. In the above case there are 32 domains(0-31). 32 is total
+> number of domains. We can get that details looking through all the
+> domains. We can print that detail when we list it.
 
-kvm_handle_hva_range{,_no_flush}() have very generic names but
-they're intimately tied to the "young" notifiers. Whereas
-__kvm_handle_hva_range() is the truly generic handler function.
+This sounds like only a minor simplification to the parsing code. It
+seems like it would be easy to determine if the final '/' is
+immediately followed by an opcode (+-=3D_) rather than a number.
 
-This is arguably a pre-existing issue, but adding
-CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS makes these functions even more
-intamtely tied to the "young" notifiers.
-
-We could rename kvm_handle_hva_range{,_no_flush}() but I think the
-cleanest thing to do might be to just drop them entirely and move their
-contents into their callers (there are only 2 callers of these 3
-functions). That will create a little duplication but IMO will make the
-code easier to read.
-
-And then we can also rename __kvm_handle_hva_range() to
-kvm_handle_hva_range().
-
-e.g. Something like this as the end result:
-
-
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 86fb2b560d98..0146c83e24bd 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -590,8 +590,8 @@ static void kvm_null_fn(void)
- 	     node;							     \
- 	     node = interval_tree_iter_next(node, start, last))	     \
- 
--static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
--							   const struct kvm_mmu_notifier_range *range)
-+static __always_inline kvm_mn_ret_t kvm_handle_hva_range(struct kvm *kvm,
-+							 const struct kvm_mmu_notifier_range *range)
- {
- 	struct kvm_mmu_notifier_return r = {
- 		.ret = false,
-@@ -674,48 +674,6 @@ static __always_inline kvm_mn_ret_t __kvm_handle_hva_range(struct kvm *kvm,
- 	return r;
- }
- 
--static __always_inline int kvm_handle_hva_range(struct mmu_notifier *mn,
--						unsigned long start,
--						unsigned long end,
--						gfn_handler_t handler)
--{
--	struct kvm *kvm = mmu_notifier_to_kvm(mn);
--	const struct kvm_mmu_notifier_range range = {
--		.start		= start,
--		.end		= end,
--		.handler	= handler,
--		.on_lock	= (void *)kvm_null_fn,
--		.flush_on_ret	= true,
--		.may_block	= false,
--		.lockless	=
--			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
--	};
--
--	return __kvm_handle_hva_range(kvm, &range).ret;
--}
--
--static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notifier *mn,
--							 unsigned long start,
--							 unsigned long end,
--							 gfn_handler_t handler,
--							 bool fast_only)
--{
--	struct kvm *kvm = mmu_notifier_to_kvm(mn);
--	const struct kvm_mmu_notifier_range range = {
--		.start			= start,
--		.end			= end,
--		.handler		= handler,
--		.on_lock		= (void *)kvm_null_fn,
--		.flush_on_ret		= false,
--		.may_block		= false,
--		.lockless		=
--			IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
--		.arg.fast_only		= fast_only,
--	};
--
--	return __kvm_handle_hva_range(kvm, &range).ret;
--}
--
- void kvm_mmu_invalidate_begin(struct kvm *kvm)
- {
- 	lockdep_assert_held_write(&kvm->mmu_lock);
-@@ -808,7 +766,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
- 	 * that guest memory has been reclaimed.  This needs to be done *after*
- 	 * dropping mmu_lock, as x86's reclaim path is slooooow.
- 	 */
--	if (__kvm_handle_hva_range(kvm, &hva_range).found_memslot)
-+	if (kvm_handle_hva_range(kvm, &hva_range).found_memslot)
- 		kvm_arch_guest_memory_reclaimed(kvm);
- 
- 	return 0;
-@@ -854,7 +812,7 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
- 	};
- 	bool wake;
- 
--	__kvm_handle_hva_range(kvm, &hva_range);
-+	kvm_handle_hva_range(kvm, &hva_range);
- 
- 	/* Pairs with the increment in range_start(). */
- 	spin_lock(&kvm->mn_invalidate_lock);
-@@ -876,6 +834,17 @@ static int kvm_mmu_notifier_clear_flush_young(struct mmu_notifier *mn,
- 					      unsigned long start,
- 					      unsigned long end)
- {
-+	struct kvm *kvm = mmu_notifier_to_kvm(mn);
-+	const struct kvm_mmu_notifier_range range = {
-+		.start		= start,
-+		.end		= end,
-+		.handler	= kvm_age_gfn,
-+		.on_lock	= (void *)kvm_null_fn,
-+		.flush_on_ret	= true,
-+		.may_block	= false,
-+		.lockless	= IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
-+	};
-+
- 	trace_kvm_age_hva(start, end, false);
- 
- 	return kvm_handle_hva_range(mn, start, end, kvm_age_gfn);
-@@ -887,6 +856,18 @@ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
- 					unsigned long end,
- 					bool fast_only)
- {
-+	struct kvm *kvm = mmu_notifier_to_kvm(mn);
-+	const struct kvm_mmu_notifier_range range = {
-+		.start		= start,
-+		.end		= end,
-+		.handler	= kvm_age_gfn,
-+		.on_lock	= (void *)kvm_null_fn,
-+		.flush_on_ret	= false,
-+		.may_block	= false,
-+		.lockless	= IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
-+		.arg.fast_only	= fast_only,
-+	};
-+
- 	trace_kvm_age_hva(start, end, fast_only);
- 
- 	/*
-@@ -902,8 +883,7 @@ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
- 	 * cadence. If we find this inaccurate, we might come up with a
- 	 * more sophisticated heuristic later.
- 	 */
--	return kvm_handle_hva_range_no_flush(mn, start, end, kvm_age_gfn,
--					     fast_only);
-+	return kvm_handle_hva_range(kvm, &range).ret;
- }
- 
- static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
-@@ -911,6 +891,18 @@ static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
- 				       unsigned long address,
- 				       bool fast_only)
- {
-+	struct kvm *kvm = mmu_notifier_to_kvm(mn);
-+	const struct kvm_mmu_notifier_range range = {
-+		.start		= address,
-+		.end		= address + 1,
-+		.handler	= kvm_test_age_gfn,
-+		.on_lock	= (void *)kvm_null_fn,
-+		.flush_on_ret	= false,
-+		.may_block	= false,
-+		.lockless	= IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_YOUNG_LOCKLESS),
-+		.arg.fast_only	= fast_only,
-+	};
-+
- 	trace_kvm_test_age_hva(address, fast_only);
- 
- 	return kvm_handle_hva_range_no_flush(mn, address, address + 1,
-
->  	};
->  
->  	return __kvm_handle_hva_range(kvm, &range).ret;
-> -- 
-> 2.46.0.rc1.232.g9752f9e123-goog
-> 
+-Peter
