@@ -1,115 +1,105 @@
-Received: from smtpdh17-2.aruba.it (smtpdh17-2.aruba.it [62.149.155.117])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDAE16D9A4
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 07:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6251816D9DC;
+	Thu, 25 Jul 2024 07:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721891299; cv=none; b=a3ob4vgR/Wjbo52RPQHDUTTwpGxD4PRg8Ap4qeh9yXXAyjXHprrZZ1qOG6HQPwJLBU/Fwrfa1qwlsABmBcHzgvl0O7noTI9LmQG0/IpsHSKXbOFJ0womteH3CKVzTDJ2yUGXbQCtsCegkXoNxc6mSjcZX9KeTHgsCFpbrcqoDcg=
+	t=1721891397; cv=none; b=otYbrsIex7GWSjStTX4cfuhWCawtgh1yacHZ3FHTAaSw9BrsVvUgr02X2u1en+z7BSuPgBtTKWtA+JLz4FOj9IAQG3nVjuOFotsn7GYSlwVvkV8n75cVdaP3XZ5WtRCIxvRIBeMNQ9w+o/MnjQ+/+oUbBjWWhGxW8BZ7Rdy5Yjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721891299; c=relaxed/simple;
-	bh=bnFmeGo9PexfLFa86gvj1kTcinbxiRNGlqHQdMHDXYQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cAubp7a+R5FSSrUrQIdD8Pacy44Isdcs6SBa5tQu8baJITOQ1O/neuai09pFtapwVTYK8InzrKP2Zaeq6mKADb+9vSYtHCw6rAa737uD5a41jxS9j9g0V7N9z35E3JMbqI1l7nVEHVfu+Mm69iF2G7sFPR18DqpRsrfqkd0sOI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=c+3rQU+3; arc=none smtp.client-ip=62.149.155.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1721891397; c=relaxed/simple;
+	bh=AOP+f1AUPWbz/K5bIAQ4H4snBN1k66lwGOU3Y6KeJdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctILZRvAx2STUy6FO+kvGz/9+86vKmxjV/6o6m/ladoKrUWGn/a9SKKG8uTqbwFhMqXPAEFFmzlqEtVOg2+b3CzDQOtUgH3G9ANFpSknsalmJ98TOhGfBhPQ3kSBpcXNK2DVEIe41SOZ4NCaPAzQR9U5AWGlVMiOa1tfTAr6RIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZSm1lJ5W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="c+3rQU+3"
-Received: from [192.168.1.57] ([79.0.204.227])
-	by Aruba Outgoing Smtp  with ESMTPSA
-	id WsX9sQXBhJLbHWsX9scMEX; Thu, 25 Jul 2024 09:05:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1721891105; bh=bnFmeGo9PexfLFa86gvj1kTcinbxiRNGlqHQdMHDXYQ=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=c+3rQU+3x2H1cUwRd3eD5wmWujbPMRJ97LXlML4WBIEPy8TvDGWT8RKSu39ZonTYH
-	 LhwAavKC8VU6/xDAH+lJm8HRBUpGZ+/9acORfO7Fw/dmdnP7mPGISZhY49xOQxrWRu
-	 l11WY0YLnw9UHux808haCu8hrkWeiB37uAMRHQ6seIUFa5iXHHGO5fwiGG6qyK7zaK
-	 3TTUSb97Rzbw0cmt2exAwq8xUqi4BiqWfEwCUuSi+sYTFaP5cX6RTkWF5yvfuxEPMg
-	 YLSxmErrjja6OMIPIjAo9UeXYG2ILYzmh+xLLWFSBxragFLy5uYYQvXMmPXMkqclwz
-	 1juSSDZ4/BEbw==
-Message-ID: <c785136d-40bc-4fa3-b982-e9e4417c0b73@enneenne.com>
-Date: Thu, 25 Jul 2024 09:05:02 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZSm1lJ5W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26ECC116B1;
+	Thu, 25 Jul 2024 07:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1721891397;
+	bh=AOP+f1AUPWbz/K5bIAQ4H4snBN1k66lwGOU3Y6KeJdU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSm1lJ5WbaB5i2Z6zTr8vXmO2M/UbYXBiW3cRqUUBXoE8FqyYJnIYoOfc5fGqniwi
+	 BLU8Ucl0cg1p5bXqztW86djfQd8zm3YiWwusl8/M3QWj2gbAbCiWxHoVCIBy79ux6o
+	 Vbw0PenUEJzOlsN+kkoEtVtmaw2yviCW689Bay+o=
+Date: Thu, 25 Jul 2024 09:09:54 +0200
+From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To: Rodolfo Giometti <giometti@enneenne.com>
+Cc: "Hall, Christopher S" <christopher.s.hall@intel.com>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Dong, Eddie" <eddie.dong@intel.com>,
+	"N, Pandith" <pandith.n@intel.com>,
+	"Mohan, Subramanian" <subramanian.mohan@intel.com>,
+	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"Zage, David" <david.zage@intel.com>
+Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
+Message-ID: <2024072500-matrix-antivirus-dc61@gregkh>
+References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
+ <CY8PR11MB736490B761DBA045513AF078C4DD2@CY8PR11MB7364.namprd11.prod.outlook.com>
+ <d463bd28-9890-47a5-97cc-14f96db2db22@enneenne.com>
+ <87r0bvqdsz.ffs@tglx>
+ <5198a2c2-49b2-4a8c-8d94-d6c9811b645b@enneenne.com>
+ <PH7PR11MB6978F12032F4F3EBA83BFE10C2AA2@PH7PR11MB6978.namprd11.prod.outlook.com>
+ <c785136d-40bc-4fa3-b982-e9e4417c0b73@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
-To: "Hall, Christopher S" <christopher.s.hall@intel.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, "Dong, Eddie" <eddie.dong@intel.com>,
- "N, Pandith" <pandith.n@intel.com>,
- "Mohan, Subramanian" <subramanian.mohan@intel.com>,
- "T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Zage, David" <david.zage@intel.com>
-References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
- <CY8PR11MB736490B761DBA045513AF078C4DD2@CY8PR11MB7364.namprd11.prod.outlook.com>
- <d463bd28-9890-47a5-97cc-14f96db2db22@enneenne.com> <87r0bvqdsz.ffs@tglx>
- <5198a2c2-49b2-4a8c-8d94-d6c9811b645b@enneenne.com>
- <PH7PR11MB6978F12032F4F3EBA83BFE10C2AA2@PH7PR11MB6978.namprd11.prod.outlook.com>
-From: Rodolfo Giometti <giometti@enneenne.com>
-Content-Language: en-US
-In-Reply-To: <PH7PR11MB6978F12032F4F3EBA83BFE10C2AA2@PH7PR11MB6978.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKkEkjY3S8yPyWjrW8W9W3VTG7lrwHFgPnjMSQ8jMc3xq+7+ZizvRw3Z++ujRmZEBbCW4nBxoyBUz0XloIP9UZQVXIUHK4GsWPWQjJ3aecK0Tr6lOiuG
- nWrkyWvSjBdb7Xf8Xx3mH1iAVdUeeMCpd39O3V4heaCDUQHDTyyCp99TroOh7T/IsyZreVG55N5XFUz5sXf474mEMdhwxYGHIVwKcRWiNM3qOaqtulxxVjrr
- BqBfZO0r3D7tKdfFQ3yK/e5hppJXsnYjphMPwv1GB31GXGH7+jzauj6jTnG1t/7l0TD9RwE3rze2Fbj3wQHKxmDKXw7zFCoj3SzoKWobU4derDKi1ief2Mpu
- 5w6OZOfXlg2s2qkEgBFlKl7ivSTj7I04f2ihyaBH9p8YjxNspCe39R/gnRQlf93skC5hv1mDgCIwp9+nl8UF/3byW4Ldf3tMicEaGOxPfeAIoF4dHaNTXddx
- H11Oan5rMm1rfwK9JbmOUYE+luaJQBBR/eUlO2gNfJF8lF64T+19tduCw0yDAXoBIKQHILaBUzQChWWXX3PSDfFhDXyGCFYTXByJZWzXb7TJo7ughAB+Nmtu
- YgNYjRb1QN9UcKfiGH5GjYfX4JYjBlBDQMSZ5VjecB94xJHl7RVB/4wueUZBNoaK57AlS2LdjK7gADoOtm9WKY71
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c785136d-40bc-4fa3-b982-e9e4417c0b73@enneenne.com>
 
-On 24/07/24 23:39, Hall, Christopher S wrote:
-> Hello Rodolfo,
+On Thu, Jul 25, 2024 at 09:05:02AM +0200, Rodolfo Giometti wrote:
+> On 24/07/24 23:39, Hall, Christopher S wrote:
+> > Hello Rodolfo,
+> > 
+> > > From: Rodolfo Giometti <giometti@enneenne.com>
+> > > Sent: Monday, July 15, 2024 2:37 AM
+> > 
+> > > Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
+> > > 
+> > > On 15/07/24 10:06, Thomas Gleixner wrote:
+> > > > On Thu, Jul 04 2024 at 13:50, Rodolfo Giometti wrote:
+> > > > > On 03/07/24 16:47, D, Lakshmi Sowjanya wrote:
+> > > > > > 
+> > > > > > A gentle reminder for the review of the pps patchset.
+> > > > > 
+> > > > > I already acked these patchset, didn't I? =8-o
+> > > > > 
+> > > > > Please let me know if I missed something.
+> > > > 
+> > > > Sorry, I missed that V10 posting. It's too late now.
+> > > > 
+> > > > Rodolfo, can you pick it up after rc1 for the next merge window. All
+> > > > prerequisites should be in Linus tree then.
+> > > 
+> > > LinuxPPS has no dedicated tree as other Linux subsystems. Usually I send my
+> > > "Acked" to Greg Kroah-Hartman and Andrew Morton, and they push patches
+> > > by
+> > > themselves.
+> > 
+> > Is the PPS driver on track to be included in the 6.11 release candidate?
 > 
->> From: Rodolfo Giometti <giometti@enneenne.com>
->> Sent: Monday, July 15, 2024 2:37 AM
-> 
->> Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
->>
->> On 15/07/24 10:06, Thomas Gleixner wrote:
->>> On Thu, Jul 04 2024 at 13:50, Rodolfo Giometti wrote:
->>>> On 03/07/24 16:47, D, Lakshmi Sowjanya wrote:
->>>>>
->>>>> A gentle reminder for the review of the pps patchset.
->>>>
->>>> I already acked these patchset, didn't I? =8-o
->>>>
->>>> Please let me know if I missed something.
->>>
->>> Sorry, I missed that V10 posting. It's too late now.
->>>
->>> Rodolfo, can you pick it up after rc1 for the next merge window. All
->>> prerequisites should be in Linus tree then.
->>
->> LinuxPPS has no dedicated tree as other Linux subsystems. Usually I send my
->> "Acked" to Greg Kroah-Hartman and Andrew Morton, and they push patches
->> by
->> themselves.
-> 
-> Is the PPS driver on track to be included in the 6.11 release candidate?
+> I hope so! ^_^"
 
-I hope so! ^_^"
+Are the patches in linux-next?  If so, what tree did they go through?
+If not, they can't be merged into 6.11-rc1.
 
-Unluckily the LinuxPPS is a minor subsystem with no dedicated tree, and 
-inclusion is not under my control.
+> Unluckily the LinuxPPS is a minor subsystem with no dedicated tree, and
+> inclusion is not under my control.
 
-Ciao,
+I pick up many "smaller" driver subsystems all the time, I just have to
+be asked to do so...
 
-Rodolfo
+thanks,
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
-
+greg k-h
