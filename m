@@ -1,186 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A041D19AA56;
-	Thu, 25 Jul 2024 14:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60FB7482;
+	Thu, 25 Jul 2024 15:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721918348; cv=none; b=XHU6PY0QH4Tz07GSyTg1/w21YhPrQhObXbn1sh0uPqBk7h1AmIW0ZqUu6ibQFMOjSMtlNYJfYJWtdr4RSvsGqoUIve/68qRbsKvN8lmx4oSbb4sJgUbCGN9GKtDCS1swNKQzBt3Q+uWWTd7xsxnqDE77WofCsUiwrHQefyDGPTY=
+	t=1721920215; cv=none; b=hdbLFn+8P/nLBhgBzP+yrWyVyVPb/SeAlbf3OlNU6eBQD99Fl/SargVapeftFgpfWUL8FxNM/DyLyfGWO6jn4y7Za7+1w+DJy1wpZd98Zl88BNk8/ZjqWn7WxNz5DrYsfj8dmjO73HN5hPG9JBIq9oH1m72zVAGd+3QtIoBg3Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721918348; c=relaxed/simple;
-	bh=ZpN2ZJEJffbl5pQjjoIFQo1fZ8paO1e2ecxVl4HvIW8=;
+	s=arc-20240116; t=1721920215; c=relaxed/simple;
+	bh=giEmIQyfujgK7trC3Z5BVs33T8wG9iTIdiSpNdknO8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQZiZzREYkg/2skvfmAj95C8C88SPK9eSfbR8YFDOQhmPfumON7x7+bO8xP/nsVdoDzqd6YRoNpz/hqXa51wGJrbmLM5n4KwWMTW1omjYm84RJrm0kescj7a2I4Nh1aao52DKt2402hIaZg4DKodCj5xK2ILiiJZP+KZy7y4CU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZEj72h3Z; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d6I9FJCw264fZiXA9ThMZf8ajiklyOP8xiOu/P+l8PBocz5PS5qXMaMYzW1Z0VRSYxNPX12W+jB7xStcZw31GZ9M9sz4a3mj/yvMEv53hl5pK8jNUQKrLeMZ6VIAkdWKCU5APSvpNxfuOZYU2cL2Vu9Y1UixghKWYQKBamNxOk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=GckM/erz; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZEj72h3Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BFB2C32782;
-	Thu, 25 Jul 2024 14:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721918348;
-	bh=ZpN2ZJEJffbl5pQjjoIFQo1fZ8paO1e2ecxVl4HvIW8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZEj72h3ZDXezeNf/UAMg90fRPyND01zgbh194/2NZlbzCI16RuIa9UGzu4g+MjgB3
-	 va7ZDr59/mZE77rOcUbcCArK1yAHCafuFZfc2tmdUqGqa9vwB/0r669dHNXjoKaUwo
-	 CUupQIQ19WxijEdzmJJ1F+O8N7xd9oof/o/7IRJo11+J0GXqG0zvFaIMqt3S3Ud/Nc
-	 MuibNgV/NvkKR6LL6pfqd0SO1WXFytrLrnixCacDc8lvs9Lj3ajQDOpoxnmBXWx2ju
-	 9WWWn+j2O19QYx0EwlVhfLeZ5J++e5v5BUimiY1P8fZzKI7+pU7aF9YMlaZ0mIF7V/
-	 I/gYx5EiGxocw==
-Date: Thu, 25 Jul 2024 15:39:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Message-ID: <20240725-filled-outscore-24149588d958@spud>
-References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
- <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
- <20240722-popper-comfort-7538ea70c77b@spud>
- <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240723-smitten-shower-1d15c0f3cf97@spud>
- <AM9PR04MB86043E4B4B2FB206BF9223C695AA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240724-huddling-neatly-88813c0b1f1d@spud>
- <DU2PR04MB85990A0AB8AF8ABFCDA4CBD995AB2@DU2PR04MB8599.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="GckM/erz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=7fgIlaj7VIBRKbKi7Dde+07wn6FnHltfd48aihj7Dfw=; b=GckM/erz476VA3L3
+	94NtvBcuHNQiXZ9fv1tvbntVTdR1QZA1Z4swFGO/3LUGn2mQWPItsfYAa3lnqGk6SXXGhRyqt3nVw
+	r1toAfTjQDe7vzfJ6Io/eRK9S/ekFqt86iolILI6kSoyj00NKFikJb3EBGf5Upyl1ogCOW2+X4uyA
+	eR0ygJqVbabAmYqs+5EF6LzDp9jHMSGuwe81RYs3Pp+ntliMJzRBiT/aamnKXhNSvr10j5c8vh7pv
+	jadNWvIF6fZYyQBCYFYYqgmE3+7fP56d0m2aDUB4txjsUwoNEOXHMrDbofGhN9gfqIhEBM3bPsTjU
+	aMRULUhFg435qeuIuw==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1sX06X-00DDOj-0e;
+	Thu, 25 Jul 2024 15:10:05 +0000
+Date: Thu, 25 Jul 2024 15:10:05 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: ericvh@kernel.org, lucho@ionkov.net, v9fs@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: 9p goo.gl link
+Message-ID: <ZqJqzcJRaXgMRLoT@gallifrey>
+References: <ZqE9zUXO3agBjno7@gallifrey>
+ <b7ec9dba-5ba7-40d1-b1a0-e85f3149f445@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="DB1xP50rYS+x7RPj"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <DU2PR04MB85990A0AB8AF8ABFCDA4CBD995AB2@DU2PR04MB8599.eurprd04.prod.outlook.com>
+In-Reply-To: <b7ec9dba-5ba7-40d1-b1a0-e85f3149f445@infradead.org>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 15:09:48 up 78 days,  2:23,  1 user,  load average: 0.07, 0.02, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
+* Randy Dunlap (rdunlap@infradead.org) wrote:
+> 
+> 
+> On 7/24/24 10:45 AM, Dr. David Alan Gilbert wrote:
+> > Hi,
+> >   I noticed there was a goo.gl link in Documentation/filesystems/9p.rst
+> > 
+> >     * VirtFS: A Virtualization Aware File System pass-through
+> >       http://goo.gl/3WPDg
+> > 
+> > Given goo.gl is going away, I was going to expand the link, but
+> > the link looks fairly ill; it goes to a sciweavers.org site
+> > that has an abstract, but it doesn't seem to download the full document.
+> > 
+> > I can see links to the document around, but I'm not sure if there's
+> > a 'right' address.
+> 
+> Yeah, it (or a variant of it) is available in quite a few places.
+> 
+> I prefer this one:
+> https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
 
---DB1xP50rYS+x7RPj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks, I'll post a patch.
 
-On Thu, Jul 25, 2024 at 07:06:30AM +0000, Pankaj Gupta wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Conor Dooley <conor@kernel.org>
-> > Sent: Wednesday, July 24, 2024 9:00 PM
-> > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
-> > linux-arm-kernel@lists.infradead.org
-> > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se=
--fw
-> > binding doc
+Dave
 
-For the third time, please fix your mail client so it stops inserting
-this garbage.
-
-> >=20
-> > On Wed, Jul 24, 2024 at 11:02:21AM +0000, Pankaj Gupta wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Conor Dooley <conor@kernel.org>
-> > > > Sent: Tuesday, July 23, 2024 7:38 PM
-> > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > > > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > > > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
-> > Hauer
-> > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > > imx-se-fw binding doc
-> >=20
-> > Please fix this ^
-> >=20
-> > > > On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
-> > > > >
-> > > > > > -----Original Message-----
-> > > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > > Sent: Monday, July 22, 2024 10:20 PM
-> > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> > > > > > Conor Dooley <conor+dt@kernel.org>; Shawn Guo
-> > > > > > <shawnguo@kernel.org>; Sascha
-> > > > Hauer
-> > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > > > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > > > > imx-se-fw binding doc
-> > > >
-> > > > Please fix this ^
-> > > >
-> > > > > >
-> > > > > > On Mon, Jul 22, 2024 at 10:21:37AM +0530, Pankaj Gupta wrote:
-> > > In case of imx8ulp, there is a single node.
-> > > Having a same node name for both parent and child, is bit strange.
-> > > firmware {
-> > > 	firmware {
-> > > 	};
-> > > };
-> > >
-> > > Request you to allow to re-evaluate this point.
-> >=20
-> > I dunno, it's all firmware so I don't really get why it is so strange!
-> > Can you remind me again why it is inside a parent node to begin with?
->=20
-> Three type of security firmware(s): HSM, V2X-SHE, V2X-HSM, are running at=
- the cores dedicated to the each different secure-enclave hardware IP(s).
-> Each firmware receives the message to act and response back with the comp=
-leted act.
-> This message exchanges happens through the Message-Unit hardware interfac=
-e.=20
-> There could be multiple MU for multiple security firmware, that would be =
-used for respective message exchanges.
->=20
-> This node defines the details of each such MU interface.
->=20
-> Reason to put under firmware:
-> 	Since this node specifies interface details between kernel and firmware,=
- it was put under parent "firmware {".
-> 	I am not sure if this reason is correct enough to begin with.
->=20
-> Thanks for allowing to revisit.
->=20
-> I will make the change to whatever you finalize now. Thanks.
-
-I'm sorry, I still don't understand why you have the parent node. It
-seems pointless to me, and this new node could be added at the top
-level.
-
---DB1xP50rYS+x7RPj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZqJjhwAKCRB4tDGHoIJi
-0vAQAQDbMuDjmie7EWxnnWqDa2jGC6LmbY6qAHkFO27uKsQt+wD6Ax+NJWtrZz69
-lI1yzCU2LhiJN9t8XJxOoMELVtoPsAI=
-=qgEY
------END PGP SIGNATURE-----
-
---DB1xP50rYS+x7RPj--
+> 
+> -- 
+> ~Randy
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
