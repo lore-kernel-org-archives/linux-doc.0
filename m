@@ -1,79 +1,156 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DEA23D0;
-	Thu, 25 Jul 2024 18:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB3E19E7EF
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 18:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721930475; cv=none; b=NV6LLrWDSdcQtuZboN2tONqHrDMG+qWEbTAG3Zksa/k+DogtkD3yie/MP/uChaYqtfgokW0Plw32m4UsDyloYeVFUn6GiA/zD9S9KSz7UDRGa1TMwjSmQU3UrgzMAHGOosXxDUDBItmaosm7hBx7aXX6npMnv41CgzmptuLYwC8=
+	t=1721930881; cv=none; b=tZD13Ud4WbqmDHukk6/19dAmaAQSlLU644eKVHhWXm7/hG0oCEkUvayoCCPG/jbHhTzKLAI5qzjs2es7d+BcE3OAYg1pA26XhhOB+tlYjZSqbPvuaQfMjQ4vWX3GR+pv30LuDSEDTR72F10qdOiq0Q27vpKLruRQsB552z2YWcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721930475; c=relaxed/simple;
-	bh=CQWswAaKiUd/1H9VPf7BR5G0SCIN5b4m3hSctlgX3fg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cB7keWDJuO/CmBpTmX+v0S99Ywy9hsoUrAMqCw01RnpiFiBTJzjVT7zMmsOhNUD9fj/0TMNC0I9Ut/PSuB6fq+XEukUIpLWqwyWxr/6QRTqxEt6WIv1l5htvNo1X5pgC0yKnR/uqXf1iBBnCdD6XaZgNsUKuaT9D5OkzUv3Nc7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=jtn4yVW3; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1721930881; c=relaxed/simple;
+	bh=Hqc5azVRbGUwAYmN2fQHG0YmRuwfvqYpwYq9g9X88dk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkdRlguDAvwSx9BBPRN//ueEePd2/nHHf9F1/ur4DfvMXGEiM02hdDIEben76Ec7w+4lkFNiiSs0Smn236oqc8GXV4fyl6uo8oMCJmvgJXeqUpxdBKKHSkyFXKaOUcwyuU5serzZyKpCIUPld8180ZS7MwHok4b3bUvoMEKjVoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FTjMrEPq; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="jtn4yVW3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=0OL4xG2f7OPGglRnI+nOrrSi0qdVFdIQOVDEO5YpO0A=; b=jtn4yVW3DhhxhBUw
-	qWdikRA9VIGamBDT/1bZMXNEe+zxvdblkEIP4vBig9E6dlhZT6/ZTliT8yRtJS6baX7haqRqYD67U
-	P3pN8xt1+iS4AIyAYHug0BHfifSi1uEPspFxE2CVdmxUsAW9OMX0il9KsugZj3S5Jk8cXhyg9iFCO
-	6SBmZz7w4rRMmj4IgogJ4lSB512X+89uHdSY5+6HbqMRAGAVcuYze9fdUeBNHekhSqACllXo9vo3T
-	j+wywhpB2uu2pvEcwiSsSJ4iFpYBqnMsBCvGChWF/hDGaI5+/HimFBi77xpxmT/mwwChzExsrybtE
-	arI+pdQeUrZIctMk9A==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1sX2lt-00DEap-06;
-	Thu, 25 Jul 2024 18:00:57 +0000
-From: linux@treblig.org
-To: ericvh@kernel.org,
-	lucho@ionkov.net,
-	rdunlap@infradead.org
-Cc: v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] Documentation/fs/9p: Expand goo.gl link
-Date: Thu, 25 Jul 2024 19:00:41 +0100
-Message-ID: <20240725180041.80862-1-linux@treblig.org>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FTjMrEPq"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc5549788eso9357095ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 11:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721930879; x=1722535679; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UUGaRPCQ3N3wWtHO14ZqED92UBSd1h87iBGfjwpcBN0=;
+        b=FTjMrEPqVBzeDD6E4eR/N6vtbJ4X14DZ4q5z5caJdXwcUa5ey71VDOLdo4mGp9NGNe
+         zh549dbw78yHHRvB2pTVQk4pjHIvP7jrbpHH832Sdu5OVpHytBfjHk7MnPuUEl41rWBX
+         2VlGPLpXrIQV1cd/VvpQ0lW0QQSLOcpNkFhh6rSAMYFZGCpwQQBBmX/+Z5ejwFRv28Wk
+         1PG4o/0Uoy8wLI15DHy2a2KIh+mmxZd+YxupjeUXIq0xJyJ4w5svR6RcS1ND5LdVSTmY
+         tPZLN5PvWcY8IXMtJ9AtIk9WHusZ8I6zZNpIKmH6F9Qf4YK43UYqOvAh9QWzGKCKXlGb
+         g+1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721930879; x=1722535679;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UUGaRPCQ3N3wWtHO14ZqED92UBSd1h87iBGfjwpcBN0=;
+        b=fEWWyBbNY2UAFk6aNxStuCAzXF1ujpIKEBgwKhQsA1BaEePZYa9UeotdIbVoRgSiVF
+         SmgGCrnFw07W/Gg5y2v/y6Cdc7tz5NE3R01z2kVfw3tivc6kr+1MUOG/ticYB6ao1VbM
+         pLpN8SOthDEarWZsWRmVprmrxrbqcia9Dh9mJOujbxkVmNpL9rCI1Oyi3hZ3IgWsrWgF
+         bH3UOm/jk7FJDMzRRoWcsfHuIFddborrkYNToVaoo/INkM8isLn1X6Lsf68VMCz/+ewU
+         QtMNfveOHVyTQtIGjelDb0Or7djGb4HsSCpvv5h++YTJuvtWiMp74U0Pvym0YEneKlT4
+         gsyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/fX5+j8RP56spB3tJrsn+kri2GzA9NrACqjhEalD5tJfZD/0Yk5ZL/1dZRpxNQ1v4tAMtV+scbcZ04ymsGHOhZwMjNsWnUXSn
+X-Gm-Message-State: AOJu0YwUnFawVBr0r/TVDGVS9qwTYGFeLU11ZFNMX7m68qRXsZFfqCby
+	9zmKmEHdmWjv8tP46sOacXVP2ifrOgHkxEF9mn7d3NR2zNH/WCB7B3CVH9Voig==
+X-Google-Smtp-Source: AGHT+IHI1A1tvfnC1v1eHXLnRKjVzRp5f2FjOQ5bxe8jqwJy1SWM+jZHo5hxZrA2PYuH6SKb8vBZaw==
+X-Received: by 2002:a17:903:1c4:b0:1fc:2ee3:d46f with SMTP id d9443c01a7336-1fed90b6bd7mr34131415ad.11.1721930878977;
+        Thu, 25 Jul 2024 11:07:58 -0700 (PDT)
+Received: from google.com (61.139.125.34.bc.googleusercontent.com. [34.125.139.61])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f9ec7acdsm1454827a12.66.2024.07.25.11.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jul 2024 11:07:58 -0700 (PDT)
+Date: Thu, 25 Jul 2024 11:07:53 -0700
+From: David Matlack <dmatlack@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Rientjes <rientjes@google.com>,
+	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shaoqin Huang <shahuang@redhat.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
+	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+Message-ID: <ZqKUefN3HgBQQkuA@google.com>
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-3-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240724011037.3671523-3-jthoughton@google.com>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On 2024-07-24 01:10 AM, James Houghton wrote:
+> Walk the TDP MMU in an RCU read-side critical section. This requires a
+> way to do RCU-safe walking of the tdp_mmu_roots; do this with a new
+> macro. The PTE modifications are now done atomically, and
+> kvm_tdp_mmu_spte_need_atomic_write() has been updated to account for the
+> fact that kvm_age_gfn can now lockless update the accessed bit and the
+> R/X bits).
+> 
+> If the cmpxchg for marking the spte for access tracking fails, we simply
+> retry if the spte is still a leaf PTE. If it isn't, we return false
+> to continue the walk.
+> 
+> Harvesting age information from the shadow MMU is still done while
+> holding the MMU write lock.
+> 
+> Suggested-by: Yu Zhao <yuzhao@google.com>
+> Signed-off-by: James Houghton <jthoughton@google.com>
 
-The goo.gl URL shortener is deprecated and is due to stop
-expanding existing links in 2025.
+Aside from the comment fixes below,
 
-The old goo.gl link in the 9p docs doesn't work anyway,
-replace it by a kernel.org link suggested by Randy instead.
+Reviewed-by: David Matlack <dmatlack@google.com>
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- Documentation/filesystems/9p.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  arch/x86/include/asm/kvm_host.h |  1 +
+>  arch/x86/kvm/Kconfig            |  1 +
+>  arch/x86/kvm/mmu/mmu.c          | 10 ++++-
+>  arch/x86/kvm/mmu/tdp_iter.h     | 27 +++++++------
+>  arch/x86/kvm/mmu/tdp_mmu.c      | 67 +++++++++++++++++++++++++--------
+>  5 files changed, 77 insertions(+), 29 deletions(-)
+> 
+[...]
+> --- a/arch/x86/kvm/mmu/tdp_iter.h
+> +++ b/arch/x86/kvm/mmu/tdp_iter.h
+> @@ -25,6 +25,13 @@ static inline u64 kvm_tdp_mmu_write_spte_atomic(tdp_ptep_t sptep, u64 new_spte)
+>  	return xchg(rcu_dereference(sptep), new_spte);
+>  }
+>  
+> +static inline u64 tdp_mmu_clear_spte_bits_atomic(tdp_ptep_t sptep, u64 mask)
+> +{
+> +	atomic64_t *sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
+> +
+> +	return (u64)atomic64_fetch_and(~mask, sptep_atomic);
+> +}
+> +
+>  static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
+>  {
+>  	KVM_MMU_WARN_ON(is_ept_ve_possible(new_spte));
+> @@ -32,10 +39,11 @@ static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
+>  }
+>  
+>  /*
+> - * SPTEs must be modified atomically if they are shadow-present, leaf
+> - * SPTEs, and have volatile bits, i.e. has bits that can be set outside
+> - * of mmu_lock.  The Writable bit can be set by KVM's fast page fault
+> - * handler, and Accessed and Dirty bits can be set by the CPU.
+> + * SPTEs must be modified atomically if they have bits that can be set outside
+> + * of the mmu_lock. This can happen for any shadow-present leaf SPTEs, as the
+> + * Writable bit can be set by KVM's fast page fault handler, the Accessed and
+> + * Dirty bits can be set by the CPU, and the Accessed and R/X bits can be
 
-diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-index 1e0e0bb6fdf9..d270a0aa8d55 100644
---- a/Documentation/filesystems/9p.rst
-+++ b/Documentation/filesystems/9p.rst
-@@ -31,7 +31,7 @@ Other applications are described in the following papers:
- 	* PROSE I/O: Using 9p to enable Application Partitions
- 	  http://plan9.escet.urjc.es/iwp9/cready/PROSE_iwp9_2006.pdf
- 	* VirtFS: A Virtualization Aware File System pass-through
--	  http://goo.gl/3WPDg
-+	  https://kernel.org/doc/ols/2010/ols2010-pages-109-120.pdf
- 
- Usage
- =====
--- 
-2.45.2
+"R/X bits" should be "W/R/X bits".
+
+> + * cleared by age_gfn_range.
+
+nit: "age_gfn_range()"
 
