@@ -1,146 +1,82 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2DA1990BB
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 13:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558BA19AD8E;
+	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721913331; cv=none; b=Pt0cBO6jka+55B94euwfpjMQrGzHwR37P2ed2NCPFwo37ssmqEN6kWYfpcXwMpsFMrVz8A1yT6/ORoOqCWdmvY6m6jiKbA0UNPE+y9EgPhfX6nR1UpjrDJY2LLP0xJ70heEKNWuYC6ZD63WUp+bB2zrFpxWvxERxKUmTzRJR7a4=
+	t=1721913639; cv=none; b=o8am78CT76Ba9hCyPVSvogaNcu6gLwgtxp10AYd657j6NDWFPw2j7Q87GXp/4uRZjvgOk/qdCHYgSWreh+YYlacbWm21E5l0MkTVPFP7QKWXbk/sjM7fRjtdxd2L3YvxcAtjKNEXJYI3dqVJRFhPmq/n24D+x7yDi8wuRra9GTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721913331; c=relaxed/simple;
-	bh=wBQvpVohbd2W4vplmrY5Z64LjAwjMZD6ae8o/85wxuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EurMfPJ4gOavsyYAu0hrnhcdv/8oFCMZFjh9MFKNuUF6mAfJklGq2uIbnH9HZO82uvTFaVvr5xbP6hDQTihWs6ZYbgeHWg4k7aW2bIFY6jqCE9IMi94vdiHwauC0CAcPI32GCd3xvCXWm1mEmKcxS8Nn/Ree8tlTwLIXTx+8LXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JK9Ag9XY; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721913639; c=relaxed/simple;
+	bh=WAxeB6xNpDOJhk2GtvF3lDer+9cUbsR1XhVgScJOEaQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=i2C5TUkQfMg00HnP4u8+xGqNDgYWNL/LJIi5S3t2SrAjDYA0bltGRyY5Q3pNvgRHeORNbQNVkiAR2NVySCVlsmS7SZA2h7thr6rF98/efG9EJ5o3XaG0W87bxlGJyNl8/QgDw7IZlhJ2RNn6J1imazKbDtd6vc+8smwCbocGlzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6DUOhBp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JK9Ag9XY"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-59f9f59b827so1159317a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 06:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721913327; x=1722518127; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=efjrSpUOXuKmG3Wgod3ChlCv7XK4z1uzPlvVqgjPuBA=;
-        b=JK9Ag9XYaZqA8OukqAJzzxy4jhUF8yUERMSQyfToSjG+wbQoOK0HvDiFGtHxr4GJpa
-         I61DfPMfgV/syuDVSQ1zVg29Y18mZLzIa/ciRI9jBT3RhTFMV+PGDnFopyvpb6hKwiPw
-         U4jZRWw60YPUFcDEEqkXCGVpH2lR2/l04poff53RpaDxaPQ2OA+ZtvAsX3Ohdo1ttfsw
-         L78BOtzudFPIQu+/8BszZxBs7G4GCj39d8iSa2FKoH0pd7l6iHdSuAALnd+QhCZHMeKK
-         WFM2yZ6aYafnJP3N+0mLCskF4smXCR/b5T7Rq94ojOjwtf7ae/6IxXM/I6lhrTitlgXS
-         QkeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721913327; x=1722518127;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=efjrSpUOXuKmG3Wgod3ChlCv7XK4z1uzPlvVqgjPuBA=;
-        b=bOKxllxbSyR1vjShEOLvgZPtmOcULh4ed9YrtCrBwhEO446BfzMwiZEbCxnJAJlMZj
-         fsnmpDqdk6H1F5vNoDCxMgOMH91GSBEaykC5zH80Pllje3zgY9bnRiXTJQsKQMtsJhyy
-         8G8gRUMVZ++6rtDjJKJVnhRGCWl5u6/aI2E9IoXi8Abkyah47uDQwm7BIYdlGcHh5M9K
-         pfCTOZVngjj1KJGDoJ6jtsEBOKG2w0JyZ9WY/TJgC2KHZAxGUrP/5nKt4uwvRiw39INn
-         23pj3jY32UOIJ6yEYrLpogXcIVJrZPqTx2uMpAlYYnD0Ygzeqd4GTykbpST6uOAKJemp
-         3IrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVu35990IzZng2Q7ZYoU7CLnqviKqT9+BLpAFziZ+fVhgRGTx9zCX3sxQ4mYbpXu97exsE0EotjT/nTvAz2/6TpDXjYbjha65rQ
-X-Gm-Message-State: AOJu0Yy/jWcjhYB4aeUcV4ljfy1cFcGy/Xg7CZD6DckNJFQ4aYv1FucR
-	ii0/woPCQFdl8fUTonOglGSBA8Fpl2Bgtkv7cY/u9pvGEh9F7G0mkwivdJtDbtM=
-X-Google-Smtp-Source: AGHT+IE7ycVbMTwcSDtveSbfPhTy1z6/v17KCNgRLQqdkNtT7UyXHl1UgyXUGldYyjNB28P9hbc4oA==
-X-Received: by 2002:a17:907:3da7:b0:a7a:c106:3659 with SMTP id a640c23a62f3a-a7ac506f2f6mr222422866b.60.1721913327478;
-        Thu, 25 Jul 2024 06:15:27 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad418f1sm71234566b.135.2024.07.25.06.15.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 06:15:26 -0700 (PDT)
-Date: Thu, 25 Jul 2024 15:15:25 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <23hhazcy34yercbmsogrljvxatfmy6b7avtqrurcze3354defk@zpekfjpgyp6h>
-References: <20240711025153.2356213-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6DUOhBp"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DCD2C4AF0C;
+	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721913639;
+	bh=WAxeB6xNpDOJhk2GtvF3lDer+9cUbsR1XhVgScJOEaQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=T6DUOhBpOSV58MvhGNSkQh/NCeOp04CvO3vLRRO5e39aRRvPY+YWBmEK2NbHkLbLU
+	 PgbDAS3On4M2FcbHAfeOqsstMgmCJ56Vr+ae+niaumiO0955+dt38qDUxI6k6f7acE
+	 ItmwZG/XsMrgordwf1jNxvEh5DABQMfiydai3flYhJDiQKL5949MS9Tf/3GMNjd54h
+	 3QpbRkQBvuxGMZz8cSTE8eZYjCRvd66wmkW8QxPKgutIwXY+pRxna0ieC6Vni7mv3y
+	 goQfyh9OtKfo7ZJv9bzSLpNOrBFjlKYjGv/wYVhjrAvIWzyTCudBsryXj6EiOjCU07
+	 iNRqP5eB4eb7Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1ADD1C4333D;
+	Thu, 25 Jul 2024 13:20:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p4ikx4ra2wliee3i"
-Content-Disposition: inline
-In-Reply-To: <20240711025153.2356213-1-longman@redhat.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4] RISC-V: Provide the frequency of time CSR via hwprobe
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <172191363910.6240.3368503310574547091.git-patchwork-notify@kernel.org>
+Date: Thu, 25 Jul 2024 13:20:39 +0000
+References: <20240702033731.71955-2-cuiyunhui@bytedance.com>
+In-Reply-To: <20240702033731.71955-2-cuiyunhui@bytedance.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>
+Cc: linux-riscv@lists.infradead.org, punit.agrawal@bytedance.com,
+ sunilvl@ventanamicro.com, jesse@rivosinc.com, jrtc27@jrtc27.com,
+ corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, cleger@rivosinc.com, evan@rivosinc.com,
+ conor.dooley@microchip.com, costa.shul@redhat.com, andy.chiu@sifive.com,
+ samitolvanen@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, palmer@rivosinc.com, anup@brainfault.org
+
+Hello:
+
+This patch was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
+
+On Tue,  2 Jul 2024 11:37:31 +0800 you wrote:
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> The RISC-V architecture makes a real time counter CSR (via RDTIME
+> instruction) available for applications in U-mode but there is no
+> architected mechanism for an application to discover the frequency
+> the counter is running at. Some applications (e.g., DPDK) use the
+> time counter for basic performance analysis as well as fine grained
+> time-keeping.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v4] RISC-V: Provide the frequency of time CSR via hwprobe
+    https://git.kernel.org/riscv/c/2709e400c2e0
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---p4ikx4ra2wliee3i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello.
-
-On Wed, Jul 10, 2024 at 10:51:53PM GMT, Waiman Long <longman@redhat.com> wr=
-ote:
-> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-> cgroup.stat file is now being extended to show the number of live and
-> dying CSSes associated with all the non-inhibited cgroup subsystems
-> that have been bound to cgroup v2 as long as it is not zero.  The number
-> includes CSSes in the current cgroup as well as in all the descendants
-> underneath it.  This will help us pinpoint which subsystems are
-> responsible for the increasing number of dying (nr_dying_descendants)
-> cgroups.
-
-This implementation means every onlining/offlining (only additionally)
-contends in root's css updates (even when stats aren't ever read).
-
-There's also 'debug' subsys. Have you looked at (extending) that wrt
-dying csses troubleshooting?
-It'd be good to document here why you decided against it.
-
-> --- a/kernel/cgroup/cgroup.c
-> +++ b/kernel/cgroup/cgroup.c
-> @@ -3669,12 +3669,36 @@ static int cgroup_events_show(struct seq_file *se=
-q, void *v)
->  static int cgroup_stat_show(struct seq_file *seq, void *v)
->  {
->  	struct cgroup *cgroup =3D seq_css(seq)->cgroup;
-> +	struct cgroup_subsys_state *css;
-> +	int ssid;
-> =20
->  	seq_printf(seq, "nr_descendants %d\n",
->  		   cgroup->nr_descendants);
->  	seq_printf(seq, "nr_dying_descendants %d\n",
->  		   cgroup->nr_dying_descendants);
-> =20
-> +	/*
-> +	 * Show the number of live and dying csses associated with each of
-> +	 * non-inhibited cgroup subsystems bound to cgroup v2 if non-zero.
-> +	 *
-> +	 * Without proper lock protection, racing is possible. So the
-> +	 * numbers may not be consistent when that happens.
-> +	 */
-> +	rcu_read_lock();
-> +	for_each_css(css, ssid, cgroup) {
-> +		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
-> +		    (cgroup_subsys[ssid]->root !=3D  &cgrp_dfl_root))
-> +			continue;
-
-Is this taken? (Given cgroup.stat is only on the default hierarchy.)
-
-Thanks,
-Michal
-
---p4ikx4ra2wliee3i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqJP6wAKCRAt3Wney77B
-SZZcAP9TGigif3uPku2ECmJ0PKbMFe2LxRWwMcG2m30wn2EgNwD/VDV8rVWE4gVZ
-ht3p54KnGh7JUfslrPNkV9B/ivtzXgU=
-=Nn+B
------END PGP SIGNATURE-----
-
---p4ikx4ra2wliee3i--
