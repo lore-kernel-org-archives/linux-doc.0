@@ -1,156 +1,99 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB3E19E7EF
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 18:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C4619D8B3;
+	Thu, 25 Jul 2024 18:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721930881; cv=none; b=tZD13Ud4WbqmDHukk6/19dAmaAQSlLU644eKVHhWXm7/hG0oCEkUvayoCCPG/jbHhTzKLAI5qzjs2es7d+BcE3OAYg1pA26XhhOB+tlYjZSqbPvuaQfMjQ4vWX3GR+pv30LuDSEDTR72F10qdOiq0Q27vpKLruRQsB552z2YWcI=
+	t=1721931185; cv=none; b=VviFhqJdwNwLWgJRhYAoyg+VhlfL8ZahN6Gg83vQNZmJEAUdjZFRHZeG4rMczI5cHUpAgiHP6w3YucTDq+YEHiGZpVLCIscjueU8ydvyTW1gq970/aQ2Qpr1fm6vXk4mp32eqAEGFfdXvbhMZR3xLok0/oXkKqYRu+R78gYys3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721930881; c=relaxed/simple;
-	bh=Hqc5azVRbGUwAYmN2fQHG0YmRuwfvqYpwYq9g9X88dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkdRlguDAvwSx9BBPRN//ueEePd2/nHHf9F1/ur4DfvMXGEiM02hdDIEben76Ec7w+4lkFNiiSs0Smn236oqc8GXV4fyl6uo8oMCJmvgJXeqUpxdBKKHSkyFXKaOUcwyuU5serzZyKpCIUPld8180ZS7MwHok4b3bUvoMEKjVoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FTjMrEPq; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1721931185; c=relaxed/simple;
+	bh=mbTVa3LSHPYgZ1dA/8R3Zms6EE3ELVsHnZ3DOAJ/xhw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bcca0coORAz7N2z+jHYFPImYV5OOKBJPXOmokrMwj3/eT0+IUVuNhWRSuYHvYqxFp1nWaCKYbSetj9HYI6pvZWEYrCLMaLZFt0jaJT6wNgwi63FNMWu8P4whSUh3+ethvV83DaJvOyojxAffWC85rGr9SexUVttvLNiaVF7Y41o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=XUoJZM4e; arc=none smtp.client-ip=185.70.40.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FTjMrEPq"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc5549788eso9357095ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jul 2024 11:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721930879; x=1722535679; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UUGaRPCQ3N3wWtHO14ZqED92UBSd1h87iBGfjwpcBN0=;
-        b=FTjMrEPqVBzeDD6E4eR/N6vtbJ4X14DZ4q5z5caJdXwcUa5ey71VDOLdo4mGp9NGNe
-         zh549dbw78yHHRvB2pTVQk4pjHIvP7jrbpHH832Sdu5OVpHytBfjHk7MnPuUEl41rWBX
-         2VlGPLpXrIQV1cd/VvpQ0lW0QQSLOcpNkFhh6rSAMYFZGCpwQQBBmX/+Z5ejwFRv28Wk
-         1PG4o/0Uoy8wLI15DHy2a2KIh+mmxZd+YxupjeUXIq0xJyJ4w5svR6RcS1ND5LdVSTmY
-         tPZLN5PvWcY8IXMtJ9AtIk9WHusZ8I6zZNpIKmH6F9Qf4YK43UYqOvAh9QWzGKCKXlGb
-         g+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721930879; x=1722535679;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UUGaRPCQ3N3wWtHO14ZqED92UBSd1h87iBGfjwpcBN0=;
-        b=fEWWyBbNY2UAFk6aNxStuCAzXF1ujpIKEBgwKhQsA1BaEePZYa9UeotdIbVoRgSiVF
-         SmgGCrnFw07W/Gg5y2v/y6Cdc7tz5NE3R01z2kVfw3tivc6kr+1MUOG/ticYB6ao1VbM
-         pLpN8SOthDEarWZsWRmVprmrxrbqcia9Dh9mJOujbxkVmNpL9rCI1Oyi3hZ3IgWsrWgF
-         bH3UOm/jk7FJDMzRRoWcsfHuIFddborrkYNToVaoo/INkM8isLn1X6Lsf68VMCz/+ewU
-         QtMNfveOHVyTQtIGjelDb0Or7djGb4HsSCpvv5h++YTJuvtWiMp74U0Pvym0YEneKlT4
-         gsyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/fX5+j8RP56spB3tJrsn+kri2GzA9NrACqjhEalD5tJfZD/0Yk5ZL/1dZRpxNQ1v4tAMtV+scbcZ04ymsGHOhZwMjNsWnUXSn
-X-Gm-Message-State: AOJu0YwUnFawVBr0r/TVDGVS9qwTYGFeLU11ZFNMX7m68qRXsZFfqCby
-	9zmKmEHdmWjv8tP46sOacXVP2ifrOgHkxEF9mn7d3NR2zNH/WCB7B3CVH9Voig==
-X-Google-Smtp-Source: AGHT+IHI1A1tvfnC1v1eHXLnRKjVzRp5f2FjOQ5bxe8jqwJy1SWM+jZHo5hxZrA2PYuH6SKb8vBZaw==
-X-Received: by 2002:a17:903:1c4:b0:1fc:2ee3:d46f with SMTP id d9443c01a7336-1fed90b6bd7mr34131415ad.11.1721930878977;
-        Thu, 25 Jul 2024 11:07:58 -0700 (PDT)
-Received: from google.com (61.139.125.34.bc.googleusercontent.com. [34.125.139.61])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f9ec7acdsm1454827a12.66.2024.07.25.11.07.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 11:07:58 -0700 (PDT)
-Date: Thu, 25 Jul 2024 11:07:53 -0700
-From: David Matlack <dmatlack@google.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 02/11] KVM: x86: Relax locking for kvm_test_age_gfn
- and kvm_age_gfn
-Message-ID: <ZqKUefN3HgBQQkuA@google.com>
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-3-jthoughton@google.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="XUoJZM4e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1721931181; x=1722190381;
+	bh=0x67cehCeX2dhRh4luC1Hzr4+U3FEqzuaZRSYX3Gz5U=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=XUoJZM4eB3pMFfpxj30O1NRQOmgMv6796wIOcL3IUUmLBWYywwUTLTMFTB5TbuPJf
+	 ZU2D4MB2dJIyTU64/EzkNT3ZdUyuH/Tkk9xnRo+Y8SChwVpncwREzm69VXYcCBDbCF
+	 H7Q9siL4bkJisLqnui/NLNTEUi8yZhAOmeYgTn4+w7Zr0+1DmfjdnD/1p/+Dz41nE4
+	 VobFR5xVt3EkcCrdq6FM70MWWj5BqI3of6YgXiUlcDukzg5nBKdQ/1sFtIjamW7g7m
+	 ax/0CQvFt5XUqconjPBql2nDeW03q1tUrjhQzOltm+v4mUnIHosfHw6qtLrNxjpb53
+	 uH2Kv4l/SPdbQ==
+Date: Thu, 25 Jul 2024 18:12:56 +0000
+To: Boqun Feng <boqun.feng@gmail.com>, Alice Ryhl <aliceryhl@google.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Jonathan Corbet <corbet@lwn.net>, Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@redhat.com>, Trevor Gross <tmgross@umich.edu>, gregkh@linuxfoundation.org
+Subject: Re: [RFC PATCH] rust: types: Add explanation for ARef pattern
+Message-ID: <bcdd74f3-d0c0-4366-976a-5a935081a704@proton.me>
+In-Reply-To: <ZqE9dzfNrE3Xg3tV@boqun-archlinux>
+References: <20240710032447.2161189-1-boqun.feng@gmail.com> <CAH5fLgjat2Y6RT957BhdOjJHt7rPs0DvZYC6JZ+pHFiP=yDNgA@mail.gmail.com> <ZqE9dzfNrE3Xg3tV@boqun-archlinux>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: ef62ec175a333e5f6fbf726ab823a1ebb2c8d9ce
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240724011037.3671523-3-jthoughton@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-07-24 01:10 AM, James Houghton wrote:
-> Walk the TDP MMU in an RCU read-side critical section. This requires a
-> way to do RCU-safe walking of the tdp_mmu_roots; do this with a new
-> macro. The PTE modifications are now done atomically, and
-> kvm_tdp_mmu_spte_need_atomic_write() has been updated to account for the
-> fact that kvm_age_gfn can now lockless update the accessed bit and the
-> R/X bits).
-> 
-> If the cmpxchg for marking the spte for access tracking fails, we simply
-> retry if the spte is still a leaf PTE. If it isn't, we return false
-> to continue the walk.
-> 
-> Harvesting age information from the shadow MMU is still done while
-> holding the MMU write lock.
-> 
-> Suggested-by: Yu Zhao <yuzhao@google.com>
-> Signed-off-by: James Houghton <jthoughton@google.com>
+On 24.07.24 19:44, Boqun Feng wrote:
+> On Tue, Jul 23, 2024 at 11:14:29AM +0200, Alice Ryhl wrote:
+>>> +/// However `&Self` represents a reference to the object, and the life=
+time of the **reference** is
+>>> +/// known at compile-time. E.g. the `Foo::as_ref()` above.
+>>> +///
+>>> +/// ## `impl Drop` of an `impl AlwaysRefCounted` should not touch the =
+refcount
+>>> +///
+>>> +/// [`ARef`] descreases the refcount automatically (in [`ARef::drop`])=
+ when it goes out of the
+>>> +/// scope, therefore there's no need to `impl Drop` for the type of ob=
+jects (e.g. `Foo`) to decrease
+>>> +/// the refcount.
+>>>  pub struct ARef<T: AlwaysRefCounted> {
+>>>      ptr: NonNull<T>,
+>>>      _p: PhantomData<T>,
+>>> --
+>>> 2.45.2
+>>>
+>>
+>> I think this is missing some basic information related to `&Self` ->
+>> `ARef<Self>` conversions. We should explain that these conversions are
+>> possible, and that you usually don't want `raw_ptr` -> `ARef<Self>` to
+>> increment the refcount - instead provide a `raw_ptr` -> `&Self` and
+>> convert the `&Self` to `ARef<Self>`.
+>>
+>=20
+> I could be more explicit on this, but could there be a case where a `T`
+> only wants to return `ARef<T>` as a public API? In other words, the
+> author of `T` doesn't want to expose an `-> &T` function, therefore a
+> `-> ARef<T>` function makes more sense? If all the users of `T` want to
+> operate on an `ARef<T>` other than `&T`, I think it makes sense, right?
 
-Aside from the comment fixes below,
+You can always get a `&T` from `ARef<T>`, since it implements `Deref`.
 
-Reviewed-by: David Matlack <dmatlack@google.com>
+> Overall, I feel like we don't necessarily make a preference between
+> `->&Self` and `->ARef<Self>` functions here, since it's up to the users'
+> design?
 
-> ---
->  arch/x86/include/asm/kvm_host.h |  1 +
->  arch/x86/kvm/Kconfig            |  1 +
->  arch/x86/kvm/mmu/mmu.c          | 10 ++++-
->  arch/x86/kvm/mmu/tdp_iter.h     | 27 +++++++------
->  arch/x86/kvm/mmu/tdp_mmu.c      | 67 +++++++++++++++++++++++++--------
->  5 files changed, 77 insertions(+), 29 deletions(-)
-> 
-[...]
-> --- a/arch/x86/kvm/mmu/tdp_iter.h
-> +++ b/arch/x86/kvm/mmu/tdp_iter.h
-> @@ -25,6 +25,13 @@ static inline u64 kvm_tdp_mmu_write_spte_atomic(tdp_ptep_t sptep, u64 new_spte)
->  	return xchg(rcu_dereference(sptep), new_spte);
->  }
->  
-> +static inline u64 tdp_mmu_clear_spte_bits_atomic(tdp_ptep_t sptep, u64 mask)
-> +{
-> +	atomic64_t *sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
-> +
-> +	return (u64)atomic64_fetch_and(~mask, sptep_atomic);
-> +}
-> +
->  static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
->  {
->  	KVM_MMU_WARN_ON(is_ept_ve_possible(new_spte));
-> @@ -32,10 +39,11 @@ static inline void __kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 new_spte)
->  }
->  
->  /*
-> - * SPTEs must be modified atomically if they are shadow-present, leaf
-> - * SPTEs, and have volatile bits, i.e. has bits that can be set outside
-> - * of mmu_lock.  The Writable bit can be set by KVM's fast page fault
-> - * handler, and Accessed and Dirty bits can be set by the CPU.
-> + * SPTEs must be modified atomically if they have bits that can be set outside
-> + * of the mmu_lock. This can happen for any shadow-present leaf SPTEs, as the
-> + * Writable bit can be set by KVM's fast page fault handler, the Accessed and
-> + * Dirty bits can be set by the CPU, and the Accessed and R/X bits can be
+I would argue that there should be a clear preference for functions
+returning `&Self` when possible (ie there is a parameter that the
+lifetime can bind to). This is because then you get the two versions of
+the function (non-incrementing and incrementing) for the price of one
+function.
 
-"R/X bits" should be "W/R/X bits".
-
-> + * cleared by age_gfn_range.
-
-nit: "age_gfn_range()"
+---
+Cheers,
+Benno
 
