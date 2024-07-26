@@ -1,90 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4362E620;
-	Fri, 26 Jul 2024 16:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E883AD55
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 16:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722011099; cv=none; b=emR+usS3p1JQdAi9LUKmT2ac+WnJaglPF7KjmPFzbvSvwM0w/s/AAjBe4MQ1MDQ2s4Em/umyNF8Q44tnc4sEEDq4yc0F08cM1DV9DhPXhycZld4Fm7A8KowUNOZJzGwrU6JXCeu4CvELkvWyvUoDyyuLtqLEmBRHtD6lMmZHJx0=
+	t=1722011848; cv=none; b=kvKB4mCzpmtiyQcnEYb1awihN9U6jPhjv08IGAOyWj7gDW658LceJjrdf2ozO8ZYT1eLzGaBeISIigGC9CZWoaMysT/UZ/mEDtsDFCup5XjUmshPiotaiGGypcwwgNcf1MCZ9OFOFuBF5eINKnII+ZyFoyU7y/O81H/BtIx5/v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722011099; c=relaxed/simple;
-	bh=OU3zH8zGTnF36MuG1IbQgk2o8MlcwV9IWTTXu1R001A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JFq2vbuV3hCLKtm6vR8fizLYVB/ifh9zd7QMD2Yd1Rg7Oq585yAUyowl/YF4cw3oMN1jF0n+5No3MTejkcS2xCDAypcMlDIKRpHcooKLv3nSKRV8VPU1FPozk2i0WSi9CoEXMJ/hbVBxRPZvUwr4FXe2MlS4WGI0FZqYsyJD8LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rdw3+T2U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722011848; c=relaxed/simple;
+	bh=jIDumT3gWGM5YT3nKq563tUaGm/1URpoEdPlJHRl1E0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V6VIwEnrKAO9EokDsw7n+F7axQpQg2QyryZ49hrQ0Fr6VTQEZT24UpGz3LEFwv0yVPZorxd5Ml0r16BgU4mjYuGzVCjZpTVTVbGV/fNfrMR6iTK4weoWWdYE/vyL5fQCjofP4/tmi9kXHeqa4UW1We2SY38C4IKGd0OnG6tsbeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=iiNd7oPH; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rdw3+T2U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93B1C32782;
-	Fri, 26 Jul 2024 16:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722011098;
-	bh=OU3zH8zGTnF36MuG1IbQgk2o8MlcwV9IWTTXu1R001A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rdw3+T2UjcRdbMZxllNXlqWZ3lXjiqqDbGQnE0ph4yaUWFI1Nu2tpfGHwJJMiBLNz
-	 K+zFPs7XiXPZe7Wc4Xfk+Mirr/3ebLVvZrCjHVr91fME2WSnN+eRCYsOwUJxSwmgQA
-	 2umNoi8/QqZ9PZmz9OG/seG1p+quw2WSXU5pzFKTS8ph9M5kGxMaktHrSaJdk6fGEW
-	 lQqbCBcI4sRTYToYYb/irmCafmuXIzUcyAt2uCnsdXVqakKov+/HKZHb2wpvdkUCPe
-	 KwHgS8KZmTaplEKB7pH5X79SvA8vZZUJmbgq4DC1rWLV/QN4XjUEhrmBSjoGrb7AM/
-	 XRBgouKuek/yw==
-Date: Fri, 26 Jul 2024 17:24:51 +0100
-From: Simon Horman <horms@kernel.org>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	andrew@lunn.ch, corbet@lwn.net, linux-doc@vger.kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
-	horatiu.vultur@microchip.com, ruanjinjie@huawei.com,
-	steen.hegelund@microchip.com, vladimir.oltean@nxp.com,
-	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com,
-	Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
-	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch,
-	linux@bigler.io
-Subject: Re: [PATCH net-next v5 00/14] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Message-ID: <20240726162451.GR97837@kernel.org>
-References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="iiNd7oPH"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2cd34c8c588so805399a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 09:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722011845; x=1722616645; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8abyY+23OqRfjC+HH12SH89B97LQIWTr/A0vDo3wc9A=;
+        b=iiNd7oPH/uH23I1EBpLHfhHx1gSCOMVYyeNZ+d49fs2wbrIKrlOOhoZyuk+jwjlpnu
+         t1sf30qi994ZGv6y9cPu1LI51Az/z6V6nNo7oWn9aJ+rSjI5jKHma86IN/7AUsoMZH5z
+         6I9C7o9IvpHAZcxVYC3mTLMbtd5lR+3X4QFFbjfnkh5cXZYz3DImnd0z2IijVzvlKgQk
+         v5E431ikBxeyDeZtpYnxWRQcjDPW7vkFMcXAO+z0Rf1Vps1uSzud9BW9yqRci1TdhHlA
+         Z4FIXQVUxjcqGWpG9NngVnx8j43Wb1CcAt2iiNMPVEtykcpNkX0h+4P8j+jp44iTrUEZ
+         X4Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722011845; x=1722616645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8abyY+23OqRfjC+HH12SH89B97LQIWTr/A0vDo3wc9A=;
+        b=hOKZmnXVIymCcuEG5yjotUIkmLt/lAP5A8iXJKBYO+OHrm3OUTvmsYcYjCfJC+07SJ
+         f0K9dgS/Kbe3RfuUDt4/HGohunTLA43PIbuoTK/YMHTi8vtWxCMEx7VDCF1u7W1QoU0O
+         mueKtk9zsWVMTBU8g44j1LAUz/Y1cfo3Nt1sxQP2xetwFwDuRLsd/564wHieImCTH4Ls
+         P4rFaGCm2yHatPsHO158cKI3KeBdydv0SCqnCiqHKbKPYWTjcxLBQ23lq+1PViL/T+vl
+         7jW4djt9UUBrf8wme8SsgOQ9j7vyQAJTO/oXgZm57rw8YS91TsmV4ZjWHVklmGyhPA9s
+         Cdqg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCWTIEe2tARHniGvBRORqIaOD+pUkc3mTMtGbMhRNpwGPNVFhrhTnb2xMHaXqD72CFErBY9gYBKmyHtF6fEZHNeDUPNMR3Qf+C
+X-Gm-Message-State: AOJu0YwzuhH8w+JG7rxN0FPIhHZ2Nqo86UoxPyq8HMPFrZzt5DTBXznA
+	fGJgHk5PJ9OD8o0eirHRoC0UQ8xe4zI3RvmbB4LZDi6502fTkD1UGAgaiZgfPxA=
+X-Google-Smtp-Source: AGHT+IEKupxYr1+7Tw7NNkxw4zI+vDeEkSlnSvkM1SOcwHrSkTUm/tBEZCxIeVzhDmNZ2U0QJGFr0Q==
+X-Received: by 2002:a17:90a:ac2:b0:2c9:5c67:dd9e with SMTP id 98e67ed59e1d1-2cf7e1ff4e8mr39752a91.19.1722011844844;
+        Fri, 26 Jul 2024 09:37:24 -0700 (PDT)
+Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28c55a2dsm3676619a91.7.2024.07.26.09.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 09:37:24 -0700 (PDT)
+From: Jesse Taube <jesse@rivosinc.com>
+To: linux-riscv@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Jesse Taube <jesse@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Xiao Wang <xiao.w.wang@intel.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v7 0/8] RISC-V: Detect and report speed of unaligned vector accesses
+Date: Fri, 26 Jul 2024 12:37:11 -0400
+Message-ID: <20240726163719.1667923-1-jesse@rivosinc.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 26, 2024 at 06:08:53PM +0530, Parthiban Veerasooran wrote:
-> This patch series contain the below updates,
-> - Adds support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface in the
->   net/ethernet/oa_tc6.c.
->   Link to the spec:
->   -----------------
->   https://opensig.org/download/document/OPEN_Alliance_10BASET1x_MAC-PHY_Serial_Interface_V1.1.pdf
-> 
-> - Adds driver support for Microchip LAN8650/1 Rev.B1 10BASE-T1S MACPHY
->   Ethernet driver in the net/ethernet/microchip/lan865x/lan865x.c.
->   Link to the product:
->   --------------------
->   https://www.microchip.com/en-us/product/lan8650
+Adds support for detecting and reporting the speed of unaligned vector
+accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+emulated all CPUs. The vec_misaligned_speed key keeps the same format
+as the scalar unaligned access speed key.
 
-...
+This set does not emulate unaligned vector accesses on CPUs that do not
+support them. Only reports if userspace can run them and speed of
+unaligned vector accesses if supported.
 
-This is not a review of this patchset, but to set expectations:
+The Zicclsm is patches are no longer related to this set.
 
-## Form letter - net-next-closed
+Changes in v6:
+ Added ("RISC-V: Scalar unaligned access emulated on hotplug CPUs")
 
-(Adapted from text by Jakub)
+Jesse Taube (8):
+  RISC-V: Add Zicclsm to cpufeature and hwprobe
+  dt-bindings: riscv: Add Zicclsm ISA extension description.
+  RISC-V: Check scalar unaligned access on all CPUs
+  RISC-V: Scalar unaligned access emulated on hotplug CPUs
+  RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+  RISC-V: Detect unaligned vector accesses supported
+  RISC-V: Report vector unaligned access speed hwprobe
+  RISC-V: hwprobe: Document unaligned vector perf key
 
-The merge window for v6.11 has begun and therefore net-next is closed
-for new drivers, features, code refactoring and optimizations.
-We are currently accepting bug fixes only.
+ Documentation/arch/riscv/hwprobe.rst          |  21 +++
+ .../devicetree/bindings/riscv/extensions.yaml |   7 +
+ arch/riscv/Kconfig                            |  57 ++++++-
+ arch/riscv/include/asm/cpufeature.h           |  10 +-
+ arch/riscv/include/asm/entry-common.h         |  11 --
+ arch/riscv/include/asm/hwcap.h                |   1 +
+ arch/riscv/include/asm/hwprobe.h              |   2 +-
+ arch/riscv/include/asm/vector.h               |   2 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |   6 +
+ arch/riscv/kernel/Makefile                    |   3 +-
+ arch/riscv/kernel/copy-unaligned.h            |   5 +
+ arch/riscv/kernel/cpufeature.c                |   1 +
+ arch/riscv/kernel/fpu.S                       |   4 +-
+ arch/riscv/kernel/sys_hwprobe.c               |  42 +++++
+ arch/riscv/kernel/traps_misaligned.c          | 131 +++++++++++++--
+ arch/riscv/kernel/unaligned_access_speed.c    | 156 +++++++++++++++++-
+ arch/riscv/kernel/vec-copy-unaligned.S        |  58 +++++++
+ arch/riscv/kernel/vector.c                    |   2 +-
+ 18 files changed, 481 insertions(+), 38 deletions(-)
+ create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
 
-Please repost when net-next reopens after 15th July.
+-- 
+2.45.2
 
-RFC patches sent for review only are welcome at any time.
-
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
---
-pw-bot: defer
