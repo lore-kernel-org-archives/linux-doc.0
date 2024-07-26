@@ -1,67 +1,67 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3C4282EA
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 17:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FC017D34F
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 17:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722015088; cv=none; b=W4U2cjqyt44gthX557vrOY+OGDnXT9G4Q964FH94yK8rN80t76U5+2eWASeOfRYJx0WPwUh6ayAKn19yn+ODI9QyNiW+BZkxJopnYwwKdxQn5rmqX53stvH1dT5K4TYnlmJVUqAUKLjOJAk/R8vnFpnMB3WiVx4hMb9fXy7TckY=
+	t=1722015095; cv=none; b=m+sbmq6oe415pV/7kdm9s0nW7WivQW18K1USzySeEE43KOB6sZN/IyHf/m/QEj76y4IZBHLfFK9s8FoRdRJgiZMSO7dat7c/8ilqA1TChyOW/K2eTLfCdYryUTs1jMPV8gYdsSXItPp0DKKaoBc38tKtBUhlI3qMvqRsEYe76r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722015088; c=relaxed/simple;
-	bh=GHKjTGsA5xoJdxNc5US7opyHTsaUSz6DP4R2VVpLsL0=;
+	s=arc-20240116; t=1722015095; c=relaxed/simple;
+	bh=TJFfdDn4hCn+JfxAD3q9QsIiCucI1Gx1K/+KVTB4ve0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T0hWQfE/FHADpSPQ36/v8+GlB1M9j1Yj1PztTeCFMSaxeag6qGX6vPsraPP2qEQIc06ieRwho5+c2rVqDcADvKzl+9tNLiLbRxb+PbhPLYk6az4bkvQhFxG3gyxqWGFEVX5TRVIU8FUEjt3Yoy/gUvnVSVBptKfRwqJlw9Wck40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nspXGXMB; arc=none smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=CUWJEZ3iSfhnAQK10cC/ZB2WPcRZ5kxtdD/K4WAhJCAzQ5l/AyM2YQGg7MB+MoaLEWcXpb1A76+gX28dcKSSxj3BXH3mWg0wYw3yFJGN5DTJzaC451122KQ+u3XuHAg8mCCJwKKu5xKlFJMns63sI3ksmwg9ba0ipbjYv2mlLzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=xLgkPVaQ; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nspXGXMB"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5ab2baf13d9so2740405a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 10:31:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="xLgkPVaQ"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3687ea0521cso1648897f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 10:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722015085; x=1722619885; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722015092; x=1722619892; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GHKjTGsA5xoJdxNc5US7opyHTsaUSz6DP4R2VVpLsL0=;
-        b=nspXGXMB4vFOrnx+6+0SaIl5UlBNSnCSVsv31/DSOGz/ujAS0ziHDJCxRXDlWH91OW
-         wdXBhfNi8MlSkwluyQCUl+l1XtWgKFlTaGnAuYBjUSp+Al49d8VSb7kN85zGGA8WNzm8
-         EaNTGfJrMRhddLcX87FK/vmmK7/eBtDHh/C7dWQbE8RIje05Pvj8q7vuOe2Ka2EDsIr3
-         xlrHLh7EpR2Oe0cVIEvMzfbPMaNBctpyXG/39CcrGzhDZwJSlYhVGiZwiiTBixpqHKTu
-         mvJdpnbVMipM2vvtRI64f1nlU14P4CYCqKg7E0DBdLOHAZu9CQfTQKAdm+R51ZhLLrkX
-         OQUw==
+        bh=TJFfdDn4hCn+JfxAD3q9QsIiCucI1Gx1K/+KVTB4ve0=;
+        b=xLgkPVaQ4C8L0QS+GWG3v8MWW4F3rksKRcWhW59hiLB/pHuUSWVDT0rjQiSIB4w2YM
+         ZdMyt+BUm99p86Kmp1RjzAWT8VuOf6vab/QXyV99UFx+KyPzxX3dNiZxU3ns0TprO9hq
+         9qcDIrsjMj5Meww+9cOqPS4QMa7gw6IpIx6OeCmimJucIGpktjnRxHKpS+6KNaRfAo+H
+         qc2wiETiRWQQ5Gv6aZTRUHLGwHFlRi7sI5/+EiVxSFEYR7pNNH9CJ02lkNHPeWvjZZFb
+         ee1a16eeqb6qaXMtShIv8WU1kFlBYH5dPWRXkaimf4I36rRsNcWCkrbiZUv6aUFpBJj4
+         hvyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722015085; x=1722619885;
+        d=1e100.net; s=20230601; t=1722015092; x=1722619892;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GHKjTGsA5xoJdxNc5US7opyHTsaUSz6DP4R2VVpLsL0=;
-        b=PLXz4yF2X/0sNKYD16jotHJgtkYKbJ9W9QtDJN5P/0rEUG1Ru2uqX4OZ2uM5XZFrkE
-         h3ttpFuWnP4vZBasBkhUjUNSL4BrFlD7fl3nCs/8qLFXYNcc3BFHlzWfspn2wQOE/xm7
-         UQ3c1wHq9OygJ3nWQhCb9ZT5cgtef/wOl1ZwXercBz615HS0zgtQfwoHJQC6BXeAGPSC
-         1zj60rXAPyDT6xC70byfV+ZfkcCmHSekJVcci7CKzMzvW6bCPYgwzb3NYnmj45fVL2qw
-         wWReJvFPiK1HZSfBAnB+fJ7av48L9repQX073GXyzcBXf3UmJVB451anKD1shjjWDll9
-         Eebw==
-X-Forwarded-Encrypted: i=1; AJvYcCUlZOwphssKZy9M3Hnd83yuZQE3Yd03vL2p+OAivNU26IKxgV7p1IQHm7+bAfoFLw4qJy0YaVdIiS7YWJnp/CNlYDrz0NpUATyj
-X-Gm-Message-State: AOJu0YwkeJnmtzNsP9tjgNxJI0c1DaoHexiW9yAtaHKfgg4TF+UQS0N0
-	gD/UVJiQemgEAV5otu58WDivPEq5LcpUeX4a0Ni2N4iZ+P7EyxCN407u5YibXQ4Fp+9yw9Xgajp
-	h7YCuNCazXH99Ri6GIBHZ0uj59vX7Hd5KFMyLVw==
-X-Google-Smtp-Source: AGHT+IEI2htU4rQmXKR32DSuhL2duertaz8E+94T640gTu2H7zXYYH/H6bLeEQ07Rgpskv2eHm4WeT9H3VNis9yy8bk=
-X-Received: by 2002:a17:907:97c4:b0:a77:e1fb:7dec with SMTP id
- a640c23a62f3a-a7d3fffd2b8mr14159766b.17.1722015084967; Fri, 26 Jul 2024
- 10:31:24 -0700 (PDT)
+        bh=TJFfdDn4hCn+JfxAD3q9QsIiCucI1Gx1K/+KVTB4ve0=;
+        b=oUJRVm/rvEsUIIGenelvHYRTWP81opcWU6yLq4KhfGKvdelipenNBjQgUoFYrbxqVv
+         GqouuYAUU8FiT3rebL7u/aG11uNp/TiHyCXBtIMhPAEZUZh64SPpAjuO7Hm8qncAZneb
+         pJAlNGl5p9LPTJxmE1cXsdGMdFvaHn0q+LBNOKmO9DMNqct7AdJ5y72UKGgg1no0PoJx
+         aWH6Ej6OsPPJQpy/UmdycV+ZLkgfc5N2XnEGQJ1X3WrWARXAUQ9BFI5M5W6eauf7A3vG
+         Ou69mV1X7RJ5/oHrEiYkmHx42tWIsAKGqFRrJMFlojROO2zQ6wvT3AcmKLg50oyJAFXQ
+         ddQg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4n/Stjcv1A/whLq3Qj416unKzhDmHcuAa6rQejsnppYem7amGunVOHf2ZoDrakfpBbRFg6zLlpS1W86Pq6zFeTIn2twzxiW7C
+X-Gm-Message-State: AOJu0Yx0lZQe5s9ftlOYUgWMKy3yW1kk8Y6YzlkcfBgGQaJWeyjpzD5U
+	qJ8JEPqHnzLR34tw//H+3LDd8V7MSNCsmAIE7SnwsvV2tNgbVlqJdJsufxl4bet3+3LRKZLQMoc
+	RmFdyh0QkAyy5gV1DjN2TL/zArlQu3A0oaV+4uA==
+X-Google-Smtp-Source: AGHT+IEcbBIq0QVjjaGO3yyeblxO7j7e77wp+O5wnIUnEO6JQdPn2RcZcLA9pSLULVqKcWiJroK44X/hEvsIxOop/OE=
+X-Received: by 2002:adf:f00c:0:b0:368:7943:8b1f with SMTP id
+ ffacd0b85a97d-36b5d0d0f9dmr327709f8f.43.1722015091942; Fri, 26 Jul 2024
+ 10:31:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240726163719.1667923-1-jesse@rivosinc.com> <20240726163719.1667923-8-jesse@rivosinc.com>
-In-Reply-To: <20240726163719.1667923-8-jesse@rivosinc.com>
+References: <20240726163719.1667923-1-jesse@rivosinc.com> <20240726163719.1667923-9-jesse@rivosinc.com>
+In-Reply-To: <20240726163719.1667923-9-jesse@rivosinc.com>
 From: Evan Green <evan@rivosinc.com>
-Date: Fri, 26 Jul 2024 10:30:48 -0700
-Message-ID: <CALs-HsvJzeqhymXDG07rN4t_iz2vZV54ACrqtmJ+1UA9jY+Rvw@mail.gmail.com>
-Subject: Re: [PATCH v7 7/8] RISC-V: Report vector unaligned access speed hwprobe
+Date: Fri, 26 Jul 2024 10:30:55 -0700
+Message-ID: <CALs-HsuL_eFncoEe=ns2=Lsdr1y+a-QhzSsZ+Yw_LQ_X7fs2EA@mail.gmail.com>
+Subject: Re: [PATCH v7 8/8] RISC-V: hwprobe: Document unaligned vector perf key
 To: Jesse Taube <jesse@rivosinc.com>
 Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>, 
 	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -84,10 +84,8 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Jul 26, 2024 at 9:37=E2=80=AFAM Jesse Taube <jesse@rivosinc.com> wr=
 ote:
 >
-> Detect if vector misaligned accesses are faster or slower than
-> equivalent vector byte accesses. This is useful for usermode to know
-> whether vector byte accesses or vector misaligned accesses have a better
-> bandwidth for operations like memcpy.
+> Document key for reporting the speed of unaligned vector accesses.
+> The descriptions are the same as the scalar equivalent values.
 >
 > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
 > Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
