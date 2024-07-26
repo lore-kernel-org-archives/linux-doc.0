@@ -1,149 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5905C17CA06
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 17:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446332D05D
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 18:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722015316; cv=none; b=HLZyCeYJh1ikYmMd05r/wK+480yamBuysOSHhADm+bbCZ08JOO7E5b6mcMY072+SDAxMWCDU1NamZJxqPN6G2ZPh7k1Mt0TqG6Wgb9dAibVjEBNuNhkEikuFAxtm92pXYidg9Eg/LM14ZVT9j81J9HUZ0VTpT/1Sz9D531GT8pA=
+	t=1722016881; cv=none; b=qNy/3oCQ24xk1v4fdqP+tOJkgWkyBwQLSV9s2FN1OORtLHaRqvYBYRhTkTni/dkXZ4wVJPW3UKKQwjz+7iPOAJ9P1dqGXqKa8+op54RKFmBifAKOGvW+k3CqI1vVfFD6wg+nGZXVf0cch9S46dOXONIH5S66ysOT8NmBs1ECP5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722015316; c=relaxed/simple;
-	bh=bttdLIdoUtHr27DSHLNsOSnkrwZ/ML4vJ9j1Eg1TUoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=InOiUkIIY4LfUl8oW85UlfWMqg8AlVsAp5E3aOYCrAT2+u0BSqszniShV30IYaDcxddr/GkZ/Jp1Zvxcgsw3nf9phqXmIuS49yIi7WHAy1YHsYva3HIogFOHbS40pNOEarNMSyP3nWX763jmNdzHE1a4L1V0nMTrHyl+fNeojJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rb+fvyLm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722016881; c=relaxed/simple;
+	bh=++DxW5Wfy4Au2YwoonxUGa/QZStbNf04powXqCjkLB4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TLcxmYGOQ6nJTsVYn2+PD6She0ku331ix/CYS+DrMnPTCexGb9o5JXEBjigzB8Apw6SMuZL9ALxAo29TcRhzNtpg4XxMRXn1Mg2ohqjoyBFbqYjSHFTimHIlyqlJgtsp0VXulvyweCum3fMI86rkTV3ESQ6HT4SvX0bi7Kk6f90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aNo5DesT; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rb+fvyLm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722015314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8H9g215Jo9hIiTGrOT9Nw9jtPUYdggj31n76DH0L0Fk=;
-	b=Rb+fvyLm2PexkB9wtWhQaulCKF+AogfGAcYqP7C7UBUr3tC9ArgQgy8vZ6ALXWIhmGEkD7
-	yq97P0C5yec0VoO3VAserZwDpYr9gDpMryuGfgBzTqN6ab64b/KQkePXfI/PVsn/vEY/vz
-	6muJPn3ESxUqr3pmFtf7Wvr13HHRMNs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-78-I10QOHOAP36hYFOA6uAfpQ-1; Fri, 26 Jul 2024 13:35:12 -0400
-X-MC-Unique: I10QOHOAP36hYFOA6uAfpQ-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3679ab94cdbso1311074f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 10:35:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aNo5DesT"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-44fee2bfd28so24621cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 11:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722016877; x=1722621677; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ak1Eq7jso4JmTyHIqI1fIZotXdd9vAxGDBL2VPHZ8pA=;
+        b=aNo5DesTtraCdB6mCP+Y8T73nI/pC9KEJrKUdVyrY4nxsoZnR8iQOhdxswVXQ87bnB
+         916/UlhRYLQBZPz6XuoG0GBrldNeSIwa5IJ4CyCzfzOtvXk+/QsXH/PVocFpYk9EBiO2
+         wUTCzCzUrvIxjcwEMQNWZA8sOE6dzkx+MVHq31YxkWHDFzioHozHF6D1PhZsjMWxGxB8
+         Dt7lSt1GEHnwZ7DRUTsK8KvnW15PdN6WKc6ZLp9AoHtLOuz6tA3FwQd+Li1V69FjHwYM
+         vs9KBrqXI470zHGpDbv0fB3JkOjbilXlrI9cFy7dSSqDVG5Q+pcL4WkLtdSH/t3OIsQ4
+         BIsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722015311; x=1722620111;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8H9g215Jo9hIiTGrOT9Nw9jtPUYdggj31n76DH0L0Fk=;
-        b=jol7AO0ER/IeYLNW0c0ad465+WB176ZeMb8GU4nMBa0z/13OQ7KEd9UaAW03KuLlDj
-         fEQYnI5W2jPmO6VEoWt1OVpLfxqy8XuSgeqrsvn21GYpPTiaAy2Nc3IpzcjiAgeyc/BU
-         TsodGUaPyAEXTdWTSRb2D2AUAaRg1og+v60kTrVUUVZgs6Um5HrZMZBbcZRQ5fCAr+27
-         7L0m+wa/Xwzq0NRjyimHh3HFYeTClUCIIck2prbO7A+aM3VzgCvnmWKGYyE5cnY7GLLI
-         2l1WDyAN/36Ykj5MOJJ9D9LibDFcos59HqVOeBh4uRWBJaNR7qDaEBM6T2KGn7QWrE2Q
-         NdTA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5PDIuenGRpe5QwBkmRBPbJjtcavvaPXROpEix/vNOKk0NgRjZhzv79+0jQcAv9D2dU+jBAjXYzoAJR2UCYeei/qoLVD1kx9bQ
-X-Gm-Message-State: AOJu0YwEc0ACXX4mo/A1NrKfAHay9T74k+fgPM7meGcfbdwwI4jqsRAK
-	mTAu1Ud/clYuenoOxL9bGatBiS7eAZPEw0jMsTra4+akV4Uoly+NF4uo2buwG45cXTVMLyBsTqJ
-	9Qic1eO75ypqAziQTLuPyrkNlEd+yCH9153L1zYwyA1LF1/D7N2VsDevYBA==
-X-Received: by 2002:a5d:5501:0:b0:368:3895:67d6 with SMTP id ffacd0b85a97d-36b5cee1f55mr273281f8f.20.1722015311309;
-        Fri, 26 Jul 2024 10:35:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmcLLXt+73ZRzaeVRyIDnhJ9PNOOv9hc4PVzigrj5pU0Oe75sBZvCZ28se3TjEY2QW5EBXiw==
-X-Received: by 2002:a5d:5501:0:b0:368:3895:67d6 with SMTP id ffacd0b85a97d-36b5cee1f55mr273267f8f.20.1722015311011;
-        Fri, 26 Jul 2024 10:35:11 -0700 (PDT)
-Received: from [192.168.10.81] ([151.95.101.29])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-427f940e62dsm130746555e9.39.2024.07.26.10.35.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 10:35:10 -0700 (PDT)
-Message-ID: <5d4eafaf-5243-4831-abf1-59665c08fb46@redhat.com>
-Date: Fri, 26 Jul 2024 19:35:08 +0200
+        d=1e100.net; s=20230601; t=1722016877; x=1722621677;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ak1Eq7jso4JmTyHIqI1fIZotXdd9vAxGDBL2VPHZ8pA=;
+        b=Ucg0ynsEzWHmHhsBGIJyfUtkzL7FdU+UjjPZz4gSHhPSrTG2j6/JpuGwn0lIMFzdKa
+         VHQ75azt+lW1RburjlU6sVNwCQbS3+Ugy8zlFKzL231l+RY+m0yaFAQ2oGB0N2men0o/
+         qJaW4vbg9jKrJaRfRDMKEvYw0D1Vg3ykYEQaDapmF3pvplWG314FO4ydwwoSuQnVsdOD
+         hcOkmQcUfgtRQslpJcr0nulnEoSynKUQcVwVfqPnUF0VSpziqqeDlLPeI2xoUaU+pNRD
+         KckThVYn/Hpp/RPDPXFZZtxFx1mCrpWm/2omCW/ZhH67Dy8WNC1IKQxN2KJcxxgccx0W
+         c60Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXHgyizIGtxqtm78VrAgUTWWUgQeYaiht3hKsnp5GJK7NP183lQIb3o6155wKl5tGyLe6hsfvMGA0cBcZzGFjIBTz94jIX6zaCE
+X-Gm-Message-State: AOJu0Yyr2i1tYNBfWHx0kevHXqYJqa/kFXXP1mS0OffwvtuuBJVxCwFz
+	gyJcIhrQ2WEpoycBc4rkXb6zEQrN73JKTWFLimIuzR4J1g7uGaEbvdykEu2oGCzTUn1BdUgf+7w
+	gO7rsHrBnH4sacAUr9vlpGMKT8kbCeqoOAtD5
+X-Google-Smtp-Source: AGHT+IFoF6m2085HiMb1LFmRXf1gcgoAKZulVWf1wtb1p+oifUVM7pdIPy5Ujlb1n6sjQ/UwCgADvSFgnKg+ILC9gFY=
+X-Received: by 2002:a05:622a:42:b0:447:e3e3:77c1 with SMTP id
+ d75a77b69052e-44ff3e151f5mr4242721cf.29.1722016877026; Fri, 26 Jul 2024
+ 11:01:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] KVM: Documentation: Fix title underline too short
- warning
-To: Chang Yu <marcus.yu.56@gmail.com>
-Cc: corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- chang.yu.56@protonmail.com
-References: <ZqB3lofbzMQh5Q-5@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- xsEhBFRCcBIBDqDGsz4K0zZun3jh+U6Z9wNGLKQ0kSFyjN38gMqU1SfP+TUNQepFHb/Gc0E2
- CxXPkIBTvYY+ZPkoTh5xF9oS1jqI8iRLzouzF8yXs3QjQIZ2SfuCxSVwlV65jotcjD2FTN04
- hVopm9llFijNZpVIOGUTqzM4U55sdsCcZUluWM6x4HSOdw5F5Utxfp1wOjD/v92Lrax0hjiX
- DResHSt48q+8FrZzY+AUbkUS+Jm34qjswdrgsC5uxeVcLkBgWLmov2kMaMROT0YmFY6A3m1S
- P/kXmHDXxhe23gKb3dgwxUTpENDBGcfEzrzilWueOeUWiOcWuFOed/C3SyijBx3Av/lbCsHU
- Vx6pMycNTdzU1BuAroB+Y3mNEuW56Yd44jlInzG2UOwt9XjjdKkJZ1g0P9dwptwLEgTEd3Fo
- UdhAQyRXGYO8oROiuh+RZ1lXp6AQ4ZjoyH8WLfTLf5g1EKCTc4C1sy1vQSdzIRu3rBIjAvnC
- tGZADei1IExLqB3uzXKzZ1BZ+Z8hnt2og9hb7H0y8diYfEk2w3R7wEr+Ehk5NQsT2MPI2QBd
- wEv1/Aj1DgUHZAHzG1QN9S8wNWQ6K9DqHZTBnI1hUlkp22zCSHK/6FwUCuYp1zcAEQEAAc0j
- UGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT7CwU0EEwECACMFAlRCcBICGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRB+FRAMzTZpsbceDp9IIN6BIA0Ol7MoB15E
- 11kRz/ewzryFY54tQlMnd4xxfH8MTQ/mm9I482YoSwPMdcWFAKnUX6Yo30tbLiNB8hzaHeRj
- jx12K+ptqYbg+cevgOtbLAlL9kNgLLcsGqC2829jBCUTVeMSZDrzS97ole/YEez2qFpPnTV0
- VrRWClWVfYh+JfzpXmgyhbkuwUxNFk421s4Ajp3d8nPPFUGgBG5HOxzkAm7xb1cjAuJ+oi/K
- CHfkuN+fLZl/u3E/fw7vvOESApLU5o0icVXeakfSz0LsygEnekDbxPnE5af/9FEkXJD5EoYG
- SEahaEtgNrR4qsyxyAGYgZlS70vkSSYJ+iT2rrwEiDlo31MzRo6Ba2FfHBSJ7lcYdPT7bbk9
- AO3hlNMhNdUhoQv7M5HsnqZ6unvSHOKmReNaS9egAGdRN0/GPDWr9wroyJ65ZNQsHl9nXBqE
- AukZNr5oJO5vxrYiAuuTSd6UI/xFkjtkzltG3mw5ao2bBpk/V/YuePrJsnPFHG7NhizrxttB
- nTuOSCMo45pfHQ+XYd5K1+Cv/NzZFNWscm5htJ0HznY+oOsZvHTyGz3v91pn51dkRYN0otqr
- bQ4tlFFuVjArBZcapSIe6NV8C4cEiSTOwE0EVEJx7gEIAMeHcVzuv2bp9HlWDp6+RkZe+vtl
- KwAHplb/WH59j2wyG8V6i33+6MlSSJMOFnYUCCL77bucx9uImI5nX24PIlqT+zasVEEVGSRF
- m8dgkcJDB7Tps0IkNrUi4yof3B3shR+vMY3i3Ip0e41zKx0CvlAhMOo6otaHmcxr35sWq1Jk
- tLkbn3wG+fPQCVudJJECvVQ//UAthSSEklA50QtD2sBkmQ14ZryEyTHQ+E42K3j2IUmOLriF
- dNr9NvE1QGmGyIcbw2NIVEBOK/GWxkS5+dmxM2iD4Jdaf2nSn3jlHjEXoPwpMs0KZsgdU0pP
- JQzMUMwmB1wM8JxovFlPYrhNT9MAEQEAAcLBMwQYAQIACQUCVEJx7gIbDAAKCRB+FRAMzTZp
- sadRDqCctLmYICZu4GSnie4lKXl+HqlLanpVMOoFNnWs9oRP47MbE2wv8OaYh5pNR9VVgyhD
- OG0AU7oidG36OeUlrFDTfnPYYSF/mPCxHttosyt8O5kabxnIPv2URuAxDByz+iVbL+RjKaGM
- GDph56ZTswlx75nZVtIukqzLAQ5fa8OALSGum0cFi4ptZUOhDNz1onz61klD6z3MODi0sBZN
- Aj6guB2L/+2ZwElZEeRBERRd/uommlYuToAXfNRdUwrwl9gRMiA0WSyTb190zneRRDfpSK5d
- usXnM/O+kr3Dm+Ui+UioPf6wgbn3T0o6I5BhVhs4h4hWmIW7iNhPjX1iybXfmb1gAFfjtHfL
- xRUr64svXpyfJMScIQtBAm0ihWPltXkyITA92ngCmPdHa6M1hMh4RDX+Jf1fiWubzp1voAg0
- JBrdmNZSQDz0iKmSrx8xkoXYfA3bgtFN8WJH2xgFL28XnqY4M6dLhJwV3z08tPSRqYFm4NMP
- dRsn0/7oymhneL8RthIvjDDQ5ktUjMe8LtHr70OZE/TT88qvEdhiIVUogHdo4qBrk41+gGQh
- b906Dudw5YhTJFU3nC6bbF2nrLlB4C/XSiH76ZvqzV0Z/cAMBo5NF/w=
-In-Reply-To: <ZqB3lofbzMQh5Q-5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240710234222.2333120-1-jthoughton@google.com>
+ <20240710234222.2333120-15-jthoughton@google.com> <4e5c2904-f628-4391-853e-37b7f0e132e8@amazon.com>
+In-Reply-To: <4e5c2904-f628-4391-853e-37b7f0e132e8@amazon.com>
+From: James Houghton <jthoughton@google.com>
+Date: Fri, 26 Jul 2024 11:00:40 -0700
+Message-ID: <CADrL8HUn-A+k-+A8WvreKtvxW-b9zZvgAGMkkaR7gCLsPr3XPg@mail.gmail.com>
+Subject: Re: [RFC PATCH 14/18] KVM: Add asynchronous userfaults, KVM_READ_USERFAULT
+To: kalyazin@amazon.com
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Peter Xu <peterx@redhat.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, roypat@amazon.co.uk, 
+	Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/24/24 05:40, Chang Yu wrote:
-> Fix "WARNING: Title underline too short" by extending title line to the
-> proper length.
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
-> Changes in v2:
->   - Fix the format of the subject and the commit message.
-> 
-> 
->   Documentation/virt/kvm/api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index fe722c5dada9..a510ce749c3c 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6368,7 +6368,7 @@ a single guest_memfd file, but the bound ranges must not overlap).
->   See KVM_SET_USER_MEMORY_REGION2 for additional details.
->   
->   4.143 KVM_PRE_FAULT_MEMORY
-> -------------------------
-> +---------------------------
->   
->   :Capability: KVM_CAP_PRE_FAULT_MEMORY
->   :Architectures: none
+On Fri, Jul 26, 2024 at 9:50=E2=80=AFAM Nikita Kalyazin <kalyazin@amazon.co=
+m> wrote:
+>
+> Hi James,
+>
+> On 11/07/2024 00:42, James Houghton wrote:
+> > It is possible that KVM wants to access a userfault-enabled GFN in a
+> > path where it is difficult to return out to userspace with the fault
+> > information. For these cases, add a mechanism for KVM to wait for a GFN
+> > to not be userfault-enabled.
+> In this patch series, an asynchronous notification mechanism is used
+> only in cases "where it is difficult to return out to userspace with the
+> fault information". However, we (AWS) have a use case where we would
+> like to be notified asynchronously about _all_ faults. Firecracker can
+> restore a VM from a memory snapshot where the guest memory is supplied
+> via a Userfaultfd by a process separate from the VMM itself [1]. While
+> it looks technically possible for the VMM process to handle exits via
+> forwarding the faults to the other process, that would require building
+> a complex userspace protocol on top and likely introduce extra latency
+> on the critical path.
+> This also implies that a KVM API
+> (KVM_READ_USERFAULT) is not suitable, because KVM checks that the ioctls
+> are performed specifically by the VMM process [2]:
+>         if (kvm->mm !=3D current->mm || kvm->vm_dead)
+>                 return -EIO;
 
-Applied, thanks.
+If it would be useful, we could absolutely have a flag to have all
+faults go through the asynchronous mechanism. :) It's meant to just be
+an optimization. For me, it is a necessary optimization.
 
-Paolo
+Userfaultfd doesn't scale particularly well: we have to grab two locks
+to work with the wait_queues. You could create several userfaultfds,
+but the underlying issue is still there. KVM Userfault, if it uses a
+wait_queue for the async fault mechanism, will have the same
+bottleneck. Anish and I worked on making userfaults more scalable for
+KVM[1], and we ended up with a scheme very similar to what we have in
+this KVM Userfault series.
 
+My use case already requires using a reasonably complex API for
+interacting with a separate userland process for fetching memory, and
+it's really fast. I've never tried to hook userfaultfd into this other
+process, but I'm quite certain that [1] + this process's interface
+scale better than userfaultfd does. Perhaps userfaultfd, for
+not-so-scaled-up cases, could be *slightly* faster, but I mostly care
+about what happens when we scale to hundreds of vCPUs.
+
+[1]: https://lore.kernel.org/kvm/20240215235405.368539-1-amoorthy@google.co=
+m/
+
+>
+>  > The implementation of this mechanism is certain to change before KVM
+>  > Userfault could possibly be merged.
+> How do you envision resolving faults in userspace? Copying the page in
+> (provided that userspace mapping of guest_memfd is supported [3]) and
+> clearing the KVM_MEMORY_ATTRIBUTE_USERFAULT alone do not look
+> sufficient to resolve the fault because an attempt to copy the page
+> directly in userspace will trigger a fault on its own
+
+This is not true for KVM Userfault, at least for right now. Userspace
+accesses to guest memory will not trigger KVM Userfaults. (I know this
+name is terrible -- regular old userfaultfd() userfaults will indeed
+get triggered, provided you've set things up properly.)
+
+KVM Userfault is merely meant to catch KVM's own accesses to guest
+memory (including vCPU accesses). For non-guest_memfd memslots,
+userspace can totally just write through the VMA it has made (KVM
+Userfault *cannot*, by virtue of being completely divorced from mm,
+intercept this access). For guest_memfd, userspace could write to
+guest memory through a VMA if that's where guest_memfd is headed, but
+perhaps it will rely on exact details of how userspace is meant to
+populate guest_memfd memory.
+
+You're totally right that, in essence, we will need some kind of
+non-faulting way to interact with guest memory. With traditional
+memslots and VMAs, we have that already; guest_memfd memslots and
+VMAs, I think we will have that eventually.
+
+> and may lead to a
+> deadlock in the case where the original fault was caused by the VMM. An
+> interface similar to UFFDIO_COPY is needed that would allocate a page,
+> copy the content in and update page tables.
+
+In case it's interesting or useful at all, we actually use
+UFFDIO_CONTINUE for our live migration use case. We mmap() memory
+twice -- one of them we register with userfaultfd and also give to
+KVM. The other one we use to install memory -- our non-faulting view
+of guest memory!
+
+>
+> [1] Firecracker snapshot restore via UserfaultFD:
+> https://github.com/firecracker-microvm/firecracker/blob/main/docs/snapsho=
+tting/handling-page-faults-on-snapshot-resume.md
+> [2] KVM ioctl check for the address space:
+> https://elixir.bootlin.com/linux/v6.10.1/source/virt/kvm/kvm_main.c#L5083
+> [3] mmap() of guest_memfd:
+> https://lore.kernel.org/kvm/489d1494-626c-40d9-89ec-4afc4cd0624b@redhat.c=
+om/T/#mc944a6fdcd20a35f654c2be99f9c91a117c1bed4
+>
+> Thanks,
+> Nikita
+
+Thanks for the feedback!
