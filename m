@@ -1,125 +1,113 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644F1176FA3
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 08:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F142C6B6
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 08:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721981951; cv=none; b=sV7rJX2bSmx9MEivl0D8N7dDjtoQEGM1nS+nchTFKfztWdCOlynSO3hKSdJQNYNiX3ys366eieWAZaiJrFdYj5OB7WTAN1An3znZh9RF0pNacHWGQaqEIqlMl52sss7aq11I/r9g/4cYr+D0q0O1qpH6NkPUUfVjyY4WM6cepHc=
+	t=1721983134; cv=none; b=kgpHnwOWZkM+Tu7DxqUUrQ6FUrBBV7BvMfz6wc5057MIaPfmPUmbLt1gvZiW/QJ10eUte2brHDo23spVu4+h1BMvzBKYEMO8nmH0Z8z45mggARf9MEKfZZ20msX89lobT3G9ukXKq1ZXR77OrZuIJU69X/0MQh4oIoU454bfgpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721981951; c=relaxed/simple;
-	bh=cx+01TCbO6DpaC7tHPkUFYEU6Li5+7QekGE9g6IIqA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVgphc9B3v/wcgt+wbbxIjgEJsgSyHqFCa53AglkN6lid1PcMJkBM5QaFTp0M06f/Emyasro3VTAEoJZqHHZmag6TZRUgbaBeLe4BnbJLR7H0HCAt98OHAvrANNnnDAeFPLHrZIvvq02gUtC5G6NtCreYGrW+T5DGqqwRjkTEd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TM4i/mnD; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1721983134; c=relaxed/simple;
+	bh=7AC3Io4Kt9BTDyWoNjxZ+pYRus05WYj+r0HbJ1+e7Zw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uX5yE2y/57PRDgZ2HvizIz511Acz5CVgnv91UVfxLHkTrluIxsT5TB61zqDMWmF76KVXTf2UXAa5vhhhdfGDmcsGmABfkLb3LKeXE3HqjMW8Hf1YA/SIx9FXGMKgjkinKgizeWlVlXE0G9vfmxChYOxMOrR6FCwYdo0JhV1mN6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mvlqX+CE; arc=none smtp.client-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TM4i/mnD"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7a91cdcc78so79967766b.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 01:19:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mvlqX+CE"
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-825809a4decso168099241.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 01:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1721981948; x=1722586748; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1nxDdDPuqoZhhkQdgxi6lLL82Z/S+1HfGQKwxEW2Xr4=;
-        b=TM4i/mnDYtKQL7xhLSs7LMUrBSea7QQJmkeJeK5KEHxkPhzYOA1rGqYiX6Uv7SCL7z
-         U0zHIWXFCIGYxY95ua/eIIjfJHlk9gpXfu3g+rXpJ+JZ4z31rWpRWBReETjD/0Zzc0Iu
-         7tR2Fv4qL38ujKfpLZMinDbFFaSmkgedgpJNnMf2x/HhwvDXGrWXC8bRAgEzSZ6AMDo7
-         PuZDaS+Z8C8306yv50ebFhaNKR6kQ9+C4P/2VLQgX/DZvAHwo2ulJ9Cx4pKhl8OEIFqj
-         OWrh7LFimO4ZRu7xe9IeqpHRC/Pl4ipCZSdG4F3K2Jyns3um3ceQ7ySzVDOfshAOgmEf
-         qh1w==
+        d=google.com; s=20230601; t=1721983131; x=1722587931; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZJmKdKLNSWaXA2BcuG9HwA3qZIS9BmYVk7uzNf6lpA=;
+        b=mvlqX+CE4gPt00k5v6io3IPnVrE6ynGSLvwS2EHjdbqBaD4ew0NckHg3eNr8zGOUa4
+         osHTRK+eh4/64ZX8iH2f5/9bJ+Xg+Ep/OEkO2YJMU/Hhe1iuMKZJMGWUjZ0LIr9XTjSE
+         mEdDopw3uyegMVPzlhAfum+QMV1G4mz9ujMgPY2mLx5ZMlE2i/ocgRT/bsXjCAX+23w8
+         CnsJbPeRuKFMMJM8qs4qTz0PdEyMWQj+b6djfQnSDTyY4JzXOmZQlP1TwhwAR+v/O/x9
+         x/k66iEY4fxC1BO/ogLsvriSDLnDhnyzOLAjveszcE18sjz4x+YmCDOEYgK29WO/75FJ
+         jg6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721981948; x=1722586748;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1nxDdDPuqoZhhkQdgxi6lLL82Z/S+1HfGQKwxEW2Xr4=;
-        b=bHyEghyxYwQFVzZOln3D3LwMucbBIjSaGOOEnThZKZz2uDDEey2J9NFitG9Wr9MNGS
-         qiFng4TlnkHYoRleK8frk+p+R9Xt93qgCmvSpyg51QgHbvn9LLChNQEcXte0H0NWhn4g
-         0j9VlDUY+eh7cDdFWQfDitAqhN8JEmA7I+zLGAdq3FvWCEG+Iqp71iMubplTiLnyPghm
-         HDl/M92dCEyr5k6Le0K19fh1i2doV63EqllFG7IT2w2RALb4Xu1Viagj5A+uVzU4mYoi
-         uhf+85Cnm9fT9v8wo8Dx312eTdxnFHpyokrTPzqLdmZLjzkHS5QsaUJC3Tto63rT2SAk
-         laiA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwAkYiOupVRmLBCJ/aMseiAQ9J1Md749Qht2EI9Y2SMMgtXpF5FMHOBnvyFhLuxtc5fAj+Eu6a+aY8zKZiafVyP4pE3yh4N2+F
-X-Gm-Message-State: AOJu0Yz6+bC8p5H8lXazdSqKOu6uc3iW000HuDQDL1P+2Mx8YHDuCnEM
-	dKhOVFS+rm9/KWk4xp8U2DobqYIpLANWiHhU/cDjk6wOX9p6cj7k4Nr1nxvXnwk=
-X-Google-Smtp-Source: AGHT+IEKCNWFIWSIa0WEqcLAmK79+P9DH8UDMg3F8CdyMwZNKChDWbgmxYrh315TuPC354rnk9EOyA==
-X-Received: by 2002:a50:d54a:0:b0:5a3:d140:1a57 with SMTP id 4fb4d7f45d1cf-5ac6203a1f4mr4350486a12.1.1721981947474;
-        Fri, 26 Jul 2024 01:19:07 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac63b59c86sm1641627a12.42.2024.07.26.01.19.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 01:19:06 -0700 (PDT)
-Date: Fri, 26 Jul 2024 10:19:05 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <qozzqah5blnsvc73jrhfuldsaxwsoluuewvgpukzgcuud4nqgc@xnctlkgk5yjv>
-References: <20240711025153.2356213-1-longman@redhat.com>
- <23hhazcy34yercbmsogrljvxatfmy6b7avtqrurcze3354defk@zpekfjpgyp6h>
- <0efbedff-3456-4e6a-8d2d-79b89a18864d@redhat.com>
+        d=1e100.net; s=20230601; t=1721983131; x=1722587931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pZJmKdKLNSWaXA2BcuG9HwA3qZIS9BmYVk7uzNf6lpA=;
+        b=dFa2MfmKjaUrrTe4h0Gk4+t07ZoQntc1kQ97kohdGCwYq5R9H78Q8KtbwPP7EtQfaJ
+         r4yNoIw49ctCCx27SC7w8LyMrMTpmWoCs06IhA3WzC69rFfoA1Ki5AelkYNjDdHC2Sjb
+         31IUtUgnyLP9fbykBLzxeGw3j1xabDfD7irAOrJBbYV3p2fHkWbn9wv98uPoclpPbSFU
+         nPGZ9ISBk1/Xfz9RuhPCZtD0D1/hi3qLyz6tOzIkw1tpYzF2Q5w+afjBFMesaRGSp6iw
+         4lyxDGkf4vaOe9iW/KLExb1KBnzdc6MPsaJCGAqo/TMJEwYDhFTb9IXPwSbPj4yYxAkA
+         GXzA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5+i+HMLrOnbhOTor16xszKhNoecGrrCm1y6lid98b2K7Z4X9BtM0b7Q+xm4rSsFp4X8+TdBNgv4XLFVr5hALzuLiI6MypEV3+
+X-Gm-Message-State: AOJu0YyIppfnkWP7hTxNnHJrWrHS8Fsfd+KTkfLmDfkY2tdXo7VEVL0s
+	ZtGjAZti/HGiMl5Et427C9/7wOeZKLNkYzb25J+o5h8P6Ts5MHNynJeSHmdTYE800sxQRT703Zz
+	rqINUOg3vIsSVZvjSHvmRLwhjuGVOd6uV9Yjt
+X-Google-Smtp-Source: AGHT+IF8iWTh7DzXW7vu2uBQSe7BEb4YfC0rN9WlsW4xPwpj1weMX+fzAgT4q3Nh4F140wvi8BfU2ZkkeRutUx+hgVg=
+X-Received: by 2002:a05:6102:3350:b0:48f:dfb3:f26a with SMTP id
+ ada2fe7eead31-493d64737f9mr6876725137.15.1721983131330; Fri, 26 Jul 2024
+ 01:38:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xlb3knarn2v64q76"
-Content-Disposition: inline
-In-Reply-To: <0efbedff-3456-4e6a-8d2d-79b89a18864d@redhat.com>
+References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn> <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
+In-Reply-To: <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
+From: Marco Elver <elver@google.com>
+Date: Fri, 26 Jul 2024 10:38:13 +0200
+Message-ID: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>, Dmitry Vyukov <dvyukov@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, hust-os-kernel-patches@googlegroups.com, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
+>
+>
+> On 2024/7/26 01:46, Haoyang Liu wrote:
+> > The KTSAN doc has moved to
+> > https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+> > Update the url in kcsan.rst accordingly.
+> >
+> > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>
+> Although the old link is still accessible, I agree to use the newer one.
+>
+> If this patch is merged, you need to change your Chinese version to
+> catch up.
+>
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>
+> > ---
+> >   Documentation/dev-tools/kcsan.rst | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+> > index 02143f060b22..d81c42d1063e 100644
+> > --- a/Documentation/dev-tools/kcsan.rst
+> > +++ b/Documentation/dev-tools/kcsan.rst
+> > @@ -361,7 +361,8 @@ Alternatives Considered
+> >   -----------------------
+> >
+> >   An alternative data race detection approach for the kernel can be found in the
+> > -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
+> > +`Kernel Thread Sanitizer (KTSAN)
+> > +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
+> >   KTSAN is a happens-before data race detector, which explicitly establishes the
+> >   happens-before order between memory operations, which can then be used to
+> >   determine data races as defined in `Data Races`_.
 
---xlb3knarn2v64q76
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Marco Elver <elver@google.com>
 
-On Thu, Jul 25, 2024 at 04:05:42PM GMT, Waiman Long <longman@redhat.com> wr=
-ote:
-> > There's also 'debug' subsys. Have you looked at (extending) that wrt
-> > dying csses troubleshooting?
-> > It'd be good to document here why you decided against it.
-> The config that I used for testing doesn't include CONFIG_CGROUP_DEBUG.
-
-I mean if you enable CONFIG_CGROUP_DEBUG, there is 'debug' controller
-that exposes files like debug.csses et al.
-
-> That is why "debug" doesn't show up in the sample outputs. The CSS #
-> for the debug subsystem should show up if it is enabled.
-
-So these "debugging" numbers could be implemented via debug subsys. So I
-wondered why it's not done this way. That reasoning is missing in the
-commit message.
-
-> > > +	for_each_css(css, ssid, cgroup) {
-> > > +		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
-> > > +		    (cgroup_subsys[ssid]->root !=3D  &cgrp_dfl_root))
-> > > +			continue;
-> > Is this taken? (Given cgroup.stat is only on the default hierarchy.)
->=20
-> I am not sure what you are asking here. Since cgroup.stat is a cgroup v2
-> only control file, it won't show subsystems that are bound to cgroup v1.
-
-So, is the if (...) ever true? (The file won't exist on v1.)
-
-Michal
-
---xlb3knarn2v64q76
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqNb9wAKCRAt3Wney77B
-Se+pAPoDu9bBY0yYCOVsOkk/g0USVMXESbUsc4TCgMsB5DRypAEAufCXfjxxMNXX
-uOu6x5is+qJ4tUK/UzXu47ZzQQqsHg8=
-=NpIn
------END PGP SIGNATURE-----
-
---xlb3knarn2v64q76--
+Do you have a tree to take your other patch ("docs/zh_CN: Add
+dev-tools/kcsan Chinese translation") through? If so, I would suggest
+that you ask that maintainer to take both patches, this and the
+Chinese translation patch. (Otherwise, I will queue this patch to be
+remembered but it'll be a while until it reaches mainline.)
