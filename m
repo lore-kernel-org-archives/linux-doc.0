@@ -1,185 +1,359 @@
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 250CE17838E;
-	Fri, 26 Jul 2024 14:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27830BA42;
+	Fri, 26 Jul 2024 15:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722005928; cv=none; b=BOKPLCvgvqMAXVW0tSJAXv9p1vLm2nvJ8fMyh0/QpEvFiosaDmujzKzWqXLIzhAOzBfs8J/Xtz/xa7NFchP3C3lYGD/NJgLdJ1WU01S0CLrYSZfUCK0wyW1SkOnJ7dAIqR+ZeNUcNCLxP6D5qqXO8eq0Rb06xdPiC1fbCP463Oo=
+	t=1722006124; cv=none; b=cdlDmAT/k7HQ3ftfOcfO+pz/TwoNTVwvs5HwJJZkf1TSpSPwrqRDmVv828j3eY2jBbSFQcuYXv4Sq9pit097nMl+9M+lMAKeRMNmrqKjyVXXtqVtam/3jDdO6wUW0rCXa1ar7XIWQcSxyktnMEHuUA1yAkFCtjh3ewTyd13mv0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722005928; c=relaxed/simple;
-	bh=dzlJqty6mK3u9JfGL9aBf3nIxzEBSXB1Yp38r35/d6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pf4HDjcx6OWFddBtIDY1ERgNqeEHK97DYi9m8QdVPgfdiLnS7rUUfYhU2fypelJPUsrzbGT05WVwL2YgJWY6ND15Nwph3okQeerDGV1r+3FhOLU/erSlVMVGNmCyAcF6vQSW0gFSKgZmt9hrNVVq7Tw+1aOysplScK6F56qKWaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAB3fgJ6uaNmO45UAA--.22199S2;
-	Fri, 26 Jul 2024 22:58:02 +0800 (CST)
-Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDnOCx3uaNmQNwHAA--.3379S2;
-	Fri, 26 Jul 2024 22:58:00 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] docs/zh_CN: add the translation of kbuild/headers_install.rst
-Date: Fri, 26 Jul 2024 22:57:23 +0800
-Message-ID: <20240726145754.2598197-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1722006124; c=relaxed/simple;
+	bh=sjlyXUhQ7zvv1asQmR5gj7X0ZVXOXk3cBSyQATQBvyk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SesoRvKpJ/XnRBclyuQrXLTXOJo+nxNx8r5a3DR2oF0qCqurV2lSpp1cvdiiIVn9L0g2VKY3Z+H938ud8QAQgimwM73V4vVgd5Dm8uzKJUNdOXpoZi6yujZ+TPc23WIXHdaG5dsbh9m8d7iZ49fxbY9SPwBnhHq2C/TIC0RpjzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVrXH0WXHz6K5p8;
+	Fri, 26 Jul 2024 23:00:15 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 55CE614065B;
+	Fri, 26 Jul 2024 23:01:59 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
+ 2024 16:01:58 +0100
+Date: Fri, 26 Jul 2024 16:01:57 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
+ Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v2 2/8] fwctl: Basic ioctl dispatch for the character
+ device
+Message-ID: <20240726160157.0000797d@Huawei.com>
+In-Reply-To: <2-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+	<2-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAB3fgJ6uaNmO45UAA--.22199S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF13tFW5GF1UuF47Kr1rJFb_yoWrKF1xp3
-	WqgryxKF4UJFyakFyfGFW7GF1rGan29ay7t3WxJ34aqryrJFW8trnFvrySgrn7KrW8AFyU
-	WF40qa4jkrW7A3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43Mx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jh189UUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Finish the translation of kbuild/headers_install.rst and
-kbuild/index.rst, then add kbuild into zh_CN/index.rst.
+On Mon, 24 Jun 2024 19:47:26 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Update to commit 5b67fbfc32b5 ("Merge tag 'kbuild-v5.7' of
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild")
+> Each file descriptor gets a chunk of per-FD driver specific context that
+> allows the driver to attach a device specific struct to. The core code
+> takes care of the memory lifetime for this structure.
+> 
+> The ioctl dispatch and design is based on what was built for iommufd. The
+> ioctls have a struct which has a combined in/out behavior with a typical
+> 'zero pad' scheme for future extension and backwards compatibility.
+> 
+> Like iommufd some shared logic does most of the ioctl marshalling and
+> compatibility work and tables diatches to some function pointers for
+> each unique iotcl.
+> 
+> This approach has proven to work quite well in the iommufd and rdma
+> subsystems.
+> 
+> Allocate an ioctl number space for the subsystem.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Minor stuff inline.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/index.rst    |  2 +-
- .../zh_CN/kbuild/headers_install.rst          | 39 +++++++++++++++++++
- .../translations/zh_CN/kbuild/index.rst       | 35 +++++++++++++++++
- 3 files changed, 75 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/kbuild/headers_install.rst
- create mode 100644 Documentation/translations/zh_CN/kbuild/index.rst
+>  M:	Sebastian Reichel <sre@kernel.org>
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> index 6e9bf15c743b5c..6872c01d5c62e8 100644
+> --- a/drivers/fwctl/main.c
+> +++ b/drivers/fwctl/main.c
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 20b9d4270d1f..7574e1673180 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -89,10 +89,10 @@ TODOList:
-    admin-guide/index
-    admin-guide/reporting-issues.rst
-    userspace-api/index
-+   内核构建系统 <kbuild/index>
- 
- TODOList:
- 
--* 内核构建系统 <kbuild/index>
- * 用户空间工具 <tools/index>
- 
- 也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
-diff --git a/Documentation/translations/zh_CN/kbuild/headers_install.rst b/Documentation/translations/zh_CN/kbuild/headers_install.rst
-new file mode 100644
-index 000000000000..50ab819a7f96
---- /dev/null
-+++ b/Documentation/translations/zh_CN/kbuild/headers_install.rst
-@@ -0,0 +1,39 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/kbuild/headers_install.rst
-+:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+============================
-+导出内核头文件供用户空间使用
-+============================
-+
-+"make headers_install" 命令以适合于用户空间程序的形式导出内核头文件。
-+
-+Linux 内核导出的头文件描述了用户空间程序尝试使用内核服务的 API。这些内核
-+头文件被系统的 C 库（例如 glibc 和 uClibc）用于定义可用的系统调用，以及
-+与这些系统调用一起使用的常量和结构。C 库的头文件包括来自 linux 子目录的
-+内核头文件。系统的 libc 头文件通常被安装在默认位置 /usr/include，而内核
-+头文件在该位置的子目录中（主要是 /usr/include/linux 和 /usr/include/asm）。
-+
-+内核头文件向后兼容，但不向前兼容。这意味着使用旧内核头文件的 C 库构建的程序
-+可以在新内核上运行（尽管它可能无法访问新特性），但使用新内核头文件构建的程序
-+可能无法在旧内核上运行。
-+
-+"make headers_install" 命令可以在内核源代码的顶层目录中运行（或使用标准
-+的树外构建）。它接受两个可选参数::
-+
-+  make headers_install ARCH=i386 INSTALL_HDR_PATH=/usr
-+
-+ARCH 表明为其生成头文件的架构，默认为当前架构。导出内核头文件的 linux/asm
-+目录是基于特定平台的，要查看支持架构的完整列表，使用以下命令::
-+
-+  ls -d include/asm-* | sed 's/.*-//'
-+
-+INSTALL_HDR_PATH 表明头文件的安装位置，默认为 "./usr"。
-+
-+该命令会在 INSTALL_HDR_PATH 中自动创建创建一个 'include' 目录，而头文件
-+会被安装在 INSTALL_HDR_PATH/include 中。
-+
-+内核头文件导出的基础设施由 David Woodhouse <dwmw2@infradead.org> 维护。
-\ No newline at end of file
-diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
-new file mode 100644
-index 000000000000..b9feb56b846a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/kbuild/index.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/kbuild/index
-+:Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+============
-+内核编译系统
-+============
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    headers_install
-+
-+TODO:
-+
-+- kconfig-language
-+- kconfig-macro-language
-+- kbuild
-+- kconfig
-+- makefiles
-+- modules
-+- issues
-+- reproducible-builds
-+- gcc-plugins
-+- llvm
-+
-+.. only::  subproject and html
-+
-+   目录
-+   =====
-+
-+   * :ref:`genindex`
--- 
-2.43.0
+> +
+> +struct fwctl_ioctl_op {
+> +	unsigned int size;
+> +	unsigned int min_size;
+> +	unsigned int ioctl_num;
+> +	int (*execute)(struct fwctl_ucmd *ucmd);
+> +};
+> +
+> +#define IOCTL_OP(_ioctl, _fn, _struct, _last)                         \
+> +	[_IOC_NR(_ioctl) - FWCTL_CMD_BASE] = {                        \
+
+If this is always zero indexed, maybe just drop the - FWCTL_CMD_BASE here
+and elsewhere?  Maybe through in a BUILD_BUG to confirm it is always 0.
+
+
+> +		.size = sizeof(_struct) +                             \
+> +			BUILD_BUG_ON_ZERO(sizeof(union ucmd_buffer) < \
+> +					  sizeof(_struct)),           \
+> +		.min_size = offsetofend(_struct, _last),              \
+> +		.ioctl_num = _ioctl,                                  \
+> +		.execute = _fn,                                       \
+> +	}
+> +static const struct fwctl_ioctl_op fwctl_ioctl_ops[] = {
+> +};
+> +
+> +static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
+> +			       unsigned long arg)
+> +{
+> +	struct fwctl_uctx *uctx = filp->private_data;
+> +	const struct fwctl_ioctl_op *op;
+> +	struct fwctl_ucmd ucmd = {};
+> +	union ucmd_buffer buf;
+> +	unsigned int nr;
+> +	int ret;
+> +
+> +	nr = _IOC_NR(cmd);
+> +	if ((nr - FWCTL_CMD_BASE) >= ARRAY_SIZE(fwctl_ioctl_ops))
+> +		return -ENOIOCTLCMD;
+
+I'd add a blank line here as two unconnected set and error check
+blocks.
+
+> +	op = &fwctl_ioctl_ops[nr - FWCTL_CMD_BASE];
+> +	if (op->ioctl_num != cmd)
+> +		return -ENOIOCTLCMD;
+> +
+> +	ucmd.uctx = uctx;
+> +	ucmd.cmd = &buf;
+> +	ucmd.ubuffer = (void __user *)arg;
+> +	ret = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ucmd.user_size < op->min_size)
+> +		return -EINVAL;
+> +
+> +	ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+> +				    ucmd.user_size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	guard(rwsem_read)(&uctx->fwctl->registration_lock);
+> +	if (!uctx->fwctl->ops)
+> +		return -ENODEV;
+> +	return op->execute(&ucmd);
+> +}
+> +
+>  static int fwctl_fops_open(struct inode *inode, struct file *filp)
+>  {
+>  	struct fwctl_device *fwctl =
+>  		container_of(inode->i_cdev, struct fwctl_device, cdev);
+> +	int ret;
+> +
+> +	guard(rwsem_read)(&fwctl->registration_lock);
+> +	if (!fwctl->ops)
+> +		return -ENODEV;
+> +
+> +	struct fwctl_uctx *uctx __free(kfree) =
+> +		kzalloc(fwctl->ops->uctx_size, GFP_KERNEL | GFP_KERNEL_ACCOUNT);
+
+GFP_KERNEL_ACCOUNT seems to include GFP_KERNEL already.
+Did I miss some racing change?
+
+> +	if (!uctx)
+> +		return -ENOMEM;
+> +
+> +	uctx->fwctl = fwctl;
+> +	ret = fwctl->ops->open_uctx(uctx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	scoped_guard(mutex, &fwctl->uctx_list_lock) {
+> +		list_add_tail(&uctx->uctx_list_entry, &fwctl->uctx_list);
+> +	}
+
+I guess more may come later but do we need {}?
+
+
+>  
+>  	get_device(&fwctl->dev);
+> -	filp->private_data = fwctl;
+> +	filp->private_data = no_free_ptr(uctx);
+>  	return 0;
+>  }
+>  
+> +static void fwctl_destroy_uctx(struct fwctl_uctx *uctx)
+> +{
+> +	lockdep_assert_held(&uctx->fwctl->uctx_list_lock);
+> +	list_del(&uctx->uctx_list_entry);
+> +	uctx->fwctl->ops->close_uctx(uctx);
+> +}
+> +
+>  static int fwctl_fops_release(struct inode *inode, struct file *filp)
+>  {
+> -	struct fwctl_device *fwctl = filp->private_data;
+> +	struct fwctl_uctx *uctx = filp->private_data;
+> +	struct fwctl_device *fwctl = uctx->fwctl;
+>  
+> +	scoped_guard(rwsem_read, &fwctl->registration_lock) {
+> +		if (fwctl->ops) {
+
+Maybe a comment on when this path happens to help the reader
+along. (when the file is closed and device is still alive).
+Otherwise was cleaned up already in fwctl_unregister()
+
+> +			guard(mutex)(&fwctl->uctx_list_lock);
+> +			fwctl_destroy_uctx(uctx);
+> +		}
+> +	}
+> +
+> +	kfree(uctx);
+>  	fwctl_put(fwctl);
+>  	return 0;
+>  }
+> @@ -37,6 +142,7 @@ static const struct file_operations fwctl_fops = {
+>  	.owner = THIS_MODULE,
+>  	.open = fwctl_fops_open,
+>  	.release = fwctl_fops_release,
+> +	.unlocked_ioctl = fwctl_fops_ioctl,
+>  };
+
+>  
+>  	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
+>  	if (devnum < 0)
+> @@ -137,8 +247,18 @@ EXPORT_SYMBOL_NS_GPL(fwctl_register, FWCTL);
+>   */
+>  void fwctl_unregister(struct fwctl_device *fwctl)
+>  {
+> +	struct fwctl_uctx *uctx;
+> +
+>  	cdev_device_del(&fwctl->cdev, &fwctl->dev);
+>  
+> +	/* Disable and free the driver's resources for any still open FDs. */
+> +	guard(rwsem_write)(&fwctl->registration_lock);
+> +	guard(mutex)(&fwctl->uctx_list_lock);
+> +	while ((uctx = list_first_entry_or_null(&fwctl->uctx_list,
+> +						struct fwctl_uctx,
+> +						uctx_list_entry)))
+> +		fwctl_destroy_uctx(uctx);
+> +
+
+Obviously it's a little more heavy weight but I'd just use
+list_for_each_entry_safe()
+
+Less effort for reviewers than consider the custom iteration
+you are doing instead.
+
+
+>  	/*
+>  	 * The driver module may unload after this returns, the op pointer will
+>  	 * not be valid.
+> diff --git a/include/linux/fwctl.h b/include/linux/fwctl.h
+> index ef4eaa87c945e4..1d9651de92fc19 100644
+> --- a/include/linux/fwctl.h
+> +++ b/include/linux/fwctl.h
+> @@ -11,7 +11,20 @@
+>  struct fwctl_device;
+>  struct fwctl_uctx;
+>  
+> +/**
+> + * struct fwctl_ops - Driver provided operations
+> + * @uctx_size: The size of the fwctl_uctx struct to allocate. The first
+> + *	bytes of this memory will be a fwctl_uctx. The driver can use the
+> + *	remaining bytes as its private memory.
+> + * @open_uctx: Called when a file descriptor is opened before the uctx is ever
+> + *	used.
+> + * @close_uctx: Called when the uctx is destroyed, usually when the FD is
+> + *	closed.
+> + */
+>  struct fwctl_ops {
+> +	size_t uctx_size;
+> +	int (*open_uctx)(struct fwctl_uctx *uctx);
+> +	void (*close_uctx)(struct fwctl_uctx *uctx);
+>  };
+>  
+>  /**
+> @@ -26,6 +39,10 @@ struct fwctl_device {
+>  	struct device dev;
+>  	/* private: */
+>  	struct cdev cdev;
+> +
+> +	struct rw_semaphore registration_lock;
+> +	struct mutex uctx_list_lock;
+
+Even for private locks, a scope statement would
+be good to have.
+
+> +	struct list_head uctx_list;
+>  	const struct fwctl_ops *ops;
+>  };
+
+>  #endif
+> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
+> new file mode 100644
+> index 00000000000000..0bdce95b6d69d9
+> --- /dev/null
+> +++ b/include/uapi/fwctl/fwctl.h
+> @@ -0,0 +1,41 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/* Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.
+> + */
+> +#ifndef _UAPI_FWCTL_H
+> +#define _UAPI_FWCTL_H
+> +
+> +#include <linux/types.h>
+
+Not used yet.
+
+> +#include <linux/ioctl.h>
+
+Arguably nor is this, but at least this related to the code
+here.
+
+> +
+> +#define FWCTL_TYPE 0x9A
+> +
+> +/**
+> + * DOC: General ioctl format
+> + *
+> + * The ioctl interface follows a general format to allow for extensibility. Each
+> + * ioctl is passed in a structure pointer as the argument providing the size of
+> + * the structure in the first u32. The kernel checks that any structure space
+> + * beyond what it understands is 0. This allows userspace to use the backward
+> + * compatible portion while consistently using the newer, larger, structures.
+
+Is that particularly helpful?  Userspace needs to know not to put anything in
+those fields, not hard for it to also know what the size it should send is?
+The two will change together.
+
+> + *
+> + * ioctls use a standard meaning for common errnos:
+> + *
+> + *  - ENOTTY: The IOCTL number itself is not supported at all
+> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
+> + *    non-zero in a part the kernel does not understand.
+> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
+> + *    understood, however a known field has a value the kernel does not
+> + *    understand or support.
+> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
+> + *    correct.
+> + *  - ENOMEM: Out of memory.
+> + *  - ENODEV: The underlying device has been hot-unplugged and the FD is
+> + *            orphaned.
+> + *
+> + * As well as additional errnos, within specific ioctls.
+> + */
+> +enum {
+> +	FWCTL_CMD_BASE = 0,
+> +};
+> +
+> +#endif
 
