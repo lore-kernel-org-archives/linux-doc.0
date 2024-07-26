@@ -1,89 +1,150 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FF2FC1F;
-	Fri, 26 Jul 2024 15:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CB317838B;
+	Fri, 26 Jul 2024 15:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722006886; cv=none; b=eLOYOEnpIdwBRfrcjY/fS2KLYkpLa+mSLsXZvXu7zLgpYRATo58HWwfPRTNGlSh7ELrKS26rW2EaVEGXaYhvOQm2gvf6r63e4O3BDnkOYwaBE+oNkA2I1pUJWq7nyBn9aVh5eNa0lTRB22MvymH4fTBLdJ7PlDDfur79N9EZa7o=
+	t=1722006910; cv=none; b=q2oGZTboFfLEA0uzC0yCyxx9N71u9SrgzXdJJ4xN/MmsTbaKfRwOpzzpcpdfuH9boaJU5gRiAKQrRzDZ5sjWJrGjP8OxqjG4rA/Ios2wWMFIqxZHM1N7yGeJzEsd3KrV1GhhyJ2V9BBjafSW03eoKUVHmjkziY/BZ/207NI9HJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722006886; c=relaxed/simple;
-	bh=5LVNVgJYxLKeFXaN2Sf8hg9qpW2jGfxaxTMWDzN5Rgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=oVWuPQtPGA95DnCqvbO4NpPeMCC0NdpGPj6XIern4z8TQ8tGwBeTGhD5GjQ8+RP2fkEXzu1imtbBQd/Rth6iIeYir8qd/yReRC+GOYyxw4i2DOZjmXBkdLiLX9BGR1XIKJ40WOYc299LEXrojKCph1oPr2Ps2X/q8chkIWbUfrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=S5IEiqBY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="S5IEiqBY"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QBPASk019951;
-	Fri, 26 Jul 2024 15:14:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	oLF8JeJASjno619fXeYlFDhDT3LWhRVwe2maAaLrMr4=; b=S5IEiqBYlKfZLvmQ
-	lTj8GPL14R5VD1TuRlKAO+1CqaPv4fd2NZvtZbcEpUBnU1017M5N4heVcBCIp9el
-	Q6ZJQYGlGyvPytmR5YGogwkSG7NI9WH6JpSTCsI0sqOdZDqRmyZ2fIX3NXiHwYDp
-	tHt1a443CuaRpuiC7/Ewh/kwpRs4QGnPKcbxAy8kNvSn5OFTHNkR7dx6QZIKVJ65
-	DOEaFgzp062NU/0yCqX7vZbIpKKW0RxT2RBYoet4RjP3O66zeX5MliFR+gJXJzDC
-	O7OgAlceudPh29m/CuJFeTyUEx8pHhbm7t2nQrFv5TBzeB5SnsONojXn5NTqGKNm
-	IO5jxg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40m1s91uva-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jul 2024 15:14:31 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46QFEUe3003825
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jul 2024 15:14:30 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Jul
- 2024 08:14:30 -0700
-Message-ID: <70a510e7-51f1-05f6-343a-27d40577b54c@quicinc.com>
-Date: Fri, 26 Jul 2024 09:14:29 -0600
+	s=arc-20240116; t=1722006910; c=relaxed/simple;
+	bh=GOS5OzmoM+mCYghAchIDjKEcmg9M9uoWCw0h6GVOPwk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KM2ryyNrZe/yQwNYDxMS0Hgd+UFEQJkxBytUjX032rKRCCCJVrbbLQAvRq3DW15XEU/wTPDoRlBMaWwlM4q754+AISZr3mM2Hwzb/IVuladCBlg+N5eFDAdZggdt6kybiSCWlgC89xioyB6IY7k0UaIuDdFVXuxP5VvXCZZ0Sgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVrpm2b2vz6K6Kl;
+	Fri, 26 Jul 2024 23:12:48 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id EA632140AB8;
+	Fri, 26 Jul 2024 23:15:04 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
+ 2024 16:15:04 +0100
+Date: Fri, 26 Jul 2024 16:15:03 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
+ Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v2 3/8] fwctl: FWCTL_INFO to return basic information
+ about the device
+Message-ID: <20240726161503.00001c85@Huawei.com>
+In-Reply-To: <3-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+	<3-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] accel/qaic: Remove the description of
- DRM_IOCTL_QAIC_PART_DEV
-Content-Language: en-US
-To: Zenghui Yu <yuzenghui@huawei.com>, <linux-arm-msm@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
-        <ogabbay@kernel.org>, <corbet@lwn.net>, <wanghaibin.wang@huawei.com>
-References: <20240716073036.453-1-yuzenghui@huawei.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240716073036.453-1-yuzenghui@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 9jJjmmN6kN0xHNxvbIHT-2YD5fFukusf
-X-Proofpoint-GUID: 9jJjmmN6kN0xHNxvbIHT-2YD5fFukusf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-26_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=759
- suspectscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 phishscore=0 clxscore=1011 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407260103
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On 7/16/2024 1:30 AM, Zenghui Yu wrote:
-> The partition device ioctl was removed during the development of the
-> initial version of qaic driver. Remove its description from the
-> documentation to avoid confusing readers.
+On Mon, 24 Jun 2024 19:47:27 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> Userspace will need to know some details about the fwctl interface being
+> used to locate the correct userspace code to communicate with the
+> kernel. Provide a simple device_type enum indicating what the kernel
+> driver is.
+
+As below - maybe consider a UUID?
+Would let you decouple allocating those with upstreaming drivers.
+We'll just get annoying races on the enum otherwise as multiple
+drivers get upstreamed that use this.
+
 > 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> Allow the device to provide a device specific info struct that contains
+> any additional information that the driver may need to provide to
+> userspace.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/fwctl/main.c       | 53 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/fwctl.h      |  8 ++++++
+>  include/uapi/fwctl/fwctl.h | 29 +++++++++++++++++++++
+>  3 files changed, 90 insertions(+)
+> 
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> index 6872c01d5c62e8..f1dec0b590aee4 100644
+> --- a/drivers/fwctl/main.c
+> +++ b/drivers/fwctl/main.c
+> @@ -17,6 +17,8 @@ enum {
+>  static dev_t fwctl_dev;
+>  static DEFINE_IDA(fwctl_ida);
+>  
+> +DEFINE_FREE(kfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T));
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Why need for a new one?  That's the same as the one in slab.h from
+6.9 onwards. Before that it was
+if (_T)
+
+I was going to suggest promoting this to slab.h and then found
+the normal implementation had been improved since I last checked.
+
+
+>  
+>  /**
+> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
+> index 0bdce95b6d69d9..39db9f09f8068e 100644
+> --- a/include/uapi/fwctl/fwctl.h
+> +++ b/include/uapi/fwctl/fwctl.h
+> @@ -36,6 +36,35 @@
+>   */
+>  enum {
+>  	FWCTL_CMD_BASE = 0,
+> +	FWCTL_CMD_INFO = 0,
+> +	FWCTL_CMD_RPC = 1,
+>  };
+>  
+> +enum fwctl_device_type {
+> +	FWCTL_DEVICE_TYPE_ERROR = 0,
+> +};
+> +
+> +/**
+> + * struct fwctl_info - ioctl(FWCTL_INFO)
+> + * @size: sizeof(struct fwctl_info)
+> + * @flags: Must be 0
+> + * @out_device_type: Returns the type of the device from enum fwctl_device_type
+
+Maybe a UUID?  Avoid need to synchronize that list for ever.
+
+> + * @device_data_len: On input the length of the out_device_data memory. On
+> + *	output the size of the kernel's device_data which may be larger or
+> + *	smaller than the input. Maybe 0 on input.
+> + * @out_device_data: Pointer to a memory of device_data_len bytes. Kernel will
+> + *	fill the entire memory, zeroing as required.
+
+Why do we need device in names of these two?
+
+> + *
+> + * Returns basic information about this fwctl instance, particularly what driver
+> + * is being used to define the device_data format.
+> + */
+> +struct fwctl_info {
+> +	__u32 size;
+> +	__u32 flags;
+> +	__u32 out_device_type;
+> +	__u32 device_data_len;
+> +	__aligned_u64 out_device_data;
+> +};
+> +#define FWCTL_INFO _IO(FWCTL_TYPE, FWCTL_CMD_INFO)
+> +
+>  #endif
+
