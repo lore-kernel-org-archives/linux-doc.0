@@ -1,193 +1,102 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E8917BB1B;
-	Fri, 26 Jul 2024 12:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F2D17C220;
+	Fri, 26 Jul 2024 13:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721997686; cv=none; b=DYAe+DN1AgUaYvAvEJABooOUroGRb8jgGxtFe5+XwUskmgdA+4vDCKJAfGyOyPXpVGDEpelZjhY+AcXT/DrRZNOJifMGmSNsKZyLkBXZZvWf6+boNLb4LO2wJkqZzdqX41n2ptOFOU4646RlJ0fFjgLR2N6RLEEzzg1bLwVnxUs=
+	t=1722000105; cv=none; b=NRK1uH1GuYS6Awz9mc9RL6x7qmW/BMRzIcW9Syi7aEWqDl2Yz/7e0orB65na277uDydiuT8KBF1p9rxmSsbo8PtdlvM2Ba6Qn0xADEWj9tr+uUyJA+n8VjrdRredAqvMYKvixOUrplVfyBfRUnbAUszTo984VhGxHjIEJCDd+Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721997686; c=relaxed/simple;
-	bh=qMjm7l05a9QIP4+huhSnew8ukzeBMO/F7jCzKtlAac8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jOkyto6gd8qK0+25GTbeRsr7s5PZRKKcp82VzxhpGdDVbbNO4zXgDKshL/0wg+yaqHj884iEzI+gV2qqz2Qlht0zmiitrosohjnplVmaWRc9lqIjLRRse8rFt64zyHjI1K1IdLvnUMrwgNwLSW5MCrcFvwJ8MPWTBUX/nLWKU8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=HCZT+h/E; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1722000105; c=relaxed/simple;
+	bh=hRkZNFtwrOf05XyNrDmkh+J3tnB4ZIPfaLmU8WdDarw=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=FrlOGnWV+6IHOHGMFMHo6J8v4PMEnPiWls7m6Dmm2fX2TcUqpjQkpF8MuxDljMgvAsn2gFMFmRFm9E7Eb8/akiwgoviQCTf48fPkvGjGdxZOO2LT21/V9OAI1bPBS/gAZi7S1XKHrYMkTGwZhqGEJkTUNsR0AhuX/6AKuX7qMlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1pi4zNZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="HCZT+h/E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1721997685; x=1753533685;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qMjm7l05a9QIP4+huhSnew8ukzeBMO/F7jCzKtlAac8=;
-  b=HCZT+h/EOlnbTTxkBE8CHQ5cyX/zaIHWZ/2FxPXhfWKo4I+JTN0hvwEw
-   4XGiHTUj0bu81HUtXHZEVP2yXkchZ+qDAqu/iJ7e7LPVp1+aADQyN5nQq
-   3OPCEkNYOczuPVZT6c7Ip6hTsXcOFEekE13cTDlzlQ081dCLXjyukYkGz
-   KPtoi74Dc7FHROYXp/NAc9kNyT1gH3XMcwFXUavgVp49WBHYB7wM8zi5D
-   uuls6WpKGd98d9mYPLRNOkUdVA68Xe75HIxyUofmkxCPq+jDB1kqzg4F3
-   Jnk3/3okXcbNbRTuo5d94Nf38wBA8eDERCRuz/tUL9CS/6+kehcx7zLSE
-   Q==;
-X-CSE-ConnectionGUID: iipq+Hi7SiqaS0VFNs7ygg==
-X-CSE-MsgGUID: YMmkzeYARL+vJHSRW75tMw==
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
-   d="scan'208";a="30386984"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:41:23 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 26 Jul 2024 05:40:47 -0700
-Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:40:38 -0700
-From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <andrew@lunn.ch>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>
-CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
-	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
-	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
-	<linux@bigler.io>, Parthiban Veerasooran
-	<Parthiban.Veerasooran@microchip.com>, Conor Dooley
-	<conor.dooley@microchip.com>
-Subject: [PATCH net-next v5 14/14] dt-bindings: net: add Microchip's LAN865X 10BASE-T1S MACPHY
-Date: Fri, 26 Jul 2024 18:09:07 +0530
-Message-ID: <20240726123907.566348-15-Parthiban.Veerasooran@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
-References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1pi4zNZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49CEBC32786;
+	Fri, 26 Jul 2024 13:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722000104;
+	bh=hRkZNFtwrOf05XyNrDmkh+J3tnB4ZIPfaLmU8WdDarw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=I1pi4zNZ/KIVjYz+nhubP2FN7+yyaey1Znec1mFaxZEfuy7yBfPz7cxu/ZOi4Gryp
+	 qQM+zaBzwZrKRJ7121k7vNu3BI+MUxMhPtU+47JMFHaURIyqTr2gS6e8DgJpk9b7sH
+	 qdBH08gsY1PRzZGU9LBkj9H8lFgtllzr5QR+YKBvQ0OTly5NJsBPHVFQXaSuRVgHX5
+	 NqyP82k68zVMLmQGur72itMScYaxkYQ7ozlnE2EXCt4IAX/pCo/8Zk0BWPAT3UMeJt
+	 6F+8zwWnHFCd4mEBHeGTzX0yVF7QOp6ukeNw30k7YSban+qQX2ZN4b414jhOJVTrc/
+	 rl4XG30ObhTAg==
+Date: Fri, 26 Jul 2024 08:21:42 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: steen.hegelund@microchip.com, Thorsten.Kummermehr@microchip.com, 
+ andrew@lunn.ch, linux-kernel@vger.kernel.org, robh+dt@kernel.org, 
+ corbet@lwn.net, netdev@vger.kernel.org, Pier.Beruto@onsemi.com, 
+ davem@davemloft.net, conor+dt@kernel.org, UNGLinuxDriver@microchip.com, 
+ edumazet@google.com, saeedm@nvidia.com, Selvamani.Rajagopal@onsemi.com, 
+ Nicolas.Ferre@microchip.com, anthony.l.nguyen@intel.com, 
+ devicetree@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com, 
+ benjamin.bigler@bernformulastudent.ch, ruanjinjie@huawei.com, 
+ krzysztof.kozlowski+dt@linaro.org, linux@bigler.io, horms@kernel.org, 
+ vladimir.oltean@nxp.com, linux-doc@vger.kernel.org, 
+ horatiu.vultur@microchip.com, Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20240726123907.566348-15-Parthiban.Veerasooran@microchip.com>
+References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+ <20240726123907.566348-15-Parthiban.Veerasooran@microchip.com>
+Message-Id: <172200010240.1530361.10067496666538570000.robh@kernel.org>
+Subject: Re: [PATCH net-next v5 14/14] dt-bindings: net: add Microchip's
+ LAN865X 10BASE-T1S MACPHY
 
-The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
-PHY to enable 10BASE-T1S networks. The Ethernet Media Access Controller
-(MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
-with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
-integrated into the LAN8650/1. The communication between the Host and the
-MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
-Interface (TC6).
 
-Reviewed-by: Conor Dooley<conor.dooley@microchip.com>
-Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
----
- .../bindings/net/microchip,lan8650.yaml       | 80 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+On Fri, 26 Jul 2024 18:09:07 +0530, Parthiban Veerasooran wrote:
+> The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
+> PHY to enable 10BASE-T1S networks. The Ethernet Media Access Controller
+> (MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
+> with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
+> integrated into the LAN8650/1. The communication between the Host and the
+> MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
+> Interface (TC6).
+> 
+> Reviewed-by: Conor Dooley<conor.dooley@microchip.com>
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+> ---
+>  .../bindings/net/microchip,lan8650.yaml       | 80 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+> 
 
-diff --git a/Documentation/devicetree/bindings/net/microchip,lan8650.yaml b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
-new file mode 100644
-index 000000000000..c4538b431f59
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/microchip,lan865x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Microchip LAN8650/1 10BASE-T1S MACPHY Ethernet Controllers
-+
-+maintainers:
-+  - Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-+
-+description:
-+  The LAN8650/1 combines a Media Access Controller (MAC) and an Ethernet
-+  PHY to enable 10BASE‑T1S networks. The Ethernet Media Access Controller
-+  (MAC) module implements a 10 Mbps half duplex Ethernet MAC, compatible
-+  with the IEEE 802.3 standard and a 10BASE-T1S physical layer transceiver
-+  integrated into the LAN8650/1. The communication between the Host and
-+  the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACPHY Serial
-+  Interface (TC6).
-+
-+allOf:
-+  - $ref: /schemas/net/ethernet-controller.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: microchip,lan8650
-+      - items:
-+          - const: microchip,lan8651
-+          - const: microchip,lan8650
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    description:
-+      Interrupt from MAC-PHY asserted in the event of Receive Chunks
-+      Available, Transmit Chunk Credits Available and Extended Status
-+      Event.
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    minimum: 15000000
-+    maximum: 25000000
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - spi-max-frequency
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      ethernet@0 {
-+        compatible = "microchip,lan8651", "microchip,lan8650";
-+        reg = <0>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&eth0_pins>;
-+        interrupt-parent = <&gpio>;
-+        interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
-+        local-mac-address = [04 05 06 01 02 03];
-+        spi-max-frequency = <15000000>;
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e7d092d9a752..ba9053b0ac77 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14904,6 +14904,7 @@ MICROCHIP LAN8650/1 10BASE-T1S MACPHY ETHERNET DRIVER
- M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
- L:	netdev@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/net/microchip,lan8650.yaml
- F:	drivers/net/ethernet/microchip/lan865x/lan865x.c
- 
- MICROCHIP LAN87xx/LAN937x T1 PHY DRIVER
--- 
-2.34.1
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/microchip,lan8650.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+ 	 $id: http://devicetree.org/schemas/net/microchip,lan865x.yaml
+ 	file: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/microchip,lan8650.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240726123907.566348-15-Parthiban.Veerasooran@microchip.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
