@@ -1,112 +1,310 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7735D1CA80;
-	Fri, 26 Jul 2024 14:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D32125DE;
+	Fri, 26 Jul 2024 14:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722003947; cv=none; b=i1qcr/AT2eSC7nxlfzin3HObj1NxiMArycSU67mZH/9mBwoIvrQkyKYEp9nYbWC8Nan+CfPibDUKdGMMAIyYmhB+jSHuphRwgy7JcYB1WyEOffBchWwH6PCLFUANkNW2lfI9ZNi3yT182i7CRlpyqWSbDkLoyG95U+x99+HJiP8=
+	t=1722004249; cv=none; b=J1NmYixnl1MS3Gfa9j0ml0WN7KYgD1voTFOxuw8nbcKDpv88GlImGzUkr/qFDcK8BruIs8C0NGd0SLQh5JuDOvE8qULuJ30MsopLOAINtftkmVw0X7kbTkxY/Tf6tS8Qyd2fUx5+MBNm4gX/OVXmuRThAw3wrHZbg016sav26/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722003947; c=relaxed/simple;
-	bh=Dn135Z5lIeJU8XZ+6nZPpMeFanBfB1QMFUV4i8APx5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z4KBehLFfuNGlUJtYJMk/sakFNtDDJvznautacJYeY1OQ7uqBWUnLJMy8lL2cjIfVfoes8gltHYgOevLV63cLoFQIJMWWtkzF5nNwviSEzi94qeMktGI+DSqG1g1s2jp7hV5I0fAFyKUPcxGD8N+aAp96Ejq9X3cAYLWcNyU/uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7DsES4G; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7DsES4G"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3d6301e7279so686514b6e.3;
-        Fri, 26 Jul 2024 07:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722003945; x=1722608745; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k2dSjzQVoou3+io8zljtSLUJKL0DDyVy1h+d2igdtKk=;
-        b=R7DsES4GWOJHLRiRqQ5qOL/u+2m1QS2QJyggyGSLRsFT8ie/9K9R4VbU+n5Nqd9wBx
-         i70g4F1+kgNf7SUbQKm4BAL6VkKI4NV8LUV7FNv+oD8VZuDFpwOLhd9hGe6m8fhsULK3
-         EuwNXYdZgpQTuGUIKlpi0x7HGGA0gKnZKw10BbXezBCbZ+WykpbpSSojhze8Ri9JNZY4
-         lg2wKrwF5qObcF0G+uDGGTL1bDWEF++bj5XqSyThrfNmMeBSVlCniXUoylfQxZnFI8Yn
-         dqhe2Ko+eroWeaVQT0Knax1AVIteRhiFxmnolmEfvljHtOBa6bKISthLNrn5ghrW2mT2
-         PUFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722003945; x=1722608745;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k2dSjzQVoou3+io8zljtSLUJKL0DDyVy1h+d2igdtKk=;
-        b=YrKl4v7OvLcnLQ1JDCEth+fHwXKMDO9azKbT0omoOty5QuA5sJE6Mp1FRBYkJiRTuQ
-         NeAi3r52K9GT49OorhlLhQgXaQwdYNYP+aDlTO4KikNCCCMKKBYNjP/GfaC6yHIs1WvM
-         iIIIKARuOiao9enA3spfJFLc2+j8VS0WD42XA5CN3nBZr+zJD4I3p8jH4a1ERkZXzCiv
-         G3crbcLzSyjH6flJ+QoSBsL2tSd3jRI79m28fq2FO+UMswH3pdO0Uexw2IG0cTelrc8V
-         umT4xW83QtE9nSJrC7tpvxQ1cEMGXalDqIoeIcAuwmCyq7lXjeeEUmHcaDtQE0aO324i
-         HAlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUha4kS32OFR8hb4QRpg7YsZqNlSPU+/WQURKNgg5ZSxUwE5YqDywJCTwMBFyL5ZiCC9zib5eVvBwRX6XX4R+WUlEKDrWPitsPCqOUGZx/k/+sA95dHAcJe3CdZR0ocXGONkUlIM5zj9XTwA1nzML4HvcWbcieSdXbogPIEaXThG1NVQKI=
-X-Gm-Message-State: AOJu0YwsoRuf6uLWkKYDAjoWBbW6o8DxPBw8uKF+ClDPUGZer1oXpcc1
-	PpSw8DfjKj42VML9vgL1/lAxJWH5ImHX/nZvEhJuc23gRMRACdro
-X-Google-Smtp-Source: AGHT+IGQcCgvF2YcDKF8DG4or6U99L3ds2DC7EMO4xgSJ6DHv7uif2MT5LRGelGsU0gcV84NNTP83w==
-X-Received: by 2002:a05:6808:1816:b0:3d9:28cd:4f89 with SMTP id 5614622812f47-3db140ecad5mr5450726b6e.24.1722003945514;
-        Fri, 26 Jul 2024 07:25:45 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9fa593715sm2883820a12.84.2024.07.26.07.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 07:25:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 26 Jul 2024 07:25:43 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cryolitia@gmail.com
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, trivial@kernel.org
-Subject: Re: [PATCH] hwmon: document: fix typo in oxp-sensors
-Message-ID: <e4f93c17-be7f-405b-babb-2b4aef709537@roeck-us.net>
-References: <20240726-typo-v1-1-3ca3f07f93e9@gmail.com>
+	s=arc-20240116; t=1722004249; c=relaxed/simple;
+	bh=hOesA2QWedcPj35Rmx+Hknb/KLR2+krxr/tfRQkK0IM=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XnLG9ThYCEGrjE0u9p/34X20nvja0eW4tKc+/caUQIymlF/pA8GTjNMIlbetDeTCCuc3BcbO2Mv0NGuGURdN+wWEjHPGY0JzDxA8wmHIhQjA04Epr/LTZehlcclL26WMAJyJrRqfkfSlPr0lOpM8xiMc0hAZgKuWapIyL9P4E/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVqqN5K68z6K7JW;
+	Fri, 26 Jul 2024 22:28:16 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2E1C4140D27;
+	Fri, 26 Jul 2024 22:30:44 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
+ 2024 15:30:43 +0100
+Date: Fri, 26 Jul 2024 15:30:42 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
+ Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v2 1/8] fwctl: Add basic structure for a class subsystem
+ with a cdev
+Message-ID: <20240726153042.00002749@Huawei.com>
+In-Reply-To: <1-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+	<1-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240726-typo-v1-1-3ca3f07f93e9@gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Fri, Jul 26, 2024 at 09:21:14AM +0800, Cryolitia PukNgae via B4 Relay wrote:
-> From: Cryolitia PukNgae <Cryolitia@gmail.com>
-> 
-> RMP -> RPM
-> ---
-> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
+On Mon, 24 Jun 2024 19:47:25 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Plus, having your Signed-off-by: tag after '---' drops it
-when applying the patch. _Please_ be more careful when submitting
-patches, even more so for minor ones like this one.
+> Create the class, character device and functions for a fwctl driver to
+> un/register to the subsystem.
+> 
+> A typical fwctl driver has a sysfs presence like:
+> 
+> $ ls -l /dev/fwctl/fwctl0
+> crw------- 1 root root 250, 0 Apr 25 19:16 /dev/fwctl/fwctl0
+> 
+> $ ls /sys/class/fwctl/fwctl0
+> dev  device  power  subsystem  uevent
+> 
+> $ ls /sys/class/fwctl/fwctl0/device/infiniband/
+> ibp0s10f0
+> 
+> $ ls /sys/class/infiniband/ibp0s10f0/device/fwctl/
+> fwctl0/
+> 
+> $ ls /sys/devices/pci0000:00/0000:00:0a.0/fwctl/fwctl0
+> dev  device  power  subsystem  uevent
+> 
+> Which allows userspace to link all the multi-subsystem driver components
+> together and learn the subsystem specific names for the device's
+> components.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Hi Jason,
 
-Thanks,
-Guenter
+Mostly looking at this to get my head around what the details are,
+but whilst I'm reading might as well offer some review comments.
 
-> ---
->  Documentation/hwmon/oxp-sensors.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> 
-> ---
-> base-commit: 73f3c33036904bada1b9b6476a883b1a966440cc
-> change-id: 20240726-typo-616bb7db0f68
-> 
-> Best regards,
-> 
-> diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
-> index 55b1ef61625e..50618f064379 100644
-> --- a/Documentation/hwmon/oxp-sensors.rst
-> +++ b/Documentation/hwmon/oxp-sensors.rst
-> @@ -52,7 +52,7 @@ Sysfs entries
->  The following attributes are supported:
->  
->  fan1_input
-> -  Read Only. Reads current fan RMP.
-> +  Read Only. Reads current fan RPM.
->  
->  pwm1_enable
->    Read Write. Enable manual fan control. Write "1" to set to manual, write "0"
+I'm not a fan of too many mini patches as it makes it harder
+to review rather than easier, but meh, I know others prefer
+it this way.  If you are going to do it though, comments
+need to be carefully tracking what they are talking about.
+
+Jonathan
+
+
+
+...
+
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> new file mode 100644
+> index 00000000000000..6e9bf15c743b5c
+> --- /dev/null
+> +++ b/drivers/fwctl/main.c
+> @@ -0,0 +1,177 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES
+> + */
+> +#define pr_fmt(fmt) "fwctl: " fmt
+> +#include <linux/fwctl.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/container_of.h>
+> +#include <linux/fs.h>
+
+Trivial: Pick an ordering scheme perhaps as then we know where you'd
+like new headers to be added.
+
+> +
+> +enum {
+> +	FWCTL_MAX_DEVICES = 256,
+> +};
+> +static dev_t fwctl_dev;
+> +static DEFINE_IDA(fwctl_ida);
+
+
+> +static struct fwctl_device *
+> +_alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
+> +{
+> +	struct fwctl_device *fwctl __free(kfree) = kzalloc(size, GFP_KERNEL);
+> +	int devnum;
+> +
+> +	if (!fwctl)
+> +		return NULL;
+
+I'd put a blank line here.
+
+> +	fwctl->dev.class = &fwctl_class;
+> +	fwctl->dev.parent = parent;
+> +
+> +	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
+> +	if (devnum < 0)
+> +		return NULL;
+> +	fwctl->dev.devt = fwctl_dev + devnum;
+> +
+> +	device_initialize(&fwctl->dev);
+> +	return_ptr(fwctl);
+> +}
+> +
+> +/* Drivers use the fwctl_alloc_device() wrapper */
+> +struct fwctl_device *_fwctl_alloc_device(struct device *parent,
+> +					 const struct fwctl_ops *ops,
+> +					 size_t size)
+> +{
+> +	struct fwctl_device *fwctl __free(fwctl) =
+> +		_alloc_device(parent, ops, size);
+> +
+> +	if (!fwctl)
+> +		return NULL;
+> +
+> +	cdev_init(&fwctl->cdev, &fwctl_fops);
+> +	fwctl->cdev.owner = THIS_MODULE;
+
+Owned by fwctl core, not the parent driver?  Perhaps a comment on why.
+I guess related to the lifetime being independent of parent driver.
+
+> +
+> +	if (dev_set_name(&fwctl->dev, "fwctl%d", fwctl->dev.devt - fwctl_dev))
+> +		return NULL;
+> +
+> +	fwctl->ops = ops;
+> +	return_ptr(fwctl);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(_fwctl_alloc_device, FWCTL);
+> +
+> +/**
+> + * fwctl_register - Register a new device to the subsystem
+> + * @fwctl: Previously allocated fwctl_device
+> + *
+> + * On return the device is visible through sysfs and /dev, driver ops may be
+> + * called.
+> + */
+> +int fwctl_register(struct fwctl_device *fwctl)
+> +{
+> +	int ret;
+> +
+> +	ret = cdev_device_add(&fwctl->cdev, &fwctl->dev);
+> +	if (ret)
+> +		return ret;
+> +	return 0;
+
+Doesn't look like this ever gets more complex so 
+
+	return cdev_device_add(...)
+
+If you expect to see more here in near future maybe fair enough
+to keep the handling as is.
+
+
+> +}
+> +EXPORT_SYMBOL_NS_GPL(fwctl_register, FWCTL);
+> +
+> +/**
+> + * fwctl_unregister - Unregister a device from the subsystem
+> + * @fwctl: Previously allocated and registered fwctl_device
+> + *
+> + * Undoes fwctl_register(). On return no driver ops will be called. The
+> + * caller must still call fwctl_put() to free the fwctl.
+> + *
+> + * Unregister will return even if userspace still has file descriptors open.
+> + * This will call ops->close_uctx() on any open FDs and after return no driver
+> + * op will be called. The FDs remain open but all fops will return -ENODEV.
+
+Perhaps bring the docs in with the support?  I got (briefly) confused
+by the lack of a path to close_uctx() in here.
+
+> + *
+> + * The design of fwctl allows this sort of disassociation of the driver from the
+> + * subsystem primarily by keeping memory allocations owned by the core subsytem.
+> + * The fwctl_device and fwctl_uctx can both be freed without requiring a driver
+> + * callback. This allows the module to remain unlocked while FDs are open.
+> + */
+> +void fwctl_unregister(struct fwctl_device *fwctl)
+> +{
+> +	cdev_device_del(&fwctl->cdev, &fwctl->dev);
+> +
+> +	/*
+> +	 * The driver module may unload after this returns, the op pointer will
+> +	 * not be valid.
+> +	 */
+> +	fwctl->ops = NULL;
+I'd bring that in with the logic doing close_uctx() etc as then it will align
+with the comments that I'd also suggest only adding there (patch 2 I think).
+
+> +}
+> +EXPORT_SYMBOL_NS_GPL(fwctl_unregister, FWCTL);
+> diff --git a/include/linux/fwctl.h b/include/linux/fwctl.h
+> new file mode 100644
+> index 00000000000000..ef4eaa87c945e4
+> --- /dev/null
+> +++ b/include/linux/fwctl.h
+> @@ -0,0 +1,68 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES
+> + */
+> +#ifndef __LINUX_FWCTL_H
+> +#define __LINUX_FWCTL_H
+> +#include <linux/device.h>
+> +#include <linux/cdev.h>
+> +#include <linux/cleanup.h>
+> +
+> +struct fwctl_device;
+> +struct fwctl_uctx;
+> +
+> +struct fwctl_ops {
+> +};
+> +
+> +/**
+> + * struct fwctl_device - Per-driver registration struct
+> + * @dev: The sysfs (class/fwctl/fwctlXX) device
+> + *
+> + * Each driver instance will have one of these structs with the driver
+> + * private data following immeidately after. This struct is refcounted,
+
+immediately
+
+> + * it is freed by calling fwctl_put().
+> + */
+> +struct fwctl_device {
+> +	struct device dev;
+> +	/* private: */
+> +	struct cdev cdev;
+> +	const struct fwctl_ops *ops;
+> +};
+> +
+> +struct fwctl_device *_fwctl_alloc_device(struct device *parent,
+> +					 const struct fwctl_ops *ops,
+> +					 size_t size);
+> +/**
+> + * fwctl_alloc_device - Allocate a fwctl
+> + * @parent: Physical device that provides the FW interface
+> + * @ops: Driver ops to register
+> + * @drv_struct: 'struct driver_fwctl' that holds the struct fwctl_device
+> + * @member: Name of the struct fwctl_device in @drv_struct
+> + *
+> + * This allocates and initializes the fwctl_device embedded in the drv_struct.
+> + * Upon success the pointer must be freed via fwctl_put(). Returns NULL on
+> + * failure. Returns a 'drv_struct *' on success, NULL on error.
+> + */
+> +#define fwctl_alloc_device(parent, ops, drv_struct, member)                  \
+> +	container_of(_fwctl_alloc_device(                                    \
+> +			     parent, ops,                                    \
+> +			     sizeof(drv_struct) +                            \
+> +				     BUILD_BUG_ON_ZERO(                      \
+> +					     offsetof(drv_struct, member))), \
+Doesn't that fire a build_bug when the member is at the start of drv_struct?
+Or do I have that backwards?
+
+Does container_of() safely handle a NULL?  
+I'm staring at the definition and can't spot code to do that in 6.10
+
+> +		     drv_struct, member)
+> +
+
+
