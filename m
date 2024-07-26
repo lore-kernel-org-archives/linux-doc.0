@@ -1,48 +1,48 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E764A17BB04;
-	Fri, 26 Jul 2024 12:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A3717BB04;
+	Fri, 26 Jul 2024 12:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721997642; cv=none; b=bI2K+aTMjFSmlGSMVYh5HRWTH8qipuJa/NrKSDZaTFQYCsUVGKr3JpL+QELrsjvhxSlqCF10TmeZRhb+uyC4qZ6LfVb4giMqvJCqq1rr0s9AQbkoXTNQ4pIiJz3T2q7CKyZGiqzJAFWPayqp8My1iIut90KE3qkNbi/5wzRbV1s=
+	t=1721997653; cv=none; b=hp3GjPnNLJxA5qDFpGjA1ZaBXOkZYrTf7VHTK3XF++nlO+e0ImlC2SWWEKU6waPlcNkJ9DpmSEEbsNdbzZ3KlPpCg2e12ESyGzh/d6MEOFZYBjG6S/OOIDBIDF1HwzvgEvbdRm25wuNgWuvRCQ7ZcFLfgFn0/wmAbVnAsigkp5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721997642; c=relaxed/simple;
-	bh=R5dWjj0Jipl0JMN52Rc6rTex1ME0V5S9Xq+R+KVBKoc=;
+	s=arc-20240116; t=1721997653; c=relaxed/simple;
+	bh=J/H+OfYac7rZPrEbWYSlVfnoBGMH/C+OPNO83so3PVk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nFF0K3sFHQtANcyUzCAUO+3sicmflHXuCwy5JefZl2rDQRaoiZzOPhL5aBKA0uBcILs7QqW7dzzys+7wtog0teRRsknVp2xeRUId02rxMqOBD1j2mX/fqsq3diUFEa6qLkEhn6Zfptjhbc384S1/WGRUylYKQ4o3ppRasEvLlSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=EQuovV6g; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=Lucj4Ee41Pu8Gk3MP2LTBuO8XlXyKRdECBnTVKqI1SHkRA5PZ3xLrd74ujA6fOZ9qOkA02cakpvuKB3m52nBCOXCgdKSvN5yEka76WW2WsfXgU/z2PIs/2EP6Lo/nqQHyp43KPvFffwKRoU/XS5NRJWFyXb9+qKUFCtNM3v3fGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=HKFkJNlC; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="EQuovV6g"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="HKFkJNlC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1721997640; x=1753533640;
+  t=1721997651; x=1753533651;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=R5dWjj0Jipl0JMN52Rc6rTex1ME0V5S9Xq+R+KVBKoc=;
-  b=EQuovV6geZhNHiBWpQOHjEHl95qoswk31pPCgo3AgRh4Cy+P4XmV9VNx
-   PPaC7D+mGGMeEtY3lw82kLvLaVpoYTTFAEhAF5sQ9NHhh67mvNYe3ogq5
-   xCpXVhAZx/OFZrc+L05itmPMv1oTyuhi+Uzv1AZW3V9gnqCsB+9L8Mfun
-   4EdQAmuezHzkGZ5I2Q1QQpZALiuHxOyu0oTpePgJOIDxXHcd0rL7qr2KN
-   UY/2l2lYAgK9qQfJD4LiziYu0p8zqQPmp8IsXGeb9/+CrYsnQoOlINTn+
-   zf19qSgeaBVLnr3q0UBWPbKcBUftGzj7C23qNh7Hd3AemhUBGLc1xDr1s
-   g==;
-X-CSE-ConnectionGUID: fj5IC/ViS6C22EixpZCE2g==
-X-CSE-MsgGUID: 7oVGM23rRjioKBJR8l2naQ==
+  bh=J/H+OfYac7rZPrEbWYSlVfnoBGMH/C+OPNO83so3PVk=;
+  b=HKFkJNlCJY2gk8QGfTiwMdj9FnCjEmxzAhMQqmygR+xsVojxwPtyoQwo
+   LtB+6ZmB55sxXP7Pua4Y4fExKoCb8+XP82kDQ3hbaGBeDLKsI4TNcFgG/
+   xbo4uOrMX2/SraQu1mnWv10Lv3va6Q47ggV6M70wB3EJLz4FnKVr69EJN
+   d+KYfKKg3O2EKu5ZFt6ixzjOyiOJe0LTLJkWsncYeiDqEKsP+eYNxTSyG
+   oMg7fAdpT2M8HXfz9bdGiXo9+C4PJtleze7q7m21RWf4C1i4F++e3GMsZ
+   A+l4GDN82O9iFVwoje5fegWZj94EC5L1rXJDXuBP8mzgekwyr8gP5fwSo
+   A==;
+X-CSE-ConnectionGUID: Pz8rc0X+RQWRNn1lO8SO4A==
+X-CSE-MsgGUID: Vekxy74JRwGtNfl6oib9KA==
 X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
-   d="scan'208";a="32523271"
+   d="scan'208";a="30386970"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:40:38 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:40:50 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 26 Jul 2024 05:40:37 -0700
+ 15.1.2507.35; Fri, 26 Jul 2024 05:40:09 -0700
 Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:40:28 -0700
+ 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:40:00 -0700
 From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
@@ -58,9 +58,9 @@ CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
 	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
 	<linux@bigler.io>, Parthiban Veerasooran
 	<Parthiban.Veerasooran@microchip.com>
-Subject: [PATCH net-next v5 13/14] microchip: lan865x: add driver support for Microchip's LAN865X MAC-PHY
-Date: Fri, 26 Jul 2024 18:09:06 +0530
-Message-ID: <20240726123907.566348-14-Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v5 10/14] net: ethernet: oa_tc6: implement receive path to receive rx ethernet frames
+Date: Fri, 26 Jul 2024 18:09:03 +0530
+Message-ID: <20240726123907.566348-11-Parthiban.Veerasooran@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
 References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
@@ -70,504 +70,366 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The LAN8650/1 is designed to conform to the OPEN Alliance 10BASE-T1x
-MAC-PHY Serial Interface specification, Version 1.1. The IEEE Clause 4
-MAC integration provides the low pin count standard SPI interface to any
-microcontroller therefore providing Ethernet functionality without
-requiring MAC integration within the microcontroller. The LAN8650/1
-operates as an SPI client supporting SCLK clock rates up to a maximum of
-25 MHz. This SPI interface supports the transfer of both data (Ethernet
-frames) and control (register access).
-
-By default, the chunk data payload is 64 bytes in size. The Ethernet
-Media Access Controller (MAC) module implements a 10 Mbps half duplex
-Ethernet MAC, compatible with the IEEE 802.3 standard. 10BASE-T1S
-physical layer transceiver integrated is into the LAN8650/1. The PHY and
-MAC are connected via an internal Media Independent Interface (MII).
+SPI rx data buffer can contain one or more receive data chunks. A receive
+data chunk consists a 64 bytes receive data chunk payload followed a
+4 bytes data footer at the end. The data footer contains the information
+needed to determine the validity and location of the receive frame data
+within the receive data chunk payload and the host can use these
+information to generate ethernet frame. Initially the receive chunks
+available will be updated from the buffer status register and then it
+will be updated from the footer received on each spi data transfer. Tx
+data valid or empty chunks equal to the number receive chunks available
+will be transmitted in the MOSI to receive all the rx chunks.
+Additionally the receive data footer contains the below information as
+well. The received footer will be examined for the receive errors if any.
 
 Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 ---
- MAINTAINERS                                   |   6 +
- drivers/net/ethernet/microchip/Kconfig        |   1 +
- drivers/net/ethernet/microchip/Makefile       |   1 +
- .../net/ethernet/microchip/lan865x/Kconfig    |  19 +
- .../net/ethernet/microchip/lan865x/Makefile   |   6 +
- .../net/ethernet/microchip/lan865x/lan865x.c  | 383 ++++++++++++++++++
- 6 files changed, 416 insertions(+)
- create mode 100644 drivers/net/ethernet/microchip/lan865x/Kconfig
- create mode 100644 drivers/net/ethernet/microchip/lan865x/Makefile
- create mode 100644 drivers/net/ethernet/microchip/lan865x/lan865x.c
+ drivers/net/ethernet/oa_tc6.c | 225 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 222 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index feae6d4bebdd..e7d092d9a752 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14900,6 +14900,12 @@ L:	netdev@vger.kernel.org
- S:	Maintained
- F:	drivers/net/ethernet/microchip/lan743x_*
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index e710ceb6b19e..5cbb45735b26 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -29,11 +29,13 @@
+ #define STATUS0_RESETC				BIT(6)	/* Reset Complete */
+ #define STATUS0_HEADER_ERROR			BIT(5)
+ #define STATUS0_LOSS_OF_FRAME_ERROR		BIT(4)
++#define STATUS0_RX_BUFFER_OVERFLOW_ERROR	BIT(3)
+ #define STATUS0_TX_PROTOCOL_ERROR		BIT(0)
  
-+MICROCHIP LAN8650/1 10BASE-T1S MACPHY ETHERNET DRIVER
-+M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	drivers/net/ethernet/microchip/lan865x/lan865x.c
-+
- MICROCHIP LAN87xx/LAN937x T1 PHY DRIVER
- M:	Arun Ramadoss <arun.ramadoss@microchip.com>
- R:	UNGLinuxDriver@microchip.com
-diff --git a/drivers/net/ethernet/microchip/Kconfig b/drivers/net/ethernet/microchip/Kconfig
-index 43ba71e82260..06ca79669053 100644
---- a/drivers/net/ethernet/microchip/Kconfig
-+++ b/drivers/net/ethernet/microchip/Kconfig
-@@ -56,6 +56,7 @@ config LAN743X
- 	  To compile this driver as a module, choose M here. The module will be
- 	  called lan743x.
+ /* Buffer Status Register */
+ #define OA_TC6_REG_BUFFER_STATUS		0x000B
+ #define BUFFER_STATUS_TX_CREDITS_AVAILABLE	GENMASK(15, 8)
++#define BUFFER_STATUS_RX_CHUNKS_AVAILABLE	GENMASK(7, 0)
  
-+source "drivers/net/ethernet/microchip/lan865x/Kconfig"
- source "drivers/net/ethernet/microchip/lan966x/Kconfig"
- source "drivers/net/ethernet/microchip/sparx5/Kconfig"
- source "drivers/net/ethernet/microchip/vcap/Kconfig"
-diff --git a/drivers/net/ethernet/microchip/Makefile b/drivers/net/ethernet/microchip/Makefile
-index bbd349264e6f..15dfbb321057 100644
---- a/drivers/net/ethernet/microchip/Makefile
-+++ b/drivers/net/ethernet/microchip/Makefile
-@@ -9,6 +9,7 @@ obj-$(CONFIG_LAN743X) += lan743x.o
+ /* Interrupt Mask Register #0 */
+ #define OA_TC6_REG_INT_MASK0			0x000C
+@@ -67,6 +69,12 @@
+ #define OA_TC6_DATA_FOOTER_EXTENDED_STS		BIT(31)
+ #define OA_TC6_DATA_FOOTER_RXD_HEADER_BAD	BIT(30)
+ #define OA_TC6_DATA_FOOTER_CONFIG_SYNC		BIT(29)
++#define OA_TC6_DATA_FOOTER_RX_CHUNKS_AVAILABLE	GENMASK(28, 24)
++#define OA_TC6_DATA_FOOTER_DATA_VALID		BIT(21)
++#define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
++#define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
++#define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
++#define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
+ #define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
  
- lan743x-objs := lan743x_main.o lan743x_ethtool.o lan743x_ptp.o
+ /* PHY – Clause 45 registers memory map selector (MMS) as per table 6 in the
+@@ -111,11 +119,14 @@ struct oa_tc6 {
+ 	void *spi_data_rx_buf;
+ 	struct sk_buff_head tx_skb_q;
+ 	struct sk_buff *tx_skb;
++	struct sk_buff *rx_skb;
+ 	struct task_struct *spi_thread;
+ 	wait_queue_head_t spi_wq;
+ 	u16 tx_skb_offset;
+ 	u16 spi_data_tx_buf_offset;
+ 	u16 tx_credits;
++	u8 rx_chunks_available;
++	bool rx_buf_overflow;
+ };
  
-+obj-$(CONFIG_LAN865X) += lan865x/
- obj-$(CONFIG_LAN966X_SWITCH) += lan966x/
- obj-$(CONFIG_SPARX5_SWITCH) += sparx5/
- obj-$(CONFIG_VCAP) += vcap/
-diff --git a/drivers/net/ethernet/microchip/lan865x/Kconfig b/drivers/net/ethernet/microchip/lan865x/Kconfig
-new file mode 100644
-index 000000000000..f3d60d14e202
---- /dev/null
-+++ b/drivers/net/ethernet/microchip/lan865x/Kconfig
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Microchip LAN865x Driver Support
-+#
-+
-+if NET_VENDOR_MICROCHIP
-+
-+config LAN865X
-+	tristate "LAN865x support"
-+	depends on SPI
-+	depends on OA_TC6
-+	help
-+	  Support for the Microchip LAN8650/1 Rev.B1 MACPHY Ethernet chip. It
-+	  uses OPEN Alliance 10BASE-T1x Serial Interface specification.
-+
-+	  To compile this driver as a module, choose M here. The module will be
-+	  called lan865x.
-+
-+endif # NET_VENDOR_MICROCHIP
-diff --git a/drivers/net/ethernet/microchip/lan865x/Makefile b/drivers/net/ethernet/microchip/lan865x/Makefile
-new file mode 100644
-index 000000000000..9f5dd89c1eb8
---- /dev/null
-+++ b/drivers/net/ethernet/microchip/lan865x/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Makefile for the Microchip LAN865x Driver
-+#
-+
-+obj-$(CONFIG_LAN865X) += lan865x.o
-diff --git a/drivers/net/ethernet/microchip/lan865x/lan865x.c b/drivers/net/ethernet/microchip/lan865x/lan865x.c
-new file mode 100644
-index 000000000000..4091f338de5a
---- /dev/null
-+++ b/drivers/net/ethernet/microchip/lan865x/lan865x.c
-@@ -0,0 +1,383 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Microchip's LAN865x 10BASE-T1S MAC-PHY driver
-+ *
-+ * Author: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/phy.h>
-+#include <linux/oa_tc6.h>
-+
-+#define DRV_NAME			"lan8650"
-+
-+/* MAC Network Control Register */
-+#define LAN865X_REG_MAC_NET_CTL		0x00010000
-+#define MAC_NET_CTL_TXEN		BIT(3) /* Transmit Enable */
-+#define MAC_NET_CTL_RXEN		BIT(2) /* Receive Enable */
-+
-+#define LAN865X_REG_MAC_NET_CFG		0x00010001 /* MAC Network Configuration Reg */
-+#define MAC_NET_CFG_PROMISCUOUS_MODE	BIT(4)
-+#define MAC_NET_CFG_MULTICAST_MODE	BIT(6)
-+#define MAC_NET_CFG_UNICAST_MODE	BIT(7)
-+
-+#define LAN865X_REG_MAC_L_HASH		0x00010020 /* MAC Hash Register Bottom */
-+#define LAN865X_REG_MAC_H_HASH		0x00010021 /* MAC Hash Register Top */
-+#define LAN865X_REG_MAC_L_SADDR1	0x00010022 /* MAC Specific Addr 1 Bottom Reg */
-+#define LAN865X_REG_MAC_H_SADDR1	0x00010023 /* MAC Specific Addr 1 Top Reg */
-+
-+struct lan865x_priv {
-+	struct work_struct multicast_work;
-+	struct net_device *netdev;
-+	struct spi_device *spi;
-+	struct oa_tc6 *tc6;
-+};
-+
-+static int lan865x_set_hw_macaddr_low_bytes(struct oa_tc6 *tc6, const u8 *mac)
+ enum oa_tc6_header_type {
+@@ -638,6 +649,15 @@ static int oa_tc6_enable_data_transfer(struct oa_tc6 *tc6)
+ 	return oa_tc6_write_register(tc6, OA_TC6_REG_CONFIG0, value);
+ }
+ 
++static void oa_tc6_cleanup_ongoing_rx_skb(struct oa_tc6 *tc6)
 +{
-+	u32 regval;
-+
-+	regval = (mac[3] << 24) | (mac[2] << 16) | (mac[1] << 8) | mac[0];
-+
-+	return oa_tc6_write_register(tc6, LAN865X_REG_MAC_L_SADDR1, regval);
-+}
-+
-+static int lan865x_set_hw_macaddr(struct lan865x_priv *priv, const u8 *mac)
-+{
-+	int restore_ret;
-+	u32 regval;
-+	int ret;
-+
-+	/* Configure MAC address low bytes */
-+	ret = lan865x_set_hw_macaddr_low_bytes(priv->tc6, mac);
-+	if (ret)
-+		return ret;
-+
-+	/* Prepare and configure MAC address high bytes */
-+	regval = (mac[5] << 8) | mac[4];
-+	ret = oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_H_SADDR1, regval);
-+	if (!ret)
-+		return 0;
-+
-+	/* Restore the old MAC address low bytes from netdev if the new MAC
-+	 * address high bytes setting failed.
-+	 */
-+	restore_ret = lan865x_set_hw_macaddr_low_bytes(priv->tc6,
-+						       priv->netdev->dev_addr);
-+	if (restore_ret)
-+		return restore_ret;
-+
-+	return ret;
-+}
-+
-+static void
-+lan865x_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *info)
-+{
-+	strscpy(info->driver, DRV_NAME, sizeof(info->driver));
-+	strscpy(info->bus_info, dev_name(netdev->dev.parent),
-+		sizeof(info->bus_info));
-+}
-+
-+static const struct ethtool_ops lan865x_ethtool_ops = {
-+	.get_drvinfo        = lan865x_get_drvinfo,
-+	.get_link_ksettings = phy_ethtool_get_link_ksettings,
-+	.set_link_ksettings = phy_ethtool_set_link_ksettings,
-+};
-+
-+static int lan865x_set_mac_address(struct net_device *netdev, void *addr)
-+{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+	struct sockaddr *address = addr;
-+	int ret;
-+
-+	ret = eth_prepare_mac_addr_change(netdev, addr);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ether_addr_equal(address->sa_data, netdev->dev_addr))
-+		return 0;
-+
-+	ret = lan865x_set_hw_macaddr(priv, address->sa_data);
-+	if (ret)
-+		return ret;
-+
-+	eth_commit_mac_addr_change(netdev, address->sa_data);
-+
-+	return 0;
-+}
-+
-+static u32 get_address_bit(u8 addr[ETH_ALEN], u32 bit)
-+{
-+	return ((addr[bit / 8]) >> (bit % 8)) & 1;
-+}
-+
-+static u32 lan865x_hash(u8 addr[ETH_ALEN])
-+{
-+	u32 hash_index = 0;
-+
-+	for (int i = 0; i < 6; i++) {
-+		u32 hash = 0;
-+
-+		for (int j = 0; j < 8; j++)
-+			hash ^= get_address_bit(addr, (j * 6) + i);
-+
-+		hash_index |= (hash << i);
++	if (tc6->rx_skb) {
++		tc6->netdev->stats.rx_dropped++;
++		kfree_skb(tc6->rx_skb);
++		tc6->rx_skb = NULL;
 +	}
-+
-+	return hash_index;
 +}
 +
-+static void lan865x_set_specific_multicast_addr(struct net_device *netdev)
-+{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+	struct netdev_hw_addr *ha;
-+	u32 hash_lo = 0;
-+	u32 hash_hi = 0;
-+
-+	netdev_for_each_mc_addr(ha, netdev) {
-+		u32 bit_num = lan865x_hash(ha->addr);
-+
-+		if (bit_num >= BIT(5))
-+			hash_hi |= (1 << (bit_num - BIT(5)));
-+		else
-+			hash_lo |= (1 << bit_num);
+ static void oa_tc6_cleanup_ongoing_tx_skb(struct oa_tc6 *tc6)
+ {
+ 	if (tc6->tx_skb) {
+@@ -667,6 +687,13 @@ static int oa_tc6_process_extended_status(struct oa_tc6 *tc6)
+ 		return ret;
+ 	}
+ 
++	if (FIELD_GET(STATUS0_RX_BUFFER_OVERFLOW_ERROR, value)) {
++		tc6->rx_buf_overflow = true;
++		oa_tc6_cleanup_ongoing_rx_skb(tc6);
++		net_err_ratelimited("%s: Receive buffer overflow error\n",
++				    tc6->netdev->name);
++		return -EAGAIN;
 +	}
+ 	if (FIELD_GET(STATUS0_TX_PROTOCOL_ERROR, value)) {
+ 		netdev_err(tc6->netdev, "Transmit protocol error\n");
+ 		return -ENODEV;
+@@ -691,8 +718,11 @@ static int oa_tc6_process_rx_chunk_footer(struct oa_tc6 *tc6, u32 footer)
+ 	/* Process rx chunk footer for the following,
+ 	 * 1. tx credits
+ 	 * 2. errors if any from MAC-PHY
++	 * 3. receive chunks available
+ 	 */
+ 	tc6->tx_credits = FIELD_GET(OA_TC6_DATA_FOOTER_TX_CREDITS, footer);
++	tc6->rx_chunks_available = FIELD_GET(OA_TC6_DATA_FOOTER_RX_CHUNKS_AVAILABLE,
++					     footer);
+ 
+ 	if (FIELD_GET(OA_TC6_DATA_FOOTER_EXTENDED_STS, footer)) {
+ 		int ret = oa_tc6_process_extended_status(tc6);
+@@ -718,6 +748,137 @@ static int oa_tc6_process_rx_chunk_footer(struct oa_tc6 *tc6, u32 footer)
+ 	return 0;
+ }
+ 
++static void oa_tc6_submit_rx_skb(struct oa_tc6 *tc6)
++{
++	tc6->rx_skb->protocol = eth_type_trans(tc6->rx_skb, tc6->netdev);
++	tc6->netdev->stats.rx_packets++;
++	tc6->netdev->stats.rx_bytes += tc6->rx_skb->len;
 +
-+	/* Enabling specific multicast addresses */
-+	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_H_HASH, hash_hi)) {
-+		netdev_err(netdev, "Failed to write reg_hashh");
-+		return;
-+	}
++	if (netif_rx(tc6->rx_skb) == NET_RX_DROP)
++		tc6->netdev->stats.rx_dropped++;
 +
-+	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_L_HASH, hash_lo))
-+		netdev_err(netdev, "Failed to write reg_hashl");
++	tc6->rx_skb = NULL;
 +}
 +
-+static void lan865x_multicast_work_handler(struct work_struct *work)
++static void oa_tc6_update_rx_skb(struct oa_tc6 *tc6, u8 *payload, u8 length)
 +{
-+	struct lan865x_priv *priv = container_of(work, struct lan865x_priv,
-+						 multicast_work);
-+	u32 regval = 0;
-+
-+	if (priv->netdev->flags & IFF_PROMISC) {
-+		/* Enabling promiscuous mode */
-+		regval |= MAC_NET_CFG_PROMISCUOUS_MODE;
-+		regval &= (~MAC_NET_CFG_MULTICAST_MODE);
-+		regval &= (~MAC_NET_CFG_UNICAST_MODE);
-+	} else if (priv->netdev->flags & IFF_ALLMULTI) {
-+		/* Enabling all multicast mode */
-+		regval &= (~MAC_NET_CFG_PROMISCUOUS_MODE);
-+		regval |= MAC_NET_CFG_MULTICAST_MODE;
-+		regval &= (~MAC_NET_CFG_UNICAST_MODE);
-+	} else if (!netdev_mc_empty(priv->netdev)) {
-+		lan865x_set_specific_multicast_addr(priv->netdev);
-+		regval &= (~MAC_NET_CFG_PROMISCUOUS_MODE);
-+		regval &= (~MAC_NET_CFG_MULTICAST_MODE);
-+		regval |= MAC_NET_CFG_UNICAST_MODE;
-+	} else {
-+		/* enabling local mac address only */
-+		if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_H_HASH, 0)) {
-+			netdev_err(priv->netdev, "Failed to write reg_hashh");
-+			return;
-+		}
-+		if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_L_HASH, 0)) {
-+			netdev_err(priv->netdev, "Failed to write reg_hashl");
-+			return;
-+		}
-+	}
-+	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_NET_CFG, regval))
-+		netdev_err(priv->netdev,
-+			   "Failed to enable promiscuous/multicast/normal mode");
++	memcpy(skb_put(tc6->rx_skb, length), payload, length);
 +}
 +
-+static void lan865x_set_multicast_list(struct net_device *netdev)
++static int oa_tc6_allocate_rx_skb(struct oa_tc6 *tc6)
 +{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+
-+	schedule_work(&priv->multicast_work);
-+}
-+
-+static netdev_tx_t lan865x_send_packet(struct sk_buff *skb,
-+				       struct net_device *netdev)
-+{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+
-+	return oa_tc6_start_xmit(priv->tc6, skb);
-+}
-+
-+static int lan865x_hw_disable(struct lan865x_priv *priv)
-+{
-+	u32 regval;
-+
-+	if (oa_tc6_read_register(priv->tc6, LAN865X_REG_MAC_NET_CTL, &regval))
-+		return -ENODEV;
-+
-+	regval &= ~(MAC_NET_CTL_TXEN | MAC_NET_CTL_RXEN);
-+
-+	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_NET_CTL, regval))
-+		return -ENODEV;
-+
-+	return 0;
-+}
-+
-+static int lan865x_net_close(struct net_device *netdev)
-+{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+	int ret;
-+
-+	netif_stop_queue(netdev);
-+	phy_stop(netdev->phydev);
-+	ret = lan865x_hw_disable(priv);
-+	if (ret) {
-+		netdev_err(netdev, "Failed to disable the hardware: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int lan865x_hw_enable(struct lan865x_priv *priv)
-+{
-+	u32 regval;
-+
-+	if (oa_tc6_read_register(priv->tc6, LAN865X_REG_MAC_NET_CTL, &regval))
-+		return -ENODEV;
-+
-+	regval |= MAC_NET_CTL_TXEN | MAC_NET_CTL_RXEN;
-+
-+	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_NET_CTL, regval))
-+		return -ENODEV;
-+
-+	return 0;
-+}
-+
-+static int lan865x_net_open(struct net_device *netdev)
-+{
-+	struct lan865x_priv *priv = netdev_priv(netdev);
-+	int ret;
-+
-+	ret = lan865x_hw_enable(priv);
-+	if (ret) {
-+		netdev_err(netdev, "Failed to enable hardware: %d\n", ret);
-+		return ret;
-+	}
-+
-+	phy_start(netdev->phydev);
-+
-+	return 0;
-+}
-+
-+static const struct net_device_ops lan865x_netdev_ops = {
-+	.ndo_open		= lan865x_net_open,
-+	.ndo_stop		= lan865x_net_close,
-+	.ndo_start_xmit		= lan865x_send_packet,
-+	.ndo_set_rx_mode	= lan865x_set_multicast_list,
-+	.ndo_set_mac_address	= lan865x_set_mac_address,
-+};
-+
-+static int lan865x_probe(struct spi_device *spi)
-+{
-+	struct net_device *netdev;
-+	struct lan865x_priv *priv;
-+	int ret;
-+
-+	netdev = alloc_etherdev(sizeof(struct lan865x_priv));
-+	if (!netdev)
++	tc6->rx_skb = netdev_alloc_skb_ip_align(tc6->netdev, tc6->netdev->mtu +
++						ETH_HLEN + ETH_FCS_LEN);
++	if (!tc6->rx_skb) {
++		tc6->netdev->stats.rx_dropped++;
 +		return -ENOMEM;
-+
-+	priv = netdev_priv(netdev);
-+	priv->netdev = netdev;
-+	priv->spi = spi;
-+	spi_set_drvdata(spi, priv);
-+	INIT_WORK(&priv->multicast_work, lan865x_multicast_work_handler);
-+
-+	priv->tc6 = oa_tc6_init(spi, netdev);
-+	if (!priv->tc6) {
-+		ret = -ENODEV;
-+		goto free_netdev;
-+	}
-+
-+	/* As per the point s3 in the below errata, SPI receive Ethernet frame
-+	 * transfer may halt when starting the next frame in the same data block
-+	 * (chunk) as the end of a previous frame. The RFA field should be
-+	 * configured to 01b or 10b for proper operation. In these modes, only
-+	 * one receive Ethernet frame will be placed in a single data block.
-+	 * When the RFA field is written to 01b, received frames will be forced
-+	 * to only start in the first word of the data block payload (SWO=0). As
-+	 * recommended, enable zero align receive frame feature for proper
-+	 * operation.
-+	 *
-+	 * https://ww1.microchip.com/downloads/aemDocuments/documents/AIS/ProductDocuments/Errata/LAN8650-1-Errata-80001075.pdf
-+	 */
-+	ret = oa_tc6_zero_align_receive_frame_enable(priv->tc6);
-+	if (ret) {
-+		dev_err(&spi->dev, "Failed to set ZARFE: %d\n", ret);
-+		goto oa_tc6_exit;
-+	}
-+
-+	/* Get the MAC address from the SPI device tree node */
-+	if (device_get_ethdev_address(&spi->dev, netdev))
-+		eth_hw_addr_random(netdev);
-+
-+	ret = lan865x_set_hw_macaddr(priv, netdev->dev_addr);
-+	if (ret) {
-+		dev_err(&spi->dev, "Failed to configure MAC: %d\n", ret);
-+		goto oa_tc6_exit;
-+	}
-+
-+	netdev->if_port = IF_PORT_10BASET;
-+	netdev->irq = spi->irq;
-+	netdev->netdev_ops = &lan865x_netdev_ops;
-+	netdev->ethtool_ops = &lan865x_ethtool_ops;
-+
-+	ret = register_netdev(netdev);
-+	if (ret) {
-+		dev_err(&spi->dev, "Register netdev failed (ret = %d)", ret);
-+		goto oa_tc6_exit;
 +	}
 +
 +	return 0;
-+
-+oa_tc6_exit:
-+	oa_tc6_exit(priv->tc6);
-+free_netdev:
-+	free_netdev(priv->netdev);
-+	return ret;
 +}
 +
-+static void lan865x_remove(struct spi_device *spi)
++static int oa_tc6_prcs_complete_rx_frame(struct oa_tc6 *tc6, u8 *payload,
++					 u16 size)
 +{
-+	struct lan865x_priv *priv = spi_get_drvdata(spi);
++	int ret;
 +
-+	cancel_work_sync(&priv->multicast_work);
-+	unregister_netdev(priv->netdev);
-+	oa_tc6_exit(priv->tc6);
-+	free_netdev(priv->netdev);
++	ret = oa_tc6_allocate_rx_skb(tc6);
++	if (ret)
++		return ret;
++
++	oa_tc6_update_rx_skb(tc6, payload, size);
++
++	oa_tc6_submit_rx_skb(tc6);
++
++	return 0;
 +}
 +
-+static const struct spi_device_id spidev_spi_ids[] = {
-+	{ .name = "lan8650" },
-+	{},
-+};
++static int oa_tc6_prcs_rx_frame_start(struct oa_tc6 *tc6, u8 *payload, u16 size)
++{
++	int ret;
 +
-+static const struct of_device_id lan865x_dt_ids[] = {
-+	{ .compatible = "microchip,lan8650" },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, lan865x_dt_ids);
++	ret = oa_tc6_allocate_rx_skb(tc6);
++	if (ret)
++		return ret;
 +
-+static struct spi_driver lan865x_driver = {
-+	.driver = {
-+		.name = DRV_NAME,
-+		.of_match_table = lan865x_dt_ids,
-+	 },
-+	.probe = lan865x_probe,
-+	.remove = lan865x_remove,
-+	.id_table = spidev_spi_ids,
-+};
-+module_spi_driver(lan865x_driver);
++	oa_tc6_update_rx_skb(tc6, payload, size);
 +
-+MODULE_DESCRIPTION(DRV_NAME " 10Base-T1S MACPHY Ethernet Driver");
-+MODULE_AUTHOR("Parthiban Veerasooran <parthiban.veerasooran@microchip.com>");
-+MODULE_LICENSE("GPL");
++	return 0;
++}
++
++static void oa_tc6_prcs_rx_frame_end(struct oa_tc6 *tc6, u8 *payload, u16 size)
++{
++	oa_tc6_update_rx_skb(tc6, payload, size);
++
++	oa_tc6_submit_rx_skb(tc6);
++}
++
++static void oa_tc6_prcs_ongoing_rx_frame(struct oa_tc6 *tc6, u8 *payload,
++					 u32 footer)
++{
++	oa_tc6_update_rx_skb(tc6, payload, OA_TC6_CHUNK_PAYLOAD_SIZE);
++}
++
++static int oa_tc6_prcs_rx_chunk_payload(struct oa_tc6 *tc6, u8 *payload,
++					u32 footer)
++{
++	u8 start_byte_offset = FIELD_GET(OA_TC6_DATA_FOOTER_START_WORD_OFFSET,
++					 footer) * sizeof(u32);
++	u8 end_byte_offset = FIELD_GET(OA_TC6_DATA_FOOTER_END_BYTE_OFFSET,
++				       footer);
++	bool start_valid = FIELD_GET(OA_TC6_DATA_FOOTER_START_VALID, footer);
++	bool end_valid = FIELD_GET(OA_TC6_DATA_FOOTER_END_VALID, footer);
++	u16 size;
++
++	/* Restart the new rx frame after receiving rx buffer overflow error */
++	if (start_valid && tc6->rx_buf_overflow)
++		tc6->rx_buf_overflow = false;
++
++	if (tc6->rx_buf_overflow)
++		return 0;
++
++	/* Process the chunk with complete rx frame */
++	if (start_valid && end_valid && start_byte_offset < end_byte_offset) {
++		size = end_byte_offset + 1 - start_byte_offset;
++		return oa_tc6_prcs_complete_rx_frame(tc6, &payload[start_byte_offset],
++						     size);
++	}
++
++	/* Process the chunk with only rx frame start */
++	if (start_valid && !end_valid) {
++		size = OA_TC6_CHUNK_PAYLOAD_SIZE - start_byte_offset;
++		return oa_tc6_prcs_rx_frame_start(tc6, &payload[start_byte_offset],
++						  size);
++	}
++
++	/* Process the chunk with only rx frame end */
++	if (end_valid && !start_valid) {
++		size = end_byte_offset + 1;
++		oa_tc6_prcs_rx_frame_end(tc6, payload, size);
++		return 0;
++	}
++
++	/* Process the chunk with previous rx frame end and next rx frame start */
++	if (start_valid && end_valid && start_byte_offset > end_byte_offset) {
++		/* After rx buffer overflow error received, there might be a
++		 * possibility of getting an end valid of a previously
++		 * incomplete rx frame along with the new rx frame start valid.
++		 */
++		if (tc6->rx_skb) {
++			size = end_byte_offset + 1;
++			oa_tc6_prcs_rx_frame_end(tc6, payload, size);
++		}
++		size = OA_TC6_CHUNK_PAYLOAD_SIZE - start_byte_offset;
++		return oa_tc6_prcs_rx_frame_start(tc6, &payload[start_byte_offset],
++						  size);
++	}
++
++	/* Process the chunk with ongoing rx frame data */
++	oa_tc6_prcs_ongoing_rx_frame(tc6, payload, footer);
++
++	return 0;
++}
++
+ static u32 oa_tc6_get_rx_chunk_footer(struct oa_tc6 *tc6, u16 footer_offset)
+ {
+ 	u8 *rx_buf = tc6->spi_data_rx_buf;
+@@ -743,6 +904,18 @@ static int oa_tc6_process_spi_data_rx_buf(struct oa_tc6 *tc6, u16 length)
+ 		ret = oa_tc6_process_rx_chunk_footer(tc6, footer);
+ 		if (ret)
+ 			return ret;
++
++		/* If there is a data valid chunks then process it for the
++		 * information needed to determine the validity and the location
++		 * of the receive frame data.
++		 */
++		if (FIELD_GET(OA_TC6_DATA_FOOTER_DATA_VALID, footer)) {
++			u8 *payload = tc6->spi_data_rx_buf + i * OA_TC6_CHUNK_SIZE;
++
++			ret = oa_tc6_prcs_rx_chunk_payload(tc6, payload, footer);
++			if (ret)
++				return ret;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -828,6 +1001,42 @@ static u16 oa_tc6_prepare_spi_tx_buf_for_tx_skbs(struct oa_tc6 *tc6)
+ 	return used_tx_credits * OA_TC6_CHUNK_SIZE;
+ }
+ 
++static void oa_tc6_add_empty_chunks_to_spi_buf(struct oa_tc6 *tc6,
++					       u16 needed_empty_chunks)
++{
++	__be32 header;
++
++	header = oa_tc6_prepare_data_header(OA_TC6_DATA_INVALID,
++					    OA_TC6_DATA_START_INVALID,
++					    OA_TC6_DATA_END_INVALID, 0);
++
++	while (needed_empty_chunks--) {
++		__be32 *tx_buf = tc6->spi_data_tx_buf + tc6->spi_data_tx_buf_offset;
++
++		*tx_buf = header;
++		tc6->spi_data_tx_buf_offset += OA_TC6_CHUNK_SIZE;
++	}
++}
++
++static u16 oa_tc6_prepare_spi_tx_buf_for_rx_chunks(struct oa_tc6 *tc6, u16 len)
++{
++	u16 tx_chunks = len / OA_TC6_CHUNK_SIZE;
++	u16 needed_empty_chunks;
++
++	/* If there are more chunks to receive than to transmit, we need to add
++	 * enough empty tx chunks to allow the reception of the excess rx
++	 * chunks.
++	 */
++	if (tx_chunks >= tc6->rx_chunks_available)
++		return len;
++
++	needed_empty_chunks = tc6->rx_chunks_available - tx_chunks;
++
++	oa_tc6_add_empty_chunks_to_spi_buf(tc6, needed_empty_chunks);
++
++	return needed_empty_chunks * OA_TC6_CHUNK_SIZE + len;
++}
++
+ static int oa_tc6_try_spi_transfer(struct oa_tc6 *tc6)
+ {
+ 	int ret;
+@@ -840,6 +1049,9 @@ static int oa_tc6_try_spi_transfer(struct oa_tc6 *tc6)
+ 		if (tc6->tx_skb || !skb_queue_empty(&tc6->tx_skb_q))
+ 			spi_length = oa_tc6_prepare_spi_tx_buf_for_tx_skbs(tc6);
+ 
++		if (tc6->rx_chunks_available)
++			spi_length = oa_tc6_prepare_spi_tx_buf_for_rx_chunks(tc6, spi_length);
++
+ 		if (spi_length == 0)
+ 			break;
+ 
+@@ -852,7 +1064,11 @@ static int oa_tc6_try_spi_transfer(struct oa_tc6 *tc6)
+ 
+ 		ret = oa_tc6_process_spi_data_rx_buf(tc6, spi_length);
+ 		if (ret) {
++			if (ret == -EAGAIN)
++				continue;
++
+ 			oa_tc6_cleanup_ongoing_tx_skb(tc6);
++			oa_tc6_cleanup_ongoing_rx_skb(tc6);
+ 			netdev_err(tc6->netdev, "Device error: %d\n", ret);
+ 			return ret;
+ 		}
+@@ -892,15 +1108,17 @@ static int oa_tc6_update_buffer_status_from_register(struct oa_tc6 *tc6)
+ 	u32 value;
+ 	int ret;
+ 
+-	/* Initially tx credits to be updated from the register as there is no
+-	 * data transfer performed yet. Later it will be updated from the rx
+-	 * footer.
++	/* Initially tx credits and rx chunks available to be updated from the
++	 * register as there is no data transfer performed yet. Later they will
++	 * be updated from the rx footer.
+ 	 */
+ 	ret = oa_tc6_read_register(tc6, OA_TC6_REG_BUFFER_STATUS, &value);
+ 	if (ret)
+ 		return ret;
+ 
+ 	tc6->tx_credits = FIELD_GET(BUFFER_STATUS_TX_CREDITS_AVAILABLE, value);
++	tc6->rx_chunks_available = FIELD_GET(BUFFER_STATUS_RX_CHUNKS_AVAILABLE,
++					     value);
+ 
+ 	return 0;
+ }
+@@ -1046,6 +1264,7 @@ void oa_tc6_exit(struct oa_tc6 *tc6)
+ 	oa_tc6_phy_exit(tc6);
+ 	kthread_stop(tc6->spi_thread);
+ 	dev_kfree_skb_any(tc6->tx_skb);
++	dev_kfree_skb_any(tc6->rx_skb);
+ 	skb_queue_purge(&tc6->tx_skb_q);
+ }
+ EXPORT_SYMBOL_GPL(oa_tc6_exit);
 -- 
 2.34.1
 
