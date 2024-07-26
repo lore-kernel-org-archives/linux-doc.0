@@ -1,152 +1,127 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8F617E445
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 16:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E130521364;
+	Fri, 26 Jul 2024 16:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722011880; cv=none; b=fCz24+pt/qZfTa7wkc2KBVKyXmOKE3uGN1x6ZoERm5RrMudYLrfu+eDO/vIFyUH2lg0o7bZYGngLXO/sePmzRsoEZ7UD49OKWVPFE8yyMP1tos/GuMM83NEb+eyeHoXcaTR3n70d3Rug18vR/D8QCs1tW0ICyTSZrk25gfMQMPg=
+	t=1722012627; cv=none; b=QaZA1Q+sXcHiIkjETmu1PFtTD0AREsRA8x1lh5bmQcZvHvD7V4z3okxcRoU42oUClB/4FzkOtMlYV/12ZEWMdr9MSoMp8XyUTJi7oqpY6yx+9Fc0558wtZS4e5Sd5GqarLqtUy2pgmf8yAEBxoZkf5U1pyS1W+zue/C4Al/NCEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722011880; c=relaxed/simple;
-	bh=wJlwKvHnHsmxr8ol1Mky5rqH/81g2E3nBO2+CHtrVdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hS3yCPvM5nY91B3hHywLrBY0ESA0PAKvRwvaXcp1aoVYI7CMZ1/Yp63t1k/5g2FeUhA31FFn4M5DvfsBAx/VV4sUsB/1UPsNkhxzhaPTenygYfjfiU/hSKh68VolcqGbEROX2RG4nZcoiG5hqnM0bFXQgIAmxHfiq8Bawkxc8QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=za7UJh5e; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1722012627; c=relaxed/simple;
+	bh=rqbgT/0iYp0SyvwyUNh8ElGIQ4w4+Dw0nQzyKcM25qM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SnOTxeirQujVoSg07E4jCHEjUzPwYknywmH3FrAGTCWBxaZM3hRq+ghL7qSeSYwh73H+D2v+07unSvRKIkIvAYH9ebRq7/6dUBiFdltEaEThl6JRLqc7rbO/u31OpeGeg1bVynky3KNlkzCoY/GEau8b6ck4T4WBGksSTQVu3ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=UcE/YCsU; arc=none smtp.client-ip=207.171.188.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="za7UJh5e"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7163489149eso906315a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 09:37:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="UcE/YCsU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722011878; x=1722616678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cCBQVSPRYPBIeQ5EoC+hl2LHpusqOR8yThszxhSpMg8=;
-        b=za7UJh5e5Y3eX4YWKOA56x87J3jAN9WbzToyvaj/bw1FEqzyYeHeZvN/dzpHSE1w0I
-         jKYTMSkl50oPUmpW9+oV4GVbgbtNJEgq0oWFI7Jy9k1tESFSwJ78f+NwTTlHwl9OaMTm
-         ZJh06JXzNdUYljZcsC1/Qc9Zxt953dIkQ32xbyR+sz/CHhqSS9oG9CMx4ruoeBLs9K99
-         m1hkrZ5QhwkM06FLGttWuPlfEP3KRszeul5xAVzeZQe6BbCODrCHa0CQSnMllGDmWHj7
-         lA5Qw3W9v1r41Tc9bOencUMeSWekDHc+8cG7MdTKoclxGWN4uaQ67nOHQasdInhKKFAa
-         KgsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722011878; x=1722616678;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cCBQVSPRYPBIeQ5EoC+hl2LHpusqOR8yThszxhSpMg8=;
-        b=eLvhYE7OPhqRNXbsQ5PWUNmJhmObNEQB/UQZzl1qHnhn8elcAgB0lA/o3sqhxqRkQ8
-         prL4TqjSIeslj5oMIFxTgTU0yvb2wHkCU9/VtCEvifT+YXgI5welRXZyxQ0bX2n7+wLR
-         Gw9RR4YE00De5S4lSGdkrNal6KAmJ51819HoJKkpnBSyiExp5JCZJbrBscrlQRDvOsUR
-         Y5ZELncBq3Lvb668iBuzZMktOPjjHmLe7cMPEXwZajqnrsf+phfUrFJCE6WRhFIPace+
-         pxWMej7lRLQaOeAYg9LEWCgsOYJ5m+E0MHLJ9BSWk0ERhDsoFxvh+PPsXY0efiVSVfV/
-         yZZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJaUZElttX6pL1OfUqmFoQlplO/yUWe77v7Pkhjn/THMTi892/qoxyMeLlJBQSHx7MTpzhYsdRCCGAff2TFKKT0F5IHHEXg6Ws
-X-Gm-Message-State: AOJu0Yzw8NPMAd778jNYzl5VJIdAbhtQ8RkKE6OHlWM+AxhTUZUKGmZj
-	5oJaLzIINQnj0h+TE27ED4nmLGKUpDkG0hDuCPjl9H0iyhXUpsJeccTZaSIsoAM=
-X-Google-Smtp-Source: AGHT+IEXYMNp7r6J/EYXhRPF4svQfnFw/pxaQt/HnMEC+56U/jYOIE7D/L1AibRAOg2CvPdeVu0dyA==
-X-Received: by 2002:a17:90a:d98b:b0:2bd:d42b:22dc with SMTP id 98e67ed59e1d1-2cf7e868df4mr14654a91.43.1722011877991;
-        Fri, 26 Jul 2024 09:37:57 -0700 (PDT)
-Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28c55a2dsm3676619a91.7.2024.07.26.09.37.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 09:37:57 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v7 8/8] RISC-V: hwprobe: Document unaligned vector perf key
-Date: Fri, 26 Jul 2024 12:37:19 -0400
-Message-ID: <20240726163719.1667923-9-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240726163719.1667923-1-jesse@rivosinc.com>
-References: <20240726163719.1667923-1-jesse@rivosinc.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1722012626; x=1753548626;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=LunzKZL6emWKetW1H3wwaEoDFwJcR/2MIjOK6DAsJmI=;
+  b=UcE/YCsUtQxG+zGIiJ4nVx+3okKvVaD9+wqpKFoLU4oiAeTg5N38wcMa
+   yv3F7aFbT194t+4YxNJ3/b5RxP/6MAAfXSmwQvl6tatqdRicbczDQl4cL
+   7gOqR2MavUNTEx3Bp+Pe0bfdM2GgS92jvg408XVkJkHxpmit9v5DYSomc
+   c=;
+X-IronPort-AV: E=Sophos;i="6.09,239,1716249600"; 
+   d="scan'208";a="744977504"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 16:50:19 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [10.0.10.100:41594]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.0.129:2525] with esmtp (Farcaster)
+ id dd7c83a3-7c90-419d-98f4-4e8089f8113d; Fri, 26 Jul 2024 16:50:18 +0000 (UTC)
+X-Farcaster-Flow-ID: dd7c83a3-7c90-419d-98f4-4e8089f8113d
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Fri, 26 Jul 2024 16:50:18 +0000
+Received: from [192.168.9.159] (10.106.83.8) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Fri, 26 Jul 2024
+ 16:50:17 +0000
+Message-ID: <4e5c2904-f628-4391-853e-37b7f0e132e8@amazon.com>
+Date: Fri, 26 Jul 2024 17:50:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 14/18] KVM: Add asynchronous userfaults,
+ KVM_READ_USERFAULT
+To: James Houghton <jthoughton@google.com>
+CC: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <shuah@kernel.org>, Peter Xu <peterx@redhat.org>, Axel Rasmussen
+	<axelrasmussen@google.com>, David Matlack <dmatlack@google.com>,
+	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>, <roypat@amazon.co.uk>, <kalyazin@amazon.com>,
+	"Paolo Bonzini" <pbonzini@redhat.com>
+References: <20240710234222.2333120-1-jthoughton@google.com>
+ <20240710234222.2333120-15-jthoughton@google.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
+ ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
+ abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
+In-Reply-To: <20240710234222.2333120-15-jthoughton@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D008EUC001.ant.amazon.com (10.252.51.165) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-Document key for reporting the speed of unaligned vector accesses.
-The descriptions are the same as the scalar equivalent values.
+Hi James,
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
----
-V1 -> V2:
-  - New patch
-V2 -> V3:
- - Specify access width
-V3 -> V4:
- - Clarify we're talking about byte accesses using vector registers
- - Spell out _VECTOR_ in macros
-V4 -> V5:
- - No changes
-V5 -> V6:
- - No changes
-V6 -> V7:
- - No changes
----
- Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+On 11/07/2024 00:42, James Houghton wrote:
+> It is possible that KVM wants to access a userfault-enabled GFN in a
+> path where it is difficult to return out to userspace with the fault
+> information. For these cases, add a mechanism for KVM to wait for a GFN
+> to not be userfault-enabled.
+In this patch series, an asynchronous notification mechanism is used 
+only in cases "where it is difficult to return out to userspace with the 
+fault information". However, we (AWS) have a use case where we would 
+like to be notified asynchronously about _all_ faults. Firecracker can 
+restore a VM from a memory snapshot where the guest memory is supplied 
+via a Userfaultfd by a process separate from the VMM itself [1]. While 
+it looks technically possible for the VMM process to handle exits via 
+forwarding the faults to the other process, that would require building 
+a complex userspace protocol on top and likely introduce extra latency 
+on the critical path. This also implies that a KVM API 
+(KVM_READ_USERFAULT) is not suitable, because KVM checks that the ioctls 
+are performed specifically by the VMM process [2]:
+	if (kvm->mm != current->mm || kvm->vm_dead)
+		return -EIO;
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 78acd37b6477..f83a13dc4cbc 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -238,3 +238,19 @@ The following keys are defined:
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_VECTOR_MISALIGNED_PERF`: An enum value describing the
-+     performance of misaligned vector accesses on the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_UNKNOWN`: The performance of misaligned
-+    vector accesses is unknown.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_SLOW`: 32-bit misaligned accesses using vector
-+    registers are slower than the equivalent quantity of byte accesses via vector registers.
-+    Misaligned accesses may be supported directly in hardware, or trapped and emulated by software.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_FAST`: 32-bit misaligned accesses using vector
-+    registers are faster than the equivalent quantity of byte accesses via vector registers.
-+
-+  * :c:macro:`RISCV_HWPROBE_VECTOR_MISALIGNED_UNSUPPORTED`: Misaligned vector accesses are
-+    not supported at all and will generate a misaligned address fault.
--- 
-2.45.2
+ > The implementation of this mechanism is certain to change before KVM
+ > Userfault could possibly be merged.
+How do you envision resolving faults in userspace? Copying the page in 
+(provided that userspace mapping of guest_memfd is supported [3]) and 
+clearing the KVM_MEMORY_ATTRIBUTE_USERFAULT alone do not look 
+sufficient to resolve the fault because an attempt to copy the page 
+directly in userspace will trigger a fault on its own and may lead to a 
+deadlock in the case where the original fault was caused by the VMM. An 
+interface similar to UFFDIO_COPY is needed that would allocate a page, 
+copy the content in and update page tables.
 
+[1] Firecracker snapshot restore via UserfaultFD: 
+https://github.com/firecracker-microvm/firecracker/blob/main/docs/snapshotting/handling-page-faults-on-snapshot-resume.md
+[2] KVM ioctl check for the address space: 
+https://elixir.bootlin.com/linux/v6.10.1/source/virt/kvm/kvm_main.c#L5083
+[3] mmap() of guest_memfd: 
+https://lore.kernel.org/kvm/489d1494-626c-40d9-89ec-4afc4cd0624b@redhat.com/T/#mc944a6fdcd20a35f654c2be99f9c91a117c1bed4
+
+Thanks,
+Nikita
