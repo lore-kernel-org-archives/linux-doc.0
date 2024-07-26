@@ -1,159 +1,221 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CAB17C7AD
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 15:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374A117578;
+	Fri, 26 Jul 2024 15:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722007226; cv=none; b=ti5Ka2/HJcc28LMuCoI1mqGcsUbKqvUFp608JwAkPvrr8/nyUPR1oI80836E6YmLaEqpaHmes32B6e1izIEs9N1NNv30usQTxR/sK/NUEZmn7biEuM2SKRC9IfAk7g/evJG25OCxPN2TfQsyNJxwSr2hJxfP0esTJ+MOzfPDs1s=
+	t=1722007826; cv=none; b=nbugk25hRO1oNPFMeE/02q0qSR2qZZS3J/+U3Nw3P9y0V/X80IKqUnevsfrodYVYvmlmJH97lpCv3fecOWWksGZ5YgCOTB2WmV4C8OycU00na84UFyEdLyNEuHVgRdkxjUsg/+wov8uwLcROtFnP4Upd44S9EFjw9XUQ92HtSAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722007226; c=relaxed/simple;
-	bh=vwmvKtPfH1OZGf0desLUiv2Tu0n4XwyP9Scpfrh8bP0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Da+AI8iw2RcIaF6a4q1ZrHK53lUmCmp3dcwA5sPgHWyv6ueEJBZhZzlmbPDeSakaHKM8OmRAhm0g3d3fu7hHpJVuXI7lT7zM36NHvffmiUzvivI+LAAg4DXuq9aUgcD6ky+BYIjtfqKg5gDT6VmVsJEU/dpWpSQI7VzVajmeIGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fJvHhSyy; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fJvHhSyy"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-368313809a4so2021949f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 08:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722007221; x=1722612021; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9dzsJ9iB0hH5md8Nzs0G0tuxRWMTqVPegq3Gul+A4rA=;
-        b=fJvHhSyymokX4kVMfIGNAmqSx15eTTPRgSjtF1pXSYKepKgNu5W6NLPK7WpO97p+nH
-         dWAMRn3Su148I2A0GdkcOxlLfYQIis6cTdMOhyRi8KtDqXUaPGHGh8J0bULClmxN2VPb
-         tqWAfUR+IjaSEdmK0HLVwepQ2uUMqk9WV2fIvR0zEaJHIW34xxwQkE64L5lasQwOh8Xu
-         nTg+iQ5bpvACDIdxDJKCjv7eRK5orrZnzFWG6xgA2KtuWU4rS2Om62eW0cKw4bRquEi+
-         EQyC33kUpm1kkNZZcUVkjaEtAikrduJOdaVegs41o8ems79KnZ+7yIj/alBVPqSyC/iM
-         CvDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722007221; x=1722612021;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9dzsJ9iB0hH5md8Nzs0G0tuxRWMTqVPegq3Gul+A4rA=;
-        b=ddmqJzW4qUp0eMf5DhYmsxDn9ZUwVe/FoDKhnJIOf+nGVervjTgfOjxtY57YGTVLgK
-         Vvn5oQeQ8Ar8EHcAFr11P2JK+ruw6QgOHmNP/v3Ubw0KX1pSucQyKHUatje3qsGggok1
-         HBleayFzy5CwURyW6MkNzm54urInn/7awBO6UrnM5lywwdTnpRSTpAROZGTuqbN3EOYj
-         z1yeYJilTBv8wUI+a9YtZri1tocEEpzQcBMD/lJSmJMTbtpPl8yT0Ze7g4nnUjswr5av
-         kz0Ubh2fuPdASnbw5lfvHX+5cypKnNF76/PxNyausxMD/EnmGqKslE1rqg8gS1dPP7BX
-         lU9g==
-X-Forwarded-Encrypted: i=1; AJvYcCUU/FvD8xyZqN2e13KGH9eVqupIOLf8WCbEQw3r0xG1hNmJeWR1uQSMYIVok05OYaWK03XGM7c0+n41QL2kWCNEo4V5Ejip5/O2
-X-Gm-Message-State: AOJu0Ywrx0R/nsFxiLuDqnqBgAPOhrKkrkrT53B5kUYtZ0BAeQQzRcmr
-	QGt7zKsIxgCCiIF1i8lbf1G/r4N506db/VZ/v1kSV3xKHiHp37I2aEuekmoreW0=
-X-Google-Smtp-Source: AGHT+IGlXziwV/XhtFvsHXBEHTPeo4ceiW87/bQtyJS1ukSEqXFHxPmP8jH1Bt4CUR1+RaWMFGuD7Q==
-X-Received: by 2002:adf:fc02:0:b0:366:dee6:a9ea with SMTP id ffacd0b85a97d-369f6706b4fmr6564593f8f.26.1722007221560;
-        Fri, 26 Jul 2024 08:20:21 -0700 (PDT)
-Received: from [192.168.1.61] (2a02-842a-d52e-6101-6f8f-5617-c4b6-8627.rev.sfr.net. [2a02:842a:d52e:6101:6f8f:5617:c4b6:8627])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367c0338sm5500985f8f.1.2024.07.26.08.20.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 08:20:21 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 26 Jul 2024 17:20:10 +0200
-Subject: [PATCH 5/5] docs: iio: ad7380: add support for single-ended parts
+	s=arc-20240116; t=1722007826; c=relaxed/simple;
+	bh=2p6LBTrbD1s+nNSVnx31yRof9qHlQhhsoyYMBjGs0wY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ssefK/laIwQNJ6J6OZTVOAbjQf/NhF19CVkz4Ev+uQQ7s5z/Aw5urnkbMiX1i3kcQmWEJr74NEGDxahSQSXywT3L8F5JhVo1dgm+62iye5OCkkj2Ey/5Ov8KYtQJzKf3oWOSqhU2QaCs1tqszxsSv5hAnMJ5HwjbwgxPDbckHzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVs8z2bTBz67CtB;
+	Fri, 26 Jul 2024 23:28:35 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 99CA6140C72;
+	Fri, 26 Jul 2024 23:30:19 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
+ 2024 16:30:10 +0100
+Date: Fri, 26 Jul 2024 16:30:09 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
+ Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v2 5/8] fwctl: FWCTL_RPC to execute a Remote Procedure
+ Call to device firmware
+Message-ID: <20240726163009.00005d1c@Huawei.com>
+In-Reply-To: <5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+	<5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240726-ad7380-add-single-ended-chips-v1-5-2d628b60ccd1@baylibre.com>
-References: <20240726-ad7380-add-single-ended-chips-v1-0-2d628b60ccd1@baylibre.com>
-In-Reply-To: <20240726-ad7380-add-single-ended-chips-v1-0-2d628b60ccd1@baylibre.com>
-To: Michael Hennerich <michael.hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.13.0
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-The AD7380 family has some compatible single-ended chips: AD7386/7/8(-4).
-These single-ended chips have a  2:1 multiplexer in front of each ADC.
-They also include additional configuration registers that allow for either
-manual selection or automatic switching (sequencer mode), of the
-multiplexer inputs. Add a section to describe this.
+On Mon, 24 Jun 2024 19:47:29 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+> Add the FWCTL_RPC ioctl which allows a request/response RPC call to device
+> firmware. Drivers implementing this call must follow the security
+> guidelines under Documentation/userspace-api/fwctl.rst
+> 
+> The core code provides some memory management helpers to get the messages
+> copied from and back to userspace. The driver is responsible for
+> allocating the output message memory and delivering the message to the
+> device.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+A few minor things inline.
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index 061cd632b5df..81dfa39519fb 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -17,10 +17,16 @@ The following chips are supported by this driver:
- * `AD7381 <https://www.analog.com/en/products/ad7381.html>`_
- * `AD7383 <https://www.analog.com/en/products/ad7383.html>`_
- * `AD7384 <https://www.analog.com/en/products/ad7384.html>`_
-+* `AD7386 <https://www.analog.com/en/products/ad7386.html>`_
-+* `AD7387 <https://www.analog.com/en/products/ad7387.html>`_
-+* `AD7388 <https://www.analog.com/en/products/ad7388.html>`_
- * `AD7380-4 <https://www.analog.com/en/products/ad7380-4.html>`_
- * `AD7381-4 <https://www.analog.com/en/products/ad7381-4.html>`_
- * `AD7383-4 <https://www.analog.com/en/products/ad7383-4.html>`_
- * `AD7384-4 <https://www.analog.com/en/products/ad7384-4.html>`_
-+* `AD7386-4 <https://www.analog.com/en/products/ad7386-4.html>`_
-+* `AD7387-4 <https://www.analog.com/en/products/ad7387-4.html>`_
-+* `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
- 
- 
- Supported features
-@@ -69,6 +75,42 @@ must restart iiod using the following command:
- 
- 	root:~# systemctl restart iiod
- 
-+Channel selection and sequencer (single-end chips only)
-+-------------------------------------------------------
-+
-+Single-ended chips of this family (ad7386/7/8(-4)) have a 2:1 multiplexer in
-+front of each ADC. They also include additional configuration registers that
-+allow for either manual selection or automatic switching (sequencer mode),of the
-+multiplexer inputs.
-+
-+From an IIO point of view, all inputs are exported, i.e ad7386/7/8
-+export 4 channels and ad7386-4/7-4/8-4 export 8 channels.
-+
-+Inputs ``AinX0`` of multiplexers correspond to the first half of IIO channels (i.e
-+0-1 or 0-3) and inputs ``AinX1`` correspond to second half (i.e 2-3 or 4-7).
-+Example for AD7386/7/8 (2 channels parts):
-+
-+.. code-block::
-+
-+	   IIO   | AD7386/7/8
-+	         |         +----------------------------
-+	         |         |     _____        ______
-+	         |         |    |     |      |      |
-+	voltage0 | AinA0 --|--->|     |      |      |
-+	         |         |    | mux |----->| ADCA |---
-+	voltage2 | AinA1 --|--->|     |      |      |
-+	         |         |    |_____|      |_____ |
-+	         |         |     _____        ______
-+	         |         |    |     |      |      |
-+	voltage1 | AinB0 --|--->|     |      |      |
-+	         |         |    | mux |----->| ADCB |---
-+	voltage3 | AinB1 --|--->|     |      |      |
-+	         |         |    |_____|      |______|
-+	         |         |
-+	         |         +----------------------------
-+
-+
-+When enabling sequencer mode, the effective sampling rate is divided by two.
- 
- Unimplemented features
- ----------------------
+> ---
+>  drivers/fwctl/main.c       | 62 +++++++++++++++++++++++++++++++++++
+>  include/linux/fwctl.h      |  5 +++
+>  include/uapi/fwctl/fwctl.h | 66 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 133 insertions(+)
+> 
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> index f1dec0b590aee4..9506b993a1a56d 100644
+> --- a/drivers/fwctl/main.c
+> +++ b/drivers/fwctl/main.c
+> @@ -8,16 +8,20 @@
+>  #include <linux/slab.h>
+>  #include <linux/container_of.h>
+>  #include <linux/fs.h>
+> +#include <linux/sizes.h>
+>  
+>  #include <uapi/fwctl/fwctl.h>
+>  
+>  enum {
+>  	FWCTL_MAX_DEVICES = 256,
+> +	MAX_RPC_LEN = SZ_2M,
+>  };
 
--- 
-2.45.1
+In what way is that usefully handled as an enum?
+I'd just use #defines
+
+>  static dev_t fwctl_dev;
+>  static DEFINE_IDA(fwctl_ida);
+> +static unsigned long fwctl_tainted;
+>  
+>  DEFINE_FREE(kfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T));
+> +DEFINE_FREE(kvfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kvfree(_T));
+kvfree define free already defined as this since 6.9
+
+
+>  
+>  struct fwctl_ucmd {
+>  	struct fwctl_uctx *uctx;
+> @@ -75,9 +79,66 @@ static int fwctl_cmd_info(struct fwctl_ucmd *ucmd)
+>  	return ucmd_respond(ucmd, sizeof(*cmd));
+>  }
+>  
+> +static int fwctl_cmd_rpc(struct fwctl_ucmd *ucmd)
+> +{
+> +	struct fwctl_device *fwctl = ucmd->uctx->fwctl;
+> +	struct fwctl_rpc *cmd = ucmd->cmd;
+> +	size_t out_len;
+> +
+> +	if (cmd->in_len > MAX_RPC_LEN || cmd->out_len > MAX_RPC_LEN)
+> +		return -EMSGSIZE;
+> +
+> +	switch (cmd->scope) {
+> +	case FWCTL_RPC_CONFIGURATION:
+> +	case FWCTL_RPC_DEBUG_READ_ONLY:
+> +		break;
+> +
+> +	case FWCTL_RPC_DEBUG_WRITE_FULL:
+> +		if (!capable(CAP_SYS_RAWIO))
+> +			return -EPERM;
+> +		fallthrough;
+> +	case FWCTL_RPC_DEBUG_WRITE:
+> +		if (!test_and_set_bit(0, &fwctl_tainted)) {
+> +			dev_warn(
+> +				&fwctl->dev,
+> +				"%s(%d): has requested full access to the physical device device",
+> +				current->comm, task_pid_nr(current));
+> +			add_taint(TAINT_FWCTL, LOCKDEP_STILL_OK);
+> +		}
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	};
+> +
+> +	void *inbuf __free(kvfree) =
+> +		kvzalloc(cmd->in_len, GFP_KERNEL | GFP_KERNEL_ACCOUNT);
+
+As before
+#define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
+so don't need both.
+
+> +	if (!inbuf)
+> +		return -ENOMEM;
+> +	if (copy_from_user(inbuf, u64_to_user_ptr(cmd->in), cmd->in_len))
+> +		return -EFAULT;
+> +
+> +	out_len = cmd->out_len;
+> +	void *outbuf __free(kvfree_errptr) = fwctl->ops->fw_rpc(
+
+> +		ucmd->uctx, cmd->scope, inbuf, cmd->in_len, &out_len);
+> +	if (IS_ERR(outbuf))
+> +		return PTR_ERR(outbuf);
+> +	if (outbuf == inbuf) {
+> +		/* The driver can re-use inbuf as outbuf */
+> +		inbuf = NULL;
+I wish no_free_ptr() didn't have __must_check. Can do something ugly
+like
+		outbuf = no_free_ptr(inbuf);
+probably but maybe just setting it NULL is simpler.
+
+> +	}
+> +
+> +	if (copy_to_user(u64_to_user_ptr(cmd->out), outbuf,
+> +			 min(cmd->out_len, out_len)))
+> +		return -EFAULT;
+> +
+> +	cmd->out_len = out_len;
+> +	return ucmd_respond(ucmd, sizeof(*cmd));
+> +}
+
+> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
+> index 39db9f09f8068e..8bde0d4416fd55 100644
+> --- a/include/uapi/fwctl/fwctl.h
+> +++ b/include/uapi/fwctl/fwctl.h
+> @@ -67,4 +67,70 @@ struct fwctl_info {
+>  };
+>  #define FWCTL_INFO _IO(FWCTL_TYPE, FWCTL_CMD_INFO)
+>  
+> +/**
+> + * enum fwctl_rpc_scope - Scope of access for the RPC
+> + */
+> +enum fwctl_rpc_scope {
+...
+
+> +	/**
+> +	 * @FWCTL_RPC_DEBUG_READ_ONLY: Read only access to debug information
+> +	 *
+> +	 * Readable debug information. Debug information is compatible with
+> +	 * kernel lockdown, and does not disclose any sensitive information. For
+> +	 * instance exposing any encryption secrets from this information is
+> +	 * forbidden.
+> +	 */
+> +	FWCTL_RPC_DEBUG_READ_ONLY = 1,
+> +	/**
+> +	 * @FWCTL_RPC_DEBUG_WRITE: Writable access to lockdown compatible debug information
+
+Write access
+probably rather than writeable.
+
+> +	 *
+> +	 * Allows write access to data in the device which may leave a fully
+> +	 * supported state. This is intended to permit intensive and possibly
+> +	 * invasive debugging. This scope will taint the kernel.
+> +	 */
+
+
+> +};
+
 
