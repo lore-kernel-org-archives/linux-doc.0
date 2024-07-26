@@ -1,105 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4920ED8;
-	Fri, 26 Jul 2024 01:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7E236D;
+	Fri, 26 Jul 2024 01:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721956878; cv=none; b=GJUl/ofntQ4cTtLNY+nkSxBGE30uKm5kWdx2LZWgcGyo4HTz6D5+Xa/xccBGh+6VDkXA+sVNH0gd16ggjo4HIZx0480qACqFEqTxYfB0v0ISfcrchr9N1GXzrg9PLOtpal+5Nn3HNjBzKBQk5v5sd6KU+ZX8MKiPWINkchEnlLE=
+	t=1721957813; cv=none; b=cYJgFTleEqr0Q3rWsAXstXV0R+9i0gZrPCZb076HoREhpVf9SYsAUad5mlbDctnjuCXP4kdgy12JO6PHp5aYnJJXO0SA1Py2QqHYp/1gAI0cNx10kLl0nQLUrRl0467Yw9cPB+L6gCoeerkQF9BIx4YB/Wd9oRLF+5UrvgB4JTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721956878; c=relaxed/simple;
-	bh=flPzlvlz7DN9JhwlSkJl0NM787fbfSfCMC2TYm0H5Dg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=o9R8Jm4XRmktq7k39QGKnNuwzFwhshEpY1g/wkyTWxj3yUiLODRRGFETxNnInq081rtbBUEKsezNd/Zl95AUa77Y0oZMb4Ysaek4ZJ6Q1oY7S4EAUDmeEmypVe7LK6ZxkpYa/P2iPh3bc7Rgzrophwq/pCznSqUfr1DCibCnT3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iciomw1g; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iciomw1g"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2F187C4AF07;
-	Fri, 26 Jul 2024 01:21:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721956878;
-	bh=flPzlvlz7DN9JhwlSkJl0NM787fbfSfCMC2TYm0H5Dg=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=iciomw1gvfse2OEyXdczIQoW5EmOZtSYo+UbZI3NXHO/QaobUmUgwS4QCF6aYEnOz
-	 5JhXWyRauzw5sOhYFzbIUuPvXM6tDQRYcORJALTPbsRuiI+lZwtVriJVjpUjq2XyCT
-	 YqQ2QDBIhw3bsCpaqDsU/Sad1BDleKg1rGcmxPxQO5qh1TV5h5BO780eQX8IGXIp3a
-	 0FS5Xx3gkuHX1ayL7BrNUtg0G30+QftNv2XAknOVgF/DAXX95GYOlqfoq4ER/uTFw+
-	 GNgM+ZM90fqld4ebGoof2ZR81QgJzuzMsxC0v4TCykzk3LSXYiO3Ga+JcKJ/EQ3YIf
-	 XDZ5Qn7KG46Kw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B91BC3DA64;
-	Fri, 26 Jul 2024 01:21:18 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
-Date: Fri, 26 Jul 2024 09:21:14 +0800
-Subject: [PATCH] hwmon: document: fix typo in oxp-sensors
+	s=arc-20240116; t=1721957813; c=relaxed/simple;
+	bh=Dt8GeyTHB0Gd2wAoEHAkZWzMmKfjvqv+qcJa/zmfBx8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X0YTokQ9gBXwckuNBSpHp8L/bvO3PACfZgSdwLj/4RmLwIWTGA0zWd8EwPxZ7keRL6CKabtg7kwvFsXmiIHiE0wbNxW369NnNH46vQPxZ4VrmksBIvsf4c1XjJ+Cex8KmfkC62dIkn+Gqmmath2LqeRQVbqF8NvY7pKFS1XI9tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrADXfxSZ_aJm+w5TAA--.27671S2;
+	Fri, 26 Jul 2024 09:36:25 +0800 (CST)
+Received: from [10.12.168.59] (unknown [10.12.168.59])
+	by gateway (Coremail) with SMTP id _____wAnJ3mW_aJmNApyAA--.5651S2;
+	Fri, 26 Jul 2024 09:36:24 +0800 (CST)
+Message-ID: <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
+Date: Fri, 26 Jul 2024 09:36:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240726-typo-v1-1-3ca3f07f93e9@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAn6omYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDcyMz3ZLKgnxdM0OzpCTzlCSDNDMLJaDSgqLUtMwKsDHRsbW1ADphpSF
- WAAAA
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, trivial@kernel.org, 
- Cryolitia PukNgae <Cryolitia@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=819; i=Cryolitia@gmail.com;
- h=from:subject:message-id;
- bh=RoowNEKAO63y2ZFmj969A6C2D0ZaS9bvHWQpvSGXH5I=;
- b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFHUy9wQU5Bd0FJQVQ1ZEYzTDhpb
- zdkQWNzbVlnQm1vdm9MQ1hCbk5xMU9hRFU5c3pTVlNaWGhFbmFBCkdiN3l5aXRkdkpHbVJhRkJ4
- eWVKQVRNRUFBRUlBQjBXSVFSME5XMHB5dmR3U0JGOENDWStYUmR5L0lxTzNRVUMKWnFMNkN3QUt
- DUkErWFJkeS9JcU8zU2puQi8wUlZHUElLSXd2bWZpUzJzblBHWmp1NFFyMmQrUmhDZnZ6R1ppZg
- pJbzNPS2RWZlI2M2JmQlNlVGU1SG9KR2NweDhaWlRNb3JTT1NWU2NuWXdzbkNlcy85bVhmRFNhQ
- mlWMXFVMy9hCml4TG5Tc3loaEpKL0dXUWxKZU9iOUZHNlFtd3AreU04OFRrR0JVZ1FsRlFiVjlF
- cWh3bTVubFFBckxRaUFoZTEKM2RRWjlqRnIrcW5LbnY2Nm8vcURSUjByNHVraThmR01CQnNadVZ
- NS09mMmNvVk5WaW5FZE1LR3ZuWWdtaHk1QQp3OE0rWkM4bjZLVjMrSkRFL0JERm4xbFk5L1U0Sn
- gxMFV5c1RXa1BIK3JQTWhjN0xRWXVGV0l4MkI1cWN4WTlHCkpaeXhzNGFOOHBJb0I0dUVCRjF5d
- mdLUU93ZXZUNXdOUDJlRDRnQ2VjMHJ4WCtIWAo9RU16UgotLS0tLUVORCBQR1AgTUVTU0FHRS0t
- LS0tCg==
-X-Developer-Key: i=Cryolitia@gmail.com; a=openpgp;
- fpr=1C3C6547538D7152310C0EEA84DD0C0130A54DF7
-X-Endpoint-Received: by B4 Relay for Cryolitia@gmail.com/default with
- auth_id=186
-X-Original-From: Cryolitia PukNgae <Cryolitia@gmail.com>
-Reply-To: Cryolitia@gmail.com
+X-CM-TRANSID:HwEQrADXfxSZ_aJm+w5TAA--.27671S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr4rJF4DJr1DZF1kGF13twb_yoW8GrWxpa
+	yfuFyI9rn0gr17K3yjgw40krW8AFZ7Xr4UG3W8Ja1FqrsI9F9IqrWagw1rXFyUZFWrAFW2
+	vF48Za4Fv3WDAaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
+	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0EksPUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-From: Cryolitia PukNgae <Cryolitia@gmail.com>
 
-RMP -> RPM
+On 2024/7/26 01:46, Haoyang Liu wrote:
+> The KTSAN doc has moved to
+> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+> Update the url in kcsan.rst accordingly.
+>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
 
----
-Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
----
- Documentation/hwmon/oxp-sensors.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Although the old link is still accessible, I agree to use the newer one.
 
-diff --git a/Documentation/hwmon/oxp-sensors.rst b/Documentation/hwmon/oxp-sensors.rst
-index 55b1ef61625e..50618f064379 100644
---- a/Documentation/hwmon/oxp-sensors.rst
-+++ b/Documentation/hwmon/oxp-sensors.rst
-@@ -52,7 +52,7 @@ Sysfs entries
- The following attributes are supported:
- 
- fan1_input
--  Read Only. Reads current fan RMP.
-+  Read Only. Reads current fan RPM.
- 
- pwm1_enable
-   Read Write. Enable manual fan control. Write "1" to set to manual, write "0"
+If this patch is merged, you need to change your Chinese version to 
+catch up.
 
----
-base-commit: 73f3c33036904bada1b9b6476a883b1a966440cc
-change-id: 20240726-typo-616bb7db0f68
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-Best regards,
--- 
-Cryolitia PukNgae <Cryolitia@gmail.com>
-
+> ---
+>   Documentation/dev-tools/kcsan.rst | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+> index 02143f060b22..d81c42d1063e 100644
+> --- a/Documentation/dev-tools/kcsan.rst
+> +++ b/Documentation/dev-tools/kcsan.rst
+> @@ -361,7 +361,8 @@ Alternatives Considered
+>   -----------------------
+>   
+>   An alternative data race detection approach for the kernel can be found in the
+> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
+> +`Kernel Thread Sanitizer (KTSAN)
+> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
+>   KTSAN is a happens-before data race detector, which explicitly establishes the
+>   happens-before order between memory operations, which can then be used to
+>   determine data races as defined in `Data Races`_.
 
