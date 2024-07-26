@@ -1,113 +1,113 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F142C6B6
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 08:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7E92E64B;
+	Fri, 26 Jul 2024 08:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721983134; cv=none; b=kgpHnwOWZkM+Tu7DxqUUrQ6FUrBBV7BvMfz6wc5057MIaPfmPUmbLt1gvZiW/QJ10eUte2brHDo23spVu4+h1BMvzBKYEMO8nmH0Z8z45mggARf9MEKfZZ20msX89lobT3G9ukXKq1ZXR77OrZuIJU69X/0MQh4oIoU454bfgpc=
+	t=1721983517; cv=none; b=sCzK+o0+dbrSfJeILzcyWLJBZr/h5ovzIoA9CjlPXoa5IIvFh5I5St0sZqmrQIds4Muc5mqw9SgKSpB9VwgH1oHzms0Fuj9hjtqxB1xwD0PPEO2DwqaKcq2SwTn3E+7eQnG9Waml5T8XbITi+xHCOpPcrXIAwKidiXmeShXmcy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721983134; c=relaxed/simple;
-	bh=7AC3Io4Kt9BTDyWoNjxZ+pYRus05WYj+r0HbJ1+e7Zw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uX5yE2y/57PRDgZ2HvizIz511Acz5CVgnv91UVfxLHkTrluIxsT5TB61zqDMWmF76KVXTf2UXAa5vhhhdfGDmcsGmABfkLb3LKeXE3HqjMW8Hf1YA/SIx9FXGMKgjkinKgizeWlVlXE0G9vfmxChYOxMOrR6FCwYdo0JhV1mN6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mvlqX+CE; arc=none smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mvlqX+CE"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-825809a4decso168099241.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 01:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721983131; x=1722587931; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pZJmKdKLNSWaXA2BcuG9HwA3qZIS9BmYVk7uzNf6lpA=;
-        b=mvlqX+CE4gPt00k5v6io3IPnVrE6ynGSLvwS2EHjdbqBaD4ew0NckHg3eNr8zGOUa4
-         osHTRK+eh4/64ZX8iH2f5/9bJ+Xg+Ep/OEkO2YJMU/Hhe1iuMKZJMGWUjZ0LIr9XTjSE
-         mEdDopw3uyegMVPzlhAfum+QMV1G4mz9ujMgPY2mLx5ZMlE2i/ocgRT/bsXjCAX+23w8
-         CnsJbPeRuKFMMJM8qs4qTz0PdEyMWQj+b6djfQnSDTyY4JzXOmZQlP1TwhwAR+v/O/x9
-         x/k66iEY4fxC1BO/ogLsvriSDLnDhnyzOLAjveszcE18sjz4x+YmCDOEYgK29WO/75FJ
-         jg6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721983131; x=1722587931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pZJmKdKLNSWaXA2BcuG9HwA3qZIS9BmYVk7uzNf6lpA=;
-        b=dFa2MfmKjaUrrTe4h0Gk4+t07ZoQntc1kQ97kohdGCwYq5R9H78Q8KtbwPP7EtQfaJ
-         r4yNoIw49ctCCx27SC7w8LyMrMTpmWoCs06IhA3WzC69rFfoA1Ki5AelkYNjDdHC2Sjb
-         31IUtUgnyLP9fbykBLzxeGw3j1xabDfD7irAOrJBbYV3p2fHkWbn9wv98uPoclpPbSFU
-         nPGZ9ISBk1/Xfz9RuhPCZtD0D1/hi3qLyz6tOzIkw1tpYzF2Q5w+afjBFMesaRGSp6iw
-         4lyxDGkf4vaOe9iW/KLExb1KBnzdc6MPsaJCGAqo/TMJEwYDhFTb9IXPwSbPj4yYxAkA
-         GXzA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5+i+HMLrOnbhOTor16xszKhNoecGrrCm1y6lid98b2K7Z4X9BtM0b7Q+xm4rSsFp4X8+TdBNgv4XLFVr5hALzuLiI6MypEV3+
-X-Gm-Message-State: AOJu0YyIppfnkWP7hTxNnHJrWrHS8Fsfd+KTkfLmDfkY2tdXo7VEVL0s
-	ZtGjAZti/HGiMl5Et427C9/7wOeZKLNkYzb25J+o5h8P6Ts5MHNynJeSHmdTYE800sxQRT703Zz
-	rqINUOg3vIsSVZvjSHvmRLwhjuGVOd6uV9Yjt
-X-Google-Smtp-Source: AGHT+IF8iWTh7DzXW7vu2uBQSe7BEb4YfC0rN9WlsW4xPwpj1weMX+fzAgT4q3Nh4F140wvi8BfU2ZkkeRutUx+hgVg=
-X-Received: by 2002:a05:6102:3350:b0:48f:dfb3:f26a with SMTP id
- ada2fe7eead31-493d64737f9mr6876725137.15.1721983131330; Fri, 26 Jul 2024
- 01:38:51 -0700 (PDT)
+	s=arc-20240116; t=1721983517; c=relaxed/simple;
+	bh=u9BrJxc04mZK3G3ncToJZjpU9o3nT694f4gHbI3vLps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TUH89kl1RdJBhNg+jvsn7L4OpiI7BJuEv6Mag9tXwiFP/1Kq/vOFmqmaPZOvK0L3GXkAQu1qLblXy+xYAImS1lhfBiTmmTrAqIv7TdWjGhxczmDflF5VnVa7mfPHtN4dlc+Me78tvLM3gNvY+HnaYZ7EB+6UUnWN6hTklYMTlj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrACX92wAYqNmsjUCAg--.25306S2;
+	Fri, 26 Jul 2024 16:44:48 +0800 (CST)
+Received: from [10.12.164.29] (unknown [10.12.164.29])
+	by gateway (Coremail) with SMTP id _____wDn0Nb9YaNmiJMFAA--.5993S2;
+	Fri, 26 Jul 2024 16:44:47 +0800 (CST)
+Message-ID: <221f644f-c085-4873-93e2-4918375b1747@hust.edu.cn>
+Date: Fri, 26 Jul 2024 16:44:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn> <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
-In-Reply-To: <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
-From: Marco Elver <elver@google.com>
-Date: Fri, 26 Jul 2024 10:38:13 +0200
-Message-ID: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, hust-os-kernel-patches@googlegroups.com, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Marco Elver <elver@google.com>
+Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>,
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+ <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
+ <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+Content-Language: en-US
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HgEQrACX92wAYqNmsjUCAg--.25306S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1kGFWrWFWfAry3uF45Jrb_yoW8Zw1xpa
+	yfuFyIkr4ktr17K3yIgw10yFW0yFZxtr1Ut3WUG3WFvrsIvFnaqrW29w4FgFyUZrWrCFW2
+	vF1jva4Fv3W5AaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0EksPUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
->
->
-> On 2024/7/26 01:46, Haoyang Liu wrote:
-> > The KTSAN doc has moved to
-> > https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
-> > Update the url in kcsan.rst accordingly.
-> >
-> > Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->
-> Although the old link is still accessible, I agree to use the newer one.
->
-> If this patch is merged, you need to change your Chinese version to
-> catch up.
->
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->
-> > ---
-> >   Documentation/dev-tools/kcsan.rst | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-> > index 02143f060b22..d81c42d1063e 100644
-> > --- a/Documentation/dev-tools/kcsan.rst
-> > +++ b/Documentation/dev-tools/kcsan.rst
-> > @@ -361,7 +361,8 @@ Alternatives Considered
-> >   -----------------------
-> >
-> >   An alternative data race detection approach for the kernel can be found in the
-> > -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
-> > +`Kernel Thread Sanitizer (KTSAN)
-> > +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
-> >   KTSAN is a happens-before data race detector, which explicitly establishes the
-> >   happens-before order between memory operations, which can then be used to
-> >   determine data races as defined in `Data Races`_.
 
-Acked-by: Marco Elver <elver@google.com>
+On 7/26/24 16:38, Marco Elver wrote:
+> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
+>>
+>> On 2024/7/26 01:46, Haoyang Liu wrote:
+>>> The KTSAN doc has moved to
+>>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+>>> Update the url in kcsan.rst accordingly.
+>>>
+>>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>> Although the old link is still accessible, I agree to use the newer one.
+>>
+>> If this patch is merged, you need to change your Chinese version to
+>> catch up.
+>>
+>> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>>
+>>> ---
+>>>    Documentation/dev-tools/kcsan.rst | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+>>> index 02143f060b22..d81c42d1063e 100644
+>>> --- a/Documentation/dev-tools/kcsan.rst
+>>> +++ b/Documentation/dev-tools/kcsan.rst
+>>> @@ -361,7 +361,8 @@ Alternatives Considered
+>>>    -----------------------
+>>>
+>>>    An alternative data race detection approach for the kernel can be found in the
+>>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
+>>> +`Kernel Thread Sanitizer (KTSAN)
+>>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
+>>>    KTSAN is a happens-before data race detector, which explicitly establishes the
+>>>    happens-before order between memory operations, which can then be used to
+>>>    determine data races as defined in `Data Races`_.
+> Acked-by: Marco Elver <elver@google.com>
+>
+> Do you have a tree to take your other patch ("docs/zh_CN: Add
+> dev-tools/kcsan Chinese translation") through? If so, I would suggest
 
-Do you have a tree to take your other patch ("docs/zh_CN: Add
-dev-tools/kcsan Chinese translation") through? If so, I would suggest
-that you ask that maintainer to take both patches, this and the
-Chinese translation patch. (Otherwise, I will queue this patch to be
-remembered but it'll be a while until it reaches mainline.)
+Thanks Marco.
+
+That patch will be merged to lwn tree maintained by Jon if all issues 
+are resolved.
+
+> that you ask that maintainer to take both patches, this and the
+> Chinese translation patch. (Otherwise, I will queue this patch to be
+> remembered but it'll be a while until it reaches mainline.)
+
