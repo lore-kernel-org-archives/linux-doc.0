@@ -1,165 +1,122 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFD921364;
-	Fri, 26 Jul 2024 19:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D481F5E6;
+	Fri, 26 Jul 2024 20:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722023611; cv=none; b=N6A+xs3wNYTliGGglmXrBdG5xfHQi7BfCnN/0ekA3W7+gI7sg/zOH6hreIn86LxIrnXtigV2rTcw7KnxpDI9vr3PclOif3A0zzCCRXzrp6yNcclKyk00E48+SyeD9Ab4ZLLoMfcWOH38DCpnHKPhkiVyGcATt39y3E4ACLR3wOU=
+	t=1722024301; cv=none; b=Kq/H0O/SSijiooJVkom0Dww2i7aPnYIYLM88smAlq9S/i4maNh5zAvk1b1/M0PfxL4ev0Ruy7P9VUpG5/yn7lPIEq9Ti0FR3TlKNdTSVpvYYWflnk+35P3S1MYmLhIqS7VcewoQ/210ZEQ6WdC4g7EWZLwMkbEFUCo7Qz/WpmvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722023611; c=relaxed/simple;
-	bh=RItrGGuVLmlSCWHomQhd90T1QLhUEfGxr2jZ5urvIQ4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=mtXJSCz3Ax1qLV97xkhuItl7eorg8SS7h+6cOdy5USRCmi4cqTeTT6SK+yBxQ7AX99SCz0vVsOKtsWsRhbf2+k2Ls1DSS1BoiHMmyCaAhCljBWXek3m5BCeoWdtnBiGwyNsVNG5MPT+lz6aGJmAn1xIUuA5y48eR7KAFIPiMHC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WkMmgtEU; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1722024301; c=relaxed/simple;
+	bh=sHIyIkVFEupEjWxKl+pASpe17z/wLOaJYpi0rVW6CZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPKwzaKQI5naBf0qydjcje5uTcUVEw4uO0JerLSih5FNLVOj2tg+e3M/oUSCyAlSmJ/GkU7f/+UDankJskoT4ITMfnH2lo7G9/+XeD1U+cFELh8wB/LpGtP4V2jLvcUtiOVYymx/Zt+oAsMTfPrTL2LMQeo+BMvXWpG8TwqS91E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e976p+he; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WkMmgtEU"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46QBfuNZ013396;
-	Fri, 26 Jul 2024 19:53:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RItrGGuVLmlSCWHomQhd90T1QLhUEfGxr2jZ5urvIQ4=; b=WkMmgtEUiak64LIH
-	+TUl60yVMD3b4c/uRJMToOMVLifnQW/BuYeoLfFxynVYz8zzxx4VLRMPy9jS5E5l
-	mNXHMo1A7odzLGq/GX6Zi6RsBqVqzAYn8/I6t/JV+/ZyLy8jG044Gd13E3O5/J7+
-	ckPk49tn5rb0KCs9RoCsXd7/w31RALr1NWPgaDxvoGUWzqvAjOZSEYqvwlq8Fy/3
-	WEUkxRifCq9HTlOkYJNfZK20+ZaRcGfprQIms6U1jwURqCbucEXtNSMP2SfK23lq
-	HM5Mew7XaNL/zAusWifm5CCdqkneyEYyaWg3JZJwQ6XphZXpxSrOJfmS/41HCW7H
-	kUTW0w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40m2192app-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jul 2024 19:53:08 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46QJr661016526
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jul 2024 19:53:07 GMT
-Received: from [10.71.113.104] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Jul
- 2024 12:53:06 -0700
-Message-ID: <957b3c13-e4ba-45e3-b880-7a313e48c33f@quicinc.com>
-Date: Fri, 26 Jul 2024 12:52:52 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e976p+he"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-70d150e8153so854984b3a.0;
+        Fri, 26 Jul 2024 13:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722024300; x=1722629100; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VDR2eZY5MHlmYwIoRqIyPiGp3vg1WqH7CWNgUfzBoP0=;
+        b=e976p+heVHzNR34LrC3APHljUDI3BF7bniJxwtCQsPP1BRiqWcJbGo6XkbPluo8Eia
+         Koglt90OFdvh1kI/2MqbrNYv67nwnJsH1c3+tZwFBpEoVG8cEoydhKUrvuXib9HypoP6
+         wWyMSYRMaWWmzasOTA4syL2A64vTa/65RpPt9LhWmZKK0+m1L2ujMKQXAE0mwUl1kyWD
+         l64eTIN78fnECCscZ7ngJrdl4xloV/64c2e9H6KjdYGmkus33xoZTSGBaMxE7xl4L910
+         gI/AnTUTjvScH6IzwYT/bYqT2nh7nwdTU6VQx4VGKtMZ/06M/sw/rSLTKc3QLgS/i9GJ
+         G/UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722024300; x=1722629100;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VDR2eZY5MHlmYwIoRqIyPiGp3vg1WqH7CWNgUfzBoP0=;
+        b=nW+78nGHEXTaflaaO5y4wd4BPudaCM74elGdNqAAzSHZ+6h7Mvp5OYXkDw+SGz4BP8
+         9/IxcggmLziRuV3/gfC+IwZUJLtahXsLURbIwJa5az5XcLaX/E+YFkl4Rx1wMb9T/cOB
+         UKOnqLKwJee2BNxS8FC9lhSlgd8yh5DeWGBPS9OQ4uM6qTwk9R2mA2H6dz8O92P2BXd3
+         zafj2NEG9c1TBVV/elcRAkuqX9+CvwfA3GGQGkXG/9yiDjre8laSw66hxU43Eg3jmzIc
+         Yx46lQHonXT8JI3bsIrM5UMIOvkky3jUwxTwTokGYf+/4vHjHTVYqHJJPZs7U0rF6skp
+         fOJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4sdX6ediUJ2vvLdu7tVqZwYM8lCfI15M9Frfcke+IzsFvNUfQH6HJW9xxjaSZd46WBtAw44tYAg5kzBwpr3fRbx+bdtKep88mpiNTlZjaUnPjpmSsXxmE17QQGjRZaVDOnpuEy9ziIs8IzEG8h9FLHjwzMv/dxf5I6ESOcnqzQw==
+X-Gm-Message-State: AOJu0Yz2kMoF41NHpNfhbVYIZbbLtIrqhuLMLVmLTQq0DVwmCU0gcOOY
+	yBYAB8vPF2Om/1yCaYEZkcxhRJIAQEHCxXAQKOaJHjnVnGhEHzX4
+X-Google-Smtp-Source: AGHT+IHNyKobZSB2Z0LwzzaaLZhrE0kcunwzzLJqK8cqABikL3rpajppk8xBArSL5bPdOIjnRqDXSg==
+X-Received: by 2002:a05:6a00:a89:b0:70b:5368:a212 with SMTP id d2e1a72fcca58-70ece822e52mr677217b3a.15.1722024299459;
+        Fri, 26 Jul 2024 13:04:59 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7a9f7c744c4sm3179803a12.14.2024.07.26.13.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 13:04:58 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Fri, 26 Jul 2024 10:04:57 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: Waiman Long <longman@redhat.com>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in
+ cgroup.stat
+Message-ID: <ZqQBaeAH_IfpRTnv@slm.duckdns.org>
+References: <20240711025153.2356213-1-longman@redhat.com>
+ <23hhazcy34yercbmsogrljvxatfmy6b7avtqrurcze3354defk@zpekfjpgyp6h>
+ <0efbedff-3456-4e6a-8d2d-79b89a18864d@redhat.com>
+ <qozzqah5blnsvc73jrhfuldsaxwsoluuewvgpukzgcuud4nqgc@xnctlkgk5yjv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
- <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
- <fd8f1eb0-4b21-4697-8175-a61bc3858852@quicinc.com>
- <f982842a-1804-420b-a539-a609ecf8fb8a@linux.intel.com>
- <3c358604-6926-4f90-8fc8-8139c68c3418@quicinc.com>
- <70bf10a7-7f87-4fd1-bd44-1733d3b2b15e@linux.intel.com>
- <b1fcef2a-2af9-4985-ae00-f348ca5df3f1@linux.intel.com>
- <ab734271-58ee-4981-926c-9b57f36b8ac6@linux.intel.com>
- <ccbf9366-f3de-4a80-bffc-e32a8409e1a7@quicinc.com>
- <adb4e27b-b328-4eef-87ca-9b8bad6639e6@linux.intel.com>
- <f9923336-3dd3-4f36-b5f6-f45f4ed09e0c@linux.intel.com>
- <3634f704-a496-4341-a01d-07182248eccf@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <3634f704-a496-4341-a01d-07182248eccf@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: DuesmGckL6g633jTihSWh-2zcTYsVcDD
-X-Proofpoint-GUID: DuesmGckL6g633jTihSWh-2zcTYsVcDD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-26_12,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- clxscore=1011 priorityscore=1501 malwarescore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=962 bulkscore=0 phishscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407260135
+In-Reply-To: <qozzqah5blnsvc73jrhfuldsaxwsoluuewvgpukzgcuud4nqgc@xnctlkgk5yjv>
 
-Hi Pierre/Amadeusz,
+Hello,
 
-On 7/8/2024 4:16 PM, Wesley Cheng wrote:
-> On 7/4/2024 4:25 AM, Pierre-Louis Bossart wrote:
->>>> Just so I understand...is it really desired that userspace doesn't
->>>> have the flexibility to choose which USB device is offloaded?  I know
->>>> it complicates what needs to be done, but it could be just an
->>>> additional feature that can be added later on.  Again, by default, we
->>>> select the last USB headset plugged in to be enabled for offload by
->>>> default.
->>> If it chooses endpoint by itself perhaps you can send patch set without
->>> controls first? This has added benefit of less patches in series, making
->>> it easier to review and it won't block whole patch set by discussion on
->>> controls feature. Controls can be added in followup series.
->> We do need read-only controls for userspace to know that offload is
->> possible and which card/device to use. That can be done in a first step
->> assuming there's a single device plugged-in.
-> I agree, some kcontrol need to be present to at least determine:
->
-> 1. USB SND device is offload capable (ASoC card and PCM index)- Fetches associated (mapped) ASoC platform card and PCM index (read only)
->
-> 2. ASoC platform card offload status - Current offload status (read only)
->
-> Those would be the minimum kcontrols we could have at this time.  I will remove the device selection part, and leave that for future discussions.  Does this sound good, Amadeusz/Pierre?
+On Fri, Jul 26, 2024 at 10:19:05AM +0200, Michal Koutn� wrote:
+> On Thu, Jul 25, 2024 at 04:05:42PM GMT, Waiman Long <longman@redhat.com> wrote:
+> > > There's also 'debug' subsys. Have you looked at (extending) that wrt
+> > > dying csses troubleshooting?
+> > > It'd be good to document here why you decided against it.
+> > The config that I used for testing doesn't include CONFIG_CGROUP_DEBUG.
+> 
+> I mean if you enable CONFIG_CGROUP_DEBUG, there is 'debug' controller
+> that exposes files like debug.csses et al.
+> 
+> > That is why "debug" doesn't show up in the sample outputs. The CSS #
+> > for the debug subsystem should show up if it is enabled.
+> 
+> So these "debugging" numbers could be implemented via debug subsys. So I
+> wondered why it's not done this way. That reasoning is missing in the
+> commit message.
 
-So I reworked the series a bit with respects to the kcontrols that we had, and I simplified it for the next submission.  I went ahead and just have a read only kcontrol residing in the USB SND device and will implement #1 above:
+While this is a bit of implementation detail, it's also something which can
+be pretty relevant in production, so my preference is to show them in
+cgroup.stat. The recursive stats is something not particularly easy to
+collect from the debug controller proper anyway.
 
-/ # tinymix -D 1 contents
-Number of controls: 9
-ctl     type    num     name                                    value
-0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
-1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
-2       BOOL    1       Headset Capture Switch                  On
-3       INT     1       Headset Capture Volume                  10 (range 0->13)
-4       BOOL    1       Sidetone Playback Switch                On
-5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
-6       BOOL    1       Headset Playback Switch                 On
-7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
-8       INT     2       USB Offload Playback Route PCM#0        0, 0 (range -1->255)
+One problem with debug subsys is that it's unclear whether they are safe to
+use and can be depended upon in production. Not that anything it shows
+currently is particularly risky but the contract around the debug controller
+is that it's debug stuff and developers may do silly things with it (e.g.
+doing high complexity iterations and what not).
 
-If there is an available audio offload path, then the value will show the card and pcm index that it is mapped to.  That way the application will know which card/pcm device to open from there.  In the above example, the offload path is mapped to card#0 pcm#0.  If there is no offload path available, it will show -1, -1.
+The debug controller, in general, I'm not sure how useful it is. It does
+nothing that drgn scripts can't do and doesn't really have enough extra
+benefits that make it better. We didn't have drgn back when it was added, so
+it's there for historical reasons, but I don't think it's a good idea to
+expand on it.
 
-For now, I removed the control that allows for explicit selection of which USB card and PCM device to offload, and will take this up on a separate series as we see fit.  The codebase I have now will select the last USB headset plugged in for offloading.  Will clean up the changes and submit a new revision with the other feedback included as well.
+Thanks.
 
-
-Thanks
-
-Wesley Cheng
-
->
->> Dealing with multiple devices and defining rules or configuration
->> options to select the offloaded device is a second-level problem.
->>
->> In most cases the only thing that will be offloaded is a headset
->> anyways, so the selection could be rather static based on a
->> vendor/system ID, all other USB devices would be ignored.
-> If the USB SND offload driver (ie qc_audio_offload) isn't compiled in, then it would be disabled.  Do we need some over-arching mechanism to disable the offload functionality?  Although, one thing I can see if I can add is some device classification within the USB offload vendor driver.
->
-> Thanks
->
-> Wesley Cheng
->
+-- 
+tejun
