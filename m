@@ -1,357 +1,125 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0EA1779B7;
-	Fri, 26 Jul 2024 07:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644F1176FA3
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 08:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721980123; cv=none; b=bwub2TCPczmG1dPqDZZLp7uXQZxECxWLwXlLhC2liFfRBgnOBKPGxwyJqbvzbJ1ync66geg/TBK157nI/ZCP+n1ZfgSub9NnCjieUnIhMf+u/XQu8aQR1+0MbhXt/1nH4DazNQ41lmE0DcE47cuzuAq1ZAvUgQYn3JWXkSgmUZw=
+	t=1721981951; cv=none; b=sV7rJX2bSmx9MEivl0D8N7dDjtoQEGM1nS+nchTFKfztWdCOlynSO3hKSdJQNYNiX3ys366eieWAZaiJrFdYj5OB7WTAN1An3znZh9RF0pNacHWGQaqEIqlMl52sss7aq11I/r9g/4cYr+D0q0O1qpH6NkPUUfVjyY4WM6cepHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721980123; c=relaxed/simple;
-	bh=sRhC1/eNq0wYE3YDq/roJ/WP2LhS7VpTVS2S6gaTwqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YCyznX7xC3MTHYdHBwtd0oNZv2bTjjU32xNciortUua9taNNDA25rFS0knrKmHLdcAosPcdfSd9Pxj61AUtZSb+8/mvB8OEalr5xkOMdJYZNlLD2UgCfJgmawTqUUoWWlnPqZlyJI373WuA+69dkNlIapbbHLrpKsf6Tqb9P9NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VmoFDmTx; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721981951; c=relaxed/simple;
+	bh=cx+01TCbO6DpaC7tHPkUFYEU6Li5+7QekGE9g6IIqA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TVgphc9B3v/wcgt+wbbxIjgEJsgSyHqFCa53AglkN6lid1PcMJkBM5QaFTp0M06f/Emyasro3VTAEoJZqHHZmag6TZRUgbaBeLe4BnbJLR7H0HCAt98OHAvrANNnnDAeFPLHrZIvvq02gUtC5G6NtCreYGrW+T5DGqqwRjkTEd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TM4i/mnD; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VmoFDmTx"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-36841f56cf6so219084f8f.3;
-        Fri, 26 Jul 2024 00:48:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TM4i/mnD"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7a91cdcc78so79967766b.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 01:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721980120; x=1722584920; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=la7lcKEwKEGn8Fv+57F+e6rGx+AWHyToQl67Dmq/COk=;
-        b=VmoFDmTxhP/Aj8/eLMtQ1f9J774NMIh3u3wVEUcBjzbt+0j0gWR1lrRakx1Q/hzOvT
-         a7tZv1W7pT1Cy0FMGKhweoObcQIeA75Ak8486iNZIv/wsaSlKatyBnVqbGlwv5WOaC4W
-         52JKXHEliRt6j/Ab6vU393oEMnNwbiHquGYlIHozJjecG6kJYQM+AZDo3o+2A/6Fzg6S
-         udsQL48Mbjo0vx+ghE41xzhDoUPtwUchqifQQyCJGOrNM0OmGAxA8dpPnfeSYIiXZaiy
-         w/86NeOKbITb/fWJEdUIx9I6bhZUoHU/rXzLYNkZ4o75Y3Kpqaaf5rnbLyFoE73kj1cN
-         GqNA==
+        d=suse.com; s=google; t=1721981948; x=1722586748; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1nxDdDPuqoZhhkQdgxi6lLL82Z/S+1HfGQKwxEW2Xr4=;
+        b=TM4i/mnDYtKQL7xhLSs7LMUrBSea7QQJmkeJeK5KEHxkPhzYOA1rGqYiX6Uv7SCL7z
+         U0zHIWXFCIGYxY95ua/eIIjfJHlk9gpXfu3g+rXpJ+JZ4z31rWpRWBReETjD/0Zzc0Iu
+         7tR2Fv4qL38ujKfpLZMinDbFFaSmkgedgpJNnMf2x/HhwvDXGrWXC8bRAgEzSZ6AMDo7
+         PuZDaS+Z8C8306yv50ebFhaNKR6kQ9+C4P/2VLQgX/DZvAHwo2ulJ9Cx4pKhl8OEIFqj
+         OWrh7LFimO4ZRu7xe9IeqpHRC/Pl4ipCZSdG4F3K2Jyns3um3ceQ7ySzVDOfshAOgmEf
+         qh1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721980120; x=1722584920;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=la7lcKEwKEGn8Fv+57F+e6rGx+AWHyToQl67Dmq/COk=;
-        b=i0hx2vAsV3gyYXyRGg866VNt0O6Nr87wm/9DBAQlkFQY/SYrnWajAzjoLTlbamPOqG
-         tygmCuc4MVVyoTt4abqr+mJuSzCHyx6dZ5YnNBGoZIqyfdttQ3iubLeu352ZvtITsCcc
-         zOdsPMmNpVal+akZRX7nP1QD7351iPvVlVwHlQE7Nkr98ioy6pBj86d8Kd6YX4jgaN6z
-         RfnalzNAOE+k1D48y7nACaMv4IIbW1NowSpmzoeU/XTFJVPbWOAiTdv2UexRZb/dKerp
-         Py/EhoFH3I4qOrOrlrT7r/fbjQRpaNWTR7JzV3k/fnHu9+dv0i9oJeyKXZMHmtE+YiUM
-         KE7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUEPbeZ5IwpBrj7vO0o7KRD8ku6sdoD8+LpEPjLYCpGY03lRPAcR6WpvKfQH41WszEPcxt/2D3IJiih3iPV@vger.kernel.org, AJvYcCUJ2fvnS03ThN+Hmb1Zh06S6sj7K+QwF5bddiERDe7Eua+rQQL71zZBKFDaq8lt9JjjIzcCzl8qOLfBzu0=@vger.kernel.org, AJvYcCVphH6MjhTqAAQkfFFYzjf3pgTukVOtrBuQyNs/8OktxC0krYXQot0tIGnuAtMnhLIi3XhoZ9c5qyM=@vger.kernel.org, AJvYcCX8JIkODQf0/vuLpwuE1KG+HVK6Xk1Ncm/5xg66dblpdnYHq6RR5v5pT+KYeXZCcnkoxIl0NGQmqoODv5Uk0WIT@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYSS2hJeHr4NnYlEA8NnKr9oJ8cpyDZ5hRO7lSZNYxZ1tWyS7G
-	eJbeOpLeTRDcutvIQd00hkL6/keCryA4Qi20J35s+jgmjJY1vFNbQKjSRA==
-X-Google-Smtp-Source: AGHT+IEBka+hLmP5gdbWHwy6tMpDugy1Xfwgx9rym0bPiDe5tU87sSi1ByzNT5/B2flaz3BJnbaM0A==
-X-Received: by 2002:a05:600c:3b21:b0:424:ac9f:5c61 with SMTP id 5b1f17b1804b1-428057706aemr20201495e9.3.1721980119743;
-        Fri, 26 Jul 2024 00:48:39 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:68e5:11ce:4d88:9958])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428057a6368sm66045565e9.38.2024.07.26.00.48.39
+        d=1e100.net; s=20230601; t=1721981948; x=1722586748;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1nxDdDPuqoZhhkQdgxi6lLL82Z/S+1HfGQKwxEW2Xr4=;
+        b=bHyEghyxYwQFVzZOln3D3LwMucbBIjSaGOOEnThZKZz2uDDEey2J9NFitG9Wr9MNGS
+         qiFng4TlnkHYoRleK8frk+p+R9Xt93qgCmvSpyg51QgHbvn9LLChNQEcXte0H0NWhn4g
+         0j9VlDUY+eh7cDdFWQfDitAqhN8JEmA7I+zLGAdq3FvWCEG+Iqp71iMubplTiLnyPghm
+         HDl/M92dCEyr5k6Le0K19fh1i2doV63EqllFG7IT2w2RALb4Xu1Viagj5A+uVzU4mYoi
+         uhf+85Cnm9fT9v8wo8Dx312eTdxnFHpyokrTPzqLdmZLjzkHS5QsaUJC3Tto63rT2SAk
+         laiA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwAkYiOupVRmLBCJ/aMseiAQ9J1Md749Qht2EI9Y2SMMgtXpF5FMHOBnvyFhLuxtc5fAj+Eu6a+aY8zKZiafVyP4pE3yh4N2+F
+X-Gm-Message-State: AOJu0Yz6+bC8p5H8lXazdSqKOu6uc3iW000HuDQDL1P+2Mx8YHDuCnEM
+	dKhOVFS+rm9/KWk4xp8U2DobqYIpLANWiHhU/cDjk6wOX9p6cj7k4Nr1nxvXnwk=
+X-Google-Smtp-Source: AGHT+IEKCNWFIWSIa0WEqcLAmK79+P9DH8UDMg3F8CdyMwZNKChDWbgmxYrh315TuPC354rnk9EOyA==
+X-Received: by 2002:a50:d54a:0:b0:5a3:d140:1a57 with SMTP id 4fb4d7f45d1cf-5ac6203a1f4mr4350486a12.1.1721981947474;
+        Fri, 26 Jul 2024 01:19:07 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac63b59c86sm1641627a12.42.2024.07.26.01.19.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 00:48:39 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net,
-	broonie@kernel.org,
-	shuah@kernel.org
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	aholzinger@gmx.de
-Subject: [PATCH 4/4] selftests: ALSA: Cover userspace-driven timers with test
-Date: Fri, 26 Jul 2024 08:47:49 +0100
-Message-Id: <20240726074750.626671-5-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
-References: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
+        Fri, 26 Jul 2024 01:19:06 -0700 (PDT)
+Date: Fri, 26 Jul 2024 10:19:05 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Waiman Long <longman@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>, Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH-cgroup v4] cgroup: Show # of subsystem CSSes in
+ cgroup.stat
+Message-ID: <qozzqah5blnsvc73jrhfuldsaxwsoluuewvgpukzgcuud4nqgc@xnctlkgk5yjv>
+References: <20240711025153.2356213-1-longman@redhat.com>
+ <23hhazcy34yercbmsogrljvxatfmy6b7avtqrurcze3354defk@zpekfjpgyp6h>
+ <0efbedff-3456-4e6a-8d2d-79b89a18864d@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xlb3knarn2v64q76"
+Content-Disposition: inline
+In-Reply-To: <0efbedff-3456-4e6a-8d2d-79b89a18864d@redhat.com>
 
-Add a test for the new functionality of userspace-driven timers and the
-tool which allows us to count timer ticks in a certain time period. The
-test:
 
-1. Creates a userspace-driven timer with ioctl to /dev/snd/timer
-2. Starts the `global-timer` application to count the ticks of the timer
-from step 1.
-3. Asynchronously triggers the timer multiple times with some interval
-4. Compares the amount of caught ticks with the amount of trigger calls.
+--xlb3knarn2v64q76
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since we can't include <alsa/asoundlib.h> and <sound/asound.h> in one
-file due to overlapping declarations, I have to split the test into two
-applications: one of them counts the amount of timer ticks in the
-defined time period, and another one is the actual test which creates
-the timer, triggers it periodically and starts the first app to count
-the amount of ticks in a separate thread.
+On Thu, Jul 25, 2024 at 04:05:42PM GMT, Waiman Long <longman@redhat.com> wr=
+ote:
+> > There's also 'debug' subsys. Have you looked at (extending) that wrt
+> > dying csses troubleshooting?
+> > It'd be good to document here why you decided against it.
+> The config that I used for testing doesn't include CONFIG_CGROUP_DEBUG.
 
-Besides from testing the functionality itself, the test represents a
-sample application showing userspace-driven ALSA timers API.
+I mean if you enable CONFIG_CGROUP_DEBUG, there is 'debug' controller
+that exposes files like debug.csses et al.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- tools/testing/selftests/alsa/Makefile       |   2 +-
- tools/testing/selftests/alsa/global-timer.c |  87 +++++++++++++
- tools/testing/selftests/alsa/utimer-test.c  | 133 ++++++++++++++++++++
- 3 files changed, 221 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/alsa/global-timer.c
- create mode 100644 tools/testing/selftests/alsa/utimer-test.c
+> That is why "debug" doesn't show up in the sample outputs. The CSS #
+> for the debug subsystem should show up if it is enabled.
 
-diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
-index c1ce39874e2b..0d5bd8ea900b 100644
---- a/tools/testing/selftests/alsa/Makefile
-+++ b/tools/testing/selftests/alsa/Makefile
-@@ -12,7 +12,7 @@ LDLIBS+=-lpthread
- 
- OVERRIDE_TARGETS = 1
- 
--TEST_GEN_PROGS := mixer-test pcm-test test-pcmtest-driver
-+TEST_GEN_PROGS := mixer-test pcm-test utimer-test test-pcmtest-driver global-timer
- 
- TEST_GEN_PROGS_EXTENDED := libatest.so
- 
-diff --git a/tools/testing/selftests/alsa/global-timer.c b/tools/testing/selftests/alsa/global-timer.c
-new file mode 100644
-index 000000000000..c15ec0ba851a
---- /dev/null
-+++ b/tools/testing/selftests/alsa/global-timer.c
-@@ -0,0 +1,87 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This tool is used by the utimer test, and it allows us to
-+ * count the ticks of a global timer in a certain time frame
-+ * (which is set by `timeout` parameter).
-+ *
-+ * Author: Ivan Orlov <ivan.orlov0322@gmail.com>
-+ */
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <alsa/asoundlib.h>
-+#include <time.h>
-+
-+static int ticked;
-+static void async_callback(snd_async_handler_t *ahandler)
-+{
-+	ticked++;
-+}
-+
-+static char timer_name[64];
-+static void bind_to_timer(int device, int subdevice, int timeout)
-+{
-+	snd_timer_t *handle;
-+	snd_timer_params_t *params;
-+	snd_async_handler_t *ahandler;
-+
-+	time_t end;
-+
-+	sprintf(timer_name, "hw:CLASS=%d,SCLASS=%d,DEV=%d,SUBDEV=%d",
-+		SND_TIMER_CLASS_GLOBAL, SND_TIMER_SCLASS_NONE,
-+		device, subdevice);
-+
-+	snd_timer_params_alloca(&params);
-+
-+	if (snd_timer_open(&handle, timer_name, SND_TIMER_OPEN_NONBLOCK) < 0) {
-+		perror("Can't open the timer");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	snd_timer_params_set_auto_start(params, 1);
-+	snd_timer_params_set_ticks(params, 1);
-+	if (snd_timer_params(handle, params) < 0) {
-+		perror("Can't set timer params");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	if (snd_async_add_timer_handler(&ahandler, handle, async_callback, NULL) < 0) {
-+		perror("Can't create a handler");
-+		exit(EXIT_FAILURE);
-+	}
-+	end = time(NULL) + timeout;
-+	if (snd_timer_start(handle) < 0) {
-+		perror("Failed to start the timer");
-+		exit(EXIT_FAILURE);
-+	}
-+	printf("Timer has started\n");
-+	while (time(NULL) <= end) {
-+		/*
-+		 * Waiting for the timeout to elapse. Can't use sleep here, as it gets
-+		 * constantly interrupted by the signal from the timer (SIGIO)
-+		 */
-+	}
-+	snd_timer_stop(handle);
-+	snd_timer_close(handle);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int device, subdevice, timeout;
-+
-+	if (argc < 4) {
-+		perror("Usage: %s <device> <subdevice> <timeout>");
-+		return EXIT_FAILURE;
-+	}
-+
-+	setlinebuf(stdout);
-+
-+	device = atoi(argv[1]);
-+	subdevice = atoi(argv[2]);
-+	timeout = atoi(argv[3]);
-+
-+	bind_to_timer(device, subdevice, timeout);
-+
-+	printf("Total ticks count: %d\n", ticked);
-+
-+	return EXIT_SUCCESS;
-+}
-diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
-new file mode 100644
-index 000000000000..38de90e507fe
---- /dev/null
-+++ b/tools/testing/selftests/alsa/utimer-test.c
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This test covers the functionality of userspace-driven ALSA timers. Such timers
-+ * are purely virtual (so they don't directly depend on the hardware), and they could be
-+ * created and triggered by userspace applications.
-+ *
-+ * Author: Ivan Orlov <ivan.orlov0322@gmail.com>
-+ */
-+#include "../kselftest_harness.h"
-+#include <sound/asound.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <stdlib.h>
-+#include <pthread.h>
-+#include <string.h>
-+
-+#define FRAME_RATE 8000
-+#define PERIOD_SIZE 4410
-+#define TICKS_COUNT 10
-+#define TICKS_RECORDING_DELTA 5
-+#define TIMER_OUTPUT_BUF_LEN 1024
-+#define TIMER_FREQ_SEC 1
-+#define RESULT_PREFIX_LEN strlen("Total ticks count: ")
-+
-+enum timer_app_event {
-+	TIMER_APP_STARTED,
-+	TIMER_APP_RESULT,
-+	TIMER_NO_EVENT,
-+};
-+
-+FIXTURE(timer_f) {
-+	int utimer_fd;
-+	struct snd_utimer_info *utimer_info;
-+};
-+
-+FIXTURE_SETUP(timer_f) {
-+	int timer_dev_fd;
-+
-+	if (geteuid())
-+		SKIP(return, "This test needs root to run!");
-+
-+	self->utimer_info = calloc(1, sizeof(*self->utimer_info));
-+	ASSERT_NE(NULL, self->utimer_info);
-+
-+	self->utimer_info->frame_rate = FRAME_RATE;
-+	self->utimer_info->period_size = PERIOD_SIZE;
-+
-+	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
-+	ASSERT_GE(timer_dev_fd, 0);
-+
-+	self->utimer_fd = ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, self->utimer_info);
-+	ASSERT_GE(self->utimer_fd, 0);
-+
-+	close(timer_dev_fd);
-+}
-+
-+FIXTURE_TEARDOWN(timer_f) {
-+	close(self->utimer_fd);
-+	free(self->utimer_info);
-+}
-+
-+static void *ticking_func(void *data)
-+{
-+	int i;
-+	int *fd = (int *)data;
-+
-+	for (i = 0; i < TICKS_COUNT; i++) {
-+		/* Well, trigger the timer! */
-+		ioctl(*fd, SNDRV_TIMER_IOCTL_TRIGGER, NULL);
-+		sleep(TIMER_FREQ_SEC);
-+	}
-+}
-+
-+static enum timer_app_event parse_timer_output(const char *s)
-+{
-+	if (strstr(s, "Timer has started"))
-+		return TIMER_APP_STARTED;
-+	if (strstr(s, "Total ticks count"))
-+		return TIMER_APP_RESULT;
-+
-+	return TIMER_NO_EVENT;
-+}
-+
-+static int parse_timer_result(const char *s)
-+{
-+	char *end;
-+	long d;
-+
-+	d = strtol(s + RESULT_PREFIX_LEN, &end, 10);
-+	if (end == s + RESULT_PREFIX_LEN)
-+		return -1;
-+
-+	return d;
-+}
-+
-+/*
-+ * This test triggers the timer and counts ticks at the same time. The amount
-+ * of the timer trigger calls should be equal to the amount of ticks received.
-+ */
-+TEST_F(timer_f, utimer) {
-+	char command[64];
-+	pthread_t ticking_thread;
-+	int total_ticks = 0;
-+	FILE *rfp;
-+	char *buf = malloc(TIMER_OUTPUT_BUF_LEN);
-+
-+	ASSERT_NE(buf, NULL);
-+
-+	/* The timeout should be the ticks interval * count of ticks + some delta */
-+	sprintf(command, "./global-timer %d %d %d", SNDRV_TIMER_GLOBAL_UDRIVEN,
-+		self->utimer_info->id, TICKS_COUNT * TIMER_FREQ_SEC + TICKS_RECORDING_DELTA);
-+
-+	rfp = popen(command, "r");
-+	while (fgets(buf, TIMER_OUTPUT_BUF_LEN, rfp)) {
-+		buf[TIMER_OUTPUT_BUF_LEN - 1] = 0;
-+		switch (parse_timer_output(buf)) {
-+		case TIMER_APP_STARTED:
-+			/* global-timer waits for timer to trigger, so start the ticking thread */
-+			pthread_create(&ticking_thread, NULL, ticking_func,
-+				       &self->utimer_fd);
-+			break;
-+		case TIMER_APP_RESULT:
-+			total_ticks = parse_timer_result(buf);
-+			break;
-+		}
-+	}
-+	pthread_join(ticking_thread, NULL);
-+	ASSERT_EQ(total_ticks, TICKS_COUNT);
-+	pclose(rfp);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.34.1
+So these "debugging" numbers could be implemented via debug subsys. So I
+wondered why it's not done this way. That reasoning is missing in the
+commit message.
 
+> > > +	for_each_css(css, ssid, cgroup) {
+> > > +		if ((BIT(ssid) & cgrp_dfl_inhibit_ss_mask) ||
+> > > +		    (cgroup_subsys[ssid]->root !=3D  &cgrp_dfl_root))
+> > > +			continue;
+> > Is this taken? (Given cgroup.stat is only on the default hierarchy.)
+>=20
+> I am not sure what you are asking here. Since cgroup.stat is a cgroup v2
+> only control file, it won't show subsystems that are bound to cgroup v1.
+
+So, is the if (...) ever true? (The file won't exist on v1.)
+
+Michal
+
+--xlb3knarn2v64q76
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqNb9wAKCRAt3Wney77B
+Se+pAPoDu9bBY0yYCOVsOkk/g0USVMXESbUsc4TCgMsB5DRypAEAufCXfjxxMNXX
+uOu6x5is+qJ4tUK/UzXu47ZzQQqsHg8=
+=NpIn
+-----END PGP SIGNATURE-----
+
+--xlb3knarn2v64q76--
