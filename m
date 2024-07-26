@@ -1,359 +1,485 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27830BA42;
-	Fri, 26 Jul 2024 15:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66B617A581;
+	Fri, 26 Jul 2024 15:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722006124; cv=none; b=cdlDmAT/k7HQ3ftfOcfO+pz/TwoNTVwvs5HwJJZkf1TSpSPwrqRDmVv828j3eY2jBbSFQcuYXv4Sq9pit097nMl+9M+lMAKeRMNmrqKjyVXXtqVtam/3jDdO6wUW0rCXa1ar7XIWQcSxyktnMEHuUA1yAkFCtjh3ewTyd13mv0w=
+	t=1722006765; cv=none; b=dLiZ2cLZAyB8QEJ6zWaRUfZKZIyDfxYQS4GjhitDTietp/wVusflrOVFYaMxo4ZT3O+EdPxKJpVbpH3R9bgQhFtfRqQnPFeCBIUs04+q18+s6PMeWbkTqALbzVxpnHfzxPH1nj+6yi25DcgLMmNEyVylMPuqgJse85DRnLI4zwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722006124; c=relaxed/simple;
-	bh=sjlyXUhQ7zvv1asQmR5gj7X0ZVXOXk3cBSyQATQBvyk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SesoRvKpJ/XnRBclyuQrXLTXOJo+nxNx8r5a3DR2oF0qCqurV2lSpp1cvdiiIVn9L0g2VKY3Z+H938ud8QAQgimwM73V4vVgd5Dm8uzKJUNdOXpoZi6yujZ+TPc23WIXHdaG5dsbh9m8d7iZ49fxbY9SPwBnhHq2C/TIC0RpjzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVrXH0WXHz6K5p8;
-	Fri, 26 Jul 2024 23:00:15 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 55CE614065B;
-	Fri, 26 Jul 2024 23:01:59 +0800 (CST)
-Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
- 2024 16:01:58 +0100
-Date: Fri, 26 Jul 2024 16:01:57 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
- Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
-	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
-	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
- Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
-	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v2 2/8] fwctl: Basic ioctl dispatch for the character
- device
-Message-ID: <20240726160157.0000797d@Huawei.com>
-In-Reply-To: <2-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
-References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
-	<2-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1722006765; c=relaxed/simple;
+	bh=yDgTbGAfOjjluA4iJOUZiVejv5Wbq/5iirRMEumBjLg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GoncI/wNKhaRyPoCixmu06C39z8xxyPrBVvM8GtvlWBG/yncf+Y6gNZJPy3QicVrxyVBnKlMTKp0Z+LHa20hm/XMbfzhVfJZsSeg5jqSGfvOM1ufJSUR6e5kYMD1oWgYU/o1mUJXbtKdgC7mslUfilk6eBUcAHdiHprgTQxdsrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Hh2gP9Cl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rHQ3xv59; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Hh2gP9Cl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rHQ3xv59"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1722006761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ogqL/hg/pnvLqbooyNM3CMI8yfnhV8Cc2ZPYlo4agcY=;
+	b=Hh2gP9Cl3Ek28v7XwQoC1iD72rNlHUJCX69ipppt7PRGFrvY0+lmiV8AlWi4pIKfBohE7E
+	SpCmLUoc8e5pSCMi5K/s9Rt5rHgLPhBbbMmL7HcdH6uA1YyXwci5iLBKaMomiMU4g2SUcP
+	Hfl08Q1plMxgEv6xbNzKmjH4kYBM260EB0gKoAH8gzP2e9xUOe3+1l0vKbbYpaF9AANJ0f
+	FWhjpukg6hxCTNwjptGzjj8Nd5rBQp4s3MfoOUVxGk3Rqj0kEItGwhkfnccbNprheRmo5E
+	B+VeRvPjNTtY9WoJ0Eva0HpqfCLgRSgT1Kf5MxrAGkfVpLHn8Jdl+Ow51T9P2Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1722006761;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ogqL/hg/pnvLqbooyNM3CMI8yfnhV8Cc2ZPYlo4agcY=;
+	b=rHQ3xv59tLDvL0qOzO5+vZXKs3OLSXspr6rTsPXOkYqL6EQMXFlIQfROX0pcQLLFTHlZyx
+	Ql0d/GhxhOqrckBA==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net,
+ alexs@kernel.org, siyanteng@loongson.cn, chenhuacai@kernel.org,
+ kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn,
+ wangliupu@loongson.cn, lvjianmin@loongson.cn, zhangtianyang@loongson.cn,
+ yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+ dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+ zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+ zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH V7] LoongArch: Add AVEC irqchip support
+In-Reply-To: <20240726102443.12471-1-zhangtianyang@loongson.cn>
+References: <20240726102443.12471-1-zhangtianyang@loongson.cn>
+Date: Fri, 26 Jul 2024 17:12:41 +0200
+Message-ID: <87o76kuqza.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain
 
-On Mon, 24 Jun 2024 19:47:26 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Fri, Jul 26 2024 at 18:24, Tianyang Zhang wrote:
+> +static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *dest,
+> +				       bool force)
 
-> Each file descriptor gets a chunk of per-FD driver specific context that
-> allows the driver to attach a device specific struct to. The core code
-> takes care of the memory lifetime for this structure.
-> 
-> The ioctl dispatch and design is based on what was built for iommufd. The
-> ioctls have a struct which has a combined in/out behavior with a typical
-> 'zero pad' scheme for future extension and backwards compatibility.
-> 
-> Like iommufd some shared logic does most of the ioctl marshalling and
-> compatibility work and tables diatches to some function pointers for
-> each unique iotcl.
-> 
-> This approach has proven to work quite well in the iommufd and rdma
-> subsystems.
-> 
-> Allocate an ioctl number space for the subsystem.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Minor stuff inline.
+Please align arguments according to documentation. In this case don't
+use a line break. Just use the full 100 character width all over the place
 
->  M:	Sebastian Reichel <sre@kernel.org>
-> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
-> index 6e9bf15c743b5c..6872c01d5c62e8 100644
-> --- a/drivers/fwctl/main.c
-> +++ b/drivers/fwctl/main.c
-
-> +
-> +struct fwctl_ioctl_op {
-> +	unsigned int size;
-> +	unsigned int min_size;
-> +	unsigned int ioctl_num;
-> +	int (*execute)(struct fwctl_ucmd *ucmd);
-> +};
-> +
-> +#define IOCTL_OP(_ioctl, _fn, _struct, _last)                         \
-> +	[_IOC_NR(_ioctl) - FWCTL_CMD_BASE] = {                        \
-
-If this is always zero indexed, maybe just drop the - FWCTL_CMD_BASE here
-and elsewhere?  Maybe through in a BUILD_BUG to confirm it is always 0.
-
-
-> +		.size = sizeof(_struct) +                             \
-> +			BUILD_BUG_ON_ZERO(sizeof(union ucmd_buffer) < \
-> +					  sizeof(_struct)),           \
-> +		.min_size = offsetofend(_struct, _last),              \
-> +		.ioctl_num = _ioctl,                                  \
-> +		.execute = _fn,                                       \
-> +	}
-> +static const struct fwctl_ioctl_op fwctl_ioctl_ops[] = {
-> +};
-> +
-> +static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
-> +			       unsigned long arg)
 > +{
-> +	struct fwctl_uctx *uctx = filp->private_data;
-> +	const struct fwctl_ioctl_op *op;
-> +	struct fwctl_ucmd ucmd = {};
-> +	union ucmd_buffer buf;
-> +	unsigned int nr;
-> +	int ret;
-> +
-> +	nr = _IOC_NR(cmd);
-> +	if ((nr - FWCTL_CMD_BASE) >= ARRAY_SIZE(fwctl_ioctl_ops))
-> +		return -ENOIOCTLCMD;
+> +	unsigned int cpu, ret, vector;
+> +	unsigned long flags;
+> +	struct avecintc_data *adata;
 
-I'd add a blank line here as two unconnected set and error check
-blocks.
+Please look for variable declarations in:
 
-> +	op = &fwctl_ioctl_ops[nr - FWCTL_CMD_BASE];
-> +	if (op->ioctl_num != cmd)
-> +		return -ENOIOCTLCMD;
+       https://www.kernel.org/doc/html/latest/process/maintainer-tip.html
+
+and fix it up all over the place.
+
 > +
-> +	ucmd.uctx = uctx;
-> +	ucmd.cmd = &buf;
-> +	ucmd.ubuffer = (void __user *)arg;
-> +	ret = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
-> +	if (ret)
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+
+This does not need irqsave because the function is always called with
+interrupts disabled.
+
+> +	adata = irq_data_get_irq_chip_data(data);
+> +
+> +	if (adata->vec && cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest)) {
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	if (adata->moving)
+> +		return -EBUSY;
+
+This leaks loongarch_avec.lock. Please use
+
+     scoped_guard(raw_spin_lock)(&loongarch_avec.lock);
+
+above so you spare all the unlocks and cannot miss one.
+
+> +	cpumask_and(&intersect_mask, dest, cpu_online_mask);
+> +
+> +	ret = irq_matrix_alloc(loongarch_avec.vector_matrix, &intersect_mask, false, &cpu);
+> +	if (ret < 0) {
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
 > +		return ret;
+> +	}
 > +
-> +	if (ucmd.user_size < op->min_size)
-> +		return -EINVAL;
+> +	vector = ret;
+> +	adata->cpu = cpu;
+> +	adata->vec = vector;
+> +	per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
+> +	avecintc_sync(adata);
 > +
-> +	ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
-> +				    ucmd.user_size);
-> +	if (ret)
-> +		return ret;
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +	irq_data_update_effective_affinity(data, cpumask_of(cpu));
 > +
-> +	guard(rwsem_read)(&uctx->fwctl->registration_lock);
-> +	if (!uctx->fwctl->ops)
-> +		return -ENODEV;
-> +	return op->execute(&ucmd);
+> +	return IRQ_SET_MASK_OK;
 > +}
 > +
->  static int fwctl_fops_open(struct inode *inode, struct file *filp)
->  {
->  	struct fwctl_device *fwctl =
->  		container_of(inode->i_cdev, struct fwctl_device, cdev);
-> +	int ret;
-> +
-> +	guard(rwsem_read)(&fwctl->registration_lock);
-> +	if (!fwctl->ops)
-> +		return -ENODEV;
-> +
-> +	struct fwctl_uctx *uctx __free(kfree) =
-> +		kzalloc(fwctl->ops->uctx_size, GFP_KERNEL | GFP_KERNEL_ACCOUNT);
-
-GFP_KERNEL_ACCOUNT seems to include GFP_KERNEL already.
-Did I miss some racing change?
-
-> +	if (!uctx)
-> +		return -ENOMEM;
-> +
-> +	uctx->fwctl = fwctl;
-> +	ret = fwctl->ops->open_uctx(uctx);
-> +	if (ret)
-> +		return ret;
-> +
-> +	scoped_guard(mutex, &fwctl->uctx_list_lock) {
-> +		list_add_tail(&uctx->uctx_list_entry, &fwctl->uctx_list);
-> +	}
-
-I guess more may come later but do we need {}?
-
-
->  
->  	get_device(&fwctl->dev);
-> -	filp->private_data = fwctl;
-> +	filp->private_data = no_free_ptr(uctx);
->  	return 0;
->  }
->  
-> +static void fwctl_destroy_uctx(struct fwctl_uctx *uctx)
+> +static int avecintc_cpu_online(unsigned int cpu)
 > +{
-> +	lockdep_assert_held(&uctx->fwctl->uctx_list_lock);
-> +	list_del(&uctx->uctx_list_entry);
-> +	uctx->fwctl->ops->close_uctx(uctx);
+> +	unsigned long flags;
+> +
+> +	if (!loongarch_avec.vector_matrix)
+> +		return 0;
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+
+  guard(raw_spin_lock)
+
+interrupts are disabled.
+
+> +	irq_matrix_online(loongarch_avec.vector_matrix);
+> +
+> +	pending_list_init(cpu);
+> +
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +
+> +	return 0;
 > +}
 > +
->  static int fwctl_fops_release(struct inode *inode, struct file *filp)
->  {
-> -	struct fwctl_device *fwctl = filp->private_data;
-> +	struct fwctl_uctx *uctx = filp->private_data;
-> +	struct fwctl_device *fwctl = uctx->fwctl;
->  
-> +	scoped_guard(rwsem_read, &fwctl->registration_lock) {
-> +		if (fwctl->ops) {
+> +static int avecintc_cpu_offline(unsigned int cpu)
+> +{
+> +	unsigned long flags;
+> +	struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
+> +
+> +	if (!loongarch_avec.vector_matrix)
+> +		return 0;
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
 
-Maybe a comment on when this path happens to help the reader
-along. (when the file is closed and device is still alive).
-Otherwise was cleaned up already in fwctl_unregister()
+Ditto.
 
-> +			guard(mutex)(&fwctl->uctx_list_lock);
-> +			fwctl_destroy_uctx(uctx);
+> +	if (list_empty(&plist->head))
+> +		irq_matrix_offline(loongarch_avec.vector_matrix);
+> +	else
+> +		pr_warn("CPU#%d advanced vector is busy\n", cpu);
+
+Seriously? You leave the matrix online so allocation can be made from an
+offline CPU?
+
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +void complete_irq_moving(void)
+> +{
+> +	struct pending_list *plist = this_cpu_ptr(&pending_list);
+> +	struct avecintc_data *adata, *tdata;
+> +	int cpu, vector, bias;
+> +	uint64_t isr;
+> +
+> +	raw_spin_lock(&loongarch_avec.lock);
+
+  guard()
+
+> +	list_for_each_entry_safe(adata, tdata, &plist->head, entry) {
+> +		cpu = adata->prev_cpu;
+> +		vector = adata->prev_vec;
+> +		bias = vector / VECTORS_PER_REG;
+> +		switch (bias) {
+> +		case 0:
+> +			isr = csr_read64(LOONGARCH_CSR_ISR0);
+> +		case 1:
+> +			isr = csr_read64(LOONGARCH_CSR_ISR1);
+> +		case 2:
+> +			isr = csr_read64(LOONGARCH_CSR_ISR2);
+> +		case 3:
+> +			isr = csr_read64(LOONGARCH_CSR_ISR3);
+> +		}
+> +
+> +		if (isr & (1UL << (vector % VECTORS_PER_REG))) {
+> +			mp_ops.send_ipi_single(cpu, ACTION_CLEAR_VECTOR);
+
+Is it guaranteed that the device vector is handled _before_ the next
+IPI is handled? If not this is a live lock.
+
+> +			continue;
+> +		}
+> +		list_del(&adata->entry);
+> +		irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, adata->managed);
+> +		this_cpu_write(irq_map[vector], NULL);
+> +		adata->prev_cpu = adata->cpu;
+> +		adata->prev_vec = adata->vec;
+> +		adata->moving = 0;
+> +	}
+> +
+> +	raw_spin_unlock(&loongarch_avec.lock);
+> +}
+> +#endif
+> +
+> +static void avecintc_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
+> +{
+> +	struct avecintc_data *adata;
+> +
+> +	adata = irq_data_get_irq_chip_data(d);
+
+Move the assignement up to the declaration.
+
+
+> +	msg->address_hi = 0x0;
+> +	msg->address_lo = (msi_base_addr | (adata->vec & 0xff) << 4) |
+> +			  ((cpu_logical_map(adata->cpu & 0xffff)) << 12);
+> +	msg->data = 0x0;
+> +}
+> +
+> +static struct irq_chip avec_irq_controller = {
+> +	.name			= "AVECINTC",
+> +	.irq_ack		= avecintc_ack_irq,
+> +	.irq_mask		= avecintc_mask_irq,
+> +	.irq_unmask		= avecintc_unmask_irq,
+> +#ifdef CONFIG_SMP
+> +	.irq_set_affinity	= avecintc_set_affinity,
+> +#endif
+> +	.irq_compose_msi_msg	= avecintc_compose_msi_msg,
+> +};
+> +
+> +static void avecintc_irq_dispatch(struct irq_desc *desc)
+> +{
+> +	unsigned long vector;
+> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+> +	struct irq_desc *d;
+> +
+> +	chained_irq_enter(chip, desc);
+> +
+> +	while (true) {
+> +		vector = csr_read64(LOONGARCH_CSR_IRR);
+> +		if (vector & IRR_INVALID_MASK)
+> +			break;
+> +
+> +		vector &= IRR_VECTOR_MASK;
+> +
+> +		d = this_cpu_read(irq_map[vector]);
+> +		if (d)
+> +			generic_handle_irq_desc(d);
+> +		else {
+
+See bracket rules.
+
+> +			spurious_interrupt();
+> +			pr_warn("Unexpected IRQ occurs on CPU#%d [vector %ld]\n", smp_processor_id(), vector);
+> +		}
+
+> +	}
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static int avecintc_domain_alloc(struct irq_domain *domain,
+> +				 unsigned int virq, unsigned int nr_irqs, void *arg)
+> +{
+> +	unsigned int cpu, i, ret;
+> +	unsigned long flags;
+> +	struct irq_data *irqd;
+> +	struct avecintc_data *adata;
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+
+
+  guard(raw_spinlock_irqsave)(....);
+
+> +	for (i = 0; i < nr_irqs; i++) {
+> +		irqd = irq_domain_get_irq_data(domain, virq + i);
+> +		adata = kzalloc(sizeof(*adata), GFP_KERNEL);
+> +		if (!adata) {
+> +			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +			return -ENOMEM;
+> +		}
+> +
+> +		ret = irq_matrix_alloc(loongarch_avec.vector_matrix, cpu_online_mask, false, &cpu);
+> +		if (ret < 0) {
+> +			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +			return ret;
+> +		}
+> +
+> +		adata->prev_cpu = adata->cpu = cpu;
+> +		adata->prev_vec = adata->vec = ret;
+> +		adata->managed = irqd_affinity_is_managed(irqd);
+> +		irq_domain_set_info(domain, virq + i, virq + i, &avec_irq_controller,
+> +				    adata, handle_edge_irq, NULL, NULL);
+> +		adata->moving = 0;
+
+Initialize first before doing enything else.
+
+> +		irqd_set_single_target(irqd);
+> +		irqd_set_affinity_on_activate(irqd);
+> +
+> +		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(irqd);
+> +	}
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static void clear_free_vector(struct irq_data *irqd)
+> +{
+> +	bool managed = irqd_affinity_is_managed(irqd);
+> +	struct avecintc_data *adata = irq_data_get_irq_chip_data(irqd);
+> +
+> +	per_cpu(irq_map, adata->cpu)[adata->vec] = NULL;
+> +	irq_matrix_free(loongarch_avec.vector_matrix, adata->cpu, adata->vec, managed);
+> +	adata->cpu = 0;
+
+0 is a valid CPU number, no?
+
+> +	adata->vec = 0;
+> +
+> +#ifdef CONFIG_SMP
+> +	if (!adata->moving)
+> +		return;
+> +
+> +	per_cpu(irq_map, adata->prev_cpu)[adata->prev_vec] = NULL;
+> +	irq_matrix_free(loongarch_avec.vector_matrix,
+> +			adata->prev_cpu, adata->prev_vec, adata->managed);
+> +	adata->moving = 0;
+> +	adata->prev_vec = 0;
+> +	adata->prev_cpu = 0;
+> +	list_del_init(&adata->entry);
+> +#endif
+> +}
+> +
+> +static void avecintc_domain_free(struct irq_domain *domain,
+> +				 unsigned int virq, unsigned int nr_irqs)
+> +{
+> +	unsigned int i;
+> +	unsigned long flags;
+> +	struct irq_data *d;
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+
+guard()
+
+> +	for (i = 0; i < nr_irqs; i++) {
+> +		d = irq_domain_get_irq_data(domain, virq + i);
+> +		if (d) {
+> +			clear_free_vector(d);
+> +			irq_domain_reset_irq_data(d);
+> +
 > +		}
 > +	}
 > +
-> +	kfree(uctx);
->  	fwctl_put(fwctl);
->  	return 0;
->  }
-> @@ -37,6 +142,7 @@ static const struct file_operations fwctl_fops = {
->  	.owner = THIS_MODULE,
->  	.open = fwctl_fops_open,
->  	.release = fwctl_fops_release,
-> +	.unlocked_ioctl = fwctl_fops_ioctl,
->  };
-
->  
->  	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
->  	if (devnum < 0)
-> @@ -137,8 +247,18 @@ EXPORT_SYMBOL_NS_GPL(fwctl_register, FWCTL);
->   */
->  void fwctl_unregister(struct fwctl_device *fwctl)
->  {
-> +	struct fwctl_uctx *uctx;
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +}
 > +
->  	cdev_device_del(&fwctl->cdev, &fwctl->dev);
->  
-> +	/* Disable and free the driver's resources for any still open FDs. */
-> +	guard(rwsem_write)(&fwctl->registration_lock);
-> +	guard(mutex)(&fwctl->uctx_list_lock);
-> +	while ((uctx = list_first_entry_or_null(&fwctl->uctx_list,
-> +						struct fwctl_uctx,
-> +						uctx_list_entry)))
-> +		fwctl_destroy_uctx(uctx);
-> +
-
-Obviously it's a little more heavy weight but I'd just use
-list_for_each_entry_safe()
-
-Less effort for reviewers than consider the custom iteration
-you are doing instead.
-
-
->  	/*
->  	 * The driver module may unload after this returns, the op pointer will
->  	 * not be valid.
-> diff --git a/include/linux/fwctl.h b/include/linux/fwctl.h
-> index ef4eaa87c945e4..1d9651de92fc19 100644
-> --- a/include/linux/fwctl.h
-> +++ b/include/linux/fwctl.h
-> @@ -11,7 +11,20 @@
->  struct fwctl_device;
->  struct fwctl_uctx;
->  
-> +/**
-> + * struct fwctl_ops - Driver provided operations
-> + * @uctx_size: The size of the fwctl_uctx struct to allocate. The first
-> + *	bytes of this memory will be a fwctl_uctx. The driver can use the
-> + *	remaining bytes as its private memory.
-> + * @open_uctx: Called when a file descriptor is opened before the uctx is ever
-> + *	used.
-> + * @close_uctx: Called when the uctx is destroyed, usually when the FD is
-> + *	closed.
-> + */
->  struct fwctl_ops {
-> +	size_t uctx_size;
-> +	int (*open_uctx)(struct fwctl_uctx *uctx);
-> +	void (*close_uctx)(struct fwctl_uctx *uctx);
->  };
->  
->  /**
-> @@ -26,6 +39,10 @@ struct fwctl_device {
->  	struct device dev;
->  	/* private: */
->  	struct cdev cdev;
-> +
-> +	struct rw_semaphore registration_lock;
-> +	struct mutex uctx_list_lock;
-
-Even for private locks, a scope statement would
-be good to have.
-
-> +	struct list_head uctx_list;
->  	const struct fwctl_ops *ops;
->  };
-
->  #endif
-> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
-> new file mode 100644
-> index 00000000000000..0bdce95b6d69d9
-> --- /dev/null
-> +++ b/include/uapi/fwctl/fwctl.h
-> @@ -0,0 +1,41 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/* Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.
-> + */
-> +#ifndef _UAPI_FWCTL_H
-> +#define _UAPI_FWCTL_H
-> +
-> +#include <linux/types.h>
-
-Not used yet.
-
-> +#include <linux/ioctl.h>
-
-Arguably nor is this, but at least this related to the code
-here.
-
-> +
-> +#define FWCTL_TYPE 0x9A
-> +
-> +/**
-> + * DOC: General ioctl format
-> + *
-> + * The ioctl interface follows a general format to allow for extensibility. Each
-> + * ioctl is passed in a structure pointer as the argument providing the size of
-> + * the structure in the first u32. The kernel checks that any structure space
-> + * beyond what it understands is 0. This allows userspace to use the backward
-> + * compatible portion while consistently using the newer, larger, structures.
-
-Is that particularly helpful?  Userspace needs to know not to put anything in
-those fields, not hard for it to also know what the size it should send is?
-The two will change together.
-
-> + *
-> + * ioctls use a standard meaning for common errnos:
-> + *
-> + *  - ENOTTY: The IOCTL number itself is not supported at all
-> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
-> + *    non-zero in a part the kernel does not understand.
-> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
-> + *    understood, however a known field has a value the kernel does not
-> + *    understand or support.
-> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
-> + *    correct.
-> + *  - ENOMEM: Out of memory.
-> + *  - ENODEV: The underlying device has been hot-unplugged and the FD is
-> + *            orphaned.
-> + *
-> + * As well as additional errnos, within specific ioctls.
-> + */
-> +enum {
-> +	FWCTL_CMD_BASE = 0,
+> +static const struct irq_domain_ops avecintc_domain_ops = {
+> +	.alloc		= avecintc_domain_alloc,
+> +	.free		= avecintc_domain_free,
 > +};
 > +
+> +static int __init irq_matrix_init(void)
+> +{
+> +	int i;
+> +
+> +	loongarch_avec.vector_matrix = irq_alloc_matrix(NR_VECTORS, 0, NR_VECTORS - 1);
+> +	if (!loongarch_avec.vector_matrix)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < NR_LEGACY_VECTORS; i++)
+> +		irq_matrix_assign_system(loongarch_avec.vector_matrix, i, false);
+> +
+> +	irq_matrix_online(loongarch_avec.vector_matrix);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __init avecintc_init(struct irq_domain *parent)
+> +{
+> +	int ret, parent_irq;
+> +	unsigned long value;
+> +
+> +	raw_spin_lock_init(&loongarch_avec.lock);
+> +
+> +	loongarch_avec.fwnode = irq_domain_alloc_named_fwnode("AVECINTC");
+> +	if (!loongarch_avec.fwnode) {
+> +		pr_err("Unable to allocate domain handle\n");
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	loongarch_avec.domain = irq_domain_create_tree(loongarch_avec.fwnode,
+> +						       &avecintc_domain_ops, NULL);
+> +	if (!loongarch_avec.domain) {
+> +		pr_err("Unable to create IRQ domain\n");
+> +		ret = -ENOMEM;
+> +		goto out_free_handle;
+> +	}
+> +
+> +	parent_irq = irq_create_mapping(parent, INT_AVEC);
+> +	if (!parent_irq) {
+> +		pr_err("Failed to mapping hwirq\n");
+> +		ret = -EINVAL;
+> +		goto out_remove_domain;
+> +	}
+> +	irq_set_chained_handler_and_data(parent_irq, avecintc_irq_dispatch, NULL);
+> +
+> +	ret = irq_matrix_init();
+> +	if (ret < 0) {
+> +		pr_err("Failed to init irq matrix\n");
+> +		goto out_free_matrix;
+> +	}
+> +#ifdef CONFIG_SMP
+> +	pending_list_init(0);
+> +	ret = cpuhp_setup_state_nocalls(CPUHP_AP_IRQ_AVECINTC_STARTING,
+> +					"irqchip/loongarch/avecintc:starting",
+> +					avecintc_cpu_online, avecintc_cpu_offline);
 > +#endif
+> +	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+> +	value |= IOCSR_MISC_FUNC_AVEC_EN;
+> +	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+> +
+> +	return ret;
+> +
+> +out_free_matrix:
+> +	kfree(loongarch_avec.vector_matrix);
 
+The code above just failed to allocate the matrix, so why are you trying
+to free it?
+
+And this happily fails to uninstall the chained handler. 
+
+> +out_remove_domain:
+> +	irq_domain_remove(loongarch_avec.domain);
+> +out_free_handle:
+> +	irq_domain_free_fwnode(loongarch_avec.fwnode);
+> +out:
+> +	return ret;
+> +}
+> +
+> +static struct irq_chip pch_msi_irq_chip_v2 = {
+> +	.name			= "PCH PCI MSI",
+> +	.irq_ack		= irq_chip_ack_parent,
+> +};
+> +
+> +static struct msi_domain_info pch_msi_domain_info_v2 = {
+> +	.flags	= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+> +		  MSI_FLAG_MULTI_PCI_MSI | MSI_FLAG_PCI_MSIX,
+> +	.chip	= &pch_msi_irq_chip_v2,
+> +};
+> +
+> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
+> +					struct acpi_madt_msi_pic *acpi_pchmsi)
+> +{
+> +	struct irq_domain *msi_domain;
+> +
+> +	if (pch_msi_handle[0])
+> +		return 0;
+> +
+> +	pch_msi_handle[0] = irq_domain_alloc_fwnode(&acpi_pchmsi->msg_address);
+> +	if (!pch_msi_handle[0]) {
+> +		pr_err("Unable to allocate domain handle\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	msi_domain = pci_msi_create_irq_domain(pch_msi_handle[0],
+> +					       &pch_msi_domain_info_v2, parent);
+
+Please don't do that. Convert this to use per device MSI domains.
+
+Thanks,
+
+        tglx
