@@ -1,305 +1,419 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11012041.outbound.protection.outlook.com [52.101.66.41])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5233225D4;
-	Fri, 26 Jul 2024 12:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721997354; cv=fail; b=SKGfSvy8aXI10t0IXjS7qLMNOWvCQPTs5kHMXrSnS1j7sBCjtjkHpKiTGZ6weA2uBiEiF1zcnUvYXVEXQlyA0Fv6CBG74Ky9D7IeUGFRpv5INn5kWegaUQnZHrzcgav3in/TCTo//Bv94Yf2r41nS40tHEOOVPPlLGvOFTJfYCU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721997354; c=relaxed/simple;
-	bh=SCqP+L+nfHoZasmv1kfH1FyeXUSh9EQP5xyBh1D6yQg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mZQzK4kwWGNN1vJ8xgqQkJJyYzUGHfgkKg17CZYdlq58Wd9N9vCum9mSLKh+QOGIjf1bCJm87u3KR8nhC44FvA5OVNZNcLlsVOIQMFUMagS+wI4hLr+XK9DlwEv5tHP+pcoFIH0i2HCw/Bi36TFaim03zUoGLjfSW9HhOZcLNOE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Gi/IirAT; arc=fail smtp.client-ip=52.101.66.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4CE225D4;
+	Fri, 26 Jul 2024 12:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721997557; cv=none; b=c5Han4mPcY6NXR+fZMi5gzpyKbpi+CS5c6k5I3B3MVgkrjWRDy6qmwv3PdJdh9b763rENW1jRLE+laPPEGzcgvhaN5o5rnpTdmFColWHqAT7orcbI1gIMdGo8StPc+nrxbo/zM1n/JzLN0EEZFu8uvaKXmmH5tMnMHQpC8fZykM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721997557; c=relaxed/simple;
+	bh=jfgLCgExStGP4uUr9GbMqVl+wognRpyZIMSPbdC3X6E=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EZJ8+X4wj6xwCVZElxNtCj0eZeUW4xbIPV/1D9yqm2lv1Sf6h3R24/9MOB/U3BUTCNVfT4wFA6xP1TCkaNXxYIDPjZBXyFJYyePOmi/1tq76SxFQuhZZlVUfLXeI/qheonloXc/Fu9rhOcA59JO0rN5o0SzKJPa3YS3c+KNBdzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=kyhhYbU0; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Gi/IirAT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kI54wuE+R87tqamOCMXdKyPsWTOHcDUelWGfp2XQnM4deq3v8GOk9nXiZlpKWTUPTErMaG3v8va8FAXh6z4CKCVbNwRL1xnFvHGJXAYT3/cJR7UX12g8/GiiP/BSgTbWoLC/R83RH6fsZYBdvXspk7/bZ9JLHEsQePc84rIuKpQlhd9+L1/F+M2xX2mheZCD/rws5zlPdK5TMEM2yKfs+QDE01ViYJjF1uKLmtl8SG54YK0TMVakCeSLdGWiQuUi0J1Gvd65rm0EeFT62ZOf7f/9Q9HD+6WAWDzdkSqz0EKLB1EXEsXCUmcTYMDIKqm25cUCNWxz5aefMFixKuPFqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RXXg4WexB6izfFwC+aK4H6UrMb7qqcup5KxAywC+z44=;
- b=GUbrabaGg4eTUI0DGlU711PGmZGgi+i3ylC63DWnJpxev60DDLiLKEbU3SInWa3gtJM/KhC+vDi1b3v220eOzKRpiC4C9pw9JAWFCoChfcgse9Np7na40wjlF1cylbRCOeXq2wEGsv4i7I7zENo74K1uSSrorCunqNkcfQ3WbpbVxBzHADCzdHctBqq2TXGUYB3VJuozeGwx5Sjm8lHNUWCC5P5OZDGkTp4Yf+LWI4qwWC6DHXl8YYTLC0+gDlWndhvBxvcBDjhQVFWDJAsKfHoJMyxX/EsZ7uSCUfPRXKFapbxHam0Z9ghvUEC/Movkkghzl5RpYQHGluG38hmjIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RXXg4WexB6izfFwC+aK4H6UrMb7qqcup5KxAywC+z44=;
- b=Gi/IirATTP4Wd978TgSem2ZgQ+KRF6nKpD0yghcQCNfFX6Z9NE1w+SpFYc88rJwrdN6YoMbKWIRrjw7svX6zGDAsN2FQdbuZmJQKw817bMqhQWRFmwlpXdQd99Jdva9AIwpL6j97Wkzs5Owsd7PcGOv+CUs2/6qszXa9wnjgpOnXZpEFHVW067cJyYkZdj8wwojQ1Jgs5YzFzhmMLz5wky+zcrD7dgZzcFOp/JJ/WjPrVtBIntRC8Ulpm8Xm4WX9MTA/lJ2bhLKaZVnChSAU62WwHWj1QEA9T8s5gzkhLv5nUiOlNa6KteXtQEKu6ZgdSgexny7LI6WW6MBPe29RdA==
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
- by PA2PR04MB10424.eurprd04.prod.outlook.com (2603:10a6:102:419::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.28; Fri, 26 Jul
- 2024 12:35:48 +0000
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827%4]) with mapi id 15.20.7784.020; Fri, 26 Jul 2024
- 12:35:48 +0000
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Thread-Topic: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Thread-Index:
- AQHa2/NU1sJztJxAoEWO7LSlO6AOebIC9paAgADLMzCAAJnWAIABTu8QgABaVYCAAPz18IAAhwuAgAFte+A=
-Date: Fri, 26 Jul 2024 12:35:48 +0000
-Message-ID:
- <AM9PR04MB8604E23D34326C32B76D6F2995B42@AM9PR04MB8604.eurprd04.prod.outlook.com>
-References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
- <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
- <20240722-popper-comfort-7538ea70c77b@spud>
- <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240723-smitten-shower-1d15c0f3cf97@spud>
- <AM9PR04MB86043E4B4B2FB206BF9223C695AA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240724-huddling-neatly-88813c0b1f1d@spud>
- <DU2PR04MB85990A0AB8AF8ABFCDA4CBD995AB2@DU2PR04MB8599.eurprd04.prod.outlook.com>
- <20240725-filled-outscore-24149588d958@spud>
-In-Reply-To: <20240725-filled-outscore-24149588d958@spud>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|PA2PR04MB10424:EE_
-x-ms-office365-filtering-correlation-id: ef4430bb-c655-4b01-2d66-08dcad6f7a6b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?NDF66eH8B164gwVX2ychYB1EvaX0D8p4OnikycZkt+FfaAEQbnLNQIUMX72N?=
- =?us-ascii?Q?cXhSX1L/W0h2Eqa7JafhVJmfkoG6PxizjJt0M+iQ4woD6b2A3d8nmG4ZhKY3?=
- =?us-ascii?Q?NBRGw5Mri76rC86VJZJHPPwRa1EaG7FB1Ogpfpsn/1vKKPUxPkoCThgtxkrw?=
- =?us-ascii?Q?0yACfblaIlTtA4LX7t6Qa3e1sbHZ3wHoO+GGxrZtc813X+iVhPyuBvDAT20B?=
- =?us-ascii?Q?zz3vlgvhd/+r9ptrjFdR++ojJNs+andWQYLRTgBxnRQTbAH5Qc6Wj1F9sSAd?=
- =?us-ascii?Q?LdxJV8I1chfuyMzEz3H/7jTTvPhEeVLXtL8FgBVaMpV+v154YIA4MviLNry+?=
- =?us-ascii?Q?dww/r3Cg/yQfcuUPJkg2CEv2Yp8lGIvzFGm9eUFJqG3Xgbn4bWp6MaGsq5TM?=
- =?us-ascii?Q?atMarsaF8rHJQweLNtvKpOlQuZCtAb3cnIHP1vjXLoYLNA9szKnVG35b1wsx?=
- =?us-ascii?Q?4FKJpGyzwJ2Yne5bUMwg1F7wLLkFRzbolAI823c+IByaPYUBj2G0DdVMhonX?=
- =?us-ascii?Q?CInbJ3A/eF0cjyX46qwspKHWGGSfeXAMoo5a2jPHhUrAehbs25a2QX4EWn7L?=
- =?us-ascii?Q?7xvbeoJ3gj1GnjaF2cUFcq/zNtFUGGv/OoVM7hgfLwMemNdEZqQsF1VDc73W?=
- =?us-ascii?Q?/rXP1lxpcqYO3nO7ARNCqajwYsU9JYRJsKhekT3fwjvqvLkaWs6zwp8l2Ouh?=
- =?us-ascii?Q?f66wtsYZHYQech73GHP+TpPZ/jTgjj6mQxY1QVT//xuDd9LMD9lAK6/kralc?=
- =?us-ascii?Q?TgDzW+1WTSAFGG6GgU3MY3VnldgFhaIfiaEdhcF7CdGlzBn//gLbAt3iVZX2?=
- =?us-ascii?Q?HY3p1qQBiezvqFFB9x6+qf/NJ0u17Nn83ylo9pZjyPMmv5GmgUmCVgFk9c2F?=
- =?us-ascii?Q?7crWiY/hArMWwCOIhNEHcpIVms9arnvfu6zKGiHMKg7qTKTWDHkuHSApwYZm?=
- =?us-ascii?Q?v8S0Ub8IlaC2bT7aw3EV8medT62EIOcWlrhOunMxytdR+hIZ0cRYLCXNcO9i?=
- =?us-ascii?Q?+qByzICSPpoRkhDHS2dH1jIgBat5mPdZCglOTTsbqhb+6aQ9fwxe9Y3Z82h2?=
- =?us-ascii?Q?qGGqsajqOfn2sjB/nKvFhulM2I6GDNCd05P5FFAzaMMl9jhbWQxjSPJCItjM?=
- =?us-ascii?Q?f21g/rQc4DgofDwiQx/eToqeMtwvmV9p5eaOm/DIAGeSTfAZukA7vUpbCSF0?=
- =?us-ascii?Q?ylUPs68Oy7lon0ra/deUGHhc9rktn7XoCZ6Qeo3oMOPeq749TKNeWkwC6Z3Z?=
- =?us-ascii?Q?Qwe4CQ1k/ihSvjwkQWr12aFOeku9F7gHDPPIArKCNwjI7oT5pdogGA5D5Usm?=
- =?us-ascii?Q?PblHSib2oz0aFyUjLrR65iVa8FlWDxZqZsLuAL3ua17C0LZ2SOGAhqdhzXac?=
- =?us-ascii?Q?b9itPutFPTxDgjCe3BN3fPPKR5sIWuxhc7xT6Lam2wuPGPSWIA=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?WXxR5Ck/lxswCVILxX+arPsUDfNOw7B2E3GV0nBtDpeSKKzDgxL+WP0qXJST?=
- =?us-ascii?Q?DrODWL1/g541Spg6UgiRD9FMBULYw3cZK/CvTVJDiTASQM56DiQqgwbb6+gg?=
- =?us-ascii?Q?EcuC25IrlCw7/UkHJvhl8KZT9Ua21+4bzmvoy5/dgaodaBmsyToOdT3w7qWr?=
- =?us-ascii?Q?s/hWvhEFlHaHKcn4VI5dw6Tmda3cdpXXZZnSpqgtVlXsHl90lcc+JqiQjJYl?=
- =?us-ascii?Q?aTAXJMEAJsHZC/bPaAYnlvOjoqrqDv+G1c9ZF86P60c9r4W8IQ5zV+lbFDpq?=
- =?us-ascii?Q?S7tnI99OtIIRAehdJiJUAL1NL+uUQWNCGhG+venmtor2NvHu2hWts/mzr0Uy?=
- =?us-ascii?Q?8Ys6wcuktF8B7OL8ZsPmZJJvEnbsLdUs5NAMQ4Oq8VuaZ7vlRk2DYxLooOKv?=
- =?us-ascii?Q?81xqWhUlHSsBaBbogXDoEuqIWCbCOMD6aSuwVk5ZCylxo60zkBxSGl48L3TS?=
- =?us-ascii?Q?SPbCPuOVgytbUv1rix9fcPIoXy13JnA5V4oQ5kEZIJ42HFEr0WXVjzEOZJor?=
- =?us-ascii?Q?6Q8Fny/x2Ot4PAJMtbW+iffalDiTR6XnRDSax6T7AyvRzDemg1G+tgleIbM1?=
- =?us-ascii?Q?/4UW/vyG9rGO25lZN7Cy/JsXQQDLC5dMc0cnKwFVrmR9bZoxRBtrLo7SwKSa?=
- =?us-ascii?Q?6OWUieZNGwcF7jXlsfvOu/CHkcKkIY0Qeb/fvochGPX2H8YSHKduS52nH6G1?=
- =?us-ascii?Q?qIJhlpkneSEuhPx45fwQrp8MXuit5xpeFtee623hCTxexoo4jBej3wWPZgsz?=
- =?us-ascii?Q?TVg9X2Zu51lQf1rlNWHECE4qGjzoirea8dDZJr42VDFyKpjr/86tPDSwQRe5?=
- =?us-ascii?Q?+Oy/5Pq6i+KGdjpRdhrsEBIBuT4juYSz0Ik4vKFq72VAXsRhUFjfq6JZ5Htv?=
- =?us-ascii?Q?iT9KiMFqZo4nUnjuw0PofXU4VFHjox54gp/YysARUFsxkd7MEZKeljTL9GLv?=
- =?us-ascii?Q?wi//9NDvNbGDP8dHHilr6c2KtymC4RqkXUPyti64+7MF9xYIz8oujQ7OHjvN?=
- =?us-ascii?Q?6tCNWScobbfVbzfJv8spsPESgJs4t4UE/2RmHOnaNjaUqoWxgsy4e1/YAXct?=
- =?us-ascii?Q?iV+fLev36A5UUeJE2TcuXbyEF4Y0rco9NVSkydYkp38WZvPyd2qG4Dc9CJC3?=
- =?us-ascii?Q?EousDAw14+W75p6jBp0MHkaQWcM3TVKSNg3y/GthEZgp8MXXGrRM1NT4jU79?=
- =?us-ascii?Q?48z8YDPYaC3iRTH8NqNtT5yuA3FLo61saybN6BLZPuRggB7JZz8XYtjaFoKM?=
- =?us-ascii?Q?84Lu3rxJDfca/AMCJgT1F9r4XFWGE4fxqE0qJCyyAMw+raYnlbpglCb67GH7?=
- =?us-ascii?Q?dL8I8RHhrtDc4ldNopb92YY8uXztlkgAEIZz9TcEBRS1gGZcr2ahu7kQCkoR?=
- =?us-ascii?Q?7BQwkTMFPm6+DuK04hj35l6BmV8gosaRp28NhqjsXBI3DrebMuKrzuviB+Qq?=
- =?us-ascii?Q?hxiCkcnt0rPkWwp+M09thk5sLsPhZI0OH/rPf8BpuUtjGXhfNPv5dY3rfUr1?=
- =?us-ascii?Q?m7H9/ySxghh0SyYf2HeFnKIKFQyOK4clt0kq0MdKrEGTg02tG12ODRxGWZBH?=
- =?us-ascii?Q?3BUpmLACwCo6WcujKvo6Q1yfUAeiRLqECAtrpT0T?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="kyhhYbU0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1721997555; x=1753533555;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jfgLCgExStGP4uUr9GbMqVl+wognRpyZIMSPbdC3X6E=;
+  b=kyhhYbU0hY1UPkTOlSyo6SyWXsIPbWAoKEbW57+A52YZvYD217cslx76
+   mStnr/K4Ldml6cvjmd1UdJgpWHMNbJQl8wRn+Nx/3NuAGkRNdbqGvONx5
+   vkZC6QZobU/sMkM1+Av/Uj430lNFNo4o5Gdx0a8sLlI5ZyRX1yaN1MRd4
+   4BH6l1RmjOOT6QfwiBi6t5MYDo/GQSumNZyrw3ynJ3OeYpRhOqm5sOdkL
+   /0hJj7bjQxCQ9ZI/65CEVK0l65VysnQMhj/xCWBg7tnCuc5JTAlPq5nV8
+   QBwftfVtsFRm8LEpZ2mEVixIZ+QU2uwyOj2virFSpd++lV9gD3CBVVuN9
+   g==;
+X-CSE-ConnectionGUID: +VQMOPGHTWyidJIXcjtMPg==
+X-CSE-MsgGUID: h5PjzgHZRECrs1alGLecsg==
+X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
+   d="scan'208";a="30386922"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:39:08 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 26 Jul 2024 05:38:55 -0700
+Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:38:47 -0700
+From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <andrew@lunn.ch>, <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
+	<ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
+	<vladimir.oltean@nxp.com>
+CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
+	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
+	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
+	<linux@bigler.io>, Parthiban Veerasooran
+	<Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v5 02/14] net: ethernet: oa_tc6: implement register write operation
+Date: Fri, 26 Jul 2024 18:08:55 +0530
+Message-ID: <20240726123907.566348-3-Parthiban.Veerasooran@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef4430bb-c655-4b01-2d66-08dcad6f7a6b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2024 12:35:48.6089
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7beM9a5p4eiAidWbTdKL0F5VaOG8KRH9f6tUSUxY5DRhv1qFYOkcL+UBdSm/Sb74fjq4Qbbtsrs0E99b9EUj7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10424
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+Implement register write operation according to the control communication
+specified in the OPEN Alliance 10BASE-T1x MACPHY Serial Interface
+document. Control write commands are used by the SPI host to write
+registers within the MAC-PHY. Each control write commands are composed of
+a 32 bits control command header followed by register write data.
 
+The MAC-PHY ignores the final 32 bits of data from the SPI host at the
+end of the control write command. The write command and data is also
+echoed from the MAC-PHY back to the SPI host to enable the SPI host to
+identify which register write failed in the case of any bus errors.
+Control write commands can write either a single register or multiple
+consecutive registers. When multiple consecutive registers are written,
+the address is automatically post-incremented by the MAC-PHY. Writing to
+any unimplemented or undefined registers shall be ignored and yield no
+effect.
 
-> -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Thursday, July 25, 2024 8:09 PM
-> To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
-> linux-arm-kernel@lists.infradead.org
-> Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-f=
-w
-> binding doc
->=20
-> On Thu, Jul 25, 2024 at 07:06:30AM +0000, Pankaj Gupta wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Conor Dooley <conor@kernel.org>
-> > > Sent: Wednesday, July 24, 2024 9:00 PM
-> > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
-> Hauer
-> > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > imx-se-fw binding doc
->=20
-> For the third time, please fix your mail client so it stops inserting thi=
-s garbage.
->=20
-> > >
-> > > On Wed, Jul 24, 2024 at 11:02:21AM +0000, Pankaj Gupta wrote:
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > Sent: Tuesday, July 23, 2024 7:38 PM
-> > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> > > > > Conor Dooley <conor+dt@kernel.org>; Shawn Guo
-> > > > > <shawnguo@kernel.org>; Sascha
-> > > Hauer
-> > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
-> Rob
-> > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > > > imx-se-fw binding doc
-> > >
-> > > Please fix this ^
-> > >
-> > > > > On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > > > Sent: Monday, July 22, 2024 10:20 PM
-> > > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> > > > > > > Conor Dooley <conor+dt@kernel.org>; Shawn Guo
-> > > > > > > <shawnguo@kernel.org>; Sascha
-> > > > > Hauer
-> > > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
-> > > > > > > Rob Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org;
-> > > > > > > linux- kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > > > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > > > > > imx-se-fw binding doc
-> > > > >
-> > > > > Please fix this ^
-> > > > >
-> > > > > > >
-> > > > > > > On Mon, Jul 22, 2024 at 10:21:37AM +0530, Pankaj Gupta wrote:
-> > > > In case of imx8ulp, there is a single node.
-> > > > Having a same node name for both parent and child, is bit strange.
-> > > > firmware {
-> > > > 	firmware {
-> > > > 	};
-> > > > };
-> > > >
-> > > > Request you to allow to re-evaluate this point.
-> > >
-> > > I dunno, it's all firmware so I don't really get why it is so strange=
-!
-> > > Can you remind me again why it is inside a parent node to begin with?
-> >
-> > Three type of security firmware(s): HSM, V2X-SHE, V2X-HSM, are running =
-at
-> the cores dedicated to the each different secure-enclave hardware IP(s).
-> > Each firmware receives the message to act and response back with the
-> completed act.
-> > This message exchanges happens through the Message-Unit hardware
-> interface.
-> > There could be multiple MU for multiple security firmware, that would b=
-e
-> used for respective message exchanges.
-> >
-> > This node defines the details of each such MU interface.
-> >
-> > Reason to put under firmware:
-> > 	Since this node specifies interface details between kernel and
-> firmware, it was put under parent "firmware {".
-> > 	I am not sure if this reason is correct enough to begin with.
-> >
-> > Thanks for allowing to revisit.
-> >
-> > I will make the change to whatever you finalize now. Thanks.
->=20
-> I'm sorry, I still don't understand why you have the parent node. It seem=
-s
-> pointless to me, and this new node could be added at the top level.
-Lately, I got this feedback in NXP internal as well.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+---
+ MAINTAINERS                   |   2 +
+ drivers/net/ethernet/Kconfig  |  11 ++
+ drivers/net/ethernet/Makefile |   1 +
+ drivers/net/ethernet/oa_tc6.c | 240 ++++++++++++++++++++++++++++++++++
+ include/linux/oa_tc6.h        |  17 +++
+ 5 files changed, 271 insertions(+)
+ create mode 100644 drivers/net/ethernet/oa_tc6.c
+ create mode 100644 include/linux/oa_tc6.h
 
-Accepted. Will add it at the top level.
-Thanks.
-
-Help with the suggestion for the node name:
-1. enclave-interface
-	For multiple nodes, it will be:
-	enclave-interface-0
-	enclave-interface-1
-	enclave-interface-2
-2. secure-enclave
-	For multiple nodes, it will be:
-	secure-enclave-0
-	secure-enclave-1
-	secure-enclave-3
-
-Or share any other suggested word(s).
-Thanks.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4cbdc53f2743..feae6d4bebdd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16998,6 +16998,8 @@ M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/networking/oa-tc6-framework.rst
++F:	drivers/include/linux/oa_tc6.h
++F:	drivers/net/ethernet/oa_tc6.c
+ 
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ M:	Rob Herring <robh@kernel.org>
+diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
+index 0baac25db4f8..9a542e3c9b05 100644
+--- a/drivers/net/ethernet/Kconfig
++++ b/drivers/net/ethernet/Kconfig
+@@ -158,6 +158,17 @@ config ETHOC
+ 	help
+ 	  Say Y here if you want to use the OpenCores 10/100 Mbps Ethernet MAC.
+ 
++config OA_TC6
++	tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support"
++	depends on SPI
++	select PHYLIB
++	help
++	  This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
++	  Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
++
++	  To know the implementation details, refer documentation in
++	  <file:Documentation/networking/oa-tc6-framework.rst>.
++
+ source "drivers/net/ethernet/packetengines/Kconfig"
+ source "drivers/net/ethernet/pasemi/Kconfig"
+ source "drivers/net/ethernet/pensando/Kconfig"
+diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
+index c03203439c0e..99fa180dedb8 100644
+--- a/drivers/net/ethernet/Makefile
++++ b/drivers/net/ethernet/Makefile
+@@ -105,3 +105,4 @@ obj-$(CONFIG_NET_VENDOR_XILINX) += xilinx/
+ obj-$(CONFIG_NET_VENDOR_XIRCOM) += xircom/
+ obj-$(CONFIG_NET_VENDOR_SYNOPSYS) += synopsys/
+ obj-$(CONFIG_NET_VENDOR_PENSANDO) += pensando/
++obj-$(CONFIG_OA_TC6) += oa_tc6.o
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+new file mode 100644
+index 000000000000..63a107cd6c98
+--- /dev/null
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -0,0 +1,240 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface framework
++ *
++ * Author: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
++ */
++
++#include <linux/bitfield.h>
++#include <linux/oa_tc6.h>
++
++/* Control command header */
++#define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
++#define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
++#define OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR	GENMASK(27, 24)
++#define OA_TC6_CTRL_HEADER_ADDR			GENMASK(23, 8)
++#define OA_TC6_CTRL_HEADER_LENGTH		GENMASK(7, 1)
++#define OA_TC6_CTRL_HEADER_PARITY		BIT(0)
++
++#define OA_TC6_CTRL_HEADER_SIZE			4
++#define OA_TC6_CTRL_REG_VALUE_SIZE		4
++#define OA_TC6_CTRL_IGNORED_SIZE		4
++#define OA_TC6_CTRL_MAX_REGISTERS		128
++#define OA_TC6_CTRL_SPI_BUF_SIZE		(OA_TC6_CTRL_HEADER_SIZE +\
++						(OA_TC6_CTRL_MAX_REGISTERS *\
++						OA_TC6_CTRL_REG_VALUE_SIZE) +\
++						OA_TC6_CTRL_IGNORED_SIZE)
++
++/* Internal structure for MAC-PHY drivers */
++struct oa_tc6 {
++	struct spi_device *spi;
++	struct mutex spi_ctrl_lock; /* Protects spi control transfer */
++	void *spi_ctrl_tx_buf;
++	void *spi_ctrl_rx_buf;
++};
++
++enum oa_tc6_header_type {
++	OA_TC6_CTRL_HEADER,
++};
++
++enum oa_tc6_register_op {
++	OA_TC6_CTRL_REG_WRITE = 1,
++};
++
++static int oa_tc6_spi_transfer(struct oa_tc6 *tc6,
++			       enum oa_tc6_header_type header_type, u16 length)
++{
++	struct spi_transfer xfer = { 0 };
++	struct spi_message msg;
++
++	xfer.tx_buf = tc6->spi_ctrl_tx_buf;
++	xfer.rx_buf = tc6->spi_ctrl_rx_buf;
++	xfer.len = length;
++
++	spi_message_init(&msg);
++	spi_message_add_tail(&xfer, &msg);
++
++	return spi_sync(tc6->spi, &msg);
++}
++
++static int oa_tc6_get_parity(u32 p)
++{
++	/* Public domain code snippet, lifted from
++	 * http://www-graphics.stanford.edu/~seander/bithacks.html
++	 */
++	p ^= p >> 1;
++	p ^= p >> 2;
++	p = (p & 0x11111111U) * 0x11111111U;
++
++	/* Odd parity is used here */
++	return !((p >> 28) & 1);
++}
++
++static __be32 oa_tc6_prepare_ctrl_header(u32 address, u8 length,
++					 enum oa_tc6_register_op reg_op)
++{
++	u32 header;
++
++	header = FIELD_PREP(OA_TC6_CTRL_HEADER_DATA_NOT_CTRL,
++			    OA_TC6_CTRL_HEADER) |
++		 FIELD_PREP(OA_TC6_CTRL_HEADER_WRITE_NOT_READ, reg_op) |
++		 FIELD_PREP(OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR, address >> 16) |
++		 FIELD_PREP(OA_TC6_CTRL_HEADER_ADDR, address) |
++		 FIELD_PREP(OA_TC6_CTRL_HEADER_LENGTH, length - 1);
++	header |= FIELD_PREP(OA_TC6_CTRL_HEADER_PARITY,
++			     oa_tc6_get_parity(header));
++
++	return cpu_to_be32(header);
++}
++
++static void oa_tc6_update_ctrl_write_data(struct oa_tc6 *tc6, u32 value[],
++					  u8 length)
++{
++	__be32 *tx_buf = tc6->spi_ctrl_tx_buf + OA_TC6_CTRL_HEADER_SIZE;
++
++	for (int i = 0; i < length; i++)
++		*tx_buf++ = cpu_to_be32(value[i]);
++}
++
++static u16 oa_tc6_calculate_ctrl_buf_size(u8 length)
++{
++	/* Control command consists 4 bytes header + 4 bytes register value for
++	 * each register + 4 bytes ignored value.
++	 */
++	return OA_TC6_CTRL_HEADER_SIZE + OA_TC6_CTRL_REG_VALUE_SIZE * length +
++	       OA_TC6_CTRL_IGNORED_SIZE;
++}
++
++static void oa_tc6_prepare_ctrl_spi_buf(struct oa_tc6 *tc6, u32 address,
++					u32 value[], u8 length,
++					enum oa_tc6_register_op reg_op)
++{
++	__be32 *tx_buf = tc6->spi_ctrl_tx_buf;
++
++	*tx_buf = oa_tc6_prepare_ctrl_header(address, length, reg_op);
++
++	oa_tc6_update_ctrl_write_data(tc6, value, length);
++}
++
++static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
++{
++	u8 *tx_buf = tc6->spi_ctrl_tx_buf;
++	u8 *rx_buf = tc6->spi_ctrl_rx_buf;
++
++	rx_buf += OA_TC6_CTRL_IGNORED_SIZE;
++
++	/* The echoed control write must match with the one that was
++	 * transmitted.
++	 */
++	if (memcmp(tx_buf, rx_buf, size - OA_TC6_CTRL_IGNORED_SIZE))
++		return -EPROTO;
++
++	return 0;
++}
++
++static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
++			       u8 length, enum oa_tc6_register_op reg_op)
++{
++	u16 size;
++	int ret;
++
++	/* Prepare control command and copy to SPI control buffer */
++	oa_tc6_prepare_ctrl_spi_buf(tc6, address, value, length, reg_op);
++
++	size = oa_tc6_calculate_ctrl_buf_size(length);
++
++	/* Perform SPI transfer */
++	ret = oa_tc6_spi_transfer(tc6, OA_TC6_CTRL_HEADER, size);
++	if (ret) {
++		dev_err(&tc6->spi->dev, "SPI transfer failed for control: %d\n",
++			ret);
++		return ret;
++	}
++
++	/* Check echoed/received control write command reply for errors */
++	return oa_tc6_check_ctrl_write_reply(tc6, size);
++}
++
++/**
++ * oa_tc6_write_registers - function for writing multiple consecutive registers.
++ * @tc6: oa_tc6 struct.
++ * @address: address of the first register to be written in the MAC-PHY.
++ * @value: values to be written from the starting register address @address.
++ * @length: number of consecutive registers to be written from @address.
++ *
++ * Maximum of 128 consecutive registers can be written starting at @address.
++ *
++ * Return: 0 on success otherwise failed.
++ */
++int oa_tc6_write_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			   u8 length)
++{
++	int ret;
++
++	if (!length || length > OA_TC6_CTRL_MAX_REGISTERS) {
++		dev_err(&tc6->spi->dev, "Invalid register length parameter\n");
++		return -EINVAL;
++	}
++
++	mutex_lock(&tc6->spi_ctrl_lock);
++	ret = oa_tc6_perform_ctrl(tc6, address, value, length,
++				  OA_TC6_CTRL_REG_WRITE);
++	mutex_unlock(&tc6->spi_ctrl_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(oa_tc6_write_registers);
++
++/**
++ * oa_tc6_write_register - function for writing a MAC-PHY register.
++ * @tc6: oa_tc6 struct.
++ * @address: register address of the MAC-PHY to be written.
++ * @value: value to be written in the @address register address of the MAC-PHY.
++ *
++ * Return: 0 on success otherwise failed.
++ */
++int oa_tc6_write_register(struct oa_tc6 *tc6, u32 address, u32 value)
++{
++	return oa_tc6_write_registers(tc6, address, &value, 1);
++}
++EXPORT_SYMBOL_GPL(oa_tc6_write_register);
++
++/**
++ * oa_tc6_init - allocates and initializes oa_tc6 structure.
++ * @spi: device with which data will be exchanged.
++ *
++ * Return: pointer reference to the oa_tc6 structure if the MAC-PHY
++ * initialization is successful otherwise NULL.
++ */
++struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
++{
++	struct oa_tc6 *tc6;
++
++	tc6 = devm_kzalloc(&spi->dev, sizeof(*tc6), GFP_KERNEL);
++	if (!tc6)
++		return NULL;
++
++	tc6->spi = spi;
++	mutex_init(&tc6->spi_ctrl_lock);
++
++	/* Set the SPI controller to pump at realtime priority */
++	tc6->spi->rt = true;
++	spi_setup(tc6->spi);
++
++	tc6->spi_ctrl_tx_buf = devm_kzalloc(&tc6->spi->dev,
++					    OA_TC6_CTRL_SPI_BUF_SIZE, GFP_KERNEL);
++	if (!tc6->spi_ctrl_tx_buf)
++		return NULL;
++
++	tc6->spi_ctrl_rx_buf = devm_kzalloc(&tc6->spi->dev,
++					    OA_TC6_CTRL_SPI_BUF_SIZE, GFP_KERNEL);
++	if (!tc6->spi_ctrl_rx_buf)
++		return NULL;
++
++	return tc6;
++}
++EXPORT_SYMBOL_GPL(oa_tc6_init);
++
++MODULE_DESCRIPTION("OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface Lib");
++MODULE_AUTHOR("Parthiban Veerasooran <parthiban.veerasooran@microchip.com>");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
+new file mode 100644
+index 000000000000..99c490f1c8a8
+--- /dev/null
++++ b/include/linux/oa_tc6.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface framework
++ *
++ * Link: https://opensig.org/download/document/OPEN_Alliance_10BASET1x_MAC-PHY_Serial_Interface_V1.1.pdf
++ *
++ * Author: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
++ */
++
++#include <linux/spi/spi.h>
++
++struct oa_tc6;
++
++struct oa_tc6 *oa_tc6_init(struct spi_device *spi);
++int oa_tc6_write_register(struct oa_tc6 *tc6, u32 address, u32 value);
++int oa_tc6_write_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			   u8 length);
+-- 
+2.34.1
 
