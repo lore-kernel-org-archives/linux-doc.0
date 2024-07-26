@@ -1,156 +1,161 @@
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656AC101F7;
-	Fri, 26 Jul 2024 15:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F2200AF;
+	Fri, 26 Jul 2024 16:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722009289; cv=none; b=Cyj1KMkw6dJ4ANs4OMVC2tcKC8qGbAABCUnIqhoobw5k++xDsidI51OWMKTAZsKqSlg5I2151J5YjTKWYltrDPbfU6tln/3yNkYVraRest10ofWiYrgzXGVOHJRABMF8u7ute+dl0x4WXCoNDce23GJ1DJDF4dWpUx1EIzORPY4=
+	t=1722010219; cv=none; b=GWX7I5sELOWvNA5/54b6pwUFnkhBC2roZdlaKz9LqNoPdJhHOJaYUTobo0t29OKsqpUYKznROro9dpOKUW75SUM5oCMjqjWBAS7tAY0Nk5K7GqSPKhmMsaXStDsmJw39RLrCe70j7/FlUtNQk/tOhJUhTczl4QRuaM2MBiQy0XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722009289; c=relaxed/simple;
-	bh=YTTkDFAXVglN4v44mHQV0lUT6gXOegEaaIGaVD3vLxc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T/wEkHo1nnuoVyZbyFIt77NJbPGA43Xvp7+irQWfT1VJH0w6bklYOBiEFDWmFm+PeT6TdD2FX5l+t5A7pSseUhqW9rJGXlSE0+cD9+4bC3Ao50+qGL57by5UUzQ4SKBrTl/auvTc2aADbG6cz65Sdh+8R1sjt3RaqwNYMOycyEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=X3TBhKzR; arc=none smtp.client-ip=185.70.40.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="X3TBhKzR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1722009284; x=1722268484;
-	bh=PNehUS/FjC6MuBbMsm8QCFATrShoDfiQh3B/wLKyLZE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=X3TBhKzR/gJk20IHe/R33SdAJRRsUuYfTYbOV3BaLdgkIMON40Pmz2uUKH5Q3bhE1
-	 ShCehdJHGOE/j0CHP0S5zr22rjv4WZe0jsjBr4XO3ja3YwSsFsynX9ILnwlRnmTUh0
-	 WNaysJNuD7fyoHEpIFEgdP2DIfXpzzpRvnGdcfDaMLXdzTme4XAXlQtFvFICcx6Y3M
-	 6E8K3xf7feIgLNhTjvlwDPh1/o9cBefuISzPNrtLSLbeAw1swWArh0rSn/FwxFoFF9
-	 bj4yeolhSfDE2LaDQ4LP3gzT1PSD4lyLW6a/FQEx9zCPTdzSgF3AYYsb0AM9d6h7Gb
-	 7m2kr+jCz+mlg==
-Date: Fri, 26 Jul 2024 15:54:37 +0000
-To: Boqun Feng <boqun.feng@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Jonathan Corbet <corbet@lwn.net>, Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@redhat.com>, Trevor Gross <tmgross@umich.edu>, gregkh@linuxfoundation.org
-Subject: Re: [RFC PATCH] rust: types: Add explanation for ARef pattern
-Message-ID: <8641453e-664d-4290-b9bc-4a2567ddc3fe@proton.me>
-In-Reply-To: <ZqO9j1dCiHm3r-pz@Boquns-Mac-mini.home>
-References: <20240710032447.2161189-1-boqun.feng@gmail.com> <CAH5fLgjat2Y6RT957BhdOjJHt7rPs0DvZYC6JZ+pHFiP=yDNgA@mail.gmail.com> <ZqE9dzfNrE3Xg3tV@boqun-archlinux> <bcdd74f3-d0c0-4366-976a-5a935081a704@proton.me> <ZqK1l05zcCwGforV@boqun-archlinux> <beaf1fa3-eebe-443c-bc51-abd9348a411d@proton.me> <ZqOyMbi7xl67UfjY@Boquns-Mac-mini.home> <81ceeca9-8ae5-4a82-9a46-f47767e60f75@proton.me> <ZqO9j1dCiHm3r-pz@Boquns-Mac-mini.home>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: cfe45fe6408aa7bb0816cb7b284ee42f182d9338
+	s=arc-20240116; t=1722010219; c=relaxed/simple;
+	bh=YKgmSzZlu4BIydzWn7bGVh7bITwoK6YWkJlzgZoKcWs=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ax+PGVZdJWy16Qhnqhopq++Dkfvb9SsOdqmzxoUiHFfpzyHxpbv7OIMlcpNXgStMGQIav9dh+jpEDJ5Wl+OA9KsM6kdXdJiSKVa1afLHXGiw8IWDqCn/5IV6YMnK8KzU97nkBYZ4aHPeLhEF92n0d2VJle4lDHeoUq28hz94/oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WVt2C0zlDz6K9Kk;
+	Sat, 27 Jul 2024 00:07:47 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id D2AAB1404FC;
+	Sat, 27 Jul 2024 00:10:14 +0800 (CST)
+Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 26 Jul
+ 2024 17:10:14 +0100
+Date: Fri, 26 Jul 2024 17:10:13 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
+ Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v2 7/8] fwctl/mlx5: Support for communicating with mlx5
+ fw
+Message-ID: <20240726171013.00006e67@Huawei.com>
+In-Reply-To: <7-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+	<7-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On 26.07.24 17:15, Boqun Feng wrote:
-> On Fri, Jul 26, 2024 at 02:42:36PM +0000, Benno Lossin wrote:
->> On 26.07.24 16:26, Boqun Feng wrote:
->>> On Fri, Jul 26, 2024 at 01:43:38PM +0000, Benno Lossin wrote:
->>> [...]
->>>>>>
->>>>>> You can always get a `&T` from `ARef<T>`, since it implements `Deref=
-`.
->>>>>>
->>>>>
->>>>> Yeah, but this is unrelated. I was talking about that API providers c=
-an
->>>>> decide whether they want to only provide a `raw_ptr` -> `ARef<Self>` =
-if
->>>>> they don't need to provide a `raw_ptr` -> `&Self`.
->>>>>
->>>>>>> Overall, I feel like we don't necessarily make a preference between
->>>>>>> `->&Self` and `->ARef<Self>` functions here, since it's up to the u=
-sers'
->>>>>>> design?
->>>>>>
->>>>>> I would argue that there should be a clear preference for functions
->>>>>> returning `&Self` when possible (ie there is a parameter that the
->>>>>
->>>>> If "possible" also means there's going to be `raw_ptr` -> `&Self`
->>>>> function (as the same publicity level) anyway, then agreed. In other
->>>>> words, if the users only need the `raw_ptr` -> `ARef<Self>`
->>>>> functionality, we don't want to force people to provide a `raw_ptr` -=
->
->>>>> `&Self` just because, right?
->>>>
->>>> I see... I am having a hard time coming up with an example where users
->>>> would exclusively want `ARef<Self>` though... What do you have in mind=
-?
->>>> Normally types wrapped by `ARef` have `&self` methods.
->>>>
->>>
->>> Having `&self` methods doesn't mean the necessarity of a `raw_ptr` ->
->>> `&Self` function, for example, a `Foo` is wrapped as follow:
->>>
->>> =09struct Foo(Opaque<foo>);
->>> =09impl Foo {
->>> =09    pub fn bar(&self) -> Bar { ... }
->>> =09    pub unsafe fn get_foo(ptr: *mut foo) -> ARef<Foo> { ... }
->>> =09}
->>>
->>> in this case, the abstration provider may not want user to get a
->>> `raw_ptr` -> `&Self` function, so no need to have it.
->>
->> I don't understand this, why would the abstraction provider do that? The
->=20
-> Because no user really needs to convert a `raw_ptr` to a `&Self` whose
-> lifetime is limited to a scope?
+On Mon, 24 Jun 2024 19:47:31 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-What if you have this:
+> From: Saeed Mahameed <saeedm@nvidia.com>
+> 
+> mlx5's fw has long provided a User Context concept. This has a long
+> history in RDMA as part of the devx extended verbs programming
+> interface. A User Context is a security envelope that contains objects and
+> controls access. It contains the Protection Domain object from the
+> InfiniBand Architecture and both togther provide the OS with the necessary
+> tools to bind a security context like a process to the device.
+> 
+> The security context is restricted to not be able to touch the kernel or
+> other processes. In the RDMA verbs case it is also restricted to not touch
+> global device resources.
+> 
+> The fwctl_mlx5 takes this approach and builds a User Context per fwctl
+> file descriptor and uses a FW security capability on the User Context to
+> enable access to global device resources. This makes the context useful
+> for provisioning and debugging the global device state.
+> 
+> mlx5 already has a robust infrastructure for delivering RPC messages to
+> fw. Trivially connect fwctl's RPC mechanism to mlx5_cmd_do(). Enforce the
+> User Context ID in every RPC header so the FW knows the security context
+> of the issuing ID.
+> 
+> Signed-off-by: Saeed Mahameed <saeedm@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-    unsafe extern "C" fn called_from_c_via_vtable(foo: *mut bindings::foo) =
-{
-        // SAFETY: ...
-        let foo =3D unsafe { Foo::from_raw(foo) };
-        foo.bar();
-    }
+A few minor comments + a reference counting question.
 
-In this case, there is no need to take a refcount on `foo`.
+> diff --git a/drivers/fwctl/Kconfig b/drivers/fwctl/Kconfig
+> index 37147a695add9a..e5ee2d46d43126 100644
+> --- a/drivers/fwctl/Kconfig
+> +++ b/drivers/fwctl/Kconfig
+> @@ -7,3 +7,17 @@ menuconfig FWCTL
+>  	  support a wide range of lockdown compatible device behaviors including
+>  	  manipulating device FLASH, debugging, and other activities that don't
+>  	  fit neatly into an existing subsystem.
+> +
+> +if FWCTL
 
-> Why do we provide a function if no one needs and the solely purpose is
-> to just avoid providing another function?
+Why not use depends on FWCTL?
 
-I don't think that there should be a lot of calls to that function
-anyways and thus I don't think there is value in providing two functions
-for almost the same behavior. Since one can be derived by the other, I
-would go for only implementing the first one.
+> +config FWCTL_MLX5
+> +	tristate "mlx5 ConnectX control fwctl driver"
+> +	depends on MLX5_CORE
+> +	help
+> +	  MLX5CTL provides interface for the user process to access the debug and
+> +	  configuration registers of the ConnectX hardware family
+> +	  (NICs, PCI switches and SmartNIC SoCs).
+> +	  This will allow configuration and debug tools to work out of the box on
+> +	  mainstream kernel.
+> +
+> +	  If you don't know what to do here, say N.
+> +endif
 
->> user can already get a `&Foo` reference, so what's the harm having a
->> function supplying that directly?
->=20
-> Getting a `&Foo` from a `ARef<Foo>` is totally different than getting a
-> `&Foo` from a pointer, right? And it's OK for an abstraction provider to
-> want to avoid that.
->=20
-> Another example that you may not want to provide a `-> &Self` function
-> is:
->  =09struct Foo(Opaque<foo>);
->  =09impl Foo {
->  =09    pub fn bar(&self) -> Bar { ... }
->  =09    pub fn find_foo(idx: u32) -> ARef<Foo> { ... }
->  =09}
->=20
-> in other words, you have a query function (idx -> *mut foo), and I think
-> in this case, you would avoid `find_foo(idx: u32) -> &Foo`, right?
+> diff --git a/drivers/fwctl/mlx5/main.c b/drivers/fwctl/mlx5/main.c
+> new file mode 100644
+> index 00000000000000..5e64371d7e5508
+> --- /dev/null
+> +++ b/drivers/fwctl/mlx5/main.c
 
-Yes, this is the exception I had in mind with "if possible (ie there is
-a parameter that the lifetime can bind to)" (in this case there wouldn't
-be such a parameter).
 
-> Honestly, this discussion has been going to a rabit hole. I will mention
-> and already mentioned the conversion `&Self` -> `ARef<Self>`. Leaving
-> the preference part blank is fine to me, since if it's a good practice,
-> then everybody will follow, otherwise, we are missing something here.
-> Just trying to not make a descision for the users...
 
-Sure.
+> +static void mlx5ctl_remove(struct auxiliary_device *adev)
+> +{
+> +	struct mlx5ctl_dev *mcdev __free(mlx5ctl) = auxiliary_get_drvdata(adev);
 
----
-Cheers,
-Benno
+So this is calling fwctl_put(&mcdev->fwctl) on scope exit.
+
+Why do you need to drop a reference beyond the one fwctl_unregister() is dropping
+in cdev_device_del()?  Where am I missing a reference get?
+
+> +
+> +	fwctl_unregister(&mcdev->fwctl);
+> +}
+> +
+> +static const struct auxiliary_device_id mlx5ctl_id_table[] = {
+> +	{.name = MLX5_ADEV_NAME ".fwctl",},
+> +	{},
+
+No point in comma after terminating entries
+
+> +};
+> +MODULE_DEVICE_TABLE(auxiliary, mlx5ctl_id_table);
+> +
+> +static struct auxiliary_driver mlx5ctl_driver = {
+> +	.name = "mlx5_fwctl",
+> +	.probe = mlx5ctl_probe,
+> +	.remove = mlx5ctl_remove,
+> +	.id_table = mlx5ctl_id_table,
+> +};
+> +
+> +module_auxiliary_driver(mlx5ctl_driver);
+> +
+> +MODULE_IMPORT_NS(FWCTL);
+> +MODULE_DESCRIPTION("mlx5 ConnectX fwctl driver");
+> +MODULE_AUTHOR("Saeed Mahameed <saeedm@nvidia.com>");
+> +MODULE_LICENSE("Dual BSD/GPL");
+
+> +#endif
 
