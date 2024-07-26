@@ -1,48 +1,48 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D413D17C9F3;
-	Fri, 26 Jul 2024 12:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE10E17CA16;
+	Fri, 26 Jul 2024 12:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721997594; cv=none; b=Uhpj0eGP5cd2pqEnK6uhAW6+JB1TQs+J0Kdf7/T3YOC6lJ41Qb+u8O2Lr6LwQ3toalD00aXOlk0HAdRwg4Ldvw5gjg5XBPUxlYpCNmz+5fXllBa1FPIOfLIldTx120G+CmiUdgDG6akJt3pBOZx/Wt4AeQPlXj+e6NhuqtP9DYY=
+	t=1721997597; cv=none; b=WzGqF/EQrgIevWlfsa62HD1SXZJdvNo3B5je3a+kD5Xe1triJZ31CBRAmsPZqCjB+u5Y0dLbbUPUedOIS7Jg5tNi+bv81tpzzEWr7D1GV0K/AVdoEaBw58KJG06LH/H1r0zbTrQhR5M8MhXYxrTQG2E8XHUfn2QwNV8PosM6koE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721997594; c=relaxed/simple;
-	bh=7Q6DPxstv1mi5uIjJY6qqNAI5YBD/244F7PLAMwmxh8=;
+	s=arc-20240116; t=1721997597; c=relaxed/simple;
+	bh=jvYmE+tnyPlUCgCyhjI+/EZE9ItdD0OGY+p0y6rbJhQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qTsF/Y1ZB6MhFMm+6WlFj4iirtifFuK4WuO2/CYqcVUC8/usWtx9E2uyRS9VNDMKiblZm5yVlQb3wd2tfzmjyec4vzWya9QpRteTW4sozNJSmJLTLbNLj3NqkH2jxEQb4XSE4ew2/wStEDCAk37kVC9NYae0h2PvQ9pJL4lwuJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=m+ezN04N; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=kVtOSoKp3LPujr1DAYf+yL6F1bLXxuR60qfciP/hbVXUaAWDEzJgLAfTYkmN7H6dJd01EGx36lttwxvTqje8cmXpjuMTkJYSu7MihySwlJzTGf+CW8xFaD/wHQm9Tmn+tHGBfhC8JcAO1OdgOUtBMtDCqeEsGHV+JV7PdiYZ0ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=f846Wd7/; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="m+ezN04N"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="f846Wd7/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1721997592; x=1753533592;
+  t=1721997595; x=1753533595;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=7Q6DPxstv1mi5uIjJY6qqNAI5YBD/244F7PLAMwmxh8=;
-  b=m+ezN04NfeoveFmRgjvreCCQDBPbQwvEOFTUTtSE3ykY6Bvh7vMbiaUL
-   NLc+uclFWwKqUUp+CfpXbdojWG5TwIWVFl9h1uFNBLcUPbAHb/m973RJI
-   iEejfLFaIIUp9dd3Eu630GfVx3cmh3RWIlheu2dp7rGuQuZfg/edUGH/I
-   dbmA3Y3SaR6rEkj535J9ETMYvRD0Zjc6TT2TFKIAKgo5mZlj1uPMbdLcX
-   0TAb/odQIVx4PukcfN0Dc8HzFEhUJ/s8OBcIh0IaeCAXbgFWF1TjTLzeN
-   hb+utAF9ulm+LE7oa9B457l1dYY3jcG+bNRTawAmSpAkwlWsNLJNWfVkU
-   Q==;
+  bh=jvYmE+tnyPlUCgCyhjI+/EZE9ItdD0OGY+p0y6rbJhQ=;
+  b=f846Wd7/YUREPQl93KzuJjS3bR9NmU8iSdadnpAad2x1G9Q8K5sgZvKA
+   nPLewSVU+BvY+XxP1GqHJi5BnfNsxSLijRggxwKh3V/wEtTQbAKKR/Nyd
+   veQVFxtWC6eZxh2WD6LjCTJXG4xWU1Iu7VLr8MbewLkz2oBySL2yB5k9p
+   Xu7xGyRH5hQtXlSqWxDzeb2up4ee1nfcmYw0x1y+Yd6exVaVlv6VjjrzN
+   rW3Top0C3jXCcDv+ZjPg1BEBccnuPZAFukPQVPzlqDej5S9miqKTTuAph
+   u6HSXZs0N3nrZw3/nI6oLbtoaEib6KpaEpQVWUHJi9pQwYBskbTziibkn
+   A==;
 X-CSE-ConnectionGUID: 9QqqTNubSCyt71n4eg2Syg==
-X-CSE-MsgGUID: Nk3RwfHzSk+tQlyMRgxQnw==
+X-CSE-MsgGUID: dx4gLh1TRxuekPRrHEAPrQ==
 X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
-   d="scan'208";a="32523225"
+   d="scan'208";a="32523227"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:39:51 -0700
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Jul 2024 05:39:52 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 26 Jul 2024 05:39:14 -0700
+ 15.1.2507.35; Fri, 26 Jul 2024 05:39:42 -0700
 Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:39:05 -0700
+ 15.1.2507.35 via Frontend Transport; Fri, 26 Jul 2024 05:39:33 -0700
 From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
 	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
@@ -58,9 +58,9 @@ CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
 	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
 	<linux@bigler.io>, Parthiban Veerasooran
 	<Parthiban.Veerasooran@microchip.com>
-Subject: [PATCH net-next v5 04/14] net: ethernet: oa_tc6: implement software reset
-Date: Fri, 26 Jul 2024 18:08:57 +0530
-Message-ID: <20240726123907.566348-5-Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v5 07/14] net: phy: microchip_t1s: add c45 direct access in LAN865x internal PHY
+Date: Fri, 26 Jul 2024 18:09:00 +0530
+Message-ID: <20240726123907.566348-8-Parthiban.Veerasooran@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
 References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
@@ -73,112 +73,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Reset complete bit is set when the MAC-PHY reset completes and ready for
-configuration. Additionally reset complete bit in the STS0 register has
-to be written by one upon reset complete to clear the interrupt.
+This patch adds c45 registers direct access support in Microchip's
+LAN865x internal PHY.
+
+OPEN Alliance 10BASE-T1x compliance MAC-PHYs will have both C22 and C45
+registers space. If the PHY is discovered via C22 bus protocol it assumes
+it uses C22 protocol and always uses C22 registers indirect access to
+access C45 registers. This is because, we don't have a clean separation
+between C22/C45 register space and C22/C45 MDIO bus protocols. Resulting,
+PHY C45 registers direct access can't be used which can save multiple SPI
+bus access. To support this feature, set .read_mmd/.write_mmd in the PHY
+driver to call .read_c45/.write_c45 in the OPEN Alliance framework
+drivers/net/ethernet/oa_tc6.c
 
 Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 ---
- drivers/net/ethernet/oa_tc6.c | 56 +++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ drivers/net/phy/microchip_t1s.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
-index 187f2fe0c790..15db24d87a00 100644
---- a/drivers/net/ethernet/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6.c
-@@ -6,8 +6,18 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/iopoll.h>
- #include <linux/oa_tc6.h>
- 
-+/* OPEN Alliance TC6 registers */
-+/* Reset Control and Status Register */
-+#define OA_TC6_REG_RESET			0x0003
-+#define RESET_SWRESET				BIT(0)	/* Software Reset */
-+
-+/* Status Register #0 */
-+#define OA_TC6_REG_STATUS0			0x0008
-+#define STATUS0_RESETC				BIT(6)	/* Reset Complete */
-+
- /* Control command header */
- #define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
- #define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
-@@ -24,6 +34,8 @@
- 						(OA_TC6_CTRL_MAX_REGISTERS *\
- 						OA_TC6_CTRL_REG_VALUE_SIZE) +\
- 						OA_TC6_CTRL_IGNORED_SIZE)
-+#define STATUS0_RESETC_POLL_DELAY		1000
-+#define STATUS0_RESETC_POLL_TIMEOUT		1000000
- 
- /* Internal structure for MAC-PHY drivers */
- struct oa_tc6 {
-@@ -279,6 +291,42 @@ int oa_tc6_write_register(struct oa_tc6 *tc6, u32 address, u32 value)
+diff --git a/drivers/net/phy/microchip_t1s.c b/drivers/net/phy/microchip_t1s.c
+index 534ca7d1b061..3614839a8e51 100644
+--- a/drivers/net/phy/microchip_t1s.c
++++ b/drivers/net/phy/microchip_t1s.c
+@@ -268,6 +268,34 @@ static int lan86xx_read_status(struct phy_device *phydev)
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(oa_tc6_write_register);
  
-+static int oa_tc6_read_status0(struct oa_tc6 *tc6)
++/* OPEN Alliance 10BASE-T1x compliance MAC-PHYs will have both C22 and
++ * C45 registers space. If the PHY is discovered via C22 bus protocol it assumes
++ * it uses C22 protocol and always uses C22 registers indirect access to access
++ * C45 registers. This is because, we don't have a clean separation between
++ * C22/C45 register space and C22/C45 MDIO bus protocols. Resulting, PHY C45
++ * registers direct access can't be used which can save multiple SPI bus access.
++ * To support this feature, set .read_mmd/.write_mmd in the PHY driver to call
++ * .read_c45/.write_c45 in the OPEN Alliance framework
++ * drivers/net/ethernet/oa_tc6.c
++ */
++static int lan865x_phy_read_mmd(struct phy_device *phydev, int devnum,
++				u16 regnum)
 +{
-+	u32 regval;
-+	int ret;
++	struct mii_bus *bus = phydev->mdio.bus;
++	int addr = phydev->mdio.addr;
 +
-+	ret = oa_tc6_read_register(tc6, OA_TC6_REG_STATUS0, &regval);
-+	if (ret) {
-+		dev_err(&tc6->spi->dev, "STATUS0 register read failed: %d\n",
-+			ret);
-+		return 0;
-+	}
-+
-+	return regval;
++	return __mdiobus_c45_read(bus, addr, devnum, regnum);
 +}
 +
-+static int oa_tc6_sw_reset_macphy(struct oa_tc6 *tc6)
++static int lan865x_phy_write_mmd(struct phy_device *phydev, int devnum,
++				 u16 regnum, u16 val)
 +{
-+	u32 regval = RESET_SWRESET;
-+	int ret;
++	struct mii_bus *bus = phydev->mdio.bus;
++	int addr = phydev->mdio.addr;
 +
-+	ret = oa_tc6_write_register(tc6, OA_TC6_REG_RESET, regval);
-+	if (ret)
-+		return ret;
-+
-+	/* Poll for soft reset complete for every 1ms until 1s timeout */
-+	ret = readx_poll_timeout(oa_tc6_read_status0, tc6, regval,
-+				 regval & STATUS0_RESETC,
-+				 STATUS0_RESETC_POLL_DELAY,
-+				 STATUS0_RESETC_POLL_TIMEOUT);
-+	if (ret)
-+		return -ENODEV;
-+
-+	/* Clear the reset complete status */
-+	return oa_tc6_write_register(tc6, OA_TC6_REG_STATUS0, regval);
++	return __mdiobus_c45_write(bus, addr, devnum, regnum, val);
 +}
 +
- /**
-  * oa_tc6_init - allocates and initializes oa_tc6 structure.
-  * @spi: device with which data will be exchanged.
-@@ -289,6 +337,7 @@ EXPORT_SYMBOL_GPL(oa_tc6_write_register);
- struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
- {
- 	struct oa_tc6 *tc6;
-+	int ret;
- 
- 	tc6 = devm_kzalloc(&spi->dev, sizeof(*tc6), GFP_KERNEL);
- 	if (!tc6)
-@@ -311,6 +360,13 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi)
- 	if (!tc6->spi_ctrl_rx_buf)
- 		return NULL;
- 
-+	ret = oa_tc6_sw_reset_macphy(tc6);
-+	if (ret) {
-+		dev_err(&tc6->spi->dev,
-+			"MAC-PHY software reset failed: %d\n", ret);
-+		return NULL;
-+	}
-+
- 	return tc6;
- }
- EXPORT_SYMBOL_GPL(oa_tc6_init);
+ static struct phy_driver microchip_t1s_driver[] = {
+ 	{
+ 		PHY_ID_MATCH_EXACT(PHY_ID_LAN867X_REVB1),
+@@ -285,6 +313,8 @@ static struct phy_driver microchip_t1s_driver[] = {
+ 		.features           = PHY_BASIC_T1S_P2MP_FEATURES,
+ 		.config_init        = lan865x_revb0_config_init,
+ 		.read_status        = lan86xx_read_status,
++		.read_mmd           = lan865x_phy_read_mmd,
++		.write_mmd          = lan865x_phy_write_mmd,
+ 		.get_plca_cfg	    = genphy_c45_plca_get_cfg,
+ 		.set_plca_cfg	    = genphy_c45_plca_set_cfg,
+ 		.get_plca_status    = genphy_c45_plca_get_status,
 -- 
 2.34.1
 
