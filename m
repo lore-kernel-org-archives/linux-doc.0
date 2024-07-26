@@ -1,113 +1,155 @@
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7E92E64B;
-	Fri, 26 Jul 2024 08:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1B41A286;
+	Fri, 26 Jul 2024 09:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721983517; cv=none; b=sCzK+o0+dbrSfJeILzcyWLJBZr/h5ovzIoA9CjlPXoa5IIvFh5I5St0sZqmrQIds4Muc5mqw9SgKSpB9VwgH1oHzms0Fuj9hjtqxB1xwD0PPEO2DwqaKcq2SwTn3E+7eQnG9Waml5T8XbITi+xHCOpPcrXIAwKidiXmeShXmcy4=
+	t=1721986831; cv=none; b=cSKIVcGjEuOI9NDHxWdnPFSYJGadddiqw0Bw/0X10KKNQXsK+T586XWkmjViHLQBi75JLWTcx9H8jD/kPQa1zuF3d+av7WhxwGg7eOxlMiDVNHR1rTzuAL+3Qb/YC/yfXZCT/5G/nII3OjHukfkaWkPJm2ERsBsTgwytbSaoGUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721983517; c=relaxed/simple;
-	bh=u9BrJxc04mZK3G3ncToJZjpU9o3nT694f4gHbI3vLps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TUH89kl1RdJBhNg+jvsn7L4OpiI7BJuEv6Mag9tXwiFP/1Kq/vOFmqmaPZOvK0L3GXkAQu1qLblXy+xYAImS1lhfBiTmmTrAqIv7TdWjGhxczmDflF5VnVa7mfPHtN4dlc+Me78tvLM3gNvY+HnaYZ7EB+6UUnWN6hTklYMTlj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrACX92wAYqNmsjUCAg--.25306S2;
-	Fri, 26 Jul 2024 16:44:48 +0800 (CST)
-Received: from [10.12.164.29] (unknown [10.12.164.29])
-	by gateway (Coremail) with SMTP id _____wDn0Nb9YaNmiJMFAA--.5993S2;
-	Fri, 26 Jul 2024 16:44:47 +0800 (CST)
-Message-ID: <221f644f-c085-4873-93e2-4918375b1747@hust.edu.cn>
-Date: Fri, 26 Jul 2024 16:44:44 +0800
+	s=arc-20240116; t=1721986831; c=relaxed/simple;
+	bh=/W5kbKWSvcsVRYIH6lNhUURaeOalcNxprGj7xwqXc8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EBFRF6w5Vc95asL3rDHbR9IyvGpyJW8RyLF4m8jvJfeiZ9TbNfkxFXhNTkEgyb2EfbKzOkhe8itvQ8yDnIc34LaRSjJTPpRK1uaaclvpze6DmYhMZ1ytM4j6x22UoK01mD6eCTSao2XH4fzP6WxwehwuZW3EQQVd+ba9Yh5W9zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erbBnHVt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erbBnHVt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9535FC32782;
+	Fri, 26 Jul 2024 09:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721986830;
+	bh=/W5kbKWSvcsVRYIH6lNhUURaeOalcNxprGj7xwqXc8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=erbBnHVtheMUAGs7sb6st1OpVR9FaIVHYj78yec90OKFphlkSZV5k/wAOzf9v7bHw
+	 qD/B4sk/oLODwsgv3p0XiErsiTqRDrNBJUfunPPt2ly/fcLhz146SfXfrJeznvLkZe
+	 U5MzHL6oELYwecQ5CE2FRGA7zc5ak6Om4kOHFE+xDor4Bpwaxj+6BMtxs9zpKRb0zj
+	 t0frO2fOt1mK8tuZJlZLn78/gGZpvARM3U+4DMaFSKK7j8fCZBwVSU2h9+v0uuhWmf
+	 doJp2N540bOFVoqeMi8DgOk/gCs4xM/TGYVOkNqWaGGBNobmAGDB5q2iYuCtHTHaiN
+	 kQwqqR1cv6trg==
+Date: Fri, 26 Jul 2024 12:40:03 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-kernel@vger.kernel.org,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev, nvdimm@lists.linux.dev,
+	sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v2 00/25] mm: introduce numa_memblks
+Message-ID: <ZqNu8zwjhiTkbpIB@kernel.org>
+References: <20240723064156.4009477-1-rppt@kernel.org>
+ <1D474894-F8AC-427B-8F90-5A6808E77CC5@nvidia.com>
+ <6336C276-113E-4D93-A09E-13420A6438D8@nvidia.com>
+ <231F6DF6-96C8-4149-92CF-4FC03C9FE357@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
-To: Marco Elver <elver@google.com>
-Cc: Haoyang Liu <tttturtleruss@hust.edu.cn>,
- Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>,
- hust-os-kernel-patches@googlegroups.com, kasan-dev@googlegroups.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
- <a6285062-4e36-431e-b902-48f4bee620e0@hust.edu.cn>
- <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
-Content-Language: en-US
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <CANpmjNOiMFUM8KxV8Gj_LTSbC_qLYSh+34Ma8gC1LFCgjtPRsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrACX92wAYqNmsjUCAg--.25306S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1kGFWrWFWfAry3uF45Jrb_yoW8Zw1xpa
-	yfuFyIkr4ktr17K3yIgw10yFW0yFZxtr1Ut3WUG3WFvrsIvFnaqrW29w4FgFyUZrWrCFW2
-	vF1jva4Fv3W5AaUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
-	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
-	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
-	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
-	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
-	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0EksPUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <231F6DF6-96C8-4149-92CF-4FC03C9FE357@nvidia.com>
+
+On Wed, Jul 24, 2024 at 10:48:42PM -0400, Zi Yan wrote:
+> On 24 Jul 2024, at 20:35, Zi Yan wrote:
+> > On 24 Jul 2024, at 18:44, Zi Yan wrote:
+> >>
+> >> Hi,
+> >>
+> >> I have tested this series on both x86_64 and arm64. It works fine on x86_64.
+> >> All numa=fake= options work as they did before the series.
+> >>
+> >> But I am not able to boot the kernel (no printout at all) on arm64 VM
+> >> (Mac mini M1 VMWare). By git bisecting, arch_numa: switch over to numa_memblks
+> >> is the first patch causing the boot failure. I see the warning:
+> >>
+> >> WARNING: modpost: vmlinux: section mismatch in reference: numa_add_cpu+0x1c (section: .text) -> early_cpu_to_node (section: .init.text)
+> >>
+> >> I am not sure if it is red herring or not, since changing early_cpu_to_node
+> >> to cpu_to_node in numa_add_cpu() from mm/numa_emulation.c did get rid of the
+> >> warning, but the system still failed to boot.
+> >>
+> >> Please note that you need binutils 2.40 to build the arm64 kernel, since there
+> >> is a bug(https://sourceware.org/bugzilla/show_bug.cgi?id=31924) in 2.42 preventing
+> >> arm64 kernel from booting as well.
+> >>
+> >> My config is attached.
+> >
+> > I get more info after adding earlycon to the boot option.
+> > pgdat is NULL, causing issues when free_area_init_node() is dereferencing
+> > it at first WARN_ON.
+> >
+> > FYI, my build is this series on top of v6.10 instead of the base commit,
+> > where the series applies cleanly on top v6.10.
+> 
+> OK, the issue comes from that my arm64 VM has no ACPI but x86_64 VM has it,
+> thus on arm64 VM numa_init(arch_acpi_numa_ini) failed in arch_numa_init()
+> and the code falls back to numa_init(dummy_numa_init). In dummy_numa_init(),
+> before patch 23 "arch_numa: switch over to numa_memblks", numa_add_memblk()
+> from drivers/base/arch_numa.c is called on arm64, which unconditionally
+> set 0 to numa_nodes_parsed. This is missing in the x86 version of
+> numa_add_memblk(), which is now used by all arch. By adding the patch
+> below, my arm64 kernel boots in the VM.
+> 
+> 
+> diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
+> index 806550239d08..354f15b8d9b7 100644
+> --- a/drivers/base/arch_numa.c
+> +++ b/drivers/base/arch_numa.c
+> @@ -279,6 +279,7 @@ static int __init dummy_numa_init(void)
+>                 pr_err("NUMA init failed\n");
+>                 return ret;
+>         }
+> +       node_set(0, numa_nodes_parsed);
+> 
+>         numa_off = true;
+>         return 0;
+> 
+> 
+> Feel free to add
+> 
+> Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
+> 
+> after you incorporate the fix.
+
+Thanks a lot for testing, debugging and fixing! 
+> 
+> --
+> Best Regards,
+> Yan, Zi
 
 
-On 7/26/24 16:38, Marco Elver wrote:
-> On Fri, 26 Jul 2024 at 03:36, Dongliang Mu <dzm91@hust.edu.cn> wrote:
->>
->> On 2024/7/26 01:46, Haoyang Liu wrote:
->>> The KTSAN doc has moved to
->>> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
->>> Update the url in kcsan.rst accordingly.
->>>
->>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->> Although the old link is still accessible, I agree to use the newer one.
->>
->> If this patch is merged, you need to change your Chinese version to
->> catch up.
->>
->> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->>
->>> ---
->>>    Documentation/dev-tools/kcsan.rst | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
->>> index 02143f060b22..d81c42d1063e 100644
->>> --- a/Documentation/dev-tools/kcsan.rst
->>> +++ b/Documentation/dev-tools/kcsan.rst
->>> @@ -361,7 +361,8 @@ Alternatives Considered
->>>    -----------------------
->>>
->>>    An alternative data race detection approach for the kernel can be found in the
->>> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
->>> +`Kernel Thread Sanitizer (KTSAN)
->>> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
->>>    KTSAN is a happens-before data race detector, which explicitly establishes the
->>>    happens-before order between memory operations, which can then be used to
->>>    determine data races as defined in `Data Races`_.
-> Acked-by: Marco Elver <elver@google.com>
->
-> Do you have a tree to take your other patch ("docs/zh_CN: Add
-> dev-tools/kcsan Chinese translation") through? If so, I would suggest
 
-Thanks Marco.
-
-That patch will be merged to lwn tree maintained by Jon if all issues 
-are resolved.
-
-> that you ask that maintainer to take both patches, this and the
-> Chinese translation patch. (Otherwise, I will queue this patch to be
-> remembered but it'll be a while until it reaches mainline.)
-
+-- 
+Sincerely yours,
+Mike.
