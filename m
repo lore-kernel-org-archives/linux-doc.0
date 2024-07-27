@@ -1,103 +1,129 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39B117997
-	for <linux-doc@vger.kernel.org>; Sat, 27 Jul 2024 04:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAFA7E101;
+	Sat, 27 Jul 2024 13:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722054854; cv=none; b=LBdOmGVQhf41BrJkQfCn2t/gPdIhq52cb1NZC1+lQbBHPsX2++lLom4tQuHhbW5H/5czULzvaYdoZFtzlka+zFnTGAb4U/K5KRUif/8S7nr/nENvlUIn4EBsRGkk19tu8DzitAFPo6mlqDvi2aj6AzqfL+zx2+IUqYt9xcKZkdk=
+	t=1722085218; cv=none; b=Wwzqyvk+QTDUfEtvOrqW5uSj2qxFbJYxz0G0k+XHaSzZFKb2DU/L5UYf/oLFfWCansfF6hXMlDwXZgPYcrVpCMFE+UQUz8bGILl4xo1XhqKl5X0SJjBPp6O094YuJwXS23j54OmgR0NYpTeoiFXLST9/t5ldaP2QtQSOOLWkPnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722054854; c=relaxed/simple;
-	bh=SATEbQ7zbN+owssdLCL84MbZRt/64rdIvkxlhHBqI/Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D0bJbXe/JzO/+2GfQkwz/DwJ4zAsmDqMtnpT3olhf+NlXs+XzI5bDhDZh0oU2ylgOHb8cgAqc3ePsY+mMYPH4gtQUee4FZ6NVQ4L+ro9IqvhrMyjDKcEgE3vnI97TxM41CzYahhWfSCkGGq04IPWD0s2z/Pg5MArfLo7gTOo4uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+kgtnP0; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722085218; c=relaxed/simple;
+	bh=47KKAW8Z4/5hyco3FTrmUIFgtVHf+0nvCgShB7JHDBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X2zUxnkOL6lfLMWNNh+t1WfwgVHpyCOrULEQCDOJ2VmECljufeurZ91LOTzGdlGNytMBynUe/VbnfOEYPDYaASZ340xxoPgGYvEo6atkoI/D/zdBy21wUzPN5ge6shzu7R2wm2nOItHfQHWwHUW/FNGnHRK+3yig40leCfRaps0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Aq1nh6jH; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+kgtnP0"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fc4fccdd78so10136205ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jul 2024 21:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722054852; x=1722659652; darn=vger.kernel.org;
-        h=content-transfer-encoding:commitdate:commit:authordate:author
-         :mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8C36rWzZ5CEFyfLmLBvUIfIdLBTOkwvSaRR1h8GCuTw=;
-        b=R+kgtnP04e9Qn/qKclEua3/rPpQXAC4zH1r7CudaGwW7tVlf5UNF/YWoYsS4JkoVjf
-         8SVXJlj0m7g4dPsO1q6CTf7elo7IL5WUz/R48ylBIbS4n+1ojrM/ojqphp00Rc4eAwJN
-         Klq1kQA6eEZsnBaR65ONHuidQNAjhiQEI5iFnVsv6C9Bmh57UY7xqF8Hhz+QxAbdcDCy
-         NrKPavXcgAkQ5eEbuyu7jkr5EWuuY9YPqR/ZwPDyT/BEacLNUev3KxOwZ5C5ZqwiU4Q1
-         DCr3ALHMCgYTdgbCcaw22BISkRkDusY820+42Ed+Stu/3ttupT58kfKT09h+iEsYaiDG
-         aI2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722054852; x=1722659652;
-        h=content-transfer-encoding:commitdate:commit:authordate:author
-         :mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8C36rWzZ5CEFyfLmLBvUIfIdLBTOkwvSaRR1h8GCuTw=;
-        b=ryXm8A1xQ5f26J5Q9k5xr3vS5VmhpQ4tB3MGT+ingGsiR/Vyne0ShyT6GkAuzht6a6
-         rIMNxXBK8MhkQfiEmZd2TF7tuqhn8EaEnTJAZpmo7mRUoQyITLPpbRl6oMseaZE3f7m7
-         Els8eVHvDvtOGCCDLm57G3OHhTMH356Ic9GHZ4I+q0GbA7yGDcdqmF4p09p5qsWyfDgb
-         bYdGlP/x42J9Yi7fApBTaLEmek0u4ic0bsoFqeX1LnZvlQU3BVoVK4Q5B/W9+kEvV2ih
-         V8BHeODuINqx7SQC3V6UngAbN0sR7pJar/j2Eu0LsqA40V2n5wgB1JOEfRYU0dBj9t1X
-         5IWw==
-X-Gm-Message-State: AOJu0Yzu1LS1jc0a/Hti7EvmRli4Jak8GsluLwHdx5kxU3jfjnXHGeR6
-	Bl3of0Y2I9LT2u7wY+XQsJ6T/x7Nju5yZXj823LdeLKmqZtiRyGw/YOUTAl3PIA=
-X-Google-Smtp-Source: AGHT+IHZliN66Mjdy/pPmJDl6iBYogsAzKgh2eDWlcCzfyvTOmaGlkru1RZ2BhX6odh/AcNrPcjoJg==
-X-Received: by 2002:a17:902:fc4c:b0:1ff:5b5:d546 with SMTP id d9443c01a7336-1ff05b5d9d5mr12968085ad.65.1722054851702;
-        Fri, 26 Jul 2024 21:34:11 -0700 (PDT)
-Received: from BiscuitBobby.am.students.amrita.edu ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7f78491sm41544485ad.244.2024.07.26.21.34.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 21:34:11 -0700 (PDT)
-From: Siddharth Menon <simeddon@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	Siddharth Menon <simeddon@gmail.com>
-Subject: [PATCH] Docs: Update LSM/apparmor.rst
-Date: Sat, 27 Jul 2024 10:03:17 +0530
-Message-Id: <20240727043315.36554-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Aq1nh6jH"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5D0DD1C0005;
+	Sat, 27 Jul 2024 13:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1722085213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+7sZFvcJjRNHyS+j2zojU/F0BdHWiXiPM8DsgfUSK0s=;
+	b=Aq1nh6jH/8cyaS5PIv1YmeknpQLS0EfUGjYXRrl9hGKdd3bk4p+QslAiWQfKqU2k2RnJk2
+	yTw79ECxBbCdoO6pp8FNsoJGrYdFZKycqI88/qLPawWeVL5R5//khYedsE34pdJWmOm3Ge
+	kzZgOYFEE9mXSZ3MlauCerubSxL6TnPPAloO8dmU5j8HCvCvAuml02tvWvdnFCZpXGDZuk
+	JZ1PMTcgXlMCkfkWu33lEAr8KYkL5bRnsdZkLInXDUmjiTRR3+VuCcmGcmPdOXjXK4Y2hV
+	hPVFjeuzU0GqurPSC+n8EVxqgYr8qBCBHdr5vI0dDezpsxCckXHYKOXPKhQkmg==
+Date: Sat, 27 Jul 2024 15:00:09 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ "Radu Pirea" <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
+ <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ <UNGLinuxDriver@microchip.com>, Simon Horman <horms@kernel.org>, "Vladimir
+ Oltean" <vladimir.oltean@nxp.com>, <donald.hunter@gmail.com>,
+ <danieller@nvidia.com>, <ecree.xilinx@gmail.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, <linux-kernel@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>, Shannon Nelson
+ <shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v17 13/14] net: ethtool: Add support for
+ tsconfig command to get/set hwtstamp config
+Message-ID: <20240727150009.66dcf0ae@kmaincent-XPS-13-7390>
+In-Reply-To: <f16855bf-ae2a-4a0c-b3e9-d25f64478900@intel.com>
+References: <20240709-feature_ptp_netnext-v17-0-b5317f50df2a@bootlin.com>
+	<20240709-feature_ptp_netnext-v17-13-b5317f50df2a@bootlin.com>
+	<f16855bf-ae2a-4a0c-b3e9-d25f64478900@intel.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Author:     Siddharth Menon <simeddon@gmail.com>
-AuthorDate: Fri Jul 26 23:43:49 2024 +0530
-Commit:     Siddharth Menon <simeddon@gmail.com>
-CommitDate: Sat Jul 27 09:48:30 2024 +0530
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-    Docs: Update LSM/apparmor.rst
-    
-    Update AppArmor documentation after deprication of CONFIG_DEFAULT_SECURITY to enable and configuring AppArmor.
-    
-    Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+On Wed, 17 Jul 2024 10:43:05 -0700
+Jacob Keller <jacob.e.keller@intel.com> wrote:
+>=20
+> > +The legacy configuration is the use of the ioctl(SIOCSHWTSTAMP) with a
+> > pointer +to a struct ifreq whose ifr_data points to a struct
+> > hwtstamp_config. +The tx_type and rx_filter are hints to the driver wha=
+t it
+> > is expected to do. +If the requested fine-grained filtering for incoming
+> > packets is not supported, the driver may time stamp more than just the
+> > requested types of packets.
+> >   =20
+>=20
+> Does the core automatically handle SIOCSHWTSTAMP and SIOCGHWTSTAMP in
+> terms of the new API? I'm guessing yes because of the new
+> .ndo_set_hwtstamp ops?
 
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
----
- Documentation/admin-guide/LSM/apparmor.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Yes.
+=20
+> >  A driver which supports hardware time stamping must support the
+> > -SIOCSHWTSTAMP ioctl and update the supplied struct hwtstamp_config with
+> > -the actual values as described in the section on SIOCSHWTSTAMP.  It
+> > -should also support SIOCGHWTSTAMP.
+> > +ndo_hwtstamp_set NDO or the legacy SIOCSHWTSTAMP ioctl and update the
+> > +supplied struct hwtstamp_config with the actual values as described in
+> > +the section on SIOCSHWTSTAMP. It should also support ndo_hwtstamp_get =
+or
+> > +the legacy SIOCGHWTSTAMP. =20
+>=20
+> Can we simply drop the mention of implementing the legacy implementation
+> on the kernel side? I guess not all existing drivers have converted yet..=
+.?
 
-diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
-index 6cf81bbd7ce8..f324d750468a 100644
---- a/Documentation/admin-guide/LSM/apparmor.rst
-+++ b/Documentation/admin-guide/LSM/apparmor.rst
-@@ -18,8 +18,10 @@ set ``CONFIG_SECURITY_APPARMOR=y``
- 
- If AppArmor should be selected as the default security module then set::
- 
--   CONFIG_DEFAULT_SECURITY="apparmor"
--   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
-+   CONFIG_DEFAULT_SECURITY_APPARMOR=y
-+
-+Since kernel 5.0, `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is no longer used. 
-+Instead, the `CONFIG_LSM` parameter manages the order and selection of LSMs.
- 
- Build the kernel
- 
--- 
-2.39.2
+Yes indeed.
 
+In fact, Vlad has already worked on converting all the existing drivers:
+https://github.com/vladimiroltean/linux/tree/ndo-hwtstamp-v9
+I can't find any patch series sent to net next. Vlad what is the status on =
+this?
+
+> I have a similar thought about the other legacy PTP hooks.. it is good
+> to completely remove the legacy/deprecated implementations as it means
+> drivers can't be published which don't update to new APIs. That
+> ultimately just wastes reviewer/maintainer time to point out that it
+> must be updated to new APIs.
+
+Yes but on the userspace side linuxPTP is still using the IOCTLs uAPI that =
+will
+become legacy with this series. Maybe it is still a bit early to remove tot=
+ally
+their descriptions in the doc?
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
