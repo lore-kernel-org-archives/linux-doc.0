@@ -1,125 +1,171 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC318EAD0;
-	Sun, 28 Jul 2024 11:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF92137708;
+	Sun, 28 Jul 2024 16:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722167701; cv=none; b=DrQpiMcJPq9Ar/deB4n7AyQ61iYf/mQzizx42mRO9VkvLg/ZD5lX+zGsG8Yl3GQOOA+3dHJxiL6R4n+Hjvyc9s2p4140YJ+CtB16EdEQyIAs7YfZF5M0T32z0B3hmyzGh3Tsvq8iPVIFSkuNN6eN74m3SSOtE+k9MhHU7hHa7eU=
+	t=1722183799; cv=none; b=N1RRNFvvUaio3BQxHwim8/vZc0mdNgMcBHyc7lfFdnrLdmP3yrpKvIaWgoBv7WqnAgJTGFGBeW0tQ2F0bj6zSaDSRYilwydp/nIQKhCBQnRMTRafYBKSI+SxrbphG8GsGS4FdPlk2mZpo2BjQietrh/DVJ574YTbDdf0xkHdFkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722167701; c=relaxed/simple;
-	bh=ebEmE6yxa72kDlnAPNumxA/Rzcxn7AaMkp24552T6fw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s8tOT9YUPYWKqcDkl3WOHHhxzlhTXrM6D6psefmhFWLhYaNHKIIXCJJ8gLYV9TBuRhtHmDFHA67hILRrJpFt6KrFO1DET1vEJTT72nXDu8sX4wlpkvXYVC71ZVWKO280tCyKDC3WnoysOinKxV4MTfNWIvd/VNsx0OCRy3SqvP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exCTy/SZ; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722183799; c=relaxed/simple;
+	bh=WyeKyzZehO3UtG2EeJ6HiE4fRSfVItVILunyCsUVLx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sGMGXMldbzE3iI8v402XLr4UUNK+TxzeJy3Pk4lQM5TOkdv2Pz7uum8pBgIi865TFOobCKvotQluoNcaD5uhlvZjwnR1pPlZjVOdrg7FIKJIgb0Cr6Zz30H/8FsOKPW6R/OEy09MdeOyEwMIBv+2AS8p7O6TMdPEVEJfGAg90FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8f2uKS8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exCTy/SZ"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-36874d7f70bso196314f8f.1;
-        Sun, 28 Jul 2024 04:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722167698; x=1722772498; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8xmpSOBK68vpqOxcO8IAsD8IIZwNUgCDMrjM2ilo6Vo=;
-        b=exCTy/SZZwCcq43wzF+bWPFz6OI4duQ1LX8byf8gQDA3JkghLuU1iIzB1GuZhAhDGI
-         zNNAkjMC85JfXtWa7env/R8fO3YXv14XqtmKlVWAz41V/sdNFUszIAT76NxYA3H5NKCR
-         yqbGt0ZxJXy2poch/H49L6TL9hMkBSyjhEGjGDLcS36z2EMYQjtke4eukFVSY2JzFU2J
-         nhPNuOSipEPiVRjJENRC0zxzBVRVSlLccBWufEPgg3/BB22JY/XpfmCXpxLlwJBUadoC
-         d84MRnCralpW+3nmHmUsyufrNuGxACpbnWfQX9pXFhSD0LotHQ5HcmyuR94LegEKgGUK
-         RQAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722167698; x=1722772498;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xmpSOBK68vpqOxcO8IAsD8IIZwNUgCDMrjM2ilo6Vo=;
-        b=FGJ3NAvTdCJrYRa57U++c4n72gy4oIKHoqsfwvaK4yNFRiwKTiLv6nSAPFn+uBre0C
-         P59Y4ac8gcYJuMs7paizHjhQD3N1aosahbi5FTmGDpqdf5uvK2CcwbbkYgHJMfKZOb4O
-         Emc5LS84G1oeDoarkuqbP/QNNweQJaKykjs6CpAjKy+sHAPGtUu4yp3f6JIVOgYkxsRN
-         z/od/gYLTpV6+BXHh84PsYCgwgX8nZaSeEvb+njg6434Lf1hQUivwNhdSc/vBvkqK+sX
-         HnV/+E6FSPOtU3HvYwgNw3lvsOsnCsFPQ7+RP9x2jbXhDyWCtN5PFmyeXpBRvAAWzhd5
-         5/+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU5j8B+jL2j6tGgmnYBctiTqapQrHQo/lCbq1cVT8wmFbWJu92MyFmz9RZTunvBDLldAeMnrsJk9m/HIIdM@vger.kernel.org, AJvYcCVmLqExAcxul6peAzdURLhhNffNUfq2oCzyZvrJJiGRssSxl3Nv9oiwxiSd66l/DtQv48FjqB1ZxQE=@vger.kernel.org, AJvYcCWL28nHjdKHKSKqhjc9uQDeq6dnXhxaK1rJHkpi9Yu+U/Zki55HIOaWxWjdsjUPhLWSLpWo2AGXfGcrN4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTj5prkQCkXLo9V7i7Cv+dDCGa5e7bVjwXTsqnYb8aM4yh8ffS
-	9peUjtEkyb2BGL1egBkt/ob+Axz1ADWYKzAXyF/wTOJSVHVP6pPD
-X-Google-Smtp-Source: AGHT+IGVymRTomVtW5etCRWyLm9nm566X+zs1ZwGWNnf1O596eq4IbUw3D6Gl+lQ4o8znDqETUm+TA==
-X-Received: by 2002:a5d:64c4:0:b0:366:ea51:be79 with SMTP id ffacd0b85a97d-36b34e4dbdemr4718187f8f.6.1722167697727;
-        Sun, 28 Jul 2024 04:54:57 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:1d00:5943:7f74:2af0? ([2a01:4b00:d20e:7300:1d00:5943:7f74:2af0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36863d87sm9643407f8f.110.2024.07.28.04.54.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jul 2024 04:54:57 -0700 (PDT)
-Message-ID: <b9ac0ee3-18af-459d-958e-3b8122e7bb9d@gmail.com>
-Date: Sun, 28 Jul 2024 12:54:55 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8f2uKS8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D38D7C116B1;
+	Sun, 28 Jul 2024 16:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722183798;
+	bh=WyeKyzZehO3UtG2EeJ6HiE4fRSfVItVILunyCsUVLx4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T8f2uKS8SVyCvSj330Fhgjl5hUUaW6Ew6rQ9lC4okS4hIUJixYxUFNEysq+RcZ/rq
+	 MaCw+/pxcuSi0GlYk8KrdOBjhXZPd/QTZd3OZ8F8V4UBUSTMaiM1On8CrnaXXdgRgd
+	 DuVp7R3+MzR3N8xV0ksNoyuD1/4mZd8cofHJbg4oLsqzdCUt09WHzscV2FRlPHT7l6
+	 uvMH9LMCYqudvPx6le/Bm/EAP4npYO1lrB0heTd9EgJe7CFRhclchYniFXPLY4oiKz
+	 tWm7I/DfGiusIMSqduDA6QIO2WLaia+wWkfqso6Z1P7QzLTqzqm8UYh9VX0QYn/wEk
+	 ldJS6NAHQUZ2Q==
+Date: Sun, 28 Jul 2024 17:23:09 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/5] ad7380: add support for single-ended parts
+Message-ID: <20240728172309.13155e1b@jic23-huawei>
+In-Reply-To: <20240726-ad7380-add-single-ended-chips-v1-3-2d628b60ccd1@baylibre.com>
+References: <20240726-ad7380-add-single-ended-chips-v1-0-2d628b60ccd1@baylibre.com>
+	<20240726-ad7380-add-single-ended-chips-v1-3-2d628b60ccd1@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, perex@perex.cz,
- tiwai@suse.com, corbet@lwn.net, broonie@kernel.org, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, aholzinger@gmx.de
-References: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
- <20240726074750.626671-4-ivan.orlov0322@gmail.com>
- <0576f5dd-656b-4085-8c8d-b0f845875f0f@wanadoo.fr>
- <3ab0aa72-4f89-4911-8546-ce17f362c981@gmail.com>
- <42ba79ad-3354-448d-ae03-6f68d51f46c5@wanadoo.fr>
- <08bdc510-da39-42d4-a104-9c7119d082ea@gmail.com>
- <c73da5fd-51a9-4744-9687-0ebc56c34fca@wanadoo.fr>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <c73da5fd-51a9-4744-9687-0ebc56c34fca@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 7/28/24 11:29, Christophe JAILLET wrote:
-> 
-> I may be wrong but I think that ida allocates hunks for 1024 bits (128 
-> bytes * 8) at a time. (see [1])
-> 
-> So with this extra sape and the sapce for the xarray, it would waste a 
-> few bytes of memory, yes.
-> 
-> With ida, there is also some locking that may be unnecessary (but harmless)
-> 
-> 
-> Hoping, I got it right, here are a few numbers:
-> 
-> On a x86_64, with allmodconfig:
-> 
-> Your initial patch:
->     text       data        bss        dec        hex    filename
->    55020       1783        268      57071       deef    sound/core/timer.o
-> 
-> With ida:
->    54763       1631        116      56510       dcbe    sound/core/timer.o
-> + 128 bytes of runtime memory allocation
-> 
-> With bitmap:
->    54805       1535        132      56472       dc98    sound/core/timer.o
-> 
-> 
-> I think that the code would be slightly more elegant with ida, but 
-> implementing it with a bitmap does not add that much complexity.
-> 
+On Fri, 26 Jul 2024 17:20:08 +0200
+Julien Stephan <jstephan@baylibre.com> wrote:
 
-Ah, alright, I agree that the code would be cleaner when using IDA, and 
-such a small memory overhead won't be significant/noticeable. I'm going 
-to use IDA in the V2 instead of bitmap API, thank you so much for 
-pointing me to it (I was wondering if the Kernel has a generic ID 
-allocator and now I finally know it does :) ).
+> Adding ad7386/7/8 (16/14/12 bits) unsigned, dual simultaneous sampling,
+> single-ended compatible parts, and the corresponding ad7386-4/7-4/8-4
+> 4 channels.
+> 
+> These parts have a 2:1 multiplexer in front of each ADC. They also include
+> additional configuration registers that allow for either manual selection
+> or automatic switching (sequencer mode), of the multiplexer inputs.
+> This commit focus on integrating manual selection. Sequencer mode will
+> be implemented later.
+> 
+> From an IIO point of view, all inputs are exported, i.e ad7386/7/8
+> export 4 channels and ad7386-4/7-4/8-4 export 8 channels.
+> 
+> Inputs AinX0 of multiplexers correspond to the first half of IIO channels
+> (i.e 0-1 or 0-3) and inputs AinX1 correspond to second half (i.e 2-3 or
+> 4-7). Example for AD7386/7/8 (2 channels parts):
+> 
+>           IIO   | AD7386/7/8
+>                 |         +----------------------------
+>                 |         |     _____        ______
+>                 |         |    |     |      |      |
+>        voltage0 | AinA0 --|--->|     |      |      |
+>                 |         |    | mux |----->| ADCA |---
+>        voltage2 | AinA1 --|--->|     |      |      |
+>                 |         |    |_____|      |_____ |
+>                 |         |     _____        ______
+>                 |         |    |     |      |      |
+>        voltage1 | AinB0 --|--->|     |      |      |
+>                 |         |    | mux |----->| ADCB |---
+>        voltage3 | AinB1 --|--->|     |      |      |
+>                 |         |    |_____|      |______|
+>                 |         |
+>                 |         +----------------------------
+> 
+> When switching channel, the ADC require an additional settling time.
+> According to the datasheet, data is valid on the third CS low. We already
+> have an extra toggle before each read (either direct reads or buffered
+> reads) to sample correct data, so we just add a single CS toggle at the
+> end of the register write.
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Hi Julien
 
-Thank you!
+LGTM - only one trivial comment inline.
+If nothing else comes up I can change that whilst applying.
+I won't be applying today however given this is a new series and has only been
+on the list since Friday.
 
--- 
-Kind regards,
-Ivan Orlov
+...
+
+> @@ -92,8 +96,24 @@ enum {
+>  	AD7380_SCAN_TYPE_RESOLUTION_BOOST,
+>  };
+>  
+> -/* Extended scan types for 14-bit chips. */
+> -static const struct iio_scan_type ad7380_scan_type_14[] = {
+> +/* Extended scan types for 12-bit unsigned chips. */
+> +static const struct iio_scan_type ad7380_scan_type_12_u[] = {
+> +	[AD7380_SCAN_TYPE_NORMAL] = {
+> +		.sign = 'u',
+> +		.realbits = 12,
+> +		.storagebits = 16,
+> +		.endianness = IIO_CPU
+
+Add trailing commas.  In theory we might expand this structure
+in the future.   The only time we don't add trailing commas is
+for 'null' terminator type entries where we know anything added
+must come before them.
+
+
+> +	},
+> +	[AD7380_SCAN_TYPE_RESOLUTION_BOOST] = {
+> +		.sign = 'u',
+> +		.realbits = 14,
+> +		.storagebits = 16,
+> +		.endianness = IIO_CPU
+> +	},
+> +};
+
+>  
+> +/*
+> + * Single ended parts have a 2:1 multiplexer in front of each ADC.
+> + *
+> + * From an IIO point of view, all inputs are exported, i.e ad7386/7/8
+> + * export 4 channels and ad7386-4/7-4/8-4 export 8 channels.
+> + *
+> + * Inputs AinX0 of multiplexers correspond to the first half of IIO channels
+> + * (i.e 0-1 or 0-3) and inputs AinX1 correspond to second half (i.e 2-3 or
+> + * 4-7). Example for AD7386/7/8 (2 channels parts):
+> + *
+> + *           IIO   | AD7386/7/8
+> + *                 |         +----------------------------
+> + *                 |         |     _____        ______
+> + *                 |         |    |     |      |      |
+> + *        voltage0 | AinA0 --|--->|     |      |      |
+> + *                 |         |    | mux |----->| ADCA |---
+> + *        voltage2 | AinA1 --|--->|     |      |      |
+> + *                 |         |    |_____|      |_____ |
+> + *                 |         |     _____        ______
+> + *                 |         |    |     |      |      |
+> + *        voltage1 | AinB0 --|--->|     |      |      |
+> + *                 |         |    | mux |----->| ADCB |---
+> + *        voltage3 | AinB1 --|--->|     |      |      |
+> + *                 |         |    |_____|      |______|
+> + *                 |         |
+> + *                 |         +----------------------------
+> + *
+> + * Since this is simultaneous sampling for AinX0 OR AinX1 we have two separate
+> + * scan masks.
+> + */
+
+Good. I always like some nice art :)
++ your implementation takes the same approach I would have done.
+
 
