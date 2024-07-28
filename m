@@ -1,124 +1,95 @@
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AA22F30;
-	Sun, 28 Jul 2024 07:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E085B2570;
+	Sun, 28 Jul 2024 07:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722150516; cv=none; b=UFdgmmvQb0jIoufDonw0FdTWfauFP7Ew39Uy3WgGRgVWVP4FsIMF2pA0b56rBU8FlwjR+AkP9iccWKPKSk3+XhHN2gKHt93OfFPLZiZ1lWu95LDCmhyynXSeXMkPza/+6WPdXkLMFz6IrzsETbcOIfhZhGpgid1MatrwyBdgXxw=
+	t=1722151113; cv=none; b=RtomcmTGXKdGqDLS4zyD8wWjJNhTJeUMh1H1P357wLwJQgowT8yjeXyXxEs9oa60DFpPEqH61ym9szEsiSqSAxDsijvveYpbr/GhI4HF2BWd7+ZDiUuD2Iems7OCo/UZ09dHXtJIrUekTwEG8bSCEvBvin/nXWj/otiMabhUiek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722150516; c=relaxed/simple;
-	bh=XPloegrAQj5If0URiRrdUc1LA1dXgbBo0/Y44IynSjU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dE0u9nJ1Dt9k0bm7eq2DyoSmr0+q9bq/BnRcaYXDnDJTg2EwzQZPMa1JUr5xLqkBvOOw5nAaXV0AzYIJLVBYxt5CgLT154E3w36ylhhlmnQ83USWggm57cmXsgkfCcZrO90yNONJy4sZiz44upgQcIz2jpKoqxf0Og5O2vUL3YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=XGb0oC4f; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1722151113; c=relaxed/simple;
+	bh=sowjuugZXaxlM/D0SnpRi0wuYt0TKl1lXVH9UI1bHd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2Iv24FGsDjVIhGlqbDEvEVtEin+vjjAsKpRF3cM4aFJSR99wYRt5CiwvC2GJXzr3+jI2h2B9+nsawjH/XL4ST/HEWBSp4Sn75H0kYUo9/KKxGl1+EWy3hmkyBb4sOJTLXXqpXGMoLPfXFK23gfITaJNCehCMo8E0cr3+2DD6Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QpMnS7YG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="XGb0oC4f"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id Xxs2sX5MAGdLxXxs2sF2Sj; Sun, 28 Jul 2024 08:59:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1722149948;
-	bh=n3xHZPZxtqhkSm8JPGNh+hOGTvxd4rcXGKbmto4kynk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=XGb0oC4fNxtR7RUJGTgOVGegcJz5jhAsIk0Co8K92L8WsZFkhH0vAKLy2WAkMSlcy
-	 IbmoPIRg7eoYnG1bFLJaR8GaLbKBHwgBIMR1b12G/QUxx9hLA+nmp2rHR9SnFtP5LH
-	 ocffLueqU1fW9Wgu48Yl4mIHiywaD5oF2g827+UrOyEeBIeZ0mo5Cc9wevyPkeNyU4
-	 G5mvvYhQSHVjIuIu8NuuaVy7NsZ11OKtKZtHMYv70+yq/chClNBY0kohl+QbNQUoGE
-	 NyZumvdFquu8zjy1Vd79uPW8nma9gEVQbEJ3sYJ09MK1OyeXb+7SU0LXiAZVHr4kjn
-	 ohAyEQ2aNrO5w==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 28 Jul 2024 08:59:08 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <0576f5dd-656b-4085-8c8d-b0f845875f0f@wanadoo.fr>
-Date: Sun, 28 Jul 2024 08:59:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QpMnS7YG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCDF6C116B1;
+	Sun, 28 Jul 2024 07:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722151112;
+	bh=sowjuugZXaxlM/D0SnpRi0wuYt0TKl1lXVH9UI1bHd0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QpMnS7YGlAahC1hLNy52G+1r8C5lA3r2WZXSjrY/s4xXVmq3Ly7pRSSF+O/YwyelT
+	 a7xQByMbRoAzBeG0ef/mIOdCqzgXo9iRifQaXsylYdhnnDHlrul3geiU35CdyvxgUX
+	 FA6FNTBSgOkRfjAICaWfMjQT7GNTwojsaJq+GYPPmgzvybGieiAJzEO4WW6bGIlZVE
+	 68RFU2g6uon4+YUgefrsTtXTHBsbOOr03Z2u5RW0JgYsXjKeIQzgNKiefk/NJrtLSR
+	 vM1vgrFn699O6b4SraT6lwk/ZZoYDuwHziOrsY2unukCkMUo/SFfz28cu66ymJGYYA
+	 YQ9DQXfDjNP8w==
+Date: Sun, 28 Jul 2024 08:18:21 +0100
+From: Simon Horman <horms@kernel.org>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	andrew@lunn.ch, corbet@lwn.net, linux-doc@vger.kernel.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	horatiu.vultur@microchip.com, ruanjinjie@huawei.com,
+	steen.hegelund@microchip.com, vladimir.oltean@nxp.com,
+	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com,
+	Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
+	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch,
+	linux@bigler.io
+Subject: Re: [PATCH net-next v5 00/14] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Message-ID: <20240728071821.GC1625564@kernel.org>
+References: <20240726123907.566348-1-Parthiban.Veerasooran@microchip.com>
+ <20240726162451.GR97837@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
- corbet@lwn.net, broonie@kernel.org, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, aholzinger@gmx.de
-References: <20240726074750.626671-1-ivan.orlov0322@gmail.com>
- <20240726074750.626671-4-ivan.orlov0322@gmail.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240726074750.626671-4-ivan.orlov0322@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240726162451.GR97837@kernel.org>
 
-Le 26/07/2024 à 09:47, Ivan Orlov a écrit :
-> Implement two ioctl calls in order to support virtual userspace-driven
-> ALSA timers.
+On Fri, Jul 26, 2024 at 05:24:51PM +0100, Simon Horman wrote:
+> On Fri, Jul 26, 2024 at 06:08:53PM +0530, Parthiban Veerasooran wrote:
+> > This patch series contain the below updates,
+> > - Adds support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface in the
+> >   net/ethernet/oa_tc6.c.
+> >   Link to the spec:
+> >   -----------------
+> >   https://opensig.org/download/document/OPEN_Alliance_10BASET1x_MAC-PHY_Serial_Interface_V1.1.pdf
+> > 
+> > - Adds driver support for Microchip LAN8650/1 Rev.B1 10BASE-T1S MACPHY
+> >   Ethernet driver in the net/ethernet/microchip/lan865x/lan865x.c.
+> >   Link to the product:
+> >   --------------------
+> >   https://www.microchip.com/en-us/product/lan8650
 > 
-> The first ioctl is SNDRV_TIMER_IOCTL_CREATE, which gets the
-> snd_utimer_info struct as a parameter and returns a file descriptor of
-> a virtual timer. It also updates the `id` field of the snd_utimer_info
-> struct, which provides a unique identifier for the timer (basically,
-> the subdevice number which can be used when creating timer instances).
+> ...
 > 
-> This patch also introduces a tiny id allocator for the userspace-driven
-> timers, which guarantees that we don't have more than 128 of them in the
-> system.
+> This is not a review of this patchset, but to set expectations:
 > 
-> Another ioctl is SNDRV_TIMER_IOCTL_TRIGGER, which allows us to trigger
-> the virtual timer (and calls snd_timer_interrupt for the timer under
-> the hood), causing all of the timer instances binded to this timer to
-> execute their callbacks.
+> ## Form letter - net-next-closed
 > 
-> The maximum amount of ticks available for the timer is 1 for the sake of
-> simplification of the userspace API. 'start', 'stop', 'open' and 'close'
-> callbacks for the userspace-driven timers are empty since we don't
-> really do any hardware initialization here.
+> (Adapted from text by Jakub)
 > 
-> Suggested-by: Axel Holzinger <aholzinger@gmx.de>
-> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
-> ---
+> The merge window for v6.11 has begun and therefore net-next is closed
+> for new drivers, features, code refactoring and optimizations.
+> We are currently accepting bug fixes only.
+> 
+> Please repost when net-next reopens after 15th July.
 
-...
+Sorry, I'm not sure why I wrote the 15th, I meant the 29th.
 
-> +#ifdef CONFIG_SND_UTIMER
-> +/*
-> + * Since userspace-driven timers are passed to userspace, we need to have an identifier
-> + * which will allow us to use them (basically, the subdevice number of udriven timer).
-> + *
-> + * We have a pool of SNDRV_UTIMERS_MAX_COUNT ids from 0 to (SNDRV_UTIMERS_MAX_COUNT - 1).
-> + * When we take one of them, the corresponding entry in snd_utimer_ids becomes true.
-> + */
-> +static bool snd_utimer_ids[SNDRV_UTIMERS_MAX_COUNT];
-> +
-> +static void snd_utimer_put_id(struct snd_utimer *utimer)
-> +{
-> +	int timer_id = utimer->id;
-> +
-> +	snd_BUG_ON(timer_id < 0 || timer_id >= SNDRV_UTIMERS_MAX_COUNT);
-> +	snd_utimer_ids[timer_id] = false;
-> +}
-> +
-> +static int snd_utimer_take_id(void)
-> +{
-> +	size_t i;
-> +
-> +	for (i = 0; i < SNDRV_UTIMERS_MAX_COUNT; i++) {
-> +		if (!snd_utimer_ids[i]) {
-> +			snd_utimer_ids[i] = true;
-> +			return i;
-> +		}
-> +	}
-> +
-> +	return -EBUSY;
-> +}
-
-Also the bitmap API could be useful here.
-
-CJ
-
+> RFC patches sent for review only are welcome at any time.
+> 
+> See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
+> --
+> pw-bot: defer
+> 
