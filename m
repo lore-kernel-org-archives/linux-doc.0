@@ -1,76 +1,122 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2072180BFC;
-	Mon, 29 Jul 2024 17:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2143D9E;
+	Mon, 29 Jul 2024 17:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722274244; cv=fail; b=bC0bbVOTjBAXnMcIXu/sjXrWbIh5OzbrTW7QoMvP/Wczz3zsymgiVW22R+qFakWA9X+NCVctqi1WllYx3PWhXJBT5QfVpl1U/FE1SNg4w8P63nsbzUS4uR3AGwFJOsAD9s5bDVdPsccvdSB+UzgIkDw0YSBD0OgIbVPiM0UPnKY=
+	t=1722275934; cv=fail; b=VLhh/Eo3Zd2dK/fQsb8v8Fh97ISMof6LNJb8nvkQ+7C2EgYPZJkM4eE2PHrlXkAvPC8q1VfQlp46JwW/IKEV8sIH9fLyasgzZVKNiemBcnnKiXwaP0NaiMMGSXehJJBVM8H6TlAdJvXmgWuZM0/11FloXbmxUW5j1bIHK3O3j4g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722274244; c=relaxed/simple;
-	bh=W1bi6Ve0Pha/ER3j6//arr3PCNhlgKXh6T7tP0/tM7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=GjPNBEmgKML1Fc5Qwabra//U5INgbV59sYmAyw3YeLQKgPGbC337xftPht6Kgwy6mhIVxuJ62bdpx1WSJYeax6jp01FnVqf2JePfy3JaD751wmFFhsMZjSxP2n8BYXJ9SCqdmfWpgw/zgaiALe5Rvis5SUkyPGQWLXRO5kfdqwo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=up+bEe9P; arc=fail smtp.client-ip=40.107.237.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1722275934; c=relaxed/simple;
+	bh=uSp+VA4JBmmudEhXB2jh3LqMsAq8g9LqJCWWfX2hRFQ=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=f1FgZSmdt14YBp/vu/pg8grHCCCf+I4eMyT6Yu1nu+V+imhZsOkhFbJJgSg73e4w+mlNZd70cxj09Y212QC/8/f/TRFnumljYTWl00NywyCkR+MxlEOTPOYZAyvDyNLhVHHBHPPICZs+wiTaYsxsdmGlL8XZ1roYZCFn13wHmXk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2YQB6RA; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="up+bEe9P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2YQB6RA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722275932; x=1753811932;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=uSp+VA4JBmmudEhXB2jh3LqMsAq8g9LqJCWWfX2hRFQ=;
+  b=e2YQB6RAgCS1/bTTO3uK5aK4bcpUYx7zK2WVa0viTCBFRJ5JotdK6Bva
+   0AnEhC9CErozuSndOEWSxdd3t0VoQ+0tEAZi+Kggiv5lKH8wrfQz+fT4k
+   BVtXv6rvANpfH5pO9YxEVXe1olHAJPf2Wj4pjZU0mYgS+JHhBc/eGiZlL
+   bnG0tkSFUwV8cAKH8cZIk4gkDmvgu+hbSHRD0OTa0N6mtfxDNc2B/++Fa
+   Y4pIDv9MmxlUL19LQ5UxtyzDHJvW9rDBMVdHbtvUfy9HGEPECfy2XE2OG
+   +Br6tPSnGZGGKYCrTARwrHnmPHWBtWXvd5nombeL7/sZEbSNyj9vr1p5Y
+   w==;
+X-CSE-ConnectionGUID: FRQS+FXNTMeNI1U5qqjf2Q==
+X-CSE-MsgGUID: s7K4JLvtQtyWsQt0VWf9lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20198768"
+X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
+   d="scan'208";a="20198768"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 10:58:51 -0700
+X-CSE-ConnectionGUID: AIxlcVWYRfO1eLy9v2vWig==
+X-CSE-MsgGUID: uEhz0S4wSmim8zlLAputIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
+   d="scan'208";a="59149270"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 29 Jul 2024 10:58:50 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 29 Jul 2024 10:58:49 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 29 Jul 2024 10:58:49 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 29 Jul 2024 10:58:49 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 29 Jul 2024 10:58:48 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RJCTYp2CnwKYVwtgvqQ9WGQ480wvfvq7rDVg18Bjln7DV0LN3PpCVbHl7LSM70xeHi271dhporIiCJXvDBWLr2+xfnuSJuT74vWkL0yR7oFuXG5scT/La+zhI4GApcCBbzZQ1wbnXnMTDOsaeNxLEuWVCvjKduUjzc8b4BImXoIcqE+LwGUe+xike6lUMUdZeAJ7rbV/pwT+Yoqb4c88WP6Kr01OYgr5X6mbLyZI1H8DxA6BQxTQqZrB62zwotHQ8cEOViUqu+EM0ut3I5qf+ptf+bsCsHd14o88yb+28T7dSCYUCMN/qt1flTDVKgPuEqC8puIqvo89pIxpup47YQ==
+ b=mVzpP0XbHW289Ij4YcSvREkJXVyesqj3JU5PsfwVaVKHcpEMNA5/JAaJOrbSCOVulnLBjMlI7nAxz7XGDX6/w2jut4P3bbI+iM0VN9TNrFqRkZJqCMmjotFxppxopHj2eNR34S0skHq+V6xhl0qjPL/xXoMBTGgLzeCxBocJXT6X5N3KR1ePnpUm4hFYbp0Qi3Cnc/9R0Q3cWkELom1DczxwZ7/SYWNUfz2l461Tvg+QpbiqqDqDe2hjEDNRGcjo7G8r/UL7U790nRKg6o7ncekMy8DB/dwMlQsVyTBBOi+adhsA2j5+zrjytz8fGJKSJLsDquQS0Y5ILA9TpU5/aQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bPEQSjUgbWAFUm9Uet6WXXYCVydzE8f7TX7UvNCTBsY=;
- b=v+m9IVWploe5j5OD1QzdUXkxwnlIAESyDJKAw0xANfv77x0TwYi/0qkmt+dUP5teHSIypZPoqvhgR50Vpsaw4AEnFepW9ydx0bKkyv/F3BWOF7QozUqXLnGNtuSfCQzLYdudCJ6QqUI3eKbNUgRIZYswvQucMLV9hXNu4GoZw5Z8WsUoqcjHcFj1sajTn4XiDq5ItEiMrZmeG9mAdfUSZXOe5iWiv6ktdCHwauLM3SdsRJqSZcFFAC1JJMgkkN34VVldXa+xGh6AFd/C+Lz1J+1dH3SoxEiuv2nvZjXQ/OpuXWfnXEuywTkEu2dnf8wTtKrGnBQ7qc9lnf37czFhSw==
+ bh=aoAxF9VFbukXKK/2ArPOQtK7VhWGVUAVbrr+MaGaqn4=;
+ b=NkTDpztYPm4wfOIj0PrFikMBkTTqz6eZFbHX4644DXRAFKOxJW0KkWOoXNbw27Td33nQHqEcAoEnHuJnm+Qe74pc8Dxi/KimNgrhiXV87n6TyWhkZqsu6JGlTqQSKgNo1zEx+W+CwdiCTzcBRExPpA24kUF9XLV+RBI8hc0YJopviGfdiK7KrkmDuyktHHOeLrTkD1uLIZAwCdeiPUTKX4607lfmYaROOi87YzcwpCR8VZjMC2uWnmuqzofAWfjmjsyXNaGtguZnC82YedBN1IZvTBVYV/fn7fvdfTEkVlC3eyuUgH1lgyKAFQ4TU4iJ5jShAU2jj/g81Gqdf9qaXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bPEQSjUgbWAFUm9Uet6WXXYCVydzE8f7TX7UvNCTBsY=;
- b=up+bEe9P5WlCn64nbxpK4z+f8vHVNHFwwxh9lztZsEiHHQwiSKmw+CKq+bbnNfWnL9iz7fZ8stVE0pEL3cZ10Q/mczeSOHMG38i87rHkVghOUbKvmSTFrqPCxqv7+m1V0delK788rnacI6T6hetr7YV4Cl2c24H4ULOgdWDN2UJyo0JJmIYfiQR2jY9eJBG68QGFHCKITNazhdpieWbBlMupOPsQlJPtMfNJlKDcvcIQBgPk8qLzt2ou4V+SdkDuX07QeSgTmSNt/PUJLbx9GNx+KxzisCza+hLARuhgNl7UsIiaWCs3HUZt0d5DuoUohIsV+vnoKHpCqotVQCS55Q==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
- by IA1PR12MB8586.namprd12.prod.outlook.com (2603:10b6:208:44e::9) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
+ by MN2PR11MB4694.namprd11.prod.outlook.com (2603:10b6:208:266::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
- 2024 17:30:39 +0000
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
- 17:30:39 +0000
-Date: Mon, 29 Jul 2024 14:30:38 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v2 1/8] fwctl: Add basic structure for a class subsystem
- with a cdev
-Message-ID: <20240729173038.GF3625856@nvidia.com>
-References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
- <1-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
- <20240726153042.00002749@Huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240726153042.00002749@Huawei.com>
-X-ClientProxiedBy: BL1PR13CA0068.namprd13.prod.outlook.com
- (2603:10b6:208:2b8::13) To DM6PR12MB3849.namprd12.prod.outlook.com
- (2603:10b6:5:1c7::26)
+ 2024 17:58:41 +0000
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::7de8:e1b1:a3b:b8a8]) by CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::7de8:e1b1:a3b:b8a8%2]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
+ 17:58:40 +0000
+Message-ID: <4cfadc45-2f8d-4c9d-a4fb-4c255ebca228@intel.com>
+Date: Mon, 29 Jul 2024 10:58:38 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v17 12/14] net: ethtool: tsinfo: Add support for
+ reading tsinfo for a specific hwtstamp provider
+To: Kory Maincent <kory.maincent@bootlin.com>
+CC: Florian Fainelli <florian.fainelli@broadcom.com>, "Broadcom internal
+ kernel review list" <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+	<andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+	<linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu Pirea
+	<radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, "Andy
+ Gospodarek" <andy@greyhouse.net>, Nicolas Ferre
+	<nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+	<corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+	<UNGLinuxDriver@microchip.com>, Simon Horman <horms@kernel.org>, "Vladimir
+ Oltean" <vladimir.oltean@nxp.com>, <donald.hunter@gmail.com>,
+	<danieller@nvidia.com>, <ecree.xilinx@gmail.com>, Thomas Petazzoni
+	<thomas.petazzoni@bootlin.com>, <linux-kernel@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>, Maxime Chevallier
+	<maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Willem de Bruijn <willemb@google.com>, Shannon Nelson
+	<shannon.nelson@amd.com>, Alexandra Winter <wintera@linux.ibm.com>
+References: <20240709-feature_ptp_netnext-v17-0-b5317f50df2a@bootlin.com>
+ <20240709-feature_ptp_netnext-v17-12-b5317f50df2a@bootlin.com>
+ <667b3700-e529-4d2e-9aa1-a738a1d70f0f@intel.com>
+ <20240726210427.525c7abc@kmaincent-XPS-13-7390>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <20240726210427.525c7abc@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::12) To CO1PR11MB5089.namprd11.prod.outlook.com
+ (2603:10b6:303:9b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,265 +124,149 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|IA1PR12MB8586:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7551b03-160d-4916-ab5a-08dcaff429f3
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|MN2PR11MB4694:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35f49426-29a2-4080-e495-08dcaff81425
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UgNeihnJ1eAhfXy53vyiTUAf+k3OgruF6oSK64uPmNvr1PCQdTfJ/INitrRn?=
- =?us-ascii?Q?LqEcVOioZVTrPdJusv7tme4JRMOCSjjC+Q1BKSHL0mYtGl7aOQbd6sp82qyl?=
- =?us-ascii?Q?Wq/U79pChHjgxnfKykd8S+vvLwRj6ZpftJmSh8qua+T4jD6bVoREyv4KF2Wn?=
- =?us-ascii?Q?riBeDW6fu1wlBJWOee+WfXHLMyqATenKtkCqafcBDmH/bpagDECDhT41Hnn7?=
- =?us-ascii?Q?gNn5Ul8MhO40BIWHXutPEjIXf+yVbJWbbaTI1bUUTqvbQPzYsWXrB+XXZn/q?=
- =?us-ascii?Q?exO7YtZoRtpuE0SNoOJelQRl4KOBxd/jB6mzpUqMgS3O0P4mvhAncM7OVc0a?=
- =?us-ascii?Q?L4M1VcleGWWopdz8Bo9DDp+moAh1cp5o+KBYbl9GkK2+c1V8QP16PCAc1UAJ?=
- =?us-ascii?Q?JYx9nqOgJChuKBzt2YA1ynWf2cZmPoJJXNjFia9ywb7VF435OtKdzUx0fW/k?=
- =?us-ascii?Q?nX1tGXPqteeYewbJ/RAAOk9CnKgGzFoAOjWuFk3skL/q2gxNq5yqtMKKIUov?=
- =?us-ascii?Q?SEwL5axofmjs3oeP2OdytN2lOeQ8UFgt8GPNWzZqATTb7W5UoXtsJSoCdLGX?=
- =?us-ascii?Q?/cpxGocd3ziXgJ4PgLAYPCNJMGH2Lq/MoeFIzudEFJFvl+/P4wECJFbK/Kx3?=
- =?us-ascii?Q?P6Uw2vGuy/Vleb7zkGGMPXiQPzp6tJ31BGWuxwYuEbInmZi1cR8ynm+lzhdJ?=
- =?us-ascii?Q?KR53sldR4X/4JZtXwQ5TLt2IOsMzJBnpKdWkd+5837IKokYfwl+Y0BJ2yNi8?=
- =?us-ascii?Q?ysvrbENFz2xQ02apZ/k8P4i+gwG1Ob+HDfEc8wHoRig6F8v/VIVCG8HQDbim?=
- =?us-ascii?Q?pSDGKhqPSr4edZMgRZuh499DQiHrh/tYA8DzDqQ7kyFDichTatYLDmyHLlDM?=
- =?us-ascii?Q?H3aNzhEAd0w9Gk8H4OXxxfcT+U6vBfXPAGyj+1tXf9CKd+rrfBlUXK2xxIEy?=
- =?us-ascii?Q?xLj/TwsMwCCgSvrqEoylPfzddRwYsc7xBm+fLqgl3QE1g2XsrrzfFCp/szSa?=
- =?us-ascii?Q?qsIZmIu219DQ/Uyfc1YlgW6dRpmHZ1sCBavR6YnXoB0X7UNiYB7g5FO4Hu4n?=
- =?us-ascii?Q?eFkd46HxkoaL+YUkxHAsSaFwItVXInHar+2t2aK/ItzWZDQYVe9BfDDP41TX?=
- =?us-ascii?Q?d94CImLOU08rLPBXB6ydVXZoFxXypKWArLjlmU3i8U/wfJSwolCaZxQ3ozVr?=
- =?us-ascii?Q?AumXcPp7E8NB6CijABXElSboOvaiR/srozPoLDVymjkNsyMTLd3a7gemHK0P?=
- =?us-ascii?Q?u06thg06UcON6EBflMGv8Vl19M4LQ0+xzguChhnlohmFW7/tsAkrTd1ZRdHi?=
- =?us-ascii?Q?o3x3a79bNncjCFXpgwUEbTL/TO+SW46fd6Rj4o1TpVeF9Q=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RDYxR3lMeFpHdllTalIwMXFYc2JnT3Zlb3Y1WWJKNkw2ZzFJWjdaK0R3a3ND?=
+ =?utf-8?B?K3ByaytnajEwaXdteWovdXQ0WnduaFRmM0x3Y1VxdlkzRGZXSEFOZEpzTlNm?=
+ =?utf-8?B?NmJ6b0hUR1c4cUI3N2FvTlFUZzQxRmE2eGRMNTBYdFZEQUF4Rkx6ZnlFMGZ6?=
+ =?utf-8?B?MGpUV0Qwd2lDWUFhcUVYT285K29lOGwvM3dkdFJoamdzQUd4SlRmNmxGMXVR?=
+ =?utf-8?B?RytKcFVBSks0OXNrYTRhSWtkS0tyK0xWdUl1YXh1VFMvYy9ya2kwb1VPNTN0?=
+ =?utf-8?B?d0pRSHNPaEl5VVEva0s4WC9aTlprelVFdTQvVWdUMHYxays3QmExZEZ2UEMv?=
+ =?utf-8?B?NVFlZkpXSTFDdzdNaCs3b1Q1M0lIalRVajRkaDFOYkZnNVF6VlpXUnFlT2Fa?=
+ =?utf-8?B?SGtvbDQxcllFNkN3M3Y1aFhPOWZ4WDk0bFNMZjlnc3drb0pWcVUrUyt0VUw2?=
+ =?utf-8?B?cnQ1VVVyOE5iRjgvUW5XbFM4UHlsV1orR2IwZ1lETWptbWtLNEx0QUo1VEgv?=
+ =?utf-8?B?NjJRVFBCd3pwNjRPMXJlM1Z3cVN6K3NBSnVyckVLcVhmVzV6RC9CMGF1SG92?=
+ =?utf-8?B?SFFBKzQ3RC9Rbk84T0s4OEl4b3IySm1DZHNZaStDei9hUDRLSXYzdk5mR0Nt?=
+ =?utf-8?B?cExuZGxGMU9PVjRIQmpYbmRoL25KS0VyM29GaW1KcWlEU1licW9jZC9XdXBm?=
+ =?utf-8?B?aU5KL2F0YzVUdnFtaFBKcStHUlEvT3NNV21xaFVGdm52SXM4YzI2TlliU3dC?=
+ =?utf-8?B?MTNienN5NDNRZk1uemNUTVFDeFp2RWg1dXEwV1lENysrMVFjdUxTendsdkdJ?=
+ =?utf-8?B?bW1GK0xpdWtQWUVwMThERUdNbnYyLy8vTEJLMUVnQ2xkUGtqZmp3MXZpb0tm?=
+ =?utf-8?B?bUU1bktyWG51bkpuSXpYQlVEOU1uSVh5YncxSHlNTkdaTU95QWViamJpMzY5?=
+ =?utf-8?B?RlRnVnhaeCsybWp0Wk1WVTVQK3cvdzg5K003YzdLSlVVWE52My8zeGFZZjJ2?=
+ =?utf-8?B?eGFxeEd5bGZMdkhHQVcxMlllcjhoQXVpLzdFdHl0dWxRTDNWVXJqaGovWHVo?=
+ =?utf-8?B?UU5JYno5Q0VXRzY1Zlp2UW5OSE5SNWxLdkk1RXJuRlVXZDBvMG54alRuVnhH?=
+ =?utf-8?B?dmlmYyt2UWhOb2pyaVJqNUJaV1JNOWF2U2FQcDN3aXo1YStpT3FDMksvWTdo?=
+ =?utf-8?B?ZE44clNRaHFuNkRDTTdOQ3Q4UjZwTnBTOFFrYzUwTXFqOHJicGRESWtFRGJ0?=
+ =?utf-8?B?ckRSaVp0ejJtK1MvSWJMN2NOZ1NXVDZxMnJVMWpHb0I5TEVMdnFraU1HTnBj?=
+ =?utf-8?B?MzBFdDRmMFlLb1Z5ZnQrQ2xINHNTZUgyTjRGY0ZHZXhTd0gyWVRyMTk1eEp6?=
+ =?utf-8?B?cWY1TDFUVkRGZHhSY2ZZU003Vm9UOE84WDM2d2J1UjZlUHJHZ1M4SmQ2ZWJP?=
+ =?utf-8?B?bHM5bUtiMkR1Y1NZaTFUZkV5SkhsR0tGMkc0dTQzS1ZmeGJDUHRCZ3B5UXls?=
+ =?utf-8?B?dHloQ2lGblBvZUswZmVGaklXY2t2Q2MyOVVKN1JUaXZ0NzF2NUd3S2dZeVZO?=
+ =?utf-8?B?Q0UyU0svREgrT2duMHRYZkRwK0I2TkFkd01pNmJOZlo1TzQyUTR6VjkxR2tD?=
+ =?utf-8?B?T2dzMDI2dHEreUplUWhQSk5ZcjIrbUZlVmhOaTEwdFBWYXlPNDNkTHptZ2ls?=
+ =?utf-8?B?QnZCTlM1THRVNjVGRTlVTjNVWm1EaEJYTzIrTDdrQnVoRkZ1VWdrcXc4OVlh?=
+ =?utf-8?B?MnV5WHAyYlc2elFENmlSTTdnTzVYTng5djcwam5aZmE2VDlVVHZBL2F2OEZQ?=
+ =?utf-8?B?M2l1ZnExVDZjOTlTZHVkUT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vvgCljCzizhd1fVC2ExHqjWZzp3PrxBq4idVXHqzojMw63XL1AIkNjYqVxTo?=
- =?us-ascii?Q?7G22MiR8EyjyFzGW8hjL0GI2COUNWx6UzOYC+XmK7T78yiDJHmAAZcF6oWqC?=
- =?us-ascii?Q?IklY5HhbJblkr67rmwLLCw9z12ynz43BFlXBJeln0S2zXg+whF5EF+Q3dk13?=
- =?us-ascii?Q?ZvcfpuprhM1hnrndLpCx7JlUYxVff0vuiYsBldYPK9a1LLCq0rbGcONfSm1T?=
- =?us-ascii?Q?yIafc3mTCwEFW7ydMcKu+AD+da9TVHyCHMr7VzXmtLHdUQnziO6Kp2aBba5L?=
- =?us-ascii?Q?VHf4C0ZOYSUjUqo/1bLUnElqsNLXq0ETOYXBxLhAtuaVlzESKEvsVGpZUZkU?=
- =?us-ascii?Q?1hO6faTMxNQHR3IwaIWC2a2IfLZ5oxLeNdwEPqg+oygd8puF/N2eN2Z5HgZE?=
- =?us-ascii?Q?o+g207t5vFpryMz2OKCG05ANv6yebOawXbrNQ5UUjchKdncUELKRGRe+gMxl?=
- =?us-ascii?Q?WrqVB9mznc5dIrs9s2JSjx5eOg52Bduw7FbP7ewmDAuVaGdc500lfYkp+hFn?=
- =?us-ascii?Q?P4pSn9+my0LlpVEOHDoPWoff1OlyN/yQRhp8T1zs6ZMF9rlAgK9F6m00QPX2?=
- =?us-ascii?Q?LOk6XqmNb8s0T3XBfCbFeWoBX62wuI5CGogtSvWy7E0dT4ZF1un44D2Ofrx4?=
- =?us-ascii?Q?wl6G9t79fAeFEWymX02w1XWZX973z3sTiWeHiL1K27ESvl6jdtc5z8hZe3dl?=
- =?us-ascii?Q?97Rlbj/bltQt8IYCW0RaDmWlKXZUiCVl6OJRvw9DIKivzYIvZPcIUzshKmWW?=
- =?us-ascii?Q?dt0eykmk+83K5Ld6IYPMcjEnXXsv3ajvWY1VJNJ0PURFxEPnn6pHbAp/a46z?=
- =?us-ascii?Q?/tSihln1iZgozmiE568GtaaRN8PFEM9+Zgsemj9H+Yo7VKEI4NzW4Cnf8PDM?=
- =?us-ascii?Q?MnVeiDNeRAkcHtu1rJu4ty1HZ2Jd3Sfz569rJJ1KVSw9c20wiTTIVNfclAnm?=
- =?us-ascii?Q?otgFAZvb8BrZVdx4YN4xIlfssSQifhQ5h64HazH5KST2A2/X0J8hXvPFCWHs?=
- =?us-ascii?Q?XVxxiKRBdaTBHBaYOmroTXn4w1bnOsy6ICYp5alle7IfE/6ksk1mG0NJIM5K?=
- =?us-ascii?Q?3mjDIc4ouPjmNNd1W0vLa4lPTgtex61aKl2PtPmho+LkOI0/6rvuM73gGrKn?=
- =?us-ascii?Q?FFMZj/AluhI33zlMM+mn8J2TRs5FCvXgVUIBrcpclr6A9DFwG6QoxPbfo1hw?=
- =?us-ascii?Q?F2M5hMHcDSkK4lv8dixXusomps1sVAJzYcEM3W8caUjBRG7AbWe0MNMEk6Ol?=
- =?us-ascii?Q?2yNPlizFx1m5VzbWU+ADua9+ioefU5LPlFl+huk6B9OWqyUG377PBkF22C6C?=
- =?us-ascii?Q?0Yli4oxAcFgb8fy/P8pj/nkCWDXZWq5HZlTA+VD08e/wNsvBb69yzOUFqjvu?=
- =?us-ascii?Q?uRg88NXrTO3A1TrZgEtwOy+OS1FQXevlbQ0qm/Fvg8vDyyrtDH4GTQGzPv6q?=
- =?us-ascii?Q?s/ldzIP8f13osCzXM7drRMFmfVb73JIBBPlYVeVn4jQV8tIQqq3X9foK2uj2?=
- =?us-ascii?Q?mQ3eSSTWnTmSAYldpGb4zqfO5c/xFCAd9EjyOkTTHN/EHHlc3XUICJIRupzK?=
- =?us-ascii?Q?rBjSestad217KaftzCDIzTmMUP/gCAy274FY8l/P?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7551b03-160d-4916-ab5a-08dcaff429f3
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dENtN0JnczdNQ2F4WFNVbGw1dGdQZ25FSGtScnhIVmlDRys3aHBDOXFHWXFn?=
+ =?utf-8?B?V0M3d0c1WGF1QjdSUTRxNmlXY0FYdnJISFpBUnZFK3VteWFCbDhyeUVuSFBK?=
+ =?utf-8?B?TVI3MzhVS1NKSjdVOHRPREJ2aENGS1ZvanRPYmhhaUVaQm9nY3ZwcHduS0Zs?=
+ =?utf-8?B?VzN3Y3UvMVlja3Z1WkYzM2VPM0s4VUJ5SXNJVmxvMityVW8zd3dMZHZkSklM?=
+ =?utf-8?B?emxFc2IwS1E4ODhDM3NqcDhxcXZQaHVEbkNUUUluVUtaUFFscGRxODFWY3Zo?=
+ =?utf-8?B?cVAzbzc1dm00bStvdGFoWlMvQlZTM0lkRExVYWNRNXRXejViaDkrU1M2Wmxk?=
+ =?utf-8?B?VU1lY0hmQ2NzZGFmV05OQ2djTEUrd29QM2RlallVNVhkZFNJdlJlLzlEek11?=
+ =?utf-8?B?bVBiTFo1anMyci91Vnd5ZFV0RkpGMU9oY3l6ekpKMk9HV2ZkTFk0SDRZRWlS?=
+ =?utf-8?B?aTVHQ09ySkFkRU8rYVhXOVdQOHpVL0k4UG1ZNlJjUmJpeFZzUEtCeXpPRzkr?=
+ =?utf-8?B?ajRnZ2owT0NxbWFIKzFBemNGOXV5ODRyVXVvWUFjZGd1ZWlJcWwxUTVtck8y?=
+ =?utf-8?B?VzFwdUE4U2tqWjZRbVQvOFZlMnljU3F2MHZKS3NUbmRoUUVRa1I1U25Xbnda?=
+ =?utf-8?B?U1d4TFVNRWpLUlB4L3lIV25qbjdETkJJK0RrOXVMK3ltdjE2MjJTQXNlS3hz?=
+ =?utf-8?B?YllyZFY5K1krMW5UbkxDNjdUN2ZLQ3VTTDZwcko2TUdhaTNyWDFhY2QraFk4?=
+ =?utf-8?B?M1BtZkErWXMwZTR0WGRZU1NQMFBlWkc4MzN2OXdVaFlTMzh4emJBbnROQXM0?=
+ =?utf-8?B?VGkyM1NhUUVFYllEcW1ZTkswZGtOL2Mvd0djVkNJYjdBV09kQUxtb0JCRXpQ?=
+ =?utf-8?B?OW9HSTNCV1dJN1paT2l0d1lMWnp5cUJQcHRlYWlIRC9qcitnZFNVUm9ra0Qx?=
+ =?utf-8?B?WkdQUWxyZGNVemRkT2tDS1JtZ0JEdEZpbVArdmZHMThsZW1Id1pXMU9iL3Jo?=
+ =?utf-8?B?NGZYbDlZbk1tWmRjbHUvVnYzSkhXWDZ6akcyQWtlakRKcTllb2hQVFRtbVdQ?=
+ =?utf-8?B?TlFpSDg2OFZQU2dSNU1LbWJ5VG00bVVkUy84ZEJOdHU3blJtdCs3NlhiWEV2?=
+ =?utf-8?B?dGc4RUZjd3Zlcis0NlROeXpvbFQzUHR2c25hZENNaTRTOVpYL1kyM0NUenNN?=
+ =?utf-8?B?NU0wcVFQaUVENGRnTkNaOWQxVjR0Qm1FYUdGdisyTWNzY0hFbjVzSE00T1Vi?=
+ =?utf-8?B?eGwyQm52MC9RODU4QTZFMU02aGk1VHJadzVmZ09od29Xa3dTUk5ybURBZmwz?=
+ =?utf-8?B?VDk4NEN0dGxEM3Bqay8yYWRPTDRGbVZKcHB2bDNoZGtvZzB3UkRvTTYwcUdR?=
+ =?utf-8?B?MWFpNUlDMUw0S1dLZkFGQWE1RVJKSjBEZU1wUVZDWll0cE9kQ2N0STg5V2ZB?=
+ =?utf-8?B?UFhVdENvQll5REpUMEpYRXNKUkNHY0dSR0lvYWVTNjNqdFZ5TFFLVWZQS3o2?=
+ =?utf-8?B?SkQ2QXQ2M3B1bDM0d3BDSVBQYUJhUW9jNnFOYkpZN3lKUEtYZ2N6ei9FUVFy?=
+ =?utf-8?B?ZnlTMnJHendtMVdXRjY3RFFEbk0zSFUwc3VEcGo2ek8rc3VEZmhXM2RDYm9V?=
+ =?utf-8?B?YVBHZHFkNGp4RGN3NjZJR3RPUFVVMXYva24xNTBJRFMvejc4S2tMd1FmMHlk?=
+ =?utf-8?B?OWdwcEhuZWxvblExYnBYUFRUdUdJd0x1ZGJkNE5nWTVMTFlzUFFUbkNwZGtL?=
+ =?utf-8?B?KzFVNmFBK2NqYVJTaVpuZGpSTDBNUHZFdUdZcFFZcHZBeVI2cmRYMWRGVDBp?=
+ =?utf-8?B?dzIza25LYVFSc29LOEcwSk5sdFVtV05USXFQNW1ZVzg2Sk14K0lPUm0yWXNx?=
+ =?utf-8?B?TGQ5UUxwNlBFVndDWVlWZis2dVRlWTIra1VIbkdxYWJRbG9sWEJEMVhkbURQ?=
+ =?utf-8?B?VXVNMUNFL2Q4cWFOOS9va29GRkhFUERsUUVjMXY2bWJSTnhicWhuT3Mxd1ZO?=
+ =?utf-8?B?Vm9ENDVEZmYxRnBKdUw5QlBqYUF1L2dUWE1XaDF4TElTV1ZMbGVtbHp0OXVF?=
+ =?utf-8?B?eG1IVjFlRm1XbWYvd0hocHRvam1NM2tXemc2eG1udFUxc0t6bVBRVnFsTDdP?=
+ =?utf-8?B?QWVBeDF2R0puZXBwZkNReE5rWjdDK25pU1NZSmNsMkN6SytVNWJjMWJvZExi?=
+ =?utf-8?B?bWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35f49426-29a2-4080-e495-08dcaff81425
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 17:30:39.1729
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 17:58:40.5874
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MBw/fk6AMDjyaY4DjmoZeBCxYjsvUuXqmXYQXIylxscXPeZDZQp9km2ZthgKuIt0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8586
+X-MS-Exchange-CrossTenant-UserPrincipalName: mmc+JJmh3BjDRxCs+KJYitHzh4nRaCkMGJvT4ozb8cgkTr7FEFW9mYbBn40fSbQVsIVMFeez7QDnwI+2mI31Jxm5tRaP3fPd5wgFiO92ih0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4694
+X-OriginatorOrg: intel.com
 
-On Fri, Jul 26, 2024 at 03:30:42PM +0100, Jonathan Cameron wrote:
 
-> Mostly looking at this to get my head around what the details are,
-> but whilst I'm reading might as well offer some review comments.
 
-Thanks!
- 
-> I'm not a fan of too many mini patches as it makes it harder
-> to review rather than easier, but meh, I know others prefer
-> it this way.  If you are going to do it though, comments
-> need to be carefully tracking what they are talking about.
-
-Yeah, I don't like it so much either, but given the debate on this
-series I structured it so you can read the commit messages only and
-have a pretty good idea what is inside.
-
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES
-> > + */
-> > +#define pr_fmt(fmt) "fwctl: " fmt
-> > +#include <linux/fwctl.h>
-> > +#include <linux/module.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/container_of.h>
-> > +#include <linux/fs.h>
+On 7/26/2024 12:04 PM, Kory Maincent wrote:
+> Hello Jacob,
 > 
-> Trivial: Pick an ordering scheme perhaps as then we know where you'd
-> like new headers to be added.
-
-Heh, I think it is random ordered :) But sure lets sort by name,
-though linux/fwctl.h does go first. Putting headers first in at least
-one c file is a neat trick to ensure they self-compile and don't miss
-their own #includess
-
-#define pr_fmt(fmt) "fwctl: " fmt
-#include <linux/fwctl.h>
-
-#include <linux/container_of.h>
-#include <linux/fs.h>
-#include <linux/module.h>
-#include <linux/slab.h>
-
-> > +static struct fwctl_device *
-> > +_alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
-> > +{
-> > +	struct fwctl_device *fwctl __free(kfree) = kzalloc(size, GFP_KERNEL);
-> > +	int devnum;
-> > +
-> > +	if (!fwctl)
-> > +		return NULL;
+> Thanks a lot for your full review! 
 > 
-> I'd put a blank line here.
-
-Done
-> > +/* Drivers use the fwctl_alloc_device() wrapper */
-> > +struct fwctl_device *_fwctl_alloc_device(struct device *parent,
-> > +					 const struct fwctl_ops *ops,
-> > +					 size_t size)
-> > +{
-> > +	struct fwctl_device *fwctl __free(fwctl) =
-> > +		_alloc_device(parent, ops, size);
-> > +
-> > +	if (!fwctl)
-> > +		return NULL;
-> > +
-> > +	cdev_init(&fwctl->cdev, &fwctl_fops);
-> > +	fwctl->cdev.owner = THIS_MODULE;
+> On Wed, 17 Jul 2024 10:35:20 -0700
+> Jacob Keller <jacob.e.keller@intel.com> wrote:
 > 
-> Owned by fwctl core, not the parent driver?  Perhaps a comment on why.
-> I guess related to the lifetime being independent of parent driver.
-
-Yes.
-
-	/*
-	 * The driver module is protected by fwctl_register/unregister(),
-	 * unregister won't complete until we are done with the driver's module. 
-	 */
-	fwctl->cdev.owner = THIS_MODULE;
-
-
-> > +int fwctl_register(struct fwctl_device *fwctl)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = cdev_device_add(&fwctl->cdev, &fwctl->dev);
-> > +	if (ret)
-> > +		return ret;
-> > +	return 0;
+>> On 7/9/2024 6:53 AM, Kory Maincent wrote:
+>>  [...]  
+>>
+>> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+>>
+>> One thing which applies more broadly to the whole series, but I see the
+>> focus right now is on selecting between NETDEV and PHYLIB.
+>>
+>> For ice (E800 series) hardware, the timestamps are captured by the PHY,
+>> but its not managed by phylib, its managed by firmware. In our case we
+>> would obviously report NETDEV in this case. The hardware only has one
+>> timestamp point and the fact that it happens at the PHY layer is not
+>> relevant since you can't select or change it.
+>>
+>> There are some future plans in the work for hardware based on the ixgbe
+>> driver which could timestamp at either the MAC or PHY (with varying
+>> trade-offs in precision vs what can be timestamped), and (perhaps
+>> unfortunately), the PHY would likely not manageable by phylib.
+>>
+>> There is also the possibility of something like DMA or completion
+>> timestamps which are distinct from MAC timestamps. But again can have
+>> varying trade offs.
 > 
-> Doesn't look like this ever gets more complex so 
+> As we already discussed in older version of this patch series the
+> hwtstamp qualifier will be used to select between IEEE 1588 timestamp or DMA
+> timestamp. See patch 8 :
+> +/*
+> + * Possible type of htstamp provider. Mainly "precise" the default one
+> + * is for IEEE 1588 quality and "approx" is for NICs DMA point.
+> + */
 > 
-> 	return cdev_device_add(...)
+> We could add other enumeration values in the future if needed, to manage new
+> cases.
 > 
-> If you expect to see more here in near future maybe fair enough
-> to keep the handling as is.
-
-Sure, I was expecting more when I wrote it then it turned out there
-wasn't
-
-> > + * fwctl_unregister - Unregister a device from the subsystem
-> > + * @fwctl: Previously allocated and registered fwctl_device
-> > + *
-> > + * Undoes fwctl_register(). On return no driver ops will be called. The
-> > + * caller must still call fwctl_put() to free the fwctl.
-> > + *
-> > + * Unregister will return even if userspace still has file descriptors open.
-> > + * This will call ops->close_uctx() on any open FDs and after return no driver
-> > + * op will be called. The FDs remain open but all fops will return -ENODEV.
+> Just figured out there is a NIT in the doc. h*w*tstamp.
 > 
-> Perhaps bring the docs in with the support?  I got (briefly) confused
-> by the lack of a path to close_uctx() in here.
 
-Okay, that paragraph can be shifted
+Ah, perfect, thanks for the clarification!
 
-> > + *
-> > + * The design of fwctl allows this sort of disassociation of the driver from the
-> > + * subsystem primarily by keeping memory allocations owned by the core subsytem.
-> > + * The fwctl_device and fwctl_uctx can both be freed without requiring a driver
-> > + * callback. This allows the module to remain unlocked while FDs are open.
-> > + */
+>> I'm hopeful this work can be extended somehow to enable selection
+>> between the different mechanisms, even when the kernel device being
+>> represented is the same netdev.
+> 
+> Another nice features would be the support for simultaneous hardware timestamp
+> but I sadly won't be able to work on this.
+> > Regards,
 
-And this explains the above a 2nd way
-
-> > +void fwctl_unregister(struct fwctl_device *fwctl)
-> > +{
-> > +	cdev_device_del(&fwctl->cdev, &fwctl->dev);
-> > +
-> > +	/*
-> > +	 * The driver module may unload after this returns, the op pointer will
-> > +	 * not be valid.
-> > +	 */
-> > +	fwctl->ops = NULL;
-> I'd bring that in with the logic doing close_uctx() etc as then it will align
-> with the comments that I'd also suggest only adding there (patch 2 I think).
-
-Ok
-
-> > +/**
-> > + * fwctl_alloc_device - Allocate a fwctl
-> > + * @parent: Physical device that provides the FW interface
-> > + * @ops: Driver ops to register
-> > + * @drv_struct: 'struct driver_fwctl' that holds the struct fwctl_device
-> > + * @member: Name of the struct fwctl_device in @drv_struct
-> > + *
-> > + * This allocates and initializes the fwctl_device embedded in the drv_struct.
-> > + * Upon success the pointer must be freed via fwctl_put(). Returns NULL on
-> > + * failure. Returns a 'drv_struct *' on success, NULL on error.
-> > + */
-> > +#define fwctl_alloc_device(parent, ops, drv_struct, member)                  \
-> > +	container_of(_fwctl_alloc_device(                                    \
-> > +			     parent, ops,                                    \
-> > +			     sizeof(drv_struct) +                            \
-> > +				     BUILD_BUG_ON_ZERO(                      \
-> > +					     offsetof(drv_struct, member))), \
-> Doesn't that fire a build_bug when the member is at the start of drv_struct?
-> Or do I have that backwards?
-
-BUILD_BUG_ON(true) == failure, evaluates to void
-BUILD_BUG_ON_ZERO(true) == fails, evaluates to 0
-BUILD_BUG_ON_ZERO(false) == false, evaluates to 0
-
-It is a bit confusing name, it is not ON_ZERO it is BUG_ON return ZERO
-
-> Does container_of() safely handle a NULL?
-
-Generally no, nor does it handle ERR_PTR, but it does work for both if
-the offset is 0.
-
-The BUILD_BUG guarentees the 0 offset both so that the casting inside
-_fwctl_alloc_device() works and we can use safely use container_of()
-to enforce the type check.
-
-What do you think about writing it like this instead:
-
-#define fwctl_alloc_device(parent, ops, drv_struct, member)               \
-	({                                                                \
-		static_assert(__same_type(struct fwctl_device,            \
-					  ((drv_struct *)NULL)->member)); \
-		static_assert(offsetof(drv_struct, member) == 0);         \
-		(drv_struct *)_fwctl_alloc_device(parent, ops,            \
-						  sizeof(drv_struct));    \
-	})
-
-?
-
-In some ways I like it better..
-
-Thanks,
-Jason
+Yes this would be useful, though I think we're somewhat limited by the
+API that returns to userspace currently.
