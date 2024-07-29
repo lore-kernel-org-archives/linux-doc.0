@@ -1,35 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B2A158A1F;
-	Mon, 29 Jul 2024 16:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6315F301;
+	Mon, 29 Jul 2024 16:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722271180; cv=none; b=CIzOMneTb4J5vhTfMd9mu0rXjIeE0rv97pKhR+XVT+ZdXSlrtse3Gik99kJ+7KEAZbQyInoJdisQWGOkYJcH9z/5IVJevaN84Zm+tlKzPSRLJj3hqqEYdnmhpChMv6B9Nyar32nbAcB7w27fSet6e7z56f6gMRcM4cRZoKXRXPk=
+	t=1722271675; cv=none; b=O4IOSopGx0ExRtXmQiyoDqn4CBB2oDyzBKm0HXFnIDe3rczF/WJy/99JhOr4CNpJbiSXuV1vXpXB1w4dylmSdGlr8Ud+71Zx52ENYgbDpYnR8CMMuEpubD+0+D8LETtSXohqdlbcUjkMuEi9ZuKb0vAwyfvpAfl3r4IXZcxI6z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722271180; c=relaxed/simple;
-	bh=mNvXML5Nk4yWB83caFXu2jPWm4A4dReK0f5e32AqTwU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=rRxgABLYNofrCek3SbnSEJG7w0kMzhj6M4XUUHkO2pzBEaEr50YXSVNa94tSTFF0GdaqMMp0kQ7rX83MKgVGc06H7w28WWYvQCDTQheIT0ZzBVQZFfteGZnZ41015kzZvXtwiOhcx1LAlM28QstE/uylBG2hjlNDOFw6OxoCn6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFoaUtwf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722271675; c=relaxed/simple;
+	bh=J0gsZdvM4TTjvgwxecx1IeUq/HrBdJag42zJRTAFvQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=unscrL/KwMN103s4nBfSWQqZ1X+O13L8thLNRaqnz4h2fVQJkjd10r5qz4m5UGfjL6aeIqJwIvTyu5Su8Gb5jUY5twhWEknYUQLhPb2un1LWorkGTxF3RdB/Hd2rpSwSwzXkiqAWPfGDY3tCh7egUkowqCKCrcEi6gaK4+m/9GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ELLXluRt; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFoaUtwf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EAE1BC4AF0E;
-	Mon, 29 Jul 2024 16:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722271180;
-	bh=mNvXML5Nk4yWB83caFXu2jPWm4A4dReK0f5e32AqTwU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=YFoaUtwfPkoJfSSKHESCAmhmix7yJANDH3e6NCD2V1gwyJj+Lmj4VEPTAQvcG1wwa
-	 1IR//NNVLaDgA4+bKqtuaon4VjXb3Pi8NIgBRWCdy+x0skAlMRiztQFYk+xP6Rv7KS
-	 TphF5dMxBvS+A/yFC8il4awQtrLV3CcpYcwimga/rokLykHh3F38ffFGPwfaLgSzWF
-	 s+irSv5UYKf06ktOA8g34jq33VkVLAeDgMs6cJVK2jB1tYyOvxIoakTdIvth10WEN6
-	 b9Tju6W4OPwJdsBLWT9Z+3u8e9hmBsxZmBvPtrtGePw4P5+o7tKGPdA3YAHXPY3QEF
-	 8R57Th8w623jg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D69CEC43638;
-	Mon, 29 Jul 2024 16:39:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ELLXluRt"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e05ef3aefcfso2265005276.2;
+        Mon, 29 Jul 2024 09:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722271672; x=1722876472; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9gwTCEqRccgI7/MSiW2vw7+v9RTbvBSGbIl8hm42GSQ=;
+        b=ELLXluRtdSJBlKEfggVSK/hqJuvG0n1bZCvxuYN5rUTqnwn4K20KExEUKdCDGlG2mR
+         M+zH8/frPRyMameJ7+xQ2F9uMtH/XyZnxBT4QMXWdmU+DS+Q1ScFkQqqAtCUXAyzmTkW
+         L/yB0M+uTI/79Y6YaaSWYPQ5aH5TcOlWreTzLXT5v+QKmlo6eKqS5jE2hkIGRPb5a9wO
+         1yNZ6IcAqxR4WmidDGMNcfWEzUJhoWaqBiV/YaogI8O53Y1jehaOsOxeszsxLsuKmDsA
+         ifDkBH3PQS2gCzbLXx7MWygGeeuR6Iiu7+cb/4rO+CffuPFtuluyOSGq0d0s1EFVcVzh
+         psEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722271672; x=1722876472;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9gwTCEqRccgI7/MSiW2vw7+v9RTbvBSGbIl8hm42GSQ=;
+        b=CVbSLOpQ2m3Wn++fv0B1iBFUsENZPXJcaX6tFckdYkkwJOPv6s9Lo29154CChvpm48
+         RsIpp3Dg2D80U2YPmZaV9KqmU14FkSmLWOkOvBRH41IcPUP6GV74AIM+9Dj0lQUXD5LY
+         zVGBVvq5FpTiapaYJWY3BYKuDz5YoALE6u5v3DfxsjczrvAAfZz4iy2mWjV9ss4uYz17
+         TrPoBm2fxsPw+C4mOZr6CL/vNPPtnPgVSrNO/J19/MeULLnygqT8E5KrTiAZ8G5ttEwy
+         ckSJVAYXfTHxth1hPF8xioAj6jkamG7hjxM7XFvWlAb/QXcD/vmSG7xz+SNcXsi45xbr
+         MIgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVuEfKefislrMSJ05/GLF3SGXASgQRtgGjlWNSPRy7VRHO3z3vPPajV/5eV/k0I2d4oRVs+MD6XVAuL0VIZMpYcl876HfDO9VVmpH/BwF3mUr0jgoTMzwZMhZul645G+NlXUj0R2cD8mY76SF9Fo4K3L2JIaChVqkiMoCrEiFy6FEBAIscWdE+6e2/A4w==
+X-Gm-Message-State: AOJu0Yyf2sIOkUVwxmf3+TQUs0wwDb6NfpXtdaA6X7QxcVBtkhl0U9mM
+	NcrF2IjCaGir9dP9apAzK4wFbXMgMVfpe1TnOoB6HUX4l3ByW1nI
+X-Google-Smtp-Source: AGHT+IE5UVYmoHRsexfFfroI43G1rYzF/zk88j0ZYLtr35hJAqGMYetGXwFHEEgR28JfJC7Iu/v8cg==
+X-Received: by 2002:a05:6902:260e:b0:e06:d61b:2c17 with SMTP id 3f1490d57ef6-e0b545adb76mr9313644276.40.1722271672362;
+        Mon, 29 Jul 2024 09:47:52 -0700 (PDT)
+Received: from x13.. ([157.23.249.83])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e0b4ebc5d8fsm1237833276.3.2024.07.29.09.47.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 09:47:52 -0700 (PDT)
+From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+To: W_Armin@gmx.de,
+	corbet@lwn.net
+Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] wmi: Fix spelling
+Date: Mon, 29 Jul 2024 12:47:18 -0400
+Message-ID: <20240729164721.125708-1-luis.hernandez093@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,44 +69,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5] vmalloc: Modify the alloc_vmap_area() error message for
-  better diagnostics
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <172227117987.3603.11842142446691677565.git-patchwork-notify@kernel.org>
-Date: Mon, 29 Jul 2024 16:39:39 +0000
-References: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
-In-Reply-To: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
-To: Shubhang Kaushik OS <Shubhang@os.amperecomputing.com>
-Cc: linux-riscv@lists.infradead.org,
- ampere-linux-kernel@lists.amperecomputing.com, urezki@gmail.com,
- linux-arm-kernel@lists.infradead.org, cl@linux.com, corbet@lwn.net,
- akpm@linux-foundation.org, linux-mm@kvack.org, guoren@kernel.org,
- linux-doc@vger.kernel.org, xiongwei.song@windriver.com,
- linux-csky@vger.kernel.org, willy@infradead.org
 
-Hello:
+Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+---
+ Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This patch was applied to riscv/linux.git (fixes)
-by Andrew Morton <akpm@linux-foundation.org>:
-
-On Tue, 11 Jun 2024 19:38:44 +0000 you wrote:
-> 'vmap allocation for size %lu failed: use vmalloc=<size> to increase size'
-> The above warning is seen in the kernel functionality for allocation of the restricted virtual memory range till exhaustion.
-> 
-> This message is misleading because 'vmalloc=' is supported on arm32, x86 platforms and is not a valid kernel parameter on a number of other platforms (in particular its not supported on arm64, alpha, loongarch, arc, csky, hexagon, microblaze, mips, nios2, openrisc, parisc, m64k, powerpc, riscv, sh, um, xtensa, s390, sparc). With the update, the output gets modified to include the function parameters along with the start and end of the virtual memory range allowed.
-> 
-> The warning message after fix on kernel version 6.10.0-rc1+:
-> 
-> [...]
-
-Here is the summary with links:
-  - [v5] vmalloc: Modify the alloc_vmap_area() error message for better diagnostics
-    https://git.kernel.org/riscv/c/55ccad6fc1a0
-
-You are awesome, thank you!
+diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentation/wmi/devices/msi-wmi-platform.rst
+index 29b1b2e6d42c..31a136942892 100644
+--- a/Documentation/wmi/devices/msi-wmi-platform.rst
++++ b/Documentation/wmi/devices/msi-wmi-platform.rst
+@@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+ 
+ Due to a peculiarity in how Windows handles the ``CreateByteField()`` ACPI operator (errors only
+ happen when a invalid byte field is ultimately accessed), all methods require a 32 byte input
+-buffer, even if the Binay MOF says otherwise.
++buffer, even if the Binary MOF says otherwise.
+ 
+ The input buffer contains a single byte to select the subfeature to be accessed and 31 bytes of
+ input data, the meaning of which depends on the subfeature being accessed.
+ 
+-The output buffer contains a singe byte which signals success or failure (``0x00`` on failure)
++The output buffer contains a single byte which signals success or failure (``0x00`` on failure)
+ and 31 bytes of output data, the meaning if which depends on the subfeature being accessed.
+ 
+ WMI method Get_EC()
+@@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller firmware version string.
+ The first 4 bits of the flag byte contain the minor version of the embedded controller interface,
+ with the next 2 bits containing the major version of the embedded controller interface.
+ 
+-The 7th bit signals if the embedded controller page chaged (exact meaning is unknown), and the
++The 7th bit signals if the embedded controller page changed (exact meaning is unknown), and the
+ last bit signals if the platform is a Tigerlake platform.
+ 
+ The MSI software seems to only use this interface when the last bit is set.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.45.2
 
