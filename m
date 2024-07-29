@@ -1,153 +1,145 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5CF328B6;
-	Mon, 29 Jul 2024 08:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83D284A2B;
+	Mon, 29 Jul 2024 08:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722243086; cv=none; b=aM+t5kr+avTijml+epLPFp6nOQYqy+i5zmNvQ5ZQ/Fson6iL1v76jdFBhKeAjMQm1TRFIBsCgUWHdfonmPJL7hptIDfAQQGHdihzb0fznKtWCFwrFUp2aZlxMBgZs6/4RB+9lNBX4RehQ7rua7TnWrWSHZTB7Vc43+898lFMPU0=
+	t=1722243561; cv=none; b=rx+RmWw4xLCoJgRclxCBAKSW1lg/ZSfWwvm57eXmBcn1UxlF3jqnRe7v5AmkRtM+hOFi8YdoiCaCsmIodQBFrnkq+mWx+/bIVe8dc9h9StJRPTroEgmr5yK6L5LRV+KpInn/7bXU39rr8Hg2fSRrwYZLo988W8nTxTbqdLn1qo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722243086; c=relaxed/simple;
-	bh=t036mvc+S68XKyD1LE/5fTRSY8CMezFH4ZsbUu+gbu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NUw2H9+mmea/EKHWyEmhAzkZkn1bpD3mYvCGq2+sJfvyijBKg/+S2o4apn3Bj0a/Lveaw4z+WK/8X4xcSWa2L9E6HJwwGSzoullfXq9ikxhHEe3WwZXtPkHM/E6+eoFKlvLqsApiwjB6lqMD+CbETvT0543fNjaEHMxx6Y4Lv14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=leoCy3lX; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1722243561; c=relaxed/simple;
+	bh=Tw/L9dgnMW3xX+rhBCNZSP/Kl1aUWPNQ+jQpDW4QRVU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I0A3zMhDAD2hT4Ho9t1sczF5WoheBcoCDkDZBDVQo0a83RkBzUVQS0HnRhv4MEmwS83Yso07lpXVwxmMXELuWwQe3J/GvaVI2EEtcRVIkM95tDS7+ivR4zXt+CyuZVusK12Dv3375BZYgBJYT5cfQaG1vBkHo9avjH4Jg2PFRHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bB+joxwX; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="leoCy3lX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=K4Jpsm5DX88VFcPkZAIC2BbJowza/7NzQCGPZM8v4Pg=; b=leoCy3lXxnAROtLduJbi58x+ak
-	vI83fhz1KRN0OKOHF9/v9rOWLljOxxQE7kKJxogxjurDjS6RQ7Gsx3t74CsbpZTpaj+k+wK9Z0LNG
-	qNga4tYbc/8WfSawf2actItMHYw04fFsFPlDzr+IRYRE1lavh/WGNDmfceEkkWRt+vs3iHiGkfeYa
-	9NnvhaB3hJ138b7JRaq92Ko7cxrCNOoneGqQUq2hEFtOwhk7AOnKCrhP4JXFlmHl3lfCb41YrS1MW
-	HVfC435p+KCfRPZQ57xdgXwVJxwCktblqaOG4l0iH99dtxLgBeAk1DfWF+YmJdFUxNld25x0vMWnD
-	S4k9Ho0g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYM5l-0000000DOBC-20zs;
-	Mon, 29 Jul 2024 08:50:53 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 4B394300439; Mon, 29 Jul 2024 10:50:52 +0200 (CEST)
-Date: Mon, 29 Jul 2024 10:50:52 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Rong Xu <xur@google.com>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	John Moon <john@jmoon.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Benjamin Segall <bsegall@google.com>,
-	Breno Leitao <leitao@debian.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 0/6] Add AutoFDO and Propeller support for Clang build
-Message-ID: <20240729085052.GA37996@noisy.programming.kicks-ass.net>
-References: <20240728203001.2551083-1-xur@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bB+joxwX"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3684c05f7afso309494f8f.2;
+        Mon, 29 Jul 2024 01:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722243558; x=1722848358; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mlCrO/LKK5FH/hDGrTiQhEEZ/OeJfZqD6OtApt7y+Cg=;
+        b=bB+joxwX+eTHpTziWdBshwYM9jQ9agtRJEOVeL68DOtZaUs2UDQDWjzVwas1mzEBSC
+         cwwioEqW0VCztcw6v1ys2wRFgcLQvjGCoFtWovGRT7dLpR+4NkuKN3AtyqBoBHgdsT0d
+         VSUiuOktOxrd0iTzMZClkgtVJzDvcraq2P1wAcCihvyFxzAhqNAANFrVAJzfL36UIJSV
+         8tkeLd7EceDB85Urm9PQPSHcXMHp5MybfzlxKXfLvxZ5NdEevcCMD6cE5v1r7/V9Q1Ve
+         yLXfxlN8rFCo8GTLCwnDyV7z+IwZKkPR1qnk89Xu4CXJoeTHKzQez5u/rxqqzkUn9MRW
+         rX9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722243558; x=1722848358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mlCrO/LKK5FH/hDGrTiQhEEZ/OeJfZqD6OtApt7y+Cg=;
+        b=iK4LIp8Rf14ZYEITAwrBrbpmWAUeN6mZqNyz9l3eifhIEixSYzUouZ58fW64LQ4izR
+         QwgEJw0Nqoii0rOR1sss/u5Aku9vvU9624gdVR7TXr4WnHrl0gYMxdwV3S/LKkk9ww7a
+         wR2fL3Atm0ezIlgmNCKgeIi8PpTg8Nl79gzDaqsQaVeBvwwCG+LkmXB0Uek3p04/ROmv
+         6F91Lc7YXdrimrpEl12qxyahkB8U5RR95x80FQ9WnFTa//7MRImGWxrChQFHX5uwZUzs
+         3qu5kp1pN6XPXIJ18Jsf8Y4D6/XHCuq7Xbq9S7wRiYQbzecWtwuCV35h+gtgD+ymWMWB
+         YYlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXlB9QvpWCn3u7IFlZY3XAVncYx+uKfSh3GSGXUy8kzd+knQWQqpS16jf3NNjUfGRPTYsqTc3sV6NdfvU=@vger.kernel.org, AJvYcCVKDn6BsxKjhskUBVDfTyvShg3RT9Ts2ToV/z1xxjGWk+3udhmIPpkXOPhzExYvoSDZWYvqKA5aIUBeU7FUGA1M@vger.kernel.org, AJvYcCW179B5GOdivk1m5fjmYTDOg1RtCHmm0KsKq39RuYZ7DEckwlKoBF4mKKRhJ4KXLAXWcEsvsuN8qXM=@vger.kernel.org, AJvYcCWdjg5nqnUkjcFv3wIRQrfMLneJkfyDfaL+pJxIedSbRNaCnmasYH8IECRyuJwpHVCZYlf0rhMPOccB72a5@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFuXMtbzdW7KFqD8lnMri6tDkf0KC6wO+ImKtkmrusX8hPtwHt
+	vB7eOrWEQHgwYCMvIueGXD8Lk2EbF/GFL7symnRlo71g69E4/nSV
+X-Google-Smtp-Source: AGHT+IEfMmjTdTfRv1TjWfkhgvQ5OexbQMmJwTiiiqUm3xUm0v9gmv5VviK0q9zHnLb0NG5QolFycA==
+X-Received: by 2002:a5d:5f53:0:b0:368:aa2:2b4e with SMTP id ffacd0b85a97d-36b34d23accmr5244715f8f.4.1722243557886;
+        Mon, 29 Jul 2024 01:59:17 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([31.94.28.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b36857e46sm11715337f8f.67.2024.07.29.01.59.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 01:59:17 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr
+Subject: [PATCH v2 0/4] Introduce userspace-driven ALSA timers
+Date: Mon, 29 Jul 2024 09:59:01 +0100
+Message-Id: <20240729085905.6602-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240728203001.2551083-1-xur@google.com>
 
-On Sun, Jul 28, 2024 at 01:29:53PM -0700, Rong Xu wrote:
-> Hi,
-> 
-> This patch series is to integrate AutoFDO and Propeller support into
-> the Linux kernel. AutoFDO is a profile-guided optimization technique
-> that leverages hardware sampling to enhance binary performance.
-> Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-friendly
-> and straightforward application process. While iFDO generally yields
-> superior profile quality and performance, our findings reveal that
-> AutoFDO achieves remarkable effectiveness, bringing performance close
-> to iFDO for benchmark applications. Similar to AutoFDO, Propeller too
-> utilizes hardware sampling to collect profiles and apply post-link
-> optimizations to improve the benchmark’s performance over and above
-> AutoFDO.
-> 
-> Our empirical data demonstrates significant performance improvements
-> with AutoFDO and Propeller, up to 10% on microbenchmarks and up to 5%
-> on large warehouse-scale benchmarks. This makes a strong case for their
-> inclusion as supported features in the upstream kernel.
-> 
-> Background
-> 
-> A significant fraction of fleet processing cycles (excluding idle time)
-> from data center workloads are attributable to the kernel. Ware-house
-> scale workloads maximize performance by optimizing the production kernel
-> using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
-> 
-> iFDO can significantly enhance application performance but its use
-> within the kernel has raised concerns. AutoFDO is a variant of FDO that
-> uses the hardware’s Performance Monitoring Unit (PMU) to collect
-> profiling data. While AutoFDO typically yields smaller performance
-> gains than iFDO, it presents unique benefits for optimizing kernels.
-> 
-> AutoFDO eliminates the need for instrumented kernels, allowing a single
-> optimized kernel to serve both execution and profile collection. It also
-> minimizes slowdown during profile collection, potentially yielding
-> higher-fidelity profiling, especially for time-sensitive code, compared
-> to iFDO. Additionally, AutoFDO profiles can be obtained from production
-> environments via the hardware’s PMU whereas iFDO profiles require
-> carefully curated load tests that are representative of real-world
-> traffic.
-> 
-> AutoFDO facilitates profile collection across diverse targets.
-> Preliminary studies indicate significant variation in kernel hot spots
-> within Google’s infrastructure, suggesting potential performance gains
-> through target-specific kernel customization.
-> 
-> Furthermore, other advanced compiler optimization techniques, including
-> ThinLTO and Propeller can be stacked on top of AutoFDO, similar to iFDO.
-> ThinLTO achieves better runtime performance through whole-program
-> analysis and cross module optimizations. The main difference between
-> traditional LTO and ThinLTO is that the latter is scalable in time and
-> memory. 
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
 
-This, 
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
 
-> Propeller is a profile-guided, post-link optimizer that improves
-> the performance of large-scale applications compiled with LLVM. It
-> operates by relinking the binary based on an additional round of runtime
-> profiles, enabling precise optimizations that are not possible at
-> compile time.
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
 
-should be on top somewhere, not hidden away inside a giant wall of text
-somewhere at the end.
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
+
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
+
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
+
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
+
+V2 of this patch series fixes some problems found by Christophe Jaillet
+<christophe.jaillet@wanadoo.fr>. Please, find the patch-specific
+changelog in the following patches.
+
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
+
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 120 +++++++++++
+ include/uapi/sound/asound.h                 |  17 ++
+ sound/core/Kconfig                          |  10 +
+ sound/core/timer.c                          | 213 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   2 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 137 +++++++++++++
+ 9 files changed, 588 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
+
+-- 
+2.34.1
+
