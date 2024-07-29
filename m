@@ -1,165 +1,342 @@
-Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DE3187355;
-	Mon, 29 Jul 2024 17:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=72.21.196.25
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722273448; cv=none; b=HxcDh9fQg2UvpKgSVjrnfKWRXVGn2oLFV1i+aifZxQKpgEm+C1GRkEPXq4JwM1sH/5lISTu7pWEp5ZlLortDTgrqAntV6uRet1AkyZky4Bp5KuC9NOTSEdubfx241Fam6EybtdMNeRVvjYFTCBP4Ylt0Od283ZUCzv5oDbTvkWU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722273448; c=relaxed/simple;
-	bh=DBy9rdIyzDefoDApf3C0asqD6WUabDYzQ+Tpqh/Nqy8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Qf6khP0SeaZhzzF6xZeSbNzqIcHg2Nl2SqwGYfP0wfcBMfgWjTQVcjBMDWA4U46LLahhOgwZfmBSebtDF0X24NP75Trf8V+KWhBZOgDh0UpViDTjdbmkUEHAJoKzs7Pllz3kAvJkt29sxynLKroqTPfHz6etXeXai1A3wtgNu0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=Xos26ffX; arc=none smtp.client-ip=72.21.196.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2072180BFC;
+	Mon, 29 Jul 2024 17:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722274244; cv=fail; b=bC0bbVOTjBAXnMcIXu/sjXrWbIh5OzbrTW7QoMvP/Wczz3zsymgiVW22R+qFakWA9X+NCVctqi1WllYx3PWhXJBT5QfVpl1U/FE1SNg4w8P63nsbzUS4uR3AGwFJOsAD9s5bDVdPsccvdSB+UzgIkDw0YSBD0OgIbVPiM0UPnKY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722274244; c=relaxed/simple;
+	bh=W1bi6Ve0Pha/ER3j6//arr3PCNhlgKXh6T7tP0/tM7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GjPNBEmgKML1Fc5Qwabra//U5INgbV59sYmAyw3YeLQKgPGbC337xftPht6Kgwy6mhIVxuJ62bdpx1WSJYeax6jp01FnVqf2JePfy3JaD751wmFFhsMZjSxP2n8BYXJ9SCqdmfWpgw/zgaiALe5Rvis5SUkyPGQWLXRO5kfdqwo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=up+bEe9P; arc=fail smtp.client-ip=40.107.237.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Xos26ffX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1722273447; x=1753809447;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=+56SM1DfpyNENiuPZBBa2EGw4OmoljBk1uJ/Yf6TTK4=;
-  b=Xos26ffXQJjVpbeySzag/4kFxkiykGwamdt3nIm7Th9UNAvVu6FvAxAn
-   z/TAoJX6mC6kOGjctoH4FBCKDlcA2yrkdtu8fb7XePZZW0dxoV3Wct8xu
-   +z0Tz58HHsbrdXgdyporD2znSfQcyz5h9nhItItHVif34xmmIQ6AynL+k
-   o=;
-X-IronPort-AV: E=Sophos;i="6.09,246,1716249600"; 
-   d="scan'208";a="418030448"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 17:17:23 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [10.0.10.100:28574]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.6.51:2525] with esmtp (Farcaster)
- id f6cd28f4-d57e-459f-b07b-1bbc69ce8af3; Mon, 29 Jul 2024 17:17:21 +0000 (UTC)
-X-Farcaster-Flow-ID: f6cd28f4-d57e-459f-b07b-1bbc69ce8af3
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 29 Jul 2024 17:17:21 +0000
-Received: from [192.168.9.202] (10.106.82.26) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34; Mon, 29 Jul 2024
- 17:17:20 +0000
-Message-ID: <4cd16922-2373-4894-b888-83a6bb3978e7@amazon.com>
-Date: Mon, 29 Jul 2024 18:17:18 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="up+bEe9P"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RJCTYp2CnwKYVwtgvqQ9WGQ480wvfvq7rDVg18Bjln7DV0LN3PpCVbHl7LSM70xeHi271dhporIiCJXvDBWLr2+xfnuSJuT74vWkL0yR7oFuXG5scT/La+zhI4GApcCBbzZQ1wbnXnMTDOsaeNxLEuWVCvjKduUjzc8b4BImXoIcqE+LwGUe+xike6lUMUdZeAJ7rbV/pwT+Yoqb4c88WP6Kr01OYgr5X6mbLyZI1H8DxA6BQxTQqZrB62zwotHQ8cEOViUqu+EM0ut3I5qf+ptf+bsCsHd14o88yb+28T7dSCYUCMN/qt1flTDVKgPuEqC8puIqvo89pIxpup47YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bPEQSjUgbWAFUm9Uet6WXXYCVydzE8f7TX7UvNCTBsY=;
+ b=v+m9IVWploe5j5OD1QzdUXkxwnlIAESyDJKAw0xANfv77x0TwYi/0qkmt+dUP5teHSIypZPoqvhgR50Vpsaw4AEnFepW9ydx0bKkyv/F3BWOF7QozUqXLnGNtuSfCQzLYdudCJ6QqUI3eKbNUgRIZYswvQucMLV9hXNu4GoZw5Z8WsUoqcjHcFj1sajTn4XiDq5ItEiMrZmeG9mAdfUSZXOe5iWiv6ktdCHwauLM3SdsRJqSZcFFAC1JJMgkkN34VVldXa+xGh6AFd/C+Lz1J+1dH3SoxEiuv2nvZjXQ/OpuXWfnXEuywTkEu2dnf8wTtKrGnBQ7qc9lnf37czFhSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bPEQSjUgbWAFUm9Uet6WXXYCVydzE8f7TX7UvNCTBsY=;
+ b=up+bEe9P5WlCn64nbxpK4z+f8vHVNHFwwxh9lztZsEiHHQwiSKmw+CKq+bbnNfWnL9iz7fZ8stVE0pEL3cZ10Q/mczeSOHMG38i87rHkVghOUbKvmSTFrqPCxqv7+m1V0delK788rnacI6T6hetr7YV4Cl2c24H4ULOgdWDN2UJyo0JJmIYfiQR2jY9eJBG68QGFHCKITNazhdpieWbBlMupOPsQlJPtMfNJlKDcvcIQBgPk8qLzt2ou4V+SdkDuX07QeSgTmSNt/PUJLbx9GNx+KxzisCza+hLARuhgNl7UsIiaWCs3HUZt0d5DuoUohIsV+vnoKHpCqotVQCS55Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by IA1PR12MB8586.namprd12.prod.outlook.com (2603:10b6:208:44e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
+ 2024 17:30:39 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
+ 17:30:39 +0000
+Date: Mon, 29 Jul 2024 14:30:38 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 1/8] fwctl: Add basic structure for a class subsystem
+ with a cdev
+Message-ID: <20240729173038.GF3625856@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <1-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <20240726153042.00002749@Huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240726153042.00002749@Huawei.com>
+X-ClientProxiedBy: BL1PR13CA0068.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::13) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 14/18] KVM: Add asynchronous userfaults,
- KVM_READ_USERFAULT
-To: James Houghton <jthoughton@google.com>
-CC: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <shuah@kernel.org>, Peter Xu <peterx@redhat.org>, Axel Rasmussen
-	<axelrasmussen@google.com>, David Matlack <dmatlack@google.com>,
-	<kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <roypat@amazon.co.uk>, Paolo Bonzini
-	<pbonzini@redhat.com>, <kalyazin@amazon.com>
-References: <20240710234222.2333120-1-jthoughton@google.com>
- <20240710234222.2333120-15-jthoughton@google.com>
- <4e5c2904-f628-4391-853e-37b7f0e132e8@amazon.com>
- <CADrL8HUn-A+k-+A8WvreKtvxW-b9zZvgAGMkkaR7gCLsPr3XPg@mail.gmail.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJj5ki9BQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOR1wD/UTcn4GbLC39QIwJuWXW0DeLoikxFBYkbhYyZ5CbtrtAA/2/rnR/zKZmyXqJ6
- ULlSE8eWA3ywAIOH8jIETF2fCaUCzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmPmSL0FCQPCZwACGwwACgkQr5LKIKmaZPNCxAEAxwnrmyqSC63nf6hoCFCfJYQapghC
- abLV0+PWemntlwEA/RYx8qCWD6zOEn4eYhQAucEwtg6h1PBbeGK94khVMooF
-In-Reply-To: <CADrL8HUn-A+k-+A8WvreKtvxW-b9zZvgAGMkkaR7gCLsPr3XPg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D006EUA004.ant.amazon.com (10.252.50.166) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|IA1PR12MB8586:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7551b03-160d-4916-ab5a-08dcaff429f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?UgNeihnJ1eAhfXy53vyiTUAf+k3OgruF6oSK64uPmNvr1PCQdTfJ/INitrRn?=
+ =?us-ascii?Q?LqEcVOioZVTrPdJusv7tme4JRMOCSjjC+Q1BKSHL0mYtGl7aOQbd6sp82qyl?=
+ =?us-ascii?Q?Wq/U79pChHjgxnfKykd8S+vvLwRj6ZpftJmSh8qua+T4jD6bVoREyv4KF2Wn?=
+ =?us-ascii?Q?riBeDW6fu1wlBJWOee+WfXHLMyqATenKtkCqafcBDmH/bpagDECDhT41Hnn7?=
+ =?us-ascii?Q?gNn5Ul8MhO40BIWHXutPEjIXf+yVbJWbbaTI1bUUTqvbQPzYsWXrB+XXZn/q?=
+ =?us-ascii?Q?exO7YtZoRtpuE0SNoOJelQRl4KOBxd/jB6mzpUqMgS3O0P4mvhAncM7OVc0a?=
+ =?us-ascii?Q?L4M1VcleGWWopdz8Bo9DDp+moAh1cp5o+KBYbl9GkK2+c1V8QP16PCAc1UAJ?=
+ =?us-ascii?Q?JYx9nqOgJChuKBzt2YA1ynWf2cZmPoJJXNjFia9ywb7VF435OtKdzUx0fW/k?=
+ =?us-ascii?Q?nX1tGXPqteeYewbJ/RAAOk9CnKgGzFoAOjWuFk3skL/q2gxNq5yqtMKKIUov?=
+ =?us-ascii?Q?SEwL5axofmjs3oeP2OdytN2lOeQ8UFgt8GPNWzZqATTb7W5UoXtsJSoCdLGX?=
+ =?us-ascii?Q?/cpxGocd3ziXgJ4PgLAYPCNJMGH2Lq/MoeFIzudEFJFvl+/P4wECJFbK/Kx3?=
+ =?us-ascii?Q?P6Uw2vGuy/Vleb7zkGGMPXiQPzp6tJ31BGWuxwYuEbInmZi1cR8ynm+lzhdJ?=
+ =?us-ascii?Q?KR53sldR4X/4JZtXwQ5TLt2IOsMzJBnpKdWkd+5837IKokYfwl+Y0BJ2yNi8?=
+ =?us-ascii?Q?ysvrbENFz2xQ02apZ/k8P4i+gwG1Ob+HDfEc8wHoRig6F8v/VIVCG8HQDbim?=
+ =?us-ascii?Q?pSDGKhqPSr4edZMgRZuh499DQiHrh/tYA8DzDqQ7kyFDichTatYLDmyHLlDM?=
+ =?us-ascii?Q?H3aNzhEAd0w9Gk8H4OXxxfcT+U6vBfXPAGyj+1tXf9CKd+rrfBlUXK2xxIEy?=
+ =?us-ascii?Q?xLj/TwsMwCCgSvrqEoylPfzddRwYsc7xBm+fLqgl3QE1g2XsrrzfFCp/szSa?=
+ =?us-ascii?Q?qsIZmIu219DQ/Uyfc1YlgW6dRpmHZ1sCBavR6YnXoB0X7UNiYB7g5FO4Hu4n?=
+ =?us-ascii?Q?eFkd46HxkoaL+YUkxHAsSaFwItVXInHar+2t2aK/ItzWZDQYVe9BfDDP41TX?=
+ =?us-ascii?Q?d94CImLOU08rLPBXB6ydVXZoFxXypKWArLjlmU3i8U/wfJSwolCaZxQ3ozVr?=
+ =?us-ascii?Q?AumXcPp7E8NB6CijABXElSboOvaiR/srozPoLDVymjkNsyMTLd3a7gemHK0P?=
+ =?us-ascii?Q?u06thg06UcON6EBflMGv8Vl19M4LQ0+xzguChhnlohmFW7/tsAkrTd1ZRdHi?=
+ =?us-ascii?Q?o3x3a79bNncjCFXpgwUEbTL/TO+SW46fd6Rj4o1TpVeF9Q=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vvgCljCzizhd1fVC2ExHqjWZzp3PrxBq4idVXHqzojMw63XL1AIkNjYqVxTo?=
+ =?us-ascii?Q?7G22MiR8EyjyFzGW8hjL0GI2COUNWx6UzOYC+XmK7T78yiDJHmAAZcF6oWqC?=
+ =?us-ascii?Q?IklY5HhbJblkr67rmwLLCw9z12ynz43BFlXBJeln0S2zXg+whF5EF+Q3dk13?=
+ =?us-ascii?Q?ZvcfpuprhM1hnrndLpCx7JlUYxVff0vuiYsBldYPK9a1LLCq0rbGcONfSm1T?=
+ =?us-ascii?Q?yIafc3mTCwEFW7ydMcKu+AD+da9TVHyCHMr7VzXmtLHdUQnziO6Kp2aBba5L?=
+ =?us-ascii?Q?VHf4C0ZOYSUjUqo/1bLUnElqsNLXq0ETOYXBxLhAtuaVlzESKEvsVGpZUZkU?=
+ =?us-ascii?Q?1hO6faTMxNQHR3IwaIWC2a2IfLZ5oxLeNdwEPqg+oygd8puF/N2eN2Z5HgZE?=
+ =?us-ascii?Q?o+g207t5vFpryMz2OKCG05ANv6yebOawXbrNQ5UUjchKdncUELKRGRe+gMxl?=
+ =?us-ascii?Q?WrqVB9mznc5dIrs9s2JSjx5eOg52Bduw7FbP7ewmDAuVaGdc500lfYkp+hFn?=
+ =?us-ascii?Q?P4pSn9+my0LlpVEOHDoPWoff1OlyN/yQRhp8T1zs6ZMF9rlAgK9F6m00QPX2?=
+ =?us-ascii?Q?LOk6XqmNb8s0T3XBfCbFeWoBX62wuI5CGogtSvWy7E0dT4ZF1un44D2Ofrx4?=
+ =?us-ascii?Q?wl6G9t79fAeFEWymX02w1XWZX973z3sTiWeHiL1K27ESvl6jdtc5z8hZe3dl?=
+ =?us-ascii?Q?97Rlbj/bltQt8IYCW0RaDmWlKXZUiCVl6OJRvw9DIKivzYIvZPcIUzshKmWW?=
+ =?us-ascii?Q?dt0eykmk+83K5Ld6IYPMcjEnXXsv3ajvWY1VJNJ0PURFxEPnn6pHbAp/a46z?=
+ =?us-ascii?Q?/tSihln1iZgozmiE568GtaaRN8PFEM9+Zgsemj9H+Yo7VKEI4NzW4Cnf8PDM?=
+ =?us-ascii?Q?MnVeiDNeRAkcHtu1rJu4ty1HZ2Jd3Sfz569rJJ1KVSw9c20wiTTIVNfclAnm?=
+ =?us-ascii?Q?otgFAZvb8BrZVdx4YN4xIlfssSQifhQ5h64HazH5KST2A2/X0J8hXvPFCWHs?=
+ =?us-ascii?Q?XVxxiKRBdaTBHBaYOmroTXn4w1bnOsy6ICYp5alle7IfE/6ksk1mG0NJIM5K?=
+ =?us-ascii?Q?3mjDIc4ouPjmNNd1W0vLa4lPTgtex61aKl2PtPmho+LkOI0/6rvuM73gGrKn?=
+ =?us-ascii?Q?FFMZj/AluhI33zlMM+mn8J2TRs5FCvXgVUIBrcpclr6A9DFwG6QoxPbfo1hw?=
+ =?us-ascii?Q?F2M5hMHcDSkK4lv8dixXusomps1sVAJzYcEM3W8caUjBRG7AbWe0MNMEk6Ol?=
+ =?us-ascii?Q?2yNPlizFx1m5VzbWU+ADua9+ioefU5LPlFl+huk6B9OWqyUG377PBkF22C6C?=
+ =?us-ascii?Q?0Yli4oxAcFgb8fy/P8pj/nkCWDXZWq5HZlTA+VD08e/wNsvBb69yzOUFqjvu?=
+ =?us-ascii?Q?uRg88NXrTO3A1TrZgEtwOy+OS1FQXevlbQ0qm/Fvg8vDyyrtDH4GTQGzPv6q?=
+ =?us-ascii?Q?s/ldzIP8f13osCzXM7drRMFmfVb73JIBBPlYVeVn4jQV8tIQqq3X9foK2uj2?=
+ =?us-ascii?Q?mQ3eSSTWnTmSAYldpGb4zqfO5c/xFCAd9EjyOkTTHN/EHHlc3XUICJIRupzK?=
+ =?us-ascii?Q?rBjSestad217KaftzCDIzTmMUP/gCAy274FY8l/P?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7551b03-160d-4916-ab5a-08dcaff429f3
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2024 17:30:39.1729
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MBw/fk6AMDjyaY4DjmoZeBCxYjsvUuXqmXYQXIylxscXPeZDZQp9km2ZthgKuIt0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8586
 
-On 26/07/2024 19:00, James Houghton wrote:
-> If it would be useful, we could absolutely have a flag to have all
-> faults go through the asynchronous mechanism. :) It's meant to just be
-> an optimization. For me, it is a necessary optimization.
+On Fri, Jul 26, 2024 at 03:30:42PM +0100, Jonathan Cameron wrote:
+
+> Mostly looking at this to get my head around what the details are,
+> but whilst I'm reading might as well offer some review comments.
+
+Thanks!
+ 
+> I'm not a fan of too many mini patches as it makes it harder
+> to review rather than easier, but meh, I know others prefer
+> it this way.  If you are going to do it though, comments
+> need to be carefully tracking what they are talking about.
+
+Yeah, I don't like it so much either, but given the debate on this
+series I structured it so you can read the commit messages only and
+have a pretty good idea what is inside.
+
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES
+> > + */
+> > +#define pr_fmt(fmt) "fwctl: " fmt
+> > +#include <linux/fwctl.h>
+> > +#include <linux/module.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/container_of.h>
+> > +#include <linux/fs.h>
 > 
-> Userfaultfd doesn't scale particularly well: we have to grab two locks
-> to work with the wait_queues. You could create several userfaultfds,
-> but the underlying issue is still there. KVM Userfault, if it uses a
-> wait_queue for the async fault mechanism, will have the same
-> bottleneck. Anish and I worked on making userfaults more scalable for
-> KVM[1], and we ended up with a scheme very similar to what we have in
-> this KVM Userfault series.
-Yes, I see your motivation. Does this approach support async pagefaults 
-[1]? Ie would all the guest processes on the vCPU need to stall until a 
-fault is resolved or is there a way to let the vCPU run and only block 
-the faulted process?
+> Trivial: Pick an ordering scheme perhaps as then we know where you'd
+> like new headers to be added.
 
-A more general question is, it looks like Userfaultfd's main purpose was 
-to support the postcopy use case [2], yet it fails to do that 
-efficiently for large VMs. Would it be ideologically better to try to 
-improve Userfaultfd's performance (similar to how it was attempted in 
-[3]) or is that something you have already looked into and reached a 
-dead end as a part of [4]?
+Heh, I think it is random ordered :) But sure lets sort by name,
+though linux/fwctl.h does go first. Putting headers first in at least
+one c file is a neat trick to ensure they self-compile and don't miss
+their own #includess
 
-[1] https://lore.kernel.org/lkml/4AEFB823.4040607@redhat.com/T/
-[2] https://lwn.net/Articles/636226/
-[3] https://lore.kernel.org/lkml/20230905214235.320571-1-peterx@redhat.com/
-[4] 
-https://lore.kernel.org/linux-mm/CADrL8HVDB3u2EOhXHCrAgJNLwHkj2Lka1B_kkNb0dNwiWiAN_Q@mail.gmail.com/
+#define pr_fmt(fmt) "fwctl: " fmt
+#include <linux/fwctl.h>
 
-> My use case already requires using a reasonably complex API for
-> interacting with a separate userland process for fetching memory, and
-> it's really fast. I've never tried to hook userfaultfd into this other
-> process, but I'm quite certain that [1] + this process's interface
-> scale better than userfaultfd does. Perhaps userfaultfd, for
-> not-so-scaled-up cases, could be *slightly* faster, but I mostly care
-> about what happens when we scale to hundreds of vCPUs.
+#include <linux/container_of.h>
+#include <linux/fs.h>
+#include <linux/module.h>
+#include <linux/slab.h>
+
+> > +static struct fwctl_device *
+> > +_alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
+> > +{
+> > +	struct fwctl_device *fwctl __free(kfree) = kzalloc(size, GFP_KERNEL);
+> > +	int devnum;
+> > +
+> > +	if (!fwctl)
+> > +		return NULL;
 > 
-> [1]: https://lore.kernel.org/kvm/20240215235405.368539-1-amoorthy@google.com/
-Do I understand it right that in your setup, when an EPT violation occurs,
-  - VMM shares the fault information with the other process via a 
-userspace protocol
-  - the process fetches the memory, installs it (?) and notifies VMM
-  - VMM calls KVM run to resume execution
+> I'd put a blank line here.
+
+Done
+> > +/* Drivers use the fwctl_alloc_device() wrapper */
+> > +struct fwctl_device *_fwctl_alloc_device(struct device *parent,
+> > +					 const struct fwctl_ops *ops,
+> > +					 size_t size)
+> > +{
+> > +	struct fwctl_device *fwctl __free(fwctl) =
+> > +		_alloc_device(parent, ops, size);
+> > +
+> > +	if (!fwctl)
+> > +		return NULL;
+> > +
+> > +	cdev_init(&fwctl->cdev, &fwctl_fops);
+> > +	fwctl->cdev.owner = THIS_MODULE;
+> 
+> Owned by fwctl core, not the parent driver?  Perhaps a comment on why.
+> I guess related to the lifetime being independent of parent driver.
+
+Yes.
+
+	/*
+	 * The driver module is protected by fwctl_register/unregister(),
+	 * unregister won't complete until we are done with the driver's module. 
+	 */
+	fwctl->cdev.owner = THIS_MODULE;
+
+
+> > +int fwctl_register(struct fwctl_device *fwctl)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = cdev_device_add(&fwctl->cdev, &fwctl->dev);
+> > +	if (ret)
+> > +		return ret;
+> > +	return 0;
+> 
+> Doesn't look like this ever gets more complex so 
+> 
+> 	return cdev_device_add(...)
+> 
+> If you expect to see more here in near future maybe fair enough
+> to keep the handling as is.
+
+Sure, I was expecting more when I wrote it then it turned out there
+wasn't
+
+> > + * fwctl_unregister - Unregister a device from the subsystem
+> > + * @fwctl: Previously allocated and registered fwctl_device
+> > + *
+> > + * Undoes fwctl_register(). On return no driver ops will be called. The
+> > + * caller must still call fwctl_put() to free the fwctl.
+> > + *
+> > + * Unregister will return even if userspace still has file descriptors open.
+> > + * This will call ops->close_uctx() on any open FDs and after return no driver
+> > + * op will be called. The FDs remain open but all fops will return -ENODEV.
+> 
+> Perhaps bring the docs in with the support?  I got (briefly) confused
+> by the lack of a path to close_uctx() in here.
+
+Okay, that paragraph can be shifted
+
+> > + *
+> > + * The design of fwctl allows this sort of disassociation of the driver from the
+> > + * subsystem primarily by keeping memory allocations owned by the core subsytem.
+> > + * The fwctl_device and fwctl_uctx can both be freed without requiring a driver
+> > + * callback. This allows the module to remain unlocked while FDs are open.
+> > + */
+
+And this explains the above a 2nd way
+
+> > +void fwctl_unregister(struct fwctl_device *fwctl)
+> > +{
+> > +	cdev_device_del(&fwctl->cdev, &fwctl->dev);
+> > +
+> > +	/*
+> > +	 * The driver module may unload after this returns, the op pointer will
+> > +	 * not be valid.
+> > +	 */
+> > +	fwctl->ops = NULL;
+> I'd bring that in with the logic doing close_uctx() etc as then it will align
+> with the comments that I'd also suggest only adding there (patch 2 I think).
+
+Ok
+
+> > +/**
+> > + * fwctl_alloc_device - Allocate a fwctl
+> > + * @parent: Physical device that provides the FW interface
+> > + * @ops: Driver ops to register
+> > + * @drv_struct: 'struct driver_fwctl' that holds the struct fwctl_device
+> > + * @member: Name of the struct fwctl_device in @drv_struct
+> > + *
+> > + * This allocates and initializes the fwctl_device embedded in the drv_struct.
+> > + * Upon success the pointer must be freed via fwctl_put(). Returns NULL on
+> > + * failure. Returns a 'drv_struct *' on success, NULL on error.
+> > + */
+> > +#define fwctl_alloc_device(parent, ops, drv_struct, member)                  \
+> > +	container_of(_fwctl_alloc_device(                                    \
+> > +			     parent, ops,                                    \
+> > +			     sizeof(drv_struct) +                            \
+> > +				     BUILD_BUG_ON_ZERO(                      \
+> > +					     offsetof(drv_struct, member))), \
+> Doesn't that fire a build_bug when the member is at the start of drv_struct?
+> Or do I have that backwards?
+
+BUILD_BUG_ON(true) == failure, evaluates to void
+BUILD_BUG_ON_ZERO(true) == fails, evaluates to 0
+BUILD_BUG_ON_ZERO(false) == false, evaluates to 0
+
+It is a bit confusing name, it is not ON_ZERO it is BUG_ON return ZERO
+
+> Does container_of() safely handle a NULL?
+
+Generally no, nor does it handle ERR_PTR, but it does work for both if
+the offset is 0.
+
+The BUILD_BUG guarentees the 0 offset both so that the casting inside
+_fwctl_alloc_device() works and we can use safely use container_of()
+to enforce the type check.
+
+What do you think about writing it like this instead:
+
+#define fwctl_alloc_device(parent, ops, drv_struct, member)               \
+	({                                                                \
+		static_assert(__same_type(struct fwctl_device,            \
+					  ((drv_struct *)NULL)->member)); \
+		static_assert(offsetof(drv_struct, member) == 0);         \
+		(drv_struct *)_fwctl_alloc_device(parent, ops,            \
+						  sizeof(drv_struct));    \
+	})
+
 ?
-Would you be ok to share an outline of the API you mentioned?
 
->> How do you envision resolving faults in userspace? Copying the page in
->> (provided that userspace mapping of guest_memfd is supported [3]) and
->> clearing the KVM_MEMORY_ATTRIBUTE_USERFAULT alone do not look
->> sufficient to resolve the fault because an attempt to copy the page
->> directly in userspace will trigger a fault on its own
-> 
-> This is not true for KVM Userfault, at least for right now. Userspace
-> accesses to guest memory will not trigger KVM Userfaults. (I know this
-> name is terrible -- regular old userfaultfd() userfaults will indeed
-> get triggered, provided you've set things up properly.)
-> 
-> KVM Userfault is merely meant to catch KVM's own accesses to guest
-> memory (including vCPU accesses). For non-guest_memfd memslots,
-> userspace can totally just write through the VMA it has made (KVM
-> Userfault *cannot*, by virtue of being completely divorced from mm,
-> intercept this access). For guest_memfd, userspace could write to
-> guest memory through a VMA if that's where guest_memfd is headed, but
-> perhaps it will rely on exact details of how userspace is meant to
-> populate guest_memfd memory.
-True, it isn't the case right now. I think I fast-forwarded to a state 
-where notifications about VMM-triggered faults to the guest_memfd are 
-also sent asynchronously.
+In some ways I like it better..
 
-> In case it's interesting or useful at all, we actually use
-> UFFDIO_CONTINUE for our live migration use case. We mmap() memory
-> twice -- one of them we register with userfaultfd and also give to
-> KVM. The other one we use to install memory -- our non-faulting view
-> of guest memory!
-That is interesting. You're replacing UFFDIO_COPY (vma1) with a memcpy 
-(vma2) + UFFDIO_CONTINUE (vma1), IIUC. Are both mappings created by the 
-same process? What benefits does it bring?
+Thanks,
+Jason
