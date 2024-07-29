@@ -1,83 +1,220 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AEA52D05D;
-	Mon, 29 Jul 2024 14:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E77E2D05D;
+	Mon, 29 Jul 2024 14:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722261697; cv=none; b=XRucaU9r2XbgVQ80EFBUWm828XgqlI4Nne0wBcRC7B7Z7aR2kVufDW3jH2eMmvWPmeRHYVbdZrRF0j6RztF6lalh7Un8GCrF+0KeiUAPQDgv/Q3vPPR68+y1q/7yCl3DvOjFPUT5gvAjaEXmqrdkhC01Cv7sTQ42WCfvSkWAiTs=
+	t=1722261710; cv=none; b=j2UXMSwaG10zib2K+qpRITHS4IUe7UpQM8xDGXljYCxTbpFFvErfyVFJoGEhzHTJJ3nz6RevRm9EXghq3i5dNTjz6Vc4F5ZAQhV1MLRxqs8YbQiHUR/wzrKGM8+0wtC6yNvwVO26vcqIW+dWZVcuvG7KSktGErTuBpa5WViSB8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722261697; c=relaxed/simple;
-	bh=sgjboYkTTk6vU0bvlwcipJgHGWfOKI2kUzAjXUJKn7Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bu7rm+4R+9pn+MqfR+sTM55REnKZG7UU3gyXVW4WKeNL5GyqxuGRcNjf+L6s2cwAVowt/zfwLc1NysSk/T7PkPbaQ/lj0z0iW1aC44dN6JEEKaX8Nv0f0Fpjmq0VMGy5ozj2cBTzwnIRvDSwJSMAj7eJzHFUNiXWjVlhyUSjcBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CABF01007;
-	Mon, 29 Jul 2024 07:01:58 -0700 (PDT)
-Received: from e133380.cambridge.arm.com (e133380.arm.com [10.1.197.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DB733F64C;
-	Mon, 29 Jul 2024 07:01:32 -0700 (PDT)
-From: Dave Martin <Dave.Martin@arm.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Wilcox <willy@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH] docs/core-api: memory-allocation: GFP_NOWAIT doesn't need __GFP_NOWARN
-Date: Mon, 29 Jul 2024 15:01:27 +0100
-Message-Id: <20240729140127.244606-1-Dave.Martin@arm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1722261710; c=relaxed/simple;
+	bh=Owl1OIYHTF1V7vBi+ynNO4a2/eEjNT+ebMKM+3035nY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lMA/EiW4qEhUF4h1mBEpeUQUJhUeJIPJqHYeR1FEne3fQAE6DfppSJvmT5uKquxWxzQmq5h9z2cOP0YGsW7S5uQ5WvqtVsSZDj4tnFMnTm5EDJseqShe+Hbonu7yreZoPfSUSht7IMHxWg9qoqNg3OjxGANuYssscB8/+YgPsYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IrINZfpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WOkdpF+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IrINZfpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WOkdpF+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IrINZfpH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WOkdpF+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IrINZfpH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WOkdpF+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9DE4F1F79C;
+	Mon, 29 Jul 2024 14:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722261705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zVUaDTmjkCvHr7RP0q30ab62OmQ9BCMWl7SWblWp8s8=;
+	b=IrINZfpHyOirkmYdkMv//TJS4yGUZXypou2+5iQYWlugWn1Uc+D9Ed19fLVqsSA6vEJptD
+	O4lcLp/NKqFXa0BYGhthlriAf3Yb4usNz7R+EMo9lmSyf7z8eYIKos9KqiIFHslY2Uf1I0
+	4axwNyI47wBBODaFJfdm1+es9ZAj5GI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722261705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zVUaDTmjkCvHr7RP0q30ab62OmQ9BCMWl7SWblWp8s8=;
+	b=3WOkdpF+CXlLXxDvkfBPxteGUv/PobJEePzDlOl5xdue++MpRCMDnstWj1O2gnRUwA48ub
+	Mgcw6ZVckHaxFPBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722261705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zVUaDTmjkCvHr7RP0q30ab62OmQ9BCMWl7SWblWp8s8=;
+	b=IrINZfpHyOirkmYdkMv//TJS4yGUZXypou2+5iQYWlugWn1Uc+D9Ed19fLVqsSA6vEJptD
+	O4lcLp/NKqFXa0BYGhthlriAf3Yb4usNz7R+EMo9lmSyf7z8eYIKos9KqiIFHslY2Uf1I0
+	4axwNyI47wBBODaFJfdm1+es9ZAj5GI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722261705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zVUaDTmjkCvHr7RP0q30ab62OmQ9BCMWl7SWblWp8s8=;
+	b=3WOkdpF+CXlLXxDvkfBPxteGUv/PobJEePzDlOl5xdue++MpRCMDnstWj1O2gnRUwA48ub
+	Mgcw6ZVckHaxFPBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5023313A9E;
+	Mon, 29 Jul 2024 14:01:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X1khEsmgp2Z+YAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Jul 2024 14:01:45 +0000
+Date: Mon, 29 Jul 2024 16:02:22 +0200
+Message-ID: <87h6c89tzl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	Axel Holzinger <aholzinger@gmx.de>
+Subject: Re: [PATCH v2 3/4] ALSA: timer: Introduce virtual userspace-driven timers
+In-Reply-To: <20240729085905.6602-4-ivan.orlov0322@gmail.com>
+References: <20240729085905.6602-1-ivan.orlov0322@gmail.com>
+	<20240729085905.6602-4-ivan.orlov0322@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.60 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,wanadoo.fr];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,kernel.org,vger.kernel.org,wanadoo.fr,gmx.de];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.60
 
-Since v6.8 the definition of GFP_NOWAIT has implied __GFP_NOWARN,
-so it is now redundant to add this flag explicitly.
+On Mon, 29 Jul 2024 10:59:04 +0200,
+Ivan Orlov wrote:
+> --- a/include/uapi/sound/asound.h
+> +++ b/include/uapi/sound/asound.h
+(snip)
+> +/*
+> + * This structure describes the userspace-driven timer. Such timers are purely virtual,
+> + * and can only be triggered from software (for instance, by userspace application).
+> + */
+> +struct snd_utimer_info {
+> +	/*
+> +	 * To pretend being a normal timer, we need to know the frame rate and
+> +	 * the period size in frames.
+> +	 */
+> +	snd_pcm_uframes_t frame_rate;
+> +	snd_pcm_uframes_t period_size;
 
-Update the docs to match, and emphasise the need for a fallback
-when using GFP_NOWAIT.
+The units in timer API should be independent from PCM.
+So use the explicit type such as __u64 here (so that you don't need
+the compat ioctl conversion, too).
 
-Fixes: 16f5dfbc851b ("gfp: include __GFP_NOWARN in GFP_NOWAIT")
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+> +	unsigned int id;
+> +};
 
----
+We often put some reserved fields for future extension.
+But I'm not sure whether it's needed at this time for this kind of
+simple interface, though.
 
-Based on: v6.11-rc1
+>  #define SNDRV_TIMER_IOCTL_PVERSION	_IOR('T', 0x00, int)
+>  #define SNDRV_TIMER_IOCTL_NEXT_DEVICE	_IOWR('T', 0x01, struct snd_timer_id)
+>  #define SNDRV_TIMER_IOCTL_TREAD_OLD	_IOW('T', 0x02, int)
+> @@ -990,6 +1005,8 @@ struct snd_timer_status {
+>  #define SNDRV_TIMER_IOCTL_CONTINUE	_IO('T', 0xa2)
+>  #define SNDRV_TIMER_IOCTL_PAUSE		_IO('T', 0xa3)
+>  #define SNDRV_TIMER_IOCTL_TREAD64	_IOW('T', 0xa4, int)
+> +#define SNDRV_TIMER_IOCTL_CREATE	_IOWR('T', 0xa5, struct snd_utimer_info)
+> +#define SNDRV_TIMER_IOCTL_TRIGGER	_IO('T', 0xa6)
 
-This change also evaporates the apparent typo of __GFP_NOWARN without
-the underscores in the documentation, but that doesn't really feel like
-it merits a dedicated patch.
+Once after adding the new API, don't forget to bump the protocol
+version defined in SNDRV_TIMER_VERSION.
 
-Not sure if this really merits a Fixes tag, but the docmuentation
-update might as well be picked into trees that have the corresponding
-code change.
+> --- a/sound/core/timer.c
+> +++ b/sound/core/timer.c
+(snip)
+> +#ifdef CONFIG_SND_UTIMER
+> +/*
+> + * Since userspace-driven timers are passed to userspace, we need to have an identifier
+> + * which will allow us to use them (basically, the subdevice number of udriven timer).
+> + */
+> +DEFINE_IDA(snd_utimer_ids);
 
----
- Documentation/core-api/memory-allocation.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Missing static.
 
-diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-index 8b84eb4bdae7..0f19dd524323 100644
---- a/Documentation/core-api/memory-allocation.rst
-+++ b/Documentation/core-api/memory-allocation.rst
-@@ -45,8 +45,9 @@ here we briefly outline their recommended usage:
-   * If the allocation is performed from an atomic context, e.g interrupt
-     handler, use ``GFP_NOWAIT``. This flag prevents direct reclaim and
-     IO or filesystem operations. Consequently, under memory pressure
--    ``GFP_NOWAIT`` allocation is likely to fail. Allocations which
--    have a reasonable fallback should be using ``GFP_NOWARN``.
-+    ``GFP_NOWAIT`` allocation is likely to fail. Users of this flag need
-+    to provide a suitable fallback to cope with such failures where
-+    appropriate.
-   * If you think that accessing memory reserves is justified and the kernel
-     will be stressed unless allocation succeeds, you may use ``GFP_ATOMIC``.
-   * Untrusted allocations triggered from userspace should be a subject
+> +static int snd_utimer_create(struct snd_utimer_info *utimer_info,
+> +			     struct snd_utimer **r_utimer)
+> +{
+(snip)
+> +	err = snd_timer_new(NULL, utimer->name, &tid, &timer);
+> +	if (err < 0) {
+> +		pr_err("Can't create userspace-driven timer\n");
+> +		goto err_timer_new;
+> +	}
+> +
+> +	timer->module = THIS_MODULE;
+> +	timer->hw = timer_hw;
+> +	timer->hw.resolution = NANO / utimer_info->frame_rate * utimer_info->period_size;
 
-base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
--- 
-2.34.1
+A sanity check is definitely needed for parameters like this.
+e.g. you'd hit a zero-division Oops with this code.
+Also, the resolution should be neither too small nor too high.
 
+> +static int snd_utimer_ioctl_create(struct file *file,
+> +				   struct snd_utimer_info __user *_utimer_info)
+> +{
+> +	struct snd_utimer *utimer;
+> +	struct snd_utimer_info *utimer_info;
+> +	int err;
+> +
+> +	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
+> +	if (IS_ERR(utimer_info))
+> +		return PTR_ERR(no_free_ptr(utimer_info));
+
+no_free_ptr() is used only for the automatic cleanup stuff.
+
+> +static int snd_utimer_ioctl_create(struct file *file,
+> +				   struct snd_utimer_info __user *_utimer_info)
+> +{
+> +	return -EINVAL;
+
+Better to keep -ENOTTY?
+
+
+thanks,
+
+Takashi
