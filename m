@@ -1,97 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782BF16B38D;
-	Mon, 29 Jul 2024 18:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E28155CB3
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 19:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722278453; cv=none; b=EGfguHzupmGkRFZtVbupyJ9apVq4B5THZm9Qt7m5Vax6dKVzQPqzhsK0htE41vuDfWVYAQYe0BgGeL/gwE438yar2DSVf4GzkFOFo1cYRsLVRdp0OcUnso+z4ZpnHsH6oS5I4JGCkKophvDltKPIp21557sQ6ZTATYdf7kWOYCs=
+	t=1722279877; cv=none; b=TpnsiA/sjw1jgPAgh37WQVLNBEQ34W/q1XvwdxMUbH/8WOxxDRbpPewYNxJ2zb22oFXxwNJMAdbqMmqaBCIqJ7DTcacWft/KPowVpIFspGWLpaie3k1f7MOrkRN5V0Rp8OtLS9b7rcVs4XAOHpN94cFFEhCUz/OWvRlGCvJfMQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722278453; c=relaxed/simple;
-	bh=m0WyG/aso8uzUymjHwhe7HmgW/CUfB5c/IBX9t6QXdI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FJ5YJUv/lEcVJmvWyq5dBNYORAYNefXE08wyFs8fjcNLaVABbKokz1RakssJUfW6IzmYCstaMayYumZaEQgKcm1j4XR/pspA4myIFy9ftwhSfrq8gjDdox6ClajkhAHG+r7ucSZ07VYxo868PnnV5R1EUPHufTgri0txBnhxg5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mhbgef0T; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1722279877; c=relaxed/simple;
+	bh=L1orX8W8t+4D+yt5PRsHAL14sp158IQXG7CxaXNBJgg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uBvJwAdUNX9R2wgpnTItI/djpHZzR/7j8pW4K/t1aXeLCLQY0keYsh+wOnW3abhMmyzATMkPFoN78uRFQ/nukQ3tesoHphUrXxHO7Z6AJ7/Lh3yy+vJN6tgyIOmw9R6skw6Bl+n6RQTtGTxFtG+LjaBP0rK0efr/D+hQq7JM6BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WsEzOYWC; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mhbgef0T"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=iUdrC/iM7m90SNhQ6UKmv8NB4lWo9OrmVGgOw6RdPKs=; b=mhbgef0TN6TLf/9onqtaW7nHdw
-	jamuHxwi2zUrkF8iXfgdQjO+MfqaT2UUU+qwbp56/vg3rzb6SDnPiKuC4NlX3ATmrG1KLgsE+NnIU
-	9kIXX1FQPnUtQtuzSHfwBryIUngWVMrudp4egAjPKb1Qqq4NaAjYztn4+RomvS4hhoJgz7/zyrL72
-	CadDb9cr+UfkSUBoBNwyc5Zl4OBAQ06rHTcRYTxWH7Z/gmntTdTSKW4wfdaqtqNoCcirtNGWNy3u2
-	DmP5FDyikhxWMWv/4R1PSgD2JzEYTCW/SfObRaLRHOlN2hiThAmpc83rGwmyD5pMgaidpXSTAG9GV
-	cxJuCHzA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYVId-0000000CNOa-40oV;
-	Mon, 29 Jul 2024 18:40:49 +0000
-Message-ID: <b1e2d43f-93df-420c-a831-5ff8e33c294d@infradead.org>
-Date: Mon, 29 Jul 2024 11:40:45 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WsEzOYWC"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fd7509397bso29955ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 12:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722279875; x=1722884675; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L1orX8W8t+4D+yt5PRsHAL14sp158IQXG7CxaXNBJgg=;
+        b=WsEzOYWCPNOVpvgpcmK2uy/h3GIaz95mpurto+XKLxQvowt6bYPpTMKsxrRqe8pChy
+         g8SjKvIXflhrW/VmoOpKpTewSouN3A78+bVe3jtduMXwW+YiqWtrTkMxmyaPOLLXbuOZ
+         YnqvWy8bb1XKkEGlFkhsPp2mqb3mJq0liq3XNPMMaEuUhT1U9cpT18TGiphxljiGqcVY
+         ZTBoLrM9efdAGFtr0E/Am+IEl2x/tFao3ClwO6lBrhfMH+dtKLK/qjqVoyHwrC2sp6Ny
+         OzoYlRbT2JDSERFRVocD5FJxoMiyTbY6Fj9rvn8S+kBgpQdafuyMpv0pY5pys9dlHgyl
+         P9sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722279875; x=1722884675;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L1orX8W8t+4D+yt5PRsHAL14sp158IQXG7CxaXNBJgg=;
+        b=esy6ZrKmbscVwwTBENQJqO7mB47AHUEl6p97UmFmO/XomfJVzm9a5l39Zo+LOcW0hb
+         eYngHDHrN6KIk9yIeE+gKaCvAe5/GMXeBI4k0bGHCvcLhh5HMvVNf4+OVdM3jkEh/BaP
+         axEUPEoHww0rEjVZQb53ot3iOOFI8Dvw4mFpRo+0J7x+YC+jqN8tEV19nLh40+T3STtz
+         UBab1OkuWfxRnYtAhrF7/Y377R7fW9Q9HWwp1KaEhDPBbOtD4kwaTTxocoNPvB6v2t4f
+         Gw/1BB/COTP7rkvUJ7iHqyA4vMdCBgzyWoG3DXjgLwyUYQ4xBdWXI8vubLxDQewUAucZ
+         GBpg==
+X-Forwarded-Encrypted: i=1; AJvYcCUo9bQD1paau0bts45FAABVwbIixLjhzkGaNyiHuZuK8p+AhSEWUi357N7h0/Gtxs2VC0rQaYfloTTpCiFG+f/IH3rH3RbxxQra
+X-Gm-Message-State: AOJu0Yyxis4/Zse1X+7qf1QoVZbRtTbLAr3liud9SlndGyf9KETpaSty
+	BxhYXdXFug6/xgtR2pgBLA5e7+YP+Tplz8AlD0800fk6uljoM6BsKt7YI9zDUNSkLbbDIHDeE4l
+	gvcjaybYkb9jAZ7lyAG7iV9WtqM0gd/HY+TEw
+X-Google-Smtp-Source: AGHT+IGSiS6jqlSnj0RLELgjkwPLpiMKuNfOR/nYn5PJXuvkrmGGQlP2HpSPhdzULqqv4EphdM6bCtuCrTQNFk/JI1U=
+X-Received: by 2002:a17:903:2350:b0:1f7:3764:1e19 with SMTP id
+ d9443c01a7336-1ff34d590eemr1029195ad.20.1722279874404; Mon, 29 Jul 2024
+ 12:04:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] wmi: Fix spelling
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>, W_Armin@gmx.de,
- corbet@lwn.net
-Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240729164721.125708-1-luis.hernandez093@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240729164721.125708-1-luis.hernandez093@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-7-xur@google.com>
+ <20240729095303.GD37996@noisy.programming.kicks-ass.net>
+In-Reply-To: <20240729095303.GD37996@noisy.programming.kicks-ass.net>
+From: Rong Xu <xur@google.com>
+Date: Mon, 29 Jul 2024 12:04:22 -0700
+Message-ID: <CAF1bQ=Ts1yoStfvsG-Q2BQmuRttTw03Yd4PnAU5MGQMCRRtbvw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens <hca@linux.ibm.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Mike Rapoport <rppt@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>, 
+	Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>, 
+	Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>, 
+	Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Xiao Wang <xiao.w.wang@intel.com>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jul 29, 2024 at 2:53=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Sun, Jul 28, 2024 at 01:29:59PM -0700, Rong Xu wrote:
+> > Add the build support for using Clang's Propeller optimizer. Like
+> > AutoFDO, Propeller uses hardware sampling to gather information
+> > about the frequency of execution of different code paths within a
+> > binary. This information is then used to guide the compiler's
+> > optimization decisions, resulting in a more efficient binary.
+> >
+> > The support requires a Clang compiler LLVM 19 or later, and the
+> > create_llvm_prof tool
+> > (https://github.com/google/autofdo/releases/tag/v0.30.1). This
+>
+> What's the relation between this and llvm-profgen? Is the above simply
+> a google 'internal' proof of concept thing that will eventually make its
+> way into llvm-profgen?
+>
+> It seems a bit weird LLVM landed propeller without the required profile
+> generation tool.
 
+AutoFDO historically required a third-party tool
+(create_llvm_prof, mentioned above) in Clang.
+AutoFDO in GCC also requires this tool (same source, different name).
 
-On 7/29/24 9:47 AM, Luis Felipe Hernandez wrote:
-> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-> ---
->  Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentation/wmi/devices/msi-wmi-platform.rst
-> index 29b1b2e6d42c..31a136942892 100644
-> --- a/Documentation/wmi/devices/msi-wmi-platform.rst
-> +++ b/Documentation/wmi/devices/msi-wmi-platform.rst
-> @@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
->  
->  Due to a peculiarity in how Windows handles the ``CreateByteField()`` ACPI operator (errors only
->  happen when a invalid byte field is ultimately accessed), all methods require a 32 byte input
-> -buffer, even if the Binay MOF says otherwise.
-> +buffer, even if the Binary MOF says otherwise.
->  
->  The input buffer contains a single byte to select the subfeature to be accessed and 31 bytes of
->  input data, the meaning of which depends on the subfeature being accessed.
->  
-> -The output buffer contains a singe byte which signals success or failure (``0x00`` on failure)
-> +The output buffer contains a single byte which signals success or failure (``0x00`` on failure)
->  and 31 bytes of output data, the meaning if which depends on the subfeature being accessed.
->  
->  WMI method Get_EC()
-> @@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller firmware version string.
->  The first 4 bits of the flag byte contain the minor version of the embedded controller interface,
->  with the next 2 bits containing the major version of the embedded controller interface.
->  
-> -The 7th bit signals if the embedded controller page chaged (exact meaning is unknown), and the
-> +The 7th bit signals if the embedded controller page changed (exact meaning is unknown), and the
->  last bit signals if the platform is a Tigerlake platform.
->  
->  The MSI software seems to only use this interface when the last bit is set.
+llvm-profgen is a relatively new tool that was integrated directly into LLV=
+M
+(similar purpose, but different implementation).
 
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-after you add a commit message.
-
--- 
-~Randy
+AutoFDO and create_llvm_prof are not "proof of concept". They have been wid=
+ely
+used in Google for many years. Propeller currently uses create_llvm_prof as=
+ the
+profile converting tool. But there is an effort to move to LLVM.
