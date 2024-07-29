@@ -1,188 +1,210 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4C418A926
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 20:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D640718A950
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 21:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722286525; cv=none; b=uLNqi2C4lzT6bY/ZcoK3gyMuejmeYle/G9956xK+XK2VPpB4YJSxayd8+dcuDIKV2R8z9CbYBAieTpytlosxCZTzF8r66xRA1OrEHFPmBLPmN5U2LWkzcqVVxd2HcUhL5KeyL4/Kp1ybfQE+T2tgenWVxGc0wTSLa9FrP8COVww=
+	t=1722287397; cv=none; b=V3v9nkd8IeCe9zkqccC5QgykX+mVUPFgNsKXSpepfsrQ37X42T9g7Wd+3/3E43wXTEIq3ly0S264m2IdPoZHik3790dyHdZ+MkU7i4SwsqOXtF3zYJi5F+is2fBg9uytnwYvmSdc7h43/+t+dsP6kEFQ3oEzGWNIhAEUNoJyL3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722286525; c=relaxed/simple;
-	bh=RTz+0z5SbA8fg9idABtdR1W3LTdJAfQ+K1FoGhBcJKo=;
+	s=arc-20240116; t=1722287397; c=relaxed/simple;
+	bh=l/jmLN9wh7y6hiwhziGF0si+0OQpoR8dOJKGXREieFc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AvvMiF4ymOqdqShhJMTmum9RaE3+gRYss4uAv+DfNREKmB7Z5f0qvee3qe2n86HvpjH8tfjTAJ/tuj9rrYScUR6Vx6RgBeq40QEgM76ck5twOC9A9xpxSlvuKHbnka05fNZfSC+akNecj8WYPwdUvW3k8vhiq7wDhv9rPNGsqR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h/nnWeya; arc=none smtp.client-ip=209.85.160.177
+	 To:Cc:Content-Type; b=OUeM0Wi/vOH1jCHWLWlntyjebrvCXsUCbm1KjNz0DLp8EFn7gSmHp99GtMZ2buEZEa0AY+dZfSQ4bmWv9lkn8qDKqUQaAs28K06pRWLgROQuNMganYTvFg2rYOM3g66JE0cEA29LrDzQLq72xxlSQuSe9hkeZ9bn7omxnhkwaHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VEr7NrRs; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h/nnWeya"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-45029af1408so24331cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 13:55:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VEr7NrRs"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-45029af1408so27811cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 14:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722286522; x=1722891322; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722287394; x=1722892194; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=niejWPzSGiHspwj4YntTxK5/QOZFWVp8np2sDleyrVI=;
-        b=h/nnWeyaW27Ao2xvbbFSE/Zt2VJmO48EkAeQz0RZj8F23e7gNiryg8lymrcGLWEWT7
-         fHdVAEg0XPtUc0g56RjGO+qOEix/2Io800UeFfwXdUZLQrKZZtAJdCuWJYiuVg/8QvDQ
-         YEcOLiM3HeSBtMi82IDcBqR397rtWDLLuUIBJQ+qJhfZJPuDB4Vme1SjbtedSxs0OC7y
-         97Cl5VKseASfQI2QSiqLovTiSBLLL6edYy3S1Bd0khZUsKr1nwQOPdH3Kub/5Glj8GBN
-         M3RELBvQnEbtI0qYiF2z6Id20NHzjZeQJ2G1SE3uvcHxiWgH4MwXwNukN4MOuRHVTcJ9
-         cb1w==
+        bh=Vd9gll+orW32fugSM5J5pVRsHANIRCA7KL3dKmjyXcw=;
+        b=VEr7NrRs2DF7md4or3Y/iBDF8PMC2AIv7epVJTgTyzHadMAl5SgKmiim1VzuBzTTqC
+         NeQoTMYFdeHWTLco6KB2JYSHsbQnuCwSyu2tIomWZ/7DmtP0d9IrHeokDhMrNckdJUq+
+         FULhnxLyuIo3vRLfH15+v61vP8ClxD3bPKTDeP+kjf6ZMamQx9qoVkOZVI+NZKejIaYk
+         QtDkzJSJfQUFjwpzDbFFHHa7BIV/LmQ/dttpk1K7bEo3MAk7GB4NgK0EhAN7Tmzx7omN
+         REGIdShTIDHLCCcjUtRPufstfs8LIn6984HpEx7bki8zZLNKAPEQg6LbjIwIZ9pZEkwP
+         C1yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722286522; x=1722891322;
+        d=1e100.net; s=20230601; t=1722287394; x=1722892194;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=niejWPzSGiHspwj4YntTxK5/QOZFWVp8np2sDleyrVI=;
-        b=nWgMnTGX1JgD6qDt+AEEhHWZBaShOwUKcsD7cBqt2Jp9VuLe1wv2NcOb1q9KCbwjou
-         CmIlkWYfhlya8uAJM2TSn7HzBpn+NVtHIT3btWuk58dg2CCLT3PCEcrhgOCtK4NC4aYw
-         sTD8mfZIc1VF7fDioTX29MqOo6LeemgxSPc2oFVkvi4g55v4vXd95CqkYamVCQ+vNIV3
-         TmW/DSWjKQQ8dfPmP9etN8dSH8bxYWn2mOXD0uR3yl7EyZly39Shq/GEpQf24ZagBhIH
-         6C7vplobUz0NoB6QzsoZs6l9H7AQzEIHNtiFiShRX6/Skid++M0CC2edmNt6KkLhMimX
-         D+6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWeD5qiiDa/Jqw4tbSe4GsO4HT7wEBCs0UTNZ+wZ1wzFFkRo+y4Vibp0CVT4Hh3+NFR8xkjEuIfJ/p5vytahQmwMNBKuqy2c2XM
-X-Gm-Message-State: AOJu0YyUhh4Q/A7b8jDVUzGjiuI8FX2uazwY9ABGLJ5kLIzY36EjCcW9
-	svF9T4gXK9FE8oteyfHimq7QMwuIDjWW8Y24XNk0gHMPYHHgDYfuyRPuUGs1WhWVsrMd6H7dgh1
-	h1oF6Nds8q0V2FanNln7dBFZF0LH5pStXCdjo
-X-Google-Smtp-Source: AGHT+IH2rSZTSsniocXI2j9VEsSuvZAH/+8U38Hr61bPybhBcITR+1rWGMzIbas1ALvho8R2h8RifAfAD1wu6fS6OdI=
-X-Received: by 2002:ac8:5910:0:b0:447:eaaa:c852 with SMTP id
- d75a77b69052e-45032ac32c8mr1554811cf.23.1722286521955; Mon, 29 Jul 2024
- 13:55:21 -0700 (PDT)
+        bh=Vd9gll+orW32fugSM5J5pVRsHANIRCA7KL3dKmjyXcw=;
+        b=lWBdK62A2aShOXu5RfDeOLciI8beiYpVLCH74uf2rzCTRPc9ZMM9xDSNsXGxmdVqrh
+         0IsFjZmhqCVERfCyFMkbeZfS6YfF8JO/gHgzWrWjVvmST494e+oFlWdXbBxM6kRsKM6F
+         iJYTcfVaeywvOiLr+quwyxRG0xNIqQJ4VPgmUaty5dtb6+0sG2GeFVOh6N30jLa5lsik
+         osk5YaVlLZvPuu0Gp8MsXEzII2Fs2bV8pWMWlI3vO9nRQxou2vcCQbZjHjG++M2KtvT9
+         /l2D+kGrprQgTuUsdfAL7lLqPW0HhIKIqbMc2c0ZjC+GQEkI0WyNdyNQp/znlls+vDP2
+         08Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCXf3+5Vv1TglUa0/MCzJGLO+iZrU/znEawnZZPWl3Bk7CEhPYSFdKYQeD1PaPPlwqVeTS5eZ7CVww2NIONMC6zoeTIsPvfJTwBz
+X-Gm-Message-State: AOJu0Yy4ZqG+my/ngUj1svFzrd0NrCUiwUi82LQXGNh10jWS8KpLQ3YV
+	pUuf4FFwWe6N+KYLFENKsB45DlMo+v1jZQPhHn5pa6SuE2f8QTpiT+hFF+vj2IOtOmY89aSEUcm
+	OQSJv7B8H4qSYRaxuOla+0grQ1MaUKuIex7Yu
+X-Google-Smtp-Source: AGHT+IFF0JdMijavAk7YcongAxzNFbvkz57SJw6PrFO3ko+okA4YHp3aWwtWzGsByAqngMvvx6etjqKrffqxlYsSZYE=
+X-Received: by 2002:ac8:7f0f:0:b0:447:e8bd:2fbe with SMTP id
+ d75a77b69052e-450364d60a1mr22641cf.1.1722287393428; Mon, 29 Jul 2024 14:09:53
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-4-xur@google.com>
- <20240729093405.GC37996@noisy.programming.kicks-ass.net>
-In-Reply-To: <20240729093405.GC37996@noisy.programming.kicks-ass.net>
-From: Rong Xu <xur@google.com>
-Date: Mon, 29 Jul 2024 13:55:10 -0700
-Message-ID: <CAF1bQ=QgBBEBt1sZYM0HfGf_NhC+cX73Vf+wcu7dSsZ639EGXQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] Change the symbols order when --ffuntion-sections is enabled
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Mike Rapoport <rppt@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>, 
-	Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>, 
-	Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Xiao Wang <xiao.w.wang@intel.com>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>
+References: <20240710234222.2333120-1-jthoughton@google.com>
+ <20240710234222.2333120-15-jthoughton@google.com> <4e5c2904-f628-4391-853e-37b7f0e132e8@amazon.com>
+ <CADrL8HUn-A+k-+A8WvreKtvxW-b9zZvgAGMkkaR7gCLsPr3XPg@mail.gmail.com> <4cd16922-2373-4894-b888-83a6bb3978e7@amazon.com>
+In-Reply-To: <4cd16922-2373-4894-b888-83a6bb3978e7@amazon.com>
+From: James Houghton <jthoughton@google.com>
+Date: Mon, 29 Jul 2024 14:09:16 -0700
+Message-ID: <CADrL8HVuvBAMcuoifhjuSBpVOA3Av+_k4e=waD81ajKX4gXPHw@mail.gmail.com>
+Subject: Re: [RFC PATCH 14/18] KVM: Add asynchronous userfaults, KVM_READ_USERFAULT
+To: kalyazin@amazon.com
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	roypat@amazon.co.uk, Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 29, 2024 at 2:34=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
+On Mon, Jul 29, 2024 at 10:17=E2=80=AFAM Nikita Kalyazin <kalyazin@amazon.c=
+om> wrote:
 >
-> On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
-> > When the -ffunction-sections compiler option is enabled, each function
-> > is placed in a separate section named .text.function_name rather than
-> > putting all functions in a single .text section.
+> On 26/07/2024 19:00, James Houghton wrote:
+> > If it would be useful, we could absolutely have a flag to have all
+> > faults go through the asynchronous mechanism. :) It's meant to just be
+> > an optimization. For me, it is a necessary optimization.
 > >
-> > However, using -function-sections can cause problems with the
-> > linker script. The comments included in include/asm-generic/vmlinux.lds=
-.h
-> > note these issues.:
-> >   =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if =
-dead
-> >    code elimination is enabled, so these sections should be converted
-> >    to use ".." first.=E2=80=9D
-> >
-> > It is unclear whether there is a straightforward method for converting
-> > a suffix to "..". This patch modifies the order of subsections within t=
-he
-> > text output section when the -ffunction-sections flag is enabled.
-> > Specifically, it repositions sections with certain fixed patterns (for
-> > example .text.unlikely) before TEXT_MAIN, ensuring that they are groupe=
-d
-> > and matched together.
-> >
-> > Note that the limitation arises because the linker script employs glob
-> > patterns instead of regular expressions for string matching. While ther=
-e
-> > is a method to maintain the current order using complex patterns, this
-> > significantly complicates the pattern and increases the likelihood of
-> > errors.
-> >
-> > Co-developed-by: Han Shen <shenhan@google.com>
-> > Signed-off-by: Han Shen <shenhan@google.com>
-> > Signed-off-by: Rong Xu <xur@google.com>
-> > Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-> > ---
-> >  include/asm-generic/vmlinux.lds.h | 19 ++++++++++++++++---
-> >  1 file changed, 16 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vm=
-linux.lds.h
-> > index 5703526d6ebf..f3de66bda293 100644
-> > --- a/include/asm-generic/vmlinux.lds.h
-> > +++ b/include/asm-generic/vmlinux.lds.h
-> > @@ -582,9 +582,21 @@
-> >   * during second ld run in second ld pass when generating System.map
-> >   *
-> >   * TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
-> > - * code elimination is enabled, so these sections should be converted
-> > - * to use ".." first.
-> > + * code elimination or function-section is enabled. Match these symbol=
-s
-> > + * first when in these builds.
-> >   */
-> > +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LT=
-O_CLANG)
-> > +#define TEXT_TEXT                                                    \
-> > +             *(.text.asan.* .text.tsan.*)                            \
-> > +             *(.text.unknown .text.unknown.*)                        \
-> > +             *(.text.unlikely .text.unlikely.*)                      \
-> > +             ALIGN_FUNCTION();                                       \
+> > Userfaultfd doesn't scale particularly well: we have to grab two locks
+> > to work with the wait_queues. You could create several userfaultfds,
+> > but the underlying issue is still there. KVM Userfault, if it uses a
+> > wait_queue for the async fault mechanism, will have the same
+> > bottleneck. Anish and I worked on making userfaults more scalable for
+> > KVM[1], and we ended up with a scheme very similar to what we have in
+> > this KVM Userfault series.
+> Yes, I see your motivation. Does this approach support async pagefaults
+> [1]? Ie would all the guest processes on the vCPU need to stall until a
+> fault is resolved or is there a way to let the vCPU run and only block
+> the faulted process?
+
+As implemented, it didn't hook into the async page faults stuff. I
+think it's technically possible to do that, but we didn't explore it.
+
+> A more general question is, it looks like Userfaultfd's main purpose was
+> to support the postcopy use case [2], yet it fails to do that
+> efficiently for large VMs. Would it be ideologically better to try to
+> improve Userfaultfd's performance (similar to how it was attempted in
+> [3]) or is that something you have already looked into and reached a
+> dead end as a part of [4]?
+
+My end goal with [4] was to take contention out of the vCPU +
+userfault path completely (so, if we are taking a lock exclusively, we
+are the only one taking it). I came to the conclusion that the way to
+do this that made the most sense was Anish's memory fault exits idea.
+I think it's possible to make userfaults scale better themselves, but
+it's much more challenging than the memory fault exits approach for
+KVM (and I don't have a good way to do it in mind).
+
+> [1] https://lore.kernel.org/lkml/4AEFB823.4040607@redhat.com/T/
+> [2] https://lwn.net/Articles/636226/
+> [3] https://lore.kernel.org/lkml/20230905214235.320571-1-peterx@redhat.co=
+m/
+> [4]
+> https://lore.kernel.org/linux-mm/CADrL8HVDB3u2EOhXHCrAgJNLwHkj2Lka1B_kkNb=
+0dNwiWiAN_Q@mail.gmail.com/
 >
-> Why leave the above text sections unaligned?
+> > My use case already requires using a reasonably complex API for
+> > interacting with a separate userland process for fetching memory, and
+> > it's really fast. I've never tried to hook userfaultfd into this other
+> > process, but I'm quite certain that [1] + this process's interface
+> > scale better than userfaultfd does. Perhaps userfaultfd, for
+> > not-so-scaled-up cases, could be *slightly* faster, but I mostly care
+> > about what happens when we scale to hundreds of vCPUs.
+> >
+> > [1]: https://lore.kernel.org/kvm/20240215235405.368539-1-amoorthy@googl=
+e.com/
+> Do I understand it right that in your setup, when an EPT violation occurs=
+,
+>   - VMM shares the fault information with the other process via a
+> userspace protocol
+>   - the process fetches the memory, installs it (?) and notifies VMM
+>   - VMM calls KVM run to resume execution
+> ?
 
-They are considered cold text. They are not aligned before the change.
-But I have no objections to making it aligned.
+That's right.
 
-(Sorry if you receive a duplicated message. I'm resending this in
-plain text mode.)
+> Would you be ok to share an outline of the API you mentioned?
 
+I can share some information. The source (remote) and target (local)
+VMMs register guest memory (shared memory) with this network worker
+process. On the target during post-copy, the gfn of a fault is
+converted into its corresponding local and remote offsets. The API for
+then fetching the memory is basically something like
+CopyFromRemote(remote_offset, local_offset, length), and the
+communication with the process to handle this command is done just
+with shared memory. After memory is copied, the faulting thread does a
+UFFDIO_CONTINUE (with MODE_DONTWAKE) to map the page, and then we
+KVM_RUN to resume. This will make more sense with the description of
+UFFDIO_CONTINUE below.
+
+Let me know if you'd like to know more, though I'm not intimately
+familiar with all the details of this network worker process.
+
+> >> How do you envision resolving faults in userspace? Copying the page in
+> >> (provided that userspace mapping of guest_memfd is supported [3]) and
+> >> clearing the KVM_MEMORY_ATTRIBUTE_USERFAULT alone do not look
+> >> sufficient to resolve the fault because an attempt to copy the page
+> >> directly in userspace will trigger a fault on its own
+> >
+> > This is not true for KVM Userfault, at least for right now. Userspace
+> > accesses to guest memory will not trigger KVM Userfaults. (I know this
+> > name is terrible -- regular old userfaultfd() userfaults will indeed
+> > get triggered, provided you've set things up properly.)
+> >
+> > KVM Userfault is merely meant to catch KVM's own accesses to guest
+> > memory (including vCPU accesses). For non-guest_memfd memslots,
+> > userspace can totally just write through the VMA it has made (KVM
+> > Userfault *cannot*, by virtue of being completely divorced from mm,
+> > intercept this access). For guest_memfd, userspace could write to
+> > guest memory through a VMA if that's where guest_memfd is headed, but
+> > perhaps it will rely on exact details of how userspace is meant to
+> > populate guest_memfd memory.
+> True, it isn't the case right now. I think I fast-forwarded to a state
+> where notifications about VMM-triggered faults to the guest_memfd are
+> also sent asynchronously.
 >
-> > +             *(.text.hot .text.hot.*)                                \
-> > +             *(TEXT_MAIN .text.fixup)                                \
-> > +             NOINSTR_TEXT                                            \
-> > +             *(.ref.text)                                            \
-> > +     MEM_KEEP(init.text*)
-> > +#else
-> >  #define TEXT_TEXT                                                    \
-> >               ALIGN_FUNCTION();                                       \
-> >               *(.text.hot .text.hot.*)                                \
-> > @@ -594,7 +606,8 @@
-> >               NOINSTR_TEXT                                            \
-> >               *(.ref.text)                                            \
-> >               *(.text.asan.* .text.tsan.*)                            \
-> > -     MEM_KEEP(init.text*)                                            \
-> > +     MEM_KEEP(init.text*)
-> > +#endif
-> >
-> >
-> >  /* sched.text is aling to function alignment to secure we have same
-> > --
-> > 2.46.0.rc1.232.g9752f9e123-goog
-> >
+> > In case it's interesting or useful at all, we actually use
+> > UFFDIO_CONTINUE for our live migration use case. We mmap() memory
+> > twice -- one of them we register with userfaultfd and also give to
+> > KVM. The other one we use to install memory -- our non-faulting view
+> > of guest memory!
+> That is interesting. You're replacing UFFDIO_COPY (vma1) with a memcpy
+> (vma2) + UFFDIO_CONTINUE (vma1), IIUC. Are both mappings created by the
+> same process? What benefits does it bring?
+
+The cover letter for the patch series where UFFDIO_CONTINUE was
+introduced does a good job at explaining why it's useful for live
+migration[5]. But I can summarize it here: when doing pre-copy, we
+send many copies of memory to the target. Upon resuming on the target,
+we want to get faults on the pages with stale content. It may take a
+while to send the final dirty bitmap to the target, and we don't want
+to leave the VM paused for that long (i.e., treat everything as
+stale). When the dirty bitmap arrives, we want to be able to quickly
+(like, without having to copy anything) say "stop getting faults on
+these pages, they are in fact clean." Using shared memory (i.e.,
+having a page cache) with UFFDIO_CONTINUE (well, really
+UFFD_FEATURE_MINOR*) allows us to do this.
+
+It also turns out that it is basically necessary if we want our
+network API of choice to be able to directly write into guest memory.
+
+[5]: https://lore.kernel.org/linux-mm/20210225002658.2021807-1-axelrasmusse=
+n@google.com/
