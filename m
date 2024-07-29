@@ -1,61 +1,96 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B0E15574C;
-	Mon, 29 Jul 2024 14:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CAB1E892
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 14:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722262942; cv=none; b=Of4Q119mHcPhleCq+9DQXhgSE8622m9fyLZwckz8/DP6yS7RHZewta1g28TMCCTtWzG7KsjhV5bnBvlMFc/kAOVUBaUYGDHuBoIEUwuNuGbjECh/G/YRH8J6dkqnmtxXxGwwucz1h19zkdw/GGpBcY1DpylYaDsGxxRxaAiWaMg=
+	t=1722264004; cv=none; b=S/Y3O6Wo6zWafhuFZjhJ1npQS72LjW19lKXOXels88/XvcajMHfDvTESDMmqNi9yXCwF2fDAgH7DfmUIJdE67npC0iZBz5A0dgCuCC2SC/vE/JhvRSToG7qljZVQGAm0vHANQ+431o48ZAYyF1HamVus8eeSp4VTKgyQ2hA4Sdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722262942; c=relaxed/simple;
-	bh=mcGe54sTD5m6mrjn8OqGOGxSLwe26LZQ+XOwG2+U4Vg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oposB8GMghac2iY3E+5WFIBc9T+U5zTDF67xfdK2xbfe+QeWuSMVEgFV7ZTlhS8NvQL85l6Wyi5YNOrFSwqvgbP1gfkwoDdg68UpvVZnCTpnvQIt62f2kp1bauW2rOGG1S4ichK2kHGKt8jimKXZ4j73vUuocMzbXUqsyR/F9zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ser8xwaf; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1722264004; c=relaxed/simple;
+	bh=nVwixBhGg7g0/0/fZ7WiemdMyNzqYt6miLlpFgejPh4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JioT0X35Ij7SU9+r4a6QDKbkbBr1z9JWzwpYE+JEkeMY9x3WLKoQI0YhdLk/5uquNuFSLwdgRCp1BnHO4lFx0xv+9gDEz1H5XVZz2JWb1RPHbKTHfbhevzw/BfR4dGzmd7+bG/HtlxxkJX+asrImXIQ84yGmWp4Z9sK5yH/kzxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EA8+2MMc; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ser8xwaf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vyD221SM/OrwfROkZfJAo8aEFiDQQt9H1/Csmecg7Gc=; b=Ser8xwafpItMP2OMwG/tZ7dRg0
-	jLok6PpxiG+RiJiRcJQG+Pxc3n8wavZzOzim6SHSLNIqFMZYNnn4TNgA82bTSl/UIRi+Fqy3hs6je
-	FMtmk8W+sZwoFEPOR6kBQFLtzijczxqt3pdOHpKCoET6yrPbVt2Jtgc9bfRQ4ItPFxej/O1MGwon5
-	0xHymvCPT/TFJ+pKQFPFvNLoqOflJKssTh97TKSoxwM00fuaAq9CqXdkWgyn+Rw0ZJiRKO7rr/CaV
-	BQrKWXBgyMGx9ID8kzZK5rX/MVhYPRr/0xGsuablti+s8RUFVh0b4kBlQlneL3PZwwg1jZEhSZ1X2
-	CsxfMhwg==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYRGU-0000000DeKZ-26O3;
-	Mon, 29 Jul 2024 14:22:18 +0000
-Date: Mon, 29 Jul 2024 15:22:18 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Dave Martin <Dave.Martin@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] docs/core-api: memory-allocation: GFP_NOWAIT doesn't
- need __GFP_NOWARN
-Message-ID: <Zqelmlk0cYyPzasF@casper.infradead.org>
-References: <20240729140127.244606-1-Dave.Martin@arm.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EA8+2MMc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 083BF41AB8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1722263657; bh=aV2fBeVeraJinAztP6WxXGZNMfp4HMUWMSPRB+UMKhw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EA8+2MMc+a6E/i1z5jVasg8IO83480Hzaw4ULOPIXdL90CXfkwRlmMCPNdQdSJ7Hn
+	 dZ+oWUhAiIjxIAXIXKE0dJ5//iIvIwInLaq01+fzOdSJcUIAc53aVVrV41K3uVyrO9
+	 4bgI6oJTzBonh/eLumJN8SvAntauWfR9AhGIjZNIwyR6bvjHBOMSCwAo+jluUjKzxF
+	 Iz3IHfzYrRDJewhvAAqTMh5tBoB9282Ahx7WTXzTtT2KuMM/mTPuF7r6Ou70ctZbxq
+	 mpuZqfJhrV7IkMZHVj27sXTUc4vzPVRcWkzTwsp3ggGuw0ijIW/tbhWsqeRZ65RMcK
+	 XD0JXuPFvW5sw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 083BF41AB8;
+	Mon, 29 Jul 2024 14:34:16 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Siddharth Menon <simeddon@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, Siddharth Menon
+ <simeddon@gmail.com>
+Subject: Re: [PATCH] Docs: Update LSM/apparmor.rst
+In-Reply-To: <20240727043315.36554-1-simeddon@gmail.com>
+References: <20240727043315.36554-1-simeddon@gmail.com>
+Date: Mon, 29 Jul 2024 08:34:16 -0600
+Message-ID: <87zfq0b72v.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729140127.244606-1-Dave.Martin@arm.com>
+Content-Type: text/plain
 
-On Mon, Jul 29, 2024 at 03:01:27PM +0100, Dave Martin wrote:
-> Since v6.8 the definition of GFP_NOWAIT has implied __GFP_NOWARN,
-> so it is now redundant to add this flag explicitly.
-> 
-> Update the docs to match, and emphasise the need for a fallback
-> when using GFP_NOWAIT.
-> 
-> Fixes: 16f5dfbc851b ("gfp: include __GFP_NOWARN in GFP_NOWAIT")
-> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+Hi, Siddharth, thanks for working to make our documentation better!
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+I do have a few comments, needless to say...:)
+
+First is that you always need to send a patch to the appropriate
+maintainers; scripts/get_maintainer.pl will help you there.
+
+Siddharth Menon <simeddon@gmail.com> writes:
+
+>     Docs: Update LSM/apparmor.rst
+>     
+>     Update AppArmor documentation after deprication of CONFIG_DEFAULT_SECURITY to enable and configuring AppArmor.
+
+Please try to stick to the 80-column limit whenever you can.  Also,
+"deprecation".
+
+>     Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+>
+> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+> ---
+>  Documentation/admin-guide/LSM/apparmor.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
+> index 6cf81bbd7ce8..f324d750468a 100644
+> --- a/Documentation/admin-guide/LSM/apparmor.rst
+> +++ b/Documentation/admin-guide/LSM/apparmor.rst
+> @@ -18,8 +18,10 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+>  
+>  If AppArmor should be selected as the default security module then set::
+>  
+> -   CONFIG_DEFAULT_SECURITY="apparmor"
+> -   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
+> +   CONFIG_DEFAULT_SECURITY_APPARMOR=y
+> +
+> +Since kernel 5.0, `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is no longer used. 
+> +Instead, the `CONFIG_LSM` parameter manages the order and selection of LSMs.
+
+The documentation covers the current state of the kernel, so we do not
+normally put historical information like that.  Best to just describe
+how things work now.
+
+Thanks,
+
+jon
