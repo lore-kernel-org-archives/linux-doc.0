@@ -1,67 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA5018E755
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 22:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8628916F278;
+	Mon, 29 Jul 2024 22:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722292083; cv=none; b=ouxtLzId1z8CphdTGrXZZWxHAydiA4UAGpHfwF326Qer+3Za3gSe8hS6j5iaHeKdV4u+pwVnCXqzoJ10hrNXA0S3V7hg/IQgZEIUdYEvkMwikYQ9SWVMt7eo8Co7DWy+lg+n3hSICFXMk2J+ZjnFSDETtl8ZWYBMz9dFVJMdrAE=
+	t=1722292618; cv=none; b=mnnDZJUXsY4+BqCc6oVejT9zA5SdJ/wBo2ty0dTwC7z7VmUzcbcCS0iNficSSvh9CorrNVwlsc9wKv5tb7dwg8fcOIz+h34/B74dG4cimThEywUD9281rLec6Cut785hcA4fUWh6/OsADkHmXwgKay4ZYzIvhFhOAssw9fLRpZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722292083; c=relaxed/simple;
-	bh=Q3BQ7BnB6Xwevn0PVjffD6TVPniDHE0DQ5GkF/Df97g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qXaK5jTS54NVazAkgDfEyv10kYII7+twXKZ4HT5uZXWiUaqYZ7CF5BbFbftPCXyQpMb0tFTuySwqN9/W9LrusW26V7krUZW9ZswKF7WL26nqhKE1EsAEsaMKyXYkgGw6EbFvDLAm1WMKRWVlIQUPpsBeVFBxi9PHV1avHk0p/Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bXEgKWc1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722292618; c=relaxed/simple;
+	bh=SrQ+kHpUP2ACt9WyyeUgaX7R+oZ0qjLs87U991V0AQg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TW7zAo8I7L7Kuz0uRrU4SEEla289Lw3tQA5LXhn53ioDFNYlibt7uFWRh3PJ6PhZ9Wuxws3LIzCJZJ+6/xGXx39C6uS2OZCTV5QAgExnWlinqhW4zpU3u6GKnKC18iLlxfcJgJYERr1tCqr8/wnwXp3r3XvLehlISreWF223e3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jf9AJLCk; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bXEgKWc1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722292081;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1dh1LJsNavfHIk0SmT2VfaSsPtsucB+yQftwoouaONk=;
-	b=bXEgKWc1kZMp6TG9E1mRbOwQzFR8e+8u641IeQlC8jXxMR0K2ZR536IBlcBI6r6ZMWx2HJ
-	u53lcOPuL4bFtNFP9AHtpspyaHfXgZvnVlwNoh4cFLIGgoCsH+URU7bEqkiir3uYETbZUi
-	LfyHmxMnbCz8rhKZHExo0EEmInIiPuo=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-CizAE6wRN66ju72-UQYRjw-1; Mon,
- 29 Jul 2024 18:27:57 -0400
-X-MC-Unique: CizAE6wRN66ju72-UQYRjw-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D75431955F3D;
-	Mon, 29 Jul 2024 22:27:55 +0000 (UTC)
-Received: from h1.redhat.com (unknown [10.22.10.55])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 07E341955F40;
-	Mon, 29 Jul 2024 22:27:51 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jf9AJLCk"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-66ca5e8cc51so28503807b3.1;
+        Mon, 29 Jul 2024 15:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722292615; x=1722897415; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qykVGFoGPcAnIbrizUh5M0ZKMFEc/YBfKf7lW7RpEhI=;
+        b=Jf9AJLCkj6EFDlBaVK8b0Ju2sSY4S/HE6gUdcM8SQ0Ik6b+/2hxMrNIQ4UftkVxRHS
+         vJa9Ngpur8WE+k7Z8QNT8SuaoeWZ813DP7rWqwQUEJvEm3BGq7F2SvzrD/CrtOTEz+E/
+         6Do5OF/9b2ZdnZZLnHgPLMCM24Uy9mBsHgQejXzuFr+uCrT0cqlhe9I5OGQhSI1PCV6H
+         oPaqnfScMtHv/L/XlcMkj6e/hXx+ltk8N69SSYsfhwsW0LEZYGQPQnKd5Wfi30kFP208
+         6c5QM5AmzLF4lHXX5l/yXK/I7JlFQ9GmRNQhW+1ElGTy/sbRVmlmgYmFOZ1AYNnxdZav
+         dn2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722292615; x=1722897415;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qykVGFoGPcAnIbrizUh5M0ZKMFEc/YBfKf7lW7RpEhI=;
+        b=K1kW2Ri2dh7kOurmla7mqlU4Bmk5sSyv/EMKAtIYL/OuQW0ZXqvn4DtKza4I6dH2cG
+         136X26yhCiH8ikPL8fIk34K4O2+p9Ojohv7XPvUE+6EHzOfXWgNNj8ZTbCyvpkeCWptD
+         oiuWYpHdw6oU7W46sq8+bhkDaGHRfY2OSPbpPDMQ59mjeYIFGOoUVeW6fr3SSTvdLd/8
+         Pq0Rs5Q947KUYDy3RatE5demIxz8wASxrHYw/ldK84QuHkrTC9VOggJ9SHm4+Ot9Of5X
+         h9EaEdp8Zt/JSmm/FFNStWzP3ZmpNhzX8OPToNngLE+ufw9cqqvjcQQRWdE5dI8KhE2I
+         F1rg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1DkXosr1wuU+gOQnKve/T1QdodFiWYXT1YmJ4kxVEnYfEd4ciciriw6v3G0gjcPhV5HpGXQpnRm3ezY6RoV+tKqGKJSF9qfgPjG/S1p1H5Kdp4xtNxTWWfHAKqHDwHMHKYMTn2W+8UCwv9kjbapplBW9w/bfARF3kXHcVhB4Y0glFWEoVXDTdh0j8Ig==
+X-Gm-Message-State: AOJu0YyGnmfYLpFtjMUZ4HqeQMdPeu7YFCLte4oDfzjpi0xxpzQG3GJr
+	azAerUVLgQ6c2ovHtY9lE7SetN0pO6yfo6OFghtBEDljaH0ERZno
+X-Google-Smtp-Source: AGHT+IGt92RufeRBsEBYPFgHHPuL4Davoxqe1ZhzlrAzS/6JFKrpECT14BVY2VmjwmydjD+68IzJkw==
+X-Received: by 2002:a81:9485:0:b0:65f:8e2f:f7a6 with SMTP id 00721157ae682-67a072ba561mr110499807b3.24.1722292615485;
+        Mon, 29 Jul 2024 15:36:55 -0700 (PDT)
+Received: from x13.. (syn-035-145-047-162.res.spectrum.com. [35.145.47.162])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756b024ab1sm22882937b3.91.2024.07.29.15.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 15:36:55 -0700 (PDT)
+From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+To: W_Armin@gmx.de,
+	corbet@lwn.net
+Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Barry Song <baohua@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Lance Yang <ioworker0@gmail.com>,
-	Peter Xu <peterx@redhat.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Rafael Aquini <aquini@redhat.com>,
-	Andrea Arcangeli <aarcange@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [RFC 2/2] mm: document transparent_hugepage=defer usage
-Date: Mon, 29 Jul 2024 16:27:27 -0600
-Message-ID: <20240729222727.64319-3-npache@redhat.com>
-In-Reply-To: <20240729222727.64319-1-npache@redhat.com>
-References: <20240729222727.64319-1-npache@redhat.com>
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
+Date: Mon, 29 Jul 2024 18:36:44 -0400
+Message-ID: <20240729223649.135639-1-luis.hernandez093@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,78 +69,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The new transparent_hugepage=defer option allows for a more conservative
-approach to THPs. Document its usage in the transhuge admin-guide.
+There were a few instances of typos that could lead to confusion
+when reading. The following words have been corrected:
+Binay -> Binary
+singe -> single
+chaged -> changed
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Barry Song <baohua@kernel.org>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Lance Yang <ioworker0@gmail.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Rafael Aquini <aquini@redhat.com>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Nico Pache <npache@redhat.com>
+Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
 ---
- Documentation/admin-guide/mm/transhuge.rst | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index 058485daf186..1946fbb789b2 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -88,8 +88,9 @@ In certain cases when hugepages are enabled system wide, application
- may end up allocating more memory resources. An application may mmap a
- large region but only touch 1 byte of it, in that case a 2M page might
- be allocated instead of a 4k page for no good. This is why it's
--possible to disable hugepages system-wide and to only have them inside
--MADV_HUGEPAGE madvise regions.
-+possible to disable hugepages system-wide, only have them inside
-+MADV_HUGEPAGE madvise regions, or defer them away from the page fault
-+handler to khugepaged.
+diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentation/wmi/devices/msi-wmi-platform.rst
+index 29b1b2e6d42c..31a136942892 100644
+--- a/Documentation/wmi/devices/msi-wmi-platform.rst
++++ b/Documentation/wmi/devices/msi-wmi-platform.rst
+@@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
  
- Embedded systems should enable hugepages only inside madvise regions
- to eliminate any risk of wasting any precious byte of memory and to
-@@ -99,6 +100,15 @@ Applications that gets a lot of benefit from hugepages and that don't
- risk to lose memory by using hugepages, should use
- madvise(MADV_HUGEPAGE) on their critical mmapped regions.
+ Due to a peculiarity in how Windows handles the ``CreateByteField()`` ACPI operator (errors only
+ happen when a invalid byte field is ultimately accessed), all methods require a 32 byte input
+-buffer, even if the Binay MOF says otherwise.
++buffer, even if the Binary MOF says otherwise.
  
-+Applications that would like to benefit from THPs but would still like a
-+more memory conservative approach can choose 'defer'. This avoids
-+inserting THPs at the page fault handler unless they are MADV_HUGEPAGE.
-+Khugepaged will then scan the mappings for potential collapses into PMD
-+sized pages. Admins using this the 'defer' setting should consider
-+tweaking khugepaged/max_ptes_none. The current default of 511 may
-+aggressively collapse your PTEs into PMDs. Lower this value to conserve
-+more memory (ie. max_ptes_none=64).
-+
- .. _thp_sysfs:
+ The input buffer contains a single byte to select the subfeature to be accessed and 31 bytes of
+ input data, the meaning of which depends on the subfeature being accessed.
  
- sysfs
-@@ -136,6 +146,7 @@ The top-level setting (for use with "inherit") can be set by issuing
- one of the following commands::
+-The output buffer contains a singe byte which signals success or failure (``0x00`` on failure)
++The output buffer contains a single byte which signals success or failure (``0x00`` on failure)
+ and 31 bytes of output data, the meaning if which depends on the subfeature being accessed.
  
- 	echo always >/sys/kernel/mm/transparent_hugepage/enabled
-+	echo defer >/sys/kernel/mm/transparent_hugepage/enabled
- 	echo madvise >/sys/kernel/mm/transparent_hugepage/enabled
- 	echo never >/sys/kernel/mm/transparent_hugepage/enabled
+ WMI method Get_EC()
+@@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller firmware version string.
+ The first 4 bits of the flag byte contain the minor version of the embedded controller interface,
+ with the next 2 bits containing the major version of the embedded controller interface.
  
-@@ -264,7 +275,8 @@ of small pages into one large page::
- A higher value leads to use additional memory for programs.
- A lower value leads to gain less thp performance. Value of
- max_ptes_none can waste cpu time very little, you can
--ignore it.
-+ignore it. Consider lowering this value when using
-+``transparent_hugepage=defer``
+-The 7th bit signals if the embedded controller page chaged (exact meaning is unknown), and the
++The 7th bit signals if the embedded controller page changed (exact meaning is unknown), and the
+ last bit signals if the platform is a Tigerlake platform.
  
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
+ The MSI software seems to only use this interface when the last bit is set.
 -- 
 2.45.2
 
