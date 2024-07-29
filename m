@@ -1,72 +1,89 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from m35-116.mailgun.net (m35-116.mailgun.net [69.72.35.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A218C347;
-	Mon, 29 Jul 2024 21:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BCA18D4DE
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jul 2024 21:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.72.35.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722288163; cv=none; b=fG8IwBXFCbuiz8peftIDVKBKRUBhmcRQCA/h3SrkcKI3N8hhybWT7doDCjk5dPA3P1WXogKSP0QNH4+DRIafa1jBtQSZqxy/7BI2xUBQ/rw4rZxgMkcesBnu8cXtZhZZ6g+L3OijSri10ez9vRTDYP5UDzBe+l6l1TcBHHOef1Q=
+	t=1722288185; cv=none; b=agSw15qMV+NRsKJYUMQZ+xET6b2ty5UvudShB+j0J9Y18+RBLtC0b2/RN8lgksTz3u/26eBWWRSxQ9cM8BOeI/MMIrUAcio36/BhwjWtvXXmFW0KtUyk8tINFyJP41GLN89lTO8M9bjkdQHbIXB0FsC/PBrPUfPfE1bJ7PRfWcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722288163; c=relaxed/simple;
-	bh=R9AYkBOD/2XH88pLTZUnOyZr105dFQRdKQvbOfY7Zgw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Kx3t5EqsqmHnGyyX3+sKTQT0c60d9vdqGuy3XfkTVUVk09hjvchOdxpTsm5Q/5kw42T+K3pfORphdGz/MOTaq0o6girMZ1QrCk5czIIfSC5fIv2LxHdbog/GC4eZI1WEVJlRC+4dvK5FvdjEVxS+NZH/bfO9WKebt7nNyVSCK9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EILztsLB; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1722288185; c=relaxed/simple;
+	bh=54Ak1+K4R79/npDbs4UtUU9rG6vREN5KRCLxgY0YgX0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W8t/Pu/tKotMUftc1ane7IYDbfnoUdafyfdR3X2QlgdxghODgF7u2a8Xnfd/xdUFujIA6DMzX87B6RCwdx7szrRrugLn61UR5gTdiGMfqpHfzk6NHOjTHAOhQNi8xUSfz7cYeuJgLZGnX4wuPk3R+IuNUUmx+D8Z10AiTIPM0Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=pass smtp.mailfrom=relay.vimeo.com; dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b=ffqgKZRz; arc=none smtp.client-ip=69.72.35.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=relay.vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EILztsLB"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 52EBA418A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722288161; bh=RyWZEF0uE9/GpLstC3B/M0wdGvTdWYuUuUk/b7Hmmtw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EILztsLBvixPKyKKQiXvht4WAw9bjPe5PsvtOjA7Qy4IBLaVa1wWZBbVHyqEq5ICZ
-	 F9TRmffappnsBxtwjR/aWl7XIJ6+DbxayS0XcEaQzBBZcCBcINzbvn2w7DSrO83IP5
-	 Cpo9jyWPXg/af4l6XEfe1kRiLqJWXaTju37ko5fMlKHXK6iDxy2syqGqXp/LNIjqLu
-	 S64TJ/Vg/WbdgO0NdVaOOrMHrQtsj8wt6Y88b+t45Wf5W2pH79jhBVjfzbxZp+ulyb
-	 /dSJrEYdXdadtg7PjMFOgS9xBiI7aYQUMqxf5Y8w+/DtUYSlf23aEE2gk+nlnIDLnd
-	 0mr4mTOp3qJ4w==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 52EBA418A0;
-	Mon, 29 Jul 2024 21:22:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: si.yanteng@linux.dev, Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Bill
- Wendling <morbo@google.com>, Justin
- Stitt <justinstitt@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH] docs/zh_CN: add the translation of
- kbuild/headers_install.rst
-In-Reply-To: <a17a7994657696fbba9c9be29c35629ef512f85b@linux.dev>
-References: <20240726145754.2598197-1-dzm91@hust.edu.cn>
- <a17a7994657696fbba9c9be29c35629ef512f85b@linux.dev>
-Date: Mon, 29 Jul 2024 15:22:40 -0600
-Message-ID: <8734nrao67.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=relay.vimeo.com header.i=@relay.vimeo.com header.b="ffqgKZRz"
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=relay.vimeo.com; q=dns/txt; s=mailo; t=1722288182; x=1722295382;
+ h=Content-Transfer-Encoding: MIME-Version: Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=a7Ljw3AXkZDzOFLBKFNTY35O0ifJdJ40YsuUE1AtXfE=;
+ b=ffqgKZRzwWe/rjwPkeU0auwsgZE8n2OXANRPo2taxUJDP0teyQ4lDzl9KAoWMQDz6Vi3AkQYEEsFq7Zi8tFTJ4tx4GDVV7Kc3rRIxBKnd4mM1Wi1rHVoow4GSeaC/aqKf/TWK8teWRy6j+WIyIieLSgxGzM/u9FBtrxxp7rjo6c=
+X-Mailgun-Sending-Ip: 69.72.35.116
+X-Mailgun-Sid: WyJhZDBhNyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5ZDJhMWMiXQ==
+Received: from smtp.vimeo.com (215.71.185.35.bc.googleusercontent.com [35.185.71.215])
+ by 1ba2f445e949 with SMTP id 66a80836c423567e51c57d51 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 29 Jul 2024 21:23:02 GMT
+Sender: davidf=vimeo.com@relay.vimeo.com
+Received: from nutau (gke-sre-us-east1-main-c45160e0-ow8k.c.vimeo-core.internal [10.56.27.211])
+	by smtp.vimeo.com (Postfix) with ESMTP id 120CA64FC7;
+	Mon, 29 Jul 2024 21:23:02 +0000 (UTC)
+Received: by nutau (Postfix, from userid 1001)
+	id 5BB66B409D2; Mon, 29 Jul 2024 10:38:00 -0400 (EDT)
+From: David Finkel <davidf@vimeo.com>
+To: Muchun Song <muchun.song@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: core-services@vimeo.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Shuah Khan <shuah@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+Subject: [PATCH v6] mm, memcg: cg2 memory{.swap,}.peak write handlers
+Date: Mon, 29 Jul 2024 10:37:41 -0400
+Message-Id: <20240729143743.34236-1-davidf@vimeo.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-si.yanteng@linux.dev writes:
+This is an updated patchset rebasing onto -torvalds master (post
+6.11-rc1), and addressing comments from Michal and Tejun.
 
->> \ No newline at end of file
-> Add a blankline.
->
-> With this:
->
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+As requested by Tejun and Johannes, I've removed the explicit check for
+the string "reset", so it now allows any non-empty string. (Empty
+strings get filtered before our write handler executes)
 
-I went ahead, applied the patch, and fixed this.  Next time, it would be
-nice if I didn't have to do that final step :)
+I've also made several of the field reads and writes atomic with
+{READ,WRITE}_ONCE, and adjusted more of the types to be unsigned.
 
-Thanks,
+Documentation/admin-guide/cgroup-v2.rst          |  22 ++--
+include/linux/cgroup-defs.h                      |   5 +
+include/linux/cgroup.h                           |   3 +
+include/linux/memcontrol.h                       |   5 +
+include/linux/page_counter.h                     |  11 +-
+kernel/cgroup/cgroup-internal.h                  |   2 +
+kernel/cgroup/cgroup.c                           |   7 +
+mm/memcontrol.c                                  | 116 +++++++++++++++--
+mm/page_counter.c                                |  30 +++--
+tools/testing/selftests/cgroup/cgroup_util.c     |  22 ++++
+tools/testing/selftests/cgroup/cgroup_util.h     |   2 +
+tools/testing/selftests/cgroup/test_memcontrol.c | 229 +++++++++++++++++++++++++++++++--
+12 files changed, 419 insertions(+), 35 deletions(-)
 
-jon
+[1]: https://lore.kernel.org/cgroups/20240724161942.3448841-3-davidf@vimeo.com/T/
+
+
+
