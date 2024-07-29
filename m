@@ -1,47 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA38713A88D;
-	Mon, 29 Jul 2024 21:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A218C347;
+	Mon, 29 Jul 2024 21:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722287468; cv=none; b=tJhIQ2jY8qJus0T2B7ofsHY7pyFAxzq/0xtANtPptA7qmaVVQmF6nhbW1raJrAvWIDhhw9ebWfxtWeSJ1/TvIS2Lcoy9uEIxlVBmpjB1eVTktgmPLgSGxeSXGueJ3YZZiMj1tnMx7MaVBJoYgnABSirSxA3OQfAEXarJCykIsV4=
+	t=1722288163; cv=none; b=fG8IwBXFCbuiz8peftIDVKBKRUBhmcRQCA/h3SrkcKI3N8hhybWT7doDCjk5dPA3P1WXogKSP0QNH4+DRIafa1jBtQSZqxy/7BI2xUBQ/rw4rZxgMkcesBnu8cXtZhZZ6g+L3OijSri10ez9vRTDYP5UDzBe+l6l1TcBHHOef1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722287468; c=relaxed/simple;
-	bh=7N8zGWZbkIrI+9GXsmFJK5ZBSTWzlDH21ZdcerrJyBo=;
+	s=arc-20240116; t=1722288163; c=relaxed/simple;
+	bh=R9AYkBOD/2XH88pLTZUnOyZr105dFQRdKQvbOfY7Zgw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sYrbANE9Hdpm0+NvNy3mbkeHRHS9gxhY/6S0uqT7h+QbGF9d2kqzEheV3c5oVjZ/XCzWIHkLxkvnHvaa/j82Kpa7cMh5E2WAflZxxD7LqxkE5LQglaFdgpQ306vXMowMaQMlnbXXpMu8ypu1mNYF9AJETisHQUQeW1dWy5B91c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PHRi+uoZ; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Kx3t5EqsqmHnGyyX3+sKTQT0c60d9vdqGuy3XfkTVUVk09hjvchOdxpTsm5Q/5kw42T+K3pfORphdGz/MOTaq0o6girMZ1QrCk5czIIfSC5fIv2LxHdbog/GC4eZI1WEVJlRC+4dvK5FvdjEVxS+NZH/bfO9WKebt7nNyVSCK9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EILztsLB; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PHRi+uoZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C40E141A2D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EILztsLB"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 52EBA418A0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722287461; bh=03NG19DlTxsjflgEUiClMvPn5IFMTSm0+ZrurIHM9gE=;
+	t=1722288161; bh=RyWZEF0uE9/GpLstC3B/M0wdGvTdWYuUuUk/b7Hmmtw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PHRi+uoZNMfc2CQxvrYzIAKPfxG1FOoXBLLICZ2V6u6dfsR/nN1xpmFP1kSzyD4P1
-	 dYryOOYF4be0Z3ydD0cF4q+WYP3fx3cmmKmeBUmtKXWckrQw59kZ7g4DAbmYLLtYb4
-	 9bc6/07JZwKnipBp5+5dK4vx0sFqvX8PqkUKU2irjPJXh+5lG2C8yhZYF3kTMhR/+0
-	 pDGvf3o6iVJyP/6Wx5FOIH9/0RQabRa6HDmdvLudXmG9362Tbv+mwUtEq3ODlxmV2x
-	 Jvi1PcZJA0rp4AffIGyL2pnajpS0DrS+yPySxiLCgBaeGRkCVNFPOy3QG3bfW0k677
-	 S1hodehu8qkcA==
+	b=EILztsLBvixPKyKKQiXvht4WAw9bjPe5PsvtOjA7Qy4IBLaVa1wWZBbVHyqEq5ICZ
+	 F9TRmffappnsBxtwjR/aWl7XIJ6+DbxayS0XcEaQzBBZcCBcINzbvn2w7DSrO83IP5
+	 Cpo9jyWPXg/af4l6XEfe1kRiLqJWXaTju37ko5fMlKHXK6iDxy2syqGqXp/LNIjqLu
+	 S64TJ/Vg/WbdgO0NdVaOOrMHrQtsj8wt6Y88b+t45Wf5W2pH79jhBVjfzbxZp+ulyb
+	 /dSJrEYdXdadtg7PjMFOgS9xBiI7aYQUMqxf5Y8w+/DtUYSlf23aEE2gk+nlnIDLnd
+	 0mr4mTOp3qJ4w==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C40E141A2D;
-	Mon, 29 Jul 2024 21:11:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 52EBA418A0;
+	Mon, 29 Jul 2024 21:22:41 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Mike
- Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] docs/core-api: memory-allocation: GFP_NOWAIT doesn't
- need __GFP_NOWARN
-In-Reply-To: <20240729140127.244606-1-Dave.Martin@arm.com>
-References: <20240729140127.244606-1-Dave.Martin@arm.com>
-Date: Mon, 29 Jul 2024 15:11:01 -0600
-Message-ID: <877cd3aopm.fsf@trenco.lwn.net>
+To: si.yanteng@linux.dev, Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Bill
+ Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] docs/zh_CN: add the translation of
+ kbuild/headers_install.rst
+In-Reply-To: <a17a7994657696fbba9c9be29c35629ef512f85b@linux.dev>
+References: <20240726145754.2598197-1-dzm91@hust.edu.cn>
+ <a17a7994657696fbba9c9be29c35629ef512f85b@linux.dev>
+Date: Mon, 29 Jul 2024 15:22:40 -0600
+Message-ID: <8734nrao67.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,48 +55,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Dave Martin <Dave.Martin@arm.com> writes:
+si.yanteng@linux.dev writes:
 
-> Since v6.8 the definition of GFP_NOWAIT has implied __GFP_NOWARN,
-> so it is now redundant to add this flag explicitly.
+>> \ No newline at end of file
+> Add a blankline.
 >
-> Update the docs to match, and emphasise the need for a fallback
-> when using GFP_NOWAIT.
+> With this:
 >
-> Fixes: 16f5dfbc851b ("gfp: include __GFP_NOWARN in GFP_NOWAIT")
-> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
->
-> ---
->
-> Based on: v6.11-rc1
->
-> This change also evaporates the apparent typo of __GFP_NOWARN without
-> the underscores in the documentation, but that doesn't really feel like
-> it merits a dedicated patch.
->
-> Not sure if this really merits a Fixes tag, but the docmuentation
-> update might as well be picked into trees that have the corresponding
-> code change.
->
-> ---
->  Documentation/core-api/memory-allocation.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index 8b84eb4bdae7..0f19dd524323 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -45,8 +45,9 @@ here we briefly outline their recommended usage:
->    * If the allocation is performed from an atomic context, e.g interrupt
->      handler, use ``GFP_NOWAIT``. This flag prevents direct reclaim and
->      IO or filesystem operations. Consequently, under memory pressure
-> -    ``GFP_NOWAIT`` allocation is likely to fail. Allocations which
-> -    have a reasonable fallback should be using ``GFP_NOWARN``.
-> +    ``GFP_NOWAIT`` allocation is likely to fail. Users of this flag need
-> +    to provide a suitable fallback to cope with such failures where
-> +    appropriate.
->    * If you think that accessing memory reserves is justified and the kernel
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-Applied, thanks.
+I went ahead, applied the patch, and fixed this.  Next time, it would be
+nice if I didn't have to do that final step :)
+
+Thanks,
 
 jon
