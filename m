@@ -1,66 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C78CA6B;
-	Tue, 30 Jul 2024 14:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32CF19F460;
+	Tue, 30 Jul 2024 15:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722351310; cv=none; b=MFlcYozpZMCr34qWIkJHpbdD8MC5WSsCcf2axegArAAazf0HvYWPq+AljkHjNpEXwbLEulIRpnRFgQljx+x+meR3uK8XVsQfMXLyLWtvJAmo1g/6fhrnYQuhPWM5OvTzFkdLjcdIYqvuRamne28ES623K7fzb1L56vvxzsgxiYQ=
+	t=1722352452; cv=none; b=apx4wgGdbE+LU2qxANgJ9lvFOUq8XgJU9CIGyjuL212wrCycIqU5K5OltsRG4OUPQFKKZ3qRpUGjnTXw1rH88n9AQQNMK9K6GKTVSmsWVRGSHPGePzbyVfTiSwwu2gXB/3jnb0ExeXkievG57w4AdkHQ619zTLD0aCNDtz6jcGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722351310; c=relaxed/simple;
-	bh=yTFuW1zZ0h5VOsw/16TAkTrWhwKTT7NDMXQBE9DcRrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I5qKVtcWzNNgHcxObbkxHQFhYyidWFg2ibtCPhNMCDtHlEYSV97zPT4KhBjy7F8oIgk+sgErA8pJf71XHkScKDAD7bBg2zcMaKyYDp8szKviuCtYTdlmRgQY/ldiFTwgqv1qBbQXX01g/NWTA9ILWUIsWwQTsMpTK3S3VHfdWtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WWbP96v3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722352452; c=relaxed/simple;
+	bh=G7olTp+JVH0komHzy6yisCwS5gsRYI99eQm8NvwiO4o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s0Hs3gk1dsbgGiYOU6Mh/biYQ3ha4NR++ytYC4KHsObCl8e353ourT3gMal0n8GAFgljlo17WjoCGj2vN40XYL8uuiOqxD+wxS1MFqshmfxjLAPIk0XFEDGY6jZFZtF2bEguXrxPebGVY+rTueK65ruXrxkH4WTnLCa7uADYM9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jARDfFkA; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WWbP96v3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2983C4AF0C;
-	Tue, 30 Jul 2024 14:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722351309;
-	bh=yTFuW1zZ0h5VOsw/16TAkTrWhwKTT7NDMXQBE9DcRrA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WWbP96v33470og1PQG5/a/iPCkO4o1YDteo3goQhYpVhVnbi6Uixvw+2Q/4Z4Eg+T
-	 l2hYwqzkSxfUH53kNtL6dApvsIlv66ATHQOMGh+s95E6V/LUugE+Ic7J4gDELIhszz
-	 GqFPUjKq9Jw2U2ihSwiutwviqXB2WAYu4fAtKzhOAgnKBWlpekj+wdAcTttpmIwsh3
-	 veSeyYAcjKG0rb1QC80/MXtO+ikY1b2NZ4WNV90buWKyfSPrnKVFO8DNfjeF2zE/au
-	 mQrnFtQJGezT7pL7RVQbXgXYm5xo556KhTu3jOio4wUJGSlxxxzagoT9QSe3aRh6Br
-	 ks5nce1/xL8Ng==
-Date: Tue, 30 Jul 2024 07:55:07 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend
- <john.fastabend@gmail.com>, Vinicius Costa Gomes
- <vinicius.gomes@intel.com>, Jonathan Corbet <corbet@lwn.net>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Shinas Rasheed
- <srasheed@marvell.com>, Kevin Tian <kevin.tian@intel.com>, Brett Creeley
- <brett.creeley@amd.com>, Blanco Alcaine Hector
- <hector.blanco.alcaine@intel.com>, Joshua Hay <joshua.a.hay@intel.com>,
- Sasha Neftin <sasha.neftin@intel.com>, intel-wired-lan@lists.osuosl.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH iwl-next,v1 0/3] Add Default Rx Queue Setting for igc
- driver
-Message-ID: <20240730075507.7cf8741f@kernel.org>
-In-Reply-To: <20240730012212.775814-1-yoong.siang.song@intel.com>
-References: <20240730012212.775814-1-yoong.siang.song@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jARDfFkA"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f035ae1083so62237221fa.3;
+        Tue, 30 Jul 2024 08:14:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722352448; x=1722957248; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+Di2/8YssPRfers/vmrU3+BsD5CicPCCbwFzOYDiAck=;
+        b=jARDfFkAr9/RniYuCKZ7I3jaK51qtud052PVWaUG1/lAitBlEHmdmAGePggXYWGifs
+         ba+AGPAGJXxFQJo9evoEYC3op6bqN6YnLj2z5sJ2vL73cimzY4+5cLTb1ZC2Lf38d/d6
+         1hCXJu5oU2Qcu9s0aUv0fBYoeUYEpjU2OMV90IRa593vqaAWZg0i5AX7ovtkF6LEx9+3
+         kjtyZyDDHp6GlJVXkAFzCcGN3cIAO3mrQPHWQDC3DndDwJdBGyTYZqheQq3g4g96Ke2d
+         ENZOlpZv59Q3RTbOwwJinny86mMukzK2jfoF0uG4BOpKGl/Irt/uoWYzxqJ1irg2SEnv
+         dtMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722352448; x=1722957248;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Di2/8YssPRfers/vmrU3+BsD5CicPCCbwFzOYDiAck=;
+        b=G7mGkfXGFVSg8YXPs02ommekr+DwpVwyP/cShz1ZTA+Bb+z1MIPBYeAl9KfvlB7VWF
+         MlZLNn2Dd1y7DE0QxAoSjhP1ItQ0E05SXXTket30v1fuzMMqQg5wn88T12mqe38G4Lhu
+         1JETK0QWMR9FOeTc4h4sz1GTnOqphWxUIQDaPIy7UhgDK1U1yCeP6FvgpohyIzO5sTRb
+         v/6U6sIELYDYls9KdbAPQZ7T8LX3rhm2z+1hz5k5ErMPIRldVzaFmYE0+Bh3yJ9GPZ/W
+         Lz0frxFJC4q9snVgcMSpvCsrlouF52lATOsMSVvmz9ughu+ukr6icwX9NQzsocorin9V
+         8V5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXSXeN4hXuLL3D5Gy6yC/x7YXkUi4+59C1h+VpDA82k32eLyLDv4F/OgCZTv61ej5nW7035JcL4KxzuW6YtAIJ8VB9ciKllrVUDpP4tQmMNu/TiBIz6o7YKQ7JtuOo28PuWDdsTj7j5
+X-Gm-Message-State: AOJu0YzIcgAziGpEBp4cpvcgtaAY7px7xIPhXiLwUHC0UoQ/768aO2sF
+	9waXyhpC6N0KawCVLY4z/HeSxInbyomsRFaGO/l9eVzcwbztiIYj
+X-Google-Smtp-Source: AGHT+IE/Lt8axMzl77LE+H3Ini9UrgGDIsDI6nB4O+v5YpjSHw23iRYXLlWkI8h6dhjDCu1jBAI5LQ==
+X-Received: by 2002:a2e:330e:0:b0:2ef:2472:300a with SMTP id 38308e7fff4ca-2f12edfc2a1mr73952151fa.2.1722352447300;
+        Tue, 30 Jul 2024 08:14:07 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::4:6947])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac63590e7esm7306190a12.36.2024.07.30.08.14.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jul 2024 08:14:07 -0700 (PDT)
+Message-ID: <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
+Date: Tue, 30 Jul 2024 16:14:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] mm: split underutilized THPs
+To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Jul 2024 09:22:12 +0800 Song Yoong Siang wrote:
-> This patch set introduces the support to configure default Rx queue during runtime.
-> A new sysfs attribute "default_rx_queue" has been added, allowing users to check
-> and modify the default Rx queue.
 
-Why the extra uAPI.. a wildcard rule directing traffic to the "default"
-queue should do.
+
+On 30/07/2024 15:35, David Hildenbrand wrote:
+> On 30.07.24 14:45, Usama Arif wrote:
+>> The current upstream default policy for THP is always. However, Meta
+>> uses madvise in production as the current THP=always policy vastly
+>> overprovisions THPs in sparsely accessed memory areas, resulting in
+>> excessive memory pressure and premature OOM killing.
+>> Using madvise + relying on khugepaged has certain drawbacks over
+>> THP=always. Using madvise hints mean THPs aren't "transparent" and
+>> require userspace changes. Waiting for khugepaged to scan memory and
+>> collapse pages into THP can be slow and unpredictable in terms of performance
+>> (i.e. you dont know when the collapse will happen), while production
+>> environments require predictable performance. If there is enough memory
+>> available, its better for both performance and predictability to have
+>> a THP from fault time, i.e. THP=always rather than wait for khugepaged
+>> to collapse it, and deal with sparsely populated THPs when the system is
+>> running out of memory.
+>>
+>> This patch-series is an attempt to mitigate the issue of running out of
+>> memory when THP is always enabled. During runtime whenever a THP is being
+>> faulted in or collapsed by khugepaged, the THP is added to a list.
+>> Whenever memory reclaim happens, the kernel runs the deferred_split
+>> shrinker which goes through the list and checks if the THP was underutilized,
+>> i.e. how many of the base 4K pages of the entire THP were zero-filled.
+>> If this number goes above a certain threshold, the shrinker will attempt
+>> to split that THP. Then at remap time, the pages that were zero-filled are
+>> not remapped, hence saving memory. This method avoids the downside of
+>> wasting memory in areas where THP is sparsely filled when THP is always
+>> enabled, while still providing the upside THPs like reduced TLB misses without
+>> having to use madvise.
+>>
+>> Meta production workloads that were CPU bound (>99% CPU utilzation) were
+>> tested with THP shrinker. The results after 2 hours are as follows:
+>>
+>>                              | THP=madvise |  THP=always   | THP=always
+>>                              |             |               | + shrinker series
+>>                              |             |               | + max_ptes_none=409
+>> -----------------------------------------------------------------------------
+>> Performance improvement     |      -      |    +1.8%      |     +1.7%
+>> (over THP=madvise)          |             |               |
+>> -----------------------------------------------------------------------------
+>> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+>> -----------------------------------------------------------------------------
+>> max_ptes_none=409 means that any THP that has more than 409 out of 512
+>> (80%) zero filled filled pages will be split.
+>>
+>> To test out the patches, the below commands without the shrinker will
+>> invoke OOM killer immediately and kill stress, but will not fail with
+>> the shrinker:
+>>
+>> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+>> mkdir /sys/fs/cgroup/test
+>> echo $$ > /sys/fs/cgroup/test/cgroup.procs
+>> echo 20M > /sys/fs/cgroup/test/memory.max
+>> echo 0 > /sys/fs/cgroup/test/memory.swap.max
+>> # allocate twice memory.max for each stress worker and touch 40/512 of
+>> # each THP, i.e. vm-stride 50K.
+>> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+>> # killer.
+>> # Without the shrinker, OOM killer is invoked immediately irrespective
+>> # of max_ptes_none value and kill stress.
+>> stress --vm 1 --vm-bytes 40M --vm-stride 50K
+>>
+>> Patches 1-2 add back helper functions that were previously removed
+>> to operate on page lists (needed by patch 3).
+>> Patch 3 is an optimization to free zapped tail pages rather than
+>> waiting for page reclaim or migration.
+>> Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
+>> subpages when splitting THP.
+>> Patches 6 adds support for THP shrinker.
+>>
+>> (This patch-series restarts the work on having a THP shrinker in kernel
+>> originally done in
+>> https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
+>> The THP shrinker in this series is significantly different than the
+>> original one, hence its labelled v1 (although the prerequisite to not
+>> remap clean subpages is the same).)
+> 
+> As shared previously, there is one issue with uffd (even when currently not active for a VMA!), where we must not zap present page table entries.
+> 
+> Something that is always possible (assuming no GUP pins of course, which) is replacing the zero-filled subpages by shared zeropages.
+> 
+> Is that being done in this patch set already, or are we creating pte_none() entries?
+> 
+
+I think thats done in Patch 4/6. In function try_to_unmap_unused, we have below which I think does what you are suggesting? i.e. point to shared zeropage and not clear pte for uffd armed vma.
+
+	if (userfaultfd_armed(pvmw->vma)) {
+		newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
+					       pvmw->vma->vm_page_prot));
+		ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
+		set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
+	}
