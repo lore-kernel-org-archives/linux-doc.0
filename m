@@ -1,113 +1,138 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CCE19DF41;
-	Tue, 30 Jul 2024 11:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D15C1991DB;
+	Tue, 30 Jul 2024 12:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722338969; cv=none; b=S9LY8JvbIAu4KwM2HNe2lDAgSFrjyPGkQtgWJis+qNOYDFMNJWCZkEWCpoo9iWs9KtiQ2GRHRI0uEe+7ZreifnoYG/RxMhhM5bZUxBU6iy9RJptOVdlo9mFX5sMBkJLhTIM9INW1FsKC7IxOLA8TkUOP09dm2CjHTEZAmJR4W/U=
+	t=1722342340; cv=none; b=RuBOHNbYZIKtlKK4u8poWIEYKrEYzGTERZEmgToas4YnBgz4ra+KxfbOd8cZWmkJU7kZSJzAvL0iMeziC5sBfBTCxtPC1200EFxcQIDJDmq/jB44NuHSD3AjLLWSXWtZFwC2QfMinfN/kTCiN6QVsl9PbcmYWxZVfOROy6t9GKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722338969; c=relaxed/simple;
-	bh=aIydPvqJA2em2PQ8rQgyo2FGOfcmh0a+5O18l211/5U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=T5Vz/og/GuqUu3WbUL8MEUOg9y0wgpJqBsx/y/bTJyOk2WIMdbRTHbdx3O4HOdt4fF4W0WBidKVbDPM7On7z3V++q8B+HVha3Je0o8fOJWwlyLow2N5Rs0Rj5UjU6a8K0cuXYD7zr1MBDvSmQqpl73KSOq6m1LBdx1SkWrzMC4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=j0hyiaym; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dESyCu4j; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1722342340; c=relaxed/simple;
+	bh=qdDMP7323l8v6fO21UUWMEocD4966D9stt8FVHJsOUI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uIn2a4OdkzCFPoDM41log4Y5ACVkkTtDXTFaYnhkRXIMujBkP5mjTiicuJUuaV/b7922WmPOwV2+wlYNAT2vQR77EC+ymR7Gij7evi0i5kNIdyrrxjRH+CmPPFDSKqcxfBLIp7/GX0ompjdpmYpJRFXUJFUM73H5Dlq1LAc20LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=qNLrnyDz; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="j0hyiaym";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dESyCu4j"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1722338966;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTD/R6R0srsJVGCxFPEOiXeBb576WkIuMblUhuZTAbo=;
-	b=j0hyiaymqL2DdUjfhT3Vq0LnIl2oArFS1FLzP578NQGGFzOiqLlMNqsbt6rjN+Ts1NYhMX
-	hTteEza9ncc0tIAiPLacR2x7rVilXwngsw2He58eFrf9wBJ39c+6yug3MzcP+pBKrT5K8V
-	dNDh3x744TmfA9gCPjtwNFdoVemdimoMw0DeiWxc2JKwjPqVks3o4cnO/bzBZJzVpAO7gi
-	11S/6xt/4D+26Oo0QfMFCiXmNu31a8mGJ9DPSoDO/BMaFJLY/aqebsnZCXL7PmX4jV6L/v
-	CAWjBF/O+iq757EStkCoBbkbHX4HMSiD3xH4APxcwicPBwK9U+GhEDY6WnLokA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1722338966;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qTD/R6R0srsJVGCxFPEOiXeBb576WkIuMblUhuZTAbo=;
-	b=dESyCu4j7dkif/Co9M2x5fkynoy1U9lTlSvznKsKHWhLCxufiHK9LkvWqpoVaTLzn6CBKV
-	B1HHfPLKWXVrvyBg==
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Tianyang Zhang <zhangtianyang@loongson.cn>, corbet@lwn.net,
- alexs@kernel.org, siyanteng@loongson.cn, kernel@xen0n.name,
- jiaxun.yang@flygoat.com, gaoliang@loongson.cn, wangliupu@loongson.cn,
- lvjianmin@loongson.cn, yijun@loongson.cn, mhocko@suse.com,
- akpm@linux-foundation.org, dianders@chromium.org, maobibo@loongson.cn,
- xry111@xry111.site, zhaotianrui@loongson.cn, nathan@kernel.org,
- yangtiezhu@loongson.cn, zhoubinbin@loongson.cn, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Huacai Chen
- <chenhuacai@loongson.cn>
-Subject: Re: [PATCH V7] LoongArch: Add AVEC irqchip support
-In-Reply-To: <CAAhV-H7c0Gtjf-6iS-E4nviMqmPWpJMNwvhWf0fLBx75pDXtrQ@mail.gmail.com>
-References: <20240726102443.12471-1-zhangtianyang@loongson.cn>
- <87o76kuqza.ffs@tglx>
- <CAAhV-H7c0Gtjf-6iS-E4nviMqmPWpJMNwvhWf0fLBx75pDXtrQ@mail.gmail.com>
-Date: Tue, 30 Jul 2024 13:29:26 +0200
-Message-ID: <87r0bb6ru1.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qNLrnyDz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1722342331; x=1722947131; i=w_armin@gmx.de;
+	bh=bussN/ItGE7hyQ7qjLYxNnxcmLOLpXWhjXARu85qVog=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=qNLrnyDzulH4CN/hF55v0aev87OBUJlDIB4Mq0TtdVEikhUwFJZCNDKezANHEN5h
+	 yocU7fNnNpgT+O/qSEV772TTfV9rEPEr/Mc0fr6W2V2BqiZ85gJ83SERuX7aaiHL9
+	 3wqquhMbxMIYF45hu2295RCfkhmjVqu1IB9Cd75g+3PDR/D6TUch/yVobIZLCktEZ
+	 n0JJh9yI22zZVkJIRopZ3pN5SRrUHiACedgmXrTEscqPoyjBxuF5Y6e7e1uZ0L+P1
+	 FWzP/yT0Ed+wBHvs8z/Z1zrH0p6Xwr2ocidAgq84PO7sWiNoNkhgmc4YsufkKCohm
+	 CCWBu34iQc/qa6esag==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9g4-1sTHj51A4a-008mNj; Tue, 30
+ Jul 2024 14:25:31 +0200
+Message-ID: <87bfdaa2-5b94-46b1-bbf7-d81245c7d658@gmx.de>
+Date: Tue, 30 Jul 2024 14:25:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>, corbet@lwn.net
+Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240729223649.135639-1-luis.hernandez093@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20240729223649.135639-1-luis.hernandez093@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IzHrU+9R1FGoUahWzPtYbZQXRyIJcVLmyBbTiP1Yaq7sqhyYw8H
+ mjRD+L06aLbz1IS5TkiNQrAMULuXVxHdNjh325hYz2S1f6TXQxQ8dSrdmh7to+DdfhyJ8p0
+ pPj1Q+Ou+zhWoA+JJaWq6cnbBPgUranxWiUiSd+N+55ch27wSSR4EmgESjw2JYSm3o8dP+A
+ FhJ1LwnjH3COSlRDHHVgg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9fq1H++DdOI=;MB0Yui693RYl/p+ccc3bWftwDLn
+ V/x7jTl+n4AUDQMUlvWauiJfOduFRrtN4av8a8FI38fbnHV46IDfUXGhR00gXkuXqOkDTnhFR
+ r0pzwr5FPpO8vWbsQgPHUnplHCMgNBb4Bxn8NAlsJ2LeNpDOdydazcd3plcu7Xmid+EMcuUaP
+ /3XPE8SvlOskKJj8kC5JK2FzyRXTXm+TSmfnxrEY3xXDEPw3IHtZZa4mTkLg+eb7GF5LmvDAq
+ 3/o7sUY8nKHkl4Pszsmgjsfhe1Ofn0Ohth61xgRcaHDUJmjTAsNMLfrXMLRfmQhHyf6PozVK9
+ U1RXBGszSjkNAtCPBlfqJD2FF9q+8msBPhNNKfe/sD6EELGTWq0mu8ASXPrMUq1NXSEJK5zNQ
+ a2ElU27+Nk9dw+s+K2zn/O6QPT3cj0UduHGNRdW8JZLsH6/EnGSlVtMqyT7SNBN5R/O0ybia9
+ wH/B0PwhQM+zRAVOmm0mjA44It0qK9UxPZLr5wrl7mefii3U91P05qRS4BZJIe3P5irQbXhYm
+ pU35/5EK+TnltquPD8/9tle3+IjdJE/ez/zOp61Pe3q8tcYCLuwotvVbwB9786t5KXTzycGjh
+ ChWBTGehNfHi79KZ9DX/L6SHyYTxUB/kDaptcQd1JrQ/Rn03hqbp52chTdnYzchaq8Uz+JVbK
+ Y7ExgW0y4uphd+1SCiBVeYV7oUoMg6ghsJR9z9PrtNWKI1GH4XSKvDSouMRE8kFKqZTxxVFA5
+ J+WvkXWAROt3y8dlpnPpTXaQvTLEOi3ufSo/LXgUOQGSdpFCClziflMc6mC/CDYhF5jIt/G65
+ SjfvpV7ctWz5RN591bb/M2jg==
 
-Huacai!
+Am 30.07.24 um 00:36 schrieb Luis Felipe Hernandez:
 
-On Tue, Jul 30 2024 at 16:51, Huacai Chen wrote:
-> On Fri, Jul 26, 2024 at 11:12=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
-.de> wrote:
->> > +     while (true) {
->> > +             vector =3D csr_read64(LOONGARCH_CSR_IRR);
->> > +             if (vector & IRR_INVALID_MASK)
->> > +                     break;
->> > +
->> > +             vector &=3D IRR_VECTOR_MASK;
->> > +
->> > +             d =3D this_cpu_read(irq_map[vector]);
->> > +             if (d)
->> > +                     generic_handle_irq_desc(d);
->> > +             else {
->>
->> See bracket rules.
-> Do you mean even if there is only one statement in the if condition,
-> we still need to do like this?
-> if (xxx) {
->     yyy;
-> } else {
->     zzz;
-> }
+> There were a few instances of typos that could lead to confusion
+> when reading. The following words have been corrected:
+> Binay -> Binary
+> singe -> single
+> chaged -> changed
 
-Yes. It's documented.
+Hi,
 
->> > +     msi_domain =3D pci_msi_create_irq_domain(pch_msi_handle[0],
->> > +                                            &pch_msi_domain_info_v2, =
-parent);
->>
->> Please don't do that. Convert this to use per device MSI domains.
-> OK, thanks. But it is better to split the conversion to another patch
-> (so we can convert both V1 and V2).
+please change the title to "platform/x86: msi-wmi-platform: Fix spelling m=
+istakes".
+With that being addressed:
 
-Why adding it first?
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
 
-This can be done per interrupt chip. See the conversion series for
-ARM[64]:
-
-    https://lore.kernel.org/r/20240623142137.448898081@linutronix.de
-
-Thanks,
-
-        tglx
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+> ---
+>   Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentat=
+ion/wmi/devices/msi-wmi-platform.rst
+> index 29b1b2e6d42c..31a136942892 100644
+> --- a/Documentation/wmi/devices/msi-wmi-platform.rst
+> +++ b/Documentation/wmi/devices/msi-wmi-platform.rst
+> @@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bm=
+fdec>`_ utility:
+>
+>   Due to a peculiarity in how Windows handles the ``CreateByteField()`` =
+ACPI operator (errors only
+>   happen when a invalid byte field is ultimately accessed), all methods =
+require a 32 byte input
+> -buffer, even if the Binay MOF says otherwise.
+> +buffer, even if the Binary MOF says otherwise.
+>
+>   The input buffer contains a single byte to select the subfeature to be=
+ accessed and 31 bytes of
+>   input data, the meaning of which depends on the subfeature being acces=
+sed.
+>
+> -The output buffer contains a singe byte which signals success or failur=
+e (``0x00`` on failure)
+> +The output buffer contains a single byte which signals success or failu=
+re (``0x00`` on failure)
+>   and 31 bytes of output data, the meaning if which depends on the subfe=
+ature being accessed.
+>
+>   WMI method Get_EC()
+> @@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller f=
+irmware version string.
+>   The first 4 bits of the flag byte contain the minor version of the emb=
+edded controller interface,
+>   with the next 2 bits containing the major version of the embedded cont=
+roller interface.
+>
+> -The 7th bit signals if the embedded controller page chaged (exact meani=
+ng is unknown), and the
+> +The 7th bit signals if the embedded controller page changed (exact mean=
+ing is unknown), and the
+>   last bit signals if the platform is a Tigerlake platform.
+>
+>   The MSI software seems to only use this interface when the last bit is=
+ set.
