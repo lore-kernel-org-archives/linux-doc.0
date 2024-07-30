@@ -1,132 +1,84 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C00FC8C0;
-	Tue, 30 Jul 2024 04:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62AF33999;
+	Tue, 30 Jul 2024 05:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722312920; cv=none; b=VvIwjTiaxK5OmE0tOMYO19K5uZ910RPw0eKb49msoAd4QzfFgVdkZgP9N82G9tktAO7yEUndLAdGmhDya9a8+9FRlT8nD7TiyadT0FjaLeiKwcoY0eFImiqmp4YG3bA259knyvz+6xeFuaPYVj1eEiLWEdOojLkIEXhwCn0xHvw=
+	t=1722316098; cv=none; b=L1pIU78ZpmvcYAKnp910bOOeo8kqq4WbT6GZ/UjjyLKhA9rFy0dwocwlkK+sOoSH1hfYUVIbM7dcSyYZP5P773Iz6f6x1X0raDyo32iUr7Ze4nWSLo1r0aL/UvvEK5eQ31xb9pmanu8acDueOkrGBADB9i3dVJydGuXdCSZgxpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722312920; c=relaxed/simple;
-	bh=yKhGSofWwfAOF1j4MdDDoJDYbHpLaFaUDP3S/J1WTa0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kuIC8o9b6QeSuqkOSrdzK8znB57BoxJFbD0gYsa8tgrlEC08oq50TF+hrJsIEaotZRMI+9H1nxF3N0hPh3gz7cU1z1pk9sEkjeXsNEbCpCxbFkyrIWUPtr/OuxfqKAMPny1j7yMdjqhxX2NJVAdhKHkEofhUmPP4cYsLxfE46A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=V0cZh5nr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1722316098; c=relaxed/simple;
+	bh=fzBWPut0GGiuHt31Gpf5zYyofFcIgVb4VK6ByHw8QYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0hKyD6TJX38whuosRF323xljxKHcYY4b7O4IeJqgsxuRni7omF74GEOtkEOm60tUhs73ZU3h12JIballScpRYejrrML9zfCXOuXUwdLayy/XaVAKRvOJEo16VsCW93D+xejNoGKKyLwQokECUF7M/MBuy4Tff5ZiDB/MxSxPRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a/JgRF1E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="V0cZh5nr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u46sMFvuuMaySXNfye9HUANEHV0JVAtOo8sz3Uimg0k=; b=V0cZh5nrMOrz4Q4Z2tq82wW05b
-	ZpWdT8ArO33FCsdebYq8iumnMIPDkfqDjswHRyUEfrPPbk6lcEx1PMiI33PcVbcS2CpR1Zk9IFJ4l
-	dDezZgdUgfnp+YEJ9TPmj17vfg9QUxZBoal7moFYmvnazTS/ayrELLoOY+4uUNpxbNVrPXN39zl04
-	bl/S7IX/TSsII5j+mxktOKW2RfaeC/HrVOesXF+UZzKrN33iJTaMP7b+GzNbg15mCx9TNFtZ8cJ5Q
-	juFLr2xvsRcY3wTaUAZF5luIqhMg8JPDvApQEH54ppBRYYj415YEEmbn14/5Q9XTrcOICa09+aRey
-	EbL4MdzA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYeGT-0000000DZOn-2JSl;
-	Tue, 30 Jul 2024 04:15:09 +0000
-Message-ID: <6750b19d-4af3-44c8-90a6-9cb70fcec385@infradead.org>
-Date: Mon, 29 Jul 2024 21:15:07 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a/JgRF1E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3608C32782;
+	Tue, 30 Jul 2024 05:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722316098;
+	bh=fzBWPut0GGiuHt31Gpf5zYyofFcIgVb4VK6ByHw8QYs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/JgRF1Ep4CA2d6xBGNjTtjXsAoQgYM/GNUQXGkn0aSNkcEWoU3gJgUJZTvTAsEP2
+	 79TuNWCEGVWAd2sP0fQI8xXHe/Bp18iKEqi+iNumd1mC3L4hT8HIFoRE9FVJZySoUE
+	 prwjXSDaxW104qEUXMhQIeijdRc2jo6udPstSMkw=
+Date: Tue, 30 Jul 2024 07:08:15 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+Cc: W_Armin@gmx.de, corbet@lwn.net, platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
+Message-ID: <2024073058-visitor-widely-3109@gregkh>
+References: <20240729223649.135639-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 13/14] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
- anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, andrew@lunn.ch, corbet@lwn.net,
- linux-doc@vger.kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
- ruanjinjie@huawei.com, steen.hegelund@microchip.com, vladimir.oltean@nxp.com
-Cc: masahiroy@kernel.org, alexanderduyck@fb.com, krzk+dt@kernel.org,
- robh@kernel.org, hkallweit1@gmail.com, linux@armlinux.org.uk,
- UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com,
- Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
- Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch,
- linux@bigler.io
-References: <20240730040906.53779-1-Parthiban.Veerasooran@microchip.com>
- <20240730040906.53779-14-Parthiban.Veerasooran@microchip.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240730040906.53779-14-Parthiban.Veerasooran@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240729223649.135639-1-luis.hernandez093@gmail.com>
 
-
-
-On 7/29/24 9:09 PM, Parthiban Veerasooran wrote:
-> The LAN8650/1 is designed to conform to the OPEN Alliance 10BASE-T1x
-> MAC-PHY Serial Interface specification, Version 1.1. The IEEE Clause 4
-> MAC integration provides the low pin count standard SPI interface to any
-> microcontroller therefore providing Ethernet functionality without
-> requiring MAC integration within the microcontroller. The LAN8650/1
-> operates as an SPI client supporting SCLK clock rates up to a maximum of
-> 25 MHz. This SPI interface supports the transfer of both data (Ethernet
-> frames) and control (register access).
+On Mon, Jul 29, 2024 at 06:36:44PM -0400, Luis Felipe Hernandez wrote:
+> There were a few instances of typos that could lead to confusion
+> when reading. The following words have been corrected:
+> Binay -> Binary
+> singe -> single
+> chaged -> changed
 > 
-> By default, the chunk data payload is 64 bytes in size. The Ethernet
-> Media Access Controller (MAC) module implements a 10 Mbps half duplex
-> Ethernet MAC, compatible with the IEEE 802.3 standard. 10BASE-T1S
-> physical layer transceiver integrated is into the LAN8650/1. The PHY and
-> MAC are connected via an internal Media Independent Interface (MII).
-> 
-> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
 > ---
->  MAINTAINERS                                   |   6 +
->  drivers/net/ethernet/microchip/Kconfig        |   1 +
->  drivers/net/ethernet/microchip/Makefile       |   1 +
->  .../net/ethernet/microchip/lan865x/Kconfig    |  19 +
->  .../net/ethernet/microchip/lan865x/Makefile   |   6 +
->  .../net/ethernet/microchip/lan865x/lan865x.c  | 391 ++++++++++++++++++
->  6 files changed, 424 insertions(+)
->  create mode 100644 drivers/net/ethernet/microchip/lan865x/Kconfig
->  create mode 100644 drivers/net/ethernet/microchip/lan865x/Makefile
->  create mode 100644 drivers/net/ethernet/microchip/lan865x/lan865x.c
+>  Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 
-> diff --git a/drivers/net/ethernet/microchip/lan865x/Kconfig b/drivers/net/ethernet/microchip/lan865x/Kconfig
-> new file mode 100644
-> index 000000000000..f3d60d14e202
-> --- /dev/null
-> +++ b/drivers/net/ethernet/microchip/lan865x/Kconfig
-> @@ -0,0 +1,19 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Microchip LAN865x Driver Support
-> +#
-> +
-> +if NET_VENDOR_MICROCHIP
-> +
-> +config LAN865X
-> +	tristate "LAN865x support"
-> +	depends on SPI
-> +	depends on OA_TC6
+Hi,
 
-Since OA_TC6 is described as a library, it would make sense to select OA_TC6 here instead
-of depending on it.
-OTOH, that might cause some Kconfig dependency issues... I haven't looked into that.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-> +	help
-> +	  Support for the Microchip LAN8650/1 Rev.B1 MACPHY Ethernet chip. It
-> +	  uses OPEN Alliance 10BASE-T1x Serial Interface specification.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called lan865x.
-> +
-> +endif # NET_VENDOR_MICROCHIP
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
--- 
-~Randy
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
