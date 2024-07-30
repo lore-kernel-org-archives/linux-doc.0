@@ -1,57 +1,57 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC9919E80F;
-	Tue, 30 Jul 2024 12:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6519B19FA66;
+	Tue, 30 Jul 2024 12:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722344054; cv=none; b=BuDd3q4KPkJiIS752roTNmAFI3svphMxwRVt4Ej7LW/g1A5nIHiMXUT5eEIYpE157BdB/ZqVOqTuR90H+mv8j5i9xdKg0JfCclQ3baVrThiA7URBv9t6P6acogCXX2THB5esvKeRQCWZJN3hhUu5VcqoB192aqYyFbRd5TWwOtM=
+	t=1722344055; cv=none; b=X3X8IuNowhY67BZZ/gz8wN6qAKF7I8O6CoVz2lZ7SGb7ohYUyctCYfmUHGqgR1Iyjd714QAqmtzOjwPjbwhcYyIGGmnrUrGJfY0Nk1s2i1B7x8Km77fYZWqQyzZfY6cqZN62ejnVChcSpQG/cPGTwNXgPJ5wKNQcdyCRGBBgplg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722344054; c=relaxed/simple;
-	bh=xqdoAcWmVUYMrD+FVNRpmeoojd2kYweY5GdVkMg2yo0=;
+	s=arc-20240116; t=1722344055; c=relaxed/simple;
+	bh=6uE4BoGPX5yYJngTBOVqCfxOgacSJJWc/oHx1yQpmKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oZf3XEQZ2xPt9NMf3VLmmAq6wBONX8J46nmGMVQCs6QM+FnU0hLwnun/eDImkzE/wbyoy5M0SVvDqdPq+0ByP2TAKuAkR3lzd6SvtuRNeAhXGtrBcdHOkMk0Ug317RFms13icz0g6mz8XBTRLsujR3DaGlwJj06UCL2i1f7vzN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsHVScy9; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=GwTNZys+dn0H/e27p2jaKS5kBwo3PrJPLg/iMlj3Mjd4Fl3QuoxawzV/7rLdK7jtJXZNrVGKRf2ti6qXm9wLIc28DedSpPJV1v+nS/lflmrNUv1SkqheBa/Q2jRlWgm3FE9kL0CIZxeF/Jw9ksuchO+2wHaqvmAEx9bTm8Bke9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HkmI6aSV; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsHVScy9"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7a1e1f6a924so263811085a.1;
-        Tue, 30 Jul 2024 05:54:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkmI6aSV"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7a1e0ff6871so266750185a.2;
+        Tue, 30 Jul 2024 05:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722344052; x=1722948852; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1722344053; x=1722948853; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xejBMxasF4z7vTbtt633OZCxjB3/TpD8KsbFAqhPXuY=;
-        b=NsHVScy9BmTHGBMRJKxpYBzdcbpg6cZzWzhIOC/A7n60hNuQ6zTGPWpLjYzZWHq3Ru
-         i+YEyKR4lpCaPfxa2ODcgPOrqKIPxO/vbn93TkrwCDtwHoU4mj4yDj4t9r7vuqgAf+KO
-         +MBoZdHuDV3t3TBVXFHK5dQT5lsVMF1KkQSHGod3xA3xhR3RwQF+VxLEATU5WCrl04p+
-         EAjuIfgUWxzUVmazK7ySG/6upPGLg3diafsSPXHsfs+ndyk49ze828/nKbFnCwuP5ycW
-         uFvlv84oBjlY/c79P8zQGmgZGMoXGIHk/mzWUTzh0E1ovwaPcM817xjITCgmuPi6nDjM
-         y6mw==
+        bh=Ktt9C/EJSJHB77GbE72Wr4Bnix41Ywh1hlDOhut1uLE=;
+        b=HkmI6aSVBrZm453xQXGDa+5JmVA+TyGerX1YQPc7vP2dhXG8hL9C3xS3hB8vWJcefX
+         DStO/mDaB6zSlAk6qBPcIyOnNXLOBNAAFuXSfLBm46b9mWLazkhx86XX6TU4bWF1vOsf
+         0wPLbgrTdYbBDz3bQT4X3+01juyh9j/ZCdBgqobSt15CJ9ko11PJdgzV4Djwl1XTVQ+h
+         9BwLLRaBcXpHQLCWBCNFltk0tLgtG1DAy+tV7afm2glCfEz8lYpksuHKWA2/pkn+Buna
+         OG7s0r3A2zz0A0d//uW+oBCqxjV1JVsGtwrttGJpTnyLqqllZOAANNPqzCJ2oV7KcnDz
+         OOnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722344052; x=1722948852;
+        d=1e100.net; s=20230601; t=1722344053; x=1722948853;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xejBMxasF4z7vTbtt633OZCxjB3/TpD8KsbFAqhPXuY=;
-        b=R0Ww9fB6hPlIbpsfYwJn6QEheQJC9QMB6H7+cGn7DPunRG3J9dGqD36stsoZ4KkBmQ
-         3CDrff8zK3uDRLLLeH08zcVUnw+zMwtDyjWrhpHVYY3qg3ne21Jx2A2TYxz9BfKQL9PU
-         qwjjej31X0ivnc/8NqVGvq62TFANaP9DDpSU7mKOuPTuvat42AopxRsCytuHZGB8ozpz
-         hPRTeEMicrNy9PjrnDRNolaoq2ChILvHL7K0+bDhKogcyERWPnEzfbOqoExT1X+jQlFu
-         oywIrhlqsIk4LqMPqgIxol9OjZGkpN2vLoLA/ztmpXXP5FgsYF6utt8zupsI829JGPH1
-         N/hg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHg5a5Gey3apcvVeAmZZfg8lSI5c91FutB6XxCoMGaDNpUlBww1shkU3+hpu08m4juZ4srl4ud6k6g8mFeobvt8i1zzty8/WFd4ESPEkP/ZL7HsDifHlut+o5Efsr5ejv+CQvRHREo
-X-Gm-Message-State: AOJu0Yzbrdc1cXZEK1Camr27n8KDlLlI8sY5ru6Bsne4+N1VWu9JHPak
-	QblddOIcQOo2Dz7U8cRk6H5EU3qHIB3ttMC7F0ES0A/UwL8cq+XV
-X-Google-Smtp-Source: AGHT+IH1TaNMaT1owhjXGb3Te5E+aSoMQp8eh+KW6WOTF5nBI+raPcLbOMS88vx6Ilwbsv6KRamZCA==
-X-Received: by 2002:a05:6214:4019:b0:6b9:299b:94ba with SMTP id 6a1803df08f44-6bb55ad89a7mr115074966d6.46.1722344051931;
-        Tue, 30 Jul 2024 05:54:11 -0700 (PDT)
-Received: from localhost (fwdproxy-ash-112.fbsv.net. [2a03:2880:20ff:70::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe8123516sm50426311cf.1.2024.07.30.05.54.11
+        bh=Ktt9C/EJSJHB77GbE72Wr4Bnix41Ywh1hlDOhut1uLE=;
+        b=ACBKT6+uYCRi/u7tuzB8Dr5KX8o9sif8Tpcu+BP/8cxbB67z8uayvh4s4bB1AUlNmw
+         CcSyLfiQEfk/6vNCLziUx+H55iv366JfDZTmIkYllw2R0A/3X8fgkrEQ3LZxiHxLrCgx
+         sGoHutkXu1rtw+I+LJMVAlKsy4x76erCA3dEPH8tX6GjzBWtc62JLlufArWLlVoT8i7T
+         tYqglTosk7E6FYa5OEf3h2Uv0smGUlw3baRC/Xg0aobAPyqvV1kMcbbxssd6j1gc80M5
+         aNYRBQ4h9xqXPUVbqZ0oLKK1C2e46zgshi1EQPmyQgAioxFi+aP6jTg/Q1X6T7cPM6vQ
+         sGEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUECjU/MGM6tD/IuYE2zD5KvEUJYrz/qsWtoNPiRPRnVxnrCk+8onfuEoiUh41I70JdJ42tQMqCfFsf3UiprB9++YHF5iIbD88kHGe7UXJ38BQGCV21ooUix9zQhodCuiPYCJunE5e0
+X-Gm-Message-State: AOJu0YzGdtHK4qaMnhffGV6ztv1R/s+KgYJQO9rQ4QvftWwrHQQThFx5
+	jAeXCX6ucsi1dkjn0gvirSVS0fI49hm994lDrHZ/PBip1o5gP3g9
+X-Google-Smtp-Source: AGHT+IGs+7p/NLEKs6R6CF0jeACef2MQxZrB+Zf+vdpZds2BGZMJaXfelQzjq7hVci+EokgCJHDthQ==
+X-Received: by 2002:a05:620a:4496:b0:79f:dce:76c7 with SMTP id af79cd13be357-7a1e5302964mr1165797885a.68.1722344053350;
+        Tue, 30 Jul 2024 05:54:13 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-113.fbsv.net. [2a03:2880:20ff:71::face:b00c])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe8171e52sm49968221cf.42.2024.07.30.05.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 05:54:11 -0700 (PDT)
+        Tue, 30 Jul 2024 05:54:13 -0700 (PDT)
 From: Usama Arif <usamaarif642@gmail.com>
 To: akpm@linux-foundation.org,
 	linux-mm@kvack.org
@@ -70,10 +70,11 @@ Cc: hannes@cmpxchg.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	kernel-team@meta.com,
+	Shuang Zhai <zhais@google.com>,
 	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH 2/6] Revert "mm: remove free_unref_page_list()"
-Date: Tue, 30 Jul 2024 13:45:59 +0100
-Message-ID: <20240730125346.1580150-3-usamaarif642@gmail.com>
+Subject: [PATCH 3/6] mm: free zapped tail pages when splitting isolated thp
+Date: Tue, 30 Jul 2024 13:46:00 +0100
+Message-ID: <20240730125346.1580150-4-usamaarif642@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240730125346.1580150-1-usamaarif642@gmail.com>
 References: <20240730125346.1580150-1-usamaarif642@gmail.com>
@@ -85,56 +86,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-free_unref_page_list will be needed in a later patch for an
-optimization to free zapped tail pages when splitting isolated thp.
+From: Yu Zhao <yuzhao@google.com>
 
+If a tail page has only two references left, one inherited from the
+isolation of its head and the other from lru_add_page_tail() which we
+are about to drop, it means this tail page was concurrently zapped.
+Then we can safely free it and save page reclaim or migration the
+trouble of trying it.
+
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+Tested-by: Shuang Zhai <zhais@google.com>
 Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 ---
- mm/internal.h   |  1 +
- mm/page_alloc.c | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
+ mm/huge_memory.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index 7a3bcc6d95e7..259afe44dc88 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -680,6 +680,7 @@ extern int user_min_free_kbytes;
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 0167dc27e365..76a3b6a2b796 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -2923,6 +2923,8 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+ 	unsigned int new_nr = 1 << new_order;
+ 	int order = folio_order(folio);
+ 	unsigned int nr = 1 << order;
++	LIST_HEAD(pages_to_free);
++	int nr_pages_to_free = 0;
  
- void free_unref_page(struct page *page, unsigned int order);
- void free_unref_folios(struct folio_batch *fbatch);
-+void free_unref_page_list(struct list_head *list);
+ 	/* complete memcg works before add pages to LRU */
+ 	split_page_memcg(head, order, new_order);
+@@ -3007,6 +3009,24 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+ 		if (subpage == page)
+ 			continue;
+ 		folio_unlock(new_folio);
++		/*
++		 * If a tail page has only two references left, one inherited
++		 * from the isolation of its head and the other from
++		 * lru_add_page_tail() which we are about to drop, it means this
++		 * tail page was concurrently zapped. Then we can safely free it
++		 * and save page reclaim or migration the trouble of trying it.
++		 */
++		if (list && page_ref_freeze(subpage, 2)) {
++			VM_BUG_ON_PAGE(PageLRU(subpage), subpage);
++			VM_BUG_ON_PAGE(PageCompound(subpage), subpage);
++			VM_BUG_ON_PAGE(page_mapped(subpage), subpage);
++
++			ClearPageActive(subpage);
++			ClearPageUnevictable(subpage);
++			list_move(&subpage->lru, &pages_to_free);
++			nr_pages_to_free++;
++			continue;
++		}
  
- extern void zone_pcp_reset(struct zone *zone);
- extern void zone_pcp_disable(struct zone *zone);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index aae00ba3b3bd..38832e6b1e6c 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2774,6 +2774,24 @@ void free_unref_folios(struct folio_batch *folios)
- 	folio_batch_reinit(folios);
+ 		/*
+ 		 * Subpages may be freed if there wasn't any mapping
+@@ -3017,6 +3037,12 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+ 		 */
+ 		free_page_and_swap_cache(subpage);
+ 	}
++
++	if (!nr_pages_to_free)
++		return;
++
++	mem_cgroup_uncharge_list(&pages_to_free);
++	free_unref_page_list(&pages_to_free);
  }
  
-+void free_unref_page_list(struct list_head *list)
-+{
-+	struct folio_batch fbatch;
-+
-+	folio_batch_init(&fbatch);
-+	while (!list_empty(list)) {
-+		struct folio *folio = list_first_entry(list, struct folio, lru);
-+
-+		list_del(&folio->lru);
-+		if (folio_batch_add(&fbatch, folio) > 0)
-+			continue;
-+		free_unref_folios(&fbatch);
-+	}
-+
-+	if (fbatch.nr)
-+		free_unref_folios(&fbatch);
-+}
-+
- /*
-  * split_page takes a non-compound higher-order page, and splits it into
-  * n (1<<order) sub-pages: page[0..n]
+ /* Racy check whether the huge page can be split */
 -- 
 2.43.0
 
