@@ -1,83 +1,77 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E1D189522;
-	Tue, 30 Jul 2024 17:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D04A33999;
+	Tue, 30 Jul 2024 18:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722362371; cv=none; b=fmasrXo+5Qe2n/kKH6z1IP3oKrRE/bd/gJzY5DJ4+xvdKxHCR6Su108OdaOyXjPd4g5agNUsbl/L3KbnLSUAemTxFOcMs6wtQFPwt0jnq8+6xLPoaxwcnMOw7bnXsnGstk5H722zV4aOtbJQmHgaGpa/MToKEZT2AfgULL2Anro=
+	t=1722362927; cv=none; b=R72zlRZc94qIocySndGgM1fvql8sBu8Ca3nYGGbcJeIX1pOC2Vw5S3z2RNFu66LXhePWG6rxp0w3HE2QV9JD/cZzPjkaLvMSbG7+mGqFFnYXDtYDGxCCDWn8/HJTJJ4uigs3Hi6Ir7IVHv7tEZK/US+5vs6yAXgb2ZKwpfGkE10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722362371; c=relaxed/simple;
-	bh=0biNpjGgb2ykySOjjWXdFINtIuFDeh1GrHLCI4gUqS0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ipQfZ+duN10ObthBIDY/LCSU8qv9TqfqSgAYS9r5xca8lhhbhvZ29EuDVyS6h24Jkze8NGvM6na09XxAh+nbuaw3Yr7GpDilr2Gly/5tKt7ESnS/JG2AFXPkUMOLS56aUrfRFEO94+zcn/SdHH8HhBWZ3qwxoqka7Fq1zWV0A50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CRx99wT8; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CRx99wT8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EFEE41A31
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722362368; bh=gjWwOYsC9ejMcN/lW6xvyv7ohEv7jitlRIes9qzgcak=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CRx99wT8cBsIl0KRONO3aNIcvsiUu2fxBEIn+lelGc/Wo9ZAEEUGutEx0/oEiHZlR
-	 yMomQJHgvNl6IhlLDosJsg82IBirOplXqq5wsqN0XtQBYO2kS/YdhId7Yqj78wB7Q5
-	 GQmEbGHYZk5LUxTKveMVXUG1nSrhrZ/BQE8tdEGwO7L2+oxFQevjJAwQTd+4UgQJ8p
-	 PSrwwvxqvaDLQCJiKRsqS/RwYj1E6qHNoaABYwspJP474N5tqT4UOn6+hGDHHsKUJt
-	 LVZwsEE40BfEi2RuoMl7czNURWtYkVMUQsLhZJyRwKOQmhPe+eSCRmNzhfVJe09vbA
-	 UDec71bDLJrLw==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6EFEE41A31;
-	Tue, 30 Jul 2024 17:59:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
- Michael Dolan <mdolan@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] Documentation: embargoed-hardware-issues.rst: minor
- cleanups and fixes
-In-Reply-To: <2024073032-outsource-sniff-e8ea@gregkh>
-References: <2024073032-outsource-sniff-e8ea@gregkh>
-Date: Tue, 30 Jul 2024 11:59:26 -0600
-Message-ID: <8734nq92wx.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1722362927; c=relaxed/simple;
+	bh=A+siXy/0sxVQkUC/z7Cpiyb3+lClZxaqdXs6gYoIKPo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=t+sLHX2LghM9/v69TlT4+Z6DFhyEfSajaUqJLTJPQSPEuBD8GGcEPMpEtpc2Dvl8o2XR/qUTwgtwizKIUArBISba2iabnhDQMR8Z4DU/yGdkQeomIfmZ6DFNOulYP7SBf0/MpR+B753TxomB6S38P1k7JXIZR+5T4UU5lpZGa60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
+Received: from [2601:18c:9101:a8b6:6e0b:84ff:fee2:98bb] (helo=imladris.surriel.com)
+	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <riel@shelob.surriel.com>)
+	id 1sYrG7-000000002kt-1i3g;
+	Tue, 30 Jul 2024 14:07:39 -0400
+Message-ID: <20df6650c834b3d2d6e5d7062876ee6a1e997dba.camel@surriel.com>
+Subject: Re: [PATCH 4/6] mm: don't remap unused subpages when splitting
+ isolated thp
+From: Rik van Riel <riel@surriel.com>
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org, 
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+ yuzhao@google.com, david@redhat.com, baohua@kernel.org,
+ ryan.roberts@arm.com,  rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net,  linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com,  Shuang Zhai
+ <zhais@google.com>
+Date: Tue, 30 Jul 2024 14:07:39 -0400
+In-Reply-To: <20240730125346.1580150-5-usamaarif642@gmail.com>
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+	 <20240730125346.1580150-5-usamaarif642@gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33Aeo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdYdIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gUmllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986ogEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHVWjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE+BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTeg4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/j
+	ddPxKRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/NefO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0MmG1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tPokBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznnekoTE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44NcQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhIomYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0IpQrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkEc4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Sender: riel@surriel.com
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+On Tue, 2024-07-30 at 13:46 +0100, Usama Arif wrote:
+>=20
+> +	/*
+> +	 * The pmd entry mapping the old thp was flushed and the pte
+> mapping
+> +	 * this subpage has been non present. Therefore, this
+> subpage is
+> +	 * inaccessible. We don't need to remap it if it contains
+> only zeros.
+> +	 */
+> +	addr =3D kmap_local_page(page);
+> +	dirty =3D memchr_inv(addr, 0, PAGE_SIZE);
+> +	kunmap_local(addr);
+> +
+> +	if (dirty)
+> +		return false;
+>=20
 
-> The embargoed-hardware-issues.rst file needed a bunch of minor grammar,
-> punctuation, and syntax cleanups based on feedback we have gotten over
-> the past few years.  The main change here is the term "silicon" being
-> used over "hardware" to differentiate between companies that make a chip
-> (i.e. a CPU) and those that take the chip and put it into their system.
->
-> No process changes are made here at all, only clarification for the way
-> the current process works.
->
-> All of these changes have been approved by a review from a large number
-> of different open source legal members, representing the companies
-> involved in this process.
->
-> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Co-developed-by: Michael Dolan <mdolan@linuxfoundation.org>
-> Signed-off-by: Michael Dolan <mdolan@linuxfoundation.org>
-> Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
-> Jon, I can take these changes through my tree if you don't object.
+A minor nitpick here. The word dirty has a few different meanings
+in memory management already.
 
-They seem fine to me, no problem.  Should anybody care:
+Could it be clearer to use something like "contains_data" ?
 
-Acked-by: Jonathan Corbet <corbet@lwn.net>
-
-jon
+--=20
+All Rights Reversed.
