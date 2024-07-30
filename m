@@ -1,150 +1,149 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2072.outbound.protection.outlook.com [40.92.23.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B36192B6F;
-	Tue, 30 Jul 2024 07:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.23.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722325893; cv=fail; b=N17fpHQoXuKVrvOKESO9SF8oGa8rTmnUZN/GLq3BFn1QQtqO88i7Y1dMqWoIFRGz1r5GVpTLXdgs9YaXgqUOZQXyIzi67/IxHptYmwLGT/ugkGuWQaCR5+L0LI/IZ08PQ59GtbrAxXu27iFy4o9I0Vu1yBuFz8/y35a6/ClGFcw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722325893; c=relaxed/simple;
-	bh=i5uJVpVqHzYneC8x74apUJpzwoJvkLMx3dMpKQs+vKM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AR+NzZ5RFfFFNFnIUI9R4AhrhFQuushCPKbYR7PkQd8lFMXSfceXN65x+POqDvuR5xNsVQUye+EZ1vGhF0z5611Fk2iAX39VrYLSz0or6BWQSQXrkYzZg1eazn07ZuVTl8V8zbcAobBxSZ+a6PYfRG4qJg7EzNUNgwCp79IUgfE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=a7Q1rbjv; arc=fail smtp.client-ip=40.92.23.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66491922DD;
+	Tue, 30 Jul 2024 08:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722326444; cv=none; b=JQvEcD8tnWZ5Us76vYuF7Ha2UybGhJv8sO4vSBQyq6NfPVvFq62DsG4Eyk4wRMdUyk0kZedwOyAovjN0ogGXfui0hwlif9cL0raxi2Peb/DQq4N1ZKG/S6qzRaJ1VCio07hnCPs5Xn09iC42WvNjPA62f2YnrgqdA5nLSX5MMGo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722326444; c=relaxed/simple;
+	bh=me2Vx0Tql7Lk7lB65nstEIzCxKFK2tRL4TMf2lYsypc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tT14eiHUU0rqQE9M9XjtkS8xFO5tG3A7VBCDH7frFgq7pDGlhnmpX5aH0vPCRTMKtbHtnSzGQndp9YJI0k49Nvg3N7ZsL8f00rsWyJTuAnFknig1E8NfK5IF1mgz/wcecFMhSAXij+tKmuI7+CsvNv8Vje7pUnGXpiooWoDcq7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mQSEr+M7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="a7Q1rbjv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XX1xF/xj+zrwLHYj5NeQCf6P/l1OnxeO6yEGGyPsaogMrjHimiB0xtoGczG7Cvu381WXbul2O+vCw0L5jGG9OUtxUkrDpv/g9Y9qZZEykkwIS8Z/zQtkdIRIQ+L6jVB2Pgz9z5k2wQSdEHiv6KiXYYvpR49WVqwOlv+L0w2jfTIeTH6v3xVzGY3NPw9BbaS8FzFEmjFaYPupngZuHEE5RQjooKVg0bsiQHMm9V4Y7YPltAFXeHxnv+IP++C9qGhFTSB+Eq5qKX75t8oFyfrl21a8s3bSt+o6hfCRlaTUeSeXAE0yxN3oqn73lHbBK1Mh1CWDj0MZZtC+ZrT2Ln7pfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i5uJVpVqHzYneC8x74apUJpzwoJvkLMx3dMpKQs+vKM=;
- b=BAx/ashHyc1/ocbcV+yJyFtFlH7Pge555iKu0Y08BQGk/3us0rfKDHGCkXM879cEcViAapkDPuaw48YORoTfuEiNHMg1ZFGvLGBtPoA57XE1qUr16sB7QrIf0cLr+yidrI8fJ0uv0Bu136zEFKm3kU5moamurJFMZ81oXV8xSWjKCpTislHq+GJOBivbzLX5fUgSMeXDOW7Ss1S6aQx87F+EfL3P+hl77UdDZO31+fMnA9THNtKp9URFE2hBV7jAGkyUoao64jpZRv/F9eosbECOwVxlSeZR3Kh6sLq9BbbXK7ej7GZG+n9DCy5zC3NyRUbdyUpuX6+V7UTy54tMkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i5uJVpVqHzYneC8x74apUJpzwoJvkLMx3dMpKQs+vKM=;
- b=a7Q1rbjvrCOznKuxb2jgZAKBypREYkder+lI4QRA5tvN/MTb029K9y0GTVBjcWD+ZDaccKiEAgYcjQe9Q2wfCAV112Fj8UU2GsCvvxo94Sw9lpjjroRiEdSFEUifxrfsdhIcj1vPIq6lNr3FkACmyIMsJlLtesdt+/USTjou/8lXccHuQURZ7sIeUCLkDc1xe3zHM880oslaiHWvS5DSv0XGgECON6dH9k45pIB2ImwYuLqrhi9sBykVyaKmHNdRK11/AHiT84JlyF7Eiq+YEbQhDricbRs0hTZ/mkLMivNR8KL9WyHhPUUDRggNJ3+beWs+xWSh1amxSJCPgedSjA==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by MN0PR20MB7552.namprd20.prod.outlook.com (2603:10b6:208:4c2::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.34; Tue, 30 Jul
- 2024 07:51:29 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149%5]) with mapi id 15.20.7807.026; Tue, 30 Jul 2024
- 07:51:29 +0000
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Guo Ren <guoren@kernel.org>,
-	Chao Wei <chao.wei@sophgo.com>,
-	Hal Feng <hal.feng@starfivetech.com>,
-	Jinyu Tang <tangjinyu@tinylab.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v8 4/4] riscv: defconfig: Enable MCU support for SG2042
-Date: Tue, 30 Jul 2024 15:50:40 +0800
-Message-ID:
- <IA1PR20MB4953609E27C5D1F5F5F7552BBBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <IA1PR20MB49538C09E94D90F07B7B2562BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
-References: <IA1PR20MB49538C09E94D90F07B7B2562BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [fBdlE5LebptCIQaEyvxxV2hhzptwRRrlWqYKhfvb+vY=]
-X-ClientProxiedBy: SG2PR02CA0003.apcprd02.prod.outlook.com
- (2603:1096:3:17::15) To IA1PR20MB4953.namprd20.prod.outlook.com
- (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <20240730075041.489815-4-inochiama@outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mQSEr+M7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D53C32782;
+	Tue, 30 Jul 2024 08:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722326444;
+	bh=me2Vx0Tql7Lk7lB65nstEIzCxKFK2tRL4TMf2lYsypc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mQSEr+M77vYU0z5icTDzOeeMVIPJ7yXJj/PEjntm162mYSpfECFJ7pr0CfnfmiDIO
+	 REvodpJQ3WRokcYnzFKj7cjEMMUZxRemShSGIDzl9uuGKAYdcjNee/yFZq7uA2yQMd
+	 6t0fH6vUWfhAD6PaEQ+GoMIzulP6yzxzsyAfcu43nPAbzf2rwX93Q6uGL+qP8LdpjX
+	 afsmrdo2vRsIxrZHqJG4wlbGTmYkzBkV3qvckUH++kvhQ5a/dJe53wtFsDJ6GNPFZ6
+	 EnIDgUn8hLUQEuscjYyytRCNcIEg73X2y4gKJHBdxI3OhXdtBiRvEH8CTgZGyilhq7
+	 BaplhWs3YYcBw==
+Date: Tue, 30 Jul 2024 11:00:38 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 5/8] fwctl: FWCTL_RPC to execute a Remote Procedure
+ Call to device firmware
+Message-ID: <20240730080038.GA4209@unreal>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|MN0PR20MB7552:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3897302e-bace-486c-fbca-08dcb06c6bd5
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|5072599009|8060799006|19110799003|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	SUWv7cz0h/obRmXHC9mumnDi6+HHq+J3dvXYtgoJE62/47bb/IB7p4dcV6K1+8SQO//P0I90U09fqpIiUyTNoX9xNcTxqyQDU3+SQLTQaKgiptP5M+68cpC+fshWShn5scGL2gLufTXLJJ83sYPX1yTqoamSt+GQT+Ud5PsgJnhy2rCP9l3HZETkQxwqOw4gFAkipkV2E0zAwABsiNKukIS4QYYgn0YlYznYx5tgsV1K6JLybGg01ihjS07sCoM8h+OighJOG6t3GBCdRR4DpyVGRsGSPlnJq1/6XZzH4hCRDqm089wW6G9o2qjou6OIyTHrtiQSBRU6yaaW9NM+ArG06jvmLdH21ym/09qQjU9hgV3bUi1UVTxssYWEAlydIbTjCqPyZaIlMSXDTB2rzeD0Nh0j4e4KoM8I6cDKXNCNYPPLt/FUGa+A0LfkPqJDAb4AdugdNZoEypdDdewxA3B1biHAm4zbCDDF0CE5SsIF2tkeYtjflarV7edhSgPDLBX+BXTj7Q7rAckkTJ5V8cpZW1rpRXM4aNSphXqyY3eUUCMrS1eHS1UuA8tApW0uJVspSQuF+wB6MCFejGAir3/njcx7pgiIzjcvtbpWnKYQhq0Th8PX4x5XgFsHeZLz0xjWvEBs3Wl25Qk2SuovWqrLM4oAhj49aqVuw7881Lk7aF9Gt/4h15tKuyXD4nY/22G9itXamCRO7ECBGV9VsA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XO6KTWdTevejydPcJoH6bTNuXyAIMnVvw1UF/cw9lSWS224SYUKgJH4rbuLH?=
- =?us-ascii?Q?GjDomqlwPQwLi49/fR1UArII3lnbt/b2NXq5U3KqK9fwIbAyeDv/ht3woATx?=
- =?us-ascii?Q?UOywonvs/6GfN4PtH4Shp1jlD25Wy//0TaxRxsgRPnDSFuS3ffGM7+udrj/P?=
- =?us-ascii?Q?4+iXGOktRGOKRftNq41x+OaPnp4dXM4wkdsHP7KmFIp8xgwnAqLuJn9Nfp2D?=
- =?us-ascii?Q?HeREz81ZY6/QxHy9epVlTOxs7BTnv5eD1TVreZdZl88J5x6ZMAziAAn1nIxh?=
- =?us-ascii?Q?1ETEFDj5mDi6csIe/tuEdftTjwSsuiEaG/YxfLQ+hLej1Mmxo9AXMMKFqhez?=
- =?us-ascii?Q?9oIEY3kSV80odWPVkRrwY3fFGZZkeZK3SvjVujn1aQrs8MAmXX6IvpEL/bpN?=
- =?us-ascii?Q?Ebn+0Tuo+mFNn398NUvfb3XKzNh2uX7WfWRKk1rglY2nlDmJpF+5Y0CSTpI2?=
- =?us-ascii?Q?qF8Ltl3TzTA6RYvys25F8Nb788MAmZ6MzEaYQyJqiOyuGnUUF9lkqjySYO7r?=
- =?us-ascii?Q?xgp3iQpRwZ8Mjlaif7dB9rtt0jboR41JL9MJ244MTBeiztDE9eMvhILWvzCy?=
- =?us-ascii?Q?9c1pINQbsMoBujoyEZULt+4X3E44Z1VUji5NH0vQ9+/oQ5WjUZGB1a5Bq9FW?=
- =?us-ascii?Q?TgdzR5MMJpA5ZvqL4//BPUX1EqztkjKRXCn8ux2qen3LDa/22YqTXfxrJ/gF?=
- =?us-ascii?Q?3SwuzyfJa2pd6sOQUta9RxFoaSIme4jJKgFDDJIIjt/cywzfR37S7Le14JW5?=
- =?us-ascii?Q?As+4YKMiy17+DX8eOMgKmSLS0Z8fWDMo8pw2PG3K549UzIi3lE0pzbYTtYqh?=
- =?us-ascii?Q?uEdqekl2dKo18cgVkAhX2e92Kg3f0+4P+lmCEVr/oY5bPfG77lxP6ufbmTOF?=
- =?us-ascii?Q?Pr06BuDZU7CgTXtbK5mxKFjYm8/kRdcIznzjTQYjq0yg3X2M4NssjG/kfG+Z?=
- =?us-ascii?Q?MWUySWfT65y/lgfySYAjpaCie3Q9l7sYQNQHdULuo/3WsjwLLzkDxf2/Y+mn?=
- =?us-ascii?Q?cemicycjhn8bOgpa4CsRYS1CgJTOSC5ZtYjovlqWoB4K9/dsCkQlGNzv9qkx?=
- =?us-ascii?Q?eG2hHgLOY4hbTZgFgmcHAA+BV/dgfbsnUwyHClP6mdtdBugdJf9lxmp9fvi3?=
- =?us-ascii?Q?dGEQhMmoAoDnn++G4hifXT9citrtvS/bNk6d9ZILeAa1bCXc7t4MCoRWA0yb?=
- =?us-ascii?Q?+sWpYu42+b+b+RS6LJfl4C+8dxbzGLQdYDjAEhVCQcHr2wOO5TYmc3/h/y1F?=
- =?us-ascii?Q?l5mu5bB79HZAAv+AfSAS?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3897302e-bace-486c-fbca-08dcb06c6bd5
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2024 07:51:29.7018
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR20MB7552
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
 
-Enable MCU driver for SG2042 to provide thermal and reboot support.
+On Mon, Jun 24, 2024 at 07:47:29PM -0300, Jason Gunthorpe wrote:
+> Add the FWCTL_RPC ioctl which allows a request/response RPC call to device
+> firmware. Drivers implementing this call must follow the security
+> guidelines under Documentation/userspace-api/fwctl.rst
+> 
+> The core code provides some memory management helpers to get the messages
+> copied from and back to userspace. The driver is responsible for
+> allocating the output message memory and delivering the message to the
+> device.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/fwctl/main.c       | 62 +++++++++++++++++++++++++++++++++++
+>  include/linux/fwctl.h      |  5 +++
+>  include/uapi/fwctl/fwctl.h | 66 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 133 insertions(+)
+> 
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> index f1dec0b590aee4..9506b993a1a56d 100644
+> --- a/drivers/fwctl/main.c
+> +++ b/drivers/fwctl/main.c
+> @@ -8,16 +8,20 @@
+>  #include <linux/slab.h>
+>  #include <linux/container_of.h>
+>  #include <linux/fs.h>
+> +#include <linux/sizes.h>
+>  
+>  #include <uapi/fwctl/fwctl.h>
+>  
+>  enum {
+>  	FWCTL_MAX_DEVICES = 256,
+> +	MAX_RPC_LEN = SZ_2M,
+>  };
+>  static dev_t fwctl_dev;
+>  static DEFINE_IDA(fwctl_ida);
+> +static unsigned long fwctl_tainted;
+>  
+>  DEFINE_FREE(kfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T));
+> +DEFINE_FREE(kvfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kvfree(_T));
+>  
+>  struct fwctl_ucmd {
+>  	struct fwctl_uctx *uctx;
+> @@ -75,9 +79,66 @@ static int fwctl_cmd_info(struct fwctl_ucmd *ucmd)
+>  	return ucmd_respond(ucmd, sizeof(*cmd));
+>  }
+>  
+> +static int fwctl_cmd_rpc(struct fwctl_ucmd *ucmd)
+> +{
+> +	struct fwctl_device *fwctl = ucmd->uctx->fwctl;
+> +	struct fwctl_rpc *cmd = ucmd->cmd;
+> +	size_t out_len;
+> +
+> +	if (cmd->in_len > MAX_RPC_LEN || cmd->out_len > MAX_RPC_LEN)
+> +		return -EMSGSIZE;
+> +
+> +	switch (cmd->scope) {
+> +	case FWCTL_RPC_CONFIGURATION:
+> +	case FWCTL_RPC_DEBUG_READ_ONLY:
+> +		break;
+> +
+> +	case FWCTL_RPC_DEBUG_WRITE_FULL:
+> +		if (!capable(CAP_SYS_RAWIO))
+> +			return -EPERM;
+> +		fallthrough;
+> +	case FWCTL_RPC_DEBUG_WRITE:
+> +		if (!test_and_set_bit(0, &fwctl_tainted)) {
+> +			dev_warn(
+> +				&fwctl->dev,
+> +				"%s(%d): has requested full access to the physical device device",
+> +				current->comm, task_pid_nr(current));
+> +			add_taint(TAINT_FWCTL, LOCKDEP_STILL_OK);
+> +		}
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	};
+> +
+> +	void *inbuf __free(kvfree) =
+> +		kvzalloc(cmd->in_len, GFP_KERNEL | GFP_KERNEL_ACCOUNT);
 
-Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
----
- arch/riscv/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 0d678325444f..a0f346301df6 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -170,6 +170,7 @@ CONFIG_SPI_SUN6I=y
- CONFIG_GPIO_SIFIVE=y
- CONFIG_POWER_RESET_GPIO_RESTART=y
- CONFIG_SENSORS_SFCTEMP=m
-+CONFIG_SENSORS_SG2042_MCU=y
- CONFIG_CPU_THERMAL=y
- CONFIG_DEVFREQ_THERMAL=y
- CONFIG_RZG2L_THERMAL=y
---
-2.45.2
+<...>
 
+> +	out_len = cmd->out_len;
+> +	void *outbuf __free(kvfree_errptr) = fwctl->ops->fw_rpc(
+> +		ucmd->uctx, cmd->scope, inbuf, cmd->in_len, &out_len);
+
+I was under impression that declaration of variables in C should be at the beginning
+of block. Was it changed for the kernel?
+
+Thanks
