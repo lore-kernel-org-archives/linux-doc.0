@@ -1,138 +1,197 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D15C1991DB;
-	Tue, 30 Jul 2024 12:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4656F18E77B;
+	Tue, 30 Jul 2024 12:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722342340; cv=none; b=RuBOHNbYZIKtlKK4u8poWIEYKrEYzGTERZEmgToas4YnBgz4ra+KxfbOd8cZWmkJU7kZSJzAvL0iMeziC5sBfBTCxtPC1200EFxcQIDJDmq/jB44NuHSD3AjLLWSXWtZFwC2QfMinfN/kTCiN6QVsl9PbcmYWxZVfOROy6t9GKQ=
+	t=1722344052; cv=none; b=qBTemXl6wlyV8+sRrJXB5HV8iKm6LDN0Us8Ei9aIDQmfIJT2aVr8FzrX+ckqqcGEW/ZPvWcKOHORpFNclf26A0jgyq2TFHViTCvWNUYeSsjQv+tEsLs2YimEXGxEq6goZ5+2tRm2lGy/YIGKmE3TL7UNHXlhaiq00tFmZJOFHKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722342340; c=relaxed/simple;
-	bh=qdDMP7323l8v6fO21UUWMEocD4966D9stt8FVHJsOUI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uIn2a4OdkzCFPoDM41log4Y5ACVkkTtDXTFaYnhkRXIMujBkP5mjTiicuJUuaV/b7922WmPOwV2+wlYNAT2vQR77EC+ymR7Gij7evi0i5kNIdyrrxjRH+CmPPFDSKqcxfBLIp7/GX0ompjdpmYpJRFXUJFUM73H5Dlq1LAc20LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=qNLrnyDz; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1722344052; c=relaxed/simple;
+	bh=LLiAw6ZxvLcFy7fnlP7whFiN0aTJLUEDsik4Uz39p2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vC0WwmTxMN1Jf2SmoHWzuprmFCUm70oVYMxuEb1YY5kDSSZnI5idUWzVth5/4NDWAjW1aUBbrIQqmy50ARDLEHD7TJmfoy/RgnGGXK1qzE1i+YGn9T1il2lYaPb01IOnFKLCMQPcyNhL4e1TKcmwkYv2iIeZnb5z2j8DGHmNAV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3QW/RJ6; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qNLrnyDz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1722342331; x=1722947131; i=w_armin@gmx.de;
-	bh=bussN/ItGE7hyQ7qjLYxNnxcmLOLpXWhjXARu85qVog=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=qNLrnyDzulH4CN/hF55v0aev87OBUJlDIB4Mq0TtdVEikhUwFJZCNDKezANHEN5h
-	 yocU7fNnNpgT+O/qSEV772TTfV9rEPEr/Mc0fr6W2V2BqiZ85gJ83SERuX7aaiHL9
-	 3wqquhMbxMIYF45hu2295RCfkhmjVqu1IB9Cd75g+3PDR/D6TUch/yVobIZLCktEZ
-	 n0JJh9yI22zZVkJIRopZ3pN5SRrUHiACedgmXrTEscqPoyjBxuF5Y6e7e1uZ0L+P1
-	 FWzP/yT0Ed+wBHvs8z/Z1zrH0p6Xwr2ocidAgq84PO7sWiNoNkhgmc4YsufkKCohm
-	 CCWBu34iQc/qa6esag==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9g4-1sTHj51A4a-008mNj; Tue, 30
- Jul 2024 14:25:31 +0200
-Message-ID: <87bfdaa2-5b94-46b1-bbf7-d81245c7d658@gmx.de>
-Date: Tue, 30 Jul 2024 14:25:30 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3QW/RJ6"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7a1e31bc1efso259214185a.3;
+        Tue, 30 Jul 2024 05:54:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722344049; x=1722948849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NJYKM99E2+3UyNnfdZyryLSeiuvfGcmER1HaW+0ju40=;
+        b=X3QW/RJ6rxPWsyBKCDCEXIM0abhZ2kfpxsGpzAmbdrnmaT76ec8vvzFrBonCuGHN5W
+         825DZ3WWoI2vce6HooYBiQruFgbo0FtipOjEAdurOp4BcJw64eNuLq+Mi5kTmLBOwI1F
+         xIkmSDM/hK/ZBmuOxaB9lECJey+tthDf8TTQU9H0N6UzTlhIEWJnW7rwg8RwZiawNTij
+         OOCG3mDn17o8MXYQfk4hbzBXzmwAtT+TL4MYkrNGNd4fSMt0tHOOXRSoe355hIfp5Iq9
+         fwcVJzHKs6n2N+O5+e4OPC0ntF/ffpTmVK8GDGhKBFdRrIEVDXDPornfUnZbKA1s+d4s
+         8mPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722344049; x=1722948849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NJYKM99E2+3UyNnfdZyryLSeiuvfGcmER1HaW+0ju40=;
+        b=m8CyFy6IcHK7yZCI04vLbMRujl2P15vVJLSmaiGUA/3VKng2HcmY4+ZXgytJEMU8GI
+         sy6YL4ik0oBfVyoBzJCvjahNlOqjywJgjXnOZfaukk7WDfde89DEiMiolmk2tGTtUQwP
+         Dg5XboVJQMnsBcGejhr5+3+qr5Fw7a2y3vagvORntduErFBUZ45z/g92/ORBp3LBsCzY
+         zlv3h9aALyZIgL0NnjjRAZbPUfwnvkl43G4O5bB1onUYwHJpZm5tuS7W4MnMH45jhdUC
+         mESkSN4yXIjhm2VLashEQXtd7R/Fln+kQLH3tZbCOWUL+f1FUSTrcSOqYWc3Q4RkljVi
+         dCnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVHv4rSMsZ6p708CpKr1qTwv1ilXNH6B9zPVvvJKCghJ/YX+vnjs7NzpwPU85lBJuOcwd9o5wnAhUB+8owfDz1ua5HEjgXs3nSYdfB8TK8OOCRVKtzS6PZmJn1zlpWwQqvupX6F0ZM
+X-Gm-Message-State: AOJu0Yy43Tn0+HZEDElsxOl6jFZisSwzmQyLUQUHVXEA66J8ym3djzS2
+	jDndQlOXJBQST3k4RB6R0JGk4kannJl4rfIOBej2k6FjK0i0jrGN
+X-Google-Smtp-Source: AGHT+IHJH8x1W4h56Q6n4TFNZhS/JteevbctTh7VHs4uLUYEAjKKvOPMlUnAdQWViQNLvChld9W+Fg==
+X-Received: by 2002:a05:620a:4551:b0:79e:fef3:ba3 with SMTP id af79cd13be357-7a1e522a232mr1584496085a.3.1722344049079;
+        Tue, 30 Jul 2024 05:54:09 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-015.fbsv.net. [2a03:2880:20ff:f::face:b00c])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe8123fb1sm49762661cf.18.2024.07.30.05.54.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 05:54:08 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	roman.gushchin@linux.dev,
+	yuzhao@google.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	ryan.roberts@arm.com,
+	rppt@kernel.org,
+	willy@infradead.org,
+	cerasuolodomenico@gmail.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH 0/6] mm: split underutilized THPs
+Date: Tue, 30 Jul 2024 13:45:57 +0100
+Message-ID: <20240730125346.1580150-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>, corbet@lwn.net
-Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240729223649.135639-1-luis.hernandez093@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20240729223649.135639-1-luis.hernandez093@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IzHrU+9R1FGoUahWzPtYbZQXRyIJcVLmyBbTiP1Yaq7sqhyYw8H
- mjRD+L06aLbz1IS5TkiNQrAMULuXVxHdNjh325hYz2S1f6TXQxQ8dSrdmh7to+DdfhyJ8p0
- pPj1Q+Ou+zhWoA+JJaWq6cnbBPgUranxWiUiSd+N+55ch27wSSR4EmgESjw2JYSm3o8dP+A
- FhJ1LwnjH3COSlRDHHVgg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9fq1H++DdOI=;MB0Yui693RYl/p+ccc3bWftwDLn
- V/x7jTl+n4AUDQMUlvWauiJfOduFRrtN4av8a8FI38fbnHV46IDfUXGhR00gXkuXqOkDTnhFR
- r0pzwr5FPpO8vWbsQgPHUnplHCMgNBb4Bxn8NAlsJ2LeNpDOdydazcd3plcu7Xmid+EMcuUaP
- /3XPE8SvlOskKJj8kC5JK2FzyRXTXm+TSmfnxrEY3xXDEPw3IHtZZa4mTkLg+eb7GF5LmvDAq
- 3/o7sUY8nKHkl4Pszsmgjsfhe1Ofn0Ohth61xgRcaHDUJmjTAsNMLfrXMLRfmQhHyf6PozVK9
- U1RXBGszSjkNAtCPBlfqJD2FF9q+8msBPhNNKfe/sD6EELGTWq0mu8ASXPrMUq1NXSEJK5zNQ
- a2ElU27+Nk9dw+s+K2zn/O6QPT3cj0UduHGNRdW8JZLsH6/EnGSlVtMqyT7SNBN5R/O0ybia9
- wH/B0PwhQM+zRAVOmm0mjA44It0qK9UxPZLr5wrl7mefii3U91P05qRS4BZJIe3P5irQbXhYm
- pU35/5EK+TnltquPD8/9tle3+IjdJE/ez/zOp61Pe3q8tcYCLuwotvVbwB9786t5KXTzycGjh
- ChWBTGehNfHi79KZ9DX/L6SHyYTxUB/kDaptcQd1JrQ/Rn03hqbp52chTdnYzchaq8Uz+JVbK
- Y7ExgW0y4uphd+1SCiBVeYV7oUoMg6ghsJR9z9PrtNWKI1GH4XSKvDSouMRE8kFKqZTxxVFA5
- J+WvkXWAROt3y8dlpnPpTXaQvTLEOi3ufSo/LXgUOQGSdpFCClziflMc6mC/CDYhF5jIt/G65
- SjfvpV7ctWz5RN591bb/M2jg==
+Content-Transfer-Encoding: 8bit
 
-Am 30.07.24 um 00:36 schrieb Luis Felipe Hernandez:
+The current upstream default policy for THP is always. However, Meta
+uses madvise in production as the current THP=always policy vastly
+overprovisions THPs in sparsely accessed memory areas, resulting in
+excessive memory pressure and premature OOM killing.
+Using madvise + relying on khugepaged has certain drawbacks over
+THP=always. Using madvise hints mean THPs aren't "transparent" and
+require userspace changes. Waiting for khugepaged to scan memory and
+collapse pages into THP can be slow and unpredictable in terms of performance
+(i.e. you dont know when the collapse will happen), while production
+environments require predictable performance. If there is enough memory
+available, its better for both performance and predictability to have
+a THP from fault time, i.e. THP=always rather than wait for khugepaged
+to collapse it, and deal with sparsely populated THPs when the system is
+running out of memory.
 
-> There were a few instances of typos that could lead to confusion
-> when reading. The following words have been corrected:
-> Binay -> Binary
-> singe -> single
-> chaged -> changed
+This patch-series is an attempt to mitigate the issue of running out of
+memory when THP is always enabled. During runtime whenever a THP is being
+faulted in or collapsed by khugepaged, the THP is added to a list.
+Whenever memory reclaim happens, the kernel runs the deferred_split
+shrinker which goes through the list and checks if the THP was underutilized,
+i.e. how many of the base 4K pages of the entire THP were zero-filled.
+If this number goes above a certain threshold, the shrinker will attempt
+to split that THP. Then at remap time, the pages that were zero-filled are
+not remapped, hence saving memory. This method avoids the downside of
+wasting memory in areas where THP is sparsely filled when THP is always
+enabled, while still providing the upside THPs like reduced TLB misses without
+having to use madvise.
 
-Hi,
+Meta production workloads that were CPU bound (>99% CPU utilzation) were
+tested with THP shrinker. The results after 2 hours are as follows:
 
-please change the title to "platform/x86: msi-wmi-platform: Fix spelling m=
-istakes".
-With that being addressed:
+                            | THP=madvise |  THP=always   | THP=always
+                            |             |               | + shrinker series
+                            |             |               | + max_ptes_none=409
+-----------------------------------------------------------------------------
+Performance improvement     |      -      |    +1.8%      |     +1.7%
+(over THP=madvise)          |             |               |
+-----------------------------------------------------------------------------
+Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+-----------------------------------------------------------------------------
+max_ptes_none=409 means that any THP that has more than 409 out of 512
+(80%) zero filled filled pages will be split.
 
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+To test out the patches, the below commands without the shrinker will
+invoke OOM killer immediately and kill stress, but will not fail with
+the shrinker:
 
-> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-> ---
->   Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentat=
-ion/wmi/devices/msi-wmi-platform.rst
-> index 29b1b2e6d42c..31a136942892 100644
-> --- a/Documentation/wmi/devices/msi-wmi-platform.rst
-> +++ b/Documentation/wmi/devices/msi-wmi-platform.rst
-> @@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bm=
-fdec>`_ utility:
->
->   Due to a peculiarity in how Windows handles the ``CreateByteField()`` =
-ACPI operator (errors only
->   happen when a invalid byte field is ultimately accessed), all methods =
-require a 32 byte input
-> -buffer, even if the Binay MOF says otherwise.
-> +buffer, even if the Binary MOF says otherwise.
->
->   The input buffer contains a single byte to select the subfeature to be=
- accessed and 31 bytes of
->   input data, the meaning of which depends on the subfeature being acces=
-sed.
->
-> -The output buffer contains a singe byte which signals success or failur=
-e (``0x00`` on failure)
-> +The output buffer contains a single byte which signals success or failu=
-re (``0x00`` on failure)
->   and 31 bytes of output data, the meaning if which depends on the subfe=
-ature being accessed.
->
->   WMI method Get_EC()
-> @@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller f=
-irmware version string.
->   The first 4 bits of the flag byte contain the minor version of the emb=
-edded controller interface,
->   with the next 2 bits containing the major version of the embedded cont=
-roller interface.
->
-> -The 7th bit signals if the embedded controller page chaged (exact meani=
-ng is unknown), and the
-> +The 7th bit signals if the embedded controller page changed (exact mean=
-ing is unknown), and the
->   last bit signals if the platform is a Tigerlake platform.
->
->   The MSI software seems to only use this interface when the last bit is=
- set.
+echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+mkdir /sys/fs/cgroup/test
+echo $$ > /sys/fs/cgroup/test/cgroup.procs
+echo 20M > /sys/fs/cgroup/test/memory.max
+echo 0 > /sys/fs/cgroup/test/memory.swap.max
+# allocate twice memory.max for each stress worker and touch 40/512 of
+# each THP, i.e. vm-stride 50K.
+# With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+# killer.
+# Without the shrinker, OOM killer is invoked immediately irrespective
+# of max_ptes_none value and kill stress.
+stress --vm 1 --vm-bytes 40M --vm-stride 50K
+
+Patches 1-2 add back helper functions that were previously removed
+to operate on page lists (needed by patch 3).
+Patch 3 is an optimization to free zapped tail pages rather than
+waiting for page reclaim or migration.
+Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
+subpages when splitting THP.
+Patches 6 adds support for THP shrinker.
+
+(This patch-series restarts the work on having a THP shrinker in kernel
+originally done in
+https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
+The THP shrinker in this series is significantly different than the
+original one, hence its labelled v1 (although the prerequisite to not
+remap clean subpages is the same).)
+
+Alexander Zhu (1):
+  mm: add selftests to split_huge_page() to verify unmap/zap of zero
+    pages
+
+Usama Arif (3):
+  Revert "memcg: remove mem_cgroup_uncharge_list()"
+  Revert "mm: remove free_unref_page_list()"
+  mm: split underutilized THPs
+
+Yu Zhao (2):
+  mm: free zapped tail pages when splitting isolated thp
+  mm: don't remap unused subpages when splitting isolated thp
+
+ Documentation/admin-guide/mm/transhuge.rst    |   6 +
+ include/linux/huge_mm.h                       |   4 +-
+ include/linux/khugepaged.h                    |   1 +
+ include/linux/memcontrol.h                    |  12 ++
+ include/linux/mm_types.h                      |   2 +
+ include/linux/rmap.h                          |   2 +-
+ include/linux/vm_event_item.h                 |   1 +
+ mm/huge_memory.c                              | 152 +++++++++++++++---
+ mm/hugetlb.c                                  |   1 +
+ mm/internal.h                                 |   5 +-
+ mm/khugepaged.c                               |   3 +-
+ mm/memcontrol.c                               |  22 ++-
+ mm/migrate.c                                  |  76 +++++++--
+ mm/migrate_device.c                           |   4 +-
+ mm/page_alloc.c                               |  18 +++
+ mm/rmap.c                                     |   2 +-
+ mm/vmscan.c                                   |   3 +-
+ mm/vmstat.c                                   |   1 +
+ .../selftests/mm/split_huge_page_test.c       | 113 +++++++++++++
+ tools/testing/selftests/mm/vm_util.c          |  22 +++
+ tools/testing/selftests/mm/vm_util.h          |   1 +
+ 21 files changed, 414 insertions(+), 37 deletions(-)
+
+-- 
+2.43.0
+
