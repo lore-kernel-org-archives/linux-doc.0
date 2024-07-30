@@ -1,55 +1,57 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4656F18E77B;
-	Tue, 30 Jul 2024 12:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEAF1991A7;
+	Tue, 30 Jul 2024 12:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722344052; cv=none; b=qBTemXl6wlyV8+sRrJXB5HV8iKm6LDN0Us8Ei9aIDQmfIJT2aVr8FzrX+ckqqcGEW/ZPvWcKOHORpFNclf26A0jgyq2TFHViTCvWNUYeSsjQv+tEsLs2YimEXGxEq6goZ5+2tRm2lGy/YIGKmE3TL7UNHXlhaiq00tFmZJOFHKc=
+	t=1722344053; cv=none; b=p0IDr4kjAIOcryxH7ORzrNHr8nPZJ8A/wMriD1DlKH4gslMLuJlkX0PYlnn8SkXNuNhXDdr6PjJOeIc+xlTh6uSvRCY2zZR7SqWuJ5p/45QoYBCEjdLyv/qslJyMpm1DJWwlFOke9YRhtrjkkyMCNDATpeXMSJXEdnvKOM8VfwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722344052; c=relaxed/simple;
-	bh=LLiAw6ZxvLcFy7fnlP7whFiN0aTJLUEDsik4Uz39p2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vC0WwmTxMN1Jf2SmoHWzuprmFCUm70oVYMxuEb1YY5kDSSZnI5idUWzVth5/4NDWAjW1aUBbrIQqmy50ARDLEHD7TJmfoy/RgnGGXK1qzE1i+YGn9T1il2lYaPb01IOnFKLCMQPcyNhL4e1TKcmwkYv2iIeZnb5z2j8DGHmNAV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3QW/RJ6; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1722344053; c=relaxed/simple;
+	bh=hMifvmNy6jSvPiHEg2g5JNijSpLu2sbjQPsrq9O1zvU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MxO1cPcBqAQz/oVmwBlSqe7cM59rt/U2Uo9WRMQ1sw9HYv1hRpdBQ3DcIvrM6VfIW6WYPhjVMdGFyGT/DbDVtOgkPASrTgJTiGYvJ2MnS8SplafNsCyRFBAGyNbDlcD9zuZGzRYUAE2NhOt6Ko9TIOzMPH2DGBs9zfx8OHuZ2uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4O04Ubr; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3QW/RJ6"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7a1e31bc1efso259214185a.3;
-        Tue, 30 Jul 2024 05:54:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4O04Ubr"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7a1e0ff6871so266746085a.2;
+        Tue, 30 Jul 2024 05:54:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722344049; x=1722948849; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NJYKM99E2+3UyNnfdZyryLSeiuvfGcmER1HaW+0ju40=;
-        b=X3QW/RJ6rxPWsyBKCDCEXIM0abhZ2kfpxsGpzAmbdrnmaT76ec8vvzFrBonCuGHN5W
-         825DZ3WWoI2vce6HooYBiQruFgbo0FtipOjEAdurOp4BcJw64eNuLq+Mi5kTmLBOwI1F
-         xIkmSDM/hK/ZBmuOxaB9lECJey+tthDf8TTQU9H0N6UzTlhIEWJnW7rwg8RwZiawNTij
-         OOCG3mDn17o8MXYQfk4hbzBXzmwAtT+TL4MYkrNGNd4fSMt0tHOOXRSoe355hIfp5Iq9
-         fwcVJzHKs6n2N+O5+e4OPC0ntF/ffpTmVK8GDGhKBFdRrIEVDXDPornfUnZbKA1s+d4s
-         8mPg==
+        d=gmail.com; s=20230601; t=1722344050; x=1722948850; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KP/Cz3QVNU5uyUnKyaSLbXt0q/kOvLrAG+hU9UnZ/BE=;
+        b=H4O04UbrYXXl9To4EKPfYL55GxQrD2MI2z1hACXcwe+bv0nl0i7i8AioP+8dSCy8dk
+         5/LWp8jqCMuQLHTdxxAFZ2kWwRZHycQ5jhyjZYmo3XdJ3COtQjDlR64gibKiVdzWE8Z+
+         e7wRVXFRTJToeCeTEbD53nrn0KZCc3zIU5nZXzKLakEehY1NCaIxlmd26Gb0Cmm6P+WM
+         rGgV3GQiaPrYBpIAokLZpKswaQJ6NlNc3gKWLngwBozdBURsVhHoqEK2rXxtjpIMHSwR
+         Pyrjotu1++uyymZU/wJLbJEdYsc9FA/HotzHKZF/FTH2+daHr3523AxVF05gBO4b9Ie+
+         0yDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722344049; x=1722948849;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NJYKM99E2+3UyNnfdZyryLSeiuvfGcmER1HaW+0ju40=;
-        b=m8CyFy6IcHK7yZCI04vLbMRujl2P15vVJLSmaiGUA/3VKng2HcmY4+ZXgytJEMU8GI
-         sy6YL4ik0oBfVyoBzJCvjahNlOqjywJgjXnOZfaukk7WDfde89DEiMiolmk2tGTtUQwP
-         Dg5XboVJQMnsBcGejhr5+3+qr5Fw7a2y3vagvORntduErFBUZ45z/g92/ORBp3LBsCzY
-         zlv3h9aALyZIgL0NnjjRAZbPUfwnvkl43G4O5bB1onUYwHJpZm5tuS7W4MnMH45jhdUC
-         mESkSN4yXIjhm2VLashEQXtd7R/Fln+kQLH3tZbCOWUL+f1FUSTrcSOqYWc3Q4RkljVi
-         dCnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVHv4rSMsZ6p708CpKr1qTwv1ilXNH6B9zPVvvJKCghJ/YX+vnjs7NzpwPU85lBJuOcwd9o5wnAhUB+8owfDz1ua5HEjgXs3nSYdfB8TK8OOCRVKtzS6PZmJn1zlpWwQqvupX6F0ZM
-X-Gm-Message-State: AOJu0Yy43Tn0+HZEDElsxOl6jFZisSwzmQyLUQUHVXEA66J8ym3djzS2
-	jDndQlOXJBQST3k4RB6R0JGk4kannJl4rfIOBej2k6FjK0i0jrGN
-X-Google-Smtp-Source: AGHT+IHJH8x1W4h56Q6n4TFNZhS/JteevbctTh7VHs4uLUYEAjKKvOPMlUnAdQWViQNLvChld9W+Fg==
-X-Received: by 2002:a05:620a:4551:b0:79e:fef3:ba3 with SMTP id af79cd13be357-7a1e522a232mr1584496085a.3.1722344049079;
-        Tue, 30 Jul 2024 05:54:09 -0700 (PDT)
-Received: from localhost (fwdproxy-ash-015.fbsv.net. [2a03:2880:20ff:f::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe8123fb1sm49762661cf.18.2024.07.30.05.54.08
+        d=1e100.net; s=20230601; t=1722344050; x=1722948850;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KP/Cz3QVNU5uyUnKyaSLbXt0q/kOvLrAG+hU9UnZ/BE=;
+        b=bPxDoyFZ06Occh9X4rMqohSxWoYlPy2xkV2hO09dTGEksWlvhzoUBrfb8lGdejc9eX
+         8fhejPFGozL2zB/jT7QBCM+4B13m3lDkp55dD8uC+k4qnQfVhrBv0lWyvJMQIVGYBaoL
+         zhszPaGRfQ2eY4ZR1ItWV8MDChUZHVD6uBd8b3UThSqanZwmFoET6TUed5YIlhZ2qJia
+         kMx/Mz6shbJZriq6DiueM4P0LVippDtGRu5mwJ9vxl+7QMLbx/8f/QN+lQwyAO1/gHwV
+         VQlRKNsa2q1J2/RFB3DNG6WScCiK3XvSp8Mm33+Vu71BPGUM59J6x7SDx0yh+A+PdmU3
+         rZNw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEZr0yDNq67fKmKEIwMOg0+3ukVvHAzZNl6SGt3WIYZ0+OQyN8Jr1S6E0wf/K+t0Z9CpY40idn5AyoKPDjD3akGt2Z8pf/A0X8ws6vPJLXia7U+QCtxE7PRSjsE4cU5N84AxCv4n+8
+X-Gm-Message-State: AOJu0Yy2PyQgF3zEnIoQeXMZvW2W9enJBzoLTlpMzBfs3LoSvW2kTcfZ
+	ycJ+IxwYVKaaWrB6Xb0M8lJJBVvXQ3kWdOXPjyhp1LPZa4iEDrjE
+X-Google-Smtp-Source: AGHT+IGKfomzFh7hnhpcESd3MD/dzvcJlg6cDEKXingUGcZg56zluFUVdo6AMVlaIlW4lTWHXPgxoA==
+X-Received: by 2002:a05:620a:24c3:b0:79e:fcb8:815c with SMTP id af79cd13be357-7a1e52cdbf2mr1496430585a.54.1722344050589;
+        Tue, 30 Jul 2024 05:54:10 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-009.fbsv.net. [2a03:2880:20ff:9::face:b00c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a1d73ea990sm626878885a.55.2024.07.30.05.54.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 05:54:08 -0700 (PDT)
+        Tue, 30 Jul 2024 05:54:09 -0700 (PDT)
 From: Usama Arif <usamaarif642@gmail.com>
 To: akpm@linux-foundation.org,
 	linux-mm@kvack.org
@@ -69,10 +71,12 @@ Cc: hannes@cmpxchg.org,
 	linux-doc@vger.kernel.org,
 	kernel-team@meta.com,
 	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH 0/6] mm: split underutilized THPs
-Date: Tue, 30 Jul 2024 13:45:57 +0100
-Message-ID: <20240730125346.1580150-1-usamaarif642@gmail.com>
+Subject: [PATCH 1/6] Revert "memcg: remove mem_cgroup_uncharge_list()"
+Date: Tue, 30 Jul 2024 13:45:58 +0100
+Message-ID: <20240730125346.1580150-2-usamaarif642@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240730125346.1580150-1-usamaarif642@gmail.com>
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,117 +85,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current upstream default policy for THP is always. However, Meta
-uses madvise in production as the current THP=always policy vastly
-overprovisions THPs in sparsely accessed memory areas, resulting in
-excessive memory pressure and premature OOM killing.
-Using madvise + relying on khugepaged has certain drawbacks over
-THP=always. Using madvise hints mean THPs aren't "transparent" and
-require userspace changes. Waiting for khugepaged to scan memory and
-collapse pages into THP can be slow and unpredictable in terms of performance
-(i.e. you dont know when the collapse will happen), while production
-environments require predictable performance. If there is enough memory
-available, its better for both performance and predictability to have
-a THP from fault time, i.e. THP=always rather than wait for khugepaged
-to collapse it, and deal with sparsely populated THPs when the system is
-running out of memory.
+mem_cgroup_uncharge_list will be needed in a later patch for an
+optimization to free zapped tail pages when splitting isolated thp.
 
-This patch-series is an attempt to mitigate the issue of running out of
-memory when THP is always enabled. During runtime whenever a THP is being
-faulted in or collapsed by khugepaged, the THP is added to a list.
-Whenever memory reclaim happens, the kernel runs the deferred_split
-shrinker which goes through the list and checks if the THP was underutilized,
-i.e. how many of the base 4K pages of the entire THP were zero-filled.
-If this number goes above a certain threshold, the shrinker will attempt
-to split that THP. Then at remap time, the pages that were zero-filled are
-not remapped, hence saving memory. This method avoids the downside of
-wasting memory in areas where THP is sparsely filled when THP is always
-enabled, while still providing the upside THPs like reduced TLB misses without
-having to use madvise.
+Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+---
+ include/linux/memcontrol.h | 12 ++++++++++++
+ mm/memcontrol.c            | 19 +++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-Meta production workloads that were CPU bound (>99% CPU utilzation) were
-tested with THP shrinker. The results after 2 hours are as follows:
-
-                            | THP=madvise |  THP=always   | THP=always
-                            |             |               | + shrinker series
-                            |             |               | + max_ptes_none=409
------------------------------------------------------------------------------
-Performance improvement     |      -      |    +1.8%      |     +1.7%
-(over THP=madvise)          |             |               |
------------------------------------------------------------------------------
-Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
------------------------------------------------------------------------------
-max_ptes_none=409 means that any THP that has more than 409 out of 512
-(80%) zero filled filled pages will be split.
-
-To test out the patches, the below commands without the shrinker will
-invoke OOM killer immediately and kill stress, but will not fail with
-the shrinker:
-
-echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
-mkdir /sys/fs/cgroup/test
-echo $$ > /sys/fs/cgroup/test/cgroup.procs
-echo 20M > /sys/fs/cgroup/test/memory.max
-echo 0 > /sys/fs/cgroup/test/memory.swap.max
-# allocate twice memory.max for each stress worker and touch 40/512 of
-# each THP, i.e. vm-stride 50K.
-# With the shrinker, max_ptes_none of 470 and below won't invoke OOM
-# killer.
-# Without the shrinker, OOM killer is invoked immediately irrespective
-# of max_ptes_none value and kill stress.
-stress --vm 1 --vm-bytes 40M --vm-stride 50K
-
-Patches 1-2 add back helper functions that were previously removed
-to operate on page lists (needed by patch 3).
-Patch 3 is an optimization to free zapped tail pages rather than
-waiting for page reclaim or migration.
-Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
-subpages when splitting THP.
-Patches 6 adds support for THP shrinker.
-
-(This patch-series restarts the work on having a THP shrinker in kernel
-originally done in
-https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
-The THP shrinker in this series is significantly different than the
-original one, hence its labelled v1 (although the prerequisite to not
-remap clean subpages is the same).)
-
-Alexander Zhu (1):
-  mm: add selftests to split_huge_page() to verify unmap/zap of zero
-    pages
-
-Usama Arif (3):
-  Revert "memcg: remove mem_cgroup_uncharge_list()"
-  Revert "mm: remove free_unref_page_list()"
-  mm: split underutilized THPs
-
-Yu Zhao (2):
-  mm: free zapped tail pages when splitting isolated thp
-  mm: don't remap unused subpages when splitting isolated thp
-
- Documentation/admin-guide/mm/transhuge.rst    |   6 +
- include/linux/huge_mm.h                       |   4 +-
- include/linux/khugepaged.h                    |   1 +
- include/linux/memcontrol.h                    |  12 ++
- include/linux/mm_types.h                      |   2 +
- include/linux/rmap.h                          |   2 +-
- include/linux/vm_event_item.h                 |   1 +
- mm/huge_memory.c                              | 152 +++++++++++++++---
- mm/hugetlb.c                                  |   1 +
- mm/internal.h                                 |   5 +-
- mm/khugepaged.c                               |   3 +-
- mm/memcontrol.c                               |  22 ++-
- mm/migrate.c                                  |  76 +++++++--
- mm/migrate_device.c                           |   4 +-
- mm/page_alloc.c                               |  18 +++
- mm/rmap.c                                     |   2 +-
- mm/vmscan.c                                   |   3 +-
- mm/vmstat.c                                   |   1 +
- .../selftests/mm/split_huge_page_test.c       | 113 +++++++++++++
- tools/testing/selftests/mm/vm_util.c          |  22 +++
- tools/testing/selftests/mm/vm_util.h          |   1 +
- 21 files changed, 414 insertions(+), 37 deletions(-)
-
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 07eadf7ecbba..cbaf0ea1b217 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -713,6 +713,14 @@ static inline void mem_cgroup_uncharge(struct folio *folio)
+ 	__mem_cgroup_uncharge(folio);
+ }
+ 
++void __mem_cgroup_uncharge_list(struct list_head *page_list);
++static inline void mem_cgroup_uncharge_list(struct list_head *page_list)
++{
++	if (mem_cgroup_disabled())
++		return;
++	__mem_cgroup_uncharge_list(page_list);
++}
++
+ void __mem_cgroup_uncharge_folios(struct folio_batch *folios);
+ static inline void mem_cgroup_uncharge_folios(struct folio_batch *folios)
+ {
+@@ -1203,6 +1211,10 @@ static inline void mem_cgroup_uncharge(struct folio *folio)
+ {
+ }
+ 
++static inline void mem_cgroup_uncharge_list(struct list_head *page_list)
++{
++}
++
+ static inline void mem_cgroup_uncharge_folios(struct folio_batch *folios)
+ {
+ }
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 9b3ef3a70833..f568b9594c2b 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4717,6 +4717,25 @@ void __mem_cgroup_uncharge(struct folio *folio)
+ 	uncharge_batch(&ug);
+ }
+ 
++/**
++ * __mem_cgroup_uncharge_list - uncharge a list of page
++ * @page_list: list of pages to uncharge
++ *
++ * Uncharge a list of pages previously charged with
++ * __mem_cgroup_charge().
++ */
++void __mem_cgroup_uncharge_list(struct list_head *page_list)
++{
++	struct uncharge_gather ug;
++	struct folio *folio;
++
++	uncharge_gather_clear(&ug);
++	list_for_each_entry(folio, page_list, lru)
++		uncharge_folio(folio, &ug);
++	if (ug.memcg)
++		uncharge_batch(&ug);
++}
++
+ void __mem_cgroup_uncharge_folios(struct folio_batch *folios)
+ {
+ 	struct uncharge_gather ug;
 -- 
 2.43.0
 
