@@ -1,133 +1,136 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB381854;
-	Tue, 30 Jul 2024 03:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE781487D8;
+	Tue, 30 Jul 2024 03:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722309721; cv=none; b=QVEaQaP1i00fKcMUEaAG9LTrnMJ/dV7CYZzMyXWUDfdTISP7wB+NsJkeVm6xImerEb7fHNGBGnKqu/mF3rWmCnBdz5pMbWQEsMN//tgErsQD6SF0i2kLyaroHJBPB0/E2blrGfH9H9kZhtBB+p5oUv4KOIPHaA//jfBBqWD/NfU=
+	t=1722311039; cv=none; b=q+IngZ/gv/RWNfLsu4FjQQYaM4DXmRl0r9kEcVnQ6Jrs3GCuRqj6xnpe0ARVc9hbpXEgMjbhuGissNoaKCnr/GtnOZM/tothWWwqUV5XA3yn7iTEU7ajAcwlVGLya118je1yRl7s32FPrVQGWj+5IVo3T+0b/cbZ+QtefjVpkng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722309721; c=relaxed/simple;
-	bh=EVEz++G7tSv3Kol7NsraWR4CcbTy4nHUfFS4zm3vCDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gckKt5tETbOKA46RGpm5f4FLVf3RLdHEZu2zjH4fjKrDsxhCy3yB+eQlbhtMGCXquaVBn11me3G65TPmgm5VrrxGWvzH8Y3ydh3hg1ZoIT7QzFZXziyeMTeZAi287cSEh/DLR8SmTT0wgFsd51gf/UgUapzTo8dJfCP53B1Rqw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4WY0rK2xsnz4f3jHc;
-	Tue, 30 Jul 2024 11:21:37 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.75])
-	by mail.maildlp.com (Postfix) with ESMTP id 3AD7E1A018D;
-	Tue, 30 Jul 2024 11:21:50 +0800 (CST)
-Received: from [10.67.110.112] (unknown [10.67.110.112])
-	by APP2 (Coremail) with SMTP id Syh0CgB3YL9MXKhmwu_8AA--.26046S2;
-	Tue, 30 Jul 2024 11:21:49 +0800 (CST)
-Message-ID: <ffdb6f77-89b4-cb54-4333-c5d63ef0a698@huaweicloud.com>
-Date: Tue, 30 Jul 2024 11:21:37 +0800
+	s=arc-20240116; t=1722311039; c=relaxed/simple;
+	bh=47oS6MdN1hRTkoPWB3nS98Zx5hlaXi7nZdTSHAgoyGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZV9py5AS1biKA2jt6GaxKOytk/Iw5GMp5VoF09XxUu5+oOaHZiqFAutFNtcUXUth+d412h6bn1z/Jc1wC2foZKgfmPCPH0DKYjYPXIhZ4mTmulkep+p4UELCCzm4r0p2MVIULM39bU8ScueMhvtF2d8bJSgPY8mcv2ReqMkSl4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWcOfx6z; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWcOfx6z"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5c661e75ff6so2910880eaf.2;
+        Mon, 29 Jul 2024 20:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722311037; x=1722915837; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UFVzFJaWTT6rGSUz8cSHkWG338V0aMzObcR7mTsL7Jw=;
+        b=YWcOfx6zVQb9ZV2aWrXTh6mQbgO/ytKbjhqO3m9yXl+bQ0fqTuzv6xSvVt8GVMYzXV
+         Z2whuh5mV+7TRawg67oo2X2R/HVTVytlf1qBicpmzD8KQio/eYMxKftPMEWdmaSZbYkp
+         9Px7bp+YFjIKscLq9oBr0nSpV/a98A5tqeoLxsZ9gAJWTrh7qrqlpGKOcioU/PBsi58U
+         qmTmbPsKR2fwG/PL50P6+pjIXbi0drGvqJjXi0/PIzUscg6FLYo3rQc42EYU61yjP6ZM
+         YRo5gQpqY/nN+UrPJ+qbdefz12UqRR9hOlsp3I6AdQx3oJKpQy/CqMMnBY/bkQrJow1K
+         5f1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722311037; x=1722915837;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UFVzFJaWTT6rGSUz8cSHkWG338V0aMzObcR7mTsL7Jw=;
+        b=nuoECpLU0NlqFPSdITDC0/pWBswnrVXgWNh2++z2j7htaFgKP8why6VjuIbShUS3G+
+         msZY2HqBr5nD06CQe3HKchJzJWDTn1NqGhMAkjXuRrxejq5M6TuTzQMO74MPMGqH6Xnn
+         zYd+PaCRxolZku5ZxduJQvuhT3HacRTfYrVAb3uxIZJDH3yJLpDL5ifJTTZtg7OvAQxB
+         kV7Ozj0WCPbFRBIFlR5JVvzM/knK1WIDcJzXj/pFC3zJ6GqP64HuKbIpYFMcrIbYXW1X
+         t0zhbhYEjse3K3qkgiHL+75oAfIf6upnarTc5vbjE/YTGM+Iy2pxQcq1+9PpYe1bYrSF
+         cMhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRBL55YtxnT8x+UpEG+8+XoybaXeaB/ZoaJ9INcawkaHzEeFAXR4AEkrhGWhK6Y9Ryw+EhoQzMzqIZdtvf8DR3yV/bxPnYSoUWQSd9jEcV46FFUQRVa2WoDCuIqHS1iIfS2YLQ/EHY
+X-Gm-Message-State: AOJu0Yy3z38wj4FQbk8ACUy0++4LPJoTLXhZiA7B0YV81QEubvFvdpaP
+	vFTpz8enUrfEo2r4za2s3aslOKYQDFSeEtIaYrQm1Giw6zi3r+dA3DdzqIctl7QXGO6gkJlR7vO
+	qmgjbwRgzVzJ1fRfSnZv9DhL8uOg=
+X-Google-Smtp-Source: AGHT+IHedkgYLg5L4/4Stt/4dTaPBSD8/b1plQKQGdpMSt9apgVXe1n2CWtfq6pwfo7wyZ0Wwv+6VNTURv7vtSyeT8g=
+X-Received: by 2002:a05:6820:2292:b0:5c4:27f0:ae with SMTP id
+ 006d021491bc7-5d5d0d9ad9fmr11055250eaf.1.1722311037620; Mon, 29 Jul 2024
+ 20:43:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v5 2/5] cgroup/pids: Make event counters hierarchical
-Content-Language: en-US
-To: =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>,
- Muhammad Usama Anjum <usama.anjum@collabora.com>
-References: <20240521092130.7883-1-mkoutny@suse.com>
- <20240521092130.7883-3-mkoutny@suse.com>
- <f124ce60-196e-2392-c4a9-11cdcacf9927@huawei.com>
- <cb0efc16-6df2-72b7-47ea-ce524d428cc1@huawei.com>
- <hs3oag7blyg5kkdu6ikbw7f6hefkdfk2qgqqnpothq7yx4qsts@gv2v4dbpfmv6>
-From: Xiu Jianfeng <xiujianfeng@huaweicloud.com>
-In-Reply-To: <hs3oag7blyg5kkdu6ikbw7f6hefkdfk2qgqqnpothq7yx4qsts@gv2v4dbpfmv6>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:Syh0CgB3YL9MXKhmwu_8AA--.26046S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF1rJF1UZF1xCF48uw17KFg_yoW8ur48pa
-	9ayFs3KFWkJ3saywnaqrn7tryFvwsYyFn8XFs8J3y8trZrKry3urW7CF15uFy5A34xCr42
-	qa1jgay3AryjyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-	e2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4I
-	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
-	WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
-	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjxUF1v3UUUUU
-X-CM-SenderInfo: x0lxyxpdqiv03j6k3tpzhluzxrxghudrp/
+References: <20240719041400.3909775-1-dzm91@hust.edu.cn> <20240719041400.3909775-3-dzm91@hust.edu.cn>
+ <87o76f98lr.fsf@trenco.lwn.net>
+In-Reply-To: <87o76f98lr.fsf@trenco.lwn.net>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 30 Jul 2024 11:43:31 +0800
+Message-ID: <CAD-N9QUi58tO61usRakxJUY063+=51FPSeXPvTaRXgMnOUR_2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] doc-guide: add help documentation checktransupdate.rst
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, chengziqiu@hust.edu.cn, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 30, 2024 at 5:44=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> For future reference, a sequence like this:
+>
+> > +Then the output is something like:
+> > +
+> > +::
+> > +
+> > +    Documentation/dev-tools/kfence.rst
+>
+> Can be more concisely and legibly expressed as:
+>
+> > Then the output is something like::
+> >
+> >    (literal text here)
+>
+> More importantly, though, this file:
+>
+> > diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentati=
+on/doc-guide/checktransupdate.rst
+> > new file mode 100644
+> > index 000000000000..dabbf9ecd187
+> > --- /dev/null
+> > +++ b/Documentation/doc-guide/checktransupdate.rst
+> > @@ -0,0 +1,53 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Check translation update
+> > +
+> > +This script helps track the translation status of the documentation in
+> > +different locales, i.e., whether the documentation is up-to-date with
+> > +the English counterpart.
+>
+> ...lacks a title, so it renders strangely and inserts inscrutable stuff
+> into the doc-guide index.  I have fixed this, but I am not entirely
+> happy about that; this is a problem you should have seen immediately by
+> looking at the rendered version of your new document.  *Please* be a bit
+> more careful in the future.
+
+Hi jon,
+
+If I understand correctly, you mean there should be "=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D" under
+the sentence "Check translate update". This would generate a title,
+right?
+
+Unfortunately, the "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D" is asked to be deleted =
+in the v2
+patch. I doubted it, but did not make it back.
+
+BTW, the merged commit version has the title - "How it works", other
+than "Check translate update".
+
+Please correct me if I make any misunderstanding.
 
 
 
-On 2024/7/25 17:38, Michal Koutný wrote:
-> Hello Jianfeng.
-> 
-> On Tue, Jul 16, 2024 at 11:27:39AM GMT, xiujianfeng <xiujianfeng@huawei.com> wrote:
->> On 2024/7/3 14:59, xiujianfeng wrote:
-> ...
->>>         for (; parent_pids(p); p = parent_pids(p)) {
->>>                 if (p == pids_over_limit) {
->>>                         limit = true;
->>>                         atomic64_inc(&p->events_local[PIDCG_MAX]);
->>>                         cgroup_file_notify(&p->events_local_file);
->>>                 }
->>>                 if (limit)
->>>                         atomic64_inc(&p->events[PIDCG_MAX]);
->>>
->>>                 cgroup_file_notify(&p->events_file);
->>>         }
->>> }
->>>
->>> Consider this scenario: there are 4 groups A, B, C,and D. The
->>> relationships are as follows, the latter is the child of the former:
->>>
->>> root->A->B->C->D
->>>
->>> Then the user is polling on C.pids.events. When a process in D forks and
->>> fails due to B.max restrictions(pids_forking is D, and pids_over_limit
->>> is B), the user is awakened. However, when the user reads C.pids.events,
->>> he will find that the content has not changed. because the 'limit' is
->>> set to true started from B, and C.pids.events shows as below:
->>>
->>> seq_printf(sf, "max %lld\n", (s64)atomic64_read(&events[PIDCG_MAX]));
->>>
->>> Wouldn't this behavior confuse the user? Should the code to be changed
->>> to this?
-> 
-> Two generic notes:
-> - event notifications can be rate limited, so users won't necessarily
->   see every change,
-> - upon notification it's better to read the event counter/status anyway
->   to base a response on it.
-> 
-> But your remark is justified, there is no reason in this case for
-> "spurious" event notification. It's an omission from v3 version of the
-> patch when there had been also pids.events:max.imposed (that'd trigger
-> events from D up to the root, it's only internal PIDCG_FORKFAIL now).
-> 
-> The upwards traversal loop can be simplified and fixed with only
-> PIDCG_MAX exposed. Can you send it as a separate patch please?
 
-Hi Michal,
-
-Thanks for your feedback. and I'm sorry I forgot to reply this thread
-after sending the patch.
-
-> 
-> (Apologies for late response, somehow I didn't see your e-mails.)
-> 
-> Michal
-
+>
+> Both patches applied, anyway.
+>
+> jon
+>
