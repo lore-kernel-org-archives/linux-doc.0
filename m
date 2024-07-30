@@ -1,113 +1,249 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C64018EFE0;
-	Tue, 30 Jul 2024 09:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC9E195FE5;
+	Tue, 30 Jul 2024 09:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722332259; cv=none; b=hM0takv6rGpErmAmwNrkgiJCp3IpgPBpwT4z2y/nv7BsGR6s3V6v4TdAA5ezvmbqrNt8alvYseY8ZGj6esEW7ahOx8tmQnMTOeMROHhZt7Ede2YZhiY5ulGQI/tDuU8vI5CXi01GNTBaZ4vdIkXDLySDbYFbMLoUdYRajxGb7/I=
+	t=1722333521; cv=none; b=iFWG4p8s+Oqug/dF6gBww+xJsoB34wOjCEKNbv/Znqr069SH/gpb/2oz23wpjDe0W44HYThC2YUrtQYhthMekRzdEkOtsEWcaqp4Y7rx+bLoecJeNiqIvEIXMneFsNDFxcYOxaxkt640+Z6ojqMJvUUd30AUO0Pzq3Qz86I/Fv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722332259; c=relaxed/simple;
-	bh=eQ4F1x/lpLxGO5KX65v21lz8EB6jaKNod2yiaHWTOHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOAD4G1JsKRpPW3OBxrE3CI8EV/CYDD7VhmAv4C9o1vo1j9mGsfqq9Bz6+KwkpP90Y8U1rlVo+sC43bqqzErvLqQnyO7eYUZV9uBG2LgIH99yAPeAO0I/SHHdnKOxbtttZFhG7uZfMccR4NzGSn9mWcYTmfuMFtXDgW4hekC5EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDqxSAI/; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1722333521; c=relaxed/simple;
+	bh=pBW1iXUgUWPqF8BiZCdFB4ILrvn3db6+hfo+Ctdyk48=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=q5Nd90TKyL4H2AHmvzD7CCga67+0tTzlmxXXCl9lLgTSap8D7+p4XDz6zLN3M7shEqgrSarU15EywuMVfbZyHwuDKG21byfPB6aCpk6ahWmUGsuE0y+G8Qnp6sIbMtiSf+MJEEz/wxdczR4OMf0bofi+DMfNSMsb7G9bPcedYyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uR0sgPqO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=k4Js5UuQ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDqxSAI/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722332257; x=1753868257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eQ4F1x/lpLxGO5KX65v21lz8EB6jaKNod2yiaHWTOHU=;
-  b=gDqxSAI/lWgnwnaZzcjDa32ePLqjrrHcLbJ8GMZQ7jYA7zQq9tmHrRX5
-   UXWnD5xq10uSnm8ATuHK6HyYiDMxP0eNXE8u+s1IesJzMnLiHL+KzoUmx
-   5TPeEs2vRECrx4LTY2l1qeQlLbY/XznxQxc5cRI6bXp0kD/goBjMmQqsl
-   95VQv5G8UQIrMpTYneO5rynQusz3nGEZ5B5AxvD2cd+4n6JkMVEwmkxpz
-   fYy1A7u9daA7KDU/SImxvH/wS1JwrQaHR8yWghZygP913UHJ0sou7CWO6
-   drT6aQmBaupIB9vxJl1Yw7ks1SM6bviJWlmRiXCteb7cFFlxNKkHQ0BAv
-   g==;
-X-CSE-ConnectionGUID: 6qX+W8k0TnGsHmFSRMf23w==
-X-CSE-MsgGUID: RxkUyNQeQOiwuiYSm1zj/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="37609123"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="37609123"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 02:37:36 -0700
-X-CSE-ConnectionGUID: LKz+kXhGS6K4pP63RiYLZQ==
-X-CSE-MsgGUID: CH0h1jCyQo+6eb2XHzFn6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="58605605"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Jul 2024 02:37:33 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYjIQ-000sjU-11;
-	Tue, 30 Jul 2024 09:37:30 +0000
-Date: Tue, 30 Jul 2024 17:36:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Chao Wei <chao.wei@sophgo.com>,
-	Hal Feng <hal.feng@starfivetech.com>,
-	Jinyu Tang <tangjinyu@tinylab.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v8 3/4] riscv: dts: sophgo: Add mcu device for Milk-V
- Pioneer
-Message-ID: <202407301749.K0pFCNLU-lkp@intel.com>
-References: <IA1PR20MB4953826DECDCC141A7CDE634BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uR0sgPqO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k4Js5UuQ"
+From: Kurt Kanzenbach <kurt@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1722333516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RGoEM2sBI9H+4jdzkqFA7zQ20wEq+y0hpMq3862q89o=;
+	b=uR0sgPqO4CkZIXC3qLkB1+lOBK+9HOm16MLEx8B+FIaE4W5QuWyc44hBBJ++xHLjrdjDTm
+	R5IuH5iW7j70XU2Q3HgFoNYtJ8nskjskL5fdMD3sGiZijIYqoZ8pS6o9b6XHYx+N/nKbRE
+	V+Y6HThiQMlnVbmJzm65d0qxzVOQosw5QZ/I1q3eUXDCth2hW8r460bc1bfbNVcnOPGd/A
+	iskkM3RRSKYFcGbZAjlqmg7oOCWVEad/ILxPfDdcVTBvNXbavf2Y1sMKcHo26hV8a+huNq
+	9fMzm2JZAKYTsS3crhhOi1N5FBINQBSJGdPM0n/PzyEpyZ4cG9oEiEe3+hVKyQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1722333516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RGoEM2sBI9H+4jdzkqFA7zQ20wEq+y0hpMq3862q89o=;
+	b=k4Js5UuQd4uIH5icrNshrFG5sJwDCLMzqjPnnBx9lE40D/UgblZ5kjap+oBRnQj9eCYa2i
+	KXp+/I9hlX78TwBg==
+To: Song Yoong Siang <yoong.siang.song@intel.com>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran
+ <richardcochran@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Vinicius Costa Gomes
+ <vinicius.gomes@intel.com>, Jonathan Corbet <corbet@lwn.net>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Shinas Rasheed
+ <srasheed@marvell.com>, Kevin Tian <kevin.tian@intel.com>, Brett Creeley
+ <brett.creeley@amd.com>, Blanco Alcaine Hector
+ <hector.blanco.alcaine@intel.com>, Joshua Hay <joshua.a.hay@intel.com>,
+ Sasha Neftin <sasha.neftin@intel.com>
+Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH iwl-next,v1 2/3] igc: Add default Rx queue configuration
+ via sysfs
+In-Reply-To: <20240730012312.775893-1-yoong.siang.song@intel.com>
+References: <20240730012312.775893-1-yoong.siang.song@intel.com>
+Date: Tue, 30 Jul 2024 11:58:34 +0200
+Message-ID: <87plqvjj5h.fsf@kurt.kurt.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA1PR20MB4953826DECDCC141A7CDE634BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-Hi Inochi,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build errors:
+On Tue Jul 30 2024, Song Yoong Siang wrote:
+> From: Blanco Alcaine Hector <hector.blanco.alcaine@intel.com>
+>
+> This commit introduces the support to configure default Rx queue during
+> runtime. A new sysfs attribute "default_rx_queue" has been added, allowing
+> users to check and modify the default Rx queue.
+>
+> 1. Command to check the currently configured default Rx queue:
+>    cat /sys/devices/pci0000:00/.../default_rx_queue
+>
+> 2. Command to set the default Rx queue to a desired value, for example 3:
+>    echo 3 > /sys/devices/pci0000:00/.../default_rx_queue
+>
+> Signed-off-by: Blanco Alcaine Hector <hector.blanco.alcaine@intel.com>
+> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on robh/for-next linus/master v6.11-rc1 next-20240730]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Inochi-Amaoto/dt-bindings-hwmon-Add-Sophgo-SG2042-external-hardware-monitor-support/20240730-160416
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/IA1PR20MB4953826DECDCC141A7CDE634BBB02%40IA1PR20MB4953.namprd20.prod.outlook.com
-patch subject: [PATCH v8 3/4] riscv: dts: sophgo: Add mcu device for Milk-V Pioneer
-config: riscv-randconfig-051-20240730 (https://download.01.org/0day-ci/archive/20240730/202407301749.K0pFCNLU-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407301749.K0pFCNLU-lkp@intel.com/reproduce)
+> index e5b893fc5b66..df96800f6e3b 100644
+> --- a/drivers/net/ethernet/intel/igc/igc_regs.h
+> +++ b/drivers/net/ethernet/intel/igc/igc_regs.h
+> @@ -63,6 +63,12 @@
+>  /* RSS registers */
+>  #define IGC_MRQC		0x05818 /* Multiple Receive Control - RW */
+>=20=20
+> +/* MRQC register bit definitions */
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407301749.K0pFCNLU-lkp@intel.com/
+Nit: Now, the MRQC register definitions are scattered over two files:
+igc_regs.h and igc.h. igc.h has
 
-All errors (new ones prefixed by >>):
+#define IGC_MRQC_ENABLE_RSS_MQ		0x00000002
+#define IGC_MRQC_RSS_FIELD_IPV4_UDP	0x00400000
+#define IGC_MRQC_RSS_FIELD_IPV6_UDP	0x00800000
 
->> Error: arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts:29.1-6 Label or path i2c1 not found
-   FATAL ERROR: Syntax error parsing input tree
+Maybe combine them into a single location?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +#define IGC_MRQC_ENABLE_MQ		0x00000000
+> +#define IGC_MRQC_ENABLE_MASK		GENMASK(2, 0)
+> +#define IGC_MRQC_DEFAULT_QUEUE_MASK	GENMASK(5, 3)
+> +#define IGC_MRQC_DEFAULT_QUEUE_SHIFT	3
+
+Nit: FIELD_GET() and FIELD_PREP() can help to get rid of the manual
+shifting. See below.=20
+
+> +
+>  /* Filtering Registers */
+>  #define IGC_ETQF(_n)		(0x05CB0 + (4 * (_n))) /* EType Queue Fltr */
+>  #define IGC_FHFT(_n)		(0x09000 + (256 * (_n))) /* Flexible Host Filter */
+> diff --git a/drivers/net/ethernet/intel/igc/igc_sysfs.c b/drivers/net/eth=
+ernet/intel/igc/igc_sysfs.c
+> new file mode 100644
+> index 000000000000..34d838e6a019
+> --- /dev/null
+> +++ b/drivers/net/ethernet/intel/igc/igc_sysfs.c
+> @@ -0,0 +1,156 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (c) 2024 Intel Corporation */
+> +
+> +#include <linux/device.h>
+> +#include <linux/kobject.h>
+> +#include <linux/module.h>
+> +#include <linux/netdevice.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/types.h>
+> +
+> +#include "igc.h"
+> +#include "igc_regs.h"
+> +#include "igc_sysfs.h"
+> +
+> +/**
+> + * igc_is_default_queue_supported - Checks if default Rx queue can be co=
+nfigured
+> + * @mrqc: MRQC register content
+> + *
+> + * Checks if the current configuration of the device supports changing t=
+he
+> + * default Rx queue configuration.
+> + *
+> + * Return: true if the default Rx queue can be configured, false otherwi=
+se.
+> + */
+> +static bool igc_is_default_queue_supported(u32 mrqc)
+> +{
+> +	u32 mrqe =3D mrqc & IGC_MRQC_ENABLE_MASK;
+> +
+> +	/* The default Rx queue setting is applied only if Multiple Receive
+> +	 * Queues (MRQ) as defined by filters (2-tuple filters, L2 Ether-type
+> +	 * filters, SYN filter and flex filters) is enabled.
+> +	 */
+> +	if (mrqe !=3D IGC_MRQC_ENABLE_MQ && mrqe !=3D IGC_MRQC_ENABLE_RSS_MQ)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +/**
+> + * igc_get_default_rx_queue - Returns the index of default Rx queue
+> + * @adapter: address of board private structure
+> + *
+> + * Return: index of the default Rx queue.
+> + */
+> +static u32 igc_get_default_rx_queue(struct igc_adapter *adapter)
+> +{
+> +	struct igc_hw *hw =3D &adapter->hw;
+> +	u32 mrqc =3D rd32(IGC_MRQC);
+> +
+> +	if (!igc_is_default_queue_supported(mrqc)) {
+> +		netdev_warn(adapter->netdev,
+> +			    "MRQ disabled: default RxQ is ignored.\n");
+> +	}
+> +
+> +	return (mrqc & IGC_MRQC_DEFAULT_QUEUE_MASK) >>
+> +		IGC_MRQC_DEFAULT_QUEUE_SHIFT;
+
+Nit: return FIELD_GET(IGC_MRQC_DEFAULT_QUEUE_MASK, mrqc);
+
+> +}
+> +
+> +/**
+> + * igc_set_default_rx_queue - Sets the default Rx queue
+> + * @adapter: address of board private structure
+> + * @queue: index of the queue to be set as default Rx queue
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +static int igc_set_default_rx_queue(struct igc_adapter *adapter, u32 que=
+ue)
+> +{
+> +	struct igc_hw *hw =3D &adapter->hw;
+> +	u32 mrqc =3D rd32(IGC_MRQC);
+> +
+> +	if (!igc_is_default_queue_supported(mrqc)) {
+> +		netdev_err(adapter->netdev,
+> +			   "Default RxQ not supported. Please enable MRQ.\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (queue > adapter->rss_queues - 1) {
+> +		netdev_err(adapter->netdev,
+> +			   "Invalid default RxQ index %d. Valid range: 0-%u.\n",
+> +			   queue, adapter->rss_queues - 1);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Set the default Rx queue */
+> +	mrqc =3D rd32(IGC_MRQC);
+> +	mrqc &=3D ~IGC_MRQC_DEFAULT_QUEUE_MASK;
+> +	mrqc |=3D queue << IGC_MRQC_DEFAULT_QUEUE_SHIFT;
+
+Nit: mrqc |=3D FIELD_PREP(IGC_MRQC_DEFAULT_QUEUE_MASK, queue);
+
+Thanks,
+Kurt
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmaouUoTHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzgtBQEACSIf0aYuaOphs8JPYmE2MJMfO+x270
+iNE9MGJpBgiso4SlT3dNT05mFcKNDVQW/azmtJDRlgMSf3xBlbdexN2Gag/PK4Ah
+lJATYGUABykY3ThNAAhMUV4YbzcAa0r0C34oorr3s+mIGh4k0xeRbAaAF12tTezN
+asnXQ5tFLlCMfi3uKK7y+YW4SENhnDMbw4QEPzN8xqoU1gfVSVSZHdlE2E7aGx2r
+GTIdo3gNiYwplUZo4zPQfC9v02XGzM73bYNs7mNBlktnxn9Tn5GH+TmNxFbDgroI
+kQaw2ytg9X+b+9TSGkCCvCzFv2fH4DmRPMshOetPnrHhKm9VYTkGhbvdr4k9jZUi
+EG72L1w+8YBy8UG+bo63bjhFRnIP+7N7YVYVZBrUBmBFtdHyWIE8vG2IppUWUw+r
+8UChtvhhmRjmyTTbKE4YvdFOu2u4EF9a3ex0s/4sMN86pjegqZFm8qBlWbjIh+B1
+O6iyzKkWHBtrUJZYHto8xM+1nwkz1+Ny5muGhqZh6AHKZItDsrbwwWJYeLd/ovmX
+oiGRoQ5XSDBlZaV9PE6LmZnfE616UgbSuLfIfF4yQxrbCa4BGe9SaawBX4aiB/kG
+qL+xJUKR98cjwmCKSYQvGOHyAno4HWv3tgCP8oz0LZyUs6/hxs461S/biL87c58R
+yCkNyHwZ0+2zWg==
+=vGQh
+-----END PGP SIGNATURE-----
+--=-=-=--
