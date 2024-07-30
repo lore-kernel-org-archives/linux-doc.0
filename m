@@ -1,205 +1,172 @@
 Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7A21A38D7;
-	Tue, 30 Jul 2024 15:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B37F335C7
+	for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2024 15:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722352782; cv=none; b=tKjykerXMeB8jqZMueIIAowoDVM+1ikxbjKNn3Lmtav32BLUdbMdLUyT4Z3PhQOQr+N2gmzI6RE6+TH/Vv8pksSFXxlmU3z3Zxz6kKuZ++WbGPOyQ4u9F1AX8JXg3oV1i9vMV81gOKLlSxx1Bqrkd90AhPS4mvw8XY4rfz8AOdY=
+	t=1722354387; cv=none; b=KQBJn9rDlEcJ2iVUI5n9e9XRepLLOMXGnQx3oNw2OReuk0FUCCQvAJVMpZ6WFxf7+wqr/30YjEcp/t8xuDaLOl6wt+1/YpFLyBiob1+GndMmTrGZEVE2BlgADrZzx5UogDCbz9AJCRfycVAb330St61+C8NkhNU0AUR4CHGD0lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722352782; c=relaxed/simple;
-	bh=w1/u0Z0jOAKJI7sre8Y0r/w7YTvezznWjJcNoSAdlQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sJctmJIjgD+kVz4Cu3qBDMkuET9FWeKud+xiHvFw5JuLskF6OdvNc8XcVEN8j8oNhmYKp4yj1DbnwV9+hcfxmUJ7Kw3UWadeeRMJAtXiabVWM3dvzON5UuJJZTrfKjP5F0DyexHIaLFWqH8gwdJJYXlEo5qxek/4fEu2wv5dqDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCF4N//f; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722354387; c=relaxed/simple;
+	bh=yFVGl3IncTdtYdA43geU7rnxB9K1xpXsgvTVqUqWeq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IzTO2ycu/75gZ4UcsA/jmSUtLRUXZ982qg0PFIGTHLMAzMAUwMFFZNJrsou17BMgc/wUliQ1QrYGazCBwx7GRQ1txE99lh09hf/Y3UIjMAnOO6+loMEIcTpyfP1C2WB+jcIfSpWKeijo+TI8fTWKaKR2XqVGCuUu/N8+DWJ7Z7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UVBJt0pk; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCF4N//f"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7a81bd549eso442431866b.3;
-        Tue, 30 Jul 2024 08:19:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UVBJt0pk"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7abe5aa9d5so562220766b.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2024 08:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722352779; x=1722957579; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eHB8wsNtQM0jQmp43r431yPVklm/f1PUXfgTnNmnzKA=;
-        b=QCF4N//f9VRDCV2Mc772mrPgLmqCqSp1wiUhIzWBRrg+naH4ESnuv5Hkzu2wD2/sd+
-         5aZiC4vlxjBCbxkOHSJU5rZUThovR1lBPzoRtZywz4msee0f8s9ITWRfxomhw7kF4Lq2
-         0N4bT0BTzpWTIEtxjKkCR9Tj6sPLvFh8+aVpGFUgb0U4Mx2j/8z35J3lQzD36IuiAnB3
-         ghlf4zzuIkQZUxPV7HTfSzyUpjnyPLrcw790ske/JTJ6Zx/lflxzbA2I9blW7xlf3qgm
-         wMvf1Lys3qn3SKzSO1oWc4lDMbZQSLOTLAEzDd/aOPRbGkxf3qv9NGSZ9xEqzs4qBJIn
-         hwjQ==
+        d=suse.com; s=google; t=1722354383; x=1722959183; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yRC8EpL8O0R6ThyQIF5jdND8pmO+k3m9i0jeg+m0dq0=;
+        b=UVBJt0pkshaeV455lPh1bvwNp7A6yMY2tNh3383eGlCnw0qE9AgsTUY/MTk3bKwjKG
+         6JlYv2VQYrHMXcMI+Nvb3557VBYKcZMJx7qGSZsr2103duDDRZofEA7A6MqtNCIolIzM
+         /pbZxTmacmCWzr8zud33w2SIwJvZ37C93RAFh9CSeHfAdIAgBCw+nyA795sIePLdwFlk
+         N53SokCT+VRH6qI6MDt6WGRm9EpR0Pv4FTg5/Z4AeBuVFMSaccXGUuLuoIhHAgzAXal/
+         IbXjEWv1JwxCiV/kxW8ZNuCJ+q0sU1giaLEISTlfzI6Fa4/yiDQcv/SlX/vwL31l6isP
+         /lKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722352779; x=1722957579;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHB8wsNtQM0jQmp43r431yPVklm/f1PUXfgTnNmnzKA=;
-        b=ukOyAQw6tXTmYID11H39X8dx21GdsSP73M5FX3UeASdjLFi9Jz3OWfDWQMMjhH2ORe
-         dYlqXP4tscbqsKKZYM5uUsM4tHijfIxDWFwLo+KPIQhHFzDvWG1W/tgiojLvw5yEtZQh
-         87y5gytK2KP6XMWSF/yKHEimdLcqsm/M+tFdQQfCp+8hOcDBpCewpDPvvkw5uxk9zIPZ
-         kadiLcRUURsuf005mgxXA98MQtJwKs1zGJ5gcaIlFipW3VF/FfDOfYpAl0QPMaAnB9A1
-         bZfpsl1zApkrJkYoqEt0gtnIVA5SV4EEix4EKo6TefDrfWybP2NnzY7JqYBn/dvbEYNs
-         WcOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEtXsLU2r7LKhfp2pM/Lh41qO6VCPbSMc4xTy3s8Rq40QNFeameO2ePja+YtTAGIiESzyRaq3PhpvQR/ooCrJ+YQjnVoKMODlQJLs8KzbMOoaDJgEMZmBtZX1OFUXIpzksNqPvOrQH
-X-Gm-Message-State: AOJu0YwxdJDvUX5bFdL6/fS+1c6GxuF++FBo8bFY+GCA5ho0f2376oQm
-	UdXN6qnUoCx7S/nwnWe9BBv2qd3I5XvEaFQaAwYpzruFkgWTJfNm
-X-Google-Smtp-Source: AGHT+IGs11AYO4xwAn5557+PuXhwriowqcH1vobWUOSOVDyy55bquyq/3Qmck1ti02y41QEfv9gl7Q==
-X-Received: by 2002:a17:907:7209:b0:a77:c84b:5a60 with SMTP id a640c23a62f3a-a7d4005a6b7mr865847166b.26.1722352778866;
-        Tue, 30 Jul 2024 08:19:38 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::4:6947])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab22ff1sm655739566b.35.2024.07.30.08.19.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 08:19:38 -0700 (PDT)
-Message-ID: <73b97a03-3742-472f-9a36-26ba9009d715@gmail.com>
-Date: Tue, 30 Jul 2024 16:19:37 +0100
+        d=1e100.net; s=20230601; t=1722354383; x=1722959183;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yRC8EpL8O0R6ThyQIF5jdND8pmO+k3m9i0jeg+m0dq0=;
+        b=X5eBgQHZpJishcxf+x8Eks7HU08tI23xl2KI1k/76NC4+MFjLRkWWeMc7bKTmvpqYt
+         Pkn9FqSo6ZR0rtyigBpt3fYBVhKgjRJiu1L07L9rzfa/CotWRTtczu96SP0DglNKwAxj
+         pBFFfKLwUff1i5BQ70l3zpucX6K/6R+4rjmYRf2JT7ecD9NihJnFiNwZHq5RghuyrqJT
+         4extj3wHJj29xDJm5TbLMT/6tUoSo2X+2xcsaIt3EcLdPFlv26v6hc7y0rzr5aMii9dO
+         l1HbLuQFF5I7nrVufcJbhg2uUiQMRB4WEGwPsP+ZHJgLgLrLjXj3Fhdqf1R7bIY5Lhog
+         85ww==
+X-Forwarded-Encrypted: i=1; AJvYcCV0LEuQQhTzR/xCkhITktb4XmtH0OwaTwo8sQ20Vo86nBZrcW5MlzwSW2thoBSgA0eqMztnD9t4R1/fy0lBrvP9IaIcqW+TM5A6
+X-Gm-Message-State: AOJu0YxjCR6P0fEGdoZgdfq1CR2iCs2Cw0q1Wv8rDGifWGUZChSAbr/f
+	Su2iXbSewUlN/nk+2+jgPOWU3MPMM6A9sJEOeQtnNi3sBmjlGH5krJWgjqxvgik=
+X-Google-Smtp-Source: AGHT+IEfShq2dlD0DfRiwM7bhyC9H1giL0hs81+b3W/KP3MMitXJ+IPNIAfmGBJOB3tFyCz+0fCaCg==
+X-Received: by 2002:a17:907:8692:b0:a6f:e47d:a965 with SMTP id a640c23a62f3a-a7d40064576mr768295166b.41.1722354383418;
+        Tue, 30 Jul 2024 08:46:23 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab23125sm659769766b.1.2024.07.30.08.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 08:46:22 -0700 (PDT)
+Date: Tue, 30 Jul 2024 17:46:21 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: David Finkel <davidf@vimeo.com>
+Cc: Muchun Song <muchun.song@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
+	Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] mm, memcg: cg2 memory{.swap,}.peak write tests
+Message-ID: <arkcd6cjf42zq62maqsbjzvimxwozrkukusgxhd54v6eyd6ylq@aurn3mek6hr2>
+References: <20240729143743.34236-1-davidf@vimeo.com>
+ <20240729143743.34236-3-davidf@vimeo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] mm: split underutilized THPs
-From: Usama Arif <usamaarif642@gmail.com>
-To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
- <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
- <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
-Content-Language: en-US
-In-Reply-To: <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5y6eempyzjoj5ljb"
+Content-Disposition: inline
+In-Reply-To: <20240729143743.34236-3-davidf@vimeo.com>
 
 
+--5y6eempyzjoj5ljb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 30/07/2024 16:14, Usama Arif wrote:
-> 
-> 
-> On 30/07/2024 15:35, David Hildenbrand wrote:
->> On 30.07.24 14:45, Usama Arif wrote:
->>> The current upstream default policy for THP is always. However, Meta
->>> uses madvise in production as the current THP=always policy vastly
->>> overprovisions THPs in sparsely accessed memory areas, resulting in
->>> excessive memory pressure and premature OOM killing.
->>> Using madvise + relying on khugepaged has certain drawbacks over
->>> THP=always. Using madvise hints mean THPs aren't "transparent" and
->>> require userspace changes. Waiting for khugepaged to scan memory and
->>> collapse pages into THP can be slow and unpredictable in terms of performance
->>> (i.e. you dont know when the collapse will happen), while production
->>> environments require predictable performance. If there is enough memory
->>> available, its better for both performance and predictability to have
->>> a THP from fault time, i.e. THP=always rather than wait for khugepaged
->>> to collapse it, and deal with sparsely populated THPs when the system is
->>> running out of memory.
->>>
->>> This patch-series is an attempt to mitigate the issue of running out of
->>> memory when THP is always enabled. During runtime whenever a THP is being
->>> faulted in or collapsed by khugepaged, the THP is added to a list.
->>> Whenever memory reclaim happens, the kernel runs the deferred_split
->>> shrinker which goes through the list and checks if the THP was underutilized,
->>> i.e. how many of the base 4K pages of the entire THP were zero-filled.
->>> If this number goes above a certain threshold, the shrinker will attempt
->>> to split that THP. Then at remap time, the pages that were zero-filled are
->>> not remapped, hence saving memory. This method avoids the downside of
->>> wasting memory in areas where THP is sparsely filled when THP is always
->>> enabled, while still providing the upside THPs like reduced TLB misses without
->>> having to use madvise.
->>>
->>> Meta production workloads that were CPU bound (>99% CPU utilzation) were
->>> tested with THP shrinker. The results after 2 hours are as follows:
->>>
->>>                              | THP=madvise |  THP=always   | THP=always
->>>                              |             |               | + shrinker series
->>>                              |             |               | + max_ptes_none=409
->>> -----------------------------------------------------------------------------
->>> Performance improvement     |      -      |    +1.8%      |     +1.7%
->>> (over THP=madvise)          |             |               |
->>> -----------------------------------------------------------------------------
->>> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
->>> -----------------------------------------------------------------------------
->>> max_ptes_none=409 means that any THP that has more than 409 out of 512
->>> (80%) zero filled filled pages will be split.
->>>
->>> To test out the patches, the below commands without the shrinker will
->>> invoke OOM killer immediately and kill stress, but will not fail with
->>> the shrinker:
->>>
->>> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
->>> mkdir /sys/fs/cgroup/test
->>> echo $$ > /sys/fs/cgroup/test/cgroup.procs
->>> echo 20M > /sys/fs/cgroup/test/memory.max
->>> echo 0 > /sys/fs/cgroup/test/memory.swap.max
->>> # allocate twice memory.max for each stress worker and touch 40/512 of
->>> # each THP, i.e. vm-stride 50K.
->>> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
->>> # killer.
->>> # Without the shrinker, OOM killer is invoked immediately irrespective
->>> # of max_ptes_none value and kill stress.
->>> stress --vm 1 --vm-bytes 40M --vm-stride 50K
->>>
->>> Patches 1-2 add back helper functions that were previously removed
->>> to operate on page lists (needed by patch 3).
->>> Patch 3 is an optimization to free zapped tail pages rather than
->>> waiting for page reclaim or migration.
->>> Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
->>> subpages when splitting THP.
->>> Patches 6 adds support for THP shrinker.
->>>
->>> (This patch-series restarts the work on having a THP shrinker in kernel
->>> originally done in
->>> https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
->>> The THP shrinker in this series is significantly different than the
->>> original one, hence its labelled v1 (although the prerequisite to not
->>> remap clean subpages is the same).)
->>
->> As shared previously, there is one issue with uffd (even when currently not active for a VMA!), where we must not zap present page table entries.
->>
->> Something that is always possible (assuming no GUP pins of course, which) is replacing the zero-filled subpages by shared zeropages.
->>
->> Is that being done in this patch set already, or are we creating pte_none() entries?
->>
-> 
-> I think thats done in Patch 4/6. In function try_to_unmap_unused, we have below which I think does what you are suggesting? i.e. point to shared zeropage and not clear pte for uffd armed vma.
-> 
-> 	if (userfaultfd_armed(pvmw->vma)) {
-> 		newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
-> 					       pvmw->vma->vm_page_prot));
-> 		ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
-> 		set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
-> 	}
+Hello.
 
+On Mon, Jul 29, 2024 at 10:37:43AM GMT, David Finkel <davidf@vimeo.com> wrote:
+> Extend two existing tests to cover extracting memory usage through the
+> newly mutable memory.peak and memory.swap.peak handlers.
 
-Ah are you suggesting userfaultfd_armed(pvmw->vma) will evaluate to false even if its uffd? I think something like below would work in that case.
+BTW do the tests pass for you?
 
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 2731ac20ff33..52aa4770fbed 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -206,14 +206,10 @@ static bool try_to_unmap_unused(struct page_vma_mapped_walk *pvmw,
-        if (dirty)
-                return false;
- 
--       pte_clear_not_present_full(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, false);
--
--       if (userfaultfd_armed(pvmw->vma)) {
--               newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
--                                              pvmw->vma->vm_page_prot));
--               ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
--               set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
--       }
-+       newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
-+                                       pvmw->vma->vm_page_prot));
-+       ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
-+       set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
- 
-        dec_mm_counter(pvmw->vma->vm_mm, mm_counter(folio));
-        return true;
+I gave it a try (v6.11-rc1+your patches)
 
+$ grep "not ok 2" -B30 test.strace
+
+...
+315   15:19:13.990351 read(6, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+315   15:19:13.994457 read(6, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+315   15:19:13.998562 read(6, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+315   15:19:13.998652 read(6, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+315   15:19:14.002759 read(6, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+315   15:19:14.006864 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.current", O_RDONLY) = 7
+315   15:19:14.006989 read(7, "270336\n", 127) = 7
+315   15:19:14.011114 close(7)          = 0
+315   15:19:14.015262 close(6)          = 0
+315   15:19:14.015448 exit_group(-1)    = ?
+315   15:19:14.019753 +++ exited with 255 +++
+313   15:19:14.019820 <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 255}], 0, NULL) = 315
+313   15:19:14.019878 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=315, si_uid=0, si_status=255, si_utime=1 /* 0.01 s */, -
+313   15:19:14.019926 close(3)          = 0
+313   15:19:14.020001 close(5)          = 0
+313   15:19:14.020072 close(4)          = 0
+313   15:19:14.024173 rmdir("/sys/fs/cgroup/memcg_test") = 0
+313   15:19:14.028517 write(1, "not ok 2 test_memcg_current_peak"..., 33) = 33
+
+grep "^315 .*read.*4096" -c test.strace
+12800
+
+Hopefully, unrelated to your changes. I ran this within initrd (rapido
+image) so it may be an issue how rootfs pagecache is undercharged (due
+to sharing?), instead of 50M, there's only ~256k.
+
+To verify, I also tried with memory.peak patch reverted, failing
+differently:
+
+...
+238   15:30:29.034623 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.current", O_RDONLY) = 3
+238   15:30:29.034766 read(3, "52801536\n", 127) = 9
+238   15:30:29.038895 close(3)          = 0
+238   15:30:29.043048 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.stat", O_RDONLY) = 3
+238   15:30:29.043230 read(3, "anon 52436992\nfile 0\nkernel 1105"..., 4095) = 870
+238   15:30:29.047379 close(3)          = 0
+238   15:30:29.051491 munmap(0x7f2473600000, 52432896) = 0
+238   15:30:29.058516 exit_group(0)     = ?
+238   15:30:29.062992 +++ exited with 0 +++
+237   15:30:29.067054 <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 238
+237   15:30:29.067136 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=238, si_uid=0, si_status=0, si_utime=1 /* 0.01 s */, si-
+237   15:30:29.067210 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.peak", O_RDONLY) = 3
+237   15:30:29.071349 read(3, "52805632\n", 127) = 9
+237   15:30:29.075470 close(3)          = 0
+237   15:30:29.075562 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.peak", O_RDWR|O_APPEND|O_CLOEXEC) = 3
+237   15:30:29.079712 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.peak", O_RDWR|O_APPEND|O_CLOEXEC) = 4
+237   15:30:29.083848 openat(AT_FDCWD, "/sys/fs/cgroup/memcg_test/memory.peak", O_RDWR|O_APPEND|O_CLOEXEC) = 5
+237   15:30:29.083970 write(3, "reset\n\0", 7) = -1 EINVAL (Invalid argument)
+237   15:30:29.088095 close(3)          = 0
+237   15:30:29.092209 close(4)          = 0
+237   15:30:29.092295 close(5)          = 0
+237   15:30:29.096398 close(-1)         = -1 EBADF (Bad file descriptor)
+237   15:30:29.100497 rmdir("/sys/fs/cgroup/memcg_test") = 0
+237   15:30:29.100760 write(1, "not ok 2 test_memcg_current_peak"..., 33) = 33
+
+This failure makes sense but it reminded me --
+could you please modify the test so that it checks write permission
+of memory.peak and skips the reset testing on old(er) kernels? That'd be
+in accordance with other cgroup selftest that maintain partial backwards
+compatibility when possible.
+
+Thanks,
+Michal
+
+--5y6eempyzjoj5ljb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqkKygAKCRAt3Wney77B
+SRUAAP4/N9esJbrEK3Dc8W7fMPFhJO2vSYHkWLaM8DmxVvSNLwD/e6VjqMIAdSUh
+SFcFj4YkO6Uy6D5wFhGyjPQbmHi3lwg=
+=GgTK
+-----END PGP SIGNATURE-----
+
+--5y6eempyzjoj5ljb--
