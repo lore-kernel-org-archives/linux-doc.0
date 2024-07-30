@@ -1,84 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62AF33999;
-	Tue, 30 Jul 2024 05:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F08716190B;
+	Tue, 30 Jul 2024 05:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722316098; cv=none; b=L1pIU78ZpmvcYAKnp910bOOeo8kqq4WbT6GZ/UjjyLKhA9rFy0dwocwlkK+sOoSH1hfYUVIbM7dcSyYZP5P773Iz6f6x1X0raDyo32iUr7Ze4nWSLo1r0aL/UvvEK5eQ31xb9pmanu8acDueOkrGBADB9i3dVJydGuXdCSZgxpE=
+	t=1722317858; cv=none; b=idvPx13ckVRkhoqgaW6rN7vOKKshn6Pjb4siFVxA+ZnEk/BaVN3UaHNmMl2o1fLYqFV4A7rec/fEKX/mlYVrTc0XZC6A8Wsp8MzFKRq8vrjZl0vQ/sA1vicy2bOaLNQey+X7S8MrjHZTmJPxKZmMPhA1iZjg3gqbCAjeS/L1mpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722316098; c=relaxed/simple;
-	bh=fzBWPut0GGiuHt31Gpf5zYyofFcIgVb4VK6ByHw8QYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0hKyD6TJX38whuosRF323xljxKHcYY4b7O4IeJqgsxuRni7omF74GEOtkEOm60tUhs73ZU3h12JIballScpRYejrrML9zfCXOuXUwdLayy/XaVAKRvOJEo16VsCW93D+xejNoGKKyLwQokECUF7M/MBuy4Tff5ZiDB/MxSxPRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a/JgRF1E; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a/JgRF1E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3608C32782;
-	Tue, 30 Jul 2024 05:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722316098;
-	bh=fzBWPut0GGiuHt31Gpf5zYyofFcIgVb4VK6ByHw8QYs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a/JgRF1Ep4CA2d6xBGNjTtjXsAoQgYM/GNUQXGkn0aSNkcEWoU3gJgUJZTvTAsEP2
-	 79TuNWCEGVWAd2sP0fQI8xXHe/Bp18iKEqi+iNumd1mC3L4hT8HIFoRE9FVJZySoUE
-	 prwjXSDaxW104qEUXMhQIeijdRc2jo6udPstSMkw=
-Date: Tue, 30 Jul 2024 07:08:15 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-Cc: W_Armin@gmx.de, corbet@lwn.net, platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
-Message-ID: <2024073058-visitor-widely-3109@gregkh>
-References: <20240729223649.135639-1-luis.hernandez093@gmail.com>
+	s=arc-20240116; t=1722317858; c=relaxed/simple;
+	bh=GVTVe8HbYQ/Wcqefkk+JEXAYijWPe5gb2JpfUOcrVYc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tX4WsdR7lC0JUeaa+b0ua02ZmptB9mfuasWoFNanQQbJK2VY7uaJ8WIRqv7SpoxNBc2lUtzht1e0qNqtwHVJQCvHk/01Vk6j7z3LPEEw8+VE0vsQQCufg50frYf+7ORdZWaki0qFSQptB8lJRJISDH3IAkBmKz49fNclkzdhkVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrADHKG79e6hm+2ZIAg--.13688S2;
+	Tue, 30 Jul 2024 13:37:01 +0800 (CST)
+Received: from pride-PowerEdge-R740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wCnL3L1e6hmT2yWAA--.58391S2;
+	Tue, 30 Jul 2024 13:36:55 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: kernel test robot <lkp@intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: fix a broken reference
+Date: Tue, 30 Jul 2024 13:36:40 +0800
+Message-ID: <20240730053652.4073433-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729223649.135639-1-luis.hernandez093@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrADHKG79e6hm+2ZIAg--.13688S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoWruF47Jr1UZw48uFWUCrW7Arb_yoWDCFcEkw
+	1kXF4vyF9rJr1IvF18JF1kArn2va1vkr10kFyDtrs8J39FqwsrGF1DW34vyFW8Wrsxur1r
+	CrWvgr98Xr12qjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbmxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
+	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42
+	xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+	67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, Jul 29, 2024 at 06:36:44PM -0400, Luis Felipe Hernandez wrote:
-> There were a few instances of typos that could lead to confusion
-> when reading. The following words have been corrected:
-> Binay -> Binary
-> singe -> single
-> chaged -> changed
-> 
-> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-> ---
->  Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
+Warning: Documentation/translations/zh_CN/kbuild/index.rst
+references a file that doesn't exist: Documentation/kbuild/index
 
-Hi,
+Fix this by adding its full name.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-lkp@intel.com/
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ Documentation/translations/zh_CN/kbuild/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/Documentation/translations/zh_CN/kbuild/index.rst b/Documentation/translations/zh_CN/kbuild/index.rst
+index b9feb56b846a..d906a4e88d0f 100644
+--- a/Documentation/translations/zh_CN/kbuild/index.rst
++++ b/Documentation/translations/zh_CN/kbuild/index.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/kbuild/index
++:Original: Documentation/kbuild/index.rst
+ :Translator: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
+ 
+ ============
+-- 
+2.43.0
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
