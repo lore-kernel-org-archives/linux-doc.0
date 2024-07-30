@@ -1,125 +1,83 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717EF166315;
-	Tue, 30 Jul 2024 17:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E1D189522;
+	Tue, 30 Jul 2024 17:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722360886; cv=none; b=N42gYNsJ08CR2ACvUWK0QKtuWu5Guc7v/7dZ1yCm/FMfVn7Qga+XtVw4GXmmlHolEEftlua4dkiQvou2+RE4N2aBIVKRIf6QF/L+Tk8vKQZS3/UNeXFG9LQioyF1c8+9r4aCmeZLrh6mlAjSrNPc4SlMbeXVtFtrPNBRhe2LLuU=
+	t=1722362371; cv=none; b=fmasrXo+5Qe2n/kKH6z1IP3oKrRE/bd/gJzY5DJ4+xvdKxHCR6Su108OdaOyXjPd4g5agNUsbl/L3KbnLSUAemTxFOcMs6wtQFPwt0jnq8+6xLPoaxwcnMOw7bnXsnGstk5H722zV4aOtbJQmHgaGpa/MToKEZT2AfgULL2Anro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722360886; c=relaxed/simple;
-	bh=IjT0k+OgZaf4w+AiOVwzunIw2usu0Ze/wZgJAFfEWsk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jCb/fYdA15row+ZkiH83yP7IseZ5STuzvk7Ezf5qqx/IbmhJNLbAOU6d4iJM2bNt7jF5t4BoWu2dfApg/sUphUceEqa0IRQeeV7wqUPy/+5Hb7nP/bTNKDwU01dJTlTvACCtD96ne6r9DQH9WwyHdVHug5Y17MtwyCUMx4xdbpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WYMjm4hWdz6K606;
-	Wed, 31 Jul 2024 01:32:12 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5279A140133;
-	Wed, 31 Jul 2024 01:34:42 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 30 Jul
- 2024 18:34:41 +0100
-Date: Tue, 30 Jul 2024 18:34:41 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Jakub
- Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
-	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
-	Dan Williams <dan.j.williams@intel.com>, "David Ahern" <dsahern@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>, "Jiri Pirko" <jiri@nvidia.com>, Leonid
- Bloch <lbloch@nvidia.com>, "Leon Romanovsky" <leonro@nvidia.com>,
-	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v2 3/8] fwctl: FWCTL_INFO to return basic information
- about the device
-Message-ID: <20240730183441.00004672@Huawei.com>
-In-Reply-To: <20240729163513.GD3625856@nvidia.com>
-References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
-	<3-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
-	<20240726161503.00001c85@Huawei.com>
-	<20240729163513.GD3625856@nvidia.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1722362371; c=relaxed/simple;
+	bh=0biNpjGgb2ykySOjjWXdFINtIuFDeh1GrHLCI4gUqS0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ipQfZ+duN10ObthBIDY/LCSU8qv9TqfqSgAYS9r5xca8lhhbhvZ29EuDVyS6h24Jkze8NGvM6na09XxAh+nbuaw3Yr7GpDilr2Gly/5tKt7ESnS/JG2AFXPkUMOLS56aUrfRFEO94+zcn/SdHH8HhBWZ3qwxoqka7Fq1zWV0A50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CRx99wT8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CRx99wT8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EFEE41A31
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1722362368; bh=gjWwOYsC9ejMcN/lW6xvyv7ohEv7jitlRIes9qzgcak=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CRx99wT8cBsIl0KRONO3aNIcvsiUu2fxBEIn+lelGc/Wo9ZAEEUGutEx0/oEiHZlR
+	 yMomQJHgvNl6IhlLDosJsg82IBirOplXqq5wsqN0XtQBYO2kS/YdhId7Yqj78wB7Q5
+	 GQmEbGHYZk5LUxTKveMVXUG1nSrhrZ/BQE8tdEGwO7L2+oxFQevjJAwQTd+4UgQJ8p
+	 PSrwwvxqvaDLQCJiKRsqS/RwYj1E6qHNoaABYwspJP474N5tqT4UOn6+hGDHHsKUJt
+	 LVZwsEE40BfEi2RuoMl7czNURWtYkVMUQsLhZJyRwKOQmhPe+eSCRmNzhfVJe09vbA
+	 UDec71bDLJrLw==
+Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6EFEE41A31;
+	Tue, 30 Jul 2024 17:59:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Michael Dolan <mdolan@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] Documentation: embargoed-hardware-issues.rst: minor
+ cleanups and fixes
+In-Reply-To: <2024073032-outsource-sniff-e8ea@gregkh>
+References: <2024073032-outsource-sniff-e8ea@gregkh>
+Date: Tue, 30 Jul 2024 11:59:26 -0600
+Message-ID: <8734nq92wx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain
 
-On Mon, 29 Jul 2024 13:35:13 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 
-> On Fri, Jul 26, 2024 at 04:15:03PM +0100, Jonathan Cameron wrote:
-> > On Mon, 24 Jun 2024 19:47:27 -0300
-> > Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >   
-> > > Userspace will need to know some details about the fwctl interface being
-> > > used to locate the correct userspace code to communicate with the
-> > > kernel. Provide a simple device_type enum indicating what the kernel
-> > > driver is.  
-> > 
-> > As below - maybe consider a UUID?
-> > Would let you decouple allocating those with upstreaming drivers.
-> > We'll just get annoying races on the enum otherwise as multiple
-> > drivers get upstreamed that use this.  
-> 
-> I view the coupling as a feature - controlling uABI number assignment
-> is one of the subtle motivations the kernel community has typically
-> used to encourage upstream participation.
+> The embargoed-hardware-issues.rst file needed a bunch of minor grammar,
+> punctuation, and syntax cleanups based on feedback we have gotten over
+> the past few years.  The main change here is the term "silicon" being
+> used over "hardware" to differentiate between companies that make a chip
+> (i.e. a CPU) and those that take the chip and put it into their system.
+>
+> No process changes are made here at all, only clarification for the way
+> the current process works.
+>
+> All of these changes have been approved by a review from a large number
+> of different open source legal members, representing the companies
+> involved in this process.
+>
+> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Co-developed-by: Michael Dolan <mdolan@linuxfoundation.org>
+> Signed-off-by: Michael Dolan <mdolan@linuxfoundation.org>
+> Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+> Jon, I can take these changes through my tree if you don't object.
 
-Hmm. I'm not sure it's worth the possible pain if this becomes
-popular.  Maybe you'll have to run a reservation hotline.
+They seem fine to me, no problem.  Should anybody care:
 
+Acked-by: Jonathan Corbet <corbet@lwn.net>
 
-> 
-> > > +/**
-> > > + * struct fwctl_info - ioctl(FWCTL_INFO)
-> > > + * @size: sizeof(struct fwctl_info)
-> > > + * @flags: Must be 0
-> > > + * @out_device_type: Returns the type of the device from enum fwctl_device_type  
-> > 
-> > Maybe a UUID?  Avoid need to synchronize that list for ever.
-> >   
-> > > + * @device_data_len: On input the length of the out_device_data memory. On
-> > > + *	output the size of the kernel's device_data which may be larger or
-> > > + *	smaller than the input. Maybe 0 on input.
-> > > + * @out_device_data: Pointer to a memory of device_data_len bytes. Kernel will
-> > > + *	fill the entire memory, zeroing as required.  
-> > 
-> > Why do we need device in names of these two?  
-> 
-> I'm not sure I understand this question?
-> 
-> out_device_type returns the "name"
-> 
-> out_device_data returns a struct of data, the layout of the struct is
-> defined by out_device_type
-
-What is device in this case?  fwctl struct device, hardware device, something else?
-
-I'm not sure what the names give over
-fwctl_type, out_data_len, out_data
-
-The first one can't just be type as likely as not out_data contains a
-type field specific to the fwctl_device_type.
-
-I don't feel that strongly about this though, so stick to device
-if you like. I'll get used to it.
-
-Jonathan
- 
-> 
-> Jason
-
+jon
