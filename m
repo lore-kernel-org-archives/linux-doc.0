@@ -1,83 +1,82 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D559F173;
-	Tue, 30 Jul 2024 13:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB6F19D8A6;
+	Tue, 30 Jul 2024 13:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722346800; cv=none; b=JL2XYDCag0G1K5GfKUwgYcIthJoBmmnZcdGjIlZtFBr0qItAkIeuGsnxFje7ymw7aflM+xPlhKUaPtDirwISt6vsWKywzGXZ8nVVrfBAufKGwbtSy1OFerW2Tb+JZYADG38dFqTWYqcRrR+10CyVA7L803mSrY2qSwlq2rL7s9g=
+	t=1722347993; cv=none; b=q0mUHBCjCMhtnscwM6shBLKEnTo4Re68GNnUBEl4IlM3wdXiFec/Ryb+NMHWGkn9j5VfxF3Te4YIkv1WIIrtzpCSrANiWupcAzrtsO3SZ+dAX4Fdt6NfPtX020W7T9Trn4M7TD+wfllTd7Mq7pKAdwXgk22IaD1nw32S35tSU60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722346800; c=relaxed/simple;
-	bh=4nssHIClDOrnnlbs0R9PN8Dpeh0f1bXJCOiVOkPfKxw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gDCyxnfYtahQoi3hYOsVw7lZ13035TUCPCM2qrlmNGQUE/4Pn0XxXnzAifilpcS5S6G81jSinxaCvw+7g4x163lNquioyxlwuOL/zAxXxy6zc8qWdMG/q4KsYGFA02cOIhucJq+LAB4KD75AHCdEnBjQAwfYvImaPFV5dPLiJqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BiMLWoPx; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1722347993; c=relaxed/simple;
+	bh=lhdJxGT/7iHPhCzTlI1tTTQlHnBYGpcs0h1rQWNYRjg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EYijW5hUiElQnYsHyT2Q2VyfAhONrxxq+Zpei5QXI2g1It90o5nHTW5Mx798PjB86gULnchJchHdy+1pW8jwn4YZfaNHoHMSAByPnL8vf2VloBfjcUBq467Od2ubRMXqxleJe2UsuWrvKcqzUvpUd2IOoSb+BHZQVnndWq7zeVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WL4qwUno; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BiMLWoPx"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C36DD418B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1722346797; bh=t3xQTjQMtPV5q2WQttbnSWnpfI6/6L7980+XxxM/nWc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BiMLWoPxrZewnpF1c290GauTKXdA0WQ/1iZnxqFLysui48OfTFzNUTtgU3KrADIqs
-	 exEwzPP36uwM4TXj8utLzHpXnbdfOu6nXZq00oUYeFp7ZJCHyZViWFwFFb7qbKA27u
-	 +uFgTo3e7jFCTM3JRVE73VdU/ZqktsjEYB4HBdpwZ6iFQDt9Hkt9aVev/iWDNUId0P
-	 8T8RXr8hOLWiJN8Fxf0fIqdDHz0CuXJMMKlXZMc9VaKA6K9aj9LmSV7chI3USZ3h+s
-	 c/8qu/4scOscSfjVI9+eu1GPfucwlFl8O2SmbskyQrkMgwHabtbYJP8hiMiCMmZggm
-	 P9Acms5i0jqqQ==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C36DD418B2;
-	Tue, 30 Jul 2024 13:39:57 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, chengziqiu@hust.edu.cn, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] doc-guide: add help documentation
- checktransupdate.rst
-In-Reply-To: <CAD-N9QUi58tO61usRakxJUY063+=51FPSeXPvTaRXgMnOUR_2Q@mail.gmail.com>
-References: <20240719041400.3909775-1-dzm91@hust.edu.cn>
- <20240719041400.3909775-3-dzm91@hust.edu.cn>
- <87o76f98lr.fsf@trenco.lwn.net>
- <CAD-N9QUi58tO61usRakxJUY063+=51FPSeXPvTaRXgMnOUR_2Q@mail.gmail.com>
-Date: Tue, 30 Jul 2024 07:39:56 -0600
-Message-ID: <87frrr80cz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WL4qwUno"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xsQfyQqHKHTVh+qWomrR4QIlWnZRreWhqe+z8SRGvFg=; b=WL4qwUnonbWMe2DvRKhKcSs//7
+	fG4uBJP3K7nAaAR49yraO0fJmBl0K3n89W2xOpmvT/4vCI7KV46gcyupNDMQF8y7mA/KR4gTjY/Wy
+	fEnaNzyf5wmf53f9Kd1xn8MyvmIjv2Hsm45j5e1pUQLlxmZb/BQBDqWQ6oXA6COlKyA6QPPsKRLNF
+	eMH3tKkT3Pi9eCimUu/Yhjsgkel8nRcfEZxAYlUWd6HIU6EUxSJn8z+c73FnnbynrsqYSWflFnr67
+	pTtXrh1K/rh+Lz27dKJ+PoY2RVGI+WpmDTmqPgoASRInWfYUWMeWsKpAv/+p+wpZXg4UBRpqIFX3N
+	HgMEaNnA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sYnOB-0000000FMxE-3rxT;
+	Tue, 30 Jul 2024 13:59:43 +0000
+Message-ID: <83aa31ab-d0a8-4375-aacc-75bdb8d0c0e0@infradead.org>
+Date: Tue, 30 Jul 2024 06:59:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] mm: split underutilized THPs
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, david@redhat.com,
+ baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <20240730125346.1580150-7-usamaarif642@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240730125346.1580150-7-usamaarif642@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dongliang Mu <mudongliangabcd@gmail.com> writes:
 
->> ...lacks a title, so it renders strangely and inserts inscrutable stuff
->> into the doc-guide index.  I have fixed this, but I am not entirely
->> happy about that; this is a problem you should have seen immediately by
->> looking at the rendered version of your new document.  *Please* be a bit
->> more careful in the future.
->
-> Hi jon,
->
-> If I understand correctly, you mean there should be "==========" under
-> the sentence "Check translate update". This would generate a title,
-> right?
->
-> Unfortunately, the "==========" is asked to be deleted in the v2
-> patch. I doubted it, but did not make it back.
 
-If somebody asked for that, they were wrong; I didn't see that.
+On 7/30/24 5:46 AM, Usama Arif wrote:
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index 058485daf186..24eec1c03ad8 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -447,6 +447,12 @@ thp_deferred_split_page
+>  	splitting it would free up some memory. Pages on split queue are
+>  	going to be split under memory pressure.
+>  
+> +thp_underutilized_split_page
+> +	is incremented when a huge page on the split queue was split
+> +	because it was underutilized. A THP is underutilized if the
+> +	number of zero pages in the THP are above a certain threshold
 
-> BTW, the merged commit version has the title - "How it works", other
-> than "Check translate update".
+	                     in the THP is above
 
-That is just the problem I thought I had fixed; somehow my change got
-lost on the way into git.  Oops.  I think maybe I'll just rebase the
-tree and fix both of the problems at the source.
+(if the number ... is)
 
-jon
+> +	(/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none).
+> +
+
+-- 
+~Randy
