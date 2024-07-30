@@ -1,66 +1,89 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B93189902;
-	Tue, 30 Jul 2024 18:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5513FE4;
+	Tue, 30 Jul 2024 19:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722363068; cv=none; b=KgOdkCZXjcC0R9vd9mlQQESCC6k9Xv/JGE2tbO7MLhN0SmqOcXZOzCnZNkZhPr2l0SC1Li9Kx8U/yvZtR7BdxKBV92YJ6DDD3xus5xuwra9AZiTcqvmTu4wNau15C4fH3mH0A2L1la2tRxkd6iL4+NDPWK1SSPQ/Z/V55i6He5I=
+	t=1722368895; cv=none; b=err9MNP8iIsD7IyfMopjVVifGrDsDMNFGYaAcpetVHNG2RBy3/XuMb21heE9/m6SVo2CQ84UfAqfSdILf+m39Q3IqverTe56qmmRu5sK4x8u0FWxSEl6/rBlxenHMyutu48n2ADn/F+3lwIhQs96udPZ1/ibcJd4JFNVR3I/jH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722363068; c=relaxed/simple;
-	bh=wlNP6pKiKyUMBEdqYmsDg8rBgr5eZxzGyerQENMqHXo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VRHJrs6bdm5jXjBx3qBBk5BPBxE//jaSe4JofAQLc0agC9fL5dT6u2xp1fZlasxilrnn74RbNBD52tB9npvEaE0nJOt6tZxLzezWO5Z9883X3KG+RcAhSWhef8bTteK3Z7WHR+ZYa+hfBE0xUOJ73jrkQCOBCXZlkZyP4GQ0OXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
-Received: from [2601:18c:9101:a8b6:6e0b:84ff:fee2:98bb] (helo=imladris.surriel.com)
-	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <riel@shelob.surriel.com>)
-	id 1sYrIk-000000002nP-0dPZ;
-	Tue, 30 Jul 2024 14:10:22 -0400
-Message-ID: <5ec248c68c9c2ea0e842562ebfc9e25bc0254e78.camel@surriel.com>
-Subject: Re: [PATCH 5/6] mm: add selftests to split_huge_page() to verify
- unmap/zap of zero pages
-From: Rik van Riel <riel@surriel.com>
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org, 
-	linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
- yuzhao@google.com, david@redhat.com, baohua@kernel.org,
- ryan.roberts@arm.com,  rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net,  linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com,  Alexander Zhu
- <alexlzhu@fb.com>
-Date: Tue, 30 Jul 2024 14:10:22 -0400
-In-Reply-To: <20240730125346.1580150-6-usamaarif642@gmail.com>
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
-	 <20240730125346.1580150-6-usamaarif642@gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33Aeo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdYdIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gUmllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986ogEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHVWjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE+BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTeg4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/j
-	ddPxKRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/NefO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0MmG1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tPokBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznnekoTE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44NcQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhIomYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0IpQrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkEc4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	s=arc-20240116; t=1722368895; c=relaxed/simple;
+	bh=ZAmZIWIEhCIhmGzzpDJ5vhuwis2cxS/mWyQQzibV4UI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lhoX6reUQF+BWMpoOap9IWnNLTuihwPgtzH8In++zqrtwttWIiXNNqzj2/kbaPOLkzgKD4deByHVN9LacZ4zJUKLR2GcW/ixFxggGvVoF3s73RFF9WKp5IN5s45Lus417MwSVUOcn+J2+jcwZwpf1FBYr/Dw4gzuVAGnhBBzQXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aa7lTzFP; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aa7lTzFP"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-70d153fec2fso3859757b3a.1;
+        Tue, 30 Jul 2024 12:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722368893; x=1722973693; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=diWdjRqXEGFSY/WPji21hwYK/rR5ogxIGLkpnjqpNBg=;
+        b=aa7lTzFPV1igyrlXeutNAnfvjcQR378cx/vSK6IbrOUBFynBwAu03MKY7KcjWmp/gm
+         3izFvsayDd1RAcJDlsTW9XJrRu8px/sQZg3CRArA7z/XsND9W+fOdP+yTaLtwKMv+tv3
+         IHFquX33nAd1T+/mopkXhH7T8sBjQHervkTLfJoU+8rqgH5gmO3Ofq3emOQyluyp8iZO
+         N5ZsqucTglkhQXhT2EWhK9azx5rkk4SgJnokjT2hUxunxKyStsgXvvJ7g6ulnRgmtWcf
+         9CR9tknlsr2uQhZOJyb3kTTDG4CD3pMBFyYFEqhBJEyuJ/F+w45CvrZ9TWnUTIBjKFQR
+         qAlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722368893; x=1722973693;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=diWdjRqXEGFSY/WPji21hwYK/rR5ogxIGLkpnjqpNBg=;
+        b=byfzhoppI4OJk7iVai+l3ZOmaQ3sErTQ0ae7HNCyGWaKErj/60kNodxD1hah0a7TtW
+         TcLHAQD+bfUJFiFgN1MhTOm8yev9mBaX/ix+dzT5jlvUHOkOUfccB8T3t+xdxPMaIUEd
+         svvJ1qQPxnUF/HMYrWiY3bLCLW0kAi2jUXmUhrU5LUbA0b/ua86pr+dWJdSkKFFH0BhR
+         r5BzvLkk41LuReSPT6S44i5ZkjBxm9ip3DrRmYvFg64uhVio4wbPWQRpge3hE3eaotmX
+         cFg4Ov8UrEkcPYVPn9si+4DPeQfyH0/d3gflduiWj0RgJBDel9C090AqzmSbQaYRhp8g
+         3uqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVgAUgtxzVRu4OB7WUEBA0MFBq1pJLdb7/uiN4ttLVEzxG4ZtIv7g70sWko8sytMdVZwlm2ihHeRdEYxXnxumu5bujI6Pkwlb60L8qAcJpfZ+XoqKpJG3qRNc5PkAyxpaCRDWPF+ks
+X-Gm-Message-State: AOJu0YwGz0Ox6chUfntsMp9/TSfrq9F+uBRQbp6Tcr61kCln8gYMBQhx
+	ifHAkEGFjbODbI0jpLEYT0QgH5SDwccQxbe53KL7PrfhDtImbOBxPRfTvQ==
+X-Google-Smtp-Source: AGHT+IEuE+v1RAf30TWvn5kOSVZiuxBfX4ApHVK6pNXfnWWbJxVLRZLZzL5xRYgjUKFaiVkdCfELJA==
+X-Received: by 2002:aa7:8888:0:b0:70d:21d9:e2ae with SMTP id d2e1a72fcca58-70ece9f42f0mr16181456b3a.6.1722368892855;
+        Tue, 30 Jul 2024 12:48:12 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8a39d8sm8823308b3a.213.2024.07.30.12.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 12:48:12 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Tue, 30 Jul 2024 09:48:11 -1000
+From: Tejun Heo <tj@kernel.org>
+To: n.shubin@yadro.com
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, nikita.shubin@maquefel.me,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@yadro.com
+Subject: Re: [PATCH v2] workqueue: doc: Fix function name, remove markers
+Message-ID: <ZqlDexrLVIU8pQU_@slm.duckdns.org>
+References: <20240719-fix_doc-v2-1-a5cbeb46e0cc@yadro.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Sender: riel@surriel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240719-fix_doc-v2-1-a5cbeb46e0cc@yadro.com>
 
-On Tue, 2024-07-30 at 13:46 +0100, Usama Arif wrote:
-> From: Alexander Zhu <alexlzhu@fb.com>
->=20
-> Self tests to verify the RssAnon value to make sure zero
-> pages are not remapped except in the case of userfaultfd.
-> Also includes a self test for the userfaultfd use case.
->=20
-> Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+On Fri, Jul 19, 2024 at 05:30:16PM +0300, Nikita Shubin via B4 Relay wrote:
+> From: Nikita Shubin <n.shubin@yadro.com>
+> 
+> - s/alloc_ordered_queue()/alloc_ordered_workqueue()/
+> - remove markers to convert it into a link.
+> 
+> Signed-off-by: Nikita Shubin <n.shubin@yadro.com>
 
-Acked-by: Rik van Riel <riel@surriel.com>
+Applied to wq/for-6.11-fixes.
 
---=20
-All Rights Reversed.
+Thanks.
+
+-- 
+tejun
