@@ -1,39 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDCF18562A;
-	Wed, 31 Jul 2024 11:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1F01A8BEF;
+	Wed, 31 Jul 2024 11:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722425179; cv=none; b=icYsRIp8WXy4p5Ur0C/wiD0GAMjvCHwxvf6bjmcws7M3cqcNkIi8f6dCFCHNwOES0jVBEbIaCwltqv0QT/k9LLAKeoBBo14dS1zwaTygdT5PUXqdttlkvxa66COGJv/4PXZyJelSMie5m+wuK4gecq4R44cUGnGf/iza8PHbzQA=
+	t=1722425817; cv=none; b=UXO5zBm2McbBmx0cT1coK2C1UzDkxldT/3A7tvdFndOpXudvJjzhR4OK5HO38TtPxwga7f69V0ypfk6SGwfpzCS++oVaQFFdPDVEqVg1z+0k6p4XlZo7lEGYB9D8IXkm7bwfIP5QLlWsSL9r7vyBgEDBySHVI3e6mfdwoXKEDfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722425179; c=relaxed/simple;
-	bh=p0m35vPz+4N58/r73K27RHGwwZnlOffWYK5jmMgdwF8=;
+	s=arc-20240116; t=1722425817; c=relaxed/simple;
+	bh=DvxRYb8t1EwWUAm27DIBnObbDa/lEizruMwpmgZsz2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qULtvELI4vX8fs4wrTgnAJ2grry20jN0K6mlRleno1oFppcXeaq43hJRiJ2rz2/ZrihYBevODE3pTEQGJAQS6q5rPDzCn0rZQZRL/AW0Xu2hqmeq2zLE/GNMxg+5eXzpz71FBn952UN3VYxuah8wMnPEM0sASPbVMT/ggJI7G7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QfXFGZe2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DnMK0GjCTrrg0a8ddG9qAwQsrx8QiMAdCbWRUCVWNkOIUqOuduCuVn19Wo4+JzwdE3/KptAZQ98Oa671xNkeZhdMRVvYrMNPE+xTcvpRwgm7v75XewrZIwIBH38CcuN/U5WXBT482fW5+pGuFFK8N7aN/xJwM+pTQEelIXnzils=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwDK/pds; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QfXFGZe2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59F25C116B1;
-	Wed, 31 Jul 2024 11:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722425178;
-	bh=p0m35vPz+4N58/r73K27RHGwwZnlOffWYK5jmMgdwF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfXFGZe2e7qEIz3ubpmsaqXt8ULb827eMZywP9qV1rVhLsAJNe5EAHe2JXVnkRqVB
-	 aKRluqom55SQespBmVy2R9aOrx7jvhVUd8pGuZW4VA38e380pzUldVbBnB6925JaW1
-	 QVh2xShenRAeyLljfEWwObDjQkfvtsINzW6pAh0I=
-Date: Wed, 31 Jul 2024 13:26:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Michael Dolan <mdolan@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] Documentation: embargoed-hardware-issues.rst: minor
- cleanups and fixes
-Message-ID: <2024073108-omega-claim-0e46@gregkh>
-References: <2024073032-outsource-sniff-e8ea@gregkh>
- <8734nq92wx.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwDK/pds"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722425816; x=1753961816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DvxRYb8t1EwWUAm27DIBnObbDa/lEizruMwpmgZsz2c=;
+  b=CwDK/pdskefcQYijEjOrMSOShcnxg6P5CzvAu9EnHvBqN1G37o+QehDz
+   ziEuGNRQJV5aI/XA3naR+LfBXznFG9xpAf3U+L4bVGb9L1/A69yeWQsiV
+   8PBIehBRYUBbjkYX63XDG043VSotI1GwFmmH/83/pO4xsi9Cg98ReZqEK
+   om1yjfpvSJQM1lbAlDTHSFKSUZYNM96v1g+MJlPkMDJW2ucoNVnEOrASb
+   BLAdxp4ivv1zzRp6BJ0F6xP/wSgvWahzm9fkul/Fs35eYuu7onmZroCd6
+   BTiGHJFQlh0yrdjELRWKoCWGQItQRF9G/5gJ2KfYjZ0Uiyn314SvoP8/z
+   g==;
+X-CSE-ConnectionGUID: oG+WMpGASje1sIhozbvZtQ==
+X-CSE-MsgGUID: TWjuMWt0QOaVZoKP9qd3Uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20454552"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="20454552"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 04:36:55 -0700
+X-CSE-ConnectionGUID: GOq9DN9kTZ+xvVgfLA40KA==
+X-CSE-MsgGUID: RfkRdjaTSzehKNbqcHf2aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="54651188"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa009.jf.intel.com with ESMTP; 31 Jul 2024 04:36:49 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 479C516B; Wed, 31 Jul 2024 14:36:47 +0300 (EEST)
+Date: Wed, 31 Jul 2024 14:36:47 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Shivank Garg <shivankg@amd.com>
+Cc: ardb@kernel.org, bp@alien8.de, brijesh.singh@amd.com, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, hpa@zytor.com, jan.kiszka@siemens.com, jgross@suse.com, 
+	kbingham@kernel.org, linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, michael.roth@amd.com, 
+	mingo@redhat.com, peterz@infradead.org, rick.p.edgecombe@intel.com, 
+	sandipan.das@amd.com, thomas.lendacky@amd.com, x86@kernel.org
+Subject: Re: [PATCH 0/3] x86: Make 5-level paging support unconditional for
+ x86-64
+Message-ID: <jczq52e6vrluqobqzejakdo3mdxqiqohdzbwmq64uikrm2h52n@l2bgf4ir7pj6>
+References: <80734605-1926-4ac7-9c63-006fe3ea6b6a@amd.com>
+ <87wml16hye.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,37 +67,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8734nq92wx.fsf@trenco.lwn.net>
+In-Reply-To: <87wml16hye.ffs@tglx>
 
-On Tue, Jul 30, 2024 at 11:59:26AM -0600, Jonathan Corbet wrote:
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> 
-> > The embargoed-hardware-issues.rst file needed a bunch of minor grammar,
-> > punctuation, and syntax cleanups based on feedback we have gotten over
-> > the past few years.  The main change here is the term "silicon" being
-> > used over "hardware" to differentiate between companies that make a chip
-> > (i.e. a CPU) and those that take the chip and put it into their system.
+On Wed, Jul 31, 2024 at 11:15:05AM +0200, Thomas Gleixner wrote:
+> On Wed, Jul 31 2024 at 14:27, Shivank Garg wrote:
+> > lmbench:lat_pagefault: Metric- page-fault time (us) - Lower is better
+> >                 4-Level PT              5-Level PT		% Change
+> > THP-never       Mean:0.4068             Mean:0.4294		5.56
+> >                 95% CI:0.4057-0.4078    95% CI:0.4287-0.4302
 > >
-> > No process changes are made here at all, only clarification for the way
-> > the current process works.
+> > THP-Always      Mean: 0.4061            Mean: 0.4288		% Change
+> >                 95% CI: 0.4051-0.4071   95% CI: 0.4281-0.4295	5.59
 > >
-> > All of these changes have been approved by a review from a large number
-> > of different open source legal members, representing the companies
-> > involved in this process.
-> >
-> > Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
-> > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> > Co-developed-by: Michael Dolan <mdolan@linuxfoundation.org>
-> > Signed-off-by: Michael Dolan <mdolan@linuxfoundation.org>
-> > Co-developed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> > Jon, I can take these changes through my tree if you don't object.
+> > Inference:
+> > 5-level page table shows increase in page-fault latency but it does
+> > not significantly impact other benchmarks.
 > 
-> They seem fine to me, no problem.  Should anybody care:
-> 
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> 5% regression on lmbench is a NONO.
 
-Thanks!
+Yeah, that's a biggy.
 
-greg k-h
+In our testing (on Intel HW) we didn't see any significant difference
+between 4- and 5-level paging. But we were focused on TLB fill latency.
+In both bare metal and in VMs. Maybe something wrong in the fault path?
+
+It requires a closer look.
+
+Shivank, could you share how you run lat_pagefault? What file size? How
+parallel you run it?...
+
+It would also be nice to get perf traces. Maybe it is purely SW issue.
+
+> 5-level page tables add a cost in every hardware page table walk. That's
+> a matter of fact and there is absolutely no reason to inflict this cost
+> on everyone.
+>
+> The solution to this to make the 5-level mechanics smarter by evaluating
+> whether the machine has enough memory to require 5-level tables and
+> select the depth at boot time.
+
+Let's understand the reason first.
+
+The risk with your proposal is that 5-level paging will not get any
+testing and rot over time.
+
+I would like to keep it on, if possible.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
