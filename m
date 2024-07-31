@@ -1,147 +1,92 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3783D1AAE17
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 09:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAC03CF73;
+	Wed, 31 Jul 2024 09:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722418905; cv=none; b=sonB1OoMdDVIqfLzo3F6baWme97OlaiNjBLMtMkYXbpe91ocrxFh567Ft4kpFByYclODgO4PY/7RoTaDSHsGnK0ApfBo7/n+ur4MhG/urAtQr2UXgQNQK7xoZsJgtI6+eUOxf09P597GfyG9yMyzokuaBmddm0SwhIxk3tYkZig=
+	t=1722419559; cv=none; b=QRKy7001tiBUiMXhUv6UJCc/QN6EHWb1MXvCEtUBPTcxZtlA+WBerCbAxUs2sc6nKekWIqPlXR4QgszrsoIO67nwCbmzR5OgVFrgkNXl8A9JtA0swRUt79pQwWMWOFN+sVl8QffFFK5UWhSKkIBx620VXx10D3njZi+hLCHywvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722418905; c=relaxed/simple;
-	bh=AvnUzep953GDaigrp+HtfOD1n1aZWOTF7Av/jGpNkow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/iJIa8XWCTgbScooPovnZq5ykYuNZMf3kZtoOnCXitGXjY20V5Xgq76rQ4BejUYWo9KAXUYABGz+O6iWkFnH7LKS62KQ3rd07Fnl3upS/nVIcMMEGBz42ZlIzoSDNoMbN0PPzADqY6w3fhn66L958GIrgyWTB/gYFqXgj/Zub4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JPrtDh6y; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1722419559; c=relaxed/simple;
+	bh=73bEQavjF+GaI6c7nkkNPr8lCt+cq5S3EgffHXve1xI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GcKEwSmjO4P79Dyw/MRUaBzWv0aoS75ROLuOM4A6bh3GytVLtN2IgHVUUKzKONe/aS9yj2E3QjxfMWAlRo53Gtk8x+LlRGTzluLCvm6auew59ZgjOKgwqQhHt5LnlrFRkd96udqyQE3Ctkw2ObXAojWX9VfSxSSXsKE7WoxI8F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YU+gU5OA; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JPrtDh6y"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7d26c2297eso671556266b.2
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 02:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1722418901; x=1723023701; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HVOFjzLvVY/iMwNpUInUD4B5B+BlHH/h7oSaiQtUJBg=;
-        b=JPrtDh6ykW1uhsuFZg0cu1I7RcDvJCkVXdsDj5l6mQcq9tfPZmfsgi0Vg3pFM4foE3
-         sT+k7wMX/d/z4FQC9EFqqnnbhytiR3h//blm7AF6dbOntdOczNaZKuM1/q/3qntYkalt
-         1GnuMlLN9AinLc9p5boFD3zQkHkdqHjL+rL2ikWIEPO/xTzMadBkQuwAuHY6CRtZsjpv
-         GWMft8cAhbAxU3gbpuHhhudOIDQUV7nppIXVwloFNKZgLfvo8KkHNET+JVhK+YNQo7y9
-         PzpK3yygB+c3P58pqBqS1Nke2Vi9euWtysr0XqP4/gAuM4eu6tSklcXkBo2eUR7tuI3O
-         uBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722418901; x=1723023701;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HVOFjzLvVY/iMwNpUInUD4B5B+BlHH/h7oSaiQtUJBg=;
-        b=CCXaT1pDL3+hz5CyW7JLLXSWAioIuBaHiqXFztN1y8CH6e7jOrOvmhGBXM1mLJKw/+
-         udyeVw0nnr19QBbj8onlDVVpb/TCIRCj2BGT+PGEaD0gkCstHtczT8LsMn30zsZuctu6
-         CX3eF4evHHBt2pbI/zIG+itSpNTX95dj+zvBA/UXrSKOKFKD1cd6LGLFq5KbzD3fMhiT
-         UfLYJ2Hwsk1ggS5gqnF15qXvqdC6Xd1RkWp5zhCFRmuoX0wXx3BjXidm/RwmDAqPS9LL
-         vFJPHiaKuAem/v3zbw7KqxwcfC7Zsq82PJ1enY8xmWe7Wo5jalZkBejizGbYS/y4gco5
-         I6Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8Ijy1VZLJBn3GqTOT1RI5Ce8c1yr8iHBxNd5n2mauLJdBHnt63sStkhSlU0SVHjN+7lXiI6Le/HxLsUOouS9t13bAxEx8g8Bj
-X-Gm-Message-State: AOJu0YywOu76D/4NiwaJ7zMd8BF2h5bnigN2HaMDNfil5gZpoJHizYtR
-	EeB5pV7sHKVYiiAeTxhbuGkNF/PtV8V06hM8aUFP9mG+4cSra5EjZ6I6nQ+Ukcg=
-X-Google-Smtp-Source: AGHT+IHQsl+P4TBsSnJ53IGLFD381o7gzHEbHHprIgmjvO6yDPPnyjTxJQm7Yti9X+jVBEYTWNKA7w==
-X-Received: by 2002:a17:906:7955:b0:a7a:abd8:77ae with SMTP id a640c23a62f3a-a7d3ffae487mr1151151266b.7.1722418901397;
-        Wed, 31 Jul 2024 02:41:41 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab28249sm743633966b.30.2024.07.31.02.41.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 02:41:40 -0700 (PDT)
-Date: Wed, 31 Jul 2024 11:41:39 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Waiman Long <longman@redhat.com>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>, Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <4cb4bczascgy4w774k7y5z5yewvl4civpkuhl46g73ckvoubj2@ag2cfvgayfqs>
-References: <20240715150034.2583772-1-longman@redhat.com>
- <ZqmDpLTm6tKhAmYv@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YU+gU5OA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722419558; x=1753955558;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=73bEQavjF+GaI6c7nkkNPr8lCt+cq5S3EgffHXve1xI=;
+  b=YU+gU5OAOVXwTpdsz0kZxZyA18YO4vHCNrwwvedPlF3K+8hiNxrSSnz1
+   kTUpo174iRMsl9m7jkGbj7IRd2W9c9Z1AWVtL3j2xvrfJWb64eflIYb1v
+   blKC9Fm4vna2r+qS1CRjW2mtpk62QXKZ4urFeyk5lgiMmIEj7MXm7fafu
+   BA2Wiou7cecOKnei2kdj2OgUw/86zSEAG1/wOZXv7aNxpw44Iv6eH4JhK
+   FFd1GVmn3vaw4tfBCG9oAbAvZc1KXpb+gS83QW/aEK/FqGYnGLqwhW+rx
+   bmo2+OclleTQnyjkFur+n1IrsQdUtlLOfaY5NFcE7+tXYz/4DbxPzihQG
+   g==;
+X-CSE-ConnectionGUID: Z1R6HT3jR4ugH6tozkmFrQ==
+X-CSE-MsgGUID: jgLqmNtsSreL1g1gI4ybyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="31678832"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="31678832"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 02:52:37 -0700
+X-CSE-ConnectionGUID: lJ95hGZOR2qYjAz+qXoaGQ==
+X-CSE-MsgGUID: DEgwsBZpRmOqsIhq9traSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="58960823"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.118])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 02:52:30 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 1/1] docs: thermal: Remove extra parenthesis
+Date: Wed, 31 Jul 2024 12:52:22 +0300
+Message-Id: <20240731095223.2778-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3ovrcoj4tl77pn42"
-Content-Disposition: inline
-In-Reply-To: <ZqmDpLTm6tKhAmYv@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+thermal_zone_device_register() prototype in the thermal zone device
+interface documentation has double closing parenthesis. Remove one
+of them.
 
---3ovrcoj4tl77pn42
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ Documentation/driver-api/thermal/sysfs-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Jul 30, 2024 at 02:21:56PM GMT, Tejun Heo <tj@kernel.org> wrote:
-> On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
-> > Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
-> > help manage different structures in various cgroup subsystems by being
-> > an embedded element inside a larger structure like cpuset or mem_cgroup.
-> >=20
-> > The /proc/cgroups file shows the number of cgroups for each of the
-> > subsystems.  With cgroup v1, the number of CSSes is the same as the
-> > number of cgroups.  That is not the case anymore with cgroup v2. The
-> > /proc/cgroups file cannot show the actual number of CSSes for the
-> > subsystems that are bound to cgroup v2.
-> >=20
-> > So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
-> > we can't tell by looking at /proc/cgroups which cgroup subsystems may
-> > be responsible.
-> >=20
-> > As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-> > cgroup.stat file is now being extended to show the number of live and
-> > dying CSSes associated with all the non-inhibited cgroup subsystems that
-> > have been bound to cgroup v2. The number includes CSSes in the current
-> > cgroup as well as in all the descendants underneath it.  This will help
-> > us pinpoint which subsystems are responsible for the increasing number
-> > of dying (nr_dying_descendants) cgroups.
-> >=20
-> > The CSSes dying counts are stored in the cgroup structure itself
-> > instead of inside the CSS as suggested by Johannes. This will allow
-> > us to accurately track dying counts of cgroup subsystems that have
-> > recently been disabled in a cgroup. It is now possible that a zero
-> > subsystem number is coupled with a non-zero dying subsystem number.
-> >=20
-> > The cgroup-v2.rst file is updated to discuss this new behavior.
-> >=20
-> > With this patch applied, a sample output from root cgroup.stat file
-> > was shown below.
-> ...
->=20
-> Applied to cgroup/for-6.12.
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index 6c1175c6afba..63ed1801ac40 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -43,7 +43,7 @@ temperature) and throttle appropriate devices.
+ 				      int trips, int mask, void *devdata,
+ 				      struct thermal_zone_device_ops *ops,
+ 				      const struct thermal_zone_params *tzp,
+-				      int passive_delay, int polling_delay))
++				      int passive_delay, int polling_delay)
+ 
+     This interface function adds a new thermal zone device (sensor) to
+     /sys/class/thermal folder as `thermal_zone[0-*]`. It tries to bind all the
+-- 
+2.39.2
 
-I think the commit message is missing something like this:
-
-| 'debug' controller wasn't used to provide this information because
-| the controller is not recommended in productions kernels, also many of
-| them won't enable CONFIG_CGROUP_DEBUG by default.
-|=20
-| Similar information could be retrieved with debuggers like drgn but
-| that's also not always available (e.g. lockdown) and the additional
-| cost of runtime tracking here is deemed marginal.
-
-or a 'Link:' to the discussion ;-)
-
-Thanks,
-Michal
-
---3ovrcoj4tl77pn42
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZqoGpgAKCRAt3Wney77B
-SUkiAQD0ptZM9ZFjf2nAr7tHZeeJlb3AZ+2j+2aaASGs8/zoagEAuXgKYrujZm+6
-5xTsrFaX3y/8u2xjJKBJLExrBELyLgE=
-=51to
------END PGP SIGNATURE-----
-
---3ovrcoj4tl77pn42--
