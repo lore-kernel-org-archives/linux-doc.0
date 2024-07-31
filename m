@@ -1,95 +1,96 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2CC1A8C0C;
-	Wed, 31 Jul 2024 10:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FFD1A8C0C;
+	Wed, 31 Jul 2024 10:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722422044; cv=none; b=JZ5ZFf8LhH5Uqexu3azHK/kwtG7BE6kXXw2NVyk72Q2fldVphRGNXetn4t2pX264BUvQMGhrwua7D6qYNIs8X8UQgDebDc/6TLkPAYt6I+w0euqsOWnGLahUdiKGXgUSg/NiAYJmIAczfSXRwLCkivBihCB6R9gY8Hz++4+QOXU=
+	t=1722423557; cv=none; b=I4i9XPhMCqhdhuioc3S60j6fJCV+HlJcsCu2THYcHNy4IAurhKfqi70G9PxioBgG4VEChPoTZyalAvhE8EWU+a9O9jAJehwGaleadSt+A3o1Y2xgfOAebz8OiV/bjLcJ7qY+yDRd1mOaXN39C3/hsGPuOlaOSXLsVC6nuRaVVts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722422044; c=relaxed/simple;
-	bh=PZzuAyXiUv8r4B/pgnrvblJtFU3x1w1b4ERBRW/6Ueo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwsufFvC/EAHU3m1uZMaD7jS1GNiuLRc7S8WNV3YtzeVvUYvRoo+XDz/+M/NXZ/0UHpcAPs9XPl0SHUjQE7jISVmCJCR/Iql7jpD3mNCB+Ic6UKZjSW2AxLTgexx1g61JhmKP6a0dgyIGA5LHUF508MPgqC6Qw7DzcCo8pF9sIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DlxfEDsb; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722423557; c=relaxed/simple;
+	bh=WAt+uKUcWmsl15ThUfwoCHfKCOypKIoAIzDoID2uCro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dOFUHjVVx+pdMcv8FkIdeRuYs1e2ms2HdNSi+8VhLYUx4JLrQv+Q8QelQf1/lPrOuAVr4q2d3KW+1c1+/XplwVtIh8qGE5Gka41J0yD1hqvXJg+7s3zT3SYUULP/vRzue88qSvtOBIqii6wrPSQ1wzfxS1bn36jsqJKEzx1Q9ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYZQhOwn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DlxfEDsb"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7ad02501c3so699227266b.2;
-        Wed, 31 Jul 2024 03:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722422041; x=1723026841; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oIFp8Khg+4GQ8fLs2YKk+HJiIw5dPfegAQ5FPEevMKg=;
-        b=DlxfEDsbOwFI9TgKSlMLkaQ8k8VTLqzvgHDrqT1+KBI8plaXKLBaHmy2oKpQLFCPvy
-         83V978BZfrapR9I630W0tby9cEvX0GIxb3Pi6Z10QXnP2mzNegzl9e8cXwiEruAAXWlw
-         HHafpFMTCyzMbflIPDy2FvE2x3Pg/C67supPo9Fvtg58BdkqtdDwAIz1t7euh8797koK
-         BXDB2lhhqTvcbKEW5I8pyrJuP7NMA2i33TS6UmeyqjNiSveQ/qGit19kl2ckRkaRlfZC
-         QwZYRK+knMt/l0KFWMj3utluam8FDR+6zmGzxYv4v/sfOyPu21y4v456VUX9DVTzfWJY
-         r0xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722422041; x=1723026841;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oIFp8Khg+4GQ8fLs2YKk+HJiIw5dPfegAQ5FPEevMKg=;
-        b=PE8gsS29fcoX+6VbpXaJm8lNHfBSsyXGMLkLwghBj5TKdhfC+CBFwYUeJU7LeK4dMc
-         8XPdfeClfPWQVBvDjjSrQ65+4DukCO8YxjBu/CWaugSDrdWK9YVmhtuZR/rtbcHvhpru
-         eLwp2k6S/oO3LOLksQ5wZ4yolx8JA2GMZisna/SRPNnxv9mtBo/LOLYWqhulLw8AZdt+
-         RCyNU5plDTxLlCrGS8yMgqWYwGANmOKaluMoIZ40YlWZ6ckxoWuAWOA8zQP4h2RjgyvW
-         Ua74gpCpN2BIUQRgqPYzd8g7Nnqn6uJfk46zggTim8J/h2/MeIIlo1vg0TtMNFd39uYL
-         V6eg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWHa87aNB4obqOPMX9pWTAG69aHHIPatKt9z45D0EqqPLpHTPl/MySqSZtM1YWRuPFMu77mRMHNFAzmz2gsmJu6bYkpoEs+Kn5gNjlGIxf/r6Xn+hzea1baOs1Y4yeAi/3AWoOu+QadOoXHa/6SSEteTmYV/nC8UCKnjGBpZDMFAbxcrq6sRneaJe+9FF5fCLzoUVSmxGAvvGOa0DrACk=
-X-Gm-Message-State: AOJu0YxtGaYb/3I/78noPqiNByot98P2sv+BWSanyTTTNRTHNMNVJJE8
-	POIt38UJGQMoefLrm41I3wWUy8Fx12tHqSz2IQhjcEb45+CL8bWJ
-X-Google-Smtp-Source: AGHT+IEpqCSb1HZgZrXNMIPoeWCsJDQXhX0oT/7sHA7gK0E/DdB+OsIPbj442pW7/EMYL6tZ0sMreg==
-X-Received: by 2002:a17:906:c10f:b0:a72:aeff:dfed with SMTP id a640c23a62f3a-a7d400dd249mr1048974566b.53.1722422040620;
-        Wed, 31 Jul 2024 03:34:00 -0700 (PDT)
-Received: from andrea ([151.76.3.213])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad9046fsm760828166b.147.2024.07.31.03.33.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 03:33:59 -0700 (PDT)
-Date: Wed, 31 Jul 2024 12:33:54 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
-	Andrea Parri <andrea@rivosinc.com>
-Subject: Re: [PATCH v4 06/13] riscv: Improve zacas fully-ordered cmpxchg()
-Message-ID: <ZqoTEk2zMohhog1Z@andrea>
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-7-alexghiti@rivosinc.com>
- <20240731-260cce60e1a6cd06670d1b24@orel>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYZQhOwn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A88C4AF10;
+	Wed, 31 Jul 2024 10:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722423556;
+	bh=WAt+uKUcWmsl15ThUfwoCHfKCOypKIoAIzDoID2uCro=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MYZQhOwnMd7DGLOMs49T9UkHY7p+38xxoap4wFimL58ep0kXeKmhKehWIF6+V1YvO
+	 Qp08ixMRHLJfvw0MZxIUX1ICqMYqYELvWEeu48g3Tit+MgDxRby9ryviAmGoB/3ffD
+	 ptGFN24Cmjhb47ZJGz1MWQo6emMDNmZCv9odI81Gz6SoEVjd9RWUzLU86/u7sSQxRf
+	 FdS+4un6uQPnxz46Y50YmbfYewRKsorylo+G3rewR0F9AN/eVNi5zNa4Oxr/X1P0CU
+	 rpAJ31zd4L8gST8XG0GP6jf6VKK9BSDIy4qI6iJ3RAw6iZhiYxRn2RKetCS52kGK4R
+	 V+ZHlIxgWEiJQ==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-26123e59c8aso666179fac.1;
+        Wed, 31 Jul 2024 03:59:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUQiQj8Rjzwd24h5pRTX9TTZeO/3kRpdXExSSi9s8t4kOWgB9EoRHfcEg8s3U9ORt18DHosUhK4jQ=@vger.kernel.org, AJvYcCUwF5kGyKOujh1lNgIwtCPcWIiX8H6RsbB8Bg/WgcPNEiUycFC/H9coYk2BPrf0B/46d+eLX+ghgjY=@vger.kernel.org, AJvYcCXEPzC02uG1foDHsYhb32GloajRWVw5stdEq12gjLhTh6JWMqPK36jNJDXrR6tRb/bHwustmdah3Ry+YTfK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1/HnO8moItt747SmBJLIPFlTKPjH7BO1X5Arl1HN4Jr40pOU6
+	HxQRqUFW+MSXaEjIhmVpvH7XR/9NRUu4/Ln1WVSuQgF3zBuodnN6lbqb4RoU43ZmfPJdxREbRG5
+	RWd+RW7eQkO4XXEiiMwP5OsgBgk4=
+X-Google-Smtp-Source: AGHT+IEnDZbw2dFh8GGsUt2bFDG9W3nBtCNuFqKxK18Y/P1eEfHY17D0uoNuEG4z99VyYqLxmmpsTcZJjxYb2hp3wh4=
+X-Received: by 2002:a4a:df47:0:b0:5d5:bc1f:daa with SMTP id
+ 006d021491bc7-5d5bc1f0f75mr10929184eaf.1.1722423555797; Wed, 31 Jul 2024
+ 03:59:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240731-260cce60e1a6cd06670d1b24@orel>
+References: <20240731095223.2778-1-ilpo.jarvinen@linux.intel.com>
+In-Reply-To: <20240731095223.2778-1-ilpo.jarvinen@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 31 Jul 2024 12:59:04 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gv3xe=bmGQVDuk_wMczA5u0ASvBOQJSKShW=nAfg7hxQ@mail.gmail.com>
+Message-ID: <CAJZ5v0gv3xe=bmGQVDuk_wMczA5u0ASvBOQJSKShW=nAfg7hxQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] docs: thermal: Remove extra parenthesis
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >   amocas.X.aqrl   a5,a4,(s1)
-> 
-> We won't get release semantics if the exchange fails. Does that matter?
+On Wed, Jul 31, 2024 at 11:52=E2=80=AFAM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+>
+> thermal_zone_device_register() prototype in the thermal zone device
+> interface documentation has double closing parenthesis. Remove one
+> of them.
+>
+> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+>  Documentation/driver-api/thermal/sysfs-api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentati=
+on/driver-api/thermal/sysfs-api.rst
+> index 6c1175c6afba..63ed1801ac40 100644
+> --- a/Documentation/driver-api/thermal/sysfs-api.rst
+> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
+> @@ -43,7 +43,7 @@ temperature) and throttle appropriate devices.
+>                                       int trips, int mask, void *devdata,
+>                                       struct thermal_zone_device_ops *ops=
+,
+>                                       const struct thermal_zone_params *t=
+zp,
+> -                                     int passive_delay, int polling_dela=
+y))
+> +                                     int passive_delay, int polling_dela=
+y)
+>
+>      This interface function adds a new thermal zone device (sensor) to
+>      /sys/class/thermal folder as `thermal_zone[0-*]`. It tries to bind a=
+ll the
+> --
 
-Conditional (atomic) RMW operations are unordered/relaxed on failure, so
-we should be okay here; cf. e.g. Documentation/atomic_t.txt.
+I was about to apply this, but then I realized that the function in
+question doesn't even exist any more.
 
-  Andrea
+Let me have a look at this file.
