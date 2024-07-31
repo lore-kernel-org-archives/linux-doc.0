@@ -1,59 +1,61 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D6C1A4B3D
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CF116CD03
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722409552; cv=none; b=XGPdU7V8YSnoOfPhqcmuj9p8Q5g2i5VLUtjMLPvLsKnLSt7rojTQFlgod/YqVeOIb8Kt0hH/tIjw780U3jrUGJd2E3DMcWEy5G64n3SnDe8wWJq5D0lfcrfZNAeMcgCGZn2KvTcdVflkBIovK7oMkoIuobyHz3WxDfGfKXhGojI=
+	t=1722409552; cv=none; b=oRyXT75h4bSliGpJ6hDSZISenzLCkzeOHjUbOBEhTtzmnjKQ2K+gBcxLp4c1SGIttzC+KwT68XpG+qnLdM5mX0X/MpsDpnVzQsMTaCC2Nettqpl/tfg7PM5kabG07MjLBCtv8UL64yQJ4uUS7wuzF8+L380pwlHr5E1QWkWmgJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722409552; c=relaxed/simple;
-	bh=TwW9uB5kaXzH10sP2oUv5k/SP6QlVLmAcTZDbEgNWKI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dYRf+IMZ3Y8kty8a9UeTVGL+WDqLUWbwczN/No+3sGJbIC9bclsTyN6btJ+ByUGUNYmMVUeN1P8hxFROKygsTIxXXkx2KKqDT872CN9/R3bK2fLTNxTslH9Rv1flJEvhKDwQ33Po1IBrxEip9vCmXRNCO9noJTxTgMD1/GI9EJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vk5/mINM; arc=none smtp.client-ip=209.85.128.54
+	bh=CVeeM9agMlhOuzB//PVeugDjFr+JlKm6KzovrQHMqX0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jXHLebPdptIzC+L98KbUqcnwBJ+iSyiRAYLbIcLNitffJ6pM87d/+hAALXY6CAgHcPtMc/eeytgfehkLfYzFhkTaT3G1fq20t2jaLx5qo276v3+BLwYLIrVqTk238d1l9no5HWGYJPaWuB6BwnrAuGvMrSMFZvBbGEM6EV7nisU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=iSziX4iK; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vk5/mINM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-426526d30aaso34886555e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:05:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="iSziX4iK"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4280ee5f1e3so34247885e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722409548; x=1723014348; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mFYqoVjdKBqJJ0AMbWdTPPMfMKO5hEJlX7ZoGx1Cdks=;
-        b=vk5/mINMtK9KA3lithVX6Ez2AKmN8S8jDnO+Cie0cYWE0YQM1IbUo+OfDsO56MAuze
-         prPp5oTpoJqpEo2JrghsqAjUSy1E9R++xYgIwwb9VcQrb9IZ9a+dyAg/WZ2CfdHfvZNt
-         mQZgg9LMgTiZ5Q1Ja+pSPpzBUn27/9tdyR7VdTLNdeLzWCQ0/L9K9uMmg3noztxDlTpF
-         cNUnbb08ajJZ3jAyv158gTPXLS+X+53ZGhYr6f1AD/1IJseM/3ulbv3M5LtpUYr1qoqM
-         /NvwIRauVv4Jd3slHqT7CYMboL4HHUrTV+e8vkWu1YJF1JyNMccHiI0g163+3qnkHCP4
-         fqow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722409548; x=1723014348;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722409549; x=1723014349; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mFYqoVjdKBqJJ0AMbWdTPPMfMKO5hEJlX7ZoGx1Cdks=;
-        b=OZlJQZzUiRFZElOHSGp5msbk40+lLFdwhly6C66SzA3ZBT/1kD2RnDFI5/LF9SAqaN
-         dmdEbS20sUuXK+4RaLU+P4/P5raygze8yMnWTERUgwtNy3cWIMNnvvd/grBQxau3xNHF
-         afgzEtd7vDx5jaVtjzUX/OpAoe2X+UKGQaRVayUvKOLcJt070rePZpexNdOdClIfsYx0
-         mj0heEQFgbg60e9o/YnjBdewDeRKK4v0cTNOKHwWN3svXkmb3MQcejPRZIzXot4KYEas
-         hJoU3phIS2fsYOzw1fQzPxbUD6C4L2RDt/7ymIUKXt+N876vHHlsodPnBGjxUycqPXHA
-         p+Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0IXhxo/lrWSN6lWgusThERS9VnOLL+YMdqoSrI6jMrYCx3NjohG6CDxbFkEsg21Tk7NuJQjeGb801hbODN75v6g6FZbMrBqju
-X-Gm-Message-State: AOJu0YzYqU8jz6r7KWBulQFqUQdMKi9+gnrtBen6zTbLpNERZ35bHwMB
-	qhJyLUFh4Q4LaJ0hjagYSMorJsUj+TXcbOccikVht8DZyYlm75dNNAKKMArTZHA=
-X-Google-Smtp-Source: AGHT+IHiaaerw1bIXIQ7OlZ/stjeMwoVSRVTt931IpiunAkahT1taTu6u3snufdLGDK++gGWIHW7dA==
-X-Received: by 2002:a05:600c:1551:b0:426:67f0:b4fa with SMTP id 5b1f17b1804b1-42811d739c9mr85120175e9.1.1722409548067;
-        Wed, 31 Jul 2024 00:05:48 -0700 (PDT)
+        bh=mFCuIz7C9sKLND6RuCsZOq0lXreIYCfstfjNtwHxLOQ=;
+        b=iSziX4iKBzQ/BtWR7pcIVTQ4O8pnQHYw0R85Zj1PUNfh7p3S2OKFggaKwkW4UYiOQY
+         yUcLolZv/e4GkqTZtKbO9+uWUmAYGlGgQgWGR9YiO+N+YJA/621dQveMorlHNc69bccu
+         wtLlA/NQWi+rfN9k7FAY3fMPI5zZzvwf3GCXtdfOjlPqU8UndERB2MHneenSeqdnnX9g
+         WA2c2V7YykmTB5wm6//740qxmCczpvBtp438uZUuCeC0CQ1c7HKtGR0Fn14G9VuOYWJR
+         6KPkFaSChq+FTZGMHDLTVAKpLMbeW3lRNVsJUX54x9uKPlM9tXPTH7gECeHr5uXNz336
+         j9IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722409549; x=1723014349;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mFCuIz7C9sKLND6RuCsZOq0lXreIYCfstfjNtwHxLOQ=;
+        b=pUUs2oodpZ9albYBr2gU45o0jMQNzxsNbcfHVQGEn9LyD0Fvxi33S8EjJJJoxWmQvX
+         XXpdJlwyuJzaU9pEboAh3mLWt8r2Q0LML1iDT/VL0PgvZcxeCRPLBR+Xz3W44G/Klh4M
+         /ICkBAsNch17jz2yzH2K8upIVg4duO3a8X+9LguWmm1X47ScSkH8Gnlkg6xxVObFumPU
+         SGYv0FRkwBxK+aUCArja4JIFyTg2HBLKNuk6K8GxVRozf/OYJF3p5yg8i1jQE+AXj93S
+         ntsuXL/ebTkCGLv+oGj+G3BOVbgrOdMjrJusEE5FTAE0bzz0hYmsJaxCBc8Uo/WX1OyD
+         v8gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ1naGOg7lhVXJyEVxqTYrPJP3xcxLj9Xh+g6LUwc/KuHWlLT91Q4+kZjrvLJkRl9qDj/sLTgRc4mC+c1lQ8I3utX61pyHeMq1
+X-Gm-Message-State: AOJu0YyGSzQRJI35LCymX5mYqo4n1QyYcZUKN1ebDp3CsAgUcKDU4KiF
+	EiduhIhc9XvFza+2pOExKlcbYpVzs0cCYm9jg9T04jkBXJi3kwqhJAWuEiYvX9I=
+X-Google-Smtp-Source: AGHT+IGetKYVTW5hZ9jxdlylMXS0vLE2omCWqfpv9It70piPrSEHFmOVA4GtdWvPtzBnHg0b0GPogQ==
+X-Received: by 2002:a05:600c:1e26:b0:426:5b84:86d2 with SMTP id 5b1f17b1804b1-42811da946fmr100643465e9.20.1722409549382;
+        Wed, 31 Jul 2024 00:05:49 -0700 (PDT)
 Received: from [192.168.1.61] (2a02-842a-d52e-6101-6f8f-5617-c4b6-8627.rev.sfr.net. [2a02:842a:d52e:6101:6f8f:5617:c4b6:8627])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8a2593sm9953215e9.4.2024.07.31.00.05.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8a2593sm9953215e9.4.2024.07.31.00.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 00:05:47 -0700 (PDT)
+        Wed, 31 Jul 2024 00:05:49 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 0/7] ad7380: add support for single-ended parts
-Date: Wed, 31 Jul 2024 09:05:41 +0200
-Message-Id: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
+Date: Wed, 31 Jul 2024 09:05:42 +0200
+Subject: [PATCH v2 1/7] dt-bindings: iio: adc: ad7380: add single-ended
+ compatible parts
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,10 +64,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEXiqWYC/42NQQqDMBBFryKz7pQkioaueo/iwmSmOmCjJCVUx
- Ls39QRdfd5fvLdD4iic4FbtEDlLkiUUMJcK/DSEkVGoMBhlGtWZFgfqaqvKECYJ48zIgZjQT7I
- mdE3dkfbeOuugONbIT/mc/kdfeJL0XuJ25rL+vf+as0aFhlpjXau8J313wzaLi3z1ywv64zi+n
- AOtGc0AAAA=
+Message-Id: <20240731-ad7380-add-single-ended-chips-v2-1-cd63bf05744c@baylibre.com>
+References: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
+In-Reply-To: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
 To: Michael Hennerich <michael.hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
  David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
@@ -79,78 +80,55 @@ Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
 
-This series will add support for ad7386/7/8 (16/14/12 bits) unsigned,
-dual simultaneous sampling, single-ended compatible parts, and the
-corresponding ad7386-4/7-4/8-4 4 channels to ad7380 driver.
+Adding ad7386/7/8 single-ended compatible parts, and the corresponding
+ad7386-4/7-4/8-4 4 channels.
 
-These parts have a 2:1 multiplexer in front of each ADC. They also include
-additional configuration registers that allow for either manual selection
-or automatic switching (sequencer mode), of the multiplexer inputs.
-
-From an IIO point of view, all inputs are exported, i.e ad7386/7/8
-export 4 channels and ad7386-4/7-4/8-4 export 8 channels.
-
-Inputs AinX0 of multiplexers correspond to the first half of IIO channels
-(i.e 0-1 or 0-3) and inputs AinX1 correspond to second half (i.e 2-3 or
-4-7). Example for AD7386/7/8 (2 channels parts):
-
-          IIO   | AD7386/7/8
-                |         +----------------------------
-                |         |     _____        ______
-                |         |    |     |      |      |
-       voltage0 | AinA0 --|--->|     |      |      |
-                |         |    | mux |----->| ADCA |---
-       voltage2 | AinA1 --|--->|     |      |      |
-                |         |    |_____|      |_____ |
-                |         |     _____        ______
-                |         |    |     |      |      |
-       voltage1 | AinB0 --|--->|     |      |      |
-                |         |    | mux |----->| ADCB |---
-       voltage3 | AinB1 --|--->|     |      |      |
-                |         |    |_____|      |______|
-                |         |
-                |         +----------------------------
-
-To ease the review, this series is split on several commits, in
-particular, sequencer mode is added as an additional commit.
-
-Cheers
-Julien
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Changes in v2:
-- Adding a new commit to fix the previously missing trailing comas
-- Adding a new commit to introduce a new core function
-  `iio_active_scan_mask_index`
-- reword commit messages to add the `iio: adc:` prefix
-- fix minor comments from Jonathan
-- use the new iio_active_scan_mask_index and use some enum definition to
-  make the code more readable
+ Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-- Link to v1: https://lore.kernel.org/r/20240726-ad7380-add-single-ended-chips-v1-0-2d628b60ccd1@baylibre.com
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+index 899b777017ce..bd19abb867d9 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+@@ -15,10 +15,17 @@ description: |
+   * https://www.analog.com/en/products/ad7381.html
+   * https://www.analog.com/en/products/ad7383.html
+   * https://www.analog.com/en/products/ad7384.html
++  * https://www.analog.com/en/products/ad7386.html
++  * https://www.analog.com/en/products/ad7387.html
++  * https://www.analog.com/en/products/ad7388.html
+   * https://www.analog.com/en/products/ad7380-4.html
+   * https://www.analog.com/en/products/ad7381-4.html
+   * https://www.analog.com/en/products/ad7383-4.html
+   * https://www.analog.com/en/products/ad7384-4.html
++  * https://www.analog.com/en/products/ad7386-4.html
++  * https://www.analog.com/en/products/ad7387-4.html
++  * https://www.analog.com/en/products/ad7388-4.html
++
+ 
+ $ref: /schemas/spi/spi-peripheral-props.yaml#
+ 
+@@ -29,10 +36,16 @@ properties:
+       - adi,ad7381
+       - adi,ad7383
+       - adi,ad7384
++      - adi,ad7386
++      - adi,ad7387
++      - adi,ad7388
+       - adi,ad7380-4
+       - adi,ad7381-4
+       - adi,ad7383-4
+       - adi,ad7384-4
++      - adi,ad7386-4
++      - adi,ad7387-4
++      - adi,ad7388-4
+ 
+   reg:
+     maxItems: 1
 
----
-Julien Stephan (7):
-      dt-bindings: iio: adc: ad7380: add single-ended compatible parts
-      iio: core: add function to retrieve active_scan_mask index
-      iio: adc: ad7380: add missing trailing commas
-      iio: adc: ad7380: prepare driver for single-ended parts support
-      iio: adc: ad7380: add support for single-ended parts
-      iio: adc: ad7380: enable sequencer for single-ended parts
-      docs: iio: ad7380: add support for single-ended parts
-
- .../devicetree/bindings/iio/adc/adi,ad7380.yaml    |  13 +
- Documentation/iio/ad7380.rst                       |  42 ++
- drivers/iio/adc/ad7380.c                           | 525 +++++++++++++++++----
- drivers/iio/industrialio-core.c                    |  43 ++
- include/linux/iio/iio.h                            |   2 +
- 5 files changed, 543 insertions(+), 82 deletions(-)
----
-base-commit: 472438c7e0e2261c6737a8321f46ef176eef1c8f
-change-id: 20240726-ad7380-add-single-ended-chips-b437d1cc8b8b
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.45.1
 
