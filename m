@@ -1,96 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FFD1A8C0C;
-	Wed, 31 Jul 2024 10:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEABA1DFE3;
+	Wed, 31 Jul 2024 11:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722423557; cv=none; b=I4i9XPhMCqhdhuioc3S60j6fJCV+HlJcsCu2THYcHNy4IAurhKfqi70G9PxioBgG4VEChPoTZyalAvhE8EWU+a9O9jAJehwGaleadSt+A3o1Y2xgfOAebz8OiV/bjLcJ7qY+yDRd1mOaXN39C3/hsGPuOlaOSXLsVC6nuRaVVts=
+	t=1722424330; cv=none; b=DjqEXSc6XqL6IACqpunU/4QjsBZgLzz32lJ6oNoK9hytGxlXIYQS7Hx9APHy61FD1+oLr9dcQKCaHAO4N3Qd9K86AS+FabtyND96F0c3qEYYyM9NLKMIZ89erbXdH9xNa2nQ7wZAzJC3lNb14zQlZ8fDZSOQoXqjsUSdBL52Xn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722423557; c=relaxed/simple;
-	bh=WAt+uKUcWmsl15ThUfwoCHfKCOypKIoAIzDoID2uCro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dOFUHjVVx+pdMcv8FkIdeRuYs1e2ms2HdNSi+8VhLYUx4JLrQv+Q8QelQf1/lPrOuAVr4q2d3KW+1c1+/XplwVtIh8qGE5Gka41J0yD1hqvXJg+7s3zT3SYUULP/vRzue88qSvtOBIqii6wrPSQ1wzfxS1bn36jsqJKEzx1Q9ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYZQhOwn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722424330; c=relaxed/simple;
+	bh=HyRuHvGFlZdEWXrRsDoDyBvSGWLpzvmNLvQjkRRB75M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hd8FvyGL84ecFkaHvOyCQtlULz9L31Ss/1Rsgy/+kq6bm7UK4yUHIqbU425oxsMi/akVyYTP0cDiBots6SP/Uc67Fbd+Zi4vl/LIuwzxcJdIEb9yZhrOhvsZMQL8UNQ3T0lnECrDZ/qWdRsf4UcUXpLryGbpOdIeb5m8wCu42PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ntC32VFl; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYZQhOwn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A88C4AF10;
-	Wed, 31 Jul 2024 10:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722423556;
-	bh=WAt+uKUcWmsl15ThUfwoCHfKCOypKIoAIzDoID2uCro=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MYZQhOwnMd7DGLOMs49T9UkHY7p+38xxoap4wFimL58ep0kXeKmhKehWIF6+V1YvO
-	 Qp08ixMRHLJfvw0MZxIUX1ICqMYqYELvWEeu48g3Tit+MgDxRby9ryviAmGoB/3ffD
-	 ptGFN24Cmjhb47ZJGz1MWQo6emMDNmZCv9odI81Gz6SoEVjd9RWUzLU86/u7sSQxRf
-	 FdS+4un6uQPnxz46Y50YmbfYewRKsorylo+G3rewR0F9AN/eVNi5zNa4Oxr/X1P0CU
-	 rpAJ31zd4L8gST8XG0GP6jf6VKK9BSDIy4qI6iJ3RAw6iZhiYxRn2RKetCS52kGK4R
-	 V+ZHlIxgWEiJQ==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-26123e59c8aso666179fac.1;
-        Wed, 31 Jul 2024 03:59:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUUQiQj8Rjzwd24h5pRTX9TTZeO/3kRpdXExSSi9s8t4kOWgB9EoRHfcEg8s3U9ORt18DHosUhK4jQ=@vger.kernel.org, AJvYcCUwF5kGyKOujh1lNgIwtCPcWIiX8H6RsbB8Bg/WgcPNEiUycFC/H9coYk2BPrf0B/46d+eLX+ghgjY=@vger.kernel.org, AJvYcCXEPzC02uG1foDHsYhb32GloajRWVw5stdEq12gjLhTh6JWMqPK36jNJDXrR6tRb/bHwustmdah3Ry+YTfK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1/HnO8moItt747SmBJLIPFlTKPjH7BO1X5Arl1HN4Jr40pOU6
-	HxQRqUFW+MSXaEjIhmVpvH7XR/9NRUu4/Ln1WVSuQgF3zBuodnN6lbqb4RoU43ZmfPJdxREbRG5
-	RWd+RW7eQkO4XXEiiMwP5OsgBgk4=
-X-Google-Smtp-Source: AGHT+IEnDZbw2dFh8GGsUt2bFDG9W3nBtCNuFqKxK18Y/P1eEfHY17D0uoNuEG4z99VyYqLxmmpsTcZJjxYb2hp3wh4=
-X-Received: by 2002:a4a:df47:0:b0:5d5:bc1f:daa with SMTP id
- 006d021491bc7-5d5bc1f0f75mr10929184eaf.1.1722423555797; Wed, 31 Jul 2024
- 03:59:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ntC32VFl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=GshqSbDA5e3tZOuh2iCRL2IJeQX7EVAaAO7NsoB021o=; b=ntC32VFlg57D/uSnLe8kr+vF8W
+	a9Mt5NC8ELuPgBl4ci6U9czEZgx0pGOEYKqEaJt8RSp/+iMxorFUfa6lfPmSBzJh+SWn38Y6eYiZu
+	htqkkPpLR56fCgx7Sa0HL+f12wmPVsAbFVgo4DRpar4T3wkibXEojTIVlPT2bVjD/5cu2xSQ6AGeX
+	OaXg003Wzfq8mwQj2KSSsrMgZl6zeo+YhGPxbOHKhzCwp3tZuYZi3BPv5NWAV++yFlZgYdE4LMdII
+	ZuoF/4ljzNpMU8w0OeKDk+tmiNeF3CPypEJ6Ag/tkxRzL1gTHndkLOXFQQNxD9I+7Eb6yYaY2PpU6
+	2+9tZYIQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sZ7FD-00000005Cm6-2pw8;
+	Wed, 31 Jul 2024 11:11:47 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4D900300820; Wed, 31 Jul 2024 13:11:47 +0200 (CEST)
+Date: Wed, 31 Jul 2024 13:11:47 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: 20240621164406.256314-1-kirill.shutemov@linux.intel.com,
+	kirill.shutemov@linux.intel.com, ardb@kernel.org, bp@alien8.de,
+	brijesh.singh@amd.com, corbet@lwn.net, dave.hansen@linux.intel.com,
+	hpa@zytor.com, jan.kiszka@siemens.com, jgross@suse.com,
+	kbingham@kernel.org, linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, luto@kernel.org, michael.roth@amd.com,
+	mingo@redhat.com, rick.p.edgecombe@intel.com, sandipan.das@amd.com,
+	thomas.lendacky@amd.com, x86@kernel.org
+Subject: Re: [PATCH 0/3] x86: Make 5-level paging support unconditional for
+ x86-64
+Message-ID: <20240731111147.GA33588@noisy.programming.kicks-ass.net>
+References: <80734605-1926-4ac7-9c63-006fe3ea6b6a@amd.com>
+ <87wml16hye.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240731095223.2778-1-ilpo.jarvinen@linux.intel.com>
-In-Reply-To: <20240731095223.2778-1-ilpo.jarvinen@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 31 Jul 2024 12:59:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gv3xe=bmGQVDuk_wMczA5u0ASvBOQJSKShW=nAfg7hxQ@mail.gmail.com>
-Message-ID: <CAJZ5v0gv3xe=bmGQVDuk_wMczA5u0ASvBOQJSKShW=nAfg7hxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: thermal: Remove extra parenthesis
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wml16hye.ffs@tglx>
 
-On Wed, Jul 31, 2024 at 11:52=E2=80=AFAM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> thermal_zone_device_register() prototype in the thermal zone device
-> interface documentation has double closing parenthesis. Remove one
-> of them.
->
-> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> ---
->  Documentation/driver-api/thermal/sysfs-api.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentati=
-on/driver-api/thermal/sysfs-api.rst
-> index 6c1175c6afba..63ed1801ac40 100644
-> --- a/Documentation/driver-api/thermal/sysfs-api.rst
-> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
-> @@ -43,7 +43,7 @@ temperature) and throttle appropriate devices.
->                                       int trips, int mask, void *devdata,
->                                       struct thermal_zone_device_ops *ops=
-,
->                                       const struct thermal_zone_params *t=
-zp,
-> -                                     int passive_delay, int polling_dela=
-y))
-> +                                     int passive_delay, int polling_dela=
-y)
->
->      This interface function adds a new thermal zone device (sensor) to
->      /sys/class/thermal folder as `thermal_zone[0-*]`. It tries to bind a=
-ll the
-> --
+On Wed, Jul 31, 2024 at 11:15:05AM +0200, Thomas Gleixner wrote:
+> On Wed, Jul 31 2024 at 14:27, Shivank Garg wrote:
+> > lmbench:lat_pagefault: Metric- page-fault time (us) - Lower is better
+> >                 4-Level PT              5-Level PT		% Change
+> > THP-never       Mean:0.4068             Mean:0.4294		5.56
+> >                 95% CI:0.4057-0.4078    95% CI:0.4287-0.4302
+> >
+> > THP-Always      Mean: 0.4061            Mean: 0.4288		% Change
+> >                 95% CI: 0.4051-0.4071   95% CI: 0.4281-0.4295	5.59
+> >
+> > Inference:
+> > 5-level page table shows increase in page-fault latency but it does
+> > not significantly impact other benchmarks.
+> 
+> 5% regression on lmbench is a NONO.
+> 
+> 5-level page tables add a cost in every hardware page table walk. That's
+> a matter of fact and there is absolutely no reason to inflict this cost
+> on everyone.
+> 
+> The solution to this to make the 5-level mechanics smarter by evaluating
+> whether the machine has enough memory to require 5-level tables and
+> select the depth at boot time.
 
-I was about to apply this, but then I realized that the function in
-question doesn't even exist any more.
-
-Let me have a look at this file.
+I gotta mention (again) that its a pain we can't mix and match like
+s390. They default run their userspace on 4 level, even if the kernel
+runs 5. Only silly daft userspace that needs more than insane amounts of
+memory get 5 level.
