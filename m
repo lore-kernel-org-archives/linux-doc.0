@@ -1,79 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB0E1BC08E;
-	Wed, 31 Jul 2024 14:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1471B29A7
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 14:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722437033; cv=none; b=esRKYpuM+OoH12rKfqoVH2w9+KdLSYA2PqV9ynZomoDbctyDT5yV1bBREOH4lIuvYVEixvwaRlalq0mX3TcEMECj3EtTsYCZvB8dNHptzmzlfXzLKQlsPd1fljvXSL+1bIFUc5WdpBbTFQIMoQPlRSZqw/aIsaqoPcyotSxNxdU=
+	t=1722437333; cv=none; b=KGqbGkKyzRh1Rl3W3lp4/x4zXOF201kUfla8olkS63vvfFkJaLfK7Uhm4H6C9qZG1WShJJybtTm0qW2qVlXfmC084tgWTTsDdKcZk+HMUW/q0cS7UgibnR/3XHoQAvwdla7U6J6/lG1W+bbD0dGH3/0mWKfDEGKnh99YJRz3t6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722437033; c=relaxed/simple;
-	bh=3uUQgB9NsO6QdRwnKkBcuAS4ZDSgOduuYPCnxlW5Kvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d3Pt37aSchfHuMPXiQ6T3JrxP0FTqVzc4PcD/prNQ28LMjz+EXy2x+dRxarNKPOUHRFO/nP8YfsjBIbqwqf25qWVKVZZYeNX3PTtbkr+nW529S2Tqf5CrMKgrzvysvALMFWgyNF2YD+iM4ZmkOvshWDlPKSJcZ4pUZV6b04u/a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=leb7xbLf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722437333; c=relaxed/simple;
+	bh=Vawp62FULKBA3dCF5MI+TAT+Dpj7YqVUAAoe599LNfw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DH/lFT7sxYTeXMod3T+BCKcQW6DHa2XON6xXrhLfOR2l4lVkvUH5BIYRLQR2zEhm+vzyP+ACkeY3Aj5/7+4U29TeRXxI3+vwL5UCFfXAyVU7+wiRmGpsCouzxkUl9rrfWp43wjUTeiUONAMIjvdn1xorueJoahQNRIvO2iZjkRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=EbxWVyvi; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="leb7xbLf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E59C116B1;
-	Wed, 31 Jul 2024 14:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722437033;
-	bh=3uUQgB9NsO6QdRwnKkBcuAS4ZDSgOduuYPCnxlW5Kvk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=leb7xbLfru8tcQpwEZwAOOdUFIGDCp1thq7gTY1UcBFWmAZWS4lKpf3jdfAlD7efh
-	 5cdQcAU64khHHAIqGb1Hh9D7++C+qWjbPxBaMwbyxeWg+dE9O34nIPBJ51+RmCN2Vt
-	 zCUU4TYVoVpRerchg3Nm8zCx+a1mQ+UZH3P9Rz28ITevglLMFg56obR1McDMqu7N2v
-	 fTQvhxOWm/34xmqfN2MVe/EdYr08QSFjkaxGPFQUUJNeZGdgMNBTPAjs62fytClG+S
-	 1VEAomVL/gf/nNsiX2t0KuW6YmV5vfuYnlxMDmeXunBhwMPsDpIueHhDozX4kFGoGG
-	 ldPbmLW5yoeAQ==
-Date: Wed, 31 Jul 2024 07:43:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Song, Yoong Siang" <yoong.siang.song@intel.com>
-Cc: "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, "Alexei
- Starovoitov" <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend
- <john.fastabend@gmail.com>, "Gomes, Vinicius" <vinicius.gomes@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, "Kitszel, Przemyslaw"
- <przemyslaw.kitszel@intel.com>, Shinas Rasheed <srasheed@marvell.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, Brett Creeley
- <brett.creeley@amd.com>, "Blanco Alcaine, Hector"
- <hector.blanco.alcaine@intel.com>, "Hay, Joshua A"
- <joshua.a.hay@intel.com>, "Neftin, Sasha" <sasha.neftin@intel.com>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH iwl-next,v1 0/3] Add Default Rx Queue Setting for igc
- driver
-Message-ID: <20240731074351.13676228@kernel.org>
-In-Reply-To: <PH0PR11MB5830E21A96A862B194D4A4A5D8B12@PH0PR11MB5830.namprd11.prod.outlook.com>
-References: <20240730012212.775814-1-yoong.siang.song@intel.com>
-	<20240730075507.7cf8741f@kernel.org>
-	<PH0PR11MB5830E21A96A862B194D4A4A5D8B12@PH0PR11MB5830.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="EbxWVyvi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1722437322; x=1722696522;
+	bh=RzXi2xAm5ag+0eW5UgNGGENUHE//qEaGWyg1913ArEw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=EbxWVyvie+M4gw3ZApE3+GGv07WI6wtPc978p39s72PYzDMkNKMgMlGXZ/dNxaPEk
+	 8g6i31UUSxM57An6i10FBZpO4EvorwQDjITLUJDeaDqNUiRZQ1p3nCtoZOWT9tWDBy
+	 0ctuP+jv3lKToT7Zrf/pio3WRyeYVec/ZZAaOotDwFRuu0LsZhxClZ/iuXMPpQsHXq
+	 xcjmqOoYKHqI4e5HPFYAGPP5CoH3sb7xhjybizgi3srsv7OWYb0BKPfzvgDqU7OM84
+	 /133e4qeJeyS+EnLJUQY6AhqABRvh/nauZw9PKBOhorEEV1dYUf+NX+pSfuSpVd3+w
+	 j7mTx7C4Hj25Q==
+Date: Wed, 31 Jul 2024 14:48:32 +0000
+To: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Boqun Feng <boqun.feng@gmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Jonathan Corbet <corbet@lwn.net>, Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@redhat.com>, Trevor Gross <tmgross@umich.edu>, gregkh@linuxfoundation.org
+Subject: Re: [RFC PATCH] rust: types: Add explanation for ARef pattern
+Message-ID: <373fa545-004a-41a8-97a8-d8a7632562c2@proton.me>
+In-Reply-To: <CAH5fLgijqHoKrWmHBb+FQntPDgR2qA_r4y0gyib21AHU+mscNw@mail.gmail.com>
+References: <20240710032447.2161189-1-boqun.feng@gmail.com> <ZqK1l05zcCwGforV@boqun-archlinux> <beaf1fa3-eebe-443c-bc51-abd9348a411d@proton.me> <ZqOyMbi7xl67UfjY@Boquns-Mac-mini.home> <81ceeca9-8ae5-4a82-9a46-f47767e60f75@proton.me> <ZqO9j1dCiHm3r-pz@Boquns-Mac-mini.home> <8641453e-664d-4290-b9bc-4a2567ddc3fe@proton.me> <ZqPMpNNq0Q0S-M2P@cassiopeiae> <CAH5fLgijqHoKrWmHBb+FQntPDgR2qA_r4y0gyib21AHU+mscNw@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 81bde7f2fb0fbe04ab82c747ad33b45df681d53c
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 31 Jul 2024 07:40:11 +0000 Song, Yoong Siang wrote:
-> Regarding your suggestion of implementing a "wildcard rule,"
-> are you suggesting the use of an ethtool command similar to the following?
-> 
-> ethtool -U <iface name> flow-type ether action <default queue>
-> 
-> I have a concern that users might be not aware that this nfc rule is having lowest priority,
-> as the default queue would only take effect when no other filtering rules match.
+On 29.07.24 13:31, Alice Ryhl wrote:
+> On Fri, Jul 26, 2024 at 6:20=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
+> wrote:
+>>
+>> On Fri, Jul 26, 2024 at 03:54:37PM +0000, Benno Lossin wrote:
+>>> On 26.07.24 17:15, Boqun Feng wrote:
+>>>> On Fri, Jul 26, 2024 at 02:42:36PM +0000, Benno Lossin wrote:
+>>>>> On 26.07.24 16:26, Boqun Feng wrote:
+>>>>>> On Fri, Jul 26, 2024 at 01:43:38PM +0000, Benno Lossin wrote:
+>>>>>> [...]
+>>>>>>>>>
+>>>>>>>>> You can always get a `&T` from `ARef<T>`, since it implements `De=
+ref`.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Yeah, but this is unrelated. I was talking about that API provider=
+s can
+>>>>>>>> decide whether they want to only provide a `raw_ptr` -> `ARef<Self=
+>` if
+>>>>>>>> they don't need to provide a `raw_ptr` -> `&Self`.
+>>>>>>>>
+>>>>>>>>>> Overall, I feel like we don't necessarily make a preference betw=
+een
+>>>>>>>>>> `->&Self` and `->ARef<Self>` functions here, since it's up to th=
+e users'
+>>>>>>>>>> design?
+>>>>>>>>>
+>>>>>>>>> I would argue that there should be a clear preference for functio=
+ns
+>>>>>>>>> returning `&Self` when possible (ie there is a parameter that the
+>>>>>>>>
+>>>>>>>> If "possible" also means there's going to be `raw_ptr` -> `&Self`
+>>>>>>>> function (as the same publicity level) anyway, then agreed. In oth=
+er
+>>>>>>>> words, if the users only need the `raw_ptr` -> `ARef<Self>`
+>>>>>>>> functionality, we don't want to force people to provide a `raw_ptr=
+` ->
+>>>>>>>> `&Self` just because, right?
+>>>>>>>
+>>>>>>> I see... I am having a hard time coming up with an example where us=
+ers
+>>>>>>> would exclusively want `ARef<Self>` though... What do you have in m=
+ind?
+>>>>>>> Normally types wrapped by `ARef` have `&self` methods.
+>>>>>>>
+>>>>>>
+>>>>>> Having `&self` methods doesn't mean the necessarity of a `raw_ptr` -=
+>
+>>>>>> `&Self` function, for example, a `Foo` is wrapped as follow:
+>>>>>>
+>>>>>>   struct Foo(Opaque<foo>);
+>>>>>>   impl Foo {
+>>>>>>       pub fn bar(&self) -> Bar { ... }
+>>>>>>       pub unsafe fn get_foo(ptr: *mut foo) -> ARef<Foo> { ... }
+>>>>>>   }
+>>>>>>
+>>>>>> in this case, the abstration provider may not want user to get a
+>>>>>> `raw_ptr` -> `&Self` function, so no need to have it.
+>>>>>
+>>>>> I don't understand this, why would the abstraction provider do that? =
+The
+>>>>
+>>>> Because no user really needs to convert a `raw_ptr` to a `&Self` whose
+>>>> lifetime is limited to a scope?
+>>>
+>>> What if you have this:
+>>>
+>>>     unsafe extern "C" fn called_from_c_via_vtable(foo: *mut bindings::f=
+oo) {
+>>>         // SAFETY: ...
+>>>         let foo =3D unsafe { Foo::from_raw(foo) };
+>>>         foo.bar();
+>>>     }
+>>>
+>>> In this case, there is no need to take a refcount on `foo`.
+>>>
+>>>> Why do we provide a function if no one needs and the solely purpose is
+>>>> to just avoid providing another function?
+>>>
+>>> I don't think that there should be a lot of calls to that function
+>>> anyways and thus I don't think there is value in providing two function=
+s
+>>> for almost the same behavior. Since one can be derived by the other, I
+>>> would go for only implementing the first one.
+>>
+>> I don't think there should be a rule saying that we can't provide a wrap=
+per
+>> function for deriving an `ARef<T>`. `Device` is a good example:
+>>
+>> `let dev: ARef<Device> =3D unsafe { Device::from_raw(raw_dev) }.into();`
+>>
+>> vs.
+>>
+>> `let dev =3D unsafe { Device::get(raw_dev) };`
+>>
+>> To me personally, the latter looks quite a bit cleaner.
+>>
+>> Besides that, I think every kernel engineer (even without Rust backgroun=
+d) will
+>> be able to decode the meaning of this call. And if we get the chance to =
+make
+>> things obvious to everyone *without* the need to make a compromise, we s=
+hould
+>> clearly take it.
+>=20
+> I think I've come around on this question. I think it's fine to have
+> raw_ptr->ARef methods that increment the refcount, but we should make
+> a naming convention clear. I propose:
+>=20
+> * Functions named things like from_raw_file or from_raw_mm do not
+> increment the refcount.
+> * Functions named things like get_file or or mmget do increment the
+> refcount, just like the C function of the same name.
 
-I believe that ethtool n-tuple rules are expected to be executed in
-order. User can use the 'loc' argument to place the rule at the end 
-of the table.
+I have thought about this a bit and I think that we can try to do it. I
+like the name `Device::get` and `Device::from_raw`. I would not
+duplicate the name ie `Device::get_device` (nor would I do that with
+`from_raw`).
 
-> Do you see this as a potential issue? If not, I am willing to proceed with
-> exploring the ethtool options you've mentioned.
+One of my bigger problems was the naming, so it's good to see this.
+
+---
+Cheers,
+Benno
+
