@@ -1,395 +1,284 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04olkn2076.outbound.protection.outlook.com [40.92.45.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E681A76C3
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722409561; cv=none; b=tnORthkfyrNs4ND611alWSgTTw1bTjc3o+kquW3qCnWW3m9oAuRJ5w/V3keuOLmw18N4JMiYIG1cxdE3yPzLhKNgy138mdPr2ipBBIYFj4QRlRLhDjyFjbjsMgHJIby73O81AoKqsiAU7V9DtqxvV42trZb19wp2hcloFcWM0Ho=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722409561; c=relaxed/simple;
-	bh=goLFX5mJFdEUFTzNMXZVHME3es4ynEqHdezi548BWHs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=StR54bDBtdvvaCUvDoTp9ldhgx7IrNBE3FLCHdHDJqjId4+YlSftuSRAJT91Hb3CDK+CUnDja2vVpIvidQtNUmU749rNVaGhp8zTlLzqHSXNJzGbxk3s2VGqogwT034jMtfmksxpBoFEGUo6AyXOn2oG4+I+3mvQQCapG4GHfTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WMUlA8xb; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9A016CD39;
+	Wed, 31 Jul 2024 07:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.45.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722410313; cv=fail; b=J4xbuUfA24D5W6PadGJi0NOxt91Js+ZRF6r/jtpikFUQprJaAhbDdwniL4Q2OEpsMPFR3ReHux//EX8aXsyO4ztuF0JfbETkaTmI5/CX+foArR8+SqNVMrDaSxwGb5+/jxfNJPty35QABJcdQLjmaAKifXOBXBCZannVT/HKhvg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722410313; c=relaxed/simple;
+	bh=00SoMhYrfJwTjMbBcIzcyQUPlZvJlS5eH8pgMLHELRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=eqpN1WQIh6JBL2DAOMtwwEkQBa2DBQPsli2jA9B4NifkxN39uodVUvSnEWYTR66GH4b7PLKusR5TUS6kQS+GCVdv0IUz7rc0o5XI681QdGK0lmDiEQ7IJOH8uJyYV5tPiMV+cCiCDfMU/FykD6syWoJihgDWHCRKvyb+xyjrXWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=sNjb7HhW; arc=fail smtp.client-ip=40.92.45.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WMUlA8xb"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52efd08e6d9so8150996e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722409557; x=1723014357; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oHaY16vQQryIhH+k5EF4MPXtMPGv2rNQp9CaSsAD0ko=;
-        b=WMUlA8xbVlmLhM3B1O/Cmf7wScKKabqSD9ZGjXR0oLAl90nb6UZtkv4G8zRbqZ2YHt
-         y1bsauMlkvbDs7sIo0cCw2vRGNPTL2kj1xwc/btZOpUFZgbAq4UQuP97z5LbziZDYAyb
-         Kr/pS6uAZ4M6a9p4g1A+AmTiVABIXgieFrem/pioheAA3TBlgXBWAdn7hZ+VPXx5fR4Q
-         P+plAX+3sp9L7BRPf+aNwQMFuadRjQOWRJs8ReBns+XHh5T+zcW8ignEbhsK6XUV3ajU
-         ZFICheMm2yOKoF4Z6xe+MB/CIoXyxvMAj0UIzYOuQP7T1eD7ZW7YZJ7RU8Mrct40jS/9
-         lvYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722409557; x=1723014357;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oHaY16vQQryIhH+k5EF4MPXtMPGv2rNQp9CaSsAD0ko=;
-        b=SZ/lWArJPCG0FVn4gDisxjH8CdNe8pliAKutdqo7hKoEBq/S4hGh7FNAIt/09vt8cG
-         G/BbflVWEGG9DElD1W5GF+D24U4nwUbPtsWN1+7mFquv7GKtnliRynfp9COHTUg8eann
-         ZFtg95D6vCMVlryMW2ITvC3WPAzQYKnKlRgocqTZJ5ElRFcexfji+6hKd84Bnx5Ui9DG
-         vSqNu709KuKwf/dw0BEYqCLma0ruquPazoO/2VDT5dnDnqC272yA8irqxL/pyCiUJV/C
-         pt8CmYYcG//EGRRvlX1/KB4JTOKAwhgKj784a7S+/daDKrOTiGiuqc/Ofr9tcZMYhUMw
-         Uzeg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlGXWU3BPmtar3hYFY46ZWXmvRwtLZqg6czshQ7oRzcTb7XoQVL/mMIxeVktso+nMvF9V7c5CkhqKDBTVIC5J2CIOewDXxaySG
-X-Gm-Message-State: AOJu0Yyibuh472+9dTaPRcNn4IcFT7h+9y8wp4FT13QAqWUpF3Dm8YR1
-	R3cvAUON1PP64VRkZy5P++AYJeWqDYP1sXbZZLm1h0g5UdW2uNDVOb+liIdyZ08=
-X-Google-Smtp-Source: AGHT+IFgysceqqUPLxcKuas2k9QPG9beRNBgeaGQsYtagKcy+ArO1e5R0azF7E/AbehHI/U/HCFReg==
-X-Received: by 2002:a05:6512:68f:b0:52c:ce28:82c8 with SMTP id 2adb3069b0e04-5309b2c54demr11138493e87.52.1722409556557;
-        Wed, 31 Jul 2024 00:05:56 -0700 (PDT)
-Received: from [192.168.1.61] (2a02-842a-d52e-6101-6f8f-5617-c4b6-8627.rev.sfr.net. [2a02:842a:d52e:6101:6f8f:5617:c4b6:8627])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8a2593sm9953215e9.4.2024.07.31.00.05.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 00:05:56 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 31 Jul 2024 09:05:47 +0200
-Subject: [PATCH v2 6/7] iio: adc: ad7380: enable sequencer for single-ended
- parts
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="sNjb7HhW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a6J8Ta/yPZp0eVNtaO4+fkMzt8dPX/xP0PvicJ1P1cwdG2m8G74qyT3Sv/QfV6pyCP4Y4zUYrtsL/wCRDi4vgnVok/nl7BwZRIPS6UKI4WTKwu4vUW9IxrPtaqCyoE8El8HEOAxzAYSrhQTkoQYSyf4hwBfJgtkRB/5EgDx6epUJXNY78aH9Ywu+IP4YAnJEWy8Yr+aCvqjpYfRPLVGgXwuwzm0gqNcpUsn+GEf8U4/FxXdgU/CYrhtitlqPC7uQrQqF5vi8NDEtz1J7mDzK7lX9o7NZ+CAfX5VUdawx4MtEY+3gyB/eeL/5SPgQfgfmwP0OZYI5OY4oOuBxWfsixg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J2OmqVlDaby94VWqTksiZmiMINjaMZzoQN6CNQMVC5c=;
+ b=Yz0KdwyAvITtuZkT4YP3QHcRmLDjhdLrGAlRKXbotVvaCJb7A2hVRxWZ0YtE8857H42IovGnKc6D61kto/eOXLb13MU/RimyHSwVEpZ6b27eIqfgikS9+UFBN/s/h5k7AxnwAR3OFMGx8WymrrTtfdhu7KtwUSpQWFGtf7RAMcsXb4LomyKRlfyfeR3ywEgcVLzMZmApHfP89jmJPvUxtLonRkXcTBp7Y4B32xcUbasKP9qE9T5L2oSJYevrqS6SWbuiqcyY+l5fRgpobpXGjlbr1J8ZhMM9vdcwYXhngAInBXTf5CmnbV/9/IHjU+V0fUeFt+c9l5BHqZOoDuz/7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J2OmqVlDaby94VWqTksiZmiMINjaMZzoQN6CNQMVC5c=;
+ b=sNjb7HhWuDxCnYEhY1X5rbeCFSKVDGbVb9YlSXeZL2n6Nr9CkUSkim43Dn8MoUYLbXmqLnFja1Uy2pYnH6kgBBVgCGL2S1UVmB6qF1peesFb8p6Cw5KaZyEMDoxNPe9AunhVcdtopcOEsuRlAh3mdzqPFl0OEMZUYn0FUBzYzlmp3BjdhZG1et4U5W3WbXTlmmNlb/1JPV26uqb8+RVp2Iues3F2OT7zcnWjhvz/srtL93TdY1BBtWF1Ctb0j6n/9qMomIGfd9R0szJQz4GAG8dFXmCM1trurvea7282W/ofw34JyoQ8x0Il9eHTE1hrovmrJInrJqcBmeEG/NKSXw==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by CYYPR20MB6739.namprd20.prod.outlook.com (2603:10b6:930:ca::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.32; Wed, 31 Jul
+ 2024 07:18:28 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149%5]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
+ 07:18:28 +0000
+Date: Wed, 31 Jul 2024 15:17:57 +0800
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
+	Chao Wei <chao.wei@sophgo.com>, Hal Feng <hal.feng@starfivetech.com>, 
+	Jinyu Tang <tangjinyu@tinylab.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	chunzhi.lin@sophgo.com, haijiao.liu@sophgo.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 2/4] drivers: hwmon: sophgo: Add SG2042 external
+ hardware monitor support
+Message-ID:
+ <IA1PR20MB49534944E268A0A71AA3D5D1BBB12@IA1PR20MB4953.namprd20.prod.outlook.com>
+References: <IA1PR20MB49538C09E94D90F07B7B2562BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB4953DE89C56AB3F328954131BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <MA0P287MB2822D0C770667CFE484EBC95FEB12@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <MA0P287MB2822D0C770667CFE484EBC95FEB12@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+X-TMN: [LBHahn1gvbhgKhADi91zwParm2/qzUnQa46O8kNVyqE=]
+X-ClientProxiedBy: OS0P286CA0071.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:9f::22) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <uzxowagd4cg64kfs4xobj67yznxbsh4a4lgmuzabgst4tis5zq@pum5wyl3povv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240731-ad7380-add-single-ended-chips-v2-6-cd63bf05744c@baylibre.com>
-References: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
-In-Reply-To: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
-To: Michael Hennerich <michael.hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.13.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|CYYPR20MB6739:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72042ef9-a21d-4cae-8355-08dcb130f921
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|8060799006|5072599009|19110799003|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	5/T+x1v9MbJYQDmPPZIchG9jTOgqo9Xm01VY0R5s4VEEcT2Uza3odnEp08VlXk5nh4Lu9MQ8JtIMJbJhKME7ff/vOnj2jydPkck7eeX/PKcu7GwXMiTe3P/ZRzFwV/LwUq0S5A9VjOWXFczST8iJnhZYDEV0rjSvHpM7LBtgXvBEVwBJxpucgdnEpuvQqDG0t4zmm9g0rv1QENuu9yx+c0RcDhCQyKhGFIVkQLkCOFumEIlJcpiHnxJylYprwPlNsDBeJIuZctPLM7M/SiT/2nEwtdCWoVnwJ5ojUq7XydxBSioe3EZuxRKGvGfQiFTGX18PpM3dFDnz8s3/ivQJRvLVXBbCAqDDmAducD1b6y+0FT43y+I0MABq0GiUWw5zyfI9GdzHaTy8JsKHIjyPDLYaALGz5IyIEx4uZIBUM1B5ThpRx75PfJzMdR4yWknLn/5mbkQuA51X/AfLm6JV1M6Tell5AG4y+tHEPWrtssNTS4QaqbNBCoOh0WcQQsnc+bIkeG86FHsdsiitP1r4oAqjZJiaKB+SCm2irdJpxGTPmXQBQs3NT5JH5bp7NgV85NuhrHguLSTJ4ygPxD6Gh7SVmvpcqByrttLf/pLEYoKGFe9No/sEToz2TpVbFsiSBRxZ0iV2fihc+Wsi+EHPsu2xPTkeaQy7w8QFzK4aZRUcD2jPHG8xcHgWU6LwUjZFvX2kR3PdkfmAIbEPVqli6Q==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZWF3NGdyTHcvaFZGU3QvWWRpZmVSOWFXSXNacUlpTUM3ZEk3YjZqY0tYKy9x?=
+ =?utf-8?B?bm1zbFdOUk5OTS95R3BabjY0YXZ2SHFEU2VRa2d2a1VPaWlxYW5XMysxcHZC?=
+ =?utf-8?B?bUt4MjRWd1ZVZC9DSFBHUzhUUTZRU3A4OFExUVNHSE9HWElUaHdET01sSW5F?=
+ =?utf-8?B?OElFajFSRXN2SFd0OEEvNWwrcDEvZFBuQThRdWx2Q3FJRDJDM1ZEam1qeTV6?=
+ =?utf-8?B?QXdqazdhSWdHWVJFR2xFTVRYdGlBU3JsUHhDM0NYd2c0Ui9VdTF3TWdWUWx6?=
+ =?utf-8?B?eDNGTDBBdHlpVXBMeVg0WlJ6dXBOeHdTRW1rWTdSTWRBY2hxNXJmWDBYNFhX?=
+ =?utf-8?B?ZjFwZjFzNi83Zk5VNDNHSHk0dERQckZJWmRJVCs0M1ZrcVBtQmZoWGF6UEdE?=
+ =?utf-8?B?djJKSTZjd1BCMHR5YnVJRExBQ1BBNkcrZHNzL292RmN5T0ppMi9EN2ZSeVNV?=
+ =?utf-8?B?YnMybDQraXdPR1VGRDV5cHhQL2p4Nk5KYStBVTBCWHpvNUZ5eE1iQmt1cWxE?=
+ =?utf-8?B?cUp1V09CZ0E0dmtjVzVOdWhIRkpvVVREakNvQXRmSllwOExtRlJnMDJ3aWNI?=
+ =?utf-8?B?Ym5pY1k2b1R1T296MDVESHJrZS9uNW9EMWFZK1pXWS8vZjI4dWlFdFRqRFo0?=
+ =?utf-8?B?WUdhczErZVAyWDNWUVJZcDloTEZ2RjE4c3NGZDlhUHVOUzJ6RGdKOGZwZkpX?=
+ =?utf-8?B?aittZVMzVms5WTN3UzVrOXZOK3BsQkN1Q0tQQU5YZ2FBSE9iK21ia1Vqd3Zq?=
+ =?utf-8?B?bW9zNW85bk14R2N5QlRYUU9EakFWK0o4TW5uYVFHWlR6bGVNOTQ4RkFNUUho?=
+ =?utf-8?B?amRVVjF4WWwzcU96dCtCbmIwQkNkb3QrS3J5TDB1SEY1UVM0VG5KRHRUWnBo?=
+ =?utf-8?B?TzRvNkh6TE1Ta1lJanBncHBDbHJJTm5PdlBua01iOCt1bFM2OUFkYy9WUzZs?=
+ =?utf-8?B?V1hNdjZtTTREa0xJMlowNUdWZ3BibExxSkoyZlNTWkhKYUpWRU5MSVY1ZXdV?=
+ =?utf-8?B?dmdQd0RhSVl4d0h4Z2tJL3UzKzdlNjNPS3JpWHhVMkkzRSsyYUtwdENxR2Qx?=
+ =?utf-8?B?M3UwVjkvOTVkQ0pZSmFLd296d0RURjdJNDhoUU9wQURIV1U3djUrOXZISzlv?=
+ =?utf-8?B?UktRUUtBSW5zdFpma2pmQzZjbDlueFlBTlN5N28xOTFVZzVNR0M2aE5zU1Nh?=
+ =?utf-8?B?M1BHN3JGb3RaOTRheXRPNU9YV2dIZlRkUjNReG5DK2VQUGdVWFhwcW96VjFU?=
+ =?utf-8?B?Nmh1QXlTZy9iSzlrdWFsaUhXUHB0b3A3NllWeUh3TGdib2pvYit3UFdtd0hj?=
+ =?utf-8?B?RklwM1pycENuRmRZYUtNZHVZTk12Tnp2RkxDWmxtWEw4SjJKVnhBdHpMMjM0?=
+ =?utf-8?B?eGxJdkNTUGFuaGlkUElYT2QxS21WaHhoakZKYUNON0N1UjNxOEdOZjJ4UENR?=
+ =?utf-8?B?NmxUNnRteWhuNnhJUVJsa0wrUFQ2bzl4NzJGWS9QMFErMWVRZFdoL1loRGNx?=
+ =?utf-8?B?TExweDJLdTFwWGxNN214dGNhWDcrYWlOaGFIcFZZeVR4ZEJZRWJzUU9JazVm?=
+ =?utf-8?B?NXdPTDRTWnRGbDJZL0FFQ0tobkdKMFpBK1cxSE9wQ2V1ZlgwK1NqSXV3dFVY?=
+ =?utf-8?B?QVNCSHpweVYyMzFSWE4rS0UyMmkwUjczcmVlZWxDVkJrcFlkSlB2b0k4Smc0?=
+ =?utf-8?Q?Plh3OVoegK2a3Mg8Y/pM?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72042ef9-a21d-4cae-8355-08dcb130f921
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 07:18:27.8250
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR20MB6739
 
-ad7386/7/8(-4) single-ended parts have a 2:1 mux in front of each ADC.
+On Wed, Jul 31, 2024 at 02:13:20PM GMT, Chen Wang wrote:
+> 
+> On 2024/7/30 15:50, Inochi Amaoto wrote:
+> [......]
+> > +#define REG_CRITICAL_ACTIONS			0x65
+> The name "REG_CRITICAL_ACTIONS" is ambiguous. I have confirmed with sophgo
+> engineers that the complete process is: when the measured temperature
+> exceeds the temperature set by REG_CRITICAL_TEMP, the processor is powered
+> off and shut down, and then after the temperature returns to the temperature
+> set by REG_REPOWER_TEMP, it is decided whether to power on again or remain
+> in the shutdown state based on the action set by REG_CRITICAL_ACTIONS,
+> whether it is reboot or poweroff.
+> 
+> So based on the above description, I think it would be better to
+> call "REG_CRITICAL_ACTIONS" as "REG_REPOWER_ACTIONS". "REG_CRITICAL_ACTIONS"
+> gives people the first impression that it is used to set actions related to
+> REG_CRITICAL_TEMP.
+> 
+> It is also recommended to add the above description of temperature control
+> and action settings in the code. Currently, sophgo does not have a clear
+> document description for this part, and adding it will help us understand
+> its functions.
+> 
+> Adding sophgo engineers Chunzhi and Haijiao, FYI.
+> 
+> > +#define REG_CRITICAL_TEMP			0x66
+> > +#define REG_REPOWER_TEMP			0x67
+> > +
+> > +#define CRITICAL_ACTION_REBOOT			1
+> > +#define CRITICAL_ACTION_POWEROFF		2
+> 
+> As I said upon, actions are not related to critical, but is for restoring
+> from critical, suggest to give a better name.
+> 
+> [......]
+> 
+> > +static ssize_t critical_action_show(struct device *dev,
+> [......]
+> > +static ssize_t critical_action_store(struct device *dev,
+> 
+> [......]
+> 
+> The same reason as upon, "critical_action_xxx" is misleading.
+> 
+> [......]
+> 
 
-From an IIO point of view, all inputs are exported, i.e ad7386/7/8
-export 4 channels and ad7386-4/7-4/8-4 export 8 channels. First inputs
-of muxes correspond to the first half of IIO channels (i.e 0-1 or 0-3)
-and second inputs correspond to second half (i.e 2-3 or 4-7)
+Thanks for explanation, I just get the name from the driver of SG2042.
+This is out of my knowledge.
 
-Currently, the driver supports only sampling first half OR second half of
-the IIO channels. To enable sampling all channels simultaneously, these
-parts have an internal sequencer that automatically cycles through the
-mux entries.
+> > +static int sg2042_mcu_read_temp(struct device *dev,
+> > +				u32 attr, int channel,
+> > +				long *val)
+> > +{
+> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> > +	int tmp;
+> > +	u8 reg;
+> > +
+> > +	switch (attr) {
+> > +	case hwmon_temp_input:
+> > +		reg = channel ? REG_BOARD_TEMP : REG_SOC_TEMP;
+> > +		break;
+> > +	case hwmon_temp_crit:
+> > +		reg = REG_CRITICAL_TEMP;
+> > +		break;
+> > +	case hwmon_temp_crit_hyst:
+> > +		reg = REG_REPOWER_TEMP;
+> > +		break;
+> > +	default:
+> > +		return -EOPNOTSUPP;
+> > +	}
+> > +
+> > +	tmp = i2c_smbus_read_byte_data(mcu->client, reg);
+> > +	if (tmp < 0)
+> > +		return tmp;
+> > +	*val = tmp * 1000;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int sg2042_mcu_read(struct device *dev,
+> > +			   enum hwmon_sensor_types type,
+> > +			   u32 attr, int channel, long *val)
+> > +{
+> > +	return sg2042_mcu_read_temp(dev, attr, channel, val);
+> > +}
+> Can we merge sg2042_mcu_read and sg2042_mcu_read_temp？
 
-When enabled, the maximum throughput is divided by two. Moreover, the ADCs
-need additional settling time, so we add an extra CS toggle to correctly
-propagate setting, and an additional spi transfer to read the second
-half.
+Yes, it can be merged. but I think using this nested function 
+is more clear. And gcc can auto inline this function so we
+got no performance penalty.
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- drivers/iio/adc/ad7380.c | 175 +++++++++++++++++++++++++++++++++++------------
- 1 file changed, 130 insertions(+), 45 deletions(-)
+> > +
+> > +static int sg2042_mcu_write(struct device *dev,
+> > +			    enum hwmon_sensor_types type,
+> > +			    u32 attr, int channel, long val)
+> > +{
+> > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> > +	int temp = val / 1000;
+> > +	int hyst_temp, crit_temp;
+> > +	int ret;
+> > +	u8 reg;
+> > +
+> > +	if (temp > MCU_POWER_MAX)
+> > +		temp = MCU_POWER_MAX;
+> > +
+> > +	mutex_lock(&mcu->mutex);
+> > +
+> > +	switch (attr) {
+> > +	case hwmon_temp_crit:
+> > +		hyst_temp = i2c_smbus_read_byte_data(mcu->client,
+> > +						     REG_REPOWER_TEMP);
+> > +		if (hyst_temp < 0) {
+> > +			ret = -ENODEV;
+> > +			goto failed;
+> > +		}
+> > +
+> > +		crit_temp = temp;
+> > +		reg = REG_CRITICAL_TEMP;
+> > +		break;
+> > +	case hwmon_temp_crit_hyst:
+> > +		crit_temp = i2c_smbus_read_byte_data(mcu->client,
+> > +						     REG_CRITICAL_TEMP);
+> > +		if (crit_temp < 0) {
+> > +			ret = -ENODEV;
+> > +			goto failed;
+> > +		}
+> > +
+> > +		hyst_temp = temp;
+> > +		reg = REG_REPOWER_TEMP;
+> > +		break;
+> > +	default:
+> > +		mutex_unlock(&mcu->mutex);
+> > +		return -EOPNOTSUPP;
+> > +	}
+> > +
+> It is recommended to add some comments to explain why we need to ensure that
+> crit_temp is greater than or equal to hyst_temp. This is entirely because
+> the current MCU does not limit the input, which may cause user to set
+> incorrect crit_temp and hyst_temp.
 
-diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-index 820df04b9eb2..e8bddfb0d07d 100644
---- a/drivers/iio/adc/ad7380.c
-+++ b/drivers/iio/adc/ad7380.c
-@@ -33,7 +33,7 @@
- #include <linux/iio/trigger_consumer.h>
- #include <linux/iio/triggered_buffer.h>
- 
--#define MAX_NUM_CHANNELS		4
-+#define MAX_NUM_CHANNELS		8
- /* 2.5V internal reference voltage */
- #define AD7380_INTERNAL_REF_MV		2500
- 
-@@ -52,6 +52,7 @@
- #define AD7380_REG_ADDR_ALERT_HIGH_TH	0x5
- 
- #define AD7380_CONFIG1_CH		BIT(11)
-+#define AD7380_CONFIG1_SEQ		BIT(10)
- #define AD7380_CONFIG1_OS_MODE		BIT(9)
- #define AD7380_CONFIG1_OSR		GENMASK(8, 6)
- #define AD7380_CONFIG1_CRC_W		BIT(5)
-@@ -290,16 +291,28 @@ static const unsigned long ad7380_4_channel_scan_masks[] = {
-  *
-  * Since this is simultaneous sampling for AinX0 OR AinX1 we have two separate
-  * scan masks.
-+ * When sequencer mode is enabled, chip automatically cycles through
-+ * AinX0 and AinX1 channels. From an IIO point of view, we ca enable all
-+ * channels, at the cost of an extra read, thus dividing the maximum rate by
-+ * two.
-  */
-+enum {
-+	AD7380_SCAN_MASK_CH_0,
-+	AD7380_SCAN_MASK_CH_1,
-+	AD7380_SCAN_MASK_SEQ,
-+};
-+
- static const unsigned long ad7380_2x2_channel_scan_masks[] = {
--	GENMASK(1, 0),
--	GENMASK(3, 2),
-+	[AD7380_SCAN_MASK_CH_0] = GENMASK(1, 0),
-+	[AD7380_SCAN_MASK_CH_1] = GENMASK(3, 2),
-+	[AD7380_SCAN_MASK_SEQ] = GENMASK(3, 0),
- 	0
- };
- 
- static const unsigned long ad7380_2x4_channel_scan_masks[] = {
--	GENMASK(3, 0),
--	GENMASK(7, 4),
-+	[AD7380_SCAN_MASK_CH_0] = GENMASK(3, 0),
-+	[AD7380_SCAN_MASK_CH_1] = GENMASK(7, 4),
-+	[AD7380_SCAN_MASK_SEQ] = GENMASK(7, 0),
- 	0
- };
- 
-@@ -467,11 +480,14 @@ struct ad7380_state {
- 	unsigned int oversampling_ratio;
- 	bool resolution_boost_enabled;
- 	unsigned int ch;
-+	bool seq;
- 	unsigned int vref_mv;
- 	unsigned int vcm_mv[MAX_NUM_CHANNELS];
- 	/* xfers, message an buffer for reading sample data */
--	struct spi_transfer xfer[2];
--	struct spi_message msg;
-+	struct spi_transfer normal_xfer[2];
-+	struct spi_message normal_msg;
-+	struct spi_transfer seq_xfer[4];
-+	struct spi_message seq_msg;
- 	/*
- 	 * DMA (thus cache coherency maintenance) requires the transfer buffers
- 	 * to live in their own cache lines.
-@@ -609,33 +625,47 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
- static void ad7380_update_xfers(struct ad7380_state *st,
- 				const struct iio_scan_type *scan_type)
- {
--	/*
--	 * First xfer only triggers conversion and has to be long enough for
--	 * all conversions to complete, which can be multiple conversion in the
--	 * case of oversampling. Technically T_CONVERT_X_NS is lower for some
--	 * chips, but we use the maximum value for simplicity for now.
--	 */
--	if (st->oversampling_ratio > 1)
--		st->xfer[0].delay.value = T_CONVERT_0_NS + T_CONVERT_X_NS *
--						(st->oversampling_ratio - 1);
--	else
--		st->xfer[0].delay.value = T_CONVERT_NS;
--
--	st->xfer[0].delay.unit = SPI_DELAY_UNIT_NSECS;
-+	struct spi_transfer *xfer = st->seq ? st->seq_xfer : st->normal_xfer;
-+	unsigned int t_convert = T_CONVERT_NS;
- 
- 	/*
--	 * Second xfer reads all channels. Data size depends on if resolution
--	 * boost is enabled or not.
-+	 * In the case of oversampling, conversion time is higher than in normal
-+	 * mode. Technically T_CONVERT_X_NS is lower for some chips, but we use
-+	 * the maximum value for simplicity for now.
- 	 */
--	st->xfer[1].bits_per_word = scan_type->realbits;
--	st->xfer[1].len = BITS_TO_BYTES(scan_type->storagebits) *
--			  st->chip_info->num_simult_channels;
-+	if (st->oversampling_ratio > 1)
-+		t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS *
-+			(st->oversampling_ratio - 1);
-+
-+	if (st->seq) {
-+		xfer[0].delay.value = xfer[1].delay.value = t_convert;
-+		xfer[0].delay.unit = xfer[1].delay.unit = SPI_DELAY_UNIT_NSECS;
-+		xfer[2].bits_per_word = xfer[3].bits_per_word =
-+			scan_type->realbits;
-+		xfer[2].len = xfer[3].len =
-+			BITS_TO_BYTES(scan_type->storagebits) *
-+			st->chip_info->num_simult_channels;
-+		xfer[3].rx_buf = xfer[2].rx_buf + xfer[2].len;
-+		/* Additional delay required here when oversampling is enabled */
-+		if (st->oversampling_ratio > 1)
-+			xfer[2].delay.value = t_convert;
-+		else
-+			xfer[2].delay.value = 0;
-+		xfer[2].delay.unit = SPI_DELAY_UNIT_NSECS;
-+	} else {
-+		xfer[0].delay.value = t_convert;
-+		xfer[0].delay.unit = SPI_DELAY_UNIT_NSECS;
-+		xfer[1].bits_per_word = scan_type->realbits;
-+		xfer[1].len = BITS_TO_BYTES(scan_type->storagebits) *
-+			st->chip_info->num_simult_channels;
-+	}
- }
- 
- static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
- {
- 	struct ad7380_state *st = iio_priv(indio_dev);
- 	const struct iio_scan_type *scan_type;
-+	struct spi_message *msg = &st->normal_msg;
- 
- 	/*
- 	 * Currently, we always read all channels at the same time. The scan_type
-@@ -651,28 +681,57 @@ static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
- 
- 		/*
- 		 * Depending on the requested scan_mask and current state,
--		 * we need to change CH bit to sample correct data.
-+		 * we need to either change CH bit, or enable sequencer mode
-+		 * to sample correct data.
-+		 * Sequencer mode is enabled if active mask corresponds to all
-+		 * IIO channels enabled. Otherwise, CH bit is set.
- 		 */
- 		ret = iio_active_scan_mask_index(indio_dev);
- 		if (ret < 0)
- 			return ret;
- 
- 		index = ret;
--		ret = ad7380_set_ch(st, index);
--		if (ret)
--			return ret;
-+		if (index == AD7380_SCAN_MASK_SEQ) {
-+			ret = regmap_update_bits(st->regmap,
-+						 AD7380_REG_ADDR_CONFIG1,
-+						 AD7380_CONFIG1_SEQ,
-+						 FIELD_PREP(AD7380_CONFIG1_SEQ, 1));
-+			if (ret)
-+				return ret;
-+			msg = &st->seq_msg;
-+			st->seq = true;
-+		} else {
-+			ret = ad7380_set_ch(st, index);
-+			if (ret)
-+				return ret;
-+		}
-+
- 	}
- 
- 	ad7380_update_xfers(st, scan_type);
- 
--	return spi_optimize_message(st->spi, &st->msg);
-+	return spi_optimize_message(st->spi, msg);
- }
- 
- static int ad7380_triggered_buffer_postdisable(struct iio_dev *indio_dev)
- {
- 	struct ad7380_state *st = iio_priv(indio_dev);
-+	struct spi_message *msg = &st->normal_msg;
-+	int ret;
-+
-+	if (st->seq) {
-+		ret = regmap_update_bits(st->regmap,
-+					 AD7380_REG_ADDR_CONFIG1,
-+					 AD7380_CONFIG1_SEQ,
-+					 FIELD_PREP(AD7380_CONFIG1_SEQ, 0));
-+		if (ret)
-+			return ret;
-+
-+		msg = &st->seq_msg;
-+		st->seq = false;
-+	}
- 
--	spi_unoptimize_message(&st->msg);
-+	spi_unoptimize_message(msg);
- 
- 	return 0;
- }
-@@ -687,9 +746,10 @@ static irqreturn_t ad7380_trigger_handler(int irq, void *p)
- 	struct iio_poll_func *pf = p;
- 	struct iio_dev *indio_dev = pf->indio_dev;
- 	struct ad7380_state *st = iio_priv(indio_dev);
-+	struct spi_message *msg = st->seq ? &st->seq_msg : &st->normal_msg;
- 	int ret;
- 
--	ret = spi_sync(st->spi, &st->msg);
-+	ret = spi_sync(st->spi, msg);
- 	if (ret)
- 		goto out;
- 
-@@ -723,7 +783,7 @@ static int ad7380_read_direct(struct ad7380_state *st, unsigned int scan_index,
- 
- 	ad7380_update_xfers(st, scan_type);
- 
--	ret = spi_sync(st->spi, &st->msg);
-+	ret = spi_sync(st->spi, &st->normal_msg);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -919,6 +979,7 @@ static int ad7380_init(struct ad7380_state *st, struct regulator *vref)
- 	/* This is the default value after reset. */
- 	st->oversampling_ratio = 1;
- 	st->ch = 0;
-+	st->seq = false;
- 
- 	/* SPI 1-wire mode */
- 	return regmap_update_bits(st->regmap, AD7380_REG_ADDR_CONFIG2,
-@@ -1020,21 +1081,45 @@ static int ad7380_probe(struct spi_device *spi)
- 				     "failed to allocate register map\n");
- 
- 	/*
--	 * Setting up a low latency read for getting sample data. Used for both
--	 * direct read an triggered buffer. Additional fields will be set up in
--	 * ad7380_update_xfers() based on the current state of the driver at the
--	 * time of the read.
-+	 * Setting up xfer structures for both normal and sequence mode. These
-+	 * struct are used for both direct read and triggered buffer. Additional
-+	 * fields will be set up in ad7380_update_xfers() based on the current
-+	 * state of the driver at the time of the read.
- 	 */
- 
--	/* toggle CS (no data xfer) to trigger a conversion */
--	st->xfer[0].cs_change = 1;
--	st->xfer[0].cs_change_delay.value = st->chip_info->timing_specs->t_csh_ns;
--	st->xfer[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
--
--	/* then do a second xfer to read the data */
--	st->xfer[1].rx_buf = st->scan_data;
-+	/*
-+	 * In normal mode a read is composed of two steps:
-+	 *   - first, toggle CS (no data xfer) to trigger a conversion
-+	 *   - then, read data
-+	 */
-+	st->normal_xfer[0].cs_change = 1;
-+	st->normal_xfer[0].cs_change_delay.value = st->chip_info->timing_specs->t_csh_ns;
-+	st->normal_xfer[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-+	st->normal_xfer[1].rx_buf = st->scan_data;
- 
--	spi_message_init_with_transfers(&st->msg, st->xfer, ARRAY_SIZE(st->xfer));
-+	spi_message_init_with_transfers(&st->normal_msg, st->normal_xfer,
-+					ARRAY_SIZE(st->normal_xfer));
-+	/*
-+	 * In sequencer mode a read is composed of four steps:
-+	 *   - CS toggle (no data xfer) to get the right point in the sequence
-+	 *   - CS toggle (no data xfer) to trigger a conversion of AinX0 and
-+	 *   acquisition of AinX1
-+	 *   - 2 data reads, to read AinX0 and AinX1
-+	 */
-+	st->seq_xfer[0].cs_change = 1;
-+	st->seq_xfer[0].cs_change_delay.value = st->chip_info->timing_specs->t_csh_ns;
-+	st->seq_xfer[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-+	st->seq_xfer[1].cs_change = 1;
-+	st->seq_xfer[1].cs_change_delay.value = st->chip_info->timing_specs->t_csh_ns;
-+	st->seq_xfer[1].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-+
-+	st->seq_xfer[2].rx_buf = st->scan_data;
-+	st->seq_xfer[2].cs_change = 1;
-+	st->seq_xfer[2].cs_change_delay.value = st->chip_info->timing_specs->t_csh_ns;
-+	st->seq_xfer[2].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-+
-+	spi_message_init_with_transfers(&st->seq_msg, st->seq_xfer,
-+					ARRAY_SIZE(st->seq_xfer));
- 
- 	indio_dev->channels = st->chip_info->channels;
- 	indio_dev->num_channels = st->chip_info->num_channels;
+Yeah, this is good idea.
 
--- 
-2.45.1
-
+> > +	if (crit_temp < hyst_temp) {
+> > +		ret = -EINVAL;
+> > +		goto failed;
+> > +	}
+> > +
+> > +	ret = i2c_smbus_write_byte_data(mcu->client, reg, temp);
+> > +
+> > +failed:
+> > +	mutex_unlock(&mcu->mutex);
+> > +	return ret;
+> > +}
+> > +
+> [......]
