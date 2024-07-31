@@ -1,180 +1,265 @@
-Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8A01BBBD5;
-	Wed, 31 Jul 2024 14:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.96.170.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF993232;
+	Wed, 31 Jul 2024 15:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722437964; cv=none; b=Cv9DCWF5YNfOxwkLmeZQykoiaeAELEFLj165qu0/ZrpDzVS1O6IIskojBBjdJZuKGZA+F+r3i681//xjYOyeOCZamUhPAjJTVqy8kLQjXY++l9xys5unctBkQhGZRw9tCUu7tt/IQJBs33tpbF23u7amLdqVOxEetbjDmuQD+ds=
+	t=1722438160; cv=none; b=bC23XZPSfddOsHieq2732WH7pIjgJqS+KSRlpoyjKrwT+UU1k4fupEIKHHkFMHxYejsSv7688bpidxsxIxlh/LP7aRwqZRzAbzCFvamPwpyEheMa0Iu17ZosRVZHpXJ/Put4/44LtTGc5PtbrtT2WytNdCMLL+lBBl9TP5t7HcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722437964; c=relaxed/simple;
-	bh=E065Ck6GUBrsYWiWB7xcCSVZIrTf+Ha1iwGZYGyeWCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=raC7uyIlv9htMVRPZJvV+ikNha7bK6DMcaqhz0ZLLd0fj68IyaCkn/IeQJomM6rADkMxp2gTz3QS+QsrmwkKO2Wt4OFdXhmoL7GV3VMEBtYzywhZqHNYfIm/enfztfY1BKut9d6R460JMPyzfQoUQBFcq66jkKT60YvRsmSqfyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net; spf=pass smtp.mailfrom=rjwysocki.net; dkim=fail (2048-bit key) header.d=rjwysocki.net header.i=@rjwysocki.net header.b=jcRQBvEQ reason="signature verification failed"; arc=none smtp.client-ip=79.96.170.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rjwysocki.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rjwysocki.net
+	s=arc-20240116; t=1722438160; c=relaxed/simple;
+	bh=GdbXqK3pOYa0rkRvKMpQ1qP1/xyRibNZjDLqjkPfE2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gi7oj/5r6zKXioQByVZOnEiWm/hpk3E/3Bo4qW+J39Yhj9LE6dedt1/rFo9nltHqkKkuM2ue8izOwHn2PBUjo6jnaqcukVj2KBZY1hWlfYyUMUVcIZ0iWaZXTM3ekdyEiY2JlRbjauBimXNFAYsbvRH8RuFxydnbu6eyzfpq11w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLXg2z4i; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=rjwysocki.net header.i=@rjwysocki.net header.b="jcRQBvEQ"
-Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
- by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 6.2.0)
- id 0fda7cedc9ad476f; Wed, 31 Jul 2024 16:59:16 +0200
-Received: from kreacher.localnet (unknown [195.136.19.94])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by cloudserver094114.home.pl (Postfix) with ESMTPSA id 19526955FDE;
-	Wed, 31 Jul 2024 16:59:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rjwysocki.net;
-	s=dkim; t=1722437956;
-	bh=E065Ck6GUBrsYWiWB7xcCSVZIrTf+Ha1iwGZYGyeWCk=;
-	h=From:To:Cc:Subject:Date;
-	b=jcRQBvEQMr/ua0nd22hR79mB7pqZp9BDSp5UqmnEmirBrCDetoDY/+NiQkPwq10fK
-	 yDrBcrosAtSkXKQYn0Klp1oZ6jYJ+NTpP0uHxp/W1bwyW7ZUIS+4vHqn4Yo2loW0+I
-	 +WpMeT7r28/NPj3UsP6P/R0zrnsJ7I9cmXxdc4BfNCfZSBgKUezApxSSvHoBJYefJ5
-	 Qq1pGTTF1BDrQiCge27JTPdMmpuDLwN4R24NBCgftaCLCTl8i4Nz9jCewaPP7yFCdq
-	 ww2TxkOGmwcSwR2cPo6K5EQLbxI2JXhg4S+eA3L3c80zj/dAvub9AJOiCNuf8PdQkA
-	 VjHI27ndJuEkA==
-From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To: Linux PM <linux-pm@vger.kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
-Subject:
- [PATCH v1] thermal: core: Update thermal zone registration documentation
-Date: Wed, 31 Jul 2024 16:59:15 +0200
-Message-ID: <2767845.mvXUDI8C0e@rjwysocki.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLXg2z4i"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70d1c655141so4326736b3a.1;
+        Wed, 31 Jul 2024 08:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722438158; x=1723042958; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n3pEcVDWIeBBKJY5rYo4nIp1+5IBnyuWvRwhKMSQzHM=;
+        b=HLXg2z4iYFFciYI3MiRdHb5/mGXrN4m3aXOMXEM8/SU8LrQ4uJovXxwoEftugkbRpj
+         RCqvGInGtSdZtXM1U6hTPD4koC1ezkWI9lU9c0oRhmRyXgamUYcOa6PGB2K96rmH4tDX
+         rgG72HuPk2JYhAzjsocs3VWPw5Uk3LHilf8GL2BopAcqhoEKg+sNUcfSXsyc+xdY7L4t
+         Fkv/OeOmGD35TIRmpRKm+cAdXZxKUYep8fV2mDFG3zcPVp6UIgEX6TOQlU18ErafeEud
+         9KF88gRXEFjzR4rV2HBNMmjWxfWH4vgSZRZYrpZDzt36wNt54jXpMpd6KaKP1j0qJ+Z0
+         KFhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722438158; x=1723042958;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n3pEcVDWIeBBKJY5rYo4nIp1+5IBnyuWvRwhKMSQzHM=;
+        b=PSPjFLnUUdy+7u/BYj17pTIanTSXpdfCdXOppfKX+XTEJgllNNX17qqPm8SlSZ5J/m
+         9YsKUVHCVK7hpdoIawWgk5gqc7YpGHDrdZKFolNIqewtfAEwTaXRnVSgrX8cad81T4At
+         heUzXgEzDZWsq6+8pqWOjd/v64mcZRGWKkJkO8IU1ou8klFWtvkv7zkCwIw1bspunFER
+         ISdOMdwAe5rJnxKEdbjZwQa2b1mWou01u6dE2fGZHRCP4vafh0/UuAQEIe0V1LEcw7cs
+         iq5di3jAA9H/MO3do0hyo0AckfwYfKweRdJGZksZQukR9In9xuwyd70OPmqoAq+q/8U0
+         TF9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXiQipoIQ6zY/miMw3gg9pVVSdobWgKbRh69+hS75JuRIE3t5XS0k8/X8lRJPPO4fHDFgLXZLeBa5tgCrUahkqBX8gdQS72z6t7fWWJ6X7uZNMkMA5KrJhp3GvZ+m95Zknn695h0nvY2p6FpDpqilDE5ulHQ2BtM9DemsdXcmITlXGS0aJRWXeyHyvafyq/wpxADy1z5+bSrXKqOHZekFhy
+X-Gm-Message-State: AOJu0Yyq+glCQt4MoFb//lXCnMOCwVZhNua5ihP3a3Zf2p5CJFljfcfC
+	wJErTUrJ5oER3Z7fETzoxX7JE44VsDhBoUN+T8K7qNb+Ok5+6qN8
+X-Google-Smtp-Source: AGHT+IFDe+Gop8MQmy/8qvQgta8yZDYKCAntFqVNAuMmp6Sw0Ob7fNHgNCvkehwyfC09R83AyyEuCQ==
+X-Received: by 2002:a17:902:c947:b0:1fd:a644:e466 with SMTP id d9443c01a7336-1ff0485ba7cmr146711915ad.39.1722438158295;
+        Wed, 31 Jul 2024 08:02:38 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7c8582dsm121843175ad.6.2024.07.31.08.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 08:02:37 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 31 Jul 2024 08:02:36 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: Chen Wang <unicorn_wang@outlook.com>, Jean Delvare <jdelvare@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Chao Wei <chao.wei@sophgo.com>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Jinyu Tang <tangjinyu@tinylab.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	chunzhi.lin@sophgo.com, haijiao.liu@sophgo.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v8 2/4] drivers: hwmon: sophgo: Add SG2042 external
+ hardware monitor support
+Message-ID: <75f6f910-43ff-4d98-b39f-b4b0629a56a1@roeck-us.net>
+References: <IA1PR20MB49538C09E94D90F07B7B2562BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB4953DE89C56AB3F328954131BBB02@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <MA0P287MB2822D0C770667CFE484EBC95FEB12@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+ <IA1PR20MB49534944E268A0A71AA3D5D1BBB12@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-CLIENT-IP: 195.136.19.94
-X-CLIENT-HOSTNAME: 195.136.19.94
-X-VADE-SPAMSTATE: spam:low
-X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeftddrjeeigdekfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegoufhprghmkfhpucdlfedttddmnecujfgurhephffvvefufffkggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpeffffffkefgheehffelteeiveeffeevhfelteejvddvieejjeelvdeiheeuveeuffenucfkphepudelhedrudefiedrudelrdelgeenucfuphgrmhfkphepudelhedrudefiedrudelrdelgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduleehrddufeeirdduledrleegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopeejpdhrtghpthhtoheplhhinhhugidqphhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlvgiitggrnhhosehlihhnrghrohdrohhrghdprhgtphhtthhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomh
-X-DCC--Metrics: v370.home.net.pl 1024; Body=7 Fuz1=7 Fuz2=7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <IA1PR20MB49534944E268A0A71AA3D5D1BBB12@IA1PR20MB4953.namprd20.prod.outlook.com>
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Wed, Jul 31, 2024 at 03:17:57PM +0800, Inochi Amaoto wrote:
+> On Wed, Jul 31, 2024 at 02:13:20PM GMT, Chen Wang wrote:
+> > 
+> > On 2024/7/30 15:50, Inochi Amaoto wrote:
+> > [......]
+> > > +#define REG_CRITICAL_ACTIONS			0x65
+> > The name "REG_CRITICAL_ACTIONS" is ambiguous. I have confirmed with sophgo
+> > engineers that the complete process is: when the measured temperature
+> > exceeds the temperature set by REG_CRITICAL_TEMP, the processor is powered
+> > off and shut down, and then after the temperature returns to the temperature
+> > set by REG_REPOWER_TEMP, it is decided whether to power on again or remain
+> > in the shutdown state based on the action set by REG_CRITICAL_ACTIONS,
+> > whether it is reboot or poweroff.
+> > 
+> > So based on the above description, I think it would be better to
+> > call "REG_CRITICAL_ACTIONS" as "REG_REPOWER_ACTIONS". "REG_CRITICAL_ACTIONS"
+> > gives people the first impression that it is used to set actions related to
+> > REG_CRITICAL_TEMP.
+> > 
+> > It is also recommended to add the above description of temperature control
+> > and action settings in the code. Currently, sophgo does not have a clear
+> > document description for this part, and adding it will help us understand
+> > its functions.
+> > 
+> > Adding sophgo engineers Chunzhi and Haijiao, FYI.
+> > 
+> > > +#define REG_CRITICAL_TEMP			0x66
+> > > +#define REG_REPOWER_TEMP			0x67
+> > > +
+> > > +#define CRITICAL_ACTION_REBOOT			1
+> > > +#define CRITICAL_ACTION_POWEROFF		2
+> > 
+> > As I said upon, actions are not related to critical, but is for restoring
+> > from critical, suggest to give a better name.
+> > 
+> > [......]
+> > 
+> > > +static ssize_t critical_action_show(struct device *dev,
+> > [......]
+> > > +static ssize_t critical_action_store(struct device *dev,
+> > 
+> > [......]
+> > 
+> > The same reason as upon, "critical_action_xxx" is misleading.
+> > 
+> > [......]
+> > 
+> 
+> Thanks for explanation, I just get the name from the driver of SG2042.
+> This is out of my knowledge.
+> 
+> > > +static int sg2042_mcu_read_temp(struct device *dev,
+> > > +				u32 attr, int channel,
+> > > +				long *val)
+> > > +{
+> > > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> > > +	int tmp;
+> > > +	u8 reg;
+> > > +
+> > > +	switch (attr) {
+> > > +	case hwmon_temp_input:
+> > > +		reg = channel ? REG_BOARD_TEMP : REG_SOC_TEMP;
+> > > +		break;
+> > > +	case hwmon_temp_crit:
+> > > +		reg = REG_CRITICAL_TEMP;
+> > > +		break;
+> > > +	case hwmon_temp_crit_hyst:
+> > > +		reg = REG_REPOWER_TEMP;
+> > > +		break;
+> > > +	default:
+> > > +		return -EOPNOTSUPP;
+> > > +	}
+> > > +
+> > > +	tmp = i2c_smbus_read_byte_data(mcu->client, reg);
+> > > +	if (tmp < 0)
+> > > +		return tmp;
+> > > +	*val = tmp * 1000;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int sg2042_mcu_read(struct device *dev,
+> > > +			   enum hwmon_sensor_types type,
+> > > +			   u32 attr, int channel, long *val)
+> > > +{
+> > > +	return sg2042_mcu_read_temp(dev, attr, channel, val);
+> > > +}
+> > Can we merge sg2042_mcu_read and sg2042_mcu_read_temp？
+> 
+> Yes, it can be merged. but I think using this nested function 
+> is more clear. And gcc can auto inline this function so we
+> got no performance penalty.
+> 
 
-The thermal sysfs API document is outdated.  One of the problems with
-it is that is still documents thermal_zone_device_register() which
-does not exit any more and it does not reflect the current thermal
-zone operations definition.
+FWIW, I think that is pointless. Te only difference is unused
+parameters.
 
-Replace the thermal_zone_device_register() description in it with
-a thermal_zone_device_register_with_trips() description, including
-an update of the thermal zone operations list.
+> > > +
+> > > +static int sg2042_mcu_write(struct device *dev,
+> > > +			    enum hwmon_sensor_types type,
+> > > +			    u32 attr, int channel, long val)
+> > > +{
+> > > +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+> > > +	int temp = val / 1000;
+> > > +	int hyst_temp, crit_temp;
+> > > +	int ret;
+> > > +	u8 reg;
+> > > +
+> > > +	if (temp > MCU_POWER_MAX)
+> > > +		temp = MCU_POWER_MAX;
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- Documentation/driver-api/thermal/sysfs-api.rst |   65 +++++++++++--------------
- 1 file changed, 30 insertions(+), 35 deletions(-)
+No lower limit ? -1000000 is ok ?
 
-Index: linux-pm/Documentation/driver-api/thermal/sysfs-api.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/thermal/sysfs-api.rst
-+++ linux-pm/Documentation/driver-api/thermal/sysfs-api.rst
-@@ -4,8 +4,6 @@ Generic Thermal Sysfs driver How To
- 
- Written by Sujith Thomas <sujith.thomas@intel.com>, Zhang Rui <rui.zhang@intel.com>
- 
--Updated: 2 January 2008
--
- Copyright (c)  2008 Intel Corporation
- 
- 
-@@ -38,23 +36,23 @@ temperature) and throttle appropriate de
- 
-     ::
- 
--	struct thermal_zone_device
--	*thermal_zone_device_register(char *type,
--				      int trips, int mask, void *devdata,
--				      struct thermal_zone_device_ops *ops,
--				      const struct thermal_zone_params *tzp,
--				      int passive_delay, int polling_delay))
-+	struct thermal_zone_device *
-+	thermal_zone_device_register_with_trips(const char *type,
-+					const struct thermal_trip *trips,
-+					int num_trips, void *devdata,
-+					const struct thermal_zone_device_ops *ops,
-+					const struct thermal_zone_params *tzp,
-+					unsigned int passive_delay,
-+					unsigned int polling_delay)
- 
--    This interface function adds a new thermal zone device (sensor) to
-+    This interface function adds a new thermal zone device (sensor) to the
-     /sys/class/thermal folder as `thermal_zone[0-*]`. It tries to bind all the
--    thermal cooling devices registered at the same time.
-+    thermal cooling devices registered to it at the same time.
- 
-     type:
- 	the thermal zone type.
-     trips:
--	the total number of trip points this thermal zone supports.
--    mask:
--	Bit string: If 'n'th bit is set, then trip point 'n' is writable.
-+	the table of trip points for this thermal zone.
-     devdata:
- 	device private data
-     ops:
-@@ -67,32 +65,29 @@ temperature) and throttle appropriate de
- 	.get_temp:
- 		get the current temperature of the thermal zone.
- 	.set_trips:
--		    set the trip points window. Whenever the current temperature
--		    is updated, the trip points immediately below and above the
--		    current temperature are found.
--	.get_mode:
--		   get the current mode (enabled/disabled) of the thermal zone.
--
--			- "enabled" means the kernel thermal management is
--			  enabled.
--			- "disabled" will prevent kernel thermal driver action
--			  upon trip points so that user applications can take
--			  charge of thermal management.
--	.set_mode:
--		set the mode (enabled/disabled) of the thermal zone.
--	.get_trip_type:
--		get the type of certain trip point.
--	.get_trip_temp:
--			get the temperature above which the certain trip point
--			will be fired.
-+		set the trip points window. Whenever the current temperature
-+		is updated, the trip points immediately below and above the
-+		current temperature are found.
-+	.change_mode:
-+		change the mode (enabled/disabled) of the thermal zone.
-+	.set_trip_temp:
-+		set the temperature of a given trip point.
-+	.get_crit_temp:
-+		get the critical temperature for this thermal zone.
- 	.set_emul_temp:
--			set the emulation temperature which helps in debugging
--			different threshold temperature points.
-+		set the emulation temperature which helps in debugging
-+		different threshold temperature points.
-+	.get_trend:
-+		get the trend of most recent zone temperature changes.
-+	.hot:
-+		hot trip point crossing handler.
-+	.critical:
-+		critical trip point crossing handler.
-     tzp:
- 	thermal zone platform parameters.
-     passive_delay:
--	number of milliseconds to wait between polls when
--	performing passive cooling.
-+	number of milliseconds to wait between polls when performing passive
-+	cooling.
-     polling_delay:
- 	number of milliseconds to wait between polls when checking
- 	whether trip points have been crossed (0 for interrupt driven systems).
+> > > +
+> > > +	mutex_lock(&mcu->mutex);
+> > > +
+> > > +	switch (attr) {
+> > > +	case hwmon_temp_crit:
+> > > +		hyst_temp = i2c_smbus_read_byte_data(mcu->client,
+> > > +						     REG_REPOWER_TEMP);
+> > > +		if (hyst_temp < 0) {
+> > > +			ret = -ENODEV;
+> > > +			goto failed;
 
+Do not overwrite error codes.
 
+> > > +		}
+> > > +
+> > > +		crit_temp = temp;
+> > > +		reg = REG_CRITICAL_TEMP;
+> > > +		break;
+> > > +	case hwmon_temp_crit_hyst:
+> > > +		crit_temp = i2c_smbus_read_byte_data(mcu->client,
+> > > +						     REG_CRITICAL_TEMP);
+> > > +		if (crit_temp < 0) {
+> > > +			ret = -ENODEV;
+> > > +			goto failed;
 
+Do not overwrite error codes.
+
+> > > +		}
+> > > +
+> > > +		hyst_temp = temp;
+> > > +		reg = REG_REPOWER_TEMP;
+> > > +		break;
+> > > +	default:
+> > > +		mutex_unlock(&mcu->mutex);
+> > > +		return -EOPNOTSUPP;
+
+This is inconsistent.
+
+> > > +	}
+> > > +
+> > It is recommended to add some comments to explain why we need to ensure that
+> > crit_temp is greater than or equal to hyst_temp. This is entirely because
+> > the current MCU does not limit the input, which may cause user to set
+> > incorrect crit_temp and hyst_temp.
+> 
+> Yeah, this is good idea.
+> 
+> > > +	if (crit_temp < hyst_temp) {
+> > > +		ret = -EINVAL;
+> > > +		goto failed;
+> > > +	}
+> > > +
+> > > +	ret = i2c_smbus_write_byte_data(mcu->client, reg, temp);
+> > > +
+> > > +failed:
+> > > +	mutex_unlock(&mcu->mutex);
+> > > +	return ret;
+> > > +}
+> > > +
+> > [......]
