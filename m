@@ -1,131 +1,262 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD3D1B373C
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 14:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98331B14FF;
+	Wed, 31 Jul 2024 14:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722435014; cv=none; b=fIHJ2LZuSec8kJ+7MNC43bhQGcEL5Kl4zAjVJIuOYfVdQZj90tF2ugoIoknUD1AfbEJqPkr3ufKiScatAWQVOFXrr6QZVpCqwSS119dqh/2WN/5GAnlZOIRaUH/GLnvhCjpjeM6x9hJvj875Qho+Czdd5xEhOwcQSXxXdVw9Hfc=
+	t=1722435111; cv=none; b=DF412jE0un1LVepFFHMoSbO0MOO5QNANWY2h8svjeFA44wQ8U2JUxCdKPh8BNKG73kIOxFC8/H9SsxUBKY6YCoU7A8++LYGRq5SCdI7SDieLkbaa2TPWTuDRb4re63hh2231KBDizmy/LiSqUtF6ucrU4TLtcjrMMJjENgZbN70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722435014; c=relaxed/simple;
-	bh=dmVOCIu8kbYlKl/Cr9b5rGbdHU19hBCDOxflVjQyj+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CMFTY4gaf/ycroStoTaIeuYubLW9C4EfUmI6Rt8VB9ylydlFX871veF4acJQ0iWWMLcAgYzOpowfUO+ZXpgUi520BQRoiHn79NrO0+WLEwLSLvwTaTvxlBpxdT6w/RKGM42NQXHkmL4d9Puoy3YKlwPAmrV7GFLl/3TK46Pikxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=elfMgnTT; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1722435111; c=relaxed/simple;
+	bh=jOPddklYaMJA2zOn9fiqpnFCA5J3HVvmBRrQsJsG5Uw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LztLcKhGIMZRCBJ54no2KAhq6/6rMWk8belG8WsgqRXXv80bN+iN+j4fy1eOWkzLIcDeWomnNJkbCwiK4ocE4/PPux/I/BpMKZnCRk6iwMG3DR/e5ni95YpuXE7o/Af04mVjPxQZnqj7zvnWZ6ccHhFwV0jwJqTSF1yaiAws1Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vb2AIKWI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="elfMgnTT"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7ab76558a9so177681066b.1
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1722435010; x=1723039810; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gqyqw/nHSlejBJnG1P+gVR7MBqt6hfQ4M9UtXPV7Jj8=;
-        b=elfMgnTTjCM3UmWuyHhfZduzBYb7necRHX8q8rotq4qZO09Q/crQGEbfimYIdPi5VE
-         Xul8wBlWaOEj6sFDP+OzNGu0+61bI38lGQzhub8drJMJw1474Hwx9WlEcaDFtKYwdJ+u
-         mPgoizyjvEfyNQLMLaG+5nsrSp5j2qmpV4evpmt+AJ1VRtuDQ1+5urj6eyhqisHWOb/9
-         X954oagG0F8vyrx4ff6BecFsllcL5c4fwt+P6V7A6vUSFHWqhC2b45V7GYYrvZYVwRWN
-         cysllFHa2xVeCHPp1nb3bnQPk7yYxtUDHYG1JZPXd/zrza1jI8q3kj1NFn52K7d3gCXW
-         bUHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722435010; x=1723039810;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gqyqw/nHSlejBJnG1P+gVR7MBqt6hfQ4M9UtXPV7Jj8=;
-        b=svp3uXZxWQ9l0BiAGZ+pHyjCRqnPEIgWz/5BrDx9JkVTpPF2ri8TNzEyluU47DsfCM
-         z3uYhPDltRYAvai0A4uuFG99eMmTPYsJjOKkv/mhJ7TG2Vub7Kd3sdKvjkQRI9okUg2E
-         y7MfoYSEucd+RqxE5mhSBhEq73xuPacUBHCFtGyC2ZRFR+dJReaP/f62ORdTXqooOYto
-         8/PSeDYsPGQfPquaxUmv9veao7y7++2wN39Petpm6UPcan7JEebBHBqr3XIaNz9c72J8
-         9vs75LlXICFpU0boCui0oRupc9zXFNLAKYtIjJzpKPyGSn7tIpVYGuFdhsgXk6c1RPo1
-         yNqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDUEfvpqJHTpCM/bFxrr6sOLUkpey/U1TUX4AWds+Luw0i+Jdj8fk9hsGfXebSJYknzZaiP0/jQyxAYS6UxjgJNVLQ9FLyZDSJ
-X-Gm-Message-State: AOJu0YyWNqHMHaoH6XYDgHKPZwXsVoqmBVfN7o/5Q1+RwPFcya1dzMUP
-	yftYJleTI/xy9CIVA3bLmA+YXhOlDkCm1wxr8ZmB4vxk/IhUcxqjS1J0Mo+hVRw=
-X-Google-Smtp-Source: AGHT+IF2QCYCUqjPekfpSqYJ4AImkm365cVwJfODis1nmhKBhNr8Twq9mBAr+HyjSZ/Z5pxT2z9Qdg==
-X-Received: by 2002:a17:907:60cb:b0:a7d:88c4:2897 with SMTP id a640c23a62f3a-a7d88c437b8mr345160666b.2.1722435009133;
-        Wed, 31 Jul 2024 07:10:09 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad416basm772297966b.104.2024.07.31.07.10.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 07:10:08 -0700 (PDT)
-Date: Wed, 31 Jul 2024 16:10:07 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v4 02/13] riscv: Do not fail to build on byte/halfword
- operations with Zawrs
-Message-ID: <20240731-56ba72420d7f745dacb66fd8@orel>
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-3-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vb2AIKWI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2374C116B1;
+	Wed, 31 Jul 2024 14:11:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722435111;
+	bh=jOPddklYaMJA2zOn9fiqpnFCA5J3HVvmBRrQsJsG5Uw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Vb2AIKWIs9Uzq9/qZVRQy+/u/zyOwvNzs+lernwuhhSK6ZjaJFSSIsvXwVMkSMR7n
+	 NYB3H1sx2nIq9j2SNZ+nicAAONQM2A/S9rR44Na1eSLG/VpyTa9zO+ZedN2I7zMp5S
+	 Y/haBtqOqha1IfScWCXLrfuGGkRBpbcXBHeVQms9YFDh9vhawIwSTycehY8CnA1ijq
+	 NDsT+FSGj0ykUN5q4vNj01lNgA1Rkd2smsuU6DQWKXOG5My4WUO+0Rzb1FtPE5iIAx
+	 Jsn1s/WpwHBwQW76UaKy9GxvX7YD6mftay1VuqzYIxpvyphQCE48rtLnU+nk77w83r
+	 Up3ICnaEEgrQQ==
+Message-ID: <387b4028-7f8a-46df-a7f1-168d1700074d@kernel.org>
+Date: Wed, 31 Jul 2024 16:11:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240731072405.197046-3-alexghiti@rivosinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
+To: Trevor Gamblin <tgamblin@baylibre.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Lechner <dlechner@baylibre.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com>
+ <20240731-ad7625_r1-v1-1-a1efef5a2ab9@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240731-ad7625_r1-v1-1-a1efef5a2ab9@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 31, 2024 at 09:23:54AM GMT, Alexandre Ghiti wrote:
-> riscv does not have lr instructions on byte and halfword but the
-> qspinlock implementation actually uses such atomics provided by the
-> Zabha extension, so those sizes are legitimate.
+On 31/07/2024 15:48, Trevor Gamblin wrote:
+> This adds a binding specification for the Analog Devices Inc. AD7625,
+> AD7626, AD7960, and AD7961 ADCs.
 
-We currently always come to __cmpwait() through smp_cond_load_relaxed()
-and queued_spin_lock_slowpath() adds another invocation. However, isn't
-the reason we're hitting the BUILD_BUG() because the switch fails to find
-a case for 16, not because it fails to find cases for 1 or 2? The new
-invocation passes a pointer to a struct mcs_spinlock, which looks like
-it has size 16. We need to ensure that when ptr points to a pointer that
-we pass the size of uintptr_t.
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+
+Why this is not ready, but RFC? What exactly needs to be commented here?
 
 > 
-> Then instead of failing to build, just fallback to the !Zawrs path.
-
-No matter what sizes we're failing on, if we do this then
-queued_spin_lock_slowpath() won't be able to take advantage of Zawrs.
-
-Thanks,
-drew
-
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 > ---
->  arch/riscv/include/asm/cmpxchg.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 +++++++++++++++++++++
+>  MAINTAINERS                                        |   9 ++
+>  2 files changed, 185 insertions(+)
 > 
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index ebbce134917c..9ba497ea18a5 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -268,7 +268,8 @@ static __always_inline void __cmpwait(volatile void *ptr,
->  		break;
->  #endif
->  	default:
-> -		BUILD_BUG();
-> +		/* RISC-V doesn't have lr instructions on byte and half-word. */
-> +		goto no_zawrs;
->  	}
->  
->  	return;
-> -- 
-> 2.39.2
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+> new file mode 100644
+> index 000000000000..e88db0ac2534
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+> @@ -0,0 +1,176 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad7625.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices Fast PulSAR Analog to Digital Converters
+> +
+> +maintainers:
+> +  - Michael Hennerich <Michael.Hennerich@analog.com>
+> +  - Nuno Sá <nuno.sa@analog.com>
+> +
+> +description: |
+> +  A family of single channel differential analog to digital converters
+> +  in a LFCSP package. Note that these bindings are for the device when
+> +  used with the PulSAR LVDS project:
+> +  http://analogdevicesinc.github.io/hdl/projects/pulsar_lvds/index.html.
+
+Eh? And what could be other case - used for what? What are the
+differences? Why mentioning it?
+
+> +
+> +  * https://www.analog.com/en/products/ad7625.html
+> +  * https://www.analog.com/en/products/ad7626.html
+> +  * https://www.analog.com/en/products/ad7960.html
+> +  * https://www.analog.com/en/products/ad7961.html
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad7625
+> +      - adi,ad7626
+> +      - adi,ad7960
+> +      - adi,ad7961
+> +
+> +  vdd1-supply:
+> +    description: A supply that powers the analog and digital circuitry.
+> +
+> +  vdd2-supply:
+> +    description: A supply that powers the analog and digital circuitry.
+> +
+> +  vio-supply:
+> +    description: A supply for the inputs and outputs.
+> +
+> +  ref-supply:
+> +    description:
+> +      Voltage regulator for the external reference voltage (REF).
+> +
+> +  refin-supply:
+> +    description:
+> +      Voltage regulator for the reference buffer input (REFIN).
+> +
+> +  clocks:
+> +    description:
+> +      The clock connected to the CLK pins, gated by the clk_gate PWM.
+> +    maxItems: 1
+> +
+> +  pwms:
+> +    maxItems: 2
+> +
+> +  pwm-names:
+> +    maxItems: 2
+> +    items:
+> +      - const: cnv
+> +        description: PWM connected to the CNV input on the ADC.
+> +      - const: clk_gate
+> +        description: PWM that gates the clock connected to the ADC's CLK input.
+> +
+> +  io-backends:
+> +    description:
+> +      The AXI ADC IP block connected to the D+/- and DCO+/- lines of the ADC.
+> +    maxItems: 1
+> +
+> +  adi,en0-always-on:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Indicates if EN0 is hard-wired to the high state. If neither this
+> +      nor en0-gpios are present, then EN0 is hard-wired low.
+> +
+> +  adi,en1-always-on:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Indicates if EN1 is hard-wired to the high state. If neither this
+> +      nor en1-gpios are present, then EN1 is hard-wired low.
+> +
+> +  adi,en2-always-on:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Indicates if EN2 is hard-wired to the high state. If neither this
+> +      nor en2-gpios are present, then EN2 is hard-wired low.
+> +
+> +  adi,en3-always-on:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Indicates if EN3 is hard-wired to the high state. If neither this
+> +      nor en3-gpios are present, then EN3 is hard-wired low.
+> +
+> +  en0-gpios:
+> +    description:
+> +      Configurable EN0 pin.
+> +
+> +  en1-gpios:
+> +    description:
+> +      Configurable EN1 pin.
+> +
+> +  en2-gpios:
+> +    description:
+> +      Configurable EN2 pin.
+> +
+> +  en3-gpios:
+> +    description:
+> +      Configurable EN3 pin.
+> +
+> +required:
+> +  - compatible
+> +  - vdd1-supply
+> +  - vdd2-supply
+> +  - vio-supply
+> +  - clocks
+> +  - pwms
+> +  - pwm-names
+> +  - io-backends
+> +
+> +- if:
+> +  properties:
+
+I don't think this was ever tested. Please use existing bindings or
+example-schema as template.
+
+> +    compatible:
+> +      contains:
+> +        enum:
+> +	  - adi,ad7625
+> +	  - adi,ad7626
+
+
+Best regards,
+Krzysztof
+
