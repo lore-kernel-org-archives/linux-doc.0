@@ -1,125 +1,191 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9952116CD01;
-	Wed, 31 Jul 2024 07:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC5C189918
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722410336; cv=none; b=JyE2QH9+9tOaQeNMNDahdofkO8NoKqHmoMKsIg96UK1Hp8GDbSPl+0oFMni2oRFsJarY6SitYfwuP9BXrQqK/ehuwI6yyov5ilixkgr+O3fFrHslABQd+ePyg2Nlv/v1Shx0CjvTqdowmCk6IOCd2/yQiIUzwMln5LADEkUPFO4=
+	t=1722410653; cv=none; b=fVPtNcHdSDfZwQBGg4jw9qnG2cVReRj8vDzWOjyB1JUkG6J+XRxSqag6tx/Jk/0fhIA6T/vjy8F8iJAcIoEajSSrZL9FJpF776WCO/rzHwzz1RMQ76PXOQs9e6rsqJ2D5YLp+PeQyW+fBga5ZAJQZay91enQuhcpyEdKjP7L5S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722410336; c=relaxed/simple;
-	bh=S9f9Hl70Pqzn7nvkWmeWGmOGLynoK+dnWf+0c9gQ7CA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TesiD2SWX+tGl33BQvgh1JyS40rxYaEXx1YY+21WL+ajThdInzceTV8QSQpZZeKjgTswd2LazLVSSyZh/QeIEni59SYH8XgxoVFqSc1fbbvI/OXToAAhs1/ikrbOco7PCj+ygxOwlfgw/E6kUt4u5N4xtiLPY41kKgI1ZUajlGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DEuyDR5c; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722410653; c=relaxed/simple;
+	bh=qFIA7MQ6Y/pej4TDx5fmgdlHGqXrkV8G9+sAeDh6+E8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cYphkHAzT4Sq1BoL9AlLtPyXjJVdyOx70bZAkzzsxtRKfovamU0nxxn33NstCgCZbEtBr2hMNvXPNTgxVmXVwdwB8PsogJ1PqYu2dk3F7uxTu00Mvb1AK1oYfU11DDRbufYmO6mWPH7MESrh9Xmm2nTDw9s83wi7INp0kA4SxdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=w5pZtxi8; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEuyDR5c"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5d5bb03fe42so2981536eaf.3;
-        Wed, 31 Jul 2024 00:18:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="w5pZtxi8"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f0dfdc9e16so66866131fa.2
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722410334; x=1723015134; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V+6hKqvD6dlifbAX1fXi12lyffiK6uAn3NlZANcw0ko=;
-        b=DEuyDR5c+GipBljKz0bRYcvsnoJJyNMB7fFh9/RdFpq7WHd58KS8GA1DZZRKzYj/wZ
-         6spDKh8fYCDB0tgJ0MjBvsN6+MLnohUfOc888FW2OzeQF1peNZXG3C3bGGpM0qRLISEA
-         ZeNjtZhukQ0s3BDXGDAknKj42UnycHFQiOE2AWLzAnYTiLaFc5AnsRlRulB/A8Pl/U/d
-         ZIY1HGteDVgQww5xBKhUMwWJRIw2lcKC/qmPdLPkDJmesdYjfEdRKO4HAQnGm8dsQrQ2
-         3YgrSSHjgN5QEz7ttovSH9Toawp0SugMd+9v5k4QQUhojtwGAlbd3m+zGrVQnCRKJjCZ
-         ATCQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722410648; x=1723015448; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4XEkcH/k055fjEkxInfrnU37BtyQRrpfdUKb2KmHLI0=;
+        b=w5pZtxi8BGcSbgC9Gfq2UQ+hvdadD2WcTGKto0qjbJcfYMQOoZFS/E72JJCBNiS6+m
+         +eEYKT6nAlpZlFuf7nijMJQyRNcGaK+4vlzBogJBdC4rHp1hpv/07tYQlLbdYe51npuS
+         MCTKco5z1GuT9rhRG5cLwg4CqcfA8VieNWcFdOQ04iolib7uqmd6piSPvsxW3nsIWnJ7
+         FPY0RoxfE4e8iZgrq+Psk9VQGzbEhIhOeZtsP6FIcZ/JHzD7OJzUW3XX0+gvH7sD+bjh
+         XBrq61wRM/UuNSPQEmmVKK8Tgf2p5RcLocAXGUvNF/eafGgVmb5Ki0hTcFouMLchWhRZ
+         PWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722410334; x=1723015134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V+6hKqvD6dlifbAX1fXi12lyffiK6uAn3NlZANcw0ko=;
-        b=e9myZTp1Gz53XPSJ8n1pWEq1USERJhEvEFuTuOz9C9jM7kyh7wM/fEB/dAOAMbM/m/
-         ooBy7SCvKvbANqJ5cNqffdEQzZ2EAi+co9eihioLUgVXDM5dLlHkpxlLmS2gAqVZ/Ue2
-         Rw+CcCoFtdsyxcmnsb02WrCc5jfvBe3swSmwVzGXVfN0Pioru5oaIWWAQRDH9lYPdU6C
-         UmbprEQyGHOoAwAdCcqXkWcVjHEZhIl/XDB5v1q3IYkb4tjRZnffFyZL5AdwJkA8nl8g
-         97Ewa1FrDo9h2i8+JTR/C8YMf/VFkolZDAxXhyX7+fHUOnjuER6w18dA8dxsVFXFuoM5
-         98FA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIdOYI9YBQ05zvMoAQa5wNn720AFrJEs0skaiTsmhtXRjGmzr7/zMseWRQpCTIIApXDFAlgQ+N2T1yL/E5ZrdrPK7MUM2ClMXbmBlneBdRukeJmtRzha1PcQcYjLTaZiU1Wk0GPEBX
-X-Gm-Message-State: AOJu0Ywx8nGVCJRwq8WfijDr3Bnntar4AsOnPAikG8aZu7o38acT1M47
-	Bkfonlfwui4PCOB4ynq0cdcVFnrL/Mi7cdcNWg4A+WLzoPuHRFt+MZzHWhrxJYIv/jMFriM4kMr
-	4SY1sg21kE5UwX49M7xidfJ7dh2c=
-X-Google-Smtp-Source: AGHT+IHNCUb+CWZAHtHj/G+0ndY/4kxGpXCMzxYBx6jjsORnqFOvtSJmEKY8qPDEa9RTAgpqNXz3w7YQiH526a/C1wY=
-X-Received: by 2002:a05:6820:1aca:b0:5d5:b49c:b6f7 with SMTP id
- 006d021491bc7-5d5d0ee9fb0mr11555022eaf.7.1722410333613; Wed, 31 Jul 2024
- 00:18:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722410648; x=1723015448;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4XEkcH/k055fjEkxInfrnU37BtyQRrpfdUKb2KmHLI0=;
+        b=vcvIUd0f+Zgp0uuAt/Agm1jjkdTE7OUYCaDlr1/UKXeK73+YlZiwavWM15gYgxnf66
+         5JOzTCYh5DOrvhWDjXoXAc1NR34TvLyJF+lqV+2XB1yNf4Tx2sxxLhmKKgCCW9l9bMaj
+         Of8LPAj5henwkJf8Jlh72ehAZaC+osiI/OU2OtuxdzY/OmSJseAAIHoagPRs69zKOyrJ
+         H++2sHg2uoOgRGvUfQC1RvPmAV0wZigbAa+/0+NGEVJknZxLZbkcMHjwna+QugUruEpn
+         L5Budg+NZIL9yINIXgXkeBlJ5fpLFUAMJuI+9fM6j7qGZMrF8YQvPZTB6LHJvq4hsNxr
+         DqMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKpqup3G0m3NhThOPI0ISSNqco/VU2mTr6Ze0dpXtbhYRFFYcqfbviQJvr38APUCWELM5i2GV8at+DB0C5ptZdYrOiue+BE2sO
+X-Gm-Message-State: AOJu0Yz9tzby7Vt4/NrdO+L6/q8tzwplbTKzZ37/oSliUB4wJZeV5zyx
+	mXkqDpBDBbOUd4Uq6xBMA31n5kmEaUc4Ua4+f9nEQnVuczrV51JvJkdp9l8k3KQ=
+X-Google-Smtp-Source: AGHT+IFUu/TAKJpoCZRx6pt/JYQm0PBZfuQkxnnENTxesjAVIWWsosjIBVLI4RqCcJMR34ar/hYuOw==
+X-Received: by 2002:a2e:9d87:0:b0:2f0:1bb6:dbce with SMTP id 38308e7fff4ca-2f12ee5af77mr90747341fa.41.1722410647587;
+        Wed, 31 Jul 2024 00:24:07 -0700 (PDT)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282bac614esm10131295e9.24.2024.07.31.00.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 00:24:07 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v4 00/13] Zacas/Zabha support and qspinlocks
+Date: Wed, 31 Jul 2024 09:23:52 +0200
+Message-Id: <20240731072405.197046-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240719041400.3909775-1-dzm91@hust.edu.cn> <20240719041400.3909775-3-dzm91@hust.edu.cn>
- <87o76f98lr.fsf@trenco.lwn.net>
-In-Reply-To: <87o76f98lr.fsf@trenco.lwn.net>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 31 Jul 2024 15:18:27 +0800
-Message-ID: <CAD-N9QVsYGwVOdnnnzUopDk9sr4gOhgjrJFN3muijvuUK7Q6pA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] doc-guide: add help documentation checktransupdate.rst
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, chengziqiu@hust.edu.cn, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 30, 2024 at 5:44=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> For future reference, a sequence like this:
->
-> > +Then the output is something like:
-> > +
-> > +::
-> > +
-> > +    Documentation/dev-tools/kfence.rst
->
-> Can be more concisely and legibly expressed as:
->
-> > Then the output is something like::
-> >
-> >    (literal text here)
->
+This implements [cmp]xchgXX() macros using Zacas and Zabha extensions
+and finally uses those newly introduced macros to add support for
+qspinlocks: note that this implementation of qspinlocks satisfies the
+forward progress guarantee.
 
-Hi jon,
+It also uses Ziccrse to provide the qspinlock implementation.
 
-If I understand correctly, you mean to remove "::", right?
+Thanks to Guo and Leonardo for their work!
 
-If yes, the rendered version looks very strange, e.g, the document -
-Documentation/dev-tools/kfence.rst will be rendered as a file.
+v3: https://lore.kernel.org/linux-riscv/20240717061957.140712-1-alexghiti@rivosinc.com/
+v2: https://lore.kernel.org/linux-riscv/20240626130347.520750-1-alexghiti@rivosinc.com/
+v1: https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@rivosinc.com/
 
+Changes in v4:
+- rename sc_sfx into sc_cas_sfx in _arch_cmpxchg (Drew)
+- cmpxchg() depends on 64BIT (Drew)
+- rename xX register into tX (Drew)
+- cas operations require the old value in rd, make this assignment more explicit
+  as it seems to confuse people (Drew, Andrea)
+- Fix ticket/queued configs build errors (Andrea)
+- riscv_spinlock_init() is only needed for combo spinlocks but implement it
+  anyway to inform of the type of spinlocks used (Andrea)
+- Add RB from Guo
+- Add NONPORTABLE to RISCV_QUEUED_SPINLOCKS (Samuel)
+- Add a link to Guo's qspinlocks results on the sophgo platform
+- Reorder ZICCRSE (Samuel)
+- Use riscv_has_extention_unlikely() instead of direct asm goto, which is way
+  cleaner and fixes the llvm 16 bug
+- add dependency on RISCV_ALTERNATIVES in kconfig
+- Rebase on top of 6.11, add patches to fix header circular dependency and
+  to fix build_bug()
 
-> More importantly, though, this file:
->
-> > diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentati=
-on/doc-guide/checktransupdate.rst
-> > new file mode 100644
-> > index 000000000000..dabbf9ecd187
-> > --- /dev/null
-> > +++ b/Documentation/doc-guide/checktransupdate.rst
-> > @@ -0,0 +1,53 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Check translation update
-> > +
-> > +This script helps track the translation status of the documentation in
-> > +different locales, i.e., whether the documentation is up-to-date with
-> > +the English counterpart.
->
-> ...lacks a title, so it renders strangely and inserts inscrutable stuff
-> into the doc-guide index.  I have fixed this, but I am not entirely
-> happy about that; this is a problem you should have seen immediately by
-> looking at the rendered version of your new document.  *Please* be a bit
-> more careful in the future.
->
-> Both patches applied, anyway.
->
-> jon
->
+Changes in v3:
+- Fix patch 4 to restrict the optimization to fully ordered AMO (Andrea)
+- Move RISCV_ISA_EXT_ZABHA definition to patch 4 (Andrea)
+- !Zacas at build time => no CAS from Zabha too (Andrea)
+- drop patch 7 "riscv: Improve amoswap.X use in xchg()" (Andrea)
+- Switch lr/sc and cas order (Guo)
+- Combo spinlocks do not depend on Zabha
+- Add a Kconfig for ticket/queued/combo (Guo)
+- Use Ziccrse (Guo)
+
+Changes in v2:
+- Add patch for Zabha dtbinding (Conor)
+- Fix cmpxchg128() build warnings missed in v1
+- Make arch_cmpxchg128() fully ordered
+- Improve Kconfig help texts for both extensions (Conor)
+- Fix Makefile dependencies by requiring TOOLCHAIN_HAS_XXX (Nathan)
+- Fix compilation errors when the toolchain does not support the
+  extensions (Nathan)
+- Fix C23 warnings about label at the end of coumpound statements (Nathan)
+- Fix Zabha and !Zacas configurations (Andrea)
+- Add COMBO spinlocks (Guo)
+- Improve amocas fully ordered operations by using .aqrl semantics and
+  removing the fence rw, rw (Andrea)
+- Rebase on top "riscv: Fix fully ordered LR/SC xchg[8|16]() implementations"
+- Add ARCH_WEAK_RELEASE_ACQUIRE (Andrea)
+- Remove the extension version in march for LLVM since it is only required
+  for experimental extensions (Nathan)
+- Fix cmpxchg128() implementation by adding both registers of a pair
+  in the list of input/output operands
+
+Alexandre Ghiti (11):
+  riscv: Move cpufeature.h macros into their own header
+  riscv: Do not fail to build on byte/halfword operations with Zawrs
+  riscv: Implement cmpxchg32/64() using Zacas
+  dt-bindings: riscv: Add Zabha ISA extension description
+  riscv: Implement cmpxchg8/16() using Zabha
+  riscv: Improve zacas fully-ordered cmpxchg()
+  riscv: Implement arch_cmpxchg128() using Zacas
+  riscv: Implement xchg8/16() using Zabha
+  riscv: Add ISA extension parsing for Ziccrse
+  dt-bindings: riscv: Add Ziccrse ISA extension description
+  riscv: Add qspinlock support
+
+Guo Ren (2):
+  asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
+  asm-generic: ticket-lock: Add separate ticket-lock.h
+
+ .../devicetree/bindings/riscv/extensions.yaml |  12 +
+ .../locking/queued-spinlocks/arch-support.txt |   2 +-
+ arch/riscv/Kconfig                            |  64 +++++
+ arch/riscv/Makefile                           |   6 +
+ arch/riscv/include/asm/Kbuild                 |   4 +-
+ arch/riscv/include/asm/cmpxchg.h              | 264 ++++++++++++------
+ arch/riscv/include/asm/cpufeature-macros.h    |  66 +++++
+ arch/riscv/include/asm/cpufeature.h           |  56 +---
+ arch/riscv/include/asm/hwcap.h                |   2 +
+ arch/riscv/include/asm/spinlock.h             |  43 +++
+ arch/riscv/kernel/cpufeature.c                |   2 +
+ arch/riscv/kernel/setup.c                     |  38 +++
+ include/asm-generic/qspinlock.h               |   2 +
+ include/asm-generic/spinlock.h                |  87 +-----
+ include/asm-generic/spinlock_types.h          |  12 +-
+ include/asm-generic/ticket_spinlock.h         | 105 +++++++
+ 16 files changed, 533 insertions(+), 232 deletions(-)
+ create mode 100644 arch/riscv/include/asm/cpufeature-macros.h
+ create mode 100644 arch/riscv/include/asm/spinlock.h
+ create mode 100644 include/asm-generic/ticket_spinlock.h
+
+-- 
+2.39.2
+
