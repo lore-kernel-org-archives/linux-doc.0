@@ -1,159 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B80FBF6
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B09C7FD;
+	Wed, 31 Jul 2024 00:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722384043; cv=none; b=QzZrd9adCtGSAoyL8kyDlaIOaEGlC3AtBC+s995xInjCHsy9ZlyHNAeckTmD77GU4pyVYbviOCiro5LRDTc0LPoPBGwoFSfqYZMZPVUzLREHNT9RLOsTHheRrTKaKHyJJVg3QogU6V9e8Ib4rnjxFqHjznXuP8gIVH+xJVqFziU=
+	t=1722384310; cv=none; b=DleqnxhYRsQ2224JPNh06yc/PFvPPbXZq9j8as5wfGuYPn4GbTJnxxiuS1xU3xcUY+qT9Q5Wq+Ke3S0s6TtaW6m8mCUZpcOigEPowEmkBQTMCWQg4f5EFCDS52PGkhcn1eOCpDbne+n+02FOWxUqLdtrQeIPs93JzbumPc+S8JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722384043; c=relaxed/simple;
-	bh=dPtgxEF39y7tufQdF+g0puYtqRlVBHzeN+kaxzB5Bdg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uo2AlxGS8VyO+zJCrGu0GKBY/eYDDYAkxLvRSekBaysZ1HlY+RM8QCdbiUd7uiE7QZLeudcyFgYSUbZd4KwbhH10DEluNW6FC50odZtUbfUbI+kA4zTMqEtqd+jPRG4NN3hygF3otgIUrG2pEQtDGomIl6Mi7e/jjgPEAfDIVKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AiDr/d8d; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722384310; c=relaxed/simple;
+	bh=/lIIeNoHyasDW8eVa8mloH62NADC/12tw0iVP9lb8oQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rUW7Z2ADlnblrTwH44g+Xw8aGY5bxFFUkoDO3pwbyj/vbfVBrHW4yDyt4XxNzx9myoWLLd5PS0WwgnCe59ai4ZBEnSc5pOym1zlxjV9gLPcfItFex4xOzhOz/MzDSfQhwAde04LLDrqvhIiOrKSWyuj4N7GAIUwzu3UYxY/CD+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpbLC2Dk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AiDr/d8d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722384040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DqY5AwvBWg4EHFX8v7m/gB2IpLCYEyw1Y9QmtLSSf7M=;
-	b=AiDr/d8de7dUI4q0PshglFBG0QCAIjqFcnfgY1LqXrSpLfHdhxFZdKWPSdCogGN+S2tqQT
-	RxYzQYsnMNKqW6hi5ArhbhvfjKyM44K8wpdMWT5mvK2WQvG/h6rkbRmnYvdLGe+ON2m9IP
-	Ok7L7aWoruI6wmardgXpI2q6KLcio0A=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-352-x-8CEpv0MEuYKfg9aXRM7w-1; Tue,
- 30 Jul 2024 20:00:34 -0400
-X-MC-Unique: x-8CEpv0MEuYKfg9aXRM7w-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1E4841955D48;
-	Wed, 31 Jul 2024 00:00:28 +0000 (UTC)
-Received: from [10.22.16.52] (unknown [10.22.16.52])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 80331300018D;
-	Wed, 31 Jul 2024 00:00:25 +0000 (UTC)
-Message-ID: <5ea8f4f4-14f7-4df2-b0a2-cae5d6697dc6@redhat.com>
-Date: Tue, 30 Jul 2024 20:00:24 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpbLC2Dk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30146C32782;
+	Wed, 31 Jul 2024 00:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722384309;
+	bh=/lIIeNoHyasDW8eVa8mloH62NADC/12tw0iVP9lb8oQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YpbLC2DkPkdlxNQ3CyWVzOCyU0qqir8qddA0+YlLv+8V67g/AQoc48q+PyAFpDzxn
+	 if4+n7GTeCAJhzm2cM+Ha5MdKuX2qe7Kew2dULqkrTA50ftLBgjLmBmAJjTETmTAUQ
+	 MxB/w3juFkZABJvUQ5XN0XWJBMqOAnRkdHXW3XodS/0gYhPXbcIXXIu9+bbbzeZ2eA
+	 Pk8r9zmxkzbEshihcHApjjt7FQ8a1iZB5W/OJ/osEJcMAoH/PzwUIW4lEOBfA6MaBw
+	 OAC5nR+02Ki/fJ7q/nvnhY3/ZV0DdEaa3cB6v3fGeXUsQHs4VLSiIV+iGC/N7PXPHI
+	 Cieba4OL40Gag==
+Date: Wed, 31 Jul 2024 01:04:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+	corbet@lwn.net, marcelo.schmitt1@gmail.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/7] Add support for AD4000 series of ADCs
+Message-ID: <a76c50b6-b1a4-4e99-b353-51ee3454ef0e@sirena.org.uk>
+References: <cover.1720810545.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-To: Tejun Heo <tj@kernel.org>
-Cc: Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Kamalesh Babulal <kamalesh.babulal@oracle.com>
-References: <20240715150034.2583772-1-longman@redhat.com>
- <ZpVcxlx1VR3FaoYI@google.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <ZpVcxlx1VR3FaoYI@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Arvazn/Tx4fbX1Zo"
+Content-Disposition: inline
+In-Reply-To: <cover.1720810545.git.marcelo.schmitt@analog.com>
+X-Cookie: May all your PUSHes be POPped.
 
 
-On 7/15/24 13:30, Roman Gushchin wrote:
-> On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
->> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
->> help manage different structures in various cgroup subsystems by being
->> an embedded element inside a larger structure like cpuset or mem_cgroup.
->>
->> The /proc/cgroups file shows the number of cgroups for each of the
->> subsystems.  With cgroup v1, the number of CSSes is the same as the
->> number of cgroups.  That is not the case anymore with cgroup v2. The
->> /proc/cgroups file cannot show the actual number of CSSes for the
->> subsystems that are bound to cgroup v2.
->>
->> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
->> we can't tell by looking at /proc/cgroups which cgroup subsystems may
->> be responsible.
->>
->> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
->> cgroup.stat file is now being extended to show the number of live and
->> dying CSSes associated with all the non-inhibited cgroup subsystems that
->> have been bound to cgroup v2. The number includes CSSes in the current
->> cgroup as well as in all the descendants underneath it.  This will help
->> us pinpoint which subsystems are responsible for the increasing number
->> of dying (nr_dying_descendants) cgroups.
->>
->> The CSSes dying counts are stored in the cgroup structure itself
->> instead of inside the CSS as suggested by Johannes. This will allow
->> us to accurately track dying counts of cgroup subsystems that have
->> recently been disabled in a cgroup. It is now possible that a zero
->> subsystem number is coupled with a non-zero dying subsystem number.
->>
->> The cgroup-v2.rst file is updated to discuss this new behavior.
->>
->> With this patch applied, a sample output from root cgroup.stat file
->> was shown below.
->>
->> 	nr_descendants 56
->> 	nr_subsys_cpuset 1
->> 	nr_subsys_cpu 43
->> 	nr_subsys_io 43
->> 	nr_subsys_memory 56
->> 	nr_subsys_perf_event 57
->> 	nr_subsys_hugetlb 1
->> 	nr_subsys_pids 56
->> 	nr_subsys_rdma 1
->> 	nr_subsys_misc 1
->> 	nr_dying_descendants 30
->> 	nr_dying_subsys_cpuset 0
->> 	nr_dying_subsys_cpu 0
->> 	nr_dying_subsys_io 0
->> 	nr_dying_subsys_memory 30
->> 	nr_dying_subsys_perf_event 0
->> 	nr_dying_subsys_hugetlb 0
->> 	nr_dying_subsys_pids 0
->> 	nr_dying_subsys_rdma 0
->> 	nr_dying_subsys_misc 0
->>
->> Another sample output from system.slice/cgroup.stat was:
->>
->> 	nr_descendants 34
->> 	nr_subsys_cpuset 0
->> 	nr_subsys_cpu 32
->> 	nr_subsys_io 32
->> 	nr_subsys_memory 34
->> 	nr_subsys_perf_event 35
->> 	nr_subsys_hugetlb 0
->> 	nr_subsys_pids 34
->> 	nr_subsys_rdma 0
->> 	nr_subsys_misc 0
->> 	nr_dying_descendants 30
->> 	nr_dying_subsys_cpuset 0
->> 	nr_dying_subsys_cpu 0
->> 	nr_dying_subsys_io 0
->> 	nr_dying_subsys_memory 30
->> 	nr_dying_subsys_perf_event 0
->> 	nr_dying_subsys_hugetlb 0
->> 	nr_dying_subsys_pids 0
->> 	nr_dying_subsys_rdma 0
->> 	nr_dying_subsys_misc 0
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
-> Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
+--Arvazn/Tx4fbX1Zo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Tejun, is this patch ready to be merged or do you have other suggestion 
-you have in mind?
+On Fri, Jul 12, 2024 at 04:20:00PM -0300, Marcelo Schmitt wrote:
+> This patch series extends the SPI bitbang, gpio, and spi-engine controllers to
+> support configurable MOSI line idle states.
 
-Thanks,
-Longman
+The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
 
+  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git tags/spi-mosi-config
+
+for you to fetch changes up to 96472f18a4affdaff5013a836c48375f1eddb4a4:
+
+  dt-bindings: iio: adc: Add AD4000 (2024-07-29 01:19:55 +0100)
+
+----------------------------------------------------------------
+spi: Support MOSI idle configuration
+
+Add support for configuring the idle state of the MOSI signal in
+controllers.
+
+----------------------------------------------------------------
+Marcelo Schmitt (5):
+      spi: Enable controllers to extend the SPI protocol with MOSI idle configuration
+      spi: bitbang: Implement support for MOSI idle state configuration
+      spi: spi-gpio: Add support for MOSI idle state configuration
+      spi: spi-axi-spi-engine: Add support for MOSI idle configuration
+      dt-bindings: iio: adc: Add AD4000
+
+ .../devicetree/bindings/iio/adc/adi,ad4000.yaml    | 197 +++++++++++++++++++++
+ Documentation/spi/spi-summary.rst                  |  83 +++++++++
+ MAINTAINERS                                        |   7 +
+ drivers/spi/spi-axi-spi-engine.c                   |  15 +-
+ drivers/spi/spi-bitbang.c                          |  24 +++
+ drivers/spi/spi-gpio.c                             |  12 +-
+ drivers/spi/spi.c                                  |   6 +
+ include/linux/spi/spi_bitbang.h                    |   1 +
+ include/uapi/linux/spi/spi.h                       |   5 +-
+ 9 files changed, 344 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ad4000.yaml
+
+--Arvazn/Tx4fbX1Zo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmapf6UACgkQJNaLcl1U
+h9AiwQf/XcIk98YDz7GB9SR622tsKCJ2y0tmd2LudEfcjtQiRohCQdCwiuz+NXBS
+91FYydVEhAwxKN6hnZTxtbyJzojW0/BJIPrumlZnmAyK6C29fP8PRg7TblEYjWxt
+0tjWZ/7G6IWR3D6lpBKkyeSxuYrfmrJyaU2Fd9X1+LDeqkU0JwuhUAheXsExHlBM
+u+eECotMLQS2OS8/dsHy5ykuURF4pF3rrQ//luefyqiyqKXR53jXChduQximqJ6o
+uUgWTzcBulW87+3JmBmamPL6/9rUCy6lai6rzjCiNS7735LeaGjUJtC1TDOpcnJb
+AETnGo6zbOwwiR4fMjtILzCRqaJQiA==
+=EV5D
+-----END PGP SIGNATURE-----
+
+--Arvazn/Tx4fbX1Zo--
