@@ -1,120 +1,120 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28962A41;
-	Wed, 31 Jul 2024 00:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA33DA41;
+	Wed, 31 Jul 2024 00:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722384970; cv=none; b=gqUfGknv+h4kGY0Z8OvE9e8nZvBWvDF6WueRxQzndE6EbneHG3bdjCVN7lCoFAbHVa+wXgD+TQ5KR/cXJk9pH/+VkXUK9ZnO4tm/NKdK7w1n3JY+6eNgviMIdw/KDVr6+TahyNDyL8/pYNqylNFJa2kkpXovJAz+AUJK+I+IEMw=
+	t=1722385321; cv=none; b=ctlkx0qBOEARTRAVUW7SxZmtDJdtnjU62+VCQo45NBOisYLFWsWi8HKCSIsi1SJcOVM6pnAj6WYsuMdbMdfTkRYK4KKVeLORXxHbjCeL4KXNwWr/ger7rJakeuE3yGA8EApqNiHHEJccVt6hb67eB3cwXLd5Ltmgh+RGiYv+Ocw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722384970; c=relaxed/simple;
-	bh=IgqLaxo/OHEm/D75VDf/y0x0DQoL9NGxFSzNrXGPcEY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZGTpakr4hC0E6psKUoQYj9T701ulA0zBV+VOML2zBFgy4NErCXU8KI1BoORfQF3j6fUoBYRVojRwxwXeKiRXyKi91HU1VGJBGjxermR/9l8DfLR9nAM411lTs+mrYuRUIqpgU/Q0ynTow4aK7PAy2H+7Lw/eVsWPVlQ1yVGDoO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=McuzqeQq; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1722385321; c=relaxed/simple;
+	bh=Be7IDsaltHpOt9duyrEi4EFaUTA1FF7S9nmfFfk6XqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAdWBmP/jRZHtltgt83z0gWG6KPuP+2FobHAwFbxcQtoOVeQWdKtwcQovM5Dx2yX/iqRHoORTNxnlBNGV5NysYSw0CV6uwx6GcQ3bONVev3n+S7ZKhhdUStIfj0ewpx8NWfoGoPaYOghr79+TzMDRGH78v1PcYDvHvlh7PGjFhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dl9J8SP8; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="McuzqeQq"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6519528f44fso36907407b3.1;
-        Tue, 30 Jul 2024 17:16:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dl9J8SP8"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-260e5b2dfb5so3403720fac.3;
+        Tue, 30 Jul 2024 17:21:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722384968; x=1722989768; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WwdnCsCQMNgwGC4xpVHvPeVi+xBLWUp6NbXom0FK2po=;
-        b=McuzqeQqBX3QBxnMbU+7CllPvhvbVW406a8a6DUYWUnyFjk1NX+QshE4qnPihHZkGN
-         yQSiPRFy7lzzMpFEU3H08dKOdFjyqiRi0vwnMETWzvQ9nkpuQL8Z7nLYl1fNc6R/u+dH
-         K8T63zlPJuLW5g4FqxlpMtAICwha4JAYcyjX2/1/LJBLbbnBNH+aSCDY9zTLlIjVSB57
-         jGJzfqSQzqErwSAVijCnGzOIeA21FctzKHWRLSL2V7VgHXQfKOMwAf3ry8pDUwitKFiG
-         PKM0esw/IgVgSLjFwk0TBK4uX5YZvH/Xl+tjSvt47gIfaiKHMuhpREC4Pa0tDlAfcTqM
-         yHTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722384968; x=1722989768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1722385319; x=1722990119; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WwdnCsCQMNgwGC4xpVHvPeVi+xBLWUp6NbXom0FK2po=;
-        b=eyoL+/qfzjJZEyoGLpkmMyEU1pEvGPp2gu1nfU6GhtxK2ZRfi74EfnUX6Gpo8FiAE3
-         E6IcIQeG581H9cd7NBRQhZXQFDTBE0kkbwQBQOBy10hhBeEzu7PztrIQ2Q23sLnW1+c+
-         O+1F6ZmoqWBx9CCSQ5IfDXb2sD3BNRPHPSEQuxqS7srsHwd3sUI97L5ETcvkgJYg81th
-         I0JrLEP/YgXIMXyt9EqLpJaPfOpU0DIh4Wlydz3uBXhArFOWR1/o1VwihNn5h7IyijAo
-         N0hQtqPNHCzPZl+TRXdRZj4zxW5NdZVBjfUv5ONEJPLl3Xg3IkdC8RdW2zjHm9n6A41Q
-         8ulQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXsmbZNv4ejK6uTbLJwadOJ4Tb/r6lPwOO8bctkKl++5NWvcjglUeg+Opf7oqf9xv3vWtZaLcjZSCJDoMDKRsLmW6pwyTYmB3wiy1ENGbYjXP61ZdESfSuo4FBrNNH2oXaTRK3b5evXHG+nMrQsqw==
-X-Gm-Message-State: AOJu0YxIeT/VX9/8mBmV5/0ApSJSWKL1BaqkONVOJvCST6VqnpZjh7fq
-	kehWo5WNpSEAzcbEZx71AaKgUA9zzqPaOBB1L2acJnYmSANeMO7E
-X-Google-Smtp-Source: AGHT+IGxDCZIaBjQmG19x/rKvVdHhTyCGMhA3BdgvEkyguTA/p6nT7eLwvjd542OAvXKDGX+06G6uQ==
-X-Received: by 2002:a81:a20d:0:b0:62f:aaaa:187a with SMTP id 00721157ae682-67a0672bd91mr138831297b3.14.1722384968043;
-        Tue, 30 Jul 2024 17:16:08 -0700 (PDT)
-Received: from x13.lan (2603-9001-2ff0-a230-0000-0000-0000-1896.inf6.spectrum.com. [2603:9001:2ff0:a230::1896])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6756b303ec6sm27468397b3.81.2024.07.30.17.16.07
+        bh=zv44PSmRmGyba/q7aqW6v9CZMieeVvkEwzEJWnLLESM=;
+        b=Dl9J8SP8M+Gdmj7lDr71rx9wIVzPLH+V5n3d6b6ZDKgQkU24272Z2ZVQAvXUYYDcP0
+         T2qKOFB9qzGQA9/kMSRAmqyWjn9eEdwKo2D9BycpUhqFHliRvs/SPFBDcPf4i9hDXdH2
+         zypDHsYVETT0bhuSstMSo3zrJw7XYG1X5vgOrnbbQ2YOk6/s+yqFwypwoHfAMib2eavx
+         oALz3StQseeEstgc86KzUzlhEmqfNu3cBy1G+M+ID2YjC+N1HXDTUlHm+vX0/NjAhI8k
+         b4OTrWfEa3F3NEtnhSiYE0+1nE0T/K69A5SntJR44bNaImeQwgrM9dmo5e/6n7JOWtNb
+         x2rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722385319; x=1722990119;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zv44PSmRmGyba/q7aqW6v9CZMieeVvkEwzEJWnLLESM=;
+        b=CXJP/OmLi2YPlYE0LUUD1Hi1szQgKg6+6agh+UrgvIKiaDlGLqBlvDYusMZXeeFmgz
+         x9RbibY9qkGCzRyvI5MJSbBR+kaYhkKoX7iDCHNWjKSwnbVrViKUeNNHEu3pzRJQXzBg
+         Jl10zNlnzQuurQjFUqPSe2Ye+2CQwBxRRoRAjSOqyoPSzwMl2aNR/cVDN+uOBhVrO41c
+         MziW+SUe2VyKsfWmYjKA/+ZwvSCJMQRGg0Z/IzEOgdAk2g9sBVxOegWU4mH2fn/ieI3Q
+         ac1wpwAwzX+WTpzKrUgedFi26fdh27bqOa1HyQsmXbA54kZ6cZ/oLSpJwTXI4/M1pqgn
+         ap/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX5CtstFfImaXDt7uV5dZoUlKnyGDNxUWsATJReSDmkleDdJ/1DAquyCb2mY7YOmnvh86+Te24GMClb3kdZyJYZsV76DKHR1TsP+b8pS19+Zo/NicOcPICmDyUAVUjHwX08aIBZwOGLb8qy+9bp6G2076rM6cSkhAjfXwPQnD3/uQ==
+X-Gm-Message-State: AOJu0YwtqZzbD8tVZNgL3Lup+zs1xwSBtDNJLtTzqM1BjhvxmLHmlgXD
+	XBWX3LeNtN3NjR6Pt3OHPGIP5Pomc00Ec4xj7ahCDmmsa7OLn6S9
+X-Google-Smtp-Source: AGHT+IECKNlAjXtfcAK0zmXQoFMslDGFB+xQk5ohSw3tBFUqgfYx07tAWgxn0a3I0E9wCntSi6E+Og==
+X-Received: by 2002:a05:6870:b28c:b0:260:fdda:5068 with SMTP id 586e51a60fabf-267d4cfe2a2mr14910412fac.4.1722385318809;
+        Tue, 30 Jul 2024 17:21:58 -0700 (PDT)
+Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead816722sm8987381b3a.106.2024.07.30.17.21.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 17:16:07 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: W_Armin@gmx.de,
-	corbet@lwn.net
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH v3] platform/x86: msi-wmi-platform: Fix spelling mistakes
-Date: Tue, 30 Jul 2024 20:15:59 -0400
-Message-ID: <20240731001602.259338-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        Tue, 30 Jul 2024 17:21:58 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Tue, 30 Jul 2024 14:21:56 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
+ cgroup.stat
+Message-ID: <ZqmDpLTm6tKhAmYv@slm.duckdns.org>
+References: <20240715150034.2583772-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715150034.2583772-1-longman@redhat.com>
 
-There were a few instances of typos that lead could to confusion
-when reading. The following words have been corrected:
-Binay -> Binary
-singe -> single
-chaged -> changed
+On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
+> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
+> help manage different structures in various cgroup subsystems by being
+> an embedded element inside a larger structure like cpuset or mem_cgroup.
+> 
+> The /proc/cgroups file shows the number of cgroups for each of the
+> subsystems.  With cgroup v1, the number of CSSes is the same as the
+> number of cgroups.  That is not the case anymore with cgroup v2. The
+> /proc/cgroups file cannot show the actual number of CSSes for the
+> subsystems that are bound to cgroup v2.
+> 
+> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
+> we can't tell by looking at /proc/cgroups which cgroup subsystems may
+> be responsible.
+> 
+> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
+> cgroup.stat file is now being extended to show the number of live and
+> dying CSSes associated with all the non-inhibited cgroup subsystems that
+> have been bound to cgroup v2. The number includes CSSes in the current
+> cgroup as well as in all the descendants underneath it.  This will help
+> us pinpoint which subsystems are responsible for the increasing number
+> of dying (nr_dying_descendants) cgroups.
+> 
+> The CSSes dying counts are stored in the cgroup structure itself
+> instead of inside the CSS as suggested by Johannes. This will allow
+> us to accurately track dying counts of cgroup subsystems that have
+> recently been disabled in a cgroup. It is now possible that a zero
+> subsystem number is coupled with a non-zero dying subsystem number.
+> 
+> The cgroup-v2.rst file is updated to discuss this new behavior.
+> 
+> With this patch applied, a sample output from root cgroup.stat file
+> was shown below.
+...
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
----
-Changes in v3:
-- Address review feedback regarding subject line 
-- Link to v2 https://lore.kernel.org/all/20240729223649.135639-1-luis.hernandez093@gmail.com/
-- Addres review feedback regarding empty commit message body
-- Link to v1 https://lore.kernel.org/all/20240729164721.125708-1-luis.hernandez093@gmail.com/
----
- Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied to cgroup/for-6.12.
 
-diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentation/wmi/devices/msi-wmi-platform.rst
-index 29b1b2e6d42c..31a136942892 100644
---- a/Documentation/wmi/devices/msi-wmi-platform.rst
-+++ b/Documentation/wmi/devices/msi-wmi-platform.rst
-@@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
- 
- Due to a peculiarity in how Windows handles the ``CreateByteField()`` ACPI operator (errors only
- happen when a invalid byte field is ultimately accessed), all methods require a 32 byte input
--buffer, even if the Binay MOF says otherwise.
-+buffer, even if the Binary MOF says otherwise.
- 
- The input buffer contains a single byte to select the subfeature to be accessed and 31 bytes of
- input data, the meaning of which depends on the subfeature being accessed.
- 
--The output buffer contains a singe byte which signals success or failure (``0x00`` on failure)
-+The output buffer contains a single byte which signals success or failure (``0x00`` on failure)
- and 31 bytes of output data, the meaning if which depends on the subfeature being accessed.
- 
- WMI method Get_EC()
-@@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller firmware version string.
- The first 4 bits of the flag byte contain the minor version of the embedded controller interface,
- with the next 2 bits containing the major version of the embedded controller interface.
- 
--The 7th bit signals if the embedded controller page chaged (exact meaning is unknown), and the
-+The 7th bit signals if the embedded controller page changed (exact meaning is unknown), and the
- last bit signals if the platform is a Tigerlake platform.
- 
- The MSI software seems to only use this interface when the last bit is set.
+Thanks.
+
 -- 
-2.45.2
-
+tejun
