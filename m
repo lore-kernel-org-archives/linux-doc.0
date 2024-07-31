@@ -1,341 +1,221 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52281A7204
-	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 07:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722411448; cv=none; b=NziyhSYOL8RHPVpenAKX680BVcB7Fk5hzVpxBXbCqCPEe/T4DH+GKWmjj1XGIYsXRLiXVeKCpOmFpnX7GCU/cuvzo8oh79cmIkvFGJixIfIKGUSNprw/P7CIzJT9ZNzDoQ7yEgEIXAAFdMKgFKR+hqYJxU5UhaqROdg1PPDUVfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722411448; c=relaxed/simple;
-	bh=6jucAYChW0+U9O7SN+Bejk6YV9NZvLCpdbBmKRpfWvU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HfPo7YIuMLAS37vSGRhzWoQxGUjkh4I7Nz2rVA3o70+EtlBSo5yLPRAE4shxLFQtxTkcNaWkcTUWZjq7M0K8uPOPQCourxphasQIsDobRG2ntlYpOFY5rCO+A4u4rDq5wXUA6eDa2+DsoGdIimGzXTjk2EPcgUH81qFbOG+or8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=fSzcdUJr; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285D7446A2;
+	Wed, 31 Jul 2024 07:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722411716; cv=fail; b=uznQYx+xz1zEC97juiOajwa9ItTunN+KTbYAuLIP+krfYDmH8qn0PcMGFjypG3LimMO0hl9xP6MxMF5IVIFCO/eEf93cgvq2CCHA5UOT60WXputsGFuza4ifjolx15U4EJPd6P7dAXh2J9QZEmnwgeE5hgCM9ER8FqSvQ4L+3zo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722411716; c=relaxed/simple;
+	bh=Qn+yqNLGBV6ux2rzGRfC73viPCQewjaV4eYbNZXnguw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tmnASnhqEAB4JEiFwRvk6X0ErXVPBIdMCclQ1GXMDttoXNjMi3IUaLtI0Rfvnaq5RDZvathwyN+PFYwi6QoMWv6YQhMn6Zsv7dbxQKO65EdHuGVL+cxx/ieJSFtNXr1vBw+ngfJszB3mwjbk5rKMHFK0On6k+zX5ocMjGNKvw2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQweXZqD; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="fSzcdUJr"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4281e3b2f72so25060915e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 00:37:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722411444; x=1723016244; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IuzTs5i1Aydmrp9OuDhDQYyZMjhUNqn9zGoqbFH2HN0=;
-        b=fSzcdUJrv+a3tpIqD5knBvYl9l2uARODjj3zhPJEr0qy6560ammatkM2zDB+TNccFm
-         TWrh/4Ff2l7CkfoSmvfTpqA1a74CZAinmDP0xln5ijH+eBa/pYSCV4gfZMCg9XO8W91i
-         t1evOo+50Geg0MNGSe382uIh8MrCmyZkMUS/vc5/FjubAqEyeOQ0pT3T2jZcFF+e7yYR
-         GEKry3tt9LwAOyzhZKJdjIn4UNPOoAjK+YSgzqZPicO3DOv1R/HkJYD00hLOx47fm/F3
-         S3zRC6kGtp1ZIqAOGno1Ud+SxALEzZelQHCp9PDjsaYrfatkF1usasLPWwBTxsiTVWzi
-         XcVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722411444; x=1723016244;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IuzTs5i1Aydmrp9OuDhDQYyZMjhUNqn9zGoqbFH2HN0=;
-        b=veZ0GhSTd7TIq0tLtjEJE4gIImj0E8xKKJGDx79s/PNWmb6PZbYNILqT1elwQOYIJH
-         EXrgzJscR5SwduOt5Yz+sJuz3f6YvH+oskD7L3ckme6zBfKyrS+QqvIy4f4i0Wy/BMTm
-         ByEwOySCwj1bP1vzPPG3dZlO7xIr4c8/XSeyXwL25BJIEAk9ZIatyGAAUETINMhBifyz
-         iB0TiF8v/n67/TKGish+4pyfa/Qiz+uX5H1dwGaEnSVMwjjvZlVzvDcnuz8xPZFUJY9U
-         jRk4V6sY/nLOko+FcNc77Y9SA+EGjfMT3Iy4D7GS/DQcBjFiB8MB/CpgLBk+nB6wyqN9
-         TMOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWSbk3kjCLy6FTFGgAro/tDsAIYw2tas8m8XjZzB0WCfMeAjI70Krgg7JkKQZ1TvyDQYBWpJkPzJ2pCII6ylJjzGDf7VKiADe57
-X-Gm-Message-State: AOJu0Yzpa5/d9RIBmffyKVm/0wnRQQHOlgpK/1k8fRqOWWrlmoH9BiIA
-	CPThXiI1FlFxYdbX3UMx4ZaL3Gxxr1X6ZMvXXCYH4RKQdI6IhUFh0oWIMhndYWo=
-X-Google-Smtp-Source: AGHT+IFmxRjofwufvv+5ZesOhaxyTIL2IhSq0e317HP/ein1RfvIfnjlhNGswng/psJn1bIEYGSz1g==
-X-Received: by 2002:a05:600c:468d:b0:426:6153:5318 with SMTP id 5b1f17b1804b1-42811d9e0e7mr87431975e9.19.1722411444271;
-        Wed, 31 Jul 2024 00:37:24 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367e51f0sm16343005f8f.46.2024.07.31.00.37.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 00:37:24 -0700 (PDT)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v4 13/13] riscv: Add qspinlock support
-Date: Wed, 31 Jul 2024 09:24:05 +0200
-Message-Id: <20240731072405.197046-14-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240731072405.197046-1-alexghiti@rivosinc.com>
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQweXZqD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722411714; x=1753947714;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Qn+yqNLGBV6ux2rzGRfC73viPCQewjaV4eYbNZXnguw=;
+  b=lQweXZqDU9ZkftF07kZYZDYV1rr1TlGjuli5zRhILkKjz2Q/k9vGXtji
+   cvNwBUVsiZNX8dWMLD9fS20sg/HKRznXF69ruBHTjiZa3yMovP0PsgTWe
+   h1d6/JPLX3PxR+aYsysda10vn+yBRJpQkpdWJUarm3TilTRMLdqRgHpvb
+   iMQ8/Y6xibEhoFJeuVuywxzBKO3N7awvps4Vzw0QAQIEK5gOh8QeU738r
+   qorsWa8g4BLXw2z7Z4CB4RBRGedWH8R7g1JiQRiXtvu1dbNoMcyrnj+A/
+   j5/IKGgHcs8tfD9zNJ8XzHLbIAqk00JUzZUzAPsr0QPOag5CWRK5Nepqy
+   g==;
+X-CSE-ConnectionGUID: oAfGZ/Z6TNefTNY2bAwJgw==
+X-CSE-MsgGUID: amo4Tl3kR6m2mK0IRGvBmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20117557"
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="20117557"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 00:41:53 -0700
+X-CSE-ConnectionGUID: 4eVNqMWhQd6/pVr9ZbxZ/Q==
+X-CSE-MsgGUID: dwc0rEDFTqGj/tbV/DIISA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="59675716"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Jul 2024 00:41:53 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 31 Jul 2024 00:41:52 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 31 Jul 2024 00:41:52 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 31 Jul 2024 00:41:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jd+qHA56f7ipCBGUrjwjVqpl9Tl1ZLzb/TpbLtqunYMs7vsYzx64PLRd0LSltlsEKNjZdFiVEQeSq+Qo4/BWpuiC8diCPLXUNQmVC8V5wknTjuvgs93L//kp3Xn2enuiZKH8Wrnz5GTWJOgyb6sQ5iVJCzG8uF/QeJC9DXDQskc9uBQsnf+2cefh7x+mF211EpX1VNrD5iaiD+vTAiyVoxwe96hNnBeNNLjTPKad4LP1bf8+Iiha16e+Hs/dn0bSp5J8dBs0EzFOg7Yrj5A31eOMhgsJhp7YRfCBLzBDyxKcygpaGUn6lDhMtFGalBEHbVkkiYQoQ0IoTJ/5H6lHZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qn+yqNLGBV6ux2rzGRfC73viPCQewjaV4eYbNZXnguw=;
+ b=KPqZVhfLl3jRRu7yT7CcXW6EDN7gp3VNk2acLq7w9zEkVN59O499A1cHruq09QRYAiAYH4oHgKMEnMC12Owm4vlKc1nxbh4ZqyMy5XHTOE9wN8H9yDcoV3o1GRC7xZiUxzRDfqduX7m/NXH8Jf8WNMIBPCNtjz9gZuwMFQb/w4/TsxiiFeIo0JNS+c6nvoT4VD9UdwJq9NcKfrAjbKxdO6CL3T6VCv+C0RmsMZpRpjmd6HqvVI/aT0kS4S8GOEdUryZGCfUqylCIVpIfmcPHVpyYCy1AccV1Wt+umvxWz7AN9xpI7S/CgSq2lkdo/iTcJXO3wKYHqpjosFRrq7Yseg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH0PR11MB5830.namprd11.prod.outlook.com (2603:10b6:510:129::20)
+ by SN7PR11MB7437.namprd11.prod.outlook.com (2603:10b6:806:348::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 31 Jul
+ 2024 07:40:30 +0000
+Received: from PH0PR11MB5830.namprd11.prod.outlook.com
+ ([fe80::c80d:3b17:3f40:10d6]) by PH0PR11MB5830.namprd11.prod.outlook.com
+ ([fe80::c80d:3b17:3f40:10d6%3]) with mapi id 15.20.7828.016; Wed, 31 Jul 2024
+ 07:40:11 +0000
+From: "Song, Yoong Siang" <yoong.siang.song@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+	<pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, "Alexei
+ Starovoitov" <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
+	"Gomes, Vinicius" <vinicius.gomes@intel.com>, Jonathan Corbet
+	<corbet@lwn.net>, "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+	Shinas Rasheed <srasheed@marvell.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+	Brett Creeley <brett.creeley@amd.com>, "Blanco Alcaine, Hector"
+	<hector.blanco.alcaine@intel.com>, "Hay, Joshua A" <joshua.a.hay@intel.com>,
+	"Neftin, Sasha" <sasha.neftin@intel.com>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH iwl-next,v1 0/3] Add Default Rx Queue Setting for igc
+ driver
+Thread-Topic: [PATCH iwl-next,v1 0/3] Add Default Rx Queue Setting for igc
+ driver
+Thread-Index: AQHa4h8PLg7tcvdq706oyoxDPBv147IPXLGAgAEDg/A=
+Date: Wed, 31 Jul 2024 07:40:11 +0000
+Message-ID: <PH0PR11MB5830E21A96A862B194D4A4A5D8B12@PH0PR11MB5830.namprd11.prod.outlook.com>
+References: <20240730012212.775814-1-yoong.siang.song@intel.com>
+ <20240730075507.7cf8741f@kernel.org>
+In-Reply-To: <20240730075507.7cf8741f@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR11MB5830:EE_|SN7PR11MB7437:EE_
+x-ms-office365-filtering-correlation-id: 56918329-6c41-4fc7-fba0-08dcb134025d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?SmWiO+YO+kvBxnWbLj2lB8LTyqca3v73LB/MoFyLUHQjgoZGSElhztsiLRDW?=
+ =?us-ascii?Q?FFWzQPLLLbCibuw/uZwBWt4hvtV4Oz9KLLh1HTVzIjXwCiQ/bmejvvTRoAok?=
+ =?us-ascii?Q?89zIBchd08ZTKh4a7RRn1tWE/Re1LLrDGU7icHlVDRchr68SRPDWu3hvbn6e?=
+ =?us-ascii?Q?qSuR01Q6TdYHO7A6sYi6i/TobhiJe2xjSxk7Mk1jPXOfqshDB4T0Qy6p/wnQ?=
+ =?us-ascii?Q?apzrBOOf6xTYPxZZhrAK1FKs0YBCmWpywOYKo4ecQJaDYzyhUJ6tx9YrM2v7?=
+ =?us-ascii?Q?SaHQDJ18W63ZkfO5cmtgE7OD4Aux75F59pmjtvEG9C9sU+Ajd76N7vwJgC2w?=
+ =?us-ascii?Q?JNVFm72myoQb4EvmBGeOOLgBPProvsQ+R6914Hmu/oQa9McQspAKwaptJ60D?=
+ =?us-ascii?Q?1CUMEb2CLZGJTxZxQzKdqNxf7n4zs7Wg5ykizdKkps2wwert+KI24oHsxWU1?=
+ =?us-ascii?Q?iOjbYjtCeeytefR66mOJyV3cQY/taAIqX54y0TglPwFa2tqkYPB/yH9/nay4?=
+ =?us-ascii?Q?/mF5WbG2n+ohMFcR88hFnjIyGPFN4GNvvN2/kEifdRyd23Wh/vKn0JvljBGy?=
+ =?us-ascii?Q?8Xd4StCGffbpBGk2cKvFLzDwZRhj8e1UGvhaKnqA6qn0F/3L+FqBVAMltypV?=
+ =?us-ascii?Q?PmVVh77sxD8PW8dgHUEMaCn31RCzpMAtkuLC8e/iyJhN50lRlK7jdW5acFm4?=
+ =?us-ascii?Q?iyXv0rvU4pNWb8TP7WEyTTunxCzHwW+5mzIOO/ekcp8HjJinYOnfFoNMG13Z?=
+ =?us-ascii?Q?F1vjpFQ/i8of8RFCTJ04o32qtdq/C9mdqZGu8TsZ8lHJs1lV5s2C8fU2Qk7t?=
+ =?us-ascii?Q?ZVFIUZii/POWF1Nc3qhOQXfEaO66jSotYps2Oa8vr/zl5wt5g4PzVGWvAGP8?=
+ =?us-ascii?Q?P8ZdAEweNjfA/ndV9XS8EoBxCWpBBH+sAagOD3Q/zlwq3GnCLvX39P7pNMUF?=
+ =?us-ascii?Q?5mlFVATSeHhkLtk7myMIuS+I8gRLWiMGunk0yCZS7/YI/Ow/EFVFD/RB4SYk?=
+ =?us-ascii?Q?fapB8fXSf2nktoH7zRNwuPyPP/rIiRrS1ddYZOU4OIbFiMST5A2nXJH6FcNh?=
+ =?us-ascii?Q?ZHGcOHAkoNwoIf53EJwfBZvOZxInargExekL0gmiY3mQBRtpqx5d6g2VLAzw?=
+ =?us-ascii?Q?Xa0o1jt1YUeACz1RpNysjsL0X4v3fUlE9FxbmQa/x0dELG05X/3hh6wGM6aL?=
+ =?us-ascii?Q?SJZ6qdqmHosZa9t9dP7AhpZQp0XPTPBwZ07NKVTvppbfZOAYwcB/79aqNPRS?=
+ =?us-ascii?Q?RiTZ+/XscIZcOKoaALI0Lmmjqnmvh0UlZkuS6wOpYnzSrWhKKp8Nx89uCIoh?=
+ =?us-ascii?Q?2KjAkgaJyUg8EILO76ODo8/x0AglRlASHv4yfFlLcZFeR/yVgCuA3Wct7Fvc?=
+ =?us-ascii?Q?QFiy7+nF6rD8pB6TI+ayR5sZv+hRFHi2hTCTHSduSmkD+lIHHw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5830.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?UFGtlFtShWaweFeO6XZhFNvvW/Fi0C6dgBspMaTwyuF5iWzBfhYHvh1csaiY?=
+ =?us-ascii?Q?0G0wZLBx4EcnJLfICubOGUiHmYzuwUrhS9rrD3JdZMkuJSzDgQ60+ntgEfv4?=
+ =?us-ascii?Q?6OJgAC/zF2M1VB7BRpNuqnDDr2d3hD0iSlfeQDIxA8+3gKpWv1d/yDusq9Ek?=
+ =?us-ascii?Q?UHg7Kak/tjIRxsQMAa5+NPkfj5bgqxsMBvoWNEAHb3Js1lWoxBeOX1wYR/r3?=
+ =?us-ascii?Q?uJhN1WRzR+ZEOVZLgKgm9qJtZ73hfvBFrEboyc8E6IjydXDGJcjO/nn2Ryfi?=
+ =?us-ascii?Q?IZoVxJsHoRKlx01SC/rS8cNwyTTlel71h6vYW4784vaD+L8jfuDCJ8RSFbGX?=
+ =?us-ascii?Q?jJb6URduaAQMZluxGcDLIJcvoTPO8YsUsGM6v4MTZIBK4bMoQ+hrX5u5Q7X4?=
+ =?us-ascii?Q?7c6nFBBYbCTHiEN5uarjvsOF60Y8L3T8aKQKmVmOwoNSIs3JH+Cpjp1RoZXl?=
+ =?us-ascii?Q?PVYkZH4Bv5o/UM3u0C98E1wWkxMXMIx5tiTUHck9NHajG9Lci1Y48HFKWXw6?=
+ =?us-ascii?Q?4QbIUdOZb9t65ZCgNtLKG56wkjJ/2FmIpdP0Fy/6YCNFqpwcpmPsbfp4chC+?=
+ =?us-ascii?Q?Uh96NdJ8EcJuVByvHmeEZsE4m7Vh5SCCGh4yDLbXf82H5S70iXgnMnqL+vDP?=
+ =?us-ascii?Q?BODmvsYKoZtFmy8Bu9FYFhbnG7Nz7jpJrpBErA3BM/CxGxPKQsHbGgTZhoNH?=
+ =?us-ascii?Q?M0v7gKsoT2gKyAjyRLDkw8Y1ztSuI0OdrddyYdjyZBpqKIIIDR+/j5uY6VWs?=
+ =?us-ascii?Q?xuBGKptaXGww9UcJ70UNN43Kmeth6Pqb3nkez9wPD29/iHeRXjWXb1K4qbsU?=
+ =?us-ascii?Q?gcjXUziuT0geJWWH5d94IxxkgSnBvpVqIUJEHUolIMPN/vEQCx38pK1sZjTZ?=
+ =?us-ascii?Q?iOnaYacIHuftJkOHzQz2LmmT+ttpBzOZi8UeLYhuqOrh4N5wEx4IeWMacZ27?=
+ =?us-ascii?Q?dPn+AwyA9WyPnzFwyaZmPYzxmtNUoMtWMa+3KxiP3BKMvBcYf2g5rO6gp1Eo?=
+ =?us-ascii?Q?pN+fIAdc/UXMUhZh/4Zi2B8bBr3zNJZ2heopWE3Z8KrHApbCsHuIytwjv1fZ?=
+ =?us-ascii?Q?q1R8py867gFDmX/QUC0bcmTaFbKozTe47DSzt1XX2MQ+gTB1SBqqFlAPD99w?=
+ =?us-ascii?Q?4Zln7D1wkr0x7kOyRepC5yR2dCAaLFYBlibSpHfWMaxX0josbjjvhXx5cWYh?=
+ =?us-ascii?Q?wtOoOJors7aclTKiCt6NLL3zEtpq+O0rgcGNj8muhQXiWH/h9Hp9xk3+bd9E?=
+ =?us-ascii?Q?2WRpZBEOBfuUDWeci3zv3QZxVb4/ZCfV90mc7mOQjBXX4xz+P6gEmY594rrS?=
+ =?us-ascii?Q?n9tljuUBv0WAOTb8JrzEtEINGo8yhVRz6DwvNBMxvHPde02Vnk0kk8QfNaxJ?=
+ =?us-ascii?Q?pjqRP27CUivOXJJbVlHpy3w7p2tJNm8ygTG5Z6GjustbN2ooEskltKcCf35r?=
+ =?us-ascii?Q?qNexzN6aCVrIbotv0a7kBRfFoRkIpSMZ7p0qWqgZdm26i79Qhpnzw/QC/wAg?=
+ =?us-ascii?Q?LZ2U2IRkLtQQZEy43yFCCWhseqyvBMbrhTcBPnoO4GAc25uNBzJKq8zIgKFe?=
+ =?us-ascii?Q?7VJQxBttFCPsY7D563B3eybERrV2ju22Ca1MzY9VISeGPbwWKHbmf9pOGoFm?=
+ =?us-ascii?Q?1g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5830.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56918329-6c41-4fc7-fba0-08dcb134025d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 07:40:11.5731
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mgP9xNtlkXWVmgkQi+enJLAmeDdwW861tIkD8SbCnbEdPzfQFlrrR84s7TriHxaHOK1yfLR5vPH6lg+aFRU9s0CFE+O5bXmiq2uEu9j5SnI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7437
+X-OriginatorOrg: intel.com
 
-In order to produce a generic kernel, a user can select
-CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-spinlock implementation if Zabha or Ziccrse are not present.
+On Tuesday, July 30, 2024 10:55 PM, Jakub Kicinski <kuba@kernel.org> wrote:
+>On Tue, 30 Jul 2024 09:22:12 +0800 Song Yoong Siang wrote:
+>> This patch set introduces the support to configure default Rx queue duri=
+ng
+>runtime.
+>> A new sysfs attribute "default_rx_queue" has been added, allowing users =
+to
+>check
+>> and modify the default Rx queue.
+>
+>Why the extra uAPI.. a wildcard rule directing traffic to the "default"
+>queue should do.
 
-Note that we can't use alternatives here because the discovery of
-extensions is done too late and we need to start with the qspinlock
-implementation because the ticket spinlock implementation would pollute
-the spinlock value, so let's use static keys.
+Hi Jakub Kicinski,
 
-This is largely based on Guo's work and Leonardo reviews at [1].
+Regarding your suggestion of implementing a "wildcard rule,"
+are you suggesting the use of an ethtool command similar to the following?
 
-Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
-Signed-off-by: Guo Ren <guoren@kernel.org>
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- .../locking/queued-spinlocks/arch-support.txt |  2 +-
- arch/riscv/Kconfig                            | 29 +++++++++++++
- arch/riscv/include/asm/Kbuild                 |  4 +-
- arch/riscv/include/asm/spinlock.h             | 43 +++++++++++++++++++
- arch/riscv/kernel/setup.c                     | 38 ++++++++++++++++
- include/asm-generic/qspinlock.h               |  2 +
- include/asm-generic/ticket_spinlock.h         |  2 +
- 7 files changed, 118 insertions(+), 2 deletions(-)
- create mode 100644 arch/riscv/include/asm/spinlock.h
+ethtool -U <iface name> flow-type ether action <default queue>
 
-diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-index 22f2990392ff..cf26042480e2 100644
---- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-+++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-@@ -20,7 +20,7 @@
-     |    openrisc: |  ok  |
-     |      parisc: | TODO |
-     |     powerpc: |  ok  |
--    |       riscv: | TODO |
-+    |       riscv: |  ok  |
-     |        s390: | TODO |
-     |          sh: | TODO |
-     |       sparc: |  ok  |
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index ef55ab94027e..c9ff8081efc1 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -79,6 +79,7 @@ config RISCV
- 	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
- 	select ARCH_WANTS_NO_INSTR
- 	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
-+	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
- 	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
- 	select BUILDTIME_TABLE_SORT if MMU
- 	select CLINT_TIMER if RISCV_M_MODE
-@@ -488,6 +489,34 @@ config NODES_SHIFT
- 	  Specify the maximum number of NUMA Nodes available on the target
- 	  system.  Increases memory reserved to accommodate various tables.
- 
-+choice
-+	prompt "RISC-V spinlock type"
-+	default RISCV_COMBO_SPINLOCKS
-+
-+config RISCV_TICKET_SPINLOCKS
-+	bool "Using ticket spinlock"
-+
-+config RISCV_QUEUED_SPINLOCKS
-+	bool "Using queued spinlock"
-+	depends on SMP && MMU && NONPORTABLE
-+	select ARCH_USE_QUEUED_SPINLOCKS
-+	help
-+	  The queued spinlock implementation requires the forward progress
-+	  guarantee of cmpxchg()/xchg() atomic operations: CAS with Zabha or
-+	  LR/SC with Ziccrse provide such guarantee.
-+
-+	  Select this if and only if Zabha or Ziccrse is available on your
-+	  platform.
-+
-+config RISCV_COMBO_SPINLOCKS
-+	bool "Using combo spinlock"
-+	depends on SMP && MMU
-+	select ARCH_USE_QUEUED_SPINLOCKS
-+	help
-+	  Embed both queued spinlock and ticket lock so that the spinlock
-+	  implementation can be chosen at runtime.
-+endchoice
-+
- config RISCV_ALTERNATIVE
- 	bool
- 	depends on !XIP_KERNEL
-diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-index 5c589770f2a8..1c2618c964f0 100644
---- a/arch/riscv/include/asm/Kbuild
-+++ b/arch/riscv/include/asm/Kbuild
-@@ -5,10 +5,12 @@ syscall-y += syscall_table_64.h
- generic-y += early_ioremap.h
- generic-y += flat.h
- generic-y += kvm_para.h
-+generic-y += mcs_spinlock.h
- generic-y += parport.h
--generic-y += spinlock.h
- generic-y += spinlock_types.h
-+generic-y += ticket_spinlock.h
- generic-y += qrwlock.h
- generic-y += qrwlock_types.h
-+generic-y += qspinlock.h
- generic-y += user.h
- generic-y += vmlinux.lds.h
-diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-new file mode 100644
-index 000000000000..503aef31db83
---- /dev/null
-+++ b/arch/riscv/include/asm/spinlock.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __ASM_RISCV_SPINLOCK_H
-+#define __ASM_RISCV_SPINLOCK_H
-+
-+#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-+#define _Q_PENDING_LOOPS	(1 << 9)
-+
-+#define __no_arch_spinlock_redefine
-+#include <asm/ticket_spinlock.h>
-+#include <asm/qspinlock.h>
-+#include <asm/alternative.h>
-+
-+DECLARE_STATIC_KEY_TRUE(qspinlock_key);
-+
-+#define SPINLOCK_BASE_DECLARE(op, type, type_lock)			\
-+static __always_inline type arch_spin_##op(type_lock lock)		\
-+{									\
-+	if (static_branch_unlikely(&qspinlock_key))			\
-+		return queued_spin_##op(lock);				\
-+	return ticket_spin_##op(lock);					\
-+}
-+
-+SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-+SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-+SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-+SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-+SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-+SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-+
-+#elif defined(CONFIG_RISCV_QUEUED_SPINLOCKS)
-+
-+#include <asm/qspinlock.h>
-+
-+#else
-+
-+#include <asm/ticket_spinlock.h>
-+
-+#endif
-+
-+#include <asm/qrwlock.h>
-+
-+#endif /* __ASM_RISCV_SPINLOCK_H */
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index a2cde65b69e9..b811fa331982 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -244,6 +244,43 @@ static void __init parse_dtb(void)
- #endif
- }
- 
-+#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-+DEFINE_STATIC_KEY_TRUE(qspinlock_key);
-+EXPORT_SYMBOL(qspinlock_key);
-+#endif
-+
-+static void __init riscv_spinlock_init(void)
-+{
-+	char *using_ext = NULL;
-+
-+	if (IS_ENABLED(CONFIG_RISCV_TICKET_SPINLOCKS)) {
-+		pr_info("Ticket spinlock: enabled\n");
-+		return;
-+	}
-+
-+	if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) &&
-+	    IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) &&
-+	    riscv_isa_extension_available(NULL, ZABHA) &&
-+	    riscv_isa_extension_available(NULL, ZACAS)) {
-+		using_ext = "using Zabha";
-+	} else if (riscv_isa_extension_available(NULL, ZICCRSE)) {
-+		using_ext = "using Ziccrse";
-+	}
-+#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-+	else {
-+		static_branch_disable(&qspinlock_key);
-+		pr_info("Ticket spinlock: enabled\n");
-+
-+		return;
-+	}
-+#endif
-+
-+	if (!using_ext)
-+		pr_err("Queued spinlock without Zabha or Ziccrse");
-+	else
-+		pr_info("Queued spinlock %s: enabled\n", using_ext);
-+}
-+
- extern void __init init_rt_signal_env(void);
- 
- void __init setup_arch(char **cmdline_p)
-@@ -297,6 +334,7 @@ void __init setup_arch(char **cmdline_p)
- 	riscv_set_dma_cache_alignment();
- 
- 	riscv_user_isa_enable();
-+	riscv_spinlock_init();
- }
- 
- bool arch_cpu_is_hotpluggable(int cpu)
-diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
-index 0655aa5b57b2..bf47cca2c375 100644
---- a/include/asm-generic/qspinlock.h
-+++ b/include/asm-generic/qspinlock.h
-@@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
- }
- #endif
- 
-+#ifndef __no_arch_spinlock_redefine
- /*
-  * Remapping spinlock architecture specific functions to the corresponding
-  * queued spinlock functions.
-@@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
- #define arch_spin_lock(l)		queued_spin_lock(l)
- #define arch_spin_trylock(l)		queued_spin_trylock(l)
- #define arch_spin_unlock(l)		queued_spin_unlock(l)
-+#endif
- 
- #endif /* __ASM_GENERIC_QSPINLOCK_H */
-diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
-index cfcff22b37b3..325779970d8a 100644
---- a/include/asm-generic/ticket_spinlock.h
-+++ b/include/asm-generic/ticket_spinlock.h
-@@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
- 	return (s16)((val >> 16) - (val & 0xffff)) > 1;
- }
- 
-+#ifndef __no_arch_spinlock_redefine
- /*
-  * Remapping spinlock architecture specific functions to the corresponding
-  * ticket spinlock functions.
-@@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
- #define arch_spin_lock(l)		ticket_spin_lock(l)
- #define arch_spin_trylock(l)		ticket_spin_trylock(l)
- #define arch_spin_unlock(l)		ticket_spin_unlock(l)
-+#endif
- 
- #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
--- 
-2.39.2
+I have a concern that users might be not aware that this nfc rule is having=
+ lowest priority,
+as the default queue would only take effect when no other filtering rules m=
+atch.
 
+Do you see this as a potential issue? If not, I am willing to proceed with
+exploring the ethtool options you've mentioned.
+
+Thank you for your guidance.
+
+Regards
+Siang
