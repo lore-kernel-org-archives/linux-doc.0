@@ -1,277 +1,405 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A13718AE4;
-	Wed, 31 Jul 2024 17:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722447941; cv=fail; b=V6e+xnbT3fEOUNnpfzzSE0i6q2pdNaUCDCj2T6i1szJSfqnaTp7dVplmjLCvCbVOnjzRk+rFnunn3uJ1doWbvCA5SGmYJ/Ub+2ZqOaae/8pXf5J3fZwEuNOX6ucXhO7NunZ/FZ7QJRczRlkPKM6lHTV5+5q1VqfIsodynlfUUoQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722447941; c=relaxed/simple;
-	bh=TGAyfWhGXRZP3lyahKwBNBCBmqHnybe5JzXnDEQB4P8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mq3jsa7gCratrwnSvIkArU5ZoUy7Eu5eUzQRI3ksSm/ySo5zflu+M3jA6O+c3ecQV87L22i1V/7TAujZ3qL+JLD8de9Pgl7TxVSw6d11YfY5cOCaCBSvqLuN2lHWvEdhUa/jNdxYbtPtYDjjBQ62X4D3SX3DMT74hBzYCy5LQqU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vt3MIITE; arc=fail smtp.client-ip=40.107.93.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3B738FA3
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 17:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722448281; cv=none; b=AEZ+7svv7Hi/oQGD08J5Q+7G7/UG2Inxq9RPvotxqx2gc+xZae2GdKe3Yfw8f600NofrZlUcArScrG4vJR6wS1UiwiXwAhdrdYgZURPSq/VpnuX2WwJ92ZMQFcT+HwTYdHrb7Gn6gKJ7yZkRwy8G9UhpqQpVY3vtR7BcngEsKnA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722448281; c=relaxed/simple;
+	bh=5+IMmDkvsOi4I1aSB72S7wEwZg5ODilucpMDJSlv7iY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YgexoYrLZg1phxbG4PFn2g+rsw7B7iUtf9T6nvpcQQkHqXTJiEOrHHo1ahLW1RqyrVgZ8FDLXCMziL7hw2UF+V7ZHJLa07RN2TPOC8TB+sef16E0fdq7L3mk5mnQzSqG8qzOpUfyyHTdult9qO+EIjEXbHV9hvVtEQVv4I3Vgtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IFSEB7Mp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vt3MIITE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y3PrG/kl1Iq05gvSgrVNtWbiNLwJapVeVJhoxEp/0IcbuIBrdC1cUzREmJ58QJQpEQjKX73V1Q/2R4q743ZWjXkbXG52iIkFhbcDfl6kEY5IvG9C3x1Zh1JP5TxTzalgUaSST8wo9UfMo6W9mbo4q1k15ol8wDF9TOT6tZ9FwjKLpFF+ezAwShJHbrNTf7kTcp2OkQDoiTqTZZYZuUDBbfzRE51Uy2aDm7cqbGIseAoQyvF5vScQV83t2P3t5UojFNE70vVBHvrlHoRXLVlMVfidi/emXLWZiRUsgbCS7Anb6vI3BxiajgSH+pPsqW9xYYPudA3SJdXj7Ew8LlarHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=10DGx2ljruPtGcMuBh0KtB5Kg6LXwOYPpdvLh0DXv6M=;
- b=ireg97+EG3gA4okuzb6VqFJXPUP8RCbmEYQt+92YS3FQfQc4BhqAVL731PgIEAPOjxELtruNsg4T8SmqZwg7sODMXby1N7QmYNv1z1qPoMsCukTIiGs2RtrmlAdMbPvaumEuwDeFZQ3iLtqKy9xfonmJMCfQa4i2YDI5cKtxGgZQ4QxapVJ5i3yQzKqbp2vL7Ga2jJFp06539uXkxz50oi+3u/DPLW8Zali7OOpDZogzX64P0684PIikz4f8X+KLroGHKLXfL2U/9k8MGxFmBpVAqcAMS5kDXmvUMhPgsQnEQh9gBkMyfOJgkW+ArymIpxkwzyWQ1si8nG6/e4OnAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=10DGx2ljruPtGcMuBh0KtB5Kg6LXwOYPpdvLh0DXv6M=;
- b=vt3MIITEdmBuZM+BOCAjVVvc9RuEyQ6AmmhvSxdJSOOhWuQM5VI+FBhbPR1utmfzfaN8OoAcqMxoBNkaxW0tuUtl8H8F5DimPk/PbcmJdrDORW/7Wv8VdE+SgvOAWjj1n3bp3DzyrtI3t12Ov3KW5d5pT4ImaZ3kZKJ5HLCgSb4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4262.namprd12.prod.outlook.com (2603:10b6:610:af::8)
- by IA0PR12MB7775.namprd12.prod.outlook.com (2603:10b6:208:431::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.21; Wed, 31 Jul
- 2024 17:45:35 +0000
-Received: from CH2PR12MB4262.namprd12.prod.outlook.com
- ([fe80::3bdb:bf3d:8bde:7870]) by CH2PR12MB4262.namprd12.prod.outlook.com
- ([fe80::3bdb:bf3d:8bde:7870%7]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
- 17:45:35 +0000
-Message-ID: <5b031938-9c82-4f09-b5dc-c45bc7fe6e07@amd.com>
-Date: Wed, 31 Jul 2024 23:15:24 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] x86: Make 5-level paging support unconditional for
- x86-64
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Cc: ardb@kernel.org, bp@alien8.de, brijesh.singh@amd.com, corbet@lwn.net,
- dave.hansen@linux.intel.com, hpa@zytor.com, jan.kiszka@siemens.com,
- jgross@suse.com, kbingham@kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- luto@kernel.org, michael.roth@amd.com, mingo@redhat.com,
- peterz@infradead.org, rick.p.edgecombe@intel.com, sandipan.das@amd.com,
- thomas.lendacky@amd.com, x86@kernel.org
-References: <80734605-1926-4ac7-9c63-006fe3ea6b6a@amd.com>
- <87wml16hye.ffs@tglx>
- <jczq52e6vrluqobqzejakdo3mdxqiqohdzbwmq64uikrm2h52n@l2bgf4ir7pj6>
-Content-Language: en-US
-From: Shivank Garg <shivankg@amd.com>
-In-Reply-To: <jczq52e6vrluqobqzejakdo3mdxqiqohdzbwmq64uikrm2h52n@l2bgf4ir7pj6>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0172.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::16) To CH2PR12MB4262.namprd12.prod.outlook.com
- (2603:10b6:610:af::8)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IFSEB7Mp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722448278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=HkKQW92TBob03xYQLPasswxFJNWKudmGt3Ls39IwsLw=;
+	b=IFSEB7MpFQTXapD9wD+WCD3T/J3Nqx64iHpemEhstAcZ7Axqlsg2drjCtMOtqU8di5rQCK
+	V/+7nRWtlYzYwhHwuk4tzpjoOU4K/FaMQM+heGayJhDiEXEppXIcbp/HPUPLpyJiXGZo+B
+	DByJaT3TJg+FmH268Fs5Gjy+1suV+bg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-281-VL9G1pdANbi4MG-V6n8oqA-1; Wed, 31 Jul 2024 13:51:17 -0400
+X-MC-Unique: VL9G1pdANbi4MG-V6n8oqA-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5a7661b251aso6039513a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 10:51:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722448276; x=1723053076;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HkKQW92TBob03xYQLPasswxFJNWKudmGt3Ls39IwsLw=;
+        b=NvgUGaLNpMVcCjzfcxw/xtGfGWUB0B15zDLE42HCOYcJne4BwQrOvwFzq63U/5i8Sl
+         /J78RtAfTtq9HK4S1GGjYdz/s3csYMDKWP552rtXDMnYolz7oi+SruVQqdHRL8znxD31
+         m/uHTuy7RH7ZL2UVbENHfsSPfEcojyFTQVN7kwLhtxyStgOWeSapBu8ZVwG+YcR1ZyJe
+         COmdfYPl3r0djJpJ4z7KpHV2k/UupOUL0Og5OPEEvw2oJF2lf5gtAGD3Apr/mMGHWUg5
+         pI0XsMop+THcVTpSgTb655HTCcNbm52jEXJNRZcWSWrqFcf6Cf33FEpI60BGUZNTKwyp
+         pswA==
+X-Forwarded-Encrypted: i=1; AJvYcCWl7L+eox/fU7wBofYCmCuR7+E3CWxNs50twpkIdqUUJmS2ikNJsHbr4bQlQdpKmhizXv+JdLfILLYuFYBwe9NUq9PX1IPX5lGG
+X-Gm-Message-State: AOJu0YxYA9nPQwZmCrlMjFS9gPDLbQ9DrkbYQtO27ChNds3ny9HAyukQ
+	kTliZXulsT2EOh6aR0eftv8xa2kd0QgH6u5JjVUcWFJL7c5W6QayBDmIZEkULrTeprZMUyQ0nkU
+	NnDKjTekmP6UQOxoyfFmjShN7pxj3G3q8YburEc83++58GDBUgFKM+BisIQ==
+X-Received: by 2002:a50:c354:0:b0:5a1:c40a:3a81 with SMTP id 4fb4d7f45d1cf-5b022a96946mr9687541a12.35.1722448275843;
+        Wed, 31 Jul 2024 10:51:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFW5j5gLNyiWJpAEbuAQxK8i+uOvNMEfI0aTiFcQ+xUVuYYhUcHL91F+cUyVEICVSx22OUtag==
+X-Received: by 2002:a50:c354:0:b0:5a1:c40a:3a81 with SMTP id 4fb4d7f45d1cf-5b022a96946mr9687513a12.35.1722448275171;
+        Wed, 31 Jul 2024 10:51:15 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:5f00:9b61:28a2:eea1:fa49? (p200300cbc70b5f009b6128a2eea1fa49.dip0.t-ipconnect.de. [2003:cb:c70b:5f00:9b61:28a2:eea1:fa49])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b52ab8f09dsm1911559a12.26.2024.07.31.10.51.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jul 2024 10:51:14 -0700 (PDT)
+Message-ID: <fc63e14d-8269-4db8-9ed2-feb2c5b38c6c@redhat.com>
+Date: Wed, 31 Jul 2024 19:51:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4262:EE_|IA0PR12MB7775:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91172986-b226-4f26-b52d-08dcb18894f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?enZ3VFZUYmw1Nmo0NXFzWE9UMkJvK0lwRFl4cS9hR3gyRlpJdXJra1ZuY05T?=
- =?utf-8?B?TWRlcG9aZTF1bmhHcElmWVZMQmFtZTkyaWppRGZhSXpHYWZ3cTZMVnJEQnB5?=
- =?utf-8?B?bENxNGlJYjBzOC94b1B5bCtoZk5HNldHYUMxeE5ReExwazh5MlUzVjhmQWk0?=
- =?utf-8?B?Kyt3S0FZU3FCOWpJbEtCaERkOVhycEFPeVdPL2JzdTRjdW96V1A3QWNLZlNW?=
- =?utf-8?B?VThEU0tkcGhrUFZlUGp3UXRaYW1EM0ltcU5GUmg5LzhOdEZ2TE0rYlNOUVk3?=
- =?utf-8?B?b0ljRUs2cE0yRWtTOTBqWWkrSC93WU1PbXRDR0JtWWxtWk0ycG01K0VETGM3?=
- =?utf-8?B?R1ByYVVXTi9DbmRNQUNZeHE2NzYxU3E1U2JKMkxoMk51Z2l3UVhIaUVpTWRr?=
- =?utf-8?B?a3p2bnBHV29oKzdIQmthWmhxZTdFVFV4R2FpVEk3YWdFOVY0TUloZk4vYVB3?=
- =?utf-8?B?ejgzUVdGZllvYWR5V3BPWkhZWk52OHlrOVJseXRvMEtwUHJFaWlKVmJlSEFH?=
- =?utf-8?B?TUJRZmdBSDdhWmdIdnJYK3hoa0VyZm1hOFIvT2ZjQXh5bFJUM3RnNlVXN1Bn?=
- =?utf-8?B?SEMzbENUajQ3QXkwUG04Wld4WUkrdzBaT3kwNnNZRXp0OE9kaUlVNnlVNmlX?=
- =?utf-8?B?RFJiNE5nYU5CNWpoS2k2WkpmTUJhNFFVVDdqZ092V1pNOFRHdnNKRC9Hdnk4?=
- =?utf-8?B?MXl2d2ltbzFpN241dHI4MUdUdlhTQXlMbFNXTGdhVWRIRmdSQXpqVEp6S01V?=
- =?utf-8?B?cENaU0hYU09DTWxlay9TUkJrMmRuY3lVVUtVb2l0Rlo4emdqMEpUbTZtdWda?=
- =?utf-8?B?NTduTS9IUmNqOHRLakdtNWNmYnFFSXlwK3BlR29LVjJoczBRMTZSb05nNGk0?=
- =?utf-8?B?NmxpTVRSRllvc0U4bjZQZ3JkUHIwclVNUnlHYnJFWjFoem5vVDhxNEllaDBn?=
- =?utf-8?B?MFJmNy9GRjhyQnV4L01MSlpEMS85L04xZzhIUmFiQm45SllKaksxMGd5ekl6?=
- =?utf-8?B?VGU1OThIQUhQRVJKd29VaWthMUg5V1N0a0FEQUkxRVc0dFhOL243WEh3TWNO?=
- =?utf-8?B?RW5kNVo1SjVHb1dDNVQyYlpUaE83RjZ2NGdScGFUMEZtRVplazB3eENEVFpQ?=
- =?utf-8?B?ZjNYMXA5Rk90VXhlWE5GQVFlWUJrS1FUMXhkK21iL2EvSitaRFJwT21xRm1D?=
- =?utf-8?B?SmJlTEFmbWRsTVdJOWVVWXRtd1Vnb0FmM3NzNXl5Uy9lWG5NeDl4RTlVSHpl?=
- =?utf-8?B?Q29wa2VvaHVNQnBMWUpDQjVWQkRVSWw0NHpVNUwwVzBOdEIzeDFoai9HVUdo?=
- =?utf-8?B?ME1rdkZzWDFIZDlaNEczeWllL3RYaU9KZ0QrcGx5M2lsSW9hT2srRmRFN1hY?=
- =?utf-8?B?MFdNY0RHMDhxQm45azdzV3pyTXcxNXNuWEFSOFBpWGFKeWNINVZmeGJ4WDVM?=
- =?utf-8?B?bHNxUkNqOGprbVBRd2NVeCt2L0FxYmkxUUZudW1wMS91Z3UwQTYrWmRIakly?=
- =?utf-8?B?dUxkeW9sWHZjaFMxNlNoUHFTaWhWMUZrY3o3U0N4YUNxYW9maWd1d20xQzFk?=
- =?utf-8?B?amJLcnI3WFNUdFlvMnNLdzZ3L3VnajJPb1BqRzBFQ243K2wxSFQ3TXJUUGdm?=
- =?utf-8?B?eHFtTWZUVGtYNkxjanVYM2QvMGdNWUdPcUhPdkNpWTMzZExmajdaTWtJNS94?=
- =?utf-8?B?d1FqelhTN0VYS3JheUxrWGpmSGkvWWQ1OTVKVmJjK0k1emJrVzc1aW9PUTBE?=
- =?utf-8?Q?zPIpejhd75jSwMaxcA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB4262.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bi9PUlY5NUgrZnFPcEorajFMQWhuRkRJb1NuM1A5b1NaT0lqUXVvQVdIS1hw?=
- =?utf-8?B?VnFRZ2xnWkRZUjRkOHhNRGp6MmdrS0NKckRLRWlCRUxhYUlYVHJWb1BKcFph?=
- =?utf-8?B?b041MXl0Z3BPRkRJTEh3TGoybzdxangwSFNya1psM0RENGlaZ0RnQlRmV1Nv?=
- =?utf-8?B?aDhPOFZoRm5uaEkrSjZJQ3kzSkJvTFBXMnA0TmFiZ01kemNXMXg1Y1Vuajg2?=
- =?utf-8?B?KzZjc3p3aExGc080VlIrTDdNUC9oaENDWUtEVlU4MU1LT1hodGxMNnN6d1Jj?=
- =?utf-8?B?Z2d5VzFQaHpaQ3pmVjRwUnVydHBLTGFWayswejhEaHRPdDJndnpsajYrU0N6?=
- =?utf-8?B?YzRzL0pMZUE5ajF5UWdkOWlKMUdFUkRsTkFmOVVRUnczU0VwUExCeHRnQXNt?=
- =?utf-8?B?ZUZ0TVlJVnZsZU5tdlZjR1krblBxOGNRVzJGMUlWcmFNYXVHcFgxZ1VLMEQz?=
- =?utf-8?B?UGd0d21OeERsMDJiejZJUkNBMVBPdzN2U3QwYjJYMzBneE1ybEJ3S2pKaTZI?=
- =?utf-8?B?U29oMmZyV3pUV0lvNHljMXUwTTczZzArT2wxNHF2OHdaa1VGeFdvc0tQMGlC?=
- =?utf-8?B?UFIwb2FxeHFuZFhOTzJadlVQV3RiMTVpQU9sTTlaTWFaak90ZVZYazBwcjl3?=
- =?utf-8?B?Vk5vN1c0endudTRjV1VJLzlSSEEyaE5Xb01WYWZxSFhvWndyNTAzRVYvL1lN?=
- =?utf-8?B?MUVEZkVLenZtTEZ6KzdBakZLNGEwMEROaWdxZnVOeGx6d0FPcjRQaURkYzIw?=
- =?utf-8?B?d212aWU1RVYxN0ZwcHVIYzVXaENMTG1pcGZPM2t0RmREcUtSSEJqNDlOV2Vt?=
- =?utf-8?B?WGFYUXhuQStSKy9WWlNRd3lQMU1XVlcwV3hjclpQT2NQSHdzNFA0Q3h5NURZ?=
- =?utf-8?B?KzJGOWNYM0p3emtVdDZ4ZFZNd281azJiRkd0SzdrNnlNMmwvL2xzWkw5bDhX?=
- =?utf-8?B?UzNrTmEwMmcwTHYxSjV4WDRiL2ZqUWJRdmswUzJxY0paMWlaWmVBY1JraFBK?=
- =?utf-8?B?aXVRaUVEYXJOamo3eDNXb0hZK2FpK0VNdVFva1Y0ZG1JWU9zaHFDWFNYN1V2?=
- =?utf-8?B?RUJxWTdoSm1Fc2hGRmM5bS9oQ0JXeFU3RVJ0Unc4TnNENDh2UHpSUzMzMk10?=
- =?utf-8?B?SElEeDR6b1hTWWZZWHRtOVBOSndlMnlSRnhneUZlczdEbWlGVnZ5Z2lYM1BX?=
- =?utf-8?B?cm9PZk9uTUJMMGZjTWc2anhkcDJHZkN4eDJmSWx3MG1ReTJKd0luWGlKYmxZ?=
- =?utf-8?B?c1dUbW5qTEg3cWYwemZIRVFKdGlNQnFRSlV3Y3AxQWIyRDNQZUM0Z2ZSTVN5?=
- =?utf-8?B?MVdIM3Y3WG43Y1RNb0ZUYWtLM1ozQVRtTVlkTzNHQTVWTUtoZzZOMFJPTXh0?=
- =?utf-8?B?LzQvbUh6cUM5SXFScENFaHR0UCtUYXRqTGNzUXZKNGl6ek5lS1R2azlmTG9n?=
- =?utf-8?B?dU93dFlwdXpCUVlMakJMb3hGOUtlZm5xR3FLQ3BRQlhsS2pyWG5xei9VTklL?=
- =?utf-8?B?Ykp3ZWIwbVA3bmxHOEpLYVQzbnhyYmxNei9LYnorZ3h0V3ZndmNJdWlYUFVB?=
- =?utf-8?B?NGc2YmlySlZDd3kzc2Jydm5jK0pFdStBcVpPcjJHNGdPY3hXZStFQ0xZS3li?=
- =?utf-8?B?dnMyclFObG9qMVBzMlBkSmJ6Qkk5R05wbFVrRUZ1ck9nc2pTZUhLQ0xVSy9Y?=
- =?utf-8?B?WFM3bUMzY3FsT2M1T3ovcmdmQlMzSi9OUVVBbGplaXhPbG5ZZzdsWE1vcmhR?=
- =?utf-8?B?aS80SmVNWk04VVJzbWdnYVZqTE1SdTZHSzJHMXhRa0dhcTBQVDhSd0RndXI1?=
- =?utf-8?B?TzlrZVZkeXFOdE5NdEFxMGx6MldiWmxtOHhXSmwyN0xHY3dNcUZzK1ZiZHdi?=
- =?utf-8?B?Vko3QUZUZ2hDV3ZCbTMwVHNMSHQwNzYrZlN2dHpjeVFDN0tzQnQzWis1WGdM?=
- =?utf-8?B?V2FkTGxUaXRYL2Q0bTArL3RLS1N4U2NtdFRFU0J2VkVhV3VEamphU0FTYm5t?=
- =?utf-8?B?dExXY3FDSE5IVFJEeWFqQkZUV1JmNnhja3pnK1krWEEwS3Q0anZiQ0s3bzMw?=
- =?utf-8?B?NXozOUduSldRM3RRRVV4cW9CYUNUa29TV2xKYlY3WjRmUFVha3FwdDZHNXgv?=
- =?utf-8?Q?cXkvKoYWJntFDQuoFE0KOQsHc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91172986-b226-4f26-b52d-08dcb18894f2
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4262.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 17:45:35.5998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: muTiIJMu6YLHrrrK3FCf5Wyr2cUYvX/kUD52LlXEfwgTunCi/Rm6HWH+hHA2MD0X8W1+5rN9iVj8RUgDRxSfGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7775
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] mm: split underutilized THPs
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
+ <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
+ <73b97a03-3742-472f-9a36-26ba9009d715@gmail.com>
+ <95ed1631-ff62-4627-8dc6-332096e673b4@redhat.com>
+ <01899bc3-1920-4ff2-a470-decd1c282e38@gmail.com>
+ <4b9a9546-e97b-4210-979b-262d8cf37ba0@redhat.com>
+ <64c3746a-7b44-4dd6-a51b-e5b90557a30a@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <64c3746a-7b44-4dd6-a51b-e5b90557a30a@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 7/31/2024 5:06 PM, Kirill A. Shutemov wrote:
-> On Wed, Jul 31, 2024 at 11:15:05AM +0200, Thomas Gleixner wrote:
->> On Wed, Jul 31 2024 at 14:27, Shivank Garg wrote:
->>> lmbench:lat_pagefault: Metric- page-fault time (us) - Lower is better
->>>                 4-Level PT              5-Level PT		% Change
->>> THP-never       Mean:0.4068             Mean:0.4294		5.56
->>>                 95% CI:0.4057-0.4078    95% CI:0.4287-0.4302
+On 31.07.24 19:01, Usama Arif wrote:
+> 
+> 
+> On 30/07/2024 21:25, David Hildenbrand wrote:
+>> On 30.07.24 19:22, Usama Arif wrote:
 >>>
->>> THP-Always      Mean: 0.4061            Mean: 0.4288		% Change
->>>                 95% CI: 0.4051-0.4071   95% CI: 0.4281-0.4295	5.59
 >>>
->>> Inference:
->>> 5-level page table shows increase in page-fault latency but it does
->>> not significantly impact other benchmarks.
+>>> On 30/07/2024 17:11, David Hildenbrand wrote:
+>>>> On 30.07.24 17:19, Usama Arif wrote:
+>>>>>
+>>>>>
+>>>>> On 30/07/2024 16:14, Usama Arif wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 30/07/2024 15:35, David Hildenbrand wrote:
+>>>>>>> On 30.07.24 14:45, Usama Arif wrote:
+>>>>>>>> The current upstream default policy for THP is always. However, Meta
+>>>>>>>> uses madvise in production as the current THP=always policy vastly
+>>>>>>>> overprovisions THPs in sparsely accessed memory areas, resulting in
+>>>>>>>> excessive memory pressure and premature OOM killing.
+>>>>>>>> Using madvise + relying on khugepaged has certain drawbacks over
+>>>>>>>> THP=always. Using madvise hints mean THPs aren't "transparent" and
+>>>>>>>> require userspace changes. Waiting for khugepaged to scan memory and
+>>>>>>>> collapse pages into THP can be slow and unpredictable in terms of performance
+>>>>>>>> (i.e. you dont know when the collapse will happen), while production
+>>>>>>>> environments require predictable performance. If there is enough memory
+>>>>>>>> available, its better for both performance and predictability to have
+>>>>>>>> a THP from fault time, i.e. THP=always rather than wait for khugepaged
+>>>>>>>> to collapse it, and deal with sparsely populated THPs when the system is
+>>>>>>>> running out of memory.
+>>>>>>>>
+>>>>>>>> This patch-series is an attempt to mitigate the issue of running out of
+>>>>>>>> memory when THP is always enabled. During runtime whenever a THP is being
+>>>>>>>> faulted in or collapsed by khugepaged, the THP is added to a list.
+>>>>>>>> Whenever memory reclaim happens, the kernel runs the deferred_split
+>>>>>>>> shrinker which goes through the list and checks if the THP was underutilized,
+>>>>>>>> i.e. how many of the base 4K pages of the entire THP were zero-filled.
+>>>>>>>> If this number goes above a certain threshold, the shrinker will attempt
+>>>>>>>> to split that THP. Then at remap time, the pages that were zero-filled are
+>>>>>>>> not remapped, hence saving memory. This method avoids the downside of
+>>>>>>>> wasting memory in areas where THP is sparsely filled when THP is always
+>>>>>>>> enabled, while still providing the upside THPs like reduced TLB misses without
+>>>>>>>> having to use madvise.
+>>>>>>>>
+>>>>>>>> Meta production workloads that were CPU bound (>99% CPU utilzation) were
+>>>>>>>> tested with THP shrinker. The results after 2 hours are as follows:
+>>>>>>>>
+>>>>>>>>                                 | THP=madvise |  THP=always   | THP=always
+>>>>>>>>                                 |             |               | + shrinker series
+>>>>>>>>                                 |             |               | + max_ptes_none=409
+>>>>>>>> -----------------------------------------------------------------------------
+>>>>>>>> Performance improvement     |      -      |    +1.8%      |     +1.7%
+>>>>>>>> (over THP=madvise)          |             |               |
+>>>>>>>> -----------------------------------------------------------------------------
+>>>>>>>> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+>>>>>>>> -----------------------------------------------------------------------------
+>>>>>>>> max_ptes_none=409 means that any THP that has more than 409 out of 512
+>>>>>>>> (80%) zero filled filled pages will be split.
+>>>>>>>>
+>>>>>>>> To test out the patches, the below commands without the shrinker will
+>>>>>>>> invoke OOM killer immediately and kill stress, but will not fail with
+>>>>>>>> the shrinker:
+>>>>>>>>
+>>>>>>>> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+>>>>>>>> mkdir /sys/fs/cgroup/test
+>>>>>>>> echo $$ > /sys/fs/cgroup/test/cgroup.procs
+>>>>>>>> echo 20M > /sys/fs/cgroup/test/memory.max
+>>>>>>>> echo 0 > /sys/fs/cgroup/test/memory.swap.max
+>>>>>>>> # allocate twice memory.max for each stress worker and touch 40/512 of
+>>>>>>>> # each THP, i.e. vm-stride 50K.
+>>>>>>>> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+>>>>>>>> # killer.
+>>>>>>>> # Without the shrinker, OOM killer is invoked immediately irrespective
+>>>>>>>> # of max_ptes_none value and kill stress.
+>>>>>>>> stress --vm 1 --vm-bytes 40M --vm-stride 50K
+>>>>>>>>
+>>>>>>>> Patches 1-2 add back helper functions that were previously removed
+>>>>>>>> to operate on page lists (needed by patch 3).
+>>>>>>>> Patch 3 is an optimization to free zapped tail pages rather than
+>>>>>>>> waiting for page reclaim or migration.
+>>>>>>>> Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
+>>>>>>>> subpages when splitting THP.
+>>>>>>>> Patches 6 adds support for THP shrinker.
+>>>>>>>>
+>>>>>>>> (This patch-series restarts the work on having a THP shrinker in kernel
+>>>>>>>> originally done in
+>>>>>>>> https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
+>>>>>>>> The THP shrinker in this series is significantly different than the
+>>>>>>>> original one, hence its labelled v1 (although the prerequisite to not
+>>>>>>>> remap clean subpages is the same).)
+>>>>>>>
+>>>>>>> As shared previously, there is one issue with uffd (even when currently not active for a VMA!), where we must not zap present page table entries.
+>>>>>>>
+>>>>>>> Something that is always possible (assuming no GUP pins of course, which) is replacing the zero-filled subpages by shared zeropages.
+>>>>>>>
+>>>>>>> Is that being done in this patch set already, or are we creating pte_none() entries?
+>>>>>>>
+>>>>>>
+>>>>>> I think thats done in Patch 4/6. In function try_to_unmap_unused, we have below which I think does what you are suggesting? i.e. point to shared zeropage and not clear pte for uffd armed vma.
+>>>>>>
+>>>>>>       if (userfaultfd_armed(pvmw->vma)) {
+>>>>>>           newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
+>>>>>>                              pvmw->vma->vm_page_prot));
+>>>>>>           ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
+>>>>>>           set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
+>>>>>>       }
+>>>>>
+>>>>>
+>>>>> Ah are you suggesting userfaultfd_armed(pvmw->vma) will evaluate to false even if its uffd? I think something like below would work in that case.
+>>>>
+>>>> I remember one ugly case in QEMU with postcopy live-migration where we must not zap zero-filled pages. I am not 100% regarding THP (if it could be enabled at that point), but imagine the following
+>>>>
+>>>> 1) mmap(), enable THP
+>>>> 2) Migrate a bunch of pages from the source during precopy (writing to
+>>>>      the memory). Might end up creating THPs (during fault/khugepaged)
+>>>> 3) Register UFFD on the VMA
+>>>> 4) Disable new THPs from forming via MADV_NOHUGEPAGE on the VMA
+>>>> 5) Discard any pages that have been re-dirtied or not migrated yet
+>>>> 6) Migrate-on-demand any holes using uffd
+>>>>
+>>>>
+>>>> If we discard zero-filled pages between 2) and 3) we might get wrong uffd notifications in 6 for pages that have already been migrated).
+>>>>
+>>>> I'll have to check if that actually happens in that sequence in QEMU: if QEMU would disable THP right before 2) we would be safe. But I recall that it is not the case :/
+>>>>
+>>>>
+>>>
+>>> Thanks for the example!
+>>>
+>>> Just to understand the issue better, as I am not very familiar with live-migration code, the problem is only for zero-filled pages that were migrated, right? If a THP is created and a subpage of it was a zero-page that was migrated and its split before VMA is armed with uffd, userfaultfd_armed(pvmw->vma) will return false when splitting and it will become pte_none. And afterwards when the destination faults on it, uffd will see that its pte_clear and will request the zero-page back from source. Uffd will then have to get the page again from source.
 >>
->> 5% regression on lmbench is a NONO.
-> 
-> Yeah, that's a biggy.
-> 
-> In our testing (on Intel HW) we didn't see any significant difference
-> between 4- and 5-level paging. But we were focused on TLB fill latency.
-> In both bare metal and in VMs. Maybe something wrong in the fault path?
-> 
-> It requires a closer look.
-> 
-> Shivank, could you share how you run lat_pagefault? What file size? How
-> parallel you run it?...
-
-Hi Kirill,
-
-I got lmbench from here:
-https://github.com/foss-for-synopsys-dwc-arc-processors/lmbench/blob/master/src/lat_pagefault.c
-
-and using this command:
-numactl --membind=1 --cpunodebind=1 bin/x86_64-linux-gnu/lat_pagefault -N 100 1GB_dev_urandom_file
-
-> 
-> It would also be nice to get perf traces. Maybe it is purely SW issue.
-> 
-
-4-level-page-table:
-      - 52.31% benchmark
-         - 49.52% asm_exc_page_fault
-            - 49.35% exc_page_fault
-               - 48.36% do_user_addr_fault
-                  - 46.15% handle_mm_fault
-                     - 44.59% __handle_mm_fault
-                        - 42.95% do_fault
-                           - 40.89% filemap_map_pages
-                              - 28.30% set_pte_range
-                                 - 23.70% folio_add_file_rmap_ptes
-                                    - 14.30% __lruvec_stat_mod_folio
-                                       - 10.12% __mod_lruvec_state
-                                          - 5.70% __mod_memcg_lruvec_state
-                                               0.60% cgroup_rstat_updated
-                                            1.06% __mod_node_page_state
-                                      2.84% __rcu_read_unlock
-                                      0.76% srso_alias_safe_ret
-                                   0.84% set_ptes.isra.0
-                              - 5.48% next_uptodate_folio
-                                 - 1.19% xas_find
-                                      0.96% xas_load
-                                1.00% set_ptes.isra.0
-                    1.22% lock_vma_under_rcu
-
-
-5-level-page-table:
-      - 52.75% benchmark
-         - 50.04% asm_exc_page_fault
-            - 49.90% exc_page_fault
-               - 48.91% do_user_addr_fault
-                  - 46.74% handle_mm_fault
-                     - 45.27% __handle_mm_fault
-                        - 43.30% do_fault
-                           - 41.58% filemap_map_pages
-                              - 28.04% set_pte_range
-                                 - 22.77% folio_add_file_rmap_ptes
-                                    - 17.74% __lruvec_stat_mod_folio
-                                       - 10.89% __mod_lruvec_state
-                                          - 5.97% __mod_memcg_lruvec_state
-                                               1.94% cgroup_rstat_updated
-                                            1.09% __mod_node_page_state
-                                         0.56% __mod_node_page_state
-                                      2.28% __rcu_read_unlock
-                                   1.08% set_ptes.isra.0
-                              - 5.94% next_uptodate_folio
-                                 - 1.13% xas_find
-                                      0.99% xas_load
-                                1.13% srso_alias_safe_ret
-                                0.52% set_ptes.isra.0
-                    1.16% lock_vma_under_rcu
-
->> 5-level page tables add a cost in every hardware page table walk. That's
->> a matter of fact and there is absolutely no reason to inflict this cost
->> on everyone.
+>> Something like that, but I recall that if it detects that it already migrated the page stuff will go wrong.
 >>
->> The solution to this to make the 5-level mechanics smarter by evaluating
->> whether the machine has enough memory to require 5-level tables and
->> select the depth at boot time.
+>> IIRC QEMU maintains receive bitmaps about which pages it already received+placed. Staring at migrate_send_rp_req_pages(), QEMU ignores the uffd notification if it finds that the page was already received and would not ask the source again.
+>>
+>> So if we turn some PTEs that map zeroed-pages into pte-none we could run into trouble, because we will never try requesting/placing that page again and our VM will just be stuck forever.
+>>
+>> I wonder if other uffd users could similarly be affected. But maybe they don't place pages into the VMA before registering uffd.
+>>
+>> I'll try to double-check when QEMU would disable THP. But it could also be that that behavior changed between QEMU versions.
+>>
+>>>
+>>> If I understand the example correctly, the below diff over patch 6 should be good? i.e. just point to the empty_zero_page instead of doing pte_clear. This should still use the same amount of memory, although ptep_clear_flush means it might be slighly more expensive.
+>>
+>> There are rare cases where we must not use the shared zeropage (mm_forbids_zeropage()), that must be handled.
+>>
+>> I assume we could optimize here if uffd is not configured in. Further, what QEMU does is sense right at the beginning by temporarily registering uffd on some other VMA if it is even supported. That could be used as an indication ("ever used uffd -> don't turn PTEs none"). But again, no idea what other uffd users might be relying on :/
+>>
+>> In I wonder if some applications could rely on anon memory not suddenly "vanishing" form the PTEs (for example relying on pagemap like tools/testing/selftests/mm/cow.c) would. I don't think a lot of applications would do that, though.
+>>
 > 
-> Let's understand the reason first.
+> 
+> I had a deeper look at how QEMU handles migration and at how kernel handles THPs in other places with respect to uffd. I hope I understood the migration code correctly :)
+> 
+> QEMU:
+> There are 2 types of "migrations" [1], migration_thread and bg_migration_thread
+> - migration_thread supports postcopy live migration, but doesn't use uffd. So postcopy live migration doesn't use uffd as far as I can tell looking at the function [2].
+> - bg_migration_thread [3]: this isn't really live migration, but background snapshot. There is no postcopy and it works similar to pre-copy. From what I understand, uffd is registered before any pages are migrated [4].
+> 
 
-Sure, please let me know how can I help in this debug.
+Ignore the second. What QEMU ends up using is precopy + postcopy. You 
+can start precopy migration and decide at some point that you want to 
+switch to postcopy (this is what I trigger below, let me know if you 
+want a simple way to reproduce it).
 
-Thanks,
-Shivank
+> So the way these 2 threads work in qemu is: its either postcopy without uffd, or precopy-style snapshot with uffd registered at the start, then the current patch in this series is good, i.e. only use zeropage if userfaultfd_armed(pvmw->vma), otherwise pte_clear. I can't see postcopy with uffd anywhere in qemu which doesn all the steps 1-6 that you mentioned above, but I might not be looking at the right place?
+
+"I can't see postcopy with uffd anywhere" -- most of it lives in 
+migration/postcopy-ram.c.
+
+See postcopy_ram_incoming_setup() where most of the UFFD setup logic 
+happens.
 
 > 
-> The risk with your proposal is that 5-level paging will not get any
-> testing and rot over time.
+> Kernel:
+>  From a kernel perspective, if we look at khugepaged [5], it just takes into account if the vma is currently registered as uffd. So maybe this scenario can happen?
+> 1) THP is enabled on VMA, UFFD is not yet registered.
+> 2) dest accesses a 4K page (lets call it 4Kpage1), khugepaged collapses that page into 2M THP as the following 511 4K pages were pte_none [5], as VMA is not uffd armed yet.
+> 3) UFFD is registered + MADV_NOHUGEPAGE is set. No further collapse will happen, but the THPs that were created in step 2 will remain. MADV_NOHUGEPAGE doesn't split existing THP created in 2.
+> 4) dest tries to access 4Kpage2, the address right after 4Kpage1. As khugepaged collapsed it, there won't be a pagefault, and dest will read it as a zero-filled page, even if UFFD handler wanted to give some non-zero data filled page. I think anyone who wrote the uffd handler would want there to be a pagefault and give the non-zero data filled page and would not expect dest to see a zero-filled page.
 > 
-> I would like to keep it on, if possible.
+> What I am trying to say with the above example is:
+> - UFFD registeration + MADV_NOHUGEPAGE should be done by all applications before any data in the region is accessed. Using THPs and accessing data before UFFD registeration + MADV_NOHUGEPAGE can lead to unexpected behaviour and is wrong?
+
+The important point here is that you discard (MADV_DONTNEED) any pages 
+you want to fault+place later lazily. That must happen after 
+MADV_NOHUGEPAGE but before registering+running userfaultfd.
+
+Then you don't care if page faults / kuhgepaged gave you THPs before 
+that. In fact, you want to happily use THPs wherever possible and not
+disable them unconditionally right from the start.
+
+> - even in the current kernel code in other places like khugepaged, its only checked if uffd is enabled currently. It is not tracked if it was ever enabled on any VMA.
+
+Right, see above, this all works if you MADV_DONTNEED the pages you want 
+to get faults to after disabling THPs.
+
+
+I just added a bunch of quick printfs to QEMU and ran a precopy+postcopy 
+live migration. Looks like my assumption was right:
+
+On the destination:
+
+Writing received pages during precopy # ram_load_precopy()
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy 
+
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Writing received pages during precopy
+Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
+Discarding pages # loadvm_postcopy_ram_handle_discard()
+Discarding pages
+Discarding pages
+Discarding pages
+Discarding pages
+Discarding pages
+Discarding pages
+Registering UFFD # postcopy_ram_incoming_setup()
+
+
+Let me know if you need more information.
+
+> Thanks for pointing to mm_forbids_zeropage. Incorporating that into the code, and if I am (hopefully :)) right about qemu and kernel above, then I believe the right code should be:
+
+I'm afraid you are not right about the qemu code :)
+
 > 
+> 	if (userfaultfd_armed(pvmw->vma) && mm_forbids_zeropage(pvmw->vma->vm_mm))
+> 		return false;
+> 
+> 	if (!userfaultfd_armed(pvmw->vma)) {
+> 		pte_clear_not_present_full(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, false);
+> 	} else {
+> 		newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
+> 					       pvmw->vma->vm_page_prot));
+> 		ptep_clear_flush(pvmw->vma, pvmw->address, pvmw->pte);
+> 		set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
+> 	}
+>   
+> 
+> 
+> [1] https://github.com/qemu/qemu/blob/4e56e89d6c81589cc47cf5811f570c67889bd18a/migration/migration.c#L3817
+> [2] https://github.com/qemu/qemu/blob/4e56e89d6c81589cc47cf5811f570c67889bd18a/migration/migration.c#L3455
+> [3] https://github.com/qemu/qemu/blob/4e56e89d6c81589cc47cf5811f570c67889bd18a/migration/migration.c#L3591
+> [4] https://github.com/qemu/qemu/blob/4e56e89d6c81589cc47cf5811f570c67889bd18a/migration/migration.c#L3675
+> [5] https://github.com/torvalds/linux/blob/master/mm/khugepaged.c#L1307
+> 
+> 
+> 
+
+-- 
+Cheers,
+
+David / dhildenb
 
