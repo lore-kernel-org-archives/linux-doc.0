@@ -1,120 +1,120 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA33DA41;
-	Wed, 31 Jul 2024 00:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81206101EE
+	for <linux-doc@vger.kernel.org>; Wed, 31 Jul 2024 02:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722385321; cv=none; b=ctlkx0qBOEARTRAVUW7SxZmtDJdtnjU62+VCQo45NBOisYLFWsWi8HKCSIsi1SJcOVM6pnAj6WYsuMdbMdfTkRYK4KKVeLORXxHbjCeL4KXNwWr/ger7rJakeuE3yGA8EApqNiHHEJccVt6hb67eB3cwXLd5Ltmgh+RGiYv+Ocw=
+	t=1722392045; cv=none; b=uvPrF/P+GbvtDPIkmhIC1RIt5d4OCtVEwJw/93g+K8XdwPMTr95bD8N9zRN8WKp70A1cgAtDowUGXhWEeesi/ZPe02b59zPKpWylmcda04IfIl8zFcZpr3wcx05WM+/8KSI/bLi7s1+sWhSnc/0QQCsTUR/aRIB3zBbPFy++t/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722385321; c=relaxed/simple;
-	bh=Be7IDsaltHpOt9duyrEi4EFaUTA1FF7S9nmfFfk6XqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KAdWBmP/jRZHtltgt83z0gWG6KPuP+2FobHAwFbxcQtoOVeQWdKtwcQovM5Dx2yX/iqRHoORTNxnlBNGV5NysYSw0CV6uwx6GcQ3bONVev3n+S7ZKhhdUStIfj0ewpx8NWfoGoPaYOghr79+TzMDRGH78v1PcYDvHvlh7PGjFhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dl9J8SP8; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	s=arc-20240116; t=1722392045; c=relaxed/simple;
+	bh=iM1sgtJFOzwcMsPsrDB0y2KVeYvDhZQm0u+TUmM1PW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OqiLQFzy6xoqRWjP2YjRWaw4ccd1yiiGdbCp+rMCJFBu/d+Kmbyk42L6o+OgyyNBVRh6jHEAYT+Ov7YVuG3rWw22086ih+jyxA4Mc/QSLXoupmhN5yJmqXs4obB1x3QkrexCosxwL/RUgDvOddUCgsog4K0w8FEb+uRrCvYTQSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mc4Rg2Fd; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dl9J8SP8"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-260e5b2dfb5so3403720fac.3;
-        Tue, 30 Jul 2024 17:21:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mc4Rg2Fd"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5d5d4d07babso2234866eaf.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Jul 2024 19:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722385319; x=1722990119; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zv44PSmRmGyba/q7aqW6v9CZMieeVvkEwzEJWnLLESM=;
-        b=Dl9J8SP8M+Gdmj7lDr71rx9wIVzPLH+V5n3d6b6ZDKgQkU24272Z2ZVQAvXUYYDcP0
-         T2qKOFB9qzGQA9/kMSRAmqyWjn9eEdwKo2D9BycpUhqFHliRvs/SPFBDcPf4i9hDXdH2
-         zypDHsYVETT0bhuSstMSo3zrJw7XYG1X5vgOrnbbQ2YOk6/s+yqFwypwoHfAMib2eavx
-         oALz3StQseeEstgc86KzUzlhEmqfNu3cBy1G+M+ID2YjC+N1HXDTUlHm+vX0/NjAhI8k
-         b4OTrWfEa3F3NEtnhSiYE0+1nE0T/K69A5SntJR44bNaImeQwgrM9dmo5e/6n7JOWtNb
-         x2rQ==
+        d=gmail.com; s=20230601; t=1722392041; x=1722996841; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S2Y9iW0CzoN1ACWRbKshbLpj+1WPAbblBkNz+cXNKqE=;
+        b=mc4Rg2Fd0awiGll2edYEK0JLH//X1iUrotkWl5o6yc6NhlU8CsTGbRo1ICHnX7Bxxo
+         zfqrjcfP48kfXK8y0BwbTGbrDX36J8hxiktYJs8upnz9zGsf2iXJCUpVu4kWn+F6jqWP
+         OKGLzVYL/wpqQNIKdYmekkPhl0Jh2S3+39p+yA1EkgA8tRP9jQrw08URrZRMGsM6Tkto
+         M+p7LUhjNW8Wpwl2gk/TsQ/3D+lteZs9AeYo9lAgGv9NqM545neCwXwydxvev7HmH9yN
+         hU3Gbyj2nntVvD+QGISgHNcxyp3Ql7KnP7vNwpY5G/qppbOkSsWQ7l4uBT/00KA+OxKR
+         +QrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722385319; x=1722990119;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1722392041; x=1722996841;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zv44PSmRmGyba/q7aqW6v9CZMieeVvkEwzEJWnLLESM=;
-        b=CXJP/OmLi2YPlYE0LUUD1Hi1szQgKg6+6agh+UrgvIKiaDlGLqBlvDYusMZXeeFmgz
-         x9RbibY9qkGCzRyvI5MJSbBR+kaYhkKoX7iDCHNWjKSwnbVrViKUeNNHEu3pzRJQXzBg
-         Jl10zNlnzQuurQjFUqPSe2Ye+2CQwBxRRoRAjSOqyoPSzwMl2aNR/cVDN+uOBhVrO41c
-         MziW+SUe2VyKsfWmYjKA/+ZwvSCJMQRGg0Z/IzEOgdAk2g9sBVxOegWU4mH2fn/ieI3Q
-         ac1wpwAwzX+WTpzKrUgedFi26fdh27bqOa1HyQsmXbA54kZ6cZ/oLSpJwTXI4/M1pqgn
-         ap/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX5CtstFfImaXDt7uV5dZoUlKnyGDNxUWsATJReSDmkleDdJ/1DAquyCb2mY7YOmnvh86+Te24GMClb3kdZyJYZsV76DKHR1TsP+b8pS19+Zo/NicOcPICmDyUAVUjHwX08aIBZwOGLb8qy+9bp6G2076rM6cSkhAjfXwPQnD3/uQ==
-X-Gm-Message-State: AOJu0YwtqZzbD8tVZNgL3Lup+zs1xwSBtDNJLtTzqM1BjhvxmLHmlgXD
-	XBWX3LeNtN3NjR6Pt3OHPGIP5Pomc00Ec4xj7ahCDmmsa7OLn6S9
-X-Google-Smtp-Source: AGHT+IECKNlAjXtfcAK0zmXQoFMslDGFB+xQk5ohSw3tBFUqgfYx07tAWgxn0a3I0E9wCntSi6E+Og==
-X-Received: by 2002:a05:6870:b28c:b0:260:fdda:5068 with SMTP id 586e51a60fabf-267d4cfe2a2mr14910412fac.4.1722385318809;
-        Tue, 30 Jul 2024 17:21:58 -0700 (PDT)
-Received: from localhost (dhcp-141-239-149-160.hawaiiantel.net. [141.239.149.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead816722sm8987381b3a.106.2024.07.30.17.21.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 17:21:58 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Tue, 30 Jul 2024 14:21:56 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kamalesh Babulal <kamalesh.babulal@oracle.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH-cgroup v7] cgroup: Show # of subsystem CSSes in
- cgroup.stat
-Message-ID: <ZqmDpLTm6tKhAmYv@slm.duckdns.org>
-References: <20240715150034.2583772-1-longman@redhat.com>
+        bh=S2Y9iW0CzoN1ACWRbKshbLpj+1WPAbblBkNz+cXNKqE=;
+        b=Ox5IM2/+8wT5G2w2Kmt1Vsecb8rXx9Uydck1REWdxiMaA3GOIevchOsbKW3MUqiLlG
+         uDVV0D5zQhZvBARcmOunqx1fYHMtOEPqXGwTIhzkPBu3Dn36Wux39uvoGC9MEj4UOPnE
+         VXwuUEbcSs3VaSWNB9zKY4zkeJjz7GJQt5Ts8CnLKsoPYDUUnsrTQvvD6fqA98WUhqpL
+         89IRZZEOVxLiJjYQuiWx4YwGXbXV1LyjVs1+uqU+u3gYRT1PmQlhxlsnwwRqvAzViEHd
+         Djz5XJ7v/0rh1nrWLsbXmClas1AKiEozj6v6zwP7GooVW3VMqZHxxOf6DB1c+weMwwSL
+         a6fA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5yOzm3GwQVidvhP8CAkPBFETI6hoethU8CMmS+wnJ/IgtMqHHBHhoY7HvNrI2IN/8IWTl2gnTZQMd5UULN4jiNn2yoQu4o5iq
+X-Gm-Message-State: AOJu0YwuA8NTNG77WBJQKCiA6qipgNXWfeRuAkoyHVhhO+VVGaQJLf41
+	YKe3o55h/NxD4Vk1xnTYXSAM41ISLqJb48iv2mA1/dHJtcATS5JW52am8Ay/b6OW+FCPIP1z1/z
+	8m2btLzHmH9dpKt6ZH4HC4npaios=
+X-Google-Smtp-Source: AGHT+IF2VzNiv/5WrS6GmxcOYTCV4725KiIEkkONyb03cY7vDg8zixCo86IyKOPdGbbiLJg4P+NqFd9MjUwaPAphp88=
+X-Received: by 2002:a05:6820:2222:b0:5c4:2497:c92d with SMTP id
+ 006d021491bc7-5d5d0e19036mr16557733eaf.2.1722392041480; Tue, 30 Jul 2024
+ 19:14:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240715150034.2583772-1-longman@redhat.com>
+References: <202407300812.1VvDFdxD-lkp@intel.com> <CAD-N9QW=6CbbzM4G_hoB-boMazDR5MGm6D3thPe6y=F05cNdJg@mail.gmail.com>
+ <87bk2e9ac6.fsf@trenco.lwn.net>
+In-Reply-To: <87bk2e9ac6.fsf@trenco.lwn.net>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Wed, 31 Jul 2024 10:13:35 +0800
+Message-ID: <CAD-N9QVOZEF0cjDYYz4O24vbw1aGNmbq-88qdWasfGq6tGJoPw@mail.gmail.com>
+Subject: Re: [lwn:docs-next 2/8] htmldocs: Warning: Documentation/translations/zh_CN/kbuild/index.rst
+ references a file that doesn't exist: Documentation/kbuild/index
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: kernel test robot <lkp@intel.com>, Dongliang Mu <dzm91@hust.edu.cn>, oe-kbuild-all@lists.linux.dev, 
+	linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 15, 2024 at 11:00:34AM -0400, Waiman Long wrote:
-> Cgroup subsystem state (CSS) is an abstraction in the cgroup layer to
-> help manage different structures in various cgroup subsystems by being
-> an embedded element inside a larger structure like cpuset or mem_cgroup.
-> 
-> The /proc/cgroups file shows the number of cgroups for each of the
-> subsystems.  With cgroup v1, the number of CSSes is the same as the
-> number of cgroups.  That is not the case anymore with cgroup v2. The
-> /proc/cgroups file cannot show the actual number of CSSes for the
-> subsystems that are bound to cgroup v2.
-> 
-> So if a v2 cgroup subsystem is leaking cgroups (usually memory cgroup),
-> we can't tell by looking at /proc/cgroups which cgroup subsystems may
-> be responsible.
-> 
-> As cgroup v2 had deprecated the use of /proc/cgroups, the hierarchical
-> cgroup.stat file is now being extended to show the number of live and
-> dying CSSes associated with all the non-inhibited cgroup subsystems that
-> have been bound to cgroup v2. The number includes CSSes in the current
-> cgroup as well as in all the descendants underneath it.  This will help
-> us pinpoint which subsystems are responsible for the increasing number
-> of dying (nr_dying_descendants) cgroups.
-> 
-> The CSSes dying counts are stored in the cgroup structure itself
-> instead of inside the CSS as suggested by Johannes. This will allow
-> us to accurately track dying counts of cgroup subsystems that have
-> recently been disabled in a cgroup. It is now possible that a zero
-> subsystem number is coupled with a non-zero dying subsystem number.
-> 
-> The cgroup-v2.rst file is updated to discuss this new behavior.
-> 
-> With this patch applied, a sample output from root cgroup.stat file
-> was shown below.
-...
+On Tue, Jul 30, 2024 at 11:19=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> Dongliang Mu <mudongliangabcd@gmail.com> writes:
+>
+> > On Tue, Jul 30, 2024 at 8:59=E2=80=AFAM kernel test robot <lkp@intel.co=
+m> wrote:
+> >>
+> >> tree:   git://git.lwn.net/linux.git docs-next
+> >> head:   60666fbc81ac91af2cf2f511d60859288f7ea8e5
+> >> commit: e6a5af90f0a24f08445e3b8a11b727ac84a9520c [2/8] docs/zh_CN: add=
+ the translation of kbuild/headers_install.rst
+> >> reproduce: (https://download.01.org/0day-ci/archive/20240730/202407300=
+812.1VvDFdxD-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new v=
+ersion of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202407300812.1VvDFdxD-=
+lkp@intel.com/
+> >>
+> >> All warnings (new ones prefixed by >>):
+> >>
+> >>    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt =
+references a file that doesn't exist: Documentation/devicetree/bindings/inp=
+ut/qcom,pm8xxx-keypad.txt
+> >>    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,s=
+m5703-regulator.yaml references a file that doesn't exist: Documentation/de=
+vicetree/bindings/mfd/siliconmitus,sm5703.yaml
+> >>    Warning: Documentation/hwmon/g762.rst references a file that doesn'=
+t exist: Documentation/devicetree/bindings/hwmon/g762.txt
+> >> >> Warning: Documentation/translations/zh_CN/kbuild/index.rst referenc=
+es a file that doesn't exist: Documentation/kbuild/index
+> >
+> > This is my problem.
+> >
+> > But curious: why does my local `make htmldocs` not report this issue?
+> > I tested it locally again, but no such warning is reported.
+>
+> I'm guessing they are running scripts/documentation-file-ref-check.  I
+> should probably do that more regularly myself...
 
-Applied to cgroup/for-6.12.
+I see. Next time I will check this before sending patches.
 
-Thanks.
-
--- 
-tejun
+>
+> jon
