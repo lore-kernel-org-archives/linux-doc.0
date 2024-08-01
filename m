@@ -1,119 +1,114 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCA51662E4
-	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 10:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC4D15252D
+	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 11:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722507311; cv=none; b=DRmyKxPXblp1RsmS9Xx8c509knjEcsYRqVuNBjqVIoxROMiQGw0wF2Mz+6c/U8ZB+39fSC/NvaXYaJJOQtTWermHolkLvUYC5LbGJN3AyFhzAfFGWod2gMMhE7a2FuR+SKmqDQhg9smbwSvL6VusLzMEq//lcnJt2vUqfidM5H8=
+	t=1722510100; cv=none; b=Z/Ph/Mcs81Q2xNXx/O0Bq1Y7GyggTOjN2ZGFVZVWqChsciyGjysaGTFHgrm0iXdlpeeb6BkVul+Zi6rMv7eaCoJ4s/1yX8QQ8Maaiu0teHp79IsIgxDNWjszDB8vLtAhpCh3Ytx419BjlydSOv6jM11GHQuL9GUKj3Dk+pRSJTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722507311; c=relaxed/simple;
-	bh=U9wr7GqkmrMX2vYC7lUvPnIEz6kcUPwaUXveRaPautM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cg5DaDLBWA9rlAWlzS+D+2h3ztfujcpBmnBo7p3/taRzTFkoGCMjk0T9pO4XJy9cs+nNdPnVnIPgqNc3b3v7GpJPPb+CdD9ZsczPCkyuprjfVmjYzi76jDg2vYUEmvBMrPsb0q06/8fjy6EfG6+xGwNUgUdtnMVDk+59dDaXuDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Z1ag3YUc; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1722510100; c=relaxed/simple;
+	bh=gJyqndJlsZd25AEeawI9Gm3JE0f8nU5ng+m2CSIKFTg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=OYQ2i9aOd6nUV6LrQSCLcPBM0/W43BbPQlDOdtSMs5kg9xJ2OR3ykiNDlQBcwp8LtC0CdydQoAC1ZCYVAS4J7yYz7+qDv47tBwfhKH+YT5Tf2L8MEkFVpmvAadTDBpmR4/4fvlrEaMGPeTSRjlpuNLpnXmpqirUs3FjL6DWYWC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5G8bwoz; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Z1ag3YUc"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a7d89bb07e7so382453266b.3
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 03:15:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5G8bwoz"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-70d1d6369acso1448155b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 04:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1722507308; x=1723112108; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lWBquabnZ6kcEWp0IKOcbEM+16+nIy0kpShVIFZJXnM=;
-        b=Z1ag3YUcUcYk9TSMAqv5fTfKBPlGfDNiA/vlDmBFjJuX03VNfqbSZavHdw3z3gpBM8
-         eLuR+hWwVb0t3YkgV/36nsDqVeB60EHvB13IsDVV1LbKL4OQqJ7KQliNgNQnqSjgctzR
-         YLzkEmNWKbawkt8jCDU5bCeUZGs8+ze55xNPL7ScqA6pMsfvozRr0P4I10wGAgOYgTR+
-         wSFuZ2Mkj1cshfOPpzge0jYyDE7cl/bA0LzBEGgSozehzKsz/6R7cX/1ns6Gmksd+feo
-         NCxkvy+iLdg4rwIToZ0jgiX15JQGgu2Xv60LcTn9uh5piMPltE0doldbZVp+MwFGeB4z
-         5M1A==
+        d=gmail.com; s=20230601; t=1722510098; x=1723114898; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=G8V5Gq9jWtJAcpqxL/ibCzCHR2W/JBS18p+I/Sq+cjY=;
+        b=A5G8bwozp8LCrYyJVURTCEwNAvaYe4kBom6QFTsVV3QIV9gFcgSdWPeb2EDCU+L3ap
+         7AZwsC7mSAKIyfFVRhgi1cNLOZ2Wsr7oK2TyedtIHFn1Tyhokm9zir5dB1QCJ+JqyY9+
+         oDlVli7xTC9vWi14dK/1AmPA+FhcQRQEofqi06HiKSuOWCGN7ZmmOq/PzGARJfj5TXef
+         F4WCkHeK6MhjoQs3sYbxY4AE9OSN0c8XwG0xV4G6A3gvgdwcWsM71PjP95njERjMtIps
+         ofnvhV0YxkkUq5q6ZBCtauyRBSAQ8QtNzYudW5U8qPwnRKpQLYpgbhAfeCCI1IZ1bO5g
+         IS4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722507308; x=1723112108;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lWBquabnZ6kcEWp0IKOcbEM+16+nIy0kpShVIFZJXnM=;
-        b=ZPNEMQYG1eKlnA8Jqlk5Jnn5maQfMjfILhOS5njlQVdCMvQ35+kxGEgThQz3Fe0l94
-         JgjvA4JB3LXi0Z4QLlKsDBTWpYZ7JDY9T8n+6HQRESmxtckIGNwHQZSQOeasQMFJdA51
-         9zLzti5UtO3gxexog1yVPjqeM9+Jcdad5B5gA1fsbNHiwnUJKDnCsXyEPc9RiWRXufe9
-         8uPoWz8dGNP4Fvpkw7tmrNVXQRVr8TFv4BCSDyNKluHnLb/nDxfQvj7DSb5sYPlouYTQ
-         bgneuO1P16v7R2gRxjcilj7+R/Q9DOHpCJ56gOuIK4SYTL1bh1Xl/2A+77mNQxCgVo2S
-         hT+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWxI+sWS8jXSiF4IBJPp1+e16Rq7cy/PVNSC7MlxVQYeKXFJxfUMdzDPOZdJk6C1uTQtjuvDzkR9mwXvSnQXJY8JSwxLEA6WPY2
-X-Gm-Message-State: AOJu0YyT7aenKaQdGlwpQh8Md0iUjSIYNW+ySIUm5OPIFoUeIzFRxIxT
-	wHJxhzTi2/hOYjsy1erghLD4jvshOL8S4t2XTUqoFuy+JgDqx6QzFYQUrv14+zg=
-X-Google-Smtp-Source: AGHT+IEeTCuavVhswNVgEm2olLofx/pt8cE9Bumon3z0afUonWZ842xMiwTVqZcy8FZzQmEJxlyJMw==
-X-Received: by 2002:a17:907:7da0:b0:a7a:8876:4429 with SMTP id a640c23a62f3a-a7daf65d495mr148745866b.45.1722507307311;
-        Thu, 01 Aug 2024 03:15:07 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad4348bsm875471766b.118.2024.08.01.03.15.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 03:15:06 -0700 (PDT)
-Date: Thu, 1 Aug 2024 12:15:00 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
-Message-ID: <20240801-e773d3752fe8b5484405d404@orel>
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-14-alexghiti@rivosinc.com>
- <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
- <CAHVXubhQefQ6i3Vow_p-uSACQyPcMJNC2UwB99xt_=jDtRUDFw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1722510098; x=1723114898;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G8V5Gq9jWtJAcpqxL/ibCzCHR2W/JBS18p+I/Sq+cjY=;
+        b=SrLxdvCfixfgD0fzYVZib0WFJ8Jhu2dx53C1kJYx+W7/C6IZLz+eM4DyI91j5FxHQz
+         k+CsKqI3swN0SsCNkgxjOThlQyuzOOJTkBAF71NVNaC/P7I6PD1D+vsemSma88EVEWV0
+         qLDocpoZQaYQxt4sEXiufzDUxR7Ezzz9AqqMzRrAhTeQDUNTEld3r0FUB6PrXPCyYrFu
+         /jy4AsLDVtd05qoJnzNJEsfJGduT+9GasbBJD7GNBvZhwnl5AKvIYrsGpGsresTTuRHS
+         9eU8/wVPua/NVWjWAdf7gyi3BdDaDCrPPJhZpaS9GRLV85Rp2vMRoOWFAjofto2xKCG+
+         1Ukw==
+X-Gm-Message-State: AOJu0YxdW4Cmulud8uZZ6Qy2YjU+dk9/pT6iXlGrPGA4pWdWlF48LHpE
+	yEedZqS/BeRAA/9e2JoovJGCSigheMhdLbREQ3app+mGB1cuh9qpWpm61CJOlyU=
+X-Google-Smtp-Source: AGHT+IEu0e2+9ZS3N3cbiTYLTpdoJWdmPpEzx695WbcAbt7es+AwgOyiJKuERjZPm44T9p1JlIXASw==
+X-Received: by 2002:a05:6a21:58b:b0:1c4:85a2:9958 with SMTP id adf61e73a8af0-1c6942c3e54mr938337637.25.1722510097662;
+        Thu, 01 Aug 2024 04:01:37 -0700 (PDT)
+Received: from [10.113.19.163] ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead7156easm11274437b3a.85.2024.08.01.04.01.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Aug 2024 04:01:37 -0700 (PDT)
+Message-ID: <ec6e3d88-b98e-4fce-9f7a-73c8ff82f8dc@gmail.com>
+Date: Thu, 1 Aug 2024 16:31:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHVXubhQefQ6i3Vow_p-uSACQyPcMJNC2UwB99xt_=jDtRUDFw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Siddharth Menon <simeddon@gmail.com>
+Subject: Re: [PATCH v2 1/1] Docs: Update LSM/apparmor.rst
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240801102356.93591-1-simeddon@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20240801102356.93591-1-simeddon@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 01, 2024 at 10:43:03AM GMT, Alexandre Ghiti wrote:
-...
-> > > diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
-> > > index 0655aa5b57b2..bf47cca2c375 100644
-> > > --- a/include/asm-generic/qspinlock.h
-> > > +++ b/include/asm-generic/qspinlock.h
-> > > @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
-> > >  }
-> > >  #endif
-> > >
-> > > +#ifndef __no_arch_spinlock_redefine
-> >
-> > I'm not sure what's better/worse, but instead of inventing this
-> > __no_arch_spinlock_redefine thing we could just name all the functions
-> > something like __arch_spin* and then add defines for both to asm/spinlock.h,
-> > i.e.
-> >
-> > #define queued_spin_lock(l) __arch_spin_lock(l)
-> > ...
-> >
-> > #define ticket_spin_lock(l) __arch_spin_lock(l)
-> > ...
-> 
-> __arch_spin_lock() would use queued_spin_lock() so that would make an
-> "infinite recursive definition" right? And that would override the
-> "real" queued_spin_lock() implementation too.
-> 
-> But maybe I missed something!
+> Docs: Update LSM/apparmor.rst
 >
+> After the deprecation of CONFIG_DEFAULT_SECURITY, it is no longer used
+> to enable and configuring AppArmor.
+> Since kernel 5.0, `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is not
+> used either. Instead, the CONFIG_LSM parameter manages the order and
+> selection of LSMs.
+>
+> Signed-off-by: Siddharth Menon<simeddon@gmail.com>
+> ---
+> V1 -> V2: Removed historical information and addressed review comments
+>   
+>   Documentation/admin-guide/LSM/apparmor.rst | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
+> index 6cf81bbd7ce8..47939ee89d74 100644
+> --- a/Documentation/admin-guide/LSM/apparmor.rst
+> +++ b/Documentation/admin-guide/LSM/apparmor.rst
+> @@ -18,8 +18,11 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+>   
+>   If AppArmor should be selected as the default security module then set::
+>   
+> -   CONFIG_DEFAULT_SECURITY="apparmor"
+> -   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
+> +   CONFIG_DEFAULT_SECURITY_APPARMOR=y
+> +
+> +The CONFIG_LSM parameter manages the order and selection of LSMs.
+> +Specify apparmor as the first "major" module (e.g. AppArmor, SELinux, Smack)
+> +in the list.
+>   
+>   Build the kernel
+>   
 
-It depends on where the definition is done. It should work if the
-preprocessor expands the implementation of __arch_spin_* before
-evaluating the #define of queued_spin_*. IOW, we just need to put
-the defines after the static inline constructions.
+I had accidentally added an extra '=' before the recipient mail
+and linux-doc@vger.kernel.org while using git send-email.
+
+Really sorry about this.
 
 Thanks,
-drew
+Siddharth
+
