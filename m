@@ -1,162 +1,167 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F141A140E5C
-	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 09:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31276EEB3;
+	Thu,  1 Aug 2024 09:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722504982; cv=none; b=eDAPyb49AvKFnL4mVciUtlQNRTjWrcCkJBCdzLcZiEptPC3qFS+X+08B3ZoP0jWc7vl/qohsQgiLeau3KPmzTifSiF3nx4cddoq3EZzIiWhmx5Fc5mu6aFq4Sa06wFhkhGxuCeAJCkFhhIVpUkamqkP61PrQr/lHwqbd6F1V/Ik=
+	t=1722505710; cv=none; b=BnVm7eDez0CFh3jm+zsHbKaWcl4GOWC/BXhEvvZNKtkEpCcUcqEV6y1FzybJZdlGEUBmK3ki+KFergIPPbojC8f2Tco1+Q9D5sabZ/7NkQeNDkbRf33hVt2tf42Xped0aBKlroT4DagiSNBTpZ2gWU+tRGNSju341rnIlGELp1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722504982; c=relaxed/simple;
-	bh=RQAbB+4xwgd8rgrT5Xo97jqhsVqqGwZd4S+HhvCqU10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UgFTMKFWRFF/oA61ia26gaHJDITgczDlDC3fiwyXFVWX/bvUeGXirGmEAZS7QedyOn6XoBajexYeNFtErWIdk1gP5P9xVWtUd8hUc6vfEOZQaNOjf4oTd9eBm9el+y6g6vja39FMDLDp7RbHPy8kV8RspNLG9bdqPpbwmXR2u78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WRSdpF5n; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722505710; c=relaxed/simple;
+	bh=yzRx3qqsne4CO9bKA5CWL5HvidOc6mapjYG4wdAwzlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hIkry8qYN/IhH+2Hz2lZXcoAUOU2VcBf/ewjOkjGnZDmMUuB9Yca8th9gYTMCDe4qUkrkdP5+dQySkSR3R//SbEe3OWu4fnesunZRBVYfiVv13GYTbRknhc5MD0zzhabXI6zLu1CQKRoy4mAfb1w8R+Fwys4C8EUOXwFJH2+ezY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeKnW2KV; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WRSdpF5n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722504980;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KJ/HMyeCTpAdrNibsjz2nmyKmky95K7l5NS86QU5jXI=;
-	b=WRSdpF5nIlH3YQJR5Pax8xPkCgS67DZr2oAvxXFlc9hA2+N/GtgrsMB9BwtLhUIMkaGEIe
-	mi11qs8253xusQGcFDtSMrbvImiWJgrvaFlxEOY5kEuePQKaiEDju8yrU1p1cmDY+hTbSy
-	NKkuRXx+/OTSZlixwgHSTvN/t3jCEC4=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-mAMFB_3YMki-_f__7kKNyQ-1; Thu, 01 Aug 2024 05:36:18 -0400
-X-MC-Unique: mAMFB_3YMki-_f__7kKNyQ-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-52f00c27b9cso1261676e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 02:36:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeKnW2KV"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7a94478a4eso355318566b.1;
+        Thu, 01 Aug 2024 02:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722505707; x=1723110507; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BDG653oQy+GL48j0SxqopLPxRNvx49Ogi7ORA8x2yNw=;
+        b=YeKnW2KVgFAsRnrpYfFFcNfXS4UTD5oSk6Q2fhFrPwtd25r1FiVTupa5LR+SruIKon
+         gvLyYh31GtjEjgxi9sT1NWp1Idt1rPo3do+gW6QN6YthbHQqKM0NUfFT4upduEEjdAVt
+         pOdtow7mFYtICFDBe3WMX2dv6bqWLMLIpfax4wRVLuNZLGUDn+PHWp7qNBmPM/RepV3v
+         fRgA21hldcQhaJX6Qu7lHHVCpIqY4B/48+9l7H4zzQ6g8udIJfC/sIqoXN/OVInYuuU3
+         CRzuD2xyu0+OT29EmdXkNUctnX82B+GKXRqc6t+vOwf8mqlErej6nc/9MpehblncbEJL
+         Mplw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722504977; x=1723109777;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KJ/HMyeCTpAdrNibsjz2nmyKmky95K7l5NS86QU5jXI=;
-        b=hbEpd3zn7sAEI+c7qUNHFpjJXUPcgL+z49geizemZNYYkxX5ARzBIXXn1rh/k1wRXO
-         QBI0EJ3OfKJGfP2EgmX3zUkpj+kPsM/6GONOyzaxI4rJZlmvfuVr31mb51OWl00y1HFJ
-         s9X8GjftytPnZPZYcozJLDVZBtUwasiK8etDxjKV5IaUxmxcO/k5mUzd3H6WJakN3ZrI
-         m2gsBDzZnXYCBmLZffQgTdqdyJMS/xydEnmmjVCiyDmxxW3IzCKlXlfumw+4vv5Y6p/t
-         M6MGRgEjB2hG5I423qRywtrnutXJPKdriT4hGMABcEepebkkyx1wKyIsfxFp+198xEF5
-         ce/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWJV2+2tkh3fRrIpNqHkYk4DkAaUgmDq0X1kseoH09r1+GLt5l8t5goKFm1Ybr03HqxyhofuzrwfvW6ZqnhM+O16eAaG3YX5J3W
-X-Gm-Message-State: AOJu0YyDa8BB+YhsK2jkWH+CEiVKFbBlpCGVfMsAE54we/3snhI9hluF
-	F/Ph1MeZqX19728C80Ua8OzKnfqfUcfcfrpnBp/7BtG/q+XFMvAwcsd3ErQSgsNngIs5w9SzG+S
-	z7Q/y4P9ZxZlzbx376KUJO9iOkepbcSwsfJJQ+w/gtuq3O8LIZbNQFUh8hw==
-X-Received: by 2002:ac2:46ef:0:b0:530:ae0a:ab7a with SMTP id 2adb3069b0e04-530b61aa918mr892623e87.17.1722504977095;
-        Thu, 01 Aug 2024 02:36:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFBu+QMo4gAEWvVK7f3J31mT8lTsS1wPjplRZ9rVb/L5dLtT7Zpo/p40oBB0gNZnxzN3H/cdw==
-X-Received: by 2002:ac2:46ef:0:b0:530:ae0a:ab7a with SMTP id 2adb3069b0e04-530b61aa918mr892597e87.17.1722504976510;
-        Thu, 01 Aug 2024 02:36:16 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:5c00:e650:bcd7:e2a0:54fe? (p200300cbc7075c00e650bcd7e2a054fe.dip0.t-ipconnect.de. [2003:cb:c707:5c00:e650:bcd7:e2a0:54fe])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282baccccfsm50752385e9.29.2024.08.01.02.36.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 02:36:16 -0700 (PDT)
-Message-ID: <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
-Date: Thu, 1 Aug 2024 11:36:14 +0200
+        d=1e100.net; s=20230601; t=1722505707; x=1723110507;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BDG653oQy+GL48j0SxqopLPxRNvx49Ogi7ORA8x2yNw=;
+        b=X0XjGfM088SJmT0LLB2uoVRtCZEReNuC6IGdATM3o5L6/oT4oLVS9Umxj9CpUeS6Nw
+         QnrClutOjLvg2prTE/WEtM7wAydjKa/+2ILe15bve36Fi4yubCaJvthNTDxQVUPYPKXr
+         eQQY0RBquiPBsN9pteUABvXV+hucO9lFt3qcY+TrtKdxmXAnc2BgJUo6C6cY38L7TAtv
+         mfocWlwqsX3FKJBWE0QiFdV7UZnHFH7FOnCWxt5Heg+j6JZANcDIZKzWaFMETE54ju+8
+         SkUWtzT39yDostEVTCTs50w0wepxAwwo3i1sAX79pBcs8xhPgzTghzSmrWhr4S9sIFA6
+         M9bA==
+X-Forwarded-Encrypted: i=1; AJvYcCUXoLnMd1zjp5ktr0Z3Swwjq9WShgH1c7k5770SPZ5bJs0SgKLGzHjHnSVBe8RKGb1QUBTc9g6HziEr/DLRs+iEtFOPP1dJehKIPQMwxbqhYRjTzQh0+6ARI1FUgdU8QoJUJXAKRbZwyxX9vJfVDK5BvrARJleX1NHtURsLu79rl50hCOCanrIxQWd90858iuNunuhvcJmABFG8ardmJoI=
+X-Gm-Message-State: AOJu0Yy1igvq46nt4FEkEyTopOD6oU3JvjIW5Etvart68Oypl7fkMA1V
+	Vko+HQNPfpTznQG+eT9XGBETXK4ZIWKwwJS33gT02o+97pcj8g/w
+X-Google-Smtp-Source: AGHT+IF3lwwawnwTWt8F/aGq/kCA5hNUzo/KaoRrwwZ2TsMiC/6Rwj5bGNPTZcyTVgVZH5sX8BBxwA==
+X-Received: by 2002:a17:907:980e:b0:a7a:c7f3:580d with SMTP id a640c23a62f3a-a7dbccac77dmr72577866b.25.1722505706707;
+        Thu, 01 Aug 2024 02:48:26 -0700 (PDT)
+Received: from andrea ([151.76.3.213])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad414e2sm874500666b.127.2024.08.01.02.48.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 02:48:26 -0700 (PDT)
+Date: Thu, 1 Aug 2024 11:48:21 +0200
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
+Message-ID: <ZqtZ5V3ejYG6yscm@andrea>
+References: <20240731072405.197046-1-alexghiti@rivosinc.com>
+ <20240731072405.197046-14-alexghiti@rivosinc.com>
+ <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
- clear_young MMU notifiers
-To: James Houghton <jthoughton@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: Ankit Agrawal <ankita@nvidia.com>,
- Axel Rasmussen <axelrasmussen@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>,
- James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>,
- Raghavendra Rao Ananta <rananta@google.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Sean Christopherson
- <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>,
- Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>,
- Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-6-jthoughton@google.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20240724011037.3671523-6-jthoughton@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
 
-On 24.07.24 03:10, James Houghton wrote:
-> For implementers, the fast_only bool indicates that the age information
-> needs to be harvested such that we do not slow down other MMU operations,
-> and ideally that we are not ourselves slowed down by other MMU
-> operations.  Usually this means that the implementation should be
-> lockless.
+> > +	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+> 
+> Why do we need this? Also, we presumably would prefer not to have it
+> when we end up using ticket spinlocks when combo spinlocks is selected.
+> Is there no way to avoid it?
 
-But what are the semantics if "fast_only" cannot be achieved by the 
-implementer?
+Probably not what you had in mind but we should be able to drop the full
+barriers in the ticket-lock implementation, deferring/confining them to
+RCU code; this way no separate treatment would be needed for either lock:
 
-Can we add some documentation to the new functions that explain what 
-this mysterious "fast_only" is and what the expected semantics are? 
-Please? :)
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index c9ff8081efc1a..d37afe3bb20cb 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -79,7 +79,7 @@ config RISCV
+ 	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+ 	select ARCH_WANTS_NO_INSTR
+ 	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
+-	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
++	select ARCH_WEAK_RELEASE_ACQUIRE
+ 	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
+ 	select BUILDTIME_TABLE_SORT if MMU
+ 	select CLINT_TIMER if RISCV_M_MODE
+diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
+index 325779970d8a0..47522640e5e39 100644
+--- a/include/asm-generic/ticket_spinlock.h
++++ b/include/asm-generic/ticket_spinlock.h
+@@ -13,10 +13,8 @@
+  * about this. If your architecture cannot do this you might be better off with
+  * a test-and-set.
+  *
+- * It further assumes atomic_*_release() + atomic_*_acquire() is RCpc and hence
+- * uses atomic_fetch_add() which is RCsc to create an RCsc hot path, along with
+- * a full fence after the spin to upgrade the otherwise-RCpc
+- * atomic_cond_read_acquire().
++ * It further assumes atomic_*_release() + atomic_*_acquire() is RCtso, where
++ * regular code only expects atomic_t to be RCpc.
+  *
+  * The implementation uses smp_cond_load_acquire() to spin, so if the
+  * architecture has WFE like instructions to sleep instead of poll for word
+@@ -32,22 +30,13 @@
+ 
+ static __always_inline void ticket_spin_lock(arch_spinlock_t *lock)
+ {
+-	u32 val = atomic_fetch_add(1<<16, &lock->val);
++	u32 val = atomic_fetch_add_acquire(1<<16, &lock->val);
+ 	u16 ticket = val >> 16;
+ 
+ 	if (ticket == (u16)val)
+ 		return;
+ 
+-	/*
+-	 * atomic_cond_read_acquire() is RCpc, but rather than defining a
+-	 * custom cond_read_rcsc() here we just emit a full fence.  We only
+-	 * need the prior reads before subsequent writes ordering from
+-	 * smb_mb(), but as atomic_cond_read_acquire() just emits reads and we
+-	 * have no outstanding writes due to the atomic_fetch_add() the extra
+-	 * orderings are free.
+-	 */
+ 	atomic_cond_read_acquire(&lock->val, ticket == (u16)VAL);
+-	smp_mb();
+ }
+ 
+ static __always_inline bool ticket_spin_trylock(arch_spinlock_t *lock)
+@@ -57,7 +46,7 @@ static __always_inline bool ticket_spin_trylock(arch_spinlock_t *lock)
+ 	if ((old >> 16) != (old & 0xffff))
+ 		return false;
+ 
+-	return atomic_try_cmpxchg(&lock->val, &old, old + (1<<16)); /* SC, for RCsc */
++	return atomic_try_cmpxchg_acquire(&lock->val, &old, old + (1<<16));
+ }
+ 
+ static __always_inline void ticket_spin_unlock(arch_spinlock_t *lock)
 
--- 
-Cheers,
+https://lore.kernel.org/lkml/ZlnyKclZOQdrJTtU@andrea/ provides additional
+context.
 
-David / dhildenb
+But enough presumably,  ;-)  How do the above changes look in your tests?
+other suggestions?
 
+  Andrea
