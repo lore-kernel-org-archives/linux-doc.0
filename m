@@ -1,136 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35151A38E7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6543B1A38E3;
 	Thu,  1 Aug 2024 12:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722517115; cv=none; b=pO+mm0PNgd+GKLGT4gF5ckIn7wN6axomdrT+2HXMeKckvIOoRpvsdWEVM6a8bYnfUxSPpzd7UcIov/bq5fAY6rfLlZMC/3mC5lPisU3tdWfc2bL+OhfnhLXLXa2ZzPB9YLHpJFsDxARF7oji1OIX/z0L7+QQ4uzLLgArAkaLkhY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722517115; c=relaxed/simple;
-	bh=WqKsS1qVwE6VKZ/8GkyAqMVM3MB00X49lYjibfc4BZQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ezXJS6N0X60GTQSRyTwMKuqVBLtjEoF2oVx3Tz8KFdZHr9uIBXs7prMrDMhEhVTL2UPxW1ZCOehSjNhOt0F/IsyuC3ISG5lKiBQ8/2mfCUNGBOrwc3XacIgkFZrSXT+qvZ4ZXxxW+NuTtSEHK2YV1aIW35aarZtVPW1MdBGVyuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROUBXnl4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722517117; cv=fail; b=rBGQW1ah3u11Cuu0nayekfaibhNp4lbhXkUvkyGNzpeR4By9UXcL1JZsGuYVA9xXtYQty1ht8TsQPCPuzbBYJ/g6lll3zx5TlnwQynHhtrM+itByqBXXMIq7dzFV1PFmVpJ44AKqaKLWfYK+ORkhJKjFpCWlFOC22qk1GSlZX+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722517117; c=relaxed/simple;
+	bh=TEhoxw8IIsCeFZMS7ZXaifQovBedkIQcaLyLvdMfZMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=B0WtO3exf60IwWo5qgK3iozqAn1pwtPZMK3yGxWFiOb+E7DrrHlXXEpbb0lUeY1XangGCAWQRJv6eh6jZkcfqEHMWrzoDU5wzvGWjxQFsj4Gr8+/iF7gACF3FukeDn6cc57jvG+uQPttZr3YR/gfyRTNBZpjDKT1HjZeIFw0xz4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MkOiqaoa; arc=fail smtp.client-ip=40.107.94.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROUBXnl4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC1D4C4AF09;
-	Thu,  1 Aug 2024 12:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722517115;
-	bh=WqKsS1qVwE6VKZ/8GkyAqMVM3MB00X49lYjibfc4BZQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ROUBXnl4pCUlqrD8GJYnW6TX3c+9d0zCM9U4fas+nBWuRkaQxwqdCtUnMKn8bqn4f
-	 gW4iKyPY2BVlKprVB71QI7AD33rbq+ETEhOL6iuO5JvB9SMkUrkTStZWPD1i68dhyb
-	 xrmgb+ZCT6FWojsUOZj6gd351PNsYtllWfnQ9H6jTgRUnAAwhl+SU8CZABDSrCminc
-	 eZ03nbwXn+jgVyL3n3WwLazRMvDgaaXLZFfeEFi/Z8UW9cKpE+wlA67ra7OMyRFL4M
-	 bMo93Hh5OBkmjVzrucQT7Ty5gGxK4EoGVmfiKpacjYLdiBgBtAmHlK6Bgcyy0QWbfp
-	 u9RKn2clTauWg==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 01 Aug 2024 13:06:38 +0100
-Subject: [PATCH v10 11/40] arm64/mm: Allocate PIE slots for EL0 guarded
- control stack
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MkOiqaoa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QUV3YbeqIlWqI9ox9D7WZtESVXEVWdiTaNl35D+vxw7MmOyWRn1h8aY++kz9n0gxOei1fgSeZjdG08G/nswvjoh+bXL79fyJIQk6ZeDEn3XplNPYHDI8mJt4AltWYLoive9mcM/dnJQYDNXzJBdfxkG8RPRziY5QSfp33GyGcmJSVvSzweMNEK+qj6rkq/RJWVrQEsO+VXM/I6D+hc8YF7Tq2nbH/mAy+v4O19d8yKrQQd+YEZWwkWXGRK4MPcZIOHN0Sy9ro3EGS1lVskfIAf5jVyoTwQANnF+lgt3Buf6ZZ4AXlDjrFVw3SwPA3RcEu3IRoeCQhLRjC4y644T8Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zqq1TwCJ+IQo3FbHlAqgmKiVErWuvxtZN66wJWQxmsI=;
+ b=MdL9IxEmAdyw83/KyaB9pGd7RKnFyjSVYBGwZeoIHtQsas5olmtP5DfhRoZeE85CqlGemQkBH+8m3f/DNQ0zq5hbi5dQpVO5wEzuiFOMhdstJpzRug5v35lMQaomcCcKBfJRWQTnBI74U/ekEUtIZW2KpITGe3pnphZBTgkMxYcfhxNRjzNIbtNjzb6wh9AzE9WWoUiOUEm1U5jgPPEk4JtXPmPmajxb3b0JkUytRbjkqvQeXRIneH9Wsfn2yZcIPhM/Ozea1Rgk8sIM3aBSHVkxxb/dIHn9VpyOIhVQAW4i0+U63LFw+hiKQdlrPB5LScopVm6KuuegfpZzemLfOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zqq1TwCJ+IQo3FbHlAqgmKiVErWuvxtZN66wJWQxmsI=;
+ b=MkOiqaoa6pL1W6u8zLM6LWY7tz++3eBxOyWntl4yiJYgDTQU3tOdaCkZUAdPksWBTK8QqkN5arOZyKCeRxSFBAb+3g9VdNRUsAvuKxsQAfVuyVDRD7eqLzrsmTax8vlvupV5Ce49t2zPBoTaTkTr61MXmtA2EkkeZb+bXZVzBhSvWYit5D/96Lj9rhqRa9rannESJGK9fCZeLt+LT13rSgB16bJsXD/HfSVTyZPX+QmQ+A21VnZKoDA1zUusJfLN2OYQp8GeND4YTFlwiGZqMAR4XI+0dub5iDrOjEC1KzjpYoOMuZTSj/1j4BX3XpNeqvO/HiNEFlhauxoB9AlZeQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
+ by CH3PR12MB8259.namprd12.prod.outlook.com (2603:10b6:610:124::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
+ 2024 12:58:30 +0000
+Received: from CH3PR12MB7763.namprd12.prod.outlook.com
+ ([fe80::8b63:dd80:c182:4ce8]) by CH3PR12MB7763.namprd12.prod.outlook.com
+ ([fe80::8b63:dd80:c182:4ce8%4]) with mapi id 15.20.7828.016; Thu, 1 Aug 2024
+ 12:58:30 +0000
+Date: Thu, 1 Aug 2024 09:58:29 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 5/8] fwctl: FWCTL_RPC to execute a Remote Procedure
+ Call to device firmware
+Message-ID: <20240801125829.GA2809814@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <20240730080038.GA4209@unreal>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730080038.GA4209@unreal>
+X-ClientProxiedBy: MN2PR03CA0022.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::27) To CH3PR12MB7763.namprd12.prod.outlook.com
+ (2603:10b6:610:145::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240801-arm64-gcs-v10-11-699e2bd2190b@kernel.org>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-In-Reply-To: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, 
- Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
- Shuah Khan <shuah@kernel.org>, 
- "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
- Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, 
- Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>
-Cc: "H.J. Lu" <hjl.tools@gmail.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Florian Weimer <fweimer@redhat.com>, Christian Brauner <brauner@kernel.org>, 
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
- Ross Burton <ross.burton@arm.com>, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3028; i=broonie@kernel.org;
- h=from:subject:message-id; bh=WqKsS1qVwE6VKZ/8GkyAqMVM3MB00X49lYjibfc4BZQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmq4YOlw9nLbDAyfViEdCcT1ji+c6735KeAWlvvJky
- itB7ZKSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZquGDgAKCRAk1otyXVSH0CDDB/
- wI9T7bi6abhO/KUuxju+FabJ0MVht7CEjsBZwh9yuAMi4yLWNjlkcbPoiYxYxf+m4npTmnb92xs5+y
- HoCgsimyU+aKqsGKW8nKV97vp2l+XL0bVtlo0io9mbDGWnuR9SRwRjpCeYlvr2rNG5hKdKGNjO59Lg
- T+ofnDExR1esJIq07OYzfpCyYICWbVuwh6WapUICDZQ8TKk8wBmDpNXHSVaxX6TE8vCRIdzNk2NT+0
- 6G8IURvioQ2LXI6/BS7qAZHW7jrdkFCvuEBC6VwbGn1Y/ODhX142tes7v+8niLXK5tqhALMDxjY8CF
- 0rPaynHjFv2HxlL8DoQmbg6pdswtZW
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7763:EE_|CH3PR12MB8259:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56265f5a-2c59-431f-863b-08dcb229a49c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?9w7Dq9dcOmqUmy1IP7gSh4KvU3LF0UMIP9Zguf2Q7rgjVZmUZQQiPELe4OGB?=
+ =?us-ascii?Q?Nxnq71BmbnVomXCsfls+l6mCdJDDIFGEdWh46a2aWFLxVOEpqed8kp5RHEN1?=
+ =?us-ascii?Q?HMkPun2aXIgu27vC7/lChidx/O6/8hUPu5zIz9RvHHqvjtbgW+lC5dmiPPU7?=
+ =?us-ascii?Q?MWuNzOZ/Tzx266r/0lRFY3O4ggTiT+9HKw4kqoB6atHnQ8Wlfgdur8QnDng/?=
+ =?us-ascii?Q?k1yUfMVpyGCJQQSPe7AS79lDcGNu/aKvrJOqP3h+kISTwdM6OI14k/LuSOvU?=
+ =?us-ascii?Q?q//6z7rbojuf1JKSDP3cIkTLORk0jsFn0AHZw8AbohfMQVejXWX5/XZai7QB?=
+ =?us-ascii?Q?oUtFpTcHrsIspaWriOewd/IWa+7dqf+4XNDckFtOCST9LqJwy7hmfMfLGhYH?=
+ =?us-ascii?Q?P0zuaz5YNdRb5koS+XkSxWgYXrvrcLgZqHo5tLtqDcOZATqC3zERjBsTSB1M?=
+ =?us-ascii?Q?iE5+PAiW35LxJtKhl83VAX/qgh+c6TKQWcVkLQ4mYIBMyszFylui+14E88ZI?=
+ =?us-ascii?Q?VFrr2RuSsCO10q/mXYqHU51WouMPrquZ65uB47+tU+ck67SGWUWXGT712CyR?=
+ =?us-ascii?Q?ko3h12cSkYYtNw48jJezUEcgtbpORkXDi1U1XRmRR8PjwMICYCxhx0MMTqKp?=
+ =?us-ascii?Q?/YClgNXZelP6CIQOajAP1RkCBHHfKTAmpPkkd4S/3MMYpClja2iuB7TuB+3g?=
+ =?us-ascii?Q?w8kRw63Q6YQdmwnSzwL7WuFtypB6LNzKgkTg43n2G4n8IIqapilpaDur7OL5?=
+ =?us-ascii?Q?vzGF4LOH57KqOiJAMjvcdDNHdobhu7cPLaLnATuxrRlmj6E2I/szq8TdqrBt?=
+ =?us-ascii?Q?zjO7FPrVEPXw5Gh53PmeMTi3A8r8+bTE/hlPSSJSsZktaqt3Ey+vcq9JKulE?=
+ =?us-ascii?Q?V013V5pU70c8N2Dd+JuCENwRe9NXHlFOhY4O3rqZkZkseBZxaXU5/+ovPQ+E?=
+ =?us-ascii?Q?GB8UF6ywXPpekJgy0LaAMP6OQz0wHRCO4jOaYIDLUIZPpE3jmEnkeqN+lPnj?=
+ =?us-ascii?Q?n25zru8fxflzukVXRfcxGSbO9tyAC9aVn4Xj/YRyXAonnkrT5cE+/YZUzVPM?=
+ =?us-ascii?Q?iwn68rMtxFN352ZdiKIJoKTH2XsWTTS47sMH4U5kmj3o63Lt1IFcbQLObZrR?=
+ =?us-ascii?Q?P0tjgWCuRAnWaoOAL5qRc1neNtMfKq39AhTf63htSvFiXmEpPlywoZx4AeEq?=
+ =?us-ascii?Q?3HiWdmWUAI6Zt/BG0j/nT5r1ZzbEjGvbrS9zSdpCtxAEdzwKzFNGJ05IGpbb?=
+ =?us-ascii?Q?rpnh0HNubiz7zO9oPqq21LY3Sra4dPdWJn66QKWxpTf91CSlwSoAPtkabQLX?=
+ =?us-ascii?Q?oxirbHRSJOKMxr2CGXlmp6kon5VHZfFljlueCtmef9VVHw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gccwsDWb3Oka8MRSEo+yS9yg6T3eWoympFxaVF3YGVGjZXmeEHNTvZmoXiIp?=
+ =?us-ascii?Q?3/6OKDesEkEkt9ecIbiRYTo6HlAvC0mhNMPMHN1WZ9b7o4ZNCBJMoElLTMEB?=
+ =?us-ascii?Q?VX/sDi4VDIkFpqOG7VoPMXwj1MpaNLGUtkI5aBvCniqiP8lfDcCzbEdcYBWN?=
+ =?us-ascii?Q?g/kkl4VRCf/w7HwaTt/ueuuQUQzqG8+jBkRjdFVBZ26L5qWvIcHFYNI5nRbc?=
+ =?us-ascii?Q?QWlxgk5rZT0/NcvT3TPQ7g1mwhqxwF02qtpANOINVMqH2iOODmsRbv+f8+ZS?=
+ =?us-ascii?Q?2tmiqH4b9hxZzGiQGQ4OAL6SO1xtj8Z1HtA0RNUpKVA+gW9MmMiZQ7fbt9vA?=
+ =?us-ascii?Q?LupDsoB6yubbkQdQKums6j7SCFPceEO+VTN8a2FhYKqHh+pIBxhCD+xlIdNw?=
+ =?us-ascii?Q?E+BS5EufBiNGR3weCKkg1mhXirYStHERoFRuibFVOS+P9NZdMP4LWcbO53P7?=
+ =?us-ascii?Q?vz2F4GgUpPWEaoleEkKnkCk4k6iFHEgX3Jd2sUwQrGhQlVTAFbsFzx0dAtdN?=
+ =?us-ascii?Q?aNQHO4nifqbznqjycQ2V6IS5FnBfvNED6CSfpXPIiuioG1K3oabwORDT8gI7?=
+ =?us-ascii?Q?zCDfmoGOvbh2Vrg0R981z+o8agGb4edOGlKqN9z8ZEJZn+oEOACz0iV+lRuj?=
+ =?us-ascii?Q?upWzuuXjNqw1krZ3sFPluhCJSysCVtD4eI4VbAG8jFD0KSDpjxRT8Ba8HcWF?=
+ =?us-ascii?Q?4rfDyiGeVpwTw7whCEqfesgafd5FWA5JnGvvKUK7J3onTYSMyXwSIIYrhc2A?=
+ =?us-ascii?Q?15gVtAEg0nnuU01MEjep8+ccDD0zQ4exIGwNoAzj6kZBWWTc7ES8iMrXNFKk?=
+ =?us-ascii?Q?vU2NAVr65Y77phAwLLQDrNUCKuGrt4W67OiKBCups/oKPMbB8hcA7IittzQ9?=
+ =?us-ascii?Q?fiGdrqeX7pNtkxfqLz6qMtsGSJML6KOZAd2pDh6F5/8RG1BqrhyaBTAV/nKz?=
+ =?us-ascii?Q?vtajfLRmKI/dse2iN76Rj6UAsIseumQHpfsB/bjnRRBJYbDb0oD5QoF7tzH2?=
+ =?us-ascii?Q?yFAxcK58LIy0cJDII39rmFYlusKCJLKVS2aF3bvclU04dgDJ8DjsIgNvwQxy?=
+ =?us-ascii?Q?kRoOlcNG72oibKE9tFxYKroK2HS/MfI19s+PXZ1WfUCEa5h3CiUy4FHzwULr?=
+ =?us-ascii?Q?Dw+eBQ9dT3/gqMarV5hgeRnqh51ZCuBtBipadfyvUo1mswH2s+N6Z1Ko+l8u?=
+ =?us-ascii?Q?xUwtkJ4wtK2mpXmmoUfQ++oqAL3LXUJFgDKlTdC1aypH+yIY9okBrv+DDQx2?=
+ =?us-ascii?Q?WkGPZdIuFwRX4srhHtwk4hnLg7ZX2TfEuOGB+/ivlnXUJtbdjZTwnkeaqv6e?=
+ =?us-ascii?Q?qcolCCGDpbBKckkpkKS2SX8EVLOxXbIixFSb0BFaQ7rsubgRgwpowRbGFalz?=
+ =?us-ascii?Q?6i9anj/uZqRJsPzSMftyIrTSSZZySAJ1zqCpJNOt4GDoAb0Rzw3h12kjWtfz?=
+ =?us-ascii?Q?UVcmYKEDPmTsFjVm43bbSx72H2mFmZD3VROJV0zEo8y5CXtrjtZWgxC2eWN3?=
+ =?us-ascii?Q?b1SmK+/0SgbwCskKbELTmsNlZ2us7vCstRRv79bQcqnjTEufesObUGH6t8+4?=
+ =?us-ascii?Q?z6UqdKEQkHkgAvb9jcNuGU03yz67X71hTjK6EmCX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56265f5a-2c59-431f-863b-08dcb229a49c
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7763.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 12:58:30.7121
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6d5KIZQlHcnKfWR2SaZS/mWMARDHaAopUV8GXz3EUfzuxrkfTd8JzH/YKXDriPA2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8259
 
-Pages used for guarded control stacks need to be described to the hardware
-using the Permission Indirection Extension, GCS is not supported without
-PIE. In order to support copy on write for guarded stacks we allocate two
-values, one for active GCSs and one for GCS pages marked as read only prior
-to copy.
+On Tue, Jul 30, 2024 at 11:00:38AM +0300, Leon Romanovsky wrote:
+> > +
+> > +	void *inbuf __free(kvfree) =
+> > +		kvzalloc(cmd->in_len, GFP_KERNEL | GFP_KERNEL_ACCOUNT);
+> 
+> 
+> <...>
+> 
+> > +	out_len = cmd->out_len;
+> > +	void *outbuf __free(kvfree_errptr) = fwctl->ops->fw_rpc(
+> > +		ucmd->uctx, cmd->scope, inbuf, cmd->in_len, &out_len);
+> 
+> I was under impression that declaration of variables in C should be at the beginning
+> of block. Was it changed for the kernel?
 
-Since the actual effect is defined using PIE the specific bit pattern used
-does not matter to the hardware but we choose two values which differ only
-in PTE_WRITE in order to help share code with non-PIE cases.
+Yes, the compiler check blocking variables in the body was disabled to
+allow cleanup.h
 
-Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- arch/arm64/include/asm/pgtable-prot.h | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Jonathan said this is the agreed coding style to use for this
 
-diff --git a/arch/arm64/include/asm/pgtable-prot.h b/arch/arm64/include/asm/pgtable-prot.h
-index b11cfb9fdd37..545d54c88520 100644
---- a/arch/arm64/include/asm/pgtable-prot.h
-+++ b/arch/arm64/include/asm/pgtable-prot.h
-@@ -144,15 +144,23 @@ static inline bool __pure lpa2_is_enabled(void)
- /* 6:                                PTE_PXN | PTE_WRITE            */
- /* 7: PAGE_SHARED_EXEC               PTE_PXN | PTE_WRITE | PTE_USER */
- /* 8: PAGE_KERNEL_ROX      PTE_UXN                                  */
--/* 9:                      PTE_UXN |                       PTE_USER */
-+/* 9: PAGE_GCS_RO          PTE_UXN |                       PTE_USER */
- /* a: PAGE_KERNEL_EXEC     PTE_UXN |           PTE_WRITE            */
--/* b:                      PTE_UXN |           PTE_WRITE | PTE_USER */
-+/* b: PAGE_GCS             PTE_UXN |           PTE_WRITE | PTE_USER */
- /* c: PAGE_KERNEL_RO       PTE_UXN | PTE_PXN                        */
- /* d: PAGE_READONLY        PTE_UXN | PTE_PXN |             PTE_USER */
- /* e: PAGE_KERNEL          PTE_UXN | PTE_PXN | PTE_WRITE            */
- /* f: PAGE_SHARED          PTE_UXN | PTE_PXN | PTE_WRITE | PTE_USER */
- 
-+#define _PAGE_GCS	(_PAGE_DEFAULT | PTE_NG | PTE_UXN | PTE_WRITE | PTE_USER)
-+#define _PAGE_GCS_RO	(_PAGE_DEFAULT | PTE_NG | PTE_UXN | PTE_USER)
-+
-+#define PAGE_GCS	__pgprot(_PAGE_GCS)
-+#define PAGE_GCS_RO	__pgprot(_PAGE_GCS_RO)
-+
- #define PIE_E0	( \
-+	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS),           PIE_GCS)  | \
-+	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS_RO),        PIE_R)   | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_EXECONLY),      PIE_X_O) | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_READONLY_EXEC), PIE_RX)  | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_SHARED_EXEC),   PIE_RWX) | \
-@@ -160,6 +168,8 @@ static inline bool __pure lpa2_is_enabled(void)
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_SHARED),        PIE_RW))
- 
- #define PIE_E1	( \
-+	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS),           PIE_NONE_O) | \
-+	PIRx_ELx_PERM(pte_pi_index(_PAGE_GCS_RO),        PIE_NONE_O) | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_EXECONLY),      PIE_NONE_O) | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_READONLY_EXEC), PIE_R)      | \
- 	PIRx_ELx_PERM(pte_pi_index(_PAGE_SHARED_EXEC),   PIE_RW)     | \
-
--- 
-2.39.2
-
+Jason
