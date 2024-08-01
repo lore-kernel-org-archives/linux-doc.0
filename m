@@ -1,235 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA8285956;
-	Thu,  1 Aug 2024 07:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722498343; cv=fail; b=uCcKJ/GNXq1EgdPUN/C/q4E65hd87phlIqr4rmkIS2ANkYsfy79xkSsDdj1ffq/FjwtPdCxAHgiav7F92acYNZLQ7C5EiNZASIe2MMePYaWPkDTUicRSJh7Ce11VnKNBuQn8Xd7G2vABeyas5+6PqR7qbDlbWz+59hUWm4p+lO4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722498343; c=relaxed/simple;
-	bh=mKvEK102HPMjk6CZIOxK5j+YDHCMBL+db7v6fvi7rBM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hcpHF8pIw6NMrBQL75JCy9XmIt2tZeJYXk8I1swgQZH8CgpWuUWMvaJk5F0OR90CB8EpI9YDVz1gN+oArDakBionbbtjgO64YV3hSIqTNTHabpBJeQRjpb6MytV/zsfflwPC20pbMgQAdsBZAJOJlfplXkumfryUge3iWNCzRms=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lm7wdm2w; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44890157494
+	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 07:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722498529; cv=none; b=R14+LtjNAiq+LZWSlHp2UYJ8WvP6smw1lmdgnwO+J5H0xWdprkciaIqLw90tjGRcmbwtH9l3cA8r5xoT8Tr/tvQll+vyhXqT+9+i7LIBIO6ykkP7TqqVd08XNXO7rxYJPZOO7JPYjx6vY+g9SVGOxVP4Hx1VnAv4M/YPgWfxerQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722498529; c=relaxed/simple;
+	bh=7k1tHCj/IigIKmy4+p+WwobnV7zERZgAs34Fzr2SrVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2F62LPBLoIIhmak5J/o8eONDLMtay0qHhIq8GOXxZ3U4uOR8r1XmtZ/WFMwNnjvQa/eZf7N2YiFHwQ4P3gosMrtfsBmE+tl0XaA5RYqZUWUn1hmGUH5ttt7+U4sllqcpUPUtTCs1Aeo0XEwfq7/TY1MW5OeCNRBKYpL755VmoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=H8mvKYui; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lm7wdm2w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722498342; x=1754034342;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=mKvEK102HPMjk6CZIOxK5j+YDHCMBL+db7v6fvi7rBM=;
-  b=lm7wdm2wR+BAqOyicSvITut02S2qqeAKu0+2471lf3BPdX+j2WXdwkJR
-   OjT3Qc6Z7bvyvLkV5p1feSPsKGaMydf9k+98aq+tCeg8LpnwVRTe6PeYB
-   Np6HhM23TLnzdeq+KyDXfV/p+TfLrmrjqWRZZ0Qq8eXkv7VO72L0PszCA
-   ozCdXkHQatdqrn1AFML2mZFDQ7Btkb7rhvKm64ENT15LVL9DVDfrx46UJ
-   tbcXkdHengnSCWJMm/OdeVMu6T03kuB+N7ItRzot5NZbjiSnkS7LQWACc
-   8jlavR2OMg09cVXgJB4tBPsVp/JhUO4CsH2wsrVg/oL6WebOqUNQAmac2
-   g==;
-X-CSE-ConnectionGUID: PmO90BjJRE+0z1gS8IYUpg==
-X-CSE-MsgGUID: J6yDbjz5THaXzWfEZPeG2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20592754"
-X-IronPort-AV: E=Sophos;i="6.09,253,1716274800"; 
-   d="scan'208";a="20592754"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 00:45:41 -0700
-X-CSE-ConnectionGUID: MAybUQ/zTe23PD/hnvB0fQ==
-X-CSE-MsgGUID: FGFpauYNTMWJo2D4cfznfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,253,1716274800"; 
-   d="scan'208";a="59601972"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Aug 2024 00:45:40 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 1 Aug 2024 00:45:39 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 1 Aug 2024 00:45:39 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 1 Aug 2024 00:45:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uY3Bg+wAZCBywskNeWwCITaBXGr5WFJpSuRhGTwL6625loy/XMOLgPCpPVSWxr1srkQWaPRLZJTiLo8xonYZq3zJlTnQo2J29dPEpcEc3EtjMLOyS2ufS62+kYT7+fHXcF1XJf2TsBg7wP1n1+akExRa/D3/Ur/f6eYCseXfYih1KKD98yeRhGdDKMz5n7dMoxqM4QqhZpikN9p0taDt2M82i1H7MGN6R5H5ytQJaFwnNwGEWKoYBa/ijjOSyfKpCYwGyeAu+vC8J2Lo6uJnuj78bzWs1Qi9copNV9A2kYVNcu/LBry3etb7gb+NnEJaIGS/6vu3QfeMPcWPqWfimg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mKvEK102HPMjk6CZIOxK5j+YDHCMBL+db7v6fvi7rBM=;
- b=Gmx22REtAf4wWYMMaQQ3g8Sqxaf5cTCmq9AZ+35UPC1wOCeojmQoxJLZa7VOdZCCAKZ0fB2f2EYyWMBh26W8Y/LCswTXXkW1E4d3blg51HlMib1D4cJMKAPKvV2x88fGBG/P+pvKjZGO+qWuY5F49NzeUFcDUKwyTuIG5VFwY2wmIU/DrjT5940sPlIdBHKVNLTOjlGAlayInTtPOwjqTcUC6J1qbVu3hdfKRHq2yHSG4NfXb80E9/VrD4GS7zPD2DUM2HM0b377q4SZI8ZYzX0UYCqptnVGCltfqCltnARGCkiHouMg8v2jkzxQbfSNFQMH78MlmSNtchcIF19h6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com (2603:10b6:510:129::20)
- by PH0PR11MB4808.namprd11.prod.outlook.com (2603:10b6:510:39::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Thu, 1 Aug
- 2024 07:45:37 +0000
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::c80d:3b17:3f40:10d6]) by PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::c80d:3b17:3f40:10d6%3]) with mapi id 15.20.7828.016; Thu, 1 Aug 2024
- 07:45:37 +0000
-From: "Song, Yoong Siang" <yoong.siang.song@intel.com>
-To: "Drewek, Wojciech" <wojciech.drewek@intel.com>, "Nguyen, Anthony L"
-	<anthony.l.nguyen@intel.com>, "David S . Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, "Alexei
- Starovoitov" <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper
- Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
-	"Gomes, Vinicius" <vinicius.gomes@intel.com>, Jonathan Corbet
-	<corbet@lwn.net>, "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
-	Shinas Rasheed <srasheed@marvell.com>, "Tian, Kevin" <kevin.tian@intel.com>,
-	Brett Creeley <brett.creeley@amd.com>, "Blanco Alcaine, Hector"
-	<hector.blanco.alcaine@intel.com>, "Hay, Joshua A" <joshua.a.hay@intel.com>,
-	"Neftin, Sasha" <sasha.neftin@intel.com>
-CC: "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH iwl-next,v1 2/3] igc: Add default Rx queue configuration
- via sysfs
-Thread-Topic: [PATCH iwl-next,v1 2/3] igc: Add default Rx queue configuration
- via sysfs
-Thread-Index: AQHa4h84HPiCRxyxF0yMxQmh+zwEy7IPDJ4AgAL1wOA=
-Date: Thu, 1 Aug 2024 07:45:36 +0000
-Message-ID: <PH0PR11MB5830008CD236D81B7224A05FD8B22@PH0PR11MB5830.namprd11.prod.outlook.com>
-References: <20240730012312.775893-1-yoong.siang.song@intel.com>
- <171a20b4-0e52-4ddd-a5a5-6f3f3f1d32b0@intel.com>
-In-Reply-To: <171a20b4-0e52-4ddd-a5a5-6f3f3f1d32b0@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5830:EE_|PH0PR11MB4808:EE_
-x-ms-office365-filtering-correlation-id: be802663-33a2-4946-9bc0-08dcb1fdeeba
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018|921020;
-x-microsoft-antispam-message-info: =?utf-8?B?MzNmYklSdmZUS2hXWDZpcDV5TGtCbHpiM2MxYjVZQ3ZLTmFQSDdTL0lxaTBU?=
- =?utf-8?B?SG9EbHVvTFRLeTVjckJZQlhPdzJJYzc5bkFiazNuVEE2bStpYktVMXZGeFlo?=
- =?utf-8?B?Y0lReWVCb0ZCNUJZWnVKQ3g3OUJtSGc3cHZYaTdlMFVsQTd3a3dQVm9nanRv?=
- =?utf-8?B?Tm11VjBKaUFjSVhCdnFtd0NZV1cyN1pVRmI3UUUvcmNrQ2hGeFcyYnVvc3Vy?=
- =?utf-8?B?Y1h3KzVya3Fyb1RRelIxeVRiVDQxditwNWloZGVoR24wUVNOblEyTFlpR0JQ?=
- =?utf-8?B?eEFOeUdJV3hPQWVhNGVPSGMrbWdFTHIrdC9NRGJ4citPSzZZYXhGR29xODVu?=
- =?utf-8?B?dkJMTktiblpNZnBpclBGd1dWSmxGVGsxQmQ2TjBEeW1VZHBNZXo2dnBSL25T?=
- =?utf-8?B?K3JpLzI3YVFGWHZpSSt5TGFuVyszVTliQzdSV2ViblVXbjNDNTF0b1czZk5m?=
- =?utf-8?B?SWNxWTR5V20wVFRieEhZRTNMbEtGM1ljWDkzR0JqUnZ1dnc2QkIrS0xZOTFP?=
- =?utf-8?B?TzFtRGFFTlJLb3ROdy92OWtOUUhzOG0xRm1GS2J3NHV5WGpORm1LK2lxb0d1?=
- =?utf-8?B?Tnp3M3dOdU9nR0NtTlpBWkJUczNXeGZySytBS0tIL3AzRnFocHJwM1ZtaFJ2?=
- =?utf-8?B?cERITmxqSEFaOUxqVFJEdWFrTGdqTlBLeDhTZVdleTd1S3lHc3A4c2d6TlRI?=
- =?utf-8?B?TTNaK01mY2R0anc3QWN4S00yQm9QWm5ndFdFNTBORUJaSndQbnpVY1FiSnpj?=
- =?utf-8?B?cW5wbVFSWFRGYmlhOU1xaTNRNEx6SDJBTno5YXlsREZUS0NCWTVxT3psSW1v?=
- =?utf-8?B?K1dqSWYzT0ZKTnZ1VjZLRjVQUFhpbGg5eXUyYUpoc0IybHJ4bi9jUUdDWFFs?=
- =?utf-8?B?dmUrcWk2OFc4Q3pCMG9UREdSYmY5eWEyMVhWU21jZlNJVzNLS05KeFl3blR5?=
- =?utf-8?B?dVVySko2RnkyOVhpeEhCVmVEdS9RY0RxUk1VYkVxbUZwVWNYYWdwMHphSUxn?=
- =?utf-8?B?Zi9WRktlc1orRXRPZVBtQThXUlU2THVGczlzL1N4MHhsaUlRcGJVcFVqOXNi?=
- =?utf-8?B?cUZDcWN3d0FLczBtOVI3NWFRU3hUOXJTM29hWTBhcGRoL3JjR2dGeldHeFcv?=
- =?utf-8?B?dTdoaW1oNlpsQXRndEFOanVzOHFhZklvZGVJYnUrWk95ZGdVWnlvMDIxb00r?=
- =?utf-8?B?TVV4NkhsV2ZEcVF3SG5MNEpzUDR4RG5rZ0ZpRDZPWXpLQU13N00wdHRnQk5j?=
- =?utf-8?B?SVBoeGY2eGdoWmhQTzZ4cGJJT1BhNUE2UFhWZVZPVnEzajdEY1FOKzhiM1BM?=
- =?utf-8?B?dURNdm9va3Q0cWdtTEkyalNjNGlIY3phak1VVzhnaXlwS3BYWHhrQWJSSDBi?=
- =?utf-8?B?MVcvMXNRaFFHcWRvOURaWDVEME9JQnBQZndTUDd2elhhQmJ0WGpITVlCUG1G?=
- =?utf-8?B?anc3ZHczOGY3d1VqVzNJTkFRUHFEUHZRL3ZqcTlOcjhKNHNXMDJxVnp6cEtv?=
- =?utf-8?B?NnhDcjExZHpYL2pXQ1JMelFOSFd6Y3RVVm56aTBnYnZwdEdZNVRuQUJZNWtI?=
- =?utf-8?B?TGZIREtPeTVDVFpia2Qyb1VPRHV2SEoyMC84Mmw5UXpGaUtzSmR2MnFKUDlU?=
- =?utf-8?B?WXhNajRCWHdIR2FPeEc5SGt5REFCSnNWNUV3eDZDRlM4N3hKT3d0ZFZ0Ykpw?=
- =?utf-8?B?MU1hNitkUXhndE1jd0JUVVF1SDdYQkFTeXRlY3VZREZmWTZTN3cvNVVvUzBK?=
- =?utf-8?B?bk1jczdNU2F1SDR0QmdJYnV2YlkxbERoaXl0N2wzY2U0QlNYK2wvOHZOVVp5?=
- =?utf-8?B?WS9DVStnVFRSNndUdkV6b2JsOENHTG1HZFhRa3Q4TTZscjRBODE4U1hsOGhl?=
- =?utf-8?B?andSV3g0OG1NUWJCNTlLaU9XaE5NM1NWM1FxL0F5Um1Bd0RYQ25TVzFsbjdy?=
- =?utf-8?Q?1wSlsN0aiBk=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5830.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018)(921020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q3dEVTVEZDQ2SXlwNURQU0hwM1ZGbEZsM0pidVdXRmhPMHRYaklvL3huWlds?=
- =?utf-8?B?c1JKdnRvYUVOOE5pM1BKeEpUQjlkRXFZeUxHcy9mL2pBOEVUaGxEYnU0dXdO?=
- =?utf-8?B?TEFKSXhMT1RZZUFlZ1c4aFN6S1VMckl5cWxFNE5uN0hJWmQva0ZwN0RMU21J?=
- =?utf-8?B?TGhpcHJLenBjbGQ2c0Y5ZW1NZzY4b3hMeTdCWnpZcXpXNURTSW80bWIxVUV1?=
- =?utf-8?B?Zlk3bmFXc2VvSUdRNjJCeUMvNWRTbU15OGFlcnZHWWtqMXNNRm5GMWRrbVk5?=
- =?utf-8?B?dHBJZVVBUjFEanIwcWduNm5UUzNMSk0waEtHMVFqeEtzQnRvSlk4VkpBK1Zp?=
- =?utf-8?B?eEdJSmZreFhhN2JNc2QxTUdPM1hBV3dLYTg5VmRCMXFVQTF0aVh2UjgrbHNG?=
- =?utf-8?B?NDN4ejdRVkhZQUhGaVpBUy9wSUpNdXk1MjlCSmIya1RaL0dJc0lpMWFtbk9W?=
- =?utf-8?B?U0ozbHpXMlVKSkpQY1k2RFBqWUNBbWJPa1pOR0h0b3dvUDJjd1dIY3Y5ZG1i?=
- =?utf-8?B?cWdIZ3lacVJ0a3Exc3RLd0Y2SzgwMEZCZCtEMzBzMyttZUM2WFE3VTh1V21M?=
- =?utf-8?B?d1RGUG5OWnRaYnlvbU9BYmlqUkYzdWNnL2tNU1RpTldnTTBER1VjeEtubFBi?=
- =?utf-8?B?aklKK0tWRGdpdk5JOWd0VmVVN05ZaXRNeDk4TUMrQTkrYU9LMHIyMGRRZnVn?=
- =?utf-8?B?bVg5dS8ySjg5RVNGTEZ1SnBTMVowU01ZbG5GVksrT1FHZDkwam55ZmVNVHJP?=
- =?utf-8?B?T1l1aXhaYlpRN3JvUHF2YVNSbGIzRkdTUkhmbmhuWnMrK0RwZ0xtZG1uczJq?=
- =?utf-8?B?SHFPcHR3VmtOS3QrbFhFakJpbHIzYzY0SjlZWVBBVmdrWE5TQU1SZ3QzVzA3?=
- =?utf-8?B?M05lOVNaMlpTNXlnWU01NkFCTFNoRzFTajYrQkhMby9GbFJ2MGJiRHVYTWpa?=
- =?utf-8?B?TXE1bkxpSndDVEFLdkNpZ01XbHFpci9PeUJIS3oxZmpJb0srVS9MMXNXNENT?=
- =?utf-8?B?RDg2ckhZQVBHK2o2UXVUenUxeDR4NitjZXBYNStZR0s3Zjkvc0lhNDVjNWdh?=
- =?utf-8?B?emV1bXZpR0RVOVRYeEV1NzRFOGticzVWaXB1MjBFeDNDMTJidkZzYWw2eGVI?=
- =?utf-8?B?SlU2Y0hkSk5uSjZudVk3bUVWMjM5elBZemRCU0dqZXBsM3pmbGxwei9Ua3Vy?=
- =?utf-8?B?YkdEa25GOXB0Mys1a2g4N2JCUFBRV3FaVk9CamcwVUlBUUZaeGh0SmQrd1pX?=
- =?utf-8?B?YWZDZTU5ZU4vVjBpemt3NFpGUzFMVjdQTFBRaW9SVHVpSjNsN0p4OWZiSE43?=
- =?utf-8?B?Zjhtb1FBbWFGenFVaE5vUXpFQ244WHAreWpOdElBei9LVWIvdkdncHBmdE9s?=
- =?utf-8?B?TG95cks0L3JKUjVBRVlBdXV5clMvVGQ1cUY0ZUdSM3ZKWFg3QjEvODgxam0w?=
- =?utf-8?B?RndNUXNNSldhN3RqY2xTOW16SFY4NWVFSzdHeUM2MjR5ZVV4dld5NUVXYVFY?=
- =?utf-8?B?bytEaG4wQXBvaWNRL1pNY2gxNXBjaUJ4bEx0aHprclMreVBtYnVWU1BaTFRs?=
- =?utf-8?B?YVlNNUlwMWcyMml3NGxHemV0RzB6YS9Lc2MzcGVhRjBGT3lVcTV5NUo3eVcy?=
- =?utf-8?B?bzcrR2F5UEFtYWtRL0pkdjMzTXU3Z1ZsYktrTG9Cc3N4ZnMwekt5YUhRZEcr?=
- =?utf-8?B?K2xNQXlVbC9xK1lXeXh6UGNsR3RONDRKY211M0RkY09wTkdLT1J5SVU3ejBp?=
- =?utf-8?B?Q29xYkF0ZHVQUnBLWXVYSTVRL29oMXQ1S25oTHJISGJDcUo4Y2txM1k3U24x?=
- =?utf-8?B?L3Y2T1ZQWElOL015QlgzMnZhelphKzdWUzdXSTNQZVBuUzRuMWtXYVI2WXZq?=
- =?utf-8?B?Qm8rNDVjTHlzenovRm1NNFEvdzBwKzYxc1dOeVR4ZlNkWmFrMWFORmg2elBJ?=
- =?utf-8?B?VVROTE4yNldLdjVQcWJlTVdsVFRxanhXMmRpYXkwVHY3OHA2TE1YOGM1RUdJ?=
- =?utf-8?B?Z2Y5SEJVdGk5TmZMWkcwRlBlUDRpUHYydDFVRjJoaEJYNGovdEYvQnhsNmVU?=
- =?utf-8?B?Y1BnaE9NVFdjUXd3Q2FINXNoUTByR1BPS3RKMmpXMHRGSWI3RjFnTkFheFo1?=
- =?utf-8?B?bVNSVjVkdXVUVENhTEVxdnBKekRPajVaMnlOYzJPai9qakpad1VCYkliZ01M?=
- =?utf-8?B?VVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="H8mvKYui"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a7a8a4f21aeso878128966b.2
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 00:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1722498525; x=1723103325; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lpgRYBRoCwuCvyWPTeidprozH3XXG59M+x9HHpyT17c=;
+        b=H8mvKYuiefEVmH3Vlkz+r20w8vumODaeu7afDhbg20JyG3BsuhKuSt2aC2mRWP9UCq
+         Z/0FcEjn5SNsqlS8uguHy7tka8giolaTOrOBc6XyUtjGbwtCxqTgeI1ne48pbzKlN0Pc
+         Vz0Nt8z1U/OFUL6Zx8aqt93gKDOlYZRPpFbrdKaRXIO4JtuxzZYtavo/Q6Aj4su37Wob
+         3kB9cwJD0kuZTgT8rv77r8eXWS4FhqYkQbifX+Z65n7VkoQMHrLVRCRDTxmKq+TXcndh
+         782gTIPDyEvXVlCLbZb8S41AO0v9TRQlQ7HBw/+BwiFT1i1UU1zLXMTQMFiAbz/n6sHz
+         3bNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722498526; x=1723103326;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lpgRYBRoCwuCvyWPTeidprozH3XXG59M+x9HHpyT17c=;
+        b=C5oHLq8amIqiOiUdHUkdbqhaMyO5+DHhOjG9Y6pz2eXITOqXBI807u9FmSRpM/f49Y
+         bMRmHytLwcfuqbZGwxhuAp9EAybIFW3t+9ogZ2RRrMVldJhhbIGGMHUD5pFxUWVHmkP3
+         UICiZLuK3NtYt7fCN+aG8Zq+1AlGAXAk1Gmbxt3QsyKoUZ70u2zoXJMq461/tdzkgbVq
+         BA7/YBOLYKwANNaZoO13A9HM/ZaV76cdjBl3hNcCGYkZwEvk4a3xJh2nFCunsD9frytU
+         ikPXtWOZD+jaUz0lTBwMvblflMFVwv2lWSFJpojBbRFso7ej2ukRo8uuTfORxaWhalvy
+         MorQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVD77o5iRk3HwOjQ9i92QRYnfyww+xWpOoEMPaDnVCLwWjUV+IwWqsChvzsycY2BX6ufVHJ5gON8GUGFjx+3/UgVtBil+0ggAgB
+X-Gm-Message-State: AOJu0YxmHwDzscgokZ2fMOHRbVMj8D6oEjddExM8c0eTKqycrxKm3bFp
+	F0XH2fmjCq9BgrB5/Kjif/HA/uzZtfBozRGMdCbBQXznOtK3iz+xQWoeEbILl8Q=
+X-Google-Smtp-Source: AGHT+IGJv3Ero2PFVW3HYlIFYvhbjq3izkAroXjPAXo8JMZv78p6fmd7ZKLSN2GEo8xLlJkmY0TzFw==
+X-Received: by 2002:a17:907:6e9e:b0:a79:8318:288f with SMTP id a640c23a62f3a-a7daf51bca7mr126973566b.16.1722498525027;
+        Thu, 01 Aug 2024 00:48:45 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab4de06sm859070366b.71.2024.08.01.00.48.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 00:48:44 -0700 (PDT)
+Date: Thu, 1 Aug 2024 09:48:43 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
+Message-ID: <20240801-45b47eced3011c8a400ff836@orel>
+References: <20240731072405.197046-1-alexghiti@rivosinc.com>
+ <20240731072405.197046-14-alexghiti@rivosinc.com>
+ <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
+ <CAHVXubgtD_nDBL2H-MYb9V+3jLBoszz8HAZ2NTTsiS2wR6aPDQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5830.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be802663-33a2-4946-9bc0-08dcb1fdeeba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2024 07:45:36.9703
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tbjKYTmDS8o08O2KVt9LzRLpTW5AXhN2n1mQZCnCrpqF9JSGiz8/uWxSiiE4kktNuOiDJ7iCV03iYXyvdQI4eoELzpZrmdAYS0oYFc0Mv2w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4808
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHVXubgtD_nDBL2H-MYb9V+3jLBoszz8HAZ2NTTsiS2wR6aPDQ@mail.gmail.com>
 
-T24gVHVlc2RheSwgSnVseSAzMCwgMjAyNCA2OjA5IFBNLCBEcmV3ZWssIFdvamNpZWNoIDx3b2pj
-aWVjaC5kcmV3ZWtAaW50ZWwuY29tPiB3cm90ZToNCg0KWy4uLl0NCg0KPj4gKwlpZiAobXJxZSAh
-PSBJR0NfTVJRQ19FTkFCTEVfTVEgJiYgbXJxZSAhPQ0KPklHQ19NUlFDX0VOQUJMRV9SU1NfTVEp
-DQo+PiArCQlyZXR1cm4gZmFsc2U7DQo+DQo+anVzdDoNCj5yZXR1cm4gbXJxZSAhPSBJR0NfTVJR
-Q19FTkFCTEVfTVEgJiYgbXJxZSAhPSBJR0NfTVJRQ19FTkFCTEVfUlNTX01RDQo+DQoNCkhpIERy
-ZXdlayBXb2pjaWVjaCwNClRoYW5rcyBmb3IgeW91ciByZXZpZXcgY29tbWVudHMuDQpJIHdpbGwg
-aW1wcm92ZSB0aGUgY29kZSBhY2NvcmRpbmdseSBpbiB2Mi4NClsuLi5dDQoNCj4+ICsJaWYgKCFp
-Z2NfaXNfZGVmYXVsdF9xdWV1ZV9zdXBwb3J0ZWQobXJxYykpIHsNCj4+ICsJCW5ldGRldl93YXJu
-KGFkYXB0ZXItPm5ldGRldiwNCj4+ICsJCQkgICAgIk1SUSBkaXNhYmxlZDogZGVmYXVsdCBSeFEg
-aXMgaWdub3JlZC5cbiIpOw0KPg0KPlNob3VsZCB3ZSByZXR1cm4gYW4gZXJyb3IgaGVyZT8NCg0K
-WWVzLCB3ZSBzaG91bGQuIEkgcGxhbiB0byByZWZhY3RvciB0aGlzIHBhdGNoIHRvIHVzZQ0KZXRo
-dG9vbCBudHVwbGUgbWV0aG9kLCBpbnN0ZWFkIG9mIHN5c2ZzLg0KSSB3aWxsIGNvbnNpZGVyIHlv
-dXIgc3VnZ2VzdGlvbiBpbiB2Mi4NCg0KPj4gKwl9DQo+PiArDQo+PiArCXJldHVybiAobXJxYyAm
-IElHQ19NUlFDX0RFRkFVTFRfUVVFVUVfTUFTSykgPj4NCj4+ICsJCUlHQ19NUlFDX0RFRkFVTFRf
-UVVFVUVfU0hJRlQ7DQo+DQo+dXNlIEZJRUxEX0dFVCBoZXJlDQo+DQoNCk5vdGVkLg0KWy4uLl0N
-Cg0KPj4gKwlzdHJ1Y3QgcGNpX2RldiAqcGRldiA9IHRvX3BjaV9kZXYoZGV2KTsNCj4+ICsJc3Ry
-dWN0IG5ldF9kZXZpY2UgKm5ldGRldiA9IHBjaV9nZXRfZHJ2ZGF0YShwZGV2KTsNCj4+ICsJc3Ry
-dWN0IGlnY19hZGFwdGVyICphZGFwdGVyID0gbmV0ZGV2X3ByaXYobmV0ZGV2KTsNCj4+ICsJdTMy
-IGRlZmF1bHRfcnhfcXVldWUgPSBpZ2NfZ2V0X2RlZmF1bHRfcnhfcXVldWUoYWRhcHRlcik7DQo+
-DQo+VXNlIFJDVCBydWxlDQo+DQoNCk5vdGVkLg0KWy4uLl0NCg0KPj4gKwlzdHJ1Y3QgcGNpX2Rl
-diAqcGRldiA9IHRvX3BjaV9kZXYoZGV2KTsNCj4+ICsJc3RydWN0IG5ldF9kZXZpY2UgKm5ldGRl
-diA9IHBjaV9nZXRfZHJ2ZGF0YShwZGV2KTsNCj4+ICsJc3RydWN0IGlnY19hZGFwdGVyICphZGFw
-dGVyID0gbmV0ZGV2X3ByaXYobmV0ZGV2KTsNCj4+ICsJdTMyIGRlZmF1bHRfcnhfcXVldWU7DQo+
-PiArCWludCBlcnI7DQo+DQo+UkNUDQo+DQoNCk5vdGVkLg0KWy4uLl0NCg0KPj4gKwllcnIgPSBz
-eXNmc19jcmVhdGVfZ3JvdXAoJmFkYXB0ZXItPnBkZXYtPmRldi5rb2JqLCAmYXR0cl9ncm91cCk7
-DQo+PiArCWlmIChlcnIpIHsNCj4NCj5ubyBuZWVkIGZvciBicmFja2V0cw0KPg0KDQpOb3RlZC4N
-ClsuLi5dDQoNClRoYW5rcyAmIFJlZ2FyZHMNClNpYW5nDQo=
+On Thu, Aug 01, 2024 at 08:53:06AM GMT, Alexandre Ghiti wrote:
+> On Wed, Jul 31, 2024 at 5:29 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Wed, Jul 31, 2024 at 09:24:05AM GMT, Alexandre Ghiti wrote:
+> > > In order to produce a generic kernel, a user can select
+> > > CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
+> > > spinlock implementation if Zabha or Ziccrse are not present.
+> > >
+> > > Note that we can't use alternatives here because the discovery of
+> > > extensions is done too late and we need to start with the qspinlock
+> > > implementation because the ticket spinlock implementation would pollute
+> > > the spinlock value, so let's use static keys.
+> > >
+> > > This is largely based on Guo's work and Leonardo reviews at [1].
+> > >
+> > > Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
+> > > Signed-off-by: Guo Ren <guoren@kernel.org>
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > ---
+> > >  .../locking/queued-spinlocks/arch-support.txt |  2 +-
+> > >  arch/riscv/Kconfig                            | 29 +++++++++++++
+> > >  arch/riscv/include/asm/Kbuild                 |  4 +-
+> > >  arch/riscv/include/asm/spinlock.h             | 43 +++++++++++++++++++
+> > >  arch/riscv/kernel/setup.c                     | 38 ++++++++++++++++
+> > >  include/asm-generic/qspinlock.h               |  2 +
+> > >  include/asm-generic/ticket_spinlock.h         |  2 +
+> > >  7 files changed, 118 insertions(+), 2 deletions(-)
+> > >  create mode 100644 arch/riscv/include/asm/spinlock.h
+> > >
+> > > diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > > index 22f2990392ff..cf26042480e2 100644
+> > > --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > > +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > > @@ -20,7 +20,7 @@
+> > >      |    openrisc: |  ok  |
+> > >      |      parisc: | TODO |
+> > >      |     powerpc: |  ok  |
+> > > -    |       riscv: | TODO |
+> > > +    |       riscv: |  ok  |
+> > >      |        s390: | TODO |
+> > >      |          sh: | TODO |
+> > >      |       sparc: |  ok  |
+> > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > index ef55ab94027e..c9ff8081efc1 100644
+> > > --- a/arch/riscv/Kconfig
+> > > +++ b/arch/riscv/Kconfig
+> > > @@ -79,6 +79,7 @@ config RISCV
+> > >       select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+> > >       select ARCH_WANTS_NO_INSTR
+> > >       select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
+> > > +     select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+> >
+> > Why do we need this? Also, we presumably would prefer not to have it
+> > when we end up using ticket spinlocks when combo spinlocks is selected.
+> > Is there no way to avoid it?
+> 
+> I'll let Andrea answer this as he asked for it.
+> 
+> >
+> > >       select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
+> > >       select BUILDTIME_TABLE_SORT if MMU
+> > >       select CLINT_TIMER if RISCV_M_MODE
+> > > @@ -488,6 +489,34 @@ config NODES_SHIFT
+> > >         Specify the maximum number of NUMA Nodes available on the target
+> > >         system.  Increases memory reserved to accommodate various tables.
+> > >
+> > > +choice
+> > > +     prompt "RISC-V spinlock type"
+> > > +     default RISCV_COMBO_SPINLOCKS
+> > > +
+> > > +config RISCV_TICKET_SPINLOCKS
+> > > +     bool "Using ticket spinlock"
+> > > +
+> > > +config RISCV_QUEUED_SPINLOCKS
+> > > +     bool "Using queued spinlock"
+> > > +     depends on SMP && MMU && NONPORTABLE
+> > > +     select ARCH_USE_QUEUED_SPINLOCKS
+> > > +     help
+> > > +       The queued spinlock implementation requires the forward progress
+> > > +       guarantee of cmpxchg()/xchg() atomic operations: CAS with Zabha or
+> > > +       LR/SC with Ziccrse provide such guarantee.
+> > > +
+> > > +       Select this if and only if Zabha or Ziccrse is available on your
+> > > +       platform.
+> >
+> > Maybe some text recommending combo spinlocks here? As it stands it sounds
+> > like enabling queued spinlocks is a bad idea for anybody that doesn't know
+> > what platforms will run the kernel they're building, which is all distros.
+> 
+> That's NONPORTABLE, so people enabling this config are supposed to
+> know that right?
+
+Yes, both the NONPORTABLE and the scary text will imply that qspinlocks
+shouldn't be selected. I'm asking for text which points people configuring
+kernels to COMBO. Something like
+
+  qspinlocks provides performance enhancements on platforms which support
+  Zabha or Ziccrse. RISCV_QUEUED_SPINLOCKS should not be selected for
+  platforms without one of those extensions. If unsure, select
+  RISCV_COMBO_SPINLOCKS, which will use qspinlocks when supported and
+  otherwise ticket spinlocks.
+
+> 
+> >
+> > > +
+> > > +config RISCV_COMBO_SPINLOCKS
+> > > +     bool "Using combo spinlock"
+> > > +     depends on SMP && MMU
+> > > +     select ARCH_USE_QUEUED_SPINLOCKS
+> > > +     help
+> > > +       Embed both queued spinlock and ticket lock so that the spinlock
+> > > +       implementation can be chosen at runtime.
+> >
+> > nit: Add a blank line here
+> 
+> Done
+> 
+> >
+> > > +endchoice
+> > > +
+> > >  config RISCV_ALTERNATIVE
+> > >       bool
+> > >       depends on !XIP_KERNEL
+> > > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
+> > > index 5c589770f2a8..1c2618c964f0 100644
+> > > --- a/arch/riscv/include/asm/Kbuild
+> > > +++ b/arch/riscv/include/asm/Kbuild
+> > > @@ -5,10 +5,12 @@ syscall-y += syscall_table_64.h
+> > >  generic-y += early_ioremap.h
+> > >  generic-y += flat.h
+> > >  generic-y += kvm_para.h
+> > > +generic-y += mcs_spinlock.h
+> > >  generic-y += parport.h
+> > > -generic-y += spinlock.h
+> > >  generic-y += spinlock_types.h
+> > > +generic-y += ticket_spinlock.h
+> > >  generic-y += qrwlock.h
+> > >  generic-y += qrwlock_types.h
+> > > +generic-y += qspinlock.h
+> > >  generic-y += user.h
+> > >  generic-y += vmlinux.lds.h
+> > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
+> > > new file mode 100644
+> > > index 000000000000..503aef31db83
+> > > --- /dev/null
+> > > +++ b/arch/riscv/include/asm/spinlock.h
+> > > @@ -0,0 +1,43 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +
+> > > +#ifndef __ASM_RISCV_SPINLOCK_H
+> > > +#define __ASM_RISCV_SPINLOCK_H
+> > > +
+> > > +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
+> > > +#define _Q_PENDING_LOOPS     (1 << 9)
+> > > +
+> > > +#define __no_arch_spinlock_redefine
+> > > +#include <asm/ticket_spinlock.h>
+> > > +#include <asm/qspinlock.h>
+> > > +#include <asm/alternative.h>
+> >
+> > We need asm/jump_label.h instead of asm/alternative.h, but...
+> >
+> > > +
+> > > +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+> > > +
+> > > +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                   \
+> > > +static __always_inline type arch_spin_##op(type_lock lock)           \
+> > > +{                                                                    \
+> > > +     if (static_branch_unlikely(&qspinlock_key))                     \
+> > > +             return queued_spin_##op(lock);                          \
+> > > +     return ticket_spin_##op(lock);                                  \
+> > > +}
+> >
+> > ...do you know what impact this inlined static key check has on the
+> > kernel size?
+> 
+> No, I'll check, thanks.
+> 
+> >
+> > Actually, why not use ALTERNATIVE with any nonzero cpufeature value.
+> > Then add code to riscv_cpufeature_patch_check() to return true when
+> > qspinlocks should be enabled (based on the value of some global set
+> > during riscv_spinlock_init)?
+> 
+> As discussed with Guo in the previous iteration, the patching of the
+> alternatives intervenes far after the first use of the spinlocks and
+> the ticket spinlock implementation pollutes the spinlock value, so
+> we'd have to unconditionally start with the qspinlock implementation
+> and after switch to the ticket implementation if not supported by the
+> platform. It works but it's dirty, I really don't like this hack.
+> 
+> We could though:
+> - add an initial value to the alternatives (not sure it's feasible though)
+> - make the patching of alternatives happen sooner by parsing the isa
+> string sooner, either in DT or ACPI (I have a working PoC for very
+> early parsing of ACPI).
+> 
+> I intend to do the latter as I think we should be aware of the
+> extensions sooner in the boot process, so I'll change that to the
+> alternatives when it's done. WDYT, any other idea?
+
+Yes, we'll likely want early patching for other extensions as well,
+so that's a good idea in general. Putting a TODO on this static key
+to be changed to an ALTERNATIVE later when possible sounds reasonable
+to me.
+
+Thanks,
+drew
