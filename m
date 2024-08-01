@@ -1,201 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4777B1EB4B5;
-	Thu,  1 Aug 2024 15:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0913EA7B
+	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 15:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722525427; cv=none; b=qvkzhW9wnOmeXpT/5duVhO0ohspssKw/8REWle507Cxu7mRcOff4FVvEHY/ctzpIcNaFW5TiUjSj6ZRURFKoOikq8W9MqvlP1Map7kyPto4pBqWG3E1wu+5wSZj4PnkBNLMYM5AD5CVN65ASZNsfk1sxwveo2NZdIeI2l0twhno=
+	t=1722527237; cv=none; b=NoQ799N1fCmhTPhe48Q6mduGhoKTTJo3kqYZkjUqcskDP/sM4k7VofS+4Fy5eI2EC0xL5zxdVDwABbL7SQRmOhIDsBHOTDgLYsBOP4hZz7y8R+y3Zd+PaTN2JZUnATmTq6xsjw3Xvy0Il5vqnLcHR0KmdqPPfoPB7dDh+2+XSlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722525427; c=relaxed/simple;
-	bh=jyVbta1mUuxwm3u5mh3uM5NIXWN+tTgIG8i6Fx9mbGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kysF4Enk/GkMXC8+rhky4aV2l/s8cA8bpaLDZ3x0kwI6Z+2R+QzA8xFpjCuw0Sa8C50hsX7muNF8d8brO1KVBAqTvk1psq6kE2xs9RMuSRV1wTyKDe9KBmX8WwODMSwHxMmZMOxz5LX+ldksb5r6nqRkTfvowrf6/SynGml4jjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFansC8g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722527237; c=relaxed/simple;
+	bh=ilZfXcO6hJA208IVXGrqXYcPS1Sb3+huWsZWxE45Zu8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bgYdSY590ZUIJgctj8Asd++6Diq51XJ52cxYzIAgEg4vW/RHv0VTPkVsrkURGMbEhoOACz/Ap6OQHHxOYOttxEyRwJv7EqEoMyisPhYO6F0AY7eeTKYm9s3e1vGNf5gd4OYYhy6tlTGhoIhjigVLtns3yvo+WlRinvodoDod/cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jfwkgktl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFansC8g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F37C32786;
-	Thu,  1 Aug 2024 15:17:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722525426;
-	bh=jyVbta1mUuxwm3u5mh3uM5NIXWN+tTgIG8i6Fx9mbGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZFansC8gaySRnEUbwCH9es1MlvqgFSrTHWUf56BGCUF7djkabx8LfT+ZAEnuE8nca
-	 m75hY2YBWwXMMmfOQIiHl/y42Xr3aKyKZmMeiu5PEDM70mpoIpKi/Yu9HONVIjgeHB
-	 ZpQKYSP41L6SDXP6KLTnmtyZkNMe7NKGWK0zGMP1xyOeZATCHg+7Y9RglNzmV3eb7Y
-	 l5Cb7p2dh05ngOvKfT3x+PG4x5OzjSyKCcpS7aqVZVv/91d1R3BkXmelpFHlrdVeXE
-	 qo2ICTY3B8hQKbMAF7OdhNLgG5YmTqkvHjlf2XK0aG6htALLhCX6bhYS7V8rOBbWnY
-	 5XCMyflA+eavg==
-Date: Thu, 1 Aug 2024 16:17:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-Message-ID: <20240801-most-greeter-2932bee3879a@spud>
-References: <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
- <20240722-popper-comfort-7538ea70c77b@spud>
- <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240723-smitten-shower-1d15c0f3cf97@spud>
- <AM9PR04MB86043E4B4B2FB206BF9223C695AA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20240724-huddling-neatly-88813c0b1f1d@spud>
- <DU2PR04MB85990A0AB8AF8ABFCDA4CBD995AB2@DU2PR04MB8599.eurprd04.prod.outlook.com>
- <20240725-filled-outscore-24149588d958@spud>
- <AM9PR04MB8604E23D34326C32B76D6F2995B42@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <AM9PR04MB8604087289C777F0F0C7597B95B22@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jfwkgktl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722527234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Ewe0F8RHcsWNAOv/6wp3EHuEcI8EE8F+ESfbBnzRHNA=;
+	b=Jfwkgktl2witNHxzYmCZukT5auvxhW8mIf4XMohXGp3SuKKq9yc7BBZhQl50uq77Zh6dAT
+	YFzhlJyCqvwuweK6E08SNA6BQdlkuZDqME/MdY2YMFiI1AzBh9Njl8II6+hBhMC5zTNmNk
+	3ZX5TAHOaaAqxgIiDjcaf5S59dYedGs=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-467-SCIV_q-OOaKGbZAXuOlD_g-1; Thu, 01 Aug 2024 11:47:13 -0400
+X-MC-Unique: SCIV_q-OOaKGbZAXuOlD_g-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ef244cdd30so72339611fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 08:47:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722527231; x=1723132031;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Ewe0F8RHcsWNAOv/6wp3EHuEcI8EE8F+ESfbBnzRHNA=;
+        b=uLowuUw3/3V2bwFMl9o3Y/CeHbfzK1xZuG90Q87FUAzB0E/BqAuENI7pLi9j9xKboP
+         KgOwFY4TW+1uUbj6Hk79UmUSoMSQ/KF2pi+vsWwUqkw5M5TUtn7jrGTCIL4nNLfPs8Oa
+         06D5V8u+NE7Np51dTEi9D1JpzALy5ZsoElAh8rXCB+DoiuSv13btXCmHp0rbSIa6q53M
+         ccGw0CK1dISlWucNl+rD/+CX0LDgOhLwbHHFP4n1nFUCn2QcA3OC/WAEV3utIfxwyARU
+         YEJvzv+9kdCuU5508d04mW1JCfaORnXx5npF0auCyKJtt5UOy2Huh2wpEqhGQibbFPu/
+         cMLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVCfz9+gw/7++pXt/llUqV58KvM2qgSvpa79wm2HtxmqjufirOCsvSiHFkzai/IB8l6pBg6eYGzKsAEqTERp+0SaC92+KtF75M9
+X-Gm-Message-State: AOJu0YxtjVxGEVNqAd48Qg1BH2ACrG4GRwR3edn6Lom4IdtoVdoLhZFD
+	ztkDPrc5jWkWUnaLBgYE+/wagHEBSh+6ubyTkwPC4895HbfRyFENSgdi9edy1S94Hg2DtarwoWk
+	mZemXg2EJSapGKXhiS7TRichVZebkxc5OFtiUPyEhWkAGU6UW/UNoLdVD6g==
+X-Received: by 2002:a2e:988d:0:b0:2ef:248a:aed4 with SMTP id 38308e7fff4ca-2f15ab530a4mr4884981fa.42.1722527231230;
+        Thu, 01 Aug 2024 08:47:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5D9Qf22isUn/qIPSJKFlRTUhRHS1FC8fnZFiTlSa9rUzwVvalNpih/lMsHHWZ9ysCUpY1Ig==
+X-Received: by 2002:a2e:988d:0:b0:2ef:248a:aed4 with SMTP id 38308e7fff4ca-2f15ab530a4mr4884681fa.42.1722527230602;
+        Thu, 01 Aug 2024 08:47:10 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:5c00:e650:bcd7:e2a0:54fe? (p200300cbc7075c00e650bcd7e2a054fe.dip0.t-ipconnect.de. [2003:cb:c707:5c00:e650:bcd7:e2a0:54fe])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6cd8d67sm1542685e9.0.2024.08.01.08.47.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Aug 2024 08:47:10 -0700 (PDT)
+Message-ID: <aea333fb-44ab-41eb-9060-472b08e3010d@redhat.com>
+Date: Thu, 1 Aug 2024 17:47:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="HV45wl+UslN0ZSE8"
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB8604087289C777F0F0C7597B95B22@AM9PR04MB8604.eurprd04.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] mm: split underutilized THPs
+To: Yu Zhao <yuzhao@google.com>, Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 01.08.24 08:09, Yu Zhao wrote:
+> On Tue, Jul 30, 2024 at 6:54 AM Usama Arif <usamaarif642@gmail.com> wrote:
+>>
+>> The current upstream default policy for THP is always. However, Meta
+>> uses madvise in production as the current THP=always policy vastly
+>> overprovisions THPs in sparsely accessed memory areas, resulting in
+>> excessive memory pressure and premature OOM killing.
+>> Using madvise + relying on khugepaged has certain drawbacks over
+>> THP=always. Using madvise hints mean THPs aren't "transparent" and
+>> require userspace changes. Waiting for khugepaged to scan memory and
+>> collapse pages into THP can be slow and unpredictable in terms of performance
+>> (i.e. you dont know when the collapse will happen), while production
+>> environments require predictable performance. If there is enough memory
+>> available, its better for both performance and predictability to have
+>> a THP from fault time, i.e. THP=always rather than wait for khugepaged
+>> to collapse it, and deal with sparsely populated THPs when the system is
+>> running out of memory.
+>>
+>> This patch-series is an attempt to mitigate the issue of running out of
+>> memory when THP is always enabled. During runtime whenever a THP is being
+>> faulted in or collapsed by khugepaged, the THP is added to a list.
+>> Whenever memory reclaim happens, the kernel runs the deferred_split
+>> shrinker which goes through the list and checks if the THP was underutilized,
+>> i.e. how many of the base 4K pages of the entire THP were zero-filled.
+>> If this number goes above a certain threshold, the shrinker will attempt
+>> to split that THP. Then at remap time, the pages that were zero-filled are
+>> not remapped, hence saving memory. This method avoids the downside of
+>> wasting memory in areas where THP is sparsely filled when THP is always
+>> enabled, while still providing the upside THPs like reduced TLB misses without
+>> having to use madvise.
+>>
+>> Meta production workloads that were CPU bound (>99% CPU utilzation) were
+>> tested with THP shrinker. The results after 2 hours are as follows:
+>>
+>>                              | THP=madvise |  THP=always   | THP=always
+>>                              |             |               | + shrinker series
+>>                              |             |               | + max_ptes_none=409
+>> -----------------------------------------------------------------------------
+>> Performance improvement     |      -      |    +1.8%      |     +1.7%
+>> (over THP=madvise)          |             |               |
+>> -----------------------------------------------------------------------------
+>> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+>> -----------------------------------------------------------------------------
+>> max_ptes_none=409 means that any THP that has more than 409 out of 512
+>> (80%) zero filled filled pages will be split.
+>>
+>> To test out the patches, the below commands without the shrinker will
+>> invoke OOM killer immediately and kill stress, but will not fail with
+>> the shrinker:
+>>
+>> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+>> mkdir /sys/fs/cgroup/test
+>> echo $$ > /sys/fs/cgroup/test/cgroup.procs
+>> echo 20M > /sys/fs/cgroup/test/memory.max
+>> echo 0 > /sys/fs/cgroup/test/memory.swap.max
+>> # allocate twice memory.max for each stress worker and touch 40/512 of
+>> # each THP, i.e. vm-stride 50K.
+>> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+>> # killer.
+>> # Without the shrinker, OOM killer is invoked immediately irrespective
+>> # of max_ptes_none value and kill stress.
+>> stress --vm 1 --vm-bytes 40M --vm-stride 50K
+>>
+>> Patches 1-2 add back helper functions that were previously removed
+>> to operate on page lists (needed by patch 3).
+>> Patch 3 is an optimization to free zapped tail pages rather than
+>> waiting for page reclaim or migration.
+>> Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
+>> subpages when splitting THP.
+>> Patches 6 adds support for THP shrinker.
+>>
+>> (This patch-series restarts the work on having a THP shrinker in kernel
+>> originally done in
+>> https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
+>> The THP shrinker in this series is significantly different than the
+>> original one, hence its labelled v1 (although the prerequisite to not
+>> remap clean subpages is the same).)
+>>
+>> Alexander Zhu (1):
+>>    mm: add selftests to split_huge_page() to verify unmap/zap of zero
+>>      pages
+>>
+>> Usama Arif (3):
+>>    Revert "memcg: remove mem_cgroup_uncharge_list()"
+>>    Revert "mm: remove free_unref_page_list()"
+>>    mm: split underutilized THPs
+>>
+>> Yu Zhao (2):
+>>    mm: free zapped tail pages when splitting isolated thp
+>>    mm: don't remap unused subpages when splitting isolated thp
+> 
+>   I would recommend shatter [1] instead of splitting so that
+> 1) whoever underutilized their THPs get punished for the overhead;
+> 2) underutilized THPs are kept intact and can be reused by others.
+> 
+> [1] https://lore.kernel.org/20240229183436.4110845-3-yuzhao@google.com/
+> 
 
---HV45wl+UslN0ZSE8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Do you have any plans to upstream the shattering also during "ordinary" 
+deferred splitting?
 
-On Thu, Aug 01, 2024 at 08:52:48AM +0000, Pankaj Gupta wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Pankaj Gupta
-> > Sent: Friday, July 26, 2024 6:06 PM
-> > To: Conor Dooley <conor@kernel.org>
-> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
-> > linux-arm-kernel@lists.infradead.org
-> > Subject: RE: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se=
--fw
-> > binding doc
+-- 
+Cheers,
 
-Every single mail I am pointing out your broken mail client, and every
-single time you both ignore me and fail to fix it. Fix it.
+David / dhildenb
 
-> > > -----Original Message-----
-> > > From: Conor Dooley <conor@kernel.org>
-> > > Sent: Thursday, July 25, 2024 8:09 PM
-> > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> > > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > imx-se-fw binding doc
-> > >
-> > > On Thu, Jul 25, 2024 at 07:06:30AM +0000, Pankaj Gupta wrote:
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > Sent: Wednesday, July 24, 2024 9:00 PM
-> > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
-> > > > > Dooley <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>;
-> > > > > Sascha
-> > > Hauer
-> > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
-> > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > > > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
-> > > > > imx-se-fw binding doc
-> > >
-> > > For the third time, please fix your mail client so it stops inserting=
- this garbage.
-> > >
-> > > > >
-> > > > > On Wed, Jul 24, 2024 at 11:02:21AM +0000, Pankaj Gupta wrote:
-> > > > > >
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > > > Sent: Tuesday, July 23, 2024 7:38 PM
-> > > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> > > > > > > Conor Dooley <conor+dt@kernel.org>; Shawn Guo
-> > > > > > > <shawnguo@kernel.org>; Sascha
-> > > > > Hauer
-> > > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
-> > > Rob
-> > > > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org;
-> > > > > > > linux- kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl:
-> > > > > > > add imx-se-fw binding doc
-> > > > >
-> > > > > Please fix this ^
-> > > > >
-> > > > > > > On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
-> > > > > > > >
-> > > > > > > > > -----Original Message-----
-> > > > > > > > > From: Conor Dooley <conor@kernel.org>
-> > > > > > > > > Sent: Monday, July 22, 2024 10:20 PM
-> > > > > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > > > > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > > > > > > > > <robh@kernel.org>; Krzysztof Kozlowski
-> > > > > > > > > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
-> > > > > > > > > Shawn Guo <shawnguo@kernel.org>; Sascha
-> > > > > > > Hauer
-> > > > > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
-> > > > > > > > > <kernel@pengutronix.de>; Fabio Estevam
-> > > > > > > > > <festevam@gmail.com>; Rob Herring <robh+dt@kernel.org>;
-> > > > > > > > > linux-doc@vger.kernel.org;
-> > > > > > > > > linux- kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> > > > > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
-> > > > > > > > > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl:
-> > > > > > > > > add imx-se-fw binding doc
-> > > > > > >
-> > > > > > > Please fix this ^
-
-> Will use "secure-enclave" as the node name, in the v7 patch.
-> Will post the V7 patch-set, by end of the next week.
->=20
-> Please reply if anyone think otherwise.
-
-Sure, go for it :+1: And please actually read the comments I have left
-on every mail about your mail client being broken. I don't want to see
-20 lines of to and cc lists on every response :(
-
-
---HV45wl+UslN0ZSE8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZqum7QAKCRB4tDGHoIJi
-0i1fAQDARVLAUyl/noJ9pPy4aKx9io7tbLbY8MzHpfH8IY9sUAD8DF0JwpvUr3+S
-KT4+8O1kZsRm07SEpIhTNCbOxgYTwAk=
-=SbFS
------END PGP SIGNATURE-----
-
---HV45wl+UslN0ZSE8--
