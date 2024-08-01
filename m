@@ -1,66 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BD9170A15
-	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 09:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F141A140E5C
+	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 09:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722504855; cv=none; b=QPM7XuK4bbJpSUvv1FQjzhhdtbKereP5eQ8L7flNKuaQ5wfFAN30U5FpcDHfNvkvZBlR4dJnlXP6MkWKy8eo6LTgZ4ux3bU3+DvVEsTaZjeqmrvUbE6uL2CZpQUsgpkD9QzAMvqboY33C9gy4e/LxXqdEQG7POrugcD4Es8BWLc=
+	t=1722504982; cv=none; b=eDAPyb49AvKFnL4mVciUtlQNRTjWrcCkJBCdzLcZiEptPC3qFS+X+08B3ZoP0jWc7vl/qohsQgiLeau3KPmzTifSiF3nx4cddoq3EZzIiWhmx5Fc5mu6aFq4Sa06wFhkhGxuCeAJCkFhhIVpUkamqkP61PrQr/lHwqbd6F1V/Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722504855; c=relaxed/simple;
-	bh=OtlDzdM4oe21GfBWlTz0hmen8eQS7uEIYayF2mQiqdM=;
+	s=arc-20240116; t=1722504982; c=relaxed/simple;
+	bh=RQAbB+4xwgd8rgrT5Xo97jqhsVqqGwZd4S+HhvCqU10=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vFr+5gx+j2+B4BK7aFtYmVF9PGLR0HiMcWV7ZndrooMThj/AjJLf2fDfZ+27ExA4PkZwMaWcbMMxpyr/pSbZyHWZ5SXa+AijYt0+Zzp+BJ2cUbLaOol51DKaarFSgLMYRw2fcbRC9z5EVtxqd5qwjKaglaF8VTwPfej0NF7/X7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vek5F/6M; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=UgFTMKFWRFF/oA61ia26gaHJDITgczDlDC3fiwyXFVWX/bvUeGXirGmEAZS7QedyOn6XoBajexYeNFtErWIdk1gP5P9xVWtUd8hUc6vfEOZQaNOjf4oTd9eBm9el+y6g6vja39FMDLDp7RbHPy8kV8RspNLG9bdqPpbwmXR2u78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WRSdpF5n; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vek5F/6M"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WRSdpF5n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722504852;
+	s=mimecast20190719; t=1722504980;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4zaTn/YFgotAIGylW43Vgzq+0aYbo1DIlhcwsiRMBu0=;
-	b=Vek5F/6MMQOoOvVqL16YmpJ9PbtHMVnzrmuNKPGFRp3F69mz+w8yy8OO++cI/B3S1mr9I/
-	wmS+mNbtwBkxBhezYQFHBU3QOqPLuVJnr1DsbOPMtlqL6I8iDfmECVsONVKT4m6TFU3+xJ
-	+ULBd5Q3+t3mEDlBOkho60Rp04Lbss8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=KJ/HMyeCTpAdrNibsjz2nmyKmky95K7l5NS86QU5jXI=;
+	b=WRSdpF5nIlH3YQJR5Pax8xPkCgS67DZr2oAvxXFlc9hA2+N/GtgrsMB9BwtLhUIMkaGEIe
+	mi11qs8253xusQGcFDtSMrbvImiWJgrvaFlxEOY5kEuePQKaiEDju8yrU1p1cmDY+hTbSy
+	NKkuRXx+/OTSZlixwgHSTvN/t3jCEC4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-235-zQ33eMUBOfS6KLl3hd2xVQ-1; Thu, 01 Aug 2024 05:34:11 -0400
-X-MC-Unique: zQ33eMUBOfS6KLl3hd2xVQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-42808685ef0so39838235e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 02:34:11 -0700 (PDT)
+ us-mta-86-mAMFB_3YMki-_f__7kKNyQ-1; Thu, 01 Aug 2024 05:36:18 -0400
+X-MC-Unique: mAMFB_3YMki-_f__7kKNyQ-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-52f00c27b9cso1261676e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 02:36:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722504850; x=1723109650;
+        d=1e100.net; s=20230601; t=1722504977; x=1723109777;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=4zaTn/YFgotAIGylW43Vgzq+0aYbo1DIlhcwsiRMBu0=;
-        b=osV8RDif0vMCHxHL0Zu9K+Dj7bqYz+Cfp+NkYSdqAGLAaOG8v64PANcpY6FAbDaJyG
-         d4sxfEgXIf0VnB5A+hsg7+afhSRfMEekBA51Z6y+/mnpDZSigAOj9tpeqKQ8IFjDVtxb
-         mKPJpqchzubkuEAu3T6rGRkQxvfVCR5egc6gWq4r944ooRJUnoo05NY4f3X/N0GJNHkz
-         r+dGPjpXhwpHNfb+yNmhPW6BxYko30yjExeROTuD11p8Wb1fNM4vkyNmME0fLUzcotwl
-         z/6JSRJ0iGEJtoNoaJexOqDCblgpbRWnE/f3Wkq/sT6jAYDgx6t4vlUayeZdYcoOZCOy
-         EKsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFHPN4mKwFrJCejImgsL+MGkYbXdHHk2ME7tztJR3C8GEjZhVJi9fIYFVFGRcDvtyxgueGu5IS+b0tkGfE2e4/dpfZVhkDWV2z
-X-Gm-Message-State: AOJu0YyshzpwN3C9QOiD2+jarSPFXZN7XwDgqhBWxfK05Q+UVvGofvfM
-	EDFNkkNLzP3oB5U+jA+qQ9vwwOvyOHUr8I0+VlLwqAfm/rToaqkCOcjb467uVY8SewOkOnzip/L
-	b0aQCxpQiwNz1qpWDg6vlNxeOPDDZIbBhCNPCNY7jIPH2ENZe5yMAMs3wVg==
-X-Received: by 2002:a05:600c:46d2:b0:427:abf6:f0e6 with SMTP id 5b1f17b1804b1-428a9bdba6dmr16727065e9.9.1722504850114;
-        Thu, 01 Aug 2024 02:34:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsdIi9cbdhCyGOUOk209ImdY8rj8k70L4gcpiRY4RmZ4B6fxJ3acejCtVHfR5vm+WNgcQG9g==
-X-Received: by 2002:a05:600c:46d2:b0:427:abf6:f0e6 with SMTP id 5b1f17b1804b1-428a9bdba6dmr16726645e9.9.1722504849565;
-        Thu, 01 Aug 2024 02:34:09 -0700 (PDT)
+        bh=KJ/HMyeCTpAdrNibsjz2nmyKmky95K7l5NS86QU5jXI=;
+        b=hbEpd3zn7sAEI+c7qUNHFpjJXUPcgL+z49geizemZNYYkxX5ARzBIXXn1rh/k1wRXO
+         QBI0EJ3OfKJGfP2EgmX3zUkpj+kPsM/6GONOyzaxI4rJZlmvfuVr31mb51OWl00y1HFJ
+         s9X8GjftytPnZPZYcozJLDVZBtUwasiK8etDxjKV5IaUxmxcO/k5mUzd3H6WJakN3ZrI
+         m2gsBDzZnXYCBmLZffQgTdqdyJMS/xydEnmmjVCiyDmxxW3IzCKlXlfumw+4vv5Y6p/t
+         M6MGRgEjB2hG5I423qRywtrnutXJPKdriT4hGMABcEepebkkyx1wKyIsfxFp+198xEF5
+         ce/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWJV2+2tkh3fRrIpNqHkYk4DkAaUgmDq0X1kseoH09r1+GLt5l8t5goKFm1Ybr03HqxyhofuzrwfvW6ZqnhM+O16eAaG3YX5J3W
+X-Gm-Message-State: AOJu0YyDa8BB+YhsK2jkWH+CEiVKFbBlpCGVfMsAE54we/3snhI9hluF
+	F/Ph1MeZqX19728C80Ua8OzKnfqfUcfcfrpnBp/7BtG/q+XFMvAwcsd3ErQSgsNngIs5w9SzG+S
+	z7Q/y4P9ZxZlzbx376KUJO9iOkepbcSwsfJJQ+w/gtuq3O8LIZbNQFUh8hw==
+X-Received: by 2002:ac2:46ef:0:b0:530:ae0a:ab7a with SMTP id 2adb3069b0e04-530b61aa918mr892623e87.17.1722504977095;
+        Thu, 01 Aug 2024 02:36:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFBu+QMo4gAEWvVK7f3J31mT8lTsS1wPjplRZ9rVb/L5dLtT7Zpo/p40oBB0gNZnxzN3H/cdw==
+X-Received: by 2002:ac2:46ef:0:b0:530:ae0a:ab7a with SMTP id 2adb3069b0e04-530b61aa918mr892597e87.17.1722504976510;
+        Thu, 01 Aug 2024 02:36:16 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c707:5c00:e650:bcd7:e2a0:54fe? (p200300cbc7075c00e650bcd7e2a054fe.dip0.t-ipconnect.de. [2003:cb:c707:5c00:e650:bcd7:e2a0:54fe])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282dae2f73sm43560015e9.21.2024.08.01.02.34.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282baccccfsm50752385e9.29.2024.08.01.02.36.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 02:34:09 -0700 (PDT)
-Message-ID: <6ddd626e-23c3-48aa-9753-ab8d73a5f798@redhat.com>
-Date: Thu, 1 Aug 2024 11:34:07 +0200
+        Thu, 01 Aug 2024 02:36:16 -0700 (PDT)
+Message-ID: <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
+Date: Thu, 1 Aug 2024 11:36:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/11] mm: Add missing mmu_notifier_clear_young for
- !MMU_NOTIFIER
+Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
+ clear_young MMU notifiers
 To: James Houghton <jthoughton@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Paolo Bonzini <pbonzini@redhat.com>
@@ -89,7 +89,7 @@ Cc: Ankit Agrawal <ankita@nvidia.com>,
  kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
 References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-5-jthoughton@google.com>
+ <20240724011037.3671523-6-jthoughton@google.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -137,55 +137,23 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240724011037.3671523-5-jthoughton@google.com>
+In-Reply-To: <20240724011037.3671523-6-jthoughton@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 24.07.24 03:10, James Houghton wrote:
-> Remove the now unnecessary ifdef in mm/damon/vaddr.c as well.
-> 
-> Signed-off-by: James Houghton <jthoughton@google.com>
-> ---
->   include/linux/mmu_notifier.h | 7 +++++++
->   mm/damon/vaddr.c             | 2 --
->   2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
-> index d39ebb10caeb..e2dd57ca368b 100644
-> --- a/include/linux/mmu_notifier.h
-> +++ b/include/linux/mmu_notifier.h
-> @@ -606,6 +606,13 @@ static inline int mmu_notifier_clear_flush_young(struct mm_struct *mm,
->   	return 0;
->   }
->   
-> +static inline int mmu_notifier_clear_young(struct mm_struct *mm,
-> +					   unsigned long start,
-> +					   unsigned long end)
-> +{
-> +	return 0;
-> +}
-> +
->   static inline int mmu_notifier_test_young(struct mm_struct *mm,
->   					  unsigned long address)
->   {
-> diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-> index 381559e4a1fa..a453d77565e6 100644
-> --- a/mm/damon/vaddr.c
-> +++ b/mm/damon/vaddr.c
-> @@ -351,11 +351,9 @@ static void damon_hugetlb_mkold(pte_t *pte, struct mm_struct *mm,
->   		set_huge_pte_at(mm, addr, pte, entry, psize);
->   	}
->   
-> -#ifdef CONFIG_MMU_NOTIFIER
->   	if (mmu_notifier_clear_young(mm, addr,
->   				     addr + huge_page_size(hstate_vma(vma))))
->   		referenced = true;
-> -#endif /* CONFIG_MMU_NOTIFIER */
->   
->   	if (referenced)
->   		folio_set_young(folio);
+> For implementers, the fast_only bool indicates that the age information
+> needs to be harvested such that we do not slow down other MMU operations,
+> and ideally that we are not ourselves slowed down by other MMU
+> operations.  Usually this means that the implementation should be
+> lockless.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+But what are the semantics if "fast_only" cannot be achieved by the 
+implementer?
+
+Can we add some documentation to the new functions that explain what 
+this mysterious "fast_only" is and what the expected semantics are? 
+Please? :)
 
 -- 
 Cheers,
