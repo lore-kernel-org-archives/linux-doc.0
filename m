@@ -1,53 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E331A4887;
-	Thu,  1 Aug 2024 14:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4777B1EB4B5;
+	Thu,  1 Aug 2024 15:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722524006; cv=none; b=VgoJhpGMEy15FkJNB+VamPOpTiM5zXYhu8IuArgPSLdfI0JcAK22LOOqUpCZdEIaWzekuGL36qzlKgXDcKDRK+5sCycvYHOqXq3X5C8He7S46N5mP1qEFMItGaJmI4KYUyzPmX8hm/I5RnXgZywSgRWnYS8+HWhoOD773PfvcMk=
+	t=1722525427; cv=none; b=qvkzhW9wnOmeXpT/5duVhO0ohspssKw/8REWle507Cxu7mRcOff4FVvEHY/ctzpIcNaFW5TiUjSj6ZRURFKoOikq8W9MqvlP1Map7kyPto4pBqWG3E1wu+5wSZj4PnkBNLMYM5AD5CVN65ASZNsfk1sxwveo2NZdIeI2l0twhno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722524006; c=relaxed/simple;
-	bh=pihbMVCA3QLJMolaC1JlUKs2kdaJDmWc7g29tWCaf1Q=;
+	s=arc-20240116; t=1722525427; c=relaxed/simple;
+	bh=jyVbta1mUuxwm3u5mh3uM5NIXWN+tTgIG8i6Fx9mbGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uceJ62fue1Lil/Tjcbwd7AeK/eNt5zTXxRhqu7lVUC4+GFXs2UG5U4hmIq+l3MPae47qlnJliyJbUBhSKpOutfCsP4MwxFLFsXAOWxfZYbYPUYv0o+HmAhms/VSWmDPQUgEp9+dJaBfv/ALQg0WWv+bbvmf0tEEw5ToOcVGgeNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tFnl2k4v; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kysF4Enk/GkMXC8+rhky4aV2l/s8cA8bpaLDZ3x0kwI6Z+2R+QzA8xFpjCuw0Sa8C50hsX7muNF8d8brO1KVBAqTvk1psq6kE2xs9RMuSRV1wTyKDe9KBmX8WwODMSwHxMmZMOxz5LX+ldksb5r6nqRkTfvowrf6/SynGml4jjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFansC8g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tFnl2k4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CA45C32786;
-	Thu,  1 Aug 2024 14:53:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFansC8g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F37C32786;
+	Thu,  1 Aug 2024 15:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722524003;
-	bh=pihbMVCA3QLJMolaC1JlUKs2kdaJDmWc7g29tWCaf1Q=;
+	s=k20201202; t=1722525426;
+	bh=jyVbta1mUuxwm3u5mh3uM5NIXWN+tTgIG8i6Fx9mbGo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tFnl2k4v+sPK5hUTLtjsm02gby1FH7+7nTBXOrq9SFFhvoOy6W31Vm0ulS3N+hwo6
-	 0LJmE1boYr7t6A/zDghoKxHoRDEOfOW/JSzPf9sKxJaO0Kvj9g7dbagQVpRgGXUlJb
-	 JH4emFWM5qtq38pSNidhjU6gMLpz9/Sb4dI9fC15Gl33qFDAqAxehCOnspqgSZAFJ8
-	 M+mc9E9+g4ls4hTrOQ3H9tJBq65Ii/9YfIwjPUMdo3KKjytWSRzY9GuWwVF+bzTCxc
-	 YQgZ2QtHDdDa9kqZujkqAeC4OBr/dt4gO1CRqahW1bUlodcIFhRs2XvcYyBYgR1w+g
-	 edesfaRakfPvQ==
-Date: Thu, 1 Aug 2024 15:53:17 +0100
+	b=ZFansC8gaySRnEUbwCH9es1MlvqgFSrTHWUf56BGCUF7djkabx8LfT+ZAEnuE8nca
+	 m75hY2YBWwXMMmfOQIiHl/y42Xr3aKyKZmMeiu5PEDM70mpoIpKi/Yu9HONVIjgeHB
+	 ZpQKYSP41L6SDXP6KLTnmtyZkNMe7NKGWK0zGMP1xyOeZATCHg+7Y9RglNzmV3eb7Y
+	 l5Cb7p2dh05ngOvKfT3x+PG4x5OzjSyKCcpS7aqVZVv/91d1R3BkXmelpFHlrdVeXE
+	 qo2ICTY3B8hQKbMAF7OdhNLgG5YmTqkvHjlf2XK0aG6htALLhCX6bhYS7V8rOBbWnY
+	 5XCMyflA+eavg==
+Date: Thu, 1 Aug 2024 16:17:01 +0100
 From: Conor Dooley <conor@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v4 04/13] dt-bindings: riscv: Add Zabha ISA extension
- description
-Message-ID: <20240801-outmatch-handwash-8622a4972faa@spud>
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-5-alexghiti@rivosinc.com>
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se-fw
+ binding doc
+Message-ID: <20240801-most-greeter-2932bee3879a@spud>
+References: <20240722-imx-se-if-v6-2-ee26a87b824a@nxp.com>
+ <20240722-popper-comfort-7538ea70c77b@spud>
+ <AM9PR04MB8604123E065315093347F66C95A92@AM9PR04MB8604.eurprd04.prod.outlook.com>
+ <20240723-smitten-shower-1d15c0f3cf97@spud>
+ <AM9PR04MB86043E4B4B2FB206BF9223C695AA2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+ <20240724-huddling-neatly-88813c0b1f1d@spud>
+ <DU2PR04MB85990A0AB8AF8ABFCDA4CBD995AB2@DU2PR04MB8599.eurprd04.prod.outlook.com>
+ <20240725-filled-outscore-24149588d958@spud>
+ <AM9PR04MB8604E23D34326C32B76D6F2995B42@AM9PR04MB8604.eurprd04.prod.outlook.com>
+ <AM9PR04MB8604087289C777F0F0C7597B95B22@AM9PR04MB8604.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,56 +61,141 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ChwbiayH3N33d2aF"
+	protocol="application/pgp-signature"; boundary="HV45wl+UslN0ZSE8"
 Content-Disposition: inline
-In-Reply-To: <20240731072405.197046-5-alexghiti@rivosinc.com>
+In-Reply-To: <AM9PR04MB8604087289C777F0F0C7597B95B22@AM9PR04MB8604.eurprd04.prod.outlook.com>
 
 
---ChwbiayH3N33d2aF
+--HV45wl+UslN0ZSE8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 31, 2024 at 09:23:56AM +0200, Alexandre Ghiti wrote:
-> Add description for the Zabha ISA extension which was ratified in April
-> 2024.
+On Thu, Aug 01, 2024 at 08:52:48AM +0000, Pankaj Gupta wrote:
 >=20
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Guo Ren <guoren@kernel.org>
-> ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index a06dbc6b4928..a63578b95c4a 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -171,6 +171,12 @@ properties:
->              memory types as ratified in the 20191213 version of the priv=
-ileged
->              ISA specification.
-> =20
-> +        - const: zabha
-> +          description: |
-> +            The Zabha extension for Byte and Halfword Atomic Memory Oper=
-ations
-> +            as ratified at commit 49f49c842ff9 ("Update to Rafified stat=
-e") of
-> +            riscv-zabha.
+> > -----Original Message-----
+> > From: Pankaj Gupta
+> > Sent: Friday, July 26, 2024 6:06 PM
+> > To: Conor Dooley <conor@kernel.org>
+> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
+> > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
+> > linux-arm-kernel@lists.infradead.org
+> > Subject: RE: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add imx-se=
+-fw
+> > binding doc
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Every single mail I am pointing out your broken mail client, and every
+single time you both ignore me and fail to fix it. Fix it.
+
+> > > -----Original Message-----
+> > > From: Conor Dooley <conor@kernel.org>
+> > > Sent: Thursday, July 25, 2024 8:09 PM
+> > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
+> > > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
+> > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
+> > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
+> > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
+> > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
+> > > imx-se-fw binding doc
+> > >
+> > > On Thu, Jul 25, 2024 at 07:06:30AM +0000, Pankaj Gupta wrote:
+> > > >
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Conor Dooley <conor@kernel.org>
+> > > > > Sent: Wednesday, July 24, 2024 9:00 PM
+> > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
+> > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
+> > > > > Dooley <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>;
+> > > > > Sascha
+> > > Hauer
+> > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Rob
+> > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
+> > > > > kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
+> > > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl: add
+> > > > > imx-se-fw binding doc
+> > >
+> > > For the third time, please fix your mail client so it stops inserting=
+ this garbage.
+> > >
+> > > > >
+> > > > > On Wed, Jul 24, 2024 at 11:02:21AM +0000, Pankaj Gupta wrote:
+> > > > > >
+> > > > > >
+> > > > > > > -----Original Message-----
+> > > > > > > From: Conor Dooley <conor@kernel.org>
+> > > > > > > Sent: Tuesday, July 23, 2024 7:38 PM
+> > > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
+> > > > > > > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+> > > > > > > Conor Dooley <conor+dt@kernel.org>; Shawn Guo
+> > > > > > > <shawnguo@kernel.org>; Sascha
+> > > > > Hauer
+> > > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > > > > > > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
+> > > Rob
+> > > > > > > Herring <robh+dt@kernel.org>; linux-doc@vger.kernel.org;
+> > > > > > > linux- kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> > > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
+> > > > > > > Subject: Re: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl:
+> > > > > > > add imx-se-fw binding doc
+> > > > >
+> > > > > Please fix this ^
+> > > > >
+> > > > > > > On Tue, Jul 23, 2024 at 09:28:31AM +0000, Pankaj Gupta wrote:
+> > > > > > > >
+> > > > > > > > > -----Original Message-----
+> > > > > > > > > From: Conor Dooley <conor@kernel.org>
+> > > > > > > > > Sent: Monday, July 22, 2024 10:20 PM
+> > > > > > > > > To: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > > > > > > > > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring
+> > > > > > > > > <robh@kernel.org>; Krzysztof Kozlowski
+> > > > > > > > > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> > > > > > > > > Shawn Guo <shawnguo@kernel.org>; Sascha
+> > > > > > > Hauer
+> > > > > > > > > <s.hauer@pengutronix.de>; Pengutronix Kernel Team
+> > > > > > > > > <kernel@pengutronix.de>; Fabio Estevam
+> > > > > > > > > <festevam@gmail.com>; Rob Herring <robh+dt@kernel.org>;
+> > > > > > > > > linux-doc@vger.kernel.org;
+> > > > > > > > > linux- kernel@vger.kernel.org; devicetree@vger.kernel.org;
+> > > > > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org
+> > > > > > > > > Subject: [EXT] Re: [PATCH v6 2/5] dt-bindings: arm: fsl:
+> > > > > > > > > add imx-se-fw binding doc
+> > > > > > >
+> > > > > > > Please fix this ^
+
+> Will use "secure-enclave" as the node name, in the v7 patch.
+> Will post the V7 patch-set, by end of the next week.
+>=20
+> Please reply if anyone think otherwise.
+
+Sure, go for it :+1: And please actually read the comments I have left
+on every mail about your mail client being broken. I don't want to see
+20 lines of to and cc lists on every response :(
 
 
---ChwbiayH3N33d2aF
+--HV45wl+UslN0ZSE8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZquhXQAKCRB4tDGHoIJi
-0q0gAP4w29iDC4m6l/qSPS+MMlI/WiH69/4G+fcBBKIq7aRTCwD/W8P7PX8RBqjX
-vFrgiE5bcGwtx7wKqCuveDiYrxM2qAo=
-=FU44
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZqum7QAKCRB4tDGHoIJi
+0i1fAQDARVLAUyl/noJ9pPy4aKx9io7tbLbY8MzHpfH8IY9sUAD8DF0JwpvUr3+S
+KT4+8O1kZsRm07SEpIhTNCbOxgYTwAk=
+=SbFS
 -----END PGP SIGNATURE-----
 
---ChwbiayH3N33d2aF--
+--HV45wl+UslN0ZSE8--
