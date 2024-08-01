@@ -1,79 +1,75 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31276EEB3;
-	Thu,  1 Aug 2024 09:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCA51662E4
+	for <linux-doc@vger.kernel.org>; Thu,  1 Aug 2024 10:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722505710; cv=none; b=BnVm7eDez0CFh3jm+zsHbKaWcl4GOWC/BXhEvvZNKtkEpCcUcqEV6y1FzybJZdlGEUBmK3ki+KFergIPPbojC8f2Tco1+Q9D5sabZ/7NkQeNDkbRf33hVt2tf42Xped0aBKlroT4DagiSNBTpZ2gWU+tRGNSju341rnIlGELp1k=
+	t=1722507311; cv=none; b=DRmyKxPXblp1RsmS9Xx8c509knjEcsYRqVuNBjqVIoxROMiQGw0wF2Mz+6c/U8ZB+39fSC/NvaXYaJJOQtTWermHolkLvUYC5LbGJN3AyFhzAfFGWod2gMMhE7a2FuR+SKmqDQhg9smbwSvL6VusLzMEq//lcnJt2vUqfidM5H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722505710; c=relaxed/simple;
-	bh=yzRx3qqsne4CO9bKA5CWL5HvidOc6mapjYG4wdAwzlE=;
+	s=arc-20240116; t=1722507311; c=relaxed/simple;
+	bh=U9wr7GqkmrMX2vYC7lUvPnIEz6kcUPwaUXveRaPautM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hIkry8qYN/IhH+2Hz2lZXcoAUOU2VcBf/ewjOkjGnZDmMUuB9Yca8th9gYTMCDe4qUkrkdP5+dQySkSR3R//SbEe3OWu4fnesunZRBVYfiVv13GYTbRknhc5MD0zzhabXI6zLu1CQKRoy4mAfb1w8R+Fwys4C8EUOXwFJH2+ezY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YeKnW2KV; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cg5DaDLBWA9rlAWlzS+D+2h3ztfujcpBmnBo7p3/taRzTFkoGCMjk0T9pO4XJy9cs+nNdPnVnIPgqNc3b3v7GpJPPb+CdD9ZsczPCkyuprjfVmjYzi76jDg2vYUEmvBMrPsb0q06/8fjy6EfG6+xGwNUgUdtnMVDk+59dDaXuDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Z1ag3YUc; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YeKnW2KV"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7a94478a4eso355318566b.1;
-        Thu, 01 Aug 2024 02:48:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Z1ag3YUc"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a7d89bb07e7so382453266b.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Aug 2024 03:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722505707; x=1723110507; darn=vger.kernel.org;
+        d=ventanamicro.com; s=google; t=1722507308; x=1723112108; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BDG653oQy+GL48j0SxqopLPxRNvx49Ogi7ORA8x2yNw=;
-        b=YeKnW2KVgFAsRnrpYfFFcNfXS4UTD5oSk6Q2fhFrPwtd25r1FiVTupa5LR+SruIKon
-         gvLyYh31GtjEjgxi9sT1NWp1Idt1rPo3do+gW6QN6YthbHQqKM0NUfFT4upduEEjdAVt
-         pOdtow7mFYtICFDBe3WMX2dv6bqWLMLIpfax4wRVLuNZLGUDn+PHWp7qNBmPM/RepV3v
-         fRgA21hldcQhaJX6Qu7lHHVCpIqY4B/48+9l7H4zzQ6g8udIJfC/sIqoXN/OVInYuuU3
-         CRzuD2xyu0+OT29EmdXkNUctnX82B+GKXRqc6t+vOwf8mqlErej6nc/9MpehblncbEJL
-         Mplw==
+        bh=lWBquabnZ6kcEWp0IKOcbEM+16+nIy0kpShVIFZJXnM=;
+        b=Z1ag3YUcUcYk9TSMAqv5fTfKBPlGfDNiA/vlDmBFjJuX03VNfqbSZavHdw3z3gpBM8
+         eLuR+hWwVb0t3YkgV/36nsDqVeB60EHvB13IsDVV1LbKL4OQqJ7KQliNgNQnqSjgctzR
+         YLzkEmNWKbawkt8jCDU5bCeUZGs8+ze55xNPL7ScqA6pMsfvozRr0P4I10wGAgOYgTR+
+         wSFuZ2Mkj1cshfOPpzge0jYyDE7cl/bA0LzBEGgSozehzKsz/6R7cX/1ns6Gmksd+feo
+         NCxkvy+iLdg4rwIToZ0jgiX15JQGgu2Xv60LcTn9uh5piMPltE0doldbZVp+MwFGeB4z
+         5M1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722505707; x=1723110507;
+        d=1e100.net; s=20230601; t=1722507308; x=1723112108;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BDG653oQy+GL48j0SxqopLPxRNvx49Ogi7ORA8x2yNw=;
-        b=X0XjGfM088SJmT0LLB2uoVRtCZEReNuC6IGdATM3o5L6/oT4oLVS9Umxj9CpUeS6Nw
-         QnrClutOjLvg2prTE/WEtM7wAydjKa/+2ILe15bve36Fi4yubCaJvthNTDxQVUPYPKXr
-         eQQY0RBquiPBsN9pteUABvXV+hucO9lFt3qcY+TrtKdxmXAnc2BgJUo6C6cY38L7TAtv
-         mfocWlwqsX3FKJBWE0QiFdV7UZnHFH7FOnCWxt5Heg+j6JZANcDIZKzWaFMETE54ju+8
-         SkUWtzT39yDostEVTCTs50w0wepxAwwo3i1sAX79pBcs8xhPgzTghzSmrWhr4S9sIFA6
-         M9bA==
-X-Forwarded-Encrypted: i=1; AJvYcCUXoLnMd1zjp5ktr0Z3Swwjq9WShgH1c7k5770SPZ5bJs0SgKLGzHjHnSVBe8RKGb1QUBTc9g6HziEr/DLRs+iEtFOPP1dJehKIPQMwxbqhYRjTzQh0+6ARI1FUgdU8QoJUJXAKRbZwyxX9vJfVDK5BvrARJleX1NHtURsLu79rl50hCOCanrIxQWd90858iuNunuhvcJmABFG8ardmJoI=
-X-Gm-Message-State: AOJu0Yy1igvq46nt4FEkEyTopOD6oU3JvjIW5Etvart68Oypl7fkMA1V
-	Vko+HQNPfpTznQG+eT9XGBETXK4ZIWKwwJS33gT02o+97pcj8g/w
-X-Google-Smtp-Source: AGHT+IF3lwwawnwTWt8F/aGq/kCA5hNUzo/KaoRrwwZ2TsMiC/6Rwj5bGNPTZcyTVgVZH5sX8BBxwA==
-X-Received: by 2002:a17:907:980e:b0:a7a:c7f3:580d with SMTP id a640c23a62f3a-a7dbccac77dmr72577866b.25.1722505706707;
-        Thu, 01 Aug 2024 02:48:26 -0700 (PDT)
-Received: from andrea ([151.76.3.213])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad414e2sm874500666b.127.2024.08.01.02.48.24
+        bh=lWBquabnZ6kcEWp0IKOcbEM+16+nIy0kpShVIFZJXnM=;
+        b=ZPNEMQYG1eKlnA8Jqlk5Jnn5maQfMjfILhOS5njlQVdCMvQ35+kxGEgThQz3Fe0l94
+         JgjvA4JB3LXi0Z4QLlKsDBTWpYZ7JDY9T8n+6HQRESmxtckIGNwHQZSQOeasQMFJdA51
+         9zLzti5UtO3gxexog1yVPjqeM9+Jcdad5B5gA1fsbNHiwnUJKDnCsXyEPc9RiWRXufe9
+         8uPoWz8dGNP4Fvpkw7tmrNVXQRVr8TFv4BCSDyNKluHnLb/nDxfQvj7DSb5sYPlouYTQ
+         bgneuO1P16v7R2gRxjcilj7+R/Q9DOHpCJ56gOuIK4SYTL1bh1Xl/2A+77mNQxCgVo2S
+         hT+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWxI+sWS8jXSiF4IBJPp1+e16Rq7cy/PVNSC7MlxVQYeKXFJxfUMdzDPOZdJk6C1uTQtjuvDzkR9mwXvSnQXJY8JSwxLEA6WPY2
+X-Gm-Message-State: AOJu0YyT7aenKaQdGlwpQh8Md0iUjSIYNW+ySIUm5OPIFoUeIzFRxIxT
+	wHJxhzTi2/hOYjsy1erghLD4jvshOL8S4t2XTUqoFuy+JgDqx6QzFYQUrv14+zg=
+X-Google-Smtp-Source: AGHT+IEeTCuavVhswNVgEm2olLofx/pt8cE9Bumon3z0afUonWZ842xMiwTVqZcy8FZzQmEJxlyJMw==
+X-Received: by 2002:a17:907:7da0:b0:a7a:8876:4429 with SMTP id a640c23a62f3a-a7daf65d495mr148745866b.45.1722507307311;
+        Thu, 01 Aug 2024 03:15:07 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad4348bsm875471766b.118.2024.08.01.03.15.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 02:48:26 -0700 (PDT)
-Date: Thu, 1 Aug 2024 11:48:21 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+        Thu, 01 Aug 2024 03:15:06 -0700 (PDT)
+Date: Thu, 1 Aug 2024 12:15:00 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
 Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
-Message-ID: <ZqtZ5V3ejYG6yscm@andrea>
+Message-ID: <20240801-e773d3752fe8b5484405d404@orel>
 References: <20240731072405.197046-1-alexghiti@rivosinc.com>
  <20240731072405.197046-14-alexghiti@rivosinc.com>
  <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
+ <CAHVXubhQefQ6i3Vow_p-uSACQyPcMJNC2UwB99xt_=jDtRUDFw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,86 +78,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
+In-Reply-To: <CAHVXubhQefQ6i3Vow_p-uSACQyPcMJNC2UwB99xt_=jDtRUDFw@mail.gmail.com>
 
-> > +	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+On Thu, Aug 01, 2024 at 10:43:03AM GMT, Alexandre Ghiti wrote:
+...
+> > > diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
+> > > index 0655aa5b57b2..bf47cca2c375 100644
+> > > --- a/include/asm-generic/qspinlock.h
+> > > +++ b/include/asm-generic/qspinlock.h
+> > > @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
+> > >  }
+> > >  #endif
+> > >
+> > > +#ifndef __no_arch_spinlock_redefine
+> >
+> > I'm not sure what's better/worse, but instead of inventing this
+> > __no_arch_spinlock_redefine thing we could just name all the functions
+> > something like __arch_spin* and then add defines for both to asm/spinlock.h,
+> > i.e.
+> >
+> > #define queued_spin_lock(l) __arch_spin_lock(l)
+> > ...
+> >
+> > #define ticket_spin_lock(l) __arch_spin_lock(l)
+> > ...
 > 
-> Why do we need this? Also, we presumably would prefer not to have it
-> when we end up using ticket spinlocks when combo spinlocks is selected.
-> Is there no way to avoid it?
+> __arch_spin_lock() would use queued_spin_lock() so that would make an
+> "infinite recursive definition" right? And that would override the
+> "real" queued_spin_lock() implementation too.
+> 
+> But maybe I missed something!
+>
 
-Probably not what you had in mind but we should be able to drop the full
-barriers in the ticket-lock implementation, deferring/confining them to
-RCU code; this way no separate treatment would be needed for either lock:
+It depends on where the definition is done. It should work if the
+preprocessor expands the implementation of __arch_spin_* before
+evaluating the #define of queued_spin_*. IOW, we just need to put
+the defines after the static inline constructions.
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index c9ff8081efc1a..d37afe3bb20cb 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -79,7 +79,7 @@ config RISCV
- 	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
- 	select ARCH_WANTS_NO_INSTR
- 	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
--	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
-+	select ARCH_WEAK_RELEASE_ACQUIRE
- 	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
- 	select BUILDTIME_TABLE_SORT if MMU
- 	select CLINT_TIMER if RISCV_M_MODE
-diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
-index 325779970d8a0..47522640e5e39 100644
---- a/include/asm-generic/ticket_spinlock.h
-+++ b/include/asm-generic/ticket_spinlock.h
-@@ -13,10 +13,8 @@
-  * about this. If your architecture cannot do this you might be better off with
-  * a test-and-set.
-  *
-- * It further assumes atomic_*_release() + atomic_*_acquire() is RCpc and hence
-- * uses atomic_fetch_add() which is RCsc to create an RCsc hot path, along with
-- * a full fence after the spin to upgrade the otherwise-RCpc
-- * atomic_cond_read_acquire().
-+ * It further assumes atomic_*_release() + atomic_*_acquire() is RCtso, where
-+ * regular code only expects atomic_t to be RCpc.
-  *
-  * The implementation uses smp_cond_load_acquire() to spin, so if the
-  * architecture has WFE like instructions to sleep instead of poll for word
-@@ -32,22 +30,13 @@
- 
- static __always_inline void ticket_spin_lock(arch_spinlock_t *lock)
- {
--	u32 val = atomic_fetch_add(1<<16, &lock->val);
-+	u32 val = atomic_fetch_add_acquire(1<<16, &lock->val);
- 	u16 ticket = val >> 16;
- 
- 	if (ticket == (u16)val)
- 		return;
- 
--	/*
--	 * atomic_cond_read_acquire() is RCpc, but rather than defining a
--	 * custom cond_read_rcsc() here we just emit a full fence.  We only
--	 * need the prior reads before subsequent writes ordering from
--	 * smb_mb(), but as atomic_cond_read_acquire() just emits reads and we
--	 * have no outstanding writes due to the atomic_fetch_add() the extra
--	 * orderings are free.
--	 */
- 	atomic_cond_read_acquire(&lock->val, ticket == (u16)VAL);
--	smp_mb();
- }
- 
- static __always_inline bool ticket_spin_trylock(arch_spinlock_t *lock)
-@@ -57,7 +46,7 @@ static __always_inline bool ticket_spin_trylock(arch_spinlock_t *lock)
- 	if ((old >> 16) != (old & 0xffff))
- 		return false;
- 
--	return atomic_try_cmpxchg(&lock->val, &old, old + (1<<16)); /* SC, for RCsc */
-+	return atomic_try_cmpxchg_acquire(&lock->val, &old, old + (1<<16));
- }
- 
- static __always_inline void ticket_spin_unlock(arch_spinlock_t *lock)
-
-https://lore.kernel.org/lkml/ZlnyKclZOQdrJTtU@andrea/ provides additional
-context.
-
-But enough presumably,  ;-)  How do the above changes look in your tests?
-other suggestions?
-
-  Andrea
+Thanks,
+drew
