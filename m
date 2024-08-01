@@ -1,149 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2050.outbound.protection.outlook.com [40.107.237.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBBA1A38FD;
-	Thu,  1 Aug 2024 13:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722517321; cv=none; b=R2G+VJev8Ggk1UFqDKMS2tCwz3qmfdsTI5H4I/3mU4F9owRbqXIxTRymI615MaWfKHzt1gD4j7YKRyud8dL9yn4Bo+rskbs2Hf0VLxBMePUM/EkDxiZV1SVvvjQ5z5Ze4u2vqlVOvuYuyRtiQ5jPPAAY0PWJsC7je7Ht83oaY/Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722517321; c=relaxed/simple;
-	bh=2o7H97U54cEmD5Tv71kF1eEpEycy3n5iAga6TGpYn58=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=udckuX4csP3n1BwERt9fvK3jvduWQOkeBVPFr0MYUsLVaOLM/C+9+33AaO0qbLyynthH/LYNckoTlrmoS9k2mNa07dMJ7dk1GpktjxWrdW/3BLwvd/i5CxntxLmLIJ0zZK4H0TljDqPABx3Pw1Pq0E1CW/S7xv/vTdPEXviuBoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOypttz1; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC146137748;
+	Thu,  1 Aug 2024 13:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722517557; cv=fail; b=adCdmwmY25HoV5qUGOZuB6Pb+W8Dg3HN9ptlxkV27DQWizl8tejurQiQaTuWk9EIeMy7V54DgZotZoycJxsPJhedIt9jPRnsV0W0lqLc1VJQ/TV5kep0dhSS6x1PUf6VC4MR4nAnwKV99yvjfiAvd0zLR8va/7XP7RM5SWah4X8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722517557; c=relaxed/simple;
+	bh=dVDL+dbzBfcK+nchJ7WTeb5QWYJedJgjVeswhOXpO7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=snxdUSWpjZ5Y94iWq8Vu49HelPP0b9yvN6fuULJPlxnQU6dFrhYayuiqhlHTFUuACSc6JFioApegOq+85XRBjJ2p+d6bWHV3Ds4pglm5vZQZB+zgx3MI2MRp7m3AsnFsLzWlkrjw7cjd6g+QNEzznDNT2qjnytV+NKESzylUDZo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YJLSCHKY; arc=fail smtp.client-ip=40.107.237.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOypttz1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4528C4AF0A;
-	Thu,  1 Aug 2024 13:01:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722517321;
-	bh=2o7H97U54cEmD5Tv71kF1eEpEycy3n5iAga6TGpYn58=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EOypttz1iUC6Oqt2kwkwmd4hYK/iYBJyUlsSGBCxML2MrAMFnoFqWmEE8yplv/Zf2
-	 g8lM4YlFhj9+fdD1LFcVHcxhbj4wVXGv9AFclgyBJJdQI8TN26iUHLke/PjeQJ6pha
-	 qtzIUteV2oxLMg4GPFfIUSHThfXVm5pvBCWlc0/TXAbN+PB65tYEWVsOkGR0/ooeu3
-	 wR3cCoXFofGIvrX3WiieIBTXZzDojnzLlQJTv+YC7WLr+WhDa3+nuZN0FbZnNlAel4
-	 HYAP0fEe7Pdb1UGWHxPOw1/2ocSKJhL8rPBXlAIPbaw2nrLP0p+9aBvD0dE10tKzcX
-	 caaPVWssBnNAw==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 01 Aug 2024 13:07:07 +0100
-Subject: [PATCH v10 40/40] KVM: selftests: arm64: Add GCS registers to
- get-reg-list
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YJLSCHKY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RNAYrFIyCyyFLeikTddQ/CmVzXjA+FFUgiRoDbD+/Bkz3Ianb3ZoXfQCBJXd0781lJiIxgzaH14v9/zS8gmzCKsDJ4E7y0QWZ9UXimDiyT3RA5lh90B+70VTXGBawtWQJTP388f1nDfs5csE0tRkcgW7ZEQZ+km99B1W9Q8he8gJd3FZo5ttHDR77Mq4QffO4BaEiNpjPo/U9ksDzrdMbnzYSilKXbARXBzOWYrNGqgDb2571JT4FbjJixRgiRMzeduLEvPuJ/yOHmNwuObe0LOLoDBXYnh0kpXolWk3gvx8A4kFbtwhfXrgsvDtE5EL0caaL6/5xiIIFmqxjObOkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xR6z6kV61rtoRBIO+bwbx8qBrhZc5shcS0D2XcQ0DNw=;
+ b=ZMqutvFML74xOqKul8A16CxbeZM7rjIFwVkOsv9GOQ4D1fFAf9ifUAlhSd5mm1EoGzoZEcDT2SSvM0HIA5E0wZtMI6Ij1FC9mLdbhSL1kK/QWMJy0plev0z5EnEGQVB93sgtKXqqtDzZifl+98kCHzWj0nNzcZBOGHJQlVN6zMrdGi0v16sRPnOgzg/IjXng1N8Ktlui4Hyw7sQ6p2Q8Uz70jDgdEYJDNwJExFbmX4Gcg7YT8YI/SZfdEms4U0Lm6fdioC0IEVHY9tcLlW2CBT1vJQ7AeSKDD/t3NitHyeNCNUlB5R2IgRGp0is9mLWLNdrooq9sPzyPrzR/4BNsMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xR6z6kV61rtoRBIO+bwbx8qBrhZc5shcS0D2XcQ0DNw=;
+ b=YJLSCHKYZO2PZLQl7UQrxLkwL+XcEC8vetStpt8yePb8hc9J6DjHmw114w+b2dMFk737DS3rUstcrKNs8Z7jFp3xOQZ1l4j8LkeUZIwjZjBqmK+rTIlu3a4i0MFcORpX4EFzS/fZ8BesrukppgjQav6Z7mmYe3HiQaPd10a3umZ26LnAZbIrb3AVGpPePqgvUEv03H0DHBx7O9VhUw2K316/Y1O2rUYTCa50tmp3pE7nOLfknaKc1rcOVoD8457/B0V1CJSdoUrXfCSznt8k447mkgjrwdjqdov25GyR6lYON7MZpg09xwXzwy/jhaeeFkhgkNcHY0WZ56cHxSWfaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7763.namprd12.prod.outlook.com (2603:10b6:610:145::10)
+ by PH7PR12MB6785.namprd12.prod.outlook.com (2603:10b6:510:1ab::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
+ 2024 13:05:48 +0000
+Received: from CH3PR12MB7763.namprd12.prod.outlook.com
+ ([fe80::8b63:dd80:c182:4ce8]) by CH3PR12MB7763.namprd12.prod.outlook.com
+ ([fe80::8b63:dd80:c182:4ce8%4]) with mapi id 15.20.7828.016; Thu, 1 Aug 2024
+ 13:05:48 +0000
+Date: Thu, 1 Aug 2024 10:05:46 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 2/8] fwctl: Basic ioctl dispatch for the character
+ device
+Message-ID: <20240801130546.GB2809814@nvidia.com>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <2-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <20240726160157.0000797d@Huawei.com>
+ <20240729170553.GE3625856@nvidia.com>
+ <20240730182808.00003af7@Huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730182808.00003af7@Huawei.com>
+X-ClientProxiedBy: BL1PR13CA0333.namprd13.prod.outlook.com
+ (2603:10b6:208:2c6::8) To CH3PR12MB7763.namprd12.prod.outlook.com
+ (2603:10b6:610:145::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240801-arm64-gcs-v10-40-699e2bd2190b@kernel.org>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-In-Reply-To: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Marc Zyngier <maz@kernel.org>, 
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>, 
- Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
- Shuah Khan <shuah@kernel.org>, 
- "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
- Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, 
- Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>
-Cc: "H.J. Lu" <hjl.tools@gmail.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Florian Weimer <fweimer@redhat.com>, Christian Brauner <brauner@kernel.org>, 
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
- Ross Burton <ross.burton@arm.com>, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2352; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2o7H97U54cEmD5Tv71kF1eEpEycy3n5iAga6TGpYn58=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmq4Yl2GIZXXyTb/zmM1+n2z4UQxnV39+pL7mDiQag
- cFTi6HGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZquGJQAKCRAk1otyXVSH0PXDB/
- 4j5qGQGsGNdUNY04r8BP8DhGZFseiQkyBLks8Be56HfC2p51Bs37kAiCN7vw5o6FNjV7nHuKordgf8
- yw8h5xIw20SOGbtSiJzK+Ytmcij7dKixG3lRNnjLjqaDdEBHYQd36UkkNAQgXrVYEHb3uGUdeSe4Pf
- bVg2h3X4uA2HXpmx1Re6duBQnFxQkT9rwDaPrUVUJ8O1yGDA6GES8iwokMeuWIm1IuG8kk4/ryxjLS
- MQuOjZLd4+rfnA99YvtwSC6d7LH3XTe6kZlg8lx4hPJ/2a1XoSi//5g2fntfcaHvPuz/xHErMA3FRH
- FgQKeE4l1SWZJYN8U5tIpu0CgGk3wq
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7763:EE_|PH7PR12MB6785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95f26ac3-d55a-4609-c065-08dcb22aa978
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?JAndANpoQ18LLtSDeBL+YzQ2uFTSX+GMvtE+pclMB3vXStdlFCv8hBo7TDwY?=
+ =?us-ascii?Q?rD9Pu//2+xf8Q5ucpiXlcqGCeeRREyefXFOlEvB2Hfo5gErcuItT9cs8A0Aw?=
+ =?us-ascii?Q?nThIQZqxbCJoX5yqhvPfXRdQqoycigDXBqz78fUAToHtimFAKLRz3/5cOi01?=
+ =?us-ascii?Q?ovvVo5Mmz/zpbE4+SDNcJr9oyxxO4zdUp3pvL9WXBfkR3OUk8TduiQJv2lUg?=
+ =?us-ascii?Q?fAN/fOjqUSEOTP3zSFEzHnHln4Q0QrbPbf72VBZ257DEik/dgMhiUwgOz0aP?=
+ =?us-ascii?Q?pnGymiEE14Tjq2RvSP3ndRht49e3WHu7+16WhZhMvtbIXwthPB3xNk0DJD5I?=
+ =?us-ascii?Q?ulSPGby+U46j0gZC30sCSzq/Fts+0s2me2nz6xiQVMeMNVSq6wqObuehKgPa?=
+ =?us-ascii?Q?z0J8DkIVpnS+zfSK7DqPlLSkZuIuQAONEfCZC3KmybTfFdqf1f3v94nwtSyM?=
+ =?us-ascii?Q?pim6lnVqkx0eMPrQvHaKlpJaXzirMRFOM4IbO2rmrcECy4QWkeDTUsH7KaQ3?=
+ =?us-ascii?Q?cWxgW+s6s2Bhc6PX2gVsiqT3XUiSd+hiidP1BxXpoJhNIwG6Kqey/SoCVvfC?=
+ =?us-ascii?Q?+PgdS2/s2+ZCqbU7TM3H1kUj2nJmLS0UDax5n+KjRf5XTn5Jc8iFBdYqCaTs?=
+ =?us-ascii?Q?Qd75uDzM67w/5/VAllsS+mgAJM63M4XRf4mFzlMxVGELdj0AZ4rlDgTECbsa?=
+ =?us-ascii?Q?xz0PEwCAMGTXJVNb5BRAG4PArEo7Vh6SLBmmOF8m3S5gkHuJXBq8RA/Mtfrc?=
+ =?us-ascii?Q?BwsrcI3et6Wpx+gqc/bzaIBCBoBhb+FmpLuGaluI03q2AxZ3QicazOP90+7o?=
+ =?us-ascii?Q?fTobgEHJGTcKoy20zWI8qkWP0n0QUYyQkF5mC26ThcGuo/5vGAkS2KXexvUa?=
+ =?us-ascii?Q?JU1CiH271Aw6hOynsYASXV+CUubJXFzZU6w5cHSXJ/zfLL54GFVPpStRcFNB?=
+ =?us-ascii?Q?BuMjKjHZUyHRjVy90ezwaYz8TFKZrLlk9Jji6QrFHTZYh0v0wSCHT6YejS5C?=
+ =?us-ascii?Q?ylzUKQFY2JE6tipiJh6e9wEnCwqMJf6lGPgarbCZD1Eq78C7/ldw9vGDmqPy?=
+ =?us-ascii?Q?CdJsWF1dQTfzKzUsZux2TPeiSVxJDQimvUEtk6yBRVhgW+PbfWLlCO8cQpkm?=
+ =?us-ascii?Q?5xXAwnzovaKTb2gtCGHm5SkDNV7/U3YRZzwyFkrfBLZdd2pQCLdTigc5Pt8C?=
+ =?us-ascii?Q?j43U2/d7yISX7TuJUUcHVBT7dxXi9rGQZTUTH9XO01p+u+vZa7htzkuDkm20?=
+ =?us-ascii?Q?262yb9lG80VzcGYtQDmcwv0c9imGkzcTjH/vMWR4sa9umWvisnG0gqG+cAwo?=
+ =?us-ascii?Q?z0+pZ3/xsOoSN2CihvbpYjxAKOTj+uSWLDjui8mc8XCMyw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7763.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xP3lzca/3RdxktLkZTGuAO9tHdfbbOaE382WrBqp2LB4D4mQHcnlmd2n7sVv?=
+ =?us-ascii?Q?cSC22cjcWsNGl5CTSxa2hENZINtPk49Ba7e+o6wIKQfGFh+AgXQB0vKnHp1s?=
+ =?us-ascii?Q?xHpJRRE2e+Z61EuPGxb3rmfCttu4JTa0Pj0VfmCvKgDi+ijWkfUWPpI8Ry/F?=
+ =?us-ascii?Q?HLOPuIw3pZhI/m9xmEE7WGKZtKrPkNxT9rRuHn8nPpzxusd9FsAwA+9jpsgo?=
+ =?us-ascii?Q?vEOu7vjSO3y76d9IoJCDCOvG5Wd+p8CbOWrrBesmvXdfnC+lBNQD1nRXNOty?=
+ =?us-ascii?Q?VGaj3LxGP5HUhntRUl9AzcbqxO0cetCMTyBUKUmrHLfdd08PQok4GibROsTj?=
+ =?us-ascii?Q?sZYWpzAhsMOhrV+8IqPAHxn16xRH1t/y8TMC8bbT0RWAQoHjCkmEM4Nb4p0q?=
+ =?us-ascii?Q?OOX7Ic4+N1eZMo2o7H6Xq764y1bm3ERkCTij5GlrnhZaCB6CTv2Tx6V70qg6?=
+ =?us-ascii?Q?yMJJRb/2JDQ9UBH0SyYr1jxyZdsUxIDTGqxWSYwXXcxbkllrS0zeD6jKfEQ2?=
+ =?us-ascii?Q?PopN1vtq6JLog+iiCKP2VM4r5BWG/Gkx+p9Q7/jPBQ0Clw4RR5xsCr4RO6/1?=
+ =?us-ascii?Q?Nn08CeerWyzesLpJy0HlriGfe96QYe/tT90KsstUnnap8yAa/uO9p+p/Kqor?=
+ =?us-ascii?Q?tuUrCmLyD491cyB6OnaGkraNUW1T/wYlKiqdUL4kbaUXEN2+/7C3XOGT2akW?=
+ =?us-ascii?Q?W5s92qJy/4krhFlRRCdBWY9m5BThvMV2e06T/qruDqhfuUZSVl+NhhwFjFMg?=
+ =?us-ascii?Q?WkUacmPrlfOgZ0io5FMUExlmxtwqkqKMRoozvwWIFXuyNOfNm75PoSLGSOlC?=
+ =?us-ascii?Q?aaamHO39+tJtgZrIUp8uKs/lzS8HvSbl8oBKsGyA2VCKa+sb3F9dmc50WSjn?=
+ =?us-ascii?Q?JIrLYhcRgZSwRpiLcGu+/4nv+wOxYflY/5idUAJab8ujVgFdi9PjJc+CNB3W?=
+ =?us-ascii?Q?fYzQnLyQrlv7UF9md9O/phaybgbbyl44upSDBncLmeOWHLCqmEJ0GfPP37Ru?=
+ =?us-ascii?Q?DhRZFGsW3hsYxkJh9+ng27+LN7GKO8FzS8DDUUN5XLgGUrS+e1Ru18ktAAlW?=
+ =?us-ascii?Q?KNPFjiscvH1hmEXsCAPR8zjnSqTm2trIOFvzzzEgFIlY5eeJ+qoFEdXTKYAx?=
+ =?us-ascii?Q?Q0AGtH6v30OMnHU4aoxhh1OA7vp7nFtvRZJzrDiYdNDNh7yCUQYeH/T9HMgA?=
+ =?us-ascii?Q?a92GpvAiMv3ploeZ5R9ZcqFMjLstVBUDxxZNy5LJ4P/3YoIr76BN4TCRBUJk?=
+ =?us-ascii?Q?dNnSKU6ulAUnubkLKkhW9oz4nnAJ/25/4k14WaY6swsVAmKBf8QwTrP2g07S?=
+ =?us-ascii?Q?L/R57fXHj+M8zwB74gNYhVRhwnOL+JAFMSpc37XzTFYiJfUs3Mx0rBR5VVAY?=
+ =?us-ascii?Q?VYkd3poubcXpPgJ2+C8RumT5ypk0r+2hMz6wBgH7Gku9IrEll2TnFhyNe8xN?=
+ =?us-ascii?Q?ElPaafmiWPhIlgTxesRUElW5pTVGUydz9LxqzaczYz0z1shFh6Dr923I2IO4?=
+ =?us-ascii?Q?fbNhyzWN1mjcSrijEjW+xWVZqTK9RmN0lU5mUDeW7Bxs9Lcm9CFe2f9plZBb?=
+ =?us-ascii?Q?SqZiy3BEcOFDuJYDb2QXJ0wWhbcIIZ+MSh+E4GFO?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95f26ac3-d55a-4609-c065-08dcb22aa978
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7763.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 13:05:48.3339
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lgcuJESmNSK7jyk6Et/rFe81oLqaooWvyi5OlPfpUyP1IuBaLU3d/yUpdRa+F/wN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6785
 
-GCS adds new registers GCSCR_EL1, GCSCRE0_EL1, GCSPR_EL1 and GCSPR_EL0. Add
-these to those validated by get-reg-list.
+On Tue, Jul 30, 2024 at 06:28:08PM +0100, Jonathan Cameron wrote:
+> > And the basic userspace pattern is:
+> > 
+> >   struct fwctl_info info = {.size = sizeof(info), ...);
+> >   ioctl(fd, FWCTL_INFO, &info);
+> > 
+> > This works today and generates the 24 byte command.
+> > 
+> > Tomorrow the kernel adds a new member:
+> > 
+> > struct fwctl_info {
+> > 	__u32 size;
+> > 	__u32 flags;
+> > 	__u32 out_device_type;
+> > 	__u32 device_data_len;
+> > 	__aligned_u64 out_device_data;
+> > 	__aligned_u64 new_thing;
+> > };
+> > 
+> > Current builds of the userpace use a 24 byte command. A new kernel
+> > will see the 24 bytes and behave as before.
+> > 
+> > When I recompile the userspace with the updated header it will issue a
+> > 32 byte command with no source change.
+> > 
+> > Old kernel will see a 32 byte command with the trailing bytes it
+> > doesn't understand as 0 and keep working.
+> > 
+> > The new kernel will see the new_thing bytes are zero and behave the
+> > same as before.
+> > 
+> > If then the userspace decides to set new_thing the old kernel will
+> > stop working. Userspace can use some 'try and fail' approach to try
+> > again with new_thing = 0.
+> 
+> I'm not keen on try and fail interfaces because they become messy
+> if this has potentially be extended multiple times. Rest
+> of argument is fair enough. Thanks for the explanation.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/kvm/aarch64/get-reg-list.c | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+I'd say try-and-fail is just the universal option, if there is merit
+we can put cap bits and other things to positively indicate increased
+kernel capability.
 
-diff --git a/tools/testing/selftests/kvm/aarch64/get-reg-list.c b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-index 709d7d721760..9785f41e6042 100644
---- a/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
-@@ -29,6 +29,24 @@ static struct feature_id_reg feat_id_regs[] = {
- 		0,
- 		1
- 	},
-+	{
-+		ARM64_SYS_REG(3, 0, 2, 5, 0),	/* GCSCR_EL1 */
-+		ARM64_SYS_REG(3, 0, 0, 4, 1),	/* ID_AA64PFR1_EL1 */
-+		44,
-+		1
-+	},
-+	{
-+		ARM64_SYS_REG(3, 0, 2, 5, 1),	/* GCSPR_EL1 */
-+		ARM64_SYS_REG(3, 0, 0, 4, 1),	/* ID_AA64PFR1_EL1 */
-+		44,
-+		1
-+	},
-+	{
-+		ARM64_SYS_REG(3, 0, 2, 5, 2),	/* GCSCRE0_EL1 */
-+		ARM64_SYS_REG(3, 0, 0, 4, 1),	/* ID_AA64PFR1_EL1 */
-+		44,
-+		1
-+	},
- 	{
- 		ARM64_SYS_REG(3, 0, 10, 2, 2),	/* PIRE0_EL1 */
- 		ARM64_SYS_REG(3, 0, 0, 7, 3),	/* ID_AA64MMFR3_EL1 */
-@@ -40,6 +58,12 @@ static struct feature_id_reg feat_id_regs[] = {
- 		ARM64_SYS_REG(3, 0, 0, 7, 3),	/* ID_AA64MMFR3_EL1 */
- 		4,
- 		1
-+	},
-+	{
-+		ARM64_SYS_REG(3, 3, 2, 5, 1),	/* GCSPR_EL0 */
-+		ARM64_SYS_REG(3, 0, 0, 4, 1),	/* ID_AA64PFR1_EL1 */
-+		44,
-+		1
- 	}
- };
- 
-@@ -460,6 +484,9 @@ static __u64 base_regs[] = {
- 	ARM64_SYS_REG(3, 0, 2, 0, 1),	/* TTBR1_EL1 */
- 	ARM64_SYS_REG(3, 0, 2, 0, 2),	/* TCR_EL1 */
- 	ARM64_SYS_REG(3, 0, 2, 0, 3),	/* TCR2_EL1 */
-+	ARM64_SYS_REG(3, 0, 2, 5, 0),	/* GCSCR_EL1 */
-+	ARM64_SYS_REG(3, 0, 2, 5, 1),	/* GCSPR_EL1 */
-+	ARM64_SYS_REG(3, 0, 2, 5, 2),	/* GCSCRE0_EL1 */
- 	ARM64_SYS_REG(3, 0, 5, 1, 0),	/* AFSR0_EL1 */
- 	ARM64_SYS_REG(3, 0, 5, 1, 1),	/* AFSR1_EL1 */
- 	ARM64_SYS_REG(3, 0, 5, 2, 0),	/* ESR_EL1 */
-@@ -475,6 +502,7 @@ static __u64 base_regs[] = {
- 	ARM64_SYS_REG(3, 0, 13, 0, 4),	/* TPIDR_EL1 */
- 	ARM64_SYS_REG(3, 0, 14, 1, 0),	/* CNTKCTL_EL1 */
- 	ARM64_SYS_REG(3, 2, 0, 0, 0),	/* CSSELR_EL1 */
-+	ARM64_SYS_REG(3, 3, 2, 5, 1),	/* GCSPR_EL0 */
- 	ARM64_SYS_REG(3, 3, 13, 0, 2),	/* TPIDR_EL0 */
- 	ARM64_SYS_REG(3, 3, 13, 0, 3),	/* TPIDRRO_EL0 */
- 	ARM64_SYS_REG(3, 3, 14, 0, 1),	/* CNTPCT_EL0 */
+We have quite a deep experiance on this topic now in RDMA, and there
+we've been doing both options, depending on the situation.
 
--- 
-2.39.2
+For instance you might introduce a new API that returns FOO and extend
+a prior API to optionally accept FOO as well. A cap flag that the new
+API exists is useful [1], but it is not for the prior API. The
+userspace can just blindly pass FOO to the prior API, and if it
+happened to get a non-zero FOO somehow then the kernel must also
+support it..
 
+[1] "try and fail" works well here too you can invoke the IOCTL with a
+0 size and you get ENOTTY if the IOCTL is not understood, and another
+error code if it is.
+
+Jason
