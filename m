@@ -1,172 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA8F1A34AC
-	for <linux-doc@vger.kernel.org>; Fri,  2 Aug 2024 15:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09C21A34D2;
+	Fri,  2 Aug 2024 15:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722614214; cv=none; b=mlo4eYW2QSKcYlvetzcFF5aGpQO6zJWhO3FP6+68xIorrOmp3G+ObA33EvTx8vl0o4dvJXK/LUwQUq8pGLTq884IKXR5fVlHg5vM9KpIohJuDd4b1M2Dp00r/5dWlCLBiYyyIsyjcZqW6YYBrTOHlBJB88DQDoNTYTs7MmpSRUY=
+	t=1722614260; cv=none; b=rHgbRnEO6hKtVrKjwSx1GGbT/S1+n27DD3dJ9/1SNzYWAQbG8bKX56dmyOKlkRd5zOxNlKCoFlKkMMSUMzzBcixuS8uflxHHwUEm9IzcsWr4ZUVNc0RShPHnELeyWeovreFMc4XIhzBKwO8eCuHZhxIYS+s53aMAQIr/9du78CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722614214; c=relaxed/simple;
-	bh=B9QpgUZqHBSgII4REwP9lD0/53JlrVZdILJpl6GeaCQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GBv7747G1gASF+PgVUKa3Mm/YOSIr1mU60ZSsWl887xCx1SDevEjTYe/B3Zmdzb/oEQOqbn3YxQFn5vgwB9N9YGo9J4Bz2O/4M+ZDpn3wBEHSDD+OAwyVL+ojw/HcFak4tmpAKGbr/SiPbEbvnQ7zJtyjdPgXp/3ejGwrbuqfcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EgLAis2q; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722614260; c=relaxed/simple;
+	bh=SygGhejwtugE49KfkjCbD9EIloYT99XipGcKa/8Qp3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8emdCg5Sy8QlvYi8CJ/bMu46XSTdtKMhy0HaEgKMQrajZ2p8Dbmva6m0qfMDDoLS9XyVUEuR6H4Fgi6in+JP+o4rqhcEWwlxvLL4nYtXChimzFXL/xeyP1yd/OW7zcsiC6QESGRsFpe1dpHlCGRH8owSwsFCrTNsoZPwnQG/oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YV/dypFC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EgLAis2q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722614212;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XisBOloUEP3qStGU5kEnvOleMULjhsDMvLI1Qb38ywI=;
-	b=EgLAis2qodxejLBxwWpVNsuu2eVYq9OsqJ2MR6kOZeYcTX8p4Id7ksFmIkbxwvLezHeepu
-	PJHL2ZeJiLyKb+X/iimAkzZlJ8PvkDLOY3APKRByvjdTAAUECRnSvcU17JnL++1n9EPtaC
-	iSo8eAahcruafEqZ0yqMQ6th9IPMQdM=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-533-7fMx_I3IMvS20EQpewJYGQ-1; Fri,
- 02 Aug 2024 11:56:48 -0400
-X-MC-Unique: 7fMx_I3IMvS20EQpewJYGQ-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 833C51955D4D;
-	Fri,  2 Aug 2024 15:56:45 +0000 (UTC)
-Received: from t14s.redhat.com (unknown [10.39.192.113])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B30F4300018D;
-	Fri,  2 Aug 2024 15:56:39 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Subject: [PATCH v1 11/11] mm/ksm: convert break_ksm() from walk_page_range_vma() to folio_walk
-Date: Fri,  2 Aug 2024 17:55:24 +0200
-Message-ID: <20240802155524.517137-12-david@redhat.com>
-In-Reply-To: <20240802155524.517137-1-david@redhat.com>
-References: <20240802155524.517137-1-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YV/dypFC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA571C32782;
+	Fri,  2 Aug 2024 15:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722614259;
+	bh=SygGhejwtugE49KfkjCbD9EIloYT99XipGcKa/8Qp3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YV/dypFCvqgZ0QSl5sAYt59iH5qph/Em1mQCDHFp5p1EXgVTccPJze54MVp9Zr+/I
+	 JO8rEQ6tU+2BC7I4+NOVw53jOxNHRZ/LkzvFq8XpQzGw5LpzM6YVwTcKeFxDjjj/oJ
+	 IWwoJYKN4Ms3W2TVg8ro4CdBtyY3mIPUjpt6VFeFLEgDiyUttDt/NpVbFODhzh7l7q
+	 uAF2iOAUUaXBmjHcqwpa+PCo+a9VHO0vqV+xBgLijA/+2dIMbBiHfxE+klmdgCKqVE
+	 z/UKQx7S2bXzi4xvlL8fEnnVdEaVbH+aJoWCwsKAtoAfXYlolgjk/X29WsHcb9vDTK
+	 70B1ZSmRoiV7w==
+Date: Fri, 2 Aug 2024 18:57:34 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Itay Avraham <itayavr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 5/8] fwctl: FWCTL_RPC to execute a Remote Procedure
+ Call to device firmware
+Message-ID: <20240802155734.GJ4209@unreal>
+References: <0-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <5-v2-940e479ceba9+3821-fwctl_jgg@nvidia.com>
+ <20240730080038.GA4209@unreal>
+ <20240801125829.GA2809814@nvidia.com>
+ <20240801172631.GI4209@unreal>
+ <20240802145946.000002e7@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240802145946.000002e7@Huawei.com>
 
-Let's simplify by reusing folio_walk. Keep the existing behavior by
-handling migration entries and zeropages.
+On Fri, Aug 02, 2024 at 02:59:46PM +0100, Jonathan Cameron wrote:
+> On Thu, 1 Aug 2024 20:26:31 +0300
+> Leon Romanovsky <leon@kernel.org> wrote:
+> 
+> > On Thu, Aug 01, 2024 at 09:58:29AM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Jul 30, 2024 at 11:00:38AM +0300, Leon Romanovsky wrote:  
+> > > > > +
+> > > > > +	void *inbuf __free(kvfree) =
+> > > > > +		kvzalloc(cmd->in_len, GFP_KERNEL | GFP_KERNEL_ACCOUNT);  
+> > > > 
+> > > > 
+> > > > <...>
+> > > >   
+> > > > > +	out_len = cmd->out_len;
+> > > > > +	void *outbuf __free(kvfree_errptr) = fwctl->ops->fw_rpc(
+> > > > > +		ucmd->uctx, cmd->scope, inbuf, cmd->in_len, &out_len);  
+> > > > 
+> > > > I was under impression that declaration of variables in C should be at the beginning
+> > > > of block. Was it changed for the kernel?  
+> > > 
+> > > Yes, the compiler check blocking variables in the body was disabled to
+> > > allow cleanup.h
+> > > 
+> > > Jonathan said this is the agreed coding style to use for this  
+> > 
+> > I'm said to hear that.
+> 
+> Was passing on a statement Linus made (not digging it out right now)
+> that he really wanted to be able see constructors and destructors
+> together.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- mm/ksm.c | 63 ++++++++++++++------------------------------------------
- 1 file changed, 16 insertions(+), 47 deletions(-)
+The thing is that we are talking about the same thing. I and Linus want
+to keep locality of variables declaration and initialization. I don't
+know the Linus's stance on it, but I'm sad that to achieve that for
+cleanup.h, very useful feature of GCC (keep variables at the beginning
+of the block) was disabled.
 
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 0f5b2bba4ef0..8e53666bc7b0 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -608,47 +608,6 @@ static inline bool ksm_test_exit(struct mm_struct *mm)
- 	return atomic_read(&mm->mm_users) == 0;
- }
- 
--static int break_ksm_pmd_entry(pmd_t *pmd, unsigned long addr, unsigned long next,
--			struct mm_walk *walk)
--{
--	struct page *page = NULL;
--	spinlock_t *ptl;
--	pte_t *pte;
--	pte_t ptent;
--	int ret;
--
--	pte = pte_offset_map_lock(walk->mm, pmd, addr, &ptl);
--	if (!pte)
--		return 0;
--	ptent = ptep_get(pte);
--	if (pte_present(ptent)) {
--		page = vm_normal_page(walk->vma, addr, ptent);
--	} else if (!pte_none(ptent)) {
--		swp_entry_t entry = pte_to_swp_entry(ptent);
--
--		/*
--		 * As KSM pages remain KSM pages until freed, no need to wait
--		 * here for migration to end.
--		 */
--		if (is_migration_entry(entry))
--			page = pfn_swap_entry_to_page(entry);
--	}
--	/* return 1 if the page is an normal ksm page or KSM-placed zero page */
--	ret = (page && PageKsm(page)) || is_ksm_zero_pte(ptent);
--	pte_unmap_unlock(pte, ptl);
--	return ret;
--}
--
--static const struct mm_walk_ops break_ksm_ops = {
--	.pmd_entry = break_ksm_pmd_entry,
--	.walk_lock = PGWALK_RDLOCK,
--};
--
--static const struct mm_walk_ops break_ksm_lock_vma_ops = {
--	.pmd_entry = break_ksm_pmd_entry,
--	.walk_lock = PGWALK_WRLOCK,
--};
--
- /*
-  * We use break_ksm to break COW on a ksm page by triggering unsharing,
-  * such that the ksm page will get replaced by an exclusive anonymous page.
-@@ -665,16 +624,26 @@ static const struct mm_walk_ops break_ksm_lock_vma_ops = {
- static int break_ksm(struct vm_area_struct *vma, unsigned long addr, bool lock_vma)
- {
- 	vm_fault_t ret = 0;
--	const struct mm_walk_ops *ops = lock_vma ?
--				&break_ksm_lock_vma_ops : &break_ksm_ops;
-+
-+	if (lock_vma)
-+		vma_start_write(vma);
- 
- 	do {
--		int ksm_page;
-+		bool ksm_page = false;
-+		struct folio_walk fw;
-+		struct folio *folio;
- 
- 		cond_resched();
--		ksm_page = walk_page_range_vma(vma, addr, addr + 1, ops, NULL);
--		if (WARN_ON_ONCE(ksm_page < 0))
--			return ksm_page;
-+		folio = folio_walk_start(&fw, vma, addr,
-+					 FW_MIGRATION | FW_ZEROPAGE);
-+		if (folio) {
-+			/* Small folio implies FW_LEVEL_PTE. */
-+			if (!folio_test_large(folio) &&
-+			    (folio_test_ksm(folio) || is_ksm_zero_pte(fw.pte)))
-+				ksm_page = true;
-+			folio_walk_end(&fw, vma);
-+		}
-+
- 		if (!ksm_page)
- 			return 0;
- 		ret = handle_mm_fault(vma, addr,
--- 
-2.45.2
+Right now, you can declare variables in any place and it is harder to
+review the code now. It is a matter of time when we will see code like
+this and start to chase bugs introduced by this pattern:
 
+int f()
+{
+	<some code>
+	int i;
+	<some code>
+	return something;
+}
+
+Thanks
+
+> 
+> The other part is that in some cases you can end up with non
+> obvious ordering bugs because the cleanup is the reverse of the
+> declarations, not the constructors being called.
+> Whilst it is fairly easy to review for this, future code reorganization
+> may well lead to subtle bugs, typically in error paths etc.
+> 
+> Putting the declaration inline avoids this potential problem
+> 
+> Dan wrote a style guide proposal.
+> https://lore.kernel.org/all/171175585714.2192972.12661675876300167762.stgit@dwillia2-xfh.jf.intel.com/
+> [PATCH v3] cleanup: Add usage and style documentation
+> 
+> seems it died out without anyone applying it.  I've poked.
+> 
+> Jonathan
+> 
+> > 
+> > Thanks
+> > 
+> > > 
+> > > Jason  
+> > 
+> 
+> 
