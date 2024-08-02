@@ -1,190 +1,215 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3580D3B796;
-	Fri,  2 Aug 2024 05:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722577459; cv=fail; b=VDubCxrgEdZ1h1+yIo2Vako1qhXiuXm6qgyrP3W5vWjJwXRfgFtVm09AzEOq0xFoWY/hUWNBQw5fsAVPD4Rt71IWprIkRnx+XrGcyZqxatwMkoG9bBy86uFeqXofyE6FtKtkBgUo9RUupBVOaNn/1i9cfXpAl7Y+VFryvm9FPYs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722577459; c=relaxed/simple;
-	bh=bWk9XRd6W3mvDb587E0fQ6HGzac5+cA67V0C9t2WC2M=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=YP8SQI7+ZE3aaDPwP+qJ1JWzb5nHuqzIU1M8XnVvoUp7gcoQ5ZWYE9vN+NMCH443W5hMAXo3RDY2dZdVa2o09TI3LUSFBjONICOZFOwBMN771C7Ji0Rj8AbNzzQ/n/J9NTXg/POMKFQ1rXYxEKdTgUXoiS9C9AsVXR3JUfG+zUA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0krUp6Rt; arc=fail smtp.client-ip=40.107.93.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B051C0DE8
+	for <linux-doc@vger.kernel.org>; Fri,  2 Aug 2024 07:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722583779; cv=none; b=YXPwyfcW8Zb4yeernDySPMBSM6UfRii0Lfc5uN81vQxCWlnGd4iF40CVLyUYwGEDtxDPYxcZVLKCpgFAmEmFyB021hhP1xjp0JjDXAd2MMNcFVJLL0ik67F/GdbOpUHasL16rhvom6AsmsyhMb/T+uDiC4DDuVnFdO/mwsUxQfc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722583779; c=relaxed/simple;
+	bh=kmHKuUnN63yG3N+YrvRBAAcfFf/g3Y5GX6lOVrX/vEU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WP1O+HFdLmXZ64vb4uxf83ABbQCTwosazZfVu38Xe7Xix1Q2Vh9P6YCRP6Kcy75FIlojKKy18eJ8FGCppDMcfcnKX2gxUK++oSd3xluuz/SqrYMcn7sQlMZQl7pb7kHU8xc34RXbBMl818j/73MjcpZzEBpd/1WmwV8KqY9PGCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WtU/VALv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0krUp6Rt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rfoANRho22+7fSUKIUxso4wY0RBIwYT/YxFnPKkZTEptP8lLXxHCkSgtnpfy2Ak084xlUGPJVL1k5p9uIk9Hyo1ZakgcdrIVZJora66wb37ThO5Kg4eEORYO6EpJIdU/HjdbD8stMHRTWRTkMxAg7yg2Sy2gzCNIp5ogwz4Mwmv4M8cH9XCikguWR1hu0n7fW+WnTlnDoqTPW7WV77jfqEczyTeAOSk1o2aMuFRMjsOHoZTuz4rgrxSbrmtXQKMenkpUQ0TEepejrwSK9DpiOsH6kce2XHSRo6FJfOgJn3ivBWWdTEaILzB58vmx9G6C9kRT08mgkW+bGYX5iBVM9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0qMJvgRKUV5oaakhokoCJfJ/rNbYA0igUbhHaHnBHVk=;
- b=wF8yJFc0jlnUZjEuyWYYfMBMrwcBPVKKdKuNeROsG1KS7G3ZyaVFZXRxl5qgT/AdYrJ2snNwwHGjMjhxbg8OBjh4xTEpkWCdxi9TadSGLIwNGZJseBJyLMnkJFqcXlxFHjHR4aQsDLV6V8tfxY9TRVhFJZplgjmDtqeIZq0hQEZxhHmYHRIHzlecsIcGbZRgV4ny6BpRq7y7316SJnFizLhYKJZ0BUP4mfyC3X1e2OcdfGhv0FDuamzpAXsLsftr2PmD1vVATPw+CuVnZqIf+P62TAvjQBASz0v2WZxQvjLmuHC10ngHogc/sHWuX1KoGEhQec9mSJuOWRyZSySO+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0qMJvgRKUV5oaakhokoCJfJ/rNbYA0igUbhHaHnBHVk=;
- b=0krUp6RtEnBOIwASd9nJNa+LeSTpE4T8zgmLoO/1Ys3kyrKuX2iNuRPMWIgf+QtU5Zdsj+FBlpAWLKox/oKrpPAZZ5ovZQx+ni2oIDDIvVvcLjqbzmxnDcwV9LqZJHaHLHTTG3Yu5mVC/lHWZlTr1WbEv3u9WkVip7pDc+ipxRA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
- by SN7PR12MB6814.namprd12.prod.outlook.com (2603:10b6:806:266::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Fri, 2 Aug
- 2024 05:44:14 +0000
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475%4]) with mapi id 15.20.7828.023; Fri, 2 Aug 2024
- 05:44:13 +0000
-Message-ID: <91a50d58-f9b3-4003-b694-6829c9bcb0a2@amd.com>
-Date: Fri, 2 Aug 2024 00:44:07 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 09/10] bnxt_en: Add TPH support in BNXT driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- Jonathan.Cameron@huawei.com, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- alex.williamson@redhat.com, gospo@broadcom.com, michael.chan@broadcom.com,
- ajit.khaparde@broadcom.com, somnath.kotur@broadcom.com,
- andrew.gospodarek@broadcom.com, manoj.panicker2@amd.com,
- Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev, horms@kernel.org,
- bagasdotme@gmail.com, bhelgaas@google.com
-References: <20240723164818.GA760263@bhelgaas>
-From: Wei Huang <wei.huang2@amd.com>
-Content-Language: en-US
-In-Reply-To: <20240723164818.GA760263@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR08CA0025.namprd08.prod.outlook.com
- (2603:10b6:a03:100::38) To DM6PR12MB4877.namprd12.prod.outlook.com
- (2603:10b6:5:1bb::24)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WtU/VALv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722583776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oflud7+JAJ9QyEvfCkggZ4DJB6jzCHKS2M1exBnEcgI=;
+	b=WtU/VALvsddbPtwhFI69Hs1Rxz2Gj3tqU2TAOaefDAAxi87kLCKqnbp8h/H4jThZKpgp37
+	fU6IAUa1os1zkZ1r2RVOrPDo3TnovLgQRgGcQ29Ds+J3sSgZOubh0zdXQU3BTznF1AHQ7t
+	j4OJl3DTHO333MnSlS/+7eJlwr8IUeY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-494--flmYofUNYux1t2-pfpjMw-1; Fri, 02 Aug 2024 03:29:34 -0400
+X-MC-Unique: -flmYofUNYux1t2-pfpjMw-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5a87d6b8a9aso1035527a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Aug 2024 00:29:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722583773; x=1723188573;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Oflud7+JAJ9QyEvfCkggZ4DJB6jzCHKS2M1exBnEcgI=;
+        b=FBDOw/ahucT+0hTOJsgyJELx/WLdyVSuFcoXScSOJBewlJ0rBeUSZH0tWtAenT0lDQ
+         VRD0ut+gi7AG4skaciMyUlAYz9MnapFAg51Zs6L1vk1zzK/FTH0EtQc4Za/ZojmdMxe5
+         EIah2ptHecwySSXH8xiaDwj6ejB3kCxClc63PwpQ3rtcCJ2PS0K3TIVLQhS19mNhIXgD
+         LAK5CXYrQ/rQkbFZ4Ot6LtTF/l7CyP67hSQ3JHPzbAMQcUusCFbMxWu8DqkBds/yBhZT
+         afn/+AZQtKX33cFrZgAgXeJsUwTTiUMvhYNkvXDy28vhLeIO4DSGz4Z849Ngc/YpWf+W
+         2q5g==
+X-Gm-Message-State: AOJu0Yy+JqGLhvtmsOfM0X2u+U/B+AcnACSvYEVn3NkDXnP3BWft66pb
+	qxXSSetKEqZRYsrcdxfO1kCh1XO3ppvP/tOVOTbDFikKaTuw3fzs7XX6rLukG1vPYmfS1sGbWHM
+	vlSRYtjCu06EP4s3cytF3gOsk7C5Z0q2UydYtVP9y2gU5jVV7ctLPQ1GoUA==
+X-Received: by 2002:a50:f69b:0:b0:5b0:c00:8e6a with SMTP id 4fb4d7f45d1cf-5b7f57f41damr1098619a12.3.1722583773132;
+        Fri, 02 Aug 2024 00:29:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFsji3VfhXPxlMrKr64Fn48CXyC0btftVqR91XWF6/2fd7ezeuTo6NKImFbFsMb8BsrTBId9w==
+X-Received: by 2002:a50:f69b:0:b0:5b0:c00:8e6a with SMTP id 4fb4d7f45d1cf-5b7f57f41damr1098574a12.3.1722583772521;
+        Fri, 02 Aug 2024 00:29:32 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3d6c:8e00:43f3:8884:76fa:d218])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b839610c77sm741802a12.9.2024.08.02.00.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 00:29:32 -0700 (PDT)
+Message-ID: <a1a7fbf3cca131955911c911e09f1b1d908a7c06.camel@redhat.com>
+Subject: Re: [PATCH 04/10] crypto: marvell - replace deprecated PCI functions
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Giovanni Cabiddu
+ <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,  Boris Brezillon
+ <bbrezillon@kernel.org>, Arnaud Ebalard <arno@natisbad.org>, Srujana Challa
+ <schalla@marvell.com>,  Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Miri Korenblit
+ <miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, Serge
+ Semin <fancer.lancer@gmail.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Kevin Cernekee <cernekee@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+ <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>,  Mark Brown <broonie@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
+ <u.kleine-koenig@pengutronix.de>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>,  Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Jie Wang <jie.wang@intel.com>, Adam
+ Guerin <adam.guerin@intel.com>, Shashank Gupta <shashank.gupta@intel.com>,
+ Damian Muszynski <damian.muszynski@intel.com>, Nithin Dabilpuram
+ <ndabilpuram@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Johannes
+ Berg <johannes.berg@intel.com>, Gregory Greenman
+ <gregory.greenman@intel.com>, Emmanuel Grumbach
+ <emmanuel.grumbach@intel.com>, Yedidya Benshimol
+ <yedidya.ben.shimol@intel.com>, Breno Leitao <leitao@debian.org>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, John Ogness
+ <john.ogness@linutronix.de>, Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-ide@vger.kernel.org, qat-linux@intel.com,
+ linux-crypto@vger.kernel.org,  linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Date: Fri, 02 Aug 2024 09:29:30 +0200
+In-Reply-To: <20240801174608.50592-5-pstanner@redhat.com>
+References: <20240801174608.50592-1-pstanner@redhat.com>
+	 <20240801174608.50592-5-pstanner@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3 (3.52.3-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|SN7PR12MB6814:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1471e865-25a6-4469-b510-08dcb2b623cb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OUp2eVpVK1BqdVV5NEhMU1dsUVVuOUxhNmFmWWxYSWE0T3B2WnZOUjlvUmVu?=
- =?utf-8?B?QnpSNy9hK25EbmtHM2REUWhKanViZmtQenJ3bUhpbDJ1ZGc5ME1IcEdvWHhB?=
- =?utf-8?B?S3dhLzZZWEN4THRwQklRUURDV0U1cVdiTXljWFZoWnlDdVdBcEhPR1NwN21z?=
- =?utf-8?B?TC9TUEY2QTN5OTdaa2M4NUdzeHRBbHhZc0FnL1kxeUpvN2NKeE03Q28rbUxG?=
- =?utf-8?B?VzRSeHpqOVhRcFZBTnhVa0RqRk5Nb0VLa29XVWdjMEFjSXZETVhpZWRIVFJH?=
- =?utf-8?B?SzNJWGdjb2xTTXEyNG42TDUxQVhOM29CbXVqY3ZUZVd5QkFKZmxqeHp2cGVh?=
- =?utf-8?B?c3FLNmgreDF0SkZ2VDRIQTE0R0UwYi9HKy8vTXNXUENpQ3dHenFUeE1SWW1F?=
- =?utf-8?B?RWdKUHhQUmlFYkpqRzFvM3NkVjd6R3hMKzNVbkJZMzRIVkxEYnMzdWp6bW9s?=
- =?utf-8?B?V3dHZTZKeGhOOWZ6a01SUi9IZFRIT2VhZzhFNDNJTi9LZUJNeng3blF1UW9z?=
- =?utf-8?B?R1BSbnBsaHpJWG5iMlI5OFZ2eC9kdmx4UlVjeUdVbCtwOVJsRVQ4clp1U3Vu?=
- =?utf-8?B?emRtZW5CRjRobmRlV1BjMVpMR0l0UGgvQ2p6UzVwL1FNeTdxUnBwQVVuN2g5?=
- =?utf-8?B?YnJXaHNudFFYKzB6czZCMEJybG9FS3dnVVlYM0NiQW5xNy9JaWVkbzE1dkNH?=
- =?utf-8?B?cmNFbGlDaDd0WnpJa1NkNk83OTZEL0JsYkVURjU2SFNrRC9QZVRQbVhBT2lt?=
- =?utf-8?B?blBNcXVYNCtWNUFXRWpwdHZEaXpab3k1WkJPbkpNSUsyeHc0dVd2eVpmRkpU?=
- =?utf-8?B?NEZYQXptL3l5eWUzYkpCaGdPNnBoY3hsdmk2Q2FSbGs3aVdyMXZpVFNJcU0y?=
- =?utf-8?B?WU5DZFRmUUViWVFqVHRuWTh1TnRaWnpnOWdQS1dHWUZXNUs5enFEWVpkQitV?=
- =?utf-8?B?TTFEd0FmSU5lVUprNDA4elZENC9OR2RwNzBSUFVyZzF1ZWh1c0RCdG90Y1pj?=
- =?utf-8?B?djZJdllnVUpNUjArMkpUYmZSS2RiTEI5OUVvbW9jTjRjWXNKcFJFbVJZYkNw?=
- =?utf-8?B?d0czOUpXMjVnb21ySUdiUTQ4ZjhCbDFQUndJRzFVMGUrKzIrbDhVazBxRlZG?=
- =?utf-8?B?b0J1ZEZ3L2J0bVVhREpJSlhQUVlzVVF3ZFNIOHNyb0o3amJYeXlRNldUanJa?=
- =?utf-8?B?QzRpUFBCcVBOMW1nTVdhMTRpUHE3L0haSXFHYmdQWmxyNnl2WWcvMmM4TnJT?=
- =?utf-8?B?WHgybzdiL3hIdVc3b01VSTdKaTM1VEI5NU5ZNC81TjVrWlR3blB4eDIreWRQ?=
- =?utf-8?B?TjhPUk1WVDNxQk5CaEFHWTdENmw5Sjk1RWszYkpIRTZkUGgyVXczNG43VG1P?=
- =?utf-8?B?aGJZeGhycnp4eGRla3NiR29lbG1LYXdGc0puckduU09rWXhub2ZGNUhEd2RF?=
- =?utf-8?B?UUFGZE52Zjd6eXlQRk84SkkyS21OeEZMcG1QN2NoM21ja3hZTWRJc3FnaGxD?=
- =?utf-8?B?dllmd2E4elk5T2w0Sm1LQ2IwMEpzK2J0Ri9KQngrSFYxTU5pa05DNmsxcGI5?=
- =?utf-8?B?a3ZITW1TOEZScjdoL2NXY1VpTGJyU2cyb0g1eXdDdjJyV3hJSGYvWWhrM1Bv?=
- =?utf-8?B?T0lMUmFqUi9BZnluRXFZU1luV1JPbmJyZmNzTzk2eitmR29TRTU2WVdwMEtr?=
- =?utf-8?B?R0Jyc21zSVMrcUJmblpKL2xOOGlHUWd4bW80UUh3eWJmZ2UxVjZmQnRHUXhI?=
- =?utf-8?B?dlJCSytFbVJrb1VOZWw4ZDVhSFRFMlA3L0QzakFhc2tlUGMwbWswUVF6a0RI?=
- =?utf-8?B?TmJhT2tQWTBvcjQrdllYdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UDFEYjAzdHBLV2wyQks5UjdzYUFhNlVLbTYzTVlIbEZrUERTcVNmbjZncVda?=
- =?utf-8?B?SHRVa2xGc0prNzF3RWZoWU0zSjh4K0R1R1dRRDJnd1hIaEVsV09nYzlWS0Yy?=
- =?utf-8?B?QVUzZjgyUG1CWUsremFuYkRuUnJySTdoVHFPNEIzZW9qcVlHN05FZ1B6a2Ev?=
- =?utf-8?B?NnlGOWJXbDJ6c0NPcHExdm5OcEdPYk5oVmtwZXgwREN3OEZtOGdpWXF0SmRv?=
- =?utf-8?B?QmNrcnJWOXNiTzl0S1R4cnV2S3hPUkVUSXhTNHhZY2pteXdXWDMzWVJScVpm?=
- =?utf-8?B?amV3UGNMc2NLeGFHR0ZURTd3Y1AySFF6S2FQSlp3RlQrSkV5SUloNTduWFh1?=
- =?utf-8?B?VDd4dFJYVHk4dHdZN1k1NVczU2gyUERsdFFxOWxscmRObnpsdGFodE93amZm?=
- =?utf-8?B?cjI2MHE2V2xFanZWNmhFRHFONW91Q3VmUU00OVI5NVRmMithVFNFYk4wVEtv?=
- =?utf-8?B?YWovZVFMWUFsa2JJTUcrVGhudnI1blY4L3BDU3ArdExJSjdka1orYlZjekx0?=
- =?utf-8?B?TWJQUTJZT0VzZStpMldSc0tBeFJaaG9qVVNaaCtSS2NGbmtwUmxCeTlJdU92?=
- =?utf-8?B?eXpJdHhkR3pqZDNBWUxqbmsxcVlxdk9TOW9jKzdDOFo4bWdNTitlVHNvQUhD?=
- =?utf-8?B?ZlFwa2REVGhlOHZ5eHlXNDM3eTUwbUdQaUVOdkRXZDRGYzZubFkzdHd5cFFx?=
- =?utf-8?B?cU1oUVBkTGMyY1drR3kyM1V5VS8rWEpYQXlOL1RNOW5xUnpqYUZsZ0VJZ1kw?=
- =?utf-8?B?OVpkM1RnQzV3SFEwNldTWXNzZXdEbFZUUHVwWkdCdXl5WXpaY2hpTnJPTmFx?=
- =?utf-8?B?Tk15WGUrTUtVc0lvaU10anRNSVhmaklVZXpFRG1ISmpTWXJLM0hxeFM1d3lE?=
- =?utf-8?B?TE0weGc0SzVINkJoRFhhYmVrVVdnR2dLODRQNTFHYUVRejhPeXQ4R1lQaHRC?=
- =?utf-8?B?LzhybmV5UzdGMzZXTEhSZDhYTGlzZysvazV0WkdINHl3Y09qZ1BWV0tHc1Q4?=
- =?utf-8?B?YkxGODY4WVk2MHZQTEl6RUw5cE9sV0g1LzVES0liWjhub0RsMjlPRnN3dFVU?=
- =?utf-8?B?UDZZQVc4bVVJaXU4NlBpSDZrUUlLZWJ3Y1JBekNaZUc1anllSWJzYlc0VlR3?=
- =?utf-8?B?THpQRkpxQi9TUFArNHZLeERYSis2T1JFb24wWXBzWFdaN3VSMUdGU2p2K2Nm?=
- =?utf-8?B?UkZ2WXBBbWllZ2tMTHpUUHU3MGVzZ3BjVjhTVHoxTzBzdEVLNG1Za2F6Q0ZU?=
- =?utf-8?B?SllEV3dqelRvMHIvQWdBVnJObVRmcDJmb0lMdXMvVTVobG0yWkJnMTVrWmVk?=
- =?utf-8?B?SXF0REJGS2V4R2FGQmVVN2QwRjdoRWhuUDN0WGZTendkYytvM0NyOEJqWDRW?=
- =?utf-8?B?R29MM1lVSGVxZ3IzYVR2ZkZSNG5mUDRqZm5DNDNJNkZyd3RuV0NSQ1NFbVZz?=
- =?utf-8?B?dFdlMWdod0g3SlcvYkl4dGpSSStlbjFnS08rMVkrQ1J3U2c2d3Y0RmFISUVB?=
- =?utf-8?B?NWNMcVpuc2tHam9aVGhQQWdVMmtKbGlVM01yeXMyY1hwMStrb0pVUkZJaFM3?=
- =?utf-8?B?WUx1Vmd4YVlLL244VnZoZlFScCtFN3BlOWFjd3YzNWw1b2o5S0FBSVB2Mlln?=
- =?utf-8?B?UHhWOHF1WDNyL1JSaXNSQXJJcVpLQ0RNMHFoQ0xHeUM4RXVBVEUvNzQwL0VN?=
- =?utf-8?B?dWQ4emNxaGV4T0JLT28zVytVN0UrLzlFTWtSUFZOQy9Wa2FMMTB6QjV1aGJT?=
- =?utf-8?B?ODNJNTA0R3ZxVFNDcUtybW1BNHF4OWNoQlhXbXBtVlN4dEY1cDN0bFNYMGp0?=
- =?utf-8?B?UkwzUWZ1cXExUVMwTUJWWSthbzl5dUtwVDJVeGtVbWdhdEZmMFFKZVI2OE03?=
- =?utf-8?B?RFYzMVcwd3hXY2l2c3FUTWtMZW5BVHFDUVVqZ0NPc3NsNEtiLzJjYWh2d1Bj?=
- =?utf-8?B?TFFPN1pTUXV6Wm5ZZHF5MHhEVVN2UHdpU0x5dWJUSjMyc2MydGtLVUpZK0ph?=
- =?utf-8?B?OVBWT2RVVUlrZmJ0Q1RENXFvM1NwOXpOTUdOc3Rzb3hjSktORFZPd0JRVTJ2?=
- =?utf-8?B?Sng4eXZZaTJVR240Vm9wVFRsNmpCeXZGeUdBTXc1VFdwdVNiNUtRTnV3K1hQ?=
- =?utf-8?Q?Ppn4HxIERuFfHyoB2Nc13jME4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1471e865-25a6-4469-b510-08dcb2b623cb
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 05:44:13.5660
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7z0ncudOfMxl62n8dDPNlBXTVM+hJpwZnd6UrZU/ZLmOHE+h9LQoAHPXAn+iabyE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6814
 
+On Thu, 2024-08-01 at 19:46 +0200, Philipp Stanner wrote:
+> pcim_iomap_table() and pcim_iomap_regions_request_all() have been
+> deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI:
+> Deprecate
+> pcim_iomap_table(), pcim_iomap_regions_request_all()").
+>=20
+> Replace these functions with their successors, pcim_iomap() and
+> pcim_request_all_regions()
+>=20
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+> =C2=A0drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c | 14 +++++++++--=
+-
+> --
+> =C2=A0drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c | 13 +++++++++--=
+-
+> -
+> =C2=A02 files changed, 18 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
+> b/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
+> index 400e36d9908f..ace39b2f2627 100644
+> --- a/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
+> +++ b/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
+> @@ -739,18 +739,22 @@ static int otx2_cptpf_probe(struct pci_dev
+> *pdev,
+> =C2=A0		dev_err(dev, "Unable to get usable DMA
+> configuration\n");
+> =C2=A0		goto clear_drvdata;
+> =C2=A0	}
+> -	/* Map PF's configuration registers */
+> -	err =3D pcim_iomap_regions_request_all(pdev, 1 <<
+> PCI_PF_REG_BAR_NUM,
+> -					=C2=A0=C2=A0=C2=A0=C2=A0 OTX2_CPT_DRV_NAME);
+> +	err =3D pcim_request_all_regions(pdev, OTX2_CPT_DRV_NAME);
+> =C2=A0	if (err) {
+> -		dev_err(dev, "Couldn't get PCI resources 0x%x\n",
+> err);
+> +		dev_err(dev, "Couldn't request PCI resources
+> 0x%x\n", err);
+> =C2=A0		goto clear_drvdata;
+> =C2=A0	}
+> =C2=A0	pci_set_master(pdev);
+> =C2=A0	pci_set_drvdata(pdev, cptpf);
+> =C2=A0	cptpf->pdev =3D pdev;
+> =C2=A0
+> -	cptpf->reg_base =3D
+> pcim_iomap_table(pdev)[PCI_PF_REG_BAR_NUM];
+> +	/* Map PF's configuration registers */
+> +	cptpf->reg_base =3D pcim_iomap(pdev, PCI_PF_REG_BAR_NUM, 0);
+> +	if (!cptpf->reg_base) {
+> +		dev_err(dev, "Couldn't ioremap PCI resource 0x%x\n",
+> err);
+> +		err =3D -ENOMEM;
 
+Just saw I messed that one up. err has to be set before printing it, of
+course. Will fix that in a v2.
 
-On 7/23/24 11:48, Bjorn Helgaas wrote:
-> On Wed, Jul 17, 2024 at 03:55:10PM -0500, Wei Huang wrote:
->> From: Manoj Panicker <manoj.panicker2@amd.com>
->>
->> Implement TPH support in Broadcom BNXT device driver by invoking
->> pcie_tph_set_st() function when interrupt affinity is changed.
-> 
-> *and* invoking pcie_tph_set_st() when setting up the IRQ in the first
-> place, I guess?
-> 
-> I guess this gives a significant performance benefit?  The series
-> includes "pci=nostmode" so the benefit can be quantified, so now I'm
-> curious about what you measured :)
+> +		goto clear_drvdata;
+> +	}
+> =C2=A0
+> =C2=A0	/* Check if AF driver is up, otherwise defer probe */
+> =C2=A0	err =3D cpt_is_pf_usable(cptpf);
+> diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
+> b/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
+> index 527d34cc258b..e2210bf9605a 100644
+> --- a/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
+> +++ b/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
+> @@ -358,9 +358,8 @@ static int otx2_cptvf_probe(struct pci_dev *pdev,
+> =C2=A0		dev_err(dev, "Unable to get usable DMA
+> configuration\n");
+> =C2=A0		goto clear_drvdata;
+> =C2=A0	}
+> -	/* Map VF's configuration registers */
+> -	ret =3D pcim_iomap_regions_request_all(pdev, 1 <<
+> PCI_PF_REG_BAR_NUM,
+> -					=C2=A0=C2=A0=C2=A0=C2=A0 OTX2_CPTVF_DRV_NAME);
+> +
+> +	ret =3D pcim_request_all_regions(pdev, OTX2_CPTVF_DRV_NAME);
+> =C2=A0	if (ret) {
+> =C2=A0		dev_err(dev, "Couldn't get PCI resources 0x%x\n",
+> ret);
+> =C2=A0		goto clear_drvdata;
+> @@ -369,7 +368,13 @@ static int otx2_cptvf_probe(struct pci_dev
+> *pdev,
+> =C2=A0	pci_set_drvdata(pdev, cptvf);
+> =C2=A0	cptvf->pdev =3D pdev;
+> =C2=A0
+> -	cptvf->reg_base =3D
+> pcim_iomap_table(pdev)[PCI_PF_REG_BAR_NUM];
+> +	/* Map VF's configuration registers */
+> +	cptvf->reg_base =3D pcim_iomap(pdev, PCI_PF_REG_BAR_NUM, 0);
+> +	if (!cptvf->reg_base) {
+> +		dev_err(dev, "Couldn't ioremap PCI resource 0x%x\n",
+> ret);
+> +		ret =3D -ENOMEM;
 
-Using network benchmarks, three main metrics were measured: network 
-latency, network bandwidth, and memory bandwidth saving.
+Same here.
 
-> 
->> +static void bnxt_rtnl_lock_sp(struct bnxt *bp);
->> +static void bnxt_rtnl_unlock_sp(struct bnxt *bp);
-> 
-> These duplicate declarations can't be right, can they?  OK for
-> work-in-progress, but it doesn't look like the final solution.
+P.
 
-Will fix.
+> +		goto clear_drvdata;
+> +	}
+> =C2=A0
+> =C2=A0	otx2_cpt_set_hw_caps(pdev, &cptvf->cap_flag);
+> =C2=A0
 
