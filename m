@@ -1,90 +1,184 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E2A1DF66B;
-	Fri,  2 Aug 2024 11:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167F014A4C8;
+	Fri,  2 Aug 2024 12:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722597611; cv=none; b=rqJB8JPYJgybQpRtc/lVMuFEm8s/x4sZ1LH5sEN1RfnldyF4j+bd6lIvOKuZLVFWR6e1ALgx7ZOT+nS+FCf0xa3w52BW/4vAiNOuuFeT19qfOQcGsV2HMgHnOr4sblatS1lwtWRxZPHXPZ2mkyp2WKpxxhyCQXllhKzKfXnqPt8=
+	t=1722600650; cv=none; b=UrJ3TYH0ONeNzxnitoM7bCnxP65+NouvCBR6RtEa7+Q3RBhLAIPBe/Rrv6jvCStfsFPJszi5voaBBq33APUUNrqDxO6z4MRtXjLfDcuwTKpWKkpsVPS6eaxnHTrY767j9xxhBGBLz/Y7HTcxU9sAO/eZ3F7nH7VGMRz7PJLskMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722597611; c=relaxed/simple;
-	bh=4xShjOftd4+pZBV2l+SeEhAEEaYdoitSomtoKS3Umuk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a/J/9r5J+geqS9SXUaJnXGxC9yy1Ot9uvOF92HypWHNh2kDBk4B5DocvsPc4EaHvd5E2ywqG0qKbJFz/uiA2l5HKrB/fmf1+dG3rzXpq9XBX/55cjmZgjnP5z78RVYsOr9OSSmxN7Mk5dUO+vJYsYSC5WZfsXHBXvzDa+cU7HtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wb3Ft71Q0z6K6GR;
-	Fri,  2 Aug 2024 19:17:22 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 653A91400D9;
-	Fri,  2 Aug 2024 19:20:01 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 2 Aug
- 2024 12:20:00 +0100
-Date: Fri, 2 Aug 2024 12:19:59 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Mike Rapoport <rppt@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, Alexander Gordeev
-	<agordeev@linux.ibm.com>, Andreas Larsson <andreas@gaisler.com>, "Andrew
- Morton" <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, "Borislav
- Petkov" <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Christophe
- Leroy <christophe.leroy@csgroup.eu>, Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, David Hildenbrand
-	<david@redhat.com>, "David S. Miller" <davem@davemloft.net>, Davidlohr Bueso
-	<dave@stgolabs.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Heiko
- Carstens <hca@linux.ibm.com>, Huacai Chen <chenhuacai@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, "John Paul
- Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, Jonathan Corbet
-	<corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>, Palmer Dabbelt
-	<palmer@dabbelt.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring
-	<robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner
-	<tglx@linutronix.de>, "Vasily Gorbik" <gor@linux.ibm.com>, Will Deacon
-	<will@kernel.org>, Zi Yan <ziy@nvidia.com>, <devicetree@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-cxl@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-mips@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-sh@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <loongarch@lists.linux.dev>,
-	<nvdimm@lists.linux.dev>, <sparclinux@vger.kernel.org>, <x86@kernel.org>
-Subject: Re: [PATCH v3 19/26] mm: introduce numa_emulation
-Message-ID: <20240802121959.00003c18@Huawei.com>
-In-Reply-To: <20240801060826.559858-20-rppt@kernel.org>
-References: <20240801060826.559858-1-rppt@kernel.org>
-	<20240801060826.559858-20-rppt@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1722600650; c=relaxed/simple;
+	bh=eR+iu6/0WXfDTtplSQGsJVWxAt8YS165hY1VY+hKTf8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fz3Kvp32G7darda5tO0HiuYkgnGp/sAKDpVM/2+H2I9zVayBGLJzUpEht72660IAgsSPppJcRQo7vG7ehDnoOJlW6XYu0PxAPcKr55134hJhQJiyy7NWHXBaBsPkBzNTBtFwN59hIpLjm6k1jsstPqUJttVwWfE7bVQVNzvkzDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEcceYM8; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEcceYM8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722600647; x=1754136647;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eR+iu6/0WXfDTtplSQGsJVWxAt8YS165hY1VY+hKTf8=;
+  b=LEcceYM80ly35bcyLQlfwZTzMxhwhmHL5MQeG9tWI9n0Vmuy2yaYK/cE
+   ad8hzGs2YSRc0UugZohJG1HtyiRr0REPdL+EEkNfr+k1pRY22NQrtAmFo
+   RdpQF+cyYhZZ+cKVdPR63Sb3Doh7VkDpDWW7k5j4X/d8zSqH/9B/je/Nd
+   UoQ064ucX9XSbc38yAW9MT+qYOpOK7VPQueCZrToI2tVdMzMyKq6UIZ+p
+   BQnCWKzvo2p8mI3psY7NaHiJAb+DlvNB6IULOUoZBJg+B0DfnmSDZVZCL
+   YiMy7NqJ5Sgd6bUO5qlzT98vQSlU4iydO/rW4JUOSkDUDPk+fHtZSm3JM
+   A==;
+X-CSE-ConnectionGUID: YiJ6omhhTICaHTyB845Jhw==
+X-CSE-MsgGUID: pDQWo+DIQUupP6xdMfzwBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24484192"
+X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
+   d="scan'208";a="24484192"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:46 -0700
+X-CSE-ConnectionGUID: WeoaLZ5qS1yBmoKb3Bfcyg==
+X-CSE-MsgGUID: UgZNmmCzQrqeVCUuSYL9GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
+   d="scan'208";a="55978897"
+Received: from ltuz-desk.ger.corp.intel.com (HELO [10.245.246.89]) ([10.245.246.89])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:42 -0700
+Message-ID: <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
+Date: Fri, 2 Aug 2024 08:26:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
+ backend
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-10-quic_wcheng@quicinc.com>
+ <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
+ <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu,  1 Aug 2024 09:08:19 +0300
-Mike Rapoport <rppt@kernel.org> wrote:
 
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Move numa_emulation codfrom arch/x86 to mm/numa_emulation.c
-> 
-> This code will be later reused by arch_numa.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
-I ran some basic tests on ARM with this. Seems to do the job.
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Works on both ACPI and dsdt boots.
+On 8/1/24 23:43, Wesley Cheng wrote:
+> Hi Pierre,
+> 
+> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
+>>
+>>
+>>> +/**
+>>> + * struct snd_soc_usb_device
+>>> + * @card_idx - sound card index associated with USB device
+>>> + * @pcm_idx - PCM device index associated with USB device
+>>> + * @chip_idx - USB sound chip array index
+>>> + * @num_playback - number of playback streams
+>>> + * @num_capture - number of capture streams
+>> so here we have a clear separation between playback and capture...
+> 
+> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
+> 
+> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
+
+I don't think it's as simple as playback only or playback+capture. If
+there is no support for capture, then there is also no support for
+devices with implicit feedback - which uses the capture path. So you
+gradually start drawing a jagged boundary of what is supported and what
+isn't.
+
+My preference would be to add capture in APIs where we can, with TODOs
+added to make sure no one us under any illusion that the code is fully
+tested. But at least some of the basic plumbing will be in place.
+
+Takashi should chime in on this...
+
+>>> + * @list - list head for SoC USB devices
+>>> + **/
+>>> +struct snd_soc_usb_device {
+>>> +	int card_idx;
+>>> +	int pcm_idx;
+>>> +	int chip_idx;
+>>> +	int num_playback;
+>>> +	int num_capture;
+>>> +	struct list_head list;
+>>> +};
+>>> +
+>>> +/**
+>>> + * struct snd_soc_usb
+>>> + * @list - list head for SND SOC struct list
+>>> + * @component - reference to ASoC component
+>>> + * @num_supported_streams - number of supported concurrent sessions
+>> ... but here we don't. And it's not clear what the working 'sessions'
+>> means in the comment.
+>>
+>>> + * @connection_status_cb - callback to notify connection events
+>>> + * @priv_data - driver data
+>>> + **/
+>>> +struct snd_soc_usb {
+>>> +	struct list_head list;
+>>> +	struct snd_soc_component *component;
+>>> +	unsigned int num_supported_streams;
+>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
+>>> +			struct snd_soc_usb_device *sdev, bool connected);
+>>> +	void *priv_data;
+>>> +};
+>>> +/**
+>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
+>> USB port?
+> Noted, refer to the last comment.
+>>> + * @component: USB DPCM backend DAI component
+>>> + * @num_streams: number of offloading sessions supported
+>> same comment, is this direction-specific or not?
+> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
+>>> + * @data: private data
+>>> + *
+>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
+>>> + * are used in subsequent sequences.
+>>> + *
+>>> + */
+>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+>>> +					      int num_streams, void *data)
+>>> +{
+>>> +	struct snd_soc_usb *usb;
+>>> +
+>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
+>>> +	if (!usb)
+>>> +		return ERR_PTR(-ENOMEM);
+>>> +
+>>> +	usb->component = component;
+>>> +	usb->priv_data = data;
+>>> +	usb->num_supported_streams = num_streams;
+>>> +
+>>> +	return usb;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
+>>> +
+>>> +/**
+>>> + * snd_soc_usb_free_port() - free a SOC USB device
+>>> + * @usb: allocated SOC USB device
+>>> +
+>>> + * Free and remove the SOC USB device from the available list of devices.
+>> Now I am lost again on the device:port relationship. I am sure you've
+>> explained this before but I forget things and the code isn't
+>> self-explanatory.
+>>
+> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
+
+I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
+it's not quite right, USB audio works across hubs.
+
 
