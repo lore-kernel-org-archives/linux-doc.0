@@ -1,182 +1,409 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5611A34AB
-	for <linux-doc@vger.kernel.org>; Fri,  2 Aug 2024 16:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0DA1A34AB;
+	Fri,  2 Aug 2024 16:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722614638; cv=none; b=rJZV5rNPr2JqY/U9FY40YRsxxoTooRpagzy6utd1wzMg1FsLzwPxqB5pIzdh4zo6s2r0GmUo7btiE9KTHDKx+aTAxvBao1VcIXW4KTOcl0U9pyedV/N1JCDkw659YDb/jXU4TD5nrdYg3G1U197v+U2O+k1uP6+XLkKRSYPQvRo=
+	t=1722615016; cv=none; b=Rs237kvsLzkLdUr3AgqtZqxhtxj2YexWq0oz0RnCiJs3KO4e5Emxz+Ie7vMai3I8O4ANcIE0FAXqlAKcE/3vMP+bE7BdxyjeXUXEo18LAXx5acLmXaMy71HjJfSErJbChkA+WVDtnJ6t4BRdEcMxQP/xnIqqSGzHGHzTfcfCT8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722614638; c=relaxed/simple;
-	bh=D5cezDh4A5XyfwFkC2BlahwYraXx3RdiYvjPIXTBfDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HA5vn+5iAhYEzQdyXPKp5LgOW7QGcRmk6VcEYvKGCx3WeLxAO6gsefAY2d4GMK0ZMNb5aQ93dgMVBlWFyfTBSbPan7/10IsECYnqrmk7iObPm1TDEBYL518Jgo/r1MmJjzd58Qr1aVze6mHFAh2Ivf88MH025QBlp5MpDL7pnJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KIHRQVJe; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1722615016; c=relaxed/simple;
+	bh=R4GWfq3QG02Oji1PNgGLPaf+BTBdZtIdI7dgCPqHm5A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bIaO3hptiK1qdYG/9GUDKwU9C+cPEfs+4ANs5MkDNNDCNWYK5gRsFpEqm4UE6qCbFMr/Fm0Ome9wIDZxiZaRHGHXJc1dKkIftvk1pBxWPk7ZAef0CTWDl1GFYEO9gEoQEBrSzo1Gb+p+TS/JXYZ4WghdfWLzgTpGCORq2SXkH5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UkQKH7Ui; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KIHRQVJe"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52efabf5d7bso9972869e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 02 Aug 2024 09:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722614634; x=1723219434; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jaYp+4ySrYqox0C2LwNhC4Vws80twAVdjJbOgnZz/S0=;
-        b=KIHRQVJe6Y/MjOKVb2whdHIVWcldHEUXi2MJeyXvjM4BHLaYUig0jy1s7X2FkuHKSY
-         p1YBW9iggKrlP0ONUk6twLdFR8BzPW8lX5v3z9gYbk0dbi5xtlXcc8mfxCMgvxgfWW30
-         2gJjuMpjnPFtW3id7aK7XakxTF6uD+b/lCp8BEsKsXe/YCUastne6o8wzHi5hbeBkzro
-         DvVWPl9FjX3W3JxYk+aM8WoJlpG0+5WJHShAjylf9wW9awbubLcPEDWSJ8ey6v/r3Ude
-         FagQ6FBlfm9ub0v2nYoS9RKYyc6yiBmxmuwO21Tm0NOMTSFGycV/lJUxr2UOp5sq16/K
-         yfwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722614634; x=1723219434;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jaYp+4ySrYqox0C2LwNhC4Vws80twAVdjJbOgnZz/S0=;
-        b=HDMNckN6URPtpzp5/KWXX7ngBCmJaxygcECmnLaKqNVpcV25jytbBNGLurQb0mf6Wa
-         3abSo/aVKlpIBpHCc+dXty0igc4w9h52CfeMIa9raShEH57IRrQ5GkJKZmYprCANCHD8
-         9Vc66RkyiYlyvSxt26AsB4w0YcxhMjsfBhU/RsQoIbK1ogvtmj8j9pQ1gilF4as5gY/X
-         ATgyVfEU0O3fx0XaWgQPUcaW79XRq0qoyhEN6u+2HPIzMG3OhBd1TdLjadSqaaq77o14
-         cT9yXNwRVDTh5XHQTK4Tu/LerUSlJDc0OuUDk+dOg4S6QeS7u0rVWP8H4qLstUzMjZmM
-         Zr3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVXFMiRPfSYFR1wtfGGPrE13ivk/zIpbd942w+sNz9Iu5WyY96ZIHRjgtz9OV8Y/R3BZ3Yb7fZj/yzFeVr6HvTZJmoa88SMvJ5/
-X-Gm-Message-State: AOJu0YxKSb55krbqSsL5HQXTXP83lOoMVJU135A/QgkHGIHzI+wicCJA
-	nyN7IYOi0UiFuAU3aj67cW2dkOR6v9EWQTmMyLvBGzxJQI2jZggmyJLUGERsEr3uYivUmisAHnl
-	oipU=
-X-Google-Smtp-Source: AGHT+IHar+PPGcrxDNcjSr1um3g+3xRCfTrmLOXPeIhwAHJBP67s3XLeWwHx6hWOKLC6el1844qAfg==
-X-Received: by 2002:a05:6512:3ba0:b0:52f:c14e:2533 with SMTP id 2adb3069b0e04-530bb3c79e9mr2525031e87.48.1722614633808;
-        Fri, 02 Aug 2024 09:03:53 -0700 (PDT)
-Received: from mutt (c-9b0ee555.07-21-73746f28.bbcust.telenor.se. [85.229.14.155])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-530bba07dc7sm266293e87.16.2024.08.02.09.03.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 09:03:44 -0700 (PDT)
-Date: Fri, 2 Aug 2024 18:03:27 +0200
-From: Anders Roxell <anders.roxell@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 00/40] arm64/gcs: Provide support for GCS in userspace
-Message-ID: <20240802160326.GA36502@mutt>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UkQKH7Ui"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A25CE1C000C;
+	Fri,  2 Aug 2024 16:10:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1722615011;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=51j5w59/Q7lrd9J7MHrWpO5KUhCyJ59O7s6xKtQhMVI=;
+	b=UkQKH7Uif3WDFyiVdkJgp3KSl0n0woLwGl24gnGdWb8hWzOcHJT+I9qTXuFNv2nF+N4Xt9
+	eCWBhpALkAk0M2poopT2d62SFyoyNv4psSRbimcNtPq/iOlcrRXI4SDY4YsJ6d/W7M8OD7
+	leE2oQcxRQwRg0Qxm86MVwz67EDxqhSroG2riVRfasX3YWs5iBxPduGFrTY6GWTeyujCyL
+	IxewGI3DiWIIjTbAjX5Ii5O0gSt1BcU3Mpvg3CqKooTVjnf+KhOAcjgHJKarWx6YgRSE4/
+	XQ0MPM6pAfi6VqDztwjmihu1Zm3/HJkld9tVxONRxeGp37x/cfBerYUzW8LkfA==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Fri, 02 Aug 2024 18:09:49 +0200
+Subject: [PATCH v9 04/17] drm/vkms: Add typedef and documentation for
+ pixel_read and pixel_write functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240802-yuv-v9-4-08a706669e16@bootlin.com>
+References: <20240802-yuv-v9-0-08a706669e16@bootlin.com>
+In-Reply-To: <20240802-yuv-v9-0-08a706669e16@bootlin.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ rdunlap@infradead.org, arthurgrillo@riseup.net, 
+ pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12722;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=R4GWfq3QG02Oji1PNgGLPaf+BTBdZtIdI7dgCPqHm5A=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmrQTarMQSfuCLcHxtzoAIzFIzdbKkKT4Lc8+mw
+ WPJ2FG0F+KJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZq0E2gAKCRAgrS7GWxAs
+ 4qwDEAC7aJMIKWbR9EBS6C1gh5NU3HR6T/7XRKJAbKngObieKYXHBhC5+c2nKSMIrAEihFwO9L4
+ XQq3dCbUM2vBaYBca+S05s2ASJN+naSroZZlTtuZJm37xz9jPnGd1QmRAFOJSQNPR3+wPMij2ao
+ Ptbi6f4CmfARZ4gldW5FDAa/pvH1L0/G0gfROQjQxBzFyvRsDBzX8rlcPDy9wvJ+5po8Xo/eiku
+ CzO9/aNcktjJQP6cwfoHoHIocA8EO0uva16bVeX+eOuGIftwfKI4VAFvDFKWRqr/oaws3VJcqwG
+ sMl+DS12Ey2tjsXdJ9lE/Fmx8nizF48vFJJEAdS2idJjb37di1Dxz447n2TZH/3mpPmToNQGnuh
+ xIxu9o+zzYdiImUrc8ARdECd8aYswnT+tqWmaREzbKmNXOtvDG11g9u3R9zC9Rkt8vqrvK5QWab
+ a9eReZ6kT4hYZ8oe+BJBj9RSP0cGEI0pQ/LAa+i6z6WQyFdx2bEaU5NWK7U/36rW01QEDPpfH6C
+ /dIFmC0TL3z77PCgqUauKTnldMGs99LmueP79N7UarAhQhtza5xo6N5lAJ7BIyou4/Al0FMGPwN
+ 5EnXr6YjqhQ+9pxfmjNwffJpaMQG0PLVLykfqQHZFuyorSExN8Lk7fjmlQLiTnNZhw7RCjgIvsR
+ Vso4r1fFU5U6KFw==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On 2024-08-01 13:06, Mark Brown wrote:
-> The arm64 Guarded Control Stack (GCS) feature provides support for
-> hardware protected stacks of return addresses, intended to provide
-> hardening against return oriented programming (ROP) attacks and to make
-> it easier to gather call stacks for applications such as profiling.
-> 
-> When GCS is active a secondary stack called the Guarded Control Stack is
-> maintained, protected with a memory attribute which means that it can
-> only be written with specific GCS operations.  The current GCS pointer
-> can not be directly written to by userspace.  When a BL is executed the
-> value stored in LR is also pushed onto the GCS, and when a RET is
-> executed the top of the GCS is popped and compared to LR with a fault
-> being raised if the values do not match.  GCS operations may only be
-> performed on GCS pages, a data abort is generated if they are not.
-> 
-> The combination of hardware enforcement and lack of extra instructions
-> in the function entry and exit paths should result in something which
-> has less overhead and is more difficult to attack than a purely software
-> implementation like clang's shadow stacks.
-> 
-> This series implements support for use of GCS by userspace, along with
-> support for use of GCS within KVM guests.  It does not enable use of GCS
-> by either EL1 or EL2, this will be implemented separately.  Executables
-> are started without GCS and must use a prctl() to enable it, it is
-> expected that this will be done very early in application execution by
-> the dynamic linker or other startup code.  For dynamic linking this will
-> be done by checking that everything in the executable is marked as GCS
-> compatible.
-> 
-> x86 has an equivalent feature called shadow stacks, this series depends
-> on the x86 patches for generic memory management support for the new
-> guarded/shadow stack page type and shares APIs as much as possible.  As
-> there has been extensive discussion with the wider community around the
-> ABI for shadow stacks I have as far as practical kept implementation
-> decisions close to those for x86, anticipating that review would lead to
-> similar conclusions in the absence of strong reasoning for divergence.
-> 
-> The main divergence I am concious of is that x86 allows shadow stack to
-> be enabled and disabled repeatedly, freeing the shadow stack for the
-> thread whenever disabled, while this implementation keeps the GCS
-> allocated after disable but refuses to reenable it.  This is to avoid
-> races with things actively walking the GCS during a disable, we do
-> anticipate that some systems will wish to disable GCS at runtime but are
-> not aware of any demand for subsequently reenabling it.
-> 
-> x86 uses an arch_prctl() to manage enable and disable, since only x86
-> and S/390 use arch_prctl() a generic prctl() was proposed[1] as part of a
-> patch set for the equivalent RISC-V Zicfiss feature which I initially
-> adopted fairly directly but following review feedback has been revised
-> quite a bit.
-> 
-> We currently maintain the x86 pattern of implicitly allocating a shadow
-> stack for threads started with shadow stack enabled, there has been some
-> discussion of removing this support and requiring the use of clone3()
-> with explicit allocation of shadow stacks instead.  I have no strong
-> feelings either way, implicit allocation is not really consistent with
-> anything else we do and creates the potential for errors around thread
-> exit but on the other hand it is existing ABI on x86 and minimises the
-> changes needed in userspace code.
-> 
-> glibc and bionic changes using this ABI have been implemented and
-> tested.  Headless Android systems have been validated and Ross Burton
-> has used this code has been used to bring up a Yocto system with GCS
-> enabed as standard, a test implementation of V8 support has also been
-> done.
-> 
-> There is an open issue with support for CRIU, on x86 this required the
-> ability to set the GCS mode via ptrace.  This series supports
-> configuring mode bits other than enable/disable via ptrace but it needs
-> to be confirmed if this is sufficient.
-> 
-> The series depends on support for shadow stacks in clone3(), that series
-> includes the addition of ARCH_HAS_USER_SHADOW_STACK.
-> 
->    https://lore.kernel.org/r/20240731-clone3-shadow-stack-v7-0-a9532eebfb1d@kernel.org
-> 
+Introduce two typedefs: pixel_read_t and pixel_write_t. It allows the
+compiler to check if the passed functions take the correct arguments.
+Such typedefs will help ensuring consistency across the code base in
+case of update of these prototypes.
 
-Verified this patchset on a FVP.
+Rename input/output variable in a consistent way between read_line and
+write_line.
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+A warn has been added in get_pixel_*_function to alert when an unsupported
+pixel format is requested. As those formats are checked before
+atomic_update callbacks, it should never happen.
 
+Document for those typedefs.
 
-Cheers,
-Anders
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ drivers/gpu/drm/vkms/vkms_drv.h     |  23 ++++++-
+ drivers/gpu/drm/vkms/vkms_formats.c | 122 ++++++++++++++++++++----------------
+ drivers/gpu/drm/vkms/vkms_formats.h |   4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c   |   2 +-
+ 4 files changed, 93 insertions(+), 58 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index d6851f1f9c38..7148d46d36b7 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -53,12 +53,31 @@ struct line_buffer {
+ 	struct pixel_argb_u16 *pixels;
+ };
+ 
++/**
++ * typedef pixel_write_t - These functions are used to read a pixel from a
++ * &struct pixel_argb_u16, convert it in a specific format and write it in the @dst_pixels
++ * buffer.
++ *
++ * @out_pixel: destination address to write the pixel
++ * @in_pixel: pixel to write
++ */
++typedef void (*pixel_write_t)(u8 *out_pixel, struct pixel_argb_u16 *in_pixel);
++
+ struct vkms_writeback_job {
+ 	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+ 	struct vkms_frame_info wb_frame_info;
+-	void (*pixel_write)(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel);
++	pixel_write_t pixel_write;
+ };
+ 
++/**
++ * typedef pixel_read_t - These functions are used to read a pixel in the source frame,
++ * convert it to `struct pixel_argb_u16` and write it to @out_pixel.
++ *
++ * @in_pixel: pointer to the pixel to read
++ * @out_pixel: pointer to write the converted pixel
++ */
++typedef void (*pixel_read_t)(u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
++
+ /**
+  * struct vkms_plane_state - Driver specific plane state
+  * @base: base plane state
+@@ -69,7 +88,7 @@ struct vkms_writeback_job {
+ struct vkms_plane_state {
+ 	struct drm_shadow_plane_state base;
+ 	struct vkms_frame_info *frame_info;
+-	void (*pixel_read)(u8 *src_buffer, struct pixel_argb_u16 *out_pixel);
++	pixel_read_t pixel_read;
+ };
+ 
+ struct vkms_plane {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 7dc20d069c99..5ebc691656bc 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -75,7 +75,7 @@ static int get_x_position(const struct vkms_frame_info *frame_info, int limit, i
+  * They are used in the vkms_compose_row() function to handle multiple formats.
+  */
+ 
+-static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
++static void ARGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	/*
+ 	 * The 257 is the "conversion ratio". This number is obtained by the
+@@ -83,48 +83,48 @@ static void ARGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixe
+ 	 * the best color value in a pixel format with more possibilities.
+ 	 * A similar idea applies to others RGB color conversions.
+ 	 */
+-	out_pixel->a = (u16)src_pixels[3] * 257;
+-	out_pixel->r = (u16)src_pixels[2] * 257;
+-	out_pixel->g = (u16)src_pixels[1] * 257;
+-	out_pixel->b = (u16)src_pixels[0] * 257;
++	out_pixel->a = (u16)in_pixel[3] * 257;
++	out_pixel->r = (u16)in_pixel[2] * 257;
++	out_pixel->g = (u16)in_pixel[1] * 257;
++	out_pixel->b = (u16)in_pixel[0] * 257;
+ }
+ 
+-static void XRGB8888_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
++static void XRGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = (u16)src_pixels[2] * 257;
+-	out_pixel->g = (u16)src_pixels[1] * 257;
+-	out_pixel->b = (u16)src_pixels[0] * 257;
++	out_pixel->r = (u16)in_pixel[2] * 257;
++	out_pixel->g = (u16)in_pixel[1] * 257;
++	out_pixel->b = (u16)in_pixel[0] * 257;
+ }
+ 
+-static void ARGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
++static void ARGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixel = (__le16 *)in_pixel;
+ 
+-	out_pixel->a = le16_to_cpu(pixels[3]);
+-	out_pixel->r = le16_to_cpu(pixels[2]);
+-	out_pixel->g = le16_to_cpu(pixels[1]);
+-	out_pixel->b = le16_to_cpu(pixels[0]);
++	out_pixel->a = le16_to_cpu(pixel[3]);
++	out_pixel->r = le16_to_cpu(pixel[2]);
++	out_pixel->g = le16_to_cpu(pixel[1]);
++	out_pixel->b = le16_to_cpu(pixel[0]);
+ }
+ 
+-static void XRGB16161616_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
++static void XRGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixel = (__le16 *)in_pixel;
+ 
+ 	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = le16_to_cpu(pixels[2]);
+-	out_pixel->g = le16_to_cpu(pixels[1]);
+-	out_pixel->b = le16_to_cpu(pixels[0]);
++	out_pixel->r = le16_to_cpu(pixel[2]);
++	out_pixel->g = le16_to_cpu(pixel[1]);
++	out_pixel->b = le16_to_cpu(pixel[0]);
+ }
+ 
+-static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
++static void RGB565_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+-	u16 *pixels = (u16 *)src_pixels;
++	__le16 *pixel = (__le16 *)in_pixel;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+ 
+-	u16 rgb_565 = le16_to_cpu(*pixels);
++	u16 rgb_565 = le16_to_cpu(*pixel);
+ 	s64 fp_r = drm_int2fixp((rgb_565 >> 11) & 0x1f);
+ 	s64 fp_g = drm_int2fixp((rgb_565 >> 5) & 0x3f);
+ 	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+@@ -168,12 +168,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+ 
+ /*
+  * The following functions take one &struct pixel_argb_u16 and convert it to a specific format.
+- * The result is stored in @dst_pixels.
++ * The result is stored in @out_pixel.
+  *
+  * They are used in vkms_writeback_row() to convert and store a pixel from the src_buffer to
+  * the writeback buffer.
+  */
+-static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_ARGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ {
+ 	/*
+ 	 * This sequence below is important because the format's byte order is
+@@ -185,43 +185,43 @@ static void argb_u16_to_ARGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel
+ 	 * | Addr + 2 | = Red channel
+ 	 * | Addr + 3 | = Alpha channel
+ 	 */
+-	dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
+-	dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
+-	dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
+-	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
++	out_pixel[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
++	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
++	out_pixel[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
++	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
+ }
+ 
+-static void argb_u16_to_XRGB8888(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_XRGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ {
+-	dst_pixels[3] = 0xff;
+-	dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
+-	dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
+-	dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
++	out_pixel[3] = 0xff;
++	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
++	out_pixel[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
++	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
+ }
+ 
+-static void argb_u16_to_ARGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_ARGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixel = (__le16 *)out_pixel;
+ 
+-	pixels[3] = cpu_to_le16(in_pixel->a);
+-	pixels[2] = cpu_to_le16(in_pixel->r);
+-	pixels[1] = cpu_to_le16(in_pixel->g);
+-	pixels[0] = cpu_to_le16(in_pixel->b);
++	pixel[3] = cpu_to_le16(in_pixel->a);
++	pixel[2] = cpu_to_le16(in_pixel->r);
++	pixel[1] = cpu_to_le16(in_pixel->g);
++	pixel[0] = cpu_to_le16(in_pixel->b);
+ }
+ 
+-static void argb_u16_to_XRGB16161616(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_XRGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixel = (__le16 *)out_pixel;
+ 
+-	pixels[3] = 0xffff;
+-	pixels[2] = cpu_to_le16(in_pixel->r);
+-	pixels[1] = cpu_to_le16(in_pixel->g);
+-	pixels[0] = cpu_to_le16(in_pixel->b);
++	pixel[3] = cpu_to_le16(0xffff);
++	pixel[2] = cpu_to_le16(in_pixel->r);
++	pixel[1] = cpu_to_le16(in_pixel->g);
++	pixel[0] = cpu_to_le16(in_pixel->b);
+ }
+ 
+-static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_RGB565(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ {
+-	u16 *pixels = (u16 *)dst_pixels;
++	__le16 *pixel = (__le16 *)out_pixel;
+ 
+ 	s64 fp_rb_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(31));
+ 	s64 fp_g_ratio = drm_fixp_div(drm_int2fixp(65535), drm_int2fixp(63));
+@@ -234,7 +234,7 @@ static void argb_u16_to_RGB565(u8 *dst_pixels, struct pixel_argb_u16 *in_pixel)
+ 	u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
+ 	u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
+ 
+-	*pixels = cpu_to_le16(r << 11 | g << 5 | b);
++	*pixel = cpu_to_le16(r << 11 | g << 5 | b);
+ }
+ 
+ /**
+@@ -265,7 +265,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
+  *
+  * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+  */
+-void *get_pixel_conversion_function(u32 format)
++pixel_read_t get_pixel_read_function(u32 format)
+ {
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+@@ -279,7 +279,15 @@ void *get_pixel_conversion_function(u32 format)
+ 	case DRM_FORMAT_RGB565:
+ 		return &RGB565_to_argb_u16;
+ 	default:
+-		return NULL;
++		/*
++		 * This is a bug in vkms_plane_atomic_check(). All the supported
++		 * format must:
++		 * - Be listed in vkms_formats in vkms_plane.c
++		 * - Have a pixel_read callback defined here
++		 */
++		pr_err("Pixel format %p4cc is not supported by VKMS planes. This is a kernel bug, atomic check must forbid this configuration.\n",
++		       &format);
++		BUG();
+ 	}
+ }
+ 
+@@ -290,7 +298,7 @@ void *get_pixel_conversion_function(u32 format)
+  *
+  * @format: DRM_FORMAT_* value for which to obtain a conversion function (see [drm_fourcc.h])
+  */
+-void *get_pixel_write_function(u32 format)
++pixel_write_t get_pixel_write_function(u32 format)
+ {
+ 	switch (format) {
+ 	case DRM_FORMAT_ARGB8888:
+@@ -304,6 +312,14 @@ void *get_pixel_write_function(u32 format)
+ 	case DRM_FORMAT_RGB565:
+ 		return &argb_u16_to_RGB565;
+ 	default:
+-		return NULL;
++		/*
++		 * This is a bug in vkms_writeback_atomic_check. All the supported
++		 * format must:
++		 * - Be listed in vkms_wb_formats in vkms_writeback.c
++		 * - Have a pixel_write callback defined here
++		 */
++		pr_err("Pixel format %p4cc is not supported by VKMS writeback. This is a kernel bug, atomic check must forbid this configuration.\n",
++		       &format);
++		BUG();
+ 	}
+ }
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+index cf59c2ed8e9a..3ecea4563254 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
++++ b/drivers/gpu/drm/vkms/vkms_formats.h
+@@ -5,8 +5,8 @@
+ 
+ #include "vkms_drv.h"
+ 
+-void *get_pixel_conversion_function(u32 format);
++pixel_read_t get_pixel_read_function(u32 format);
+ 
+-void *get_pixel_write_function(u32 format);
++pixel_write_t get_pixel_write_function(u32 format);
+ 
+ #endif /* _VKMS_FORMATS_H_ */
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 21b5adfb44aa..10e9b23dab28 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -125,7 +125,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
+ 			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+ 
+-	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
++	vkms_plane_state->pixel_read = get_pixel_read_function(fmt);
+ }
+ 
+ static int vkms_plane_atomic_check(struct drm_plane *plane,
+
+-- 
+2.44.2
+
