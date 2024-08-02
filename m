@@ -1,23 +1,25 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BBC1C7B9D;
-	Fri,  2 Aug 2024 08:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B181C3794;
+	Fri,  2 Aug 2024 09:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722589141; cv=none; b=PrmPhFdoNEMlcD19U1ByUoSVR3AfxclIgIDYjgKseaUhsI9KjcTK4XKlMMetbFBOTy67wSXTlkagd59d8jFR3J/yPONgEvSC2KxCVRH3pcLFStMrFAcBSzHnOx/bYl0MZxurOVqNS6sTu0fBFH5dXgUsXgTEqp1YLdDtW4UD/s0=
+	t=1722591159; cv=none; b=hSpqVc38eNM+Hu7kD4h1pLPJxt5mE01SwTC4doxi0Rg+no+vHwnsLkGXtJJNKE6st8RsJsYm9sbNHDKvHo1CLY3tmWayCT7QD93KfnRKam1sApQibT0GU6Oygt7a7LShjyWmoDlVzQER4a3df9Vp4ULF4iFzdTse5YzIuQRWY7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722589141; c=relaxed/simple;
-	bh=dbKN0+MqNrFpMCkf55bs3q79x4n4B1Fo54lJuYi4g80=;
+	s=arc-20240116; t=1722591159; c=relaxed/simple;
+	bh=RmTFvEP8cQMU+zfTmPKcfKdwqPciPafUo/Qszg1NYWY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xj/e8jKkhFfDeh2mJY15Oe3Pw0991qayJ652GVb27VTHaTNj/Px8rK9joOdczYNrQ1XdSdqPmWGXgbgSU58JncRbilTnKR9i8nhvak7mK7fOEX1Xv7gRiQcZBaviJLzKlVnWsMML9F60lZrJfnWGzZZXZeno+hIgNobua2HzjY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 281D91C000E;
-	Fri,  2 Aug 2024 08:58:51 +0000 (UTC)
-Message-ID: <0abc375c-61a1-4b8c-bac5-a5dc170c5fb6@ghiti.fr>
-Date: Fri, 2 Aug 2024 10:58:51 +0200
+	 In-Reply-To:Content-Type; b=FVW7ryoHC6l90AGmyn60Z3ztZZYJ4A/PeR2zmrhr+gwu0CMi0SH3WpAqDJvZhri7YgBFRxY7Jte5C0pIZQdx2Y1fla82eD3vpw9IEA1Yjkl5kkHboSe78S7ORjuFKZKY5SnmRlaeQu6HdyX2zHN0njLwioFDjDXgSshRNnTWQfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0C761007;
+	Fri,  2 Aug 2024 02:33:02 -0700 (PDT)
+Received: from [10.57.12.204] (unknown [10.57.12.204])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE29E3F766;
+	Fri,  2 Aug 2024 02:32:35 -0700 (PDT)
+Message-ID: <5a4405dd-cbc5-4178-9fcb-f42676c793fe@arm.com>
+Date: Fri, 2 Aug 2024 10:33:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -25,86 +27,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
+Subject: Re: [PATCH v1] thermal: core: Update thermal zone registration
+ documentation
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux PM <linux-pm@vger.kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+References: <2767845.mvXUDI8C0e@rjwysocki.net>
 Content-Language: en-US
-To: Andrew Jones <ajones@ventanamicro.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrea Parri <parri.andrea@gmail.com>, Nathan Chancellor
- <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-14-alexghiti@rivosinc.com>
- <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
- <CAHVXubhQefQ6i3Vow_p-uSACQyPcMJNC2UwB99xt_=jDtRUDFw@mail.gmail.com>
- <20240801-e773d3752fe8b5484405d404@orel>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240801-e773d3752fe8b5484405d404@orel>
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <2767845.mvXUDI8C0e@rjwysocki.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Transfer-Encoding: 7bit
 
 
-On 01/08/2024 12:15, Andrew Jones wrote:
-> On Thu, Aug 01, 2024 at 10:43:03AM GMT, Alexandre Ghiti wrote:
-> ...
->>>> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
->>>> index 0655aa5b57b2..bf47cca2c375 100644
->>>> --- a/include/asm-generic/qspinlock.h
->>>> +++ b/include/asm-generic/qspinlock.h
->>>> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->>>>   }
->>>>   #endif
->>>>
->>>> +#ifndef __no_arch_spinlock_redefine
->>> I'm not sure what's better/worse, but instead of inventing this
->>> __no_arch_spinlock_redefine thing we could just name all the functions
->>> something like __arch_spin* and then add defines for both to asm/spinlock.h,
->>> i.e.
->>>
->>> #define queued_spin_lock(l) __arch_spin_lock(l)
->>> ...
->>>
->>> #define ticket_spin_lock(l) __arch_spin_lock(l)
->>> ...
->> __arch_spin_lock() would use queued_spin_lock() so that would make an
->> "infinite recursive definition" right? And that would override the
->> "real" queued_spin_lock() implementation too.
->>
->> But maybe I missed something!
->>
-> It depends on where the definition is done. It should work if the
-> preprocessor expands the implementation of __arch_spin_* before
-> evaluating the #define of queued_spin_*. IOW, we just need to put
-> the defines after the static inline constructions.
 
+On 7/31/24 15:59, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> The thermal sysfs API document is outdated.  One of the problems with
+> it is that is still documents thermal_zone_device_register() which
+> does not exit any more and it does not reflect the current thermal
+> zone operations definition.
+> 
+> Replace the thermal_zone_device_register() description in it with
+> a thermal_zone_device_register_with_trips() description, including
+> an update of the thermal zone operations list.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>   Documentation/driver-api/thermal/sysfs-api.rst |   65 +++++++++++--------------
+>   1 file changed, 30 insertions(+), 35 deletions(-)
+> 
+> Index: linux-pm/Documentation/driver-api/thermal/sysfs-api.rst
+> ===================================================================
+> --- linux-pm.orig/Documentation/driver-api/thermal/sysfs-api.rst
+> +++ linux-pm/Documentation/driver-api/thermal/sysfs-api.rst
 
-So I have just given it a try, both qspinlock.h and ticket_spinlock.h 
-define arch_spin_XXXX(). That triggers a bunch of warnings.
+LGTM
 
-I'll drop this suggestion as I find it harder to understand and because 
-of the warnings that would need the introduction of a new preprocessor 
-variable (or something else?).  And the solution with 
-__no_arch_spinlock_redefine is really straightforward and lightweight.
-
-Thanks,
-
-Alex
-
-
->
-> Thanks,
-> drew
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
