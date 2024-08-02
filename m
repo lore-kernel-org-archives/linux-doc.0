@@ -1,133 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10olkn2066.outbound.protection.outlook.com [40.92.42.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A270114A4C8;
-	Fri,  2 Aug 2024 12:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722600656; cv=none; b=Aw3qVwWEr7hlRWQdoIzzhlESNqJ7cnYL5KnQT05cPfm+sJbG5akEXNcEhNgFfEhsnGSAiAIoU9fPY4z2j5/DvJlixECL8UQ6nRc11p8BTlY2YRuHOadexn9feazSZYK8z9gfCYo2WK8eZ7DASeailkdl+NrnGgmjFjeX12/pEew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722600656; c=relaxed/simple;
-	bh=KEYXx/jAB3vyQ6OMi4gTqUazWDOQK45pIkjybNC7SuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W0ixrjS16z7r3o067+7/1JXiuoPCy/ZGq6jyvitE46vsmSTgDKkN+GNJ5nrtwKnJlHtD4Ryshwo8xA/xu7Ut0KH3Rjv6NU1gJDb8c/COfjFicghHQKMCVkZRYstC3ghglOEAgRd53qCU4VWETpYBeuSZpRp+sSrCNmh+FNlJydE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+aYgezj; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F1C4C62A;
+	Fri,  2 Aug 2024 12:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.42.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722602307; cv=fail; b=lsQOjXP8TbG8cphaSkoGnI11Sx8lSJK0IrEMngzLmUgw6xBEsRr6CBasZwZvC3qhfFiY7nuR5ZiZ2QsvU1WZV85Gcj5lRcM+rXncdZGQso9eUgvZaJsIOCWwWq2riBOlTyp/wGgEJ26GlLJdnBlqZS5KBvbPALxjSzcMSXRXK/Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722602307; c=relaxed/simple;
+	bh=SXiX+JhOAsuuEac8uNPawOhvQfU9/U9GSpkOWVFRpLw=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=rFap2V7woZYyuvsqg5wcVDaXFjG/SkWMrELkRMguIcGiwQZGW+DZMIJ8NdRqVu55w4O6kE5m2w5ccWvygMgD4l+8FZ9eja7v/8qcEgzyBjQOTTVndLwZwjFhl4afr0/RoRimZCGQPDLlg4HA9VaWHPkiKOknZqKTH5L28NCZzLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=JZ1aV9KA; arc=fail smtp.client-ip=40.92.42.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+aYgezj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722600653; x=1754136653;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KEYXx/jAB3vyQ6OMi4gTqUazWDOQK45pIkjybNC7SuQ=;
-  b=Y+aYgezjFqv+K5AaTC4vZGcAh5hr2dQwe9wm9pi4K3h0Yz24cUe+d3H9
-   ZsqbKBkwhHNZc+7OtZ0lDfh8wDGYvnp5h2Ecwagae2cWQzviJIh8hZLb/
-   VLja1EpZGQdbrnB/DWdAKtdjgY3yqY1ka63zpxvjBzohWs1l8tFY6JAIN
-   fxmTJv+pxr4H5ZVuQetR9jYG60Q42WYoIqi5LUXYPHj/G3sftzD34n49+
-   ltFwKxKv0qx184oJS3CzJLMWzUYialY6SJZx3xynsE4nd9klZCq5FNH00
-   KEpbbbtZQzWIjGoUr1zIcbSGhlmEkEPb37Xpz8nyE4eX0VjODfZ0jkAoP
-   w==;
-X-CSE-ConnectionGUID: ZapiAaSiQsKXTYMnVIxb0g==
-X-CSE-MsgGUID: Ey9/KvnNTiCDawbkGRz3gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24484218"
-X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="24484218"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:53 -0700
-X-CSE-ConnectionGUID: eze3z9pvRdWNf/nfC0oIGw==
-X-CSE-MsgGUID: nX2dhYZKTa2IYxh8hBSGJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,257,1716274800"; 
-   d="scan'208";a="55978928"
-Received: from ltuz-desk.ger.corp.intel.com (HELO [10.245.246.89]) ([10.245.246.89])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 05:10:48 -0700
-Message-ID: <1a2d0962-405d-4ccf-a0da-00a624c0f3e8@linux.intel.com>
-Date: Fri, 2 Aug 2024 08:32:30 +0200
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="JZ1aV9KA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=stUzzcInrEkSyTgm3VebBnRtT66YKBgRzWhb+0G1tDYSJc6gXwxAOJEyfkyuMPJ4bEFzuU5pnCVwPcRPz67UQNaeNzt5M4jUZxX9pq31Y0KSAmyeuawoUERJHRClWY9YdvJkUU5bjRxIukIE4TXxs3S4xWBWEulJsrpoAhWbyro0T8gKqzdGdto0T4sagGgQQnUsLVNJ0inbdgTL8SepK1shYd6ETZ2aIszZLDFhpO3i0YG+1sccDlwpppghqqA8MYaiCkl6UBl66UL2pS307dERO2Ixlki1IqWRw583emHA4cc+vr9KET6OCKJxUIoaVcJx+JHVA2hulK94WCE8aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AyPLx3dH3J06/QHmBZfVMwhqHCc6KCM33ABBrMEkX2E=;
+ b=UPhutQzuFpzFsCIQa+tJYuR4sgMVwrqmTsWAnsFMkr/qNc0HxDvYQI5phCtTlwPoyt8QFaEz920dQzfUMhB9MKxA4RxwmoC3JsXfpxz61OgNrCG2W4IYTeCtKKPDEUMGxCpl6Jkn0192mqJVnXvytmmPiwuvt2vJkoOfhugZ0NpZJoPCSyYZ3/iw0kMS2B2hVdXqpABTN+XaE3NanIJRnzgEfweAR7gPljx0yO0Ij+nkWTYr5Smq2e/tWEYrZUbtejmVtu+enKdGHzocZmo1WwAxD93PI1hl0GAgXZpOGmBVkfDUJlVsGagF0vbnXnXa173ED5YUq1LUbKlwVscLng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AyPLx3dH3J06/QHmBZfVMwhqHCc6KCM33ABBrMEkX2E=;
+ b=JZ1aV9KAS8UP1ErHI11XB94BMWHq7KylB0VpshGJC9NQhFy9tPLZHFSSdU47ZG44Mc4UlR0dz9LEb5Z7zBS1grbG+5D5A397UTjoeWwuRSQ/EytF399iEgFKVF9pDQu2FPhp5WsjZMFCs4udCiwgAeeGAccS3qN8KJkf7/Ahc1Xw5JCrbnPuSfticdqm+rCIrEAXGaP0tseYtqksTNHLt3LGCCd1a5faD/R81D/GADSL55gsWAfpWxhJV6iG8bHZS9+sr+T8ZJNo3GWnTEqgs0F5+mUckvFdB+pRW9EhGxjl7OquRgtkjD7hPThQUHLYqKZ4Tlz2OxifSfB9XNBVfQ==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by CY8PR20MB5499.namprd20.prod.outlook.com (2603:10b6:930:55::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Fri, 2 Aug
+ 2024 12:38:22 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::ab0b:c0d3:1f91:d149%4]) with mapi id 15.20.7828.023; Fri, 2 Aug 2024
+ 12:38:22 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Guo Ren <guoren@kernel.org>,
+	Chao Wei <chao.wei@sophgo.com>,
+	Jinyu Tang <tangjinyu@tinylab.org>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Yangyu Chen <cyy@cyyself.name>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v9 0/4] riscv: sophgo: Add SG2042 external hardware monitor support
+Date: Fri,  2 Aug 2024 20:37:45 +0800
+Message-ID:
+ <IA1PR20MB495337877FFC8D787A045C15BBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.46.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [kZTd5wROl03kzyYGtwtycrxQVFY4NKFBiwMCEDzfzBA=]
+X-ClientProxiedBy: SG2PR02CA0085.apcprd02.prod.outlook.com
+ (2603:1096:4:90::25) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <20240802123747.1492036-1-inochiama@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 17/34] ASoC: qcom: qdsp6: Add USB backend ASoC driver
- for Q6
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-18-quic_wcheng@quicinc.com>
- <5f37c04d-f564-40b9-a9f3-d071ea0a6f19@linux.intel.com>
- <1a284449-204a-4d01-90c9-ec6b1ed56e30@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <1a284449-204a-4d01-90c9-ec6b1ed56e30@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|CY8PR20MB5499:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30062de9-334e-4337-e11f-08dcb2effeb5
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799003|8060799006|5072599009|461199028|1602099012|3412199025|4302099013|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	4ond3ZCtATvtlKc/nTw9H7rCZx6nPZhhw8xFwzti2B6D+zanXeSy2cP1gT+K4WxSNyueztAmnQYyCRVwnSEgCTOSv5e9paywDcXxwiTg8E0MqE31BaCeaSmaMi8GsaumfPjExUQtfTa1SpI9PPOcgZ4KVRqgA52swOq1hCbsuqrsZvGoYM2nLaRBiWjFR3LprMhS7xgvda7/pzpBuY7RtgbcTlMGgRFNN3ioxEyg+nGf5c+Vhlu0ZQN0qf7azFR7q7W9LaM8XoL6Q5nkG+VoPOcoNgaHaYQOC9fdtVd5XEbF0GT6J2xX1wOR7vseeDhtnn483zMtE7M9I4sm8luoZwzFrqp1qyIMNGA5xaV8fwBYhIlvKqrfS/CjJKzFaDnZaN6QdrnzQgfkTYHokIBoL0gsMRShn0bD9tm/1hVn55vmg7BP8fAHSsyoBYj5qkDR9GrkY1GUxxlDArDwrLyF7OKr+YVbDKDkQEwD91qIiViBNBBHXv5Z/3vNHo6CuP7ZiPTAiKXGWFzUu/ytKj4ikCaqWc9AOZClcK7Vl5qwke2jIy9yG6oQoInBRk/lh1OIjvB/cFvb2XieUiUeekarND73MvpiSxCTqspYaOz6D4BalEa8s06I2iJJZsD/K0+VgYsoITH3IEUImClQacavYcNTi91h+pjXU3V57b8Ul/DkDwZqN3HpTMEhIMLIThOSQNIWqwIUteA0UWMnI/UIjVQE1gk4jJk4mkg3giie26h6/PlNrRrZ3QHa/XJ8qFVblo4CzEjKq4y8Hensb+xIa8d1p9myiHrt8mUNdDfcBlH9jZtO8iDhp3fMDE2YHPSu
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CbgSzSIoTFoih3cTBtohdp7GeADGA3wkSXxCElCJzDz78tk2Sn8jpDfgOVZH?=
+ =?us-ascii?Q?qgDOzoO394NDXXUApmWlG7F6Jl9dExQs1NjsM077vtqCqAg1lO3W5++UZo2s?=
+ =?us-ascii?Q?VCqoPLeBz0anCs+cK7U1Md1sHaUfJUx/lZ9IJs+nwMAwS9ty2zL0JUU9CKkC?=
+ =?us-ascii?Q?Hm0BTy9UTmNUL2773DNopi9Z9a8yMV1b3gUsGcq7V0lQO8DqsqtXGUE/wuPC?=
+ =?us-ascii?Q?Dmp4zmkM6Ly1SdfyyIAJtc7U7ZDlwDPOChWmq8LZnJcJgOltuUzFhLLMpdfy?=
+ =?us-ascii?Q?d/EsyMRSSHq8A9gfKOjPh8bcc5rCDbRnlfmLzgZVpIKAVKM9y5KSrv4isnrb?=
+ =?us-ascii?Q?DjZiMhX/KpwShGwGs6qTZtQ4KcEW/V/k+33ToK8D/zd0TcTgYzBWN9gztOPP?=
+ =?us-ascii?Q?fPLwfmw9fJly7QM9E8p/FAtsgro4QGRxOVbksY6pdUOXwuarfibpQyeQrpy+?=
+ =?us-ascii?Q?qj40bwg43Fz48/ZAaobugQw7UFN37JqSFCTwH8UxvgT6+RZmtSqv/Mp/G/TE?=
+ =?us-ascii?Q?FI29QSkIkEjRUPHATgH4A9pLDYzv8QBaHYICDLdyN6Q2D0MRvHkL0wDFfood?=
+ =?us-ascii?Q?FRFFrtrxULsER6gqX82Ps71BvaImbJ2I2dp8G20dGWOqBol2o1uR5EwSA66b?=
+ =?us-ascii?Q?0aga1EK9FGQkhxn87WH5TpjuHTXLyG3IJv0n4idv+mbbES4ODLBjgh71fX5V?=
+ =?us-ascii?Q?w9Ikq/UJE2PPY9KRfu4pjMcrZ75bmXQ1q/lEsmiriKQ4o4vxmE6IUiRI6RdF?=
+ =?us-ascii?Q?Lb46EPpg01jLEnk11tleu39AAIgGZvU+z3xttC1d61DVnsh9r9ll4lfRFoGj?=
+ =?us-ascii?Q?dE9QPJBNPTIr9Ksq2h+MDlgRDjnHKPJ9ON95sy30Esp2DFwxdewDS4iQZbbX?=
+ =?us-ascii?Q?piFZhcEMXM7tmjkYR9sg0F63HiFJhu0Yi7Z5O8qvsd9SglfuZfMe28IL1Xe0?=
+ =?us-ascii?Q?LBEDOo88SDktHLZHM3kFlGFFMDZcW4cNCnn1axcos9Jy6YlhUBhjZXTyfhgk?=
+ =?us-ascii?Q?GR4PKrn6IMoKLRrsxbpr11s+sULlWkEqGtWm4D3UPefYWuylVTg2cZlGVK8X?=
+ =?us-ascii?Q?LnxifRwFnf9v/zPJqeRVzoKwMFk7ZnrVTVxpKHjpWPLpyYuIARRptUfq7zT6?=
+ =?us-ascii?Q?rSv6zCBS9fOTdzxhdXQDznRQdw1CAbnq9slqjYiET9aQ5sZs8slTyZ5YY599?=
+ =?us-ascii?Q?uoyjZAdmkwZfWZk5hTowYUjBEwcu0AKNnE8w+wEzUAq22clRCBkgCu/95r0f?=
+ =?us-ascii?Q?R+MHbG4C1r4KHSSLef5C?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30062de9-334e-4337-e11f-08dcb2effeb5
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2024 12:38:22.4663
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR20MB5499
+
+Add support for the onboard hardware monitor for SG2042.
+Can be tested with OpenSBI v1.5.
+
+The patch require the following i2c patch:
+https://lore.kernel.org/all/IA1PR20MB4953DB82FB7D75BF8409FFF4BBB72@IA1PR20MB4953.namprd20.prod.outlook.com/
+
+Changed from v8:
+1. rename critical_action to repower_action, and add some comment
+2. remove unnecessary wrap function
+3. use guard macro to simplify mutex process.
+
+Changed from v7:
+1. add mutex protected and fix the return value when writing
+"critical_action"
+
+Changed from v6:
+1. restore the driver name to sg2042-mcu
+2. remove unnecessary wrap function and check in the driver.
+3. add dts and config entry.
+
+Changed from v5:
+1. rename driver name to sgmcu as it will support more sophgo chip.
+2. move some attr to debugfs.
+3. add standard crit_hyst support
+4. add documentation
+
+Changed from v4:
+1. use fix patch for binding ref.
+2. use unevaluatedProperties instead of additionalProperties for binding
+
+Changed from v3:
+1. add thermal-sensor check.
+2. change node type from syscon to hwmon
+
+Changed from v2:
+1. fix bindings id path.
+
+Changed from v1:
+1. Move patch from soc to hwmon.
+2. Fix typo.
+
+Inochi Amaoto (4):
+  dt-bindings: hwmon: Add Sophgo SG2042 external hardware monitor
+    support
+  drivers: hwmon: sophgo: Add SG2042 external hardware monitor support
+  riscv: dts: sophgo: Add mcu device for Milk-V Pioneer
+  riscv: defconfig: Enable MCU support for SG2042
+
+ .../hwmon/sophgo,sg2042-hwmon-mcu.yaml        |  43 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/sg2042-mcu.rst            |  39 ++
+ .../boot/dts/sophgo/sg2042-milkv-pioneer.dts  |  60 +++
+ arch/riscv/configs/defconfig                  |   1 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/sg2042-mcu.c                    | 394 ++++++++++++++++++
+ 8 files changed, 550 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml
+ create mode 100644 Documentation/hwmon/sg2042-mcu.rst
+ create mode 100644 drivers/hwmon/sg2042-mcu.c
 
 
+base-commit: d2d190621b60d77496d36659e1621b20c897b25d
+prerequisite-patch-id: 5e7221ed1c63bb4d68e4a2a0141440e32d29e397
+--
+2.46.0
 
-On 8/2/24 01:10, Wesley Cheng wrote:
-> Hi Pierre,
-> 
-> On 8/1/2024 1:40 AM, Pierre-Louis Bossart wrote:
->>
->>
->>> +static int q6usb_hw_params(struct snd_pcm_substream *substream,
->>> +			   struct snd_pcm_hw_params *params,
->>> +			   struct snd_soc_dai *dai)
->>> +{
->>> +	struct q6usb_port_data *data = dev_get_drvdata(dai->dev);
->>> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
->>> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->>> +	struct q6afe_port *q6usb_afe;
->>> +	struct snd_soc_usb_device *sdev;
->>> +	int ret;
->>> +
->>> +	/* No active chip index */
->>> +	if (list_empty(&data->devices))
->>> +		return -EINVAL;
->>> +
->>> +	mutex_lock(&data->mutex);
->>> +	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
->>> +
->>> +	q6usb_afe = q6afe_port_get_from_id(cpu_dai->dev, USB_RX);
->>> +	if (IS_ERR(q6usb_afe))
->>> +		goto out;
->>> +
->>> +	/* Notify audio DSP about the devices being offloaded */
->>> +	ret = afe_port_send_usb_dev_param(q6usb_afe, sdev->card_idx,
->>> +						sdev->pcm_idx);
->>> +
->>> +out:
->>> +	mutex_unlock(&data->mutex);
->>> +
->>> +	return ret;
->>> +}
->> Humm, multiple questions here
->>
->> a) is this intentional that the params are not used in a hw_params routine?
-> Think this was answered in patch#34.
-
-yes, but that really begs the question if the format check shouldn't be
-added here.
-
->> b) if yes, could this be replaced by a .prepare callback
->>
->> c) along the same lines as b), is suspend-resume during playback
->> supported? Usually this is handled with a .prepare callback to restore
->> connections.
-> 
-> I don't see us supporting that throughout any of the QC based DAI drivers, so this probably isn't implemented yet.  In terms of supporting system PM suspend for this USB offload path, we're going to explicitly stop the audio stream from the USB offload driver (qc_audio_offload) before we suspend the usb device. (refer to qc_usb_audio_offload_suspend()
-
-The system suspend-resume during playback is not enabled in all
-platforms indeed, it mostly depends on what userspace does. IIRC this is
-required for Chrome/CRAS and it's supported by aplay.
