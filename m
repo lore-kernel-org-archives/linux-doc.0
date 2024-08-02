@@ -1,46 +1,46 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBE51537B1
-	for <linux-doc@vger.kernel.org>; Fri,  2 Aug 2024 15:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFD121C19A
+	for <linux-doc@vger.kernel.org>; Fri,  2 Aug 2024 15:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722614183; cv=none; b=K37YKwil4+/r1rv5P++MY7avHNS2cFJJT7CjOqgkVTkE56rNCKAPhIqkBVog6yffwzZDj4oBDq87i2+OKe6GF4HXGkc3EJ8p/3NuQ8nQ/pbiTZq6nDaJJvXBJ388a/AqrIPy6l9HqB4jtPZSErE+0lyyjaCrNpmZ/szj7U/deyY=
+	t=1722614189; cv=none; b=jebpzvHy9G6skEvZsWgtMLBtCNnH2BPRlgUB5/5MTqQBiZPwuo2zKNC9PxBSnepX3hAdQZA23oPomszA47LvOMvaJVm5YYD3NQyNeaPkvDMP2Zyex46F1P+bzJzCXma4IM56RIEfkky5mbEVGC3ZS7GfyOXz0VjYXCCpbzqv860=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722614183; c=relaxed/simple;
-	bh=zyobrQ+EEzE8yl0gNwh8+PYSEOv1I4PIQJWs9IzsPB8=;
+	s=arc-20240116; t=1722614189; c=relaxed/simple;
+	bh=28p9D+KQFhZK/nXSJOf5//9mKCyB6fypztEnAu+mAsM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ShE6gQKZ/WzDM3jpOvieIBEabASfrGMj2UrRq7Z5rA0aetqMz+32YHLzhaiwJf9lf1IecMzNcvznB4B/0HEZcE5EFQC6cx0xjmh8exFAOCYBDiaAMGcXbeO4hkbwbbVls3k5jThS1Itrhaku8qbvdI32ykxGVDx3zErEeEQQoRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fguStQ63; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=QOO1mm78pSn51lV0DnfkB7OExIUlR9x99Eam3RA6AoaRN94+/A9ruya7wbDcOyOzKPB29jXDJGw6/Cw2qZ6yVQLEX0lX+1dEAk4biDflK3HezIT5IQ3qL3jIRKyaYbgrUqj2+IjowMhRW6lDPCGlmMSARcq1o+ipjbd0IaZcxII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bKzezPf5; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fguStQ63"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bKzezPf5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722614181;
+	s=mimecast20190719; t=1722614186;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RoWh69jXPnUan+groy9VerJmyWjUE6OshAG0jiN7k8=;
-	b=fguStQ63bEwP1E4QgRiIR8nyFqDMRUGXx7m0BKZg+BfQMa7MIUAgk6en1Y7CyWY2QKJIRK
-	hUlMbisgOxYvWDYEKE1yIuU8HVVWTra+m1HjrCDHxmnA6awLFB82Aa5TgUH6YTkHy8/S/9
-	lGUmC6P1qbvZvJv2rRv7QQ3sZvqfa1Y=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=Mv/si6kOfwIvneZw24kO6Mkvevsw9QN/WnWMpKXtofY=;
+	b=bKzezPf5tVQlG6g4lXy8BBQ9uADbKslLGBXLTTSSOfZ1bItKiEX6YrGusrlOxQUHvWPwjy
+	zaHvVmpTua9wSrDdh4N/mVtQ6XpViWEm/apE7/WG43EBayQv48rBgARsLBdL7pJXTJe0fX
+	hDL8bnOVz2P+4gAsf0VDa4zvv6+J8Wo=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-654-6rd6U-xePRWdI5xPe_dR3w-1; Fri,
- 02 Aug 2024 11:56:15 -0400
-X-MC-Unique: 6rd6U-xePRWdI5xPe_dR3w-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-261-HVr8hLF5NxywldDisXzbUw-1; Fri,
+ 02 Aug 2024 11:56:21 -0400
+X-MC-Unique: HVr8hLF5NxywldDisXzbUw-1
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 45CAA18B65ED;
-	Fri,  2 Aug 2024 15:56:13 +0000 (UTC)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7675919B9A9B;
+	Fri,  2 Aug 2024 15:56:19 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.39.192.113])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8A4CE300018D;
-	Fri,  2 Aug 2024 15:56:06 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7F6E1300019D;
+	Fri,  2 Aug 2024 15:56:13 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -60,9 +60,9 @@ Cc: linux-mm@kvack.org,
 	Alexander Gordeev <agordeev@linux.ibm.com>,
 	Sven Schnelle <svens@linux.ibm.com>,
 	Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Subject: [PATCH v1 06/11] mm/ksm: convert scan_get_next_rmap_item() from follow_page() to folio_walk
-Date: Fri,  2 Aug 2024 17:55:19 +0200
-Message-ID: <20240802155524.517137-7-david@redhat.com>
+Subject: [PATCH v1 07/11] mm/huge_memory: convert split_huge_pages_pid() from follow_page() to folio_walk
+Date: Fri,  2 Aug 2024 17:55:20 +0200
+Message-ID: <20240802155524.517137-8-david@redhat.com>
 In-Reply-To: <20240802155524.517137-1-david@redhat.com>
 References: <20240802155524.517137-1-david@redhat.com>
 Precedence: bulk
@@ -74,87 +74,73 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Let's use folio_walk instead, for example avoiding taking temporary
-folio references if the folio does obviously not even apply and getting
-rid of one more follow_page() user. We cannot move all handling under the
-PTL, so leave the rmap handling (which implies an allocation) out.
-
-Note that zeropages obviously don't apply: old code could just have
-specified FOLL_DUMP. Further, we don't care about losing the secretmem
-check in follow_page(): these are never anon pages and
-vma_ksm_compatible() would never consider secretmem vmas
-(VM_SHARED | VM_MAYSHARE must be set for secretmem, see secretmem_mmap()).
+Let's remove yet another follow_page() user. Note that we have to do the
+split without holding the PTL, after folio_walk_end(). We don't care
+about losing the secretmem check in follow_page().
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/ksm.c | 38 ++++++++++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+ mm/huge_memory.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 742b005f3f77..0f5b2bba4ef0 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -2564,36 +2564,46 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
- 			ksm_scan.address = vma->vm_end;
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 0167dc27e365..697fcf89f975 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -40,6 +40,7 @@
+ #include <linux/memory-tiers.h>
+ #include <linux/compat.h>
+ #include <linux/pgalloc_tag.h>
++#include <linux/pagewalk.h>
  
- 		while (ksm_scan.address < vma->vm_end) {
-+			struct page *tmp_page = NULL;
-+			struct folio_walk fw;
-+			struct folio *folio;
-+
- 			if (ksm_test_exit(mm))
- 				break;
--			*page = follow_page(vma, ksm_scan.address, FOLL_GET);
--			if (IS_ERR_OR_NULL(*page)) {
--				ksm_scan.address += PAGE_SIZE;
--				cond_resched();
--				continue;
-+
-+			folio = folio_walk_start(&fw, vma, ksm_scan.address, 0);
-+			if (folio) {
-+				if (!folio_is_zone_device(folio) &&
-+				     folio_test_anon(folio)) {
-+					folio_get(folio);
-+					tmp_page = fw.page;
-+				}
-+				folio_walk_end(&fw, vma);
- 			}
--			if (is_zone_device_page(*page))
--				goto next_page;
--			if (PageAnon(*page)) {
--				flush_anon_page(vma, *page, ksm_scan.address);
--				flush_dcache_page(*page);
-+
-+			if (tmp_page) {
-+				flush_anon_page(vma, tmp_page, ksm_scan.address);
-+				flush_dcache_page(tmp_page);
- 				rmap_item = get_next_rmap_item(mm_slot,
- 					ksm_scan.rmap_list, ksm_scan.address);
- 				if (rmap_item) {
- 					ksm_scan.rmap_list =
- 							&rmap_item->rmap_list;
+ #include <asm/tlb.h>
+ #include <asm/pgalloc.h>
+@@ -3507,7 +3508,7 @@ static int split_huge_pages_pid(int pid, unsigned long vaddr_start,
+ 	 */
+ 	for (addr = vaddr_start; addr < vaddr_end; addr += PAGE_SIZE) {
+ 		struct vm_area_struct *vma = vma_lookup(mm, addr);
+-		struct page *page;
++		struct folio_walk fw;
+ 		struct folio *folio;
  
--					if (should_skip_rmap_item(*page, rmap_item))
-+					if (should_skip_rmap_item(tmp_page, rmap_item)) {
-+						folio_put(folio);
- 						goto next_page;
-+					}
- 
- 					ksm_scan.address += PAGE_SIZE;
--				} else
--					put_page(*page);
-+					*page = tmp_page;
-+				} else {
-+					folio_put(folio);
-+				}
- 				mmap_read_unlock(mm);
- 				return rmap_item;
- 			}
- next_page:
--			put_page(*page);
- 			ksm_scan.address += PAGE_SIZE;
- 			cond_resched();
+ 		if (!vma)
+@@ -3519,13 +3520,10 @@ static int split_huge_pages_pid(int pid, unsigned long vaddr_start,
+ 			continue;
  		}
+ 
+-		/* FOLL_DUMP to ignore special (like zero) pages */
+-		page = follow_page(vma, addr, FOLL_GET | FOLL_DUMP);
+-
+-		if (IS_ERR_OR_NULL(page))
++		folio = folio_walk_start(&fw, vma, addr, 0);
++		if (!folio)
+ 			continue;
+ 
+-		folio = page_folio(page);
+ 		if (!is_transparent_hugepage(folio))
+ 			goto next;
+ 
+@@ -3544,13 +3542,19 @@ static int split_huge_pages_pid(int pid, unsigned long vaddr_start,
+ 
+ 		if (!folio_trylock(folio))
+ 			goto next;
++		folio_get(folio);
++		folio_walk_end(&fw, vma);
+ 
+ 		if (!split_folio_to_order(folio, new_order))
+ 			split++;
+ 
+ 		folio_unlock(folio);
+-next:
+ 		folio_put(folio);
++
++		cond_resched();
++		continue;
++next:
++		folio_walk_end(&fw, vma);
+ 		cond_resched();
+ 	}
+ 	mmap_read_unlock(mm);
 -- 
 2.45.2
 
