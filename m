@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA38847B;
-	Sat,  3 Aug 2024 10:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29E8E54C;
+	Sat,  3 Aug 2024 14:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722681262; cv=none; b=tUVTaeCB+pMH3Ib2FBzmKy2lmS3uAvEuGnGlmzhAluURYC4nUPUI4rO5dNAPh/eaj8KaBwEskaHtuwKVRns39Bv00NgaxTvmOJ/QDulqDNBzlGePRqcAmiuFlfJf+D9bw2tLxpQBWYKjKBxg7UgNQRg6m3RRV2I377opofqk78c=
+	t=1722695126; cv=none; b=oIzocJYPt6WFXRgx1O2H5JUpJgqB8k6dknoVXnIvX89jYxcANNrMyFyYEegSTi+LPnLReyQR7gXrJRuyv7sNEX3ICLZEIpplKO0o92ewVtW1AmlFDPjmCPI6PIcMWZcszF8hMlxvOwH080MMPynOhIfJKD4Z4ev82nXbiXsR4sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722681262; c=relaxed/simple;
-	bh=ZFEWPndg0yVqKFM40OaGfcBaVW4yzt0hxy//IAKCYYU=;
+	s=arc-20240116; t=1722695126; c=relaxed/simple;
+	bh=LfgedwEQLNEm6eaWnDwudIvblflafEj5Mgli7B9IMB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PucIq+/NO5R4M7KtkG0MEX86RUK6nSWnTi+bYn3A8T4hi+al/PWTr9/bfqncnjEv4iKnpNOQK7e2N80bMxmWRsG9TjhQtDSlJzJhdKLlxGyoYW4N/eDITJ9vVja52B7J0HXYfS8460LH9N39xpngOY4kQx60UkM0UDtleZNRBkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pnNEjIVE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Q+Mfh21D1XHMQ2VrPW8oRSjbvXm3IQhxekR0Bstkb8ZFfs+54y1g8Z5k69OJ/spQOeAVp7vNM7zOYKkcSHkysaU3nFiQC+D75882/ZNryZV8VbBWOpsGnxjvcV/tqYObmuAxhalTMXgqW1hGP3jfEA802FtyV5QmMTfbBcdl/FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhzHhAbW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pnNEjIVE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B299AC116B1;
-	Sat,  3 Aug 2024 10:34:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhzHhAbW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1737DC116B1;
+	Sat,  3 Aug 2024 14:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722681262;
-	bh=ZFEWPndg0yVqKFM40OaGfcBaVW4yzt0hxy//IAKCYYU=;
+	s=k20201202; t=1722695126;
+	bh=LfgedwEQLNEm6eaWnDwudIvblflafEj5Mgli7B9IMB4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pnNEjIVEP/1T5+JDdidTKFewBRuNR14ytyQgY8+QYC0GayR9WRBEg+XoRlr94xizG
-	 QaP8PH0GniRllqCfaxxwisZkBdSi3skx/EbDm6yvoXxZbunp52iiqMdXoVVBKxyGvE
-	 uqDtbcQLm+Jwzg7qwEnYPN+ArBznMGD82E45NyiwQAUvllaNyj9Yv8M9XJyT9Djb3R
-	 su9UrUQD1xDemdLSgA9g/UzOgJMGbHYgtmMRi0iCJxefYNkrvH+3AX7aEZ9/YolK0X
-	 7pgbz0eorSPeExjh5ZYGyRMlQRwx/+t/CLlmqO1gEXQ9DtCNez09bicsVBr6CWzEcs
-	 l6w0wcKKSSvMw==
-Date: Sat, 3 Aug 2024 11:34:12 +0100
+	b=RhzHhAbWQfy3xALyEzmvGEXEIxZdK6ps62aFbVgnhfLFrMec/AIVLMJ1c7uhn4pHh
+	 VDFo3Y/NovERJdONlmK4xYTYfqYgKKGEMLThmwglstX6Z7/7KvLTd4g/+45D+z9FVd
+	 606rzNCiqu/Mtddg53XmoCjI97UKsR2Hdw+5Ob28FROa21HuMfWlOlNTH61M3e9Foe
+	 M7T3BDupd58rSupGI2OKeWjM0ZkJNWaJq785/6AgMlWGeH3wlTbUipwVVEckh0Y1QY
+	 8jyjRQfZcuAYEiKY0GRobhpOiYHODGjnxjn4M2Xe+QYvVu5pdYPEYqNEzTT9myyJ2+
+	 rnpLkTgzST5zA==
+Date: Sat, 3 Aug 2024 15:25:15 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Julien Stephan <jstephan@baylibre.com>, Michael Hennerich
- <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Krzysztof
- Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 0/7] ad7380: add support for single-ended parts
-Message-ID: <20240803113412.249340a3@jic23-huawei>
-In-Reply-To: <931de9a9-f391-4609-b067-eaf5c5105451@baylibre.com>
-References: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
-	<931de9a9-f391-4609-b067-eaf5c5105451@baylibre.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David
+ Lechner <dlechner@baylibre.com>, Uwe Kleine-Konig
+ <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/3] iio: adc: add new ad7625 driver
+Message-ID: <20240803152515.2f61eb5e@jic23-huawei>
+In-Reply-To: <20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com>
+References: <20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -52,22 +51,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 31 Jul 2024 08:46:38 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Wed, 31 Jul 2024 09:48:02 -0400
+Trevor Gamblin <tgamblin@baylibre.com> wrote:
 
-> On 7/31/24 2:05 AM, Julien Stephan wrote:
-> > This series will add support for ad7386/7/8 (16/14/12 bits) unsigned,
-> > dual simultaneous sampling, single-ended compatible parts, and the
-> > corresponding ad7386-4/7-4/8-4 4 channels to ad7380 driver.
-> >   
-> For the whole series,
+> This series adds a new driver for the Analog Devices Inc. AD7625,
+> AD7626, AD7960, and AD7961. These chips are part of a family of
+> LVDS-based SAR ADCs. The initial driver implementation does not support
+> the devices' self-clocked mode, although that can be added later.
 > 
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
-> 
+> One aspect that is still uncertain is whether there should be a
+> devicetree property indicating if the DCO+/- pins are connected, so
+> specific feedback on that is appreciated.
 
-Nice series. Applied to the togreg branch of iio.git and pushed
-out initially as testing in case 0-day can find anything we missed.
+Would be good to give more detail. What is DCO?
+Seems to be a delayed clock skewed so it aligns with the data being
+out in response to clk. Host drives clk, but samples on dco.
 
-Thanks,
+Given the device needs to do slightly different things depending
+on whether that is what the host is using, I think it definitely does
+need to be in DT.
+
+Maybe you need to represent it as the ADC also having a PWM
+output that the LVDS DT node binds to if present.  That binding
+then indicates to the ADC driver that it needs to operating in the
+mode that doesn't send the synchronisation 101 pattern.
+If you are always representing the ADC and the lvds side of things
+as a single node, then need a flag in here somewhere so we can
+tell if they are in use or not.
+
+Given this exists as a potential difference between two separate
+parts pf a system I'd definitely think about whether we can give them separate
+representations with clear 'connectivity' between them
+
+One of those cases were a bit of ascii art would probably be good
+to put the problem clearly for the DT reviewers.
 
 Jonathan
+
+
+> 
+> The devices make use of two offset PWM signals, one to trigger
+> conversions and the other as a burst signal for transferring data to the
+> host. These rely on the new PWM waveform functionality being
+> reviewed in [1].
+> 
+> This work is being done by BayLibre and on behalf of Analog Devices
+> Inc., hence the maintainers are @analog.com.
+> 
+> Special thanks to David Lechner for his guidance and reviews.
+> 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+> Trevor Gamblin (3):
+>       dt-bindings: iio: adc: add AD762x/AD796x ADCs
+>       iio: adc: ad7625: add driver
+>       docs: iio: new docs for ad7625 driver
+> 
+>  .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 ++++++
+>  Documentation/iio/ad7625.rst                       |  91 +++
+>  MAINTAINERS                                        |  11 +
+>  drivers/iio/adc/Kconfig                            |  15 +
+>  drivers/iio/adc/Makefile                           |   1 +
+>  drivers/iio/adc/ad7625.c                           | 626 +++++++++++++++++++++
+>  6 files changed, 920 insertions(+)
+> ---
+> base-commit: ac6a258892793f0a255fe7084ec2b612131c67fc
+> change-id: 20240730-ad7625_r1-60d17ea28958
+> 
+> Best regards,
+
