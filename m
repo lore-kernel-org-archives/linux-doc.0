@@ -1,446 +1,699 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2055.outbound.protection.outlook.com [40.107.236.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5959C4C7B;
-	Sat,  3 Aug 2024 00:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722646167; cv=fail; b=tws8EyoTfqY7jBq4kuLtI7JDtdfV1Qz2yf3k8j2jVJpHByT3cPI4UNJ38aaS/vVQj68YTpm5ws/CqEKq906cwflYkWQh5WnnBfA/bmI7QFWnPJlmaVxGhRhl6UmTnLYybi1Ks8wL4KOlTIDncjSyfr2MHtpRgelppsgqB8wip90=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722646167; c=relaxed/simple;
-	bh=l5lQXAH+lcoqJSUkDpiASrlnGvmLizEwq1t8b451Urw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tAo5R0qa7PaRuoIl652QenPY0W7HWJ/0JQzpOWrL77az+o1K9Wy3ScIRWuuX/DzGF6zzdK4PJI+7oUgoI/VMX3fFodH5A5cuDs43+dzdtifdn6A4nsY9mV6aNYigTjnuaN11IoHtpLMKcqaGVG2td+X4hJFnmWJ0++iykMKIbGc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LI+PfL47; arc=fail smtp.client-ip=40.107.236.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529A3F9E8;
+	Sat,  3 Aug 2024 03:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722656837; cv=none; b=UU1Z9SkIw9TmDPLw35S4Whl07V1NM+Fl5p29SRkz0sr3ymx1FpB7zUusuQtHXygwIknRYjTOi6Z7inKxjPG2j43MDh0XLMgB8K/+lyyksFs+iohnyRaHbk6I7cBzTlxwDDSZs8PUNlfRLEJ0naaevXhdIdSZfibwZq+GLQlcAhw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722656837; c=relaxed/simple;
+	bh=nqPHip8RyogX1AD0l9snsiIo2dpyeQ92eF/OJFSAS9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PFjkk7Vvo0L0X7uKmdosE/yW4/5fL+j2HlXYj8BSFTMicxaprlJOPIC4ooesui/AaEylJd+NH52me+P/aBl5N1PmW4cxnkARAkfji3voID39Exe25BR4bGGChvo2CsHZNq1E2pvfY7O8ifjr3PC0YiQ4mAPPC1aNxWDjFPdVGwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8dbhjn+; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LI+PfL47"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OePL8D+hY3NJQgGgW/44uBpKQTR2nSw8lkoCm3a3mQsBYhr8kOJF5dP/tKJRN7va0xH0NU5GqMaI/hFhlUAa6RSQFaaIlwruoan451qhPEYytDZXRRPeTfzEvUjr5qU1IrCTmmsI7dza+zzrNK8D9du3Bi32Podj1FPrHTtmJ8zbX8/XkhxH12YimtnG8/eJYhCfioY8aSIXkFloL7Yk6QJcr45uinpHgTdiGKxXrcnrnpBn9L5u8HyfYR4iFDPR507wCr3sSrkCLn2gWfJjtvmrWHXeZU7EKGNNzT979RWP1igj7YlRNk+37t+PbMcA8RNVSqcZdfueUWR9TKIrnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kAaj2toRbCEWPqle7iJVQVwjIa02a+7OKGtLxEDQQSs=;
- b=NQDSHnCZ8+NVZa9m+oyTldCwA+tB84IEiGRKHvYBrD2Fmq6vyBBpIrcX2Y4B8TQL15CwijCU8+knce8MZNb7lAdD1cQyNhEioe4eXGlqr3kz7cJwJTfOHGg+mEtBzpWQ+Uv+/UQbTDZQLekyEdtVGHd6RYzRO9rodyJDJdgqHjfdXkeiWT2nAijpiewJDWcQ9UYl6zu/SiKLXY85ArGVhHyntRuRFdEKuV7//13uV0LqYHPImj2E/zktQdbnrxtIKlryY2EkMU/RcQqB4iim0qNEQtJMFhG9BTEfIWKjWW89s0SyoXdfGj6JlFRMVcEaIw7KdWVv9Bwzx3kNmR2F0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kAaj2toRbCEWPqle7iJVQVwjIa02a+7OKGtLxEDQQSs=;
- b=LI+PfL47nvrfyEsideUzWUkSt4yYMQ7W6ZtfklY1NUGuZqf0DkT2s7oKh4yTIFVATF0F5K05ICghSlqoIDyqJdNsE7yf/FMKSykaUdaqi7HfB4HFmqLdpC4EAcOfOdLtmc28x0Pl3c66mIkyHx+ERGZx0Kupr1McHXxvUNZk9KI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SA1PR12MB7149.namprd12.prod.outlook.com (2603:10b6:806:29c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Sat, 3 Aug
- 2024 00:49:19 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7828.021; Sat, 3 Aug 2024
- 00:49:18 +0000
-Message-ID: <19f608a1-8119-79bb-da00-703cee6ea5b5@amd.com>
-Date: Fri, 2 Aug 2024 19:49:13 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v5 00/20] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Peter Newman <peternewman@google.com>
-Cc: babu.moger@amd.com, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- james.morse@arm.com
-References: <cover.1720043311.git.babu.moger@amd.com>
- <e04b721a-b5cb-4089-a3ad-125a6247e5b8@intel.com>
- <1c50b589-a738-4ae6-8362-bd1ce0d0dc98@amd.com>
- <05b4e345-ad14-4ea9-a13f-2c9b3a6eb422@intel.com>
- <CALPaoCi_TBZnULHQpYns+H+30jODZvyQpUHJRDHNwjQzajrD=A@mail.gmail.com>
- <b3babdac-da08-4dfd-9544-47db31d574f5@intel.com>
- <CALPaoCi1CwLy_HbFNOxPfdReEJstd3c+DvOMJHb5P9jBP+iatw@mail.gmail.com>
- <b9e48e8f-3035-4a7e-a983-ce829bd9215a@intel.com>
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <b9e48e8f-3035-4a7e-a983-ce829bd9215a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR11CA0062.namprd11.prod.outlook.com
- (2603:10b6:806:d2::7) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8dbhjn+"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3db1eb76702so5700428b6e.0;
+        Fri, 02 Aug 2024 20:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722656834; x=1723261634; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ksXwGB2P8B8fKj8NOP3nkaqplHNkrgjmluLVxXrJ1Rw=;
+        b=J8dbhjn+pLrY+21n+U5NOXUC/26gzBi2TEEPnxQ4nnCQRKpRYu0MTk8JkoGb5sNiLr
+         clBqQNWrDAaPGeRBUC8hzslD2KIzD5K4ljFDtsP5nSPTAdLPLS5Ag5YrDuvg2pSzc7wq
+         eruqxdTH5I2CfuHmlIpYPCERDohk0QmkU+7yWBtD1k6Lym5klEkMjonnwQztQ4ZwcrcO
+         RaGJ11LdUXIigIUOSlOoJ2amtMApuZ8TOVDJpJ9Y0UYzQQ6qtF2QGV+PrUJwg1PZdGT/
+         WacX8JspFB8N4gcRIRhuCUH55S+50jG0pewoUnuEX2mDD4fSoyQcN0zI+hrQhIoRIyef
+         aAlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722656834; x=1723261634;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ksXwGB2P8B8fKj8NOP3nkaqplHNkrgjmluLVxXrJ1Rw=;
+        b=d3N9dyRfTX2RkWkCKlOKrG4xKSa/DonWEo7qwfmziLNhjY86pfDOinCpQ1HYlVM1pS
+         ih7boudaCINSQ5F94GT4hvrReuXkqAbp4G6Nl6xG+jg/ftcJ45JTftOqB6p/PCN4+k+1
+         CfFfsiobyvoJ3kVliKaNU3bRbhmIBWPdSS8IpwdePee9UL648TvaZczlA5Z8f2yRBcKk
+         vk2OtPaOKk9VatBvf2A1QqwFxrlegiRtXfcIZhemDAJfHnHTdEwWoJn5MGDA6CobN5KT
+         pC5SqCRP/oWziORthBsxHLDR5PNKvYAp2C+ZoXilvvbVLUh4MHBWxYQryKsiSlC1Tu5N
+         bGuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuc3Qs29QpjcbGFjyHuYwymOyRdWNktx1WEoEAKQvqMSBUwTpaqmBjwVc7sey0zsgFvv6r/jFsVhaKWuuQRA0G3J/K5cyZtzsTcfE6We/2x1H1TzTAmVZg49lBWjhB/lm8SuywA0gxmeqS0NKTkrQtpzXbmf4uBbuePhA2xcQq5++C+w==
+X-Gm-Message-State: AOJu0Yyyz0AiR6PNl67d0DoeAEobQ/4X30GkDVECjg0PhgnKSczNmLcB
+	IeJusS8ALJyz37ZXoBGypfZbAGtKgalE2PNxjmKzZp/K/minZ7la
+X-Google-Smtp-Source: AGHT+IFEAV0r4XQJVKf+0GSPvPZxEV4/jpRwhyyiI8h4ct/tuxflR3GqQGqfhtrxWijlvxsLpP9RhA==
+X-Received: by 2002:a05:6808:1924:b0:3d9:3f5d:7b59 with SMTP id 5614622812f47-3db55786e0fmr6369017b6e.0.1722656834246;
+        Fri, 02 Aug 2024 20:47:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff592979d7sm24892845ad.259.2024.08.02.20.47.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Aug 2024 20:47:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <87ec50bb-7040-451c-832b-27b93923d5cf@roeck-us.net>
+Date: Fri, 2 Aug 2024 20:47:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB7149:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3cb86c29-b10a-4113-e948-08dcb3561b22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cWJGLzhNcThxNm8yUTdDUXZjdTlKRXZUL3NmYllEZjhvZDI4am5lUys0Q2dm?=
- =?utf-8?B?VjBDeWRDcm1BQjZIaXpmaXZWNTNmR1IyOGl4WFhOMDhQYkhOcm1iNnpJeGlI?=
- =?utf-8?B?Q0lEeG8rcEpveldBbFE5bDB1Wk5vcEVhWGZWQTJkZitIOFdmaE1MVDBINERX?=
- =?utf-8?B?c0xVeENTdGhsS3lyTGdxUitaSmttWVRDeXFyUVJDemYxY2hVbFUwUXBuM21y?=
- =?utf-8?B?ZXFWb0lzZVFqS1NVREdJdnZrMFhoSE9IOG94MnUyZC8yQ1dLQ1NvbWNJdTlo?=
- =?utf-8?B?dEFUUUFvREgyRGt3bGZoNmZkYmFIQkk0cWtkd1JNbTVWVmt5MjNqNldTcmwz?=
- =?utf-8?B?L0wzUUFwUTRiL0puNHg1UjY2LzBDdy9sbnl3NHlwN0xsZzlxYVgzUUdwTis4?=
- =?utf-8?B?SmU0TCtFZUNuNEs0Vi91ZmczRTErL1NydmY1VVVCY2dhb1NHMFNsNGJja0Ix?=
- =?utf-8?B?Z3hSYTA2YU9sYUFlRWJzdDluTVF2TVRkWkhMQmUxdTNqMm9uUUtHQ2xvTEFT?=
- =?utf-8?B?dm1RcnBFU2xwcFR1U3hYSU0rd202NXZIZVpHeFl6NnlZcVhUUzBnZVFxcHFv?=
- =?utf-8?B?V2ZPY1M3WjJOM25jY0wyUEhiQ3ZZeGVEN2JJU0duRGt1ZVRUM1M2TTI5L1BS?=
- =?utf-8?B?OVpQWnFqZ1J1N24rQVdsMWp3N3M3S3pxUXRkMlo4VklRRDlwV253b1Nnd1ZY?=
- =?utf-8?B?eGlOdG1LR0V5aWZuR2MyR0F1bXZuK2dlMEFkbTUzaU41TU96TE1EdVQ3YzBp?=
- =?utf-8?B?YllEbkFsdTVSZXY2NThSeE0ybi94MitBMy9OY041K2tEenl4aGhFalVSYXBh?=
- =?utf-8?B?bzFhWElvWmtwY3lSaDVqRnlTNVJXR0xoMUxDQnYwRDQ1RXFhVUFKT1Q5UkxX?=
- =?utf-8?B?NUN1ZG1WdllYSDFoRHYxS29VRHNTUlpJNURFVnZiaUJ5d0FYWjI4R1M4bTR2?=
- =?utf-8?B?WVIyejFQSzNlY3JZMVVPVzArY1p6UXZkTC9yM01EQTJyWG9XaUQrUUVmN0da?=
- =?utf-8?B?ak4wcVVsc3Q5SHZrcWt0eWxLQlQ4dUFneVJpZUZyNTIzd1hnWXo2eGRCenY0?=
- =?utf-8?B?eUVnQUl2a0NJbkZZYytuMSt6eVdpVC8xMm9SbEN1aTlyVWFOOFZuL2J2MVNY?=
- =?utf-8?B?Nm1NSzFRRGdJcVlnVElZYjVyOFZkMjZwRkhRWDhOOUlJSHlwTTVranRZSGpp?=
- =?utf-8?B?NjlranRWMDc0R3pYNWhqTnpUOU9Ya3YvWmU3Y1NEcVZzQjl6cXlzZDZIeEY1?=
- =?utf-8?B?N2IvUWVXamRoQ3daaGdkbWtaMms3UGw2OVpFUmI3bE9uUzBQVkVxTUFCdk1z?=
- =?utf-8?B?QzdNbkVFaGVoNy8yZEVnT1lNa2drcGNPVkh4T0RyZUVWa0ZMT21CQUxXOEpN?=
- =?utf-8?B?bzBkQmQ0aGEyWms2ZWQzamh0Ky9XbTcyZmF0a1NJdGZ6eDBlVUdlOS9QQzdp?=
- =?utf-8?B?Y1BRWElqaldBVnMvVkhmWWdUYTNiQWFmNWFmaTM5SVhUSlJadytidFhYbWVo?=
- =?utf-8?B?enVBc3NjcEZkejhBcXZPeCtWQ0szZjlZSTNiWjhLL0p4UER3WjZETkJka25O?=
- =?utf-8?B?aGZoM3lCV3lpTE56R0RUUnRyQ2wvcXU2TkE1NkpQK3pqRTRmMzZlM2RRa3VY?=
- =?utf-8?B?ZlJJa05DUXlUazhlTGJyYkVVZkRyVktBbmduaFQ3VVlRUGhXTDJOUFY1QWdH?=
- =?utf-8?B?bEFiTEFlVm5Oc3BHK0hhWGtHUU9lVHhOdHhGdmd1YWZpVnpiYlR6cDU1MExP?=
- =?utf-8?B?dE81K0pBTG91VkVSSHVmR0lxbkpaNTFSb2MwdmRMSEh2MlNzMnR6S0FrVzNo?=
- =?utf-8?B?emtucDMySmlYYXdDejRsUT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUo0RW5kdXFPQzh0L1ZmNmRITGJLWTZMMTEwZ082eGcyV0JNVHJvb1d4YUxO?=
- =?utf-8?B?Q2M1UXBxSzd0ODVsaWI4VGRob1NZRGxYdmF2WnZpT1E5QjJzbXNITVptdDZO?=
- =?utf-8?B?K0ltMzFBNlQ3MjQvZjcrNXJ4cWVWYXdKeVpMUCtPNDJrRU1kUnB6a0VGbitw?=
- =?utf-8?B?emROZDhOVnhWT3lQQ1FVNW4vN1FpSHFLYlNxT0RTUXhjTFZpeERCR0EzSzc3?=
- =?utf-8?B?R1FqcGJONGRjTlhvYjN5a0xhTFVjek95bFRVRzA4ZnZqNGdKeGdKVUJQeUM0?=
- =?utf-8?B?cmY5aDBEY1FlSWhrbWM4NmRPa1JvTHJrcmkvbTlheEdQWEpEbm1hbnVvVXoy?=
- =?utf-8?B?UklBeUFTdzhtN3ppd2tIcmllOW45dDhJUWlJNHgySnFuY1ZoRjFuclRKQ2tL?=
- =?utf-8?B?aW5JWFVUK0RLNlJVZ045bEV0RWlNcExna2R5ZFFDN2kvQXduaVY1Y1NFK2ZR?=
- =?utf-8?B?Nk9XdmljUG5sNVlzY1k2RUtCd1JaYTJ4bzN3WjRPdUxBWjRvcEZKVjFNNzRx?=
- =?utf-8?B?OTdTblNINjVLM3B4aFRXN2hwUHNyUHVhN0tVNE0vSFZhM1h6bGtPR3NwOFMy?=
- =?utf-8?B?SG0xK01XbHh4bmQreFBrakRQTUNLSmVYbHdzY0VRTmp3dEJ5eGRyYjFqTEla?=
- =?utf-8?B?cHQvTXI2a1lPYUI0ZkN6blNLb0JmZ3lMa2NQaEd0djZ5K1ZoYmZxSGtSaExN?=
- =?utf-8?B?SHFXZSs5Q05IaWdUUVdNWHJqOFgwZG1aTjRDbEZrY3dNTy9jSUNzeS9BdXJU?=
- =?utf-8?B?Mzc1NkdXTnNMOGt2L01QTUEzb0ZTNkZBNnUrU3RhMGJNU0RqVHdQYm9ZV2NX?=
- =?utf-8?B?YTRsd2Z1K1g5WmNvWkdHQlFweDBDbU81UUZvSEFFZGVJa1FmaisrNnlDR0hm?=
- =?utf-8?B?bmR6RFcrWUxwdDA4clJncjU5bUc4NmdiMncxU2JmSW1FMWtUZFlqTGdDbU5K?=
- =?utf-8?B?UnpNWmRyZWxibWN6TkV5Z1VsSFA0MGxmVitHZTJnWktCd2gzOEJNYmtEbDl4?=
- =?utf-8?B?ZXpxQytsNXVZQVFpZDlValI4eDdkOW5HaDYrS3NUSVhJMHVVenJ1YlNyZ0JY?=
- =?utf-8?B?b2JhbmpRdlVPbTIvTGNWLzFIQjh2TjBSTVNzak44REpVT1l2OGZCaFZEa29k?=
- =?utf-8?B?Z1dTUTNDTU1DTVBoZkpHOTJOR3NsZUt5N2orSlhUa3ZXQ1lzV1NranhhL3d5?=
- =?utf-8?B?Tm5sSGNHNlhySGY5VnZXVFZxZkdXSjBsSE82NVQwZkUzbE1SMFJHOW83cVJN?=
- =?utf-8?B?WnF0M0JsdjhJT3g2LzRIYjFZcjBZb1BWUnNsSUxmTTNwbTZFNDRmU1J5THZ3?=
- =?utf-8?B?VkVxZkJNQVlMR2gxbG1GUEJJeXJyV0IzZXYrcU5OTklVMGNtTG9ON2xydllG?=
- =?utf-8?B?dS9LbXV3c1pnc29wSDhmL2FJMHJ0UVVXQXQxazNPQTl2VEY5U0tvWUxKRFAr?=
- =?utf-8?B?dGRkelJmZ1BNMW1HbCtQRVVsYjZSTVJHYjlzNWl3QjRqSHJJSmo4dng0WGdM?=
- =?utf-8?B?eW1BU1NoV2FWcDI3WEhmWUZuWE1YVytpZ3ZKNmo2aG81R2t1aHA4UDd0YXpO?=
- =?utf-8?B?MS9TQ3B5TDZ0VzQvTSsrSVlIT2ZsUFdVNEtVLzVpYVdGUnJlUkZadjdqaFZM?=
- =?utf-8?B?UW5UUlN0bDdoNlMyblZRckdDeW10akUrRlU0SXF0RUVEd2krM0FaNW9KWEpV?=
- =?utf-8?B?WE1MQlRqOXJCRnlaOWJtQkZ3S2RtbkRZWEdaejMrTFZhTU9OMXlYdFBFOFlt?=
- =?utf-8?B?eDhYa2xmckZMeVBMZmRoOUxidzVEN3lMdGtFR2xISDBSdklYMHVTV2c4SkU1?=
- =?utf-8?B?SlZHYjgwMXJaeVpWbUR3USs1M1ZNSjR0cnNlNGM4NG81bGZPY1p1OEQvaXZM?=
- =?utf-8?B?YWZYYWtTVmtVRDVhcEFoTFdESXF0MSt1M1VSTDJKdVI0SVI2SktCd3VLZzFP?=
- =?utf-8?B?TEt4Z3c0VHFUY2JhbXpjeWJSOHV6WFZjUTd6b1ZDUlJjdXU1cHh3c3lqc2hU?=
- =?utf-8?B?eU12MmtOdHYyWkEwTDR0OEtiazBBd2xxazlvU1doN0IyR0Vod0o5N3BXZWcw?=
- =?utf-8?B?aTd1Q2pqMTkyN0tTeUV2NG1VUVVSQWR5bWNBVkFpWmtqMmh4Kzd6R0k1QVNy?=
- =?utf-8?Q?lHmA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cb86c29-b10a-4113-e948-08dcb3561b22
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2024 00:49:18.5601
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iYp3Fi7E/21VsF0AbBH4m1ateWmzGSohNrns9xQ8GT9yYUsFj+I4i+A1xD1lj5Sd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7149
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/4] drivers: hwmon: sophgo: Add SG2042 external
+ hardware monitor support
+To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen Wang <unicorn_wang@outlook.com>,
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>, Chao Wei <chao.wei@sophgo.com>,
+ Jinyu Tang <tangjinyu@tinylab.org>, Hal Feng <hal.feng@starfivetech.com>,
+ Yangyu Chen <cyy@cyyself.name>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <IA1PR20MB495337877FFC8D787A045C15BBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB4953032E1B5D58D2F6C7393DBBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <c165cc19-d324-47aa-94a4-2d2db79afb0f@roeck-us.net>
+ <IA1PR20MB4953DFA5607E92D16E1B31FABBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <IA1PR20MB4953DFA5607E92D16E1B31FABBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Peter/Reinette,
+On 8/2/24 16:28, Inochi Amaoto wrote:
+> On Fri, Aug 02, 2024 at 06:59:22AM GMT, Guenter Roeck wrote:
+>> On 8/2/24 05:38, Inochi Amaoto wrote:
+>>> SG2042 use an external MCU to provide basic hardware information
+>>> and thermal sensors.
+>>>
+>>> Add driver support for the onboard MCU of SG2042.
+>>>
+>>> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+>>> Tested-by: Chen Wang <unicorn_wang@outlook.com>
+>>> Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
+>>> ---
+>>>    Documentation/hwmon/index.rst      |   1 +
+>>>    Documentation/hwmon/sg2042-mcu.rst |  39 +++
+>>>    drivers/hwmon/Kconfig              |  11 +
+>>>    drivers/hwmon/Makefile             |   1 +
+>>>    drivers/hwmon/sg2042-mcu.c         | 394 +++++++++++++++++++++++++++++
+>>>    5 files changed, 446 insertions(+)
+>>>    create mode 100644 Documentation/hwmon/sg2042-mcu.rst
+>>>    create mode 100644 drivers/hwmon/sg2042-mcu.c
+>>>
+>>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+>>> index 913c11390a45..ea3b5be8fe4f 100644
+>>> --- a/Documentation/hwmon/index.rst
+>>> +++ b/Documentation/hwmon/index.rst
+>>> @@ -206,6 +206,7 @@ Hardware Monitoring Kernel Drivers
+>>>       sch5636
+>>>       scpi-hwmon
+>>>       sfctemp
+>>> +   sg2042-mcu
+>>>       sht15
+>>>       sht21
+>>>       sht3x
+>>> diff --git a/Documentation/hwmon/sg2042-mcu.rst b/Documentation/hwmon/sg2042-mcu.rst
+>>> new file mode 100644
+>>> index 000000000000..250016b47dd1
+>>> --- /dev/null
+>>> +++ b/Documentation/hwmon/sg2042-mcu.rst
+>>> @@ -0,0 +1,39 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +Kernel driver sg2042-mcu
+>>> +=====================
+>>> +
+>>> +Supported chips:
+>>> +
+>>> +  * Onboard MCU for sg2042
+>>> +
+>>> +    Addresses scanned: -
+>>> +
+>>> +    Prefix: 'sg2042-mcu'
+>>> +
+>>> +Authors:
+>>> +
+>>> +  - Inochi Amaoto <inochiama@outlook.com>
+>>> +
+>>> +Description
+>>> +-----------
+>>> +
+>>> +This driver supprts hardware monitoring for onboard MCU with
+>>> +i2c interface.
+>>> +
+>>> +Usage Notes
+>>> +-----------
+>>> +
+>>> +This driver does not auto-detect devices. You will have to instantiate
+>>> +the devices explicitly.
+>>> +Please see Documentation/i2c/instantiating-devices.rst for details.
+>>> +
+>>> +Sysfs Attributes
+>>> +----------------
+>>> +
+>>> +================= =============================================
+>>> +temp1_input       Measured temperature of SoC
+>>> +temp1_crit        Critical high temperature
+>>> +temp1_crit_hyst   hysteresis temperature restore from Critical
+>>> +temp2_input       Measured temperature of the base board
+>>> +================= =============================================
+>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>> index b60fe2e58ad6..7aa6c3f322e5 100644
+>>> --- a/drivers/hwmon/Kconfig
+>>> +++ b/drivers/hwmon/Kconfig
+>>> @@ -2066,6 +2066,17 @@ config SENSORS_SFCTEMP
+>>>    	  This driver can also be built as a module.  If so, the module
+>>>    	  will be called sfctemp.
+>>> +config SENSORS_SG2042_MCU
+>>> +	tristate "Sophgo onboard MCU support"
+>>> +	depends on I2C
+>>> +	depends on ARCH_SOPHGO || COMPILE_TEST
+>>> +	help
+>>> +	  Support for onboard MCU of Sophgo SG2042 SoCs. This mcu provides
+>>> +	  power control and some basic information.
+>>> +
+>>> +	  This driver can be built as a module. If so, the module
+>>> +	  will be called sg2042-mcu.
+>>> +
+>>>    config SENSORS_SURFACE_FAN
+>>>    	tristate "Surface Fan Driver"
+>>>    	depends on SURFACE_AGGREGATOR
+>>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>>> index b1c7056c37db..0bbe812a67ae 100644
+>>> --- a/drivers/hwmon/Makefile
+>>> +++ b/drivers/hwmon/Makefile
+>>> @@ -194,6 +194,7 @@ obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
+>>>    obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
+>>>    obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
+>>>    obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
+>>> +obj-$(CONFIG_SENSORS_SG2042_MCU) += sg2042-mcu.o
+>>>    obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
+>>>    obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
+>>>    obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
+>>> diff --git a/drivers/hwmon/sg2042-mcu.c b/drivers/hwmon/sg2042-mcu.c
+>>> new file mode 100644
+>>> index 000000000000..6d8d677f86f3
+>>> --- /dev/null
+>>> +++ b/drivers/hwmon/sg2042-mcu.c
+>>> @@ -0,0 +1,394 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +/*
+>>> + * Copyright (c) 2024 Inochi Amaoto <inochiama@outlook.com>
+>>> + *
+>>> + * Sophgo power control mcu for SG2042
+>>> + */
+>>> +
+>>> +#include <linux/cleanup.h>
+>>> +#include <linux/debugfs.h>
+>>> +#include <linux/err.h>
+>>> +#include <linux/hwmon.h>
+>>> +#include <linux/i2c.h>
+>>> +#include <linux/kernel.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/mutex.h>
+>>> +
+>>> +/* fixed MCU registers */
+>>> +#define REG_BOARD_TYPE				0x00
+>>> +#define REG_MCU_FIRMWARE_VERSION		0x01
+>>> +#define REG_PCB_VERSION				0x02
+>>> +#define REG_PWR_CTRL				0x03
+>>> +#define REG_SOC_TEMP				0x04
+>>> +#define REG_BOARD_TEMP				0x05
+>>> +#define REG_RST_COUNT				0x0a
+>>> +#define REG_UPTIME				0x0b
+>>> +#define REG_RESET_REASON			0x0d
+>>> +#define REG_MCU_TYPE				0x18
+>>> +#define REG_REPOWER_ACTION			0x65
+>>> +#define REG_CRITICAL_TEMP			0x66
+>>> +#define REG_REPOWER_TEMP			0x67
+>>> +
+>>> +#define REPOWER_ACTION_REBOOT			1
+>>> +#define REPOWER_ACTION_POWEROFF			2
+>>> +
+>>> +#define MCU_POWER_MAX				0xff
+>>> +
+>>> +#define DEFINE_MCU_DEBUG_ATTR(_name, _reg, _format)			\
+>>> +	static int _name##_show(struct seq_file *seqf,			\
+>>> +				    void *unused)			\
+>>> +	{								\
+>>> +		struct sg2042_mcu_data *mcu = seqf->private;		\
+>>> +		int ret;						\
+>>> +		ret = i2c_smbus_read_byte_data(mcu->client, (_reg));	\
+>>> +		if (ret < 0)						\
+>>> +			return ret;					\
+>>> +		seq_printf(seqf, _format "\n", ret);			\
+>>> +		return 0;						\
+>>> +	}								\
+>>> +	DEFINE_SHOW_ATTRIBUTE(_name)					\
+>>> +
+>>> +struct sg2042_mcu_data {
+>>> +	struct i2c_client	*client;
+>>> +	struct dentry		*debugfs;
+>>> +	struct mutex		mutex;
+>>> +};
+>>> +
+>>> +static struct dentry *sgmcu_debugfs;
+>>> +
+>>> +static ssize_t reset_count_show(struct device *dev,
+>>> +				struct device_attribute *attr,
+>>> +				char *buf)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	int ret;
+>>> +
+>>> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_RST_COUNT);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return sprintf(buf, "%d\n", ret);
+>>> +}
+>>> +
+>>> +static ssize_t uptime_show(struct device *dev,
+>>> +			   struct device_attribute *attr,
+>>> +			   char *buf)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	u8 time_val[2];
+>>> +	int ret;
+>>> +
+>>> +	ret = i2c_smbus_read_i2c_block_data(mcu->client, REG_UPTIME,
+>>> +					    sizeof(time_val), time_val);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return sprintf(buf, "%d\n",
+>>> +		       (int)(time_val[0]) + (int)(time_val[1] << 8));
+>>
+>> Pointless type casts
+>>
+>>> +}
+>>> +
+>>> +static ssize_t reset_reason_show(struct device *dev,
+>>> +				 struct device_attribute *attr,
+>>> +				 char *buf)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	int ret;
+>>> +
+>>> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_RESET_REASON);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return sprintf(buf, "0x%02x\n", ret);
+>>> +}
+>>> +
+>>> +static ssize_t repower_action_show(struct device *dev,
+>>> +				   struct device_attribute *attr,
+>>> +				   char *buf)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	int ret;
+>>> +	const char *action;
+>>> +
+>>> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_REPOWER_ACTION);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	if (ret == REPOWER_ACTION_REBOOT)
+>>> +		action = "reboot";
+>>> +	else if (ret == REPOWER_ACTION_POWEROFF)
+>>> +		action = "poweroff";
+>>> +	else
+>>> +		action = "unknown";
+>>> +
+>>> +	return sprintf(buf, "%s\n", action);
+>>> +}
+>>> +
+>>> +static ssize_t repower_action_store(struct device *dev,
+>>> +				    struct device_attribute *attr,
+>>> +				    const char *buf, size_t count)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	u8 value;
+>>> +	int ret;
+>>> +
+>>> +	if (sysfs_streq("reboot", buf))
+>>> +		value = REPOWER_ACTION_REBOOT;
+>>> +	else if (sysfs_streq("poweroff", buf))
+>>> +		value = REPOWER_ACTION_POWEROFF;
+>>> +	else
+>>> +		return -EINVAL;
+>>> +
+>>> +	guard(mutex)(&mcu->mutex);
+>>> +
+>> Pointless mutex protection.
+>>
+> 
+> OK, I have seen the protection in the i2c bus. I will remove this.
+> 
+>>> +	ret = i2c_smbus_write_byte_data(mcu->client,
+>>> +					REG_REPOWER_ACTION, value);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	return count;
+>>> +}
+>>> +
+>>> +static DEVICE_ATTR_RO(reset_count);
+>>> +static DEVICE_ATTR_RO(uptime);
+>>> +static DEVICE_ATTR_RO(reset_reason);
+>>> +static DEVICE_ATTR_RW(repower_action);
+>>> +
+>>> +DEFINE_MCU_DEBUG_ATTR(firmware_version, REG_MCU_FIRMWARE_VERSION, "0x%02x");
+>>> +DEFINE_MCU_DEBUG_ATTR(pcb_version, REG_PCB_VERSION, "0x%02x");
+>>> +DEFINE_MCU_DEBUG_ATTR(board_type, REG_BOARD_TYPE, "0x%02x");
+>>> +DEFINE_MCU_DEBUG_ATTR(mcu_type, REG_MCU_TYPE, "%d");
+>>> +
+>>> +static struct attribute *sg2042_mcu_attrs[] = {
+>>> +	&dev_attr_reset_count.attr,
+>>> +	&dev_attr_uptime.attr,
+>>> +	&dev_attr_reset_reason.attr,
+>>> +	&dev_attr_repower_action.attr,
+>>> +	NULL
+>>> +};
+>>> +
+>>> +static const struct attribute_group sg2042_mcu_attr_group = {
+>>> +	.attrs	= sg2042_mcu_attrs,
+>>> +};
+>>> +
+>>> +static const struct attribute_group *sg2042_mcu_groups[] = {
+>>> +	&sg2042_mcu_attr_group,
+>>> +	NULL
+>>> +};
+>>> +
+>>> +static const struct hwmon_channel_info * const sg2042_mcu_info[] = {
+>>> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+>>> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_CRIT |
+>>> +					HWMON_T_CRIT_HYST,
+>>> +				 HWMON_T_INPUT),
+>>> +	NULL
+>>> +};
+>>> +
+>>> +static int sg2042_mcu_read(struct device *dev,
+>>> +			   enum hwmon_sensor_types type,
+>>> +			   u32 attr, int channel, long *val)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	int tmp;
+>>> +	u8 reg;
+>>> +
+>>> +	switch (attr) {
+>>> +	case hwmon_temp_input:
+>>> +		reg = channel ? REG_BOARD_TEMP : REG_SOC_TEMP;
+>>> +		break;
+>>> +	case hwmon_temp_crit:
+>>> +		reg = REG_CRITICAL_TEMP;
+>>> +		break;
+>>> +	case hwmon_temp_crit_hyst:
+>>> +		reg = REG_REPOWER_TEMP;
+>>> +		break;
+>>> +	default:
+>>> +		return -EOPNOTSUPP;
+>>> +	}
+>>> +
+>>> +	tmp = i2c_smbus_read_byte_data(mcu->client, reg);
+>>> +	if (tmp < 0)
+>>> +		return tmp;
+>>> +	*val = tmp * 1000;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int sg2042_mcu_write(struct device *dev,
+>>> +			    enum hwmon_sensor_types type,
+>>> +			    u32 attr, int channel, long val)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
+>>> +	int temp = val / 1000;
+>>> +	int hyst_temp, crit_temp;
+>>> +	u8 reg;
+>>> +
+>>> +	if (temp > MCU_POWER_MAX)
+>>> +		temp = MCU_POWER_MAX;
+>>> +	else if (temp < 0)
+>>> +		temp = 0;
+>>> +
+>> 	temp = clamp_val(temp, 0, MCU_POWER_MAX);
+>>
+>>> +	guard(mutex)(&mcu->mutex);
+>>> +
+>>> +	switch (attr) {
+>>> +	case hwmon_temp_crit:
+>>> +		hyst_temp = i2c_smbus_read_byte_data(mcu->client,
+>>> +						     REG_REPOWER_TEMP);
+>>> +		if (hyst_temp < 0)
+>>> +			return hyst_temp;
+>>> +
+>>> +		crit_temp = temp;
+>>> +		reg = REG_CRITICAL_TEMP;
+>>> +		break;
+>>> +	case hwmon_temp_crit_hyst:
+>>> +		crit_temp = i2c_smbus_read_byte_data(mcu->client,
+>>> +						     REG_CRITICAL_TEMP);
+>>> +		if (crit_temp < 0)
+>>> +			return crit_temp;
+>>> +
+>>> +		hyst_temp = temp;
+>>> +		reg = REG_REPOWER_TEMP;
+>>> +		break;
+>>> +	default:
+>>> +		return -EOPNOTSUPP;
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * ensure hyst_temp is smaller to avoid MCU from
+>>> +	 * keeping triggering repower event.
+>>> +	 */
+>>> +	if (crit_temp < hyst_temp)
+>>> +		return -EINVAL;
+>>> +
+>>> +	return i2c_smbus_write_byte_data(mcu->client, reg, temp);
+>>> +}
+>>> +
+>>> +static umode_t sg2042_mcu_is_visible(const void *_data,
+>>> +				     enum hwmon_sensor_types type,
+>>> +				     u32 attr, int channel)
+>>> +{
+>>> +	switch (type) {
+>>> +	case hwmon_temp:
+>>> +		switch (attr) {
+>>> +		case hwmon_temp_input:
+>>> +			return 0444;
+>>> +		case hwmon_temp_crit:
+>>> +		case hwmon_temp_crit_hyst:
+>>> +			if (channel == 0)
+>>> +				return 0664;
+>>> +			break;
+>>
+>> In practice this is the only break; in this nested switch sequence,
+>> making the return 0; at the end necessary.
+>>
+>> Please either use break; always when returning 0, or return 0 here
+>> as well and drop the final return 0;
+>>
+> 
+> Thanks, but I have a question: as this break can be fallthrough to the
+> default, is it better to use break;/return 0;, or just remove this
+> break; and let it fallthrough?
+> 
 
-On 8/2/2024 3:55 PM, Reinette Chatre wrote:
-> Hi Peter,
-> 
-> On 8/2/24 11:49 AM, Peter Newman wrote:
->> On Fri, Aug 2, 2024 at 9:14 AM Reinette Chatre
->> <reinette.chatre@intel.com> wrote:
->>> On 8/1/24 3:45 PM, Peter Newman wrote:
->>>> On Thu, Aug 1, 2024 at 2:50 PM Reinette Chatre
->>>> <reinette.chatre@intel.com> wrote:
->>>>> On 7/17/24 10:19 AM, Moger, Babu wrote:
->>>>>> On 7/12/24 17:03, Reinette Chatre wrote:
->>>>>>> On 7/3/24 2:48 PM, Babu Moger wrote:
->>>
->>>>>>>> # Examples
->>>>>>>>
->>>>>>>> a. Check if ABMC support is available
->>>>>>>>        #mount -t resctrl resctrl /sys/fs/resctrl/
->>>>>>>>
->>>>>>>>        #cat /sys/fs/resctrl/info/L3_MON/mbm_mode
->>>>>>>>        [abmc]
->>>>>>>>        legacy
->>>>>>>>
->>>>>>>>        Linux kernel detected ABMC feature and it is enabled.
->>>>>>>
->>>>>>> How about renaming "abmc" to "mbm_cntrs"? This will match the 
->>>>>>> num_mbm_cntrs
->>>>>>> info file and be the final step to make this generic so that another
->>>>>>> architecture
->>>>>>> can more easily support assignining hardware counters without 
->>>>>>> needing to call
->>>>>>> the feature AMD's "abmc".
->>>>>>
->>>>>> I think we aleady settled this with "mbm_cntr_assignable".
->>>>>>
->>>>>> For soft-RMID" it will be mbm_sw_assignable.
->>>>>
->>>>> Maybe getting a bit long but how about "mbm_cntr_sw_assignable" to 
->>>>> match
->>>>> with the term "mbm_cntr" in accompanying "num_mbm_cntrs"?
->>>>
->>>> My users are pushing for a consistent interface regardless of whether
->>>> counter assignment is implemented in hardware or software, so I would
->>>> like to avoid exposing implementation differences in the interface
->>>> where possible.
->>>
->>> This seems a reasonable ask but can we be confident that if hardware
->>> supports assignable counters then there will never be a reason to use
->>> software assignable counters? (This needs to also consider how/if Arm
->>> may use this feature.)
->>>
->>> I am of course not familiar with details of the software implementation
->>> - could there be benefits to using it even if hardware counters are
->>> supported?
->>
->> I can't see any situation where the user would want to choose software
->> over hardware counters. The number of groups which can be monitored by
->> software assignable counters will always be less than with hardware,
->> due to the need for consuming one RMID (and the counters automatically
->> allocated to it by the AMD hardware) for all unassigned groups.
-> 
-> Thank you for clarifying. This seems specific to this software 
-> implementation,
-> and I missed that there was a shift from soft-RMIDs to soft-ABMC. If I 
-> remember
-> correctly this depends on undocumented hardware specific knowledge.
-> 
->> I consider software assignable a workaround to enable measuring
->> bandwidth reliably on a large number of groups on pre-ABMC AMD
->> hardware, or rather salvaging MBM on pre-ABMC hardware making use of
->> our users' effort to adapt to counter assignment in resctrl. We hope
->> no future implementations will choose to silently drop bandwidth
->> counts, so fingers crossed, the software implementation can be phased
->> out when these generations of AMD hardware are decommissioned.
-> 
-> That sounds ideal.
-> 
->>
->> The MPAM specification natively supports (or requires) counter
->> assignment in hardware. From what I recall in the last of James'
->> prototypes I looked at, MBM was only supported if the implementation
->> provided as many bandwidth counters as there were possible monitoring
->> groups, so that it could assume a monitor IDs for every PARTID:PMG
->> combination.
-> 
-> Thank you for this insight.
-> 
->>
->>>
->>> What I would like to avoid is future complexity of needing a new 
->>> mount/config
->>> option that user space needs to use to select if a single 
->>> "mbm_cntr_assignable"
->>> is backed by hardware or software.
->>
->> In my testing so far, automatically enabling counter assignment and
->> automatically allocating counters for all events in new groups works
->> well enough.
->>
->> The only configuration I need is the ability to disable the automatic
->> counter allocation so that a userspace agent can have control of where
->> all the counters are assigned at all times. It's easy to implement
->> this as a simple flag if the user accepts that they need to manually
->> deallocate any automatically-allocated counters from groups created
->> before the flag was cleared.
->>
->>>
->>>> The main semantic difference with SW assignments is that it is not
->>>> possible to assign counters to individual events. Because the
->>>> implementation is assigning RMIDs to groups, assignment results in all
->>>> events being counted.
->>>>
->>>> I was considering introducing a boolean mbm_assign_events node to
->>>> indicate whether assigning individual events is supported. If true,
->>>> num_mbm_cntrs indicates the number of events which can be counted,
->>>> otherwise it indicates the number of groups to which counters can be
->>>> assigned and attempting to assign a single event is silently upgraded
->>>> to assigning counters to all events in the group.
->>>
->>> How were you envisioning your users using the control file 
->>> ("mbm_control")
->>> in these scenarios? Does this file's interface even work for SW 
->>> assignment
->>> scenarios?
->>>
->>> Users should expect consistent interface for "mbm_control" also.
->>>
->>> It sounds to me that a potential "mbm_assign_events" will be false 
->>> for SW
->>> assignments. That would mean that "num_mbm_cntrs" will
->>> contain the number of groups to which counters can be assigned?
->>> Would user space be required to always enable all flags (enable all 
->>> events) of
->>> all domains to the same values ... or would enabling of one flag (one 
->>> event)
->>> in one domain automatically result in all flags (all events) enabled 
->>> for all
->>> domains ... or would enabling of one flag (one event) in one domain 
->>> only appear
->>> to user space to be enabled while in reality all flags/events are 
->>> actually enabled?
->>
->> I believe mbm_control should always accurately reflect which events
->> are being counted.
-> 
-> I agree.
-> 
->>
->> The behavior as I've implemented today is:
->>
->> # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_events
->> 0
->>
->> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->> test//0=_;1=_;
->> //0=_;1=_;
->>
->> # echo "test//1+l" > /sys/fs/resctrl/info/L3_MON/mbm_control
->> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->> test//0=_;1=tl;
->> //0=_;1=_;
->>
->> # echo "test//1-t" > /sys/fs/resctrl/info/L3_MON/mbm_control
->> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
->> test//0=_;1=_;
->> //0=_;1=_;
->>
->>
-> 
-> This highlights how there cannot be a generic/consistent interface 
-> between hardware
-> and software implementation. If resctrl implements something like above 
-> without any
-> other hints to user space then it will push complexity to user space 
-> since user space
-> would not know if setting one flag results in setting more than that 
-> flag, which may
-> force a user space implementation to always follow a write with a read that
-> needs to confirm what actually resulted from the write. Similarly, that 
-> removing a
-> flag impacts other flags needs to be clear without user space needing to 
-> "try and
-> see what happens".
-> 
-> It is not clear to me how to interpret the above example when it comes 
-> to the
-> RMID management though. If the RMID assignment is per group then I 
-> expected all
-> the domains of a group to have the same flag(s)?
-> 
->>>
->>>> However, If we don't expect to see these semantics in any other
->>>> implementation, these semantics could be implicit in the definition of
->>>> a SW assignable counter.
->>>
->>> It is not clear to me how implementation differences between hardware
->>> and software assignment can be hidden from user space. It is possible
->>> to let user space enable individual events and then silently upgrade it
->>> to all events. I see two options here, either "mbm_control" needs to
->>> explicitly show this "silent upgrade" so that user space knows which
->>> events are actually enabled, or "mbm_control" only shows flags/events 
->>> enabled
->>> from user space perspective. In the former scenario, this needs more
->>> user space support since a generic user space cannot be confident which
->>> flags are set after writing to "mbm_control". In the latter scenario,
->>> meaning of "num_mbm_cntrs" becomes unclear since user space is expected
->>> to rely on it to know which events can be enabled and if some are
->>> actually "silently enabled" when user space still thinks it needs to be
->>> enabled the number of available counters becomes vague.
->>>
->>> It is not clear to me how to present hardware and software assignable
->>> counters with a single consistent interface. Actually, what if the
->>> "mbm_mode" is what distinguishes how counters are assigned instead of 
->>> how
->>> it is backed (hw vs sw)? What if, instead of "mbm_cntr_assignable" and
->>> "mbm_cntr_sw_assignable" MBM modes the terms "mbm_cntr_event_assignable"
->>> and "mbm_cntr_group_assignable" is used? Could that replace a
->>> potential "mbm_assign_events" while also supporting user space in
->>> interactions with "mbm_control"?
->>
->> If I understand this correctly, is this a preference that the info
->> node be named differently if its value will have different units,
->> rather than a second node to indicate what the value of num_mbm_cntrs
->> actually means? This sounds reasonable to me.
-> 
-> Indeed. As you highlighted, user space may not need to know if
-> counters are backed by hardware or software, but user space needs to
-> know what to expect from (how to interact with) interface.
-> 
->> I think it's also important to note that in MPAM, the MBWU (memory
->> bandwidth usage) monitors don't have a concept of local versus total
->> bandwidth, so event assignment would likely not apply there either.
->> What the counted bandwidth actually represents is more implicit in the
->> monitor's position in the memory system in the particular
->> implementation. On a theoretical multi-socket system, resctrl would
->> require knowledge about the system's architecture to stitch together
->> the counts from different types of monitors to produce a local and
->> total value. I don't know if we'd program this SoC-specific knowledge
->> into the kernel to produce a unified MBM resource like we're
->> accustomed to now or if we'd present multiple MBM resources, each only
->> providing an mbm_total_bytes event. In this case, the counters would
->> have to be assigned separately in each MBM resource, especially if the
->> different MBM resources support a different number of counters.
->>
-> 
-> "total" and "local" bandwidth is already in grey area after the
-> introduction of mbm_total_bytes_config/mbm_local_bytes_config where
-> user space could set values reported to not be constrained by the
-> "total" and "local" terms. We keep sticking with it though, even in
-> this implementation that uses the "t" and "l" flags, knowing that
-> what is actually monitored when "l" is set is just what the user
-> configured via mbm_local_bytes_config, which theoretically
-> can be "total" bandwidth.
-> 
-> Reinette
-> 
-> ps. I will be offline next week.
+Either always use break; when returning 0 or always use "return 0;".
+Please don't rely on fallthrough; it doesn't improve anything since you'd
+have to tag it as fallthrough and you might then as well use break;
+or return 0; directly.
 
-Thanks for heads up.
+Guenter
 
-Looks like we still need to figure out few things about the interface.
+>>> +		default:
+>>> +			return 0;
+>>> +		}
+>>> +		break;
+>>> +	default:
+>>> +		return 0;
+>>> +	}
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static const struct hwmon_ops sg2042_mcu_ops = {
+>>> +	.is_visible = sg2042_mcu_is_visible,
+>>> +	.read = sg2042_mcu_read,
+>>> +	.write = sg2042_mcu_write,
+>>> +};
+>>> +
+>>> +static const struct hwmon_chip_info sg2042_mcu_chip_info = {
+>>> +	.ops = &sg2042_mcu_ops,
+>>> +	.info = sg2042_mcu_info,
+>>> +};
+>>> +
+>>> +static void sg2042_mcu_debugfs_init(struct sg2042_mcu_data *mcu,
+>>> +				    struct device *dev)
+>>> +{
+>>> +	mcu->debugfs = debugfs_create_dir(dev_name(dev), sgmcu_debugfs);
+>>> +	if (mcu->debugfs) {
+>>
+>> debugfs_create_dir() returns an ERR_PTR(), which is checked in debugfs_create_file().
+>> This if() is pointless.
+>>
+> 
+> Thanks.
+> 
+>>> +		debugfs_create_file("firmware_version", 0444, mcu->debugfs,
+>>> +				    mcu, &firmware_version_fops);
+>>> +		debugfs_create_file("pcb_version", 0444, mcu->debugfs, mcu,
+>>> +				    &pcb_version_fops);
+>>> +		debugfs_create_file("mcu_type", 0444, mcu->debugfs, mcu,
+>>> +				    &mcu_type_fops);
+>>> +		debugfs_create_file("board_type", 0444, mcu->debugfs, mcu,
+>>> +				    &board_type_fops);
+>>> +	}
+>>> +}
+>>> +
+>>> +static int sg2042_mcu_i2c_probe(struct i2c_client *client)
+>>> +{
+>>> +	struct device *dev = &client->dev;
+>>> +	struct sg2042_mcu_data *mcu;
+>>> +	struct device *hwmon_dev;
+>>> +
+>>> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA |
+>>> +						I2C_FUNC_SMBUS_BLOCK_DATA))
+>>> +		return -EIO;
+>>> +
+>> 		return -ENODEV;
+>>
+>>> +	mcu = devm_kmalloc(dev, sizeof(*mcu), GFP_KERNEL);
+>>> +	if (!mcu)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	mutex_init(&mcu->mutex);
+>>> +	mcu->client = client;
+>>> +
+>>> +	i2c_set_clientdata(client, mcu);
+>>> +
+>>> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, "sg2042_mcu",
+>>> +							 mcu,
+>>> +							 &sg2042_mcu_chip_info,
+>>> +							 NULL);
+>>> +	if (IS_ERR_OR_NULL(hwmon_dev))
+>>> +		return -EFAULT;
+>>
+>> devm_hwmon_device_register_with_info() returns an ERR_PTR(), and
+>> returning -EFAULT instead of it is more than wrong (this does not indicate
+>> a "bad address"). This needs to be
+>>
+>> 	if (IS_ERR(hwmon_dev))
+>> 		return PTR_ERR(hwmon_dev);
+>>
+>> I am sure I asked before not to overwrite error codes.
+> 
+> Yes, you have asked, it seems that I have missed this code when I
+> check the driver. I apology for this mistake and thanks for your
+> reminder.
+> 
+>>
+>>> +
+>>> +	sg2042_mcu_debugfs_init(mcu, dev);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static void sg2042_mcu_i2c_remove(struct i2c_client *client)
+>>> +{
+>>> +	struct sg2042_mcu_data *mcu = i2c_get_clientdata(client);
+>>> +
+>>> +	debugfs_remove_recursive(mcu->debugfs);
+>>> +}
+>>> +
+>>> +static const struct i2c_device_id sg2042_mcu_id[] = {
+>>> +	{ "sg2042-hwmon-mcu", 0 },
+>>> +	{},
+>>> +};
+>>> +MODULE_DEVICE_TABLE(i2c, sg2042_mcu_id);
+>>> +
+>>> +static const struct of_device_id sg2042_mcu_of_id[] = {
+>>> +	{ .compatible = "sophgo,sg2042-hwmon-mcu" },
+>>> +	{},
+>>> +};
+>>> +MODULE_DEVICE_TABLE(of, sg2042_mcu_of_id);
+>>> +
+>>> +static struct i2c_driver sg2042_mcu_driver = {
+>>> +	.driver = {
+>>> +		.name = "sg2042-mcu",
+>>> +		.of_match_table = sg2042_mcu_of_id,
+>>> +		.dev_groups = sg2042_mcu_groups,
+>>> +	},
+>>> +	.probe = sg2042_mcu_i2c_probe,
+>>> +	.remove = sg2042_mcu_i2c_remove,
+>>> +	.id_table = sg2042_mcu_id,
+>>> +};
+>>> +
+>>> +static int __init sg2042_mcu_init(void)
+>>> +{
+>>> +	sgmcu_debugfs = debugfs_create_dir("sg2042-mcu", NULL);
+>>> +	return i2c_add_driver(&sg2042_mcu_driver);
+>>> +}
+>>> +
+>>> +static void __exit sg2042_mcu_exit(void)
+>>> +{
+>>> +	debugfs_remove_recursive(sgmcu_debugfs);
+>>> +	i2c_del_driver(&sg2042_mcu_driver);
+>>> +}
+>>> +
+>>> +module_init(sg2042_mcu_init);
+>>> +module_exit(sg2042_mcu_exit);
+>>> +
+>>> +MODULE_AUTHOR("Inochi Amaoto <inochiama@outlook.com>");
+>>> +MODULE_DESCRIPTION("MCU I2C driver for SG2042 soc platform");
+>>> +MODULE_LICENSE("GPL");
+>>
 
-However, I need resolve few issues with v5. I can go ahead and post v6 
-next week. We can continue our discussion. That way we are making some 
-forward progress in the series. Let me know  what do you think.
-
-Thanks
-- Babu Moger
