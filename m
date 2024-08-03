@@ -1,46 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095C967A0D;
-	Sat,  3 Aug 2024 09:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA38847B;
+	Sat,  3 Aug 2024 10:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722678972; cv=none; b=Z/qSGaPtD2JbntqtuwF0wbyvtvoQxZmhUszA48jLaI0M7CP8cNa974/uSbylWrSy/EeGfyDQO9RCw0EIbyJH56FvSCJ7ftopTl7BmaZtvLyNmwnOz79FfqPQhynGqpR3aZ6Tzhfd5mJs6Vp4Boo53yiKRkA9iqVWEDyKwJ6u2M0=
+	t=1722681262; cv=none; b=tUVTaeCB+pMH3Ib2FBzmKy2lmS3uAvEuGnGlmzhAluURYC4nUPUI4rO5dNAPh/eaj8KaBwEskaHtuwKVRns39Bv00NgaxTvmOJ/QDulqDNBzlGePRqcAmiuFlfJf+D9bw2tLxpQBWYKjKBxg7UgNQRg6m3RRV2I377opofqk78c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722678972; c=relaxed/simple;
-	bh=47/3SOn8zR55hwRJ8t7MP9wfeMJUry2d4J4v7KYbJP4=;
+	s=arc-20240116; t=1722681262; c=relaxed/simple;
+	bh=ZFEWPndg0yVqKFM40OaGfcBaVW4yzt0hxy//IAKCYYU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LXcjt9NQ0FckvTFS2SdZPfrFAdpCiXePhvJ6vMp8Yh8tTv2mJIMhqyurPU92QglTfcRzmEaUouF4bUWEGRacuHOwrU/0gHzavfv4sGxzpuUusflW+OJCz+zYdzcLWd4QDRpEbh2Bj1/NEGcLw7woLOyyt6/fA8fapBbfYgeKseI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9KK2mjM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PucIq+/NO5R4M7KtkG0MEX86RUK6nSWnTi+bYn3A8T4hi+al/PWTr9/bfqncnjEv4iKnpNOQK7e2N80bMxmWRsG9TjhQtDSlJzJhdKLlxGyoYW4N/eDITJ9vVja52B7J0HXYfS8460LH9N39xpngOY4kQx60UkM0UDtleZNRBkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pnNEjIVE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9KK2mjM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B824AC116B1;
-	Sat,  3 Aug 2024 09:56:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pnNEjIVE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B299AC116B1;
+	Sat,  3 Aug 2024 10:34:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722678971;
-	bh=47/3SOn8zR55hwRJ8t7MP9wfeMJUry2d4J4v7KYbJP4=;
+	s=k20201202; t=1722681262;
+	bh=ZFEWPndg0yVqKFM40OaGfcBaVW4yzt0hxy//IAKCYYU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Y9KK2mjMODSjQ3Mckjik0/1bOK185hC79Cme1Ufws/i9e9f1sxZfIpNrvRIqIi4rZ
-	 eTHEoWu9PfB62RSA92YPNZ1FF2ZnQj9Ep2EbWnpi2IzuKc1aqE7gXHg1AvOAIY2ymo
-	 PEWUD5ZER27Umuz81QvRPfyFrnJR6CYoohAFalgAeFrC0cNboue9sAX2GQR6+k5hzl
-	 SbjEBBEir1IGVtH9Ng1lSNnRqOK0uBz/GjdFLj4NlbFH5ai0KHqD21EtjcxD/jl7ri
-	 yX5h+wWbnheXJjbsb2B9RF84LPPohu7DWwQPw7Z3oaVguBz4zBBZc8q2YeW2YZZ51X
-	 9u9sZypLIa1eQ==
-Date: Sat, 3 Aug 2024 10:56:03 +0100
+	b=pnNEjIVEP/1T5+JDdidTKFewBRuNR14ytyQgY8+QYC0GayR9WRBEg+XoRlr94xizG
+	 QaP8PH0GniRllqCfaxxwisZkBdSi3skx/EbDm6yvoXxZbunp52iiqMdXoVVBKxyGvE
+	 uqDtbcQLm+Jwzg7qwEnYPN+ArBznMGD82E45NyiwQAUvllaNyj9Yv8M9XJyT9Djb3R
+	 su9UrUQD1xDemdLSgA9g/UzOgJMGbHYgtmMRi0iCJxefYNkrvH+3AX7aEZ9/YolK0X
+	 7pgbz0eorSPeExjh5ZYGyRMlQRwx/+t/CLlmqO1gEXQ9DtCNez09bicsVBr6CWzEcs
+	 l6w0wcKKSSvMw==
+Date: Sat, 3 Aug 2024 11:34:12 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, lars@metafoo.de,
- Michael.Hennerich@analog.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, nuno.sa@analog.com,
- dlechner@baylibre.com, corbet@lwn.net, marcelo.schmitt1@gmail.com,
+To: David Lechner <dlechner@baylibre.com>
+Cc: Julien Stephan <jstephan@baylibre.com>, Michael Hennerich
+ <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/7] Add support for AD4000 series of ADCs
-Message-ID: <20240803105603.14459d43@jic23-huawei>
-In-Reply-To: <a76c50b6-b1a4-4e99-b353-51ee3454ef0e@sirena.org.uk>
-References: <cover.1720810545.git.marcelo.schmitt@analog.com>
-	<a76c50b6-b1a4-4e99-b353-51ee3454ef0e@sirena.org.uk>
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 0/7] ad7380: add support for single-ended parts
+Message-ID: <20240803113412.249340a3@jic23-huawei>
+In-Reply-To: <931de9a9-f391-4609-b067-eaf5c5105451@baylibre.com>
+References: <20240731-ad7380-add-single-ended-chips-v2-0-cd63bf05744c@baylibre.com>
+	<931de9a9-f391-4609-b067-eaf5c5105451@baylibre.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -51,54 +52,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 31 Jul 2024 01:04:54 +0100
-Mark Brown <broonie@kernel.org> wrote:
+On Wed, 31 Jul 2024 08:46:38 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-> On Fri, Jul 12, 2024 at 04:20:00PM -0300, Marcelo Schmitt wrote:
-> > This patch series extends the SPI bitbang, gpio, and spi-engine controllers to
-> > support configurable MOSI line idle states.  
+> On 7/31/24 2:05 AM, Julien Stephan wrote:
+> > This series will add support for ad7386/7/8 (16/14/12 bits) unsigned,
+> > dual simultaneous sampling, single-ended compatible parts, and the
+> > corresponding ad7386-4/7-4/8-4 4 channels to ad7380 driver.
+> >   
+> For the whole series,
 > 
-> The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
 > 
->   Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git tags/spi-mosi-config
-Thanks.
 
-Merged that tag into IIO and applied patches 6 and 7.
+Nice series. Applied to the togreg branch of iio.git and pushed
+out initially as testing in case 0-day can find anything we missed.
+
+Thanks,
 
 Jonathan
-
-> 
-> for you to fetch changes up to 96472f18a4affdaff5013a836c48375f1eddb4a4:
-> 
->   dt-bindings: iio: adc: Add AD4000 (2024-07-29 01:19:55 +0100)
-> 
-> ----------------------------------------------------------------
-> spi: Support MOSI idle configuration
-> 
-> Add support for configuring the idle state of the MOSI signal in
-> controllers.
-> 
-> ----------------------------------------------------------------
-> Marcelo Schmitt (5):
->       spi: Enable controllers to extend the SPI protocol with MOSI idle configuration
->       spi: bitbang: Implement support for MOSI idle state configuration
->       spi: spi-gpio: Add support for MOSI idle state configuration
->       spi: spi-axi-spi-engine: Add support for MOSI idle configuration
->       dt-bindings: iio: adc: Add AD4000
-> 
->  .../devicetree/bindings/iio/adc/adi,ad4000.yaml    | 197 +++++++++++++++++++++
->  Documentation/spi/spi-summary.rst                  |  83 +++++++++
->  MAINTAINERS                                        |   7 +
->  drivers/spi/spi-axi-spi-engine.c                   |  15 +-
->  drivers/spi/spi-bitbang.c                          |  24 +++
->  drivers/spi/spi-gpio.c                             |  12 +-
->  drivers/spi/spi.c                                  |   6 +
->  include/linux/spi/spi_bitbang.h                    |   1 +
->  include/uapi/linux/spi/spi.h                       |   5 +-
->  9 files changed, 344 insertions(+), 6 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ad4000.yaml
-
