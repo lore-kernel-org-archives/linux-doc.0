@@ -1,115 +1,88 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81013398A;
-	Sat,  3 Aug 2024 08:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2DB4501F;
+	Sat,  3 Aug 2024 09:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722672933; cv=none; b=OETvmZT0YiiGHZLBYS4tAHtoW186cyKpgFtUPm1uU1bjM+Yr3Sw+qkBF50CEVZdvS3liLA3lICOuk6W53ubMfbchdUg0BzShU+wRhHj2YQ3JuMuJUo6fL+zsN3HwdZWXhTsGJXYNQmJh9XHYH/NS5zdgqNnH/lH75A+KAyfShHc=
+	t=1722677502; cv=none; b=l6nweY0relEu12ASRe0/hSJieMToWavqhb9F3fTiDxgVcGFr+D3bIA6PsW/IiDil9qsK13zJZlA/6qUVANGSCUep7IsvUkoEK06eWQJi57H1odS19Ydtn6zclkKxSFYdZsvTLhxGfiK6neBlp7QQ3ygi9to6nj5Q5nNVqZqGYss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722672933; c=relaxed/simple;
-	bh=SE8XpBNQlH3cEE27mlw49F50SuobwczKwaqo8X15frY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ONa9oYSqbI9aHE0zCnvrqF9QbBpLFt2QNeAR+0o+Kppe6iswekaAe1cnVqy8zpxCKd0PzW5O5G9YOFdbaAVSylGQLKsSMiWb+7NpBuPo7xm0Q2H1Hb9Wql3vsc3pLh2gI5GJCselKxFl+HATdCshQ2FJuEhw0wRob8Oi8yZxjKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.91.14] (dynamic-176-000-002-166.176.0.pool.telefonica.de [176.0.2.166])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id E2A8E61E5FE01;
-	Sat,  3 Aug 2024 10:14:24 +0200 (CEST)
-Message-ID: <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
-Date: Sat, 3 Aug 2024 10:14:20 +0200
+	s=arc-20240116; t=1722677502; c=relaxed/simple;
+	bh=d0zAjNeqaha+YbJMDwUW6gXG9oCEVMb1OCbg6tXI8f4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cHIInqd1+arxY1X/9BKI/1XU5YqI0CjhUZrAFS2uCUo7YWwL8pTNrfu3ZmAe6S7uEj/6G8DZKcWfxRHMBPuKBC0+Eha5XajyUYoymoKVeeSquRpbL3jcnsjzLKBpohPI/Fesc3j4D1+1S+mQtCsvLXotfi3Czulm1dqNN5cjCNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=v7l7kYgt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ie/9UT6o; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="v7l7kYgt";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ie/9UT6o"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1722677499;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5TFyYIxKz4zQbJIoyLbgX275aswQpsPObVD95bqB+M=;
+	b=v7l7kYgtYTZsPIqTeQ6yRqzdZrAGYuSrYt+ShKpXl9GzUg3/bN4QJ5HiynXEHVBfFJusaS
+	iXc709Df5LprJGxEWdZcAGjJ0aLX8ptw45X6M+nvQJ77sEfyhAk6lrvDGKZJwe7SBzebw3
+	OI4I8lAXsFCaREhCgC++X62G1B4E+EBdjSVu5THVpT8duiBr55IyhR/iK+EzG2ty3IkeI2
+	Ji4lfVpbx5RF6QO/SCrHfDvnus3qpd21aJAMwhUT5cWm6mpQwM8lj5Is7Zc5EYwxK3uv4W
+	wYxaen0T1VJTaj17kbexOikiifcW4Au6dJ5bzXnuncaWUAXlXmEBO1Y5n+cMXg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1722677499;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5TFyYIxKz4zQbJIoyLbgX275aswQpsPObVD95bqB+M=;
+	b=Ie/9UT6o6vwgPtfWx82uctrc3yhHBzoUN4njHyI8Q7iX6a5YmvkE/JaqWBJAwB1NLdfMqJ
+	LLl7CwimcDNxBzBw==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, Huacai Chen
+ <chenhuacai@kernel.org>
+Cc: corbet@lwn.net, alexs@kernel.org, siyanteng@loongson.cn,
+ kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn,
+ wangliupu@loongson.cn, lvjianmin@loongson.cn, yijun@loongson.cn,
+ mhocko@suse.com, akpm@linux-foundation.org, dianders@chromium.org,
+ maobibo@loongson.cn, xry111@xry111.site, zhaotianrui@loongson.cn,
+ nathan@kernel.org, yangtiezhu@loongson.cn, zhoubinbin@loongson.cn,
+ loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH V7] LoongArch: Add AVEC irqchip support
+In-Reply-To: <cff37371-0692-0db5-cb14-74c519eb1c56@loongson.cn>
+References: <20240726102443.12471-1-zhangtianyang@loongson.cn>
+ <87o76kuqza.ffs@tglx>
+ <CAAhV-H7c0Gtjf-6iS-E4nviMqmPWpJMNwvhWf0fLBx75pDXtrQ@mail.gmail.com>
+ <87r0bb6ru1.ffs@tglx> <cff37371-0692-0db5-cb14-74c519eb1c56@loongson.cn>
+Date: Sat, 03 Aug 2024 11:31:37 +0200
+Message-ID: <87msluymti.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 20/20] MAINTAINERS: ipe: add ipe maintainer
- information
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
- paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- fsverity@lists.linux.dev, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Dear Fan,
+Tianyang!
 
+On Sat, Aug 03 2024 at 14:40, Tianyang Zhang wrote:
+>
+> We consider that since the original extioi-msi is still using the 
+> legacy-MSI interrupt model at irq-loongson-pch-msi.c, if per-device-MSI 
+> is directly supported in the AVEC support patch, it will result in the 
+> simultaneous use of two MSI-interrupt-mode in irq-loongson-pch-msi.c, 
+> which may seem a bit strange. So we decided to split it into two 
+> patches, the first one using tlegace-MSI to support AVEC interrupt 
+> controllers, and the second one will be uniformly modified to use 
+> per-device-MSI
 
-Thank you very much for your patch. Two nits, should you sent another 
-interation: A more specific summary would avoid people having to look at 
-the message body or diff, and `git log --oneline` would be enough.
+Adding new code with old functionality to convert it five minutes later
+to the modern interface is just backwards.
 
-MAINTAINERS: Add IPE entry with M: Fan Wu
+Convert the existing code over first and then add the new one, no?
 
-MAINTAINERS: Add IPE entry with Fan Wu as maintainer
+Thanks,
 
-Am 03.08.24 um 08:08 schrieb Fan Wu:
-> Update MAINTAINERS to include ipe maintainer information.
-
-I’d at least mention Integrity Policy Enforcement. As you not only 
-include the maintainer information but add a new entry, I’d leave the 
-body out, or mention that a new entry is added.
-
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> 
-> --
-> v1-v16:
->    + Not present
-> 
-> v17:
->    + Introduced
-> 
-> v18:
->    + No changes
-> 
-> v19:
->    + No changes
-> 
-> v20:
->    + No changes
-> ---
->   MAINTAINERS | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8766f3e5e87e..4cdf2d5a2058 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11118,6 +11118,16 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
->   F:	security/integrity/
->   F:	security/integrity/ima/
->   
-> +INTEGRITY POLICY ENFORCEMENT (IPE)
-> +M:	Fan Wu <wufan@linux.microsoft.com>
-> +L:	linux-security-module@vger.kernel.org
-> +S:	Supported
-> +T:	git https://github.com/microsoft/ipe.git
-> +F:	Documentation/admin-guide/LSM/ipe.rst
-> +F:	Documentation/security/ipe.rst
-> +F:	scripts/ipe/
-> +F:	security/ipe/
-> +
->   INTEL 810/815 FRAMEBUFFER DRIVER
->   M:	Antonino Daplas <adaplas@gmail.com>
->   L:	linux-fbdev@vger.kernel.org
+        tglx
 
 
-Kind regards,
-
-Paul
