@@ -1,212 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8323182AE;
-	Sun,  4 Aug 2024 07:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006A11B94F
+	for <linux-doc@vger.kernel.org>; Sun,  4 Aug 2024 08:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722756394; cv=none; b=Z7CadaDeegNVS7gRk3bQlQXC0tSwb295nAVtwl8CiSOyK3Sya2a+6tPgPKn0eZlj5KcsMAxtP/qTN3es5P/1n5mI+MAId4P/pAzOpBuBHBNCkfo99twUzKF+qR9UL+XZgkv7uTdAMvXbL0pk3tmqiz57iMlFllu9bp9hpT7xHRk=
+	t=1722759490; cv=none; b=mfMpxNFpdZi8X5vhp4OfYjQX2sQ2eL/xmV0j+817Z/MK4XiEt1g3iDoz7o/hCKlw3jB0Nrxt5l0Di+rOwjhbEkvw4gHGRWnYVyoTEjDns3me7PIOQ7qXFfq4ydl/YzkuKINhBxAhafoByGuDc0sPIQSiNBDKE7/EbPX3LLOWkYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722756394; c=relaxed/simple;
-	bh=rx2UdBu3Jn4YvMBlkSpIvWfaZAHG3g5eVDYxreRC0w8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X20AeBFAVk/Wo5HEZjYW3gPQIelM1eCMXWKq8vKdHwmk8E/N/Nct7eEC5LGF0vkZMmAE6I4fQ6F42FlLpYZEXrNUw4QAGlptnhT4Tho9LTiU3ik5alz5qy8RJaeel0D+gT68fkYAoIRSSPWHOHV+ovPbDUNsAadScBG+oLr7c6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KIU8LoVO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722759490; c=relaxed/simple;
+	bh=ZYRZnef0yxaS5bV9saKBDKO14pgVNfmF9j2Bk9jzlJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sFTB3ZSDEu1YrDNJp6Zx5qFY8gQ0rLXsU1+rQfhLZkGiF2xfWqsKCtJS+AArmuJJVjK7gd3sbfwGMxZRuwSzXw2cn5wsQQpz6tp5devM/npD1F0sIXmLl2YDKRytZqwTXwBsibHR05cfvJeHWTwYkB5v46OtCgaTkejsBBjmBck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ara32mym; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KIU8LoVO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD611C32786;
-	Sun,  4 Aug 2024 07:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722756393;
-	bh=rx2UdBu3Jn4YvMBlkSpIvWfaZAHG3g5eVDYxreRC0w8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KIU8LoVOwFPBw/i+e9r4MNw3lCZ9Vibx6Dii6JlG87646MCH9g5WB4uLhl1sgD8XY
-	 fdhDH8dGci/plC04bp2qqqFN5dQbJHMWc6fWKJYivJ+bk5+GubVSlg3B3t+HSNIfir
-	 JTwRTaCcEoGzTNU1jYvwPfIqnBAdwUe1xFf3HqAX19LfaXMjWdmtrEyuqIK93JEmBz
-	 EFHb56nL5u7GvI90DNZwVtfaVmCpUg9fU4iOezzHPPuQFpcF1invnI5Iw9ThB6TUT4
-	 ADe9mcgPXLgojRwwccp6Y65CANZWgRQC4iHBhVf31YxxkVq1gi+zDus1lvqFhKf27J
-	 Jc+qx/YNiH/Gg==
-Date: Sun, 4 Aug 2024 10:24:15 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-kernel@vger.kernel.org,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Zi Yan <ziy@nvidia.com>, devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	nvdimm@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v3 07/26] mm: drop CONFIG_HAVE_ARCH_NODEDATA_EXTENSION
-Message-ID: <Zq8sn5iD1iOmYrss@kernel.org>
-References: <20240801060826.559858-1-rppt@kernel.org>
- <20240801060826.559858-8-rppt@kernel.org>
- <20240802104922.000051a0@Huawei.com>
- <20240803115813.809f808f1afbe9f9feaae129@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ara32mym"
+Message-ID: <401bebca-9637-4626-901f-e46b2d058768@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1722759484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BR8nESmyux7KPrlPtWm/y86ziQt1dIfCuk1340ZZ33o=;
+	b=ara32mymUPXn1tDy4bLqkZuYghp73ABnXKvkf214k9mbGPs4NlINmZEHazKOB+P84dAFc7
+	luVgeGbq8L7ea+dNC0SpntN3dVFowg3obE63kXZvD+oCKpN2lmqh2cwtEnOGvKKkYCyhrp
+	kwRXT5GHI+wbOmfqrTETGUTO+1NIvio=
+Date: Sun, 4 Aug 2024 16:17:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240803115813.809f808f1afbe9f9feaae129@linux-foundation.org>
+Subject: Re: [PATCH v2] docs: KVM: Fix register ID of SPSR_FIQ
+To: Takahiro Itazuri <itazur@amazon.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Dave Martin <Dave.Martin@arm.com>, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, zulinx86@gmail.com,
+ kvmarm@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, glider@google.com
+References: <20230606154628.95498-1-itazur@amazon.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20230606154628.95498-1-itazur@amazon.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Aug 03, 2024 at 11:58:13AM -0700, Andrew Morton wrote:
-> On Fri, 2 Aug 2024 10:49:22 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
++Cc kvmarm people and the list ...
+
+On 2023/6/6 23:46, Takahiro Itazuri wrote:
+> Fixes the register ID of SPSR_FIQ.
 > 
-> > > --- a/mm/mm_init.c
-> > > +++ b/mm/mm_init.c
-> > > @@ -1838,11 +1838,10 @@ void __init free_area_init(unsigned long *max_zone_pfn)
-> > >  
-> > >  		if (!node_online(nid)) {
-> > >  			/* Allocator not initialized yet */
-> > > -			pgdat = arch_alloc_nodedata(nid);
-> > > +			pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
-> > >  			if (!pgdat)
-> > >  				panic("Cannot allocate %zuB for node %d.\n",
-> > >  				       sizeof(*pgdat), nid);
-> > > -			arch_refresh_nodedata(nid, pgdat);
-> > 
-> > This allocates pgdat but never sets node_data[nid] to it
-> > and promptly leaks it on the line below. 
-> > 
-> > Just to sanity check this I spun up a qemu machine with no memory
-> > initially present on some nodes and it went boom as you'd expect.
-> > 
-> > I tested with addition of
-> > 			NODE_DATA(nid) = pgdat;
-> > and it all seems to work as expected.
+> SPSR_FIQ is a 64-bit register and the 64-bit register size mask is
+> 0x0030000000000000ULL.
 > 
-> Thanks, I added that.  It blew up on x86_64 allnoconfig because
-> node_data[] (and hence NODE_DATA()) isn't an lvalue when CONFIG_NUMA=n.
+> Fixes: fd3bc912d3d1 ("KVM: Documentation: Document arm64 core registers in detail")
+> Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+
+... since you're fixing the encoding of an *arm64* core register and the
+mentioned commit fd3bc912d3d1 was merged via the kvmarm tree. I guess
+this is the main reason why this patch has been blocked on the list for
+over a year, as pointed out recently by Alexander [*].
+
 > 
-> I'll put some #ifdef CONFIG_NUMAs in there for now but
+> ---
+> Changes from v1
+> - Add a description about the 64-bit register size mask in the commit
+>   message.
+> - Link: https://lore.kernel.org/all/20230410121927.26953-1-itazur@amazon.com/
 > 
-> a) NODE_DATA() is upper-case. Implies "constant".  Shouldn't be assigned to.
+> ---
+>  Documentation/virt/kvm/api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> b) NODE_DATA() should be non-lvalue when CONFIG_NUMA=y also.  But no,
->    we insist on implementing things in cpp instead of in C.
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index a5c803f39832..65dad2581751 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -2535,7 +2535,7 @@ Specifically:
+>    0x6030 0000 0010 004a SPSR_ABT    64  spsr[KVM_SPSR_ABT]
+>    0x6030 0000 0010 004c SPSR_UND    64  spsr[KVM_SPSR_UND]
+>    0x6030 0000 0010 004e SPSR_IRQ    64  spsr[KVM_SPSR_IRQ]
+> -  0x6060 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
+> +  0x6030 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
+>    0x6040 0000 0010 0054 V0         128  fp_regs.vregs[0]    [1]_
+>    0x6040 0000 0010 0058 V1         128  fp_regs.vregs[1]    [1]_
+>    ...
 
-This looks like a candidate for a separate tree-wide cleanup.
- 
-> c) In fact assigning to anything which ends in "()" is nuts.  Please
->    clean up my tempfix.
-> 
-> c) Mike, generally I'm wondering if there's a bunch of code here
->    which isn't needed on CONFIG_NUMA=n.  Please check all of this for
->    unneeded bloatiness.
+The change itself looks reasonable.
 
-I believe the patch addresses your concerns, just with this the commit log
-needs update. Instead of 
+Thanks,
+Zenghui
 
-    Replace the call to arch_alloc_nodedata() in free_area_init() with
-    memblock_alloc(), remove arch_refresh_nodedata() and cleanup
-    include/linux/memory_hotplug.h from the associated ifdefery.
-
-it should be
-
-    Replace the call to arch_alloc_nodedata() in free_area_init() with a
-    new helper alloc_offline_node_data(), remove arch_refresh_nodedata()
-    and cleanup include/linux/memory_hotplug.h from the associated
-    ifdefery.
-
-I can send an updated patch if you prefer.
-
-diff --git a/include/linux/numa.h b/include/linux/numa.h
-index 3b12d8ca0afd..5a749fd67f39 100644
---- a/include/linux/numa.h
-+++ b/include/linux/numa.h
-@@ -34,6 +34,7 @@ extern struct pglist_data *node_data[];
- #define NODE_DATA(nid)	(node_data[nid])
- 
- void __init alloc_node_data(int nid);
-+void __init alloc_offline_node_data(int nit);
- 
- /* Generic implementation available */
- int numa_nearest_node(int node, unsigned int state);
-@@ -62,6 +63,8 @@ static inline int phys_to_target_node(u64 start)
- {
- 	return 0;
- }
-+
-+static inline void alloc_offline_node_data(int nit) {}
- #endif
- 
- #define numa_map_to_online_node(node) numa_nearest_node(node, N_ONLINE)
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index bcc2f2dd8021..2785be04e7bb 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -1836,13 +1836,8 @@ void __init free_area_init(unsigned long *max_zone_pfn)
- 	for_each_node(nid) {
- 		pg_data_t *pgdat;
- 
--		if (!node_online(nid)) {
--			/* Allocator not initialized yet */
--			pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
--			if (!pgdat)
--				panic("Cannot allocate %zuB for node %d.\n",
--				       sizeof(*pgdat), nid);
--		}
-+		if (!node_online(nid))
-+			alloc_offline_node_data(nid);
- 
- 		pgdat = NODE_DATA(nid);
- 		free_area_init_node(nid);
-diff --git a/mm/numa.c b/mm/numa.c
-index da27eb151dc5..07e486a977c7 100644
---- a/mm/numa.c
-+++ b/mm/numa.c
-@@ -34,6 +34,18 @@ void __init alloc_node_data(int nid)
- 	memset(NODE_DATA(nid), 0, sizeof(pg_data_t));
- }
- 
-+void __init alloc_offline_node_data(int nit)
-+{
-+	pg_data_t *pgdat;
-+
-+	pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
-+	if (!pgdat)
-+		panic("Cannot allocate %zuB for node %d.\n",
-+		      sizeof(*pgdat), nid);
-+
-+	node_data[nid] = pgdat;
-+}
-+
- /* Stub functions: */
- 
- #ifndef memory_add_physaddr_to_nid
-
- 
-
--- 
-Sincerely yours,
-Mike.
+[*] https://lore.kernel.org/all/20240802132036.914457-1-glider@google.com
