@@ -1,203 +1,191 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F0713B5B4
-	for <linux-doc@vger.kernel.org>; Sun,  4 Aug 2024 21:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB06926AF3;
+	Sun,  4 Aug 2024 23:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722808537; cv=none; b=uUPfhUTB/j8SI5ORhQReMZhUcpen32MRVYuX/v4v3APpWZoL40U1F6vHXfEFOwgpwRMBk5IZvq8k0CBSeiRRY/pvxgLdgnnnuDCx3UROmkfj+k4Ja7XZ6Vuaxoumnoz3HZL+x/ExSH7CEG2dvtpYx2Sxr88giVs9DZgkhm4YvuA=
+	t=1722812667; cv=none; b=EMgAW/RJVHqx1PSEP2e2N1/JELa41nJ+AIA73Bml8mKkVj9/aYB7vtUuknvTD90fDWAegopXwTG9PzcV16b7TWg7Xg5SBH0TmPJa1RJ+834U6YXj1q/2Hujdb1VOrkSixe7yHy6X4TFtdvxS+/D7/vQK8msVtU4CdvXSngUj3gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722808537; c=relaxed/simple;
-	bh=QYoMfwmKvpsnQt/hTVfgfdrvBR0EWL2Xjo/mAdvPVUM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gzLqySF55jvdv+ScITuWRMVIR2ZeAjJLOhQpIpEXF2B8Fd1F7uJT8we80AJvht834ry/FgpKwl7Uix9/PcOZ0SNhiRa6kTL3JhHJYjFLTkXrX+tXMkjiO3ucLdxnKMcyns/ZUHrSbwcjPX34fBAyOrrD3GUXswRqDCCb0D4Jqwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uNoUi4fm; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1722812667; c=relaxed/simple;
+	bh=/mvJuqzbxHk/yVXjnu/OzajnDrpnxKl29YyqwZc+3us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ihDvrLXKHw7BWrJIJg0qYSexdeRoIq+fSZBgbgVOj8b1ui6z/6g/7pNUP110Azb50OEReClxfV0JsaN8U71OQjUfbhn2pQRuaalEb3Q0ewoxq/e1iDnFCCwKkzSvj+ugQOgyePqaEMl7Mu/p1qsHo8Uj73GFW5ThBj49SG5ok5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Je6wmkQb; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uNoUi4fm"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-45029af1408so198681cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Aug 2024 14:55:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Je6wmkQb"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-427fc97a88cso68952375e9.0;
+        Sun, 04 Aug 2024 16:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722808534; x=1723413334; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P8s6/ypPv2wbuWHf/ATun4VhYJJ06DR5ZHtUhhgqlE8=;
-        b=uNoUi4fm6Dj1HunXCL0Xc2wx3pzpxJAAb0Mjhssw1bg+9TTGkLsO4nSCDQlkYcVcnL
-         v5C80tkX1WkX5tkkhTKJ9BCHt97F7nguYN1E2GUAbvydEBFVbCfetAw2O2cm2wbT5Hmv
-         kWzbbLllLrnxnUhC001XkxCb5nn4J/NkI54D3L2qakPdWj8hDiULsETOiTteY6JudHtd
-         EjasX6nXZbWoZpc9zWxeeKBvSjdE5+AYLjzsM+2F1SJDM2TswxDrXymVTczI3/YdZEq+
-         LnGsvD4UTk4hhojYJApCSu8rPUAy0IG1YCDyR0hktUB9hDkagxo0wjzInoWvFOz9rKT/
-         oW1w==
+        d=gmail.com; s=20230601; t=1722812664; x=1723417464; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Sk1dtiHwwmKlrxqNQkxNJP5+HAxZZqo3ycqfI2UvHWw=;
+        b=Je6wmkQbO91PFlIFiG5XMSUKTiIfA5yX5BbtlLPDMGAqGuADVSVH/vDQssyCqcrowN
+         teJtetLfb83aPzoCTpCcfVFvjkmSfqna4cxRBiP30pPSm2bVuIp06KXxMcto0cN6yFHR
+         zjg71DW2ZpXZPuSxahhtRz/eMvLqN8BfZWVPK9MXjTKKwmClb1jOrVmT7sIRzpvrbA3P
+         vGAA2pPb1s6kgaBukZ0TQxdorNAIQAuQmNz0ZlGJAvY27DCjgQ7NfA3kKERuJ7DKbEuP
+         JKV/z71o4iUrCj+qnAZqPkXjpLDHpysNiWRSZgj5i/HrRPYQ/AtszV572/LDJVPNjThG
+         DyNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722808534; x=1723413334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P8s6/ypPv2wbuWHf/ATun4VhYJJ06DR5ZHtUhhgqlE8=;
-        b=iwhyY33pxmXMwxOCeBzRDNbbncHB8OTIarpz1R8FLzp9Lk5qBrb8ysJV5UbRY42KX2
-         lMwrWtwhsmPMGpIr5wuWULmfyG+bB6MsrxcsoWae+tN8ypuhFKS5R8+sIc+idIcyZ1AM
-         em6Fzy+DQxkCMIlvgRVHaOsXiMqwz7yMLTHHw9lHVjJ8p+DVZS3qoapFTHAsZLU6L/Jn
-         1SDUNaj7ndA5bW2/iIBvqbOV9A2WXH4ve3XDLbneQmQLQBT9HdMdwuObwXP+0EyRgbsn
-         gnJAJUgCSnqG3cFpa2SVXev4d3BoYZAZ1nUD58+iyHxFNTOZNwOfKfuA+Z1LPpQwbexY
-         nhNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCHo0njiuADGKGNj4ZrLL2xJtWfl7MgIxXJ4LUQ+OG3EKSRdl56n4xU6speXNSNPOINWeWFO3Q2HGRUXu0Sl1EUn+uhpdmGKYS
-X-Gm-Message-State: AOJu0YyxShUvAqeK7ZSzI2HwoUqbj7rVFRQ7b97mnAKE1Jtpr0DcUlMf
-	wajXNTKhtn1YPmIPAKPcWxyhVQ5Rfd7mKMLkjzMYmFZ/7tNtCbE/AFe8GyyB5S5vwStO+ZM47Te
-	v2PEW5I5NYbhBlsCpzK8zjy9XhS6A3oUaH4Hw
-X-Google-Smtp-Source: AGHT+IEqf9okWn67PocUy8Jocw+dhghNQyk3Kfdq2yIp+/9Gkk10jzuGIlDmiYcXIwua7o+f+NVqtl0RNtMVswl/hqQ=
-X-Received: by 2002:ac8:7e8b:0:b0:447:dd54:2cd4 with SMTP id
- d75a77b69052e-4519adec1a8mr3133101cf.22.1722808533991; Sun, 04 Aug 2024
- 14:55:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722812664; x=1723417464;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sk1dtiHwwmKlrxqNQkxNJP5+HAxZZqo3ycqfI2UvHWw=;
+        b=RcogmH60g9s4vOPNU2Uyuiq+YZ6BmubEDlSlDdVubp63h5HhMHi56U1xcWdSmMosyv
+         Fagl5UcFMzmZhWzVsE1bTL4kSPF1NeBcZ8dkhLRQICIFT2Yr2jV8lcCwSu7l1uvMkn/c
+         NokgS42jdsz6968lgKF9n2TW75kGnK8ysbkOxcw58hYN7DH+Yn5Gb+AMXQgSXeM1o2Rt
+         Wc8aKznra45UQw9IJXsnXYLRPpKMyFCCcLEQ/rjWvPEBXHeCjC+ofCLHeuxd/xt+i6qy
+         rhqKbBnssBtsgCrhPwAWQ7rgngcDsusBZw8+DJQSsm/4woq+ZhfEC+l4zGuyfgGiP3Yq
+         Kdxw==
+X-Forwarded-Encrypted: i=1; AJvYcCV66WdDAP6eiPV6uJZx2poxq9ZB8gR/s6NKNrMGYPhI/msNLYk6EE9Jimq4VTQo1CmpKSOA4OPBJtaKXLSqVFKVvcNLW+AcmNMdCMCVlW5MF+upWcJ0L5aRxDbS2p5Xgpi3HlzLN4TF
+X-Gm-Message-State: AOJu0Yzw3k+sM81SLh6wRXbK23mR0l30n1iuW1Kys8hEV9ZssrQjOVwG
+	ZufGrnQPkVT/UpALDrk0ROk9M+dCJoktPq3g6L5Fp9l8xQ5/Wl/a
+X-Google-Smtp-Source: AGHT+IE6OhiyMfW628st/dncl7sEGRh5oHdDYLCxtbrvUNoY3hxLjELfYegePbKghQvkqMn0qh3UBQ==
+X-Received: by 2002:a05:600c:19cd:b0:426:5cee:4abc with SMTP id 5b1f17b1804b1-428e6b07cc9mr68917585e9.20.1722812663814;
+        Sun, 04 Aug 2024 16:04:23 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b89aa93sm176367475e9.10.2024.08.04.16.04.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Aug 2024 16:04:23 -0700 (PDT)
+Message-ID: <930e111a-b13b-43d9-93f8-5bf28f343074@gmail.com>
+Date: Mon, 5 Aug 2024 00:04:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
- <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com> <aea333fb-44ab-41eb-9060-472b08e3010d@redhat.com>
-In-Reply-To: <aea333fb-44ab-41eb-9060-472b08e3010d@redhat.com>
-From: Yu Zhao <yuzhao@google.com>
-Date: Sun, 4 Aug 2024 15:54:57 -0600
-Message-ID: <CAOUHufZ=Oquy_UGBC0FTjJ5QvQnhk0UipHBMfJ5yqSYn06qevg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/6] mm: split underutilized THPs
-To: David Hildenbrand <david@redhat.com>
-Cc: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev, 
-	roman.gushchin@linux.dev, baohua@kernel.org, ryan.roberts@arm.com, 
-	rppt@kernel.org, willy@infradead.org, cerasuolodomenico@gmail.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
+ <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
+ <73b97a03-3742-472f-9a36-26ba9009d715@gmail.com>
+ <95ed1631-ff62-4627-8dc6-332096e673b4@redhat.com>
+ <01899bc3-1920-4ff2-a470-decd1c282e38@gmail.com>
+ <4b9a9546-e97b-4210-979b-262d8cf37ba0@redhat.com>
+ <64c3746a-7b44-4dd6-a51b-e5b90557a30a@gmail.com>
+ <fc63e14d-8269-4db8-9ed2-feb2c5b38c6c@redhat.com>
+ <204af83b-57ec-40d0-98c0-038bfeb393a3@gmail.com>
+ <58025293-c70f-4377-b8be-39994136af83@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <58025293-c70f-4377-b8be-39994136af83@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 1, 2024 at 9:47=E2=80=AFAM David Hildenbrand <david@redhat.com>=
- wrote:
->
-> On 01.08.24 08:09, Yu Zhao wrote:
-> > On Tue, Jul 30, 2024 at 6:54=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
-com> wrote:
-> >>
-> >> The current upstream default policy for THP is always. However, Meta
-> >> uses madvise in production as the current THP=3Dalways policy vastly
-> >> overprovisions THPs in sparsely accessed memory areas, resulting in
-> >> excessive memory pressure and premature OOM killing.
-> >> Using madvise + relying on khugepaged has certain drawbacks over
-> >> THP=3Dalways. Using madvise hints mean THPs aren't "transparent" and
-> >> require userspace changes. Waiting for khugepaged to scan memory and
-> >> collapse pages into THP can be slow and unpredictable in terms of perf=
-ormance
-> >> (i.e. you dont know when the collapse will happen), while production
-> >> environments require predictable performance. If there is enough memor=
-y
-> >> available, its better for both performance and predictability to have
-> >> a THP from fault time, i.e. THP=3Dalways rather than wait for khugepag=
-ed
-> >> to collapse it, and deal with sparsely populated THPs when the system =
-is
-> >> running out of memory.
-> >>
-> >> This patch-series is an attempt to mitigate the issue of running out o=
-f
-> >> memory when THP is always enabled. During runtime whenever a THP is be=
-ing
-> >> faulted in or collapsed by khugepaged, the THP is added to a list.
-> >> Whenever memory reclaim happens, the kernel runs the deferred_split
-> >> shrinker which goes through the list and checks if the THP was underut=
-ilized,
-> >> i.e. how many of the base 4K pages of the entire THP were zero-filled.
-> >> If this number goes above a certain threshold, the shrinker will attem=
-pt
-> >> to split that THP. Then at remap time, the pages that were zero-filled=
- are
-> >> not remapped, hence saving memory. This method avoids the downside of
-> >> wasting memory in areas where THP is sparsely filled when THP is alway=
-s
-> >> enabled, while still providing the upside THPs like reduced TLB misses=
- without
-> >> having to use madvise.
-> >>
-> >> Meta production workloads that were CPU bound (>99% CPU utilzation) we=
-re
-> >> tested with THP shrinker. The results after 2 hours are as follows:
-> >>
-> >>                              | THP=3Dmadvise |  THP=3Dalways   | THP=
-=3Dalways
-> >>                              |             |               | + shrinke=
-r series
-> >>                              |             |               | + max_pte=
-s_none=3D409
-> >> ----------------------------------------------------------------------=
--------
-> >> Performance improvement     |      -      |    +1.8%      |     +1.7%
-> >> (over THP=3Dmadvise)          |             |               |
-> >> ----------------------------------------------------------------------=
--------
-> >> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+=
-2.4%)
-> >> ----------------------------------------------------------------------=
--------
-> >> max_ptes_none=3D409 means that any THP that has more than 409 out of 5=
-12
-> >> (80%) zero filled filled pages will be split.
-> >>
-> >> To test out the patches, the below commands without the shrinker will
-> >> invoke OOM killer immediately and kill stress, but will not fail with
-> >> the shrinker:
-> >>
-> >> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_non=
-e
-> >> mkdir /sys/fs/cgroup/test
-> >> echo $$ > /sys/fs/cgroup/test/cgroup.procs
-> >> echo 20M > /sys/fs/cgroup/test/memory.max
-> >> echo 0 > /sys/fs/cgroup/test/memory.swap.max
-> >> # allocate twice memory.max for each stress worker and touch 40/512 of
-> >> # each THP, i.e. vm-stride 50K.
-> >> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
-> >> # killer.
-> >> # Without the shrinker, OOM killer is invoked immediately irrespective
-> >> # of max_ptes_none value and kill stress.
-> >> stress --vm 1 --vm-bytes 40M --vm-stride 50K
-> >>
-> >> Patches 1-2 add back helper functions that were previously removed
-> >> to operate on page lists (needed by patch 3).
-> >> Patch 3 is an optimization to free zapped tail pages rather than
-> >> waiting for page reclaim or migration.
-> >> Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
-> >> subpages when splitting THP.
-> >> Patches 6 adds support for THP shrinker.
-> >>
-> >> (This patch-series restarts the work on having a THP shrinker in kerne=
-l
-> >> originally done in
-> >> https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
-> >> The THP shrinker in this series is significantly different than the
-> >> original one, hence its labelled v1 (although the prerequisite to not
-> >> remap clean subpages is the same).)
-> >>
-> >> Alexander Zhu (1):
-> >>    mm: add selftests to split_huge_page() to verify unmap/zap of zero
-> >>      pages
-> >>
-> >> Usama Arif (3):
-> >>    Revert "memcg: remove mem_cgroup_uncharge_list()"
-> >>    Revert "mm: remove free_unref_page_list()"
-> >>    mm: split underutilized THPs
-> >>
-> >> Yu Zhao (2):
-> >>    mm: free zapped tail pages when splitting isolated thp
-> >>    mm: don't remap unused subpages when splitting isolated thp
-> >
-> >   I would recommend shatter [1] instead of splitting so that
-> > 1) whoever underutilized their THPs get punished for the overhead;
-> > 2) underutilized THPs are kept intact and can be reused by others.
-> >
-> > [1] https://lore.kernel.org/20240229183436.4110845-3-yuzhao@google.com/
-> >
->
-> Do you have any plans to upstream the shattering also during "ordinary"
-> deferred splitting?
 
-Yes, once we finish verifying it in our production.
+
+On 01/08/2024 07:36, David Hildenbrand wrote:
+>>> I just added a bunch of quick printfs to QEMU and ran a precopy+postcopy live migration. Looks like my assumption was right:
+>>>
+>>> On the destination:
+>>>
+>>> Writing received pages during precopy # ram_load_precopy()
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
+>>> Discarding pages # loadvm_postcopy_ram_handle_discard()
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Registering UFFD # postcopy_ram_incoming_setup()
+>>>
+>>
+>> Thanks for this, yes it makes sense after you mentioned postcopy_ram_incoming_setup.
+>> postcopy_ram_incoming_setup happens in the Listen phase, which is after the discard phase, so I was able to follow in code in qemu the same sequence of events that the above prints show.
+> 
+> 
+> I just added another printf to postcopy_ram_supported_by_host(), where we temporarily do a UFFDIO_REGISTER on some test area.
+> 
+> Sensing UFFD support # postcopy_ram_supported_by_host()
+> Sensing UFFD support
+> Writing received pages during precopy # ram_load_precopy()
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Writing received pages during precopy
+> Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
+> Discarding pages # loadvm_postcopy_ram_handle_discard()
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Discarding pages
+> Registering UFFD # postcopy_ram_incoming_setup()
+> 
+> We could think about using this "ever user uffd" to avoid the shared zeropage in most processes.
+> 
+> Of course, there might be other applications where that wouldn't work, but I think this behavior (write to area before enabling uffd) might be fairly QEMU specific already.
+> 
+> Avoiding the shared zeropage has the benefit that a later write fault won't have to do a TLB flush and can simply install a fresh anon page.
+> 
+
+I checked CRIU and that does a check at the start as well before attempting to use uffd: https://github.com/checkpoint-restore/criu/blob/criu-dev/criu/kerndat.c#L1349
+
+If writing to an area before enabling uffd is likely to be QEMU specific, then you make a good point to clear pte instead of using shared zeropage to avoid the TLB flush if uffd is ever used.
+
+I think "ever used uffd" would need to be tracked using mm_struct. This also won't cause an issue if the check is done in a parent process and the actual use is in a forked process, as copy_mm should take care of it.
+The possibilities would then be:
+1) Have a new bit in mm->flags, set it in new_userfaultfd and test it in try_to_unmap_unused, but unfortunately all the bits in mm->flags are taken.
+2) We could use mm->def_flags as it looks like there is an unused bit (0x800) just before VM_UFFD_WP. But that makes the code confusing as its used to initialize the default flags for VMAs and is not supposed to be used as a "mm flag".
+3) Introducing mm->flags2 and set/test as 1. This would introduce a 8 byte overhead for all mm_structs.
+
+I am not sure either 2 or 3 are acceptable upstream, unless there is a need for more flags in the near future and the 8 byte overhead starts to make sense. Maybe we go with shared zeropage?
