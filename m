@@ -1,135 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274DF320B;
-	Sun,  4 Aug 2024 09:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EF93FBB2;
+	Sun,  4 Aug 2024 15:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722763307; cv=none; b=Q2KGZCmRR4Q2xws4BG+0YYMnICrsVKo2CKQE0ErL/6r8T02G9lkFZo9ccgTvR20Uso+sd1ZrSlifb+32kwVyjOIYOZzfUa/yjgJQLJ/Ru96Q+UVfdsDGQH8iyPMPP5VH5/8vW8Vj6zX3iBZbQvIIwP81C6RAWByWrexEyUrbmIM=
+	t=1722784281; cv=none; b=ASDArnY6S9I5wRRXcvS9LjdrTEquWWmwrrG2ZP3NWK17KForUMumfS+DtFPtbjIMZ8KLDpNy1OZY65lZGjFNyeIMMbV1RVV2EQKt1W7H1CswxaFrvcDOLRAnsHaogpqM7ux1H4friEO0d1I13NYYqOdYlfnE/agp1hSwl56pYCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722763307; c=relaxed/simple;
-	bh=YqVP8ZHxp1yJban5jv+izZlf+awTJjF2bAUM/uiFMDg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OOVAuJdVola7LCZs2AoapY17uT4Ov7qSYJWJNDc16UnGdL7y3GHc/1l5h3jm9nbXeHn+gBsISsW+0JrraSW1NAddnRFehzNKtwVRa3LjrYQNdQyNAlPhGZrHLsTaG7QwR1ihWYYqXciXAQZtmB5Gk+DjAfp+ZZV5zrALTKUGhDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l81fgcw3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l81fgcw3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6CF5C32786;
-	Sun,  4 Aug 2024 09:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722763306;
-	bh=YqVP8ZHxp1yJban5jv+izZlf+awTJjF2bAUM/uiFMDg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=l81fgcw3S5FNSYeV+Q8QEnZ/szHofUY9q6fZeCCOeMyjlDR4fu+iTQ0i1oJZYhHQ0
-	 cxzERANif8Fd137qhTWlkAtKVmvXcTtoMsrTaUgsqsVxsiXXiZnCvejAKZxPixiOXa
-	 2soST4lUHju5qpJo+gpL2I4Bpeyxagb+EtS7yuu7jsazgDpDwRBLzvCvyqcvzEdU0i
-	 k9O+Ls8ekj4QKEf7cvcmqCcjRqlm7o378JTY5rnXSr5ZKV7vA1THTql0bJ96nlr2N+
-	 KqKWgCpiwkgiCyGvFedNGmoUBU4CGJIZ2K5N8lVlpMgW3fvRbagZFxW3WsVJyRSOXr
-	 tMBYk/617UqdA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1saXQu-000kBS-Ac;
-	Sun, 04 Aug 2024 10:21:44 +0100
-Date: Sun, 04 Aug 2024 10:21:44 +0100
-Message-ID: <867ccw1w47.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: 	Oliver Upton <oliver.upton@linux.dev>, Zenghui Yu <zenghui.yu@linux.dev>
-Cc: Takahiro Itazuri <itazur@amazon.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dave Martin <Dave.Martin@arm.com>,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zulinx86@gmail.com,
-	kvmarm@lists.linux.dev,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	glider@google.com
-Subject: Re: [PATCH v2] docs: KVM: Fix register ID of SPSR_FIQ
-In-Reply-To: <401bebca-9637-4626-901f-e46b2d058768@linux.dev>
-References: <20230606154628.95498-1-itazur@amazon.com>
-	<401bebca-9637-4626-901f-e46b2d058768@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.3
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1722784281; c=relaxed/simple;
+	bh=iGfh6DBKAHksxUBLVKs70Sh77nshqua2Pd6TDFL2Kes=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tOIXHeHdyvH0HjnivXLxFORgs6eR8Vtt4hWMnbV4jxidlhiBP6wv1EPhT0kt+A7jeCSgJqzDjTRUdbPCpGki0luGuvcl8FCpgY0gZMKuesTpZMA/veix9pFHMgG1kcmzSQNqi3jK5cWRtPSQLbPFNr8fgnkYDPO7ZLcdGZ/4iMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4WcNJB6tQWz6K5Vy;
+	Sun,  4 Aug 2024 23:08:58 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id B33CF140A35;
+	Sun,  4 Aug 2024 23:11:09 +0800 (CST)
+Received: from localhost (10.195.244.131) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Sun, 4 Aug
+ 2024 16:11:08 +0100
+Date: Sun, 4 Aug 2024 16:11:19 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Mike Rapoport <rppt@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>, Andreas Larsson
+	<andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov
+	<bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Dan Williams <dan.j.williams@intel.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, David Hildenbrand <david@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>, "Davidlohr Bueso"
+	<dave@stgolabs.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko
+ Carstens <hca@linux.ibm.com>, Huacai Chen <chenhuacai@kernel.org>, Ingo
+ Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, "John Paul
+ Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>, Jonathan Corbet
+	<corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>, Palmer Dabbelt
+	<palmer@dabbelt.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring
+	<robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, "Thomas
+ Bogendoerfer" <tsbogend@alpha.franken.de>, Thomas Gleixner
+	<tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, Will Deacon
+	<will@kernel.org>, Zi Yan <ziy@nvidia.com>, <devicetree@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-sh@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <loongarch@lists.linux.dev>,
+	<nvdimm@lists.linux.dev>, <sparclinux@vger.kernel.org>, <x86@kernel.org>
+Subject: Re: [PATCH v3 07/26] mm: drop CONFIG_HAVE_ARCH_NODEDATA_EXTENSION
+Message-ID: <20240804161119.00003a02@Huawei.com>
+In-Reply-To: <Zq8sn5iD1iOmYrss@kernel.org>
+References: <20240801060826.559858-1-rppt@kernel.org>
+	<20240801060826.559858-8-rppt@kernel.org>
+	<20240802104922.000051a0@Huawei.com>
+	<20240803115813.809f808f1afbe9f9feaae129@linux-foundation.org>
+	<Zq8sn5iD1iOmYrss@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: oliver.upton@linux.dev, zenghui.yu@linux.dev, itazur@amazon.com, pbonzini@redhat.com, corbet@lwn.net, Dave.Martin@arm.com, linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, zulinx86@gmail.com, kvmarm@lists.linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, glider@google.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Sun, 04 Aug 2024 09:17:47 +0100,
-Zenghui Yu <zenghui.yu@linux.dev> wrote:
-> 
-> +Cc kvmarm people and the list ...
+On Sun, 4 Aug 2024 10:24:15 +0300
+Mike Rapoport <rppt@kernel.org> wrote:
 
-Thanks Zenghui.
-
-> 
-> On 2023/6/6 23:46, Takahiro Itazuri wrote:
-> > Fixes the register ID of SPSR_FIQ.
+> On Sat, Aug 03, 2024 at 11:58:13AM -0700, Andrew Morton wrote:
+> > On Fri, 2 Aug 2024 10:49:22 +0100 Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> >   
+> > > > --- a/mm/mm_init.c
+> > > > +++ b/mm/mm_init.c
+> > > > @@ -1838,11 +1838,10 @@ void __init free_area_init(unsigned long *max_zone_pfn)
+> > > >  
+> > > >  		if (!node_online(nid)) {
+> > > >  			/* Allocator not initialized yet */
+> > > > -			pgdat = arch_alloc_nodedata(nid);
+> > > > +			pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
+> > > >  			if (!pgdat)
+> > > >  				panic("Cannot allocate %zuB for node %d.\n",
+> > > >  				       sizeof(*pgdat), nid);
+> > > > -			arch_refresh_nodedata(nid, pgdat);  
+> > > 
+> > > This allocates pgdat but never sets node_data[nid] to it
+> > > and promptly leaks it on the line below. 
+> > > 
+> > > Just to sanity check this I spun up a qemu machine with no memory
+> > > initially present on some nodes and it went boom as you'd expect.
+> > > 
+> > > I tested with addition of
+> > > 			NODE_DATA(nid) = pgdat;
+> > > and it all seems to work as expected.  
 > > 
-> > SPSR_FIQ is a 64-bit register and the 64-bit register size mask is
-> > 0x0030000000000000ULL.
+> > Thanks, I added that.  It blew up on x86_64 allnoconfig because
+> > node_data[] (and hence NODE_DATA()) isn't an lvalue when CONFIG_NUMA=n.
 > > 
-> > Fixes: fd3bc912d3d1 ("KVM: Documentation: Document arm64 core registers in detail")
-> > Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
-> 
-> ... since you're fixing the encoding of an *arm64* core register and the
-> mentioned commit fd3bc912d3d1 was merged via the kvmarm tree. I guess
-> this is the main reason why this patch has been blocked on the list for
-> over a year, as pointed out recently by Alexander [*].
-
-That, and the fact that this is send to an email address I haven't
-been reachable on for about 5 years...
-
-> 
+> > I'll put some #ifdef CONFIG_NUMAs in there for now but
 > > 
-> > ---
-> > Changes from v1
-> > - Add a description about the 64-bit register size mask in the commit
-> >   message.
-> > - Link: https://lore.kernel.org/all/20230410121927.26953-1-itazur@amazon.com/
+> > a) NODE_DATA() is upper-case. Implies "constant".  Shouldn't be assigned to.
 > > 
-> > ---
-> >  Documentation/virt/kvm/api.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > b) NODE_DATA() should be non-lvalue when CONFIG_NUMA=y also.  But no,
+> >    we insist on implementing things in cpp instead of in C.  
+> 
+> This looks like a candidate for a separate tree-wide cleanup.
+>  
+> > c) In fact assigning to anything which ends in "()" is nuts.  Please
+> >    clean up my tempfix.
 > > 
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index a5c803f39832..65dad2581751 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -2535,7 +2535,7 @@ Specifically:
-> >    0x6030 0000 0010 004a SPSR_ABT    64  spsr[KVM_SPSR_ABT]
-> >    0x6030 0000 0010 004c SPSR_UND    64  spsr[KVM_SPSR_UND]
-> >    0x6030 0000 0010 004e SPSR_IRQ    64  spsr[KVM_SPSR_IRQ]
-> > -  0x6060 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
-> > +  0x6030 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
-> >    0x6040 0000 0010 0054 V0         128  fp_regs.vregs[0]    [1]_
-> >    0x6040 0000 0010 0058 V1         128  fp_regs.vregs[1]    [1]_
-> >    ...
+> > c) Mike, generally I'm wondering if there's a bunch of code here
+> >    which isn't needed on CONFIG_NUMA=n.  Please check all of this for
+> >    unneeded bloatiness.  
 > 
-> The change itself looks reasonable.
+> I believe the patch addresses your concerns, just with this the commit log
+> needs update. Instead of 
 > 
-> Thanks,
-> Zenghui
+>     Replace the call to arch_alloc_nodedata() in free_area_init() with
+>     memblock_alloc(), remove arch_refresh_nodedata() and cleanup
+>     include/linux/memory_hotplug.h from the associated ifdefery.
 > 
-> [*] https://lore.kernel.org/all/20240802132036.914457-1-glider@google.com
+> it should be
+> 
+>     Replace the call to arch_alloc_nodedata() in free_area_init() with a
+>     new helper alloc_offline_node_data(), remove arch_refresh_nodedata()
+>     and cleanup include/linux/memory_hotplug.h from the associated
+>     ifdefery.
+> 
+> I can send an updated patch if you prefer.
+This solution looks good to me - except for a Freudian typo that means it won't
+compile :)
 
-In case Oliver picks this up for 6.11:
+Jonathan
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+> 
+> diff --git a/include/linux/numa.h b/include/linux/numa.h
+> index 3b12d8ca0afd..5a749fd67f39 100644
+> --- a/include/linux/numa.h
+> +++ b/include/linux/numa.h
+> @@ -34,6 +34,7 @@ extern struct pglist_data *node_data[];
+>  #define NODE_DATA(nid)	(node_data[nid])
+>  
+>  void __init alloc_node_data(int nid);
+> +void __init alloc_offline_node_data(int nit);
+>  
+>  /* Generic implementation available */
+>  int numa_nearest_node(int node, unsigned int state);
+> @@ -62,6 +63,8 @@ static inline int phys_to_target_node(u64 start)
+>  {
+>  	return 0;
+>  }
+> +
+> +static inline void alloc_offline_node_data(int nit) {}
+nid
+>  #endif
+>  
+>  #define numa_map_to_online_node(node) numa_nearest_node(node, N_ONLINE)
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index bcc2f2dd8021..2785be04e7bb 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -1836,13 +1836,8 @@ void __init free_area_init(unsigned long *max_zone_pfn)
+>  	for_each_node(nid) {
+>  		pg_data_t *pgdat;
+>  
+> -		if (!node_online(nid)) {
+> -			/* Allocator not initialized yet */
+> -			pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
+> -			if (!pgdat)
+> -				panic("Cannot allocate %zuB for node %d.\n",
+> -				       sizeof(*pgdat), nid);
+> -		}
+> +		if (!node_online(nid))
+> +			alloc_offline_node_data(nid);
+>  
+>  		pgdat = NODE_DATA(nid);
+>  		free_area_init_node(nid);
+> diff --git a/mm/numa.c b/mm/numa.c
+> index da27eb151dc5..07e486a977c7 100644
+> --- a/mm/numa.c
+> +++ b/mm/numa.c
+> @@ -34,6 +34,18 @@ void __init alloc_node_data(int nid)
+>  	memset(NODE_DATA(nid), 0, sizeof(pg_data_t));
+>  }
+>  
+> +void __init alloc_offline_node_data(int nit)
 
-	M.
+nid
 
--- 
-Without deviation from the norm, progress is not possible.
+> +{
+> +	pg_data_t *pgdat;
+> +
+> +	pgdat = memblock_alloc(sizeof(*pgdat), SMP_CACHE_BYTES);
+> +	if (!pgdat)
+> +		panic("Cannot allocate %zuB for node %d.\n",
+> +		      sizeof(*pgdat), nid);
+> +
+> +	node_data[nid] = pgdat;
+> +}
+> +
+>  /* Stub functions: */
+>  
+>  #ifndef memory_add_physaddr_to_nid
+> 
+>  
+> 
+
