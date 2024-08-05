@@ -1,304 +1,254 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B603149C45;
-	Mon,  5 Aug 2024 08:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46D614F9F7
+	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 09:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722846450; cv=none; b=jqtxQvIoXh4ZgZbbLyV2PK9ABcgG82PFF7x8QcQcxgGzDF9oDyJ+A6X39Jfg7GGOXrfGuIFfk+9CBWer1ZyfIqjs9097rDMJeV9JywMWiyIHLnuYzRg6GVbobwlRmRR3/fBaloNzwRy6KQzWe7rOVWBT/830Mo/HdxF+pUhVkkw=
+	t=1722848420; cv=none; b=CiVJ2XFkeZgbi3J6eqpPdkY3fArI6724b4lEzO7vUh1/CGtr23XlNZeffUamcox08fefgyTGo6KyPkDmWve7l6yIc1dd/uC6DPw2AowO4fu+JjeaSmZjkmHTkc2yhY7617nvC4GJq6NTnd15mbFfglti1Fxq1rZADyTbQ5QAH3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722846450; c=relaxed/simple;
-	bh=XQduA1yrJcEmZ0MOj0pc8jiP7CVFLf9SEAEfyYpUppY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ekmlqs/E46cYyoWpKQqQouUILZbu1yP/OjuS4v8jRtjspsKUnnxfUTcMe1WyWtLd7HEOcTVqx2rgf/xySmrspS+fuWTMhKOi8mLqOVdirtvHq89f+Ijp+AT0HZHQu9eLFx+0tLKs4Y3HKHtMciBG5TgzTGz9HS9U10Hy41xoKsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=2O40tvta; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1722848420; c=relaxed/simple;
+	bh=RGxjWP36zYf705/8hcS6JggT+1VzPZ2Rgkma8Uc4dAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZJYN7WypAztwzlWmYAG5sRRO/RebhmmQb//FXCIbVb8dW7qcM9zDecNTb4un0SdWcSS01LicH5IHM9kXfgwG0ENaDTuf6kaf65wadu/RqK9pIZMdyOsXHPqXA3n5o0kEWYV6FqGYgyRqhGdu+dGvaWemOvfpFnKzeNZEvSI3dFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JgBNu8Sv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="2O40tvta"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
-	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=11StMB/CHBVgYxZV+/tIFDr6XxButiIMJq6QA32Y3As=; t=1722846448; x=1723278448;
-	 b=2O40tvtaeiCKO5kgmm0g2/hDsrPwvLAPViJp5TyoIhFhV3YV3CwN2LiVf/q14NVV1QA7jD10/x
-	a6nOm5PMbcyQh4n2SEabbNzFH2PkkSDMcgsOU2Q5DAHECtt7q5qODKlW9QGqoh3O7Jbq3rp/10umX
-	fKUbVyMW3sF5Lr2rbiOIdHzUxCGwmAs8gYDWYK/bApRisfFntHAUrvNNkYKkt4ZT9JxqbNJ2wjcXJ
-	tjWbwczO98X563lClKmuYX7iU31EqkPDIyRh7fgWv5GYWn4jVkx3DEfmMkFV1TeT+OTLWz4jz/sI7
-	D2Z5Zy90BfPolCEjTGqae0steC1gTWliM471A==;
-Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	id 1sat3k-00030P-GN; Mon, 05 Aug 2024 10:27:16 +0200
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: regressions@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	=?UTF-8?q?Petr=20Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
-Subject: [PATCH v1] docs: bug-bisect: rewrite to better match the other bisecting text
-Date: Mon,  5 Aug 2024 10:27:15 +0200
-Message-ID: <10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JgBNu8Sv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722848417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=8HQitpbMW2ypbNGKvmYtYs01w+MzFX+wf5SUicYWuc4=;
+	b=JgBNu8Sv3XCw+vXzEicLP1PV4xapjq/th04Usz7pf6GEbywBqkNPali+MzufkmNHCCfAW9
+	URuYDcbk/n6G8BHtEgWNV+qbXngJ2KLWlmKAB3kMr4dumeHmhIKTkvDfgvIXz7vT6YyuOv
+	pTTArwfZ3WIaUKIgG7/lUQsXjzs1Xb8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-MQHh9BDoNOid2frUim7uNA-1; Mon, 05 Aug 2024 05:00:15 -0400
+X-MC-Unique: MQHh9BDoNOid2frUim7uNA-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4281f8994adso61267945e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 02:00:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722848414; x=1723453214;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8HQitpbMW2ypbNGKvmYtYs01w+MzFX+wf5SUicYWuc4=;
+        b=acOFwV7kB+vstkTlf+SoIk/BcKpRhdHlA79cYH3wXf0Cadkxo2Oo92kCAwkRpHEbkB
+         Fu7rRj0wYiWdtsZ7HZExGOXpVexHOqIZFo7B/YrpzErxItOC5bv8LKGk0fnjDmhqeFQj
+         A5tobnT57CRrQzarJvxHik0baYZVAQgpqPhv5L+pYxDzdxetY7Ni0GXJ064JBpECbxib
+         pIohqMuaz1SPPenk5MIRXb5YJiNn8AQXFbe/EVcqWSFqVPRPQo6liYE6kgVIVFVdRntE
+         KJTg+1i+fdu9B9Fv+pQYcZRyF5kjJG3sEY43fUE2DqKZmefwrODDTfEkfF8ofDz4KGDE
+         hvQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXuqGZv/n+zud3K/CP99OMMwlyuA7THGDUEwDx5lZV/BAcLmx+UDr6uSeiVVMoUUxC+aO/+AddOmam3NFYUmfGwaqs4EGtQfYV4
+X-Gm-Message-State: AOJu0YxyZ1pTmhg9QHuM4gTupicHVmnZJEUBMNmAehEO/PNWyOZYf1HI
+	MOq67kiOjG+2GJdfAWujY5GpXNuGIBhaALEgzcUqmSJyWncDppiVi5kHnK6NCWzWu5APMm9mNXS
+	M8nuTM6Lltg/9PjnjgmOq4HoMNKB+UjQO2psAcw7XakWT9zAVCKvM/OittQ==
+X-Received: by 2002:a05:600c:1552:b0:426:6822:861 with SMTP id 5b1f17b1804b1-428e6b925c7mr72392145e9.36.1722848414265;
+        Mon, 05 Aug 2024 02:00:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5X01e4CDCLCXfAB37fYDPKvRcTeP8WyfYVlDdNd+Qm0VWVvOc9aGo2XYJg7YFARRENnEycQ==
+X-Received: by 2002:a05:600c:1552:b0:426:6822:861 with SMTP id 5b1f17b1804b1-428e6b925c7mr72391815e9.36.1722848413714;
+        Mon, 05 Aug 2024 02:00:13 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6d643a4sm130515125e9.2.2024.08.05.02.00.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Aug 2024 02:00:13 -0700 (PDT)
+Message-ID: <73bbee97-ff58-4518-8dcf-e1da07906b45@redhat.com>
+Date: Mon, 5 Aug 2024 11:00:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] mm: free zapped tail pages when splitting isolated
+ thp
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com,
+ Shuang Zhai <zhais@google.com>
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <20240730125346.1580150-4-usamaarif642@gmail.com>
+ <3be3dacd-1f45-468f-a363-b9d3a10aeb89@redhat.com>
+ <6622b7b4-e558-4d14-bc72-33e8008b06ec@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <6622b7b4-e558-4d14-bc72-33e8008b06ec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1722846448;2e1dcc07;
-X-HE-SMSGID: 1sat3k-00030P-GN
 
-Rewrite the short document on bisecting kernel bugs. The new text
-improves .config handling, brings a mention of 'git skip', and explains
-what to do after the bisection finished -- including trying a revert to
-verify the result. The rewrite at the same time removes the unrelated
-and outdated section on 'Devices not appearing' and replaces some
-sentences about bug reporting with a pointer to the document covering
-that topic in detail.
+On 04.08.24 21:02, Usama Arif wrote:
+> 
+> 
+> On 30/07/2024 16:14, David Hildenbrand wrote:
+>> On 30.07.24 14:46, Usama Arif wrote:
+>>> From: Yu Zhao <yuzhao@google.com>
+>>>
+>>> If a tail page has only two references left, one inherited from the
+>>> isolation of its head and the other from lru_add_page_tail() which we
+>>> are about to drop, it means this tail page was concurrently zapped.
+>>> Then we can safely free it and save page reclaim or migration the
+>>> trouble of trying it.
+>>>
+>>> Signed-off-by: Yu Zhao <yuzhao@google.com>
+>>> Tested-by: Shuang Zhai <zhais@google.com>
+>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+>>> ---
+>>>    mm/huge_memory.c | 26 ++++++++++++++++++++++++++
+>>>    1 file changed, 26 insertions(+)
+>>>
+>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>> index 0167dc27e365..76a3b6a2b796 100644
+>>> --- a/mm/huge_memory.c
+>>> +++ b/mm/huge_memory.c
+>>> @@ -2923,6 +2923,8 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+>>>        unsigned int new_nr = 1 << new_order;
+>>>        int order = folio_order(folio);
+>>>        unsigned int nr = 1 << order;
+>>> +    LIST_HEAD(pages_to_free);
+>>> +    int nr_pages_to_free = 0;
+>>>          /* complete memcg works before add pages to LRU */
+>>>        split_page_memcg(head, order, new_order);
+>>> @@ -3007,6 +3009,24 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+>>>            if (subpage == page)
+>>>                continue;
+>>>            folio_unlock(new_folio);
+>>> +        /*
+>>> +         * If a tail page has only two references left, one inherited
+>>> +         * from the isolation of its head and the other from
+>>> +         * lru_add_page_tail() which we are about to drop, it means this
+>>> +         * tail page was concurrently zapped. Then we can safely free it
+>>> +         * and save page reclaim or migration the trouble of trying it.
+>>> +         */
+>>> +        if (list && page_ref_freeze(subpage, 2)) {
+>>> +            VM_BUG_ON_PAGE(PageLRU(subpage), subpage);
+>>> +            VM_BUG_ON_PAGE(PageCompound(subpage), subpage);
+>>> +            VM_BUG_ON_PAGE(page_mapped(subpage), subpage);
+>>> +
+>>
+>> No VM_BUG_*, VM_WARN is good enough.
+>>
+>>> +            ClearPageActive(subpage);
+>>> +            ClearPageUnevictable(subpage);
+>>> +            list_move(&subpage->lru, &pages_to_free);
+>>
+>> Most checks here should operate on new_folio instead of subpage.
+>>
+>>
+> Do you mean instead of doing the PageLRU, PageCompound and page_mapped check on the subpage, there should be checks on new_folio?
+> If new_folio is a large folio, then it could be that only some of the subpages were zapped?
 
-This overall brings the approach close to the one in the recently added
-text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
-As those two texts serve a similar purpose for different audiences,
-mention that document in the head of this one and outline when the
-other might be the better one to follow.
+We do a:
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- Documentation/admin-guide/bug-bisect.rst | 205 +++++++++++++++--------
- MAINTAINERS                              |   1 +
- 2 files changed, 135 insertions(+), 71 deletions(-)
+struct folio *new_folio = page_folio(subpage);
 
-diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
-index 325c5d0ed34a0a..f4a9acab65d0f5 100644
---- a/Documentation/admin-guide/bug-bisect.rst
-+++ b/Documentation/admin-guide/bug-bisect.rst
-@@ -1,76 +1,139 @@
--Bisecting a bug
--+++++++++++++++
--
--Last updated: 28 October 2016
--
--Introduction
--============
--
--Always try the latest kernel from kernel.org and build from source. If you are
--not confident in doing that please report the bug to your distribution vendor
--instead of to a kernel developer.
--
--Finding bugs is not always easy. Have a go though. If you can't find it don't
--give up. Report as much as you have found to the relevant maintainer. See
--MAINTAINERS for who that is for the subsystem you have worked on.
--
--Before you submit a bug report read
--'Documentation/admin-guide/reporting-issues.rst'.
--
--Devices not appearing
--=====================
--
--Often this is caused by udev/systemd. Check that first before blaming it
--on the kernel.
--
--Finding patch that caused a bug
--===============================
--
--Using the provided tools with ``git`` makes finding bugs easy provided the bug
--is reproducible.
--
--Steps to do it:
--
--- build the Kernel from its git source
--- start bisect with [#f1]_::
-+.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
-+.. [see the bottom of this file for redistribution information]
- 
--	$ git bisect start
--
--- mark the broken changeset with::
--
--	$ git bisect bad [commit]
--
--- mark a changeset where the code is known to work with::
--
--	$ git bisect good [commit]
--
--- rebuild the Kernel and test
--- interact with git bisect by using either::
--
--	$ git bisect good
--
--  or::
--
--	$ git bisect bad
--
--  depending if the bug happened on the changeset you're testing
--- After some interactions, git bisect will give you the changeset that
--  likely caused the bug.
--
--- For example, if you know that the current version is bad, and version
--  4.8 is good, you could do::
--
--           $ git bisect start
--           $ git bisect bad                 # Current version is bad
--           $ git bisect good v4.8
-+===============
-+Bisecting a bug
-+===============
- 
-+This document describes how to find a change causing a kernel regression using
-+``git bisect``.
- 
--.. [#f1] You can, optionally, provide both good and bad arguments at git
--	 start with ``git bisect start [BAD] [GOOD]``
-+The text focuses on the gist of the process. If you are new to bisecting the
-+kernel, better follow Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-+instead: it depicts everything from start to finish while covering multiple
-+aspects even kernel developers occasionally forget. This includes:
- 
--For further references, please read:
-+- Detecting situations where a bisections would be a waste of time, as nobody
-+  would care about the result -- for example, because the problem is triggered
-+  by a .config change, was already fixed, is caused by something your Linux
-+  distributor changed, occurs in an abandoned version, or happens after the
-+  kernel marked itself as 'tainted'.
-+- Preparing the .config file using an appropriate kernel while enabling or
-+  disabling debug symbols depending on the situation's needs -- while optionally
-+  trimming the .config to tremendously reduce the build time per bisection step.
-+- For regressions in stable or longterm kernels: checking mainline as well, as
-+  the result determines to whom the regression must be reported to.
- 
--- The man page for ``git-bisect``
--- `Fighting regressions with git bisect <https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html>`_
--- `Fully automated bisecting with "git bisect run" <https://lwn.net/Articles/317154>`_
--- `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_
-+Neither document describes how to report a regression, as that is covered by
-+Documentation/admin-guide/reporting-issues.rst.
-+
-+Finding the change causing a kernel issue using a bisection
-+===========================================================
-+
-+*Note: the following process assumes you prepared everything for a bisection;
-+this includes having a Git clone with the appropriate sources, installing the
-+software required to build and install kernels, as well as a .config file stored
-+in a safe place (the following example assumes '~/prepared_kernel_.config') to
-+use as pristine base at each bisection step.*
-+
-+* Preparation: start the bisection and tell Git about the points in the history
-+  you consider to be working and broken, which Git calls 'good' and 'bad'::
-+
-+    git bisect start
-+    git bisect good v6.0
-+    git bisect bad v6.1
-+
-+  Instead of Git tags like 'v6.0' and 'v6.1' you can specify commit-ids, too.
-+
-+1. Copy your prepared .config into the build directory and adjust it to the
-+   needs of the codebase Git checked out for testing::
-+
-+     cp ~/prepared_kernel_.config .config
-+     make olddefconfig
-+
-+2. Now build, install, and boot a kernel; if any of this fails for unrelated
-+   reasons, run ``git bisect skip`` and go back to step 1.
-+
-+3. Check if the feature that regressed works in the kernel you just built.
-+
-+   If it does, execute::
-+
-+     git bisect good
-+
-+   If it does not, run::
-+
-+     git bisect bad
-+
-+   Be sure what you tell Git is correct, as getting this wrong just once will
-+   send the rest of the bisection totally off course.
-+
-+   Go back to back to step 1, if Git after issuing one of those commands checks
-+   out another bisection point while printing something like 'Bisecting:
-+   675 revisions left to test after this (roughly 10 steps)'.
-+
-+   You finished the bisection and move to the next point below, if Git instead
-+   prints something like 'cafecaca0c0dacafecaca0c0dacafecaca0c0da is the first
-+   bad commit'; right afterwards it will show some details about the culprit
-+   including its patch description. The latter can easily fill your terminal,
-+   so you might need to scroll up to see the message mentioning the culprit's
-+   commit-id; alternatively, run ``git bisect log`` to show the result.
-+
-+* Recommended complementary task: put the bisection log and the current
-+  .config file aside for the bug report; furthermore tell Git to reset the
-+  sources to the state before the bisection::
-+
-+     git bisect log > ~/bisection-log
-+     cp .config ~/bisection-config-culprit
-+     git bisect reset
-+
-+* Recommended optional task: try reverting the culprit on top of the latest
-+  codebase; if successful, this will validate your bisection and enable
-+  developers to resolve the regression through a revert.
-+
-+  To try this, update your clone and check out latest mainline. Then tell Git to
-+  revert the change::
-+
-+     git revert --no-edit cafec0cacaca0
-+
-+  This might be impossible, for example when the bisection landed on a merge
-+  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
-+  the culprit because later changes depend on it -- unless you bisected using a
-+  stable or longterm kernel series, in which case you want to retry using the
-+  latest code from that series.
-+
-+  If a revert succeeds, build and test another kernel to validate the result of
-+  the bisection. Mention the outcome in your bug report.
-+
-+Additional reading material
-+---------------------------
-+
-+* The `man page for 'git bisect' <https://git-scm.com/docs/git-bisect>`_ and
-+  `fighting regressions with 'git bisect' <https://git-scm.com/docs/git-bisect-lk2009.html>`_
-+  in the Git documentation.
-+* `Working with git bisect <https://nathanchance.dev/posts/working-with-git-bisect/>`_
-+  from kernel developer Nathan Chancellor.
-+* `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_.
-+* `Fully automated bisecting with 'git bisect run' <https://lwn.net/Articles/317154>`_.
-+
-+..
-+   end-of-content
-+..
-+   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
-+   you spot a typo or small mistake, feel free to let him know directly and
-+   he'll fix it. You are free to do the same in a mostly informal way if you
-+   want to contribute changes to the text -- but for copyright reasons please CC
-+   linux-doc@vger.kernel.org and 'sign-off' your contribution as
-+   Documentation/process/submitting-patches.rst explains in the section 'Sign
-+   your work - the Developer's Certificate of Origin'.
-+..
-+   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
-+   of the file. If you want to distribute this text under CC-BY-4.0 only,
-+   please use 'The Linux kernel development community' for author attribution
-+   and link this as source:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/bug-bisect.rst
-+
-+..
-+   Note: Only the content of this RST file as found in the Linux kernel sources
-+   is available under CC-BY-4.0, as versions of this text that were processed
-+   (for example by the kernel's build system) might contain content taken from
-+   files which use a more restrictive license.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b34385f2e46d92..90c8681d4d311c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6719,6 +6719,7 @@ DOCUMENTATION REPORTING ISSUES
- M:	Thorsten Leemhuis <linux@leemhuis.info>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
-+F:	Documentation/admin-guide/bug-bisect.rst
- F:	Documentation/admin-guide/quickly-build-trimmed-linux.rst
- F:	Documentation/admin-guide/reporting-issues.rst
- F:	Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+Then:
 
-base-commit: 8663dd38a7ba5b2bfd2c7b4271e6e63bc0ef1e42
+PageLRU() will end up getting translated to 
+folio_test_lru(page_folio(subpage))
+
+page_mapped() will end up getting translated to
+folio_mapped(page_folio(subpage))
+
+PageCompound() is essentially a folio_test_large() check.
+
+So what stops us from doing
+
+VM_WARN_ON_ONCE_FOLIO(folio_test_lru(new_folio), new_folio);
+VM_WARN_ON_ONCE_FOLIO(folio_test_large(new_folio), new_folio);
+VM_WARN_ON_ONCE_FOLIO(folio_mapped(new_folio), new_folio);
+
+folio_clear_active(new_folio);
+folio_clear_unevictable(new_folio);
+...
+
+?
+
+The page_ref_freeze() should make sure that we don't have a tail page of
+a large folio. Tail pages would have a refcount of 0.
+
+Or what am I missing?
+
+> 
+> Could do below if subpage makes sense
+> 
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 3305e6d0b90e..abfcd4b7cbba 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3041,9 +3041,9 @@ static void __split_huge_page(struct page *page, struct list_head *list,
+>                   * and save page reclaim or migration the trouble of trying it.
+>                   */
+>                  if (list && page_ref_freeze(subpage, 2)) {
+> -                       VM_BUG_ON_PAGE(PageLRU(subpage), subpage);
+> -                       VM_BUG_ON_PAGE(PageCompound(subpage), subpage);
+> -                       VM_BUG_ON_PAGE(page_mapped(subpage), subpage);
+> +                       VM_WARN_ON_ONCE_PAGE(PageLRU(subpage), subpage);
+> +                       VM_WARN_ON_ONCE_PAGE(PageCompound(subpage), subpage);
+> +                       VM_WARN_ON_ONCE_PAGE(page_mapped(subpage), subpage);
+>   
+>                          ClearPageActive(subpage);
+>                          ClearPageUnevictable(subpage);
+> 
+
 -- 
-2.45.0
+Cheers,
+
+David / dhildenb
 
