@@ -1,100 +1,71 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6982214F9E6;
-	Mon,  5 Aug 2024 21:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D97B16C696;
+	Mon,  5 Aug 2024 22:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722893413; cv=none; b=fiq6ucEcWKjvoLDQ+l8f4ZHuuaLSD5YwDyMSKfOSeI2TDBwzUBwLcvsZeDvBJZ6xsC6HWJEOZKwoGYqql00jrVbWTMq4i+4h1sKX0aeJSzsiLJo5HjEbCc6vbVoIfHKs0+fsYtzyRsex6BIBB/zDcjbhb6pjioWfpeQJZb9Jj9w=
+	t=1722896014; cv=none; b=Yw/WGvC73BmvgRny8EjU0l6SaEOuJk8v8akdoU0VH9JDN9v+eSp9BfZxZ4LbyLuGnh66X0T+AdqGIGnMWgSGPvNUF4KdOim8ZLRfQ5+pG0op7O82WTcOxm/+dD6/xtLgzccZYxxd1oy8M5IsOg51h1gaPlg43bfL38N40L+UR0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722893413; c=relaxed/simple;
-	bh=NfUJkO/2I6MkbJVm3rQsZ2yzf8gMREpnlgWazi1MmEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=thI9cKpaNcQh744DBHZTqI1XE6slfbZF7ym+qHCv5ikiHPAFRLugAVq57ltMLiH089qSgm9FzZDbDSqeQ9YM1i8zQzplDthAFbnXFIKqZ6oA6AvLPqYjAwULC7NrQE9daieoMSrdo1sOWFsMZqGM1DEZbxQyaGjcyVJX3ksOgRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jSiv7Ht8; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722896014; c=relaxed/simple;
+	bh=ZU1mTqSIV2QJlHfcRpx8stQoTqRb8LzyAmWFgDvwkS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FZMpKQynGm9GN9JPfCuOgEIVLNGWKly8B+dLki5VmsJjO2uLuxstjYS/ATuJwYixlkxq5iF1cINv/wC4bonUMPVmL7vrkuh5SkycHtwD0XCR2M/d2mAaBmqNE/SXSmIHJON/uwQ2eUogImqDmT3kxOlScO7A29t7hfPLAGtfBGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AiNO/ArB; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jSiv7Ht8"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-4f527c0c959so11631e0c.1;
-        Mon, 05 Aug 2024 14:30:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722893411; x=1723498211; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7hwKcqnIeZGeHTOMCr7wCkv9rvEMAJ26PnYCpuDDqoQ=;
-        b=jSiv7Ht8q6LD7fvl4Nc969XkgjNIhRhkWYGUlwOUbDkCJUmJeEQT/aqpkRHP+LhivU
-         +sDcoVS1y/Jzh53f1biwo3WyltjeyH8wUywUUsYr+BNF9F5hY+C/zPXvp9zMHbjuQoax
-         OLHmJ5cSHbcRi2bDtR3w/NTYrqlrNBdRVR/8NLdFFJsjbtvxcRQRbL/DvfZYh2vVwB7p
-         K3q5UQD6Qzh2X++lfbXiD863GryocjJzMJE6d9gMOueYdRnbft6OkMbFzztRxIk+vSHy
-         IObAaXF+ZJmlClEmU2ZSj1tt5qC8I+2l5JNmBGdRnaSOYsM7w0MILh+BPZ3xr8TPoe4G
-         Oqzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722893411; x=1723498211;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7hwKcqnIeZGeHTOMCr7wCkv9rvEMAJ26PnYCpuDDqoQ=;
-        b=UVbyEs9PeiUwGzQMhvhuDDXHQAZJF3zxCWXPyMxPlnB8enHMCJs4wwZgzcf5jmXOiH
-         umJnjGjUo4/HFAawk26GRGhrf8GmAsQC9iop8b8PaMKfmlueyx5uohydDfAhbkmLErnO
-         9PCA1w4KBZEiSEJ9tpu3hLv8w0MTdXx+blIpNSvzprZ+1diPE89X1aCNArJ8RESl97++
-         DJCz7+8jBg7gbpxp7U5Fh7gQLdaHHO56SrsI+Pl9fcOyV5+mwvfafJkOW0Ext0JOi/VV
-         CkiLa8hFZMk92pQEFomB2PlY1SBpTcD+PiGydmLiuPAX27kBCsdvH4CO9t4ThYA8Ts9w
-         EQLA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9plg/LIh3zgRq7wK2MfIizOjd5pNMbECs0gEFkj8ghbPhj6M9TWUrMwffmd1mXZFTjfDkHVg5V7QzivlxQZQ/23t2hSdNGQBH
-X-Gm-Message-State: AOJu0YzlMQWzzKVFM78tnibH9lLbDk0zxce5oYcCfDH7OuPoem9pZ5Ie
-	zKzJZpKBmPCLVANi0xecppyYM1pdXISYNPzpsRXLfbTOrmoH++u4TAc459faqNdpIFSjF4aYfXe
-	A+0yADuG7OxyPKIbJJ377fWXsPX4=
-X-Google-Smtp-Source: AGHT+IFsrqYArL8lD0hsbQZBbDeOSeqsPxTrMV4umHHV7MPiDZhcGtLGtlWxfydz2R5F/Q2u396/3C9z+8wbzgXIHeU=
-X-Received: by 2002:a05:6122:91f:b0:4ef:5e6b:98c0 with SMTP id
- 71dfb90a1353d-4f8a001105emr15132638e0c.9.1722893411019; Mon, 05 Aug 2024
- 14:30:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AiNO/ArB"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1722896009;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TUbA93rWq6wVQt6emuecJgEcEoy6oGSe5x9ZbtIF5CQ=;
+	b=AiNO/ArBxK0Dq9Yq5VCdP7e37xf1lfCxO3shfmd0hubd1CwEBScJecTKP2xfNHZMcQTHRl
+	P/QGzHY78gCuSwlRzGoIy7CerCA0LkwiuZNXc233ak239HupwSyru/AjBrj+MJINEEoyB/
+	zrYHB8rwC6pm/LFSzUszTzkIqbzFdUA=
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Takahiro Itazuri <itazur@amazon.com>
+Cc: Oliver Upton <oliver.upton@linux.dev>,
+	kvm@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	zulinx86@gmail.com
+Subject: Re: [PATCH v2] docs: KVM: Fix register ID of SPSR_FIQ
+Date: Mon,  5 Aug 2024 22:13:16 +0000
+Message-ID: <172289598051.3403941.16215399133849750692.b4-ty@linux.dev>
+In-Reply-To: <20230606154628.95498-1-itazur@amazon.com>
+References: <20230606154628.95498-1-itazur@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5BB255FB-6370-40F8-B5FF-B4B09887C903@gmail.com>
-In-Reply-To: <5BB255FB-6370-40F8-B5FF-B4B09887C903@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 5 Aug 2024 23:29:59 +0200
-Message-ID: <CAOQ4uxikxHiiEsF_9HngKrjYEyZuhE-Hp9DgVhQGHfGPmCY__w@mail.gmail.com>
-Subject: Re: Documentation contribution guidelines and suggestions?
-To: Yuriy Belikov <yuriybelikov1@gmail.com>
-Cc: linux-unionfs@vger.kernel.org, 
-	Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Aug 5, 2024 at 11:58=E2=80=AFAM Yuriy Belikov <yuriybelikov1@gmail.=
-com> wrote:
->
-> Greetings
->
-> I am a student intern in CERN and currently work on Overlay FS related im=
-provements in CERNVM-FS project (cvmfs repo on Github).
-> I want to expand the documentation for Overlay FS by adding a paragraph t=
-o redirect_dir passage with an explanation to which values the attribute co=
-uld be set by a system in cases of merely renaming a directory and moving a=
- directory to a different directories subtree. As
-> well I want to add a bit of details to metacopy option description regard=
-ing files that are landed in the upper level directory with this feature be=
-ing turned on after metadata modification.
+On Tue, 6 Jun 2023 16:46:28 +0100, Takahiro Itazuri wrote:
+> Fixes the register ID of SPSR_FIQ.
+> 
+> SPSR_FIQ is a 64-bit register and the 64-bit register size mask is
+> 0x0030000000000000ULL.
+> 
+> 
 
-Sounds good.
+Applied to kvmarm/fixes, thanks!
 
+[1/1] docs: KVM: Fix register ID of SPSR_FIQ
+      https://git.kernel.org/kvmarm/kvmarm/c/7fef1eb0b013
 
->  Are there any nuances that I should read about contributing to documenta=
-tion on top of the linux kernel doc-guide? I have never contributed to linu=
-x repo before and just want to clarify.
->
->
-
-Just follow the "submitting patches" guidelines and you should be fine.
-If there are any other requirements for documentation patches, besides
-that they should be in valid ReST format, I am not aware of those.
-
-Thanks,
-Amir.
+--
+Best,
+Oliver
