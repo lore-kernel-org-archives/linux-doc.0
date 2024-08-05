@@ -1,121 +1,45 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D29158D60
-	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 08:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B603149C45;
+	Mon,  5 Aug 2024 08:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722844951; cv=none; b=koKK0F77FkiV1FP7MeK17NaXbLBAkEcyiVJ/JVlgi0g3y846rsdZTA68KJcMOjJhsk5g+C1SiWlQrOvR223qTA/Xqg0UWG36HdKZwebGgql3j+HFGOshAAxh0QwH8oR2BXXQ9pQ59CGvfxbQwlJ/rcp1N74nuNQdr8CBlV6fD9Q=
+	t=1722846450; cv=none; b=jqtxQvIoXh4ZgZbbLyV2PK9ABcgG82PFF7x8QcQcxgGzDF9oDyJ+A6X39Jfg7GGOXrfGuIFfk+9CBWer1ZyfIqjs9097rDMJeV9JywMWiyIHLnuYzRg6GVbobwlRmRR3/fBaloNzwRy6KQzWe7rOVWBT/830Mo/HdxF+pUhVkkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722844951; c=relaxed/simple;
-	bh=Yo+Ns2b3URhNU5TB+CvEDymuFVQ4WXMZyjfGA5NqkhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PlcECek2jtsSDPfmr1NkxzLz37YVstOt3usfGJw2Iu310c/Q44LxFnhid49B4Ugszy9IBjdXfJ0pd1qsxwTUmZtQA5Da12Bf9t3hafuwOXBDYheNps75xyfvwh3S8u2SIh0j2JWl+p9cnXjEp3AJrbRqnzGGMbHdNloqgBq0Xcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ij16e8T4; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722846450; c=relaxed/simple;
+	bh=XQduA1yrJcEmZ0MOj0pc8jiP7CVFLf9SEAEfyYpUppY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ekmlqs/E46cYyoWpKQqQouUILZbu1yP/OjuS4v8jRtjspsKUnnxfUTcMe1WyWtLd7HEOcTVqx2rgf/xySmrspS+fuWTMhKOi8mLqOVdirtvHq89f+Ijp+AT0HZHQu9eLFx+0tLKs4Y3HKHtMciBG5TgzTGz9HS9U10Hy41xoKsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=2O40tvta; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ij16e8T4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722844949;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o1zjbMHqB0PmusT+nYJ2VtJ9oVjApsikg9aShs5wyaI=;
-	b=Ij16e8T4epVhlioTGkB5nb7PgFD3F5pxY2X9pKPiYHnsRiOdUv9vEgkv72vxWP1HYmaALF
-	BIXEy/19iO2uNOvLE8glS2xX0Oem2GMRrNdwB9LwO/cIz5G4VzEBCWRN08IECf8iPeB0iw
-	VmbRu6GhqrKWg3T/MYJYR0nu8H5qOL8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-hTbq0So_NGu2tx2J0beMHQ-1; Mon, 05 Aug 2024 04:02:16 -0400
-X-MC-Unique: hTbq0So_NGu2tx2J0beMHQ-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a7aa36a777eso95721966b.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 01:02:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722844935; x=1723449735;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1zjbMHqB0PmusT+nYJ2VtJ9oVjApsikg9aShs5wyaI=;
-        b=Ms2dUWGz41MT4GHFJjsBOg4+vpfmyvC51FmStqa1xhz4bk3XBzfBjHPpQnJ9bVcAkR
-         bldnfbJ5NUq5FPyzzIPOn29kRJkmthyEGatPBCrV2J3q2zDxRMYO+qJzLlzuCAp4u0me
-         eq7fN8Tmgcoj1ylTm9rqXASE3RKQy2JllG97UyMUEAaniKTLrz6vrYGThJZ/Yiz3W8Ko
-         ZIvVMOVy1ODWqBRPmBO8krtsrt4lszjZuEPtLVm0fk1jvoh5JFvKiVfGdotRxhu4ee9Q
-         VX9C8dKBiAZL/sRx4FOtuVYMGBwzy9QBNG1pDfLcb7dpQYos8hXoJZp3MKOXadg8KoEW
-         NOvA==
-X-Gm-Message-State: AOJu0YxaaSMTqqGuiyyKKs732jpzL/8nh9RUc6qwywZpkAtBmGP0VSKJ
-	bCIdzZY4bg90ryc2hK029YhcCs52ld6Ry1RhkvwrWdAycYgyLl581uUvIlVw2CXYVQZeRMsE6T+
-	wkh0lnLoVVRkly6uWVJWtFpdgk+jn6TMEI0da/yAxyfxo1lSCKQeIXVuIbw==
-X-Received: by 2002:a17:906:f583:b0:a7a:81bb:ceeb with SMTP id a640c23a62f3a-a7dc4ae7defmr473039466b.0.1722844935519;
-        Mon, 05 Aug 2024 01:02:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHKuHik2ajcs17LmubcaIaCUkrAqH7M1NRkgMmBZVBefF6pfGv29aIhP8ECYMtriJwflIFmgg==
-X-Received: by 2002:a17:906:f583:b0:a7a:81bb:ceeb with SMTP id a640c23a62f3a-a7dc4ae7defmr473031766b.0.1722844934632;
-        Mon, 05 Aug 2024 01:02:14 -0700 (PDT)
-Received: from eisenberg.fritz.box (200116b82df07e000a5f4891a3b0b190.dip.versatel-1u1.de. [2001:16b8:2df0:7e00:a5f:4891:a3b0:b190])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7de8d0868bsm277958966b.143.2024.08.05.01.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 01:02:14 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Arnaud Ebalard <arno@natisbad.org>,
-	Srujana Challa <schalla@marvell.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kevin Cernekee <cernekee@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Jie Wang <jie.wang@intel.com>,
-	Adam Guerin <adam.guerin@intel.com>,
-	Shashank Gupta <shashank.gupta@intel.com>,
-	Damian Muszynski <damian.muszynski@intel.com>,
-	Nithin Dabilpuram <ndabilpuram@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="2O40tvta"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=11StMB/CHBVgYxZV+/tIFDr6XxButiIMJq6QA32Y3As=; t=1722846448; x=1723278448;
+	 b=2O40tvtaeiCKO5kgmm0g2/hDsrPwvLAPViJp5TyoIhFhV3YV3CwN2LiVf/q14NVV1QA7jD10/x
+	a6nOm5PMbcyQh4n2SEabbNzFH2PkkSDMcgsOU2Q5DAHECtt7q5qODKlW9QGqoh3O7Jbq3rp/10umX
+	fKUbVyMW3sF5Lr2rbiOIdHzUxCGwmAs8gYDWYK/bApRisfFntHAUrvNNkYKkt4ZT9JxqbNJ2wjcXJ
+	tjWbwczO98X563lClKmuYX7iU31EqkPDIyRh7fgWv5GYWn4jVkx3DEfmMkFV1TeT+OTLWz4jz/sI7
+	D2Z5Zy90BfPolCEjTGqae0steC1gTWliM471A==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1sat3k-00030P-GN; Mon, 05 Aug 2024 10:27:16 +0200
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	qat-linux@intel.com,
-	linux-crypto@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2 06/10] wifi: iwlwifi: replace deprecated PCI functions
-Date: Mon,  5 Aug 2024 10:01:33 +0200
-Message-ID: <20240805080150.9739-8-pstanner@redhat.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240805080150.9739-2-pstanner@redhat.com>
-References: <20240805080150.9739-2-pstanner@redhat.com>
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Petr=20Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
+Subject: [PATCH v1] docs: bug-bisect: rewrite to better match the other bisecting text
+Date: Mon,  5 Aug 2024 10:27:15 +0200
+Message-ID: <10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -123,58 +47,258 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1722846448;2e1dcc07;
+X-HE-SMSGID: 1sat3k-00030P-GN
 
-pcim_iomap_table() and pcim_iomap_regions_request_all() have been
-deprecated by the PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
-pcim_iomap_table(), pcim_iomap_regions_request_all()").
+Rewrite the short document on bisecting kernel bugs. The new text
+improves .config handling, brings a mention of 'git skip', and explains
+what to do after the bisection finished -- including trying a revert to
+verify the result. The rewrite at the same time removes the unrelated
+and outdated section on 'Devices not appearing' and replaces some
+sentences about bug reporting with a pointer to the document covering
+that topic in detail.
 
-Replace these functions with their successors, pcim_iomap() and
-pcim_request_all_regions()
+This overall brings the approach close to the one in the recently added
+text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+As those two texts serve a similar purpose for different audiences,
+mention that document in the head of this one and outline when the
+other might be the better one to follow.
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 ---
- drivers/net/wireless/intel/iwlwifi/pcie/trans.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ Documentation/admin-guide/bug-bisect.rst | 205 +++++++++++++++--------
+ MAINTAINERS                              |   1 +
+ 2 files changed, 135 insertions(+), 71 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/iwlwifi/pcie/trans.c b/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-index 719ddc4b72c5..6b282276e7b5 100644
---- a/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-+++ b/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-@@ -3534,7 +3534,6 @@ struct iwl_trans *iwl_trans_pcie_alloc(struct pci_dev *pdev,
- 	struct iwl_trans_pcie *trans_pcie, **priv;
- 	struct iwl_trans *trans;
- 	int ret, addr_size;
--	void __iomem * const *table;
- 	u32 bar0;
- 
- 	/* reassign our BAR 0 if invalid due to possible runtime PM races */
-@@ -3657,22 +3656,15 @@ struct iwl_trans *iwl_trans_pcie_alloc(struct pci_dev *pdev,
- 		}
- 	}
- 
--	ret = pcim_iomap_regions_request_all(pdev, BIT(0), DRV_NAME);
-+	ret = pcim_request_all_regions(pdev, DRV_NAME);
- 	if (ret) {
--		dev_err(&pdev->dev, "pcim_iomap_regions_request_all failed\n");
-+		dev_err(&pdev->dev, "pcim_request_all_regions failed\n");
- 		goto out_no_pci;
- 	}
- 
--	table = pcim_iomap_table(pdev);
--	if (!table) {
--		dev_err(&pdev->dev, "pcim_iomap_table failed\n");
--		ret = -ENOMEM;
--		goto out_no_pci;
--	}
+diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+index 325c5d0ed34a0a..f4a9acab65d0f5 100644
+--- a/Documentation/admin-guide/bug-bisect.rst
++++ b/Documentation/admin-guide/bug-bisect.rst
+@@ -1,76 +1,139 @@
+-Bisecting a bug
+-+++++++++++++++
 -
--	trans_pcie->hw_base = table[0];
-+	trans_pcie->hw_base = pcim_iomap(pdev, 0, 0);
- 	if (!trans_pcie->hw_base) {
--		dev_err(&pdev->dev, "couldn't find IO mem in first BAR\n");
-+		dev_err(&pdev->dev, "pcim_iomap failed\n");
- 		ret = -ENODEV;
- 		goto out_no_pci;
- 	}
+-Last updated: 28 October 2016
+-
+-Introduction
+-============
+-
+-Always try the latest kernel from kernel.org and build from source. If you are
+-not confident in doing that please report the bug to your distribution vendor
+-instead of to a kernel developer.
+-
+-Finding bugs is not always easy. Have a go though. If you can't find it don't
+-give up. Report as much as you have found to the relevant maintainer. See
+-MAINTAINERS for who that is for the subsystem you have worked on.
+-
+-Before you submit a bug report read
+-'Documentation/admin-guide/reporting-issues.rst'.
+-
+-Devices not appearing
+-=====================
+-
+-Often this is caused by udev/systemd. Check that first before blaming it
+-on the kernel.
+-
+-Finding patch that caused a bug
+-===============================
+-
+-Using the provided tools with ``git`` makes finding bugs easy provided the bug
+-is reproducible.
+-
+-Steps to do it:
+-
+-- build the Kernel from its git source
+-- start bisect with [#f1]_::
++.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
++.. [see the bottom of this file for redistribution information]
+ 
+-	$ git bisect start
+-
+-- mark the broken changeset with::
+-
+-	$ git bisect bad [commit]
+-
+-- mark a changeset where the code is known to work with::
+-
+-	$ git bisect good [commit]
+-
+-- rebuild the Kernel and test
+-- interact with git bisect by using either::
+-
+-	$ git bisect good
+-
+-  or::
+-
+-	$ git bisect bad
+-
+-  depending if the bug happened on the changeset you're testing
+-- After some interactions, git bisect will give you the changeset that
+-  likely caused the bug.
+-
+-- For example, if you know that the current version is bad, and version
+-  4.8 is good, you could do::
+-
+-           $ git bisect start
+-           $ git bisect bad                 # Current version is bad
+-           $ git bisect good v4.8
++===============
++Bisecting a bug
++===============
+ 
++This document describes how to find a change causing a kernel regression using
++``git bisect``.
+ 
+-.. [#f1] You can, optionally, provide both good and bad arguments at git
+-	 start with ``git bisect start [BAD] [GOOD]``
++The text focuses on the gist of the process. If you are new to bisecting the
++kernel, better follow Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
++instead: it depicts everything from start to finish while covering multiple
++aspects even kernel developers occasionally forget. This includes:
+ 
+-For further references, please read:
++- Detecting situations where a bisections would be a waste of time, as nobody
++  would care about the result -- for example, because the problem is triggered
++  by a .config change, was already fixed, is caused by something your Linux
++  distributor changed, occurs in an abandoned version, or happens after the
++  kernel marked itself as 'tainted'.
++- Preparing the .config file using an appropriate kernel while enabling or
++  disabling debug symbols depending on the situation's needs -- while optionally
++  trimming the .config to tremendously reduce the build time per bisection step.
++- For regressions in stable or longterm kernels: checking mainline as well, as
++  the result determines to whom the regression must be reported to.
+ 
+-- The man page for ``git-bisect``
+-- `Fighting regressions with git bisect <https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html>`_
+-- `Fully automated bisecting with "git bisect run" <https://lwn.net/Articles/317154>`_
+-- `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_
++Neither document describes how to report a regression, as that is covered by
++Documentation/admin-guide/reporting-issues.rst.
++
++Finding the change causing a kernel issue using a bisection
++===========================================================
++
++*Note: the following process assumes you prepared everything for a bisection;
++this includes having a Git clone with the appropriate sources, installing the
++software required to build and install kernels, as well as a .config file stored
++in a safe place (the following example assumes '~/prepared_kernel_.config') to
++use as pristine base at each bisection step.*
++
++* Preparation: start the bisection and tell Git about the points in the history
++  you consider to be working and broken, which Git calls 'good' and 'bad'::
++
++    git bisect start
++    git bisect good v6.0
++    git bisect bad v6.1
++
++  Instead of Git tags like 'v6.0' and 'v6.1' you can specify commit-ids, too.
++
++1. Copy your prepared .config into the build directory and adjust it to the
++   needs of the codebase Git checked out for testing::
++
++     cp ~/prepared_kernel_.config .config
++     make olddefconfig
++
++2. Now build, install, and boot a kernel; if any of this fails for unrelated
++   reasons, run ``git bisect skip`` and go back to step 1.
++
++3. Check if the feature that regressed works in the kernel you just built.
++
++   If it does, execute::
++
++     git bisect good
++
++   If it does not, run::
++
++     git bisect bad
++
++   Be sure what you tell Git is correct, as getting this wrong just once will
++   send the rest of the bisection totally off course.
++
++   Go back to back to step 1, if Git after issuing one of those commands checks
++   out another bisection point while printing something like 'Bisecting:
++   675 revisions left to test after this (roughly 10 steps)'.
++
++   You finished the bisection and move to the next point below, if Git instead
++   prints something like 'cafecaca0c0dacafecaca0c0dacafecaca0c0da is the first
++   bad commit'; right afterwards it will show some details about the culprit
++   including its patch description. The latter can easily fill your terminal,
++   so you might need to scroll up to see the message mentioning the culprit's
++   commit-id; alternatively, run ``git bisect log`` to show the result.
++
++* Recommended complementary task: put the bisection log and the current
++  .config file aside for the bug report; furthermore tell Git to reset the
++  sources to the state before the bisection::
++
++     git bisect log > ~/bisection-log
++     cp .config ~/bisection-config-culprit
++     git bisect reset
++
++* Recommended optional task: try reverting the culprit on top of the latest
++  codebase; if successful, this will validate your bisection and enable
++  developers to resolve the regression through a revert.
++
++  To try this, update your clone and check out latest mainline. Then tell Git to
++  revert the change::
++
++     git revert --no-edit cafec0cacaca0
++
++  This might be impossible, for example when the bisection landed on a merge
++  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
++  the culprit because later changes depend on it -- unless you bisected using a
++  stable or longterm kernel series, in which case you want to retry using the
++  latest code from that series.
++
++  If a revert succeeds, build and test another kernel to validate the result of
++  the bisection. Mention the outcome in your bug report.
++
++Additional reading material
++---------------------------
++
++* The `man page for 'git bisect' <https://git-scm.com/docs/git-bisect>`_ and
++  `fighting regressions with 'git bisect' <https://git-scm.com/docs/git-bisect-lk2009.html>`_
++  in the Git documentation.
++* `Working with git bisect <https://nathanchance.dev/posts/working-with-git-bisect/>`_
++  from kernel developer Nathan Chancellor.
++* `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_.
++* `Fully automated bisecting with 'git bisect run' <https://lwn.net/Articles/317154>`_.
++
++..
++   end-of-content
++..
++   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
++   you spot a typo or small mistake, feel free to let him know directly and
++   he'll fix it. You are free to do the same in a mostly informal way if you
++   want to contribute changes to the text -- but for copyright reasons please CC
++   linux-doc@vger.kernel.org and 'sign-off' your contribution as
++   Documentation/process/submitting-patches.rst explains in the section 'Sign
++   your work - the Developer's Certificate of Origin'.
++..
++   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
++   of the file. If you want to distribute this text under CC-BY-4.0 only,
++   please use 'The Linux kernel development community' for author attribution
++   and link this as source:
++   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/bug-bisect.rst
++
++..
++   Note: Only the content of this RST file as found in the Linux kernel sources
++   is available under CC-BY-4.0, as versions of this text that were processed
++   (for example by the kernel's build system) might contain content taken from
++   files which use a more restrictive license.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b34385f2e46d92..90c8681d4d311c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6719,6 +6719,7 @@ DOCUMENTATION REPORTING ISSUES
+ M:	Thorsten Leemhuis <linux@leemhuis.info>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
++F:	Documentation/admin-guide/bug-bisect.rst
+ F:	Documentation/admin-guide/quickly-build-trimmed-linux.rst
+ F:	Documentation/admin-guide/reporting-issues.rst
+ F:	Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+
+base-commit: 8663dd38a7ba5b2bfd2c7b4271e6e63bc0ef1e42
 -- 
-2.45.2
+2.45.0
 
