@@ -1,145 +1,138 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E82B165EEA
-	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 18:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CED915F30D
+	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 18:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722883287; cv=none; b=O8c3WH3zq9U/DVKtOn3Qq227WtNUPgSpIFGeDv6g8bT8hfNpS8KXhtXroOAb/g5p9r3rCqDbC+yQ3CZB6kbpM6lmURRLY4wDDlaKbPxPf3vn64Cz7UO9Q0d67DiPCVL3FciLswa+rStRhCfTwNRYOfYyO2YwBjgNs4e9FPXnY80=
+	t=1722883698; cv=none; b=jLTx1Lg0USjucLiSks6o4u1nzm90pD/1fWi3Eny1RKoM3ZOFl+Bmkipo4cIz/yikpkTpTKQ2NX57jr0MuCVxlilBRbjveDvp389jrUiCrX48ndsZqUsbC4Rpq9diGdjs711kIKrII2G4Lg8somMfSf1E2c6okBOfC+JU73Cn850=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722883287; c=relaxed/simple;
-	bh=Ys/t/CdNVJJmv2lzAuDmT1M/s6j0A9XtgN3oc62Jk5I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=APpSKyZjy0sp4rSPxO5aUqzgdMT52BmC0gefRHKx0G8lYoBGudwLeifmaDUJjYAywiGcJ4jvLa7mJnFDeY2e2bTGofLLCSq1zUj5GpQQy8dqfLe5QU9Wxq5hRpUYq0ROvqnmyF0eKaYtq3l62wYg4/RzV5RWTuWPjYVqUxvsUf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=Tph/erhd; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1722883698; c=relaxed/simple;
+	bh=3NXXA8hukhtstN66FzQ0NmXrdGI3V97ghb3YIaG1hkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uWzoMNJi87V9xDEoyU9NeD416Ko9TD8WWzy422Q0euSKIW8JhF03KPlMH5QRm2zG0o+e0RTTE3/5KXvUuePdW1mFmQ5wQIHpkkczwgCzm6TO+ZFAjKT6n5Ua541AAlBZQX3X2rfarl3C/OoS9eyqBQE+/KpkY1lZpEf/goX/a70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=uEF79wg6; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="Tph/erhd"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3db1d4dab7fso6612533b6e.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 11:41:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="uEF79wg6"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fc5296e214so91438135ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 11:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1722883285; x=1723488085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nXDR7qiLrGhxm4QaBcXkbXKBNxx4m/1amTQ3OxtKpcA=;
-        b=Tph/erhdRxbaDcA9Hk7B6yaxgFNtP0dQEEL0icsRDcawCDeE5cVUz5zPmVb0y6uo5P
-         WzBFcTTNTWY1yT5Y+EBI/+l4PIH2+XalMy/sWOKvoMzn5UJvFI0VED6IBAdcjtVUVenX
-         B8E1puC7TFwcVz54Vmi73lOZjDB6VZZQ1Qvp5qzDCn9ofz6xJH5PKrQjbllHnY9InlAN
-         x9/a6CEv5h8UtH9lw2AQBxg6lSwb4Hbd9AMcjJLe0t27k7Te7qn4ug9OKAHZDGQ5/fDT
-         DtzrKCtgQEltlGCpVfEh73NgOpAwd+EQIihgd0Ma3RcgUcLILaBU56pMnAQmnbGqeUzS
-         7jww==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1722883696; x=1723488496; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CWiE5Gt/81O/McaIBD85wwCe3mZnLm7BjL3ftw4B+HM=;
+        b=uEF79wg6Me2dZ6JQGWv/CHhng8lCxQGIBMXRwXEKd+di0EACxmls7am/ct/WojDWUP
+         F0pTowCDI3WjgBzySqqstAX0TgQuvkcBaJU8zdBuZ+PZSqgoAsHRmUBV9PSRVLmyp9Kw
+         C9y+BHPXzWYCb3j+L5N2HIgVoI05QjHELiJut2GMhDUnazn7smv2v4PkBUeyWmMq5WbZ
+         3e9hWxeY8kwFYvYNAQGT3bLgz0KZVyI4AMF7YiFOoQYj1denpD0mstT6/ZWGtIqFu9Sv
+         4EwVdSbit0DEzPr4zKAv6s8kD+8DPp9P0YwY08Sf1Zi9Lo4LD7bUfuXtiXZ6q6fxC3v7
+         y71g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722883285; x=1723488085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nXDR7qiLrGhxm4QaBcXkbXKBNxx4m/1amTQ3OxtKpcA=;
-        b=iy0p/9u9ru6Gmxjephq0Z840luSmYXMYyFqy7WbqJcxGGhlsl8O1dm580lkYiB3qmq
-         cEPVeGZhLeedO6cIrIaNQpi0xIwzRq22f7uek0cPrPETiAyXcD/T1rr8Ht+BqPGaH+Wk
-         IK4gUV0nHD5YPBHNjohO14ZsRRAsZia+x52zA3/dRt67XSgMo56YHa9LNJ8ma4nmKTlO
-         ut3cmqxrNx1rTNAlKyLLJMeWFkLI3KwuQIFOMkE3qeyEOoXKgY90SDUeOMTIyQX2AlBB
-         oZuVm6Bz5FiO9zzUXkKUCRbOiHAbZHqx7l8zWoNVquXOsMR/AfuzCmN8hnLumi9TgMaE
-         vL4A==
-X-Forwarded-Encrypted: i=1; AJvYcCX1QYRk6IHTHHyFPSSuJiEoAIVdtsXlkuVm/G46gUKux4+zJqmTZb3KWTgRbqTHT/9OwTJa/Xnyls0i5JJAIaz6JgqKJhHsoGrF
-X-Gm-Message-State: AOJu0YwRcw/v5JynygBhSJ5/YH3kYbQlbDF4CSc3upPvJAmp6+RiNKVd
-	/2WSgjlpxXB563O3yj0VVRWPX9jmm+xMYvdDhpx7UFYqNsRizPqSTENZTB+cjh2nVXGnSjzpaEs
-	KOsLbDNbjhy687wktY7PPN+R02Ocy9NGLiczsfw==
-X-Google-Smtp-Source: AGHT+IELiX1V707IcRryP1iDqdmXzsN+eMp7QFXOkdeEr9fYlKlUd987VH8uQ7e08ycHl28xM7Hu7WLB3uBVe3WBGzg=
-X-Received: by 2002:a05:6808:191a:b0:3da:e02f:eb8e with SMTP id
- 5614622812f47-3db5583e3e9mr18020289b6e.43.1722883285128; Mon, 05 Aug 2024
- 11:41:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722883696; x=1723488496;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CWiE5Gt/81O/McaIBD85wwCe3mZnLm7BjL3ftw4B+HM=;
+        b=EHgbvn+5BCLddGyw/VyQQIuUze5uEthVXOxJNzKXYqycMABh6aG9vurLwMZvqR39Ju
+         rlclP5eeWeG6rRll5tgVBU+SAydh+VCFmxLUhqiyKb9ASx41mt57FlRDr7X28X+TuCV1
+         N/za0e2U0eKcI+x5d3CFsiQ2rmGgvodGceXUU6EsJ0DRjiCgRttzbiw63kWH25pppo4x
+         Ygd9AkIsqHdmPuo08tGGnJXw3y+g8B1n5D8UcM+hzrazjaPsa+InGmwn3x4F0RKdyEPW
+         Vaa/w7tml5Z+DIZSbLAy4iAiuWf2WKTUTk2xCFl/HVcUktghfJZUsjp3CW/A1WbP0OgB
+         RFdA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAFOL5Cl3XP4S4pCNXBakkQMiXqE9AX7EpKEdeU9XUuxCklvDwsM1SuDQhPT/W8vDFrbz+pRiNSolnMBtz/8m7pltvKhDKD8ww
+X-Gm-Message-State: AOJu0YzOZeofXFo0QvE39JiM4uBuKGGtSvd2HKdmzGjEYUG3LAOLzJxh
+	qitGdXgqkI3JNrc322uZ14f8anKFtP62HfseSIHRjOrsIh9LRNww7MdIGYp6hbE=
+X-Google-Smtp-Source: AGHT+IFlG8VhZGgwoNGP9WjMsD0WO4HK22QdL7Ggcd2eSX0CNB+lJyh9+cv8ryXXl69OuOhZ/LNPNg==
+X-Received: by 2002:a17:902:c949:b0:1fd:6bfa:f59 with SMTP id d9443c01a7336-1ff572743b3mr140884975ad.19.1722883695945;
+        Mon, 05 Aug 2024 11:48:15 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff592b3643sm71467005ad.290.2024.08.05.11.48.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 11:48:15 -0700 (PDT)
+Date: Mon, 5 Aug 2024 11:48:12 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Evan Green <evan@rivosinc.com>
+Cc: Jesse Taube <jesse@rivosinc.com>, linux-riscv@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/1] RISC-V: Add parameter to unaligned access speed
+Message-ID: <ZrEebH2wdjRgfYCB@ghost>
+References: <20240805173816.3722002-1-jesse@rivosinc.com>
+ <CALs-HstYwwgPAOP22V1A6iTX85eRqRp4b4039pewsDHus_dLgQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605222751.1406125-1-souravpanda@google.com> <Zq0tPd2h6alFz8XF@aschofie-mobl2>
-In-Reply-To: <Zq0tPd2h6alFz8XF@aschofie-mobl2>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 5 Aug 2024 14:40:48 -0400
-Message-ID: <CA+CK2bAfgamzFos1M-6AtozEDwRPJzARJOmccfZ=uzKyJ7w=kQ@mail.gmail.com>
-Subject: Re: [PATCH v13] mm: report per-page metadata information
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Sourav Panda <souravpanda@google.com>, corbet@lwn.net, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, akpm@linux-foundation.org, mike.kravetz@oracle.com, 
-	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com, 
-	rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
-	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
-	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
-	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
-	surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, weixugc@google.com, David Rientjes <rientjes@google.com>, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, yi.zhang@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALs-HstYwwgPAOP22V1A6iTX85eRqRp4b4039pewsDHus_dLgQ@mail.gmail.com>
 
-On Fri, Aug 2, 2024 at 3:02=E2=80=AFPM Alison Schofield
-<alison.schofield@intel.com> wrote:
->
-> ++ nvdimm, linux-cxl, Yu Zhang
->
-> On Wed, Jun 05, 2024 at 10:27:51PM +0000, Sourav Panda wrote:
-> > Today, we do not have any observability of per-page metadata
-> > and how much it takes away from the machine capacity. Thus,
-> > we want to describe the amount of memory that is going towards
-> > per-page metadata, which can vary depending on build
-> > configuration, machine architecture, and system use.
+On Mon, Aug 05, 2024 at 11:38:23AM -0700, Evan Green wrote:
+> On Mon, Aug 5, 2024 at 10:38 AM Jesse Taube <jesse@rivosinc.com> wrote:
 > >
-> > This patch adds 2 fields to /proc/vmstat that can used as shown
-> > below:
+> > Add a kernel parameter to the unaligned access speed. This allows
+> > skiping of the speed tests for unaligned accesses, which often is very
+> > slow.
 > >
-> > Accounting per-page metadata allocated by boot-allocator:
-> >       /proc/vmstat:nr_memmap_boot * PAGE_SIZE
-> >
-> > Accounting per-page metadata allocated by buddy-allocator:
-> >       /proc/vmstat:nr_memmap * PAGE_SIZE
-> >
-> > Accounting total Perpage metadata allocated on the machine:
-> >       (/proc/vmstat:nr_memmap_boot +
-> >        /proc/vmstat:nr_memmap) * PAGE_SIZE
-> >
-> > Utility for userspace:
-> >
-> > Observability: Describe the amount of memory overhead that is
-> > going to per-page metadata on the system at any given time since
-> > this overhead is not currently observable.
-> >
-> > Debugging: Tracking the changes or absolute value in struct pages
-> > can help detect anomalies as they can be correlated with other
-> > metrics in the machine (e.g., memtotal, number of huge pages,
-> > etc).
-> >
-> > page_ext overheads: Some kernel features such as page_owner
-> > page_table_check that use page_ext can be optionally enabled via
-> > kernel parameters. Having the total per-page metadata information
-> > helps users precisely measure impact. Furthermore, page-metadata
-> > metrics will reflect the amount of struct pages reliquished
-> > (or overhead reduced) when hugetlbfs pages are reserved which
-> > will vary depending on whether hugetlb vmemmap optimization is
-> > enabled or not.
-> >
-> > For background and results see:
-> > lore.kernel.org/all/20240220214558.3377482-1-souravpanda@google.com
-> >
-> > Acked-by: David Rientjes <rientjes@google.com>
-> > Signed-off-by: Sourav Panda <souravpanda@google.com>
-> > Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> This patch is leading to Oops in 6.11-rc1 when CONFIG_MEMORY_HOTPLUG
-> is enabled. Folks hitting it have had success with reverting this patch.
-> Disabling CONFIG_MEMORY_HOTPLUG is not a long term solution.
->
-> Reported here:
-> https://lore.kernel.org/linux-cxl/CAHj4cs9Ax1=3DCoJkgBGP_+sNu6-6=3D6v=3D_=
-L-ZBZY0bVLD3wUWZQg@mail.gmail.com/
+> > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+> 
+> How come this is a command line parameter rather than a Kconfig
+> option? I could be wrong, so I'll lay out my rationale and people can
+> pick it apart if I've got a bad assumption.
+> 
+> I think of commandline parameters as (mostly) something end users
+> twiddle with, versus kconfig options as something system builders set
+> up. I'd largely expect end users not to notice two ticks at boot time.
+> I'd expect its system builders and fleet managers, who know their
+> hardware and build their kernels optimized for it, are the ones who
+> would want to shave off this time and go straight to the known answer.
+> Anecdotally, at ChromeOS we had a strong preference for Kconfig
+> options, as they were easier to compose and maintain than a loose pile
+> of commandline arguments.
+> 
+> The commit text doesn't go into the rationale, intended audience, or
+> expected usage, so maybe my guesses miss the mark on what you're
+> thinking.
+> -Evan
 
-Thank you for the heads up. Can you please attach a full config file,
-also was anyone able to reproduce this problem in qemu with emulated
-nvdimm?
+There was a brief discussion about this on Jesse's series about vector
+unaligned support [1]. The original idea was to use Zicclsm to allow
+people to set the unaligned access speed on pre-compiled distro kernels.
+However Zicclsm isn't useful so the alternative route was to use a
+kernel arg. There is already support for a Kconfig, the kernel arg is
+just another option for users.
 
-Pasha
+Link:
+https://lore.kernel.org/lkml/af3152b6-adf7-40fa-b2a1-87e66eec45b0@rivosinc.com/
+[1]
+
+- Charlie
+
