@@ -1,274 +1,166 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2031.outbound.protection.outlook.com [40.92.102.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FC019E;
-	Mon,  5 Aug 2024 00:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722816955; cv=none; b=JyIIfLUeEMT2cKPEnd0MEx739bLhySK4kNlmyP+bfonAVX0ysFKgUzPmO9AijoVsF8Bvy6/KaB2uS+dD7ncuf1kldUOpM7NTYbpP6BvlbTyb1wLazuv6Pv5YU1ehAqJlIzOlgyQdBZ1tFgQ+ZYZ0n7M3S5S3vjEeEuRq6N7sqRE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722816955; c=relaxed/simple;
-	bh=gz0B23fUUHPjcaUv2MaGLIyA3vGJZuK0je8BcordKDI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s/VkG1GIN+aZjNNV5RvR4ilPqT+sz03uIpmUETSzANwEeOYRCKAFFmXz1kx5TX/IQYAI7V3A+9V9AUrewcDbd/PGYQ6DxEXwj8duiCiYr0YOVa70yRmZbNjeiOor1xU1ufk1i9bvfUsii0NWN1u2ZIk9lhZMwa5PfVuxZ+US0tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWUmon6G; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAEA2BAE2;
+	Mon,  5 Aug 2024 01:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722821509; cv=fail; b=TWJc89Tfeda1jtTuTX4MQFYf8YU8kFZ3Vx39+rcgVgk5ix0cLOHdeLKoHKoRc0T8FDpWzbrBDcs7ssdCbWOOUH/gfQWVG+J5qG1q4InImGTJ/2Pe0OcODGgaKMDtzYtrbDRgPhD2GY2QvH+UPBxwqmoeJOhAmUlT48tYoaLhSJQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722821509; c=relaxed/simple;
+	bh=K/Ba8r8HyIKhbEI26KhZMp+2wWTM+DwMy7pPSqbhoOI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SZaAdZqQoM+4LcvfGt+qZe8QiYtLr+zK221y/T6A1eoe2R+XrP7O9myaogZXOo3ZKBhOab/WXdoBz3GMunCbhLAoRU+8VLdx6sSBWz9g5eVtzjAJ10eRsFHaP1kyDXAJAeHBFd4RdjtMVOd3uDn9wXzT3rW2reDqI1aR8exJOgo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=aZ60pDsb; arc=fail smtp.client-ip=40.92.102.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWUmon6G"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6b79b93a4c9so43528986d6.1;
-        Sun, 04 Aug 2024 17:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722816952; x=1723421752; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VhLN8uECkwRqPw38h8IiXspwBGvbvvcothYP3DCCl3I=;
-        b=IWUmon6GpbHi61fim8Sar0VmX+iy/KZVUpc5tinM84jcHB7Xbe06lE0aigOQjQG04q
-         /rcoEwQnMX3/tAX10OmqOKHiHHeOU2YCUwJywy3UD48Z/HdV5GQowLCgNJwxS5cA5di8
-         zRp+R42PcJqqiBrfteMHWyPU+WVc0EhmvROAEYsT9SfuJm+6SPV5aPtPdKXoqxjjN0M0
-         8s1bYYQWLopsZLLt7ZsVw6FcUmbUYviezEROvFG3bc/K0eV2AfmpofxAqdhdDN4Ks1pI
-         6Sbf0+lb6CE58qstZkmfac7JHZ1wWNkMw9+WuBDYEebp3agqyRFDZbK7eyv0kkufHE84
-         1Rww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722816952; x=1723421752;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VhLN8uECkwRqPw38h8IiXspwBGvbvvcothYP3DCCl3I=;
-        b=QE6yL18iiBWvPERfagIVCro/16qHMLKZa3OuIGiD/VwZN2pluxH2bZbBTtBcUpyzKk
-         mcK2jZoP5dpLqMqEC60ybRdwJHTCKSPxjx5NaG/xSzT0pdIcnsQ5Q9Nx5dwo48K3nEMl
-         kjaFP2EMG2d7PiJ397N9EbFq49qUQPoAEYLsTNgf4UVCuvYZM8ey0j67a3lid6S+lvZM
-         3vTMB+aAlxqTZyith/9qxfb9kRAgjERPZAjJhsAsQ/FcIBt5FBzwui6Q6GQVHnts+MCt
-         T0747hJX4foVrT1TaBVaqG0t8/NX0qKng6fm/ti0S+mN8Xu4lbng5d3EH2yHGdLAAkqC
-         QfZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIoKwwXt8Cwtw1e7CLeo6EPMlG10Gh2DvSfkKKasab9/5dlICL6HUkvVnnzetxNyY6N6MgwXrE7KbkvlIVSDszEy4zVfOi7IBnPjWxoN5UGHf2h8J7vWFx0NE47VTfdsfJkX51EHr4
-X-Gm-Message-State: AOJu0YxtZzfz7/xXn4s6tL5E5xJqsiAJJWQGXPv+DHdEEaLWGN6RoNjJ
-	YqHwYl8r4LWyXeHWiXisOkEoKT4ky6jjTZ1cM5x0zTK70mOYLQlTW+zTLdAP
-X-Google-Smtp-Source: AGHT+IHV//JZnLnfAkG9TIXs7r0sGd1uERG/Gt6dMxAlFjf98bEx76Y6b/QfXwJsn7EyngIu3ZwJLw==
-X-Received: by 2002:a05:6214:2af:b0:6b5:2062:dd5c with SMTP id 6a1803df08f44-6bb91d619e2mr218884426d6.8.1722816951888;
-        Sun, 04 Aug 2024 17:15:51 -0700 (PDT)
-Received: from localhost.localdomain (syn-104-229-042-148.res.spectrum.com. [104.229.42.148])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c76b93asm30041276d6.28.2024.08.04.17.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Aug 2024 17:15:51 -0700 (PDT)
-From: crwulff@gmail.com
-To: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Farman <farman@linux.ibm.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Dmitry Antipov <dmantipov@yandex.ru>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Sands <david.sands@biamp.com>,
-	Chris Wulff <crwulff@gmail.com>
-Subject: [PATCH v4] usb: gadget: f_fs: add capability for dfu run-time descriptor
-Date: Sun,  4 Aug 2024 20:06:40 -0400
-Message-ID: <20240805000639.619232-2-crwulff@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="aZ60pDsb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CWJWiG31I36PFQSCCVc6W4rYI8m8GWH5aNEA3dX/kEE98w3UDATgIw7+PAPrqhL/RCmsbqOQXnnChXS6kWA3iTtxyYmX5FScLAVr4gevAONhpgdSnb4ASF7hDEAgFFnOEGD7ftnyi0P870GGJERlG67S9sa0ed/HDYfzpQ7iWNP9jkiFXqzM+uhaSBZBclGj2dQzw6pzxWksI2P1y9z/cmjuSHutDCvEFKy5+/UVIh/YUal55//VZNbUE2XAUyAi/HTNXPZ6iC4M5hQERZRKW+SFpDji3Q+T7MABdEYY1bsNNLGC26BZTZXSAe0InZ5cwD1RO10/FZHU4T9o6LY74A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SyjFHsYIt8gMibD+yMn4dHE3jI4nHIYAYeYf3KCbPoc=;
+ b=wEs7q6Iy3Q/moSOYBMoIadNTUiwxxdIvs1VxrdqwA0RObUy0krhPEdFmR7Ab5Yea6+upxeiEPiGU06g73k0/0m/T4QJdf4vU6n7Cowfn0oSH1KbecMAMNqgPxrqtfTe6/Y6K67DtVyIsJdO74NxKi9vhFoOicHEn7/YYDRcNVve//BfcEBAiyLJ0JhdiqV0FcMXs+1EkR5ZxO/TfJRpLD7JziNYx+gpD6ayKjUs9DmUpp8V70g+d5oBZ559r+54IPYtxPqydSngeoPQAwpjnjApKrk5wkLZgtrD+D1A520ZAWlU1L3kYctWdHC6rBflS1f1d/4LY8XywngWE52w84w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SyjFHsYIt8gMibD+yMn4dHE3jI4nHIYAYeYf3KCbPoc=;
+ b=aZ60pDsbgoqXE19UpFbf6cE6g8KaA/0WZDFNR5jgrJyUtUrcAze+mHu1Luwvx/e5F4GOCwRCT8j7ywPqVqOtxnwF3kF6ykDh3AVC89D002fQqAuHhfSNXyr1ANaCAx0+IJfdi386+Td+ywxZZiPaoe5ecGPrC8tlTjJ7hu6I+3QYeZABf7SVnda+ZOXvQHn6gtX2DUOLLOHTSMmtnn7uFzCXTuvJVNWyMsptxuip3bdgOub/AoJJvEroFnWFPPAEgEAQWl72qYfJ6Nbhb+5x6+2PeJGtYj3ldnOLh6KwCCMPinmF31REDUAj1OoZ6E5DqMVrfTTYj+xvuvIG83PL/g==
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:138::5)
+ by PN2P287MB1137.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:135::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Mon, 5 Aug
+ 2024 01:31:39 +0000
+Received: from MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c]) by MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ ([fe80::a94:ad0a:9071:806c%6]) with mapi id 15.20.7828.023; Mon, 5 Aug 2024
+ 01:31:39 +0000
+Message-ID:
+ <MA0P287MB2822C3C5AC61D2A91542C33EFEBE2@MA0P287MB2822.INDP287.PROD.OUTLOOK.COM>
+Date: Mon, 5 Aug 2024 09:31:24 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 4/4] riscv: defconfig: Enable MCU support for SG2042
+To: Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>, Chao Wei <chao.wei@sophgo.com>,
+ Jinyu Tang <tangjinyu@tinylab.org>, Hal Feng <hal.feng@starfivetech.com>,
+ Yangyu Chen <cyy@cyyself.name>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <IA1PR20MB495337877FFC8D787A045C15BBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+ <IA1PR20MB49530E505BAEC8F92B19F37FBBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+From: Chen Wang <unicorn_wang@outlook.com>
+In-Reply-To: <IA1PR20MB49530E505BAEC8F92B19F37FBBB32@IA1PR20MB4953.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [kaUUtZue337fUwQvBFZOHyEpFLSZbalU]
+X-ClientProxiedBy: SG2PR01CA0155.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:8f::35) To MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:138::5)
+X-Microsoft-Original-Message-ID:
+ <8fc25005-f9fb-4d03-a516-da590047f105@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB2822:EE_|PN2P287MB1137:EE_
+X-MS-Office365-Filtering-Correlation-Id: e93f3df2-f9c0-423c-5145-08dcb4ee593d
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|8060799006|5072599009|19110799003|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	wCyIAOE3Kc2lf3MHiBxveRdEAODZixKh+2XDgAUf0sswXnlCYywMuxSpVuTAZcJqmQ8NuA0uUio9ztrnoU9inuksIHTQtet4p8JwZQ3ESGCurmkobp/fx5FsJdBiAnyuf1GAHDGbY3p2E/+q2dQ95GzI8FV1iK4PeZ6qLM5bPtHwc8ZLOstgvHRX+iI3nEzpXsQK1fV201E66NuVQuWkdbTg11nf7KzhjLALdaw760PiM8TFp0xwFnTixhnd4R03NA3qSL/hkbtze6sEtW9Z4hesdcfbJHSUw/dMBMjQnDXvLpCE/Si9QU17CzzFqzjL8d+Q3HRFGvVonyLcudD17lDsVFwRNLm1xFNFVIA/O7yNMgHmdR+y/0VAaY1Odc7cPpLB0oZPwUwITyV0AxJ3bCOHn5kghvMxVXKQA+aZEoCAjFmseFZ2vXhTydom1CNDGVwOJNO6CeNG147KcEtpqX4Xh4H5W1E1J5f6YWh6AiXa8Lcv9L3WALoZpL9HOq/Pe+kBK52vPcdBpug585gJunVl4EmiP12Hef4pTSn355tZQF5dUgcyAMdMFFBZUrpXsBG3G0W2BAv4nNld7uGHFyrcEMFikUbV8wHgM8Y7f96BwnYJZ5GsAjcLvmU1CKb44Wh9cmspYh+taM28oQGvetkqrroLivTlFjiv4vH4ujNC+Y8VDydwdN9J9od3nywK
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WFZWMm9FSGZKOGo1Z05TRGsyYVlSalp5UVRrbS9FTVdQTU52RUlKUGUyK3p0?=
+ =?utf-8?B?Ujc3VHRDdDZqU0xTQ25HNWdmSitDUGxJRlo2a3d2M1ZySENxWlRFNzhqSTFU?=
+ =?utf-8?B?emxGU3U4Wkt0RXdBTUkyNTZTOVFEaDBka2Z4NXdLWk5tSWVvYm1NazhwaTlp?=
+ =?utf-8?B?U3hGSnJWc2xoRmVZWDBydmRMa1JPN2dUWjJpOXZURTFvT1BVWEdNeDh2NmJL?=
+ =?utf-8?B?ZEF4K2x0STEwV2xtM3o0NS85QXpFL0ZiUUV0SndMSmZCQkg4RnREc01Ja2I2?=
+ =?utf-8?B?SDRLU1FZcnV1YzIvY2I4MXl1dW52NWN5REVoSlBtbHhHYlhtK2VBKzdIVGtx?=
+ =?utf-8?B?Z09TQnNYcVhlSm5WS0lSKzliQ2tSaXRJdFI1ZnRVTCtiR05OekdiUHVldnBY?=
+ =?utf-8?B?R3YxQWkzOHpyYkNGUkFOSkVqaHlGVmZuSlhMVWRia0o4d3F4OUY0MzlWRnpz?=
+ =?utf-8?B?NnhNMTBaZXovb1JHazFUU2twU01sV0pVYkl2eFVuSlNEc2J1STNzYlQ2SXV1?=
+ =?utf-8?B?T1NocVcwaGltcWh0L1VTcUpiQlZWSE83KzQyZ2VnUVJyczhGNXVNblJqSGYv?=
+ =?utf-8?B?WkhiTWY2T0RSaE1WRWhoRGg0M2k3L0l4L0ZtTmhzSGR5OXU1OGtNeXNFODZE?=
+ =?utf-8?B?dlgzWUQ4V3RHRzlXV28wTFBEMjZBc1BtMS9rQzl1Rm85dDIyaExUQVFENUtu?=
+ =?utf-8?B?TTVHenhaYzhPc1p2ZlR1bVh3a0JzN1VsbHUwMU0wNWRBWGhjSWhlNGp4TU44?=
+ =?utf-8?B?TzljNkRxUlI0TU5BdEV4L3VPM1FUQVpPaTNxQVlGaGgyOUR0NlhXYUI0QkpP?=
+ =?utf-8?B?a1l0eHBUb1FrS0J4ZWpKSGVBU1hLcWQra1V2ZEZUWU0wdkJxT1RURGMxVjNx?=
+ =?utf-8?B?d0VDVE9qNkhDVnB2dUI3SGw5N0hEaloraUVrVTg4Q3Zhd2F0dDlsUXJRQitx?=
+ =?utf-8?B?TzMxVHN5TVkrb1pxY014UEhkYUNETmlkVFR5b0Y2NjVOc3lhRmtlZG1WZndr?=
+ =?utf-8?B?dmVvRUl1aWNOTTc0dGxpN2h3WVF3YWNEUy9iZFgrYm1nT1hwdnNJaVBGS1hS?=
+ =?utf-8?B?M2VtY25xcEdxVkpERlMvRGdrMjBPaVIydjZoZjVhZ29BZUhUTkhHRUw4UGU2?=
+ =?utf-8?B?RmlHZE9aNkhyNHg1T1d0emlMTGdmbE14b25SSTEzeXJTdkVlbm80T2dIZFNN?=
+ =?utf-8?B?Wmdybk14Z3NWb0pWZ3JMWFNEaWlONXplUnI5WXFERFBFaXNHZzh6Z0tRcXlD?=
+ =?utf-8?B?cFNPUTZBMzE0UldlYTZUWmI0VndXb3hQMEphM2ZwM2ZyWVlqNm9kbm5FYnFk?=
+ =?utf-8?B?TDR5aVBob2M1TFU1MG9HbytLL3MydVY2WWxYRThjczN6NVpiQUNDTzZNWDJJ?=
+ =?utf-8?B?RnJEdDVTZzAzTzE1MlBtSnIyZFlYNVU1STRlcGliOGY5OHpQK1FySU93akpE?=
+ =?utf-8?B?VTJ5NTNDN0FxVFY5UGJmeXlCME4rRWp5TzZuK0lpVkZuMWVGTmVvaXhLSVAw?=
+ =?utf-8?B?MVFMOTN5K2xwY2dzZm9ZSDhxSTBwTWZqSllNS05nOFlRWUJ0cFVxeEdqNnNO?=
+ =?utf-8?B?ZWRheXlicDJhaUVpTDlnNFN3NFZIaGtybnVrRW95dGpuQU0ybDhzME85STNS?=
+ =?utf-8?B?ZklPZE1wQ0thL2hRRThPQVFxNjE5eDY5cTdwbC9PUEpaMktNUXhaZ0JiVmJI?=
+ =?utf-8?Q?cJAQIRUTgc6WfjixxCFN?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e93f3df2-f9c0-423c-5145-08dcb4ee593d
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2822.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2024 01:31:39.0509
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1137
 
-From: David Sands <david.sands@biamp.com>
+Why this patch change the dts?
 
-From: David Sands <david.sands@biamp.com>
-
-Add the ability for FunctionFS driver to be able to create DFU Run-Time
-descriptors.
-
-Signed-off-by: David Sands <david.sands@biamp.com>
-Co-developed-by: Chris Wulff <crwulff@gmail.com>
-Signed-off-by: Chris Wulff <crwulff@gmail.com>
----
-v4: Clean up unneeded change, switch to BIT macros, more documentation
-v3: Documentation, additional constants and constant order fixed
-https://lore.kernel.org/all/CO1PR17MB54197F118CBC8783D289B97DE1102@CO1PR17MB5419.namprd17.prod.outlook.com/
-v2: https://lore.kernel.org/linux-usb/CO1PR17MB54198D086B61F7392FA9075FE10E2@CO1PR17MB5419.namprd17.prod.outlook.com/
-v1: https://lore.kernel.org/linux-usb/CO1PR17MB5419AC3907C74E28D80C5021E1082@CO1PR17MB5419.namprd17.prod.outlook.com/
----
- Documentation/usb/functionfs-desc.rst | 22 ++++++++++++++++++++++
- Documentation/usb/functionfs.rst      |  2 ++
- Documentation/usb/index.rst           |  1 +
- drivers/usb/gadget/function/f_fs.c    | 12 ++++++++++--
- include/uapi/linux/usb/ch9.h          |  8 ++++++--
- include/uapi/linux/usb/functionfs.h   | 25 +++++++++++++++++++++++++
- 6 files changed, 66 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/usb/functionfs-desc.rst
-
-diff --git a/Documentation/usb/functionfs-desc.rst b/Documentation/usb/functionfs-desc.rst
-new file mode 100644
-index 000000000000..73d2b8a3f02c
---- /dev/null
-+++ b/Documentation/usb/functionfs-desc.rst
-@@ -0,0 +1,22 @@
-+======================
-+FunctionFS Descriptors
-+======================
-+
-+Interface Descriptors
-+---------------------
-+
-+Standard USB interface descriptors may be added. The class/subclass of the
-+most recent interface descriptor determines what type of class-specific
-+descriptors are accepted.
-+
-+Class-Specific Descriptors
-+--------------------------
-+
-+DFU Functional Descriptor
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+When the interface class is USB_CLASS_APP_SPEC and  the interface subclass
-+is USB_SUBCLASS_DFU, a DFU functional descriptor can be provided.
-+
-+.. kernel-doc:: include/uapi/linux/usb/functionfs.h
-+   :doc: usb_dfu_functional_descriptor
-diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index d05a775bc45b..4f96e4b93d7b 100644
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -70,6 +70,8 @@ have been written to their ep0's.
- Conversely, the gadget is unregistered after the first USB function
- closes its endpoints.
- 
-+For more information about FunctionFS descriptors see :doc:`functionfs-desc`
-+
- DMABUF interface
- ================
- 
-diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-index 27955dad95e1..826492c813ac 100644
---- a/Documentation/usb/index.rst
-+++ b/Documentation/usb/index.rst
-@@ -11,6 +11,7 @@ USB support
-     dwc3
-     ehci
-     functionfs
-+    functionfs-desc
-     gadget_configfs
-     gadget_hid
-     gadget_multi
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index d8b096859337..ba5c6e4827ba 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -2478,7 +2478,7 @@ typedef int (*ffs_os_desc_callback)(enum ffs_os_desc_type entity,
- 
- static int __must_check ffs_do_single_desc(char *data, unsigned len,
- 					   ffs_entity_callback entity,
--					   void *priv, int *current_class)
-+					   void *priv, int *current_class, int *current_subclass)
- {
- 	struct usb_descriptor_header *_ds = (void *)data;
- 	u8 length;
-@@ -2535,6 +2535,7 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
- 		if (ds->iInterface)
- 			__entity(STRING, ds->iInterface);
- 		*current_class = ds->bInterfaceClass;
-+		*current_subclass = ds->bInterfaceSubClass;
- 	}
- 		break;
- 
-@@ -2559,6 +2560,12 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
- 			if (length != sizeof(struct ccid_descriptor))
- 				goto inv_length;
- 			break;
-+		} else if (*current_class == USB_CLASS_APP_SPEC &&
-+			   *current_subclass == USB_SUBCLASS_DFU) {
-+			pr_vdebug("dfu functional descriptor\n");
-+			if (length != sizeof(struct usb_dfu_functional_descriptor))
-+				goto inv_length;
-+			break;
- 		} else {
- 			pr_vdebug("unknown descriptor: %d for class %d\n",
- 			      _ds->bDescriptorType, *current_class);
-@@ -2621,6 +2628,7 @@ static int __must_check ffs_do_descs(unsigned count, char *data, unsigned len,
- 	const unsigned _len = len;
- 	unsigned long num = 0;
- 	int current_class = -1;
-+	int current_subclass = -1;
- 
- 	for (;;) {
- 		int ret;
-@@ -2640,7 +2648,7 @@ static int __must_check ffs_do_descs(unsigned count, char *data, unsigned len,
- 			return _len - len;
- 
- 		ret = ffs_do_single_desc(data, len, entity, priv,
--			&current_class);
-+			&current_class, &current_subclass);
- 		if (ret < 0) {
- 			pr_debug("%s returns %d\n", __func__, ret);
- 			return ret;
-diff --git a/include/uapi/linux/usb/ch9.h b/include/uapi/linux/usb/ch9.h
-index 44d73ba8788d..91f0f7e214a5 100644
---- a/include/uapi/linux/usb/ch9.h
-+++ b/include/uapi/linux/usb/ch9.h
-@@ -254,6 +254,9 @@ struct usb_ctrlrequest {
- #define USB_DT_DEVICE_CAPABILITY	0x10
- #define USB_DT_WIRELESS_ENDPOINT_COMP	0x11
- #define USB_DT_WIRE_ADAPTER		0x21
-+/* From USB Device Firmware Upgrade Specification, Revision 1.1 */
-+#define USB_DT_DFU_FUNCTIONAL		0x21
-+/* these are from the Wireless USB spec */
- #define USB_DT_RPIPE			0x22
- #define USB_DT_CS_RADIO_CONTROL		0x23
- /* From the T10 UAS specification */
-@@ -329,9 +332,10 @@ struct usb_device_descriptor {
- #define USB_CLASS_USB_TYPE_C_BRIDGE	0x12
- #define USB_CLASS_MISC			0xef
- #define USB_CLASS_APP_SPEC		0xfe
--#define USB_CLASS_VENDOR_SPEC		0xff
-+#define USB_SUBCLASS_DFU			0x01
- 
--#define USB_SUBCLASS_VENDOR_SPEC	0xff
-+#define USB_CLASS_VENDOR_SPEC		0xff
-+#define USB_SUBCLASS_VENDOR_SPEC		0xff
- 
- /*-------------------------------------------------------------------------*/
- 
-diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-index 9f88de9c3d66..40f87cbabf7a 100644
---- a/include/uapi/linux/usb/functionfs.h
-+++ b/include/uapi/linux/usb/functionfs.h
-@@ -37,6 +37,31 @@ struct usb_endpoint_descriptor_no_audio {
- 	__u8  bInterval;
- } __attribute__((packed));
- 
-+/**
-+ * struct usb_dfu_functional_descriptor - DFU Functional descriptor
-+ * @bLength:		Size of the descriptor (bytes)
-+ * @bDescriptorType:	USB_DT_DFU_FUNCTIONAL
-+ * @bmAttributes:	DFU attributes
-+ * @wDetachTimeOut:	Maximum time to wait after DFU_DETACH (ms, le16)
-+ * @wTransferSize:	Maximum number of bytes per control-write (le16)
-+ * @bcdDFUVersion:	DFU Spec version (BCD, le16)
-+ */
-+struct usb_dfu_functional_descriptor {
-+	__u8  bLength;
-+	__u8  bDescriptorType;
-+	__u8  bmAttributes;
-+	__le16 wDetachTimeOut;
-+	__le16 wTransferSize;
-+	__le16 bcdDFUVersion;
-+} __attribute__ ((packed));
-+
-+/* from DFU functional descriptor bmAttributes */
-+#define DFU_FUNC_ATT_CAN_DOWNLOAD	BIT(0)
-+#define DFU_FUNC_ATT_CAN_UPLOAD		BIT(1)
-+#define DFU_FUNC_ATT_MANIFEST_TOLERANT	BIT(2)
-+#define DFU_FUNC_ATT_WILL_DETACH	BIT(3)
-+
-+
- struct usb_functionfs_descs_head_v2 {
- 	__le32 magic;
- 	__le32 length;
--- 
-2.43.0
-
+On 2024/8/2 20:38, Inochi Amaoto wrote:
+> Enable MCU driver for SG2042 to provide thermal and reboot support.
+>
+> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
+> Tested-by: Chen Wang <unicorn_wang@outlook.com>
+> Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
+> ---
+>   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts | 2 +-
+>   arch/riscv/configs/defconfig                        | 1 +
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts b/arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts
+> index 8b8fdf6243d4..76375e25a495 100644
+> --- a/arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts
+> +++ b/arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dts
+> @@ -67,7 +67,7 @@ soc_active3: soc-active3 {
+>   				};
+>   
+>   				soc_hot: soc-hot {
+> -					temperature = <85000>;
+> +					temperature = <80000>;
+>   					hysteresis = <5000>;
+>   					type = "hot";
+>   				};
+> diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+> index 0d678325444f..a0f346301df6 100644
+> --- a/arch/riscv/configs/defconfig
+> +++ b/arch/riscv/configs/defconfig
+> @@ -170,6 +170,7 @@ CONFIG_SPI_SUN6I=y
+>   CONFIG_GPIO_SIFIVE=y
+>   CONFIG_POWER_RESET_GPIO_RESTART=y
+>   CONFIG_SENSORS_SFCTEMP=m
+> +CONFIG_SENSORS_SG2042_MCU=y
+>   CONFIG_CPU_THERMAL=y
+>   CONFIG_DEVFREQ_THERMAL=y
+>   CONFIG_RZG2L_THERMAL=y
