@@ -1,122 +1,170 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB0D15ADA0
-	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 16:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB08A2C684
+	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 16:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722875651; cv=none; b=N+4eCNw4doLamnvKYJJ6awIvl0umpuCQxqNT3//NsJBytLedPV42tNaxA8eA2jLC6W5nGRzUKYgJxub128KspoRPd++53LrG0g6e4guXHVxMbvfJfrWJCeMgMDlcpVZwrcfpPJKKu8ef+WQW7QP6vtYoiSyg9IhEVd56vgr1Sh8=
+	t=1722876890; cv=none; b=VTRbOZP/hRa4BFirx9aS9O3wliWRpwu617t5ej1J03xEqAUoqkbks9UdaM1Xidq6eUQXZMVyPIqlkQEQRyl5ObgBUGwgsE3Xi/xnMlKchk6lN8gtYexZsrnCt9cW4SeuKmbXrNi2PJn7Kk5UGOtTzQBjo8cQRVmJVw7aTpTRBwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722875651; c=relaxed/simple;
-	bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
+	s=arc-20240116; t=1722876890; c=relaxed/simple;
+	bh=DZR96w7+yR+8QAvUxt2vUtynjYuzg6oCFxeOrTtAAY4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KiBLZz3edfXfrV1B9Wt12daM8g+IyuaGFDZ2joGTCbwSGp5UNBSnlhfeKkwWxiX3FUJ1WWIK28KDNCzW2x8a4QvvyYMQdXTyd4DplNISXWZZvIla/y/PKbIy3rLdoxbgs3HMXuMJf/i2HNRQr+J4FTy/Ifnm3MsMXiKnlA3COBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ooMfse3W; arc=none smtp.client-ip=209.85.219.53
+	 To:Cc:Content-Type; b=SZk3IrEh/ICjejlqPgmbHBD8lfZWfPH3nWC58zx1c+L1awmDM6GqnDajnTcdRQ9tNxGy3yQfkQQRKnLtcrnfmPsmq7gZYDJcWPrNXiyENd6gydEAHPvGDeRHdYFIvdrD81Nxcy/qcI7LLineR01YsiQTIyRK/T7tMb+gpUyXGXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OL/o+I2O; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ooMfse3W"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6b795574f9dso58452846d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 09:34:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OL/o+I2O"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-45029af1408so4121cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 09:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722875649; x=1723480449; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722876888; x=1723481688; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
-        b=ooMfse3WVKfuxOLSSKdlcT9aqFqVw/RtyRXpOBsgOCTn9wKceQcM71mSUyFUCGbjdh
-         26+ROdikowegVtjSUS4uWVUhtc95hLL23dlnWFj8cp65MVc4drKNIX9u43DWF2Bats8h
-         t0heAI4eFDoxqmiGWoYtMgQD56gP+7qgIFOqzvLbDpke6iJR6YapJ+kA8HjUL+DyHiKy
-         +7NkKP96kiTMdLcfY8EpRMfItKrh6siytmWkC/b0tGgiJkDeyeXjOqlFRgZJ9luyNyNG
-         6FpewpnZhlzpQ9biBgMEY7x44yXFsfP3XIyl2lb1fAFA0jwMYwVdtCGFuyqF5RwPlBAL
-         hg0A==
+        bh=w+EjPosfkeXziba69Qb6GXWNK9P7pF1IIw+Hux9jBR8=;
+        b=OL/o+I2OJv5NrNX8P93jLzNgoTeqBFWl+sYc0SkHAXpPCqiJSvuEbRDnG2XE3rC2Tz
+         uLe3vTMU/GU6vSY3bmjqUEX/SIcFNIvvUMCPGEL9Cj9n0uRBarkx0+9VK5nAEqHfuxLc
+         wzhIoUhRMm/8E+vcetbZGbM4u5QT/KVyywQY4bjNgKgAaIdzcZtEUay+BvX28yZjj1Zs
+         1cNhEAVOzM9eJOf222WoEWkZkzBvOKigJfq7r34MbEG4T1RS17SPM6g+5SBid5Aw7X/Y
+         kY4hsrpOgdtmVZq17AmZSI/Sp9eRUv49bgjYu9jFvfxaaintaPkmpymNTbAovwat7CNx
+         UJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722875649; x=1723480449;
+        d=1e100.net; s=20230601; t=1722876888; x=1723481688;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
-        b=VnzTpbIkwGE5n79R4FpJOsj8WfMTa5nZu74AbjCBNU0adf/MJEAJX79jlOQJWVEqXS
-         Xo3TrVIPl+WkdtikjUOXbu/mu/PQrNH2nusUxaLKG6Dw4VTvalplH8L6YhpZ3F9+ZP7o
-         uzPYZXPScpSD7DFmfuR+ly7++m4hkkW/Th6naCWscfNurxSMD7tfZbNpzOdULnJtXsfM
-         cILpVkm7++70cWZ6I9hIoMaRnsad2cbFrsuzUxMHfXfhU03T/YTVRY22nI3mcp8/8PYK
-         +wz9KJ3NgMoDvMi40PBHxXmUCs22K6/ldDGEJXdACiZFQXcpT37uD72cb+Q6eUU2C0xw
-         ttsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVP7cOPmIx/Qj5gSQ98ZGbW4DhcHs7816LH4MtFdDrtzPhn882pZ6AMXjV5eC32SYfLEXNr3sIaUGWhJum82DGoShgBWPJA6Rhy
-X-Gm-Message-State: AOJu0YwcEpdCtdeJV9kBGavkb0zUdwzUOBVThb2JKJwo+RBESmve+pb0
-	8y7BVSVKeW7ysTp+1TovZ9CmHBJpsSSY1usrBZ7ChLCLcgoAIZbpw+SrX7IBZWuoI6vSS2tFbxB
-	ZKp26j6vAco1caTWYtU9wrLzWdLYnE/puSac+
-X-Google-Smtp-Source: AGHT+IE3X2dzKDTfvW579W1ONWZvzHmSuPdaFYmL6fjjzD5I45yXHVQPoF1XfHnvXWK/VzgEqMK+gXEJqks0i1Xyhdk=
-X-Received: by 2002:a05:6214:4412:b0:6b5:7e97:7151 with SMTP id
- 6a1803df08f44-6bb98345fa9mr131458736d6.17.1722875648824; Mon, 05 Aug 2024
- 09:34:08 -0700 (PDT)
+        bh=w+EjPosfkeXziba69Qb6GXWNK9P7pF1IIw+Hux9jBR8=;
+        b=Ln0wRGwErf6KW9LA6fDgd4JcgnFBtiuTq9z896ZA5fZUA1+sbj1V0EYoCfrVI6s97D
+         yF3OZbzprPKjKPzpV5U+gbHY5MoyddUCdjBZbPDtDSdjNR400M5RNwD6WqX9V4ao+n2S
+         XLfxUfLzoOo1owCgG82zm6OIo1J2F0ih8n+H2WcLGlfrDQSFqVDBZQbN2cDDZVXp1eKr
+         LcifYOiTBdwGyickkjzEk1vJoMb+mJOSyB2u6pxMNo2IKboU5RVpz2zh6ZNBYJNxfxXc
+         ZBhr55xEEUh4scPuxYygylhUWcTdmDxMPZpOVQNolRt5qKgrPD0Zo+EK4boQW9F11CfY
+         VcHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWtLEnSedPM8IG9o12m//qmkzI3EVDpKpzjTPCWg1wqlyp5kADb2uJvHaCQBkds1TynZpXOgEFAxdIxW/eH0/I+R6t4a+kp9kcO
+X-Gm-Message-State: AOJu0YxOMCqiiDK/TZ3ZBI+dK6D9t1qm3sJ+NNKigj9bCuxUtS+MkTWt
+	uJXKciz0JcHiTSoq7Ig1Il6Dyiux9LsMh6Mwaxbhw+AzTq8+ZezCzZuENiftj5uw1NkSoupGIQJ
+	Y5nowMMfMmwNvU5UatSbfPau90y1MlcQrfVYe
+X-Google-Smtp-Source: AGHT+IEew9O40a1eagPinVnKq66XRqxq93dCPlTyT+sju/BWCkpRZjCn//Ri9HlnLHZeIehCzQD5j6qeXg1tqDmASbI=
+X-Received: by 2002:a05:622a:301:b0:44f:cb30:8b71 with SMTP id
+ d75a77b69052e-4519b663469mr5193091cf.25.1722876887583; Mon, 05 Aug 2024
+ 09:54:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730022623.98909-4-almasrymina@google.com> <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
-In-Reply-To: <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 5 Aug 2024 12:33:55 -0400
-Message-ID: <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
-Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to netdevice
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Kaiyuan Zhang <kaiyuanz@google.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
-	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Christoph Hellwig <hch@infradead.org>, David Ahern <dsahern@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>, 
-	Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Helge Deller <deller@gmx.de>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Jakub Kicinski <kuba@kernel.org>, 
-	"James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Jeroen de Borst <jeroendb@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Matt Turner <mattst88@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Richard Henderson <richard.henderson@linaro.org>, Shailend Chand <shailend@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Taehee Yoo <ap420073@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Yunsheng Lin <linyunsheng@huawei.com>
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-6-jthoughton@google.com> <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
+ <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com> <1ea7a0d2-e640-4549-ac0e-8ae0df8d8e6a@redhat.com>
+In-Reply-To: <1ea7a0d2-e640-4549-ac0e-8ae0df8d8e6a@redhat.com>
+From: James Houghton <jthoughton@google.com>
+Date: Mon, 5 Aug 2024 09:54:10 -0700
+Message-ID: <CADrL8HVfnA2OmqqUWSsiPkCXhCX7RXdqUDvzwF-m3uccBa6ndA@mail.gmail.com>
+Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
+ clear_young MMU notifiers
+To: David Hildenbrand <david@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Sean Christopherson <seanjc@google.com>, 
+	Shaoqin Huang <shahuang@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 4:38=E2=80=AFAM Markus Elfring <Markus.Elfring@web.=
-de> wrote:
+On Fri, Aug 2, 2024 at 8:57=E2=80=AFAM David Hildenbrand <david@redhat.com>=
+ wrote:
 >
-> =E2=80=A6
-> > +++ b/include/net/devmem.h
-> > @@ -0,0 +1,115 @@
-> =E2=80=A6
-> > +#ifndef _NET_DEVMEM_H
-> > +#define _NET_DEVMEM_H
-> =E2=80=A6
+> On 02.08.24 01:13, James Houghton wrote:
+> > On Thu, Aug 1, 2024 at 2:36=E2=80=AFAM David Hildenbrand <david@redhat.=
+com> wrote:
+> >>
+> >> On 24.07.24 03:10, James Houghton wrote:
+> >>> For implementers, the fast_only bool indicates that the age informati=
+on
+> >>> needs to be harvested such that we do not slow down other MMU operati=
+ons,
+> >>> and ideally that we are not ourselves slowed down by other MMU
+> >>> operations.  Usually this means that the implementation should be
+> >>> lockless.
+> >>
+> >> But what are the semantics if "fast_only" cannot be achieved by the
+> >> implementer?
+> >>
+> >> Can we add some documentation to the new functions that explain what
+> >> this mysterious "fast_only" is and what the expected semantics are?
+> >> Please? :)
+> >
+> > Thanks for pointing out the missing documentation. How's this?
+> >
+> > diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.=
+h
+> > index 45c5995ebd84..c21992036dd3 100644
+> > --- a/include/linux/mmu_notifier.h
+> > +++ b/include/linux/mmu_notifier.h
+> > @@ -106,6 +106,18 @@ struct mmu_notifier_ops {
+> >           * clear_young is a lightweight version of clear_flush_young. =
+Like the
+> >           * latter, it is supposed to test-and-clear the young/accessed=
+ bitflag
+> >           * in the secondary pte, but it may omit flushing the secondar=
+y tlb.
+> > +        *
 >
-> I suggest to omit leading underscores from such identifiers.
-> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+=
-define+a+reserved+identifier
+> Probably makes sense to highlight the parameters like @fast_only
+
+Will do.
+
 >
+> > +        * The fast_only parameter indicates that this call should not =
+block,
+> > +        * and this function should not cause other MMU notifier calls =
+to
+> > +        * block. Usually this means that the implementation should be
+> > +        * lockless.
+> > +        *
+> > +        * When called with fast_only, this notifier will be a no-op un=
+less
+> > +        * has_fast_aging is set on the struct mmu_notifier.
+>
+> "... and will return 0 (NOT young)." ?
 
-I was gonna apply this change, but I ack'd existing files and I find
-that all of them include leading underscores, including some very
-recently added files like net/core/page_pool_priv.h.
+Thanks, I'll add this.
 
-I would prefer to stick to existing conventions if that's OK, unless
-there is widespread agreement to the contrary.
+>
+> > +        *
+> > +        * When fast_only is true, if the implementer cannot determine =
+that a
+> > +        * range is young without blocking, it should return 0 (i.e.,
+> > +        * that the range is NOT young).
+> >           */
+> >          int (*clear_young)(struct mmu_notifier *subscription,
+> >                             struct mm_struct *mm,
+> > @@ -118,6 +130,8 @@ struct mmu_notifier_ops {
+> >           * the secondary pte. This is used to know if the page is
+> >           * frequently used without actually clearing the flag or teari=
+ng
+> >           * down the secondary mapping on the page.
+> > +        *
+> > +        * The fast_only parameter has the same meaning as with clear_y=
+oung.
+> >           */
+> >          int (*test_young)(struct mmu_notifier *subscription,
+> >                            struct mm_struct *mm,
+> >
+> > I've also moved the commit that follows this one (the one that adds
+> > has_fast_aging) to be before this one so that the comment makes sense.
+>
+>
+> Makes sense, thanks!
 
---=20
-Thanks,
-Mina
+Thanks David!
