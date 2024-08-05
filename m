@@ -1,60 +1,122 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8142B2D7B8;
-	Mon,  5 Aug 2024 15:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB0D15ADA0
+	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 16:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722870909; cv=none; b=HK7/mnW6aH9pLhLx49nmjREL6atoCTDJcNgas9Qzcxkdtp0Swkl+O1U08TdSzkJtW4jepf1tI3JB3xpKBCGXj8WCOh9UIpq3dClqef/tTCbcq/Jz+TMyj+Uh1MQyCd8btHvnAviu4RM4jXfSSokLQ8PpACemmFHFLduvQTGnims=
+	t=1722875651; cv=none; b=N+4eCNw4doLamnvKYJJ6awIvl0umpuCQxqNT3//NsJBytLedPV42tNaxA8eA2jLC6W5nGRzUKYgJxub128KspoRPd++53LrG0g6e4guXHVxMbvfJfrWJCeMgMDlcpVZwrcfpPJKKu8ef+WQW7QP6vtYoiSyg9IhEVd56vgr1Sh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722870909; c=relaxed/simple;
-	bh=hEjI7G/mwo/RSGMWGSClW9gSqJ6PBG2hmPpL9j/Bz/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVAPIPRXEfm4zonh3xlozDttVcLoiOZuOmVNntc2g62NxM9PxfqwhWCTcW241MZESIx9ZlfPeh0FjMd0P4uNg7AvaKNpmsnLfNzDL7Axpo5z+C7vgSqbA4ox4sR/0UST8wZxUAdj4X8l5SkpikfDdj3lThQ/QQQo02o1QnCVSHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bTYNpAmF; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1722875651; c=relaxed/simple;
+	bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KiBLZz3edfXfrV1B9Wt12daM8g+IyuaGFDZ2joGTCbwSGp5UNBSnlhfeKkwWxiX3FUJ1WWIK28KDNCzW2x8a4QvvyYMQdXTyd4DplNISXWZZvIla/y/PKbIy3rLdoxbgs3HMXuMJf/i2HNRQr+J4FTy/Ifnm3MsMXiKnlA3COBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ooMfse3W; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bTYNpAmF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=odYhL10aGT5OasfIueuuGPU6JgBCgXOLpbIAhkKv+Gc=; b=bTYNpAmFXj2qriAOV+gcbP3foS
-	j29RgYDtktjL39ONRllYd6zLpM+3ykUHscEQ1EAbnF+Sm1HOzPBK7p3vBpBVOVoKgL01pfgu0fjCR
-	/bVNIU08KPKpBeQk080/vOHWWEWjccfMA1QY+hb37Tq/pwLL89/QWFdb11duOofIspeUZpd8PMuSo
-	l5C2lOAzCVXQoc4AQk5DFqspLHiyWXsJrRzgRT78tfvthvuVzzTY+shzcnDPrrjqTUuYwpL1sv0Ra
-	UHnysdc4SuHwiyn4gfOeLKMEu7rpoCeu+b7SYWHGNxXrMbpY9XBoN5tOWVzaQBs9/V5tt1XkZWsfY
-	PqlyG72A==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sazQK-00000004O32-27sM;
-	Mon, 05 Aug 2024 15:15:00 +0000
-Date: Mon, 5 Aug 2024 16:15:00 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: 412574090@163.com
-Cc: corbet@lwn.net, bhelgaas@google.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	xiongxin@kylinos.cn, weiyufeng <weiyufeng@kylinos.cn>
-Subject: Re: [PATCH] PCI: limit pci bridge and subsystem speed to 2.5GT/s
-Message-ID: <ZrDsdA3-uUJV8VdK@casper.infradead.org>
-References: <20240805092010.82986-1-412574090@163.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ooMfse3W"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6b795574f9dso58452846d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 09:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722875649; x=1723480449; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
+        b=ooMfse3WVKfuxOLSSKdlcT9aqFqVw/RtyRXpOBsgOCTn9wKceQcM71mSUyFUCGbjdh
+         26+ROdikowegVtjSUS4uWVUhtc95hLL23dlnWFj8cp65MVc4drKNIX9u43DWF2Bats8h
+         t0heAI4eFDoxqmiGWoYtMgQD56gP+7qgIFOqzvLbDpke6iJR6YapJ+kA8HjUL+DyHiKy
+         +7NkKP96kiTMdLcfY8EpRMfItKrh6siytmWkC/b0tGgiJkDeyeXjOqlFRgZJ9luyNyNG
+         6FpewpnZhlzpQ9biBgMEY7x44yXFsfP3XIyl2lb1fAFA0jwMYwVdtCGFuyqF5RwPlBAL
+         hg0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722875649; x=1723480449;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WShIfcyB1WIBp1LMFRNAOGPYq4so52JcsO4pudunr3k=;
+        b=VnzTpbIkwGE5n79R4FpJOsj8WfMTa5nZu74AbjCBNU0adf/MJEAJX79jlOQJWVEqXS
+         Xo3TrVIPl+WkdtikjUOXbu/mu/PQrNH2nusUxaLKG6Dw4VTvalplH8L6YhpZ3F9+ZP7o
+         uzPYZXPScpSD7DFmfuR+ly7++m4hkkW/Th6naCWscfNurxSMD7tfZbNpzOdULnJtXsfM
+         cILpVkm7++70cWZ6I9hIoMaRnsad2cbFrsuzUxMHfXfhU03T/YTVRY22nI3mcp8/8PYK
+         +wz9KJ3NgMoDvMi40PBHxXmUCs22K6/ldDGEJXdACiZFQXcpT37uD72cb+Q6eUU2C0xw
+         ttsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVP7cOPmIx/Qj5gSQ98ZGbW4DhcHs7816LH4MtFdDrtzPhn882pZ6AMXjV5eC32SYfLEXNr3sIaUGWhJum82DGoShgBWPJA6Rhy
+X-Gm-Message-State: AOJu0YwcEpdCtdeJV9kBGavkb0zUdwzUOBVThb2JKJwo+RBESmve+pb0
+	8y7BVSVKeW7ysTp+1TovZ9CmHBJpsSSY1usrBZ7ChLCLcgoAIZbpw+SrX7IBZWuoI6vSS2tFbxB
+	ZKp26j6vAco1caTWYtU9wrLzWdLYnE/puSac+
+X-Google-Smtp-Source: AGHT+IE3X2dzKDTfvW579W1ONWZvzHmSuPdaFYmL6fjjzD5I45yXHVQPoF1XfHnvXWK/VzgEqMK+gXEJqks0i1Xyhdk=
+X-Received: by 2002:a05:6214:4412:b0:6b5:7e97:7151 with SMTP id
+ 6a1803df08f44-6bb98345fa9mr131458736d6.17.1722875648824; Mon, 05 Aug 2024
+ 09:34:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240805092010.82986-1-412574090@163.com>
+References: <20240730022623.98909-4-almasrymina@google.com> <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+In-Reply-To: <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 5 Aug 2024 12:33:55 -0400
+Message-ID: <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
+Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to netdevice
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Kaiyuan Zhang <kaiyuanz@google.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
+	Andreas Larsson <andreas@gaisler.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Christoph Hellwig <hch@infradead.org>, David Ahern <dsahern@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>, 
+	Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Helge Deller <deller@gmx.de>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Jakub Kicinski <kuba@kernel.org>, 
+	"James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Jeroen de Borst <jeroendb@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Matt Turner <mattst88@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Richard Henderson <richard.henderson@linaro.org>, Shailend Chand <shailend@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Yunsheng Lin <linyunsheng@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 05, 2024 at 05:20:10PM +0800, 412574090@163.com wrote:
-> From: weiyufeng <weiyufeng@kylinos.cn>
-> 
-> Add a kernel command-line option 'speed2_5g' to limit pci bridge
-> and subsystem devices speed to 2.5GT/s. As a debug method, this
-> provide for developer to temporarily slow down PCIe devices for
-> verification.
+On Tue, Jul 30, 2024 at 4:38=E2=80=AFAM Markus Elfring <Markus.Elfring@web.=
+de> wrote:
+>
+> =E2=80=A6
+> > +++ b/include/net/devmem.h
+> > @@ -0,0 +1,115 @@
+> =E2=80=A6
+> > +#ifndef _NET_DEVMEM_H
+> > +#define _NET_DEVMEM_H
+> =E2=80=A6
+>
+> I suggest to omit leading underscores from such identifiers.
+> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+=
+define+a+reserved+identifier
+>
 
-I am opposed to this patch benig merged.  There's no harm to keep it for
-your own testing.
+I was gonna apply this change, but I ack'd existing files and I find
+that all of them include leading underscores, including some very
+recently added files like net/core/page_pool_priv.h.
+
+I would prefer to stick to existing conventions if that's OK, unless
+there is widespread agreement to the contrary.
+
+--=20
+Thanks,
+Mina
