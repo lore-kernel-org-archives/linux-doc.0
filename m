@@ -1,254 +1,218 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46D614F9F7
-	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 09:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 959FE150990;
+	Mon,  5 Aug 2024 09:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722848420; cv=none; b=CiVJ2XFkeZgbi3J6eqpPdkY3fArI6724b4lEzO7vUh1/CGtr23XlNZeffUamcox08fefgyTGo6KyPkDmWve7l6yIc1dd/uC6DPw2AowO4fu+JjeaSmZjkmHTkc2yhY7617nvC4GJq6NTnd15mbFfglti1Fxq1rZADyTbQ5QAH3U=
+	t=1722849645; cv=none; b=VQfIMpG4vAbJFrRmJK/g5XjlETsjGW0XtS1fORRCos8+3TEwJY/Qj1zYYo4rYJt2KA9vCNbjkn3IqdjkoVpbPhInAeEt/EyKTztEqOfps4DCbCOckBA4A5sbh/R2cbpZ1/CGKZkQFfO+VIpmVw49N1g8jfDpceUbKgUueMxCXEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722848420; c=relaxed/simple;
-	bh=RGxjWP36zYf705/8hcS6JggT+1VzPZ2Rgkma8Uc4dAY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZJYN7WypAztwzlWmYAG5sRRO/RebhmmQb//FXCIbVb8dW7qcM9zDecNTb4un0SdWcSS01LicH5IHM9kXfgwG0ENaDTuf6kaf65wadu/RqK9pIZMdyOsXHPqXA3n5o0kEWYV6FqGYgyRqhGdu+dGvaWemOvfpFnKzeNZEvSI3dFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JgBNu8Sv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1722849645; c=relaxed/simple;
+	bh=b5heeRdhZJFZMg01gdpFCW5JlPhDbxMw3iu/c81JK5I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=drpn+OpPKfoKEeqsBqQfsk6I3osWDnmblZp/9eTZcYZ9MEaqwtNG8sneIi0WK1U5M7ZwZoVN3QZ8HwkfrcVTeiF+xTMu5KwxYIivBPNdz/IUBSR6zRNr3Trkj5px8uWXFFN3375HF6+bNX+ZzB9gbRhbnrf2GYM2pi3T/o0kSZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=kZSf0aeB; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JgBNu8Sv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722848417;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8HQitpbMW2ypbNGKvmYtYs01w+MzFX+wf5SUicYWuc4=;
-	b=JgBNu8Sv3XCw+vXzEicLP1PV4xapjq/th04Usz7pf6GEbywBqkNPali+MzufkmNHCCfAW9
-	URuYDcbk/n6G8BHtEgWNV+qbXngJ2KLWlmKAB3kMr4dumeHmhIKTkvDfgvIXz7vT6YyuOv
-	pTTArwfZ3WIaUKIgG7/lUQsXjzs1Xb8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-MQHh9BDoNOid2frUim7uNA-1; Mon, 05 Aug 2024 05:00:15 -0400
-X-MC-Unique: MQHh9BDoNOid2frUim7uNA-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4281f8994adso61267945e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 02:00:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722848414; x=1723453214;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8HQitpbMW2ypbNGKvmYtYs01w+MzFX+wf5SUicYWuc4=;
-        b=acOFwV7kB+vstkTlf+SoIk/BcKpRhdHlA79cYH3wXf0Cadkxo2Oo92kCAwkRpHEbkB
-         Fu7rRj0wYiWdtsZ7HZExGOXpVexHOqIZFo7B/YrpzErxItOC5bv8LKGk0fnjDmhqeFQj
-         A5tobnT57CRrQzarJvxHik0baYZVAQgpqPhv5L+pYxDzdxetY7Ni0GXJ064JBpECbxib
-         pIohqMuaz1SPPenk5MIRXb5YJiNn8AQXFbe/EVcqWSFqVPRPQo6liYE6kgVIVFVdRntE
-         KJTg+1i+fdu9B9Fv+pQYcZRyF5kjJG3sEY43fUE2DqKZmefwrODDTfEkfF8ofDz4KGDE
-         hvQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuqGZv/n+zud3K/CP99OMMwlyuA7THGDUEwDx5lZV/BAcLmx+UDr6uSeiVVMoUUxC+aO/+AddOmam3NFYUmfGwaqs4EGtQfYV4
-X-Gm-Message-State: AOJu0YxyZ1pTmhg9QHuM4gTupicHVmnZJEUBMNmAehEO/PNWyOZYf1HI
-	MOq67kiOjG+2GJdfAWujY5GpXNuGIBhaALEgzcUqmSJyWncDppiVi5kHnK6NCWzWu5APMm9mNXS
-	M8nuTM6Lltg/9PjnjgmOq4HoMNKB+UjQO2psAcw7XakWT9zAVCKvM/OittQ==
-X-Received: by 2002:a05:600c:1552:b0:426:6822:861 with SMTP id 5b1f17b1804b1-428e6b925c7mr72392145e9.36.1722848414265;
-        Mon, 05 Aug 2024 02:00:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5X01e4CDCLCXfAB37fYDPKvRcTeP8WyfYVlDdNd+Qm0VWVvOc9aGo2XYJg7YFARRENnEycQ==
-X-Received: by 2002:a05:600c:1552:b0:426:6822:861 with SMTP id 5b1f17b1804b1-428e6b925c7mr72391815e9.36.1722848413714;
-        Mon, 05 Aug 2024 02:00:13 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6d643a4sm130515125e9.2.2024.08.05.02.00.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Aug 2024 02:00:13 -0700 (PDT)
-Message-ID: <73bbee97-ff58-4518-8dcf-e1da07906b45@redhat.com>
-Date: Mon, 5 Aug 2024 11:00:12 +0200
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="kZSf0aeB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=VXcyq
+	M1GX+hSvyd+zy7tPfBS8sV00w4G3p2K/7gHXN4=; b=kZSf0aeB5rhEAmvuPBs0f
+	v0ieI7hVJHrNxp8lraLtgj8j5w+l4jQ6lnQSvXeGG45sIOWj1NpquhybqTDdDV/d
+	oXGrvUubAGT4ToP3K3e+HgBx2oB2XAr8zP4OXbRP3kjwLk8xzOqb9E4OwybAHYKF
+	8XNrz1nvTUcrT8QzXs/fQw=
+Received: from localhost.localdomain (unknown [111.48.58.13])
+	by gzga-smtp-mta-g2-5 (Coremail) with SMTP id _____wDn77lNmbBmQWuuAQ--.226S2;
+	Mon, 05 Aug 2024 17:20:13 +0800 (CST)
+From: 412574090@163.com
+To: corbet@lwn.net,
+	bhelgaas@google.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	xiongxin@kylinos.cn,
+	weiyufeng <weiyufeng@kylinos.cn>
+Subject: [PATCH] PCI: limit pci bridge and subsystem speed to 2.5GT/s
+Date: Mon,  5 Aug 2024 17:20:10 +0800
+Message-Id: <20240805092010.82986-1-412574090@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] mm: free zapped tail pages when splitting isolated
- thp
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com,
- Shuang Zhai <zhais@google.com>
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
- <20240730125346.1580150-4-usamaarif642@gmail.com>
- <3be3dacd-1f45-468f-a363-b9d3a10aeb89@redhat.com>
- <6622b7b4-e558-4d14-bc72-33e8008b06ec@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <6622b7b4-e558-4d14-bc72-33e8008b06ec@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDn77lNmbBmQWuuAQ--.226S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKw1fAryUtF1DAF48JFW7CFg_yoW7tw4kpF
+	WDAa4ayry8GF1UWr4DAa1DuFy3Z392v3ySkrW0k34S9FsIyas5tF4Sgr1avFnrWrWkuF13
+	Jr4aqry8CF4UtaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jI9a9UUUUU=
+X-CM-SenderInfo: yursklauqziqqrwthudrp/xtbBFQ8tAGXAmqDH+wACsW
 
-On 04.08.24 21:02, Usama Arif wrote:
-> 
-> 
-> On 30/07/2024 16:14, David Hildenbrand wrote:
->> On 30.07.24 14:46, Usama Arif wrote:
->>> From: Yu Zhao <yuzhao@google.com>
->>>
->>> If a tail page has only two references left, one inherited from the
->>> isolation of its head and the other from lru_add_page_tail() which we
->>> are about to drop, it means this tail page was concurrently zapped.
->>> Then we can safely free it and save page reclaim or migration the
->>> trouble of trying it.
->>>
->>> Signed-off-by: Yu Zhao <yuzhao@google.com>
->>> Tested-by: Shuang Zhai <zhais@google.com>
->>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>> ---
->>>    mm/huge_memory.c | 26 ++++++++++++++++++++++++++
->>>    1 file changed, 26 insertions(+)
->>>
->>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>> index 0167dc27e365..76a3b6a2b796 100644
->>> --- a/mm/huge_memory.c
->>> +++ b/mm/huge_memory.c
->>> @@ -2923,6 +2923,8 @@ static void __split_huge_page(struct page *page, struct list_head *list,
->>>        unsigned int new_nr = 1 << new_order;
->>>        int order = folio_order(folio);
->>>        unsigned int nr = 1 << order;
->>> +    LIST_HEAD(pages_to_free);
->>> +    int nr_pages_to_free = 0;
->>>          /* complete memcg works before add pages to LRU */
->>>        split_page_memcg(head, order, new_order);
->>> @@ -3007,6 +3009,24 @@ static void __split_huge_page(struct page *page, struct list_head *list,
->>>            if (subpage == page)
->>>                continue;
->>>            folio_unlock(new_folio);
->>> +        /*
->>> +         * If a tail page has only two references left, one inherited
->>> +         * from the isolation of its head and the other from
->>> +         * lru_add_page_tail() which we are about to drop, it means this
->>> +         * tail page was concurrently zapped. Then we can safely free it
->>> +         * and save page reclaim or migration the trouble of trying it.
->>> +         */
->>> +        if (list && page_ref_freeze(subpage, 2)) {
->>> +            VM_BUG_ON_PAGE(PageLRU(subpage), subpage);
->>> +            VM_BUG_ON_PAGE(PageCompound(subpage), subpage);
->>> +            VM_BUG_ON_PAGE(page_mapped(subpage), subpage);
->>> +
->>
->> No VM_BUG_*, VM_WARN is good enough.
->>
->>> +            ClearPageActive(subpage);
->>> +            ClearPageUnevictable(subpage);
->>> +            list_move(&subpage->lru, &pages_to_free);
->>
->> Most checks here should operate on new_folio instead of subpage.
->>
->>
-> Do you mean instead of doing the PageLRU, PageCompound and page_mapped check on the subpage, there should be checks on new_folio?
-> If new_folio is a large folio, then it could be that only some of the subpages were zapped?
+From: weiyufeng <weiyufeng@kylinos.cn>
 
-We do a:
+Add a kernel command-line option 'speed2_5g' to limit pci bridge
+and subsystem devices speed to 2.5GT/s. As a debug method, this
+provide for developer to temporarily slow down PCIe devices for
+verification.
 
-struct folio *new_folio = page_folio(subpage);
+Signed-off-by: weiyufeng <weiyufeng@kylinos.cn>
+---
+ .../admin-guide/kernel-parameters.txt         |  8 ++++
+ drivers/pci/pci.c                             |  6 ++-
+ drivers/pci/pci.h                             |  1 +
+ drivers/pci/probe.c                           | 41 +++++++++++++++++++
+ include/linux/pci.h                           |  3 ++
+ 5 files changed, 58 insertions(+), 1 deletion(-)
 
-Then:
-
-PageLRU() will end up getting translated to 
-folio_test_lru(page_folio(subpage))
-
-page_mapped() will end up getting translated to
-folio_mapped(page_folio(subpage))
-
-PageCompound() is essentially a folio_test_large() check.
-
-So what stops us from doing
-
-VM_WARN_ON_ONCE_FOLIO(folio_test_lru(new_folio), new_folio);
-VM_WARN_ON_ONCE_FOLIO(folio_test_large(new_folio), new_folio);
-VM_WARN_ON_ONCE_FOLIO(folio_mapped(new_folio), new_folio);
-
-folio_clear_active(new_folio);
-folio_clear_unevictable(new_folio);
-...
-
-?
-
-The page_ref_freeze() should make sure that we don't have a tail page of
-a large folio. Tail pages would have a refcount of 0.
-
-Or what am I missing?
-
-> 
-> Could do below if subpage makes sense
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 3305e6d0b90e..abfcd4b7cbba 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3041,9 +3041,9 @@ static void __split_huge_page(struct page *page, struct list_head *list,
->                   * and save page reclaim or migration the trouble of trying it.
->                   */
->                  if (list && page_ref_freeze(subpage, 2)) {
-> -                       VM_BUG_ON_PAGE(PageLRU(subpage), subpage);
-> -                       VM_BUG_ON_PAGE(PageCompound(subpage), subpage);
-> -                       VM_BUG_ON_PAGE(page_mapped(subpage), subpage);
-> +                       VM_WARN_ON_ONCE_PAGE(PageLRU(subpage), subpage);
-> +                       VM_WARN_ON_ONCE_PAGE(PageCompound(subpage), subpage);
-> +                       VM_WARN_ON_ONCE_PAGE(page_mapped(subpage), subpage);
->   
->                          ClearPageActive(subpage);
->                          ClearPageUnevictable(subpage);
-> 
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e86a098e06a8..e9b62e259128 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4632,6 +4632,14 @@
+ 		nomio		[S390] Do not use MIO instructions.
+ 		norid		[S390] ignore the RID field and force use of
+ 				one PCI domain per PCI function
++		speed2_5g=
++				Format:
++				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
++				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++				Specify one or more PCI bridge devices (in the
++				format specified above) separated by semicolons.
++				Each bridge device specified will limit the bridge
++				and subsystem devices speed to 2.5GT/s.
+ 
+ 	pcie_aspm=	[PCIE] Forcibly enable or ignore PCIe Active State Power
+ 			Management.
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index ffaaca0978cb..0bda7321167c 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -159,6 +159,7 @@ static bool pcie_ats_disabled;
+ 
+ /* If set, the PCI config space of each device is printed during boot. */
+ bool pci_early_dump;
++const char *pci_speed_2_5g;
+ 
+ bool pci_ats_disabled(void)
+ {
+@@ -374,7 +375,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+  * Returns 1 if the string matches the device, 0 if it does not and
+  * a negative error code if the string cannot be parsed.
+  */
+-static int pci_dev_str_match(struct pci_dev *dev, const char *p,
++int pci_dev_str_match(struct pci_dev *dev, const char *p,
+ 			     const char **endptr)
+ {
+ 	int ret;
+@@ -423,6 +424,7 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+ 	*endptr = p;
+ 	return 1;
+ }
++EXPORT_SYMBOL_GPL(pci_dev_str_match);
+ 
+ static u8 __pci_find_next_cap_ttl(struct pci_bus *bus, unsigned int devfn,
+ 				  u8 pos, int cap, int *ttl)
+@@ -6905,6 +6907,8 @@ static int __init pci_setup(char *str)
+ 				disable_acs_redir_param = str + 18;
+ 			} else if (!strncmp(str, "config_acs=", 11)) {
+ 				config_acs_param = str + 11;
++			} else if (!strncmp(str, "speed2_5g=", 10)) {
++				pci_speed_2_5g = str + 10;
+ 			} else {
+ 				pr_err("PCI: Unknown option `%s'\n", str);
+ 			}
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 2fe6055a334d..615fa054e6b1 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -67,6 +67,7 @@
+ 
+ extern const unsigned char pcie_link_speed[];
+ extern bool pci_early_dump;
++extern const char *pci_speed_2_5g;
+ 
+ bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+ bool pcie_cap_has_lnkctl2(const struct pci_dev *dev);
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index b14b9876c030..d64f328987a0 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1846,6 +1846,45 @@ static void early_dump_pci_device(struct pci_dev *pdev)
+ 		       value, 256, false);
+ }
+ 
++static void pcie_retrain_downstream_2_5g(struct pci_dev *pdev)
++{
++	u16 lnkctl2;
++	const char *p;
++	int ret;
++
++	p = pci_speed_2_5g;
++	while (*p) {
++		ret = pci_dev_str_match(pdev, p, &p);
++		if (ret < 0) {
++			pr_info_once("PCI: Can't parse pci_speed_2_5g parameter: %s\n",
++				pci_speed_2_5g);
++			break;
++		} else if (ret == 1) {
++			/* Found a match */
++			break;
++		}
++
++		if (*p != ';' && *p != ',') {
++			/* End of param or invalid format */
++			break;
++		}
++		p++;
++	}
++
++	if (ret != 1)
++		return;
++
++	pci_info(pdev, "set downstream link at 2.5GT/s\n");
++	pcie_capability_read_word(pdev, PCI_EXP_LNKCTL2, &lnkctl2);
++	lnkctl2 &= ~PCI_EXP_LNKCTL2_TLS;
++	lnkctl2 |= PCI_EXP_LNKCTL2_TLS_2_5GT;
++	pcie_capability_write_word(pdev, PCI_EXP_LNKCTL2, lnkctl2);
++
++	if (pcie_retrain_link(pdev, true)) {
++		pci_info(pdev, "retraining failed\n");
++	}
++}
++
+ static const char *pci_type_str(struct pci_dev *dev)
+ {
+ 	static const char * const str[] = {
+@@ -2041,6 +2080,8 @@ int pci_setup_device(struct pci_dev *dev)
+ 			pci_read_config_word(dev, pos + PCI_SSVID_VENDOR_ID, &dev->subsystem_vendor);
+ 			pci_read_config_word(dev, pos + PCI_SSVID_DEVICE_ID, &dev->subsystem_device);
+ 		}
++		if (pci_speed_2_5g)
++			pcie_retrain_downstream_2_5g(dev);
+ 		break;
+ 
+ 	case PCI_HEADER_TYPE_CARDBUS:		    /* CardBus bridge header */
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 4246cb790c7b..18198af09142 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1184,6 +1184,7 @@ void pci_sort_breadthfirst(void);
+ 
+ u8 pci_bus_find_capability(struct pci_bus *bus, unsigned int devfn, int cap);
+ u8 pci_find_capability(struct pci_dev *dev, int cap);
++int pci_dev_str_match(struct pci_dev *dev, const char *p, const char **endptr);
+ u8 pci_find_next_capability(struct pci_dev *dev, u8 pos, int cap);
+ u8 pci_find_ht_capability(struct pci_dev *dev, int ht_cap);
+ u8 pci_find_next_ht_capability(struct pci_dev *dev, u8 pos, int ht_cap);
+@@ -1984,6 +1985,8 @@ static inline int pci_register_driver(struct pci_driver *drv)
+ static inline void pci_unregister_driver(struct pci_driver *drv) { }
+ static inline u8 pci_find_capability(struct pci_dev *dev, int cap)
+ { return 0; }
++static inline int pci_dev_str_match(struct pci_dev *dev, const char *p, const char **endptr)
++{ return 0; }
+ static inline u8 pci_find_next_capability(struct pci_dev *dev, u8 post, int cap)
+ { return 0; }
+ static inline u16 pci_find_ext_capability(struct pci_dev *dev, int cap)
 -- 
-Cheers,
-
-David / dhildenb
+2.25.1
 
