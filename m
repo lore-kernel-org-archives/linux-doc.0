@@ -1,268 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469C41109;
-	Mon,  5 Aug 2024 07:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE3E149E06
+	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 08:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722841316; cv=none; b=S3CWpcNjAxhUrFigi5ggl7FJX0p4+4EivEYyh/kIG3awlbDj8bkBKIzNHLjYbS8GotcFRHdeKceJec5S9PQTjGhG1dxsGsTj7Sd/6mlgNDmatnTUBPm6hkt3bpIXCTleAT6Rr7CZL0A3UPwxj4SrUEn/g8HpP0RDzR5o+38m36A=
+	t=1722844929; cv=none; b=ChD8ySHeysVR8Pg+qzY8KI88fBWQRhJYf5uSqiCteHkzjYWcxHkfXqUIZWskQfy0KaT9P3rLOcaHV4J9mzLdh7qPWlBBikLf6/3jIFSHlz+2p5UUWZ5PkNXBzdNo2hsfcQ++HcEfWdUlrKF8EU2dbuoKqWI9FAGC7MOhx4DFpt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722841316; c=relaxed/simple;
-	bh=4QoMugMLw5W2gcbxvuUgAl8QFQMNiCPWsKLkbOyrOLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c3U5i5vL4jdvNYrcVsdACDTNO8tD8LAnlV98SrHzoAZrvJFwE2iKBnA1C+fvMNsh2OyfexjnmpEeutzke4QZjqPDyFHqCyL8p7ybpJgVoy3BtCrycSK6MbR8VHeehyVsyoqJ39as342xWmGM6Ku4TI5c3qhIAf+3cCCmO/b65eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0buGd8nR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722844929; c=relaxed/simple;
+	bh=3SzrIAjNMfo/xyaY6qD0WMNLA83hhVRZkGTby43i1Yw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i0NhYp0dOasSeDiKcsIfY1bb2oLJy8y4RaU4HZknKUkpj7V1HHhU5KnlJ+fsbIo4yCn4PMY8COlU0pTyyE8/VsQ6aezbdCVLM0/LZjEArmImJ+j7E8d22ukwQmc9eHOlwqPJ06qrKUFRuGLKbNcvxkUqqVk/rsFk9wDIxJpMHH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H+OZgpti; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0buGd8nR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C649C32782;
-	Mon,  5 Aug 2024 07:01:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722841315;
-	bh=4QoMugMLw5W2gcbxvuUgAl8QFQMNiCPWsKLkbOyrOLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0buGd8nRim4xJJhU+SHdKlM4+iHzqXu31nY2OG4VJIJzXv5bWLETiaXS0EjKKZXfr
-	 iyRHzEJq2x+xdkvQPTQrOe/mVGp4ctLU81iiBG28BaJ1Ygr8I+6WUlHB6xOSxrfug3
-	 0bbNGBVHxFZ/LY/vRh095nwXhtMyuK8/UYjQeW2U=
-Date: Mon, 5 Aug 2024 09:01:52 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: crwulff@gmail.com
-Cc: linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Farman <farman@linux.ibm.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Dmitry Antipov <dmantipov@yandex.ru>,
-	Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, David Sands <david.sands@biamp.com>
-Subject: Re: [PATCH v4] usb: gadget: f_fs: add capability for dfu run-time
- descriptor
-Message-ID: <2024080516-flatness-humorous-03ca@gregkh>
-References: <20240805000639.619232-2-crwulff@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H+OZgpti"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722844926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FOOMdJZrThW/VVTNtW/8cjfUGb38v95FiRlM9skachc=;
+	b=H+OZgptio28nPEyhAu9+AAqD3kBcxWDc+wrnZb4eujOKTlYwagy3IG12zgtdFcPm2sgnQF
+	OCAVX6JeuluI69vmtm9oDaOcvUcJkwvlrwZErbZcTqV9c8V6MQVoq+de0WHHytSQbuNLpn
+	evRP1OP+wXFQ4pNijBfYE8+Vyc2NnB4=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-eBj6tPztMQSAun-i-gqohg-1; Mon, 05 Aug 2024 04:02:04 -0400
+X-MC-Unique: eBj6tPztMQSAun-i-gqohg-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a77cd5611c5so79457866b.2
+        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 01:02:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722844923; x=1723449723;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FOOMdJZrThW/VVTNtW/8cjfUGb38v95FiRlM9skachc=;
+        b=jtZXrc6H/xRJUvXSDUZJN/8ceoryPHNPMfPu33VaSVly7nZlNpxO7S2RRz5v3K0fRh
+         f6uGPD7lizAW4aCbgzQSMY9LPReuhAkNasAsPBZtElfe+8dk2c5yT4CcAi10nvKzArLm
+         1qAlJ2Qnt+ETEc4HXVLB/e6FeKEeQPRbt4UNNZDt0+oTtoUn3EL3GeLHM9NGX8FcYqkl
+         YbCQ/guHyu0Fk1cheu3XnUd9/5pdXQZh5xqnrsK+snTvsv4uuOE/+3MOc+cYuq2DwY4d
+         dEpCGjGOYMoWl1GLsI+1PC59rSnlruMztuXRl40UWxHCMUiHUFQeXp6nTjgQwMoQ/qB3
+         yZSw==
+X-Gm-Message-State: AOJu0YzQrN2L16oBs4vxdCsKCPH5ClsThWKm35VUN67WLLuVjG5N5dvh
+	ql7z7s5+TLqpdVn+6E5akEhQ88XoV57ZvD0ho6MF2euVCZkv6guWhu8oF9d0CuQB1t2J9ZnumD6
+	FfvYK3tW/qPYSRNggCekNFav7ffHrzSdQ8LI0XBLg4qKGlZpqLsnJD8/MXQ==
+X-Received: by 2002:a17:906:6a0f:b0:a7a:aa35:409c with SMTP id a640c23a62f3a-a7dc512cdc8mr479716366b.9.1722844923329;
+        Mon, 05 Aug 2024 01:02:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHTS/SS1ApAhdkVa3Kv54fKJw0UKK+zRKzrvkYAaC1yWAeQnQdQA8voDIcJKUGPudzDl20u8A==
+X-Received: by 2002:a17:906:6a0f:b0:a7a:aa35:409c with SMTP id a640c23a62f3a-a7dc512cdc8mr479712266b.9.1722844922775;
+        Mon, 05 Aug 2024 01:02:02 -0700 (PDT)
+Received: from eisenberg.fritz.box (200116b82df07e000a5f4891a3b0b190.dip.versatel-1u1.de. [2001:16b8:2df0:7e00:a5f:4891:a3b0:b190])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7de8d0868bsm277958966b.143.2024.08.05.01.02.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 01:02:02 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Jie Wang <jie.wang@intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Shashank Gupta <shashank.gupta@intel.com>,
+	Damian Muszynski <damian.muszynski@intel.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-crypto@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2 00/10] Remove pcim_iomap_regions_request_all()
+Date: Mon,  5 Aug 2024 10:01:27 +0200
+Message-ID: <20240805080150.9739-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240805000639.619232-2-crwulff@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 04, 2024 at 08:06:40PM -0400, crwulff@gmail.com wrote:
-> From: David Sands <david.sands@biamp.com>
-> 
-> From: David Sands <david.sands@biamp.com>
-
-Twice?
-
-> Add the ability for FunctionFS driver to be able to create DFU Run-Time
-> descriptors.
-
-As others said, please spell out "DFU" and I do not think that
-"Run-Time" needs Capital letters, or a '-', right?
-
-Also include here a lot more description of how this is to be used.
-
-> 
-> Signed-off-by: David Sands <david.sands@biamp.com>
-> Co-developed-by: Chris Wulff <crwulff@gmail.com>
-> Signed-off-by: Chris Wulff <crwulff@gmail.com>
-> ---
-> v4: Clean up unneeded change, switch to BIT macros, more documentation
-> v3: Documentation, additional constants and constant order fixed
-> https://lore.kernel.org/all/CO1PR17MB54197F118CBC8783D289B97DE1102@CO1PR17MB5419.namprd17.prod.outlook.com/
-> v2: https://lore.kernel.org/linux-usb/CO1PR17MB54198D086B61F7392FA9075FE10E2@CO1PR17MB5419.namprd17.prod.outlook.com/
-> v1: https://lore.kernel.org/linux-usb/CO1PR17MB5419AC3907C74E28D80C5021E1082@CO1PR17MB5419.namprd17.prod.outlook.com/
-> ---
->  Documentation/usb/functionfs-desc.rst | 22 ++++++++++++++++++++++
->  Documentation/usb/functionfs.rst      |  2 ++
->  Documentation/usb/index.rst           |  1 +
->  drivers/usb/gadget/function/f_fs.c    | 12 ++++++++++--
->  include/uapi/linux/usb/ch9.h          |  8 ++++++--
->  include/uapi/linux/usb/functionfs.h   | 25 +++++++++++++++++++++++++
->  6 files changed, 66 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/usb/functionfs-desc.rst
-> 
-> diff --git a/Documentation/usb/functionfs-desc.rst b/Documentation/usb/functionfs-desc.rst
-> new file mode 100644
-> index 000000000000..73d2b8a3f02c
-> --- /dev/null
-> +++ b/Documentation/usb/functionfs-desc.rst
-> @@ -0,0 +1,22 @@
-> +======================
-> +FunctionFS Descriptors
-> +======================
-> +
-> +Interface Descriptors
-> +---------------------
-> +
-> +Standard USB interface descriptors may be added. The class/subclass of the
-> +most recent interface descriptor determines what type of class-specific
-> +descriptors are accepted.
-> +
-> +Class-Specific Descriptors
-> +--------------------------
-> +
-
-Why an empty section?
-
-> +DFU Functional Descriptor
-> +~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +When the interface class is USB_CLASS_APP_SPEC and  the interface subclass
-
-Extra space?
+Changes in v2:
+  - Fix a bug in patch №4 ("crypto: marvell ...") where an error code
+    was not set before printing it. (Me)
+  - Apply Damien's Reviewed- / Acked-by to patches 1, 2 and 10. (Damien)
+  - Apply Serge's Acked-by to patch №7. (Serge)
+  - Apply Jiri's Reviewed-by to patch №8. (Jiri)
+  - Apply Takashi Iwai's Reviewed-by to patch №9. (Takashi)
 
 
-> +is USB_SUBCLASS_DFU, a DFU functional descriptor can be provided.
+Hi all,
 
-Provided how?
+the PCI subsystem is currently working on cleaning up its devres API. To
+do so, a few functions will be replaced with better alternatives.
 
-> +
-> +.. kernel-doc:: include/uapi/linux/usb/functionfs.h
-> +   :doc: usb_dfu_functional_descriptor
-> diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-> index d05a775bc45b..4f96e4b93d7b 100644
-> --- a/Documentation/usb/functionfs.rst
-> +++ b/Documentation/usb/functionfs.rst
-> @@ -70,6 +70,8 @@ have been written to their ep0's.
->  Conversely, the gadget is unregistered after the first USB function
->  closes its endpoints.
->  
-> +For more information about FunctionFS descriptors see :doc:`functionfs-desc`
-> +
->  DMABUF interface
->  ================
->  
-> diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-> index 27955dad95e1..826492c813ac 100644
-> --- a/Documentation/usb/index.rst
-> +++ b/Documentation/usb/index.rst
-> @@ -11,6 +11,7 @@ USB support
->      dwc3
->      ehci
->      functionfs
-> +    functionfs-desc
+This series removes pcim_iomap_regions_request_all(), which has been
+deprecated already, and accordingly replaces the calls to
+pcim_iomap_table() (which were only necessary because of
+pcim_iomap_regions_request_all() in the first place) with calls to
+pcim_iomap().
 
-That's an odd name for a DFU-specific file, right?
+Would be great if you can take a look whether this behaves as you
+intended for your respective component.
 
-Where are the Documentation/ABI/ entries?
+Cheers,
+Philipp
 
->      gadget_configfs
->      gadget_hid
->      gadget_multi
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index d8b096859337..ba5c6e4827ba 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -2478,7 +2478,7 @@ typedef int (*ffs_os_desc_callback)(enum ffs_os_desc_type entity,
->  
->  static int __must_check ffs_do_single_desc(char *data, unsigned len,
->  					   ffs_entity_callback entity,
-> -					   void *priv, int *current_class)
-> +					   void *priv, int *current_class, int *current_subclass)
->  {
->  	struct usb_descriptor_header *_ds = (void *)data;
->  	u8 length;
-> @@ -2535,6 +2535,7 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
->  		if (ds->iInterface)
->  			__entity(STRING, ds->iInterface);
->  		*current_class = ds->bInterfaceClass;
-> +		*current_subclass = ds->bInterfaceSubClass;
->  	}
->  		break;
->  
-> @@ -2559,6 +2560,12 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
->  			if (length != sizeof(struct ccid_descriptor))
->  				goto inv_length;
->  			break;
-> +		} else if (*current_class == USB_CLASS_APP_SPEC &&
-> +			   *current_subclass == USB_SUBCLASS_DFU) {
-> +			pr_vdebug("dfu functional descriptor\n");
-> +			if (length != sizeof(struct usb_dfu_functional_descriptor))
-> +				goto inv_length;
-> +			break;
->  		} else {
->  			pr_vdebug("unknown descriptor: %d for class %d\n",
->  			      _ds->bDescriptorType, *current_class);
-> @@ -2621,6 +2628,7 @@ static int __must_check ffs_do_descs(unsigned count, char *data, unsigned len,
->  	const unsigned _len = len;
->  	unsigned long num = 0;
->  	int current_class = -1;
-> +	int current_subclass = -1;
->  
->  	for (;;) {
->  		int ret;
-> @@ -2640,7 +2648,7 @@ static int __must_check ffs_do_descs(unsigned count, char *data, unsigned len,
->  			return _len - len;
->  
->  		ret = ffs_do_single_desc(data, len, entity, priv,
-> -			&current_class);
-> +			&current_class, &current_subclass);
->  		if (ret < 0) {
->  			pr_debug("%s returns %d\n", __func__, ret);
->  			return ret;
-> diff --git a/include/uapi/linux/usb/ch9.h b/include/uapi/linux/usb/ch9.h
-> index 44d73ba8788d..91f0f7e214a5 100644
-> --- a/include/uapi/linux/usb/ch9.h
-> +++ b/include/uapi/linux/usb/ch9.h
-> @@ -254,6 +254,9 @@ struct usb_ctrlrequest {
->  #define USB_DT_DEVICE_CAPABILITY	0x10
->  #define USB_DT_WIRELESS_ENDPOINT_COMP	0x11
->  #define USB_DT_WIRE_ADAPTER		0x21
-> +/* From USB Device Firmware Upgrade Specification, Revision 1.1 */
-> +#define USB_DT_DFU_FUNCTIONAL		0x21
-> +/* these are from the Wireless USB spec */
->  #define USB_DT_RPIPE			0x22
->  #define USB_DT_CS_RADIO_CONTROL		0x23
->  /* From the T10 UAS specification */
-> @@ -329,9 +332,10 @@ struct usb_device_descriptor {
->  #define USB_CLASS_USB_TYPE_C_BRIDGE	0x12
->  #define USB_CLASS_MISC			0xef
->  #define USB_CLASS_APP_SPEC		0xfe
-> -#define USB_CLASS_VENDOR_SPEC		0xff
-> +#define USB_SUBCLASS_DFU			0x01
->  
-> -#define USB_SUBCLASS_VENDOR_SPEC	0xff
-> +#define USB_CLASS_VENDOR_SPEC		0xff
-> +#define USB_SUBCLASS_VENDOR_SPEC		0xff
->  
->  /*-------------------------------------------------------------------------*/
->  
-> diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-> index 9f88de9c3d66..40f87cbabf7a 100644
-> --- a/include/uapi/linux/usb/functionfs.h
-> +++ b/include/uapi/linux/usb/functionfs.h
-> @@ -37,6 +37,31 @@ struct usb_endpoint_descriptor_no_audio {
->  	__u8  bInterval;
->  } __attribute__((packed));
->  
-> +/**
-> + * struct usb_dfu_functional_descriptor - DFU Functional descriptor
-> + * @bLength:		Size of the descriptor (bytes)
-> + * @bDescriptorType:	USB_DT_DFU_FUNCTIONAL
-> + * @bmAttributes:	DFU attributes
-> + * @wDetachTimeOut:	Maximum time to wait after DFU_DETACH (ms, le16)
-> + * @wTransferSize:	Maximum number of bytes per control-write (le16)
-> + * @bcdDFUVersion:	DFU Spec version (BCD, le16)
-> + */
-> +struct usb_dfu_functional_descriptor {
-> +	__u8  bLength;
-> +	__u8  bDescriptorType;
-> +	__u8  bmAttributes;
-> +	__le16 wDetachTimeOut;
-> +	__le16 wTransferSize;
-> +	__le16 bcdDFUVersion;
-> +} __attribute__ ((packed));
-> +
-> +/* from DFU functional descriptor bmAttributes */
-> +#define DFU_FUNC_ATT_CAN_DOWNLOAD	BIT(0)
-> +#define DFU_FUNC_ATT_CAN_UPLOAD		BIT(1)
-> +#define DFU_FUNC_ATT_MANIFEST_TOLERANT	BIT(2)
-> +#define DFU_FUNC_ATT_WILL_DETACH	BIT(3)
+Philipp Stanner (10):
+  PCI: Make pcim_request_all_regions() a public function
+  ata: ahci: Replace deprecated PCI functions
+  crypto: qat - replace deprecated PCI functions
+  crypto: marvell - replace deprecated PCI functions
+  intel_th: pci: Replace deprecated PCI functions
+  wifi: iwlwifi: replace deprecated PCI functions
+  ntb: idt: Replace deprecated PCI functions
+  serial: rp2: Replace deprecated PCI functions
+  ALSA: korg1212: Replace deprecated PCI functions
+  PCI: Remove pcim_iomap_regions_request_all()
 
-Wrong macro for bit fields for uapi .h files :(
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/ata/acard-ahci.c                      |  6 +-
+ drivers/ata/ahci.c                            |  6 +-
+ drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+ drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+ .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+ .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+ drivers/hwtracing/intel_th/pci.c              |  9 ++-
+ .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+ drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+ drivers/pci/devres.c                          | 59 +------------------
+ drivers/tty/serial/rp2.c                      | 12 ++--
+ include/linux/pci.h                           |  3 +-
+ sound/pci/korg1212/korg1212.c                 |  6 +-
+ 14 files changed, 76 insertions(+), 104 deletions(-)
 
-thanks,
+-- 
+2.45.2
 
-greg k-h
