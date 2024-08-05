@@ -1,218 +1,179 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F06148311
-	for <linux-doc@vger.kernel.org>; Mon,  5 Aug 2024 12:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26508158DD4;
+	Mon,  5 Aug 2024 12:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722861813; cv=none; b=b5UFMOVx3xdkPmhmYWyRKgOTtJ36Qvk0ulT4LBdgfQ0JHMZCARI9F2gOauqIcruItDLoYtnPojO4bfXeusOioMyjcO1QvBtBknfcFXLGs7SISNTdAgX1+Zsx/jwYPzANarM+3V/n4VotP15p2Kq0NL8a4Ys91qdu4/nlDxd1iJo=
+	t=1722862446; cv=none; b=F8Yrzx1uQHtEmVYpga0Pv0RoDpayW3979NCSe0T+FXlVLY3fgCJFlTGraNixt/LRzhirzzh9FIur+M9H6ijfQsxKaGoQ6H62sEglB5G87ERSavhprlFqj7HkTwWr8YnNS8hBGfbnNoA+rzfVqjrZwFaIKHJ+buywzYHSI+cf29w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722861813; c=relaxed/simple;
-	bh=ZVFQG2gxWg1NatGs5Nwt/qB0cd6FIdYnaGBnC6i3SLs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=qoi9HTPS5HgSh8+RnNGGx7XCrB74Xj2pPfIJthIYhxoUV6nBFgyT+nfT6/ug79sSqmsLJYgVeEcspvON7MdjtQNSbB9qk2TW9rJQqDmuxInIUqKtjofvV3yelXIgV57EYROvC2v7XA+/qRlUonY7cP8sA/o8S7O4dr9D6Sb4Xog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1WTwm6+d; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
+	s=arc-20240116; t=1722862446; c=relaxed/simple;
+	bh=dhPdOqZ+898xPYzWbd1j5IL1OdyNFVd1v7509mSM+TI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=H6rpvbaMwzZdDQv97FgxHRUmq9dUtPsPmDIMhyJ/Ga45Clzu0HLBnhJKHA08Vc1o9JcG3iax525UkPiBpUcpASb7X9BZwocU3GCFO7nxzaHL3c9178UUuEkt3RFTxC4rBofswdVCWHa/CUO6zWxUMsrMo3GDPNa8LTgLgcfPp7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDbTcCNy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1WTwm6+d"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e035949cc4eso18008642276.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Aug 2024 05:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722861810; x=1723466610; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LrC8PMqmgoYq1tMdewJcFduXfqGeN4f8xWTu+1cWz7M=;
-        b=1WTwm6+dwC3R5C6IBY9WIeeDs8wGBYms8s/+lZky/QMmf/1kJdrlqVHXOhhx6qdPlb
-         HTdKoIx1c3KsKTN0qbT3CyqDDCURqw5UakmaGl8kMBApAdR6BWztXN3em1rBBU9kU+Ik
-         JhbfyT1tZilIZm3I78rVoT0k8nlCA5iNRUvqSUsF1ZQuFjNJkWhKU76/nIojuuQwZ2Al
-         Hn3rcQgDvWKoPsi8u5XoMrC3wqIj/3W2TfCN8nhbjP+6S9kFcPdtqYnEnSsS2jKQ7XV1
-         f4muLbu6BIjT7+qOZ25bGojWNJZXkc9TYKjrw0bIT/UwmSArgKsdW5DhGq7w1GGbqyV5
-         LsPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722861810; x=1723466610;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LrC8PMqmgoYq1tMdewJcFduXfqGeN4f8xWTu+1cWz7M=;
-        b=SCTaJI8iAFnHgvwEb3yCkw78JmX1yedU8TuTD02zZcxEctJ3JmGI1/wTUvE9kPo5MF
-         gqL661eNsTGGh+6mlnlcskiDqx0NaRJ1yS1Ppy4QrV46d1wSLNZ/CQwhhWfHkOBsgnPw
-         Uyi2Y7o+/6sbYGspM14jGm/AsB06Jp1CPa4cR2sZTS9iYhk9e3Yx1jz+KokECRZzsdCI
-         HabQWx0SABQtQy36BypUBe672jXfo4a0Zmw7u+5FXu4A1j+gtkIJGkqoDnXUVAL+XOEV
-         WDI/LrKR9C/RGz+IqTJSjjxqIaHueYPqTqXbDiIvBGsc4KEmQhBA8GQ0ELPaIWCvlZ/r
-         3lLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVM9HVXniuXUhkrLujlAqHHDo/qYotun5e7N5NmCxNLt+xzSNUmE9fXstzoCBdhpAkYcmrw9OAF5+ipLSKbWJ61Q4yzGJnNe70
-X-Gm-Message-State: AOJu0Ywk7dAPry5MF9KG2FtqW9hezO1Y9IlepQB0gcYyc4uLxl6YIOio
-	SchBSZr2Lc8rvwPevmpWwyUt2iJyIaKV2kSLtwYK3i8+a7bYkvy2NqccEUHrKH5+jqSrx4XkWg=
-	=
-X-Google-Smtp-Source: AGHT+IGqkRac4PWjShJ8ZuJcg3lK53X4rsTvmZrworTa4PKf1hQ7xcsnsuhYAGll2uBuhCm9g3UE71/Pzw==
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:575f:bb7d:b516:3c23])
- (user=elver job=sendgmr) by 2002:a05:6902:100c:b0:dfa:8ed1:8f1b with SMTP id
- 3f1490d57ef6-e0bde22affamr334185276.1.1722861809962; Mon, 05 Aug 2024
- 05:43:29 -0700 (PDT)
-Date: Mon,  5 Aug 2024 14:39:39 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDbTcCNy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36E0C4AF0D;
+	Mon,  5 Aug 2024 12:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722862445;
+	bh=dhPdOqZ+898xPYzWbd1j5IL1OdyNFVd1v7509mSM+TI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JDbTcCNycT0kZSoUwobWeqVrd0fZIRJ+kKrq4eS03ay3gg+zyKCgOZEgnxN6hvzlN
+	 859uvczYpYykY4wCuvFLIVDk5jXf0VmG8Tz0Wx33WE8kFC+JAm0V58rOhE1Szm5yy6
+	 LIcyp0TUsvWHlQg11qe2qh9NczZ8T9JOi4E98Klj388Txo/ip0GW7C8uNrBvqNfxyK
+	 VKFGxVeSjLUomZjeTUAM28RYfJTOjyUQ3bi7oVWeuimJImMTbI6zbVK1m/+KidXal2
+	 /rl35r8a5vAf6V1m+kMF9dORvnMO3y5/KjDRs4BXGwxf8eJPR1lJxTtZ30VNwoNU+D
+	 RS84UcvEu6+mQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1saxDv-0000000CyYd-3Rza;
+	Mon, 05 Aug 2024 14:54:03 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Ard Biesheuvel <mchehab+huawei@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Len Brown <mchehab+huawei@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] Fix issues with ARM Processor CPER records
+Date: Mon,  5 Aug 2024 14:53:31 +0200
+Message-ID: <cover.1722861911.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.46.0.rc2.264.g509ed76dc8-goog
-Message-ID: <20240805124203.2692278-1-elver@google.com>
-Subject: [PATCH] kfence: introduce burst mode
-From: Marco Elver <elver@google.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, kasan-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Introduce burst mode, which can be configured with kfence.burst=$count,
-where the burst count denotes the additional successive slab allocations
-to be allocated through KFENCE for each sample interval.
+This is needed for both kernelspace and userspace properly handle
+ARM processor CPER events.
 
-The idea is that this can give developers an additional knob to make
-KFENCE more aggressive when debugging specific issues of systems where
-either rebooting or recompiling the kernel with KASAN is not possible.
+Patch 1 of this series fix the UEFI 2.6+ implementation of the ARM
+trace event, as the original implementation was incomplete.
+Changeset e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+added such event, but it reports only some fields of the CPER record
+defined on UEFI 2.6+ appendix N, table N.16.  Those are not enough
+actually parse such events on userspace, as not even the event type
+is exported.
 
-Experiment: To assess the effectiveness of the new option, we randomly
-picked a recent out-of-bounds [1] and use-after-free bug [2], each with
-a reproducer provided by syzbot, that initially detected these bugs with
-KASAN. We then tried to reproduce the bugs with KFENCE below.
+Patch 2 fixes a compilation breakage when W=1;
 
-[1] Fixed by: 7c55b78818cf ("jfs: xattr: fix buffer overflow for invalid xattr")
-    https://syzkaller.appspot.com/bug?id=9d1b59d4718239da6f6069d3891863c25f9f24a2
-[2] Fixed by: f8ad00f3fb2a ("l2tp: fix possible UAF when cleaning up tunnels")
-    https://syzkaller.appspot.com/bug?id=4f34adc84f4a3b080187c390eeef60611fd450e1
+Patch 3 adds a new helper function to be used by cper and ghes drivers to
+display CPER bitmaps;
 
-The following KFENCE configs were compared. A pool size of 1023 objects
-was used for all configurations.
+Patch 4 fixes CPER logic according with UEFI 2.9A errata. Before it, there
+was no description about how processor type field was encoded. The errata
+defines it as a bitmask, and provides the information about how it should
+be encoded.
 
-	Baseline
-		kfence.sample_interval=100
-		kfence.skip_covered_thresh=75
-		kfence.burst=0
+Patch 5 adds CPER functions to Kernel-doc.
 
-	Aggressive
-		kfence.sample_interval=1
-		kfence.skip_covered_thresh=10
-		kfence.burst=0
+This series was validated with the help of an ARM EINJ code for QEMU:
+	https://gitlab.com/mchehab_kernel/qemu/-/tree/qemu_submission_v5.1?ref_type=heads
 
-	AggressiveBurst
-		kfence.sample_interval=1
-		kfence.skip_covered_thresh=10
-		kfence.burst=1000
+	$ ./scripts/ghes_inject.py -d arm -m 2 4 -t tlb-error bus-error,micro-arch
+	GUID: e19e3d16-bc11-11e4-9caa-c2051d5d46b0
+	CPER:
+	      00000000  04 00 00 00 02 00 00 00 68 00 00 00 00 00 00 00   ........h.......
+	      00000010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+	      00000020  00 00 00 00 00 00 00 00 00 20 05 00 04 02 00 03   ......... ......
+	      00000030  7f 00 54 00 00 00 00 00 ef be ad de 00 00 00 00   ..T.............
+	      00000040  ad 0b ba ab 00 00 00 00 00 20 00 00 18 01 00 03   ......... ......
+	      00000050  00 00 00 00 00 00 00 00 ef be ad de 00 00 00 00   ................
+	      00000060  ad 0b ba ab 00 00 00 00                           ........
 
-Each reproducer was run 10 times (after a fresh reboot), with the
-following detection counts for each KFENCE config:
+	Error injected.
 
-                    | Detection Count out of 10 |
-                    |    OOB [1]  |    UAF [2]  |
-  ------------------+-------------+-------------+
-  Default           |     0/10    |     0/10    |
-  Aggressive        |     0/10    |     0/10    |
-  AggressiveBurst   |     8/10    |     8/10    |
+The CPER event is now properly handled:
 
-With the Default and even the Aggressive configs the results are
-unsurprising, given KFENCE has not been designed for deterministic bug
-detection of small test cases.
+[   83.807957] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+[   83.808314] {1}[Hardware Error]: event severity: recoverable
+[   83.808545] {1}[Hardware Error]:  Error 0, type: recoverable
+[   83.808806] {1}[Hardware Error]:   section_type: ARM processor error
+[   83.809045] {1}[Hardware Error]:   MIDR: 0x0000000000000000
+[   83.809262] {1}[Hardware Error]:   running state: 0x0
+[   83.809441] {1}[Hardware Error]:   Power State Coordination Interface state: 0
+[   83.809691] {1}[Hardware Error]:   Error info structure 0:
+[   83.809885] {1}[Hardware Error]:   num errors: 3
+[   83.810128] {1}[Hardware Error]:    error_type: 0x04: TLB error
+[   83.810364] {1}[Hardware Error]:    error_info: 0x000000000054007f
+[   83.810595] {1}[Hardware Error]:     transaction type: Instruction
+[   83.810821] {1}[Hardware Error]:     TLB error, operation type: Instruction fetch
+[   83.811095] {1}[Hardware Error]:     TLB level: 1
+[   83.811283] {1}[Hardware Error]:     processor context not corrupted
+[   83.811501] {1}[Hardware Error]:     the error has not been corrected
+[   83.811721] {1}[Hardware Error]:     PC is imprecise
+[   83.811924] {1}[Hardware Error]:   Error info structure 1:
+[   83.812105] {1}[Hardware Error]:   num errors: 2
+[   83.812263] {1}[Hardware Error]:    error_type: 0x18: bus error|micro-architectural error
+[   83.812956] [Firmware Warn]: GHES: Unhandled processor error type 0x04: TLB error
+[   83.813212] [Firmware Warn]: GHES: Unhandled processor error type 0x18: bus error|micro-architectural error
 
-However, when enabling burst mode with relatively large burst count,
-KFENCE can start to detect heap memory-safety bugs even in simpler test
-cases with high probability (in the above cases with ~80% probability).
+- 
 
-Signed-off-by: Marco Elver <elver@google.com>
+I also tested the ghes and cper reports both with and without this
+change, using different versions of rasdaemon, with and without
+support for the extended trace event. Those are a summary of the
+test results:
+
+- adding more fields to the trace events didn't break userspace API:
+  both versions of rasdaemon handled it;
+
+- the rasdaemon patches to handle the new trace report was missing
+  a backward-compatibility logic. I fixed already. So, rasdaemon
+  can now handle both old and new trace events.
+
+Btw, rasdaemon has gained support for the extended trace since its
+version 0.5.8 (released in 2021). I didn't saw any issues there
+complain about troubles on it, so either distros used on ARM servers
+are using an old version of rasdaemon, or they're carrying on the trace
+event changes as well.
+
 ---
- Documentation/dev-tools/kfence.rst |  7 +++++++
- include/linux/kfence.h             |  2 +-
- mm/kfence/core.c                   | 14 ++++++++++----
- 3 files changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-index 936f6aaa75c8..541899353865 100644
---- a/Documentation/dev-tools/kfence.rst
-+++ b/Documentation/dev-tools/kfence.rst
-@@ -53,6 +53,13 @@ configurable via the Kconfig option ``CONFIG_KFENCE_DEFERRABLE``.
-    The KUnit test suite is very likely to fail when using a deferrable timer
-    since it currently causes very unpredictable sample intervals.
- 
-+By default KFENCE will only sample 1 heap allocation within each sample
-+interval. *Burst mode* allows to sample successive heap allocations, where the
-+kernel boot parameter ``kfence.burst`` can be set to a non-zero value which
-+denotes the *additional* successive allocations within a sample interval;
-+setting ``kfence.burst=N`` means that ``1 + N`` successive allocations are
-+attempted through KFENCE for each sample interval.
-+
- The KFENCE memory pool is of fixed size, and if the pool is exhausted, no
- further KFENCE allocations occur. With ``CONFIG_KFENCE_NUM_OBJECTS`` (default
- 255), the number of available guarded objects can be controlled. Each object
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 88100cc9caba..0ad1ddbb8b99 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -124,7 +124,7 @@ static __always_inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp
- 	if (!static_branch_likely(&kfence_allocation_key))
- 		return NULL;
- #endif
--	if (likely(atomic_read(&kfence_allocation_gate)))
-+	if (likely(atomic_read(&kfence_allocation_gate) > 0))
- 		return NULL;
- 	return __kfence_alloc(s, size, flags);
- }
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index c5cb54fc696d..c3ef7eb8d4dc 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -99,6 +99,10 @@ module_param_cb(sample_interval, &sample_interval_param_ops, &kfence_sample_inte
- static unsigned long kfence_skip_covered_thresh __read_mostly = 75;
- module_param_named(skip_covered_thresh, kfence_skip_covered_thresh, ulong, 0644);
- 
-+/* Allocation burst count: number of excess KFENCE allocations per sample. */
-+static unsigned int kfence_burst __read_mostly;
-+module_param_named(burst, kfence_burst, uint, 0644);
-+
- /* If true, use a deferrable timer. */
- static bool kfence_deferrable __read_mostly = IS_ENABLED(CONFIG_KFENCE_DEFERRABLE);
- module_param_named(deferrable, kfence_deferrable, bool, 0444);
-@@ -827,12 +831,12 @@ static void toggle_allocation_gate(struct work_struct *work)
- 	if (!READ_ONCE(kfence_enabled))
- 		return;
- 
--	atomic_set(&kfence_allocation_gate, 0);
-+	atomic_set(&kfence_allocation_gate, -kfence_burst);
- #ifdef CONFIG_KFENCE_STATIC_KEYS
- 	/* Enable static key, and await allocation to happen. */
- 	static_branch_enable(&kfence_allocation_key);
- 
--	wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate));
-+	wait_event_idle(allocation_wait, atomic_read(&kfence_allocation_gate) > 0);
- 
- 	/* Disable static key and reset timer. */
- 	static_branch_disable(&kfence_allocation_key);
-@@ -1052,6 +1056,7 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
- 	unsigned long stack_entries[KFENCE_STACK_DEPTH];
- 	size_t num_stack_entries;
- 	u32 alloc_stack_hash;
-+	int allocation_gate;
- 
- 	/*
- 	 * Perform size check before switching kfence_allocation_gate, so that
-@@ -1080,14 +1085,15 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
- 	if (s->flags & SLAB_SKIP_KFENCE)
- 		return NULL;
- 
--	if (atomic_inc_return(&kfence_allocation_gate) > 1)
-+	allocation_gate = atomic_inc_return(&kfence_allocation_gate);
-+	if (allocation_gate > 1)
- 		return NULL;
- #ifdef CONFIG_KFENCE_STATIC_KEYS
- 	/*
- 	 * waitqueue_active() is fully ordered after the update of
- 	 * kfence_allocation_gate per atomic_inc_return().
- 	 */
--	if (waitqueue_active(&allocation_wait)) {
-+	if (allocation_gate == 1 && waitqueue_active(&allocation_wait)) {
- 		/*
- 		 * Calling wake_up() here may deadlock when allocations happen
- 		 * from within timer code. Use an irq_work to defer it.
+v3:
+ - rebased on the top of 6.11-rc1;
+ - test example updated to reflect latest error-inj patch series submitted
+   to qemu-devel
+
+v2:
+  - removed an uneeded patch adding #ifdef for CONFIG_ARM/ARM64;
+  - cper_bits_to_str() now returns the number of chars filled at the buffer;
+  - did a cosmetic (blank lines) improvement at include/linux/ras.h;
+  - arm_event trace dynamic arrays renamed to pei_buf/ctx_buf/oem_buf.
+    
+
+Daniel Ferguson (1):
+  RAS: Report all ARM processor CPER information to userspace
+
+Mauro Carvalho Chehab (4):
+  efi/cper: Adjust infopfx size to accept an extra space
+  efi/cper: Add a new helper function to print bitmasks
+  efi/cper: align ARM CPER type with UEFI 2.9A/2.10 specs
+  docs: efi: add CPER functions to driver-api
+
+ .../driver-api/firmware/efi/index.rst         | 11 ++--
+ drivers/acpi/apei/ghes.c                      | 26 +++++-----
+ drivers/firmware/efi/cper-arm.c               | 52 +++++++++----------
+ drivers/firmware/efi/cper.c                   | 45 +++++++++++++++-
+ drivers/ras/ras.c                             | 45 +++++++++++++++-
+ include/linux/cper.h                          | 12 +++--
+ include/linux/ras.h                           | 16 ++++--
+ include/ras/ras_event.h                       | 48 +++++++++++++++--
+ 8 files changed, 196 insertions(+), 59 deletions(-)
+
 -- 
-2.46.0.rc2.264.g509ed76dc8-goog
+2.45.2
+
 
