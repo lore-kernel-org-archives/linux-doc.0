@@ -1,263 +1,122 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1541448C3
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 19:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A6D18D640
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 20:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722974075; cv=none; b=g+eKpXGmsH+J8rsJL63zGt6ZciC/PgCfjmKkj1kHad7fnWP8c0Chl2SnT8S0WoNP2cVeVli5sRftn2GPE1E9Wjt/nsxh730fY+BQgl/LqevUbDGbQwqkBj0Xy9SNRA2xJsPuMxdFdEzG7/RMzJLO2/skcqKINZrRkn2KVcOwQz8=
+	t=1722975405; cv=none; b=KEnXlvXvcGIhmo0EEXHObWRXgtdQirpsrGVmRygqMfyJw5dHcfeWGRdZ8r/sKv0f63dfjxRov+q7EDWqAlDqjela6Um0msNoQv06eLTfrQqhlIPWYDEz1EDInKze5GSdHt6LHGyUsiI90PrxJoEPQvdbXSs5kufGFWQl39ntk4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722974075; c=relaxed/simple;
-	bh=BpiFkizntkuNYYbqLMUh5o6k123HE/GRHqdrd5DtwaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTNxA9AesYGB5KzzWM4NgG8R6Avon3pYd20YOT+wAftG+IkdhseQh3PbSp1cF183WaoGxQ+g1g8yh+M59u/QPUtWOQ8watB3vgTXw8X9NvOXOUbLi8l64gNidAMx8rbgWS4UASHAyM+f4jMwUQ8KAkl6ll3tTltzPerZJRN3Flc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=hFzXxG54; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1722975405; c=relaxed/simple;
+	bh=wmNIyw9GfP97kFsvXGRb22gPsp3TKcMyPea6l0UwV1o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TfkCCK09+NOR+EAHKiPG530Gy2209Xyp/vha+G/W1WvXwDDm0CbK9FFaeWizWO6rRc3SwmLAVvr+rz3bs0Px+9fmXJOdTMUyHHmVTSNNONzWJ7tcmeKPYuacQoKvHaIHxDhUWhfj8FIeI3ScaUC6nbl00hi70qTAWRKraNXKOu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com; spf=fail smtp.mailfrom=vimeo.com; dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b=gs72Azaw; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vimeo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vimeo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="hFzXxG54"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-44ff132ff9cso6425901cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 12:54:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=vimeo.com header.i=@vimeo.com header.b="gs72Azaw"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-70d333d5890so877950b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 13:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1722974072; x=1723578872; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q9KObzHEoTkTzOdnl1Xc1srqmdgq+QKJ4U9b5T6vC08=;
-        b=hFzXxG540fxFXv7qNqVoIzoQguhKaBL5jOVxwSaoipixLKDXPh8+AYRJQDO9s0evh5
-         O7MNMvmBNPMDQteVb6e7gUHBGYtZnH7TmIJyRT7atnqtXc+YkNV/Nwudi4OrijgxdimO
-         3hY+LWhPFBlGjk9CoKw7doiolmXlCrbn6m3H4G0/m9se2bijS3ra0qFWjV17bN4Q6y+L
-         MqeL5xoflOe3pgxEw6ytqPiwJVC7PiSb1e8eiKADwhe9gPJzCQlhAVmN4fT9syndSttg
-         o3JJVaPIhbNYybBw4L4MkRsCqSMu9RjMnlZ87XOjBmm21v09alOxpqPIuyeBgCggQftZ
-         8iSg==
+        d=vimeo.com; s=google; t=1722975402; x=1723580202; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/7ljGM0irjWendNnux5k7jsBLUadWXI+HcIMyBsdx1A=;
+        b=gs72AzawManMBskwkstP4Jyz44cru3nxgOL7EmPDQUQskYWC/xptsYs8mplje18ZMs
+         ekZLxM87dTcs24SRMAxoVE76UAgwkK2dHnjvAlOLz3ABKlO7qGePEWDOsl256JOpESDT
+         Fit6qdxi0TQ5jx/Iv6Z730nTv+NU4ogkMUmmM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722974072; x=1723578872;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q9KObzHEoTkTzOdnl1Xc1srqmdgq+QKJ4U9b5T6vC08=;
-        b=pz/l8bjlUjoKttDpgH3k/qfLDF7VZUkRlzN+01WDSI3mb5VOD7PcqArCpDGw1AahfI
-         J614b5IxF0nBM6QpXNSZ1+UWm3rqqH5qHX2f0ITnHIhha4T3iykZbRh/RnQ5KV5ukR+8
-         e9gPgC2ffuIN1v5G53KniHKAXYJIMW7U1rmpx4DwwwFGKptFCbSCPgGHI0cFmRcFSr/v
-         l4YWWDKLVJrifkI+j/vWwRXjl9ozP5+ISjQSCJlFr8zvRuFIU0yTs62cts0uqi/MwFMd
-         5HNvItOkS/88ci/lE8Q5JbyktfrdZFupjtM8aejTDgusli4cG2U+NVCpwkXrTzR2pwag
-         GsEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUro4oNl2iQIrrsJvR2D1avfjiKQOpp4Kd6kHD1IxztRIeDm9YE548CmyXClkwR3DFexe1SJbvEQU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsZlUNabkBCUIZw7yIcT9eZIJfKmx+WDjIBiIZk/jou660YUcc
-	HqUx7gOPfDBrKLX+oX3CsjRQmRZ0KJ+8WtnPhA/OsfJySXMLmdSpj8T060tgaSc=
-X-Google-Smtp-Source: AGHT+IHtbWCzTzD4UemOkN9Gk7mskcRVQkFIJsa35ZBWCAYvI+WhrKtgZlBUMGgJq6cyyv1rtQTtYA==
-X-Received: by 2002:a05:622a:198a:b0:450:319:6b44 with SMTP id d75a77b69052e-45189206d8amr202167641cf.1.1722974071641;
-        Tue, 06 Aug 2024 12:54:31 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4518a756206sm40320921cf.65.2024.08.06.12.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 12:54:31 -0700 (PDT)
-Date: Tue, 6 Aug 2024 15:54:22 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Yu Zhao <yuzhao@google.com>
-Cc: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org, riel@surriel.com, shakeel.butt@linux.dev,
-	roman.gushchin@linux.dev, david@redhat.com, baohua@kernel.org,
-	ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
-	cerasuolodomenico@gmail.com, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH 0/6] mm: split underutilized THPs
-Message-ID: <20240806195422.GF322282@cmpxchg.org>
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
- <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com>
- <20240806173840.GE322282@cmpxchg.org>
- <CAOUHufavZTKjh6sb4n_q0ciLzTS88Kxxkp_2Q1wWVp_ZkFrshQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1722975402; x=1723580202;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/7ljGM0irjWendNnux5k7jsBLUadWXI+HcIMyBsdx1A=;
+        b=U72z4+4VqA5P4tpWhJJ/Z+Ay20ZghlPeDn3Z9yKj3edk/OojQAMy8ORHNnczBl9ukV
+         VtzhZdqqDMt/pfRqMZNMd2/t+Vww9On/HeBhJMGfFdYFSZWqrZEaOa9llRMgBKcrJS0t
+         brnbqheAwZKb7YK7JQMrySi8lWuUe1zKHcRff6Z8WKbfRgeVYlEjXm9wcURAMsVbzcJY
+         dO+7niNpCsz5YLQP/dBKgQxdPSybxQgsqxkK0hbFvuynlBcbXmVtfWU1mfb9rm77ZXBJ
+         G6/mSdKyZva6ZmkUpJLwVrOBAT7/OOFpIiNzUaHinZnKC8Wf9pnvT+zcqVN8SCDkiZlm
+         qLlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSKHNRY5vnE6kgZ/CnAEO/ZsoGS0ViMfDEBFXAOOqjoDokUA8OngK4iB1FUkA02ZPUTAwbOh31vUubtxWe7Of7tTL01vVVWHWN
+X-Gm-Message-State: AOJu0YztWavyUAGPJR+yMCaCLQfAIQA7imjO7SDCKqgUWiGOs+jis4xk
+	3Sa8lt4VjVH4grhSgTEz1GaK6dq8+RQUohi9z/n3RIc4ULnaOYC/6urXJEoS3fgBAeKctwy4WWW
+	QzvGZ+lYzAE+ZYdDrsIYoozvP8jZgdadUDsu+KQ==
+X-Google-Smtp-Source: AGHT+IHv0AN++1OdFYFThfaFBPC/QvFLeShPR/7012JBfWJkUQxlr8Fi2xoKQeWo0FlTjWcTIHRMaayWlN1DRcfdEII=
+X-Received: by 2002:a05:6a20:438d:b0:1c4:c160:2859 with SMTP id
+ adf61e73a8af0-1c6995d4947mr23275824637.31.1722975401973; Tue, 06 Aug 2024
+ 13:16:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOUHufavZTKjh6sb4n_q0ciLzTS88Kxxkp_2Q1wWVp_ZkFrshQ@mail.gmail.com>
+References: <20240730231304.761942-1-davidf@vimeo.com>
+In-Reply-To: <20240730231304.761942-1-davidf@vimeo.com>
+From: David Finkel <davidf@vimeo.com>
+Date: Tue, 6 Aug 2024 16:16:30 -0400
+Message-ID: <CAFUnj5Nq_UwZUy9+i-Mp+TDghQWUX7MHpmh8uDTH790HAH2ZNA@mail.gmail.com>
+Subject: Re: [PATCH v7] mm, memcg: cg2 memory{.swap,}.peak write handlers
+To: Muchun Song <muchun.song@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
+Cc: core-services@vimeo.com, Jonathan Corbet <corbet@lwn.net>, 
+	Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Zefan Li <lizefan.x@bytedance.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 06, 2024 at 12:06:20PM -0600, Yu Zhao wrote:
-> On Tue, Aug 6, 2024 at 11:38 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> >
-> > On Thu, Aug 01, 2024 at 12:09:16AM -0600, Yu Zhao wrote:
-> > > On Tue, Jul 30, 2024 at 6:54 AM Usama Arif <usamaarif642@gmail.com> wrote:
-> > > >
-> > > > The current upstream default policy for THP is always. However, Meta
-> > > > uses madvise in production as the current THP=always policy vastly
-> > > > overprovisions THPs in sparsely accessed memory areas, resulting in
-> > > > excessive memory pressure and premature OOM killing.
-> > > > Using madvise + relying on khugepaged has certain drawbacks over
-> > > > THP=always. Using madvise hints mean THPs aren't "transparent" and
-> > > > require userspace changes. Waiting for khugepaged to scan memory and
-> > > > collapse pages into THP can be slow and unpredictable in terms of performance
-> > > > (i.e. you dont know when the collapse will happen), while production
-> > > > environments require predictable performance. If there is enough memory
-> > > > available, its better for both performance and predictability to have
-> > > > a THP from fault time, i.e. THP=always rather than wait for khugepaged
-> > > > to collapse it, and deal with sparsely populated THPs when the system is
-> > > > running out of memory.
-> > > >
-> > > > This patch-series is an attempt to mitigate the issue of running out of
-> > > > memory when THP is always enabled. During runtime whenever a THP is being
-> > > > faulted in or collapsed by khugepaged, the THP is added to a list.
-> > > > Whenever memory reclaim happens, the kernel runs the deferred_split
-> > > > shrinker which goes through the list and checks if the THP was underutilized,
-> > > > i.e. how many of the base 4K pages of the entire THP were zero-filled.
-> > > > If this number goes above a certain threshold, the shrinker will attempt
-> > > > to split that THP. Then at remap time, the pages that were zero-filled are
-> > > > not remapped, hence saving memory. This method avoids the downside of
-> > > > wasting memory in areas where THP is sparsely filled when THP is always
-> > > > enabled, while still providing the upside THPs like reduced TLB misses without
-> > > > having to use madvise.
-> > > >
-> > > > Meta production workloads that were CPU bound (>99% CPU utilzation) were
-> > > > tested with THP shrinker. The results after 2 hours are as follows:
-> > > >
-> > > >                             | THP=madvise |  THP=always   | THP=always
-> > > >                             |             |               | + shrinker series
-> > > >                             |             |               | + max_ptes_none=409
-> > > > -----------------------------------------------------------------------------
-> > > > Performance improvement     |      -      |    +1.8%      |     +1.7%
-> > > > (over THP=madvise)          |             |               |
-> > > > -----------------------------------------------------------------------------
-> > > > Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
-> > > > -----------------------------------------------------------------------------
-> > > > max_ptes_none=409 means that any THP that has more than 409 out of 512
-> > > > (80%) zero filled filled pages will be split.
-> > > >
-> > > > To test out the patches, the below commands without the shrinker will
-> > > > invoke OOM killer immediately and kill stress, but will not fail with
-> > > > the shrinker:
-> > > >
-> > > > echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
-> > > > mkdir /sys/fs/cgroup/test
-> > > > echo $$ > /sys/fs/cgroup/test/cgroup.procs
-> > > > echo 20M > /sys/fs/cgroup/test/memory.max
-> > > > echo 0 > /sys/fs/cgroup/test/memory.swap.max
-> > > > # allocate twice memory.max for each stress worker and touch 40/512 of
-> > > > # each THP, i.e. vm-stride 50K.
-> > > > # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
-> > > > # killer.
-> > > > # Without the shrinker, OOM killer is invoked immediately irrespective
-> > > > # of max_ptes_none value and kill stress.
-> > > > stress --vm 1 --vm-bytes 40M --vm-stride 50K
-> > > >
-> > > > Patches 1-2 add back helper functions that were previously removed
-> > > > to operate on page lists (needed by patch 3).
-> > > > Patch 3 is an optimization to free zapped tail pages rather than
-> > > > waiting for page reclaim or migration.
-> > > > Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
-> > > > subpages when splitting THP.
-> > > > Patches 6 adds support for THP shrinker.
-> > > >
-> > > > (This patch-series restarts the work on having a THP shrinker in kernel
-> > > > originally done in
-> > > > https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
-> > > > The THP shrinker in this series is significantly different than the
-> > > > original one, hence its labelled v1 (although the prerequisite to not
-> > > > remap clean subpages is the same).)
-> > > >
-> > > > Alexander Zhu (1):
-> > > >   mm: add selftests to split_huge_page() to verify unmap/zap of zero
-> > > >     pages
-> > > >
-> > > > Usama Arif (3):
-> > > >   Revert "memcg: remove mem_cgroup_uncharge_list()"
-> > > >   Revert "mm: remove free_unref_page_list()"
-> > > >   mm: split underutilized THPs
-> > > >
-> > > > Yu Zhao (2):
-> > > >   mm: free zapped tail pages when splitting isolated thp
-> > > >   mm: don't remap unused subpages when splitting isolated thp
-> > >
-> > >  I would recommend shatter [1] instead of splitting so that
-> >
-> > I agree with Rik, this seems like a possible optimization, not a
-> > pre-requisite.
+On Tue, Jul 30, 2024 at 7:13=E2=80=AFPM David Finkel <davidf@vimeo.com> wro=
+te:
+>
+> This revision only updates the tests from the previous revision[1], and
+> integrates an Acked-by[2] and a Reviewed-By[3] into the first commit
+> message.
+>
+>
+> Documentation/admin-guide/cgroup-v2.rst          |  22 ++-
+> include/linux/cgroup-defs.h                      |   5 +
+> include/linux/cgroup.h                           |   3 +
+> include/linux/memcontrol.h                       |   5 +
+> include/linux/page_counter.h                     |  11 +-
+> kernel/cgroup/cgroup-internal.h                  |   2 +
+> kernel/cgroup/cgroup.c                           |   7 +
+> mm/memcontrol.c                                  | 116 +++++++++++++--
+> mm/page_counter.c                                |  30 +++-
+> tools/testing/selftests/cgroup/cgroup_util.c     |  22 +++
+> tools/testing/selftests/cgroup/cgroup_util.h     |   2 +
+> tools/testing/selftests/cgroup/test_memcontrol.c | 264 ++++++++++++++++++=
+++++++++++++++-
+> 12 files changed, 454 insertions(+), 35 deletions(-)
+>
+> [1]: https://lore.kernel.org/cgroups/20240729143743.34236-1-davidf@vimeo.=
+com/T/
+> [2]: https://lore.kernel.org/cgroups/20240729143743.34236-1-davidf@vimeo.=
+com/T/#m807225dd0944b0bf78419639272bf6602fe053fc
+> [3]: https://lore.kernel.org/cgroups/20240729143743.34236-1-davidf@vimeo.=
+com/T/#meac510a72b4a282fe1e5edec3323c2204d46cf11
+>
+>
+> Thank you all for the support and reviews so far!
+>
+> David Finkel
+> Senior Principal Software Engineer
+> Vimeo Inc.
+>
+>
+>
 
-Let me just re-iterate, I don't think this discussion has any bearing
-on the THP shrinker. There is data corroborating that the shrinker
-as-is is useful today.
+Tejun or Andrew,
 
-Shattering is an independent proposal for an optimization that should
-be discussed on its own merits.
+This change seems to have stalled a bit.
+Are there any further changes necessary to get this patch merged into
+a staging branch so it's ready for 6.12?
 
-> > > 1) whoever underutilized their THPs get punished for the overhead;
-> >
-> > Is that true?
-> 
-> Yes :)
-
-It actually sounds like the answer is no.
-
-> > The downgrade is done in a shrinker.
-> 
-> Ideally, should we charge for the CPU usage of the shrinker and who
-> should we charge it to?
-
-There are two contexts it runs in:
-
-1) Task tries to allocate a THP. A physical one cannot be found, so
-   direct reclaim and compaction run. The allocating task and its
-   cgroup get charged for this effort, regardless of who underutilized
-   the page, and regardless of whether we split+compact or shatter.
-
-2) Cgroup tries to charge a THP and hits its limit. The allocating
-   task runs limit reclaim, which invokes the shrinker. The job of
-   this context is to enforce memory quantity, not contiguity. A limit
-   can be hit when the system is 5% utilized, with an abundance of
-   free blocks. With the shrinker shattering, the cgroup would be
-   needlessly punished. Twice in fact:
-
-   	    a) it would perform unnecessary migration work
-
-	    b) splitting retains PTE contiguity on the remaining
-	       subpages, which has benefits on CPUs with TLB
-	       coalescing. Shattering would disrupt that needlessly.
-
-   This is the wrong context for contiguity work.
-
-So it seems to me that the punishment of "culprits" is not natural,
-reliable, or proportional in any way.
-
-> > With or without
-> > shattering, the compaction effort will be on the allocation side.
-> 
-> If compaction is needed at all.
-
-That's not what I meant.
-
-Shattering IS compaction work. There is a migration source block, and
-it moves the individual pages to somewhere else to produce a free THP.
-
-> > The only difference is that
-> > compaction would do the work on-demand
-> 
-> And can often fail to produce 2MB blocks *under memory pressure*
-
-So let's agree that shattering helps if the THP demand is constant.
-
-It doesn't help when THP demand *grows* under pressure. But fixing
-this is kind of critical for THPs to be useful.
-
-And fixing the latter obviates the need for a special solution to only
-the former.
-
-> > whereas shattering would do it unconditionally
-> 
-> And always produces a 2MB block
-
-Which can immediately get fragmented by a racing allocation from an
-unrelated cgroup. So the next step would be compaction capturing for
-the shattering code...
-
-I'm not really sold on this. It's re-inventing compaction in an ad-hoc
-scenario that has limited usefulness, instead of addressing the
-fundamental issues that make compaction inefficient & unreliable.
-
-Allocation context is the appropriate place to determine whether, and
-how much, defragmentation (and all its direct and indirect costs) is
-actually warranted. Not opportunistically deep in the reclaim stack.
+Thanks,
+--=20
+David Finkel
+Senior Principal Software Engineer, Core Services
