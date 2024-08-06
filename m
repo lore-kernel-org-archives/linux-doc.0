@@ -1,69 +1,83 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D392481B7
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 17:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195C0535D4
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 17:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722965318; cv=none; b=rOcs+VNyrAZQ71tUP7YhisC8VzTJmupp7Mi4eLNU4l24QE1XL+/I6fXQj+cK+tyyybHbJW24ius9AUIwwynDSimWHYMoQxF5L4tu2pjUvCVB7jaBkD2WIe+p7BWuSWHdrxfN/W5a8o85MVauuB+ypgtYkW/AI8ws1xltj7oEh7k=
+	t=1722965438; cv=none; b=lbYPJGrphfLbntAFH8Ac3EC88XUlGiVRo/I4r6gO82DiOnTeDVtbtqwrds9WqEOHIecD3ogMn4GsPGgy94wnlKBJPGWvhrKsB3HeIJE2LUMxnkf4Nscx37p8t0RxgogwQf8bV2XrNKn6062OaOrdGjO9w/r9nIp7rX5Y3g+ki6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722965318; c=relaxed/simple;
-	bh=CMdCGpnpB5DtRAjVfmvBk5vYaOmVs69vYT7EPaLyuGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tqvYRBHfeERXDYeVOgA5M3iXXjDdMsAmxhviRMXHssN2841A6mRoWfNXmTLipr1p5QOIiG6Vjxv3NRdc2M5kOBjmIs9668G6AN5/9nqHjEzPUzmXR5wQazQVmd8n4oiti47UjP/dP/t9UomU5uGoGJkAEwkIw14Era+GeGC2CWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=xG9LQTtm; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1722965438; c=relaxed/simple;
+	bh=c98tjF12oc7cRowbzizu4sQLmk2Ls/IXuyl4ZD+lvd8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N0nRbcYqYMqkj7i3sGg9/1pvEkcl1kmohH+mYDxNp8JcGsiOFsOoGDgPpxrAGySFq7qJlVuJwSi23EfzqWhioDBvpdVcwaex//2zyW/khPtELRhevRRDtCajVi2fEtDcY1PajE80/GVYaFb/FDYUDcjydiHv9M6Yg2+IOttvaJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HfCdEeqI; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="xG9LQTtm"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-66526e430e0so7245787b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 10:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1722965315; x=1723570115; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjljyosPAZ7fSFa2kkPBPoToHoCOQPJRAdwnUNgGi1U=;
-        b=xG9LQTtmcPngA810s428o7RkjcdCg7YguleepswfjLtoOiV5DVIntFUZwItU4Vu5YI
-         PfStcw27Jxw4tLWAjfB9MTDLh5RPF+RnUvuyLGNspKX2D2e2WfEoifR0+/3dIVWqhdmN
-         1TC/Kk1vGkTRS9/fGt/v29AYus133kbPbGXUpFomO1M5NUkCgzeFBZaLB90+OuYZZntY
-         8x0GVmBUFkAElln+eF1ofBRKL9GTCp9gTJWiyR3xIa3Q3TlLzD6uzSDGHv2KXEbRM7vJ
-         MzNE6o7+5GSaRZoB0n7IPODz7/WmUXxrpTvvds2hZZbkMkOaiJth6D5tG9Ag5I5r2bEF
-         TCIw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HfCdEeqI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722965435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=L95HKWn21UDCku/Fr+iBmxOcLIFQjrV6E2Z9fB2IFWM=;
+	b=HfCdEeqIlMUFpejXnJ13MPTBj1bQ/xaoWy/nq/A5UK9wy1Slnfv7UX+dyzQUU7cGEtLJmO
+	dVCRbUO3XWd7lmz1SWup44ORHve+Yd2hdKTWWfiS2H9ynf/pcdR/CFYG4RfPbP0YEelFQd
+	fNt8zgJ2QTwtX9BlrArWXnj6e+nqt2o=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-451-LEMj6IcPOp6dZgW5G5q_Zg-1; Tue, 06 Aug 2024 13:30:34 -0400
+X-MC-Unique: LEMj6IcPOp6dZgW5G5q_Zg-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2ef2018bb2dso10704611fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 10:30:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722965315; x=1723570115;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZjljyosPAZ7fSFa2kkPBPoToHoCOQPJRAdwnUNgGi1U=;
-        b=FjcJ6R8ZYzec7uTlbqO+1LjZ0AkXiRU2Pa94Um+QpYkcLuEXT9/UtiP1QHO74G13rb
-         kq2zftObQJtUQxFr6bJSrPKopY0V/6Ufz0FImGV/rDzz943mxhMtbDXQ3aRX6vkcXt/t
-         4Z5T2QtUk31NI8RxhrvCgFXO6qmqYlEZuAZNyk3vBgvg0x7V9vzjWQrCaS3Jns/6Q1Kw
-         TyKhy2mE4Dn32l7O7FeJmID/d7JsXvo0x/EI4AcjmTdkBa4P7mRYa6AJZPwJhQnWaIHo
-         FGGe+wKEFZWqrywnOIxNw89HPkNKXOPNB+jcldhz3VlYKkHwo8hru5azk+KpdT7VFC0t
-         0H6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWYeGkSDEjIPvqKGVtD9toNhrR0r12Dr6G7agpQpOUEC6CQkfv4BORWquZXmcRkYIZ9wwPbhcabxk8GkAfXCU3jkRzQacSBH8tw
-X-Gm-Message-State: AOJu0Yz0gzWYzjB+8gSFSooKET6mrrtkh1kRcB++EKdh1UYC0ZtkqZB4
-	l3h7ORUP17CIenA+p4McYCEUQ7upFUaXjuPkSmUHWmWWpjatHL1oeSEe8s/xD5I=
-X-Google-Smtp-Source: AGHT+IE5yQrzHeTUKXSSCIgGpDJ9JVkB51z02PE93hN7JzChXv6zuyx4GP08AmneFbuyXeQdtH+HGQ==
-X-Received: by 2002:a0d:d107:0:b0:665:3394:c068 with SMTP id 00721157ae682-68964390e70mr169273227b3.37.1722965315536;
-        Tue, 06 Aug 2024 10:28:35 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c839d65sm48454276d6.82.2024.08.06.10.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 10:28:35 -0700 (PDT)
-Date: Tue, 6 Aug 2024 13:28:30 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org, riel@surriel.com, shakeel.butt@linux.dev,
-	roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
-	ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
-	cerasuolodomenico@gmail.com, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com
+        d=1e100.net; s=20230601; t=1722965433; x=1723570233;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=L95HKWn21UDCku/Fr+iBmxOcLIFQjrV6E2Z9fB2IFWM=;
+        b=mcFLZjBGKuVGHWHMEgzRTbUPJ0W1vvdkNolrRxZqhfCY66LLau14Lod0jST0X60DFW
+         gostW/m3+eRJYncbpEWQ/yrjINXfGNRwYnezSMEVBh24Trr5vDK1Bsk9tajYI3vcgAbo
+         K4KWyz2pjJFqDA4x1lKGuteWeRm0SYl2f+Xo4gzGr1lcZ1CKiL4Qp1RbMZWzZ4m/xPhH
+         61r6tlGB6h32Qyo2Vsz/o4N+dr/0yEgKCb2MzFQCzKuTyg4Lf5cVgzgdhMzJnlAxhJC8
+         rri8lBbi3sshBZPA9IhCgtEtZ9egVvTlXYkeyNECFGTma5WimtzkdKchxABRv2gRe20o
+         Efdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSjNPmLNmMigTeveuj6duA33frEZk6FlGD+176wyHBCgTCnlg0tpz4MuFn3oY+N5wkTXJOlclMcQJghoBcuCVdzF41mxD6S775
+X-Gm-Message-State: AOJu0Yz6Ds636IKoFtrBbaOytMAkRQCpRlLlUnLeip46uPKgMuGWpGV2
+	97Gvy75IexXgfXubCOzY/RCt2+6TM0pgSCx66JCHUpgLoqhSEKh+0qczSYcNKPE6sBUlPuIwrDZ
+	ZLILpcNwb4Sq22FU94KZlYfgd1kOR1GiUZiEkwgtQqR1bz0QLouCNriUVlw==
+X-Received: by 2002:a2e:968c:0:b0:2ef:2525:be90 with SMTP id 38308e7fff4ca-2f15aaf6231mr120107521fa.31.1722965432851;
+        Tue, 06 Aug 2024 10:30:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEoWeBtDiVy9AJYs2t34YgKJ8ZanZJOOVS/+2V8zA7zkmiF4itIKZNQW8yZFUI4CJf7XP6/uA==
+X-Received: by 2002:a2e:968c:0:b0:2ef:2525:be90 with SMTP id 38308e7fff4ca-2f15aaf6231mr120107231fa.31.1722965432236;
+        Tue, 06 Aug 2024 10:30:32 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c73f:8500:f83c:3602:5300:88af? (p200300cbc73f8500f83c3602530088af.dip0.t-ipconnect.de. [2003:cb:c73f:8500:f83c:3602:5300:88af])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428fecf3f75sm22230775e9.1.2024.08.06.10.30.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 10:30:31 -0700 (PDT)
+Message-ID: <d302a026-b49b-45d9-ba06-ad2f1c3f14e6@redhat.com>
+Date: Tue, 6 Aug 2024 19:30:30 +0200
+Precedence: bulk
+X-Mailing-List: linux-doc@vger.kernel.org
+List-Id: <linux-doc.vger.kernel.org>
+List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/6] mm: split underutilized THPs
-Message-ID: <20240806172830.GD322282@cmpxchg.org>
-References: <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
  <3cd1b07d-7b02-4d37-918a-5759b23291fb@gmail.com>
  <73b97a03-3742-472f-9a36-26ba9009d715@gmail.com>
  <95ed1631-ff62-4627-8dc6-332096e673b4@redhat.com>
@@ -73,97 +87,188 @@ References: <dc00a32f-e4aa-4f48-b82a-176c9f615f3e@redhat.com>
  <fc63e14d-8269-4db8-9ed2-feb2c5b38c6c@redhat.com>
  <204af83b-57ec-40d0-98c0-038bfeb393a3@gmail.com>
  <58025293-c70f-4377-b8be-39994136af83@redhat.com>
-Precedence: bulk
-X-Mailing-List: linux-doc@vger.kernel.org
-List-Id: <linux-doc.vger.kernel.org>
-List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58025293-c70f-4377-b8be-39994136af83@redhat.com>
+ <930e111a-b13b-43d9-93f8-5bf28f343074@gmail.com>
+ <842f3fd3-9d95-4050-8bed-9631a6adca6d@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <842f3fd3-9d95-4050-8bed-9631a6adca6d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 01, 2024 at 08:36:32AM +0200, David Hildenbrand wrote:
-> I just added another printf to postcopy_ram_supported_by_host(), where 
-> we temporarily do a UFFDIO_REGISTER on some test area.
+On 06.08.24 19:17, Usama Arif wrote:
 > 
-> Sensing UFFD support # postcopy_ram_supported_by_host()
-> Sensing UFFD support
-> Writing received pages during precopy # ram_load_precopy()
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Writing received pages during precopy
-> Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
-> Discarding pages # loadvm_postcopy_ram_handle_discard()
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Discarding pages
-> Registering UFFD # postcopy_ram_incoming_setup()
 > 
-> We could think about using this "ever user uffd" to avoid the shared 
-> zeropage in most processes.
-> 
-> Of course, there might be other applications where that wouldn't work, 
-> but I think this behavior (write to area before enabling uffd) might be 
-> fairly QEMU specific already.
+> On 05/08/2024 00:04, Usama Arif wrote:
+>>
+>>
+>> On 01/08/2024 07:36, David Hildenbrand wrote:
+>>>>> I just added a bunch of quick printfs to QEMU and ran a precopy+postcopy live migration. Looks like my assumption was right:
+>>>>>
+>>>>> On the destination:
+>>>>>
+>>>>> Writing received pages during precopy # ram_load_precopy()
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Writing received pages during precopy
+>>>>> Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
+>>>>> Discarding pages # loadvm_postcopy_ram_handle_discard()
+>>>>> Discarding pages
+>>>>> Discarding pages
+>>>>> Discarding pages
+>>>>> Discarding pages
+>>>>> Discarding pages
+>>>>> Discarding pages
+>>>>> Registering UFFD # postcopy_ram_incoming_setup()
+>>>>>
+>>>>
+>>>> Thanks for this, yes it makes sense after you mentioned postcopy_ram_incoming_setup.
+>>>> postcopy_ram_incoming_setup happens in the Listen phase, which is after the discard phase, so I was able to follow in code in qemu the same sequence of events that the above prints show.
+>>>
+>>>
+>>> I just added another printf to postcopy_ram_supported_by_host(), where we temporarily do a UFFDIO_REGISTER on some test area.
+>>>
+>>> Sensing UFFD support # postcopy_ram_supported_by_host()
+>>> Sensing UFFD support
+>>> Writing received pages during precopy # ram_load_precopy()
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Writing received pages during precopy
+>>> Disabling THP: MADV_NOHUGEPAGE # postcopy_ram_prepare_discard()
+>>> Discarding pages # loadvm_postcopy_ram_handle_discard()
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Discarding pages
+>>> Registering UFFD # postcopy_ram_incoming_setup()
+>>>
+>>> We could think about using this "ever user uffd" to avoid the shared zeropage in most processes.
+>>>
+>>> Of course, there might be other applications where that wouldn't work, but I think this behavior (write to area before enabling uffd) might be fairly QEMU specific already.
+>>>
+>>> Avoiding the shared zeropage has the benefit that a later write fault won't have to do a TLB flush and can simply install a fresh anon page.
+>>>
+>>
+>> I checked CRIU and that does a check at the start as well before attempting to use uffd: https://github.com/checkpoint-restore/criu/blob/criu-dev/criu/kerndat.c#L1349
+>>
+>> If writing to an area before enabling uffd is likely to be QEMU specific, then you make a good point to clear pte instead of using shared zeropage to avoid the TLB flush if uffd is ever used.
+>>
+>> I think "ever used uffd" would need to be tracked using mm_struct. This also won't cause an issue if the check is done in a parent process and the actual use is in a forked process, as copy_mm should take care of it.
+>> The possibilities would then be:
+>> 1) Have a new bit in mm->flags, set it in new_userfaultfd and test it in try_to_unmap_unused, but unfortunately all the bits in mm->flags are taken.
+>> 2) We could use mm->def_flags as it looks like there is an unused bit (0x800) just before VM_UFFD_WP. But that makes the code confusing as its used to initialize the default flags for VMAs and is not supposed to be used as a "mm flag".
+>> 3) Introducing mm->flags2 and set/test as 1. This would introduce a 8 byte overhead for all mm_structs.
+>>
+>> I am not sure either 2 or 3 are acceptable upstream, unless there is a need for more flags in the near future and the 8 byte overhead starts to make sense. Maybe we go with shared zeropage?
+>  >
+> There is an another option to use bit 32 of mm->flags for 64 bit kernel only for ever_used_uffd, but considering the 2 reasons below, I will send a v2 of the series (in a few days incase any more comments come up) with shared zeropage in all circumstances (and addressing the comments in the other patches).
+> - "ever used uffd" is not a 100% safe, i.e. someone might not check uffd support before using it and do the same sequence of events as qemu precopy + postcopy (+ some bitmap to track and check whether to request a page from uffd handler). Its very unlikely that anyone else does this, but we have to cater for all current and future usecases.
 
-It makes me a bit uneasy to hardcode this into the kernel. It's fairly
-specific to qemu/criu, and won't protect usecases that behave slightly
-differently.
+Possible, but IMHO unlikely :) I'd be willing to take a risk here if we 
+make sure CRIU is also fine.
 
-It would also give userfaultfd users that aren't susceptible to this
-particular scenario a different code path.
+> - If THP shrinker is splitting and pointing pages to a shared zeropage, then the page was considered "unused" and unlikely to have a write fault at some point in the near future, hence the probability of incurring that TLB flush on write fault is low.
 
-> Avoiding the shared zeropage has the benefit that a later write fault 
-> won't have to do a TLB flush and can simply install a fresh anon page.
+Surely evidence might help. But it's easy to find cases where this might 
+not be the true: populated a THP for a VM and the VM only used some of 
+the memory. Then we split, then the VM wants to use the remaining pieces.
 
-That's true - although if that happens frequently, it's something we
-might want to tune the shrinker for anyway. If subpages do get used
-later, we probably shouldn't have split the THP to begin with.
 
-IMO the safest bet would be to use the zero page unconditionally.
+Reading your prior email I just wanted to say that mm->flags is unsigned 
+long and you should just make the shrinker 64bit-specific and use bit 33 
+in mm->flags.
 
-> > 		return false;
-> > 
-> > 	newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
-> > 					pvmw->vma->vm_page_prot));
-> > 
-> > 	set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
-> 
-> We're replacing a present page by another present page without doing a 
-> TLB flush in between. I *think* this should be fine because the new 
-> present page is R/O and cannot possibly be written to.
+But starting with "all shared zeropage" as a first step also works.
 
-It's safe because it's replacing a migration entry. The TLB was
-flushed when that was installed, and since the migration pte is not
-marked present it couldn't have re-established a TLB entry.
+-- 
+Cheers,
+
+David / dhildenb
+
