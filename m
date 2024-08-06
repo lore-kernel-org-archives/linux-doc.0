@@ -1,193 +1,183 @@
-Received: from mail.nearlyone.de (mail.nearlyone.de [49.12.199.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAE01CB33E;
-	Tue,  6 Aug 2024 12:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.199.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EFC1C57BD;
+	Tue,  6 Aug 2024 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722946068; cv=none; b=Bxn7WXwO4Y265iMZzeW95xUU77GpSxN8aGGBn4g99/dUJ9toR8m+0Dk+ZFuk+K7z6AfsSgM2hkgblAtbJFJjAZSzSjcE4NPsYnT3ST3xF198bvfc5xe2xBG0PfLXhI/2xVNTiXvbmpV9ptT++aAPJkD7GKJXK9ZB1qCecSF2eZ4=
+	t=1722947978; cv=none; b=B7IWww1Fg6972u4BDApPUB8xMKPbdGTTLWK8zv/Rcz78+M8yuv4Ntqf4OSP4zzQD6co6C/q4OW0ygKWL4t2PzzLpTOpoagQ5sQUbSt3TkfMYQlIE0luURcExN6BblQPmSn+oWPIIDBAWg/OA8FKse0wrkXTVoZ/ZxJ4wlkZpLGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722946068; c=relaxed/simple;
-	bh=EeSlh6HQgSapOe5YllNashjoq27f1osI04/1RQlyu0w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZzSI3Oe6klJYvd0SkfwoO8kv8DPZ7HKEDuebvIlKFN3KkH8EIvz73x8rH/ZCZZ1nifjEPwfKf8wnEjYz0q+LpbeC2nUNxfeAvoQWgu5iA1ssLkFZkxGyfuyTakwK6DhATInSzOmsLoZ6qqWdr8JGl2Zh54b3Lv3tB6g9lgVkmDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=monom.org; dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.b=tTGUux5A; arc=none smtp.client-ip=49.12.199.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monom.org
+	s=arc-20240116; t=1722947978; c=relaxed/simple;
+	bh=pRGjwMQFuXx8nS2LCderaOx79LtJsbSQjU6aMaxd08o=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=TKK2KnVVy1rJbTHObhoK3/wKw5taAyFPyFvVG0RZpbtLNHUJ15pfoX+fEnYFWkkgCrkj90LaHHeTPz54ahzTFBBpb37lZQ0b8fuEUtGvgLQ5Nr/krMquGBR8NuPLanCWQsQY0Hmwqb/6qIDGrktMHds0OUcA0ut4GWUxNQP1NTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKlxrqan; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=monom.org header.i=@monom.org header.b="tTGUux5A"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 89206DAE28;
-	Tue,  6 Aug 2024 14:07:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
-	t=1722946063; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=K2bsze7ezb+slXPQ4bNAIIy8wybtR+D2TJArZapU+cQ=;
-	b=tTGUux5AC/Uk20RXr+NxBO7HWhYzxcUt11TumR8DSPHGCBv6uxLlApfR3XG9AePQeQU5h+
-	BV7HB7CPO6RrdHe/ocJaAE3caYnM1dn8AkvFhgikgXbNIxfR2ZB01H7LEc8WStUJ5Go0AP
-	d/nx/I4+hCNzkMbRXoTyG1zsxM7fDyDqzhhzVSN/foeQsfFtIHF50v0GmEgi3VvLNWWTAW
-	Dv5n56BIWsEkZ2AmjpksM5dqns6lO/Xw/9Q034k0hIgHiph0dSB1myGy5w3caNIE2BjiDn
-	V+0Y5eN0PMpFkison9rMooG+Yfa+CduSYwsFSxqO5N1HvDYUAwIMvO/lSkJO6Q==
-From: Daniel Wagner <dwagner@suse.de>
-Date: Tue, 06 Aug 2024 14:06:47 +0200
-Subject: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKlxrqan"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4f50dd3eab9so240273e0c.1;
+        Tue, 06 Aug 2024 05:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722947976; x=1723552776; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+        b=VKlxrqanIheS9Sd5XzmNfv9ScS8GGE/obB6rli6JcQfzv8OQyH1ms5LfzyftBPJlAw
+         sfZMoNB7fMIUVJbfSp28rtM1yLUdMdnW27USd+yevM4WhMxcn2tC0kCwT21BzrtIUUHR
+         Gs3J1wl0qryBTZV4pStD26pH1HB09vV81qeXzTdRPH8cT7SCJpF5PsIvdPYcQcoZb/bU
+         lS+DuGbMun0iJwWow8q9nb7YSa1fpQ79XatO8EdXq8FWVvnWo4atP4i/rHxrlW27fHfJ
+         SUpp7IX8Dh3JdPkm8lpi4n5ypupMKNxoU+XW+rEQCrGBXD5UQfBs/vy59JIZ6bD1Fmo1
+         zdgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722947976; x=1723552776;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+        b=YwoX+XXfHLFESv4nU6ef39maHkPDlzto+lpgxBYhmTJEGyg2MbrBTQuBRLzRIMetp7
+         MQo8C31NtC9IZUGo9PHUc9W5l2dFksMlgvi0QohkNNrkdg4xQrtwhhuVJp8AE+/6ZwsQ
+         18SRSbZ2kcflIWn99kpghh+EsNMIKy603tqnS5oZtciShQj7G1+LyGSVb1bWbmQlC4s6
+         zOFuUMxal+8Y4F6zIsS88V3ZjSIHwj26kh2J0B93/ye4/Pfxq7mRdnBEDbepUUVUF+Un
+         E/8H1bwvmgq3UU6gjegXYWuZJmcJeH8x9s01MRCBTsNyyPGs315OJchwwKbtfo1ePb8w
+         FjPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCTL3GifOoTkGotVQKHsht3DH11hDZibW61aSUOHYmvH8IO2m8nbbHB4vV63n+wNxBJfCcxiS88C2+z1upzJbLrWmIu6BvineuFcHLv+zQRkbWwJ5woYB0Rp6z1J9OsObiq0BDbZy8aUaI/o8DoCpcfiIn5M4NjWpUVOucS89c+cCJYuFy3hblNRb+aS9l7uNxbvPYmIqIO/SKZa//lBNIJmEfQGAWGB6KOX6w4lu0PECsvwrDEIHRoSypUvkwoM6wr8nbiwptxAlGu0Q2nfri3ivhFPaQ0a58BZ3JjhgHBkMZ+ZxRbGFJjExm9gtw7Q6DN/0jI/infzNnGKupNyYRy9ob9tkjzf4Giii2kSAGYdSkDzMcMup97D6whg1Arys+dL0HfUhjVC2cdmgR+NzVZX2Dcq6rmsYNH42+t182nBhSh2GY21ecMPVrx3+rk6rROHyUGoWoVjbrnX1mVY8JOfgyEYZALUMv2CcFUQDww0dClYG9XRp3hPYyliKGX6G+v7PhjQ==
+X-Gm-Message-State: AOJu0YwpsNYteLdDFoX1IKaNFFCuUC+P89kqXZcyX2ui47QVOzUubQGf
+	/7ZVPgtJdbk9sA4CS5+NFrTN9dPmJbKUl6w6X+olQ2zL47KdPisM
+X-Google-Smtp-Source: AGHT+IEzF8kEieTvm400vGSAD/FxkfKWUdB+Qp9zmFjvlH9NnaUdLi1L0Oe0+UqgMX4/h+bhgaOPVA==
+X-Received: by 2002:a05:6122:4584:b0:4eb:5cb9:f219 with SMTP id 71dfb90a1353d-4f89fe84d6fmr18355377e0c.0.1722947975581;
+        Tue, 06 Aug 2024 05:39:35 -0700 (PDT)
+Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a34f6dce75sm450350985a.14.2024.08.06.05.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 05:39:34 -0700 (PDT)
+Date: Tue, 06 Aug 2024 08:39:34 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>, 
+ Mina Almasry <almasrymina@google.com>, 
+ netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Kaiyuan Zhang <kaiyuanz@google.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, 
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ LKML <linux-kernel@vger.kernel.org>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@infradead.org>, 
+ David Ahern <dsahern@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ David Wei <dw@davidwei.uk>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Helge Deller <deller@gmx.de>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ "James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jeroen de Borst <jeroendb@google.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Matt Turner <mattst88@gmail.com>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Shailend Chand <shailend@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Steffen Klassert <steffen.klassert@secunet.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Taehee Yoo <ap420073@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+In-Reply-To: <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+References: <20240730022623.98909-4-almasrymina@google.com>
+ <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+ <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
+ <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
+ netdevice
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
-In-Reply-To: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
- Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
- Christoph Hellwig <hch@lst.de>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, 
- Kashyap Desai <kashyap.desai@broadcom.com>, 
- Sumit Saxena <sumit.saxena@broadcom.com>, 
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
- Chandrakanth patil <chandrakanth.patil@broadcom.com>, 
- Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, 
- Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
- Hannes Reinecke <hare@suse.de>, 
- Sridhar Balaraman <sbalaraman@parallelwireless.com>, 
- "brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
- virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
- mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
- storagedev@microchip.com, linux-doc@vger.kernel.org, 
- Daniel Wagner <dwagner@suse.de>
-X-Mailer: b4 0.14.0
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-When isolcpus=io_queue is enabled all hardware queues should run on the
-housekeeping CPUs only. Thus ignore the affinity mask provided by the
-driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-to first hctx unless, the CPU is the same as the hctx has the affinity
-set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
+Markus Elfring wrote:
+> >> =E2=80=A6
+> >>> +++ b/include/net/devmem.h
+> >>> @@ -0,0 +1,115 @@
+> >> =E2=80=A6
+> >>> +#ifndef _NET_DEVMEM_H
+> >>> +#define _NET_DEVMEM_H
+> >> =E2=80=A6
+> >>
+> >> I suggest to omit leading underscores from such identifiers.
+> >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declar=
+e+or+define+a+reserved+identifier
+> >>
+> >
+> > I was gonna apply this change, but I ack'd existing files and I find
+> > that all of them include leading underscores, including some very
+> > recently added files like net/core/page_pool_priv.h.
+> >
+> > I would prefer to stick to existing conventions if that's OK, unless
+> > there is widespread agreement to the contrary.
+> =
 
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 3 4 6 7
-        hctx1: default 5
-        hctx2: default 0
-        hctx3: default 1
+> Under which circumstances would you become interested to reduce develop=
+ment risks
+> also according to undefined behaviour?
+> https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC=
+.UndefinedBehavior-ub_106
 
-  PCI name is 00:05.0: nvme0n1
-        irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
+This series is following established practice in kernel networking.
 
-where as with blk_mq_hk_map_queues we get
+If that conflicts with a C standard, then perhaps that needs to be
+resolved project wide.
 
-  queue mapping for /dev/nvme0n1
-        hctx0: default 2 4
-        hctx1: default 3 5
-        hctx2: default 0 6
-        hctx3: default 1 7
+Forcing an individual feature to diverge just brings inconsistency.
+That said, this appears to be inconsistent already.
 
-  PCI name is 00:05.0: nvme0n1
-        irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
-        irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
-        irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
-        irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
-        irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
+Main question is whether this is worth respinning a series already at
+v17 with no more fundamental feedback.
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- block/blk-mq-cpumap.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+For reference:
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index c1277763aeeb..7e026c2ffa02 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -60,11 +60,64 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
- }
- EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
- 
-+static bool blk_mq_hk_map_queues(struct blk_mq_queue_map *qmap)
-+{
-+	struct cpumask *hk_masks;
-+	cpumask_var_t isol_mask;
-+
-+	unsigned int queue, cpu;
-+
-+	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
-+		return false;
-+
-+	/* map housekeeping cpus to matching hardware context */
-+	hk_masks = group_cpus_evenly(qmap->nr_queues);
-+	if (!hk_masks)
-+		goto fallback;
-+
-+	for (queue = 0; queue < qmap->nr_queues; queue++) {
-+		for_each_cpu(cpu, &hk_masks[queue])
-+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+	}
-+
-+	kfree(hk_masks);
-+
-+	/* map isolcpus to hardware context */
-+	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-+		goto fallback;
-+
-+	queue = 0;
-+	cpumask_andnot(isol_mask,
-+		       cpu_possible_mask,
-+		       housekeeping_cpumask(HK_TYPE_IO_QUEUE));
-+
-+	for_each_cpu(cpu, isol_mask) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+
-+	free_cpumask_var(isol_mask);
-+
-+	return true;
-+
-+fallback:
-+	/* map all cpus to hardware context ignoring any affinity */
-+	queue = 0;
-+	for_each_possible_cpu(cpu) {
-+		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-+		queue = (queue + 1) % qmap->nr_queues;
-+	}
-+	return true;
-+}
-+
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
- {
- 	const struct cpumask *masks;
- 	unsigned int queue, cpu;
- 
-+	if (blk_mq_hk_map_queues(qmap))
-+		return;
-+
- 	masks = group_cpus_evenly(qmap->nr_queues);
- 	if (!masks) {
- 		for_each_possible_cpu(cpu)
-@@ -118,6 +171,9 @@ void blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap,
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
- 
-+	if (blk_mq_hk_map_queues(qmap))
-+		return;
-+
- 	for (queue = 0; queue < qmap->nr_queues; queue++) {
- 		mask = get_queue_affinity(dev_data, dev_off, queue);
- 		if (!mask)
+$ grep -nrI '^#ifndef\ _\+NET[_A-Z]\+H' include/  | wc -l
+149
 
--- 
-2.46.0
+$ grep -nrI '^#ifndef\ NET[_A-Z]\+H' include/  | wc -l
+4
 
+$ grep -nrI '^#ifndef\ [_]\+[A-Z][_A-Z]\+H' include/  | wc -l
+3805
+
+$ grep -nrI '^#ifndef\ [A-Z][_A-Z]\+H' include/  | wc -l
+583
