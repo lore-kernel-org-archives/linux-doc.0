@@ -1,156 +1,204 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DA217A591;
-	Tue,  6 Aug 2024 22:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722981763; cv=none; b=Ls1ULLDD62u6yDUxnofEgijghIGaRUxIFoh6+Av2xifymBWX220qEjC+7lWSQVgx05yUd3AAyqA/RUmqMM23yNwi7fPCqdmzEcZGLdNoTDE6hjCSOWof1QOYYdhY07zB80bEWBCakMl+fQb0MxBfrTHJmPpBEX1xIX2kCSuaY08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722981763; c=relaxed/simple;
-	bh=aR1W/c9RP1fIj6vHqwGqd/uGjv/1lmu03CBJ0wO/Hw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2pGL+CsGH/hIuFyq5bRX9vYOXi3tDzzLCs0S3gZwu0TU4Vebl/B1I+egxI7gmr3ZQsN1vYl+jvKcowVvr3HywN5NJwTbqLZhe/+xEdnlszanLgVZLBrWBWgkiBEMhrnC+uVN5Z6Xl/dJkZweIIDzz2MNMUcqq2nWxw23qW42ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHAf2l1F; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13376179967;
+	Tue,  6 Aug 2024 22:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722981765; cv=fail; b=M33kN4G5QRNKMvgWBVM1R5vMd3Vv14xoLsawVtBXsg+c16iPmG5ympH5WbG72nlDUmkqHKR+YEt96ILsYQgwqwab9e3mEK74plk9iNbk/cDf7dtu4sFH9uQDOlIF5XAlmJkaVAinGJ0I97hcqUoF3aOeLlpIc7X4rlfUl3+OL18=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722981765; c=relaxed/simple;
+	bh=tdHjo9T4ycAO56/xBxZHmei05ipK5GzS1vleKOZ/z50=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WULV/yHrtD9HVlTcVhPsScCJGDyU4nOG3x9O8W1VjBuVyBv7hFaRMY5XxzHCGoghhIwr5XL2mkf/Q4xx5aMVDJjOd3iyNMN45nSeL3f1a7EYU50g4f0cBZ+1eJPu1o3+cx3idurijaAw/1tD/81NCG646PZYu9zM/AsFLimhags=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yif36IZf; arc=fail smtp.client-ip=40.107.223.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHAf2l1F"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-428243f928cso7728005e9.3;
-        Tue, 06 Aug 2024 15:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722981760; x=1723586560; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mp0WpaiC2XvuDjPrqJ1y4U3Oi9te7Bps6SXi4DFmtEs=;
-        b=QHAf2l1FBhgPDkyoCdWFZG1UzZfy1bEWApONygeVO6l5c1C1WjnS6CvmmiSa8jN0V0
-         3O+UWbWRVIr02Owwe4HC+GN9nasbYkPXoMMcuHvEvllRRQ/jN9Wq2Gsv1i1vcdrfeppD
-         kk9Yj1s4+lx0PCUCz5Jy+Hd7opxHGW8Tso4qWB2Q/Rdjgy4M9gBbXr85Umz5Iru8t9FC
-         +tasr8I9E8HHSlj2VYRvsGGOPmETEwmgXTavf995GOczlNQnRnC2Ya+gXsS04ayQVLRt
-         1czwQUD5Q9Rh4QzvUQIq3vPwhoAVMt9XPHPgEhZm0vhz1UGxN6T9abbmIhiWmf2Femno
-         TTCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722981760; x=1723586560;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mp0WpaiC2XvuDjPrqJ1y4U3Oi9te7Bps6SXi4DFmtEs=;
-        b=VQW4V5NWthCN6QZTWYf3S7uLeBh9frrZMGrmbCzqgSVzp0fMLecI+udqRqLRnaRj86
-         8pWw91Jxn8H79fPtLMeqN7Wfo1ENcH0PMHshDoDry6IyPvJgHvOszLD+bb6UK5k5M+yD
-         b+2f2fwNlRLBYubzkIa+jAB9RH6xJMu9I/6G5Ds0yWLP7RHGUHl2yic7FQKnY4ubf8Ri
-         CNPEgAPwPzaJMm84L6W4+CAOMDqD05JJG57WBPRyo577vLt5oCm/oU7K/ueLk787vyR3
-         fkD/O+RmEcJ40rosFyLGJjLftbakZdD6ISSiK1RVaCoT8K5dPVhI0urYd+pnpJUwLInL
-         BQaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVxmZmQy/yfcTGI9Opnkc02hD58DKWJfekEFKZ48SxT8ssZcnIhW+QH42hE9K2StJCwlY25Y3DQAyQuPYOH6BfYNWDs5nV8NnLHFxwOlvT3XAM0MF/LS9b3W2VuBqiTiWFsjCyBtxYr
-X-Gm-Message-State: AOJu0YzqJOhymDcSKB553p8bc+MJNBdVmQviiWC2iRuTKjCIsr8Up9Kf
-	SeQVWAJtlkPtP+XRg1/y7pdVcrLsBEmckk27l91wI/MXw08c69Zy
-X-Google-Smtp-Source: AGHT+IG4Dx1g+NkaBIciA+wHIQJHu1E+LL7rr9z6w9T0IuFUILRLHEvNl+aoTVLSgg2g8CbSu9m0iQ==
-X-Received: by 2002:a05:600c:1f90:b0:427:9dad:e6ac with SMTP id 5b1f17b1804b1-428e6b96b2fmr114221385e9.34.1722981759894;
-        Tue, 06 Aug 2024 15:02:39 -0700 (PDT)
-Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429057e8fe9sm255675e9.1.2024.08.06.15.02.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 15:02:39 -0700 (PDT)
-Message-ID: <4ed9feaa-b7dc-4a02-a58d-ee845e872bd2@gmail.com>
-Date: Tue, 6 Aug 2024 23:02:38 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yif36IZf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DmpuB+f6WUIr0G7fsF/1I0g5WlpVReOzIQdD2oyAzWd/SI/Jrv4ZFJOzeryJjU9es53xZEjKMpMbbrRkwfXaKoaw7TI4V6tpB0o32ttpCXyKf7DZWbRKKo6SMybLI3Guo8ji/QPt7ICL5j5xgYYn6FF9DDMfKNbfMAMS/rHzLgvP7qYnN/UYWmA0tONrtBWtU33SNEHOM73q4P50g/r5KqFIQtui3Si4f7UYLhOpiJXm38oSY7vX6iV8fbNT+kUe11Hdcn1lpn3qcldIAyfkt8EZK2UJA00LN4cKcMHLb1RClmnHPGhRGx0en/fXgD/PTxok2+mCC8AYwdp0axOqeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pexdJ/VZaAfU7NL0kG6dEUV7XURs0Rf1NSdEfVC3qAw=;
+ b=ORdwd2EYaqEaXDFI1M3CbcwBNDNzzDI6s0NQzXrWtWOzlUWtFaFxZ1t+5HFMU/tCTUYiznxDBQrlsEOLIahH8ZBFcBgmnRAxzSAUvf0jHl4WTPbglh044HuEYgefHBno6+S3UfbyBH2LTgoYzN+WuWX47+AxVScpTr72i1pXZeSx9NyDqHIgf9ZwbL3yCnmEGypnTap3Mr2uJuiAZsuALoa9bg6pVqTxW5RQ96Wm6wVolrFm0uCl6fBc6VwVS1JrQq/HyJscSdgo2S2Lt9VQXIFuwuCUdRSgGklsjvhkeB+pf4hSgmGjErMWblTqTo2b1GXfZ9pHK04FY12u7LobYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pexdJ/VZaAfU7NL0kG6dEUV7XURs0Rf1NSdEfVC3qAw=;
+ b=yif36IZfNDMYWjryisqfsTR84Gp4kxYi6xkaqTppFvzPsvsPPZIf7Sv6YK0N4YmwJnFUn9H0+pDgGud7XqySJk4e5cTc4ehu/aywIeW1qlSlkWUZ62Ml0l29fKaVYXYAtOSrA5n/2RsiozuzHdGWZbiHESvGJp2QLt85OTSzojg=
+Received: from PH7P220CA0144.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:327::6)
+ by DM3PR12MB9415.namprd12.prod.outlook.com (2603:10b6:8:1ac::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Tue, 6 Aug
+ 2024 22:02:38 +0000
+Received: from SN1PEPF000397AF.namprd05.prod.outlook.com
+ (2603:10b6:510:327:cafe::3f) by PH7P220CA0144.outlook.office365.com
+ (2603:10b6:510:327::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.13 via Frontend
+ Transport; Tue, 6 Aug 2024 22:02:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000397AF.mail.protection.outlook.com (10.167.248.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7828.19 via Frontend Transport; Tue, 6 Aug 2024 22:02:38 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 6 Aug
+ 2024 17:02:36 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <fenghua.yu@intel.com>, <reinette.chatre@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <babu.moger@amd.com>, <kim.phillips@amd.com>,
+	<lukas.bulwahn@gmail.com>, <seanjc@google.com>, <jmattson@google.com>,
+	<leitao@debian.org>, <jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <james.morse@arm.com>
+Subject: [PATCH v6 12/22] x86/resctrl: Introduce mbm_cntr_map to track counters at domain
+Date: Tue, 6 Aug 2024 17:00:49 -0500
+Message-ID: <e905666d2341a5a8c8e8bf3a337291375a80e6ce.1722981659.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1722981659.git.babu.moger@amd.com>
+References: <cover.1722981659.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] mm: add selftests to split_huge_page() to verify
- unmap/zap of zero pages
-To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, roman.gushchin@linux.dev, yuzhao@google.com,
- david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Alexander Zhu <alexlzhu@fb.com>, riel@surriel.com
-References: <ZqsS/1ts8leyUeEQ@rli9-mobl>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <ZqsS/1ts8leyUeEQ@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397AF:EE_|DM3PR12MB9415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fa50add-a1ad-44d3-1002-08dcb6637c36
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?YS+ROqJp9dUj8hfLCFT0PFtTLZS7fVbSAJKLvtYPkAZ/ZuVP+3vEk7rSd+TB?=
+ =?us-ascii?Q?Fyq/0yzk+RhAL1Dwdkfu3yGrBvbwfY/3dEabwKuCSW9YYFAQxqGML0JbpVrP?=
+ =?us-ascii?Q?o4TtRhROVgBZyVVDderXJ980AG8GV5sPN8mZkgqqs85SAo+7KmiYAOv5tlV5?=
+ =?us-ascii?Q?FXD8BpREbqCtp7rDh3Nbnu+yAmIAeF/Ae3QslW5ZTn6Fy8PiRsAHF2aQlPe8?=
+ =?us-ascii?Q?nzviOjlS8f828LmJleszUvAkMf28Gg44gY/BIOCWMBrRAtptoq3sGKrZ58na?=
+ =?us-ascii?Q?Tl2BGZunvk4SNUcJ1VaEWQ9Wzta9Ugv4EPl2hdtWdbse4QMmZXZjmCMKPsgP?=
+ =?us-ascii?Q?dIZbhOPgUrR2OSHxEcgpT4isn8dOFsNEPAbu01OYdXzP7RIvdDY3fT54uX8c?=
+ =?us-ascii?Q?D2NQYEeSgOfIY98/zu/0Q5M4wdHXkNplUDryJC/Be+/HrjQfiel7mnfV4NOy?=
+ =?us-ascii?Q?1nydq+AG6VEt16Tvt6tUfeFaWdgI90wH6Mr7o1kX9a8G9PrAKDns5COv6QyM?=
+ =?us-ascii?Q?gdwVzwzQ3Ua0XXi3lshuskxlv3IEQY4jhuPK+/af2FlfdwzY6k4UnJZhVbwb?=
+ =?us-ascii?Q?Lv7gqBnzXFxWwff1Hf+wm6sc1Msa8jGlAWO3Hz1JnkO5N5hN57CWg/oc56Fh?=
+ =?us-ascii?Q?KozDP1m0jfDmMWnCfH5Bj2Lws1CTIU4wjVVSuc2BcvX5kccFJkkdDC7UMpjH?=
+ =?us-ascii?Q?G/MU2eYCqq8c9pbqjqN4caxbbSH0ZfxvK17db6vk/yEFs8AoeiiaEqYvf6j5?=
+ =?us-ascii?Q?1ANw0AHUkBClx/70u6ii57sHxaxJMkqBNkdQlfF9OcLubcrZYV5UVrnSfZmA?=
+ =?us-ascii?Q?YYOaXavG214czyK9i9JJ7pXGFLZKfflHb1032ojvfag154F8ZOpWOuphDVvd?=
+ =?us-ascii?Q?Oy3YG5jqjbuyc7wb400DoV/lDX1KV58l8E/7Svc/Jgv8xIIGziqTEGp9WdA0?=
+ =?us-ascii?Q?cUjQX4JFa1QyIpSNWqKnyuk9RD4OXovzAJlX03rUmgl5K/gotKUITyJM73Og?=
+ =?us-ascii?Q?ylpTrAsZMAqVhbqVw+5ercREcHaRpPUgpuoIL9hjAYP8mpe2l+jvOCK2PtT2?=
+ =?us-ascii?Q?po3nzOB8wUZBu09K68nNmNLtzj3naz6KMVyv5LFBynVeMI3e5skDz0FT8X14?=
+ =?us-ascii?Q?vsNa/ylH97k9sTYVrgeKWMgrOuIdPO9J7/pXpYuJ8HSNrTX9J2t0zlMAPYXR?=
+ =?us-ascii?Q?r9+UoevsH00drSoY0lHClzl5aEIlzIpYOm/H1P49OxE6+co0u4upLRoD4FFn?=
+ =?us-ascii?Q?AhrVrLQha7R0SnlQ2dxjqEEoMhhVqpnEqgcJvHSwR1enziKFCgyM6NoAAJWS?=
+ =?us-ascii?Q?zijSUsO64HbGBOTlK5Tc5H+O52T7Q/gCmoHJ/oU/bIuRDAAvC1gkSLEWj9Fr?=
+ =?us-ascii?Q?78lFewLa6uWt0VESfRMATpYMdDBzwgxMtGx9KU5l7thMnIXTjERRCXqh7Ceb?=
+ =?us-ascii?Q?6I89aPBHg+Na81PcqtUfPmiVoKQWZsZM?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2024 22:02:38.0921
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa50add-a1ad-44d3-1002-08dcb6637c36
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397AF.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9415
 
+The MBM counters are allocated at resctrl group level. It is tracked by
+mbm_cntrs_free_map. Then it is assigned to the domain based on the user
+input. It needs to be tracked at domain level also.
 
+Add the mbm_cntr_map bitmap in rdt_mon_domain structure to keep track of
+assignment at domain level. The global counter at mbm_cntrs_free_map can
+be released when assignment at all the domain are cleared.
 
-On 01/08/2024 05:45, kernel test robot wrote:
-> Hi Usama,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/Revert-memcg-remove-mem_cgroup_uncharge_list/20240730-223949
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20240730125346.1580150-6-usamaarif642%40gmail.com
-> patch subject: [PATCH 5/6] mm: add selftests to split_huge_page() to verify unmap/zap of zero pages
-> :::::: branch date: 32 hours ago
-> :::::: commit date: 32 hours ago
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010618.lgnamdZd-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202408010618.lgnamdZd-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    vm_util.c: In function 'rss_anon':
->>> vm_util.c:188:41: warning: format '%ld' expects argument of type 'long int *', but argument 3 has type 'uint64_t *' {aka 'long long unsigned int *'} [-Wformat=]
->      188 |         if (sscanf(buffer, "RssAnon:%10ld kB", &rss_anon) != 1)
->          |                                     ~~~~^      ~~~~~~~~~
->          |                                         |      |
->          |                                         |      uint64_t * {aka long long unsigned int *}
->          |                                         long int *
->          |                                     %10lld
-> 
-> 
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+---
+v6: New patch to add domain level assignment.
+---
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c | 10 ++++++++++
+ include/linux/resctrl.h                |  2 ++
+ 2 files changed, 12 insertions(+)
 
-Interesting affect of different compilers!
-
-If I compile with the above suggestion on my machine, i.e. convert ld to lld, I get a warning on my machine that uint64_t is long unsigned int (and not long long unsigned int as above):
-
-vm_util.c: In function ‘rss_anon’:
-vm_util.c:188:42: warning: format ‘%lld’ expects argument of type ‘long long int *’, but argument 3 has type ‘uint64_t *’ {aka ‘long unsigned int *’} [-Wformat=]
-  188 |         if (sscanf(buffer, "RssAnon:%10lld kB", &rss_anon) != 1)
-      |                                     ~~~~~^      ~~~~~~~~~
-      |                                          |      |
-      |                                          |      uint64_t * {aka long unsigned int *}
-      |                                          long long int *
-      |                                     %10ld
-
-
-I will just do below which should work hopefully with all compilers: 
-diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-index 7b7e763ba8e3..bd147bdb1bb2 100644
---- a/tools/testing/selftests/mm/vm_util.c
-+++ b/tools/testing/selftests/mm/vm_util.c
-@@ -172,9 +172,9 @@ uint64_t read_pmd_pagesize(void)
-        return strtoul(buf, NULL, 10);
- }
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 0047b4eb0ff5..1a90c671a027 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -4127,6 +4127,7 @@ static void __init rdtgroup_setup_default(void)
  
--uint64_t rss_anon(void)
-+long unsigned rss_anon(void)
+ static void domain_destroy_mon_state(struct rdt_mon_domain *d)
  {
--       uint64_t rss_anon = 0;
-+       long unsigned rss_anon = 0;
-        FILE *fp;
-        char buffer[MAX_LINE_LENGTH];
++	bitmap_free(d->mbm_cntr_map);
+ 	bitmap_free(d->rmid_busy_llc);
+ 	kfree(d->mbm_total);
+ 	kfree(d->mbm_local);
+@@ -4200,6 +4201,15 @@ static int domain_setup_mon_state(struct rdt_resource *r, struct rdt_mon_domain
+ 			return -ENOMEM;
+ 		}
+ 	}
++	if (is_mbm_enabled()) {
++		d->mbm_cntr_map = bitmap_zalloc(r->mon.num_mbm_cntrs, GFP_KERNEL);
++		if (!d->mbm_cntr_map) {
++			bitmap_free(d->rmid_busy_llc);
++			kfree(d->mbm_total);
++			kfree(d->mbm_local);
++			return -ENOMEM;
++		}
++	}
  
-@@ -185,7 +185,7 @@ uint64_t rss_anon(void)
-        if (!check_for_pattern(fp, "RssAnon:", buffer, sizeof(buffer)))
-                goto err_out;
+ 	return 0;
+ }
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index ef08f75191f2..034fa994e84f 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -105,6 +105,7 @@ struct rdt_ctrl_domain {
+  * @cqm_limbo:		worker to periodically read CQM h/w counters
+  * @mbm_work_cpu:	worker CPU for MBM h/w counters
+  * @cqm_work_cpu:	worker CPU for CQM h/w counters
++ * @mbm_cntr_map:	bitmap to track domain counter assignment
+  */
+ struct rdt_mon_domain {
+ 	struct rdt_domain_hdr		hdr;
+@@ -116,6 +117,7 @@ struct rdt_mon_domain {
+ 	struct delayed_work		cqm_limbo;
+ 	int				mbm_work_cpu;
+ 	int				cqm_work_cpu;
++	unsigned long			*mbm_cntr_map;
+ };
  
--       if (sscanf(buffer, "RssAnon:%10ld kB", &rss_anon) != 1)
-+       if (sscanf(buffer, "RssAnon:%10lu kB", &rss_anon) != 1)
-                ksft_exit_fail_msg("Reading status error\n");
- 
- err_out:
+ /**
+-- 
+2.34.1
+
