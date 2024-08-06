@@ -1,130 +1,235 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32197481D5
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 18:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D173E376E6
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 18:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722967235; cv=none; b=CS6CHNJvBjw4i6KRh6TfT70X7RAY9PE89Ouxxt4PvRU+3epNaZVwv+sP3XmGNIxQ1dW9irAp50L7YXMywTXfcV/t95cNmArOHlVEIS6oFWyno1Uou0s11n1gNY3tAbOI/bkaM417CW3cbMU/24MT/jSgC9VjolfRf8wUIUK2D9g=
+	t=1722967621; cv=none; b=SpBGOwN2b88QniCbs7QLOwNPS5aBi/FZbTo2uSbRFm6w52fJo6jkVWqEXhpqJX/MLbvXznGz7ek6aoBxMxpK6a646kr9WvAiZErkMyFR9XN4DCw0R1H8Ea7ZsitM312qcbxsXUlyvm89Yij59DGbq825djIDq/34UWKyv1X7NHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722967235; c=relaxed/simple;
-	bh=f2XjQVAFOMEyAF2He6DfOX7B9yvspDnOResmomHSCGY=;
+	s=arc-20240116; t=1722967621; c=relaxed/simple;
+	bh=WuhskdTwh3qaEPhMQQjYELqlsIsRhputzcXhW/m4K+w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iD1eBQgffz8OZMKx5asv0WvUu0Hldwg32J9Enuyt6cdYxJtl8OBUVg7rJy79DNHVpxejyU13067Jjs55Z+BErH8m6E6EvyjaYTv8gOVmiK45T4uqFWmplv3dRbGM58QxkCiDCAe5Y+Cb8EEwaKGSq4Wuxa8T5r7c+cyizZMhsBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=ZA0r6GAS; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=SKQL582xeqW7k8x+fPZPz9DHahfsYzjQXOJa9r3aHPHhy7TlFiGIpMh+Y9YDhin+GG2+v7Gmq1LYelgwf6qwkSWM60LNqwQcgVc968+8vNB3CupT8eueEY19oBInRZmfpOgoFnTjAMvZj8+iB646T+CnWmhb16oB//7eUmOfSA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kJ2S5Gj3; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="ZA0r6GAS"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-260f94067bcso438177fac.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 11:00:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kJ2S5Gj3"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-45029af1408so310231cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 11:06:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1722967233; x=1723572033; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722967619; x=1723572419; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QfBptZsetpueoOKsFuJCrA1Xpgd48fPSsjBhDKcmpWw=;
-        b=ZA0r6GAS/SZPM6iVc5LUANeHaMqeRYQpAzDkVVWnaTI/vz7LHQHSQHQe7U+FpO8J2C
-         +QUa3g6xeCyn6vi3DgwxfEIOf+CvDLej3jge4O6D8/bvxFZ34cAeDp5zWYAKmWrCjqRv
-         cqdLwwok7RU0ZcupxJsxgxlzq7RFHXApzQk6Rss4X310UqeeymuKHC0+hOAV3Nl0IcxS
-         xBw5O3Ei7fyxLIVcTJ9jKAvIm227O2xZxf6k971FuhpU+1YIHeIvAdQZatGU1cUh/NLd
-         K+RFR/RvgMfA80CvzXiylg+cvIN+eJw+gT/pafiIhuAVt/s1Q5pSAeTZ3R2BPcAu+2+E
-         ZaDw==
+        bh=LkioQVGF+wSLQTbkssOazSN8dIovK/fE4dOy9+EWWvg=;
+        b=kJ2S5Gj3gWhW67X2gZ1jSc1EazQ3vo9AYxWdLHInBpGEK1HTVRPOAdWQj8SsflaFvH
+         Iy3b0OngTIwzwKvLvoX1FfDjQCstCzG0rH6i+Vgk9i3re3t3qtUkESh2uGI9CTAUUCxY
+         kUyWJ88iObv5FYcAHoMWDFWxD5EMlMB738LTiy8uGayHjpMbmE0Z/lOdGIhcBmu8RHMP
+         OB7VKxmWFMEULI0wVS45eqfTTLjuRxBcQJJPH92us26TcD/xj5Hx/Hpd35mPBfY+qZZn
+         weYiMYHkTyzdbLkc25hHq7eO2G9SsoLC9UH22SjpYngQN99ASoHbOvep+8fRlsZSe+fg
+         KY/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722967233; x=1723572033;
+        d=1e100.net; s=20230601; t=1722967619; x=1723572419;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QfBptZsetpueoOKsFuJCrA1Xpgd48fPSsjBhDKcmpWw=;
-        b=vl6aGk7aLj1DhZOkU0ZENvHLzfsIh4Jt/SvFmTk18s79Dv1Mpk8gaBF2ruIx+CZ2lh
-         lAuUxYGrauBW6bOxtIq+i4MP0+/6uX0T/HkYJtKNqyZKtKLbVtTuatnEMwBAuir3OF0z
-         Arzx63WWxQWLy/BiTB02kPphr8vZiyT2n6MeOtQY3uBJQls513EHHXrkgmao6BiWNvXz
-         v08KhM/C3TpFFHOMxZ8XOaYuydnLe2wn52dOZut+qpA/OPDyXh4j8KF1Y8tNrHNAat1e
-         IlFyjFQjW5yjDw+Wq62xFo8qQyrqObZumX/nXIgDkc605uQtljYNMf4vYfJYSKyxLFc2
-         VWrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLUOUjXmMFSYKkXDHmNnltiTb9GDf6gp06sWhEMPEzVcSlRmZ2PgnkZCJEavoH0+eEmsVeL5UKX1NW1dPeU6PMOJ3FCskfc5SD
-X-Gm-Message-State: AOJu0YyrMurEE+lKLeXC2Xkb3FhCcOtebWOfbsJT4c1dnXHrud9+Jigx
-	V6erRC7l3B6Ok6Lmkf/loDnjDmfexXCN1xMm2wBXWH4dQzjIoMW8JnJU+xGNcMZALCBVl7rHALw
-	ahurAqiAieDuKQFk9wSvrydhBFpSJnYkOMFyWHA==
-X-Google-Smtp-Source: AGHT+IH+na8ZogFWe0lTnYO7BkcAEVsw1QVu/V+B8Fzmh/sUyWoO/L5FA9/YCLYS61YqWW8tMcQfLCj95kNJZH2NdC8=
-X-Received: by 2002:a05:6870:15d5:b0:261:1ad0:5fd1 with SMTP id
- 586e51a60fabf-26891a96625mr20245193fac.12.1722967233054; Tue, 06 Aug 2024
- 11:00:33 -0700 (PDT)
+        bh=LkioQVGF+wSLQTbkssOazSN8dIovK/fE4dOy9+EWWvg=;
+        b=vIKJToiyqWo9gsrcV4rO+h5YG8R4elH7HZKu8BfxQxRhhqFF/WpwLwrdP5uACbci/s
+         eb/3y46QkKpIpx2+X5Nx1ja8DasMhaZ/NIZaDhPVO7zLWj4GmPw/qIzUZwb8ec3YOHJW
+         d1KjH9ox2iw7FzvM6NBFoPfRAoOUBh0DMOpKxKazl2Tq7i4LgnrLQWn79At5owLor/5m
+         Lp3d/zdsQ7zf+tHMZ83HAXQtvadAG/kTxtSMV4dgXof+VbyGEusj6n/bk3B3k0tqxAzg
+         zjPaTImXa5oE3mLQDTJLd18hPrPwM2pOQJlb3sYf0V6DUCcmgBM1dRwNAOL1J5wsXpQa
+         2HJw==
+X-Forwarded-Encrypted: i=1; AJvYcCV9sAdeeAJyi35qWYUALKpHowQVklK86IfQ8RiKK058blTdA3LUealo9cQ2Wlh9/QQCXys+ASkQB2jhY5LDt436/zWrDGPsBlzy
+X-Gm-Message-State: AOJu0YwT94PJCAYdPdHIBcQqwy51hkd8//0UXmywqbyxJEog6ynJd9FF
+	XL6CwWlU+NqstXG+Rdj7HHk82cAzGrC6k51qkoal2CKiRLSTlkMB1Zy7fMJlcOgz/b4pw3a5nTx
+	JOPCOyX7eBIAtfOKD3FWEZiVLdHpK5TjMSw+G
+X-Google-Smtp-Source: AGHT+IHZNrc+FnooCfdfckKFlUU+RkmBQlO7XEnnfitvjHUtcg6asUd2mxT6pVacIbyvDNUzFrYiQJKl5snCiPdsZf8=
+X-Received: by 2002:ac8:5743:0:b0:44f:9e0f:bc41 with SMTP id
+ d75a77b69052e-451c5bc8aa5mr65871cf.27.1722967618415; Tue, 06 Aug 2024
+ 11:06:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605222751.1406125-1-souravpanda@google.com>
- <Zq0tPd2h6alFz8XF@aschofie-mobl2> <CA+CK2bAfgamzFos1M-6AtozEDwRPJzARJOmccfZ=uzKyJ7w=kQ@mail.gmail.com>
- <66b15addf1a80_c144829473@dwillia2-xfh.jf.intel.com.notmuch>
-In-Reply-To: <66b15addf1a80_c144829473@dwillia2-xfh.jf.intel.com.notmuch>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 6 Aug 2024 13:59:54 -0400
-Message-ID: <CA+CK2bC1ZsT3cuAMDAAUonys3BUxbb2JdnZXs1Ps3NbYZt5W2Q@mail.gmail.com>
-Subject: Re: [PATCH v13] mm: report per-page metadata information
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Alison Schofield <alison.schofield@intel.com>, Sourav Panda <souravpanda@google.com>, corbet@lwn.net, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, akpm@linux-foundation.org, 
-	mike.kravetz@oracle.com, muchun.song@linux.dev, rppt@kernel.org, 
-	david@redhat.com, rdunlap@infradead.org, chenlinxuan@uniontech.com, 
-	yang.yang29@zte.com.cn, tomas.mudrunka@gmail.com, bhelgaas@google.com, 
-	ivan@cloudflare.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
-	Liam.Howlett@oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	willy@infradead.org, weixugc@google.com, David Rientjes <rientjes@google.com>, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, yi.zhang@redhat.com
+References: <20240730125346.1580150-1-usamaarif642@gmail.com>
+ <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com> <20240806173840.GE322282@cmpxchg.org>
+In-Reply-To: <20240806173840.GE322282@cmpxchg.org>
+From: Yu Zhao <yuzhao@google.com>
+Date: Tue, 6 Aug 2024 12:06:20 -0600
+Message-ID: <CAOUHufavZTKjh6sb4n_q0ciLzTS88Kxxkp_2Q1wWVp_ZkFrshQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] mm: split underutilized THPs
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+	david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org, 
+	willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 5, 2024 at 7:06=E2=80=AFPM Dan Williams <dan.j.williams@intel.c=
-om> wrote:
+On Tue, Aug 6, 2024 at 11:38=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
 >
-> Pasha Tatashin wrote:
-> [..]
-> > Thank you for the heads up. Can you please attach a full config file,
-> > also was anyone able to reproduce this problem in qemu with emulated
-> > nvdimm?
+> On Thu, Aug 01, 2024 at 12:09:16AM -0600, Yu Zhao wrote:
+> > On Tue, Jul 30, 2024 at 6:54=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
+com> wrote:
+> > >
+> > > The current upstream default policy for THP is always. However, Meta
+> > > uses madvise in production as the current THP=3Dalways policy vastly
+> > > overprovisions THPs in sparsely accessed memory areas, resulting in
+> > > excessive memory pressure and premature OOM killing.
+> > > Using madvise + relying on khugepaged has certain drawbacks over
+> > > THP=3Dalways. Using madvise hints mean THPs aren't "transparent" and
+> > > require userspace changes. Waiting for khugepaged to scan memory and
+> > > collapse pages into THP can be slow and unpredictable in terms of per=
+formance
+> > > (i.e. you dont know when the collapse will happen), while production
+> > > environments require predictable performance. If there is enough memo=
+ry
+> > > available, its better for both performance and predictability to have
+> > > a THP from fault time, i.e. THP=3Dalways rather than wait for khugepa=
+ged
+> > > to collapse it, and deal with sparsely populated THPs when the system=
+ is
+> > > running out of memory.
+> > >
+> > > This patch-series is an attempt to mitigate the issue of running out =
+of
+> > > memory when THP is always enabled. During runtime whenever a THP is b=
+eing
+> > > faulted in or collapsed by khugepaged, the THP is added to a list.
+> > > Whenever memory reclaim happens, the kernel runs the deferred_split
+> > > shrinker which goes through the list and checks if the THP was underu=
+tilized,
+> > > i.e. how many of the base 4K pages of the entire THP were zero-filled=
+.
+> > > If this number goes above a certain threshold, the shrinker will atte=
+mpt
+> > > to split that THP. Then at remap time, the pages that were zero-fille=
+d are
+> > > not remapped, hence saving memory. This method avoids the downside of
+> > > wasting memory in areas where THP is sparsely filled when THP is alwa=
+ys
+> > > enabled, while still providing the upside THPs like reduced TLB misse=
+s without
+> > > having to use madvise.
+> > >
+> > > Meta production workloads that were CPU bound (>99% CPU utilzation) w=
+ere
+> > > tested with THP shrinker. The results after 2 hours are as follows:
+> > >
+> > >                             | THP=3Dmadvise |  THP=3Dalways   | THP=
+=3Dalways
+> > >                             |             |               | + shrinke=
+r series
+> > >                             |             |               | + max_pte=
+s_none=3D409
+> > > ---------------------------------------------------------------------=
+--------
+> > > Performance improvement     |      -      |    +1.8%      |     +1.7%
+> > > (over THP=3Dmadvise)          |             |               |
+> > > ---------------------------------------------------------------------=
+--------
+> > > Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (=
++2.4%)
+> > > ---------------------------------------------------------------------=
+--------
+> > > max_ptes_none=3D409 means that any THP that has more than 409 out of =
+512
+> > > (80%) zero filled filled pages will be split.
+> > >
+> > > To test out the patches, the below commands without the shrinker will
+> > > invoke OOM killer immediately and kill stress, but will not fail with
+> > > the shrinker:
+> > >
+> > > echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_no=
+ne
+> > > mkdir /sys/fs/cgroup/test
+> > > echo $$ > /sys/fs/cgroup/test/cgroup.procs
+> > > echo 20M > /sys/fs/cgroup/test/memory.max
+> > > echo 0 > /sys/fs/cgroup/test/memory.swap.max
+> > > # allocate twice memory.max for each stress worker and touch 40/512 o=
+f
+> > > # each THP, i.e. vm-stride 50K.
+> > > # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+> > > # killer.
+> > > # Without the shrinker, OOM killer is invoked immediately irrespectiv=
+e
+> > > # of max_ptes_none value and kill stress.
+> > > stress --vm 1 --vm-bytes 40M --vm-stride 50K
+> > >
+> > > Patches 1-2 add back helper functions that were previously removed
+> > > to operate on page lists (needed by patch 3).
+> > > Patch 3 is an optimization to free zapped tail pages rather than
+> > > waiting for page reclaim or migration.
+> > > Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
+> > > subpages when splitting THP.
+> > > Patches 6 adds support for THP shrinker.
+> > >
+> > > (This patch-series restarts the work on having a THP shrinker in kern=
+el
+> > > originally done in
+> > > https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
+> > > The THP shrinker in this series is significantly different than the
+> > > original one, hence its labelled v1 (although the prerequisite to not
+> > > remap clean subpages is the same).)
+> > >
+> > > Alexander Zhu (1):
+> > >   mm: add selftests to split_huge_page() to verify unmap/zap of zero
+> > >     pages
+> > >
+> > > Usama Arif (3):
+> > >   Revert "memcg: remove mem_cgroup_uncharge_list()"
+> > >   Revert "mm: remove free_unref_page_list()"
+> > >   mm: split underutilized THPs
+> > >
+> > > Yu Zhao (2):
+> > >   mm: free zapped tail pages when splitting isolated thp
+> > >   mm: don't remap unused subpages when splitting isolated thp
+> >
+> >  I would recommend shatter [1] instead of splitting so that
 >
-> Yes, I can reproduce the crash just by trying to reconfigure the mode of
-> a pmem namespace:
+> I agree with Rik, this seems like a possible optimization, not a
+> pre-requisite.
 >
-> # ndctl create-namespace -m raw -f -e namespace0.0
+> > 1) whoever underutilized their THPs get punished for the overhead;
 >
-> ...where namespace0.0 results from:
->
->     memmap=3D4G!4G
->
-> ...passed on the kernel command line.
->
-> Kernel config here:
->
-> https://gist.github.com/djbw/143705077103d43a735c179395d4f69a
+> Is that true?
 
-Excellent, I was able to reproduce this problem.
+Yes :)
 
-The problem appear to be caused by this code:
+> The downgrade is done in a shrinker.
 
-Calling page_pgdat() in depopulate_section_memmap():
+Ideally, should we charge for the CPU usage of the shrinker and who
+should we charge it to?
 
-static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_p=
-ages,
-                struct vmem_altmap *altmap)
-{
-        unsigned long start =3D (unsigned long) pfn_to_page(pfn);
-        unsigned long end =3D start + nr_pages * sizeof(struct page);
+> With or without
+> shattering, the compaction effort will be on the allocation side.
 
-        mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_MEMMAP,
-<<<< We cannot do it.
-                            -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)));
-        vmemmap_free(start, end, altmap);
-}
+If compaction is needed at all.
 
-The page_pgdat() returns NULL starting from:
-pageunmap_range()
-    remove_pfn_range_from_zone() <- page is removed from the zone.
+> > 2) underutilized THPs are kept intact and can be reused by others.
+>
+> If migration of the subpages is possible, then compaction can clear
+> the block as quickly as shattering can.
 
-Pasha
+Compaction needs to scan and find the block first, assuming that block
+is still movable when it gets there.
+
+> The only difference is that
+> compaction would do the work on-demand
+
+And can often fail to produce 2MB blocks *under memory pressure*
+
+> whereas shattering would do it unconditionally
+
+And always produces a 2MB block
+
+> whether a THP has been requested or not...
+
+With the former condition being the priority because of *THP=3Dalways*.
