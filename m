@@ -1,350 +1,707 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F284B10F1;
-	Tue,  6 Aug 2024 00:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03DEDF42
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 02:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722903729; cv=none; b=V26125xS/C9d1OUu94Dcmgxqc3JQVxeMNLJJsoURxbzQpWN05whOgUSGfIUV2204dVjqp31ckMiiGpFqBIXTlIqw/c52ZMO9FUjqk9H++pWY+v4nannZeNKf94POrs3z5wz9cUuqljhryyxbMqKSSfEy/fL9o6M92GGGUWFflLc=
+	t=1722910869; cv=none; b=FcIOFmFSD49u8XKoIa3PlWZJtS4mR4556ewG+7WKkzwCZDvfY9V+0mrDKLt3pTnAcyI49lpyivbJPXfmqRxhmYyugJDklMWKJE9VI+6GlE/Fys2Jt+aoIwGyuh3utFG8fbgH4Ye4gmmDV6Ev393H3GZDGcu9uhS8x5zdvu/rZO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722903729; c=relaxed/simple;
-	bh=7LI+SyKIAMeHUrgTNeBg7NAwZHvCgGvaCTW79mhlUNU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PjG9VmunPdLGV4J/1bTmJPkDwE6pT/g3+/xOhv3qshcnAx75DmN9H8gsbCVsn/EGjzxYQQOXnuSp3ZLq+fD3czgQGO8ixL6XeZQw9nyQktkHnPVOqL7Bpum8a1eMYiHdLYGZPoRD6wZYpfHMxO2M4HY7iTO0xKkO60l3qmA4PWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csmHZW59; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722910869; c=relaxed/simple;
+	bh=MNu5QCLbpWFDhva6rRt/gX74BkPC645qHMdB9dane+g=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=np+BdHCMw9Pxuw6Usc6xfSj5aNTtMQ6duKbbFG5V1K4xdq/KkEF+0uWHjTcp5QFV1vNr04v0le9pMcEXN0RNuDFSrByyAE+sbdJgLT1amB0Wc4W3MAn5PS8CSrKUF9++uwZE9ArzyM9SAyIy3wM21Drs59ASIMVEaZgQk9Kq+3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wFbog/FI; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csmHZW59"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-368380828d6so7551597f8f.1;
-        Mon, 05 Aug 2024 17:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722903726; x=1723508526; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AdgtCx0yObvg3G9BhDSSvuFzLZYEdkp911WRI3897EA=;
-        b=csmHZW59U+/lm5uXpKM6+ahYgN87ZFS56rRCh/X81TO1bhMkQEQN/qijey2L8m3a3/
-         /mRbc4p0pVfO0ESveaydpTg9E3+81Bx/ODr7nIjB4zq8FNEYS2Va9sUDLD6jJrQTYEzN
-         g7BIOTT9d3M5iOiPYOTg6qmuhfb4RiEK7eh/s27WDmfKoT5nJ7YcIBMwX5KjnNM9xacC
-         U9VhpQqVguyIBJRfypa5i3JMJpAeGAjyLsJL1y5ed9Lr8zndFVPbIa4FCOcnDy2fx4dL
-         buXpzUJ4gT2eVLr6SCqlJ+uWOBlBdL54Y8ZXWzc5SWCQvi7E3PWaKNvHVOX25jrp9zAT
-         Y/Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722903726; x=1723508526;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AdgtCx0yObvg3G9BhDSSvuFzLZYEdkp911WRI3897EA=;
-        b=U6HmQrV2s+1umyzD+yfZzRCvOQ9pYyZm7AXT2Ut7+r49TPqdT+mmwecA9tNp0X4OZw
-         G7q5aKrdHesgRJMVegQuU8ouTjC4LOgPg7ZcDXkWL9it1HONdEG65xjgFHtYRjRrA/ET
-         lKG8bR674S/rJLHyvbFdihdUpxKDT53qdWZflSm4ZkLDxlwnKFVrhGfyxqSfeWNffrSk
-         zzNvuimm0SUif2h902AvULySuYQLf1jWBO5JQ1rVaCCMzxyc9bdxbNcdEzgsw/jMORev
-         nNminn/dhZOhhFJx/o0fB2m51XBSuZOC2//FAz6EO1/Fp46EfcBq5lwOdzEU/R1xCSrb
-         Q2CA==
-X-Forwarded-Encrypted: i=1; AJvYcCUI4+lwq6PRr7KdEazqwZk6s5u0F1XIb0Z5dprGGvCfEh5XibHLsgnSGqwxpJWmLtKiqbmwsMdI47kTsu+SXf65ySwNsWNMllqYUOzTNfOhvCMmgZ00d7srVmjn2JiW9gTmXMbQ1rU5
-X-Gm-Message-State: AOJu0YwCBgyrpNUK2AkJhFZEHZI1EajM9Cv81WgGoXUvcyfNXnEKiLmP
-	UlSCgQ0bJ5d07LgYQq/hbTWJ4cGciWgdunsjEATXeMVZ1STyuI+fe6vXH3GwAQavL2zXWyMQjuM
-	anEgwZ9dSiPhkORC7lhhk0k65Coo=
-X-Google-Smtp-Source: AGHT+IH06UHMm256p32TdT2WPSu1K5DQoM648J62YpulrnPPVBWU9tC4UdOKcOkSWGNi2ao/3ZwZxRaDg/dSfGIf5wQ=
-X-Received: by 2002:a05:6000:2a6:b0:368:31c7:19d9 with SMTP id
- ffacd0b85a97d-36bbc0c54eamr12263479f8f.12.1722903725876; Mon, 05 Aug 2024
- 17:22:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wFbog/FI"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805000639.619232-2-crwulff@gmail.com> <2024080516-flatness-humorous-03ca@gregkh>
-In-Reply-To: <2024080516-flatness-humorous-03ca@gregkh>
-From: Chris Wulff <crwulff@gmail.com>
-Date: Mon, 5 Aug 2024 20:21:54 -0400
-Message-ID: <CAB0kiBKGb=vuYbs1C3w2wzmbSZuVp3t9iqjkfL+dYkKQKgA7ow@mail.gmail.com>
-Subject: Re: [PATCH v4] usb: gadget: f_fs: add capability for dfu run-time descriptor
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Cercueil <paul@crapouillou.net>, Christian Brauner <brauner@kernel.org>, 
-	Eric Farman <farman@linux.ibm.com>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	Dmitry Antipov <dmantipov@yandex.ru>, Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, David Sands <david.sands@biamp.com>
-Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1722910863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MNu5QCLbpWFDhva6rRt/gX74BkPC645qHMdB9dane+g=;
+	b=wFbog/FIkNInVti6juDNfLRHuRYvGV0fmr7ciqRXLohEOxcERfIHbq/PJAhC0ccc/X5pvI
+	GHn6ENYtmRKMMpT6owXf6qvAEbauQhDivSJ8A1LkniV4hfQrdmBjGUqEsiTPByRe/Wa+wK
+	emiBfax/uiQ+3KzlwyhmPnZ10WWuaDI=
+Date: Tue, 06 Aug 2024 02:20:59 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: si.yanteng@linux.dev
+Message-ID: <074662fa2977a708d7a9a4545ffad26612514dc2@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH v4] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+To: "Haoyang Liu" <tttturtleruss@hust.edu.cn>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <siyanteng@loongson.cn>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
+ <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>, "Justin
+ Stitt" <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, "Haoyang Liu"
+ <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+In-Reply-To: <20240731180916.36617-1-tttturtleruss@hust.edu.cn>
+References: <20240731180916.36617-1-tttturtleruss@hust.edu.cn>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Aug 5, 2024 at 3:01=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Aug 04, 2024 at 08:06:40PM -0400, crwulff@gmail.com wrote:
-> > From: David Sands <david.sands@biamp.com>
-> >
-> > From: David Sands <david.sands@biamp.com>
->
-> Twice?
+2024=E5=B9=B48=E6=9C=881=E6=97=A5 02:09, "Haoyang Liu" <tttturtleruss@hus=
+t.edu.cn> =E5=86=99=E5=88=B0:
 
-Oops. Not sure what happened, but I'll try to make it not happen next time.
 
->
-> > Add the ability for FunctionFS driver to be able to create DFU Run-Time
-> > descriptors.
->
-> As others said, please spell out "DFU" and I do not think that
-> "Run-Time" needs Capital letters, or a '-', right?
->
-> Also include here a lot more description of how this is to be used.
 
-Ok, I will expand on this (and the associated documentation.)
+>=20
+>=20Translate dev-tools/kcsan commit 31f605a308e6
+>=20
+>=20("kcsan, compiler_types: Introduce __data_racy type qualifier")
+>=20
+>=20into Chinese and add it in dev-tools/zh_CN/index.rst
+>=20
+>=20Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+>=20
+>=20---
+>=20
+>=20v3 -> v4: Added original English text for proper nouns and modified s=
+ome unclear experessions.=20
+>=20
+> v2 -> v3: Revised some sentences based on reviewer's suggestions and up=
+dated the KTSAN url.
+>=20
+>=20v1 -> v2: Added commit tag and fixed style problems according to revi=
+ewer's suggestions.
+>=20
+>=20 .../translations/zh_CN/dev-tools/index.rst | 2 +-
+>=20
+>=20 .../translations/zh_CN/dev-tools/kcsan.rst | 321 ++++++++++++++++++
+>=20
+>=20 2 files changed, 322 insertions(+), 1 deletion(-)
+>=20
+>=20 create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.=
+rst
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/D=
+ocumentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20index c540e4a7d5db..6a8c637c0be1 100644
+>=20
+>=20--- a/Documentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+>=20
+>=20@@ -21,6 +21,7 @@ Documentation/translations/zh_CN/dev-tools/testing-=
+overview.rst
+>=20
+>=20 testing-overview
+>=20
+>=20 sparse
+>=20
+>=20 kcov
+>=20
+>=20+ kcsan
+>=20
+>=20 gcov
+>=20
+>=20 kasan
+>=20
+>=20 ubsan
+>=20
+>=20@@ -32,7 +33,6 @@ Todolist:
+>=20
+>=20 - checkpatch
+>=20
+>=20 - coccinelle
+>=20
+>=20 - kmsan
+>=20
+>=20- - kcsan
+>=20
+>=20 - kfence
+>=20
+>=20 - kgdb
+>=20
+>=20 - kselftest
+>=20
+>=20diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/D=
+ocumentation/translations/zh_CN/dev-tools/kcsan.rst
+>=20
+>=20new file mode 100644
+>=20
+>=20index 000000000000..39fa43d8c414
+>=20
+>=20--- /dev/null
+>=20
+>=20+++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
+>=20
+>=20@@ -0,0 +1,321 @@
+>=20
+>=20+.. SPDX-License-Identifier: GPL-2.0
+>=20
+>=20+
+>=20
+>=20+.. include:: ../disclaimer-zh_CN.rst
+>=20
+>=20+
+>=20
+>=20+:Original: Documentation/dev-tools/kcsan.rst
+>=20
+>=20+:Translator: =E5=88=98=E6=B5=A9=E9=98=B3 Haoyang Liu <tttturtleruss@=
+hust.edu.cn>
+>=20
+>=20+
+>=20
+>=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82(KCSA=
+N)
+>=20
+>=20+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+
+>=20
+>=20+=E5=86=85=E6=A0=B8=E5=B9=B6=E5=8F=91=E6=B6=88=E6=AF=92=E5=89=82=EF=
+=BC=88KCSAN=EF=BC=89=E6=98=AF=E4=B8=80=E4=B8=AA=E5=8A=A8=E6=80=81=E7=AB=
+=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E5=99=A8=EF=BC=8C=E4=BE=9D=E8=B5=96=E7=BC=
+=96=E8=AF=91=E6=97=B6=E6=8F=92=E6=A1=A9=EF=BC=8C=E5=B9=B6=E4=B8=94=E4=BD=
+=BF=E7=94=A8=E5=9F=BA=E4=BA=8E=E8=A7=82=E5=AF=9F
+>=20
+>=20+=E7=82=B9=E7=9A=84=E9=87=87=E6=A0=B7=E6=96=B9=E6=B3=95=E6=9D=A5=E6=
+=A3=80=E6=B5=8B=E7=AB=9E=E4=BA=89=E3=80=82KCSAN =E7=9A=84=E4=B8=BB=E8=A6=
+=81=E7=9B=AE=E7=9A=84=E6=98=AF=E6=A3=80=E6=B5=8B `=E6=95=B0=E6=8D=AE=E7=
+=AB=9E=E4=BA=89`_=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=BD=BF=E7=94=A8
+>=20
+>=20+----
+>=20
+>=20+
+>=20
+>=20+KCSAN =E5=8F=97 GCC =E5=92=8C Clang =E6=94=AF=E6=8C=81=E3=80=82=E4=
+=BD=BF=E7=94=A8 GCC =E9=9C=80=E8=A6=81=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=
+=9B=B4=E9=AB=98=EF=BC=8C=E4=BD=BF=E7=94=A8 Clang =E4=B9=9F=E9=9C=80=E8=A6=
+=81
+>=20
+>=20+=E7=89=88=E6=9C=AC 11 =E6=88=96=E6=9B=B4=E9=AB=98=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E4=B8=BA=E4=BA=86=E5=90=AF=E7=94=A8 KCSAN=EF=BC=8C=E7=94=A8=E5=A6=
+=82=E4=B8=8B=E5=8F=82=E6=95=B0=E9=85=8D=E7=BD=AE=E5=86=85=E6=A0=B8::
+>=20
+>=20+
+>=20
+>=20+ CONFIG_KCSAN =3D y
+>=20
+>=20+
+>=20
+>=20+KCSAN =E6=8F=90=E4=BE=9B=E4=BA=86=E5=87=A0=E4=B8=AA=E5=85=B6=E4=BB=
+=96=E7=9A=84=E9=85=8D=E7=BD=AE=E9=80=89=E9=A1=B9=E6=9D=A5=E8=87=AA=E5=AE=
+=9A=E4=B9=89=E8=A1=8C=E4=B8=BA=EF=BC=88=E8=A7=81 ``lib/Kconfig.kcsan`` =
+=E4=B8=AD=E7=9A=84=E5=90=84=E8=87=AA=E7=9A=84
+>=20
+>=20+=E5=B8=AE=E5=8A=A9=E6=96=87=E6=A1=A3=E4=BB=A5=E8=8E=B7=E5=8F=96=E6=
+=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E9=94=99=E8=AF=AF=E6=8A=A5=E5=91=8A
+>=20
+>=20+~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E4=B8=80=E4=B8=AA=E5=85=B8=E5=9E=8B=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
+=BA=89=E7=9A=84=E6=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
+>=20
+>=20+
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+ BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
+>=20
+>=20+
+>=20
+>=20+ write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
+>=20
+>=20+ test_kernel_write+0x1d/0x30
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
+>=20
+>=20+ test_kernel_read+0x10/0x20
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ value changed: 0x00000000000009a6 -> 0x00000000000009b2
+>=20
+>=20+
+>=20
+>=20+ Reported by Kernel Concurrency Sanitizer on:
+>=20
+>=20+ CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
+>=20
+>=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
+2 04/01/2014
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+
+>=20
+>=20+=E6=8A=A5=E5=91=8A=E7=9A=84=E5=A4=B4=E9=83=A8=E6=8F=90=E4=BE=9B=E4=
+=BA=86=E4=B8=80=E4=B8=AA=E5=85=B3=E4=BA=8E=E7=AB=9E=E4=BA=89=E4=B8=AD=E6=
+=B6=89=E5=8F=8A=E5=88=B0=E7=9A=84=E5=87=BD=E6=95=B0=E7=9A=84=E7=AE=80=E7=
+=9F=AD=E6=80=BB=E7=BB=93=E3=80=82=E9=9A=8F=E5=90=8E=E6=98=AF=E7=AB=9E=E4=
+=BA=89=E4=B8=AD=E7=9A=84=E4=B8=A4=E4=B8=AA=E7=BA=BF=E7=A8=8B=E7=9A=84
+>=20
+>=20+=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=92=8C=E5=A0=86=E6=A0=88=E4=
+=BF=A1=E6=81=AF=E3=80=82=E5=A6=82=E6=9E=9C KCSAN =E5=8F=91=E7=8E=B0=E4=BA=
+=86=E4=B8=80=E4=B8=AA=E5=80=BC=E7=9A=84=E5=8F=98=E5=8C=96=EF=BC=8C=E9=82=
+=A3=E4=B9=88=E9=82=A3=E4=B8=AA=E5=80=BC=E7=9A=84=E6=97=A7=E5=80=BC=E5=92=
+=8C=E6=96=B0=E5=80=BC=E4=BC=9A=E5=9C=A8
+>=20
+>=20+=E2=80=9Cvalue changed=E2=80=9D=E8=BF=99=E4=B8=80=E8=A1=8C=E5=8D=95=
+=E7=8B=AC=E6=98=BE=E7=A4=BA=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=B8=8D=E5=A4=AA=E5=B8=B8=E8=A7=81=E7=
+=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=
+=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=89=80=E7=A4=BA::
+>=20
+>=20+
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+ BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
+>=20
+>=20+
+>=20
+>=20+ race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes =
+by task 515 on cpu 2:
+>=20
+>=20+ test_kernel_rmw_array+0x71/0xd0
+>=20
+>=20+ access_thread+0x89/0xd0
+>=20
+>=20+ kthread+0x23e/0x260
+>=20
+>=20+ ret_from_fork+0x22/0x30
+>=20
+>=20+
+>=20
+>=20+ value changed: 0x0000000000002328 -> 0x0000000000002329
+>=20
+>=20+
+>=20
+>=20+ Reported by Kernel Concurrency Sanitizer on:
+>=20
+>=20+ CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
+>=20
+>=20+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-=
+2 04/01/2014
+>=20
+>=20+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>=20+
+>=20
+>=20+=E8=BF=99=E4=B8=AA=E6=8A=A5=E5=91=8A=E6=98=AF=E5=BD=93=E5=8F=A6=E4=
+=B8=80=E4=B8=AA=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=8D=E5=8F=AF=E8=
+=83=BD=E8=A2=AB=E5=8F=91=E7=8E=B0=EF=BC=8C=E4=BD=86=E6=98=AF=E5=8F=AF=E4=
+=BB=A5=E4=BB=8E=E8=A7=82=E6=B5=8B=E7=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=
+=9D=80=E7=9A=84=E5=80=BC=E6=94=B9=E5=8F=98=E8=80=8C=E6=8E=A8=E6=96=AD
+>=20
+>=20+=E5=87=BA=E6=9D=A5=E7=9A=84=E6=97=B6=E5=80=99=E7=94=9F=E6=88=90=E7=
+=9A=84=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E6=80=BB=E6=98=AF=E4=
+=BC=9A=E5=B8=A6=E6=9C=89=E2=80=9Cvalue changed=E2=80=9D=E8=A1=8C=E3=80=82=
+=E8=BF=99=E7=B1=BB=E6=8A=A5=E5=91=8A=E7=9A=84=E5=87=BA=E7=8E=B0=E9=80=9A=
+=E5=B8=B8=E6=98=AF=E5=9B=A0
+>=20
+>=20+=E4=B8=BA=E5=9C=A8=E7=AB=9E=E4=BA=89=E7=BA=BF=E7=A8=8B=E4=B8=AD=E7=
+=BC=BA=E5=B0=91=E6=8F=92=E6=A1=A9=EF=BC=8C=E4=B9=9F=E5=8F=AF=E8=83=BD=E6=
+=98=AF=E5=9B=A0=E4=B8=BA=E5=85=B6=E4=BB=96=E5=8E=9F=E5=9B=A0=EF=BC=8C=E6=
+=AF=94=E5=A6=82 DMA =E8=AE=BF=E9=97=AE=E3=80=82=E8=BF=99=E7=B1=BB=E6=8A=
+=A5=E5=91=8A=E5=8F=AA=E4=BC=9A=E5=9C=A8
+>=20
+>=20+=E8=AE=BE=E7=BD=AE=E4=BA=86=E5=86=85=E6=A0=B8=E5=8F=82=E6=95=B0 ``CO=
+NFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=3Dy`` =E6=97=B6=E6=89=8D=E4=BC=9A=
+=E5=87=BA=E7=8E=B0=EF=BC=8C=E8=80=8C=E8=BF=99
+>=20
+>=20+=E4=B8=AA=E5=8F=82=E6=95=B0=E6=98=AF=E9=BB=98=E8=AE=A4=E5=90=AF=E7=
+=94=A8=E7=9A=84=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E9=80=89=E6=8B=A9=E6=80=A7=E5=88=86=E6=9E=90
+>=20
+>=20+~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=BA=9B=E7=89=B9=E5=AE=9A=E7=9A=84=E8=
+=AE=BF=E9=97=AE=EF=BC=8C=E5=87=BD=E6=95=B0=EF=BC=8C=E7=BC=96=E8=AF=91=E5=
+=8D=95=E5=85=83=E6=88=96=E8=80=85=E6=95=B4=E4=B8=AA=E5=AD=90=E7=B3=BB=E7=
+=BB=9F=EF=BC=8C=E5=8F=AF=E8=83=BD=E9=9C=80=E8=A6=81=E7=A6=81=E7=94=A8=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B=E3=80=82
+>=20
+>=20+=E5=AF=B9=E4=BA=8E=E9=9D=99=E6=80=81=E9=BB=91=E5=90=8D=E5=8D=95=EF=
+=BC=8C=E6=9C=89=E5=A6=82=E4=B8=8B=E5=8F=AF=E7=94=A8=E7=9A=84=E5=8F=82=E6=
+=95=B0=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+* KCSAN =E6=94=AF=E6=8C=81=E4=BD=BF=E7=94=A8 ``data_race(expr)`` =E6=
+=B3=A8=E8=A7=A3=EF=BC=8C=E8=BF=99=E4=B8=AA=E6=B3=A8=E8=A7=A3=E5=91=8A=E8=
+=AF=89 KCSAN =E4=BB=BB=E4=BD=95=E7=94=B1=E8=AE=BF=E9=97=AE
+>=20
+>=20+ ``expr`` =E6=89=80=E5=BC=95=E8=B5=B7=E7=9A=84=E6=95=B0=E6=8D=AE=E7=
+=AB=9E=E4=BA=89=E9=83=BD=E5=BA=94=E8=AF=A5=E8=A2=AB=E5=BF=BD=E7=95=A5=EF=
+=BC=8C=E5=85=B6=E4=BA=A7=E7=94=9F=E7=9A=84=E8=A1=8C=E4=B8=BA=E5=90=8E=E6=
+=9E=9C=E8=A2=AB=E8=AE=A4=E4=B8=BA=E6=98=AF=E5=AE=89=E5=85=A8=E7=9A=84=E3=
+=80=82=E8=AF=B7=E6=9F=A5=E9=98=85
+>=20
+>=20+ `"Marking Shared-Memory Accesses" in the LKMM`_ =E8=8E=B7=E5=BE=97=
+=E6=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=8E ``data_race(...)`` =E7=9B=B8=E4=BC=BC=EF=BC=8C=E5=8F=AF=
+=E4=BB=A5=E4=BD=BF=E7=94=A8=E7=B1=BB=E5=9E=8B=E9=99=90=E5=AE=9A=E7=AC=A6 =
+``__data_racy`` =E6=9D=A5=E6=A0=87=E8=AE=B0=E4=B8=80=E4=B8=AA=E5=8F=98=E9=
+=87=8F
+>=20
+>=20+ =EF=BC=8C=E6=89=80=E6=9C=89=E8=AE=BF=E9=97=AE=E8=AF=A5=E5=8F=98=E9=
+=87=8F=E8=80=8C=E5=AF=BC=E8=87=B4=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=
+=BA=89=E9=83=BD=E6=98=AF=E6=95=85=E6=84=8F=E4=B8=BA=E4=B9=8B=E5=B9=B6=E4=
+=B8=94=E5=BA=94=E8=AF=A5=E8=A2=AB KCSAN =E5=BF=BD=E7=95=A5::
+>=20
+>=20+
+>=20
+>=20+ struct foo {
+>=20
+>=20+ ...
+>=20
+>=20+ int __data_racy stats_counter;
+>=20
+>=20+ ...
+>=20
+>=20+ };
+>=20
+>=20+
+>=20
+>=20+* =E4=BD=BF=E7=94=A8=E5=87=BD=E6=95=B0=E5=B1=9E=E6=80=A7 ``__no_kcsa=
+n`` =E5=8F=AF=E4=BB=A5=E5=AF=B9=E6=95=B4=E4=B8=AA=E5=87=BD=E6=95=B0=E7=A6=
+=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=B5=8B::
+>=20
+>=20+
+>=20
+>=20+ __no_kcsan
+>=20
+>=20+ void foo(void) {
+>=20
+>=20+ ...
+>=20
+>=20+
+>=20
+>=20+ =E4=B8=BA=E4=BA=86=E5=8A=A8=E6=80=81=E9=99=90=E5=88=B6=E8=AF=A5=E4=
+=B8=BA=E5=93=AA=E4=BA=9B=E5=87=BD=E6=95=B0=E7=94=9F=E6=88=90=E6=8A=A5=E5=
+=91=8A=EF=BC=8C=E6=9F=A5=E9=98=85 `Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=
+=BB=9F=E6=8E=A5=E5=8F=A3`_ =E9=BB=91=E5=90=8D=E5=8D=95/=E7=99=BD=E5=90=8D=
+=E5=8D=95=E7=89=B9=E6=80=A7=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=BA=E7=89=B9=E5=AE=9A=E7=9A=84=E7=BC=96=E8=AF=91=E5=8D=95=E5=
+=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E6=A3=80=E6=
+=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=82=E6=95=B0=E5=8A=A0=E5=
+=85=A5=E5=88=B0 ``Makefile`` =E4=B8=AD::
+>=20
+>=20+
+>=20
+>=20+ KCSAN_SANITIZE_file.o :=3D n
+>=20
+>=20+
+>=20
+>=20+* =E4=B8=BA ``Makefile`` =E4=B8=AD=E7=9A=84=E6=89=80=E6=9C=89=E7=BC=
+=96=E8=AF=91=E5=8D=95=E5=85=83=E7=A6=81=E7=94=A8=E6=95=B0=E6=8D=AE=E7=AB=
+=9E=E4=BA=89=E6=A3=80=E6=B5=8B=EF=BC=8C=E5=B0=86=E4=B8=8B=E5=88=97=E5=8F=
+=82=E6=95=B0=E6=B7=BB=E5=8A=A0=E5=88=B0=E7=9B=B8=E5=BA=94=E7=9A=84
+>=20
+>=20+ ``Makefile`` =E4=B8=AD::
+>=20
+>=20+
+>=20
+>=20+ KCSAN_SANITIZE :=3D n
+>=20
+>=20+
+>=20
+>=20+.. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel=
+.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/=
+Documentation/access-marking.txt
+>=20
+>=20+
+>=20
+>=20+=E6=AD=A4=E5=A4=96=EF=BC=8CKCSAN =E5=8F=AF=E4=BB=A5=E6=A0=B9=E6=8D=
+=AE=E5=81=8F=E5=A5=BD=E8=AE=BE=E7=BD=AE=E6=98=BE=E7=A4=BA=E6=88=96=E9=9A=
+=90=E8=97=8F=E6=95=B4=E4=B8=AA=E7=B1=BB=E5=88=AB=E7=9A=84=E6=95=B0=E6=8D=
+=AE=E7=AB=9E=E4=BA=89=E3=80=82=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E5=A6=
+=82=E4=B8=8B
+>=20
+>=20+Kconfig =E5=8F=82=E6=95=B0=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9:
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: =E5=A6=82=E6=9E=9C=E5=
+=90=AF=E7=94=A8=E4=BA=86=E8=AF=A5=E5=8F=82=E6=95=B0=E5=B9=B6=E4=B8=94=E9=
+=80=9A=E8=BF=87=E8=A7=82=E6=B5=8B=E7=82=B9
+>=20
+>=20+ (watchpoint) =E8=A7=82=E6=B5=8B=E5=88=B0=E4=B8=80=E4=B8=AA=E6=9C=89=
+=E5=86=B2=E7=AA=81=E7=9A=84=E5=86=99=E6=93=8D=E4=BD=9C=EF=BC=8C=E4=BD=86=
+=E6=98=AF=E5=AF=B9=E5=BA=94=E7=9A=84=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=
+=E4=B8=AD=E5=AD=98=E5=82=A8=E7=9A=84=E5=80=BC=E6=B2=A1=E6=9C=89=E6=94=B9=
+=E5=8F=98=EF=BC=8C
+>=20
+>=20+ =E5=88=99=E4=B8=8D=E4=BC=9A=E6=8A=A5=E5=91=8A=E8=BF=99=E8=B5=B7=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: =E5=81=87=E8=AE=BE=E9=
+=BB=98=E8=AE=A4=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E4=B8=8D=E8=B6=85=E8=
+=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=80
+>=20
+>=20+ =E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E6=
+=98=AF=E5=8E=9F=E5=AD=90=E7=9A=84=E3=80=82=E5=81=87=E8=AE=BE=E8=BF=99=E4=
+=BA=9B=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E4=B8=8D=E4=BC=9A=E5=8F=97=E5=
+=88=B0=E4=B8=8D=E5=AE=89=E5=85=A8=E7=9A=84=E7=BC=96=E8=AF=91=E5=99=A8=E4=
+=BC=98=E5=8C=96=E5=BD=B1=E5=93=8D=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=BC
+>=20
+>=20+ =E8=87=B4=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E8=AF=A5=E9=
+=80=89=E9=A1=B9=E4=BD=BF KCSAN =E4=B8=8D=E6=8A=A5=E5=91=8A=E4=BB=85=E7=94=
+=B1=E4=B8=8D=E8=B6=85=E8=BF=87=E5=AD=97=E5=A4=A7=E5=B0=8F=E7=9A=84=E7=AE=
+=80=E5=8D=95=E5=AF=B9=E9=BD=90=E5=86=99=E5=85=A5=E6=93=8D=E4=BD=9C=E5=BC=
+=95=E8=B5=B7
+>=20
+>=20+ =E7=9A=84=E5=86=B2=E7=AA=81=E6=89=80=E5=AF=BC=E8=87=B4=E7=9A=84=E6=
+=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``CONFIG_KCSAN_PERMISSIVE``: =E5=90=AF=E7=94=A8=E9=A2=9D=E5=A4=96=
+=E7=9A=84=E5=AE=BD=E6=9D=BE=E8=A7=84=E5=88=99=E6=9D=A5=E5=BF=BD=E7=95=A5=
+=E6=9F=90=E4=BA=9B=E5=B8=B8=E8=A7=81=E7=B1=BB=E5=9E=8B=E7=9A=84=E6=95=B0=
+=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82
+>=20
+>=20+ =E4=B8=8E=E4=B8=8A=E9=9D=A2=E7=9A=84=E8=A7=84=E5=88=99=E4=B8=8D=E5=
+=90=8C=EF=BC=8C=E8=BF=99=E6=9D=A1=E8=A7=84=E5=88=99=E6=9B=B4=E5=8A=A0=E5=
+=A4=8D=E6=9D=82=EF=BC=8C=E6=B6=89=E5=8F=8A=E5=88=B0=E5=80=BC=E6=94=B9=E5=
+=8F=98=E6=A8=A1=E5=BC=8F=EF=BC=8C=E8=AE=BF=E9=97=AE=E7=B1=BB=E5=9E=8B=E5=
+=92=8C=E5=9C=B0=E5=9D=80=E3=80=82=E8=BF=99=E4=B8=AA
+>=20
+>=20+ =E9=80=89=E9=A1=B9=E4=BE=9D=E8=B5=96=E7=BC=96=E8=AF=91=E9=80=89=E9=
+=A1=B9 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=3Dy``=E3=80=82=E8=AF=B7=E6=
+=9F=A5=E7=9C=8B
+>=20
+>=20+ ``kernel/kcsan/permissive.h`` =E8=8E=B7=E5=8F=96=E6=9B=B4=E5=A4=9A=
+=E7=BB=86=E8=8A=82=E3=80=82=E5=AF=B9=E4=BA=8E=E5=8F=AA=E4=BE=A7=E9=87=8D=
+=E4=BA=8E=E7=89=B9=E5=AE=9A=E5=AD=90=E7=B3=BB=E7=BB=9F=E8=80=8C=E4=B8=8D=
+=E6=98=AF=E6=95=B4=E4=B8=AA
+>=20
+>=20+ =E5=86=85=E6=A0=B8=E6=8A=A5=E5=91=8A=E7=9A=84=E6=B5=8B=E8=AF=95=E8=
+=80=85=E5=92=8C=E7=BB=B4=E6=8A=A4=E8=80=85=EF=BC=8C=E5=BB=BA=E8=AE=AE=E7=
+=A6=81=E7=94=A8=E8=AF=A5=E9=80=89=E9=A1=B9=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E8=A6=81=E4=BD=BF=E7=94=A8=E5=B0=BD=E5=8F=AF=E8=83=BD=E4=B8=A5=E6=
+=A0=BC=E7=9A=84=E8=A7=84=E5=88=99=EF=BC=8C=E9=80=89=E6=8B=A9 ``CONFIG_KCS=
+AN_STRICT=3Dy``=EF=BC=8C=E8=BF=99=E5=B0=86=E9=85=8D=E7=BD=AE KCSAN =E5=B0=
+=BD=E5=8F=AF
+>=20
+>=20+=E8=83=BD=E7=B4=A7=E5=AF=86=E5=9C=B0=E9=81=B5=E5=BE=AA Linux =E5=86=
+=85=E6=A0=B8=E5=86=85=E5=AD=98=E4=B8=80=E8=87=B4=E6=80=A7=E6=A8=A1=E5=9E=
+=8B=EF=BC=88LKMM=EF=BC=89=E3=80=82
+>=20
+>=20+
+>=20
+>=20+Debug =E6=96=87=E4=BB=B6=E7=B3=BB=E7=BB=9F=E6=8E=A5=E5=8F=A3
+>=20
+>=20+~~~~~~~~~~~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E6=96=87=E4=BB=B6 ``/sys/kernel/debug/kcsan`` =E6=8F=90=E4=BE=9B=E4=
+=BA=86=E5=A6=82=E4=B8=8B=E6=8E=A5=E5=8F=A3=EF=BC=9A
+>=20
+>=20+
+>=20
+>=20+* =E8=AF=BB ``/sys/kernel/debug/kcsan`` =E8=BF=94=E5=9B=9E=E4=B8=8D=
+=E5=90=8C=E7=9A=84=E8=BF=90=E8=A1=8C=E6=97=B6=E7=BB=9F=E8=AE=A1=E6=95=B0=
+=E6=8D=AE=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``on`` =E6=88=96 ``off`` =E5=86=99=E5=85=A5 ``/sys/kerne=
+l/debug/kcsan`` =E5=85=81=E8=AE=B8=E6=89=93=E5=BC=80=E6=88=96=E5=85=B3=E9=
+=97=AD KCSAN=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``!some_func_name`` =E5=86=99=E5=85=A5 ``/sys/kernel/deb=
+ug/kcsan`` =E4=BC=9A=E5=B0=86
+>=20
+>=20+ ``some_func_name`` =E6=B7=BB=E5=8A=A0=E5=88=B0=E6=8A=A5=E5=91=8A=E8=
+=BF=87=E6=BB=A4=E5=88=97=E8=A1=A8=E4=B8=AD=EF=BC=8C=E8=AF=A5=E5=88=97=E8=
+=A1=A8=EF=BC=88=E9=BB=98=E8=AE=A4=EF=BC=89=E4=BC=9A=E5=B0=86=E6=95=B0=E6=
+=8D=AE=E7=AB=9E=E4=BA=89=E6=8A=A5=E5=91=8A=E4=B8=AD=E7=9A=84=E9=A1=B6
+>=20
+>=20+ =E5=B1=82=E5=A0=86=E6=A0=88=E5=B8=A7=E6=98=AF=E5=88=97=E8=A1=A8=E4=
+=B8=AD=E5=87=BD=E6=95=B0=E7=9A=84=E6=83=85=E5=86=B5=E5=88=97=E5=85=A5=E9=
+=BB=91=E5=90=8D=E5=8D=95=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* =E5=B0=86 ``blacklist`` =E6=88=96 ``whitelist`` =E5=86=99=E5=85=A5=
+ ``/sys/kernel/debug/kcsan`` =E4=BC=9A=E6=94=B9=E5=8F=98=E6=8A=A5=E5=91=
+=8A
+>=20
+>=20+ =E8=BF=87=E6=BB=A4=E8=A1=8C=E4=B8=BA=E3=80=82=E4=BE=8B=E5=A6=82=EF=
+=BC=8C=E9=BB=91=E5=90=8D=E5=8D=95=E7=9A=84=E7=89=B9=E6=80=A7=E5=8F=AF=E4=
+=BB=A5=E7=94=A8=E6=9D=A5=E8=BF=87=E6=BB=A4=E6=8E=89=E7=BB=8F=E5=B8=B8=E5=
+=8F=91=E7=94=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89=E3=80=82=E7=
+=99=BD=E5=90=8D=E5=8D=95=E7=89=B9=E6=80=A7=E5=8F=AF=E4=BB=A5=E5=B8=AE
+>=20
+>=20+ =E5=8A=A9=E5=A4=8D=E7=8E=B0=E5=92=8C=E4=BF=AE=E5=A4=8D=E6=B5=8B=E8=
+=AF=95=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E6=80=A7=E8=83=BD=E8=B0=83=E4=BC=98
+>=20
+>=20+~~~~~~~~
+>=20
+>=20+
+>=20
+>=20+=E5=BD=B1=E5=93=8D KCSAN =E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=
+=BD=E5=92=8C bug =E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E7=9A=84=E6=A0=B8=
+=E5=BF=83=E5=8F=82=E6=95=B0=E6=98=AF=E4=BD=9C=E4=B8=BA=E5=86=85=E6=A0=B8=
+=E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E5=85=AC=E5=BC=80=E7=9A=84=
+=EF=BC=8C=E5=85=B6=E9=BB=98=E8=AE=A4
+>=20
+>=20+=E5=80=BC=E4=B9=9F=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E7=9B=B8=E5=
+=BA=94=E7=9A=84 Kconfig =E9=80=89=E9=A1=B9=E6=9B=B4=E6=94=B9=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): =E5=9C=A8=E5=
+=8F=A6=E4=B8=80=E4=B8=AA=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=
+=B9=8B=E5=89=8D=E6=AF=8F
+>=20
+>=20+ =E4=B8=AA CPU =E8=A6=81=E8=B7=B3=E8=BF=87=E7=9A=84=E5=86=85=E5=AD=
+=98=E6=93=8D=E4=BD=9C=E6=AC=A1=E6=95=B0=E3=80=82=E6=9B=B4=E5=8A=A0=E9=A2=
+=91=E7=B9=81=E7=9A=84=E8=AE=BE=E7=BD=AE=E8=A7=82=E6=B5=8B=E7=82=B9=E5=B0=
+=86=E5=A2=9E=E5=8A=A0=E8=A7=82=E5=AF=9F=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=
+=85=E5=86=B5=E7=9A=84=E5=8F=AF=E8=83=BD=E6=80=A7
+>=20
+>=20+ =E3=80=82=E8=BF=99=E4=B8=AA=E5=8F=82=E6=95=B0=E5=AF=B9=E7=B3=BB=E7=
+=BB=9F=E6=95=B4=E4=BD=93=E7=9A=84=E6=80=A7=E8=83=BD=E5=92=8C=E7=AB=9E=E4=
+=BA=89=E6=A3=80=E6=B5=8B=E8=83=BD=E5=8A=9B=E5=BD=B1=E5=93=8D=E6=9C=80=E6=
+=98=BE=E8=91=97=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): =E5=AF=B9=E4=
+=BA=8E=E4=BB=BB=E5=8A=A1=EF=BC=8C=E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=
+=BD=AE=E4=B9=8B
+>=20
+>=20+ =E5=90=8E=E6=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=
+=A7=92=E5=BB=B6=E8=BF=9F=E3=80=82=E5=80=BC=E8=B6=8A=E5=A4=A7=EF=BC=8C=E6=
+=A3=80=E6=B5=8B=E5=88=B0=E7=AB=9E=E4=BA=89=E6=83=85=E5=86=B5=E7=9A=84=E5=
+=8F=AF=E8=83=BD=E6=80=A7=E8=B6=8A=E9=AB=98=E3=80=82
+>=20
+>=20+
+>=20
+>=20+* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): =
+=E5=AF=B9=E4=BA=8E=E4=B8=AD=E6=96=AD=EF=BC=8C
+>=20
+>=20+ =E8=A7=82=E6=B5=8B=E7=82=B9=E8=AE=BE=E7=BD=AE=E4=B9=8B=E5=90=8E=E6=
+=9A=82=E5=81=9C=E6=89=A7=E8=A1=8C=E7=9A=84=E5=BE=AE=E7=A7=92=E5=BB=B6=E8=
+=BF=9F=E3=80=82=E4=B8=AD=E6=96=AD=E5=AF=B9=E4=BA=8E=E5=BB=B6=E8=BF=9F=E7=
+=9A=84=E8=A6=81=E6=B1=82=E6=9B=B4=E5=8A=A0=E4=B8=A5=E6=A0=BC=EF=BC=8C=E5=
+=85=B6=E5=BB=B6=E8=BF=9F=E9=80=9A=E5=B8=B8=E5=BA=94=E8=AF=A5=E5=B0=8F
+>=20
+>=20+ =E4=BA=8E=E4=B8=BA=E4=BB=BB=E5=8A=A1=E9=80=89=E6=8B=A9=E7=9A=84=E5=
+=BB=B6=E8=BF=9F=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E5=AE=83=E4=BB=AC=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87 ``/sys/module=
+/kcsan/parameters/`` =E5=9C=A8=E8=BF=90=E8=A1=8C=E6=97=B6=E8=BF=9B=E8=A1=
+=8C=E8=B0=83=E6=95=B4=E3=80=82
+>=20
+>=20+
+>=20
+>=20+=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89
+>=20
+>=20+--------
+>=20
+>=20+
+>=20
+>=20+=E5=9C=A8=E4=B8=80=E6=AC=A1=E6=89=A7=E8=A1=8C=E4=B8=AD=EF=BC=8C=E5=
+=A6=82=E6=9E=9C=E4=B8=A4=E4=B8=AA=E5=86=85=E5=AD=98=E8=AE=BF=E9=97=AE=E5=
+=AD=98=E5=9C=A8 *=E5=86=B2=E7=AA=81*=EF=BC=8C=E5=9C=A8=E4=B8=8D=E5=90=8C=
+=E7=9A=84=E7=BA=BF=E7=A8=8B=E4=B8=AD=E5=B9=B6=E5=8F=91=E6=89=A7=E8=A1=8C=
+=EF=BC=8C=E5=B9=B6=E4=B8=94=E8=87=B3=E5=B0=91
+>=20
+>=20+=E6=9C=89=E4=B8=80=E4=B8=AA=E8=AE=BF=E9=97=AE=E6=98=AF *=E7=AE=80=E5=
+=8D=95=E8=AE=BF=E9=97=AE*=EF=BC=8C=E5=88=99=E5=AE=83=E4=BB=AC=E5=B0=B1=E5=
+=BD=A2=E6=88=90=E4=BA=86 *=E6=95=B0=E6=8D=AE=E7=AB=9E=E4=BA=89*=E3=80=82=
+=E5=A6=82=E6=9E=9C=E5=AE=83=E4=BB=AC=E8=AE=BF=E9=97=AE=E4=BA=86=E5=90=8C=
+=E4=B8=80=E4=B8=AA=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E5=B9=B6=E4=B8=94
+>=20
+>=20+=E8=87=B3=E5=B0=91=E6=9C=89=E4=B8=80=E4=B8=AA=E6=98=AF=E5=86=99=E6=
+=93=8D=E4=BD=9C=EF=BC=8C=E5=88=99=E7=A7=B0=E5=AE=83=E4=BB=AC=E5=AD=98=E5=
+=9C=A8 *=E5=86=B2=E7=AA=81*=E3=80=82=E6=9C=89=E5=85=B3=E6=9B=B4=E8=AF=A6=
+=E7=BB=86=E7=9A=84=E8=AE=A8=E8=AE=BA=E5=92=8C=E5=AE=9A=E4=B9=89=EF=BC=8C=
+=E8=A7=81
 
->
-> >
-> > Signed-off-by: David Sands <david.sands@biamp.com>
-> > Co-developed-by: Chris Wulff <crwulff@gmail.com>
-> > Signed-off-by: Chris Wulff <crwulff@gmail.com>
-> > ---
-> > v4: Clean up unneeded change, switch to BIT macros, more documentation
-> > v3: Documentation, additional constants and constant order fixed
-> > https://lore.kernel.org/all/CO1PR17MB54197F118CBC8783D289B97DE1102@CO1P=
-R17MB5419.namprd17.prod.outlook.com/
-> > v2: https://lore.kernel.org/linux-usb/CO1PR17MB54198D086B61F7392FA9075F=
-E10E2@CO1PR17MB5419.namprd17.prod.outlook.com/
-> > v1: https://lore.kernel.org/linux-usb/CO1PR17MB5419AC3907C74E28D80C5021=
-E1082@CO1PR17MB5419.namprd17.prod.outlook.com/
-> > ---
-> >  Documentation/usb/functionfs-desc.rst | 22 ++++++++++++++++++++++
-> >  Documentation/usb/functionfs.rst      |  2 ++
-> >  Documentation/usb/index.rst           |  1 +
-> >  drivers/usb/gadget/function/f_fs.c    | 12 ++++++++++--
-> >  include/uapi/linux/usb/ch9.h          |  8 ++++++--
-> >  include/uapi/linux/usb/functionfs.h   | 25 +++++++++++++++++++++++++
-> >  6 files changed, 66 insertions(+), 4 deletions(-)
-> >  create mode 100644 Documentation/usb/functionfs-desc.rst
-> >
-> > diff --git a/Documentation/usb/functionfs-desc.rst b/Documentation/usb/=
-functionfs-desc.rst
-> > new file mode 100644
-> > index 000000000000..73d2b8a3f02c
-> > --- /dev/null
-> > +++ b/Documentation/usb/functionfs-desc.rst
-> > @@ -0,0 +1,22 @@
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +FunctionFS Descriptors
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Interface Descriptors
-> > +---------------------
-> > +
-> > +Standard USB interface descriptors may be added. The class/subclass of=
- the
-> > +most recent interface descriptor determines what type of class-specifi=
-c
-> > +descriptors are accepted.
-> > +
-> > +Class-Specific Descriptors
-> > +--------------------------
-> > +
->
-> Why an empty section?
+>=20
+>=20+`"Plain Accesses and Data Races" in the LKMM`_=E3=80=82
+>=20
+>=20+
+>=20
+>=20+.. _"Plain Accesses and Data Races" in the LKMM:
 
-It was just a heading-2 for the class-specific descriptor section (with eac=
-h
-of the class-specific descriptors being heading-3). I can add a bit of
-text though.
+Sorry for the delay for so long, how about
+translating it into Chinese as well?
+=20
 
->
-> > +DFU Functional Descriptor
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +When the interface class is USB_CLASS_APP_SPEC and  the interface subc=
-lass
->
-> Extra space?
->
->
-> > +is USB_SUBCLASS_DFU, a DFU functional descriptor can be provided.
->
-> Provided how?
 
-I will expand on this a bit more. Most of the functionfs descriptor
-behavior wasn't documented. The functionfs page talks about how
-these are written to the ep0 file, but doesn't mention anything about
-what descriptors can be written other than mentioning that ep# files
-are created when endpoint descriptors are written.
-
->
-> > +
-> > +.. kernel-doc:: include/uapi/linux/usb/functionfs.h
-> > +   :doc: usb_dfu_functional_descriptor
-> > diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/funct=
-ionfs.rst
-> > index d05a775bc45b..4f96e4b93d7b 100644
-> > --- a/Documentation/usb/functionfs.rst
-> > +++ b/Documentation/usb/functionfs.rst
-> > @@ -70,6 +70,8 @@ have been written to their ep0's.
-> >  Conversely, the gadget is unregistered after the first USB function
-> >  closes its endpoints.
-> >
-> > +For more information about FunctionFS descriptors see :doc:`functionfs=
--desc`
-> > +
-> >  DMABUF interface
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-> > index 27955dad95e1..826492c813ac 100644
-> > --- a/Documentation/usb/index.rst
-> > +++ b/Documentation/usb/index.rst
-> > @@ -11,6 +11,7 @@ USB support
-> >      dwc3
-> >      ehci
-> >      functionfs
-> > +    functionfs-desc
->
-> That's an odd name for a DFU-specific file, right?
->
-> Where are the Documentation/ABI/ entries?
-
-functionfs-desc was intended to be for more than DFU. I was thinking
-it would be nice to also talk about other descriptors that can be
-written to functionfs since I couldn't find any documentation on
-that, but I didn't want to add documentation for a bunch of existing
-stuff to this same patch. It seems like that would be better submitted
-separately (which I can work on if you think it's useful.) I only included
-the descriptors that were relevant to DFU.
-
-I will see what I can add for the ABI documentation as well.
-
->
-> >      gadget_configfs
-> >      gadget_hid
-> >      gadget_multi
-> > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/fu=
-nction/f_fs.c
-> > index d8b096859337..ba5c6e4827ba 100644
-> > --- a/drivers/usb/gadget/function/f_fs.c
-> > +++ b/drivers/usb/gadget/function/f_fs.c
-> > @@ -2478,7 +2478,7 @@ typedef int (*ffs_os_desc_callback)(enum ffs_os_d=
-esc_type entity,
-> >
-> >  static int __must_check ffs_do_single_desc(char *data, unsigned len,
-> >                                          ffs_entity_callback entity,
-> > -                                        void *priv, int *current_class=
-)
-> > +                                        void *priv, int *current_class=
-, int *current_subclass)
-> >  {
-> >       struct usb_descriptor_header *_ds =3D (void *)data;
-> >       u8 length;
-> > @@ -2535,6 +2535,7 @@ static int __must_check ffs_do_single_desc(char *=
-data, unsigned len,
-> >               if (ds->iInterface)
-> >                       __entity(STRING, ds->iInterface);
-> >               *current_class =3D ds->bInterfaceClass;
-> > +             *current_subclass =3D ds->bInterfaceSubClass;
-> >       }
-> >               break;
-> >
-> > @@ -2559,6 +2560,12 @@ static int __must_check ffs_do_single_desc(char =
-*data, unsigned len,
-> >                       if (length !=3D sizeof(struct ccid_descriptor))
-> >                               goto inv_length;
-> >                       break;
-> > +             } else if (*current_class =3D=3D USB_CLASS_APP_SPEC &&
-> > +                        *current_subclass =3D=3D USB_SUBCLASS_DFU) {
-> > +                     pr_vdebug("dfu functional descriptor\n");
-> > +                     if (length !=3D sizeof(struct usb_dfu_functional_=
-descriptor))
-> > +                             goto inv_length;
-> > +                     break;
-> >               } else {
-> >                       pr_vdebug("unknown descriptor: %d for class %d\n"=
-,
-> >                             _ds->bDescriptorType, *current_class);
-> > @@ -2621,6 +2628,7 @@ static int __must_check ffs_do_descs(unsigned cou=
-nt, char *data, unsigned len,
-> >       const unsigned _len =3D len;
-> >       unsigned long num =3D 0;
-> >       int current_class =3D -1;
-> > +     int current_subclass =3D -1;
-> >
-> >       for (;;) {
-> >               int ret;
-> > @@ -2640,7 +2648,7 @@ static int __must_check ffs_do_descs(unsigned cou=
-nt, char *data, unsigned len,
-> >                       return _len - len;
-> >
-> >               ret =3D ffs_do_single_desc(data, len, entity, priv,
-> > -                     &current_class);
-> > +                     &current_class, &current_subclass);
-> >               if (ret < 0) {
-> >                       pr_debug("%s returns %d\n", __func__, ret);
-> >                       return ret;
-> > diff --git a/include/uapi/linux/usb/ch9.h b/include/uapi/linux/usb/ch9.=
-h
-> > index 44d73ba8788d..91f0f7e214a5 100644
-> > --- a/include/uapi/linux/usb/ch9.h
-> > +++ b/include/uapi/linux/usb/ch9.h
-> > @@ -254,6 +254,9 @@ struct usb_ctrlrequest {
-> >  #define USB_DT_DEVICE_CAPABILITY     0x10
-> >  #define USB_DT_WIRELESS_ENDPOINT_COMP        0x11
-> >  #define USB_DT_WIRE_ADAPTER          0x21
-> > +/* From USB Device Firmware Upgrade Specification, Revision 1.1 */
-> > +#define USB_DT_DFU_FUNCTIONAL                0x21
-> > +/* these are from the Wireless USB spec */
-> >  #define USB_DT_RPIPE                 0x22
-> >  #define USB_DT_CS_RADIO_CONTROL              0x23
-> >  /* From the T10 UAS specification */
-> > @@ -329,9 +332,10 @@ struct usb_device_descriptor {
-> >  #define USB_CLASS_USB_TYPE_C_BRIDGE  0x12
-> >  #define USB_CLASS_MISC                       0xef
-> >  #define USB_CLASS_APP_SPEC           0xfe
-> > -#define USB_CLASS_VENDOR_SPEC                0xff
-> > +#define USB_SUBCLASS_DFU                     0x01
-> >
-> > -#define USB_SUBCLASS_VENDOR_SPEC     0xff
-> > +#define USB_CLASS_VENDOR_SPEC                0xff
-> > +#define USB_SUBCLASS_VENDOR_SPEC             0xff
-> >
-> >  /*--------------------------------------------------------------------=
------*/
-> >
-> > diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/u=
-sb/functionfs.h
-> > index 9f88de9c3d66..40f87cbabf7a 100644
-> > --- a/include/uapi/linux/usb/functionfs.h
-> > +++ b/include/uapi/linux/usb/functionfs.h
-> > @@ -37,6 +37,31 @@ struct usb_endpoint_descriptor_no_audio {
-> >       __u8  bInterval;
-> >  } __attribute__((packed));
-> >
-> > +/**
-> > + * struct usb_dfu_functional_descriptor - DFU Functional descriptor
-> > + * @bLength:         Size of the descriptor (bytes)
-> > + * @bDescriptorType: USB_DT_DFU_FUNCTIONAL
-> > + * @bmAttributes:    DFU attributes
-> > + * @wDetachTimeOut:  Maximum time to wait after DFU_DETACH (ms, le16)
-> > + * @wTransferSize:   Maximum number of bytes per control-write (le16)
-> > + * @bcdDFUVersion:   DFU Spec version (BCD, le16)
-> > + */
-> > +struct usb_dfu_functional_descriptor {
-> > +     __u8  bLength;
-> > +     __u8  bDescriptorType;
-> > +     __u8  bmAttributes;
-> > +     __le16 wDetachTimeOut;
-> > +     __le16 wTransferSize;
-> > +     __le16 bcdDFUVersion;
-> > +} __attribute__ ((packed));
-> > +
-> > +/* from DFU functional descriptor bmAttributes */
-> > +#define DFU_FUNC_ATT_CAN_DOWNLOAD    BIT(0)
-> > +#define DFU_FUNC_ATT_CAN_UPLOAD              BIT(1)
-> > +#define DFU_FUNC_ATT_MANIFEST_TOLERANT       BIT(2)
-> > +#define DFU_FUNC_ATT_WILL_DETACH     BIT(3)
->
-> Wrong macro for bit fields for uapi .h files :(
-
-Oh. I'm surprised there is more than one macro for bits. I will
-change this to _BITUL().
-
->
-> thanks,
->
-> greg k-h
+Thanks,
+Yanteng
