@@ -1,118 +1,267 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5711C579D;
-	Tue,  6 Aug 2024 13:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCED18D62B;
+	Tue,  6 Aug 2024 14:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722952616; cv=none; b=lf23c+D3oWG/vq4yauyxKmk0BRdPk9BVvyQUwa97zC4Lp2w6fmJTg0z7Rb8X3n2xNAtrTzd57KlwAXbyj8OkFNYtmuywGBJNQVkeYNvxI+ifxxTxbzHloW6LhUewffXz4x7x66vPRnBkpi0eDJkPQWPcQ+YKpBvXNCQh9QHs90E=
+	t=1722953387; cv=none; b=VodXRZE/COk3nW5vGXtNE3HQaMxDZIwDSG3g4Rp33m2ReqsOe6+JvU0xbEoHdlD47Vml65ka6zDDSBX1/Xin1Hic/JixdmsOJP1RkYOldOM053h4bX/VPVgtF+tRnF4O8ErAoxjNURY+rtwHZfkaDEqTQFXr0sdd0lfstsHz6kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722952616; c=relaxed/simple;
-	bh=P9EbeoRT60rQDkcM4qaVG4RD3YBobJKZcRP/nEPc5/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vfl/k20Ql8Be1v1SFyY3uZRboVu5VFslVfkUmMX8ahO/t9sEb/AGEjCnMMaE0vkyIrCM1PkuDiXIqW+apx0q9/sG9FLml/0B5FDR1Y7nPHlbmEczO4ggM0o9VhGjCjQSS1L4ehZZ/Es9KDBfYHYFefJ6q5O++YyPYWOwoEZ7fIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NzxQZzWK; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722953387; c=relaxed/simple;
+	bh=AANtZuK2j5YEXT3CJVteG6oAKDxOt2lT1fCvlswfZMU=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E6ckXx8adlxTMeoPi86YRQyisMHPNWoaM3sGXeC3damQ9Q53dB1hyhlLfJCD1OpJP6iQIuunR6viC7Szc+AQ49hkm/1d6a2DYB38pSFwjp3RpRngUtuEb4Ccez9mLfrSjPKHrjMmWUCTPtlxjqec50gOaK3jZhW6Qjy14VXsj5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qU48sPAX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NzxQZzWK"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4281e715904so380635e9.0;
-        Tue, 06 Aug 2024 06:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722952613; x=1723557413; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rGYRmrw93lyT9+EcZR8YwD5h3/xRcHadaUPb+Q7HbDM=;
-        b=NzxQZzWKcHweG0y8n6N0INqEt/1u6laSogE9Vz+W4Y87IbWee2ZkCNctX746bd6+qH
-         HslU8ghP2em+pvzNoUUhjcIAQZVtvB8hqBxY3NpcGuMwjvQgUYx+qdOE1JJ+bsnLnAsy
-         8e13uLSuuPy8j+Bl43fVc33FF+fa1BDjMQzwC1/hFS8/4gb1FYTUaEDSmhoV/kweGmTu
-         tmMreklv1ARfkyyf4d6Tp/04BQhfn/t/QFtb4ie2D2SFLRiCws5Qr/fP4Rc/Re9GX4xx
-         IZxTxjUw3YzKKEXOIl+/BAib7WJ3ccgw2b4ILdTepnDSnCwiZKJNLG0rAhl0/tdyIHf0
-         njoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722952613; x=1723557413;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGYRmrw93lyT9+EcZR8YwD5h3/xRcHadaUPb+Q7HbDM=;
-        b=IEj22B0b5ZHGdigODKTTIe4E03ipp7I0VZNyKfrhK8Cu+cMlVY/stab4KlcdR0M1lq
-         +8VJmsB/1+EL42eTnO0qyLoErh5yJe9nyN7aO7V+RgGh+ip3xw6Q1+vHFvL+ZC/Y8fUU
-         oolt3GeS42ZNFIVJg/Kmn7W1D6DsG1ljv/VQoMgSot39jfnaNAe5icXvV5ybIwrhONcX
-         bGVheqmckXXZM0n/6BOA8tUIcCvmVc7ajoWEsDUSRsYGIxCHT9f32EL8CNn+KNXFuCp0
-         e46wm4HYPvuKZ2cFGWtCUaBYiFYi85MuBRGTTBRs0AbOpZaeDsBYxYPoO4tGPbu4Y3JV
-         4qOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVV9hBfFzMLcLTUkwqPlXG4YuZOpyaXJE5fYHoFIECX8YPT61daRQcl2IxYvHOUfleL573ZH8eOLpxMGPH6MaD5CKOGNCW2/cPZKXhuB0WoRY1TKHv6pOmCz6fYGZhcJuw8bNL53VgYAHvdd47vADTQsDaGVFFtcKvaSLJUL78cZ/QN8b4=
-X-Gm-Message-State: AOJu0YzHlgRSjqm/XxNU9e23NE5IltML3xGPf7oJnoVmcYlq5pdlgZuY
-	pXyYsg2/C3xUK6CUnIhi9FcrKRzzUVyzTd0eI9tv6fhKONfAt09n
-X-Google-Smtp-Source: AGHT+IEY7UGmH6pDeX7ipw00m+WWJP3MfsJP+s7AIwqszU79s04STakugi2gaQ8mejKlJdjQ6BterQ==
-X-Received: by 2002:a05:600c:3152:b0:427:9f6f:4913 with SMTP id 5b1f17b1804b1-428ea0fd688mr64176135e9.5.1722952612705;
-        Tue, 06 Aug 2024 06:56:52 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:b50e:24fa:fd17:c835? ([2a01:4b00:d20e:7300:b50e:24fa:fd17:c835])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282babaaa8sm245028995e9.24.2024.08.06.06.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 06:56:52 -0700 (PDT)
-Message-ID: <c5624841-fa50-4bd1-841f-071bef166fd8@gmail.com>
-Date: Tue, 6 Aug 2024 14:56:50 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qU48sPAX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABEFC32786;
+	Tue,  6 Aug 2024 14:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722953386;
+	bh=AANtZuK2j5YEXT3CJVteG6oAKDxOt2lT1fCvlswfZMU=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=qU48sPAXbcCNf08qJMYn4cRDhmKshB4+owlW/3xBbNEK3hIyVR1Uhp95Td3/HZ27s
+	 zR81i0EcxAbCl7s9oej3PXzLPNbaCzxhiLiBnjWwYfdTlaxXaom4/tkVBAFXqRGLDT
+	 FjieblmWqLGB+yhlzrS8nQU9+iU7ZZKxSqk6EYno2V0V92BRUN9HS5XRfT4aZGGYpg
+	 200j81hrEyKqdhCUMPHKqnY+z73arRoO9gWDjvpA6fcHsrSqbydsok2jJCTPJVdAbs
+	 itSiIM837RvV3G7R3hbWY8u01k56a2iF0dyfRxmG/j0A2InvEHp8d7y7XIF0fKnV5U
+	 0bCrCJONLTrDQ==
+Date: Tue, 6 Aug 2024 16:09:43 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <20240806-gharial-of-abstract-reverence-aad6ea@houat>
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+ <20240628-romantic-emerald-snake-7b26ca@houat>
+ <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
+ <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
+ <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Jaroslav Kysela <perex@perex.cz>, tiwai@suse.com, corbet@lwn.net,
- broonie@kernel.org, shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- christophe.jaillet@wanadoo.fr, aholzinger@gmx.de
-References: <20240806125243.449959-1-ivan.orlov0322@gmail.com>
- <20240806125243.449959-4-ivan.orlov0322@gmail.com>
- <8bcfd160-8c6a-4a1f-807c-f76e7f069b49@perex.cz>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <8bcfd160-8c6a-4a1f-807c-f76e7f069b49@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tjibocpyvmmmnhi7"
+Content-Disposition: inline
+In-Reply-To: <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
 
-On 8/6/24 14:11, Jaroslav Kysela wrote:
-> On 06. 08. 24 14:52, Ivan Orlov wrote:
->> Implement two ioctl calls in order to support virtual userspace-driven
->> ALSA timers.
-> 
-> ...
-> 
 
-Hi Jaroslav,
+--tjibocpyvmmmnhi7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +struct snd_utimer_info {
->> +    /*
->> +     * To pretend being a normal timer, we need to know the frame 
->> rate and
->> +     * the period size in frames.
->> +     */
->> +    __u64 frame_rate;
->> +    __u64 period_size;
-> 
-> There should be just one timer resolution in ns member (like in struct 
-> snd_timer_ginfo - not frame/period members here - it's too specific). 
-> The resolution can be calculated in the user space from the rate and 
-> period size.
-> 
+On Tue, Aug 06, 2024 at 03:01:44PM GMT, Daniel Vetter wrote:
+> On Mon, Jul 01, 2024 at 06:01:41PM +0100, Tvrtko Ursulin wrote:
+> >=20
+> > On 01/07/2024 10:25, Maarten Lankhorst wrote:
+> > > Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
+> > > > Hi,
+> > > >=20
+> > > > On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+> > > > > Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+> > > > > > Hi,
+> > > > > >=20
+> > > > > > Thanks for working on this!
+> > > > > >=20
+> > > > > > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+> > > > > > > The initial version was based roughly on the rdma and misc cg=
+roup
+> > > > > > > controllers, with a lot of the accounting code borrowed from =
+rdma.
+> > > > > > >=20
+> > > > > > > The current version is a complete rewrite with page counter; =
+it uses
+> > > > > > > the same min/low/max semantics as the memory cgroup as a resu=
+lt.
+> > > > > > >=20
+> > > > > > > There's a small mismatch as TTM uses u64, and page_counter lo=
+ng pages.
+> > > > > > > In practice it's not a problem. 32-bits systems don't really =
+come with
+> > > > > > > > =3D4GB cards and as long as we're consistently wrong with u=
+nits, it's
+> > > > > > > fine. The device page size may not be in the same units as ke=
+rnel page
+> > > > > > > size, and each region might also have a different page size (=
+VRAM vs GART
+> > > > > > > for example).
+> > > > > > >=20
+> > > > > > > The interface is simple:
+> > > > > > > - populate drmcgroup_device->regions[..] name and size for ea=
+ch active
+> > > > > > >     region, set num_regions accordingly.
+> > > > > > > - Call drm(m)cg_register_device()
+> > > > > > > - Use drmcg_try_charge to check if you can allocate a chunk o=
+f memory,
+> > > > > > >     use drmcg_uncharge when freeing it. This may return an er=
+ror code,
+> > > > > > >     or -EAGAIN when the cgroup limit is reached. In that case=
+ a reference
+> > > > > > >     to the limiting pool is returned.
+> > > > > > > - The limiting cs can be used as compare function for
+> > > > > > >     drmcs_evict_valuable.
+> > > > > > > - After having evicted enough, drop reference to limiting cs =
+with
+> > > > > > >     drmcs_pool_put.
+> > > > > > >=20
+> > > > > > > This API allows you to limit device resources with cgroups.
+> > > > > > > You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> > > > > > > You need to echo +drm to cgroup.subtree_control, and then you=
+ can
+> > > > > > > partition memory.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.inte=
+l.com>
+> > > > > > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+> > > > > > I'm sorry, I should have wrote minutes on the discussion we had=
+ with TJ
+> > > > > > and Tvrtko the other day.
+> > > > > >=20
+> > > > > > We're all very interested in making this happen, but doing a "D=
+RM"
+> > > > > > cgroup doesn't look like the right path to us.
+> > > > > >=20
+> > > > > > Indeed, we have a significant number of drivers that won't have=
+ a
+> > > > > > dedicated memory but will depend on DMA allocations one way or =
+the
+> > > > > > other, and those pools are shared between multiple frameworks (=
+DRM,
+> > > > > > V4L2, DMA-Buf Heaps, at least).
+> > > > > >=20
+> > > > > > This was also pointed out by Sima some time ago here:
+> > > > > > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll=
+=2Elocal/
+> > > > > >=20
+> > > > > > So we'll want that cgroup subsystem to be cross-framework. We s=
+ettled on
+> > > > > > a "device" cgroup during the discussion, but I'm sure we'll hav=
+e plenty
+> > > > > > of bikeshedding.
+> > > > > >=20
+> > > > > > The other thing we agreed on, based on the feedback TJ got on t=
+he last
+> > > > > > iterations of his series was to go for memcg for drivers not us=
+ing DMA
+> > > > > > allocations.
+> > > > > >=20
+> > > > > > It's the part where I expect some discussion there too :)
+> > > > > >=20
+> > > > > > So we went back to a previous version of TJ's work, and I've st=
+arted to
+> > > > > > work on:
+> > > > > >=20
+> > > > > >     - Integration of the cgroup in the GEM DMA and GEM VRAM hel=
+pers (this
+> > > > > >       works on tidss right now)
+> > > > > >=20
+> > > > > >     - Integration of all heaps into that cgroup but the system =
+one
+> > > > > >       (working on this at the moment)
+> > > > >=20
+> > > > > Should be similar to what I have then. I think you could use my w=
+ork to
+> > > > > continue it.
+> > > > >=20
+> > > > > I made nothing DRM specific except the name, if you renamed it th=
+e device
+> > > > > resource management cgroup and changed the init function signatur=
+e to take a
+> > > > > name instead of a drm pointer, nothing would change. This is exac=
+tly what
+> > > > > I'm hoping to accomplish, including reserving memory.
+> > > >=20
+> > > > I've started to work on rebasing my current work onto your series t=
+oday,
+> > > > and I'm not entirely sure how what I described would best fit. Let's
+> > > > assume we have two KMS device, one using shmem, one using DMA
+> > > > allocations, two heaps, one using the page allocator, the other usi=
+ng
+> > > > CMA, and one v4l2 device using dma allocations.
+> > > >=20
+> > > > So we would have one KMS device and one heap using the page allocat=
+or,
+> > > > and one KMS device, one heap, and one v4l2 driver using the DMA
+> > > > allocator.
+> > > >=20
+> > > > Would these make different cgroup devices, or different cgroup regi=
+ons?
+> > >=20
+> > > Each driver would register a device, whatever feels most logical for =
+that device I suppose.
+> > >=20
+> > > My guess is that a prefix would also be nice here, so register a devi=
+ce with name of drm/$name or v4l2/$name, heap/$name. I didn't give it much =
+thought and we're still experimenting, so just try something. :)
+> > >=20
+> > > There's no limit to amount of devices, I only fixed amount of pools t=
+o match TTM, but even that could be increased arbitrarily. I just don't thi=
+nk there is a point in doing so.
+> >=20
+> > Do we need a plan for top level controls which do not include region na=
+mes?
+> > If the latter will be driver specific then I am thinking of ease of
+> > configuring it all from the outside. Especially considering that one cg=
+roup
+> > can have multiple devices in it.
+> >=20
+> > Second question is about double accounting for shmem backed objects. I =
+think
+> > they will be seen, for drivers which allocate backing store at buffer
+> > objects creation time, under the cgroup of process doing the creation, =
+in
+> > the existing memory controller. Right?
+>=20
+> We currently don't set __GFP_ACCOUNT respectively use GFP_KERNEL_ACCOUNT,
+> so no. Unless someone allocates them with GFP_USER ...
+>=20
+> > Is there a chance to exclude those from there and only have them in thi=
+s new
+> > controller? Or would the opposite be a better choice? That is, not see =
+those
+> > in the device memory controller but only in the existing one.
+>=20
+> I missed this, so jumping in super late. I think guidance from Tejun was
+> to go the other way around: Exclude allocations from normal system
+> memory from device cgroups and instead make sure it's tracked in the
+> existing memcg.
+>=20
+> Which might mean we need memcg shrinkers and the assorted pain ...
+>=20
+> Also I don't think we ever reached some agreement on where things like cma
+> allocations should be accounted for in this case.
 
-Ah, yes, I agree... Also, it should help us to avoid complex 
-calculations and sanity checks in the kernel space. I'll replace these 
-two fields with 'resolution' field in V4, thanks!
+Yeah, but that's the thing, memcg probably won't cut it for CMA. Because
+if you pull the thread, that means that dma-heaps also have to register
+their buffers into memcg too, even if it's backed by something else than
+RAM.
 
-> Also naming - the timer API uses snd_timer prefix for structures, thus 
-> snd_timer_uinfo should be more appropriate.
-> 
-Alright, I'll rename the structure.
+This is what this cgroup controller is meant to do: memcg for memory
+(GFP'd) buffers, this cgroup for everything else.
 
-Thank you so much for the review!
+Maxime
 
--- 
-Kind regards,
-Ivan Orlov
+--tjibocpyvmmmnhi7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZrIupwAKCRDj7w1vZxhR
+xfMYAQCjlZGY+yaQq7/ZkakE1LIj5TJntjlKikfSQ4PwzDajvgD/Ts1r9zy6Xvhn
+V56sDNPfYscg2EVK3lOydnNo2fLjVAw=
+=bQek
+-----END PGP SIGNATURE-----
+
+--tjibocpyvmmmnhi7--
