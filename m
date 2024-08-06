@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9D31C9EB6
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18BE1C9EB8
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:05:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722949518; cv=none; b=MAN1sPGU0IjhCg9kuS1OWZdHedWN0zaScUZuLFMLDZOGcNBEolGeIBd5d1fIO1rG114p97ErjQiHQTMoFJHRHK6c8Kb4yvgPMVH9JQplpvYsIaRTdjX84FeJeRaESt/fd1M1uP5nV11wCjaPQ/ADniRhXEsBKyOYVYKEoEPyvkI=
+	t=1722949561; cv=none; b=NWogdPtBu8beTjYjj548PhnhldH1beLdHnsQHrT1I0LJv8kYFxZDkcBNdaj6OtkFfHFkA7OJ3GHGWe0LAJduUZy3zbFOQP4ldkX2ERUF+J6hfXEfQQKr2r74o3RrRl/qkYpEnHWpeKQpMj5jl7lZj3/lR6Z6Wo6lTeghx++kRz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722949518; c=relaxed/simple;
-	bh=TP+b0YSIIsDD4y4rkrToKJh1FYgm2hkAD/y9iEnO8Ug=;
+	s=arc-20240116; t=1722949561; c=relaxed/simple;
+	bh=e4CpkRaDkIeIjoB4xteVgHuGcE29XAudWUziuiUFx+M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KDgAqpE5Yjd1+qrGT7eIeJ/zYh0GOngcO2RJVoPnmGvPTFe3qO3vigT0Fyj5c2XpwMMqhoqa5U3J5uwp3aky7FEfVKyKuVXt8twzKPQfio1lLR5c5RMcW2SxIcNRrmGdfzfXV8Zp9H7lcuIKnXCq2c+kqDHVdPei4devmM/Y7cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D/OlvmOT; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=Y5n7ZvY7XmnJC4/P2+UZmKa5khZ42bIOQQjHN75OoZ6qlgHx2meJR2Pz2HSLdY+h+rWN+ctYanSZVeKwsSWNLmubIfcbcQKISn2H8Vhts6hGaZ0E8ciqISU1uI3MzNufFv/Wb36rKrEEzjjQcr4xSGhhAqXImR7WBVCUGfeDsSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fTrdvodp; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D/OlvmOT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fTrdvodp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722949515;
+	s=mimecast20190719; t=1722949558;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2OksTN73HxjsIsPl77kQrWLaGS0nfyIcgwcT/pZ9bvc=;
-	b=D/OlvmOTRrt97LsOZuug9yc8PN+Ri9uFeuP7L8uif9gSXwzSKgxEgbeSQJhNUlTuerKbPN
-	tPxfEZnQqpTFda8C0KXxcwsV+KxCuPl2avaHzBhaItlvExBs20bts+pcfzjPdaLC11D2c1
-	axNzAwwmkGamgQditPoha48rM2dVYp8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=amUdH6WD2peIbES12J1M9oShVBbMVHMdTBU9HTYn0XQ=;
+	b=fTrdvodpxHCoWX9Eu6U7ZMI9/lm1zAITWAh2BsmAkL1vOTNe2rInU5utYr7qULFCiRfj52
+	7Lh2jteAIe4tYgyU3IS3Xeov1L8ERRXSkVnnfYCjzW9OebLc0i2NN6zA6njvx9biqTt2Uj
+	YT79f6B/ZdvFRCH3ZdnbZ/15fwnUWyI=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-63-FU6NtAtbN2-zvhKwsBg-sA-1; Tue, 06 Aug 2024 09:05:13 -0400
-X-MC-Unique: FU6NtAtbN2-zvhKwsBg-sA-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a7aa3181bc2so45015866b.0
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:05:13 -0700 (PDT)
+ us-mta-515-ip8WPZCCMS2sMVnEyG1MvA-1; Tue, 06 Aug 2024 09:05:57 -0400
+X-MC-Unique: ip8WPZCCMS2sMVnEyG1MvA-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-52f0108a53dso944705e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:05:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722949512; x=1723554312;
+        d=1e100.net; s=20230601; t=1722949556; x=1723554356;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=2OksTN73HxjsIsPl77kQrWLaGS0nfyIcgwcT/pZ9bvc=;
-        b=bpWlY1zxTpbb56nDQrB18GB16gTY8UIdkbYYx6eT1dGKZqllXbmfFJBKFLlQBc8UD1
-         MEKhlGfi/XUzvnEPtMxJJ1kD1Ex8fqZCPO9/YD6qmJABIlTAwQcx8Krp2WBL7RAOVAsO
-         6q0Yhoz3IDtIZeA8Nck7dQy7gNg0lU/+pNy64Rm6KfVekDkABti1FgqUh2tPtFp8lF8F
-         bckJCzrk90hVx1v60coRLe5pMjAnb9IeoXD4cpt5NkeBN8GScSOYLJR9QbTvkGyiE4x9
-         xRLRAKLxbQS9uSLGcd1woIAoo0vgpoKWa1xhIopJZB0/5t+Ag7VHKTB0VO5bDu1XIHHH
-         jaUw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdLuO8uQchg2bUmqw8WcgATPjkT9NHhD+vosrS/D2EM5qqakID5LOPXb6gz29RAf7cbvuuJlHF2cM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykgPD5I1QZAEK/H3/E4rPNVY4aw2VsHl2nI0PMAX/Wuuk91qxF
-	NVDxZQPgmIrMAR/Ge9EGNSRh4S3R+k41nFcdN7CZjQwkudxTNnmpB3BVMi+0hzXMlPbK5k5JxI8
-	UXp+SuZFNW4yxJKd/bB+txJSlu5HxSxjXAlAXM+1Wvt76VIKq7oWWv8KfFw==
-X-Received: by 2002:a17:907:d92:b0:a77:deb2:8b01 with SMTP id a640c23a62f3a-a7dc4fd89c8mr1523740266b.1.1722949512275;
-        Tue, 06 Aug 2024 06:05:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF4VEl7CRhNLkeZ8kGCy+77PRKCTJdFsXXGg5cULvkdg3s5MpQ0XvVjnTTjpGy7TbqbES+Rlw==
-X-Received: by 2002:a17:907:d92:b0:a77:deb2:8b01 with SMTP id a640c23a62f3a-a7dc4fd89c8mr1523733166b.1.1722949511728;
-        Tue, 06 Aug 2024 06:05:11 -0700 (PDT)
+        bh=amUdH6WD2peIbES12J1M9oShVBbMVHMdTBU9HTYn0XQ=;
+        b=P0fTwK+a51B+jeqoG29K2jn7gjKKJ9KCCKDsLkddgqi2VILLA7NZjFDE3VEWSqIqqn
+         raL6T2TxKthELMFE7mz5Q67hZHHyy0np9lU2E771W4Os4w9gPIbJhqeC84+ffBWMH4Bo
+         /woK8FacrWLTrxYhExiEbmel/UXh5b5GGTCJgv0t7dYgxNd6GNLpIJUfWRuskSfjEav0
+         SYYptrA5Ie3t6qHBjCc8rrGM68rX74UA1u/eVTjy1rzVOd2eatbje6CkxRA8i37bFI41
+         TgPU9i8S1Darld+hkoFZvmIqyFPJhAc3Ox5urkTOXhSpXVKNciH6yw2C+xzFcAFBtgaU
+         bwAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBPO2gIoWme09ysp2qVYeuS5ehB5Q6yjhCgbNIsk/k3Ik3IbRD4f2M8JsUhWR+P6JHIcG28AkgiOYoj+JkWfiRvr1ao2sWPxZ7
+X-Gm-Message-State: AOJu0YxXSn0WpfUUhX41EiSWnD5tP3Ryu+rr52kyS4+Pl+zPSXZIlIeb
+	azLroYuQDPyKa+NkaEIIR7vT1KtXjjwbOrJOBD6yY3iGHxAuKweRURza4cfauI6Mlif5X6y2YrB
+	GNjpL5OlZf/kOF1vBelIXn1+yoCrp+Ro4lU/ghgiL5arDSyXvYZ2X2/Olmw==
+X-Received: by 2002:a05:6512:1083:b0:530:ab72:25ea with SMTP id 2adb3069b0e04-530bb379bf6mr9163723e87.28.1722949555791;
+        Tue, 06 Aug 2024 06:05:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFkjaQOfVJEScAZq9+YAUwXoibp+Fm1wSaYE9RKwEyv2etqDtoW48XkZgmkRBpBLQfLRzLp6Q==
+X-Received: by 2002:a05:6512:1083:b0:530:ab72:25ea with SMTP id 2adb3069b0e04-530bb379bf6mr9163670e87.28.1722949555176;
+        Tue, 06 Aug 2024 06:05:55 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c73f:8500:f83c:3602:5300:88af? (p200300cbc73f8500f83c3602530088af.dip0.t-ipconnect.de. [2003:cb:c73f:8500:f83c:3602:5300:88af])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e8674dsm558172166b.146.2024.08.06.06.05.08
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9ec6bb6sm545164366b.201.2024.08.06.06.05.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 06:05:11 -0700 (PDT)
-Message-ID: <df47ba66-47cc-40ec-99f2-0b030114d804@redhat.com>
-Date: Tue, 6 Aug 2024 15:05:06 +0200
+        Tue, 06 Aug 2024 06:05:54 -0700 (PDT)
+Message-ID: <0e076c60-d262-4c08-82c1-8f738aaeb80f@redhat.com>
+Date: Tue, 6 Aug 2024 15:05:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/26] MIPS: sgi-ip27: make NODE_DATA() the same as on
- all other architectures
+Subject: Re: [PATCH v3 03/26] MIPS: sgi-ip27: ensure node_possible_map only
+ contains valid nodes
 To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
  Andreas Larsson <andreas@gaisler.com>,
@@ -100,7 +100,7 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
  loongarch@lists.linux.dev, nvdimm@lists.linux.dev,
  sparclinux@vger.kernel.org, x86@kernel.org
 References: <20240801060826.559858-1-rppt@kernel.org>
- <20240801060826.559858-3-rppt@kernel.org>
+ <20240801060826.559858-4-rppt@kernel.org>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -148,22 +148,17 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240801060826.559858-3-rppt@kernel.org>
+In-Reply-To: <20240801060826.559858-4-rppt@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 01.08.24 08:08, Mike Rapoport wrote:
 > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > 
-> sgi-ip27 is the only system that defines NODE_DATA() differently than
-> the rest of NUMA machines.
+> For SGI IP27 machines node_possible_map is statically set to
+> NODE_MASK_ALL and it is not updated during NUMA initialization.
 > 
-> Add node_data array of struct pglist pointers that will point to
-> __node_data[node]->pglist and redefine NODE_DATA() to use node_data
-> array.
-> 
-> This will allow pulling declaration of node_data to the generic mm code
-> in the next commit.
+> Ensure that it only contains nodes present in the system.
 > 
 > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
