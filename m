@@ -1,403 +1,232 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313611C688D;
-	Tue,  6 Aug 2024 12:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD021C3F22
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722948777; cv=none; b=G2jGpZqN7fY2vSuXdJTTjWDQmkxKF+yxVMgb348nYo5LymnKj1ARkQWH2yhagEACKOcg2Ajzl9CUpMahC8/FmSWtwB8s3mwvxHwCefoH7A7rloCY1WJvM4eAWbanB7DtWugoH4lcP3Ma4NC+ky34K04ckWRpzuPtcJfXPBAOnlY=
+	t=1722949311; cv=none; b=RJwUNs79lTu3sSDQ8vEj5yKY8XKYRTdT5+4tVnUcfOV/0T3AJbQoRimAiSPHO4lgqz4Mp0sn9exUZjS84A+5y7lmpKi/juZODP2si9B4j9j9UVCCgD4G87qK7MoZw2D3pztrcuOEMSEbP92JrduGLc97DmlR6SU3dqKjxe5SOYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722948777; c=relaxed/simple;
-	bh=/55xrf/HuMLBT6TGFOESB6Qj7so2A9YjCR50+l6/JaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q2Y8cTE9eTpnxGfTI5y+mDdesuvTj5t91C+BoH42VBnSRVLo18WD1ucbvM0AqaPFfMdlrXS3HKBUA77WEQda/+GoJ2a/ygL0zssBesI2UhIncWhf3Jm2iUmOxlR4lRsj4/6kr+VeLKhKQlQiK/lj4NxLbuv12tO6QjN8XdFTTfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKh1XZWm; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722949311; c=relaxed/simple;
+	bh=XGHVtA53ndm8tu52HB2cm7xGUUoAVG2gnIVZD/zuSXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CI2NiHlk2bgWiWTs1Pe4JZyWi8osJWTpWPYzkWhffQqd9xkqwZDg7LMU1xqNF3MCfqHc41vCnQ4Bs86L3y7R7lWQjSje8OSy4uJ51WleeU/uediGBFgTjhSTzJlAxHqJ6TfbLZxurcXIOG6WddgjPdHIpW2U06wC91sWf1Yw+qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=i76UqWAq; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKh1XZWm"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4281da2cdaeso711035e9.2;
-        Tue, 06 Aug 2024 05:52:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="i76UqWAq"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ef247e8479so1162491fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722948773; x=1723553573; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jwC3+x5PmJt8tLZdNyQYdkJXkd65oNOA/vjxCPkni7k=;
-        b=IKh1XZWm2soWkzdWnHRzvGgLpygQbq/Hq55ZBo2T9olvvbWQZUloFQFykUxjWl2S9Y
-         XnKcT615qDxGDF+zwYOrisQtq4qbG1Ifw81LBCM5nUQg9kVfPDEZiiJYrWrgUHWrndzZ
-         Ak3J+0guMd5S1NFh/c2JzfrA6GIbDbNvj8Ue5jZcVe2BL6HpHujxf8EQlyrMy+AV7uKo
-         a4Ky5yYkhc7c8Mz599tZCsc2L7mlSWF8Hb1WTyxu1X7/b1fagqCsqo6gAHR21zbeMkI2
-         BmbElep7EuGS8mSuIctKJ9h3Dlc0cLuO5mcE6RM7joJjKxtI303hHP0fUOTYecbvf8jr
-         9Fbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722948773; x=1723553573;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=ffwll.ch; s=google; t=1722949307; x=1723554107; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jwC3+x5PmJt8tLZdNyQYdkJXkd65oNOA/vjxCPkni7k=;
-        b=bObXXXhKe3MA7bKebSnvFYf1VzowzWjO4vqQPThSNKIAKsh+WxyySs6bwowdPwL5Jw
-         tyo/n1DoVLctEIO0fkB8e+ovTOOdRPYGxH59lQxyAOpK9GYL6zf5uSz8Z4ypw+ksOrUE
-         lP/Su7x4pjxVc9aC0PpkEjkWMno47Ixe9K4UYY8FqW/ML3gRTkmrBJs5vYMcG+N2v9un
-         i+0h+36zD46EvIcrwsawftG3QRK8JsZB114kPgSDYVUsdh01BPsZq83wif3E/C+Quzhg
-         MknGwDqMwgDoDMVgi3i7K8PGYs2A7p63t3KUJAFqvEnRcf+FWqyi84V1thkORS8msreS
-         GzJg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7aiztsGby+Bvowbe7DqKJkgiH+I9AE9fZmZVwXhs9CCmd1zfEgS0nvhV8SzojgBY3UMZKq/yErPU=@vger.kernel.org, AJvYcCVBplm6LHW3a7/Q04v4JOkpWTI+LlklaW+GVqOqmbxOEh4wiNbQNpJLLBlLvnaaViCex5tUeDJXVkr5L34v@vger.kernel.org, AJvYcCVZmZx5uGcXCjPd6q5MCPcgvMx2nlnAgzbV5fYz6OKlbtliq+cUqlGOsA/5jGJdLu6AcH8HL11LXasFyUke463N@vger.kernel.org, AJvYcCVqczIJe4nYaoo1g2NtOjsJEhS6sawddiogGRrEch64YSJwbCR9XhUZ6956MZAYQBbtjNpNWzkpMZL1T10=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yykjg5jipIITWhpj2VfyJ0WvP1sbwE0j+3xQrkCoTD/4jDqukap
-	9r2votB2nKg081WX7S3tlJG/u8sjEd1SkUoMQjKfXWX7kagrsP3P
-X-Google-Smtp-Source: AGHT+IEkEkXNKeqwp+uHF5MIDYP23+ex35LTXHBjQB29zk0y1ZqwFJXKCLAB3ZudDVib1YsoGtjHvg==
-X-Received: by 2002:a05:600c:1d04:b0:424:8b08:26aa with SMTP id 5b1f17b1804b1-428e6b80263mr64997365e9.3.1722948773334;
-        Tue, 06 Aug 2024 05:52:53 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:b50e:24fa:fd17:c835])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6d648a0sm179487255e9.10.2024.08.06.05.52.51
+        bh=ZWaPqrk0Ji9UdhOsGVUggVZW2Ffw4bKnDm4+9jC3vKo=;
+        b=i76UqWAqEs2KeYCdDz8sPsJrKAkI5MHczuEDwKbHgwMFULeNGbCYsjp14xtyWHD9R2
+         a8Y9ZSep2m4GD3YHQdZNXuJdlK966VijFv+f5Qnr5RM5HQNdXGYRS3oEgmeKHFY7NzYS
+         OFKH7B5R+l9BnowGdbahAjnCFkQ4+ByhY8wfY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722949307; x=1723554107;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZWaPqrk0Ji9UdhOsGVUggVZW2Ffw4bKnDm4+9jC3vKo=;
+        b=mJvRxX7nUZZvHSxFR/nW69lVF5Jn+NNA/unosPbSqUpt0sz8LkyYISnoUFjwgSkIIS
+         JV2jdbC0PUnTS+bcV1owrM4DDdA6bXWpXuGtLFBs/SgFD3tY0LQBKEk4lzZ6K5CBWm/o
+         ZcUjvKLRFJSXZLwJTFKD0CPScC072Rre5JDfuz8cxLBFi7YE4DzbTQgxq/5GmPyW3V6E
+         T7jH++/DHb2UlaaUa+8wjJpeA3Bdp/bVtvJPjD6aBQQw7R50HL9XbwsPS3BeYeDYZR7V
+         8zC96TIA4B9tY28/wKnDKnbi5dXz6qz/I2iPHBcenpX09r2dEHd7heFL9QZWwt41Cd8J
+         MC5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXSbHYAZJfFjc03Rd3JB5iBolsQd7ZTblfhF7rflQhkVl7pdpn+sCfb/Dr2a/ZzRTgP+ePcOCocxLg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt5DZ8ri/Mbs1DSInPWa8oKH8wtNrTr9Bao05l9Y+62dJQ7B7y
+	aP5ePVNWqU+3q6ZSJZkMpXhCQ1Vq4hqlnpA38oKDUkP2oegcwWWsP8GZtHR65i4=
+X-Google-Smtp-Source: AGHT+IGBILqIWLNLhTGm47B+BmFPkDFKRX0XFMxi6y7ZZfWYiY/LEw2NnlFOMQ1ijpWL3jroPbc9qA==
+X-Received: by 2002:a2e:3313:0:b0:2ef:2405:ff63 with SMTP id 38308e7fff4ca-2f15aafc20bmr51509691fa.5.1722949307034;
+        Tue, 06 Aug 2024 06:01:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bb884cddf4sm2712126a12.66.2024.08.06.06.01.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 05:52:52 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net,
-	broonie@kernel.org,
-	shuah@kernel.org
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	christophe.jaillet@wanadoo.fr,
-	aholzinger@gmx.de
-Subject: [PATCH v3 4/4] selftests: ALSA: Cover userspace-driven timers with test
-Date: Tue,  6 Aug 2024 13:52:43 +0100
-Message-Id: <20240806125243.449959-5-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240806125243.449959-1-ivan.orlov0322@gmail.com>
-References: <20240806125243.449959-1-ivan.orlov0322@gmail.com>
+        Tue, 06 Aug 2024 06:01:46 -0700 (PDT)
+Date: Tue, 6 Aug 2024 15:01:44 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, intel-xe@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
+Mail-Followup-To: Tvrtko Ursulin <tursulin@ursulin.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, intel-xe@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+ <20240628-romantic-emerald-snake-7b26ca@houat>
+ <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
+ <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
+X-Operating-System: Linux phenom 6.9.10-amd64 
 
-Add a test for the new functionality of userspace-driven timers and the
-tool which allows us to count timer ticks in a certain time period. The
-test:
+On Mon, Jul 01, 2024 at 06:01:41PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 01/07/2024 10:25, Maarten Lankhorst wrote:
+> > Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
+> > > Hi,
+> > > 
+> > > On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+> > > > Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+> > > > > Hi,
+> > > > > 
+> > > > > Thanks for working on this!
+> > > > > 
+> > > > > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+> > > > > > The initial version was based roughly on the rdma and misc cgroup
+> > > > > > controllers, with a lot of the accounting code borrowed from rdma.
+> > > > > > 
+> > > > > > The current version is a complete rewrite with page counter; it uses
+> > > > > > the same min/low/max semantics as the memory cgroup as a result.
+> > > > > > 
+> > > > > > There's a small mismatch as TTM uses u64, and page_counter long pages.
+> > > > > > In practice it's not a problem. 32-bits systems don't really come with
+> > > > > > > =4GB cards and as long as we're consistently wrong with units, it's
+> > > > > > fine. The device page size may not be in the same units as kernel page
+> > > > > > size, and each region might also have a different page size (VRAM vs GART
+> > > > > > for example).
+> > > > > > 
+> > > > > > The interface is simple:
+> > > > > > - populate drmcgroup_device->regions[..] name and size for each active
+> > > > > >     region, set num_regions accordingly.
+> > > > > > - Call drm(m)cg_register_device()
+> > > > > > - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+> > > > > >     use drmcg_uncharge when freeing it. This may return an error code,
+> > > > > >     or -EAGAIN when the cgroup limit is reached. In that case a reference
+> > > > > >     to the limiting pool is returned.
+> > > > > > - The limiting cs can be used as compare function for
+> > > > > >     drmcs_evict_valuable.
+> > > > > > - After having evicted enough, drop reference to limiting cs with
+> > > > > >     drmcs_pool_put.
+> > > > > > 
+> > > > > > This API allows you to limit device resources with cgroups.
+> > > > > > You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> > > > > > You need to echo +drm to cgroup.subtree_control, and then you can
+> > > > > > partition memory.
+> > > > > > 
+> > > > > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
+> > > > > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+> > > > > I'm sorry, I should have wrote minutes on the discussion we had with TJ
+> > > > > and Tvrtko the other day.
+> > > > > 
+> > > > > We're all very interested in making this happen, but doing a "DRM"
+> > > > > cgroup doesn't look like the right path to us.
+> > > > > 
+> > > > > Indeed, we have a significant number of drivers that won't have a
+> > > > > dedicated memory but will depend on DMA allocations one way or the
+> > > > > other, and those pools are shared between multiple frameworks (DRM,
+> > > > > V4L2, DMA-Buf Heaps, at least).
+> > > > > 
+> > > > > This was also pointed out by Sima some time ago here:
+> > > > > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+> > > > > 
+> > > > > So we'll want that cgroup subsystem to be cross-framework. We settled on
+> > > > > a "device" cgroup during the discussion, but I'm sure we'll have plenty
+> > > > > of bikeshedding.
+> > > > > 
+> > > > > The other thing we agreed on, based on the feedback TJ got on the last
+> > > > > iterations of his series was to go for memcg for drivers not using DMA
+> > > > > allocations.
+> > > > > 
+> > > > > It's the part where I expect some discussion there too :)
+> > > > > 
+> > > > > So we went back to a previous version of TJ's work, and I've started to
+> > > > > work on:
+> > > > > 
+> > > > >     - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
+> > > > >       works on tidss right now)
+> > > > > 
+> > > > >     - Integration of all heaps into that cgroup but the system one
+> > > > >       (working on this at the moment)
+> > > > 
+> > > > Should be similar to what I have then. I think you could use my work to
+> > > > continue it.
+> > > > 
+> > > > I made nothing DRM specific except the name, if you renamed it the device
+> > > > resource management cgroup and changed the init function signature to take a
+> > > > name instead of a drm pointer, nothing would change. This is exactly what
+> > > > I'm hoping to accomplish, including reserving memory.
+> > > 
+> > > I've started to work on rebasing my current work onto your series today,
+> > > and I'm not entirely sure how what I described would best fit. Let's
+> > > assume we have two KMS device, one using shmem, one using DMA
+> > > allocations, two heaps, one using the page allocator, the other using
+> > > CMA, and one v4l2 device using dma allocations.
+> > > 
+> > > So we would have one KMS device and one heap using the page allocator,
+> > > and one KMS device, one heap, and one v4l2 driver using the DMA
+> > > allocator.
+> > > 
+> > > Would these make different cgroup devices, or different cgroup regions?
+> > 
+> > Each driver would register a device, whatever feels most logical for that device I suppose.
+> > 
+> > My guess is that a prefix would also be nice here, so register a device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it much thought and we're still experimenting, so just try something. :)
+> > 
+> > There's no limit to amount of devices, I only fixed amount of pools to match TTM, but even that could be increased arbitrarily. I just don't think there is a point in doing so.
+> 
+> Do we need a plan for top level controls which do not include region names?
+> If the latter will be driver specific then I am thinking of ease of
+> configuring it all from the outside. Especially considering that one cgroup
+> can have multiple devices in it.
+> 
+> Second question is about double accounting for shmem backed objects. I think
+> they will be seen, for drivers which allocate backing store at buffer
+> objects creation time, under the cgroup of process doing the creation, in
+> the existing memory controller. Right?
 
-1. Creates a userspace-driven timer with ioctl to /dev/snd/timer
-2. Starts the `global-timer` application to count the ticks of the timer
-from step 1.
-3. Asynchronously triggers the timer multiple times with some interval
-4. Compares the amount of caught ticks with the amount of trigger calls.
+We currently don't set __GFP_ACCOUNT respectively use GFP_KERNEL_ACCOUNT,
+so no. Unless someone allocates them with GFP_USER ...
 
-Since we can't include <alsa/asoundlib.h> and <sound/asound.h> in one
-file due to overlapping declarations, I have to split the test into two
-applications: one of them counts the amount of timer ticks in the
-defined time period, and another one is the actual test which creates
-the timer, triggers it periodically and starts the first app to count
-the amount of ticks in a separate thread.
+> Is there a chance to exclude those from there and only have them in this new
+> controller? Or would the opposite be a better choice? That is, not see those
+> in the device memory controller but only in the existing one.
 
-Besides from testing the functionality itself, the test represents a
-sample application showing userspace-driven ALSA timers API.
+I missed this, so jumping in super late. I think guidance from Tejun was
+to go the other way around: Exclude allocations from normal system
+memory from device cgroups and instead make sure it's tracked in the
+existing memcg.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
-V1 -> V2:
-- Return NULL in the pthreaded function (ticking_func)
-- Process TIMER_NO_EVENT enum in the timer app output processing loop
-V2 -> V3:
-- Add new test case to cover invalid period sizes and frame rates for
-the userspace-driven timers (to test the sanity checks in
-snd_utimer_create)
+Which might mean we need memcg shrinkers and the assorted pain ...
 
- tools/testing/selftests/alsa/Makefile       |   2 +-
- tools/testing/selftests/alsa/global-timer.c |  87 ++++++++++
- tools/testing/selftests/alsa/utimer-test.c  | 170 ++++++++++++++++++++
- 3 files changed, 258 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/alsa/global-timer.c
- create mode 100644 tools/testing/selftests/alsa/utimer-test.c
-
-diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
-index c1ce39874e2b..0d5bd8ea900b 100644
---- a/tools/testing/selftests/alsa/Makefile
-+++ b/tools/testing/selftests/alsa/Makefile
-@@ -12,7 +12,7 @@ LDLIBS+=-lpthread
- 
- OVERRIDE_TARGETS = 1
- 
--TEST_GEN_PROGS := mixer-test pcm-test test-pcmtest-driver
-+TEST_GEN_PROGS := mixer-test pcm-test utimer-test test-pcmtest-driver global-timer
- 
- TEST_GEN_PROGS_EXTENDED := libatest.so
- 
-diff --git a/tools/testing/selftests/alsa/global-timer.c b/tools/testing/selftests/alsa/global-timer.c
-new file mode 100644
-index 000000000000..c15ec0ba851a
---- /dev/null
-+++ b/tools/testing/selftests/alsa/global-timer.c
-@@ -0,0 +1,87 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This tool is used by the utimer test, and it allows us to
-+ * count the ticks of a global timer in a certain time frame
-+ * (which is set by `timeout` parameter).
-+ *
-+ * Author: Ivan Orlov <ivan.orlov0322@gmail.com>
-+ */
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <alsa/asoundlib.h>
-+#include <time.h>
-+
-+static int ticked;
-+static void async_callback(snd_async_handler_t *ahandler)
-+{
-+	ticked++;
-+}
-+
-+static char timer_name[64];
-+static void bind_to_timer(int device, int subdevice, int timeout)
-+{
-+	snd_timer_t *handle;
-+	snd_timer_params_t *params;
-+	snd_async_handler_t *ahandler;
-+
-+	time_t end;
-+
-+	sprintf(timer_name, "hw:CLASS=%d,SCLASS=%d,DEV=%d,SUBDEV=%d",
-+		SND_TIMER_CLASS_GLOBAL, SND_TIMER_SCLASS_NONE,
-+		device, subdevice);
-+
-+	snd_timer_params_alloca(&params);
-+
-+	if (snd_timer_open(&handle, timer_name, SND_TIMER_OPEN_NONBLOCK) < 0) {
-+		perror("Can't open the timer");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	snd_timer_params_set_auto_start(params, 1);
-+	snd_timer_params_set_ticks(params, 1);
-+	if (snd_timer_params(handle, params) < 0) {
-+		perror("Can't set timer params");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	if (snd_async_add_timer_handler(&ahandler, handle, async_callback, NULL) < 0) {
-+		perror("Can't create a handler");
-+		exit(EXIT_FAILURE);
-+	}
-+	end = time(NULL) + timeout;
-+	if (snd_timer_start(handle) < 0) {
-+		perror("Failed to start the timer");
-+		exit(EXIT_FAILURE);
-+	}
-+	printf("Timer has started\n");
-+	while (time(NULL) <= end) {
-+		/*
-+		 * Waiting for the timeout to elapse. Can't use sleep here, as it gets
-+		 * constantly interrupted by the signal from the timer (SIGIO)
-+		 */
-+	}
-+	snd_timer_stop(handle);
-+	snd_timer_close(handle);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int device, subdevice, timeout;
-+
-+	if (argc < 4) {
-+		perror("Usage: %s <device> <subdevice> <timeout>");
-+		return EXIT_FAILURE;
-+	}
-+
-+	setlinebuf(stdout);
-+
-+	device = atoi(argv[1]);
-+	subdevice = atoi(argv[2]);
-+	timeout = atoi(argv[3]);
-+
-+	bind_to_timer(device, subdevice, timeout);
-+
-+	printf("Total ticks count: %d\n", ticked);
-+
-+	return EXIT_SUCCESS;
-+}
-diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
-new file mode 100644
-index 000000000000..fee4d21a1955
---- /dev/null
-+++ b/tools/testing/selftests/alsa/utimer-test.c
-@@ -0,0 +1,170 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This test covers the functionality of userspace-driven ALSA timers. Such timers
-+ * are purely virtual (so they don't directly depend on the hardware), and they could be
-+ * created and triggered by userspace applications.
-+ *
-+ * Author: Ivan Orlov <ivan.orlov0322@gmail.com>
-+ */
-+#include "../kselftest_harness.h"
-+#include <sound/asound.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <sys/ioctl.h>
-+#include <stdlib.h>
-+#include <pthread.h>
-+#include <string.h>
-+
-+#define FRAME_RATE 8000
-+#define PERIOD_SIZE 4410
-+#define UTIMER_DEFAULT_ID -1
-+#define NANO 1000000000ULL
-+#define TICKS_COUNT 10
-+#define TICKS_RECORDING_DELTA 5
-+#define TIMER_OUTPUT_BUF_LEN 1024
-+#define TIMER_FREQ_SEC 1
-+#define RESULT_PREFIX_LEN strlen("Total ticks count: ")
-+
-+enum timer_app_event {
-+	TIMER_APP_STARTED,
-+	TIMER_APP_RESULT,
-+	TIMER_NO_EVENT,
-+};
-+
-+FIXTURE(timer_f) {
-+	int utimer_fd;
-+	struct snd_utimer_info *utimer_info;
-+};
-+
-+FIXTURE_SETUP(timer_f) {
-+	int timer_dev_fd;
-+
-+	if (geteuid())
-+		SKIP(return, "This test needs root to run!");
-+
-+	self->utimer_info = calloc(1, sizeof(*self->utimer_info));
-+	ASSERT_NE(NULL, self->utimer_info);
-+
-+	self->utimer_info->frame_rate = FRAME_RATE;
-+	self->utimer_info->period_size = PERIOD_SIZE;
-+	self->utimer_info->id = UTIMER_DEFAULT_ID;
-+
-+	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
-+	ASSERT_GE(timer_dev_fd, 0);
-+
-+	self->utimer_fd = ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, self->utimer_info);
-+	ASSERT_GE(self->utimer_fd, 0);
-+
-+	close(timer_dev_fd);
-+}
-+
-+FIXTURE_TEARDOWN(timer_f) {
-+	close(self->utimer_fd);
-+	free(self->utimer_info);
-+}
-+
-+static void *ticking_func(void *data)
-+{
-+	int i;
-+	int *fd = (int *)data;
-+
-+	for (i = 0; i < TICKS_COUNT; i++) {
-+		/* Well, trigger the timer! */
-+		ioctl(*fd, SNDRV_TIMER_IOCTL_TRIGGER, NULL);
-+		sleep(TIMER_FREQ_SEC);
-+	}
-+
-+	return NULL;
-+}
-+
-+static enum timer_app_event parse_timer_output(const char *s)
-+{
-+	if (strstr(s, "Timer has started"))
-+		return TIMER_APP_STARTED;
-+	if (strstr(s, "Total ticks count"))
-+		return TIMER_APP_RESULT;
-+
-+	return TIMER_NO_EVENT;
-+}
-+
-+static int parse_timer_result(const char *s)
-+{
-+	char *end;
-+	long d;
-+
-+	d = strtol(s + RESULT_PREFIX_LEN, &end, 10);
-+	if (end == s + RESULT_PREFIX_LEN)
-+		return -1;
-+
-+	return d;
-+}
-+
-+/*
-+ * This test triggers the timer and counts ticks at the same time. The amount
-+ * of the timer trigger calls should be equal to the amount of ticks received.
-+ */
-+TEST_F(timer_f, utimer) {
-+	char command[64];
-+	pthread_t ticking_thread;
-+	int total_ticks = 0;
-+	FILE *rfp;
-+	char *buf = malloc(TIMER_OUTPUT_BUF_LEN);
-+
-+	ASSERT_NE(buf, NULL);
-+
-+	/* The timeout should be the ticks interval * count of ticks + some delta */
-+	sprintf(command, "./global-timer %d %d %d", SNDRV_TIMER_GLOBAL_UDRIVEN,
-+		self->utimer_info->id, TICKS_COUNT * TIMER_FREQ_SEC + TICKS_RECORDING_DELTA);
-+
-+	rfp = popen(command, "r");
-+	while (fgets(buf, TIMER_OUTPUT_BUF_LEN, rfp)) {
-+		buf[TIMER_OUTPUT_BUF_LEN - 1] = 0;
-+		switch (parse_timer_output(buf)) {
-+		case TIMER_APP_STARTED:
-+			/* global-timer waits for timer to trigger, so start the ticking thread */
-+			pthread_create(&ticking_thread, NULL, ticking_func,
-+				       &self->utimer_fd);
-+			break;
-+		case TIMER_APP_RESULT:
-+			total_ticks = parse_timer_result(buf);
-+			break;
-+		case TIMER_NO_EVENT:
-+			break;
-+		}
-+	}
-+	pthread_join(ticking_thread, NULL);
-+	ASSERT_EQ(total_ticks, TICKS_COUNT);
-+	pclose(rfp);
-+}
-+
-+static struct snd_utimer_info wrong_timers[] = {
-+	/* Period size is not valid (=0) */
-+	{ .frame_rate = FRAME_RATE, .period_size = 0, .id = UTIMER_DEFAULT_ID },
-+	/* Frame rate is not valid (=0) */
-+	{ .frame_rate = 0, .period_size = PERIOD_SIZE, .id = UTIMER_DEFAULT_ID },
-+	/* Frame rate is too high (which results in resolution = 0) */
-+	{ .frame_rate = NANO + 1, .period_size = PERIOD_SIZE, .id = UTIMER_DEFAULT_ID },
-+	/* Causes overflow in resolution */
-+	{ .frame_rate = 1, .period_size = ULONG_MAX / NANO + 1, .id = UTIMER_DEFAULT_ID },
-+};
-+
-+TEST(wrong_timers_test) {
-+	int timer_dev_fd;
-+	int utimer_id;
-+	size_t i;
-+
-+	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
-+	ASSERT_GE(timer_dev_fd, 0);
-+
-+	for (i = 0; i < ARRAY_SIZE(wrong_timers); i++) {
-+		utimer_id = ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, &wrong_timers[i]);
-+		ASSERT_LT(utimer_id, 0);
-+		/* Check that id was not updated */
-+		ASSERT_EQ(wrong_timers[i].id, UTIMER_DEFAULT_ID);
-+	}
-+
-+	close(timer_dev_fd);
-+}
-+
-+TEST_HARNESS_MAIN
+Also I don't think we ever reached some agreement on where things like cma
+allocations should be accounted for in this case.
+-Sima
 -- 
-2.34.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
