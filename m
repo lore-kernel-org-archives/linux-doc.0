@@ -1,65 +1,64 @@
 Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4B62C859
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 17:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D99B56B72
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 17:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722965034; cv=none; b=QxhYMIyPqQO0t73zlTaqbqzYucK1vnxklBUQ9c5y9sDGqvFhZj1DLvqHb+FOZQDInuacXEUXTbAhg+ZVwlsarvloBE6F/HP4+0rItE0wMUt2pufzQ+/hq0OBSiiN/VYarKivmKRwBpFAMo+PW8UU5+rysUF3Hb8pRwog2QHxqqQ=
+	t=1722965098; cv=none; b=mq3+F1bnegjuwGCB1y9APceM1Oo9ZRcCT9pN0LFQaJHkSMA162T4kW79XmEW26meMa72ewX1egAsQO04wdW2ZvYaX8mRjwTk08xmFrm5AVeCXPZbg1FTJgTJf0gp9cdFVnmZQQ/suUyPK1LYlzyTxgT+dXbk/iELzysZzlhDl5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722965034; c=relaxed/simple;
-	bh=WbFlE5+qPAkFqLnreSC1NqqOFCvXcZe2PPM30+LdzcE=;
+	s=arc-20240116; t=1722965098; c=relaxed/simple;
+	bh=MqaKHZxPTEOOQL0dPc8HBy57ffLggZgGByL+56jCEA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQtIZ8yYQNtX5kSHJz1H4z5nV/SJ8/2IqduljfOOKXQoC/5zXu6jYJXEDE4CDt9LlOdKatJJcWB7T3LuGCXfk6ThoXcqlVWpS1jdoBpBkrjUcK1Cu5ztlVnShRBzrCefmoW/TqjUAzzmX0HI9R5ghS7YaT6kWKD0D+nOl/cyD+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jia9AX2I; arc=none smtp.client-ip=209.85.219.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=uMsiLcnfUqPcBhPUPK4HKOD7paRLY5dTOWrBSXC20Fc8SEfK+1Z4HJcu3/mh/ikEU6dvJYb9nTwqZzusRSW61sPZzmNg69bmoTia29xgAyW1/sTdyF3xQ5gAAB00rtV4RpTksrbsG6S3/G/9zLMxHt6RxiZ3o2OTWrQCy7CMYOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=BChA6+7H; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jia9AX2I"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6b7a3e468a9so5567446d6.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 10:23:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="BChA6+7H"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6b5f46191b5so4841576d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 10:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1722965031; x=1723569831; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1722965096; x=1723569896; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4rmNPnz+kGMra0RQJtqJ1i8be+boDPo204/oBt9Rcs=;
-        b=jia9AX2IwxxpNeVnIvgp/19a/HX+RXv3L7cvDxoJF+Fu43uKodSDtVMLcvttrHeoXs
-         pbAKye7Di66sH8ESpYcmctnvBXoMBks3gzdIGJDCCRQbMrAbAhFLsbndQX9UZpn9ypvs
-         TixyeUbRQ4mWxO+3tqc1z/bgaOZIT3+jhrsYo/5PIS+y+1FMKw6snw3+DUy/2YXLgLr4
-         FQNGCQC75wC1zgTzxkp/LFOFRzalJLD0GgzzM9L3dx6e6lcyl/edgplKEN391iQYcSkR
-         Ah8UpleU87LZ7JuscB/vaG026fENfZ2t62/sOxK/9AvYrNwyVgkW6bP6Uxoc/HXXih8S
-         UnDA==
+        bh=T7HE5qomFnShgNw+dAFpKQn8211Vw3rMqkRCxPcaqwk=;
+        b=BChA6+7H/DuZuuDVTwc+kJUGl1JRoCiifBWKlPvb1riMENYJzszeIpxuIsQbSP0+NE
+         fBPt2Wv4qvhC3hd4HMT1sbHXF+lV1eSgk/S3YWaVZbx3Kz52S552eGV2lrzXdvzpqe25
+         N2dtGTP2NxAQAfLzt+sngLqrmUUhZLOUNvruIytZDoKJLnlEhJuOdtLHP9udVZhhobmk
+         4gsORT73GIjgFQgjITxIzWHsj4FqgfA1kk4bwzK0w/HbTlAVGJmN5r9AsqcgZ+8xOtW0
+         rkVo9OLabzEE1Jw3cQKEyh8OIuIA03szr+WDoBPvk6iZPOAaOu/PscuJ94rqC4PQzvBr
+         8THg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722965031; x=1723569831;
+        d=1e100.net; s=20230601; t=1722965096; x=1723569896;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F4rmNPnz+kGMra0RQJtqJ1i8be+boDPo204/oBt9Rcs=;
-        b=af1MXKoaZWv016wwl/slqDL4r33wflbyDULT0yzZ4vt0ql5JXHqKIJpPw2ijLDmLNZ
-         6QapBXmvxqGc8pYx1lb2ki5F24Ws3JtlxEZ9BNQPK4au10hNIwFf1aBS8Fv1IhrFdAOP
-         Ceyhek5Oc60Trx++4tT20oW6Qza2JYkQs/Q01QChnJqajRVUbWE+DW4IXaL/4DVnhs+i
-         C9NDHs7tVfxtfrN+84bcWm/MUzOuubXhYoUtR42e7xb0jVqd7nFAMmTfdi7wZQRJlWR+
-         B5LHFWATRwhDaIVukyekhF/QApdAwZjJHwdWyZ21Vnk7vYCV8FqiKsBdaQ5Fha5ZACij
-         iVvw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7W7kEZ8oq0YQE7tP6MuJE/j6pX8xGfLjsIIxE+YIdCSzrcaQ2nxXV1UnUktg3GzYOBTTq/iOjiQM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxVO/ZGjWTzf/hjCulCEjEdjHffv2IysPKwbwlGzJvCeOZHn0n
-	b0dI3Ens0s2SACkLQje7cLGoUvvOcoxXWvtDeHzORuoji4cIsvLz3GVFD+Ab6XA=
-X-Google-Smtp-Source: AGHT+IGN/g/G+FXYvmY4HkM76lkSBKmxvlD+n6uvRjDt3aMuV/oycOrSHTiQPvVwSkF6jaF3MwJXew==
-X-Received: by 2002:a05:6214:5f03:b0:6b0:7ba0:ef67 with SMTP id 6a1803df08f44-6bb9840713dmr163494426d6.31.1722965030621;
-        Tue, 06 Aug 2024 10:23:50 -0700 (PDT)
+        bh=T7HE5qomFnShgNw+dAFpKQn8211Vw3rMqkRCxPcaqwk=;
+        b=ibUkEbvE3VeF/lkhlTLHgcUswwp9TmnxqhhlT15bUAnlgGybhCbIJo9pjgU3Tr6azj
+         rpMkr3uVvpBrmh4NhXxnbv3jQLTBAwZDD0Kbi75Lbu/9jCToD/EKSfT3y4eMatedOWzu
+         cwJcKJGU/JMwu4pyb3W+fITQDwE5aYLO1Iyl4u2qwnacle3BuuDPahfqHPpAgM09z0Zz
+         BZbWJ3/00EGjtfXJM1sgsXt9Qp/pKFGGQhv96jm16TVZEhV4Nst1BCyWs2D57lENWnsk
+         clbD5prjRTdaYUFgkVidAeYF5wGDHdTGQL+QnDsgBzQjXGYc8cj1uiG7101xY46G2X8N
+         kNkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRvvohbZw+iLqMJRKH02WJiR7JcG2pn0L7mpRseve7CxDiej4zxIP+BVAi9ePyxcNCE3CMfqJpSHwCUdvNAIW1JAdBvl8h+RB3
+X-Gm-Message-State: AOJu0YxS8sZNJ94RZdWct+j3Tv8c/OCwMuxzNCr6/xG216q4As71D74Z
+	y7orEoTnZPym9q1HTxpB4ju4SqeCNqHu46EdejijtabcATTVBvT69QHnXnHwbqw=
+X-Google-Smtp-Source: AGHT+IFa9dVhWCrdPdbUkpdGZrho6h2SYLIO4aEGRVqFcYo1XlMAaNoBZNabBpbHu2isVnX5Mnu2Pw==
+X-Received: by 2002:a05:6214:3a08:b0:6b7:9bdd:c5ac with SMTP id 6a1803df08f44-6bb9845d291mr182312036d6.54.1722965095947;
+        Tue, 06 Aug 2024 10:24:55 -0700 (PDT)
 Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c79744esm48263166d6.40.2024.08.06.10.23.50
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c86772bsm48644876d6.124.2024.08.06.10.24.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 10:23:50 -0700 (PDT)
+        Tue, 06 Aug 2024 10:24:55 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.95)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1sbNuX-00FYRk-Mv;
-	Tue, 06 Aug 2024 14:23:49 -0300
-Date: Tue, 6 Aug 2024 14:23:49 -0300
+	id 1sbNvb-00FYkR-1o;
+	Tue, 06 Aug 2024 14:24:55 -0300
+Date: Tue, 6 Aug 2024 14:24:55 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: James Houghton <jthoughton@google.com>
-Cc: David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	Ankit Agrawal <ankita@nvidia.com>,
 	Axel Rasmussen <axelrasmussen@google.com>,
@@ -79,13 +78,11 @@ Cc: David Hildenbrand <david@redhat.com>,
 	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
- clear_young MMU notifiers
-Message-ID: <20240806172349.GQ676757@ziepe.ca>
+Subject: Re: [PATCH v6 04/11] mm: Add missing mmu_notifier_clear_young for
+ !MMU_NOTIFIER
+Message-ID: <20240806172455.GR676757@ziepe.ca>
 References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-6-jthoughton@google.com>
- <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
- <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com>
+ <20240724011037.3671523-5-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,25 +91,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com>
+In-Reply-To: <20240724011037.3671523-5-jthoughton@google.com>
 
-On Thu, Aug 01, 2024 at 04:13:40PM -0700, James Houghton wrote:
-> --- a/include/linux/mmu_notifier.h
-> +++ b/include/linux/mmu_notifier.h
-> @@ -106,6 +106,18 @@ struct mmu_notifier_ops {
->          * clear_young is a lightweight version of clear_flush_young. Like the
->          * latter, it is supposed to test-and-clear the young/accessed bitflag
->          * in the secondary pte, but it may omit flushing the secondary tlb.
-> +        *
-> +        * The fast_only parameter indicates that this call should not block,
-> +        * and this function should not cause other MMU notifier calls to
-> +        * block. Usually this means that the implementation should be
-> +        * lockless.
-> +        *
-> +        * When called with fast_only, this notifier will be a no-op unless
-> +        * has_fast_aging is set on the struct mmu_notifier.
+On Wed, Jul 24, 2024 at 01:10:29AM +0000, James Houghton wrote:
+> Remove the now unnecessary ifdef in mm/damon/vaddr.c as well.
+> 
+> Signed-off-by: James Houghton <jthoughton@google.com>
+> ---
+>  include/linux/mmu_notifier.h | 7 +++++++
+>  mm/damon/vaddr.c             | 2 --
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 
-If you add a has_fast_aging I wonder if it is better to introduce new
-ops instead? The semantics are a bit easier to explain that way
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
 Jason
