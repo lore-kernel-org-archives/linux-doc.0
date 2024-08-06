@@ -1,98 +1,156 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657F5170A17
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 20:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C5114F9D7
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 21:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722977974; cv=none; b=vFywyBHZvyZv3D8F32jZS1JXU6iRtd/rzqYrErn1PqZOpfR79a655/h7N0titjpmeuSny+7zAAnDXqNyA99Q/dBWeuUK0nEZzIM4VQt0EkFdhpE2qg3l3i78pPxnMTpxEHpFsuKReWRSYf8mVEtCzzIFslaWEedCCyWbwkN+z5I=
+	t=1722980285; cv=none; b=uJ/xaoYmicIzGKORm5KM35CEnA9BotmmN8D1RBkj+Mpwm/eltUyFyG8iN6QKaOaSeWE0xLw3C7Hh5Wd/0C7HVyuWMtiC8TM6HJw6a0ju70O0gZ5rH3o2a1TYXeiJqyjY4Ma4OxTrcsAivbMfNWI8rePJeJF5kGOPfMlgUZhztSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722977974; c=relaxed/simple;
-	bh=qyUz9Qqv5k5SudOvCxQPX4RBki5RQXyIqfhgrvWKdyk=;
+	s=arc-20240116; t=1722980285; c=relaxed/simple;
+	bh=P+LlFXVAR3ni2Q9lpbZyAlQdpPzTbV2ToRmZ+4oEOIw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pjSUaT/CRBqs1986reTQIKiJs7ukoVRmnNAvCl6skQ3PLNFllXX+lj+thvHjYzTUuOgTqK7s1+u9/uJvKPefdUdRGCL89uK2dp2wpr8aD/ljpttaQ8Vk4Gctuu6D/AyGNOWLV/fPPNql61U71yEXGc/v9xFzKKsvzosl3lGozJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Eb3sUuf/; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 Cc:Content-Type; b=a2DCUxrKnxuGlOm/nHcxyL4Dbcddg/sfaWP+jUOIzOJZ6nmzVsghlxTAxUqfl0t3IGSy/Kig+sTTEVEJMpP+7OUt3/7HGwxrJsz8yyZD4fQuyo/GNUWCQWOigcGOySOYkZ2UTNaYOCOjPubRazCTkZuHMOPFceD4QMqvyLMusow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=E2f6Y387; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Eb3sUuf/"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-654cf0a069eso11410777b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 13:59:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="E2f6Y387"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-44fe28eb1bfso5645381cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 14:38:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1722977971; x=1723582771; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1722980283; x=1723585083; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hqRA/CX/CVDKRMnMKUkE7btXGpws1I/eaVA/YpB62Hc=;
-        b=Eb3sUuf/v0kca+XnoKJZRiENpb45DUPlfGi6IMf13qoSoLYimi3mbIv6qhH8hOEh8A
-         mtVov7Lo2+nWdrAHGka9zLYVA1Sjmjb3AcjWwDADP1msPFly37oB04+MJAo54CujViTu
-         a1vCj3WAE+S3ZIjyJgFSjCbqF+44/OIo599KJgBo80TX+cbW1YJaofC74vUrXxBHwvc3
-         sFE1L/cMDbIe99kU4N5IUeNp9/6xTDjzSbnrqVs0378SkaDdfLa0lvtM6stQdlKdcDlN
-         DrmYuETjc7TuhIltjqm90BxNzaWLUuccUumCJk4/JR+ilZrg3hf3VdnUc5ty8V2xUoWk
-         yVaA==
+        bh=9XmlWe99DKTvSLptoxepSTHSiK1+FbVsnMpcepxt5N8=;
+        b=E2f6Y3875sCi+FUMC4NnDIWYjuAY1SAoH/x5FpJ24DePrabii4oI5FqT8pU7OZgMYF
+         qh/rCJ2vIPK16JkeQNZO7vSs9qTrf5R6HaNzKefw/vdlZQtp/tkEvMO2iJxPFqcZSB8C
+         txvjrUzTdKdHw1TpSGJBnuDAFxEPGmAd4WV8VUk2hG7O/+XAjACvYR62XJdUI+x3VxG8
+         UMaRuBy/ESUFzgrVbGEh0qDkhQb72Y9gjuGhRVDD6cL3Zu3V/gKrLdxyGgo1rOPyI8gU
+         Sm6yvVIxln4bsqIZzlf6+2En2jLGeikoP5Xf/2568/veowAkdTOSykr9dyN5QA/nJ43a
+         Qzrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722977971; x=1723582771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1722980283; x=1723585083;
+        h=content-transfer-encoding:cc:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hqRA/CX/CVDKRMnMKUkE7btXGpws1I/eaVA/YpB62Hc=;
-        b=T7zT3/kmi3W9/yVSojBYMj9ujUl1AYY1DEptkXQE0Ypxvns2UYGqmqcp6bxVJcqADl
-         qltCm04ASioYpPxQSfNwQ1o3EYCNQPC9bFsti+wdvoY0SFCYPrS8IWkPqNK0RyKU4/L3
-         KNSyOWxD7u1yPEAzKC3x11Y+aMO1rMISR/Lu6Fi1EWQM7pvkSMjS3LD/c7auafvaHKTc
-         2zlsgpmqO3eSVExjwNEQOKYB8ZDPp9+hhIe4Uod0ZyxbyJValwxZ8/YVCr0a7Z7d3oTI
-         E8183IVd+lxHVFLnK82WYBiKJrLp5t0Yu4gYjNHIGf7mJxJor0NN572hUT/o0sJv0fnD
-         Jerw==
-X-Forwarded-Encrypted: i=1; AJvYcCW3a5TpUczp6/lG2vpUqvmVyedipYvFEkJnG0AjSliT5oND5Rfqf117+lXvgy4zta/4PpSrPm8zR5EFiNnU0bTys0my6jvtPyQx
-X-Gm-Message-State: AOJu0Yw1Jys/1QnsUW4AlJ9vRfmCB8maru8aKREYYE2KneEZKDtCSBz0
-	Qp8f6ICrVggQx3jAfdTro+nmHjL//r4sKFzlG+YpIjXxSc+frn049M0tKUvOW+UNFLuXlTGqMQ0
-	Ly8FfuJGoVMQC1JNUfENhStWZ9LRcTIlpBTXk
-X-Google-Smtp-Source: AGHT+IG+g9ZPIj3c+gMV8h9nbV6S0gFWlT866BH5MDCEFMia55H31Vc+W1m/exuwqdaE7fTnf6/iUgbwZyFG5W1FJkM=
-X-Received: by 2002:a05:6902:15c5:b0:e0b:e2ed:b6c9 with SMTP id
- 3f1490d57ef6-e0be2edba28mr17255194276.9.1722977971481; Tue, 06 Aug 2024
- 13:59:31 -0700 (PDT)
+        bh=9XmlWe99DKTvSLptoxepSTHSiK1+FbVsnMpcepxt5N8=;
+        b=gXFRaw87bDsMr66qtRRcHiqJAhR+eXZHDXxs+xJ1i/iJSF+SD1ewMAyCsosi0OyBUs
+         MHosgAf/GUgVuLfHum1zgJBEjPziRGfih2B6XhcI/zdi/KBOXWooKelQnoVw93ezl62K
+         KzsM6FiABlbdTwFV9b333TZUPfaUJXmVYyTp4CsUdH7uyhAStWLJ+6vtyO0MMQyr9Owv
+         GJ+5wWiG3rdAsaOlrl9omz7/IVj2GuN9v+Brsn9JioP0xuWCzx3pjZ0k5suWcD5xmkUV
+         ngFf3UzZeLL2wkFXYbWvbBld8bjdNZqCkrBEVM4Kz/yib4k3VqPBcYqzRZageMRGU73j
+         u9Qw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJl/iqPp38ja/I3+klfbfntYAOWsykj+yYGh2ZVRvKbVPjofM2QL4nSKv7OQscHC+CVTAee9mUjZIWQq7aws6GYEjZhZllacPt
+X-Gm-Message-State: AOJu0YxNBhT0gKKmRA8ndRhB3VfkrBHQOvsC/PZTOYu8wMzFAO6WFxOv
+	nXYnxM7PKl421fsrOktFr9px8Ey401O6N4fPKX47wJCxeLBu/jbQh3KgUCVoLV/Tt60hEgMlE9Y
+	pPI3OhzJWqstXdeRo6feig8YDWL7xBgPp2VdoZA==
+X-Received: by 2002:a05:622a:1825:b0:447:dc9a:1cea with SMTP id
+ d75a77b69052e-451892561c8mt209894061cf.13.1722980282606; Tue, 06 Aug 2024
+ 14:38:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
-In-Reply-To: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 6 Aug 2024 16:59:20 -0400
-Message-ID: <CAHC9VhQ3LobZks+JtcmOxiDH1_kbjXq3ao8th4V_VXO8VAh6YA@mail.gmail.com>
-Subject: Re: [PATCH v20 00/20] Integrity Policy Enforcement LSM (IPE)
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
-	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
-	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240605222751.1406125-1-souravpanda@google.com>
+ <Zq0tPd2h6alFz8XF@aschofie-mobl2> <CA+CK2bAfgamzFos1M-6AtozEDwRPJzARJOmccfZ=uzKyJ7w=kQ@mail.gmail.com>
+ <66b15addf1a80_c144829473@dwillia2-xfh.jf.intel.com.notmuch>
+ <CA+CK2bC1ZsT3cuAMDAAUonys3BUxbb2JdnZXs1Ps3NbYZt5W2Q@mail.gmail.com> <ZrKNKRfaH7GliS3C@iweiny-mobl>
+In-Reply-To: <ZrKNKRfaH7GliS3C@iweiny-mobl>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 6 Aug 2024 17:37:24 -0400
+Message-ID: <CA+CK2bDnJsgjK-7H-8qJjdeejKJk7E7m-SDnwXatH4FHr4R0_g@mail.gmail.com>
+Subject: Re: [PATCH v13] mm: report per-page metadata information
+Cc: Dan Williams <dan.j.williams@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Sourav Panda <souravpanda@google.com>, corbet@lwn.net, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, akpm@linux-foundation.org, mike.kravetz@oracle.com, 
+	muchun.song@linux.dev, rppt@kernel.org, david@redhat.com, 
+	rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
+	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+	yosryahmed@google.com, hannes@cmpxchg.org, shakeelb@google.com, 
+	kirill.shutemov@linux.intel.com, wangkefeng.wang@huawei.com, 
+	adobriyan@gmail.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
+	surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, weixugc@google.com, David Rientjes <rientjes@google.com>, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, yi.zhang@redhat.com, 
+	ira.weiny@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 3, 2024 at 2:08=E2=80=AFAM Fan Wu <wufan@linux.microsoft.com> w=
-rote:
+On Tue, Aug 6, 2024 at 4:53=E2=80=AFPM Ira Weiny <iweiny@iweiny-mobl> wrote=
+:
 >
-> IPE is a Linux Security Module that takes a complementary approach to
-> access control. Unlike traditional access control mechanisms that rely on
-> labels and paths for decision-making, IPE focuses on the immutable securi=
-ty
-> properties inherent to system components. These properties are fundamenta=
-l
-> attributes or features of a system component that cannot be altered,
-> ensuring a consistent and reliable basis for security decisions.
+> On Tue, Aug 06, 2024 at 01:59:54PM -0400, Pasha Tatashin wrote:
+> > On Mon, Aug 5, 2024 at 7:06=E2=80=AFPM Dan Williams <dan.j.williams@int=
+el.com> wrote:
+> > >
+> > > Pasha Tatashin wrote:
+> > > [..]
+> > > > Thank you for the heads up. Can you please attach a full config fil=
+e,
+> > > > also was anyone able to reproduce this problem in qemu with emulate=
+d
+> > > > nvdimm?
+> > >
+> > > Yes, I can reproduce the crash just by trying to reconfigure the mode=
+ of
+> > > a pmem namespace:
+> > >
+> > > # ndctl create-namespace -m raw -f -e namespace0.0
+> > >
+> > > ...where namespace0.0 results from:
+> > >
+> > >     memmap=3D4G!4G
+> > >
+> > > ...passed on the kernel command line.
+> > >
+> > > Kernel config here:
+> > >
+> > > https://gist.github.com/djbw/143705077103d43a735c179395d4f69a
+> >
+> > Excellent, I was able to reproduce this problem.
+> >
+> > The problem appear to be caused by this code:
+> >
+> > Calling page_pgdat() in depopulate_section_memmap():
+> >
+> > static void depopulate_section_memmap(unsigned long pfn, unsigned long =
+nr_pages,
+> >                 struct vmem_altmap *altmap)
+> > {
+> >         unsigned long start =3D (unsigned long) pfn_to_page(pfn);
+> >         unsigned long end =3D start + nr_pages * sizeof(struct page);
+> >
+> >         mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_MEMMAP,
+> > <<<< We cannot do it.
+> >                             -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)=
+));
+> >         vmemmap_free(start, end, altmap);
+> > }
+> >
+> > The page_pgdat() returns NULL starting from:
+> > pageunmap_range()
+> >     remove_pfn_range_from_zone() <- page is removed from the zone.
 >
-> ...
+> Is there any idea on a fix?  I'm seeing the same error.
+>
+> [  561.867431]  ? mod_node_page_state+0x11/0xa0
+> [  561.867963]  section_deactivate+0x2a0/0x2c0
+> [  561.868496]  __remove_pages+0x59/0x90
+> [  561.868975]  arch_remove_memory+0x1a/0x40
+> [  561.869491]  memunmap_pages+0x206/0x3d0
+> [  561.869972]  devres_release_all+0xa8/0xe0
+> [  561.870466]  device_unbind_cleanup+0xe/0x70
+> [  561.870960]  device_release_driver_internal+0x1ca/0x210
+> [  561.871529]  driver_detach+0x47/0x90
+> [  561.871981]  bus_remove_driver+0x6c/0xf0
+>
+> Shall we revert this patch until we figure out a fix?
 
-There was some minor merge fuzz, a handful of overly long lines in the
-comments, and some subject lines that needed some minor tweaking but
-overall I think this looks good.  I only see one thing holding me back
-from merging this into the LSM tree: an updated ACK from the
-device-mapper folks; if we can get that within the next week or two
-that would be great.
+I am working on a fix, and will send it out in a couple hours.
 
---=20
-paul-moore.com
+Pasha
