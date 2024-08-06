@@ -1,66 +1,59 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DE41D47DC
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0361D2792
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722950228; cv=none; b=Hs4Y72Mtd34ePrHf9aFpkbEvf34DtmlqoeBf0/S6Gq+67ZxzeAovZb8GekYfBzvuVm6OKjDYbSaBG7qFb2y2T0fawoh+tmNNZ2A14gT4s2HZ20/lJJh8ZGTJlIahXbwh5KSJ5aKKR6yfDGIOwZycV1ElktgyU1PlYFvK6RBmoF8=
+	t=1722950271; cv=none; b=IEtkJbCGg0rabGVB2byvZVg3R/PryGr8yyHp0A7hwJI1xOJwOZpciKQ/K1iroFB693OxN67uBKYmNntxZVkVX1mJPGFnz/T9Bhm6TZEMtQJ7HfhHPXGPEsryz1jrfj/TJwkPOlozzAzFgv9+JyrvtMU4U7K5KQAhvvDGQU0Cr3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722950228; c=relaxed/simple;
-	bh=XIfVNXxRNJMWMotZUOMfVtqu9KIyQ6rld0dQQOWt9ag=;
+	s=arc-20240116; t=1722950271; c=relaxed/simple;
+	bh=TpcolhcYzJa7mTrUihg1Dco8chyK0t/QbKkXU6IEoTI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wp2a2oFG36703pgLWtxaVRx4H3M0AaxICR7OPC39syx/obPRMxDzvZq1F/y4CyUVpO/CF9MCo3ilREqVRlX8MS1AhdUMMdfWBAzh4Xxs5zFGjwwfLdntrZ+q9bT+JkFg7qwYq8CR98B3p2JBNGzHxsFyXlDWbXcn0vefKlUS5Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gak9U1lh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=GHo0D9imx1usNFn0IP9OkdM48PZVQGgXXvss9rVx2EL8R6BmgwvGNCEAXTgfuPip8M5JhHhfWYPABtRELB6H9nj2uB431/i7d1T9qzjWVgWwdp3godpbb1uBou6Q+XUMeMjjcLnn5M1Gnyo9Oa4AoRV4yXF5zloB5SiE4a9w7dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tBbKpwkc; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gak9U1lh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722950225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=z7OItE80eE9UGfmeRgKVMPW9zfG5/riUT9eGnET0PAc=;
-	b=gak9U1lhcYnLPB0nnOzCFc8ft+eWZgXCqUgbY1CfRuLRXX939iD0pjWbJtVRVGspMFPNCA
-	NpS7c6CGaUNLAT3ufOaqq6u5BHrwzfFf0j8hwwiy8jZvYtnkSx0XwqHE+Ql24uYoEfpM40
-	8+ew6K1LWqiIs7euCPyQ/Ob/3OQny/U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-281-dZQSdReCOHuqvQjYIRE8kQ-1; Tue, 06 Aug 2024 09:17:04 -0400
-X-MC-Unique: dZQSdReCOHuqvQjYIRE8kQ-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-368665a3fdfso456918f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:17:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tBbKpwkc"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7a20b8fa6dcso39997285a.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722950267; x=1723555067; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JwGghAF8hyP3IJRX7Y5WfGijoa+R+QrWJZw4g1mdI54=;
+        b=tBbKpwkcloYsK/Rfm8DOjgilCDlSHMZ64fPM0ELbw2bxI/Skkfj1XmKk+ymMa6Eycl
+         vy09e48+h8WHDxTUMFU9Xj7CnrCdi07zGXGXbG1g+40G7y3gjyD/QmGC9c7SD60hUagB
+         /ID8Pa7AOt+XIU2bYqr7t7XFWIQRLRjXNZhf8Bdqn18GJOzQJxV/1d6J2k5zQlYmNsU/
+         UAio2wKr7C4Ob6m3WFddrSQlFMMpN9A/HSR11o+9NvkoaYQ0K0fMSDeY932rAP5Epg9+
+         UnVJyOccrH4Q8VFDgPPBhen3I9ny2cSFaVcilKpOGDGDUomgPemtgS5r4KH5jqL1KP0q
+         rirw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722950223; x=1723555023;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=z7OItE80eE9UGfmeRgKVMPW9zfG5/riUT9eGnET0PAc=;
-        b=P6zSBbDHNhjK3H+zDLAaKXMxwyIWRG5Z4OH0pfsyYt4JniQRQOJk+UxBEa3aX+HImT
-         /Wg3zmKg/StYW0h5PMaUqqxoqCF/dGNQUZrWCINdIFHoQFVWx1Ypn3xeSo5SOA6TMZN3
-         FXUXOaUyXG9lDExAQ5mkz+8gOSAuNaAjMyaxiHB7jLtjG34uiilQ2a/z75DQrQQUhWph
-         HayWy/88+icEBfcoYiZst3kPKpGwpRPxk76AQPn/7IbUge47Xx1kr068Oiecz435CZHV
-         uqOXvf5UJaDvTlEb3QCgFXIbKINXOSo/FS9kdINJL10HGAwRv5BPXV4WxBg7KUylgcMV
-         LP/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsdcuA7SwY5Ph5ZEZoF0XZAxtDE3GDd2hGsNHQntImL9k5hPhcQqTUc+2jVnWvHddmSZKgEkbZ7iBev1N/JGqW72A8wihhxCun
-X-Gm-Message-State: AOJu0YxSLucfs0QdTEprE+CYuLJ9EN3Aq7ingZ/BqBeAgtxEWmFzHpYS
-	LaFvF5RahOs+q7F0wHFvTbzAr96BWA0AwZqjVRDDd8v66u9ayQxAdicVXFHgu/6B4IfSGAla7+f
-	9VA0oSQmvNJn1wVZLSAFvLTc5k6Q8oyXxMXHscrEdinxixu8C9/H4OVlBng==
-X-Received: by 2002:a05:6000:d2:b0:368:71fa:7532 with SMTP id ffacd0b85a97d-36bbc0e7225mr8701746f8f.31.1722950223340;
-        Tue, 06 Aug 2024 06:17:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlLglIEjR9rFtL+sSPIT+UzBF73pqZFIoxLhNAPL/6toXBTToQ2vIjEcceFihDtmOpZF6+rA==
-X-Received: by 2002:a05:6000:d2:b0:368:71fa:7532 with SMTP id ffacd0b85a97d-36bbc0e7225mr8701695f8f.31.1722950222793;
-        Tue, 06 Aug 2024 06:17:02 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c73f:8500:f83c:3602:5300:88af? (p200300cbc73f8500f83c3602530088af.dip0.t-ipconnect.de. [2003:cb:c73f:8500:f83c:3602:5300:88af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428e6d6b942sm181949825e9.5.2024.08.06.06.17.00
+        d=1e100.net; s=20230601; t=1722950267; x=1723555067;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JwGghAF8hyP3IJRX7Y5WfGijoa+R+QrWJZw4g1mdI54=;
+        b=gOa+0Vd37VzXbf9J1cugcvgBoMnYy3VXkdBABUEhWFp607s01ijY69z7XyfkEd+o0M
+         daAjpd0Kq9P0xQckuOzoh2ep62DyzB+bbkmZtCmFpBDeJOGv5b7eI/4Mf+f7h+po0AwK
+         ipLQoSZVLCzyLwkxjKS/gw7/Mmvoacm+Byrev0S0LUaJgrgJIwTIWtCReLHLZVM5Nym6
+         J+s8XdhzErtuBMTgbhEN9oQJUJl+ffWRc+aOt2grljJyR8sg9c68VhEVjTxhYQTnIknx
+         396xZLf7eL8cBdlerxczZCqVgEG3c2Cumb6CH6+laMN3kQeNAbVua1pEkxL2b0E9+M3E
+         Y/hg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+hRnYr41BeUq0lYuPYZrAKfJ3K99yHDzyijBX6GWcgtqm2qlSfjlQc7uZN3+6HvIUszaxCVt+Mlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyotRQLiKq9yvD2ls4sJj4CFI55nXfqEMn6uSIuAI3rYYdppIu
+	hKnEuRplYS89VFAKhFjApdpkbbtLZ/E9mMqJZRec+IMXFzZMCCz2w+1996zUIZY=
+X-Google-Smtp-Source: AGHT+IHzKLrhY/8VXF9noaAho1m5/YXRwzmbEuqnqzJp2DTDVn5/I6ZeJjvlf35HsDfdnjpYKyPiiw==
+X-Received: by 2002:a05:620a:4153:b0:7a1:d08b:5b7d with SMTP id af79cd13be357-7a34efdd375mr1620618585a.62.1722950267494;
+        Tue, 06 Aug 2024 06:17:47 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a35f3fc336sm310851385a.22.2024.08.06.06.17.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Aug 2024 06:17:02 -0700 (PDT)
-Message-ID: <fedd1b32-cace-45a1-82f0-7effaccd4145@redhat.com>
-Date: Tue, 6 Aug 2024 15:16:59 +0200
+        Tue, 06 Aug 2024 06:17:47 -0700 (PDT)
+Message-ID: <46be10c0-7ee9-489b-afc9-0e0411200d7e@baylibre.com>
+Date: Tue, 6 Aug 2024 09:17:45 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,108 +61,272 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/26] mm: move numa_distance and related code from x86
- to numa_memblks
-To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>,
- Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Dan Williams <dan.j.williams@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "David S. Miller" <davem@davemloft.net>, Davidlohr Bueso
- <dave@stgolabs.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heiko Carstens <hca@linux.ibm.com>, Huacai Chen <chenhuacai@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Will Deacon <will@kernel.org>, Zi Yan <ziy@nvidia.com>,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- loongarch@lists.linux.dev, nvdimm@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
-References: <20240801060826.559858-1-rppt@kernel.org>
- <20240801060826.559858-19-rppt@kernel.org>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Lechner <dlechner@baylibre.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20240731-ad7625_r1-v1-0-a1efef5a2ab9@baylibre.com>
+ <20240731-ad7625_r1-v1-1-a1efef5a2ab9@baylibre.com>
+ <20240803153540.17627489@jic23-huawei>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20240801060826.559858-19-rppt@kernel.org>
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <20240803153540.17627489@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01.08.24 08:08, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Move code dealing with numa_distance array from arch/x86 to
-> mm/numa_memblks.c
-> 
-> This code will be later reused by arch_numa.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
-> ---
+Hello,
 
-Acked-by: David Hildenbrand <david@redhat.com>
+On 2024-08-03 10:35 a.m., Jonathan Cameron wrote:
+> On Wed, 31 Jul 2024 09:48:03 -0400
+> Trevor Gamblin <tgamblin@baylibre.com> wrote:
+>
+>> This adds a binding specification for the Analog Devices Inc. AD7625,
+>> AD7626, AD7960, and AD7961 ADCs.
+> Given the RFC question is effectively about the binding and may influence
+> it a lot - make sure it's talked about here!
+>
+>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>> ---
+>>   .../devicetree/bindings/iio/adc/adi,ad7625.yaml    | 176 +++++++++++++++++++++
+>>   MAINTAINERS                                        |   9 ++
+>>   2 files changed, 185 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+>> new file mode 100644
+>> index 000000000000..e88db0ac2534
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+>> @@ -0,0 +1,176 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/iio/adc/adi,ad7625.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Analog Devices Fast PulSAR Analog to Digital Converters
+>> +
+>> +maintainers:
+>> +  - Michael Hennerich <Michael.Hennerich@analog.com>
+>> +  - Nuno Sá <nuno.sa@analog.com>
+>> +
+>> +description: |
+>> +  A family of single channel differential analog to digital converters
+>> +  in a LFCSP package. Note that these bindings are for the device when
+>> +  used with the PulSAR LVDS project:
+>> +  http://analogdevicesinc.github.io/hdl/projects/pulsar_lvds/index.html.
+> As per the discussion in the cover letter I think the need to represent
+> if the DCO+ is connected between ADC and LVDS converter strongly suggests
+> we shouldn't represent it as one aggregate device.
 
--- 
-Cheers,
+Just to be sure, do you mean that the PulSAR LVDS functionality should 
+be split into its own driver and then utilized by ad7625?
 
-David / dhildenb
+Thank you for the feedback. I'll work on updates for all of your replies.
 
+- Trevor
+
+>
+>> +
+>> +  * https://www.analog.com/en/products/ad7625.html
+>> +  * https://www.analog.com/en/products/ad7626.html
+>> +  * https://www.analog.com/en/products/ad7960.html
+>> +  * https://www.analog.com/en/products/ad7961.html
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - adi,ad7625
+>> +      - adi,ad7626
+>> +      - adi,ad7960
+>> +      - adi,ad7961
+>> +
+>> +  vdd1-supply:
+>> +    description: A supply that powers the analog and digital circuitry.
+> Doesn't really tell us anything. I'd just go with
+>      vdd1-supply: true
+>      vdd2-supply: true
+>      vio-supply: true
+>
+>
+>> +
+>> +  vdd2-supply:
+>> +    description: A supply that powers the analog and digital circuitry.
+>> +
+>> +  vio-supply:
+>> +    description: A supply for the inputs and outputs.
+>> +
+>> +  ref-supply:
+>> +    description:
+>> +      Voltage regulator for the external reference voltage (REF).
+>> +
+>> +  refin-supply:
+>> +    description:
+>> +      Voltage regulator for the reference buffer input (REFIN).
+>> +
+>> +  clocks:
+>> +    description:
+>> +      The clock connected to the CLK pins, gated by the clk_gate PWM.
+>> +    maxItems: 1
+>> +
+>> +  pwms:
+>> +    maxItems: 2
+>> +
+>> +  pwm-names:
+>> +    maxItems: 2
+>> +    items:
+>> +      - const: cnv
+>> +        description: PWM connected to the CNV input on the ADC.
+>> +      - const: clk_gate
+>> +        description: PWM that gates the clock connected to the ADC's CLK input.
+>> +
+>> +  io-backends:
+>> +    description:
+>> +      The AXI ADC IP block connected to the D+/- and DCO+/- lines of the ADC.
+> So you have a backend. Great - we have something to indicate a connection
+> to or not for the DCO+/o lines.  It's a bit ugly to just repesent it as a clk
+> but that would I think work.
+>
+>> +    maxItems: 1
+>> +
+>> +  adi,en0-always-on:
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +    description:
+>> +      Indicates if EN0 is hard-wired to the high state. If neither this
+>> +      nor en0-gpios are present, then EN0 is hard-wired low.
+> It's unfortunate there isn't a special 'fixed' gpio-chip option where we could
+> just query it is fixed and what the state of the pin is.  This is getting
+> quite common so would be good to have a better solution.
+>
+> Linus, Bartosz - is there a better way to do this?
+>
+>> +
+>> +  adi,en1-always-on:
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +    description:
+>> +      Indicates if EN1 is hard-wired to the high state. If neither this
+>> +      nor en1-gpios are present, then EN1 is hard-wired low.
+>> +
+>> +  adi,en2-always-on:
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +    description:
+>> +      Indicates if EN2 is hard-wired to the high state. If neither this
+>> +      nor en2-gpios are present, then EN2 is hard-wired low.
+>> +
+>> +  adi,en3-always-on:
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +    description:
+>> +      Indicates if EN3 is hard-wired to the high state. If neither this
+>> +      nor en3-gpios are present, then EN3 is hard-wired low.
+>> +
+>> +  en0-gpios:
+>> +    description:
+>> +      Configurable EN0 pin.
+>> +
+>> +  en1-gpios:
+>> +    description:
+>> +      Configurable EN1 pin.
+>> +
+>> +  en2-gpios:
+>> +    description:
+>> +      Configurable EN2 pin.
+>> +
+>> +  en3-gpios:
+>> +    description:
+>> +      Configurable EN3 pin.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - vdd1-supply
+>> +  - vdd2-supply
+>> +  - vio-supply
+>> +  - clocks
+>> +  - pwms
+>> +  - pwm-names
+>> +  - io-backends
+>> +
+>> +- if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        enum:
+>> +	  - adi,ad7625
+>> +	  - adi,ad7626
+>> +  then:
+>> +    properties:
+>> +      en2-gpios: false
+>> +      en3-gpios: false
+>> +      adi,en2-always-on: false
+>> +      adi,en3-always-on: false
+>> +    allOf:
+>> +      # ref-supply and refin-supply are mutually-exclusive (neither is also
+>> +      # valid)
+>> +      - if:
+>> +          required:
+>> +            - ref-supply
+>> +        then:
+>> +          properties:
+>> +            refin-supply: false
+>> +      - if:
+>> +          required:
+>> +            - refin-supply
+>> +        then:
+>> +          properties:
+>> +            ref-supply: false
+>> +
+>> +- if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        enum:
+>> +	  - adi,ad7960
+>> +	  - adi,ad7961
+>> +  then:
+>> +    oneOf:
+>> +      required:
+>> +        - ref-supply
+>> +      required:
+>> +        - refin-supply
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    adc {
+>> +        compatible = "adi,ad7625";
+>> +        vdd1-supply = <&supply_5V>;
+>> +        vdd2-supply = <&supply_2_5V>;
+>> +        vio-supply = <&supply_2_5V>;
+>> +        io-backends = <&axi_adc>;
+>> +        clock = <&ref_clk>;
+>> +        pwms = <&axi_pwm_gen 0 0>, <&axi_pwm_gen 1 0>;
+>> +        pwm-names = "cnv", "clk_gate";
+>> +    };
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 42decde38320..2361f92751dd 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1260,6 +1260,15 @@ F:	Documentation/devicetree/bindings/iio/addac/adi,ad74413r.yaml
+>>   F:	drivers/iio/addac/ad74413r.c
+>>   F:	include/dt-bindings/iio/addac/adi,ad74413r.h
+>>   
+>> +ANALOG DEVICES INC AD7625 DRIVER
+>> +M:	Michael Hennerich <Michael.Hennerich@analog.com>
+>> +M:	Nuno Sá <nuno.sa@analog.com>
+>> +R:	Trevor Gamblin <tgamblin@baylibre.com>
+>> +S:	Supported
+>> +W:	https://ez.analog.com/linux-software-drivers
+>> +W:	http://analogdevicesinc.github.io/hdl/projects/pulsar_lvds/index.html
+>> +F:	Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
+>> +
+>>   ANALOG DEVICES INC AD7768-1 DRIVER
+>>   M:	Michael Hennerich <Michael.Hennerich@analog.com>
+>>   L:	linux-iio@vger.kernel.org
+>>
