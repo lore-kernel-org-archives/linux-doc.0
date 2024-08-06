@@ -1,183 +1,179 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1492E1DDF5;
-	Tue,  6 Aug 2024 13:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB441CB333
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 13:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722950810; cv=none; b=Z+fEkWp/nbL+SlGa1Evz2Unj28WhE3y5TL8TgSu6LIadtWieRTEAtzOzTQOp7JYcs7nc6EtLUZqWLMef5H69alFGe7WIV6BAAXld0Y2Rj6AS/LbdAVsLqwranXbY0c1jTohEuvXlVutYkaatQK7iL9CyZtqE/CkR4Y/P1m2ncNA=
+	t=1722950835; cv=none; b=aK9xblrThqlaFuIfsfBPKfmgTWRXbzxsQXEkSPC+9HC6olGcvMuMlm66rsj/I+le6WJdBaRpHGL8ZqUuOeo8M1jTvQhj7UMFf1xF1dQXpApScnBXdx+mEsXsqJpnJt6GAVGxGNs36lddOt4xuXUbnKEKlxIJ2c5US7c9J0s5sjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722950810; c=relaxed/simple;
-	bh=8UivSrRf4oDqeu6a9FiqQpiD886IiszpM9wVoHBy+qE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KerD4vYHsKZiC+E67Ojolegbp+ZmwrxzPV4j+zbJe+7oNO1fKfSU2i0RadXm92GFJ75xHfHWu6M7f/LAnxvEQQ9Gi9gFDIa4dkdaNLylqSIIkggEMho/veUGNLkPAQ3gimgTMGBC8fDcjAlttAOQ3CaMk17gprC6s+5Acb0A2p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 83FD868D09; Tue,  6 Aug 2024 15:26:45 +0200 (CEST)
-Date: Tue, 6 Aug 2024 15:26:45 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
-	"brookxu.cn" <brookxu.cn@gmail.com>, Ming Lei <ming.lei@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
-	storagedev@microchip.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 03/15] blk-mq: introduce blk_mq_dev_map_queues
-Message-ID: <20240806132645.GC13883@lst.de>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de> <20240806-isolcpus-io-queues-v3-3-da0eecfeaf8b@suse.de>
+	s=arc-20240116; t=1722950835; c=relaxed/simple;
+	bh=4SYWpcHvZ5+L0Yaf1jvQ3AtGIcXmC9bzcX09JRdvjjo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CvfnGtttdChq6Ma+sQDT4plZtOXHzcbGB0hv3OX+iJI0+A45zf7DnQ+4Seyzwq7hfIjMoqoaTPgXCWSUB7wO4tsNMbFbamp3ymF8hTyvo4SdW2FvQdujAGbp/4jhUthWgBAj5xb7qnPgDFHpCuHfVxKGnTvcOpsbMfRiIDmJksw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cjm9HCNX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cjm9HCNX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722950831;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=SSnsJGK5e/RD7WKVJpFp0oyVHCZW2szWv3z2EdgZ6mE=;
+	b=cjm9HCNXx/sey9+TWFy+oP/ULS8W68RbSlTE13UbxEQLR74aAg3J737K6IXyjNnSNdv9Nj
+	UUSUv5/UEZn54/7z1y4U4oBcw69KiDfGviab2kYCman04ALiPiZINkI4S0EgTHoQp+JNL7
+	fdPY3SDZwVcKixDv1iaeOA7RIZ/WYp4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-128-CsB7nlumMZKZxdKvsKzKmA-1; Tue, 06 Aug 2024 09:27:10 -0400
+X-MC-Unique: CsB7nlumMZKZxdKvsKzKmA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a7ab50e6735so36549066b.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 06:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722950829; x=1723555629;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SSnsJGK5e/RD7WKVJpFp0oyVHCZW2szWv3z2EdgZ6mE=;
+        b=fxTifDlCgf18w5C5bPX63JXwTPf7SSPTAEaAwgM7msSrzAWzko7Sv75r5RHy4MaSHs
+         mvFwcNZf+owPg7QvMOZj3KfElc+iab8Eqcxtb9bt76SOwKHxS1ILTV6IEAx5rbJIZET+
+         kdPv4do6hSWmgufcuue4iLUeclLUjo0smnlYuHZKUsPXY2vPN3BaVNVtHWCKdKAWDhfw
+         Fp7R5xR/dD/0wCthUyaAFXKn9Fvquwcpc0DSukpiD90m87C5Axx/tQ8t83hIHcMbzhtq
+         +dBlIq2KffQLjGpzfu0aStBF9/UwRBHQjnr7/r9ad8bB/4v3g+AoRWCbMuB1bcIj0CHF
+         lL1A==
+X-Forwarded-Encrypted: i=1; AJvYcCXYjJQlcH+OtWaAINqYj8z0lu6boXlbjZxeeN1eOLQEkkZD3R1/YUu/jAY/JiZIQAsQQ6NR4pv6a9xPNVM9tBrLjP6iZ+Pi6OO7
+X-Gm-Message-State: AOJu0YyWsAHrxdFCAdxAT0SqAFPbJ6XxeFMHe/bJdliYGfhpaB5rt3Mo
+	pUMdskyqh2XPYa1H2jCNK0nFxYR3P/dEOogJRzyyUIv7ZB+xzry98XNyuIzk/YU9nK4G5led88q
+	IdqqG2iTP21yBpilYvaUejgmi2COgI5Yo6c6LPlmR/Riv5QBsTUSoB2s9vA==
+X-Received: by 2002:a17:907:7ea8:b0:a7a:83f8:cfd2 with SMTP id a640c23a62f3a-a7dc4de30e9mr1049744266b.17.1722950828978;
+        Tue, 06 Aug 2024 06:27:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG3mwjGBol8sKlqJB4dXFJMJMmwCDD4JjZwmSrFe2PdXUT5bpKAB3DIQEgrH8Nj33vJR1tztw==
+X-Received: by 2002:a17:907:7ea8:b0:a7a:83f8:cfd2 with SMTP id a640c23a62f3a-a7dc4de30e9mr1049741066b.17.1722950828351;
+        Tue, 06 Aug 2024 06:27:08 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c73f:8500:f83c:3602:5300:88af? (p200300cbc73f8500f83c3602530088af.dip0.t-ipconnect.de. [2003:cb:c73f:8500:f83c:3602:5300:88af])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9d88650sm544288366b.152.2024.08.06.06.27.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 06:27:07 -0700 (PDT)
+Message-ID: <82f0afba-7c0e-4a02-8be1-66c8b9d56a5c@redhat.com>
+Date: Tue, 6 Aug 2024 15:27:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-3-da0eecfeaf8b@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 25/26] mm: make range-to-target_node lookup facility a
+ part of numa_memblks
+To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David S. Miller" <davem@davemloft.net>, Davidlohr Bueso
+ <dave@stgolabs.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh@kernel.org>,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Will Deacon <will@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ loongarch@lists.linux.dev, nvdimm@lists.linux.dev,
+ sparclinux@vger.kernel.org, x86@kernel.org
+References: <20240801060826.559858-1-rppt@kernel.org>
+ <20240801060826.559858-26-rppt@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240801060826.559858-26-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 06, 2024 at 02:06:35PM +0200, Daniel Wagner wrote:
-> From: Ming Lei <ming.lei@redhat.com>
+On 01.08.24 08:08, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > 
-> blk_mq_pci_map_queues and blk_mq_virtio_map_queues will create a CPU to
-> hardware queue mapping based on affinity information. These two
-> function share code which only differs on how the affinity information
-> is retrieved. Also there is the hisi_sas which open codes the same loop.
+> The x86 implementation of range-to-target_node lookup (i.e.
+> phys_to_target_node() and memory_add_physaddr_to_nid()) relies on
+> numa_memblks.
 > 
-> Thus introduce a new helper function for creating these mappings which
-> takes an callback function for fetching the affinity mask. Also
-> introduce common helper function for PCI and virtio devices to retrieve
-> affinity masks.
+> Since numa_memblks are now part of the generic code, move these
+> functions from x86 to mm/numa_memblks.c and select
+> CONFIG_NUMA_KEEP_MEMINFO when CONFIG_NUMA_MEMBLKS=y for dax and cxl.
 > 
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> [dwagner: - removed fallback mapping
->           - added affintity helpers
-> 	  - updated commit message]
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Tested-by: Zi Yan <ziy@nvidia.com> # for x86_64 and arm64
 > ---
->  block/blk-mq-cpumap.c         | 35 +++++++++++++++++++++++++++++++++++
->  block/blk-mq-pci.c            | 18 ++++++++++++++++++
->  block/blk-mq-virtio.c         | 19 +++++++++++++++++++
->  include/linux/blk-mq-pci.h    |  2 ++
->  include/linux/blk-mq-virtio.h |  3 +++
->  include/linux/blk-mq.h        |  5 +++++
->  6 files changed, 82 insertions(+)
-> 
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index 9638b25fd521..7037a2dc485f 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -54,3 +54,38 @@ int blk_mq_hw_queue_to_node(struct blk_mq_queue_map *qmap, unsigned int index)
->  
->  	return NUMA_NO_NODE;
->  }
-> +
-> +/**
-> + * blk_mq_dev_map_queues - Create CPU to hardware queue mapping
-> + * @qmap:	CPU to hardware queue map.
-> + * @dev_off:	Offset to use for the device.
-> + * @dev_data:	Device data passed to get_queue_affinity().
-> + * @get_queue_affinity:	Callback to retrieve queue affinity.
-> + *
-> + * Create a CPU to hardware queue mapping in @qmap. For each queue
-> + * @get_queue_affinity will be called to retrieve the affinity for given
-> + * queue.
-> + */
-> +void blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap,
-> +			   void *dev_data, int dev_off,
-> +			   get_queue_affinty_fn *get_queue_affinity)
-> +{
-> +	const struct cpumask *mask;
-> +	unsigned int queue, cpu;
-> +
-> +	for (queue = 0; queue < qmap->nr_queues; queue++) {
-> +		mask = get_queue_affinity(dev_data, dev_off, queue);
-> +		if (!mask)
-> +			goto fallback;
-> +
-> +		for_each_cpu(cpu, mask)
-> +			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +	}
-> +
-> +	return;
-> +
-> +fallback:
-> +	WARN_ON_ONCE(qmap->nr_queues > 1);
-> +	blk_mq_clear_mq_map(qmap);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_dev_map_queues);
-> diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-> index d47b5c73c9eb..71a73238aeb2 100644
-> --- a/block/blk-mq-pci.c
-> +++ b/block/blk-mq-pci.c
-> @@ -44,3 +44,21 @@ void blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
->  	blk_mq_clear_mq_map(qmap);
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
-> +
-> +/**
-> + * blk_mq_pci_get_queue_affinity - get affinity mask queue mapping for PCI device
-> + * @dev_data:	Pointer to struct pci_dev.
-> + * @offset:	Offset to use for the pci irq vector
-> + * @queue:	Queue index
-> + *
-> + * This function returns for a queue the affinity mask for a PCI device.
-> + * It is usually used as callback for blk_mq_dev_map_queues().
-> + */
-> +const struct cpumask *blk_mq_pci_get_queue_affinity(void *dev_data, int offset,
-> +						    int queue)
-> +{
-> +	struct pci_dev *pdev = dev_data;
-> +
-> +	return pci_irq_get_affinity(pdev, offset + queue);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_pci_get_queue_affinity);
-> diff --git a/block/blk-mq-virtio.c b/block/blk-mq-virtio.c
-> index 68d0945c0b08..d3d33f8d69ce 100644
-> --- a/block/blk-mq-virtio.c
-> +++ b/block/blk-mq-virtio.c
-> @@ -44,3 +44,22 @@ void blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
->  	blk_mq_map_queues(qmap);
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_virtio_map_queues);
-> +
-> +/**
-> + * blk_mq_virtio_get_queue_affinity - get affinity mask queue mapping for virtio device
 
-Please avoid the overly long line here.
+Nice
 
-> +const struct cpumask *blk_mq_virtio_get_queue_affinity(void *dev_data,
-> +						       int offset,
-> +						       int queue)
-> +{
+Acked-by: David Hildenbrand <david@redhat.com>
 
-And maybe use sane formatting here:
+-- 
+Cheers,
 
-const struct cpumask *blk_mq_virtio_get_queue_affinity(void *dev_data,
-		int offset, int queue)
-
-/me also wonders why the parameters aren't unsigned, but that's history..
+David / dhildenb
 
