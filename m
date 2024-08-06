@@ -1,87 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9528210190;
-	Tue,  6 Aug 2024 14:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C081BC08F
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 14:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722955932; cv=none; b=eRvbce2f8iwakb24Q/K7eWh7V5oYmQQqpQfucMc9yHCuukCk1BXaTiWrOnpX485GNECTinUG2qC95LAKQZVCdfKkkeptWlXaL5smoQ3ZeCyUWnYcWT+jr50V+FoBi75z0A/jDT0cPAk4z27dKxbvuBola0I1Wpc6lZGdlFWl2EU=
+	t=1722956144; cv=none; b=Aai3qLDK6/xUtqmYEzTVxD6WN9/S9r5OGWB+oTlpMB2Mf1vLZdZFkD6Y8gJ8p3iOWyJNJtEQcKCCl2fwdN+BVMP6IaiWizApAa0vmzhT1Wkf9c+sfbNbXRB2CVMDSaZOGxKrJWovD54inVdgctQ8mwuqbrYNlpkuuZLjxQ/ONOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722955932; c=relaxed/simple;
-	bh=ulhVGtEPKBdoyHz0l9ezBsABeAF4IDtYxjCyDs4xjzE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XviYqBpEJvm4l8ff3L2XWSic1RNMr2es3gMaBlFwZLiN6w9+Z2ocYCYG7qC1kC3OGq8mXHSPRAB1h2hMfA3Dt8KOS+5dE76TAcx+u0W4+4L9z8oFLnsca+RuCtcgyj3JbTX1XR0+op7+0hTV14luUA9ikIREV4YM+lxwpJvdz7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1gyXILH; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1722956144; c=relaxed/simple;
+	bh=5W/f9Go6KqLTcoO7AGO4U5RXIhiU1JoC/JlTAULsf7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cx0d2VutWlidM8Wz3EoMvHrduEBkjwpiKzF1S4AdY1Drk+M/Hn8shEef5lgf429a86h10IU5HYWIKkRKUV70gk0+HN6e/Asv9hUY9BEfF//Xd6J3bwkLpKCcFN5pKz4Xb+tNMG4ZQtzdVYoa35dEn/+PBerRZvGvizJ8k/4Onq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ufo5jqBj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1gyXILH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722955931; x=1754491931;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ulhVGtEPKBdoyHz0l9ezBsABeAF4IDtYxjCyDs4xjzE=;
-  b=J1gyXILH5Hy10QTy9+i/v3C0PFMbwIUuS7p57nJgtIY3aDySErih81eT
-   upW9yEk+EFmh1PSBgibaBU0wfjhO34P3Tn6ijprxtG9iXhdk5529XTsbT
-   /x4O/FXRWR4T4Nqsm3tCFybLyV6lzTGtGi4r0LO7qb+PtSrMNmy3q/J+1
-   6VIdTdTiQPn36Wq0hva4xvy3711++wkukvqy1QjSrxp7Haroymc8M9Ary
-   +3jU/kq7gCRHdCS6L/EYS+o7bEVPjQdBidBJNl2BOexVPjpa4IRy6ck1J
-   y4GLJzFSFWdweqwoHP2q+04tUg+d5RaByRDlA/EE1ZWPVvWI5Mfyy8pLm
-   g==;
-X-CSE-ConnectionGUID: LLunlwrKQGuc4zUy7GuwDQ==
-X-CSE-MsgGUID: mbhwuqlZRjW6sGIJMtR95w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21102049"
-X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="21102049"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 07:52:03 -0700
-X-CSE-ConnectionGUID: cJPN9FP4TuWrzG0YHOubYw==
-X-CSE-MsgGUID: Y9MkFWawRqaVopuvdK1S7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="87476718"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 07:51:57 -0700
-Message-ID: <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
-Date: Tue, 6 Aug 2024 16:51:57 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ufo5jqBj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722956141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5W/f9Go6KqLTcoO7AGO4U5RXIhiU1JoC/JlTAULsf7o=;
+	b=Ufo5jqBjjGMKLWbIgzx43sQ2Q8bHCLhY6RjulJV897TqGzSqP28uqyu0xix3MC4A9Y/8dD
+	0hDpMfcddTU3xny2+7REMoqK8Sao8543k/o4MkkKHHkxz9CwaWYp7G+KmP8RYUhlAl9Pq8
+	PMuQZupguempgD/FpCAyRM8PHy0lVhI=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-640-HwAq-aLEOvWa8u616gwxEQ-1; Tue,
+ 06 Aug 2024 10:55:39 -0400
+X-MC-Unique: HwAq-aLEOvWa8u616gwxEQ-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A54CF1955BEE;
+	Tue,  6 Aug 2024 14:55:33 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.14])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A49C91956046;
+	Tue,  6 Aug 2024 14:55:15 +0000 (UTC)
+Date: Tue, 6 Aug 2024 22:55:09 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
+ is enabled
+Message-ID: <ZrI5TcaAU82avPZn@fedora>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+ <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
- stream if in use
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-24-quic_wcheng@quicinc.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240801011730.4797-24-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On 8/1/2024 3:17 AM, Wesley Cheng wrote:
-> With USB audio offloading, an audio session is started from the ASoC
-> platform sound card and PCM devices.  Likewise, the USB SND path is still
-> readily available for use, in case the non-offload path is desired.  In
-> order to prevent the two entities from attempting to use the USB bus,
-> introduce a flag that determines when either paths are in use.
-> 
+On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
+> When isolcpus=io_queue is enabled all hardware queues should run on the
+> housekeeping CPUs only. Thus ignore the affinity mask provided by the
+> driver. Also we can't use blk_mq_map_queues because it will map all CPUs
+> to first hctx unless, the CPU is the same as the hctx has the affinity
+> set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
 
-How can this happen? Can you provide some example with list of devices 
-and which one should block the other? If I recall correctly devices are 
-already exclusive unless you support substreams which ASoC does not at 
-the moment.
+What is the expected behavior if someone still tries to submit IO on isolated
+CPUs?
+
+BTW, I don't see any change in blk_mq_get_ctx()/blk_mq_map_queue() in this
+patchset, that means one random hctx(or even NULL) may be used for submitting
+IO from isolated CPUs, then there can be io hang risk during cpu hotplug, or
+kernel panic when submitting bio.
+
+Thanks,
+Ming
 
