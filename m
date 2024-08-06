@@ -1,235 +1,154 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D173E376E6
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 18:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5039128DD1;
+	Tue,  6 Aug 2024 18:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722967621; cv=none; b=SpBGOwN2b88QniCbs7QLOwNPS5aBi/FZbTo2uSbRFm6w52fJo6jkVWqEXhpqJX/MLbvXznGz7ek6aoBxMxpK6a646kr9WvAiZErkMyFR9XN4DCw0R1H8Ea7ZsitM312qcbxsXUlyvm89Yij59DGbq825djIDq/34UWKyv1X7NHU=
+	t=1722968282; cv=none; b=SeHYRBEct++Zds/JT8XaVA4PHAfyjb2KH3dN4RCEo2W6Jc98hSLAMZIHykC76MESB7rBiExMhRXVzq9chnOQc5ET8hpZQbPAYcfJbURW+XuRKvDs2pmauDwAx+Efq+bDbzeAmpN3iCIjDZ/oLkSGx+DOZPtGkRtDXtr8LyRiPHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722967621; c=relaxed/simple;
-	bh=WuhskdTwh3qaEPhMQQjYELqlsIsRhputzcXhW/m4K+w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SKQL582xeqW7k8x+fPZPz9DHahfsYzjQXOJa9r3aHPHhy7TlFiGIpMh+Y9YDhin+GG2+v7Gmq1LYelgwf6qwkSWM60LNqwQcgVc968+8vNB3CupT8eueEY19oBInRZmfpOgoFnTjAMvZj8+iB646T+CnWmhb16oB//7eUmOfSA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kJ2S5Gj3; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1722968282; c=relaxed/simple;
+	bh=HUpcZf5EKvHYyduu+f4aMQ7rAKMPRGq0CRu7jv8IU5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W3xjAp2kqxtcUv3if//GPzJ4ttiykEki/hcWpzAOjrOewbWbbD5YWfY3hFJAZhuAboO8oau4pg0w86sOLjsWX+bA8mhcEJ4Ts/Hsr22ogmk+Z0Pt+WO4Zmeyt5bXKE8KCifNNkVE+2KzvuKzcOd8XA34G4fvJk6ifFsBp3l6Do8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=drXzc8GY; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kJ2S5Gj3"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-45029af1408so310231cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 11:06:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drXzc8GY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fd78c165eeso7615415ad.2;
+        Tue, 06 Aug 2024 11:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722967619; x=1723572419; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LkioQVGF+wSLQTbkssOazSN8dIovK/fE4dOy9+EWWvg=;
-        b=kJ2S5Gj3gWhW67X2gZ1jSc1EazQ3vo9AYxWdLHInBpGEK1HTVRPOAdWQj8SsflaFvH
-         Iy3b0OngTIwzwKvLvoX1FfDjQCstCzG0rH6i+Vgk9i3re3t3qtUkESh2uGI9CTAUUCxY
-         kUyWJ88iObv5FYcAHoMWDFWxD5EMlMB738LTiy8uGayHjpMbmE0Z/lOdGIhcBmu8RHMP
-         OB7VKxmWFMEULI0wVS45eqfTTLjuRxBcQJJPH92us26TcD/xj5Hx/Hpd35mPBfY+qZZn
-         weYiMYHkTyzdbLkc25hHq7eO2G9SsoLC9UH22SjpYngQN99ASoHbOvep+8fRlsZSe+fg
-         KY/w==
+        d=gmail.com; s=20230601; t=1722968281; x=1723573081; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=0qgmOJBOVyTjbprYZEKVF9qltuCiisjLoD4Cqcby3Qk=;
+        b=drXzc8GYO8HsGNCz9H36En3Gkyl1rnPG5cRklxFkSmnpntiKdgAvyqW70DPQryq/ye
+         eNd+nNA/Jf1DdoV2zwakj70LOnC1o/Avw8DNld/tON2taSk8jYxSfhHupqhCJrPs/r6q
+         mSofRhe51dlHNuVgYZDaiVClFPAmcRXBIGwIG/hGhwDtc0Zi5vAo3h3d8Bood1C0KVjG
+         4X1r+aIgrYTmjPg+0axVnzaS9ce70smDeEgJ73B+7zaRQBLGyblIRahWOce2iGPASMw+
+         eWgu3IRR4bR7uZJQBq8AGnDlKqqJbj0CQJMR4o7SMCO8I3BuiIQ9waA38kORtVw7B1hv
+         aEzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722967619; x=1723572419;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LkioQVGF+wSLQTbkssOazSN8dIovK/fE4dOy9+EWWvg=;
-        b=vIKJToiyqWo9gsrcV4rO+h5YG8R4elH7HZKu8BfxQxRhhqFF/WpwLwrdP5uACbci/s
-         eb/3y46QkKpIpx2+X5Nx1ja8DasMhaZ/NIZaDhPVO7zLWj4GmPw/qIzUZwb8ec3YOHJW
-         d1KjH9ox2iw7FzvM6NBFoPfRAoOUBh0DMOpKxKazl2Tq7i4LgnrLQWn79At5owLor/5m
-         Lp3d/zdsQ7zf+tHMZ83HAXQtvadAG/kTxtSMV4dgXof+VbyGEusj6n/bk3B3k0tqxAzg
-         zjPaTImXa5oE3mLQDTJLd18hPrPwM2pOQJlb3sYf0V6DUCcmgBM1dRwNAOL1J5wsXpQa
-         2HJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9sAdeeAJyi35qWYUALKpHowQVklK86IfQ8RiKK058blTdA3LUealo9cQ2Wlh9/QQCXys+ASkQB2jhY5LDt436/zWrDGPsBlzy
-X-Gm-Message-State: AOJu0YwT94PJCAYdPdHIBcQqwy51hkd8//0UXmywqbyxJEog6ynJd9FF
-	XL6CwWlU+NqstXG+Rdj7HHk82cAzGrC6k51qkoal2CKiRLSTlkMB1Zy7fMJlcOgz/b4pw3a5nTx
-	JOPCOyX7eBIAtfOKD3FWEZiVLdHpK5TjMSw+G
-X-Google-Smtp-Source: AGHT+IHZNrc+FnooCfdfckKFlUU+RkmBQlO7XEnnfitvjHUtcg6asUd2mxT6pVacIbyvDNUzFrYiQJKl5snCiPdsZf8=
-X-Received: by 2002:ac8:5743:0:b0:44f:9e0f:bc41 with SMTP id
- d75a77b69052e-451c5bc8aa5mr65871cf.27.1722967618415; Tue, 06 Aug 2024
- 11:06:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722968281; x=1723573081;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0qgmOJBOVyTjbprYZEKVF9qltuCiisjLoD4Cqcby3Qk=;
+        b=Ch/RrQkHLtyIkAViljM024xP7R2e4RdRkwFzZ+tSPwbbJfKt3CWEGkxqygRh87kE0e
+         pmhBXuERMaexfdlvH5hmKqBuH2iB+cEjVtiLuLFWEDVmLVbFOadUTAJxcPJ1xEXAEN/l
+         /6HpY004DMb0nATcM1PW7sXw0nBZdjjF2Ygxh7akj0ZL6sY3eSlahXY17ZpG2EtoV1jv
+         BEfCRQi02iA6t2mZikefi0vJ0i/v83lHd2/ixXhzJPC9YqYEBXJkEMM5UI1h2c4hsN+k
+         aA+lgtGip0x6EVmBVJQI/WBohbmP8daVK56Tbx5UsKvWyfgP/v0uy6MHgFoq68pfnzvA
+         XAIA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2Z6McBT9/oZPN/DNh14Y3dh2SUIYgwqyootvu9FlsHTrZ9nxjHRl7dc4NKh/ThRxzPg3h+Q/sttk8sNzOAH7hJw/Km9e812HV9sZbo9DmjUoikLgXD79zJ4/SOlPhQ7N9Azh106xsdCHVw0F06UfXesm/PG3oGk+6j7r1XuZs5Ov+8jqXrUw=
+X-Gm-Message-State: AOJu0Ywwnaxai/cM0J4+hnb+JLDRH9N/cj6EXpaTyY18KN2WTaiVoHcm
+	w3raUNXK6nq9ceuJWIROLRSmIkQYf1ETA7v/+/co8+KJr2XVx1i/
+X-Google-Smtp-Source: AGHT+IFV5/xcTBPwVnhSX+vbxtuqdREBY7t7TXnUzNivXFGQkBf1YxxnVhtELswcug/NUj/rocveXA==
+X-Received: by 2002:a17:902:db10:b0:1fb:a38b:c5a7 with SMTP id d9443c01a7336-1ff572512a1mr234357895ad.13.1722968280627;
+        Tue, 06 Aug 2024 11:18:00 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff5905fec0sm90626515ad.149.2024.08.06.11.17.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 11:18:00 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7b7ca7e0-6bd2-45ab-bd9b-40331a8e6fdd@roeck-us.net>
+Date: Tue, 6 Aug 2024 11:17:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730125346.1580150-1-usamaarif642@gmail.com>
- <CAOUHufb7z13u51VCTGZMimoCXpmfT5AOAbrUpAvJjTx5+AXwew@mail.gmail.com> <20240806173840.GE322282@cmpxchg.org>
-In-Reply-To: <20240806173840.GE322282@cmpxchg.org>
-From: Yu Zhao <yuzhao@google.com>
-Date: Tue, 6 Aug 2024 12:06:20 -0600
-Message-ID: <CAOUHufavZTKjh6sb4n_q0ciLzTS88Kxxkp_2Q1wWVp_ZkFrshQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] mm: split underutilized THPs
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
-	david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org, 
-	willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Capitalize Fahrenheit
+To: David Hunter <david.hunter.linux@gmail.com>, wim@linux-watchdog.org,
+ linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
+References: <20240806174038.708025-1-david.hunter.linux@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240806174038.708025-1-david.hunter.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 6, 2024 at 11:38=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
-> wrote:
->
-> On Thu, Aug 01, 2024 at 12:09:16AM -0600, Yu Zhao wrote:
-> > On Tue, Jul 30, 2024 at 6:54=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
-com> wrote:
-> > >
-> > > The current upstream default policy for THP is always. However, Meta
-> > > uses madvise in production as the current THP=3Dalways policy vastly
-> > > overprovisions THPs in sparsely accessed memory areas, resulting in
-> > > excessive memory pressure and premature OOM killing.
-> > > Using madvise + relying on khugepaged has certain drawbacks over
-> > > THP=3Dalways. Using madvise hints mean THPs aren't "transparent" and
-> > > require userspace changes. Waiting for khugepaged to scan memory and
-> > > collapse pages into THP can be slow and unpredictable in terms of per=
-formance
-> > > (i.e. you dont know when the collapse will happen), while production
-> > > environments require predictable performance. If there is enough memo=
-ry
-> > > available, its better for both performance and predictability to have
-> > > a THP from fault time, i.e. THP=3Dalways rather than wait for khugepa=
-ged
-> > > to collapse it, and deal with sparsely populated THPs when the system=
- is
-> > > running out of memory.
-> > >
-> > > This patch-series is an attempt to mitigate the issue of running out =
-of
-> > > memory when THP is always enabled. During runtime whenever a THP is b=
-eing
-> > > faulted in or collapsed by khugepaged, the THP is added to a list.
-> > > Whenever memory reclaim happens, the kernel runs the deferred_split
-> > > shrinker which goes through the list and checks if the THP was underu=
-tilized,
-> > > i.e. how many of the base 4K pages of the entire THP were zero-filled=
-.
-> > > If this number goes above a certain threshold, the shrinker will atte=
-mpt
-> > > to split that THP. Then at remap time, the pages that were zero-fille=
-d are
-> > > not remapped, hence saving memory. This method avoids the downside of
-> > > wasting memory in areas where THP is sparsely filled when THP is alwa=
-ys
-> > > enabled, while still providing the upside THPs like reduced TLB misse=
-s without
-> > > having to use madvise.
-> > >
-> > > Meta production workloads that were CPU bound (>99% CPU utilzation) w=
-ere
-> > > tested with THP shrinker. The results after 2 hours are as follows:
-> > >
-> > >                             | THP=3Dmadvise |  THP=3Dalways   | THP=
-=3Dalways
-> > >                             |             |               | + shrinke=
-r series
-> > >                             |             |               | + max_pte=
-s_none=3D409
-> > > ---------------------------------------------------------------------=
---------
-> > > Performance improvement     |      -      |    +1.8%      |     +1.7%
-> > > (over THP=3Dmadvise)          |             |               |
-> > > ---------------------------------------------------------------------=
---------
-> > > Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (=
-+2.4%)
-> > > ---------------------------------------------------------------------=
---------
-> > > max_ptes_none=3D409 means that any THP that has more than 409 out of =
-512
-> > > (80%) zero filled filled pages will be split.
-> > >
-> > > To test out the patches, the below commands without the shrinker will
-> > > invoke OOM killer immediately and kill stress, but will not fail with
-> > > the shrinker:
-> > >
-> > > echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_no=
-ne
-> > > mkdir /sys/fs/cgroup/test
-> > > echo $$ > /sys/fs/cgroup/test/cgroup.procs
-> > > echo 20M > /sys/fs/cgroup/test/memory.max
-> > > echo 0 > /sys/fs/cgroup/test/memory.swap.max
-> > > # allocate twice memory.max for each stress worker and touch 40/512 o=
-f
-> > > # each THP, i.e. vm-stride 50K.
-> > > # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
-> > > # killer.
-> > > # Without the shrinker, OOM killer is invoked immediately irrespectiv=
-e
-> > > # of max_ptes_none value and kill stress.
-> > > stress --vm 1 --vm-bytes 40M --vm-stride 50K
-> > >
-> > > Patches 1-2 add back helper functions that were previously removed
-> > > to operate on page lists (needed by patch 3).
-> > > Patch 3 is an optimization to free zapped tail pages rather than
-> > > waiting for page reclaim or migration.
-> > > Patch 4 is a prerequisite for THP shrinker to not remap zero-filled
-> > > subpages when splitting THP.
-> > > Patches 6 adds support for THP shrinker.
-> > >
-> > > (This patch-series restarts the work on having a THP shrinker in kern=
-el
-> > > originally done in
-> > > https://lore.kernel.org/all/cover.1667454613.git.alexlzhu@fb.com/.
-> > > The THP shrinker in this series is significantly different than the
-> > > original one, hence its labelled v1 (although the prerequisite to not
-> > > remap clean subpages is the same).)
-> > >
-> > > Alexander Zhu (1):
-> > >   mm: add selftests to split_huge_page() to verify unmap/zap of zero
-> > >     pages
-> > >
-> > > Usama Arif (3):
-> > >   Revert "memcg: remove mem_cgroup_uncharge_list()"
-> > >   Revert "mm: remove free_unref_page_list()"
-> > >   mm: split underutilized THPs
-> > >
-> > > Yu Zhao (2):
-> > >   mm: free zapped tail pages when splitting isolated thp
-> > >   mm: don't remap unused subpages when splitting isolated thp
-> >
-> >  I would recommend shatter [1] instead of splitting so that
->
-> I agree with Rik, this seems like a possible optimization, not a
-> pre-requisite.
->
-> > 1) whoever underutilized their THPs get punished for the overhead;
->
-> Is that true?
+On 8/6/24 10:40, David Hunter wrote:
+> Captialize "fahrenheit," a spelling mistake.
 
-Yes :)
+s/Captialize/Capitalize/
 
-> The downgrade is done in a shrinker.
+Also, this is version 2 of an earlier patch.
+Please read and follow Documentation/process/submitting-patches.rst,
+specifically the information on how to submit new patch revisions.
 
-Ideally, should we charge for the CPU usage of the shrinker and who
-should we charge it to?
+Thanks,
+Guenter
 
-> With or without
-> shattering, the compaction effort will be on the allocation side.
+> 
+> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
+> ---
 
-If compaction is needed at all.
 
-> > 2) underutilized THPs are kept intact and can be reused by others.
->
-> If migration of the subpages is possible, then compaction can clear
-> the block as quickly as shattering can.
+>   Documentation/watchdog/watchdog-api.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+> index 800dcd7586f2..78e228c272cf 100644
+> --- a/Documentation/watchdog/watchdog-api.rst
+> +++ b/Documentation/watchdog/watchdog-api.rst
+> @@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
+>   support the GETBOOTSTATUS call.
+>   
+>   Some drivers can measure the temperature using the GETTEMP ioctl.  The
+> -returned value is the temperature in degrees fahrenheit::
+> +returned value is the temperature in degrees Fahrenheit::
+>   
+>       int temperature;
+>       ioctl(fd, WDIOC_GETTEMP, &temperature);
 
-Compaction needs to scan and find the block first, assuming that block
-is still movable when it gets there.
-
-> The only difference is that
-> compaction would do the work on-demand
-
-And can often fail to produce 2MB blocks *under memory pressure*
-
-> whereas shattering would do it unconditionally
-
-And always produces a 2MB block
-
-> whether a THP has been requested or not...
-
-With the former condition being the priority because of *THP=3Dalways*.
