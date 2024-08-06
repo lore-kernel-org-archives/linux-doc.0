@@ -1,157 +1,100 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522AC15573A
-	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 20:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50179158DDC;
+	Tue,  6 Aug 2024 20:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722977710; cv=none; b=ZX4zTf338/WhFgKMrPxJuOu0kgCMKMsO7zlnACoIltii6W8HslRh0xy/+HqT3pFsiP+480oQ3FPGPJFUjaXiMUjfqFaylBvcnAphyROARuBx6IzWNBSh4/lSjHWtfBOJpgJQVkoZ98NeTKw54F1LImK+GeeDP46cU3jeAz3ayyg=
+	t=1722977968; cv=none; b=jnyKKzJB86LyfIogb9FV3tp2NilDiN6apXGRofxGwLftFU0rLww3QykJbxNu/JGQmaBXg0KEzfkxM5cOZBmzS/wEyYYJzwpEln4RjpW/ZdTox2/8OBjSSlZERp4+YRXLFA1NiQ04kGzUh1y6vLmec0lyI0FxDbuWMyYiYqB6Bek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722977710; c=relaxed/simple;
-	bh=Q1EFjItpPAJVvRpOJiKVEeB9t84orASFY/TzMasrm54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dn2Iic+rmasp54kf3MbpGk22gYUooFySisgBlHL8EL9RSt9KwVxfsQOA2AA1RqFdDh951JbRMS0lmErgkpRZK7RctfUtCpM17C/t0m7h6hgvVlr4rJU62GIDFthyJLbTNGLEdXqYotWTWrUw5ZMHtCToGRm3NSpw13QiC872QSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=J9LvP6Wz; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1722977968; c=relaxed/simple;
+	bh=oQ7qityzvDiPJTZS3Szpb70s0aIQdtnagYi0Qj0kT00=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AEEW477lcgjBGq7yGuKF5TgqGMVBoWFAcobVzlRbN7vhgmmESrDqCfXXAb9DqAlc2Ij2Bei5pW/M8Tayz+OIzBDetdw526ZFhNlJCleNjqROiheIb20yDLN4vhBV1/3snfrIWF+65LbhW/O1DeLVQHFTSmLsgTz7bBVkvwHV75s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD3DuZ2+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="J9LvP6Wz"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e0875f1e9edso861663276.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 13:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1722977707; x=1723582507; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ddUgUKkImUJBZRqaPBh4WpQntM2pgtbxW0LlNFNQthQ=;
-        b=J9LvP6WzsHCDvrj2ADlfQxZ+5S7SpXsWuAnvGoTiKwzrkTAYtuGkWaXW9Cq5wlO9Qh
-         D/YR5zglVkofWi2ld0OZOWgxLsCXHGc38lQXqK5r5bcca0X2gefHhm9qyJE2Lutp2v51
-         quEykI75yi+ydzJrWtD9d5nocZc6CxsSsjxrSVC5RB2Cn6E5QIkuYIcSpXm/VPxfUqi9
-         5CaF3deusHY2tUaA4MYtaMnt0DekhxDLUwUvitPwjEKxVX4PJfqSxblBgzPhgre5U8pQ
-         T+MpyGKZSo+z7gB+r+bE8PqaNW13txwd38RnSxCS6zgALbcMEe+NNIuNTm79oFB+FBTD
-         dTlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722977707; x=1723582507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ddUgUKkImUJBZRqaPBh4WpQntM2pgtbxW0LlNFNQthQ=;
-        b=OvWIkCPuarKRW1mqz5X+H1VqC9lv8IzBCMYjK0ZYV9kdGVrVkLqck1CUx1qSWUxgGq
-         n9jhQG1vGHjDkwTMjZlSUY8eUO1yUoAafmBGwJbbaSdsTSMKULqYTUpdC7ivJr7g9z/7
-         JL4FyIJOuofDiCuBzz1dzwbm7cYcOCKu2JmGRhQK/RFuUJNtkOotW/kQ+vU28vljyF46
-         GSAWNsK/1rTI4Irv948BcsZE0InCWOR4l1wB60gDVONiq7oGJlQ7Po4nfc/drSSnP+2A
-         1TJJIw+6sXVefbZniuGPecS9GjZB1KLxx84NR8DzifByOU2f8MFQ4m+XkuhBKBZrTKiv
-         EZrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMYGUtI3VXB/N0u6EZZyzYKyziUIJnmM1Jj2egVvor7crfRlyZnHlDzfLe3wbZ/OWIiXLQtAcTKMk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIuSjJYQq0H4Mhc48NakL07UQ/KDEdWt6pzDf2OEaTOeAGCApw
-	FjtgeQ1+j47ivWSD/EJVTFNTc4tZwqnQZixA0lcmgnBz5FkfJJ94Igsn49HIY/inBULSt8c1nbg
-	oTt2C1CVDmc+tMrnRbRGEgf/LcPT9AIzppbJZ
-X-Google-Smtp-Source: AGHT+IEV3DoSxpbwywgyClpobkg3f96r+2vacgaYADkIDoHb8BVfBMUuKoLI3KKW3kNSXmapcP0+yqslrTw3VHo3MFI=
-X-Received: by 2002:a05:6902:dc9:b0:e03:5bca:aee6 with SMTP id
- 3f1490d57ef6-e0e54be0a4amr8897314276.54.1722977707114; Tue, 06 Aug 2024
- 13:55:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD3DuZ2+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82C3C32786;
+	Tue,  6 Aug 2024 20:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722977967;
+	bh=oQ7qityzvDiPJTZS3Szpb70s0aIQdtnagYi0Qj0kT00=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bD3DuZ2+SxmgaCgzJWHtZH/BYbg66l2gd+LZppP8V0SjvcVqsJKtaaiDssO1v+eTr
+	 DepGkqmJxITFe54Lre2tS/vEGrc22Vu63ljH1RRMC3HUSH2BP59CbVsybYRx5BroxY
+	 QzqlaSzYfm+jheMBLL1UJu7QHVFmgQmRAU9zimWldMZ8D1XFiUqchTvoNAaiXS7hzH
+	 URysUscNMnVRS9xQk9PTPdzDrWF0jmd8XP7i5YGixpWl4NoGrnzp/dD/HTEvG8s/13
+	 HUuL28HXkNnUqRHm0Cu4xB/2+bNxvDDDYP/Iqrw7CXRtllgNPubXkFhZKGOucEcp/W
+	 CHGsOnZxxgIOw==
+Date: Tue, 6 Aug 2024 13:59:24 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240806135924.5bb65ec7@kernel.org>
+In-Reply-To: <20240805212536.2172174-8-almasrymina@google.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+	<20240805212536.2172174-8-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com> <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
-In-Reply-To: <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 6 Aug 2024 16:54:56 -0400
-Message-ID: <CAHC9VhRmcReVM_Le5bYor2deotnSe4OT08UYhL6xhiKCu0+3kA@mail.gmail.com>
-Subject: Re: [PATCH v20 20/20] MAINTAINERS: ipe: add ipe maintainer information
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
-	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, 
-	eparis@redhat.com, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 3, 2024 at 4:15=E2=80=AFAM Paul Menzel <pmenzel@molgen.mpg.de> =
-wrote:
->
-> Dear Fan,
->
->
-> Thank you very much for your patch. Two nits, should you sent another
-> interation: A more specific summary would avoid people having to look at
-> the message body or diff, and `git log --oneline` would be enough.
->
-> MAINTAINERS: Add IPE entry with M: Fan Wu
->
-> MAINTAINERS: Add IPE entry with Fan Wu as maintainer
->
-> Am 03.08.24 um 08:08 schrieb Fan Wu:
-> > Update MAINTAINERS to include ipe maintainer information.
->
-> I=E2=80=99d at least mention Integrity Policy Enforcement. As you not onl=
-y
-> include the maintainer information but add a new entry, I=E2=80=99d leave=
- the
-> body out, or mention that a new entry is added.
->
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+On Mon,  5 Aug 2024 21:25:20 +0000 Mina Almasry wrote:
+> +	if (pool->p.queue) {
+> +		/* We rely on rtnl_lock()ing to make sure netdev_rx_queue
+> +		 * configuration doesn't change while we're initializing the
+> +		 * page_pool.
+> +		 */
+> +		ASSERT_RTNL();
+> +		pool->mp_priv = pool->p.queue->mp_params.mp_priv;
 
-Working under the current assumption that a new revision is not
-needed, I can fix this up during the merge.  Fan, other-Paul, are you
-both okay with the following:
+How do you know that the driver:
+ - supports net_iov at all (let's not make implicit assumptions based
+   on presence of queue API);
+ - supports net_iov in current configuration (eg header-data split is
+   enabled)
+ - supports net_iov for _this_ pool (all drivers must have separate
+   buffer pools for headers and data for this to work, some will use
+   page pool for both)
 
-  "MAINTAINERS: add IPE entry with Fan Wu as maintainer
-
-   Add a MAINTAINERS entry for the Integrity Policy Enforcement (IPE) LSM."
-
-> > --
-> > v1-v16:
-> >    + Not present
-> >
-> > v17:
-> >    + Introduced
-> >
-> > v18:
-> >    + No changes
-> >
-> > v19:
-> >    + No changes
-> >
-> > v20:
-> >    + No changes
-> > ---
-> >   MAINTAINERS | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 8766f3e5e87e..4cdf2d5a2058 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11118,6 +11118,16 @@ T:   git git://git.kernel.org/pub/scm/linux/ke=
-rnel/git/zohar/linux-integrity.git
-> >   F:  security/integrity/
-> >   F:  security/integrity/ima/
-> >
-> > +INTEGRITY POLICY ENFORCEMENT (IPE)
-> > +M:   Fan Wu <wufan@linux.microsoft.com>
-> > +L:   linux-security-module@vger.kernel.org
-> > +S:   Supported
-> > +T:   git https://github.com/microsoft/ipe.git
-> > +F:   Documentation/admin-guide/LSM/ipe.rst
-> > +F:   Documentation/security/ipe.rst
-> > +F:   scripts/ipe/
-> > +F:   security/ipe/
-> > +
-> >   INTEL 810/815 FRAMEBUFFER DRIVER
-> >   M:  Antonino Daplas <adaplas@gmail.com>
-> >   L:  linux-fbdev@vger.kernel.org
->
-> Kind regards,
->
-> Paul
-
---=20
-paul-moore.com
+What comes to mind is adding an "I can gobble up net_iovs from this
+pool" flag in page pool params (the struct that comes from the driver),
+and then on the installation path we can check if after queue reset
+the refcount of the binding has increased. If it did - driver has
+created a pool as we expected, otherwise - fail, something must be off.
+Maybe that's a bit hacky?
