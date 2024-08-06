@@ -1,540 +1,253 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A70918D63A;
-	Tue,  6 Aug 2024 15:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610162BAEF
+	for <linux-doc@vger.kernel.org>; Tue,  6 Aug 2024 15:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722957941; cv=none; b=lmc31alPpekkWicaMyQPpAKZKIBeP+5Xr9ZS/7ZMSl/5p5puo3cQFuN+l/4p5ilQ1sTGzkYVca9ZyY0pGi4fQ22onURwlelpr+6fq6nK7UK/urNeLTu9l7b6u7CzEt/J7Ha6QcYocTyuFG1Xfyk1L/M4lgvlVMHmvYNm9KxWjug=
+	t=1722957988; cv=none; b=mdRhNcsS4pbfdf7EJUE/+TM114Hv/FxljAVWeu5NezFEdCTvSh2OjyuzkPK6+Bx+16f9zv4ScYmFjWigeSv4jHFYr2bfqYQkU0VIx8L9Yeo4qgWf/6wbM7X7kbTil/YKE0BmlOFWK83ash0a9zqv1fbEQZC8Ukrm0nJuf1ECAmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722957941; c=relaxed/simple;
-	bh=B/qLJA3wF+hP04Do5OVMccPDyi10MP4gvOPDqJTlnSU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PoACHV3JQbNdoXWTZqQKdhyWsdfmrnAFJA+7T8jYxduQsbbPGXBJFC3RqHxavo+azF1QgQGFfKfSwWap0EM5cqRqsvuu2phe8Qn/Ues1mPI83Heoaie6Hb0mm5+jVd0WrWgFITt/b6oMZfR+GFATgTnJfFskE2S/JDpnNXBt1Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrABHp2xEQLJm6eHNAg--.52925S2;
-	Tue, 06 Aug 2024 23:24:52 +0800 (CST)
-Received: from [192.168.1.111] (unknown [10.12.177.116])
-	by gateway (Coremail) with SMTP id _____wBX0HFDQLJmOOrYAA--.29714S2;
-	Tue, 06 Aug 2024 23:24:51 +0800 (CST)
-Message-ID: <502bcb7a-83d5-49c8-b2e2-a908900281ee@hust.edu.cn>
-Date: Tue, 6 Aug 2024 23:24:50 +0800
+	s=arc-20240116; t=1722957988; c=relaxed/simple;
+	bh=kpo40FP4APNaOj7DZsuLO9ZK0Ru5fxLXA011T0Jkct8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDe2IHnFzHg4N0JBRzM96n3VoHwDWxOwd+KTyYqyapsZ370E+Y7l/UhxtUMgUDfDmFcYpfYSkg32LYHe6slpZDuzbfeGz+Q6kg5dZOQI3wcS3Dmd49/Pmh17xsQ8rbQLg7QVIU4oMMzUPIXWRJJicCXRG3/Hesn8fxuExGRnWqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=lD5wX2aA; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="lD5wX2aA"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ef247e8479so1375841fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Aug 2024 08:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1722957984; x=1723562784; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0+fL06b+wQr5tclAXI4DHNj3pVW5/wAb189nsPoBVec=;
+        b=lD5wX2aA660M/pQEyY3Npd2Hz+OIeGjkw0olYVTErR060rKA9F5PUAYZfwk8AAHWZm
+         dEEem14W4Un4Kw82e5kjwVp7BCMal2wUuThOtqBN5dO+cdLby/ab6NK7byJa1Xd1w+5G
+         DOfwN/3UN0zLbuWimAdUjSNchjWimca+d651M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722957984; x=1723562784;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+fL06b+wQr5tclAXI4DHNj3pVW5/wAb189nsPoBVec=;
+        b=nUzq6djmcd/rD19BOiL4lRLTv07dZ9vKtgtrk68Jiw80XBn33HERRUqhi+KGDZchNd
+         gXRJattHxeh75rn4W5N9jnsJWiP489VJKWBwfetYjGDBzDNopMeH4GHL0PSpRVpm5FJc
+         l5PQXxx6VzARAdzkbq3hTS+cNARjZdhK3IiiIHT/r3WcEU0DMJt/oR01qPzjwmwuLqkV
+         W305OidepiWxM1GwIAXw9+fmN/nmCL+BSSEgjfGmJV9AOxP7aYGMJsQ3C+J9j+tFByE+
+         JCoT1kArWaTitV8vHKR3OW9TgmqQU610iSXKk2N04fRTdnVo4j4E7M5UI7OUup5vWczN
+         E7cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWPe09DOvxvuZwGDhF07iGr3Kj7uDUGCnTXMUsdPLzx6yVjIhoGna/VUOgMDkcZE/tPx7oppSFwnLU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVHb6e3taOH/j3Ibw1CtTaq0hZM5sP/nQ0t1arTkCNSe1cp/tZ
+	uuIw6VusK/XA4RbzFpmaYFTT3BoTjDeK/Qg2MN3dYC732jmIGTQaapD6aX3j20U=
+X-Google-Smtp-Source: AGHT+IGK0D9M2zHFI1I+xT5WNgTf3TNb9xV6UVSFxustZKwGPFCSspGoMU5NCU49rf829VgNTtRJ9A==
+X-Received: by 2002:a05:6512:3e0f:b0:52f:c142:6530 with SMTP id 2adb3069b0e04-530bb39b3famr6156563e87.6.1722957984147;
+        Tue, 06 Aug 2024 08:26:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9ec8860sm548413066b.209.2024.08.06.08.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 08:26:23 -0700 (PDT)
+Date: Tue, 6 Aug 2024 17:26:21 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] drm/cgroup: Add memory accounting DRM cgroup
+Message-ID: <ZrJAnbLcj_dU47ZO@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20240627154754.74828-1-maarten.lankhorst@linux.intel.com>
+ <20240627154754.74828-3-maarten.lankhorst@linux.intel.com>
+ <20240627-paper-vicugna-of-fantasy-c549ed@houat>
+ <6cb7c074-55cb-4825-9f80-5cf07bbd6745@linux.intel.com>
+ <20240628-romantic-emerald-snake-7b26ca@houat>
+ <70289c58-7947-4347-8600-658821a730b0@linux.intel.com>
+ <40ef0eed-c514-4ec1-9486-2967f23824be@ursulin.net>
+ <ZrIeuLi88jqbQ0FH@phenom.ffwll.local>
+ <20240806-gharial-of-abstract-reverence-aad6ea@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs/zh_CN: Add dev-tools/kcsan Chinese translation
-To: Alex Shi <seakeel@gmail.com>, si.yanteng@linux.dev,
- Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20240731180916.36617-1-tttturtleruss@hust.edu.cn>
- <074662fa2977a708d7a9a4545ffad26612514dc2@linux.dev>
- <b59dbfef-35a9-41e7-b995-655446d503f0@gmail.com>
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-In-Reply-To: <b59dbfef-35a9-41e7-b995-655446d503f0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrABHp2xEQLJm6eHNAg--.52925S2
-Authentication-Results: app1; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3ZrW3Xry3GF13JrWDuFW3Wrg_yoW8Jw18to
-	W5Kr4fCr48Gr15Jr15A3yDJrWYy3WUGFnrJrWakrn8JryUKw10y3WUJw15Jr4UGr45JF13
-	JFy7Jr17Aa4UXas5n29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUO27k0a2IF6FyUM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8C
-	rVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxVW8Jr0_Cr1UMcIj6x8ErcxFaV
-	Av8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8
-	JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20x
-	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxUVco2UUUUU
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkBAmaxmbIwBwAAsA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240806-gharial-of-abstract-reverence-aad6ea@houat>
+X-Operating-System: Linux phenom 6.9.10-amd64 
 
+On Tue, Aug 06, 2024 at 04:09:43PM +0200, Maxime Ripard wrote:
+> On Tue, Aug 06, 2024 at 03:01:44PM GMT, Daniel Vetter wrote:
+> > On Mon, Jul 01, 2024 at 06:01:41PM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 01/07/2024 10:25, Maarten Lankhorst wrote:
+> > > > Den 2024-06-28 kl. 16:04, skrev Maxime Ripard:
+> > > > > Hi,
+> > > > > 
+> > > > > On Thu, Jun 27, 2024 at 09:22:56PM GMT, Maarten Lankhorst wrote:
+> > > > > > Den 2024-06-27 kl. 19:16, skrev Maxime Ripard:
+> > > > > > > Hi,
+> > > > > > > 
+> > > > > > > Thanks for working on this!
+> > > > > > > 
+> > > > > > > On Thu, Jun 27, 2024 at 05:47:21PM GMT, Maarten Lankhorst wrote:
+> > > > > > > > The initial version was based roughly on the rdma and misc cgroup
+> > > > > > > > controllers, with a lot of the accounting code borrowed from rdma.
+> > > > > > > > 
+> > > > > > > > The current version is a complete rewrite with page counter; it uses
+> > > > > > > > the same min/low/max semantics as the memory cgroup as a result.
+> > > > > > > > 
+> > > > > > > > There's a small mismatch as TTM uses u64, and page_counter long pages.
+> > > > > > > > In practice it's not a problem. 32-bits systems don't really come with
+> > > > > > > > > =4GB cards and as long as we're consistently wrong with units, it's
+> > > > > > > > fine. The device page size may not be in the same units as kernel page
+> > > > > > > > size, and each region might also have a different page size (VRAM vs GART
+> > > > > > > > for example).
+> > > > > > > > 
+> > > > > > > > The interface is simple:
+> > > > > > > > - populate drmcgroup_device->regions[..] name and size for each active
+> > > > > > > >     region, set num_regions accordingly.
+> > > > > > > > - Call drm(m)cg_register_device()
+> > > > > > > > - Use drmcg_try_charge to check if you can allocate a chunk of memory,
+> > > > > > > >     use drmcg_uncharge when freeing it. This may return an error code,
+> > > > > > > >     or -EAGAIN when the cgroup limit is reached. In that case a reference
+> > > > > > > >     to the limiting pool is returned.
+> > > > > > > > - The limiting cs can be used as compare function for
+> > > > > > > >     drmcs_evict_valuable.
+> > > > > > > > - After having evicted enough, drop reference to limiting cs with
+> > > > > > > >     drmcs_pool_put.
+> > > > > > > > 
+> > > > > > > > This API allows you to limit device resources with cgroups.
+> > > > > > > > You can see the supported cards in /sys/fs/cgroup/drm.capacity
+> > > > > > > > You need to echo +drm to cgroup.subtree_control, and then you can
+> > > > > > > > partition memory.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Maarten Lankhorst<maarten.lankhorst@linux.intel.com>
+> > > > > > > > Co-developed-by: Friedrich Vock<friedrich.vock@gmx.de>
+> > > > > > > I'm sorry, I should have wrote minutes on the discussion we had with TJ
+> > > > > > > and Tvrtko the other day.
+> > > > > > > 
+> > > > > > > We're all very interested in making this happen, but doing a "DRM"
+> > > > > > > cgroup doesn't look like the right path to us.
+> > > > > > > 
+> > > > > > > Indeed, we have a significant number of drivers that won't have a
+> > > > > > > dedicated memory but will depend on DMA allocations one way or the
+> > > > > > > other, and those pools are shared between multiple frameworks (DRM,
+> > > > > > > V4L2, DMA-Buf Heaps, at least).
+> > > > > > > 
+> > > > > > > This was also pointed out by Sima some time ago here:
+> > > > > > > https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+> > > > > > > 
+> > > > > > > So we'll want that cgroup subsystem to be cross-framework. We settled on
+> > > > > > > a "device" cgroup during the discussion, but I'm sure we'll have plenty
+> > > > > > > of bikeshedding.
+> > > > > > > 
+> > > > > > > The other thing we agreed on, based on the feedback TJ got on the last
+> > > > > > > iterations of his series was to go for memcg for drivers not using DMA
+> > > > > > > allocations.
+> > > > > > > 
+> > > > > > > It's the part where I expect some discussion there too :)
+> > > > > > > 
+> > > > > > > So we went back to a previous version of TJ's work, and I've started to
+> > > > > > > work on:
+> > > > > > > 
+> > > > > > >     - Integration of the cgroup in the GEM DMA and GEM VRAM helpers (this
+> > > > > > >       works on tidss right now)
+> > > > > > > 
+> > > > > > >     - Integration of all heaps into that cgroup but the system one
+> > > > > > >       (working on this at the moment)
+> > > > > > 
+> > > > > > Should be similar to what I have then. I think you could use my work to
+> > > > > > continue it.
+> > > > > > 
+> > > > > > I made nothing DRM specific except the name, if you renamed it the device
+> > > > > > resource management cgroup and changed the init function signature to take a
+> > > > > > name instead of a drm pointer, nothing would change. This is exactly what
+> > > > > > I'm hoping to accomplish, including reserving memory.
+> > > > > 
+> > > > > I've started to work on rebasing my current work onto your series today,
+> > > > > and I'm not entirely sure how what I described would best fit. Let's
+> > > > > assume we have two KMS device, one using shmem, one using DMA
+> > > > > allocations, two heaps, one using the page allocator, the other using
+> > > > > CMA, and one v4l2 device using dma allocations.
+> > > > > 
+> > > > > So we would have one KMS device and one heap using the page allocator,
+> > > > > and one KMS device, one heap, and one v4l2 driver using the DMA
+> > > > > allocator.
+> > > > > 
+> > > > > Would these make different cgroup devices, or different cgroup regions?
+> > > > 
+> > > > Each driver would register a device, whatever feels most logical for that device I suppose.
+> > > > 
+> > > > My guess is that a prefix would also be nice here, so register a device with name of drm/$name or v4l2/$name, heap/$name. I didn't give it much thought and we're still experimenting, so just try something. :)
+> > > > 
+> > > > There's no limit to amount of devices, I only fixed amount of pools to match TTM, but even that could be increased arbitrarily. I just don't think there is a point in doing so.
+> > > 
+> > > Do we need a plan for top level controls which do not include region names?
+> > > If the latter will be driver specific then I am thinking of ease of
+> > > configuring it all from the outside. Especially considering that one cgroup
+> > > can have multiple devices in it.
+> > > 
+> > > Second question is about double accounting for shmem backed objects. I think
+> > > they will be seen, for drivers which allocate backing store at buffer
+> > > objects creation time, under the cgroup of process doing the creation, in
+> > > the existing memory controller. Right?
+> > 
+> > We currently don't set __GFP_ACCOUNT respectively use GFP_KERNEL_ACCOUNT,
+> > so no. Unless someone allocates them with GFP_USER ...
+> > 
+> > > Is there a chance to exclude those from there and only have them in this new
+> > > controller? Or would the opposite be a better choice? That is, not see those
+> > > in the device memory controller but only in the existing one.
+> > 
+> > I missed this, so jumping in super late. I think guidance from Tejun was
+> > to go the other way around: Exclude allocations from normal system
+> > memory from device cgroups and instead make sure it's tracked in the
+> > existing memcg.
+> > 
+> > Which might mean we need memcg shrinkers and the assorted pain ...
+> > 
+> > Also I don't think we ever reached some agreement on where things like cma
+> > allocations should be accounted for in this case.
+> 
+> Yeah, but that's the thing, memcg probably won't cut it for CMA. Because
+> if you pull the thread, that means that dma-heaps also have to register
+> their buffers into memcg too, even if it's backed by something else than
+> RAM.
 
-在 2024/8/6 11:19, Alex Shi 写道:
-> Please don't use HTML format to send emails.
-OK.
-> Does this file look great in web browser after 'make htmldocs'?
+For cma I'm kinda leaning towards "both". If you don't have a special cma
+cgroup and just memcg, you can exhaust the cma easily. But if the cma
+allocations also aren't tracked in memcg, you have a blind spot there,
+which isn't great.
 
-Yes, I check the output html file and it looks all right.
+> This is what this cgroup controller is meant to do: memcg for memory
+> (GFP'd) buffers, this cgroup for everything else.
 
-
-Thanks,
-
-Haoyang
-
->
-> Thanks
-> Alex
->
-> On 8/6/24 10:20 AM, si.yanteng@linux.dev wrote:
->> 2024年8月1日 02:09, "Haoyang Liu" <tttturtleruss@hust.edu.cn> 写到:
->>
->>
->>
->>> Translate dev-tools/kcsan commit 31f605a308e6
->>>
->>> ("kcsan, compiler_types: Introduce __data_racy type qualifier")
->>>
->>> into Chinese and add it in dev-tools/zh_CN/index.rst
->>>
->>> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->>>
->>> ---
->>>
->>> v3 -> v4: Added original English text for proper nouns and modified some unclear experessions.
->>>
->>> v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
->>>
->>> v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions.
->>>
->>>   .../translations/zh_CN/dev-tools/index.rst | 2 +-
->>>
->>>   .../translations/zh_CN/dev-tools/kcsan.rst | 321 ++++++++++++++++++
->>>
->>>   2 files changed, 322 insertions(+), 1 deletion(-)
->>>
->>>   create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>>
->>> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
->>>
->>> index c540e4a7d5db..6a8c637c0be1 100644
->>>
->>> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
->>>
->>> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
->>>
->>> @@ -21,6 +21,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
->>>
->>>   testing-overview
->>>
->>>   sparse
->>>
->>>   kcov
->>>
->>> + kcsan
->>>
->>>   gcov
->>>
->>>   kasan
->>>
->>>   ubsan
->>>
->>> @@ -32,7 +33,6 @@ Todolist:
->>>
->>>   - checkpatch
->>>
->>>   - coccinelle
->>>
->>>   - kmsan
->>>
->>> - - kcsan
->>>
->>>   - kfence
->>>
->>>   - kgdb
->>>
->>>   - kselftest
->>>
->>> diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>>
->>> new file mode 100644
->>>
->>> index 000000000000..39fa43d8c414
->>>
->>> --- /dev/null
->>>
->>> +++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>>
->>> @@ -0,0 +1,321 @@
->>>
->>> +.. SPDX-License-Identifier: GPL-2.0
->>>
->>> +
->>>
->>> +.. include:: ../disclaimer-zh_CN.rst
->>>
->>> +
->>>
->>> +:Original: Documentation/dev-tools/kcsan.rst
->>>
->>> +:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
->>>
->>> +
->>>
->>> +内核并发消毒剂(KCSAN)
->>>
->>> +=====================
->>>
->>> +
->>>
->>> +内核并发消毒剂（KCSAN）是一个动态竞争检测器，依赖编译时插桩，并且使用基于观察
->>>
->>> +点的采样方法来检测竞争。KCSAN 的主要目的是检测 `数据竞争`_。
->>>
->>> +
->>>
->>> +使用
->>>
->>> +----
->>>
->>> +
->>>
->>> +KCSAN 受 GCC 和 Clang 支持。使用 GCC 需要版本 11 或更高，使用 Clang 也需要
->>>
->>> +版本 11 或更高。
->>>
->>> +
->>>
->>> +为了启用 KCSAN，用如下参数配置内核::
->>>
->>> +
->>>
->>> + CONFIG_KCSAN = y
->>>
->>> +
->>>
->>> +KCSAN 提供了几个其他的配置选项来自定义行为（见 ``lib/Kconfig.kcsan`` 中的各自的
->>>
->>> +帮助文档以获取更多信息）。
->>>
->>> +
->>>
->>> +错误报告
->>>
->>> +~~~~~~~~
->>>
->>> +
->>>
->>> +一个典型数据竞争的报告如下所示::
->>>
->>> +
->>>
->>> + ==================================================================
->>>
->>> + BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
->>>
->>> +
->>>
->>> + write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
->>>
->>> + test_kernel_write+0x1d/0x30
->>>
->>> + access_thread+0x89/0xd0
->>>
->>> + kthread+0x23e/0x260
->>>
->>> + ret_from_fork+0x22/0x30
->>>
->>> +
->>>
->>> + read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
->>>
->>> + test_kernel_read+0x10/0x20
->>>
->>> + access_thread+0x89/0xd0
->>>
->>> + kthread+0x23e/0x260
->>>
->>> + ret_from_fork+0x22/0x30
->>>
->>> +
->>>
->>> + value changed: 0x00000000000009a6 -> 0x00000000000009b2
->>>
->>> +
->>>
->>> + Reported by Kernel Concurrency Sanitizer on:
->>>
->>> + CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->>>
->>> + Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
->>>
->>> + ==================================================================
->>>
->>> +
->>>
->>> +报告的头部提供了一个关于竞争中涉及到的函数的简短总结。随后是竞争中的两个线程的
->>>
->>> +访问类型和堆栈信息。如果 KCSAN 发现了一个值的变化，那么那个值的旧值和新值会在
->>>
->>> +“value changed”这一行单独显示。
->>>
->>> +
->>>
->>> +另一个不太常见的数据竞争类型的报告如下所示::
->>>
->>> +
->>>
->>> + ==================================================================
->>>
->>> + BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
->>>
->>> +
->>>
->>> + race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes by task 515 on cpu 2:
->>>
->>> + test_kernel_rmw_array+0x71/0xd0
->>>
->>> + access_thread+0x89/0xd0
->>>
->>> + kthread+0x23e/0x260
->>>
->>> + ret_from_fork+0x22/0x30
->>>
->>> +
->>>
->>> + value changed: 0x0000000000002328 -> 0x0000000000002329
->>>
->>> +
->>>
->>> + Reported by Kernel Concurrency Sanitizer on:
->>>
->>> + CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->>>
->>> + Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
->>>
->>> + ==================================================================
->>>
->>> +
->>>
->>> +这个报告是当另一个竞争线程不可能被发现，但是可以从观测的内存地址的值改变而推断
->>>
->>> +出来的时候生成的。这类报告总是会带有“value changed”行。这类报告的出现通常是因
->>>
->>> +为在竞争线程中缺少插桩，也可能是因为其他原因，比如 DMA 访问。这类报告只会在
->>>
->>> +设置了内核参数 ``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`` 时才会出现，而这
->>>
->>> +个参数是默认启用的。
->>>
->>> +
->>>
->>> +选择性分析
->>>
->>> +~~~~~~~~~~
->>>
->>> +
->>>
->>> +对于一些特定的访问，函数，编译单元或者整个子系统，可能需要禁用数据竞争检测。
->>>
->>> +对于静态黑名单，有如下可用的参数：
->>>
->>> +
->>>
->>> +* KCSAN 支持使用 ``data_race(expr)`` 注解，这个注解告诉 KCSAN 任何由访问
->>>
->>> + ``expr`` 所引起的数据竞争都应该被忽略，其产生的行为后果被认为是安全的。请查阅
->>>
->>> + `"Marking Shared-Memory Accesses" in the LKMM`_ 获得更多信息。
->>>
->>> +
->>>
->>> +* 与 ``data_race(...)`` 相似，可以使用类型限定符 ``__data_racy`` 来标记一个变量
->>>
->>> + ，所有访问该变量而导致的数据竞争都是故意为之并且应该被 KCSAN 忽略::
->>>
->>> +
->>>
->>> + struct foo {
->>>
->>> + ...
->>>
->>> + int __data_racy stats_counter;
->>>
->>> + ...
->>>
->>> + };
->>>
->>> +
->>>
->>> +* 使用函数属性 ``__no_kcsan`` 可以对整个函数禁用数据竞争检测::
->>>
->>> +
->>>
->>> + __no_kcsan
->>>
->>> + void foo(void) {
->>>
->>> + ...
->>>
->>> +
->>>
->>> + 为了动态限制该为哪些函数生成报告，查阅 `Debug 文件系统接口`_ 黑名单/白名单特性。
->>>
->>> +
->>>
->>> +* 为特定的编译单元禁用数据竞争检测，将下列参数加入到 ``Makefile`` 中::
->>>
->>> +
->>>
->>> + KCSAN_SANITIZE_file.o := n
->>>
->>> +
->>>
->>> +* 为 ``Makefile`` 中的所有编译单元禁用数据竞争检测，将下列参数添加到相应的
->>>
->>> + ``Makefile`` 中::
->>>
->>> +
->>>
->>> + KCSAN_SANITIZE := n
->>>
->>> +
->>>
->>> +.. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
->>>
->>> +
->>>
->>> +此外，KCSAN 可以根据偏好设置显示或隐藏整个类别的数据竞争。可以使用如下
->>>
->>> +Kconfig 参数进行更改:
->>>
->>> +
->>>
->>> +* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: 如果启用了该参数并且通过观测点
->>>
->>> + (watchpoint) 观测到一个有冲突的写操作，但是对应的内存地址中存储的值没有改变，
->>>
->>> + 则不会报告这起数据竞争。
->>>
->>> +
->>>
->>> +* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: 假设默认情况下，不超过字大小的简
->>>
->>> + 单对齐写入操作是原子的。假设这些写入操作不会受到不安全的编译器优化影响，从而导
->>>
->>> + 致数据竞争。该选项使 KCSAN 不报告仅由不超过字大小的简单对齐写入操作引起
->>>
->>> + 的冲突所导致的数据竞争。
->>>
->>> +
->>>
->>> +* ``CONFIG_KCSAN_PERMISSIVE``: 启用额外的宽松规则来忽略某些常见类型的数据竞争。
->>>
->>> + 与上面的规则不同，这条规则更加复杂，涉及到值改变模式，访问类型和地址。这个
->>>
->>> + 选项依赖编译选项 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y``。请查看
->>>
->>> + ``kernel/kcsan/permissive.h`` 获取更多细节。对于只侧重于特定子系统而不是整个
->>>
->>> + 内核报告的测试者和维护者，建议禁用该选项。
->>>
->>> +
->>>
->>> +要使用尽可能严格的规则，选择 ``CONFIG_KCSAN_STRICT=y``，这将配置 KCSAN 尽可
->>>
->>> +能紧密地遵循 Linux 内核内存一致性模型（LKMM）。
->>>
->>> +
->>>
->>> +Debug 文件系统接口
->>>
->>> +~~~~~~~~~~~~~~~~~~
->>>
->>> +
->>>
->>> +文件 ``/sys/kernel/debug/kcsan`` 提供了如下接口：
->>>
->>> +
->>>
->>> +* 读 ``/sys/kernel/debug/kcsan`` 返回不同的运行时统计数据。
->>>
->>> +
->>>
->>> +* 将 ``on`` 或 ``off`` 写入 ``/sys/kernel/debug/kcsan`` 允许打开或关闭 KCSAN。
->>>
->>> +
->>>
->>> +* 将 ``!some_func_name`` 写入 ``/sys/kernel/debug/kcsan`` 会将
->>>
->>> + ``some_func_name`` 添加到报告过滤列表中，该列表（默认）会将数据竞争报告中的顶
->>>
->>> + 层堆栈帧是列表中函数的情况列入黑名单。
->>>
->>> +
->>>
->>> +* 将 ``blacklist`` 或 ``whitelist`` 写入 ``/sys/kernel/debug/kcsan`` 会改变报告
->>>
->>> + 过滤行为。例如，黑名单的特性可以用来过滤掉经常发生的数据竞争。白名单特性可以帮
->>>
->>> + 助复现和修复测试。
->>>
->>> +
->>>
->>> +性能调优
->>>
->>> +~~~~~~~~
->>>
->>> +
->>>
->>> +影响 KCSAN 整体的性能和 bug 检测能力的核心参数是作为内核命令行参数公开的，其默认
->>>
->>> +值也可以通过相应的 Kconfig 选项更改。
->>>
->>> +
->>>
->>> +* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): 在另一个观测点设置之前每
->>>
->>> + 个 CPU 要跳过的内存操作次数。更加频繁的设置观测点将增加观察到竞争情况的可能性
->>>
->>> + 。这个参数对系统整体的性能和竞争检测能力影响最显著。
->>>
->>> +
->>>
->>> +* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): 对于任务，观测点设置之
->>>
->>> + 后暂停执行的微秒延迟。值越大，检测到竞争情况的可能性越高。
->>>
->>> +
->>>
->>> +* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): 对于中断，
->>>
->>> + 观测点设置之后暂停执行的微秒延迟。中断对于延迟的要求更加严格，其延迟通常应该小
->>>
->>> + 于为任务选择的延迟。
->>>
->>> +
->>>
->>> +它们可以通过 ``/sys/module/kcsan/parameters/`` 在运行时进行调整。
->>>
->>> +
->>>
->>> +数据竞争
->>>
->>> +--------
->>>
->>> +
->>>
->>> +在一次执行中，如果两个内存访问存在 *冲突*，在不同的线程中并发执行，并且至少
->>>
->>> +有一个访问是 *简单访问*，则它们就形成了 *数据竞争*。如果它们访问了同一个内存地址并且
->>>
->>> +至少有一个是写操作，则称它们存在 *冲突*。有关更详细的讨论和定义，见
->>> +`"Plain Accesses and Data Races" in the LKMM`_。
->>>
->>> +
->>>
->>> +.. _"Plain Accesses and Data Races" in the LKMM:
->> Sorry for the delay for so long, how about
->> translating it into Chinese as well?
->>   
->>
->>
->> Thanks,
->> Yanteng
-
+Yeah if there's no way you can get it through alloc_pages() it definitely
+shouldn't be in memcg.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
