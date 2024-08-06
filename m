@@ -1,59 +1,41 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB85184D;
-	Tue,  6 Aug 2024 03:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6801C165F08;
+	Tue,  6 Aug 2024 07:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722914359; cv=none; b=DVkKfPHLqVZebGWcTyR+y/wm/yE/b+sO1AWFWN1EbApw/1TcpUKAbMUUWYTA/PQzJck1ruT3KXWMyeKMs8kwlPRqEndY9hx9aW9tJNhHU+kgCYle1Zl8vzN8gVLck+WHU/UELYHHQ9SkzjliagRdLTKhaCaTdgOUNk3iLEYUTdQ=
+	t=1722928289; cv=none; b=QFgLB4SHdvVNqSR1aoWk7ap+uoF1BBb+WVECraaqvmJqzn49rfLwfkJj6Y4zW8WcRHl0ydZHk+Wq6aWLKMV37z0iT35J3hT2Z6w87o+PvyzJ+EQ0+3tAcNG3Irg5xFdxr2xDpVsuHOiEtv12jl87vARzVrZINHJsf09xbQeG1bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722914359; c=relaxed/simple;
-	bh=DKLAKXco/ciD126uu1SkLOEnBYiyupDX982PlZbm6p0=;
+	s=arc-20240116; t=1722928289; c=relaxed/simple;
+	bh=7HePuyoWPygVPxh4qKr24Yod2wxAsQz31TbzWEQpLRQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gyq+8/EKoxisNllEdzSJZ/DS8NjSQTNI0nIXUTMQK64BiKYg6recufd/cyHpu7dHd7+eC8Ky0zXYjN81URwtuENWi166MfP4ugz8C+oXeYqPzRMJ9lnHbW8KwASv41wrc0yOmN8MYqxy2K1QiBrw1qho/Y9H7RCMDQRY4UkLkC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NoYy9QGy; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=bCPHua2SW85CCcYg73datwMjbM2HOssSC0l2FUnJzHmw6Q6J92DxDxL8aAX1fPVQLB4wMheE+eVeEIrpshAhF0vzpcoHz9PwAmf+px6K3lYlLnnho3Z53SnQZB5tfXCdRuZe/HvMIQ38j3sF6KfLD+Vmrv5L/SmuvXjwtXoPWCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=aLC7wrbu; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NoYy9QGy"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc49c0aaffso1060405ad.3;
-        Mon, 05 Aug 2024 20:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722914357; x=1723519157; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nBpCMUbWwahbfSnP/d/PJqQQGaT14RdsWTG5MzRDvdY=;
-        b=NoYy9QGyrCYmM9L/uV6wUegeix01dZsElN/M9h41+aP+U/CPqeojIqvCSyidliQQr1
-         07d+WGvbjpy6nsKDeAsPeR/mi+FF5Wz2c5vI7fVPcWRlMVlmkU/GfWg0PD2RrxdYWlcw
-         UtPQtVy5Wh4aMX5fILSTmzMTP0O+uaSsIUDcYsnjBaOTNHixmzHB4HaAwc8slBegRlwB
-         CDhw5MN3dj35X0ZowQEcr517cKhANiO6mVkLzCGBLCBOHLiKqhJ9sye0mYiumc9zw4py
-         eZrKKEvu+gu1MtQNhhVjs/1Q4FrJeryUJ+HMZ8/ANOyrgRE9EDvip3hYapa0ITSF3A9q
-         P6uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722914357; x=1723519157;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nBpCMUbWwahbfSnP/d/PJqQQGaT14RdsWTG5MzRDvdY=;
-        b=b7dGK9hbBnKVs0TgZQGZ9ktRhUFO20liqqx//u9yFFXNVHYFKsgGIIdYVPO02wS6HS
-         BEVFju/hexztx5e3QhjS2HZknYx9fL+qLhW6JP9gbXevbAtHQ9uTGddMf20Rzn3ry1yi
-         ltIvn0yXj4D0bcvCyv9e9dOlNOYX4kR8kSF4UUL7dIoDfZSiIXZT/jI+hfxdFI7sVMvI
-         ixdmm81cQTTtl20+6a0xdt4L/KjQnzm6dnkRJQsHpqx0uX+3ZfTlDbxQNfDufs6jtniS
-         R/MKEMb/8t392ad6FRAL6o+8ME2HIBG+CGafyMlFNDcfCyfa7D7rpMFDjnsgSJkNHJu3
-         jZ4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVLb58cdUJrvoyLcxOxy1jWmokINqAA9V6tBzqKxCm2HxckiHDZiz5qf9liXbeW2VxFpK8cMFwSncU5zVWhHx9oqDXReXshImIgtO8l9pr1IQgxXMqBwg5tTOI7INuRnyVrWmSe32Uh
-X-Gm-Message-State: AOJu0YxwhxFyz/T2QsD99z48KPZHvs1BbQyuPAdUjcwVSW6/7w9Er8ih
-	LR2gymGyCZaRsXzw7UjwaWPV6WMIcMu+YaY1yoF+OBuduH2TO11E
-X-Google-Smtp-Source: AGHT+IFD8gx4cjoe+Tg3zVJPSyMClX0C2+qRBj9vLrnIVjIYiNWXU1silJ1Tu/FarpJtZivSC0CD1g==
-X-Received: by 2002:a17:902:c402:b0:1fd:8f14:a109 with SMTP id d9443c01a7336-1ff5732be1fmr128679695ad.32.1722914356645;
-        Mon, 05 Aug 2024 20:19:16 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff592b8a38sm76078445ad.307.2024.08.05.20.19.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Aug 2024 20:19:15 -0700 (PDT)
-Message-ID: <b59dbfef-35a9-41e7-b995-655446d503f0@gmail.com>
-Date: Tue, 6 Aug 2024 11:19:12 +0800
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="aLC7wrbu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1722928283; x=1723533083; i=markus.elfring@web.de;
+	bh=7HePuyoWPygVPxh4qKr24Yod2wxAsQz31TbzWEQpLRQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=aLC7wrbugvHbc7JitVGK+UbcVshwtENRbS63MrtuGO+FdCGD2lnXqmw9CP9GnaeC
+	 TFfrydT8yJue9bUo/wS8AtmAk6nut6jcbgQIBqgITOjiRRLa3VB1qGG0JiIl4CYsR
+	 CkEQXMkLNvcXuDaYsPfRyyJZTDNY6Srf0tSU0Q3anf3BEVehnreZ+oVlvm7JJAl5g
+	 4nC0KYEBxKRytoI1WgG+epHzc7IVXjXLUweerikYV6Bjs16L/pZuhHC0tOthxGXfY
+	 SkQboLneSY9dYwF4taCPUoAcJcTqxWmK357OMq33GxwfPee2lBJx6wmYhg27NInOU
+	 L1ATh6GHpOYXVQoftw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MbTL1-1s3oIK0Nk9-00mINb; Tue, 06
+ Aug 2024 09:04:09 +0200
+Message-ID: <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+Date: Tue, 6 Aug 2024 09:03:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,485 +43,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs/zh_CN: Add dev-tools/kcsan Chinese translation
-To: si.yanteng@linux.dev, Haoyang Liu <tttturtleruss@hust.edu.cn>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20240731180916.36617-1-tttturtleruss@hust.edu.cn>
- <074662fa2977a708d7a9a4545ffad26612514dc2@linux.dev>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <074662fa2977a708d7a9a4545ffad26612514dc2@linux.dev>
+Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
+ netdevice
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, Willem de Bruijn <willemb@google.com>,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, Andreas Larsson <andreas@gaisler.com>,
+ Arnd Bergmann <arnd@arndb.de>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@infradead.org>, David Ahern <dsahern@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>, Helge Deller <deller@gmx.de>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Jakub Kicinski
+ <kuba@kernel.org>,
+ "James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Matt Turner <mattst88@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Shailend Chand <shailend@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Shuah Khan <shuah@kernel.org>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Taehee Yoo <ap420073@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>
+References: <20240730022623.98909-4-almasrymina@google.com>
+ <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+ <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ud03T+VJ0WQWkNGa/SuDGe/nuF0sGbh6xFVs6sj7mBpoHZmEK9m
+ /g8pgN0ga+9LIF+xkm8yuxipRI1qpxk9O/iv4my6GHrRWDZdHWWggRKyAqliCerii6f6rsb
+ 4m+YAthbpuAnnWrnfbwf6MXbKNd/W6OA+m2MMbRtZr+OncP4jJnp6T9Z97ykCCWrjKOacd6
+ hZrRGnLMzDmwJNYA5qgFQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zPsCc1lrsyU=;Y7DEz/vBBmk+SeE6JgoellZvOuX
+ kcZRuFvCRXoAHvpu4L73XmcVhTOHNgehO96ILvjt1EA+Yfwm+WDObNm8eksbv1ELbJYKHqYuz
+ C40nciD9oSUI3qebeUWhWAWNw7O1ZrFCxPEqgZbaIkIgGvz/ZvU+Edr2+r3atRNSYhdojMJGs
+ qWNCXPBNGKklLG5YXjAmVynAryjZPyB4DRUWZuWuUZbVGnrzr/dfLX/m4iZiFVpuknIlxfLaS
+ xWcqEOkcpgXpzyLmDKyCj2LOpicZIF8SfFwd5XFuIKa3K66sjfL+BkUlwpxAv7IpIijQA5uFB
+ NMsuhO3BGbozyiyAPZ7SxPzrj+NoB+HSLSdffc9wC8m9fIO9zlY+RDpLSBXtfaqoSFdlE8Az+
+ LQ4ucimoajT41/N7wv7fvsZri+AdA955Db3MF3Dd+TUWIr4dx5BdvpTc9KN8qH8s4Z3U6YKrq
+ A6ohigBF8yZiYbPlA7HiLOZaWbX3o6tzjjX0bezEBmpfmnPEa63AfPvVSwsUGK8N2420+lMCV
+ g1jPz/Et77QWGhKdme4mxWFmIYMlkhE4IVdnOfRmy2yYk28FC16LtnfwsXRLH+TzXHEznXqv+
+ 1OteD/9c2ul0sK2Y4eVn7vXLx2oN9+dzooNND404WbnJfqoRnLeEAdhrRHOc6IBP8m3r252jT
+ e9hstn4baSSLD5NLSETphdL/3gwE897NmkuQvEGSR36s5Wk5yJSaRRiWtAHAZFN9pzMnJzQRn
+ MySFB0ZEJi/ForUpyXH7UsRV8W2zYGkuWK9oriuaNLDHkUvpbnFnBefK38oMRYALjMqQRa8IU
+ qJ0sxMyEwM1fCeDOojdWCPwQ==
 
-Please don't use HTML format to send emails.
-Does this file look great in web browser after 'make htmldocs'?
+>> =E2=80=A6
+>>> +++ b/include/net/devmem.h
+>>> @@ -0,0 +1,115 @@
+>> =E2=80=A6
+>>> +#ifndef _NET_DEVMEM_H
+>>> +#define _NET_DEVMEM_H
+>> =E2=80=A6
+>>
+>> I suggest to omit leading underscores from such identifiers.
+>> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+o=
+r+define+a+reserved+identifier
+>>
+>
+> I was gonna apply this change, but I ack'd existing files and I find
+> that all of them include leading underscores, including some very
+> recently added files like net/core/page_pool_priv.h.
+>
+> I would prefer to stick to existing conventions if that's OK, unless
+> there is widespread agreement to the contrary.
 
-Thanks
-Alex
+Under which circumstances would you become interested to reduce developmen=
+t risks
+also according to undefined behaviour?
+https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC.Un=
+definedBehavior-ub_106
 
-On 8/6/24 10:20 AM, si.yanteng@linux.dev wrote:
-> 2024年8月1日 02:09, "Haoyang Liu" <tttturtleruss@hust.edu.cn> 写到:
-> 
-> 
-> 
->>
->> Translate dev-tools/kcsan commit 31f605a308e6
->>
->> ("kcsan, compiler_types: Introduce __data_racy type qualifier")
->>
->> into Chinese and add it in dev-tools/zh_CN/index.rst
->>
->> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
->>
->> ---
->>
->> v3 -> v4: Added original English text for proper nouns and modified some unclear experessions. 
->>
->> v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
->>
->> v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions.
->>
->>  .../translations/zh_CN/dev-tools/index.rst | 2 +-
->>
->>  .../translations/zh_CN/dev-tools/kcsan.rst | 321 ++++++++++++++++++
->>
->>  2 files changed, 322 insertions(+), 1 deletion(-)
->>
->>  create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>
->> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
->>
->> index c540e4a7d5db..6a8c637c0be1 100644
->>
->> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
->>
->> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
->>
->> @@ -21,6 +21,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
->>
->>  testing-overview
->>
->>  sparse
->>
->>  kcov
->>
->> + kcsan
->>
->>  gcov
->>
->>  kasan
->>
->>  ubsan
->>
->> @@ -32,7 +33,6 @@ Todolist:
->>
->>  - checkpatch
->>
->>  - coccinelle
->>
->>  - kmsan
->>
->> - - kcsan
->>
->>  - kfence
->>
->>  - kgdb
->>
->>  - kselftest
->>
->> diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>
->> new file mode 100644
->>
->> index 000000000000..39fa43d8c414
->>
->> --- /dev/null
->>
->> +++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
->>
->> @@ -0,0 +1,321 @@
->>
->> +.. SPDX-License-Identifier: GPL-2.0
->>
->> +
->>
->> +.. include:: ../disclaimer-zh_CN.rst
->>
->> +
->>
->> +:Original: Documentation/dev-tools/kcsan.rst
->>
->> +:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
->>
->> +
->>
->> +内核并发消毒剂(KCSAN)
->>
->> +=====================
->>
->> +
->>
->> +内核并发消毒剂（KCSAN）是一个动态竞争检测器，依赖编译时插桩，并且使用基于观察
->>
->> +点的采样方法来检测竞争。KCSAN 的主要目的是检测 `数据竞争`_。
->>
->> +
->>
->> +使用
->>
->> +----
->>
->> +
->>
->> +KCSAN 受 GCC 和 Clang 支持。使用 GCC 需要版本 11 或更高，使用 Clang 也需要
->>
->> +版本 11 或更高。
->>
->> +
->>
->> +为了启用 KCSAN，用如下参数配置内核::
->>
->> +
->>
->> + CONFIG_KCSAN = y
->>
->> +
->>
->> +KCSAN 提供了几个其他的配置选项来自定义行为（见 ``lib/Kconfig.kcsan`` 中的各自的
->>
->> +帮助文档以获取更多信息）。
->>
->> +
->>
->> +错误报告
->>
->> +~~~~~~~~
->>
->> +
->>
->> +一个典型数据竞争的报告如下所示::
->>
->> +
->>
->> + ==================================================================
->>
->> + BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
->>
->> +
->>
->> + write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
->>
->> + test_kernel_write+0x1d/0x30
->>
->> + access_thread+0x89/0xd0
->>
->> + kthread+0x23e/0x260
->>
->> + ret_from_fork+0x22/0x30
->>
->> +
->>
->> + read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
->>
->> + test_kernel_read+0x10/0x20
->>
->> + access_thread+0x89/0xd0
->>
->> + kthread+0x23e/0x260
->>
->> + ret_from_fork+0x22/0x30
->>
->> +
->>
->> + value changed: 0x00000000000009a6 -> 0x00000000000009b2
->>
->> +
->>
->> + Reported by Kernel Concurrency Sanitizer on:
->>
->> + CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->>
->> + Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
->>
->> + ==================================================================
->>
->> +
->>
->> +报告的头部提供了一个关于竞争中涉及到的函数的简短总结。随后是竞争中的两个线程的
->>
->> +访问类型和堆栈信息。如果 KCSAN 发现了一个值的变化，那么那个值的旧值和新值会在
->>
->> +“value changed”这一行单独显示。
->>
->> +
->>
->> +另一个不太常见的数据竞争类型的报告如下所示::
->>
->> +
->>
->> + ==================================================================
->>
->> + BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
->>
->> +
->>
->> + race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes by task 515 on cpu 2:
->>
->> + test_kernel_rmw_array+0x71/0xd0
->>
->> + access_thread+0x89/0xd0
->>
->> + kthread+0x23e/0x260
->>
->> + ret_from_fork+0x22/0x30
->>
->> +
->>
->> + value changed: 0x0000000000002328 -> 0x0000000000002329
->>
->> +
->>
->> + Reported by Kernel Concurrency Sanitizer on:
->>
->> + CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
->>
->> + Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
->>
->> + ==================================================================
->>
->> +
->>
->> +这个报告是当另一个竞争线程不可能被发现，但是可以从观测的内存地址的值改变而推断
->>
->> +出来的时候生成的。这类报告总是会带有“value changed”行。这类报告的出现通常是因
->>
->> +为在竞争线程中缺少插桩，也可能是因为其他原因，比如 DMA 访问。这类报告只会在
->>
->> +设置了内核参数 ``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`` 时才会出现，而这
->>
->> +个参数是默认启用的。
->>
->> +
->>
->> +选择性分析
->>
->> +~~~~~~~~~~
->>
->> +
->>
->> +对于一些特定的访问，函数，编译单元或者整个子系统，可能需要禁用数据竞争检测。
->>
->> +对于静态黑名单，有如下可用的参数：
->>
->> +
->>
->> +* KCSAN 支持使用 ``data_race(expr)`` 注解，这个注解告诉 KCSAN 任何由访问
->>
->> + ``expr`` 所引起的数据竞争都应该被忽略，其产生的行为后果被认为是安全的。请查阅
->>
->> + `"Marking Shared-Memory Accesses" in the LKMM`_ 获得更多信息。
->>
->> +
->>
->> +* 与 ``data_race(...)`` 相似，可以使用类型限定符 ``__data_racy`` 来标记一个变量
->>
->> + ，所有访问该变量而导致的数据竞争都是故意为之并且应该被 KCSAN 忽略::
->>
->> +
->>
->> + struct foo {
->>
->> + ...
->>
->> + int __data_racy stats_counter;
->>
->> + ...
->>
->> + };
->>
->> +
->>
->> +* 使用函数属性 ``__no_kcsan`` 可以对整个函数禁用数据竞争检测::
->>
->> +
->>
->> + __no_kcsan
->>
->> + void foo(void) {
->>
->> + ...
->>
->> +
->>
->> + 为了动态限制该为哪些函数生成报告，查阅 `Debug 文件系统接口`_ 黑名单/白名单特性。
->>
->> +
->>
->> +* 为特定的编译单元禁用数据竞争检测，将下列参数加入到 ``Makefile`` 中::
->>
->> +
->>
->> + KCSAN_SANITIZE_file.o := n
->>
->> +
->>
->> +* 为 ``Makefile`` 中的所有编译单元禁用数据竞争检测，将下列参数添加到相应的
->>
->> + ``Makefile`` 中::
->>
->> +
->>
->> + KCSAN_SANITIZE := n
->>
->> +
->>
->> +.. _"Marking Shared-Memory Accesses" in the LKMM: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
->>
->> +
->>
->> +此外，KCSAN 可以根据偏好设置显示或隐藏整个类别的数据竞争。可以使用如下
->>
->> +Kconfig 参数进行更改:
->>
->> +
->>
->> +* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: 如果启用了该参数并且通过观测点
->>
->> + (watchpoint) 观测到一个有冲突的写操作，但是对应的内存地址中存储的值没有改变，
->>
->> + 则不会报告这起数据竞争。
->>
->> +
->>
->> +* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: 假设默认情况下，不超过字大小的简
->>
->> + 单对齐写入操作是原子的。假设这些写入操作不会受到不安全的编译器优化影响，从而导
->>
->> + 致数据竞争。该选项使 KCSAN 不报告仅由不超过字大小的简单对齐写入操作引起
->>
->> + 的冲突所导致的数据竞争。
->>
->> +
->>
->> +* ``CONFIG_KCSAN_PERMISSIVE``: 启用额外的宽松规则来忽略某些常见类型的数据竞争。
->>
->> + 与上面的规则不同，这条规则更加复杂，涉及到值改变模式，访问类型和地址。这个
->>
->> + 选项依赖编译选项 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y``。请查看
->>
->> + ``kernel/kcsan/permissive.h`` 获取更多细节。对于只侧重于特定子系统而不是整个
->>
->> + 内核报告的测试者和维护者，建议禁用该选项。
->>
->> +
->>
->> +要使用尽可能严格的规则，选择 ``CONFIG_KCSAN_STRICT=y``，这将配置 KCSAN 尽可
->>
->> +能紧密地遵循 Linux 内核内存一致性模型（LKMM）。
->>
->> +
->>
->> +Debug 文件系统接口
->>
->> +~~~~~~~~~~~~~~~~~~
->>
->> +
->>
->> +文件 ``/sys/kernel/debug/kcsan`` 提供了如下接口：
->>
->> +
->>
->> +* 读 ``/sys/kernel/debug/kcsan`` 返回不同的运行时统计数据。
->>
->> +
->>
->> +* 将 ``on`` 或 ``off`` 写入 ``/sys/kernel/debug/kcsan`` 允许打开或关闭 KCSAN。
->>
->> +
->>
->> +* 将 ``!some_func_name`` 写入 ``/sys/kernel/debug/kcsan`` 会将
->>
->> + ``some_func_name`` 添加到报告过滤列表中，该列表（默认）会将数据竞争报告中的顶
->>
->> + 层堆栈帧是列表中函数的情况列入黑名单。
->>
->> +
->>
->> +* 将 ``blacklist`` 或 ``whitelist`` 写入 ``/sys/kernel/debug/kcsan`` 会改变报告
->>
->> + 过滤行为。例如，黑名单的特性可以用来过滤掉经常发生的数据竞争。白名单特性可以帮
->>
->> + 助复现和修复测试。
->>
->> +
->>
->> +性能调优
->>
->> +~~~~~~~~
->>
->> +
->>
->> +影响 KCSAN 整体的性能和 bug 检测能力的核心参数是作为内核命令行参数公开的，其默认
->>
->> +值也可以通过相应的 Kconfig 选项更改。
->>
->> +
->>
->> +* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): 在另一个观测点设置之前每
->>
->> + 个 CPU 要跳过的内存操作次数。更加频繁的设置观测点将增加观察到竞争情况的可能性
->>
->> + 。这个参数对系统整体的性能和竞争检测能力影响最显著。
->>
->> +
->>
->> +* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): 对于任务，观测点设置之
->>
->> + 后暂停执行的微秒延迟。值越大，检测到竞争情况的可能性越高。
->>
->> +
->>
->> +* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): 对于中断，
->>
->> + 观测点设置之后暂停执行的微秒延迟。中断对于延迟的要求更加严格，其延迟通常应该小
->>
->> + 于为任务选择的延迟。
->>
->> +
->>
->> +它们可以通过 ``/sys/module/kcsan/parameters/`` 在运行时进行调整。
->>
->> +
->>
->> +数据竞争
->>
->> +--------
->>
->> +
->>
->> +在一次执行中，如果两个内存访问存在 *冲突*，在不同的线程中并发执行，并且至少
->>
->> +有一个访问是 *简单访问*，则它们就形成了 *数据竞争*。如果它们访问了同一个内存地址并且
->>
->> +至少有一个是写操作，则称它们存在 *冲突*。有关更详细的讨论和定义，见
-> 
->>
->> +`"Plain Accesses and Data Races" in the LKMM`_。
->>
->> +
->>
->> +.. _"Plain Accesses and Data Races" in the LKMM:
-> 
-> Sorry for the delay for so long, how about
-> translating it into Chinese as well?
->  
-> 
-> 
-> Thanks,
-> Yanteng
+Regards,
+Markus
