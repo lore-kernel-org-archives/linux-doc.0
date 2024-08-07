@@ -1,114 +1,80 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E84813F43A;
-	Wed,  7 Aug 2024 18:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0D42770E;
+	Wed,  7 Aug 2024 18:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723056822; cv=none; b=HIsmoS+QkAC3hnUZkl1Lk744ItjFHUrfU8fU1v0n123hF86BnKs5fmlx12FleOkRYvPnoKdaw+KUyCQMWUm/RO/CnO0ayBfVUE45Rpt1jcsbW2RPfASD5f0ypGm00Os1VEJToJX7qvyaDiCXd3BfFs0KzIGuJVmwG9u9P1hTT/8=
+	t=1723056882; cv=none; b=NZ/LHUrEX+SoyE8Ljy2gkfxBrRg550PWPeAMdwtEfDzkykzqFboUv1raRsWgzarn8l2zkTf2ArXwADCFvNUu0TT67GYPWI0qOAkw5/O0MOBHW054cqPw36Yq0kmNH/jU2hzRTO17OWZFOW3cLzWCt9nhCz84t7B7l59d3RIfwlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723056822; c=relaxed/simple;
-	bh=e9IyYXy2oprSPFD8Ke8Dj7pvrFwX8/hQdl3qzz158Oo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kL4U0sG4QAkIRWHYFFYmnxF/KPg/VtTK7pyREWTMCwPwY90rBKCHd6o2QmHTtzalfWD1Ja5OMENR8NpchZNhuIsn17DehDA9znaitn/GerP6EWfW8Q/3JvMCe/Qmk+u5y23Kp62DmV07Eyo0W1K8kenT+orb8R8SwXuYVfY1l6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aho2UIMq; arc=none smtp.client-ip=209.85.217.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723056882; c=relaxed/simple;
+	bh=eS5OgVnptRZen/HahpgvKUIcE9oPU+vpkiUvT4UU0jI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=f7l82bXoq14JXHhghQ6m6vihJOoUbLYwhrZAFYFa53hozXw4/gA52QgWanhHHy60QyAvjSfryPjuMhmBtiHqLnTuwHINcGE95GWx/LXc6SGGh/Kv3JUSsJYmUET36mScbhTEglZqg50a8I7dWcDO5aMX3Pr+NUVPErkGh+AffeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZL+8xYWV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aho2UIMq"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-48ffdfae096so35429137.0;
-        Wed, 07 Aug 2024 11:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723056820; x=1723661620; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mrxfRKvkVDz5Xf+hzvJmQ6Nw1sDrNkZo7rKJhKh6E44=;
-        b=aho2UIMqPXo44dduWn8il/BWR9O8ch8IZ8cy1mp0c2y7aL4sd2avs+h/fz5WQmK7le
-         f04C2fDKqs8dHeSLNBXVoVzkZK8i3gmb/fBqzE94kLfGOSse3SazpWzxBYFl5YOEJu/6
-         8dsBmRBt1gW1feJh0uyC9T8TBUW5zHY5aAMXqKB2/OLgclduoz9iSjwvGmuvc/2MFFUp
-         RoipTPIOn34TNtGftTKnQ7QtJvBLP/50EodbGue6izVyDfPwIwIgpik89SXlWy356DXM
-         2ntnQ3qwyBvMO3iHWI8C7V1eNlr+LQ8/XKyzDYbBDBppt/M5Mgc50ycJ1NrxvDxxVRfL
-         TRxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723056820; x=1723661620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mrxfRKvkVDz5Xf+hzvJmQ6Nw1sDrNkZo7rKJhKh6E44=;
-        b=m5w9Hfm4RF1DJHvEJciZPrNtS8BthAOJvPIdIp0Hs/14AAKk2hzLkWYBIHJgmpHOcM
-         QPZ3+xQyLQNOuKlD54oCbNG1yyhD2TmFg0/zW61RAwXJq0YV/JB+rqV9rUOjpmh/q9hR
-         58wjJDMzqjffYcZjg6BxqNA1thvkznzpmer3ypsCaZ/i4qcR/ho+OjIDswKGqzKjbgAi
-         Bzn0EIbrSgEl9MVMc8yi8okHWQvdewF5UGVImOhGSGbB6/rXfoAZl6uSclqlDVPUxjVO
-         D/CmW1a6KEHkAWrfiUeDjR3Wrz7Y00BFGzqk3xuetL89JvgHQywXJOXro4/giDnIZCoc
-         KxWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkP3FbrndDGcNAiV+Gq1OOjIhrGThc781bo4WZphW7m2hKubiqVDoCS5+mUo04Jw7y3DDk4Qg70dOqps/H@vger.kernel.org, AJvYcCW9Yi+VOGbBMQjLdXG3jZxxKPPh2uV09KkrPllSHZC6WfvyqvRKvIVWPkCLR/GGDuGXa08ZeXO+pZY=@vger.kernel.org, AJvYcCWaoOT2oRA7kn7UV0Of5eC2S8hkfJpLsUaYfXEYj+3/pmN1pj+BBkY9spD3ggQoCcCucTUmVXdn7CWQaTaejuY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQWUGk1vPVrj4Thl1hUfP4dgiT1ZMUvcA8TPSViOvPIZvMiCid
-	TkY8W/bjKM7OxYavQBDOvRDkUPhld3wVgx4YPKmr3hbnRxar5vro
-X-Google-Smtp-Source: AGHT+IHLEQSvEuEV5aYuygNTojlWpO3dDQyyeV0soFivtuciDnfsodcfJQqmA8+V5DyV9/XZlcF5BQ==
-X-Received: by 2002:a05:6102:f10:b0:48f:23b4:1d96 with SMTP id ada2fe7eead31-4945be09d61mr17260089137.16.1723056819863;
-        Wed, 07 Aug 2024 11:53:39 -0700 (PDT)
-Received: from localhost (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-83c07d00b53sm1647518241.10.2024.08.07.11.53.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 11:53:39 -0700 (PDT)
-From: David Hunter <david.hunter.linux@gmail.com>
-To: david.hunter.linux@gmail.com
-Cc: corbet@lwn.net,
-	javier.carrasco.cruz@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	linux@roeck-us.net,
-	skhan@linuxfoundation.org,
-	wim@linux-watchdog.org
-Subject: [PATCH v3] Documentation: Capitalize Fahrenheit in watchdog-api.rst
-Date: Wed,  7 Aug 2024 14:53:32 -0400
-Message-Id: <20240807185332.61624-1-david.hunter.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240723131849.264939-1-david.hunter.linux@gmail.com>
-References: <20240723131849.264939-1-david.hunter.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZL+8xYWV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2C6CF418B1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1723056872; bh=HT5EcgEnMFiayl2D7AjPhk3oSJU+IUjydwWSqwJ7WBc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ZL+8xYWV8yK+HQI8E2uPeOxQmBGm+Y0EsjghmRWH0Uk2WNgdyeHWuqs0UVgYa4P8A
+	 dzAHyJ7g1SUpadFFV2v7BmToXcXvgM0nNCg5B5DOcstq64OnJSAAWQ1IUYLAfRP3v4
+	 Gk0F0kNM5ARys62gHRMCbikPpwfY7kIltJvOkwDtBwQZ4Hsw1g+cF4mNTE4kS5J2q9
+	 ZOJa5SuuOce/CElJ+9oB375vrIfOD8X2pOcl3sXAWwa5Xqrbwzy6uP7Vq0iydvf8tj
+	 Ty8OdCetrES8ORXMIarcyfV+mRgC5tc1gQLeL7jZpV8Ma+9pYZLLy/263aetaBULMd
+	 pyQ3ql2n3JY8A==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2C6CF418B1;
+	Wed,  7 Aug 2024 18:54:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Breno Leitao <leitao@debian.org>, Akinobu Mita <akinobu.mita@gmail.com>
+Cc: kuba@kernel.org, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: fault-injection: document cache-filter feature
+ for failslab
+In-Reply-To: <20240726120930.3231333-1-leitao@debian.org>
+References: <20240726120930.3231333-1-leitao@debian.org>
+Date: Wed, 07 Aug 2024 12:54:31 -0600
+Message-ID: <87plqkrwns.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Capitalize "fahrenheit," a spelling mistake.
+Breno Leitao <leitao@debian.org> writes:
 
-Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
----
-V2 -> V3:
- - Fixed misspelling of "Capitalize" in commit message. 
- - Put Tags and Kernel Subsystem in subject
- - Put changelog after commit message
+> The failslab fault injection mechanism has an undocumented capability
+> that provides significant utility in testing and debugging. This feature,
+> introduced in commit 4c13dd3b48fcb ("failslab: add ability to filter slab
+> caches"), allows for targeted error injection into specific slab caches.
+>
+> However, it was inadvertently left undocumented at the time of its
+> implementation.
+>
+> Add documentation for the cache-filter feature in the failslab mode
+> description. Also, providing a practical example demonstrating how to
+> use cache-filter to inject failures specifically when allocating socket
+> buffers (skbs).
+>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  .../fault-injection/fault-injection.rst       | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 
-V1 -> V2: 
- - Fixed imperative mood 
- - Fixed misspelling of "Fahrenheit" in Subject
+I've applied this, thanks.
 
-V2: https://lore.kernel.org/lkml/7b7ca7e0-6bd2-45ab-bd9b-40331a8e6fdd@roeck-us.net/
+It seems to me that the fault-injection docs should really move under
+dev-tools; does anybody object to that?
 
-V1: https://lore.kernel.org/lkml/20240723131849.264939-1-david.hunter.linux@gmail.com/
+Thanks,
 
- Documentation/watchdog/watchdog-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
----
-diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-index 800dcd7586f2..78e228c272cf 100644
---- a/Documentation/watchdog/watchdog-api.rst
-+++ b/Documentation/watchdog/watchdog-api.rst
-@@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
- support the GETBOOTSTATUS call.
- 
- Some drivers can measure the temperature using the GETTEMP ioctl.  The
--returned value is the temperature in degrees fahrenheit::
-+returned value is the temperature in degrees Fahrenheit::
- 
-     int temperature;
-     ioctl(fd, WDIOC_GETTEMP, &temperature);
--- 
-2.34.1
-
+jon
