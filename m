@@ -1,110 +1,153 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 814DD12F5B1;
-	Wed,  7 Aug 2024 18:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9C5762DF;
+	Wed,  7 Aug 2024 18:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723053690; cv=none; b=Hz32SbJagyXJ1FOYMSkTXxuj3AEv/aQ3Yz0GBChXUWA0JlA5KCLkdjDYSUaWine0sszzd8bCDAeowtsgNqPhRZbKEYAXheD6ImB2qmBrhYXsVkbmuUGat5TvMfoBx8d9iM8BwhZ5gzT01RHoiyrMkGn48TNo+CVa8cwt8ufVdYg=
+	t=1723054849; cv=none; b=UzexHyj+6+DG7Cw+bCAieqBXowPBKTUN3YqiCgcA+K7qS874GrFGccgp0Exc5VvwMbhStHR/zEPbPxwLVku0fRIaM6p8F7GfUix39ehMXHF6RpL7gT4+cCzOSkVUaUfzU96tT2Dfn3dmT8GQyccA3gWSVZDHXLb5yWqgZSATBfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723053690; c=relaxed/simple;
-	bh=yqp0uOSR8Q8K4/5lXUBRuESQesWcvdBjwX8QJL9PB5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k+AmHHyOhpYanh0CYlUyM6jXi4svgJzyNY7/PQJhFmKbjS1cOPS2750Jc9UiIEdC3pPkK6DI9A+RLfI+LZKpipYOJKUG0ATL3f3jIWh9QZy59v/l3x0RmBx+LWMONlRyLsvBaTx6vO4QVBPg2IOdE7+J96qPgeeh+ZyaQXrABpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=aunZM4VX; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1723054849; c=relaxed/simple;
+	bh=iPtiZxg9mYFfVaMP/wI1h2AEAZxcZhi354BsRK7OzkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSiA9tLcvFL6wUaIhRVs5gEyH9nQ+1kiyb0Ae51o3bIv00t3YqhBcz4yr2IxdcgQUAtBnnTC0Nftc7OEqP6dexE6jsuWtJbtoQL3dlffGr5KYgSyFQfFhSfuNFdryzx2lNafJFvXxzv2cnrCwOisbgjU2UbskOMlUzi/ogevkzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fs+rYBQU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="aunZM4VX"
-Received: from [10.137.106.151] (unknown [131.107.174.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C5D4820B7165;
-	Wed,  7 Aug 2024 11:01:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C5D4820B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1723053682;
-	bh=JBD5S5GVsNdnH6wjmW/+nIlLS6fh9sw+q0ZHaDgSzqo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aunZM4VX0xcprS96+2RmSgZf60XSA27qvPVhz6D4bvlUDHm+AAedz7t9cP58XP5T7
-	 3Kw+15MQrOnztwHPz4/UKECWCiy/kTOPbSWECYJk+1FBYPIsOxRjrLe6i/+8l5mh0W
-	 ZoKEt4JNNiwgMXddXYZEieQG4zU6t4SqwHnsWmMw=
-Message-ID: <080c93d1-9c02-478f-a0be-f4bd3869c1fd@linux.microsoft.com>
-Date: Wed, 7 Aug 2024 11:01:21 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fs+rYBQU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF468C32781;
+	Wed,  7 Aug 2024 18:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723054848;
+	bh=iPtiZxg9mYFfVaMP/wI1h2AEAZxcZhi354BsRK7OzkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fs+rYBQUVp7T/qbPiJP5M3yDB/6MQZbtGhaQKvRjA1Mevvpi2N6URXoVm6Iu+rs/H
+	 5E96EIlDL0oiovI1UalP4pGMxvee6uDYhAHWeNICYCTEurK07w5XNnYjIp7hBBtH+o
+	 BuYSL8/k1GjAORViJw9J27QcUbojhI3Ae/34xWNzZpQoCHqR1I22VHBnMk5CVvZxw6
+	 SS54CnDP9bArj1yivpeOI0pLAxkinjxlqbL5z/NWC2FfzasiBT9xJGfZMh2KPtgniu
+	 UwqU0smfhLaXdoDIRZ0Xs8jOb5KYUUdKDjJmyRdFpd/cLCPX7dVpAIbbnapWdyqlxn
+	 +oDN4u6kRqxgA==
+Date: Wed, 7 Aug 2024 21:18:24 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Zi Yan <ziy@nvidia.com>, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	nvdimm@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v4 24/26] arch_numa: switch over to numa_memblks
+Message-ID: <ZrO6cExVz1He_yPn@kernel.org>
+References: <20240807064110.1003856-1-rppt@kernel.org>
+ <20240807064110.1003856-25-rppt@kernel.org>
+ <1befc540-8904-4c23-b0e6-e2c556fe22b9@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 20/20] MAINTAINERS: ipe: add ipe maintainer
- information
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Paul Moore <paul@paul-moore.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
- linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com>
- <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
- <CAHC9VhRmcReVM_Le5bYor2deotnSe4OT08UYhL6xhiKCu0+3kA@mail.gmail.com>
- <5880e801-e896-4bf0-9a69-2cf5acb51ec3@molgen.mpg.de>
-Content-Language: en-US
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <5880e801-e896-4bf0-9a69-2cf5acb51ec3@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1befc540-8904-4c23-b0e6-e2c556fe22b9@app.fastmail.com>
 
+On Wed, Aug 07, 2024 at 08:58:37AM +0200, Arnd Bergmann wrote:
+> On Wed, Aug 7, 2024, at 08:41, Mike Rapoport wrote:
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > Until now arch_numa was directly translating firmware NUMA information
+> > to memblock.
+> 
+> I get a link time warning from this:
+> 
+>     WARNING: modpost: vmlinux: section mismatch in reference: numa_set_cpumask+0x24 (section: .text.unlikely) -> early_cpu_to_node (section: .init.text)
 
+I didn't see this neither in my build tests nor in kbuild reports :/
+ 
+> > @@ -142,7 +144,7 @@ void __init early_map_cpu_to_node(unsigned int cpu, int nid)
+> >  unsigned long __per_cpu_offset[NR_CPUS] __read_mostly;
+> >  EXPORT_SYMBOL(__per_cpu_offset);
+> > 
+> > -int __init early_cpu_to_node(int cpu)
+> > +int early_cpu_to_node(int cpu)
+> >  {
+> >  	return cpu_to_node_map[cpu];
+> >  }
+> 
+> early_cpu_to_node() can no longer be __init here
+> 
+> > +#endif /* CONFIG_NUMA_EMU */
+> > diff --git a/include/asm-generic/numa.h b/include/asm-generic/numa.h
+> > index c32e0cf23c90..c2b046d1fd82 100644
+> > --- a/include/asm-generic/numa.h
+> > +++ b/include/asm-generic/numa.h
+> > @@ -32,8 +32,6 @@ static inline const struct cpumask *cpumask_of_node(int node)
+> > 
+> >  void __init arch_numa_init(void);
+> >  int __init numa_add_memblk(int nodeid, u64 start, u64 end);
+> > -void __init numa_set_distance(int from, int to, int distance);
+> > -void __init numa_free_distance(void);
+> >  void __init early_map_cpu_to_node(unsigned int cpu, int nid);
+> >  int __init early_cpu_to_node(int cpu);
+> >  void numa_store_cpu_info(unsigned int cpu);
+> 
+> but is still declared as __init in the header, so it is
+> still put in that section and discarded after boot.
 
-On 8/6/2024 9:48 PM, Paul Menzel wrote:
-> Dear Paul,
-> 
-> 
-> Am 06.08.24 um 22:54 schrieb Paul Moore:
->> On Sat, Aug 3, 2024 at 4:15 AM Paul Menzel wrote:
-> 
->>> Thank you very much for your patch. Two nits, should you sent another
->>> interation: A more specific summary would avoid people having to look at
->>> the message body or diff, and `git log --oneline` would be enough.
->>>
->>> MAINTAINERS: Add IPE entry with M: Fan Wu
->>>
->>> MAINTAINERS: Add IPE entry with Fan Wu as maintainer
->>>
->>> Am 03.08.24 um 08:08 schrieb Fan Wu:
->>>> Update MAINTAINERS to include ipe maintainer information.
->>>
->>> I’d at least mention Integrity Policy Enforcement. As you not only
->>> include the maintainer information but add a new entry, I’d leave the
->>> body out, or mention that a new entry is added.
->>>
->>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->>
->> Working under the current assumption that a new revision is not
->> needed, I can fix this up during the merge.  Fan, other-Paul, are you
->> both okay with the following:
->>
->>    "MAINTAINERS: add IPE entry with Fan Wu as maintainer
->>
->>     Add a MAINTAINERS entry for the Integrity Policy Enforcement (IPE) 
->> LSM."
-> 
-> Thank you. That is fine by me.
-> 
-> 
-> Kind regards,
-> 
-> Paul
-> 
+I believe this should fix it
+
+diff --git a/include/asm-generic/numa.h b/include/asm-generic/numa.h
+index c2b046d1fd82..e063d6487f66 100644
+--- a/include/asm-generic/numa.h
++++ b/include/asm-generic/numa.h
+@@ -33,7 +33,7 @@ static inline const struct cpumask *cpumask_of_node(int node)
+ void __init arch_numa_init(void);
+ int __init numa_add_memblk(int nodeid, u64 start, u64 end);
+ void __init early_map_cpu_to_node(unsigned int cpu, int nid);
+-int __init early_cpu_to_node(int cpu);
++int early_cpu_to_node(int cpu);
+ void numa_store_cpu_info(unsigned int cpu);
+ void numa_add_cpu(unsigned int cpu);
+ void numa_remove_cpu(unsigned int cpu);
+ 
+> I was confused by this at first, since the 'early' name
+> seems to imply that you shouldn't call it once the system
+> is up, but now you do.
+
+I agree that this is confusing, but that's what x86 does and numa_emulation
+uses.
+ 
+>      Arnd
 > 
 
-Hi Paul and Paul,
-
-Thank you both for your feedback and coordination on this. I'm good with 
-the proposed changes and appreciate your efforts.
-
--Fan
-
-
-
+-- 
+Sincerely yours,
+Mike.
