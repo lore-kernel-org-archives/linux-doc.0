@@ -1,86 +1,131 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B41186E2F;
-	Wed,  7 Aug 2024 01:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C1019066D;
+	Wed,  7 Aug 2024 04:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722995182; cv=none; b=Lav3FbKlnrnLUx7PIl1vNsJuSGL9rZyhW43F2q2h9ZmOzZxkOKBkpYiPTFe5nOyYlVzgUJrQGUTwUyC74rVmhZwx3N1Yr+N5RTaduNbUd9Lzb/4FUTh80koBXWBQayTIxO+dW6ZTxycqyXMSbzO/jRd14wCnBJQViLz65UgUUVA=
+	t=1723006174; cv=none; b=ObcmirSX4ms/Aks4wBwOrAc7T1hSyf2ZAbYcYgYYImP86pF+iMBavd5OvlgdvK3xXUvykIctX89aL9fW/4TT3u+sNYlx1tvJWZOcyAxNRSSU26LonA2o10jc4lv3pL49oMZOUccYoNwSHh1NBX6RtJ6XTGoVUwa4/GC7UObIkEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722995182; c=relaxed/simple;
-	bh=22qXunkwLMmqX0AzHpjao6I1i0DvEDrHbdB2CFJJtNE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hb2jO5tjKwWsqamCLWHcM1ZU0KLenxf/D+7Sq4+T+tvyr+ec0NCWhbG08DV81Z3HZIhU6FHgA0kLZPJmI/G20v2W+sp+N4asXN040aKxf3xDPVF3DMPRNlyjxP+tnmLJDEI/kqOn+Ry9h451dUgkYUNGDl51CTd/nn1F9YL0eko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WdtKJ3YZkzpT1H;
-	Wed,  7 Aug 2024 09:45:08 +0800 (CST)
-Received: from kwepemi100008.china.huawei.com (unknown [7.221.188.57])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0A656180101;
-	Wed,  7 Aug 2024 09:46:18 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemi100008.china.huawei.com (7.221.188.57) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 7 Aug 2024 09:46:17 +0800
-Message-ID: <949db1c5-7c62-cdab-767e-486a75c601c5@huawei.com>
-Date: Wed, 7 Aug 2024 09:46:16 +0800
+	s=arc-20240116; t=1723006174; c=relaxed/simple;
+	bh=qa39epjqjdsOVNsHgEqDKXlLdppVmF7MiqUmOzTRPYU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EF8cDiGg5EOwtW6MB53m2768zxfbRU5XMaQ5GPMP89z1O9mg/aTuB/f3i3kMZo5U+x+Vy2MBGVam1KUnjcX2VQ7zTzSgzb0rtGqahEi8/fVMcDIrxH03oH4S0NlFmTZ1TzC0812f7NinOF9ZavXGGFNxe2NfWGV4MojuulyJCKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.3] (ip5f5af7d2.dynamic.kabel-deutschland.de [95.90.247.210])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 4D7E161E5FE01;
+	Wed,  7 Aug 2024 06:48:21 +0200 (CEST)
+Message-ID: <5880e801-e896-4bf0-9a69-2cf5acb51ec3@molgen.mpg.de>
+Date: Wed, 7 Aug 2024 06:48:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next] arm64/kdump: Update the high memory reserve doc
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 20/20] MAINTAINERS: ipe: add ipe maintainer
+ information
+To: Paul Moore <paul@paul-moore.com>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
+ jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+ axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
+ eparis@redhat.com, linux-doc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ fsverity@lists.linux.dev, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
+ <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com>
+ <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
+ <CAHC9VhRmcReVM_Le5bYor2deotnSe4OT08UYhL6xhiKCu0+3kA@mail.gmail.com>
 Content-Language: en-US
-To: Catalin Marinas <catalin.marinas@arm.com>
-CC: <will@kernel.org>, <corbet@lwn.net>, <paul.walmsley@sifive.com>,
-	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20240806113320.2388386-1-ruanjinjie@huawei.com>
- <ZrJWarQnhFiM-e17@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <ZrJWarQnhFiM-e17@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi100008.china.huawei.com (7.221.188.57)
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <CAHC9VhRmcReVM_Le5bYor2deotnSe4OT08UYhL6xhiKCu0+3kA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Dear Paul,
 
 
+Am 06.08.24 um 22:54 schrieb Paul Moore:
+> On Sat, Aug 3, 2024 at 4:15 AM Paul Menzel wrote:
 
-On 2024/8/7 0:59, Catalin Marinas wrote:
-> On Tue, Aug 06, 2024 at 07:33:20PM +0800, Jinjie Ruan wrote:
->> Since commit 282c3a66b724 ("crash: Fix riscv64 crash memory reserve dead
->> loop"), if reservation from the high memory failed on ARM64, the kernel
->> will not falls back to searching the low memory, so remove it in the doc.
+>> Thank you very much for your patch. Two nits, should you sent another
+>> interation: A more specific summary would avoid people having to look at
+>> the message body or diff, and `git log --oneline` would be enough.
+>>
+>> MAINTAINERS: Add IPE entry with M: Fan Wu
+>>
+>> MAINTAINERS: Add IPE entry with Fan Wu as maintainer
+>>
+>> Am 03.08.24 um 08:08 schrieb Fan Wu:
+>>> Update MAINTAINERS to include ipe maintainer information.
+>>
+>> I’d at least mention Integrity Policy Enforcement. As you not only
+>> include the maintainer information but add a new entry, I’d leave the
+>> body out, or mention that a new entry is added.
+>>
+>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 > 
-> This commit doesn't exist in -next. I found it with a different hash but
-> don't add it in the commit log here.
+> Working under the current assumption that a new revision is not
+> needed, I can fix this up during the merge.  Fan, other-Paul, are you
+> both okay with the following:
 > 
->> diff --git a/Documentation/arch/arm64/kdump.rst b/Documentation/arch/arm64/kdump.rst
->> index 56a89f45df28..11b9b84bf422 100644
->> --- a/Documentation/arch/arm64/kdump.rst
->> +++ b/Documentation/arch/arm64/kdump.rst
->> @@ -79,10 +79,6 @@ To reserve memory for crashkernel=size,high, searching is first
->>  attempted from the high memory region. If the reservation succeeds, the
->>  low memory reservation will be done subsequently.
->>  
->> -If reservation from the high memory failed, the kernel falls back to
->> -searching the low memory with the specified size in crashkernel=,high.
->> -If it succeeds, no further reservation for low memory is needed.
+>    "MAINTAINERS: add IPE entry with Fan Wu as maintainer
 > 
-> I recall long discussions over a year ago where the conclusion was that
-> for sysadmins it's easier to have crashkernel=,high the default with
-> fallback to lowmem. No need to worry about how much low or high memory
-> there is on a SoC, just specify a preference for high memory.
-> 
-> Can we not have a different fix for the infinite loop problem while we
-> preserve the fallback behaviour?
+>     Add a MAINTAINERS entry for the Integrity Policy Enforcement (IPE) LSM."
 
-Of course, thank you!
+Thank you. That is fine by me.
 
-> 
+
+Kind regards,
+
+Paul
+
+
+>>> --
+>>> v1-v16:
+>>>     + Not present
+>>>
+>>> v17:
+>>>     + Introduced
+>>>
+>>> v18:
+>>>     + No changes
+>>>
+>>> v19:
+>>>     + No changes
+>>>
+>>> v20:
+>>>     + No changes
+>>> ---
+>>>    MAINTAINERS | 10 ++++++++++
+>>>    1 file changed, 10 insertions(+)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 8766f3e5e87e..4cdf2d5a2058 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -11118,6 +11118,16 @@ T:   git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
+>>>    F:  security/integrity/
+>>>    F:  security/integrity/ima/
+>>>
+>>> +INTEGRITY POLICY ENFORCEMENT (IPE)
+>>> +M:   Fan Wu <wufan@linux.microsoft.com>
+>>> +L:   linux-security-module@vger.kernel.org
+>>> +S:   Supported
+>>> +T:   git https://github.com/microsoft/ipe.git
+>>> +F:   Documentation/admin-guide/LSM/ipe.rst
+>>> +F:   Documentation/security/ipe.rst
+>>> +F:   scripts/ipe/
+>>> +F:   security/ipe/
+>>> +
+>>>    INTEL 810/815 FRAMEBUFFER DRIVER
+>>>    M:  Antonino Daplas <adaplas@gmail.com>
+>>>    L:  linux-fbdev@vger.kernel.org
