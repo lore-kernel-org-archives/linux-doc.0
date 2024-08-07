@@ -1,94 +1,87 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF48677F1B;
-	Wed,  7 Aug 2024 07:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12B75464E;
+	Wed,  7 Aug 2024 07:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723014613; cv=none; b=hnuErlChgAEAQ6tWzmvlYHcwIeC3Y/UkxSA0w2bQBT9DUsnxsEdHpHcFZABlaKh8Wai6ej5iJsrpJVQnGedJC8dihGhv0k/sCRTV5X17NoEkebRf6LZ9qdddkg7fLlxAAhA7haxm7Fv/0ArW9WO83D7FvolkDfvexZQi9t0N6QQ=
+	t=1723015874; cv=none; b=FxPut1EY6cmC+oio35bS4zr8A91EwAkSJ1VnlNMevxuHOagQ03z9/PSqecRepy/QuC6769QpzllGoIevsCcBrU8rda5UAJ+XYAcT09ELAPABamqgTZAE2KwsBzw5wY2EKQfYUYjmvRpmNvTwuA8IHd4v6N1CtqtqsSg6dijaxyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723014613; c=relaxed/simple;
-	bh=uP10GTJglQlvhNVyXNpACB8CNWxdLYPkr2TD5w4Ht80=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/xzaMiBt0bfnYdE1Izcx5vp/VKV/HN0eE2B3pg0zQuhsrKumtsfJY5yvfUk2/k603dvIe7GQQcNWbCfZP/nZYQpbc7cJK/ayRwn3dngTY7ejWls9BhIcV7s76ijv515MTxfbFELGVxidgJt/R8r2alCUjMfllblGo8NL/A/KRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4lf/8R4; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723015874; c=relaxed/simple;
+	bh=kjmVOn4W7d36TIXcdoDz7P/vSXeDDFbK30LfaqjgzDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lGOJ5pYSgWjr8TMV5y8luQE31OHxZ+iieDk+sGOROS0IEF7PAYUEmpuLyDGMHdnFUhBwcSiGoC857OPNIYpUbkSnAiHMZaN6yTs7HxREHv77V9zfa+uAm/tpFi0kyjIau5gpzSpB2e0Eu2nG8kfbVyqKHwzdsQBWNLadLnhPHf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RH8Z5H+8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4lf/8R4"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7104f93a20eso1150932b3a.1;
-        Wed, 07 Aug 2024 00:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723014611; x=1723619411; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4RWP4CLRPK9GI7azts0XFQC+DKEv/lhB1h+1p4SNw0M=;
-        b=S4lf/8R4LcyMwRUYM+NyKPJ8XipZR7+vdBwb7Dr++oZ9ygthA+tlWyEB/8J8kBGTol
-         A3VwxoOSYHJuy7HtQSDgPSGc51/OQNiWExlsL5fUd7KOydg14WGgiuH6obrOtt4mwT4h
-         C9TrvAXohzaO1f8LXyciUIy/EWwvcR49kxtRN3qrGDqeGCGJOtWN6S4gbXrx3AJ2KU5C
-         NVSU2gJpyGuM5oAiSvPOBayhO9YT9ZIHXC44chWI8YPxdG9x2//DwyTQr+nkQeLvhGia
-         mpkhmc7gigHBcSi3canuDgmvMAjXOCipXBxoUMXhKI1KFtk9VvKW+AOoMfmEw/AVDkj7
-         cPhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723014611; x=1723619411;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4RWP4CLRPK9GI7azts0XFQC+DKEv/lhB1h+1p4SNw0M=;
-        b=GXV+grJhs0DqtGl+lbcN9qBb6xec96fE/mpsYQ1QS5WqPX8Ejkz37OfT1ek+AG9SO8
-         A2RmVOoEHAGRFhaGvZVc/hnQicrJEUMDinaJnv3DKx1oH/UwODVPIGESGy0JSbA1TyFZ
-         FFq1u5zRBpZdf8Xy9LJuAwLv6sw3NzRxRAzCQnXzPpWO3bYAuTwDcY5JwxgP2VjB3bh3
-         OjYkrEcp67CxDN9nSY6sDfmSEN4PTwudlDqZklTLUO/olDnvT4p9Z/55/BjTw5O/IkBR
-         2judcjcamegHIcR7GvEobm0MrOuh8entqLAT/QZzOHbdLqk1yNM2ZQnyT6o30ss8xHJP
-         1pJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUyFazCi0L8Mv2G9W0PDsDmKexzRiBIPWYZPTvq60ViDGDp7d1qA1zFNKsVgxS0ij6fVU3Bm+SyVEWaP1WfnQMyxU+kK5jeHQOocmp1nqSEIAPttRatqKtX2FS9v8HsoEPRFRjDtfzEtxe53sZZj0+AAUP27CNyYos/GCcNrM057ldxliARWB8=
-X-Gm-Message-State: AOJu0YwBbWBrlFYfOAR88BVItSVFMwpRnqr1pi1HdRESVyZWnuuyK02R
-	cPjGaqw4pIAsKQ4DOrTVCs0wUQn3EJn9bEYItzSLeOuaso+edojI
-X-Google-Smtp-Source: AGHT+IH9pHfByg2pHXB3Rg7K3BmoD3blolfIFDELyDWPKa7h70VqBxYiV6mZqqsAtdKDLsfAMXyV3g==
-X-Received: by 2002:a05:6a21:329a:b0:1c4:8650:d6db with SMTP id adf61e73a8af0-1c6996240a2mr19272356637.40.1723014610949;
-        Wed, 07 Aug 2024 00:10:10 -0700 (PDT)
-Received: from xiaxiShen-ThinkPad.. ([50.175.126.146])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec41394sm7868749b3a.47.2024.08.07.00.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 00:10:10 -0700 (PDT)
-From: Xiaxi Shen <shenxiaxi26@gmail.com>
-To: kent.overstreet@linux.dev,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com,
-	shenxiaxi26@gmail.com,
-	linux-bcachefs@vger.kernel.org (open list:BCACHEFS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Fix a spelling error in a doc of bcachefs
-Date: Wed,  7 Aug 2024 00:10:05 -0700
-Message-Id: <20240807071005.16329-1-shenxiaxi26@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RH8Z5H+8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8A1C32782;
+	Wed,  7 Aug 2024 07:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723015874;
+	bh=kjmVOn4W7d36TIXcdoDz7P/vSXeDDFbK30LfaqjgzDI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RH8Z5H+8V7TFOJlsd4oC3v7Hn+HaGpVBNcToCLve1FzIpnWlXplMnmrcYsOktA+o8
+	 ZXqmcpM6c3VHc+kS7GQsBGwI5DA+0jLYvIqP2/1csuMEZHjw3AELs5BVdySIFPMayc
+	 GOA3ihKX1MeSc6Z45wsO+XtHNwCV2G+cpxsUBsqrP5Fh+v7CbLKDOkZ8vH4VS018+V
+	 Q6RMqBEL3NM5LFLT7kQ9a1zpTVh+5AKXwFDQKuFpJzUgVLFHprIrT4t3dos2POYndo
+	 cUVaSYer8iuu9gMWa7n/fzTwBHJqUTwKLggS+SsGUiYeFsBwM2LjedKh/o8i34XWB7
+	 pe8OXO6FUOg5g==
+Date: Wed, 7 Aug 2024 09:31:08 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Xiaxi Shen <shenxiaxi26@gmail.com>
+Cc: brauner@kernel.org, djwong@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fix spelling and gramatical errors
+Message-ID: <gav3pjazwfsvbvboz42hlf7srbxpfwjt4zaz5uagq4jvoumiru@6r27sngjhias>
+References: <20240807070536.14536-1-shenxiaxi26@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240807070536.14536-1-shenxiaxi26@gmail.com>
 
-Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
----
- Documentation/filesystems/bcachefs/CodingStyle.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Aug 07, 2024 at 12:05:36AM GMT, Xiaxi Shen wrote:
+> Fixed 3 typos in design.rst
+> 
+> Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
+> ---
+>  Documentation/filesystems/iomap/design.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/bcachefs/CodingStyle.rst b/Documentation/filesystems/bcachefs/CodingStyle.rst
-index 0c45829a4899..01de555e21d8 100644
---- a/Documentation/filesystems/bcachefs/CodingStyle.rst
-+++ b/Documentation/filesystems/bcachefs/CodingStyle.rst
-@@ -175,7 +175,7 @@ errors in our thinking by running our code and seeing what happens. If your
- time is being wasted because your tools are bad or too slow - don't accept it,
- fix it.
- 
--Put effort into your documentation, commmit messages, and code comments - but
-+Put effort into your documentation, commit messages, and code comments - but
- don't go overboard. A good commit message is wonderful - but if the information
- was important enough to go in a commit message, ask yourself if it would be
- even better as a code comment.
--- 
-2.34.1
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
 
+> 
+> diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
+> index f8ee3427bc1a..37594e1c5914 100644
+> --- a/Documentation/filesystems/iomap/design.rst
+> +++ b/Documentation/filesystems/iomap/design.rst
+> @@ -142,9 +142,9 @@ Definitions
+>   * **pure overwrite**: A write operation that does not require any
+>     metadata or zeroing operations to perform during either submission
+>     or completion.
+> -   This implies that the fileystem must have already allocated space
+> +   This implies that the filesystem must have already allocated space
+>     on disk as ``IOMAP_MAPPED`` and the filesystem must not place any
+> -   constaints on IO alignment or size.
+> +   constraints on IO alignment or size.
+>     The only constraints on I/O alignment are device level (minimum I/O
+>     size and alignment, typically sector size).
+>  
+> @@ -394,7 +394,7 @@ iomap is concerned:
+>  
+>   * The **upper** level primitive is provided by the filesystem to
+>     coordinate access to different iomap operations.
+> -   The exact primitive is specifc to the filesystem and operation,
+> +   The exact primitive is specific to the filesystem and operation,
+>     but is often a VFS inode, pagecache invalidation, or folio lock.
+>     For example, a filesystem might take ``i_rwsem`` before calling
+>     ``iomap_file_buffered_write`` and ``iomap_file_unshare`` to prevent
+> -- 
+> 2.34.1
+> 
+> 
