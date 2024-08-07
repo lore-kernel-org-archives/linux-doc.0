@@ -1,153 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9C5762DF;
-	Wed,  7 Aug 2024 18:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1283A09
+	for <linux-doc@vger.kernel.org>; Wed,  7 Aug 2024 18:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723054849; cv=none; b=UzexHyj+6+DG7Cw+bCAieqBXowPBKTUN3YqiCgcA+K7qS874GrFGccgp0Exc5VvwMbhStHR/zEPbPxwLVku0fRIaM6p8F7GfUix39ehMXHF6RpL7gT4+cCzOSkVUaUfzU96tT2Dfn3dmT8GQyccA3gWSVZDHXLb5yWqgZSATBfg=
+	t=1723055176; cv=none; b=QLbYWR0ypGlvsUJJ34eWs4Ufv7leSYzlLh7/k2U4a+w1+XFVQgFb3Kp/qrtku+HoV9KmMzOK5RhE6+ZX6wK/gpJSEp4QAzEiIP2Sl4Vsqw4J6NVOxDNADxam31t35Aq+5aueqtq9nhyXdN8idpxNRfCfWnhq2605PYfERDzfdD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723054849; c=relaxed/simple;
-	bh=iPtiZxg9mYFfVaMP/wI1h2AEAZxcZhi354BsRK7OzkQ=;
+	s=arc-20240116; t=1723055176; c=relaxed/simple;
+	bh=LLEn5MDBQHmrgyVACBfMnS4xxjGfc9LgvIlsA65/wbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSiA9tLcvFL6wUaIhRVs5gEyH9nQ+1kiyb0Ae51o3bIv00t3YqhBcz4yr2IxdcgQUAtBnnTC0Nftc7OEqP6dexE6jsuWtJbtoQL3dlffGr5KYgSyFQfFhSfuNFdryzx2lNafJFvXxzv2cnrCwOisbgjU2UbskOMlUzi/ogevkzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fs+rYBQU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQnM2bBNcMULxhQno1iA9yx11+rgJZcr7RVDnBFyI7X/4gTeuhcAp//9x0m837IqZZjAGzunWYGoedGCr64AGgcpZJV7OC8mhn6mwMdeLmMA0c+SRkNxn3OyF3+tRt3AB56GxnecdKtFRaVzSJa8WAkalCPsQ66FYM7H7vNXvKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=U25YeUgr; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fs+rYBQU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF468C32781;
-	Wed,  7 Aug 2024 18:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723054848;
-	bh=iPtiZxg9mYFfVaMP/wI1h2AEAZxcZhi354BsRK7OzkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fs+rYBQUVp7T/qbPiJP5M3yDB/6MQZbtGhaQKvRjA1Mevvpi2N6URXoVm6Iu+rs/H
-	 5E96EIlDL0oiovI1UalP4pGMxvee6uDYhAHWeNICYCTEurK07w5XNnYjIp7hBBtH+o
-	 BuYSL8/k1GjAORViJw9J27QcUbojhI3Ae/34xWNzZpQoCHqR1I22VHBnMk5CVvZxw6
-	 SS54CnDP9bArj1yivpeOI0pLAxkinjxlqbL5z/NWC2FfzasiBT9xJGfZMh2KPtgniu
-	 UwqU0smfhLaXdoDIRZ0Xs8jOb5KYUUdKDjJmyRdFpd/cLCPX7dVpAIbbnapWdyqlxn
-	 +oDN4u6kRqxgA==
-Date: Wed, 7 Aug 2024 21:18:24 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="U25YeUgr"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-260f033fda3so133583fac.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2024 11:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1723055174; x=1723659974; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qIRgOrphujOZNK9+4f2LlAnWUepvShfv1Q6TgIqEiJY=;
+        b=U25YeUgrVPQWiF6HNsyfeZr/rCPFqUJ7IKPJII7YfwojnUDQWwJGvEtmoAV8EED88P
+         q7N0sf7Eukm+5ZnhcifkiVtCU8R3MkL1huBoD/Bv5dVwBnNIaEausahv1d83yrv13EyM
+         ALiLyllcGQpc53rY5KFwGVv+/nBUC1XuRTJYUz3yjYtedvVmpgtcmU6Lokj5Fb/DpgtS
+         HYDPwsjITnGYFmnIwlbJvGWRBnUyRDO++CxN7pgt2/y/LeBfTjph9Nc+t6o7P5dinyJz
+         foo9dfdQvFqum8wQn+QtKGcRgQ45+JBFBuiXhcTH6lAsbldgcY9+w8X2wGvnnFKCzlBH
+         w+qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723055174; x=1723659974;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qIRgOrphujOZNK9+4f2LlAnWUepvShfv1Q6TgIqEiJY=;
+        b=Mg1CMj41TPRA8t7NuGsmQr5ZHP/VKlPjOrc/DLfE2qhEzZBf1XrVwjt8G4JY19qFaM
+         Yelsd49IuYQTw7FWS+SXWYABrxcaWhTJe0GFqfH+0e44Pf/bh7/yVSl06/7H0LtqpJnW
+         zQzVOpkmO4deVqWyGxYXEnYliGTtbbHoEyzEvbj8zECYVm0URdNyUjo5FjQROAG6fVZ2
+         +I2JMbXjK/PeNy0MjzvzikpuqWfjkYdaw98XKQA11KjAyNbR7zHyxnNGFSXsbYmf32pM
+         Tju1/pbTmZgxa2fm8joA8qPbfk9kKzHgMI4vD3uQuIL53+lPp2yMfRrnNI1E51ACyryR
+         iRaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXo4pmo5l1Dmy7zit88so4NJq0T5TCDS7HIVbZR43pWe+iDdDBv+ikAaN7Q2G5wROkZ+Pdrpj+b4on6Op6hmaUVLRfK9iD+Aauy
+X-Gm-Message-State: AOJu0YzVKjCLcNRRpwbBlZOU4hf8+wrwXx1zVPsXClV17LZNKi7HcXUP
+	vbo+Ucs5BsuI2I9X46ABr9AE86Al7Xm9xr0/GW+0A61Nxr9dJEh9JAunp9zPryc=
+X-Google-Smtp-Source: AGHT+IF4dmL7QQFh54XoTTYzluGtiIHPWtm1r4ZnSMjpESeur6JHnnxQaalp3hZhfOljJo1uPFxdYA==
+X-Received: by 2002:a05:6870:4693:b0:260:e6a6:396c with SMTP id 586e51a60fabf-26891d5aebfmr23740831fac.30.1723055173896;
+        Wed, 07 Aug 2024 11:26:13 -0700 (PDT)
+Received: from ziepe.ca ([128.77.69.90])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a3786bbcffsm82167785a.99.2024.08.07.11.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 11:26:13 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1sblMR-003SUs-9y;
+	Wed, 07 Aug 2024 15:26:11 -0300
+Date: Wed, 7 Aug 2024 15:26:11 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: James Houghton <jthoughton@google.com>
+Cc: David Hildenbrand <david@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Borislav Petkov <bp@alien8.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Zi Yan <ziy@nvidia.com>, devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	nvdimm@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v4 24/26] arch_numa: switch over to numa_memblks
-Message-ID: <ZrO6cExVz1He_yPn@kernel.org>
-References: <20240807064110.1003856-1-rppt@kernel.org>
- <20240807064110.1003856-25-rppt@kernel.org>
- <1befc540-8904-4c23-b0e6-e2c556fe22b9@app.fastmail.com>
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shaoqin Huang <shahuang@redhat.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
+	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
+ clear_young MMU notifiers
+Message-ID: <20240807182611.GH8473@ziepe.ca>
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-6-jthoughton@google.com>
+ <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
+ <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com>
+ <20240806172349.GQ676757@ziepe.ca>
+ <CADrL8HXFK=1cUS+0Z5k048U4rzpTNL634f57VtJ7TD_umrbNiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1befc540-8904-4c23-b0e6-e2c556fe22b9@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADrL8HXFK=1cUS+0Z5k048U4rzpTNL634f57VtJ7TD_umrbNiA@mail.gmail.com>
 
-On Wed, Aug 07, 2024 at 08:58:37AM +0200, Arnd Bergmann wrote:
-> On Wed, Aug 7, 2024, at 08:41, Mike Rapoport wrote:
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Wed, Aug 07, 2024 at 08:02:26AM -0700, James Houghton wrote:
+> On Tue, Aug 6, 2024 at 10:23 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > >
-> > Until now arch_numa was directly translating firmware NUMA information
-> > to memblock.
+> > On Thu, Aug 01, 2024 at 04:13:40PM -0700, James Houghton wrote:
+> > > --- a/include/linux/mmu_notifier.h
+> > > +++ b/include/linux/mmu_notifier.h
+> > > @@ -106,6 +106,18 @@ struct mmu_notifier_ops {
+> > >          * clear_young is a lightweight version of clear_flush_young. Like the
+> > >          * latter, it is supposed to test-and-clear the young/accessed bitflag
+> > >          * in the secondary pte, but it may omit flushing the secondary tlb.
+> > > +        *
+> > > +        * The fast_only parameter indicates that this call should not block,
+> > > +        * and this function should not cause other MMU notifier calls to
+> > > +        * block. Usually this means that the implementation should be
+> > > +        * lockless.
+> > > +        *
+> > > +        * When called with fast_only, this notifier will be a no-op unless
+> > > +        * has_fast_aging is set on the struct mmu_notifier.
+> >
+> > If you add a has_fast_aging I wonder if it is better to introduce new
+> > ops instead? The semantics are a bit easier to explain that way
 > 
-> I get a link time warning from this:
-> 
->     WARNING: modpost: vmlinux: section mismatch in reference: numa_set_cpumask+0x24 (section: .text.unlikely) -> early_cpu_to_node (section: .init.text)
+> v5 implemented these with a new op[1]. *Just* having the new op is
+> kind of problematic -- we have yet another op to do something very
+> similar to what already exists. We are left with two options:
+> consolidate everything into a single notifier[2] or add a new
+> parameter to test/clear_young()[3]. The latter, implemented in this
+> v6, is somewhat simpler to implement (fewer LoC, reduces some
+> duplication in KVM), though it does indeed make the explanation for
+> test/clear_young() slightly more complex. I don't feel very strongly,
+> but unless you do, I think I just ought to stick with how the v6 does
+> it. :)
 
-I didn't see this neither in my build tests nor in kbuild reports :/
- 
-> > @@ -142,7 +144,7 @@ void __init early_map_cpu_to_node(unsigned int cpu, int nid)
-> >  unsigned long __per_cpu_offset[NR_CPUS] __read_mostly;
-> >  EXPORT_SYMBOL(__per_cpu_offset);
-> > 
-> > -int __init early_cpu_to_node(int cpu)
-> > +int early_cpu_to_node(int cpu)
-> >  {
-> >  	return cpu_to_node_map[cpu];
-> >  }
-> 
-> early_cpu_to_node() can no longer be __init here
-> 
-> > +#endif /* CONFIG_NUMA_EMU */
-> > diff --git a/include/asm-generic/numa.h b/include/asm-generic/numa.h
-> > index c32e0cf23c90..c2b046d1fd82 100644
-> > --- a/include/asm-generic/numa.h
-> > +++ b/include/asm-generic/numa.h
-> > @@ -32,8 +32,6 @@ static inline const struct cpumask *cpumask_of_node(int node)
-> > 
-> >  void __init arch_numa_init(void);
-> >  int __init numa_add_memblk(int nodeid, u64 start, u64 end);
-> > -void __init numa_set_distance(int from, int to, int distance);
-> > -void __init numa_free_distance(void);
-> >  void __init early_map_cpu_to_node(unsigned int cpu, int nid);
-> >  int __init early_cpu_to_node(int cpu);
-> >  void numa_store_cpu_info(unsigned int cpu);
-> 
-> but is still declared as __init in the header, so it is
-> still put in that section and discarded after boot.
+If it does makes the code simpler then it is probably the better choice
 
-I believe this should fix it
-
-diff --git a/include/asm-generic/numa.h b/include/asm-generic/numa.h
-index c2b046d1fd82..e063d6487f66 100644
---- a/include/asm-generic/numa.h
-+++ b/include/asm-generic/numa.h
-@@ -33,7 +33,7 @@ static inline const struct cpumask *cpumask_of_node(int node)
- void __init arch_numa_init(void);
- int __init numa_add_memblk(int nodeid, u64 start, u64 end);
- void __init early_map_cpu_to_node(unsigned int cpu, int nid);
--int __init early_cpu_to_node(int cpu);
-+int early_cpu_to_node(int cpu);
- void numa_store_cpu_info(unsigned int cpu);
- void numa_add_cpu(unsigned int cpu);
- void numa_remove_cpu(unsigned int cpu);
- 
-> I was confused by this at first, since the 'early' name
-> seems to imply that you shouldn't call it once the system
-> is up, but now you do.
-
-I agree that this is confusing, but that's what x86 does and numa_emulation
-uses.
- 
->      Arnd
-> 
-
--- 
-Sincerely yours,
-Mike.
+Jason
