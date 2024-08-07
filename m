@@ -1,138 +1,307 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1283A09
-	for <linux-doc@vger.kernel.org>; Wed,  7 Aug 2024 18:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFBD4653A;
+	Wed,  7 Aug 2024 18:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723055176; cv=none; b=QLbYWR0ypGlvsUJJ34eWs4Ufv7leSYzlLh7/k2U4a+w1+XFVQgFb3Kp/qrtku+HoV9KmMzOK5RhE6+ZX6wK/gpJSEp4QAzEiIP2Sl4Vsqw4J6NVOxDNADxam31t35Aq+5aueqtq9nhyXdN8idpxNRfCfWnhq2605PYfERDzfdD8=
+	t=1723055864; cv=none; b=WGSeE7f7tYKoFOyCWsJPjxqgIKZ+AElfq+aNgTEexGazyvZm7+7gGIQZfmARjmXNxD/ystDN1S0GDdzWfZTdUGhuOC+/jwtHJbV2jf7n46g0IEL2+uQjO14S2tuPNAO+aQoU/DALrjX/rethHIqvLPiLTbNC9SSkAU7g8E0PzJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723055176; c=relaxed/simple;
-	bh=LLEn5MDBQHmrgyVACBfMnS4xxjGfc9LgvIlsA65/wbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RQnM2bBNcMULxhQno1iA9yx11+rgJZcr7RVDnBFyI7X/4gTeuhcAp//9x0m837IqZZjAGzunWYGoedGCr64AGgcpZJV7OC8mhn6mwMdeLmMA0c+SRkNxn3OyF3+tRt3AB56GxnecdKtFRaVzSJa8WAkalCPsQ66FYM7H7vNXvKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=U25YeUgr; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1723055864; c=relaxed/simple;
+	bh=CI38NBqvpLgEio8pnShmGbgJ4EtQ22pvUjsmaMuyq64=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CqJmb1saFeAx7SPGVlBFHnReDSjiMCZ2jQaK3m9XLkgCj1a0JtpyrBzLZp4ryrbv0OUrL4WBfN8M8iTF1bociLw62Pv2CzUDH2I+NFK9aeEu38EUTlDxkGYoCiSfMJK1qF0w/CYLRoCo4NxuP3LD0ysLEU9jdPImcBbRswAWF+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=B206mSKX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="U25YeUgr"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-260f033fda3so133583fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2024 11:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1723055174; x=1723659974; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qIRgOrphujOZNK9+4f2LlAnWUepvShfv1Q6TgIqEiJY=;
-        b=U25YeUgrVPQWiF6HNsyfeZr/rCPFqUJ7IKPJII7YfwojnUDQWwJGvEtmoAV8EED88P
-         q7N0sf7Eukm+5ZnhcifkiVtCU8R3MkL1huBoD/Bv5dVwBnNIaEausahv1d83yrv13EyM
-         ALiLyllcGQpc53rY5KFwGVv+/nBUC1XuRTJYUz3yjYtedvVmpgtcmU6Lokj5Fb/DpgtS
-         HYDPwsjITnGYFmnIwlbJvGWRBnUyRDO++CxN7pgt2/y/LeBfTjph9Nc+t6o7P5dinyJz
-         foo9dfdQvFqum8wQn+QtKGcRgQ45+JBFBuiXhcTH6lAsbldgcY9+w8X2wGvnnFKCzlBH
-         w+qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723055174; x=1723659974;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qIRgOrphujOZNK9+4f2LlAnWUepvShfv1Q6TgIqEiJY=;
-        b=Mg1CMj41TPRA8t7NuGsmQr5ZHP/VKlPjOrc/DLfE2qhEzZBf1XrVwjt8G4JY19qFaM
-         Yelsd49IuYQTw7FWS+SXWYABrxcaWhTJe0GFqfH+0e44Pf/bh7/yVSl06/7H0LtqpJnW
-         zQzVOpkmO4deVqWyGxYXEnYliGTtbbHoEyzEvbj8zECYVm0URdNyUjo5FjQROAG6fVZ2
-         +I2JMbXjK/PeNy0MjzvzikpuqWfjkYdaw98XKQA11KjAyNbR7zHyxnNGFSXsbYmf32pM
-         Tju1/pbTmZgxa2fm8joA8qPbfk9kKzHgMI4vD3uQuIL53+lPp2yMfRrnNI1E51ACyryR
-         iRaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXo4pmo5l1Dmy7zit88so4NJq0T5TCDS7HIVbZR43pWe+iDdDBv+ikAaN7Q2G5wROkZ+Pdrpj+b4on6Op6hmaUVLRfK9iD+Aauy
-X-Gm-Message-State: AOJu0YzVKjCLcNRRpwbBlZOU4hf8+wrwXx1zVPsXClV17LZNKi7HcXUP
-	vbo+Ucs5BsuI2I9X46ABr9AE86Al7Xm9xr0/GW+0A61Nxr9dJEh9JAunp9zPryc=
-X-Google-Smtp-Source: AGHT+IF4dmL7QQFh54XoTTYzluGtiIHPWtm1r4ZnSMjpESeur6JHnnxQaalp3hZhfOljJo1uPFxdYA==
-X-Received: by 2002:a05:6870:4693:b0:260:e6a6:396c with SMTP id 586e51a60fabf-26891d5aebfmr23740831fac.30.1723055173896;
-        Wed, 07 Aug 2024 11:26:13 -0700 (PDT)
-Received: from ziepe.ca ([128.77.69.90])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a3786bbcffsm82167785a.99.2024.08.07.11.26.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 11:26:13 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1sblMR-003SUs-9y;
-	Wed, 07 Aug 2024 15:26:11 -0300
-Date: Wed, 7 Aug 2024 15:26:11 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: James Houghton <jthoughton@google.com>
-Cc: David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Matlack <dmatlack@google.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
- clear_young MMU notifiers
-Message-ID: <20240807182611.GH8473@ziepe.ca>
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-6-jthoughton@google.com>
- <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
- <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com>
- <20240806172349.GQ676757@ziepe.ca>
- <CADrL8HXFK=1cUS+0Z5k048U4rzpTNL634f57VtJ7TD_umrbNiA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="B206mSKX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40314418B1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1723055857; bh=j5tAlNX+pQUFnmYMm1+XGm4T1zHfXV5AsYeIWLqsfhk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=B206mSKX1ap3GEhkyNPF/td7lR907oObEkliyxa37AQRSt16MSPApNHFnqkaCSQwU
+	 Wqm1DWFay3XZ6wkIpFiG7Dgiixq/vp16Opvj3xrHU00EcIEKJi1XYYe3RCGY6YbgqO
+	 yyCPAComXzcjiDDVsA1j8JvCct67Wdsw49d6+EsyKFcw230sjPcTmmNTI7YK9F/FNN
+	 neCN+HDCv33dn0KMznLpsvU9131i3KDj5IX7MA5MVEKRpEKWJdmW9JapxDurcRdwPX
+	 RiYmXKyOxpfeHJZhxMqbwY9FtSF/UImJEwtKj10ZxWxAqWNLpcmB/bGmCirsy8CygI
+	 4z7XhdHcaHtjw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 40314418B1;
+	Wed,  7 Aug 2024 18:37:37 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, Petr
+ =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v1] docs: bug-bisect: rewrite to better match the other
+ bisecting text
+In-Reply-To: <10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info>
+References: <10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info>
+Date: Wed, 07 Aug 2024 12:37:36 -0600
+Message-ID: <87ttfwrxfz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADrL8HXFK=1cUS+0Z5k048U4rzpTNL634f57VtJ7TD_umrbNiA@mail.gmail.com>
+Content-Type: text/plain
 
-On Wed, Aug 07, 2024 at 08:02:26AM -0700, James Houghton wrote:
-> On Tue, Aug 6, 2024 at 10:23 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Thu, Aug 01, 2024 at 04:13:40PM -0700, James Houghton wrote:
-> > > --- a/include/linux/mmu_notifier.h
-> > > +++ b/include/linux/mmu_notifier.h
-> > > @@ -106,6 +106,18 @@ struct mmu_notifier_ops {
-> > >          * clear_young is a lightweight version of clear_flush_young. Like the
-> > >          * latter, it is supposed to test-and-clear the young/accessed bitflag
-> > >          * in the secondary pte, but it may omit flushing the secondary tlb.
-> > > +        *
-> > > +        * The fast_only parameter indicates that this call should not block,
-> > > +        * and this function should not cause other MMU notifier calls to
-> > > +        * block. Usually this means that the implementation should be
-> > > +        * lockless.
-> > > +        *
-> > > +        * When called with fast_only, this notifier will be a no-op unless
-> > > +        * has_fast_aging is set on the struct mmu_notifier.
-> >
-> > If you add a has_fast_aging I wonder if it is better to introduce new
-> > ops instead? The semantics are a bit easier to explain that way
-> 
-> v5 implemented these with a new op[1]. *Just* having the new op is
-> kind of problematic -- we have yet another op to do something very
-> similar to what already exists. We are left with two options:
-> consolidate everything into a single notifier[2] or add a new
-> parameter to test/clear_young()[3]. The latter, implemented in this
-> v6, is somewhat simpler to implement (fewer LoC, reduces some
-> duplication in KVM), though it does indeed make the explanation for
-> test/clear_young() slightly more complex. I don't feel very strongly,
-> but unless you do, I think I just ought to stick with how the v6 does
-> it. :)
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-If it does makes the code simpler then it is probably the better choice
+> Rewrite the short document on bisecting kernel bugs. The new text
+> improves .config handling, brings a mention of 'git skip', and explains
+> what to do after the bisection finished -- including trying a revert to
+> verify the result. The rewrite at the same time removes the unrelated
+> and outdated section on 'Devices not appearing' and replaces some
+> sentences about bug reporting with a pointer to the document covering
+> that topic in detail.
+>
+> This overall brings the approach close to the one in the recently added
+> text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+> As those two texts serve a similar purpose for different audiences,
+> mention that document in the head of this one and outline when the
+> other might be the better one to follow.
+>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/admin-guide/bug-bisect.rst | 205 +++++++++++++++--------
+>  MAINTAINERS                              |   1 +
+>  2 files changed, 135 insertions(+), 71 deletions(-)
 
-Jason
+So overall this seems like a good thing to do.  I wouldn't be me if I
+didn't have some comments though...:)
+
+> diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+> index 325c5d0ed34a0a..f4a9acab65d0f5 100644
+> --- a/Documentation/admin-guide/bug-bisect.rst
+> +++ b/Documentation/admin-guide/bug-bisect.rst
+> @@ -1,76 +1,139 @@
+> -Bisecting a bug
+> -+++++++++++++++
+> -
+> -Last updated: 28 October 2016
+> -
+> -Introduction
+> -============
+> -
+> -Always try the latest kernel from kernel.org and build from source. If you are
+> -not confident in doing that please report the bug to your distribution vendor
+> -instead of to a kernel developer.
+> -
+> -Finding bugs is not always easy. Have a go though. If you can't find it don't
+> -give up. Report as much as you have found to the relevant maintainer. See
+> -MAINTAINERS for who that is for the subsystem you have worked on.
+> -
+> -Before you submit a bug report read
+> -'Documentation/admin-guide/reporting-issues.rst'.
+> -
+> -Devices not appearing
+> -=====================
+> -
+> -Often this is caused by udev/systemd. Check that first before blaming it
+> -on the kernel.
+> -
+> -Finding patch that caused a bug
+> -===============================
+> -
+> -Using the provided tools with ``git`` makes finding bugs easy provided the bug
+> -is reproducible.
+> -
+> -Steps to do it:
+> -
+> -- build the Kernel from its git source
+> -- start bisect with [#f1]_::
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
+> +.. [see the bottom of this file for redistribution information]
+>  
+> -	$ git bisect start
+> -
+> -- mark the broken changeset with::
+> -
+> -	$ git bisect bad [commit]
+> -
+> -- mark a changeset where the code is known to work with::
+> -
+> -	$ git bisect good [commit]
+> -
+> -- rebuild the Kernel and test
+> -- interact with git bisect by using either::
+> -
+> -	$ git bisect good
+> -
+> -  or::
+> -
+> -	$ git bisect bad
+> -
+> -  depending if the bug happened on the changeset you're testing
+> -- After some interactions, git bisect will give you the changeset that
+> -  likely caused the bug.
+> -
+> -- For example, if you know that the current version is bad, and version
+> -  4.8 is good, you could do::
+> -
+> -           $ git bisect start
+> -           $ git bisect bad                 # Current version is bad
+> -           $ git bisect good v4.8
+> +===============
+> +Bisecting a bug
+> +===============
+>  
+> +This document describes how to find a change causing a kernel regression using
+> +``git bisect``.
+
+This seems a bit terse.  A bit of information on when doing a bisection
+makes sense would not go amiss - when somebody has observed that a
+previously working feature broke with an update.
+
+> -.. [#f1] You can, optionally, provide both good and bad arguments at git
+> -	 start with ``git bisect start [BAD] [GOOD]``
+> +The text focuses on the gist of the process. If you are new to bisecting the
+> +kernel, better follow Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> +instead: it depicts everything from start to finish while covering multiple
+> +aspects even kernel developers occasionally forget. This includes:
+>  
+> -For further references, please read:
+> +- Detecting situations where a bisections would be a waste of time, as nobody
+> +  would care about the result -- for example, because the problem is triggered
+> +  by a .config change, was already fixed, is caused by something your Linux
+> +  distributor changed, occurs in an abandoned version, or happens after the
+> +  kernel marked itself as 'tainted'.
+> +- Preparing the .config file using an appropriate kernel while enabling or
+> +  disabling debug symbols depending on the situation's needs -- while optionally
+> +  trimming the .config to tremendously reduce the build time per bisection step.
+> +- For regressions in stable or longterm kernels: checking mainline as well, as
+> +  the result determines to whom the regression must be reported to.
+
+This instead seems a bit verbose; I'd be tempted to take out the
+itemized list and leave just the paragraph above.
+
+> -- The man page for ``git-bisect``
+> -- `Fighting regressions with git bisect <https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html>`_
+> -- `Fully automated bisecting with "git bisect run" <https://lwn.net/Articles/317154>`_
+> -- `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_
+> +Neither document describes how to report a regression, as that is covered by
+> +Documentation/admin-guide/reporting-issues.rst.
+
+This could maybe go at the end - "once you've found the regression, see
+this document on how to report it" ?
+
+> +Finding the change causing a kernel issue using a bisection
+> +===========================================================
+> +
+> +*Note: the following process assumes you prepared everything for a bisection;
+> +this includes having a Git clone with the appropriate sources, installing the
+> +software required to build and install kernels, as well as a .config file stored
+> +in a safe place (the following example assumes '~/prepared_kernel_.config') to
+> +use as pristine base at each bisection step.*
+> +
+> +* Preparation: start the bisection and tell Git about the points in the history
+> +  you consider to be working and broken, which Git calls 'good' and 'bad'::
+> +
+> +    git bisect start
+> +    git bisect good v6.0
+> +    git bisect bad v6.1
+> +
+> +  Instead of Git tags like 'v6.0' and 'v6.1' you can specify commit-ids, too.
+> +
+> +1. Copy your prepared .config into the build directory and adjust it to the
+> +   needs of the codebase Git checked out for testing::
+> +
+> +     cp ~/prepared_kernel_.config .config
+> +     make olddefconfig
+> +
+> +2. Now build, install, and boot a kernel; if any of this fails for unrelated
+> +   reasons, run ``git bisect skip`` and go back to step 1.
+
+Spell out "unrelated reasons" a bit more thoroughly?  I'd mention that
+things can go wrong (despite our best efforts) when bisect lands in the
+middle of a patch series, and to recognize a failure that is not the bug
+in question.
+
+> +3. Check if the feature that regressed works in the kernel you just built.
+> +
+> +   If it does, execute::
+> +
+> +     git bisect good
+> +
+> +   If it does not, run::
+> +
+> +     git bisect bad
+> +
+> +   Be sure what you tell Git is correct, as getting this wrong just once will
+> +   send the rest of the bisection totally off course.
+
+Something about hard-to-trigger bugs and putting in the effort to be
+sure that a good kernel is really good?  Along those lines, maybe
+something at the top about having a well-defined reproducer for the
+problem would be good.
+
+> +   Go back to back to step 1, if Git after issuing one of those commands checks
+> +   out another bisection point while printing something like 'Bisecting:
+> +   675 revisions left to test after this (roughly 10 steps)'.
+> +
+> +   You finished the bisection and move to the next point below, if Git instead
+> +   prints something like 'cafecaca0c0dacafecaca0c0dacafecaca0c0da is the first
+> +   bad commit'; right afterwards it will show some details about the culprit
+> +   including its patch description.
+
+That's a big and hard-to-parse sentence.  I'd start with the "if"
+condition - this isn't perl :)
+
+>     The latter can easily fill your terminal,
+> +   so you might need to scroll up to see the message mentioning the culprit's
+> +   commit-id; alternatively, run ``git bisect log`` to show the result.
+> +
+> +* Recommended complementary task: put the bisection log and the current
+> +  .config file aside for the bug report; furthermore tell Git to reset the
+> +  sources to the state before the bisection::
+> +
+> +     git bisect log > ~/bisection-log
+> +     cp .config ~/bisection-config-culprit
+> +     git bisect reset
+> +
+> +* Recommended optional task: try reverting the culprit on top of the latest
+> +  codebase; if successful, this will validate your bisection and enable
+> +  developers to resolve the regression through a revert.
+
+"successful" could be misinterpreted as referring to the revert itself
+here.  An explicit "if that fixes the bug..." would be more clear.
+
+> +  To try this, update your clone and check out latest mainline. Then tell Git to
+> +  revert the change::
+> +
+> +     git revert --no-edit cafec0cacaca0
+> +
+> +  This might be impossible, for example when the bisection landed on a merge
+> +  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+> +  the culprit because later changes depend on it -- unless you bisected using a
+> +  stable or longterm kernel series, in which case you want to retry using the
+> +  latest code from that series.
+> +
+> +  If a revert succeeds, build and test another kernel to validate the result of
+> +  the bisection. Mention the outcome in your bug report.
+> +
+> +Additional reading material
+> +---------------------------
+> +
+> +* The `man page for 'git bisect' <https://git-scm.com/docs/git-bisect>`_ and
+> +  `fighting regressions with 'git bisect' <https://git-scm.com/docs/git-bisect-lk2009.html>`_
+> +  in the Git documentation.
+> +* `Working with git bisect <https://nathanchance.dev/posts/working-with-git-bisect/>`_
+> +  from kernel developer Nathan Chancellor.
+> +* `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_.
+> +* `Fully automated bisecting with 'git bisect run' <https://lwn.net/Articles/317154>`_.
+> +
+> +..
+> +   end-of-content
+
+end-of-comments
+
+Thanks for doing this.
+
+jon
