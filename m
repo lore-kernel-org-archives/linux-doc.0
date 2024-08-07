@@ -1,65 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEF71422D5;
-	Wed,  7 Aug 2024 21:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ADB155336;
+	Wed,  7 Aug 2024 21:57:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723064431; cv=none; b=tKEu2Cy6GMdTG+My6x+Mo+R4kxEtkRNaTAG0NepeWGUw3wacRpL5XVSGaXiFoY/gcG+LaYDlh8MMxcr5XkIi3f2vtw6UZpFjdO4q/4bQ6zsqG10NgovJ9zxrPO4D3snQVrS2n4IB3koGjFdBminmAZjS5YruhFMhM8OSZuCseBM=
+	t=1723067847; cv=none; b=C+JCmPTquyw+AoM9WAEJA/KeyiECvj+94eyqiISmotqdK5XgODzfOmy1UgFWypWGx00qukJmUsgZvVbXRWHnJOXUAw0xlnXxUfESh7R9eRz4M9kZU36j2g7GrRInsxHLfamc644s6OdheNIbJSkwdO5PrRs/KhJ/XZwrQq3KIfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723064431; c=relaxed/simple;
-	bh=X+Ll5BBGlCfJJhWXkpa0zwIju42PoV8MDuvOtuyKQ2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VxoiBffjcNP23eQNU3ugMPp/+gGUC0e3m9xCo6rDAzDVwT1xcgvcKObT39ZD5bZ3Ay/CecSmcf2J2DIqz7IwGUz4OsIxeCanrxKAmciiQUnMrlb0hrjozBc+40y5XUbdtMJhfFUq71F/YoLZJaRIRxBj7bQj1OH9vkRNvaMNNSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F237C32781;
-	Wed,  7 Aug 2024 21:00:30 +0000 (UTC)
-Date: Wed, 7 Aug 2024 17:00:29 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, "Guilherme
- G. Piccoli", Jonathan Corbet <corbet@lwn.net>, Mike Rapoport
- <rppt@kernel.org>
-Subject: [PATCH] pstore/ramoops: Fix typo as there is no "reserver"
-Message-ID: <20240807170029.3c1ff651@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1723067847; c=relaxed/simple;
+	bh=ab42EY7AePAQAjjiN0FjmKz697SEyB0rVErEnmbUBY4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g1xp3Ng6rk3U46Skh8B4bJasrqolWfAVrHvdUokUnBbI8E5tyErx09pQNNX2McshprgVHZ55ET5JqMQXNaBWqvCQVjQ699spIZOZS/rJWE8GWu+o050bHZTlm+3Ym96l9h51awgwyygLuVDze1kF0C+BqZgWa3/e7mU5UVzuphk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b89+P3kh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b89+P3kh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82502C32781;
+	Wed,  7 Aug 2024 21:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723067846;
+	bh=ab42EY7AePAQAjjiN0FjmKz697SEyB0rVErEnmbUBY4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=b89+P3kh2B7Idb0H9qgYUXh+1gIGIdwOPnNvhriOXfNvZXNJEzgvsAkKQLVyYZB6y
+	 Ub14NXI5zmEr7X86he1OSMEewOnMCjjAO5mJ7kCPcHcHsFQOMLVPbQHAj/8HZcuI9f
+	 MZYsxDcUt73IOFrJYV7RguWhJQ3J9PX85Zlt1D+hlwlWxJRPGpJITTFtdFOgBzYWaZ
+	 xcCjyLNWc5DPix+/I53lS1hkrqnt5LKHP0CdjDVYEmNOfY4NeCHQ5XYl6w54zjwTjk
+	 dkU350YZlHcsxx1u2uCR23pMExi+C13By1rnydam7mxhO6MhfHJsDaQO6UbeL50diP
+	 n091XFNSyqaZg==
+From: Kees Cook <kees@kernel.org>
+To: LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH] pstore/ramoops: Fix typo as there is no "reserver"
+Date: Wed,  7 Aug 2024 14:57:21 -0700
+Message-Id: <172306784057.66923.16977092081545994826.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240807170029.3c1ff651@gandalf.local.home>
+References: <20240807170029.3c1ff651@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-From: Steven Rostedt <rostedt@goodmis.org>
+On Wed, 07 Aug 2024 17:00:29 -0400, Steven Rostedt wrote:
+> For some reason my finger always hits the 'r' after typing "reserve".
+> Fix the typo in the Documentation example.
+> 
+> 
 
-For some reason my finger always hits the 'r' after typing "reserve".
-Fix the typo in the Documentation example.
+Applied to for-next/pstore, thanks!
 
-Fixes: d9d814eebb1ae ("pstore/ramoops: Add ramoops.mem_name= command line option")
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
-Note, I did have this fixed, but the previous version was pulled:
-  https://lore.kernel.org/linux-trace-kernel/20240613233446.283241953@goodmis.org/
+[1/1] pstore/ramoops: Fix typo as there is no "reserver"
+      https://git.kernel.org/kees/c/08043b1dabf8
 
- Documentation/admin-guide/ramoops.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Take care,
 
-diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
-index 6f534a707b2a..2eabef31220d 100644
---- a/Documentation/admin-guide/ramoops.rst
-+++ b/Documentation/admin-guide/ramoops.rst
-@@ -129,7 +129,7 @@ Setting the ramoops parameters can be done in several different manners:
-     takes a size, alignment and name as arguments. The name is used
-     to map the memory to a label that can be retrieved by ramoops.
- 
--	reserver_mem=2M:4096:oops  ramoops.mem_name=oops
-+	reserve_mem=2M:4096:oops  ramoops.mem_name=oops
- 
- You can specify either RAM memory or peripheral devices' memory. However, when
- specifying RAM, be sure to reserve the memory by issuing memblock_reserve()
 -- 
-2.43.0
+Kees Cook
 
