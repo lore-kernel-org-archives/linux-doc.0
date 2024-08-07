@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0D42770E;
-	Wed,  7 Aug 2024 18:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8AE1422AD;
+	Wed,  7 Aug 2024 18:56:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723056882; cv=none; b=NZ/LHUrEX+SoyE8Ljy2gkfxBrRg550PWPeAMdwtEfDzkykzqFboUv1raRsWgzarn8l2zkTf2ArXwADCFvNUu0TT67GYPWI0qOAkw5/O0MOBHW054cqPw36Yq0kmNH/jU2hzRTO17OWZFOW3cLzWCt9nhCz84t7B7l59d3RIfwlY=
+	t=1723057016; cv=none; b=nh3bNRmzPlW9GtLsD8mUzKWtxYc2KHEWp4fN6zcrSRw3l8b98MPxhnJjuTm6LZg47kX8kBEdNwEFeX7CqwzEJqvqjXsUQtHGAm9fWfLilg5bygeHWZbdf5O2qiPnHg0m5cS7RMoJuu/3zyCuwuPYeHgumhJenKGsTyvhg4aHNAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723056882; c=relaxed/simple;
-	bh=eS5OgVnptRZen/HahpgvKUIcE9oPU+vpkiUvT4UU0jI=;
+	s=arc-20240116; t=1723057016; c=relaxed/simple;
+	bh=0wItnGiatP6yQGYXS/TeiEih6p9cu8aCkK632lXRqfY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f7l82bXoq14JXHhghQ6m6vihJOoUbLYwhrZAFYFa53hozXw4/gA52QgWanhHHy60QyAvjSfryPjuMhmBtiHqLnTuwHINcGE95GWx/LXc6SGGh/Kv3JUSsJYmUET36mScbhTEglZqg50a8I7dWcDO5aMX3Pr+NUVPErkGh+AffeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZL+8xYWV; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=mdVpNn7mAkSNj2YVWCxR6gZ3kT9bqcOVkHHyiyFftc4lLT9qrPI+Sej9O+yYN8cqXbF9KlgEZOP8hwRsBjzrS3IN+zW1tEKY4UuxyOzZjWrl0fjO0JxYf5v8ni8yrw3xeW7lAOYJTSO2DxTImO5RHg6VGkbl0nA7ebHQsqsi5IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=V13uMQFF; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZL+8xYWV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2C6CF418B1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="V13uMQFF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D49E5418B1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723056872; bh=HT5EcgEnMFiayl2D7AjPhk3oSJU+IUjydwWSqwJ7WBc=;
+	t=1723057012; bh=nkHc2ioZ4tR8NXnTSXDp0ccyM4cU1xPTceTaYDpYIZg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZL+8xYWV8yK+HQI8E2uPeOxQmBGm+Y0EsjghmRWH0Uk2WNgdyeHWuqs0UVgYa4P8A
-	 dzAHyJ7g1SUpadFFV2v7BmToXcXvgM0nNCg5B5DOcstq64OnJSAAWQ1IUYLAfRP3v4
-	 Gk0F0kNM5ARys62gHRMCbikPpwfY7kIltJvOkwDtBwQZ4Hsw1g+cF4mNTE4kS5J2q9
-	 ZOJa5SuuOce/CElJ+9oB375vrIfOD8X2pOcl3sXAWwa5Xqrbwzy6uP7Vq0iydvf8tj
-	 Ty8OdCetrES8ORXMIarcyfV+mRgC5tc1gQLeL7jZpV8Ma+9pYZLLy/263aetaBULMd
-	 pyQ3ql2n3JY8A==
+	b=V13uMQFFftB5j+Ti5ZTfKxCPftMIaLzWtzCkIgKCwmN7qo1f1Qg3A4ba6OH2FsDtE
+	 LpQ9JMwBvW1jWcsOCJQSlfgEU6pM211MMy3pkZqiVnSJRexuF1xB76FaALeM0nbYy7
+	 J6rWoPiKrQlNmSkxh4dwBl+OlwyQTPoclA9MdWF00zg7d9slb0yoe0i5yOLkS3OzV2
+	 fYSg2vehrkAHideveMYZdYnD64wchRPJN/28rT/EHV+gcPN4ZEjhJoJlDiRiy+3ZiH
+	 gjft9ZxfIstzayHfcduF/VnyOWl9GeAfxnIfzfu+8h1Gj552DykaGJFWJa7DHVeAZ0
+	 mSkblazLAzKkg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2C6CF418B1;
-	Wed,  7 Aug 2024 18:54:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D49E5418B1;
+	Wed,  7 Aug 2024 18:56:51 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Breno Leitao <leitao@debian.org>, Akinobu Mita <akinobu.mita@gmail.com>
-Cc: kuba@kernel.org, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: fault-injection: document cache-filter feature
- for failslab
-In-Reply-To: <20240726120930.3231333-1-leitao@debian.org>
-References: <20240726120930.3231333-1-leitao@debian.org>
-Date: Wed, 07 Aug 2024 12:54:31 -0600
-Message-ID: <87plqkrwns.fsf@trenco.lwn.net>
+To: Karan Sanghavi <karansanghvi98@gmail.com>, Karan Sanghavi
+ <karansanghvi98@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Karan Sanghavi <karansanghvi98@gmail.com>
+Subject: Re: [PATCH] Documentation: core-api: Fixed Typo error
+In-Reply-To: <ZqqHMIKdcNRVgAFd@Emma>
+References: <ZqqHMIKdcNRVgAFd@Emma>
+Date: Wed, 07 Aug 2024 12:56:51 -0600
+Message-ID: <87le18rwjw.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,31 +50,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Breno Leitao <leitao@debian.org> writes:
+Karan Sanghavi <karansanghvi98@gmail.com> writes:
 
-> The failslab fault injection mechanism has an undocumented capability
-> that provides significant utility in testing and debugging. This feature,
-> introduced in commit 4c13dd3b48fcb ("failslab: add ability to filter slab
-> caches"), allows for targeted error injection into specific slab caches.
+> Corrected the typographical of the word "instrumentation"
+> in the below mentioned sentence.
 >
-> However, it was inadvertently left undocumented at the time of its
-> implementation.
->
-> Add documentation for the cache-filter feature in the failslab mode
-> description. Also, providing a practical example demonstrating how to
-> use cache-filter to inject failures specifically when allocating socket
-> buffers (skbs).
->
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+> Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
 > ---
->  .../fault-injection/fault-injection.rst       | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  Documentation/core-api/entry.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+> index e12f22ab3..a15f9b176 100644
+> --- a/Documentation/core-api/entry.rst
+> +++ b/Documentation/core-api/entry.rst
+> @@ -18,7 +18,7 @@ exceptions`_, `NMI and NMI-like exceptions`_.
+>  Non-instrumentable code - noinstr
+>  ---------------------------------
+>  
+> -Most instrumentation facilities depend on RCU, so intrumentation is prohibited
+> +Most instrumentation facilities depend on RCU, so instrumentation is prohibited
+>  for entry code before RCU starts watching and exit code after RCU stops
+>  watching. In addition, many architectures must save and restore register state,
 
-I've applied this, thanks.
-
-It seems to me that the fault-injection docs should really move under
-dev-tools; does anybody object to that?
-
-Thanks,
+Thanks for your patch, but this mistake was already fixed back in April
+for the 6.10 release.
 
 jon
