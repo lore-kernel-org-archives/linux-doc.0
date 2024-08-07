@@ -1,185 +1,164 @@
-Received: from mail.katalix.com (mail.katalix.com [3.9.82.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C6D1AE053;
-	Wed,  7 Aug 2024 06:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.9.82.81
+Received: from flow8-smtp.messagingengine.com (flow8-smtp.messagingengine.com [103.168.172.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC311B1428;
+	Wed,  7 Aug 2024 06:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723013696; cv=none; b=jD965OXrLRsAMPnm/i4FHyeVG19rxQ8poOAQFzDoH3tzyoNqLmgZMKi7cqcEzW5nmEPQiHKGC7ERVBLs2fVlDiBfsoy9LcwFCgcKlrWL3drMICIEPkD8hWXiO1lntdPiF5Kk4xTkyrhSUp5AibZ71q3lP5nFZtNYzPUkozwFQnE=
+	t=1723013966; cv=none; b=Djwwn5ID35CIECNpUEBLHlIg/F+awIPJcLokkrPze4fCY8ziIvZETyYqYUwtaAI/1gSWvEoknux5BQwTbzn1rKgcgxgWHtGHVjE6fUawToKWH73j6XGhs37EEyR1irjJI3GOPNE60hzxhnz1waIe5m5zNVz5GfxQantv55CpJhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723013696; c=relaxed/simple;
-	bh=rJihW7s0aR3nFcHimb6+9buZbnbwryWRRMNLHo29uT8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gBVJ7hBxEiwmyzOALUlXLtUYnWnk6gGuDCft1e9mtGgpx8Q+H/1753oQ6/ZAHnRix1/HG3I4RJBCoZpyWXwnVkIqiE6XZhFmIMajZxfbWiZgT9kGXlT6jpCU+dL7hO9rja8fSuE5VGwPP80AJJo8Z5pu3jUpv22ohi3DamwzPTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com; spf=pass smtp.mailfrom=katalix.com; dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b=OAtTZLMS; arc=none smtp.client-ip=3.9.82.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=katalix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=katalix.com
+	s=arc-20240116; t=1723013966; c=relaxed/simple;
+	bh=Fl9m4Ozj+CcNQwpmEsdVmp/IsQZeCxwz9aNRBuKAPk8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ddeDM9gzmaGsvmTz0WxFzbp/kujBz8HqHAHq0igOUSmHwGZE7x2g8AkRiqMdhBu0dvCoBr331ecwIe39BTPdsrMDG/YtONXlo0KcB770RMLpx9C+iAz2x5VYHvtHdjGFG4MyQaZ6b8iW2ZPgOrEL3QDzsQXwzItrWGlk+O1/Yfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kPhH75tf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DJX1D3Qs; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=katalix.com header.i=@katalix.com header.b="OAtTZLMS"
-Received: from katalix.com (unknown [IPv6:2a02:8010:6359:1:9ea4:d72e:1b25:b4bf])
-	(Authenticated sender: james)
-	by mail.katalix.com (Postfix) with ESMTPSA id 98C397DCC2;
-	Wed,  7 Aug 2024 07:54:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=katalix.com; s=mail;
-	t=1723013693; bh=rJihW7s0aR3nFcHimb6+9buZbnbwryWRRMNLHo29uT8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:From;
-	z=From:=20James=20Chapman=20<jchapman@katalix.com>|To:=20netdev@vge
-	 r.kernel.org|Cc:=20davem@davemloft.net,=0D=0A=09edumazet@google.co
-	 m,=0D=0A=09kuba@kernel.org,=0D=0A=09pabeni@redhat.com,=0D=0A=09dsa
-	 hern@kernel.org,=0D=0A=09tparkin@katalix.com,=0D=0A=09horms@kernel
-	 .org,=0D=0A=09linux-doc@vger.kernel.org,=0D=0A=09corbet@lwn.net|Su
-	 bject:=20[PATCH=20v2=20net-next=201/9]=20documentation/networking:
-	 =20update=20l2tp=20docs|Date:=20Wed,=20=207=20Aug=202024=2007:54:4
-	 4=20+0100|Message-Id:=20<a577532abc2c9eb85e4934fd2b85c50251f5e5bf.
-	 1723011569.git.jchapman@katalix.com>|In-Reply-To:=20<cover.1723011
-	 569.git.jchapman@katalix.com>|References:=20<cover.1723011569.git.
-	 jchapman@katalix.com>|MIME-Version:=201.0;
-	b=OAtTZLMS9+A4BOWeW+x+O88hbAlvfyNqb8Ga+2rMzXdsro/ojCnNPA5Op+Vo0y8l/
-	 svcynA/jT936XAhm8B7A0Pvdh8KTkfAIIL/aopQ1St0XoZ4QNinhReAzYW4cpayMyM
-	 VOEqJWPdv4olO+OIQ3YgJRQXnjE2mHn25Ir/30P0J/f1S++0An8tI23eDc779k0o8j
-	 txzIVFksu3j1V+E0bCIPqlbW/jIegkrxmbOsgezeqp3dfDN5w4LsUNr2NVGoaR7Lci
-	 9PTGskPX1XlBCpHVWmPhiFn4aTS4OeSs4iOW7NlouH4mgXK5P0uksPme+u6Cho7n+0
-	 ivqx8lGrUjS2g==
-From: James Chapman <jchapman@katalix.com>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	dsahern@kernel.org,
-	tparkin@katalix.com,
-	horms@kernel.org,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net
-Subject: [PATCH v2 net-next 1/9] documentation/networking: update l2tp docs
-Date: Wed,  7 Aug 2024 07:54:44 +0100
-Message-Id: <a577532abc2c9eb85e4934fd2b85c50251f5e5bf.1723011569.git.jchapman@katalix.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1723011569.git.jchapman@katalix.com>
-References: <cover.1723011569.git.jchapman@katalix.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kPhH75tf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DJX1D3Qs"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 52279201084;
+	Wed,  7 Aug 2024 02:59:23 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute4.internal (MEProxy); Wed, 07 Aug 2024 02:59:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1723013963;
+	 x=1723021163; bh=FeNTTWWA5ehqGUK/ykoVQRn5aOHJYvmKcULV7Bb3w+o=; b=
+	kPhH75tfZYNQZZn5b4ZTyTUJkEwDswZvtVxsA4I1kYYHJT9hm6Y1VWq1tWoRdBr2
+	5gcBvejk5u6w6xKKbpBKwnhLRlsLhO9eQUqJWCA+btbwX9ngh+x0EMbsvrrTdurE
+	xpzX7LS9Lhl1ZeTCcGI88lLtBUG3WdAQOw0MkNqzmyryl38Rfs0Hxm5tgzSKr4jP
+	FndM/8x4bIHcTFdnwjdTaScHkNMTMQT6UWqmZgTXDn+FulQ3eTrzHm2J2m2zT0hd
+	lWadi0s/oUZYjUbYUYH3dBNHYNH5Hgd9tJnC9YxtPeG49Jb50z1u1bvmjUjO5Rw1
+	0pmH62zjtpVTK4nq8eJMFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1723013963; x=
+	1723021163; bh=FeNTTWWA5ehqGUK/ykoVQRn5aOHJYvmKcULV7Bb3w+o=; b=D
+	JX1D3Qss3Ge1TnNidK/zkvKY/8JNrKtEIApToVgGiC42kGtqI8ow6AGVUOAMbazW
+	itBUjWk7aqA8yzNfj892AZR3IHGTb9zwLEgUzS+hIBK5Li2OvlE3ONpYl/0zE/5z
+	h3soTk1czdmBNxcV5RI4Do6avSG2cQvjSpC45gT6FmO3Qj+xS+dn/cKTfw+I2rct
+	z4jv6Eo5QqHEbksHHHuWMRpE/t4bFAn3fb2+Ygv0oUrdld/RpBq9urHfN3Vqc9tJ
+	gfZUDZDJt0uvrtjpGSdhW8XAeAu6OeyUi0Jj4EJz55jsk1Of/gddMR0clliKyyiD
+	Dz/tJMxY0o+kqe5Jqh2CQ==
+X-ME-Sender: <xms:SRuzZpFLEGrL01CvOzZ7NicPwEvIcv3ZOSAEwfT0KIc13xEWibFx_g>
+    <xme:SRuzZuWOdnwVN62CY7TMMAVOQnMMo0UnpkJQhkqGvrgUGWhp1vAWaBOYOG7_0rIRv
+    GBMBRlfs0GZCyqUvYc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeelgdduudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefh
+    vdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtoheptd
+X-ME-Proxy: <xmx:SRuzZrLtWMsNgz7w87FJP8TbwXCRbvNB3tiVt8c9qWjaR5ujVwWSEg>
+    <xmx:SRuzZvGMZjtlTl2iioVuNelCvksPQt_NUQQ8oxahwjUInjv5odRUjA>
+    <xmx:SRuzZvVMupVgHTmvlEfTDZFTFuqoKesigKTc9co5c2CZoJ90OcfE1g>
+    <xmx:SRuzZqN-OQqNrinlJf78x4O8VL12d16J4HsptuQe5s0rO9OiA3XUXg>
+    <xmx:SxuzZpwYl7eOyL1UyDIm9UU-ZJT7YdfL_32mlOGPjpZKCsOuYKvqpDmx>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 97D26B6008D; Wed,  7 Aug 2024 02:59:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Wed, 07 Aug 2024 08:58:37 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mike Rapoport" <rppt@kernel.org>, linux-kernel@vger.kernel.org
+Cc: "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Dan Williams" <dan.j.williams@intel.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "David Hildenbrand" <david@redhat.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Davidlohr Bueso" <dave@stgolabs.net>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Jonathan Cameron" <jonathan.cameron@huawei.com>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Rob Herring" <robh@kernel.org>,
+ "Samuel Holland" <samuel.holland@sifive.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Thomas Gleixner" <tglx@linutronix.de>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "Will Deacon" <will@kernel.org>,
+ "Zi Yan" <ziy@nvidia.com>, devicetree@vger.kernel.org,
+ linux-acpi@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+ nvdimm@lists.linux.dev, sparclinux@vger.kernel.org, x86@kernel.org
+Message-Id: <1befc540-8904-4c23-b0e6-e2c556fe22b9@app.fastmail.com>
+In-Reply-To: <20240807064110.1003856-25-rppt@kernel.org>
+References: <20240807064110.1003856-1-rppt@kernel.org>
+ <20240807064110.1003856-25-rppt@kernel.org>
+Subject: Re: [PATCH v4 24/26] arch_numa: switch over to numa_memblks
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-l2tp no longer uses sk_user_data in tunnel sockets and now manages
-tunnel/session lifetimes slightly differently. Update docs to cover
-this.
+On Wed, Aug 7, 2024, at 08:41, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>
+> Until now arch_numa was directly translating firmware NUMA information
+> to memblock.
 
-CC: linux-doc@vger.kernel.org
-CC: corbet@lwn.net
-Signed-off-by: James Chapman <jchapman@katalix.com>
-Signed-off-by: Tom Parkin <tparkin@katalix.com>
----
- Documentation/networking/l2tp.rst | 54 ++++++++++++-------------------
- 1 file changed, 20 insertions(+), 34 deletions(-)
+I get a link time warning from this:
 
-diff --git a/Documentation/networking/l2tp.rst b/Documentation/networking/l2tp.rst
-index 8496b467dea4..e8cf8b3e60ac 100644
---- a/Documentation/networking/l2tp.rst
-+++ b/Documentation/networking/l2tp.rst
-@@ -638,9 +638,8 @@ Tunnels are identified by a unique tunnel id. The id is 16-bit for
- L2TPv2 and 32-bit for L2TPv3. Internally, the id is stored as a 32-bit
- value.
- 
--Tunnels are kept in a per-net list, indexed by tunnel id. The tunnel
--id namespace is shared by L2TPv2 and L2TPv3. The tunnel context can be
--derived from the socket's sk_user_data.
-+Tunnels are kept in a per-net list, indexed by tunnel id. The
-+tunnel id namespace is shared by L2TPv2 and L2TPv3.
- 
- Handling tunnel socket close is perhaps the most tricky part of the
- L2TP implementation. If userspace closes a tunnel socket, the L2TP
-@@ -652,9 +651,7 @@ socket's encap_destroy handler is invoked, which L2TP uses to initiate
- its tunnel close actions. For L2TPIP sockets, the socket's close
- handler initiates the same tunnel close actions. All sessions are
- first closed. Each session drops its tunnel ref. When the tunnel ref
--reaches zero, the tunnel puts its socket ref. When the socket is
--eventually destroyed, its sk_destruct finally frees the L2TP tunnel
--context.
-+reaches zero, the tunnel drops its socket ref.
- 
- Sessions
- --------
-@@ -667,10 +664,7 @@ pseudowire) or other data types such as PPP, ATM, HDLC or Frame
- Relay. Linux currently implements only Ethernet and PPP session types.
- 
- Some L2TP session types also have a socket (PPP pseudowires) while
--others do not (Ethernet pseudowires). We can't therefore use the
--socket reference count as the reference count for session
--contexts. The L2TP implementation therefore has its own internal
--reference counts on the session contexts.
-+others do not (Ethernet pseudowires).
- 
- Like tunnels, L2TP sessions are identified by a unique
- session id. Just as with tunnel ids, the session id is 16-bit for
-@@ -680,21 +674,19 @@ value.
- Sessions hold a ref on their parent tunnel to ensure that the tunnel
- stays extant while one or more sessions references it.
- 
--Sessions are kept in a per-tunnel list, indexed by session id. L2TPv3
--sessions are also kept in a per-net list indexed by session id,
--because L2TPv3 session ids are unique across all tunnels and L2TPv3
--data packets do not contain a tunnel id in the header. This list is
--therefore needed to find the session context associated with a
--received data packet when the tunnel context cannot be derived from
--the tunnel socket.
-+Sessions are kept in a per-net list. L2TPv2 sessions and L2TPv3
-+sessions are stored in separate lists. L2TPv2 sessions are keyed
-+by a 32-bit key made up of the 16-bit tunnel ID and 16-bit
-+session ID. L2TPv3 sessions are keyed by the 32-bit session ID, since
-+L2TPv3 session ids are unique across all tunnels.
- 
- Although the L2TPv3 RFC specifies that L2TPv3 session ids are not
--scoped by the tunnel, the kernel does not police this for L2TPv3 UDP
--tunnels and does not add sessions of L2TPv3 UDP tunnels into the
--per-net session list. In the UDP receive code, we must trust that the
--tunnel can be identified using the tunnel socket's sk_user_data and
--lookup the session in the tunnel's session list instead of the per-net
--session list.
-+scoped by the tunnel, the Linux implementation has historically
-+allowed this. Such session id collisions are supported using a per-net
-+hash table keyed by sk and session ID. When looking up L2TPv3
-+sessions, the list entry may link to multiple sessions with that
-+session ID, in which case the session matching the given sk (tunnel)
-+is used.
- 
- PPP
- ---
-@@ -714,10 +706,9 @@ The L2TP PPP implementation handles the closing of a PPPoL2TP socket
- by closing its corresponding L2TP session. This is complicated because
- it must consider racing with netlink session create/destroy requests
- and pppol2tp_connect trying to reconnect with a session that is in the
--process of being closed. Unlike tunnels, PPP sessions do not hold a
--ref on their associated socket, so code must be careful to sock_hold
--the socket where necessary. For all the details, see commit
--3d609342cc04129ff7568e19316ce3d7451a27e8.
-+process of being closed. PPP sessions hold a ref on their associated
-+socket in order that the socket remains extants while the session
-+references it.
- 
- Ethernet
- --------
-@@ -761,15 +752,10 @@ Limitations
- 
- The current implementation has a number of limitations:
- 
--  1) Multiple UDP sockets with the same 5-tuple address cannot be
--     used. The kernel's tunnel context is identified using private
--     data associated with the socket so it is important that each
--     socket is uniquely identified by its address.
--
--  2) Interfacing with openvswitch is not yet implemented. It may be
-+  1) Interfacing with openvswitch is not yet implemented. It may be
-      useful to map OVS Ethernet and VLAN ports into L2TPv3 tunnels.
- 
--  3) VLAN pseudowires are implemented using an ``l2tpethN`` interface
-+  2) VLAN pseudowires are implemented using an ``l2tpethN`` interface
-      configured with a VLAN sub-interface. Since L2TPv3 VLAN
-      pseudowires carry one and only one VLAN, it may be better to use
-      a single netdevice rather than an ``l2tpethN`` and ``l2tpethN``:M
--- 
-2.34.1
+    WARNING: modpost: vmlinux: section mismatch in reference: numa_set_cpumask+0x24 (section: .text.unlikely) -> early_cpu_to_node (section: .init.text)
 
+> @@ -142,7 +144,7 @@ void __init early_map_cpu_to_node(unsigned int cpu, int nid)
+>  unsigned long __per_cpu_offset[NR_CPUS] __read_mostly;
+>  EXPORT_SYMBOL(__per_cpu_offset);
+> 
+> -int __init early_cpu_to_node(int cpu)
+> +int early_cpu_to_node(int cpu)
+>  {
+>  	return cpu_to_node_map[cpu];
+>  }
+
+early_cpu_to_node() can no longer be __init here
+
+> +#endif /* CONFIG_NUMA_EMU */
+> diff --git a/include/asm-generic/numa.h b/include/asm-generic/numa.h
+> index c32e0cf23c90..c2b046d1fd82 100644
+> --- a/include/asm-generic/numa.h
+> +++ b/include/asm-generic/numa.h
+> @@ -32,8 +32,6 @@ static inline const struct cpumask *cpumask_of_node(int node)
+> 
+>  void __init arch_numa_init(void);
+>  int __init numa_add_memblk(int nodeid, u64 start, u64 end);
+> -void __init numa_set_distance(int from, int to, int distance);
+> -void __init numa_free_distance(void);
+>  void __init early_map_cpu_to_node(unsigned int cpu, int nid);
+>  int __init early_cpu_to_node(int cpu);
+>  void numa_store_cpu_info(unsigned int cpu);
+
+but is still declared as __init in the header, so it is
+still put in that section and discarded after boot.
+
+I was confused by this at first, since the 'early' name
+seems to imply that you shouldn't call it once the system
+is up, but now you do.
+
+     Arnd
