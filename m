@@ -1,69 +1,67 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B212D1C2330;
-	Wed,  7 Aug 2024 07:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF48677F1B;
+	Wed,  7 Aug 2024 07:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723014348; cv=none; b=SwO6+LIqXmt7Q4J5y2A4xkrNFlHTVsVpt2WviqA0HwnFWh1nBAnJn80OU+zBOnFhjJvW9cixsB1b442+IvP9AqfDsfisnobgdsh0sbJ3oPtXsjRDxRJ+GFkxtE6OUoPeVhCZagDO2SJ/HjcsA7hXYG5Ls9TiRbCiNsvWxfzHPF4=
+	t=1723014613; cv=none; b=hnuErlChgAEAQ6tWzmvlYHcwIeC3Y/UkxSA0w2bQBT9DUsnxsEdHpHcFZABlaKh8Wai6ej5iJsrpJVQnGedJC8dihGhv0k/sCRTV5X17NoEkebRf6LZ9qdddkg7fLlxAAhA7haxm7Fv/0ArW9WO83D7FvolkDfvexZQi9t0N6QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723014348; c=relaxed/simple;
-	bh=uPYGf6jSgkZQ46n1jyJkeGgS8nxj28UBFXb1XA3o2oA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ncIe+cFUeTPM/pTiErbez1GbiV34B0pp5Ucy56cHDbzNUhQPQk28XQoqgcJrpy4hpLmAyGRTJBu6ncCSk3sU9HzskxWJphFu4guiX2RSZgB2X8/GtNopgjPTLGTXnc6Ra+2JiuknnV/E9ngMqCDZFGVii7zinQN0jzdR2F9txEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBI9o0YM; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1723014613; c=relaxed/simple;
+	bh=uP10GTJglQlvhNVyXNpACB8CNWxdLYPkr2TD5w4Ht80=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/xzaMiBt0bfnYdE1Izcx5vp/VKV/HN0eE2B3pg0zQuhsrKumtsfJY5yvfUk2/k603dvIe7GQQcNWbCfZP/nZYQpbc7cJK/ayRwn3dngTY7ejWls9BhIcV7s76ijv515MTxfbFELGVxidgJt/R8r2alCUjMfllblGo8NL/A/KRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4lf/8R4; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBI9o0YM"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7a92098ec97so1231271a12.2;
-        Wed, 07 Aug 2024 00:05:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4lf/8R4"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7104f93a20eso1150932b3a.1;
+        Wed, 07 Aug 2024 00:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723014345; x=1723619145; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723014611; x=1723619411; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qUM7HGjsdnxud42kIvriQziI7ePv5pZPFlwBrJcwdGg=;
-        b=EBI9o0YMzGFMaIEp6K1gK1+mYkU1/+LbF11GNfX8KfvLM0BYGWLhpCjXczb+Wex6yo
-         KIP9i6yCK5SQdG++F3o75dXbtj9rOC7CTx/cSp/d/F9fjkP/mcvgHjh/PEbaB11MtNGF
-         LSXcpCKgcascbQEGvM3/lGsbWqTaQeXKZXLL+dKP7tLd9U6TEUqUWJhihrQ7tj2ven/O
-         /+2I9Y3BnpA86GTrOILPKM9bAKUeQ7b2KoSNHSG58PJaRsuDAPMvhUNDHyuQX8JO70ND
-         Oz3YA0Cati3R/flM0uHWOLVYD8hBmxGG/SDYoYRPWcZFW9MTZDmQknHu1qaL9RoKy3HG
-         5OVg==
+        bh=4RWP4CLRPK9GI7azts0XFQC+DKEv/lhB1h+1p4SNw0M=;
+        b=S4lf/8R4LcyMwRUYM+NyKPJ8XipZR7+vdBwb7Dr++oZ9ygthA+tlWyEB/8J8kBGTol
+         A3VwxoOSYHJuy7HtQSDgPSGc51/OQNiWExlsL5fUd7KOydg14WGgiuH6obrOtt4mwT4h
+         C9TrvAXohzaO1f8LXyciUIy/EWwvcR49kxtRN3qrGDqeGCGJOtWN6S4gbXrx3AJ2KU5C
+         NVSU2gJpyGuM5oAiSvPOBayhO9YT9ZIHXC44chWI8YPxdG9x2//DwyTQr+nkQeLvhGia
+         mpkhmc7gigHBcSi3canuDgmvMAjXOCipXBxoUMXhKI1KFtk9VvKW+AOoMfmEw/AVDkj7
+         cPhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723014345; x=1723619145;
+        d=1e100.net; s=20230601; t=1723014611; x=1723619411;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qUM7HGjsdnxud42kIvriQziI7ePv5pZPFlwBrJcwdGg=;
-        b=iYDaCqUYQhXPirkNU9MnhEx/lF3vNOPfXfdnrIILBkYQZrg1RkOIYAESEhjo1CfG43
-         RS1ttdaG5dJG9glAsoCxX15PRZfFjcVBianILFlJhCfprb0N38yGeQpU/12fQvV8Y5R7
-         HsEGB9dRbxRQMYKdQVU7e3g63YgUdNjtZYd5k8CBr7Cfdvl2/v1wjHt6oX4wlMUAUbzv
-         8a6HBXxhcPfE+SIVxxPIFDVIDJ83eSOO/TRUWGhhdNq42eKCybwFHKcci2hz2UZVDEMm
-         GT/EO/zsj6/Rk/6zdeeCDL3pCWz6k9drqlgkpNqtHk4Ez2avRdDpDAY6zhUpqnftWn0k
-         emhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDgbEU/wFF8cf4ZS01TvJiVqDdXyTsE3y+9/u6mPx6jksiCEqI+9mIh3m0OFNcgLERdGXTgQ3n93Dq0Ux33LGIIkZaMxLVnOnzRna3ZXAmghEnuxgHHmP6cQl2go+1J+79G+VH9EKdzb6nHbJXAY/4T20fhDIAj4SKS1TQa5E4yUSGQbGbSlQ1BZgqXlSsDumGo/ScvtkcEWS2HNxev58cHg==
-X-Gm-Message-State: AOJu0YxMhBniBGOa07i6KHRl+UgVNORWJ3H+4nwG761tJy4VGHM2/D9F
-	To1y+/uqdKpZ1PoiOrcrUgK9T8SosiaoKxxgBKgGWiqXLfiJKYcq
-X-Google-Smtp-Source: AGHT+IGN6T/3RL8PYal4XJ7ceDqWl3YtvCvMiTOV5qexUqq/6gQupmS/QIoPcN8yr7hcNx1oVC9y+A==
-X-Received: by 2002:a17:90a:be17:b0:2c9:6aa9:1d76 with SMTP id 98e67ed59e1d1-2cff9419d3cmr17451049a91.18.1723014345097;
-        Wed, 07 Aug 2024 00:05:45 -0700 (PDT)
+        bh=4RWP4CLRPK9GI7azts0XFQC+DKEv/lhB1h+1p4SNw0M=;
+        b=GXV+grJhs0DqtGl+lbcN9qBb6xec96fE/mpsYQ1QS5WqPX8Ejkz37OfT1ek+AG9SO8
+         A2RmVOoEHAGRFhaGvZVc/hnQicrJEUMDinaJnv3DKx1oH/UwODVPIGESGy0JSbA1TyFZ
+         FFq1u5zRBpZdf8Xy9LJuAwLv6sw3NzRxRAzCQnXzPpWO3bYAuTwDcY5JwxgP2VjB3bh3
+         OjYkrEcp67CxDN9nSY6sDfmSEN4PTwudlDqZklTLUO/olDnvT4p9Z/55/BjTw5O/IkBR
+         2judcjcamegHIcR7GvEobm0MrOuh8entqLAT/QZzOHbdLqk1yNM2ZQnyT6o30ss8xHJP
+         1pJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyFazCi0L8Mv2G9W0PDsDmKexzRiBIPWYZPTvq60ViDGDp7d1qA1zFNKsVgxS0ij6fVU3Bm+SyVEWaP1WfnQMyxU+kK5jeHQOocmp1nqSEIAPttRatqKtX2FS9v8HsoEPRFRjDtfzEtxe53sZZj0+AAUP27CNyYos/GCcNrM057ldxliARWB8=
+X-Gm-Message-State: AOJu0YwBbWBrlFYfOAR88BVItSVFMwpRnqr1pi1HdRESVyZWnuuyK02R
+	cPjGaqw4pIAsKQ4DOrTVCs0wUQn3EJn9bEYItzSLeOuaso+edojI
+X-Google-Smtp-Source: AGHT+IH9pHfByg2pHXB3Rg7K3BmoD3blolfIFDELyDWPKa7h70VqBxYiV6mZqqsAtdKDLsfAMXyV3g==
+X-Received: by 2002:a05:6a21:329a:b0:1c4:8650:d6db with SMTP id adf61e73a8af0-1c6996240a2mr19272356637.40.1723014610949;
+        Wed, 07 Aug 2024 00:10:10 -0700 (PDT)
 Received: from xiaxiShen-ThinkPad.. ([50.175.126.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1b36f6cd9sm510842a91.1.2024.08.07.00.05.44
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec41394sm7868749b3a.47.2024.08.07.00.10.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 00:05:44 -0700 (PDT)
+        Wed, 07 Aug 2024 00:10:10 -0700 (PDT)
 From: Xiaxi Shen <shenxiaxi26@gmail.com>
-To: brauner@kernel.org,
-	djwong@kernel.org,
+To: kent.overstreet@linux.dev,
 	corbet@lwn.net
 Cc: skhan@linuxfoundation.org,
 	javier.carrasco.cruz@gmail.com,
 	shenxiaxi26@gmail.com,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Fix spelling and gramatical errors
-Date: Wed,  7 Aug 2024 00:05:36 -0700
-Message-Id: <20240807070536.14536-1-shenxiaxi26@gmail.com>
+	linux-bcachefs@vger.kernel.org (open list:BCACHEFS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] Fix a spelling error in a doc of bcachefs
+Date: Wed,  7 Aug 2024 00:10:05 -0700
+Message-Id: <20240807071005.16329-1-shenxiaxi26@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -73,38 +71,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed 3 typos in design.rst
-
 Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
 ---
- Documentation/filesystems/iomap/design.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/filesystems/bcachefs/CodingStyle.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
-index f8ee3427bc1a..37594e1c5914 100644
---- a/Documentation/filesystems/iomap/design.rst
-+++ b/Documentation/filesystems/iomap/design.rst
-@@ -142,9 +142,9 @@ Definitions
-  * **pure overwrite**: A write operation that does not require any
-    metadata or zeroing operations to perform during either submission
-    or completion.
--   This implies that the fileystem must have already allocated space
-+   This implies that the filesystem must have already allocated space
-    on disk as ``IOMAP_MAPPED`` and the filesystem must not place any
--   constaints on IO alignment or size.
-+   constraints on IO alignment or size.
-    The only constraints on I/O alignment are device level (minimum I/O
-    size and alignment, typically sector size).
+diff --git a/Documentation/filesystems/bcachefs/CodingStyle.rst b/Documentation/filesystems/bcachefs/CodingStyle.rst
+index 0c45829a4899..01de555e21d8 100644
+--- a/Documentation/filesystems/bcachefs/CodingStyle.rst
++++ b/Documentation/filesystems/bcachefs/CodingStyle.rst
+@@ -175,7 +175,7 @@ errors in our thinking by running our code and seeing what happens. If your
+ time is being wasted because your tools are bad or too slow - don't accept it,
+ fix it.
  
-@@ -394,7 +394,7 @@ iomap is concerned:
- 
-  * The **upper** level primitive is provided by the filesystem to
-    coordinate access to different iomap operations.
--   The exact primitive is specifc to the filesystem and operation,
-+   The exact primitive is specific to the filesystem and operation,
-    but is often a VFS inode, pagecache invalidation, or folio lock.
-    For example, a filesystem might take ``i_rwsem`` before calling
-    ``iomap_file_buffered_write`` and ``iomap_file_unshare`` to prevent
+-Put effort into your documentation, commmit messages, and code comments - but
++Put effort into your documentation, commit messages, and code comments - but
+ don't go overboard. A good commit message is wonderful - but if the information
+ was important enough to go in a commit message, ask yourself if it would be
+ even better as a code comment.
 -- 
 2.34.1
 
