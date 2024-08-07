@@ -1,130 +1,100 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008E584A2F
-	for <linux-doc@vger.kernel.org>; Wed,  7 Aug 2024 15:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C17812C54B
+	for <linux-doc@vger.kernel.org>; Wed,  7 Aug 2024 15:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723042985; cv=none; b=N0Mo/Qc5DzPGnJOI2ps2wPy/fkm9B4o7nnp/5SodIUNE609MLhJrZsTC0FgUzb84gSKGqmsZGJdU6XS4g9/qVCyEhorjW1oBzEoNKewR3hCIS/PdnD1+Okg5HbcAd0XM9VXK9zsSlJRvgVFgBA7ERKULLF1ziLXuwp9wxkrftGs=
+	t=1723045337; cv=none; b=MEfCGW+8otBr1bqcXeMiDNp0zUgAgB5EhYzGSWb9z9ych/fwwTLftL1OQiAoSCoSxk7EJo05r312Xda5p7cmQMn+erZ0gzO+mvOD8BYhYxaKWAhG2vqJUabCXLWyQRuIu257YTl9Pn5VPLmZdMV3KNXCtl4A/R+9xPQNh+40t+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723042985; c=relaxed/simple;
-	bh=i+cKN7kvlmSwCbheJAMEk6ZSnnzPsXRqTPu/u16iMjk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lz3aV4ttsfkUYtwQoWILGPpVIHFcBzAWEmdxkrh/JXWz2BwrY6a5/ZKUURdrXKf+8AO80/2S8YWkLjEsa4y/HKhvq+xc6a8qcYcmj0orK9MeYMvgOwgDizcBxNspnHgo63wRmTttNyU6uDCZ8LkaGFAWMNxVf/NsR7rjEHSqrYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EG+mZLEb; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1723045337; c=relaxed/simple;
+	bh=p7PVqR202pLZcsTbDjLFYNgJzn0bloqG+abqcVgvaJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fIqAyFiYJGD+dmCE8ipwFSkog6O2UEMVgnpEt0VvxO+YqJ79czkHHxtzf09WvcY4uVu4gxSlh5oprpmi4nIu3vrEHQiqNeJdab0NKKw27itIWiXRvx9tZYXbzVpdKaBdwsIVwKLL+UC4a3QynECGySWKXKGUMTVWuKzIdN10/9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Lhy9+T+I; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EG+mZLEb"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fc4aff530dso545105ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2024 08:03:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Lhy9+T+I"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-39b37b63810so1245935ab.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2024 08:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723042983; x=1723647783; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kl+B4ZpfEXlczthXYPnKJxRHMc3GQi5TyNP+ymJuxKA=;
-        b=EG+mZLEbaT3VFrKjoBA4rnhDFCsVUYDtbW5eXWP0KEBc+bqXPU/BlUL5JRbzhT4rMS
-         Sc4ygkpSSJ0+wt1MAYP1WzpaTFgyGveKsuVs7H9m50NzkjOBtEX1eeWIVqJE8YRGg3wy
-         PDbyeSK4obJF60B1USCt4aKkhlCwxSYbXfktUiWP9FF2MqZWbR5mWUzItB1c8eIIaOKL
-         R7uVO6cxJSxNDu9DHLCgNuGAZ0FxCx7+W2+xd4XFoTN1HBb55rxuXJPqMtIpEVq5Tv9r
-         77jt+iJioUEkz1QvpNlSgf/Fmtpb0d4ZDdE3Db7yXXnClgGg8mCAYzgvI/On2H1/cTYO
-         cSQg==
+        d=linuxfoundation.org; s=google; t=1723045334; x=1723650134; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DuwHjHFvIH5yzRbowDpjPZeGCKe893MON8qjCHt6NA8=;
+        b=Lhy9+T+I9SlgQZCWx24/UGQHRvTeLwvMIeRMfwswfx5SfSSA3ytbsYDKCEyGTdLHOv
+         WorBAKpn+AFeEMMni3W6jXM+vSCA9v1f5gUrWZ/me/iGSDGAwRJw/BWSleH/ZOhVlCMd
+         YFWmO8cMjBgCh/ZZv51O7qVoSyNoSdohO0CUE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723042983; x=1723647783;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kl+B4ZpfEXlczthXYPnKJxRHMc3GQi5TyNP+ymJuxKA=;
-        b=GgCAu4iNv/uJQoOzAQrnzlhJhNgJQrtwIx/23Kq86qSqsdQbH+C91aL1A6KJxDH4mi
-         CDzmJsG0VdIvSFdWFVkz2xFV0BRYbhcmOvN4jgOVdInG5aXh041hxTU6trqWHBg5/ouA
-         y0/h9/CxblqaDRuKO5hn9CilsvJWKyK6nIamjPwwYMDmAGgDRe3jR88j5pnty6b9LcUk
-         BE1Y5fvsKTyaL6wMOOJm8vRfZw7ggx2wqZd3BydYg9RxQQnZCSxK/laGGGaGEt+6Yd63
-         IYXGk+G9Pie+xqEA+VSuesHz7julO66oC5N0k+Xpq8ZnQxqBenCCWIbr26N1jVbiNk1f
-         wx8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtTWTKTWA9ZBUfQxQ5myivjTPI+Tp/09N8f0QJQQ6Tg7A9TQL8inwj6NI1lhsZN8sBLlEJekAeXCnqolDVnAdlXx53Gy9swa4D
-X-Gm-Message-State: AOJu0Yzj61KIwdC4mHvS5FGWMxcCR09sdLq763xwovVjNQxMnTs2jGZ5
-	sc6NLKrw3LZosptUJ0fxJkfVmqq+WTWOUA6xPhFnSh1UbK5j/H1YQYmYy+3xDTFb5ETgdN1G5ZG
-	D0Ks49le2GkaDOG4i/uHySvmWGM80W3psq+jM
-X-Google-Smtp-Source: AGHT+IEr49aHCdjCgL7YLIeYK1keo+SAW0FFZJxDENp6M5+q2ZuFNNnSP3R4yjqSv3wfAioC7aVTpFhpJO2Or0Jv1jg=
-X-Received: by 2002:a17:902:f547:b0:1fb:563:3c25 with SMTP id
- d9443c01a7336-20083799d8emr3462625ad.18.1723042982895; Wed, 07 Aug 2024
- 08:03:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723045334; x=1723650134;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DuwHjHFvIH5yzRbowDpjPZeGCKe893MON8qjCHt6NA8=;
+        b=Tuv1ATIRd+d2sOhJGEoNQZYGqRlGLZg4Wjxnul2I1rGBcVhUTYy+l7xc7riwOTJ8U1
+         EIVn5pgl5K7VYls3Iosj2SOIUOz2jIDg4tWBrTRV4RleGuac+TiUoc60uBWNkYSA4/7B
+         vWqcRU5WWV6/viX26emLszz/BUryPzH5k18RmGgv8tHIT4gGs0t5HIDa2Upbr+hqHNVS
+         18iLyQjJt+qj9otYf2qi1/aT6D7dFvLGAsBb/yQwsY5j+mw9W9TYf7vUA9sM6UzFP37w
+         ESc/5Mu+zLUmySjftcO3D2Ndtqh5txxlU90zrF86e7BNXqbf88vIke118Jqd5Lg8CZ6u
+         5DnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWz1WTxmX1IpmhOjNvrAv7EMOjdNG5LJDpsJhej00pnxH5y+8z/j+xKKaOwDbuQdsXMbERyCcnxkkINsRo07L+BParJgzHFR+Ie
+X-Gm-Message-State: AOJu0YzI7j920dr9QxF6cVN0E9XpoTUaJQNTvAYGuXtKtaHwFj6XzjZM
+	TiFXDfNGZEefRhLGHkUz3mrr9Q6mMjrl2/7yrndgl4GyKUbTrWsCa358woKMabs=
+X-Google-Smtp-Source: AGHT+IENm7ilj2AMmEwQJYpawRWrkgTZs3Cq1oL1+5AjSJCsF6nenoG7T6ZS8wtXFNT1iOwrbP88qQ==
+X-Received: by 2002:a05:6e02:1b0f:b0:38e:cdf9:8878 with SMTP id e9e14a558f8ab-39b1fc6194bmr121613445ab.5.1723045333621;
+        Wed, 07 Aug 2024 08:42:13 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-39b20ab4f73sm45805565ab.39.2024.08.07.08.42.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Aug 2024 08:42:13 -0700 (PDT)
+Message-ID: <2dfa76a7-eeae-4b05-bfcd-684ae7ade963@linuxfoundation.org>
+Date: Wed, 7 Aug 2024 09:42:12 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240724011037.3671523-1-jthoughton@google.com>
- <20240724011037.3671523-6-jthoughton@google.com> <37ae59f2-777a-4a58-ae58-4a20066364dd@redhat.com>
- <CADrL8HUmQWDc-75p=Z2KZzHkyWCCh8xnX=+ZXm5MZ-drALjKTA@mail.gmail.com> <20240806172349.GQ676757@ziepe.ca>
-In-Reply-To: <20240806172349.GQ676757@ziepe.ca>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 7 Aug 2024 08:02:26 -0700
-Message-ID: <CADrL8HXFK=1cUS+0Z5k048U4rzpTNL634f57VtJ7TD_umrbNiA@mail.gmail.com>
-Subject: Re: [PATCH v6 05/11] mm: Add fast_only bool to test_young and
- clear_young MMU notifiers
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Sean Christopherson <seanjc@google.com>, 
-	Shaoqin Huang <shahuang@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Fix a spelling error in a doc of bcachefs
+To: Xiaxi Shen <shenxiaxi26@gmail.com>, kent.overstreet@linux.dev,
+ corbet@lwn.net
+Cc: javier.carrasco.cruz@gmail.com,
+ "open list:BCACHEFS" <linux-bcachefs@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240807071005.16329-1-shenxiaxi26@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240807071005.16329-1-shenxiaxi26@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 6, 2024 at 10:23=E2=80=AFAM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
->
-> On Thu, Aug 01, 2024 at 04:13:40PM -0700, James Houghton wrote:
-> > --- a/include/linux/mmu_notifier.h
-> > +++ b/include/linux/mmu_notifier.h
-> > @@ -106,6 +106,18 @@ struct mmu_notifier_ops {
-> >          * clear_young is a lightweight version of clear_flush_young. L=
-ike the
-> >          * latter, it is supposed to test-and-clear the young/accessed =
-bitflag
-> >          * in the secondary pte, but it may omit flushing the secondary=
- tlb.
-> > +        *
-> > +        * The fast_only parameter indicates that this call should not =
-block,
-> > +        * and this function should not cause other MMU notifier calls =
-to
-> > +        * block. Usually this means that the implementation should be
-> > +        * lockless.
-> > +        *
-> > +        * When called with fast_only, this notifier will be a no-op un=
-less
-> > +        * has_fast_aging is set on the struct mmu_notifier.
->
-> If you add a has_fast_aging I wonder if it is better to introduce new
-> ops instead? The semantics are a bit easier to explain that way
+On 8/7/24 01:10, Xiaxi Shen wrote:
 
-v5 implemented these with a new op[1]. *Just* having the new op is
-kind of problematic -- we have yet another op to do something very
-similar to what already exists. We are left with two options:
-consolidate everything into a single notifier[2] or add a new
-parameter to test/clear_young()[3]. The latter, implemented in this
-v6, is somewhat simpler to implement (fewer LoC, reduces some
-duplication in KVM), though it does indeed make the explanation for
-test/clear_young() slightly more complex. I don't feel very strongly,
-but unless you do, I think I just ought to stick with how the v6 does
-it. :)
+Missing commit message --
 
-Thanks Jason!
+> Signed-off-by: Xiaxi Shen <shenxiaxi26@gmail.com>
+> ---
+>   Documentation/filesystems/bcachefs/CodingStyle.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/bcachefs/CodingStyle.rst b/Documentation/filesystems/bcachefs/CodingStyle.rst
+> index 0c45829a4899..01de555e21d8 100644
+> --- a/Documentation/filesystems/bcachefs/CodingStyle.rst
+> +++ b/Documentation/filesystems/bcachefs/CodingStyle.rst
+> @@ -175,7 +175,7 @@ errors in our thinking by running our code and seeing what happens. If your
+>   time is being wasted because your tools are bad or too slow - don't accept it,
+>   fix it.
+>   
+> -Put effort into your documentation, commmit messages, and code comments - but
+> +Put effort into your documentation, commit messages, and code comments - but
+>   don't go overboard. A good commit message is wonderful - but if the information
+>   was important enough to go in a commit message, ask yourself if it would be
+>   even better as a code comment.
 
-[1]: https://lore.kernel.org/linux-mm/20240611002145.2078921-5-jthoughton@g=
-oogle.com/
-[2]: https://lore.kernel.org/linux-mm/CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9=
-ZpueyifgNdGggw@mail.gmail.com/
-[3]: https://lore.kernel.org/linux-mm/CADrL8HXhGFWwHt728Bg15x1YxJmS=3DWD8z=
-=3DKJc_Koaah=3DOvHDwg@mail.gmail.com/
+thanks,
+-- Shuah
