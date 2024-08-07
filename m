@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7EB14375A;
-	Wed,  7 Aug 2024 19:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76771442E8;
+	Wed,  7 Aug 2024 19:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723057268; cv=none; b=Xys7MvFFdXyqZ2BnB1ovpqwcvBEZkjiZ3dGy/jjyHpUEbi5XdkOslZhQamO73c5SdlIBZKuOhKpllffEb0AGcsjQyJg8sDWqU2Nmv4Bqs+mUy6cejKl4PJkat/cf3SAE4pz+vKXviVcnjwFTZpumGq5ApBwaDdf8kTmnBaXwvW4=
+	t=1723058951; cv=none; b=E1xT+6t8pnbLrcTkW/qiXL7HlNmkUVTN1vEatEMQxvmY4AXPxy4EsAq0JNTtj28RvmUGhMPb/jmp+KMv8O/aAbC86Krggvj7vGKymHANTR5uLXqYsK7xsXPu5nhitShr2qdrDmcSvtfIROlu2wed/6mALAPWFS5+0wsbMDa3cJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723057268; c=relaxed/simple;
-	bh=12ynQShKcfG200G5r9azurlpT7acM9Y6YU2EREFLdMU=;
+	s=arc-20240116; t=1723058951; c=relaxed/simple;
+	bh=lW6HS8G+JxAp6oEcAQdseqlI6vGj2x5qPDTn/NnW1RI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NeAU+HdYKaDZbrpZKEeDBXy+x9hk9lfw8qWCVzF4JIiBwNvl2ll1to5haOPOXewa7uYaY5PrOTq2KOBBqotNjI8Xfq+8lPLKUa3N68LPB8+JljhQ0Bjv7EDm/8fLke4EhBfJK/o7PigzbHCL6f8QvJsAA9Dg3uFXds9nqD7i6c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HDcqTOJo; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=t+aT1GoIJdZO6iT8HskJWHWn9ouRzoG81giWM2w/zy5t4lQ5HG7jGfav0QOEgbcX1lApFR4tYzCcY8wdhw4J19N6Peu2V5suLzofI7NBTbiYyjLwx6xvIZtW7ioEf+/98mAPI+KQR+XuCZSWr9N+FIpv4F/GJ2mHfow9C0laZSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Gc8OY0vx; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HDcqTOJo"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C4DCB418B1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Gc8OY0vx"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFF5C418B1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723057264; bh=JNDEhlunaLuIa545DF4ijzgQxpTe7pngoJLfTHw7hNg=;
+	t=1723058948; bh=Us6rQ1VoD9HyO2vmh51JPYOdrE4J/tQPD8FLDohdDg4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=HDcqTOJophyR2sRbg3qCRJHS21PO4ucXa4LujX963WN1J9BhCN+hGRQJMFbxg2EPE
-	 Eh8K3n/U5houLFKmy3SiTFFnVp8PAdskOgseJV0CNaCWipTev207x/QZsVfzrW9zsa
-	 18CekpzSa8vtDyRvDxFdcRdYUiob2cR427AdVXwCyeilvWd9UlUi/GuSXUJ0xvfvQg
-	 lGlf6hY5fJBTEpnGL9OBY38JDbhfRRWQbUzzGLF7pqACvzhXVsUtWOS27jTCI/Tk1R
-	 AHoued/6wC1WDx+I+hIcEdf526w9SWJzTR67MMS97KX8tTr/yAhQbo8/ysIiqr9pOf
-	 h6BFpyG0tQiow==
+	b=Gc8OY0vxZotEafoDAZHv5wP17CHMEDv3H53ljs0RTNUOZLIVSgtPQ2lQUqmvAvtOG
+	 kgDOpCN4EMGxfb7VolsqDaR0fyk3xrBcoqx4cSpph3Rb25FFB+oWiBHe02SEMtJX5E
+	 2cluxZJQKi49unVHMjYnPOSn5OdtDleHajTF9/FGEBiyvKXhpF+eWOMC9zMJ/a/cTi
+	 /r45rmHIggw9i05nXxtfDmWO2V5WsuaLYMEWtce0YQHwtRimGIORp7b3owlj/F4fx6
+	 YtvNUY7RBAQOiVyFHCbNuF0lea7IJcaItJQg1wbAY0t8x6eBEq+CfuL2jsOM2I6VtC
+	 96+2W7xpDqlAg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C4DCB418B1;
-	Wed,  7 Aug 2024 19:01:03 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id AFF5C418B1;
+	Wed,  7 Aug 2024 19:29:08 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jiamu Sun <barroit@linux.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: improve comment consistency in .muttrc example
- configuration
-In-Reply-To: <SY0P300MB0801D1A4B278157CA7C92DE2CEBC2@SY0P300MB0801.AUSP300.PROD.OUTLOOK.COM>
-References: <SY0P300MB0801D1A4B278157CA7C92DE2CEBC2@SY0P300MB0801.AUSP300.PROD.OUTLOOK.COM>
-Date: Wed, 07 Aug 2024 13:01:03 -0600
-Message-ID: <87h6bwrwcw.fsf@trenco.lwn.net>
+To: Shibu Kumar <shibukumar.bit@gmail.com>, agk@redhat.com,
+ snitzer@kernel.org, mpatocka@redhat.com
+Cc: Shibu Kumar <shibukumar.bit@gmail.com>, dm-devel@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Removal of unexpected indentation error
+In-Reply-To: <20240803183306.32425-1-shibukumar.bit@gmail.com>
+References: <20240803183306.32425-1-shibukumar.bit@gmail.com>
+Date: Wed, 07 Aug 2024 13:29:07 -0600
+Message-ID: <87cymkrv24.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,29 +50,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jiamu Sun <barroit@linux.com> writes:
+Shibu Kumar <shibukumar.bit@gmail.com> writes:
 
-> Added a space to align comment formatting; this helps improve
-> consistency and visual uniformity.
+> While building kernel documention using make htmldocs command, I was getting unexpected indentation error. Single description was given for two module parameters with wrong indentation.So,I corrected the indentation of both the parameter and description and also added the description separately for both the module param.
 >
-> Signed-off-by: Jiamu Sun <barroit@linux.com>
+> Signed-off-by: Shibu kumar shibukumar.bit@gmail.com
 > ---
->  Documentation/process/email-clients.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-> index dd22c46d1d02..e6b9173a1845 100644
-> --- a/Documentation/process/email-clients.rst
-> +++ b/Documentation/process/email-clients.rst
-> @@ -216,7 +216,7 @@ Mutt is highly customizable. Here is a minimum configuration to start
->  using Mutt to send patches through Gmail::
->  
->    # .muttrc
-> -  # ================  IMAP ====================
-> +  # ================  IMAP  ====================
->    set imap_user = 'yourusername@gmail.com'
->    set imap_pass = 'yourpassword'
+>  .../admin-guide/device-mapper/dm-crypt.rst    | 20 ++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 
-Applied, thanks.
+Thanks for your patch, I have applied it.  Please keep the following in
+mind for future changes, though:
+
+- A patch should make a single change; this one made two (fixing the
+  indentation error and splitting the documentation for the two
+  parameters).  For anything more significant than this, combining two
+  changes in this way could have resulted in the patch being rejected.
+
+- Please read our documentation on the writing of commit messages
+  (Documentation/process/submitting-patches.rst in particular) and
+  line-wrap your changelogs at a reasonable length.
+
+I rewrote the changelog as:
+
+> docs: dm-crypt: Removal of unexpected indentation error
+> 
+> Add the required indentation to fix this docs build error:
+> 
+>   Documentation/admin-guide/device-mapper/dm-crypt.rst:167: ERROR: Unexpected indentation.
+> 
+> Also split the documentation for read and write into separate blocks.
+
+Thanks,
 
 jon
