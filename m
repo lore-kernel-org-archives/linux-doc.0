@@ -1,41 +1,69 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5C013A899
-	for <linux-doc@vger.kernel.org>; Wed,  7 Aug 2024 16:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE8882877;
+	Wed,  7 Aug 2024 16:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723046815; cv=none; b=G2lHqYqvMk+RtIjiWNaW5ZhzN2ZlCHSuoXnFs9Wda71QFAmrvMZ8wGY/w2kIwgn4A8PHaZgMkoTzMKGNf6HyCWAmOWFFhJVwY2ICAf+lks8Yc+OftIQzYvgYEI6afj25KG/OwVaq/cc3PNjbc3F6O7pmObGO4Ee1RjOpOL5tjpE=
+	t=1723047410; cv=none; b=W+FMyfl/o9AdDYGZc8cJuAggITHRmH+w0WJdW3Jo9gXxlhQjUHxARNwQiiw40ZxmSuE21KCCCNtIlggP++fzjGxHx3hw6edFr2W/ixJb01q7ygpC5Cs1BtJVKBPd1YV++Jl7V4CYnNWki2guPveuRa0GsgcuzL/8lmaAYv5WFzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723046815; c=relaxed/simple;
-	bh=Ox8dAYeKznv8tFNqpz7vNpNAB4UpgPt9H2/s9qBhm/0=;
+	s=arc-20240116; t=1723047410; c=relaxed/simple;
+	bh=UptmENx6TJV+uGONRp2iVcbWnaYM95O1Di3YA6293ho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuanqKx1Vaz422Z/Gbb8NLfzJQ2JjfoLXFt5cQcdfGFhKTluVQDSbe/9xLVO7jMqSb5AB61/G9Wt9fdgiCNkqUx4fo1rWBrxH3RuRRo3IwrNXCN4v1wO55kq4H858W7w0nx3CDx7R8mqOP05elKiVYXZ8N34QSlQggHQJXla8Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sUrqXRYl; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp8nuWeN5DkcdgoqEvG0pprQOfWec7NQu1uiQ/YSB+XQlvrzg7shk5ohPVY60qfV2C1IfIIkNzKxHAaJJwQTC+n0AzS7UvA807rkabq6qII4J3nxPNzZ1JTNKyrS10V7WmVixWUB8Fia3VV6KJr60g/o/jR2sZ+s7DXl73Ur+dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cbkfNHah; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sUrqXRYl"
-Date: Wed, 7 Aug 2024 12:06:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1723046811;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LF5jjwkwqJB7FolX23lAfKKpsUXDA65/uxW4dbAo5pA=;
-	b=sUrqXRYlveEoOCMnqMx9KJ4CdAg5HWr6M5gePcsejsvw3LpuoWVH4gju0HklT6VJ80KqGd
-	WvLcftemUsqNbKbzqs9QUYfrxd8aIn8YsiOxrSJYrb4SoD2z13hBitNB4ZEIkepK0DPCMg
-	dc6pdLYVh7HO2vUmVNg15jZcM0tCxjE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Xiaxi Shen <shenxiaxi26@gmail.com>, corbet@lwn.net, 
-	javier.carrasco.cruz@gmail.com, "open list:BCACHEFS" <linux-bcachefs@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Fix a spelling error in a doc of bcachefs
-Message-ID: <bdws7d7askhlctcwfgwieml56dr4vqjuvi7bavwkldjdcuzk3u@cbneggmx2w2b>
-References: <20240807071005.16329-1-shenxiaxi26@gmail.com>
- <2dfa76a7-eeae-4b05-bfcd-684ae7ade963@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cbkfNHah"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70d1a74a43bso45546b3a.1;
+        Wed, 07 Aug 2024 09:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723047408; x=1723652208; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EjsfNYgH0GikFN6Lo2nyrKruXgjk5LFi+vPsS/sC+Pg=;
+        b=cbkfNHahE3NKWuWTS7+2Yo9n++V2DCYZtDMFMqJ8tkljNEaCQ6/k8skKrd5oAd8sR1
+         kOAOsMg2nVFx48VDO8bpz8BIntxAD7u2xMZ+l+Ia4uVnBzXbdPEr0M0GWMFPAMtRZ+o5
+         xH9Co7kWasT6YN4kMaUQrsuzGkqVnrcKxw+OM573HlMAY4fRGDTTux7oWnFkhRa+yrcK
+         uFRPPX3i71eNU7QDMdK33eMVvX++1mZu/LXK97XXQt6g8SzwCEG18UUzQnUQVzmrLYCO
+         e1nzWtEkJq9b2EoWxy7Y0fPKNjjiFpxbDUdKdvk8XylMOqC33/LOE2GV9TCmEUywh4n3
+         NX4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723047408; x=1723652208;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EjsfNYgH0GikFN6Lo2nyrKruXgjk5LFi+vPsS/sC+Pg=;
+        b=V6G2ssWJNLZJmtgrbY/3FBed3Gg37Y2EWQqBDXSdBjOKLcU+bVPuk2xr0jl+zIuWt1
+         iQwmE6jNPcbxkbLVncnkEWmdyPAikkqE8nNGjGQZSD1hrQ0sQfJYurEWNSPo9IXpytgr
+         LPmNn7fYQFmyzTgYb4cUzNJm8gQYev+3Rly7+E6376VoCOoejVyZIlmifGvCho2PMs4j
+         fwPXS6omGfRfQbFJZvSNK0sLG7g1zYEKn5HZSAc1lNBxwUyhATeP4oTjeYWrR+geemqc
+         YHi78v/zUJjhxqd52bFfIjXSuGiQXqmMxcxJyVwhnF4aec6vM54Flr1Qyz5BZWgUgdcL
+         MeOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUpRdb/32ixauFaSz6m0RTvN+O3LXIep7M72Ut8pGa2YZtmS6m2mJwOiPZhMTDH2xyH/nfmt1ZodgCRx6A8bLpRafdGX/GZSR9LN21eK/COWXmRCy39cTd7hMmCdvh7lTC1oOC2L6V
+X-Gm-Message-State: AOJu0YwgBJvxy2UDdgKu942CwF3dPy7Y6zPAUXhiKneMRqdw+qTYBia6
+	u7VjShak4u3kaIVNNkpIdP0j0V0A2CMg+4/uLC8xlex/f+H4JXXh
+X-Google-Smtp-Source: AGHT+IHCWTXXGmjruJAWXKpRpr+dtOlyI7NMlSBscrx8uwQHRc9gGrJtCN2u6obxZDC52qP+/zOZwg==
+X-Received: by 2002:a05:6a20:1e43:b0:1c6:ac1c:630d with SMTP id adf61e73a8af0-1c6ac1c63f1mr11643320637.1.1723047408461;
+        Wed, 07 Aug 2024 09:16:48 -0700 (PDT)
+Received: from localhost (dhcp-72-235-129-167.hawaiiantel.net. [72.235.129.167])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7b7654bf910sm8505321a12.79.2024.08.07.09.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 09:16:48 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Wed, 7 Aug 2024 06:16:46 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sangmoon Kim <sangmoon.kim@samsung.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jordan.lim@samsung.com,
+	myoungjae.kim@samsung.com, youngjae24.lim@samsung.com
+Subject: Re: [PATCH] Documentation: kernel-parameters: add
+ workqueue.panic_on_stall
+Message-ID: <ZrOd7ipYqshfjnvF@slm.duckdns.org>
+References: <CGME20240807105515epcas1p1e3d0893f404f5b294ce5628a4188293f@epcas1p1.samsung.com>
+ <20240807105500.3958276-1-sangmoon.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,14 +72,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2dfa76a7-eeae-4b05-bfcd-684ae7ade963@linuxfoundation.org>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240807105500.3958276-1-sangmoon.kim@samsung.com>
 
-On Wed, Aug 07, 2024 at 09:42:12AM GMT, Shuah Khan wrote:
-> On 8/7/24 01:10, Xiaxi Shen wrote:
+On Wed, Aug 07, 2024 at 07:55:00PM +0900, Sangmoon Kim wrote:
+> The workqueue.panic_on_stall kernel parameter was added in commit
+> 073107b39e55 ("workqueue: add cmdline parameter workqueue.panic_on_stall")
+> but not listed in the kernel-parameters doc. Add it there.
 > 
-> Missing commit message --
+> Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
 
-I wasn't going to commit this, because I don't like taking patches that
-do nothing more than fix spelling, but since it in fact does not need a
-commit message for something so trivial I am applying it.
+Applied to wq/for-6.12.
+
+Thanks.
+
+-- 
+tejun
