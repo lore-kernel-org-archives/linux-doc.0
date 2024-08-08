@@ -1,113 +1,154 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F6D186E40
-	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 06:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D07A5228;
+	Thu,  8 Aug 2024 06:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723098329; cv=none; b=AzczS9nwfHaFBU5VPf4tNjHsZIzFc5+d4QDiZclWvLBz+RGdr2ZEJElVaTVZNjJc2+j9JzCxaIkAcaG+cDDyj37D7wLGPC8Y4+tIbatNo6pmmmXxMWierCbGJhvU+bXaoS+03VAkYmjM6Pns+XY2tZAzEXx/lox0Sj/tkzxJ8jE=
+	t=1723099937; cv=none; b=p9n4Wx89q3pDSxaekwejhPL2YIQb83zCJuAqERlhmsCTRemVWqaFrQYL9iioAq0d0gzVIR2TYcNJlHjDk/64hLJIMzR5+4ERvvMeBsvQZaww77WIA9o3HULuBWxIkaYvdsXdv7VbxiG8U19YB4rIxkqGy6sr37vkpZze9c8M744=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723098329; c=relaxed/simple;
-	bh=vLLuKNqR9XU5O+YIcehGr09FLrfxLy2W9TjakvRNxc4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qrjIu3hWlZOXmtON3nZEmY9zxiOA0enKcAqD5t7p7Jkta1bEOf5sL++WSLcNCXCSUYQs5heo/QK9RXWGgsA3lEst7MpAaDFE0DLzX/itx+Gg0n5oHKYUvCPXN2GmrdqvvADM7TyqRHogLgx8jW9Nb9Lcihrtmw0B0bw9vPKlCHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WmGLmIUu; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WmGLmIUu"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fc60c3ead4so5583265ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Aug 2024 23:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723098326; x=1723703126; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJzbBpFNwwY6e+GIMU5iIyI4LLoSSqWXmhkhActO1pM=;
-        b=WmGLmIUuyf/l/oP5Hc2I25c7ckQjT7UoU3H/6dcJrZmI2maX7Bev/9eznq4a+khWXP
-         /LC+JVPWu2e/M62gXdMw7ykdMV+5da8AdUr6dfQVlmsGBVWAKThLy4+iUS5xcdCD/7Ku
-         lBZ79qs1pffGXIkx0MrEe2vV2LdTkbTQ6ZT1rgWfPeYiYyyGFimBWirEeqrIXoabg3Ou
-         RgsGIFLJWbNHCyOHAJdJTXQFuur9jj0EXzMYoYz0wWmFGl/mXEoLzC/E6Fso2p/ImABX
-         GL4pI9+q5ClclOpBH85/56Fa1uZRD1ciupe8PIaiAtVUyvLQD2KKJe//G0DKddq5+al4
-         J0kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723098326; x=1723703126;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJzbBpFNwwY6e+GIMU5iIyI4LLoSSqWXmhkhActO1pM=;
-        b=rDKgkvXLLz4SfNnweS5YNgwNZO6hb9ND7ba2oO5h6fXxyNuOK91r8C6x6srLtf8w7a
-         iOgto2sAwO4Fjtg5ntmuGA/Y0UoYt9IjERG6qx/Zt18ghszKNWVtFzMoeCYumjIQHQ7L
-         knHYcFrpzLXVR8IhIQZ8lQFGqu+bHZv0Nbhb/BrIGMjv6FKjY4ry61k2MhtTL+823fNC
-         5G3mufOXV6kTzJhbVuoiNoxKxh/fIsC1lVZa7h4S8wG2bCleH3mBkujRmnslBwr2k29L
-         ojTvSOEom2q7DWFibxoLMTRoXCBD1VweS6AxlpEqdAtSTCsamIwqbkNKNiAHe1aI2pRu
-         K2xg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCrR38g98q+oh65R80rYOCAmKAbdwayn/uCeusbjZDmG0LntV9NiXIteTrA1dui6SJsXA1s35XSQG3/fQenza9cRa94GQVakVM
-X-Gm-Message-State: AOJu0YyxfiAM03rqjyhyQ/ytODfHHQ2GCuFBOfdnLVTW+SXvyG9ImlJ2
-	lZhs2zm5ZJj0tlkYoZMdYWMlzsVU9wZjpofX/NENRNrVFMrvFB2XOYN5Q9i3NIc=
-X-Google-Smtp-Source: AGHT+IG5Sh4RPZDFGIdFKwM0iRTPb/2nHrMhAgBHSqeUq3wn62Dbr5Jen5m7Eo7OeNMhWJA7SfHwfg==
-X-Received: by 2002:a17:90b:4ac9:b0:2c4:dc63:96d7 with SMTP id 98e67ed59e1d1-2d1c349446emr921727a91.41.1723098326578;
-        Wed, 07 Aug 2024 23:25:26 -0700 (PDT)
-Received: from localhost ([2804:14c:87d5:5261:ed46:7c69:6cee:3c20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9db74a0sm328001a91.47.2024.08.07.23.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 23:25:26 -0700 (PDT)
-From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,  Will Deacon
- <will@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Andrew Morton
- <akpm@linux-foundation.org>,  Marc Zyngier <maz@kernel.org>,  Oliver Upton
- <oliver.upton@linux.dev>,  James Morse <james.morse@arm.com>,  Suzuki K
- Poulose <suzuki.poulose@arm.com>,  Arnd Bergmann <arnd@arndb.de>,  Oleg
- Nesterov <oleg@redhat.com>,  Eric Biederman <ebiederm@xmission.com>,
-  Shuah Khan <shuah@kernel.org>,  "Rick P. Edgecombe"
- <rick.p.edgecombe@intel.com>,  Deepak Gupta <debug@rivosinc.com>,  Ard
- Biesheuvel <ardb@kernel.org>,  Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-  Kees Cook <kees@kernel.org>,  "H.J. Lu" <hjl.tools@gmail.com>,  Paul
- Walmsley <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,
-  Albert Ou <aou@eecs.berkeley.edu>,  Florian Weimer <fweimer@redhat.com>,
-  Christian Brauner <brauner@kernel.org>,  Ross Burton
- <ross.burton@arm.com>,  linux-arm-kernel@lists.infradead.org,
-  linux-doc@vger.kernel.org,  kvmarm@lists.linux.dev,
-  linux-fsdevel@vger.kernel.org,  linux-arch@vger.kernel.org,
-  linux-mm@kvack.org,  linux-kselftest@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 39/40] kselftest/arm64: Enable GCS for the FP stress
- tests
-In-Reply-To: <20240801-arm64-gcs-v10-39-699e2bd2190b@kernel.org> (Mark Brown's
-	message of "Thu, 01 Aug 2024 13:07:06 +0100")
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-	<20240801-arm64-gcs-v10-39-699e2bd2190b@kernel.org>
-Date: Thu, 08 Aug 2024 03:25:23 -0300
-Message-ID: <87v80bcyzw.fsf@linaro.org>
+	s=arc-20240116; t=1723099937; c=relaxed/simple;
+	bh=tyzblumlpNxy/lgpFjj9twjGD98ubq+OFuL+jONNIco=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=YWRlALZHxDp5yAK8fG5S0k4udiYQ+nItVuhC4GBPpW6rGh48rhQ0lxgmJkxnPU345+GPPOMRlOZsZllbajF6Hu48tbbGjh59F2vKSc+cpuXCpK2zcvgVVpP3qBdEjD+t8TXONyVVwUEwyOYFCjdM3Fa1ErQxwR0gTLlxHfj8LNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8Bx35sca7Rm4H0LAA--.8264S3;
+	Thu, 08 Aug 2024 14:52:12 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMDxnWcYa7RmilIJAA--.17111S3;
+	Thu, 08 Aug 2024 14:52:10 +0800 (CST)
+Subject: Re: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
+To: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net, alexs@kernel.org,
+ chenhuacai@kernel.org, kernel@xen0n.name, jiaxun.yang@flygoat.com,
+ gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+ yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+ dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+ zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+ zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
+References: <20240806115557.4750-1-zhangtianyang@loongson.cn>
+ <87le180z8b.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <bc5d4e7a-ba81-f8f7-3629-2c80897d8ffc@loongson.cn>
+Date: Thu, 8 Aug 2024 14:52:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <87le180z8b.ffs@tglx>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:qMiowMDxnWcYa7RmilIJAA--.17111S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWF4rCr1xur1DZF4ftFWfCrX_yoW5Ww1UpF
+	WUJw4Dur48tFyFqrWkX3yDZryavryIg3WDK34fCa4xAa4Y9ryI9Fy0kF47uFyUCr48Aw4j
+	vr40vrykCan8JagCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+	8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2pVbDU
+	UUU
 
-Mark Brown <broonie@kernel.org> writes:
+Hi, Thomas
 
-> While it's a bit off topic for them the floating point stress tests do give
-> us some coverage of context thrashing cases, and also of active signal
-> delivery separate to the relatively complicated framework in the actual
-> signals tests. Have the tests enable GCS on startup, ignoring failures so
-> they continue to work as before on systems without GCS.
+Thank you for your feedback.
+
+ÔÚ 2024/8/8 ÉÏÎç6:01, Thomas Gleixner Ð´µÀ:
+
+>> +	guard(raw_spinlock_irqsave)(&loongarch_avec.lock);
+>> +
+>> +	for (i = 0; i < nr_irqs; i++) {
+>> +		d = irq_domain_get_irq_data(domain, virq + i);
+>> +		if (d) {
+>> +			clear_free_vector(d);
+>> +			irq_domain_reset_irq_data(d);
+>> +
+> Stray newline, but the more important question is what kfree()'s 'd'?
 >
-> Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  tools/testing/selftests/arm64/fp/assembler.h   | 15 +++++++++++++++
->  tools/testing/selftests/arm64/fp/fpsimd-test.S |  2 ++
->  tools/testing/selftests/arm64/fp/sve-test.S    |  2 ++
->  tools/testing/selftests/arm64/fp/za-test.S     |  2 ++
->  tools/testing/selftests/arm64/fp/zt-test.S     |  2 ++
->  5 files changed, 23 insertions(+)
+> AFAICT, nothing. So that's a memory leak, no?
+With my understand , 'd' as 'struct irq_data' can be free at public 
+irqdomain process, and really miss a kfree targeting 'struct chip_data'
+>
+>> +static int __init avecintc_init(struct irq_domain *parent)
+>> +{
+>> +	parent_irq = irq_create_mapping(parent, INT_AVEC);
+>> +	if (!parent_irq) {
+>> +		pr_err("Failed to mapping hwirq\n");
+>> +		ret = -EINVAL;
+>> +		goto out_remove_domain;
+>> +	}
+>> +	irq_set_chained_handler_and_data(parent_irq, avecintc_irq_dispatch, NULL);
+>> +
+>> +	ret = irq_matrix_init();
+>> +	if (ret < 0) {
+>> +		pr_err("Failed to init irq matrix\n");
+>> +		goto out_remove_domain;
+> Which still leaves the disfunct chained handler installed and the
+> mapping intact.
 
-The fpsimd, sve, za and zt tests don't find any errors on my FVP setup
-when left running for a while:
+There is indeed a problem here, but we have not found a similar approach 
+for reference.
 
-Tested-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Is it reasonable to replace here with handle_bad_irq in case of failure? 
+or is there any other more suitable way. We hope you can give us some 
+suggestions, thank you very much
 
--- 
-Thiago
+>> +#endif
+>> +	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+>> +	value |= IOCSR_MISC_FUNC_AVEC_EN;
+>> +	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+>> +
+>> +	return ret;
+>> +
+>> +out_remove_domain:
+>> +	irq_domain_remove(loongarch_avec.domain);
+>> +out_free_handle:
+>> +	irq_domain_free_fwnode(loongarch_avec.fwnode);
+>> +out:
+>> +	return ret;
+>> +}
+>> +
+>> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
+>> +				     const unsigned long end)
+>> +{
+>> +	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
+>> +
+>> +	msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+> What validates that msi_base_addr has none of the lower 16 bits set, as
+> they are required to be zero to make MSI message composing work, right?
+
+This operation originates from some hardware designs.
+
+In 3C6000, either eiointc or avecintc can be the parent controller for 
+MSI interrupts and these two controllers have different MSI msg address.
+
+In our platform design scheme, we fix avec-msg-address to the address of 
+(eiointc-msg-address - 0x100000). Therefore, here we need to subtract 
+AVEC_MSG_OFFSET from the msg_address obtained by MCFG
+
+The main purpose of the design that users of 3C6000 can freely choose 
+the version of the Linux kernel that supports loongarch (regardless of 
+whether AVEC is supported or not) without having to change the firmware
+
+
+Thanks again
+
+Tianyang
+
