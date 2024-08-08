@@ -1,229 +1,163 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163852F23;
-	Thu,  8 Aug 2024 19:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9540D156C5E
+	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 20:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723146470; cv=none; b=UJIaPYPVRcxaZ88wVS8k7qRzlYndjRoQYq5Q9Z74mZ1NNaSUae+4BrsVPtfYfcmqU1P/F6lcPY0xjt1MIc4t8JYxQVp6dnbevHb4bd+Z8ygwnrGgwsBHfx57A/3+dnoJm+krFl28/LN7XQMvpD01f/dcHrFkzvUt7YxCuxVtRzk=
+	t=1723149399; cv=none; b=MLfefsI8Z3CogGYfHj6ao2dxLqan1SU6ZWfqZJBWW0EPz+Bc5kAvi1PKbTWhKymkSOBWZ/kVSUhMrrr7ZfY8DYf3a9IEJADKukvUzFwjB6WSmrKNqX/ZQg/+WtriJDLGhTF/w1WbhtyR8WLLfBYJ4ZlCf+u4jrQFgv6452uyMss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723146470; c=relaxed/simple;
-	bh=k7ul0/j8TS7mfjggsBFF5jrVcxlu1jhMPaAa/bNdtHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Yd4DM9EWLZyUs60ghN4eAZc1fKNoHPaFWLbOi421JyB42LQPSpWkHi+y/Oj2o/3cG4QiFVn67YFZ6n1+Zr0wIswOnJMfe3dremih9yukK00Nc9vGsWEK3jaNPFu4zx3k29Hh5PVq/VPFYqqJ3LSDh70ogdQNIw7VzplPu6fwJqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jROdtspL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1723149399; c=relaxed/simple;
+	bh=AQWn/xnnEHnNvSM4lorxKMv1lH4nZlJoO1CrXZ0ujvo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z4yd6oR2DkujiNrbnTOzUfZRpdAVlGDbkc5XNHBLKbM59FBHdJSdC1qR1Bl2CLo/9wHdoVz5mIYgJWNAS2XERbCGtiCLcMeX/qaoZrkCfE4pWgT0KNCP0HR2xpXEXyWGwf9NpYYasq3bng2tTt+et0F1jym+A2VlrO/tswqo1D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x6SGk8qM; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jROdtspL"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47894XJ8007960;
-	Thu, 8 Aug 2024 19:47:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k7ul0/j8TS7mfjggsBFF5jrVcxlu1jhMPaAa/bNdtHI=; b=jROdtspLhY9CdpPI
-	kneaiF4XII7PPwYayivSpG5xKaa+IUPAOO5GNejwyz1k56op4q/dQ0LD6Y02fVBT
-	Ap3g5Iuz80oVJEcZg/9lHBSDeF3nFROUVH+TUxlTcoeHpsVFjoN5Bal2uYqLS+gM
-	Z/dyYsFIVqkQXAfxWTRAlZmYnC38Y6PbJIFvA8EAMwAQEr9qWCAU/kNXdK9/zhpf
-	IfRgT5zKsDEmxioDR6t145Zd8TAdnAmZe7KUpHCXGbH/oWj9PP3/1LOQ1GgEWjpN
-	pEMEpu5Ynx8DvaezucZgD+R6xZ38pgpPw+4G/RxTzIpmTmahNr1hETUO21KFZ/VI
-	Ac3lWg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vfy5b6v2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 Aug 2024 19:47:23 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 478JlMMg027917
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 8 Aug 2024 19:47:22 GMT
-Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 Aug 2024
- 12:47:21 -0700
-Message-ID: <ed17a6ac-ff9b-4b1d-9275-ebfb62979a34@quicinc.com>
-Date: Thu, 8 Aug 2024 12:47:21 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x6SGk8qM"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-44fe9cf83c7so7578011cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Aug 2024 13:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723149396; x=1723754196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vOI5LTLx9cXrWhuBdvZp6mpixN3oVmTyWbuUGECDTYI=;
+        b=x6SGk8qM4ol3KzlyM19lvutubfSozSymkojAosXvy2p7iEi/57f0fmxcY/V2rjJojd
+         8sjm146NzZgAZnrP3T4MViYjDkLXS6of4u+0sC9HI3Jb0KTyr2D0/pHWeIQjn7A8OUPY
+         8I5QJrvrQmL91A0MDm+K5tx/sep46NirIcHlLpp3rvmiDkBxsnj29LJkDErtCXuiEBs2
+         zVTDcCYAW/P68np5jn3+cU6G8YAWpIDWElfiZJKjj1iYwq+tCGJ/uDPFCZqLWXupMUxY
+         Hg/rYQ7JP6RwqNow96vW51hAXYdUjYzVRQdDgMGKiSDXlCllFOtshZNnQxD4y4rb+pvp
+         9UYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723149396; x=1723754196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vOI5LTLx9cXrWhuBdvZp6mpixN3oVmTyWbuUGECDTYI=;
+        b=HwVfL6WEUmuc7f7YvTAv5qeR2nLofykYMtd6fLAH1l413eJ9Jhi9yse8Emg4VbHJs4
+         2xiV7Tg1ReYKV5qAoGs/H93TBGlgl6QKfMPvxdBewlnZA2H4hHDyQdX25HHburX+dBHu
+         YyvAA2d9Xii1rDQuMdSnQzFWCI/kdvYky4jioXdRkOYYQQ77X8LWOKYGTGEmv3Qga+Bn
+         BBlBl2pPIcfI1I7FcZURrXq035u9uLYeGYaS2FhaA6PPIZ8JH3couVa+C22FpajEpapc
+         vYrOkFocftMz+dvSvtX09vBoLVUHhXddCmsLaLbXj2CIQZcqmsyRQoltL0jFAMr+gnOU
+         apMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPlr/2fgKGvCaIK8vKjlb7ROrnGgGPYydOAJD/wUIXD7NNASb80Ywxvo494gUYtdsfRDpSJy52RP6FveJQd66RzYcTw+Qdhn9g
+X-Gm-Message-State: AOJu0YxJAaQzq3ATM+kKJC1dZSo2i/f4t0E3H1jJl1cFbnzucUlVDmW9
+	Pwj4jHJgkGDMedqU8qxWBYtmGMINweUaDI67vt7A9rP/cc7dyw7Ly7bu9DWO+zssstJaCVTGObi
+	lS8lW+Jg2bzaX6iqLtlb/SmTnEMTaKi3S7nGO
+X-Google-Smtp-Source: AGHT+IGEd8MEPPIzKesyVrhvbUxEPsn7+b9jVtjwHdEDzmwadpVOXKjz66694N5xOc7FFo6QD61TV8emUgJPi2VIqag=
+X-Received: by 2002:a05:6214:498e:b0:6b7:b4b1:85ae with SMTP id
+ 6a1803df08f44-6bd6bd7f455mr38124966d6.54.1723149396123; Thu, 08 Aug 2024
+ 13:36:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
- stream if in use
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-24-quic_wcheng@quicinc.com>
- <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
- <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
- <c3b6ac24-6359-4809-83d9-ac62ec64b396@linux.intel.com>
- <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
- <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
+In-Reply-To: <20240806135924.5bb65ec7@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 8 Aug 2024 16:36:24 -0400
+Message-ID: <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: sZ3EWb4BY250xogQoumQmdBT50dEBlro
-X-Proofpoint-ORIG-GUID: sZ3EWb4BY250xogQoumQmdBT50dEBlro
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-08_19,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408080140
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Aug 6, 2024 at 4:59=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+...
+> On Mon,  5 Aug 2024 21:25:20 +0000 Mina Almasry wrote:
+> > +     if (pool->p.queue) {
+> > +             /* We rely on rtnl_lock()ing to make sure netdev_rx_queue
+> > +              * configuration doesn't change while we're initializing =
+the
+> > +              * page_pool.
+> > +              */
+> > +             ASSERT_RTNL();
+> > +             pool->mp_priv =3D pool->p.queue->mp_params.mp_priv;
+>
 
-On 8/8/2024 7:54 AM, Amadeusz Sławiński wrote:
-> On 8/8/2024 2:36 PM, Pierre-Louis Bossart wrote:
->>
->>
->> On 8/8/24 14:11, Amadeusz Sławiński wrote:
->>> On 8/8/2024 3:19 AM, Wesley Cheng wrote:
->>>> Hi Amadeusz,
->>>>
->>>> On 8/6/2024 7:51 AM, Amadeusz Sławiński wrote:
->>>>> On 8/1/2024 3:17 AM, Wesley Cheng wrote:
->>>>>> With USB audio offloading, an audio session is started from the ASoC
->>>>>> platform sound card and PCM devices.  Likewise, the USB SND path is
->>>>>> still
->>>>>> readily available for use, in case the non-offload path is desired.  In
->>>>>> order to prevent the two entities from attempting to use the USB bus,
->>>>>> introduce a flag that determines when either paths are in use.
->>>>>>
->>>>>
->>>>> How can this happen? Can you provide some example with list of
->>>>> devices and which one should block the other? If I recall correctly
->>>>> devices are already exclusive unless you support substreams which
->>>>> ASoC does not at the moment.
->>>>>
->>>>   From past discussions, I think so far everyone is on board with the
->>>> idea of having both the USB sound card and PCM devices exist in
->>>> conjunction w/ the USB offload path, which is going to be done over
->>>> the ASoC platform card.  So for example,
->>>>
->>>
->>> Sorry, I must have missed that and examples in documentation could
->>> probably be a bit better, it is bit late at patchset 24 that I
->>> understood about this now. And is part of a reason why I was confused
->>> about kcontrol implementation.
->>>
->>>> / # cat /proc/asound/cards
->>>>    0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>>>                         SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>>>    1 [C320M          ]: USB-Audio - Plantronics C320-M
->>>>                         Plantronics Plantronics C320-M at usb-xhci-
->>>> hcd.1.auto-1.2, full speed
->>>>
->>>> This device currently has the following sound cards within the system:
->>>>
->>>> - card#0 - ASoC platform card: handles USB offload, speaker, etc...
->>>>
->>>> - card#1 - USB SND card: card created for interacting with the
->>>> connected USB device.
->>>>
->>>> So now, with USB offloading in the picture, there are basically two
->>>> paths that can start attempting to utilize the same USB device
->>>> endpoints.  Let's keep it simple and assume the device only has one
->>>> playback substream (which means only one PCM device)
->>>>
->>>> /proc/asound/card1 # cat stream0
->>>> Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full
->>>> speed : USB Audio
->>>>
->>>> Playback:
->>>>     Status: Stop
->>>>     Interface 2
->>>>       Altset 1
->>>>       Format: S16_LE
->>>>       Channels: 2
->>>>       Endpoint: 0x01 (1 OUT) (ADAPTIVE)
->>>>       Rates: 8000, 16000, 24000, 32000, 44100, 48000
->>>>       Bits: 16
->>>>       Channel map: FL FR
->>>>
->>>> So the patch here will prevent transfers from happening from both the
->>>> offload path and directly over the USB SND PCM device, which
->>>> correlates to the following paths:
->>>>
->>>> - offload: card#0 pcm#0
->>>>
->>>> - USB SND: card#1 pcm#0
->>>
->>> Well, it's one way to do that.
->>>
->>> Personally I would just reuse USB FEs and when opening one check if it
->>> can be offloaded:
->>> * check if someone disabled Offload on FE
->>> * check if it is connected to HW that can do Offload at all
->>> * check if Offload streams are available on backing HW
->>> * check if audio formats are supported by above HW
->>> * do any other checks that may be needed
->>> and then just redirect FE setup to relevant driver doing offload if
->>> able, otherwise just go standard path.
->>
->> How would userspace know which 'USB FE' to use?
->>
->
-> That's my point, the same one as it would use doing normal playback/capture on systems which don't have Offload.
->
-> If I attach USB Headphones, as a user my expectation would be to use playback FE on USB card it exposes, not to spend time setting some controls and telling it to use some FE from other card.
->
-IMO I think the user should have the ability to choose whether or not to enable the offload path, since there are a lot of different USB audio devices in the market.  Obviously, the audio DSP will try its best to support every device we check for, but there might be a few outliers that may behave differently.  In addition, the code complexity that would be involved in bridging the PCM device exposed by USB SND into ASoC will be much more invasive to SND core code.  At least as of now, if the offload code is added, and userspace doesn't know anything about it, then the default USB SND path is taken and that won't break any current userspace applications.
+Hi Jakub,
 
-Now, if we go and add some kernel based offload routing, and forcing that onto every userspace application, and we break that use case, that would be a problem.  In the end, I think if userspace wants to enable offloading they should need to have some changes implemented to account for it.  In discussions with Pierre, maybe enabling the offload path can be on a policy based condition, such as a "low power/power aware" audio path, and not something that is always enabled.
+Sorry for the late reply, it took a bit of code reading to understand
+what you mean with the deactivation request on the other patch, but I
+think I got it down and have a patch on the way.
 
-Thanks
+> How do you know that the driver:
+>  - supports net_iov at all (let's not make implicit assumptions based
+>    on presence of queue API);
+>  - supports net_iov in current configuration (eg header-data split is
+>    enabled)
+>  - supports net_iov for _this_ pool (all drivers must have separate
+>    buffer pools for headers and data for this to work, some will use
+>    page pool for both)
+>
+> What comes to mind is adding an "I can gobble up net_iovs from this
+> pool" flag in page pool params (the struct that comes from the driver),
 
-Wesley Cheng
+This already sorta exists in the current iteration, although maybe in
+an implicit way. As written, drivers need to set params.queue,
+otherwise core will not attempt to grab the mp information from
+params.queue. A driver can set params.queue for its data pages pool
+and not set it for the headers pool. AFAICT that deals with all 3
+issues you present above.
 
-> With current design there are _two_ separate FEs, on _two_ separate cards, which are linked by kcontrol and which block each other. I'm rather confused how basic userspace application knows which one to use in this case. (By now of course I know that it needs to read kcontrol to see if and where it is offloaded and then open the FE on the card, but in my opinion it is unnecessarily convoluted.)
->
->> The discovery and mapping between cards and devices is the main problem.
->>
->
-> And "offloading" decision to the user/sound server/HAL doesn't help in my opinion.
->
->> It's much simpler to start from a generic "USB-Audio" card, and check if
->> the functionality exposed by one PCM device is offloaded to another
->> ASoC-based card. Then all the interaction can start with this offloaded
->> device without any guesswork on the mapping between cards/devices.
->>
->
-> That's the point, currently there needs to be some guesswork involved, because you need to check kcontrols to see if the endpoint can be offloaded and open the other FE it points at, instead of directly opening the one you usually would, and having it Offloaded by kernel. It is adding more work on userspace side, which will require special handling to work correctly.
->
->> The point is that the USB-Audio card will always be there, whereas those
->> ASoC cards will have different names and implementation restrictions. In
->> the example we have here, if you want to capture audio you *have* to use
->> the USB-Audio card.
->>
->
-> Yes and with the description above it would be just one of the checks after which it would decide that it can't do Offload on capture path and open it in standard way, I see no problem?
->
->> In other words, it's just an endianness type of debate with no clear
->> difference between solutions and a matter of personal preference. The
->> reality is that there's a clear asymmetrical pattern. The USB-Audio card
->> is always present and usable, the ASoC offloaded cards are only present
->> in specific implementations and only usable if conditions are met.
->
-> In my opinion even if it is specific use case, there is no reason to make it more complicated than it needs to be. From my point of view problem with current design is that instead of being mostly transparent to userspace (when it could be), it adds more work for it.
->
+The awkward part is if params.queue starts getting used for other
+reasons rather than passing mp configuration, but as of today that's
+not the case so I didn't add the secondary flag. If you want a second
+flag to be added preemptively, I can do that, no problem. Can you
+confirm params.queue is not good enough?
+
+> and then on the installation path we can check if after queue reset
+> the refcount of the binding has increased. If it did - driver has
+> created a pool as we expected, otherwise - fail, something must be off.
+> Maybe that's a bit hacky?
+
+What's missing is for core to check at binding time that the driver
+supports net_iov. I had relied on the implicit presence of the
+queue-API.
+
+What you're proposing works, but AFAICT it's quite hacky, yes. I
+basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
+nothing can increment the refcount while the binding is happening so
+that the refcount check is valid.
+
+I think a less hacky approach is to add a function to the queue-API
+like ndo_queue_supported_features(), which lets the driver declare
+that it supports net_iov at a given rx queue. However I'm open to both
+approaches. What do you prefer?
+
+--=20
+Thanks,
+Mina
