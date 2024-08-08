@@ -1,192 +1,284 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CB618E749
-	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 15:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A800455769;
+	Thu,  8 Aug 2024 18:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723132612; cv=none; b=UUviHggKd97FDiEpYYmLRsoh8JUEruQY6u+otRCnDX/kOldY8xJTaiS1s+76CxMNdLzmIC2moS9gHCY8GIDZVP3uZ+c8mk13GhHW97rlXm7Ze7OPCrUgHpmpaBkhkVYYAs7+G4ZjTx7lDxLywM9OL22HSJs8xdCapj9RXEOXH2k=
+	t=1723140657; cv=none; b=Y0DddCONV4F//31d2MeifIkONL6tD/jD/noX9RaL6d/DWQn39MBs4DbAV2pysRMx/NFfaxx7752VbudOtdSTgviL0XLGRFPqtwjGHUUQXZmpb3rc78MjWzNFd38C1Rtoq4/LwQySzIUpGcWLjyS1HArOnq4H2orXivTmEdeFjFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723132612; c=relaxed/simple;
-	bh=9cKxumR6Rf6va4hZ9V61jAgFg9GEKzaFi4dfCc0wSEM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TMrVBnAN3jlJ1fQU8ElFhyhopP/HjB1+y8xUDg0CNS/w2BmjZZIa0Vd9pPkyBIyZ2SffOBp/FIHmGjG7X0twZGaBP0QyYw7UdMYirk8Rwd0+jrtY82yIVu1aLBDtQauPL21XsQxDy/Hc56QiG/J7vEsMFWSwY1oAFcVyqkVLWvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XSEI7v4g; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1723140657; c=relaxed/simple;
+	bh=IzN+0IllBbe8cqENOEL8lICQYXZcmk8qn7cN8akcdRU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GbRCPMXhJ89qJ5qurFiTy0Ul8swx50G3jJ5KDrSjyHYSgQyKMwMNqs2P7x82LnHTPIXLzHwao8NBfyMK++ZhPeWaFKxDkPBGl7sasb++joXZObFZD/zK/vZkQsaJDmP2peLZRodDbLAsgvCZBR5Ua45E7YY7KiyjYbkzMUFdB5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tXocCki8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XSEI7v4g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723132609;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cpJg3TiQogO4JMicG9RkOgqxghuXdcS1unInOCVJZLk=;
-	b=XSEI7v4g6JMIJPI+FcDWkb0IKTFJtWt3HyRz6JQfNxYzMeP9s6FO8lYl7as2PNMjY/8H5a
-	f4nMu9+/82PS+dM+ovo4hBXssdMmgJDVdU/2LSN/JMBZT1cJRdQ9LvtAuoGzdY9bRvXd39
-	KzPwxEmuLqZuP5uywxyKQ1aBX86+qHg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-504-SRAUKq8RMi2LxKGiYuLBfg-1; Thu, 08 Aug 2024 11:56:48 -0400
-X-MC-Unique: SRAUKq8RMi2LxKGiYuLBfg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-428e0d30911so8526665e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Aug 2024 08:56:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723132607; x=1723737407;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cpJg3TiQogO4JMicG9RkOgqxghuXdcS1unInOCVJZLk=;
-        b=Iq96NkNLFi/RQPKO7cvroRyeAMKsxnm8hVWUKV6MPupMqTTtPTEcLBAcAFsxO5ss8e
-         CxMX/gDjB7O7zzzp/GQThzrCpRfzRsG8AK+4/yk6PLE8BDxxzeSFWo6gGd7AM1CPYosz
-         tKl0aRdpcef4FJVe4v9GRVNE00uL6RrLyUO79EyvhbUS05pat7anuSCpziyo47kENT+/
-         zxY72YBi0P/KilUvQaqSYRecVi5zuFzD3+StaaU+5AhHwWhthcS7DLckEif0F5ohdW2S
-         OKZmpkWnyMBHOMlH7TN+PgcsFbwDPxHai/tYJ6ClQ2zS3AhA4hdfTpqpsYAC+QAMLKY2
-         u+eg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFh4C5KnSNCfuR4kdoQ5OZ2P0fqyHJbm4BSaB/t5eqbETlX8H7k3pUbp1BhN17kDE/1OzRO8jNv80HapRued47PNaYUf1j90t3
-X-Gm-Message-State: AOJu0Yx+HYHd5E5s5IKl5unvHoeBBIeQt0lrAG8Lxr71jsY+l5Y0CD6k
-	7XYx/PwrlshV9q2y8ZSrVxseFfuCFwseywWPwomvQBVmHZFjOBUaS7iXrTao6WID5uTePxrgJ9U
-	UDDLqNi9KbJwlmCQxTghYLwJdL0/+pMtsVPKj1XJSDe8LayYuoDKsAH+zRA==
-X-Received: by 2002:adf:f54d:0:b0:367:8a2f:a6dc with SMTP id ffacd0b85a97d-36d27561449mr1351075f8f.44.1723132607423;
-        Thu, 08 Aug 2024 08:56:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEPqOOhcvnb7wuogS4wLNrpdjrEF6UHggHsvK/PxXwmbNGMMtWaKSi1FORuwqamSr7jyCKARg==
-X-Received: by 2002:adf:f54d:0:b0:367:8a2f:a6dc with SMTP id ffacd0b85a97d-36d27561449mr1351050f8f.44.1723132606797;
-        Thu, 08 Aug 2024 08:56:46 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c713:2a00:f151:50f1:7164:32e6? (p200300cbc7132a00f15150f1716432e6.dip0.t-ipconnect.de. [2003:cb:c713:2a00:f151:50f1:7164:32e6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d2716cab8sm2323080f8f.33.2024.08.08.08.56.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Aug 2024 08:56:46 -0700 (PDT)
-Message-ID: <7eca670c-1196-4e50-be26-3fa52fa93ad2@redhat.com>
-Date: Thu, 8 Aug 2024 17:56:44 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXocCki8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C28C4AF0E;
+	Thu,  8 Aug 2024 18:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723140657;
+	bh=IzN+0IllBbe8cqENOEL8lICQYXZcmk8qn7cN8akcdRU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tXocCki8oHoLLruHpGgEKljB/jBxRTPpzxTsiKp0ccvszSqsUDrHKpQKLwxm/26C8
+	 VsB//QmFJPlZFIHUrdDsS/hpZ2GmQjICpMfsXn92jRcosRLQZ3ey9IVVmSKNW8c0NK
+	 fCkggrY3AZVnr/c7Tm7aQ+9cbZsBWtPfw+jwHJoMr8iYxlPVNdZ/+6jjT6SgMV1iI6
+	 VWT4ud/EladOQl6HLsLcoMJu+m/bJYIh1uwGAmurJN5r9aQvNWZY1vu+kMyqq+cYVE
+	 NLJ4E/QvuB70pcLrLPEC9C8Ca83PPbtZmFX0vjiCKL9+DCgbr6uPVS5BZg4WmB6gUK
+	 9WukUjoDUx2OQ==
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e026a2238d8so1155586276.0;
+        Thu, 08 Aug 2024 11:10:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV/lTDC50R2IIVI4H4h/DiHkbNBKJP1xkP/mIN8+SAlbH+pj/Wbo3O2oWXF9hPNtwkmaUnYHHxENYFJWnWEQvK7zJ0G8HxKvNrECWxKhxiWdVJYDsB/zuAlOWYRhKv/Pu4BoBM1x1LvpP4/HscIyjrkH7AhpsB+q39XGXXQJdg5nXwY/ThjxgVgM3KUa+yam8r80Ez3/cDZi4gwCi8AwA==
+X-Gm-Message-State: AOJu0YycuJ23YWBjHdXqguMLjCHKC2uJzszUHLQGUlhUZWXVhaxkDn63
+	BxzEYoeYpkA8NPUr++4pO0QnQCnWx0BBXjd8l4XoldDdwNI05DsPINef7D6hpqv4dFcyKFxkBME
+	htlZnrjw5jDR3FbiL+bvjZyGvLQ==
+X-Google-Smtp-Source: AGHT+IG6f1NrEBsWGrKI3cTAq+ObiGLjaOX692b54NH03/BssS5qOzyO2HKGBpDdEZhJIc/qfVg2dAYc9OkraoG11DU=
+X-Received: by 2002:a05:6902:e0b:b0:e0b:c16a:d0b1 with SMTP id
+ 3f1490d57ef6-e0e9dc8793emr3047061276.45.1723140656382; Thu, 08 Aug 2024
+ 11:10:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] mm: free zapped tail pages when splitting isolated
- thp
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com,
- Shuang Zhai <zhais@google.com>
-References: <20240807134732.3292797-1-usamaarif642@gmail.com>
- <20240807134732.3292797-2-usamaarif642@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20240807134732.3292797-2-usamaarif642@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240711-iio-adc-ad4695-v4-0-c31621113b57@baylibre.com> <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
+In-Reply-To: <20240711-iio-adc-ad4695-v4-1-c31621113b57@baylibre.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 8 Aug 2024 12:10:41 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKaddw8FnPfdnhKhHUb8AcTxFadc_eZmxjX0QxFR80=mw@mail.gmail.com>
+Message-ID: <CAL_JsqKaddw8FnPfdnhKhHUb8AcTxFadc_eZmxjX0QxFR80=mw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 07.08.24 15:46, Usama Arif wrote:
-> From: Yu Zhao <yuzhao@google.com>
-> 
-> If a tail page has only two references left, one inherited from the
-> isolation of its head and the other from lru_add_page_tail() which we
-> are about to drop, it means this tail page was concurrently zapped.
-> Then we can safely free it and save page reclaim or migration the
-> trouble of trying it.
-> 
-> Signed-off-by: Yu Zhao <yuzhao@google.com>
-> Tested-by: Shuang Zhai <zhais@google.com>
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+On Thu, Jul 11, 2024 at 1:16=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> Add device tree bindings for AD4695 and similar ADCs.
+>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 > ---
->   mm/huge_memory.c | 27 +++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 0167dc27e365..35c1089d8d61 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -2923,7 +2923,9 @@ static void __split_huge_page(struct page *page, struct list_head *list,
->   	unsigned int new_nr = 1 << new_order;
->   	int order = folio_order(folio);
->   	unsigned int nr = 1 << order;
-> +	struct folio_batch free_folios;
->   
-> +	folio_batch_init(&free_folios);
->   	/* complete memcg works before add pages to LRU */
->   	split_page_memcg(head, order, new_order);
->   
-> @@ -3007,6 +3009,26 @@ static void __split_huge_page(struct page *page, struct list_head *list,
->   		if (subpage == page)
->   			continue;
->   		folio_unlock(new_folio);
-> +		/*
-> +		 * If a folio has only two references left, one inherited
-> +		 * from the isolation of its head and the other from
-> +		 * lru_add_page_tail() which we are about to drop, it means this
-> +		 * folio was concurrently zapped. Then we can safely free it
-> +		 * and save page reclaim or migration the trouble of trying it.
-> +		 */
-> +		if (list && page_ref_freeze(subpage, 2)) {
-> +			VM_WARN_ON_ONCE_FOLIO(folio_test_lru(new_folio), new_folio);
-> +			VM_WARN_ON_ONCE_FOLIO(folio_test_large(new_folio), new_folio);
-> +			VM_WARN_ON_ONCE_FOLIO(folio_mapped(new_folio), new_folio);
+>
+> Note, this may trigger a DT build warning "common-mode-channel: missing
+> type definition" if the builder doesn't include the recently added
+> common-mode-channel property [1]. This should be safe to ignore (passes
+> make dt_binding_check locally).
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/=
+?h=3Dtesting&id=3Dd86deaec1c5b0fb60c3619e8d2ae7a1d722fd2ad
+>
+> v4 changes:
+> * Picked up Conor's reviewed-by tag.
+>
+> v3 changes:
+> * Change interrupts to be per pin instead of per signal.
+> * Drop diff-channels and single-channel properties.
+> * Odd numbered pins added to common-mode-channel property enum.
+> * REFGND and COM values changes to avoid confusion with pin numbers.
+> * Add inX-supply properties for odd numbed input pins.
+>
+> v2 changes:
+> * Drop *-wlcsp compatible strings
+> * Don't use fallback compatible strings
+> * Reword supply descriptions
+> * Use standard channel properties instead of adi,pin-pairing
+> * Fix unnecessary | character
+> * Fix missing blank line
+> * Add header file with common mode channel macros
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 256 +++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  10 +
+>  include/dt-bindings/iio/adi,ad4695.h               |   9 +
+>  3 files changed, 275 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+> new file mode 100644
+> index 000000000000..a2e824e26691
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+> @@ -0,0 +1,256 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4695.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +			folio_clear_active(new_folio);
-> +			folio_clear_unevictable(new_folio);
-> +			if (folio_batch_add(&free_folios, folio) == 0) {
+> +title: Analog Devices Easy Drive Multiplexed SAR Analog to Digital Conve=
+rters
+> +
+> +maintainers:
+> +  - Michael Hennerich <Michael.Hennerich@analog.com>
+> +  - Nuno S=C3=A1 <nuno.sa@analog.com>
+> +
+> +description: |
+> +  A family of similar multi-channel analog to digital converters with SP=
+I bus.
+> +
+> +  * https://www.analog.com/en/products/ad4695.html
+> +  * https://www.analog.com/en/products/ad4696.html
+> +  * https://www.analog.com/en/products/ad4697.html
+> +  * https://www.analog.com/en/products/ad4698.html
+> +
+> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad4695
+> +      - adi,ad4696
+> +      - adi,ad4697
+> +      - adi,ad4698
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    maximum: 80000000
+> +
+> +  spi-cpol: true
+> +  spi-cpha: true
+> +
+> +  spi-rx-bus-width:
+> +    minimum: 1
+> +    maximum: 4
+> +
+> +  avdd-supply:
+> +    description: Analog power supply.
+> +
+> +  vio-supply:
+> +    description: I/O pin power supply.
+> +
+> +  ldo-in-supply:
+> +    description: Internal LDO Input. Mutually exclusive with vdd-supply.
+> +
+> +  vdd-supply:
+> +    description: Core power supply. Mutually exclusive with ldo-in-suppl=
+y.
+> +
+> +  ref-supply:
+> +    description:
+> +      External reference voltage. Mutually exclusive with refin-supply.
+> +
+> +  refin-supply:
+> +    description:
+> +      Internal reference buffer input. Mutually exclusive with ref-suppl=
+y.
+> +
+> +  com-supply:
+> +    description: Common voltage supply for pseudo-differential analog in=
+puts.
+> +
+> +  adi,no-ref-current-limit:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      When this flag is present, the REF Overvoltage Reduced Current pro=
+tection
+> +      is disabled.
+> +
+> +  adi,no-ref-high-z:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Enable this flag if the ref-supply requires Reference Input High-Z=
+ Mode
+> +      to be disabled for proper operation.
+> +
+> +  cnv-gpios:
+> +    description: The Convert Input (CNV). If omitted, CNV is tied to SPI=
+ CS.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: The Reset Input (RESET). Should be configured GPIO_ACTI=
+VE_LOW.
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    items:
+> +      - description: Signal coming from the BSY_ALT_GP0 pin (ALERT or BU=
+SY).
+> +      - description: Signal coming from the GP2 pin (ALERT).
+> +      - description: Signal coming from the GP3 pin (BUSY).
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    items:
+> +      - const: gp0
+> +      - const: gp2
+> +      - const: gp3
+> +
+> +  gpio-controller: true
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +    description: |
+> +      The first cell is the GPn number: 0 to 3.
+> +      The second cell takes standard GPIO flags.
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^in(?:[13579]|1[135])-supply$":
+> +    description:
+> +      Optional voltage supply for odd numbered channels when they are us=
+ed as
+> +      the negative input for a pseudo-differential channel.
+> +
+> +  "^channel@[0-9a-f]$":
+> +    type: object
+> +    $ref: adc.yaml
+> +    unevaluatedProperties: false
+> +    description:
+> +      Describes each individual channel. In addition the properties defi=
+ned
+> +      below, bipolar from adc.yaml is also supported.
+> +
+> +    properties:
+> +      reg:
+> +        maximum: 15
+> +
+> +      common-mode-channel:
+> +        description:
+> +          Describes the common mode channel for single channels. 0xFF is=
+ REFGND
+> +          and OxFE is COM. Macros are available for these values in
+> +          dt-bindings/iio/adi,ad4695.h. Values 1 to 15 correspond to INx=
+ inputs.
+> +          Only odd numbered INx inputs can be used as common mode channe=
+ls.
+> +        items:
 
-nit:  "!folio_batch_add(&free_folios, folio)"
+"items" is for arrays, but common-mode-channel is a uint32. Drop
+"items". Either Jonathan can fixup or you'll need to send a fix.
 
-Nothing else jumped at me.
+It's now warning in linux-next (you need dtschema main branch):
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/iio/adc/adi,a=
+d4695.example.dtb:
+adc@0: channel@1:common-mode-channel: 254 is not of type 'array'
+        from schema $id: http://devicetree.org/schemas/iio/adc/adi,ad4695.y=
+aml#
+/builds/robherring/linux-dt/Documentation/devicetree/bindings/iio/adc/adi,a=
+d4695.example.dtb:
+adc@0: channel@2:common-mode-channel: 3 is not of type 'array'
+        from schema $id: http://devicetree.org/schemas/iio/adc/adi,ad4695.y=
+aml#
 
--- 
-Cheers,
+> +          enum: [1, 3, 5, 7, 9, 11, 13, 15, 0xFE, 0xFF]
+> +        default: 0xFF
 
-David / dhildenb
-
+Rob
