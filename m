@@ -1,164 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BAB13CA8A;
-	Thu,  8 Aug 2024 08:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C24E139CE9;
+	Thu,  8 Aug 2024 08:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723104209; cv=none; b=BWrngz09lJ+bKuQcDPXZdy8cmfl+fw6CQWL2BWJh8swYv7RWGwwP4EaLtCVtYCzsg8/CF2J6NKvXghOmObwOn/Z3xqb0EeeM5HE0LGjAjH8mLDoEy4g6qRwtbc6P9hk+C2tMm7ROVkf0htZri7lpTp5X6vsJJIiUlux5ZKiiCTs=
+	t=1723105122; cv=none; b=r2Sc1BAQ2sdfm7x56R3lZ8Pw18wV2ppOa+JJqx7Ix//YySXCHJT59Q48UUb4NaWMxJ6I73LevuKLLWDn+TYg8M8NtlGFLhgYRKfrwJ+wmDmYUpCmzCf1y/ccFe9nei2DkjqeLOIaAT6LiGDGvWY1ujL9xdPj9H60U+EZHCi/L4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723104209; c=relaxed/simple;
-	bh=5XIOBDmdcE1xfi6LAPUxjIUtOcBxQgathFGyanyABbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m/riSfhIU0GUMzqRCL7a2Ss8CXh9qVfl17IINzo781dHpW9EepB0eRp9oPzOXaQQG1HQWVMnBO5ddjuiazflPJ0WovzMT/ilgjFvyNU3glAmV/xa95M2GXgJz0NY57I9jeS0RWOUpO2oj0ZCRNfbwyNRZowGqPqfBU2hQyWQVfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgZ/f68l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723105122; c=relaxed/simple;
+	bh=BR4CYQvHKo7S4XehLC4CADBELA11Nm62X+WdUtFf9n4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/EXyhZHzeh//IruO0XLJOhbi0m6ubi7jjKjvbAuDmBSSnBkob5yVkc5fVLP14wz1b1pTm0maLxr9DSM+NXnYG9CW7H5yTAqvuBLCBgAuXyvXduq34bq6robDQT12j/6C9I1UsXFSTaKuF86p1Q/PGDfHeAiJR0mPL00eDKMd2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jc1TkavT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgZ/f68l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3AFFC4AF17;
-	Thu,  8 Aug 2024 08:03:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jc1TkavT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F67FC32782;
+	Thu,  8 Aug 2024 08:18:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723104208;
-	bh=5XIOBDmdcE1xfi6LAPUxjIUtOcBxQgathFGyanyABbg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GgZ/f68lJ/wZt5nsjJ2FmN7osJSDJgnDXZNK5+qBUk+HQPaiMTKvJ9oeVokp+v1FD
-	 Pu6s2kY4by2jKzBwQVWlRJMdaoySjX5E0QEA9QjNlEKsDKEhOZ5ye10Kjfk1ZaOCB/
-	 /V0Rq+po1U2rGFHjjRvJCkpRvg0lXwQrTHPfbtho20RbDZL1MbTKO4tMbFdqWQHhO7
-	 LMbE7OIRoDd/nHRSaGzextCWe328gAjIwCu2UfUQUSmnI5ZwCy8ucd5noe9xm1vFDH
-	 VEP0iEhqRjVSls/4TmTed9GrI3Kwvt3oMI71IXtZfbf4JP/yORkZLZpyebdSCLPFf2
-	 f1Kqpjfwrt9Jg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52efbb55d24so1133667e87.1;
-        Thu, 08 Aug 2024 01:03:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV94fGkGyDdSapI1KMCI7TutsUBfImeuy3mhiGYJ0WMjBmZWucVFYZteKPkNaBLAKAbdw7QY3izp9g3zq9X8H5Y2TXNdhXwI/VzNe3oRu/KVxzmh5hf/dbTovGM3HOFcCDkvmYkKNUg
-X-Gm-Message-State: AOJu0YwsoA8rRUS5eYm1Z56jREqpXmSoXZGaOnOgd/e3R3qBSPrzMokq
-	WBZwsKfPTmCXkEyKGwnUqLI3Hx18Gm01dL7nkQNiudml/kbESsDZpSobh88wfLdcrcf6Hai4X3g
-	lu5LE3KUqY6qP0vRv+iPF/a39Iuw=
-X-Google-Smtp-Source: AGHT+IGUcyROuCVRvFawk0tNkyq3zXVcrypZ/E0fTJF+LE3Z7riNXq3gQCNs3MGE4OjTaREQLn9aFU8R3EPyh+dDwpM=
-X-Received: by 2002:a05:6512:318d:b0:52e:d0f8:2d43 with SMTP id
- 2adb3069b0e04-530e58207d0mr801724e87.17.1723104206774; Thu, 08 Aug 2024
- 01:03:26 -0700 (PDT)
+	s=k20201202; t=1723105122;
+	bh=BR4CYQvHKo7S4XehLC4CADBELA11Nm62X+WdUtFf9n4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jc1TkavT0yEwNQChojDNn6AzGcsiESQp68rBPCuDzS3h7cmm5mLAyY/voHLXit3ob
+	 YkYUfwcDxzH57mFobw6RuiTbcQDB7A/Dj18LPpDs/7TM+IzPBk1iMMJa8aGs8NIabQ
+	 rLTZBdmlTgnZinuKZ6W70lM90r+vHQruMzAhCDUOcQPyLqDx4HgggSMUhP/irHTGzK
+	 XLQkATMF3M9dx/Iw7RIjCYaaU8Opo84nZlHK4TCSxzmpVukJESm7/IP13d0V+6AyDb
+	 xJw618pEuua6MmBDeXs0tcK8qgBBc2CVlYuyDwUg1htX4TnGHXSl1aUscA1F2nWxgC
+	 BiJGXD7RqbUwQ==
+Date: Thu, 8 Aug 2024 09:18:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 38/40] kselftest/arm64: Add a GCS stress test
+Message-ID: <ZrR_XZ3JCCIrZUIo@finisterre.sirena.org.uk>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-38-699e2bd2190b@kernel.org>
+ <877ccsdkjp.fsf@linaro.org>
+ <ZrP-9gHsvVHr2Y5B@finisterre.sirena.org.uk>
+ <87y157cz2h.fsf@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240806115557.4750-1-zhangtianyang@loongson.cn>
- <87le180z8b.ffs@tglx> <bc5d4e7a-ba81-f8f7-3629-2c80897d8ffc@loongson.cn>
-In-Reply-To: <bc5d4e7a-ba81-f8f7-3629-2c80897d8ffc@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 8 Aug 2024 16:03:14 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7EHRSFsJCY3F2NdwjGcEO-TnSF4S3iQnYXh-N8c2-b4g@mail.gmail.com>
-Message-ID: <CAAhV-H7EHRSFsJCY3F2NdwjGcEO-TnSF4S3iQnYXh-N8c2-b4g@mail.gmail.com>
-Subject: Re: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-To: Tianyang Zhang <zhangtianyang@loongson.cn>
-Cc: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net, alexs@kernel.org, kernel@xen0n.name, 
-	jiaxun.yang@flygoat.com, gaoliang@loongson.cn, wangliupu@loongson.cn, 
-	lvjianmin@loongson.cn, yijun@loongson.cn, mhocko@suse.com, 
-	akpm@linux-foundation.org, dianders@chromium.org, maobibo@loongson.cn, 
-	xry111@xry111.site, zhaotianrui@loongson.cn, nathan@kernel.org, 
-	yangtiezhu@loongson.cn, zhoubinbin@loongson.cn, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Huacai Chen <chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2xjwlae8dVoFu1hA"
+Content-Disposition: inline
+In-Reply-To: <87y157cz2h.fsf@linaro.org>
+X-Cookie: Your love life will be... interesting.
+
+
+--2xjwlae8dVoFu1hA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Tianyang,
+On Thu, Aug 08, 2024 at 03:23:50AM -0300, Thiago Jung Bauermann wrote:
 
-On Thu, Aug 8, 2024 at 2:52=E2=80=AFPM Tianyang Zhang <zhangtianyang@loongs=
-on.cn> wrote:
->
-> Hi, Thomas
->
-> Thank you for your feedback.
->
-> =E5=9C=A8 2024/8/8 =E4=B8=8A=E5=8D=886:01, Thomas Gleixner =E5=86=99=E9=
-=81=93:
->
-> >> +    guard(raw_spinlock_irqsave)(&loongarch_avec.lock);
-> >> +
-> >> +    for (i =3D 0; i < nr_irqs; i++) {
-> >> +            d =3D irq_domain_get_irq_data(domain, virq + i);
-> >> +            if (d) {
-> >> +                    clear_free_vector(d);
-> >> +                    irq_domain_reset_irq_data(d);
-> >> +
-> > Stray newline, but the more important question is what kfree()'s 'd'?
-> >
-> > AFAICT, nothing. So that's a memory leak, no?
-> With my understand , 'd' as 'struct irq_data' can be free at public
-> irqdomain process, and really miss a kfree targeting 'struct chip_data'
-> >
-> >> +static int __init avecintc_init(struct irq_domain *parent)
-> >> +{
-> >> +    parent_irq =3D irq_create_mapping(parent, INT_AVEC);
-> >> +    if (!parent_irq) {
-> >> +            pr_err("Failed to mapping hwirq\n");
-> >> +            ret =3D -EINVAL;
-> >> +            goto out_remove_domain;
-> >> +    }
-> >> +    irq_set_chained_handler_and_data(parent_irq, avecintc_irq_dispatc=
-h, NULL);
-> >> +
-> >> +    ret =3D irq_matrix_init();
-> >> +    if (ret < 0) {
-> >> +            pr_err("Failed to init irq matrix\n");
-> >> +            goto out_remove_domain;
-> > Which still leaves the disfunct chained handler installed and the
-> > mapping intact.
->
-> There is indeed a problem here, but we have not found a similar approach
-> for reference.
->
-> Is it reasonable to replace here with handle_bad_irq in case of failure?
-> or is there any other more suitable way. We hope you can give us some
-> suggestions, thank you very much
-Maybe we can move irq_set_chained_handler_and_data(parent_irq,
-avecintc_irq_dispatch, NULL) after the checking of irq_matrix_init().
+> Thank you for the pointer. It turned out that I accidentally ran the
+> selftests binaries from the v9 version instead of the v10 version, and
+> the gcs-stress-thread binary failed because it was using the old value
+> for PR_SET_SHADOW_STACK_STATUS.
+>=20
+> Using the v10 version of the selftests the gcs-stress test passes. Sorry
+> for the false alarm.
+>=20
+> Tested-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
 
-Huacai
+Ah, that's a relief thanks!
 
->
-> >> +#endif
-> >> +    value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-> >> +    value |=3D IOCSR_MISC_FUNC_AVEC_EN;
-> >> +    iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-> >> +
-> >> +    return ret;
-> >> +
-> >> +out_remove_domain:
-> >> +    irq_domain_remove(loongarch_avec.domain);
-> >> +out_free_handle:
-> >> +    irq_domain_free_fwnode(loongarch_avec.fwnode);
-> >> +out:
-> >> +    return ret;
-> >> +}
-> >> +
-> >> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *hea=
-der,
-> >> +                                 const unsigned long end)
-> >> +{
-> >> +    struct acpi_madt_msi_pic *pchmsi_entry =3D (struct acpi_madt_msi_=
-pic *)header;
-> >> +
-> >> +    msi_base_addr =3D pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
-> > What validates that msi_base_addr has none of the lower 16 bits set, as
-> > they are required to be zero to make MSI message composing work, right?
->
-> This operation originates from some hardware designs.
->
-> In 3C6000, either eiointc or avecintc can be the parent controller for
-> MSI interrupts and these two controllers have different MSI msg address.
->
-> In our platform design scheme, we fix avec-msg-address to the address of
-> (eiointc-msg-address - 0x100000). Therefore, here we need to subtract
-> AVEC_MSG_OFFSET from the msg_address obtained by MCFG
->
-> The main purpose of the design that users of 3C6000 can freely choose
-> the version of the Linux kernel that supports loongarch (regardless of
-> whether AVEC is supported or not) without having to change the firmware
->
->
-> Thanks again
->
-> Tianyang
->
+--2xjwlae8dVoFu1hA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma0f1wACgkQJNaLcl1U
+h9AAlAf3QAXjvC2gygXbsaueHos4q0nKMAX2bdp+mK3zjoJgg9+GqHPoEFx3Efja
+cj5Ct4enLdN36SwqP5OU/agevzvPdKsT2CstNckW/VhAbkgbEi4F8w62q9q2NBO2
+gyXPx0aWtgmzptzEPgrEl8+PeL/kyPB9DVnbYGfMI5X2xeMgn4XRyZYjLYuuBWAR
+2BlS1DNybUyfO+005zhZnrjlbTN56woklGF9gOfbNT8HoKpWh/VcX9giGP9v/EFi
+e+Qpos4Bb9+b3JKeJo2EFjdgvborCnQQJxvGSEMp7QB9wrOs0QsrrhD+Jvs6rmcg
+J0pHE5R3OyGMXNNpg2MHtg9o1FPh
+=uK/+
+-----END PGP SIGNATURE-----
+
+--2xjwlae8dVoFu1hA--
