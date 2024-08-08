@@ -1,89 +1,93 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297E5188012;
-	Thu,  8 Aug 2024 13:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6BE637;
+	Thu,  8 Aug 2024 14:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723123058; cv=none; b=pXKVaRfG2muKT8/F2dQIb+oS1ao/5k9Ih6Mw33HsAekKF52lW7LArZicuA9rmBREda37qHZ21arq+pBAHefocYa+fY8D+GpZfi2va1cwkyN0p+kqjHBxWwjyoJqKNi1BzaBszWDFIaJvlnfYE9hX4Yt2y3C6FCzxfHYUwsxPZeo=
+	t=1723127645; cv=none; b=SG8lwG+/pAz3/7HjE0yAtb/EDT00gem/Ms0DFbkIufw2Hvyso3cKmRNiSb/3DgMEv8OM2IWCci8YinFMGzf7NlqGQu5UbmIadGkDzfDjGtrof6cpSgRJmlPY4F5xPPa3wWv3+pT7zGPxlfHZiz3yi15XcKCeMotMRiMI3LEBW/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723123058; c=relaxed/simple;
-	bh=tAkUM349MBB9ygWpP0YmVSM14pjf3ShEmbYr/yOgm4I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oqD8CuhB6LJtjL3iHP7G/xuRhIS+YnfiJObCniYwKoVz5D2uoC4hOun0qJy7BDJx/UlUZkcFP3T0eROgrJyhXeMXbE/lW6eo180bvgRogqM839av2GC8HY9sqQvs/KDB58j5rT6gbvy2OLHCkOXY7yfhnuSkT6qE8YwENEnR/wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qi2pkW44; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1723127645; c=relaxed/simple;
+	bh=esJQD0fZf8esCkWrMF7aZbYFwrQ+M+0lYRz32nZTci0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bpyj0jLF0lpRfzyfOt2dIVnX453ivovBoFHaIU/8I7vsnsMfRbbCgjQaqA0UJd+z26IBhmKYl9W5GnvetK9/BtB54qV9JIF/fzctKLTJLDR5kjOwKQ0A9l+4Tho10KvLSbp9PUa4VevpBXAynG5fRzXby268fIBwHcHz/aKkiiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=MCP2q9eS; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qi2pkW44"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3A0F2418AF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723123056; bh=C+/tNLsG2YZ2hXnH2YATaWHxkruINKGFqJVnuP6i+Js=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qi2pkW44noL9wwPrgrbLQoiXjSRg1BFOzIJt0h8L+3w9U+mXItfuTknhA2riWxtjL
-	 L3JQkmlcDX197hL0QrRjvH7+pGAeJrTnsQDACqrpCjRwPdrLU8TrrkSMv0X/OwLk6U
-	 ZtYjfpmtll+DCZ8Ws/WZ5hWrY+kF6CYVHCSUkVY3ycYXZMF4kHBlY+1i/KoW23Sryl
-	 x+TcplP13rYr9HKtNBOFWONmS55oY1/VQm0ylSv2hkiFiIdlit8FPy+QqAwzKiu9Ji
-	 IgPv7DBU8fDk4nFc/GIGeOtekhMZlss3zTbK2rELVf69W1n6UiGGnry9OBr+HYpfWu
-	 wn7QfXVbncyWw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3A0F2418AF;
-	Thu,  8 Aug 2024 13:17:36 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Guo Xuenan <guoxuenan@huawei.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, guoxuenan@huawei.com,
- guoxuenan@huaweicloud.com, jack.qiu@huawei.com, ganjie5@huawei.com
-Subject: Re: [PATCH] Documentation: dontdiff: remove 'utf8data.h'
-In-Reply-To: <20240808085707.3235019-1-guoxuenan@huawei.com>
-References: <20240808085707.3235019-1-guoxuenan@huawei.com>
-Date: Thu, 08 Aug 2024 07:17:35 -0600
-Message-ID: <87sevfp30w.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="MCP2q9eS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1723127638; x=1723386838;
+	bh=esJQD0fZf8esCkWrMF7aZbYFwrQ+M+0lYRz32nZTci0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=MCP2q9eSf34L+cWotmxPxebSuYRMCxT3/u8Eg7JkyEE1eYRjBLpb9XUoyIDeQapP3
+	 OkqFNN8zElZ1nWYT4Tmo3f3bOv1bCMfh3LKnLaInrVjQYFkGZF9rM+A+0yK5q0xrga
+	 JnRUoQd2DamEDwmQB8NZcaFXOf8BJ1OheQcTUCk1FCbXgHT1rqAqACEnhr2nr+Us3C
+	 CWFlBpzZGSPMS89kGNObtuLqtHpFy8mkFtjE29X5yDiut4gEjEWGuOhJs99U/ZJf+X
+	 uGvqTjOikLqHL21J5/cXuyV+2b1uaQQnnbGynl5NoKDvUGqJbxDqrb4/PwFzNrgW7L
+	 P1xBsPYgd2/2Q==
+Date: Thu, 08 Aug 2024 14:33:55 +0000
+To: Daniel Almeida <daniel.almeida@collabora.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH 2/5] doc: rust: safety standard: add examples
+Message-ID: <cfd4841d-040b-4101-88be-3eb42f2139ab@proton.me>
+In-Reply-To: <9959901D-0839-454C-9141-F0661C956AD5@collabora.com>
+References: <20240717221133.459589-1-benno.lossin@proton.me> <20240717221133.459589-3-benno.lossin@proton.me> <B0E3D539-2D29-4BB4-9CB7-98672F590A57@collabora.com> <37d7b08d-f37a-45ff-9993-08fa7ed87443@proton.me> <9959901D-0839-454C-9141-F0661C956AD5@collabora.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 60e328dc318d6a1d6b5ae404ae2fbb1d4875723d
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Guo Xuenan <guoxuenan@huawei.com> writes:
+On 08.08.24 15:10, Daniel Almeida wrote:
+> Hi Benno,
+>=20
+>>
+>> I will try to rephrase this, tell me if it helps. When checking if an
+>> API is sound, you are not allowed to change the code behind the API.
+>> That is because `unsafe` code often relies on the surrounding safe code
+>> to work properly. In the example above, safe code ensures that the raw
+>> pointer `ptr` is valid. This is OK (and also very necessary), since we
+>> expect people to be *aware* of the `unsafe` block and thus more
+>> carefully review the changes in surrounding safe code. If you have safe
+>> code that only interfaces with other safe code you don't need to be this
+>> careful.
+>>
+>> Note that this heavily depends on where you put the API boundary. In our
+>> case, we generally have this boundary: driver code <-> `kernel` crate.
+>> But if your driver requires very specific helper code that does not fit
+>> into the `kernel` crate, then you might also have an API boundary there.
+>>
+>> If it doesn't help, then it would great to get some more detailed
+>> questions which part(s) you need help with.
+>>
+>> ---
+>> Cheers,
+>> Benno
+>>
+>>
+>=20
+> Yes, I think this is more clear, but note that this explanation is more t=
+horough
+> than the actual example.
+>=20
+> My point being, maybe you should take some of what you just wrote and put=
+ it
+> into the actual docs.
 
-> From: ganjie <ganjie5@huawei.com>
->
-> Commit 2b3d04787012 ("unicode: Add utf8-data module") changed the
-> database file from 'utf8data.h' to 'utf8data.c' to build separate
-> module, but it seems forgot to update Documentation/dontdiff. Remove
-> 'utf8data.h' and add 'utf8data.c'.
->
-> Signed-off-by: ganjie <ganjie5@huawei.com>
-> ---
->  Documentation/dontdiff | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-> index 3c399f132e2d..94b3492dc301 100644
-> --- a/Documentation/dontdiff
-> +++ b/Documentation/dontdiff
-> @@ -262,7 +262,7 @@ vsyscall_32.lds
->  wanxlfw.inc
->  uImage
->  unifdef
-> -utf8data.h
-> +utf8data.c
->  wakeup.bin
->  wakeup.elf
->  wakeup.lds
+Yeah that was part of my plan :)
 
-I'll apply this, but does anybody actually use the dontdiff file
-anymore?  I think it's old and, if being used, actively harmful; for
-example, it masks changes to "parse.c", an instance of which was added
-to git in January.
+Thanks for taking a look.
 
-Is there a reason to not just remove this file?
+---
+Cheers,
+Benno
 
-Thanks,
-
-jon
