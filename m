@@ -1,177 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C943A364A0;
-	Wed,  7 Aug 2024 23:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4415420E6;
+	Thu,  8 Aug 2024 01:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723072251; cv=none; b=adou6n3UW0KBVAdtYA+aSEZradNRXP/jdEEhi0j8IbCEiZ1hZ+pK3yOeG656wQfLcLTpaKJZP/yqYSlmH3wTJvEVaFefxVenXO3NJnoJ/P6/1CxZbOSzDJlCT3W7CnSHMv907i+l62aG1EbtFCs3/MdUNVtEoupqvvUMDz5pIFk=
+	t=1723079036; cv=none; b=b3Kjez8RuCvPtzP+rl4LJ9yWO8Gk84xKOnJwJ/uEevHkQXcCMjvky1cd6EQzPHo/5retAfLxmvysVQ8440VQRoBuHniqZU/BtItmBUGGkzZ1xVs2PgcTOPkiVHtsD97PvcBU4lQNYixvoBEkqexl+1aSSVqqIMv78Z8By0XyHws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723072251; c=relaxed/simple;
-	bh=2Arp6skp4lsIU7gY1P9i7DjssGu8XkY+Mw3cDuEayR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qk06qg60/a+kOObOk0rRo9zSoolcbsonm6Ym15LmNazEZzwqA7VNFqyRdLeUcZIyoRQKpPHoMh6dJplLj6H6mzcsg1w1qdoJbUOgNMr6qvT32+I06XnCteLRC0jHZZPd7bE+7nhp/NEGM/PsgcwveBePe4l2SFPpdVYLt8TycrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ldPGJCN3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723079036; c=relaxed/simple;
+	bh=E4NjcBtFoKMULPq+m54nVSONliuUrMPReoZj/ltGKeg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pXXgTP+OofoAOXuHmkgAniEOz6v184LS2uVw+7be+nAfFSCc3WIimH405bMrOPzeo5SsHFcvxdWQuOeBUd7gID0Q7zoWYe1mXZQS9amu83U1t8v5HwFg3jhO6baWgKnlulLciDlWGcPVfK8/Z9pSdPGt/a2kEWc67tvhHlz2ySU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U5Im2512; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ldPGJCN3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981DAC32781;
-	Wed,  7 Aug 2024 23:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723072250;
-	bh=2Arp6skp4lsIU7gY1P9i7DjssGu8XkY+Mw3cDuEayR4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ldPGJCN3ZIDgEu+JqjWfyq8SgqSslLPbqwCyfHIbYErRgOIehLhNY8ykRxM5cqxN9
-	 8zLt6qFaoEsTxmdXQlNeR0GOWyyv/7LlHYqTjDpl4km+Lh47gWxn+QwWAJaeeqkxcz
-	 uey7J7Tw+gewcUdJBkGWJ82NhjTlRwlecbrGKGlxaayUVXo1f76DhrTcwNCN3CiL93
-	 ultdDjdKSdDB7QJyUD/EV35Yp/s59ljLUg+KSXR6aZZe4Ahby+4ueC364F2qE305Qx
-	 0/p7XcxLIbWOKxEwma0XAlfBY5zIca/keWPAYZ//Kqxe8p3Kfr1BpQ5agkDMyXC0M2
-	 CHZ/DousmFKBQ==
-Date: Thu, 8 Aug 2024 00:10:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 38/40] kselftest/arm64: Add a GCS stress test
-Message-ID: <ZrP-9gHsvVHr2Y5B@finisterre.sirena.org.uk>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-38-699e2bd2190b@kernel.org>
- <877ccsdkjp.fsf@linaro.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U5Im2512"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 477ID6VU012239;
+	Thu, 8 Aug 2024 01:03:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BiWDQGebIC+nZsacslE5RFhdstOKp1m7YUU31Ktsm98=; b=U5Im2512oxh0t/mX
+	m8ehDNj6pUvuH8BFFmSwYVf1M0ANJ2YAHuq98irB1tU4X944g5TH3AQsMWnAz/lo
+	jm09QErp62sCd27weApFMAxFd3k5ZNU8J9ldXcL1NKjGTECu0aV3mTUX7hQ4VBmq
+	LjhdozDpq/+Gmet5huIkKHPuimDLrsLqBQW9hKtjTflIp6EzJiW6dcJ6bejFXUAm
+	oq1YIeJIAZn+5VVhDPSMdOBJ8zXecL037To7o/mDRx4Iqa13yZnInVXN/WiJrOkP
+	FidwPtb9eV5Qnym3FxO948gAQmUUeo+ukSh6fdR9+6NwC5qZU5UL1Ibqou4CcBH/
+	0hbdug==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40sbj6v9wt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 08 Aug 2024 01:03:30 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 47813Sgp025454
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 8 Aug 2024 01:03:28 GMT
+Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 7 Aug 2024
+ 18:03:27 -0700
+Message-ID: <e5fa1a3f-3fe2-40c5-9366-4d21221f9557@quicinc.com>
+Date: Wed, 7 Aug 2024 18:03:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+DPYyleG5oZF9XZc"
-Content-Disposition: inline
-In-Reply-To: <877ccsdkjp.fsf@linaro.org>
-X-Cookie: Your love life will be... interesting.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 26/34] ALSA: usb-audio: qcom: Don't allow USB offload
+ path if PCM device is in use
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-27-quic_wcheng@quicinc.com>
+ <c2ab91ed-a2e5-437e-bbdb-84988a052778@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <c2ab91ed-a2e5-437e-bbdb-84988a052778@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 4CidAKI3zPEyUNyBFmQX_dZ-DRpw6yXZ
+X-Proofpoint-GUID: 4CidAKI3zPEyUNyBFmQX_dZ-DRpw6yXZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-07_15,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ priorityscore=1501 adultscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 clxscore=1015 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408080005
 
 
---+DPYyleG5oZF9XZc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 8/1/2024 1:57 AM, Pierre-Louis Bossart wrote:
+>
+> On 8/1/24 03:17, Wesley Cheng wrote:
+>> Add proper checks and updates to the USB substream once receiving a USB QMI
+>> stream enable request.  If the substream is already in use from the non
+>> offload path, reject the stream enable request.  In addition, update the
+>> USB substream opened parameter when enabling the offload path, so the
+>> non offload path can be blocked.
+> It's a bit weird that the mutual exclusion between the standard path and
+> the offloaded path is handled at the vendor level. I would think this
+> needs to be handled in the soc_usb framework, no?
+>
+Hmm...I guess that make sense.  In the end, the mutual exclusion check would need to either be handled by the vendor USB offload driver, or the USB backend DAI link.  I could consider adding another SOC USB API to query for the USB PCM status.  If it is open/active, then just return with an error, or maybe just rename the snd_soc_usb_find_format() API to something more generic which checks for parameters and current status before allowing offloading to start (ie snd_soc_check_offload_available())
 
-On Wed, Aug 07, 2024 at 07:39:54PM -0300, Thiago Jung Bauermann wrote:
-> Mark Brown <broonie@kernel.org> writes:
+Thanks
 
-> > Add a stress test which runs one more process than we have CPUs spinning
-> > through a very recursive function with frequent syscalls immediately prior
+Wesley Cheng
 
-> Unfortunately, gcs-stress still fails on my FVP setup. I tested on an
-> arm64 defconfig with and without THP enabled with, the same results:
-
-Can you please try to investigate why this is happening on your system?
-I am unable to reproduce this, for example the actual branch that was
-posted gave this:
-
-# selftests: arm64: gcs-stress
-# TAP version 13
-# 1..9
-# # 8 CPUs, 9 GCS threads
-# # Will run for 10s
-# # Started Thread-8350
-# # Started Thread-8351
-# # Started Thread-8352
-# # Started Thread-8353
-# # Started Thread-8354
-# # Started Thread-8355
-# # Started Thread-8356
-# # Started Thread-8357
-# # Started Thread-8358
-# # Thread-8350: Running
-
-...
-
-# # Sending signals, timeout remaining: 100ms
-# # Finishing up...
-# # Thread-8351: Terminated by signal 15, no error
-# # Thread-8352: Terminated by signal 15, no error
-# # Thread-8353: Terminated by signal 15, no error
-# # Thread-8354: Terminated by signal 15, no error
-# # Thread-8355: Terminated by signal 15, no error
-# # Thread-8357: Terminated by signal 15, no error
-# # Thread-8358: Terminated by signal 15, no error
-# ok 1 Thread-8350
-# ok 2 Thread-8351
-# ok 3 Thread-8352
-# ok 4 Thread-8353
-# ok 5 Thread-8354
-# ok 6 Thread-8355
-# ok 7 Thread-8356
-# ok 8 Thread-8357
-# ok 9 Thread-8358
-# # Thread-8356: Terminated by signal 15, no error
-# # Thread-8350: Terminated by signal 15, no error
-# # Totals: pass:9 fail:0 xfail:0 xpass:0 skip:0 error:0
-
-and Anders also ran the selftests successfully, including with THP
-enabled (as noted in the changelog those issues should now be resolved).
-THP issues should not have been relevant for this test as it doesn't
-fork with GCS enabled.
-
-> # # Thread-4870: Failed to enable GCS
-
-which is printed if a basic PR_SET_SHADOW_STACK_STATUS fails immediately
-the program starts executing:
-
-function _start
-        // Run with GCS
-        mov     x0, PR_SET_SHADOW_STACK_STATUS
-        mov     x1, PR_SHADOW_STACK_ENABLE
-        mov     x2, xzr
-        mov     x3, xzr
-        mov     x4, xzr
-        mov     x5, xzr
-        mov     x8, #__NR_prctl
-        svc     #0
-        cbz     x0, 1f
-        puts    "Failed to enable GCS\n"
-        b       abort
-
-the defines for which all seem up to date (and unlikely to fail in
-system or config specific fashions).  What happens if you try to execute
-the gcs-stress-thread binary directly, does strace show anything
-interesting?  If you instrument arch_set_shadow_stack_status() in the
-kernel does it show anything?
-
---+DPYyleG5oZF9XZc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaz/vUACgkQJNaLcl1U
-h9D82gf+KEl5xAmYb9cWom+7gcXMomlPJMrkA7dYPaZDmS1e+GV/mZGvgZoHdWQD
-5vVHwhl1MUOzyDonNieLL2Oa07SBlqSmg8D6TvELS/I2CllFObqIVtNWO2d7DYW2
-/fOtJrFUTKWlteufFlt34Q9f9zp0AMkeEWhKVhLL00MKm0/6eKrZsDPRN/4gbtbt
-yY6VNkJCYivlodKM8zBXd/dkWKo3kMcl5gSYlVExD7tbMhwpdg1VLVn/Nwnmlb1O
-/yOj8phnDdEZt6AbpagWi78WSdXp9K2KE5JohOtw+CQlaaK2ekeaswe6qwV8Ijn/
-i2dbu6EJf382fN3bB+lB+CrVXX0UsQ==
-=kdke
------END PGP SIGNATURE-----
-
---+DPYyleG5oZF9XZc--
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>  sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
+>>  1 file changed, 14 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+>> index 8b0913b7256b..3b46d05f1421 100644
+>> --- a/sound/usb/qcom/qc_audio_offload.c
+>> +++ b/sound/usb/qcom/qc_audio_offload.c
+>> @@ -1460,12 +1460,17 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>>  		goto response;
+>>  	}
+>>  
+>> +	mutex_lock(&chip->mutex);
+>>  	if (req_msg->enable) {
+>> -		if (info_idx < 0 || chip->system_suspend) {
+>> +		if (info_idx < 0 || chip->system_suspend || subs->opened) {
+>>  			ret = -EBUSY;
+>> +			mutex_unlock(&chip->mutex);
+>> +
+>>  			goto response;
+>>  		}
+>> +		subs->opened = 1;
+>>  	}
+>> +	mutex_unlock(&chip->mutex);
+>>  
+>>  	if (req_msg->service_interval_valid) {
+>>  		ret = get_data_interval_from_si(subs,
+>> @@ -1487,6 +1492,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>>  		if (!ret)
+>>  			ret = prepare_qmi_response(subs, req_msg, &resp,
+>>  					info_idx);
+>> +		if (ret < 0) {
+>> +			mutex_lock(&chip->mutex);
+>> +			subs->opened = 0;
+>> +			mutex_unlock(&chip->mutex);
+>> +		}
+>>  	} else {
+>>  		info = &uadev[pcm_card_num].info[info_idx];
+>>  		if (info->data_ep_pipe) {
+>> @@ -1510,6 +1520,9 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+>>  		}
+>>  
+>>  		disable_audio_stream(subs);
+>> +		mutex_lock(&chip->mutex);
+>> +		subs->opened = 0;
+>> +		mutex_unlock(&chip->mutex);
+>>  	}
+>>  
+>>  response:
