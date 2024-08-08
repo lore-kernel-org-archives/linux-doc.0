@@ -1,551 +1,358 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC93D18CC1F;
-	Thu,  8 Aug 2024 12:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723121015; cv=none; b=J7QsOpQ1bQ1BDPoSXtpuH/CjPprkX/o1MIizm75/2uZAfQn9BRsDGQ+h7TnGv+kC8162ekLZrMU+P3+ce0Xxw1E7qdZX4jNoj/j8xtGyzPNHTmFMy8fqnM2SXOcO+tdDDSqE7HuE51OJ8CF3/hjwoPHmnGHe/4Lf2Q5lN1gtE/s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723121015; c=relaxed/simple;
-	bh=1YaM3R31sKfQ31OVdn6ZtxT4SNhhWADPGbyscXN3q+k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W/SWa6q4AcCeV2g8Nc3LLCUTFdK2/PXMl+nSd6nW4iU1Gw1Dj2n5LsyxlJRBCxejMHTQqHWFbtAdDAjV0hlJ/j9tdwkizgtmObkqfpOOIB8/y7qziY5ZNkOhpbADHJvKHLgezZlyv0nmr769sCy32O1xf8hU4t5G/F0Ips03Ow8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wfms7012tzpT8r;
-	Thu,  8 Aug 2024 20:42:18 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id BB4B618005F;
-	Thu,  8 Aug 2024 20:43:30 +0800 (CST)
-Received: from localhost.localdomain (10.90.30.45) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 8 Aug 2024 20:43:30 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH net-next v13 13/14] mm: page_frag: update documentation for page_frag
-Date: Thu, 8 Aug 2024 20:37:13 +0800
-Message-ID: <20240808123714.462740-14-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20240808123714.462740-1-linyunsheng@huawei.com>
-References: <20240808123714.462740-1-linyunsheng@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9E7EEA9;
+	Thu,  8 Aug 2024 13:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723122185; cv=pass; b=G91Ba0sxRUtlGltNQZKh9lCAAYeYzNP+L1M0B0l8pjNlIoftXcy3+x6F2cHXt/PLJ1DBP8zBLFigYc9FKAS09InUT1cdhBuKgFC8daTTuK3sacL1VWFXuzzlC8khwB3ylLCt3agm9kpjupYHJ/VNnpROrezHssYhxvxFP0wEwWs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723122185; c=relaxed/simple;
+	bh=8cXLudD3jlIVqEbOHp5lQPmmfgo28kZ6RDRU1ApMW3w=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Qv7OaBqetJPWYfmLvUzjKdIS6z7/5xeiwduCJMOpYpNucG6TS2W1QkfAVZZ49IJOMZXaYGWsAUKgPKb1bAhhRipgLU1WBCikvNNglp9VCR7D7PDObLmrT2+9XVddya21sMaJxvOXc0uhNDzL/5jcxXWrur8R/GJMmLRML5zs6xI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=FbQWpyPN; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="FbQWpyPN"
+ARC-Seal: i=1; a=rsa-sha256; t=1723122135; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=EtVf159KqLG1/xa7BMzTtcm0cffS51oaxocxSKwwjijUFZXW96oVJdqmi8/i3wni9gMOXnXNDZyKBd8gcYzbMMqj1/g/Fj8DmEiihxRaUZXlHY6omHsB5fRT22Op/+tyjRIjDmlOuBkvvOdrSDiuOicswNLOPKmZqt0QmpS0dhA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1723122135; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=p6LfGa9J6fSCBWoMNVGPO1tGt+kDlRNB5yVGbNvsxxk=; 
+	b=imyLF0rbIWv/uy3MpWEG6cXb3eNMDY/dxw7HjGu1LF22ugPBVjaWiU9ziTFYlDYNWVWiQtz22XJNWTfw3fBAsFgSRBYXoRZbng0DVDyxDzFErNGFTtyrxcF2LpTd7sj+YSl2VfNjgJ8g1NIoNYpUd4wwT56M2gZXIHy2zzncfeU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723122135;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=p6LfGa9J6fSCBWoMNVGPO1tGt+kDlRNB5yVGbNvsxxk=;
+	b=FbQWpyPNLdYVYsl44ynqMC/Kci3bjxFNeS+K5NuXeF/9fWXOdjL2VQQnPR9AqBjY
+	aQXMK0usZBfAzTifssWXN0kLdvWoztkRqv0r27pJKM8R36fPjTNlKsPFZqIUOZvD9vc
+	aXpTzGrtfUtCoPSHg97+r3k3dCHLaGZ1pK+/qfco=
+Received: by mx.zohomail.com with SMTPS id 1723122134264336.01001590107546;
+	Thu, 8 Aug 2024 06:02:14 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemf200006.china.huawei.com (7.185.36.61)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [RFC PATCH 1/5] doc: rust: create safety standard
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <a5afc0ed-2193-42f2-a7ef-50fba68980a6@proton.me>
+Date: Thu, 8 Aug 2024 10:01:55 -0300
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <AEA74965-3ABB-42A4-AF0D-DC5D9E6CE7D3@collabora.com>
+References: <20240717221133.459589-1-benno.lossin@proton.me>
+ <20240717221133.459589-2-benno.lossin@proton.me>
+ <99DF6A0F-BAE9-4341-8B42-6C1F1C69E2C6@collabora.com>
+ <a5afc0ed-2193-42f2-a7ef-50fba68980a6@proton.me>
+To: Benno Lossin <benno.lossin@proton.me>
+X-Mailer: Apple Mail (2.3774.600.62)
+X-ZohoMailClient: External
 
-Update documentation about design, implementation and API usages
-for page_frag.
+Hi Benno,
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- Documentation/mm/page_frags.rst | 169 +++++++++++++++++++++++++++++++-
- include/linux/page_frag_cache.h | 107 ++++++++++++++++++++
- mm/page_frag_cache.c            |  77 ++++++++++++++-
- 3 files changed, 350 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 503ca6cdb804..abdab415a8e2 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============
- Page fragments
- ==============
-@@ -40,4 +42,169 @@ page via a single call.  The advantage to doing this is that it allows for
- cleaning up the multiple references that were added to a page in order to
- avoid calling get_page per allocation.
- 
--Alexander Duyck, Nov 29, 2016.
-+
-+Architecture overview
-+=====================
-+
-+.. code-block:: none
-+
-+                      +----------------------+
-+                      | page_frag API caller |
-+                      +----------------------+
-+                                  |
-+                                  |
-+                                  v
-+    +------------------------------------------------------------------+
-+    |                   request page fragment                          |
-+    +------------------------------------------------------------------+
-+             |                                 |                     |
-+             |                                 |                     |
-+             |                          Cache not enough             |
-+             |                                 |                     |
-+             |                         +-----------------+           |
-+             |                         | reuse old cache |--Usable-->|
-+             |                         +-----------------+           |
-+             |                                 |                     |
-+             |                             Not usable                |
-+             |                                 |                     |
-+             |                                 v                     |
-+        Cache empty                   +-----------------+            |
-+             |                        | drain old cache |            |
-+             |                        +-----------------+            |
-+             |                                 |                     |
-+             v_________________________________v                     |
-+                              |                                      |
-+                              |                                      |
-+             _________________v_______________                       |
-+            |                                 |              Cache is enough
-+            |                                 |                      |
-+ PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                      |
-+            |                                 |                      |
-+            |               PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE    |
-+            v                                 |                      |
-+    +----------------------------------+      |                      |
-+    | refill cache with order > 0 page |      |                      |
-+    +----------------------------------+      |                      |
-+      |                    |                  |                      |
-+      |                    |                  |                      |
-+      |              Refill failed            |                      |
-+      |                    |                  |                      |
-+      |                    v                  v                      |
-+      |      +------------------------------------+                  |
-+      |      |   refill cache with order 0 page   |                  |
-+      |      +----------------------------------=-+                  |
-+      |                       |                                      |
-+ Refill succeed               |                                      |
-+      |                 Refill succeed                               |
-+      |                       |                                      |
-+      v                       v                                      v
-+    +------------------------------------------------------------------+
-+    |             allocate fragment from cache                         |
-+    +------------------------------------------------------------------+
-+
-+API interface
-+=============
-+As the design and implementation of page_frag API implies, the allocation side
-+does not allow concurrent calling. Instead it is assumed that the caller must
-+ensure there is not concurrent alloc calling to the same page_frag_cache
-+instance by using its own lock or rely on some lockless guarantee like NAPI
-+softirq.
-+
-+Depending on different aligning requirement, the page_frag API caller may call
-+page_frag_alloc*_align*() to ensure the returned virtual address or offset of
-+the page is aligned according to the 'align/alignment' parameter. Note the size
-+of the allocated fragment is not aligned, the caller needs to provide an aligned
-+fragsz if there is an alignment requirement for the size of the fragment.
-+
-+Depending on different use cases, callers expecting to deal with va, page or
-+both va and page for them may call page_frag_alloc_va*, page_frag_alloc_pg*,
-+or page_frag_alloc* API accordingly.
-+
-+There is also a use case that needs minimum memory in order for forward progress,
-+but more performant if more memory is available. Using page_frag_alloc_prepare()
-+and page_frag_alloc_commit() related API, the caller requests the minimum memory
-+it needs and the prepare API will return the maximum size of the fragment
-+returned. The caller needs to either call the commit API to report how much
-+memory it actually uses, or not do so if deciding to not use any memory.
-+
-+.. kernel-doc:: include/linux/page_frag_cache.h
-+   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-+                 page_frag_cache_page_offset page_frag_alloc_va
-+                 page_frag_alloc_va_align page_frag_alloc_va_prepare_align
-+                 page_frag_alloc_probe page_frag_alloc_commit
-+                 page_frag_alloc_commit_noref page_frag_alloc_abort
-+
-+.. kernel-doc:: mm/page_frag_cache.c
-+   :identifiers: __page_frag_alloc_va_align page_frag_alloc_pg
-+                 page_frag_alloc_va_prepare page_frag_alloc_pg_prepare
-+                 page_frag_alloc_prepare page_frag_cache_drain
-+                 page_frag_free_va
-+
-+Coding examples
-+===============
-+
-+Init & Drain API
-+----------------
-+
-+.. code-block:: c
-+
-+   page_frag_cache_init(pfrag);
-+   ...
-+   page_frag_cache_drain(pfrag);
-+
-+
-+Alloc & Free API
-+----------------
-+
-+.. code-block:: c
-+
-+    void *va;
-+
-+    va = page_frag_alloc_va_align(pfrag, size, gfp, align);
-+    if (!va)
-+        goto do_error;
-+
-+    err = do_something(va, size);
-+    if (err) {
-+        page_frag_free_va(va);
-+        goto do_error;
-+    }
-+
-+Prepare & Commit API
-+--------------------
-+
-+.. code-block:: c
-+
-+    unsigned int offset, size;
-+    bool merge = true;
-+    struct page *page;
-+    void *va;
-+
-+    size = 32U;
-+    page = page_frag_alloc_prepare(pfrag, &offset, &size, &va);
-+    if (!page)
-+        goto wait_for_space;
-+
-+    copy = min_t(unsigned int, copy, size);
-+    if (!skb_can_coalesce(skb, i, page, offset)) {
-+        if (i >= max_skb_frags)
-+            goto new_segment;
-+
-+        merge = false;
-+    }
-+
-+    copy = mem_schedule(copy);
-+    if (!copy)
-+        goto wait_for_space;
-+
-+    err = copy_from_iter_full_nocache(va, copy, iter);
-+    if (err)
-+        goto do_error;
-+
-+    if (merge) {
-+        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
-+        page_frag_alloc_commit_noref(pfrag, offset, copy);
-+    } else {
-+        skb_fill_page_desc(skb, i, page, offset, copy);
-+        page_frag_alloc_commit(pfrag, offset, copy);
-+    }
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index ba5d7f8a03cd..9a2c9abd23d0 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -52,11 +52,28 @@ static inline void *encoded_page_address(unsigned long encoded_va)
- 	return (void *)(encoded_va & PAGE_MASK);
- }
- 
-+/**
-+ * page_frag_cache_init() - Init page_frag cache.
-+ * @nc: page_frag cache from which to init
-+ *
-+ * Inline helper to init the page_frag cache.
-+ */
- static inline void page_frag_cache_init(struct page_frag_cache *nc)
- {
- 	memset(nc, 0, sizeof(*nc));
- }
- 
-+/**
-+ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-+ * It has the same calling context expectation as the alloc API.
-+ *
-+ * Return:
-+ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
-+ * return false.
-+ */
- static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
- {
- 	return encoded_page_pfmemalloc(nc->encoded_va);
-@@ -76,6 +93,19 @@ void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- 				 unsigned int fragsz, gfp_t gfp_mask,
- 				 unsigned int align_mask);
- 
-+/**
-+ * page_frag_alloc_va_align() - Alloc a page fragment with aligning requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for virtual address of fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
- 					     unsigned int fragsz,
- 					     gfp_t gfp_mask, unsigned int align)
-@@ -84,11 +114,32 @@ static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
- 	return __page_frag_alloc_va_align(nc, fragsz, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_cache_page_offset() - Return the current page fragment's offset.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * The API is only used in net/sched/em_meta.c for historical reason, do not use
-+ * it for new caller unless there is a strong reason.
-+ *
-+ * Return:
-+ * the offset of the current page fragment in the page_frag cache.
-+ */
- static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
- {
- 	return page_frag_cache_page_size(nc->encoded_va) - nc->remaining;
- }
- 
-+/**
-+ * page_frag_alloc_va() - Alloc a page fragment.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Get a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va(struct page_frag_cache *nc,
- 				       unsigned int fragsz, gfp_t gfp_mask)
- {
-@@ -98,6 +149,21 @@ static inline void *page_frag_alloc_va(struct page_frag_cache *nc,
- void *page_frag_alloc_va_prepare(struct page_frag_cache *nc, unsigned int *fragsz,
- 				 gfp_t gfp);
- 
-+/**
-+ * page_frag_alloc_va_prepare_align() - Prepare allocing a page fragment with
-+ * aligning requirement.
-+ * @nc: page_frag cache from which to prepare
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache need to be refilled
-+ * @align: the requested aligning requirement
-+ *
-+ * WARN_ON_ONCE() checking for @align before preparing an aligned page fragment
-+ * with minimum size of @fragsz, @fragsz is also used to report the maximum size
-+ * of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va_prepare_align(struct page_frag_cache *nc,
- 						     unsigned int *fragsz,
- 						     gfp_t gfp,
-@@ -117,6 +183,21 @@ struct page *page_frag_alloc_prepare(struct page_frag_cache *nc,
- 				     unsigned int *fragsz,
- 				     void **va, gfp_t gfp);
- 
-+/**
-+ * page_frag_alloc_probe - Probe the available page fragment.
-+ * @nc: page_frag cache from which to probe
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @va: out as the virtual address of the returned page fragment
-+ *
-+ * Probe the current available memory to caller without doing cache refilling.
-+ * If no space is available in the page_frag cache, return NULL.
-+ * If the requested space is available, up to @fragsz bytes may be added to the
-+ * fragment using commit API.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- static inline struct page *page_frag_alloc_probe(struct page_frag_cache *nc,
- 						 unsigned int *offset,
- 						 unsigned int *fragsz,
-@@ -138,6 +219,14 @@ static inline struct page *page_frag_alloc_probe(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_alloc_commit - Commit allocing a page fragment.
-+ * @nc: page_frag cache from which to commit
-+ * @fragsz: size of the page fragment has been used
-+ *
-+ * Commit the actual used size for the allocation that was either prepared or
-+ * probed.
-+ */
- static inline void page_frag_alloc_commit(struct page_frag_cache *nc,
- 					  unsigned int fragsz)
- {
-@@ -146,6 +235,16 @@ static inline void page_frag_alloc_commit(struct page_frag_cache *nc,
- 	nc->remaining -= fragsz;
- }
- 
-+/**
-+ * page_frag_alloc_commit_noref - Commit allocing a page fragment without taking
-+ * page refcount.
-+ * @nc: page_frag cache from which to commit
-+ * @fragsz: size of the page fragment has been used
-+ *
-+ * Commit the alloc preparing or probing by passing the actual used size, but
-+ * not taking refcount. Mostly used for fragmemt coalescing case when the
-+ * current fragment can share the same refcount with previous fragment.
-+ */
- static inline void page_frag_alloc_commit_noref(struct page_frag_cache *nc,
- 						unsigned int fragsz)
- {
-@@ -153,6 +252,14 @@ static inline void page_frag_alloc_commit_noref(struct page_frag_cache *nc,
- 	nc->remaining -= fragsz;
- }
- 
-+/**
-+ * page_frag_alloc_abort - Abort the page fragment allocation.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @fragsz: size of the page fragment to be aborted
-+ *
-+ * It is expected to be called from the same context as the alloc API.
-+ * Mostly used for error handling cases where the fragment is no longer needed.
-+ */
- static inline void page_frag_alloc_abort(struct page_frag_cache *nc,
- 					 unsigned int fragsz)
- {
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index f8fad7d2cca8..509bcc4603d3 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -97,6 +97,18 @@ static struct page *__page_frag_cache_reload(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_alloc_va_prepare() - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- void *page_frag_alloc_va_prepare(struct page_frag_cache *nc,
- 				 unsigned int *fragsz, gfp_t gfp)
- {
-@@ -125,6 +137,19 @@ void *page_frag_alloc_va_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_va_prepare);
- 
-+/**
-+ * page_frag_alloc_pg_prepare - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- struct page *page_frag_alloc_pg_prepare(struct page_frag_cache *nc,
- 					unsigned int *offset,
- 					unsigned int *fragsz, gfp_t gfp)
-@@ -152,6 +177,21 @@ struct page *page_frag_alloc_pg_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_pg_prepare);
- 
-+/**
-+ * page_frag_alloc_prepare - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @va: out as the virtual address of the returned page fragment
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment. Return both 'struct page'
-+ * and virtual address of the fragment to the caller.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- struct page *page_frag_alloc_prepare(struct page_frag_cache *nc,
- 				     unsigned int *offset,
- 				     unsigned int *fragsz,
-@@ -183,6 +223,18 @@ struct page *page_frag_alloc_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_prepare);
- 
-+/**
-+ * page_frag_alloc_pg - Alloce a page fragment.
-+ * @nc: page_frag cache from which to alloce
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: the requested fragment size
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Get a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- struct page *page_frag_alloc_pg(struct page_frag_cache *nc,
- 				unsigned int *offset, unsigned int fragsz,
- 				gfp_t gfp)
-@@ -215,6 +267,10 @@ struct page *page_frag_alloc_pg(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_pg);
- 
-+/**
-+ * page_frag_cache_drain - Drain the current page from page_frag cache.
-+ * @nc: page_frag cache from which to drain
-+ */
- void page_frag_cache_drain(struct page_frag_cache *nc)
- {
- 	if (!nc->encoded_va)
-@@ -235,6 +291,19 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
- }
- EXPORT_SYMBOL(__page_frag_cache_drain);
- 
-+/**
-+ * __page_frag_alloc_va_align() - Alloc a page fragment with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the 'va'
-+ *
-+ * Get a page fragment from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * Return va of the page fragment, otherwise return NULL.
-+ */
- void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- 				 unsigned int fragsz, gfp_t gfp_mask,
- 				 unsigned int align_mask)
-@@ -281,8 +350,12 @@ void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(__page_frag_alloc_va_align);
- 
--/*
-- * Frees a page fragment allocated out of either a compound or order 0 page.
-+/**
-+ * page_frag_free_va - Free a page fragment.
-+ * @addr: va of page fragment to be freed
-+ *
-+ * Free a page fragment allocated out of either a compound or order 0 page by
-+ * virtual address.
-  */
- void page_frag_free_va(void *addr)
- {
--- 
-2.33.0
+> On 24 Jul 2024, at 17:31, Benno Lossin <benno.lossin@proton.me> wrote:
+>=20
+> On 19.07.24 18:24, Daniel Almeida wrote:
+>> Hi Benno,
+>>=20
+>> It=E2=80=99s nice to see this shaping up. I do agree that it=E2=80=99s =
+a bit of a wild
+>> west right now.
+>>=20
+>> IMHO, we need a lint to enforce compliance, unless we plan to have =
+every patch
+>> reviewed by the RFL community, which is unrealistic as time goes =
+forward. I
+>> myself have forgotten to properly document unsafe blocks because =
+it=E2=80=99s easy
+>> to miss things when submitting more than a thousand LOC.
+>>=20
+>> A new clippy lint would make sense here, since we already have clippy =
+support
+>> in the kernel anyways.
+>=20
+> I definitely see the potential, but I have no experience writing =
+clippy
+> lints. I also have no idea if it can detect comments.
+> I also think that a lint solution will be very difficult, since it =
+will
+> either have to be a full proof assistant that mathematically checks if
+> the safety comments are correct, or we still need human review.
+> I think that if people are more familiar with safety comments, it will
+> be easier, it's just how one improves at coding.
+>=20
+> I don't want to reject formal verification from the get-go; on the
+> contrary, I would like to see it applied more in the kernel. Rust has
+> several different implementations, but I haven't yet taken an in-depth
+> look at them. However, from my past experience with formal proof
+> assistants, I have my doubts that everyday developers will pick them =
+up
+> more easily/in favor of just plain safety comments.
+>=20
+> I think that we should apply formal verification to those areas that
+> have been shown to be very difficult to get right. We currently do not
+> have enough Rust to have such areas, but when we do, it might be a
+> powerful tool. But I don't see it becoming the norm for Rust code (but
+> maybe I am wrong, and I would be very happy to be wrong in this
+> instance).
+>=20
+> There are also several clippy lints [1] that we could start using:
+> - missing_safety_doc
+> - multiple_unsafe_ops_per_block
+> - undocumented_unsafe_blocks
+> - unnecessary_safety_comment
+> - unnecessary_safety_doc
+>=20
+> I personally think we should enable all of them.
+>=20
+> [1]: https://rust-lang.github.io/rust-clippy/master/index.html#/safety
+>=20
+> What did you expect/wish for with a clippy lint? Is it already present
+> or did you want something that verifies your safety comments?
+
+
+Yeah, I wasn=E2=80=99t referring to formal verification, just a lint =
+that will complain when
+it finds an unsafe block that has no safety comments at all. The clippy =
+lints you
+listed should work fine and, IIUC, Miguel already has a patch to enable =
+(some of) them,
+so I don=E2=80=99t think any further action is needed.
+
+>=20
+>>> On 17 Jul 2024, at 19:12, Benno Lossin <benno.lossin@proton.me> =
+wrote:
+>>>=20
+>>> `unsafe` Rust code in the kernel is required to have safety
+>>> documentation. This is to ensure the correctness of `unsafe` code =
+and is
+>>> thus very important.
+>>> However, at this point in time there does not exist a standard way =
+of
+>>> writing safety documentation. This leads to confusion, as authors
+>>> struggle to find the right way to convey their desired intentions.
+>>> Readers struggle with correctly interpreting the existing =
+documentation.
+>>>=20
+>>> Add the safety standard that will document the meaning of safety
+>>> documentation. This first document gives an overview of the problem =
+and
+>>> gives general information about the topic.
+>>>=20
+>>> Signed-off-by: Benno Lossin <benno.lossin@proton.me>
+>>> ---
+>>> Documentation/rust/general-information.rst   |   1 +
+>>> Documentation/rust/index.rst                 |   1 +
+>>> Documentation/rust/safety-standard/index.rst | 246 =
++++++++++++++++++++
+>>> 3 files changed, 248 insertions(+)
+>>> create mode 100644 Documentation/rust/safety-standard/index.rst
+>>>=20
+>>> diff --git a/Documentation/rust/general-information.rst =
+b/Documentation/rust/general-information.rst
+>>> index e3f388ef4ee4..ddfe4e2e5307 100644
+>>> --- a/Documentation/rust/general-information.rst
+>>> +++ b/Documentation/rust/general-information.rst
+>>> @@ -54,6 +54,7 @@ the same invocation used for compilation, e.g.::
+>>> Please note that Clippy may change code generation, thus it should =
+not be
+>>> enabled while building a production kernel.
+>>>=20
+>>> +.. _rust-abstractions:
+>>>=20
+>>> Abstractions vs. bindings
+>>> -------------------------
+>>> diff --git a/Documentation/rust/index.rst =
+b/Documentation/rust/index.rst
+>>> index 46d35bd395cf..968e9aace301 100644
+>>> --- a/Documentation/rust/index.rst
+>>> +++ b/Documentation/rust/index.rst
+>>> @@ -39,6 +39,7 @@ configurations.
+>>>    quick-start
+>>>    general-information
+>>>    coding-guidelines
+>>> +    safety-standard/index
+>>>    arch-support
+>>>    testing
+>>>=20
+>>> diff --git a/Documentation/rust/safety-standard/index.rst =
+b/Documentation/rust/safety-standard/index.rst
+>>> new file mode 100644
+>>> index 000000000000..1cbc8d3dea04
+>>> --- /dev/null
+>>> +++ b/Documentation/rust/safety-standard/index.rst
+>>> @@ -0,0 +1,246 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +.. highlight:: rust
+>>> +
+>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>> +Rust Safety Standard
+>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>> +
+>>> +Safe Rust code cannot have memory related bugs. This is a guarantee =
+by the Rust compiler. Of course
+>>> +it is not without caveats: no compiler bugs, no bugs in the =
+specification etc. But the possibly most
+>>> +important caveat is that of ``unsafe`` code. ``unsafe`` code needs =
+to follow certain rules in order
+>>> +for safe code to enjoy the no-memory-bugs privilege. A simple =
+example of such a rule is that
+>>> +references must be valid for the duration of their lifetime. If any =
+rule is violated, it can lead
+>>> +to undefined behavior even in safe code! The term undefined =
+behavior in Rust has a lot stricter
+>>> +meaning than in C or C++: UB in Rust is totally forbidden. In C one =
+might rely on the compiler
+>>> +implementation to ensure correct code generation, but that is not =
+the case for Rust. You can read
+>>> +more about UB in Rust
+>>> +`here =
+<https://doc.rust-lang.org/reference/behavior-considered-undefined.html>`_=
+.
+>>> +
+>>> +If ``unsafe`` code makes our life this difficult, one might ask the =
+question "why do we even need
+>>> +it?" and the answer to that is that it gives users an escape hatch =
+to do things that the compiler
+>>> +normally forbids. ``unsafe`` code is a tool that enables =
+programmers to write more performant code,
+>>> +or code that interacts with hardware or C. These things are =
+particularly important in kernel
+>>> +development.
+>>> +
+>>> +The most effective way to prevent issues in ``unsafe`` code is to =
+just not write ``unsafe`` code in
+>>> +the first place. That is why minimizing the amount of ``unsafe`` =
+code is very important. For
+>>> +example, drivers are not allowed to directly interface with the C =
+side. Instead of directly
+>>> +communicating with C functions, they interact with Rust =
+abstractions. This concentrates the usage
+>>> +of ``unsafe`` code, making it easy to fix issues, since only the =
+abstraction needs to be fixed.
+>>> +Abstractions also allow taking advantage of other Rust language =
+features. Read more in
+>>> +:ref:`rust-abstractions`.
+>>=20
+>> This is something that I think we should discuss at Kangrejos. I do =
+not think
+>> that we should set in stone that the kernel crate is the only place =
+where
+>> unsafe code is acceptable.
+>=20
+> Oh then I need to rephrase the above paragraph, since I don't meant to
+> say that. What I want to say is this:
+> (1) concentrate as much `unsafe` code as possible, and put it =
+somewhere
+>     where everyone can use it (ie the `kernel` crate)
+> (2) abstract over common use-patterns of `unsafe` code via safe
+>     abstractions
+> (3) disallow access to *raw* `bindings::` function calls from drivers.
+>=20
+> =46rom what you write below, I think that we are on the same page for =
+(1)
+> and (2). What I want to accomplish with (3) is that we don't have =
+hacky
+> drivers that are just like a C driver with `unsafe` sprinkled
+> throughout. If you want to do that, just write a C driver instead.
+>=20
+> As Alice already replied, there should be no issue with having an
+> `unsafe` function in an Abstraction. But we should strive for them to =
+be
+> as few as possible.
+>=20
+>> I am in no way disagreeing with the use of safe abstractions, but I =
+think we
+>> should have abstractions where they make sense. This is the case in =
+the vast
+>> majority of times, but not in *all* of them.
+>>=20
+>> A simple example is a MMIO read or write. Should a driver be =
+forbidden to call
+>> readX/writeX for an address it knows to be valid? How can you =
+possibly write an
+>> abstraction for this, when the driver is the only one aware of the =
+actual
+>> device addresses, and when the driver author is the person with =
+actual access
+>> to the HW docs?
+>=20
+> One idea that I have in this concrete example would be to make the
+> driver specify in exactly one place what the addresses are that are
+> read/writeable. If there are devices with dynamic addresses, then we
+> could additionally provide an `unsafe` API, but link to the safe one =
+for
+> people to prefer.
+>=20
+>> If a driver is written partially in Rust, and partially in C, and it =
+gets a
+>> pointer to some kcalloc=E2=80=99d memory in C, should It be forbidden =
+to use unsafe
+>> in order to build a slice from that pointer? How can you possibly =
+design a
+>> general abstraction for something that is, essentially, a =
+driver-internal API?
+>=20
+> This also would be a good example for an exception of (3). In this =
+case,
+> you could still write a driver-specific abstraction that does =
+everything
+> under the hood and then every place in the driver can use the safe
+> abstraction.
+>=20
+>> For these corner cases, a simple safety comment should suffice. By =
+all means,
+>> let's strive to push as much of the unsafe bits into the kernel =
+crate. But,
+>> IMHO, we shouldn=E2=80=99t treat Rust drivers as some unprivileged =
+entity, they=E2=80=99re
+>> also kernel code, after all.
+>=20
+> That is true, but I want to prevent that we just "ship it" and then a
+> couple of days later it turns out that there was a good abstraction
+> after all. I personally like to spend a lot of time thinking about =
+safe
+> abstractions before giving in to `unsafe`, but I understand that we =
+need
+> to find a balance. In the end, we can also always change things. But
+> when something lands, it most of the time won't get people thinking
+> about whether there is a better way of doing things. Not unless the
+> status quo is annoying/burdensome, at which point it already "was too
+> late", ie there could have been more thought at the beginning.
+>=20
+> ---
+> Cheers,
+> Benno
+
+I see,
+
+There has been extensive discussion about this topic in this series and =
+I no
+longer see any problems. Thanks everybody for all the clarification =
+provided.
+
+=E2=80=94 Daniel
 
