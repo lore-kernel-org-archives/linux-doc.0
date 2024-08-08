@@ -1,50 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E292B674;
-	Thu,  8 Aug 2024 14:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830FB183CCB;
+	Thu,  8 Aug 2024 15:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723128858; cv=none; b=KJxdEIvP6QaEjCOzEE8H7m6fW6qd4vFaIogdAexHXuk8lroAdStPQ1g4U1+C5qdibeR0h3URpuoLBrj9NyXc/zOGoPc479thHslEF7iUS2KKoZ69uuv5mIuzcm0D1KfpgzQ7RdT5OlD0u0DpiaEO6/KQ+79FHi56bcCmvZGoGes=
+	t=1723132403; cv=none; b=ECpOKdNVlU/jPcs0BBQJ6wiRB/PPLAYyZ/z6nYD+KzTlfRsVyn8ZjWGzCF5KjNvtyuhqekgi0vJWOakYt5lyTHWO9S3Ydz9CK0PrURWhXTmszndm+k2MQPEONwvdu3B9GEfnU98Ub1d10fJ0mjRwCMPO6stEgkhY9HbNyG6P5BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723128858; c=relaxed/simple;
-	bh=r985UfwqL1h8K9aokwCyDd3V5rJtD93Nf43KfmOuQsk=;
+	s=arc-20240116; t=1723132403; c=relaxed/simple;
+	bh=Yg1rBHLyxNvXVOxP3DixBoCmq2Z35VUXS9eEmM2C2lM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cjsQ22HRNf1c/VovRMwLEHOOXGbOEwDtiaVRpt6xkHOm98sogaAKG99XPT2hASlV426fUCYEUAguS6w23TDdl9YzIFkFPby05L0zIxO4lSxuDpHOB07Jhw45BIDswzYTjFalPCGC0EA5gXyjqk2HJwO4xXOelvlfE6tt5OsH5M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StbB78cD; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=IGaAUIBRpEuT4EBvYLrDeWHPKVOPhT3o+eR410iKM5vI1bRW41zd19YDdh10tG4LZDcpSaGzVbVVy18QLTNaeb+HwXMvHF0J6AbtTGyiOMUJjd2O2ixSzkJRqVWIWxyS1cDwfHWJJAfd8or4e4fxB8dcYWU1xeXDCg4Gj4du3Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nepA1VBI; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StbB78cD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723128858; x=1754664858;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=r985UfwqL1h8K9aokwCyDd3V5rJtD93Nf43KfmOuQsk=;
-  b=StbB78cDyGwI3l3Zg+JuJWei9kxLJIzF88h89xtNkxw8c+0UFtveJLQm
-   QO6+4JcevlFXNi9aI87bW+k0uXejFDvNVM6429ECyyCU0PcmcVNbfMZ5g
-   wSBySy3/yFp0v4qQlejNLqAUjqaHDpEG+9xstDilUdsHFwaY/XiRGgvRS
-   3c/3hmeT1ej3PupImHdtXEQ6oHjQcmc8cp17Yd8QdHDcCjz0dgJSF97lD
-   HygUizzRoaMXN+JbX4e6J6tFdJRcttCeOfSyxugdakRiqP5VW3Rwdqu7h
-   CHAyoK+m+a3JoZciEitN+N60xFtyl+6zOeWBOfKMJLvH5TLuDKboWBMwk
-   w==;
-X-CSE-ConnectionGUID: POAV5kFsQHOi7fyEr9oiOA==
-X-CSE-MsgGUID: YYEwmt0GQQOpdjIVuOXN8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11158"; a="21427405"
-X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
-   d="scan'208";a="21427405"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 07:54:16 -0700
-X-CSE-ConnectionGUID: vAjEFa4ERGyjqZz2qHyCrg==
-X-CSE-MsgGUID: IlJ73vWWTuWjDaL6uohR8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,273,1716274800"; 
-   d="scan'208";a="57486370"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 07:54:11 -0700
-Message-ID: <e5cd1a9d-0a16-4c80-b9b9-1c63b8e818cc@linux.intel.com>
-Date: Thu, 8 Aug 2024 16:54:07 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nepA1VBI"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52f01afa11cso1386227e87.0;
+        Thu, 08 Aug 2024 08:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723132400; x=1723737200; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=51dq0wRW2rs5lnuCjGuAZAaXy1j0jgODrri2jr15rSM=;
+        b=nepA1VBIhMqhAqMn3KO6sWIDU+nWxZmB5Yq+OLxGcZMd71jbSzeJf96kCK5mZlEc6S
+         ZyxXh5IaIHCbGzfoQmExLdIKp96COG7xvcXLQYUyY2hsSJBlwgbZaX0QW4BkweaKHfdi
+         ABCcl3m4e71Tr5R6Ft31EVBjl6/bCXe4Ef5mv8SFtsz7432NIN6t0JQ3gwy4zVjRtuMS
+         Z1oBNGe7RWWkzmMjhYBgV9n2JZOwPS0fr6c/tC906DoxrzvsMG/l8hZWfpx5oA2/iWlv
+         IsCcvG+dM4Ky3AWJS9lO+hO15eNT3+xPYlPxF7mIWmjh8HROX7M9tz9LrU1jsKJfJ7O6
+         XS9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723132400; x=1723737200;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=51dq0wRW2rs5lnuCjGuAZAaXy1j0jgODrri2jr15rSM=;
+        b=EyZga9JC8vaYw4lPgvCbs12wdaoWHxE5Iu4tTJXJm+ri5rAwKiW/8iOwnTI2C5zTbh
+         F66c4HPS9dQcKdn5VJYOkYDYbYN5abvMGhwAei85Pq46acgTz+LlGcpi53TsNkLVZWEL
+         8zKijrWjCV2YGknuAbxqjbTpisauwfQqr4Pif/dFjbiIkHW8936HHmPDYA9RqUWBU65l
+         IPjRknptO51MoFcdAx/Aaac5Ye0SUAH6Xpmq6ELoVZuRygUP09+FGEl/unchBSwbVrYb
+         8YES3vXqBf1dvRNpJCpvky51DQ5jNAc5wB5F8zKd2SWuHh3fhh2wuWDEHyumaIh0rcaI
+         0LOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtrVOuLDspXVrseoU7DlGhimmbh4JwqCKs6KL4LFO6snIOunOhGRj2roNMzzCqDdoAa+LoAghdWBDC9B51@vger.kernel.org, AJvYcCXV7FZj5FvHl88gDv4TF9UuwiN/0dvAwzvsOijvIZFHZHPWzffoZwZtZ9HdERBzoo3aePdwLOrgRxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyxrJQ0+ZnJ2+hwXGSwZXgSQiJ70FG3Svq1p9dkxsGnkwbOeQv
+	sMnGaGgxxTwkkLVBkGMzpXVv7jKdXXcJEYvp1ylaiA6Pb95Pawl5
+X-Google-Smtp-Source: AGHT+IGMvMp6bsbitUSvC1TIav7dPktFrA56GyoSe/1Oc/aPmuMZPEl5BC5pS0CEbSGU64aOna+aEQ==
+X-Received: by 2002:a05:6512:4019:b0:52c:db75:9640 with SMTP id 2adb3069b0e04-530e5891ed5mr1662762e87.48.1723132399099;
+        Thu, 08 Aug 2024 08:53:19 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::7:3531])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bbb2c3c991sm756035a12.35.2024.08.08.08.53.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Aug 2024 08:53:18 -0700 (PDT)
+Message-ID: <c6673e99-5e84-474e-8447-3f41a66bf634@gmail.com>
+Date: Thu, 8 Aug 2024 16:53:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,172 +61,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
- stream if in use
+Subject: Re: [PATCH v2 2/4] mm: remap unused subpages to shared zeropage when
+ splitting isolated thp
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, riel@surriel.com,
+ shakeel.butt@linux.dev, roman.gushchin@linux.dev, yuzhao@google.com,
+ david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, Shuang Zhai <zhais@google.com>
+References: <20240807134732.3292797-1-usamaarif642@gmail.com>
+ <20240807134732.3292797-3-usamaarif642@gmail.com>
+ <20240807200241.GB1828817@cmpxchg.org>
 Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-24-quic_wcheng@quicinc.com>
- <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
- <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
- <c3b6ac24-6359-4809-83d9-ac62ec64b396@linux.intel.com>
- <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <24a224a2-0600-4ee2-989e-02224ef849ba@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20240807200241.GB1828817@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 8/8/2024 2:36 PM, Pierre-Louis Bossart wrote:
+
+
+On 07/08/2024 21:02, Johannes Weiner wrote:
+> On Wed, Aug 07, 2024 at 02:46:47PM +0100, Usama Arif wrote:
+>> @@ -177,13 +177,56 @@ void putback_movable_pages(struct list_head *l)
+>>  	}
+>>  }
+>>  
+>> +static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk *pvmw,
+>> +					  struct folio *folio,
+>> +					  unsigned long idx)
+>> +{
+>> +	struct page *page = folio_page(folio, idx);
+>> +	bool contains_data;
+>> +	pte_t newpte;
+>> +	void *addr;
+>> +
+>> +	VM_BUG_ON_PAGE(PageCompound(page), page);
+>> +	VM_BUG_ON_PAGE(!PageAnon(page), page);
+>> +	VM_BUG_ON_PAGE(!PageLocked(page), page);
+>> +	VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
+>> +
+>> +	if (PageMlocked(page) || (pvmw->vma->vm_flags & VM_LOCKED))
+>> +		return false;
+>> +
+>> +	/*
+>> +	 * The pmd entry mapping the old thp was flushed and the pte mapping
+>> +	 * this subpage has been non present. If the subpage is only zero-filled
+>> +	 * then map it to the shared zeropage.
+>> +	 */
+>> +	addr = kmap_local_page(page);
+>> +	contains_data = memchr_inv(addr, 0, PAGE_SIZE);
+>> +	kunmap_local(addr);
+>> +
+>> +	if (contains_data || mm_forbids_zeropage(pvmw->vma->vm_mm))
+>> +		return false;
+>> +
+>> +	newpte = pte_mkspecial(pfn_pte(page_to_pfn(ZERO_PAGE(pvmw->address)),
+>> +					pvmw->vma->vm_page_prot));
 > 
+> Why not use my_zero_pfn() here? On many configurations this just
+> returns zero_pfn and avoids the indirection through mem_map.
 > 
-> On 8/8/24 14:11, Amadeusz Sławiński wrote:
->> On 8/8/2024 3:19 AM, Wesley Cheng wrote:
->>> Hi Amadeusz,
->>>
->>> On 8/6/2024 7:51 AM, Amadeusz Sławiński wrote:
->>>> On 8/1/2024 3:17 AM, Wesley Cheng wrote:
->>>>> With USB audio offloading, an audio session is started from the ASoC
->>>>> platform sound card and PCM devices.  Likewise, the USB SND path is
->>>>> still
->>>>> readily available for use, in case the non-offload path is desired.  In
->>>>> order to prevent the two entities from attempting to use the USB bus,
->>>>> introduce a flag that determines when either paths are in use.
->>>>>
->>>>
->>>> How can this happen? Can you provide some example with list of
->>>> devices and which one should block the other? If I recall correctly
->>>> devices are already exclusive unless you support substreams which
->>>> ASoC does not at the moment.
->>>>
->>>   From past discussions, I think so far everyone is on board with the
->>> idea of having both the USB sound card and PCM devices exist in
->>> conjunction w/ the USB offload path, which is going to be done over
->>> the ASoC platform card.  So for example,
->>>
->>
->> Sorry, I must have missed that and examples in documentation could
->> probably be a bit better, it is bit late at patchset 24 that I
->> understood about this now. And is part of a reason why I was confused
->> about kcontrol implementation.
->>
->>> / # cat /proc/asound/cards
->>>    0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>>                         SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>>    1 [C320M          ]: USB-Audio - Plantronics C320-M
->>>                         Plantronics Plantronics C320-M at usb-xhci-
->>> hcd.1.auto-1.2, full speed
->>>
->>> This device currently has the following sound cards within the system:
->>>
->>> - card#0 - ASoC platform card: handles USB offload, speaker, etc...
->>>
->>> - card#1 - USB SND card: card created for interacting with the
->>> connected USB device.
->>>
->>> So now, with USB offloading in the picture, there are basically two
->>> paths that can start attempting to utilize the same USB device
->>> endpoints.  Let's keep it simple and assume the device only has one
->>> playback substream (which means only one PCM device)
->>>
->>> /proc/asound/card1 # cat stream0
->>> Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full
->>> speed : USB Audio
->>>
->>> Playback:
->>>     Status: Stop
->>>     Interface 2
->>>       Altset 1
->>>       Format: S16_LE
->>>       Channels: 2
->>>       Endpoint: 0x01 (1 OUT) (ADAPTIVE)
->>>       Rates: 8000, 16000, 24000, 32000, 44100, 48000
->>>       Bits: 16
->>>       Channel map: FL FR
->>>
->>> So the patch here will prevent transfers from happening from both the
->>> offload path and directly over the USB SND PCM device, which
->>> correlates to the following paths:
->>>
->>> - offload: card#0 pcm#0
->>>
->>> - USB SND: card#1 pcm#0
->>
->> Well, it's one way to do that.
->>
->> Personally I would just reuse USB FEs and when opening one check if it
->> can be offloaded:
->> * check if someone disabled Offload on FE
->> * check if it is connected to HW that can do Offload at all
->> * check if Offload streams are available on backing HW
->> * check if audio formats are supported by above HW
->> * do any other checks that may be needed
->> and then just redirect FE setup to relevant driver doing offload if
->> able, otherwise just go standard path.
+>> @@ -904,7 +958,7 @@ static int writeout(struct address_space *mapping, struct folio *folio)
+>>  	 * At this point we know that the migration attempt cannot
+>>  	 * be successful.
+>>  	 */
+>> -	remove_migration_ptes(folio, folio, false);
+>> +	remove_migration_ptes(folio, folio, false, false);
 > 
-> How would userspace know which 'USB FE' to use?
+> bool params are not great for callsite readability.
 > 
-
-That's my point, the same one as it would use doing normal 
-playback/capture on systems which don't have Offload.
-
-If I attach USB Headphones, as a user my expectation would be to use 
-playback FE on USB card it exposes, not to spend time setting some 
-controls and telling it to use some FE from other card.
-
-With current design there are _two_ separate FEs, on _two_ separate 
-cards, which are linked by kcontrol and which block each other. I'm 
-rather confused how basic userspace application knows which one to use 
-in this case. (By now of course I know that it needs to read kcontrol to 
-see if and where it is offloaded and then open the FE on the card, but 
-in my opinion it is unnecessarily convoluted.)
-
-> The discovery and mapping between cards and devices is the main problem.
+> How about a flags parameter and using names?
 > 
+> enum rmp_flags {
+> 	RMP_LOCKED	= 1 << 0,
+> 	RMP_ZEROPAGES	= 1 << 1,
+> }
 
-And "offloading" decision to the user/sound server/HAL doesn't help in 
-my opinion.
-
-> It's much simpler to start from a generic "USB-Audio" card, and check if
-> the functionality exposed by one PCM device is offloaded to another
-> ASoC-based card. Then all the interaction can start with this offloaded
-> device without any guesswork on the mapping between cards/devices.
-> 
-
-That's the point, currently there needs to be some guesswork involved, 
-because you need to check kcontrols to see if the endpoint can be 
-offloaded and open the other FE it points at, instead of directly 
-opening the one you usually would, and having it Offloaded by kernel. It 
-is adding more work on userspace side, which will require special 
-handling to work correctly.
-
-> The point is that the USB-Audio card will always be there, whereas those
-> ASoC cards will have different names and implementation restrictions. In
-> the example we have here, if you want to capture audio you *have* to use
-> the USB-Audio card.
-> 
-
-Yes and with the description above it would be just one of the checks 
-after which it would decide that it can't do Offload on capture path and 
-open it in standard way, I see no problem?
-
-> In other words, it's just an endianness type of debate with no clear
-> difference between solutions and a matter of personal preference. The
-> reality is that there's a clear asymmetrical pattern. The USB-Audio card
-> is always present and usable, the ASoC offloaded cards are only present
-> in specific implementations and only usable if conditions are met.
-
-In my opinion even if it is specific use case, there is no reason to 
-make it more complicated than it needs to be. From my point of view 
-problem with current design is that instead of being mostly transparent 
-to userspace (when it could be), it adds more work for it.
-
+Thanks! Will include both of the above changes in the next revision.
