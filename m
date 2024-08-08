@@ -1,81 +1,42 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BC115B0E3
-	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 05:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5587C4A1E;
+	Thu,  8 Aug 2024 06:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723094840; cv=none; b=l3vLBoWa/JJanj/eNJopWvAyH84Wh2QJBVTxItsOsedED6OHYvVeylrIyhSxpiv5oknRaJRWXF6gdTgRCvUqHb6N+l/fqla1kViZT3HBIlrGpa8Y/HTsbIWcy5ZyG6kI67wZKYGWK1Li2k53UEyxew54Nd3tr4pqsgYpnQWd1G8=
+	t=1723098019; cv=none; b=etmgsbsNE1F1EfHas3V2X+aYo/+GA7ItVp0gC8Lq4HSbG9mHnUK72tSbVlZxYrwaSg6/HOIt/jsR49Sjl0OubF9Y/wCRCoM5O2T4OoovnycWikH+vWUSkP58Uy9YWVVLb1S0YsmF1E6voowyf7yiusujXF0X6DtFLi70G3srKNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723094840; c=relaxed/simple;
-	bh=kBRi4gpSlyjcXYiBHMX5gJMTKxwVFjKDnN2/DwuAYPc=;
+	s=arc-20240116; t=1723098019; c=relaxed/simple;
+	bh=X9NY6xCSLD4ufw4GmHD6bL7PfZlnwn442WiojDh1QoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ghmp1ucPDqZDZUbMqBAlGLqZs61nxcj0ydi8asqMmb/Ykb5cW9shbYdCtbUQiqeRKX9e9CdMR02n9ntuoR7Kv61QiGCJhD9Wlm02dbZsS80BeQ4NxG6WoF1NUpTdo+hAr5Ht+bnO9dFESfJzSq8f/FVdd8+DghFuu7yrF4itH2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UHYWOwHZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEahqyYWxiwVAUCkgY3+Lx/dzUwPdn8L3cxyjjBofQ+wgR99n/pmSCAwDjIeT1i7gAXAwAz0atFE2Z6ZlhsbP/WIRbAAA6pVI0pAP3F56Kn3wZcdVmAJKhNc0A/JJW9Uywbi4rB87pfurpK3b7ddkWjk6hMZhKMhdiUUpVOBHwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFDQbhkL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UHYWOwHZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723094837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MoXDJcmwahQwk2XNAkzjBbC4Ch2PiqhVaEdN/JPLwgQ=;
-	b=UHYWOwHZWsZ8wkpuiXDC/kQ+4GHXn/4+itsJ0StB8sqruIF1296HPvy47v8LiUXhhTLOna
-	20sNRuSq6qZU7GAvySj8oZwQ6jsYDVbrgEA2c0TPOK80X4sqXm2CCDRiOCPtJTeeDolwSB
-	TcGEHUQsazIMy9Fuput5dZImJucbLRk=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-Q2ixB890NQ-YxhEHAlmKHQ-1; Thu,
- 08 Aug 2024 01:27:12 -0400
-X-MC-Unique: Q2ixB890NQ-YxhEHAlmKHQ-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 741021977003;
-	Thu,  8 Aug 2024 05:27:07 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.25])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CD6F61955F2E;
-	Thu,  8 Aug 2024 05:26:47 +0000 (UTC)
-Date: Thu, 8 Aug 2024 13:26:41 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
-	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-doc@vger.kernel.org, ming.lei@redhat.com
-Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <ZrRXEUko5EwKJaaP@fedora>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
- <ZrI5TcaAU82avPZn@fedora>
- <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFDQbhkL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C02DC32782;
+	Thu,  8 Aug 2024 06:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723098019;
+	bh=X9NY6xCSLD4ufw4GmHD6bL7PfZlnwn442WiojDh1QoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lFDQbhkLAPVrpBzMivRB3q1DQzO9myhdCHwfR5uOB2+84aQTZxFi1chGA60bZieRS
+	 DaYksPM+Svo/5N6Nua0yXep112L3A/LQ4qVYn4+FjociZac/Ztb6is8UnjlvQV9LD1
+	 Xiasj2u8DB2UO7dteo58gW47cMwLORmnEpRLYs/4Ro/+AHBWBM3N2uLFJxRitvocDn
+	 AIams1FJMakx6yCSugubObtItgQ/3pLduNfsgeP/H3Ze5pm/owGXzSisZK1RDnkZuV
+	 1teqHp6wzmwn0GbsnkEoR0jUNSK8rkNvRl8N0Qb5iuJrK/5J+4aSwCVFKWUxKZB9gB
+	 x7v51oLnA+TDg==
+Date: Thu, 8 Aug 2024 09:18:07 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] pstore/ramoops: Fix typo as there is no "reserver"
+Message-ID: <ZrRi7fdYo3yVPr1G@kernel.org>
+References: <20240807170029.3c1ff651@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,71 +45,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <20240807170029.3c1ff651@gandalf.local.home>
 
-On Wed, Aug 07, 2024 at 02:40:11PM +0200, Daniel Wagner wrote:
-> On Tue, Aug 06, 2024 at 10:55:09PM GMT, Ming Lei wrote:
-> > On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
-> > > When isolcpus=io_queue is enabled all hardware queues should run on the
-> > > housekeeping CPUs only. Thus ignore the affinity mask provided by the
-> > > driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-> > > to first hctx unless, the CPU is the same as the hctx has the affinity
-> > > set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
-> > 
-> > What is the expected behavior if someone still tries to submit IO on isolated
-> > CPUs?
+On Wed, Aug 07, 2024 at 05:00:29PM -0400, Steven Rostedt wrote:
+> From: Steven Rostedt <rostedt@goodmis.org>
 > 
-> If a user thread is issuing an IO the IO is handled by the housekeeping
-> CPU, which will cause some noise on the submitting CPU. As far I was
-> told this is acceptable. Our customers really don't want to have any
-> IO not from their application ever hitting the isolcpus. When their
-> application is issuing an IO.
+> For some reason my finger always hits the 'r' after typing "reserve".
+> Fix the typo in the Documentation example.
 > 
-> > BTW, I don't see any change in blk_mq_get_ctx()/blk_mq_map_queue() in this
-> > patchset,
+> Fixes: d9d814eebb1ae ("pstore/ramoops: Add ramoops.mem_name= command line option")
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
+> ---
+> Note, I did have this fixed, but the previous version was pulled:
+>   https://lore.kernel.org/linux-trace-kernel/20240613233446.283241953@goodmis.org/
 > 
-> I was trying to figure out what you tried to explain last time with
-> hangs, but didn't really understand what the conditions are for this
-> problem to occur.
-
-Isolated CPUs are removed from queue mapping in this patchset, when someone
-submit IOs from the isolated CPU, what is the correct hctx used for handling
-these IOs?
-
-From current implementation, it depends on implied zero filled
-tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
-
-During CPU offline, in blk_mq_hctx_notify_offline(),
-blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
-hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
-hctx 0 won't be drained.
-
-However managed irq core code still shutdowns the hw queue's irq because all
-CPUs in this hctx are offline now. Then IO hang is triggered, isn't it?
-
-The current blk-mq takes static & global queue/CPUs mapping, in which all CPUs
-are covered. This patchset removes isolated CPUs from the mapping, and the
-change is big from viewpoint of blk-mq queue mapping.
-
+>  Documentation/admin-guide/ramoops.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > that means one random hctx(or even NULL) may be used for submitting
-> > IO from isolated CPUs,
-> > then there can be io hang risk during cpu hotplug, or
-> > kernel panic when submitting bio.
+> diff --git a/Documentation/admin-guide/ramoops.rst b/Documentation/admin-guide/ramoops.rst
+> index 6f534a707b2a..2eabef31220d 100644
+> --- a/Documentation/admin-guide/ramoops.rst
+> +++ b/Documentation/admin-guide/ramoops.rst
+> @@ -129,7 +129,7 @@ Setting the ramoops parameters can be done in several different manners:
+>      takes a size, alignment and name as arguments. The name is used
+>      to map the memory to a label that can be retrieved by ramoops.
+>  
+> -	reserver_mem=2M:4096:oops  ramoops.mem_name=oops
+> +	reserve_mem=2M:4096:oops  ramoops.mem_name=oops
+>  
+>  You can specify either RAM memory or peripheral devices' memory. However, when
+>  specifying RAM, be sure to reserve the memory by issuing memblock_reserve()
+> -- 
+> 2.43.0
 > 
-> Can you elaborate a bit more? I must miss something important here.
-> 
-> Anyway, my understanding is that when the last CPU of a hctx goes
-> offline the affinity is broken and assigned to an online HK CPU. And we
-> ensure all flight IO have finished and also ensure we don't submit any
-> new IO to a CPU which goes offline.
-> 
-> FWIW, I tried really hard to get an IO hang with cpu hotplug.
- 
-Please see above.
 
-
-thanks,
-Ming
-
+-- 
+Sincerely yours,
+Mike.
