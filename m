@@ -1,393 +1,152 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2114A33
-	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 11:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E73318C900;
+	Thu,  8 Aug 2024 12:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723118212; cv=none; b=ER2TcS+scgev9yOmh2f9nL+3HXw8W8nyPSGdPapoAg4ciV7xmddkvjOqD2dvDYAm3WXcMEGdPUhuK8HuwGKaCeex3aAg2Svor78NsD3RvniGWabow5vD4HQXUI4yFIG9+IBd9yR/hO4NvGqLXFa6BeL1kP5V7zaf/YKXGCndFl0=
+	t=1723119078; cv=none; b=BIwX0qz3PrXkYgCWgaybGU8qu5noB86+bIwtaIEOwqY5lSzQRz6Do+Nw9hU7io6oufIjyyIpYqW81Yx1UEN67Xnnc4Q8TEYuIXkAFQFLu6ntDiJuYHeUi9nV1+1QJt7lj+gBkfEeCf73KzfYg2x+svPHQIGcnoC3HBDPGybdz34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723118212; c=relaxed/simple;
-	bh=ilNmvTDZQ1EoYBMOGdOW2S15HgIwHt1jm+DZM6JPQs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PPRBVDSKPPHysJI6bxwXYT/Dts76SKpkJR7Bv5WkbX/tt4NJ7iMsk8L+w4JGb+hSsVN3CH+9RzAabm+Vec6MIOZ6zeBN4OnW15PlsaWX4Abhp8Ek59uVyGqNzcSFiBX4Zads8/T+eBZSK5cLinM6ErCcP38bYOBUf9OZt3AqaC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=n7JrJJVq; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1723119078; c=relaxed/simple;
+	bh=ypoxP7jDf7LjMLCC24x01FzK9fJ/WozB7SR4D4u7jHA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NqSP0hQOywUMaWE+rJWHAM2qrmbUGcqUr3C52uysxin+lm7fWX6JH56p+fhusvaYKg9/wg0zf/t8XKH+OU2h7q2MAFry1V5ywjpOqx4NlbC9mfl/Q/1I4onqtEDW9N/ZZoDe2HUwldRttSwK+T/vRtELSe4fhGX+t1rLgwDX9oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jU/Y+lvJ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="n7JrJJVq"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3685b9c8998so400046f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Aug 2024 04:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1723118208; x=1723723008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fw/aykIl4BLuTIpDTGcYiu6jAZpQ1T5paa6TP3fg26c=;
-        b=n7JrJJVqrVlCA3UVvlMqUKsI15C8kRXHOibkvCXAOVpxX9jUf1iyos8kWYXLJ/lrRV
-         bB033Kd6TigB0C3mpPi2/R35tICMqg6OTNWAGCDwSvbvA40X4EYcMse9ld9w2NTfYKv2
-         nXssxNS4fELzB2wuEdBLh1L6CXIExbc90AHaaK+dHTmPa34YWzoD7shXxtG2471DNn/f
-         ThQPm0xG2PXg4K9o1oPjXf7GN1mCNKm8xs++IF097Vt93Y9udxGDPOqD3XR3e3Tx3zLr
-         9Ie+wM13akcxeeWzep8pNGGcjEBeG/LA/Nhhbe6H/c+PZyNQFAK+V2RSuNTQnMHlpU7h
-         lnIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723118208; x=1723723008;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fw/aykIl4BLuTIpDTGcYiu6jAZpQ1T5paa6TP3fg26c=;
-        b=N+xhtAG7c3A7maJCoQgEZb/8xDVKnPK1NQZlDPyQUWO5bSooYSxqsDZtlTZImV83pp
-         50DhLD1B00ODgNKgXjx3mgw1D5uQQpkFDEl2xUrZaAkFlAA1sddTvbdYl3B2bGFFnvzO
-         gmvRTaBLytpgt6qhvyoo80TGQ6h2QFc98LzT8qrfmCGB+j3H4uioHPgTcvzDwI2JYOS5
-         8y8K/ih/Mf1P+2GooKPzdjb8RjtvJ4nQUB6pSmY2XezTYd7BNl7r9LlsTrL8ttwGPpt2
-         /DJK+E0IJP0wLEhJyQlge7c4Xn7P07yf/4Aei0HBbdzRfH/CHNDQLDhXbziU46/1LOUR
-         iA1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWQHGANGQ21anuTfBwEe2x8b1Axcwj2bV2ZTRHYsU4qJH6augZw13bY38twdQ1Dhwu09HEApIlRhXP7bYofoU6q9lHOpbN5dun9
-X-Gm-Message-State: AOJu0Yxldr3OwHqUuw9lwRtO0FoRNZcgGfeRG0Ke42qQ5K5Pu93kHAjK
-	odHZ/gutFeEkjmekc6GOeCuboDQAqmERRfNWjmh6Z93qdk6KOT00b0J3Ahi4ktM=
-X-Google-Smtp-Source: AGHT+IFW0UfAtsFgpD8Bt2sTIzz83ftbnXaKa1ZD9m/W7UsLKpZkqaokLX0Iy4D0V+ir7sylTQ1vNA==
-X-Received: by 2002:a5d:4105:0:b0:36b:c66a:b9fd with SMTP id ffacd0b85a97d-36d273c787amr1487787f8f.6.1723118208195;
-        Thu, 08 Aug 2024 04:56:48 -0700 (PDT)
-Received: from localhost ([213.235.133.109])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d2718a4a6sm1690659f8f.58.2024.08.08.04.56.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 04:56:47 -0700 (PDT)
-Date: Thu, 8 Aug 2024 13:56:46 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, donald.hunter@gmail.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Subject: Re: [PATCH net-next v1 2/2] ice: add callbacks for Embedded SYNC
- enablement on dpll pins
-Message-ID: <ZrSyfgv5jHCUAYku@nanopsycho.orion>
-References: <20240808112013.166621-1-arkadiusz.kubalewski@intel.com>
- <20240808112013.166621-3-arkadiusz.kubalewski@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jU/Y+lvJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723119076; x=1754655076;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ypoxP7jDf7LjMLCC24x01FzK9fJ/WozB7SR4D4u7jHA=;
+  b=jU/Y+lvJ2YhlE6TvidaFUp/2r7EBbkDMFTi1wZXzK/qWiK2wmH8ihnd2
+   QSMUXWZo9uWoyrwhQS0Bn8ijADHkFXE+IeWl4AW4n+UqGobMkGu4FVZz6
+   Fp1H64bEZwr5IjArdwNeoAJaoCXzLbkGSzY2QgckA2sobGTKMBfBGHZ9n
+   Irha+KBsw+cR8nxwnmQdg+fT8aL4lm1x/p6j+uM9YLZ9StGFEYAcrcLzw
+   lr29H5ZWp1E2ExZqaIBc/IkIqYt7aq9L86OuQw4UquKfU/WlqMj76m7uR
+   Qd1hfIR+Ux+T1k3KsjR9IYFpRmfJXEMr7KngOiLcuUkSLi6XB1wGEAgfd
+   g==;
+X-CSE-ConnectionGUID: ly/b8TY3TR2xxEe9YpgxEA==
+X-CSE-MsgGUID: /aaj+ctIQEukYHStwkuzuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="20901289"
+X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
+   d="scan'208";a="20901289"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 05:11:15 -0700
+X-CSE-ConnectionGUID: TmdFroz0QU6FXsOr/pvTEg==
+X-CSE-MsgGUID: D7BmpyGfTAuI8ysmCatVhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,272,1716274800"; 
+   d="scan'208";a="62149825"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2024 05:11:11 -0700
+Message-ID: <c3b6ac24-6359-4809-83d9-ac62ec64b396@linux.intel.com>
+Date: Thu, 8 Aug 2024 14:11:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240808112013.166621-3-arkadiusz.kubalewski@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 23/34] ALSA: usb-audio: Prevent starting of audio
+ stream if in use
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-24-quic_wcheng@quicinc.com>
+ <186ae30f-678c-423a-a56f-74510a184f99@linux.intel.com>
+ <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <43e9850c-3e34-4582-aadd-4a6dcbd3ce8d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thu, Aug 08, 2024 at 01:20:13PM CEST, arkadiusz.kubalewski@intel.com wrote:
->Allow the user to get and set configuration of Embedded SYNC feature
->on the ice driver dpll pins.
->
->Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
->Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
->---
-> drivers/net/ethernet/intel/ice/ice_dpll.c | 241 +++++++++++++++++++++-
-> drivers/net/ethernet/intel/ice/ice_dpll.h |   1 +
-> 2 files changed, 239 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
->index e92be6f130a3..0664bbe98769 100644
->--- a/drivers/net/ethernet/intel/ice/ice_dpll.c
->+++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
->@@ -394,8 +394,8 @@ ice_dpll_pin_state_update(struct ice_pf *pf, struct ice_dpll_pin *pin,
+On 8/8/2024 3:19 AM, Wesley Cheng wrote:
+> Hi Amadeusz,
 > 
-> 	switch (pin_type) {
-> 	case ICE_DPLL_PIN_TYPE_INPUT:
->-		ret = ice_aq_get_input_pin_cfg(&pf->hw, pin->idx, NULL, NULL,
->-					       NULL, &pin->flags[0],
->+		ret = ice_aq_get_input_pin_cfg(&pf->hw, pin->idx, &pin->status,
->+					       NULL, NULL, &pin->flags[0],
-> 					       &pin->freq, &pin->phase_adjust);
-> 		if (ret)
-> 			goto err;
->@@ -430,7 +430,7 @@ ice_dpll_pin_state_update(struct ice_pf *pf, struct ice_dpll_pin *pin,
-> 			goto err;
+> On 8/6/2024 7:51 AM, Amadeusz Sławiński wrote:
+>> On 8/1/2024 3:17 AM, Wesley Cheng wrote:
+>>> With USB audio offloading, an audio session is started from the ASoC
+>>> platform sound card and PCM devices.  Likewise, the USB SND path is still
+>>> readily available for use, in case the non-offload path is desired.  In
+>>> order to prevent the two entities from attempting to use the USB bus,
+>>> introduce a flag that determines when either paths are in use.
+>>>
+>>
+>> How can this happen? Can you provide some example with list of devices and which one should block the other? If I recall correctly devices are already exclusive unless you support substreams which ASoC does not at the moment.
+>>
+>  From past discussions, I think so far everyone is on board with the idea of having both the USB sound card and PCM devices exist in conjunction w/ the USB offload path, which is going to be done over the ASoC platform card.  So for example,
 > 
-> 		parent &= ICE_AQC_GET_CGU_OUT_CFG_DPLL_SRC_SEL;
->-		if (ICE_AQC_SET_CGU_OUT_CFG_OUT_EN & pin->flags[0]) {
->+		if (ICE_AQC_GET_CGU_OUT_CFG_OUT_EN & pin->flags[0]) {
-> 			pin->state[pf->dplls.eec.dpll_idx] =
-> 				parent == pf->dplls.eec.dpll_idx ?
-> 				DPLL_PIN_STATE_CONNECTED :
->@@ -1098,6 +1098,237 @@ ice_dpll_phase_offset_get(const struct dpll_pin *pin, void *pin_priv,
-> 	return 0;
-> }
+
+Sorry, I must have missed that and examples in documentation could 
+probably be a bit better, it is bit late at patchset 24 that I 
+understood about this now. And is part of a reason why I was confused 
+about kcontrol implementation.
+
+> / # cat /proc/asound/cards
+>   0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+>                        SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+>   1 [C320M          ]: USB-Audio - Plantronics C320-M
+>                        Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full speed
 > 
->+/**
->+ * ice_dpll_output_e_sync_set - callback for setting embedded sync
->+ * @pin: pointer to a pin
->+ * @pin_priv: private data pointer passed on pin registration
->+ * @dpll: registered dpll pointer
->+ * @dpll_priv: private data pointer passed on dpll registration
->+ * @e_sync_freq: requested embedded sync frequency
->+ * @extack: error reporting
->+ *
->+ * Dpll subsystem callback. Handler for setting embedded sync frequency value
->+ * on output pin.
->+ *
->+ * Context: Acquires pf->dplls.lock
->+ * Return:
->+ * * 0 - success
->+ * * negative - error
->+ */
->+static int
->+ice_dpll_output_e_sync_set(const struct dpll_pin *pin, void *pin_priv,
->+			   const struct dpll_device *dpll, void *dpll_priv,
->+			   u64 e_sync_freq, struct netlink_ext_ack *extack)
->+{
->+	struct ice_dpll_pin *p = pin_priv;
->+	struct ice_dpll *d = dpll_priv;
->+	struct ice_pf *pf = d->pf;
->+	u8 flags = 0;
->+	int ret;
->+
->+	if (ice_dpll_is_reset(pf, extack))
->+		return -EBUSY;
->+	mutex_lock(&pf->dplls.lock);
->+	if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_OUT_EN)
->+		flags = ICE_AQC_SET_CGU_OUT_CFG_OUT_EN;
->+	if (e_sync_freq == DPLL_PIN_FREQUENCY_1_HZ) {
->+		if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN) {
->+			ret = 0;
->+		} else {
->+			flags |= ICE_AQC_SET_CGU_OUT_CFG_ESYNC_EN;
->+			ret = ice_aq_set_output_pin_cfg(&pf->hw, p->idx, flags,
->+							0, 0, 0);
->+		}
->+	} else {
->+		if (!(p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN)) {
->+			ret = 0;
->+		} else {
->+			flags &= ~ICE_AQC_SET_CGU_OUT_CFG_ESYNC_EN;
->+			ret = ice_aq_set_output_pin_cfg(&pf->hw, p->idx, flags,
->+							0, 0, 0);
->+		}
->+	}
->+	mutex_unlock(&pf->dplls.lock);
->+	if (ret)
->+		NL_SET_ERR_MSG_FMT(extack,
->+				   "err:%d %s failed to set e-sync freq\n",
-
-Odd. Ret is pass all the way up to the userspace. Putting it to message
-does not make any sense to me.
-
-
->+				   ret,
->+				   ice_aq_str(pf->hw.adminq.sq_last_status));
->+	return ret;
->+}
->+
->+/**
->+ * ice_dpll_output_e_sync_get - callback for getting embedded sync config
->+ * @pin: pointer to a pin
->+ * @pin_priv: private data pointer passed on pin registration
->+ * @dpll: registered dpll pointer
->+ * @dpll_priv: private data pointer passed on dpll registration
->+ * @e_sync_freq: on success holds embedded sync frequency of a pin
->+ * @e_sync_range: on success holds embedded sync frequency range for a pin
->+ * @pulse: on success holds embedded sync pulse type
->+ * @extack: error reporting
->+ *
->+ * Dpll subsystem callback. Handler for getting embedded sync frequency value
->+ * and capabilities on output pin.
->+ *
->+ * Context: Acquires pf->dplls.lock
->+ * Return:
->+ * * 0 - success
->+ * * negative - error
->+ */
->+static int
->+ice_dpll_output_e_sync_get(const struct dpll_pin *pin, void *pin_priv,
->+			   const struct dpll_device *dpll, void *dpll_priv,
->+			   u64 *e_sync_freq,
->+			   struct dpll_pin_frequency *e_sync_range,
->+			   enum dpll_pin_e_sync_pulse *pulse,
->+			   struct netlink_ext_ack *extack)
->+{
->+	struct ice_dpll_pin *p = pin_priv;
->+	struct ice_dpll *d = dpll_priv;
->+	struct ice_pf *pf = d->pf;
->+
->+	if (ice_dpll_is_reset(pf, extack))
->+		return -EBUSY;
->+	mutex_lock(&pf->dplls.lock);
->+	if (!(p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_ABILITY)) {
->+		mutex_unlock(&pf->dplls.lock);
->+		return -EOPNOTSUPP;
->+	}
->+	*pulse = DPLL_PIN_E_SYNC_PULSE_NONE;
->+	e_sync_range->min = 0;
->+	if (p->freq == DPLL_PIN_FREQUENCY_10_MHZ) {
->+		e_sync_range->max = DPLL_PIN_FREQUENCY_1_HZ;
->+		if (p->flags[0] & ICE_AQC_GET_CGU_OUT_CFG_ESYNC_EN) {
->+			*e_sync_freq = DPLL_PIN_FREQUENCY_1_HZ;
->+			*pulse = DPLL_PIN_E_SYNC_PULSE_25_75;
->+		} else {
->+			*e_sync_freq = 0;
->+		}
->+	} else {
->+		e_sync_range->max = 0;
->+		*e_sync_freq = 0;
->+	}
->+	mutex_unlock(&pf->dplls.lock);
->+	return 0;
->+}
->+
->+/**
->+ * ice_dpll_input_e_sync_set - callback for setting embedded sync
->+ * @pin: pointer to a pin
->+ * @pin_priv: private data pointer passed on pin registration
->+ * @dpll: registered dpll pointer
->+ * @dpll_priv: private data pointer passed on dpll registration
->+ * @e_sync_freq: requested embedded sync frequency
->+ * @extack: error reporting
->+ *
->+ * Dpll subsystem callback. Handler for setting embedded sync frequency value
->+ * on input pin.
->+ *
->+ * Context: Acquires pf->dplls.lock
->+ * Return:
->+ * * 0 - success
->+ * * negative - error
->+ */
->+static int
->+ice_dpll_input_e_sync_set(const struct dpll_pin *pin, void *pin_priv,
->+			  const struct dpll_device *dpll, void *dpll_priv,
->+			  u64 e_sync_freq, struct netlink_ext_ack *extack)
->+{
->+	struct ice_dpll_pin *p = pin_priv;
->+	struct ice_dpll *d = dpll_priv;
->+	struct ice_pf *pf = d->pf;
->+	u8 flags_en = 0;
->+	int ret;
->+
->+	if (ice_dpll_is_reset(pf, extack))
->+		return -EBUSY;
->+	mutex_lock(&pf->dplls.lock);
->+	if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_INPUT_EN)
->+		flags_en = ICE_AQC_SET_CGU_IN_CFG_FLG2_INPUT_EN;
->+	if (e_sync_freq == DPLL_PIN_FREQUENCY_1_HZ) {
->+		if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN) {
->+			ret = 0;
->+		} else {
->+			flags_en |= ICE_AQC_SET_CGU_IN_CFG_FLG2_ESYNC_EN;
->+			ret = ice_aq_set_input_pin_cfg(&pf->hw, p->idx, 0,
->+						       flags_en, 0, 0);
->+		}
->+	} else {
->+		if (!(p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN)) {
->+			ret = 0;
->+		} else {
->+			flags_en &= ~ICE_AQC_SET_CGU_IN_CFG_FLG2_ESYNC_EN;
->+			ret = ice_aq_set_input_pin_cfg(&pf->hw, p->idx, 0,
->+						       flags_en, 0, 0);
->+		}
->+	}
->+	mutex_unlock(&pf->dplls.lock);
->+	if (ret)
->+		NL_SET_ERR_MSG_FMT(extack,
->+				   "err:%d %s failed to set e-sync freq\n",
-
-Same here.
-
-
->+				   ret,
->+				   ice_aq_str(pf->hw.adminq.sq_last_status));
->+
->+	return ret;
->+}
->+
->+/**
->+ * ice_dpll_input_e_sync_get - callback for getting embedded sync config
->+ * @pin: pointer to a pin
->+ * @pin_priv: private data pointer passed on pin registration
->+ * @dpll: registered dpll pointer
->+ * @dpll_priv: private data pointer passed on dpll registration
->+ * @e_sync_freq: on success holds embedded sync frequency of a pin
->+ * @e_sync_range: on success holds embedded sync frequency range for a pin
->+ * @pulse: on success holds embedded sync pulse type
->+ * @extack: error reporting
->+ *
->+ * Dpll subsystem callback. Handler for getting embedded sync frequency value
->+ * and capabilities on input pin.
->+ *
->+ * Context: Acquires pf->dplls.lock
->+ * Return:
->+ * * 0 - success
->+ * * negative - error
->+ */
->+static int
->+ice_dpll_input_e_sync_get(const struct dpll_pin *pin, void *pin_priv,
->+			  const struct dpll_device *dpll, void *dpll_priv,
->+			  u64 *e_sync_freq,
->+			  struct dpll_pin_frequency *e_sync_range,
->+			  enum dpll_pin_e_sync_pulse *pulse,
->+			  struct netlink_ext_ack *extack)
->+{
->+	struct ice_dpll_pin *p = pin_priv;
->+	struct ice_dpll *d = dpll_priv;
->+	struct ice_pf *pf = d->pf;
->+
->+	if (ice_dpll_is_reset(pf, extack))
->+		return -EBUSY;
->+	mutex_lock(&pf->dplls.lock);
->+	if (!(p->status & ICE_AQC_GET_CGU_IN_CFG_STATUS_ESYNC_CAP)) {
->+		mutex_unlock(&pf->dplls.lock);
->+		return -EOPNOTSUPP;
->+	}
->+	*pulse = DPLL_PIN_E_SYNC_PULSE_NONE;
->+	e_sync_range->min = 0;
->+	if (p->freq == DPLL_PIN_FREQUENCY_10_MHZ) {
->+		e_sync_range->max = DPLL_PIN_FREQUENCY_1_HZ;
->+		if (p->flags[0] & ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN) {
->+			*e_sync_freq = DPLL_PIN_FREQUENCY_1_HZ;
->+			*pulse = DPLL_PIN_E_SYNC_PULSE_25_75;
->+		} else {
->+			*e_sync_freq = 0;
->+		}
->+	} else {
->+		e_sync_range->max = 0;
->+		*e_sync_freq = 0;
->+	}
->+	mutex_unlock(&pf->dplls.lock);
->+	return 0;
->+}
->+
-> /**
->  * ice_dpll_rclk_state_on_pin_set - set a state on rclk pin
->  * @pin: pointer to a pin
->@@ -1222,6 +1453,8 @@ static const struct dpll_pin_ops ice_dpll_input_ops = {
-> 	.phase_adjust_get = ice_dpll_pin_phase_adjust_get,
-> 	.phase_adjust_set = ice_dpll_input_phase_adjust_set,
-> 	.phase_offset_get = ice_dpll_phase_offset_get,
->+	.e_sync_set = ice_dpll_input_e_sync_set,
->+	.e_sync_get = ice_dpll_input_e_sync_get,
-> };
+> This device currently has the following sound cards within the system:
 > 
-> static const struct dpll_pin_ops ice_dpll_output_ops = {
->@@ -1232,6 +1465,8 @@ static const struct dpll_pin_ops ice_dpll_output_ops = {
-> 	.direction_get = ice_dpll_output_direction,
-> 	.phase_adjust_get = ice_dpll_pin_phase_adjust_get,
-> 	.phase_adjust_set = ice_dpll_output_phase_adjust_set,
->+	.e_sync_set = ice_dpll_output_e_sync_set,
->+	.e_sync_get = ice_dpll_output_e_sync_get,
-> };
+> - card#0 - ASoC platform card: handles USB offload, speaker, etc...
 > 
-> static const struct dpll_device_ops ice_dpll_ops = {
->diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.h b/drivers/net/ethernet/intel/ice/ice_dpll.h
->index 93172e93995b..c320f1bf7d6d 100644
->--- a/drivers/net/ethernet/intel/ice/ice_dpll.h
->+++ b/drivers/net/ethernet/intel/ice/ice_dpll.h
->@@ -31,6 +31,7 @@ struct ice_dpll_pin {
-> 	struct dpll_pin_properties prop;
-> 	u32 freq;
-> 	s32 phase_adjust;
->+	u8 status;
-> };
+> - card#1 - USB SND card: card created for interacting with the connected USB device.
 > 
-> /** ice_dpll - store info required for DPLL control
->-- 
->2.38.1
->
+> So now, with USB offloading in the picture, there are basically two paths that can start attempting to utilize the same USB device endpoints.  Let's keep it simple and assume the device only has one playback substream (which means only one PCM device)
+> 
+> /proc/asound/card1 # cat stream0
+> Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full speed : USB Audio
+> 
+> Playback:
+>    Status: Stop
+>    Interface 2
+>      Altset 1
+>      Format: S16_LE
+>      Channels: 2
+>      Endpoint: 0x01 (1 OUT) (ADAPTIVE)
+>      Rates: 8000, 16000, 24000, 32000, 44100, 48000
+>      Bits: 16
+>      Channel map: FL FR
+> 
+> So the patch here will prevent transfers from happening from both the offload path and directly over the USB SND PCM device, which correlates to the following paths:
+> 
+> - offload: card#0 pcm#0
+> 
+> - USB SND: card#1 pcm#0
+
+Well, it's one way to do that.
+
+Personally I would just reuse USB FEs and when opening one check if it 
+can be offloaded:
+* check if someone disabled Offload on FE
+* check if it is connected to HW that can do Offload at all
+* check if Offload streams are available on backing HW
+* check if audio formats are supported by above HW
+* do any other checks that may be needed
+and then just redirect FE setup to relevant driver doing offload if 
+able, otherwise just go standard path.
+
+
+As I've wrote I must have missed the discussion where it was agreed on 
+and if maintainers agree that it can be done this way, I won't fight it. 
+Even though I would consider my way a lot simpler and user friendly from 
+end user point of view.
+
+Thanks,
+Amadeusz
