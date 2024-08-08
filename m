@@ -1,61 +1,32 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829318827;
-	Thu,  8 Aug 2024 20:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D91015A85E;
+	Thu,  8 Aug 2024 22:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723150154; cv=none; b=bTYA9T3uQlMIbl/z80Wrj5IAdmXe9GsVYv4samIWojf+SJ5hYwxkEh2QHpW3B/wVTv20SPPP4X22IruA9ou/Oz2mTtlXJcx77cNegjREWdiyD7ScyE+pSwY+wdxIdKocw5hkNHhS71T98xrnuf4sWt2OtZ3VFLlXDJiSORKIFas=
+	t=1723156722; cv=none; b=DRjT26TMSRJLM1JBdTrzOUz+YTY9epqxIyW9ppS6d9Nd7vHSvjsMdF5NwrXpCUSkr54SnmAN8fZ8ThA1TogwzTXbk6g8htixehdt7aUOtI6EbpcDmAkNosDQ9RIUDgkYd9A5L+niMjnr9BCL1JJPTNDSDVFA/CxQE3S1rZvINyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723150154; c=relaxed/simple;
-	bh=G6C/2q8CWsnkA3j5YjLGRlJUp+4sMXIA/FsCPxeWjHY=;
+	s=arc-20240116; t=1723156722; c=relaxed/simple;
+	bh=vZpsZCSq8m3vqkCqwtEtToVRyRwVVJuDvKSNYBexa4A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CPjYmPPS2uvj+vRgS20XD+GwjAtfjuEv/XjZMV+RqJh+2w7azkEvKpvj8lOaXzynZknh9lriMst2tOTz4cNYD702F9RFTHBdqUdLg/ggBnt7F0XS1sHPtog17zxurLOTaBOot/kt2DXgwrb6zYxFOy3/0Py3ELgcaZTRTXYcbmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQFRtLkC; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=sFB/yHst0V54ktphl7ZkFHuzJzl7/OtQjy6a1yUkCzTiehnFi5YX4nrDxuxkQ7Sc9B+FFQNn4GhfZ7SZVNBgzAHENIhaUR3Q9BEXxqIzYvh7V8NjNxZ/uH2KZUOVmQGZmpTaTZwG3SSDUrg6A1ktRluQohQ57ueTy0FmsYw5bHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RKirm/xx; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQFRtLkC"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fec34f94abso13746485ad.2;
-        Thu, 08 Aug 2024 13:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723150152; x=1723754952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=sOMDPIeCc+zLFkzUCpyj2Gt2XUIxX7hIehtjUvY5qN4=;
-        b=WQFRtLkCWVRO4QemhorlRjYSsLzkXfXaY21JgGO2szpjnnvMM1IaVXGK4ncIuvjbz1
-         uo7X2u/wgp4xrJoaYrrTh/a4skET5etC/baYMyDk5u/lr/tCUXEFBmvq11rB8uk6lbVA
-         RPJNpB+qsHte9yCM8hIyZASoPJ3PgubduhFndyAN8X/uPK0oNPAtnKyW68UKbUjlLUCU
-         U1MPc7arnNvt3+KalOMNhjQBZcMsbckuBQMTS69QqGaY7ibmscjQX0QGC5ltNSdXsTK3
-         MRNeba5QDuIGifZCVgJFy7rThcRLlsQgPcFLVfZXMCjvsuKFXniqDZZMyAr8tYpqRHnG
-         8miw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723150152; x=1723754952;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sOMDPIeCc+zLFkzUCpyj2Gt2XUIxX7hIehtjUvY5qN4=;
-        b=VRup+R8d+GjAHWybQQtAI7f6hnE68LnQBaSWWvEuqRMBJd47w448uN0EkLkny5W4Kk
-         D+7WwmOg22/xvjfk+dGtUeUD3+A8kbGXqODtlrqNCpEIeIKevkDJnYKoAv1dAm6VD1BU
-         yxVN/UtcinKxH7epuR++0D92KM1p8t+CsZ5VFslPMRq62zOWUzkycA2Vch2ksIf24sku
-         7lhgcQL7k2OD4IcFrW722O54kU7kY9/5GyN5XfAAN5a5ke4DQclyKdHbskHE0AGWIDOr
-         67/TshPofkH97Z2FRSy5uw14dqN29N2A/dhlnvuHe0W09qKdhoBemOu1w8Sl9QmQFp2b
-         8NKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBbIi3d5ACxAItwJ3Dlc2/RVVG8O4Tfd6oy1XWvFArx0ZfrI+y56nUuePu4e2mLMfIG1T0xkdWS1TZTeNEQoM=@vger.kernel.org, AJvYcCUFBacg0tBkqsC79vDCI2wNIJFOjJyLyxzLKAYL/NY8Z9EiU1Hq7RkEER8xqMNYP6kmrZYxWao3K5F6A8aK@vger.kernel.org, AJvYcCXxVAesczmQ9IdQHVIV6QsP52ZagmHn+LTQsjvHuztCEYC9jhaOZWiu9Ur1XSEeHmYCOVBEdeuIVzE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKL3l8Lrac0tkqUgX2YUlQqNUEGOMv9ukkCwzgDPNKIbnugb0P
-	lHXJBF4ANJPjgx7hRFdgSh6eVvdtt/cg1x0m/gsvBARI6B1QVjVHwpDBPg==
-X-Google-Smtp-Source: AGHT+IEbKUiENmIxquqpdyXTNyUXlfvxD3yYoD8wIjln5qOQnc9ynveYbwPU5tNSzi9A1RNvRK0+xQ==
-X-Received: by 2002:a17:902:e746:b0:1ff:4fa9:1435 with SMTP id d9443c01a7336-2009526df12mr33951295ad.31.1723150151653;
-        Thu, 08 Aug 2024 13:49:11 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59058d03sm129434025ad.179.2024.08.08.13.49.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Aug 2024 13:49:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <474dde6f-5c31-4bf5-a13f-d10b8460c4cb@roeck-us.net>
-Date: Thu, 8 Aug 2024 13:49:08 -0700
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RKirm/xx"
+Received: from [10.137.106.151] (unknown [131.107.174.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 22ACA20B7165;
+	Thu,  8 Aug 2024 15:38:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 22ACA20B7165
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1723156720;
+	bh=yEDlBFY+f+khsxqRPGWjYMySWcnVDqiEKYWuZNRMm9g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RKirm/xxB+ARGZJYw79dlEwDWLHR2so6XHtk72RPoVvV7/Zik6Uqnl/w80Pes/b/Z
+	 jG8NWAe3CMJ0PE+1yx2+2jTFAivLABFSh21NLcwLtJAfsClg3scru+2FPmG7MNT0U/
+	 h86mIqeha/XcUfsC/XV7AnDTA+4R6bBy99vmeg48=
+Message-ID: <9dc30ca6-486c-4fa9-910d-ed1dc6da0e95@linux.microsoft.com>
+Date: Thu, 8 Aug 2024 15:38:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,99 +34,288 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: Capitalize Fahrenheit in
- watchdog-api.rst
-To: David Hunter <david.hunter.linux@gmail.com>
-Cc: corbet@lwn.net, javier.carrasco.cruz@gmail.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-watchdog@vger.kernel.org, skhan@linuxfoundation.org,
- wim@linux-watchdog.org
-References: <20240723131849.264939-1-david.hunter.linux@gmail.com>
- <20240807185332.61624-1-david.hunter.linux@gmail.com>
+Subject: Re: [PATCH v20 12/20] dm verity: expose root hash digest and
+ signature data to LSMs
+To: mpatocka@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Paul Moore <paul@paul-moore.com>
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
+ <1722665314-21156-13-git-send-email-wufan@linux.microsoft.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240807185332.61624-1-david.hunter.linux@gmail.com>
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <1722665314-21156-13-git-send-email-wufan@linux.microsoft.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/7/24 11:53, David Hunter wrote:
-> Capitalize "fahrenheit," a spelling mistake.
+Hi Mikulas,
+
+I hope you’re doing well. I wanted to thank you again for your thorough 
+review for the last version. I’ve since made some minor updates for this 
+version, including adding more comments and refactoring the way the hash 
+algorithm name is obtained due to recent changes in dm-verity.
+
+Would you mind if we keep the Review-by tag on the latest version since 
+the changes are minor? Your feedback is greatly valued, and I’d 
+appreciate it if you could take a quick look when you have a moment.
+
+-Fan
+
+On 8/2/2024 11:08 PM, Fan Wu wrote:
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
 > 
-> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
+> dm-verity provides a strong guarantee of a block device's integrity. As
+> a generic way to check the integrity of a block device, it provides
+> those integrity guarantees to its higher layers, including the filesystem
+> level.
+> 
+> However, critical security metadata like the dm-verity roothash and its
+> signing information are not easily accessible to the LSMs.
+> To address this limitation, this patch introduces a mechanism to store
+> and manage these essential security details within a newly added LSM blob
+> in the block_device structure.
+> 
+> This addition allows LSMs to make access control decisions on the integrity
+> data stored within the block_device, enabling more flexible security
+> policies. For instance, LSMs can now revoke access to dm-verity devices
+> based on their roothashes, ensuring that only authorized and verified
+> content is accessible. Additionally, LSMs can enforce policies to only
+> allow files from dm-verity devices that have a valid digital signature to
+> execute, effectively blocking any unsigned files from execution, thus
+> enhancing security against unauthorized modifications.
+> 
+> The patch includes new hook calls, `security_bdev_setintegrity()`, in
+> dm-verity to expose the dm-verity roothash and the roothash signature to
+> LSMs via preresume() callback. By using the preresume() callback, it
+> ensures that the security metadata is consistently in sync with the
+> metadata of the dm-verity target in the current active mapping table.
+> The hook calls are depended on CONFIG_SECURITY.
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 > ---
-> V2 -> V3:
->   - Fixed misspelling of "Capitalize" in commit message.
->   - Put Tags and Kernel Subsystem in subject
->   - Put changelog after commit message
+...
 > 
-> V1 -> V2:
->   - Fixed imperative mood
->   - Fixed misspelling of "Fahrenheit" in Subject
-> 
-> V2: https://lore.kernel.org/lkml/7b7ca7e0-6bd2-45ab-bd9b-40331a8e6fdd@roeck-us.net/
-> 
-> V1: https://lore.kernel.org/lkml/20240723131849.264939-1-david.hunter.linux@gmail.com/
-> 
->   Documentation/watchdog/watchdog-api.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> v20:
+>    + Adding more documentation regarding the new setintegrity hook call
+>    + Update the code for getting hash algorithm from either v->ahash_tfm
+>      or v->shash_tfm
 > ---
-> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-> index 800dcd7586f2..78e228c272cf 100644
-> --- a/Documentation/watchdog/watchdog-api.rst
-> +++ b/Documentation/watchdog/watchdog-api.rst
-> @@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
->   support the GETBOOTSTATUS call.
+>   drivers/md/dm-verity-target.c | 118 ++++++++++++++++++++++++++++++++++
+>   drivers/md/dm-verity.h        |   6 ++
+>   include/linux/security.h      |   9 ++-
+>   3 files changed, 132 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
+> index cf659c8feb29..24ba9a10444c 100644
+> --- a/drivers/md/dm-verity-target.c
+> +++ b/drivers/md/dm-verity-target.c
+> @@ -22,6 +22,7 @@
+>   #include <linux/scatterlist.h>
+>   #include <linux/string.h>
+>   #include <linux/jump_label.h>
+> +#include <linux/security.h>
 >   
->   Some drivers can measure the temperature using the GETTEMP ioctl.  The
-> -returned value is the temperature in degrees fahrenheit::
-> +returned value is the temperature in degrees Fahrenheit::
+>   #define DM_MSG_PREFIX			"verity"
 >   
->       int temperature;
->       ioctl(fd, WDIOC_GETTEMP, &temperature);
-
+> @@ -930,6 +931,41 @@ static void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
+>   	limits->dma_alignment = limits->logical_block_size - 1;
+>   }
+>   
+> +#ifdef CONFIG_SECURITY
+> +
+> +static int verity_init_sig(struct dm_verity *v, const void *sig,
+> +			   size_t sig_size)
+> +{
+> +	v->sig_size = sig_size;
+> +
+> +	if (sig) {
+> +		v->root_digest_sig = kmemdup(sig, v->sig_size, GFP_KERNEL);
+> +		if (!v->root_digest_sig)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void verity_free_sig(struct dm_verity *v)
+> +{
+> +	kfree(v->root_digest_sig);
+> +}
+> +
+> +#else
+> +
+> +static inline int verity_init_sig(struct dm_verity *v, const void *sig,
+> +				  size_t sig_size)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void verity_free_sig(struct dm_verity *v)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_SECURITY */
+> +
+>   static void verity_dtr(struct dm_target *ti)
+>   {
+>   	struct dm_verity *v = ti->private;
+> @@ -949,6 +985,7 @@ static void verity_dtr(struct dm_target *ti)
+>   	kfree(v->initial_hashstate);
+>   	kfree(v->root_digest);
+>   	kfree(v->zero_digest);
+> +	verity_free_sig(v);
+>   
+>   	if (v->ahash_tfm) {
+>   		static_branch_dec(&ahash_enabled);
+> @@ -1418,6 +1455,13 @@ static int verity_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+>   		ti->error = "Root hash verification failed";
+>   		goto bad;
+>   	}
+> +
+> +	r = verity_init_sig(v, verify_args.sig, verify_args.sig_size);
+> +	if (r < 0) {
+> +		ti->error = "Cannot allocate root digest signature";
+> +		goto bad;
+> +	}
+> +
+>   	v->hash_per_block_bits =
+>   		__fls((1 << v->hash_dev_block_bits) / v->digest_size);
+>   
+> @@ -1559,8 +1603,79 @@ int dm_verity_get_root_digest(struct dm_target *ti, u8 **root_digest, unsigned i
+>   	return 0;
+>   }
+>   
+> +#ifdef CONFIG_SECURITY
+> +
+> +#ifdef CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG
+> +
+> +static int verity_security_set_signature(struct block_device *bdev,
+> +					 struct dm_verity *v)
+> +{
+> +	/*
+> +	 * if the dm-verity target is unsigned, v->root_digest_sig will
+> +	 * be NULL, and the hook call is still required to let LSMs mark
+> +	 * the device as unsigned. This information is crucial for LSMs to
+> +	 * block operations such as execution on unsigned files
+> +	 */
+> +	return security_bdev_setintegrity(bdev,
+> +					  LSM_INT_DMVERITY_SIG_VALID,
+> +					  v->root_digest_sig,
+> +					  v->sig_size);
+> +}
+> +
+> +#else
+> +
+> +static inline int verity_security_set_signature(struct block_device *bdev,
+> +						struct dm_verity *v)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif /* CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG */
+> +
+> +/*
+> + * Expose verity target's root hash and signature data to LSMs before resume.
+> + *
+> + * Returns 0 on success, or -ENOMEM if the system is out of memory.
+> + */
+> +static int verity_preresume(struct dm_target *ti)
+> +{
+> +	struct block_device *bdev;
+> +	struct dm_verity_digest root_digest;
+> +	struct dm_verity *v;
+> +	int r;
+> +
+> +	v = ti->private;
+> +	bdev = dm_disk(dm_table_get_md(ti->table))->part0;
+> +	root_digest.digest = v->root_digest;
+> +	root_digest.digest_len = v->digest_size;
+> +	if (static_branch_unlikely(&ahash_enabled) && !v->shash_tfm)
+> +		root_digest.alg = crypto_ahash_alg_name(v->ahash_tfm);
+> +	else
+> +		root_digest.alg = crypto_shash_alg_name(v->shash_tfm);
+> +
+> +	r = security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, &root_digest,
+> +				       sizeof(root_digest));
+> +	if (r)
+> +		return r;
+> +
+> +	r =  verity_security_set_signature(bdev, v);
+> +	if (r)
+> +		goto bad;
+> +
+> +	return 0;
+> +
+> +bad:
+> +
+> +	security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, NULL, 0);
+> +
+> +	return r;
+> +}
+> +
+> +#endif /* CONFIG_SECURITY */
+> +
+>   static struct target_type verity_target = {
+>   	.name		= "verity",
+> +/* Note: the LSMs depend on the singleton and immutable features */
+>   	.features	= DM_TARGET_SINGLETON | DM_TARGET_IMMUTABLE,
+>   	.version	= {1, 10, 0},
+>   	.module		= THIS_MODULE,
+> @@ -1571,6 +1686,9 @@ static struct target_type verity_target = {
+>   	.prepare_ioctl	= verity_prepare_ioctl,
+>   	.iterate_devices = verity_iterate_devices,
+>   	.io_hints	= verity_io_hints,
+> +#ifdef CONFIG_SECURITY
+> +	.preresume	= verity_preresume,
+> +#endif /* CONFIG_SECURITY */
+>   };
+>   module_dm(verity);
+>   
+> diff --git a/drivers/md/dm-verity.h b/drivers/md/dm-verity.h
+> index aac3a1b1d94a..ea2da450f173 100644
+> --- a/drivers/md/dm-verity.h
+> +++ b/drivers/md/dm-verity.h
+> @@ -45,6 +45,9 @@ struct dm_verity {
+>   	u8 *salt;		/* salt: its size is salt_size */
+>   	u8 *initial_hashstate;	/* salted initial state, if shash_tfm is set */
+>   	u8 *zero_digest;	/* digest for a zero block */
+> +#ifdef CONFIG_SECURITY
+> +	u8 *root_digest_sig;	/* signature of the root digest */
+> +#endif /* CONFIG_SECURITY */
+>   	unsigned int salt_size;
+>   	sector_t data_start;	/* data offset in 512-byte sectors */
+>   	sector_t hash_start;	/* hash start in blocks */
+> @@ -58,6 +61,9 @@ struct dm_verity {
+>   	bool hash_failed:1;	/* set if hash of any block failed */
+>   	bool use_bh_wq:1;	/* try to verify in BH wq before normal work-queue */
+>   	unsigned int digest_size;	/* digest size for the current hash algorithm */
+> +#ifdef CONFIG_SECURITY
+> +	unsigned int sig_size;	/* root digest signature size */
+> +#endif /* CONFIG_SECURITY */
+>   	unsigned int hash_reqsize; /* the size of temporary space for crypto */
+>   	enum verity_mode mode;	/* mode for handling verification errors */
+>   	unsigned int corrupted_errs;/* Number of errors for corrupted blocks */
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 39aec1c96d6a..0604893f2f9e 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -83,8 +83,15 @@ enum lsm_event {
+>   	LSM_POLICY_CHANGE,
+>   };
+>   
+> +struct dm_verity_digest {
+> +	const char *alg;
+> +	const u8 *digest;
+> +	size_t digest_len;
+> +};
+> +
+>   enum lsm_integrity_type {
+> -	__LSM_INT_MAX
+> +	LSM_INT_DMVERITY_SIG_VALID,
+> +	LSM_INT_DMVERITY_ROOTHASH,
+>   };
+>   
+>   /*
