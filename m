@@ -1,163 +1,161 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9540D156C5E
-	for <linux-doc@vger.kernel.org>; Thu,  8 Aug 2024 20:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829318827;
+	Thu,  8 Aug 2024 20:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723149399; cv=none; b=MLfefsI8Z3CogGYfHj6ao2dxLqan1SU6ZWfqZJBWW0EPz+Bc5kAvi1PKbTWhKymkSOBWZ/kVSUhMrrr7ZfY8DYf3a9IEJADKukvUzFwjB6WSmrKNqX/ZQg/+WtriJDLGhTF/w1WbhtyR8WLLfBYJ4ZlCf+u4jrQFgv6452uyMss=
+	t=1723150154; cv=none; b=bTYA9T3uQlMIbl/z80Wrj5IAdmXe9GsVYv4samIWojf+SJ5hYwxkEh2QHpW3B/wVTv20SPPP4X22IruA9ou/Oz2mTtlXJcx77cNegjREWdiyD7ScyE+pSwY+wdxIdKocw5hkNHhS71T98xrnuf4sWt2OtZ3VFLlXDJiSORKIFas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723149399; c=relaxed/simple;
-	bh=AQWn/xnnEHnNvSM4lorxKMv1lH4nZlJoO1CrXZ0ujvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z4yd6oR2DkujiNrbnTOzUfZRpdAVlGDbkc5XNHBLKbM59FBHdJSdC1qR1Bl2CLo/9wHdoVz5mIYgJWNAS2XERbCGtiCLcMeX/qaoZrkCfE4pWgT0KNCP0HR2xpXEXyWGwf9NpYYasq3bng2tTt+et0F1jym+A2VlrO/tswqo1D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x6SGk8qM; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1723150154; c=relaxed/simple;
+	bh=G6C/2q8CWsnkA3j5YjLGRlJUp+4sMXIA/FsCPxeWjHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CPjYmPPS2uvj+vRgS20XD+GwjAtfjuEv/XjZMV+RqJh+2w7azkEvKpvj8lOaXzynZknh9lriMst2tOTz4cNYD702F9RFTHBdqUdLg/ggBnt7F0XS1sHPtog17zxurLOTaBOot/kt2DXgwrb6zYxFOy3/0Py3ELgcaZTRTXYcbmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQFRtLkC; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x6SGk8qM"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-44fe9cf83c7so7578011cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Aug 2024 13:36:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQFRtLkC"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fec34f94abso13746485ad.2;
+        Thu, 08 Aug 2024 13:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723149396; x=1723754196; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vOI5LTLx9cXrWhuBdvZp6mpixN3oVmTyWbuUGECDTYI=;
-        b=x6SGk8qM4ol3KzlyM19lvutubfSozSymkojAosXvy2p7iEi/57f0fmxcY/V2rjJojd
-         8sjm146NzZgAZnrP3T4MViYjDkLXS6of4u+0sC9HI3Jb0KTyr2D0/pHWeIQjn7A8OUPY
-         8I5QJrvrQmL91A0MDm+K5tx/sep46NirIcHlLpp3rvmiDkBxsnj29LJkDErtCXuiEBs2
-         zVTDcCYAW/P68np5jn3+cU6G8YAWpIDWElfiZJKjj1iYwq+tCGJ/uDPFCZqLWXupMUxY
-         Hg/rYQ7JP6RwqNow96vW51hAXYdUjYzVRQdDgMGKiSDXlCllFOtshZNnQxD4y4rb+pvp
-         9UYQ==
+        d=gmail.com; s=20230601; t=1723150152; x=1723754952; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=sOMDPIeCc+zLFkzUCpyj2Gt2XUIxX7hIehtjUvY5qN4=;
+        b=WQFRtLkCWVRO4QemhorlRjYSsLzkXfXaY21JgGO2szpjnnvMM1IaVXGK4ncIuvjbz1
+         uo7X2u/wgp4xrJoaYrrTh/a4skET5etC/baYMyDk5u/lr/tCUXEFBmvq11rB8uk6lbVA
+         RPJNpB+qsHte9yCM8hIyZASoPJ3PgubduhFndyAN8X/uPK0oNPAtnKyW68UKbUjlLUCU
+         U1MPc7arnNvt3+KalOMNhjQBZcMsbckuBQMTS69QqGaY7ibmscjQX0QGC5ltNSdXsTK3
+         MRNeba5QDuIGifZCVgJFy7rThcRLlsQgPcFLVfZXMCjvsuKFXniqDZZMyAr8tYpqRHnG
+         8miw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723149396; x=1723754196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vOI5LTLx9cXrWhuBdvZp6mpixN3oVmTyWbuUGECDTYI=;
-        b=HwVfL6WEUmuc7f7YvTAv5qeR2nLofykYMtd6fLAH1l413eJ9Jhi9yse8Emg4VbHJs4
-         2xiV7Tg1ReYKV5qAoGs/H93TBGlgl6QKfMPvxdBewlnZA2H4hHDyQdX25HHburX+dBHu
-         YyvAA2d9Xii1rDQuMdSnQzFWCI/kdvYky4jioXdRkOYYQQ77X8LWOKYGTGEmv3Qga+Bn
-         BBlBl2pPIcfI1I7FcZURrXq035u9uLYeGYaS2FhaA6PPIZ8JH3couVa+C22FpajEpapc
-         vYrOkFocftMz+dvSvtX09vBoLVUHhXddCmsLaLbXj2CIQZcqmsyRQoltL0jFAMr+gnOU
-         apMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPlr/2fgKGvCaIK8vKjlb7ROrnGgGPYydOAJD/wUIXD7NNASb80Ywxvo494gUYtdsfRDpSJy52RP6FveJQd66RzYcTw+Qdhn9g
-X-Gm-Message-State: AOJu0YxJAaQzq3ATM+kKJC1dZSo2i/f4t0E3H1jJl1cFbnzucUlVDmW9
-	Pwj4jHJgkGDMedqU8qxWBYtmGMINweUaDI67vt7A9rP/cc7dyw7Ly7bu9DWO+zssstJaCVTGObi
-	lS8lW+Jg2bzaX6iqLtlb/SmTnEMTaKi3S7nGO
-X-Google-Smtp-Source: AGHT+IGEd8MEPPIzKesyVrhvbUxEPsn7+b9jVtjwHdEDzmwadpVOXKjz66694N5xOc7FFo6QD61TV8emUgJPi2VIqag=
-X-Received: by 2002:a05:6214:498e:b0:6b7:b4b1:85ae with SMTP id
- 6a1803df08f44-6bd6bd7f455mr38124966d6.54.1723149396123; Thu, 08 Aug 2024
- 13:36:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723150152; x=1723754952;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sOMDPIeCc+zLFkzUCpyj2Gt2XUIxX7hIehtjUvY5qN4=;
+        b=VRup+R8d+GjAHWybQQtAI7f6hnE68LnQBaSWWvEuqRMBJd47w448uN0EkLkny5W4Kk
+         D+7WwmOg22/xvjfk+dGtUeUD3+A8kbGXqODtlrqNCpEIeIKevkDJnYKoAv1dAm6VD1BU
+         yxVN/UtcinKxH7epuR++0D92KM1p8t+CsZ5VFslPMRq62zOWUzkycA2Vch2ksIf24sku
+         7lhgcQL7k2OD4IcFrW722O54kU7kY9/5GyN5XfAAN5a5ke4DQclyKdHbskHE0AGWIDOr
+         67/TshPofkH97Z2FRSy5uw14dqN29N2A/dhlnvuHe0W09qKdhoBemOu1w8Sl9QmQFp2b
+         8NKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBbIi3d5ACxAItwJ3Dlc2/RVVG8O4Tfd6oy1XWvFArx0ZfrI+y56nUuePu4e2mLMfIG1T0xkdWS1TZTeNEQoM=@vger.kernel.org, AJvYcCUFBacg0tBkqsC79vDCI2wNIJFOjJyLyxzLKAYL/NY8Z9EiU1Hq7RkEER8xqMNYP6kmrZYxWao3K5F6A8aK@vger.kernel.org, AJvYcCXxVAesczmQ9IdQHVIV6QsP52ZagmHn+LTQsjvHuztCEYC9jhaOZWiu9Ur1XSEeHmYCOVBEdeuIVzE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKL3l8Lrac0tkqUgX2YUlQqNUEGOMv9ukkCwzgDPNKIbnugb0P
+	lHXJBF4ANJPjgx7hRFdgSh6eVvdtt/cg1x0m/gsvBARI6B1QVjVHwpDBPg==
+X-Google-Smtp-Source: AGHT+IEbKUiENmIxquqpdyXTNyUXlfvxD3yYoD8wIjln5qOQnc9ynveYbwPU5tNSzi9A1RNvRK0+xQ==
+X-Received: by 2002:a17:902:e746:b0:1ff:4fa9:1435 with SMTP id d9443c01a7336-2009526df12mr33951295ad.31.1723150151653;
+        Thu, 08 Aug 2024 13:49:11 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59058d03sm129434025ad.179.2024.08.08.13.49.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Aug 2024 13:49:10 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <474dde6f-5c31-4bf5-a13f-d10b8460c4cb@roeck-us.net>
+Date: Thu, 8 Aug 2024 13:49:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
-In-Reply-To: <20240806135924.5bb65ec7@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 8 Aug 2024 16:36:24 -0400
-Message-ID: <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: Capitalize Fahrenheit in
+ watchdog-api.rst
+To: David Hunter <david.hunter.linux@gmail.com>
+Cc: corbet@lwn.net, javier.carrasco.cruz@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, skhan@linuxfoundation.org,
+ wim@linux-watchdog.org
+References: <20240723131849.264939-1-david.hunter.linux@gmail.com>
+ <20240807185332.61624-1-david.hunter.linux@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240807185332.61624-1-david.hunter.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 6, 2024 at 4:59=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
-te:
->
-...
-> On Mon,  5 Aug 2024 21:25:20 +0000 Mina Almasry wrote:
-> > +     if (pool->p.queue) {
-> > +             /* We rely on rtnl_lock()ing to make sure netdev_rx_queue
-> > +              * configuration doesn't change while we're initializing =
-the
-> > +              * page_pool.
-> > +              */
-> > +             ASSERT_RTNL();
-> > +             pool->mp_priv =3D pool->p.queue->mp_params.mp_priv;
->
+On 8/7/24 11:53, David Hunter wrote:
+> Capitalize "fahrenheit," a spelling mistake.
+> 
+> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
 
-Hi Jakub,
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Sorry for the late reply, it took a bit of code reading to understand
-what you mean with the deactivation request on the other patch, but I
-think I got it down and have a patch on the way.
+> ---
+> V2 -> V3:
+>   - Fixed misspelling of "Capitalize" in commit message.
+>   - Put Tags and Kernel Subsystem in subject
+>   - Put changelog after commit message
+> 
+> V1 -> V2:
+>   - Fixed imperative mood
+>   - Fixed misspelling of "Fahrenheit" in Subject
+> 
+> V2: https://lore.kernel.org/lkml/7b7ca7e0-6bd2-45ab-bd9b-40331a8e6fdd@roeck-us.net/
+> 
+> V1: https://lore.kernel.org/lkml/20240723131849.264939-1-david.hunter.linux@gmail.com/
+> 
+>   Documentation/watchdog/watchdog-api.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+> index 800dcd7586f2..78e228c272cf 100644
+> --- a/Documentation/watchdog/watchdog-api.rst
+> +++ b/Documentation/watchdog/watchdog-api.rst
+> @@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
+>   support the GETBOOTSTATUS call.
+>   
+>   Some drivers can measure the temperature using the GETTEMP ioctl.  The
+> -returned value is the temperature in degrees fahrenheit::
+> +returned value is the temperature in degrees Fahrenheit::
+>   
+>       int temperature;
+>       ioctl(fd, WDIOC_GETTEMP, &temperature);
 
-> How do you know that the driver:
->  - supports net_iov at all (let's not make implicit assumptions based
->    on presence of queue API);
->  - supports net_iov in current configuration (eg header-data split is
->    enabled)
->  - supports net_iov for _this_ pool (all drivers must have separate
->    buffer pools for headers and data for this to work, some will use
->    page pool for both)
->
-> What comes to mind is adding an "I can gobble up net_iovs from this
-> pool" flag in page pool params (the struct that comes from the driver),
-
-This already sorta exists in the current iteration, although maybe in
-an implicit way. As written, drivers need to set params.queue,
-otherwise core will not attempt to grab the mp information from
-params.queue. A driver can set params.queue for its data pages pool
-and not set it for the headers pool. AFAICT that deals with all 3
-issues you present above.
-
-The awkward part is if params.queue starts getting used for other
-reasons rather than passing mp configuration, but as of today that's
-not the case so I didn't add the secondary flag. If you want a second
-flag to be added preemptively, I can do that, no problem. Can you
-confirm params.queue is not good enough?
-
-> and then on the installation path we can check if after queue reset
-> the refcount of the binding has increased. If it did - driver has
-> created a pool as we expected, otherwise - fail, something must be off.
-> Maybe that's a bit hacky?
-
-What's missing is for core to check at binding time that the driver
-supports net_iov. I had relied on the implicit presence of the
-queue-API.
-
-What you're proposing works, but AFAICT it's quite hacky, yes. I
-basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
-nothing can increment the refcount while the binding is happening so
-that the refcount check is valid.
-
-I think a less hacky approach is to add a function to the queue-API
-like ndo_queue_supported_features(), which lets the driver declare
-that it supports net_iov at a given rx queue. However I'm open to both
-approaches. What do you prefer?
-
---=20
-Thanks,
-Mina
