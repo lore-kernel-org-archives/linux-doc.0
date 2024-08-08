@@ -1,453 +1,515 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013059.outbound.protection.outlook.com [52.101.67.59])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2125.outbound.protection.outlook.com [40.107.255.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521A518A6AB;
-	Thu,  8 Aug 2024 10:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A02B18A6DF;
+	Thu,  8 Aug 2024 11:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723114179; cv=fail; b=nfYel44egGvXDjWXX8PD39lnZgao/HeDf0UJVL5KPB+pHK0UUD98V46d1CZ/cJOBwPNCfS7ZPpCsO2+usBFpy+6k4rLTY6CtXhK380Zazr3UE+c8XEsopvtf/VAJXof7nabODAUk5PJn97ZXhTLu4C5oy4rNoL7AXnBST1+PuuU=
+	t=1723115909; cv=fail; b=Z0yH3hVZCUIFwRIW3wt+P1ruCFn9frpZ/7WemEOAj0Rt5M1j4taJUwlFUpG5xflUbrWdiB3zx1w2ntsHucGC9JpsrooiXj92ZPWa0b2iKgLVeY/aRMMtsHCGEmkW3zvkQPZToVwyaHyq1tREOUBIfhAxbK8itgmS2LJZPL6pbzE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723114179; c=relaxed/simple;
-	bh=JeBO1cqAICDnNq/oerF2gd6gQMk2aS4ZT1BBOkZFzzo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ki7uYC9yyu1JPv4tVZo8ghlNktUPS4myA3HouAQgv9hCtladoBKtUEtTKTgw36mi8Wl/PswauvAaC8VNQgTA+y8IPlzSVq9LJN5ZIp3LoqiqOGxxo9A3LTFNO2+V4hjJydYP5o9dDIQnYUVsKZX/vkL4p4/+LmOzGzJ2jrpUrLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dfEsnSXB; arc=fail smtp.client-ip=52.101.67.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1723115909; c=relaxed/simple;
+	bh=zTMn6c21PgDR5ojxXUz5K9kUIPl2lh9anNVJzccrSTY=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=aCNDnUTYUxWgWKhlkiBc3TziRu6gv04vHhkVaWA48l8jntHJLwNl/9QR9cr+m6hz3blJ76huT7OjzArWgzcXnzlVUzjfSX0shBmaXHI4P3aVlrneqsvV8vC8HT1Z1aAop/GNZ7+FxlLLie+VTsL8EAzWjtVDicoeUjqu6s65IZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=eB9ZA+lY; arc=fail smtp.client-ip=40.107.255.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dfEsnSXB"
+	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="eB9ZA+lY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LK1avXdyJYy/qdI1VerGf5wjSw7c+94UrbgOucCGIZ3yHew/qsVRkHM9kSsudPC9aTo0yR+ZHdwkdmMOcwuLz6o4SKBUpIbBNZC2bPCl8QbX6JU9gAHQwsb+HkuxIhzUUzDy8MvnOSRiGfqP8ZfjZnU5cm3HX4v7RbaFDG5TIt+p/RE6R4bZ712uFdBaMcjqh7xJBqGQ3KiPoWEaHW0RT56fgJ9SEvxJVo6U0olrsbjq/odXj7qB5+baFYsxzGVbJhY0XQ5MdTnjf6pgMp2oP9mEAV9AZuOumh8SwfEBufoVvQbLUQJFXOYOVsgnGVI2QeqVf60q8tue+KT6SFzrSQ==
+ b=hee+BOYqwmiC+01tsQ+5podlpn+YeC5nmwvA7YVElxYf06qXmK7yZ2VXUw/U44Bs6dlfQvjdGamXpq0cb2FbfpskgzBzBFUha2KUZR1lnZvBY8ZNqBQwDfwJPeqk/64ChxYimvFvqSek0OJQL+5QrnIQDERJwCrkk63jouXyu0IscMH71qW4uZ7nkjLGnKIxDHsqbhd8kmaCjnOMzKEbpqU7HNE1kuCSv9HdY0bF52Pc7Qlmt3k6uQrPl2hEB78okUxX4xpPt77qvfWOvNJeLFUUz/nO1NjW8JoZqEQuC1WYJu3Sa6AjbWvE6yDiKvrxkSqmv7ue16azIRSllGWLxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgPHw6+VUJoSEUcAewOpewYIUtxotL6LlO4El1TfKcU=;
- b=dSywtHDlFksGjhS/lo2VYLJO6uhEOaJJWEPa/YeSpCeUQJEpdA5kyGgKhiWFWojUzWwyh5/Q2W5Nt+3q5OlWBk+GLj1k6KZfiTN96PatHiejqudrTWmUwC95GYhQ4slDA6fIyV4amk03BtYQ8TmUrl90Z5VW5/s3x5cZ5izokifkby2xUaWSn/u17938zQ0QyDv+x7YrjU47lCuLF6+fsbHpHAUAYy/UmtuD/uAmqT9AD50SkKR125ou/iyXdIWfXU9RUgS667I0SI66i9wMS8YuhgeTDovuxnCQmp5reE15SXR5h43aW/nTuDsX1vbi5jyEUayszSHXk4lPkYfL+Q==
+ bh=oKd12kjdaCUNxtdEqEyc6HYe5agEM1Hx/wc58rNAvIk=;
+ b=dOn+82W6cdIXOBytkOMBdl/P7Ma7ihNIQ07Myso/IqnwhJWfkHdrxvTpVRxgxXfa6DaWDKG9FNZWHlrY9N5WnBj/VD5EXnOz7Tci+gnaiyvJ/FwcvmKEmTj2PBSvqtsUkZiMmbYmw206AQUkJRr604U9TTGq4UgkIm4cKY0tYL0QowBMvFyJbMyDSqaRQ1X8roteoMtMd68VGbSzjSCoFqbXnWTowEc7nRjDOAkmaCYFuonK5lw6q0VonC2x9YpVPwh+UZMN8qHhEIjYnCkoQ3ksBwasaLTI35jPIpY94tosfoEZ9fqXSwP4gycj/bWmvWjc03muOKsvJtQX/Pyyrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
+ dkim=pass header.d=fibocom.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgPHw6+VUJoSEUcAewOpewYIUtxotL6LlO4El1TfKcU=;
- b=dfEsnSXBgokHS15O56IIUTjgAlE3Ohjz0D0w1ZZNhdj9e014a2T4bOXRUc4+Fo4UJg1IyRbCZpUw9OJw+X/1FOQgaj4vdKITk9sx8Cusn0LthrBAnBP7j2tA0fDlSnEFHNZ4/Tdjno2Gwsnz15JrSAICeJlWZc0ibu3VSyKytkq+Xj7qq9FOpMjvL2fO9WlZUdIsIc3CV1MW5WuX2B69EKAb6AUtCnEPyt7qJn11Vz6eOIJN+PRbCbRh3rycHgOvZqXtUao7KhU2oWHp/ulrr+6qAz3qO/1/ne3RieVZjNGB/388WaS+/3X7jiFzAkk1+48Ig/+5OJuRrfj6ITElAQ==
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
- by PAXPR04MB8752.eurprd04.prod.outlook.com (2603:10a6:102:20e::11) with
+ bh=oKd12kjdaCUNxtdEqEyc6HYe5agEM1Hx/wc58rNAvIk=;
+ b=eB9ZA+lYUCMBLoA3YeGq/JPw7fIIun0G4IwF+rRf4p5KCujshBReEISqXDwgmVw9wBcmMn+aWnNi0wwiH6XIMfcsp7yeEXu1oJNM9GUsRsFHcFqYZ33dGjwOocRLrn04GppYxXaTtxDGGS/Tx/AXOdrchUYiohjXyo9Nmni6pKI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fibocom.com;
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
+ by SEZPR02MB5519.apcprd02.prod.outlook.com (2603:1096:101:48::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.26; Thu, 8 Aug
- 2024 10:49:34 +0000
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
- 10:49:33 +0000
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-CC: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio
- Estevam <festevam@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [EXT] Re: [PATCH v6 5/5] firmware: imx: adds miscdev
-Thread-Topic: [EXT] Re: [PATCH v6 5/5] firmware: imx: adds miscdev
-Thread-Index: AQHa2/NcuiznhUStfE6qn0+OVrPkAbIEXw0AgADp6iA=
-Date: Thu, 8 Aug 2024 10:49:33 +0000
-Message-ID:
- <AM9PR04MB860410277C8329271E12963F95B92@AM9PR04MB8604.eurprd04.prod.outlook.com>
-References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
- <20240722-imx-se-if-v6-5-ee26a87b824a@nxp.com>
- <Zp-8MPdWdAhGG9de@pengutronix.de>
-In-Reply-To: <Zp-8MPdWdAhGG9de@pengutronix.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|PAXPR04MB8752:EE_
-x-ms-office365-filtering-correlation-id: b7af59e1-9f5d-4017-80b7-08dcb797ca11
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?c2iovBd61+Op/l+6zejTHtafTe2QFUwA5HT1nJwNoH/gbXBFMxFA9Zd0pu9B?=
- =?us-ascii?Q?+sdP/KuEjhevcyQY9bIeWEkTWZjISHUyTZWnjaboyivoMGy8yROrfsjemQ/n?=
- =?us-ascii?Q?+BRahUxTofPV8ERO6t/8H/PzfMgfEm+JYx0S9axtqnLGCJ2dEQPqFAiU3QH2?=
- =?us-ascii?Q?wVwt2v3B5BroF8Rsdi1JYlKTSEWbfg87nyvipg5SsLIY8Uh9DH+MY24kJAE7?=
- =?us-ascii?Q?3YCJoGDF8e3Iv8TmV84ZDwRCViViNzVVPtpS1/fhZQ5CUz0yS0xnTbuuee6X?=
- =?us-ascii?Q?CO3JXTxyqloQw43KXzNvKjv8012MWzONEm6hIVfWVpN2Kf+7VIzRhGLsfgP3?=
- =?us-ascii?Q?xHoasQjGDddaR364/1tFR4JQzA0KzEjgdyCQ2ywPmjQirc63NOzvgoxTfTih?=
- =?us-ascii?Q?8+i7L61ID3UqcC5EVQMLDJQgQE+5JY3hsOqVuoAQDzzUrn6gWF8XT42uoAPB?=
- =?us-ascii?Q?9241CZ3MPysc08d1QBuhFK4y7OeTBREX9PztyDR1btIiAxoYFJvjDFCHtRNg?=
- =?us-ascii?Q?K1soepjo6J7rRvyRLuMIqVxZyoD72er3ER77I8UGTIff6imwxOKBEkIMVA7C?=
- =?us-ascii?Q?hO1DlLYNfg4xQ7a/AsWCPdiWZQmdAVmv5jw0+niBCCNwkJa8CDAl3BtW4K/0?=
- =?us-ascii?Q?ArequLPQ6dA01O3yPgKealNZN1e2y51iy0/EdHPyGC4zJ+77sLq8jzzRhjIa?=
- =?us-ascii?Q?z7rw62RoZJ4lmWQUSdk6t1pDHFACOI7+dLh/BowTzN6++/663lbhiVs7H8oF?=
- =?us-ascii?Q?IZ9HeSV++bsLup+oazCpYel0+hSrVVMZgM0sAy62ePTq10OK8QCf0n21ND6W?=
- =?us-ascii?Q?Pw+aFsrxUVfy4kWKsy2bqJd2J1aRzlr6S7a2G611Z38RRL/P9f89fEFyCPW1?=
- =?us-ascii?Q?iq9xBEAi/GfkIHav2VmGpB/j0Tf+KuKWM1T/qw4sZRU8EdnVuiW+wCH4rYEX?=
- =?us-ascii?Q?BtHn9lcwBIqtxjTRF5GsFY+IHJnEsiMmNtB8F8kEsduQ9dDbD8usjQ5s4Gb8?=
- =?us-ascii?Q?Fd0mavv3gSJbErR7CrlgMGEAkNwqr8DVdDnxvhDWAZWDZ9ePOFpLMdbHV/lC?=
- =?us-ascii?Q?LdLArsyCqmFrNWiJ7b2EHow/PwqU2s1RjyDS82u+S+bIejwF3ShRtFvVW3YJ?=
- =?us-ascii?Q?nHnD2KoCNbpyswLeJLzsb6Eg1w9nBQTsSIYF2fUQC9CZhSNKZ042OltsVTzk?=
- =?us-ascii?Q?7kEz1CdpYCQMJE/n1Dld4WAFi3/Y2yYEdirci3shKveOPNBkTE2OlfovlLo5?=
- =?us-ascii?Q?w6xbIDqfHHM+OA7NNJpzhrAX02BtyhTihcmvFHO42whm75lSzAcNuJpodfdJ?=
- =?us-ascii?Q?fwiaBvyKuj641+HEZsNJxSIAuhqD6ryCeyH/8ZT6Ef2acXBN95FvDmbic2LZ?=
- =?us-ascii?Q?zggpz5id4eA+wrYZQ603NcyNtYOb0mM46g9E+x4lxHKK+xPjZQ=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?JeK+KEn2T6sSnxHD6d84oFtZW7HfeYZ+O7tVkjdXe6UiNrJEfhLqjOrXgGKn?=
- =?us-ascii?Q?OGVfY7Lq6T+JyWrokK6KIabjLHzmvt8Zrbojzt6zxGM+anXdn5/T21UB0uXM?=
- =?us-ascii?Q?oqRqRa0+ohlxKTAzHoqjlxlD38ZmrB7gs4zcD5NdZ74I/eBM4sJyayvk7yv4?=
- =?us-ascii?Q?TsHCqzlDoc9TVXtVqxN4siV47hQDCzMw8bC5FdI1cozvDjp1GCz7mrUfsDy3?=
- =?us-ascii?Q?wuGnraojoYzEdgr+dPMp7xoAct1s7JppOpI/x8fPcFk9ouqPqXgfRVe3oRMZ?=
- =?us-ascii?Q?mOR6IIewN/Vfzlhu7A07OrCIlGIJ6S6haLwKdWoyhCLBLENQFW5HMiXLlKfc?=
- =?us-ascii?Q?oLe5FbMyIkkFzm2YthBWtnSKB5bJKDb+CvJCkwdP4HPWhON6As31TDISz4RN?=
- =?us-ascii?Q?0A8MuK3MZ4tW5mjFYuway0Wz46KI5x3N/AKf54U2HjUlUfjll5GlXnIgknwz?=
- =?us-ascii?Q?8roZDBrd52o5IWa7rhH8Jt8zV1EgJn9TRcW8XOtc57igSAsUPUexWgmJzgzp?=
- =?us-ascii?Q?AT3gSidVg55ieX5ChcJn7ZcXtreNuOH7otSBN2Ty5ju9Fn8Mlv6eHDrWnvnc?=
- =?us-ascii?Q?o5OnfWT+wESPV/N4frsipLTq1ARhUfCszPbCJmKdTcCPW4OL2p8hBJ266w7R?=
- =?us-ascii?Q?Z8is1wIcRn21Y7y270mLZKT6lSCHkItm5KIvxRQp4nlosJG8qunNawTLx80q?=
- =?us-ascii?Q?ujph2AgvuvG+m7YKIvyMa8TmLikDEhQtFHONUy50SqU2iVOIGkMYzPpXEe3+?=
- =?us-ascii?Q?LpKaSAcwV2rqfTtPJ8NWJLrgTvg9c8SWj8MHvuSz/yzLZd6y5yrHWBMdKZjM?=
- =?us-ascii?Q?kIrgV6wyqDgwcENyFfKk87r+wRfPBwVueKuIdJJALAvxhvquAfW6qwnOYlf4?=
- =?us-ascii?Q?xpfavGspSZUSu1t10C2kXNeYTPYsWnVOmGQYkz5NnZavu3ypwCFCS0eHHzBp?=
- =?us-ascii?Q?yMUU6Q4CDTpORnMADjHHsSDTv13GSC1vaNz8ZUXnwEjsrXIiBrP0AoM7OxDw?=
- =?us-ascii?Q?oucAE+sa5AH6XOqIl2T2j2zAkpTV6wsuEqAJ0v4+IOsWxEy57LgTI6W8uLAN?=
- =?us-ascii?Q?02xjhbOVLvTIGl0V0BMjzX/KGzl5P2KwhWUN+FK30QC0iDM889HoFxa/UL7u?=
- =?us-ascii?Q?X0LhDQg0WziHAVE0zTm1jV2REB7s66hikT+HB5YHe7dz7SdhVww3pP1EehEs?=
- =?us-ascii?Q?TSAsOv4BGC/+Gwt6gonS8dCfviOkfQOAyi4alhBQS5/IDT7mcN/lJwxcLIHZ?=
- =?us-ascii?Q?SQ3KQ7lGjszqSlC0VNjuLNgSRs9tanpuZW9vCnFbonyTr1zZlr33TM6oO1yk?=
- =?us-ascii?Q?BUpIkulOwgZTVaqkW377Qaxd0eUDzVP+P6W1s13oxQft0q2j97a4sP2JZFO8?=
- =?us-ascii?Q?+XGt9N1NNTnPW3fOFplbUG31b1ULlmPWFkgBiae1mSgXjoAygA6/8p+PN3Go?=
- =?us-ascii?Q?BvFtJNogy6fAT6y6T+CHcsWf2fkAMoA4RW1giIhxIumrEiNUEXSR/F+cdLn5?=
- =?us-ascii?Q?DRXmZ4gFn2oskS9sLdtRm1i3jSi4sc/rhSpIHS8FmZmTSrqSHyLBGi5nyZcq?=
- =?us-ascii?Q?jL1oaKF96zJNEHZ09v0yGeQo6JFXkfiPXbzkxoSP?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.13; Thu, 8 Aug
+ 2024 11:18:18 +0000
+Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
+ ([fe80::f53d:47b:3b04:9a8b%5]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
+ 11:18:18 +0000
+From: Jinjian Song <jinjian.song@fibocom.com>
+To: chandrashekar.devegowda@intel.com,
+	chiranjeevi.rapolu@linux.intel.com,
+	haijun.liu@mediatek.com,
+	m.chetan.kumar@linux.intel.com,
+	ricardo.martinez@linux.intel.com,
+	loic.poulain@linaro.org,
+	ryazanov.s.a@gmail.com,
+	johannes@sipsolutions.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	matthias.bgg@gmail.com,
+	corbet@lwn.net,
+	linux-mediatek@lists.infradead.org,
+	danielwinkler@google.com,
+	korneld@google.com,
+	Jinjian Song <jinjian.song@fibocom.com>
+Subject: [net-next v1] net: wwan: t7xx: PCIe reset rescan
+Date: Thu,  8 Aug 2024 19:18:01 +0800
+Message-Id: <20240808111801.8514-1-jinjian.song@fibocom.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0168.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::18) To TY0PR02MB5766.apcprd02.prod.outlook.com
+ (2603:1096:400:1b5::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|SEZPR02MB5519:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2fa675c8-3972-479c-adfa-08dcb79bcde5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?l0xtIxE0ljbTQ8blCYl2jz8DBaVzUttxBQZiF5Ph2bZkzdS1Q8QhXXuLNHD8?=
+ =?us-ascii?Q?l83ZGkdI0Gg3LrjD6mazu+mx4fJKJHWFUwiixpNoaW5AQf5WBRQvcHWJXxoe?=
+ =?us-ascii?Q?mcLdbYhs4x9qSW/OBrhj3rPQTJOMCq5tlaEJ3uM/IA4Huy851gNbcsNJrOX3?=
+ =?us-ascii?Q?2w7sJoJZ/dmxdue/Ht1FpZUk6i6g+f4kHM24NO1BUrew0HWvTtec6y5dYhIA?=
+ =?us-ascii?Q?A1EQj8mI/qQ+aS2zcghYRHodUmFy2DBlsZUiEkzdyUnhjXC2NPQBxMdASQ9g?=
+ =?us-ascii?Q?vFQInb7reWWH9rpW0GISzPKF1L9iypgAQQe+hqdeMAKezppwCgHIq3D1Bx4T?=
+ =?us-ascii?Q?NbZHhtcYDN3MDJ2vCTm2Q7ejSVUwr3bBbrowo/Kk7TlTBoJVrzh45lr3rjvi?=
+ =?us-ascii?Q?wWPcOvlUU0AnVG5Ts5lTuGmBLqEvKCh2RZIv/o/c1MalOSyAWCO3+ZHisDOB?=
+ =?us-ascii?Q?de7dp4X/g7i1YRN5QTIREircuJD4l3F7KBwS2zw1ZRhvy+cBmRBhK3ytApun?=
+ =?us-ascii?Q?ktswUiCEGV6+gQvSr5Kmly6WYb4V5IV/ukHwybeUI4RC8wupcL9R76zD1eLv?=
+ =?us-ascii?Q?uqRKq0azGvnUPXloRpr+ByT4/LNJwqrsMNW07b1KsrmwtmuMwGXzo7waaTM1?=
+ =?us-ascii?Q?tdJht/3NeKKpm68QwD+Nx+YWDyAFA5owYgt8ef4/yKUl1IqSu0+RxMAvdbYT?=
+ =?us-ascii?Q?JiA42ba9QlRNrrlk/6KL4hxQDPnp94YTim3C+RVOTHRvFAr4TKEv4U01NfaO?=
+ =?us-ascii?Q?humq8aUVR4doi02JhNsqTQglB7btLEuWpMgwBfbEJLW1toccfCTWx1GEfvHK?=
+ =?us-ascii?Q?J1u6V3PZ5oGsPlX7NWn9qib1zY6pzbv95Oad58JYsDzhpixCLmBcAc38yPMP?=
+ =?us-ascii?Q?jMou+JzuwxNuR0fjTKiGHQeRagp00+66oOr8nehkSDbLqaQKm+8Z89Up6LFO?=
+ =?us-ascii?Q?WV43p8o1lpaR484iAcNLKR9wdpA1+7szupv399pSjAUpaYJltI+SLYKzCrVC?=
+ =?us-ascii?Q?Up9T3GQ2mvUnn758pTguOqsFpFSnv1J+l3dr1m/Lrn/whRj7e4dzr1Yrfkmp?=
+ =?us-ascii?Q?W6GbH4/NUgvbQnXgev49sg8VUxkvQfBRmxvd6PZKifA/8odpeD8r+jGUk2nE?=
+ =?us-ascii?Q?s++rsaA3vgk1DzdbUm+iuo2yZef8hKtDCq6Oj9S5WJVtUG/bUSRJe1N06lfo?=
+ =?us-ascii?Q?afvIsy3UJc9QQpcUkMmQSjfBkQCL5FbY0XJIgrClGioKIC6/Lj0drgWzouml?=
+ =?us-ascii?Q?O8WwxS1ffX58GkCFxwZSOn1ZIA5IAJ7FpJJxCxoN68HdTBxTxDl3hgVUWVue?=
+ =?us-ascii?Q?HvQ8MgX7EJImCN/KrIIqbafPFKQOu95BM7E2EmBWbOwe6uiE0Z+Zbzp8iVCd?=
+ =?us-ascii?Q?phmc/ge419XvJjP78Hw/ZtFjHI2c?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DXcNwaEVd9VVJ2AZTO9S8EVqSDAW2kSGcLL8/DdVSFGUvFYEQxUbZv8KqYse?=
+ =?us-ascii?Q?DgMqCvzK+nslm6wlCqlUH17Q3Zh9jKNYkyvEKsbjMA9exRJqqn0Abnr8EnSj?=
+ =?us-ascii?Q?pbwaA0rP4JcDSy9adO0LgylsjUyEfi1+DsmIRwjNBaf4NXi2C6iRmlQIZdv+?=
+ =?us-ascii?Q?hoQ3PPK+YFYgww9Hvl0pTZspwiogVI1PhU7cO7jp1DACQgv58XzVa26CqO4j?=
+ =?us-ascii?Q?pAhSAlFqlBLxJRRfUUeR2gl/26LNr9NWjyb0rOkfjfb0xb/8Kf7nY81wlzZM?=
+ =?us-ascii?Q?ALcLN1AiSeVrZCIoZZCyQj5FMmUPIaAKdntB18ig4TYndPI7QVjN7JMuZw6F?=
+ =?us-ascii?Q?3f3jeI5CK/Mio7YA9p7lfEz7AvKq3eMBHjvfHv1u9fh2tonXDYmsL+q1NEbx?=
+ =?us-ascii?Q?WeoeCe5Zs9mQrFAOI4AIuTiITa3kX2UjNIsOJFahPz8hxVlPNImwTP8o445M?=
+ =?us-ascii?Q?M6+5RluipH1qyZjcQ7uh2NMqJtYFC2tC6nlSJNOyGdun/478C+R1iCVuCH5j?=
+ =?us-ascii?Q?33zGzwaJUi8FYBs3StH+tdmOvoFHV1atvxDlP98E4LeJA+p+HvN83EvAiAhe?=
+ =?us-ascii?Q?cKlgpshe2O5PJMQG5J89LpN9OSa+vHreiWS3Hmpfmqr+73hKgrtiyx3YO2T2?=
+ =?us-ascii?Q?5dQvTBPNn5+5qXZv8Qn27sfP5MVWLzgWok3NwoRBo8SFSunpO0tEPEVTp5PJ?=
+ =?us-ascii?Q?DtJZNqyuwk/yMZOODvxxKXWCMWgpIpDL6nHV2mT4+qT9d5/H7U8TMsch8Trz?=
+ =?us-ascii?Q?39eHa6xSqOfmzS/DvtWZQIy+cC1ddtaqWeh49ZsnvRsLhY1AJhSAea2RCqND?=
+ =?us-ascii?Q?8FX+1kPJ9qKVza36alMMoyy7DhFAUAZ6hp02tZrH4pFcX7ieqiiRDYIkqgaA?=
+ =?us-ascii?Q?rP3VkeHGhF5o52ZzwLc3qrlWBrdBMAhlBuGx0DNeanVLyKetGW3z1k8qA+fY?=
+ =?us-ascii?Q?rcNIsAn52f24H9bJsS2be3QpF/i1kxiAIeIJlPE//+hx+BEkoNhQ/rO9cZsg?=
+ =?us-ascii?Q?oi4dQBgc08P/4JL3xblbF/GMpKD69og3GD2JEC+43X/9FVp/jKrXw7pq4AvZ?=
+ =?us-ascii?Q?X/7ZM/+T6XIBXNRVP7z3biDopDoFDbmPExC4Be/c0wxNF4YuU+mACXias4jm?=
+ =?us-ascii?Q?2lHsnOn5zsWSdqWjHzzMjKRUulH1OQQxFPIRldAskb1IJ2qomCSG8h2tDfN7?=
+ =?us-ascii?Q?cC8u/Nm+9JMrQScLEt81nGG9+MvIXzoCxLxaVimSTCaFS7TnzMPHqFvtoAot?=
+ =?us-ascii?Q?y9DNWHWpGXrNzAhk2928kcCR3APKIT2uKguoSpj2hdz+2mzyvAl4iunuzWZa?=
+ =?us-ascii?Q?AsVox3PQI5EY3R+qZTj+I9MOGMCc9UiEUX6rNnFKL3Avg1eCtp/59vbqONuv?=
+ =?us-ascii?Q?JK+qeBtyMpg8TYhti1br4tl1OSEOBl2AYkwq0e23p1uqqLtA3T+bXwgoiBBj?=
+ =?us-ascii?Q?zi3rzg6lxMB/KsPqpH7ihJCszKl1tL6ktoBdZsqDtFCIyYiM9Y3w6JEx+xHZ?=
+ =?us-ascii?Q?uWEbxjzwSjN+5DyYTN0EVLx7fkbiTnmN4ldSf3HelrYtn3n5E19FvUcShG76?=
+ =?us-ascii?Q?A1m3Hi9Z+0b2U5LzeUlOorKL8nLZGNYGTQ4/MhNQ9nHciqEWL4Dhp7A7cv1m?=
+ =?us-ascii?Q?SA=3D=3D?=
+X-OriginatorOrg: fibocom.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fa675c8-3972-479c-adfa-08dcb79bcde5
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7af59e1-9f5d-4017-80b7-08dcb797ca11
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2024 10:49:33.7417
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 11:18:18.4492
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Yru9DCumwV3B8FxeFlGfIfoqiH+piKagobmV8tKbD//IXtbCkVg2JHi/isyATVzw6eVxrVVs3hSOQSoI+WDIWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8752
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gzhinBOX1g4FIUESEoFfmCcJDeRNbyolAz+oX0oOZNwApuh1Fs+/KCyVEQbH2EjypGyHWZtKC5xkFJp9oUnK9cTWop14Li7yl4TKwMTt1s8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR02MB5519
 
+WWAN device is programmed to boot in normal mode or fastboot mode,
+when triggering a device reset through ACPI call or fastboot switch
+command.Maintain state machine synchronization and reprobe logic
+after a device reset.
 
+Suggestion from Bjorn:
+Link: https://lore.kernel.org/all/20230127133034.GA1364550@bhelgaas/
 
-> -----Original Message-----
-> From: Sascha Hauer <s.hauer@pengutronix.de>
-> Sent: Tuesday, July 23, 2024 7:51 PM
-> To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
-> Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Pengutronix
-> Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> <festevam@gmail.com>; Rob Herring <robh+dt@kernel.org>; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> kernel@lists.infradead.org
-> Subject: [EXT] Re: [PATCH v6 5/5] firmware: imx: adds miscdev
->=20
-> Caution: This is an external email. Please take care when clicking links =
-or
-> opening attachments. When in doubt, report the message using the 'Report
-> this email' button
->=20
->=20
-> Hi Pankaj,
->=20
-> On Mon, Jul 22, 2024 at 10:21:40AM +0530, Pankaj Gupta wrote:
-> > +static int se_ioctl_cmd_snd_rcv_rsp_handler(struct se_if_device_ctx
-> *dev_ctx,
-> > +                                         u64 arg) {
-> > +     struct se_if_priv *priv =3D dev_get_drvdata(dev_ctx->dev);
-> > +     struct se_ioctl_cmd_snd_rcv_rsp_info cmd_snd_rcv_rsp_info;
-> > +     struct se_api_msg *tx_msg __free(kfree) =3D NULL;
-> > +     struct se_api_msg *rx_msg __free(kfree) =3D NULL;
-> > +     int err =3D 0;
-> > +
-> > +     if (copy_from_user(&cmd_snd_rcv_rsp_info, (u8 *)arg,
-> > +                        sizeof(cmd_snd_rcv_rsp_info))) {
-> > +             dev_err(dev_ctx->priv->dev,
-> > +                     "%s: Failed to copy cmd_snd_rcv_rsp_info from use=
-r\n",
-> > +                     dev_ctx->miscdev.name);
-> > +             err =3D -EFAULT;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     if (cmd_snd_rcv_rsp_info.tx_buf_sz < SE_MU_HDR_SZ) {
-> > +             dev_err(dev_ctx->priv->dev,
-> > +                     "%s: User buffer too small(%d < %d)\n",
-> > +                     dev_ctx->miscdev.name,
-> > +                     cmd_snd_rcv_rsp_info.tx_buf_sz,
-> > +                     SE_MU_HDR_SZ);
-> > +             err =3D -ENOSPC;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     rx_msg =3D kzalloc(cmd_snd_rcv_rsp_info.rx_buf_sz, GFP_KERNEL);
-> > +     if (!rx_msg) {
-> > +             err =3D -ENOMEM;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     tx_msg =3D memdup_user(cmd_snd_rcv_rsp_info.tx_buf,
-> > +                          cmd_snd_rcv_rsp_info.tx_buf_sz);
-> > +     if (IS_ERR(tx_msg)) {
-> > +             err =3D PTR_ERR(tx_msg);
-> > +             goto exit;
-> > +     }
-> > +
-> > +     if (tx_msg->header.tag !=3D priv->cmd_tag) {
-> > +             err =3D -EINVAL;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     guard(mutex)(&priv->se_if_cmd_lock);
-> > +     priv->waiting_rsp_dev =3D dev_ctx;
-> > +     dev_ctx->temp_resp_size =3D cmd_snd_rcv_rsp_info.rx_buf_sz;
-> > +
-> > +     /* Device Context that is assigned to be a
-> > +      * FW's command receiver, has pre-allocated buffer.
-> > +      */
-> > +     if (dev_ctx !=3D priv->cmd_receiver_dev)
-> > +             dev_ctx->temp_resp =3D rx_msg;
-> > +
-> > +     err =3D ele_miscdev_msg_send(dev_ctx,
-> > +                                tx_msg,
-> > +                                cmd_snd_rcv_rsp_info.tx_buf_sz);
-> > +     if (err < 0)
-> > +             goto exit;
-> > +
-> > +     cmd_snd_rcv_rsp_info.tx_buf_sz =3D err;
-> > +
-> > +     err =3D ele_miscdev_msg_rcv(dev_ctx,
-> > +                               cmd_snd_rcv_rsp_info.rx_buf,
-> > +                               cmd_snd_rcv_rsp_info.rx_buf_sz);
->=20
-> Ok, here you now have serialized sending and receiving messages,
->=20
-> With this you no longer need priv->waiting_rsp_dev, dev_ctx->temp_resp an=
-d
-> dev_ctx->temp_resp_size. Drop these for further cleanup.
+Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+---
+ drivers/net/wwan/t7xx/t7xx_modem_ops.c     | 46 ++++++++++++++++---
+ drivers/net/wwan/t7xx/t7xx_modem_ops.h     |  9 +++-
+ drivers/net/wwan/t7xx/t7xx_pci.c           | 53 ++++++++++++++++++----
+ drivers/net/wwan/t7xx/t7xx_pci.h           |  3 ++
+ drivers/net/wwan/t7xx/t7xx_port_proxy.c    |  1 -
+ drivers/net/wwan/t7xx/t7xx_port_trace.c    |  1 +
+ drivers/net/wwan/t7xx/t7xx_state_monitor.c | 34 +++++---------
+ 7 files changed, 104 insertions(+), 43 deletions(-)
 
-It is very much needed.
-- priv->waiting_rsp_dev, help identify in the callback function that:
-	- the message is targeted for dev_ctx(user space) or dev(kernel space).
-	- the message is targeted for for which dev_ctx.
-- dev_ctx->temp_resp, this buffer pointer is needed, to receive the message=
- received in call back.
-- dev_ctx->temp_resp_size, is needed to compare the size of in-coming messa=
-ge.
+diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.c b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
+index 8d864d4ed77f..7254032d01ab 100644
+--- a/drivers/net/wwan/t7xx/t7xx_modem_ops.c
++++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
+@@ -53,6 +53,7 @@
+ 
+ #define RGU_RESET_DELAY_MS	10
+ #define PORT_RESET_DELAY_MS	2000
++#define FASTBOOT_RESET_DELAY_MS	2000
+ #define EX_HS_TIMEOUT_MS	5000
+ #define EX_HS_POLL_DELAY_MS	10
+ 
+@@ -167,19 +168,51 @@ static int t7xx_acpi_reset(struct t7xx_pci_dev *t7xx_dev, char *fn_name)
+ 	}
+ 
+ 	kfree(buffer.pointer);
++#else
++	struct device *dev = &t7xx_dev->pdev->dev;
++	int ret;
+ 
++	ret = pci_reset_function(t7xx_dev->pdev);
++	if (ret) {
++		dev_err(dev, "Failed to reset device, error:%d\n", ret);
++		return ret;
++	}
+ #endif
+ 	return 0;
+ }
+ 
+-int t7xx_acpi_fldr_func(struct t7xx_pci_dev *t7xx_dev)
++static void t7xx_host_event_notify(struct t7xx_pci_dev *t7xx_dev, unsigned int event_id)
+ {
+-	return t7xx_acpi_reset(t7xx_dev, "_RST");
++	u32 value;
++
++	value = ioread32(IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
++	value &= ~HOST_EVENT_MASK;
++	value |= FIELD_PREP(HOST_EVENT_MASK, event_id);
++	iowrite32(value, IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+ }
+ 
+-int t7xx_acpi_pldr_func(struct t7xx_pci_dev *t7xx_dev)
++int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type)
+ {
+-	return t7xx_acpi_reset(t7xx_dev, "MRST._RST");
++	int ret;
++
++	pci_save_state(t7xx_dev->pdev);
++	t7xx_pci_reprobe_early(t7xx_dev);
++	t7xx_mode_update(t7xx_dev, T7XX_RESET);
++
++	if (type == FLDR) {
++		ret = t7xx_acpi_reset(t7xx_dev, "_RST");
++	} else if (type == PLDR) {
++		ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
++	} else if (type == FASTBOOT) {
++		t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
++		t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
++		msleep(FASTBOOT_RESET_DELAY_MS);
++	}
++
++	pci_restore_state(t7xx_dev->pdev);
++	t7xx_pci_reprobe(t7xx_dev, true);
++
++	return ret;
+ }
+ 
+ static void t7xx_reset_device_via_pmic(struct t7xx_pci_dev *t7xx_dev)
+@@ -188,16 +221,15 @@ static void t7xx_reset_device_via_pmic(struct t7xx_pci_dev *t7xx_dev)
+ 
+ 	val = ioread32(IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+ 	if (val & MISC_RESET_TYPE_PLDR)
+-		t7xx_acpi_reset(t7xx_dev, "MRST._RST");
++		t7xx_reset_device(t7xx_dev, PLDR);
+ 	else if (val & MISC_RESET_TYPE_FLDR)
+-		t7xx_acpi_fldr_func(t7xx_dev);
++		t7xx_reset_device(t7xx_dev, FLDR);
+ }
+ 
+ static irqreturn_t t7xx_rgu_isr_thread(int irq, void *data)
+ {
+ 	struct t7xx_pci_dev *t7xx_dev = data;
+ 
+-	t7xx_mode_update(t7xx_dev, T7XX_RESET);
+ 	msleep(RGU_RESET_DELAY_MS);
+ 	t7xx_reset_device_via_pmic(t7xx_dev);
+ 	return IRQ_HANDLED;
+diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.h b/drivers/net/wwan/t7xx/t7xx_modem_ops.h
+index b39e945a92e0..39ed0000fbba 100644
+--- a/drivers/net/wwan/t7xx/t7xx_modem_ops.h
++++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.h
+@@ -78,14 +78,19 @@ struct t7xx_modem {
+ 	spinlock_t			exp_lock; /* Protects exception events */
+ };
+ 
++enum reset_type {
++	FLDR,
++	PLDR,
++	FASTBOOT,
++};
++
+ void t7xx_md_exception_handshake(struct t7xx_modem *md);
+ void t7xx_md_event_notify(struct t7xx_modem *md, enum md_event_id evt_id);
+ int t7xx_md_reset(struct t7xx_pci_dev *t7xx_dev);
+ int t7xx_md_init(struct t7xx_pci_dev *t7xx_dev);
+ void t7xx_md_exit(struct t7xx_pci_dev *t7xx_dev);
+ void t7xx_clear_rgu_irq(struct t7xx_pci_dev *t7xx_dev);
+-int t7xx_acpi_fldr_func(struct t7xx_pci_dev *t7xx_dev);
+-int t7xx_acpi_pldr_func(struct t7xx_pci_dev *t7xx_dev);
++int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type);
+ int t7xx_pci_mhccif_isr(struct t7xx_pci_dev *t7xx_dev);
+ 
+ #endif	/* __T7XX_MODEM_OPS_H__ */
+diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/t7xx/t7xx_pci.c
+index 10a8c1080b10..2398f41046ce 100644
+--- a/drivers/net/wwan/t7xx/t7xx_pci.c
++++ b/drivers/net/wwan/t7xx/t7xx_pci.c
+@@ -67,6 +67,7 @@ static ssize_t t7xx_mode_store(struct device *dev,
+ 			       struct device_attribute *attr,
+ 			       const char *buf, size_t count)
+ {
++	enum t7xx_mode mode;
+ 	struct t7xx_pci_dev *t7xx_dev;
+ 	struct pci_dev *pdev;
+ 	int index = 0;
+@@ -76,12 +77,22 @@ static ssize_t t7xx_mode_store(struct device *dev,
+ 	if (!t7xx_dev)
+ 		return -ENODEV;
+ 
++	mode = READ_ONCE(t7xx_dev->mode);
++
+ 	index = sysfs_match_string(t7xx_mode_names, buf);
++	if (index == mode)
++		return -EBUSY;
++
+ 	if (index == T7XX_FASTBOOT_SWITCHING) {
++		if (mode == T7XX_FASTBOOT_DOWNLOAD)
++			return count;
++
+ 		WRITE_ONCE(t7xx_dev->mode, T7XX_FASTBOOT_SWITCHING);
++		pm_runtime_resume(dev);
++		t7xx_reset_device(t7xx_dev, FASTBOOT);
+ 	} else if (index == T7XX_RESET) {
+-		WRITE_ONCE(t7xx_dev->mode, T7XX_RESET);
+-		t7xx_acpi_pldr_func(t7xx_dev);
++		pm_runtime_resume(dev);
++		t7xx_reset_device(t7xx_dev, PLDR);
+ 	}
+ 
+ 	return count;
+@@ -446,7 +457,7 @@ static int t7xx_pcie_reinit(struct t7xx_pci_dev *t7xx_dev, bool is_d3)
+ 
+ 	if (is_d3) {
+ 		t7xx_mhccif_init(t7xx_dev);
+-		return t7xx_pci_pm_reinit(t7xx_dev);
++		t7xx_pci_pm_reinit(t7xx_dev);
+ 	}
+ 
+ 	return 0;
+@@ -481,6 +492,33 @@ static int t7xx_send_fsm_command(struct t7xx_pci_dev *t7xx_dev, u32 event)
+ 	return ret;
+ }
+ 
++int t7xx_pci_reprobe_early(struct t7xx_pci_dev *t7xx_dev)
++{
++	enum t7xx_mode mode = READ_ONCE(t7xx_dev->mode);
++	int ret;
++
++	if (mode == T7XX_FASTBOOT_DOWNLOAD)
++		pm_runtime_put_noidle(&t7xx_dev->pdev->dev);
++
++	ret = t7xx_send_fsm_command(t7xx_dev, FSM_CMD_STOP);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++int t7xx_pci_reprobe(struct t7xx_pci_dev *t7xx_dev, bool boot)
++{
++	int ret;
++
++	ret = t7xx_pcie_reinit(t7xx_dev, boot);
++	if (ret)
++		return ret;
++
++	t7xx_clear_rgu_irq(t7xx_dev);
++	return t7xx_send_fsm_command(t7xx_dev, FSM_CMD_START);
++}
++
+ static int __t7xx_pci_pm_resume(struct pci_dev *pdev, bool state_check)
+ {
+ 	struct t7xx_pci_dev *t7xx_dev;
+@@ -507,16 +545,11 @@ static int __t7xx_pci_pm_resume(struct pci_dev *pdev, bool state_check)
+ 		if (prev_state == PM_RESUME_REG_STATE_L3 ||
+ 		    (prev_state == PM_RESUME_REG_STATE_INIT &&
+ 		     atr_reg_val == ATR_SRC_ADDR_INVALID)) {
+-			ret = t7xx_send_fsm_command(t7xx_dev, FSM_CMD_STOP);
+-			if (ret)
+-				return ret;
+-
+-			ret = t7xx_pcie_reinit(t7xx_dev, true);
++			ret = t7xx_pci_reprobe_early(t7xx_dev);
+ 			if (ret)
+ 				return ret;
+ 
+-			t7xx_clear_rgu_irq(t7xx_dev);
+-			return t7xx_send_fsm_command(t7xx_dev, FSM_CMD_START);
++			return t7xx_pci_reprobe(t7xx_dev, true);
+ 		}
+ 
+ 		if (prev_state == PM_RESUME_REG_STATE_EXP ||
+diff --git a/drivers/net/wwan/t7xx/t7xx_pci.h b/drivers/net/wwan/t7xx/t7xx_pci.h
+index 49a11586d8d8..cd8ea17c2644 100644
+--- a/drivers/net/wwan/t7xx/t7xx_pci.h
++++ b/drivers/net/wwan/t7xx/t7xx_pci.h
+@@ -133,4 +133,7 @@ int t7xx_pci_pm_entity_unregister(struct t7xx_pci_dev *t7xx_dev, struct md_pm_en
+ void t7xx_pci_pm_init_late(struct t7xx_pci_dev *t7xx_dev);
+ void t7xx_pci_pm_exp_detected(struct t7xx_pci_dev *t7xx_dev);
+ void t7xx_mode_update(struct t7xx_pci_dev *t7xx_dev, enum t7xx_mode mode);
++int t7xx_pci_reprobe(struct t7xx_pci_dev *t7xx_dev, bool boot);
++int t7xx_pci_reprobe_early(struct t7xx_pci_dev *t7xx_dev);
++
+ #endif /* __T7XX_PCI_H__ */
+diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.c b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
+index 7d6388bf1d7c..35743e7de0c3 100644
+--- a/drivers/net/wwan/t7xx/t7xx_port_proxy.c
++++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
+@@ -553,7 +553,6 @@ static int t7xx_proxy_alloc(struct t7xx_modem *md)
+ 
+ 	md->port_prox = port_prox;
+ 	port_prox->dev = dev;
+-	t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_EARLY);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/net/wwan/t7xx/t7xx_port_trace.c b/drivers/net/wwan/t7xx/t7xx_port_trace.c
+index 6a3f36385865..4ed8b4e29bf1 100644
+--- a/drivers/net/wwan/t7xx/t7xx_port_trace.c
++++ b/drivers/net/wwan/t7xx/t7xx_port_trace.c
+@@ -59,6 +59,7 @@ static void t7xx_trace_port_uninit(struct t7xx_port *port)
+ 
+ 	relay_close(relaych);
+ 	debugfs_remove_recursive(debugfs_dir);
++	port->log.relaych = NULL;
+ }
+ 
+ static int t7xx_trace_port_recv_skb(struct t7xx_port *port, struct sk_buff *skb)
+diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+index 9889ca4621cf..3931c7a13f5a 100644
+--- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
++++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+@@ -213,16 +213,6 @@ static void fsm_routine_exception(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comm
+ 		fsm_finish_command(ctl, cmd, 0);
+ }
+ 
+-static void t7xx_host_event_notify(struct t7xx_modem *md, unsigned int event_id)
+-{
+-	u32 value;
+-
+-	value = ioread32(IREG_BASE(md->t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+-	value &= ~HOST_EVENT_MASK;
+-	value |= FIELD_PREP(HOST_EVENT_MASK, event_id);
+-	iowrite32(value, IREG_BASE(md->t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+-}
+-
+ static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int status)
+ {
+ 	struct t7xx_modem *md = ctl->md;
+@@ -264,8 +254,14 @@ static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int
+ 
+ static int fsm_stopped_handler(struct t7xx_fsm_ctl *ctl)
+ {
++	enum t7xx_mode mode;
++
+ 	ctl->curr_state = FSM_STATE_STOPPED;
+ 
++	mode = READ_ONCE(ctl->md->t7xx_dev->mode);
++	if (mode == T7XX_FASTBOOT_DOWNLOAD || mode == T7XX_FASTBOOT_DUMP)
++		return 0;
++
+ 	t7xx_fsm_broadcast_state(ctl, MD_STATE_STOPPED);
+ 	return t7xx_md_reset(ctl->md->t7xx_dev);
+ }
+@@ -284,8 +280,6 @@ static void fsm_routine_stopping(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comma
+ {
+ 	struct cldma_ctrl *md_ctrl = ctl->md->md_ctrl[CLDMA_ID_MD];
+ 	struct t7xx_pci_dev *t7xx_dev = ctl->md->t7xx_dev;
+-	enum t7xx_mode mode = READ_ONCE(t7xx_dev->mode);
+-	int err;
+ 
+ 	if (ctl->curr_state == FSM_STATE_STOPPED || ctl->curr_state == FSM_STATE_STOPPING) {
+ 		fsm_finish_command(ctl, cmd, -EINVAL);
+@@ -296,21 +290,10 @@ static void fsm_routine_stopping(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comma
+ 	t7xx_fsm_broadcast_state(ctl, MD_STATE_WAITING_TO_STOP);
+ 	t7xx_cldma_stop(md_ctrl);
+ 
+-	if (mode == T7XX_FASTBOOT_SWITCHING)
+-		t7xx_host_event_notify(ctl->md, FASTBOOT_DL_NOTIFY);
+-
+ 	t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DRM_DISABLE_AP);
+ 	/* Wait for the DRM disable to take effect */
+ 	msleep(FSM_DRM_DISABLE_DELAY_MS);
+ 
+-	if (mode == T7XX_FASTBOOT_SWITCHING) {
+-		t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
+-	} else {
+-		err = t7xx_acpi_fldr_func(t7xx_dev);
+-		if (err)
+-			t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
+-	}
+-
+ 	fsm_finish_command(ctl, cmd, fsm_stopped_handler(ctl));
+ }
+ 
+@@ -414,7 +397,9 @@ static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
+ 
+ 		case T7XX_DEV_STAGE_LK:
+ 			dev_dbg(dev, "LK_STAGE Entered\n");
++			t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_EARLY);
+ 			t7xx_lk_stage_event_handling(ctl, status);
++
+ 			break;
+ 
+ 		case T7XX_DEV_STAGE_LINUX:
+@@ -436,6 +421,9 @@ static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
+ 	}
+ 
+ finish_command:
++	if (ret)
++		t7xx_mode_update(md->t7xx_dev, T7XX_UNKNOWN);
++
+ 	fsm_finish_command(ctl, cmd, ret);
+ }
+ 
+-- 
+2.34.1
 
-All the three are needed in callback function.
-
->=20
-> > +}
-> > +
-> > +static int se_ioctl_get_mu_info(struct se_if_device_ctx *dev_ctx,
-> > +                             u64 arg) {
-> > +     struct se_if_priv *priv =3D dev_get_drvdata(dev_ctx->dev);
-> > +     struct se_if_node_info *if_node_info;
-> > +     struct se_ioctl_get_if_info info;
-> > +     int err =3D 0;
-> > +
-> > +     if_node_info =3D (struct se_if_node_info *)priv->info;
-> > +
-> > +     info.se_if_id =3D if_node_info->se_if_id;
-> > +     info.interrupt_idx =3D 0;
-> > +     info.tz =3D 0;
-> > +     info.did =3D if_node_info->se_if_did;
-> > +     info.cmd_tag =3D if_node_info->cmd_tag;
-> > +     info.rsp_tag =3D if_node_info->rsp_tag;
-> > +     info.success_tag =3D if_node_info->success_tag;
-> > +     info.base_api_ver =3D if_node_info->base_api_ver;
-> > +     info.fw_api_ver =3D if_node_info->fw_api_ver;
->=20
-> This really shouldn't be here. You pass cmd_tag and rsp_tag to userspace =
-just
-> to guide userspace how to construct a message.
->=20
-> This shows that the messages should be constructed in the Kernel rather t=
-han
-> in userspace. Just pass the message content from userspace to the kernel =
-and
-> let the kernel build the message on the sender side.
-
-This will help collecting user-space application logs, with correct tags.
-This is already used by the customers, for debug.
-
->=20
-> > +/* IOCTL entry point of a character device */ static long
-> > +se_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
-> > +     struct se_if_device_ctx *dev_ctx =3D container_of(fp->private_dat=
-a,
-> > +                                                     struct se_if_devi=
-ce_ctx,
-> > +                                                     miscdev);
-> > +     struct se_if_priv *se_if_priv =3D dev_ctx->priv;
-> > +     int err =3D -EINVAL;
-> > +
-> > +     /* Prevent race during change of device context */
-> > +     if (down_interruptible(&dev_ctx->fops_lock))
-> > +             return -EBUSY;
-> > +
-> > +     switch (cmd) {
-> > +     case SE_IOCTL_ENABLE_CMD_RCV:
-> > +             if (!se_if_priv->cmd_receiver_dev) {
-> > +                     err =3D 0;
-> > +                     se_if_priv->cmd_receiver_dev =3D dev_ctx;
-> > +                     dev_ctx->temp_resp =3D kzalloc(MAX_NVM_MSG_LEN,
-> GFP_KERNEL);
-> > +                     if (!dev_ctx->temp_resp)
-> > +                             err =3D -ENOMEM;
-> > +             }
->=20
-> cmd_receiver_dev isn't locked by anything, still it can be accessed by di=
-fferent
-> userspace processes.
-
-It is not accessed by different Userspace processes. It is a slave to FW.
-FW interacts with it when FW receive a command to do any action, from users=
-pace.
-Hence, it will be executed under command-lock.
-
->=20
-> Besides, when already another instance is configured for receiving comman=
-ds I
-> would expect an -EBUSY here instead of silently ignoring the ioctl.
-Ok. Accepted.
-
->=20
-> > +             break;
-> > +     case SE_IOCTL_GET_MU_INFO:
-> > +             err =3D se_ioctl_get_mu_info(dev_ctx, arg);
-> > +             break;
-> > +     case SE_IOCTL_SETUP_IOBUF:
-> > +             err =3D se_ioctl_setup_iobuf_handler(dev_ctx, arg);
-> > +             break;
-> > +     case SE_IOCTL_GET_SOC_INFO:
-> > +             err =3D se_ioctl_get_se_soc_info_handler(dev_ctx, arg);
-> > +             break;
-> > +     case SE_IOCTL_CMD_SEND_RCV_RSP:
-> > +             err =3D se_ioctl_cmd_snd_rcv_rsp_handler(dev_ctx, arg);
-> > +             break;
-> > +
-> > +     default:
-> > +             err =3D -EINVAL;
-> > +             dev_dbg(se_if_priv->dev,
-> > +                     "%s: IOCTL %.8x not supported\n",
-> > +                             dev_ctx->miscdev.name,
-> > +                             cmd);
-> > +     }
-> > +
-> > +     up(&dev_ctx->fops_lock);
-> > +     return (long)err;
-> > +}
-> > +
->=20
-> ...
->=20
-> > +static int init_device_context(struct se_if_priv *priv) {
-> > +     const struct se_if_node_info *info =3D priv->info;
-> > +     struct se_if_device_ctx *dev_ctx;
-> > +     u8 *devname;
-> > +     int ret =3D 0;
-> > +     int i;
-> > +
-> > +     priv->ctxs =3D devm_kzalloc(priv->dev, sizeof(dev_ctx) * priv-
-> >max_dev_ctx,
-> > +                               GFP_KERNEL);
-> > +
-> > +     if (!priv->ctxs) {
-> > +             ret =3D -ENOMEM;
-> > +             return ret;
-> > +     }
-> > +
-> > +     /* Create users */
-> > +     for (i =3D 0; i < priv->max_dev_ctx; i++) {
-> > +             dev_ctx =3D devm_kzalloc(priv->dev, sizeof(*dev_ctx), GFP=
-_KERNEL);
-> > +             if (!dev_ctx) {
-> > +                     ret =3D -ENOMEM;
-> > +                     return ret;
-> > +             }
-> > +
-> > +             dev_ctx->dev =3D priv->dev;
-> > +             dev_ctx->status =3D SE_IF_CTX_FREE;
-> > +             dev_ctx->priv =3D priv;
-> > +
-> > +             priv->ctxs[i] =3D dev_ctx;
-> > +
-> > +             /* Default value invalid for an header. */
-> > +             init_waitqueue_head(&dev_ctx->wq);
-> > +
-> > +             INIT_LIST_HEAD(&dev_ctx->pending_out);
-> > +             INIT_LIST_HEAD(&dev_ctx->pending_in);
-> > +             sema_init(&dev_ctx->fops_lock, 1);
-> > +
-> > +             devname =3D devm_kasprintf(priv->dev, GFP_KERNEL, "%s_ch%=
-d",
-> > +                                      info->se_name, i);
-> > +             if (!devname) {
-> > +                     ret =3D -ENOMEM;
-> > +                     return ret;
-> > +             }
-> > +
-> > +             dev_ctx->miscdev.name =3D devname;
-> > +             dev_ctx->miscdev.minor =3D MISC_DYNAMIC_MINOR;
-> > +             dev_ctx->miscdev.fops =3D &se_if_fops;
-> > +             dev_ctx->miscdev.parent =3D priv->dev;
-> > +             ret =3D misc_register(&dev_ctx->miscdev);
-> > +             if (ret) {
-> > +                     dev_err(priv->dev, "failed to register misc devic=
-e %d\n",
-> > +                             ret);
-> > +                     return ret;
-> > +             }
->=20
-> Here you register four character devices which all allow a single open.
->=20
-> There's no need to artificially limit the number of users. Just register =
-a single
-> character device, allow it to be opened multiple times and allocate the i=
-nstance
-> specific context as necessary in se_if_fops_open().
-
-Accepted.
->=20
-> Sascha
->=20
-> --
-> Pengutronix e.K.                           |                             =
-|
-> Steuerwalder Str. 21                       |
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fwww.
-> pengutronix.de%2F&data=3D05%7C02%7Cpankaj.gupta%40nxp.com%7C5bb7
-> 0a0c3bcb437e2e3808dcab229d77%7C686ea1d3bc2b4c6fa92cd99c5c3016
-> 35%7C0%7C0%7C638573412358069325%7CUnknown%7CTWFpbGZsb3d8
-> eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3
-> D%7C0%7C%7C%7C&sdata=3D97GKp2ydNvQz0oOwGp0dM3eez3L8IAE1sOqC
-> 3bhAxd8%3D&reserved=3D0  |
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
-|
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
-|
