@@ -1,137 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013EA1552EB;
-	Fri,  9 Aug 2024 07:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456C7191490;
+	Fri,  9 Aug 2024 09:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723190188; cv=none; b=q/icM8tm/GJw5AQmaxamY0zCZ+d7puypdEBlXsVnmGXFm3qgU5ZumjLFz44PqwyjmMTts65fVHiepjd5mgB4OvprVL9Xbqg6UGtfnychHv6wEotwSsI5FGXuHlKrGb3dxBSoT3pDDzqkrkXajJuGpWY8Rev4RoEnA81aK3mRo3w=
+	t=1723194611; cv=none; b=bWtZnZxkapzuDrCnMe/dm5ZplHjfJKgAkqnIBAglGUCYVqPoohf30ygTFETP/ErIAMXa4C/VfXSFriGopukUc9NhJishbZqbY+uAi/aYV/WEIxAmPel5GtJ9o+mRFk9iNa6OjHaiaahlBsYPmYVn1D26Fx4Qk8Q7rU5h/E6xgs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723190188; c=relaxed/simple;
-	bh=WciictBvnZZognJdSB//Vkpj36Vtrbm418N+k4gXKM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lue6vbwtS3HJzRZ4DDuQJNKtEil0h6h4lG6IFkP1B5hZIGG8ikUOuuF5Kcihcvq2LJABgU2zkSn7SqbHzVyIsJVSGrB0gMVkoRhgO4qxg5JpAJ98rXp/4ZTYvfg+2Q4hTsM6NO+bTCsHgTb5IFuX9QdMpXBrbmjngJBHjJfFHqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWy7JWX6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723194611; c=relaxed/simple;
+	bh=RA9GPdSt+rAu15pzkDlxt47mUD2WFsCn1aBvY69ErQo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PF1TAPVLfxyUji+yOiTi3q4qUxSU1WInU8L66QaF/jfMQO8w6hmXKhZTxXeEUzhJfffARLSVQQUd4z2FG16o30G3uMMii9K6o/fUBY6D+QHN+tJC2vYi4XbZiJWfhC/0Gc3ifbC1CPzXeLWZcWN9EsVeYm8A8lo0rMHaD6n7NQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fS/cpTVk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWy7JWX6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952AFC4AF0D;
-	Fri,  9 Aug 2024 07:56:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fS/cpTVk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6DB3C4AF1C;
+	Fri,  9 Aug 2024 09:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723190187;
-	bh=WciictBvnZZognJdSB//Vkpj36Vtrbm418N+k4gXKM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iWy7JWX63DlQVy2d0mNGhQfP+E5wTH7yt+zLcJ0XE+/2H7ya+xPuYTTvng2lSdR0P
-	 fY3FcxC8uU8GMeAkyI60nvRDENoJPGv+KO8RJqpQagYElLNKgByK/OFTroSX355YCs
-	 LkPyVbDTwM5NLcPamf6V9UY8mS/5OHdlCJ1Bf0Wrzy8CzH4nnoBsnommLbSLYVYa0S
-	 vit/eTqSx1gLR+UhLsyyqz5moCQu5XrPJ2lKHYZlMNpbvAKOB2UKpjpb3hjS9c0GG8
-	 efszcgVI6ngSguWbXJ9ztgvoCk8mZPBFojeGqb+x30Hdvr6lK6GLQBG40LF/KOtnNT
-	 rWCJ8B29HDgmg==
-Date: Fri, 9 Aug 2024 08:56:15 +0100
-From: Simon Horman <horms@kernel.org>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Willem de Bruijn <willemb@google.com>, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Helge Deller <deller@gmx.de>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Matt Turner <mattst88@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Shailend Chand <shailend@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Taehee Yoo <ap420073@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>
-Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240809075615.GD3075665@kernel.org>
-References: <20240730022623.98909-4-almasrymina@google.com>
- <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
- <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
- <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
- <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+	s=k20201202; t=1723194610;
+	bh=RA9GPdSt+rAu15pzkDlxt47mUD2WFsCn1aBvY69ErQo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fS/cpTVkDK5JRgye64mjypom+9ZbLpL5IugWodQn/+JWw7HftziDKv0gzbdmhSjZm
+	 tVhwBGafV1nmJgMdTmQkD9ueXQvYNlTguiqMNjqJc8ahw7WgcWk8WZ/JcHkjwowbgs
+	 ZM0iXmcR/vG7MdFSnxEVDpSf9Fdpk5t57hN9noxNsj0tU2Qv+4330ZfH6y9tvhAnFW
+	 TvWiwsXSPcCAMejXOvHI9p/qrSIIF/eGJDio5SPkS51xjco7MlSIZ+uPoS6indEQj0
+	 o8d5T+NLtmCWMsv13eNL+3xJ2VNfrmXm6DXtRJEcW1BIjYPyZWQmd45j1mJCt8iGJr
+	 k5Q7oNRTlwEnA==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7aada2358fso452306366b.0;
+        Fri, 09 Aug 2024 02:10:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXL9nuINKFD89pYtolslq9h/DvzVrIZp0NqKG/0AuVh+3g7yumskWGhPfoGpCa+iWkdDsEXN9gGrgrpU5v/1IbNzCQv4HZ/mTtfFIXtmjuwIrhSd+RSTzeLlPwEsSTa6m6sMHnzXBU+
+X-Gm-Message-State: AOJu0YxqcKmg7Llx4USYtNnui/kEVLczYKEc8ROb0Sz97+xPOyPPkfKM
+	WhKtQenTHf+OSELsJN0pgD8A1zJIA94fV8Ex5Y1AfjKrGnwr4ggP91DhO7Wl6dZm9wEsdt7kotq
+	VayzagUzKnxUwVDaxJw4cMJeamKo=
+X-Google-Smtp-Source: AGHT+IG0vYsCxl2XJSz89es56dskV1Gp9BZHrHtdD11CrnW97J/RCZBmJp9VuXRBiLLGGLT9pbMS/ity2YA2IsbY7UM=
+X-Received: by 2002:a17:907:96a9:b0:a72:5f3f:27a2 with SMTP id
+ a640c23a62f3a-a80ab952a42mr68284266b.26.1723194609282; Fri, 09 Aug 2024
+ 02:10:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+References: <20240806115557.4750-1-zhangtianyang@loongson.cn>
+ <87le180z8b.ffs@tglx> <bc5d4e7a-ba81-f8f7-3629-2c80897d8ffc@loongson.cn>
+ <CAAhV-H7EHRSFsJCY3F2NdwjGcEO-TnSF4S3iQnYXh-N8c2-b4g@mail.gmail.com> <ae561e06-1312-2568-c36f-3a845050a596@loongson.cn>
+In-Reply-To: <ae561e06-1312-2568-c36f-3a845050a596@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 9 Aug 2024 17:09:56 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4hgYPtRSkr_vNcDmfDXJmZxOxExZyzWDUmtX_3Y9yWSw@mail.gmail.com>
+Message-ID: <CAAhV-H4hgYPtRSkr_vNcDmfDXJmZxOxExZyzWDUmtX_3Y9yWSw@mail.gmail.com>
+Subject: Re: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
+To: Tianyang Zhang <zhangtianyang@loongson.cn>
+Cc: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net, alexs@kernel.org, kernel@xen0n.name, 
+	jiaxun.yang@flygoat.com, gaoliang@loongson.cn, wangliupu@loongson.cn, 
+	lvjianmin@loongson.cn, yijun@loongson.cn, mhocko@suse.com, 
+	akpm@linux-foundation.org, dianders@chromium.org, maobibo@loongson.cn, 
+	xry111@xry111.site, zhaotianrui@loongson.cn, nathan@kernel.org, 
+	yangtiezhu@loongson.cn, zhoubinbin@loongson.cn, loongarch@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Huacai Chen <chenhuacai@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 06, 2024 at 08:39:34AM -0400, Willem de Bruijn wrote:
-> Markus Elfring wrote:
-> > >> …
-> > >>> +++ b/include/net/devmem.h
-> > >>> @@ -0,0 +1,115 @@
-> > >> …
-> > >>> +#ifndef _NET_DEVMEM_H
-> > >>> +#define _NET_DEVMEM_H
-> > >> …
-> > >>
-> > >> I suggest to omit leading underscores from such identifiers.
-> > >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier
-> > >>
-> > >
-> > > I was gonna apply this change, but I ack'd existing files and I find
-> > > that all of them include leading underscores, including some very
-> > > recently added files like net/core/page_pool_priv.h.
-> > >
-> > > I would prefer to stick to existing conventions if that's OK, unless
-> > > there is widespread agreement to the contrary.
-> > 
-> > Under which circumstances would you become interested to reduce development risks
-> > also according to undefined behaviour?
-> > https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC.UndefinedBehavior-ub_106
-> 
-> This series is following established practice in kernel networking.
-> 
-> If that conflicts with a C standard, then perhaps that needs to be
-> resolved project wide.
-> 
-> Forcing an individual feature to diverge just brings inconsistency.
-> That said, this appears to be inconsistent already.
-> 
-> Main question is whether this is worth respinning a series already at
-> v17 with no more fundamental feedback.
+On Fri, Aug 9, 2024 at 9:50=E2=80=AFAM Tianyang Zhang <zhangtianyang@loongs=
+on.cn> wrote:
+>
+> Hi, Huacai
+>
+> =E5=9C=A8 2024/8/8 =E4=B8=8B=E5=8D=884:03, Huacai Chen =E5=86=99=E9=81=93=
+:
+> > Hi, Tianyang,
+> >
+> > On Thu, Aug 8, 2024 at 2:52=E2=80=AFPM Tianyang Zhang <zhangtianyang@lo=
+ongson.cn> wrote:
+> >> Hi, Thomas
+> >>
+> >> Thank you for your feedback.
+> >>
+> >> =E5=9C=A8 2024/8/8 =E4=B8=8A=E5=8D=886:01, Thomas Gleixner =E5=86=99=
+=E9=81=93:
+> >>
+> >>>> +    guard(raw_spinlock_irqsave)(&loongarch_avec.lock);
+> >>>> +
+> >>>> +    for (i =3D 0; i < nr_irqs; i++) {
+> >>>> +            d =3D irq_domain_get_irq_data(domain, virq + i);
+> >>>> +            if (d) {
+> >>>> +                    clear_free_vector(d);
+> >>>> +                    irq_domain_reset_irq_data(d);
+> >>>> +
+> >>> Stray newline, but the more important question is what kfree()'s 'd'?
+> >>>
+> >>> AFAICT, nothing. So that's a memory leak, no?
+> >> With my understand , 'd' as 'struct irq_data' can be free at public
+> >> irqdomain process, and really miss a kfree targeting 'struct chip_data=
+'
+> >>>> +static int __init avecintc_init(struct irq_domain *parent)
+> >>>> +{
+> >>>> +    parent_irq =3D irq_create_mapping(parent, INT_AVEC);
+> >>>> +    if (!parent_irq) {
+> >>>> +            pr_err("Failed to mapping hwirq\n");
+> >>>> +            ret =3D -EINVAL;
+> >>>> +            goto out_remove_domain;
+> >>>> +    }
+> >>>> +    irq_set_chained_handler_and_data(parent_irq, avecintc_irq_dispa=
+tch, NULL);
+> >>>> +
+> >>>> +    ret =3D irq_matrix_init();
+> >>>> +    if (ret < 0) {
+> >>>> +            pr_err("Failed to init irq matrix\n");
+> >>>> +            goto out_remove_domain;
+> >>> Which still leaves the disfunct chained handler installed and the
+> >>> mapping intact.
+> >> There is indeed a problem here, but we have not found a similar approa=
+ch
+> >> for reference.
+> >>
+> >> Is it reasonable to replace here with handle_bad_irq in case of failur=
+e?
+> >> or is there any other more suitable way. We hope you can give us some
+> >> suggestions, thank you very much
+> > Maybe we can move irq_set_chained_handler_and_data(parent_irq,
+> > avecintc_irq_dispatch, NULL) after the checking of irq_matrix_init().
+> >
+> > Huacai
+> I think is a good idea~~
+Again, you can download patches from here as V9:
+https://github.com/chenhuacai/linux/commits/loongarch-next
 
-No, from my point of view, it is not.
 
-This really is a trivial and somewhat subjective mater.
-I don't think it should hold up a substantial piece of work.
+Huacai
+
+> >>>> +#endif
+> >>>> +    value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+> >>>> +    value |=3D IOCSR_MISC_FUNC_AVEC_EN;
+> >>>> +    iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+> >>>> +
+> >>>> +    return ret;
+> >>>> +
+> >>>> +out_remove_domain:
+> >>>> +    irq_domain_remove(loongarch_avec.domain);
+> >>>> +out_free_handle:
+> >>>> +    irq_domain_free_fwnode(loongarch_avec.fwnode);
+> >>>> +out:
+> >>>> +    return ret;
+> >>>> +}
+> >>>> +
+> >>>> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *h=
+eader,
+> >>>> +                                 const unsigned long end)
+> >>>> +{
+> >>>> +    struct acpi_madt_msi_pic *pchmsi_entry =3D (struct acpi_madt_ms=
+i_pic *)header;
+> >>>> +
+> >>>> +    msi_base_addr =3D pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+> >>> What validates that msi_base_addr has none of the lower 16 bits set, =
+as
+> >>> they are required to be zero to make MSI message composing work, righ=
+t?
+> >> This operation originates from some hardware designs.
+> >>
+> >> In 3C6000, either eiointc or avecintc can be the parent controller for
+> >> MSI interrupts and these two controllers have different MSI msg addres=
+s.
+> >>
+> >> In our platform design scheme, we fix avec-msg-address to the address =
+of
+> >> (eiointc-msg-address - 0x100000). Therefore, here we need to subtract
+> >> AVEC_MSG_OFFSET from the msg_address obtained by MCFG
+> >>
+> >> The main purpose of the design that users of 3C6000 can freely choose
+> >> the version of the Linux kernel that supports loongarch (regardless of
+> >> whether AVEC is supported or not) without having to change the firmwar=
+e
+> >>
+> >>
+> >> Thanks again
+> >>
+> >> Tianyang
+> >>
+>
+>
