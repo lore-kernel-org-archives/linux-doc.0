@@ -1,98 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7242940D;
-	Fri,  9 Aug 2024 18:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934FA20309;
+	Fri,  9 Aug 2024 18:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723227339; cv=none; b=RiBhtrEZz57+CKbplK0ZOkGsh7d9RmuKKImRUseTn/X5UL1iqdK30dXRBkT/eRVBxwk9UYGce1RnRJe48eK1SNnowEBubGf1/bHgfwxw9fJ3dG0DNuVxubIf96iueKnxyUOC0vubbZLgVXwlVnRM3hmGEKVtXcf1HfaFWW+LKfM=
+	t=1723227491; cv=none; b=u3OouaidNtAW7hhwl3URgHYk8FRPNiYicE5BZVFRzXXH6N3OB8FsTax0LmuC3Oz20HrJpsRFW6MLfxkqPhJ+BA0YbwdgFTzyaRd8pUVal9KrONU+TY88aGQM9TFso9AzV/SE1JK+4DywNL6hiXOcwfOdy4NeRE1eDGrvkrW15Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723227339; c=relaxed/simple;
-	bh=DkIXjXMgQ2h07LfBy7/0VFM/IS/1mPxjxgWjjpNWjN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kFE3xKsusQqHI4aMaBzRUKu4pEWWMvHU3hOpk8ObpC87H3Kibaqrn9xkDGKp451eAHjkf8zNMH89mDtPV5FTG8hMejkfcv6py299K/wtVn4GySfLkIeLe3TPVnwKe5+URtOXWfN3DybdRhBO20QMYfkMklnZ0YbFE/6gKz/au4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MR1X+5yB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723227491; c=relaxed/simple;
+	bh=jjnLbbdVBpfhuDZxF6ajgOKZIJ5+WLD/XKTaZtyKMzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hRnTu11/mPsWAP9J8Nqw7/ONrqhrxcEOwUXpzbd2LW4IzYAID/j+Ci8BUFBrZS2kJHGoFyW8t4L4rqytZ6F/j5XUxbNo10FrElgA+f9C1zXgKmnJro1zcjfojhYoFBra8KfE/R2QgjyVnptHLL47wI79+9dTLUmjUdH6v/SW2Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYYMRlRx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MR1X+5yB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF74C32782;
-	Fri,  9 Aug 2024 18:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723227338;
-	bh=DkIXjXMgQ2h07LfBy7/0VFM/IS/1mPxjxgWjjpNWjN0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MR1X+5yBrVzw/2nz4GlMf1V6E4gE7fxoO2XGRiXRrOAuUhV6qeBbyKQaWkc+Kgajg
-	 BXN+XH1/lJhEwmFp3XzqEqRyCR1Amd06zB89gm0eRqQkRyNb15RmFvGEWDeZMTsvEV
-	 C9koFvqzCCWgRmG/RkCXDLU2K+M3QHgTwA7RVydwVRJgZ0IyNrEMrFYO0Sxc7L12WK
-	 r/Vg6shac1/0N7FkLv1g5Y3B+eO613m7bG3h+Ehn8HDDVoROmp3RVGz1dMN5k4X/fH
-	 o1wU3EfU58F5VIQ1aDA4dekfX0qj+Vbkz1Nf+oRY17CMt+poRUh8oVEz37gK/VGaVP
-	 VqpBVMFQEasQg==
-Date: Fri, 9 Aug 2024 12:15:36 -0600
-From: Rob Herring <robh@kernel.org>
-To: Jesse Taube <jesse@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH 2/2] dt-bindings: riscv: Add Zicclsm ISA extension
- description.
-Message-ID: <20240809181536.GA976083-robh@kernel.org>
-References: <20240809162240.1842373-1-jesse@rivosinc.com>
- <20240809162240.1842373-3-jesse@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYYMRlRx"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1fc611a0f8cso21040835ad.2;
+        Fri, 09 Aug 2024 11:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723227489; x=1723832289; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iPrUGarB5nEOXoX/2BO/BZ/JE38Dogt0DthDK7mWKJI=;
+        b=YYYMRlRxDmD2hzvu5ab9hlVu0XHz1FU+gHlLT3P0xqB52pfPnQEtup/nDPlFnJXAZy
+         CBFyIi8WGZE0xufDiC6THMNjHgx0QL0dK/WIFAGU0+TRDRQ0sQsY5PkIkL/mSUsbO7+b
+         sGdljGC5lCYwCYJLBf3tVm3gCF2hHAm/iQXtikGgSUGAlxcdFRDwL89OqPwGT3lF+8qr
+         giKn2SDU/8B/Iavy4EJ/lurHsnTrzUCrCFXDS3ryYcdmCYPfv2t4bGm4SKT4QXFYVgZA
+         ZdZNCjiUo1bPLbE+l1xVxIp/+UfKpYxIjW7TUVmq0CO6FIUsiwhUL3aubHwQOnv0rZZV
+         8kng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723227489; x=1723832289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iPrUGarB5nEOXoX/2BO/BZ/JE38Dogt0DthDK7mWKJI=;
+        b=sOfakCXBkpV/1BQXsQkpfepvv7ZUyXdwNqyLIWWFIek5jJG6wjqLJGTnyOWus2drIF
+         vsIsxRLcyNSBcmx9x6f6maRYeZU/z3ZAS4fO0EhIGia16novervYLYstz1qmahBXoL1D
+         qZLUfRGUe77T6hxIvPYsRa9qtRyoTBkHNHlwAo8HhomNnvD3LBpEvLHX5OypB1nzQbBx
+         rWRY+r/yeDNFo0nor5DFlIwjwbtFQu8hhLXzSNqhMEiETnqwsLIWtLagwOehlh5Bb59d
+         LqwPNTcF6AR0TPvApkzWjj3g4hmTCtr0vBrmDZZOXsGzsUZm09tPV459kxxyNRFLqWaw
+         vkLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU62Dje5FUi6Zf6zD95MZNICjuIMTFVsFlugd8IWrX28LKI/6P/b5GIonLOrz9/WRLlEulzLtvL@vger.kernel.org, AJvYcCVQqAOlU/u4lRY2EtQlYvrmY2rVqQN966u89j0y3aT0XlbOm0XKySGrEIwcGPXWxKd4e6/RrsKG/5H8umZL@vger.kernel.org, AJvYcCVjVINaOsQSzQ4tyx/LVNhYhski457e8ZuGAygRYDqJXQWRJj24sl5Lrl8T2NSZWeSXq1j/rtAnlD4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaFK2LyKkOAwBogNBZcdtbW+Da/lwHrnG6InbLfbze+td445OW
+	PxYHJIUrt6TryYVIQUPN0M5snNvITowz+uVFer1t9Z+h204kouyE
+X-Google-Smtp-Source: AGHT+IG7gHVQ1+zrXCDxWoCSdNYTRlR81Bxw6R0G+q2ZC6+nT2iFTV2lojUwUasl8ULDe7FDSD11sw==
+X-Received: by 2002:a17:902:e804:b0:1fc:57b7:995c with SMTP id d9443c01a7336-200ae4dba44mr25153305ad.7.1723227488723;
+        Fri, 09 Aug 2024 11:18:08 -0700 (PDT)
+Received: from localhost.localdomain (2001-b400-e451-b7c6-a4e2-bea8-613e-3352.emome-ip6.hinet.net. [2001:b400:e451:b7c6:a4e2:bea8:613e:3352])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bb900c2esm608255ad.112.2024.08.09.11.18.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Aug 2024 11:18:08 -0700 (PDT)
+From: Jing-Ping Jan <zoo868e@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Jing-Ping Jan <zoo868e@gmail.com>
+Subject: [PATCH] Documentation: networking: correct spelling
+Date: Sat, 10 Aug 2024 02:17:50 +0800
+Message-Id: <20240809181750.62522-1-zoo868e@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240809162240.1842373-3-jesse@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 09, 2024 at 12:22:40PM -0400, Jesse Taube wrote:
-> Add description for Zicclsm ISA extension.
-> 
-> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> V1 -> V2:
->  - New patch
-> V2 -> V3:
->  - No changes
-> V3 -> V4:
->  - No changes
-> V4 -> V5:
->  - No changes
-> V5 -> V6:
->  - No changes
-> V6 -> V7:
->  - No changes
-> V7 -> V8:
->  - Rebase onto 2d1f51d8a4b0 (palmer/for-next)
+Correct spelling problems for Documentation/networking/ as reported
+by ispell.
 
-Please also put the version in the subject. '-vN' is the git-send-email 
-option to do it for you.
+Signed-off-by: Jing-Ping Jan <zoo868e@gmail.com>
+---
+ Documentation/networking/ethtool-netlink.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Rob
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index d5f246aceb9f..9ecfc4f0f980 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -934,7 +934,7 @@ Request contents:
+   ====================================  ======  ===========================
+ 
+ Kernel checks that requested ring sizes do not exceed limits reported by
+-driver. Driver may impose additional constraints and may not suspport all
++driver. Driver may impose additional constraints and may not support all
+ attributes.
+ 
+ 
+@@ -943,7 +943,7 @@ Completion queue events(CQE) are the events posted by NIC to indicate the
+ completion status of a packet when the packet is sent(like send success or
+ error) or received(like pointers to packet fragments). The CQE size parameter
+ enables to modify the CQE size other than default size if NIC supports it.
+-A bigger CQE can have more receive buffer pointers inturn NIC can transfer
++A bigger CQE can have more receive buffer pointers in turn NIC can transfer
+ a bigger frame from wire. Based on the NIC hardware, the overall completion
+ queue size can be adjusted in the driver if CQE size is modified.
+ 
+@@ -989,7 +989,7 @@ Request contents:
+   =====================================  ======  ==========================
+ 
+ Kernel checks that requested channel counts do not exceed limits reported by
+-driver. Driver may impose additional constraints and may not suspport all
++driver. Driver may impose additional constraints and may not support all
+ attributes.
+ 
+ 
+@@ -1927,7 +1927,7 @@ When set, the optional ``ETHTOOL_A_PLCA_VERSION`` attribute indicates which
+ standard and version the PLCA management interface complies to. When not set,
+ the interface is vendor-specific and (possibly) supplied by the driver.
+ The OPEN Alliance SIG specifies a standard register map for 10BASE-T1S PHYs
+-embedding the PLCA Reconcialiation Sublayer. See "10BASE-T1S PLCA Management
++embedding the PLCA Reconciliation Sublayer. See "10BASE-T1S PLCA Management
+ Registers" at https://www.opensig.org/about/specifications/.
+ 
+ When set, the optional ``ETHTOOL_A_PLCA_ENABLED`` attribute indicates the
+@@ -1989,7 +1989,7 @@ Request contents:
+   ``ETHTOOL_A_PLCA_ENABLED``              u8      PLCA Admin State
+   ``ETHTOOL_A_PLCA_NODE_ID``              u8      PLCA unique local node ID
+   ``ETHTOOL_A_PLCA_NODE_CNT``             u8      Number of PLCA nodes on the
+-                                                  netkork, including the
++                                                  network, including the
+                                                   coordinator
+   ``ETHTOOL_A_PLCA_TO_TMR``               u8      Transmit Opportunity Timer
+                                                   value in bit-times (BT)
+-- 
+2.25.1
 
