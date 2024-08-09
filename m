@@ -1,519 +1,312 @@
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11021120.outbound.protection.outlook.com [52.101.129.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DD828E7;
-	Fri,  9 Aug 2024 03:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.120
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723174663; cv=fail; b=Cc9wxfW1VOMM2A5Zks39OlT+iOIwiIctkixlWMyWDcV80A5llf6TALp5TCgHB5i+2IldkeuWtYt2M6j+itCda2mzY005LVDN6JPO1xacNXqIzkfcwgBZ/RcZnjyJNE//+7oB9NBnlTh7IuI7X1ul0RLcUQdag34N10XqcigXPqQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723174663; c=relaxed/simple;
-	bh=sppr9pJHMqxYnNVNvs9RHOcMgjBrlTAhyw5kAQvoad0=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=QFhFkJElTfPIcOUpP6Gq+5o/iLiYZ95HfvwPGtST7NQnIeLOoRXbROOC1qIGwGHf8psAYWcqJ1AuhkiaEdobogKRyPiPcJFhImqWMbuyl6xdpU6zK3UDMA6NOBemHhFVrKkcKADOw5oRUc/s+ol9/D6j4spY+7LOhElOBf23oPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=ZqoZQ8Al; arc=fail smtp.client-ip=52.101.129.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F63172BD6;
+	Fri,  9 Aug 2024 07:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723188137; cv=none; b=NroOYfvdsipkMp0bYdD7zD4n0BVA9xvBher0btMdPNbsaKdq3MKkgkadh5N/91D1z9W7FaUZn/2A+OBrUgCYpK/atRkY8TUJhCK1s43k28XisWQLQcEcipXlmuN3lbfYi5ZB4CxNm7yPczsi7Z56K2dzG/gHc2AH80pwlw5iuJs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723188137; c=relaxed/simple;
+	bh=gYlIP+lBGZf9p56OPaappGgP1Xv0GKlrY9dqQFRES04=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QXrRuDXLT+iG46WO8YmVZhduuCUx6O9EiRZ05ej6cSjSFRTij0e7yKEv3IA70Cqo6KaIxWtCZTj3abPfUUiIM2LXHtEXLd2K+hLExZauL2RXr4FB67oavKslO5he6RFct4S+xDb2wtoeHkbYZ2ohqy9NQDRuIDNe2tQmeL8iRHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qRBJYlZP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTTbxdNS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qRBJYlZP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTTbxdNS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="ZqoZQ8Al"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gkucEHnX0bZhdFZOPeD1u8A6gWwMwEykjVajEFJlFAcnywty0iBeeQih9+Pa3DcP34QoKnWsj925np7A28QrYa301s1PbBFQsVGVuyotWtn3PYdoLoZrNAQoT5NU6hqVF+TK9tVijZLvFsfAw8IDcSc+CQKqlNz1K67QihqTfxcbNzGixJEw4shmaFaba5Wd2MAQNJ7X0k8l8uADHSDAyr1kbz4/td2zcqZllKV91o4M6lH4YWCg0SUxtUIWNG6jp2qc4TFQdMqgGrOM8kcFr//eKw30h5v2NpkerZgzWCEzVltANzgH7ms2IjdXVXYnyCdEGxWnDhjankxeTHjkLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lngmblPhrTQBmRX1EAWM39oauwtU6Bt+nD3QvRx9NNU=;
- b=nnTHu6eNfPnpOxqde3IzTM+DTuykCZ6P7QCjghW3rWIDdhHdFf1LDOB64CNeaMtyg4wYlHIGzK9gAwUtylidmsNO2D+vKuatvMLzL9WBAkpDwD9bic866wjRaPXuqO50iYgp59t2d642WGhMKzB2xCRiqjJh4qzZmrIDVdSlmAFYbG/F8G3+X5cB7Ue4iM87db4zY75sXhu5wXNH0xoEeA+2LRJL0PvaELkQSq76Zkum+MSbQkVFZo5aTph9l1gumMSDxekg7jy3GncUKiFJcxmULPH3Bm5osTPytZVCQ+jWQceM1QkMy2pvKGNZBirY7+8zm8Fk/dn18NVZXnmbYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lngmblPhrTQBmRX1EAWM39oauwtU6Bt+nD3QvRx9NNU=;
- b=ZqoZQ8Al5f8Vg8w9/XFJaeB1WzYa4d9A9LTqaeMNpjGhGCo7azlsICvgWo1wuG8ei6BC9HDwfYigHvRKum4Tr5FRI9hkbBslzUpsqr/05A6hGT5eCc7xXFlLeH0Q5gPRtimd0bvnXsnMpbe03VlMBmZ/u9SFXEThhw8tGBwlbn0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
- by SEYPR02MB7275.apcprd02.prod.outlook.com (2603:1096:101:1d8::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.15; Fri, 9 Aug
- 2024 03:37:31 +0000
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b%5]) with mapi id 15.20.7828.023; Fri, 9 Aug 2024
- 03:37:30 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	corbet@lwn.net,
-	linux-mediatek@lists.infradead.org,
-	helgaas@kernel.org,
-	danielwinkler@google.com,
-	korneld@google.com,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net-next v2] net: wwan: t7xx: PCIe reset rescan
-Date: Fri,  9 Aug 2024 11:37:01 +0800
-Message-Id: <20240809033701.4414-1-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG3P274CA0014.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::26)
- To TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qRBJYlZP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTTbxdNS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qRBJYlZP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTTbxdNS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9170B21EB4;
+	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
+	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
+	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
+	GigUI+02Aw/lncykX5e1s4atPk9xdak=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723188132;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
+	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
+	7qqDBipp3r8IDEAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
+	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
+	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
+	GigUI+02Aw/lncykX5e1s4atPk9xdak=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723188132;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
+	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
+	7qqDBipp3r8IDEAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77DA513A7D;
+	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5Yc7HaTDtWbgEAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 09 Aug 2024 07:22:12 +0000
+Date: Fri, 9 Aug 2024 09:22:11 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
+	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Kashyap Desai <kashyap.desai@broadcom.com>, 
+	Sumit Saxena <sumit.saxena@broadcom.com>, Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>, Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
+	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
+ is enabled
+Message-ID: <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+ <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+ <ZrI5TcaAU82avPZn@fedora>
+ <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
+ <ZrRXEUko5EwKJaaP@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|SEYPR02MB7275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4afa902c-c3e7-417f-9bdd-08dcb82498a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Sesy1399fRHtgNA6FRB0UWQfBkHMcpda+YNA1sk1MVPPHfuXRE62qBcTDSmd?=
- =?us-ascii?Q?PFE6JRREuALqWItzqFXWJqXKFwVYA/FfmJTWzcSf0fZlf2V1bmwhZ8ZCJpCK?=
- =?us-ascii?Q?p3mRuTJwRDdhx23MZODFVx5lExMpzW7X58he0hxYbajPnVbeP7p5H+HzswRt?=
- =?us-ascii?Q?71Dm+Aj2wUTxzyNpknZHJ4lo/bQWA2kOmSPrp2Ktd9ZFL98RzUCIXMeyV1yA?=
- =?us-ascii?Q?J61C4s6Vx5hjCLPoDzKA3+6lRKGjfgWfdNHIhqCFMFxeNDLQjXjQvmvRYy8G?=
- =?us-ascii?Q?41EYD5j7gSpkmh+b5/709gDeJQvCfVp1DqB02/5Ntfd5GHhkrkb/JuY4Nxnx?=
- =?us-ascii?Q?gMa/1w964qQfXtVy6iDl/gz8yCJu3iQI0GJTC0Ph2yMfwEqE2UzjqYy8xmDs?=
- =?us-ascii?Q?eXv8ELDrByB26RCBpKHfVBJlli/lLaJMM3fbdFEmYNLBd1ZAw2Xf+YnHsXvv?=
- =?us-ascii?Q?cAESDatkLaV5eirli2RZ1bAMzGHaFBjMMBvsTqNajg3JHprVTpU4Sl6OZqa2?=
- =?us-ascii?Q?fl9c00jnMuK/oKJUwyU7ompqBLj4DCwU9j2v57nCcnbv+sD57W2PEFXDZQbG?=
- =?us-ascii?Q?/aXsDcUHNyKgcDGiDqcLLClYOrVFRaFpiNHg2oYyRjg69HDK8jwxHclICn5h?=
- =?us-ascii?Q?+H/hqZi+Yer20+jWFwBI5T7pZRgYCTtkCvXtqWxm4GNQcq0f2WL3n9k/jbYQ?=
- =?us-ascii?Q?+U+YaRvodeJ98RSM12U48j/A7Ka3io7O79FNF4utV5ow/xcXazG9j7IMSGix?=
- =?us-ascii?Q?dqZUxjZlfXoFDap/O1YGOQJLGwCIpexTfey2RHw7huAH3+ji4FIzmKuB6qYT?=
- =?us-ascii?Q?gnGZBuuMWF9KrwtlbsIKnUrZ8Wf1OI3GIWNcE8RoHzPxYP61/ZaQHQ3tgmqF?=
- =?us-ascii?Q?3hVb0VQKbNYDPxvrY9qc27cQmQaiq2VX04lQfQl0G25RW1g9i7z3fC430idr?=
- =?us-ascii?Q?Fe7N6HLadhFR4Z8tTiOCAWlEs1yMhtuQMEme5acxeKTcH5EQJQhBOQT8OcqM?=
- =?us-ascii?Q?rCtskLAVDZuFIvCwlvu6a+ovosP7hsz2335Z4osWCs54zMPME5L8drzzfDZD?=
- =?us-ascii?Q?dKvZSUmedPmtAuALksThsnTgXdhYUl9UBfJl7sku0upmkddBM06mc7CGlFWH?=
- =?us-ascii?Q?piZIysgaGikB1AlJ5oTJNMXL+Xr5incnJIPfuNS1B51g3WBVV2dgYdvgNcCG?=
- =?us-ascii?Q?APedk8+Oe6NhcekyUT71rungjI3A03WxepxWF7zPnim45w13yUFK5d32fVdm?=
- =?us-ascii?Q?WEhItB4VWJ8LnWpu1g0IZVe++TPYNT3qbUjuY3n/f4BywJO7IBRWxHvpobAH?=
- =?us-ascii?Q?EKrNa1lc6nVGeD0goALZt46IjEiS5gLhMP0m0UDPy3tOok9o7wlE0VGigJnr?=
- =?us-ascii?Q?KsJFYBnR2fanWHk4lLqaqV4o1b+S?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?or8mbDMnxwWb7gPCFtpwdCkDJfpBCjSM4ofh07xANa6bskg3m5eUllNRwUIa?=
- =?us-ascii?Q?cIN+N6NqSUM0mSoFD6ds973PnTh2crjDD1pfIAegqez3muODuyi0/bjARmtw?=
- =?us-ascii?Q?VZHCUSiqBP8xFZOY0+ofZqbJih5mJG7MM80tlkgKRo7TNXAWy/kc/ztO+V/S?=
- =?us-ascii?Q?k8aLIggCBf02X0imm/em7wkykqRl8sQQ/awSl8kkmjQI5y/+ZQIZQDokFwXU?=
- =?us-ascii?Q?YSfH4iWTz46SEq2Z1Q3RXMovBmniZ289+YNVFjyhOZjYZ2JH8WFe38PM5aZx?=
- =?us-ascii?Q?+p11XAfb7XlxE+W2F4sH19k3+god0znayjbFMfdxeh3peTIdVtWONpLgoERF?=
- =?us-ascii?Q?GTLSdMZK27tBBn/pfwxfagmAEXEr3TbcFlmgAvxr3fXRMzQRZJL2WfACMUbv?=
- =?us-ascii?Q?rdF5GW8OtaTrrpbqfhG/OFU6STz50hG06/NPbPOEkc3tdTciO3kHtpERO1fq?=
- =?us-ascii?Q?OXXVqqNDql1YheCbFSo6kucXcwiJbh9e6/CIjR9hUORlxP6Ng4LCtbhfNl/A?=
- =?us-ascii?Q?lMu5TolIkZNCOWIBH/nFkEAJxYxIPxqRqG78pfay42ODmEtyCv4mE20L2CXs?=
- =?us-ascii?Q?CmMJ00MCPCvS1Qfn2yjk4HqED+oDVRD1vdYAvs0MDlRCppcT7fzoy+b3010J?=
- =?us-ascii?Q?fxUCyOCQwnpl2JNDsBvGd1oPO0OXhc/dKjOA0lJ7aVVfhrtq9fyqlyEo4NDM?=
- =?us-ascii?Q?y0YJq5AX86qFfnNhYXp+g0yofb7NJUKw+/SiMtcUYbgJY/DWh2WTYtjdUTPl?=
- =?us-ascii?Q?z9tfMxnbvUDXwXIQdzIz3wHPDrQe+I9BcJfwB+/tt6V1w/Bhh76DZvtsoh7g?=
- =?us-ascii?Q?X5HgPjXRDE1qlVbHxIGC22YjyCQ4TXlDc4aUfQO/FvMnw00hsWyhFBR2OR3J?=
- =?us-ascii?Q?0l2cHAREVQtY/dcCqKFUXzgQwjTcOtOARSUt2LClNFpAiyAOfFdX33yQh3YH?=
- =?us-ascii?Q?kNknIIvClwxNAPwCD5hjW+kG6EDcirRtko2q7oODje50pDIU8eAG26g4rkdw?=
- =?us-ascii?Q?HORn33W6G8YaMyNVKk3sLQeDyh4fCUnuxDjOEtkVAERZpsHR/iWtTWnZI/S8?=
- =?us-ascii?Q?wbvUbbK9KeaeT+JcMn3TSMnqTiUxPz0F02I5gsb+1HrUhljWMUFYtqne5xhE?=
- =?us-ascii?Q?/nVLhwIY2+vtWqvYGSPjWsNYvibx3juYrfkT/5enhp2JLDdVue4YgXaCQecq?=
- =?us-ascii?Q?VIoFCve3ONSlnnAJg2dGkHH/J0ipd3U7vNzK+UQAkeQbMr7CahRi+iVKWG0m?=
- =?us-ascii?Q?GUJej8G3PxBPoQ7p1d73AjDJxPrYEX5Ba6QZ74mrkHC9HeG50+8JYsIqXBMj?=
- =?us-ascii?Q?U6/WIJARjCBVTsCp0Z8dpL+1YzFTL0RtfLPrAYrM6t+EvlaAC4kJPcCWSkUn?=
- =?us-ascii?Q?g3siodQw6cG17YNIWREBdGaNNkcYvxwxl0Au+0yl7CsJLPOkHO9wm10glV7C?=
- =?us-ascii?Q?TYJxr4de77WYVhPA5Yk+vIIJsVbKSZU+BvULVZcICmW7YaV/sLiozh4eTT2c?=
- =?us-ascii?Q?xbsy7/HgJ8eYTetn2iGLNfgFa2uk40YMYOXc7GJy+5vTXcT30ldQZAffbLJA?=
- =?us-ascii?Q?fZ+7Y20C6CsGJH5JiN+E1Dn1zLar1zlDK/ySUCyz/8IkDexlmdgmeBT1Q8Xh?=
- =?us-ascii?Q?aQ=3D=3D?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4afa902c-c3e7-417f-9bdd-08dcb82498a5
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 03:37:30.4822
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G4IWsbffhE2hndKW8ZgipcIbX3LNCNa8icETdQT4Fx8ux3AdwgmN+PgtvFkyI0RiupxpgXqM+nj44FpDLxNUB+R7SFwRA09sU9cfQWMrzyg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR02MB7275
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZrRXEUko5EwKJaaP@fedora>
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-WWAN device is programmed to boot in normal mode or fastboot mode,
-when triggering a device reset through ACPI call or fastboot switch
-command.Maintain state machine synchronization and reprobe logic
-after a device reset.
+On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
+> Isolated CPUs are removed from queue mapping in this patchset, when someone
+> submit IOs from the isolated CPU, what is the correct hctx used for handling
+> these IOs?
 
-Suggestion from Bjorn:
-Link: https://lore.kernel.org/all/20230127133034.GA1364550@bhelgaas/
+No, every possible CPU gets a mapping. What this patch series does, is
+to limit/aligns the number of hardware context to the number of
+housekeeping CPUs. There is still a complete ctx-hctc mapping. So
+whenever an user thread on an isolated CPU is issuing an IO a
+housekeeping CPU will also be involved (with the additional overhead,
+which seems to be okay for these users).
 
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
-V2:
- * initialize the variable 'ret' in t7xx_reset_device() function
----
- drivers/net/wwan/t7xx/t7xx_modem_ops.c     | 47 ++++++++++++++++---
- drivers/net/wwan/t7xx/t7xx_modem_ops.h     |  9 +++-
- drivers/net/wwan/t7xx/t7xx_pci.c           | 53 ++++++++++++++++++----
- drivers/net/wwan/t7xx/t7xx_pci.h           |  3 ++
- drivers/net/wwan/t7xx/t7xx_port_proxy.c    |  1 -
- drivers/net/wwan/t7xx/t7xx_port_trace.c    |  1 +
- drivers/net/wwan/t7xx/t7xx_state_monitor.c | 34 +++++---------
- 7 files changed, 105 insertions(+), 43 deletions(-)
+Without hardware queue on the isolated CPUs ensures we really never get
+any unexpected IO on those CPUs unless userspace does it own its own.
+It's a safety net.
 
-diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.c b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-index 8d864d4ed77f..79f17100f70b 100644
---- a/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-+++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
-@@ -53,6 +53,7 @@
- 
- #define RGU_RESET_DELAY_MS	10
- #define PORT_RESET_DELAY_MS	2000
-+#define FASTBOOT_RESET_DELAY_MS	2000
- #define EX_HS_TIMEOUT_MS	5000
- #define EX_HS_POLL_DELAY_MS	10
- 
-@@ -167,19 +168,52 @@ static int t7xx_acpi_reset(struct t7xx_pci_dev *t7xx_dev, char *fn_name)
- 	}
- 
- 	kfree(buffer.pointer);
-+#else
-+	struct device *dev = &t7xx_dev->pdev->dev;
-+	int ret;
- 
-+	ret = pci_reset_function(t7xx_dev->pdev);
-+	if (ret) {
-+		dev_err(dev, "Failed to reset device, error:%d\n", ret);
-+		return ret;
-+	}
- #endif
- 	return 0;
- }
- 
--int t7xx_acpi_fldr_func(struct t7xx_pci_dev *t7xx_dev)
-+static void t7xx_host_event_notify(struct t7xx_pci_dev *t7xx_dev, unsigned int event_id)
- {
--	return t7xx_acpi_reset(t7xx_dev, "_RST");
-+	u32 value;
-+
-+	value = ioread32(IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
-+	value &= ~HOST_EVENT_MASK;
-+	value |= FIELD_PREP(HOST_EVENT_MASK, event_id);
-+	iowrite32(value, IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
- }
- 
--int t7xx_acpi_pldr_func(struct t7xx_pci_dev *t7xx_dev)
-+int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type)
- {
--	return t7xx_acpi_reset(t7xx_dev, "MRST._RST");
-+	int ret = 0;
-+
-+	pci_save_state(t7xx_dev->pdev);
-+	t7xx_pci_reprobe_early(t7xx_dev);
-+	t7xx_mode_update(t7xx_dev, T7XX_RESET);
-+
-+	if (type == FLDR) {
-+		ret = t7xx_acpi_reset(t7xx_dev, "_RST");
-+	} else if (type == PLDR) {
-+		ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
-+	} else if (type == FASTBOOT) {
-+		t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
-+		t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
-+		msleep(FASTBOOT_RESET_DELAY_MS);
-+	}
-+
-+	pci_restore_state(t7xx_dev->pdev);
-+	if (ret)
-+		return ret;
-+
-+	return t7xx_pci_reprobe(t7xx_dev, true);
- }
- 
- static void t7xx_reset_device_via_pmic(struct t7xx_pci_dev *t7xx_dev)
-@@ -188,16 +222,15 @@ static void t7xx_reset_device_via_pmic(struct t7xx_pci_dev *t7xx_dev)
- 
- 	val = ioread32(IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
- 	if (val & MISC_RESET_TYPE_PLDR)
--		t7xx_acpi_reset(t7xx_dev, "MRST._RST");
-+		t7xx_reset_device(t7xx_dev, PLDR);
- 	else if (val & MISC_RESET_TYPE_FLDR)
--		t7xx_acpi_fldr_func(t7xx_dev);
-+		t7xx_reset_device(t7xx_dev, FLDR);
- }
- 
- static irqreturn_t t7xx_rgu_isr_thread(int irq, void *data)
- {
- 	struct t7xx_pci_dev *t7xx_dev = data;
- 
--	t7xx_mode_update(t7xx_dev, T7XX_RESET);
- 	msleep(RGU_RESET_DELAY_MS);
- 	t7xx_reset_device_via_pmic(t7xx_dev);
- 	return IRQ_HANDLED;
-diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.h b/drivers/net/wwan/t7xx/t7xx_modem_ops.h
-index b39e945a92e0..39ed0000fbba 100644
---- a/drivers/net/wwan/t7xx/t7xx_modem_ops.h
-+++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.h
-@@ -78,14 +78,19 @@ struct t7xx_modem {
- 	spinlock_t			exp_lock; /* Protects exception events */
- };
- 
-+enum reset_type {
-+	FLDR,
-+	PLDR,
-+	FASTBOOT,
-+};
-+
- void t7xx_md_exception_handshake(struct t7xx_modem *md);
- void t7xx_md_event_notify(struct t7xx_modem *md, enum md_event_id evt_id);
- int t7xx_md_reset(struct t7xx_pci_dev *t7xx_dev);
- int t7xx_md_init(struct t7xx_pci_dev *t7xx_dev);
- void t7xx_md_exit(struct t7xx_pci_dev *t7xx_dev);
- void t7xx_clear_rgu_irq(struct t7xx_pci_dev *t7xx_dev);
--int t7xx_acpi_fldr_func(struct t7xx_pci_dev *t7xx_dev);
--int t7xx_acpi_pldr_func(struct t7xx_pci_dev *t7xx_dev);
-+int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type);
- int t7xx_pci_mhccif_isr(struct t7xx_pci_dev *t7xx_dev);
- 
- #endif	/* __T7XX_MODEM_OPS_H__ */
-diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/t7xx/t7xx_pci.c
-index 10a8c1080b10..2398f41046ce 100644
---- a/drivers/net/wwan/t7xx/t7xx_pci.c
-+++ b/drivers/net/wwan/t7xx/t7xx_pci.c
-@@ -67,6 +67,7 @@ static ssize_t t7xx_mode_store(struct device *dev,
- 			       struct device_attribute *attr,
- 			       const char *buf, size_t count)
- {
-+	enum t7xx_mode mode;
- 	struct t7xx_pci_dev *t7xx_dev;
- 	struct pci_dev *pdev;
- 	int index = 0;
-@@ -76,12 +77,22 @@ static ssize_t t7xx_mode_store(struct device *dev,
- 	if (!t7xx_dev)
- 		return -ENODEV;
- 
-+	mode = READ_ONCE(t7xx_dev->mode);
-+
- 	index = sysfs_match_string(t7xx_mode_names, buf);
-+	if (index == mode)
-+		return -EBUSY;
-+
- 	if (index == T7XX_FASTBOOT_SWITCHING) {
-+		if (mode == T7XX_FASTBOOT_DOWNLOAD)
-+			return count;
-+
- 		WRITE_ONCE(t7xx_dev->mode, T7XX_FASTBOOT_SWITCHING);
-+		pm_runtime_resume(dev);
-+		t7xx_reset_device(t7xx_dev, FASTBOOT);
- 	} else if (index == T7XX_RESET) {
--		WRITE_ONCE(t7xx_dev->mode, T7XX_RESET);
--		t7xx_acpi_pldr_func(t7xx_dev);
-+		pm_runtime_resume(dev);
-+		t7xx_reset_device(t7xx_dev, PLDR);
- 	}
- 
- 	return count;
-@@ -446,7 +457,7 @@ static int t7xx_pcie_reinit(struct t7xx_pci_dev *t7xx_dev, bool is_d3)
- 
- 	if (is_d3) {
- 		t7xx_mhccif_init(t7xx_dev);
--		return t7xx_pci_pm_reinit(t7xx_dev);
-+		t7xx_pci_pm_reinit(t7xx_dev);
- 	}
- 
- 	return 0;
-@@ -481,6 +492,33 @@ static int t7xx_send_fsm_command(struct t7xx_pci_dev *t7xx_dev, u32 event)
- 	return ret;
- }
- 
-+int t7xx_pci_reprobe_early(struct t7xx_pci_dev *t7xx_dev)
+Just to illustrate it, the non isolcpus configuration (default) map
+for an 8 CPU setup:
+
+queue mapping for /dev/vda
+        hctx0: default 0
+        hctx1: default 1
+        hctx2: default 2
+        hctx3: default 3
+        hctx4: default 4
+        hctx5: default 5
+        hctx6: default 6
+        hctx7: default 7
+
+and with isolcpus=io_queue,2-3,6-7
+
+queue mapping for /dev/vda
+        hctx0: default 0 2
+        hctx1: default 1 3
+        hctx2: default 4 6
+        hctx3: default 5 7
+
+> From current implementation, it depends on implied zero filled
+> tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
+> 
+> During CPU offline, in blk_mq_hctx_notify_offline(),
+> blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
+> hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
+> hctx 0 won't be drained.
+> 
+> However managed irq core code still shutdowns the hw queue's irq because all
+> CPUs in this hctx are offline now. Then IO hang is triggered, isn't
+> it?
+
+Thanks for the explanation. I was able to reproduce this scenario, that
+is a hardware context with two CPUs which go offline. Initially, I used
+fio for creating the workload but this never hit the hanger. Instead
+some background workload from systemd-journald is pretty reliable to
+trigger the hanger you describe.
+
+Example:
+
+  hctx2: default 4 6
+
+CPU 0 stays online, CPU 1-5 are offline. CPU 6 is offlined:
+
+  smpboot: CPU 5 is now offline
+  blk_mq_hctx_has_online_cpu:3537 hctx3 offline
+  blk_mq_hctx_has_online_cpu:3537 hctx2 offline
+
+and there is no forward progress anymore, the cpuhotplug state machine
+is blocked and an IO is hanging:
+
+  # grep busy /sys/kernel/debug/block/*/hctx*/tags | grep -v busy=0
+  /sys/kernel/debug/block/vda/hctx2/tags:busy=61
+
+and blk_mq_hctx_notify_offline busy loops forever:
+
+   task:cpuhp/6         state:D stack:0     pid:439   tgid:439   ppid:2      flags:0x00004000
+   Call Trace:
+    <TASK>
+    __schedule+0x79d/0x15c0
+    ? lockdep_hardirqs_on_prepare+0x152/0x210
+    ? kvm_sched_clock_read+0xd/0x20
+    ? local_clock_noinstr+0x28/0xb0
+    ? local_clock+0x11/0x30
+    ? lock_release+0x122/0x4a0
+    schedule+0x3d/0xb0
+    schedule_timeout+0x88/0xf0
+    ? __pfx_process_timeout+0x10/0x10d
+    msleep+0x28/0x40
+    blk_mq_hctx_notify_offline+0x1b5/0x200
+    ? cpuhp_thread_fun+0x41/0x1f0
+    cpuhp_invoke_callback+0x27e/0x780
+    ? __pfx_blk_mq_hctx_notify_offline+0x10/0x10
+    ? cpuhp_thread_fun+0x42/0x1f0
+    cpuhp_thread_fun+0x178/0x1f0
+    smpboot_thread_fn+0x12e/0x1c0
+    ? __pfx_smpboot_thread_fn+0x10/0x10
+    kthread+0xe8/0x110
+    ? __pfx_kthread+0x10/0x10
+    ret_from_fork+0x33/0x40
+    ? __pfx_kthread+0x10/0x10
+    ret_from_fork_asm+0x1a/0x30
+    </TASK>
+
+I don't think this is a new problem this code introduces. This problem
+exists for any hardware context which has more than one CPU. As far I
+understand it, the problem is that there is no forward progress possible
+for the IO itself (I assume the corresponding resources for the CPU
+going offline have already been shutdown, thus no progress?) and
+blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
+
+Couldn't we do something like:
+
++static bool blk_mq_hctx_timeout_rq(struct request *rq, void *data)
 +{
-+	enum t7xx_mode mode = READ_ONCE(t7xx_dev->mode);
-+	int ret;
-+
-+	if (mode == T7XX_FASTBOOT_DOWNLOAD)
-+		pm_runtime_put_noidle(&t7xx_dev->pdev->dev);
-+
-+	ret = t7xx_send_fsm_command(t7xx_dev, FSM_CMD_STOP);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
++       blk_mq_rq_timed_out(rq);
++       return true;
 +}
 +
-+int t7xx_pci_reprobe(struct t7xx_pci_dev *t7xx_dev, bool boot)
++static void blk_mq_hctx_timeout_rqs(struct blk_mq_hw_ctx *hctx)
 +{
-+	int ret;
-+
-+	ret = t7xx_pcie_reinit(t7xx_dev, boot);
-+	if (ret)
-+		return ret;
-+
-+	t7xx_clear_rgu_irq(t7xx_dev);
-+	return t7xx_send_fsm_command(t7xx_dev, FSM_CMD_START);
++       struct blk_mq_tags *tags = hctx->sched_tags ?
++                       hctx->sched_tags : hctx->tags;
++       blk_mq_all_tag_iter(tags, blk_mq_hctx_timeout_rq, NULL);
 +}
 +
- static int __t7xx_pci_pm_resume(struct pci_dev *pdev, bool state_check)
++
+ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
  {
- 	struct t7xx_pci_dev *t7xx_dev;
-@@ -507,16 +545,11 @@ static int __t7xx_pci_pm_resume(struct pci_dev *pdev, bool state_check)
- 		if (prev_state == PM_RESUME_REG_STATE_L3 ||
- 		    (prev_state == PM_RESUME_REG_STATE_INIT &&
- 		     atr_reg_val == ATR_SRC_ADDR_INVALID)) {
--			ret = t7xx_send_fsm_command(t7xx_dev, FSM_CMD_STOP);
--			if (ret)
--				return ret;
--
--			ret = t7xx_pcie_reinit(t7xx_dev, true);
-+			ret = t7xx_pci_reprobe_early(t7xx_dev);
- 			if (ret)
- 				return ret;
- 
--			t7xx_clear_rgu_irq(t7xx_dev);
--			return t7xx_send_fsm_command(t7xx_dev, FSM_CMD_START);
-+			return t7xx_pci_reprobe(t7xx_dev, true);
- 		}
- 
- 		if (prev_state == PM_RESUME_REG_STATE_EXP ||
-diff --git a/drivers/net/wwan/t7xx/t7xx_pci.h b/drivers/net/wwan/t7xx/t7xx_pci.h
-index 49a11586d8d8..cd8ea17c2644 100644
---- a/drivers/net/wwan/t7xx/t7xx_pci.h
-+++ b/drivers/net/wwan/t7xx/t7xx_pci.h
-@@ -133,4 +133,7 @@ int t7xx_pci_pm_entity_unregister(struct t7xx_pci_dev *t7xx_dev, struct md_pm_en
- void t7xx_pci_pm_init_late(struct t7xx_pci_dev *t7xx_dev);
- void t7xx_pci_pm_exp_detected(struct t7xx_pci_dev *t7xx_dev);
- void t7xx_mode_update(struct t7xx_pci_dev *t7xx_dev, enum t7xx_mode mode);
-+int t7xx_pci_reprobe(struct t7xx_pci_dev *t7xx_dev, bool boot);
-+int t7xx_pci_reprobe_early(struct t7xx_pci_dev *t7xx_dev);
-+
- #endif /* __T7XX_PCI_H__ */
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_proxy.c b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-index 7d6388bf1d7c..35743e7de0c3 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_proxy.c
-@@ -553,7 +553,6 @@ static int t7xx_proxy_alloc(struct t7xx_modem *md)
- 
- 	md->port_prox = port_prox;
- 	port_prox->dev = dev;
--	t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_EARLY);
- 
- 	return 0;
- }
-diff --git a/drivers/net/wwan/t7xx/t7xx_port_trace.c b/drivers/net/wwan/t7xx/t7xx_port_trace.c
-index 6a3f36385865..4ed8b4e29bf1 100644
---- a/drivers/net/wwan/t7xx/t7xx_port_trace.c
-+++ b/drivers/net/wwan/t7xx/t7xx_port_trace.c
-@@ -59,6 +59,7 @@ static void t7xx_trace_port_uninit(struct t7xx_port *port)
- 
- 	relay_close(relaych);
- 	debugfs_remove_recursive(debugfs_dir);
-+	port->log.relaych = NULL;
- }
- 
- static int t7xx_trace_port_recv_skb(struct t7xx_port *port, struct sk_buff *skb)
-diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-index 9889ca4621cf..3931c7a13f5a 100644
---- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-+++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-@@ -213,16 +213,6 @@ static void fsm_routine_exception(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comm
- 		fsm_finish_command(ctl, cmd, 0);
- }
- 
--static void t7xx_host_event_notify(struct t7xx_modem *md, unsigned int event_id)
--{
--	u32 value;
--
--	value = ioread32(IREG_BASE(md->t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
--	value &= ~HOST_EVENT_MASK;
--	value |= FIELD_PREP(HOST_EVENT_MASK, event_id);
--	iowrite32(value, IREG_BASE(md->t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
--}
--
- static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int status)
- {
- 	struct t7xx_modem *md = ctl->md;
-@@ -264,8 +254,14 @@ static void t7xx_lk_stage_event_handling(struct t7xx_fsm_ctl *ctl, unsigned int
- 
- static int fsm_stopped_handler(struct t7xx_fsm_ctl *ctl)
- {
-+	enum t7xx_mode mode;
-+
- 	ctl->curr_state = FSM_STATE_STOPPED;
- 
-+	mode = READ_ONCE(ctl->md->t7xx_dev->mode);
-+	if (mode == T7XX_FASTBOOT_DOWNLOAD || mode == T7XX_FASTBOOT_DUMP)
-+		return 0;
-+
- 	t7xx_fsm_broadcast_state(ctl, MD_STATE_STOPPED);
- 	return t7xx_md_reset(ctl->md->t7xx_dev);
- }
-@@ -284,8 +280,6 @@ static void fsm_routine_stopping(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comma
- {
- 	struct cldma_ctrl *md_ctrl = ctl->md->md_ctrl[CLDMA_ID_MD];
- 	struct t7xx_pci_dev *t7xx_dev = ctl->md->t7xx_dev;
--	enum t7xx_mode mode = READ_ONCE(t7xx_dev->mode);
--	int err;
- 
- 	if (ctl->curr_state == FSM_STATE_STOPPED || ctl->curr_state == FSM_STATE_STOPPING) {
- 		fsm_finish_command(ctl, cmd, -EINVAL);
-@@ -296,21 +290,10 @@ static void fsm_routine_stopping(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_comma
- 	t7xx_fsm_broadcast_state(ctl, MD_STATE_WAITING_TO_STOP);
- 	t7xx_cldma_stop(md_ctrl);
- 
--	if (mode == T7XX_FASTBOOT_SWITCHING)
--		t7xx_host_event_notify(ctl->md, FASTBOOT_DL_NOTIFY);
--
- 	t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DRM_DISABLE_AP);
- 	/* Wait for the DRM disable to take effect */
- 	msleep(FSM_DRM_DISABLE_DELAY_MS);
- 
--	if (mode == T7XX_FASTBOOT_SWITCHING) {
--		t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
--	} else {
--		err = t7xx_acpi_fldr_func(t7xx_dev);
--		if (err)
--			t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
--	}
--
- 	fsm_finish_command(ctl, cmd, fsm_stopped_handler(ctl));
- }
- 
-@@ -414,7 +397,9 @@ static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
- 
- 		case T7XX_DEV_STAGE_LK:
- 			dev_dbg(dev, "LK_STAGE Entered\n");
-+			t7xx_port_proxy_set_cfg(md, PORT_CFG_ID_EARLY);
- 			t7xx_lk_stage_event_handling(ctl, status);
-+
- 			break;
- 
- 		case T7XX_DEV_STAGE_LINUX:
-@@ -436,6 +421,9 @@ static void fsm_routine_start(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
- 	}
- 
- finish_command:
-+	if (ret)
-+		t7xx_mode_update(md->t7xx_dev, T7XX_UNKNOWN);
-+
- 	fsm_finish_command(ctl, cmd, ret);
- }
- 
--- 
-2.34.1
+        struct blk_mq_hw_ctx *hctx = hlist_entry_safe(node,
+                        struct blk_mq_hw_ctx, cpuhp_online);
++       int i;
 
+        if (blk_mq_hctx_has_online_cpu(hctx, cpu))
+                return 0;
+@@ -3551,9 +3589,16 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
+         * requests.  If we could not grab a reference the queue has been
+         * frozen and there are no requests.
+         */
++       i = 0;
+        if (percpu_ref_tryget(&hctx->queue->q_usage_counter)) {
+-               while (blk_mq_hctx_has_requests(hctx))
++               while (blk_mq_hctx_has_requests(hctx) && i++ < 10)
+                        msleep(5);
++               if (blk_mq_hctx_has_requests(hctx)) {
++                       pr_info("%s:%d hctx %d force timeout request\n",
++                               __func__, __LINE__, hctx->queue_num);
++                       blk_mq_hctx_timeout_rqs(hctx);
++               }
++
+
+This guarantees forward progress and it worked in my test scenario, got
+the corresponding log entries
+
+  blk_mq_hctx_notify_offline:3598 hctx 2 force timeout request
+
+and the hotplug state machine continued. Didn't see an IO error either,
+but I haven't looked closely, this is just a POC.
+
+BTW, when looking at the tag allocator, I didn't see any hctx state
+checks for the batched alloction path. Don't we need to check if the
+corresponding hardware context is active there too?
+
+@ -486,6 +487,15 @@ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data *data)
+        if (data->nr_tags > 1) {
+                rq = __blk_mq_alloc_requests_batch(data);
+                if (rq) {
++                       if (unlikely(test_bit(BLK_MQ_S_INACTIVE,
++                                             &data->hctx->state))) {
++                               blk_mq_put_tag(blk_mq_tags_from_data(data),
++                                              rq->mq_ctx, rq->tag);
++                               msleep(3);
++                               goto retry;
++                       }
+                        blk_mq_rq_time_init(rq, alloc_time_ns);
+                        return rq;
+                }
+
+But given this is the hotpath and the hotplug path is very unlikely to
+be used at all, at least for the majority of users, I would suggest to
+try to get blk_mq_hctx_notify_offline to guarantee forward progress?.
+This would make the hotpath an 'if' less.
