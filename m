@@ -1,223 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457E51DFE1
-	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 15:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CCA1990C3;
+	Fri,  9 Aug 2024 15:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723217076; cv=none; b=lyPpGLZAfNTCxXZAgPMjRGExe6o6MZhlo+L/mK97ST2rHtmHx1oAtNs8E9/LRsLJq3rY9Mu5K1qRG+pwGq5ZDGjFUyz5F1j3NmgZZJAJO98T9xOZkbHc2IcoEt1dHcmyDjeCpX/SJfkySUNRUpzqQyf1IfUgWUuuIRODUBTZVYU=
+	t=1723218323; cv=none; b=o77Qps3mt2JAQoidVyVSxRUAu7eRZgeVpFxy/IttbUJgbPQwrRg6rHqzYpU1OaVhxau9fY5oZMBtHUUK1u0bghz6UaK92ChQ4wcw3oPQ7jx1vEih8EvQfZZe3BEC0XCX3I4KFNrRz1V6kstggbuZ8kLFLNHbeU1v8gerpqdZuCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723217076; c=relaxed/simple;
-	bh=g2iDrSBzxfQonyXIKogSC1gkM1FpY3qwgPMDIgnkaXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rXgARnizw8pGTeR3z39Y1dde59cg9EIQpWTj9qVrxdS/MTbu55E8dOun2gjGqLXuUhAmmlRx2ZW69YLZ5Spej26Wc3clklepC/cOEJ4iRjXOPGFbvOc6fKmtGMn/qNreLijD0+nOos/Z5bwiQL754w4NHbGoO49ZwvF9CP/MKOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f3j5EVXt; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1723218323; c=relaxed/simple;
+	bh=Bd6gp8vS1KnlhuO7wKJxo1DLFOwvyo1WP/CqGQTLnXQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FXcOi6frJN0oXRrUnuo1RRu7xLeXIFz/3dqz6btKCPsYmSuDF+/qQaBocCkzZMmddp0xHS4HfEpZpyJhYMFGUqYh7yMivcArpPTH4muRpfXCz17b1tsvP0bWiB7E9iCEjXtvrpZLUDdU/rPdoXovkQHIKIiPcFYXq8hEroEc9Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4XRIGju; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f3j5EVXt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723217072;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O0M5zXAWQyeF4Jzk4EMsV0bzXAk2k6LTOOLJMOg7+eQ=;
-	b=f3j5EVXtsPK7qvUfov2ChLkEzhCL5aa9F/7k/lPIeIb8Qf3qSEH6THs3cAYkLDXOY5qSFx
-	O9aXfvZJiVa8us45wgb2D2lt+WYuTLJyGMP+Bw/nXHBuWacW0qZaZVcVzhnpXifabXOt5H
-	jku0IDcxowq2esyxg6u+O5hV1PdUoDc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-185-uBgThbOOPc2IUzmiZF41Lw-1; Fri,
- 09 Aug 2024 11:24:29 -0400
-X-MC-Unique: uBgThbOOPc2IUzmiZF41Lw-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 50FBF1944CC9;
-	Fri,  9 Aug 2024 15:24:24 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.16])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D74043000199;
-	Fri,  9 Aug 2024 15:24:04 +0000 (UTC)
-Date: Fri, 9 Aug 2024 23:23:58 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
-	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <ZrY0jp7S0Xnk9VUw@fedora>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4XRIGju"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7ac469e4c4so366688866b.0;
+        Fri, 09 Aug 2024 08:45:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723218320; x=1723823120; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wa1W3WV7VpGrEaPcisbcd/cWnkBoUbT/sIRi8LearZg=;
+        b=W4XRIGjulb1hhqjAyCp1O8TsdHK84PqMuKKM93hSEjVdTnLzQkSRL90qAOFYqhdc2x
+         GHHRQ6iOT4UtmN3GVhlzQjLa0vDteJEAyLn714ra0LYy3BuponwmsNGMW/Vslir6VdCC
+         v+hTJYFqi3DEF+FXs2c6a4WeWQ8IerANOeYarjUGhAP4fxi/3U992SwlEA2kuBFZopgb
+         XkxENzw3feEJkIzmv5il4b/5DJAJb8mLi8fNOZrvMQpxWz/SBRJXJ4GHzhwDqmGAQ1ou
+         BtpoCepeF9L/xlED6ZgqbH1/56yaTKh4461zxjnMxi8WFonr1C7T14acXOjq/DSDHhGH
+         SzmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723218320; x=1723823120;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wa1W3WV7VpGrEaPcisbcd/cWnkBoUbT/sIRi8LearZg=;
+        b=xIIjkLwrXoma+d/hYXaVKjoUW1yxiBMWJvWC92d95xm7YMETni6VkPKuvGxvPQ1Hj5
+         ihjFrxc5mOzKA5ip9CedgUaTV0a+n+cEilyOXuU0SxVOLMZrm8/6INcJ2g3P55QAqsUw
+         6JBqubANfazW+hgyh5Ldt2s/rrIgMNgFZQsgMI4+wRjyRJ33DMqPyQwqSOO3608YBAkb
+         d1HdD5voBvpsBxDPplLg7nqcOfJJRCmbzT27Uq/bVnc/MoqtFMkjZkIm8PJwPXehDDaS
+         gVpr33Atdn4Yueq+8URtwyooMjld6L5GQwyJx12/RIBYMd15rOgd5gWcrI2tyG5KGyuA
+         Er8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWh11OvVxxylBmePJXMeNLWZ+psob5agcVwUIU/0NtWNfocc+5cedl+ogFaUWOceQKCLbtZqMz50Rbo4yz22maNRgxDE7zigUXbA+o3vxjqJxDDXeoiqIrUv41LrExF8L2yHawBAK5b4frFexEt6CIfv425yjuTYD6DbAh7zWS3PGHRZupYAw3f79UqzF5Xl/GCi3A9MlPqHAxbVoA3uuxNNSJSq66UQoUEqKVKuwT8INUFXHp8r8goCKUniByQzBpYm2SI9Gth6QBPYw6e0qQFbDn6sDRIzpPVfgmIWLyHSFpt7105PFi+ynhB1CPkkAyrGUzE0zJZAzPANOx/L9aIDbEaJQsYxEYGehaQ+QV9LX3lj33R/LwICNcjIlfhgKz4AoKH9ARGIroMLK1BkPFlrrBXl2zc3stNyqxNLUFrifK3Nmkz8zx/+Wm69cDg6h2A5unnHqqFBSBY4dkPdPGO+k/v2p0mixd5dWMTQQ==
+X-Gm-Message-State: AOJu0YztZaIFx2AatPbhRTbcpSwEYFLaToikQzct0+VFDUdUET4TcY1T
+	p415RZPlkcrbJfWwFG9Akvf+TP3khg7Me8ee0W4qFUopFUfLkGn7
+X-Google-Smtp-Source: AGHT+IGaWJiDPaSc3UHkzWGM2j8RhpJMnAUdZZgUzu3ws85xIf7phwHYyeL4ZJReXHb3Sd+69ayIRw==
+X-Received: by 2002:a17:907:6d14:b0:a7a:8a38:9d99 with SMTP id a640c23a62f3a-a80aba196d6mr130567366b.35.1723218319823;
+        Fri, 09 Aug 2024 08:45:19 -0700 (PDT)
+Received: from [192.168.42.29] (82-132-212-15.dab.02.net. [82.132.212.15])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e80e77sm847390266b.169.2024.08.09.08.45.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Aug 2024 08:45:19 -0700 (PDT)
+Message-ID: <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+Date: Fri, 9 Aug 2024 16:45:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com>
+ <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+ <20240808192410.37a49724@kernel.org>
+ <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 06, 2024 at 02:06:47PM +0200, Daniel Wagner wrote:
-> When isolcpus=io_queue is enabled all hardware queues should run on the
-> housekeeping CPUs only. Thus ignore the affinity mask provided by the
-> driver. Also we can't use blk_mq_map_queues because it will map all CPUs
-> to first hctx unless, the CPU is the same as the hctx has the affinity
-> set to, e.g. 8 CPUs with isolcpus=io_queue,2-3,6-7 config
+On 8/9/24 15:10, Mina Almasry wrote:
+> On Thu, Aug 8, 2024 at 10:24 PM Jakub Kicinski <kuba@kernel.org> wrote:
+>>
+>> On Thu, 8 Aug 2024 16:36:24 -0400 Mina Almasry wrote:
+>>>> How do you know that the driver:
+>>>>   - supports net_iov at all (let's not make implicit assumptions based
+>>>>     on presence of queue API);
+>>>>   - supports net_iov in current configuration (eg header-data split is
+>>>>     enabled)
+>>>>   - supports net_iov for _this_ pool (all drivers must have separate
+>>>>     buffer pools for headers and data for this to work, some will use
+>>>>     page pool for both)
+>>>>
+>>>> What comes to mind is adding an "I can gobble up net_iovs from this
+>>>> pool" flag in page pool params (the struct that comes from the driver),
+>>>
+>>> This already sorta exists in the current iteration, although maybe in
+>>> an implicit way. As written, drivers need to set params.queue,
+>>> otherwise core will not attempt to grab the mp information from
+>>> params.queue. A driver can set params.queue for its data pages pool
+>>> and not set it for the headers pool. AFAICT that deals with all 3
+>>> issues you present above.
+>>>
+>>> The awkward part is if params.queue starts getting used for other
+>>> reasons rather than passing mp configuration, but as of today that's
+>>> not the case so I didn't add the secondary flag. If you want a second
+>>> flag to be added preemptively, I can do that, no problem. Can you
+>>> confirm params.queue is not good enough?
+>>
+>> I'd prefer a flag. The setting queue in a param struct is not a good
+>> API for conveying that the page pool is for netmem payloads only.
+>>
+>>>> and then on the installation path we can check if after queue reset
+>>>> the refcount of the binding has increased. If it did - driver has
+>>>> created a pool as we expected, otherwise - fail, something must be off.
+>>>> Maybe that's a bit hacky?
+>>>
+>>> What's missing is for core to check at binding time that the driver
+>>> supports net_iov. I had relied on the implicit presence of the
+>>> queue-API.
+>>>
+>>> What you're proposing works, but AFAICT it's quite hacky, yes. I
+>>> basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
+>>> nothing can increment the refcount while the binding is happening so
+>>> that the refcount check is valid.
+>>
+>> True. Shooting from the hip, but we could walk the page pools of the
+>> netdev and find the one that has the right mp installed, and matches
+>> queue? The page pools are on a list hooked up to the netdev, trivial
+>> to walk.
+>>
 > 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 3 4 6 7
->         hctx1: default 5
->         hctx2: default 0
->         hctx3: default 1
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 57 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 58 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 59 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 60 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 61 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> where as with blk_mq_hk_map_queues we get
-> 
->   queue mapping for /dev/nvme0n1
->         hctx0: default 2 4
->         hctx1: default 3 5
->         hctx2: default 0 6
->         hctx3: default 1 7
-> 
->   PCI name is 00:05.0: nvme0n1
->         irq 56 affinity 0-1 effective 1 is_managed:0 nvme0q0
->         irq 61 affinity 4 effective 4 is_managed:1 nvme0q1
->         irq 62 affinity 5 effective 5 is_managed:1 nvme0q2
->         irq 63 affinity 0 effective 0 is_managed:1 nvme0q3
->         irq 64 affinity 1 effective 1 is_managed:1 nvme0q4
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->  block/blk-mq-cpumap.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index c1277763aeeb..7e026c2ffa02 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -60,11 +60,64 @@ unsigned int blk_mq_num_online_queues(unsigned int max_queues)
->  }
->  EXPORT_SYMBOL_GPL(blk_mq_num_online_queues);
->  
-> +static bool blk_mq_hk_map_queues(struct blk_mq_queue_map *qmap)
-> +{
-> +	struct cpumask *hk_masks;
-> +	cpumask_var_t isol_mask;
-> +
-> +	unsigned int queue, cpu;
-> +
-> +	if (!housekeeping_enabled(HK_TYPE_IO_QUEUE))
-> +		return false;
-> +
-> +	/* map housekeeping cpus to matching hardware context */
-> +	hk_masks = group_cpus_evenly(qmap->nr_queues);
-> +	if (!hk_masks)
-> +		goto fallback;
-> +
-> +	for (queue = 0; queue < qmap->nr_queues; queue++) {
-> +		for_each_cpu(cpu, &hk_masks[queue])
-> +			qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +	}
-> +
-> +	kfree(hk_masks);
-> +
-> +	/* map isolcpus to hardware context */
-> +	if (!alloc_cpumask_var(&isol_mask, GFP_KERNEL))
-> +		goto fallback;
-> +
-> +	queue = 0;
-> +	cpumask_andnot(isol_mask,
-> +		       cpu_possible_mask,
-> +		       housekeeping_cpumask(HK_TYPE_IO_QUEUE));
-> +
-> +	for_each_cpu(cpu, isol_mask) {
-> +		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +		queue = (queue + 1) % qmap->nr_queues;
-> +	}
-> +
-> +	free_cpumask_var(isol_mask);
-> +
-> +	return true;
-> +
-> +fallback:
-> +	/* map all cpus to hardware context ignoring any affinity */
-> +	queue = 0;
-> +	for_each_possible_cpu(cpu) {
-> +		qmap->mq_map[cpu] = qmap->queue_offset + queue;
-> +		queue = (queue + 1) % qmap->nr_queues;
-> +	}
-> +	return true;
-> +}
-> +
->  void blk_mq_map_queues(struct blk_mq_queue_map *qmap)
->  {
->  	const struct cpumask *masks;
->  	unsigned int queue, cpu;
->  
-> +	if (blk_mq_hk_map_queues(qmap))
-> +		return;
-> +
->  	masks = group_cpus_evenly(qmap->nr_queues);
->  	if (!masks) {
->  		for_each_possible_cpu(cpu)
-> @@ -118,6 +171,9 @@ void blk_mq_dev_map_queues(struct blk_mq_queue_map *qmap,
->  	const struct cpumask *mask;
->  	unsigned int queue, cpu;
->  
-> +	if (blk_mq_hk_map_queues(qmap))
-> +		return;
-> +
->  	for (queue = 0; queue < qmap->nr_queues; queue++) {
->  		mask = get_queue_affinity(dev_data, dev_off, queue);
->  		if (!mask)
+> I think this is good, and it doesn't seem hacky to me, because we can
+> check the page_pools of the netdev while we hold rtnl, so we can be
+> sure nothing is messing with the pp configuration in the meantime.
+> Like you say below it does validate the driver rather than rely on the
+> driver saying it's doing the right thing. I'll look into putting this
+> in the next version.
 
-From above implementation, "isolcpus=io_queue" is actually just one
-optimization on "isolcpus=managed_irq", and there isn't essential
-difference between the two.
+Why not have a flag set by the driver and advertising whether it
+supports providers or not, which should be checked for instance in
+netdev_rx_queue_restart()? If set, the driver should do the right
+thing. That's in addition to a new pp_params flag explicitly telling
+if pp should use providers. It's more explicit and feels a little
+less hacky.
 
-And I'd suggest to optimize 'isolcpus=managed_irq' directly, such as:
-
-- reduce nr_queues or numgrps for group_cpus_evenly() according to
-house-keeping cpu mask
-
-- spread house-keeping & isolate cpu mask evenly on each queue, and
-you can use the existed two-stage spread for doing that
-
-
-thanks,
-Ming
-
+-- 
+Pavel Begunkov
