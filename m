@@ -1,228 +1,160 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CF418E749;
-	Fri,  9 Aug 2024 14:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E62E19754A;
+	Fri,  9 Aug 2024 14:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723213444; cv=none; b=P8XRm+7NIJ15IlYbmMOdz2Ht3b7gJuTRm77Mo9AIcB512SawpgTVS2zRa07Qsuik0YtFTs7Vr66/OVSjQKAjujA/O0mHip42nnxR40OhCz8IgTOXtsGtFXNzANC9wnbc+tYVUhZZKoPH08fNcOc624E9X8mkbxSG31tpZJdwo+Q=
+	t=1723213561; cv=none; b=AvNu9fFDxFE5YauNSeTs68frNt2Zdkny/QTtXBeiWsboIFrWBos9DPogpjRYkogbguiFcASHReSIwisnxbgve41z1K8DEIrQ623ee3mBr043PW3RJCW4C1FHmTrWzJ6pnnhyhX/XV3MQtn1GjbbHQ3YM7lmJZBOYQihHO1KvAGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723213444; c=relaxed/simple;
-	bh=5gUwq91ATttiyIx/uKVwOYe7G/RxJzzFTf3pPEeo+sE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HImmSnsTT5/EhyrB+rDr7V19qDgOSeRKLhNoHmUA07fawUeBqsQrTxxI+OgZzRhWEeJAiP/sKouK105NE7pzfL+gk9DFtQ/T/BNt/cwfWrKaWfXiKUolF9Rh5udI+4NASmCxRP39+EmE8tokCHdBZdEh63C+qEpp9hSGpZ+y0Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4wv1fZw; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1723213561; c=relaxed/simple;
+	bh=vlC6MpCPMFC2AxNAPZC/pzsw2qhNyLWQJQEik8B7I5A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lmJXGZ1O5Mw2uzbRR3DnvVEVUBdX4g5bh5aGdBN+h79Z7hCoh7Viy99SkZJ3CIuGq0r0oNqhvLaLlze0EzoIEH3qfMWPJd5OEanSGHLlcX5UnBP9WeQvMbS8gdMNQJ/bC/JrkFTY/rt8hhvBNCUdJfinPT0BDzwLr0GrArXjCIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgK2OB6f; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4wv1fZw"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42817f1eb1fso14378135e9.1;
-        Fri, 09 Aug 2024 07:24:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NgK2OB6f"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5b9d48d1456so112912a12.1;
+        Fri, 09 Aug 2024 07:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723213441; x=1723818241; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4/gs9u47DP8cQrqdlouSOUqjeqH+R2TIC2bViLmRcTc=;
-        b=I4wv1fZwJuiRrnzb/AspLY1ojcC8q62X/dTSb3QwSchNoOvliqdQDin0AL1oxMMbWD
-         qWXAHoU04NWJgv9ESyormDf8RTRgQQH+Z1V5ig+3dGrCTsxiaAZxPa3mticY+1VZEcIQ
-         rgAgtGM5sCYaKeOkjehQKGIr+PWm9xGi5hmuNKMSRIsq8Ju2Xk+l2adhbP9ZQNo3Vi+L
-         tUXw5i0kkex5dNKw9YVfA2HrZxmAJg9cbcmtISYBRUSF95jIuE6Wf3s/VywA3U7Ib6kk
-         Ye636KuLka2XKNyy3Cu9OTzls67xIRvTJXVGUimbM+Dbx/rM7v5Ohjpz2mZMqkaEixYQ
-         zwVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723213441; x=1723818241;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=gmail.com; s=20230601; t=1723213558; x=1723818358; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4/gs9u47DP8cQrqdlouSOUqjeqH+R2TIC2bViLmRcTc=;
-        b=iOiviW03AmRqNcfKgVDD0XMwmW5FNsgwvD0m2jr8pvFP9Y2TM8EGKZlhkbYzFYjloI
-         SvrMnHzAvGhZ0V7YLRQ8MJyxtcMgFC0A1O8qC3pmNYQDU76cVCp0+E2NC5V5ox4WSzj5
-         Ko17s3QWYp22+b1swV0PpWNe0A8igupvmTrN5nmT+o4KeLmHBz4CKiNUhtQwvs0mpmbO
-         RXekIcBl47cPLBLUsKCSuoIcpBL9K1V+Z5rjHG1OxWGhZK51pwFOfxG1i+n5VF3BdwfJ
-         V5v//kYd9gmIQuLltmoH1mW1RFy+kvyN4LNWSSDGgFfI8zfDEz5Fvd6Ia7zdF/pVMsg5
-         aiVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVROGMj6jMzmqFrGKQs5j8QH3Owtb7G6livYE3TRavcxsDWVnbWP5mVd3S0nC6hio/VN5fhTEt+PLK31syZchOMUVoE3ZD4SudJpbwoRXnGSsVaqLrGa5tyNfQyMKI21PbTDeOXpfRBscP0+k1N7PY19K5TZcUlU+aHx9yyjbyTbqOQ
-X-Gm-Message-State: AOJu0Ywms7+Dnh/A2VAXN6b8Jf6cc8JnzITgUeZNlMVPFag4XlNrngeG
-	r4uGjZBsHV0KdKXANCrC7SdI67bTteA74EnKO5e/8RJcgUIPX+sX
-X-Google-Smtp-Source: AGHT+IGOJX0c6Nlhlkbs5OFc67iI7fWE3SO6nvfRWjJNZXO4pxljwRKUP2i+UFyp/XOW1IeZiEvK1A==
-X-Received: by 2002:a5d:6c6e:0:b0:368:3b21:6643 with SMTP id ffacd0b85a97d-36d616e8ef2mr1569518f8f.48.1723213441045;
-        Fri, 09 Aug 2024 07:24:01 -0700 (PDT)
-Received: from nsa.fritz.box ([2001:a61:359b:e801:d44:32b3:6924:10d1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429059713adsm130964315e9.11.2024.08.09.07.24.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 07:24:00 -0700 (PDT)
-Message-ID: <8bb01a8946aaa5855b5ac15d79c0292a668eee59.camel@gmail.com>
-Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
- <jic23@kernel.org>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
- =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Fri, 09 Aug 2024 16:24:00 +0200
-In-Reply-To: <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
-References: 
-	<20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
-	 <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+        bh=CVmL+JUtY+Wn7F+T3SL86Jtw2K/7k/JyMHzuTw81wh4=;
+        b=NgK2OB6fDJ2jrYJZxMf0WYGvMv0FNdpPVJyMfN30RxPs9daLIDaK7l7FCuQyZnnVS/
+         nbQJvakj7ioQrFKa3HRVdg5ISoypZ/0S5SxUdgeVTYPmlGwKrArLhDvY3iWeVLQEc4ai
+         QCa2DlIKack6hR3pR+Ij2mTVw5GmIVpw/o4mbMIQicNfHmMiI7gF00RHzCCwQ1b8lMFJ
+         RgLjNXzTwlzj8DRbIq9hctt5v4isgkYE+zlh/th4xlHlZawJh+v+SK4FgdgzOHweSSNJ
+         0k8nfFmSU+J6J+LrFlbeZV8fM/GR3ofFkprY94qB+/cW0z6Y57kWKU+q2j77kLZOqRJg
+         HDeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723213558; x=1723818358;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CVmL+JUtY+Wn7F+T3SL86Jtw2K/7k/JyMHzuTw81wh4=;
+        b=G095lesZ+z872FMzBTpmdOwpJiMp79kX86fcPNf4NhoYHbm294Do+M5GKvSNFb3Sxw
+         v8Qc9KxpjgD/51PZqNozJUg36IRhQzZ5/PlMbKsplKzc473hGA8FwIdkM1ZJ+W3DgmMN
+         lwcu+Bxu+vn1qN30BdhtS1ctRBrjHItkbYCiB+eFqKuwzHnGvHGcvCmBmAc17WLqtWGs
+         pouZXtg/EZKR7ed1YIb6g6vDjnst+YsgAS0ktYmsjs1s/5dkBgG1UYjrBb7T30MnVwow
+         vWARb4YzMs3MHJFunGnS1WE1jtR3Wlq57TorNR1ngdrMj68a3OI55VF6i+r5+79+2lYW
+         0Cdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXaGWH3tB+lF9hbAlE7DYAqxkgyaM6TNrxfe3rPy95k4oZGsoYxvJ0fsMKjRSE6Uh9FWOJXRO6k+THvai9TzDOoIGjEyjJEIEHpdpXcNqTjOjGWkT5KFkTWIaeKxet0aHT0BkewN3pl
+X-Gm-Message-State: AOJu0Yy2tFfycQ2h9DVsL8I++Z3px77bSITmpnyFHEhwkBOM6CjjFcZk
+	23qWXE9CPs8O+mR/ir8WKkzEKPpuiGi154+zW3Wztw+mw6aor7lU
+X-Google-Smtp-Source: AGHT+IFnExldOKrhy5GHhFfjiCC/km2Eo6GrWXuovjXEgdCYefbnjSGwy+f02GPsbVNwm69iWCHPpw==
+X-Received: by 2002:a05:6402:27c9:b0:5b8:36b7:ae51 with SMTP id 4fb4d7f45d1cf-5bbb3c417ddmr4729643a12.9.1723213558079;
+        Fri, 09 Aug 2024 07:25:58 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::6:b73e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bbb2c1d615sm1650192a12.23.2024.08.09.07.25.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Aug 2024 07:25:57 -0700 (PDT)
+Message-ID: <dccf0806-0627-4deb-850e-367689af5b0a@gmail.com>
+Date: Fri, 9 Aug 2024 15:25:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] mm: split underutilized THPs
+To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
+ cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20240807134732.3292797-1-usamaarif642@gmail.com>
+ <20240807134732.3292797-5-usamaarif642@gmail.com>
+ <5adb120e-5408-43a6-b418-33dc17c086f0@redhat.com>
+ <c0ed5796-a6a6-4757-b7df-666ba598d9fe@gmail.com>
+ <3f6e1e0a-6132-4222-abb6-133224e11009@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <3f6e1e0a-6132-4222-abb6-133224e11009@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-08-07 at 15:02 -0500, David Lechner wrote:
-> This implements buffered reads for the ad4695 driver using the typical
-> triggered buffer implementation, including adding a soft timestamp
-> channel.
->=20
-> The chip has 4 different modes for doing conversions. The driver is
-> using the advanced sequencer mode since that is the only mode that
-> allows individual configuration of all aspects each channel (e.g.
-> bipolar config currently and oversampling to be added in the future).
->=20
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
 
-Hi David,
 
-Just two nit comments...
+On 09/08/2024 14:21, David Hildenbrand wrote:
+> On 09.08.24 12:31, Usama Arif wrote:
+>>
+>>
+>> On 08/08/2024 16:55, David Hildenbrand wrote:
+>>> On 07.08.24 15:46, Usama Arif wrote:
+>>>> This is an attempt to mitigate the issue of running out of memory when THP
+>>>> is always enabled. During runtime whenever a THP is being faulted in
+>>>> (__do_huge_pmd_anonymous_page) or collapsed by khugepaged
+>>>> (collapse_huge_page), the THP is added to  _deferred_list. Whenever memory
+>>>> reclaim happens in linux, the kernel runs the deferred_split
+>>>> shrinker which goes through the _deferred_list.
+>>>>
+>>>> If the folio was partially mapped, the shrinker attempts to split it.
+>>>> A new boolean is added to be able to distinguish between partially
+>>>> mapped folios and others in the deferred_list at split time in
+>>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
+>>>> the folio mapcount elements, hence it won't be possible to distinguish
+>>>> between partially mapped folios and others in deferred_split_scan
+>>>> without the boolean.
+>>>
+>>> Just so I get this right: Are you saying that we might now add fully mapped folios to the deferred split queue and that's what you want to distinguish?
+>>
+>> Yes
+>>
+>>>
+>>> If that's the case, then could we use a bit in folio->_flags_1 instead?
+>> Yes, thats a good idea. Will create the below flag for the next revision
+>>
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index 5769fe6e4950..5825bd1cf6db 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+>> @@ -189,6 +189,11 @@ enum pageflags {
+>>     #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
+>>   +enum folioflags_1 {
+>> +       /* The first 8 bits of folio->_flags_1 are used to keep track of folio order */
+>> +       FOLIO_PARTIALLY_MAPPED = 8,     /* folio is partially mapped */
+>> +}
+> 
+> This might be what you want to achieve:
+> 
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index a0a29bd092f8..d4722ed60ef8 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -182,6 +182,7 @@ enum pageflags {
+>         /* At least one page in this folio has the hwpoison flag set */
+>         PG_has_hwpoisoned = PG_active,
+>         PG_large_rmappable = PG_workingset, /* anon or file-backed */
+> +       PG_partially_mapped, /* was identified to be partially mapped */
+>  };
+>  
+>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
+> @@ -861,8 +862,9 @@ static inline void ClearPageCompound(struct page *page)
+>         ClearPageHead(page);
+>  }
+>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+> +FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+>  #else
+> -FOLIO_FLAG_FALSE(large_rmappable)
+> +FOLIO_FLAG_FALSE(partially_mapped)
+>  #endif
+>  
+>  #define PG_head_mask ((1UL << PG_head))
+> 
+> The downside is an atomic op to set/clear, but it should likely not really matter
+> (initially, the flag will be clear, and we should only ever set it once when
+> partially unmapping). If it hurts, we can reconsider.
+> 
+> [...]
 
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+I was looking for where the bits for flags_1 were specified! I just saw the start of enum pageflags, saw that compound order isn't specified anywhere over there and ignored the end :)
 
-> =C2=A0drivers/iio/adc/ad4695.c | 233 ++++++++++++++++++++++++++++++++++++=
-++++++++++-
-> =C2=A01 file changed, 230 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/iio/adc/ad4695.c b/drivers/iio/adc/ad4695.c
-> index 007ecb951bc3..a3bd5be36134 100644
-> --- a/drivers/iio/adc/ad4695.c
-> +++ b/drivers/iio/adc/ad4695.c
-
-...
-
->=20
-> =C2=A0
-> +static int ad4695_buffer_preenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4695_state *st =3D iio_priv(indio_dev);
-> +	struct spi_transfer *xfer;
-> +	u8 temp_chan_bit =3D st->chip_info->num_voltage_inputs;
-> +	bool temp_chan_en =3D false;
-> +	u32 reg, mask, val, bit, num_xfer, num_slots;
-> +	int ret;
-> +
-> +	/*
-> +	 * We are using the advanced sequencer since it is the only way to read
-> +	 * multiple channels that allows individual configuration of each
-> +	 * voltage input channel. Slot 0 in the advanced sequencer is used to
-> +	 * account for the gap between trigger polls - we don't read data from
-> +	 * this slot. Each enabled voltage channel is assigned a slot starting
-> +	 * with slot 1.
-> +	 */
-> +	num_slots =3D 1;
-> +
-> +	memset(st->buf_read_xfer, 0, sizeof(st->buf_read_xfer));
-> +
-> +	/* First xfer is only to trigger conversion of slot 1, so no rx. */
-> +	xfer =3D &st->buf_read_xfer[0];
-> +	xfer->cs_change =3D 1;
-> +	xfer->delay.value =3D AD4695_T_CNVL_NS;
-> +	xfer->delay.unit =3D SPI_DELAY_UNIT_NSECS;
-> +	xfer->cs_change_delay.value =3D AD4695_T_CONVERT_NS;
-> +	xfer->cs_change_delay.unit =3D SPI_DELAY_UNIT_NSECS;
-> +	num_xfer =3D 1;
-> +
-> +	iio_for_each_active_channel(indio_dev, bit) {
-> +		xfer =3D &st->buf_read_xfer[num_xfer];
-> +		xfer->bits_per_word =3D 16;
-> +		xfer->rx_buf =3D &st->buf[(num_xfer - 1) * 2];
-> +		xfer->len =3D 2;
-> +		xfer->cs_change =3D 1;
-> +		xfer->cs_change_delay.value =3D AD4695_T_CONVERT_NS;
-> +		xfer->cs_change_delay.unit =3D SPI_DELAY_UNIT_NSECS;
-> +
-> +		if (bit =3D=3D temp_chan_bit) {
-> +			temp_chan_en =3D true;
-> +		} else {
-> +			reg =3D AD4695_REG_AS_SLOT(num_slots);
-> +			val =3D FIELD_PREP(AD4695_REG_AS_SLOT_INX, bit);
-> +
-> +			ret =3D regmap_write(st->regmap, reg, val);
-> +			if (ret)
-> +				return ret;
-> +
-> +			num_slots++;
-> +		}
-> +
-> +		num_xfer++;
-> +	}
-> +
-> +	/*
-> +	 * Don't keep CS asserted after last xfer. Also triggers conversion of
-> +	 * slot 0.
-> +	 */
-> +	xfer->cs_change =3D 0;
-> +
-> +	/**
-> +	 * The advanced sequencer requires that at least 2 slots are enabled.
-> +	 * Since slot 0 is always used for other purposes, we need only 1
-> +	 * enabled voltage channel to meet this requirement. This error will
-> +	 * only happen if only the temperature channel is enabled.
-> +	 */
-> +	if (num_slots < 2) {
-> +		dev_err_ratelimited(&indio_dev->dev,
-> +			"Buffered read requires at least 1 voltage channel
-> enabled\n");
-
-This one is intriguing... Why the ratelimited variant? Normally you'd use t=
-hat in IRQ
-routines where the log could be flooded.
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * Temperature channel isn't included in the sequence, but rather
-> +	 * controlled by setting a bit in the TEMP_CTRL register.
-> +	 */
-> +
-> +	reg =3D AD4695_REG_TEMP_CTRL;
-> +	mask =3D AD4695_REG_TEMP_CTRL_TEMP_EN;
-> +	val =3D FIELD_PREP(mask, temp_chan_en ? 1 : 0);
-> +
-> +	ret =3D regmap_update_bits(st->regmap, reg, mask, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	spi_message_init_with_transfers(&st->buf_read_msg, st->buf_read_xfer,
-> +					num_xfer);
-> +
-> +	ret =3D spi_optimize_message(st->spi, &st->buf_read_msg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* This triggers conversion of slot 0. */
-> +	ret =3D ad4695_enter_advanced_sequencer_mode(st, num_slots);
-> +	if (ret) {
-> +		spi_unoptimize_message(&st->buf_read_msg);
-> +		return ret;
-> +	}
-
-Could save one line with (unless ad4695_enter_advanced_sequencer_mode() doe=
-s not
-return 0 on success)
-
-ret =3D ad4695_enter_advanced_sequencer_mode(st, num_slots);
-if (ret)
-	spi_unoptimize_message(&st->buf_read_msg);
-
-return ret;
-
-- Nuno S=C3=A1
+Yes, this is what I wanted to do. Thanks.
 
