@@ -1,100 +1,53 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F63172BD6;
-	Fri,  9 Aug 2024 07:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE16178372
+	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 07:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723188137; cv=none; b=NroOYfvdsipkMp0bYdD7zD4n0BVA9xvBher0btMdPNbsaKdq3MKkgkadh5N/91D1z9W7FaUZn/2A+OBrUgCYpK/atRkY8TUJhCK1s43k28XisWQLQcEcipXlmuN3lbfYi5ZB4CxNm7yPczsi7Z56K2dzG/gHc2AH80pwlw5iuJs=
+	t=1723188360; cv=none; b=VAhyLnVx++gGwkfZNCYpTASsRBpT9HhvuOKS3DSfr8fRMIFYlfboA6KDypWBZYajl+c4zeaccHoS5hHejtuS7UR2FKt9+ObQ4W4TZma1so4TFrGbcU/nc8BzIoo/cP527GdFI5hfCBUuBpeTd193MPNzKgSBXhx0SgIEdNy1sJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723188137; c=relaxed/simple;
-	bh=gYlIP+lBGZf9p56OPaappGgP1Xv0GKlrY9dqQFRES04=;
+	s=arc-20240116; t=1723188360; c=relaxed/simple;
+	bh=yi4K1zGpJxAsjqqbdwucKt8vGdkCSnyK1MOiAV9eM6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXrRuDXLT+iG46WO8YmVZhduuCUx6O9EiRZ05ej6cSjSFRTij0e7yKEv3IA70Cqo6KaIxWtCZTj3abPfUUiIM2LXHtEXLd2K+hLExZauL2RXr4FB67oavKslO5he6RFct4S+xDb2wtoeHkbYZ2ohqy9NQDRuIDNe2tQmeL8iRHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qRBJYlZP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTTbxdNS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qRBJYlZP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NTTbxdNS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qRBJYlZP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTTbxdNS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qRBJYlZP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NTTbxdNS"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9170B21EB4;
-	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
-	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
-	GigUI+02Aw/lncykX5e1s4atPk9xdak=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723188132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
-	7qqDBipp3r8IDEAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723188132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=qRBJYlZP10SZWLOuW224PwXJnb9NdkAwHqyzI4zJIbxa7x82Kn5LIRVQo6gYVBZJq/fRhb
-	jWCfop6Rgz7eKAjnPVkWyPujE5f1ZWPn/Td/6U1/1QIQrXNw7NV1SxMc0TZBIg/oh8VFE+
-	GigUI+02Aw/lncykX5e1s4atPk9xdak=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723188132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahmUJlG6cvn11dfUj1+gsMh+RJ6l5CH2DKkmdQtjC1M=;
-	b=NTTbxdNSv22I/uNcvvM5kXc2YMty5QSKzyvVojSy9LCXC0bfiOUc+vbfTpPux/FGx2cW/V
-	7qqDBipp3r8IDEAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77DA513A7D;
-	Fri,  9 Aug 2024 07:22:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5Yc7HaTDtWbgEAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 09 Aug 2024 07:22:12 +0000
-Date: Fri, 9 Aug 2024 09:22:11 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
-	Christoph Hellwig <hch@lst.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	John Garry <john.g.garry@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Kashyap Desai <kashyap.desai@broadcom.com>, 
-	Sumit Saxena <sumit.saxena@broadcom.com>, Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, 
-	Chandrakanth patil <chandrakanth.patil@broadcom.com>, Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, 
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, Jonathan Corbet <corbet@lwn.net>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
- <ZrI5TcaAU82avPZn@fedora>
- <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
- <ZrRXEUko5EwKJaaP@fedora>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oxW6DxcAeWz4kDHQJoCBlSdv5CptMpf8F6qqYQmT3FoTNXLi3UUdNYtiIEUwfRdu8ggVI2m7zkZwDFcx4ggbDqJ4euYkJZ4JcmuQd7uovJnWVs5ngm/OMdfw8nnLnRxlhGfgwgjQ56/54eeGwfQthc34EshkxRC4l1QCo8dgsus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1scJl7-00012d-Vp; Fri, 09 Aug 2024 09:09:58 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sha@pengutronix.de>)
+	id 1scJl2-005bez-0o; Fri, 09 Aug 2024 09:09:52 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <sha@pengutronix.de>)
+	id 1scJl1-00Aiml-2s;
+	Fri, 09 Aug 2024 09:09:51 +0200
+Date: Fri, 9 Aug 2024 09:09:51 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [EXT] Re: [PATCH v6 5/5] firmware: imx: adds miscdev
+Message-ID: <ZrXAv79KFCSyB3U_@pengutronix.de>
+References: <20240722-imx-se-if-v6-0-ee26a87b824a@nxp.com>
+ <20240722-imx-se-if-v6-5-ee26a87b824a@nxp.com>
+ <Zp-8MPdWdAhGG9de@pengutronix.de>
+ <AM9PR04MB860410277C8329271E12963F95B92@AM9PR04MB8604.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -103,210 +56,174 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZrRXEUko5EwKJaaP@fedora>
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,lst.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <AM9PR04MB860410277C8329271E12963F95B92@AM9PR04MB8604.eurprd04.prod.outlook.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
-> Isolated CPUs are removed from queue mapping in this patchset, when someone
-> submit IOs from the isolated CPU, what is the correct hctx used for handling
-> these IOs?
-
-No, every possible CPU gets a mapping. What this patch series does, is
-to limit/aligns the number of hardware context to the number of
-housekeeping CPUs. There is still a complete ctx-hctc mapping. So
-whenever an user thread on an isolated CPU is issuing an IO a
-housekeeping CPU will also be involved (with the additional overhead,
-which seems to be okay for these users).
-
-Without hardware queue on the isolated CPUs ensures we really never get
-any unexpected IO on those CPUs unless userspace does it own its own.
-It's a safety net.
-
-Just to illustrate it, the non isolcpus configuration (default) map
-for an 8 CPU setup:
-
-queue mapping for /dev/vda
-        hctx0: default 0
-        hctx1: default 1
-        hctx2: default 2
-        hctx3: default 3
-        hctx4: default 4
-        hctx5: default 5
-        hctx6: default 6
-        hctx7: default 7
-
-and with isolcpus=io_queue,2-3,6-7
-
-queue mapping for /dev/vda
-        hctx0: default 0 2
-        hctx1: default 1 3
-        hctx2: default 4 6
-        hctx3: default 5 7
-
-> From current implementation, it depends on implied zero filled
-> tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
+On Thu, Aug 08, 2024 at 10:49:33AM +0000, Pankaj Gupta wrote:
+> > > +     if (tx_msg->header.tag != priv->cmd_tag) {
+> > > +             err = -EINVAL;
+> > > +             goto exit;
+> > > +     }
+> > > +
+> > > +     guard(mutex)(&priv->se_if_cmd_lock);
+> > > +     priv->waiting_rsp_dev = dev_ctx;
+> > > +     dev_ctx->temp_resp_size = cmd_snd_rcv_rsp_info.rx_buf_sz;
+> > > +
+> > > +     /* Device Context that is assigned to be a
+> > > +      * FW's command receiver, has pre-allocated buffer.
+> > > +      */
+> > > +     if (dev_ctx != priv->cmd_receiver_dev)
+> > > +             dev_ctx->temp_resp = rx_msg;
+> > > +
+> > > +     err = ele_miscdev_msg_send(dev_ctx,
+> > > +                                tx_msg,
+> > > +                                cmd_snd_rcv_rsp_info.tx_buf_sz);
+> > > +     if (err < 0)
+> > > +             goto exit;
+> > > +
+> > > +     cmd_snd_rcv_rsp_info.tx_buf_sz = err;
+> > > +
+> > > +     err = ele_miscdev_msg_rcv(dev_ctx,
+> > > +                               cmd_snd_rcv_rsp_info.rx_buf,
+> > > +                               cmd_snd_rcv_rsp_info.rx_buf_sz);
+> > 
+> > Ok, here you now have serialized sending and receiving messages,
+> > 
+> > With this you no longer need priv->waiting_rsp_dev, dev_ctx->temp_resp and
+> > dev_ctx->temp_resp_size. Drop these for further cleanup.
 > 
-> During CPU offline, in blk_mq_hctx_notify_offline(),
-> blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
-> hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
-> hctx 0 won't be drained.
+> It is very much needed.
+> - priv->waiting_rsp_dev, help identify in the callback function that:
+> 	- the message is targeted for dev_ctx(user space) or dev(kernel space).
+> 	- the message is targeted for for which dev_ctx.
+> - dev_ctx->temp_resp, this buffer pointer is needed, to receive the message received in call back.
+> - dev_ctx->temp_resp_size, is needed to compare the size of in-coming message.
 > 
-> However managed irq core code still shutdowns the hw queue's irq because all
-> CPUs in this hctx are offline now. Then IO hang is triggered, isn't
-> it?
+> All the three are needed in callback function.
 
-Thanks for the explanation. I was able to reproduce this scenario, that
-is a hardware context with two CPUs which go offline. Initially, I used
-fio for creating the workload but this never hit the hanger. Instead
-some background workload from systemd-journald is pretty reliable to
-trigger the hanger you describe.
+I think you should throw away ele_miscdev_msg_send() and
+ele_miscdev_msg_rcv() and instead use ele_msg_send_rcv() instead.
 
-Example:
+This driver contains a whole lot of unneeded complexity up to the point
+where it's not clear what this driver is actually trying to archieve.
 
-  hctx2: default 4 6
+Please let's do a step back and try to find out the actual usecases.
 
-CPU 0 stays online, CPU 1-5 are offline. CPU 6 is offlined:
+What I have found out so far is:
 
-  smpboot: CPU 5 is now offline
-  blk_mq_hctx_has_online_cpu:3537 hctx3 offline
-  blk_mq_hctx_has_online_cpu:3537 hctx2 offline
+1) We can send one message to the ELE and each message is expected to get
+   one response from the ELE.
+2) We are not allowed to send another message to the ELE while there is a
+   message in flight that hasn't got a response.
+3) Both Kernel and userspace shall be able to send commands and receive
+   its responses.
+4) The ELE is able to send a command itself. Is this true? Does this
+   command need a response? Can we continue sending commands to the ELE
+   while the ELE waits for the response to the command?
 
-and there is no forward progress anymore, the cpuhotplug state machine
-is blocked and an IO is hanging:
 
-  # grep busy /sys/kernel/debug/block/*/hctx*/tags | grep -v busy=0
-  /sys/kernel/debug/block/vda/hctx2/tags:busy=61
+1) and 2) is covered by ele_msg_send_rcv(). 3) is covered by
+ele_msg_send_rcv() as well, it can be called directly by kernel
+code or via an ioctl from userspace.
 
-and blk_mq_hctx_notify_offline busy loops forever:
+4) is the most unclear point for me, but 1) 2) and 3) seems straight
+forward and should be solvable with significantly reduced code size.
 
-   task:cpuhp/6         state:D stack:0     pid:439   tgid:439   ppid:2      flags:0x00004000
-   Call Trace:
-    <TASK>
-    __schedule+0x79d/0x15c0
-    ? lockdep_hardirqs_on_prepare+0x152/0x210
-    ? kvm_sched_clock_read+0xd/0x20
-    ? local_clock_noinstr+0x28/0xb0
-    ? local_clock+0x11/0x30
-    ? lock_release+0x122/0x4a0
-    schedule+0x3d/0xb0
-    schedule_timeout+0x88/0xf0
-    ? __pfx_process_timeout+0x10/0x10d
-    msleep+0x28/0x40
-    blk_mq_hctx_notify_offline+0x1b5/0x200
-    ? cpuhp_thread_fun+0x41/0x1f0
-    cpuhp_invoke_callback+0x27e/0x780
-    ? __pfx_blk_mq_hctx_notify_offline+0x10/0x10
-    ? cpuhp_thread_fun+0x42/0x1f0
-    cpuhp_thread_fun+0x178/0x1f0
-    smpboot_thread_fn+0x12e/0x1c0
-    ? __pfx_smpboot_thread_fn+0x10/0x10
-    kthread+0xe8/0x110
-    ? __pfx_kthread+0x10/0x10
-    ret_from_fork+0x33/0x40
-    ? __pfx_kthread+0x10/0x10
-    ret_from_fork_asm+0x1a/0x30
-    </TASK>
+Am I missing any features that you need as well?
 
-I don't think this is a new problem this code introduces. This problem
-exists for any hardware context which has more than one CPU. As far I
-understand it, the problem is that there is no forward progress possible
-for the IO itself (I assume the corresponding resources for the CPU
-going offline have already been shutdown, thus no progress?) and
-blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
 
-Couldn't we do something like:
+> 
+> > 
+> > > +}
+> > > +
+> > > +static int se_ioctl_get_mu_info(struct se_if_device_ctx *dev_ctx,
+> > > +                             u64 arg) {
+> > > +     struct se_if_priv *priv = dev_get_drvdata(dev_ctx->dev);
+> > > +     struct se_if_node_info *if_node_info;
+> > > +     struct se_ioctl_get_if_info info;
+> > > +     int err = 0;
+> > > +
+> > > +     if_node_info = (struct se_if_node_info *)priv->info;
+> > > +
+> > > +     info.se_if_id = if_node_info->se_if_id;
+> > > +     info.interrupt_idx = 0;
+> > > +     info.tz = 0;
+> > > +     info.did = if_node_info->se_if_did;
+> > > +     info.cmd_tag = if_node_info->cmd_tag;
+> > > +     info.rsp_tag = if_node_info->rsp_tag;
+> > > +     info.success_tag = if_node_info->success_tag;
+> > > +     info.base_api_ver = if_node_info->base_api_ver;
+> > > +     info.fw_api_ver = if_node_info->fw_api_ver;
+> > 
+> > This really shouldn't be here. You pass cmd_tag and rsp_tag to userspace just
+> > to guide userspace how to construct a message.
+> > 
+> > This shows that the messages should be constructed in the Kernel rather than
+> > in userspace. Just pass the message content from userspace to the kernel and
+> > let the kernel build the message on the sender side.
+> 
+> This will help collecting user-space application logs, with correct tags.
+> This is already used by the customers, for debug.
 
-+static bool blk_mq_hctx_timeout_rq(struct request *rq, void *data)
-+{
-+       blk_mq_rq_timed_out(rq);
-+       return true;
-+}
-+
-+static void blk_mq_hctx_timeout_rqs(struct blk_mq_hw_ctx *hctx)
-+{
-+       struct blk_mq_tags *tags = hctx->sched_tags ?
-+                       hctx->sched_tags : hctx->tags;
-+       blk_mq_all_tag_iter(tags, blk_mq_hctx_timeout_rq, NULL);
-+}
-+
-+
- static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
- {
-        struct blk_mq_hw_ctx *hctx = hlist_entry_safe(node,
-                        struct blk_mq_hw_ctx, cpuhp_online);
-+       int i;
+I don't bother that you provide this information to userspace. My point
+is that it shouldn't be needed by userspace to assemble the packets that
+are sent back to the kernel.
 
-        if (blk_mq_hctx_has_online_cpu(hctx, cpu))
-                return 0;
-@@ -3551,9 +3589,16 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
-         * requests.  If we could not grab a reference the queue has been
-         * frozen and there are no requests.
-         */
-+       i = 0;
-        if (percpu_ref_tryget(&hctx->queue->q_usage_counter)) {
--               while (blk_mq_hctx_has_requests(hctx))
-+               while (blk_mq_hctx_has_requests(hctx) && i++ < 10)
-                        msleep(5);
-+               if (blk_mq_hctx_has_requests(hctx)) {
-+                       pr_info("%s:%d hctx %d force timeout request\n",
-+                               __func__, __LINE__, hctx->queue_num);
-+                       blk_mq_hctx_timeout_rqs(hctx);
-+               }
-+
+Really the packet encapsulation should be done in the kernel and
+userspace shouldn't be bothered with it.
 
-This guarantees forward progress and it worked in my test scenario, got
-the corresponding log entries
+> 
+> > 
+> > > +/* IOCTL entry point of a character device */ static long
+> > > +se_ioctl(struct file *fp, unsigned int cmd, unsigned long arg) {
+> > > +     struct se_if_device_ctx *dev_ctx = container_of(fp->private_data,
+> > > +                                                     struct se_if_device_ctx,
+> > > +                                                     miscdev);
+> > > +     struct se_if_priv *se_if_priv = dev_ctx->priv;
+> > > +     int err = -EINVAL;
+> > > +
+> > > +     /* Prevent race during change of device context */
+> > > +     if (down_interruptible(&dev_ctx->fops_lock))
+> > > +             return -EBUSY;
+> > > +
+> > > +     switch (cmd) {
+> > > +     case SE_IOCTL_ENABLE_CMD_RCV:
+> > > +             if (!se_if_priv->cmd_receiver_dev) {
+> > > +                     err = 0;
+> > > +                     se_if_priv->cmd_receiver_dev = dev_ctx;
+> > > +                     dev_ctx->temp_resp = kzalloc(MAX_NVM_MSG_LEN,
+> > GFP_KERNEL);
+> > > +                     if (!dev_ctx->temp_resp)
+> > > +                             err = -ENOMEM;
+> > > +             }
+> > 
+> > cmd_receiver_dev isn't locked by anything, still it can be accessed by different
+> > userspace processes.
+> 
+> It is not accessed by different Userspace processes. It is a slave to FW.
+> FW interacts with it when FW receive a command to do any action, from userspace.
+> Hence, it will be executed under command-lock.
 
-  blk_mq_hctx_notify_offline:3598 hctx 2 force timeout request
+When two userspace programs have a device instance open, then nothing
+prevents them from calling this ioctl at the same time. You do a
 
-and the hotplug state machine continued. Didn't see an IO error either,
-but I haven't looked closely, this is just a POC.
+	if (!se_if_priv->cmd_receiver_dev)
+		se_if_priv->cmd_receiver_dev = dev_ctx;
 
-BTW, when looking at the tag allocator, I didn't see any hctx state
-checks for the batched alloction path. Don't we need to check if the
-corresponding hardware context is active there too?
+which is executed by two threads simultaneously. It's one of the most
+classic scenarios that need locking.
 
-@ -486,6 +487,15 @@ static struct request *__blk_mq_alloc_requests(struct blk_mq_alloc_data *data)
-        if (data->nr_tags > 1) {
-                rq = __blk_mq_alloc_requests_batch(data);
-                if (rq) {
-+                       if (unlikely(test_bit(BLK_MQ_S_INACTIVE,
-+                                             &data->hctx->state))) {
-+                               blk_mq_put_tag(blk_mq_tags_from_data(data),
-+                                              rq->mq_ctx, rq->tag);
-+                               msleep(3);
-+                               goto retry;
-+                       }
-                        blk_mq_rq_time_init(rq, alloc_time_ns);
-                        return rq;
-                }
+Sascha
 
-But given this is the hotpath and the hotplug path is very unlikely to
-be used at all, at least for the majority of users, I would suggest to
-try to get blk_mq_hctx_notify_offline to guarantee forward progress?.
-This would make the hotpath an 'if' less.
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
