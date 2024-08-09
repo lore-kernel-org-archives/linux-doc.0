@@ -1,160 +1,243 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E62E19754A;
-	Fri,  9 Aug 2024 14:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F935196C7C
+	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 14:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723213561; cv=none; b=AvNu9fFDxFE5YauNSeTs68frNt2Zdkny/QTtXBeiWsboIFrWBos9DPogpjRYkogbguiFcASHReSIwisnxbgve41z1K8DEIrQ623ee3mBr043PW3RJCW4C1FHmTrWzJ6pnnhyhX/XV3MQtn1GjbbHQ3YM7lmJZBOYQihHO1KvAGM=
+	t=1723215233; cv=none; b=RcTn5vL1Vlw6gC5kgwPf0m1tB1iTlez6+fztbQr7Yw16qGYmMJlfnRH9Hh5LzeeeZgMDNAWD8pdcK1l25mTtYriDdsaz8/xqmm/WMteOK9cUh558Dr1rGB3RxUoITJwomiCP8GdvXvCl5R5rWJSYth10wZRJ2oDzkch4YAB4o2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723213561; c=relaxed/simple;
-	bh=vlC6MpCPMFC2AxNAPZC/pzsw2qhNyLWQJQEik8B7I5A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lmJXGZ1O5Mw2uzbRR3DnvVEVUBdX4g5bh5aGdBN+h79Z7hCoh7Viy99SkZJ3CIuGq0r0oNqhvLaLlze0EzoIEH3qfMWPJd5OEanSGHLlcX5UnBP9WeQvMbS8gdMNQJ/bC/JrkFTY/rt8hhvBNCUdJfinPT0BDzwLr0GrArXjCIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgK2OB6f; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723215233; c=relaxed/simple;
+	bh=GSzMuwNbO0R/haLtymCCrn2VcacmkVi1sA+7fw+Ikp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cTUVOfeXi2F1oQoYslSS31eq7/YC7WiR+7JW7ey1nXaylj5CFEVXIF1xf3MlsDpfu8AqnSxApilhXczWLFthgBajP3JE30x3Ur9u4VX+bcCkaGT52Ps6k+rPX9UvuyF1H/MasW4Rllpm8CIVOYpF+VopyMvYgyM79XXYBiyefKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KuubxAu6; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NgK2OB6f"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5b9d48d1456so112912a12.1;
-        Fri, 09 Aug 2024 07:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723213558; x=1723818358; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CVmL+JUtY+Wn7F+T3SL86Jtw2K/7k/JyMHzuTw81wh4=;
-        b=NgK2OB6fDJ2jrYJZxMf0WYGvMv0FNdpPVJyMfN30RxPs9daLIDaK7l7FCuQyZnnVS/
-         nbQJvakj7ioQrFKa3HRVdg5ISoypZ/0S5SxUdgeVTYPmlGwKrArLhDvY3iWeVLQEc4ai
-         QCa2DlIKack6hR3pR+Ij2mTVw5GmIVpw/o4mbMIQicNfHmMiI7gF00RHzCCwQ1b8lMFJ
-         RgLjNXzTwlzj8DRbIq9hctt5v4isgkYE+zlh/th4xlHlZawJh+v+SK4FgdgzOHweSSNJ
-         0k8nfFmSU+J6J+LrFlbeZV8fM/GR3ofFkprY94qB+/cW0z6Y57kWKU+q2j77kLZOqRJg
-         HDeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723213558; x=1723818358;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CVmL+JUtY+Wn7F+T3SL86Jtw2K/7k/JyMHzuTw81wh4=;
-        b=G095lesZ+z872FMzBTpmdOwpJiMp79kX86fcPNf4NhoYHbm294Do+M5GKvSNFb3Sxw
-         v8Qc9KxpjgD/51PZqNozJUg36IRhQzZ5/PlMbKsplKzc473hGA8FwIdkM1ZJ+W3DgmMN
-         lwcu+Bxu+vn1qN30BdhtS1ctRBrjHItkbYCiB+eFqKuwzHnGvHGcvCmBmAc17WLqtWGs
-         pouZXtg/EZKR7ed1YIb6g6vDjnst+YsgAS0ktYmsjs1s/5dkBgG1UYjrBb7T30MnVwow
-         vWARb4YzMs3MHJFunGnS1WE1jtR3Wlq57TorNR1ngdrMj68a3OI55VF6i+r5+79+2lYW
-         0Cdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaGWH3tB+lF9hbAlE7DYAqxkgyaM6TNrxfe3rPy95k4oZGsoYxvJ0fsMKjRSE6Uh9FWOJXRO6k+THvai9TzDOoIGjEyjJEIEHpdpXcNqTjOjGWkT5KFkTWIaeKxet0aHT0BkewN3pl
-X-Gm-Message-State: AOJu0Yy2tFfycQ2h9DVsL8I++Z3px77bSITmpnyFHEhwkBOM6CjjFcZk
-	23qWXE9CPs8O+mR/ir8WKkzEKPpuiGi154+zW3Wztw+mw6aor7lU
-X-Google-Smtp-Source: AGHT+IFnExldOKrhy5GHhFfjiCC/km2Eo6GrWXuovjXEgdCYefbnjSGwy+f02GPsbVNwm69iWCHPpw==
-X-Received: by 2002:a05:6402:27c9:b0:5b8:36b7:ae51 with SMTP id 4fb4d7f45d1cf-5bbb3c417ddmr4729643a12.9.1723213558079;
-        Fri, 09 Aug 2024 07:25:58 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::6:b73e])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bbb2c1d615sm1650192a12.23.2024.08.09.07.25.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 07:25:57 -0700 (PDT)
-Message-ID: <dccf0806-0627-4deb-850e-367689af5b0a@gmail.com>
-Date: Fri, 9 Aug 2024 15:25:56 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KuubxAu6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723215231;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S3hmYgUok+ozXUThpLpe+47uXAQDhVMRnl+vdYpiArY=;
+	b=KuubxAu681pql0ystz0RJniV5GQSPS0lgx+jZxpM5kufxC7A9bP6DTc8HDX3V5Hr+pw9tb
+	5VggQDpQ3xjYeWHZMP4uZjVkXrRJWR86hkSQIHmtwI3dAaWSBZ9DmLHWfcz3l/rSpSHFDj
+	wn6J5/FMj7cTCsWcfek32Y8jPpB1/as=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-112-tLJEm6q_PmKvEMMDC9bkdg-1; Fri,
+ 09 Aug 2024 10:53:47 -0400
+X-MC-Unique: tLJEm6q_PmKvEMMDC9bkdg-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B25119560A2;
+	Fri,  9 Aug 2024 14:53:42 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.16])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0EEFF19560AA;
+	Fri,  9 Aug 2024 14:53:22 +0000 (UTC)
+Date: Fri, 9 Aug 2024 22:53:16 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Chandrakanth patil <chandrakanth.patil@broadcom.com>,
+	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
+	Sridhar Balaraman <sbalaraman@parallelwireless.com>,
+	"brookxu.cn" <brookxu.cn@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, virtualization@lists.linux.dev,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] blk-mq: use hk cpus only when isolcpus=io_queue
+ is enabled
+Message-ID: <ZrYtXDrdPjn48r6k@fedora>
+References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
+ <20240806-isolcpus-io-queues-v3-15-da0eecfeaf8b@suse.de>
+ <ZrI5TcaAU82avPZn@fedora>
+ <253ec223-98e1-4e7e-b138-0a83ea1a7b0e@flourine.local>
+ <ZrRXEUko5EwKJaaP@fedora>
+ <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] mm: split underutilized THPs
-To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240807134732.3292797-1-usamaarif642@gmail.com>
- <20240807134732.3292797-5-usamaarif642@gmail.com>
- <5adb120e-5408-43a6-b418-33dc17c086f0@redhat.com>
- <c0ed5796-a6a6-4757-b7df-666ba598d9fe@gmail.com>
- <3f6e1e0a-6132-4222-abb6-133224e11009@redhat.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <3f6e1e0a-6132-4222-abb6-133224e11009@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <856091db-431f-48f5-9daa-38c292a6bbd2@flourine.local>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-
-
-On 09/08/2024 14:21, David Hildenbrand wrote:
-> On 09.08.24 12:31, Usama Arif wrote:
->>
->>
->> On 08/08/2024 16:55, David Hildenbrand wrote:
->>> On 07.08.24 15:46, Usama Arif wrote:
->>>> This is an attempt to mitigate the issue of running out of memory when THP
->>>> is always enabled. During runtime whenever a THP is being faulted in
->>>> (__do_huge_pmd_anonymous_page) or collapsed by khugepaged
->>>> (collapse_huge_page), the THP is added to  _deferred_list. Whenever memory
->>>> reclaim happens in linux, the kernel runs the deferred_split
->>>> shrinker which goes through the _deferred_list.
->>>>
->>>> If the folio was partially mapped, the shrinker attempts to split it.
->>>> A new boolean is added to be able to distinguish between partially
->>>> mapped folios and others in the deferred_list at split time in
->>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
->>>> the folio mapcount elements, hence it won't be possible to distinguish
->>>> between partially mapped folios and others in deferred_split_scan
->>>> without the boolean.
->>>
->>> Just so I get this right: Are you saying that we might now add fully mapped folios to the deferred split queue and that's what you want to distinguish?
->>
->> Yes
->>
->>>
->>> If that's the case, then could we use a bit in folio->_flags_1 instead?
->> Yes, thats a good idea. Will create the below flag for the next revision
->>
->> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
->> index 5769fe6e4950..5825bd1cf6db 100644
->> --- a/include/linux/page-flags.h
->> +++ b/include/linux/page-flags.h
->> @@ -189,6 +189,11 @@ enum pageflags {
->>     #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
->>   +enum folioflags_1 {
->> +       /* The first 8 bits of folio->_flags_1 are used to keep track of folio order */
->> +       FOLIO_PARTIALLY_MAPPED = 8,     /* folio is partially mapped */
->> +}
+On Fri, Aug 09, 2024 at 09:22:11AM +0200, Daniel Wagner wrote:
+> On Thu, Aug 08, 2024 at 01:26:41PM GMT, Ming Lei wrote:
+> > Isolated CPUs are removed from queue mapping in this patchset, when someone
+> > submit IOs from the isolated CPU, what is the correct hctx used for handling
+> > these IOs?
 > 
-> This might be what you want to achieve:
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index a0a29bd092f8..d4722ed60ef8 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -182,6 +182,7 @@ enum pageflags {
->         /* At least one page in this folio has the hwpoison flag set */
->         PG_has_hwpoisoned = PG_active,
->         PG_large_rmappable = PG_workingset, /* anon or file-backed */
-> +       PG_partially_mapped, /* was identified to be partially mapped */
->  };
->  
->  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
-> @@ -861,8 +862,9 @@ static inline void ClearPageCompound(struct page *page)
->         ClearPageHead(page);
->  }
->  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
-> +FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
->  #else
-> -FOLIO_FLAG_FALSE(large_rmappable)
-> +FOLIO_FLAG_FALSE(partially_mapped)
->  #endif
->  
->  #define PG_head_mask ((1UL << PG_head))
-> 
-> The downside is an atomic op to set/clear, but it should likely not really matter
-> (initially, the flag will be clear, and we should only ever set it once when
-> partially unmapping). If it hurts, we can reconsider.
-> 
-> [...]
+> No, every possible CPU gets a mapping. What this patch series does, is
+> to limit/aligns the number of hardware context to the number of
+> housekeeping CPUs. There is still a complete ctx-hctc mapping. So
 
-I was looking for where the bits for flags_1 were specified! I just saw the start of enum pageflags, saw that compound order isn't specified anywhere over there and ignored the end :)
+OK, then I guess patch 1~7 aren't supposed to belong to this series,
+cause you just want to reduce nr_hw_queues, meantime spread
+house-keeping CPUs first for avoiding queues with all isolated cpu mask.
 
-Yes, this is what I wanted to do. Thanks.
+> whenever an user thread on an isolated CPU is issuing an IO a
+> housekeeping CPU will also be involved (with the additional overhead,
+> which seems to be okay for these users).
+> 
+> Without hardware queue on the isolated CPUs ensures we really never get
+> any unexpected IO on those CPUs unless userspace does it own its own.
+> It's a safety net.
+> 
+> Just to illustrate it, the non isolcpus configuration (default) map
+> for an 8 CPU setup:
+> 
+> queue mapping for /dev/vda
+>         hctx0: default 0
+>         hctx1: default 1
+>         hctx2: default 2
+>         hctx3: default 3
+>         hctx4: default 4
+>         hctx5: default 5
+>         hctx6: default 6
+>         hctx7: default 7
+> 
+> and with isolcpus=io_queue,2-3,6-7
+> 
+> queue mapping for /dev/vda
+>         hctx0: default 0 2
+>         hctx1: default 1 3
+>         hctx2: default 4 6
+>         hctx3: default 5 7
+
+OK, Looks I missed the point in patch 15 in which you added isolated cpu
+into mapping manually, just wondering why not take the current two-stage
+policy to cover both house-keeping and isolated CPUs in group_cpus_evenly()?
+
+Such as spread house-keeping CPUs first, then isolated CPUs, just like
+what we did for present & non-present cpus.
+
+Then the whole patchset can be simplified a lot.
+
+> 
+> > From current implementation, it depends on implied zero filled
+> > tag_set->map[type].mq_map[isolated_cpu], so hctx 0 is used.
+> > 
+> > During CPU offline, in blk_mq_hctx_notify_offline(),
+> > blk_mq_hctx_has_online_cpu() returns true even though the last cpu in
+> > hctx 0 is offline because isolated cpus join hctx 0 unexpectedly, so IOs in
+> > hctx 0 won't be drained.
+> > 
+> > However managed irq core code still shutdowns the hw queue's irq because all
+> > CPUs in this hctx are offline now. Then IO hang is triggered, isn't
+> > it?
+> 
+> Thanks for the explanation. I was able to reproduce this scenario, that
+> is a hardware context with two CPUs which go offline. Initially, I used
+> fio for creating the workload but this never hit the hanger. Instead
+> some background workload from systemd-journald is pretty reliable to
+> trigger the hanger you describe.
+> 
+> Example:
+> 
+>   hctx2: default 4 6
+> 
+> CPU 0 stays online, CPU 1-5 are offline. CPU 6 is offlined:
+> 
+>   smpboot: CPU 5 is now offline
+>   blk_mq_hctx_has_online_cpu:3537 hctx3 offline
+>   blk_mq_hctx_has_online_cpu:3537 hctx2 offline
+> 
+> and there is no forward progress anymore, the cpuhotplug state machine
+> is blocked and an IO is hanging:
+> 
+>   # grep busy /sys/kernel/debug/block/*/hctx*/tags | grep -v busy=0
+>   /sys/kernel/debug/block/vda/hctx2/tags:busy=61
+> 
+> and blk_mq_hctx_notify_offline busy loops forever:
+> 
+>    task:cpuhp/6         state:D stack:0     pid:439   tgid:439   ppid:2      flags:0x00004000
+>    Call Trace:
+>     <TASK>
+>     __schedule+0x79d/0x15c0
+>     ? lockdep_hardirqs_on_prepare+0x152/0x210
+>     ? kvm_sched_clock_read+0xd/0x20
+>     ? local_clock_noinstr+0x28/0xb0
+>     ? local_clock+0x11/0x30
+>     ? lock_release+0x122/0x4a0
+>     schedule+0x3d/0xb0
+>     schedule_timeout+0x88/0xf0
+>     ? __pfx_process_timeout+0x10/0x10d
+>     msleep+0x28/0x40
+>     blk_mq_hctx_notify_offline+0x1b5/0x200
+>     ? cpuhp_thread_fun+0x41/0x1f0
+>     cpuhp_invoke_callback+0x27e/0x780
+>     ? __pfx_blk_mq_hctx_notify_offline+0x10/0x10
+>     ? cpuhp_thread_fun+0x42/0x1f0
+>     cpuhp_thread_fun+0x178/0x1f0
+>     smpboot_thread_fn+0x12e/0x1c0
+>     ? __pfx_smpboot_thread_fn+0x10/0x10
+>     kthread+0xe8/0x110
+>     ? __pfx_kthread+0x10/0x10
+>     ret_from_fork+0x33/0x40
+>     ? __pfx_kthread+0x10/0x10
+>     ret_from_fork_asm+0x1a/0x30
+>     </TASK>
+> 
+> I don't think this is a new problem this code introduces. This problem
+> exists for any hardware context which has more than one CPU. As far I
+> understand it, the problem is that there is no forward progress possible
+> for the IO itself (I assume the corresponding resources for the CPU
+
+When blk_mq_hctx_notify_offline() is running, the current CPU isn't
+offline yet, and the hctx is active, same with the managed irq, so it is fine
+to wait until all in-flight IOs originated from this hctx completed there.
+
+The reason is why these requests can't be completed? And the forward
+progress is provided by blk-mq. And these requests are very likely
+allocated & submitted from CPU6.
+
+Can you figure out what is effective mask for irq of hctx2?  It is
+supposed to be cpu6. And block debugfs for vda should provide helpful
+hint.
+
+> going offline have already been shutdown, thus no progress?) and
+> blk_mq_hctx_notifiy_offline isn't doing anything in this scenario.
+
+RH has internal cpu hotplug stress test, but not see such report so far.
+
+I will try to setup such kind of setting and see if it can be
+reproduced.
+
+> 
+> Couldn't we do something like:
+
+I usually won't thinking about any solution until root-cause is figured
+out, :-)
+ 
+
+Thanks, 
+Ming
 
