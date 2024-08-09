@@ -1,55 +1,57 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8456E17ADE8
-	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 16:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DD61991BB
+	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 16:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723220569; cv=none; b=prgHESw9hu3V187ydbuyf/dj3+e1HnjVLzLShzd47Ih9TbLrdmItk+fyZdiI6FMw5Lv3iY/eqacg/+TL/4ZdquyZuBTprYje9JLYSuhuLGrK7lEGCTPAEE2UP3NsuUEJamFgft1qJVwf2gszbNNvvx8+af+z1kztR1d99FWAH8M=
+	t=1723220574; cv=none; b=SHuZ1FpxJJlXB85hacxbqTSiQgMvluFc3VDy+UPzF/Gpsm0XjkCt2nIVWza4BTXA81RXo0lA+8fjmVI7IrBONzqzgTsHe17qBrhM8Fm40LctPQVAVNJx9WQTK/yGv1DxySj+hA+Hx+2f9vJCDUifGlJADl9ohwUV72R9rHDk6sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723220569; c=relaxed/simple;
-	bh=aAtoJEzbqNi4y8YfNn568kzbBwzWSOx0J0mzAknFX3s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lgTu3o0jD23CGDHiYN+KZiYqQfXBW1NdDXzV6nRK3g1gteyBiWC/zIUiL7mAzeDa7+3q68SdrPEy/n/f3Fy3zc12DrK7RoV3GOaU7JgrEYp8nkeuxUyOobaGyRhB4QyCEiJj5CDJhQiKIkg0+2w2RRHFk7Rh7zfKjyEJj5F2Jv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=S2N1VkLw; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1723220574; c=relaxed/simple;
+	bh=/F04v4UBpYu+E0RKI3+Ot84mXLlG+sM2Lwm4bICl/Gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YuEFSl1uoJtR8ygA6BIi7zUZlbanwZ3JWGeUjwqA00ankrPeAlMofdf+eEI9qkdBKu2VNTIVwGec748ALSZH2zN918SXaf2VtQ4u82narv1i1/pvpai692AhvWQOutWlFZ1j/z+DdNvl9METmNA7Dnq8VmzfapKKPbAKoziOi4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=S3Yf5qXn; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="S2N1VkLw"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fc4fcbb131so17126615ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 09:22:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="S3Yf5qXn"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fc4fcbb131so17127225ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 09:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723220567; x=1723825367; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fM2VDWjrqv9lrjNKWDnw+ItVMCPfvg36IuOKi51U2nU=;
-        b=S2N1VkLwP19YArFQ7b6u1fp2usOkTk7fMXSK0qcmTSafmiG3NHH8h2bmL1RLGCLA2U
-         kti6DoisrpEhjmxeEAZSw31eVDXrycW2s3Ua06ykxczPlsMniIDnAw1epRQcdXDKdbBN
-         sKFn9yij1+LYxGy1pycU5qJV14HH6sqA/m9zIl479qDeWXsXjCnRzjhpr48Nk9gfo7W1
-         PncKVCR0P+WhdY4POXCHYPZoHstx60/peoQe1VIYTupkPxwXlXmNIVF0DiTvpn9i5w/4
-         d/1KQOgbAQyTDOlRCDc0zz4/kQnjAGLzdJf0A9+UMPynFwzzgIHBMRDwHwmQGbbkSefK
-         q1ew==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723220571; x=1723825371; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yOQ+OFulXv4+TA+0pLiq5tA7x0FPgkPHgCvbhs6i/1o=;
+        b=S3Yf5qXnpHbEsWQs8dc5tYibCfnDik9AbMsUqrL/zCYbEw8C7co32y3PggESASzYQq
+         S/JVKzvjFLDN968OV30JIgOKJy+zG1W2pTpmXhF9TwSFIWy79WssGzxHjAU8KMZQgxFw
+         pp6Fe7vhgaYq7YsRjR0Wb7JUdfCiMe4mOZJue3wR1Z3jEZ0VxfkIa/P/AVR+3Xyf31GD
+         w4YOirFj2i+2xuqsl4CAsz5XS8Trjf16o4Z8sBm+MBC91QA/EzYXyYEWMFcASrVZEOFA
+         EdTv96Z1tVV3WxqClNOTzqQcx+1xEgddVSC0jKeou8DQDd4Pi4smdE4mXknlcP500jwh
+         1pXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723220567; x=1723825367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fM2VDWjrqv9lrjNKWDnw+ItVMCPfvg36IuOKi51U2nU=;
-        b=brSq+pf0nXxvH/0D5EJv0+tTFpJfVQMdyOKnNhJagiAxoiP5ZcrW/lU8xNuD2mC46s
-         01P149jJ3rlNoDpNE00RYGfxnI1oH5LsP4WjgCTWrfEJzKKfB7OxDxp0jJfy9VR0FJ0f
-         fzVHrpuW0EiuQUoM0UnjcJkKXblWPP5aFjCiHToGX39ZHZEL2Ji3tFUFRfHOEDqV+RU0
-         JCOF1XrED7E4vewGQc4F1i/kI32ueOugnW4VkJSaR5oXgzTuov07kT5okJGxHkd2gztI
-         phZEdUptCq/oXxfRn9IODV25sLq+I9hDZ8pQeXCGKHqGh9zh3vva7ozu9tKU0gyRuCXp
-         yr6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVdKtZOIkpQVbXmRX+qA3bPUwkRaz5tiqpLleQNGVCsXKGROYlNRQG6c6acuqBLgAwMyQDoD8WBcmK4XOYT7pm285QGDyF8clab
-X-Gm-Message-State: AOJu0YxIJFXH2Wjp+L24wExnMCeKhijQkFqQ7Pnl7IJOqt3zzIQGc0Fg
-	j++kB3+nexGdYXGykS7VOC5NUu18fifJ0eOI9sei/YeUme87BPesQGxS9Uc2nlE=
-X-Google-Smtp-Source: AGHT+IGqUO+CKpGZVaOzZdHApACfqVhHv0z7O+fN2b3OLvcB9p/WYhCAE/fx1r58g+9+NN9ktAIaPg==
-X-Received: by 2002:a17:902:ecc2:b0:1fd:d73a:7cd1 with SMTP id d9443c01a7336-200ae5da91bmr26359905ad.56.1723220566767;
-        Fri, 09 Aug 2024 09:22:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723220571; x=1723825371;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yOQ+OFulXv4+TA+0pLiq5tA7x0FPgkPHgCvbhs6i/1o=;
+        b=M8FeulHy7qPVpCFJYvEHOA8LI4T07SokmSSBQHQdx2hwWYNnj9hn2v6n371Oiz8ZNs
+         mghoHh9+MP41s1dYPyC6lRC9n6zty0E/8CaKJpwOz1iD/2pmAT/ap6uQk9haO0pGo0Cp
+         S3hZ4Z68q93Ho0dV/Oi2OduY3vM2c7OvDDeb6zA+li57DRRKIB/0T2ZC73np6BDDEvRp
+         sYltWDiKIPz/AYKxjz2U/xC4svnQ8zvnfwPiiCykkHHJlCF0t7ahmq467TvL7dCaycmD
+         mwGVYF4sBlw9mnRA+MQJI64I5vTeVQPAkp8qpcysnNhQVMaJvFWStrcvdMf4m2j1b1+O
+         VeSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUR51lwgcRkFmSfAN7UegM9mSvjYA/UzKoLB+x34Y+I0oOxAtf7Fqku8aXozRhaW5q2kNjKoiHoNRs48rCJdiFw4/erSTGfNl2d
+X-Gm-Message-State: AOJu0YyR1zFKsc20QfUO9WyU1brj4s0ktk39Th+miOHy6SbOMQv7gazY
+	wsgjQ6rY36g1gBMGB1fPkWCgDsF8VXerN2NsbAJuyN+e7zeEKyYzaK2QlLhxFO8=
+X-Google-Smtp-Source: AGHT+IH3pK0geHF2CHBmpCT69qUwnp2goLvBrxbauCwkdfSz3T1PmQvrfcDDIE7gDo4gS91r+kAHag==
+X-Received: by 2002:a17:902:fc46:b0:1fe:d72d:13e9 with SMTP id d9443c01a7336-200ae5154a3mr21892875ad.33.1723220571020;
+        Fri, 09 Aug 2024 09:22:51 -0700 (PDT)
 Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200668fc398sm100414505ad.207.2024.08.09.09.22.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200668fc398sm100414505ad.207.2024.08.09.09.22.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 09:22:46 -0700 (PDT)
+        Fri, 09 Aug 2024 09:22:50 -0700 (PDT)
 From: Jesse Taube <jesse@rivosinc.com>
 To: linux-riscv@lists.infradead.org
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -83,11 +85,14 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Joel Granados <j.granados@samsung.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 0/2] RISC-V: Add Zicclsm extension support
-Date: Fri,  9 Aug 2024 12:22:38 -0400
-Message-ID: <20240809162240.1842373-1-jesse@rivosinc.com>
+	devicetree@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH 1/2] RISC-V: Add Zicclsm to cpufeature and hwprobe
+Date: Fri,  9 Aug 2024 12:22:39 -0400
+Message-ID: <20240809162240.1842373-2-jesse@rivosinc.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240809162240.1842373-1-jesse@rivosinc.com>
+References: <20240809162240.1842373-1-jesse@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -96,31 +101,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set is the first two commits of
-RISC-V: Detect and report speed of unaligned vector accesses [1]
-rebased onto palmer/for-next.
+> Zicclsm Misaligned loads and stores to main memory regions with both
+> the cacheability and coherence PMAs must be supported.
+> Note:
+> This introduces a new extension name for this feature.
+> This requires misaligned support for all regular load and store
+> instructions (including scalar and vector) but not AMOs or other
+> specialized forms of memory access. Even though mandated, misaligned
+> loads and stores might execute extremely slowly. Standard software
+> distributions should assume their existence only for correctness,
+> not for performance.
 
-The rational for adding Zicclsm was related to detecting unaligned
-vector accesses though this reasoning is gone.
-
-I don't see why Zicclsm shouldn't be added which is why
-I'm sending this set.
-
-[1] https://lore.kernel.org/all/20240726163719.1667923-1-jesse@rivosinc.com/
-
-Jesse Taube (2):
-  RISC-V: Add Zicclsm to cpufeature and hwprobe
-  dt-bindings: riscv: Add Zicclsm ISA extension description.
-
- Documentation/arch/riscv/hwprobe.rst                    | 5 +++++
- Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
- arch/riscv/include/asm/hwcap.h                          | 1 +
- arch/riscv/include/uapi/asm/hwprobe.h                   | 1 +
- arch/riscv/kernel/cpufeature.c                          | 1 +
- arch/riscv/kernel/sys_hwprobe.c                         | 1 +
- 6 files changed, 16 insertions(+)
+Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Andy Chiu <andy.chiu@sifive.com>
 ---
-base-commit: 2d1f51d8a4b0c3fc0b2b79d4e5b95a6813500092
+V1 -> V2:
+ - Add documentation for Zicclsm
+ - Move Zicclsm to correct location
+V2 -> V3:
+ - No changes
+V3 -> V4:
+ - Add definitions to hwprobe.rst
+V4 -> V5:
+ - No changes
+V5 -> V6:
+ - No changes
+V6 -> V7:
+ - No changes
+V7 -> V8:
+ - Rebase onto 2d1f51d8a4b0 (palmer/for-next)
+ - Change commit description
+---
+ Documentation/arch/riscv/hwprobe.rst  | 5 +++++
+ arch/riscv/include/asm/hwcap.h        | 1 +
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/cpufeature.c        | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 1 +
+ 5 files changed, 9 insertions(+)
 
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index 3db60a0911df..22c118df520b 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -239,6 +239,11 @@ The following keys are defined:
+        ratified in commit 98918c844281 ("Merge pull request #1217 from
+        riscv/zawrs") of riscv-isa-manual.
+ 
++  * :c:macro:`RISCV_HWPROBE_EXT_ZICCLSM`:  The Zicclsm extension is supported as
++        defined in the RISC-V RVA Profiles Specification. Misaligned support for
++        all regular load and store instructions (including scalar and vector) but
++        not AMOs or other specialized forms of memory access.
++
+ * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
+   information about the selected set of processors.
+ 
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index 5a0bd27fd11a..c93d957458f0 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -92,6 +92,7 @@
+ #define RISCV_ISA_EXT_ZCF		83
+ #define RISCV_ISA_EXT_ZCMOP		84
+ #define RISCV_ISA_EXT_ZAWRS		85
++#define RISCV_ISA_EXT_ZICCLSM		86
+ 
+ #define RISCV_ISA_EXT_XLINUXENVCFG	127
+ 
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index b706c8e47b02..a9370968fc9f 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -72,6 +72,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
+ #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+ #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
++#define		RISCV_HWPROBE_EXT_ZICCLSM	(1ULL << 49)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 8f20607adb40..2f54d811a9b8 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -314,6 +314,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+ 					  riscv_ext_zicbom_validate),
+ 	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts,
+ 					  riscv_ext_zicboz_validate),
++	__RISCV_ISA_EXT_DATA(zicclsm, RISCV_ISA_EXT_ZICCLSM),
+ 	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
+ 	__RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
+ 	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index 8d1b5c35d2a7..01eea29a56cd 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -107,6 +107,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		EXT_KEY(ZCB);
+ 		EXT_KEY(ZCMOP);
+ 		EXT_KEY(ZICBOZ);
++		EXT_KEY(ZICCLSM);
+ 		EXT_KEY(ZICOND);
+ 		EXT_KEY(ZIHINTNTL);
+ 		EXT_KEY(ZIHINTPAUSE);
 -- 
 2.45.2
+
