@@ -1,38 +1,39 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F1713D638;
-	Fri,  9 Aug 2024 17:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A4013A260;
+	Fri,  9 Aug 2024 17:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723226108; cv=none; b=PINtP15jho6j5mDeYuoEiDpk7460itB6S9wiIq4Dn4EQZVtgWpXywztonmouyX1yAPjc85IkEJdaXJVP12hVaa7C0+GuXN1AUWXQOj2fPZxMLe14xzRt+8gFubKmTwi7uZiMjpOcL8pNVXuA31hOA8UscVEorvFvhk26xEWlvV8=
+	t=1723226109; cv=none; b=DDRaRNs6XC5HstSQ8/N8eb5MEzzI+ac/qZTyh9Gl0jeregTOENY/KEyycYc3EGjW3TwFz1nI0vm3mBH3Cn/5s8TgUYxaJ7JQzMp2uQ3OAsVILk0861ITft98OMqoz8ViVpq2QHUS+ExtmnYB8+QQFr7E6miKAa1GBQPeNWreikM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723226108; c=relaxed/simple;
-	bh=ZdXp7BK9mtS9cYiUeCpxHSrENErV2+62wUxeFI6s2JA=;
+	s=arc-20240116; t=1723226109; c=relaxed/simple;
+	bh=ic2La7o17seVheB1q+5Kf/polYpqYSfSD6kqzqalc+I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gHQLhPYqDwbYFDUZLOtkUSXn8HQ09UezU7Wd/e8grtC+i/+F8KiSWjDrtwAQgtID30OJKSS93Kr52jsqr3RNn2PmBsYAz2ajLG8gKITt7NhjqrNG9dxLfkgELg5HfMyn86IzvAk9qYpHCWTKwV1wMgv8ZVhTaRY5mnYa3xikfuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lKOERCEa; arc=none smtp.client-ip=217.70.183.199
+	 In-Reply-To:To:Cc; b=tuFt0kbk4P/6cjAqPR1/6y0AUwPszaRS4ke34I67y4RiUm/k1ZRA2gZa3DTt/WGnTz4CP87LNVb0fCAGJ/EF+ooVoKVYpgloIm7VUoklwXuWRsh8tWR01G+6Bpl14mxGrwDNv9b0PG5wvAcw4A4RQr6bpLQ0jPKL4O4Wwzuvbnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RmfChdJq; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lKOERCEa"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 56BCCFF805;
-	Fri,  9 Aug 2024 17:54:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RmfChdJq"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7FE96FF809;
+	Fri,  9 Aug 2024 17:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1723226099;
+	t=1723226105;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pOj8GmT1mlz4zSyDQM70F37PMFWnSzDpg422/064V4g=;
-	b=lKOERCEacrqqpCAsfkBhKPyOygHhu6+sG5ToDVSiRpMfkOoNpqKm6WKPihAu0GlWbLik+0
-	6u4ZSYb8BJ+yFyxea6jMrncz52wurdzAgGCbjNTN1Oay50GRF0Mp6MDbhDXsF3nvlpPNWn
-	t7Nyqee6Kd/Rc/l/zTcO4OMDw/AH2p94Pm5g5lxVAMtQDPcSa3iCelPb70ziIAd4q9j7fY
-	FNqFdrNeWjBIC8+wUIaU4+Cr0dVc3voiXMqlMvTl5k5bh94N8DXaizM9OmBNboRZZnyPIf
-	ZCIqIG2n71kr+Lacr1Hlus6wB4/rB9ZQXc/icmezRdU5hxjXoQ+DZ5dnZyVaLQ==
+	bh=/aaRiY9oMPPtXcg03bwF+5a8QEuOrg0mbmpGOcXWoNI=;
+	b=RmfChdJqQP4ZmU7D7sLjWKNXVWHP/adX2s7AhisICDzhik2ibIvx39RgMFeW34SfadlRDJ
+	7aVNg5e7yg2QN6OycYe1sNvEXtcNrilbK0Q6/a9Ru2/st+aTF7DvPhACT9/kaDO+xkG4O8
+	M+p7Ya+39t3rNSjFA935eY5+YkNE7r6qZ12r2QN6vnNlCAAnvRcgaoGSUPfR01bI/lNGYp
+	EHPn/ijJehczUWdO/oR2GZOFHcDl5HK0SDCRxodLVnXOATY9ZhiK+j4fc+e7S3/DFyvTiy
+	0QiOcgMHAMb8Jc2C0JigwqCjGD/93dguYwd7qEbQ5pZxWQPAkcAGlNtKoBusFw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 09 Aug 2024 19:54:43 +0200
-Subject: [PATCH v10 02/16] drm/vkms: Use drm_frame directly
+Date: Fri, 09 Aug 2024 19:54:48 +0200
+Subject: [PATCH v10 07/16] drm/vkms: Avoid computing blending limits inside
+ pre_mul_alpha_blend
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,8 +41,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240809-yuv-v10-2-1a7c764166f7@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240809-yuv-v10-7-1a7c764166f7@bootlin.com>
 References: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
 In-Reply-To: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -58,130 +59,120 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
  seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+ Pekka Paalanen <pekka.paalanen@collabora.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4272;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4075;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=K6GtM1BXIB0XhgPFhSrjOL3ADJI7Y0W6is5xmFlyXP8=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmtlfpQn1YBmGEwIxr5rGrmo521Mba2Tplf+/n+
- l7d4uBv3b6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrZX6QAKCRAgrS7GWxAs
- 4m+BD/4oW4IqE0qL3Msp71daB2XH1sMEM4UyDUZ/DWTRQojKohuEfoMYILOHGFEvvWvV4R4vH7/
- nMxmQN+hnVkHaLdUxcwcnW6CUnfZELnU22gqVgl5yUg9wsNM330yVfGlnxUFk6Morn8ZDTdLn3k
- OvEhGh4sFHg8N3xJsfPDn38ZssNZsV7tqOTvYZ5zh6fvwuQYg0lZW9CJfKaOLjUEuVDpJka9DXE
- IOpoudlvrBCYYPmDGS9QweyCwqQojiHyelc3gCbhp5q53ZPStQz1PvZDGbS1hmqc5Pu8mbE13jF
- 5lmJwMq+DyD3EbP3qpIMwqeHLVaDk8MVMapol9K5FXDPQ2dcK7btmsa3QZ4bAuKZrGLmwHtBOdg
- 2ORXeiWQXQ+EMYOOtAo8c9vLznIW3uFFf55+1W7JsWcF0RG8Mvfoou0PQjn+Q1R3sBnvJ3N5GXC
- MX845n3sbUXOznjdu0BA0I8rLpF0uuHdGPv/BEyWGCOC7JyzGWieGW0xPVUdH1WL7J3IpbalJIx
- uQ0faiVHu7XMfFWf+/6E8HpB/FfQFp554Zpfv+91Q5nEUztqOc2NEzLVGryFHOWZBITz2qvcm+E
- PobzfYgov0a2W3Esaw2mWcJO+F9kKhetz9yXaCOqhB3EiPnTlfOcfNMedOfkPzTyZ+XIUjGuf1c
- WESvz+zY8kSWlNw==
+ bh=ic2La7o17seVheB1q+5Kf/polYpqYSfSD6kqzqalc+I=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmtlfqQuvLImmJ7oqhWfk7KmxlP0PME2ylsiXoS
+ O5HAG6xKOqJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrZX6gAKCRAgrS7GWxAs
+ 4n3DEAC9tPHcKrAGZ0Wc/Nj+vQB25CYNDlGQLd8zQBoXOvi3NHVt0WleiPj6+LS+/igGPMJv9qb
+ h4l0YkZpq1lT3jruQfZUY9padFTjFIvMQwND8uv11i1OWqheHy28husmTaHVBH0vwWrBnDC6rc5
+ oEj+mgbp5ExTwUbi8wRxl0Z+1REni+3bhd0l3Cqh82mPvxaf2/ciFVukVbnDB4Egb1ugPNGweub
+ HtX4W2lFRWGM8HqyPR2CpDMBWQfHjwMxMgz59KefwSobxAXRi2vWVyU/8VbKehgFeeFby5v6Ywz
+ glYFAIWk1jZhG20RyqNEWpOhjZhHBwHBEPG/e3Vm/R4bLMPKnn3CkN7VaXjFEIayqT4FoB16e8Z
+ LcY4gOQ6iVWvT5k3I0VqonjyjjkO+XtJQQ8e0wcbhN505lQEO/Lb6+lpPgRrAe8LoWA7c3RbGvz
+ ecmPIXtCp+Ie2MbSNCsq23o3LbGlvPcj5rtbepLITHMzYJozfeFmPQydOuirg5riMdps81rRw08
+ 3qGrpKNyo7Gd2ctkHe5EkKoEJjwbq6YQHUVhTabNzOBWsQXql1nBDycrL1owXoDEy+Vlpz2bLh9
+ ESihK85q12PU8c+ZnsjdCTgNhBuAuQeC/S4FDmwVDIzUlRwvuyGPq0FESZYT3b7ai8rhYdxsPU8
+ IjAFNEvV0oyLN4w==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
 
-From: Arthur Grillo <arthurgrillo@riseup.net>
+The pre_mul_alpha_blend is dedicated to blending, so to avoid mixing
+different concepts (coordinate calculation and color management), extract
+the x_limit and x_dst computation outside of this helper.
+It also increases the maintainability by grouping the computation related
+to coordinates in the same place: the loop in `blend`.
 
-Remove intermidiary variables and access the variables directly from
-drm_frame. These changes should be noop.
-
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-[Louis Chauvet: Applied review from Maíra]
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.h       |  3 ---
- drivers/gpu/drm/vkms/vkms_formats.c   | 11 ++++++-----
- drivers/gpu/drm/vkms/vkms_plane.c     |  3 ---
- drivers/gpu/drm/vkms/vkms_writeback.c |  5 -----
- 4 files changed, 6 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c | 40 +++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5e46ea5b96dc..8ac320564334 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -31,9 +31,6 @@ struct vkms_frame_info {
- 	struct drm_rect rotated;
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 	unsigned int rotation;
--	unsigned int offset;
--	unsigned int pitch;
--	unsigned int cpp;
- };
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 931e214b225c..4d220bbb023c 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -24,34 +24,30 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
  
- struct pixel_argb_u16 {
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 040b7f113a3b..e03470879ae9 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -11,8 +11,9 @@
- 
- static size_t pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+ /**
+  * pre_mul_alpha_blend - alpha blending equation
+- * @frame_info: Source framebuffer's metadata
+  * @stage_buffer: The line with the pixels from src_plane
+  * @output_buffer: A line buffer that receives all the blends output
++ * @x_start: The start offset
++ * @pixel_count: The number of pixels to blend
+  *
+- * Using the information from the `frame_info`, this blends only the
+- * necessary pixels from the `stage_buffer` to the `output_buffer`
+- * using premultiplied blend formula.
++ * The pixels 0..@pixel_count in stage_buffer are blended at @x_start..@x_start+@pixel_count in
++ * output_buffer.
+  *
+  * The current DRM assumption is that pixel color values have been already
+  * pre-multiplied with the alpha channel values. See more
+  * drm_plane_create_blend_mode_property(). Also, this formula assumes a
+  * completely opaque background.
+  */
+-static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+-				struct line_buffer *stage_buffer,
+-				struct line_buffer *output_buffer)
++static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
++				struct line_buffer *output_buffer, int x_start, int pixel_count)
  {
--	return frame_info->offset + (y * frame_info->pitch)
--				  + (x * frame_info->cpp);
-+	struct drm_framebuffer *fb = frame_info->fb;
+-	int x_dst = frame_info->dst.x1;
+-	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
+-	struct pixel_argb_u16 *in = stage_buffer->pixels;
+-	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+-			    stage_buffer->n_pixels);
+-
+-	for (int x = 0; x < x_limit; x++) {
+-		out[x].a = (u16)0xffff;
+-		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
+-		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
+-		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
++	struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
++	const struct pixel_argb_u16 *in = stage_buffer->pixels;
 +
-+	return fb->offsets[0] + (y * fb->pitches[0]) + (x * fb->format->cpp[0]);
- }
- 
- /*
-@@ -131,12 +132,12 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
- 	u8 *src_pixels = get_packed_src_addr(frame_info, y);
- 	int limit = min_t(size_t, drm_rect_width(&frame_info->dst), stage_buffer->n_pixels);
- 
--	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->cpp) {
-+	for (size_t x = 0; x < limit; x++, src_pixels += frame_info->fb->format->cpp[0]) {
- 		int x_pos = get_x_position(frame_info, limit, x);
- 
- 		if (drm_rotation_90_or_270(frame_info->rotation))
- 			src_pixels = get_packed_src_addr(frame_info, x + frame_info->rotated.y1)
--				+ frame_info->cpp * y;
-+				+ frame_info->fb->format->cpp[0] * y;
- 
- 		plane->pixel_read(src_pixels, &out_pixels[x_pos]);
++	for (int i = 0; i < pixel_count; i++) {
++		out[i].a = (u16)0xffff;
++		out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
++		out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
++		out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
  	}
-@@ -223,7 +224,7 @@ void vkms_writeback_row(struct vkms_writeback_job *wb,
- 	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
- 	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst), src_buffer->n_pixels);
- 
--	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->cpp)
-+	for (size_t x = 0; x < x_limit; x++, dst_pixels += frame_info->fb->format->cpp[0])
- 		wb->pixel_write(dst_pixels, &in_pixels[x]);
  }
  
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 5a8d295e65f2..21b5adfb44aa 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -125,9 +125,6 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	drm_rect_rotate(&frame_info->rotated, drm_rect_width(&frame_info->rotated),
- 			drm_rect_height(&frame_info->rotated), frame_info->rotation);
+@@ -183,7 +179,7 @@ static void blend(struct vkms_writeback_job *wb,
+ {
+ 	struct vkms_plane_state **plane = crtc_state->active_planes;
+ 	u32 n_active_planes = crtc_state->num_active_planes;
+-	int y_pos;
++	int y_pos, x_dst, pixel_count;
  
--	frame_info->offset = fb->offsets[0];
--	frame_info->pitch = fb->pitches[0];
--	frame_info->cpp = fb->format->cpp[0];
- 	vkms_plane_state->pixel_read = get_pixel_conversion_function(fmt);
- }
+ 	const struct pixel_argb_u16 background_color = { .a = 0xffff };
  
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index bc724cbd5e3a..c8582df1f739 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -149,11 +149,6 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	crtc_state->active_writeback = active_wb;
- 	crtc_state->wb_pending = true;
- 	spin_unlock_irq(&output->composer_lock);
--
--	wb_frame_info->offset = fb->offsets[0];
--	wb_frame_info->pitch = fb->pitches[0];
--	wb_frame_info->cpp = fb->format->cpp[0];
--
- 	drm_writeback_queue_job(wb_conn, connector_state);
- 	active_wb->pixel_write = get_pixel_write_function(wb_format);
- 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
+@@ -201,14 +197,16 @@ static void blend(struct vkms_writeback_job *wb,
+ 
+ 		/* The active planes are composed associatively in z-order. */
+ 		for (size_t i = 0; i < n_active_planes; i++) {
++			x_dst = plane[i]->frame_info->dst.x1;
++			pixel_count = min_t(int, drm_rect_width(&plane[i]->frame_info->dst),
++					    (int)stage_buffer->n_pixels);
+ 			y_pos = get_y_pos(plane[i]->frame_info, y);
+ 
+ 			if (!check_limit(plane[i]->frame_info, y_pos))
+ 				continue;
+ 
+ 			vkms_compose_row(stage_buffer, plane[i], y_pos);
+-			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+-					    output_buffer);
++			pre_mul_alpha_blend(stage_buffer, output_buffer, x_dst, pixel_count);
+ 		}
+ 
+ 		apply_lut(crtc_state, output_buffer);
 
 -- 
 2.44.2
