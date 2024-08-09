@@ -1,59 +1,59 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CCA1990C3;
-	Fri,  9 Aug 2024 15:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D661C195809
+	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 16:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723218323; cv=none; b=o77Qps3mt2JAQoidVyVSxRUAu7eRZgeVpFxy/IttbUJgbPQwrRg6rHqzYpU1OaVhxau9fY5oZMBtHUUK1u0bghz6UaK92ChQ4wcw3oPQ7jx1vEih8EvQfZZe3BEC0XCX3I4KFNrRz1V6kstggbuZ8kLFLNHbeU1v8gerpqdZuCc=
+	t=1723219296; cv=none; b=AjZOhvRcosM2ZFRNj/HjeevmB/0ksgExkgDWCxEg5GwB1KMZGHAAZjL0Gbff5FTQ3TYzWpA2xfw0XNrxq4hJ6pabhsfi3s0domrRSymVxRd1MyAe2ZmnJno3SV+C4tgh0VD00LpK1cqQqmffTUFR6S5zzYnBc0S8bkthJOmlDXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723218323; c=relaxed/simple;
-	bh=Bd6gp8vS1KnlhuO7wKJxo1DLFOwvyo1WP/CqGQTLnXQ=;
+	s=arc-20240116; t=1723219296; c=relaxed/simple;
+	bh=paKDUZfAMnT9p4c9PEEcxRCBnyjhCPshVDMBespFmZk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FXcOi6frJN0oXRrUnuo1RRu7xLeXIFz/3dqz6btKCPsYmSuDF+/qQaBocCkzZMmddp0xHS4HfEpZpyJhYMFGUqYh7yMivcArpPTH4muRpfXCz17b1tsvP0bWiB7E9iCEjXtvrpZLUDdU/rPdoXovkQHIKIiPcFYXq8hEroEc9Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4XRIGju; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=CGtQRxdCOYPPOfvQcc/avA+lO4FFH47IYZXK1yw8RKVhn4vlzLonPofaCs0zjJIa/sSG/T/AiWwjb8eeKNF3Ru1oUJOJRNdXew69lX+VZrREAHQYbksaHaSfjubfw3OsgTfn6H8zEnKU73mp90LrKSPmbHOc7MC35q24gubOglA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=k/8DvqZE; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4XRIGju"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7ac469e4c4so366688866b.0;
-        Fri, 09 Aug 2024 08:45:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="k/8DvqZE"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5c691c6788eso1086076eaf.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 09:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723218320; x=1723823120; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723219293; x=1723824093; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wa1W3WV7VpGrEaPcisbcd/cWnkBoUbT/sIRi8LearZg=;
-        b=W4XRIGjulb1hhqjAyCp1O8TsdHK84PqMuKKM93hSEjVdTnLzQkSRL90qAOFYqhdc2x
-         GHHRQ6iOT4UtmN3GVhlzQjLa0vDteJEAyLn714ra0LYy3BuponwmsNGMW/Vslir6VdCC
-         v+hTJYFqi3DEF+FXs2c6a4WeWQ8IerANOeYarjUGhAP4fxi/3U992SwlEA2kuBFZopgb
-         XkxENzw3feEJkIzmv5il4b/5DJAJb8mLi8fNOZrvMQpxWz/SBRJXJ4GHzhwDqmGAQ1ou
-         BtpoCepeF9L/xlED6ZgqbH1/56yaTKh4461zxjnMxi8WFonr1C7T14acXOjq/DSDHhGH
-         SzmA==
+        bh=kRHkMeyOghMMPrSX3/7w5ue7vx+CNaxKKfqAReZDd9I=;
+        b=k/8DvqZEUE4Vu2v0ZVPZktsaZjJXwhhUVmZNSku/0egFDL8gbXfaliaXweyRlpuBil
+         4O3oNMH32fVpeWn82d4QiUkfO0UqchFpaEFXRGj5YeLDP8066hM5cxAtGVZPNYyySruV
+         zdTg8wHAb/fgJJanmKqPJwXSb01DuFFE2kCNIcKk0uOGGvKiiKHhm9n4Z476XLC8tvWs
+         avirw6VZ69KR4HktTex8IS3J46kCfdDzUvQdraN/q8KgKZz5W574sCDEt6Z3rqRFQj6G
+         hSSwNQYd5gVL/hSayBfvJy5OaO2gWDEm63bMQkljy/GeMTjheMXkUGYMZGesjw7oTSuF
+         cfpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723218320; x=1723823120;
+        d=1e100.net; s=20230601; t=1723219293; x=1723824093;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wa1W3WV7VpGrEaPcisbcd/cWnkBoUbT/sIRi8LearZg=;
-        b=xIIjkLwrXoma+d/hYXaVKjoUW1yxiBMWJvWC92d95xm7YMETni6VkPKuvGxvPQ1Hj5
-         ihjFrxc5mOzKA5ip9CedgUaTV0a+n+cEilyOXuU0SxVOLMZrm8/6INcJ2g3P55QAqsUw
-         6JBqubANfazW+hgyh5Ldt2s/rrIgMNgFZQsgMI4+wRjyRJ33DMqPyQwqSOO3608YBAkb
-         d1HdD5voBvpsBxDPplLg7nqcOfJJRCmbzT27Uq/bVnc/MoqtFMkjZkIm8PJwPXehDDaS
-         gVpr33Atdn4Yueq+8URtwyooMjld6L5GQwyJx12/RIBYMd15rOgd5gWcrI2tyG5KGyuA
-         Er8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWh11OvVxxylBmePJXMeNLWZ+psob5agcVwUIU/0NtWNfocc+5cedl+ogFaUWOceQKCLbtZqMz50Rbo4yz22maNRgxDE7zigUXbA+o3vxjqJxDDXeoiqIrUv41LrExF8L2yHawBAK5b4frFexEt6CIfv425yjuTYD6DbAh7zWS3PGHRZupYAw3f79UqzF5Xl/GCi3A9MlPqHAxbVoA3uuxNNSJSq66UQoUEqKVKuwT8INUFXHp8r8goCKUniByQzBpYm2SI9Gth6QBPYw6e0qQFbDn6sDRIzpPVfgmIWLyHSFpt7105PFi+ynhB1CPkkAyrGUzE0zJZAzPANOx/L9aIDbEaJQsYxEYGehaQ+QV9LX3lj33R/LwICNcjIlfhgKz4AoKH9ARGIroMLK1BkPFlrrBXl2zc3stNyqxNLUFrifK3Nmkz8zx/+Wm69cDg6h2A5unnHqqFBSBY4dkPdPGO+k/v2p0mixd5dWMTQQ==
-X-Gm-Message-State: AOJu0YztZaIFx2AatPbhRTbcpSwEYFLaToikQzct0+VFDUdUET4TcY1T
-	p415RZPlkcrbJfWwFG9Akvf+TP3khg7Me8ee0W4qFUopFUfLkGn7
-X-Google-Smtp-Source: AGHT+IGaWJiDPaSc3UHkzWGM2j8RhpJMnAUdZZgUzu3ws85xIf7phwHYyeL4ZJReXHb3Sd+69ayIRw==
-X-Received: by 2002:a17:907:6d14:b0:a7a:8a38:9d99 with SMTP id a640c23a62f3a-a80aba196d6mr130567366b.35.1723218319823;
-        Fri, 09 Aug 2024 08:45:19 -0700 (PDT)
-Received: from [192.168.42.29] (82-132-212-15.dab.02.net. [82.132.212.15])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9e80e77sm847390266b.169.2024.08.09.08.45.15
+        bh=kRHkMeyOghMMPrSX3/7w5ue7vx+CNaxKKfqAReZDd9I=;
+        b=OKxgkGl9GEY/DSkWH3Am0zb6slc2Zd8aNuTHTshayzGMwyg4CacKcOI/K0eFoAJS1y
+         leNZaQJK1OjX532byoeyBTFLFk6wwGGyf5h0HINO4okSG824p3/KwT7JJZcDQnQDSPh9
+         ZkSflw9b2RgD7iSU9GZUhwcGYHMC6F6p3wkHmDV3j/jaWQlGzjW9aAymouUjhO05TfRM
+         LmQRL6gXqGyBJUjvJDCexdYYB3TReay5YWZ9diPadVfNJAPk0YVkG99SfYL9EIhEylgV
+         bgBmOOq/o8t+WDijmr+jdSGss8N88YxCQRM2aom0rHoA8eLMP/QUTE+PYHfpA/+7sDiE
+         2V8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWEcBgVgoDfRC4ak8jSs/vSZhs2WHSr+zwjiyEmMp800YJwXjiOQQvPUu2D9S1/12/XjMr2ze2m+06GffbWFNh2xK36iHbNuh5t
+X-Gm-Message-State: AOJu0YwQaV+/ls/GkYSupiJxKLH3uPfsSzY7zx0vXigumTLJcSQIVPnf
+	NLfmFSo7dOUk3ukJE3E6m7LK6bBDnoejoEYD4OBNcM/lLZveZpA9pK465tABAyE=
+X-Google-Smtp-Source: AGHT+IH9cyUlesTG85P8+AooQGiR7emhvTR2YwnxoSVddeAKsx77skaLFRBiuQBnXteKmSR5RIAFsg==
+X-Received: by 2002:a05:6820:821:b0:5c6:61b9:20ba with SMTP id 006d021491bc7-5d867c8185amr2330284eaf.1.1723219292772;
+        Fri, 09 Aug 2024 09:01:32 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d757178a0dsm4280141eaf.7.2024.08.09.09.01.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 08:45:19 -0700 (PDT)
-Message-ID: <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
-Date: Fri, 9 Aug 2024 16:45:50 +0100
+        Fri, 09 Aug 2024 09:01:32 -0700 (PDT)
+Message-ID: <4c62baf4-fcb0-474f-87cf-9689aa41966a@baylibre.com>
+Date: Fri, 9 Aug 2024 11:01:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,118 +61,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory
- provider
-To: Mina Almasry <almasrymina@google.com>, Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com>
- <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org>
- <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
+ <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
+ <8bb01a8946aaa5855b5ac15d79c0292a668eee59.camel@gmail.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <8bb01a8946aaa5855b5ac15d79c0292a668eee59.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 8/9/24 15:10, Mina Almasry wrote:
-> On Thu, Aug 8, 2024 at 10:24 PM Jakub Kicinski <kuba@kernel.org> wrote:
+On 8/9/24 9:24 AM, Nuno Sá wrote:
+> On Wed, 2024-08-07 at 15:02 -0500, David Lechner wrote:
+>> This implements buffered reads for the ad4695 driver using the typical
+>> triggered buffer implementation, including adding a soft timestamp
+>> channel.
 >>
->> On Thu, 8 Aug 2024 16:36:24 -0400 Mina Almasry wrote:
->>>> How do you know that the driver:
->>>>   - supports net_iov at all (let's not make implicit assumptions based
->>>>     on presence of queue API);
->>>>   - supports net_iov in current configuration (eg header-data split is
->>>>     enabled)
->>>>   - supports net_iov for _this_ pool (all drivers must have separate
->>>>     buffer pools for headers and data for this to work, some will use
->>>>     page pool for both)
->>>>
->>>> What comes to mind is adding an "I can gobble up net_iovs from this
->>>> pool" flag in page pool params (the struct that comes from the driver),
->>>
->>> This already sorta exists in the current iteration, although maybe in
->>> an implicit way. As written, drivers need to set params.queue,
->>> otherwise core will not attempt to grab the mp information from
->>> params.queue. A driver can set params.queue for its data pages pool
->>> and not set it for the headers pool. AFAICT that deals with all 3
->>> issues you present above.
->>>
->>> The awkward part is if params.queue starts getting used for other
->>> reasons rather than passing mp configuration, but as of today that's
->>> not the case so I didn't add the secondary flag. If you want a second
->>> flag to be added preemptively, I can do that, no problem. Can you
->>> confirm params.queue is not good enough?
+>> The chip has 4 different modes for doing conversions. The driver is
+>> using the advanced sequencer mode since that is the only mode that
+>> allows individual configuration of all aspects each channel (e.g.
+>> bipolar config currently and oversampling to be added in the future).
 >>
->> I'd prefer a flag. The setting queue in a param struct is not a good
->> API for conveying that the page pool is for netmem payloads only.
->>
->>>> and then on the installation path we can check if after queue reset
->>>> the refcount of the binding has increased. If it did - driver has
->>>> created a pool as we expected, otherwise - fail, something must be off.
->>>> Maybe that's a bit hacky?
->>>
->>> What's missing is for core to check at binding time that the driver
->>> supports net_iov. I had relied on the implicit presence of the
->>> queue-API.
->>>
->>> What you're proposing works, but AFAICT it's quite hacky, yes. I
->>> basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
->>> nothing can increment the refcount while the binding is happening so
->>> that the refcount check is valid.
->>
->> True. Shooting from the hip, but we could walk the page pools of the
->> netdev and find the one that has the right mp installed, and matches
->> queue? The page pools are on a list hooked up to the netdev, trivial
->> to walk.
->>
+>> Signed-off-by: David Lechner <dlechner@baylibre.com>
+>> ---
 > 
-> I think this is good, and it doesn't seem hacky to me, because we can
-> check the page_pools of the netdev while we hold rtnl, so we can be
-> sure nothing is messing with the pp configuration in the meantime.
-> Like you say below it does validate the driver rather than rely on the
-> driver saying it's doing the right thing. I'll look into putting this
-> in the next version.
+> Hi David,
+> 
+> Just two nit comments...
+> 
+> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+> 
+>>  drivers/iio/adc/ad4695.c | 233 ++++++++++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 230 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/iio/adc/ad4695.c b/drivers/iio/adc/ad4695.c
+>> index 007ecb951bc3..a3bd5be36134 100644
+>> --- a/drivers/iio/adc/ad4695.c
+>> +++ b/drivers/iio/adc/ad4695.c
+> 
+> ...
+> 
+>>
+>>  
+>> +static int ad4695_buffer_preenable(struct iio_dev *indio_dev)
+>> +{
+>> +	struct ad4695_state *st = iio_priv(indio_dev);
+>> +	struct spi_transfer *xfer;
+>> +	u8 temp_chan_bit = st->chip_info->num_voltage_inputs;
+>> +	bool temp_chan_en = false;
+>> +	u32 reg, mask, val, bit, num_xfer, num_slots;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * We are using the advanced sequencer since it is the only way to read
+>> +	 * multiple channels that allows individual configuration of each
+>> +	 * voltage input channel. Slot 0 in the advanced sequencer is used to
+>> +	 * account for the gap between trigger polls - we don't read data from
+>> +	 * this slot. Each enabled voltage channel is assigned a slot starting
+>> +	 * with slot 1.
+>> +	 */
+>> +	num_slots = 1;
+>> +
+>> +	memset(st->buf_read_xfer, 0, sizeof(st->buf_read_xfer));
+>> +
+>> +	/* First xfer is only to trigger conversion of slot 1, so no rx. */
+>> +	xfer = &st->buf_read_xfer[0];
+>> +	xfer->cs_change = 1;
+>> +	xfer->delay.value = AD4695_T_CNVL_NS;
+>> +	xfer->delay.unit = SPI_DELAY_UNIT_NSECS;
+>> +	xfer->cs_change_delay.value = AD4695_T_CONVERT_NS;
+>> +	xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+>> +	num_xfer = 1;
+>> +
+>> +	iio_for_each_active_channel(indio_dev, bit) {
+>> +		xfer = &st->buf_read_xfer[num_xfer];
+>> +		xfer->bits_per_word = 16;
+>> +		xfer->rx_buf = &st->buf[(num_xfer - 1) * 2];
+>> +		xfer->len = 2;
+>> +		xfer->cs_change = 1;
+>> +		xfer->cs_change_delay.value = AD4695_T_CONVERT_NS;
+>> +		xfer->cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+>> +
+>> +		if (bit == temp_chan_bit) {
+>> +			temp_chan_en = true;
+>> +		} else {
+>> +			reg = AD4695_REG_AS_SLOT(num_slots);
+>> +			val = FIELD_PREP(AD4695_REG_AS_SLOT_INX, bit);
+>> +
+>> +			ret = regmap_write(st->regmap, reg, val);
+>> +			if (ret)
+>> +				return ret;
+>> +
+>> +			num_slots++;
+>> +		}
+>> +
+>> +		num_xfer++;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Don't keep CS asserted after last xfer. Also triggers conversion of
+>> +	 * slot 0.
+>> +	 */
+>> +	xfer->cs_change = 0;
+>> +
+>> +	/**
+>> +	 * The advanced sequencer requires that at least 2 slots are enabled.
+>> +	 * Since slot 0 is always used for other purposes, we need only 1
+>> +	 * enabled voltage channel to meet this requirement. This error will
+>> +	 * only happen if only the temperature channel is enabled.
+>> +	 */
+>> +	if (num_slots < 2) {
+>> +		dev_err_ratelimited(&indio_dev->dev,
+>> +			"Buffered read requires at least 1 voltage channel
+>> enabled\n");
+> 
+> This one is intriguing... Why the ratelimited variant? Normally you'd use that in IRQ
+> routines where the log could be flooded.
 
-Why not have a flag set by the driver and advertising whether it
-supports providers or not, which should be checked for instance in
-netdev_rx_queue_restart()? If set, the driver should do the right
-thing. That's in addition to a new pp_params flag explicitly telling
-if pp should use providers. It's more explicit and feels a little
-less hacky.
+IIO Oscilloscope does a lot of retries of buffered reads very quickly,
+so was getting a minor flood (10-20 repeats). I'm not sure that
+ratelimited actually helped in this case though.
 
--- 
-Pavel Begunkov
+I suppose we could just drop this and expect people to read the docs
+if they get an EINVAL when attempting to enable the buffer. Or just
+make it dev_err() since it isn't 100s of repeats.
+
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Temperature channel isn't included in the sequence, but rather
+>> +	 * controlled by setting a bit in the TEMP_CTRL register.
+>> +	 */
+>> +
+>> +	reg = AD4695_REG_TEMP_CTRL;
+>> +	mask = AD4695_REG_TEMP_CTRL_TEMP_EN;
+>> +	val = FIELD_PREP(mask, temp_chan_en ? 1 : 0);
+>> +
+>> +	ret = regmap_update_bits(st->regmap, reg, mask, val);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	spi_message_init_with_transfers(&st->buf_read_msg, st->buf_read_xfer,
+>> +					num_xfer);
+>> +
+>> +	ret = spi_optimize_message(st->spi, &st->buf_read_msg);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* This triggers conversion of slot 0. */
+>> +	ret = ad4695_enter_advanced_sequencer_mode(st, num_slots);
+>> +	if (ret) {
+>> +		spi_unoptimize_message(&st->buf_read_msg);
+>> +		return ret;
+>> +	}
+> 
+> Could save one line with (unless ad4695_enter_advanced_sequencer_mode() does not
+> return 0 on success)
+
+sure
+
+> 
+> ret = ad4695_enter_advanced_sequencer_mode(st, num_slots);
+> if (ret)
+> 	spi_unoptimize_message(&st->buf_read_msg);
+> 
+> return ret;
+> 
+> - Nuno Sá
+> 
+
