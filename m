@@ -1,162 +1,136 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ADA9D2FF;
-	Fri,  9 Aug 2024 01:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBCC11CA0;
+	Fri,  9 Aug 2024 02:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723168248; cv=none; b=p22KJY/aNs9lxjoUlhdZq9XMY25NcLmjkdl81jfBFgUVZS31IJbOT4cDRi9eE15KqQdwCInaP3usNqIJFwurH/ADV06bsYDxKLtk5SrTjjmG0Y3LN6OZc0A3+6cqzGfT22rJBpe6QLrnjGf9fMXAMMFA5Evxwsnf78bkF05y18s=
+	t=1723170254; cv=none; b=rcavAV/HxHaRlMZB/K9gN27K+y8C8qql+R6MjoMeNcrwRNOnvKpy5/F4WqhGCYe+uCWm3dGvAIesC9YkpZfXzA0p/LLdNTzJjD4VLtExNv4nr9kT0XoR8sgW9p8IcvIFRPq3nW3/SHNiNhTSRxSLiVHb0mpnYwb3jsa9N5UrPAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723168248; c=relaxed/simple;
-	bh=Y4j8tEMDeUnrJUVE4V/9NiwhCmjh/Ep/R9WciWZpdzA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=gG0SlspG4/SpsqeTT/QssCuuBF5556arf++O/171WEuJvbrXJG92TaAU7E8B9C9yUnY1/283nbAjEdIRhr/aVuWs0QH1+hHu6fG11V7GBuud9f25XsO0qp187FwVYy2Y3IfNADlvpPeQeI3R16vbSUxdFsTCmvPeKKbdhCG0ybc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8DxyOnzdbVmrMsMAA--.36937S3;
-	Fri, 09 Aug 2024 09:50:43 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowMDxkeHwdbVmz8IKAA--.52880S3;
-	Fri, 09 Aug 2024 09:50:42 +0800 (CST)
-Subject: Re: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net, alexs@kernel.org,
- kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn,
- wangliupu@loongson.cn, lvjianmin@loongson.cn, yijun@loongson.cn,
- mhocko@suse.com, akpm@linux-foundation.org, dianders@chromium.org,
- maobibo@loongson.cn, xry111@xry111.site, zhaotianrui@loongson.cn,
- nathan@kernel.org, yangtiezhu@loongson.cn, zhoubinbin@loongson.cn,
- loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
-References: <20240806115557.4750-1-zhangtianyang@loongson.cn>
- <87le180z8b.ffs@tglx> <bc5d4e7a-ba81-f8f7-3629-2c80897d8ffc@loongson.cn>
- <CAAhV-H7EHRSFsJCY3F2NdwjGcEO-TnSF4S3iQnYXh-N8c2-b4g@mail.gmail.com>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <ae561e06-1312-2568-c36f-3a845050a596@loongson.cn>
-Date: Fri, 9 Aug 2024 09:50:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1723170254; c=relaxed/simple;
+	bh=a4NH/DyOZYr+hQdPVdV/xn3d1kqB1GhzzrD+9MYKuho=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dAQReQjed2MaNUAAQRcVm6y66OwGRzyymcG6Qb9zr9ZZFX4kE1TT1jAN9SqZZ2+42YHNMH3uT6XJ8ukEJ/sVR7sXLpx1LJxo7hfVX5MpfCHhttjrDm8OyRoaK5loHbvs9vo3NrDSSo55k/zFpEsnHLaKL0ss45CzrxgVgX4e9vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKaWvUP+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKaWvUP+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C56DC32782;
+	Fri,  9 Aug 2024 02:24:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723170253;
+	bh=a4NH/DyOZYr+hQdPVdV/xn3d1kqB1GhzzrD+9MYKuho=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vKaWvUP+gW8ZxGS17B65tL1nrDAvJqciL9lSUQksuPZ4Iy4KhEGJQGOpNkkXmO+kV
+	 pkdaDInHp2dgMHzollw10zS4gIySrBFG6IgrrwYHj8LsAscwBWBwWjLcNHYy5tTzNE
+	 KSKa+C7m9EwkOjuzA8zG5VWtu7bn8KHoTxxNt5UYMtqglx1DnjyChjgN286dWqm0WA
+	 rT4bNmb9sUeUr0tdrbHNHwMsbmKPhEiAz7/jK5pb3Y5hSQ728/DeRHxDA8I+BOaR8Y
+	 khTAMu7d9Hv788u9Zd01H6xUkCZfx7Afr0wMZbiiN0Z1P7b+nVi/ftr6us3vFG5KWz
+	 4W9X6eOb829Uw==
+Date: Thu, 8 Aug 2024 19:24:10 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240808192410.37a49724@kernel.org>
+In-Reply-To: <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+	<20240805212536.2172174-8-almasrymina@google.com>
+	<20240806135924.5bb65ec7@kernel.org>
+	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H7EHRSFsJCY3F2NdwjGcEO-TnSF4S3iQnYXh-N8c2-b4g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:qMiowMDxkeHwdbVmz8IKAA--.52880S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxGrW5Xw1DArW3Gr1rJw4kKrX_yoW5tryDpF
-	WUGa1DAr4UJF10qrWvvw1DXrnIyr1xGr1Utw1fGa4xA3s0gFyIvF10yF42kFy8Cr4rJa1j
-	vr48trWxCF98JFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
-	twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
-	k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l
-	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2-VyUUUUU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi, Huacai
+On Thu, 8 Aug 2024 16:36:24 -0400 Mina Almasry wrote:
+> > How do you know that the driver:
+> >  - supports net_iov at all (let's not make implicit assumptions based
+> >    on presence of queue API);
+> >  - supports net_iov in current configuration (eg header-data split is
+> >    enabled)
+> >  - supports net_iov for _this_ pool (all drivers must have separate
+> >    buffer pools for headers and data for this to work, some will use
+> >    page pool for both)
+> >
+> > What comes to mind is adding an "I can gobble up net_iovs from this
+> > pool" flag in page pool params (the struct that comes from the driver),  
+> 
+> This already sorta exists in the current iteration, although maybe in
+> an implicit way. As written, drivers need to set params.queue,
+> otherwise core will not attempt to grab the mp information from
+> params.queue. A driver can set params.queue for its data pages pool
+> and not set it for the headers pool. AFAICT that deals with all 3
+> issues you present above.
+> 
+> The awkward part is if params.queue starts getting used for other
+> reasons rather than passing mp configuration, but as of today that's
+> not the case so I didn't add the secondary flag. If you want a second
+> flag to be added preemptively, I can do that, no problem. Can you
+> confirm params.queue is not good enough?
 
-在 2024/8/8 下午4:03, Huacai Chen 写道:
-> Hi, Tianyang,
->
-> On Thu, Aug 8, 2024 at 2:52 PM Tianyang Zhang <zhangtianyang@loongson.cn> wrote:
->> Hi, Thomas
->>
->> Thank you for your feedback.
->>
->> 在 2024/8/8 上午6:01, Thomas Gleixner 写道:
->>
->>>> +    guard(raw_spinlock_irqsave)(&loongarch_avec.lock);
->>>> +
->>>> +    for (i = 0; i < nr_irqs; i++) {
->>>> +            d = irq_domain_get_irq_data(domain, virq + i);
->>>> +            if (d) {
->>>> +                    clear_free_vector(d);
->>>> +                    irq_domain_reset_irq_data(d);
->>>> +
->>> Stray newline, but the more important question is what kfree()'s 'd'?
->>>
->>> AFAICT, nothing. So that's a memory leak, no?
->> With my understand , 'd' as 'struct irq_data' can be free at public
->> irqdomain process, and really miss a kfree targeting 'struct chip_data'
->>>> +static int __init avecintc_init(struct irq_domain *parent)
->>>> +{
->>>> +    parent_irq = irq_create_mapping(parent, INT_AVEC);
->>>> +    if (!parent_irq) {
->>>> +            pr_err("Failed to mapping hwirq\n");
->>>> +            ret = -EINVAL;
->>>> +            goto out_remove_domain;
->>>> +    }
->>>> +    irq_set_chained_handler_and_data(parent_irq, avecintc_irq_dispatch, NULL);
->>>> +
->>>> +    ret = irq_matrix_init();
->>>> +    if (ret < 0) {
->>>> +            pr_err("Failed to init irq matrix\n");
->>>> +            goto out_remove_domain;
->>> Which still leaves the disfunct chained handler installed and the
->>> mapping intact.
->> There is indeed a problem here, but we have not found a similar approach
->> for reference.
->>
->> Is it reasonable to replace here with handle_bad_irq in case of failure?
->> or is there any other more suitable way. We hope you can give us some
->> suggestions, thank you very much
-> Maybe we can move irq_set_chained_handler_and_data(parent_irq,
-> avecintc_irq_dispatch, NULL) after the checking of irq_matrix_init().
->
-> Huacai
-I think is a good idea~~
->>>> +#endif
->>>> +    value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
->>>> +    value |= IOCSR_MISC_FUNC_AVEC_EN;
->>>> +    iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
->>>> +
->>>> +    return ret;
->>>> +
->>>> +out_remove_domain:
->>>> +    irq_domain_remove(loongarch_avec.domain);
->>>> +out_free_handle:
->>>> +    irq_domain_free_fwnode(loongarch_avec.fwnode);
->>>> +out:
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
->>>> +                                 const unsigned long end)
->>>> +{
->>>> +    struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
->>>> +
->>>> +    msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
->>> What validates that msi_base_addr has none of the lower 16 bits set, as
->>> they are required to be zero to make MSI message composing work, right?
->> This operation originates from some hardware designs.
->>
->> In 3C6000, either eiointc or avecintc can be the parent controller for
->> MSI interrupts and these two controllers have different MSI msg address.
->>
->> In our platform design scheme, we fix avec-msg-address to the address of
->> (eiointc-msg-address - 0x100000). Therefore, here we need to subtract
->> AVEC_MSG_OFFSET from the msg_address obtained by MCFG
->>
->> The main purpose of the design that users of 3C6000 can freely choose
->> the version of the Linux kernel that supports loongarch (regardless of
->> whether AVEC is supported or not) without having to change the firmware
->>
->>
->> Thanks again
->>
->> Tianyang
->>
+I'd prefer a flag. The setting queue in a param struct is not a good
+API for conveying that the page pool is for netmem payloads only.
 
+> > and then on the installation path we can check if after queue reset
+> > the refcount of the binding has increased. If it did - driver has
+> > created a pool as we expected, otherwise - fail, something must be off.
+> > Maybe that's a bit hacky?  
+> 
+> What's missing is for core to check at binding time that the driver
+> supports net_iov. I had relied on the implicit presence of the
+> queue-API.
+> 
+> What you're proposing works, but AFAICT it's quite hacky, yes. I
+> basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
+> nothing can increment the refcount while the binding is happening so
+> that the refcount check is valid.
+
+True. Shooting from the hip, but we could walk the page pools of the
+netdev and find the one that has the right mp installed, and matches
+queue? The page pools are on a list hooked up to the netdev, trivial
+to walk.
+
+> I think a less hacky approach is to add a function to the queue-API
+> like ndo_queue_supported_features(), which lets the driver declare
+> that it supports net_iov at a given rx queue. However I'm open to both
+> approaches. What do you prefer?
+
+I kinda like trying to query the page pools more, because it's both
+fewer driver changes, and it actually validates that the driver did 
+the right thing based on outcomes. Driver callback may have bugs.
+
+If you prefer strongly - fine, but hm.
