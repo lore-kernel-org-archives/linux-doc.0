@@ -1,147 +1,214 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D07199222
-	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 16:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0134213C8F4;
+	Fri,  9 Aug 2024 17:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723220577; cv=none; b=HQ0pXLYLpwbCIyBkUK2JAVjmE3uR3qoIwNrRExaBnaV6edAIj2zYAhZ0TKczWhtNOzDKROu8TKEEEp04tKyj8t75tcEq9/d19WWjDrHbrgquiIosTuFcbxBh8R+Jtrm6709kc77pmv8KiuEBEGkmEGHgkm+7E1lGP6KMXekv/00=
+	t=1723226107; cv=none; b=Ho4acrPbMsEV/P8D++HbAd3NgoEVy2K+lGHCuLyl4VvzeKA59WqTe6uC8b4tACOF4rfQkOp3oMveBzaVZ979LRNIcGpY+Hwnx22yuuRL3hKHaOV4a5xyrm4vLWm6HkYyWyDKMoUL5IITvKCLZQaF6y6/rtzcB9ClLQAPAG628mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723220577; c=relaxed/simple;
-	bh=Q7+mHfaG/gPeyphnTcK6yRgJq6izjUUPKdZlakTOdNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZOWxIe/e0Iazf8M2uaOGWa89yBHx6LhQd2ALmq2BDotqksgw5QIQS4qz9c8CoJESHcvWF9K+B2RXIV4v+XKjQsf3RX+xDGJ7KxPLYsyO0eGM/RsNsSKEd+0pYbkzy1UVa1i3ajKqCNKJTxL/9vYkET6wMLefn7L45n/FzOmt378=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GfAjM6/N; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1723226107; c=relaxed/simple;
+	bh=l8/QNGj3XSiUI+ocfT8O0tNt4cujtJrf5kkwvwZoKRc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=seHn2/w3HyfyHUG/nPxta8EBMFFy0hX3JvqSzXvl3yXwhvWZRwjvDGaxYOJkScjhiGPYTiB51buOL9vMfVZl2Ty7drSyGGIHWN8Rg55vl2FaM2UUYkP9/BnTHKQdndVx3pVvsmqds5nUuK6OX5akH1ZMG5sNRYxnwP75Ur87aSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WEHoHWVY; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GfAjM6/N"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7163489149eso1561627a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 09:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723220575; x=1723825375; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P9KwuCeskSHSsK6Ge80MByzX2lckhBzz4l4UPkzzqNs=;
-        b=GfAjM6/Ne+yZDIGc7Hh3LvhCoHfcA6Xu11M902TZPpip/79PHPtf7g48DWwCivUens
-         BKVtBJf+/8KKgbuBiZIuziE3ekpIpF5BD0cbWK6Q9x7UmPI1Tk7EWls1Sx5mP6RaPpZ9
-         FTE4VAarfotAaHN49Ky4DTTbP/s3OIKP0olG+6hI58cctg8qxPn9hhD+Mr/dl5TqQEZM
-         q5TyNgf8ZUy/5vpTD26BJrGeEfvbnMaaQuENuh/PNIRdId3LhfudYZqLgNeW8oh6xPMo
-         Q8kUPlC8Q5ggQWiFFjrM5x/QM7+n/FHwfWXPZknCxbWLm3YCbPM/jDDQdRA1arFmkCa8
-         wM5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723220575; x=1723825375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P9KwuCeskSHSsK6Ge80MByzX2lckhBzz4l4UPkzzqNs=;
-        b=XhDoGwGwlpA7dqEJoQrPs8P42MyFt9AtPAhfNVieL6kZy5YweiAcPSQyX0NBo12Jh3
-         2DFgH4iQWNeDBMZWz/tJr/XHKsD5beREfdlrDl/EKQGpmyd8dx3SSvwhKu7Gz60UD2qJ
-         HRnKQUeGzaEvEVbHUXGXe/PNvJSmzV+V9j8+fEkJ3oXnZr2Rf9opNMJvp5P+QJZ2n/kq
-         aNddJ7Xu/X1qcRX7PBSKl7nyDfM9aY9d1ZG4jJSdci+Eyoiy9cepdVMrkYIAjeUbKP9J
-         rQj0igloIYIDMdSQPkhnlVAa6H9+y9Rbt7bLFCAwN1KiHn9sKmVdt5rIetBclMbV6Poh
-         7wbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxum1zvGS/bm1auJwGQrNmYmkccHUHigV+3QnB7N/VvIuPHvBqD1VMELJssKpz8+WSnM+z9CzQcFCRAIAHJQ/EvPeRJfIii8Cj
-X-Gm-Message-State: AOJu0Yyflz6BQ0IjWexQJGLNKYZ0GYA5XoqoMKAMG6q2T6jIe6OPlwRi
-	3+8dQ/ghAPE8HpE1Jufq78gOmX0VW+PdswnYGpUQwP4bz76gmgI28S9dinqJGBg=
-X-Google-Smtp-Source: AGHT+IHp8h7nr4BcWcXSmFlRdpIdfs78+tQ8JlqIPTYsDMyESOd63kL6pHIyup+248wklqPMUEbOiw==
-X-Received: by 2002:a17:903:944:b0:1f7:3a4:f66f with SMTP id d9443c01a7336-200ae59b5e2mr19226275ad.43.1723220575225;
-        Fri, 09 Aug 2024 09:22:55 -0700 (PDT)
-Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200668fc398sm100414505ad.207.2024.08.09.09.22.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 09:22:54 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH 2/2] dt-bindings: riscv: Add Zicclsm ISA extension description.
-Date: Fri,  9 Aug 2024 12:22:40 -0400
-Message-ID: <20240809162240.1842373-3-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240809162240.1842373-1-jesse@rivosinc.com>
-References: <20240809162240.1842373-1-jesse@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WEHoHWVY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F70DFF804;
+	Fri,  9 Aug 2024 17:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1723226103;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VqHulfIhyBoGOHfQpCFg2tOi0N+covT/vCSBHQm88Vk=;
+	b=WEHoHWVYTumeujQ/2pFK9Kjb97XG0FiKg0GDrdZnHy4QwOX2v/hEaRgzFIZbjjjgjFAili
+	37kAR5lzMUVqFAYVrah+QSHVS2TH3Xt3xJiYiMn0g87TzCtfJSZn76gPnyLY5ZLgLnuSqi
+	cX4NMktsbFgkCTKTxxt3M6NyZUxeDEuB1zTa3EzJg91nxM2Uekja++Hh2EyKobbuc8KvXS
+	VdDuvP8qZTPTMnn4xFOHSyW4nCD0M7Bllmc+aAB8KIoEFzGckQIiUnGUnXH8uU4fgku1Xg
+	WIf3u3BIYSST0rts4ACH/6Fp1P7RA87k1rRkutBLpRTNu3+kzFErZ0Tu2mrLmA==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Fri, 09 Aug 2024 19:54:46 +0200
+Subject: [PATCH v10 05/16] drm/vkms: Use const for input pointers in
+ pixel_read an pixel_write functions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20240809-yuv-v10-5-1a7c764166f7@bootlin.com>
+References: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
+In-Reply-To: <20240809-yuv-v10-0-1a7c764166f7@bootlin.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ rdunlap@infradead.org, arthurgrillo@riseup.net, 
+ pekka.paalanen@haloniitty.fi
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, marcheu@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5640;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=l8/QNGj3XSiUI+ocfT8O0tNt4cujtJrf5kkwvwZoKRc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBmtlfqBzxRYSiPs8YG3Wn4G7yOUKlECgbMSFbIT
+ iQqhg+ZoFaJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZrZX6gAKCRAgrS7GWxAs
+ 4uTyD/wIvX5VQtGEAIk+/0tMfyrad388JL6pVm+Vogh3iB6KhRf6NwndTFQG+k+YYCXsil4fjOa
+ zcLl/q9Kvaju4CLsXeENlm0BYdfjwJ1hCeAYm7hGXa1bQIpWUqs31o/+btMRsNw+wrnin5z4txv
+ 7CJDBa8OBbCrYiRt0oBOgdVUgskNRj/s5zAJxPFsRZLcB/zFM3B+wnMGt8L/VYJAncyCNYyjA0h
+ JW/CGu0yGtrv5Ry0LrPNWHIkAGrNIDEC7oD2tUbRMOwj+ItVv3PF6nMMl18T7T72qS3AlV+LINf
+ x493RjystlBPCNAqWpD8Ap6Gm+Yk+UeIfzRnegikfMY1xy6rvGl3O+4kDqfIqLOpAb6ptiEcsQP
+ ny7UdF/4MVPOUrPfHxY7ekw0S+yPFg9kE0CCUhiPmpTyNJcl+b0Nb4c1k3x25DFINJ+0CKIchDZ
+ kYV63eyWz5RD/Jl1EocF4R7c63K/3apUqBqvX7kKvpwPqPqTVPRipiiDBQK4ev9H8QB5sTRlJSI
+ MfI5cEYhvVe4SR5rD7wIzVCptudNlXL6y6eQ9g8B6rUQTqQgp2gJrgC6Fo2F0l40ZMEFk8Ds1lk
+ 0zGQfMaa072MZYQ1LGXksZmhkmcBAvMTgSrYw03ELiXxRduB/RmTihWv2xUzPXe9zrcItV80wSn
+ nt/oao4unt6BQlQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Add description for Zicclsm ISA extension.
+As the pixel_read and pixel_write function should never modify the input
+buffer, mark those pointers const.
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-V1 -> V2:
- - New patch
-V2 -> V3:
- - No changes
-V3 -> V4:
- - No changes
-V4 -> V5:
- - No changes
-V5 -> V6:
- - No changes
-V6 -> V7:
- - No changes
-V7 -> V8:
- - Rebase onto 2d1f51d8a4b0 (palmer/for-next)
----
- Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/vkms/vkms_drv.h     |  4 ++--
+ drivers/gpu/drm/vkms/vkms_formats.c | 20 ++++++++++----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index a06dbc6b4928..d06ee82abcc1 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -361,6 +361,13 @@ properties:
-             The standard Zicboz extension for cache-block zeroing as ratified
-             in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 7148d46d36b7..8edbf44a6896 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -61,7 +61,7 @@ struct line_buffer {
+  * @out_pixel: destination address to write the pixel
+  * @in_pixel: pixel to write
+  */
+-typedef void (*pixel_write_t)(u8 *out_pixel, struct pixel_argb_u16 *in_pixel);
++typedef void (*pixel_write_t)(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel);
  
-+        - const: zicclsm
-+          description:
-+            The standard Zicclsm extension for misaligned support for all regular
-+            load and store instructions (including scalar and vector) but not AMOs
-+            or other specialized forms of memory access. Defined in the
-+            RISC-V RVA Profiles Specification.
-+
-         - const: zicntr
-           description:
-             The standard Zicntr extension for base counters and timers, as
+ struct vkms_writeback_job {
+ 	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
+@@ -76,7 +76,7 @@ struct vkms_writeback_job {
+  * @in_pixel: pointer to the pixel to read
+  * @out_pixel: pointer to write the converted pixel
+  */
+-typedef void (*pixel_read_t)(u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
++typedef void (*pixel_read_t)(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel);
+ 
+ /**
+  * struct vkms_plane_state - Driver specific plane state
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 5ebc691656bc..5bc0d7cf0b00 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -75,7 +75,7 @@ static int get_x_position(const struct vkms_frame_info *frame_info, int limit, i
+  * They are used in the vkms_compose_row() function to handle multiple formats.
+  */
+ 
+-static void ARGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void ARGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	/*
+ 	 * The 257 is the "conversion ratio". This number is obtained by the
+@@ -89,7 +89,7 @@ static void ARGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ 	out_pixel->b = (u16)in_pixel[0] * 257;
+ }
+ 
+-static void XRGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void XRGB8888_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	out_pixel->a = (u16)0xffff;
+ 	out_pixel->r = (u16)in_pixel[2] * 257;
+@@ -97,7 +97,7 @@ static void XRGB8888_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ 	out_pixel->b = (u16)in_pixel[0] * 257;
+ }
+ 
+-static void ARGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void ARGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)in_pixel;
+ 
+@@ -107,7 +107,7 @@ static void ARGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pi
+ 	out_pixel->b = le16_to_cpu(pixel[0]);
+ }
+ 
+-static void XRGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void XRGB16161616_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)in_pixel;
+ 
+@@ -117,7 +117,7 @@ static void XRGB16161616_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pi
+ 	out_pixel->b = le16_to_cpu(pixel[0]);
+ }
+ 
+-static void RGB565_to_argb_u16(u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
++static void RGB565_to_argb_u16(const u8 *in_pixel, struct pixel_argb_u16 *out_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)in_pixel;
+ 
+@@ -173,7 +173,7 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
+  * They are used in vkms_writeback_row() to convert and store a pixel from the src_buffer to
+  * the writeback buffer.
+  */
+-static void argb_u16_to_ARGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_ARGB8888(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	/*
+ 	 * This sequence below is important because the format's byte order is
+@@ -191,7 +191,7 @@ static void argb_u16_to_ARGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ 	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
+ }
+ 
+-static void argb_u16_to_XRGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_XRGB8888(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	out_pixel[3] = 0xff;
+ 	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
+@@ -199,7 +199,7 @@ static void argb_u16_to_XRGB8888(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
+ 	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
+ }
+ 
+-static void argb_u16_to_ARGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_ARGB16161616(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)out_pixel;
+ 
+@@ -209,7 +209,7 @@ static void argb_u16_to_ARGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pi
+ 	pixel[0] = cpu_to_le16(in_pixel->b);
+ }
+ 
+-static void argb_u16_to_XRGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_XRGB16161616(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)out_pixel;
+ 
+@@ -219,7 +219,7 @@ static void argb_u16_to_XRGB16161616(u8 *out_pixel, struct pixel_argb_u16 *in_pi
+ 	pixel[0] = cpu_to_le16(in_pixel->b);
+ }
+ 
+-static void argb_u16_to_RGB565(u8 *out_pixel, struct pixel_argb_u16 *in_pixel)
++static void argb_u16_to_RGB565(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)out_pixel;
+ 
+
 -- 
-2.45.2
+2.44.2
 
