@@ -1,218 +1,161 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5632019046B
-	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 13:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0146C196C7C
+	for <linux-doc@vger.kernel.org>; Fri,  9 Aug 2024 14:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723209689; cv=none; b=dybDliV82BL672yiuaI9NLWrh1MHpU/3OzO00uJuFvRXgw9Ii8HEbDQGeVgeBsp0pAhgsD5FjLqMvpSWVWTtxjUxr9vBuYEMm4CfSusn+fG9BCBp+JkmRJhaCokw1UKuffCYIs5shVfPFS3RWXY2bVBRVpIAfq30pIJRREjfQ80=
+	t=1723212651; cv=none; b=S345E2IA6BNTW2p2tYnKBBD7mhEXxTA9AITQ+EZ0z4s8s7OQRSxSq78pSw3F17uC1Vf4fQ3Ix+oCLjLEP+UKymGX9A1p+qgTa2MwFSzOYnHWqn5i3NQcO0zmbQIE/U6YgCogLOIQPR+ejB9D6o2q3eyiX2HCrvI8I4zylliY8pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723209689; c=relaxed/simple;
-	bh=aBB6jiDebJjYb4fF3MQ/LSGBIu7rGq3yDeyMlpI0aFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fLBI93ESa9+1BdKfCsfxfFVjWoYoaxYtLGGAOap3SrBrGV4Z5isMz3PnaK3CVrgjsBB/lFcy4U6HU1axd6XNuwUtbwpOaI1ecBb8/i9nCrBOmoe9hdVvpMWXXJdcIq8PsD0wig/Gjl1HUeivbkqusbsEk5wnyBvDNQUvzUWFzY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Loxum/kw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1723212651; c=relaxed/simple;
+	bh=pB3wkCjy5BE4htN+Z4c0bK/ig1XSKbZvFviaBIbuCvM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eMViLz68/FFRyYnv9hMitDuk2OpArjI9STduxHVSdUfEDYI4CtaQ2aEyLy7z+PcwoouqwdaHCMG+zdj2Kt44mv9meiG+Nv7DeJ1y9EaQs+hFPSMiWsQnFuLuG6xKY+7Lzrw4U9ocYCes/qHEjojBhWX564FbIO9YZ7BO1VSqy1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nGkVC6hx; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Loxum/kw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723209686;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=iIbP/V1brlbQvL5M/hSArTJBCUNJ+OODqF9d1S+I4w0=;
-	b=Loxum/kw7DTFttgvyNUlbFqPLnqkRFpV57O7K2NMvQAK2fTOjRfiT1u5opLpGtwLfICquH
-	uatXphDBUJBhsfhMBeSqnsre9o8YiQKN+NdrpZ5mpg2LqPOUbQ1bSGU6jQv/rVfnFf07Up
-	ky4k/ScAmRJssJngyylv9Ir2anWHDxM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-XVfL57XBORihVWsGOQDUhQ-1; Fri, 09 Aug 2024 09:21:24 -0400
-X-MC-Unique: XVfL57XBORihVWsGOQDUhQ-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3687a1a6846so1137203f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 06:21:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nGkVC6hx"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6bb5a4668faso12596356d6.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Aug 2024 07:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723212648; x=1723817448; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FAq+1P/w8tI0/3HVArG8ZV5u6VZadlBPolUAhgI5gl8=;
+        b=nGkVC6hxQ9S94WAmAtW1FrPD+sAJjm1t7W7DWwmib99g2VOp5oTHDqQ2+68I0/eYEp
+         8eXTYe57hgcorkTI0JKHeahl4P1an0OMTZJyKUgIk/fnniE8fpC2PA8fRhBa8WE7BGS7
+         H6kaid+22SIrTnql0Fd5G0ajp25ihNBSedmRiVL8yvZbAgJlHstkcnxGnQidLwuoJoxv
+         jE10ts1fOpJY6oTcNJnhYJqnSpKGwBgdJjrcov8NiuS9zokXBd11N3junnsVVJK/+G7A
+         OCeem5nn2uPObKCluMe/lty6tymkNrEoW+CwVVQiwF50Y2F/2uuTESyNfQw5rFhgwlSP
+         Hhlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723209683; x=1723814483;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iIbP/V1brlbQvL5M/hSArTJBCUNJ+OODqF9d1S+I4w0=;
-        b=C4pxtfx8/Vuc0akUDdspHG73INDkylmMmErMzO9va4cFUqgrXpmTArYkTgAQdLeGY0
-         1jNJNmIZZ/EIOmDh+KLV+XnsKhrM2SMqQ2JthJVYEdmiMzL3Uu0rPOEzgTInxbttrvPe
-         SENLYBFB78nx67q5q39/unYq6Xyh7qor3XcMUxevQv0ChBJfq43l7AforazDU1PmBHmX
-         AAewtm2ohDDL9IEenX5j7DGSmQ9bdJ3aO948C5pYgwLfi5UJ7UHYWXOerXN0t8D5EtGd
-         NBxJVawqrr0IhAM8hQ+w02h5481r8aqCGIaEVANGsvuQrxpLM7HS8SZ0hFHRN6gtPgBW
-         AdCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXILYsiyxuEosbyLg5pNEg9i0DUdlx4BcXJthOdgMk1StqMkylTv9+1Cl0KV6ucHu79QY7/rm1nZrA2zu1lwpGBYn+lPg6KfpG
-X-Gm-Message-State: AOJu0YzdbtHv33aSlkagnkwL3i3RDb/4Mftt4fhaN8aviqIPpFpfs2X/
-	ZYHmHCUzRYdn7wXe8j1O0x5UX/VXZEEcLAFFZSAmA3xMtYHqfl8aV3ldkLWs/6lYEjIOyMp3ckR
-	Y/GbQ3QgOJuKYNLlILf7T0DGAGXDno1kwy+K+5dycI/JvdgJXB/sRLkTTuw==
-X-Received: by 2002:a5d:438e:0:b0:36b:a5aa:6038 with SMTP id ffacd0b85a97d-36d5dd8f894mr1069948f8f.9.1723209683610;
-        Fri, 09 Aug 2024 06:21:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFrhSrDFlPuyqM3AoBTzUBZDWMN7a2jqJM69uxK1AgrdEyAnELGcyfvPx3iSzKYEI79wuVxdg==
-X-Received: by 2002:a5d:438e:0:b0:36b:a5aa:6038 with SMTP id ffacd0b85a97d-36d5dd8f894mr1069924f8f.9.1723209683072;
-        Fri, 09 Aug 2024 06:21:23 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f09:3f00:d228:bd67:7baa:d604? (p200300d82f093f00d228bd677baad604.dip0.t-ipconnect.de. [2003:d8:2f09:3f00:d228:bd67:7baa:d604])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36d2718c020sm5322998f8f.55.2024.08.09.06.21.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 06:21:22 -0700 (PDT)
-Message-ID: <3f6e1e0a-6132-4222-abb6-133224e11009@redhat.com>
-Date: Fri, 9 Aug 2024 15:21:21 +0200
+        d=1e100.net; s=20230601; t=1723212648; x=1723817448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FAq+1P/w8tI0/3HVArG8ZV5u6VZadlBPolUAhgI5gl8=;
+        b=DflV66UbZzzLo79lIv4t3+ia/hPMZGBc0zgrzow1skOyaYQVe2T6jbcBtonMeaDnz0
+         xmskLX1tkGMaRhJ3YqkLuA5ISh7+TCsOOOJuul1nJjGDU+yWY+S6ReXMl3QN+7p55ByE
+         Fp2vElv98Kg6IRy+4/TS+l/Zpc+lboOdtXg0jUgx1uZUzrgxuR+L/K8qHqERF0pQfNTj
+         XV9L25IdGZIuSjxosL+iSxVXH/LCHWmBEqP2AL3ajtoeobW4SC37jwyyLtlOMrlK3zde
+         rYC8qbEBZAaJGIZrGYqtdEmOl95Y7SLKaLZMpbLgrsHQwr5GNVwCi7PgWFS6ufG1KrHF
+         JwyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ4eY/7XVGfpZI8hEF/NWy+aQaoFyAfty6uCQ9tJnTR3V03WVbObNc868gfOERwjkqNXQ9WGldnD1ji7ZwV0Xcy9yhfGN6YpaT
+X-Gm-Message-State: AOJu0YyZgWwuHq6c6z76Jkrea02gGI+QKRBbv/vN2GjMTmvnIOyOg3Nr
+	5rQArXWC7ZWSmAvsqbWTAPk2c4tRUEU4z4kMNH3TSOSJjQgcO5Yo0gCpdc6HENf+mNMF/tUHk0/
+	oHyHMRZtba/uCzQkjjEgNjOL6V3hPu/vYrFq7
+X-Google-Smtp-Source: AGHT+IHtXT623FzOsQrwA3QF53Omar/D5N9kMqOW264VduXGeLM8mfJ22+dFZ2QyvytnqYSwbN8pGocgZbvLtoABiDw=
+X-Received: by 2002:a05:6214:459a:b0:6b7:a947:18ea with SMTP id
+ 6a1803df08f44-6bd78dcb419mr20493616d6.34.1723212647651; Fri, 09 Aug 2024
+ 07:10:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] mm: split underutilized THPs
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240807134732.3292797-1-usamaarif642@gmail.com>
- <20240807134732.3292797-5-usamaarif642@gmail.com>
- <5adb120e-5408-43a6-b418-33dc17c086f0@redhat.com>
- <c0ed5796-a6a6-4757-b7df-666ba598d9fe@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <c0ed5796-a6a6-4757-b7df-666ba598d9fe@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com> <20240808192410.37a49724@kernel.org>
+In-Reply-To: <20240808192410.37a49724@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 9 Aug 2024 10:10:35 -0400
+Message-ID: <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09.08.24 12:31, Usama Arif wrote:
-> 
-> 
-> On 08/08/2024 16:55, David Hildenbrand wrote:
->> On 07.08.24 15:46, Usama Arif wrote:
->>> This is an attempt to mitigate the issue of running out of memory when THP
->>> is always enabled. During runtime whenever a THP is being faulted in
->>> (__do_huge_pmd_anonymous_page) or collapsed by khugepaged
->>> (collapse_huge_page), the THP is added to  _deferred_list. Whenever memory
->>> reclaim happens in linux, the kernel runs the deferred_split
->>> shrinker which goes through the _deferred_list.
->>>
->>> If the folio was partially mapped, the shrinker attempts to split it.
->>> A new boolean is added to be able to distinguish between partially
->>> mapped folios and others in the deferred_list at split time in
->>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
->>> the folio mapcount elements, hence it won't be possible to distinguish
->>> between partially mapped folios and others in deferred_split_scan
->>> without the boolean.
->>
->> Just so I get this right: Are you saying that we might now add fully mapped folios to the deferred split queue and that's what you want to distinguish?
-> 
-> Yes
-> 
->>
->> If that's the case, then could we use a bit in folio->_flags_1 instead?
-> Yes, thats a good idea. Will create the below flag for the next revision
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 5769fe6e4950..5825bd1cf6db 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -189,6 +189,11 @@ enum pageflags {
->   
->   #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
->   
-> +enum folioflags_1 {
-> +       /* The first 8 bits of folio->_flags_1 are used to keep track of folio order */
-> +       FOLIO_PARTIALLY_MAPPED = 8,     /* folio is partially mapped */
-> +}
+On Thu, Aug 8, 2024 at 10:24=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Thu, 8 Aug 2024 16:36:24 -0400 Mina Almasry wrote:
+> > > How do you know that the driver:
+> > >  - supports net_iov at all (let's not make implicit assumptions based
+> > >    on presence of queue API);
+> > >  - supports net_iov in current configuration (eg header-data split is
+> > >    enabled)
+> > >  - supports net_iov for _this_ pool (all drivers must have separate
+> > >    buffer pools for headers and data for this to work, some will use
+> > >    page pool for both)
+> > >
+> > > What comes to mind is adding an "I can gobble up net_iovs from this
+> > > pool" flag in page pool params (the struct that comes from the driver=
+),
+> >
+> > This already sorta exists in the current iteration, although maybe in
+> > an implicit way. As written, drivers need to set params.queue,
+> > otherwise core will not attempt to grab the mp information from
+> > params.queue. A driver can set params.queue for its data pages pool
+> > and not set it for the headers pool. AFAICT that deals with all 3
+> > issues you present above.
+> >
+> > The awkward part is if params.queue starts getting used for other
+> > reasons rather than passing mp configuration, but as of today that's
+> > not the case so I didn't add the secondary flag. If you want a second
+> > flag to be added preemptively, I can do that, no problem. Can you
+> > confirm params.queue is not good enough?
+>
+> I'd prefer a flag. The setting queue in a param struct is not a good
+> API for conveying that the page pool is for netmem payloads only.
+>
+> > > and then on the installation path we can check if after queue reset
+> > > the refcount of the binding has increased. If it did - driver has
+> > > created a pool as we expected, otherwise - fail, something must be of=
+f.
+> > > Maybe that's a bit hacky?
+> >
+> > What's missing is for core to check at binding time that the driver
+> > supports net_iov. I had relied on the implicit presence of the
+> > queue-API.
+> >
+> > What you're proposing works, but AFAICT it's quite hacky, yes. I
+> > basically need to ASSERT_RTNL in net_devmem_binding_get() to ensure
+> > nothing can increment the refcount while the binding is happening so
+> > that the refcount check is valid.
+>
+> True. Shooting from the hip, but we could walk the page pools of the
+> netdev and find the one that has the right mp installed, and matches
+> queue? The page pools are on a list hooked up to the netdev, trivial
+> to walk.
+>
 
-This might be what you want to achieve:
-
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index a0a29bd092f8..d4722ed60ef8 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -182,6 +182,7 @@ enum pageflags {
-         /* At least one page in this folio has the hwpoison flag set */
-         PG_has_hwpoisoned = PG_active,
-         PG_large_rmappable = PG_workingset, /* anon or file-backed */
-+       PG_partially_mapped, /* was identified to be partially mapped */
-  };
-  
-  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
-@@ -861,8 +862,9 @@ static inline void ClearPageCompound(struct page *page)
-         ClearPageHead(page);
-  }
-  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
-+FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
-  #else
--FOLIO_FLAG_FALSE(large_rmappable)
-+FOLIO_FLAG_FALSE(partially_mapped)
-  #endif
-  
-  #define PG_head_mask ((1UL << PG_head))
-
-The downside is an atomic op to set/clear, but it should likely not really matter
-(initially, the flag will be clear, and we should only ever set it once when
-partially unmapping). If it hurts, we can reconsider.
-
-[...]
-
->> I would actually suggest to split decoupling of "_deferred_list" and "partially mapped" into a separate preparation patch.
->>
-> Yes, will do. I will split it into 3 patches, 1st one that introduces FOLIO_PARTIALLY_MAPPED and sets/clear it in the right place without introducing any functional change, 2nd to split underutilized THPs and 3rd to add sysfs entry to enable/disable the shrinker. Should make the patches quite small and easy to review.
+I think this is good, and it doesn't seem hacky to me, because we can
+check the page_pools of the netdev while we hold rtnl, so we can be
+sure nothing is messing with the pp configuration in the meantime.
+Like you say below it does validate the driver rather than rely on the
+driver saying it's doing the right thing. I'll look into putting this
+in the next version.
 
 
-Great! As always, please shout if you disagree with something I propose :)
-
--- 
-Cheers,
-
-David / dhildenb
-
+--
+Thanks,
+Mina
