@@ -1,179 +1,178 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA431B810;
-	Sat, 10 Aug 2024 11:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D4114BF90;
+	Sat, 10 Aug 2024 12:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723288551; cv=none; b=o67iXKqsrqnOEnx31w6EsuaD9KYLGqmXAIkPTqk3yZOk5aX4+rIePqQwD1AV1LMzkIWhsp05S1BSmc3K/mk3M8dx7ZFBmXgw0Gse5ZdGDj+pXkYgMW/6UAmyuLg+l6SP8r7u4pllk0rIChZZ0GOTu7sVZ+slkn/vTbju0MdoHls=
+	t=1723291855; cv=none; b=EzT/Bi06D+TCVDGSNORD7OvCNTZucdnXynet2GXD1jCvInhbRyFeO/7TyWTi1xAYlYfeNoy4Lrc1BKwYKSMLskzk/MTCuVAk8LgwDrTEo8I+nVUYnHr3FP4Lmicz3dgCdF9QJRie9c9X/P/vzLYCGyf01/B6eqhS4gjsPL1gWY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723288551; c=relaxed/simple;
-	bh=0kv0r7M0u9YFyPFmqEmX+BMvA+T7MYkAoNKr0znLjTk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=S5OrWMdz+LK0tZ1V2jgLEKuPVwlMolidZKhjssO9kD32iFrTLMP5xEXjvucXFxtW6ncdE+/MkUsNZwWE2YmooZJjWHI5aLpPYr/Y8WLmqe5xiUdMqMHVI1wgQrwk45idc0N9M290wYJ8JPBM+ONzpy1Q4hbhOx8RpXJEI03f+dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LBOdvGcP; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723291855; c=relaxed/simple;
+	bh=+GPZY64xnIzZ0d7Ib77Ct+6ZmK4cs//CrHJl5arfxAc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tXqhs1AV2E/0WwogAMHQvFJxmbRUrWxd972RMl9MkfZO6B8eV4LaWBJZ8eC2VZj8onUvV8n28IRm9pIKymgY7pMcsLEqhjqGQuP/OYVQ2p7Gc9FlkZ0R7OVx5f30uTdKMV/KMjzj0Ho8JLwUtqjK1VAyd5lnG+8IRV3mojY+ZjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1/FpRTY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBOdvGcP"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4281ca54fd3so21184555e9.2;
-        Sat, 10 Aug 2024 04:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723288548; x=1723893348; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bnQ+KfMwxGUG7PiqOtodLq5r046+Ih8B8xbS6UwetXI=;
-        b=LBOdvGcPIwYFypL3m0wuKewjcBXImMzirb6S5KuA7S42PVbynXYraDICHdcPgcPEGD
-         8ioa128wHhoWEKSiOW8bOe7U99cKY69HYJ6mfajEhzVK2UGr9I4Sa/p9SNovz3ZktCHi
-         jiU8FepzuYGciwy+v7eIS0LWavSL0SpLISs67LSHrSSuZAbnZ1zt/WQ4RWD9jBMSBC+d
-         sPJgeUSzj3VQUQB1c2MCIIhIMW/3U5PkBeJZ39mIMika8CqlJpvfY2/JwDZT2F/kdkhM
-         E4Je91ghkVvf1Us3jz3iqnL96a50oFaNvr6gC2+x9og8SxF7CB6oV3he4xtsSHsjWCa4
-         97RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723288548; x=1723893348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bnQ+KfMwxGUG7PiqOtodLq5r046+Ih8B8xbS6UwetXI=;
-        b=aIt97rhcBeGmkxAP2tXyUCYsuJgXFnvwIpKtUiN1ByXRm4iIfzw0BjkTL2xlkBMJBf
-         ab4ZmtPFs0QXNVpbdFuo9AJSL09/YnIVkJMUF7xbjPpqAYNqPiLvneC8QmlQAERsQlaJ
-         +dEjLkqeh/khDn2i3KISyvjsRP1zrXaScbhniW/6T47f9s95d7TfWKCYxjk+8swD9H2F
-         8j3oPo2ecKkrtPsdA37Vn5FsQd2swijFSo0JU2UxUnqg80WQ1hKkkdelQsLDP5Gb9kZL
-         kVUqZPAmHIhmnfi1Z3GN8ciJ3YYgi8in89qPsa+Rs5S1M2Pw+n78ItkwCb3KmjXVsR1b
-         RTLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUEMiTuvnAO5e5mEjRcoH1lMhSVFIE9NH2+G/ZhzRmhvzgPrVNo4tFrb9oEimEyP/Lr1u9pXLCVWv3/kdYvfHDvviZIcDVSLxxl2Ftj
-X-Gm-Message-State: AOJu0Yy4EFIHG49N2wg6uMxhq5FjH2iiu/GBvmQRv3L6LQTi9WC23Rhv
-	PkWrQxI8UDxnG7aW6K7FlCypz/Rix+1QDUOpxiOuHmhGLm1e2Gv3
-X-Google-Smtp-Source: AGHT+IG/S5dBAVx5hOYBmsbAVXWyTT7ET+S2Xzwyd00AYBry/qByg5G7vocddhGT0j+kHi8CHSsQvQ==
-X-Received: by 2002:a05:600c:3584:b0:428:fb7f:c831 with SMTP id 5b1f17b1804b1-429c3a5821amr34249335e9.32.1723288547759;
-        Sat, 10 Aug 2024 04:15:47 -0700 (PDT)
-Received: from laptop.. (117.red-83-52-251.dynamicip.rima-tde.net. [83.52.251.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c74ffd55sm26155245e9.4.2024.08.10.04.15.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Aug 2024 04:15:46 -0700 (PDT)
-From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
-Subject: [PATCH v2] docs/sp_Sp: Add translation to spanish of the documentation related to EEVDF
-Date: Sat, 10 Aug 2024 13:15:13 +0200
-Message-Id: <20240810111513.20049-1-sergio.collado@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1/FpRTY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBEB0C32781;
+	Sat, 10 Aug 2024 12:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723291854;
+	bh=+GPZY64xnIzZ0d7Ib77Ct+6ZmK4cs//CrHJl5arfxAc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=n1/FpRTYJS2IOt+vQGn72KjJi+H8ps+xE6ogU4UltWXfQUMcKldbY4MR9MZwE8Guo
+	 zXxBh280cH/x4NlhEeYyTXRemVVF/uI9tXttQuEG17l8RKZGGf+UO5Q3iPbqnNBAJh
+	 pKDAuxZAlj3PNlmaEFVdZnINUlWaXa8WMWF4GQJb/7xdo6VT4e5Z2XhszH+2T0pJK/
+	 pm5xPMbp5RpLb4NjaveLLbcbr6H0KI+wqb5xKSiKNDgMzZ3OOCq/R3OosxSXrRa0vj
+	 P16/o23raSvyCWq9c4RmKnKIulTG9+IBn0LokwcFG0GBiBCTgmkvbaefJcPTu5nFX0
+	 9tEMG/QyhDpVQ==
+Message-ID: <03eca85c-50d7-4ff0-a5b6-83e3322cb04d@kernel.org>
+Date: Sat, 10 Aug 2024 14:10:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
+To: Trevor Gamblin <tgamblin@baylibre.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Lechner <dlechner@baylibre.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240809-ad7625_r1-v2-0-f85e7ac83150@baylibre.com>
+ <20240809-ad7625_r1-v2-1-f85e7ac83150@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240809-ad7625_r1-v2-1-f85e7ac83150@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Translate Documentation/scheduler/sched-eevdf.rst to spanish.
+On 09/08/2024 20:41, Trevor Gamblin wrote:
+> Add a binding specification for the Analog Devices Inc. AD7625,
+> AD7626, AD7960, and AD7961 ADCs.
+> 
 
-Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
----
- v1 -> v2: correct the commit message.
----
- .../translations/sp_SP/scheduler/index.rst    |  1 +
- .../sp_SP/scheduler/sched-design-CFS.rst      |  8 +--
- .../sp_SP/scheduler/sched-eevdf.rst           | 58 +++++++++++++++++++
- 3 files changed, 63 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
+Thank you for your patch. There is something to discuss/improve.
 
-diff --git a/Documentation/translations/sp_SP/scheduler/index.rst b/Documentation/translations/sp_SP/scheduler/index.rst
-index 768488d6f001..32f9fd7517b2 100644
---- a/Documentation/translations/sp_SP/scheduler/index.rst
-+++ b/Documentation/translations/sp_SP/scheduler/index.rst
-@@ -6,3 +6,4 @@
-     :maxdepth: 1
- 
-     sched-design-CFS
-+    sched-eevdf
-diff --git a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-index 90a153cad4e8..8b8eb581c7be 100644
---- a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-+++ b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
-@@ -14,10 +14,10 @@ Gestor de tareas CFS
- 
- CFS viene de las siglas en inglés de "Gestor de tareas totalmente justo"
- ("Completely Fair Scheduler"), y es el nuevo gestor de tareas de escritorio
--implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustituto de
--el previo gestor de tareas SCHED_OTHER.
--
--Nota: El planificador EEVDF fue incorporado más recientemente al kernel.
-+implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustituto
-+del previo gestor de tareas SCHED_OTHER. Hoy en día se está abriendo camino
-+para el gestor de tareas EEVDF cuya documentación se puede ver en
-+Documentation/scheduler/sched-eevdf.rst
- 
- El 80% del diseño de CFS puede ser resumido en una única frase: CFS
- básicamente modela una "CPU ideal, precisa y multi-tarea" sobre hardware
-diff --git a/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst b/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
-new file mode 100644
-index 000000000000..54f68473f31a
---- /dev/null
-+++ b/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
-@@ -0,0 +1,58 @@
-+
-+.. include:: ../disclaimer-sp.rst
-+
-+:Original: :ref:`Documentation/scheduler/sched-eevdf.rst <sched_eevdf>`
-+:Translator: Sergio González Collado <sergio.collado@gmail.com>
-+
-+======================
-+Gestor de tareas EEVDF
-+======================
-+
-+El gestor de tareas EEVDF,del inglés: "Earliest Eligible Virtual Deadline
-+First", fue presentado por primera vez en una publicación científica en
-+1995 [1]. El kernel de Linux comenzó a transicionar hacia EEVPF en la
-+versión 6.6 (y como una nueva opción en 2024), alejándose del gestor
-+de tareas CFS, en favor de una versión de EEVDF propuesta por Peter
-+Zijlstra en 2023 [2-4]. Más información relativa a CFS puede encontrarse
-+en Documentation/scheduler/sched-design-CFS.rst.
-+
-+De forma parecida a CFS, EEVDF intenta distribuir el tiempo de ejecución
-+de la CPU de forma equitativa entre todas las tareas que tengan la misma
-+prioridad y puedan ser ejecutables. Para eso, asigna un tiempo de
-+ejecución virtual a cada tarea, creando un "retraso" que puede ser usado
-+para determinar si una tarea ha recibido su cantidad justa de tiempo
-+de ejecución en la CPU. De esta manera, una tarea con un "retraso"
-+positivo, es porque se le debe tiempo de ejecución, mientras que una
-+con "retraso" negativo implica que la tarea ha excedido su cuota de
-+tiempo. EEVDF elige las tareas con un "retraso" mayor igual a cero y
-+calcula un tiempo límite de ejecución virtual (VD, del inglés: virtual
-+deadline) para cada una, eligiendo la tarea con la VD más próxima para
-+ser ejecutada a continuación. Es importante darse cuenta que esto permite
-+que la tareas que sean sensibles a la latencia que tengan porciones de
-+tiempos de ejecución de CPU más cortos ser priorizadas, lo cual ayuda con
-+su menor tiempo de respuesta.
-+
-+Ahora mismo se está discutiendo cómo gestionar esos "retrasos", especialmente
-+en tareas que estén en un estado durmiente; pero en el momento en el que
-+se escribe este texto EEVDF usa un mecanismo de "decaimiento" basado en el
-+tiempo virtual de ejecución (VRT, del inglés: virtual run time). Esto previene
-+a las tareas de abusar del sistema simplemente durmiendo brevemente para
-+reajustar su retraso negativo: cuando una tarea duerme, esta permanece en
-+la cola de ejecución pero marcada para "desencolado diferido", permitiendo
-+a su retraso decaer a lo largo de VRT. Por tanto, las tareas que duerman
-+por más tiempo eventualmente eliminarán su retraso. Finalmente, las tareas
-+pueden adelantarse a otras si su VD es más próximo el tiempo, y las
-+tareas podrán pedir porciones de tiempo específicas con la nueva llamada
-+del sistema sched_setattr(), todo esto facilitara el trabajo en las aplicaciones
-+que sean sensibles a las latencias.
-+
-+REFERENCIAS
-+===========
-+
-+[1] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=805acf7726282721504c8f00575d91ebfd750564
-+
-+[2] https://lore.kernel.org/lkml/a79014e6-ea83-b316-1e12-2ae056bda6fa@linux.vnet.ibm.com/
-+
-+[3] https://lwn.net/Articles/969062/
-+
-+[4] https://lwn.net/Articles/925371/
--- 
-2.39.2
+> +allOf:
+> +  - if:
+> +      required:
+> +        - ref-supply
+> +    then:
+> +      # refin-supply is not needed if ref-supply is given
+
+Not needed or not allowed? Schema says the latter.
+
+> +      properties:
+> +        refin-supply: false
+> +  - if:
+> +      required:
+> +        - refin-supply
+> +    then:
+> +      # ref-supply is not needed if refin-supply is given
+> +      properties:
+> +        ref-supply: false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - adi,ad7625
+> +              - adi,ad7626
+> +    then:
+> +      properties:
+> +        en2-gpios: false
+> +        en3-gpios: false
+> +        adi,en2-always-on: false
+> +        adi,en3-always-on: false
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - adi,ad7960
+> +              - adi,ad7961
+> +    then:
+> +      # ad796x parts must have one of the two supplies
+> +      oneOf:
+> +        - required: [ref-supply]
+> +        - required: [refin-supply]
+
+That's duplicating first and second if. And all three - comment, first
+if:then: and this one here is kind of contradictory so I don't know what
+you want to achieve.
+
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    adc {
+> +        compatible = "adi,ad7625";
+> +        vdd1-supply = <&supply_5V>;
+> +        vdd2-supply = <&supply_2_5V>;
+> +        vio-supply = <&supply_2_5V>;
+> +        io-backends = <&axi_adc>;
+> +        clocks = <&ref_clk>;
+> +        pwms = <&axi_pwm_gen 0 0>, <&axi_pwm_gen 1 0>;
+> +        pwm-names = "cnv", "clk_gate";
+
+Make example complete - en0 or en1 GPIOs or whatever else is applicable.
+
+
+Best regards,
+Krzysztof
 
