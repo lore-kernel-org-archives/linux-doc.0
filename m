@@ -1,55 +1,55 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CB722EE3;
-	Sat, 10 Aug 2024 10:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA09B182B3;
+	Sat, 10 Aug 2024 10:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723284306; cv=none; b=kbW5H1mrGEqQq/ZPaMTVFreEkGMa4D4kjGmFdVeP0pqHYdFXIJ1g+9GT0U70tuOxRloysHOBIgw18gB3NNUzuEPJwgcY+2DRlQtO6zb5Nv/9MAU2LpiWXbS3yWn9lUJQBt01fO+z3xJnOG0A1F0NcrAbjnkK9brI4DvZkAQeb3w=
+	t=1723284613; cv=none; b=cfRz33NCJD3a8K6yMYh7+J43rW5l/4goy8bFcmY8wAJYPOaGhkA0OAuhLTsfEvpDhVkEdQ1OgY/KpgItVxkYHfsgSOADZ8pTyqftapNJkhCgT8dI9RAFlZoBGv46QroOTlIlqSwWMlFZ9q5jtIi1N8eb+E8rCnMFg2+VJjWSbLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723284306; c=relaxed/simple;
-	bh=f7mYBjzrASiDpoKqjas0Sfy9EVbR9TSyCA3WLxFtubk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ewKcKDDbqDaWqKFcZwkqiUf1V50TW+Y+CWyeE/ekqkGkcbPLkIyp4lvnNHvrfre9cEpMB2Tvb8FB77Me+8L2AcsF5o0bMyz36Riwhy0xz50KTSiSN+9aUBkH7lXLOKYWB4ZtqZdCmN6d9RIYstjdL84ONngvL5YijVMHXz8xTXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUt9Id2W; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1723284613; c=relaxed/simple;
+	bh=FozgqAqsV9AfGatMUbFMh3AeCsad4eoVWnIQ29u1RLs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gEbNBqxl0b4I8NIdWG09yVdMDuZbyoYYNoCn89UT3tx1pAUsq5bNGoErjh8ELIh34ps/nU13Pz3+01V8CUx+5EZSLlWZKYEq8mMjzZ9j5QDODJsz35adFxZPSGoqHPEGCFQ/k/mDtL4KQR9JBtMw2cvV4ccd1l8zwATRGXbjhMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dQrYOoWM; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUt9Id2W"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3684407b2deso1523976f8f.1;
-        Sat, 10 Aug 2024 03:05:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dQrYOoWM"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-428178fc07eso18823395e9.3;
+        Sat, 10 Aug 2024 03:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723284302; x=1723889102; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723284610; x=1723889410; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UiuEsq3GLq68LGc1BaoQUV67m1D+Qh4yT7XC1jFUnLs=;
-        b=MUt9Id2WKpKlraqpUVF7d0VCLCKdLM9E0Lw/3QlfNh0c1HiINHnHBf1uEinuKcPDpn
-         nncwFWjOF/cEdBubETHVcV1bpSvlfONq2XO1ACK0OrP9Qio8MikMbBg7mc6zaobbh7MF
-         5dn35QNYhIhvm6jjvN4zlNkoJDdg60e1lyryY5m8mfpCWnf+Nd1h61NBPXyowASDpz0Z
-         mlEthyep28TRs71neVXvA6T0bjromxkhLhdyG+r/dQ/Dbpgf0Di2L1j/VyWaDa/vqskk
-         VDKxsWu2AFI5V/HmimmHYYWu2AN5BTFoZqj/jz3kH0iDtsiBw2HOgjQhqsovmDFc26dt
-         oPuA==
+        bh=uzm1ViTlvvMr3QTzeVkc2Asr4wTxPuKRSgPRgd0aNNc=;
+        b=dQrYOoWMyfRRG31YZGE6OODr+pwax5v8H+DgeGEW0PJSH0/OmmuEdsXP07JU7UZKON
+         l0TcXp/ir8hyWRecCTUvQm3TfwGh6UY32/EthhQz9XFqZMTkAXhIIU4KeMyutGOQ0Iox
+         zlqa0JthCd0AeuOM/mCMbvzMkvJTazaESG4giOMxQXJMEkmYUR0zVjn0NxKA3SGO7jvr
+         7IbOz0+xtOybMon9JpAvjWXwqmnx6EYkIGmiyET+VisnVlmlyXv0yK1C13DSqdFMWGZV
+         16u2wdKsXKEtKRVeRcTuIotUHSpDDnlOKG7Eaf57tzF07d18U5KwrcjuMnB2ENvgzwGf
+         DGBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723284302; x=1723889102;
+        d=1e100.net; s=20230601; t=1723284610; x=1723889410;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UiuEsq3GLq68LGc1BaoQUV67m1D+Qh4yT7XC1jFUnLs=;
-        b=jYEcCDACCFLNcHDKIUWXSFpIbyX1ZCIW23P3wC7w+rY+v0QGpnrRRJjFxq/3tprb0r
-         Ziw9uV74Fa3P7U7n4N3d2JhYQWnHGNtBkBVs2+Hr0WGayFqkQkitxlHxJkj0MgvqunEq
-         sOndyyBKIxjk5sr1TG4tl0nsXU9U3Gd1lJEvtawqulgTfXb0xkfGvooB/vfyE/h4ZQbH
-         eYXMbdq1CwYfK+LHy/G/i+/zSh5qqLqMa6qw4OfE5/sivD3DcN0q4nGSMgvy3V0NGLmh
-         r5aTkJhwLKHmPoeSYTPiNfbrDJJrbM6C6Y+C0ZVvnACNOy8TNhCzh2ddeOWGpx97oWbC
-         ZXTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUX4Hus74whIJAPjvzI+ZXVNcfKP1f5MjvicxVCnZLEX/pKb2Fzya5weBsVXH1+LvuVmh7Lw0f79Of8jaLrTgsCsxMJVuNhZ7wPS5E8
-X-Gm-Message-State: AOJu0YwWdnw/GzHIShyZAVdhepf/XUIEsVs8i40PmFIQ4ZqwA2d8mgU/
-	pz7SXzka0Lcphf0el3pxWMm43CG3TN6acgv4a2CPScFzaJXDWEnp
-X-Google-Smtp-Source: AGHT+IEQe8G+KQku4MZOeXarr48P56yuy8i4/B6XNQ5N0y7r3ZGqriN6gwWVuB1luzcNJnwiSuTXGA==
-X-Received: by 2002:a05:6000:1d2:b0:368:36e6:b248 with SMTP id ffacd0b85a97d-36d5e4d0a46mr2588138f8f.23.1723284301955;
-        Sat, 10 Aug 2024 03:05:01 -0700 (PDT)
+        bh=uzm1ViTlvvMr3QTzeVkc2Asr4wTxPuKRSgPRgd0aNNc=;
+        b=VJgOKb8RPHgM8wex0x36YJEIvvOJFR64GJL9oxezFsLXafJdLD89ER1hxYBdH+M+Tg
+         3qTn677RuFsWILFLxvqWmBenvwzAregYvHmKWPpXkoWXbtJtkpyQEzzZwa54Es7tsSnm
+         KtIMnGRkGOkMvxca+lgMYoeOygEoX4h9gknNLNlqYXCIGJzt+rG32EAITk6TZZ/gT3ZT
+         L0sjjt4wFxULqtdAoc1MfkVrP0rP5H0cxpnmygvZ6NsN7zw4ChtQIjcCaUe8VfNkODrJ
+         dwc+4k28lewZjkc/Hl9SqR/4w+gnX2OAqtFHkeFULmGugHMe4UVf2KAAh+Q8SGSMkKWW
+         msgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZUnBrWH7oM+YED0el12WBnZ0ioMDnMYo6yjj+SLErwjUjtoR5CrVe7IQ+T2kWatxlJcWn7kXTiWd7ijchwKvHgJJ3YQeiS6dfBKAO
+X-Gm-Message-State: AOJu0Yzvbgn+yYw2gLcEfY9N19heKb14nKQeTtO56iNSkdYYPUmaEVI0
+	KSh83G4/DR2TEUqhpzxuGptIgIp+40ZuYIQWRMSYAvFgpRZCj2zTZeZYXyPr
+X-Google-Smtp-Source: AGHT+IGqBNT6WWYMMvj58QdRoIEZrYFHwdqZ1ETY5ytkXFpwlf8B5rQsEt2F4rXmimwckxr8p79Y2g==
+X-Received: by 2002:a05:600c:310d:b0:427:d8f7:b718 with SMTP id 5b1f17b1804b1-429c3a51e0bmr28732775e9.24.1723284609478;
+        Sat, 10 Aug 2024 03:10:09 -0700 (PDT)
 Received: from laptop.. (117.red-83-52-251.dynamicip.rima-tde.net. [83.52.251.117])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4e51ec46sm1791588f8f.81.2024.08.10.03.05.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c775c509sm23990445e9.44.2024.08.10.03.10.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Aug 2024 03:05:01 -0700 (PDT)
+        Sat, 10 Aug 2024 03:10:08 -0700 (PDT)
 From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -58,9 +58,9 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
-Subject: [PATCH v2] docs/sp_SP: Add translation for scheduler/sched-bwc.rst
-Date: Sat, 10 Aug 2024 12:04:49 +0200
-Message-Id: <20240810100449.14491-1-sergio.collado@gmail.com>
+Subject: [PATCH v3] docs/sp_SP: Add translation for scheduler/sched-bwc.rst
+Date: Sat, 10 Aug 2024 12:09:55 +0200
+Message-Id: <20240810100955.14901-1-sergio.collado@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -76,6 +76,8 @@ Translate Documentation/scheduler/sched-bwc.rst into Spanish.
 Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
 ---
 v1 -> v2 typos corrected
+---
+v2 -> v3 typos corrected
 ---
  .../translations/sp_SP/scheduler/index.rst    |   1 +
  .../sp_SP/scheduler/sched-bwc.rst             | 288 ++++++++++++++++++
