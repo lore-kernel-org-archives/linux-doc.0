@@ -1,58 +1,25 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF9B5FEED;
-	Sat, 10 Aug 2024 05:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 455474779F;
+	Sat, 10 Aug 2024 06:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723266703; cv=none; b=Kac9JlAPXjDGkWYPwij5Vcit6QhnnqFjsdt5+R0x6jT9TKyoTecUtF2fyw8AIlyhb3VXfcLucGNEVjAp5sVeB/R31OqMN30CxXnqLvPOsAYri0rQyjz/Or2StfNt0R2ImcHqemZ04NxX9K1opIdvSvY7mEW4NCcuqq8OE/ri94g=
+	t=1723273171; cv=none; b=NhG5DDfSfNl/8xLPUgYaJk6HLMOqPGTgLD0B24MfhloEan6V+PxyEBdmmru7uzPAefVTjeS3S6YpNt5XICLsgGjQL6NjbJpk2D8VcqudKvgFoK0Qvt26r4JiLh+Xx74zYBZrEi/LM6sj38pVpyPgqXwRQDoneMiJyHqlcya4hFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723266703; c=relaxed/simple;
-	bh=L4ElqZyk+JQW9FVsGb1wPrxEJaIdxciAUewTWhpjnDg=;
-	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=Utw9vzup2wC6lhcnNSm7dDT7WQdsm750Ij1nPWUqp2XF3XWUOThFYEGLCDWRngDExGueRy3aeyDOchtWtQb6iLFwS+poX7AWDv9hlSlDjVNzcnpxWy9oMS0KXT3B3BMywzQpCzwSFL8Xlpiqe9vVzVwLTL4WTUpC6UjTX7UJEGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MpGfX6DY; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MpGfX6DY"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-260f033fda3so1769976fac.3;
-        Fri, 09 Aug 2024 22:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723266700; x=1723871500; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:cc:to:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7SzA1wQsnjtSW4i/KXurPzijJ+9Ywyjr1A0XcEeoiZA=;
-        b=MpGfX6DYtV5e01TcC+ui5JSEzUJV5QWR58dIMbDUmeSKaE4gOH+Yz98MwUI/+BVwax
-         1h0Wty+WRG8smF2EE+W9ucsgrkJGXeRY0QQ+XuZuUxLYMpckLdgqCBzPo7/cHQIt9l8F
-         mrPfbHqoq7MrgYcrZxkUVflFbAjmU1AmwsVgj/6BUNh5Hhu76eT1a3m636AbhZUc5t7v
-         UixIfubP3qjqSrRL0nIHeOw7jjywrPRKeEq6mqrYmaF46C2MS2pOWyZOp2US0YzyjrGn
-         OldgwwRWpkDdkn6DiZIj04IkeFK2xuet6xn8KDx5uSzCc3vLnkCITCrWJE1852hKLeyu
-         Pycg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723266700; x=1723871500;
-        h=content-transfer-encoding:subject:cc:to:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7SzA1wQsnjtSW4i/KXurPzijJ+9Ywyjr1A0XcEeoiZA=;
-        b=bVwR+DD5W8Q+QQ4y5iZpzhs1bD3CDRy9e9l39gFF7DhwOfxN6AdCQyOVJnvAFbSs/U
-         L8UWIweM4LzANKtWeirmOWiawSlgnRtZij0ryKAR6QSqNYTOG23O/Dw99SsivZ1mw/3Y
-         FKSoMk2HqPW6IZXO6PzLoCmOAimQ4qg68MSw34Z7Kn/KnudMqMBf1XCTJlTWgKTRcz/P
-         R7F43w2NqP8lXDsmT/8IgmAegHfsE1HMClvD6UfFkj7ieUFAuJTGVWhXqAzTiso8tJ/s
-         T3f/ObGiM5zOnSz3YS7RBVyTm+gs0SFdo04ozyENgi1GODD17UDF77IwjKS7AtcsViet
-         3eOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXh/r/XWd9jQ+HN/mU+hBWSR93gB4lFQ+umU6Alvltqpyu5mYoAs+5hgmuSPcoEEq1tVNdtqYSpv4QvQxwVHDynrs0eo1HfjjO70HDh98AZxA==
-X-Gm-Message-State: AOJu0Yy/xNhSxH85NE9FIP1i9gU0JvfuihkjckEY7UWPT4TgWMTZ4+kh
-	qH/StFrF1YJl4rFR8q0ib69NjCWKGDtTtFKIApnfpPysHqC0HeDDHRIW3w==
-X-Google-Smtp-Source: AGHT+IH6+MS8mS6SsSULxuY0iuIaJ1POFV9ihRtlyYHIQ2uqGGSXum5WMc1DaO4Os91a/KtGdeZVyw==
-X-Received: by 2002:a05:6870:7195:b0:264:9161:82e9 with SMTP id 586e51a60fabf-26c62f92a90mr4873547fac.41.1723266700447;
-        Fri, 09 Aug 2024 22:11:40 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5ac4184sm574950b3a.215.2024.08.09.22.11.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Aug 2024 22:11:40 -0700 (PDT)
-Message-ID: <7f2b1c74-4087-4da4-94eb-51d37f3d8fc2@gmail.com>
-Date: Sat, 10 Aug 2024 14:11:36 +0900
+	s=arc-20240116; t=1723273171; c=relaxed/simple;
+	bh=cIqDN/pSY+8JChTZBiL1uAX4CFKJE+LpR8rYOQwaJp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ckf2NVO2ZRkG76mtnYpQhSa0ke8IfzAfob4tVe8ErrBxa+4XGs6HQPuBfj4hME3ciROXvttbE3UDkaAp0EDGAV4a/ps1iRsBiBN4VJigoWRXijx+CE5vks8GJPmNtybeACNVHjF7MGfMfr83GQ0j8SnBIj4JH9D21khYNVMXNZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrABHTc2bD7dmpE10AA--.38994S2;
+	Sat, 10 Aug 2024 14:58:35 +0800 (CST)
+Received: from [192.168.1.111] (unknown [10.12.177.116])
+	by gateway (Coremail) with SMTP id _____wDn77+ZD7dmlpoEAA--.7043S2;
+	Sat, 10 Aug 2024 14:58:34 +0800 (CST)
+Message-ID: <aeebfd95-200c-4856-9067-6cf49931d840@hust.edu.cn>
+Date: Sat, 10 Aug 2024 14:58:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,102 +27,112 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+To: YanTeng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20240807162720.46588-1-tttturtleruss@hust.edu.cn>
+ <d6eec1da-0e79-432f-a5cf-7dc8c59f28c1@hust.edu.cn>
+ <87r0b0th7l.fsf@trenco.lwn.net>
+ <c4ffaae1-59a0-4837-a965-441af4851d2a@hust.edu.cn>
+ <25b4c3e0-784d-41ea-8ff3-8cb175983676@linux.dev>
+ <2e27c607-713f-48f2-9a2e-41f7c61f7e73@linux.dev>
 Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-To: Namhyung Kim <namhyung@kernel.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Ian Rogers <irogers@google.com>,
- linux-perf-users <linux-perf-users@vger.kernel.org>
-Cc: linux-doc@vger.kernel.org, Austin Kim <austindh.kim@gmail.com>,
- MichelleJin <shjy180909@gmail.com>, Yeoreum Yun <ppbuk5246@gmail.com>,
- Jiri Olsa <olsajiri@gmail.com>
-Subject: publish: perfwiki.github.io/main
-Content-Type: text/plain; charset=UTF-8
+From: Haoyang Liu <tttturtleruss@hust.edu.cn>
+In-Reply-To: <2e27c607-713f-48f2-9a2e-41f7c61f7e73@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-
-Hello everyone,
-
-I’ve migrated the content from
-
-Link: https://perf.wiki.kernel.org/
-
-to markdown format.
-
-You can now access it here:
-
-Link: https://perfwiki.github.io/main/
-
-All the pages listed under have been migrated.
-Link: https://perf.wiki.kernel.org/index.php?title=Special%3AAllPages&from=&to=&namespace=0
-
-We haven’t been able to log in or sign up on
-
-  perf.wiki.kernel.org
-
-for several months now, despite it being a valuable resource for many
-Linux users. I don’t know much about how the perf wiki is managed,
-including any automated backups or the updates of man pages to the wiki.
-
-Using the mkdocs framework, my knowledge of markdown, my keyboard,
-and my efforts of finger, I’ve converted the MediaWiki format documentation
-from perf.wiki.kernel.org into markdown.
-
-I believe this was a worthwhile effort for me, especially
-considering that it serves as a backup of the valuable content on
-the perf wiki at this point in time.
-
-Linus once said, "Talk is cheap. Show me the code." While I haven’t
-been around for long, I understand that telling others what to do without
-taking action oneself is not the best way to give feedback. When I looked
-into it, the last edits, aside from the bot-built manual documents,
-were made in May. Someone can check the recently changed pages, although
-I found that it’s not easy to review the past change of history in MediaWiki.
-
-I noticed from the perf mailing list that there were issues with
-logging in, and it seems the door lock is still broken with no sign
-of it being fixed. This motivated me to start this migration.
-
-I wasn’t sure how long we’d have to wait to regain login access.
-I hope you see this in a positive work and not as an act of rebellion
-against using the original wiki. I genuinely believe this was the
-best action I could take.
-
-This situation also made me wonder: Is it really a good idea for a
-wiki, which is linked to the kernel and serves as an official
-reference, to be updated without review from others through the
-mailing list?
-
-While it might be convenient, during the migration,
-I found quite a few documents that were linked for future additions
-but never actually created.
-
-With a review process through the
-mailing list, I believe the documentation could have been more
-systematically organized.
-
-One thing we need to check is the licensing of the original wiki
-content. The existing documents do not clearly specify their licenses.
-
-If you find any discrepancies or issues with the migrated documents
-compared to the originals, please let me know. While migrating, I
-also fixed some errors in the original documents. If the original is
-correct and the migrated document seems off, it’s likely due to a
-mistake on my part—no AI was involved, just my fingers. Or perhaps I
-was just tired. :)
-
-I wasn’t sure if GitHub or GitLab was better, so for now, it’s
-hosted on GitHub. I plan to mirror it on GitLab as well:
-
-  perfwiki.gitlab.io/main/
-
-The CI pipeline for building man pages still needs to be
-implemented. I’ll work on that when I have time.
-
-I’d appreciate any feedback and would love to hear any ideas for
-improvement.
-
-P.S. I also think it would be great if the markdown documents from
-the perf wiki could be viewed offline in a TUI.
+X-CM-TRANSID:HwEQrABHTc2bD7dmpE10AA--.38994S2
+Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
+	.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFWxuFW3tF1rKry3Xr15twb_yoWDCFg_Cw
+	1ay3Z2kr4DAr409Fn7Gw45Jw4DWa98Wa13Gw1rJa1rJwnxZF4UCr1DWwn3Xwn3Aa10krs0
+	qF1UuF1Utry7WjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbmxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM280x2IEY4vEnII2IxkI6r1a6r45M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_GcCE3s1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUSznQDUUUU
+X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQsFAma237IJyAAAsx
 
 
-Warm regards,
-Yunseong Kim
+On 8/9/24 10:57 AM, YanTeng Si wrote:
+>
+> 在 2024/8/9 18:44, YanTeng Si 写道:
+>> Hi Haoyang,
+>>
+>> 在 2024/8/8 0:48, Haoyang Liu 写道:
+>>>
+>>> 在 2024/8/8 0:45, Jonathan Corbet 写道:
+>>>> Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
+>>>>
+>>>>> This is a mistake but I missed it before sending this patch.
+>>>>>
+>>>>> What should I do to revert or correct this patch?
+>>>>>
+>>>>> Thanks for your help and patience.
+>>>> Send a v6 with the correction made - but wait a while for other 
+>>>> reviews
+>>>> first.
+>>>
+>>> OK.
+>>>
+>> The doc is good enough for me, so you can send a v6 after fix the typo.
+>>
+>>
+>> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+>
+> I am Sorry! It seems that I've permanently lost access to 
+> siyanteng@loongson.cn account,
+>
+> So you need use  --suppress-cc=sob when you send-email and pick my 
+> Reviewed-by tag.
+
+Hi Yanteng,
+
+
+OK, I will send a v6 soon.
+
+
+Thanks,
+
+Haoyang
+
+>
+>
+> Thanks,
+>
+> Yanteng
+>
+>>
+>>
+>> Thanks,
+>>
+>> Yanteng
+>>
+>>>
+>>> Thank you,
+>>>
+>>> Haoyang
+>>>
+>>>>
+>>>> Thanks,
+>>>>
+>>>> jon
+>>>
+>>>
+>>
+
