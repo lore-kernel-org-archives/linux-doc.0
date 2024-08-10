@@ -1,75 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA01C13B7A1;
-	Sat, 10 Aug 2024 03:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB08753A7;
+	Sat, 10 Aug 2024 04:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723261959; cv=none; b=EBphkCqQNYk+b2s1jOLwcabVjnXGf5d43BlwWsT0dIf2n4O3yr+QwhZZPOOhUoXs/t8RsBLVvTrcdZWP76fD6HwEEoMjKQmhsZgnjpClkVbWKYVJjrFUaiLptv4uYZeJfqPMjLaRusUIHTyfZXeG9uE8V8qJpOT809254qs6PIE=
+	t=1723263351; cv=none; b=GAt5YdQzPB8Nsx05JF943h4QTMFrpKXpFHUld9ZY4LsR9ioWiXTdhJPMpr9YpWdpYgLMHGpIMJpd7Wtk62NVo3SadYxSQMxM5CoQ5aCqP2BBdZFDJYCNUaGQbWL3PEv92lsC6dbPfNvDnLicmltIeKIh+Nf3tzSN5h447zD8In0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723261959; c=relaxed/simple;
-	bh=rioiNetuw2BwYMEikBfSgmKCffnfLditttehbRMvIxI=;
+	s=arc-20240116; t=1723263351; c=relaxed/simple;
+	bh=DsTex5w319t+W39m/nEPcF2eB9y2KGW7S5WuO7vGhIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZGa+nzfl4bf004yue6KKwM2HDDkQU6FgTBUAjyYxIfmrCmS3yA/P/h0uwmF12XacJ3nbOwUZSXhOPAlMAwVpBQnDx0QMGuM3N4VTHSbg2bACo14bppN2qj6Ypj7779qsXanHyUtAsTYwpv6inmXvKBGMIl5OWHV6PhCJzovGcSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CdKet3hL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CxeL4aimUYSI2m5x7fg20yaPlfVcHBS7VwEEiUwVI0UbVxxlkt+d9WQU3+b1e5h0UM14CXiEXn3E0UZV+n8YcfHKkIdAWl7JjIzkNONLV0f9CNFsL/qCvKqOyZBdrabsifKY6wcIOR8+T6tgqDRKFhOt5FTHrHf5lOjt99Hq5Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKJlNMoX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CdKet3hL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ED11C32781;
-	Sat, 10 Aug 2024 03:52:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKJlNMoX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E40EC32781;
+	Sat, 10 Aug 2024 04:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723261959;
-	bh=rioiNetuw2BwYMEikBfSgmKCffnfLditttehbRMvIxI=;
+	s=k20201202; t=1723263350;
+	bh=DsTex5w319t+W39m/nEPcF2eB9y2KGW7S5WuO7vGhIg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CdKet3hLwuiF3hixS1amRwINUTmJ/gUYj4tM+7R+uUjAmmtWQYtHwD4p5wiAd61AF
-	 VkSbA7XQtUkEk30X7cCDULjbHR5DU3U38yIdQM1+dk+orTayU9fzvXymqYHZpHlaHi
-	 hyjeBhWfrS/hMmFB29QMsoPNVAkLsxuw/90JgcM2TeQ8fVP5I6OPwn7ohQou79zYdu
-	 FBzsdEQWvKniGqipav0cBZBuCiWnLDar9JFKMrfV0s/XDMpQo0Pc2EWj5RIj9yKt93
-	 Iwy5u4Cyszg+jmWc3Vh4cmaKDln+7ik2d5TFJV9WU7Z32Kv3ooadBQBvjkudvgamCS
-	 2bZhpBDbhYrKQ==
-Date: Fri, 9 Aug 2024 20:52:36 -0700
+	b=dKJlNMoXv7gx8cfES6UdDZhyuJJrX7BuuLni6LKNZvc38+xJVar7LA/Ss2qHJDtq+
+	 jJvn3dVXn8ezVa1RaMskxVMC4nIGfzbCftRDEePOUKDPkC3CNa+mXsyiFFwhNmRFXM
+	 7+xGv66g6YeeS+wCf6no+ACovtjR1FOqEEBTKb5U9IaRBfS4wj3aCIRGeW/SYoMaIr
+	 cPh60y47Q9B5xhdYY1FsI49xjwVs+uQpgQpsryVniDBPB8ta2/y64zMKHD41D+Tmuo
+	 5/wsJuD8DMh5Dw67WCDDu42URoZcyVy8iqr0jEzw1qN0503sOpkX8c09VkHrWGhhLs
+	 FO0GtQFdo9Brg==
+Date: Fri, 9 Aug 2024 21:15:49 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240809205236.77c959b0@kernel.org>
-In-Reply-To: <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
-	<20240805212536.2172174-8-almasrymina@google.com>
-	<20240806135924.5bb65ec7@kernel.org>
-	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
-	<20240808192410.37a49724@kernel.org>
-	<CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
-	<fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev, jiri@resnulli.us,
+ corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, donald.hunter@gmail.com, anthony.l.nguyen@intel.com,
+ przemyslaw.kitszel@intel.com, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
+ Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a
+ pin
+Message-ID: <20240809211549.28d651d7@kernel.org>
+In-Reply-To: <20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
+References: <20240808112013.166621-1-arkadiusz.kubalewski@intel.com>
+	<20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,23 +50,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 9 Aug 2024 16:45:50 +0100 Pavel Begunkov wrote:
-> > I think this is good, and it doesn't seem hacky to me, because we can
-> > check the page_pools of the netdev while we hold rtnl, so we can be
-> > sure nothing is messing with the pp configuration in the meantime.
-> > Like you say below it does validate the driver rather than rely on the
-> > driver saying it's doing the right thing. I'll look into putting this
-> > in the next version.  
-> 
-> Why not have a flag set by the driver and advertising whether it
-> supports providers or not, which should be checked for instance in
-> netdev_rx_queue_restart()? If set, the driver should do the right
-> thing. That's in addition to a new pp_params flag explicitly telling
-> if pp should use providers. It's more explicit and feels a little
-> less hacky.
+On Thu,  8 Aug 2024 13:20:12 +0200 Arkadiusz Kubalewski wrote:
+> +Device may provide ability to use Embedded SYNC feature. It allows
+> +to embed additional SYNC signal into the base frequency of a pin - a one
+> +special pulse of base frequency signal every time SYNC signal pulse
+> +happens. The user can configure the frequency of Embedded SYNC.
+> +The Embedded SYNC capability is always related to a given base frequency
+> +and HW capabilities. The user is provided a range of embedded sync
+> +frequencies supported, depending on current base frequency configured for
+> +the pin.
 
-You mean like I suggested in the previous two emails? :)
-
-Given how easy the check is to implement, I think it's worth
-adding as a sanity check. But the flag should be the main API,
-if the sanity check starts to be annoying we'll ditch it.
+Interesting, noob question perhaps, is the signal somehow well
+known or the implementation is vendor specific so both ends have
+to be from the same vendor? May be worth calling that out, either way.
