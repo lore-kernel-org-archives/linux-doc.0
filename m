@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9C722615;
-	Sun, 11 Aug 2024 15:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82D87F6;
+	Sun, 11 Aug 2024 15:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723390780; cv=none; b=KI9LvC9Py1MSl2NhAHzlAOoPfxBiGaMAC7E9tYa4zrejuEEIIbg+hIB1NiGiC8tuRyBqb9b0I07Y13CjoRwWagH41Q2y5YqDmrlcplJGmX26jaHw5PHiBqpE6puBfpoeJ//iSyU96N3vir0qMjOMxTg6SE7TeL0UVkWmdZukW7s=
+	t=1723391270; cv=none; b=UzvjQf8CdvIY2yvamzkxEjkr3J3nEhGK4zR06doqi5/H4CONgU3IkuBfzwUODMEAtUoxxMwd7M48nBDsFAFpf8kvYtojRo6hbS/JPTKiqhmbjkNiLDZgL+NNBhKvuQ8fMJmk4bpPPTcGEL6cfP/DdQ8/g63YZnmBANzvQ95vNzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723390780; c=relaxed/simple;
-	bh=jGylAQh+xoaNmDSNK5N0fZAtKMGjeOI63ZspzNLi/vo=;
+	s=arc-20240116; t=1723391270; c=relaxed/simple;
+	bh=E/SDr4frrJwX24vSZjNxmKMh1Cii2TDKWhbKHvms68s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VFVJPHVLPqMwjCw5qLbmbowrcC0ceQE5bZM8luKsHZ3MeZQCVjXo+BMrJA7Wm4249nIgUATR7/oGsMyQhGpz4R8BgpiN4b8JqVapohuQY7/E0Zi8G6J4BhNXRWK4Mx5k1T8kPrIF//cKeoPJ8w7rzYCOzMXClrujAR095dszhYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=lqhH2yS+; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=eEuxK00q0aIdauMoRukLJ1nD6NvuZpPIc+k7hS3bX7D7KxbH/z+NeEaJmOFqJ7rcz020zbaLuW4cJ4Ig0IpsabahEXhXeBTOahq+FATEc3JLGKOrxuY7fXngc1ZrDa8+WG/jjVqNviqZQQWhHew+mXP9yPoAAofqd3WGgEGWGY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=spzugtmD; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="lqhH2yS+"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="spzugtmD"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=clz2OS/C9oDAjLDEeArQx9DmNgYsUMobIMcSE1TXVTU=; b=lqhH2yS+UKcTsZyyAOdoRve4P7
-	I0H5Bid7ERgVlXCGb7O5ZvtWrhZtI1vBH8xqNDKzzT7U9qIVV84Yz1OT/kNLJHHnegJkrir5Vf3/q
-	hK42JNpAzC5XVGm/03qgGYqckNu8g54g7xFwcNjyShiNioaU4hlErmF9EB/zbxN9oG0M=;
+	bh=TKfoon2hS2GwR6hVHGmvsM1mZM+oTJZ7o3SmTQ+ohQQ=; b=spzugtmD1PU2CFBl2fe7gN+sR5
+	GdQREf/4arMeSCdXtF1nwHd3fq0qgqj5cZ98hEgIp1yIHpAhk7EohGCmEyjk4mtVBPk0aeo3iEXS5
+	bW5wVBdJS1gjSkC3DGUdqO3Ym6oE9wyziTh/q8MlNrKAZQqsr6+srjexNYlYXe6zIzp8=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1sdAfI-004VQc-G7; Sun, 11 Aug 2024 17:39:28 +0200
-Date: Sun, 11 Aug 2024 17:39:28 +0200
+	id 1sdAnB-004VSC-IS; Sun, 11 Aug 2024 17:47:37 +0200
+Date: Sun, 11 Aug 2024 17:47:37 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -45,11 +45,11 @@ Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
 	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch,
 	linux@bigler.io
-Subject: Re: [PATCH net-next v5 04/14] net: ethernet: oa_tc6: implement
- software reset
-Message-ID: <46352f42-b099-4c50-a5ef-9248ed021b0a@lunn.ch>
+Subject: Re: [PATCH net-next v5 06/14] net: ethernet: oa_tc6: implement
+ internal PHY initialization
+Message-ID: <c1d3e601-80e3-4dd5-9eac-a8305af5b3b3@lunn.ch>
 References: <20240730040906.53779-1-Parthiban.Veerasooran@microchip.com>
- <20240730040906.53779-5-Parthiban.Veerasooran@microchip.com>
+ <20240730040906.53779-7-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,12 +58,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730040906.53779-5-Parthiban.Veerasooran@microchip.com>
+In-Reply-To: <20240730040906.53779-7-Parthiban.Veerasooran@microchip.com>
 
-On Tue, Jul 30, 2024 at 09:38:56AM +0530, Parthiban Veerasooran wrote:
-> Reset complete bit is set when the MAC-PHY reset completes and ready for
-> configuration. Additionally reset complete bit in the STS0 register has
-> to be written by one upon reset complete to clear the interrupt.
+On Tue, Jul 30, 2024 at 09:38:58AM +0530, Parthiban Veerasooran wrote:
+> Internal PHY is initialized as per the PHY register capability supported
+> by the MAC-PHY. Direct PHY Register Access Capability indicates if PHY
+> registers are directly accessible within the SPI register memory space.
+> Indirect PHY Register Access Capability indicates if PHY registers are
+> indirectly accessible through the MDIO/MDC registers MDIOACCn defined in
+> OPEN Alliance specification. Currently the direct register access is only
+> supported.
 > 
 > Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 
