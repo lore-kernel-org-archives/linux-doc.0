@@ -1,43 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE7C42A84;
-	Sun, 11 Aug 2024 13:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B7113634C;
+	Sun, 11 Aug 2024 15:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723383898; cv=none; b=jZesOBydeV70OfxHgqph4g03OYSe3Ddj/NMN8HwfSUZptVp6QsRqSKn411l88RMqLrX8ZCMWiyhNe+xKUI7BivwXH1+WyXbwZTRaaWvO4HVgmqjnxiQ51AxKw9MMt9kBtsoAhRpGkaZE8KrDRpNkzW17JNb9j8qh1Howw6CeqpQ=
+	t=1723390545; cv=none; b=LlI1GW54whFkyDjJsYpuiR/nLO07Uu58AzTJDw4Ga9mi8TD9CBd2sPAlAXAhojy14vDtxRfhfrMg2PzagOQEhcH1ZwOmf7TZfxB8tbOAGVEJr0HTYWxUxzH/scTdXHzfUMEGZMbYIG7XR2TJGzIkn/tl2txsl151Rk6KMHrB03k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723383898; c=relaxed/simple;
-	bh=xyzmM7UbIfJS/kPf0ODNmP4zfQ2ba/o/1fRh28BkZRo=;
+	s=arc-20240116; t=1723390545; c=relaxed/simple;
+	bh=qm6Y2wyAQoSeicTEMlMTqk4ky1oNRaACjaPH3282UNs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pU5WFkjRRH7hahLpSJydxcl/Yp0kLW+9V/buU3bSAUuQ2AADOPzgVDVWOO/xCAZGvhG8+pwE2Q2RcxF+iaknsm2eBhDLzzU8a7NxFZIHAXGGwnX8mrxrZPd3ovMVGggB1H2Ot8EAlfkeqymCRG5H85oMowsbJ5SrQ/9pSWXc1fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFnKpfhy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=o0dVbh9w4SLBHandY8Ir2WwXcMUmEvcqQjqvuqTv2WQz9zIkPocEQOhLx2KJl22eGPlkv2wBooLkgS8tMcBTPOIT3QbkP5A/vAY7cdyXlqPHs4paSBd48ExFlRQfpbyaQFkQMmrT3Fwg3q+yrHh9mc3kfjYS9citk6k9PRlNxnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=x3ebpXPL; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFnKpfhy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B182DC32786;
-	Sun, 11 Aug 2024 13:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723383897;
-	bh=xyzmM7UbIfJS/kPf0ODNmP4zfQ2ba/o/1fRh28BkZRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFnKpfhybC9UtQyJ129hqQHVOTytIrQ4UBhis2eOE9VbrYCZqdHVdB5btmn8FN8T6
-	 4/VlrbZmo4pcXGen2mzFWTXms7CnbWBc/4cJTmFWWhx3K2ukhhtNGFFFcQVSic0+tq
-	 Yvs7PyTj+Yzdeoyqc/Y9kTzIcLvtq5IsjenW0ufRm+7oxb9Om9Q40HaibFUAOgk2uc
-	 Td/hsXXH0r4p4ePqUT7tKamegWTYF8Rc+FJcSlhQ9V2hs6qhQIqmr/mZgtYstGkn+8
-	 n2NF+xY6TsahqtzGn6D9pSLzEn5pLZ5X03w3gbSmoWsqOvf97RMJRdGutPvQF2R5k+
-	 MAKP0AVgWQQiw==
-Date: Sun, 11 Aug 2024 14:44:53 +0100
-From: Simon Horman <horms@kernel.org>
-To: Jing-Ping Jan <zoo868e@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] Documentation: networking: correct spelling
-Message-ID: <20240811134453.GJ1951@kernel.org>
-References: <20240809181750.62522-1-zoo868e@gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="x3ebpXPL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Bs6XpnLlW7Gjksj2L+h+eEvprEyms6epqWL+BfH10hU=; b=x3ebpXPLPTwZ3DilDZEiLL7kmt
+	zLJcD+9u2KqIZMt+QaC7y5lENhgF+VH50kFiOqJTaC2dCi3uBPeKnf3agS5Q3OpSFbagqGoiVMVXz
+	RNH2XcLwqkNMzgpS4lCZuhtZ/4oMVSHh+bkddXwKAzoevoBMmreXC+Dv4UU+zuP2VKNU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sdAbM-004VNt-PH; Sun, 11 Aug 2024 17:35:24 +0200
+Date: Sun, 11 Aug 2024 17:35:24 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
+	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
+	vladimir.oltean@nxp.com, masahiroy@kernel.org,
+	alexanderduyck@fb.com, krzk+dt@kernel.org, robh@kernel.org,
+	rdunlap@infradead.org, hkallweit1@gmail.com, linux@armlinux.org.uk,
+	UNGLinuxDriver@microchip.com, Thorsten.Kummermehr@microchip.com,
+	Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
+	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch,
+	linux@bigler.io
+Subject: Re: [PATCH net-next v5 01/14] Documentation: networking: add OPEN
+ Alliance 10BASE-T1x MAC-PHY serial interface
+Message-ID: <76b99d25-2d58-4c30-90af-cd57ad377dff@lunn.ch>
+References: <20240730040906.53779-1-Parthiban.Veerasooran@microchip.com>
+ <20240730040906.53779-2-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,57 +58,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240809181750.62522-1-zoo868e@gmail.com>
+In-Reply-To: <20240730040906.53779-2-Parthiban.Veerasooran@microchip.com>
 
-On Sat, Aug 10, 2024 at 02:17:50AM +0800, Jing-Ping Jan wrote:
-> Correct spelling problems for Documentation/networking/ as reported
-> by ispell.
+On Tue, Jul 30, 2024 at 09:38:53AM +0530, Parthiban Veerasooran wrote:
+> The IEEE 802.3cg project defines two 10 Mbit/s PHYs operating over a
+> single pair of conductors. The 10BASE-T1L (Clause 146) is a long reach
+> PHY supporting full duplex point-to-point operation over 1 km of single
+> balanced pair of conductors. The 10BASE-T1S (Clause 147) is a short reach
+> PHY supporting full / half duplex point-to-point operation over 15 m of
+> single balanced pair of conductors, or half duplex multidrop bus
+> operation over 25 m of single balanced pair of conductors.
 > 
-> Signed-off-by: Jing-Ping Jan <zoo868e@gmail.com>
-> ---
->  Documentation/networking/ethtool-netlink.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> Furthermore, the IEEE 802.3cg project defines the new Physical Layer
+> Collision Avoidance (PLCA) Reconciliation Sublayer (Clause 148) meant to
+> provide improved determinism to the CSMA/CD media access method. PLCA
+> works in conjunction with the 10BASE-T1S PHY operating in multidrop mode.
 > 
-> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-> index d5f246aceb9f..9ecfc4f0f980 100644
-> --- a/Documentation/networking/ethtool-netlink.rst
-> +++ b/Documentation/networking/ethtool-netlink.rst
-> @@ -934,7 +934,7 @@ Request contents:
->    ====================================  ======  ===========================
->  
->  Kernel checks that requested ring sizes do not exceed limits reported by
-> -driver. Driver may impose additional constraints and may not suspport all
-> +driver. Driver may impose additional constraints and may not support all
->  attributes.
->  
->  
-> @@ -943,7 +943,7 @@ Completion queue events(CQE) are the events posted by NIC to indicate the
->  completion status of a packet when the packet is sent(like send success or
->  error) or received(like pointers to packet fragments). The CQE size parameter
->  enables to modify the CQE size other than default size if NIC supports it.
-> -A bigger CQE can have more receive buffer pointers inturn NIC can transfer
-> +A bigger CQE can have more receive buffer pointers in turn NIC can transfer
->  a bigger frame from wire. Based on the NIC hardware, the overall completion
->  queue size can be adjusted in the driver if CQE size is modified.
+> The aforementioned PHYs are intended to cover the low-speed / low-cost
+> applications in industrial and automotive environment. The large number
+> of pins (16) required by the MII interface, which is specified by the
+> IEEE 802.3 in Clause 22, is one of the major cost factors that need to be
+> addressed to fulfil this objective.
+> 
+> The MAC-PHY solution integrates an IEEE Clause 4 MAC and a 10BASE-T1x PHY
+> exposing a low pin count Serial Peripheral Interface (SPI) to the host
+> microcontroller. This also enables the addition of Ethernet functionality
+> to existing low-end microcontrollers which do not integrate a MAC
+> controller.
+> 
+> Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 
-FWIIW, it is not clear to me that the sentence that is being updated is
-grammatically correct either before or after the change: some words seem to
-be missing.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Perhaps:
-
-A bigger CQE can have more receive buffer pointers, and in turn the NIC can
-transfer a bigger frame from the wire.
-
-Also, 'NIC/ -> 'the NIC' in the previous sentence.
-
-And there should be a space before each '('/
-
-I guess this document could do with an edit.
-
-But, regardless of my comments above, your changes look like
-good steps in the right direction to me. Thanks.
-
-Reviewed-by: Simon Horman <horms@kernel.org>
-
-...
+    Andrew
