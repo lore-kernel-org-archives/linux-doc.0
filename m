@@ -1,59 +1,59 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0E5187321
-	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 16:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47923153810
+	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 17:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723481265; cv=none; b=u/HyAn+O2xtjqk1ILcLwmXU9q5bHfYD8MSW+fMIkz3lYCbgm5lXuwiRCStPs3SfWNwRkhqX7dYWSJFoccUuN3yxbDVPWb9wDqQtXtYEd6YW7PR4tGOkZvZrnyFfgzjbqYAo2Qq4Tg9oDzSrdflnSm5G2HeI0VLDLDV/uTapip4Y=
+	t=1723482196; cv=none; b=FV2QEidFB5Lx4GJmtEYtN6LAXibM6wa+C/zFXok1wmyyE/hxx9X9792nYfRTAZQE07sy8Q882hVgdvXFAKaqZmlg5UE76Pn74+sXp+HoOZFr+Noy8o0tdp8cQgrvqCSuwjkAkYmrXeG7qQWTiE2ly5oaX6mVDX0Mm8/eGdKIcKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723481265; c=relaxed/simple;
-	bh=dvVG0rsyTzj5mqsxi11/XWlFc+7NA1zur2Arrxl7HdI=;
+	s=arc-20240116; t=1723482196; c=relaxed/simple;
+	bh=IGwPcOdKLneQrDz3TxBBsgsLiAnDxtF3rxB3ridlEaE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JC05PEd3BngMgwHhT2kF5JAlrMkJc8o9JRvKMJ9rLSDU49qQ+aw0oDBCcvotKtafiZRtattMe7xLWbTEcWA1+L1jLJwqiADhzaiG0gFKs20aNlCudol1ywpu6NWHu7GKU94a5RGKwTzbtAep1sWsFenq37Qzpjhsi2KPD2BcZe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GQUCKUGK; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 In-Reply-To:Content-Type; b=cKAws4+S1VH78TCvRw+SD0eHYNd3eB/dPMOMOd5IWJK1oHQGxmXQOtGvy7NI9ZsOjNmR/m/b/67IjLWuMuMGXIMfeONhUW7kYN0Xeyrrmpfp7MfDyxGIQKF7fBCYnwygvJPgLsMjQlHC0QKr3m1xbGuD6QTTq+/D2O4nN/pNK/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=i+yFibpp; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GQUCKUGK"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1fee6435a34so32176325ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 09:47:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="i+yFibpp"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5d5c7f23f22so2650412eaf.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 10:03:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723481263; x=1724086063; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723482193; x=1724086993; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=C1gGdvqcddohTVFT8kQob0xd7CgQ7ZF2Hz/Ht3G6YiU=;
-        b=GQUCKUGK1UkE6dGYTSe4HwO96ytgn7Psgcz/r+u38ndSdQIXkdn63K27EsG78sOa0M
-         tgCwQQGWY2k+OVZXLCse9Xo4ROVA3PPGDMHcWkZZUHhqkJDfRCNCgS+W4o83avB3OLmy
-         ys8y0vkS8Y3r4tsp6JngAQ6KS0v2ymIdWbBYoEZOYZYBLsp3vgRqQMXHhV0eq6Su3K2w
-         I3UqCyqlpAGwa5ZGD8bal2XH2Rs/+ND93onbs+PHx1u38W37DDpH2Vt04R+h4HBNDNf8
-         /rr2s7Yfc9ZsqM2vregNZ/5Jt+PF9hJJZuqsLVckFdk2OjanN5+yVB058WjqL+j4vL6w
-         Q1AA==
+        bh=bExiDSnFO33yD2L8BFcmTWpVw+fpt4LMBVVZpDIXrdw=;
+        b=i+yFibppxIwoiUoZWODocUR1eUXFcM3AVJCovt+ax0M4iq4pmm+3aigJXzGemOEh/y
+         DVOW+aPvtAFDJsQqu4aHxbZffQ0Osi9GS/NTUiI0v076g3sXmAHYvsHUCZukUTgBLA+L
+         vEhCLLy92LbqZWucIK31H4Mpy16GHlGAP1Nc7azbqn9YUZ2888NqMzorsU4SBkNMk6Yo
+         MM1XalKU5GqWgLMmE2Rp7wjer/avmVmtPrvCoXGUIbBXkL0g52NHu/jusT7mmzm7xKrS
+         Yy8NmIml3JOcioRraZUBV8LxUzNHwCu3q4A4k8UxmjkG4dcBU3DuJ7rQ7NLbzmnMUEau
+         92ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723481263; x=1724086063;
+        d=1e100.net; s=20230601; t=1723482193; x=1724086993;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C1gGdvqcddohTVFT8kQob0xd7CgQ7ZF2Hz/Ht3G6YiU=;
-        b=eVgczwt+JQOrA9mC0LDaAXPwImSWm5m0KLQ5VrzDDU2yWfc0cc8AWk0pBJ+1xpv4+5
-         VymGl1Ev0h44IMgIx2Y2ENafvI3rtDlItrpcsMxE7QgVfQc3GugS2u3591bc6EBPu9NN
-         bxeo4YcNtF1W+P8Om/hl7l/mA2iuG2t61/btej6rYhXtuEKIGst+LUVNwHKOJXgz7f5t
-         IqsxltjfQ8DqJeNVzeujGrglk2xOrfJBGzQbKeJYWrGrCLct8qwpThFOglkaQemIRUc0
-         hqlCEES2vaUWpuuay/TB10DOY31Mc4owy6wGcAud7NNZWxCpFfPiV3Yw+3sWojBly8xu
-         BR7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVEa6wJLSQQ0h/2uBZYRPKgWylEC62XsiKfXyzf6wuBsQzV2Y5A2NEDRtCaiSB+TMnAzucrKQy05RhUC0sQbKEb6ejHwEPKzmJn
-X-Gm-Message-State: AOJu0YzykYCj+A1XtKa6pLhFWaVSlb+aCJeLSU3+BCAIw337g+vRWdY5
-	aLi+BKcNN4FAix/GIVNYTYU69ml3+yiZ7ouBWOwD3+Sj/7+L5SQvOawXHBYTW4I=
-X-Google-Smtp-Source: AGHT+IE87fk8grq8YxzQ9ZqK4uANOdymebfW6zNzfLJz+Z6OjMVTMLP9gdbfzi43oiHSHopfRLN5Zg==
-X-Received: by 2002:a17:902:e80a:b0:1fc:2e38:d3de with SMTP id d9443c01a7336-201ca120563mr9639125ad.7.1723481262725;
-        Mon, 12 Aug 2024 09:47:42 -0700 (PDT)
-Received: from [10.4.10.38] (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bbb3b2easm40030505ad.284.2024.08.12.09.47.38
+        bh=bExiDSnFO33yD2L8BFcmTWpVw+fpt4LMBVVZpDIXrdw=;
+        b=ci+3l80b1BICd2TJgpzdg2+gA//NUj4dPdRR++ckXm5Iqn+RmcPPr4d3+LiVtJgTlV
+         Qwa/FDjQRpCETQuTiVX7dUJN8DuqRdOxMe6zkatc9Z0sNexaU9M6fGjZ1cL8G3zTInSO
+         lx6kfpoQGtoeXxHSKEAkxtnfUiaMfFvrQMW1Gl16YLNyGzqG3VbvJIoHHE5XdhFijGwT
+         ZSBE4L2gWgpMTrGQUwMrxeKgQuoVkxVaQ9M2vF/uYbUJ7uUCuD28T2l+DnrDXKeNEISn
+         R4RhVxn7iBUBWLSQ+2cVmnbnexBseJu4g/I5CNgqHt6Qz8Wojt6DOyik+OSdDyXqN8Fy
+         FiNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWhZYMh0YulsMGTne8gwjvKYP/m0zrjrfM5+eyVsTA36lAlNdxo+KA97b573Y+UcbqNvI2Cg3twlw4ow0VWDL9+jSIZeu+cgfi5
+X-Gm-Message-State: AOJu0YxxJPhCDDJX+qtGTcvDC1NNa1wo/9/Q3/GzrwtF9ORnX/PnhD6K
+	03J5kV6dU0bfc37o64AAyOzL8ENOAhvl/B3JRbc4vaSHIRM51VtRfgv1EMoLsxM=
+X-Google-Smtp-Source: AGHT+IG/8cvwJl1su2L5alxvVPwGc2ZZozy1KozsXjsObxlu0fil/+H5vX6dIr/MUHIJ+7YaXv9Bpg==
+X-Received: by 2002:a05:6820:169e:b0:5c4:68b8:e27f with SMTP id 006d021491bc7-5da68a0e743mr1122735eaf.6.1723482193390;
+        Mon, 12 Aug 2024 10:03:13 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5da3e286b09sm1319918eaf.0.2024.08.12.10.03.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Aug 2024 09:47:42 -0700 (PDT)
-Message-ID: <72e49c54-6473-413b-a4b4-4d0d67a41923@rivosinc.com>
-Date: Mon, 12 Aug 2024 12:47:37 -0400
+        Mon, 12 Aug 2024 10:03:12 -0700 (PDT)
+Message-ID: <4bdb10c2-057f-4254-864b-99bb7ac1509d@baylibre.com>
+Date: Mon, 12 Aug 2024 12:03:11 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,80 +61,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: riscv: Add Zicclsm ISA extension
- description.
-To: Conor Dooley <conor@kernel.org>, Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>, linux-riscv@lists.infradead.org,
- Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
- <cleger@rivosinc.com>, Evan Green <evan@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, Xiao Wang <xiao.w.wang@intel.com>,
- Andy Chiu <andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>,
- Greentime Hu <greentime.hu@sifive.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>,
- Costa Shulyupin <costa.shul@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
- Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-References: <20240809162240.1842373-1-jesse@rivosinc.com>
- <20240809162240.1842373-3-jesse@rivosinc.com>
- <20240809181536.GA976083-robh@kernel.org> <ZrZmTvJgyQ5nB70H@ghost>
- <20240812-rogue-enable-9194afe10621@spud>
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
+ <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
+ <20240810103540.03e758a5@jic23-huawei>
 Content-Language: en-US
-From: Jesse Taube <jesse@rivosinc.com>
-In-Reply-To: <20240812-rogue-enable-9194afe10621@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20240810103540.03e758a5@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 8/12/24 11:56, Conor Dooley wrote:
-> On Fri, Aug 09, 2024 at 11:56:14AM -0700, Charlie Jenkins wrote:
->> On Fri, Aug 09, 2024 at 12:15:36PM -0600, Rob Herring wrote:
->>> On Fri, Aug 09, 2024 at 12:22:40PM -0400, Jesse Taube wrote:
->>>> Add description for Zicclsm ISA extension.
->>>>
->>>> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
->>>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->> Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
->>>> ---
->>>> V1 -> V2:
->>>>   - New patch
->>>> V2 -> V3:
->>>>   - No changes
->>>> V3 -> V4:
->>>>   - No changes
->>>> V4 -> V5:
->>>>   - No changes
->>>> V5 -> V6:
->>>>   - No changes
->>>> V6 -> V7:
->>>>   - No changes
->>>> V7 -> V8:
->>>>   - Rebase onto 2d1f51d8a4b0 (palmer/for-next)
->>>
->>> Please also put the version in the subject. '-vN' is the git-send-email
->>> option to do it for you.
->>>
->>> Rob
->>>
->>
->> These patches were originally part of a different series [1] but are no
->> longer related to that series so I had asked Jesse to spin these off into a
->> different series. These version tags probably should not have been left
->> on here when made into this new series though.
+On 8/10/24 4:35 AM, Jonathan Cameron wrote:
+> On Wed,  7 Aug 2024 15:02:10 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
 > 
-> I dunno, I disagree. I think the versioning should continue on being
-> split - especially when there's been tags provided on earlier versions.
+>> This implements buffered reads for the ad4695 driver using the typical
+>> triggered buffer implementation, including adding a soft timestamp
+>> channel.
+>>
+>> The chip has 4 different modes for doing conversions. The driver is
+>> using the advanced sequencer mode since that is the only mode that
+>> allows individual configuration of all aspects each channel (e.g.
+>> bipolar config currently and oversampling to be added in the future).
+>>
+>> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> 
+> Main thing in here is I think you can use available_scan_masks
+> to avoid the need for the error path on just the temperature channel
+> being enabled.
+> 
+I had not thought about doing it that way, but now that I am
+thinking about it, it seems like we would need to have a scan
+mask in the list for every possible combination of channels.
+This would be 10s of thousands of possible scan masks for 16
+channel chips so that doesn't seem like the best way to go.
 
-Good to know I should keep the version number when splinting a set.
+But adding some special handling to make the temperature
+channel just work should be easy enough to add.
 
-Thanks,
-Jesse
