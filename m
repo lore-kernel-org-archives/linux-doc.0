@@ -1,119 +1,300 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15A8176FBD;
-	Mon, 12 Aug 2024 12:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CAF717B511
+	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 12:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723465056; cv=none; b=ZNqcfnmeCKffXNYpkIRG7dtGv/R3rIeYNICGjUs/7WqF8QLngOfKPIE2ZwfwPvLxpl1WTaTVSdffq/P1ycGVXOJotlPTt1E86HyE1Ds4dCxAJa/AR7pVwIzJsZN+CLuleajzAnGWyM00TV3EY1fcW27b131Wa7DIYiUbu6vCRjA=
+	t=1723467458; cv=none; b=c3pzbO0aA1BnJ0rao0tpqGlT4azKNaxnQIywcnzUDUgb52uIwuYfpdWiVOwEEW32LTWVxDOl63zX8E885OMUhUA8rKR1hhKq6X3FqB8o7MnTc8F1IgDCD4etVhinRggEDYD99vLMu9lDtU51fdJrA18AuqRdIPmQ4EfviKZoQB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723465056; c=relaxed/simple;
-	bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1OfEb2f+A2ZVDM4bsrvrrjzJ/QRpnq9rP5b8HLwRyHZfRowioEWfUWpYdoshGwx/G4tgYsMNzHbZDduuxVWpVrJwa1QbKv8NLR0h6kLJVg8Ehi/L0w1ot+fbmMzrsugKL/SzzcFCLpL9J+YpqWaseX859RwAkkiBN2/cin0KMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=louG5wne; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723467458; c=relaxed/simple;
+	bh=MDz9dC9gTYTAHSjLLL5G1NfvdG2IhmR0AoliL3khWdk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ogU3K7jeIS886/0vyEwK/pFD3RkFmmcpYrS8bZCHByBO0VfbhfsFBStqFw6jcftQHJ56edd17RFoVByCA0kdFYwyFer7HEmcKeSZ/ba9j5sRejYNatCCj4SI6Iqs2iEhhBLZ0YxiscgyES2z6iQ7FR5YPn/uE+1y59YJ6cF/mx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=ra3BGMiO; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="louG5wne"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a94aa5080so501935166b.3;
-        Mon, 12 Aug 2024 05:17:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="ra3BGMiO"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7c3d9a5e050so1163778a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 05:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723465053; x=1724069853; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
-        b=louG5wneHQtxvjJQqPXm88+oEUJLKLVmwX92MvVFwbLk4hPEO22AV1oWTZvXzFwLrd
-         QH0iIcDEUtE9zXcv0oNfmlpR8SvLkVh1op7oNpstR0Ir5yOeUR6YdjVlS5E01Qktrj9q
-         5hGMGLyMmxO4Xm9Vwc4ly6tv0zGvB4fvVhswv8hcIu+TjVjbWyI6Aiv5jr3+2mbcU4+m
-         B1Iti3IG+y9lZhWHDs9/lmv8Alqd8tyjCgNBWED9thFg4lxDmnc+4IfV8wkxPGpSbmkK
-         mvd8If5a4Uca/yRcBKxrGv3zbiNPGN8n3sB0wjb0ULOrnW5xC9V8VURVatFAv3Mm/im4
-         h1FA==
+        d=fastly.com; s=google; t=1723467454; x=1724072254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=im8KpEyQEI7OiPKCxOhe/2kt2a2ybz6CAYmO/N9YxlY=;
+        b=ra3BGMiOwemjKxq0pZbrGRV+gZfqKFNqWJLdH5X4M5VRPI+tfOUoTB9B/I/qX42J3a
+         GwGo9pNVigPZ3n+8+PJhs10Pqjq32PHh2VyGUwXL1Zsq/XmMLzYo8nXssenwHNS67lG5
+         tgyoe/mvDkbsOKgXJm5sOWlO5DmaGdAuBze0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723465053; x=1724069853;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1723467454; x=1724072254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
-        b=mceC5opIVq6PCCOgwTDDAUvK2ZF8xDOf/aJlQRfa36lQRHJKvzy9kB9AQcZm9XzqXV
-         XGFwW6D75DR/V3khteQ5VDdqJChHpt1X99PExrfE+BcR42C1ZYH7K0LesJcehyZocp7t
-         y6vN138pn3zxTt8aK56EDhvz1eFEglT5cGs+yaW2hyTHrP6vFCLhaPE3QLfVRp5qKXI6
-         j7sCauFK+0JuUK7XCyVmmh6niY09+ZHNMv3ahnzLDcGJKoT12umAFiSNZe1BzjcsXg7n
-         WT4hZf+hd7UvHCEXKiRj8wVTtBpih4hyYBCNtK+6KHoe7GaK5lwSghmIwwFXoe9GAu4x
-         Si8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWO7jLLqLQjsErAN7TDcWNMHM/sBQHpBAEhAdKCRyvePUlFRNbanTYeh6iQTTiihEcTYljBhDF3NlhAN97M@vger.kernel.org, AJvYcCWWjK5egA8TrlVgpHu4U6iAtMzA+MveUOCa69Jo0g6CsVb3/SZ79KTD4rL4EZ3CJ6pPlmmpgg7V7xc=@vger.kernel.org, AJvYcCX8BDFEMbH30zECifVIUjYhJpmQSeln6kHg2oEWORkTXGflIe2Wfb5txBq10SJtSpHkia3FnMrHc6ehr9tN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0gm3c4SRr8mabHDhhUTcDDugR6lwr/jlbD8cZpE9yV9knk7h+
-	/9dS7bSk8CdqYSLkGBsu+2wVkqBxXkpxPBYhilBUd0btAcBL6dY3
-X-Google-Smtp-Source: AGHT+IHuioC1eMHhDjPqzvdRQcGw1i3us/v/rw8S6D6YDwM5A3GZum2Wq897dettoU7QQJkhYpvLHQ==
-X-Received: by 2002:a17:907:6092:b0:a7a:c083:8571 with SMTP id a640c23a62f3a-a80ed2cfebbmr5491866b.52.1723465052896;
-        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb0e1981sm225737366b.72.2024.08.12.05.17.31
+        bh=im8KpEyQEI7OiPKCxOhe/2kt2a2ybz6CAYmO/N9YxlY=;
+        b=Im7I7m7Nu46wX2VfLZytVH1xi8hzT8inntTLKJFN8UfwHRowIWBSBzj9tpZsVspUgE
+         Ye1Mz4mweipyMaebn3ZZKcnoZ0EgVElWD0QXq6jNBnPd15Cp3mb3U19jbV1XxaqhEGQM
+         f0toj3Cn9Y0KjnB1UGcB5HlueFg2Ciapeo4XWmXW+eCLz+o1LwJ2FPAy4gGW6UNzXrDp
+         LrW0acY0TrqN08HTFIuP0cCk/hiPAAGEVzsxapAzk2d0GU4dd7sXKPHw8loBzSpeKsHm
+         jebFukoK1klRyh/r+OfEEWb0EyRQ3UcQ0vKYOSU55y8bm0EvEX/XJ7vx4TMOaPI0syn1
+         IWhg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7ioTEG3A2FhFNZsUJDhkVCylh89I0GwaLopNly40Sp50QFhSFOvHIxVN/BNSWbyMTI0NhQVq/pm6WK1wJz5Ckyj5u4tz9Gt1b
+X-Gm-Message-State: AOJu0YwM5z+jpOKtiKY+WU0O0FRrD2W+0iJoU/djYmebrN2hej0pCG/M
+	lAK34ZKU9sON/s1PEUYUedQW684ivxyWv7RZNtg3R11mlyb8c2LvrJKYXVjHC1A=
+X-Google-Smtp-Source: AGHT+IGyKNoPKnsUeLXXVDODRMpADXy/RxJU7/g4zFWJav9Nc3d0UvLs50qUxM4lU6dtVDXTJ6HJ7g==
+X-Received: by 2002:a17:90a:6b44:b0:2cb:5112:740 with SMTP id 98e67ed59e1d1-2d39262351cmr101548a91.26.1723467454465;
+        Mon, 12 Aug 2024 05:57:34 -0700 (PDT)
+Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9ca6fafsm8183368a91.34.2024.08.12.05.57.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 12 Aug 2024 14:17:21 +0200
-Subject: [PATCH] Documentation/llvm: turn make command for ccache into code
- block
+        Mon, 12 Aug 2024 05:57:33 -0700 (PDT)
+From: Joe Damato <jdamato@fastly.com>
+To: netdev@vger.kernel.org
+Cc: mkarsten@uwaterloo.ca,
+	amritha.nambiar@intel.com,
+	sridhar.samudrala@intel.com,
+	sdf@fomichev.me,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	linux-kernel@vger.kernel.org (open list),
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+Date: Mon, 12 Aug 2024 12:57:03 +0000
+Message-Id: <20240812125717.413108-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAFD9uWYC/x3MQQqDMBBG4avIrB1IQpDoVaSLOP6tQ4MpiZSCe
- HdDl9/ivZMqiqLS1J1U8NWqeW+wfUeyxf0F1rWZnHHeBOtYJMoGTnqgxMSSV/CSsrw5+MEN1mO
- 0GKn1n4Kn/v7v+XFdN68FKyJrAAAA
-To: Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723465051; l=1223;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
- b=SDOJxpOKGH39hPR8hykQodZxeGYZ7NMFfdKU5mLg3BkVQmrFVkc43IOOtxTJqPHJhco8fE7iL
- 8TIjOkDlvTCCJASXzC44OzeodS2DWLWJZlPEF1QRTm1Zg7BPa9waOfK
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+Content-Transfer-Encoding: 8bit
 
-The command provided to use ccache with clang is not a literal code
-block. Once built, the documentation displays the '' symbols as a "
-character, which is wrong, and the command can not be applied as
-provided.
+Greetings:
 
-Turn the command into a literal code block.
+Martin Karsten (CC'd) and I have been collaborating on some ideas about
+ways of reducing tail latency when using epoll-based busy poll and we'd
+love to get feedback from the list on the code in this series. This is
+the idea I mentioned at netdev conf, for those who were there. Barring
+any major issues, we hope to submit this officially shortly after RFC.
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- Documentation/kbuild/llvm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The basic idea for suspending IRQs in this manner was described in an
+earlier paper presented at Sigmetrics 2024 [1].
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index bb5c44f8bd1c..6dc66b4f31a7 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -126,7 +126,7 @@ Ccache
- 
- ``ccache`` can be used with ``clang`` to improve subsequent builds, (though
- KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
--in order to avoid 100% cache misses, see Reproducible_builds_ for more info):
-+in order to avoid 100% cache misses, see Reproducible_builds_ for more info)::
- 
- 	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
- 
+Previously, commit 18e2bf0edf4d ("eventpoll: Add epoll ioctl for
+epoll_params") introduced the ability to enable or disable preferred
+busy poll mode on a specific epoll context using an ioctl
+(EPIOCSPARAMS).
 
----
-base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
-change-id: 20240812-ccache-literal-code-block-8462614e91e9
+This series extends preferred busy poll mode by adding a sysfs parameter,
+irq_suspend_timeout, which when used in combination with preferred busy
+poll suspends device IRQs up to irq_suspend_timeout nanoseconds.
 
-Best regards,
--- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Important call outs:
+  - Enabling per epoll-context preferred busy poll will now effectively
+    lead to a nonblocking iteration through napi_busy_loop, even when
+    busy_poll_usecs is 0. See patch 4.
 
+  - Patches apply cleanly on net-next commit c4e82c025b3f ("net: dsa:
+    microchip: ksz9477: split half-duplex monitoring function"),  but
+    may need to be respun if/when commit b4988e3bd1f0 ("eventpoll: Annotate
+    data-race of busy_poll_usecs") picked up by the vfs folks makes its way
+    into net-next.
+
+  - In the future, time permitting, I hope to enable support for
+    napi_defer_hard_irqs, gro_flush_timeout (introduced in commit
+    6f8b12d661d0 ("net: napi: add hard irqs deferral feature")), and
+    irq_suspend_timeout (introduced in this series) on a per-NAPI basis
+    (presumably via netdev-genl).
+
+~ Description of the changes
+
+The overall idea is that IRQ suspension is introduced via a sysfs
+parameter which controls the maximum time that IRQs can be suspended.
+
+Here's how it is intended to work:
+  - An administrator sets the existing sysfs parameters for
+    defer_hard_irqs and gro_flush_timeout to enable IRQ deferral.
+
+  - An administrator sets the new sysfs parameter irq_suspend_timeout
+    to a larger value than gro-timeout to enable IRQ suspension.
+
+  - The user application issues the existing epoll ioctl to set the
+    prefer_busy_poll flag on the epoll context.
+
+  - The user application then calls epoll_wait to busy poll for network
+    events, as it normally would.
+
+  - If epoll_wait returns events to userland, IRQ are suspended for the
+    duration of irq_suspend_timeout.
+
+  - If epoll_wait finds no events and the thread is about to go to
+    sleep, IRQ handling using gro_flush_timeout and defer_hard_irqs is
+    resumed.
+
+As long as epoll_wait is retrieving events, IRQs (and softirq
+processing) for the NAPI being polled remain disabled. Unless IRQ
+suspension is continued by subsequent calls to epoll_wait, it
+automatically times out after the irq_suspend_timeout timer expires.
+
+When network traffic reduces, eventually a busy poll loop in the kernel
+will retrieve no data. When this occurs, regular deferral using
+gro_flush_timeout for the polled NAPI is immediately re-enabled. Regular
+deferral is also immediately re-enabled when the epoll context is
+destroyed.
+
+~ Benchmark configs & descriptions
+
+These changes were benchmarked with memcached [2] using the
+benchmarking tool mutilate [3].
+
+To facilitate benchmarking, a small patch [4] was applied to
+memcached 1.6.29 (the latest memcached release as of this RFC) to allow
+setting per-epoll context preferred busy poll and other settings
+via environment variables.
+
+Multiple scenarios were benchmarked as described below
+and the scripts used for producing these results can be found on
+github [5].
+
+(note: all scenarios use NAPI-based traffic splitting via SO_INCOMING_ID
+by passing -N to memcached):
+
+  - base: Other than NAPI-based traffic splitting, no other options are
+    enabled.
+  - busy:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to 200,000
+    - enable busy poll via the existing ioctl (busy_poll_usecs = 64,
+      busy_poll_budget = 64, prefer_busy_poll = true)
+  - deferX:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to X,000
+  - suspendX:
+    - set defer_hard_irqs to 100
+    - set gro_flush_timeout to X,000
+    - set irq_suspend_timeout to 20,000,000
+    - enable busy poll via the existing ioctl (busy_poll_usecs = 0,
+      busy_poll_budget = 64, prefer_busy_poll = true)
+
+~ Benchmark results
+
+Tested on:
+
+Single socket AMD EPYC 7662 64-Core Processor
+Hyperthreading disabled
+4 NUMA Zones (NPS=4)
+16 CPUs per NUMA zone (64 cores total)
+2 x Dual port 100gbps Mellanox Technologies ConnectX-5 Ex EN NIC
+
+The test machine is configured such that a single interface has 8 RX
+queues. The queues' IRQs and memcached are pinned to CPUs that are
+NUMA-local to the interface which is under test. memcached binds to the
+ipv4 address on the configured interface.
+
+The NIC's interrupts coalescing configuration are left at boot-time
+defaults.
+
+The overall takeaway from the results below is that the new mechanism
+(suspend20, see below) results in reduced 99th percentile latency and
+increased QPS in the MAX QPS case (compared to the other cases), and
+reduced latency in the lower QPS cases for comparable CPU usage to the
+base case (and less CPU than the busy case).
+
+base
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  199982     109     225     385      30
+  400K  400054     138     262     676      44
+  600K  599968     165     396     737      64
+  800K  800002     353    1136    2098      83
+ 1000K  964960    3202    5556    7003      98
+   MAX  957274    4255    5526    6843     100
+
+busy
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  199936     101     239     287      57
+  400K  399795      81     230     302      83
+  600K  599797      65     169     264      95
+  800K  799789      67     145     221      99
+ 1000K 1000135      97     186     287     100
+   MAX 1079228    3752    7481   12634      98
+
+defer20
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  200052      60     130     156      28
+  400K  399797      67     140     176      49
+  600K  600049      94     189     483      68
+  800K  800106     246     959    2201      88
+ 1000K  857377    4377    5674    5830     100
+   MAX  974672    4162    5454    5815     100
+
+defer200
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  200029     165     258     316      18
+  400K  399978     183     280     340      32
+  600K  599818     205     310     367      46
+  800K  799869     265     439     829      73
+ 1000K  995961    2307    5163    7027      98
+   MAX 1050680    3837    5020    5596     100
+
+suspend20
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  199968      58     128     161      31
+  400K  400191      61     135     175      51
+  600K  599872      67     142     196      66
+  800K  800050      78     153     220      82
+ 1000K  999638     101     194     292      91
+   MAX 1144308    3596    3961    4155     100
+
+suspend200
+  load     qps  avglat  95%lat  99%lat     cpu
+  200K  199973     149     251     313      20
+  400K  399957     154     270     331      35
+  600K  599878     157     284     351      51
+  800K  800091     158     293     359      65
+ 1000K 1000399     173     311     393      85
+   MAX 1128033    3636    4210    4381     100
+
+Thanks,
+Martin and Joe
+
+[1]: https://doi.org/10.1145/3626780
+[2]: https://github.com/memcached/memcached/blob/master/doc/napi_ids.txt
+[3]: https://github.com/leverich/mutilate
+[4]: https://raw.githubusercontent.com/martinkarsten/irqsuspend/main/patches/memcached.patch
+[5]: https://github.com/martinkarsten/irqsuspend
+
+Thanks,
+Martin and Joe
+
+Martin Karsten (5):
+  net: Add sysfs parameter irq_suspend_timeout
+  net: Suspend softirq when prefer_busy_poll is set
+  net: Add control functions for irq suspension
+  eventpoll: Trigger napi_busy_loop, if prefer_busy_poll is set
+  eventpoll: Control irq suspension for prefer_busy_poll
+
+ Documentation/networking/napi.rst |  3 ++
+ fs/eventpoll.c                    | 26 +++++++++++++--
+ include/linux/netdevice.h         |  2 ++
+ include/net/busy_poll.h           |  3 ++
+ net/core/dev.c                    | 55 +++++++++++++++++++++++++++----
+ net/core/net-sysfs.c              | 18 ++++++++++
+ 6 files changed, 98 insertions(+), 9 deletions(-)
+
+--
+2.25.1
