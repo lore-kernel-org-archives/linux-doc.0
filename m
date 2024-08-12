@@ -1,200 +1,177 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0841617C20E
-	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 12:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EE717C22A
+	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 13:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723467462; cv=none; b=dFXUiS9yAXXAnTCyyT6Yg51PE4YX6lHvRgERjlkfEoIfAT7J9heN/37K5ATwvRp06tMpi45KLWJrpGYrsgim8Et4iz87DOijkQDXuBvgXh9zjmecy8OELElwTy0IjltPnT2jrj8oRolbqgmM8cHh0GClEmVuzN//znDpdEf5BNk=
+	t=1723470111; cv=none; b=ESiScIkJxEKPQNM6bQAcdcv/l3gw526ZLi3YImkqfNx+iZWGSw7cfycvfKxeQie1RO06Stwj9MYFSB27Xg4jjrTtbInDyOCTuQXyuHckiFzmYjUowOnzL1y1ii8aJBeF9l7Y0noJOAYuid6WXfkajXL4VleEVBm3cMUB22Pl4HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723467462; c=relaxed/simple;
-	bh=UU9YetgXXPCskdk6gOfxmmZ7JeMKgrNe4FVwpCMuu7g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pXjNsYYh5Da8D7PJs5Pg8byVq+dwAtmKhxHex35jr5DwCSxXbIFYc//QRO17P+YpvNfn0l408ASEV+gU6eul5Vii8jws+H4atjv6rvgdMjxHzxgTrvGFq6dUaOnAY4g1JnNZw4hsNRbCQFAp4d+UI/aBNGqY90Yg7q2ewvOw0/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=t1qzOMRC; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1723470111; c=relaxed/simple;
+	bh=PEyKKukDad7GSVDb0CG3ZU0fM7J0jKqyxUBcbGgzGX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aev0v3uBT9M1uyn6f3cbTpenof1SblbV6FyWxWt2xdAfkv/h4bb/wogAxg28/XGhZEswT5ghPefzRB7F8IcRhEvU20b/QhFr3183UuxQBWRzCAJ7wEiFjS8Npi//pczhQey0AQ0U4ZEG6StsBuubjwxEf73U4Eg9tEVm3u1JEjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=uccGAWSQ; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="t1qzOMRC"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70d1c655141so3041059b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 05:57:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uccGAWSQ"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-494556dfa3aso1206735137.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 06:41:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1723467460; x=1724072260; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RRh17J0oYLnjpYt6fboaKb0SXYeVubbfK7YpxWdImGw=;
-        b=t1qzOMRCzLoLVFMdl9j4OULHGrKVqNM6OAwft6kY3ZNdygezIUd5b9eA4/rZBNby+u
-         tTlUiRQXaHfPZOIo6nFV1Go7/BMx48zGkIGbuWSYo7QFj0OPhGC766pffV/1WAtx/eDh
-         9V3y/Bc969IjfOQd0PWvHcJ3Eut5ftI+i27Lo=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723470108; x=1724074908; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NZdPiM3eHhS0gXqA59iljos4r3z2B3CpNxMTL6TtBWM=;
+        b=uccGAWSQ5ek9ShKj1pa75/hA7CBc0MhDjGaF6Jx9vTEhEQUDHxNCuOHni/XFi+3asI
+         Y2Pma2fxk6NqejJushapyYUfxzP3owAOHHMC/nvuShxbslofMqdSEOaJEp3o/BgOBItz
+         ZCNnqo7WzaXgfw21j2M27S1ZxLq8zmJx9ImXjxtK5g89aVLLXVzn45MQUeJLuk4V6WNk
+         xNQ800OHV9c83J5YDd1uau7RMWduheEwBymqWG/vGzF8sN4fcuVovMNzWCpfgSHNkQTq
+         8WqAjMGsdq18i35Nj2gHCMUGP/4V/RLNaSoPTVXAPsHi33EZFxwsh8ymXS96N/rtJwcz
+         p64A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723467460; x=1724072260;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RRh17J0oYLnjpYt6fboaKb0SXYeVubbfK7YpxWdImGw=;
-        b=iXwnuPB+i5TmPuVmSYNXUdvxQFJl/TWOwF8zyxwPk/oV/CjmX4vuPTsmCm3cWzaoXr
-         7s0bpz0kKEbZT/URuc6I9IspcXT7P4yBujAIdWx31De+u1CZjmI6OIfeh3DhWlRaYWUE
-         04pYSg0byp93fvXRaq34ntyR111sHHEtH2BP2QWDmX3xkgZSNXWeZ+9Pfgo7i20pFmE+
-         6i16x4uINDaELXyouq7/RzpSbJtbuq2fyJzB+gBKHH+GgVIksbtw959FeXKEYBBfq74c
-         Z5eH7I/4ukS1BFASeNlzxx+FtnrmKvbGDX9OtmfXCfDMbXOnirpjreudYjUEaj+CbT16
-         kcVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8hA3h6eFXy66GDb4/M9RLk8zCx9brEmoT7ufoJYLenhjifjcvJotKtmLIepH0QF4KGJbwskXhg3o1WMX9UfynFWCdGmGNUHFr
-X-Gm-Message-State: AOJu0YybcFVn92PAZvF6V+AK9ommZN+mylZVlQK0XDZF12B2q6YRmcOL
-	EuhPbx+Eiayafaz3XY2llAXtNrUWkDVE7nSOESsT9Xg9UikrcAdT5PRZ8hlNRz9umC10XMR1/LS
-	IKCk=
-X-Google-Smtp-Source: AGHT+IEq9qb5amGbSMq5W4M/QmN7S0NtNcAlbtlnwHYghOllBYYxaVtW9gHS8KIZ2Q+wiEkV50eorQ==
-X-Received: by 2002:a05:6a20:c78f:b0:1c4:a49b:403 with SMTP id adf61e73a8af0-1c8d75dfd98mr314810637.46.1723467460243;
-        Mon, 12 Aug 2024 05:57:40 -0700 (PDT)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9ca6fafsm8183368a91.34.2024.08.12.05.57.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 05:57:39 -0700 (PDT)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: mkarsten@uwaterloo.ca,
-	amritha.nambiar@intel.com,
-	sridhar.samudrala@intel.com,
-	sdf@fomichev.me,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Breno Leitao <leitao@debian.org>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC net-next 1/5] net: Add sysfs parameter irq_suspend_timeout
-Date: Mon, 12 Aug 2024 12:57:04 +0000
-Message-Id: <20240812125717.413108-2-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240812125717.413108-1-jdamato@fastly.com>
-References: <20240812125717.413108-1-jdamato@fastly.com>
+        d=1e100.net; s=20230601; t=1723470108; x=1724074908;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NZdPiM3eHhS0gXqA59iljos4r3z2B3CpNxMTL6TtBWM=;
+        b=gp8+IT3cv5xO3RJFOv3H34RQF0slbpC3i+uflp78M6VHH2ZTndfU1ws6HW8lkcVZfW
+         HSvXwOXjKYnFNQfJ8+Pa7PE7TyZYRUVo4CFl6uXek3ce4FoN1VPOwFnkc/YNG2f4MU+b
+         uQhZF4fetIohRlNrLWL/HyNf7y+7w9TWyQ33EhknmCVlL2n5T9402DGUClFJkO2I0nPR
+         lrhng9RMMc8XGBgJsqV/+PgRHNKQ7r2/5lAzLSwe6jfdfz6wUa7bpDjxCvdFFLFCy/oW
+         la5xBzlZZiP/jg2+kyqOKSL/9ZfOUb2Sj72nWSkdB6URDsyv0Lbhm/1hOYf2hx2hx0fX
+         /+yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpkdTFvxWDXlSTAPSU15XnNuv46Ys04GhY0xRjE8esRpze58d96g7Dh/+O6Rkzj3CIo8RGi/ZvrPkDqJ+Xz8rrnxak65Eb8ehI
+X-Gm-Message-State: AOJu0Yx0SwSIE3KRBbxykGgv33s/yHvQjiOTBuR7WOC50AjQJ4LPN9Vp
+	Cu4TusXtGV//marq8gUg1PKV0sY8DD+OJbuTkhEkqEh9cHl/PgVGX2zD+We+pmE=
+X-Google-Smtp-Source: AGHT+IEsceJsLwcbe8ZaO6k0uxbmVJqWTyQSzd6+oN/GAqxRjkMASZhkewn/y1mFB5Us3W4ra8JFTg==
+X-Received: by 2002:a05:6102:3587:b0:493:e582:70ce with SMTP id ada2fe7eead31-49743a4d67emr546286137.10.1723470108426;
+        Mon, 12 Aug 2024 06:41:48 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7d65006sm246372685a.1.2024.08.12.06.41.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Aug 2024 06:41:48 -0700 (PDT)
+Message-ID: <f8a7754e-0f6b-4802-985b-d8817892ecbb@baylibre.com>
+Date: Mon, 12 Aug 2024 09:41:46 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: add AD762x/AD796x ADCs
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Lechner <dlechner@baylibre.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240809-ad7625_r1-v2-0-f85e7ac83150@baylibre.com>
+ <20240809-ad7625_r1-v2-1-f85e7ac83150@baylibre.com>
+ <03eca85c-50d7-4ff0-a5b6-83e3322cb04d@kernel.org>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <03eca85c-50d7-4ff0-a5b6-83e3322cb04d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Martin Karsten <mkarsten@uwaterloo.ca>
 
-This patch doesn't change any behavior but prepares the code for other
-changes in the following commits which use irq_suspend_timeout as a
-timeout for IRQ suspension.
+On 2024-08-10 8:10 a.m., Krzysztof Kozlowski wrote:
+> On 09/08/2024 20:41, Trevor Gamblin wrote:
+>> Add a binding specification for the Analog Devices Inc. AD7625,
+>> AD7626, AD7960, and AD7961 ADCs.
+>>
+> Thank you for your patch. There is something to discuss/improve.
+>
+>> +allOf:
+>> +  - if:
+>> +      required:
+>> +        - ref-supply
+>> +    then:
+>> +      # refin-supply is not needed if ref-supply is given
+> Not needed or not allowed? Schema says the latter.
+Yes, this is poor wording on my part. I will fix it to say "not allowed".
+>
+>> +      properties:
+>> +        refin-supply: false
+>> +  - if:
+>> +      required:
+>> +        - refin-supply
+>> +    then:
+>> +      # ref-supply is not needed if refin-supply is given
+>> +      properties:
+>> +        ref-supply: false
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - adi,ad7625
+>> +              - adi,ad7626
+>> +    then:
+>> +      properties:
+>> +        en2-gpios: false
+>> +        en3-gpios: false
+>> +        adi,en2-always-on: false
+>> +        adi,en3-always-on: false
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            enum:
+>> +              - adi,ad7960
+>> +              - adi,ad7961
+>> +    then:
+>> +      # ad796x parts must have one of the two supplies
+>> +      oneOf:
+>> +        - required: [ref-supply]
+>> +        - required: [refin-supply]
+> That's duplicating first and second if. And all three - comment, first
+> if:then: and this one here is kind of contradictory so I don't know what
+> you want to achieve.
 
-Signed-off-by: Martin Karsten <mkarsten@uwaterloo.ca>
-Co-developed-by: Joe Damato <jdamato@fastly.com>
-Signed-off-by: Joe Damato <jdamato@fastly.com>
-Tested-by: Joe Damato <jdamato@fastly.com>
-Tested-by: Martin Karsten <mkarsten@uwaterloo.ca>
----
- Documentation/networking/napi.rst |  3 +++
- include/linux/netdevice.h         |  2 ++
- net/core/dev.c                    |  3 ++-
- net/core/net-sysfs.c              | 18 ++++++++++++++++++
- 4 files changed, 25 insertions(+), 1 deletion(-)
+It sounds like there's a better way for me to specify this, but I'm not 
+exactly sure how.
 
-diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-index 7bf7b95c4f7a..0a029dd6d77e 100644
---- a/Documentation/networking/napi.rst
-+++ b/Documentation/networking/napi.rst
-@@ -192,6 +192,9 @@ The ``gro_flush_timeout`` sysfs configuration of the netdevice
- is reused to control the delay of the timer, while
- ``napi_defer_hard_irqs`` controls the number of consecutive empty polls
- before NAPI gives up and goes back to using hardware IRQs.
-+``irq_suspend_timeout`` is used to determine how long an application can
-+completely suspend IRQs. It is used in combination with SO_PREFER_BUSY_POLL,
-+which can be set on a per-epoll context basis with EPIOCSPARAMS ioctl.
- 
- .. _poll:
- 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 0ef3eaa23f4b..31867bb2ff65 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1857,6 +1857,7 @@ enum netdev_reg_state {
-  *	@gro_flush_timeout:	timeout for GRO layer in NAPI
-  *	@napi_defer_hard_irqs:	If not zero, provides a counter that would
-  *				allow to avoid NIC hard IRQ, on busy queues.
-+ *	@irq_suspend_timeout:	IRQ suspension timeout
-  *
-  *	@rx_handler:		handler for received packets
-  *	@rx_handler_data: 	XXX: need comments on this one
-@@ -2060,6 +2061,7 @@ struct net_device {
- 	struct netdev_rx_queue	*_rx;
- 	unsigned long		gro_flush_timeout;
- 	int			napi_defer_hard_irqs;
-+	unsigned long		irq_suspend_timeout;
- 	unsigned int		gro_max_size;
- 	unsigned int		gro_ipv4_max_size;
- 	rx_handler_func_t __rcu	*rx_handler;
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 751d9b70e6ad..bf45c90aebcd 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11937,6 +11937,7 @@ static void __init net_dev_struct_check(void)
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, _rx);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_flush_timeout);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, napi_defer_hard_irqs);
-+	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, irq_suspend_timeout);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_max_size);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_ipv4_max_size);
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, rx_handler);
-@@ -11948,7 +11949,7 @@ static void __init net_dev_struct_check(void)
- #ifdef CONFIG_NET_XGRESS
- 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, tcx_ingress);
- #endif
--	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 104);
-+	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 112);
- }
- 
- /*
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index 0e2084ce7b75..fb6f3327310f 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -440,6 +440,23 @@ static ssize_t napi_defer_hard_irqs_store(struct device *dev,
- }
- NETDEVICE_SHOW_RW(napi_defer_hard_irqs, fmt_dec);
- 
-+static int change_irq_suspend_timeout(struct net_device *dev, unsigned long val)
-+{
-+	WRITE_ONCE(dev->irq_suspend_timeout, val);
-+	return 0;
-+}
-+
-+static ssize_t irq_suspend_timeout_store(struct device *dev,
-+					 struct device_attribute *attr,
-+					 const char *buf, size_t len)
-+{
-+	if (!capable(CAP_NET_ADMIN))
-+		return -EPERM;
-+
-+	return netdev_store(dev, attr, buf, len, change_irq_suspend_timeout);
-+}
-+NETDEVICE_SHOW_RW(irq_suspend_timeout, fmt_ulong);
-+
- static ssize_t ifalias_store(struct device *dev, struct device_attribute *attr,
- 			     const char *buf, size_t len)
- {
-@@ -664,6 +681,7 @@ static struct attribute *net_class_attrs[] __ro_after_init = {
- 	&dev_attr_tx_queue_len.attr,
- 	&dev_attr_gro_flush_timeout.attr,
- 	&dev_attr_napi_defer_hard_irqs.attr,
-+	&dev_attr_irq_suspend_timeout.attr,
- 	&dev_attr_phys_port_id.attr,
- 	&dev_attr_phys_port_name.attr,
- 	&dev_attr_phys_switch_id.attr,
--- 
-2.25.1
+The AD762x parts can operate without external references, so the intent 
+was that neither REF nor REFIN was required in the bindings, but if one 
+is given then the other can't be.
 
+For the AD796x parts, one of REF or REFIN must be provided, but not 
+both. If REFIN is provided, then REF doesn't need an input because a 
+reference voltage is generated on REF. If REF is provided, then REFIN is 
+tied to ground.
+
+Maybe there's a simpler way for me to specify the whole block?
+
+>
+>
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    adc {
+>> +        compatible = "adi,ad7625";
+>> +        vdd1-supply = <&supply_5V>;
+>> +        vdd2-supply = <&supply_2_5V>;
+>> +        vio-supply = <&supply_2_5V>;
+>> +        io-backends = <&axi_adc>;
+>> +        clocks = <&ref_clk>;
+>> +        pwms = <&axi_pwm_gen 0 0>, <&axi_pwm_gen 1 0>;
+>> +        pwm-names = "cnv", "clk_gate";
+> Make example complete - en0 or en1 GPIOs or whatever else is applicable.
+Will do, thank you.
+>
+>
+> Best regards,
+> Krzysztof
+>
