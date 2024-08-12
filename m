@@ -1,152 +1,100 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA1B187343;
-	Mon, 12 Aug 2024 17:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84691804F;
+	Mon, 12 Aug 2024 17:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723482561; cv=none; b=ZNx2z7+3WXbomgHfBpMFYA18pjITNQJBOeLJItyvPEM2che3BnJGYFTbTqnKzBDZ+RaFLpsHMssfgDtSFkAJ2/n7djDLrPoFYVf9BOYTgwZ0t2TMiIc1XW7F0Wz/Q6pL/qxGNMFnrIVfzpJPsYOWogRsLM5Eipva8jYCk6vqe60=
+	t=1723483676; cv=none; b=oPkQpu7W5+l/PWhZuAuhD0mtkgPPFJowtHyhHl/KUAXxn3OQ90wZps22SfM12FnYOBdbIalL986g1VNOF0r7ilhOXmfo3A44tNZap0LneXcPmTY8cOIsd5I2Wbf4g1hpFIDsK3OXpOsLy+RGMVBz+HBSoOAcHw+bZxNgNk8sL5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723482561; c=relaxed/simple;
-	bh=0MQX7ArPk4mAV4iN9yEqbL0u20EthjGUcGLNVJxyVtU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=awGnEprKftSfSh3h1oBE+oL6ccsU6QKGI+m5KfKl7YZiMQOdZ4UhKEZnwyu4SPTV+ZK3tT81DPpD4lMAVg2mhhlQVdd4XZnLwEKyQCyvXy9AERqM1725vqJR2fmKGSQBPmDTlBk3HTGODyJ1qW6QP7PHqaUHceYvjxwR3rFjXeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHaE/tvI; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723483676; c=relaxed/simple;
+	bh=IFMxJ0Br/sftBPuPaohb/P6aDtKUf9rUY46d2ecUm0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nJyoOtlToqRAPZWuTvBNyps+tHzGRwJ9HijKVqNHXVK0wLOxDsCNatRJWYLfoFi3MQWDr4MjaWL9/gteIECKuNgR2G6hR3uL4xri79Cpw85xWyy+gHME3oZZwhWWloswZ1gpxy0r6eENfH5p6nPuoOPVYmmGJ2iwgYZnOIB+ZHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=G9zG2Ark; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHaE/tvI"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d1c655141so3275274b3a.1;
-        Mon, 12 Aug 2024 10:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723482559; x=1724087359; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t05NaBT7bFxhrNH1lXOVprHE6cItR2aJz1lL9AZNeks=;
-        b=KHaE/tvIpXHFuJmzla6vrHJTZMag9bApJpduxx/sdUZuH5z0LNJnPF9Syw+JtGzNiS
-         qLtWjMFr2DLaZ/zWAw7jzDHf6EB2LKmOltATEtjvPP3CF/lh0gcr2C8JLwjrpqNPfY9t
-         OalFXNUUMCIc34EuJq6EY5N3Xg+l5Mzv6K12Tzj09Qy0N7G4t5DMO/ViQO7Rdmf+D3p/
-         PXER3LvPFIQKwyzLPMnikoGlzijyoSIcsmF/wCxzTebDb5jsAOCpdNT6eje+fs8W2MNj
-         jqg1yTnDzUo6GAXi1NJpAtNZDi0sLePal2mEz+gyqBndlkzQtu6RxtcBRhxWZut4GtmY
-         KARg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723482559; x=1724087359;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t05NaBT7bFxhrNH1lXOVprHE6cItR2aJz1lL9AZNeks=;
-        b=nvjl0FsmSCBDxwvNEG1U3RmFR03xZDHi50l/ObbZj32eBzDTub9DRLpMt3bnuDP7tB
-         7YGfcR98rfYGdm+FMyf4X6C5FNchQWBqX5TqHgu2ON/tWEGhHlWiVPRsFbb0LzhCQiwL
-         4X2quVFxfTtmCzL5pMqQWreQQjalh4cFozq1w7N95G8g0zpii25umk/RFgaqLvSZC17j
-         VsORP7fX/NjYX2ft/p9g3vQQScFfPA+AsM8wwRtnaLTzWgQUEfr/A8DKpy0GMX6Ly3Dj
-         MdUhDrjcGjHfzrnvdT5fhmiyQcEm4MxwUajfmmwvw0QhionMU5WOk92x2AlHWzj1NhLA
-         PwKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUonXD8IshBbtpq0fOyxYsCcr+/P0TqOTQkL8+HmdvQUIaIhIhwzU987/udCxViOPYDXLNbgMtKu03ayyjOF9/aIpP+h5LCsUMO/gwur/4VjHH0lsiBWCoo9ZeszHzpslpLyL9u2ibkx2xGIyu5w9kusUtiaz64y1BedMkFSO4Z
-X-Gm-Message-State: AOJu0YwPFmM8VaPMczHj6e1SlfTJZls68LfTWMK3wJD44EV+J9U2OPl2
-	P/s/dDkht1lnis8ueV1ch/Z/unnpJOlXLhCr980uYNN2PqVU9ASm
-X-Google-Smtp-Source: AGHT+IFdGC6guWLvF4TTcjvzGJhWOlSp6tMM3/62nMpRD4XNdu5tUKIiuxEY4mXAiijdjKX7ZB7kxw==
-X-Received: by 2002:a17:902:da85:b0:1fa:2401:be7d with SMTP id d9443c01a7336-201ca122751mr12138855ad.8.1723482559480;
-        Mon, 12 Aug 2024 10:09:19 -0700 (PDT)
-Received: from localhost.localdomain (2001-b400-e4d9-f7d4-34a5-a177-48aa-18c9.emome-ip6.hinet.net. [2001:b400:e4d9:f7d4:34a5:a177:48aa:18c9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bbb5b004sm40341425ad.304.2024.08.12.10.09.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 10:09:19 -0700 (PDT)
-From: Jing-Ping Jan <zoo868e@gmail.com>
-To: horms@kernel.org
-Cc: corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	skhan@linuxfoundation.org,
-	zoo868e@gmail.com
-Subject: [PATCH v2] Documentation: networking: correct spelling
-Date: Tue, 13 Aug 2024 01:09:10 +0800
-Message-Id: <20240812170910.5760-1-zoo868e@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240811134453.GJ1951@kernel.org>
-References: <20240811134453.GJ1951@kernel.org>
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="G9zG2Ark"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=IFMxJ0Br/sftBPuPaohb/P6aDtKUf9rUY46d2ecUm0M=; b=G9zG2ArkCRinNETyPwuh+2xCOJ
+	iDgDhrFoVtcvIrsQ5r6F28AViF6ENkdbgVlZS6crklmsR8Bmq8r7CbJ3JVrkQYU9TP1HCPWrdDQ1F
+	yZ+5NLJr0OFq6Ja+pfu/X8WLHV/Pdx+4tT0EeyAm7dsjNwsHczh5SaTogf30Nm70iA7Lw8WEUtVHm
+	a2ljf+HFcN/9LH139tpUE37YNiSPr8kSmW1UV+aRJEzT1Tt0qNQDC4LwrHs5oiQ0p+9QyVuU6Bgmw
+	2yoO7J17rQT6ddUa3XxoCOt78JkFEWf8bEE6tvJlLRNL7YJlCj70d4AiGUxAQF8Br2DOU+aXmKuU0
+	xlbRlNOw==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1sdYYG-008ulR-0n;
+	Mon, 12 Aug 2024 12:09:48 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>, wine-devel@winehq.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
+Subject: Re: [PATCH v5 00/28] NT synchronization primitive driver
+Date: Mon, 12 Aug 2024 12:09:48 -0500
+Message-ID: <5805970.DvuYhMxLoT@camazotz>
+In-Reply-To: <2325658.ElGaqSPkdT@uriel>
+References:
+ <20240519202454.1192826-1-zfigura@codeweavers.com> <2325658.ElGaqSPkdT@uriel>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Correct spelling problems for Documentation/networking/ as reported
-by ispell.
+On Monday, 10 June 2024 11:58:48 CDT Elizabeth Figura wrote:
+> On Sunday, May 19, 2024 3:24:26=E2=80=AFPM CDT Elizabeth Figura wrote:
+> > This patch series implements a new char misc driver, /dev/ntsync, which=
+ is
+> > used to implement Windows NT synchronization primitives.
+> >=20
+> > NT synchronization primitives are unique in that the wait functions bot=
+h are
+> > vectored, operate on multiple types of object with different behaviour
+> > (mutex, semaphore, event), and affect the state of the objects they wait
+> > on. This model is not compatible with existing kernel synchronization
+> > objects or interfaces, and therefore the ntsync driver implements its o=
+wn
+> > wait queues and locking.
+> >=20
+> > This patch series is rebased against the "char-misc-next" branch of
+> > gregkh/char-misc.git.
+>=20
+> Hi Peter,
+>=20
+> Sorry to bother, but now that the Linux merge window is closed could I
+> request a review of this revision of the ntsync patch set, please (or a
+> review from another locking maintainer)?
+>=20
+> I believe I've addressed all of the comments from the last review,
+> except those which would have changed the existing userspace API
+> (although since the driver isn't really functional yet, maybe this
+> would have been fine to do anyway?)
 
-Signed-off-by: Jing-Ping Jan <zoo868e@gmail.com>
----
-Thank you Simon, for the review.
-Changes in v2: corrected the grammer and added the missing spaces before
-each '('.
+Hi,
 
- Documentation/networking/ethtool-netlink.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Gentle ping on this=E2=80=94this series still needs another review.
 
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index d5f246aceb9f..4acde99e405e 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -934,18 +934,18 @@ Request contents:
-   ====================================  ======  ===========================
- 
- Kernel checks that requested ring sizes do not exceed limits reported by
--driver. Driver may impose additional constraints and may not suspport all
-+driver. Driver may impose additional constraints and may not support all
- attributes.
- 
- 
- ``ETHTOOL_A_RINGS_CQE_SIZE`` specifies the completion queue event size.
--Completion queue events(CQE) are the events posted by NIC to indicate the
--completion status of a packet when the packet is sent(like send success or
--error) or received(like pointers to packet fragments). The CQE size parameter
-+Completion queue events (CQE) are the events posted by NIC to indicate the
-+completion status of a packet when the packet is sent (like send success or
-+error) or received (like pointers to packet fragments). The CQE size parameter
- enables to modify the CQE size other than default size if NIC supports it.
--A bigger CQE can have more receive buffer pointers inturn NIC can transfer
--a bigger frame from wire. Based on the NIC hardware, the overall completion
--queue size can be adjusted in the driver if CQE size is modified.
-+A bigger CQE can have more receive buffer pointers, and in turn the NIC can
-+transfer a bigger frame from wire. Based on the NIC hardware, the overall
-+completion queue size can be adjusted in the driver if CQE size is modified.
- 
- CHANNELS_GET
- ============
-@@ -989,7 +989,7 @@ Request contents:
-   =====================================  ======  ==========================
- 
- Kernel checks that requested channel counts do not exceed limits reported by
--driver. Driver may impose additional constraints and may not suspport all
-+driver. Driver may impose additional constraints and may not support all
- attributes.
- 
- 
-@@ -1927,7 +1927,7 @@ When set, the optional ``ETHTOOL_A_PLCA_VERSION`` attribute indicates which
- standard and version the PLCA management interface complies to. When not set,
- the interface is vendor-specific and (possibly) supplied by the driver.
- The OPEN Alliance SIG specifies a standard register map for 10BASE-T1S PHYs
--embedding the PLCA Reconcialiation Sublayer. See "10BASE-T1S PLCA Management
-+embedding the PLCA Reconciliation Sublayer. See "10BASE-T1S PLCA Management
- Registers" at https://www.opensig.org/about/specifications/.
- 
- When set, the optional ``ETHTOOL_A_PLCA_ENABLED`` attribute indicates the
-@@ -1989,7 +1989,7 @@ Request contents:
-   ``ETHTOOL_A_PLCA_ENABLED``              u8      PLCA Admin State
-   ``ETHTOOL_A_PLCA_NODE_ID``              u8      PLCA unique local node ID
-   ``ETHTOOL_A_PLCA_NODE_CNT``             u8      Number of PLCA nodes on the
--                                                  netkork, including the
-+                                                  network, including the
-                                                   coordinator
-   ``ETHTOOL_A_PLCA_TO_TMR``               u8      Transmit Opportunity Timer
-                                                   value in bit-times (BT)
--- 
-2.25.1
+If I should go ahead and make "breaking" API changes based on the last
+review, please let me know.
+
+Thanks,
+Zeb
+
 
