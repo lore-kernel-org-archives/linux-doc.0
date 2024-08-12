@@ -1,106 +1,152 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47923153810
-	for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 17:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA1B187343;
+	Mon, 12 Aug 2024 17:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723482196; cv=none; b=FV2QEidFB5Lx4GJmtEYtN6LAXibM6wa+C/zFXok1wmyyE/hxx9X9792nYfRTAZQE07sy8Q882hVgdvXFAKaqZmlg5UE76Pn74+sXp+HoOZFr+Noy8o0tdp8cQgrvqCSuwjkAkYmrXeG7qQWTiE2ly5oaX6mVDX0Mm8/eGdKIcKU=
+	t=1723482561; cv=none; b=ZNx2z7+3WXbomgHfBpMFYA18pjITNQJBOeLJItyvPEM2che3BnJGYFTbTqnKzBDZ+RaFLpsHMssfgDtSFkAJ2/n7djDLrPoFYVf9BOYTgwZ0t2TMiIc1XW7F0Wz/Q6pL/qxGNMFnrIVfzpJPsYOWogRsLM5Eipva8jYCk6vqe60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723482196; c=relaxed/simple;
-	bh=IGwPcOdKLneQrDz3TxBBsgsLiAnDxtF3rxB3ridlEaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cKAws4+S1VH78TCvRw+SD0eHYNd3eB/dPMOMOd5IWJK1oHQGxmXQOtGvy7NI9ZsOjNmR/m/b/67IjLWuMuMGXIMfeONhUW7kYN0Xeyrrmpfp7MfDyxGIQKF7fBCYnwygvJPgLsMjQlHC0QKr3m1xbGuD6QTTq+/D2O4nN/pNK/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=i+yFibpp; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1723482561; c=relaxed/simple;
+	bh=0MQX7ArPk4mAV4iN9yEqbL0u20EthjGUcGLNVJxyVtU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=awGnEprKftSfSh3h1oBE+oL6ccsU6QKGI+m5KfKl7YZiMQOdZ4UhKEZnwyu4SPTV+ZK3tT81DPpD4lMAVg2mhhlQVdd4XZnLwEKyQCyvXy9AERqM1725vqJR2fmKGSQBPmDTlBk3HTGODyJ1qW6QP7PHqaUHceYvjxwR3rFjXeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHaE/tvI; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="i+yFibpp"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5d5c7f23f22so2650412eaf.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 10:03:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHaE/tvI"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d1c655141so3275274b3a.1;
+        Mon, 12 Aug 2024 10:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1723482193; x=1724086993; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bExiDSnFO33yD2L8BFcmTWpVw+fpt4LMBVVZpDIXrdw=;
-        b=i+yFibppxIwoiUoZWODocUR1eUXFcM3AVJCovt+ax0M4iq4pmm+3aigJXzGemOEh/y
-         DVOW+aPvtAFDJsQqu4aHxbZffQ0Osi9GS/NTUiI0v076g3sXmAHYvsHUCZukUTgBLA+L
-         vEhCLLy92LbqZWucIK31H4Mpy16GHlGAP1Nc7azbqn9YUZ2888NqMzorsU4SBkNMk6Yo
-         MM1XalKU5GqWgLMmE2Rp7wjer/avmVmtPrvCoXGUIbBXkL0g52NHu/jusT7mmzm7xKrS
-         Yy8NmIml3JOcioRraZUBV8LxUzNHwCu3q4A4k8UxmjkG4dcBU3DuJ7rQ7NLbzmnMUEau
-         92ZQ==
+        d=gmail.com; s=20230601; t=1723482559; x=1724087359; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t05NaBT7bFxhrNH1lXOVprHE6cItR2aJz1lL9AZNeks=;
+        b=KHaE/tvIpXHFuJmzla6vrHJTZMag9bApJpduxx/sdUZuH5z0LNJnPF9Syw+JtGzNiS
+         qLtWjMFr2DLaZ/zWAw7jzDHf6EB2LKmOltATEtjvPP3CF/lh0gcr2C8JLwjrpqNPfY9t
+         OalFXNUUMCIc34EuJq6EY5N3Xg+l5Mzv6K12Tzj09Qy0N7G4t5DMO/ViQO7Rdmf+D3p/
+         PXER3LvPFIQKwyzLPMnikoGlzijyoSIcsmF/wCxzTebDb5jsAOCpdNT6eje+fs8W2MNj
+         jqg1yTnDzUo6GAXi1NJpAtNZDi0sLePal2mEz+gyqBndlkzQtu6RxtcBRhxWZut4GtmY
+         KARg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723482193; x=1724086993;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bExiDSnFO33yD2L8BFcmTWpVw+fpt4LMBVVZpDIXrdw=;
-        b=ci+3l80b1BICd2TJgpzdg2+gA//NUj4dPdRR++ckXm5Iqn+RmcPPr4d3+LiVtJgTlV
-         Qwa/FDjQRpCETQuTiVX7dUJN8DuqRdOxMe6zkatc9Z0sNexaU9M6fGjZ1cL8G3zTInSO
-         lx6kfpoQGtoeXxHSKEAkxtnfUiaMfFvrQMW1Gl16YLNyGzqG3VbvJIoHHE5XdhFijGwT
-         ZSBE4L2gWgpMTrGQUwMrxeKgQuoVkxVaQ9M2vF/uYbUJ7uUCuD28T2l+DnrDXKeNEISn
-         R4RhVxn7iBUBWLSQ+2cVmnbnexBseJu4g/I5CNgqHt6Qz8Wojt6DOyik+OSdDyXqN8Fy
-         FiNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhZYMh0YulsMGTne8gwjvKYP/m0zrjrfM5+eyVsTA36lAlNdxo+KA97b573Y+UcbqNvI2Cg3twlw4ow0VWDL9+jSIZeu+cgfi5
-X-Gm-Message-State: AOJu0YxxJPhCDDJX+qtGTcvDC1NNa1wo/9/Q3/GzrwtF9ORnX/PnhD6K
-	03J5kV6dU0bfc37o64AAyOzL8ENOAhvl/B3JRbc4vaSHIRM51VtRfgv1EMoLsxM=
-X-Google-Smtp-Source: AGHT+IG/8cvwJl1su2L5alxvVPwGc2ZZozy1KozsXjsObxlu0fil/+H5vX6dIr/MUHIJ+7YaXv9Bpg==
-X-Received: by 2002:a05:6820:169e:b0:5c4:68b8:e27f with SMTP id 006d021491bc7-5da68a0e743mr1122735eaf.6.1723482193390;
-        Mon, 12 Aug 2024 10:03:13 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5da3e286b09sm1319918eaf.0.2024.08.12.10.03.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Aug 2024 10:03:12 -0700 (PDT)
-Message-ID: <4bdb10c2-057f-4254-864b-99bb7ac1509d@baylibre.com>
-Date: Mon, 12 Aug 2024 12:03:11 -0500
+        d=1e100.net; s=20230601; t=1723482559; x=1724087359;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t05NaBT7bFxhrNH1lXOVprHE6cItR2aJz1lL9AZNeks=;
+        b=nvjl0FsmSCBDxwvNEG1U3RmFR03xZDHi50l/ObbZj32eBzDTub9DRLpMt3bnuDP7tB
+         7YGfcR98rfYGdm+FMyf4X6C5FNchQWBqX5TqHgu2ON/tWEGhHlWiVPRsFbb0LzhCQiwL
+         4X2quVFxfTtmCzL5pMqQWreQQjalh4cFozq1w7N95G8g0zpii25umk/RFgaqLvSZC17j
+         VsORP7fX/NjYX2ft/p9g3vQQScFfPA+AsM8wwRtnaLTzWgQUEfr/A8DKpy0GMX6Ly3Dj
+         MdUhDrjcGjHfzrnvdT5fhmiyQcEm4MxwUajfmmwvw0QhionMU5WOk92x2AlHWzj1NhLA
+         PwKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUonXD8IshBbtpq0fOyxYsCcr+/P0TqOTQkL8+HmdvQUIaIhIhwzU987/udCxViOPYDXLNbgMtKu03ayyjOF9/aIpP+h5LCsUMO/gwur/4VjHH0lsiBWCoo9ZeszHzpslpLyL9u2ibkx2xGIyu5w9kusUtiaz64y1BedMkFSO4Z
+X-Gm-Message-State: AOJu0YwPFmM8VaPMczHj6e1SlfTJZls68LfTWMK3wJD44EV+J9U2OPl2
+	P/s/dDkht1lnis8ueV1ch/Z/unnpJOlXLhCr980uYNN2PqVU9ASm
+X-Google-Smtp-Source: AGHT+IFdGC6guWLvF4TTcjvzGJhWOlSp6tMM3/62nMpRD4XNdu5tUKIiuxEY4mXAiijdjKX7ZB7kxw==
+X-Received: by 2002:a17:902:da85:b0:1fa:2401:be7d with SMTP id d9443c01a7336-201ca122751mr12138855ad.8.1723482559480;
+        Mon, 12 Aug 2024 10:09:19 -0700 (PDT)
+Received: from localhost.localdomain (2001-b400-e4d9-f7d4-34a5-a177-48aa-18c9.emome-ip6.hinet.net. [2001:b400:e4d9:f7d4:34a5:a177:48aa:18c9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bbb5b004sm40341425ad.304.2024.08.12.10.09.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Aug 2024 10:09:19 -0700 (PDT)
+From: Jing-Ping Jan <zoo868e@gmail.com>
+To: horms@kernel.org
+Cc: corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	skhan@linuxfoundation.org,
+	zoo868e@gmail.com
+Subject: [PATCH v2] Documentation: networking: correct spelling
+Date: Tue, 13 Aug 2024 01:09:10 +0800
+Message-Id: <20240812170910.5760-1-zoo868e@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240811134453.GJ1951@kernel.org>
+References: <20240811134453.GJ1951@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
- <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
- <20240810103540.03e758a5@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240810103540.03e758a5@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/10/24 4:35 AM, Jonathan Cameron wrote:
-> On Wed,  7 Aug 2024 15:02:10 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
-> 
->> This implements buffered reads for the ad4695 driver using the typical
->> triggered buffer implementation, including adding a soft timestamp
->> channel.
->>
->> The chip has 4 different modes for doing conversions. The driver is
->> using the advanced sequencer mode since that is the only mode that
->> allows individual configuration of all aspects each channel (e.g.
->> bipolar config currently and oversampling to be added in the future).
->>
->> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> 
-> Main thing in here is I think you can use available_scan_masks
-> to avoid the need for the error path on just the temperature channel
-> being enabled.
-> 
-I had not thought about doing it that way, but now that I am
-thinking about it, it seems like we would need to have a scan
-mask in the list for every possible combination of channels.
-This would be 10s of thousands of possible scan masks for 16
-channel chips so that doesn't seem like the best way to go.
+Correct spelling problems for Documentation/networking/ as reported
+by ispell.
 
-But adding some special handling to make the temperature
-channel just work should be easy enough to add.
+Signed-off-by: Jing-Ping Jan <zoo868e@gmail.com>
+---
+Thank you Simon, for the review.
+Changes in v2: corrected the grammer and added the missing spaces before
+each '('.
+
+ Documentation/networking/ethtool-netlink.rst | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index d5f246aceb9f..4acde99e405e 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -934,18 +934,18 @@ Request contents:
+   ====================================  ======  ===========================
+ 
+ Kernel checks that requested ring sizes do not exceed limits reported by
+-driver. Driver may impose additional constraints and may not suspport all
++driver. Driver may impose additional constraints and may not support all
+ attributes.
+ 
+ 
+ ``ETHTOOL_A_RINGS_CQE_SIZE`` specifies the completion queue event size.
+-Completion queue events(CQE) are the events posted by NIC to indicate the
+-completion status of a packet when the packet is sent(like send success or
+-error) or received(like pointers to packet fragments). The CQE size parameter
++Completion queue events (CQE) are the events posted by NIC to indicate the
++completion status of a packet when the packet is sent (like send success or
++error) or received (like pointers to packet fragments). The CQE size parameter
+ enables to modify the CQE size other than default size if NIC supports it.
+-A bigger CQE can have more receive buffer pointers inturn NIC can transfer
+-a bigger frame from wire. Based on the NIC hardware, the overall completion
+-queue size can be adjusted in the driver if CQE size is modified.
++A bigger CQE can have more receive buffer pointers, and in turn the NIC can
++transfer a bigger frame from wire. Based on the NIC hardware, the overall
++completion queue size can be adjusted in the driver if CQE size is modified.
+ 
+ CHANNELS_GET
+ ============
+@@ -989,7 +989,7 @@ Request contents:
+   =====================================  ======  ==========================
+ 
+ Kernel checks that requested channel counts do not exceed limits reported by
+-driver. Driver may impose additional constraints and may not suspport all
++driver. Driver may impose additional constraints and may not support all
+ attributes.
+ 
+ 
+@@ -1927,7 +1927,7 @@ When set, the optional ``ETHTOOL_A_PLCA_VERSION`` attribute indicates which
+ standard and version the PLCA management interface complies to. When not set,
+ the interface is vendor-specific and (possibly) supplied by the driver.
+ The OPEN Alliance SIG specifies a standard register map for 10BASE-T1S PHYs
+-embedding the PLCA Reconcialiation Sublayer. See "10BASE-T1S PLCA Management
++embedding the PLCA Reconciliation Sublayer. See "10BASE-T1S PLCA Management
+ Registers" at https://www.opensig.org/about/specifications/.
+ 
+ When set, the optional ``ETHTOOL_A_PLCA_ENABLED`` attribute indicates the
+@@ -1989,7 +1989,7 @@ Request contents:
+   ``ETHTOOL_A_PLCA_ENABLED``              u8      PLCA Admin State
+   ``ETHTOOL_A_PLCA_NODE_ID``              u8      PLCA unique local node ID
+   ``ETHTOOL_A_PLCA_NODE_CNT``             u8      Number of PLCA nodes on the
+-                                                  netkork, including the
++                                                  network, including the
+                                                   coordinator
+   ``ETHTOOL_A_PLCA_TO_TMR``               u8      Transmit Opportunity Timer
+                                                   value in bit-times (BT)
+-- 
+2.25.1
 
