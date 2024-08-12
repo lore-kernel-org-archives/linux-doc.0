@@ -1,189 +1,111 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D5F14D28F;
-	Mon, 12 Aug 2024 23:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DC91804F;
+	Mon, 12 Aug 2024 23:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723503842; cv=none; b=dMbnKKC1Wa2co67bCqNU/GygTfh4zlljHvFApSTnHdkGd4otggKxZbGtz4scyJEPMoKX0LdLey+Rcgxb4fLaFF4LWgTWnv5MttbBt7nNJc3NQ1n5uMY8F7ZWQ6AL2LjjUVC5gL0h1YvxaIfkP1x14+jMfAE6zSdodCcDi76kPz4=
+	t=1723507032; cv=none; b=VXDGJ1080Bpq1HoMeJX0aDMLMvh2OEyrLEJPYi6G7+3onaI5edMxkDxIXu+Dl9umfkk9Pp3IeHdSEhpFJG/XteAxQhJ8yy77bl8jtnBuj0RMA3KfpbRO4HfGncf3wHnS1EYCavjkPG/4cw8lolTW6wPXlL3Wz7c8aZF6uyRGuQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723503842; c=relaxed/simple;
-	bh=ds6XhzAxTvpBuKXG5ylnye1N6tiRlGk42WCdUlS7Wyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JrWJHVJUPs4pMaUxcaOVp8vI7AUfdbV2dP3SIeZeB6rF+zUdwhIPFGsyyvW3aAPiujti4+xf3CMNIO/EOLmSbfWvJfIo0RZYk0gt7q21FQQVg7kvgIjsPD+ZPRr7wvDIzGwX72IqhVCvEhgkP0s6wKuSBsbwxROLK0YHnsq8fZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d23caf8ddso4424147b3a.0;
-        Mon, 12 Aug 2024 16:04:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723503840; x=1724108640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HMPNmqSprQ9BGPKYJ0Av2N0L3vCPc9pHL4KvpAQBBLU=;
-        b=IrGwL5MTUyhc6VIICFQzHuoBPBcJhIIADYwpxLTTbDP4LV8apyPDQMW76FcoOj/8ba
-         YWX54xNWlQczLpaTphxE+zJp8mgEiDB9H5jo9toBlF3+sAhyZXM48rvSOquJT6UbmvJU
-         rp9MDqbvJvx85Te6AJsdw1aw979mwxARoOTcT8tIwuBKcKXoCgricRQNswNgwhct0fri
-         meUKIoRH2V6me0KRxY1PO/B1EWkmSPXAOkv70A/tfLWG4qMeHofSfE4mum6LEcZCwilP
-         MefC+ZdgivjGMqSKLBXjRvnTUnR0izWiT3T1V5BprQhZGWh78W7h1Qh56KpL0mmqk4+l
-         7jRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZO0JdZImj0nOJkMZzHh/0RzCH67bb3mEB3Lw95p891sKI+zjVyHRrOVyGlPUTZRh5Js2AOP3aW1qJGoaLN1QmEoqZZv/d33O/1VLeALd3n9B+6vrBuRpS1g6ajevL2xpoMhDQ0yJW+nSXvhdla8xDGP3paoyfJ+QTNrdnAuiAHtGWWJ4IMg==
-X-Gm-Message-State: AOJu0YwF4G2iznPhBtxEz9jhHFtuJQWLY1WONJwJUIb6ozkoQsBptXhf
-	Bj3jxlunhrgIX4pWD0BwessoBz7DQP5RQbnkhxy62OwOq8m9kkc=
-X-Google-Smtp-Source: AGHT+IGT7B592X3aZghDBftVvGia/mFsMB5B5+0hXM6/dxPfRUn5SPge6WimDhuUYM2WEBButJx9uQ==
-X-Received: by 2002:a05:6a21:8cc4:b0:1c4:d0d9:50aa with SMTP id adf61e73a8af0-1c8d74916c7mr2334155637.20.1723503839504;
-        Mon, 12 Aug 2024 16:03:59 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:73b6:7410:eb24:cba4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c697a549d8sm164253a12.67.2024.08.12.16.03.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 16:03:59 -0700 (PDT)
-Date: Mon, 12 Aug 2024 16:03:58 -0700
-From: Stanislav Fomichev <sdf@fomichev.me>
-To: Martin Karsten <mkarsten@uwaterloo.ca>
-Cc: netdev@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
-Message-ID: <ZrqU3kYgL4-OI-qj@mini-arch>
-References: <20240812125717.413108-1-jdamato@fastly.com>
- <ZrpuWMoXHxzPvvhL@mini-arch>
- <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+	s=arc-20240116; t=1723507032; c=relaxed/simple;
+	bh=Jr9ZiAeKQT2m5eKlEJkFL1K/dVRLIXlbe8RR0cKjDv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XjNnPzye6aB/mJ1Dq+ppTkpeu4jB2DGvY7et1ZbsP2zXYk/8LibtFoCw9xWUf3OjOD6r40yGAB5JD4aWEyPjmwhqZwYBn/ya8+BsyILCKkbg8BV5nXp9pgoCKuxfG8OjrQBQ06JL3qhYuFnAcGOIKC3RbxCa5B7foEl7R9FYl8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yu7jc8ms; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yu7jc8ms"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2500C4AF0E;
+	Mon, 12 Aug 2024 23:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723507031;
+	bh=Jr9ZiAeKQT2m5eKlEJkFL1K/dVRLIXlbe8RR0cKjDv0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Yu7jc8msljkFCiQiwDF8/zfbezYJqanad92vT7bLx1dIuUShflvBssxWFPxEF/6Tn
+	 Y6qZR26h6davxDADewPqVrDbdDczF8Qcfmj7XUmuNBVgamCljt10Aq6S9lIkNZrlTC
+	 DI1MmuAnHiAfpgm3qDz7e1Bxg9pWMNEsq3xGTfFREDalBFadkOa+tffRzqkA0tT8uP
+	 fY9gXJLt3AIpZK7oFuq6X15n6MRFUxghZeDdZK64myodmq9N2bG7na/OJa4W3FBwc+
+	 VjF7d55qI3ua0l1zhG9f4oRBuranyt4ci5N38sYz5rLuG4RyFeUjSKg0qqpUAjLWuY
+	 q9MRn2l+gjx0g==
+Date: Mon, 12 Aug 2024 16:57:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
+ <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
+ Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
+ Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
+ Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240812165708.33234ed6@kernel.org>
+In-Reply-To: <a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+	<20240805212536.2172174-8-almasrymina@google.com>
+	<20240806135924.5bb65ec7@kernel.org>
+	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+	<20240808192410.37a49724@kernel.org>
+	<CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+	<fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+	<20240809205236.77c959b0@kernel.org>
+	<CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
+	<48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
+	<20240812105732.5d2845e4@kernel.org>
+	<CAHS8izPb51gvEHGHeQwWTs4YmimLLamau1c4j=Z4KGM8ZJrx5g@mail.gmail.com>
+	<a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 08/12, Martin Karsten wrote:
-> On 2024-08-12 16:19, Stanislav Fomichev wrote:
-> > On 08/12, Joe Damato wrote:
-> > > Greetings:
-> > > 
-> > > Martin Karsten (CC'd) and I have been collaborating on some ideas about
-> > > ways of reducing tail latency when using epoll-based busy poll and we'd
-> > > love to get feedback from the list on the code in this series. This is
-> > > the idea I mentioned at netdev conf, for those who were there. Barring
-> > > any major issues, we hope to submit this officially shortly after RFC.
-> > > 
-> > > The basic idea for suspending IRQs in this manner was described in an
-> > > earlier paper presented at Sigmetrics 2024 [1].
+On Mon, 12 Aug 2024 20:10:39 +0100 Pavel Begunkov wrote:
+> > 1. Drivers need to be able to say "I support unreadable netmem".
+> > Failure to report unreadable netmem support should cause the netlink
+> > API to fail when the user tries to bind dmabuf/io uring memory.
 > > 
-> > Let me explicitly call out the paper. Very nice analysis!
-> 
-> Thank you!
-> 
-> [snip]
-> 
-> > > Here's how it is intended to work:
-> > >    - An administrator sets the existing sysfs parameters for
-> > >      defer_hard_irqs and gro_flush_timeout to enable IRQ deferral.
-> > > 
-> > >    - An administrator sets the new sysfs parameter irq_suspend_timeout
-> > >      to a larger value than gro-timeout to enable IRQ suspension.
+> > 2. Drivers need to be able to say "I want a header pool (with readable
+> > netmem)" or "I want a data pool (potentially with unreadable netmem)".
 > > 
-> > Can you expand more on what's the problem with the existing gro_flush_timeout?
-> > Is it defer_hard_irqs_count? Or you want a separate timeout only for the
-> > perfer_busy_poll case(why?)? Because looking at the first two patches,
-> > you essentially replace all usages of gro_flush_timeout with a new variable
-> > and I don't see how it helps.
-> 
-> gro-flush-timeout (in combination with defer-hard-irqs) is the default irq
-> deferral mechanism and as such, always active when configured. Its static
-> periodic softirq processing leads to a situation where:
-> 
-> - A long gro-flush-timeout causes high latencies when load is sufficiently
-> below capacity, or
-> 
-> - a short gro-flush-timeout causes overhead when softirq execution
-> asynchronously competes with application processing at high load.
-> 
-> The shortcomings of this are documented (to some extent) by our experiments.
-> See defer20 working well at low load, but having problems at high load,
-> while defer200 having higher latency at low load.
-> 
-> irq-suspend-timeout is only active when an application uses
-> prefer-busy-polling and in that case, produces a nice alternating pattern of
-> application processing and networking processing (similar to what we
-> describe in the paper). This then works well with both low and high load.
-
-So you only want it for the prefer-busy-pollingc case, makes sense. I was
-a bit confused by the difference between defer200 and suspend200,
-but now I see that defer200 does not enable busypoll.
-
-I'm assuming that if you enable busypool in defer200 case, the numbers
-should be similar to suspend200 (ignoring potentially affecting
-non-busypolling queues due to higher gro_flush_timeout).
-
-> > Maybe expand more on what code paths are we trying to improve? Existing
-> > busy polling code is not super readable, so would be nice to simplify
-> > it a bit in the process (if possible) instead of adding one more tunable.
-> 
-> There are essentially three possible loops for network processing:
-> 
-> 1) hardirq -> softirq -> napi poll; this is the baseline functionality
-> 
-> 2) timer -> softirq -> napi poll; this is deferred irq processing scheme
-> with the shortcomings described above
-> 
-> 3) epoll -> busy-poll -> napi poll
-> 
-> If a system is configured for 1), not much can be done, as it is difficult
-> to interject anything into this loop without adding state and side effects.
-> This is what we tried for the paper, but it ended up being a hack.
-> 
-> If however the system is configured for irq deferral, Loops 2) and 3)
-> "wrestle" with each other for control. Injecting the larger
-> irq-suspend-timeout for 'timer' in Loop 2) essentially tilts this in favour
-> of Loop 3) and creates the nice pattern describe above.
-
-And you hit (2) when the epoll goes to sleep and/or when the userspace
-isn't fast enough to keep up with the timer, presumably? I wonder
-if need to use this opportunity and do proper API as Joe hints in the
-cover letter. Something over netlink to say "I'm gonna busy-poll on
-this queue / napi_id and with this timeout". And then we can essentially make
-gro_flush_timeout per queue (and avoid
-napi_resume_irqs/napi_suspend_irqs). Existing gro_flush_timeout feels
-too hacky already :-(
-
-> [snip]
-> 
-> > >    - suspendX:
-> > >      - set defer_hard_irqs to 100
-> > >      - set gro_flush_timeout to X,000
-> > >      - set irq_suspend_timeout to 20,000,000
-> > >      - enable busy poll via the existing ioctl (busy_poll_usecs = 0,
-> > >        busy_poll_budget = 64, prefer_busy_poll = true)
+> > Pavel is suggesting implementing both of these in 2 different flags.
 > > 
-> > What's the intention of `busy_poll_usecs = 0` here? Presumably we fallback
-> > to busy_poll sysctl value?
+> > Jakub is suggesting implementing both with 1 flag which says "I can
+> > support unreadable netmem for this pool" , and guarding against #1
+> > with a refcount check to detect if a dmabuf pool should have been
+> > created but wasn't.  
 > 
-> Before this patch set, ep_poll only calls napi_busy_poll, if busy_poll
-> (sysctl) or busy_poll_usecs is nonzero. However, this might lead to
-> busy-polling even when the application does not actually need or want it.
-> Only one iteration through the busy loop is needed to make the new scheme
-> work. Additional napi busy polling over and above is optional.
+> That would be iffy IIUC, but I think Jakub just explicitly said
+> that the refcount trick was just for debugging purposes and not
+> for gauging errors like "providers are not supported by the driver".
+> 
+> "Yup, the refcount (now: check of the page pool list) was meant
+> as a WARN_ONCE() to catch bad drivers."
 
-Ack, thanks, was trying to understand why not stay with
-busy_poll_usecs=64 for consistency. But I guess you were just
-trying to show that patch 4/5 works.
+Sorry, insufficient caffeine level in the morning.
+We can't WARN_ONCE(), indeed.
