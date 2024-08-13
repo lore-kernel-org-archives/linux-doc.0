@@ -1,201 +1,230 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2080.outbound.protection.outlook.com [40.92.21.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAB5848C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6AF8BEF;
 	Tue, 13 Aug 2024 01:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.21.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723514064; cv=fail; b=H6NvyxRTQtukQzkdcO1MEEhTScAJ8rEHXD9p/QP8wxRfVYFwGlvQXyBwGsVcexWxxq2hOFa7kD2hK+eB3+uSdoHHfYKbNFukE1ZzGWooBZfQ+34hM7pnoKSjT0v7KBrcYPAeZP6IQBOTFtgzPqWvv8RUtgf+u1tM0rqN3SRcGWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723514064; cv=none; b=uKoZcbN6hke0iym2s04MFGGkfxtSUP1xCOlA7PTsKpzL4I8j6UHBSafg7odMgkpE4bjJdUDGYlXViIK1PgsruJ2cX5A8i8Y0DxJGp8KX3+7gtiFr2cE/RQ9dgOO8zOEk01GjQalae2XXjgLfUvfEOUoi2cfnsBUxxxVGoUGXotM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723514064; c=relaxed/simple;
-	bh=8+hOMiUwe20sh/CTHbUXmhRPkpP37Pqv0gDG2rSak5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ced/SWDlnFZ6jKQjRujwS/t637DzzoaNk39uz7AhwzL+c+2ZmujcaWTwCrrHALTe2PpdRTKjFmOVgIF+XAw3vRdAPjmY0J17CO4+HXBuFnDoGEw/h1ek7tueLIhlvKMJVKj1GappNcpG7pHC4bYleOjXTlArHpLI2B2Z9pAOSDo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=EsWgVExh; arc=fail smtp.client-ip=40.92.21.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="EsWgVExh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aU0INWhSOWbES5urTqZESA5QeRQedi4K3+4FJhgAgfcvMAH/J/QWFnjodysJ9o/AkVRhDOvsWQaU9dko2kWCmtEdA4l/spITIElxTMI8bP5UjVe9RHxfSzpB5/hn5dZFidHtTkyHyjccZtkgzD9YZocRrm2Ou7Su6FaO5p2Z1q7i72NlWRYIvA+4zPP+PLzo2KjqNQ8Ke87WZgUBxGmVZ+0wEwC7josWCBUKYrnbkRY+etSyQnAxT+s/a22aSbeqHlVG1xSdyxpG11R3Dx8LpPOuceUuIG4LvS2hPs9f4R0GTFI9sJTUpsGU7V7n/ykgaPz2ZzLC+NmZQ4AKlY801g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JCqct+paTakFTJN7VMApzz4B9iZNaECOGP9FcOC9HG4=;
- b=B49TbPb3iArNjWDAQqS444QnprzMa96SkYb2IBKRAY7NwdYj564HteN1AzL1tVQLOap+cwVFFsqwV+Xt4JvuwoGqp+c5Xf6kNlsTYI/xm3lWQckIiFQyXLvZKjqVCj6NaO6cuXcPs+la59G2jhDtotOTE+kPubR80Cv2ztPrV0gJbECo1gwG2X0yirS59vX64jgm9WAka/DWUw9H45ssMeQ1hEGWiF/oM6ngD5e52FJnBHeL4zYLM4Oaaz9FtiZ/z/IfFZS03j0j6+GffjbSLRlgRhiRDt/gOFVuL/tN2oshyCEmGLfUUMXeYMwqiFJP1JYmJxVd6SqO2y9xpMKS6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JCqct+paTakFTJN7VMApzz4B9iZNaECOGP9FcOC9HG4=;
- b=EsWgVExh57iQJhQBTSNU9v5oF8gMCu/m2PYRy1ZKB33SHZblKzQ8UZ/t0TZl9PtwqqJ53Lm8qlwAJVe+a29yUHwmCZEYQEtYBVY81L309IblryrGQCj/49ZxiOPMksvFG1j1FdPA8pkZbAgac1gphsOZD8i67CzPJc9zNW1VdFp9vjbTPaKYqljy6q9ISa0kgNYcTf0yv0qwTK8U8DTTpjUwC3yg37RZgRs2HFbVuaoHQJkqNc512dZQLM4UvB4zN3hxhfjpzpmJQnDhy8pNl4jdzvzj4z5G9W5/k8J0hwPdWB/VeVgB1/hYZvph3KOCyAeKqC3bjIaBH5idI4sOPA==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by CH3PR20MB7303.namprd20.prod.outlook.com (2603:10b6:610:1e2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Tue, 13 Aug
- 2024 01:54:18 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149%4]) with mapi id 15.20.7849.021; Tue, 13 Aug 2024
- 01:54:17 +0000
-Date: Tue, 13 Aug 2024 09:53:31 +0800
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@outlook.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
-	Chao Wei <chao.wei@sophgo.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Drew Fustini <dfustini@baylibre.com>, Sunil V L <sunilvl@ventanamicro.com>, 
-	Hal Feng <hal.feng@starfivetech.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 0/4] riscv: sophgo: Add SG2042 external hardware
- monitor support
-Message-ID:
- <IA1PR20MB4953751ABC2CBB8747A3ABDCBB862@IA1PR20MB4953.namprd20.prod.outlook.com>
-References: <IA1PR20MB4953C5DB4AC5DF01236CE785BBBB2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <PN0P287MB283050511BECD88076E8252EFE862@PN0P287MB2830.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN0P287MB283050511BECD88076E8252EFE862@PN0P287MB2830.INDP287.PROD.OUTLOOK.COM>
-X-TMN: [NbtRrglltd9Snd3q/6oSpUtVc6d5ydgLgnD1CPc3TXU=]
-X-ClientProxiedBy: PUZP153CA0017.APCP153.PROD.OUTLOOK.COM
- (2603:1096:301:c2::19) To IA1PR20MB4953.namprd20.prod.outlook.com
- (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <akmegdy4kjag7uwtano7536ymxpsunho23hovb6f4jhdroo6nf@5af327l7qxbf>
+	bh=xf2c9r28DjNV2oZOIAFC3eioU11GutQquZEDO4E5AE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xo2rxzc62Wjx8hawahX5obyh4/BG6scg8y6YsrbgGSm9bEO4TTABHUHJ+cdYz5Jn0RIbwWdW5/sYu658wdVgp2T3QHyVIbnSqlDYBLs6eQ03bN0qYqtNQYfScX9UAVq6/W99h7VlECLxS2GtXSU9QkVH3VHDpC/7wD+AHZAD2VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d1d6369acso4025948b3a.0;
+        Mon, 12 Aug 2024 18:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723514062; x=1724118862;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IR7nxsJ/on7OZmeb7iHI9ejZE2dXQFCt6FEeyf1PESQ=;
+        b=nFd4KqfN0pjIAWqfYd1xBxEyiN2R0/F4HfwbHiSY5FfvvWiib+jkRbdrMNrIpb22MM
+         8LA15Knnp3z7aGomqI+Z6qumjLMIURqSDCJ6QvK0uk67XrJUO5IEPxnFFijuPFgA6YsL
+         28SB7X/QMSXqySzVEWWzqGtkB3w6rNsoBcmDCvMuDnhy3jnumRNXQy8OKURLdgGAoaI5
+         l8e3D1nvGKXXNig2jlhDLwJujAiOB3tfZKDu1sLdqjIF7LtJS0CV9DkYhdnRvyNcmYl+
+         oatlrtg+kUQtvsk/jhZsYBuJOASpOeyx/2OIQhIwvz8vGdz2OSOFmmK3ETDuM1UjafYp
+         x4hw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvWawhFOf6maOMXQpbICm+q5OsczGWPviz4ib48FvHA0tcAzs8dTb7lrkXY9QQAzFr63cuPENZJIdETtM3mKgevBeUER2cX8DngMn5Zh97bH7jbMCf3tzu36yzk393JwJ9+jDDtIGeuXo+yvop9qESA+hSOUtYsjbtF95nXaGqTpVkDQOuBg==
+X-Gm-Message-State: AOJu0YyA6DFomEADiIfkM+d8rSyKddtOt6kx0+Uremo7cC4LNa5l7oBJ
+	qJqF0+qvb3NZ7RDHb6HysY1W32dT5nUO+olZLlHCEGsBwvYjKNA=
+X-Google-Smtp-Source: AGHT+IFFsSTbbZeJK3+KDsL25G7biWTsuXdC31iTRrYyxom4HI+FPmn4OkMb0AGCbqMleehQ0TaICA==
+X-Received: by 2002:a05:6a20:12c6:b0:1c4:8694:6be8 with SMTP id adf61e73a8af0-1c8da19049dmr2160169637.3.1723514061689;
+        Mon, 12 Aug 2024 18:54:21 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:73b6:7410:eb24:cba4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5ab7af4sm4603819b3a.208.2024.08.12.18.54.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Aug 2024 18:54:21 -0700 (PDT)
+Date: Mon, 12 Aug 2024 18:54:20 -0700
+From: Stanislav Fomichev <sdf@fomichev.me>
+To: Martin Karsten <mkarsten@uwaterloo.ca>
+Cc: netdev@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+Message-ID: <Zrq8zCy1-mfArXka@mini-arch>
+References: <20240812125717.413108-1-jdamato@fastly.com>
+ <ZrpuWMoXHxzPvvhL@mini-arch>
+ <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+ <ZrqU3kYgL4-OI-qj@mini-arch>
+ <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|CH3PR20MB7303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68fd2133-a019-4958-28d5-08dcbb3ad75d
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|15080799003|5072599009|19110799003|8060799006|4302099013|3412199025|440099028|1602099012|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	pmXzMQJYhRFEDmHTt8Qc5VWoNYzZ8oT9hVQ32pRjdHuoN6Fxzyum2M4uH8QnAPxRVMhBcX4dqFX9eD8+U17PnsaUq+i1cwHqokdMKuUcedTEv78UrTJwF0PsckEIoyDwGFR7fg2F9guq2oD+upr7vV/UqraLLE3sw2NGqCQYAf7M1lstc9KMK954/+PIg7EeeG0A/OrkfMhroGKPxa0OTnt+c4pzo6WrznffG1nkevL5BtjQ6Jt7eGeiF0j89ErW13WF/4hECzOT9PR/BBAUT4y3pxd6dSlLD37AZf8Vk/MkUmeWGP3WwSKnGhL26d2c+AeiXHHgtuRRBvAmp5NN7OZIbqlgYaHAB9mK/SHZHhPROJA923/WGB+weUx4Kd8jevaZw+qsoA34qlw3AcD9WUj/yA+LtElK+9I4799zG4fG6qPBM+dxkIVhLbcwHZhPpvukjRQ9CkFR6b2pzqDuCidMk9x/wy4PAmmD3hKVX709VjzxQNJnLWLtHE1+OMW26Db4yfM/IRiJFMoSxUmgPuBCAqWxocyBPmXGYuQ5Zg8gM5Yl39Ww+CJasNB3kaplq5XAyJduF8NAp00FY6Tg42s5rnC8gBWLAIADEs0KVSKdWy9XrqF/yIbDIDJwV7a6UmoMzXXwBlkzXbTTLKtwYdhoy+DfKh/nrTrkgSQ84GTADkbmRgUvtrPGjVfzPY0TljDJiYwov5AE8qJCuAAZTE3ZmptmRNAXw5P4okc5afhgRlfAomvUQ59Tk0v0Q3VDXRavKp0+z6+GnEXBaIolM96eG0oT+2fnOBtUeajN/q2yfRS7zKFJOJeZ6s004h6Piu5cIyBDtouuP9lpoGo97Q==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?AREAI6ydWxQFhshLVMqzcq5o742Crzihete07x/C7BJEsoczcD7VhpvfvYcE?=
- =?us-ascii?Q?dUKc0Rf6EBFDreIJMjbc3Lqnu6aZDhhJyaUN77944XWEFswiuACgzX32S0+E?=
- =?us-ascii?Q?5rz4+IZUxbSuP86cVIx+KTJ1JHykekm2WL4shu1M2mzpcSlXHlT6CV2jGteO?=
- =?us-ascii?Q?bD1dGraEa/3YoT2YO6Pv0Jvsqr3NB13/lv9UQFVvzMQpP1Lk5FQ1Iv7sXfTl?=
- =?us-ascii?Q?9EoySyAzuH95sfCD3gNS/CNMG1OU5Lta5NcYts3IgKguWFqOb2MtIxDFAIVX?=
- =?us-ascii?Q?onrTKh+bBU1KRU1TLuuxOX90cArkIJ0dVDUyWvO27rtvE+sSSBruADTn+voM?=
- =?us-ascii?Q?6beMwS6jCPaUFj7kNdPEJDAosH6/P0ailmxPU5ypBafx+2DeAYhYX67oPhxW?=
- =?us-ascii?Q?1oR47m6NlqPFj10Y+1H3YESG4aS0SPg5srRMmoBuV6dpPpjs0VKsjJcEIcZ2?=
- =?us-ascii?Q?xCub1VczseUwEF+1H2no+Ph28194ohWSmP4V1lA+oIj8+6/P/ohdGWzjK4QU?=
- =?us-ascii?Q?fQ24nEixlKluYIf61SzFkmH863SPtMPwuYGnn/5E5vkjRRfQQcMSs0NsKSzN?=
- =?us-ascii?Q?KWxqgu5iN5mYYdCsLEEXreq0zHQyNbw8TfkWVQz38MBpndi5vJIYjh3zP2u9?=
- =?us-ascii?Q?YW66C/nGRdEfGDaLonwIIeB1xogl1KqhxZv5saWREujPrXsfE9xmHLQ2NHEi?=
- =?us-ascii?Q?E9Z0VxBFb6NGBwdvZkef1CckR1QQJg+qSbt+ZXY42EQ/yZUk4rXYt4LjrH02?=
- =?us-ascii?Q?IqjTRyNLaFyDiAXwITl53WD7PoVx6Fd8Xy+Sl2Tx2hygzed93LkdQahFw/9k?=
- =?us-ascii?Q?wHBAsItn1L5+93pfEjbBoxOxHP+D9+lKagmz42d4Nqu4muCOtme9U1VctCxM?=
- =?us-ascii?Q?59xh8EooH0mkFvIyNQgvKiOF2clN7xMNJsO6/uJa97YMH6VSkG88dL7KP7UB?=
- =?us-ascii?Q?kzgQDSZ5412rwURF2/59evkTFj2jzTEIXUn+aeFxxoBtm15prybB20cSa5Nu?=
- =?us-ascii?Q?HjVICA1l8WmeMK4IelhTzkAcgFUujOV+Cmkduw3L2nG7RGUTP/ZP5pDev/ee?=
- =?us-ascii?Q?vn1XAn1dDQbdhKvdjPH8hWugu0CU1gOYM3ET0FblLTxIHU98snv7wIsIQ6Mf?=
- =?us-ascii?Q?orLitggvAgjLAAMwR15/QqKfd26LlXL/ylf0Iz6Xmg/DkjuKIKsFX4C57SaV?=
- =?us-ascii?Q?nQSaxZg4s0uEVeTOQB78EU8+DitWxqwuQw2bifDe4guhv820hCFToJYsYjhF?=
- =?us-ascii?Q?uz+QZvb/m+SYcOffeURY?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68fd2133-a019-4958-28d5-08dcbb3ad75d
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 01:54:17.7593
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR20MB7303
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
 
-On Tue, Aug 13, 2024 at 09:24:19AM GMT, Chen Wang wrote:
+On 08/12, Martin Karsten wrote:
+> On 2024-08-12 19:03, Stanislav Fomichev wrote:
+> > On 08/12, Martin Karsten wrote:
+> > > On 2024-08-12 16:19, Stanislav Fomichev wrote:
+> > > > On 08/12, Joe Damato wrote:
+> > > > > Greetings:
+> > > > > 
+> > > > > Martin Karsten (CC'd) and I have been collaborating on some ideas about
+> > > > > ways of reducing tail latency when using epoll-based busy poll and we'd
+> > > > > love to get feedback from the list on the code in this series. This is
+> > > > > the idea I mentioned at netdev conf, for those who were there. Barring
+> > > > > any major issues, we hope to submit this officially shortly after RFC.
+> > > > > 
+> > > > > The basic idea for suspending IRQs in this manner was described in an
+> > > > > earlier paper presented at Sigmetrics 2024 [1].
+> > > > 
+> > > > Let me explicitly call out the paper. Very nice analysis!
+> > > 
+> > > Thank you!
+> > > 
+> > > [snip]
+> > > 
+> > > > > Here's how it is intended to work:
+> > > > >     - An administrator sets the existing sysfs parameters for
+> > > > >       defer_hard_irqs and gro_flush_timeout to enable IRQ deferral.
+> > > > > 
+> > > > >     - An administrator sets the new sysfs parameter irq_suspend_timeout
+> > > > >       to a larger value than gro-timeout to enable IRQ suspension.
+> > > > 
+> > > > Can you expand more on what's the problem with the existing gro_flush_timeout?
+> > > > Is it defer_hard_irqs_count? Or you want a separate timeout only for the
+> > > > perfer_busy_poll case(why?)? Because looking at the first two patches,
+> > > > you essentially replace all usages of gro_flush_timeout with a new variable
+> > > > and I don't see how it helps.
+> > > 
+> > > gro-flush-timeout (in combination with defer-hard-irqs) is the default irq
+> > > deferral mechanism and as such, always active when configured. Its static
+> > > periodic softirq processing leads to a situation where:
+> > > 
+> > > - A long gro-flush-timeout causes high latencies when load is sufficiently
+> > > below capacity, or
+> > > 
+> > > - a short gro-flush-timeout causes overhead when softirq execution
+> > > asynchronously competes with application processing at high load.
+> > > 
+> > > The shortcomings of this are documented (to some extent) by our experiments.
+> > > See defer20 working well at low load, but having problems at high load,
+> > > while defer200 having higher latency at low load.
+> > > 
+> > > irq-suspend-timeout is only active when an application uses
+> > > prefer-busy-polling and in that case, produces a nice alternating pattern of
+> > > application processing and networking processing (similar to what we
+> > > describe in the paper). This then works well with both low and high load.
+> > 
+> > So you only want it for the prefer-busy-pollingc case, makes sense. I was
+> > a bit confused by the difference between defer200 and suspend200,
+> > but now I see that defer200 does not enable busypoll.
+> > 
+> > I'm assuming that if you enable busypool in defer200 case, the numbers
+> > should be similar to suspend200 (ignoring potentially affecting
+> > non-busypolling queues due to higher gro_flush_timeout).
 > 
-> On 2024/8/10 16:03, Inochi Amaoto wrote:
-> > Add support for the onboard hardware monitor for SG2042.
-> > Can be tested with OpenSBI v1.5.
-> > 
-> > The patch require the following i2c patch:
-> > https://lore.kernel.org/all/IA1PR20MB4953DB82FB7D75BF8409FFF4BBB72@IA1PR20MB4953.namprd20.prod.outlook.com/
-> > 
-> > Changed from v9:
-> > 1. remove missed wrong return value.
-> > 2. add documentation for the other interface of the driver.
-> > 3. rename repower_action to repower_policy.
-> > 4. use break to unify "return 0" in is_visible function.
-> > 
-> > Changed from v8:
-> > 1. rename critical_action to repower_action, and add some comment
-> > 2. remove unnecessary wrap function
-> > 3. use guard macro to simplify mutex process.
-> > 
-> > Changed from v7:
-> > 1. add mutex protected and fix the return value when writing
-> > "critical_action"
-> > 
-> > Changed from v6:
-> > 1. restore the driver name to sg2042-mcu
-> > 2. remove unnecessary wrap function and check in the driver.
-> > 3. add dts and config entry.
-> > 
-> > Changed from v5:
-> > 1. rename driver name to sgmcu as it will support more sophgo chip.
-> > 2. move some attr to debugfs.
-> > 3. add standard crit_hyst support
-> > 4. add documentation
-> > 
-> > Changed from v4:
-> > 1. use fix patch for binding ref.
-> > 2. use unevaluatedProperties instead of additionalProperties for binding
-> > 
-> > Changed from v3:
-> > 1. add thermal-sensor check.
-> > 2. change node type from syscon to hwmon
-> > 
-> > Changed from v2:
-> > 1. fix bindings id path.
-> > 
-> > Changed from v1:
-> > 1. Move patch from soc to hwmon.
-> > 2. Fix typo.
-> > 
-> > Inochi Amaoto (4):
-> >    dt-bindings: hwmon: Add Sophgo SG2042 external hardware monitor
-> >      support
-> >    drivers: hwmon: sophgo: Add SG2042 external hardware monitor support
-> >    riscv: dts: sophgo: Add mcu device for Milk-V Pioneer
-> >    riscv: defconfig: Enable MCU support for SG2042
-> > 
-> >   .../hwmon/sophgo,sg2042-hwmon-mcu.yaml        |  43 ++
-> >   Documentation/hwmon/index.rst                 |   1 +
-> >   Documentation/hwmon/sg2042-mcu.rst            |  77 ++++
-> >   .../boot/dts/sophgo/sg2042-milkv-pioneer.dts  |  60 +++
-> >   arch/riscv/configs/defconfig                  |   1 +
-> >   drivers/hwmon/Kconfig                         |  11 +
-> >   drivers/hwmon/Makefile                        |   1 +
-> >   drivers/hwmon/sg2042-mcu.c                    | 388 ++++++++++++++++++
-> >   8 files changed, 582 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/hwmon/sophgo,sg2042-hwmon-mcu.yaml
-> >   create mode 100644 Documentation/hwmon/sg2042-mcu.rst
-> >   create mode 100644 drivers/hwmon/sg2042-mcu.c
-> > 
-> > 
-> > base-commit: d2d190621b60d77496d36659e1621b20c897b25d
-> > prerequisite-patch-id: 5e7221ed1c63bb4d68e4a2a0141440e32d29e397
-> In fact, I did not find these two commit ids on master or sophgo/for-next.
-> When testing, I applied this patchset based on the latest sophgo/for-next.
+> defer200 + napi busy poll is essentially what we labelled "busy" and it does
+> not perform as well, since it still suffers interference between application
+> and softirq processing.
 
-This two id comes from my tree, not the sophgo one. But I
-think it should be recognized by the git. For testing, you 
-can just pick the sophgo/for-next tree and test it.
+With all your patches applied? Why? Userspace not keeping up?
 
-Regards,
-Inochi.
+> > > > Maybe expand more on what code paths are we trying to improve? Existing
+> > > > busy polling code is not super readable, so would be nice to simplify
+> > > > it a bit in the process (if possible) instead of adding one more tunable.
+> > > 
+> > > There are essentially three possible loops for network processing:
+> > > 
+> > > 1) hardirq -> softirq -> napi poll; this is the baseline functionality
+> > > 
+> > > 2) timer -> softirq -> napi poll; this is deferred irq processing scheme
+> > > with the shortcomings described above
+> > > 
+> > > 3) epoll -> busy-poll -> napi poll
+> > > 
+> > > If a system is configured for 1), not much can be done, as it is difficult
+> > > to interject anything into this loop without adding state and side effects.
+> > > This is what we tried for the paper, but it ended up being a hack.
+> > > 
+> > > If however the system is configured for irq deferral, Loops 2) and 3)
+> > > "wrestle" with each other for control. Injecting the larger
+> > > irq-suspend-timeout for 'timer' in Loop 2) essentially tilts this in favour
+> > > of Loop 3) and creates the nice pattern describe above.
+> > 
+> > And you hit (2) when the epoll goes to sleep and/or when the userspace
+> > isn't fast enough to keep up with the timer, presumably? I wonder
+> > if need to use this opportunity and do proper API as Joe hints in the
+> > cover letter. Something over netlink to say "I'm gonna busy-poll on
+> > this queue / napi_id and with this timeout". And then we can essentially make
+> > gro_flush_timeout per queue (and avoid
+> > napi_resume_irqs/napi_suspend_irqs). Existing gro_flush_timeout feels
+> > too hacky already :-(
+> 
+> If someone would implement the necessary changes to make these parameters
+> per-napi, this would improve things further, but note that the current
+> proposal gives strong performance across a range of workloads, which is
+> otherwise difficult to impossible to achieve.
+
+Let's see what other people have to say. But we tried to do a similar
+setup at Google recently and getting all these parameters right
+was not trivial. Joe's recent patch series to push some of these into
+epoll context are a step in the right direction. It would be nice to
+have more explicit interface to express busy poling preference for
+the users vs chasing a bunch of global tunables and fighting against softirq
+wakups.
+
+> Note that napi_suspend_irqs/napi_resume_irqs is needed even for the sake of
+> an individual queue or application to make sure that IRQ suspension is
+> enabled/disabled right away when the state of the system changes from busy
+> to idle and back.
+
+Can we not handle everything in napi_busy_loop? If we can mark some napi
+contexts as "explicitly polled by userspace with a larger defer timeout",
+we should be able to do better compared to current NAPI_F_PREFER_BUSY_POLL
+which is more like "this particular napi_poll call is user busy polling".
+
+> > > [snip]
+> > > 
+> > > > >     - suspendX:
+> > > > >       - set defer_hard_irqs to 100
+> > > > >       - set gro_flush_timeout to X,000
+> > > > >       - set irq_suspend_timeout to 20,000,000
+> > > > >       - enable busy poll via the existing ioctl (busy_poll_usecs = 0,
+> > > > >         busy_poll_budget = 64, prefer_busy_poll = true)
+> > > > 
+> > > > What's the intention of `busy_poll_usecs = 0` here? Presumably we fallback
+> > > > to busy_poll sysctl value?
+> > > 
+> > > Before this patch set, ep_poll only calls napi_busy_poll, if busy_poll
+> > > (sysctl) or busy_poll_usecs is nonzero. However, this might lead to
+> > > busy-polling even when the application does not actually need or want it.
+> > > Only one iteration through the busy loop is needed to make the new scheme
+> > > work. Additional napi busy polling over and above is optional.
+> > 
+> > Ack, thanks, was trying to understand why not stay with
+> > busy_poll_usecs=64 for consistency. But I guess you were just
+> > trying to show that patch 4/5 works.
+> 
+> Right, and we would potentially be wasting CPU cycles by adding more
+> busy-looping.
+
+Or potentially improving the latency more if you happen to get more packets
+during busy_poll_usecs duration? I'd imagine some applications might
+prefer to 100% busy poll without ever going to sleep (that would probably
+require getting rid of napi_id tracking in epoll, but that's a different story).
