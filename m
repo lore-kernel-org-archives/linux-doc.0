@@ -1,275 +1,168 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095071CAA6;
-	Tue, 13 Aug 2024 04:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06942374C;
+	Tue, 13 Aug 2024 06:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723522040; cv=none; b=E/Jhbw9ZYsyrBwSs7smuzYi4iUggxl6RRNib+mVIqFqqB4pNiJvEjb0FoxPg02dKZX9CUS1OysKla+U5BDZrkeYHYUTRvEsNMmE4W8pDtTxfeW3x9+nlFAC2MsHLQem9GG8/WdQw8AKXM9avvTJyVUbTiUJ5S34bcxvpBjOuByk=
+	t=1723528935; cv=none; b=Eqb40expiSzc9MGf9Li8D2WKMWsAyL+jCGWfk/nmYLT2Sx5zN2Dw+yFth81Vh/ojY9KHlmaRRyzZvt6BuaN6+mtUsB3eAxls4+rYUxjapQ3ga06dWTj+omQ7X5KydGdqOts3T01zDmexAncOJz0htOyibwtX4V1gUzxgBwm0WV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723522040; c=relaxed/simple;
-	bh=wduxGjkaQBkHndHQ4+MxkGTh593eBdYKEJfri6mqeRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lNVcrlxaQKgkurJXT3sZUAm/jnwYT1ZzK21k20lJ/h+hhNPQLxADcfTPKm88QarWR7TL3WjaVR84V0XTTRXg6ueEP6aW0G4PlIhz07qaZKrjTcRYBAThjEPin9Iq/Ja1Hyoqb7dKkgXD8rbVfKuKATD15QDP2l9h1376ocFOrr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d1d6369acso4072847b3a.0;
-        Mon, 12 Aug 2024 21:07:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723522037; x=1724126837;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qZSIFrHXFl/CMttBH8Bjgfh4zzvoz4mEhSiua6DUcew=;
-        b=WGdxYN77jOD5zaBPq1hI+ZowoUgSH66sOL7vIVH6qp+gCExfZ7DT3hz33BfadQyZBQ
-         am/dvx+bLWwGgt4Lh8PrfKWXEAx2X8BjEAJdNu24bLUtuPTGYZFBr9S0glDDfacFd7Ps
-         aM4ULiT3ENopHge0yxc17LSQEYl5oh1ROj2jOG+F6uJMmDQk7JIMfWvLQMx8ovroDwH2
-         oODw0zb4BBtrGgd+w88cbSaJBarpU3w7SCr+YVevFwxHBQGaaRTO55IZ0b6wn+FpCHzO
-         wPbh0B4N35nqJMq5rE5wI1DoAidyVKPUs0YdNr14m80mYHb5ncy+M6xNqUBfVdy/a4UF
-         I5rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXiUQ3uX8eiQMf/8ZTvEqib55PfOw54OKA3/ZNGoW2kZnTm1oYmhQ5rVAFnKmWsg8xbyGVKn/jNeF1SL+XOvrGoFgg44JmPsJPk2/DmmVnf0Sp9WxD0hQ/H1wyhS5WbMxkl+I/vAYGXp2TgXBgqQh3+s13mtzMdfXuOygJnE6cWGh0HutWucw==
-X-Gm-Message-State: AOJu0YyBR9Gjqlw8PfXthc6tiCkACiU5mrvwPb+WgjtHDl8U2vPdWEkd
-	QADAIRJ5YinHLfbbW2q7aS07E8Wr5HBlTP6o+tIT0PAhc2Gb8k8=
-X-Google-Smtp-Source: AGHT+IFFflwlZ19WfFa+AEhg9VCTnQe30R9NKm0lHmyXm6lxFruzj38JW4Y7jOVZVGJM9f3hzAaGFg==
-X-Received: by 2002:a17:902:db10:b0:1fb:4f57:6a65 with SMTP id d9443c01a7336-201cbc923eemr21957205ad.30.1723522037021;
-        Mon, 12 Aug 2024 21:07:17 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:73b6:7410:eb24:cba4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201cd1b82bfsm4218065ad.210.2024.08.12.21.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 21:07:16 -0700 (PDT)
-Date: Mon, 12 Aug 2024 21:07:15 -0700
-From: Stanislav Fomichev <sdf@fomichev.me>
-To: Martin Karsten <mkarsten@uwaterloo.ca>
-Cc: netdev@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
-Message-ID: <Zrrb8xkdIbhS7F58@mini-arch>
-References: <20240812125717.413108-1-jdamato@fastly.com>
- <ZrpuWMoXHxzPvvhL@mini-arch>
- <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
- <ZrqU3kYgL4-OI-qj@mini-arch>
- <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
- <Zrq8zCy1-mfArXka@mini-arch>
- <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
+	s=arc-20240116; t=1723528935; c=relaxed/simple;
+	bh=OjLN19HU3mLCsXhYlfdKT7dHHQUZUv/OjRXggZr1QsA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DB2+pypdsKh7iHhCW11iACdnc0vs9C73x1NrXWyOPk0sEIhLTLbW2ggRkRcEautpJlcP/wahBh71e0O7EKDckBZv5fDp0YEJifxh3O1/AC1t5kipcGi/6afRagGtdQJ6wLBZLX92j9yGfUNXpX6FMiHK3WBcj5/iPtjpcKcgZNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yfonxd4A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2FLaanZn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yfonxd4A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2FLaanZn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yfonxd4A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2FLaanZn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yfonxd4A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2FLaanZn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B5E312270A;
+	Tue, 13 Aug 2024 06:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723528931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jYVkwWKxTSpRkPweEImYn5jNfhe+tzmk8OXzSLOoKwg=;
+	b=yfonxd4AO6qRrG9eo8KSQB83I0rwb/ixXqcVyvDW9aAyJ7lJffFzz4kL07tcpjrzDMguP+
+	pIO1tbRdEK+7g97fDeoe/tJmiG/8I0TiqPxFWaVK6KCuZHUMfBKw04SyHKfm1DqW/5OCVm
+	anAlmcSnsKYNzEJEOXsF+bEAYg21Sq4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723528931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jYVkwWKxTSpRkPweEImYn5jNfhe+tzmk8OXzSLOoKwg=;
+	b=2FLaanZnIGDZKboPEcw0bPT0FsBmQhguEWH06OxnhxMNumCqP9gdHzoW6+DnxpNaIcXRYf
+	7xMKNovBZx9DJKCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yfonxd4A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2FLaanZn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723528931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jYVkwWKxTSpRkPweEImYn5jNfhe+tzmk8OXzSLOoKwg=;
+	b=yfonxd4AO6qRrG9eo8KSQB83I0rwb/ixXqcVyvDW9aAyJ7lJffFzz4kL07tcpjrzDMguP+
+	pIO1tbRdEK+7g97fDeoe/tJmiG/8I0TiqPxFWaVK6KCuZHUMfBKw04SyHKfm1DqW/5OCVm
+	anAlmcSnsKYNzEJEOXsF+bEAYg21Sq4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723528931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jYVkwWKxTSpRkPweEImYn5jNfhe+tzmk8OXzSLOoKwg=;
+	b=2FLaanZnIGDZKboPEcw0bPT0FsBmQhguEWH06OxnhxMNumCqP9gdHzoW6+DnxpNaIcXRYf
+	7xMKNovBZx9DJKCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60F4013ABD;
+	Tue, 13 Aug 2024 06:02:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3rMMFuP2umZvCgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 13 Aug 2024 06:02:11 +0000
+Date: Tue, 13 Aug 2024 08:02:51 +0200
+Message-ID: <87ikw5c644.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: Re: [PATCH v4 3/4] ALSA: timer: Introduce virtual userspace-driven timers
+In-Reply-To: <20240811202337.48381-4-ivan.orlov0322@gmail.com>
+References: <20240811202337.48381-1-ivan.orlov0322@gmail.com>
+	<20240811202337.48381-4-ivan.orlov0322@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: B5E312270A
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,wanadoo.fr];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,kernel.org,vger.kernel.org,wanadoo.fr,gmx.de];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 08/12, Martin Karsten wrote:
-> On 2024-08-12 21:54, Stanislav Fomichev wrote:
-> > On 08/12, Martin Karsten wrote:
-> > > On 2024-08-12 19:03, Stanislav Fomichev wrote:
-> > > > On 08/12, Martin Karsten wrote:
-> > > > > On 2024-08-12 16:19, Stanislav Fomichev wrote:
-> > > > > > On 08/12, Joe Damato wrote:
-> > > > > > > Greetings:
-> > > > > > > 
-> > > > > > > Martin Karsten (CC'd) and I have been collaborating on some ideas about
-> > > > > > > ways of reducing tail latency when using epoll-based busy poll and we'd
-> > > > > > > love to get feedback from the list on the code in this series. This is
-> > > > > > > the idea I mentioned at netdev conf, for those who were there. Barring
-> > > > > > > any major issues, we hope to submit this officially shortly after RFC.
-> > > > > > > 
-> > > > > > > The basic idea for suspending IRQs in this manner was described in an
-> > > > > > > earlier paper presented at Sigmetrics 2024 [1].
-> > > > > > 
-> > > > > > Let me explicitly call out the paper. Very nice analysis!
-> > > > > 
-> > > > > Thank you!
-> > > > > 
-> > > > > [snip]
-> > > > > 
-> > > > > > > Here's how it is intended to work:
-> > > > > > >      - An administrator sets the existing sysfs parameters for
-> > > > > > >        defer_hard_irqs and gro_flush_timeout to enable IRQ deferral.
-> > > > > > > 
-> > > > > > >      - An administrator sets the new sysfs parameter irq_suspend_timeout
-> > > > > > >        to a larger value than gro-timeout to enable IRQ suspension.
-> > > > > > 
-> > > > > > Can you expand more on what's the problem with the existing gro_flush_timeout?
-> > > > > > Is it defer_hard_irqs_count? Or you want a separate timeout only for the
-> > > > > > perfer_busy_poll case(why?)? Because looking at the first two patches,
-> > > > > > you essentially replace all usages of gro_flush_timeout with a new variable
-> > > > > > and I don't see how it helps.
-> > > > > 
-> > > > > gro-flush-timeout (in combination with defer-hard-irqs) is the default irq
-> > > > > deferral mechanism and as such, always active when configured. Its static
-> > > > > periodic softirq processing leads to a situation where:
-> > > > > 
-> > > > > - A long gro-flush-timeout causes high latencies when load is sufficiently
-> > > > > below capacity, or
-> > > > > 
-> > > > > - a short gro-flush-timeout causes overhead when softirq execution
-> > > > > asynchronously competes with application processing at high load.
-> > > > > 
-> > > > > The shortcomings of this are documented (to some extent) by our experiments.
-> > > > > See defer20 working well at low load, but having problems at high load,
-> > > > > while defer200 having higher latency at low load.
-> > > > > 
-> > > > > irq-suspend-timeout is only active when an application uses
-> > > > > prefer-busy-polling and in that case, produces a nice alternating pattern of
-> > > > > application processing and networking processing (similar to what we
-> > > > > describe in the paper). This then works well with both low and high load.
-> > > > 
-> > > > So you only want it for the prefer-busy-pollingc case, makes sense. I was
-> > > > a bit confused by the difference between defer200 and suspend200,
-> > > > but now I see that defer200 does not enable busypoll.
-> > > > 
-> > > > I'm assuming that if you enable busypool in defer200 case, the numbers
-> > > > should be similar to suspend200 (ignoring potentially affecting
-> > > > non-busypolling queues due to higher gro_flush_timeout).
-> > > 
-> > > defer200 + napi busy poll is essentially what we labelled "busy" and it does
-> > > not perform as well, since it still suffers interference between application
-> > > and softirq processing.
-> > 
-> > With all your patches applied? Why? Userspace not keeping up?
-> 
-> Note our "busy" case does not utilize our patches.
+On Sun, 11 Aug 2024 22:23:36 +0200,
+Ivan Orlov wrote:
+> +static int snd_utimer_ioctl_create(struct file *file,
+> +				   struct snd_timer_uinfo __user *_utimer_info)
+> +{
+> +	struct snd_utimer *utimer;
+> +	struct snd_timer_uinfo *utimer_info __free(kfree) = NULL;
+> +	int err;
+> +
+> +	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
+> +	if (IS_ERR(utimer_info))
+> +		return PTR_ERR(no_free_ptr(utimer_info));
+> +
+> +	err = snd_utimer_create(utimer_info, &utimer);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	utimer_info->id = utimer->id;
+> +
+> +	err = copy_to_user(_utimer_info, utimer_info, sizeof(*utimer_info));
+> +	if (err) {
+> +		snd_utimer_free(utimer);
+> +		return -EFAULT;
+> +	}
+> +
+> +	return anon_inode_getfd(utimer->name, &snd_utimer_fops, utimer, O_RDWR | O_CLOEXEC);
 
-Great, thanks for confirming, that makes sense!
+Wouldn't utimer be left unfreed if this returns an error?
 
-> As illustrated by our performance numbers, its performance is better than
-> the base case, but at the cost of higher cpu utilization and it's still not
-> as good as suspend20.
-> 
-> Explanation (conjecture):
-> 
-> It boils down to having to set a particular static value for
-> gro-flush-timeout that is then always active.
-> 
-> If busy-poll + application processing takes longer than this timeout, the
-> next softirq runs while the application is still active, which causes
-> interference.
-> 
-> Once a softirq runs, the irq-loop (Loop 2) takes control. When the
-> application thread comes back to epoll_wait, it already finds data, thus
-> ep_poll does not run napi_busy_poll at all, thus the irq-loop stays in
-> control.
-> 
-> This continues until by chance the application finds no readily available
-> data when calling epoll_wait and ep_poll runs another napi_busy_poll. Then
-> the system switches back to busy-polling mode.
-> 
-> So essentially the system non-deterministically alternates between
-> busy-polling and irq deferral. irq deferral determines the high-order tail
-> latencies, but there is still enough interference to make a difference. It's
-> not as bad as in the base case, but not as good as properly controlled irq
-> suspension.
-> 
-> > > > > > Maybe expand more on what code paths are we trying to improve? Existing
-> > > > > > busy polling code is not super readable, so would be nice to simplify
-> > > > > > it a bit in the process (if possible) instead of adding one more tunable.
-> > > > > 
-> > > > > There are essentially three possible loops for network processing:
-> > > > > 
-> > > > > 1) hardirq -> softirq -> napi poll; this is the baseline functionality
-> > > > > 
-> > > > > 2) timer -> softirq -> napi poll; this is deferred irq processing scheme
-> > > > > with the shortcomings described above
-> > > > > 
-> > > > > 3) epoll -> busy-poll -> napi poll
-> > > > > 
-> > > > > If a system is configured for 1), not much can be done, as it is difficult
-> > > > > to interject anything into this loop without adding state and side effects.
-> > > > > This is what we tried for the paper, but it ended up being a hack.
-> > > > > 
-> > > > > If however the system is configured for irq deferral, Loops 2) and 3)
-> > > > > "wrestle" with each other for control. Injecting the larger
-> > > > > irq-suspend-timeout for 'timer' in Loop 2) essentially tilts this in favour
-> > > > > of Loop 3) and creates the nice pattern describe above.
-> > > > 
-> > > > And you hit (2) when the epoll goes to sleep and/or when the userspace
-> > > > isn't fast enough to keep up with the timer, presumably? I wonder
-> > > > if need to use this opportunity and do proper API as Joe hints in the
-> > > > cover letter. Something over netlink to say "I'm gonna busy-poll on
-> > > > this queue / napi_id and with this timeout". And then we can essentially make
-> > > > gro_flush_timeout per queue (and avoid
-> > > > napi_resume_irqs/napi_suspend_irqs). Existing gro_flush_timeout feels
-> > > > too hacky already :-(
-> > > 
-> > > If someone would implement the necessary changes to make these parameters
-> > > per-napi, this would improve things further, but note that the current
-> > > proposal gives strong performance across a range of workloads, which is
-> > > otherwise difficult to impossible to achieve.
-> > 
-> > Let's see what other people have to say. But we tried to do a similar
-> > setup at Google recently and getting all these parameters right
-> > was not trivial. Joe's recent patch series to push some of these into
-> > epoll context are a step in the right direction. It would be nice to
-> > have more explicit interface to express busy poling preference for
-> > the users vs chasing a bunch of global tunables and fighting against softirq
-> > wakups.
-> 
-> One of the goals of this patch set is to reduce parameter tuning and make
-> the parameter setting independent of workload dynamics, so it should make
-> things easier. This is of course notwithstanding that per-napi settings
-> would be even better.
-> 
-> If you are able to share more details of your previous experiments (here or
-> off-list), I would be very interested.
 
-We went through a similar exercise of trying to get the tail latencies down.
-Starting with SO_BUSY_POLL, then switching to the per-epoll variant (except
-we went with a hard-coded napi_id argument instead of tracking) and trying to
-get a workable set of budget/timeout/gro_flush. We were fine with burning all
-cpu capacity we had and no sleep at all, so we ended up having a bunch
-of special cases in epoll loop to avoid the sleep.
+thanks,
 
-But we were trying to make a different model work (the one you mention in the
-paper as well) where the userspace busy-pollers are just running napi_poll
-on one cpu and the actual work is consumed by the userspace on a different cpu.
-(we had two epoll fds - one with napi_id=xxx and no sockets to drive napi_poll
-and another epoll fd with actual sockets for signaling).
-
-This mode has a different set of challenges with socket lock, socket rx
-queue and the backlog processing :-(
-
-> > > Note that napi_suspend_irqs/napi_resume_irqs is needed even for the sake of
-> > > an individual queue or application to make sure that IRQ suspension is
-> > > enabled/disabled right away when the state of the system changes from busy
-> > > to idle and back.
-> > 
-> > Can we not handle everything in napi_busy_loop? If we can mark some napi
-> > contexts as "explicitly polled by userspace with a larger defer timeout",
-> > we should be able to do better compared to current NAPI_F_PREFER_BUSY_POLL
-> > which is more like "this particular napi_poll call is user busy polling".
-> 
-> Then either the application needs to be polling all the time (wasting cpu
-> cycles) or latencies will be determined by the timeout.
-> 
-> Only when switching back and forth between polling and interrupts is it
-> possible to get low latencies across a large spectrum of offered loads
-> without burning cpu cycles at 100%.
-
-Ah, I see what you're saying, yes, you're right. In this case ignore my comment
-about ep_suspend_napi_irqs/napi_resume_irqs.
-
-Let's see how other people feel about per-dev irq_suspend_timeout. Properly
-disabling napi during busy polling is super useful, but it would still
-be nice to plumb irq_suspend_timeout via epoll context or have it set on
-a per-napi basis imho.
+Takashi
