@@ -1,82 +1,72 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9912E199EB4;
-	Tue, 13 Aug 2024 12:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D12198E71;
+	Tue, 13 Aug 2024 12:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723550633; cv=none; b=TiFpMBNiQLmKxTdV+nGEJ93Y0kZ+/M6QmGCZrsIlVNNFVIxboGm69wxM+Qp/chjOvusquvUPe9b2TT+DIIRRT/480tCLLIMrb9Uhtmjz11BJY4gzvVrIZSMgJ2jqQrhQHKHCRD/bztpsHPSuVn5Q2n7DtcJY4AOwGPeJWSmlK4s=
+	t=1723550960; cv=none; b=H22w5dX3GlT1BBSBuend7dSaqB8K2TIKtUHXXxTSJ2etnEkNw5EvblT75Pg/6dWHoRVBlqCcuYh6Wz+mJxa69al8P+gbD4nK0dCne9UOvYgOGl4erf7Q2Wy5U9+zrzCzc6wex3nKbv1hee84usXOQ0UadNK6FR3mv/HxlRzonGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723550633; c=relaxed/simple;
-	bh=wuwopemU10Mqsny+RRhShmjAob6TMoVAPVpJZJOv+bk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sED1tTny39uEtQhYscHR5g5Xpz4E62sE58LjsVgcAB4S9Zxlkvxn3v06gVrmsy9qUygOY3LaZV+JOClGXH1Kfnat2aw164NWys3iDeBx3Sskbi6usg7yP1WbtiahT7BIXEgDGKijDdfm2c2Yyl1DwjBUGM4TvsH4+zHun2o7Cs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLJ86kFt; arc=none smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1723550960; c=relaxed/simple;
+	bh=dVKFCnEHQj907r8w6DUNC/hFfSLgWVedEBIn+MI3g3Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GNpTMwpwyjHUXTieavYdP50eYFL4CFOeV0LXbc/RbFzAEij7srNfEO2wNagVv7jbv30jMa6gijYRAZsZBR/0RcuQSCbvvhYFFvwEgNU/T0kz0jhQqw25FsiYe9QHIz+pyr3Q8hhOR1IRLwP2WkQgumaYep5S1Da4G1MPdEaOsT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdekcDFO; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLJ86kFt"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a3375015f8so376800985a.1;
-        Tue, 13 Aug 2024 05:03:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdekcDFO"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280ef642fbso6104615e9.1;
+        Tue, 13 Aug 2024 05:09:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723550629; x=1724155429; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/3e8jqaD9j4AlkmfSijGsYDb40oSO+aTFas99401M0M=;
-        b=CLJ86kFtCnsNq9nYhB1jETDlV8JXv3oSrzwACANFPbTke086D0aKyWMaG95qoB+S0w
-         p2Fq703vl9iVTKwQiUFYIoLyfy7uZaxZsmDBfoATKoFwn0SREaYgOlhF/p3phsnnQpPU
-         snDfNQjVuPdP9aUX/lXOIuPNoGT/VBBqp2tFKzKnpZ836NxGk3VPA1gmhzUHEgwK8sk4
-         2hR2RyC2PkOgbVrVxxmO6eqCRk25P4LVLGy+QZszIu3LODGQy7+MVAXua/rLkkcYUDSl
-         cNUF58DM2rjaLg7kiEcDM9OcKuubXDzGXqGO/J+5vjl+2A5Vh40AUEqqmG1hAarmv7El
-         +FIg==
+        d=gmail.com; s=20230601; t=1723550957; x=1724155757; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=95nZPeNDVusw7hJQ2/3QSrV1/eH9G+qFzPCkFd7zD+U=;
+        b=GdekcDFOvFjTMJfuamLhI2C++oQ1buBAGQIyUI2vPm0R+VN7vVT58R4M2tMUfNhEiL
+         rowam3tjuyrk6HGisuGCrcMDsdGfBJiNwZMv40wrKcM/I4X6/yjioB8LP781d73OBtws
+         9hsSITgEfWOxvd7ayBFvOpGebHe6cKigkhKZTO5GUh1EtzF851KkrSPrOEO0VFXZj+Dq
+         ZcMhJ/IeMMj6FknETiomkSPZNsuVj6J1Qh/9BbIBK5cPrDSjnTVcoiN/vVMB1t/6De9b
+         TGM96t2GIqLUVAMrMDJHI03Be3my5bfWxQMfKzhnD257lp6qMqkGC1pxa3PDprGP8X5v
+         JspA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723550629; x=1724155429;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/3e8jqaD9j4AlkmfSijGsYDb40oSO+aTFas99401M0M=;
-        b=t9GA+tTvg6XJgnVSeSFM65ZO874oA6Xv7clcTI44u6P7lpmcYYKVLAlMsN9kULe1hr
-         Xolr3OLlYMrtZqD+R4gVWHQ8swaNrHEtL27AjkDuMz47P8skXG7PZ9E5NbkHgsZQ8sQ1
-         9kE8u4k/awt6UWKZL0oQfzzYTLb3fCEJowmju8k5G7BHomhdQ7OJwAPd159lcfzOLHjR
-         Me6/+6hfa8lJDO08ZG+UYmAlJDwaPgopemrV7BYJxK0gYXtCiEGSBnbJ94VdDnyclWzw
-         ZVN4v+A2xn48U1iynQVRmTqR1OgYEaREnxhJVrBboPsUkw/MDyV+4WcLRE1oXKBKBInM
-         UcHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSNg42kMxrc8O08dicJzQpoI08X0jgdEpopPqYFzRRe5LISwWGGyQ5CRWv713stG+C3OzQS3K4TKZjMn76RxbvJnVlTcu3JOYVjd6pZGYZbZ448Tkdhrqog584frEkHyP3G+Ouk83g
-X-Gm-Message-State: AOJu0YyzfC9oDCQkKzYl3vR9hSET2LgD3s3SOWV/vjVGp/5ivNcDZ03x
-	rKtHUToiDd+wNfleY9+YSq9cnANgM5Dep8TVlWOknT7EltvOLr5V
-X-Google-Smtp-Source: AGHT+IEFfd2FYRK2Jx6dZup0/ifNGdrGzF8HSf/AxkPfSro8RvwQqrR7qIuXRhOvG6+PgXGqlDdltw==
-X-Received: by 2002:a05:620a:2441:b0:79f:b72:fb30 with SMTP id af79cd13be357-7a4e1667d8amr395537185a.59.1723550629311;
-        Tue, 13 Aug 2024 05:03:49 -0700 (PDT)
-Received: from localhost (fwdproxy-ash-000.fbsv.net. [2a03:2880:20ff::face:b00c])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7e040e0sm333193985a.101.2024.08.13.05.03.48
+        d=1e100.net; s=20230601; t=1723550957; x=1724155757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95nZPeNDVusw7hJQ2/3QSrV1/eH9G+qFzPCkFd7zD+U=;
+        b=XAtJhcc0w+0ER79GJcJa91fOc42A7McGlGE5JK370HFzFNvoVap6bRXvgXxO0Q7be1
+         OkUoFSa68Q1T/HFIMJ62CKVsildFnGxpaezir3vsUYeHW10C5RiVBTyOHI8RLiQ7qV+d
+         ujUon+FCh8aKxDjCGKXVa7l4rJr+27qZGvij4sYKae7hLxYUSX9bJYICe3LG4mXcuw4N
+         ZD0nVGDPfCV+gTZetq34eLyAkzerV1UBQ505nf9tvunwJUUqhyrSU8poJukogpOqGQ5q
+         ZcCrHi1o+snlM3wTdACPSRrbKsxEYZ7B21BcdDTDrpV3oBELD1++7JzZNE4TG2ZEkpxm
+         Y6KA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKOT5aXEca+Dsvw7czgkfHzOu6rrCi+fogWIxo3cHhkXq4/uAJbcv1TYBwQIgZCVsXrcunccCPZRc6bfgQRukOJyM0gVZSJQQieTV9SzecZheycviKWFjiaKduVIGgOShs9rTsjkVvsi9rmA6hea07GwhVHnYo0aiHhqLCGLf+iSHKNyACRW0q56TcfbZvM4NVrfMbamHOgZK/QeU3whHpnx1CBkE=
+X-Gm-Message-State: AOJu0YynGo2qLoubOfzxPqAyDdYYwJgPp9Wmg+cb/0qiL/rjRfkcd2vM
+	w42PQAqYpu48zWOC2hbnfRJOQ+ePe1X8rALjomVEEZLUiKara1Q23n9cxg==
+X-Google-Smtp-Source: AGHT+IEeFZAjMrRFLpsu92UAlKILN8B22ultw43i95rDRVfs5PROELoxXFmSuEpUHo+HUo+RNgW2qw==
+X-Received: by 2002:a5d:6d8d:0:b0:366:eb60:bcf2 with SMTP id ffacd0b85a97d-3716fbf30d6mr906591f8f.4.1723550956592;
+        Tue, 13 Aug 2024 05:09:16 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4e51eb52sm10204590f8f.74.2024.08.13.05.09.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 05:03:48 -0700 (PDT)
-From: Usama Arif <usamaarif642@gmail.com>
-To: akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Cc: hannes@cmpxchg.org,
-	riel@surriel.com,
-	shakeel.butt@linux.dev,
-	roman.gushchin@linux.dev,
-	yuzhao@google.com,
-	david@redhat.com,
-	baohua@kernel.org,
-	ryan.roberts@arm.com,
-	rppt@kernel.org,
-	willy@infradead.org,
-	cerasuolodomenico@gmail.com,
+        Tue, 13 Aug 2024 05:09:16 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
 	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
+	broonie@kernel.org,
+	shuah@kernel.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	kernel-team@meta.com,
-	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH v3 5/6] mm: split underutilized THPs
-Date: Tue, 13 Aug 2024 13:02:48 +0100
-Message-ID: <20240813120328.1275952-6-usamaarif642@gmail.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240813120328.1275952-1-usamaarif642@gmail.com>
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: [PATCH v5 0/4] Introduce userspace-driven ALSA timers
+Date: Tue, 13 Aug 2024 13:06:57 +0100
+Message-Id: <20240813120701.171743-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,213 +75,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an attempt to mitigate the issue of running out of memory when
-THP is always enabled. During runtime whenever a THP is being faulted in
-(__do_huge_pmd_anonymous_page) or collapsed by khugepaged
-(collapse_huge_page), the THP is added to  _deferred_list. Whenever
-memory reclaim happens in linux, the kernel runs the deferred_split
-shrinker which goes through the _deferred_list.
+There are multiple possible timer sources which could be useful for
+the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+timer wheels (jiffies). Currently, using one of them to synchronize
+the audio stream of snd-aloop module would require writing a
+kernel-space driver which exports an ALSA timer through the
+snd_timer interface.
 
-If the folio was partially mapped, the shrinker attempts to split it.
-If the folio is not partially mapped, the shrinker checks if the THP
-was underutilized, i.e. how many of the base 4K pages of the entire THP
-were zero-filled. If this number goes above a certain threshold (decided by
-/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none), the
-shrinker will attempt to split that THP. Then at remap time, the pages
-that were zero-filled are mapped to the shared zeropage, hence saving
-memory.
+However, it is not really convenient for application developers, who may
+want to define their custom timer sources for audio synchronization.
 
-Suggested-by: Rik van Riel <riel@surriel.com>
-Co-authored-by: Johannes Weiner <hannes@cmpxchg.org>
-Signed-off-by: Usama Arif <usamaarif642@gmail.com>
----
- Documentation/admin-guide/mm/transhuge.rst |  6 ++
- include/linux/khugepaged.h                 |  1 +
- include/linux/vm_event_item.h              |  1 +
- mm/huge_memory.c                           | 76 ++++++++++++++++++++--
- mm/khugepaged.c                            |  3 +-
- mm/vmstat.c                                |  1 +
- 6 files changed, 80 insertions(+), 8 deletions(-)
+For instance, we could have a network application which receives frames
+and sends them to snd-aloop pcm device, and another application
+listening on the other end of snd-aloop. It makes sense to transfer a
+new period of data only when certain amount of frames is received
+through the network, but definitely not when a certain amount of jiffies
+on a local system elapses. Since all of the devices are purely virtual
+it won't introduce any glitches and will help the application developers
+to avoid using sample-rate conversion.
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index 058485daf186..60522f49178b 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -447,6 +447,12 @@ thp_deferred_split_page
- 	splitting it would free up some memory. Pages on split queue are
- 	going to be split under memory pressure.
- 
-+thp_underutilized_split_page
-+	is incremented when a huge page on the split queue was split
-+	because it was underutilized. A THP is underutilized if the
-+	number of zero pages in the THP is above a certain threshold
-+	(/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none).
-+
- thp_split_pmd
- 	is incremented every time a PMD split into table of PTEs.
- 	This can happen, for instance, when application calls mprotect() or
-diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
-index f68865e19b0b..30baae91b225 100644
---- a/include/linux/khugepaged.h
-+++ b/include/linux/khugepaged.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/sched/coredump.h> /* MMF_VM_HUGEPAGE */
- 
-+extern unsigned int khugepaged_max_ptes_none __read_mostly;
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- extern struct attribute_group khugepaged_attr_group;
- 
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index aae5c7c5cfb4..bf1470a7a737 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -105,6 +105,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		THP_SPLIT_PAGE,
- 		THP_SPLIT_PAGE_FAILED,
- 		THP_DEFERRED_SPLIT_PAGE,
-+		THP_UNDERUTILIZED_SPLIT_PAGE,
- 		THP_SPLIT_PMD,
- 		THP_SCAN_EXCEED_NONE_PTE,
- 		THP_SCAN_EXCEED_SWAP_PTE,
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index c024ab0f745c..6b32b2d4ab1e 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1087,6 +1087,7 @@ static vm_fault_t __do_huge_pmd_anonymous_page(struct vm_fault *vmf,
- 		update_mmu_cache_pmd(vma, vmf->address, vmf->pmd);
- 		add_mm_counter(vma->vm_mm, MM_ANONPAGES, HPAGE_PMD_NR);
- 		mm_inc_nr_ptes(vma->vm_mm);
-+		deferred_split_folio(folio, false);
- 		spin_unlock(vmf->ptl);
- 		count_vm_event(THP_FAULT_ALLOC);
- 		count_mthp_stat(HPAGE_PMD_ORDER, MTHP_STAT_ANON_FAULT_ALLOC);
-@@ -3522,6 +3523,39 @@ static unsigned long deferred_split_count(struct shrinker *shrink,
- 	return READ_ONCE(ds_queue->split_queue_len);
- }
- 
-+static bool thp_underutilized(struct folio *folio)
-+{
-+	int num_zero_pages = 0, num_filled_pages = 0;
-+	void *kaddr;
-+	int i;
-+
-+	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
-+		return false;
-+
-+	for (i = 0; i < folio_nr_pages(folio); i++) {
-+		kaddr = kmap_local_folio(folio, i * PAGE_SIZE);
-+		if (!memchr_inv(kaddr, 0, PAGE_SIZE)) {
-+			num_zero_pages++;
-+			if (num_zero_pages > khugepaged_max_ptes_none) {
-+				kunmap_local(kaddr);
-+				return true;
-+			}
-+		} else {
-+			/*
-+			 * Another path for early exit once the number
-+			 * of non-zero filled pages exceeds threshold.
-+			 */
-+			num_filled_pages++;
-+			if (num_filled_pages >= HPAGE_PMD_NR - khugepaged_max_ptes_none) {
-+				kunmap_local(kaddr);
-+				return false;
-+			}
-+		}
-+		kunmap_local(kaddr);
-+	}
-+	return false;
-+}
-+
- static unsigned long deferred_split_scan(struct shrinker *shrink,
- 		struct shrink_control *sc)
- {
-@@ -3555,17 +3589,45 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
- 	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
- 
- 	list_for_each_entry_safe(folio, next, &list, _deferred_list) {
-+		bool did_split = false;
-+		bool underutilized = false;
-+
-+		if (folio_test_partially_mapped(folio))
-+			goto split;
-+		underutilized = thp_underutilized(folio);
-+		if (underutilized)
-+			goto split;
-+		continue;
-+split:
- 		if (!folio_trylock(folio))
--			goto next;
--		/* split_huge_page() removes page from list on success */
--		if (!split_folio(folio))
--			split++;
-+			continue;
-+		did_split = !split_folio(folio);
- 		folio_unlock(folio);
--next:
--		folio_put(folio);
-+		if (did_split) {
-+			/* Splitting removed folio from the list, drop reference here */
-+			folio_put(folio);
-+			if (underutilized)
-+				count_vm_event(THP_UNDERUTILIZED_SPLIT_PAGE);
-+			split++;
-+		}
- 	}
-+
- 	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
--	list_splice_tail(&list, &ds_queue->split_queue);
-+	/*
-+	 * Only add back to the queue if folio is partially mapped.
-+	 * If thp_underutilized returns false, or if split_folio fails in
-+	 * the case it was underutilized, then consider it used and don't
-+	 * add it back to split_queue.
-+	 */
-+	list_for_each_entry_safe(folio, next, &list, _deferred_list) {
-+		if (folio_test_partially_mapped(folio))
-+			list_move(&folio->_deferred_list, &ds_queue->split_queue);
-+		else {
-+			list_del_init(&folio->_deferred_list);
-+			ds_queue->split_queue_len--;
-+		}
-+		folio_put(folio);
-+	}
- 	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
- 
- 	/*
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index cdd1d8655a76..02e1463e1a79 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -85,7 +85,7 @@ static DECLARE_WAIT_QUEUE_HEAD(khugepaged_wait);
-  *
-  * Note that these are only respected if collapse was initiated by khugepaged.
-  */
--static unsigned int khugepaged_max_ptes_none __read_mostly;
-+unsigned int khugepaged_max_ptes_none __read_mostly;
- static unsigned int khugepaged_max_ptes_swap __read_mostly;
- static unsigned int khugepaged_max_ptes_shared __read_mostly;
- 
-@@ -1235,6 +1235,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
- 	pgtable_trans_huge_deposit(mm, pmd, pgtable);
- 	set_pmd_at(mm, address, pmd, _pmd);
- 	update_mmu_cache_pmd(vma, address, pmd);
-+	deferred_split_folio(folio, false);
- 	spin_unlock(pmd_ptl);
- 
- 	folio = NULL;
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index c3a402ea91f0..91cd7d4d482b 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1384,6 +1384,7 @@ const char * const vmstat_text[] = {
- 	"thp_split_page",
- 	"thp_split_page_failed",
- 	"thp_deferred_split_page",
-+	"thp_underutilized_split_page",
- 	"thp_split_pmd",
- 	"thp_scan_exceed_none_pte",
- 	"thp_scan_exceed_swap_pte",
+This patch series introduces userspace-driven ALSA timers: virtual
+timers which are created and controlled from userspace. The timer can
+be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+After creating a timer, it becomes available for use system-wide, so it
+can be passed to snd-aloop as a timer source (timer_source parameter
+would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+app decides to trigger a timer, it calls another ioctl
+SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+initiates a transfer of a new period of data.
+
+Userspace-driven timers are associated with file descriptors. If the
+application wishes to destroy the timer, it can simply release the file
+descriptor of a virtual timer.
+
+I believe introducing new ioctl calls is quite inconvenient (as we have
+a limited amount of them), but other possible ways of app <-> kernel
+communication (like virtual FS) seem completely inappropriate for this
+task (but I'd love to discuss alternative solutions).
+
+This patch series also updates the snd-aloop module so the global timers
+can be used as a timer_source for it (it allows using userspace-driven
+timers as timer source).
+
+V1 -> V2:
+- Fix some problems found by Christophe Jaillet
+<christophe.jaillet@wanadoo.fr>
+V2 -> V3:
+- Add improvements suggested by Takashi Iwai <tiwai@suse.de>
+V3 -> V4:
+- Address comments from Jaroslav Kysela <perex@perex.cz> and Mark Brown
+<broonie@kernel.org>
+V4 -> V5:
+- Add missing error processing noticed by Takashi Iwai <tiwai@suse.de>
+- Return timer file descriptor as part of the snd_timer_uinfo structure.
+This is a more standard way of using ioctl interface, where the return
+value of the ioctl is either 0 or an error code.
+
+Please, find the patch-specific changelog in the following patches.
+
+Ivan Orlov (4):
+  ALSA: aloop: Allow using global timers
+  Docs/sound: Add documentation for userspace-driven ALSA timers
+  ALSA: timer: Introduce virtual userspace-driven timers
+  selftests: ALSA: Cover userspace-driven timers with test
+
+ Documentation/sound/index.rst               |   1 +
+ Documentation/sound/utimers.rst             | 126 +++++++++++
+ include/uapi/sound/asound.h                 |  17 +-
+ sound/core/Kconfig                          |  10 +
+ sound/core/timer.c                          | 225 ++++++++++++++++++++
+ sound/drivers/aloop.c                       |   2 +
+ tools/testing/selftests/alsa/Makefile       |   4 +-
+ tools/testing/selftests/alsa/global-timer.c |  87 ++++++++
+ tools/testing/selftests/alsa/utimer-test.c  | 164 ++++++++++++++
+ 9 files changed, 633 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/sound/utimers.rst
+ create mode 100644 tools/testing/selftests/alsa/global-timer.c
+ create mode 100644 tools/testing/selftests/alsa/utimer-test.c
+
 -- 
-2.43.5
+2.34.1
 
