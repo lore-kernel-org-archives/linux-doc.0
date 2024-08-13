@@ -1,137 +1,118 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2393BBFB
-	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 06:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7024C81;
+	Tue, 13 Aug 2024 07:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723532118; cv=none; b=Ps4C1gPP2HBoy3wKrTUmAM6xbSztZGSHbockYMHbYAYUbxu8K8TJvpb4gQc/Y72G5F8FGrnWnzdMRAiJfOvWcoxXicTWgLGL96QfoH6eu5arGllVrUDKGiflnJmGOlffMId2Bl34/ee3Vn5DEDOoS6El2f+yeDRm0Hah9H1mjWk=
+	t=1723532594; cv=none; b=Pnl2Vs1cJkW3I6M+R4y/vh24achqnWXAYrKkL4ugeyaAAxCxuLihh0UQ1shMfX287tohJKY+C1rybEa8nE1WWHDxBFZEIxjLoz+m1BZlu/rAtLQYkbqFlGodmPjt7jGYa4WVamLJL2GVcqUTUwbTzRtWAEaATgBmehNFdgcbeG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723532118; c=relaxed/simple;
-	bh=8B4zvI1bCw+dHOu3aK2ldYYptYWbx3N9FgU5MDtjVpY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IZEtQ4XNzH+FNsJoCjyJS4Bde11DPzm1722xPIw8N8OGqolOHq9dguJvwfJiGcN90qO86pKz6I8ZnLQAGqM8ByNxAXI8kYhmILuT+FvBdfTC5vuwMh8YHNs5PJ+gpvufTFu+LraaRB4kHGafn4t/3u0loHWeVfIemS21w59LPRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O31raPcY; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1723532594; c=relaxed/simple;
+	bh=dTbZzkcHiIl7NTbNr43zH/Q3LxjRB6jnEClIJdvOAc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qTkJYIevSR2flFQ0aWuM/L0wTcdu2v4p7ooa2q3NsOj9qZXFuQOmGzsUZVqPqkRT352ydSHQbxu/4E3al6uxkpwz73yJp8I3wzKAm3MomfTuJMaC70ZFY2H9J+HRooxst59mNbGthmHffhdv7CYpo95m9e7RMfx6mEQjgGntNzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqZn3uf9; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O31raPcY"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2cd48ad7f0dso4015915a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 23:55:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqZn3uf9"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4280921baa2so6080715e9.2;
+        Tue, 13 Aug 2024 00:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723532116; x=1724136916; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8H/cII7rP++UOe4HJzvHxvEEFiXCMFQs92IzUQkIYs=;
-        b=O31raPcYwpzNjqDhsY7PholOUnKh7I0mhQLjhqgexzoVKwQu957dFSxwBHHEgVIuO6
-         vxPzue0TxW+ENu5h8fsZrF/1Az8v7qHVugbhq9fiOz5mcZYf/tHuXvTsqmn4qAGsWqqG
-         ZnfvAaqKWBoiPLld8V7eOUTL80vG1NZ1tRghnVHKbMqJOeTr+o0rCB/90jjBiRz4hlrN
-         V1eIISSe/LJrlKGmJGrVrNmb2eGH1zHkdUj9jlbk6ryTe8l0OPFOIi5PO+4A8aLjNvIX
-         u9TaR1xWKGGnMmZ6AcpoXIYqljoMIa+VrW4BP2bEdRwRhe+/o9MAQE2Ncy/Fdbbs4JEy
-         p8Mg==
+        d=gmail.com; s=20230601; t=1723532592; x=1724137392; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
+        b=lqZn3uf9No77Lcl/HaWu9SM/hQlLxUzMqCy3F1d72B/iOaFF8ecRdNbdfR+CkrLzjD
+         h8nqBtGbBTuct8Mgqk9dm4a40UkYs0RZBipF23sPbLpvqPtxCDLLQ/R1VIj1IHaETmM5
+         1GZJvq2IWy+TJXHw4f9ZWQ+V/G1uORMa2ROYSQf5bMO25ZOmFNIChb2WruuW0h+Foyk9
+         CdmuGgQ+6FKLMvl4e7jwQ8go9nUNAwCx08/YDwZEKkCeJmimwhtTXwxpLpi9nFkWaDxf
+         5f6qkEuudBipfB1lXPHznx95oJEVWczOHTDixYjK1LnKVXfw2t+2UZpi7UKufHf9jou6
+         b/lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723532116; x=1724136916;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K8H/cII7rP++UOe4HJzvHxvEEFiXCMFQs92IzUQkIYs=;
-        b=CMKevJ7p2IITByoKpvvVWkp6hyIEcbmf2ux4qvKT5afkLaEfnJDbzNABlpFR/0P2Y5
-         3GkXZfCSKowIYUF5JbzVTafwIJym4l7BCUOPTN0pglnLG5i1/7nL/Ld5hFgz/eHvr0GT
-         Z9nzxaa8Q2Z9l06hxigwtTNJ+zQNmV77S7UGAkcSdSOesqHqSC3YcmOG/O0kyzrRZUz+
-         hXtCGqoA2lsUnp7Po0NBStYyv+QWpXArbUsfm7UvowhzbiSEXWLzdPflZU/y4ykYMmXD
-         azXDt2oQ/lRpLZ6HIYqbOcRXWQzkxFuXkwXy/lLLDO91618iATiOVRLRHpVX8hjEu3eu
-         EQ6g==
-X-Gm-Message-State: AOJu0YzXqq535uxHpUy/1o05en1fsabu7EWFhyu0XNu0Nbrh9E4ib7Lg
-	6ngjwDReLBGhVmZCR9HQ7DxbbggXoKRagoB8QVLnZl0B0u8fTVpRa1BESbvXwTQ=
-X-Google-Smtp-Source: AGHT+IGxQyyCLfN4Km5Mxtxo9tf7Wyx6f3Hn07VIe47e7HTFli7fPJ0iDS2xS4J2ooTWYsRQkWdmEA==
-X-Received: by 2002:a17:90b:4b85:b0:2cf:cc0d:96cc with SMTP id 98e67ed59e1d1-2d3924d2f34mr2876334a91.9.1723532115633;
-        Mon, 12 Aug 2024 23:55:15 -0700 (PDT)
-Received: from localhost.localdomain (126-84.iitb.ac.in. [103.21.126.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9ca7ca5sm9613470a91.25.2024.08.12.23.55.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 23:55:15 -0700 (PDT)
-From: surajsonawane0215@gmail.com
-To: linux-doc@vger.kernel.org
-Cc: trivial@kernel.org,
-	SurajSonawane2415 <sonawanesr2012@gmail.com>,
-	Suraj Sonawane <surajsonawane0215@gmail.com>
-Subject: [PATCH] LFX Task: Fix grammar and spelling errors in reporting-issues.rst files
-Date: Tue, 13 Aug 2024 06:54:54 +0530
-Message-ID: <20240813012457.388-1-surajsonawane0215@gmail.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+        d=1e100.net; s=20230601; t=1723532592; x=1724137392;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
+        b=A5sjc/roDlGfcX/msWRGM80TtxG/w/iIO9ZXoezVIYPvRVe8VQDpR+YtgcRKDVrr8V
+         g85apelAfph7mfgUp8h1CThyRBxdix0nTrVY6NNPTWLctxyw9vC3vJr41+yWTICAD+wh
+         CCZXnutZGcT+7eWMUNdkQxzJIbjivoBZf0ZmG4dUEhWRY5WbA1mJaKa6PVZfBSC+xLVC
+         Q0YTU1pct50EJuDgeO2ICZvuA0LajidMSeyXPuwNe1kPKfTUwwx2UrMqynTMiCRipXs8
+         Jlb6WGSYKPUWg51Kiprw0hlS9CgZzQAPqCCJBu47IIATqBIE4jd17c7FPa0UnEYboAbq
+         1p9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ZN/ZsEA+WZmXrHvbcmF3J4RWXwqkFeF3OvtB+2I50YGYtjrrOOABAsa1DI1IrBtV3g2JGbY4fl9sPZ+8brhFeUVcGpoZS7+kJDVpSb6acAPVqijeIup7uJrqM5MADLop0akzcHzEiag4p4MWGFRkVTNRYBcZNRbBHaKQuhwLUS89WHW7vYr2UONNUOriZwRzinvuZmvZu5T9pRfyK+8IlACv6Ag=
+X-Gm-Message-State: AOJu0YwcPabRvynW2Y38AhIxpFsin8rXg6ELgCH1kXKsK65yDymVoUce
+	uIFjp2LH6po730fkF01BdXxCKWD7hJAZo+Dmx+M37LO1o4kQAnxp
+X-Google-Smtp-Source: AGHT+IFT7bLnTaW+ZuudccrGn/oo/3z70x/uR+WhXxRNGyeNLZQD80eh8G9IROEtYFJM2/ZFfGELGQ==
+X-Received: by 2002:a05:600c:1c16:b0:426:6cd1:d116 with SMTP id 5b1f17b1804b1-429d760e0e5mr5749905e9.3.1723532591311;
+        Tue, 13 Aug 2024 00:03:11 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31? ([2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c751a554sm130564965e9.22.2024.08.13.00.03.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Aug 2024 00:03:10 -0700 (PDT)
+Message-ID: <93b5b1ce-8b40-473d-a2c4-2b1d2612cd67@gmail.com>
+Date: Tue, 13 Aug 2024 08:03:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/4] ALSA: timer: Introduce virtual userspace-driven
+ timers
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+ aholzinger@gmx.de
+References: <20240811202337.48381-1-ivan.orlov0322@gmail.com>
+ <20240811202337.48381-4-ivan.orlov0322@gmail.com>
+ <87ikw5c644.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <87ikw5c644.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: SurajSonawane2415 <sonawanesr2012@gmail.com>
+On 8/13/24 07:02, Takashi Iwai wrote:
+> On Sun, 11 Aug 2024 22:23:36 +0200,
+> Ivan Orlov wrote:
+>> +static int snd_utimer_ioctl_create(struct file *file,
+>> +				   struct snd_timer_uinfo __user *_utimer_info)
+>> +{
+>> +	struct snd_utimer *utimer;
+>> +	struct snd_timer_uinfo *utimer_info __free(kfree) = NULL;
+>> +	int err;
+>> +
+>> +	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
+>> +	if (IS_ERR(utimer_info))
+>> +		return PTR_ERR(no_free_ptr(utimer_info));
+>> +
+>> +	err = snd_utimer_create(utimer_info, &utimer);
+>> +	if (err < 0)
+>> +		return err;
+>> +
+>> +	utimer_info->id = utimer->id;
+>> +
+>> +	err = copy_to_user(_utimer_info, utimer_info, sizeof(*utimer_info));
+>> +	if (err) {
+>> +		snd_utimer_free(utimer);
+>> +		return -EFAULT;
+>> +	}
+>> +
+>> +	return anon_inode_getfd(utimer->name, &snd_utimer_fops, utimer, O_RDWR | O_CLOEXEC);
+> 
+> Wouldn't utimer be left unfreed if this returns an error?
+> 
 
-    1. Corrected the sentence structure in several places for clarity and readability:
-        Original: "those are described below the step-by-step guide"
-        Corrected: "those are described below in the step-by-step guide"
+Hi Takashi,
 
-    2. Fixed grammatical errors:
-        Original: "That why your might need to uninstall the packages with such software to get rid of any 3rd party kernel module."
-        Corrected: "That’s why you might need to uninstall the packages with such software to get rid of any 3rd party kernel module."
+Ah, yes, it will... :( Thanks!
 
-    3. Improved phrasing:
-        Original: "might not what you want."
-        Corrected: "might not be what you want."
-
-    4. Clarified instructions:
-        Original: "Instead try search terms like the model line"
-        Corrected: "Instead, try searching terms like the model line."
-
-These changes ensure that the documentation is more readable and accurate.
-
-Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
----
- Documentation/admin-guide/reporting-issues.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 2fd5a0302..e68c1f8f1 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -56,7 +56,7 @@ developers. It might be all that's needed for people already familiar with
- reporting issues to Free/Libre & Open Source Software (FLOSS) projects. For
- everyone else there is this section. It is more detailed and uses a
- step-by-step approach. It still tries to be brief for readability and leaves
--out a lot of details; those are described below the step-by-step guide in a
-+out a lot of details; those are described below in the step-by-step guide in a
- reference section, which explains each of the steps in more detail.
- 
- Note: this section covers a few more aspects than the TL;DR and does things in
-@@ -299,7 +299,7 @@ face, even if they look small or totally unrelated. That's why you should report
- issues with these kernels to the vendor. Its developers should look into the
- report and, in case it turns out to be an upstream issue, fix it directly
- upstream or forward the report there. In practice that often does not work out
--or might not what you want. You thus might want to consider circumventing the
-+or might not be what you want. You thus might want to consider circumventing the
- vendor by installing the very latest Linux kernel core yourself. If that's an
- option for you move ahead in this process, as a later step in this guide will
- explain how to do that once it rules out other potential causes for your issue.
-@@ -353,7 +353,7 @@ come up with other words to use as search terms. Also make sure not to use too
- many search terms at once. Remember to search with and without information like
- the name of the kernel driver or the name of the affected hardware component.
- But its exact brand name (say 'ASUS Red Devil Radeon RX 5700 XT Gaming OC')
--often is not much helpful, as it is too specific. Instead try search terms like
-+often is not much helpful, as it is too specific. Instead, try searching terms like
- the model line (Radeon 5700 or Radeon 5000) and the code name of the main chip
- ('Navi' or 'Navi10') with and without its manufacturer ('AMD').
- 
-@@ -472,7 +472,7 @@ before proceeding.
- Note, you might not be aware that your system is using one of these solutions:
- they often get set up silently when you install Nvidia's proprietary graphics
- driver, VirtualBox, or other software that requires a some support from a
--module not part of the Linux kernel. That why your might need to uninstall the
-+module not part of the Linux kernel. That's why you might be need to uninstall the
- packages with such software to get rid of any 3rd party kernel module.
- 
- 
 -- 
-2.34.1
-
+Kind regards,
+Ivan Orlov
