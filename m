@@ -1,160 +1,203 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82644183CAD;
-	Tue, 13 Aug 2024 09:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B034187554
+	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 09:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723542122; cv=none; b=tMOcSi7IJkRchHl1O9TalvPZzrmOh652JfHVq0KzkqeWOPz0xL+NY30fOlS5HDVo/NYSr30koIneP/ei4/7KxZ3oO1JaB6ptouK8RX/TrzX7mPJmdwYjN6IbGSjBKqC1hFPsggnpeH0eN6gj70XpMd9XXLuLkOI7lz245mUhn2U=
+	t=1723542634; cv=none; b=B2SToA5DUQcefDuRgqbvF9NYEFDslP0WNb51Mf129XSMJI/FI7yPFU4VvkmAGyVrZv+y0EOzyERNwyWld9kFnlcgw+1e4EACEh6saYxTovSYvNjgeLO2jRKwBhgC0tRI2sSE8NVVpk6OoNdLBt2bGodlx96SbQwgxH7O2TEyd5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723542122; c=relaxed/simple;
-	bh=lqnWFnGXEbRQdDNV6/VYyCoDRdrnqpfZzHdXdr1V1p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhQVGvnzt5iyzne8PEOgHaHdOHeSjxbSSWsnHwLWtoOXAYwSZj23tPvZb0PPfDViWhW61lttCufra4Iaw0fVaUQBR3yUW7E97/jkQ5CdaxeCr/EzjXEbLa3tgS4W08eXbo2HxhNr6UgNSaDb2JZIYM9VzIISb97ymqmJBOW7LpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ifiMyxZs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y8ZsKrMt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ifiMyxZs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y8ZsKrMt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1723542634; c=relaxed/simple;
+	bh=hIJoAWutxisu2c1iykoljPuEC7jmnbHB3Xe5ZIAuKkI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rA1HEtYA9Jif6aTlUCAyaUs7Xeo7HtpfvdOHdR3Xp3OYu3e1M23xX9l/Od6FfzexgFCUfPQj0FQTkmxyztyZ/tmu+5XU/eaHNZsafL2BQLo6kkbFTv+5jDmkWn1Oju7qQP/LtcSZQVF5ptrOGtzMXRPszZjUy6Sj4wgAuAdo/ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=frB6TVfL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ifiMyxZs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y8ZsKrMt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ifiMyxZs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y8ZsKrMt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A5E082272C;
-	Tue, 13 Aug 2024 09:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723542118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="frB6TVfL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723542632;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FE5no6wq38CpWswWx2uoo4/gsjYvCTGI7gMAOBb4YS8=;
-	b=ifiMyxZsOkp+pjyu2jCxMc1kcA1fuJtRpzCKtdkwDndw5N/XHk95hgiV+0Ud/MDhXxyB/C
-	3oYudBYpKM3X++RgFYZ+8/TXpccriQsYJ6PzFtnycSSCuLK8O3WEFwpoY8Vo+27ZpybE5u
-	C29l2hFLcd3Ovqd/VHEzut4Ck9aKE4k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723542118;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FE5no6wq38CpWswWx2uoo4/gsjYvCTGI7gMAOBb4YS8=;
-	b=y8ZsKrMtpi6Rs3i2ujWlOwlVrIu/gtEuF1KEMC6tVQmjUT/bMVFXpTxFrMIgTE2KcdmukZ
-	8+8zBHeaMzq7PYAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ifiMyxZs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y8ZsKrMt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1723542118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FE5no6wq38CpWswWx2uoo4/gsjYvCTGI7gMAOBb4YS8=;
-	b=ifiMyxZsOkp+pjyu2jCxMc1kcA1fuJtRpzCKtdkwDndw5N/XHk95hgiV+0Ud/MDhXxyB/C
-	3oYudBYpKM3X++RgFYZ+8/TXpccriQsYJ6PzFtnycSSCuLK8O3WEFwpoY8Vo+27ZpybE5u
-	C29l2hFLcd3Ovqd/VHEzut4Ck9aKE4k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1723542118;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FE5no6wq38CpWswWx2uoo4/gsjYvCTGI7gMAOBb4YS8=;
-	b=y8ZsKrMtpi6Rs3i2ujWlOwlVrIu/gtEuF1KEMC6tVQmjUT/bMVFXpTxFrMIgTE2KcdmukZ
-	8+8zBHeaMzq7PYAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CFF913ABD;
-	Tue, 13 Aug 2024 09:41:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NYNnImYqu2bxSwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 13 Aug 2024 09:41:58 +0000
-Date: Tue, 13 Aug 2024 11:41:57 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, Thomas Gleixner <tglx@linutronix.de>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Kashyap Desai <kashyap.desai@broadcom.com>, Sumit Saxena <sumit.saxena@broadcom.com>, 
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, Chandrakanth patil <chandrakanth.patil@broadcom.com>, 
-	Sathya Prakash Veerichetty <sathya.prakash@broadcom.com>, Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>, 
-	Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
-	Jonathan Corbet <corbet@lwn.net>, Frederic Weisbecker <frederic@kernel.org>, 
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Sridhar Balaraman <sbalaraman@parallelwireless.com>, "brookxu.cn" <brookxu.cn@gmail.com>, 
-	Ming Lei <ming.lei@redhat.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, virtualization@lists.linux.dev, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 07/15] blk-mq: remove unused queue mapping helpers
-Message-ID: <12ba2ff0-b8c9-46b3-bea0-56304cf7a7dc@flourine.local>
-References: <20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de>
- <20240806-isolcpus-io-queues-v3-7-da0eecfeaf8b@suse.de>
- <20240812090848.GH5497@lst.de>
+	bh=clbh4fn97Z6K9oM4HMkP7echc3WF2vV5h61IVEEYVKg=;
+	b=frB6TVfLEQic3qNLOQEBLuDEQAWSF/ywDNU2ZJvXqg6a23AEJw1MznUtfCXU6azQDTjfPu
+	JAdItlbSfIuLo6Es/27zDRUfz86/iF+limAiZhE01ay4kaN6dT5PwAEvfTHVe4NZbkOM01
+	a1hoERcsymMWnIvd3I/2BuT3cTniGn4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-325-ofc6adPIMtaLoNazuAGgPw-1; Tue, 13 Aug 2024 05:50:26 -0400
+X-MC-Unique: ofc6adPIMtaLoNazuAGgPw-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-427feed9c71so10192245e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 02:50:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723542625; x=1724147425;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=clbh4fn97Z6K9oM4HMkP7echc3WF2vV5h61IVEEYVKg=;
+        b=oAQWWZNSGUC9Z1KKQVBcC7qEuD2RN6P1jipyD6hul7GV+Cfy+Ull0+saUNmGvFSnXb
+         aL7rZhDdFr8dAqSjTa/3ctkvYyuAgn2n/aJUcqc3xqZPei7EZmCuwMObE7i0uQTrONAM
+         ngRhV8XGW0NZO4zVkxOH1LSMMzc3jf3sF0fvKPhxj3RjFPLBKi9fMWAFp8wEM3/AB33Z
+         PK1NjsOV2qJ4emPMhF1lAuyIOw8YlcyigQBeJwd1swWGcfXTLWN0yo0GVU6buekPjPXT
+         f0yxYn+wGDJb/ZKv1Fjfh7mRMHEYdO5C4wCqIX0oGOo2SfZHmYgrQlSNMl8qg6xBPhPb
+         plxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWeG65gb78CIzLotvM4OCoWigxyDgeYVOyozLtIJh68wtz/TXIlqcgoFJSWPE8H+bBBd6jhFkQN858pSoWBokXYFe3Cj92TLkW3
+X-Gm-Message-State: AOJu0Yzfx5ZCJ9X6uueAZ++XibPve70QRgpp6L+g30gH9GZjn2CVUTqT
+	20My1gDF3K5+5G2wTAR6WlRfK7SgGiwwpDXUu/DPt8WlrEWIMn08zqUJ5zyu/IB/vnD//zPld86
+	uziMHw8MuiyfEGFwdIQ2aMx1aaaeGtLhngRlhm0X4tfTqZVZg6MUNosiBXg==
+X-Received: by 2002:a05:600c:4f07:b0:426:6ea6:383d with SMTP id 5b1f17b1804b1-429d75baf27mr7985545e9.2.1723542625257;
+        Tue, 13 Aug 2024 02:50:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFMaj9XOn2VlLZwEVJcR8BVeb8TTkM2yAACsbWsK0tz+ZXqC0GqijJv0r2qYd9appKt9yE7Pg==
+X-Received: by 2002:a05:600c:4f07:b0:426:6ea6:383d with SMTP id 5b1f17b1804b1-429d75baf27mr7985395e9.2.1723542624654;
+        Tue, 13 Aug 2024 02:50:24 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:1708:9110:151e:7458:b92f:3067? ([2a0d:3344:1708:9110:151e:7458:b92f:3067])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c77374a5sm132330955e9.30.2024.08.13.02.50.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Aug 2024 02:50:24 -0700 (PDT)
+Message-ID: <764cf372-fcf3-410d-b48e-3fadc01f4707@redhat.com>
+Date: Tue, 13 Aug 2024 11:50:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240812090848.GH5497@lst.de>
-X-Spam-Score: -5.01
-X-Rspamd-Queue-Id: A5E082272C
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,kernel.org,grimberg.me,linutronix.de,oracle.com,redhat.com,broadcom.com,marvell.com,lwn.net,suse.de,parallelwireless.com,gmail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,microchip.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLbomrtoisjzkgzhj6iko5ju7u)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v2] net: wwan: t7xx: PCIe reset rescan
+To: Jinjian Song <jinjian.song@fibocom.com>,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
+ ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
+ ryazanov.s.a@gmail.com, johannes@sipsolutions.net, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+ corbet@lwn.net, linux-mediatek@lists.infradead.org, helgaas@kernel.org,
+ danielwinkler@google.com, korneld@google.com
+References: <20240809033701.4414-1-jinjian.song@fibocom.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20240809033701.4414-1-jinjian.song@fibocom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 12, 2024 at 11:08:48AM GMT, Christoph Hellwig wrote:
-> On Tue, Aug 06, 2024 at 02:06:39PM +0200, Daniel Wagner wrote:
-> >   * Copyright (c) 2016 Christoph Hellwig.
+On 8/9/24 05:37, Jinjian Song wrote:
+> WWAN device is programmed to boot in normal mode or fastboot mode,
+> when triggering a device reset through ACPI call or fastboot switch
+> command.Maintain state machine synchronization and reprobe logic
+	^^^      ^^^
+Minor nits: missing space and missing article above.
+
+> after a device reset.
 > 
-> None of my code left at this point :)
-
-I do my best to reduce code :)
-
-> >  /**
-> >   * blk_mq_pci_get_queue_affinity - get affinity mask queue mapping for PCI device
-> >   * @dev_data:	Pointer to struct pci_dev.
+> Suggestion from Bjorn:
+> Link: https://lore.kernel.org/all/20230127133034.GA1364550@bhelgaas/
 > 
-> But on to something more substancial:  thes get_queue_affinity
-> wrappers have nothing specific in them.  So maybe move them into
-> the PCI and virtio subsystems instead and kill off these files
-> entirely.
+> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+> ---
+> V2:
+>   * initialize the variable 'ret' in t7xx_reset_device() function
+> ---
+>   drivers/net/wwan/t7xx/t7xx_modem_ops.c     | 47 ++++++++++++++++---
+>   drivers/net/wwan/t7xx/t7xx_modem_ops.h     |  9 +++-
+>   drivers/net/wwan/t7xx/t7xx_pci.c           | 53 ++++++++++++++++++----
+>   drivers/net/wwan/t7xx/t7xx_pci.h           |  3 ++
+>   drivers/net/wwan/t7xx/t7xx_port_proxy.c    |  1 -
+>   drivers/net/wwan/t7xx/t7xx_port_trace.c    |  1 +
+>   drivers/net/wwan/t7xx/t7xx_state_monitor.c | 34 +++++---------
+>   7 files changed, 105 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/net/wwan/t7xx/t7xx_modem_ops.c b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
+> index 8d864d4ed77f..79f17100f70b 100644
+> --- a/drivers/net/wwan/t7xx/t7xx_modem_ops.c
+> +++ b/drivers/net/wwan/t7xx/t7xx_modem_ops.c
+> @@ -53,6 +53,7 @@
+>   
+>   #define RGU_RESET_DELAY_MS	10
+>   #define PORT_RESET_DELAY_MS	2000
+> +#define FASTBOOT_RESET_DELAY_MS	2000
+>   #define EX_HS_TIMEOUT_MS	5000
+>   #define EX_HS_POLL_DELAY_MS	10
+>   
+> @@ -167,19 +168,52 @@ static int t7xx_acpi_reset(struct t7xx_pci_dev *t7xx_dev, char *fn_name)
+>   	}
+>   
+>   	kfree(buffer.pointer);
+> +#else
+> +	struct device *dev = &t7xx_dev->pdev->dev;
+> +	int ret;
+>   
+> +	ret = pci_reset_function(t7xx_dev->pdev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to reset device, error:%d\n", ret);
+> +		return ret;
+> +	}
+>   #endif
+>   	return 0;
+>   }
+>   
+> -int t7xx_acpi_fldr_func(struct t7xx_pci_dev *t7xx_dev)
+> +static void t7xx_host_event_notify(struct t7xx_pci_dev *t7xx_dev, unsigned int event_id)
+>   {
+> -	return t7xx_acpi_reset(t7xx_dev, "_RST");
+> +	u32 value;
+> +
+> +	value = ioread32(IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+> +	value &= ~HOST_EVENT_MASK;
+> +	value |= FIELD_PREP(HOST_EVENT_MASK, event_id);
+> +	iowrite32(value, IREG_BASE(t7xx_dev) + T7XX_PCIE_MISC_DEV_STATUS);
+>   }
+>   
+> -int t7xx_acpi_pldr_func(struct t7xx_pci_dev *t7xx_dev)
+> +int t7xx_reset_device(struct t7xx_pci_dev *t7xx_dev, enum reset_type type)
+>   {
+> -	return t7xx_acpi_reset(t7xx_dev, "MRST._RST");
+> +	int ret = 0;
+> +
+> +	pci_save_state(t7xx_dev->pdev);
+> +	t7xx_pci_reprobe_early(t7xx_dev);
+> +	t7xx_mode_update(t7xx_dev, T7XX_RESET);
+> +
+> +	if (type == FLDR) {
+> +		ret = t7xx_acpi_reset(t7xx_dev, "_RST");
+> +	} else if (type == PLDR) {
+> +		ret = t7xx_acpi_reset(t7xx_dev, "MRST._RST");
+> +	} else if (type == FASTBOOT) {
+> +		t7xx_host_event_notify(t7xx_dev, FASTBOOT_DL_NOTIFY);
+> +		t7xx_mhccif_h2d_swint_trigger(t7xx_dev, H2D_CH_DEVICE_RESET);
+> +		msleep(FASTBOOT_RESET_DELAY_MS);
 
-Make sense!
+Did you test this with CONFIG_DEBUG_ATOMIC_SLEEP?
+
+AFAICS the above adds a 2s (FASTBOOT_RESET_DELAY_MS) unconditional sleep 
+for 'fastboot' inside am IRQ thread function via:
+
+t7xx_rgu_isr_thread() -> t7xx_reset_device_via_pmic() -> t7xx_reset_device()
+
+Well, the existing code already looks broken with a 10 ms sleep there, 
+still...
+
+> diff --git a/drivers/net/wwan/t7xx/t7xx_pci.c b/drivers/net/wwan/t7xx/t7xx_pci.c
+> index 10a8c1080b10..2398f41046ce 100644
+> --- a/drivers/net/wwan/t7xx/t7xx_pci.c
+> +++ b/drivers/net/wwan/t7xx/t7xx_pci.c
+> @@ -67,6 +67,7 @@ static ssize_t t7xx_mode_store(struct device *dev,
+>   			       struct device_attribute *attr,
+>   			       const char *buf, size_t count)
+>   {
+> +	enum t7xx_mode mode;
+>   	struct t7xx_pci_dev *t7xx_dev;
+>   	struct pci_dev *pdev;
+>   	int index = 0;
+
+Minor nit: please respect the reverse xmas tree above.
+
+Cheers,
+
+Paolo
+
