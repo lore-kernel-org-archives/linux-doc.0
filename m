@@ -1,643 +1,342 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20C735894;
-	Tue, 13 Aug 2024 18:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA481BF53
+	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 18:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723573635; cv=none; b=ImVqHe0VOoL2yFGy4eNSq0CJYBoa4YDnn9CtOTpwzUcR6y1wTVTxo/CWMvTTg6urHzYv9Yo8XkuzVS//ldrphZueNSjZ/z9WBrYdWBZ6a7dlMOdd0EEfEJFZAPP/1Gg3ZF3xvg++K6V1kf0Ilb6AbeGAyfsoZpXNV2XzOsTzjuM=
+	t=1723575361; cv=none; b=FHi2BKHrQVtDbCLiIrD6tAdWtBeX20DgZr2o+uVca3wecIu7QY5TjgpBEhdEv+HZTXdMIrcUixAdChUdgrEbaax4eD7Bje+A5/8ppU8RyqHz+6QIuhKs3yrBD1QZvaG02L0gfQmtD+tEpH3gW5bj6uIX4mMszhli+zK4mnqBRp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723573635; c=relaxed/simple;
-	bh=q2Ug0hjd66N2PwhPbhm20+XNwJ6kx5laaAp/4eeRhY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OFtplOg+R2yv5XiFXiW45sUo2Gjmc3aFhsMeBzXmbWNZayXgnTIK/LvdB4cgxRCbHcJ7+DQOa5lpk0W6Psy6xXSi3AB6t5ahzUPtsXdWxCmjsPZzom/vT2+sH9LeVhb7hTHz+NEDBvnhvqmPx3vXmTtMHKfJ7GIV0ZI1Yn7G36g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dYKhhAkB; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723575361; c=relaxed/simple;
+	bh=uz4Lk1CQYACULUAwm7tJvpDL6knHk0jFHH5VOVVHDis=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jFLbAD2Z7l/3/TR/ykmmNp7XbfHJEzt0krf+O2KEm3G7q/1dCwfMDxvEQu6DIKR3ZncCJy7ScruRgmj1yBvwBAQc9UztF65LsQEXNaIQM47GWC8J/X5zhv0eRAEiDa8UCe5Y5HfYg2qmFKxdXcDSlVlY1kuM9/OA9jCrNzfEShY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XaTkQaYH; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dYKhhAkB"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7a23fbb372dso3708719a12.0;
-        Tue, 13 Aug 2024 11:27:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XaTkQaYH"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-7106ed795deso3485898b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 11:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723573633; x=1724178433; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IBorG5Owv8+xGJUxA2+j0IVgIjvFyhD3JtER++J75bQ=;
-        b=dYKhhAkBff6r0wx9zUfEm+pxRLqbFY2uWOZlzr3s/3CAKeE00uFzOoBaICm29TO9kq
-         sWILsc2SVGQ0Uh/sYEO3UdbyCEtGSg67Gp2hpyTqeqXkoYtCnx99BhcrBkuqO4Qp4iUm
-         LJSXQjLrDb+5CfDqZCekWpZxMCx5d9ypNg2terSqAVi8GGNbjhW8j8jA64W6CYwlSiLY
-         OSm4r/a/fEsenVBTc5DN/FNWB3aY4B/GScpDaQff1tZqcMhDGdB7yA7alLfS8fUi3RZG
-         Rc414YRYBN5YmeBNCCsUzOrkSVAQLgdS27IJPRP4Oej0RbGNXOzvIWX/CewIutq/IHQx
-         6oKw==
+        d=google.com; s=20230601; t=1723575359; x=1724180159; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YIwyRI9MZtZeo1mI2C/miZzSeV2UjG9Vo3bAQzKw5cU=;
+        b=XaTkQaYHI3Lf+Wca8vbSkhLDvPeG5SW811oSsXIl8fwWlNstxbbRn7pLBA7WvLdlzV
+         0GguQ/2AmlLoVp3O39CBe/GL5kUJC0R8qYuR4/hOrISOzxp/j+aq1ZFHYbk03FrfJdon
+         L6tEZHALlU2o9pd34SqoJO5ivVUpMgw2dbV+DXnkGO1pDF5xhNYmbYtJD+CBD3MtWDAP
+         pErEMhl3ihW/C01nC3Kov+NiD6ARCEQkh9NrpV1W7JuazXhSbDH8NLKqiECGtHkiii8s
+         H/Ns0PY9LMnnJ3HL8BnSfNeEk46qqETmGjPGqNcPcDricz63v9xuPJrHUv6jyjuALnXW
+         9dMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723573633; x=1724178433;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IBorG5Owv8+xGJUxA2+j0IVgIjvFyhD3JtER++J75bQ=;
-        b=hKZNFUbwLN8hhfqzUcpzQCPOjqwE2N1nzdDpagZMPQuV9fToyiTE6RkuCbnI/b8HOA
-         r9mr7WtVjTZbsfx6l8w9S0lrP5Dv66mUNKD8G/B21ag+MtdywiP5A1oj1owkQcSh3zme
-         mz0/vORJ3MBsVsws5Khk8HwhkcCeICuFT5lkpgGsdaKQzda/INLEkjpzKD+wy27Uywgl
-         NqpmHydkfKpYS3Fiey4WMzbU3YQSWPqofuwaqi3hlKWvx0rnOeWTBrQ7Xf2cx07335OP
-         TLFHz+UJ3Kely8wH9Mnf9arcW8axOWKeSofLk1j2b97xkHgHvYl7Ny2orgqtBhCugXME
-         70/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV32SNXdjpq/ZYeav/k3GiLgWjwHB1QO+xe1EMTxa1Fqexlv53mnTActcETgyatgNFmcAzP7dlju/HPgyyyU/fqP7MdyDuBmrR9SKTpk8TKFMdeiS8OGxOKJSUCOMBWlN2dVKwDJdtKDMKpsBbJepu3MjrC3WrOsFFlpA5Pc6bGdODNsnrlIUDhNnZyMGVD0dc5/u091CHDxkZNnFG/FhUG
-X-Gm-Message-State: AOJu0Yw9Q5gT2diwO+RZWTNBq9MZt7yq12JTr59+Tkm6kElvDcpko53g
-	YbzT8W8mucK2nNffrXIRzlxp+sIyTtdZMRCy8prCt0e6u1QdvijC
-X-Google-Smtp-Source: AGHT+IGzlIh3Aas0q97yR/7KjHFLg6JbKjCq3aGVtsHIueVq4E7Mbyzn+9rpdaiCNbpaJ/u8qAJ2CA==
-X-Received: by 2002:a05:6a20:c78e:b0:1c3:cfc2:2b1f with SMTP id adf61e73a8af0-1c8eaf47c09mr727003637.37.1723573632778;
-        Tue, 13 Aug 2024 11:27:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71256d9c8dfsm1972109b3a.12.2024.08.13.11.27.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 11:27:12 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 13 Aug 2024 11:27:11 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Inochi Amaoto <inochiama@outlook.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Chao Wei <chao.wei@sophgo.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Drew Fustini <dfustini@baylibre.com>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Hal Feng <hal.feng@starfivetech.com>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 2/4] drivers: hwmon: sophgo: Add SG2042 external
- hardware monitor support
-Message-ID: <0e30eab7-e202-4639-863d-85ce28525714@roeck-us.net>
-References: <IA1PR20MB4953C5DB4AC5DF01236CE785BBBB2@IA1PR20MB4953.namprd20.prod.outlook.com>
- <IA1PR20MB4953936E4916334E1A234962BBBB2@IA1PR20MB4953.namprd20.prod.outlook.com>
+        d=1e100.net; s=20230601; t=1723575359; x=1724180159;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YIwyRI9MZtZeo1mI2C/miZzSeV2UjG9Vo3bAQzKw5cU=;
+        b=wuTeaWhZqHt0Z5kJjmdJWv0WYgmgwhRiEac7OOYj//IjdCsT2rxeIY1qIrmNcvoJ74
+         HhFfuKU9R/agT8Z49fdmegzW28sX5OU+9RnvqEmlzE458OgkWlYn9NH25GX4lRonKO+5
+         vQXU/3aiJlI9dyABG9197TbrAIgg0ttiEqxV/f0YItPyP2Xv8WYYgo/pVkV8Fk9DB+lx
+         CMny42cm2FvF9rf0GlzLqNMITTL0E+IqT1qaB/6R5yIs9wUjXvLnfvu2Zt6oScDF5b8C
+         iF/swszH+v2KZ/oygUCXT1xqadNLrctH2JnfZEVsjP43hiBd45zP9uXEC5c1Lds3p6H2
+         jxaA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHVcA/OX2okHdNaDvYgA2E4Uq3hwla5+9EozWil2dZ2dHuyQ9SzPecZrgzG+MyiBoVgAOGiIqIvXi3YndXeGliFUtHy7jsaC/f
+X-Gm-Message-State: AOJu0YwY2cyXCwjFI6oohDGM7r0n40C8RftbdfU3ef593K1G/kDVl0RD
+	q1ks/2yZdwXnUzf5nilMARV5CWGHYdRqR57Yp9kXxq2L+GxWucWczQTcPt0TXs/UoaCmtQU3DYJ
+	lkg==
+X-Google-Smtp-Source: AGHT+IE4Y4KFJ5Upvg/w8mkmeB/IUJyaWk9lTVg3XEnbN4gS5RvAHV9sOvm7no7vasckUgUymsBZfgODW9E=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:4d03:b0:704:3140:5a94 with SMTP id
+ d2e1a72fcca58-7126710c15bmr7017b3a.2.1723575358775; Tue, 13 Aug 2024 11:55:58
+ -0700 (PDT)
+Date: Tue, 13 Aug 2024 11:55:57 -0700
+In-Reply-To: <20240522001817.619072-6-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA1PR20MB4953936E4916334E1A234962BBBB2@IA1PR20MB4953.namprd20.prod.outlook.com>
+Mime-Version: 1.0
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-6-dwmw2@infradead.org>
+Message-ID: <ZrusPRKEuvcO11m0@google.com>
+Subject: Re: [RFC PATCH v3 05/21] KVM: selftests: Add KVM/PV clock selftest to
+ prove timer correction
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jalliste@amazon.co.uk, sveith@amazon.de, zide.chen@intel.com, 
+	Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Sat, Aug 10, 2024 at 04:03:51PM +0800, Inochi Amaoto wrote:
-> SG2042 use an external MCU to provide basic hardware information
-> and thermal sensors.
-> 
-> Add driver support for the onboard MCU of SG2042.
-> 
-> Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
-> Tested-by: Chen Wang <unicorn_wang@outlook.com>
-> Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
-> ---
->  Documentation/hwmon/index.rst      |   1 +
->  Documentation/hwmon/sg2042-mcu.rst |  77 ++++++
->  drivers/hwmon/Kconfig              |  11 +
->  drivers/hwmon/Makefile             |   1 +
->  drivers/hwmon/sg2042-mcu.c         | 388 +++++++++++++++++++++++++++++
->  5 files changed, 478 insertions(+)
->  create mode 100644 Documentation/hwmon/sg2042-mcu.rst
->  create mode 100644 drivers/hwmon/sg2042-mcu.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 913c11390a45..ea3b5be8fe4f 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -206,6 +206,7 @@ Hardware Monitoring Kernel Drivers
->     sch5636
->     scpi-hwmon
->     sfctemp
-> +   sg2042-mcu
->     sht15
->     sht21
->     sht3x
-> diff --git a/Documentation/hwmon/sg2042-mcu.rst b/Documentation/hwmon/sg2042-mcu.rst
-> new file mode 100644
-> index 000000000000..18a3578ac213
-> --- /dev/null
-> +++ b/Documentation/hwmon/sg2042-mcu.rst
-> @@ -0,0 +1,77 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver sg2042-mcu
-> +========================
-> +
-> +Supported chips:
-> +
-> +  * Onboard MCU for sg2042
-> +
-> +    Addresses scanned: -
-> +
-> +    Prefix: 'sg2042-mcu'
-> +
-> +Authors:
-> +
-> +  - Inochi Amaoto <inochiama@outlook.com>
-> +
-> +Description
-> +-----------
-> +
-> +This driver supprts hardware monitoring for onboard MCU with
-> +i2c interface.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate
-> +the devices explicitly.
-> +Please see Documentation/i2c/instantiating-devices.rst for details.
-> +
-> +Sysfs Attributes
-> +----------------
-> +
-> +The following table shows the standard entries support by the driver:
-> +
-> +================= =====================================================
-> +Name              Description
-> +================= =====================================================
-> +temp1_input       Measured temperature of SoC
-> +temp1_crit        Critical high temperature
-> +temp1_crit_hyst   hysteresis temperature restore from Critical
-> +temp2_input       Measured temperature of the base board
-> +================= =====================================================
-> +
-> +The following table shows the extra entries support by the platform:
-> +
+On Wed, May 22, 2024, David Woodhouse wrote:
+> The guest the records a singular TSC reference point in time and uses it to
+            ^^^^
+            then
 
-Those are attached to the i2c device, which should be mentioned.
-The terms "driver" and "platform" are really misleading. The attributes
-above are hardware monitoring device attributes, the attributes below are
-i2c device attributes. Both are implemented and thus supported by the
-driver.
+> calculate 3 KVM clock values utilizing the 3 recorded PVTI prior. Let's
+> call each clock value CLK[0-2].
+> 
+> In a perfect world CLK[0-2] should all be the same value if the KVM clock
+> & TSC relationship is preserved across the LU/LM (or faked in this test),
+> however it is not.
+> 
+> A delta can be observed between CLK0-CLK1 due to KVM recalculating the PVTI
+> (and the inaccuracies associated with that). A delta of ~3500ns can be
+> observed if guest TSC scaling to half host TSC frequency is also enabled,
+> where as without scaling this is observed at ~180ns.
 
-> +================= ======= =============================================
-> +Name              Perm    Description
-> +================= ======= =============================================
-> +reset_count       RO      Reset count of the SoC
-> +uptime            RO      Seconds after the MCU is powered
-> +reset_reason      RO      Reset reason for the last reset
-> +repower_policy    RW      Execution policy when triggering repower
-> +================= ======= =============================================
-> +
-> +``repower_policy``
-> +  The repower is triggered when the temperature of the SoC falls below
-> +  the hysteresis temperature after triggering a shutdown due to
-> +  reaching the critical temperature.
-> +  The valid value for this entry is "repower" or "keep". "keep" will
-> +  leave the SoC down when the triggering repower, and "repower" will
-> +  boot the SoC.
-> +
-> +Debugfs Interfaces
-> +------------------
-> +
-> +If debugfs is available, this driver exposes some hardware specific
-> +data in ``/sys/kernel/debug/sg2042-mcu/*/``.
-> +
-> +================= ======= =============================================
-> +Name              Format  Description
-> +================= ======= =============================================
-> +firmware_version  0x%02x  firmware version of the MCU
-> +pcb_version       0x%02x  version number of the base board
-> +board_type        0x%02x  identifiers for the base board
-> +mcu_type          %d      type of the MCU: 0 is STM32, 1 is GD32
-> +================= ======= =============================================
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index b60fe2e58ad6..7aa6c3f322e5 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -2066,6 +2066,17 @@ config SENSORS_SFCTEMP
->  	  This driver can also be built as a module.  If so, the module
->  	  will be called sfctemp.
->  
-> +config SENSORS_SG2042_MCU
-> +	tristate "Sophgo onboard MCU support"
-> +	depends on I2C
-> +	depends on ARCH_SOPHGO || COMPILE_TEST
-> +	help
-> +	  Support for onboard MCU of Sophgo SG2042 SoCs. This mcu provides
-> +	  power control and some basic information.
-> +
-> +	  This driver can be built as a module. If so, the module
-> +	  will be called sg2042-mcu.
-> +
->  config SENSORS_SURFACE_FAN
->  	tristate "Surface Fan Driver"
->  	depends on SURFACE_AGGREGATOR
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index b1c7056c37db..0bbe812a67ae 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -194,6 +194,7 @@ obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
->  obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
->  obj-$(CONFIG_SENSORS_SCH5636)	+= sch5636.o
->  obj-$(CONFIG_SENSORS_SFCTEMP)	+= sfctemp.o
-> +obj-$(CONFIG_SENSORS_SG2042_MCU) += sg2042-mcu.o
->  obj-$(CONFIG_SENSORS_SL28CPLD)	+= sl28cpld-hwmon.o
->  obj-$(CONFIG_SENSORS_SHT15)	+= sht15.o
->  obj-$(CONFIG_SENSORS_SHT21)	+= sht21.o
-> diff --git a/drivers/hwmon/sg2042-mcu.c b/drivers/hwmon/sg2042-mcu.c
-> new file mode 100644
-> index 000000000000..0a2e072511b6
-> --- /dev/null
-> +++ b/drivers/hwmon/sg2042-mcu.c
-> @@ -0,0 +1,388 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2024 Inochi Amaoto <inochiama@outlook.com>
-> + *
-> + * Sophgo power control mcu for SG2042
-> + */
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/err.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +
-> +/* fixed MCU registers */
-> +#define REG_BOARD_TYPE				0x00
-> +#define REG_MCU_FIRMWARE_VERSION		0x01
-> +#define REG_PCB_VERSION				0x02
-> +#define REG_PWR_CTRL				0x03
-> +#define REG_SOC_TEMP				0x04
-> +#define REG_BOARD_TEMP				0x05
-> +#define REG_RST_COUNT				0x0a
-> +#define REG_UPTIME				0x0b
-> +#define REG_RESET_REASON			0x0d
-> +#define REG_MCU_TYPE				0x18
-> +#define REG_REPOWER_POLICY			0x65
-> +#define REG_CRITICAL_TEMP			0x66
-> +#define REG_REPOWER_TEMP			0x67
-> +
-> +#define REPOWER_POLICY_REBOOT			1
-> +#define REPOWER_POLICY_KEEP_OFF			2
-> +
-> +#define MCU_POWER_MAX				0xff
-> +
-> +#define DEFINE_MCU_DEBUG_ATTR(_name, _reg, _format)			\
-> +	static int _name##_show(struct seq_file *seqf,			\
-> +				    void *unused)			\
-> +	{								\
-> +		struct sg2042_mcu_data *mcu = seqf->private;		\
-> +		int ret;						\
-> +		ret = i2c_smbus_read_byte_data(mcu->client, (_reg));	\
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +		seq_printf(seqf, _format "\n", ret);			\
-> +		return 0;						\
-> +	}								\
-> +	DEFINE_SHOW_ATTRIBUTE(_name)					\
-> +
-> +struct sg2042_mcu_data {
-> +	struct i2c_client	*client;
-> +	struct dentry		*debugfs;
-> +	struct mutex		mutex;
-> +};
-> +
-> +static struct dentry *sgmcu_debugfs;
-> +
-> +static ssize_t reset_count_show(struct device *dev,
-> +				struct device_attribute *attr,
-> +				char *buf)
+It'd be helpful to explain why TSC scaling results in a larger drift.  I'm by no
+means a clock expert, but I've likely stared at this code more than most and it's
+not obvious to me why scaling is problematic.  If I thought hard maybe I could
+figure it out, but it's been an -ENOCOFFE sort of week so far, so I wouldn't bet
+on it :-)
+
+> +static void trigger_pvti_update(vm_paddr_t pvti_pa)
 > +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_RST_COUNT);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return sprintf(buf, "%d\n", ret);
+> +	/*
+> +	 * We need a way to trigger KVM to update the fields
+
+Please avoid "we", it's unnecessarily confusing as there are too many possible
+subjects that "we" could apply to.  And please use the "full" 80 characters for
+comments, there's no reason to wrap more aggressively.  E.g.
+
+	/*
+	 * Toggle between KVM's old and new system time methods to coerce KVM
+	 * into updating the fields in the PV time info struct.
+	 */
+
+> +	 * in the PV time info. The easiest way to do this is
+> +	 * to temporarily switch to the old KVM system time
+> +	 * method and then switch back to the new one.
+> +	 */
+> +	wrmsr(MSR_KVM_SYSTEM_TIME, pvti_pa | KVM_MSR_ENABLED);
+> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
 > +}
 > +
-> +static ssize_t uptime_show(struct device *dev,
-> +			   struct device_attribute *attr,
-> +			   char *buf)
+> +static void guest_code(vm_paddr_t pvti_pa)
 > +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	u8 time_val[2];
-> +	int ret;
-> +
-> +	ret = i2c_smbus_read_i2c_block_data(mcu->client, REG_UPTIME,
-> +					    sizeof(time_val), time_val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return sprintf(buf, "%d\n",
-> +		       (time_val[0]) | (time_val[1] << 8));
-> +}
-> +
-> +static ssize_t reset_reason_show(struct device *dev,
-> +				 struct device_attribute *attr,
-> +				 char *buf)
-> +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_RESET_REASON);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return sprintf(buf, "0x%02x\n", ret);
-> +}
-> +
-> +static ssize_t repower_policy_show(struct device *dev,
-> +				   struct device_attribute *attr,
-> +				   char *buf)
-> +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	int ret;
-> +	const char *action;
-> +
-> +	ret = i2c_smbus_read_byte_data(mcu->client, REG_REPOWER_POLICY);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ret == REPOWER_POLICY_REBOOT)
-> +		action = "repower";
-> +	else if (ret == REPOWER_POLICY_KEEP_OFF)
-> +		action = "keep";
-> +	else
-> +		action = "unknown";
-> +
-> +	return sprintf(buf, "%s\n", action);
-> +}
-> +
-> +static ssize_t repower_policy_store(struct device *dev,
-> +				    struct device_attribute *attr,
-> +				    const char *buf, size_t count)
-> +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	u8 value;
-> +	int ret;
-> +
-> +	if (sysfs_streq("repower", buf))
-> +		value = REPOWER_POLICY_REBOOT;
-> +	else if (sysfs_streq("keep", buf))
-> +		value = REPOWER_POLICY_KEEP_OFF;
-> +	else
-> +		return -EINVAL;
-> +
-> +	ret = i2c_smbus_write_byte_data(mcu->client,
-> +					REG_REPOWER_POLICY, value);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RO(reset_count);
-> +static DEVICE_ATTR_RO(uptime);
-> +static DEVICE_ATTR_RO(reset_reason);
-> +static DEVICE_ATTR_RW(repower_policy);
-> +
-> +DEFINE_MCU_DEBUG_ATTR(firmware_version, REG_MCU_FIRMWARE_VERSION, "0x%02x");
-> +DEFINE_MCU_DEBUG_ATTR(pcb_version, REG_PCB_VERSION, "0x%02x");
-> +DEFINE_MCU_DEBUG_ATTR(board_type, REG_BOARD_TYPE, "0x%02x");
-> +DEFINE_MCU_DEBUG_ATTR(mcu_type, REG_MCU_TYPE, "%d");
-> +
-> +static struct attribute *sg2042_mcu_attrs[] = {
-> +	&dev_attr_reset_count.attr,
-> +	&dev_attr_uptime.attr,
-> +	&dev_attr_reset_reason.attr,
-> +	&dev_attr_repower_policy.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group sg2042_mcu_attr_group = {
-> +	.attrs	= sg2042_mcu_attrs,
-> +};
-> +
-> +static const struct attribute_group *sg2042_mcu_groups[] = {
-> +	&sg2042_mcu_attr_group,
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_channel_info * const sg2042_mcu_info[] = {
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_CRIT |
-> +					HWMON_T_CRIT_HYST,
-> +				 HWMON_T_INPUT),
-> +	NULL
-> +};
-> +
-> +static int sg2042_mcu_read(struct device *dev,
-> +			   enum hwmon_sensor_types type,
-> +			   u32 attr, int channel, long *val)
-> +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	int tmp;
-> +	u8 reg;
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_input:
-> +		reg = channel ? REG_BOARD_TEMP : REG_SOC_TEMP;
-> +		break;
-> +	case hwmon_temp_crit:
-> +		reg = REG_CRITICAL_TEMP;
-> +		break;
-> +	case hwmon_temp_crit_hyst:
-> +		reg = REG_REPOWER_TEMP;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	tmp = i2c_smbus_read_byte_data(mcu->client, reg);
-> +	if (tmp < 0)
-> +		return tmp;
-> +	*val = tmp * 1000;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sg2042_mcu_write(struct device *dev,
-> +			    enum hwmon_sensor_types type,
-> +			    u32 attr, int channel, long val)
-> +{
-> +	struct sg2042_mcu_data *mcu = dev_get_drvdata(dev);
-> +	int temp = val / 1000;
-> +	int hyst_temp, crit_temp;
-> +	u8 reg;
-> +
-> +	temp = clamp_val(temp, 0, MCU_POWER_MAX);
-> +
-> +	guard(mutex)(&mcu->mutex);
-> +
-> +	switch (attr) {
-> +	case hwmon_temp_crit:
-> +		hyst_temp = i2c_smbus_read_byte_data(mcu->client,
-> +						     REG_REPOWER_TEMP);
-> +		if (hyst_temp < 0)
-> +			return hyst_temp;
-> +
-> +		crit_temp = temp;
-> +		reg = REG_CRITICAL_TEMP;
-> +		break;
-> +	case hwmon_temp_crit_hyst:
-> +		crit_temp = i2c_smbus_read_byte_data(mcu->client,
-> +						     REG_CRITICAL_TEMP);
-> +		if (crit_temp < 0)
-> +			return crit_temp;
-> +
-> +		hyst_temp = temp;
-> +		reg = REG_REPOWER_TEMP;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
+> +	struct pvclock_vcpu_time_info *pvti_va =
+> +		(struct pvclock_vcpu_time_info *)pvti_pa;
+
+Casting to "void *" will let this vit on a single line.  Though I don't see any
+reason to take a vm_paddr_t, the infrastructure doesn't validate the arg types.
+
+> +	struct pvclock_vcpu_time_info pvti_boot;
+> +	struct pvclock_vcpu_time_info pvti_uncorrected;
+> +	struct pvclock_vcpu_time_info pvti_corrected;
+> +	uint64_t cycles_boot;
+> +	uint64_t cycles_uncorrected;
+> +	uint64_t cycles_corrected;
+> +	uint64_t tsc_guest;
 > +
 > +	/*
-> +	 * ensure hyst_temp is smaller to avoid MCU from
-> +	 * keeping triggering repower event.
+> +	 * Setup the KVMCLOCK in the guest & store the original
+
+s/&/and
+
+And wrap less aggressively here too.
+
+> +	 * PV time structure that is used.
 > +	 */
-> +	if (crit_temp < hyst_temp)
-> +		return -EINVAL;
+> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
+> +	pvti_boot = *pvti_va;
+> +	GUEST_SYNC(STAGE_FIRST_BOOT);
 > +
-> +	return i2c_smbus_write_byte_data(mcu->client, reg, temp);
+> +	/*
+> +	 * Trigger an update of the PVTI, if we calculate
+> +	 * the KVM clock using this structure we'll see
+> +	 * a delta from the TSC.
+
+Too many pronouns.  Maybe this?
+
+	/*
+	 * Trigger an update of the PVTI and snapshot the time, which at this
+	 * point is uncorrected, i.e. have a 
+
+> +	 */
+> +	trigger_pvti_update(pvti_pa);
+> +	pvti_uncorrected = *pvti_va;
+> +	GUEST_SYNC(STAGE_UNCORRECTED);
+> +
+> +	/*
+> +	 * The test should have triggered the correction by this
+> +	 * point in time. We have a copy of each of the PVTI structs
+> +	 * at each stage now.
+> +	 *
+> +	 * Let's sample the timestamp at a SINGLE point in time and
+> +	 * then calculate what the KVM clock would be using the PVTI
+> +	 * from each stage.
+> +	 *
+> +	 * Then return each of these values to the tester.
+> +	 */
+
+	/*
+	 * Snapshot the corrected time (the host does KVM_SET_CLOCK_GUEST when
+	 * handling STAGE_UNCORRECTED).
+	 */  
+
+> +	pvti_corrected = *pvti_va;
+
+	/*
+	 * Sample the timestamp at a SINGLE point in time, and then calculate
+	 * the effective KVM clock using the PVTI from each stage, and sync all
+	 * values back to the host for verification.
+	 */
+
+
+On that last point though, why sync things back to the host?  The verification
+can be done in the guest via __GUEST_ASSERT(), that way there are few magic
+fields being passed around, e.g. no need for uc.args[2..4].
+
+> +	tsc_guest = rdtsc();
+> +
+> +	cycles_boot = __pvclock_read_cycles(&pvti_boot, tsc_guest);
+> +	cycles_uncorrected = __pvclock_read_cycles(&pvti_uncorrected, tsc_guest);
+> +	cycles_corrected = __pvclock_read_cycles(&pvti_corrected, tsc_guest);
+> +
+> +	GUEST_SYNC_ARGS(STAGE_CORRECTED, cycles_boot, cycles_uncorrected,
+> +			cycles_corrected, 0);
 > +}
+
 > +
-> +static umode_t sg2042_mcu_is_visible(const void *_data,
-> +				     enum hwmon_sensor_types type,
-> +				     u32 attr, int channel)
+> +static void run_test(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
 > +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			return 0444;
-> +		case hwmon_temp_crit:
-> +		case hwmon_temp_crit_hyst:
-> +			if (channel == 0)
-> +				return 0664;
+> +	struct pvclock_vcpu_time_info pvti_before;
+> +	uint64_t before, uncorrected, corrected;
+> +	int64_t delta_uncorrected, delta_corrected;
+> +	struct ucall uc;
+> +	uint64_t ucall_reason;
+> +
+> +	/* Loop through each stage of the test. */
+> +	while (true) {
+> +
+> +		/* Start/restart the running vCPU code. */
+> +		vcpu_run(vcpu);
+> +		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
+> +
+> +		/* Retrieve and verify our stage. */
+> +		ucall_reason = get_ucall(vcpu, &uc);
+> +		TEST_ASSERT(ucall_reason == UCALL_SYNC,
+> +			    "Unhandled ucall reason=%lu",
+> +			    ucall_reason);
 
-0644, please. Always. We don't permit group write access for sysfs
-attributes.
+Or just TEST_ASSERT_EQ().
 
+> +		/* Run host specific code relating to stage. */
+> +		switch (uc.args[1]) {
+> +		case STAGE_FIRST_BOOT:
+> +			/* Store the KVM clock values before an update. */
+> +			vcpu_ioctl(vcpu, KVM_GET_CLOCK_GUEST, &pvti_before);
+> +
+> +			/* Sleep for a set amount of time to increase delta. */
+> +			sleep(5);
 
+This is probably worth plumbing in via command line, e.g. so that the test can
+run with a shorter sleep() by default while also allowing users to stress things
+by running with longer delays.  Ideally, the default sleep() would be as short
+as possible while still detecting ~100% of bugs.
 
 > +			break;
-> +		default:
+> +
+> +		case STAGE_UNCORRECTED:
+> +			/* Restore the KVM clock values. */
+> +			vcpu_ioctl(vcpu, KVM_SET_CLOCK_GUEST, &pvti_before);
 > +			break;
+> +
+> +		case STAGE_CORRECTED:
+> +			/* Query the clock information and verify delta. */
+> +			before = uc.args[2];
+> +			uncorrected = uc.args[3];
+> +			corrected = uc.args[4];
+> +
+> +			delta_uncorrected = before - uncorrected;
+> +			delta_corrected = before - corrected;
+> +
+> +			pr_info("before=%lu uncorrected=%lu corrected=%lu\n",
+> +				before, uncorrected, corrected);
+> +
+> +			pr_info("delta_uncorrected=%ld delta_corrected=%ld\n",
+> +				delta_uncorrected, delta_corrected);
+> +
+> +			TEST_ASSERT((delta_corrected <= 1) && (delta_corrected >= -1),
+> +				    "larger than expected delta detected = %ld", delta_corrected);
+> +			return;
 > +		}
-> +		break;
-> +	default:
-> +			break;
 > +	}
+> +}
+> +
+> +static void configure_pvclock(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
+> +{
+> +	unsigned int gpages;
+
+I'd prefer something like nr_pages
+> +
+> +	gpages = vm_calc_num_guest_pages(VM_MODE_DEFAULT, KVMCLOCK_SIZE);
+> +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
+> +				    KVMCLOCK_GPA, 1, gpages, 0);
+> +	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA, gpages);
+> +
+> +	vcpu_args_set(vcpu, 1, KVMCLOCK_GPA);
+
+This is somewhat silly.  If you're going to hardcode the address, just use the
+#define in both the host and the guest.  Then this helper doesn't need to take
+a vCPU and could be more easily expanded to multiple vCPUs (if there's a good
+reason to do so).
+
+> +}
+> +
+> +static void configure_scaled_tsc(struct kvm_vcpu *vcpu)
+> +{
+> +	uint64_t tsc_khz;
+> +
+> +	tsc_khz =  __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
+> +	pr_info("scaling tsc from %ldKHz to %ldKHz\n", tsc_khz, tsc_khz / 2);
+> +	tsc_khz /= 2;
+
+There's nothing special about scaling to 50%, correct?  So rather than hardcode
+a single testcase, enumerate over a variety of frequencies, and specifically
+cross the 32-bit boundary, e.g. 1Ghz - 5Ghz at 500Mhz jumps or something, plus
+the host's native unscaled value.
+
+> +	vcpu_ioctl(vcpu, KVM_SET_TSC_KHZ, (void *)tsc_khz);
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	struct kvm_vcpu *vcpu;
+> +	struct kvm_vm *vm;
+> +	bool scale_tsc;
+> +
+> +	scale_tsc = argc > 1 && (!strncmp(argv[1], "-s", 3) ||
+> +				 !strncmp(argv[1], "--scale-tsc", 10));
+
+I think it's worth adding proper argument parsing, e.g. to print a help.  The
+boilerplate is annoying, but it'll payoff in the long run as I suspect we'll end
+up with more params, e.g. to configure the sleep/delay, the min/max frequency,
+the intervals between frequencies, etc.
+
+> +
+> +	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
+> +
+> +	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
+> +
+> +	configure_pvclock(vm, vcpu);
+> +
+> +	if (scale_tsc)
+> +		configure_scaled_tsc(vcpu);
+> +
+> +	run_test(vm, vcpu);
+> +
 > +	return 0;
 > +}
-> +
-> +static const struct hwmon_ops sg2042_mcu_ops = {
-> +	.is_visible = sg2042_mcu_is_visible,
-> +	.read = sg2042_mcu_read,
-> +	.write = sg2042_mcu_write,
-> +};
-> +
-> +static const struct hwmon_chip_info sg2042_mcu_chip_info = {
-> +	.ops = &sg2042_mcu_ops,
-> +	.info = sg2042_mcu_info,
-> +};
-> +
-> +static void sg2042_mcu_debugfs_init(struct sg2042_mcu_data *mcu,
-> +				    struct device *dev)
-> +{
-> +	mcu->debugfs = debugfs_create_dir(dev_name(dev), sgmcu_debugfs);
-> +
-> +	debugfs_create_file("firmware_version", 0444, mcu->debugfs,
-> +			    mcu, &firmware_version_fops);
-> +	debugfs_create_file("pcb_version", 0444, mcu->debugfs, mcu,
-> +			    &pcb_version_fops);
-> +	debugfs_create_file("mcu_type", 0444, mcu->debugfs, mcu,
-> +			    &mcu_type_fops);
-> +	debugfs_create_file("board_type", 0444, mcu->debugfs, mcu,
-> +			    &board_type_fops);
-> +}
-> +
-> +static int sg2042_mcu_i2c_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct sg2042_mcu_data *mcu;
-> +	struct device *hwmon_dev;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA |
-> +						I2C_FUNC_SMBUS_BLOCK_DATA))
-> +		return -ENODEV;
-> +
-> +	mcu = devm_kmalloc(dev, sizeof(*mcu), GFP_KERNEL);
-> +	if (!mcu)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&mcu->mutex);
-> +	mcu->client = client;
-> +
-> +	i2c_set_clientdata(client, mcu);
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, "sg2042_mcu",
-> +							 mcu,
-> +							 &sg2042_mcu_chip_info,
-> +							 NULL);
-> +	if (IS_ERR(hwmon_dev))
-> +		return PTR_ERR(hwmon_dev);
-> +
-> +	sg2042_mcu_debugfs_init(mcu, dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static void sg2042_mcu_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct sg2042_mcu_data *mcu = i2c_get_clientdata(client);
-> +
-> +	debugfs_remove_recursive(mcu->debugfs);
-> +}
-> +
-> +static const struct i2c_device_id sg2042_mcu_id[] = {
-> +	{ "sg2042-hwmon-mcu", 0 },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(i2c, sg2042_mcu_id);
-> +
-> +static const struct of_device_id sg2042_mcu_of_id[] = {
-> +	{ .compatible = "sophgo,sg2042-hwmon-mcu" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, sg2042_mcu_of_id);
-> +
-> +static struct i2c_driver sg2042_mcu_driver = {
-> +	.driver = {
-> +		.name = "sg2042-mcu",
-> +		.of_match_table = sg2042_mcu_of_id,
-> +		.dev_groups = sg2042_mcu_groups,
-> +	},
-> +	.probe = sg2042_mcu_i2c_probe,
-> +	.remove = sg2042_mcu_i2c_remove,
-> +	.id_table = sg2042_mcu_id,
-> +};
-> +
-> +static int __init sg2042_mcu_init(void)
-> +{
-> +	sgmcu_debugfs = debugfs_create_dir("sg2042-mcu", NULL);
-> +	return i2c_add_driver(&sg2042_mcu_driver);
-> +}
-> +
-> +static void __exit sg2042_mcu_exit(void)
-> +{
-> +	debugfs_remove_recursive(sgmcu_debugfs);
-> +	i2c_del_driver(&sg2042_mcu_driver);
-> +}
-> +
-> +module_init(sg2042_mcu_init);
-> +module_exit(sg2042_mcu_exit);
-> +
-> +MODULE_AUTHOR("Inochi Amaoto <inochiama@outlook.com>");
-> +MODULE_DESCRIPTION("MCU I2C driver for SG2042 soc platform");
-> +MODULE_LICENSE("GPL");
+> -- 
+> 2.44.0
+> 
