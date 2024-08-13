@@ -1,118 +1,125 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7024C81;
-	Tue, 13 Aug 2024 07:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C57A558B7;
+	Tue, 13 Aug 2024 07:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723532594; cv=none; b=Pnl2Vs1cJkW3I6M+R4y/vh24achqnWXAYrKkL4ugeyaAAxCxuLihh0UQ1shMfX287tohJKY+C1rybEa8nE1WWHDxBFZEIxjLoz+m1BZlu/rAtLQYkbqFlGodmPjt7jGYa4WVamLJL2GVcqUTUwbTzRtWAEaATgBmehNFdgcbeG8=
+	t=1723534091; cv=none; b=GVjA4TAH6XhNm+eUXnU64Xydmict/IAlwyoxLbPZto7/VK76b9oAHSs4D9nSXtRrpe121JpFhI4+R6PyaW6kFpwgpDDGn/TC043GXnx8WjuhULhr7Vy2G1nXhKBjkM9W/mkULrSjViQdLgtaggMEvW0YWkAX5YoMKwJvk3p/xd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723532594; c=relaxed/simple;
-	bh=dTbZzkcHiIl7NTbNr43zH/Q3LxjRB6jnEClIJdvOAc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qTkJYIevSR2flFQ0aWuM/L0wTcdu2v4p7ooa2q3NsOj9qZXFuQOmGzsUZVqPqkRT352ydSHQbxu/4E3al6uxkpwz73yJp8I3wzKAm3MomfTuJMaC70ZFY2H9J+HRooxst59mNbGthmHffhdv7CYpo95m9e7RMfx6mEQjgGntNzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqZn3uf9; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1723534091; c=relaxed/simple;
+	bh=/tDkBsUIpuefxByQq8Uj2vZDmHnHHDDLXynWe1SLD/M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=j4cUF8VOWVFmkb4l0MIcYbLGBLzh9eR7DhehOKF2pZMj8H+Gj+eaQhsfnIe1aOc80DdnSMbvn+0Ive3f5bPHvl3AY9vCAtYR09djsx5vLavazVu6p1VxtWm711/icJWiizbtbKYEYLXBsA84HGXQ3ojpvOlH/ZbSkHjJHHiuLaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFLf2RaC; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqZn3uf9"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4280921baa2so6080715e9.2;
-        Tue, 13 Aug 2024 00:03:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFLf2RaC"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42816ca797fso38091445e9.2;
+        Tue, 13 Aug 2024 00:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723532592; x=1724137392; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
-        b=lqZn3uf9No77Lcl/HaWu9SM/hQlLxUzMqCy3F1d72B/iOaFF8ecRdNbdfR+CkrLzjD
-         h8nqBtGbBTuct8Mgqk9dm4a40UkYs0RZBipF23sPbLpvqPtxCDLLQ/R1VIj1IHaETmM5
-         1GZJvq2IWy+TJXHw4f9ZWQ+V/G1uORMa2ROYSQf5bMO25ZOmFNIChb2WruuW0h+Foyk9
-         CdmuGgQ+6FKLMvl4e7jwQ8go9nUNAwCx08/YDwZEKkCeJmimwhtTXwxpLpi9nFkWaDxf
-         5f6qkEuudBipfB1lXPHznx95oJEVWczOHTDixYjK1LnKVXfw2t+2UZpi7UKufHf9jou6
-         b/lg==
+        d=gmail.com; s=20230601; t=1723534088; x=1724138888; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/tDkBsUIpuefxByQq8Uj2vZDmHnHHDDLXynWe1SLD/M=;
+        b=MFLf2RaCC+6JK5HbhbKTjmv4bK24P7FT/OIcP0nvQBJUvYLBpKW3kPlFnIQwUBI2RG
+         gMG+9rBxw8iYG1gGtbrZjfYDc8fLj7nh3yIVkBYleYYN4jB89efW3G1VSfYazBzkz7Y6
+         JSJ0symZhA8FWMcuc194+NxnealvH0+GBF9ZHMVT2xIuWlRu5nP0meKN5W3FS07D+b5C
+         LkPiTAOkjTqsjaCJL6MIjzXgRajNu6JMMb6p+IQXEy84XMEntTSpbCHA8e+QRMO0EEbz
+         QJJuALTt5/8mKHi712Fsv6yHW4sA+EhRiXnM5MEmzDAQfns8Rue7H65D/KFaqznTtYvW
+         WZIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723532592; x=1724137392;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fIOwaxibfjy8pBTYozQ1M2vGi8fc4Fhd8E64F9TTN1c=;
-        b=A5sjc/roDlGfcX/msWRGM80TtxG/w/iIO9ZXoezVIYPvRVe8VQDpR+YtgcRKDVrr8V
-         g85apelAfph7mfgUp8h1CThyRBxdix0nTrVY6NNPTWLctxyw9vC3vJr41+yWTICAD+wh
-         CCZXnutZGcT+7eWMUNdkQxzJIbjivoBZf0ZmG4dUEhWRY5WbA1mJaKa6PVZfBSC+xLVC
-         Q0YTU1pct50EJuDgeO2ICZvuA0LajidMSeyXPuwNe1kPKfTUwwx2UrMqynTMiCRipXs8
-         Jlb6WGSYKPUWg51Kiprw0hlS9CgZzQAPqCCJBu47IIATqBIE4jd17c7FPa0UnEYboAbq
-         1p9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ZN/ZsEA+WZmXrHvbcmF3J4RWXwqkFeF3OvtB+2I50YGYtjrrOOABAsa1DI1IrBtV3g2JGbY4fl9sPZ+8brhFeUVcGpoZS7+kJDVpSb6acAPVqijeIup7uJrqM5MADLop0akzcHzEiag4p4MWGFRkVTNRYBcZNRbBHaKQuhwLUS89WHW7vYr2UONNUOriZwRzinvuZmvZu5T9pRfyK+8IlACv6Ag=
-X-Gm-Message-State: AOJu0YwcPabRvynW2Y38AhIxpFsin8rXg6ELgCH1kXKsK65yDymVoUce
-	uIFjp2LH6po730fkF01BdXxCKWD7hJAZo+Dmx+M37LO1o4kQAnxp
-X-Google-Smtp-Source: AGHT+IFT7bLnTaW+ZuudccrGn/oo/3z70x/uR+WhXxRNGyeNLZQD80eh8G9IROEtYFJM2/ZFfGELGQ==
-X-Received: by 2002:a05:600c:1c16:b0:426:6cd1:d116 with SMTP id 5b1f17b1804b1-429d760e0e5mr5749905e9.3.1723532591311;
-        Tue, 13 Aug 2024 00:03:11 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31? ([2a01:4b00:d20e:7300:6db6:f2bf:8865:5d31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c751a554sm130564965e9.22.2024.08.13.00.03.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2024 00:03:10 -0700 (PDT)
-Message-ID: <93b5b1ce-8b40-473d-a2c4-2b1d2612cd67@gmail.com>
-Date: Tue, 13 Aug 2024 08:03:10 +0100
+        d=1e100.net; s=20230601; t=1723534088; x=1724138888;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/tDkBsUIpuefxByQq8Uj2vZDmHnHHDDLXynWe1SLD/M=;
+        b=nAcDYs91QOVJYAc9w4g1QCadzrljNQbpEg6qkMeas45AYqhJD10YheA5pmsHWGGMN4
+         gGRNoBiSfE204SmfGA8Yz5W4307SLkXQlFrtmleUAUofaJTZBL2cSBhjJQdjwc7Vd5M0
+         C/pwTymx8KriNmq1zQVo11FwpcQnlApzl0Ba9v7mCuL4m42FtEa3Zz8YfngKRB9KPKua
+         /aDdTKCXsABNmXHYQryZS+M4rp+4C9iEAlu9VQvCw+8GB1hcDqolawH7Sja5Cd2IysDj
+         E3IKUaVwf3wFpOWRim5akRf8SEQn6eqEAhxGe9lofPqL0x1ftu3Cd4010ouyIJefhjTx
+         fg/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUeqK8lcZlluwRTphnVYFMDw4FchczDx1eOqntvi9w7KEWMlcRvzz8R2ElME/IZhvrh2FCRjL8yhM+a4G1D1bS1Y58yB+2+AUfHtEjQpTVft2egeQSmQr87s/G7Q+kQ/AGiZEcgF2JgVJTJarRBAJkpBlvr+MHtSXFlqinyHBR60oIg
+X-Gm-Message-State: AOJu0YzatZjMTOVVJcL8dU5X9pETsrfXfgDCM8/72BUQ3J8jV5BRwDsN
+	N8gXzEukXQTyCZa4fxCW/g8jHtBaL8cSvvw/91GuUCjDXL5cLSqy
+X-Google-Smtp-Source: AGHT+IHA16sYvqDYhNQilICtfAinzmxMrjB0slXGEd7wVi97HBQcaVlW9W6f8D/9T0VDOrH2ULpleg==
+X-Received: by 2002:a05:600c:46c6:b0:426:6960:34b0 with SMTP id 5b1f17b1804b1-429d480d755mr16052595e9.14.1723534087689;
+        Tue, 13 Aug 2024 00:28:07 -0700 (PDT)
+Received: from ?IPv6:2001:a61:34fc:f301:5967:ab45:b87a:b14b? ([2001:a61:34fc:f301:5967:ab45:b87a:b14b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c750f1easm126831115e9.18.2024.08.13.00.28.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 00:28:07 -0700 (PDT)
+Message-ID: <8b32d9819e44436af39c5f32b095c41f8ebd77b1.camel@gmail.com>
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
+ <jic23@kernel.org>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?=
+	 <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Tue, 13 Aug 2024 09:28:06 +0200
+In-Reply-To: <4bdb10c2-057f-4254-864b-99bb7ac1509d@baylibre.com>
+References: 
+	<20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
+	 <20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
+	 <20240810103540.03e758a5@jic23-huawei>
+	 <4bdb10c2-057f-4254-864b-99bb7ac1509d@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] ALSA: timer: Introduce virtual userspace-driven
- timers
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
- shuah@kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
- aholzinger@gmx.de
-References: <20240811202337.48381-1-ivan.orlov0322@gmail.com>
- <20240811202337.48381-4-ivan.orlov0322@gmail.com>
- <87ikw5c644.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <87ikw5c644.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 8/13/24 07:02, Takashi Iwai wrote:
-> On Sun, 11 Aug 2024 22:23:36 +0200,
-> Ivan Orlov wrote:
->> +static int snd_utimer_ioctl_create(struct file *file,
->> +				   struct snd_timer_uinfo __user *_utimer_info)
->> +{
->> +	struct snd_utimer *utimer;
->> +	struct snd_timer_uinfo *utimer_info __free(kfree) = NULL;
->> +	int err;
->> +
->> +	utimer_info = memdup_user(_utimer_info, sizeof(*utimer_info));
->> +	if (IS_ERR(utimer_info))
->> +		return PTR_ERR(no_free_ptr(utimer_info));
->> +
->> +	err = snd_utimer_create(utimer_info, &utimer);
->> +	if (err < 0)
->> +		return err;
->> +
->> +	utimer_info->id = utimer->id;
->> +
->> +	err = copy_to_user(_utimer_info, utimer_info, sizeof(*utimer_info));
->> +	if (err) {
->> +		snd_utimer_free(utimer);
->> +		return -EFAULT;
->> +	}
->> +
->> +	return anon_inode_getfd(utimer->name, &snd_utimer_fops, utimer, O_RDWR | O_CLOEXEC);
-> 
-> Wouldn't utimer be left unfreed if this returns an error?
-> 
+On Mon, 2024-08-12 at 12:03 -0500, David Lechner wrote:
+> On 8/10/24 4:35 AM, Jonathan Cameron wrote:
+> > On Wed,=C2=A0 7 Aug 2024 15:02:10 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >=20
+> > > This implements buffered reads for the ad4695 driver using the typica=
+l
+> > > triggered buffer implementation, including adding a soft timestamp
+> > > channel.
+> > >=20
+> > > The chip has 4 different modes for doing conversions. The driver is
+> > > using the advanced sequencer mode since that is the only mode that
+> > > allows individual configuration of all aspects each channel (e.g.
+> > > bipolar config currently and oversampling to be added in the future).
+> > >=20
+> > > Signed-off-by: David Lechner <dlechner@baylibre.com>
+> >=20
+> > Main thing in here is I think you can use available_scan_masks
+> > to avoid the need for the error path on just the temperature channel
+> > being enabled.
+> >=20
+> I had not thought about doing it that way, but now that I am
+> thinking about it, it seems like we would need to have a scan
+> mask in the list for every possible combination of channels.
+> This would be 10s of thousands of possible scan masks for 16
+> channel chips so that doesn't seem like the best way to go.
+>=20
+> But adding some special handling to make the temperature
+> channel just work should be easy enough to add.
+>=20
 
-Hi Takashi,
+Not sure if the following is meaningful to this usecase but I used to think=
+ like you
+but then realized that iio_scan_mask_match() will do bitmap_subset(). So yo=
+u only
+need to enable a subset of the available scan mask for things to work (and =
+with that
+you should no longer need an insane number of combinations). The core will =
+then take
+care of demuxing the actual enabled channels. AFAIR, strict scan matching i=
+s only
+used for HW buffering.
 
-Ah, yes, it will... :( Thanks!
-
--- 
-Kind regards,
-Ivan Orlov
+- Nuno S=C3=A1
