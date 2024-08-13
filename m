@@ -1,108 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB780B;
-	Tue, 13 Aug 2024 00:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A896116
+	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 00:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723508152; cv=none; b=Rxu74Ij/+b3v6IHveGbcYp8yQzZJbbiiUOZBqmItA6WjtalSXVJUBvR0Il9KhpUdp9yfHqEyjZlSUdbAEHej9pOUgBz6P/oLa3YEnc4XfGi25+J9fIGEmRG76NG8gO+0dnXPXqCUM87GJych4LdqqXux2QUs7Hk7JXTWI5hzgUs=
+	t=1723509936; cv=none; b=QMP6/mffQsprYsZ5FF2atPJSUFcdryv4DKpmKwglE8PIIQ06peVe9V7LS0Sm0P6TBytLC2udmz3B7FyudKxWVe3z1GNnyJZAjEQnvDaYUqqdrMet2YR2GAseJgAJpF9SJhsctMjVSf++aFZwep3aLnzTvoctniznpBBk4QISFIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723508152; c=relaxed/simple;
-	bh=S1XJ/Rz0CP+PA+3mSURlVDBTpHV1w7efu3oNCRizCkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jHPIrdBLUV6NXkS48N2T47PEtrd92zCGTE19Yg6CPt39T9W5gg0OjnXWJjeuVL1XLO1JXvBteH6vkI9zLIV7jHeYW0xt5AAbmlpnDCyHZrbPeskgPX9w1nR6pzikN7EP8mOmGJ0Srfmp9Fh9DHPHHLyy8Wf2e7BXu9yI48q8jQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQm5zO/c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723509936; c=relaxed/simple;
+	bh=1sBgTIKoJ6AjCZ9d/4YTN6ajHX8hpg8Jnb/EcKKS2RQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eQij6Ptj+wjKWpE62Nr3cDp5UY34X8tWZcJ6rE4JCHUqTW3G7p9ZLBC3cvbM3cdDeEvjWeAqYHOG6NNPOWpB9+4LX7Q+IHHvxrOE1nE7kTMV0xYqZyZmKFRNPX1SAzUFapkSteQeMFBGuJQb7EgXI5jthkSzeDo/bluC/MBZ6TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=fgqw/8UX; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQm5zO/c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D6C7C4AF0E;
-	Tue, 13 Aug 2024 00:15:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723508151;
-	bh=S1XJ/Rz0CP+PA+3mSURlVDBTpHV1w7efu3oNCRizCkY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AQm5zO/caWjx/0boPDLSn9iybZGi2E9coWEf8vuRSJQZxFonF6ZMTqNRdf16uoSCa
-	 VwE1WzgKVmX0nyQvbpgls5jI3pUxjVDgFpGWDenYKwnUaW60chOXGR7lkefPfATg+1
-	 vBAWWTcYTsX1Lcgs1IKvy2oe7UfJqQyNo1o+QfSGRfaNuInEGL84+5SR+SfHh7l8fI
-	 V7fXA1AyV0xE9M5t7Flqo0i4T3GntLyIkd8sZcews0vKvH2nqbnRU6yLT6Dr5hQkXL
-	 meOJ/JxdpV+tg2ejXTwmE+baIIo1DOu1ervh33EeUjG1j9bXW6gAPX7UuKhT5J3WJx
-	 1ANCH5J5uVR7g==
-Date: Mon, 12 Aug 2024 17:15:48 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240812171548.509ca539@kernel.org>
-In-Reply-To: <71260e3c-dee4-4bf0-b257-cdabd8cff3f1@gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
-	<20240805212536.2172174-8-almasrymina@google.com>
-	<20240806135924.5bb65ec7@kernel.org>
-	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
-	<20240808192410.37a49724@kernel.org>
-	<CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
-	<fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
-	<20240809205236.77c959b0@kernel.org>
-	<CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
-	<48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
-	<20240812105732.5d2845e4@kernel.org>
-	<7e2ffe62-032a-4c5e-953b-b7117ab076be@gmail.com>
-	<71260e3c-dee4-4bf0-b257-cdabd8cff3f1@gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="fgqw/8UX"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fc65329979so45106475ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Aug 2024 17:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723509934; x=1724114734; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Beo73jI8KH5p03NxQPXLaupS8Ut84TtJmPr0+Y+H6g=;
+        b=fgqw/8UX/rOFKnGO4Qw7UTr3fPRrjchwCWqqDMVWrfrnA5KtNi8sApteK5xebfWEAe
+         3alttG2i/SY5X//HIcW09qGywlfHaMlJkjSlqm+YNeTQTR0r4RCLK4qsE2iO1wEZLcGd
+         LkGYpViyZ11vPUfG1DoRxRTGf2FVKI0vQ9xr5rHwbqlJYA7J+0wCB/QBdmM+NUjvfA2g
+         Dj9nD+zaR3Gun6corO4RDKART+aaAphUjomNCUfLmIf2JU7VFO8dKDt6RtPEMQfgcvnD
+         pIQVe1iuiG74phuO9Qpwnqv8uz57GXrzveaXy/2RKVD3XTHPRDClEvkV3ghkWrfP3u1j
+         1WBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723509934; x=1724114734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Beo73jI8KH5p03NxQPXLaupS8Ut84TtJmPr0+Y+H6g=;
+        b=Cy6BTwEsDVLzGbpE3NfVoZE02by17iUIkfd+BVvBYPdGLqYd5CJP9TNB/eE09H+dby
+         t0nvo48U6jwpdmqwUwF3y2CvQY8GAhFGDsdPCY91aLjHfJ+Zoo7k2juY9OdMgc58kr4K
+         2YNFJgpSjya8kcD3kwzHb+QZfkzdTFXYtcd5bNma9BzKHGx32l0v5zhTDYANU5SJQbDm
+         YLVMlxH36F7nVSs9mG0HfFI4wuXza8+SL6njBCfU+L9ldtYsEVjqS8CmEV4XbelL67b5
+         ln+ocXsGD0CNcnmCpKhhkmwig691OGcFfHDRjqydIDDUTpA6SPKl/Y9e/T8nUj2KsqvA
+         jZ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUaa/dT2NQl4SibJpmofWOHTtgyJWjrFvfTg7u7qLe4B7dMcZ6ek41y4DLY2okJX6yfEBSvF07eA9c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2u9nJKS/9a2FK/TDKdzVmMsmSlFt+nypoP1y5pz+sfi9gQc9t
+	Zn9cKhtTVIJylkifSl9lyMTdgbFbinz0b3YFYpFsnXBzjM0wDM+5LD6yQEOI0B4=
+X-Google-Smtp-Source: AGHT+IHdEc1RzSfknb4O0tEELFITV1/FMiLC99gVJNOSQQB/c+hZmMPVy98DA8PMYeZcE4ZXSNQJNQ==
+X-Received: by 2002:a17:902:e80b:b0:1fb:57e7:5bb4 with SMTP id d9443c01a7336-201ca1831c4mr26201755ad.37.1723509934094;
+        Mon, 12 Aug 2024 17:45:34 -0700 (PDT)
+Received: from ghost ([2601:647:6700:64d0:239c:9f30:d4d6:f989])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201cd1c86ddsm2537295ad.263.2024.08.12.17.45.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Aug 2024 17:45:33 -0700 (PDT)
+Date: Mon, 12 Aug 2024 17:45:30 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Evan Green <evan@rivosinc.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v9 00/13] riscv: Add support for xtheadvector
+Message-ID: <ZrqsqsCtKwfG4Q5B@ghost>
+References: <20240806-xtheadvector-v9-0-62a56d2da5d0@rivosinc.com>
+ <20240809-slapping-graph-461287bac506@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809-slapping-graph-461287bac506@spud>
 
-On Mon, 12 Aug 2024 20:04:41 +0100 Pavel Begunkov wrote:
-> >> Also don't see the upside of the explicit "non-capable" flag,
-> >> but I haven't thought of that. Is there any use?  
+On Fri, Aug 09, 2024 at 11:31:15PM +0100, Conor Dooley wrote:
+> On Tue, Aug 06, 2024 at 05:31:36PM -0700, Charlie Jenkins wrote:
+> > xtheadvector is a custom extension that is based upon riscv vector
+> > version 0.7.1 [1]. All of the vector routines have been modified to
+> > support this alternative vector version based upon whether xtheadvector
+> > was determined to be supported at boot.
+> > 
+> > vlenb is not supported on the existing xtheadvector hardware, so a
+> > devicetree property thead,vlenb is added to provide the vlenb to Linux.
+> > 
+> > There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+> > used to request which thead vendor extensions are supported on the
+> > current platform. This allows future vendors to allocate hwprobe keys
+> > for their vendor.
+> > 
+> > Support for xtheadvector is also added to the vector kselftests.
 > 
-> Or maybe I don't get what you're asking, I explained
-> why to have that "PP_IGNORE_PROVIDERS" on top of the flag
-> saying that it's supported.
-> 
-> Which "non-capable" flag you have in mind? A page pool create
-> flag or one facing upper layers like devmem tcp?
+> So uh, since noone seems to have brought it up, in the light of the issues
+> with thead's vector implementation, (https://ghostwriteattack.com/) do we
+> want to enable it at all?
 
-Let me rephrase - what's the point of having both PP_PROVIDERS_SUPPORTED
-and PP_IGNORE_PROVIDERS at the page pool level? PP_CAP_NET(MEM|IOV),
-and it's either there or it's not.
+I can make it clear in the kconfig that xtheadvector is succeptible to
+this attack and that it should be enabled with caution. I think we
+should let people that understand the risk to enable it.
 
-If you're thinking about advertising the support all the way to the
-user, I'm not sure if page pool is the right place to do so. It's more
-of a queue property.
+- Charlie
 
-BTW, Mina, the core should probably also check that XDP isn't installed
-before / while the netmem is bound to a queue.
