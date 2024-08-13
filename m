@@ -1,255 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BE5D531;
-	Tue, 13 Aug 2024 07:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883E915A8;
+	Tue, 13 Aug 2024 08:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723535803; cv=none; b=EErRoJPvsevaozI4s1houDbUB/ml+wqdpKDHt57veb3S0GmQwGBXrWgZpIIiG6NYyOnKeceZFDq2uMfzd66e9pYnoFk0mypvxbe540wRBgdNl6Thxs+iGjE9mf48JnPB2KN75pNrsPq2FR6G3/CMR5x0l5fPs6frtm06RcTMgWM=
+	t=1723536952; cv=none; b=NAotf6pAdIeoKzj6cqT4LEHf5HvKFG4tibP61CcNzRP3gm/J8VvNXSMalZT1ltX6/Kx8/ZfTZcM2vsCsWFEf5/tKLETp+SOIUgMs5/0F7lZx4GZGjxy0NHrfV+nKnMm6Xe957vPlJXf8VBZ+bPCBAzqOlLbccr1gOjHFU1vWT9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723535803; c=relaxed/simple;
-	bh=KYijDMxWTruxUOHeIXuSweAvO2AIcNRXv9pQTHmdND4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hcF6ZOsPWfHmrJohvnI0ZotVyo5PmzILwrFGZmeRyGF2qyvyujezyIDhPofIrWJShTFyTuMgCbpbBQDLa6ZSkUsgzhqmIIjPUIydcyU5uFlsj1d+RFV9t4JAULUhTq7PZokyBfek5iiJSp81uVzF/ah0Ie7k6II0pOu19sJ4Cts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5iF+mAk; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723536952; c=relaxed/simple;
+	bh=SP1JOwQQNV0B9mSzC4pNkikVseIdiCFzSCBHC0Vt9ao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/UjerW1l5SXLqxutIkWvFkISDY8LQjMWNN9wNgN0LeiFX06AP3JwaXCE3CqqPEuyWIlACj2nrARiaRl9qIRdcJLQNlY3N8WqSEjB2N2+YuQEryR9NXLh7EekHdZpohtmW8t1PKIawhUfLtvhDWfmaIRSdFGaUeCyslKkFBYftA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u9OMBMeb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5iF+mAk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723535800; x=1755071800;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=KYijDMxWTruxUOHeIXuSweAvO2AIcNRXv9pQTHmdND4=;
-  b=l5iF+mAkHJ8O6704NkawDsDOkhCf/ZgC6w57SwuCdrkLFwAKnktObs4/
-   wCU0zW7MG/1ltHEk1aKcw8FyXziaPyDnC8Kk5DGZJEtxqwj4Hd2vMzCz+
-   hZSkRjo5ujyzskQ2Piw216/49F4Oozool//mJmEeUQG6gwxgy55cwv58a
-   Vg+AP/H5Z0gHH+IyWk4MJRKe+5NwePSYjVOTa6xstAg4/FsEYiir4fovK
-   bfK5B8zlHmVa5tmDjkEgqwjb7qSETl2GqAxS2wvz1oE+QghFarnKRk9g6
-   zOYGjnIkfTqvvlhWcSEGZO0Q1P592v2JFuSFuzvb1c1RfHftdB76OXI46
-   g==;
-X-CSE-ConnectionGUID: rr+6QuegRUmbXfP3dIm97w==
-X-CSE-MsgGUID: uyrk4iu1TXCR4loK6taZ4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="25546395"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="25546395"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 00:56:39 -0700
-X-CSE-ConnectionGUID: lG7mVi4oRlqiqUXf6sr6fg==
-X-CSE-MsgGUID: kpoadPFQSNGgFJblkarbew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="63438975"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.234])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 00:56:33 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Harry
- Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo
- Siqueira <Rodrigo.Siqueira@amd.com>, Mario Limonciello
- <mario.limonciello@amd.com>, Matt Hartley <matt.hartley@gmail.com>, Kieran
- Levin <ktl@framework.net>, Hans de Goede <hdegoede@redhat.com>, Xinhui Pan
- <Xinhui.Pan@amd.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dustin Howett <dustin@howett.net>,
- linux-doc@vger.kernel.org, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
- <linux@weissschuh.net>
-Subject: Re: [PATCH v4 1/3] drm: Add panel backlight quirks
-In-Reply-To: <20240812-amdgpu-min-backlight-quirk-v4-1-56a63ff897b7@weissschuh.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240812-amdgpu-min-backlight-quirk-v4-0-56a63ff897b7@weissschuh.net>
- <20240812-amdgpu-min-backlight-quirk-v4-1-56a63ff897b7@weissschuh.net>
-Date: Tue, 13 Aug 2024 10:56:30 +0300
-Message-ID: <878qx026vl.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u9OMBMeb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A57D4C4AF09;
+	Tue, 13 Aug 2024 08:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1723536952;
+	bh=SP1JOwQQNV0B9mSzC4pNkikVseIdiCFzSCBHC0Vt9ao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u9OMBMebmCOYzHxz13pbUxAhjBkE8hXa4NxZedKGT9/aM2tn0eIdOB4eOotYNza4i
+	 Bh8RPEaBVNtLoqvWC+UGH4D19ZLwtvu57wXA3jU4arroXbNmrEyIqt7J0FLmgy4im8
+	 gGp5tYY9HoQHUw00eCKD2MLwmrO+mgsZzB59Z4fY=
+Date: Tue, 13 Aug 2024 10:15:49 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, giometti@enneenne.com, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	andriy.shevchenko@linux.intel.com, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, pandith.n@intel.com,
+	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v10 0/3] Add support for Intel PPS Generator
+Message-ID: <2024081330-retouch-platter-f21d@gregkh>
+References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
 
-On Mon, 12 Aug 2024, Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
-> Panels using a PWM-controlled backlight source without an do not have a
-> standard way to communicate their valid PWM ranges.
-> On x86 the ranges are read from ACPI through driver-specific tables.
-> The built-in ranges are not necessarily correct, or may grow stale if an
-> older device can be retrofitted with newer panels.
->
-> Add a quirk infrastructure with which the minimum valid backlight value
-> can be maintained as part of the kernel.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
->  Documentation/gpu/drm-kms-helpers.rst        |  3 ++
->  drivers/gpu/drm/Kconfig                      |  4 ++
->  drivers/gpu/drm/Makefile                     |  1 +
->  drivers/gpu/drm/drm_panel_backlight_quirks.c | 69 ++++++++++++++++++++++=
-++++++
->  include/drm/drm_utils.h                      |  3 ++
->  5 files changed, 80 insertions(+)
->
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/dr=
-m-kms-helpers.rst
-> index 8435e8621cc0..a26989500129 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -230,6 +230,9 @@ Panel Helper Reference
->  .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
->     :export:
->=20=20
-> +.. kernel-doc:: drivers/gpu/drm/drm_panel_backlight_quirks.c
-> +   :export:
-> +
->  Panel Self Refresh Helper Reference
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 6b2c6b91f962..9ebb8cdb535e 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -454,6 +454,10 @@ config DRM_HYPERV
->  config DRM_EXPORT_FOR_TESTS
->  	bool
->=20=20
-> +# Separate option as not all DRM drivers use it
-> +config DRM_PANEL_BACKLIGHT_QUIRKS
-> +	tristate
-> +
->  config DRM_LIB_RANDOM
->  	bool
->  	default n
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 68cc9258ffc4..adf85999aee2 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -92,6 +92,7 @@ drm-$(CONFIG_DRM_PANIC) +=3D drm_panic.o
->  obj-$(CONFIG_DRM)	+=3D drm.o
->=20=20
->  obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) +=3D drm_panel_orientation_qu=
-irks.o
-> +obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) +=3D drm_panel_backlight_quirks=
-.o
->=20=20
->  #
->  # Memory-management helpers
-> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/d=
-rm/drm_panel_backlight_quirks.c
-> new file mode 100644
-> index 000000000000..a88e77db97c5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> @@ -0,0 +1,69 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/dmi.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <drm/drm_utils.h>
-> +
-> +struct drm_panel_min_backlight_quirk {
-> +	struct {
-> +		enum dmi_field field;
-> +		const char * const value;
-> +	} dmi_match;
-> +	struct drm_edid_ident ident;
-> +	u8 min_brightness;
-> +};
-> +
-> +static const struct drm_panel_min_backlight_quirk drm_panel_min_backligh=
-t_quirks[] =3D {
-> +};
-> +
-> +static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel=
-_min_backlight_quirk *quirk,
-> +						  const struct drm_edid *edid)
-> +{
-> +	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
-> +		return false;
-> +
-> +	if (!drm_edid_match(edid, &quirk->ident))
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +/**
-> + * drm_get_panel_min_brightness_quirk - Get minimum supported brightness=
- level for a panel.
-> + * @edid: EDID of the panel to check
-> + *
-> + * This function checks for platform specific (e.g. DMI based) quirks
-> + * providing info on the minimum backlight brightness for systems where =
-this
-> + * cannot be probed correctly from the hard-/firm-ware.
-> + *
-> + * Returns:
-> + * A negative error value or
-> + * an override value in the range [0, 255] representing 0-100% to be sca=
-led to
-> + * the drivers target range.
-> + */
-> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid)
-> +{
-> +	const struct drm_panel_min_backlight_quirk *quirk;
-> +	size_t i;
-> +
-> +	if (!IS_ENABLED(CONFIG_DMI))
-> +		return -ENODATA;
-> +
-> +	if (!edid)
-> +		return -EINVAL;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
-> +		quirk =3D &drm_panel_min_backlight_quirks[i];
-> +
-> +		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
-> +			return quirk->min_brightness;
-> +	}
-> +
-> +	return -ENODATA;
-> +}
-> +EXPORT_SYMBOL(drm_get_panel_min_brightness_quirk);
-> +
-> +MODULE_DESCRIPTION("Quirks for panel backlight overrides");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
-> index 70775748d243..267711028dd4 100644
-> --- a/include/drm/drm_utils.h
-> +++ b/include/drm/drm_utils.h
-> @@ -11,9 +11,12 @@
->  #define __DRM_UTILS_H__
->=20=20
->  #include <linux/types.h>
-> +#include <drm/drm_edid.h>
+On Wed, Jun 12, 2024 at 09:23:56AM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> 
+> The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+> signal from the system on a wire so that some third-party hardware can
+> observe that signal and judge how close the system's time is to another
+> system or piece of hardware.
+> 
+> Existing methods (like parallel ports) require software to flip a bit at
+> just the right time to create a PPS signal. Many things can prevent
+> software from doing this precisely. This (Timed I/O) method is better
+> because software only "arms" the hardware in advance and then depends on
+> the hardware to "fire" and flip the signal at just the right time.
+> 
+> To generate a PPS signal with this new hardware, the kernel wakes up
+> twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+> this shortly (~10ms) before the actual change in the signal needs to be
+> made. It computes the TSC value at which edge will happen, convert to a
+> value hardware understands and program this value to Timed I/O hardware.
+> The actual edge transition happens without any further action from the
+> kernel.
+> 
+> The result here is a signal coming out of the system that is roughly
+> 1,000 times more accurate than the old methods. If the system is heavily
+> loaded, the difference in accuracy is larger in old methods.
+> 
+> Application Interface:
+> The API to use Timed I/O is very simple. It is enabled and disabled by
+> writing a '1' or '0' value to the sysfs enable attribute associated with
+> the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+> device. When enabled, a pulse-per-second (PPS) synchronized with the
+> system clock is continuously produced on the Timed I/O pin, otherwise it
+> is pulled low.
+> 
+> The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+> Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
+> 
+> References:
+> https://en.wikipedia.org/wiki/Pulse-per-second_signal
+> https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+> https://youtu.be/JLUTT-lrDqw
+>  
+> Patch 1 adds the pps(pulse per second) generator tio driver to the pps
+> subsystem.
+> Patch 2 documentation and usage of the pps tio generator module.
+> Patch 3 includes documentation for sysfs interface.
+> 
+> These patches are based on the timers/core branch:
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/?h=timers/core
+> These changes are dependent on patches that are merged in [1].
 
-Please prefer forward declarations over includes where possible.
+This series now breaks the build due to api changes in 6.11-rc1.  Please
+fix up and resend.
 
-Here,
+thanks,
 
-struct drm_edid;
-
-is sufficient.
-
-BR,
-Jani.
-
->=20=20
->  int drm_get_panel_orientation_quirk(int width, int height);
->=20=20
-> +int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid);
-> +
->  signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
->=20=20
->  #endif
-
---=20
-Jani Nikula, Intel
+greg k-h
