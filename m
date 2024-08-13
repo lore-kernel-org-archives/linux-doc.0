@@ -1,170 +1,153 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B891991D8
-	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 17:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242EA1A2C33
+	for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 17:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723570369; cv=none; b=AeKDYTWbUZ56k+WbVUKbC4CaZ1Udt5Z99oO656wPm2CeXB7ifQ4bw8eaSGc+j91pd+QGFy2A1EFdYtJQ7Ggw3cCSVHCrCK6Z1e5m9hwKouTcDUOHR13M2zW3IocIRgr7KE93SkoFDRGt92JncXoNBeFzaHwUy7VMH9UML//EGHE=
+	t=1723571444; cv=none; b=GrZv9ivmErqW0uexes67Zpe0ZwSVGEWE+dEr2eZx+myktTy5Qsf87Ayg5vW1UX7w9iR57S2hqMSECYUSxRoqdm27dAtagNGD8U0bRja/TrX/zvVKyNwCznVp04+VzRBfKjpVqA5xo5eLasHuXsZspGqfVqHrR4tAF4i5T7drIcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723570369; c=relaxed/simple;
-	bh=iRNF+QPCZBHMqifr4sIb/86ehrGMMYQFlj3XbMWlpiE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VR0OsqMZhcOnYX8KC84PX8ylnVo2Z75GNVRHwbJ4xavadCkxtcqViEm6sdx+30JC2ncGXeMyLaipwxfLhF4fgRFkvfA0smkrqRNSsCNQ9SWQXAcaQdJtcNfbnqynt8ghXfEzVDrCPMqkEZMjo8pbWkoSEXWnKtsjdWdzkpqmg3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CCrj76UL; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1723571444; c=relaxed/simple;
+	bh=FstfrUToh1EXfJSAiePToOTUvVOqDVYBssuR0AmtO98=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Du/D/zj0ZXTOSwRexD//9ccVat0XuMqWo1wwxBZx8u6lOtYKCOgYTlBTYsJ+0hc2l1IQuHr0yQi37HfMNDldJBCyuigN4OX7X6wVeKJhyEGyGJ/9D8rlGLZw7PZD/0yfC/ihBIJ/5/2N+TReogLX3DsPij/tAhvpMv79+qYp9uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CAk5fGpY; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CCrj76UL"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A7AB341A88
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723570359; bh=QsBiBot+YA8Ztv4pv81Lvb2bm1tiBfhDUhmsdX54Gf4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CCrj76ULIL+Lw6R14fy+/R59XZTdTY7Lz/lDcY4NjmqNX1pDw5/cH8injVd56NH44
-	 R9pFN+hFfXR00Umb7zXgXPxpsxY+o4jSyTD7OWT79y1roDp8ZiqygndIiNsPkWSjkX
-	 0rI4fT+wv7jAB4siXS3/XrvO7oKASTCo+qLtSLAoZ8A25itD0TjTfCK2KaM8oNXgVf
-	 HtA+o67qd2j7HBEehDi3+bvSr61iT/x2msfLMm1DFiuestLWpY2hLNuj2JpGw9xW0q
-	 zMErGKX/EkQDt3HOPj3Jt/dXwqhOkdAwIuHOssBnlY7qM7UpTpNOsmYT9X97XtergI
-	 ORkybYNF96v6Q==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A7AB341A88;
-	Tue, 13 Aug 2024 17:32:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: surajsonawane0215@gmail.com, linux-doc@vger.kernel.org
-Cc: Suraj Sonawane <surajsonawane0215@gmail.com>, Thorsten Leemhuis
- <linux@leemhuis.info>
-Subject: Re: [PATCH] LFX Task: Fix grammar and spelling errors in
- reporting-issues.rst files
-In-Reply-To: <20240813012457.388-1-surajsonawane0215@gmail.com>
-References: <20240813012457.388-1-surajsonawane0215@gmail.com>
-Date: Tue, 13 Aug 2024 11:32:38 -0600
-Message-ID: <8734n88h1l.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CAk5fGpY"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-7a2a04c79b6so62511a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 10:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723571442; x=1724176242; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dN2AMVI/niFAXBXumTdMHyNBUN/yv7txGaV0Nn3/UZg=;
+        b=CAk5fGpY3xK3zPZJ52R3nKOcnLqDxqy9DSjBex6z80baQRJ0M97CjBOO9Sl5kz6b+8
+         94qPAay40t4+6DmrPP1GxjiZzAsqI2N4uK5o2B/b+aljHyCHtOcvAbYQR0a75Sd2SqLo
+         2MEzO0X4o8x0n8wW+hI3/ZnHor5Fz8XI0b6qEWzw8sJt9rfCjoRDivTA2I17NLb04Hav
+         j+gGoUKqmqUbN8cHZL7VwPBtiq8srVkJqBpKfjgPixD1AZT6t3wXWk1epPftEZpkA+nS
+         ct/msZS2INSCkfabhSLrvzFqHQSVHJFmoZGycjJAo6HBgYGNbkXCXAxYfUhsPIF4HoIN
+         Vy2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723571442; x=1724176242;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dN2AMVI/niFAXBXumTdMHyNBUN/yv7txGaV0Nn3/UZg=;
+        b=EjeiMriV8kDVHq36XoDv3IAtrCUO0ugkgNmATiM0Xoaf6IhYb/AeSV4n5jxIe6JoxV
+         1Oy08QSJ+fNKfS/ldZAK5JcjLJ9gSuOY1bORjwbDGQGEkikry5IvEex2GTlSYtiCXnbC
+         QSLvzE6NQhgGsQ/B4rDaAEqu3Evb8+0SZRs25AfWzxaKk9WIUKzol7fgquolIyjZLwmz
+         cRO2utoMQWUahKa4366EuM9YIyeVAI2uUw1EgFdIg2yNBURhLCo57a/ZD9EuIfNh9ch2
+         wp/On2lbe4NuUyd73ZFmdQPD04NXlRJM5KWLrtWOTX774/T/TLOHu8+9JPk+PNsUVWsG
+         AV2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW2+/I94g4xJAWjPAtI8eexWSsn3Zsn9FcvLgG3ojA+r4Qdb23obXkc9p0xC8Ey6nNrqqd/Sz5d3jmWrFh6aXhIKrWvjMqbhaL7
+X-Gm-Message-State: AOJu0YzzJ3aTUt6tWqOzkLIA4AEUeWscPxDyTlaJ32UmASUNEiWAFrH1
+	CKTaf/AsJp7C3vSFZARBbqYtTo+vlXB3e0Lxbnr6sMFSfLb3jnF4gAv0Pt2BWc0uiYTEXykCcJ7
+	PXA==
+X-Google-Smtp-Source: AGHT+IH7Zxucylz6R95aLD54zFrs2SBkGeRrDQqkhFde13ApbPQ4ZM/p/JbtmnqpgndbwN/eAgc+8ZtkApw=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90b:4ec8:b0:2ca:7f5a:db6c with SMTP id
+ 98e67ed59e1d1-2d3942d60b8mr56913a91.3.1723571442217; Tue, 13 Aug 2024
+ 10:50:42 -0700 (PDT)
+Date: Tue, 13 Aug 2024 10:50:40 -0700
+In-Reply-To: <20240522001817.619072-3-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-3-dwmw2@infradead.org>
+Message-ID: <Zruc8CohpYUa1Im8@google.com>
+Subject: Re: [RFC PATCH v3 02/21] KVM: x86: Improve accuracy of KVM clock when
+ TSC scaling is in force
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jalliste@amazon.co.uk, sveith@amazon.de, zide.chen@intel.com, 
+	Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 
-Thank you for working to improve our documentation!  I have a few
-comments on this patch, though.
-
-Please use scripts/get_maintainer.pl to generate the proper recipient
-list for a patch.  I have added Thorsten, the author of the document you
-are modifying, to the CC list here.  I am curious as to what led you to
-add trivial@kernel.org?  We have not encouraged use of that address for
-some years.
-
-Please also consider your subject line; "LFX Task" is not meaningful to
-anybody else, and will help nobody in the kernel change history.
-
-> From: SurajSonawane2415 <sonawanesr2012@gmail.com>
->
->     1. Corrected the sentence structure in several places for clarity and=
- readability:
->         Original: "those are described below the step-by-step guide"
->         Corrected: "those are described below in the step-by-step guide"
->
->     2. Fixed grammatical errors:
->         Original: "That why your might need to uninstall the packages wit=
-h such software to get rid of any 3rd party kernel module."
->         Corrected: "That=E2=80=99s why you might need to uninstall the pa=
-ckages with such software to get rid of any 3rd party kernel module."
->
->     3. Improved phrasing:
->         Original: "might not what you want."
->         Corrected: "might not be what you want."
->
->     4. Clarified instructions:
->         Original: "Instead try search terms like the model line"
->         Corrected: "Instead, try searching terms like the model line."
->
-> These changes ensure that the documentation is more readable and accurate.
-
-There is no need to repeat all of the changes here - we can see those in
-the patch itself.
-
-> Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
+On Wed, May 22, 2024, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> The kvm_guest_time_update() function scales the host TSC frequency to
+> the guest's using kvm_scale_tsc() and the v->arch.l1_tsc_scaling_ratio
+> scaling ratio previously calculated for that vCPU. Then calcuates the
+> scaling factors for the KVM clock itself based on that guest TSC
+> frequency.
+> 
+> However, it uses kHz as the unit when scaling, and then multiplies by
+> 1000 only at the end.
+> 
+> With a host TSC frequency of 3000MHz and a guest set to 2500MHz, the
+> result of kvm_scale_tsc() will actually come out at 2,499,999kHz. So
+> the KVM clock advertised to the guest is based on a frequency of
+> 2,499,999,000 Hz.
+> 
+> By using Hz as the unit from the beginning, the KVM clock would be based
+> on a more accurate frequency of 2,499,999,999 Hz in this example.
+> 
+> Fixes: 78db6a503796 ("KVM: x86: rewrite handling of scaled TSC for kvmclock")
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 > ---
->  Documentation/admin-guide/reporting-issues.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentati=
-on/admin-guide/reporting-issues.rst
-> index 2fd5a0302..e68c1f8f1 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -56,7 +56,7 @@ developers. It might be all that's needed for people al=
-ready familiar with
->  reporting issues to Free/Libre & Open Source Software (FLOSS) projects. =
-For
->  everyone else there is this section. It is more detailed and uses a
->  step-by-step approach. It still tries to be brief for readability and le=
-aves
-> -out a lot of details; those are described below the step-by-step guide i=
-n a
-> +out a lot of details; those are described below in the step-by-step guid=
-e in a
->  reference section, which explains each of the steps in more detail.
->=20=20
->  Note: this section covers a few more aspects than the TL;DR and does thi=
-ngs in
-> @@ -299,7 +299,7 @@ face, even if they look small or totally unrelated. T=
-hat's why you should report
->  issues with these kernels to the vendor. Its developers should look into=
- the
->  report and, in case it turns out to be an upstream issue, fix it directly
->  upstream or forward the report there. In practice that often does not wo=
-rk out
-> -or might not what you want. You thus might want to consider circumventin=
-g the
-> +or might not be what you want. You thus might want to consider circumven=
-ting the
->  vendor by installing the very latest Linux kernel core yourself. If that=
-'s an
->  option for you move ahead in this process, as a later step in this guide=
- will
->  explain how to do that once it rules out other potential causes for your=
- issue.
-> @@ -353,7 +353,7 @@ come up with other words to use as search terms. Also=
- make sure not to use too
->  many search terms at once. Remember to search with and without informati=
-on like
->  the name of the kernel driver or the name of the affected hardware compo=
-nent.
->  But its exact brand name (say 'ASUS Red Devil Radeon RX 5700 XT Gaming O=
-C')
-> -often is not much helpful, as it is too specific. Instead try search ter=
-ms like
-> +often is not much helpful, as it is too specific. Instead, try searching=
- terms like
+>  arch/x86/include/asm/kvm_host.h |  2 +-
+>  arch/x86/kvm/x86.c              | 17 +++++++++--------
+>  arch/x86/kvm/xen.c              |  2 +-
+>  3 files changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 01c69840647e..8440c4081727 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -887,7 +887,7 @@ struct kvm_vcpu_arch {
+>  
+>  	gpa_t time;
+>  	struct pvclock_vcpu_time_info hv_clock;
+> -	unsigned int hw_tsc_khz;
+> +	unsigned int hw_tsc_hz;
 
-I am not convinced this change improves things; the document is
-suggesting the sort of search terms that might be useful.
+Isn't there an overflow issue here?  The local variable is a 64-bit value, but
+kvm_vcpu_arch.hw_tsc_hz is a 32-bit value.  And unless I'm having an even worse
+review week than I thought, a guest TSC frequency > 4Ghz will get truncated.
 
->  the model line (Radeon 5700 or Radeon 5000) and the code name of the mai=
-n chip
->  ('Navi' or 'Navi10') with and without its manufacturer ('AMD').
->=20=20
-> @@ -472,7 +472,7 @@ before proceeding.
->  Note, you might not be aware that your system is using one of these solu=
-tions:
->  they often get set up silently when you install Nvidia's proprietary gra=
-phics
->  driver, VirtualBox, or other software that requires a some support from a
-> -module not part of the Linux kernel. That why your might need to uninsta=
-ll the
-> +module not part of the Linux kernel. That's why you might be need to uni=
-nstall the
->  packages with such software to get rid of any 3rd party kernel module.
+>  	struct gfn_to_pfn_cache pv_time;
+>  	/* set guest stopped flag in pvclock flags field */
+>  	bool pvclock_set_guest_stopped_request;
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 2d2619d3eee4..23281c508c27 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -3215,7 +3215,8 @@ static void kvm_setup_guest_pvclock(struct kvm_vcpu *v,
+>  
+>  static int kvm_guest_time_update(struct kvm_vcpu *v)
+>  {
+> -	unsigned long flags, tgt_tsc_khz;
+> +	unsigned long flags;
+> +	uint64_t tgt_tsc_hz;
 
-Otherwise the actual changes look good.
+s/uint64_t/u64 for kernel code.  There are more than a few uses of uint64_t in
+KVM, but u64 is far and away the dominant flavor.
 
-Thanks,
+> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> index 5a83a8154b79..014048c22652 100644
+> --- a/arch/x86/kvm/xen.c
+> +++ b/arch/x86/kvm/xen.c
+> @@ -2273,7 +2273,7 @@ void kvm_xen_update_tsc_info(struct kvm_vcpu *vcpu)
+>  
+>  	entry = kvm_find_cpuid_entry_index(vcpu, function, 2);
+>  	if (entry)
+> -		entry->eax = vcpu->arch.hw_tsc_khz;
+> +		entry->eax = vcpu->arch.hw_tsc_hz / 1000;
 
-jon
+And if hw_tsc_hz is a u64, this will need to use div_u64() to play nice with
+32-bit kernels.
