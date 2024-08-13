@@ -1,185 +1,201 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5842170A18;
-	Tue, 13 Aug 2024 10:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689BE2262B;
+	Tue, 13 Aug 2024 12:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723545659; cv=none; b=Oa3MYDfxiEITmw9+HBIkf7GdPxx1tik1hcVw+gJhznX6Qld51xcfbu3DWevsusjfw0u4TEYBNHdiQ/IhY8+2Ka6czCso6FVq27VkbNRRaPoeGatTS0U1Y0pE7BELAPjiawMy4HJfIhGJrYg8L9/A2QfbdgrsrlX5Q8S5feYegFM=
+	t=1723550626; cv=none; b=rwSyboKcvehAa/eqJf3aoNKwGTnFrHPypegYof/1ukUcn1n+fHmLuEux4PdJ8QIGDzGY8B9PMFvAOw8gZnjYbfA0z7XAAKQJhiMyHKOdTT0mUtd2B1inzfeY428ONFPJ5TXLpQs2bJUfe5oHYdodcumPcoSGWf20IduZ+BcSrIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723545659; c=relaxed/simple;
-	bh=Fp90d7EQn1pt4MJXrpVgCCudh+WngdMzXIDpdOX9gT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vamlg7HatsNwQIYg9EaUx1NkSAelWFd/S2DEBOpelJAgbXv42c1Lc8KPqa92QeHBBEU0czsrJlY0MFuOScF3krJPIdlNJS1KeG1WdoR3ZfaI8y27VyPu3CriT7QqSCX6liF/j+ZcBXcDQaHJ0RQ9+lprGAJcVTUzdINWogy7NY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TwzEhyq3; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1723550626; c=relaxed/simple;
+	bh=BM8v+PENXndSgNTYVvHrTXN87K08owbElsVe0qrI+TU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UhNDry+sXBYS2cBfQWU0A9jUHtFJjl0lW8DfqePm72RuMCLCiliuw/PaMU7yfp6/mdKDbJEv5HcHHX4SfGJbhgAOZP6LSsrsv+7oPi4f1SFhbySuQmBZT5IuNVte/Os8Jp1cty7qYr7hwKu/DgdewyV9+RGk2W5zN3ozQAeBKSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMuC6p2X; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TwzEhyq3"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3685a5e7d3cso3270582f8f.1;
-        Tue, 13 Aug 2024 03:40:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMuC6p2X"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7a1dcc7bc05so359439885a.0;
+        Tue, 13 Aug 2024 05:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723545656; x=1724150456; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=21uElUyce8JR249X6uJAS7PnRRTOtflHbVAbFYHYmwk=;
-        b=TwzEhyq3uNsz0VoIJ4zuOjl04AAYZaCNu7jtGkp0ICfgX/ODbnIZCIBdz/oTEqJsaq
-         YnMX0SVI8LUCGgU44R3RXbfA0wM209zIN98o7jhwldr5NnigZHkVWR55yR8eBv8C08BV
-         mTbSXof4hoYDs7YxHVu7EW4XiMExd5TnEyPkUfn254/YjuCXT9jlM0toDtqYYxq8IH/l
-         vqhykQ30VzEwkw8Pk3oUdKlhIh6GfzxLT2B2BVgaXc9vKiUITkB+VFmxh9hO6mfxxHPq
-         y1q/Lt1HethHcn+pgDEWcNBHFkXePPodQJtCh9DV79W7lznG+Jqg9PGvHPYKX1Sx9TRV
-         PSPA==
+        d=gmail.com; s=20230601; t=1723550623; x=1724155423; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J4mgO91X0ECSZtREEM3BoWhZk1QC/8Jzg6tpXLFE4Nc=;
+        b=hMuC6p2Xagg+pGppK14Sa3SN92LGbdKW80B82AsI0yjp7QDt3P+DCZQHAMd7rODum3
+         TKHlOoBdHR7H0wfMBcmKiNlfhcrUWElzSVKBYQra3wtwLcInuiFy6cRXP/k0l1+JRIiX
+         C3szwC7CxhQKQGKndP6nGej4MBFQzlzc5wcKi1E4Bkw8Gd4wHL7K9LSX9SMXcXcZ424t
+         bnn2LfE/hvFC+ogJaGMKTCk4FzA1IKEpNWW5eJDZbbATgi+O7qaO1HXYvuXSa8Az24Y0
+         UlEgON8d+LZCLMBt5vO/6XNEJAs2vg4q7uJOq76zSodAfwU63gc1ryXWFXirRjQfOgaV
+         U9+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723545656; x=1724150456;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=21uElUyce8JR249X6uJAS7PnRRTOtflHbVAbFYHYmwk=;
-        b=alNc7PFKf5aSeclnD1L9pPGhBlnJ6RriJZUXh1oqDrFMhzx1LuiRWgDq826gtreKWx
-         xYuuWiniwaJ9B52aHmJSSLAH25Tgu/T4DMWOYvsslDVFSHqCnQm1Dhwl36Uu7IASvcwD
-         lhO3uJDWBQ5SvoBz3aKugUXBxCzOxtVhGjb2LwdHOM/9tnPRJnJD6/itb0FpPKucJz4G
-         PtpGDcCyssxNMkzcYeZDU+CB8OflRqWYBvtR5lL1Tsy+QVD96e6GJm46k+GY0BM/JXWv
-         KinsNutDRRYXO3dPgvaseu1AbDdgfIIl/25geCcWeZw0FtgSYL15UaH4L89PJiAYrJem
-         6B1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWXdZEFBggLTCkshzn8+ecwRQDR9kfit8ns+2FHy+5EpKSTb2acaN2p/fQuRHSD3cp5RmvK25uVx4BSciS7JfmvZPkO+nciH1pqUfb0nhQq1dh4eAKxFc0bcQ9rjj18MZwsGyUf9qNC
-X-Gm-Message-State: AOJu0YwZaQ/N6iZQ0774f7sfi4S0YOSasr2zbNNenQaaq3n6mYh6mZgu
-	rTTwKRiQKVqSjEb4IeRobyn5F3zFMjDB7o4O9uOx98HcgUtUo/Yx
-X-Google-Smtp-Source: AGHT+IEOCDk/eufgFxeF7PpSktbwtQYgJNiXJF2+V70NlTfR0jqK/v79u3BSknWzkzE+26GFwngCkw==
-X-Received: by 2002:a05:6000:186c:b0:36b:a3c7:b9fd with SMTP id ffacd0b85a97d-3716cd3a62fmr2856837f8f.56.1723545655652;
-        Tue, 13 Aug 2024 03:40:55 -0700 (PDT)
-Received: from fedora ([213.94.26.172])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4c36bcc5sm9843187f8f.24.2024.08.13.03.40.54
+        d=1e100.net; s=20230601; t=1723550623; x=1724155423;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J4mgO91X0ECSZtREEM3BoWhZk1QC/8Jzg6tpXLFE4Nc=;
+        b=WMd6JulWDdi4vv9HtoSPgvuqQT+tTrILoc/vJm7Y8XrrYxxGt3Xi+kDr98uG71vmz9
+         3HZh4Ozmogv5h41ysyaYvHU7hoc++1N6rMLMchJ2L9j+rrfgaItIhuWUlA/q8WqH2oQW
+         MKfBBKeGPmP0P3oIIq7mGOxtGrnWk5sJUWHVByr9LGf2tx0D1cc6tuoMOJW8M2Ej/RoW
+         a4VCaKBwM68s+PmLawRhKjsEyu+qs3kipSEqG+lwscH2iTHt4K9Td55mkLsHBXU7b9z5
+         lOjesgaFHyWJbSmMdcOdGTzHHu0C0fFe19LoYMU8dkx6bYDOFdTOXsJmZWwZr2dnmdDP
+         2LUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQKtXHOOj1MqoR8kIyHYoDTKbBg5LLMEwhvFud9uX5yBhB+w1lxS7d89+011Lt1zBVPUCZlglX/Zl3S7YJL42xiOJVI1I4kH+gCsGpdA1oiIW2lFn6LMXvpI3+t9vXpXZuQCUodzH6
+X-Gm-Message-State: AOJu0YxbYsFOYXoH5xx5Fo4jCpFVvJLWWkjSJKfntluHknK1x16EgLhX
+	AeGIwFKqgISHKbx/h0YqyjOeGugUWjZfAfJHeURYA8yj8nMWsGwM
+X-Google-Smtp-Source: AGHT+IGT2fzTngjdee05ugmGl4tk7xJ0T9MPishojJ5VclajUPbjUng4/SWveUmLtJvIhfmk6VXO4A==
+X-Received: by 2002:a05:620a:28ca:b0:7a3:6dd9:efa6 with SMTP id af79cd13be357-7a4e1537391mr410740885a.33.1723550623047;
+        Tue, 13 Aug 2024 05:03:43 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-011.fbsv.net. [2a03:2880:20ff:b::face:b00c])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7d64878sm335487285a.24.2024.08.13.05.03.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 03:40:55 -0700 (PDT)
-Date: Tue, 13 Aug 2024 12:40:53 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Marius Vlad <marius.vlad@collabora.com>,
-	Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
-	brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
-	hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
-	mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
-	tzimmermann@suse.de, maarten.lankhorst@linux.intel.com
-Subject: Re: [RFC] Adds support for ConfigFS to VKMS!
-Message-ID: <Zrs4NY5FkMEomaog@fedora>
-References: <ZrZZFQW5RiG12ApN@louis-chauvet-laptop>
+        Tue, 13 Aug 2024 05:03:42 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	roman.gushchin@linux.dev,
+	yuzhao@google.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	ryan.roberts@arm.com,
+	rppt@kernel.org,
+	willy@infradead.org,
+	cerasuolodomenico@gmail.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH v3 0/6] mm: split underutilized THPs
+Date: Tue, 13 Aug 2024 13:02:43 +0100
+Message-ID: <20240813120328.1275952-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZrZZFQW5RiG12ApN@louis-chauvet-laptop>
 
-Hi Louis,
+The current upstream default policy for THP is always. However, Meta
+uses madvise in production as the current THP=always policy vastly
+overprovisions THPs in sparsely accessed memory areas, resulting in
+excessive memory pressure and premature OOM killing.
+Using madvise + relying on khugepaged has certain drawbacks over
+THP=always. Using madvise hints mean THPs aren't "transparent" and
+require userspace changes. Waiting for khugepaged to scan memory and
+collapse pages into THP can be slow and unpredictable in terms of performance
+(i.e. you dont know when the collapse will happen), while production
+environments require predictable performance. If there is enough memory
+available, its better for both performance and predictability to have
+a THP from fault time, i.e. THP=always rather than wait for khugepaged
+to collapse it, and deal with sparsely populated THPs when the system is
+running out of memory.
 
-On Fri, Aug 09, 2024 at 07:59:49PM +0200, Louis Chauvet wrote:
-> Hi everyone,
-> 
-> I'm excited to share some good news! I've recently completed the addition 
-> of a ConfigFS interface to VKMS, which allows to configure VKMS from 
-> user-space, at runtime. You should be able to:
-> - Create new devices
-> - Create planes/crtc/encoders
-> - Configure rotation, color range, color encoding
-> - Link planes, crtc and encoders.
+This patch-series is an attempt to mitigate the issue of running out of
+memory when THP is always enabled. During runtime whenever a THP is being
+faulted in or collapsed by khugepaged, the THP is added to a list.
+Whenever memory reclaim happens, the kernel runs the deferred_split
+shrinker which goes through the list and checks if the THP was underutilized,
+i.e. how many of the base 4K pages of the entire THP were zero-filled.
+If this number goes above a certain threshold, the shrinker will attempt
+to split that THP. Then at remap time, the pages that were zero-filled are
+mapped to the shared zeropage, hence saving memory. This method avoids the
+downside of wasting memory in areas where THP is sparsely filled when THP
+is always enabled, while still providing the upside THPs like reduced TLB
+misses without having to use madvise.
 
-Nice! Thanks for the hard work.
+Meta production workloads that were CPU bound (>99% CPU utilzation) were
+tested with THP shrinker. The results after 2 hours are as follows:
 
-During the last 2 or 3 weeks I worked on ConfigFS support as well and
-I have an RFC series ready to be sent to the mailing list.
-My version is a bit simpler than yours because it doesn't implement extra
-features (color formats, etc) and it can be applied on drm-misc-next.
-I'll send the RFC as soon as I finish typing this email :)
+                            | THP=madvise |  THP=always   | THP=always
+                            |             |               | + shrinker series
+                            |             |               | + max_ptes_none=409
+-----------------------------------------------------------------------------
+Performance improvement     |      -      |    +1.8%      |     +1.7%
+(over THP=madvise)          |             |               |
+-----------------------------------------------------------------------------
+Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+-----------------------------------------------------------------------------
+max_ptes_none=409 means that any THP that has more than 409 out of 512
+(80%) zero filled filled pages will be split.
 
-I don't have any preference about which ConfigFS series we end up
-using as long as we get the feature implemented.
-Instead, I think that having 2 different implementations is a great
-opportunity for better reviews because we have a good idea about how
-the implementation might look like and it'll make easier to find bugs.
+To test out the patches, the below commands without the shrinker will
+invoke OOM killer immediately and kill stress, but will not fail with
+the shrinker:
 
-> The entire series can be found on my GitHub repository:
-> https://github.com/Fomys/linux/tree/b4/new-configfs
-> 
-> This series is big, consisting of over 40 commits. Although it's not 
-> completely cleaned up, all commits compile successfully and (almost) pass 
-> checkpatch.
-> 
-> I plan to split this series into several smaller ones:
-> 
->  - Adding support for additional color formats
-> 	4a4f75873cca..d74006d7f9c4
->  - Reintroducing the writeback algorithm
-> 	9e74d259e1be..f839dcf6a7d8
->  - Clarifying documentation
-> 	b3bfd0ba2283..93945f0fbfc7
->  - Properly splitting headers
-> 	c70018038572..67258bd8a180
->  - Switching to drmm_ helpers
-> 	844e701e1d6d..f3050d125f64
->  - Using a proper platform device driver
-> 	4658f99dfe3e..a3258e4d7550
->  - Introducing a vkms_config structure
-> 	95ad6da46638..5b2d080b4626
->  - Adding ConfigFS support
-> 	866ad75102ae..f900ad18ab8c
-> 
-> What's currently missing:
-> 
->  - A deep cleanup to ensure checkpatch compliance and proper
->    functionality for every commit
->  - Updating documentation
->  - Reviews 
-> 
-> The primary area where I need assistance is reviews and testers. I'm aware 
-> that Maìra is very busy and can't review quickly, but any other 
-> individuals who can test and/or review this series would be greatly 
-> appreciated.
-> 
-> My next step is to add connector support, but as I will use this work and 
-> my previous series [1], I would like to see it merged first.
-> 
-> If any of the original authors would like to be credited for 
-> their contributions, please let me know. I rewrote most of the code, but 
-> the general idea was originally from them.
-> 
-> José, I am sorry, I think I missed your mail where you told me you already 
-> reviewed some commits: 
-> 
-> > I reviewed the first 9 patches and added a few comments on your
-> > GitHub fork.
-> 
-> I am not able to find any comments, can you send me the link to the page 
-> with them? I would like to read/apply them before submitting the first 
-> part of the series.
+echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+mkdir /sys/fs/cgroup/test
+echo $$ > /sys/fs/cgroup/test/cgroup.procs
+echo 20M > /sys/fs/cgroup/test/memory.max
+echo 0 > /sys/fs/cgroup/test/memory.swap.max
+# allocate twice memory.max for each stress worker and touch 40/512 of
+# each THP, i.e. vm-stride 50K.
+# With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+# killer.
+# Without the shrinker, OOM killer is invoked immediately irrespective
+# of max_ptes_none value and kills stress.
+stress --vm 1 --vm-bytes 40M --vm-stride 50K
 
-My comments were in the GitHub commits, but I think they were lost after
-rebasing/force pushing.
+v2 -> v3:
+- Use my_zero_pfn instead of page_to_pfn(ZERO_PAGE(..)) (Johannes)
+- Use flags argument instead of bools in remove_migration_ptes (Johannes)
+- Use a new flag in folio->_flags_1 instead of folio->_partially_mapped
+  (David Hildenbrand).
+- Split out the last patch of v2 into 3, one for introducing the flag,
+  one for splitting underutilized THPs on _deferred_list and one for adding
+  sysfs entry to disable splitting (David Hildenbrand).
 
-Hopefully, I saved a copy of your patches with my suggestions applied and
-commit messages where missing:
-https://github.com/JoseExposito/linux/commits/patch-vkms-header-refactor/
+v1 -> v2:
+- Turn page checks and operations to folio versions in __split_huge_page.
+  This means patches 1 and 2 from v1 are no longer needed.
+  (David Hildenbrand)
+- Map to shared zeropage in all cases if the base page is zero-filled.
+  The uffd selftest was removed.
+  (David Hildenbrand).
+- rename 'dirty' to 'contains_data' in try_to_map_unused_to_zeropage
+  (Rik van Riel).
+- Use unsigned long instead of uint64_t (kernel test robot).
+ 
+Alexander Zhu (1):
+  mm: selftest to verify zero-filled pages are mapped to zeropage
 
-I think you should be able to extract the diff easily.
+Usama Arif (3):
+  mm: Introduce a pageflag for partially mapped folios
+  mm: split underutilized THPs
+  mm: add sysfs entry to disable splitting underutilized THPs
 
-It might be a better idea to share the patches in the mailing list for
-broader discussion and to avoid loosing review comments.
+Yu Zhao (2):
+  mm: free zapped tail pages when splitting isolated thp
+  mm: remap unused subpages to shared zeropage when splitting isolated
+    thp
 
-Thanks a lot for your work Louis!
-José Expósito
+ Documentation/admin-guide/mm/transhuge.rst    |   6 +
+ include/linux/huge_mm.h                       |   4 +-
+ include/linux/khugepaged.h                    |   1 +
+ include/linux/page-flags.h                    |   3 +
+ include/linux/rmap.h                          |   7 +-
+ include/linux/vm_event_item.h                 |   1 +
+ mm/huge_memory.c                              | 156 ++++++++++++++++--
+ mm/hugetlb.c                                  |   1 +
+ mm/internal.h                                 |   4 +-
+ mm/khugepaged.c                               |   3 +-
+ mm/memcontrol.c                               |   3 +-
+ mm/migrate.c                                  |  74 +++++++--
+ mm/migrate_device.c                           |   4 +-
+ mm/page_alloc.c                               |   5 +-
+ mm/rmap.c                                     |   3 +-
+ mm/vmscan.c                                   |   3 +-
+ mm/vmstat.c                                   |   1 +
+ .../selftests/mm/split_huge_page_test.c       |  71 ++++++++
+ tools/testing/selftests/mm/vm_util.c          |  22 +++
+ tools/testing/selftests/mm/vm_util.h          |   1 +
+ 20 files changed, 333 insertions(+), 40 deletions(-)
 
-> Thanks for your time,
-> Louis Chauvet
-> 
-> [1]: https://lore.kernel.org/all/20240809-yuv-v10-0-1a7c764166f7@bootlin.com/
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+-- 
+2.43.5
+
