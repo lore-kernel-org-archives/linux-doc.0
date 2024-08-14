@@ -1,56 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662E61B3F15;
-	Wed, 14 Aug 2024 15:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101D81B580E
+	for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 15:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723648201; cv=none; b=jPyfkvi9PsqP9yE6G4ujcWz8E15+diebxQajtI1Jp8EIIRLqz1VxHquFKFUCZMfYdufIEGbr1Y7jAzY180kW2UBVvmOtkI5TruxpRUZJXS0LO6eqMiSe2upcBqsUq+x1u7Hmqqs0wNLEo34PTgBLIowpgB1TNVf31Lm57UlC7Ds=
+	t=1723650399; cv=none; b=bcAP959HmcLL3YD3DnoyoZ5PHtb7eoY9NhiZ70+lSrMviaHEsYjByge2awKOAfiAszp2ynZuTbK1e34ywDUVVcZ2gqAqUqQVaJEroTDACS3AwqZh9jWK6hOV7Q3Rs0sRws0Y1FnQrTGpQf7cnA4KwyR8QFA7CWOhHtUeGWubiT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723648201; c=relaxed/simple;
-	bh=Ex5i7IuYmiDIp+jR8sdfsK2sQRn/4xZA629mGrDAPFk=;
+	s=arc-20240116; t=1723650399; c=relaxed/simple;
+	bh=3CZ+eZQLTvRe5s8+CdkE8KJ8fPl1lbuinuD2iVYUImE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuTvfX5+HVKgKZGscM29tShfMeWzPiTTSSvCmcAg7MFYBiLq2HH3E0rLKBk7aANg3ESQFbxhWgAFSocdJGpqhInKf38vkgfcanuSI4UZU6pKODzkn7pw80uABRM0WX9MnTotfspnLLj3CG46NiMHSlAyDUqrnfcCkxmjWXch1n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2CD2DA7;
-	Wed, 14 Aug 2024 08:10:24 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 126053F58B;
-	Wed, 14 Aug 2024 08:09:53 -0700 (PDT)
-Date: Wed, 14 Aug 2024 16:09:51 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6MeU30mC/QSmPAKeCvQdxxo+GtiVadmUM/+DrgVJ18HrKouOY3GHFmxq443OP358pCZRHlgGns/bbwI9PuRE2PvOgB4H/mXKVM0j4FK3eV5hGwb+G6mmFPHgt616Xz95ojsGs7EenxyJinoRpNihGXZjXCHLo7D3Ed0oQvkbSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=Fd6F1YzY; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="Fd6F1YzY"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ef2cb7d562so335181fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 08:46:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1723650396; x=1724255196; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UMvW5XN814MmHmeNdCsuQ+x/zBS9ZcHLiBHoPUEkIYk=;
+        b=Fd6F1YzY7RgsiEhc4a1ml1Rr2waWCADgGhCnIqbCpF5cO93cBaPpzW4nrkxK7Rllqi
+         m8iGbN9oxduu8REIlhm0oXvKqdTq6nRqp7FpN6smp/XWu8uHZEhYx0eiJ0yG1Mt942U4
+         KiyqDwt6Zpqun9b6SPRd05oiHq/lDbNunTeTc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723650396; x=1724255196;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UMvW5XN814MmHmeNdCsuQ+x/zBS9ZcHLiBHoPUEkIYk=;
+        b=xRtyoTPsIagVKiC7ywt6wYKumWf6M2ePU8TATeeLQ6uhAmUFlihSEA/aZ9s6HivbX/
+         4v8jvg7MwTBESxD92RmPhNfX7UK0edUR+GnMn7nzPWBA+pUI+T3E6DvddzIn1JTL6iMf
+         nf3o+SPvcEqsbmHFAPH+LYhewwA8vkQPkHQ278Q5APeRFmacxps981djqV4aNBbnJTk3
+         Y3Ag3IywY5p1JKI028WLQAJ/IqzYAefkxlzM+9WWr2jgzp9k5269fiAzRYrM/tvqOb53
+         x/1vCKLWxT7QwZYmeiP8YDdo6aFNy8So4UVLj7Z9i52JEUcIq2TOmwlXY72/gD6bMG31
+         FAZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkAyayxaJV+5l4qz98yjNgnpdreMJC0Krttxf/6j2q2Fl+/R7XeeVOVpXXxkL1o9IeqSJaTFSjoYOx4/5zscv67xZkyhQgAmKE
+X-Gm-Message-State: AOJu0YxvclBCiI1FhUFnJ7J/kV0JB0W4/V36s9ji4PQK5GNBD8qAhlyo
+	afizcTRz1MXzh2ly2CoBEyQFe96/IBIY/Djxq0AYCbKQs/QVfvWRTscHsP8gcCE=
+X-Google-Smtp-Source: AGHT+IFAW+r4bsXhzgqn4nSPYnHoVTMgVTn+Fc+6nuodprTLSx0anVrp0sa8TsMaaN15SPWkigXMXg==
+X-Received: by 2002:a05:651c:b2c:b0:2f3:a854:78f6 with SMTP id 38308e7fff4ca-2f3aa1de7c6mr25666671fa.34.1723650396054;
+        Wed, 14 Aug 2024 08:46:36 -0700 (PDT)
+Received: from LQ3V64L9R2 ([80.208.222.2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429df78a7c6sm18550645e9.45.2024.08.14.08.46.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 08:46:35 -0700 (PDT)
+Date: Wed, 14 Aug 2024 16:46:33 +0100
+From: Joe Damato <jdamato@fastly.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Martin Karsten <mkarsten@uwaterloo.ca>,
+	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
 	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 24/40] arm64/signal: Expose GCS state in signal frames
-Message-ID: <ZrzIv3FWNgJizDc2@e133380.arm.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-24-699e2bd2190b@kernel.org>
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+Message-ID: <ZrzRWU_39wpePVvg@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+ <ZrqU3kYgL4-OI-qj@mini-arch>
+ <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
+ <Zrq8zCy1-mfArXka@mini-arch>
+ <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
+ <Zrrb8xkdIbhS7F58@mini-arch>
+ <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
+ <66bc21772c6bd_985bf294b0@willemb.c.googlers.com.notmuch>
+ <Zry9AO5Im6rjW0jm@LQ3V64L9R2.home>
+ <66bcc87d605_b1f942948@willemb.c.googlers.com.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,82 +114,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240801-arm64-gcs-v10-24-699e2bd2190b@kernel.org>
+In-Reply-To: <66bcc87d605_b1f942948@willemb.c.googlers.com.notmuch>
 
-On Thu, Aug 01, 2024 at 01:06:51PM +0100, Mark Brown wrote:
-> Add a context for the GCS state and include it in the signal context when
-> running on a system that supports GCS. We reuse the same flags that the
-> prctl() uses to specify which GCS features are enabled and also provide the
-> current GCS pointer.
+On Wed, Aug 14, 2024 at 11:08:45AM -0400, Willem de Bruijn wrote:
+> Joe Damato wrote:
+
+[...]
+
+> > On Tue, Aug 13, 2024 at 11:16:07PM -0400, Willem de Bruijn wrote:
+> > Using less CPU to get comparable performance is strictly better, even if a
+> > system can theoretically support the increased CPU/power/cooling load.
 > 
-> We do not support enabling GCS via signal return, there is a conflict
-> between specifying GCSPR_EL0 and allocation of a new GCS and this is not
-> an ancticipated use case.  We also enforce GCS configuration locking on
-> signal return.
+> If it is always a strict win yes. But falling back onto interrupts
+> with standard moderation will not match busy polling in all cases.
 > 
-> Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/uapi/asm/sigcontext.h |   9 +++
->  arch/arm64/kernel/signal.c               | 106 +++++++++++++++++++++++++++++++
->  2 files changed, 115 insertions(+)
+> Different solutions for different workloads. No need to stack rank
+> them. My request is just to be explicit which design point this
+> chooses, and that the other design point (continuous busy polling) is
+> already addressed in Linux kernel busypolling.
 
-[...]
+Sure, sounds good; we can fix that in the cover letter.
 
-> diff --git a/arch/arm64/kernel/signal.c b/arch/arm64/kernel/signal.c
-
-[...]
-
-> @@ -999,6 +1092,13 @@ static int setup_sigframe_layout(struct rt_sigframe_user_layout *user,
->  			return err;
->  	}
->  
-> +	if (add_all || task_gcs_el0_enabled(current)) {
-> +		err = sigframe_alloc(user, &user->gcs_offset,
-> +				     sizeof(struct gcs_context));
-> +		if (err)
-> +			return err;
-> +	}
-> +
-
-Who turns on GCS?  I have a concern that if libc is new enough to be
-built for GCS then the libc startup code will to turn it on, even if
-the binary stack running on top of libc is old.
-
-Whether a given library should break old binaries is a bit of a grey
-area, but I think that libraries that deliberately export stable ABIs
-probably shouldn't.
-
-
-With that in mind, does any GCS state need to be saved at all?
-
-Is there any scenario where it is legitimate for the signal handler to
-change the shadow stack mode or to return with an altered GCSPR_EL0?
-
-Is the guarded stack considered necessary (or at least beneficial) for
-backtracing, or is the regular stack sufficient?
-
-(I'm assuming that unwind tables / debug info should allow the shadow
-stack to be unwound anyway; rather this question is about whether
-software can straightforwardly find out the interrupted GCSPR_EL0
-without this information... and whether it needs to.)
-
-
->  	if (system_supports_sve() || system_supports_sme()) {
->  		unsigned int vq = 0;
->  
-> @@ -1099,6 +1199,12 @@ static int setup_sigframe(struct rt_sigframe_user_layout *user,
->  		__put_user_error(current->thread.fault_code, &esr_ctx->esr, err);
->  	}
->  
-> +	if (system_supports_gcs() && err == 0 && user->gcs_offset) {
-> +		struct gcs_context __user *gcs_ctx =
-> +			apply_user_offset(user, user->gcs_offset);
-> +		err |= preserve_gcs_context(gcs_ctx);
-> +	}
-> +
-
-[...]
-
-Cheers
----Dave
+Thanks for taking a look.
