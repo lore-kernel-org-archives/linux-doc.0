@@ -1,204 +1,127 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0264E1AAE0A;
-	Tue, 13 Aug 2024 22:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C0D195;
+	Wed, 14 Aug 2024 00:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723589893; cv=none; b=ASRDIGH3jwc5gKWXkhLdjYS1xIDZ+lNsHTPBHRd1ruXT/mYaCMJ90E8NGhIsboSeexiH0y4aPh+Tr8LMQNp6QZGEQ2xHle/ZXWD63/1rGvd+Id2Y3Dy3BMgXfsKhCRmKOriIOtfSClWqlyEP/VkwqKXoQCF+TnoD+yuadPZsE90=
+	t=1723594218; cv=none; b=n/9fTj/uxK+kTqCdUIatVFwK37r3eR3vpBsJk6+VwBpYaGgCzs6VBF9swpe8geOHj7woSpsGG9bq0q4NarK2GXXdncviDvgrKJvCPWHwqfxPE6jDi+jWTdb0l1DFlIzkxaCvY4bEmX7Qzs9DPjTiZstu9VUlvBw5P1vdwUi+4qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723589893; c=relaxed/simple;
-	bh=v6pouzSjcUubJw/OLcJ2anfWGui3sH49fxAKvgWiqqg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MDq7ueVEB8/oyUgTHOKgDEiuz9uUDOdHx9ITC2S64uczaDGy3dzutF2tiqmPB7tEaswlKVJIaP2BMdKKy+KGP+Ui4A4bpHZ1bYrSupKlV62qUxeFA7oq1e9/h02Ypyb3u6Enj8FRojxpilp3+kNAytgWRQYITMvRM+MYUUGHcpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bnUyn2ta; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1723594218; c=relaxed/simple;
+	bh=CgGiCU1U9xTQYDZRxZm7Un7VEpNMJSVzVM6bJDlOdxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IsqehI4AjUTinGZqR4LddOZJOQ+UzwnHFwVGiYLIvrtdtC2QPoMrmbaLuXov8bb9IX88KbBh13BZA0QWKU4pKtMZtBFlP5NuWFYppgL6uMlSzMJIgM4mG5aWUIl0vNAWsGIAZMVqJvuAz9VFjrOX5quvEHAZQYpjbDJRw7NTEto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nvni09KB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bnUyn2ta"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47DCpTrR002395;
-	Tue, 13 Aug 2024 22:57:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gIL8R124Of5TZX5wuk8bz/6NSDthT5u39JslZvw5xWQ=; b=bnUyn2taEsFo120f
-	aDfi8xAXE4/49Wtnkp+VAjs0ie7H24kmQ0Zb52l2H9wyJoCTanQUlwIXXGs4iiH0
-	lKug3mE1Y6rSOmhAyznmCo1ei9k+wrSv2BIKiImss5YVIGMOC2iIpYRLSD2pVeQk
-	KBFFL2lsPummAneqfAlYXjKdjDew10e5rOw0RON7NebDDuT5WVqDkFTaME6TrgOu
-	CfMPyLOH5XotZ0brNyMxp3JPlFO4CTK7FJkf9U0PwY7vjrVdAqusnvQnQvaQs1Bh
-	ZrhITT2EvsKyaWdycfPcXk2dcfacAx0wTcqdQyGU5HqSVRstzK45b9amykW43gGn
-	uXydyg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40x16815va-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Aug 2024 22:57:47 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47DMvjSW005026
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 Aug 2024 22:57:45 GMT
-Received: from [10.110.24.42] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 Aug
- 2024 15:57:45 -0700
-Message-ID: <6855763c-0230-4535-a603-343059de5202@quicinc.com>
-Date: Tue, 13 Aug 2024 15:57:44 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nvni09KB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A95D2C32782;
+	Wed, 14 Aug 2024 00:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723594217;
+	bh=CgGiCU1U9xTQYDZRxZm7Un7VEpNMJSVzVM6bJDlOdxk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Nvni09KBGRfPgKM0VLV7+RkFXHKxWveneB40K/7YISiqq8MNws8kWwgwQs1zw5YKX
+	 3TOKan99uX7wRudaxZN6twe2lAaS7QHxgQmu1F9qHXV1PF2uoAceqBpIHQSJuSCvEa
+	 FoFqg7NUsDTM4krBHmtN/pcq+jI7Z9TlSN4IbSY/ZzM7p0p3GAIe4q42GgmcY1Vwsb
+	 DeeWR0BNVGG+a965Kmwx4ZIoOBF+/k1+Wmud6I9png+Rkb7g9qRVa2myEGM2Vw7vbv
+	 LSwh+xVmyXwczJTlnlfpvSUoQF/NfsMtTF8g90NtD8/rXVMko3HnPcZeswM9zLC+SP
+	 4rDf7QhhKwn6w==
+Date: Tue, 13 Aug 2024 17:10:15 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Martin Karsten <mkarsten@uwaterloo.ca>
+Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org, Joe Damato
+ <jdamato@fastly.com>, amritha.nambiar@intel.com,
+ sridhar.samudrala@intel.com, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jan Kara
+ <jack@suse.cz>, Jiri Pirko <jiri@resnulli.us>, Johannes Berg
+ <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:FILESYSTEMS
+ (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+Message-ID: <20240813171015.425f239e@kernel.org>
+In-Reply-To: <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+References: <20240812125717.413108-1-jdamato@fastly.com>
+	<ZrpuWMoXHxzPvvhL@mini-arch>
+	<2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
- backend
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-10-quic_wcheng@quicinc.com>
- <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
- <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
- <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _WsJpwi-2I3ra7escjcgBbfBvs8wZqXW
-X-Proofpoint-ORIG-GUID: _WsJpwi-2I3ra7escjcgBbfBvs8wZqXW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-13_12,2024-08-13_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
- suspectscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0 spamscore=0
- mlxscore=0 priorityscore=1501 phishscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408130165
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Pierre,
+On Mon, 12 Aug 2024 17:46:42 -0400 Martin Karsten wrote:
+> >> Here's how it is intended to work:
+> >>    - An administrator sets the existing sysfs parameters for
+> >>      defer_hard_irqs and gro_flush_timeout to enable IRQ deferral.
+> >>
+> >>    - An administrator sets the new sysfs parameter irq_suspend_timeout
+> >>      to a larger value than gro-timeout to enable IRQ suspension.  
+> > 
+> > Can you expand more on what's the problem with the existing gro_flush_timeout?
+> > Is it defer_hard_irqs_count? Or you want a separate timeout only for the
+> > perfer_busy_poll case(why?)? Because looking at the first two patches,
+> > you essentially replace all usages of gro_flush_timeout with a new variable
+> > and I don't see how it helps.  
+> 
+> gro-flush-timeout (in combination with defer-hard-irqs) is the default 
+> irq deferral mechanism and as such, always active when configured. Its 
+> static periodic softirq processing leads to a situation where:
+> 
+> - A long gro-flush-timeout causes high latencies when load is 
+> sufficiently below capacity, or
+> 
+> - a short gro-flush-timeout causes overhead when softirq execution 
+> asynchronously competes with application processing at high load.
+> 
+> The shortcomings of this are documented (to some extent) by our 
+> experiments. See defer20 working well at low load, but having problems 
+> at high load, while defer200 having higher latency at low load.
+> 
+> irq-suspend-timeout is only active when an application uses 
+> prefer-busy-polling and in that case, produces a nice alternating 
+> pattern of application processing and networking processing (similar to 
+> what we describe in the paper). This then works well with both low and 
+> high load.
 
-On 8/1/2024 11:26 PM, Pierre-Louis Bossart wrote:
->
-> On 8/1/24 23:43, Wesley Cheng wrote:
->> Hi Pierre,
->>
->> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
->>>
->>>> +/**
->>>> + * struct snd_soc_usb_device
->>>> + * @card_idx - sound card index associated with USB device
->>>> + * @pcm_idx - PCM device index associated with USB device
->>>> + * @chip_idx - USB sound chip array index
->>>> + * @num_playback - number of playback streams
->>>> + * @num_capture - number of capture streams
->>> so here we have a clear separation between playback and capture...
->> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
->>
->> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
-> I don't think it's as simple as playback only or playback+capture. If
-> there is no support for capture, then there is also no support for
-> devices with implicit feedback - which uses the capture path. So you
-> gradually start drawing a jagged boundary of what is supported and what
-> isn't.
->
-> My preference would be to add capture in APIs where we can, with TODOs
-> added to make sure no one us under any illusion that the code is fully
-> tested. But at least some of the basic plumbing will be in place.
->
-> Takashi should chime in on this...
->
->>>> + * @list - list head for SoC USB devices
->>>> + **/
->>>> +struct snd_soc_usb_device {
->>>> +	int card_idx;
->>>> +	int pcm_idx;
->>>> +	int chip_idx;
->>>> +	int num_playback;
->>>> +	int num_capture;
->>>> +	struct list_head list;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct snd_soc_usb
->>>> + * @list - list head for SND SOC struct list
->>>> + * @component - reference to ASoC component
->>>> + * @num_supported_streams - number of supported concurrent sessions
->>> ... but here we don't. And it's not clear what the working 'sessions'
->>> means in the comment.
+What about NIC interrupt coalescing. defer_hard_irqs_count was supposed
+to be used with NICs which either don't have IRQ coalescing or have a
+broken implementation. The timeout of 200usec should be perfectly within
+range of what NICs can support.
 
-After taking a look at this "num_supported_streams" naming a bit more, I wanted to check with you to see adds to the complexity of the terminology being used across soc-usb.
+If the NIC IRQ coalescing works, instead of adding a new timeout value
+we could add a new deferral control (replacing defer_hard_irqs_count)
+which would always kick in after seeing prefer_busy_poll() but also
+not kick in if the busy poll harvested 0 packets.
 
-The intention of this is to define how many concurrent USB devices the USB backend can support.  So for example, if the audio DSP did support multiple USB devices at the same time, this would denote that.  This is where I wanted to make sure the terminology was right....  So in this case, to me, it makes more sense if num_supported_streams --> num_supported_devices, because it determines how many USB devices the ASoC USB backend DAI can manage/support.  This adds a bit to the reason why I think using the term "port" for explaining the SOC USB context is reasonable.
+> > Maybe expand more on what code paths are we trying to improve? Existing
+> > busy polling code is not super readable, so would be nice to simplify
+> > it a bit in the process (if possible) instead of adding one more tunable.  
+> 
+> There are essentially three possible loops for network processing:
+> 
+> 1) hardirq -> softirq -> napi poll; this is the baseline functionality
+> 
+> 2) timer -> softirq -> napi poll; this is deferred irq processing scheme 
+> with the shortcomings described above
+> 
+> 3) epoll -> busy-poll -> napi poll
+> 
+> If a system is configured for 1), not much can be done, as it is 
+> difficult to interject anything into this loop without adding state and 
+> side effects. This is what we tried for the paper, but it ended up being 
+> a hack.
+> 
+> If however the system is configured for irq deferral, Loops 2) and 3) 
+> "wrestle" with each other for control. Injecting the larger 
+> irq-suspend-timeout for 'timer' in Loop 2) essentially tilts this in 
+> favour of Loop 3) and creates the nice pattern describe above.
 
-Thanks
-
-Wesley Cheng
-
->>>> + * @connection_status_cb - callback to notify connection events
->>>> + * @priv_data - driver data
->>>> + **/
->>>> +struct snd_soc_usb {
->>>> +	struct list_head list;
->>>> +	struct snd_soc_component *component;
->>>> +	unsigned int num_supported_streams;
->>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
->>>> +			struct snd_soc_usb_device *sdev, bool connected);
->>>> +	void *priv_data;
->>>> +};
->>>> +/**
->>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
->>> USB port?
->> Noted, refer to the last comment.
->>>> + * @component: USB DPCM backend DAI component
->>>> + * @num_streams: number of offloading sessions supported
->>> same comment, is this direction-specific or not?
->> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
->>>> + * @data: private data
->>>> + *
->>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
->>>> + * are used in subsequent sequences.
->>>> + *
->>>> + */
->>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>>> +					      int num_streams, void *data)
->>>> +{
->>>> +	struct snd_soc_usb *usb;
->>>> +
->>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
->>>> +	if (!usb)
->>>> +		return ERR_PTR(-ENOMEM);
->>>> +
->>>> +	usb->component = component;
->>>> +	usb->priv_data = data;
->>>> +	usb->num_supported_streams = num_streams;
->>>> +
->>>> +	return usb;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
->>>> +
->>>> +/**
->>>> + * snd_soc_usb_free_port() - free a SOC USB device
->>>> + * @usb: allocated SOC USB device
->>>> +
->>>> + * Free and remove the SOC USB device from the available list of devices.
->>> Now I am lost again on the device:port relationship. I am sure you've
->>> explained this before but I forget things and the code isn't
->>> self-explanatory.
->>>
->> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
-> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
-> it's not quite right, USB audio works across hubs.
->
->
