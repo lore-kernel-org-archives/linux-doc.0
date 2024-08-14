@@ -1,222 +1,322 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A322A1B3F2B
-	for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 14:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C7E1B3F30;
+	Wed, 14 Aug 2024 15:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723647367; cv=none; b=EVSPZdf5ITsSrL0fa9G1jw8G2Dk6zAMBbUaNeWJHuofsGYDla+22+tjKat3l0cbnIzojPtGPkCZW0/s4t8pnRYcu7nL1CsHQ2rWT5weI46mbddLVq0jEKpQlIEiLILh0ulf7hHaq/3MPZciv3exdgm2tdQs+kqPKeKQXNMqt85U=
+	t=1723648129; cv=none; b=RTlhol5MN3slxjAHsFu7qJgWcmHrn5lBAfEOOIwIjy15mXH9bYHU9hNHYFg5X2IkIQIT8nTKnDhF180VGxeNrj5HVFsglHoq3AICOs7rIqU460plijjUI9nkf21Yqr1ttiue4+pPT8Qv1HhpEbhIj9C08ot2eg3E3yXQae1/UpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723647367; c=relaxed/simple;
-	bh=tR8RzbqOolXZg8cJLIUMhkkkWhqNewrEo1ZX+xr0SVk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eoXYQP+uNFzi/CR9ryWWr79ehnuXUGm7EnlLxEeonBQNpjRW2ZwehlTk1X8cERE9Q2d4hC1a3o6LvwsnBxzW9sQ24YB9RSRLLK/LaYMyVESWaciSyjqWxRatgIG1ICsg8NZ1A4si1ySLb0zRMiZjwM51vSDZ6EeJ6LBcjiyRNwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uj7JpQog; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1723648129; c=relaxed/simple;
+	bh=I4/5wqtOSUu+M385EHWXdTF02i9g4nL1NlaP6k2SrFQ=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=svwB/UTNVDjhLvE1ifi352+AZ2xEJ11awahWhzGiAr1/19CMsHGQ/W+ain02aTrIoM0K8WoHLkxh2fuLH7BfC+iOpaQPKo9Ly/vYCeKJtA3iPAsDxSIE4go2Hn3mYsHRbh5is1ywMSpgC6MMUdGWCtQ0k+59a2Ru8qrpe77r3uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DY5D38zp; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uj7JpQog"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-70942ebcc29so4615988a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 07:56:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DY5D38zp"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7a1d81dc0beso429100085a.2;
+        Wed, 14 Aug 2024 08:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723647364; x=1724252164; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1723648126; x=1724252926; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ApWhKzlunlw9OulyCe3WVtwOx7m9YQFR6kgphgn0hHM=;
-        b=uj7JpQogyJ0OQXhKYv2IbMfZ2YTiwSo4zcuyjtQWF/0GzdtRQiJ2jkQt0EcM4+ZzsA
-         fOQYD6iJqbLNmdRHjB4Y/7zVuo4yVmMKrl5FeRa04/B1LmN52h+XtGQAHHb7Va+kX1uk
-         C08ZlVAOH7Ejq3lMv3H+gaEckIUJCWDsLaVw/06PKt3VcmrpR6nHFn/TZVnLrp8sqneL
-         u6hJqiTvBpVMQHRHqUusyh+gObrIjtKyoRszz8hGgbKbMhrfR7OIC6hyD52dEF164ogr
-         ziCyGX5wCAAKkZa/R57UJBIiYTn8lyoWqaLM4CoObQ7UQB6FdZco57zYzVaVhT+/pQdQ
-         wKQA==
+        bh=+JnJVLsmunKz1N0MNEXD3u4nXpBfSOLV7GhQ/fPiuuU=;
+        b=DY5D38zp/XdaZX5+vJTlxZdZkinU+jbU4O4FBwPy6gX+eXcUr9LgzpC6A5wkmnUPAQ
+         hslwsuhQ4n+3rf4Rc/gqXI9J9oR6CVsefP4RBQ2q5HCFSgOvAIJ1JNyOfwSaYQ8ZHD2R
+         effdf4N/HkMxRGXIkc2ipfEFtATwyZGHnwJWCkcfJsKzXNUJ7FgsA6xoqlpaybtyvDy8
+         AJam6E8rFkxsY3UBfQ6y71yu2+da+XYw/ECLUVzuDxWoXNyuFlf9udD28OfcgB9zK3fv
+         yWTUZdXrTVIHt4yk1vqxbYgXguoP7P9GWJDEWx3kT/nol2xLVVf9f1lvZnBAjeDw80rH
+         YBeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723647364; x=1724252164;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ApWhKzlunlw9OulyCe3WVtwOx7m9YQFR6kgphgn0hHM=;
-        b=Ljq9Me7H0fP4GNteXU01xPLSIf1ZZn7+IQ17Qh7Pt1iBVsVhYw/hTeYQuSyFBvu9q5
-         jplW486tGvO58wCS5a6i84LzwJh9cuSmENJ4L5RDJ8LNaUPSvNY7MuYVrmoDBsV5KBfK
-         leoEYCXM/wpgZFZsYYoxcPKOsXXoih6hApRZTtbVYB8Cme+QY4vx6L4NVPD4mhwChxZx
-         fMOJWquLiLtGSH1PuvavAcS95f8vv5y3+ID3s49L5kGYRLKYuq0acN+BecImGT/SwbzK
-         ie+43WJY2jjdigO/1ZVU9L9PVKLccqRcS7ei3keA8lyEQ0UlFYtlK11qTXepEZesdG2V
-         NJTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzjBj9KHe7wtDfRpJHGGFnRPBxRhJ+e7/Jm+74NCg3kJC5sWd8ViJUR9vhewkEBWaFUmx7I5/liIzVzKRwkVXfmhTR6317VJSs
-X-Gm-Message-State: AOJu0YxxXcLeyNfQ0weUOF3hlpXfjJFNYd/DV3pQemjGHOZyWbrDZG0V
-	E92yKkxsDDdgeQFTAIPIRjIlkBFwfZzvZyqhiVlKrN97YM4vD4RIcKYmFy2xzw6MSty693wFq9g
-	PzTdTqDr/ge8ftRKzJ5QewxjS74oZNpPw0lSQCSN5iZoRegnz4w==
-X-Google-Smtp-Source: AGHT+IH9ZAeOvcFpU0wz9rOmS3Zjvy3bWAzT1a2IrWWyXOegJsZPD7qSytaVr6toGHZ8oDdMhi5a1Ic9JEJSRxy3OYE=
-X-Received: by 2002:a05:6359:4c83:b0:1ac:f5dc:5163 with SMTP id
- e5c5f4694b2df-1b1aad5b0a8mr340642555d.29.1723647364192; Wed, 14 Aug 2024
- 07:56:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723648126; x=1724252926;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+JnJVLsmunKz1N0MNEXD3u4nXpBfSOLV7GhQ/fPiuuU=;
+        b=K+fHyCfWn3uVAGf7lPte5ye29yy2+lzDdK48o5cmzKqk6WxT74aDCPK330hz/+T8Hn
+         ex8L7yUeCXQdmzN4v4DmrK5uljEDNeTcNTwyixUIki/3YT/LK7eM1y9+INd8JSrj4vTH
+         yIoe0062cPENAgsa+unLv8Oob393CogObda5jHiYVC9sXAj98SwqhPPk28J3jxaBwcqW
+         jjl10e88EcfM5jZm9pUwYDqfaDDXOpYvtxPeFZR6qCoogYQGW+q9a1XzX7PIRTGIefYx
+         x3mUfkgjmWe89SE2fjK39f4Ha8qIddjzEth6TbUeYZhwS9d9X9Clq/yabgDfOoxd4h1a
+         +dHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWFkXIt8q+XnZDqUrunKYgJA6At3tsXoJCBwneSYlwdlaUtDPk/c4wj8Gsy106uvxHiHmcqU5D2CLHNkl2n3I9GGCngT92FKHJ9oy+Jlv5ZMzuljT0J7tzSSJbwWSNEIwybI4k2xgciwIrypywd/cDNyZMhSY1JvXjOFSBzwINXlTsmSdtcH4woNZpvxeIubVJpp78CTs4cbnICb/KKBw==
+X-Gm-Message-State: AOJu0Yz9vdrqIMk7iRku6pfCPkzszlNOLzpVCRNz/pNmvheeDlallz4E
+	zrg17SCcpBaFAPZWbvEb9YStRyHjWOMQtdeyjbFkyq1d9LL3bdzm
+X-Google-Smtp-Source: AGHT+IEl77zc4g8f5fHZ7ZSChLtcAm72gMMmppwUCxI922umY71YyYZo6G6p71ce8GqwCEo1zqzbbg==
+X-Received: by 2002:a05:620a:31a9:b0:79e:fc62:c3fb with SMTP id af79cd13be357-7a4ee3ac5f7mr329523285a.53.1723648125840;
+        Wed, 14 Aug 2024 08:08:45 -0700 (PDT)
+Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4e428e2c9sm181095485a.134.2024.08.14.08.08.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 08:08:45 -0700 (PDT)
+Date: Wed, 14 Aug 2024 11:08:45 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Joe Damato <jdamato@fastly.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Martin Karsten <mkarsten@uwaterloo.ca>, 
+ Stanislav Fomichev <sdf@fomichev.me>, 
+ netdev@vger.kernel.org, 
+ amritha.nambiar@intel.com, 
+ sridhar.samudrala@intel.com, 
+ Alexander Lobakin <aleksander.lobakin@intel.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Breno Leitao <leitao@debian.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Jan Kara <jack@suse.cz>, 
+ Jiri Pirko <jiri@resnulli.us>, 
+ Johannes Berg <johannes.berg@intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+ "open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Message-ID: <66bcc87d605_b1f942948@willemb.c.googlers.com.notmuch>
+In-Reply-To: <Zry9AO5Im6rjW0jm@LQ3V64L9R2.home>
+References: <20240812125717.413108-1-jdamato@fastly.com>
+ <ZrpuWMoXHxzPvvhL@mini-arch>
+ <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
+ <ZrqU3kYgL4-OI-qj@mini-arch>
+ <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
+ <Zrq8zCy1-mfArXka@mini-arch>
+ <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
+ <Zrrb8xkdIbhS7F58@mini-arch>
+ <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
+ <66bc21772c6bd_985bf294b0@willemb.c.googlers.com.notmuch>
+ <Zry9AO5Im6rjW0jm@LQ3V64L9R2.home>
+Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240813211317.3381180-7-almasrymina@google.com> <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-In-Reply-To: <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 14 Aug 2024 10:55:49 -0400
-Message-ID: <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2024 at 10:11=E2=80=AFAM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
-...
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index 301f4250ca82..2f2a7f4dee4c 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -17,6 +17,7 @@
-> >   #include <linux/genalloc.h>
-> >   #include <linux/dma-buf.h>
-> >   #include <net/devmem.h>
-> > +#include <net/mp_dmabuf_devmem.h>
-> >   #include <net/netdev_queues.h>
+Joe Damato wrote:
+> On Tue, Aug 13, 2024 at 11:16:07PM -0400, Willem de Bruijn wrote:
+> > Martin Karsten wrote:
+> > > On 2024-08-13 00:07, Stanislav Fomichev wrote:
+> > > > On 08/12, Martin Karsten wrote:
+> > > >> On 2024-08-12 21:54, Stanislav Fomichev wrote:
+> > > >>> On 08/12, Martin Karsten wrote:
+> > > >>>> On 2024-08-12 19:03, Stanislav Fomichev wrote:
+> > > >>>>> On 08/12, Martin Karsten wrote:
+> > > >>>>>> On 2024-08-12 16:19, Stanislav Fomichev wrote:
+> > > >>>>>>> On 08/12, Joe Damato wrote:
+> =
+
+> [...]
+> =
+
+> > > >>
+> > > >> One of the goals of this patch set is to reduce parameter tuning=
+ and make
+> > > >> the parameter setting independent of workload dynamics, so it sh=
+ould make
+> > > >> things easier. This is of course notwithstanding that per-napi s=
+ettings
+> > > >> would be even better.
+> > =
+
+> > I don't follow how adding another tunable reduces parameter tuning.
+> =
+
+> Thanks for taking a look and providing valuable feedback, Willem.
+> =
+
+> An early draft of the cover letter included some paragraphs which were =
+removed
+> for the sake of brevity that we can add back in, which addresses your c=
+omment
+> above:
+> =
+
+>  The existing mechanism in the kernel (defer_hard_irqs and gro_flush_ti=
+meout)
+>  is useful, but picking the correct values for these settings is diffic=
+ult and
+>  the ideal values change as the type of traffic and workload changes.
+> =
+
+>  For example: picking a large timeout value is good for batching packet=
+
+>  processing, but induces latency. Picking a small timeout value will in=
+terrupt
+>  user app processing and reduce efficiency. The value chosen would be d=
+ifferent
+>  depending on whether the system is under high load (large timeout) or =
+when less
+>  busy (small timeout).
+> =
+
+> As such, adding the new tunable makes it much easier to use the existin=
+g ones
+> and also produces better performance as shown in the results we present=
+ed. =
+
+> =
+
+> Please let me know if you have any questions; I know that the change we=
+ are
+> introducing is very subtle and I am happy to expand the cover letter if=
+ it'd be
+> helpful for you.
+> =
+
+> My concern was that the cover letter was too long already, but a big ta=
+keaway
+> for me thus far has been that we should expand the cover letter.
+> =
+
+> [...]
+> =
+
+> > > > Let's see how other people feel about per-dev irq_suspend_timeout=
+. Properly
+> > > > disabling napi during busy polling is super useful, but it would =
+still
+> > > > be nice to plumb irq_suspend_timeout via epoll context or have it=
+ set on
+> > > > a per-napi basis imho.
+> > > =
+
+> > > Fingers crossed. I hope this patch will be accepted, because it has=
+ =
+
+> > > practical performance and efficiency benefits, and that this will =
+
+> > > further increase the motivation to re-design the entire irq =
+
+> > > defer(/suspend) infrastructure for per-napi settings.
+> > =
+
+> > Overall, the idea of keeping interrupts disabled during event
+> > processing is very interesting.
+> =
+
+> Thanks; I'm happy to hear we are aligned on this.
+> =
+
+> > Hopefully the interface can be made more intuitive. Or documented mor=
+e
+> > easily. I had to read the kernel patches to fully (perhaps) grasp it.=
+
+> > =
+
+> > Another +1 on the referenced paper. Pointing out a specific differenc=
+e
+> > in behavior that is unrelated to the protection domain, rather than a=
+
+> > straightforward kernel vs user argument. The paper also had some
+> > explanation that may be clearer for a commit message than the current=
+
+> > cover letter:
+> > =
+
+> > "user-level network stacks put the application in charge of the entir=
+e
+> > network stack processing (cf. Section 2). Interrupts are disabled and=
+
+> > the application coordinates execution by alternating between
+> > processing existing requests and polling the RX queues for new data"
+> > " [This series extends this behavior to kernel busy polling, while
+> > falling back onto interrupt processing to limit CPU overhead.]
+> > =
+
+> > "Instead of re-enabling the respective interrupt(s) as soon as
+> > epoll_wait() returns from its NAPI busy loop, the relevant IRQs stay
+> > masked until a subsequent epoll_wait() call comes up empty, i.e., no
+> > events of interest are found and the application thread is about to b=
+e
+> > blocked."
+> > =
+
+> > "A fallback technical approach would use a kernel timeout set on the
+> > return path from epoll_wait(). If necessary, the timeout re-enables
+> > interrupts regardless of the application=C2=B4s (mis)behaviour."
+> > [Where misbehavior is not calling epoll_wait again]
+> > =
+
+> > "The resulting execution model mimics the execution model of typical
+> > user-level network stacks and does not add any requirements compared
+> > to user-level networking. In fact, it is slightly better, because it
+> > can resort to blocking and interrupt delivery, instead of having to
+> > continuously busyloop during idle times."
 > >
-> >   #include "page_pool_priv.h"
-> > @@ -153,6 +154,10 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
-ice *dev, u32 rxq_idx,
-> >       if (err)
-> >               goto err_xa_erase;
-> >
-> > +     err =3D page_pool_check_memory_provider(dev, rxq, binding);
->
-> Frankly, I pretty much don't like it.
->
-> 1. We do it after reconfiguring the queue just to fail and reconfigure
-> it again.
->
+> > This last part shows a preference on your part to a trade-off:
+> > you want low latency, but also low cpu utilization if possible.
+> > This also came up in this thread. Please state that design decision
+> > explicitly.
+> =
 
-I don't see an issue with that? Or is it just me?
+> Sure, we can include that in the list of cover letter updates we
+> need to make. I could have called it out more clearly, but in the cover=
 
-> 2. It should be a part of the common path like netdev_rx_queue_restart(),
-> not specific to devmem TCP.
->
-> These two can be fixed by moving the check into
-> netdev_rx_queue_restart() just after ->ndo_queue_mem_alloc, assuming
-> that the callback where we init page pools.
->
+> letter [1] I mentioned that latency improved for compared CPU usage (i.=
+e.
+> CPU efficiency improved):
+> =
 
-The only reason is that the page_pool_check_memory_provider() needs to
-know the memory provider to check for. Separating them keep
-netdev_rx_queue_restart() usable for other future use cases that don't
-expect a memory provider to be bound, but you are correct in that this
-can be easily resolved by passing the binding to
-netdev_rx_queue_restart() and doing the
-page_pool_check_memory_providers() check inside of that function.
+>   The overall takeaway from the results below is that the new mechanism=
 
-> 3. That implicit check gives me bad feeling, instead of just getting
-> direct feedback from the driver, either it's a flag or an error
-> returned, we have to try to figure what exactly the driver did, with
-> a high chance this inference will fail us at some point.
->
+>   (suspend20, see below) results in reduced 99th percentile latency and=
 
-This is where I get a bit confused. Jakub did mention that it is
-desirable for core to verify that the driver did the right thing,
-instead of trusting that a driver did the right thing without
-verifying. Relying on a flag from the driver opens the door for the
-driver to say "I support this" but actually not create the mp
-page_pool. In my mind the explicit check is superior to getting
-feedback from the driver.
+>   increased QPS in the MAX QPS case (compared to the other cases), and
+>   reduced latency in the lower QPS cases for comparable CPU usage to th=
+e
+>   base case (and less CPU than the busy case).
+> =
 
-Additionally this approach lets us detect support in core using 10
-lines of code or so, rather than ask every driver that wants to
-support mp to add boilerplate code to declare support (and run into
-subtle bugs when this boilerplate is missing). There are minor pros
-and cons to each approach; I don't see a showstopping reason to go
-with one over the other.
+> > There are plenty of workloads where burning a core is acceptable
+> > (especially as core count continues increasing), not "slightly worse"=
+.
+> =
 
-> And page_pool_check_memory_provider() is not that straightforward,
-> it doesn't walk through pools of a queue.
+> Respectfully, I don't think I'm on board with this argument. "Burning a=
+ core"
+> has side effects even as core counts increase (power, cooling, etc) and=
+ it
+> seems the counter argument is equally valid, as well: there are plenty =
+of
+> workloads where burning a core is undesirable.
 
-Right, we don't save the pp of a queue, only a netdev. The outer loop
-checks all the pps of the netdev to find one with the correct binding,
-and the inner loop checks that this binding is attached to the correct
-queue.
+Even more, likely. As this might be usable for standard efficiency
+focused production services.
 
-> Not looking too deep,
-> but it seems like the nested loop can be moved out with the same
-> effect, so it first looks for a pool in the device and the follows
-> with the bound_rxqs. And seems the bound_rxqs check would always turn
-> true, you set the binding into the map in
-> net_devmem_bind_dmabuf_to_queue() before the restart and it'll be there
-> after restart for page_pool_check_memory_provider(). Maybe I missed
-> something, but it's not super clear.
->
-> 4. And the last thing Jakub mentioned is that we need to be prepared
-> to expose a flag to the userspace for whether a queue supports
-> netiov. Not really doable in a sane manner with such implicit
-> post configuration checks.
->
+> Using less CPU to get comparable performance is strictly better, even i=
+f a
+> system can theoretically support the increased CPU/power/cooling load.
 
-I don't see a very strong reason to expose the flag to the userspace
-now. userspace can try to bind dmabuf and get an EOPNOTSUPP if the
-operation is not supported, right? In the future if passing the flag
-to userspace becomes needed for some usecase, we do need feedback from
-the driver, and it would be trivial to add similarly to what you
-suggested.
+If it is always a strict win yes. But falling back onto interrupts
+with standard moderation will not match busy polling in all cases.
 
-> And that brings us back to the first approach I mentioned, where
-> we have a flag in the queue structure, drivers set it, and
-> netdev_rx_queue_restart() checks it before any callback. That's
-> where the thread with Jakub stopped, and it reads like at least
-> he's not against the idea.
+Different solutions for different workloads. No need to stack rank
+them. My request is just to be explicit which design point this
+chooses, and that the other design point (continuous busy polling) is
+already addressed in Linux kernel busypolling.
 
-Hmm, the netdev_rx_queue array is created in core, not by the driver,
-does the driver set this flag during initialization? We could run into
-subtle bugs with races if a code path checks for support after core
-has allocated the netdev_rx_queue array but before the driver has had
-a chance to declare support, right? Maybe a minor issue. Instead we
-could add an ndo to the queue API that lets the driver tell us that it
-could support binding on a given rx queue, and check that in
-net_devmem_bind_dmabuf_to_queue() right before we do the bind?
+> Either way: this is not an either/or. Adding support for the code we've=
 
-But this is only if declaring support to userspace becomes needed for
-some use case. At the moment I'm under the impression that verifying
-in core that the driver did the right thing is preferred, and I'd like
-to minimize the boilerplate the driver needs to implement if possible.
+> proposed will be very beneficial for an important set of workloads with=
+out
+> taking anything anyway.
+> =
 
-Additionally this series is big and blocks multiple interesting follow
-up work; maybe going forward with an approach that works - and can
-easily be iterated on later if we run into issues - could be wise. I
-do not see an issue with adding a driver signal in the future (if
-needed) and deprecating the core check (if needed), right?
+> - Joe
+> =
 
---
-Thanks,
-Mina
+> [1]: https://lore.kernel.org/netdev/20240812125717.413108-1-jdamato@fas=
+tly.com/
+
+
