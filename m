@@ -1,68 +1,108 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C6E219EA;
-	Wed, 14 Aug 2024 09:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6F6146A8A;
+	Wed, 14 Aug 2024 09:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723627015; cv=none; b=kvn/x+43xDqzj0ML4eTTxx1mzoDEnj0rw8KFetrqxpWz3KTM+ZClgb227D4vc4Z3wUfEYsyvFXlFniAgIz156MKQJKH7zeTFIkHjarvf70w+p6XzsWMhTaeLD7L7B63a9ijKNl20Ga93QuRZPoEA2BahSw/jzE6EIr1mXv3Pc54=
+	t=1723627271; cv=none; b=BwGZoCd0oJjCRlFMOBSgaNGNeel/PdgNPEVha1sIsyB6uL3oIZFZ5aBJQWLKIImT/u5pIstkMQr10jlxcx27pDeGC00YE3SBmDNjReKsXm5wUyXRFNrYNbwzogef8YCjp+EnwlRs8leDOe0ay8g3wHmyKGsAYyf6xQCS6bI/JVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723627015; c=relaxed/simple;
-	bh=GryCT9PDaGe3jzxXN03gCokofl1hwkYP+m19U9WqKKs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=suP3yyc3BisyyR3ryVZEWbcu0e6Ak4RiRg97OW4Y/HjTGQExU7dl16g+ZR68PeXWgmcVUZBN0o7NbiDHjtJeYGTVT+W1XA+Of7cr5juZPaJVNhd14XHD0tqex3TdaKm1vxdeFgUdMYoRPOmc+BMmysx9uPe9Hqd7ev9kwyO0lgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn; spf=pass smtp.mailfrom=shingroup.cn; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shingroup.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shingroup.cn
-X-QQ-mid: bizesmtpsz13t1723626988tn0oe9
-X-QQ-Originating-IP: JIcAc/P0dd4NRhc4oQ5LqiVXdn9a//DyJ5pDmMRsLGk=
-Received: from HX01040022.powercore.com.cn ( [221.224.30.42])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 14 Aug 2024 17:16:26 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12501851135810784720
-From: Jialong Yang <jialong.yang@shingroup.cn>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: luming.yu@shingroup.cn,
-	shenghui.qu@shingroup.cn,
-	Jialong Yang <jialong.yang@shingroup.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/dyndbg: fix the example using dyndbg option in modprobe
-Date: Wed, 14 Aug 2024 17:16:16 +0800
-Message-Id: <20240814091616.814761-1-jialong.yang@shingroup.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1723627271; c=relaxed/simple;
+	bh=wj88B6BBi8tG04+C5SWDMso/uHUJfPvBpn1JpU98qQI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L5cBA/XQhrtPLSuMhjekz8fwgin6mdk06gphJ66w73UdSp40LwUp5MhPKS7kanf9RJZbe/K7q2LHPyj3tn/vaIa1jKPl6flOxBzGIv19ab/CIYJn5l+fy7Pe+1wf/eGBy8RX6KLCGyrSyDfvgUZLKwjfkVHXokSkscNRLUgyLCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRjvPLh5; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRjvPLh5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723627269; x=1755163269;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=wj88B6BBi8tG04+C5SWDMso/uHUJfPvBpn1JpU98qQI=;
+  b=JRjvPLh5PVvg0WmFEUiIK7nEES0sc3caL281T3nyD8uLeQpvHUsHJSQM
+   Lnj1zkjzyRvGqcFX3jU2OtHl3IyCc1ifsWVJPmN8CCJ5x2u61VzJdZjX/
+   WN2Pea7wuPRB87CMZGZPogKdZSZxwFs7b54YDp8VZZkUnD98BR1jUQDhw
+   GxJ0RAwbGmnIFDDMdojeCx90nyCadkKSv0bzEP9WUmJa7XtAq+45fBooS
+   h/TJHhMebE1szuJa8yiIACAMZUemC+vHNeMKrlZfowkYirS0vDCRWrdPH
+   uWeO092ECqEouUL4Xh5ha5phsvuT2TckSutTTPxrjrLv2FXNb46tiJ7wQ
+   g==;
+X-CSE-ConnectionGUID: kVvTUd/4Q9212FpsPgb7Og==
+X-CSE-MsgGUID: rR44qeteSzKXBudqIv/ihQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="39282578"
+X-IronPort-AV: E=Sophos;i="6.09,288,1716274800"; 
+   d="scan'208";a="39282578"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 02:21:08 -0700
+X-CSE-ConnectionGUID: C5GMpR9eT82uHlsNZHJFaQ==
+X-CSE-MsgGUID: MS7yrPWQTkWJMZoDPeQKUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,288,1716274800"; 
+   d="scan'208";a="58655845"
+Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.246.67]) ([10.245.246.67])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 02:21:03 -0700
+Message-ID: <74d413f3-45ab-405d-8dff-122785ae7da5@linux.intel.com>
+Date: Wed, 14 Aug 2024 11:20:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
+ backend
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ gregkh@linuxfoundation.org, robh@kernel.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-10-quic_wcheng@quicinc.com>
+ <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
+ <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+ <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
+ <6855763c-0230-4535-a603-343059de5202@quicinc.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <6855763c-0230-4535-a603-343059de5202@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:shingroup.cn:qybglogicsvrgz:qybglogicsvrgz8a-0
 
-The old 'dyndbg==pmf' is not a right way to add dyndbg when modprobe.
-It should be 'dyndbg=pmf'.
 
-Signed-off-by: Jialong Yang <jialong.yang@shingroup.cn>
----
- Documentation/admin-guide/dynamic-debug-howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>> + * @list - list head for SoC USB devices
+>>>>> + **/
+>>>>> +struct snd_soc_usb_device {
+>>>>> +	int card_idx;
+>>>>> +	int pcm_idx;
+>>>>> +	int chip_idx;
+>>>>> +	int num_playback;
+>>>>> +	int num_capture;
+>>>>> +	struct list_head list;
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * struct snd_soc_usb
+>>>>> + * @list - list head for SND SOC struct list
+>>>>> + * @component - reference to ASoC component
+>>>>> + * @num_supported_streams - number of supported concurrent sessions
+>>>> ... but here we don't. And it's not clear what the working 'sessions'
+>>>> means in the comment.
+> 
+> After taking a look at this "num_supported_streams" naming a bit more, I wanted to check with you to see adds to the complexity of the terminology being used across soc-usb.
+> 
+> The intention of this is to define how many concurrent USB devices the USB backend can support.  So for example, if the audio DSP did support multiple USB devices at the same time, this would denote that.  This is where I wanted to make sure the terminology was right....  So in this case, to me, it makes more sense if num_supported_streams --> num_supported_devices, because it determines how many USB devices the ASoC USB backend DAI can manage/support.  This adds a bit to the reason why I think using the term "port" for explaining the SOC USB context is reasonable.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 0e9b48daf690..e589a6eea9d3 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -273,7 +273,7 @@ in the following order:
- 
- 3. args to modprobe::
- 
--	modprobe foo dyndbg==pmf # override previous settings
-+	modprobe foo dyndbg=pmf # override previous settings
- 
- These ``dyndbg`` queries are applied in order, with last having final say.
- This allows boot args to override or modify those from ``/etc/modprobe.d``
--- 
-2.34.1
+IIRC the USB specs define a hierarchy of device/interface/endpoint
+concepts. For streaming the only thing that really matters is the number
+of data endpoints, isn't it? If you have two devices with a single
+endpoint each or one device with two endpoints it should be the same
+complexity at the DSP level?
+
 
