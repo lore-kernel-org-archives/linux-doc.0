@@ -1,155 +1,102 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF6717BDC
-	for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 01:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7AC1CD00
+	for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 01:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723600439; cv=none; b=S0tJ/5mSqlWSQVdM7q2A6kZofcmskUNyxc+6gSHhf/OMBhpURFuhQQA80tgkhBVGaH7QlXPrErjK9QBAOXcBZnXLs65GRJw/T1KmUGxIrlXakXaMo9qzmQeDaSfysqkJdjSNzR+I8t6kC7ZlS6FFudLENWtOegE7zdpOJrFSpqw=
+	t=1723600680; cv=none; b=Wv+cpGoH7VX2EHiHDUMzn6f0Oswq2dH8KXloK6Z8ftisz3se4oGbzOZEasjt+R/B71ps337lHD0eQAYj9V01KQ9ORR3lwbxhakV67igKZhnRAj0ivu0ojmKMg521RbavcAZ6Z1zdIf3r/xOqw8Txj0UXiewFK0bEBPaC4R0V02g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723600439; c=relaxed/simple;
-	bh=ge9OCe6p9CdisLeskHvVtpoC1MjOcmdSYUlZQVLG7yA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NS15Q9PZi5SXPZuAfJ29ngjFugBr78tcIh/fF6nPjiBhWoRcj60mXO1dD0FZZdUmEQAHK3BMoOQFAUMAhRnAF6fr04STvvagU6/B3zysMDzsXl3fxDhJxU2zpAnTYXRgf5Cv7mDFyf8RcQw3rm96196Oivjj9296TKTzJWZqEPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=KBsEdR2t; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1723600680; c=relaxed/simple;
+	bh=8d6PGwMHzA81/psTz46KEeZYkJAFBDXykPr3u6Uz85M=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=XD22TRoPZ0i5tAL0Q3+JZDpAkD9WLhkJK0tZ521YYpJssv+8fj1sfpuP/WyT++iqX/hYo/r96Lx5ZBToMiQemdxSsx7SMhb4ezRHctDjuqeWj7n66A1DGrbceTBIGk6kw7DRd5KGaR4c1GqIAs/LAV5X877A5YUpYejBvNycBiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LrRaYfO3; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="KBsEdR2t"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dff1ccdc17bso6221583276.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 18:53:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LrRaYfO3"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-64b70c4a269so124425497b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Aug 2024 18:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1723600435; x=1724205235; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4BMhf+QP+vZrCE9Emw8zcn7tG5k24e14A1z1v4Cf/zo=;
-        b=KBsEdR2t9WA4dOKCy6h7cW+DspYRvLSjSR7nwpYx9ejkCy1Is3S/8XV3GfQeP4n+bw
-         DgZORAYEOvcDhI+LWG8I6cw4VeVCqcf5f9UwFezcg5+aUZJRKdCz+iAvnRZhBu0FaCJN
-         BxUublanhyyBoQTLD5Q3+oKR7XdopSIPHHCu37GEZZ19R9g0GueYKSXDwov4zgZoa6mR
-         1FF3erH3HtexQK4CHdIcjgRuf3Mdm0iBaOYoXQGXuyGE0/FD+qVtS1OU7Mn971RZi6UI
-         SCoHld79UFiDrxf0lY/wTzfjt+/ubKqOAzg4dOTOJBbExPO255tdujaZOvkU09b2Pm3E
-         LTKw==
+        d=google.com; s=20230601; t=1723600678; x=1724205478; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVR4Zs76dJzNPyP14EOD69bGamaJOE55Zhb/9oRDLUQ=;
+        b=LrRaYfO3/0laRqEjl900l88XVQBebftj3SBTVQDv45Db2C91vuIlveAhODmM+8guKK
+         inLGNq3SOrPMRopJn5RzOaCTguPlFaCK3J+aSiEzaWroBmqkJ+quhXvjezbXWRFAGc5F
+         DO/V+xGFLHVcMiPd4KsmQX0+pGSyvaqU+t+hX4a/pqUMJmEz+XgB9R3/101TorTreZDI
+         J2a9PirOprWbV3vWFcB/HyAr9egfOrtud7Cw+I9UKaKiMKP4lXKoPBv0riah18odN19P
+         9Mh9FMJyBs0uvYss1npNgHwsO0kZbIrFGF0tBWwkEloXx5H2q6/r2/dNgegwSWE6TnpM
+         zkGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723600435; x=1724205235;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4BMhf+QP+vZrCE9Emw8zcn7tG5k24e14A1z1v4Cf/zo=;
-        b=hA87IHhipXqG+W2UzRikE3tyKKV2/zNWGct/PU51nhzJ0RUJgnUWkVJMq3TmJWtE3v
-         jK5CH6MIo7BsUkPiqvOVRLRizDArJq4+/77+tvNwqEChqSJgHtw/oJ2hIXIHIXd3toUi
-         qB5/vBtvsxyPS41CBBBsB5+SgJuyOcIRfyA3tTEkNc8uoA1cKgNNXyD3rVbrfMJQoS2/
-         WftRfHWL4VFYX8z2/B+K5rn7Jm2nme7CKtfhX3gpew9TGK2tVqnO9gnnUrn6DZR5Y1vq
-         mwuU1hCV0nRJNdGT9HoDCUXvsRY9BFOfiZzB4wG+ZU/5LyCeY2+v22TkzI95ix9zcSI7
-         wEQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhQ7VhbhyXW4ttcUWPGlN+wpOor0ksq+9id1u0oPlWsFVNisepDseGPtqRfvJN4hQrrlGT5r70HqhDHeJG8ZnTm2kz90eeAD6Y
-X-Gm-Message-State: AOJu0YwpVoXr6ZKNBN/VARPPevelIV6AvY8S01IQ3dxH9UZvuuhijgYd
-	CTkbbGMLRVIEszjycOrz+iEGr8tSs7vQh/fPNJJbItWx3shaga49D9KdP9v6hznKMgBD0em9Z+D
-	tUsr3uw4mI+HDQIJ5Gq3bwwJRxPGiw8LYU9RyrXVCNOJ/xIs=
-X-Google-Smtp-Source: AGHT+IHB113GJo/Rn2X/NGXeXW2H8kobdAD498o2N36iaLt+j07rl2BNDKs7iuampjJQJpWHgw4is6cXxwQOKy7hDtE=
-X-Received: by 2002:a05:6902:1b92:b0:e0b:e550:4e5c with SMTP id
- 3f1490d57ef6-e1155ae63a8mr1592199276.26.1723600435327; Tue, 13 Aug 2024
- 18:53:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723600678; x=1724205478;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vVR4Zs76dJzNPyP14EOD69bGamaJOE55Zhb/9oRDLUQ=;
+        b=uzdZiPpwhLyZW2mmmooGJkwE/eY7yriVpy8fPoLzFx57XGr6QOey29NkNd5wBf+Dp/
+         m52B1/Mbl3WlY44FyGX4Js/dcbHQFK2FZ90h4oAlOGyD8/q/PTDtwMs6OxCAVrlmffLm
+         bnIYmsRjVpnAfCrY4qF131riqPyh0yQwLOSXjGvG7hRLycSaaI4oyxz+NLtkM8R+zVJM
+         mSdIg5cLsxXBdsbVGzsKjqWAr/aVGYHa5paGzzwE0hfzMdb5UqL3v6uj1fNXHo6vwdnF
+         wi13n7Sh8fvkD192+Qtj+y/eiSSxv25z/v+Ycg3G5s/ARIOJ/VTsoG6QfYDyJaSeIsO1
+         Dp9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXq7H2dMtp6i80QdVhc5J3voTm/Qal1iir4PRLZCH2Fq4tBNJNwPwHNpJWHTFEcnfqezcIhNDkLgtCPLB97Raa9iMY0NcA1yAdf
+X-Gm-Message-State: AOJu0YyPcuQjJ/wFvLocy4kKZOMEOXdPTZsmHNWaXaPnn/wSeeHEDLQS
+	EoiphAMG44Xmp5SerF+b/ucUw2i2h5Rdx8yJVSElYTfZvlB6TG77V8Ip3KTV9OkVLHY1ApyA4X0
+	Slw==
+X-Google-Smtp-Source: AGHT+IFSegjyE66t4s58gnf9XNM5UY1397H7m/p5j+j7FRYqPMhvRwirhseK7sojYieVrgGq1fO67l5GO7w=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:88c6:0:b0:62a:564d:aed1 with SMTP id
+ 00721157ae682-6ac9aa3f26dmr204777b3.8.1723600678485; Tue, 13 Aug 2024
+ 18:57:58 -0700 (PDT)
+Date: Tue, 13 Aug 2024 18:57:57 -0700
+In-Reply-To: <20240522001817.619072-9-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-3-git-send-email-wufan@linux.microsoft.com>
- <20240810155000.GA35219@mail.hallyn.com> <e1dd4dcf-8e2e-4e7b-9d40-533efd123103@linux.microsoft.com>
-In-Reply-To: <e1dd4dcf-8e2e-4e7b-9d40-533efd123103@linux.microsoft.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 13 Aug 2024 21:53:44 -0400
-Message-ID: <CAHC9VhTYT3RTG1FbnZQ2F68a16gU9_QJ-=LSGbroP-40tpRTiw@mail.gmail.com>
-Subject: Re: [PATCH v20 02/20] ipe: add policy parser
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, 
-	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-9-dwmw2@infradead.org>
+Message-ID: <ZrwPJWdRThqSvY0X@google.com>
+Subject: Re: [RFC PATCH v3 08/21] KVM: x86: Avoid NTP frequency skew for KVM
+ clock on 32-bit host
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jalliste@amazon.co.uk, sveith@amazon.de, zide.chen@intel.com, 
+	Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Aug 13, 2024 at 1:54=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
-wrote:
-> On 8/10/2024 8:50 AM, Serge E. Hallyn wrote:
-> > On Fri, Aug 02, 2024 at 11:08:16PM -0700, Fan Wu wrote:
-> >> From: Deven Bowers <deven.desai@linux.microsoft.com>
-> >>
-> >> IPE's interpretation of the what the user trusts is accomplished throu=
-gh
-> >
-> > nit: "of what the user trusts" (drop the extra 'the')
-> >
-> >> its policy. IPE's design is to not provide support for a single trust
-> >> provider, but to support multiple providers to enable the end-user to
-> >> choose the best one to seek their needs.
-> >>
-> >> This requires the policy to be rather flexible and modular so that
-> >> integrity providers, like fs-verity, dm-verity, or some other system,
-> >> can plug into the policy with minimal code changes.
-> >>
-> >> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> >> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> >
-> > This all looks fine.  Just one comment below.
-> >
-> Thank you for reviewing this!
->
-> >
-> >> +/**
-> >> + * parse_rule() - parse a policy rule line.
-> >> + * @line: Supplies rule line to be parsed.
-> >> + * @p: Supplies the partial parsed policy.
-> >> + *
-> >> + * Return:
-> >> + * * 0              - Success
-> >> + * * %-ENOMEM       - Out of memory (OOM)
-> >> + * * %-EBADMSG      - Policy syntax error
-> >> + */
-> >> +static int parse_rule(char *line, struct ipe_parsed_policy *p)
-> >> +{
-> >> +    enum ipe_action_type action =3D IPE_ACTION_INVALID;
-> >> +    enum ipe_op_type op =3D IPE_OP_INVALID;
-> >> +    bool is_default_rule =3D false;
-> >> +    struct ipe_rule *r =3D NULL;
-> >> +    bool first_token =3D true;
-> >> +    bool op_parsed =3D false;
-> >> +    int rc =3D 0;
-> >> +    char *t;
-> >> +
-> >> +    r =3D kzalloc(sizeof(*r), GFP_KERNEL);
-> >> +    if (!r)
-> >> +            return -ENOMEM;
-> >> +
-> >> +    INIT_LIST_HEAD(&r->next);
-> >> +    INIT_LIST_HEAD(&r->props);
-> >> +
-> >> +    while (t =3D strsep(&line, IPE_POLICY_DELIM), line) {
-> >
-> > If line is passed in as NULL, t will be NULL on the first test.  Then
-> > you'll break out and call parse_action(NULL), which calls
-> > match_token(NULL, ...), which I do not think is safe.
-> >
-> > I realize the current caller won't pass in NULL, but it seems worth
-> > checking for here in case some future caller is added by someone
-> > who's unaware.
-> >
-> > Or, maybe add 'line must not be null' to the function description.
->
-> Yes, I agree that adding a NULL check would be better. I will include it
-> in the next version.
+On Wed, May 22, 2024, David Woodhouse wrote:
+>  static inline void kvm_ops_update(struct kvm_x86_init_ops *ops)
+>  {
+> @@ -9984,9 +9977,10 @@ int kvm_x86_vendor_init(struct kvm_x86_init_ops *ops)
+>  
+>  	if (pi_inject_timer == -1)
+>  		pi_inject_timer = housekeeping_enabled(HK_TYPE_TIMER);
+> -#ifdef CONFIG_X86_64
+> +
+>  	pvclock_gtod_register_notifier(&pvclock_gtod_notifier);
 
-We're still waiting to hear back from the device-mapper devs, but if
-this is the only change required to the patchset I can add a NULL
-check when I merge the patchset as it seems silly to resend the entire
-patchset for this.  Fan, do you want to share the code snippet with
-the NULL check so Serge can take a look?
+The unregister path got missed.
 
---=20
-paul-moore.com
+#ifdef CONFIG_X86_64
+	pvclock_gtod_unregister_notifier(&pvclock_gtod_notifier);
+
+>  
+> +#ifdef CONFIG_X86_64
+>  	if (hypervisor_is_type(X86_HYPER_MS_HYPERV))
+>  		set_hv_tscchange_cb(kvm_hyperv_tsc_notifier);
+>  #endif
+> -- 
+> 2.44.0
+> 
