@@ -1,138 +1,181 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101D81B580E
-	for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 15:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71C528DC3;
+	Wed, 14 Aug 2024 15:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723650399; cv=none; b=bcAP959HmcLL3YD3DnoyoZ5PHtb7eoY9NhiZ70+lSrMviaHEsYjByge2awKOAfiAszp2ynZuTbK1e34ywDUVVcZ2gqAqUqQVaJEroTDACS3AwqZh9jWK6hOV7Q3Rs0sRws0Y1FnQrTGpQf7cnA4KwyR8QFA7CWOhHtUeGWubiT4=
+	t=1723650998; cv=none; b=un7hZQEt9+DDdV5pIBlSYbwv6TTKAvlD4R2svHDPRXQkpyYdMEInmFaWADbIwCW8J5fJdsoIUlcgaHTAEU9MtxDBrGcv9ds52GpMDyQWRJ2DsF9G2CStm/RrWUcDL2JFEInC5ewUo4bxXM6QJqewwEIRJZmLCKXMtVoojkk0ZzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723650399; c=relaxed/simple;
-	bh=3CZ+eZQLTvRe5s8+CdkE8KJ8fPl1lbuinuD2iVYUImE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o6MeU30mC/QSmPAKeCvQdxxo+GtiVadmUM/+DrgVJ18HrKouOY3GHFmxq443OP358pCZRHlgGns/bbwI9PuRE2PvOgB4H/mXKVM0j4FK3eV5hGwb+G6mmFPHgt616Xz95ojsGs7EenxyJinoRpNihGXZjXCHLo7D3Ed0oQvkbSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=Fd6F1YzY; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1723650998; c=relaxed/simple;
+	bh=NSlCO+Fl8x/1r0naKZ357n9c8u82qCXoKXbjxnnJsV8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aWu9o2nOiqOetYo74nvoBH+xU1gETHfGhG2ahg6feDJXYYOeJckL5oNAhkUvJhCxNvv2fFOTeF4jDHof3EpszudZdUNDa51AWW+qxxpR3OUKInkCwsKJO3e+buicpXgDqZUfCHAtuxFDTOxDdLsFV0JFVg1UmYtIr1YXMfA30FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gijmh+rg; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="Fd6F1YzY"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ef2cb7d562so335181fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Aug 2024 08:46:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gijmh+rg"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7a9e25008aso8038666b.0;
+        Wed, 14 Aug 2024 08:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1723650396; x=1724255196; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UMvW5XN814MmHmeNdCsuQ+x/zBS9ZcHLiBHoPUEkIYk=;
-        b=Fd6F1YzY7RgsiEhc4a1ml1Rr2waWCADgGhCnIqbCpF5cO93cBaPpzW4nrkxK7Rllqi
-         m8iGbN9oxduu8REIlhm0oXvKqdTq6nRqp7FpN6smp/XWu8uHZEhYx0eiJ0yG1Mt942U4
-         KiyqDwt6Zpqun9b6SPRd05oiHq/lDbNunTeTc=
+        d=gmail.com; s=20230601; t=1723650995; x=1724255795; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xxsll+pVZRGn0FzujmorAmwoz7cMXghuBXxivoABDNU=;
+        b=gijmh+rgB+OvQz5EzsvzpN80mfysqvmfXNpcDUXvO++905EVaUuTyapiSgLJF3d549
+         9xPftLfA6pBtzL2CdzihqwzEZRvwHATQoxTxBVypGD137MX7FpdMTlNzvO3dPManDhix
+         GfgJ7xfgHTD+6ehm9bn7UvusR2MbWAOmvt1apHrIsbY1TyeCNn/CnACv8aKGwdPfghAR
+         eITVJ0hdLVVASmLaLR36FSI4SkLCio31QdCK+MoO+mK657tlWK8ODk+U/LTV0YxqZtLp
+         B0oxw3JXxFKevanPb5fz9UMhbX7sxzvwuhDajn8o9w5juLDGMV9Ktlze28QgeBLFV2wo
+         /hSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723650396; x=1724255196;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UMvW5XN814MmHmeNdCsuQ+x/zBS9ZcHLiBHoPUEkIYk=;
-        b=xRtyoTPsIagVKiC7ywt6wYKumWf6M2ePU8TATeeLQ6uhAmUFlihSEA/aZ9s6HivbX/
-         4v8jvg7MwTBESxD92RmPhNfX7UK0edUR+GnMn7nzPWBA+pUI+T3E6DvddzIn1JTL6iMf
-         nf3o+SPvcEqsbmHFAPH+LYhewwA8vkQPkHQ278Q5APeRFmacxps981djqV4aNBbnJTk3
-         Y3Ag3IywY5p1JKI028WLQAJ/IqzYAefkxlzM+9WWr2jgzp9k5269fiAzRYrM/tvqOb53
-         x/1vCKLWxT7QwZYmeiP8YDdo6aFNy8So4UVLj7Z9i52JEUcIq2TOmwlXY72/gD6bMG31
-         FAZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkAyayxaJV+5l4qz98yjNgnpdreMJC0Krttxf/6j2q2Fl+/R7XeeVOVpXXxkL1o9IeqSJaTFSjoYOx4/5zscv67xZkyhQgAmKE
-X-Gm-Message-State: AOJu0YxvclBCiI1FhUFnJ7J/kV0JB0W4/V36s9ji4PQK5GNBD8qAhlyo
-	afizcTRz1MXzh2ly2CoBEyQFe96/IBIY/Djxq0AYCbKQs/QVfvWRTscHsP8gcCE=
-X-Google-Smtp-Source: AGHT+IFAW+r4bsXhzgqn4nSPYnHoVTMgVTn+Fc+6nuodprTLSx0anVrp0sa8TsMaaN15SPWkigXMXg==
-X-Received: by 2002:a05:651c:b2c:b0:2f3:a854:78f6 with SMTP id 38308e7fff4ca-2f3aa1de7c6mr25666671fa.34.1723650396054;
-        Wed, 14 Aug 2024 08:46:36 -0700 (PDT)
-Received: from LQ3V64L9R2 ([80.208.222.2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429df78a7c6sm18550645e9.45.2024.08.14.08.46.34
+        d=1e100.net; s=20230601; t=1723650995; x=1724255795;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xxsll+pVZRGn0FzujmorAmwoz7cMXghuBXxivoABDNU=;
+        b=rPmWw9PN2UHWxf2Ilw3GaSZ69tM5eiM2sK5yMi6RSpTsN/D0WO/oWtR2B9FZvalX0m
+         3DF5U/sfD4E9LUCt3lBAA09pog6ipcoidMXUEwejNkpNMd/JpF8Iz4C/gw7NLsmsN+lA
+         QqovCYdbMCTZHGeFCTQ8liciCRd0MLmFKVJxlp2lK6c7PsJLcmeARrZ2stCw4Hhw99R1
+         CESJDbU4HZuCaUS1U+rHRk89wzVpDYB9u2ZRv9k49SaaBM+EyosuihfOLsN+2VYTE2X8
+         BF0J3qGV9bIkf57SMqDar/hm8XjQCmbd6megGzLnwkby6p7CVBW5znnFwuTaAS1A4EfK
+         wreA==
+X-Forwarded-Encrypted: i=1; AJvYcCXENEcYEioN+BNnTDqFG75qJrrW3tXOad9P8N+djnwX5SIwqIsj4GGvhrtyEAKeDFTnCsJjzaz/NZmXurw3zBId7Jebpoe2mHVrhob7FXehyN14uYHbptDK3u5hdzoqNPEi6I79qz0bMUi8/UzCMHoPPvjbjI/9BkxZn06K/oXB28B+Dig=
+X-Gm-Message-State: AOJu0YyaO7TKWSOOdsXTlEVlo/1YihcXSte+rM/ulAV+slewb4/EtQkC
+	TKXDCrVolk4RMqHsdlFbmYcjHMs057ek4WufXeDCL/Sc6dEoV5IO
+X-Google-Smtp-Source: AGHT+IHSIDF2o/ri01Axg1dKEB5B8X1t+NpBeJVpHYvhAjtWEIMFA65LKKgFjiSfXMFmfZS45OGHQw==
+X-Received: by 2002:a17:907:d3c4:b0:a80:f7a7:5e39 with SMTP id a640c23a62f3a-a8366c1fb14mr235005866b.3.1723650994273;
+        Wed, 14 Aug 2024 08:56:34 -0700 (PDT)
+Received: from localhost.localdomain ([83.168.79.145])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f411ae44sm188977966b.117.2024.08.14.08.56.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 08:46:35 -0700 (PDT)
-Date: Wed, 14 Aug 2024 16:46:33 +0100
-From: Joe Damato <jdamato@fastly.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Martin Karsten <mkarsten@uwaterloo.ca>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
-Message-ID: <ZrzRWU_39wpePVvg@LQ3V64L9R2>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
- <ZrqU3kYgL4-OI-qj@mini-arch>
- <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
- <Zrq8zCy1-mfArXka@mini-arch>
- <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
- <Zrrb8xkdIbhS7F58@mini-arch>
- <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
- <66bc21772c6bd_985bf294b0@willemb.c.googlers.com.notmuch>
- <Zry9AO5Im6rjW0jm@LQ3V64L9R2.home>
- <66bcc87d605_b1f942948@willemb.c.googlers.com.notmuch>
+        Wed, 14 Aug 2024 08:56:33 -0700 (PDT)
+From: Karol Przybylski <karprzy7@gmail.com>
+To: paolo.valente@unimore.it,
+	axboe@kernel.dk,
+	corbet@lwn.net
+Cc: Karol Przybylski <karprzy7@gmail.com>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: block: Fix grammar and spelling mistakes in bfq-iosched.rst
+Date: Wed, 14 Aug 2024 17:55:58 +0200
+Message-Id: <20240814155558.3672833-1-karprzy7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66bcc87d605_b1f942948@willemb.c.googlers.com.notmuch>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 14, 2024 at 11:08:45AM -0400, Willem de Bruijn wrote:
-> Joe Damato wrote:
+This patch corrects several grammar and spelling errors in the
+Documentation/block/bfq-iosched.rst file. These changes improve
+the clarity and readability of the documentation.
 
-[...]
+Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
+---
+ Documentation/block/bfq-iosched.rst | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-> > On Tue, Aug 13, 2024 at 11:16:07PM -0400, Willem de Bruijn wrote:
-> > Using less CPU to get comparable performance is strictly better, even if a
-> > system can theoretically support the increased CPU/power/cooling load.
-> 
-> If it is always a strict win yes. But falling back onto interrupts
-> with standard moderation will not match busy polling in all cases.
-> 
-> Different solutions for different workloads. No need to stack rank
-> them. My request is just to be explicit which design point this
-> chooses, and that the other design point (continuous busy polling) is
-> already addressed in Linux kernel busypolling.
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index df3a8a47f58c..a0ff0eb11e7f 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -9,7 +9,7 @@ controllers), BFQ's main features are:
+ - BFQ guarantees a high system and application responsiveness, and a
+   low latency for time-sensitive applications, such as audio or video
+   players;
+-- BFQ distributes bandwidth, and not just time, among processes or
++- BFQ distributes bandwidth, not just time, among processes or
+   groups (switching back to time distribution when needed to keep
+   throughput high).
+ 
+@@ -111,7 +111,7 @@ Higher speed for code-development tasks
+ 
+ If some additional workload happens to be executed in parallel, then
+ BFQ executes the I/O-related components of typical code-development
+-tasks (compilation, checkout, merge, ...) much more quickly than CFQ,
++tasks (compilation, checkout, merge, etc.) much more quickly than CFQ,
+ NOOP or DEADLINE.
+ 
+ High throughput
+@@ -127,9 +127,9 @@ Strong fairness, bandwidth and delay guarantees
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ BFQ distributes the device throughput, and not just the device time,
+-among I/O-bound applications in proportion their weights, with any
++among I/O-bound applications in proportion to their weights, with any
+ workload and regardless of the device parameters. From these bandwidth
+-guarantees, it is possible to compute tight per-I/O-request delay
++guarantees, it is possible to compute a tight per-I/O-request delay
+ guarantees by a simple formula. If not configured for strict service
+ guarantees, BFQ switches to time-based resource sharing (only) for
+ applications that would otherwise cause a throughput loss.
+@@ -199,7 +199,7 @@ plus a lot of code, are borrowed from CFQ.
+ 
+      - On flash-based storage with internal queueing of commands
+        (typically NCQ), device idling happens to be always detrimental
+-       for throughput. So, with these devices, BFQ performs idling
++       to throughput. So, with these devices, BFQ performs idling
+        only when strictly needed for service guarantees, i.e., for
+        guaranteeing low latency or fairness. In these cases, overall
+        throughput may be sub-optimal. No solution currently exists to
+@@ -212,7 +212,7 @@ plus a lot of code, are borrowed from CFQ.
+     and to reduce their latency. The most important action taken to
+     achieve this goal is to give to the queues associated with these
+     applications more than their fair share of the device
+-    throughput. For brevity, we call just "weight-raising" the whole
++    throughput. For brevity, we call it just "weight-raising" the whole
+     sets of actions taken by BFQ to privilege these queues. In
+     particular, BFQ provides a milder form of weight-raising for
+     interactive applications, and a stronger form for soft real-time
+@@ -231,7 +231,7 @@ plus a lot of code, are borrowed from CFQ.
+     responsive in detecting interleaved I/O (cooperating processes),
+     that it enables BFQ to achieve a high throughput, by queue
+     merging, even for queues for which CFQ needs a different
+-    mechanism, preemption, to get a high throughput. As such EQM is a
++    mechanism, preemption, to get a high throughput. As such, EQM is a
+     unified mechanism to achieve a high throughput with interleaved
+     I/O.
+ 
+@@ -254,7 +254,7 @@ plus a lot of code, are borrowed from CFQ.
+     - First, with any proportional-share scheduler, the maximum
+       deviation with respect to an ideal service is proportional to
+       the maximum budget (slice) assigned to queues. As a consequence,
+-      BFQ can keep this deviation tight not only because of the
++      BFQ can keep this deviation tight, not only because of the
+       accurate service of B-WF2Q+, but also because BFQ *does not*
+       need to assign a larger budget to a queue to let the queue
+       receive a higher fraction of the device throughput.
+@@ -327,7 +327,7 @@ applications. Unset this tunable if you need/want to control weights.
+ slice_idle
+ ----------
+ 
+-This parameter specifies how long BFQ should idle for next I/O
++This parameter specifies how long BFQ should idle for the next I/O
+ request, when certain sync BFQ queues become empty. By default
+ slice_idle is a non-zero value. Idling has a double purpose: boosting
+ throughput and making sure that the desired throughput distribution is
+@@ -365,7 +365,7 @@ terms of I/O-request dispatches. To guarantee that the actual service
+ order then corresponds to the dispatch order, the strict_guarantees
+ tunable must be set too.
+ 
+-There is an important flipside for idling: apart from the above cases
++There is an important flip side to idling: apart from the above cases
+ where it is beneficial also for throughput, idling can severely impact
+ throughput. One important case is random workload. Because of this
+ issue, BFQ tends to avoid idling as much as possible, when it is not
+@@ -475,7 +475,7 @@ max_budget
+ 
+ Maximum amount of service, measured in sectors, that can be provided
+ to a BFQ queue once it is set in service (of course within the limits
+-of the above timeout). According to what said in the description of
++of the above timeout). According to what was said in the description of
+ the algorithm, larger values increase the throughput in proportion to
+ the percentage of sequential I/O requests issued. The price of larger
+ values is that they coarsen the granularity of short-term bandwidth
+-- 
+2.34.1
 
-Sure, sounds good; we can fix that in the cover letter.
-
-Thanks for taking a look.
