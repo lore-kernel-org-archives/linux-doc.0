@@ -1,59 +1,59 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3083D552;
-	Wed, 14 Aug 2024 11:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A9D13D52A;
+	Wed, 14 Aug 2024 11:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723633891; cv=none; b=AL5K7vXNEAaca+MQd4L3qo3ftoze9ryEmyN4L9mr7BkMIGgrMPAmL9k9ip7v71xvb3tJW4u1PpAZuIRBZjJaJVLUfgDoOZmcdRt8KAPSRNY7e5fzml2w3NzIBECzU2TXDS8l5S5BDCsvUVYEtwF3of5hNpInihmqc2Gl+tVjVHE=
+	t=1723634428; cv=none; b=GB8OoAI1ONoEGs/3YTwXuzUAdJzcrgnlXcbcIIWuflY/qQRrzfc5jUVpHLGIIlBQl/uVrH+I3PQUSTQ4JrpWnL65MZfO+8PDSu9gVAdzsc9ljyh4ybvLiaDw1m7Vrl6rZUH70CDUIYjG99Gu1DYXpQyNZJitC/Qie80NRTScS4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723633891; c=relaxed/simple;
-	bh=6x+EwFgMlixsQabpUKBOp0rSA0BXSFVYfxNw3TXOwU4=;
+	s=arc-20240116; t=1723634428; c=relaxed/simple;
+	bh=P6xpCcqGGSAzh1jZ9OCoHS73J5OnrRr4pzamusPqh64=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VU8QIciHaUIsWGgGZc0yal8fWA/bmNs2498hRbB6W5xbBFGdvV1J61yAcYEEJZPyvFuPRz2qmMyPfcUXH5xL6YDkY5n1/dAGLlIrwNPIyQKn3Du9u8BIyIEC6VJ5PibOHHCGjvzlDhnWzh+rPO7fs+1GEun8bzevWBvel40Kays=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEdiwC6q; arc=none smtp.client-ip=209.85.218.44
+	 In-Reply-To:Content-Type; b=fu0/CUA8D/KHdpP0YG9Psd+D1NQZc9M8ioYgCq86M3FgnxBtO9VWmNlbEvbKF+oG1Gd62lrMtzPkJqfEqf77FAE52raNOGZbxrAp7MjYfVUD/kF8+fp6/hu185LvAmRY8JHAsQbpGnRn558HYiWQQqujBogbux+W/I/CWlTmv3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HV3UDUxa; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEdiwC6q"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a83597ce5beso121128766b.1;
-        Wed, 14 Aug 2024 04:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HV3UDUxa"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5a156557026so6796271a12.2;
+        Wed, 14 Aug 2024 04:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723633888; x=1724238688; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723634425; x=1724239225; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bd95t4QRiWzWEZTdTjQVQS44zRvwX6u9xVdH0F86DIg=;
-        b=PEdiwC6q3gP0c0EAte7By/ugLh9YwMmECEkKxkx2bYFhn9OzDGQgUlJ1OGYcCzZyso
-         4bgRP869DPepWF737h9xGRbwkIsAPQaf0nBMcE2wColnmeKDOtaHZZ2REYq0mX+/4i4E
-         fEYfKeY+5hE7KFgQdlvrJdh7q7l9CtHkNajGAQY/IOEOXKPI/5p31mw436IBDTe4Mij8
-         3wJgA67GczjhoQ3i5CiSEJFb4Vs/DNwg/Ouvbwmw0z8IXr3eaXceuav7On9ibd7XEWqy
-         lJYWbzjkXy+mug/95MEBZd9JseYRNaGZlJ8IVd6JbtxImQmQjN3rUrMBD+aQ1XDhDGAU
-         gP0w==
+        bh=Tb6J3EBLjoNeA2OGyKq3VDoDanL15VcTO4gE9p8DPvA=;
+        b=HV3UDUxa/a2EDAkE63bge4rKCrQfoCzi5TURnIwwth3ob7yhHBQ1Dhi7zv9kVI+kat
+         pwp1m3Y71i5nLS/RjsZcJBLgHvWIY3WRY1fSJ2fbxDRHG6bq1PGS+w9JBdU3IfZk+wJ9
+         4Sihj3sMTT504oRA2v8EE+WUswfa3VFx5fOP0RowbS2bm1NicItOpj0/bMX+xZL8EO9U
+         WJ/1JtG0QsU3KhAD+ZoeudKINjuR3Js9K7idf6QdPl51iv+E/wls/CZ71Ja5e6/PLFMb
+         GU94Qdoz2EDNx9d3JMDAumUoQ1g3o130bPSFX2S/p7lvkFwxfQDhVH/d2uRVQ8o2etqH
+         hxaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723633888; x=1724238688;
+        d=1e100.net; s=20230601; t=1723634425; x=1724239225;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bd95t4QRiWzWEZTdTjQVQS44zRvwX6u9xVdH0F86DIg=;
-        b=Mntokq75MCvjS7wCbqPnIkCDo673wUD+CBKSLCVY6uTWBqhzQhMFZZW0ElIhXLCxPX
-         D4hS3tSwjyHXK56Wdel1fHs+rhnGgbtkwlTvvOJejNn3f/qLsBqXCeVppklVL2EKJH5C
-         UjgL0jBeKp4zEwsCKKPyBN9jIayFNwEqJ9LxvrXZ1UVfNKRAg7k8o2DemC8l9sLukhp2
-         6fLY4mSOeFhfjHDspjlQ2BGyoXHw0Ws5NUHXyL5oqo9jF4DvIOWQbQ5TKugiuykLXvoN
-         lvbGm91+mEqDUqyeih/yJbqEksYtjEuzFGFxP0XWBd0l9/0e301ZyrhXnGZOvhMRpOAj
-         UX8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUIqItCrPOaDhWPTRtgUpjcvH3pOS6RdY359rG9JUomJShmKgFeWPbZH5u+4UdU6h+wb6hFJ2hiWRmDshFfu3KXFUKYPqsYgt2SVHHW/ALJSk32t6xeYfNZR8sQKLZi7bvzuj/c4dvd
-X-Gm-Message-State: AOJu0YygTPddTZXGZbjU8iXlNSYGmH2gc4TKmgSxgJeDdfNBFClFVViW
-	9BjjZCLxTVHh2SUqrNjZ9HoNGcr/o86ifeqB5xC1RmqIv+3dp/UA
-X-Google-Smtp-Source: AGHT+IGBU4oEgLhtMtUTy0jy1FrOvevihP2RUEWR89Y1SrW/4ky4uCUP/QrzhHHHWRNNQ88+2LKuiQ==
-X-Received: by 2002:a17:907:e257:b0:a7c:d284:4f1d with SMTP id a640c23a62f3a-a836afcbf78mr152560766b.28.1723633887604;
-        Wed, 14 Aug 2024 04:11:27 -0700 (PDT)
+        bh=Tb6J3EBLjoNeA2OGyKq3VDoDanL15VcTO4gE9p8DPvA=;
+        b=Y7DXKuoo8RjJ/FeDf10e3/n7L5dVmnRG8oSkYJJOJhqeKEz7eiMFoiRqbUjNqoEgej
+         6Ol0QPa1GQjwMtYdQfGx+Cs7sajo7uJD6pPW8nuFlfzqZ9W+kyPtLo62CChQZQKDOZ4O
+         iM5BFTcXE5BwYXAnoPcex3E5vDGm2DIrAmsxvW4ZMfquPLgn5GtdCKDYzv9Y7a/0KNAU
+         gP6QpMaxycvN1cc9MuZX9w8EjU6jbaJa8j4FCwtaccEGPYN1c0WQ89/+F1cRtPu27RZ3
+         Wsw+I3McCni7yuzirBbi8MMuD/Hhcg4+ZpsKduuomFQpbuj6sRXRvw8jNop+8BLoqEII
+         e1tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWP9B94LhCp7znvVWOKr9dXCIiK1iGd/jecWmr/pch3JSp3GOfXbegLlembTb8zLcvnLTWojT0VWwSnrAwS0WaeaJVSMhM0Ui4fWUsMLFPflz4qx6JicBaLssl+5dztU2lx7ELHqViW
+X-Gm-Message-State: AOJu0YyRRBGai2sNYyKnASad3WgVe5CMzqzyZANxsj7q1fgkTEGgPGrP
+	CcyGLmHvd+2Xqe9FdsGD9FZisn58yEQ4F01XwKLhRjONrlAlMR4Q
+X-Google-Smtp-Source: AGHT+IG0voeX5aKQ/WR3VH/GwKdslrggRIzEhGXJGAhCTIBzrdOtWZO74hDQHqf+ohDM30nvGvM5yQ==
+X-Received: by 2002:a17:907:e210:b0:a7a:a4be:2f95 with SMTP id a640c23a62f3a-a8366c1fbaemr201841066b.5.1723634424437;
+        Wed, 14 Aug 2024 04:20:24 -0700 (PDT)
 Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::4:61b7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f4184ec9sm159151466b.219.2024.08.14.04.11.27
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f411bb3csm160072166b.116.2024.08.14.04.20.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 04:11:27 -0700 (PDT)
-Message-ID: <925804e4-0b33-45eb-905d-e00f67192828@gmail.com>
-Date: Wed, 14 Aug 2024 12:11:26 +0100
+        Wed, 14 Aug 2024 04:20:24 -0700 (PDT)
+Message-ID: <59725862-f4fc-456c-bafb-cbd302777881@gmail.com>
+Date: Wed, 14 Aug 2024 12:20:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,16 +71,16 @@ Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
 References: <20240813120328.1275952-1-usamaarif642@gmail.com>
  <20240813120328.1275952-5-usamaarif642@gmail.com>
- <CAGsJ_4x+5fiCoWv4G0NsYq+aJRqZsrCEHO_DF+CnNFdqx0VgMQ@mail.gmail.com>
+ <CAGsJ_4ySxmhQCXT5Nw09tdGJA+j9=ZEMEuPa6jgX__tM+EMqXw@mail.gmail.com>
 Content-Language: en-US
 From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <CAGsJ_4x+5fiCoWv4G0NsYq+aJRqZsrCEHO_DF+CnNFdqx0VgMQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4ySxmhQCXT5Nw09tdGJA+j9=ZEMEuPa6jgX__tM+EMqXw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 14/08/2024 11:44, Barry Song wrote:
+On 14/08/2024 12:10, Barry Song wrote:
 > On Wed, Aug 14, 2024 at 12:03 AM Usama Arif <usamaarif642@gmail.com> wrote:
 >>
 >> Currently folio->_deferred_list is used to keep track of
@@ -198,21 +198,25 @@ On 14/08/2024 11:44, Barry Song wrote:
 >> +               folio_set_partially_mapped(folio);
 >> +       else
 >> +               folio_clear_partially_mapped(folio);
+>>         if (list_empty(&folio->_deferred_list)) {
+>> -               if (folio_test_pmd_mappable(folio))
+>> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>> +               if (partially_mapped) {
+>> +                       if (folio_test_pmd_mappable(folio))
+>> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
 > 
-> Hi Usama,
+> This code completely broke MTHP_STAT_SPLIT_DEFERRED for PMD_ORDER. It
+> added the folio to the deferred_list as entirely_mapped
+> (partially_mapped == false).
+> However, when partially_mapped becomes true, there's no opportunity to
+> add it again
+> as it has been there on the list. Are you consistently seeing the counter for
+> PMD_ORDER as 0?
 > 
-> Do we need this? When can a partially_mapped folio on deferred_list become
-> non-partially-mapped and need a clear? I understand transferring from
-> entirely_map
-> to partially_mapped is a one way process? partially_mapped folios can't go back
-> to entirely_mapped?
-> 
-Hi Barry,
 
-deferred_split_folio function is called in 3 places after this series, at fault, collapse and partial mapping. partial mapping can only happen after fault/collapse, and we have FOLIO_FLAG_FALSE(partially_mapped), i.e. flag initialized to false, so technically its not needed. A partially_mapped folio on deferred list wont become non-partially mapped. 
-
-I just did it as a precaution if someone ever changes the kernel and calls deferred_split_folio with partially_mapped set to false after it had been true. The function arguments of deferred_split_folio make it seem that passing partially_mapped=false as an argument would clear it, which is why I cleared it as well. I could change the patch to something like below if it makes things better? i.e. add a comment at the top of the function:
-
+Ah I see it, this should fix it?
 
 -void deferred_split_folio(struct folio *folio)
 +/* partially_mapped=false won't clear PG_partially_mapped folio flag */
@@ -220,7 +224,7 @@ I just did it as a precaution if someone ever changes the kernel and calls defer
  {
         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
  #ifdef CONFIG_MEMCG
-@@ -3485,14 +3488,15 @@ void deferred_split_folio(struct folio *folio)
+@@ -3485,14 +3488,14 @@ void deferred_split_folio(struct folio *folio)
         if (folio_test_swapcache(folio))
                 return;
  
@@ -228,32 +232,15 @@ I just did it as a precaution if someone ever changes the kernel and calls defer
 -               return;
 -
         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
-+       if (partially_mapped)
+-       if (list_empty(&folio->_deferred_list)) {
++       if (partially_mapped) {
 +               folio_set_partially_mapped(folio);
-        if (list_empty(&folio->_deferred_list)) {
--               if (folio_test_pmd_mappable(folio))
--                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
--               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
-+               if (partially_mapped) {
-+                       if (folio_test_pmd_mappable(folio))
-+                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-+                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
-+               }
+                if (folio_test_pmd_mappable(folio))
+                        count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+                count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
++       }
++       if (list_empty(&folio->_deferred_list)) {
                 list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
                 ds_queue->split_queue_len++;
  #ifdef CONFIG_MEMCG
 
-
-> I am trying to rebase my NR_SPLIT_DEFERRED counter on top of your
-> work, but this "clear" makes that job quite tricky. as I am not sure
-> if this patch
-> is going to clear the partially_mapped flag for folios on deferred_list.
-> 
-> Otherwise, I can simply do the below whenever folio is leaving deferred_list
-> 
->         ds_queue->split_queue_len--;
->         list_del_init(&folio->_deferred_list);
->         if (folio_test_clear_partially_mapped(folio))
->                 mod_mthp_stat(folio_order(folio),
-> MTHP_STAT_NR_SPLIT_DEFERRED, -1);
-> 
