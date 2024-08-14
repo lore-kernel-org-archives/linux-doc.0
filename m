@@ -1,59 +1,59 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36C19FA86;
-	Wed, 14 Aug 2024 12:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062EB1B29C3;
+	Wed, 14 Aug 2024 14:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723639023; cv=none; b=ZqlwW4+5Bx4bTsLdw4gMWFFXsNMcA73lOWGzxgoQ/rxjmRT28n7bcBvWubKhx4CiJfuZe9kst4CllHS3QNRigREtukiq1UN6W/3S80y03bqBMftVd6MuZluf+tbizDNcclstlAj9QhCO59xcS7f0/40/8PGrtwSTmw/K0D/OjBE=
+	t=1723644711; cv=none; b=qObsNo0u5cswj9biRf+QBEgvk1Y6DNHNFKLC65kuUgOjcez4VRoJ8Ghtc5k4SmnJF53WQGPxXjEoXHKjq2laTfLjsQK85Szh9yhaPK4y2QzKiC+Edpa6n3katPU4HZbDBq/i9rdE+/JB9FF6Jsk/jVPqMqbgZjxYnjxy8Ebgu+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723639023; c=relaxed/simple;
-	bh=VKLir/XLcvrzdiQLW/cgPDn5nr9NUrhrnjazWL+94vc=;
+	s=arc-20240116; t=1723644711; c=relaxed/simple;
+	bh=ufkTbXrNRde7ku9ILWA6f0z/jzzMRkyg14KCdQcjT34=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bmWPs9ofDIV1MrMfEG1Nz6SsDFul/OLvY7R9IQVwTAGc/o2KddmtOoWxaQd2M1lkrddxgmjyPwEkj+rCNQdUPS8avjStFsvq6jLcm9iJMTfCXPpTAjp6uPYnHyl4Mbbgk1NTsc5HbIS69tLY8uNAEnylkmr8zM1QIp9I9oEY/cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WTsLfkKJ; arc=none smtp.client-ip=209.85.208.52
+	 In-Reply-To:Content-Type; b=DjuclYS0UqIp6lWBJoIShHb4i4dLMz7mxs4p5ANOUlEfEQ976UuY2lm3zKiQ4XkCkXDOv1WfbOvjV97WLYNN/D80K5zq/02I8WAoKu9p3dNIM2GH1Cke/8XqLWyeEsm8VH/W2qrE7xlzCX1cs4joTG2/nMDUYBmDl5L9doVi0R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k+i3Jtcu; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTsLfkKJ"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5af326eddb2so1392990a12.1;
-        Wed, 14 Aug 2024 05:37:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+i3Jtcu"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a7aa086b077so620306866b.0;
+        Wed, 14 Aug 2024 07:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723639019; x=1724243819; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723644708; x=1724249508; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RZGRk6bxM+/eTZHcLB9jghVV2vIOFeDkAkCxLic2QXc=;
-        b=WTsLfkKJJXKVu5bWsGOhbC7WyzuGS2Sl7IrZM9WSkqA6jcZvZ/YHVW2i32IMEXZLOm
-         IKhdkWHgOps2aMGDTIOirxR/CYgW/x3OeNVxQg3vFIuA7IuhR3SG8B0wFOtYLkHHM8eW
-         r8VE5rltPN6kd/lARVnOCu30JpVdTxPY23wQ1bwrp850XW3kodNRtrqz8kctp2CWaTB7
-         bAi/gnPKMNHhYPUHKZVHakDHZkl2351wrmQEdlWFTxX2RKUV6CSz0mnNIjI8a1Jl4quc
-         ETEKuGoE8oyNMq17rM223heyqG9FDa+FAyFxm5Z+VLc212SSDcj3S76rqwkHUhcMGcAh
-         QILw==
+        bh=I4lEcDVn0ScVYDJNBB09gtNeZOhx/qNGY5FB/NSTnIE=;
+        b=k+i3JtcuFWAPkBWE1dNXlsP4TKNuCj/fmzT6jQB47dBcYHmlLHSTyNt1gB3pXDTa27
+         3VpaRWAAGYb5CzNKer+/MJJk8D+VvskdzE+0ck4Yn7OfCT/ZS+Z0owISf5DSmqMalIlA
+         RGb+6a10QkLr0oWnuxrcB5MOW/SJnkTVqgOEdQz4W+zKuiT4HJPrhCKXFKpZcFRRXO4F
+         Q+1dlLm5vi39+LyiOPEiYLsOi8Te1POlX510ncbOoetM4Z5ZD1dB9cdNFDxBXC0PR3uu
+         esA5EjkUcH/j5ZXeN4h2EpyMMIFWSHkVYjVbXX0Aqoy10Fzc++pKsixVzr4cPWSFRttL
+         JmYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723639019; x=1724243819;
+        d=1e100.net; s=20230601; t=1723644708; x=1724249508;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RZGRk6bxM+/eTZHcLB9jghVV2vIOFeDkAkCxLic2QXc=;
-        b=V+Uf1xuxTp2vIo8TrZUUkd5aMwNyZE0El9eYft4JQ4rqRtYDISF8V/FZBAiyi39TmQ
-         LtZdlL1DokBWXwZHRDB/b2oq+s5fVkZlcroEOFAb1YvUJ4S4qZp2MYUcOeCPrh23kZoT
-         n176zp3K8Yn0D4MTEf3Yajx/f+Q6CTCrxIXrUttc41jyZLAdhwSRt3uHZMooZaQ2lFrs
-         AqOnxScvh1E/b1SkTC4cj0i1W5dmnJsrK5w9T9waSir8PLC7SpsEAQqVZrsVqAZAsS0p
-         vTSMj3166qHtixuoKcBOR2bCVYetY2C566o6eZlS44uCRLATfpBNGG52OOXh6uzQ1PF+
-         mj0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVnKDWHq1ZjeU5oig+KMmRMdB8MKHkKSHU3Tbd5MZFoapPFbY150KqQEJHBM1HpqfNaW58VxR6OWRxy7d8X+cEVz9Nl5osLxqRJjs+vV9FsP/nMFIEQVYWdHDMFpgzErv2OREsA5AqL
-X-Gm-Message-State: AOJu0YzVQKkbPzt96vYtFMtYMZ6ZHkfYB+otTNuNvkAVvQ20vC4yGaAU
-	joEj2Crm1gyPrWRDBJ29FXX5SfW072ZMdUSX9oyk4UntEqCNOK0U
-X-Google-Smtp-Source: AGHT+IEnIGFZX9kzzbutJ1qxerJXhFCeqJ8JjjG8kOisUdAOlgit3F2cBktHmUj3eeqh8oX1Tfi/7w==
-X-Received: by 2002:a17:907:96ab:b0:a72:5967:b34 with SMTP id a640c23a62f3a-a836afcbfc2mr170367866b.22.1723639019054;
-        Wed, 14 Aug 2024 05:36:59 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::4:61b7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f4181a4esm167043666b.193.2024.08.14.05.36.58
+        bh=I4lEcDVn0ScVYDJNBB09gtNeZOhx/qNGY5FB/NSTnIE=;
+        b=EqQJfVzgjeHa4jj0W7W7K92Qqa8m5aID4omIDRdTeT0inlY8eFPfNHLTaGsSDXuUwM
+         LDbj2SNTuWV/Zgr1A1i+kC8u03F4vv5H9kw2uQxuT5PJS1S4Kpm15wMi45g0xWJfW+1M
+         jiFPgcLl9/aYzH7OweRdW4F9Tv1WcYoDKjPtqjTz4mUV6SeA/EjDYP3qLX24xQTEVkur
+         VwCFMNooWPKXyjsumYxRUusI5H0yOF4GECXkSQUCxTdOpsupYVcutZUBZjgZjNqPyZH+
+         KdxaJWxcedmdKXSYHG0ODORkkWRzVsHF8hPQOHNuTE7b70U6ZVvsqJELEpwqULINKZOc
+         5C4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVuHGXOb69ekfbkyMt4BMITQ6M2wblrIhzK6UNqBPsQpy1/JlEO1edvV+bt+MqzMx1zvdn1cmEHHnc/u+8Y/V+TwBS7xKvjNSQpeePRyW5BkpTOLsizmCA3l92xAOOt3Kktepejvfou49nsGRt+NsK5k4E3IPvsMsp5AEeDmexGTRlLH/2179xI2y6bg0H4SBZMjWxB4wba1NJ3seU4nZhCv9JFWhLt+W3YbpM0CeL+bkIeYJh+4vkC6EpCJvrdTfo66Cg3Ay659mm2o99UeOABG1mL/wJgC1T4wSxWyOjRRz82SCUjkTgeplCQJasO7G9hZPtFyULhguJM7FEKfiASuFqa7ANxrUtjF88KYAJBt6aFgBCy2/EITCPDS012RWL4qsIrVHHzD99isaR3eASVR3TAona0uTum6zUgXNf2R9ojqeXd/nX47QWYiIAT61YX1Kn0lF1lTQpFUOHxMafmGpWWWtM4v4zfMWFakDwYyGhZOOh6j9TilQ7cOz4Nn5mWuSTEcw==
+X-Gm-Message-State: AOJu0YzWKJCPa8GYS6XQv8CMqLbGbS96nzkdj8HEsN83lGySVl4rdnU+
+	5eJLmpQk/84ucO46NzoHWiFoSoXd7XN04wAikDYb6QinAAruP8l3
+X-Google-Smtp-Source: AGHT+IG9Udegnx6quFDnRlNaUIR9wp347Gf23kUw37RLzMtyl8o18emPPEx2i7tEi7aMsgFUqg2ZVw==
+X-Received: by 2002:a17:907:e6a9:b0:a7a:a5ae:11b7 with SMTP id a640c23a62f3a-a83670893e1mr182918366b.49.1723644707787;
+        Wed, 14 Aug 2024 07:11:47 -0700 (PDT)
+Received: from [192.168.42.53] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f3f4592esm177630266b.26.2024.08.14.07.11.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 05:36:58 -0700 (PDT)
-Message-ID: <88d411c5-6d66-4d41-ae86-e0f943e5fb91@gmail.com>
-Date: Wed, 14 Aug 2024 13:36:58 +0100
+        Wed, 14 Aug 2024 07:11:47 -0700 (PDT)
+Message-ID: <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
+Date: Wed, 14 Aug 2024 15:12:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,259 +61,228 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
- folios
-To: Barry Song <baohua@kernel.org>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
- riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
- yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
- <20240813120328.1275952-5-usamaarif642@gmail.com>
- <CAGsJ_4ySxmhQCXT5Nw09tdGJA+j9=ZEMEuPa6jgX__tM+EMqXw@mail.gmail.com>
- <59725862-f4fc-456c-bafb-cbd302777881@gmail.com>
- <CAGsJ_4zT0R_QcHCvPW7EozY86Skbo_3BtgcJz_fd-tipXZJxTQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240813211317.3381180-7-almasrymina@google.com>
 Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <CAGsJ_4zT0R_QcHCvPW7EozY86Skbo_3BtgcJz_fd-tipXZJxTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240813211317.3381180-7-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 14/08/2024 12:23, Barry Song wrote:
-> On Wed, Aug 14, 2024 at 11:20 PM Usama Arif <usamaarif642@gmail.com> wrote:
->>
->>
->>
->> On 14/08/2024 12:10, Barry Song wrote:
->>> On Wed, Aug 14, 2024 at 12:03 AM Usama Arif <usamaarif642@gmail.com> wrote:
->>>>
->>>> Currently folio->_deferred_list is used to keep track of
->>>> partially_mapped folios that are going to be split under memory
->>>> pressure. In the next patch, all THPs that are faulted in and collapsed
->>>> by khugepaged are also going to be tracked using _deferred_list.
->>>>
->>>> This patch introduces a pageflag to be able to distinguish between
->>>> partially mapped folios and others in the deferred_list at split time in
->>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
->>>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
->>>> possible to distinguish between partially mapped folios and others in
->>>> deferred_split_scan.
->>>>
->>>> Eventhough it introduces an extra flag to track if the folio is
->>>> partially mapped, there is no functional change intended with this
->>>> patch and the flag is not useful in this patch itself, it will
->>>> become useful in the next patch when _deferred_list has non partially
->>>> mapped folios.
->>>>
->>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>>> ---
->>>>  include/linux/huge_mm.h    |  4 ++--
->>>>  include/linux/page-flags.h |  3 +++
->>>>  mm/huge_memory.c           | 21 +++++++++++++--------
->>>>  mm/hugetlb.c               |  1 +
->>>>  mm/internal.h              |  4 +++-
->>>>  mm/memcontrol.c            |  3 ++-
->>>>  mm/migrate.c               |  3 ++-
->>>>  mm/page_alloc.c            |  5 +++--
->>>>  mm/rmap.c                  |  3 ++-
->>>>  mm/vmscan.c                |  3 ++-
->>>>  10 files changed, 33 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->>>> index 4c32058cacfe..969f11f360d2 100644
->>>> --- a/include/linux/huge_mm.h
->>>> +++ b/include/linux/huge_mm.h
->>>> @@ -321,7 +321,7 @@ static inline int split_huge_page(struct page *page)
->>>>  {
->>>>         return split_huge_page_to_list_to_order(page, NULL, 0);
->>>>  }
->>>> -void deferred_split_folio(struct folio *folio);
->>>> +void deferred_split_folio(struct folio *folio, bool partially_mapped);
->>>>
->>>>  void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
->>>>                 unsigned long address, bool freeze, struct folio *folio);
->>>> @@ -495,7 +495,7 @@ static inline int split_huge_page(struct page *page)
->>>>  {
->>>>         return 0;
->>>>  }
->>>> -static inline void deferred_split_folio(struct folio *folio) {}
->>>> +static inline void deferred_split_folio(struct folio *folio, bool partially_mapped) {}
->>>>  #define split_huge_pmd(__vma, __pmd, __address)        \
->>>>         do { } while (0)
->>>>
->>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
->>>> index a0a29bd092f8..cecc1bad7910 100644
->>>> --- a/include/linux/page-flags.h
->>>> +++ b/include/linux/page-flags.h
->>>> @@ -182,6 +182,7 @@ enum pageflags {
->>>>         /* At least one page in this folio has the hwpoison flag set */
->>>>         PG_has_hwpoisoned = PG_active,
->>>>         PG_large_rmappable = PG_workingset, /* anon or file-backed */
->>>> +       PG_partially_mapped, /* was identified to be partially mapped */
->>>>  };
->>>>
->>>>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
->>>> @@ -861,8 +862,10 @@ static inline void ClearPageCompound(struct page *page)
->>>>         ClearPageHead(page);
->>>>  }
->>>>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
->>>> +FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
->>>>  #else
->>>>  FOLIO_FLAG_FALSE(large_rmappable)
->>>> +FOLIO_FLAG_FALSE(partially_mapped)
->>>>  #endif
->>>>
->>>>  #define PG_head_mask ((1UL << PG_head))
->>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>>> index 6df0e9f4f56c..c024ab0f745c 100644
->>>> --- a/mm/huge_memory.c
->>>> +++ b/mm/huge_memory.c
->>>> @@ -3397,6 +3397,7 @@ int split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
->>>>                          * page_deferred_list.
->>>>                          */
->>>>                         list_del_init(&folio->_deferred_list);
->>>> +                       folio_clear_partially_mapped(folio);
->>>>                 }
->>>>                 spin_unlock(&ds_queue->split_queue_lock);
->>>>                 if (mapping) {
->>>> @@ -3453,11 +3454,12 @@ void __folio_undo_large_rmappable(struct folio *folio)
->>>>         if (!list_empty(&folio->_deferred_list)) {
->>>>                 ds_queue->split_queue_len--;
->>>>                 list_del_init(&folio->_deferred_list);
->>>> +               folio_clear_partially_mapped(folio);
->>>>         }
->>>>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
->>>>  }
->>>>
->>>> -void deferred_split_folio(struct folio *folio)
->>>> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
->>>>  {
->>>>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
->>>>  #ifdef CONFIG_MEMCG
->>>> @@ -3485,14 +3487,17 @@ void deferred_split_folio(struct folio *folio)
->>>>         if (folio_test_swapcache(folio))
->>>>                 return;
->>>>
->>>> -       if (!list_empty(&folio->_deferred_list))
->>>> -               return;
->>>> -
->>>>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
->>>> +       if (partially_mapped)
->>>> +               folio_set_partially_mapped(folio);
->>>> +       else
->>>> +               folio_clear_partially_mapped(folio);
->>>>         if (list_empty(&folio->_deferred_list)) {
->>>> -               if (folio_test_pmd_mappable(folio))
->>>> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
->>>> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
->>>> +               if (partially_mapped) {
->>>> +                       if (folio_test_pmd_mappable(folio))
->>>> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
->>>> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
->>>
->>> This code completely broke MTHP_STAT_SPLIT_DEFERRED for PMD_ORDER. It
->>> added the folio to the deferred_list as entirely_mapped
->>> (partially_mapped == false).
->>> However, when partially_mapped becomes true, there's no opportunity to
->>> add it again
->>> as it has been there on the list. Are you consistently seeing the counter for
->>> PMD_ORDER as 0?
->>>
->>
->> Ah I see it, this should fix it?
->>
->> -void deferred_split_folio(struct folio *folio)
->> +/* partially_mapped=false won't clear PG_partially_mapped folio flag */
->> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
->>  {
->>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
->>  #ifdef CONFIG_MEMCG
->> @@ -3485,14 +3488,14 @@ void deferred_split_folio(struct folio *folio)
->>         if (folio_test_swapcache(folio))
->>                 return;
->>
->> -       if (!list_empty(&folio->_deferred_list))
->> -               return;
->> -
->>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
->> -       if (list_empty(&folio->_deferred_list)) {
->> +       if (partially_mapped) {
->> +               folio_set_partially_mapped(folio);
->>                 if (folio_test_pmd_mappable(folio))
->>                         count_vm_event(THP_DEFERRED_SPLIT_PAGE);
->>                 count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
->> +       }
->> +       if (list_empty(&folio->_deferred_list)) {
->>                 list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
->>                 ds_queue->split_queue_len++;
->>  #ifdef CONFIG_MEMCG
->>
+On 8/13/24 22:13, Mina Almasry wrote:
+> Implement a memory provider that allocates dmabuf devmem in the form of
+> net_iov.
 > 
-> not enough. as deferred_split_folio(true) won't be called if folio has been
-> deferred_list in __folio_remove_rmap():
+> The provider receives a reference to the struct netdev_dmabuf_binding
+> via the pool->mp_priv pointer. The driver needs to set this pointer for
+> the provider in the net_iov.
 > 
->         if (partially_mapped && folio_test_anon(folio) &&
->             list_empty(&folio->_deferred_list))
->                 deferred_split_folio(folio, true);
+> The provider obtains a reference on the netdev_dmabuf_binding which
+> guarantees the binding and the underlying mapping remains alive until
+> the provider is destroyed.
 > 
-> so you will still see 0.
+> Usage of PP_FLAG_DMA_MAP is required for this memory provide such that
+> the page_pool can provide the driver with the dma-addrs of the devmem.
 > 
+> Support for PP_FLAG_DMA_SYNC_DEV is omitted for simplicity & p.order !=
+> 0.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+> 
+> ---
+> 
+> v19:
+> - Add PP_FLAG_ALLOW_UNREADABLE_NETMEM flag. It serves 2 purposes, (a)
+>    it guards drivers that don't support unreadable netmem (net_iov
+>    backed) from accidentally getting exposed to it, and (b) drivers that
+>    wish to create header pools can unset it for that pool to force
+>    readable netmem.
+> - Add page_pool_check_memory_provider, which verifies that the driver
+>    has created a page_pool with the expected configuration. This is used
+>    to report to the user if the mp configuration succeeded, and also
+>    verify that the driver is doing the right thing.
+> - Don't reset niov->dma_addr on allocation/free.
+> 
+> v17:
+> - Use ASSERT_RTNL (Jakub)
+> 
+> v16:
+> - Add DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked()), to catch cases if
+>    page_pool_init without rtnl_locking when the queue is provided. In
+>    this case, the queue configuration may be changed while we're initing
+>    the page_pool, which could be a race.
+> 
+> v13:
+> - Return on warning (Pavel).
+> - Fixed pool->recycle_stats not being freed on error (Pavel).
+> - Applied reviewed-by from Pavel.
+> 
+> v11:
+> - Rebase to not use the ops. (Christoph)
+> 
+> v8:
+> - Use skb_frag_size instead of frag->bv_len to fix patch-by-patch build
+>    error
+> 
+> v6:
+> - refactor new memory provider functions into net/core/devmem.c (Pavel)
+> 
+> v2:
+> - Disable devmem for p.order != 0
+> 
+> v1:
+> - static_branch check in page_is_page_pool_iov() (Willem & Paolo).
+> - PP_DEVMEM -> PP_IOV (David).
+> - Require PP_FLAG_DMA_MAP (Jakub).
+> 
+...
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index 301f4250ca82..2f2a7f4dee4c 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -17,6 +17,7 @@
+>   #include <linux/genalloc.h>
+>   #include <linux/dma-buf.h>
+>   #include <net/devmem.h>
+> +#include <net/mp_dmabuf_devmem.h>
+>   #include <net/netdev_queues.h>
+>   
+>   #include "page_pool_priv.h"
+> @@ -153,6 +154,10 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+>   	if (err)
+>   		goto err_xa_erase;
+>   
+> +	err = page_pool_check_memory_provider(dev, rxq, binding);
 
-ah yes, Thanks.
+Frankly, I pretty much don't like it.
 
-So below diff over the current v3 series should work for all cases:
+1. We do it after reconfiguring the queue just to fail and reconfigure
+it again.
+
+2. It should be a part of the common path like netdev_rx_queue_restart(),
+not specific to devmem TCP.
+
+These two can be fixed by moving the check into
+netdev_rx_queue_restart() just after ->ndo_queue_mem_alloc, assuming
+that the callback where we init page pools.
+
+3. That implicit check gives me bad feeling, instead of just getting
+direct feedback from the driver, either it's a flag or an error
+returned, we have to try to figure what exactly the driver did, with
+a high chance this inference will fail us at some point.
+
+And page_pool_check_memory_provider() is not that straightforward,
+it doesn't walk through pools of a queue. Not looking too deep,
+but it seems like the nested loop can be moved out with the same
+effect, so it first looks for a pool in the device and the follows
+with the bound_rxqs. And seems the bound_rxqs check would always turn
+true, you set the binding into the map in
+net_devmem_bind_dmabuf_to_queue() before the restart and it'll be there
+after restart for page_pool_check_memory_provider(). Maybe I missed
+something, but it's not super clear.
+
+4. And the last thing Jakub mentioned is that we need to be prepared
+to expose a flag to the userspace for whether a queue supports
+netiov. Not really doable in a sane manner with such implicit
+post configuration checks.
+
+And that brings us back to the first approach I mentioned, where
+we have a flag in the queue structure, drivers set it, and
+netdev_rx_queue_restart() checks it before any callback. That's
+where the thread with Jakub stopped, and it reads like at least
+he's not against the idea.
 
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index b4d72479330d..482e3ab60911 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3483,6 +3483,7 @@ void __folio_undo_large_rmappable(struct folio *folio)
-        spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
- }
- 
-+/* partially_mapped=false won't clear PG_partially_mapped folio flag */
- void deferred_split_folio(struct folio *folio, bool partially_mapped)
- {
-        struct deferred_split *ds_queue = get_deferred_split_queue(folio);
-@@ -3515,16 +3516,16 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
-                return;
- 
-        spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
--       if (partially_mapped)
-+       if (partially_mapped) {
-                folio_set_partially_mapped(folio);
--       else
--               folio_clear_partially_mapped(folio);
-+               if (folio_test_pmd_mappable(folio))
-+                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-+               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
-+       } else {
-+               /* partially mapped folios cannont become partially unmapped */
-+               VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
-+       }
-        if (list_empty(&folio->_deferred_list)) {
--               if (partially_mapped) {
--                       if (folio_test_pmd_mappable(folio))
--                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
--                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
--               }
-                list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
-                ds_queue->split_queue_len++;
- #ifdef CONFIG_MEMCG
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 9ad558c2bad0..4c330635aa4e 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1578,7 +1578,7 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
-         * Check partially_mapped first to ensure it is a large folio.
-         */
-        if (partially_mapped && folio_test_anon(folio) &&
--           list_empty(&folio->_deferred_list))
-+           !folio_test_partially_mapped(folio))
-                deferred_split_folio(folio, true);
- 
-        __folio_mod_stat(folio, -nr, -nr_pmdmapped);
+> +	if (err)
+> +		goto err_xa_erase;
+> +
+>   	return 0;
+>   
+>   err_xa_erase:
+> @@ -305,4 +310,69 @@ void dev_dmabuf_uninstall(struct net_device *dev)
+>   				xa_erase(&binding->bound_rxqs, xa_idx);
+>   	}
+>   }
+> +
+...
+> diff --git a/net/core/page_pool_user.c b/net/core/page_pool_user.c
+> index 3a3277ba167b..cbc54ee4f670 100644
+> --- a/net/core/page_pool_user.c
+> +++ b/net/core/page_pool_user.c
+> @@ -344,6 +344,32 @@ void page_pool_unlist(struct page_pool *pool)
+>   	mutex_unlock(&page_pools_lock);
+>   }
+>   
+> +int page_pool_check_memory_provider(struct net_device *dev,
+> +				    struct netdev_rx_queue *rxq,
+> +				    struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	struct netdev_rx_queue *binding_rxq;
+> +	struct page_pool *pool;
+> +	struct hlist_node *n;
+> +	unsigned long xa_idx;
+> +
+> +	mutex_lock(&page_pools_lock);
+> +	hlist_for_each_entry_safe(pool, n, &dev->page_pools, user.list) {
+> +		if (pool->mp_priv != binding)
+> +			continue;
+> +
+> +		xa_for_each(&binding->bound_rxqs, xa_idx, binding_rxq) {
+> +			if (rxq != binding_rxq)
+> +				continue;
+> +
+> +			mutex_unlock(&page_pools_lock);
+> +			return 0;
+> +		}
+> +	}
+> +	mutex_unlock(&page_pools_lock);
+> +	return -ENODATA;
+> +}
+> +
+>   static void page_pool_unreg_netdev_wipe(struct net_device *netdev)
+>   {
+>   	struct page_pool *pool;
+
+-- 
+Pavel Begunkov
