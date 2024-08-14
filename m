@@ -1,41 +1,41 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE5A1AED44;
-	Wed, 14 Aug 2024 11:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA3B1442F7;
+	Wed, 14 Aug 2024 11:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723634433; cv=none; b=aXW5AjVJsImWUQzFGjZHo4wSpD2lkViNn6pPY4fZR2/i65WMn85cfgenOqSCiJg6SJ0kySZ7EVQJX2Bd5r4QhnygKs16i0G/N5Y5U9hursJelW9UdpA562/GRdiYIcUdMVUAq8j/iw2yQvfNUu/gqTGTRDWCVbnf4MQAvyHL8ws=
+	t=1723634634; cv=none; b=sWO1AGWbdZOpG0RFwg6tccDj1v8JvqlsIRTY1WX4ub4MEsCmiNUPxFykl3JhxLCk4ZbOGyN5UpisVfGlcl1r/PtIg6S9/LOu6yOJZEKRZCbyyoPhhJbA0M0wuPAmj5ApZTGuPq0vd1BbZiEP6Sumn1aHrYWw3Lj4tJcy9izDRYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723634433; c=relaxed/simple;
-	bh=SCJT+KqodhgeHH0K9pZ51pKh3r58R39YG/owjwZ/4pw=;
+	s=arc-20240116; t=1723634634; c=relaxed/simple;
+	bh=3bbpPCVD912nzTkYXBBNXx67AoP31V8lFtjaD9zHmXs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ALustxy42nGelkzbLZIG+jdICjZSIenBTvIssJqJzBlxNurr1QQJzgSqyCyxrVgqftAkLDmrLO4aLfzfpLk+qURIDTW5j7DkO0D/zAeAPL6JWf/YC5VaaqWcerQtryD2mPSV3s47roE0GAFTN0kAcTa2DSgSk/vx/R+jtSmLkNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+	 To:Cc:Content-Type; b=KhjX55F8sTnql2NQyZQN9C3Qkxc1bEfaLYSTY9h41u0muXjDqiV1QkELxVWmqBieiA9dmwMQDQiYg+GWfB7bS3I0NViK6/MLllOsWdwlv8YcIFppu0e9J+ypirhknbpQ1136yR5+C7tR0bM0AtotoNya9mhKfwFhvqdJBVWomRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4f6c136a947so2942243e0c.1;
-        Wed, 14 Aug 2024 04:20:31 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-842eee4ad03so161522241.0;
+        Wed, 14 Aug 2024 04:23:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723634431; x=1724239231;
+        d=1e100.net; s=20230601; t=1723634632; x=1724239432;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wT8/yxCSMEel7SFnMznHXl6VK4SxHxcbluAHjtHcqO8=;
-        b=vXVC2w0D56u5N+lGUAk9awNh8UUqDWTS73zr/jKiBPpe79ezNUrOjUWGs1ZLtc3p1E
-         /lxmrDlNT09gQHd/jgid/JeW+QxSNW/PPpgZzxziPsoekVWPRqUqkQQ3/JJNCEymGnpU
-         edKp6OFm/XIFGbwcXRF6bn7B3ERpwoeY/BSFtFD/somLShZfPf2s1eab+o2sxRNJ74v1
-         nAjtajo0d42aqwmbzAUSkBDd5PmJO+iio0xpMTeotgEqt6TOLn8q66897X/kDCCVnyFK
-         NzQ0kGuQnayCbpaOnqiVV4Ehb98qiKfiWNHFGeZGBveiLMIQ5gJ61tcAGpm1FpYAZOUR
-         qxVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdYkeWAN2wsFNkD7K5lU6btqD4fJfmaJH2Fr6KFUFq3/4PbHFGcGc6rdLCTUzW9GYaL0eWR7K7oy4zhYZ8UDFarNxXUTN4cUP6caBRv/7494C8fCC4tCw4nx8cqUTCdh7433q4JL24
-X-Gm-Message-State: AOJu0YxCNXkiRG5ngjSi7TeCDxEvOALpQVsA0JHG5HCbp01ZcN1bxZgb
-	feKSqPDCByq+elCmlCOcd0UCx2clvQ+ch3C3ew6s7pWcw1FNuFksggfymWLy5ZXtXhVbT4gPOie
-	n8gbIdCHWpRDwbOOTkGLPEzrvoKQ=
-X-Google-Smtp-Source: AGHT+IHu4oujxvSrHv7gWoSezqByQGV6UEbbHSBKelGeoAa0pI/ooMvt8mHWIk+5v8opzsRKxJLHBnrWZalaZ5rnalE=
-X-Received: by 2002:a05:6122:130a:b0:4ed:12b:ec99 with SMTP id
- 71dfb90a1353d-4fad1b0fdafmr3105204e0c.3.1723634430926; Wed, 14 Aug 2024
- 04:20:30 -0700 (PDT)
+        bh=HVSCZnAx0ph5xRRQ7GkxGxeOGoX+028zxOSJgCS/ioo=;
+        b=GHg7WrYeAV5V0MU5vTzMxydrBLfK0ngEYEM2BqRtK5WJBOuG1qnJ8OYjGq8sH4xTel
+         Y3LMS6Trt4Oa/K3gGSNgyWLY4l3HDYEA77pz/80ieGL/m86GXqcKjR+11LbuQQBHRIbP
+         ixzTNly0N+ocP51/LbPViCcrvqQzALRm+kFFkuZQblJWS/AGOfYNes2Z2Cje3CpkeggY
+         0GjMiZ1SQxcSHtytBEiuF1u8aZuyeWMPsJQ/YvoyiJQmKYVewPMgLQq3oB5NpCWZpldP
+         6OkzPAM8FYGpPBtMe8nZ3h7/iRZ+IgYhNSkJX9+kFmyviF+rQcz61wo4XmtUh4xQOadk
+         oFKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVuPYpSk1+XL8ujkR2e+yWNt8kpMEvBwemhxFzTUluUkJ1GV1AaWNXWDZBPpSr6H3aTCDRht+t30AIfIlZshmt3Gp9HU2NgRCLIZ9aPHVjbB7ouzy59BFMSR4r5VY0AkOjWgneuj2L/
+X-Gm-Message-State: AOJu0Yzx+hoQ7wBkpMNoo+D0D0MZOg9iD2G8fVIFGLtoRt3m9/nXFllG
+	YxIgaHc2Cjoytx/L8lfgv/qTZ36Q8MdEYtzSRI/V/9mjcnHQFj4aTJmrSdfeobDis8P4BMh+aZl
+	zS7Fbjm7+kOdUfa3UJywTomUp3Ng=
+X-Google-Smtp-Source: AGHT+IGzXOqu6YISJ0i99DXmN81woLtBhlIOuPVGW1ZKvhROMtCyKZYDSVe8tw/itbg3NcFMozoG/Mw+kcLTlwZIMsQ=
+X-Received: by 2002:a05:6102:3907:b0:48f:23b4:1d96 with SMTP id
+ ada2fe7eead31-4975990e713mr2530052137.16.1723634631767; Wed, 14 Aug 2024
+ 04:23:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,12 +43,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240813120328.1275952-1-usamaarif642@gmail.com>
- <20240813120328.1275952-5-usamaarif642@gmail.com> <CAGsJ_4x+5fiCoWv4G0NsYq+aJRqZsrCEHO_DF+CnNFdqx0VgMQ@mail.gmail.com>
- <925804e4-0b33-45eb-905d-e00f67192828@gmail.com>
-In-Reply-To: <925804e4-0b33-45eb-905d-e00f67192828@gmail.com>
+ <20240813120328.1275952-5-usamaarif642@gmail.com> <CAGsJ_4ySxmhQCXT5Nw09tdGJA+j9=ZEMEuPa6jgX__tM+EMqXw@mail.gmail.com>
+ <59725862-f4fc-456c-bafb-cbd302777881@gmail.com>
+In-Reply-To: <59725862-f4fc-456c-bafb-cbd302777881@gmail.com>
 From: Barry Song <baohua@kernel.org>
-Date: Wed, 14 Aug 2024 23:20:19 +1200
-Message-ID: <CAGsJ_4x4Ha5jDZuhNxXvbYU6WXtR9A-o3QxYUHkcUzrzoNWaMw@mail.gmail.com>
+Date: Wed, 14 Aug 2024 23:23:40 +1200
+Message-ID: <CAGsJ_4zT0R_QcHCvPW7EozY86Skbo_3BtgcJz_fd-tipXZJxTQ@mail.gmail.com>
 Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped folios
 To: Usama Arif <usamaarif642@gmail.com>
 Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
@@ -59,12 +59,12 @@ Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2024 at 11:11=E2=80=AFPM Usama Arif <usamaarif642@gmail.com=
+On Wed, Aug 14, 2024 at 11:20=E2=80=AFPM Usama Arif <usamaarif642@gmail.com=
 > wrote:
 >
 >
 >
-> On 14/08/2024 11:44, Barry Song wrote:
+> On 14/08/2024 12:10, Barry Song wrote:
 > > On Wed, Aug 14, 2024 at 12:03=E2=80=AFAM Usama Arif <usamaarif642@gmail=
 .com> wrote:
 > >>
@@ -197,70 +197,29 @@ olio);
 > >> +               folio_set_partially_mapped(folio);
 > >> +       else
 > >> +               folio_clear_partially_mapped(folio);
+> >>         if (list_empty(&folio->_deferred_list)) {
+> >> -               if (folio_test_pmd_mappable(folio))
+> >> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+> >> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DE=
+FERRED);
+> >> +               if (partially_mapped) {
+> >> +                       if (folio_test_pmd_mappable(folio))
+> >> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE=
+);
+> >> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_=
+SPLIT_DEFERRED);
 > >
-> > Hi Usama,
+> > This code completely broke MTHP_STAT_SPLIT_DEFERRED for PMD_ORDER. It
+> > added the folio to the deferred_list as entirely_mapped
+> > (partially_mapped =3D=3D false).
+> > However, when partially_mapped becomes true, there's no opportunity to
+> > add it again
+> > as it has been there on the list. Are you consistently seeing the count=
+er for
+> > PMD_ORDER as 0?
 > >
-> > Do we need this? When can a partially_mapped folio on deferred_list bec=
-ome
-> > non-partially-mapped and need a clear? I understand transferring from
-> > entirely_map
-> > to partially_mapped is a one way process? partially_mapped folios can't=
- go back
-> > to entirely_mapped?
-> >
-> Hi Barry,
 >
-> deferred_split_folio function is called in 3 places after this series, at=
- fault, collapse and partial mapping. partial mapping can only happen after=
- fault/collapse, and we have FOLIO_FLAG_FALSE(partially_mapped), i.e. flag =
-initialized to false, so technically its not needed. A partially_mapped fol=
-io on deferred list wont become non-partially mapped.
->
-> I just did it as a precaution if someone ever changes the kernel and call=
-s deferred_split_folio with partially_mapped set to false after it had been=
- true. The function arguments of deferred_split_folio make it seem that pas=
-sing partially_mapped=3Dfalse as an argument would clear it, which is why I=
- cleared it as well. I could change the patch to something like below if it=
- makes things better? i.e. add a comment at the top of the function:
->
-
-to me, it seems a BUG to call with false after a folio has been
-partially_mapped. So I'd rather
-VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
-
-The below should also fix the MTHP_STAT_SPLIT_DEFERRED
-counter this patch is breaking?
-
-@@ -3515,16 +3522,18 @@ void deferred_split_folio(struct folio *folio,
-bool partially_mapped)
-                return;
-
-        spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
--       if (partially_mapped)
--               folio_set_partially_mapped(folio);
--       else
--               folio_clear_partially_mapped(folio);
--       if (list_empty(&folio->_deferred_list)) {
--               if (partially_mapped) {
-+       if (partially_mapped) {
-+               if (!folio_test_set_partially_mapped(folio)) {
-+                       mod_mthp_stat(folio_order(folio),
-+                               MTHP_STAT_NR_SPLIT_DEFERRED, 1);
-                        if (folio_test_pmd_mappable(folio))
-                                count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-                        count_mthp_stat(folio_order(folio),
-MTHP_STAT_SPLIT_DEFERRED);
-                }
-+       }
-+       VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
-+
-+       if (list_empty(&folio->_deferred_list)) {
-                list_add_tail(&folio->_deferred_list, &ds_queue->split_queu=
-e);
-                ds_queue->split_queue_len++;
- #ifdef CONFIG_MEMCG
-
-
+> Ah I see it, this should fix it?
 >
 > -void deferred_split_folio(struct folio *folio)
 > +/* partially_mapped=3Dfalse won't clear PG_partially_mapped folio flag *=
@@ -270,7 +229,7 @@ e);
 >         struct deferred_split *ds_queue =3D get_deferred_split_queue(foli=
 o);
 >  #ifdef CONFIG_MEMCG
-> @@ -3485,14 +3488,15 @@ void deferred_split_folio(struct folio *folio)
+> @@ -3485,14 +3488,14 @@ void deferred_split_folio(struct folio *folio)
 >         if (folio_test_swapcache(folio))
 >                 return;
 >
@@ -278,41 +237,29 @@ o);
 > -               return;
 > -
 >         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
-> +       if (partially_mapped)
+> -       if (list_empty(&folio->_deferred_list)) {
+> +       if (partially_mapped) {
 > +               folio_set_partially_mapped(folio);
->         if (list_empty(&folio->_deferred_list)) {
-> -               if (folio_test_pmd_mappable(folio))
-> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFER=
+>                 if (folio_test_pmd_mappable(folio))
+>                         count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>                 count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFER=
 RED);
-> +               if (partially_mapped) {
-> +                       if (folio_test_pmd_mappable(folio))
-> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
-> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPL=
-IT_DEFERRED);
-> +               }
+> +       }
+> +       if (list_empty(&folio->_deferred_list)) {
 >                 list_add_tail(&folio->_deferred_list, &ds_queue->split_qu=
 eue);
 >                 ds_queue->split_queue_len++;
 >  #ifdef CONFIG_MEMCG
 >
->
-> > I am trying to rebase my NR_SPLIT_DEFERRED counter on top of your
-> > work, but this "clear" makes that job quite tricky. as I am not sure
-> > if this patch
-> > is going to clear the partially_mapped flag for folios on deferred_list=
-.
-> >
-> > Otherwise, I can simply do the below whenever folio is leaving deferred=
-_list
-> >
-> >         ds_queue->split_queue_len--;
-> >         list_del_init(&folio->_deferred_list);
-> >         if (folio_test_clear_partially_mapped(folio))
-> >                 mod_mthp_stat(folio_order(folio),
-> > MTHP_STAT_NR_SPLIT_DEFERRED, -1);
-> >
->
+
+not enough. as deferred_split_folio(true) won't be called if folio has been
+deferred_list in __folio_remove_rmap():
+
+        if (partially_mapped && folio_test_anon(folio) &&
+            list_empty(&folio->_deferred_list))
+                deferred_split_folio(folio, true);
+
+so you will still see 0.
 
 Thanks
 Barry
