@@ -1,114 +1,123 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0261AD9DC;
-	Wed, 14 Aug 2024 10:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DDA3D552;
+	Wed, 14 Aug 2024 10:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723630845; cv=none; b=Ty+HYwqgquURxQjGfyv2Mn+/uePeSVYAgOGgBVt/Zf/vD/1OommlUku8wVCnEATKJP9gW6y3os3DjSe9Q99ktblvBPmW7w+Q5W+w5wiAnbwhYLYwGgiNC8o7G4NvXZJmb6109JtZlxAId03SN/xjcodZnX39flJ0LU2AZ8K20sE=
+	t=1723631799; cv=none; b=TLgJyZR3gJqOR6nQRQRaBr28WfW0lw+UAtj1ea9FV+wHCmBcAmzL1Jinq1Mys/rUqPTACKV+rs0XLeyDOk+GID84K1uNPzD7AfQeqN8Y0D0OeMkoQAmCkrZ5KMPoSF+9Cib79em59+X8zEdOgPWiGetpBCCxCYuz3Xrv7xTggLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723630845; c=relaxed/simple;
-	bh=SbXbrEHuBfbyQo7b7wagUFoBAd4cypQd4YiqU7SHRx4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WsyjCmFloJWMR2TGgUwXlJitLA+n6RHtI8i14GxMPDvb7cEuakx+wt1TJDX/W/yoV+bYwSQ9hRO2Ig8A+90Zo4deFdkojcOhoaqczACmf9FmMItp7bBfl++1pC4c6OxjhNN+YM0iYZzJR3WFpQ57ADWtvQyFHDMlw9NXnuWHoJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAxCrTMU; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1723631799; c=relaxed/simple;
+	bh=pD1qICRTfQfBXyMHWfEjwsThkEYKZjAlRwhKA1VfgEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SK2azCLXjawXtUx2kdRMQ1gXREh8f7HjDV9uJjOaCAtMzPMMjaomxfJ8WNsxItALcDYcu31+LCr/tsAOsxXpZbBmkrcLnecgxN22fukYDO3iZCfVXJgwDt0HbRTiag+0W3i4PId8khHSkwgRH4minCnbOHxgaxQUPF3zYFzro/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjzMX2gm; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAxCrTMU"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5bb8e62570fso7747986a12.1;
-        Wed, 14 Aug 2024 03:20:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjzMX2gm"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-70d28023accso5189139b3a.0;
+        Wed, 14 Aug 2024 03:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723630842; x=1724235642; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hS8lGCxtgdQMkLEIv96JQJSW30lCVa7QFTqxjW3g+JE=;
-        b=KAxCrTMUf+TDRQyCvf0NF+E6ENB3I70kH0mXbECM31fhjWLX4+vriQaoWFwTTMAjmi
-         VOHkJudzzYhTTSKzPw1kMfNEEfEizr7UPKlrtlSWp7qIm8drNum7VNoPj5zg+Pxrxs/9
-         lCimiD9JTxb1uGRrGUVjIpdC+xwjHv9AJ2eo88ecPERTj5wq7jlb+WuqTOX4ZgLcOb11
-         onvsRzDu4DF71MCoyRBZT7C/Y1uh4yFIqSaVtzMqou/w27B4Ua2j8fkxCl8VyJtMA++3
-         kO9MQngTu9A59QhU21s/GAGSfGxKP477K/+eBjHyQVFwpBHoJybhGMNHEW7CwGjqyCpR
-         ObVw==
+        d=gmail.com; s=20230601; t=1723631797; x=1724236597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P0h+7UnaE/DLI0nJCpVlTNs/3jRtkis6/GXWtA6PfOY=;
+        b=mjzMX2gmrS45fbxRLP2CsualumeNaRkSFBGzAc31xttljAtLO95ZP0P+s4DCv5KLXS
+         GvWkYhpyG1enxSp7qrtOnikcobWCA7RN1c3fePBSmcehlz7yilkZepLLyH7eF8jHmnCl
+         heq3Aco+89YAYafIMvwbejW9h8dq8XTD9HqVbszkDIf1X2+ByWHhT8+X7eFSQEqkoNXP
+         ZEs0+ExIfRUA12SQ0r/m/cQCPnmpjSwKaOvZe3O1+1J97CYsAYV4VzDLDhkL2wAewuE0
+         w18giT3XIYVK9Yvnc8XAT4QGoZruNRHKHe3nfiKF0vA74cPHI1aq3UypYOLIM+1a2A94
+         0wHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723630842; x=1724235642;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hS8lGCxtgdQMkLEIv96JQJSW30lCVa7QFTqxjW3g+JE=;
-        b=oRUrdcKItlqfz4YvMfnjNRXxY5zQ7UOH5pxYdq2fjMq1DIci65Q82b6JWYb7csViWV
-         h9o+KkzoEUmcK84Fo72Q1Qwdpk26xR9wy8Dn59rIvyEBjWQrZeSpZHYGi0trEFS9CWT1
-         UEuztx+SExUmjlH8Wr9ylUZcpJ4Fzt4oiZtdxq1ckmSgxSq6CM5hACpG7suAqnyFTim4
-         DII3Pg5kSTaO1UyGuEiz0qAH3/ClLjH13GT+9Owf6AZn5B/jmdFZ+NLljGA4k7qZ6PMs
-         mXixKmC5p8L5H4mLfbL9t6NrzZWEo4ZqXVMCNERkjjHHeM3PHOeOgZ6t+dFCp6fx3hmK
-         a8+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW544ojtxkFAjOBkuDdZoKvdFQtDj/M860CT7hFcciesYokwXJ8IVbLLH7tFgbC6HOlJEkdhPO5LGUuviWyaTutsoZWKZjheXscnql/UEPYohBfUqHiZaZiZeylRviDO6XLkPP6kB87
-X-Gm-Message-State: AOJu0Yw1T15wxdfqLhiA3kwuAbO+hGopqet+leAsCgNHFbbytvQ8qw/w
-	3LQIzria0CLzMgrUv5pB6jGRroAim698iNPHeURJW8qS4YwPj+BL
-X-Google-Smtp-Source: AGHT+IEz6IAV72R1dG8IaxpUSGQ4yh+slaUPRbi03CQplRXICCbR7V3r/2VG1ZGOj+YEeOWjUIf5Rg==
-X-Received: by 2002:a17:907:2da2:b0:a7a:a6e1:2c60 with SMTP id a640c23a62f3a-a836711e423mr116134366b.61.1723630841458;
-        Wed, 14 Aug 2024 03:20:41 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:eb:d0d0:c7fd:c82c? ([2620:10d:c092:500::4:61b7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f3fa5db7sm155096366b.58.2024.08.14.03.20.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 03:20:41 -0700 (PDT)
-Message-ID: <c429f444-5f8b-4845-a9ee-3262c92109ad@gmail.com>
-Date: Wed, 14 Aug 2024 11:20:40 +0100
+        d=1e100.net; s=20230601; t=1723631797; x=1724236597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P0h+7UnaE/DLI0nJCpVlTNs/3jRtkis6/GXWtA6PfOY=;
+        b=WF0tiz8xEo+TZkQTdO/I+pomo3cutCm2Ekt7CfOcVjIaKLwPQQJ20E6R49O6uRq5Mt
+         PkXIGOkH2g/GRpniCTlPj9wwmROguDPAhT3QYGr7v6qmEr/4nyUOtKJdFN81F6QZo+gL
+         hsG9aIUw3O5KisPOMj5L30x+3YQntDdg2VCYEb2eIpBO5BkGlCVgpwXUkWEKJlHkIUwF
+         pJroG/06cGEJUvnxMqXo1DixS53duoQgfBAMDUokMRhl55l46d5DRV1+zg0SeVxPvVfe
+         aryAh1ug3aUdtACh0H5I+UWsIWO3vYE6sq78A1aphAO+OYP3fh6/6crBg80B9yAAOQfA
+         PEpQ==
+X-Gm-Message-State: AOJu0YwXhFu0egksqzzLFlLy9tIqYNj+LfLBruSa2sXLJ/q8FA0gn4zN
+	NFYdtFhmz2i2A9uxNCvFlSG6ikF4gfV+4mxUb0gzqzocuyNaSm7Xqygo1WhbWMo=
+X-Google-Smtp-Source: AGHT+IE30yDPQkUZHYG1aHmEdXElVvOkuLkl7uSUJRc2YaIFPPcWe157IZb5zsqv/SFK0l2nEBeHFA==
+X-Received: by 2002:a05:6a21:398:b0:1c4:dfa7:d3ce with SMTP id adf61e73a8af0-1c8eae6f521mr3264316637.17.1723631796524;
+        Wed, 14 Aug 2024 03:36:36 -0700 (PDT)
+Received: from abhash-IdeaPad-L340-15IRH-Gaming.. ([136.233.9.100])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-201cd1bba6bsm27159465ad.225.2024.08.14.03.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 03:36:35 -0700 (PDT)
+From: Abhash Jha <abhashkumarjha123@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Abhash Jha <abhashkumarjha123@gmail.com>
+Subject: [PATCH] LKMP(Bug fixing fall 2024): Fix documentation spelling errors
+Date: Wed, 14 Aug 2024 16:06:18 +0530
+Message-ID: <20240814103620.8912-1-abhashkumarjha123@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
- folios
-To: Yu Zhao <yuzhao@google.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
- riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
- david@redhat.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
- <20240813120328.1275952-5-usamaarif642@gmail.com>
- <CAOUHufbmgwZwzUuHVvEDMqPGcsxE2hEreRZ4PhK5yz27GdK-Tw@mail.gmail.com>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <CAOUHufbmgwZwzUuHVvEDMqPGcsxE2hEreRZ4PhK5yz27GdK-Tw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+In this commit we correct some simple spelling mistakes
+in the Documentation/arch directory.
 
+1) "Assitance" to "Assistance"
+2) "parant" to "parent"
 
-On 14/08/2024 04:30, Yu Zhao wrote:
->> @@ -3558,7 +3564,6 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
->>  next:
->>                 folio_put(folio);
->>         }
->> -
-> 
-> Unintentional change above?
+Signed-off-by: Abhash Jha <abhashkumarjha123@gmail.com>
+---
+ Documentation/arch/powerpc/ultravisor.rst | 2 +-
+ Documentation/arch/riscv/vector.rst       | 2 +-
+ Documentation/arch/x86/cpuinfo.rst        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Yes, unintended new line, will fix it.
-> 
->>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
->>         list_splice_tail(&list, &ds_queue->split_queue);
->>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
->> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->> index 1fdd9eab240c..2ae2d9a18e40 100644
->> --- a/mm/hugetlb.c
->> +++ b/mm/hugetlb.c
->> @@ -1758,6 +1758,7 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
->>                 free_gigantic_folio(folio, huge_page_order(h));
->>         } else {
->>                 INIT_LIST_HEAD(&folio->_deferred_list);
->> +               folio_clear_partially_mapped(folio);
-> 
-> Why does it need to clear a flag that should never be set on hugeTLB folios?
-> 
-> HugeTLB does really use _deferred_list -- it clears it only to avoid
-> bad_page() because of the overlapping fields:
->                         void *_hugetlb_subpool;
->                         void *_hugetlb_cgroup;
+diff --git a/Documentation/arch/powerpc/ultravisor.rst b/Documentation/arch/powerpc/ultravisor.rst
+index ba6b1bf1c..6d0407b2f 100644
+--- a/Documentation/arch/powerpc/ultravisor.rst
++++ b/Documentation/arch/powerpc/ultravisor.rst
+@@ -134,7 +134,7 @@ Hardware
+ 
+       * PTCR and partition table entries (partition table is in secure
+         memory). An attempt to write to PTCR will cause a Hypervisor
+-        Emulation Assitance interrupt.
++        Emulation Assistance interrupt.
+ 
+       * LDBAR (LD Base Address Register) and IMC (In-Memory Collection)
+         non-architected registers. An attempt to write to them will cause a
+diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
+index 75dd88a62..e4a28def3 100644
+--- a/Documentation/arch/riscv/vector.rst
++++ b/Documentation/arch/riscv/vector.rst
+@@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
+ these interfaces is to give init systems a way to modify the availability of V
+ for processes running under its domain. Calling these interfaces is not
+ recommended in libraries routines because libraries should not override policies
+-configured from the parant process. Also, users must noted that these interfaces
++configured from the parent process. Also, users must noted that these interfaces
+ are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
+ to use in a portable code. To get the availability of V in an ELF program,
+ please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
+diff --git a/Documentation/arch/x86/cpuinfo.rst b/Documentation/arch/x86/cpuinfo.rst
+index 8895784d4..fd7999c4a 100644
+--- a/Documentation/arch/x86/cpuinfo.rst
++++ b/Documentation/arch/x86/cpuinfo.rst
+@@ -12,7 +12,7 @@ represents an ill-fated attempt from long time ago to put feature flags
+ in an easy to find place for userspace.
+ 
+ However, the amount of feature flags is growing by the CPU generation,
+-leading to unparseable and unwieldy /proc/cpuinfo.
++leading to unparsable and unwieldy /proc/cpuinfo.
+ 
+ What is more, those feature flags do not even need to be in that file
+ because userspace doesn't care about them - glibc et al already use
+-- 
+2.43.0
 
-Yes, thats right, will remove it. Thanks!
