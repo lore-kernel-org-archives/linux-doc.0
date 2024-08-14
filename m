@@ -1,153 +1,126 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE30A1BBBDA;
-	Wed, 14 Aug 2024 18:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0F81BD50A;
+	Wed, 14 Aug 2024 18:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723659827; cv=none; b=ecqMVYTAoQGQPVgtaSAWeGJhUfzGQp2f08y7fOVqbNqTm1M/P/PodtZd1J32iiUHcBLWhPEfa7XrBgK0VbByoawDDZzUa7qA9XfhQ9aQ6M4yhvNdfveEsOG95jssRdB6avaOfWphYYyZtqYUs+iNNJYbHIKLmXywMxB9wBHE+TU=
+	t=1723661771; cv=none; b=QEDkShNT6u4YdHRMspi5EcFI7/lWvV98Wpn01Gk8CI937NrnhWw7CEburI27px2k+5LRQ8/tG4h2nb1zJs8kDAy17d5vT0X6TLWuKJ47gXazKD4UUe40wbKnzuXKjm3RhoQJ+5besAMbLjSQX5oak7PtQ3tWXTfgtCcUi6ws+t8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723659827; c=relaxed/simple;
-	bh=VP+QiCS6zOdtfbT9zGI9LEQCyWB6JQVT2Grcrrb4SEo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=enA1H0FcnXfL5DuueGnZBjbkH2BuyYsOFykiRk/bf6sbi8llo9qlQImUIq/nox5knqN3KfrdkstTbo3K25OSbeWHLpk9mJ5UoA+aXXpYE2hiWGKXLa9nBUq6diUmizS9ryaBFM4pWmB/8HNlnzBevY83OAZFrvcuxzDK8jnBuHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=arhIygC1; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1723661771; c=relaxed/simple;
+	bh=Xv9C46HpZceyjCFwUhc0Uj0Qtp88YtYV1+E9aXwhCl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RnO4MG1M2xHM5wLp/MDN6MpRsUNKeJjMxn8hz45F8oEsJek4A6p12KyiK83MLZQnq+WwV4/DJjdf3fInp+NDfiaUZWnTLwuX05cUtX4ELhx1ZzxdSocvL78nupoBvOI8AihZYy/Q8SEcnjhNnCVF7asVfcG6hptpXgf4xLVr15c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qwkZhANb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="arhIygC1"
-Received: from [10.137.106.151] (unknown [131.107.174.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3D2C020B7165;
-	Wed, 14 Aug 2024 11:23:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3D2C020B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1723659819;
-	bh=rQ4vq6TsUxv4l4kbIL+sjMudyLAkyj4vXkuWLSuksPI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=arhIygC1hFg4TcYMA000C9oRAiO/qMK7FqChi4JOP6pNVnUW0LTKCD5XOeOTvqLjO
-	 OxWN/HJ2LGm2JmHXlgiaG0btNEqrqB5MZKuZtC7CvZRFE5dhaiW+q0w86YV5loKWME
-	 vgVOeLlN6FYqX4YJz687dnyfNgPTF6jdt4sY5pgY=
-Message-ID: <cbf1caa0-835b-4d1d-aed5-9741eb10cf8b@linux.microsoft.com>
-Date: Wed, 14 Aug 2024 11:23:39 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qwkZhANb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3837C116B1;
+	Wed, 14 Aug 2024 18:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723661770;
+	bh=Xv9C46HpZceyjCFwUhc0Uj0Qtp88YtYV1+E9aXwhCl8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qwkZhANbbMHwZIyU8NQw7hoa293CLmaW/Y//oT/h5DCSVJN8KcUt/yp/Y2zbp3B6m
+	 TS0k7DZh7oMP6uELyi34MCMRdedu9uoGfXAhZToz1Kuujai5kpa3I6g9S/jJI/kGHx
+	 00f61bjLELtX7/fosKpYDW7aDqbmubqBptMtHe3B+4uKlSUF0qw3BhqUHN2jaoqjd5
+	 /+RjUWhdlCyedd4hfrZ8IWMyNnMhkEMOVJxXM250IiwTDu/+3nm0DHHzPZFYaRiLqA
+	 G8n8FFKBazcOcWnUGNVRvSCyaa45y3QAWFEaj3Ux040UH3OHILunAjpFyv8C+Kd3U4
+	 HVvZlGvgSaxww==
+Date: Wed, 14 Aug 2024 19:56:04 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= 
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: implement triggered buffer
+Message-ID: <20240814195604.6a871c6c@jic23-huawei>
+In-Reply-To: <8b32d9819e44436af39c5f32b095c41f8ebd77b1.camel@gmail.com>
+References: <20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com>
+	<20240807-iio-adc-ad4695-buffered-read-v1-1-bdafc39b2283@baylibre.com>
+	<20240810103540.03e758a5@jic23-huawei>
+	<4bdb10c2-057f-4254-864b-99bb7ac1509d@baylibre.com>
+	<8b32d9819e44436af39c5f32b095c41f8ebd77b1.camel@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/20] ipe: add policy parser
-To: Paul Moore <paul@paul-moore.com>, "Serge E. Hallyn" <serge@hallyn.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, tytso@mit.edu,
- ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- mpatocka@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- fsverity@lists.linux.dev, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-3-git-send-email-wufan@linux.microsoft.com>
- <20240810155000.GA35219@mail.hallyn.com>
- <e1dd4dcf-8e2e-4e7b-9d40-533efd123103@linux.microsoft.com>
- <CAHC9VhTYT3RTG1FbnZQ2F68a16gU9_QJ-=LSGbroP-40tpRTiw@mail.gmail.com>
-Content-Language: en-US
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <CAHC9VhTYT3RTG1FbnZQ2F68a16gU9_QJ-=LSGbroP-40tpRTiw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 13 Aug 2024 09:28:06 +0200
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 
+> On Mon, 2024-08-12 at 12:03 -0500, David Lechner wrote:
+> > On 8/10/24 4:35 AM, Jonathan Cameron wrote: =20
+> > > On Wed,=C2=A0 7 Aug 2024 15:02:10 -0500
+> > > David Lechner <dlechner@baylibre.com> wrote:
+> > >  =20
+> > > > This implements buffered reads for the ad4695 driver using the typi=
+cal
+> > > > triggered buffer implementation, including adding a soft timestamp
+> > > > channel.
+> > > >=20
+> > > > The chip has 4 different modes for doing conversions. The driver is
+> > > > using the advanced sequencer mode since that is the only mode that
+> > > > allows individual configuration of all aspects each channel (e.g.
+> > > > bipolar config currently and oversampling to be added in the future=
+).
+> > > >=20
+> > > > Signed-off-by: David Lechner <dlechner@baylibre.com> =20
+> > >=20
+> > > Main thing in here is I think you can use available_scan_masks
+> > > to avoid the need for the error path on just the temperature channel
+> > > being enabled.
+> > >  =20
+> > I had not thought about doing it that way, but now that I am
+> > thinking about it, it seems like we would need to have a scan
+> > mask in the list for every possible combination of channels.
+> > This would be 10s of thousands of possible scan masks for 16
+> > channel chips so that doesn't seem like the best way to go.
 
-On 8/13/2024 6:53 PM, Paul Moore wrote:
-> On Tue, Aug 13, 2024 at 1:54 PM Fan Wu <wufan@linux.microsoft.com> wrote:
->> On 8/10/2024 8:50 AM, Serge E. Hallyn wrote:
->>> On Fri, Aug 02, 2024 at 11:08:16PM -0700, Fan Wu wrote:
->>>> From: Deven Bowers <deven.desai@linux.microsoft.com>
->>>>
->>>> IPE's interpretation of the what the user trusts is accomplished through
->>>
->>> nit: "of what the user trusts" (drop the extra 'the')
->>>
->>>> its policy. IPE's design is to not provide support for a single trust
->>>> provider, but to support multiple providers to enable the end-user to
->>>> choose the best one to seek their needs.
->>>>
->>>> This requires the policy to be rather flexible and modular so that
->>>> integrity providers, like fs-verity, dm-verity, or some other system,
->>>> can plug into the policy with minimal code changes.
->>>>
->>>> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
->>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->>>
->>> This all looks fine.  Just one comment below.
->>>
->> Thank you for reviewing this!
->>
->>>
->>>> +/**
->>>> + * parse_rule() - parse a policy rule line.
->>>> + * @line: Supplies rule line to be parsed.
->>>> + * @p: Supplies the partial parsed policy.
->>>> + *
->>>> + * Return:
->>>> + * * 0              - Success
->>>> + * * %-ENOMEM       - Out of memory (OOM)
->>>> + * * %-EBADMSG      - Policy syntax error
->>>> + */
->>>> +static int parse_rule(char *line, struct ipe_parsed_policy *p)
->>>> +{
->>>> +    enum ipe_action_type action = IPE_ACTION_INVALID;
->>>> +    enum ipe_op_type op = IPE_OP_INVALID;
->>>> +    bool is_default_rule = false;
->>>> +    struct ipe_rule *r = NULL;
->>>> +    bool first_token = true;
->>>> +    bool op_parsed = false;
->>>> +    int rc = 0;
->>>> +    char *t;
->>>> +
->>>> +    r = kzalloc(sizeof(*r), GFP_KERNEL);
->>>> +    if (!r)
->>>> +            return -ENOMEM;
->>>> +
->>>> +    INIT_LIST_HEAD(&r->next);
->>>> +    INIT_LIST_HEAD(&r->props);
->>>> +
->>>> +    while (t = strsep(&line, IPE_POLICY_DELIM), line) {
->>>
->>> If line is passed in as NULL, t will be NULL on the first test.  Then
->>> you'll break out and call parse_action(NULL), which calls
->>> match_token(NULL, ...), which I do not think is safe.
->>>
->>> I realize the current caller won't pass in NULL, but it seems worth
->>> checking for here in case some future caller is added by someone
->>> who's unaware.
->>>
->>> Or, maybe add 'line must not be null' to the function description.
->>
->> Yes, I agree that adding a NULL check would be better. I will include it
->> in the next version.
-> 
-> We're still waiting to hear back from the device-mapper devs, but if
-> this is the only change required to the patchset I can add a NULL
-> check when I merge the patchset as it seems silly to resend the entire
-> patchset for this.  Fan, do you want to share the code snippet with
-> the NULL check so Serge can take a look?
-> 
+Indeed not my best suggestion.
 
-Sure, here is the diff.
+> >=20
+> > But adding some special handling to make the temperature
+> > channel just work should be easy enough to add.
+> >  =20
+>=20
+> Not sure if the following is meaningful to this usecase but I used to thi=
+nk like you
+> but then realized that iio_scan_mask_match() will do bitmap_subset(). So =
+you only
+> need to enable a subset of the available scan mask for things to work (an=
+d with that
+> you should no longer need an insane number of combinations). The core wil=
+l then take
+> care of demuxing the actual enabled channels. AFAIR, strict scan matching=
+ is only
+> used for HW buffering.
 
-diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-index 32064262348a..0926b442e32a 100644
---- a/security/ipe/policy_parser.c
-+++ b/security/ipe/policy_parser.c
-@@ -309,6 +309,9 @@ static int parse_rule(char *line, struct 
-ipe_parsed_policy *p)
-         int rc = 0;
-         char *t;
+Hmm. The validate_scan_mask callback also doesn't work as that's really abo=
+ut
+restricting cases where we are onehot or similar (so restricting number of =
+channels
+or that sort of thing).
 
-+       if (IS_ERR_OR_NULL(line))
-+               return -EBADMSG;
-+
-         r = kzalloc(sizeof(*r), GFP_KERNEL);
-         if (!r)
-                 return -ENOMEM;
+So, I think this is a driver problem to hide it.
 
--Fan
+Just have some logic in the driver that enables a dummy channel if only the
+temperature is enabled and throw it away (probably fine to put it in the
+data passed to iio_push_to_buffers() and rely on the it either being
+treated as garbage, or dropped depending on whether it is in a hole, or
+on the end of the scan.  That should give the intuitive interface
+we expect (no restrictions to bite us that don't have to be there - see one=
+hot
+case where we have no choice) without adding too much complexity.
+
+Jonathan
+
+>=20
+> - Nuno S=C3=A1
+
