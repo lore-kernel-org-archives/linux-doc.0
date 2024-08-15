@@ -1,136 +1,169 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ABB74C1B;
-	Thu, 15 Aug 2024 20:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EEE41C85;
+	Thu, 15 Aug 2024 21:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723753833; cv=none; b=L4ve4wk5pXAkEVhsDVTXb7x63ccfuG6Dbf/bHrzUNvRddppEQAdZGEK1nHCpY99knJtbMyERcfuMGu+0OWTXwgOiGKLX7rKqYnb1TPKR1RoVmMz4owy9S53fLCrCjeKiLt0hGFXGWXPQMEyVVuhpdwWPtUzrQLCSRelKXoh5ies=
+	t=1723755999; cv=none; b=hiFzRnv7Qg0K8Xx14V7UV1r0qIfxNNf6Xb7pVSQQd9Xed/PZstNV1jsRB0/yJywVyX90g5HmO0zgc7IKYx/oH8MMksPXBhXcHysCHzXFYxS9ibO+QE0xH/4rkKfXg0WyGoMtRMtq0e2g+tQqeUuQLY5n5BkoT7XTVgZ0zj/I0Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723753833; c=relaxed/simple;
-	bh=APCgVBy9MLb5QK5n2vPT9y8WJmiBL9BR79HRRV1oXWw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SewojAZYnTEUgry5Nvsq2qd+SbcpkdyDZXKgKbzQlPwMnnLUE6Xza6QsNTkE2dZmR7WNs8BBAyRtSdt51Egnq45CHlhXnLigu0ALUiUT8/Ctjx9Q6PzVAl6jI1/n8U5lQpKw7r+oXkSvsLOXgx4PThcy9vA0lQ3aBdTObQwAhzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGDTD6i6; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1723755999; c=relaxed/simple;
+	bh=EzOAYe4LK27j5lWRZxhIkw6AuTK21D1lVkjyX6zaMPU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i4iOdFCBPb6OZQzBs1SjaEiIa8cOGiuM/QO1apupbGcLYf6Ii/nHspIs/v+2LpC+h2CCRGbWcf1WQqSaudyP/4yJ8r36ulw9+JfgIjhbQ6zqHjZyrJsUOYVPcYxeq8H6+9hFj//+VMSuwGfyq6xIwWp5B0ZGJy7Y69peJ/1UkOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGDTD6i6"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-530e062217eso1712971e87.1;
-        Thu, 15 Aug 2024 13:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723753829; x=1724358629; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9j0FSM+GTdYHqY0PhLOA9XFRc+jePrCUwJsUTGlfTO0=;
-        b=YGDTD6i6/EVGrikoFablVoDpZAC/QYDUS8RWUkyL4rLi0+eeMHkbysU02OJV0xyg0A
-         5jTX/gNwVLhacNRPhfudf+yt8rLL+r5G6R1qymXbnF/TSTYoAroxjQGsUi4KtOMVcMQf
-         kxyJ703dJRwZxqQvHskBlcecExK3o8zgwGojgeSXLn7Fx+x5XsBa/39a50gvOA808G7b
-         dF7HbV8+PgDExJhv5MX7j1iVelysDhX+geKnP3gWYCOCqsz1BcKYuaDq5FeSQzJplNr+
-         OF6juHms1vVx/IZDiWWt26jgOcTS836MnqGQacMfIph9G9h0867yPQePbP/YbaHjB6/2
-         YHHw==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5d5c7f24372so871580eaf.0;
+        Thu, 15 Aug 2024 14:06:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723753829; x=1724358629;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9j0FSM+GTdYHqY0PhLOA9XFRc+jePrCUwJsUTGlfTO0=;
-        b=NTjK5kpJzqxE3giLzOcktIIPj871eXa8jzG/zeOQLAyt/nvYPvKaHSmb9FeNEYDpBp
-         Qr6TYCMoPsJtvFugkPY8gZSk9NHMlzz3k1xZrHhvaGw9POG15wL9tL76gI00m847j9th
-         LghEdA3GvKsoYf07mAJQpBcShkPOwm0R7YVkhtdvskJ2WjzHA4vjbCayaB7vCu0AFRHt
-         3swf08hs4P1jQ5sJRinwMM2IeoirSY2xX+/qxGLKIN54DkfB5e9GxoowAatwtD0dwlne
-         yyt1q4VBVUA+42C0/TNqrh+yDrsCDuN+PypHwUVQGteUAoE7VLT8w/ERwhZiMYyIVrwz
-         Znng==
-X-Forwarded-Encrypted: i=1; AJvYcCWPl5/WcRBKLddW0wVGiUGXeHfCKymzvSZj0vT3Hk3Yh7macOcSP1Vo5Y/tEGDppWn67h7muxYOHJDA6qmZ1dDTRU+eMYfrLUBOsDShQAw9ijG2KoTSDKdZTXO8kR4FSmW2UGCzM2l1t0nAGBu+A7YKusF839+CZ7W37e5/0eh9aOQtp7AfLw==
-X-Gm-Message-State: AOJu0YzKfO6GqSq9eH2gXRBVTInK054zvlSsQjqWdRo9ZfZMAGyfNLL2
-	DdJEAF/UniKkm10Oywv8kM6anZx8MigD0KHmdH/riEJEdTnussuw
-X-Google-Smtp-Source: AGHT+IGMiHWpoM0Kg6wRnxmQhgnXJAVUtI6uUN0bfec7vW2WzODJ47xPl/yL8ArDyapSDGAiTRgJzA==
-X-Received: by 2002:a05:6512:1110:b0:52c:d819:517e with SMTP id 2adb3069b0e04-5331c6b050cmr423274e87.30.1723753828985;
-        Thu, 15 Aug 2024 13:30:28 -0700 (PDT)
-Received: from localhost.localdomain ([193.0.218.31])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5330d3af94esm315113e87.41.2024.08.15.13.30.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 13:30:28 -0700 (PDT)
-From: Yuriy Belikov <yuriybelikov1@gmail.com>
-To: 
-Cc: yuriybelikov1@gmail.com,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-unionfs@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Update redirect_dir and metacopy sections in overlayfs documentation
-Date: Thu, 15 Aug 2024 23:30:04 +0300
-Message-ID: <20240815203011.292977-1-yuriybelikov1@gmail.com>
-X-Mailer: git-send-email 2.43.5
+        d=1e100.net; s=20230601; t=1723755997; x=1724360797;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DBVHLny5yK9Q2nKOUSqphhaawlBVWCd0AIRG3t50TKw=;
+        b=iQx8zwpDYukpb5gDuaOY0U3nKWnDtwqByrZaExRLl/nIU0zCiaWwMsE1WqrS8D6bji
+         +kTzY2rkTnGH+nxDuJAuPehGGaQ8O3GgGrpN7Jh4oV4eJJ30/F/l2E9WvXcrF62igiTU
+         AcxnY5z9tFrV3eSpO0q9JVF686YvQrEyQ2GH0y0ZIxWz5oVIgiXu7+hqPxTbk67v8ihk
+         9/dCZrOyUwqk7qMxfEepz9AYAFPd5OMueJjFhWbDbZ2TVJd1Z5a7zAwktlRUJ3F999SQ
+         zVFRv61a3+P42F0Te52F4Ly246GuspUIZc0iJDZ5jXQP8BTU82kjaEUKheqrCfGp2K34
+         A7tw==
+X-Forwarded-Encrypted: i=1; AJvYcCWbZTtfE/6mR6sl1FmSo6EeTp2Y7Isc6pEE7k1Selp7tKaIw2TMIDLIlijX1fz84z/o7AQs+lzuSXXERZ+fz0vYh0A2qlHszjhF4/JC6NZGXnaEJP2G68ac5lAfN5NM0Hy3xBFq3GhN
+X-Gm-Message-State: AOJu0Yx7LCJ4CQS6jGMwA4oN2vIX2hcbaaQgTPjKacjZBkcNBVXDPt+2
+	+uUzAcqxKJyshMXOaYGBgTG+v77s8Tz5yvG/q5Ju3vAhn4GarGVDT6Ge+v3srfy0ZstwwBExlUQ
+	Amgq09bhrW61y/nlwM2uLMsb9vGs=
+X-Google-Smtp-Source: AGHT+IFFWlPCy7bquLwJlr+dwtVXggyxh5k2BGEL/yS7SoLWSNhHUDwl6p6DKB/qYAbJxARNC2n/1UXH14Z8b0MFwHA=
+X-Received: by 2002:a05:6218:260d:b0:1ad:471:9b7 with SMTP id
+ e5c5f4694b2df-1b3931bfd1amr147959255d.18.1723755996967; Thu, 15 Aug 2024
+ 14:06:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240813120328.1275952-1-usamaarif642@gmail.com>
+ <20240813120328.1275952-5-usamaarif642@gmail.com> <ee0bae67-17b8-4807-a9b2-9a08df00987a@redhat.com>
+ <d7433859-6217-483c-9d48-bb6de97b09f7@gmail.com>
+In-Reply-To: <d7433859-6217-483c-9d48-bb6de97b09f7@gmail.com>
+From: Barry Song <baohua@kernel.org>
+Date: Fri, 16 Aug 2024 09:06:25 +1200
+Message-ID: <CAGsJ_4w13QMqXe8CL280CoHAeVSqHuoSgL0ubNVbGyABuhtGcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped folios
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev, 
+	roman.gushchin@linux.dev, yuzhao@google.com, ryan.roberts@arm.com, 
+	rppt@kernel.org, willy@infradead.org, cerasuolodomenico@gmail.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch:
-- Provides info about trusted.overlay.metacopy extended attribute.
-- Extends the description of trusted.overlay.redirect
-  with information about possible values of this xattr
+On Fri, Aug 16, 2024 at 5:10=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 15/08/2024 17:33, David Hildenbrand wrote:
+> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> >> index 6df0e9f4f56c..c024ab0f745c 100644
+> >> --- a/mm/huge_memory.c
+> >> +++ b/mm/huge_memory.c
+> >> @@ -3397,6 +3397,7 @@ int split_huge_page_to_list_to_order(struct page=
+ *page, struct list_head *list,
+> >>                * page_deferred_list.
+> >>                */
+> >>               list_del_init(&folio->_deferred_list);
+> >> +            folio_clear_partially_mapped(folio);
+> >>           }
+> >>           spin_unlock(&ds_queue->split_queue_lock);
+> >>           if (mapping) {
+> >> @@ -3453,11 +3454,12 @@ void __folio_undo_large_rmappable(struct folio=
+ *folio)
+> >>       if (!list_empty(&folio->_deferred_list)) {
+> >>           ds_queue->split_queue_len--;
+> >>           list_del_init(&folio->_deferred_list);
+> >> +        folio_clear_partially_mapped(folio);
+> >>       }
+> >>       spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+> >>   }
+> >>   -void deferred_split_folio(struct folio *folio)
+> >> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
+> >>   {
+> >     /* We lost race with folio_put() */>            list_del_init(&foli=
+o->_deferred_list);
+>
+> Was there some comment here? I just see ">" remove from the start of /* W=
+e lost race with folio_put() */
+>
+> >> +            folio_clear_partially_mapped(folio);
+> >>               ds_queue->split_queue_len--;
+> >>           }
+> >>           if (!--sc->nr_to_scan)
+> >> @@ -3558,7 +3564,6 @@ static unsigned long deferred_split_scan(struct =
+shrinker *shrink,
+> >>   next:
+> >>           folio_put(folio);
+> >>       }
+> >> -
+> >>       spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+> >>       list_splice_tail(&list, &ds_queue->split_queue);
+> >>       spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+> >> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> >> index 1fdd9eab240c..2ae2d9a18e40 100644
+> >> --- a/mm/hugetlb.c
+> >> +++ b/mm/hugetlb.c
+> >> @@ -1758,6 +1758,7 @@ static void __update_and_free_hugetlb_folio(stru=
+ct hstate *h,
+> >>           free_gigantic_folio(folio, huge_page_order(h));
+> >>       } else {
+> >>           INIT_LIST_HEAD(&folio->_deferred_list);
+> >> +        folio_clear_partially_mapped(folio);
+> >>           folio_put(folio);
+> >>       }
+> >>   }
+> >> diff --git a/mm/internal.h b/mm/internal.h
+> >> index 52f7fc4e8ac3..d64546b8d377 100644
+> >> --- a/mm/internal.h
+> >> +++ b/mm/internal.h
+> >> @@ -662,8 +662,10 @@ static inline void prep_compound_head(struct page=
+ *page, unsigned int order)
+> >>       atomic_set(&folio->_entire_mapcount, -1);
+> >>       atomic_set(&folio->_nr_pages_mapped, 0);
+> >>       atomic_set(&folio->_pincount, 0);
+> >> -    if (order > 1)
+> >> +    if (order > 1) {
+> >>           INIT_LIST_HEAD(&folio->_deferred_list);
+> >> +        folio_clear_partially_mapped(folio);
+> >
+> > Can we use the non-atomic version here?
+> >
+>
+> I believe we can use the non-atomic version in all places where set/clear=
+ is done as all set/clear are protected by ds_queue->split_queue_lock. So b=
+asically could replace all folio_set/clear_partially_mapped with __folio_se=
+t/clear_partially_mapped.
+>
 
-Signed-off-by: Yuriy Belikov <yuriybelikov1@gmail.com>
----
- Documentation/filesystems/overlayfs.rst | 32 +++++++++++++++++++------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+right. That is why I thought the below is actually safe.
+but i appreciate a test_set of course(and non-atomic):
 
-diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
-index 165514401441..f4b68b8cd67d 100644
---- a/Documentation/filesystems/overlayfs.rst
-+++ b/Documentation/filesystems/overlayfs.rst
-@@ -207,11 +207,23 @@ handle it in two different ways:
-    applications are usually prepared to handle this error (mv(1) for example
-    recursively copies the directory tree).  This is the default behavior.
- 
--2. If the "redirect_dir" feature is enabled, then the directory will be
--   copied up (but not the contents).  Then the "trusted.overlay.redirect"
--   extended attribute is set to the path of the original location from the
--   root of the overlay.  Finally the directory is moved to the new
--   location.
-+2. If the "redirect_dir" feature is enabled, then the contents of the
-+   directory will not be copied up after any name-modifying operations
-+   (e.g. rename(2), or mv(1)). Instead of performing a copy-up operation,
-+   an empty entry will be created in the upper layer with the same name
-+   as the affected entry in the overlayfs directory. The 'trusted.overlay.redirect'
-+   xattr will then be set to mark the upper-layer directory, indicating that
-+   its contents weren't copied up due to the 'redirect_dir' feature.
-+   This extended attribute holds the previous name of a directory as a value.
-+   For directories that were simply renamed the attribute is just the old name
-+   of the directory without preceding path. For directories whose locations
-+   in the overlayfs directory were changed, the corresponding xattrs are set
-+   to the paths to the original locations from the root of the overlay.
-+   The value of the xattr in the second case starts with a UNIX path delimiter
-+   (e.g. "/$PREVIOUS_PATH"). Finally the directory is moved
-+   to the new location. The output of du "$UPPER_LAYTER_DIR/$RENAMED_DIR"
-+   should be zero. Renamed directory subentries will be copied-up only
-+   after operations that directly affect their contents.
- 
- There are several ways to tune the "redirect_dir" feature.
- 
-@@ -367,8 +379,14 @@ Metadata only copy up
- 
- When the "metacopy" feature is enabled, overlayfs will only copy
- up metadata (as opposed to whole file), when a metadata specific operation
--like chown/chmod is performed. Full file will be copied up later when
--file is opened for WRITE operation.
-+like chown/chmod is performed. When file metadata are modified the
-+corresponding empty file (with the same name as the modified one)
-+appears in the upper layer, however such a file contains
-+no allocated data (a sparse file); doing du "$UPPER_LAYER/$FILENAME"
-+should yield zero. Such an upper-layer file is marked with
-+"trusted.overlayfs.metacopy" xattr which indicates that this file contains
-+no data and copy-up should be performed before the corresponding file
-+in the overlayfs directory is opened for write.
- 
- In other words, this is delayed data copy up operation and data is copied
- up when there is a need to actually modify data.
--- 
-2.43.5
++               if (!folio_test_partially_mapped(folio)) {
++                       folio_set_partially_mapped(folio);
++                       if (folio_test_pmd_mappable(folio))
++                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
++                       count_mthp_stat(folio_order(folio),
+MTHP_STAT_SPLIT_DEFERRED);
++               }
 
+
+> But I guess its likely not going to make much difference? I will do it an=
+yways in the next revision, rather than sending a fix patch. There haven't =
+been any reviews for patch 5 so will wait a few days for any comments on th=
+at.
+>
+> Thanks
+
+Thanks
+Barry
