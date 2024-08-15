@@ -1,90 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FAF1B1512;
-	Thu, 15 Aug 2024 16:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1090A26AE4
+	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 16:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723738296; cv=none; b=Na1rkFV482W4vjg1FlICTKjXP2bGEYNE6IXmoyERZm3eg/soYF/RhQSgWDNIwzlQuodcHXliI063P8Ip5Z85nhH0gISs1IguahizATfkSmBXtL07auEJjf2Q5XZzyHA7nzIMoI7udY/MmTGZ66h3Ln0KnJRELJj40ZUV2IZukv0=
+	t=1723739429; cv=none; b=YAj06v8uv9SRPbdm0Yxa7XLCbKIuXyTwy+ASxhf1hfF4IKlSVbvrXZWsj7kf9rY0SSc+rCn7du2WdmJz0UeoiM1a6Lmi2mFgOuvCACviZhSQPAAy9o87nsxNnXFlFJyE5Q8WjR4bFnMSMog/GNVnwjfumFlqtgmqcx/IxR0jw4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723738296; c=relaxed/simple;
-	bh=PxxUNLRK1Op1mXSCSf+5ux4a9GTb2aTTZN7C5kMnUb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZN1IywvLFAoLnJRmPCjgqpX2pfY5RtgpM5GsuFI9WNJ9um0EvM0dW7/MWSY89NNhkmqagQzG9xFC2Lh5+Z28Ig93euzQMQG/S3oIey6ZUt0Vy5SeWF4OM8GkdOkbwX0rHocNuvrrhNSaV+YvmnlZZxJc54WHlEa2uPuC+mSDQCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNzJ6GoF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723739429; c=relaxed/simple;
+	bh=wbk2LZUDRbV1K6GyGuP81W+lgL2ESCb6Ofdh8qj+So0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=f48Kx+IFXeXEsV30YgfNh+6OxHyR3JB3J/qD2F/5TWvtLi0UybpaBWcKyMobPXCpzKJEDzQflV1Ay2QRvUhRD3zF9/Mm9ForosCS1HXOM2X79WdCaqYZv1m+RJERcctSSE6VQAVrThrmw/AGaerSsaqHF1Q3Dcou1n+d9/imoNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HPeLZTBf; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNzJ6GoF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F71C32786;
-	Thu, 15 Aug 2024 16:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723738295;
-	bh=PxxUNLRK1Op1mXSCSf+5ux4a9GTb2aTTZN7C5kMnUb4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RNzJ6GoF61TWJYY/9NGo9Aszd5m7ZdIhRnYiPCv+IiQA2RJ5OLAruuGvpPeaWF6BU
-	 R80yc96+60xWf7dpuuXWMdom7hU3ksX5MqymAHUvuAUQeLNn4R2zLTUkDY44NrCJLs
-	 XVhVBL0s8eh1nCPpjqge5kagNoiyRqDuIC5DFRtg1hgLODurcVwuP5nE5ISlBLW3r0
-	 HzLpDiawu1iKOur9Sne15hiJIgpNoG+GIec1ymni9TYOqmA78JzIuOGnmosDtMRplI
-	 plNw5SHO8jGg3Oxr1d+VPX9jg9bBUSvUJoUFh8RZLV7iZnxg/YNWwDPh1NI9lhAmex
-	 FXUxL49Fw85+Q==
-Date: Thu, 15 Aug 2024 17:11:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	20240705211452.1157967-2-u.kleine-koenig@baylibre.com,
-	20240712171821.1470833-2-u.kleine-koenig@baylibre.com,
-	cover.1721040875.git.u.kleine-koenig@baylibre.com,
-	aardelean@baylibre.com
-Subject: Re: [PATCH 0/8] Add iio backend compatibility for ad7606
-Message-ID: <20240815-favorable-bulge-bbf0b9ed644e@spud>
-References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HPeLZTBf"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-201f27cdafcso5307815ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 09:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723739426; x=1724344226; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8FLTrRaaj4IbDFlX9Gb5bpYCUef69cHd3D95ZRPBkgE=;
+        b=HPeLZTBfX6W45guZs0bLdjOSQ2uy8p2Mi2DTS97NN+qyd027MN+J7zQd85gjgUWwQV
+         rKd87GjCQEtfj+nzXvi5e9DEt3ivnZY5XxxBIy3ykr65RUcpnqPYOXop+URmjq9OnLkV
+         UHQupA3yOwPea72uRr1AxVUcAHGJsmLLly21EKmAd7tx4mmqrnxyr5t0NC2lZdcwHbXU
+         loZpOSkexYSzLSSI9zxybBrYVp8YPl0K02jUTmP47CRpkpZDWtrE9rJQAmCJPs61zmTw
+         4UCAqN1D6Hk3knV6fHN2SHkoBY3heLSr3P4d+8MvoGH0i5hdK9DOVn9iikuB3QrfyZNg
+         BdLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723739426; x=1724344226;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8FLTrRaaj4IbDFlX9Gb5bpYCUef69cHd3D95ZRPBkgE=;
+        b=LjeVH6m/3VsxIP9DtKNwsLCLkLhoi9K0o2ZzMBqmJpuEsJuJM8oFj2N7uYYxBkrCaB
+         gcdVq9BK/xSa6faGvQaU+xKJFP8JU40C2w/1++QP3P9dXuM103l+g5dlAhkjVMrjjl4P
+         V9w4cypYqCGLXazZUksgGPhXqMnojLzBgJ54mgmXiDQxELV0tBPHrq5kJLM0c3RBf6tk
+         xEj8LbKMS6JgTLYo8klSNEkwSi/5uq6036X0QtmEy0OyaD3Oz5dAuElOKWpCkBeAYu24
+         Rfvs2IOxEDICPTeqrZ7ArEKgJrlx8nJ+6FscTZvbzbs5+88pKujMG/G8vyol9K/501K3
+         5pRA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFt9tIW4mYrpGzLXqsV01WYK23ZirMqnWWb7MvCenMnoflbK0VyAnq3PmzaTRX+1CEFH3lfOQ+aGEN8jyRUMC9KW1/84RahuRW
+X-Gm-Message-State: AOJu0YzuLgHa3anv9eWYap0t2bGq6MxnVEs9Bhdo0jwX+pOUJYhsDSSE
+	l/7PzGZeJYFqVECT+ExJsxnOltDrjweDc5WpvNtOt9DsckWjyb1ThVKvV0VPdssP9LSEEyp8to2
+	nJQ==
+X-Google-Smtp-Source: AGHT+IEV9UpSNiomlwj7ADa+36foJFadkRZk55Var7flLGlvN2nm00oB0ZbZgDAFzXltC6drlNlP+R4Q4rU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:903:32c1:b0:1f9:b35f:a2b6 with SMTP id
+ d9443c01a7336-20203e3c0d5mr6145ad.1.1723739425641; Thu, 15 Aug 2024 09:30:25
+ -0700 (PDT)
+Date: Thu, 15 Aug 2024 09:30:24 -0700
+In-Reply-To: <20240522001817.619072-15-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Y8SSMKuOe5JYK1iA"
-Content-Disposition: inline
-In-Reply-To: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+Mime-Version: 1.0
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-15-dwmw2@infradead.org>
+Message-ID: <Zr4tIK5I17NcIxRz@google.com>
+Subject: Re: [RFC PATCH v3 14/21] KVM: x86: Kill cur_tsc_{nsec,offset,write} fields
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jalliste@amazon.co.uk, sveith@amazon.de, zide.chen@intel.com, 
+	Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+
+On Wed, May 22, 2024, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> These pointlessly duplicate the last_tsc_{nsec,offset,write} values.
+> 
+> The only place they were used was where the TSC is stable and a new vCPU
+> is being synchronized to the previous setting, in which case the 'last_'
+> value is definitely identical.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  arch/x86/include/asm/kvm_host.h |  3 ---
+>  arch/x86/kvm/x86.c              | 19 ++++++++-----------
+>  2 files changed, 8 insertions(+), 14 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index b01c1d000fff..7d06f389a607 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -1354,9 +1354,6 @@ struct kvm_arch {
+>  	u32 last_tsc_khz;
+>  	u64 last_tsc_offset;
+>  	u64 last_tsc_scaling_ratio;
+> -	u64 cur_tsc_nsec;
+> -	u64 cur_tsc_write;
+> -	u64 cur_tsc_offset;
+>  	u64 cur_tsc_generation;
+>  	int nr_vcpus_matched_tsc;
+>  
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 6ec43f39bdb0..ab5d55071253 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -2713,11 +2713,9 @@ static void __kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 offset, u64 tsc,
+>  	lockdep_assert_held(&kvm->arch.tsc_write_lock);
+>  
+>  	/*
+> -	 * We also track th most recent recorded KHZ, write and time to
+> -	 * allow the matching interval to be extended at each write.
+> +	 * Track the last recorded kHz (and associated scaling ratio for
+> +	 * calculating the guest TSC), and offset.
+>  	 */
+> -	kvm->arch.last_tsc_nsec = ns;
+> -	kvm->arch.last_tsc_write = tsc;
+>  	kvm->arch.last_tsc_khz = vcpu->arch.virtual_tsc_khz;
+>  	kvm->arch.last_tsc_scaling_ratio = vcpu->arch.l1_tsc_scaling_ratio;
+>  	kvm->arch.last_tsc_offset = offset;
+> @@ -2736,10 +2734,9 @@ static void __kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 offset, u64 tsc,
+>  		 *
+>  		 * These values are tracked in kvm->arch.cur_xxx variables.
+
+This comment is now stale, as most of the fields are now .last_xxx, not cur_xxx.
+
+However...
+
+>  		 */
+> +		kvm->arch.last_tsc_nsec = ns;
 
 
---Y8SSMKuOe5JYK1iA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+There is a functional change here, and it's either incorrect or misleading (I
+think the latter).  If the TSC is unstable, "ns" in kvm_synchronize_tsc() will
+come from get_kvmclock_base_ns(), and only the TSC frequency is checked for a
+match when synchronizing.
 
-On Thu, Aug 15, 2024 at 12:11:54PM +0000, Guillaume Stols wrote:
-> This series aims to add iio backend support for AD7606X ADCs.
+That results in .last_tsc_nsec not being updated, and so subsequent syncs will
+compute a larger elapsed time (relative to the current generation's timestamp,
+not the "last" timestamp).
 
-Just to point out, your cc list is partially bogus as it contains:
+Functionally, I think that's ok?  So long as all vCPUs sync against the same
+baseline, it should work?  I think.
 
-	 20240705211452.1157967-2-u.kleine-koenig@baylibre.com,
-	 20240712171821.1470833-2-u.kleine-koenig@baylibre.com,
-	 cover.1721040875.git.u.kleine-koenig@baylibre.com,
+But if that's the case, then I would prefer to delete last_tsc_{nsec,write,offset},
+not the cur_xxx versions.  For nsec and write it shows that they are valid/used
+only in the context of the current generation.
 
-Cheers,
-Conor.
+And for the offset, updating it _outside_ of the loop makes it more obvious that
+the offset can change (by design) within a generation if the TSC is unstable.
 
---Y8SSMKuOe5JYK1iA
-Content-Type: application/pgp-signature; name="signature.asc"
+Ooh, and if I'm reading the code correctly, last_tsc_khz can be renamed to
+cur_tsc_khz and moved in the !matched statement too, as it's guaranteed to be
+vcpu->arch.virtual_tsc_khz if matched==true.
 
------BEGIN PGP SIGNATURE-----
+Ah, right, and last_tsc_scaling_ratio is just an deriviation of virtual_tsc_khz,
+so it too can be cur_xxx and put under !matched.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZr4osQAKCRB4tDGHoIJi
-0o9xAP0SASwe8xbESxPqwdG0ONIB1nZR4wqUlTp/EA0AdS3wGQD/d4T3GI7qf2hM
-UviXVhLQym3CrZ637s6StEjIvGHRhgo=
-=oxT/
------END PGP SIGNATURE-----
-
---Y8SSMKuOe5JYK1iA--
+Am I missing something?  That seems too easy...
