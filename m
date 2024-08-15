@@ -1,238 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3E910FF;
-	Thu, 15 Aug 2024 20:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ABB74C1B;
+	Thu, 15 Aug 2024 20:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723752147; cv=none; b=ZoReOqFzXy3Ps0nQ2gLOJnfXOY/3LdXdmAWe0nb80DHWjNEOn4c7gqsSoboP+Lwt135WCsiaFradoQTdm/OMtW/IqrJOOcu2nkcz5kwhJMvKmZ8Da4OT+PAYFbzwB6VrlaIPVXQUBDNxFj3vvljHHbVGTBZSSwwtIQQe6k24gqM=
+	t=1723753833; cv=none; b=L4ve4wk5pXAkEVhsDVTXb7x63ccfuG6Dbf/bHrzUNvRddppEQAdZGEK1nHCpY99knJtbMyERcfuMGu+0OWTXwgOiGKLX7rKqYnb1TPKR1RoVmMz4owy9S53fLCrCjeKiLt0hGFXGWXPQMEyVVuhpdwWPtUzrQLCSRelKXoh5ies=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723752147; c=relaxed/simple;
-	bh=Una/csjFvk8Y03/HoOMMntul75tfxF/Fl5iMXVtNLo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEXZ54gA0W/F8ispayzyjg7SOjGnJ5caVnTIFOkNLzsO7nn6wznWnWCnYpMeNuXjqLU8A98slOgDIbACVaszOAt0Su6wpR/42iGWHVrFGfKPkMYDmzqLHTXx5mPSgr1386/YJrtEhfMelfo+ugZWIVTyMNqlLapLQkitIEaLVsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eh/tyzHb; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723753833; c=relaxed/simple;
+	bh=APCgVBy9MLb5QK5n2vPT9y8WJmiBL9BR79HRRV1oXWw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SewojAZYnTEUgry5Nvsq2qd+SbcpkdyDZXKgKbzQlPwMnnLUE6Xza6QsNTkE2dZmR7WNs8BBAyRtSdt51Egnq45CHlhXnLigu0ALUiUT8/Ctjx9Q6PzVAl6jI1/n8U5lQpKw7r+oXkSvsLOXgx4PThcy9vA0lQ3aBdTObQwAhzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGDTD6i6; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eh/tyzHb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723752145; x=1755288145;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Una/csjFvk8Y03/HoOMMntul75tfxF/Fl5iMXVtNLo4=;
-  b=Eh/tyzHbRy/rMbC9zHkGBeZM2Qkw6bpXAGT5zqbMYeRDDn1svToFZMm7
-   M4bfGHWRuBMmdnmjDF2Jh+Y15+7YFhampvwChTqFXnXrrsNw+szDWSJmp
-   45s3sW6iOqIhRP/jg3kTKj7Osr7mT34w5SrCdYUgK4x/f824LKen16G30
-   n/liakxF4ouqZ313YsxQGdbySYimVaV67v6PrX7D0m9C7n7xLzcaM7ON9
-   kg75Ms09OqkhzWWpnZ0z9xzfcJJBQXIkZYbeYzXbRcD0S5eSMDPdQ9S7V
-   GsgFSSRjpCYGuiMHA6FsBBDPmlBI0i26ZvRlkA8n9SbGkdG0YH7DZgt+6
-   Q==;
-X-CSE-ConnectionGUID: +myjxpEkQ7e1YNjfyDl9Yg==
-X-CSE-MsgGUID: wfXFJmyVRK6k1Q7aU4mHog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="32605452"
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="32605452"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 13:02:24 -0700
-X-CSE-ConnectionGUID: BQ4Ed6q6Qw2zdK7U38N6BA==
-X-CSE-MsgGUID: bpAKtS9nR9ODn/gWIi+NuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="59133924"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2024 13:02:21 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1segfr-0005YM-0X;
-	Thu, 15 Aug 2024 20:02:19 +0000
-Date: Fri, 16 Aug 2024 04:01:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	=?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGDTD6i6"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-530e062217eso1712971e87.1;
+        Thu, 15 Aug 2024 13:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723753829; x=1724358629; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9j0FSM+GTdYHqY0PhLOA9XFRc+jePrCUwJsUTGlfTO0=;
+        b=YGDTD6i6/EVGrikoFablVoDpZAC/QYDUS8RWUkyL4rLi0+eeMHkbysU02OJV0xyg0A
+         5jTX/gNwVLhacNRPhfudf+yt8rLL+r5G6R1qymXbnF/TSTYoAroxjQGsUi4KtOMVcMQf
+         kxyJ703dJRwZxqQvHskBlcecExK3o8zgwGojgeSXLn7Fx+x5XsBa/39a50gvOA808G7b
+         dF7HbV8+PgDExJhv5MX7j1iVelysDhX+geKnP3gWYCOCqsz1BcKYuaDq5FeSQzJplNr+
+         OF6juHms1vVx/IZDiWWt26jgOcTS836MnqGQacMfIph9G9h0867yPQePbP/YbaHjB6/2
+         YHHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723753829; x=1724358629;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9j0FSM+GTdYHqY0PhLOA9XFRc+jePrCUwJsUTGlfTO0=;
+        b=NTjK5kpJzqxE3giLzOcktIIPj871eXa8jzG/zeOQLAyt/nvYPvKaHSmb9FeNEYDpBp
+         Qr6TYCMoPsJtvFugkPY8gZSk9NHMlzz3k1xZrHhvaGw9POG15wL9tL76gI00m847j9th
+         LghEdA3GvKsoYf07mAJQpBcShkPOwm0R7YVkhtdvskJ2WjzHA4vjbCayaB7vCu0AFRHt
+         3swf08hs4P1jQ5sJRinwMM2IeoirSY2xX+/qxGLKIN54DkfB5e9GxoowAatwtD0dwlne
+         yyt1q4VBVUA+42C0/TNqrh+yDrsCDuN+PypHwUVQGteUAoE7VLT8w/ERwhZiMYyIVrwz
+         Znng==
+X-Forwarded-Encrypted: i=1; AJvYcCWPl5/WcRBKLddW0wVGiUGXeHfCKymzvSZj0vT3Hk3Yh7macOcSP1Vo5Y/tEGDppWn67h7muxYOHJDA6qmZ1dDTRU+eMYfrLUBOsDShQAw9ijG2KoTSDKdZTXO8kR4FSmW2UGCzM2l1t0nAGBu+A7YKusF839+CZ7W37e5/0eh9aOQtp7AfLw==
+X-Gm-Message-State: AOJu0YzKfO6GqSq9eH2gXRBVTInK054zvlSsQjqWdRo9ZfZMAGyfNLL2
+	DdJEAF/UniKkm10Oywv8kM6anZx8MigD0KHmdH/riEJEdTnussuw
+X-Google-Smtp-Source: AGHT+IGMiHWpoM0Kg6wRnxmQhgnXJAVUtI6uUN0bfec7vW2WzODJ47xPl/yL8ArDyapSDGAiTRgJzA==
+X-Received: by 2002:a05:6512:1110:b0:52c:d819:517e with SMTP id 2adb3069b0e04-5331c6b050cmr423274e87.30.1723753828985;
+        Thu, 15 Aug 2024 13:30:28 -0700 (PDT)
+Received: from localhost.localdomain ([193.0.218.31])
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5330d3af94esm315113e87.41.2024.08.15.13.30.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Aug 2024 13:30:28 -0700 (PDT)
+From: Yuriy Belikov <yuriybelikov1@gmail.com>
+To: 
+Cc: yuriybelikov1@gmail.com,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-unionfs@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] hwmon: (oxp-sensors) Add support for multiple new
- devices.
-Message-ID: <202408160329.TLNbIwRC-lkp@intel.com>
-References: <20240815031358.21027-2-derekjohn.clark@gmail.com>
+Subject: [PATCH] Update redirect_dir and metacopy sections in overlayfs documentation
+Date: Thu, 15 Aug 2024 23:30:04 +0300
+Message-ID: <20240815203011.292977-1-yuriybelikov1@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240815031358.21027-2-derekjohn.clark@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Derek,
+This patch:
+- Provides info about trusted.overlay.metacopy extended attribute.
+- Extends the description of trusted.overlay.redirect
+  with information about possible values of this xattr
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Yuriy Belikov <yuriybelikov1@gmail.com>
+---
+ Documentation/filesystems/overlayfs.rst | 32 +++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.11-rc3 next-20240815]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/hwmon-oxp-sensors-Add-support-for-multiple-new-devices/20240815-111550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240815031358.21027-2-derekjohn.clark%40gmail.com
-patch subject: [PATCH 1/1] hwmon: (oxp-sensors) Add support for multiple new devices.
-config: i386-buildonly-randconfig-005-20240815 (https://download.01.org/0day-ci/archive/20240816/202408160329.TLNbIwRC-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160329.TLNbIwRC-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408160329.TLNbIwRC-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hwmon/oxp-sensors.c:497:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     497 |                 default:
-         |                 ^
-   drivers/hwmon/oxp-sensors.c:497:3: note: insert 'break;' to avoid fall-through
-     497 |                 default:
-         |                 ^
-         |                 break; 
-   drivers/hwmon/oxp-sensors.c:564:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     564 |                 default:
-         |                 ^
-   drivers/hwmon/oxp-sensors.c:564:3: note: insert 'break;' to avoid fall-through
-     564 |                 default:
-         |                 ^
-         |                 break; 
-   drivers/hwmon/oxp-sensors.c:616:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     616 |                 default:
-         |                 ^
-   drivers/hwmon/oxp-sensors.c:616:3: note: insert 'break;' to avoid fall-through
-     616 |                 default:
-         |                 ^
-         |                 break; 
-   3 warnings generated.
-
-
-vim +497 drivers/hwmon/oxp-sensors.c
-
-   464	
-   465	static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
-   466				     u32 attr, int channel, long *val)
-   467	{
-   468		int ret;
-   469	
-   470		switch (type) {
-   471		case hwmon_fan:
-   472			switch (attr) {
-   473			case hwmon_fan_input:
-   474				switch (board) {
-   475				case orange_pi_neo:
-   476					return read_from_ec(ORANGEPI_SENSOR_FAN_REG, 2, val);
-   477				case aok_zoe_a1:
-   478				case aya_neo_2:
-   479				case aya_neo_2s:
-   480				case aya_neo_air:
-   481				case aya_neo_air_1s:
-   482				case aya_neo_air_plus_mendo:
-   483				case aya_neo_air_pro:
-   484				case aya_neo_flip:
-   485				case aya_neo_geek:
-   486				case aya_neo_geek_1s:
-   487				case aya_neo_kun:
-   488				case oxp_mini_amd:
-   489				case oxp_mini_amd_a07:
-   490				case oxp_2:
-   491				case oxp_fly:
-   492				case oxp_mini_amd_pro:
-   493					return read_from_ec(OXP_SENSOR_FAN_REG, 2, val);
-   494				default:
-   495					break;
-   496				}
- > 497			default:
-   498				break;
-   499			}
-   500			break;
-   501		case hwmon_pwm:
-   502			switch (attr) {
-   503			case hwmon_pwm_input:
-   504				switch (board) {
-   505				case orange_pi_neo:
-   506					ret = read_from_ec(ORANGEPI_SENSOR_PWM_REG, 1, val);
-   507					if (ret)
-   508						return ret;
-   509					/* scale from range [1-244] */
-   510					*val = ((*val - 1) * 254 / 243) + 1;
-   511					break;
-   512				case aya_neo_2:
-   513				case aya_neo_2s:
-   514				case aya_neo_air:
-   515				case aya_neo_air_1s:
-   516				case aya_neo_air_plus_mendo:
-   517				case aya_neo_air_pro:
-   518				case aya_neo_flip:
-   519				case aya_neo_geek:
-   520				case aya_neo_geek_1s:
-   521				case aya_neo_kun:
-   522				case oxp_mini_amd:
-   523				case oxp_mini_amd_a07:
-   524					ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
-   525					if (ret)
-   526						return ret;
-   527					*val = (*val * 255) / 100;
-   528					break;
-   529				case aok_zoe_a1:
-   530				case oxp_2:
-   531				case oxp_fly:
-   532				case oxp_mini_amd_pro:
-   533				default:
-   534					ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
-   535					if (ret)
-   536						return ret;
-   537					break;
-   538				}
-   539				return 0;
-   540			case hwmon_pwm_enable:
-   541				switch (board) {
-   542				case orange_pi_neo:
-   543					return read_from_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, 1, val);
-   544				case aok_zoe_a1:
-   545				case aya_neo_2:
-   546				case aya_neo_2s:
-   547				case aya_neo_air:
-   548				case aya_neo_air_1s:
-   549				case aya_neo_air_plus_mendo:
-   550				case aya_neo_air_pro:
-   551				case aya_neo_flip:
-   552				case aya_neo_geek:
-   553				case aya_neo_geek_1s:
-   554				case aya_neo_kun:
-   555				case oxp_mini_amd:
-   556				case oxp_mini_amd_a07:
-   557				case oxp_2:
-   558				case oxp_fly:
-   559				case oxp_mini_amd_pro:
-   560					return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
-   561				default:
-   562					break;
-   563				}
-   564			default:
-   565				break;
-   566			}
-   567			break;
-   568		default:
-   569			break;
-   570		}
-   571		return -EOPNOTSUPP;
-   572	}
-   573	
-
+diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+index 165514401441..f4b68b8cd67d 100644
+--- a/Documentation/filesystems/overlayfs.rst
++++ b/Documentation/filesystems/overlayfs.rst
+@@ -207,11 +207,23 @@ handle it in two different ways:
+    applications are usually prepared to handle this error (mv(1) for example
+    recursively copies the directory tree).  This is the default behavior.
+ 
+-2. If the "redirect_dir" feature is enabled, then the directory will be
+-   copied up (but not the contents).  Then the "trusted.overlay.redirect"
+-   extended attribute is set to the path of the original location from the
+-   root of the overlay.  Finally the directory is moved to the new
+-   location.
++2. If the "redirect_dir" feature is enabled, then the contents of the
++   directory will not be copied up after any name-modifying operations
++   (e.g. rename(2), or mv(1)). Instead of performing a copy-up operation,
++   an empty entry will be created in the upper layer with the same name
++   as the affected entry in the overlayfs directory. The 'trusted.overlay.redirect'
++   xattr will then be set to mark the upper-layer directory, indicating that
++   its contents weren't copied up due to the 'redirect_dir' feature.
++   This extended attribute holds the previous name of a directory as a value.
++   For directories that were simply renamed the attribute is just the old name
++   of the directory without preceding path. For directories whose locations
++   in the overlayfs directory were changed, the corresponding xattrs are set
++   to the paths to the original locations from the root of the overlay.
++   The value of the xattr in the second case starts with a UNIX path delimiter
++   (e.g. "/$PREVIOUS_PATH"). Finally the directory is moved
++   to the new location. The output of du "$UPPER_LAYTER_DIR/$RENAMED_DIR"
++   should be zero. Renamed directory subentries will be copied-up only
++   after operations that directly affect their contents.
+ 
+ There are several ways to tune the "redirect_dir" feature.
+ 
+@@ -367,8 +379,14 @@ Metadata only copy up
+ 
+ When the "metacopy" feature is enabled, overlayfs will only copy
+ up metadata (as opposed to whole file), when a metadata specific operation
+-like chown/chmod is performed. Full file will be copied up later when
+-file is opened for WRITE operation.
++like chown/chmod is performed. When file metadata are modified the
++corresponding empty file (with the same name as the modified one)
++appears in the upper layer, however such a file contains
++no allocated data (a sparse file); doing du "$UPPER_LAYER/$FILENAME"
++should yield zero. Such an upper-layer file is marked with
++"trusted.overlayfs.metacopy" xattr which indicates that this file contains
++no data and copy-up should be performed before the corresponding file
++in the overlayfs directory is opened for write.
+ 
+ In other words, this is delayed data copy up operation and data is copied
+ up when there is a need to actually modify data.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.5
+
