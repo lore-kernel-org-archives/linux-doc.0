@@ -1,129 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DEF481C4;
-	Thu, 15 Aug 2024 18:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD013A8CB;
+	Thu, 15 Aug 2024 18:35:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723745974; cv=none; b=kfpb7c10tXyPMkfSqvs4mocrlwaiqfEts36Zdftn4HPfCA2U+g3JuYb3YQRrkWyy6lu3lq+YeJ8HvIYVGDDDt07niEh6pp1mEzMgNF5qjpPJ3T5pHNzY3rLA3sOeSWUcENGFrfjf0oOK6xmS9DNybS78D3LtxeIawrzkFz22KmI=
+	t=1723746918; cv=none; b=JHN6/lvWdXEdWv8L02lGgiuWWxiam0mBvF9xeZjHjcHMzZsa+8V5eRUY9F7ev4tF9EWklNGlQJeiWF3/DDeJSPFCvxy9Y4rIYCpswXq9Hn4xKLSk+d44F8OK3H0sGrWtbwNgpAKUNYt1ajDFP/tTvTz9DSsCvD5dHFsrLQ2SNMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723745974; c=relaxed/simple;
-	bh=gvOHdCK9aUdR7DPVLDdBmQ4rCqBdWg1NiIKC9n0vn/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=na5yoBDuTp9Xk4YocxzqnEyvyg236iZd4McF7x8d1wVI4N+IfgKQVVmRMUsrtJuVfq1T3updEVyZDF7fuintRexxbYKECmfb/puUBG20Rh+C6hcbsVOic3QeAAC7U9ZfZzaJ11hnZMJtj7S4DgriVZaTxOcodAL8GIpcNZ2JNVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmAPusW9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723746918; c=relaxed/simple;
+	bh=cTCsOgynQ4MwhMR6ZY7de0r7dfkhZkEHbhoL0qooFwQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=DDlBqo184Wc9mG0Oxiwlmm0E9sXsSlzNUB1EHilvWnk2c9gzYPF6TKpPrI7EFLQMQf8X6g1TTuNl0aF+eU40+YdgibW8UxkwTiqPNcnidEj1KGLfLITORUEEwL7pj3p/3ePtE18XWPdJAru1AryJJypOQKMF1pz5dG4345xqwRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ABo/r0Kp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmAPusW9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDE0C32786;
-	Thu, 15 Aug 2024 18:19:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ABo/r0Kp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB574C32786;
+	Thu, 15 Aug 2024 18:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723745973;
-	bh=gvOHdCK9aUdR7DPVLDdBmQ4rCqBdWg1NiIKC9n0vn/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jmAPusW9RWevvrm7Hg88q9xewbIsd/N/8xTtQyDPWPc982vMFTh7r29JlLa6aHf0o
-	 8io0uPtO83IiC/fkk0GKoQNNWuDUbOcvZAodgohYE/SjWTMQpUBTSbad1t64GFmGyS
-	 iVChoroyACoTlO+/w+ZVPqDVFAt/hYnGedb6MWnURMr/r772xCwXH9niKnJdXYUqJX
-	 ljF+fG3keMrMEmAZlQBZgeB5qVBYqMTd2O22DXiRYL9ul8f7b5FVTiy0/sBLHu0Gpw
-	 9wAE4WmxHy9lFZGd0S9lYGKcP1IFTR4cDZzHAlueePqA4AxAzNcZtdqHVh8a0mF8BL
-	 9fI1RwFnauAuw==
-Date: Thu, 15 Aug 2024 19:19:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"ross.burton@arm.com" <ross.burton@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"kees@kernel.org" <kees@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"ebiederm@xmission.com" <ebiederm@xmission.com>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"will@kernel.org" <will@kernel.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v10 12/40] mm: Define VM_SHADOW_STACK for arm64 when we
- support GCS
-Message-ID: <9949a344-be8e-40ed-b483-02ff95175072@sirena.org.uk>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-12-699e2bd2190b@kernel.org>
- <34f7a5378447b1a8d5a9561594b37cfeaa6bd2b1.camel@intel.com>
- <3a7d9b69-e9df-4271-a3f0-8e8683c2654f@sirena.org.uk>
- <68ec09da-fb4a-4d59-9c8c-6fae4c48ea68@sirena.org.uk>
- <e6c8618a1585006dde44c17192a3bb7ae8ec5c0b.camel@intel.com>
+	s=k20201202; t=1723746917;
+	bh=cTCsOgynQ4MwhMR6ZY7de0r7dfkhZkEHbhoL0qooFwQ=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=ABo/r0KpwzV2fsu7t9P88x9rSwJlLxWCZferGBEeusbxc7rkDoUTF3J8FWwiBqwqT
+	 NWJ2Xp90EgLXVEbil6GcV6DJHVaeoSTZi0TgVXlv9VIiBMvvFYrRJid9gLrX/txws7
+	 siYy5jScFJrXwMXXkt0d9iiK3DUfh5wGFRCEdfchdNfkT04PQWTO+dMD6ip9w5NLB1
+	 REC4S4UU4k9XDBy0Bx9u67wRSu7YIcEuxtwUQDBRVZ86u/aPmhNmriluSFbl0eVYSV
+	 Vj+N++DUAjE6ZtDvBDIcwM/lybcx0V1R3Q/dmHf3imznH1+CD3U7BBdaxQlqGS7Aqi
+	 LrEYvArcKSYNA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U12vN05f82sjc1Kd"
-Content-Disposition: inline
-In-Reply-To: <e6c8618a1585006dde44c17192a3bb7ae8ec5c0b.camel@intel.com>
-X-Cookie: -- Owen Meredith
-
-
---U12vN05f82sjc1Kd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 15 Aug 2024 21:35:13 +0300
+Message-Id: <D3GPA85MRNMM.3GMP3BTBEEYFP@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 09/19] x86: Secure Launch kernel late boot stub
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
+ <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-10-ross.philipson@oracle.com>
+ <D1RHZDG3HJNK.ZWTFLXDBEXD1@kernel.org>
+ <ad84cdaf-bea6-483e-82f3-c83a6b7006c3@oracle.com>
+In-Reply-To: <ad84cdaf-bea6-483e-82f3-c83a6b7006c3@oracle.com>
 
-On Thu, Aug 15, 2024 at 05:53:19PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2024-08-15 at 17:39 +0100, Mark Brown wrote:
+On Mon Aug 12, 2024 at 10:02 PM EEST,  wrote:
+> On 6/4/24 3:59 PM, Jarkko Sakkinen wrote:
+> > On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
+> >> The routine slaunch_setup is called out of the x86 specific setup_arch=
+()
+> >> routine during early kernel boot. After determining what platform is
+> >> present, various operations specific to that platform occur. This
+> >> includes finalizing setting for the platform late launch and verifying
+> >> that memory protections are in place.
+> >>
+> >> For TXT, this code also reserves the original compressed kernel setup
+> >> area where the APs were left looping so that this memory cannot be use=
+d.
+> >>
+> >> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> >> ---
+> >>   arch/x86/kernel/Makefile   |   1 +
+> >>   arch/x86/kernel/setup.c    |   3 +
+> >>   arch/x86/kernel/slaunch.c  | 525 +++++++++++++++++++++++++++++++++++=
+++
+> >>   drivers/iommu/intel/dmar.c |   4 +
+> >>   4 files changed, 533 insertions(+)
+> >>   create mode 100644 arch/x86/kernel/slaunch.c
+> >>
+> >> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+> >> index 5d128167e2e2..b35ca99ab0a0 100644
+> >> --- a/arch/x86/kernel/Makefile
+> >> +++ b/arch/x86/kernel/Makefile
+> >> @@ -76,6 +76,7 @@ obj-$(CONFIG_X86_32)		+=3D tls.o
+> >>   obj-$(CONFIG_IA32_EMULATION)	+=3D tls.o
+> >>   obj-y				+=3D step.o
+> >>   obj-$(CONFIG_INTEL_TXT)		+=3D tboot.o
+> >> +obj-$(CONFIG_SECURE_LAUNCH)	+=3D slaunch.o
+> >=20
+> > Hmm... should that be CONFIG_X86_SECURE_LAUNCH?
+>
+> Further thoughts on this after discussions...
+>
+> The Secure Launch feature will cover other architectures beyond x86 in=20
+> the future. We may have to rework/move the config settings at that point=
+=20
+> but for now I don't think we want to change it.
 
-> > > Oh, thanks for the heads up - I'd missed that.
+OK got it.
 
-> > Looking at this I think it makes sense to do as was done for x86 and
-> > split this out into a separate series (part of why I'd missed it),
-> > updating the generic implementation to do this by default.=A0 That'll
-> > touch a bunch of architectures and the series is already quite big,
-> > it's not really an ABI impact.
-
-> The series is already upstream. You just need to add an arm version of th=
-at
-> linked patch. But up to you.
-
-Your series modified the existing x86 custom arch_get_unmapped_area*()
-functions, arm64 uses the generic implementation of those so I'd have to
-either add custom implementations (which I can't imagine would be met
-with great enthusiasm) or update the generic ones.  A generic
-implementation seems reasonable and it looks like RISC-V would also end
-up using it so while it's a bit invasive it does seem more sensible to
-do the change there.
-
---U12vN05f82sjc1Kd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma+RqsACgkQJNaLcl1U
-h9C2ogf/ZUz9M5cZLraiijYr3jTrEMdCaa6D0jRDGoL0IP3BclPhluw29VOQVf4x
-aJ10O4eGMRHl32XL0oWXQlmSmjiHfXTvVmeAnPrKkq6Sx8BDI7tOW1f4b64Iyouq
-aGNPYw1YjXPdazXxXLbaQVZZOrq5BE2dbXw6ocHaombvt/oG6sAGc4F4KFXwb6+A
-OR+jpoND8CbzSxh4EO89eoixTKgqvVZTLfQ3zZBdyjrrk1jyp6Q/63wMC325Bmam
-FebFR/NFJlNNAGpnhBbZhme21z1oZ+1h9K6G37zJUsXqqkOnH56fbsfKJ3wGW37B
-VjXIsdlILKUDIICvYmo5rxepKRyUqQ==
-=DIrs
------END PGP SIGNATURE-----
-
---U12vN05f82sjc1Kd--
+BR, Jarkko
