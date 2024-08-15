@@ -1,65 +1,66 @@
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6584036AF8
-	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 17:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8334DA13
+	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 17:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723741952; cv=none; b=FoHkQZqf7WnfRn9qYBCbfbYZBK+hzw3yglF/5qqKyIPLyzzGB++c8RFfD3lxKbncgs7kbzbvJrUVh+A+xoNlIPDFN2sSfIG/hUHGcpz4TJwMgiL2A2+lGRlmbcWPCPDXcb/onEgYPo80ohQfc038Hw/pmPtsD3op5Yf8+LWXgZw=
+	t=1723743108; cv=none; b=quYywN0m+0eR7S/YTcvSuFwx27PxbsSVaK0CShvwo9eHMA2mojDbdXdtONeri5xr9eFUp5YcKu1sTEVayLc0CfzPpNMYLIYC3uGM0sPFPC7zGAFo2lTWn0oFMrhFOWP81wRqvEKO9tYHhl1GUVG6sCAzhONoap2u7/mwwOjkkuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723741952; c=relaxed/simple;
-	bh=YnedXFXmNlTUmV4EtthEbEnVIL2LfqX3Jy0XQNW8IYc=;
+	s=arc-20240116; t=1723743108; c=relaxed/simple;
+	bh=QbXlSIN7Jb6zKr7Do8xhpv3pvluEnhYN3MIAUO+roak=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YoxFPyqcZ8gcFn0XiX/LZRn95GMUQQznprMb/DdNzhzJt2gqq4/tll3cSnaynNXOiygKGbU0TAL8sJUvvDfxkZAX8AmfUJomGuydjFKfL0uHxe/ERZPLzmwf+HXwmLG6TV/WFwN7EjuLMqXWlm3Q0GgncfBer2ND0WPOTTDNYbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tInm7iFn; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=BktTpvMI5eUdhqjR8Pn1KxmbsUCOm2UzeJjMtBlPrrSshJJEka0Icu1YlWjZV3oCg966nm9nKBRI/TuCFm/nLJ92T++SFk81W4foLIVzFGAOUVCoPzU3X4520pm57yygnpSp+sMfqU4HsFI7rEkQloJVUOIApPGibufSYRPa0t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C9xqtquZ; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tInm7iFn"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-688777c95c4so19926067b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 10:12:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C9xqtquZ"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6af4700a594so23168907b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 10:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723741949; x=1724346749; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1723743106; x=1724347906; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvhrlQOvT1qaF0wyf19GNpeoicAZhXdNzp2/56IfXXY=;
-        b=tInm7iFnfYKWdteXtxTKy07sGNdwrItS0H6Z+a1/gIcuiq5TuxmCiuLJDH32j35N7i
-         zQ3HJLEIuf2TGXD7QuTMOs1yy3WFv3IY3dWOMgzicgikK8LH7hBEosYXdi4rgkP1Mioj
-         YaxDo21Nw16yfJr/uz2ocl2cmt3i5IPC255oJpOhfVPo+4jHjj1iROPJ8tioyKUOzdp8
-         gfd9VvDWZ+EMM+tkWxE9wIFPVcjUPQ4xqbKEO0Pk5nx53uq3HokWnb3dS0YbiJBIAg3A
-         EzsYIB/pumEgrhShK4S6K67nG38SLe9Pwn2KdTq3K2/2J5R+8THIu5mFDwrR6aUBLG4p
-         T8Ag==
+        bh=37F32RQuy8+0cBTW6OKKkuSelNVTFSr/zBWZTj9nXuI=;
+        b=C9xqtquZtAo1tz31Fxl4sP0bAZogb8j+eJAXE3bwt00wMyF56gaMDDgJfQR9P3SRhz
+         LJQ2EBG5IP+EDMr075SN1/iLxnPK9la1WTHtY1gqrg8PdIOlYp6or6uKIEzpA29/nu1q
+         2vuF2oxi/wgXp2Q60j8jjx3XX1B2mbzR0JQ9pzU7kxej6snDK43DWEgSwSwS+b6i3Nhn
+         u+gxHY2a09O6Sr9Sp8nLMDvTbVr+MvUrEbVwZGC6yu2QDjHlaOlUol9MDAfT4PxMR8SA
+         H75Eq2Qv4SzEK4yra0Y3MK9bCcTx8rsk78ZxNNqGeo8QXOKJAD1gRfoNaCyTisgwHyP/
+         59Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723741949; x=1724346749;
+        d=1e100.net; s=20230601; t=1723743106; x=1724347906;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvhrlQOvT1qaF0wyf19GNpeoicAZhXdNzp2/56IfXXY=;
-        b=KdMr2IHD16AYtubkYZTMXfcfOioy23hjWnHEH7UNovkFhPOmBaT4TSw9j9woE60+DH
-         x8DhVp7COA2rXxozEQCx3urKRcjHjnQtfpBxRNXlNkm2sQ/qoJbQSXlrM3nS/kU+aVfc
-         sErsFkpX+9HgSv5e2Ib6tsgWi6oP5XpSZy6E3tt//MzKFT1quO2CcXoXayc2eXzSHnvA
-         hfAPsvJ9Qv73d6s1xGmVH2wg9dvpjp/qVyHMF9ZkGxug9N2NOtNmRLirOlwvP0il/pSv
-         aNfDkLNYeeF8jsxeX1rKEtdHuQo7nJVisNGO5nvwPy/A1DeMgwzuufEElUZIJtZBL5cD
-         +yoA==
-X-Forwarded-Encrypted: i=1; AJvYcCXrq06fDzDmtH5encFUHz8BKMFa9xBpAI/XzlR+nuwP0fAI7CeAejd1zPhJR5jJFDKmW+MEU52MdbS5cGT9mcK6v+ZqmCKoWomu
-X-Gm-Message-State: AOJu0YwPoMoE1XXik0hTwes0N64Aox4bJhm6JlqBnwtBcy1VTjDyIuUg
-	PgLUJIxVMwO8jFUAZ3SokQdjCrnG/F+22weRcnVl78rlppFv2y534dGja5soYZbt5UVaIlE5SxS
-	DVA==
-X-Google-Smtp-Source: AGHT+IH/O74nUjl4sfpshsDyjxeZHvEjEYPoU6nLVkktHrMXY003wqNpVWSkAh256RPFReDLYAEdJvcIYMw=
+        bh=37F32RQuy8+0cBTW6OKKkuSelNVTFSr/zBWZTj9nXuI=;
+        b=hkaRPTUXfeR2HeZq8Hq5FsxgAI9o2e+3FMAev3zzU8zOyxNa4TfIIiI2T0daLop+RM
+         DU4WNQHgCHVTY0q1f1igG2GOeqet0LHhYFlLQxBY7X8Y+b3z2aRR1cCsELu2PttQNWVf
+         no1JxI4Ika2XaOoHbm2aTTGRL4fNdqnit7fn6EHkz/SX24/C/NQsL/w4zp2c0V7zsPt3
+         /M0qA//52RVch5fNz0SgWrNP8do+HgjSVhEjpO0aJ9/q1hhpug4LlSK0vMiiVBnn9Gaf
+         +40Qm8pT0eSAi+gpr9jFCYsDzXT6ys3ffdeSgmtNaWPNt3FSZj9teF09G3hHG5TRE2nj
+         zRjw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/tf719NkFS30qD3uoD0RiXXAxhxtXn60JJQnPpC8GE/cJLjyelu0T1BWIHJ35KZ4ZD9wlRUzVSSF8ovnklr1ZF02Yx+IuA0sA
+X-Gm-Message-State: AOJu0Yy/bbtr4RHE5QB3y2VcghU+Cn1vj60GU8uPDYqp09dXBp6ROeB6
+	6CJj5QZ/vJ3bpEHdguMqZD3SjL11ojdHE5GiOs1x/1bxJEbrynFM3SKeZSZRXlvIn3P8A2xM2nl
+	Zpw==
+X-Google-Smtp-Source: AGHT+IFcExSDSrYqJfIAeCJVnOPaRKoHoSW2taeGhC9rK65ohx19AQTb8ulOz1IcFs0HZt63/1LzBvs8k7k=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:288d:b0:669:e266:2c56 with SMTP id
- 00721157ae682-6b1bb85ee65mr91497b3.6.1723741949511; Thu, 15 Aug 2024 10:12:29
- -0700 (PDT)
-Date: Thu, 15 Aug 2024 10:12:27 -0700
-In-Reply-To: <20240522001817.619072-17-dwmw2@infradead.org>
+ (user=seanjc job=sendgmr) by 2002:a05:690c:7690:b0:69b:2f8e:4d10 with SMTP id
+ 00721157ae682-6b1bbe2eb40mr149967b3.7.1723743106134; Thu, 15 Aug 2024
+ 10:31:46 -0700 (PDT)
+Date: Thu, 15 Aug 2024 10:31:44 -0700
+In-Reply-To: <20240522001817.619072-19-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-17-dwmw2@infradead.org>
-Message-ID: <Zr42-6sLSg0a9l1I@google.com>
-Subject: Re: [RFC PATCH v3 16/21] KVM: x86: Factor out kvm_use_master_clock()
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-19-dwmw2@infradead.org>
+Message-ID: <Zr47gM9HWnzG9aN9@google.com>
+Subject: Re: [RFC PATCH v3 18/21] KVM: x86: Avoid gratuitous global clock
+ reload in kvm_arch_vcpu_load()
 From: Sean Christopherson <seanjc@google.com>
 To: David Woodhouse <dwmw2@infradead.org>
 Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -75,94 +76,56 @@ Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
 	Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 
-The shortlog is rather misleading.  This is more than just a refactor, and I
-would argue the refactor aspect is secondary, i.e. the main goal of this patch
-is to apply the exceptons to kvm_track_tsc_matching().
-
 On Wed, May 22, 2024, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Both kvm_track_tsc_matching() and pvclock_update_vm_gtod_copy() make a
-> decision about whether the KVM clock should be in master clock mode.
+> Commit d98d07ca7e034 ("KVM: x86: update pvclock area conditionally, on
+> cpu migration") turned an unconditional KVM_REQ_CLOCK_UPDATE into a
+> conditional one, if either the master clock isn't enabled *or* the vCPU
+> was not previously scheduled (vcpu->cpu == -1). The commit message doesn't
+> explain the latter condition, which is specifically for the master clock
+> case.
+
+It handles the first load of the vCPU, which is distinctly different from CPU
+migration.
+
+> Commit 0061d53daf26f ("KVM: x86: limit difference between kvmclock
+> updates") later turned that into a KVM_REQ_GLOBAL_CLOCK_UPDATE to avoid
+> skew between vCPUs.
 > 
-> They use *different* criteria for the decision though. This isn't really
-> a problem; it only has the potential to cause unnecessary invocations of
-> KVM_REQ_MASTERCLOCK_UPDATE if the masterclock was disabled due to TSC
-> going backwards, or the guest using the old MSR. But it isn't pretty.
+> In master clock mode there is no need for any of that, regardless of
+> whether/where this vCPU was previously scheduled.
 > 
-> Factor the decision out to a single function. And document the historical
-> reason why it's disabled for guests that use the old MSR_KVM_SYSTEM_TIME.
+> Do it only if (!kvm->arch.use_master_clock).
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  arch/x86/kvm/x86.c | 27 +++++++++++++++++++++++----
->  1 file changed, 23 insertions(+), 4 deletions(-)
+>  arch/x86/kvm/x86.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index e21b8c075bf6..437412b36cae 100644
+> index 32a873d5ed00..dd53860ca284 100644
 > --- a/arch/x86/kvm/x86.c
 > +++ b/arch/x86/kvm/x86.c
-> @@ -2518,6 +2518,27 @@ static inline bool gtod_is_based_on_tsc(int mode)
->  }
->  #endif
->  
-> +static bool kvm_use_master_clock(struct kvm *kvm)
+> @@ -5161,7 +5161,7 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+>  		 * On a host with synchronized TSC, there is no need to update
+>  		 * kvmclock on vcpu->cpu migration
+>  		 */
+> -		if (!vcpu->kvm->arch.use_master_clock || vcpu->cpu == -1)
+> +		if (!vcpu->kvm->arch.use_master_clock)
+>  			kvm_make_request(KVM_REQ_GLOBAL_CLOCK_UPDATE, vcpu);
 
-Maybe kvm_can_use_master_clock() so that this isn't misconstrued with the actual
-ka->user_master_clock field.
+I believe this needs to be:
 
-> +{
-> +	struct kvm_arch *ka = &kvm->arch;
-> +
-> +	/*
-> +	 * The 'old kvmclock' check is a workaround (from 2015) for a
-> +	 * SUSE 2.6.16 kernel that didn't boot if the system_time in
-> +	 * its kvmclock was too far behind the current time. So the
-> +	 * mode of just setting the reference point and allowing time
-> +	 * to proceed linearly from there makes it fail to boot.
-> +	 * Despite that being kind of the *point* of the way the clock
-> +	 * is exposed to the guest. By coincidence, the offending
-> +	 * kernels used the old MSR_KVM_SYSTEM_TIME, which was moved
-> +	 * only because it resided in the wrong number range. So the
-> +	 * workaround is activated for *all* guests using the old MSR.
-> +	 */
-> +	return ka->all_vcpus_matched_tsc &&
-> +		!ka->backwards_tsc_observed &&
-> +		!ka->boot_vcpu_runs_old_kvmclock;
+		if (!vcpu->kvm->arch.use_master_clock)
+			kvm_make_request(KVM_REQ_GLOBAL_CLOCK_UPDATE, vcpu);
+		else if (vcpu->cpu == -1)
+			kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
 
-Please align indentation:
+or alternatively do KVM_REQ_CLOCK_UPDATE during vCPU creation (hotplug?).
 
-	return ka->all_vcpus_matched_tsc &&
-	       !ka->backwards_tsc_observed &&
-	       !ka->boot_vcpu_runs_old_kvmclock;
-
-> +}
-> +
->  static void kvm_track_tsc_matching(struct kvm_vcpu *vcpu)
->  {
->  #ifdef CONFIG_X86_64
-> @@ -2550,7 +2571,7 @@ static void kvm_track_tsc_matching(struct kvm_vcpu *vcpu)
->  	 * To use the masterclock, the host clocksource must be based on TSC
->  	 * and all vCPUs must have matching TSC frequencies.
->  	 */
-> -	bool use_master_clock = ka->all_vcpus_matched_tsc &&
-> +	bool use_master_clock = kvm_use_master_clock(vcpu->kvm) &&
->  				gtod_is_based_on_tsc(gtod->clock.vclock_mode);
->  
->  	/*
-> @@ -3096,9 +3117,7 @@ static void pvclock_update_vm_gtod_copy(struct kvm *kvm)
->  					&ka->master_cycle_now);
->  
->  	ka->use_master_clock = host_tsc_clocksource
-> -				&& ka->all_vcpus_matched_tsc
-> -				&& !ka->backwards_tsc_observed
-> -				&& !ka->boot_vcpu_runs_old_kvmclock;
-> +				&& kvm_use_master_clock(kvm);
-
-Perfect opportuity to put the "&&" on the preceding line.
->  
->  	/*
->  	 * When TSC scaling is in use (which can thankfully only happen
+>  		if (vcpu->cpu != cpu)
+>  			kvm_make_request(KVM_REQ_MIGRATE_TIMER, vcpu);
 > -- 
 > 2.44.0
 > 
