@@ -1,126 +1,170 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF8EE1A00D2;
-	Thu, 15 Aug 2024 13:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8E01714A8;
+	Thu, 15 Aug 2024 13:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723729055; cv=none; b=WIAKeMf5AjRB1cViM7d6HGmVUNLhNvxwJlKHczo7TxLX5yx+2qBnHpmOo7/EHDmeenUmNOX9cEcPCrWIBS03K7cnVmyTW6kCVEk+SHVgcypPTlfAcdhl0HBy72GcRwdjoojInHhmsYQjmqXS+//9ZncF+xbjm3HOBTD2FWDrccM=
+	t=1723729220; cv=none; b=pLgfCFrSStxsiaDp+kvX4GPGMUjo1RozxbHV9RCmU5+2onvs3kV/cAj9JjMBa+gp1VZt5HsmjUvnV9CoCbT0okPnZiRAWBlMwCuZYqUPLTymdP4yT5pCpq1C/SSoi0uzoYnFoioAFutuc0cEzA9vYAp46jCe55EBDKsdkAcAI0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723729055; c=relaxed/simple;
-	bh=S55pv2tvhOplbIrUC4DKqA+mD14R5cLIsvDmthqKVzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L6s4WctyvMiO2fCofrup8ORU8b4kLe+uPPOLUZRz1N99GVUhJa6eJQV/bTKHii9Tvl9VZvHwuLcoBApH24C5WE6OZhUY5vGMiv2SPRjouoZJ+VvQvrZTgKYebNlB3h5CgS4pE5dk56uWLrwj0B7HzYnKEs1TwLf/9njGwLJGChM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D46EC14BF;
-	Thu, 15 Aug 2024 06:37:58 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3AA023F6A8;
-	Thu, 15 Aug 2024 06:37:28 -0700 (PDT)
-Date: Thu, 15 Aug 2024 14:37:22 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 23/40] arm64/signal: Set up and restore the GCS
- context for signal handlers
-Message-ID: <Zr4EkmtUKop9o9wu@e133380.arm.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-23-699e2bd2190b@kernel.org>
- <ZrzEfg5LqdAzgJ6+@e133380.arm.com>
- <08932f6d-01ef-40e8-97d2-08f0d2016191@sirena.org.uk>
+	s=arc-20240116; t=1723729220; c=relaxed/simple;
+	bh=LsEF9SwjjRfvqRTvgOKr/Mldazy9d/zwtcPOdxn7FGQ=;
+	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=S3QSAuNeppFnbMUF3/BvXWjJeQt2uMw6TV8wxDzVCvNS20FXqIocKvnenxcKep/Vsx+A4a7N1YgOogOqvX+dVABnUubfKeSA80nLeyl8IXGqKBxwH5vE/Xxw5BuSfKUAITigkLIVkDR8+bNTSMbiSJYb2tPkToVuqXquVyAHVw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Wl5p66BKLzyPsT;
+	Thu, 15 Aug 2024 21:39:42 +0800 (CST)
+Received: from kwepemd200014.china.huawei.com (unknown [7.221.188.8])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5B0701800A4;
+	Thu, 15 Aug 2024 21:40:14 +0800 (CST)
+Received: from [10.67.121.177] (10.67.121.177) by
+ kwepemd200014.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Thu, 15 Aug 2024 21:40:13 +0800
+CC: Shuai Xue <xueshuai@linux.alibaba.com>, Jing Zhang
+	<renyu.zj@linux.alibaba.com>, Will Deacon <will@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Yicong
+ Yang <yangyicong@hisilicon.com>, Jonathan Cameron
+	<Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
+	<quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
+	<quic_parass@quicinc.com>, <quic_mrana@quicinc.com>
+Subject: Re: [PATCH 1/4] perf/dwc_pcie: Fix registration issue in multi PCIe
+ controller instances
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+References: <20240731-dwc_pmu_fix-v1-0-ca47d153e5b2@quicinc.com>
+ <20240731-dwc_pmu_fix-v1-1-ca47d153e5b2@quicinc.com>
+From: Yicong Yang <yangyicong@huawei.com>
+Message-ID: <3dcb4074-9958-b454-7456-9dcc455dd736@huawei.com>
+Date: Thu, 15 Aug 2024 21:40:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08932f6d-01ef-40e8-97d2-08f0d2016191@sirena.org.uk>
+In-Reply-To: <20240731-dwc_pmu_fix-v1-1-ca47d153e5b2@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemd200014.china.huawei.com (7.221.188.8)
 
-On Wed, Aug 14, 2024 at 05:00:23PM +0100, Mark Brown wrote:
-> On Wed, Aug 14, 2024 at 03:51:42PM +0100, Dave Martin wrote:
-> > On Thu, Aug 01, 2024 at 01:06:50PM +0100, Mark Brown wrote:
+On 2024/7/31 12:23, Krishna chaitanya chundru wrote:
+> When there are multiple of instances of PCIe controllers, registration
+> to perf driver fails with this error.
+> sysfs: cannot create duplicate filename '/devices/platform/dwc_pcie_pmu.0'
+> CPU: 0 PID: 166 Comm: modprobe Not tainted 6.10.0-rc2-next-20240607-dirty
+> Hardware name: Qualcomm SA8775P Ride (DT)
+> Call trace:
+>  dump_backtrace.part.8+0x98/0xf0
+>  show_stack+0x14/0x1c
+>  dump_stack_lvl+0x74/0x88
+>  dump_stack+0x14/0x1c
+>  sysfs_warn_dup+0x60/0x78
+>  sysfs_create_dir_ns+0xe8/0x100
+>  kobject_add_internal+0x94/0x224
+>  kobject_add+0xa8/0x118
+>  device_add+0x298/0x7b4
+>  platform_device_add+0x1a0/0x228
+>  platform_device_register_full+0x11c/0x148
+>  dwc_pcie_register_dev+0x74/0xf0 [dwc_pcie_pmu]
+>  dwc_pcie_pmu_init+0x7c/0x1000 [dwc_pcie_pmu]
+>  do_one_initcall+0x58/0x1c0
+>  do_init_module+0x58/0x208
+>  load_module+0x1804/0x188c
+>  __do_sys_init_module+0x18c/0x1f0
+>  __arm64_sys_init_module+0x14/0x1c
+>  invoke_syscall+0x40/0xf8
+>  el0_svc_common.constprop.1+0x70/0xf4
+>  do_el0_svc+0x18/0x20
+>  el0_svc+0x28/0xb0
+>  el0t_64_sync_handler+0x9c/0xc0
+>  el0t_64_sync+0x160/0x164
+> kobject: kobject_add_internal failed for dwc_pcie_pmu.0 with -EEXIST,
+> don't try to register things with the same name in the same directory.
 > 
-> > > +	put_user_gcs((unsigned long)sigtramp, gcspr_el0 - 2, &ret);
-> > > +	put_user_gcs(GCS_SIGNAL_CAP(gcspr_el0 - 1), gcspr_el0 - 1, &ret);
-> > > +	if (ret != 0)
-> > > +		return ret;
+> This is because of having same bdf value for devices under two different
+> controllers.
 > 
-> > What happens if we went wrong here, or if the signal we are delivering
-> > was caused by a GCS overrun or bad GCSPR_EL0 in the first place?
+> Update the logic to use sbdf which is a unique number in case of
+> multi instance also.
 > 
-> > It feels like a program has no way to rescue itself from excessive
-> > recursion in some thread.  Is there something equivalent to
-> > sigaltstack()?
+> Fixes: af9597adc2f1 ("drivers/perf: add DesignWare PCIe PMU driver")
+
+Did you run into this on a QCOM platform with Patch 4/4 since there's
+multiple PCIe domains?
+
+> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+> ---
+>  drivers/perf/dwc_pcie_pmu.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> > Or is the shadow stack always supposed to be big enough to cope with
-> > recursion that exhausts the main stack and alternate signal stack (and
-> > if so, how is this ensured)?
+> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
+> index c5e328f23841..c115348b8d53 100644
+> --- a/drivers/perf/dwc_pcie_pmu.c
+> +++ b/drivers/perf/dwc_pcie_pmu.c
+> @@ -556,10 +556,10 @@ static int dwc_pcie_register_dev(struct pci_dev *pdev)
+>  {
+>  	struct platform_device *plat_dev;
+>  	struct dwc_pcie_dev_info *dev_info;
+> -	u32 bdf;
+> +	u32 sbdf;
+>  
+> -	bdf = PCI_DEVID(pdev->bus->number, pdev->devfn);
+> -	plat_dev = platform_device_register_data(NULL, "dwc_pcie_pmu", bdf,
+> +	sbdf = (pci_domain_nr(pdev->bus) << 16) | PCI_DEVID(pdev->bus->number, pdev->devfn);
+> +	plat_dev = platform_device_register_data(NULL, "dwc_pcie_pmu", sbdf,
+>  						 pdev, sizeof(*pdev));
+>  
+>  	if (IS_ERR(plat_dev))
+> @@ -611,15 +611,15 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
+>  	struct pci_dev *pdev = plat_dev->dev.platform_data;
+>  	struct dwc_pcie_pmu *pcie_pmu;
+>  	char *name;
+> -	u32 bdf, val;
+> +	u32 sbdf, val;
+>  	u16 vsec;
+>  	int ret;
+>  
+>  	vsec = pci_find_vsec_capability(pdev, pdev->vendor,
+>  					DWC_PCIE_VSEC_RAS_DES_ID);
+>  	pci_read_config_dword(pdev, vsec + PCI_VNDR_HEADER, &val);
+> -	bdf = PCI_DEVID(pdev->bus->number, pdev->devfn);
+> -	name = devm_kasprintf(&plat_dev->dev, GFP_KERNEL, "dwc_rootport_%x", bdf);
+> +	sbdf = (pci_domain_nr(pdev->bus) << 16) | PCI_DEVID(pdev->bus->number, pdev->devfn);
+
+sbdf is also registerd as the id of the platform device in platform_device_register_data() above,
+can we use it directly here without encoding it again?
+
+Thanks.
+
+> +	name = devm_kasprintf(&plat_dev->dev, GFP_KERNEL, "dwc_rootport_%x", sbdf);
+>  	if (!name)
+>  		return -ENOMEM;
+>  
+> @@ -650,7 +650,7 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
+>  	ret = cpuhp_state_add_instance(dwc_pcie_pmu_hp_state,
+>  				       &pcie_pmu->cpuhp_node);
+>  	if (ret) {
+> -		pci_err(pdev, "Error %d registering hotplug @%x\n", ret, bdf);
+> +		pci_err(pdev, "Error %d registering hotplug @%x\n", ret, sbdf);
+>  		return ret;
+>  	}
+>  
+> @@ -663,7 +663,7 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
+>  
+>  	ret = perf_pmu_register(&pcie_pmu->pmu, name, -1);
+>  	if (ret) {
+> -		pci_err(pdev, "Error %d registering PMU @%x\n", ret, bdf);
+> +		pci_err(pdev, "Error %d registering PMU @%x\n", ret, sbdf);
+>  		return ret;
+>  	}
+>  	ret = devm_add_action_or_reset(&plat_dev->dev, dwc_pcie_unregister_pmu,
 > 
-> There's no sigaltstack() for GCS, this is also the ABI with the existing
-> shadow stack on x86 and should be addressed in a cross architecture
-> fashion.  There have been some discussions about providing a shadow alt
-> stack but they've generally been circular and inconclusive, there were a
-> bunch of tradeoffs for corner cases and nobody had a clear sense as to
-> what a good solution should be.  It was a bit unclear that actively
-> doing anything was worthwhile.  The issues were IIRC around unwinders
-> and disjoint shadow stacks, compatibility with non-shadow stacks and
-> behaviour when we overflow the shadow stack.  I think there were also
-> some applications trying to be very clever with alt stacks that needed
-> to be interacted with and complicated everything but I could be
-> misremembering there.
-> 
-> Practically speaking since we're only storing return addresses the
-> default GCS should be extremely large so it's unlikely to come up
-> without first encountering and handling issues on the normal stack.
-> Users allocating their own shadow stacks should be careful.  This isn't
-> really satisfying but is probably fine in practice, there's certainly
-> not been any pressure yet from the existing x86 deployments (though at
-> present nobody can explicitly select their own shadow stack size,
-> perhaps it'll become more of an issue when the clone3() stuff is in).
-
-Ack, if this is a known limitation then I guess it makes sense just to
-follow other arches.
-
-I see that we default the shadow stack size to half the main stack size,
-which should indeed count as "huge".  I guess this makes shadow stack
-overrun unlikely at least (at least, not before the main stack
-overruns).
-
-
-Hopping to an alternate (main) stack while continuing to push on the
-same shadow stack doesn't sound broken in principle.
-
-Is there a test for taking and returning from a signal on an alternate
-(main) stack, when a shadow stack is in use?  Sounds like something
-that would be good to check if not.
-
-Cheers
----Dave
