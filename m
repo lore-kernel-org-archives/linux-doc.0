@@ -1,65 +1,65 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D115C15E88
-	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 15:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660291B373E
+	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 16:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723737144; cv=none; b=Ae3YDdHkpGz/cfKdjm/fxKRbJExNxAaMNQtRpB5y14lSemxRWffy/Kmou/QSBguFqVztZOluAIdrXOV8RllNmo7cmdcELChd/6bqP3zSS3l4hQc6b6jkN7KwFKyZLoAszU7Fv0UpLpbpCWdoWBxl/Ik8wAk+ZeVsW8ojdU4DfuE=
+	t=1723737607; cv=none; b=lTlz0I0ihy8nyJ8IQuM2VV9qtZpXcRQTNrILW3eLKmZth/UzIk0mzXihoBFMBKdCePshvFWb0lhG+IX6AlrdbGEEjGXSSE1A7nNW59C6rsVENoFs7zfq3/ccGVQou8gfzQwsF7Sv9hB+DK/zFHvmLta/6xGOki3E/1LGacewQG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723737144; c=relaxed/simple;
-	bh=snKXFCF6FnyiOrGKJVBPz6luqmn6mmdCtFo8tjxYdls=;
+	s=arc-20240116; t=1723737607; c=relaxed/simple;
+	bh=8LOB4hMOsdMgF4WbkQ49wP5IJlz8nKKjriUyn+4jDsE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pVM1BhN16r7sm/4d3dESvWL4rcidIpXWPyeTCpJUg7B5vkPDH/Ea3PO6CoeNgBwhtJaQQLG03qNOJ/mqY6jKu3OJmoVwWXMuJOMeFdVozY6isUx/nPn2nBw6xn3KKYs1G8PqGrLtgzMgigPiJfn6iCuj4lBzQtDzJzEGWaLQzpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zdF2Efvh; arc=none smtp.client-ip=209.85.215.201
+	 To:Cc:Content-Type; b=dKP8pWHwNW8In0OEOZGZkdvdetgcTbLjeCbpOcT0qGWIDFF01IO40wB7GiwH6xlAZso6m7poHT9ShaBO2iptM+c3+Jt4xcleKpi8KMl6BlBg1KRciCEpJGQ04PmWO5LY2edlDqP4GBdjhE3gWtaZEJ3A8kUEaCQ+0WSqOfCYnBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k2Ce3tGK; arc=none smtp.client-ip=209.85.215.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zdF2Efvh"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-7a23a0fb195so921994a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 08:52:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k2Ce3tGK"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-5e4df21f22dso834231a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 09:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723737142; x=1724341942; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1723737606; x=1724342406; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UsUSd9Woo/iqPvXMwajq5VMWihmQ0h2yWsEHJq+e+9A=;
-        b=zdF2Efvhw8kMRsbjOC6prXruy5KR/vKK84JMIFWniz2YoEP5U3m4SDTHKbSyb0t8Jt
-         +BMtOy2MF3VpOSPtyeY/Re7DtcnpV0/W7hxt9k5uMnNt9J4NdFzwTto5vcdI+a3FGpAn
-         WNkuDd3xFTum9/Vz5+nU4/7v9yMZk4WtOeQdM+T9uHie3vMKKjLtuUk0Zba9dK+8+ET5
-         ZFDGsN82/AqQg2+waIZW6xHQ7arn+xIr2YQkpY2E53Nx4Kr/sFDmLrohNDFnVTrVIanl
-         mmHbAU9kSdB0Pc/1Q1tZx8zAQWxavg4eK2/oZyUmtGbW/ZNbWj+pTxFLnEnT54KRhvvP
-         OlIg==
+        bh=M8NnW+ymJPO/5j9ioWkpEO+FljjLsToFL+mCOZ9DuZ8=;
+        b=k2Ce3tGKvAagcinHeUztFYH7OCI3WMGz/YeWB2Nrbcz6uD+TzyvA077Gl9Ifh50Cyy
+         01rGtL6ciEnPLrRUzhccZXrczauI7kYWWU8ghB8zJ+aZZIfzK9vKLl9Z7rYiP5SUcNOt
+         RPQx2VFdnlYqE8qDuavlABzXwMgmVgR/eVk6urr8K5Yp7BP7R5vAYhCcUx9aHrwOlZqM
+         Oozn8GPVo7+A7mki8sCoQtKjVhAQ2bbmXHtGCexm9WTg40lOxNFlrJjVNeb2QZIdF0NL
+         Hk0MBGDoddQukfiMbXt/mYuQDSWE/7pgQhx3IrGy3dhErmkMGEqXHGxBodsBxSgnGe+s
+         4jwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723737142; x=1724341942;
+        d=1e100.net; s=20230601; t=1723737606; x=1724342406;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UsUSd9Woo/iqPvXMwajq5VMWihmQ0h2yWsEHJq+e+9A=;
-        b=kO7qG5JcltXMSUAVCfrWLCXgZTWO9Kvx22XTFLxvP4EYwmBBTEgK0yua6h/V8OXkW1
-         guC64fzY7D60aB0uqwLhi0l8ovm7quTAl8lwHQp8LDnG9NZEgwZBZfyHLyl9C53IB9i/
-         TXP275Z5LRwInr5KOfhEpTxpMJWYYsyMGdZtLLA1J+MAn4RuvXkfGx4L3gZc3Le3G2d6
-         AC/B/ri/6nXHQVOJngNzi8P1aTA0lSngZfwA/2pWj4vMGB/wEcAdFTPKqfG0PdHIY4VQ
-         1F1Rg5w//E405rJM6qRTmtFDgi3ih0LB2Szcgv0F9yVvV9oLZcz1S2XabWv8TT4cfjIL
-         +slw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4FEhokTtkRbdw5iSkS1BL3uPkkz+Qn8fES7UHtJ7EmNeO8qa69VghguzGqZijbop4O+uAiD82wRGK0eR63dF7ee2JOZA0msV5
-X-Gm-Message-State: AOJu0YyCZD0pzQ3Ck6kVl7RwWTAPyrTxdMQbRXdU8pImhbJKJO+/Q4/G
-	9VfrCSLeHeNmHhEidVOW8kOrahuw5vUoaySJ5D4tWO+WcPi+C7leU8GAsqWbIz10AAMkcJepYJh
-	RQg==
-X-Google-Smtp-Source: AGHT+IHMf5W2rCdu8YRq9VXD8sk35Ym0aHc+ICn2snu/UUL0F247jmEidV+J/NhiZtp1ZaUNES3oCsmPNJ4=
+        bh=M8NnW+ymJPO/5j9ioWkpEO+FljjLsToFL+mCOZ9DuZ8=;
+        b=KeyO7FUyIX9qthPFBrS0kXkYzJmqthcxkr7Dx2MdjUePayh3VU809r160/j+paQO6d
+         Foips95Th96pHfsAClCCgDBJyAMf5ozxNie8uMPmTReKUlEPP1nFUS880uG7OmCtUkpx
+         dMeVE5bnDn5PAAvCnZddryofmNh5SqWgYMPABq5j80L7WcIVcxljjoiWENgy7cxWMIU2
+         CR8jU79taKPs51kpy3Fqeptppp7LEM/fMfjGf6Q1ndnH5VGnwuNiH09k03cSgcsTNKb3
+         CXpGX76fvVWG1cfSNav4GAN0e0AL6Up8Lv3O4E1lP1PFWluX44WhPBvIUObnDssNLgXU
+         R97g==
+X-Forwarded-Encrypted: i=1; AJvYcCUaJXqTMmoqlN4ibunwEN6W4rO1IqOtSFv/jgW9IM0ryrepmVh/VY4biYkqEQsgque6VprGr7gqMwvxmwog+PiV3rYx6GdWGxBf
+X-Gm-Message-State: AOJu0YzMEfM6r97erXf8dBFyqWaN536DmjxeNIhwI8HfnW2P3Bc060bc
+	cHg8VT3DHeGDgWUnXAs9DYj9nCaDEx3vBJw/bEPm/UVBJh+d0RZckOt0oNkXN596qfGZ33anP7n
+	aUw==
+X-Google-Smtp-Source: AGHT+IGU1fKO78A5yr12VP/rYnQq2ySJsTi2GH/BAWbZmuduEGVPVlZ8I3b0WIj9vqu/ONJN8tWWO0QlPaE=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:f3cc:b0:2cd:bbfa:3e5e with SMTP id
- 98e67ed59e1d1-2d3e03e9b1emr68a91.7.1723737141799; Thu, 15 Aug 2024 08:52:21
+ (user=seanjc job=sendgmr) by 2002:a05:6a02:90a:b0:7b8:b174:3200 with SMTP id
+ 41be03b00d2f7-7c6b2c6857cmr9343a12.5.1723737605562; Thu, 15 Aug 2024 09:00:05
  -0700 (PDT)
-Date: Thu, 15 Aug 2024 08:52:20 -0700
-In-Reply-To: <20240522001817.619072-13-dwmw2@infradead.org>
+Date: Thu, 15 Aug 2024 09:00:04 -0700
+In-Reply-To: <20240522001817.619072-14-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-13-dwmw2@infradead.org>
-Message-ID: <Zr4kNNUUm4E6R5zC@google.com>
-Subject: Re: [RFC PATCH v3 12/21] KVM: x86: Remove implicit rdtsc() from kvm_compute_l1_tsc_offset()
+References: <20240522001817.619072-1-dwmw2@infradead.org> <20240522001817.619072-14-dwmw2@infradead.org>
+Message-ID: <Zr4mBNTSquDqOtfw@google.com>
+Subject: Re: [RFC PATCH v3 13/21] KVM: x86: Improve synchronization in kvm_synchronize_tsc()
 From: Sean Christopherson <seanjc@google.com>
 To: David Woodhouse <dwmw2@infradead.org>
 Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -78,71 +78,72 @@ Content-Type: text/plain; charset="us-ascii"
 On Wed, May 22, 2024, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Let the callers pass the host TSC value in as an explicit parameter.
+> When synchronizing to an existing TSC (either by explicitly writing zero,
+> or the legacy hack where the TSC is written within one second's worth of
+> the previously written TSC), the last_tsc_write and last_tsc_nsec values
+> were being misrecorded by __kvm_synchronize_tsc(). The *unsynchronized*
+> value of the TSC (perhaps even zero) was bring recorded, along with the
+> current time at which kvm_synchronize_tsc() was called. This could cause
+> *subsequent* writes to fail to synchronize correctly.
 > 
-> This leaves some fairly obviously stupid code, which using this function
-> to compare the guest TSC at some *other* time, with the newly-minted TSC
-> value from rdtsc(). Unless it's being used to measure *elapsed* time,
-> that isn't very sensible.
+> Fix that by resetting {data, ns} to the previous values before passing
+> them to __kvm_synchronize_tsc() when synchronization is detected. Except
+> in the case where the TSC is unstable and *has* to be synthesised from
+> the host clock, in which case attempt to create a nsec/tsc pair which is
+> on the correct line.
 > 
-> In this case, "obviously stupid" is an improvement over being non-obviously
-> so.
-> 
-> No functional change intended.
-> 
+> Furthermore, there were *three* different TSC reads used for calculating
+> the "current" time, all slightly different from each other. Fix that by
+> using kvm_get_time_and_clockread() where possible and using the same
+> host_tsc value in all cases.
+
+Please split this into two patches, one to switch to a single RDTSC, and another
+do fix the other stuff.
+
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  arch/x86/kvm/x86.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  arch/x86/kvm/x86.c | 32 ++++++++++++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 4 deletions(-)
 > 
 > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index ef3cd6113037..ea59694d712a 100644
+> index ea59694d712a..6ec43f39bdb0 100644
 > --- a/arch/x86/kvm/x86.c
 > +++ b/arch/x86/kvm/x86.c
-> @@ -2601,11 +2601,12 @@ u64 kvm_scale_tsc(u64 tsc, u64 ratio)
->  	return _tsc;
->  }
+> @@ -201,6 +201,10 @@ module_param(eager_page_split, bool, 0644);
+>  static bool __read_mostly mitigate_smt_rsb;
+>  module_param(mitigate_smt_rsb, bool, 0444);
 >  
-> -static u64 kvm_compute_l1_tsc_offset(struct kvm_vcpu *vcpu, u64 target_tsc)
-> +static u64 kvm_compute_l1_tsc_offset(struct kvm_vcpu *vcpu, u64 host_tsc,
-> +				     u64 target_tsc)
-
-Would it make sense to have a __kvm_compute_l1_tsc_offset() version that takes
-in the host TSC, and then this?
-
-static u64 kvm_compute_l1_tsc_offset(struct kvm_vcpu *vcpu, u64 target_tsc)
-{
-	return __kvm_compute_l1_tsc_offset(vcpu, rdtsc(), target_tsc);
-}
-
-
-Hmm, or maybe a better option would be:
-
-static u64 kvm_compute_current_l1_tsc_offset(struct kvm_vcpu *vcpu,
-					     u64 target_tsc)
-{
-	return kvm_compute_l1_tsc_offset(vcpu, rdtsc(), target_tsc);
-}
-
-Meh, after typing those out, I don't like either one.  Let's keep it how you
-wrote it, I think there's quite a bit of added readability by forcing callers to
-provide the host TSC.
-
+> +#ifdef CONFIG_X86_64
+> +static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp);
+> +#endif
+> +
+>  /*
+>   * Restoring the host value for MSRs that are only consumed when running in
+>   * usermode, e.g. SYSCALL MSRs and TSC_AUX, can be deferred until the CPU
+> @@ -2753,14 +2757,22 @@ static void kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 *user_value)
 >  {
->  	u64 tsc;
+>  	u64 data = user_value ? *user_value : 0;
+>  	struct kvm *kvm = vcpu->kvm;
+> -	u64 offset, ns, elapsed;
+> +	u64 offset, host_tsc, ns, elapsed;
+>  	unsigned long flags;
+>  	bool matched = false;
+>  	bool synchronizing = false;
 >  
-> -	tsc = kvm_scale_tsc(rdtsc(), vcpu->arch.l1_tsc_scaling_ratio);
-> +	tsc = kvm_scale_tsc(host_tsc, vcpu->arch.l1_tsc_scaling_ratio);
->  
->  	return target_tsc - tsc;
+> +#ifdef CONFIG_X86_64
+> +	if (!kvm_get_time_and_clockread(&ns, &host_tsc))
+> +#endif
 
-Opportunistically drop "tsc" too?  E.g.
+I'm pretty sure we can unconditionally declare kvm_get_time_and_clockread() above,
+and then do
 
-	return target_tsc -
-	       kvm_scale_tsc(host_tsc, vcpu->arch.l1_tsc_scaling_ratio);
+	if (!IS_ENABLED(CONFIG_X86_64) ||
+	    !kvm_get_time_and_clockread(&ns, &host_tsc))
 
-or
+and let dead code elimintation do its thing to avoid a linker error.
 
-	return target_tsc - kvm_scale_tsc(host_tsc, vcpu->arch.l1_tsc_scaling_ratio);
-
-I find either of those much easier to read.
+> +	{
+> +		ns = get_kvmclock_base_ns();
+> +		host_tsc = rdtsc();
+> +	}
+> +
