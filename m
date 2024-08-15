@@ -1,99 +1,172 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEBB41AC885;
-	Thu, 15 Aug 2024 10:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 861071AC8A5;
+	Thu, 15 Aug 2024 11:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723719473; cv=none; b=qvSVcMFTh+HfmDu4l51N2ZYpOG+ceAsvD+t5o1he0+FLIEZFu0XMyrQGfV3rOxygeEHYe2ivsi7wgdCAekGURxN9FSHTUNLe60tf2MWlYCXRZYs43yYU6JtB3Qn6PUmhkGjOeGBJ+UwA4QVV3OjFV8d+yV+SjhbEl6v8pR/g75s=
+	t=1723721179; cv=none; b=qb1dzVB9VQUuFxBUEEYxPW5RY18eeab9LrS7nepUuC4iNMx6n6E4fBNjoZXtYBD/PFG3e3NWmjlIfnXojMM0ZHgqVNAtrCGLu15TYzx7/eeRthQuP7niu73c3Yx5CDxxQQqEdd3Jyal3eS0Foq5ydxnwz6cAaQsbwqGJvVRlndk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723719473; c=relaxed/simple;
-	bh=3lRPdEGgoE3CNo1PJ94+XF+At1dlGGEbdpA8jE5l3jo=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=JpcZUjquq8jUg1dXJNRsZIXEctANPI+8Gr1565s0ZWuBXeLFoLOaRCr5i0ka0dYYggQGP8YekKPF+LKROw0tx+VMPZZ1FIsHfnfuhwnmY1PECiyud6vkjzLOGMOC8tclKZnXrhevKH4RJ/X8kP1ZoBIYK7N+jjD3O1urFzDtHAU=
+	s=arc-20240116; t=1723721179; c=relaxed/simple;
+	bh=N5rUYRNLTPBzWe5BfYzehBPfpIHvZyYW4Izw3kIKWsk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=G+dF+pN0EiyPXOI9mqR290aBLQ6T5sXhYqXHUlK3mcj1CzMrHSEvIWgd9Rm3CKHN5suhFCN1DItS8Qg21SOLr4HNH+y0ym3RRbzLF/yFha7hFYhPRSOdcu0tVZPGzYdKNbBRj7fklwV7/8fHJBO8bQCxxmKWgivlT+u+LPemKos=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8DxCeos371mdsEUAA--.49189S3;
-	Thu, 15 Aug 2024 18:57:48 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowMDxG2cp371mkjQVAA--.2535S3;
-	Thu, 15 Aug 2024 18:57:47 +0800 (CST)
-Subject: Re: [PATCH Loongarch-avec support V9 1/2] irqchip/loongson-pch-msi:
- Switch to MSI parent domains
-To: Xi Ruoyao <xry111@xry111.site>, Thomas Gleixner <tglx@linutronix.de>,
- corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- jiaxun.yang@flygoat.com, gaoliang@loongson.cn, wangliupu@loongson.cn,
- lvjianmin@loongson.cn, yijun@loongson.cn, mhocko@suse.com,
- akpm@linux-foundation.org, dianders@chromium.org, maobibo@loongson.cn,
- zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
- zhoubinbin@loongson.cn
-Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>
-References: <20240813085415.20035-1-zhangtianyang@loongson.cn>
- <875xs3petd.ffs@tglx> <6495631f-ec9c-c86a-39d2-1ada793b8098@loongson.cn>
- <8734n6np4a.ffs@tglx> <d5c5fdc8-abd5-685f-b952-f36b9e0bd908@loongson.cn>
- <25d8b51db163c01d62518bd02449d5f5e8748fde.camel@xry111.site>
+Received: from loongson.cn (unknown [10.2.10.34])
+	by gateway (Coremail) with SMTP id _____8DxXpnW5b1mgsgUAA--.12056S3;
+	Thu, 15 Aug 2024 19:26:14 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.10.34])
+	by front1 (Coremail) with SMTP id qMiowMAxVODU5b1mwT4VAA--.33702S2;
+	Thu, 15 Aug 2024 19:26:13 +0800 (CST)
 From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <c452d88a-1ff7-4d8b-2bf2-c334821a87ea@loongson.cn>
-Date: Thu, 15 Aug 2024 18:57:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: corbet@lwn.net,
+	alexs@kernel.org,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	gaoliang@loongson.cn,
+	wangliupu@loongson.cn,
+	lvjianmin@loongson.cn,
+	zhangtianyang@loongson.cn,
+	yijun@loongson.cn,
+	mhocko@suse.com,
+	akpm@linux-foundation.org,
+	dianders@chromium.org,
+	maobibo@loongson.cn,
+	xry111@xry111.site,
+	zhaotianrui@loongson.cn,
+	nathan@kernel.org,
+	yangtiezhu@loongson.cn,
+	zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v10 0/2] Loongarch-avec support
+Date: Thu, 15 Aug 2024 19:26:06 +0800
+Message-Id: <20240815112608.26925-1-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <25d8b51db163c01d62518bd02449d5f5e8748fde.camel@xry111.site>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:qMiowMDxG2cp371mkjQVAA--.2535S3
+X-CM-TRANSID:qMiowMAxVODU5b1mwT4VAA--.33702S2
 X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrur1DZrW7Xw47KF4kCw4kGrX_yoWDXFgE9a
-	srZr1DCr1DGFs7KFsrtrsIqrnFyFyDK3yrtw4jyr4Yv39Yqr98Xan8W34kXFn8Jan7Xr9I
-	vF90q3ZxXrnruosvyTuYvTs0mTUanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxG
-	rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVW8ZVWrXwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jz5lbUUU
-	UU=
+X-Coremail-Antispam: 1Uk129KBj93XoWxGF1DZrW3Gw4DXrWxJFyxWFX_yoWrXr1rpF
+	Zruryqyr48Gr97Crn2y34rury5Xrs7G3y2qa43G347uF4UXryDXr10yF98ZF1kXw4rCa4I
+	gF1fW398Wa1UAagCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	AVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8svtJUUUUU==
 
+This series of patches introduces support for advanced extended 
+interrupt controllers (AVECINTC), and this hardware feature will 
+be supported on 3C6000 for the first time
 
-在 2024/8/15 下午6:51, Xi Ruoyao 写道:
-> On Thu, 2024-08-15 at 18:43 +0800, Tianyang Zhang wrote:
->> Hi, Thomas
->>
->> 在 2024/8/15 下午4:53, Thomas Gleixner 写道:
->>> On Thu, Aug 15 2024 at 09:13, Tianyang Zhang wrote:
->>>> https://lore.kernel.org/all/20240813085427.20194-1-zhangtianyang@loongson.cn/
->>>>
->>>> 在 2024/8/14 下午6:41, Thomas Gleixner 写道:
->>>>> On Tue, Aug 13 2024 at 16:54, Tianyang Zhang wrote:
->>>>>
->>>>> Where is patch 2/2 ?
->>> Can you please thread your submissions properly and not send them
->>> separately?
->>>
->>> Thanks,
->>>
->>>           tglx
->> I relearned the series of patches in the kernel submission guide. Now I
->> know how to generate the series-cover.
->>
->> Can I resend all patches directly with a correct cover now?
-> Just version it v10.  Using "resend" in the subject can sometimes cause
-> confusion, and there's no harm to bump the version number anyway even
-> without real code change.
-OK, I got it , thank you
+Changes log:
+ V0->V1:
+         1.Modified some formats and declarations
+         2.Removed kmalloc/kfree when adding affinity related data to pending_list,
+           and used moving tag to replace the original behavior
+         3.Adjusted the process that enables AVEC interrupts, now it is at the end of all processes
+         4.Removed CPUHP related callbacks, now irq_matrix_online/irq_matrix_offline is completed in start_secondary/loongson_cpu_disable
+         5.Adjusted compatibility issues for CONFIG_ACPI
+         6.About question:
+         > irr = csr_read64(LOONGARCH_CSR_IRR0 + vector / 64);
+         > should be good enough, no?
+         csr_read64 was built-in as __csrrd_d, it doesn't seem to support variables as parameters
+         >>>>
+         drivers/irqchip/irq-loongarch-avec.c: In function ‘complete_irq_moving’:
+         ./arch/loongarch/include/asm/loongarch.h:164:25: error: invalid argument to built-in function
+           164 | #define csr_read64(reg) __csrrd_d(reg)
+               |                         ^~~~~~~~~
+         drivers/irqchip/irq-loongarch-avec.c:170:23: note: in expansion of macro ‘csr_read64’
+           170 |                 irr = csr_read64(LOONGARCH_CSR_IRR_BASE + vector / VECTORS_PER_REG);
+               |                       ^~~~~~~~~~
+         >>>>
+         So we have temporarily retained the previous implementation.
+ 
+ V1->V2:
+         Fixed up coding style. Made on/offline functions void
+         Added compatibility when CONFIG_SMP is turned off
+ 
+ V2->V3:
+ 	Squash two patches into one
+ 
+ V3->V4:
+ 	Update NR_IRQS
+ 	Update Register's name
+ 	Fixed up coding style
+ V4->V5:
+	Retain feature CPUCFG1_MSGINT	
+ 	Fixed up coding style
+	Delete the test code introduced by V4, and now msi msg address still uses the 32-bit address
+ V5->V6:
+	Fix definition of NR_IRQS
+	Define arch_probe_nr_irqs()
+	Handle all avecintc interrupts in one dispatch
+	Use cpuhotplug callbacks instead of direct call to avec_online_cpu()/avec_offline_cpu()
+	Rename {SMP,ACTION}_CLEAR_VECT to {SMP,ACTION}_CLEAR_VECTOR
+	Use avecintc_ prefix instead of loongarch_avec_ to keep consistancy
+ V6->V7:
+	Fixed compatibility issue with cpuhp_setup_state_nocalls when CONFIG_SMP is turned off
+	Rename avecintc_online/offline_cpu as avecintc_cpu_online/offline
+	Use pch_msi_handle[0] as default value of get_pch_msi_handle
+	Rework commit-message
+ V7->V8:
+	Fixed up coding style
+	Support per-device-MSI domain
+	Replaced spin_lock ops with guard/scope_guard
+	Always execute irq_metrix_offline while the CPU is offline
+ V8->V9:
+	Fixed up coding style and potential bugs 
+ V9->V10:
+	Add a cover of series patch
+ 
+Huacai Chen (1):
+  irqchip/loongson-pch-msi: Switch to MSI parent domains
+
+Tianyang Zhang (1):
+  irqchip/loongarch-avec: Add AVEC irqchip support
+
+ .../arch/loongarch/irq-chip-model.rst         |  32 ++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   |  32 ++
+ arch/loongarch/Kconfig                        |   1 +
+ arch/loongarch/include/asm/cpu-features.h     |   1 +
+ arch/loongarch/include/asm/cpu.h              |   2 +
+ arch/loongarch/include/asm/hardirq.h          |   3 +-
+ arch/loongarch/include/asm/hw_irq.h           |   2 +
+ arch/loongarch/include/asm/irq.h              |  25 +-
+ arch/loongarch/include/asm/loongarch.h        |  18 +-
+ arch/loongarch/include/asm/smp.h              |   2 +
+ arch/loongarch/kernel/cpu-probe.c             |   3 +-
+ arch/loongarch/kernel/irq.c                   |  15 +-
+ arch/loongarch/kernel/paravirt.c              |   5 +
+ arch/loongarch/kernel/smp.c                   |   6 +
+ drivers/irqchip/Kconfig                       |   1 +
+ drivers/irqchip/Makefile                      |   2 +-
+ drivers/irqchip/irq-loongarch-avec.c          | 426 ++++++++++++++++++
+ drivers/irqchip/irq-loongarch-cpu.c           |   5 +-
+ drivers/irqchip/irq-loongson-eiointc.c        |   7 +-
+ drivers/irqchip/irq-loongson-pch-msi.c        |  82 ++--
+ include/linux/cpuhotplug.h                    |   3 +-
+ 21 files changed, 615 insertions(+), 58 deletions(-)
+ create mode 100644 drivers/irqchip/irq-loongarch-avec.c
+
+-- 
+2.20.1
 
