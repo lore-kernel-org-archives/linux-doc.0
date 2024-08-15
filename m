@@ -1,192 +1,295 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0E614F102
-	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 21:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241EB15572C
+	for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 23:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723756127; cv=none; b=YiYL1bK1bCl1CHgrXNLXjyAXm2DfCCfBJh/h9UFLNBuroDzvhYiPhsutLJbc7740E2p8qme+4yQqJ6I9FLTXpmlMVAKbygAi98ZapRWSKIf7zvh1JU+b10XHIyEt+b4HvhTpeNLGQ0cnOaGlWxgzKccFW2zh4UjUxbmClWae5UA=
+	t=1723763198; cv=none; b=gDx9tKu0ngRg11ocucI7l58ziIxaFOpsbuYSZm5DzJP2MJ+t2Tcm3Ilar1zZZtUmh42j0NT9uBRRTHT1udPJ8A84/1RXaqSmZRwjU2yKgX49SQ8JALUe8n9bxnNsykQaDgQKk+5p1er2zrnzVMiF69MFj1zmeJdOr6MPI9p1ASY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723756127; c=relaxed/simple;
-	bh=vPrBWizLkvvXLrkIZqlSz3Drin44WQTkyJdWzOqOLkc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RjwNPr9ZJbdCVgNNAouEkOrl6mQTLRZMZISLGNVHc+LW3VpCIEyJx6pHi2dcNrurJnsgp5gIcfB7Mbj3+fb66ax9Q6txllR0T4M2G723zuprnBF3K+KgGWN0yxcwxqKAdUu+oqqPM8UrFtSecv4WTBx3xCIptbpOFXAxtXY5ruo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ed3Yx12j; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1723763198; c=relaxed/simple;
+	bh=uURx1zSm1o3xNM5Cig3trr3wzrjhSY8S9iwG67gdkTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eSix0CePvlygjp6D4nw2Ee9hhh6l7ZfYU1FegSd5fK4DMSPFsZbj6yTnDmiaAg+1NS/1pBaeY45GhMSybQJtiSecGVxjfSZ/VdckGD2nBQcNL2/5Ieamtim9qHqrftrJlg5O+uQuJCw2OU5INixl57n6gNxDM/iOMOadwYigOcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MICWZqcn; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ed3Yx12j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723756125;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AbJukgnVCZoBww8VUPq6BvfUAMyC8SeWvlvh6FgvKKA=;
-	b=Ed3Yx12jCrBRNiRANfnvLpSNkNdBIOAi1/vmdgT8fy/FX0yOrXX4SZvpTYyo9eaqBAMfQI
-	+b47vkzbANR56OOW5Stx52dVIj4qAHjoPJBsspMPRPRKcy3lwqjaDDfb4lYrZyjFXes4yS
-	8wCsUS/ulNBQgMPD+U9E6/0BPm7tfNw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-412-15LRqPQ1PXauUzYeyRC40A-1; Thu, 15 Aug 2024 17:08:42 -0400
-X-MC-Unique: 15LRqPQ1PXauUzYeyRC40A-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4280e1852f3so8971145e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 14:08:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MICWZqcn"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7de4364ca8so180068166b.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Aug 2024 16:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723763194; x=1724367994; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uURx1zSm1o3xNM5Cig3trr3wzrjhSY8S9iwG67gdkTg=;
+        b=MICWZqcnKOnozEiO1IJ4x7NNdtQ2n2vkXQizeNdRMZTRumqBPzj3eFGb2ISbm3WnPo
+         dzGu8KCaKlnHsjJNf2nDHyqczzeVSCfX5IPhlQTFXo7iVxoE4WlTeA0d3dIzQ/Llwj1O
+         uOV66yMWDZ3x5fUtHbfVuoeqH5rMOKnXyNS8TJhiL5oM9Tauk4oyd0SdQ/qOLs2X8PDy
+         2jFns4VKRAyhzYpFkEVIFFVoR1hy/WKLXqVP3wvm5Bgod+o82y/i7+OTMY3TBuiHvOth
+         KRn4pcqKsZ+z8zMCTx6A8okWRFI0BH8lwa2CqX+nL4MXYTjvfL2xIyQ+iabt+zZlWdv1
+         QF5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723756121; x=1724360921;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AbJukgnVCZoBww8VUPq6BvfUAMyC8SeWvlvh6FgvKKA=;
-        b=ua+5IHq2Jp2bWNRdZ/G6r1ERsfibjReWJZ+Qi4zGz7HxDRT3F1S/TYTJ8AKoPqvr5b
-         qlRXmT4QOmkSaqERdPp0vFSkXx5Bs8CwmuWtL6yZ3thdgrURgvC0J06DAYb7fIvtlnA0
-         dZ4YV251ThZCyBswJFSFsImbTq/DHHcAFiGubMMd4s0v2tVV+VNjKOOsgb+xk6Fk8ATp
-         XCTPDDuGA+1KNIxBhjxP5BfFJ1PX3GN9tGKqoHTH8+ybUHHGWTZyV8jalLzg98uriJxS
-         KSASgCwSHP6YK9JsuLWjCoJ8aLo69aNKG4dOuvd3m76OInKB65vmgsUvj8O0tt+lm5Vs
-         EVZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9n+ho8QLTqdcoi6fmO7jo+Ca0HlUsRoHnkU1rgr3e00tONY6FCYdEmk5fegrcjPCQeFF+1wa/M7Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfeyvzG2TzuFvnEa7CbqD54FvDusrV68/t/8LyshwaCDW6/lw9
-	0tg2Cp6RvOeHKmelbM4oIKzvlh1k4MukUrAL47AvR9BYc6Unr4QNWE4lhmPpdbthWLSzTUnTvue
-	Yfz+YN2dGj+QJBhHecc8blr0lK6G+IYUPdTMKHpPUc6dWkhpqM9xRZAH1zw==
-X-Received: by 2002:a05:600c:3ca0:b0:426:6e9a:7a1c with SMTP id 5b1f17b1804b1-429ed7cc497mr3588485e9.25.1723756120637;
-        Thu, 15 Aug 2024 14:08:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFnadehEuz+ZomR3i4TSDcNey/Wo0B8Gn62/NQ3HNztokdixwOC611hdUzowFnrgj6FiCobqg==
-X-Received: by 2002:a05:600c:3ca0:b0:426:6e9a:7a1c with SMTP id 5b1f17b1804b1-429ed7cc497mr3588325e9.25.1723756120081;
-        Thu, 15 Aug 2024 14:08:40 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c717:6d00:aebb:127d:2c1a:7f3a? (p200300cbc7176d00aebb127d2c1a7f3a.dip0.t-ipconnect.de. [2003:cb:c717:6d00:aebb:127d:2c1a:7f3a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3718985a3b9sm2328701f8f.56.2024.08.15.14.08.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Aug 2024 14:08:39 -0700 (PDT)
-Message-ID: <fe79d6ca-6005-46d9-b14a-b785dd0b0414@redhat.com>
-Date: Thu, 15 Aug 2024 23:08:38 +0200
+        d=1e100.net; s=20230601; t=1723763194; x=1724367994;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uURx1zSm1o3xNM5Cig3trr3wzrjhSY8S9iwG67gdkTg=;
+        b=jkQW+jp/UgJy+j8nJqxPvv2fwP7eJROXRs+fDcypj5858Yt6JFNHkcRPIhPZzHo5bI
+         0g5aLt+ccXe4+dtwIerHpbAIdoE1sTduNj+vpbO1m2ManQ+68Ks7bVZK8H0kdGCFY+FP
+         YDHc03MZVD2MEJvgWf8hIrtMgguycb3gbjH20YNS9M3G8l61tQE2VG2zqOm01+AvXowJ
+         u+HhuvcOScX+RukoOnlw/QOugRVbfzbENIMx15gxuVmW5D8cVbzb9auGAwU0Z7BQUP8a
+         P8UWmXjUOdSmq7esg/W4v2uPmpFyzlj/IGlGokH6HFmpDhwvki4/sy8/rYQCrhIFGd6q
+         1tuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZt7+assrP/Yr+jQdtu+6LytA+PK2btMj2ghcEA557VLFqCFxZt4JJVP93BDBGh6VzGxeEvkL94InnlUYUVWjznGLmnb5THEFe
+X-Gm-Message-State: AOJu0YzUPBXSGS7UltTz6yptZvuF6kZmaTdw7dKPhX+WwT/u9FlR+9V+
+	PiMs4df4C548srYAe2G6MaS15ZK00e/47B0nPsDHV8KcxmT9cn+kjcvNMqMeo++hc5Fx32pj7NM
+	JH0TXxqSKV9NGpD2lFEYarxHPIIAo/phH3BWx
+X-Google-Smtp-Source: AGHT+IEIYDxC5f1uGEQRKZMhCIE3PtCaz0bcEAToxMIFkYzxOYetvw9zZ6UvQCN9UzanNt3rz06v/ooyJO4Xv5kA6wo=
+X-Received: by 2002:a17:907:6d22:b0:a77:b726:4fc with SMTP id
+ a640c23a62f3a-a839288691fmr68629066b.1.1723763193558; Thu, 15 Aug 2024
+ 16:06:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
- folios
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, baohua@kernel.org,
- ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
- <20240813120328.1275952-5-usamaarif642@gmail.com>
- <ee0bae67-17b8-4807-a9b2-9a08df00987a@redhat.com>
- <d7433859-6217-483c-9d48-bb6de97b09f7@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <d7433859-6217-483c-9d48-bb6de97b09f7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1720043311.git.babu.moger@amd.com> <e04b721a-b5cb-4089-a3ad-125a6247e5b8@intel.com>
+ <1c50b589-a738-4ae6-8362-bd1ce0d0dc98@amd.com> <05b4e345-ad14-4ea9-a13f-2c9b3a6eb422@intel.com>
+ <CALPaoCi_TBZnULHQpYns+H+30jODZvyQpUHJRDHNwjQzajrD=A@mail.gmail.com>
+ <b3babdac-da08-4dfd-9544-47db31d574f5@intel.com> <CALPaoCi1CwLy_HbFNOxPfdReEJstd3c+DvOMJHb5P9jBP+iatw@mail.gmail.com>
+ <b9e48e8f-3035-4a7e-a983-ce829bd9215a@intel.com> <CALPaoCg3KpF94g2MEmfP_Ro2mQZYFA8sKVkmb+7isotKNgdY9A@mail.gmail.com>
+ <a19d96ac-f83a-4f5a-98ce-c5554e12afc5@intel.com>
+In-Reply-To: <a19d96ac-f83a-4f5a-98ce-c5554e12afc5@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 15 Aug 2024 16:06:22 -0700
+Message-ID: <CALPaoCiV-xTKn9N+oP4mqgRwsWxPUfutKDF==1h-8K9b7YfE0g@mail.gmail.com>
+Subject: Re: [PATCH v5 00/20] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: babu.moger@amd.com, corbet@lwn.net, fenghua.yu@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Reinette,
 
-> 
-> Was there some comment here? I just see ">" remove from the start of /* We lost race with folio_put() */
-> 
+On Wed, Aug 14, 2024 at 10:37=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Peter,
+>
+> On 8/2/24 3:50 PM, Peter Newman wrote:
+> > On Fri, Aug 2, 2024 at 1:55=E2=80=AFPM Reinette Chatre
+> > <reinette.chatre@intel.com> wrote:
+> >> On 8/2/24 11:49 AM, Peter Newman wrote:
+> >>> On Fri, Aug 2, 2024 at 9:14=E2=80=AFAM Reinette Chatre
+> >>>> I am of course not familiar with details of the software implementat=
+ion
+> >>>> - could there be benefits to using it even if hardware counters are
+> >>>> supported?
+> >>>
+> >>> I can't see any situation where the user would want to choose softwar=
+e
+> >>> over hardware counters. The number of groups which can be monitored b=
+y
+> >>> software assignable counters will always be less than with hardware,
+> >>> due to the need for consuming one RMID (and the counters automaticall=
+y
+> >>> allocated to it by the AMD hardware) for all unassigned groups.
+> >>
+> >> Thank you for clarifying. This seems specific to this software impleme=
+ntation,
+> >> and I missed that there was a shift from soft-RMIDs to soft-ABMC. If I=
+ remember
+> >> correctly this depends on undocumented hardware specific knowledge.
+> >
+> > For the benefit of anyone else who needs to monitor bandwidth on a
+> > large number of monitoring groups on pre-ABMC AMD implementations,
+> > hopefully a future AMD publication will clarify, at least on some
+> > existing, pre-ABMC models, exactly when the QM_CTR.U bit is set.
+> >
+> >
+> >>>
+> >>> The behavior as I've implemented today is:
+> >>>
+> >>> # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_events
+> >>> 0
+> >>>
+> >>> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>> test//0=3D_;1=3D_;
+> >>> //0=3D_;1=3D_;
+> >>>
+> >>> # echo "test//1+l" > /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>> test//0=3D_;1=3Dtl;
+> >>> //0=3D_;1=3D_;
+> >>>
+> >>> # echo "test//1-t" > /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>> # cat /sys/fs/resctrl/info/L3_MON/mbm_control
+> >>> test//0=3D_;1=3D_;
+> >>> //0=3D_;1=3D_;
+> >>>
+> >>>
+> >>
+> >> This highlights how there cannot be a generic/consistent interface bet=
+ween hardware
+> >> and software implementation. If resctrl implements something like abov=
+e without any
+> >> other hints to user space then it will push complexity to user space s=
+ince user space
+> >> would not know if setting one flag results in setting more than that f=
+lag, which may
+> >> force a user space implementation to always follow a write with a read=
+ that
+> >> needs to confirm what actually resulted from the write. Similarly, tha=
+t removing a
+> >> flag impacts other flags needs to be clear without user space needing =
+to "try and
+> >> see what happens".
+> >
+> > I'll return to this topic in the context of MPAM below...
+> >
+> >> It is not clear to me how to interpret the above example when it comes=
+ to the
+> >> RMID management though. If the RMID assignment is per group then I exp=
+ected all
+> >> the domains of a group to have the same flag(s)?
+> >
+> > The group RMIDs are never programmed into any MSRs and the RMID space
+> > is independent in each domain, so it is still possible to do
+> > per-domain assignment. (and like with soft RMIDs, this enables us to
+> > create unlimited groups, but we've never been limited by the size of
+> > the RMID space)
+> >
+> > However, in our use cases, jobs are not confined to any domain, so
+> > bandwidth measurements must be done simultaneously in all domains, so
+> > we have no current use for per-domain assignment. But if any Google
+> > users did begin to see value in confining jobs to domains, this could
+> > change.
+> >
+> >>
+> >>>>
+> >>>>> However, If we don't expect to see these semantics in any other
+> >>>>> implementation, these semantics could be implicit in the definition=
+ of
+> >>>>> a SW assignable counter.
+> >>>>
+> >>>> It is not clear to me how implementation differences between hardwar=
+e
+> >>>> and software assignment can be hidden from user space. It is possibl=
+e
+> >>>> to let user space enable individual events and then silently upgrade=
+ it
+> >>>> to all events. I see two options here, either "mbm_control" needs to
+> >>>> explicitly show this "silent upgrade" so that user space knows which
+> >>>> events are actually enabled, or "mbm_control" only shows flags/event=
+s enabled
+> >>>> from user space perspective. In the former scenario, this needs more
+> >>>> user space support since a generic user space cannot be confident wh=
+ich
+> >>>> flags are set after writing to "mbm_control". In the latter scenario=
+,
+> >>>> meaning of "num_mbm_cntrs" becomes unclear since user space is expec=
+ted
+> >>>> to rely on it to know which events can be enabled and if some are
+> >>>> actually "silently enabled" when user space still thinks it needs to=
+ be
+> >>>> enabled the number of available counters becomes vague.
+> >>>>
+> >>>> It is not clear to me how to present hardware and software assignabl=
+e
+> >>>> counters with a single consistent interface. Actually, what if the
+> >>>> "mbm_mode" is what distinguishes how counters are assigned instead o=
+f how
+> >>>> it is backed (hw vs sw)? What if, instead of "mbm_cntr_assignable" a=
+nd
+> >>>> "mbm_cntr_sw_assignable" MBM modes the terms "mbm_cntr_event_assigna=
+ble"
+> >>>> and "mbm_cntr_group_assignable" is used? Could that replace a
+> >>>> potential "mbm_assign_events" while also supporting user space in
+> >>>> interactions with "mbm_control"?
+> >>>
+> >>> If I understand this correctly, is this a preference that the info
+> >>> node be named differently if its value will have different units,
+> >>> rather than a second node to indicate what the value of num_mbm_cntrs
+> >>> actually means? This sounds reasonable to me.
+> >>
+> >> Indeed. As you highlighted, user space may not need to know if
+> >> counters are backed by hardware or software, but user space needs to
+> >> know what to expect from (how to interact with) interface.
+> >>
+> >>> I think it's also important to note that in MPAM, the MBWU (memory
+> >>> bandwidth usage) monitors don't have a concept of local versus total
+> >>> bandwidth, so event assignment would likely not apply there either.
+> >>> What the counted bandwidth actually represents is more implicit in th=
+e
+> >>> monitor's position in the memory system in the particular
+> >>> implementation. On a theoretical multi-socket system, resctrl would
+> >>> require knowledge about the system's architecture to stitch together
+> >>> the counts from different types of monitors to produce a local and
+> >>> total value. I don't know if we'd program this SoC-specific knowledge
+> >>> into the kernel to produce a unified MBM resource like we're
+> >>> accustomed to now or if we'd present multiple MBM resources, each onl=
+y
+> >>> providing an mbm_total_bytes event. In this case, the counters would
+> >>> have to be assigned separately in each MBM resource, especially if th=
+e
+> >>> different MBM resources support a different number of counters.
+> >>>
+> >>
+> >> "total" and "local" bandwidth is already in grey area after the
+> >> introduction of mbm_total_bytes_config/mbm_local_bytes_config where
+> >> user space could set values reported to not be constrained by the
+> >> "total" and "local" terms. We keep sticking with it though, even in
+> >> this implementation that uses the "t" and "l" flags, knowing that
+> >> what is actually monitored when "l" is set is just what the user
+> >> configured via mbm_local_bytes_config, which theoretically
+> >> can be "total" bandwidth.
+> >
+> > If it makes sense to support a separate, group-assignment interface at
+> > least for MPAM, this would be a better fit for soft-ABMC, even if it
+> > does have to stay downstream.
+>
+> (apologies for the delay)
+>
+> Could we please take a step back and confirm/agree what is meant with "gr=
+oup-
+> assignment"? In a previous message [1] I latched onto the statement
+> "the implementation is assigning RMIDs to groups, assignment results in a=
+ll
+> events being counted.". In this I understood "groups" to be resctrl group=
+s
+> and I understood this to mean that when a (soft-ABMC) counter is assigned
+> it applies to the entire resctrl group (all domains, all events). The
+> subsequent example in [2] was thus unexpected to me when the interface
+> was used to assign a (soft-ABMC) counter to the group but not all domains
+> were impacted.
+>
+> Considering this, could you please elaborate what is meant with
+> "group assignment"?
 
-Likely I wanted to comment something but decided otherwise, sorry :)
+By "group assignment", I just mean assigning counters to individual
+MBM events is not possible, or that assignment results in counters
+being assigned to all MBM events for a group in a domain.
 
->>> +            folio_clear_partially_mapped(folio);
->>>                ds_queue->split_queue_len--;
->>>            }
->>>            if (!--sc->nr_to_scan)
->>> @@ -3558,7 +3564,6 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
->>>    next:
->>>            folio_put(folio);
->>>        }
->>> -
->>>        spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
->>>        list_splice_tail(&list, &ds_queue->split_queue);
->>>        spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
->>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->>> index 1fdd9eab240c..2ae2d9a18e40 100644
->>> --- a/mm/hugetlb.c
->>> +++ b/mm/hugetlb.c
->>> @@ -1758,6 +1758,7 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
->>>            free_gigantic_folio(folio, huge_page_order(h));
->>>        } else {
->>>            INIT_LIST_HEAD(&folio->_deferred_list);
->>> +        folio_clear_partially_mapped(folio);
->>>            folio_put(folio);
->>>        }
->>>    }
->>> diff --git a/mm/internal.h b/mm/internal.h
->>> index 52f7fc4e8ac3..d64546b8d377 100644
->>> --- a/mm/internal.h
->>> +++ b/mm/internal.h
->>> @@ -662,8 +662,10 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
->>>        atomic_set(&folio->_entire_mapcount, -1);
->>>        atomic_set(&folio->_nr_pages_mapped, 0);
->>>        atomic_set(&folio->_pincount, 0);
->>> -    if (order > 1)
->>> +    if (order > 1) {
->>>            INIT_LIST_HEAD(&folio->_deferred_list);
->>> +        folio_clear_partially_mapped(folio);
->>
->> Can we use the non-atomic version here?
->>
-> 
-> I believe we can use the non-atomic version in all places where set/clear is done as all set/clear are protected by ds_queue->split_queue_lock. So basically could replace all folio_set/clear_partially_mapped with __folio_set/clear_partially_mapped.
-> 
-> But I guess its likely not going to make much difference? I will do it anyways in the next revision, rather than sending a fix patch. There haven't been any reviews for patch 5 so will wait a few days for any comments on that.
+I only omitted per-domain assignment in soft-ABMC before because
+Google doesn't have a use-case for it. I started the prototype before
+Babu's proposed interface required domain-scoped assignments[1]. Now
+that some sort of domain selector is required, I'm reconsidering.
 
-If we can avoid atomics, please do! :)
+-Peter
 
--- 
-Cheers,
-
-David / dhildenb
-
+[1] https://lore.kernel.org/lkml/cover.1705688538.git.babu.moger@amd.com/
