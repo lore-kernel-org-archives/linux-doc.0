@@ -1,147 +1,138 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6750F19F47A;
-	Thu, 15 Aug 2024 14:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F64763D5;
+	Thu, 15 Aug 2024 14:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723730491; cv=none; b=TviKMIpYsthSDjlmdLKN4eQ+aVZb5ukX7ZmXMbcl7UFhAa1HRKH7tgTT9mrC/nQPgT1Z+Rc/45zh0aRgovfv9PfTEvwKh8HY+CTSu94hK4KZhddeAPoPtPMCwUzcB8XIao9/9E/nXu00Qp+kPbL0rpk4LUyX/roD45BdvIY40jI=
+	t=1723732540; cv=none; b=R58KhC9wXYILIWqlyateweQ9EtDF5zn7X70KmNRPgzmmPk1OchBhAOTUvYW2hsdkqPU7wvPgOV6Z3y0g39GETItelrJLC6LSfOXEf0k+jAspaZy71Z1vDaY/m3+WLzmrjboZGSlDfJzb4fLReWDBBDAyj/CGxrFki7OvZhy4I4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723730491; c=relaxed/simple;
-	bh=TufDqitJxMCEldoc4aVyjbgrSK5JVEHgTczG51b+6j8=;
+	s=arc-20240116; t=1723732540; c=relaxed/simple;
+	bh=QTqPFqf58R7qfq3RSaFdp06zQmjhjZVPSRi/viE3tHQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HNiZslFBDWvf/v1swejrcu1H4CO67ugH0cX7OL3+5uDGf3mD9OrowaILlPkjFHVO+NGHq4hUHYgKkxGF1QTOjJ4mL2lucBxUC06YPWjOXW0pvJSstv1/GM2rqWfb2jSMSRLsONX3Sf4HKqubNa8mEnydVIeksYbSuPLD3aiN9YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9830414BF;
-	Thu, 15 Aug 2024 07:01:54 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0410C3F73B;
-	Thu, 15 Aug 2024 07:01:23 -0700 (PDT)
-Date: Thu, 15 Aug 2024 15:01:21 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 24/40] arm64/signal: Expose GCS state in signal frames
-Message-ID: <Zr4KMaBv4JXx8uBz@e133380.arm.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-24-699e2bd2190b@kernel.org>
- <ZrzIv3FWNgJizDc2@e133380.arm.com>
- <7433e3d2-996a-45a0-b917-666a340ad109@sirena.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lfAzFXS2jz8Qr5Twy2xwjeB7Yka6QUMSzJ3L6038fMfqTodSWB1FGmCjP1dfz5j4XcnwsEdf1LbilVmzWZMLAVE8t+f2KJWQDCJcuvwhFUVb0BT539qXNIi0lpRBQTSgN2W/D8lkZoV6kN9ITXFhpMtpXq+NSGgAc0+EfMZioKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOgYdI0R; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOgYdI0R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342BAC4AF0C;
+	Thu, 15 Aug 2024 14:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723732540;
+	bh=QTqPFqf58R7qfq3RSaFdp06zQmjhjZVPSRi/viE3tHQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOgYdI0RtjI3aeU7/fWc4Z2qAIGWelWfGHJN0sznAcAFS9R1aULWtK6eaMMdgTleM
+	 V2hZWQjQog596gYVxoMV/zoI7xEwrE38dLpLMGsISS6axy8w+zteSHq0EOqWFuvtM7
+	 ZjVuM3XRUj7mNVslAChsuUvIoBQ7LAouYyjf015tKoa7fn48Rj1ber5o+VYm44gH51
+	 nEhM/WrXQwEKhyqGPSowU2KXgwwoNmrdYXBbrQXctBXW2Lb+KemvK9d13QwIYMfh4F
+	 hxDU0BzqBBjxjvVlBWIh4I3hHo6Ak7bLiU2eMTdG2JSRlJ5AZ88x9YnWFj6NSZYTpc
+	 +jbQ6mRmPdNhg==
+Date: Thu, 15 Aug 2024 15:35:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Guillaume Stols <gstols@baylibre.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	20240705211452.1157967-2-u.kleine-koenig@baylibre.com,
+	20240712171821.1470833-2-u.kleine-koenig@baylibre.com,
+	cover.1721040875.git.u.kleine-koenig@baylibre.com,
+	aardelean@baylibre.com
+Subject: Re: [PATCH 1/8] dt-bindings: iio: adc: ad7606: Make corrections on
+ spi conditions
+Message-ID: <20240815-reword-wildland-1319629f0718@spud>
+References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
+ <20240815-ad7606_add_iio_backend_support-v1-1-cea3e11b1aa4@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UJJuTW6LWkpDszvK"
+Content-Disposition: inline
+In-Reply-To: <20240815-ad7606_add_iio_backend_support-v1-1-cea3e11b1aa4@baylibre.com>
+
+
+--UJJuTW6LWkpDszvK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7433e3d2-996a-45a0-b917-666a340ad109@sirena.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2024 at 05:21:44PM +0100, Mark Brown wrote:
-> On Wed, Aug 14, 2024 at 04:09:51PM +0100, Dave Martin wrote:
-> > On Thu, Aug 01, 2024 at 01:06:51PM +0100, Mark Brown wrote:
-> 
-> > > +	if (add_all || task_gcs_el0_enabled(current)) {
-> > > +		err = sigframe_alloc(user, &user->gcs_offset,
-> > > +				     sizeof(struct gcs_context));
-> > > +		if (err)
-> > > +			return err;
-> > > +	}
-> 
-> > Who turns on GCS?  I have a concern that if libc is new enough to be
-> > built for GCS then the libc startup code will to turn it on, even if
-> > the binary stack running on top of libc is old.
-> 
-> It should normally be the dynamic linker which should be looking for
-> annotatations in the binaries it's loading before it decides if it's
-> going to turn on GCS (and libc doing something similar if it's going to
-> dlopen() things in a process with GCS enabled).
+On Thu, Aug 15, 2024 at 12:11:55PM +0000, Guillaume Stols wrote:
+> The SPI conditions are not always required, because there is also a
+> parallel interface. The way used to detect that the SPI interface is
+> used is to check if the reg value is between 0 and 256.
+> There is also a correction on the spi-cpha that is not required when SPI
+> interface is selected, while spi-cpol is.
 
-My thought was that if libc knows about shadow stacks, it is probably
-going to be built to use them too and so would enable shadow stack
-during startup to protect its own code.
+This feels like it should be two patches, with the first having a Fixes:
+tag etc, if the original binding was incorrect.
 
-(Technically those would be independent decisions, but it seems a good
-idea to use a hardening feature if you know about and it is present.)
+>=20
+> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad7606.yaml         | 17 +++++++++++=
++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> index 69408cae3db9..c0008d36320f 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> @@ -117,15 +117,26 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - spi-cpha
+>    - avcc-supply
+>    - vdrive-supply
+>    - interrupts
+>    - adi,conversion-start-gpios
+> =20
+> -allOf:
+> -  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +# This checks if reg is a chipselect so the device is on an SPI
+> +# bus, the if-clause will fail if reg is a tuple such as for a
+> +# platform device.
+> +if:
+> +  properties:
+> +    reg:
+> +      minimum: 0
+> +      maximum: 256
+> +then:
+> +  allOf:
+> +    - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +    - required:
+> +        - spi-cpol
+> =20
+> +allOf:
+>    - if:
+>        properties:
+>          compatible:
+>=20
+> --=20
+> 2.34.1
+>=20
 
+--UJJuTW6LWkpDszvK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If so, shadow stacks might always get turned on before the main program
-gets a look-in.
+-----BEGIN PGP SIGNATURE-----
 
-Or is that not the expectation?
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZr4SNgAKCRB4tDGHoIJi
+0la6AP0Uurd8ttJzgexIAZHCyhGt1quMRRW5eMQXppSCsohCvwEA78I0P+LSV13j
+8gxpIkzC5+6L9sEJ0/3AqkQ1PtInWAc=
+=xjNl
+-----END PGP SIGNATURE-----
 
-> 
-> > Is there any scenario where it is legitimate for the signal handler to
-> > change the shadow stack mode or to return with an altered GCSPR_EL0?
-> 
-> If userspace can rewrite the stack pointer on return (eg, to return to a
-> different context as part of userspace threading) then it will need to
-
-Do we know if code that actually does that?  IIUC, trying to do this is
-totally broken on most arches nowadays; making it work requires a
-reentrant C library and/or logic to defer signals around critical
-sections in userspace.
-
-"Real" threading makes this pretty pointless for the most part.
-
-
-Related question: does shadow stack work with ucontext-based coroutines?
-Per-context stacks need to be allocated by the program for that.
-
-
-> be able to also update GCSPR_EL0 to something consistent otherwise
-> attempting to return from the interrupted context isn't going to go
-> well.  Changing the mode is a bit more exotic, as it is in general.
-> It's as much to provide information to the signal handler as anything
-> else.
-
-I'm not sure that we should always put information in the signal frame
-that the signal handler can't obtain directly.
-
-I guess it's harmless to include this, though.
-
-> > Is the guarded stack considered necessary (or at least beneficial) for
-> > backtracing, or is the regular stack sufficient?
-> 
-> It's potentially beneficial, being less vulnerable to corruption and
-> simpler to parse if all you're interested in is return addresses.
-> Profiling in particular was mentioned, grabbing a linear block of memory
-> will hopefully be less overhead than chasing down the stack.  The
-> regular stack should generally be sufficient though.
-
-I guess we can't really argue that the shadow stack pointer is
-redundant here though.  The whole point of shadow stacks is to make
-things more robust...
-
-Just kicking the tyres on the question of whether we need it here, but
-I guess it's hard to make a good case for saying "no".
-
-Cheers
----Dave
-
+--UJJuTW6LWkpDszvK--
