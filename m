@@ -1,29 +1,29 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03CB1A705B;
-	Thu, 15 Aug 2024 13:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B011494C5;
+	Thu, 15 Aug 2024 13:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723729479; cv=none; b=FS9FtyzBiX8GET/qfz+C3JKLkFJ5pJMhconHtMlNIr9UL3CGCPPz2cK0cz2Sw38wnEecUNFVsFgIN4jCErH/vZVwGvZ/hUfPRYI0cBSB4yq76wi6Z59WPNKE2OFG4ZouJLEgopMrng8/sPBCUhoMHjFAEfCWoTLOjtFJ4OESb0E=
+	t=1723729770; cv=none; b=FH+4LG9pEg0So+hPyYbCFsqV1B1LY8a6FvqZNB7OEMknOZkb5ks1X2qdU5LF9LC+mLIjDFz9fPKQBQu5Z+taTKTcZYFqqNYJJNNH4568lk1tuaRWTFsnK2ULE9LqPBo58HyUCY4qFZ28MeBKw35c+GXBq90/KRBQAzyvlha7g1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723729479; c=relaxed/simple;
-	bh=uVmWifW0HS3c4Banhr20uIDh6Blz7xySuRYRmhk0SEc=;
+	s=arc-20240116; t=1723729770; c=relaxed/simple;
+	bh=TCpjlsm4xqeK0L2uxXsv6Gm044Qcen8eAGQR3XuiNRg=;
 	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=FabKJNPxgsi8EsUJJW7YA8b8sRECYUxCVU7bf7eDBhNtIQsWK2VZ7VvPN957cCgWDobg17fznendtneZFssMkraCB5eiEuK0Vg8321ihRAzCtVPU2WLmKbSwE71oxEtXaTh42lcXnONfmEKCmFAu8VTkXVuI+1gBxkA0lqOqzFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+	 In-Reply-To:Content-Type; b=jGEH27V5hWCq+OKwzU6tsDb8sjobYSszR0zY9He9W8P0XEeEukHkMDRRlBSK2C/Tvlb+w3fcuN2OqHqhLF+VIzOLx1xUOHrpc6J59oAKizQQWMnh6LGu2wcKIialI5Pu9tHNOyjSr1wJ7HA9JIjsFYdQc3SN3RGH5C71BOinsnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wl5pQ4FlHz20lh4;
-	Thu, 15 Aug 2024 21:39:58 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Wl5vz5Dx6zQpvK;
+	Thu, 15 Aug 2024 21:44:47 +0800 (CST)
 Received: from kwepemd200014.china.huawei.com (unknown [7.221.188.8])
-	by mail.maildlp.com (Postfix) with ESMTPS id C23271A016C;
-	Thu, 15 Aug 2024 21:44:33 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 5A4621400E3;
+	Thu, 15 Aug 2024 21:49:23 +0800 (CST)
 Received: from [10.67.121.177] (10.67.121.177) by
  kwepemd200014.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Thu, 15 Aug 2024 21:44:32 +0800
+ 15.2.1258.34; Thu, 15 Aug 2024 21:49:22 +0800
 CC: Shuai Xue <xueshuai@linux.alibaba.com>, Jing Zhang
 	<renyu.zj@linux.alibaba.com>, Will Deacon <will@kernel.org>, Mark Rutland
 	<mark.rutland@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Yicong
@@ -34,13 +34,13 @@ CC: Shuai Xue <xueshuai@linux.alibaba.com>, Jing Zhang
 	<quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
 	<quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
 	<quic_parass@quicinc.com>, <quic_mrana@quicinc.com>
-Subject: Re: [PATCH 2/4] Documentation: dwc_pcie_pmu: Update bdf to sbdf
+Subject: Re: [PATCH 3/4] perf/dwc_pcie: Always register for PCIe bus notifier
 To: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 References: <20240731-dwc_pmu_fix-v1-0-ca47d153e5b2@quicinc.com>
- <20240731-dwc_pmu_fix-v1-2-ca47d153e5b2@quicinc.com>
+ <20240731-dwc_pmu_fix-v1-3-ca47d153e5b2@quicinc.com>
 From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <9a6bf90e-ce7f-8a20-93a1-63a75f312392@huawei.com>
-Date: Thu, 15 Aug 2024 21:44:32 +0800
+Message-ID: <55303289-bb41-4e67-9912-4cf4335244ca@huawei.com>
+Date: Thu, 15 Aug 2024 21:49:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 Precedence: bulk
@@ -49,76 +49,58 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240731-dwc_pmu_fix-v1-2-ca47d153e5b2@quicinc.com>
+In-Reply-To: <20240731-dwc_pmu_fix-v1-3-ca47d153e5b2@quicinc.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemd200014.china.huawei.com (7.221.188.8)
 
 On 2024/7/31 12:23, Krishna chaitanya chundru wrote:
-> Update document to reflect the driver change to use sbdf instead
-> of bdf alone.
+> When the PCIe devices are discovered late, the driver can't find
+> the PCIe devices and returns in the init without registering with
+> the bus notifier. Due to that the devices which are discovered late
+> the driver can't register for this.
 > 
+> Register for bus notifier even if the device is not found in init.
+> 
+> Fixes: af9597adc2f1 ("drivers/perf: add DesignWare PCIe PMU driver")
 > Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
-
-Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
-
 > ---
->  Documentation/admin-guide/perf/dwc_pcie_pmu.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  drivers/perf/dwc_pcie_pmu.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/perf/dwc_pcie_pmu.rst b/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
-> index d47cd229d710..39b8e1fdd0cd 100644
-> --- a/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
-> +++ b/Documentation/admin-guide/perf/dwc_pcie_pmu.rst
-> @@ -46,16 +46,16 @@ Some of the events only exist for specific configurations.
->  DesignWare Cores (DWC) PCIe PMU Driver
->  =======================================
+> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
+> index c115348b8d53..aa1010b44bcb 100644
+> --- a/drivers/perf/dwc_pcie_pmu.c
+> +++ b/drivers/perf/dwc_pcie_pmu.c
+> @@ -741,8 +741,6 @@ static int __init dwc_pcie_pmu_init(void)
 >  
-> -This driver adds PMU devices for each PCIe Root Port named based on the BDF of
-> +This driver adds PMU devices for each PCIe Root Port named based on the SBDF of
->  the Root Port. For example,
+>  		found = true;
+>  	}
+> -	if (!found)
+> -		return -ENODEV;
 >  
-> -    30:03.0 PCI bridge: Device 1ded:8000 (rev 01)
-> +    0001:30:03.0 PCI bridge: Device 1ded:8000 (rev 01)
+>  	ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN,
+>  				      "perf/dwc_pcie_pmu:online",
+> @@ -753,9 +751,11 @@ static int __init dwc_pcie_pmu_init(void)
 >  
-> -the PMU device name for this Root Port is dwc_rootport_3018.
-> +the PMU device name for this Root Port is dwc_rootport_13018.
+>  	dwc_pcie_pmu_hp_state = ret;
 >  
->  The DWC PCIe PMU driver registers a perf PMU driver, which provides
->  description of available events and configuration options in sysfs, see
-> -/sys/bus/event_source/devices/dwc_rootport_{bdf}.
-> +/sys/bus/event_source/devices/dwc_rootport_{sbdf}.
->  
->  The "format" directory describes format of the config fields of the
->  perf_event_attr structure. The "events" directory provides configuration
-> @@ -66,16 +66,16 @@ The "perf list" command shall list the available events from sysfs, e.g.::
->  
->      $# perf list | grep dwc_rootport
->      <...>
-> -    dwc_rootport_3018/Rx_PCIe_TLP_Data_Payload/        [Kernel PMU event]
-> +    dwc_rootport_13018/Rx_PCIe_TLP_Data_Payload/        [Kernel PMU event]
->      <...>
-> -    dwc_rootport_3018/rx_memory_read,lane=?/               [Kernel PMU event]
-> +    dwc_rootport_13018/rx_memory_read,lane=?/               [Kernel PMU event]
->  
->  Time Based Analysis Event Usage
->  -------------------------------
->  
->  Example usage of counting PCIe RX TLP data payload (Units of bytes)::
->  
-> -    $# perf stat -a -e dwc_rootport_3018/Rx_PCIe_TLP_Data_Payload/
-> +    $# perf stat -a -e dwc_rootport_13018/Rx_PCIe_TLP_Data_Payload/
->  
->  The average RX/TX bandwidth can be calculated using the following formula:
->  
-> @@ -88,7 +88,7 @@ Lane Event Usage
->  Each lane has the same event set and to avoid generating a list of hundreds
->  of events, the user need to specify the lane ID explicitly, e.g.::
->  
-> -    $# perf stat -a -e dwc_rootport_3018/rx_memory_read,lane=4/
-> +    $# perf stat -a -e dwc_rootport_13018/rx_memory_read,lane=4/
->  
->  The driver does not support sampling, therefore "perf record" will not
->  work. Per-task (without "-a") perf sessions are not supported.
+> -	ret = platform_driver_register(&dwc_pcie_pmu_driver);
+> -	if (ret)
+> -		goto platform_driver_register_err;
+> +	if (!found) {
+> +		ret = platform_driver_register(&dwc_pcie_pmu_driver);
+> +		if (ret)
+> +			goto platform_driver_register_err;
+> +	}
+> 
+
+This doesn't match the commit.
+
+If any device is found at this stage, we cannot use them since you don't
+register a driver.
+
+>  	ret = bus_register_notifier(&pci_bus_type, &dwc_pcie_pmu_nb);
+>  	if (ret)
 > 
