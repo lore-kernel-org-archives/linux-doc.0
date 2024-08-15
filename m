@@ -1,189 +1,238 @@
-Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B10734545;
-	Thu, 15 Aug 2024 19:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723749888; cv=pass; b=TtlUJeEIQ1MzrbgMKNg8rOd1KK7XkzTOhdHoPzfm1FAUcLFYgDAS86w9U6hnbsvKfeYyP5kqEo4GcB7iqXXC3oWzaxKMCCjfWUQvJE6uvW+CI+ZzyIU53qhvvk1CYFZFPv5/KyVXdWcMQsngETJ01LD8dmvR09WNFFjqShQ2Iyg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723749888; c=relaxed/simple;
-	bh=Ms9Fpt97Fmxe6Rx8okpeNFoiXGMmMmrPmHt6l/vlBZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TIQjuOxsGvvKYXMND1FvB4Haah3QYkqL15SnK+rLWXldgTSOfM1L8grbhiKcLl9lZSSeJPVOJ/mRfNeBVQOh6+1vOnBgId9/3HriOtkufgbcHFJ3xABzoG4LqDD9miHI6EP3KW/9euJ8OYOYuCSaYALjqEXbERFHnX9X60QImeQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=XB5405LS; arc=pass smtp.client-ip=136.143.188.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3E910FF;
+	Thu, 15 Aug 2024 20:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723752147; cv=none; b=ZoReOqFzXy3Ps0nQ2gLOJnfXOY/3LdXdmAWe0nb80DHWjNEOn4c7gqsSoboP+Lwt135WCsiaFradoQTdm/OMtW/IqrJOOcu2nkcz5kwhJMvKmZ8Da4OT+PAYFbzwB6VrlaIPVXQUBDNxFj3vvljHHbVGTBZSSwwtIQQe6k24gqM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723752147; c=relaxed/simple;
+	bh=Una/csjFvk8Y03/HoOMMntul75tfxF/Fl5iMXVtNLo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEXZ54gA0W/F8ispayzyjg7SOjGnJ5caVnTIFOkNLzsO7nn6wznWnWCnYpMeNuXjqLU8A98slOgDIbACVaszOAt0Su6wpR/42iGWHVrFGfKPkMYDmzqLHTXx5mPSgr1386/YJrtEhfMelfo+ugZWIVTyMNqlLapLQkitIEaLVsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eh/tyzHb; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="XB5405LS"
-ARC-Seal: i=1; a=rsa-sha256; t=1723749845; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=eCR+ownc2K5nhjbnzLCk8mQRLiIfIIVGVqZyVkyxbKj5zEH/F8WuodIG4DDdZud29ubCfObYUsNlR6VzWJMRkcKydjw01hkGG2IoE0UwZEtmF6U08fziJxQq4LfARXwyaleGw2ErE3JIZSR+WviZYRjMFngQPbPyj9AIxlvsAEg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1723749845; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+UN78hyEChy5/BcN7wOK0jAZMASV1l7rKkiHw5UEFag=; 
-	b=f+b27MPFTDDwYUwBHSuMsS2XeHjmizmG6hnhRc6iQBLYirhzmyyUzmUV6qf5s5QnsBrSEPxlUe7J2m9QuDXnwHfaR91FA6ogQe/VO/OYc2lEGkEIiUdYlU8XQYvNaEJLRgugvYAgEDZ6W94gjsGKI5OOVDLLN5PVsME8OPDlVTc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=apertussolutions.com;
-	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-	dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723749845;
-	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=+UN78hyEChy5/BcN7wOK0jAZMASV1l7rKkiHw5UEFag=;
-	b=XB5405LSOwCca8ZSFn1+Doi1AedyI6ptJvjtYUb4GcBr5IlE1r5URdz29JBsaalx
-	oFeTAOtoDjD/OVOhotQnKPNWQmhBlGMJ2yCvbc5u8s/0qlTseKPuvtLeqGK3bvLzgLJ
-	e9g7SqJ6O3MGzJuFKEOmmHe6/+E8pJWjAQO2TFU0=
-Received: by mx.zohomail.com with SMTPS id 1723749843823897.2191746657345;
-	Thu, 15 Aug 2024 12:24:03 -0700 (PDT)
-Message-ID: <32f0bc58-c0a1-4c11-bd02-c6e61b0e2eb6@apertussolutions.com>
-Date: Thu, 15 Aug 2024 15:24:00 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eh/tyzHb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723752145; x=1755288145;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Una/csjFvk8Y03/HoOMMntul75tfxF/Fl5iMXVtNLo4=;
+  b=Eh/tyzHbRy/rMbC9zHkGBeZM2Qkw6bpXAGT5zqbMYeRDDn1svToFZMm7
+   M4bfGHWRuBMmdnmjDF2Jh+Y15+7YFhampvwChTqFXnXrrsNw+szDWSJmp
+   45s3sW6iOqIhRP/jg3kTKj7Osr7mT34w5SrCdYUgK4x/f824LKen16G30
+   n/liakxF4ouqZ313YsxQGdbySYimVaV67v6PrX7D0m9C7n7xLzcaM7ON9
+   kg75Ms09OqkhzWWpnZ0z9xzfcJJBQXIkZYbeYzXbRcD0S5eSMDPdQ9S7V
+   GsgFSSRjpCYGuiMHA6FsBBDPmlBI0i26ZvRlkA8n9SbGkdG0YH7DZgt+6
+   Q==;
+X-CSE-ConnectionGUID: +myjxpEkQ7e1YNjfyDl9Yg==
+X-CSE-MsgGUID: wfXFJmyVRK6k1Q7aU4mHog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="32605452"
+X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
+   d="scan'208";a="32605452"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 13:02:24 -0700
+X-CSE-ConnectionGUID: BQ4Ed6q6Qw2zdK7U38N6BA==
+X-CSE-MsgGUID: bpAKtS9nR9ODn/gWIi+NuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
+   d="scan'208";a="59133924"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2024 13:02:21 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1segfr-0005YM-0X;
+	Thu, 15 Aug 2024 20:02:19 +0000
+Date: Fri, 16 Aug 2024 04:01:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	=?iso-8859-1?Q?Joaqu=EDn_Ignacio_Aramend=EDa?= <samsagax@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] hwmon: (oxp-sensors) Add support for multiple new
+ devices.
+Message-ID: <202408160329.TLNbIwRC-lkp@intel.com>
+References: <20240815031358.21027-2-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 14/19] tpm: Ensure tpm is in known state at startup
-Content-Language: en-US
-To: Jarkko Sakkinen <jarkko@kernel.org>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
- dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
- James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jgg@ziepe.ca,
- luto@amacapital.net, nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
- davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-15-ross.philipson@oracle.com>
- <D1RIB8BHWRC5.3RRW0ZKV3KDVM@kernel.org>
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Autocrypt: addr=dpsmith@apertussolutions.com; keydata=
- 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
-In-Reply-To: <D1RIB8BHWRC5.3RRW0ZKV3KDVM@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240815031358.21027-2-derekjohn.clark@gmail.com>
 
-On 6/4/24 16:14, Jarkko Sakkinen wrote:
-> On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
->> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
->>
->> When tis core initializes, it assumes all localities are closed. There
-> 
-> s/tis_core/tpm_tis_core/
+Hi Derek,
 
-Ack.
+kernel test robot noticed the following build warnings:
 
->> are cases when this may not be the case. This commit addresses this by
->> ensuring all localities are closed before initializing begins.
->>
->> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
->> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
->> ---
->>   drivers/char/tpm/tpm_tis_core.c | 11 ++++++++++-
->>   include/linux/tpm.h             |  6 ++++++
->>   2 files changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_core.c
->> index 7c1761bd6000..9fb53bb3e73f 100644
->> --- a/drivers/char/tpm/tpm_tis_core.c
->> +++ b/drivers/char/tpm/tpm_tis_core.c
->> @@ -1104,7 +1104,7 @@ int tpm_tis_core_init(struct device *dev, struct tpm_tis_data *priv, int irq,
->>   	u32 intmask;
->>   	u32 clkrun_val;
->>   	u8 rid;
->> -	int rc, probe;
->> +	int rc, probe, i;
->>   	struct tpm_chip *chip;
->>   
->>   	chip = tpmm_chip_alloc(dev, &tpm_tis);
->> @@ -1166,6 +1166,15 @@ int tpm_tis_core_init(struct device *dev, struct tpm_tis_data *priv, int irq,
->>   		goto out_err;
->>   	}
->>   
->> +	/*
->> +	 * There are environments, like Intel TXT, that may leave a TPM
-> 
-> What else at this point than Intel TXT reflecting the state of the
-> mainline?
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.11-rc3 next-20240815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Leaving the TPM in Locality 2 is a requirement of the TCG D-RTM 
-specification. This will be the situation for AMD and Arm as well. The 
-comment can be updated to ref the TCG spec instead of a specific 
-implementation.
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/hwmon-oxp-sensors-Add-support-for-multiple-new-devices/20240815-111550
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240815031358.21027-2-derekjohn.clark%40gmail.com
+patch subject: [PATCH 1/1] hwmon: (oxp-sensors) Add support for multiple new devices.
+config: i386-buildonly-randconfig-005-20240815 (https://download.01.org/0day-ci/archive/20240816/202408160329.TLNbIwRC-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240816/202408160329.TLNbIwRC-lkp@intel.com/reproduce)
 
->> +	 * locality open. Close all localities to start from a known state.
->> +	 */
->> +	for (i = 0; i <= TPM_MAX_LOCALITY; i++) {
->> +		if (check_locality(chip, i))
->> +			tpm_tis_relinquish_locality(chip, i);
->> +	}
-> 
-> To be strict this should be enabled only for x86 platforms.
-> 
-> I.e. should be flagged.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408160329.TLNbIwRC-lkp@intel.com/
 
-As mentioned above, this will also affect Arm.
+All warnings (new ones prefixed by >>):
 
->> +
->>   	/* Take control of the TPM's interrupt hardware and shut it off */
->>   	rc = tpm_tis_read32(priv, TPM_INT_ENABLE(priv->locality), &intmask);
->>   	if (rc < 0)
->> diff --git a/include/linux/tpm.h b/include/linux/tpm.h
->> index c17e4efbb2e5..363f7078c3a9 100644
->> --- a/include/linux/tpm.h
->> +++ b/include/linux/tpm.h
->> @@ -147,6 +147,12 @@ struct tpm_chip_seqops {
->>    */
->>   #define TPM2_MAX_CONTEXT_SIZE 4096
->>   
->> +/*
->> + * The maximum locality (0 - 4) for a TPM, as defined in section 3.2 of the
->> + * Client Platform Profile Specification.
->> + */
->> +#define TPM_MAX_LOCALITY		4
->> +
->>   struct tpm_chip {
->>   	struct device dev;
->>   	struct device devs;
-> 
-> 
-> BR, Jarkko
+>> drivers/hwmon/oxp-sensors.c:497:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     497 |                 default:
+         |                 ^
+   drivers/hwmon/oxp-sensors.c:497:3: note: insert 'break;' to avoid fall-through
+     497 |                 default:
+         |                 ^
+         |                 break; 
+   drivers/hwmon/oxp-sensors.c:564:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     564 |                 default:
+         |                 ^
+   drivers/hwmon/oxp-sensors.c:564:3: note: insert 'break;' to avoid fall-through
+     564 |                 default:
+         |                 ^
+         |                 break; 
+   drivers/hwmon/oxp-sensors.c:616:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+     616 |                 default:
+         |                 ^
+   drivers/hwmon/oxp-sensors.c:616:3: note: insert 'break;' to avoid fall-through
+     616 |                 default:
+         |                 ^
+         |                 break; 
+   3 warnings generated.
 
-v/r,
-dps
+
+vim +497 drivers/hwmon/oxp-sensors.c
+
+   464	
+   465	static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
+   466				     u32 attr, int channel, long *val)
+   467	{
+   468		int ret;
+   469	
+   470		switch (type) {
+   471		case hwmon_fan:
+   472			switch (attr) {
+   473			case hwmon_fan_input:
+   474				switch (board) {
+   475				case orange_pi_neo:
+   476					return read_from_ec(ORANGEPI_SENSOR_FAN_REG, 2, val);
+   477				case aok_zoe_a1:
+   478				case aya_neo_2:
+   479				case aya_neo_2s:
+   480				case aya_neo_air:
+   481				case aya_neo_air_1s:
+   482				case aya_neo_air_plus_mendo:
+   483				case aya_neo_air_pro:
+   484				case aya_neo_flip:
+   485				case aya_neo_geek:
+   486				case aya_neo_geek_1s:
+   487				case aya_neo_kun:
+   488				case oxp_mini_amd:
+   489				case oxp_mini_amd_a07:
+   490				case oxp_2:
+   491				case oxp_fly:
+   492				case oxp_mini_amd_pro:
+   493					return read_from_ec(OXP_SENSOR_FAN_REG, 2, val);
+   494				default:
+   495					break;
+   496				}
+ > 497			default:
+   498				break;
+   499			}
+   500			break;
+   501		case hwmon_pwm:
+   502			switch (attr) {
+   503			case hwmon_pwm_input:
+   504				switch (board) {
+   505				case orange_pi_neo:
+   506					ret = read_from_ec(ORANGEPI_SENSOR_PWM_REG, 1, val);
+   507					if (ret)
+   508						return ret;
+   509					/* scale from range [1-244] */
+   510					*val = ((*val - 1) * 254 / 243) + 1;
+   511					break;
+   512				case aya_neo_2:
+   513				case aya_neo_2s:
+   514				case aya_neo_air:
+   515				case aya_neo_air_1s:
+   516				case aya_neo_air_plus_mendo:
+   517				case aya_neo_air_pro:
+   518				case aya_neo_flip:
+   519				case aya_neo_geek:
+   520				case aya_neo_geek_1s:
+   521				case aya_neo_kun:
+   522				case oxp_mini_amd:
+   523				case oxp_mini_amd_a07:
+   524					ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
+   525					if (ret)
+   526						return ret;
+   527					*val = (*val * 255) / 100;
+   528					break;
+   529				case aok_zoe_a1:
+   530				case oxp_2:
+   531				case oxp_fly:
+   532				case oxp_mini_amd_pro:
+   533				default:
+   534					ret = read_from_ec(OXP_SENSOR_PWM_REG, 1, val);
+   535					if (ret)
+   536						return ret;
+   537					break;
+   538				}
+   539				return 0;
+   540			case hwmon_pwm_enable:
+   541				switch (board) {
+   542				case orange_pi_neo:
+   543					return read_from_ec(ORANGEPI_SENSOR_PWM_ENABLE_REG, 1, val);
+   544				case aok_zoe_a1:
+   545				case aya_neo_2:
+   546				case aya_neo_2s:
+   547				case aya_neo_air:
+   548				case aya_neo_air_1s:
+   549				case aya_neo_air_plus_mendo:
+   550				case aya_neo_air_pro:
+   551				case aya_neo_flip:
+   552				case aya_neo_geek:
+   553				case aya_neo_geek_1s:
+   554				case aya_neo_kun:
+   555				case oxp_mini_amd:
+   556				case oxp_mini_amd_a07:
+   557				case oxp_2:
+   558				case oxp_fly:
+   559				case oxp_mini_amd_pro:
+   560					return read_from_ec(OXP_SENSOR_PWM_ENABLE_REG, 1, val);
+   561				default:
+   562					break;
+   563				}
+   564			default:
+   565				break;
+   566			}
+   567			break;
+   568		default:
+   569			break;
+   570		}
+   571		return -EOPNOTSUPP;
+   572	}
+   573	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
