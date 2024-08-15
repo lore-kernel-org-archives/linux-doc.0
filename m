@@ -1,227 +1,343 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5751ABEBC;
-	Thu, 15 Aug 2024 15:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723735279; cv=fail; b=colgPyQmi9OiaZ0Zqg752abPbfHSJIXD53GGIVqhKBpOPGuNKTGZxJ8tRCYt1TvagWOTvMK8NuduJxFFDE+gCoxCn/glG/Ij+krpyPsUb//CD12BoumLhldqcQ0q3VOXNTLnrEBGZb6+ksnyexy7gAl76ZcXoArbkINtvEzLdgg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723735279; c=relaxed/simple;
-	bh=JhI0vsVQC6pG6cHe188LZGLVSqDidtqoxZ3U0+zSbtw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fl3r53ctLHyXKb8Jw1vybONlcfzaMGW/Jssv8t5z8JKJfk+RrpfmfItkRG2nXhXiDGIiAIsLbgYjHsRaSrZOkC9Q9cJictZkiE0hALQqFWGxEVl+hcH/dRK4ll4l9XOb9xfDI9ZXWFiY3kbzXPCzkgGIQcUJch+l5mrt9lqiN4I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hg6nq7xx; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22B9176AA3;
+	Thu, 15 Aug 2024 15:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723735514; cv=none; b=AZFRnE98ZMBmvGB+wE0eOkEqhfVttufT+bBYNGEoqR+WmuhcgQtpoOVA8dIOG/aLhCh4YkXzWCOjz9hpN1R7PNp7PFyRWnmt4LFY7STnUUwF6HE8M6e/yPB85D3BP0Al5mMPR9VjLUTaMen9cFJKYm9paDOkfVras+MQRGHU+To=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723735514; c=relaxed/simple;
+	bh=up0KofEG3+6Y0xVpvt65/Y20QAlsQ2f5jfoxyjzCaUs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YgLtUh3qOgYTvzhEXDhOTodUiBIyTns5kSN1Os0/0RoTVJT+Ny53LJ1G2O8Y8/44K9HYfrsO67D4OIED6zxY546Ldm4mFbBgTWAGhyWjsrVeISYTWoUjvFr2ro1xgtAHKUd35ULD4QQUsE5ESuBEFMeh9F9ITmGuOqD7kHXnWN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPe6z5k0; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hg6nq7xx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723735278; x=1755271278;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=JhI0vsVQC6pG6cHe188LZGLVSqDidtqoxZ3U0+zSbtw=;
-  b=Hg6nq7xxiSE6IDK9V1C3oMp4mwn2rDbpP5DLhkV2aOubWyKUKgcgIWDm
-   7R8vmwCmF0pW+LSZv1Xq0iLS/chm/FRnr/JMdGZqOVIfxahSD2OM6KrFQ
-   tyHBdYGr9XsIOnHZp7GO2da+baEkCf3L1Ah7bDsFLnNm14crpckpuCjVY
-   dv11Ermr0ArMo21LO5E7WuRxB8I3I701cZsw4NH8w+QJIXFhkrOGFGLns
-   wXRgH3Y+FRvifnwJJ8FY0K10z7oXA/Ilnt3DczlhhrGFHBgV4AMd6UTmz
-   YImf59+tWcz2JxnVgjPyRRc3Z5ekFc2jVkNunJ7r6jX6Df++cpAxuAUFw
-   w==;
-X-CSE-ConnectionGUID: iXuhHFFJRteOX61wKy+RoQ==
-X-CSE-MsgGUID: mcInEjYYRAKSdqSI31Di2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="21819365"
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="21819365"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 08:20:57 -0700
-X-CSE-ConnectionGUID: XvZnf5cBQPi08bgN0uIvbg==
-X-CSE-MsgGUID: pQaM0U44T0WSqqUdojXcCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="63795537"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Aug 2024 08:20:55 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 15 Aug 2024 08:20:55 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 15 Aug 2024 08:20:55 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 15 Aug 2024 08:20:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tghsw+IT+TSnsrQIryooLQip+g52mHx8mp73qsD4vBgGsQttl1sZix6L7S6XExBBlYRdS8RLIqUCDQFfkzLCtxRATmOdt4f+58RtoiZB6EaATwS6eelUMbGmc7FRvM7Ofv/Wjxx2NOv7oXkjbUa/6r5xjc7AxMBNDuMMvXV7KIVRAe3y3y4mFB7B+lZ5av7D5AsWCOCiOIOVDX+oulYwaLlybV20i4AaKlVLvHIH4wOZKLaC+xSPc/zv4C60tH2kuRN1k9YEFZBXmTzWkjXOtG0Hwoy64NeqygjHEo9iCVrExjjD/43KH/lCZf6/gWPCZs9rCxNsgggXtn1A1Y/EOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JhI0vsVQC6pG6cHe188LZGLVSqDidtqoxZ3U0+zSbtw=;
- b=XTvYn3F2zNGJ92WxDSEgXy7h66ICYdmt7/tVY4DKPp/cTmUEzCymUJGgqZuhg03Y6h8VNcEX7iUSITTjI94/DcIe5BmZ0obBLIo4LGw7tEzbYncoh3I0QlUkfrDKFHNNe0ajH/nLg2HN5x+Ea1Ni/iiPGYti2DzE8nS6i6v4ksX6cFhP85cXegK8ZKvt9tX34JLzqsdaFWNB6chtY0BHljkfuFFjDPovlMtxE+3eT3cL0YJNb4TvorD1oZ1+ZuvLzudlUqeHtQWsI4tZXSGwE/ZG+oCIXZLZxlpaVz/n5JCawZ9Ob8jQ98hf3UzsxRGspVvu7yHFqjFcL4jQslrHhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.32; Thu, 15 Aug
- 2024 15:20:52 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::edb2:a242:e0b8:5ac9%4]) with mapi id 15.20.7875.018; Thu, 15 Aug 2024
- 15:20:52 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "corbet@lwn.net" <corbet@lwn.net>, "ardb@kernel.org" <ardb@kernel.org>,
-	"maz@kernel.org" <maz@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "debug@rivosinc.com" <debug@rivosinc.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "oleg@redhat.com"
-	<oleg@redhat.com>, "arnd@arndb.de" <arnd@arndb.de>, "ebiederm@xmission.com"
-	<ebiederm@xmission.com>, "will@kernel.org" <will@kernel.org>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "kees@kernel.org"
-	<kees@kernel.org>, "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"broonie@kernel.org" <broonie@kernel.org>
-CC: "brauner@kernel.org" <brauner@kernel.org>, "ross.burton@arm.com"
-	<ross.burton@arm.com>, "fweimer@redhat.com" <fweimer@redhat.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>, "hjl.tools@gmail.com"
-	<hjl.tools@gmail.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-arch@vger.kernel.org"
-	<linux-arch@vger.kernel.org>, "thiago.bauermann@linaro.org"
-	<thiago.bauermann@linaro.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v10 12/40] mm: Define VM_SHADOW_STACK for arm64 when we
- support GCS
-Thread-Topic: [PATCH v10 12/40] mm: Define VM_SHADOW_STACK for arm64 when we
- support GCS
-Thread-Index: AQHa5BKUVD7wI5NTNUm62iFzIM90d7IohUeA
-Date: Thu, 15 Aug 2024 15:20:52 +0000
-Message-ID: <34f7a5378447b1a8d5a9561594b37cfeaa6bd2b1.camel@intel.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
-	 <20240801-arm64-gcs-v10-12-699e2bd2190b@kernel.org>
-In-Reply-To: <20240801-arm64-gcs-v10-12-699e2bd2190b@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|SJ1PR11MB6129:EE_
-x-ms-office365-filtering-correlation-id: 754da618-6822-4d31-ee29-08dcbd3dd9bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024|921020|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?R0hRek9OTllQdis4ZlFYWDJYQm9EUllNL3VYTEJ1Z3hMNDBJdll0Zk1NMmNZ?=
- =?utf-8?B?blBaOEVWc2tFUCtLdE9xc2grMjMrTkRqTk43RmhHK3RNU3BDUDl6bDFTOENW?=
- =?utf-8?B?eVdYL1g5eWNGWmoyVGVyanQ3MnFmejFOaVlGR2pKd3U3R3N1N0ZxRHk1ZGsx?=
- =?utf-8?B?UTh6TVp3L0RrcGl5akcwZ2tiR2ZYdm9vOXAyelFWTUhiNWpRR1A2bDVVWUZH?=
- =?utf-8?B?YkFKRUQwWkhYRFJvNldCNmxBa3p6TXZER1EvMzhPNEJTR3dNdnk0S1g4NDU4?=
- =?utf-8?B?U0l5L2dQdmZ0UnhYV2RoNS9PNjZxWUgzSmxPTzJCZG9wQjFtYy9nZ00veDk4?=
- =?utf-8?B?cldla2NxdlR3WW1GR0FIYWhRMCt6bStxRDFJYUZ4RHhad3dDNldRTmJibmZV?=
- =?utf-8?B?QU00OUhFdTNOZzZHYWk0NmFOelVWWnR0SWZOVlpiemhtWHBvaTYyOVJ2VTdi?=
- =?utf-8?B?ZnJseXZxTDVwUVo0aXNsTnF3NVhIRVRYMUFzWktXK3h2cjBxYURYWWxETTFI?=
- =?utf-8?B?K2pVQlByTVV4aVYzTm5GM0F5cTZFWjFuS3FxeHJxNm1CWGJjK3NkYjhTSnY4?=
- =?utf-8?B?dGZIaXpnMDhMS1hVcjJUZWpKWms4cTlvUnplcWswL1lvejJxVXcwTE1Wak9k?=
- =?utf-8?B?emU5ZUJ6U3Ryekd0Q1Ftd0pJeXM4MFowYjlKL2U3eHFKd3RRMWsyM1Nrblo2?=
- =?utf-8?B?VlNDUXF4TDZTNnRCZEYvMmlPTGJkL3BZTnVoazdmOVpkRms4b3NzMkhobG1k?=
- =?utf-8?B?MXZuNGMySHBoNk1zYVgydnZEclptdnlYMWhFNS9mdDNlNk5PT2U0NnJ0QUJw?=
- =?utf-8?B?ZnlKVTRTWXRIbG9OM0VndHNZU2owT240S3g4azdoVUpTSzZMdzBCeEUrY2Jq?=
- =?utf-8?B?M0xaR0w0WU1PYnIvcXhPSTFXWWF3bGxwWEpqLzNvbFUrUjdKRzIrdmZXVGF1?=
- =?utf-8?B?dzR6RVp4a1BxaGMvdjE5My9RUUwxN1pqYmJ5VnJ0dnlOYnJmMkx6aFJiTVBR?=
- =?utf-8?B?WTlESWFlRnBsZWhhMWUrK1kveTh6UjZ0OGtoZGYxalFrVWpQaGdGM1BKVDFQ?=
- =?utf-8?B?a2tncXdIeGZQTzVZVWp4a0ZoeXRJZjlkOW1lbXppU1ZvYU1YTXo5SXhNV3Jo?=
- =?utf-8?B?QUlnV2Z3aWdEeENnVHVZR1hmbFAvTm51Q1J5eU9mVFVsSEs1MU1UNEM0N3Ji?=
- =?utf-8?B?WTAxWm16QytKK09oL0ZkMXVVdUZQVGREZ0UvODZpNmRySjhPNlRyTTdCdnpn?=
- =?utf-8?B?WVRGUHdLcko3alY2djFZdHNCMSsram5JNjBYVGYrSWpCaHFOVGQzdjE4OUs0?=
- =?utf-8?B?THpNeFZOa0RvK0ZYSnlQQVAvbFdtaWdtSzMrU2ZOT3hoUzBaRmNEbUR2MlI4?=
- =?utf-8?B?clZETU03YjRZYVdhdGxDYWo0eFIreXpVbjNBTVNoYjlYejFCTHFZYll1Y3Jv?=
- =?utf-8?B?bEFwNWhtUXBINjZBeFhweHlqWkJFK0lCRnpTVVNxem1SSFpSQlQzQmNOUW9X?=
- =?utf-8?B?TGxOblNkWVZMWnA0WE5rWkVpZGtKZXN6RDIwdlRtOStzOTIwSm9YV2lrN1pW?=
- =?utf-8?B?VFM0NzZNZ2pQT3pvWGtoanl5YWlhYWxkSUdpaVVDUU42N0tQeURJWDZVWjg2?=
- =?utf-8?B?NXlOMHMrK3pJNnNqZzdoRVZxZDJjNXNOUWpHK1FHbmxyVUcyOUxBOWxTL0FO?=
- =?utf-8?B?R2ZjUkZhaDhSTG9hZWlIVUdsZ1lqRENQS1p2YXNqRzZDRkdkRVd2Z3FLRHBk?=
- =?utf-8?B?WlBaMkhBbWhmcVBjVlNDSFJ2WTQ1eEZEZ0ZXaUtza2lPSG8rQ1R4WXIzSzZy?=
- =?utf-8?B?T2FKTGZBRStHUlpULzlNWEV0dUFuTnFiQVJudHBuaE1QcFJoaHlEeFIvRmUr?=
- =?utf-8?B?NlpObHZRVTVyb3pBa0gxbTZOdEt6ZDA5ZGNGNTdTOTgybzZnWFFBbEtidE1q?=
- =?utf-8?Q?GMTJPKyhe7o=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(921020)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NnNZNXZ2ZXc1ZWRLZWVLdEUrNExDWVRqRUNLNGdFMHNheThBZm4xRVhWZmFT?=
- =?utf-8?B?VlJrQVRKQWtENytESHI2ZmE5dW92VHZiZmJNZGYrNkcrMUd3YzBta2pMbFdG?=
- =?utf-8?B?ZmlEWUQvWDdPclAzcnNydE9ETjRKNlQ0a1YxYStXM0x5azRpZXpwb2IzQlRo?=
- =?utf-8?B?dUl4bkVML2RtbjVIMHVBOTZNbStMeFIreHJpR1djcFBXWnduWm9aTTROWmUw?=
- =?utf-8?B?bmc0WWkrYVdPdXZUVnRadFBqNUN6TkdXZGY3MlF0UWhFTTVvTk1GYzk0VFRa?=
- =?utf-8?B?VGtFMkFNME5MWGgwOWo2amMzUnJPeWNKdlJmZmg2VlArOXE2dEJPQVhkZjhm?=
- =?utf-8?B?anAycWM1QVBpZFQwL0JlVVpVaTVVaHNzRVQ2UHBrU0dmWVUzUVZ2L0UxeEor?=
- =?utf-8?B?NUttUlNVSDFQMTVnaGZxUDR1RFhkUDNCRS9TSURycGE3cVpwcjZCY1dKMzNh?=
- =?utf-8?B?eDhmZ2MxN282N0NjSWptdmlrVDc0R1hoS3hTVTUzRzlqWitSSTI0WGFRS3ZC?=
- =?utf-8?B?RlhnUkFGbkJUdjlwNGd2RStlZHl6NzBRSjEzTDd3VU1KUlhmbmRXSUhuVjFa?=
- =?utf-8?B?Q3lxb29jVTBXSHJJdWtSelNONTZhMXMxeEo4bDJrL20wejMwb3R5ajdJRitO?=
- =?utf-8?B?MmdlQmtDdnREQ1JwTG1kR1h2NUpDbFBhdXlqQkZNWkoxMm9FTGE4WHNCS0F4?=
- =?utf-8?B?emhqL01YODZPWXVtVk5jcHI2dFllZHZLS2hyOGpYb2NLY3MranFxTzlGZ2k5?=
- =?utf-8?B?NGxEcjBzbi9SNTF5YkxZaExHNHg1RkRJTDNGeGg1MkZjczJmWUI2TTF1RSt6?=
- =?utf-8?B?OVNhelhzK2g0c2o0bnpjTkFPY0ppcEFxSG9rUnhuV2JpZlNlcWJHM2Jud0sz?=
- =?utf-8?B?NkpCNzN3OGhzWUg3M3I3bUxQZDJ4M2F3UDhYQU5PS1N0djBoZTZPb1hOY3h4?=
- =?utf-8?B?alplSGg3YTFpSTB0akE2RmtmUWhveWdaaTAweFJhSVhHRTEyOUw2UldQdkpC?=
- =?utf-8?B?Z2hCeFczcDN5enZ0eXNRc201K0xrOXp0ZWMyOXVSSExOanpHbGlSZEMraUZk?=
- =?utf-8?B?QzRyWklSMmRuUXdXczN3ZkVsM3k3cHRPNUl0L0lFeXU0UUE1bXJzS1lSODJW?=
- =?utf-8?B?cVhZMTl3QlUydjRBMEFZSDNUeEdzRWE5UjlET0dXNkk0K0tQUmo5MDhVOWh6?=
- =?utf-8?B?TkJLVGpiWUxpaXF4dFpaQTBjRHB0SXRoRlpoM1dRSlJvQ2xHdFN6K3NQcjQr?=
- =?utf-8?B?MEpVSWR6aTFyMi9ybW5GL1dJUFg4OVlHYlhqNlJJaTRQY3RHbGljVWt1WjFr?=
- =?utf-8?B?T2tQbmlXaXU5SU9UcWxudFBJVVFEcStOUnpHaTNjTnFYTHlBV1VQWHVydkxP?=
- =?utf-8?B?cE81TnRPTGV1THZaSGFmQ3l0QkNTK3hrRUZDZnhNQTdrbFllelhOUUpsZFJy?=
- =?utf-8?B?engxaHZodCs2eHF6REl0RytFQk9EZ2sxWSt5bng5RWhMaW5neU0rQ09DZkx2?=
- =?utf-8?B?d3BGMUpwUlcyQmRMTzdVaCtLSlVydkxaZ2psQ2dzclZoSzhrQ1gwbVJOMlBy?=
- =?utf-8?B?Qm5RdnBhRHJJRDZpRVpiS3poRnRoOVhQcnNXeEtTZEFIcGlzK3dOZWZ2QWJ5?=
- =?utf-8?B?L2xtS1hpb0sydUg5TUJUZlNYMHBBY09Oam9pZW92SVFxSUo5Y2psQ040V0pF?=
- =?utf-8?B?YTIwaW9FeXM0WTR0Q0E5VnVGUGd3Z1NYbVB3ZkEyNk5Ea2h1VVVESkFlM1lm?=
- =?utf-8?B?MWdsdzRpWHRKWU5LcjRJYUtDMWZQZmRvb2VFMFhvYzc0L2d2STQwbUpkM1lQ?=
- =?utf-8?B?cE0xeFE5UGV6RHEwZzN0bXNPb0xzN2NEOEpEWWlhajRoWWlHeXprS3lrLzNi?=
- =?utf-8?B?Qm9mZ0xDVTAvY0R5Q1dZZG1KTTNXNmxIczB6R0RDOXlPanVBc3FWSmt4Zzkr?=
- =?utf-8?B?WkJMeDBQV2djY1ZJVklYZWI4Ly9VQ0dDbXVZbWp0V2Yzb0NMak5ZelFxV3dp?=
- =?utf-8?B?UjkwdTY1NE0wS0J2cy9ibjBaeXhvNWpLd2o3SkZvdDRkdCs4ZnhibHUxc0NL?=
- =?utf-8?B?VVVGY1NrSGZhK1piWUNXQUpkR0hFNUdDZzBONEhqcUFFY1JJaXZGU3YvdEVY?=
- =?utf-8?B?MTExZ2dXMmpERWlPc2l0d3VxMHU0VENUZk00Y3dEQmtFZTJ4NTJoaEFLQ0dE?=
- =?utf-8?B?ZGc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BB7010345F9A034E8C3105817BBC6BA1@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPe6z5k0"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-428e0d184b4so6829995e9.2;
+        Thu, 15 Aug 2024 08:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723735511; x=1724340311; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8v1mzjCIPNIdgqV+hMVIEVVgOLKzqn9k/EPR2ZkKPYM=;
+        b=iPe6z5k0gCOX1vMtKS1xJzUM1jf8KahIssMOcmGmDQ5QPFKILhVaMBqQ3mP47B85fT
+         ABGkXxh39IIvuOGnkfWC/rWkwuETtJDSCn2gE4G+COBOmDKL/BO+p7RCCNK78VsTlSE2
+         83o9n31FiM4ctw+/ohNYSw4KsbI6JjZ6EPG4FMevELe5OPUe+tuPiqw320U/+YAb8280
+         Y/AwJTDx5wlbxzB5vk8OR3ctG7i/qqb6LMOpTwh/JLrYFOFGOZRi6w2eE+bebk9s9i0x
+         tvEo4LWM+Q4q9aQCnGObaNEvyKcI98VRnWGJqw/sQlyOMXd0JIAW/FapSLihGS5NY+1W
+         ifyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723735511; x=1724340311;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8v1mzjCIPNIdgqV+hMVIEVVgOLKzqn9k/EPR2ZkKPYM=;
+        b=MzYsqOpnsn2uIGp5yIu8XMiRYqNqYky893yOMa/iuj1XtQAglqFth1RCrwocPz5H8v
+         lKb4TTSx1Zqe7F24w96VMue+PzUMOz4/EY2vVrtSjCLZgZPpzKUEapS1gnaqIhONr9Un
+         rVsp97UhnioiZjZAHc+4xObha/aeixWIfVutcf8hCOBSywrvbNi/ROoqvj7eWxgWzHER
+         shI3gjMPSJxAgmJvS98PWmquooDj8RYv1Ye4yCb6Q9f6A5NbFs5NPh8r5j6/kfKml2wy
+         sow/Cb2eIICZWJy0EBzljhiZ/ph7fkGLFT1YHf8adiiMk3XoS5YZ2xJBPfjnlceoFnlf
+         eegA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPBnT82CMWmKxnvDJv32qYZakyJBNRdVAkuU6jxr1D8srBJhARduWH2qdqqYiXrcuPV3IudKV5r/VM2Wn+3A7/nuE9eLyXpVdFG3a8yaE6T7oxHt9m9w0O7QYtUr5Ev8vlZmDHbz/v
+X-Gm-Message-State: AOJu0YzNSPZBA7skPAkxNSsPeGYdQF8KSj7YuJ6m/pl1hJrlH7phBxEP
+	KZA3MqiSNRSbjvU2TsyGCseEuLUFT+4GjkNaqhH9iP7ZY95iYgQM
+X-Google-Smtp-Source: AGHT+IHA/Z8MYvLh/9a2fJdNDtEjp42BufsuAtyXox/DR5clkJZvTnCF2waMiTHHvinltgzfBEdwxg==
+X-Received: by 2002:a05:600c:154c:b0:428:314:f08e with SMTP id 5b1f17b1804b1-429dd234ae2mr43692845e9.5.1723735510719;
+        Thu, 15 Aug 2024 08:25:10 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded7dae0sm51548985e9.44.2024.08.15.08.25.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Aug 2024 08:25:10 -0700 (PDT)
+Message-ID: <4acdf2b7-ed65-4087-9806-8f4a187b4eb5@gmail.com>
+Date: Thu, 15 Aug 2024 16:25:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 754da618-6822-4d31-ee29-08dcbd3dd9bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 15:20:52.3026
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 38GMzPZ2a+FCWV5p3Cla7KfyMSTaBjNSfeu2kcYqSRDHASP/OhaTkcfwwumurV8kd28ZjqXxbgXTA3CFN7cwOfPK0zHa2SqeKAKh5/lhgEk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6129
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org
+Cc: baohua@kernel.org, cerasuolodomenico@gmail.com, corbet@lwn.net,
+ david@redhat.com, hannes@cmpxchg.org, kernel-team@meta.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ riel@surriel.com, roman.gushchin@linux.dev, rppt@kernel.org,
+ ryan.roberts@arm.com, shakeel.butt@linux.dev, willy@infradead.org,
+ yuzhao@google.com
+References: <88d411c5-6d66-4d41-ae86-e0f943e5fb91@gmail.com>
+ <20240814230533.54938-1-21cnbao@gmail.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20240814230533.54938-1-21cnbao@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCAyMDI0LTA4LTAxIGF0IDEzOjA2ICswMTAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiBV
-c2UgVk1fSElHSF9BUkNIXzUgZm9yIGd1YXJkZWQgY29udHJvbCBzdGFjayBwYWdlcy4NCg0KRllJ
-IC0gSWYgeW91IHdhbnQgdG8gaGF2ZSBtb3JlIGNvbXBsZXRlIGd1YXJkIGdhcHMsIHlvdSBuZWVk
-IHRvIGRvIHRoaXMgZm9yIGFybQ0KdG9vOg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgt
-bW0vMjAyNDAzMjYwMjE2NTYuMjAyNjQ5LTE0LXJpY2sucC5lZGdlY29tYmVAaW50ZWwuY29tLw0K
-DQpVc2luZyBWTV9TSEFET1dfU1RBQ0sgb25seSBnZXRzIHlvdSBwYXJ0IG9mIHRoZSB3YXkgdGhl
-cmUuDQo=
+
+
+On 15/08/2024 00:05, Barry Song wrote:
+> 
+> On Thu, Aug 15, 2024 at 12:37 AM Usama Arif <usamaarif642@gmail.com> wrote:
+> [snip]
+>>>>>>
+>>>>>> -void deferred_split_folio(struct folio *folio)
+>>>>>> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>>>>>>  {
+>>>>>>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+>>>>>>  #ifdef CONFIG_MEMCG
+>>>>>> @@ -3485,14 +3487,17 @@ void deferred_split_folio(struct folio *folio)
+>>>>>>         if (folio_test_swapcache(folio))
+>>>>>>                 return;
+>>>>>>
+>>>>>> -       if (!list_empty(&folio->_deferred_list))
+>>>>>> -               return;
+>>>>>> -
+>>>>>>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+>>>>>> +       if (partially_mapped)
+>>>>>> +               folio_set_partially_mapped(folio);
+>>>>>> +       else
+>>>>>> +               folio_clear_partially_mapped(folio);
+>>>>>>         if (list_empty(&folio->_deferred_list)) {
+>>>>>> -               if (folio_test_pmd_mappable(folio))
+>>>>>> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>>>>>> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>>>>>> +               if (partially_mapped) {
+>>>>>> +                       if (folio_test_pmd_mappable(folio))
+>>>>>> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>>>>>> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>>>>>
+>>>>> This code completely broke MTHP_STAT_SPLIT_DEFERRED for PMD_ORDER. It
+>>>>> added the folio to the deferred_list as entirely_mapped
+>>>>> (partially_mapped == false).
+>>>>> However, when partially_mapped becomes true, there's no opportunity to
+>>>>> add it again
+>>>>> as it has been there on the list. Are you consistently seeing the counter for
+>>>>> PMD_ORDER as 0?
+>>>>>
+>>>>
+>>>> Ah I see it, this should fix it?
+>>>>
+>>>> -void deferred_split_folio(struct folio *folio)
+>>>> +/* partially_mapped=false won't clear PG_partially_mapped folio flag */
+>>>> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>>>>  {
+>>>>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+>>>>  #ifdef CONFIG_MEMCG
+>>>> @@ -3485,14 +3488,14 @@ void deferred_split_folio(struct folio *folio)
+>>>>         if (folio_test_swapcache(folio))
+>>>>                 return;
+>>>>
+>>>> -       if (!list_empty(&folio->_deferred_list))
+>>>> -               return;
+>>>> -
+>>>>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+>>>> -       if (list_empty(&folio->_deferred_list)) {
+>>>> +       if (partially_mapped) {
+>>>> +               folio_set_partially_mapped(folio);
+>>>>                 if (folio_test_pmd_mappable(folio))
+>>>>                         count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>>>>                 count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>>>> +       }
+>>>> +       if (list_empty(&folio->_deferred_list)) {
+>>>>                 list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+>>>>                 ds_queue->split_queue_len++;
+>>>>  #ifdef CONFIG_MEMCG
+>>>>
+>>>
+>>> not enough. as deferred_split_folio(true) won't be called if folio has been
+>>> deferred_list in __folio_remove_rmap():
+>>>
+>>>         if (partially_mapped && folio_test_anon(folio) &&
+>>>             list_empty(&folio->_deferred_list))
+>>>                 deferred_split_folio(folio, true);
+>>>
+>>> so you will still see 0.
+>>>
+>>
+>> ah yes, Thanks.
+>>
+>> So below diff over the current v3 series should work for all cases:
+>>
+>>
+>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>> index b4d72479330d..482e3ab60911 100644
+>> --- a/mm/huge_memory.c
+>> +++ b/mm/huge_memory.c
+>> @@ -3483,6 +3483,7 @@ void __folio_undo_large_rmappable(struct folio *folio)
+>>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+>>  }
+>>
+>> +/* partially_mapped=false won't clear PG_partially_mapped folio flag */
+>>  void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>>  {
+>>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+>> @@ -3515,16 +3516,16 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>>                 return;
+>>
+>>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+>> -       if (partially_mapped)
+>> +       if (partially_mapped) {
+>>                 folio_set_partially_mapped(folio);
+>> -       else
+>> -               folio_clear_partially_mapped(folio);
+>> +               if (folio_test_pmd_mappable(folio))
+>> +                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> +               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>> +       } else {
+>> +               /* partially mapped folios cannont become partially unmapped */
+>> +               VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
+>> +       }
+>>         if (list_empty(&folio->_deferred_list)) {
+>> -               if (partially_mapped) {
+>> -                       if (folio_test_pmd_mappable(folio))
+>> -                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> -                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>> -               }
+>>                 list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+>>                 ds_queue->split_queue_len++;
+>>  #ifdef CONFIG_MEMCG
+>> diff --git a/mm/rmap.c b/mm/rmap.c
+>> index 9ad558c2bad0..4c330635aa4e 100644
+>> --- a/mm/rmap.c
+>> +++ b/mm/rmap.c
+>> @@ -1578,7 +1578,7 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+>>          * Check partially_mapped first to ensure it is a large folio.
+>>          */
+>>         if (partially_mapped && folio_test_anon(folio) &&
+>> -           list_empty(&folio->_deferred_list))
+>> +           !folio_test_partially_mapped(folio))
+>>                 deferred_split_folio(folio, true);
+>>
+>>         __folio_mod_stat(folio, -nr, -nr_pmdmapped);
+>>
+> 
+> This is an improvement, but there's still an issue. Two or more threads can
+> execute deferred_split_folio() simultaneously, which could lead to
+> DEFERRED_SPLIT being added multiple times. We should double-check
+> the status after acquiring the spinlock.
+> 
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index f401ceded697..3d247826fb95 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3607,10 +3607,12 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>  
+>  	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+>  	if (partially_mapped) {
+> -		folio_set_partially_mapped(folio);
+> -		if (folio_test_pmd_mappable(folio))
+> -			count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+> -		count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+> +		if (!folio_test_partially_mapped(folio)) {
+> +			folio_set_partially_mapped(folio);
+> +			if (folio_test_pmd_mappable(folio))
+> +				count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+> +			count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+> +		}
+>  	} else {
+>  		/* partially mapped folios cannont become partially unmapped */
+>  		VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
+
+Actually above is still not thread safe. multiple threads can test partially_mapped and see its false at the same time and all of them would then increment stats. I believe !folio_test_set_partially_mapped would be best. Hopefully below diff over v3 should cover all the fixes that have come up until now.
+
+Independent of this series, I also think its a good idea to add a selftest for this deferred_split counter. I will send a separate patch for it that just maps a THP, unmaps a small part from it and checks the counter. I think split_huge_page_test.c is probably the right place for it.
+
+If everyone is happy with it, Andrew could replace the original fix patch in [1] with below.
+
+[1] https://lore.kernel.org/all/20240814200220.F1964C116B1@smtp.kernel.org/
+
+commit c627655548fa09b59849e942da4decc84fa0b0f2
+Author: Usama Arif <usamaarif642@gmail.com>
+Date:   Thu Aug 15 16:07:20 2024 +0100
+
+    mm: Introduce a pageflag for partially mapped folios fix
+    
+    Fixes the original commit by not clearing partially mapped bit
+    in hugeTLB folios and fixing deferred split THP stats.
+    
+    Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index cecc1bad7910..7bee743ede40 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -863,6 +863,7 @@ static inline void ClearPageCompound(struct page *page)
+ }
+ FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+ FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
++FOLIO_TEST_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+ #else
+ FOLIO_FLAG_FALSE(large_rmappable)
+ FOLIO_FLAG_FALSE(partially_mapped)
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index c024ab0f745c..24371e4ef19b 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -3459,6 +3459,7 @@ void __folio_undo_large_rmappable(struct folio *folio)
+        spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+ }
+ 
++/* partially_mapped=false won't clear PG_partially_mapped folio flag */
+ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+ {
+        struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+@@ -3488,16 +3489,17 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+                return;
+ 
+        spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+-       if (partially_mapped)
+-               folio_set_partially_mapped(folio);
+-       else
+-               folio_clear_partially_mapped(folio);
+-       if (list_empty(&folio->_deferred_list)) {
+-               if (partially_mapped) {
++       if (partially_mapped) {
++               if (!folio_test_set_partially_mapped(folio)) {
+                        if (folio_test_pmd_mappable(folio))
+                                count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+                        count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+                }
++       } else {
++               /* partially mapped folios cannot become non-partially mapped */
++               VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
++       }
++       if (list_empty(&folio->_deferred_list)) {
+                list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+                ds_queue->split_queue_len++;
+ #ifdef CONFIG_MEMCG
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 2ae2d9a18e40..1fdd9eab240c 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1758,7 +1758,6 @@ static void __update_and_free_hugetlb_folio(struct hstate *h,
+                free_gigantic_folio(folio, huge_page_order(h));
+        } else {
+                INIT_LIST_HEAD(&folio->_deferred_list);
+-               folio_clear_partially_mapped(folio);
+                folio_put(folio);
+        }
+ }
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 9ad558c2bad0..4c330635aa4e 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1578,7 +1578,7 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+         * Check partially_mapped first to ensure it is a large folio.
+         */
+        if (partially_mapped && folio_test_anon(folio) &&
+-           list_empty(&folio->_deferred_list))
++           !folio_test_partially_mapped(folio))
+                deferred_split_folio(folio, true);
+ 
+        __folio_mod_stat(folio, -nr, -nr_pmdmapped);
+
+
+
+
+
+  
