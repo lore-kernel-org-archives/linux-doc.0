@@ -1,217 +1,115 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEBF1AD3EF
-	for <linux-doc@vger.kernel.org>; Fri, 16 Aug 2024 12:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1630317C9B0;
+	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723810860; cv=none; b=NDOikKEXwUt2A0wUf4cyeX10fScJzsTygih6THNrXgVMeba8IrWa4m9dmVh6XpqCpICMagqG4gBLxTa+LcAKWja38yJOf3+CVxPmCz+LzGepHUJq/q1g0uVAbVdDOeDiTaMPKu+iLPZQIhPBYT84lXaTwMvROvm0GswKl9Gyg0Q=
+	t=1723811819; cv=none; b=iLKHKmA021jxH6OFtjqAqaRzFR5Hyjz+sUmmWzjfxDsuAnlk4Ja6tbWlOYZqHLrSo7rhQuXaJPyCECCF2wK2O6H8OAB6H6e1acfbm11+PFF+ls4w/yVvGTbPuibxBBckY7Kl44pEUhmIxpPUJ79ITDT495e9AR3LfxXSqa4wFOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723810860; c=relaxed/simple;
-	bh=uDHRwF0otXkj+agrQEA0lwHEUq1GTb5X3dySo2OqWmA=;
+	s=arc-20240116; t=1723811819; c=relaxed/simple;
+	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i1Vsg9p70T//TdeNm2RxqX65kcLC2FXKFTQmA6smHuc00KzC0ug1BZMh66yYxJv/EN3u1aDudvxDrjDVvDafgG61VJTvYWHFqRCoLZHK1e4FnwDgDy1IGS0Ejw+dvO8bW0JmqtfE5m8OQ2Ma6N5d0SIIt3vq3DBKXM2MjXMItgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vepJIgQv; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=WdZiN51K2aPi7FiA6zzJJgm3ZLyGwOEc9CNBHpqLF46vApcXxs6lnsht9hdVWF5pcbLdD3zlc6dcElIRmMxvLW7RapasRl5GgSe63kYUTgZBCGaIX0NkkcGjVSLn5knMSY8fZZCHZz/zek7J6fmEGRnsfr17jWnWLYSxwoEkAcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQa5pTak; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vepJIgQv"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6bf6e17cc2bso10294386d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Aug 2024 05:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723810857; x=1724415657; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=60gFb7YBVOLPqGwy/Oc6xhCaH/QA9b9t6B6yBp4eA0s=;
-        b=vepJIgQvm2wUGg7wPKHnb+cadQKMpOzbWijLOw8Y601NGnc5kVVQQPvwKuFuHmO9dT
-         MJgiqk3ifseVfRq/1H89bggOm/n7pq2Mm8dmsp81hGSa5WPe8joH83P6y+SfpVSL5VCH
-         lZLxAXq0w4X5pjPxczK8MnzECXq4GfetXQZQfQsE1q5cckXfkWtkW5TRvbSxcOYtVr4U
-         /ROBZ3uaTofnbmaov+YziEU4mN5Jx1qhndecyk+dDXswFTYJQF2zRTdUbbakad1/rIsM
-         DwzU5Muj2HTFtxM1/A66Nbfr3az4ejPZ29MAKl9DO+8SgPw7kWqtxMFRF8n5JpvPCqFk
-         yYhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723810857; x=1724415657;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=60gFb7YBVOLPqGwy/Oc6xhCaH/QA9b9t6B6yBp4eA0s=;
-        b=Gguk/iWmJ2k1csm12JXpBbnnCqSFDd/5yH3PQcFhPB6h6+oquifL9yE7FyMJ2kp+wG
-         Po3Ug4QikHI7yTHcS4TO4hQq5azCtrfb43oW4SWFrT1awQ+QMHnoBqmqSm1sUlFPN5z6
-         jAQpN1NLwbenquI/Ulxhvdz89e7t/tmzqanOWu3WMbqSiwhhCAstrUlh31tBTzXQxZcv
-         wnGFQUcQOlNwDL6UHsaV86Y6h9KirlYcZl536yz5onxhEcL2iltyHIWIDRi7DTesUdhF
-         TfcY1bN2qqXAuhlmhrCq+Y9c2PhCEIJAc/N9eDlWfBp2AiInWbaMUu9nj6UG4KpNeTNE
-         hDkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIIuGcOz0jtv/0Muv7efMyC7vhX1X+fi145RJlnjnyf3eDc17XQxF3oPpEDkyTr8MlBMnLJLR6vuGUNagFvOG7Zv7NYpEDrs/l
-X-Gm-Message-State: AOJu0YzPb1KwsfoMP80mfsJTdnZx328gFDIsGUVDoPDCewixPADIQq12
-	YLSqFrHo5Ms0c1bsU+46FAgSAKFbznJq7imKFxWnel5U6+mPLPzJ3SccUETTGlgPIbxYF+wcOFk
-	gidtLBCRc0eeVNTwQYwplTHwQ7DEyaTjIWCDb
-X-Google-Smtp-Source: AGHT+IGZmdSIKsIbNLMCWhDr7siS0fg53Dzm3mUEgRlOmZUGtYHuIW2VVl49SrIQcFwsu42Q03aJr/PwI9drpzidh7Q=
-X-Received: by 2002:a05:6214:5713:b0:6bf:7c34:e419 with SMTP id
- 6a1803df08f44-6bf7cdcb101mr38991616d6.5.1723810857192; Fri, 16 Aug 2024
- 05:20:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQa5pTak"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22EEC4AF0D;
+	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723811818;
+	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dQa5pTakZSnGHRa4mHcVgxG8Vjw7FpWIrVuHynY7S6sNtkBmTbu1wutT+iiEiiOT5
+	 SP+w0tH6Tc+KNcMJbcmdX45kmcApsxGSSwesV0+BShQJYW7q3NZzWYEhQ+PwsKKI0W
+	 aPuZI4I7BQu/I4Mtapdeez7qHIrqQiApBkZQSVHhMQlCMzz/NPi6/HQZ2lykHhcG2i
+	 PpxkXSwnT0wfJ7Mj7woQHrW2Rf/D8Eeu+9UfNHeywKLS4RANfSd8qt/J9lpa+iFrPT
+	 rfSbAwSuGf+xDq589/Wwu8fvwGIxNW7v3OtnpLej7lWHolrPf80qkYKLOZFmLH7kg8
+	 /QPQE61HBpapw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f0277daa5so2602299e87.0;
+        Fri, 16 Aug 2024 05:36:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWXStWyAK8r1Vn990OLYBDDgXvU34lmPwbB3lwOYBu/VjxK4fhco9r8AQ7MaQE+dofw7Zx9cOFaoyTjCk0OjCCEQtt/rHGu8KSLDJ+iZI5V8cqcmNEFT6xfzzjLoGohOk3cBBD8ChnWWIj/Hs605BR82Qw2XVD6lHrTUrcJXpFOqwyRxPon
+X-Gm-Message-State: AOJu0Yx1B97B2yUGvCItsdy/mkJWJClmZwNMoRm1d0Yft4DkninVwy7R
+	I+TQ6HBAndWCHrieF2HI4Kl/I2UVdpxCAP/O2dvvwlahWtByHTgmrcwCJkII8jFuPjQB6QdlWn4
+	Cel6sbnv1q6YrEHZRYCf4nWsD+R8=
+X-Google-Smtp-Source: AGHT+IHi5JgLUaJv3Jn5lpXjTogg62a2Zasdhk/4mdX5PoCB/8KmqqDxU947adSSqytd0FItjd+3PM7H7jrcc+b9c2E=
+X-Received: by 2002:a05:6512:ad2:b0:52c:e4bf:d55d with SMTP id
+ 2adb3069b0e04-5331c692a05mr2375669e87.8.1723811815934; Fri, 16 Aug 2024
+ 05:36:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813211317.3381180-7-almasrymina@google.com>
- <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com> <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
- <31640ff4-25a6-4115-85e6-82092ce57393@gmail.com> <20240815182245.2b5e3f44@kernel.org>
-In-Reply-To: <20240815182245.2b5e3f44@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 16 Aug 2024 08:20:44 -0400
-Message-ID: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
+In-Reply-To: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 16 Aug 2024 21:36:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
+Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: turn make command for ccache into
+ code block
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 15, 2024 at 9:22=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+On Mon, Aug 12, 2024 at 9:17=E2=80=AFPM Javier Carrasco
+<javier.carrasco.cruz@gmail.com> wrote:
 >
-> On Wed, 14 Aug 2024 17:32:53 +0100 Pavel Begunkov wrote:
-> > > This is where I get a bit confused. Jakub did mention that it is
-> > > desirable for core to verify that the driver did the right thing,
-> > > instead of trusting that a driver did the right thing without
-> > > verifying. Relying on a flag from the driver opens the door for the
-> > > driver to say "I support this" but actually not create the mp
-> > > page_pool. In my mind the explicit check is superior to getting
-> > > feedback from the driver.
-> >
-> > You can apply the same argument to anything, but not like
-> > after each for example ->ndo_start_xmit we dig into the
-> > interface's pending queue to make sure it was actually queued.
-> >
-> > And even if you check that there is a page pool, the driver
-> > can just create an empty pool that it'll never use. There
-> > are always ways to make it wrong.
-> >
-> > Yes, there is a difference, and I'm not against it as a
-> > WARN_ON_ONCE after failing it in a more explicit way.
-> >
-> > Jakub might have a different opinion on how it should look
-> > like, and we can clarify on that, but I do believe it's a
-> > confusing interface that can be easily made better.
+> The command provided to use ccache with clang is not a literal code
+> block. Once built, the documentation displays the '' symbols as a "
+> character, which is wrong, and the command can not be applied as
+> provided.
 >
-> My queue API RFC patches had configuration arguments, not sure if this
-> is the right version but you'll get the idea:
-> https://github.com/kuba-moo/linux/blob/qcfg/include/net/netdev_cfg.h#L43-=
-L50
-> This way we can _tell_ the driver what the config should be. That part
-> got lost somewhere along the way, because perhaps in its embryonic form
-> it doesn't make sense.
+> Turn the command into a literal code block.
 >
-> We can bring it back, add HDS with threshold of 0, to it, and a bit for
-> non-readable memory. On top of that "capability bits" in struct
-> netdev_queue_mgmt_ops to mark that the driver pays attention to particula=
-r
-> fields of the config.
->
-> Not sure if it should block the series, but that'd be the way I'd do it
-> (for now?)
->
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-I'm not sure I want to go into a rabbit hole of adding configuration
-via the queue API, blocking this series . We had discussed this months
-back and figured that it's a significant undertaking on its own. I'm
-not sure GVE has HDS threshold capability for example, and I'm also
-not sure how to coexist header split negotiability via the queue API
-when an ethtool API exists alongside it. I think this is worthy of
-separating in its own follow up series.
 
-For now detecting that the driver was able to create the page_pool
-with the correct memory provider in core should be sufficient. Also
-asking the driver to set a
-netdev_rx_queue->unreadable_netmem_supported flag should also be
-sufficient. I've implemented both locally and they work well.
 
-> I'd keep the current check with a WARN_ON_ONCE(), tho.
-> Given the absence of tests driver developers can use.
-> Especially those who _aren't_ supporting the feature.
+Applied to linux-kbuild/fixes.
+Thanks!
+
+
+> ---
+>  Documentation/kbuild/llvm.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-
-Yes what I have locally is the driver setting
-netdev_rx_queue->unreadable_netmem_supported when header split is
-turned on, and additionally a WARN_ON_ONCE around the check in core. I
-was about to send that when I read your email. I'm hoping we don't
-have to go through the scope creep of adding configuration via the
-queue API, which I think is a very significant undertaking.
-
-> > > and cons to each approach; I don't see a showstopping reason to go
-> > > with one over the other.
-> > >
-> > >> And page_pool_check_memory_provider() is not that straightforward,
-> > >> it doesn't walk through pools of a queue.
-> > >
-> > > Right, we don't save the pp of a queue, only a netdev. The outer loop
-> > > checks all the pps of the netdev to find one with the correct binding=
-,
-> > > and the inner loop checks that this binding is attached to the correc=
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rs=
 t
-> > > queue.
-> >
-> > That's the thing, I doubt about the second part.
-> >
-> > net_devmem_bind_dmabuf_to_queue() {
-> >       err =3D xa_alloc(&binding->bound_rxqs, &xa_idx, rxq);
-> >       if (err)
-> >               return err;
-> >
-> >       netdev_rx_queue_restart();
-> >
-> >       // page_pool_check_memory_provider
-> >       ...
-> >       xa_for_each(&binding->bound_rxqs, xa_idx, binding_rxq) {
-> >               if (rxq =3D=3D binding_rxq)
-> >                       return success;
-> > }
-> >
-> > Can't b4 the patches for some reason, but that's the highlight
-> > from the patchset, correct me if I'm wrong. That xa_for_each
-> > check is always true because you put the queue in there right
-> > before it, and I don't that anyone could've erased it.
-> >
-> > The problem here is that it seems the ->bound_rxqs state doesn't
-> > depend on what page pools were actually created and with what mp.
+> index bb5c44f8bd1c..6dc66b4f31a7 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -126,7 +126,7 @@ Ccache
 >
-> FWIW I don't understand the point of walking the xa either.
-> Just check the queue number of the pp you found matches,
-> page pool params are saved in the page pool. No?
+>  ``ccache`` can be used with ``clang`` to improve subsequent builds, (tho=
+ugh
+>  KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between b=
+uilds
+> -in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
+nfo):
+> +in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
+nfo)::
+>
+>         KBUILD_BUILD_TIMESTAMP=3D'' make LLVM=3D1 CC=3D"ccache clang"
+>
+>
+> ---
+> base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
+> change-id: 20240812-ccache-literal-code-block-8462614e91e9
+>
+> Best regards,
+> --
+> Javier Carrasco <javier.carrasco.cruz@gmail.com>
 >
 
-Yes, I changed this check to check pool->p.queue, and it works fine.
 
 --=20
-Thanks,
-Mina
+Best Regards
+Masahiro Yamada
