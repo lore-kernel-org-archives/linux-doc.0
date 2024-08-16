@@ -1,25 +1,25 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D511817;
-	Fri, 16 Aug 2024 16:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B519654F87;
+	Fri, 16 Aug 2024 16:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723825800; cv=none; b=CpkO1Vaol3JuOhk84RWN9fAhE5hd/hkvxlTjhDUq6Nb3tYVYGPjXXbZCplRlNEUj+KsNDsKEJLh5Nh+eCjvJ9JqJ8Fr4IW3rBToMtlkpNtNwGw6OCAibPjqgrEQga2mZHdjAwRYtEWC+ylcPyeBc5Uj/Z9u8hWSOqjTsB0Ko19I=
+	t=1723825834; cv=none; b=f5D3kPxomJHPijMloPNgN6969TXXX2voH9NaApr850jqBDlRf35L7uSNBY3gpjZtWBu7iiZwGuObYsReRIsuQatvZJvrE1kMrE05m6o2U05uuRP/MoJUki3HKbcC8UtH9oWn9ydPSmMCxtUDC+qNeB2YThfaeL7fIm/FLznf3pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723825800; c=relaxed/simple;
-	bh=kjZsKS7JXvySP+eDaJOzL4gYsRiQrwJoBsiiOL6/uOs=;
+	s=arc-20240116; t=1723825834; c=relaxed/simple;
+	bh=pV5IWBI1/r14Yl3ElmFRBM9NX2ecZgdRGGwYPxFl1cU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XIqR6FBiZM3m3YBqMrhQfwADvz4HNvEYvWw15Qsbhgq1CNxJQYONWdPZ5SPiSCL2rMbq3VazUzVXSWMksq3GuHlB+rzm645ArJb7yi6FpfPURVGnWNPAPmWaf3PoOZ7lQLhwIu1V0IJYmA23KZ5NTDObvOu1onpHxTpc9NaZ0ow=
+	 In-Reply-To:Content-Type; b=Lcz5oi3OJpm+XjkYMBScKq4Mm9sMr4VpI86lo8pyqeaFtOp0AisLU8xBxpzYkre5G2BvsROWICzjxTWEDLOpNkl+Md+QlxnPzZSxIpSOGTzjKOzCZxL5uSrd4AhAbP7Y3t3Zr4o+W3ti95ATwkW8FW6VFjxPcHlglwc8ssmXRK0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAD231515;
-	Fri, 16 Aug 2024 09:30:22 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F275E1516;
+	Fri, 16 Aug 2024 09:30:55 -0700 (PDT)
 Received: from [10.1.196.28] (eglon.cambridge.arm.com [10.1.196.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4E073F58B;
-	Fri, 16 Aug 2024 09:29:52 -0700 (PDT)
-Message-ID: <4cce2fc9-2b42-4e10-b923-387611077d6b@arm.com>
-Date: Fri, 16 Aug 2024 17:29:51 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27C083F58B;
+	Fri, 16 Aug 2024 09:30:26 -0700 (PDT)
+Message-ID: <63bdd436-7bc3-4ccb-a182-5ae596fefd5a@arm.com>
+Date: Fri, 16 Aug 2024 17:30:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,7 +27,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 09/22] x86/resctrl: Introduce MBM counters bitmap
+Subject: Re: [PATCH v6 15/22] x86/resctrl: Add the interface to assign a
+ hardware counter
 Content-Language: en-GB
 To: Babu Moger <babu.moger@amd.com>
 Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
@@ -39,51 +40,86 @@ Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
  daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
  ilpo.jarvinen@linux.intel.com, peternewman@google.com,
  maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, tglx@linutronix.de,
- mingo@redhat.com, dave.hansen@linux.intel.com, bp@alien8.de, corbet@lwn.net,
- fenghua.yu@intel.com, reinette.chatre@intel.com
+ linux-kernel@vger.kernel.org, eranian@google.com,
+ dave.hansen@linux.intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com
 References: <cover.1722981659.git.babu.moger@amd.com>
- <2bdc7920f9dfc24994fe280649cf26dc566a7a90.1722981659.git.babu.moger@amd.com>
+ <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
 From: James Morse <james.morse@arm.com>
-In-Reply-To: <2bdc7920f9dfc24994fe280649cf26dc566a7a90.1722981659.git.babu.moger@amd.com>
+In-Reply-To: <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Babu,
 
 On 06/08/2024 23:00, Babu Moger wrote:
-> Hardware provides a set of counters when mbm_cntr_assignable feature is
-> supported. These counters are used for assigning the events in resctrl
-> group when the feature is enabled.
+> The ABMC feature provides an option to the user to assign a hardware
+> counter to an RMID and monitor the bandwidth as long as it is assigned.
+> The assigned RMID will be tracked by the hardware until the user unassigns
+> it manually.
 > 
-> Introduce mbm_cntrs_free_map bitmap to track available and free counters
-> and set of routines to allocate and free the counters.
+> Counters are configured by writing to L3_QOS_ABMC_CFG MSR and
+> specifying the counter id, bandwidth source, and bandwidth types.
+> 
+> Provide the interface to assign the counter ids to RMID.
+> 
+> The feature details are documented in the APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>     Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>     Monitoring (ABMC).
 
 
 > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index ab4fab3b7cf1..c818965e36c9 100644
+> index 60696b248b56..1ee91a7293a8 100644
 > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
 > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -185,6 +185,37 @@ bool closid_allocated(unsigned int closid)
->  	return !test_bit(closid, &closid_free_map);
->  }
->  
+> @@ -1864,6 +1864,103 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
+
 > +/*
-> + * Counter bitmap for tracking the available counters.
-> + * ABMC feature provides set of hardware counters for enabling events.
-> + * Each event takes one hardware counter. Kernel needs to keep track
-> + * of number of available counters.
+> + * Send an IPI to the domain to assign the counter id to RMID.
 > + */
-> +static DECLARE_BITMAP(mbm_cntrs_free_map, 64);
+> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum resctrl_event_id evtid,
+> +			     u32 rmid, u32 cntr_id, u32 closid, bool assign)
 
-Please make this resctrl limit of '64' a define in linux/resctrl.h so the arch code knows
-what the limit is!
+MPAM ends up with a per-resource array of monitor-ids that it uses to map cntr_id
+allocated by resctrl to the underlying hardware id. Could this function pass the struct
+rdt_resource too?
+(this saves me having to assume its the L3 - adding to the technical debt in this area)
 
-MPAM platforms may have more than this - and really bad things happen if mbm_cntrs_init()
-passes bitmap_fill() a value greater than 64.
+Nit: could closid and rmid appear next to each other, and in that order ... just to fit
+with other helpers that take both.
 
-Even better - could we dynamically allocate this bitmap using the size advertised by the
-architecture code?
+
+> +{
+> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
+> +	union l3_qos_abmc_cfg abmc_cfg = { 0 };
+> +	struct arch_mbm_state *arch_mbm;
+> +
+> +	abmc_cfg.split.cfg_en = 1;
+> +	abmc_cfg.split.cntr_en = assign ? 1 : 0;
+> +	abmc_cfg.split.cntr_id = cntr_id;
+> +	abmc_cfg.split.bw_src = rmid;
+> +
+> +	/* Update the event configuration from the domain */
+> +	if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID) {
+> +		abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
+> +		arch_mbm = &hw_dom->arch_mbm_total[rmid];
+> +	} else {
+> +		abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
+> +		arch_mbm = &hw_dom->arch_mbm_local[rmid];
+> +	}
+> +
+> +	smp_call_function_any(&d->hdr.cpu_mask, rdtgroup_abmc_cfg, &abmc_cfg, 1);
+> +
+> +	/*
+> +	 * Reset the architectural state so that reading of hardware
+> +	 * counter is not considered as an overflow in next update.
+> +	 */
+> +	if (arch_mbm)
+> +		memset(arch_mbm, 0, sizeof(struct arch_mbm_state));
+> +
+> +	return 0;
+> +}
 
 
 Thanks,
