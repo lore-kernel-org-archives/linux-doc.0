@@ -1,248 +1,131 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8131C1E520;
-	Fri, 16 Aug 2024 14:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B457191473;
+	Fri, 16 Aug 2024 14:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723818457; cv=none; b=cxUHuq4HGN588V511rJO8XGjrEJEvxipFzjOD5+mKAUWS4hXcupl+aVFaY72jrIqduespZub4ocqISqi4PKzX351Ie020yMng2i6rZ6pPl7PFfWO/KLqj4EUGDsuo9dXCSmrHVkug2KIGgeQFNnzEoxreZETzXHadOrLdma3Fhk=
+	t=1723819247; cv=none; b=CsxkRbk0fWTnICmDhA8J5dh5KcvlSbBQ8uxMb3WuWVIDtjfhRqPegNw4JUp2h+XI0XEh5p7Qj/fpImyVfV9P8OyOObWO3EIOIWfKEyt1T15xhlsMnRCY050UkWzixo0SoRjtZ9iAOV2xAjhnQJrpycOqHHqgqfsGcLlvD+V6dfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723818457; c=relaxed/simple;
-	bh=epUQhCUoZJomPlLyNhHI2k19KhOtsav0prihszzKOeI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=o8CcbOJ3+bZ72XYB4j7fMj9t/PTEj2xQS0jLqqbFXHnTNH9b2jYLNICdU/fNHowVtz14qa0aNeLUOApe5EsT0pflT8LWA2bhI17i6MNWKv4qY9vayGeEmEcUDdQ8sBlpllX0HGvH1UjfuZY0AYf5HKz8MqnX3cFo5ztondDC+9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2MT2ZLB; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723819247; c=relaxed/simple;
+	bh=UzDJBf86ETc8UZTa5b4UELQHYAFgRcESJ7jTnyf0ZwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wa4lt09QjCwh29D7k4ViAY2ntbyfiVUyvQo/OB1764AEqX5hVriPIU65kq0LYoL5fYdHZl1m66WKC3a3MRZXzR9CivEerPxSA/VEjvCQ3bAbsC+yg4V3B2GD9kd2Z0M7WtfVDAP30v2ovSErKLbVPp343K9J6u4jNhhnd8xtZTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayq31Px+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2MT2ZLB"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-65fe1239f12so20325307b3.0;
-        Fri, 16 Aug 2024 07:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723818454; x=1724423254; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=epUQhCUoZJomPlLyNhHI2k19KhOtsav0prihszzKOeI=;
-        b=X2MT2ZLBKj1f0vC5LYVbMoO1+rJt1XwoFuVNSuPjiHq1Byxczh7X3x21BMYtJy4hCw
-         OB4MzYSbuwUnurhV7mMqK2Gq58FFW5G/pvpirNX65c3IvlMHdEwWHgRFhA+vM45id9Gf
-         c/+JF4yL2zHyhp+9XQW11irk+wa14w2bAZGuJuCguuJ16YJVqBvli8evZSVROr2OAtJ0
-         ixJNLtR57TDoKl6k+HiDuXYMuPiXEz9FXdtQBjTFR8hzSY4RoFkd3TmBvmmcYN2HriAL
-         ecmiPMwVlCjtluGfXaSFhKckZ7Do7Bz7XVEzGCjHnL3QKOuxXhkTkSg1JyIfT7P/uIQZ
-         rwcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723818454; x=1724423254;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=epUQhCUoZJomPlLyNhHI2k19KhOtsav0prihszzKOeI=;
-        b=VBSGAIlqi8tt6FmSDq8AfNgGtGq8UhfcjJ0d/iWwhbAR3j/4PmkIbmskJCak+vsvNb
-         +iKAAMFI4WKK9Us5oELtZQX9/eMDlw48sfT6rzPIR7ZPn5IoiqAyrHiY156CjWHOTo5A
-         ASJsC/xgBbUhqF190umCaQFfGQTBXpLeNF4emBq2NZrTodtj+bJpzhnUuzI6Vxn7Xl9K
-         wJzTHHo7qqiqtGLd9ANrldVdwEkJF08UksRIZAe73sngG/nohovi3SbHvpqmCtnbhzbj
-         zI++BlBFCQIxwxhBKt1lLJecMKGJlCr/1sSAMIU6bRE7gOZFZyagJVPoINJ/RKjMq9Q3
-         UpEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWaiEvhEhLgGyRjxH48UCAwXgNm5y/yyU1CvEo7SupMoVveZLh4TafJDBNxHjIP5JbWiJ5GXMi+EPmHzI7zLRMbSlhBQjmSkHJvYd0hFM/FhfuZZ65Fm+NiiNhtegSczvEWjFnMaPDbJjHry1v3P8iMXPsHMVII/sqVkraPzqkWuOkqRofZQ3lJ0j2fC1e0SR7MkqY6PG6F3RPSQ3Msng==
-X-Gm-Message-State: AOJu0Yz13DGD0CEG02UiZVOnn09+9wyBUdC4ti6RGfxZxlbJvVfpF15U
-	1yaM1hrIHXZjREll7NdMXIVdrzNpS9wUfNuEUElfPEbsWs5voFxQ
-X-Google-Smtp-Source: AGHT+IGt/dJGWf0EDGxWM6ryJxB8oHTyXH4vDL8ur9dEAQcu5rwOL7x8XtvPchwmTEGKORnNrV19DQ==
-X-Received: by 2002:a05:690c:2f0b:b0:61b:3364:d193 with SMTP id 00721157ae682-6b1bb570dd9mr28289787b3.40.1723818454218;
-        Fri, 16 Aug 2024 07:27:34 -0700 (PDT)
-Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fe06fd4sm18000986d6.43.2024.08.16.07.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 07:27:33 -0700 (PDT)
-Date: Fri, 16 Aug 2024 10:27:32 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Martin Karsten <mkarsten@uwaterloo.ca>, 
- Samiullah Khawaja <skhawaja@google.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>, 
- netdev@vger.kernel.org, 
- Joe Damato <jdamato@fastly.com>, 
- amritha.nambiar@intel.com, 
- sridhar.samudrala@intel.com, 
- Alexander Lobakin <aleksander.lobakin@intel.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Breno Leitao <leitao@debian.org>, 
- Christian Brauner <brauner@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Jan Kara <jack@suse.cz>, 
- Jiri Pirko <jiri@resnulli.us>, 
- Johannes Berg <johannes.berg@intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
- "open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Message-ID: <66bf61d4ed578_17ec4b294ba@willemb.c.googlers.com.notmuch>
-In-Reply-To: <d63dd3e8-c9e2-45d6-b240-0b91c827cc2f@uwaterloo.ca>
-References: <20240812125717.413108-1-jdamato@fastly.com>
- <ZrpuWMoXHxzPvvhL@mini-arch>
- <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
- <ZrqU3kYgL4-OI-qj@mini-arch>
- <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
- <Zrq8zCy1-mfArXka@mini-arch>
- <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
- <Zrrb8xkdIbhS7F58@mini-arch>
- <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
- <CAAywjhRsRYUHT0wdyPgqH82mmb9zUPspoitU0QPGYJTu+zL03A@mail.gmail.com>
- <d63dd3e8-c9e2-45d6-b240-0b91c827cc2f@uwaterloo.ca>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayq31Px+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19210C32782;
+	Fri, 16 Aug 2024 14:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723819246;
+	bh=UzDJBf86ETc8UZTa5b4UELQHYAFgRcESJ7jTnyf0ZwM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ayq31Px++sqKgYH6KIIEfzP9t8l7YzSD7GuJ5qmVc4DKeok71ex+gt8p6GXQrin0A
+	 FMv1eKs/V3igtiQsqzoKNRGY+vydPlJjsnnKO+K1utHrSAE5nJ47/kWP2P3hXvjhOw
+	 8vEjWx/dU/C0TnCX962O46QCERiC7GU9AJryrZV+7/2dJDsGItKkMAj7UaHl47sl4W
+	 v9sA63+/ybob+fDBXeRr2eiO0MIYZ5vbql1dY6Q5I+ccEVg2igJ9JkeO501cnqMHKH
+	 GjTuEJ//TuTnk5PuY4xNxD9ZEeux/z7OctdL2wDddo21XP0TYtjEzdJy6qH/qPzfQc
+	 cKnhkuzu5vfhA==
+Date: Fri, 16 Aug 2024 15:40:33 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, joey.gouly@arm.com
+Subject: Re: [PATCH v10 14/40] KVM: arm64: Manage GCS access and registers
+ for guests
+Message-ID: <8c1e8fb6-0152-42f7-ab6d-93f6fe70b4aa@sirena.org.uk>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-14-699e2bd2190b@kernel.org>
+ <86h6bkzh8o.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Martin Karsten wrote:
-> On 2024-08-14 15:53, Samiullah Khawaja wrote:
-> > On Tue, Aug 13, 2024 at 6:19=E2=80=AFAM Martin Karsten <mkarsten@uwat=
-erloo.ca> wrote:
-> >>
-> >> On 2024-08-13 00:07, Stanislav Fomichev wrote:
-> >>> On 08/12, Martin Karsten wrote:
-> >>>> On 2024-08-12 21:54, Stanislav Fomichev wrote:
-> >>>>> On 08/12, Martin Karsten wrote:
-> >>>>>> On 2024-08-12 19:03, Stanislav Fomichev wrote:
-> >>>>>>> On 08/12, Martin Karsten wrote:
-> >>>>>>>> On 2024-08-12 16:19, Stanislav Fomichev wrote:
-> >>>>>>>>> On 08/12, Joe Damato wrote:
-> >>>>>>>>>> Greetings:
-> =
-
-> [snip]
-> =
-
-> >>>>>> Note that napi_suspend_irqs/napi_resume_irqs is needed even for =
-the sake of
-> >>>>>> an individual queue or application to make sure that IRQ suspens=
-ion is
-> >>>>>> enabled/disabled right away when the state of the system changes=
- from busy
-> >>>>>> to idle and back.
-> >>>>>
-> >>>>> Can we not handle everything in napi_busy_loop? If we can mark so=
-me napi
-> >>>>> contexts as "explicitly polled by userspace with a larger defer t=
-imeout",
-> >>>>> we should be able to do better compared to current NAPI_F_PREFER_=
-BUSY_POLL
-> >>>>> which is more like "this particular napi_poll call is user busy p=
-olling".
-> >>>>
-> >>>> Then either the application needs to be polling all the time (wast=
-ing cpu
-> >>>> cycles) or latencies will be determined by the timeout.
-> > But if I understand correctly, this means that if the application
-> > thread that is supposed
-> > to do napi busy polling gets busy doing work on the new data/events i=
-n
-> > userspace, napi polling
-> > will not be done until the suspend_timeout triggers? Do you dispatch
-> > work to a separate worker
-> > threads, in userspace, from the thread that is doing epoll_wait?
-> =
-
-> Yes, napi polling is suspended while the application is busy between =
-
-> epoll_wait calls. That's where the benefits are coming from.
-> =
-
-> The consequences depend on the nature of the application and overall =
-
-> preferences for the system. If there's a "dominant" application for a =
-
-> number of queues and cores, the resulting latency for other background =
-
-> applications using the same queues might not be a problem at all.
-> =
-
-> One other simple mitigation is limiting the number of events that each =
-
-> epoll_wait call accepts. Note that this batch size also determines the =
-
-> worst-case latency for the application in question, so there is a =
-
-> natural incentive to keep it limited.
-> =
-
-> A more complex application design, like you suggest, might also be an =
-
-> option.
-> =
-
-> >>>> Only when switching back and forth between polling and interrupts =
-is it
-> >>>> possible to get low latencies across a large spectrum of offered l=
-oads
-> >>>> without burning cpu cycles at 100%.
-> >>>
-> >>> Ah, I see what you're saying, yes, you're right. In this case ignor=
-e my comment
-> >>> about ep_suspend_napi_irqs/napi_resume_irqs.
-> >>
-> >> Thanks for probing and double-checking everything! Feedback is impor=
-tant
-> >> for us to properly document our proposal.
-> >>
-> >>> Let's see how other people feel about per-dev irq_suspend_timeout. =
-Properly
-> >>> disabling napi during busy polling is super useful, but it would st=
-ill
-> >>> be nice to plumb irq_suspend_timeout via epoll context or have it s=
-et on
-> >>> a per-napi basis imho.
-> > I agree, this would allow each napi queue to tune itself based on
-> > heuristics. But I think
-> > doing it through epoll independent interface makes more sense as Stan=
-
-> > suggested earlier.
-> =
-
-> The question is whether to add a useful mechanism (one sysfs parameter =
-
-> and a few lines of code) that is optional, but with demonstrable and =
-
-> significant performance/efficiency improvements for an important class =
-
-> of applications - or wait for an uncertain future?
-
-The issue is that this one little change can never be removed, as it
-becomes ABI.
-
-Let's get the right API from the start.
-
-Not sure that a global variable, or sysfs as API, is the right one.
- =
-
-> Note that adding our mechanism in no way precludes switching the contro=
-l =
-
-> parameters from per-device to per-napi as Joe alluded to earlier. In =
-
-> fact, it increases the incentive for doing so.
-> =
-
-> After working on this for quite a while, I am skeptical that anything =
-
-> fundamentally different could be done without re-architecting the entir=
-e =
-
-> napi control flow.
-> =
-
-> Thanks,
-> Martin
-> =
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DUpDdNL7GPA6ROUr"
+Content-Disposition: inline
+In-Reply-To: <86h6bkzh8o.wl-maz@kernel.org>
+X-Cookie: A Smith & Wesson beats four aces.
 
 
+--DUpDdNL7GPA6ROUr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, Aug 16, 2024 at 03:15:19PM +0100, Marc Zyngier wrote:
+> Mark Brown <broonie@kernel.org> wrote:
+
+> > +	{ SYS_DESC(SYS_GCSCR_EL1), NULL, reset_val, GCSCR_EL1, 0 },
+> > +	{ SYS_DESC(SYS_GCSPR_EL1), NULL, reset_unknown, GCSPR_EL1 },
+> > +	{ SYS_DESC(SYS_GCSCRE0_EL1), NULL, reset_val, GCSCRE0_EL1, 0 },
+
+> Global visibility for these registers? Why should we expose them to
+> userspace if the feature is neither present nor configured?
+
+...
+
+> > +	if (!kvm_has_feat(kvm, ID_AA64PFR1_EL1, GCS, IMP))
+> > +		kvm->arch.fgu[HFGxTR_GROUP] |= (HFGxTR_EL2_nGCS_EL0 |
+> > +						HFGxTR_EL2_nGCS_EL1);
+
+> How can this work if you don't handle ID_AA64PFR_EL1 being written to?
+> You are exposing GCS to all guests without giving the VMM an
+> opportunity to turn it off. This breaks A->B->A migration, which is
+> not acceptable.
+
+This was done based on your positive review of the POE series which
+follows the same pattern:
+
+   https://lore.kernel.org/linux-arm-kernel/20240503130147.1154804-8-joey.gouly@arm.com/
+   https://lore.kernel.org/linux-arm-kernel/864jagmxn7.wl-maz@kernel.org/
+
+in which you didn't note any concerns about the handling for the
+sysregs.
+
+If your decisions have changed then you'll need to withdraw your review
+there, I'd figured that given the current incompleteness of the
+writability conversions and there being a bunch of existing registers
+exposed unconditionally you'd decided to defer until some more general
+cleanup of the situation.
+
+--DUpDdNL7GPA6ROUr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma/ZOAACgkQJNaLcl1U
+h9AqVAf+My4ZnSnvRQhvDgit0vtodchlwobno2H2GE7edIRFmlg3k4goJ7BXcmJp
+HS9AzX6BzfrFZrvDxZIfwrvfIp3wCTp95dOSfLGENuWQV7IByIKHIHZdU4DYr/Xt
+3xJTwzDiJx19EK8R6usMaaQDarxQ9gozKbteWUt761o+iCKU6SGOvoN+2TkScTkA
+jmS+wMgm75FpHNpFm/wUixbuKoldXbagTgo9Wgly4xIW+11Rzpz/btXniVTM07BR
+XrnBaW2kdCXjr2C71bZGVBmg14aQCRh72D4xikY8k214GwuzeQbQber+iLP4io82
+23ty1aim7XcdSmNPpDiJfoiXcJ1yYw==
+=CjJp
+-----END PGP SIGNATURE-----
+
+--DUpDdNL7GPA6ROUr--
