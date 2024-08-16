@@ -1,56 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75D91448E0;
-	Fri, 16 Aug 2024 22:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481331459F7;
+	Fri, 16 Aug 2024 22:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723846881; cv=none; b=oE43X/3o4WYaFUPgTNdvhe4BtC0zb4jMXv/e4tnElCflrShj0kHksmHfnOsgrmQ5e/k2FBp4Nu1OLd4CcTrd3uHKAczap94/KRIZB+/UXOFR4e2cHAKdsJBCT96jP8sjL+yZF5TWJQvxJHT7CswCpat1pnzpb8LJ5On5NPl+f2c=
+	t=1723847326; cv=none; b=N1nPsmFQLtEWOfYAFYjIPCffjlI3utjoNKSwQOGV7+6F+xVyIjT4LC2lIHnd3VSoYPtV/fOOdmvkWeM4Jm8sliFOVSA6tBl0NdBlw3a/ePu5hf7rcCqqZh23neGhCpjW542hji0Qy+7UU5ISRJ8LK/qpJ8yBWiqvdtH/2GqxZ5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723846881; c=relaxed/simple;
-	bh=dwQBZTO//U58E3kwzyvZ1HNQknjkE/A/sZ1qbVlA38c=;
+	s=arc-20240116; t=1723847326; c=relaxed/simple;
+	bh=ADhPSC1RhrKTMeythfJmEvj3BHtdnbZi/eyzE1FFOkM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VGFL6B5tULmeaT5HPEjRTKca6e4RejZeug7v3P6sUMKSipD7PXmWvWzSFyaC2gRjnk/9M0fvr3xfF43OLfx0qQEaOhDRI1qWTuafNDVZhfmbkDSKvX/f4Jf+5lK1xy8T2saD/t3t6I+LJindZxcsJt2chIy77EnbyedOO5cfU4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=G5jYwPPe; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=lNSL7iWoaDRkmv5cv6d0UvPFt5e+SrAhCBFwvBYbOuE89H34f7VnsS8lUoLEOmhfRJZpjR5w4LSyi0IoUVSb3N5PZ7av42Pm7lG/HNGgOkMBwqZ6qAn3I7WW4BQD5SczPHKp5leyM6DIFl+QQcxWR5zghSlq1+aIbubYeypenc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hHwHpY00; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="G5jYwPPe"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03142418AB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hHwHpY00"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 34957418AB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723846872; bh=DDlzN91pqXetBWEzbxhP44nWK82/0rSseDZiI/Y4Umc=;
+	t=1723847322; bh=GKR9Vn7868L+Axm2dm3bCL+LGD3nmVjIy+IUhUe3Va8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=G5jYwPPeNcNFIy3YNcuiJ4LAI0kkXtuup5gU3UeKBjoTDqzOcvYZr6a1FwxSwa3CQ
-	 4ZD4O2m3jKu1hmB9ZAUe3RUNAI7JiuczHk7KoxgLrpG1E6+sdiYYQwx/AweUhCAM4l
-	 BWRd/+eh+8XR60LcHuSDyYbSJNCo7e359kfLkGsCMDOyHQYsyrWZsL0I3I4UNOZ9en
-	 NwGhKdHedKCwPuztjKUhSnk8YqNOD7KkujA0hRhv5mJ7C2OiO36I7mignBfWY3Dl+I
-	 CtKwZEp4OMfEotN/irzGcvmRZcPVuKpgKtT6rnX4GVAwmEzHi2Jz5gIWEiPJTa21Q1
-	 f1hCwg9+4X7xg==
+	b=hHwHpY00zu+RpXn5tp7iWafFG6zdVWc3K9z3CauGEOnQcWHbIiacd+qsHE2nk1a/A
+	 knjpA6zn8kHJPdF51hVcrGhipgu5cyLl6bFEPu2w0KQwAQzHgT0csCXtzXnOU3c8jv
+	 vw3n02Hr0Z8755fgj80rDCJiW2ivxRi0194I+wKjhom2PcZNm7vG4v58zre0VC4ccA
+	 8nbQxAfv9eo5j3R1dBHthwFh5MXj5HUSHHdcEXPszDgBGFefWCJVojQ7W3E2B5CefM
+	 +zqmKoxPnBGbpMzg7+YkAa7g+p6l0rGiMowVQ9WgI8vWHuOyM85vSKj0PW61Bk7q2T
+	 BK9Xu9qruyxmg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 03142418AB;
-	Fri, 16 Aug 2024 22:21:12 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 34957418AB;
+	Fri, 16 Aug 2024 22:28:42 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Amit Vadhavana <av2082000@gmail.com>, linux-doc@vger.kernel.org,
- ricardo@marliere.net
-Cc: av2082000@gmail.com, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, amelie.delaunay@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
- catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
- dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Fix spelling mistakes
-In-Reply-To: <20240810183238.34481-1-av2082000@gmail.com>
-References: <20240810183238.34481-1-av2082000@gmail.com>
-Date: Fri, 16 Aug 2024 16:21:11 -0600
-Message-ID: <87y14whzxk.fsf@trenco.lwn.net>
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+In-Reply-To: <20240810082245.5934-1-tttturtleruss@hust.edu.cn>
+References: <20240810082245.5934-1-tttturtleruss@hust.edu.cn>
+Date: Fri, 16 Aug 2024 16:28:41 -0600
+Message-ID: <87ttfkhzl2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,92 +53,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Now that I have looked at these, I have a couple of comments...
+Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
 
-Amit Vadhavana <av2082000@gmail.com> writes:
-
-> Corrected spelling mistakes in the documentation to improve readability.
-
-Normal form for a changelog is to use the imperative mode; some
-maintainers are insistent about that.  So "Correct spelling ... "
-
-> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+> Translate dev-tools/kcsan commit 31f605a308e6
+> ("kcsan, compiler_types: Introduce __data_racy type qualifier")
+> into Chinese and add it in dev-tools/zh_CN/index.rst
+>
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
->  Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
->  Documentation/arch/powerpc/ultravisor.rst                | 2 +-
->  Documentation/arch/riscv/vector.rst                      | 2 +-
->  Documentation/arch/sparc/oradax/oracle-dax.rst           | 2 +-
->  Documentation/arch/x86/mds.rst                           | 2 +-
->  Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
->  Documentation/process/backporting.rst                    | 6 +++---
->  8 files changed, 12 insertions(+), 12 deletions(-)
+> v5 -> v6: Fix a typo.
+> v4 -> v5: Translate link into Chinese as well according to reviewer's advice.
+> v3 -> v4: Added original English text for proper nouns and modified some unclear experessions. 
+> v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
+> v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions.
+>
+>  .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+>  .../translations/zh_CN/dev-tools/kcsan.rst    | 321 ++++++++++++++++++
+>  2 files changed, 322 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
+
+So I applied this, but ended up unapplying it.  It adds a whole pile of
+docs build warnings:
+
+Documentation/translations/zh_CN/dev-tools/kcsan:223: ./include/linux/kcsan-checks.h:370: WARNING: Duplicate C declaration, also defined at dev-tools/kcsan:370.
+Declaration is '.. c:macro:: ASSERT_EXCLUSIVE_WRITER'.
+Documentation/translations/zh_CN/dev-tools/kcsan:223: ./include/linux/kcsan-checks.h:419: WARNING: Duplicate C declaration, also defined at dev-tools/kcsan:419.
+Declaration is '.. c:macro:: ASSERT_EXCLUSIVE_WRITER_SCOPED'.
+Documentation/translations/zh_CN/dev-tools/kcsan:223: ./include/linux/kcsan-checks.h:451: WARNING: Duplicate C declaration, also defined at dev-tools/kcsan:451.
+Declaration is '.. c:macro:: ASSERT_EXCLUSIVE_ACCESS'.
 
 [...]
 
-> diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
-> index 75dd88a62e1d..e4a28def318a 100644
-> --- a/Documentation/arch/riscv/vector.rst
-> +++ b/Documentation/arch/riscv/vector.rst
-> @@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
->  these interfaces is to give init systems a way to modify the availability of V
->  for processes running under its domain. Calling these interfaces is not
->  recommended in libraries routines because libraries should not override policies
-> -configured from the parant process. Also, users must noted that these interfaces
-> +configured from the parent process. Also, users must noted that these interfaces
+You really do need to do a build test before sending changes like this.
 
-As long as you are fixing this line, s/noted/note/
+The problem is the duplicated inclusion caused by the kernel-doc
+directive:
 
->  are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
->  to use in a portable code. To get the availability of V in an ELF program,
->  please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
-> diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
-> index d1e14d572918..54ccb35ed51d 100644
-> --- a/Documentation/arch/sparc/oradax/oracle-dax.rst
-> +++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
-> @@ -197,7 +197,7 @@ Memory Constraints
->  ==================
->  
->  The DAX hardware operates only on physical addresses. Therefore, it is
-> -not aware of virtual memory mappings and the discontiguities that may
-> +not aware of virtual memory mappings and the discontinuities that may
+> +.. kernel-doc:: include/linux/kcsan-checks.h
+> +    :functions: ASSERT_EXCLUSIVE_WRITER ASSERT_EXCLUSIVE_WRITER_SCOPED
+> +                ASSERT_EXCLUSIVE_ACCESS ASSERT_EXCLUSIVE_ACCESS_SCOPED
+> +                ASSERT_EXCLUSIVE_BITS
+> 
 
-Whether "discontiguities" is recognized by a spelling checker or not, I
-expect that is the word that was intended by the author of this
-document.  I would not change it.
+We really just can't do that with the current build system; the best
+thing is to put in a note saying to see the original document for those
+declarations.
 
->  exist in the physical memory that a virtual buffer maps to. There is
->  no I/O TLB or any scatter/gather mechanism. All buffers, whether input
->  or output, must reside in a physically contiguous region of memory.
-> diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
-> index c58c72362911..5a2e6c0ef04a 100644
-> --- a/Documentation/arch/x86/mds.rst
-> +++ b/Documentation/arch/x86/mds.rst
-> @@ -162,7 +162,7 @@ Mitigation points
->     3. It would take a large number of these precisely-timed NMIs to mount
->        an actual attack.  There's presumably not enough bandwidth.
->     4. The NMI in question occurs after a VERW, i.e. when user state is
-> -      restored and most interesting data is already scrubbed. Whats left
-> +      restored and most interesting data is already scrubbed. What's left
->        is only the data that NMI touches, and that may or may not be of
->        any interest.
->  
-> diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
-> index 50960e09e1f6..d07e445dac5c 100644
-> --- a/Documentation/arch/x86/x86_64/fsgs.rst
-> +++ b/Documentation/arch/x86/x86_64/fsgs.rst
-> @@ -125,7 +125,7 @@ FSGSBASE instructions enablement
->  FSGSBASE instructions compiler support
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> -GCC version 4.6.4 and newer provide instrinsics for the FSGSBASE
-> +GCC version 4.6.4 and newer provide intrinsics for the FSGSBASE
->  instructions. Clang 5 supports them as well.
-
-Note that current kernels require rather newer versions of both
-compilers than this, so this information does not need to be here at
-all.  If you do not want to edit at that level, though, the change is an
-improvement.
+This would be good to fix, perhaps with a variant of kernel-doc that
+doesn't generate the duplicated declarations, but until somebody does
+that we have to work around it.
 
 Thanks,
 
