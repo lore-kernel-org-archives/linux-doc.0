@@ -1,48 +1,50 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6522C7C6D4;
-	Fri, 16 Aug 2024 21:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89814143C72;
+	Fri, 16 Aug 2024 22:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723844953; cv=none; b=OlGtdr4LKyUAN4OCrVI8aR4EKemQvFV3gmjuulpbtAd29uIgg3HOsZbzz3agZG+G+Iu/AOgUWE0F5aSZvsqzR15c6NLTMHKz8j/K/6PqfIyIF2+q0yVMvGxABgiAllwNlp8xrXQL5BwiSdtdyJwsuNh6dgD9DiY0Duogdgt0Ygk=
+	t=1723846298; cv=none; b=MWAvBaqBe33ffL48W1tSZZ9A0Ai4WCGBBlguQKfazIkYYlSX/CwexoRP6w+YY9kptxou6j1Clk6cYhX2LsN01747aZ6eAd2G8boWIjOnAnXWAefTMxtgpgtSkpQy+DqwGY0FB2L0Q1lDqBRcLO1VTvpsawET6ULQdTg1RQTsUB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723844953; c=relaxed/simple;
-	bh=zTCCdNpxO4MQNZ+u7gL0NU4MTIoPp3dhMErYTtgc8zw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=eftJr2MDeykJQI8yodKeYwTPVI6scLbHMfQfO89LJLJwN8CRLUBBBt2+/U/rLt0MdakkmE+E74/DcbeuRhfZXJDnkOjjes2eCH4SSP8QYXdG9NtDpt01hGq68UFDHQVBYCha3oIf5+g3W3toPz7qFJajSDDFl9fiRD5aPFFII5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cXYeEYRO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1723846298; c=relaxed/simple;
+	bh=orjBv4SC56pi3lOQYSzRXAPJ+PGVeasXNG68uSqSzGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Sf0KvdU1LicfffhGejhPZ/+YLD3Ee7MkJf3DMj3ma8K+MQr8SBpzeE2iZ4jkymqKWdtwAs+siQDb4aNEtH51w4vC5TFwaws0jkSAj7K+ay2V4VGA42T7FC/IIiA7AG44kR70nppygF+onRlztu6rlSv8x3grJ5zNbpiKCjC49No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EIJwybrr; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cXYeEYRO"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47GJLGYD013447;
-	Fri, 16 Aug 2024 21:48:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2RfIGydazGkb8JDP2LTgoJLnnXWt9Xpo8vjP7pUBm7Q=; b=cXYeEYROWSVoc4TB
-	zxVC18mVGVokiRmmniuXMV++LXq2lZXFwwOIGzAepbC4CG62ckBlRt2I+nyPAPSY
-	n9xrAjbpDGxGEi1OZmY1JR1pTZTjrugCQuczcMJMjBUasHtC+02PjsXLy6QzCRVR
-	hEYL3Vl5FDZZpN8YQ1xoc7NajAheuaCumRI002NdUn+povugB/Zldf83Tq15nGuy
-	FhB1JjMS71ErGKHqwGz1ve3Z9poYAMCWucz5F1YYZzMjpJOvZM4qCgTSPK3g/PAQ
-	fDSZijD+WNV1HFJCekH2+Rh8g3QE/B41BXahdOWPuKygi1E+U+dIh17jHcojNn19
-	J/GN4A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4112r3x31k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Aug 2024 21:48:47 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GLmkaK005422
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Aug 2024 21:48:46 GMT
-Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
- 2024 14:48:45 -0700
-Message-ID: <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
-Date: Fri, 16 Aug 2024 14:48:44 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EIJwybrr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723846295; x=1755382295;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=orjBv4SC56pi3lOQYSzRXAPJ+PGVeasXNG68uSqSzGA=;
+  b=EIJwybrrOyFSKSrAS2KTnKAl47u6zLxOBFq4zujVClBye1GYvIFK6LNE
+   UyGh2EiYAMk8Yty4zIdNhsCt3EOlJIXa7t02XZqmH2h1/optRfW1iEGj1
+   dst9bj2Vd7SzGr4wiQJ98bWMTeGctamej7lSc2L68HS/z/SZpkIJ8XtZC
+   GuRByxCbf1KDaozcPYSPkly4gjjRWBggfHfmlLrH4gq1pciQlrJyweJB9
+   vd7xESTdLnNx0maxSBF5tP+lu+W+qt+xWJ9nO2mOWLD8tRlNM/Ln50For
+   knUBL9y1Ip26Hs/RDtY0OT0G8CdabRL+38CTzeYHr9HSKDLoX5fYvhDsB
+   g==;
+X-CSE-ConnectionGUID: m9yzPfQVTeqGd96zOh+slw==
+X-CSE-MsgGUID: mJVcgwvkSoiWztJqOGyFbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="21702470"
+X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
+   d="scan'208";a="21702470"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 15:11:34 -0700
+X-CSE-ConnectionGUID: wHHZoHZvSKmyJfWLe+KzGg==
+X-CSE-MsgGUID: GwqOoWXdRCCQN2ogkbdQfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
+   d="scan'208";a="59490744"
+Received: from unknown (HELO [10.125.111.71]) ([10.125.111.71])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 15:11:32 -0700
+Message-ID: <62562386-fea2-4ba3-8224-db45fd4f278a@intel.com>
+Date: Fri, 16 Aug 2024 15:11:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,157 +52,312 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
- backend
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-10-quic_wcheng@quicinc.com>
- <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
- <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
- <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
- <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
+Subject: Re: [PATCH v3 07/25] cxl/core: Separate region mode from decoder mode
+To: ira.weiny@intel.com, Fan Ni <fan.ni@samsung.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, linux-btrfs@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, nvdimm@lists.linux.dev
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-7-7c9b96cba6d7@intel.com>
 Content-Language: en-US
-In-Reply-To: <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 3kPO1Xoe1NN5NBY1Zm2jkUUvP40HXbNv
-X-Proofpoint-ORIG-GUID: 3kPO1Xoe1NN5NBY1Zm2jkUUvP40HXbNv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-16_16,2024-08-16_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
- mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2408160155
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20240816-dcd-type2-upstream-v3-7-7c9b96cba6d7@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Pierre,
 
-On 8/6/2024 12:52 PM, Wesley Cheng wrote:
-> Hi Pierre,
->
-> On 8/1/2024 11:26 PM, Pierre-Louis Bossart wrote:
->> On 8/1/24 23:43, Wesley Cheng wrote:
->>> Hi Pierre,
->>>
->>> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
->>>>> +/**
->>>>> + * struct snd_soc_usb_device
->>>>> + * @card_idx - sound card index associated with USB device
->>>>> + * @pcm_idx - PCM device index associated with USB device
->>>>> + * @chip_idx - USB sound chip array index
->>>>> + * @num_playback - number of playback streams
->>>>> + * @num_capture - number of capture streams
->>>> so here we have a clear separation between playback and capture...
->>> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
->>>
->>> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
->> I don't think it's as simple as playback only or playback+capture. If
->> there is no support for capture, then there is also no support for
->> devices with implicit feedback - which uses the capture path. So you
->> gradually start drawing a jagged boundary of what is supported and what
->> isn't.
->>
->> My preference would be to add capture in APIs where we can, with TODOs
->> added to make sure no one us under any illusion that the code is fully
->> tested. But at least some of the basic plumbing will be in place.
->>
->> Takashi should chime in on this...
->>
->>>>> + * @list - list head for SoC USB devices
->>>>> + **/
->>>>> +struct snd_soc_usb_device {
->>>>> +	int card_idx;
->>>>> +	int pcm_idx;
->>>>> +	int chip_idx;
->>>>> +	int num_playback;
->>>>> +	int num_capture;
->>>>> +	struct list_head list;
->>>>> +};
->>>>> +
->>>>> +/**
->>>>> + * struct snd_soc_usb
->>>>> + * @list - list head for SND SOC struct list
->>>>> + * @component - reference to ASoC component
->>>>> + * @num_supported_streams - number of supported concurrent sessions
->>>> ... but here we don't. And it's not clear what the working 'sessions'
->>>> means in the comment.
->>>>
->>>>> + * @connection_status_cb - callback to notify connection events
->>>>> + * @priv_data - driver data
->>>>> + **/
->>>>> +struct snd_soc_usb {
->>>>> +	struct list_head list;
->>>>> +	struct snd_soc_component *component;
->>>>> +	unsigned int num_supported_streams;
->>>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
->>>>> +			struct snd_soc_usb_device *sdev, bool connected);
->>>>> +	void *priv_data;
->>>>> +};
->>>>> +/**
->>>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
->>>> USB port?
->>> Noted, refer to the last comment.
->>>>> + * @component: USB DPCM backend DAI component
->>>>> + * @num_streams: number of offloading sessions supported
->>>> same comment, is this direction-specific or not?
->>> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
->>>>> + * @data: private data
->>>>> + *
->>>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
->>>>> + * are used in subsequent sequences.
->>>>> + *
->>>>> + */
->>>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
->>>>> +					      int num_streams, void *data)
->>>>> +{
->>>>> +	struct snd_soc_usb *usb;
->>>>> +
->>>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
->>>>> +	if (!usb)
->>>>> +		return ERR_PTR(-ENOMEM);
->>>>> +
->>>>> +	usb->component = component;
->>>>> +	usb->priv_data = data;
->>>>> +	usb->num_supported_streams = num_streams;
->>>>> +
->>>>> +	return usb;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
->>>>> +
->>>>> +/**
->>>>> + * snd_soc_usb_free_port() - free a SOC USB device
->>>>> + * @usb: allocated SOC USB device
->>>>> +
->>>>> + * Free and remove the SOC USB device from the available list of devices.
->>>> Now I am lost again on the device:port relationship. I am sure you've
->>>> explained this before but I forget things and the code isn't
->>>> self-explanatory.
->>>>
->>> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
->> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
->> it's not quite right, USB audio works across hubs.
->>
-> Remember, this is technically the term used to explain the channel created for ASoC to communicate w/ USB.  If we use a term like "device," USB devices come and go, but this ASoC path won't be unallocated along with the USB device, since it does service/know about all the available USB devices connected to the system. (ie through usb hubs)
->
-How about snd_soc_usb_allocate_link()? This is technically allocating the soc-usb structure which is the entity that connects the ASoC to ALSA.
 
-Thanks
+On 8/16/24 7:44 AM, ira.weiny@intel.com wrote:
+> From: Navneet Singh <navneet.singh@intel.com>
+> 
+> Until now region modes and decoder modes were equivalent in that both
+> modes were either PMEM or RAM.  The addition of Dynamic
+> Capacity partitions defines up to 8 DC partitions per device.
+> 
+> The region mode is thus no longer equivalent to the endpoint decoder
+> mode.  IOW the endpoint decoders may have modes of DC0-DC7 while the
+> region mode is simply DC.
+> 
+> Define a new region mode enumeration which applies to regions separate
+> from the decoder mode.  Adjust the code to process these modes
+> independently.
+> 
+> There is no equal to decoder mode dead in region modes.  Avoid
+> constructing regions with decoders which have been flagged as dead.
+> 
+> Suggested-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-Wesley Cheng
-
->
+> 
+> ---
+> Changes:
+> [iweiny: rebase]
+> [Jonathan: remove dead code]
+> [Jonathan: clarify commit message]
+> ---
+>  drivers/cxl/core/region.c | 75 ++++++++++++++++++++++++++++++++++-------------
+>  drivers/cxl/cxl.h         | 26 ++++++++++++++--
+>  2 files changed, 79 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> index 971a314b6b0e..796e5a791e44 100644
+> --- a/drivers/cxl/core/region.c
+> +++ b/drivers/cxl/core/region.c
+> @@ -144,7 +144,7 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+>  	rc = down_read_interruptible(&cxl_region_rwsem);
+>  	if (rc)
+>  		return rc;
+> -	if (cxlr->mode != CXL_DECODER_PMEM)
+> +	if (cxlr->mode != CXL_REGION_PMEM)
+>  		rc = sysfs_emit(buf, "\n");
+>  	else
+>  		rc = sysfs_emit(buf, "%pUb\n", &p->uuid);
+> @@ -457,7 +457,7 @@ static umode_t cxl_region_visible(struct kobject *kobj, struct attribute *a,
+>  	 * Support tooling that expects to find a 'uuid' attribute for all
+>  	 * regions regardless of mode.
+>  	 */
+> -	if (a == &dev_attr_uuid.attr && cxlr->mode != CXL_DECODER_PMEM)
+> +	if (a == &dev_attr_uuid.attr && cxlr->mode != CXL_REGION_PMEM)
+>  		return 0444;
+>  	return a->mode;
+>  }
+> @@ -620,7 +620,7 @@ static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
+>  {
+>  	struct cxl_region *cxlr = to_cxl_region(dev);
+>  
+> -	return sysfs_emit(buf, "%s\n", cxl_decoder_mode_name(cxlr->mode));
+> +	return sysfs_emit(buf, "%s\n", cxl_region_mode_name(cxlr->mode));
+>  }
+>  static DEVICE_ATTR_RO(mode);
+>  
+> @@ -646,7 +646,7 @@ static int alloc_hpa(struct cxl_region *cxlr, resource_size_t size)
+>  
+>  	/* ways, granularity and uuid (if PMEM) need to be set before HPA */
+>  	if (!p->interleave_ways || !p->interleave_granularity ||
+> -	    (cxlr->mode == CXL_DECODER_PMEM && uuid_is_null(&p->uuid)))
+> +	    (cxlr->mode == CXL_REGION_PMEM && uuid_is_null(&p->uuid)))
+>  		return -ENXIO;
+>  
+>  	div64_u64_rem(size, (u64)SZ_256M * p->interleave_ways, &remainder);
+> @@ -1863,6 +1863,17 @@ static int cxl_region_sort_targets(struct cxl_region *cxlr)
+>  	return rc;
+>  }
+>  
+> +static bool cxl_modes_compatible(enum cxl_region_mode rmode,
+> +				 enum cxl_decoder_mode dmode)
+> +{
+> +	if (rmode == CXL_REGION_RAM && dmode == CXL_DECODER_RAM)
+> +		return true;
+> +	if (rmode == CXL_REGION_PMEM && dmode == CXL_DECODER_PMEM)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  static int cxl_region_attach(struct cxl_region *cxlr,
+>  			     struct cxl_endpoint_decoder *cxled, int pos)
+>  {
+> @@ -1882,9 +1893,11 @@ static int cxl_region_attach(struct cxl_region *cxlr,
+>  		return rc;
+>  	}
+>  
+> -	if (cxled->mode != cxlr->mode) {
+> -		dev_dbg(&cxlr->dev, "%s region mode: %d mismatch: %d\n",
+> -			dev_name(&cxled->cxld.dev), cxlr->mode, cxled->mode);
+> +	if (!cxl_modes_compatible(cxlr->mode, cxled->mode)) {
+> +		dev_dbg(&cxlr->dev, "%s region mode: %s mismatch decoder: %s\n",
+> +			dev_name(&cxled->cxld.dev),
+> +			cxl_region_mode_name(cxlr->mode),
+> +			cxl_decoder_mode_name(cxled->mode));
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -2447,7 +2460,7 @@ static int cxl_region_calculate_adistance(struct notifier_block *nb,
+>   * devm_cxl_add_region - Adds a region to a decoder
+>   * @cxlrd: root decoder
+>   * @id: memregion id to create, or memregion_free() on failure
+> - * @mode: mode for the endpoint decoders of this region
+> + * @mode: mode of this region
+>   * @type: select whether this is an expander or accelerator (type-2 or type-3)
+>   *
+>   * This is the second step of region initialization. Regions exist within an
+> @@ -2458,7 +2471,7 @@ static int cxl_region_calculate_adistance(struct notifier_block *nb,
+>   */
+>  static struct cxl_region *devm_cxl_add_region(struct cxl_root_decoder *cxlrd,
+>  					      int id,
+> -					      enum cxl_decoder_mode mode,
+> +					      enum cxl_region_mode mode,
+>  					      enum cxl_decoder_type type)
+>  {
+>  	struct cxl_port *port = to_cxl_port(cxlrd->cxlsd.cxld.dev.parent);
+> @@ -2512,16 +2525,17 @@ static ssize_t create_ram_region_show(struct device *dev,
+>  }
+>  
+>  static struct cxl_region *__create_region(struct cxl_root_decoder *cxlrd,
+> -					  enum cxl_decoder_mode mode, int id)
+> +					  enum cxl_region_mode mode, int id)
+>  {
+>  	int rc;
+>  
+>  	switch (mode) {
+> -	case CXL_DECODER_RAM:
+> -	case CXL_DECODER_PMEM:
+> +	case CXL_REGION_RAM:
+> +	case CXL_REGION_PMEM:
+>  		break;
+>  	default:
+> -		dev_err(&cxlrd->cxlsd.cxld.dev, "unsupported mode %d\n", mode);
+> +		dev_err(&cxlrd->cxlsd.cxld.dev, "unsupported mode %s\n",
+> +			cxl_region_mode_name(mode));
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> @@ -2549,7 +2563,7 @@ static ssize_t create_pmem_region_store(struct device *dev,
+>  	if (rc != 1)
+>  		return -EINVAL;
+>  
+> -	cxlr = __create_region(cxlrd, CXL_DECODER_PMEM, id);
+> +	cxlr = __create_region(cxlrd, CXL_REGION_PMEM, id);
+>  	if (IS_ERR(cxlr))
+>  		return PTR_ERR(cxlr);
+>  
+> @@ -2569,7 +2583,7 @@ static ssize_t create_ram_region_store(struct device *dev,
+>  	if (rc != 1)
+>  		return -EINVAL;
+>  
+> -	cxlr = __create_region(cxlrd, CXL_DECODER_RAM, id);
+> +	cxlr = __create_region(cxlrd, CXL_REGION_RAM, id);
+>  	if (IS_ERR(cxlr))
+>  		return PTR_ERR(cxlr);
+>  
+> @@ -3215,6 +3229,22 @@ static int match_region_by_range(struct device *dev, void *data)
+>  	return rc;
+>  }
+>  
+> +static enum cxl_region_mode
+> +cxl_decoder_to_region_mode(enum cxl_decoder_mode mode)
+> +{
+> +	switch (mode) {
+> +	case CXL_DECODER_NONE:
+> +		return CXL_REGION_NONE;
+> +	case CXL_DECODER_RAM:
+> +		return CXL_REGION_RAM;
+> +	case CXL_DECODER_PMEM:
+> +		return CXL_REGION_PMEM;
+> +	case CXL_DECODER_MIXED:
+> +	default:
+> +		return CXL_REGION_MIXED;
+> +	}
+> +}
+> +
+>  /* Establish an empty region covering the given HPA range */
+>  static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
+>  					   struct cxl_endpoint_decoder *cxled)
+> @@ -3223,12 +3253,17 @@ static struct cxl_region *construct_region(struct cxl_root_decoder *cxlrd,
+>  	struct cxl_port *port = cxlrd_to_port(cxlrd);
+>  	struct range *hpa = &cxled->cxld.hpa_range;
+>  	struct cxl_region_params *p;
+> +	enum cxl_region_mode mode;
+>  	struct cxl_region *cxlr;
+>  	struct resource *res;
+>  	int rc;
+>  
+> +	if (cxled->mode == CXL_DECODER_DEAD)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	mode = cxl_decoder_to_region_mode(cxled->mode);
+>  	do {
+> -		cxlr = __create_region(cxlrd, cxled->mode,
+> +		cxlr = __create_region(cxlrd, mode,
+>  				       atomic_read(&cxlrd->region_id));
+>  	} while (IS_ERR(cxlr) && PTR_ERR(cxlr) == -EBUSY);
+>  
+> @@ -3431,9 +3466,9 @@ static int cxl_region_probe(struct device *dev)
+>  		return rc;
+>  
+>  	switch (cxlr->mode) {
+> -	case CXL_DECODER_PMEM:
+> +	case CXL_REGION_PMEM:
+>  		return devm_cxl_add_pmem_region(cxlr);
+> -	case CXL_DECODER_RAM:
+> +	case CXL_REGION_RAM:
+>  		/*
+>  		 * The region can not be manged by CXL if any portion of
+>  		 * it is already online as 'System RAM'
+> @@ -3445,8 +3480,8 @@ static int cxl_region_probe(struct device *dev)
+>  			return 0;
+>  		return devm_cxl_add_dax_region(cxlr);
+>  	default:
+> -		dev_dbg(&cxlr->dev, "unsupported region mode: %d\n",
+> -			cxlr->mode);
+> +		dev_dbg(&cxlr->dev, "unsupported region mode: %s\n",
+> +			cxl_region_mode_name(cxlr->mode));
+>  		return -ENXIO;
+>  	}
+>  }
+> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
+> index 9afb407d438f..f766b2a8bf53 100644
+> --- a/drivers/cxl/cxl.h
+> +++ b/drivers/cxl/cxl.h
+> @@ -388,6 +388,27 @@ static inline const char *cxl_decoder_mode_name(enum cxl_decoder_mode mode)
+>  	return "mixed";
+>  }
+>  
+> +enum cxl_region_mode {
+> +	CXL_REGION_NONE,
+> +	CXL_REGION_RAM,
+> +	CXL_REGION_PMEM,
+> +	CXL_REGION_MIXED,
+> +};
+> +
+> +static inline const char *cxl_region_mode_name(enum cxl_region_mode mode)
+> +{
+> +	static const char * const names[] = {
+> +		[CXL_REGION_NONE] = "none",
+> +		[CXL_REGION_RAM] = "ram",
+> +		[CXL_REGION_PMEM] = "pmem",
+> +		[CXL_REGION_MIXED] = "mixed",
+> +	};
+> +
+> +	if (mode >= CXL_REGION_NONE && mode <= CXL_REGION_MIXED)
+> +		return names[mode];
+> +	return "mixed";
+> +}
+> +
+>  /*
+>   * Track whether this decoder is reserved for region autodiscovery, or
+>   * free for userspace provisioning.
+> @@ -515,7 +536,8 @@ struct cxl_region_params {
+>   * struct cxl_region - CXL region
+>   * @dev: This region's device
+>   * @id: This region's id. Id is globally unique across all regions
+> - * @mode: Endpoint decoder allocation / access mode
+> + * @mode: Region mode which defines which endpoint decoder modes the region is
+> + *        compatible with
+>   * @type: Endpoint decoder target type
+>   * @cxl_nvb: nvdimm bridge for coordinating @cxlr_pmem setup / shutdown
+>   * @cxlr_pmem: (for pmem regions) cached copy of the nvdimm bridge
+> @@ -528,7 +550,7 @@ struct cxl_region_params {
+>  struct cxl_region {
+>  	struct device dev;
+>  	int id;
+> -	enum cxl_decoder_mode mode;
+> +	enum cxl_region_mode mode;
+>  	enum cxl_decoder_type type;
+>  	struct cxl_nvdimm_bridge *cxl_nvb;
+>  	struct cxl_pmem_region *cxlr_pmem;
+> 
