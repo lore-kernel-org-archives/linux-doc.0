@@ -1,336 +1,190 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A734F1C0DC7;
-	Fri, 16 Aug 2024 16:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723825057; cv=fail; b=SPgt+AJtpOEcDQYfjoQ17qXPUOEo44RR2X8XR7GXpkbvN/gohFZk4Am4bJFue9ttRr/ubkcB2bnihFlQbPPl2E2PDLIgf7TakPOnChkZ/K+cEACfAulHN8O9NBq5doaCYW3EjIHiPMUDXGdIwgSF5o7RJM3ueqZWuGabOzpJ/9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723825057; c=relaxed/simple;
-	bh=oeHyBaBb3Q1l0x7LYqPSbHT9Hzx87MELccJB4R2G5O8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RYwg9dftatro54WbZafJwbbjgbHsy584aBiVXEC7+VEiCBkZqo2ZdzWhetFCZItgIW4y0Y0rlwTDBu7WNt8ca6xoD+KNzS/gAkijgw+vFFXaNGy1fXw+ygeMAtreWkvivpbSOjj1Io+ectwJPrivO6bngmcPv+l20/37uGkMop4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=W/6+HRfk; arc=fail smtp.client-ip=40.107.102.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="W/6+HRfk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IV34BtD44WmmiearMQAFI4i5FOjvdp1uEQsHtz0pQwXzFyrCIcGj2wOGPVzDPr+S61wkeOCww2x5+my/wP+9AglgfTXLCFMOuNVpluFY+cME/ypar3y4yCGYFVR7E70krGn+jJ2PVqeUs5/jQS6TBZGiQLC0JBVkJui7otqhLY2VS9z1nVsLZr7oq1AoGz1ua5DLLDWf5YXnitMonMN6v6l2u4ky2k+nlxcS7nbKoOpwU/NggweLVN5MHdzDcQqEeiAQ27cuUGHTRpeUWXtUaZ83L8ZnYOzK+GD2aL3YDpn9+mKGpyM4iDTF/NjeBOdxKm4ibqkulxtNKEqiftrArA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ieo+GzYUkaw8bz4yWe2bUS9FIB9QUsHYb04PKV2hMUs=;
- b=dOwhUIW1qTxurmf45OXheOt4AM81Xyj8Na1K6ptTdWmm01kTh8OAuO7yyziVre/vr5tk0VYS4e/hg4aXvRFgas0sfyXCtzf1ptkB4vnl8N5PxWKlbGSLndoh9bekGVV1ZByr1QwFVg8knYp4GhqjVJUaCowoWucEt5+QlxTM/InjNr8EhIHCKGnPZOjsbycrJnLuJJz8GB7pltZeCEUue1w7OSHMQbeKdHkZWi8NGwxwfttP3UuFmtL6WJljWicU4grNoYB9yewLJqLk0ceWPmB5v6V+cTsUQOOvVSvxs/FAHJWLnMhd36kPprJJfHdxDL44uFKj4AOU9PFvKqmIrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ieo+GzYUkaw8bz4yWe2bUS9FIB9QUsHYb04PKV2hMUs=;
- b=W/6+HRfkDpwJnomvZ9r4gXqStUxXX61zV4G+6Wg9+q8SR9RjA3NnUrIw3UN2TJ3oT4Ufu+w3NTSeXSUTmQ3JPXDN61gHGusLOC4zJj2JT0yMaVOdQPwueA11mIjJR1wXeElMoW0jDO/w4vBusiPwPBZKQBt1mElNJAxUhXCxUcU=
-Received: from BY3PR04CA0005.namprd04.prod.outlook.com (2603:10b6:a03:217::10)
- by MW5PR12MB5682.namprd12.prod.outlook.com (2603:10b6:303:19f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Fri, 16 Aug
- 2024 16:17:25 +0000
-Received: from MWH0EPF000989E7.namprd02.prod.outlook.com
- (2603:10b6:a03:217:cafe::2) by BY3PR04CA0005.outlook.office365.com
- (2603:10b6:a03:217::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.23 via Frontend
- Transport; Fri, 16 Aug 2024 16:17:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000989E7.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7849.8 via Frontend Transport; Fri, 16 Aug 2024 16:17:24 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 16 Aug
- 2024 11:17:23 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>
-CC: <fenghua.yu@intel.com>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<thuth@redhat.com>, <xiongwei.song@windriver.com>, <ardb@kernel.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
-	<sandipan.das@amd.com>, <kai.huang@intel.com>, <peterz@infradead.org>,
-	<kan.liang@linux.intel.com>, <pbonzini@redhat.com>, <xin3.li@intel.com>,
-	<babu.moger@amd.com>, <ebiggers@google.com>, <alexandre.chartre@oracle.com>,
-	<perry.yuan@amd.com>, <tan.shaopeng@fujitsu.com>, <james.morse@arm.com>,
-	<tony.luck@intel.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <eranian@google.com>
-Subject: [PATCH 7/7] x86/resctrl: Introduce interface to modify SDCIAE Capacity Bit Masks
-Date: Fri, 16 Aug 2024 11:16:24 -0500
-Message-ID: <e8dab641ea14bacbe3847fc1d3fde5be60c4095b.1723824984.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1723824984.git.babu.moger@amd.com>
-References: <cover.1723824984.git.babu.moger@amd.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9FC16F2F0;
+	Fri, 16 Aug 2024 16:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723825726; cv=none; b=p9YJ//iSVp1C6e/luaoj6SAVHfA5Yuvgav5a2u5HVDH/UTVatXpvDAPooSMOUMCQAA1kdzQ8sfw75BG4Cewmv80zNcA1pjd+h2nprwdGxK69GFIeO2S/vGOGfaFzEYC/jNXmh8dDIZcNlCsD9ErwSyOZaGIutuRkLO7AszLesro=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723825726; c=relaxed/simple;
+	bh=LVw0tx1utB3GHkbmshgKd2Ittj3SbfVwKa96NMxP6xk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bace3qbW0OqmsXOMF/F8vCBwBn/gIPIXNyI5clnycS04Y4UzC9jz+zPPDqdN4gwbvXUPgnnsjFZlndTmwfmPTlHB0YTQJ5sy6f+TYulmTIjN/86hWRajylkOk6qOXgfEQjQVuSSnwch+rwcugJ+FBGgn0+fDqpE5/SKW5jafufw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7AA0513D5;
+	Fri, 16 Aug 2024 09:29:08 -0700 (PDT)
+Received: from [10.1.196.28] (eglon.cambridge.arm.com [10.1.196.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CBC13F58B;
+	Fri, 16 Aug 2024 09:28:38 -0700 (PDT)
+Message-ID: <2a65c646-ccd4-4e5e-bd1a-f56e69b1532c@arm.com>
+Date: Fri, 16 Aug 2024 17:28:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E7:EE_|MW5PR12MB5682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ff54788-5cc5-4f50-c2f4-08dcbe0eea64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3zPoAndhN1Mgzr4wa60hrTWjn2tHWyeoZfGeDbM2FlcDfTOv7dObLkwCkQHK?=
- =?us-ascii?Q?BAs6KQKfYgBuG11kCWacZVwvGxQUXseGEHM7jRV8alUR3VL5nysnDS2le2af?=
- =?us-ascii?Q?jmk4/QPBMS5uAr2hJa0GgyP2yLqUY6mkz206ivhorJEYQAyEgIA//2UzfYtF?=
- =?us-ascii?Q?JKofYFtOuysoTO/3oaVaapBZ2vUHDhlHt/EZFO4IDkAMB1xMoKHTRfdq37Ef?=
- =?us-ascii?Q?aEjdFS14wb9ta1And9tPD+8ET+g1ey47zUA1CiQ71Pchik2YquOkXtgJz2XY?=
- =?us-ascii?Q?1R3CKhMEk6hAUBiM23pRbBcxRTVgQWwHKJQmudQWpjt+JVj+8EjJZvFQtfUB?=
- =?us-ascii?Q?4uo3psDHa6iO3T0uRl5MU74qPHMb7ENl9lEtmoLcFfrR3tdV6+5+o4W7Q4CS?=
- =?us-ascii?Q?7op9ULMFVniYynrhdrS685gfiF1HnPvqK79nrA6MSBchL9sK23pPkspSmlBH?=
- =?us-ascii?Q?QpQ2+sAWlShBM340A50mxb2fAmVRln0S01eCxmLHxJjA0hgeDPUq5WIjyaem?=
- =?us-ascii?Q?l/A2onBWROULzF0rEKcW8FjFDWZVeHchRYUhBSh8P4EfSC0hejXD/8ye/z0U?=
- =?us-ascii?Q?d87fi4zPQiKTtEdvksiLV9LH+WsSZcAeQXYKScibDSheAsBaaYpAuPFBffNI?=
- =?us-ascii?Q?z0u+zzwmct7y1niuJG2knMXzbI7hSqBbrJJXYoWiQ5Zt9u0vdptNjalNIvTo?=
- =?us-ascii?Q?LVoUkG3GjpvlTuFoC0TEvSdxD5O5l1xQ95Cojc6yQ4RIwzX2eDXXU7POFjVY?=
- =?us-ascii?Q?jP44lTKjDGLLKlN4DIirsOYYgVrQF/v1rLFKrNfWiuZllDFAN6gj8cqYvLBR?=
- =?us-ascii?Q?+KAJfqEWL3W0R4KheeNTN0PAb9U+hU5eY2lTGRmwgs+H7LKi+uJVVY/TqzNA?=
- =?us-ascii?Q?f38uIdxLQVB29/1+YFXW0+To7F2sGr2FzDlJTASVKLjNqF+x8iASqeb9eNQ0?=
- =?us-ascii?Q?YHnD2qo2PUnZImBSDHfm+aSTqtitjQlePGM/nI6EfgRTjjGO+UfWgFEbaYt0?=
- =?us-ascii?Q?SUyTvqISGmjh5c06+KGRKdwyh+3xRsJ1Zgf9nJzRmjnIe9AGMjRH+iFHVyVq?=
- =?us-ascii?Q?0X5EFFDLo77GkofTUNauyZklyQZB0XFxKwVtVW+KrvxLRk8gnqa4ufOBQlTo?=
- =?us-ascii?Q?27RwkEj3jRy4c/XEF/3POeAlBWypB4NwWw5+xNuMBIHs95+IbrnWLBIFtCvC?=
- =?us-ascii?Q?0aM5z0ziVCMBSxOKWCyopQmMf4fngVsSJTCfLrwECwNTWcUgoMlttIFH0szx?=
- =?us-ascii?Q?eJepfpiL/xoQ5jlsSu23uBs6trCU8aQlP5nrLwPukLgav9BCRoP1LtMGkEmy?=
- =?us-ascii?Q?WwTTOcyVvyYrnAOf0CeDfhMbtZdPFY1J3cSoAWJJx5uGnajIxmEHIpqVg2DV?=
- =?us-ascii?Q?wkdMXpBwi4pn5c1IrTKPVN/L5y+I/YnCWPPs6+rCDeEu1txtWiabAGH27GVR?=
- =?us-ascii?Q?KCDHXn3hTMCmzj3s9bTK/rK3k43XvyR2?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2024 16:17:24.9496
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ff54788-5cc5-4f50-c2f4-08dcbe0eea64
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000989E7.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5682
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 21/22] x86/resctrl: Introduce interface to list monitor
+ states of all the groups
+Content-Language: en-GB
+To: Babu Moger <babu.moger@amd.com>
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com,
+ dave.hansen@linux.intel.com, tglx@linutronix.de, corbet@lwn.net,
+ fenghua.yu@intel.com, reinette.chatre@intel.com, mingo@redhat.com,
+ bp@alien8.de
+References: <cover.1722981659.git.babu.moger@amd.com>
+ <821b725e9f00b4d423cc28d777d66d5681e1ba29.1722981659.git.babu.moger@amd.com>
+From: James Morse <james.morse@arm.com>
+In-Reply-To: <821b725e9f00b4d423cc28d777d66d5681e1ba29.1722981659.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The SDCIAE (SDCI Allocation Enforcement) PQE feature allows system
-software to limit the portion of the L3 cache used for SDCI.
+Hi Babu,
 
-Provide the interface to modify SDCIAE CBMs (Capacity Bit Masks).
+On 06/08/2024 23:00, Babu Moger wrote:
+> Provide the interface to list the monitor states of all the resctrl
+> groups in ABMC mode.
+> 
+> Example:
+> $cat /sys/fs/resctrl/info/L3_MON/mbm_control
+> 
+> List follows the following format:
+> 
+> "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+> 
+> Format for specific type of groups:
+> 
+> - Default CTRL_MON group:
+>   "//<domain_id>=<flags>"
+> 
+> - Non-default CTRL_MON group:
+>   "<CTRL_MON group>//<domain_id>=<flags>"
+> 
+> - Child MON group of default CTRL_MON group:
+>   "/<MON group>/<domain_id>=<flags>"
+> 
+> - Child MON group of non-default CTRL_MON group:
+>   "<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+> 
+> Flags can be one of the following:
+> t  MBM total event is enabled
+> l  MBM local event is enabled
+> tl Both total and local MBM events are enabled
+> _  None of the MBM events are enabled
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- Documentation/arch/x86/resctrl.rst        |   7 ++
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c |   2 +-
- arch/x86/kernel/cpu/resctrl/internal.h    |   1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 122 +++++++++++++++++++++-
- 4 files changed, 130 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index cb1532dd843f..33de17387980 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -157,6 +157,13 @@ related to allocation:
- 
- 			# echo 1 > /sys/fs/resctrl/info/L3/sdciae
- 
-+"sdciae_cbm":
-+		Capacity Bit Mask (CBM) available to SDCIAE supported devices.
-+		CBM can be configured by writing to the interface in the
-+		following format::
-+
-+			L3:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-+
- Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index fc99f4d17e6c..cf39eee5fba9 100644
---- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-+++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -97,7 +97,7 @@ int parse_bw(struct rdt_parse_data *data, struct resctrl_schema *s,
-  * requires at least two bits set.
-  * AMD allows non-contiguous bitmasks.
-  */
--static bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
- 	unsigned long first_bit, zero_bit, val;
- 	unsigned int cbm_len = r->cache.cbm_len;
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index f2c87ca37b13..66428950a326 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -664,6 +664,7 @@ void __init mbm_config_rftype_init(const char *config);
- void rdt_staged_configs_clear(void);
- void __init resctrl_sdciae_rftype_init(void);
- void show_doms(struct seq_file *s, struct resctrl_schema *schema, int closid);
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r);
- bool closid_allocated(unsigned int closid);
- int resctrl_find_cleanest_closid(void);
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 51bc715bb6ae..247909461ab3 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1941,6 +1941,125 @@ static int resctrl_sdciae_cbm_show(struct kernfs_open_file *of,
- 	return 0;
- }
- 
-+/*
-+ * Read the CBM and check the validity. Make sure CBM is not shared
-+ * with any other exclusive resctrl groups.
-+ */
-+static int resctrl_parse_cbm(char *buf, struct resctrl_schema *s,
-+			     struct rdt_ctrl_domain *d)
-+{
-+	struct resctrl_staged_config *cfg;
-+	struct rdt_resource *r = s->res;
-+	u32 sdciae_closid;
-+	u32 cbm_val;
-+
-+	cfg = &d->staged_config[s->conf_type];
-+	if (cfg->have_new_ctrl) {
-+		rdt_last_cmd_printf("Duplicate domain %d\n", d->hdr.id);
-+		return -EINVAL;
-+	}
-+
-+	if (!cbm_validate(buf, &cbm_val, r))
-+		return -EINVAL;
-+
-+	/*
-+	 * The CBM may not overlap with other exclusive group.
-+	 */
-+	sdciae_closid = get_sdciae_closid(r);
-+	if (rdtgroup_cbm_overlaps(s, d, cbm_val, sdciae_closid, true)) {
-+		rdt_last_cmd_puts("Overlaps with exclusive group\n");
-+		return -EINVAL;
-+	}
-+
-+	cfg->new_ctrl = cbm_val;
-+	cfg->have_new_ctrl = true;
-+
-+	return 0;
-+}
-+
-+static int resctrl_parse_line(char *line,  struct rdt_resource *r,
-+			      struct resctrl_schema *s)
-+{
-+	struct rdt_ctrl_domain *d;
-+	char *dom = NULL, *id;
-+	unsigned long dom_id;
-+
-+next:
-+	if (!line || line[0] == '\0')
-+		return 0;
-+
-+	dom = strsep(&line, ";");
-+	id = strsep(&dom, "=");
-+	if (!dom || kstrtoul(id, 10, &dom_id)) {
-+		rdt_last_cmd_puts("Missing '=' or non-numeric domain\n");
-+		return -EINVAL;
-+	}
-+
-+	dom = strim(dom);
-+	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-+		if (d->hdr.id == dom_id) {
-+			if (resctrl_parse_cbm(dom, s, d))
-+				return -EINVAL;
-+			goto next;
-+		}
-+	}
-+	return -EINVAL;
-+}
-+
-+static ssize_t resctrl_sdciae_cbm_write(struct kernfs_open_file *of,
-+					char *buf, size_t nbytes, loff_t off)
-+{
-+	struct resctrl_schema *s = of->kn->parent->priv;
-+	struct rdt_resource *r = s->res;
-+	u32 sdciae_closid;
-+	char *resname;
-+	int ret = 0;
-+
-+	/* Valid input requires a trailing newline */
-+	if (nbytes == 0 || buf[nbytes - 1] != '\n')
-+		return -EINVAL;
-+
-+	buf[nbytes - 1] = '\0';
-+
-+	cpus_read_lock();
-+	mutex_lock(&rdtgroup_mutex);
-+
-+	rdt_last_cmd_clear();
-+	rdt_staged_configs_clear();
-+
-+	resname = strim(strsep(&buf, ":"));
-+	if (!buf) {
-+		rdt_last_cmd_puts("Missing ':'\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	if (strcmp(resname, "L3")) {
-+		rdt_last_cmd_printf("Unsupported resource name '%s'\n", resname);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	if (buf[0] == '\0') {
-+		rdt_last_cmd_printf("Missing '%s' value\n", resname);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	ret = resctrl_parse_line(buf, r, s);
-+	if (ret)
-+		goto out;
-+
-+	sdciae_closid = get_sdciae_closid(r);
-+	ret = resctrl_arch_update_domains(r, sdciae_closid);
-+
-+out:
-+	mutex_unlock(&rdtgroup_mutex);
-+	cpus_read_unlock();
-+
-+	return ret ?: nbytes;
-+}
-+
- /* rdtgroup information files for one cache resource. */
- static struct rftype res_common_files[] = {
- 	{
-@@ -2102,9 +2221,10 @@ static struct rftype res_common_files[] = {
- 	},
- 	{
- 		.name		= "sdciae_cbm",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= resctrl_sdciae_cbm_show,
-+		.write		= resctrl_sdciae_cbm_write,
- 	},
- 	{
- 		.name		= "mode",
--- 
-2.34.1
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index d15fd1bde5f4..d7aadca5e4ab 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -965,6 +965,75 @@ static int rdtgroup_num_mbm_cntrs_show(struct kernfs_open_file *of,
+>  	return 0;
+>  }
+>  
+> +static char *rdtgroup_mon_state_to_str(struct rdtgroup *rdtgrp,
+> +				       struct rdt_mon_domain *d, char *str)
+> +{
+> +	char *tmp = str;
+> +	int index;
+> +
+> +	/*
+> +	 * Query the monitor state for the domain.
+> +	 * Index 0 for evtid == QOS_L3_MBM_TOTAL_EVENT_ID
+> +	 * Index 1 for evtid == QOS_L3_MBM_LOCAL_EVENT_ID
+> +	 */
+> +	index = mon_event_config_index_get(QOS_L3_MBM_TOTAL_EVENT_ID);
+> +	if (rdtgrp->mon.cntr_id[index] != MON_CNTR_UNSET &&
+> +	    test_bit(rdtgrp->mon.cntr_id[index], d->mbm_cntr_map))
+> +		*tmp++ = 't';
+> +
+> +	index = mon_event_config_index_get(QOS_L3_MBM_LOCAL_EVENT_ID);
+> +	if (rdtgrp->mon.cntr_id[index] != MON_CNTR_UNSET &&
+> +	    test_bit(rdtgrp->mon.cntr_id[index], d->mbm_cntr_map))
+> +		*tmp++ = 'l';
+> +
+> +	if (tmp == str)
+> +		*tmp++ = '_';
+> +
+> +	*tmp = '\0';
+> +	return str;
+> +}
+> +
+> +static int rdtgroup_mbm_control_show(struct kernfs_open_file *of,
+> +				     struct seq_file *s, void *v)
+> +{
+> +	struct rdt_resource *r = of->kn->parent->priv;
+
+> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+
+This is filesystem code, once it moves to /fs/ you can't grab an architecture specific
+struct like this. (suggestion below).
+
+
+> +	struct rdt_mon_domain *dom;
+> +	struct rdtgroup *rdtg;
+> +	char str[10];
+
+Shouldn't new commands that might fail start with rdt_last_cmd_clear()?
+
+
+> +	if (!hw_res->mbm_cntr_assign_enabled) {
+
+I think this should be wrapped up as:
+| resctrl_arch_mbm_cntr_assign_test(r)
+
+as this flag is private to the architecture.
+
+
+> +		rdt_last_cmd_puts("ABMC feature is not enabled\n");
+
+lockdep barks that you need to hold rdtgroup_mutex when calling rdt_last_cmd_puts() -
+otherwise this can run in parallel with another syscall.
+
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	mutex_lock(&rdtgroup_mutex);
+> +
+> +	list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list) {
+> +		struct rdtgroup *crg;
+> +
+> +		seq_printf(s, "%s//", rdtg->kn->name);
+> +
+> +		list_for_each_entry(dom, &r->mon_domains, hdr.list)
+> +			seq_printf(s, "%d=%s;", dom->hdr.id,
+> +				   rdtgroup_mon_state_to_str(rdtg, dom, str));
+> +		seq_putc(s, '\n');
+> +
+> +		list_for_each_entry(crg, &rdtg->mon.crdtgrp_list,
+> +				    mon.crdtgrp_list) {
+> +			seq_printf(s, "%s/%s/", rdtg->kn->name, crg->kn->name);
+> +
+> +			list_for_each_entry(dom, &r->mon_domains, hdr.list)
+> +				seq_printf(s, "%d=%s;", dom->hdr.id,
+> +					   rdtgroup_mon_state_to_str(crg, dom, str));
+> +			seq_putc(s, '\n');
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	return 0;
+> +}
+
+
+Thanks,
+
+James
 
