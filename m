@@ -1,249 +1,142 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45672BB0D;
-	Fri, 16 Aug 2024 14:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754021BE222;
+	Fri, 16 Aug 2024 15:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723820395; cv=none; b=UbD7vQSpuN/4O1SwtRUtozRz2DC2VEllmbyfyy649ixVajUwhKx1ofvdc+9l9AfERJka/drxJR6Pcu7C9iqade5PEv3uGib5FVCeIEB8JdUavA9O5UVn3W3qFUWE95MB57/Tgd46WRhbpyqF1wd7SdsPEuCzBFyf1KFxHVDZkcc=
+	t=1723821495; cv=none; b=X7Sauf5F3mD9LTVJUuqJzjCXCZ976jzgCIrQargR67L6xy80j+4rW2NFFEbTArZViqUrN969LpJWhysv7Zn6Q0bfFyHq0qnRAPE9AuXCh/r7sOzWuMP5gCQX6UzBifBQNufagI4RFkv5tGiw0nh6nOpp+GclVZIZ5ZUq2R8iRBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723820395; c=relaxed/simple;
-	bh=9uudIYw7JfGhepxtxZOatr+V5nc/nujXyLaeMxNmwnI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=AytkqjhtKfnutP3x4aAD9L03On65dGUrR2JoAXpLYVAtW38vdWv+fNsecsMLCombddOBV9Csscavh1g4nRCbHW1fvHcYDIIjBN7dUlXweHWp1DqSUZ2WLn/yjh8jB34YHy1ApGzWbIHfj8EE+xpqMlzPqd3V9xwjwIPNcbyb4EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBdT4xN1; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723821495; c=relaxed/simple;
+	bh=qObo8kHXnInQBzlR/cNjrltsirAPTB/xtD1p434BQx0=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=DHLLI2/IMgH1KIjiGgOw45u+b0gZx6zy9O423dtW23DN/1FRjLGtIkC6h/oFK4UN0QN/DiZ5nTZ577IByUU2XCqwiE194UiumaT/4m6ftLXfS3rYz3k42pXiVZa8cqADbUMmB+9O/G+Yv4/oSBc6swrxwa8mHLleBga+nBsB1cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=evjN0GS5; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBdT4xN1"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7093705c708so2062357a34.1;
-        Fri, 16 Aug 2024 07:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723820393; x=1724425193; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9uudIYw7JfGhepxtxZOatr+V5nc/nujXyLaeMxNmwnI=;
-        b=aBdT4xN1tj70NCTRZH2PRAZ0l+dL8UzpPIUvMPVKYuNmnibb0pDGnLSozzn9ny5eGC
-         LRjmQ0sRRt4iTj+CDKk2/3Oo4Q5AGcUzhpFD2KUXV4xgyfGcwnRibV+4l8N6Ag31gGKd
-         8F9Ji/V0jvTH/IJYEofzE40qme64wfS7PQ21eKdrWbtnIAANY5mrwDgFPKsSpL35NbLq
-         FMyGIu0G850gYdD2BR5rhZX1Z3rUYsLij0xFRZl38x+hEkmnBHFYXkjlPwLMlvgSRLZ/
-         8LQGuH1Y1+TSgvP602Wx4PX7mZXMet/GIpY7HioNKMVnNwztV1WILlt63CkCtRHT91Au
-         1k4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723820393; x=1724425193;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9uudIYw7JfGhepxtxZOatr+V5nc/nujXyLaeMxNmwnI=;
-        b=rE2pqx/p87Xk4Jvs780dFmWWDz/qZq4cmA91AdAdGPjMe1h7YULw4M8KMUmPhKVRad
-         qnK6xF8os1RZxmI4IXFDy09EAmK8n1WNXQGo0V/lK3RbaChl+OG8dFtttUE3kXyhaaUS
-         zKOeJBcPxyEYuC1OjhZSnrMfQkOuhQ2+0ofaWiRUxChOwya9DQurhVZ4+J+hB5A3+7n7
-         GRYEAnw7i4Pw+cJrs8nIEr0qmiOEd0xzkLJ9f2u8OB+QZGi2J/o8R3xIkB6lO/4BjDUD
-         nLZpvuMNRVG+tfquBE69Bh83xKXgzgXZob9RegvGjPgSlM/CZhMSIE27Efep1/DHCQgW
-         5RNA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/owUUaS8xUaDqwbKsl0maNAB3KgxA23YA15162lFeCFP8/S9t86thnFQEc7UZXor3loZOoKdrju93sCl54pc942K74g5rJwA/pDy4QJTeWXwK1GcPYMf42EFqEbD80mkK3ang8J3iUvRzmqowGBhT+/9r9g8Cjlrsx7Pfg3IO2/bhjCsKn2/vlpggizeyAvO6blJjfDCHhQmOc4C8fw==
-X-Gm-Message-State: AOJu0YzoSMpHr/Lw19kPJIgx7VRGGPcaqcTPagEFkbgmKW7VeB9GPfPu
-	+XmG54EvEnsFKUCFyEL1IyI2h0ki2Ppy3E3kuvv3ZDJhpiF+3LjA
-X-Google-Smtp-Source: AGHT+IH8bNKxlLVLRFW31fzvhnrm6P/uFjcbBZfMpnQ0C0jYoE9r99AQRbAKARdhOb9UQlmmh6jTFQ==
-X-Received: by 2002:a05:6830:6e99:b0:708:721b:4077 with SMTP id 46e09a7af769-70cac8af7f8mr3841658a34.23.1723820392605;
-        Fri, 16 Aug 2024 07:59:52 -0700 (PDT)
-Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4536a050f7esm17012891cf.66.2024.08.16.07.59.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 07:59:52 -0700 (PDT)
-Date: Fri, 16 Aug 2024 10:59:51 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Martin Karsten <mkarsten@uwaterloo.ca>, 
- Samiullah Khawaja <skhawaja@google.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>, 
- netdev@vger.kernel.org, 
- Joe Damato <jdamato@fastly.com>, 
- amritha.nambiar@intel.com, 
- sridhar.samudrala@intel.com, 
- Alexander Lobakin <aleksander.lobakin@intel.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Breno Leitao <leitao@debian.org>, 
- Christian Brauner <brauner@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Jan Kara <jack@suse.cz>, 
- Jiri Pirko <jiri@resnulli.us>, 
- Johannes Berg <johannes.berg@intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
- "open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Message-ID: <66bf696788234_180e2829481@willemb.c.googlers.com.notmuch>
-In-Reply-To: <66bf61d4ed578_17ec4b294ba@willemb.c.googlers.com.notmuch>
-References: <20240812125717.413108-1-jdamato@fastly.com>
- <ZrpuWMoXHxzPvvhL@mini-arch>
- <2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
- <ZrqU3kYgL4-OI-qj@mini-arch>
- <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
- <Zrq8zCy1-mfArXka@mini-arch>
- <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
- <Zrrb8xkdIbhS7F58@mini-arch>
- <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
- <CAAywjhRsRYUHT0wdyPgqH82mmb9zUPspoitU0QPGYJTu+zL03A@mail.gmail.com>
- <d63dd3e8-c9e2-45d6-b240-0b91c827cc2f@uwaterloo.ca>
- <66bf61d4ed578_17ec4b294ba@willemb.c.googlers.com.notmuch>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="evjN0GS5"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47GA7pFF025889;
+	Fri, 16 Aug 2024 15:17:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=jTIMxHYS5+aU+huatUlsxn
+	djwuYPRmu9uAAoauJIt8Y=; b=evjN0GS596ouKXCQTFyZm18gB7qMT2Xggs9w4C
+	fdUXDTvsxGIJ5Hz2/qtawMSLZx9/rclo1E+JKUxc02hxrgPLcURM+JgvTosivqvv
+	XXNyFcYlNyLHAnwfj8gE3L9hIltAA8qv37yW6rmHugpLvAFUFU7U37iOhv5ABkkL
+	LK4yDp530QZm5+icX3SMxdlrPd9Db5AcxJrEdc3wCT0MViNJ1sUQgZOVyEEBNkFx
+	pgGY0Dmu9ziyTGgeqCSFdz7g8vKx+9OkISZ1prpdpxPnb6XvDLUcq02TSFDSYx4P
+	Hc5BZiLI8KAf13IE11/xqFu2PTUvv/lPdpQahlAqrp0y0hdQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 411s5pj78e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 15:17:29 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GFHTuf002970
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 15:17:29 GMT
+Received: from hu-krichai-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 16 Aug 2024 08:17:22 -0700
+From: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: [PATCH v2 0/4] perf/dwc_pcie: Fix registration issue in multi PCIe
+ controller instances
+Date: Fri, 16 Aug 2024 20:47:19 +0530
+Message-ID: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH9tv2YC/23OTQ6CMBAF4KuQrq2hLVhk5T0MIdAOMosWLD9qC
+ Hd3gIUbl+8l871Z2AABYWB5tLAAMw7YeQryFDHTVv4BHC1lJmOZxFoJbl+m7N1UNvjmSstrbdU
+ l1Q0wuugDUL1r9+LIAZ4ToeNR/kya2EWZcddiGSY/ogOSuVSZqnVitACbz4JtUIvD2IXP/iVVm
+ /T3oVnwmJsq0VakCtJa3mjdoDdn0zlWrOv6BTcd6wfxAAAA
+To: Shuai Xue <xueshuai@linux.alibaba.com>,
+        Jing Zhang
+	<renyu.zj@linux.alibaba.com>,
+        Will Deacon <will@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        "Yicong
+ Yang" <yangyicong@hisilicon.com>,
+        Jonathan Cameron
+	<Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
+        <quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
+        <quic_parass@quicinc.com>, <quic_mrana@quicinc.com>,
+        "Krishna chaitanya
+ chundru" <quic_krichai@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723821442; l=1813;
+ i=quic_krichai@quicinc.com; s=20230907; h=from:subject:message-id;
+ bh=qObo8kHXnInQBzlR/cNjrltsirAPTB/xtD1p434BQx0=;
+ b=8Zyxb5PmIxPy7bIIXA0DB7dGfalQ090aGkc3m1IgKgeJW5UcI7riqRNPPYzUnsUDSO558lDAI
+ IH8gnAKIHhnDZzWWj3zuP5HwjwjJ8Jr2DPvtAhwRaORcIurOYT2maIi
+X-Developer-Key: i=quic_krichai@quicinc.com; a=ed25519;
+ pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4X9q1koEuR8ieOz8Q6o_gmqVNIkMUAnv
+X-Proofpoint-ORIG-GUID: 4X9q1koEuR8ieOz8Q6o_gmqVNIkMUAnv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-16_09,2024-08-16_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ mlxlogscore=999 suspectscore=0 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 phishscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408160110
 
-Willem de Bruijn wrote:
-> Martin Karsten wrote:
-> > On 2024-08-14 15:53, Samiullah Khawaja wrote:
-> > > On Tue, Aug 13, 2024 at 6:19=E2=80=AFAM Martin Karsten <mkarsten@uw=
-aterloo.ca> wrote:
-> > >>
-> > >> On 2024-08-13 00:07, Stanislav Fomichev wrote:
-> > >>> On 08/12, Martin Karsten wrote:
-> > >>>> On 2024-08-12 21:54, Stanislav Fomichev wrote:
-> > >>>>> On 08/12, Martin Karsten wrote:
-> > >>>>>> On 2024-08-12 19:03, Stanislav Fomichev wrote:
-> > >>>>>>> On 08/12, Martin Karsten wrote:
-> > >>>>>>>> On 2024-08-12 16:19, Stanislav Fomichev wrote:
-> > >>>>>>>>> On 08/12, Joe Damato wrote:
-> > >>>>>>>>>> Greetings:
-> > =
+When there are multiple of instances of PCIe controllers, registration
+to perf driver fails with this error. This is because of having same
+bdf value for devices under two different controllers.
 
-> > [snip]
-> > =
+Update the logic to use sbdf which is a unique number in case of
+multi instance also.
 
-> > >>>>>> Note that napi_suspend_irqs/napi_resume_irqs is needed even fo=
-r the sake of
-> > >>>>>> an individual queue or application to make sure that IRQ suspe=
-nsion is
-> > >>>>>> enabled/disabled right away when the state of the system chang=
-es from busy
-> > >>>>>> to idle and back.
-> > >>>>>
-> > >>>>> Can we not handle everything in napi_busy_loop? If we can mark =
-some napi
-> > >>>>> contexts as "explicitly polled by userspace with a larger defer=
- timeout",
-> > >>>>> we should be able to do better compared to current NAPI_F_PREFE=
-R_BUSY_POLL
-> > >>>>> which is more like "this particular napi_poll call is user busy=
- polling".
-> > >>>>
-> > >>>> Then either the application needs to be polling all the time (wa=
-sting cpu
-> > >>>> cycles) or latencies will be determined by the timeout.
-> > > But if I understand correctly, this means that if the application
-> > > thread that is supposed
-> > > to do napi busy polling gets busy doing work on the new data/events=
- in
-> > > userspace, napi polling
-> > > will not be done until the suspend_timeout triggers? Do you dispatc=
-h
-> > > work to a separate worker
-> > > threads, in userspace, from the thread that is doing epoll_wait?
-> > =
+When the PCIe devices are discovered late, the driver can't find
+the PCIe devices and returns in the init without registering with
+the bus notifier. Due to that the devices which are discovered late
+the driver can't register for this.
 
-> > Yes, napi polling is suspended while the application is busy between =
+Register for bus notifier & driver even if the device is not found in init.
 
-> > epoll_wait calls. That's where the benefits are coming from.
-> > =
+Update the vendor table with QCOM PCIe vendorid to support QCOM devices.
 
-> > The consequences depend on the nature of the application and overall =
+Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+---
+Changes in v2:
+- Use platform dev id for instead of encoding again (Yicong Yang).
+- Register for driver always along with bus notifier(Yicong Yang).
+- Link to v1: https://lore.kernel.org/r/20240731-dwc_pmu_fix-v1-0-ca47d153e5b2@quicinc.com
 
-> > preferences for the system. If there's a "dominant" application for a=
- =
+---
+Krishna chaitanya chundru (4):
+      perf/dwc_pcie: Fix registration issue in multi PCIe controller instances
+      Documentation: dwc_pcie_pmu: Update bdf to sbdf
+      perf/dwc_pcie: Always register for PCIe bus notifier
+      perf/dwc_pcie: Add support for QCOM vendor devices
 
-> > number of queues and cores, the resulting latency for other backgroun=
-d =
+ Documentation/admin-guide/perf/dwc_pcie_pmu.rst | 16 ++++++++--------
+ drivers/perf/dwc_pcie_pmu.c                     | 22 +++++++++-------------
+ 2 files changed, 17 insertions(+), 21 deletions(-)
+---
+base-commit: b236787b0da563e3bad0dab1b4b9a5bb54eabd39
+change-id: 20240731-dwc_pmu_fix-3729bd3657fe
+prerequisite-change-id: 20240728-mhi_runtime_pm-2383b74c71ed:v1
+prerequisite-patch-id: 90e73ba7ee4538c67f21f7f23ae4d931cb6e9967
 
-> > applications using the same queues might not be a problem at all.
-> > =
+Best regards,
+-- 
+Krishna chaitanya chundru <quic_krichai@quicinc.com>
 
-> > One other simple mitigation is limiting the number of events that eac=
-h =
-
-> > epoll_wait call accepts. Note that this batch size also determines th=
-e =
-
-> > worst-case latency for the application in question, so there is a =
-
-> > natural incentive to keep it limited.
-> > =
-
-> > A more complex application design, like you suggest, might also be an=
- =
-
-> > option.
-> > =
-
-> > >>>> Only when switching back and forth between polling and interrupt=
-s is it
-> > >>>> possible to get low latencies across a large spectrum of offered=
- loads
-> > >>>> without burning cpu cycles at 100%.
-> > >>>
-> > >>> Ah, I see what you're saying, yes, you're right. In this case ign=
-ore my comment
-> > >>> about ep_suspend_napi_irqs/napi_resume_irqs.
-> > >>
-> > >> Thanks for probing and double-checking everything! Feedback is imp=
-ortant
-> > >> for us to properly document our proposal.
-> > >>
-> > >>> Let's see how other people feel about per-dev irq_suspend_timeout=
-. Properly
-> > >>> disabling napi during busy polling is super useful, but it would =
-still
-> > >>> be nice to plumb irq_suspend_timeout via epoll context or have it=
- set on
-> > >>> a per-napi basis imho.
-> > > I agree, this would allow each napi queue to tune itself based on
-> > > heuristics. But I think
-> > > doing it through epoll independent interface makes more sense as St=
-an
-> > > suggested earlier.
-> > =
-
-> > The question is whether to add a useful mechanism (one sysfs paramete=
-r =
-
-> > and a few lines of code) that is optional, but with demonstrable and =
-
-> > significant performance/efficiency improvements for an important clas=
-s =
-
-> > of applications - or wait for an uncertain future?
-> =
-
-> The issue is that this one little change can never be removed, as it
-> becomes ABI.
-> =
-
-> Let's get the right API from the start.
-> =
-
-> Not sure that a global variable, or sysfs as API, is the right one.
-
-Sorry per-device, not global.
-
-My main concern is that it adds yet another user tunable integer, for
-which the right value is not obvious.
-
-If the only goal is to safely reenable interrupts when the application
-stops calling epoll_wait, does this have to be user tunable?
-
-Can it be either a single good enough constant, or derived from
-another tunable, like busypoll_read.
