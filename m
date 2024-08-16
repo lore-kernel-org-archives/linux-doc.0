@@ -1,194 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CAF13D882;
-	Fri, 16 Aug 2024 22:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75D91448E0;
+	Fri, 16 Aug 2024 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723846501; cv=none; b=pS0nDK/vcVR0a4gv44IqsbKLR+yBi8k5W4M4EJLTmWddIf50k/xs91pW1lOGlXX1sMvqatuaZxTFGW1RB5fbAkQBc/LNah+/XseuLsjBTg3XlbDj91xT2JT4YwsZIEWgS/Zt7GH7LQC+I2ESNr7sXezA/SHxOTRCTJEJvcElEko=
+	t=1723846881; cv=none; b=oE43X/3o4WYaFUPgTNdvhe4BtC0zb4jMXv/e4tnElCflrShj0kHksmHfnOsgrmQ5e/k2FBp4Nu1OLd4CcTrd3uHKAczap94/KRIZB+/UXOFR4e2cHAKdsJBCT96jP8sjL+yZF5TWJQvxJHT7CswCpat1pnzpb8LJ5On5NPl+f2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723846501; c=relaxed/simple;
-	bh=5J1GuYUnbG2FOnw0lH0OF0aLsKFIEl0BmHGJA/QgCPA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z4WnG575UxFv6WyaCNBt5WpCns31+slpW7LkvGjXi9tQdR/DHd0RA7ifE4PVDllKVwURzyvyOsYBex9pgE9eYPEqbHqnvCalUhqT+30sFDD9lVQtwIXA0X8BMlFDFBFwhMeOp5fssv6l7WmaCEm6cLcIQOWdHtL7i/peEx4KntQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPYo0ft+; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723846881; c=relaxed/simple;
+	bh=dwQBZTO//U58E3kwzyvZ1HNQknjkE/A/sZ1qbVlA38c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VGFL6B5tULmeaT5HPEjRTKca6e4RejZeug7v3P6sUMKSipD7PXmWvWzSFyaC2gRjnk/9M0fvr3xfF43OLfx0qQEaOhDRI1qWTuafNDVZhfmbkDSKvX/f4Jf+5lK1xy8T2saD/t3t6I+LJindZxcsJt2chIy77EnbyedOO5cfU4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=G5jYwPPe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPYo0ft+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723846500; x=1755382500;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5J1GuYUnbG2FOnw0lH0OF0aLsKFIEl0BmHGJA/QgCPA=;
-  b=JPYo0ft+A4jV8mXz1XYAQUBPogR2Dj7pZgvLQvab0C95isylHsG5AK/l
-   wxKZfp0wkJXV7Wwr67f7LjjiwB1Clc1cZULVZv71WOlgaUapONvgeoXTW
-   wH6f3V49s83Nc6mXRYSMVKlYzQhmsd6OBjtEhAGztF7SQANSmfMoEoPK4
-   4MsQZQTovIFV5CvrDhSmigBa56LFmWn8TrxS2z1iqf766yMWeA55RoHEo
-   3PXYBTDyci+TGgOnmn91mAKlXxRyhVxwoP/VNQAByVFYHIkMS9ZpEWsLd
-   /8oLhr+xJmEA9aWwxB4JQhwNslZ+bLXUwWI4Jr3BbbGQqyr3QOR1UzRpc
-   Q==;
-X-CSE-ConnectionGUID: /7Y5ycuDRmGmXcIhaneV+w==
-X-CSE-MsgGUID: Cr1zSisET3C4ob33dpVZew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="25951003"
-X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
-   d="scan'208";a="25951003"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 15:14:59 -0700
-X-CSE-ConnectionGUID: QmtEyer7QfW6tcMUMNur7A==
-X-CSE-MsgGUID: J0cnrZfCQ/OktFaxHpW/0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
-   d="scan'208";a="90527847"
-Received: from unknown (HELO [10.125.111.71]) ([10.125.111.71])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 15:14:57 -0700
-Message-ID: <fe15b551-d22f-4d46-88e0-162cacc507a7@intel.com>
-Date: Fri, 16 Aug 2024 15:14:56 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="G5jYwPPe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03142418AB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1723846872; bh=DDlzN91pqXetBWEzbxhP44nWK82/0rSseDZiI/Y4Umc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=G5jYwPPeNcNFIy3YNcuiJ4LAI0kkXtuup5gU3UeKBjoTDqzOcvYZr6a1FwxSwa3CQ
+	 4ZD4O2m3jKu1hmB9ZAUe3RUNAI7JiuczHk7KoxgLrpG1E6+sdiYYQwx/AweUhCAM4l
+	 BWRd/+eh+8XR60LcHuSDyYbSJNCo7e359kfLkGsCMDOyHQYsyrWZsL0I3I4UNOZ9en
+	 NwGhKdHedKCwPuztjKUhSnk8YqNOD7KkujA0hRhv5mJ7C2OiO36I7mignBfWY3Dl+I
+	 CtKwZEp4OMfEotN/irzGcvmRZcPVuKpgKtT6rnX4GVAwmEzHi2Jz5gIWEiPJTa21Q1
+	 f1hCwg9+4X7xg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 03142418AB;
+	Fri, 16 Aug 2024 22:21:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Amit Vadhavana <av2082000@gmail.com>, linux-doc@vger.kernel.org,
+ ricardo@marliere.net
+Cc: av2082000@gmail.com, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, amelie.delaunay@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
+ dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Fix spelling mistakes
+In-Reply-To: <20240810183238.34481-1-av2082000@gmail.com>
+References: <20240810183238.34481-1-av2082000@gmail.com>
+Date: Fri, 16 Aug 2024 16:21:11 -0600
+Message-ID: <87y14whzxk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/25] cxl/region: Add dynamic capacity decoder and
- region modes
-To: ira.weiny@intel.com, Fan Ni <fan.ni@samsung.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, linux-btrfs@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, nvdimm@lists.linux.dev
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-8-7c9b96cba6d7@intel.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20240816-dcd-type2-upstream-v3-8-7c9b96cba6d7@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Now that I have looked at these, I have a couple of comments...
 
+Amit Vadhavana <av2082000@gmail.com> writes:
 
-On 8/16/24 7:44 AM, ira.weiny@intel.com wrote:
-> From: Navneet Singh <navneet.singh@intel.com>
-> 
-> One or more decoders each pointing to a Dynamic Capacity (DC) partition
-> form a CXL software region.  The region mode reflects composition of
-> that entire software region.  Decoder mode reflects a specific DC
-> partition.  DC partitions are also known as DC regions per CXL
-> specification r3.1.
-> 
-> Define the new modes and helper functions required to make the
-> association between these new modes.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Fan Ni <fan.ni@samsung.com>
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> Corrected spelling mistakes in the documentation to improve readability.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> 
+Normal form for a changelog is to use the imperative mode; some
+maintainers are insistent about that.  So "Correct spelling ... "
+
+> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
 > ---
-> Changes:
-> [iweiny: keep tags on simple patch]
-> [Fan: s/partitions/partition/]
-> [djiang: New wording for the commit message]
-> [iweiny: reword commit message more]
-> ---
->  drivers/cxl/core/region.c |  4 ++++
->  drivers/cxl/cxl.h         | 23 +++++++++++++++++++++++
->  2 files changed, 27 insertions(+)
-> 
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 796e5a791e44..650fe33f2ed4 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -1870,6 +1870,8 @@ static bool cxl_modes_compatible(enum cxl_region_mode rmode,
->  		return true;
->  	if (rmode == CXL_REGION_PMEM && dmode == CXL_DECODER_PMEM)
->  		return true;
-> +	if (rmode == CXL_REGION_DC && cxl_decoder_mode_is_dc(dmode))
-> +		return true;
+>  Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
+>  Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
+>  Documentation/arch/powerpc/ultravisor.rst                | 2 +-
+>  Documentation/arch/riscv/vector.rst                      | 2 +-
+>  Documentation/arch/sparc/oradax/oracle-dax.rst           | 2 +-
+>  Documentation/arch/x86/mds.rst                           | 2 +-
+>  Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
+>  Documentation/process/backporting.rst                    | 6 +++---
+>  8 files changed, 12 insertions(+), 12 deletions(-)
+
+[...]
+
+> diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
+> index 75dd88a62e1d..e4a28def318a 100644
+> --- a/Documentation/arch/riscv/vector.rst
+> +++ b/Documentation/arch/riscv/vector.rst
+> @@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
+>  these interfaces is to give init systems a way to modify the availability of V
+>  for processes running under its domain. Calling these interfaces is not
+>  recommended in libraries routines because libraries should not override policies
+> -configured from the parant process. Also, users must noted that these interfaces
+> +configured from the parent process. Also, users must noted that these interfaces
+
+As long as you are fixing this line, s/noted/note/
+
+>  are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
+>  to use in a portable code. To get the availability of V in an ELF program,
+>  please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
+> diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> index d1e14d572918..54ccb35ed51d 100644
+> --- a/Documentation/arch/sparc/oradax/oracle-dax.rst
+> +++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> @@ -197,7 +197,7 @@ Memory Constraints
+>  ==================
 >  
->  	return false;
->  }
-> @@ -3239,6 +3241,8 @@ cxl_decoder_to_region_mode(enum cxl_decoder_mode mode)
->  		return CXL_REGION_RAM;
->  	case CXL_DECODER_PMEM:
->  		return CXL_REGION_PMEM;
-> +	case CXL_DECODER_DC0 ... CXL_DECODER_DC7:
-> +		return CXL_REGION_DC;
->  	case CXL_DECODER_MIXED:
->  	default:
->  		return CXL_REGION_MIXED;
-> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
-> index f766b2a8bf53..d2674ab46f35 100644
-> --- a/drivers/cxl/cxl.h
-> +++ b/drivers/cxl/cxl.h
-> @@ -370,6 +370,14 @@ enum cxl_decoder_mode {
->  	CXL_DECODER_NONE,
->  	CXL_DECODER_RAM,
->  	CXL_DECODER_PMEM,
-> +	CXL_DECODER_DC0,
-> +	CXL_DECODER_DC1,
-> +	CXL_DECODER_DC2,
-> +	CXL_DECODER_DC3,
-> +	CXL_DECODER_DC4,
-> +	CXL_DECODER_DC5,
-> +	CXL_DECODER_DC6,
-> +	CXL_DECODER_DC7,
->  	CXL_DECODER_MIXED,
->  	CXL_DECODER_DEAD,
->  };
-> @@ -380,6 +388,14 @@ static inline const char *cxl_decoder_mode_name(enum cxl_decoder_mode mode)
->  		[CXL_DECODER_NONE] = "none",
->  		[CXL_DECODER_RAM] = "ram",
->  		[CXL_DECODER_PMEM] = "pmem",
-> +		[CXL_DECODER_DC0] = "dc0",
-> +		[CXL_DECODER_DC1] = "dc1",
-> +		[CXL_DECODER_DC2] = "dc2",
-> +		[CXL_DECODER_DC3] = "dc3",
-> +		[CXL_DECODER_DC4] = "dc4",
-> +		[CXL_DECODER_DC5] = "dc5",
-> +		[CXL_DECODER_DC6] = "dc6",
-> +		[CXL_DECODER_DC7] = "dc7",
->  		[CXL_DECODER_MIXED] = "mixed",
->  	};
+>  The DAX hardware operates only on physical addresses. Therefore, it is
+> -not aware of virtual memory mappings and the discontiguities that may
+> +not aware of virtual memory mappings and the discontinuities that may
+
+Whether "discontiguities" is recognized by a spelling checker or not, I
+expect that is the word that was intended by the author of this
+document.  I would not change it.
+
+>  exist in the physical memory that a virtual buffer maps to. There is
+>  no I/O TLB or any scatter/gather mechanism. All buffers, whether input
+>  or output, must reside in a physically contiguous region of memory.
+> diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
+> index c58c72362911..5a2e6c0ef04a 100644
+> --- a/Documentation/arch/x86/mds.rst
+> +++ b/Documentation/arch/x86/mds.rst
+> @@ -162,7 +162,7 @@ Mitigation points
+>     3. It would take a large number of these precisely-timed NMIs to mount
+>        an actual attack.  There's presumably not enough bandwidth.
+>     4. The NMI in question occurs after a VERW, i.e. when user state is
+> -      restored and most interesting data is already scrubbed. Whats left
+> +      restored and most interesting data is already scrubbed. What's left
+>        is only the data that NMI touches, and that may or may not be of
+>        any interest.
 >  
-> @@ -388,10 +404,16 @@ static inline const char *cxl_decoder_mode_name(enum cxl_decoder_mode mode)
->  	return "mixed";
->  }
+> diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
+> index 50960e09e1f6..d07e445dac5c 100644
+> --- a/Documentation/arch/x86/x86_64/fsgs.rst
+> +++ b/Documentation/arch/x86/x86_64/fsgs.rst
+> @@ -125,7 +125,7 @@ FSGSBASE instructions enablement
+>  FSGSBASE instructions compiler support
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 >  
-> +static inline bool cxl_decoder_mode_is_dc(enum cxl_decoder_mode mode)
-> +{
-> +	return (mode >= CXL_DECODER_DC0 && mode <= CXL_DECODER_DC7);
-> +}
-> +
->  enum cxl_region_mode {
->  	CXL_REGION_NONE,
->  	CXL_REGION_RAM,
->  	CXL_REGION_PMEM,
-> +	CXL_REGION_DC,
->  	CXL_REGION_MIXED,
->  };
->  
-> @@ -401,6 +423,7 @@ static inline const char *cxl_region_mode_name(enum cxl_region_mode mode)
->  		[CXL_REGION_NONE] = "none",
->  		[CXL_REGION_RAM] = "ram",
->  		[CXL_REGION_PMEM] = "pmem",
-> +		[CXL_REGION_DC] = "dc",
->  		[CXL_REGION_MIXED] = "mixed",
->  	};
->  
-> 
+> -GCC version 4.6.4 and newer provide instrinsics for the FSGSBASE
+> +GCC version 4.6.4 and newer provide intrinsics for the FSGSBASE
+>  instructions. Clang 5 supports them as well.
+
+Note that current kernels require rather newer versions of both
+compilers than this, so this information does not need to be here at
+all.  If you do not want to edit at that level, though, the change is an
+improvement.
+
+Thanks,
+
+jon
