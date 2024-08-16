@@ -1,52 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F541BB684;
-	Fri, 16 Aug 2024 13:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A521BCA0C;
+	Fri, 16 Aug 2024 13:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723816796; cv=none; b=ZhT0Z1R9o81+FgaynOgBAvX/qqelYyXkbxX8u+SJlrq7b5ZIp1hucPoqc/qOMkNgstDyse1sTrnuQWpo6cQqnhH78UsGwHKPP5x2w+q4ouerwbglFQnndIUf8LDOSMSplDD0KaiWNXWR7k8ufi8342EZzeWlzGnt89hHld1ykJE=
+	t=1723816800; cv=none; b=fPKJfKAV7PU5ylAVb6DzN44eDAMmmt/KS/y+ZBiB23pgDZya+dLs93xMZ5TEaXhSXAKyGS33vNMLvubcAi0Xzewl/WsoDoInntR4Zdq27x2d3wviw9+FeFdRFiVKjCKZ9jBT9D7Yy82H2+OGTMeilMmkJMd7F+QDJpsbDE7sNgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723816796; c=relaxed/simple;
-	bh=RhJ8/bX0Gvi+ayp0+c3aj0UfkDltF3nONaVThv5PVHY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fqhs9iJDkMaexy61veBa1kekBlRPZxlPhwzKR0/gXZ1nBxcm7hVkPKZkpJ5bN5sx2jybP2Jg7MX7XF15QsLTsS8oqiVU8QVzze0tMpdPPrcmpe2acAsJUBk9m7RLTxaahuR3sBU7HNmPO4dsHEVgHTxxH5GlRHhU4NU3agPLfl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOqVqTjr; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1723816800; c=relaxed/simple;
+	bh=4PkH1xqJoyauYPLTeFqwpXSPhLz7QrsYzPhGNpKM7KQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=OB7hwxX1MwwRPREq7Nmu7Me4grWeJF33J+ksRsEDwWMa6a8/cnipv1Dpoa1yhkACIkqdfxXiur9znEAYkmlEyDVGKssIwOG6ke4K01NX3urzy2FyoZpKUu6U2ClNXhIkF0/wpgWnY5T7Kn8Io/FTqJvw/+qc6GtiGb9NtMKWJWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFMgH9vB; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOqVqTjr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFMgH9vB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723816794; x=1755352794;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=RhJ8/bX0Gvi+ayp0+c3aj0UfkDltF3nONaVThv5PVHY=;
-  b=LOqVqTjr06V5DyPFxIuZDh+ktMOeeShh5118uCVLf0gLavkr1T+ynhuP
-   D0tYc+Ql396wx8eTd0hZbvgaI4CeNypIyFcblbWe66Z3lvOUa38Ky1eVI
-   OmEihY/C4LbDsgaGCRs4pyK1c2RDU0e6JmR2jnn0Mv7Y3aW38DrP5rrqF
-   l7LWQ+6EqDs6g04bs3Be49EgnnmTCx259pTjV0DIqkwvjSXo7A+5pgDnV
-   URh85Gdekt7g4KwJjivqXfgAyQFf7etP0cKNbYDNuzry8OK7m/lTHjKX4
-   PtQaroq/vDIhqHMoSDA+DLJH0uBfVfF/b6+6br1KEp1/yqCyyZN/5oMBo
+  t=1723816798; x=1755352798;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=4PkH1xqJoyauYPLTeFqwpXSPhLz7QrsYzPhGNpKM7KQ=;
+  b=EFMgH9vBgUra+xfJub4zH5EunJ7VY+FDjeERBo3T7oW7hvTyDUQWgjlb
+   DeXmUbA+5fb7gZpOskzu1uDYbTHL0+Hm/sE0mtiQWvR0wnT0D3fgQqT5T
+   2zSP0U8QfmNVwW3TSUTwM4UknulYewe9iD2nqBgZEnzH92/sa2bs55br/
+   u8/5BcrxtiJP+m+W3jm2EUan6iv4zbQ1kNRBl29JUJ1LlZ+3qAa8iLe7s
+   NvNqyNT5Jwruw5KOkBWKvSz8yhHZLwzAPKm94TlVkOtZ9c3q3twGXLsYO
+   TnFtaP5W7fLWZodpfUiMrNThQjTOHs4nmh5vjoxbiZbSWwrwwp0kXlXM+
    Q==;
-X-CSE-ConnectionGUID: 2E/gtRKDQKKCI/Jhw7sl+A==
-X-CSE-MsgGUID: jfmyiWF4QrSGPoBqIepwLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22272713"
+X-CSE-ConnectionGUID: EZtpySuRTcaZsgrogD4mBA==
+X-CSE-MsgGUID: jYjSkizhQaSK+U0abjlFcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22272733"
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="22272713"
+   d="scan'208";a="22272733"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:59:53 -0700
-X-CSE-ConnectionGUID: PIfFPdNbSEWvHaKs2XWzjw==
-X-CSE-MsgGUID: 7fk/7cAdRw2aB3hpeWvAVg==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:59:57 -0700
+X-CSE-ConnectionGUID: jW0ko+rETeeKZeMEcDL96w==
+X-CSE-MsgGUID: zFuzs5tqSDShBwmW/Bez+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,151,1719903600"; 
-   d="scan'208";a="90410970"
+   d="scan'208";a="90411023"
 Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost) ([10.125.111.52])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:59:52 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 06:59:57 -0700
 From: Ira Weiny <ira.weiny@intel.com>
-Subject: [PATCH v2 00/25] DCD: Add support for Dynamic Capacity Devices
- (DCD)
-Date: Fri, 16 Aug 2024 08:59:48 -0500
-Message-Id: <20240816-dcd-type2-upstream-v2-0-20189a10ad7d@intel.com>
+Date: Fri, 16 Aug 2024 08:59:50 -0500
+Subject: [PATCH v2 02/25] printk: Add print format (%par) for struct range
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,10 +54,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFVbv2YC/4WOzQ6CMBCEX8X0bM12KW305HsYD/1ZpIkCaZFIC
- O9u4YQH9TiT+WZmYolioMROu4lFGkIKbZMF7nfM1aa5EQ8+a4aABSiQ3DvP+7Ej5M8u9ZHMg4P
- zoqwUClV5lkFrEnEbTePqBf1ML4EuUhVe6+rlmnUdUt/GcT0xiMX9uTcIDlwLqwoprKFSnkPT0
- /3g2rU9oxIK/I5abQG8wkJhuUGXJwP+X8dcUWkJTmrSR6G2FfM8vwHHXVq6UwEAAA==
+Message-Id: <20240816-dcd-type2-upstream-v2-2-20189a10ad7d@intel.com>
+References: <20240816-dcd-type2-upstream-v2-0-20189a10ad7d@intel.com>
+In-Reply-To: <20240816-dcd-type2-upstream-v2-0-20189a10ad7d@intel.com>
 To: Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, 
  Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
  Navneet Singh <navneet.singh@intel.com>
@@ -67,293 +65,131 @@ Cc: Dan Williams <dan.j.williams@intel.com>,
  Alison Schofield <alison.schofield@intel.com>, 
  Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
  linux-btrfs@vger.kernel.org, linux-cxl@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
- Johannes Thumshirn <johannes.thumshirn@wdc.com>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Jonathan Corbet <corbet@lwn.net>, 
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
- "Li, Ming" <ming4.li@intel.com>, 
- Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+ linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, 
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 X-Mailer: b4 0.13-dev-2d940
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723816790; l=12740;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723816790; l=4286;
  i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=RhJ8/bX0Gvi+ayp0+c3aj0UfkDltF3nONaVThv5PVHY=;
- b=YbzulL59alQZ9QMP3mnJG05vxAYhO9U6brBF56lRmOPsijlykR3StdaDx/HKnbzj9cEOIUAds
- sRKvpdQXUzACTwC/nVl9C7PEIhKa9u7bnL3i0rS0txZqlaBfuXfwrz0
+ bh=4PkH1xqJoyauYPLTeFqwpXSPhLz7QrsYzPhGNpKM7KQ=;
+ b=t10lP1XtEXcLhFatOm25WwMYhWOifjIkp49NUsu7pjvvp2GsgxzzD0r48iSokf+1HgjbEThrV
+ eQs5WVLY9hQDOLd6c4Pe2MmdUE4F0K9gfOQRh/wDs8v7yjwCFVnjZNX
 X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
  pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
 
-A git tree of this series can be found here:
+The use of struct range in the CXL subsystem is growing.  In particular,
+the addition of Dynamic Capacity devices uses struct range in a number
+of places which are reported in debug and error messages.
 
-	https://github.com/weiny2/linux-kernel/tree/dcd-v4-2024-08-15
+To wit requiring the printing of the start/end fields in each print
+became cumbersome.  Dan Williams mentions in [1] that it might be time
+to have a print specifier for struct range similar to struct resource
 
-This series requires the CXL memory notifier lock change:
+A few alternatives were considered including '%pn' for 'print raNge' but
+%par follows that struct range is most often used to store a range of
+physical addresses.  So use '%par' for 'print address range'.
 
-	https://lore.kernel.org/all/20240814-fix-notifiers-v2-1-6bab38192c7c@intel.com/
-
-Background
-==========
-
-A Dynamic Capacity Device (DCD) (CXL 3.1 sec 9.13.3) is a CXL memory
-device that allows memory capacity within a region to change
-dynamically without the need for resetting the device, reconfiguring
-HDM decoders, or reconfiguring software DAX regions.
-
-One of the biggest use cases for Dynamic Capacity is to allow hosts to
-share memory dynamically within a data center without increasing the
-per-host attached memory.
-
-The general flow for the addition or removal of memory is to have an
-orchestrator coordinate the use of the memory.  Generally there are 5
-actors in such a system, the Orchestrator, Fabric Manager, the Logical
-device, the Host Kernel, and a Host User.
-
-Typical work flows are shown below.
-
-Orchestrator      FM         Device       Host Kernel    Host User
-
-    |             |           |            |              |
-    |-------------- Create region ----------------------->|
-    |             |           |            |              |
-    |             |           |            |<-- Create ---|
-    |             |           |            |    Region    |
-    |<------------- Signal done --------------------------|
-    |             |           |            |              |
-    |-- Add ----->|-- Add --->|--- Add --->|              |
-    |  Capacity   |  Extent   |   Extent   |              |
-    |             |           |            |              |
-    |             |<- Accept -|<- Accept  -|              |
-    |             |   Extent  |   Extent   |              |
-    |             |           |            |<- Create --->|
-    |             |           |            |   DAX dev    |-- Use memory
-    |             |           |            |              |   |
-    |             |           |            |              |   |
-    |             |           |            |<- Release ---| <-+
-    |             |           |            |   DAX dev    |
-    |             |           |            |              |
-    |<------------- Signal done --------------------------|
-    |             |           |            |              |
-    |-- Remove -->|- Release->|- Release ->|              |
-    |  Capacity   |  Extent   |   Extent   |              |
-    |             |           |            |              |
-    |             |<- Release-|<- Release -|              |
-    |             |   Extent  |   Extent   |              |
-    |             |           |            |              |
-    |-- Add ----->|-- Add --->|--- Add --->|              |
-    |  Capacity   |  Extent   |   Extent   |              |
-    |             |           |            |              |
-    |             |<- Accept -|<- Accept  -|              |
-    |             |   Extent  |   Extent   |              |
-    |             |           |            |<- Create ----|
-    |             |           |            |   DAX dev    |-- Use memory
-    |             |           |            |              |   |
-    |             |           |            |<- Release ---| <-+
-    |             |           |            |   DAX dev    |
-    |<------------- Signal done --------------------------|
-    |             |           |            |              |
-    |-- Remove -->|- Release->|- Release ->|              |
-    |  Capacity   |  Extent   |   Extent   |              |
-    |             |           |            |              |
-    |             |<- Release-|<- Release -|              |
-    |             |   Extent  |   Extent   |              |
-    |             |           |            |              |
-    |-- Add ----->|-- Add --->|--- Add --->|              |
-    |  Capacity   |  Extent   |   Extent   |              |
-    |             |           |            |<- Create ----|
-    |             |           |            |   DAX dev    |-- Use memory
-    |             |           |            |              |   |
-    |-- Remove -->|- Release->|- Release ->|              |   |
-    |  Capacity   |  Extent   |   Extent   |              |   |
-    |             |           |            |              |   |
-    |             |           |     (Release Ignored)     |   |
-    |             |           |            |              |   |
-    |             |           |            |<- Release ---| <-+
-    |             |           |            |   DAX dev    |
-    |<------------- Signal done --------------------------|
-    |             |           |            |              |
-    |             |- Release->|- Release ->|              |
-    |             |  Extent   |   Extent   |              |
-    |             |           |            |              |
-    |             |<- Release-|<- Release -|              |
-    |             |   Extent  |   Extent   |              |
-    |             |           |            |<- Destroy ---|
-    |             |           |            |   Region     |
-    |             |           |            |              |
-
-Previous versions of this series[0] resulted in architectural comments
-as well as confusion on the architecture based on the organization of
-patch series itself.
-
-This version has reordered the patches to clarify the architecture.
-It also streamlines extent handling more.
-
-The series still requires the creation of regions and DAX devices to be
-synchronized with the Orchestrator and Fabric Manager.  The host kernel
-will reject an add extent event if the region is not created yet.  It
-will also ignore a release if the DAX device is created and referencing
-an extent.
-
-These synchronizations are not anticipated to be an issue with real
-applications.
-
-In order to allow for capacity to be added and removed a new concept of
-a sparse DAX region is introduced.  A sparse DAX region may have 0 or
-more bytes of available space.  The total space depends on the number
-and size of the extents which have been added.
-
-Initially it is anticipated that users of the memory will carefully
-coordinate the surfacing of additional capacity with the creation of DAX
-devices which use that capacity.  Therefore, the allocation of the
-memory to DAX devices does not allow for specific associations between
-DAX device and extent.  This keeps allocations very similar to existing
-DAX region behavior.
-
-Great care was taken to keep the extent tracking simple.  Some xarray's
-needed to be added but extra software objects were kept to a minimum.
-
-Region extents continue to be tracked as sub-devices of the DAX region.
-This ensures that region destruction cleans up all extent allocations
-properly.
-
-Due to these major changes all reviews were removed from the larger
-patches.  A few of the straight forward patches have kept the tags.
-
-In summary the major functionality of this series includes:
-
-- Getting the dynamic capacity (DC) configuration information from cxl
-  devices
-
-- Configuring the DC partitions reported by hardware
-
-- Enhancing the CXL and DAX regions for dynamic capacity support
-	a. Maintain a logical separation between hardware extents and
-	   software managed region extents.  This provides an
-	   abstraction between the layers and should allow for
-	   interleaving in the future
-
-- Get hardware extent lists for endpoint decoders upon
-  region creation.
-
-- Adjust extent/region memory available on the following events.
-        a. Add capacity Events
-	b. Release capacity events
-
-- Host response for add capacity
-	a. do not accept the extent if:
-		If the region does not exist
-		or an error occurs realizing the extent
-	b. If the region does exist
-		realize a DAX region extent with 1:1 mapping (no
-		interleave yet)
-	c. Support the more bit by processing a list of extents marked
-	   with the more bit together before setting up a response.
-
-- Host response for remove capacity
-	a. If no DAX device references the extent; release the extent
-	b. If a reference does exist, ignore the request.
-	   (Require FM to issue release again.)
-
-- Modify DAX device creation/resize to account for extents within a
-  sparse DAX region
-
-- Trace Dynamic Capacity events for debugging
-
-- Add cxl-test infrastructure to allow for faster unit testing
-  (See new ndctl branch for cxl-dcd.sh test[1])
-
-Fan Ni's upstream of Qemu DCD was used for testing.
-
-Remaining work:
-
-	1) Integrate the QoS work from Dave Jiang
-	2) Interleave support
-
-Possible additional work depending on requirements:
-
-	1) Allow mapping to specific extents (perhaps based on
-	   label/tag)
-	2) Release extents when DAX devices are released if a release
-	   was previously seen from the device
-	3) Accept a new extent which extends (but overlaps) an existing
-	   extent(s)
-	4) Rework DAX device interfaces, memfd has been explored a bit
-
-[0] v1: https://lore.kernel.org/all/20240324-dcd-type2-upstream-v1-0-b7b00d623625@intel.com/
-[1] https://github.com/weiny2/ndctl/tree/dcd-region2-2024-08-15
-
+To: Petr Mladek <pmladek@suse.com> (maintainer:VSPRINTF)
+To: Steven Rostedt <rostedt@goodmis.org> (maintainer:VSPRINTF)
+To: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Cc: linux-kernel@vger.kernel.org (open list)
+Link: https://lore.kernel.org/all/663922b475e50_d54d72945b@dwillia2-xfh.jf.intel.com.notmuch/ [1]
+Suggested-by: "Dan Williams" <dan.j.williams@intel.com>
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
-Major changes:
-- Jonathan: support the more bit
-- djbw: Allow more than 1 region per DC partition
-- All: Address the many comments on the series.
-- iweiny: rebase
-- iweiny: Rework the series to make it easier to review and understand
-          the flow
-- Link to v1: https://lore.kernel.org/r/20240324-dcd-type2-upstream-v1-0-b7b00d623625@intel.com
+ Documentation/core-api/printk-formats.rst | 14 ++++++++++++
+ lib/vsprintf.c                            | 37 +++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
----
-Ira Weiny (13):
-      range: Add range_overlaps()
-      printk: Add print format (%par) for struct range
-      dax: Document dax dev range tuple
-      cxl/pci: Delay event buffer allocation
-      cxl/region: Refactor common create region code
-      cxl/events: Split event msgnum configuration from irq setup
-      cxl/pci: Factor out interrupt policy check
-      cxl/core: Return endpoint decoder information from region search
-      dax/bus: Factor out dev dax resize logic
-      dax/region: Create resources on sparse DAX regions
-      cxl/region: Read existing extents on region creation
-      tools/testing/cxl: Make event logs dynamic
-      tools/testing/cxl: Add DC Regions to mock mem data
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 4451ef501936..a02ef899b2a6 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -231,6 +231,20 @@ width of the CPU data path.
+ 
+ Passed by reference.
+ 
++Struct Range
++------------
++
++::
++
++	%par	[range 0x60000000-0x6fffffff] or
++		[range 0x0000000060000000-0x000000006fffffff]
++
++For printing struct range.  A variation of printing a physical address is to
++print the value of struct range which are often used to hold a physical address
++range.
++
++Passed by reference.
++
+ DMA address types dma_addr_t
+ ----------------------------
+ 
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 2d71b1115916..c132178fac07 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1140,6 +1140,39 @@ char *resource_string(char *buf, char *end, struct resource *res,
+ 	return string_nocheck(buf, end, sym, spec);
+ }
+ 
++static noinline_for_stack
++char *range_string(char *buf, char *end, const struct range *range,
++		      struct printf_spec spec, const char *fmt)
++{
++#define RANGE_PRINTK_SIZE		16
++#define RANGE_DECODED_BUF_SIZE		((2 * sizeof(struct range)) + 4)
++#define RANGE_PRINT_BUF_SIZE		sizeof("[range - ]")
++	char sym[RANGE_DECODED_BUF_SIZE + RANGE_PRINT_BUF_SIZE];
++	char *p = sym, *pend = sym + sizeof(sym);
++
++	static const struct printf_spec str_spec = {
++		.field_width = -1,
++		.precision = 10,
++		.flags = LEFT,
++	};
++	static const struct printf_spec range_spec = {
++		.base = 16,
++		.field_width = RANGE_PRINTK_SIZE,
++		.precision = -1,
++		.flags = SPECIAL | SMALL | ZEROPAD,
++	};
++
++	*p++ = '[';
++	p = string_nocheck(p, pend, "range ", str_spec);
++	p = number(p, pend, range->start, range_spec);
++	*p++ = '-';
++	p = number(p, pend, range->end, range_spec);
++	*p++ = ']';
++	*p = '\0';
++
++	return string_nocheck(buf, end, sym, spec);
++}
++
+ static noinline_for_stack
+ char *hex_string(char *buf, char *end, u8 *addr, struct printf_spec spec,
+ 		 const char *fmt)
+@@ -1802,6 +1835,8 @@ char *address_val(char *buf, char *end, const void *addr,
+ 		return buf;
+ 
+ 	switch (fmt[1]) {
++	case 'r':
++		return range_string(buf, end, addr, spec, fmt);
+ 	case 'd':
+ 		num = *(const dma_addr_t *)addr;
+ 		size = sizeof(dma_addr_t);
+@@ -2364,6 +2399,8 @@ char *rust_fmt_argument(char *buf, char *end, void *ptr);
+  *            to use print_hex_dump() for the larger input.
+  * - 'a[pd]' For address types [p] phys_addr_t, [d] dma_addr_t and derivatives
+  *           (default assumed to be phys_addr_t, passed by reference)
++ * - 'ar' For decoded struct ranges (a variation of physical address which are
++ *        most often stored in struct ranges.
+  * - 'd[234]' For a dentry name (optionally 2-4 last components)
+  * - 'D[234]' Same as 'd' but for a struct file
+  * - 'g' For block_device name (gendisk + partition number)
 
-Navneet Singh (12):
-      cxl/mbox: Flag support for Dynamic Capacity Devices (DCD)
-      cxl/mem: Read dynamic capacity configuration from the device
-      cxl/core: Separate region mode from decoder mode
-      cxl/region: Add dynamic capacity decoder and region modes
-      cxl/hdm: Add dynamic capacity size support to endpoint decoders
-      cxl/port: Add endpoint decoder DC mode support to sysfs
-      cxl/mem: Expose DCD partition capabilities in sysfs
-      cxl/region: Add sparse DAX region support
-      cxl/mem: Configure dynamic capacity interrupts
-      cxl/extent: Process DCD events and realize region extents
-      cxl/region/extent: Expose region extent information in sysfs
-      cxl/mem: Trace Dynamic capacity Event Record
-
- Documentation/ABI/testing/sysfs-bus-cxl   |  68 ++-
- Documentation/core-api/printk-formats.rst |  14 +
- drivers/cxl/core/Makefile                 |   2 +-
- drivers/cxl/core/core.h                   |  33 +-
- drivers/cxl/core/extent.c                 | 467 ++++++++++++++
- drivers/cxl/core/hdm.c                    | 206 ++++++-
- drivers/cxl/core/mbox.c                   | 578 +++++++++++++++++-
- drivers/cxl/core/memdev.c                 | 101 ++-
- drivers/cxl/core/port.c                   |  13 +-
- drivers/cxl/core/region.c                 | 173 ++++--
- drivers/cxl/core/trace.h                  |  65 ++
- drivers/cxl/cxl.h                         | 122 +++-
- drivers/cxl/cxlmem.h                      | 128 +++-
- drivers/cxl/pci.c                         | 123 +++-
- drivers/dax/bus.c                         | 352 +++++++++--
- drivers/dax/bus.h                         |   4 +-
- drivers/dax/cxl.c                         |  73 ++-
- drivers/dax/dax-private.h                 |  39 +-
- drivers/dax/hmem/hmem.c                   |   2 +-
- drivers/dax/pmem.c                        |   2 +-
- fs/btrfs/ordered-data.c                   |  10 +-
- include/linux/cxl-event.h                 |  32 +
- include/linux/range.h                     |   7 +
- lib/vsprintf.c                            |  37 ++
- tools/testing/cxl/Kbuild                  |   3 +-
- tools/testing/cxl/test/mem.c              | 981 ++++++++++++++++++++++++++----
- 26 files changed, 3327 insertions(+), 308 deletions(-)
----
-base-commit: 3cef9316df4cda21b5bf25e4230221b02050dfa1
-change-id: 20230604-dcd-type2-upstream-0cd15f6216fd
-
-Best regards,
 -- 
-Ira Weiny <ira.weiny@intel.com>
+2.45.2
 
