@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D5658ABC;
-	Fri, 16 Aug 2024 21:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6522C7C6D4;
+	Fri, 16 Aug 2024 21:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723844753; cv=none; b=OE15KwGf0vi+oYZo/WTml767sV8QvZTGP4j58JgPP0VL1agkKykJB8VIG7lpQS7A6n7G1EodXheuJhMMV053+VffTaUejX2ceFQyb6hPb4dtYL63xQyDfoCfNpKKRjjLhEDIL8cWORy3xsZ+A3nAKcgh7LgvYR5b00SybAAhlKo=
+	t=1723844953; cv=none; b=OlGtdr4LKyUAN4OCrVI8aR4EKemQvFV3gmjuulpbtAd29uIgg3HOsZbzz3agZG+G+Iu/AOgUWE0F5aSZvsqzR15c6NLTMHKz8j/K/6PqfIyIF2+q0yVMvGxABgiAllwNlp8xrXQL5BwiSdtdyJwsuNh6dgD9DiY0Duogdgt0Ygk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723844753; c=relaxed/simple;
-	bh=eulYYu/Wi1QcAJonTbbkmz+noeuMiHInLrH+jRMS2Ko=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZOsKs4u/gv5tSBN48T/nNkdyA8ICvMOpIAt3L0Uly+CNuzzNucGKayNh0iu9athF/EzawICzWt9lquRbJadxMWQnEhBSOu878MIgf+x5G2pfH7To6pwgaEpo9mQLJhMoTmmlRCfU2GhPLxdmGfdYyFCzdXkIXMIn8d9PNdx/cHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2AEspeS; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1723844953; c=relaxed/simple;
+	bh=zTCCdNpxO4MQNZ+u7gL0NU4MTIoPp3dhMErYTtgc8zw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=eftJr2MDeykJQI8yodKeYwTPVI6scLbHMfQfO89LJLJwN8CRLUBBBt2+/U/rLt0MdakkmE+E74/DcbeuRhfZXJDnkOjjes2eCH4SSP8QYXdG9NtDpt01hGq68UFDHQVBYCha3oIf5+g3W3toPz7qFJajSDDFl9fiRD5aPFFII5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cXYeEYRO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2AEspeS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723844751; x=1755380751;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eulYYu/Wi1QcAJonTbbkmz+noeuMiHInLrH+jRMS2Ko=;
-  b=k2AEspeStJFIiTEC91/eeZ8PozMMZz9bgVxat9AboPNYj1MjPYuLIvS9
-   IkwVagrd4f7FAjBgnjTwg8Yp1BMxEX3VsllkgfeTpBX6QJF+8tLaPmrie
-   dihfdh7ahjhDBh0M5eI8uC5/x1v72Wq80tAr4zcaKamg05313urDfrn45
-   RC3QxTkkKdgJqyKiQEElE6usfhKYGbxWmdtKP7yrjsZpzRnyFNbGTf0so
-   NEXCmimc155YlVQpPqLGCIqEEnrpWiHQcuXckRhDeCnk/qIWpQtSGthFx
-   77xzJ39LzRNWrKcPPA/n8RO0FD0wl3KuQ90kwpGGP0cv1s9RyNO6xRDgA
-   Q==;
-X-CSE-ConnectionGUID: 2z9gfuiAR366FuYMan32yA==
-X-CSE-MsgGUID: jcdklCwhQdu3bVnXZ7z7YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="13062067"
-X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
-   d="scan'208";a="13062067"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 14:45:50 -0700
-X-CSE-ConnectionGUID: lUXkx+GQS+W8tfzsGOogsg==
-X-CSE-MsgGUID: T6VcFqVYQOGKzh6qR+u+hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
-   d="scan'208";a="82996139"
-Received: from unknown (HELO [10.125.111.71]) ([10.125.111.71])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 14:45:48 -0700
-Message-ID: <1ce9afe3-6f24-4471-8a10-5f4ea503e685@intel.com>
-Date: Fri, 16 Aug 2024 14:45:47 -0700
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cXYeEYRO"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47GJLGYD013447;
+	Fri, 16 Aug 2024 21:48:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2RfIGydazGkb8JDP2LTgoJLnnXWt9Xpo8vjP7pUBm7Q=; b=cXYeEYROWSVoc4TB
+	zxVC18mVGVokiRmmniuXMV++LXq2lZXFwwOIGzAepbC4CG62ckBlRt2I+nyPAPSY
+	n9xrAjbpDGxGEi1OZmY1JR1pTZTjrugCQuczcMJMjBUasHtC+02PjsXLy6QzCRVR
+	hEYL3Vl5FDZZpN8YQ1xoc7NajAheuaCumRI002NdUn+povugB/Zldf83Tq15nGuy
+	FhB1JjMS71ErGKHqwGz1ve3Z9poYAMCWucz5F1YYZzMjpJOvZM4qCgTSPK3g/PAQ
+	fDSZijD+WNV1HFJCekH2+Rh8g3QE/B41BXahdOWPuKygi1E+U+dIh17jHcojNn19
+	J/GN4A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4112r3x31k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 21:48:47 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GLmkaK005422
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 21:48:46 GMT
+Received: from [10.71.113.127] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
+ 2024 14:48:45 -0700
+Message-ID: <e6e7533c-5665-458e-ba60-7cb843eb27e1@quicinc.com>
+Date: Fri, 16 Aug 2024 14:48:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,450 +50,157 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/25] cxl/mem: Read dynamic capacity configuration
- from the device
-To: ira.weiny@intel.com, Fan Ni <fan.ni@samsung.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, linux-btrfs@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, nvdimm@lists.linux.dev,
- "Li, Ming" <ming4.li@intel.com>
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-6-7c9b96cba6d7@intel.com>
+Subject: Re: [PATCH v24 09/34] ASoC: Add SOC USB APIs for adding an USB
+ backend
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-10-quic_wcheng@quicinc.com>
+ <09fde4e6-c3be-484d-a7a5-bd653dc42094@linux.intel.com>
+ <f761530c-a49b-4dd5-b01c-97d08931e0ab@quicinc.com>
+ <acf4de1d-d551-4539-8353-3c85aa3d965c@linux.intel.com>
+ <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
 Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20240816-dcd-type2-upstream-v3-6-7c9b96cba6d7@intel.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b323a813-b02e-488b-86f9-06796f9bbf50@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3kPO1Xoe1NN5NBY1Zm2jkUUvP40HXbNv
+X-Proofpoint-ORIG-GUID: 3kPO1Xoe1NN5NBY1Zm2jkUUvP40HXbNv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-16_16,2024-08-16_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
+ mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2408160155
 
+Hi Pierre,
 
+On 8/6/2024 12:52 PM, Wesley Cheng wrote:
+> Hi Pierre,
+>
+> On 8/1/2024 11:26 PM, Pierre-Louis Bossart wrote:
+>> On 8/1/24 23:43, Wesley Cheng wrote:
+>>> Hi Pierre,
+>>>
+>>> On 8/1/2024 1:02 AM, Pierre-Louis Bossart wrote:
+>>>>> +/**
+>>>>> + * struct snd_soc_usb_device
+>>>>> + * @card_idx - sound card index associated with USB device
+>>>>> + * @pcm_idx - PCM device index associated with USB device
+>>>>> + * @chip_idx - USB sound chip array index
+>>>>> + * @num_playback - number of playback streams
+>>>>> + * @num_capture - number of capture streams
+>>>> so here we have a clear separation between playback and capture...
+>>> Thanks for the quick review of the series, I know that its a lot of work, so its much appreciated.
+>>>
+>>> I guess in the past revisions there was some discussions that highlighted on the fact that, currently, in our QC USB offload implementation we're supporting playback only, and maybe it should be considered to also expand on the capture path.  I went ahead and added some sprinkles of that throughout the SOC USB layer, since its vendor agnostic, and some vendors may potentially have that type of support.  Is it safe to assume that this is the right thinking?  If so, I will go and review some of the spots that may need to consider both playback and capture paths ONLY for soc-usb. (as you highlighted one below)  Else, I can note an assumption somewhere that soc-usb supports playback only and add the capture path when implemented.
+>> I don't think it's as simple as playback only or playback+capture. If
+>> there is no support for capture, then there is also no support for
+>> devices with implicit feedback - which uses the capture path. So you
+>> gradually start drawing a jagged boundary of what is supported and what
+>> isn't.
+>>
+>> My preference would be to add capture in APIs where we can, with TODOs
+>> added to make sure no one us under any illusion that the code is fully
+>> tested. But at least some of the basic plumbing will be in place.
+>>
+>> Takashi should chime in on this...
+>>
+>>>>> + * @list - list head for SoC USB devices
+>>>>> + **/
+>>>>> +struct snd_soc_usb_device {
+>>>>> +	int card_idx;
+>>>>> +	int pcm_idx;
+>>>>> +	int chip_idx;
+>>>>> +	int num_playback;
+>>>>> +	int num_capture;
+>>>>> +	struct list_head list;
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * struct snd_soc_usb
+>>>>> + * @list - list head for SND SOC struct list
+>>>>> + * @component - reference to ASoC component
+>>>>> + * @num_supported_streams - number of supported concurrent sessions
+>>>> ... but here we don't. And it's not clear what the working 'sessions'
+>>>> means in the comment.
+>>>>
+>>>>> + * @connection_status_cb - callback to notify connection events
+>>>>> + * @priv_data - driver data
+>>>>> + **/
+>>>>> +struct snd_soc_usb {
+>>>>> +	struct list_head list;
+>>>>> +	struct snd_soc_component *component;
+>>>>> +	unsigned int num_supported_streams;
+>>>>> +	int (*connection_status_cb)(struct snd_soc_usb *usb,
+>>>>> +			struct snd_soc_usb_device *sdev, bool connected);
+>>>>> +	void *priv_data;
+>>>>> +};
+>>>>> +/**
+>>>>> + * snd_soc_usb_allocate_port() - allocate a SOC USB device
+>>>> USB port?
+>>> Noted, refer to the last comment.
+>>>>> + * @component: USB DPCM backend DAI component
+>>>>> + * @num_streams: number of offloading sessions supported
+>>>> same comment, is this direction-specific or not?
+>>> Depending on what you think about my first comment above, I'll also fix or remove the concept of direction entirely.
+>>>>> + * @data: private data
+>>>>> + *
+>>>>> + * Allocate and initialize a SOC USB device.  This will populate parameters that
+>>>>> + * are used in subsequent sequences.
+>>>>> + *
+>>>>> + */
+>>>>> +struct snd_soc_usb *snd_soc_usb_allocate_port(struct snd_soc_component *component,
+>>>>> +					      int num_streams, void *data)
+>>>>> +{
+>>>>> +	struct snd_soc_usb *usb;
+>>>>> +
+>>>>> +	usb = kzalloc(sizeof(*usb), GFP_KERNEL);
+>>>>> +	if (!usb)
+>>>>> +		return ERR_PTR(-ENOMEM);
+>>>>> +
+>>>>> +	usb->component = component;
+>>>>> +	usb->priv_data = data;
+>>>>> +	usb->num_supported_streams = num_streams;
+>>>>> +
+>>>>> +	return usb;
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(snd_soc_usb_allocate_port);
+>>>>> +
+>>>>> +/**
+>>>>> + * snd_soc_usb_free_port() - free a SOC USB device
+>>>>> + * @usb: allocated SOC USB device
+>>>>> +
+>>>>> + * Free and remove the SOC USB device from the available list of devices.
+>>>> Now I am lost again on the device:port relationship. I am sure you've
+>>>> explained this before but I forget things and the code isn't
+>>>> self-explanatory.
+>>>>
+>>> Ok, I think the problem is that I'm interchanging the port and device terminology, because from the USB perspective its one device connected to a USB port, so its a one-to-one relation.  Removing that mindset, I think the proper term here would still be "port," because in the end SOC USB is always only servicing a port.  If this is the case, do you have any objections using this terminology in the Q6AFE as well as ASoC?  I will use consistent wording throughout SOC USB if so.
+>> I am not sure USB uses 'port' at all. If by 'port' you meant 'connector'
+>> it's not quite right, USB audio works across hubs.
+>>
+> Remember, this is technically the term used to explain the channel created for ASoC to communicate w/ USB.  If we use a term like "device," USB devices come and go, but this ASoC path won't be unallocated along with the USB device, since it does service/know about all the available USB devices connected to the system. (ie through usb hubs)
+>
+How about snd_soc_usb_allocate_link()? This is technically allocating the soc-usb structure which is the entity that connects the ASoC to ALSA.
 
-On 8/16/24 7:44 AM, ira.weiny@intel.com wrote:
-> From: Navneet Singh <navneet.singh@intel.com>
-> 
-> Devices which optionally support Dynamic Capacity (DC) are configured
-> via mailbox commands.  CXL 3.1 requires the host to issue the Get DC
-> Configuration command in order to properly configure DCDs.  Without the
-> Get DC Configuration command DCD can't be supported.
-> 
-> Implement the DC mailbox commands as specified in CXL 3.1 section
-> 8.2.9.9.9 (opcodes 48XXh) to read and store the DCD configuration
-> information.  Disable DCD if DCD is not supported.  Leverage the Get DC
-> Configuration command supported bit to indicate if DCD support.
-> 
-> Linux has no use for the trailing fields of the Get Dynamic Capacity
-> Configuration Output Payload (Total number of supported extents, number
-> of available extents, total number of supported tags, and number of
-> available tags).  Avoid defining those fields to use the more useful
-> dynamic C array.
-> 
-> Cc: "Li, Ming" <ming4.li@intel.com>
-> Signed-off-by: Navneet Singh <navneet.singh@intel.com>
-> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> ---
-> Changes:
-> [Li, Ming: Fix bug in total_bytes calculation]
-> [iweiny: update commit message]
-> [Jonathan: fix formatting]
-> [Jonathan: Define block line size]
-> [Jonathan/Fan: use regions returned field instead of macro in get config]
-> [Jørgen: Rename memdev state range variables]
-> [Jonathan: adjust use of rc in cxl_dev_dynamic_capacity_identify()]
-> [Jonathan: white space cleanup]
-> [fan: make a comment about the trailing configuration output fields]
-> ---
->  drivers/cxl/core/mbox.c | 171 +++++++++++++++++++++++++++++++++++++++++++++++-
->  drivers/cxl/cxlmem.h    |  64 +++++++++++++++++-
->  drivers/cxl/pci.c       |   4 ++
->  3 files changed, 237 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 8eb196858abe..68c26c4be91a 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -1157,7 +1157,7 @@ int cxl_dev_state_identify(struct cxl_memdev_state *mds)
->  	if (rc < 0)
->  		return rc;
->  
-> -	mds->total_bytes =
-> +	mds->static_bytes =
->  		le64_to_cpu(id.total_capacity) * CXL_CAPACITY_MULTIPLIER;
->  	mds->volatile_only_bytes =
->  		le64_to_cpu(id.volatile_capacity) * CXL_CAPACITY_MULTIPLIER;
-> @@ -1264,6 +1264,159 @@ int cxl_mem_sanitize(struct cxl_memdev *cxlmd, u16 cmd)
->  	return rc;
->  }
->  
-> +static int cxl_dc_save_region_info(struct cxl_memdev_state *mds, u8 index,
-> +				   struct cxl_dc_region_config *region_config)
-> +{
-> +	struct cxl_dc_region_info *dcr = &mds->dc_region[index];
-> +	struct device *dev = mds->cxlds.dev;
-> +
-> +	dcr->base = le64_to_cpu(region_config->region_base);
-> +	dcr->decode_len = le64_to_cpu(region_config->region_decode_length);
-> +	dcr->decode_len *= CXL_CAPACITY_MULTIPLIER;
-> +	dcr->len = le64_to_cpu(region_config->region_length);
-> +	dcr->blk_size = le64_to_cpu(region_config->region_block_size);
-> +	dcr->dsmad_handle = le32_to_cpu(region_config->region_dsmad_handle);
-> +	dcr->flags = region_config->flags;
-> +	snprintf(dcr->name, CXL_DC_REGION_STRLEN, "dc%d", index);
-> +
-> +	/* Check regions are in increasing DPA order */
-> +	if (index > 0) {
-> +		struct cxl_dc_region_info *prev_dcr = &mds->dc_region[index - 1];
-> +
-> +		if ((prev_dcr->base + prev_dcr->decode_len) > dcr->base) {
-> +			dev_err(dev,
-> +				"DPA ordering violation for DC region %d and %d\n",
-> +				index - 1, index);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	if (!IS_ALIGNED(dcr->base, SZ_256M) ||
-> +	    !IS_ALIGNED(dcr->base, dcr->blk_size)) {
-> +		dev_err(dev, "DC region %d invalid base %#llx blk size %#llx\n",
-> +			index, dcr->base, dcr->blk_size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (dcr->decode_len == 0 || dcr->len == 0 || dcr->decode_len < dcr->len ||
-> +	    !IS_ALIGNED(dcr->len, dcr->blk_size)) {
-> +		dev_err(dev, "DC region %d invalid length; decode %#llx len %#llx blk size %#llx\n",
-> +			index, dcr->decode_len, dcr->len, dcr->blk_size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (dcr->blk_size == 0 || dcr->blk_size % CXL_DCD_BLOCK_LINE_SIZE ||
-> +	    !is_power_of_2(dcr->blk_size)) {
-> +		dev_err(dev, "DC region %d invalid block size; %#llx\n",
-> +			index, dcr->blk_size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	dev_dbg(dev,
-> +		"DC region %s base %#llx length %#llx block size %#llx\n",
-> +		dcr->name, dcr->base, dcr->decode_len, dcr->blk_size);
-> +
-> +	return 0;
-> +}
-> +
-> +/* Returns the number of regions in dc_resp or -ERRNO */
-> +static int cxl_get_dc_config(struct cxl_memdev_state *mds, u8 start_region,
-> +			     struct cxl_mbox_get_dc_config_out *dc_resp,
-> +			     size_t dc_resp_size)
-> +{
-> +	struct cxl_mbox_get_dc_config_in get_dc = (struct cxl_mbox_get_dc_config_in) {
-> +		.region_count = CXL_MAX_DC_REGION,
-> +		.start_region_index = start_region,
-> +	};
-> +	struct cxl_mbox_cmd mbox_cmd = (struct cxl_mbox_cmd) {
-> +		.opcode = CXL_MBOX_OP_GET_DC_CONFIG,
-> +		.payload_in = &get_dc,
-> +		.size_in = sizeof(get_dc),
-> +		.size_out = dc_resp_size,
-> +		.payload_out = dc_resp,
-> +		.min_out = 1,
-> +	};
-> +	struct device *dev = mds->cxlds.dev;
-> +	int rc;
-> +
-> +	rc = cxl_internal_send_cmd(mds, &mbox_cmd);
-> +	if (rc < 0)
-> +		return rc;
-> +
-> +	dev_dbg(dev, "Read %d/%d DC regions\n",
-> +		dc_resp->regions_returned, dc_resp->avail_region_count);
-> +	return dc_resp->regions_returned;
-> +}
-> +
-> +/**
-> + * cxl_dev_dynamic_capacity_identify() - Reads the dynamic capacity
-> + *					 information from the device.
-> + * @mds: The memory device state
-> + *
-> + * Read Dynamic Capacity information from the device and populate the state
-> + * structures for later use.
-> + *
-> + * Return: 0 if identify was executed successfully, -ERRNO on error.
-> + */
-> +int cxl_dev_dynamic_capacity_identify(struct cxl_memdev_state *mds)
-> +{
-> +	size_t dc_resp_size = mds->payload_size;
-> +	struct device *dev = mds->cxlds.dev;
-> +	u8 start_region, i;
-> +
-> +	for (i = 0; i < CXL_MAX_DC_REGION; i++)
-> +		snprintf(mds->dc_region[i].name, CXL_DC_REGION_STRLEN, "<nil>");
-> +
-> +	if (!cxl_dcd_supported(mds)) {
-> +		dev_dbg(dev, "DCD not supported\n");
-> +		return 0;
-> +	}
+Thanks
 
-This should happen before you pre-format the name string? I would assume that if DCD is not supported then the dcd name sysfs attribs would be not be visible?
+Wesley Cheng
 
-> +
-> +	struct cxl_mbox_get_dc_config_out *dc_resp __free(kfree) =
-> +					kvmalloc(dc_resp_size, GFP_KERNEL);
-> +	if (!dc_resp)
-> +		return -ENOMEM;
-> +
-> +	start_region = 0;
-> +	do {
-> +		int rc, j;
-> +
-> +		rc = cxl_get_dc_config(mds, start_region, dc_resp, dc_resp_size);
-> +		if (rc < 0) {
-> +			dev_dbg(dev, "Failed to get DC config: %d\n", rc);
-> +			return rc;
-> +		}
-> +
-> +		mds->nr_dc_region += rc;
-> +
-> +		if (mds->nr_dc_region < 1 || mds->nr_dc_region > CXL_MAX_DC_REGION) {
-> +			dev_err(dev, "Invalid num of dynamic capacity regions %d\n",
-> +				mds->nr_dc_region);
-> +			return -EINVAL;
-> +		}
-> +
-> +		for (i = start_region, j = 0; i < mds->nr_dc_region; i++, j++) {
-
-This should be 'j < mds->nr_dc_region'? Otherwise if your start region say is '3' and you have '2' DC regions, you never enter the loop. Or does that not happen? I also wonder if you need to check if 'start_region + mds->nr_dc_region > CXL_MAX_DC_REGION'.
-
-> +			rc = cxl_dc_save_region_info(mds, i, &dc_resp->region[j]);
-> +			if (rc) {
-> +				dev_dbg(dev, "Failed to save region info: %d\n", rc);
-> +				return rc;
-> +			}
-> +		}
-> +
-> +		start_region = mds->nr_dc_region;
-> +
-> +	} while (mds->nr_dc_region < dc_resp->avail_region_count);
-> +
-> +	mds->dynamic_bytes =
-> +		mds->dc_region[mds->nr_dc_region - 1].base +
-> +		mds->dc_region[mds->nr_dc_region - 1].decode_len -
-> +		mds->dc_region[0].base;
-> +	dev_dbg(dev, "Total dynamic range: %#llx\n", mds->dynamic_bytes);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_dev_dynamic_capacity_identify, CXL);
-> +
->  static int add_dpa_res(struct device *dev, struct resource *parent,
->  		       struct resource *res, resource_size_t start,
->  		       resource_size_t size, const char *type)
-> @@ -1294,8 +1447,15 @@ int cxl_mem_create_range_info(struct cxl_memdev_state *mds)
->  {
->  	struct cxl_dev_state *cxlds = &mds->cxlds;
->  	struct device *dev = cxlds->dev;
-> +	size_t untenanted_mem;
->  	int rc;
->  
-> +	mds->total_bytes = mds->static_bytes;
-> +	if (mds->nr_dc_region) {
-> +		untenanted_mem = mds->dc_region[0].base - mds->static_bytes;
-> +		mds->total_bytes += untenanted_mem + mds->dynamic_bytes;
-> +	}
-> +
->  	if (!cxlds->media_ready) {
->  		cxlds->dpa_res = DEFINE_RES_MEM(0, 0);
->  		cxlds->ram_res = DEFINE_RES_MEM(0, 0);
-> @@ -1305,6 +1465,15 @@ int cxl_mem_create_range_info(struct cxl_memdev_state *mds)
->  
->  	cxlds->dpa_res = DEFINE_RES_MEM(0, mds->total_bytes);
->  
-> +	for (int i = 0; i < mds->nr_dc_region; i++) {
-> +		struct cxl_dc_region_info *dcr = &mds->dc_region[i];
-> +
-> +		rc = add_dpa_res(dev, &cxlds->dpa_res, &cxlds->dc_res[i],
-> +				 dcr->base, dcr->decode_len, dcr->name);
-> +		if (rc)
-> +			return rc;
-> +	}
-> +
->  	if (mds->partition_align_bytes == 0) {
->  		rc = add_dpa_res(dev, &cxlds->dpa_res, &cxlds->ram_res, 0,
->  				 mds->volatile_only_bytes, "ram");
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index f2f8b567e0e7..b4eb8164d05d 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
-> @@ -402,6 +402,7 @@ enum cxl_devtype {
->  	CXL_DEVTYPE_CLASSMEM,
->  };
->  
-> +#define CXL_MAX_DC_REGION 8
->  /**
->   * struct cxl_dpa_perf - DPA performance property entry
->   * @dpa_range: range for DPA address
-> @@ -431,6 +432,8 @@ struct cxl_dpa_perf {
->   * @dpa_res: Overall DPA resource tree for the device
->   * @pmem_res: Active Persistent memory capacity configuration
->   * @ram_res: Active Volatile memory capacity configuration
-> + * @dc_res: Active Dynamic Capacity memory configuration for each possible
-> + *          region
->   * @serial: PCIe Device Serial Number
->   * @type: Generic Memory Class device or Vendor Specific Memory device
->   */
-> @@ -445,10 +448,22 @@ struct cxl_dev_state {
->  	struct resource dpa_res;
->  	struct resource pmem_res;
->  	struct resource ram_res;
-> +	struct resource dc_res[CXL_MAX_DC_REGION];
->  	u64 serial;
->  	enum cxl_devtype type;
->  };
->  
-> +#define CXL_DC_REGION_STRLEN > +struct cxl_dc_region_info {
-> +	u64 base;
-> +	u64 decode_len;
-> +	u64 len;
-> +	u64 blk_size;
-> +	u32 dsmad_handle;
-> +	u8 flags;
-> +	u8 name[CXL_DC_REGION_STRLEN];
-> +};
-
-Does this need kdoc comments?
-
-
-> +
->  /**
->   * struct cxl_memdev_state - Generic Type-3 Memory Device Class driver data
->   *
-> @@ -466,7 +481,9 @@ struct cxl_dev_state {
->   * @dcd_cmds: List of DCD commands implemented by memory device
->   * @enabled_cmds: Hardware commands found enabled in CEL.
->   * @exclusive_cmds: Commands that are kernel-internal only
-> - * @total_bytes: sum of all possible capacities
-> + * @total_bytes: length of all possible capacities
-> + * @static_bytes: length of possible static RAM and PMEM partitions
-> + * @dynamic_bytes: length of possible DC partitions (DC Regions)
-
-Did this get added to the wrong struct comment header? 'cxl_dev_state' instead of 'cxl_memdev_state'?
->   * @volatile_only_bytes: hard volatile capacity
->   * @persistent_only_bytes: hard persistent capacity
->   * @partition_align_bytes: alignment size for partition-able capacity
-> @@ -476,6 +493,8 @@ struct cxl_dev_state {
->   * @next_persistent_bytes: persistent capacity change pending device reset
->   * @ram_perf: performance data entry matched to RAM partition
->   * @pmem_perf: performance data entry matched to PMEM partition
-> + * @nr_dc_region: number of DC regions implemented in the memory device
-> + * @dc_region: array containing info about the DC regions
-Did this get added to the wrong struct comment header? 'cxl_dev_state' instead of 'cxl_memdev_state'?
-
-DJ
-
->   * @event: event log driver state
->   * @poison: poison driver state info
->   * @security: security driver state info
-> @@ -496,6 +515,8 @@ struct cxl_memdev_state {
->  	DECLARE_BITMAP(enabled_cmds, CXL_MEM_COMMAND_ID_MAX);
->  	DECLARE_BITMAP(exclusive_cmds, CXL_MEM_COMMAND_ID_MAX);
->  	u64 total_bytes;
-> +	u64 static_bytes;
-> +	u64 dynamic_bytes;
->  	u64 volatile_only_bytes;
->  	u64 persistent_only_bytes;
->  	u64 partition_align_bytes;
-> @@ -507,6 +528,9 @@ struct cxl_memdev_state {
->  	struct cxl_dpa_perf ram_perf;
->  	struct cxl_dpa_perf pmem_perf;
->  
-> +	u8 nr_dc_region;
-> +	struct cxl_dc_region_info dc_region[CXL_MAX_DC_REGION];
-> +
->  	struct cxl_event_state event;
->  	struct cxl_poison_state poison;
->  	struct cxl_security_state security;
-> @@ -709,6 +733,32 @@ struct cxl_mbox_set_partition_info {
->  
->  #define  CXL_SET_PARTITION_IMMEDIATE_FLAG	BIT(0)
->  
-> +/* See CXL 3.1 Table 8-163 get dynamic capacity config Input Payload */
-> +struct cxl_mbox_get_dc_config_in {
-> +	u8 region_count;
-> +	u8 start_region_index;
-> +} __packed;
-> +
-> +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
-> +struct cxl_mbox_get_dc_config_out {
-> +	u8 avail_region_count;
-> +	u8 regions_returned;
-> +	u8 rsvd[6];
-> +	/* See CXL 3.1 Table 8-165 */
-> +	struct cxl_dc_region_config {
-> +		__le64 region_base;
-> +		__le64 region_decode_length;
-> +		__le64 region_length;
-> +		__le64 region_block_size;
-> +		__le32 region_dsmad_handle;
-> +		u8 flags;
-> +		u8 rsvd[3];
-> +	} __packed region[];
-> +	/* Trailing fields unused */
-> +} __packed;
-> +#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
-> +#define CXL_DCD_BLOCK_LINE_SIZE 0x40
-> +
->  /* Set Timestamp CXL 3.0 Spec 8.2.9.4.2 */
->  struct cxl_mbox_set_timestamp_in {
->  	__le64 timestamp;
-> @@ -832,6 +882,7 @@ enum {
->  int cxl_internal_send_cmd(struct cxl_memdev_state *mds,
->  			  struct cxl_mbox_cmd *cmd);
->  int cxl_dev_state_identify(struct cxl_memdev_state *mds);
-> +int cxl_dev_dynamic_capacity_identify(struct cxl_memdev_state *mds);
->  int cxl_await_media_ready(struct cxl_dev_state *cxlds);
->  int cxl_enumerate_cmds(struct cxl_memdev_state *mds);
->  int cxl_mem_create_range_info(struct cxl_memdev_state *mds);
-> @@ -845,6 +896,17 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
->  			    enum cxl_event_log_type type,
->  			    enum cxl_event_type event_type,
->  			    const uuid_t *uuid, union cxl_event *evt);
-> +
-> +static inline bool cxl_dcd_supported(struct cxl_memdev_state *mds)
-> +{
-> +	return test_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
-> +}
-> +
-> +static inline void cxl_disable_dcd(struct cxl_memdev_state *mds)
-> +{
-> +	clear_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
-> +}
-> +
->  int cxl_set_timestamp(struct cxl_memdev_state *mds);
->  int cxl_poison_state_init(struct cxl_memdev_state *mds);
->  int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
-> diff --git a/drivers/cxl/pci.c b/drivers/cxl/pci.c
-> index 3a60cd66263e..f7f03599bc83 100644
-> --- a/drivers/cxl/pci.c
-> +++ b/drivers/cxl/pci.c
-> @@ -874,6 +874,10 @@ static int cxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	if (rc)
->  		return rc;
->  
-> +	rc = cxl_dev_dynamic_capacity_identify(mds);
-> +	if (rc)
-> +		cxl_disable_dcd(mds);
-> +
->  	rc = cxl_mem_create_range_info(mds);
->  	if (rc)
->  		return rc;
-> 
+>
