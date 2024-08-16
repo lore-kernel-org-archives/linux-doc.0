@@ -1,25 +1,25 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B519654F87;
-	Fri, 16 Aug 2024 16:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD947364A0;
+	Fri, 16 Aug 2024 16:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723825834; cv=none; b=f5D3kPxomJHPijMloPNgN6969TXXX2voH9NaApr850jqBDlRf35L7uSNBY3gpjZtWBu7iiZwGuObYsReRIsuQatvZJvrE1kMrE05m6o2U05uuRP/MoJUki3HKbcC8UtH9oWn9ydPSmMCxtUDC+qNeB2YThfaeL7fIm/FLznf3pw=
+	t=1723825899; cv=none; b=IfP3cIJqT80Ws+c1nrivq1/oG+imwKyy6Y04oyKKWY9W0a84ssYJGlKfgQAUMqJQ2n5rJVA6ex/yuRE0e60bngtl3LFo1bP1mnLWYABaF/6HmR8e2AIQvGYrngPgXFCEEdRbwiM4uLAwfyGYuruE93mwsejSGJ39y9/ehIIX/Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723825834; c=relaxed/simple;
-	bh=pV5IWBI1/r14Yl3ElmFRBM9NX2ecZgdRGGwYPxFl1cU=;
+	s=arc-20240116; t=1723825899; c=relaxed/simple;
+	bh=9PT3gNpyR9fSzfxTZR3Nyw668zUlJjUTQe2irAaX7G0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lcz5oi3OJpm+XjkYMBScKq4Mm9sMr4VpI86lo8pyqeaFtOp0AisLU8xBxpzYkre5G2BvsROWICzjxTWEDLOpNkl+Md+QlxnPzZSxIpSOGTzjKOzCZxL5uSrd4AhAbP7Y3t3Zr4o+W3ti95ATwkW8FW6VFjxPcHlglwc8ssmXRK0=
+	 In-Reply-To:Content-Type; b=pLUG5MMIb8BiJS9+otPuZwhYB2oYHwTmshdUnVi0U61Z2P1uCq/U/Q9oTLu5/LiA6aKFE13YVOcK51vn2oE+CtqO4xzdV1oRHGhitV5+FVCOEfgnaHhKSNPr5jJBz+dMwjDP5o2ZInrHSXKSMpRoS7aqxKiYqv5p8UxYeSlC0KM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F275E1516;
-	Fri, 16 Aug 2024 09:30:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D4BB152B;
+	Fri, 16 Aug 2024 09:32:03 -0700 (PDT)
 Received: from [10.1.196.28] (eglon.cambridge.arm.com [10.1.196.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27C083F58B;
-	Fri, 16 Aug 2024 09:30:26 -0700 (PDT)
-Message-ID: <63bdd436-7bc3-4ccb-a182-5ae596fefd5a@arm.com>
-Date: Fri, 16 Aug 2024 17:30:25 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A0563F58B;
+	Fri, 16 Aug 2024 09:31:33 -0700 (PDT)
+Message-ID: <983fded5-48f8-439d-8afe-45b60841985a@arm.com>
+Date: Fri, 16 Aug 2024 17:31:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,8 +27,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 15/22] x86/resctrl: Add the interface to assign a
- hardware counter
+Subject: Re: [PATCH v6 19/22] x86/resctrl: Introduce the interface to switch
+ between monitor modes
 Content-Language: en-GB
 To: Babu Moger <babu.moger@amd.com>
 Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
@@ -40,86 +40,49 @@ Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
  daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
  ilpo.jarvinen@linux.intel.com, peternewman@google.com,
  maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com,
- dave.hansen@linux.intel.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com
+ linux-kernel@vger.kernel.org, eranian@google.com, mingo@redhat.com,
+ bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
+ fenghua.yu@intel.com, reinette.chatre@intel.com, tglx@linutronix.de
 References: <cover.1722981659.git.babu.moger@amd.com>
- <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
+ <784eaa900b9e0778ddc534c04c7ded9466bfd19b.1722981659.git.babu.moger@amd.com>
 From: James Morse <james.morse@arm.com>
-In-Reply-To: <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
+In-Reply-To: <784eaa900b9e0778ddc534c04c7ded9466bfd19b.1722981659.git.babu.moger@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Babu,
 
 On 06/08/2024 23:00, Babu Moger wrote:
-> The ABMC feature provides an option to the user to assign a hardware
-> counter to an RMID and monitor the bandwidth as long as it is assigned.
-> The assigned RMID will be tracked by the hardware until the user unassigns
-> it manually.
+> Introduce interface to switch between ABMC and legacy modes.
 > 
-> Counters are configured by writing to L3_QOS_ABMC_CFG MSR and
-> specifying the counter id, bandwidth source, and bandwidth types.
+> By default ABMC is enabled on boot if the feature is available.
+> Provide the interface to go back to legacy mode if required.
+
+I may have missed it on an earlier version ... why would anyone want the non-ABMC
+behaviour on hardware that requires it: counters randomly reset and randomly return
+'Unavailable'... is that actually useful?
+
+You default this to on, so there isn't a backward compatibility argument here.
+
+It seems like being able to disable this is a source of complexity - is it needed?
+
+
+For MPAM I'm looking at enabling this on any platform that is short of monitors. If
+user-space disables it I don't have a "at random" hardware behaviour to fall back on - its
+extra work to invent a behaviour I'm not sure is useful...
+
+
+> $ cat /sys/fs/resctrl/info/L3_MON/mbm_mode
+> [mbm_cntr_assign]
+> legacy
 > 
-> Provide the interface to assign the counter ids to RMID.
+> To enable the "mbm_cntr_assign" mode:
+> $ echo "mbm_cntr_assign" > /sys/fs/resctrl/info/L3_MON/mbm_mode
 > 
-> The feature details are documented in the APM listed below [1].
-> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->     Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
->     Monitoring (ABMC).
-
-
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 60696b248b56..1ee91a7293a8 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1864,6 +1864,103 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
-
-> +/*
-> + * Send an IPI to the domain to assign the counter id to RMID.
-> + */
-> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum resctrl_event_id evtid,
-> +			     u32 rmid, u32 cntr_id, u32 closid, bool assign)
-
-MPAM ends up with a per-resource array of monitor-ids that it uses to map cntr_id
-allocated by resctrl to the underlying hardware id. Could this function pass the struct
-rdt_resource too?
-(this saves me having to assume its the L3 - adding to the technical debt in this area)
-
-Nit: could closid and rmid appear next to each other, and in that order ... just to fit
-with other helpers that take both.
-
-
-> +{
-> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
-> +	union l3_qos_abmc_cfg abmc_cfg = { 0 };
-> +	struct arch_mbm_state *arch_mbm;
-> +
-> +	abmc_cfg.split.cfg_en = 1;
-> +	abmc_cfg.split.cntr_en = assign ? 1 : 0;
-> +	abmc_cfg.split.cntr_id = cntr_id;
-> +	abmc_cfg.split.bw_src = rmid;
-> +
-> +	/* Update the event configuration from the domain */
-> +	if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID) {
-> +		abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
-> +		arch_mbm = &hw_dom->arch_mbm_total[rmid];
-> +	} else {
-> +		abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
-> +		arch_mbm = &hw_dom->arch_mbm_local[rmid];
-> +	}
-> +
-> +	smp_call_function_any(&d->hdr.cpu_mask, rdtgroup_abmc_cfg, &abmc_cfg, 1);
-> +
-> +	/*
-> +	 * Reset the architectural state so that reading of hardware
-> +	 * counter is not considered as an overflow in next update.
-> +	 */
-> +	if (arch_mbm)
-> +		memset(arch_mbm, 0, sizeof(struct arch_mbm_state));
-> +
-> +	return 0;
-> +}
+> To enable the legacy monitoring feature:
+> $ echo "legacy" > /sys/fs/resctrl/info/L3_MON/mbm_mode
+> 
+> MBM event counters will reset when mbm_mode is changed.
 
 
 Thanks,
