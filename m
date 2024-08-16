@@ -1,123 +1,151 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9DD21C0DC5;
-	Fri, 16 Aug 2024 19:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466751C3F3D
+	for <linux-doc@vger.kernel.org>; Fri, 16 Aug 2024 19:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.77.79.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723835475; cv=none; b=nZkNEurnZVe3Uo8u99nBynam+2tZrWbEpGbVTHIwZ7hwpInAg3Rw7v+qxzkKXjsLGur+/oL/p0wsIfBlA3T7ticqDla50EbYW1UvqviuN1ws7IimxpNNOlX3mCTDvjwrO/BmX++z8OkAoW3s2vouuTT78ijaWK3XL8Az427PRE8=
+	t=1723836495; cv=none; b=ZOjBblrRsG3VQqQBI5QFtmcheJnDvRFwixjQeeg91JOkA6ZzFT/Q+t3G0BLPN2LkmFTL5TRbrBRYtyKcOwqcN5yYgq6IasrfWw5iRNbh1sNFC+aT4wt0xeGKaChIrHJCZgNaf9Zu3BQGi0n1NjgIjgVZsVDMnVl5+HTEyqkyE5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723835475; c=relaxed/simple;
-	bh=XMP5kYN/lNCxS08FM9q5A+YLKatBEUnyJVgLnMAWigI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ffao0JFz+qVvr8u6vI2y1mcWMhfnZrzDiuSAw4ww9hsHUN5rKCRP/d438ez7ZdTzyVb4NkObA5PYdHge3g7Q7M1dcuBh7XpYfEAT8Z1hfL0fSCzHA0DtrHWqU8DPBwz82m5TesWTWvCbXz7CcGyd+kk4jeJwLnCTX2P8IMTU5Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=sH5VjGp2; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1723836495; c=relaxed/simple;
+	bh=O6mzyL7xKu1MY9cqmZeVStxQtxMoAMbvocNe+lKzux0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CPbPmmBR+Tz4Rswn5ers8Is74ZBnBBQOi3Fm/9yjyC+80x/hg/lMEnEtO1knNDb73mPCCZGHp5qcSA3mHgVAbIUjfN8Vv00c3EFLwKSyRpEKftJaya6J4YtWhmopDHlHRLoOQGWzLgcaYM51O6pSfTBu+jHeDIrUXMF1KJePyGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vtimothy.com; spf=pass smtp.mailfrom=vtimothy.com; dkim=pass (2048-bit key) header.d=vtimothy.com header.i=@vtimothy.com header.b=jb917UCN; arc=none smtp.client-ip=51.77.79.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vtimothy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vtimothy.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="sH5VjGp2"
-Received: from [10.137.106.151] (unknown [131.107.174.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7078920B7165;
-	Fri, 16 Aug 2024 12:11:13 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7078920B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1723835473;
-	bh=DINdXw4rsRHscph2P2mh0jmv8tgdSIjxLG+8b1MLgBI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sH5VjGp2yrjvCTHmfalgwmnYuUqubfq/VnipazfpCj58DUEY9PO9gEFZDibvnAIIL
-	 RykxOtSBbRmQ2LY5/Q6gBtiUDG5Ini9yIjRJtKx3zWxpqcj8KmpvWVMcYlv9YI4P/B
-	 UeSob/5uozqhsV8PZW3vnPLGLsAQFCxQZW0CSEa8=
-Message-ID: <ac6e33b8-ec1f-494a-874f-9a16d3316fce@linux.microsoft.com>
-Date: Fri, 16 Aug 2024 12:11:12 -0700
+	dkim=pass (2048-bit key) header.d=vtimothy.com header.i=@vtimothy.com header.b="jb917UCN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtimothy.com;
+	s=protonmail; t=1723836476; x=1724095676;
+	bh=tTkOD+tbanlBDXETUZCRAs2rYgp1pBquWtd/axPjhUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=jb917UCNFzje5oThUt77wlPGq9iHVDNzeHKjINZy31HhBrHVEq8Sh2TCdMJ2EmPro
+	 77u+xVjkKKQjUkE2jXqVSk7RqNXKiCCq/hsjBdlaycHzPnlCtEP9ReWD2wV171gaZA
+	 eURz45Jt8HsfiPwdxHgS3elXlVGgWN8yHF5TqtcurvdDAjq5gZjHoQYEIhkXDSRPzl
+	 Dg6U5j3uFo+eNJ3/c4rc/JM1PrYiXuqTKNwa5pVsQFFmC/DXVweCrjSyjHOWNoD9sg
+	 mF1UXSeY060RHXETS/W0AOZnQ9kxggWXPGH3SbxVE7MFK/hNa2Z3yZP7j6SAn9eS1k
+	 RjnCbuMxbQLpw==
+X-Pm-Submission-Id: 4WlsTH3R6Lz4wwdW
+From: Victor Timofei <victor@vtimothy.com>
+To: linkinjeon@kernel.org,
+	sfrench@samba.org,
+	corbet@lwn.net
+Cc: linux-cifs@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Victor Timofei <victor@vtimothy.com>
+Subject: [PATCH] ksmdb: fix spelling mistakes in documentation
+Date: Fri, 16 Aug 2024 22:24:52 +0300
+Message-ID: <20240816192452.38211-1-victor@vtimothy.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 12/20] dm verity: expose root hash digest and
- signature data to LSMs
-To: Mikulas Patocka <mpatocka@redhat.com>, Paul Moore <paul@paul-moore.com>
-Cc: Mike Snitzer <snitzer@kernel.org>, Alasdair Kergon <agk@redhat.com>,
- linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-13-git-send-email-wufan@linux.microsoft.com>
- <9dc30ca6-486c-4fa9-910d-ed1dc6da0e95@linux.microsoft.com>
- <CAHC9VhQrnu8Sj=XnDvg=wGTBxacvMSW6OJyG3-tpwrsbGat6vA@mail.gmail.com>
- <88695db-efc0-6cc6-13ee-fd7c2abe61c@redhat.com>
-Content-Language: en-US
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <88695db-efc0-6cc6-13ee-fd7c2abe61c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+There are a couple of spelling mistakes in the documentation. This patch
+fixes them.
 
+Signed-off-by: Victor Timofei <victor@vtimothy.com>
+---
+ Documentation/filesystems/smb/ksmbd.rst | 26 ++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-On 8/16/2024 6:35 AM, Mikulas Patocka wrote:
-> 
-> 
-> On Thu, 15 Aug 2024, Paul Moore wrote:
-> 
->> On Thu, Aug 8, 2024 at 6:38 PM Fan Wu <wufan@linux.microsoft.com> wrote:
->>>
->>> Hi Mikulas,
->>>
->>> I hope you’re doing well. I wanted to thank you again for your thorough
->>> review for the last version. I’ve since made some minor updates for this
->>> version, including adding more comments and refactoring the way the hash
->>> algorithm name is obtained due to recent changes in dm-verity.
->>>
->>> Would you mind if we keep the Review-by tag on the latest version since
->>> the changes are minor? Your feedback is greatly valued, and I’d
->>> appreciate it if you could take a quick look when you have a moment.
->>
->> To add a bit more to this, this patchset now looks like it is in a
->> state where we would like to merge it into the LSM tree for the
->> upcoming merge window, but I would really like to make sure that the
->> device-mapper folks are okay with these changes; an
->> Acked-by/Reviewed-by on this patch would be appreciated, assuming you
->> are still okay with this patch.
->>
->> For those who may be missing the context, the full patchset can be
->> found on lore at the link below:
->>
->> https://lore.kernel.org/linux-security-module/1722665314-21156-1-git-send-email-wufan@linux.microsoft.com
-> 
-> Hi
-> 
-> I'm not an expert in Linux security subsystems. I skimmed through the
-> dm-verity patch, didn't find anything wrong with it, so you can add
-> 
-> Reviewed-by: Mikulas Patocka <mpatocka@redhat.com>
->
+diff --git a/Documentation/filesystems/smb/ksmbd.rst b/Documentation/filesystems/smb/ksmbd.rst
+index 6b30e43a0d11..8f00b2f3da31 100644
+--- a/Documentation/filesystems/smb/ksmbd.rst
++++ b/Documentation/filesystems/smb/ksmbd.rst
+@@ -13,7 +13,7 @@ KSMBD architecture
+ The subset of performance related operations belong in kernelspace and
+ the other subset which belong to operations which are not really related with
+ performance in userspace. So, DCE/RPC management that has historically resulted
+-into number of buffer overflow issues and dangerous security bugs and user
++into a number of buffer overflow issues and dangerous security bugs and user
+ account management are implemented in user space as ksmbd.mountd.
+ File operations that are related with performance (open/read/write/close etc.)
+ in kernel space (ksmbd). This also allows for easier integration with VFS
+@@ -24,8 +24,8 @@ ksmbd (kernel daemon)
+ 
+ When the server daemon is started, It starts up a forker thread
+ (ksmbd/interface name) at initialization time and open a dedicated port 445
+-for listening to SMB requests. Whenever new clients make request, Forker
+-thread will accept the client connection and fork a new thread for dedicated
++for listening to SMB requests. Whenever new clients make a request, the Forker
++thread will accept the client connection and fork a new thread for a dedicated
+ communication channel between the client and the server. It allows for parallel
+ processing of SMB requests(commands) from clients as well as allowing for new
+ clients to make new connections. Each instance is named ksmbd/1~n(port number)
+@@ -34,12 +34,12 @@ thread can decide to pass through the commands to the user space (ksmbd.mountd),
+ currently DCE/RPC commands are identified to be handled through the user space.
+ To further utilize the linux kernel, it has been chosen to process the commands
+ as workitems and to be executed in the handlers of the ksmbd-io kworker threads.
+-It allows for multiplexing of the handlers as the kernel take care of initiating
++It allows for multiplexing of the handlers as the kernel takes care of initiating
+ extra worker threads if the load is increased and vice versa, if the load is
+-decreased it destroys the extra worker threads. So, after connection is
+-established with client. Dedicated ksmbd/1..n(port number) takes complete
++decreased it destroys the extra worker threads. So, after the connection is
++established with the client. Dedicated ksmbd/1..n(port number) takes complete
+ ownership of receiving/parsing of SMB commands. Each received command is worked
+-in parallel i.e., There can be multiple clients commands which are worked in
++in parallel i.e., There can be multiple client commands which are worked in
+ parallel. After receiving each command a separated kernel workitem is prepared
+ for each command which is further queued to be handled by ksmbd-io kworkers.
+ So, each SMB workitem is queued to the kworkers. This allows the benefit of load
+@@ -49,9 +49,9 @@ performance by handling client commands in parallel.
+ ksmbd.mountd (user space daemon)
+ --------------------------------
+ 
+-ksmbd.mountd is userspace process to, transfer user account and password that
++ksmbd.mountd is a userspace process to, transfer the user account and password that
+ are registered using ksmbd.adduser (part of utils for user space). Further it
+-allows sharing information parameters that parsed from smb.conf to ksmbd in
++allows sharing information parameters that are parsed from smb.conf to ksmbd in
+ kernel. For the execution part it has a daemon which is continuously running
+ and connected to the kernel interface using netlink socket, it waits for the
+ requests (dcerpc and share/user info). It handles RPC calls (at a minimum few
+@@ -124,7 +124,7 @@ How to run
+ 1. Download ksmbd-tools(https://github.com/cifsd-team/ksmbd-tools/releases) and
+    compile them.
+ 
+-   - Refer README(https://github.com/cifsd-team/ksmbd-tools/blob/master/README.md)
++   - Refer to README(https://github.com/cifsd-team/ksmbd-tools/blob/master/README.md)
+      to know how to use ksmbd.mountd/adduser/addshare/control utils
+ 
+      $ ./autogen.sh
+@@ -133,7 +133,7 @@ How to run
+ 
+ 2. Create /usr/local/etc/ksmbd/ksmbd.conf file, add SMB share in ksmbd.conf file.
+ 
+-   - Refer ksmbd.conf.example in ksmbd-utils, See ksmbd.conf manpage
++   - Refer to ksmbd.conf.example in ksmbd-utils, See ksmbd.conf manpage
+      for details to configure shares.
+ 
+         $ man ksmbd.conf
+@@ -145,7 +145,7 @@ How to run
+      $ man ksmbd.adduser
+      $ sudo ksmbd.adduser -a <Enter USERNAME for SMB share access>
+ 
+-4. Insert ksmbd.ko module after build your kernel. No need to load module
++4. Insert the ksmbd.ko module after you build your kernel. No need to load the module
+    if ksmbd is built into the kernel.
+ 
+    - Set ksmbd in menuconfig(e.g. $ make menuconfig)
+@@ -175,7 +175,7 @@ Each layer
+ 1. Enable all component prints
+ 	# sudo ksmbd.control -d "all"
+ 
+-2. Enable one of components (smb, auth, vfs, oplock, ipc, conn, rdma)
++2. Enable one of the components (smb, auth, vfs, oplock, ipc, conn, rdma)
+ 	# sudo ksmbd.control -d "smb"
+ 
+ 3. Show what prints are enabled.
+-- 
+2.46.0
 
-Thank you for reviewing the patch and for your suggestion.
-
->>>>
->>>> +#ifdef CONFIG_SECURITY
->>>> +     u8 *root_digest_sig;    /* signature of the root digest */
->>>> +#endif /* CONFIG_SECURITY */
->>>>        unsigned int salt_size;
->>>>        sector_t data_start;    /* data offset in 512-byte sectors */
->>>>        sector_t hash_start;    /* hash start in blocks */
->>>> @@ -58,6 +61,9 @@ struct dm_verity {
->>>>        bool hash_failed:1;     /* set if hash of any block failed */
->>>>        bool use_bh_wq:1;       /* try to verify in BH wq before normal work-queue */
->>>>        unsigned int digest_size;       /* digest size for the current hash algorithm */
->>>> +#ifdef CONFIG_SECURITY
->>>> +     unsigned int sig_size;  /* root digest signature size */
->>>> +#endif /* CONFIG_SECURITY */
->>>>        unsigned int hash_reqsize; /* the size of temporary space for crypto */
->>>>        enum verity_mode mode;  /* mode for handling verification errors */
->>>>        unsigned int corrupted_errs;/* Number of errors for corrupted blocks */
-> 
-> Just nit-picking: I would move "unsigned int sig_size" up, after "u8
-> *root_digest_sig" entry.
-> 
-> Mikulas
-
-Sure, I can make these two fields together.
-
--Fan
