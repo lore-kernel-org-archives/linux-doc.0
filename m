@@ -1,118 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA0013C689;
-	Fri, 16 Aug 2024 10:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B788116C6AB;
+	Fri, 16 Aug 2024 10:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723804937; cv=none; b=MdYNST8h/GfcIXe0/iShAezR1yFpnnOJ+fyKz6CQUyiq7r2PFCMP+fYlbSbG1kb5bRIIm+tyYvq5AK7VzD2NfTZHfJHS8KrD9aCKYilH7t45a1h8wBEgCbueTQsS99Xk6y0B4AqJhGa26Ln2nYieBeyfYQ3Mj8DazO4N3xjBosk=
+	t=1723805367; cv=none; b=RwpEeL2oL6u51t17A4c9/7R2NZZw1V778HSCNO7QcFCcNOvHDviJpOW9NpR3UqVoTo93TWzV+RCztHH18+Bys1OJ6D3V127cGY8nKYlP42t6Rl7Gy+dQwGI0+J1FkBAHaxjjKWG+Oag9ryFsErMXar8RKDmm8ZRty0sHjoOz9Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723804937; c=relaxed/simple;
-	bh=zg3dRit0opyHfuuTVglW5AtRP4DAPWyWCTz/Rq9Op8U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=evReghtF/PyMWhycixiJ1Y9lhdOP6USlZoILb1Lhw3x212RREC3pNPtkOT8viU1WzgE4xVTxy0VNE7fst7LmcDDpPKtLDP7OBBvxyLbgB/QhUQpoxDMqAy2ycdMxf19SuHh/2DInZmjtQIdAYrM1vAOf9sNUjLWLdRBhHp30H5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NB193JTX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723805367; c=relaxed/simple;
+	bh=DFvGYpJUpf2dRhKTwTPdfU2fkvatBWHRd3oGvJ3oGt4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O62ShqtLgE5tLWmODnrVCPLyd+A+AvXcerl0KBlfayRXvDdKGmfAm0cYYH0N7XYmE9WtbXGMx9ZEngcWpbX+/sEYPEMgjIS17976pqD7cMZ/i5rSHUXqqAEpLW8UepNktQwllbYHqX6WXv2ME39v7Akp5IWv3kZ7d2+vcCVX6nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZXFYsv2l; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NB193JTX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C679C32782;
-	Fri, 16 Aug 2024 10:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723804936;
-	bh=zg3dRit0opyHfuuTVglW5AtRP4DAPWyWCTz/Rq9Op8U=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=NB193JTXK3JRQ7RSKkOV16g8BU8FoDpFZ9LrZZP3Mr/3BsNpE4kWT2iUeatduZZUe
-	 42iqfmX+LeVxQUsdm8vSGspHkZbszI5FZ3EPXdHy9uQPwn8HkZlPSmKdcwx8DF+wtm
-	 nFt0M7aq8L1mzCPQPuZUhVBGGOjDBOkbMum9ikJr/AVq3DkDb/koO8d8n6IgkN9f59
-	 BexA35uQhGZv4ph6LKZoSbT0wspZgo7Ff6avGvl0r8QC8Apl3M1iwrQYf4L1yhr7W4
-	 bYYTtbhcN8kgzIAFe1rQAe/rM0UYJS0HEr2bRTvySuQwtTKcLGMqksaTknDYo3S8qi
-	 6uwqFaJIb34bw==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZXFYsv2l"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70f5ef740b7so1666804b3a.2;
+        Fri, 16 Aug 2024 03:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723805365; x=1724410165; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yf52WOlMISsygR/xVKq/752fUm4isQj4qzd84KHzZmU=;
+        b=ZXFYsv2lm0NLAYjOZ7qIe24kI5bSmNca1hkNX64tf2mZD9icJHmG4pu3lcXer87z/b
+         yDShK9wxocurdbYXZ1fTXg/nKrgHOJXQnot2q0m5UXwqp4q3oKCD82P4wBZUdvkrzWiu
+         OudV5hAJYPiczto9CN7vYXpQKTmA/5n7qwKO5mhLcSxFYUkITwtbJ8dq83xMF2PfFZlB
+         vBLtq5pp31uRqb4nMDMQ54KEDxcWqfJ/jsWiGa4OhogYO8HIpWhC7RwbVwnttCtKu32p
+         ZYphcw9eSkDMM/7JPNhLXbR/PmcueupgZ8wXFUt+gB1CdQgCDc1dkE9I7Z+lhLJWSc6d
+         Zzag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723805365; x=1724410165;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yf52WOlMISsygR/xVKq/752fUm4isQj4qzd84KHzZmU=;
+        b=lidCPnWX1gyPdsT6ki+YcQz71L31skgJ+hD/hiODjiBXtxGB6Opkj3D30dluIHz8i4
+         v+m+AezzjhbS3F6YcoaimW8fr49QhyoLqT9VWqu6eZZGxfTbGLHvVGkcp7L6EVHfdmKh
+         Wq1IIMomvMExgZZKvef2m5Bjg/zwKIoxV3UyLsIL74cCO/gjG1oAkA9t8jU5jZ+mQAvS
+         yAL24PkaoB0OllvQnDLbFnkSL7GtVoh67LpopM3BLCYjfb6fsXrmU5Os5sDkqHj8GaEw
+         rbCYpZjcyqwbuUWca0LGPnPP6cCdcOLV4ktFYhsuasRhm54lM6XpvcvWme0/+AUt2tK2
+         Gupg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEi6EEaMzmxSbFhLEJuA7DHB9rUeeLCXUnslYq9P+9Cry+gPM+/ZeiwCz21o1x/CxzUJNkFQu5uEjDJJVb1ANGHLwEEVMmHJ6RA9KHo9Fjv2+eK5TVV0OFZjLVSwCF7Maj6s1DHQoJ
+X-Gm-Message-State: AOJu0YxPBED/W7WFNCUwKCtdr5dzJlvwcmWzdSxjH/tV56znVHvVBnNq
+	eRVY1Fi0R8zwtc/nSEBKxyyneAWgKaXcNm8q5RdZFYwBjF2EFzpd
+X-Google-Smtp-Source: AGHT+IE4bWEG+S+HVHQ/YpTXfJLq5WBnpz8TnB1Iu4EL3ZSe/I67vULXbZQapdZtyLuYRHMNa3tM8A==
+X-Received: by 2002:a05:6300:668b:b0:1c0:f1cb:c4b2 with SMTP id adf61e73a8af0-1c904f6d703mr2701309637.4.1723805364863;
+        Fri, 16 Aug 2024 03:49:24 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. (126-84.iitb.ac.in. [103.21.126.84])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127ae0e8a2sm2392269b3a.73.2024.08.16.03.49.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Aug 2024 03:49:24 -0700 (PDT)
+From: SurajSonawane2415 <surajsonawane0215@gmail.com>
+To: linux@leemhuis.info
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	SurajSonawane2415 <surajsonawane0215@gmail.com>
+Subject: [PATCH v4] docs: Fix grammar and phrasing errors in reporting-issues.rst
+Date: Fri, 16 Aug 2024 16:19:02 +0530
+Message-Id: <20240816104902.123452-1-surajsonawane0215@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Aug 2024 13:42:13 +0300
-Message-Id: <D3H9ULV1NH4M.1A8EKXWZFTEF2@kernel.org>
-Cc: "Ross Philipson" <ross.philipson@oracle.com>,
- <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
- <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
- <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Daniel P. Smith"
- <dpsmith@apertussolutions.com>, "Eric W. Biederman"
- <ebiederm@xmission.com>, "Eric Biggers" <ebiggers@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx>
-In-Reply-To: <87ttflli09.ffs@tglx>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Aug 15, 2024 at 10:10 PM EEST, Thomas Gleixner wrote:
-> On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
-> > On 5/31/24 09:54, Eric W. Biederman wrote:
-> >> Eric Biggers <ebiggers@kernel.org> writes:
-> >>> That paragraph is also phrased as a hypothetical, "Even if we'd prefe=
-r to use
-> >>> SHA-256-only".  That implies that you do not, in fact, prefer SHA-256=
- only.  Is
-> >>> that the case?  Sure, maybe there are situations where you *have* to =
-use SHA-1,
-> >>> but why would you not at least *prefer* SHA-256?
-> >>=20
-> >> Yes.  Please prefer to use SHA-256.
-> >>=20
-> >> Have you considered implementing I think it is SHA1-DC (as git has) th=
-at
-> >> is compatible with SHA1 but blocks the known class of attacks where
-> >> sha1 is actively broken at this point?
-> >
-> > We are using the kernel's implementation, addressing what the kernel=20
-> > provides is beyond our efforts. Perhaps someone who is interested in=20
-> > improving the kernel's SHA1 could submit a patch implementing/replacing=
-=20
-> > it with SHA1-DC, as I am sure the maintainers would welcome the help.
+Fix grammatical errors and improve phrasing in the `reporting-issues.rst`
+documentation file. These changes enhance readability and ensure the
+accuracy of the instructions provided.
 
-Git also has a bit more wide than secure launch, and the timeline is
-also completely different. Git maintains legacy, while has also
-introduced SHA-256 support in 2018. This as a new feature in the kernel
-stack.
+Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
+---
+V3 -> V4: Adjust line wrapping to split the long line properly.
+V2 -> V3: Re-added the fix for the line: "That's why you might be need to uninstall the".
+V1 -> V2: Removed the unwanted change to the line: "try search terms like".
 
-The purpose of SHA1-DC has obviously been to extend the lifespan, not
-fix SHA-1.
+ Documentation/admin-guide/reporting-issues.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Linux will be better of not adding anything new related to SHA-1 or
-TPM 1.2. They still have a maintenance cost and I think that time
-would be better spent of for almost anything else (starting from
-taking your trashes out or boiling coffee) ;-)
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 2fd5a030235a..d0e645fc845a 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -56,7 +56,7 @@ developers. It might be all that's needed for people already familiar with
+ reporting issues to Free/Libre & Open Source Software (FLOSS) projects. For
+ everyone else there is this section. It is more detailed and uses a
+ step-by-step approach. It still tries to be brief for readability and leaves
+-out a lot of details; those are described below the step-by-step guide in a
++out a lot of details; those are described below in the step-by-step guide in a
+ reference section, which explains each of the steps in more detail. 
 
->
-> Well, someone who is interested to get his "secure" code merged should
-> have a vested interested to have a non-broken SHA1 implementation if
-> there is a sensible requirement to use SHA1 in that new "secure" code,
-> no?
->
-> Just for the record. The related maintainers can rightfully decide to
-> reject known broken "secure" code on a purely technical argument.
->
-> Thanks,
->
->         tglx
-
-BR, Jarkko
+ Note: this section covers a few more aspects than the TL;DR and does things in
+@@ -299,7 +299,7 @@ face, even if they look small or totally unrelated. That's why you should report
+ issues with these kernels to the vendor. Its developers should look into the
+ report and, in case it turns out to be an upstream issue, fix it directly
+ upstream or forward the report there. In practice that often does not work out
+-or might not what you want. You thus might want to consider circumventing the
++or might not be what you want. You thus might want to consider circumventing the
+ vendor by installing the very latest Linux kernel core yourself. If that's an
+ option for you move ahead in this process, as a later step in this guide will
+ explain how to do that once it rules out other potential causes for your issue.
+@@ -472,8 +472,8 @@ before proceeding.
+ Note, you might not be aware that your system is using one of these solutions:
+ they often get set up silently when you install Nvidia's proprietary graphics
+ driver, VirtualBox, or other software that requires a some support from a
+-module not part of the Linux kernel. That why your might need to uninstall the
+-packages with such software to get rid of any 3rd party kernel module.
++module not part of the Linux kernel. That's why you might need to uninstall
++the packages with such software to get rid of any 3rd party kernel module.
+ 
+ 
+ Check 'taint' flag
+-- 
+2.34.1
