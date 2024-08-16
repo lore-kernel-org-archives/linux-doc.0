@@ -1,59 +1,65 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEAA144D1E;
-	Fri, 16 Aug 2024 09:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A804320E3;
+	Fri, 16 Aug 2024 09:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723800880; cv=none; b=Fhrl/bZi2xCIJ+90cwYCxq58w0pc0WrotjOeZHSIOfNbuwkzpsCZSsixR7Q9nsCGEShzDlEfR6XKpyQYIJNKJrNYp/IuFFT0VC4sYWVtv301Rd5KcRpub6qMv1/5wTm6bYLyHsu/W4I/ZikgwBtj+TxySAfU47B2Riykc2fcgxc=
+	t=1723801017; cv=none; b=LE83H/Beasb21JQl7NGXmMGu1F36J4hKgBtPEj8/vZoVA16n7PnEsRtducO3LkwRvWZEy78bZcYR65tsiGQaBnqzChNPFcp9vgcJjRZztzROGJTBPBNXW3O/it5O538ueKrqnxeooOD80B9tFukBEEDNIfmB5F+Edy4ipuNOmho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723800880; c=relaxed/simple;
-	bh=7iDkFYG5RkMPP56mIRilbSqwBpcRWatHTDBWDVNp+u8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sYZeh57QrqMd134JgRxzaWvDN1EzaJMmmK+g7WeSDeD392fxXlDUw/jpOC9hdFX42g14wcXrpbWH2kCpMV/giztkdwONauWSmuLE3FoK1GdRO6o0DsloU0bOKBC0q10yLarHr+CsNOsuGTY2Ubd5jH+qX78+rFz1rhN/zacq6D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=woltmann.art; spf=fail smtp.mailfrom=woltmann.art; dkim=pass (2048-bit key) header.d=woltmann.art header.i=@woltmann.art header.b=yP46K5ci; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=woltmann.art
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=woltmann.art
+	s=arc-20240116; t=1723801017; c=relaxed/simple;
+	bh=r3gmMajOMo8VTdTFYIotH7psmm327sqr/zDPwXFcatQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iFg1wTljoQzsO3QIGxjYXkad1edYjzH6yaExxO3CZzcE8OHIcFv+piBccMhuuwQpzWYj+j1C3iSg7qExdscFsvw/2liisMFUFsxYQ3QFS9MTyEGLyda/MrM08fSGYQyIqTWtTe4bXS14cRGp8Kkfeuhigw5AZWaaK3kjXsYTInE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=meElQHqM; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=woltmann.art header.i=@woltmann.art header.b="yP46K5ci"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4Wlc7F1J23z9vrR;
-	Fri, 16 Aug 2024 11:26:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=woltmann.art;
-	s=MBO0001; t=1723800377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0TnN4/Tb5Dkm1VaiSSoGRXQN59kCugLF+H3VFSUu7DU=;
-	b=yP46K5cidUWcBOBCVtCR31zzzFSwnr48TtDBV7xK0UIWAwLcOULYjCdQ8cKN1+t56S97QA
-	VdLw93THr7uTunTubwRJjIR6aDnrKJHplJ9RNEH4tUEgRS1AN1W3ffbFhliGl1EcLUyDKZ
-	ESuOLctW0j/7VIaMBQG9ShRhYYsaJ0Y6wDHsBQkokAED1M0OkpwmRTg6IM432rMPCBVKTC
-	HFVlXaWMGamx4RXr6PZ3Sd5BRVOGus65wPQY/U+M1yx/WnUmFzd1ENNhqo3muT6jG8Vh0A
-	RyN6pGQwRiIc+nQ2Td6f7CaE686d5ZUdSGXlXW+Emb9RsyORY2dO3O568CHMIg==
-From: Vincent Woltmann <vincent@woltmann.art>
-To: rust-for-linux@vger.kernel.org
-Cc: Vincent Woltmann <vincent@woltmann.art>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Julian Merkle <me@jvmerkle.de>,
-	Wei Liu <wei.liu@kernel.org>,
-	Sven Van Asbroeck <thesven73@gmail.com>,
-	Adam Bratschi-Kaye <ark.email@gmail.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] rust: Remove erronous blockquote in coding guidelines
-Date: Fri, 16 Aug 2024 09:25:31 +0000
-Message-ID: <20240816092536.2444105-1-vincent@woltmann.art>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="meElQHqM"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-201e64607a5so13282305ad.2;
+        Fri, 16 Aug 2024 02:36:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723801015; x=1724405815; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NdvxhlCkMHRIJStiK9mOuuQNjL800lm6joC3OBAJcWo=;
+        b=meElQHqM2T6LW8uuEB+wwJEyUhqfcWN8DJaWB1BSHvVXh0NBaW0B63Py1orORKyRbl
+         rzQqLWQsTurCsNJJHfefKZeX/IIHnIO146+JXScNMZ6YHLX0DraPNY3maVkLxGwOWISe
+         NyrDzMF/8rwVMy6Y5NjeTqmsGKA0TwcXOPaq/zn3LaMS5Qa/JizNvNjizJsWHgnhbO4m
+         oRUm95KsmmHpXRkTnssFmx50KT9wPlLVleGi+3GDmxUnKO6GqJZmKmRO3K2pj+e2FZoF
+         KZf9bgOD/j54ZielTrM3SzYvjA521SZdy9v5uraxmqQcLwnmHWm1Ri0UaOyqy0URbul1
+         QDYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723801015; x=1724405815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NdvxhlCkMHRIJStiK9mOuuQNjL800lm6joC3OBAJcWo=;
+        b=XxSWovdTMGQty4MnKxlrKKOlwZjiiWr9UAJ1wF4tmsdfcYelnXgXEaVPhEjkE5cAXA
+         ryZHiOlw9Fv48y1PehggNSRHNDhjqn9kHR13XQhvhVI8KzaJiyi8e5yNc2ByyjFG0unW
+         w4wgpd5R7xFqGWfO4vzKWDV64PeTVdCKnTD+cjR+ZhSD6XRsiPrG1zAMNNljeCTqLM0q
+         fuiOfNrypjYc9gQh0Mc8AU7cAzrhJs60Y/Jm19aqVn/XvLOUNsaV5kz/VsmmLZpHCBcU
+         Vzv8HD+Q6bWrqWLVxWKhN4mLhujX9PF7cdwjocjEdW8dc604eShUG4sYxpxFPM4tVT7/
+         OaUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMVHyQhCWXfaDDDLNAZlphs/p2l1KAUubnMPg8SLq/3M5+TlbKxOzW9MHMWzhdl4+pt4UsJ4Ctn2WtRJZM1gU9MKsyVdtqNhPtuEIYWB5C8HmhfuHDqV8Rg1K2a7KbsYbPT9R7vNkz
+X-Gm-Message-State: AOJu0YzdQwv9C8FoeIPtn3FdIkRt6OCMNCl6K+VxPw+P2vAS22GmY8kK
+	0Qhr+BFfdpGeaEYwSIfHWXL57Gc1ynxTXPJxeoBKB6hbYCRTw2wU
+X-Google-Smtp-Source: AGHT+IFvZsE2iLKLxiKZ0w7O6KWuL7VWOQUBF+uBCgvhKsviF/EHYAvFR09f7ZJytsckUFN8LJ8uBw==
+X-Received: by 2002:a17:902:c946:b0:202:1547:66ad with SMTP id d9443c01a7336-202154770famr1122845ad.65.1723801014717;
+        Fri, 16 Aug 2024 02:36:54 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. (126-84.iitb.ac.in. [103.21.126.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f031bc76sm22277545ad.96.2024.08.16.02.36.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Aug 2024 02:36:54 -0700 (PDT)
+From: SurajSonawane2415 <surajsonawane0215@gmail.com>
+To: linux@leemhuis.info
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	SurajSonawane2415 <surajsonawane0215@gmail.com>
+Subject: [PATCH v3] docs: Fix grammar and phrasing errors in reporting-issues.rst
+Date: Fri, 16 Aug 2024 15:06:46 +0530
+Message-Id: <20240816093646.116091-1-surajsonawane0215@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,74 +68,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An unordered list in coding-guidelines.rst was indented, producing
-a blockquote around it and making it look more indented than expected.
-Remove the indentation to only output an unordered list.
+Fix grammatical errors and improve phrasing in the `reporting-issues.rst`
+documentation file. These changes enhance readability and ensure the
+accuracy of the instructions provided.
 
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1063
-Fixes: d07479b211b7 ("docs: add Rust documentation")
-Signed-off-by: Vincent Woltmann <vincent@woltmann.art>
+Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
 ---
- Documentation/rust/coding-guidelines.rst | 38 ++++++++++++------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+V2 -> V3: Re-added the fix for the line: "That's why you might be need to uninstall the".
+V1 -> V2: emoved the unwanted change to the line: "try search terms like".
 
-diff --git a/Documentation/rust/coding-guidelines.rst b/Documentation/rust/coding-guidelines.rst
-index 05542840b16c..da87c65600fd 100644
---- a/Documentation/rust/coding-guidelines.rst
-+++ b/Documentation/rust/coding-guidelines.rst
-@@ -145,32 +145,32 @@ This is how a well-documented Rust function may look like:
- This example showcases a few ``rustdoc`` features and some conventions followed
- in the kernel:
+ Documentation/admin-guide/reporting-issues.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 2fd5a030235a..07b2c0b20498 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -56,7 +56,7 @@ developers. It might be all that's needed for people already familiar with
+ reporting issues to Free/Libre & Open Source Software (FLOSS) projects. For
+ everyone else there is this section. It is more detailed and uses a
+ step-by-step approach. It still tries to be brief for readability and leaves
+-out a lot of details; those are described below the step-by-step guide in a
++out a lot of details; those are described below in the step-by-step guide in a
+ reference section, which explains each of the steps in more detail.
  
--  - The first paragraph must be a single sentence briefly describing what
--    the documented item does. Further explanations must go in extra paragraphs.
-+- The first paragraph must be a single sentence briefly describing what
-+  the documented item does. Further explanations must go in extra paragraphs.
+ Note: this section covers a few more aspects than the TL;DR and does things in
+@@ -299,7 +299,7 @@ face, even if they look small or totally unrelated. That's why you should report
+ issues with these kernels to the vendor. Its developers should look into the
+ report and, in case it turns out to be an upstream issue, fix it directly
+ upstream or forward the report there. In practice that often does not work out
+-or might not what you want. You thus might want to consider circumventing the
++or might not be what you want. You thus might want to consider circumventing the
+ vendor by installing the very latest Linux kernel core yourself. If that's an
+ option for you move ahead in this process, as a later step in this guide will
+ explain how to do that once it rules out other potential causes for your issue.
+@@ -472,7 +472,7 @@ before proceeding.
+ Note, you might not be aware that your system is using one of these solutions:
+ they often get set up silently when you install Nvidia's proprietary graphics
+ driver, VirtualBox, or other software that requires a some support from a
+-module not part of the Linux kernel. That why your might need to uninstall the
++module not part of the Linux kernel. That's why you might be need to uninstall the
+ packages with such software to get rid of any 3rd party kernel module.
  
--  - Unsafe functions must document their safety preconditions under
--    a ``# Safety`` section.
-+- Unsafe functions must document their safety preconditions under
-+  a ``# Safety`` section.
  
--  - While not shown here, if a function may panic, the conditions under which
--    that happens must be described under a ``# Panics`` section.
-+- While not shown here, if a function may panic, the conditions under which
-+  that happens must be described under a ``# Panics`` section.
- 
--    Please note that panicking should be very rare and used only with a good
--    reason. In almost all cases, a fallible approach should be used, typically
--    returning a ``Result``.
-+  Please note that panicking should be very rare and used only with a good
-+  reason. In almost all cases, a fallible approach should be used, typically
-+  returning a ``Result``.
- 
--  - If providing examples of usage would help readers, they must be written in
--    a section called ``# Examples``.
-+- If providing examples of usage would help readers, they must be written in
-+  a section called ``# Examples``.
- 
--  - Rust items (functions, types, constants...) must be linked appropriately
--    (``rustdoc`` will create a link automatically).
-+- Rust items (functions, types, constants...) must be linked appropriately
-+  (``rustdoc`` will create a link automatically).
- 
--  - Any ``unsafe`` block must be preceded by a ``// SAFETY:`` comment
--    describing why the code inside is sound.
-+- Any ``unsafe`` block must be preceded by a ``// SAFETY:`` comment
-+  describing why the code inside is sound.
- 
--    While sometimes the reason might look trivial and therefore unneeded,
--    writing these comments is not just a good way of documenting what has been
--    taken into account, but most importantly, it provides a way to know that
--    there are no *extra* implicit constraints.
-+While sometimes the reason might look trivial and therefore unneeded,
-+writing these comments is not just a good way of documenting what has been
-+taken into account, but most importantly, it provides a way to know that
-+there are no *extra* implicit constraints.
- 
- To learn more about how to write documentation for Rust and extra features,
- please take a look at the ``rustdoc`` book at:
 -- 
-2.41.0
+2.34.1
 
