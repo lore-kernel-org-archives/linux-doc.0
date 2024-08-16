@@ -1,101 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51CA1BDA94;
-	Fri, 16 Aug 2024 15:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4501BDAB5;
+	Fri, 16 Aug 2024 15:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723822514; cv=none; b=q8vdHNDbEtIVp/Jle4ZR6+Qb0Q2g4qgWqA1nO4BCiOQUoiu3YE5CiN/NvmxC+l19eHqfkNLfS68Wyz9ROfQo4DzeyRACsH72BHFtT/z1uUsxNW6pVdEYh29cOUq+gwpxW4G5FApEprUi1lSiw6iAMo0nPyjk1i7jTRrePYT1TO4=
+	t=1723823073; cv=none; b=B3H7rjRLe7afw8vzDWPio5Oa3tfEbJnS4c/24oolp+vpLA0RRrIDNxf41q4SRuxlMy8hx/DKXsjfunVH8gleIFO0IuE8ZA+qkLqOaXl/k27ckQoMYI2UqJJuvJH+PJ0eEQwzFUzEZzUd1HVweQWrpkynHkx0owveCbZtoe6ntUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723822514; c=relaxed/simple;
-	bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QfDIvowUn708IFttF9aIWWLZhB9jvsVT9fLhFMcle1MI9fav49grmqhGIY13TsYQQUXajDVB8SCq4Nc9KOIPTPoNt26ucXVjL+EQNFzQT1k+iFGvUeaLAz3s+DGK9P3YCe54ZAB1SKCrBv5pM/aJz7JRsXRJ3TR81a04RtUVp10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKSTGrm8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723823073; c=relaxed/simple;
+	bh=KOTIU21F5fyuTV5MN3PTTpuJ+JEbCQXr9Fl4lQaTqdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FKEqe7COB89vB0d69q4RUgns8dGPvjnr9hljhcKUpL+c5Hwf32g+MjFG6vGjkmNf1v17EW+a0HcnX9xodhz3Q+TSHBrSVP2W1bMPfzwpjggaYn3920QFqv2yFiU9vC5UD0pQc7B+KajJvXCeMUw/SKAVLo4MBOP5eKjrPjrkYxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o8BVWbV2; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKSTGrm8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C32C32782;
-	Fri, 16 Aug 2024 15:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723822513;
-	bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bKSTGrm8LaF2gwztx+/6SinSoy24s5gR4CldYRBEkiNOSwgcpm7hLvrrK2gtq0Pvx
-	 hMOv7Np2xjcElkjbz06G6kxT1paCcuIl6tgDnhA1FReWgEk0VrJIV5VnmY28VW+uM3
-	 rZACO8v+MYhjqas3sNB0o4umHsNfCDqpROl01Mt/tH5odX/nLSTCmpnMqAFo9lHFii
-	 7gaHt6gXGlFMnEUaVC739Sgm/hKhGjvNlG4yZPxcjScZu7DwFyzYVs8aZxgV2ToxjC
-	 MflEhOxEm/9blSXnL7eNEt3U0O1uRbAir3rluhSYsWuh/JjkeQLFqL1D7S/NCKi2I7
-	 8SQyYhQ0iAcDw==
-Date: Fri, 16 Aug 2024 08:35:10 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240816083510.3386fb10@kernel.org>
-In-Reply-To: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
-References: <20240813211317.3381180-7-almasrymina@google.com>
-	<de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-	<CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
-	<31640ff4-25a6-4115-85e6-82092ce57393@gmail.com>
-	<20240815182245.2b5e3f44@kernel.org>
-	<CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o8BVWbV2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tgmySbRwp3I0v4k+W+elsCxx/kQc/3jwf7sA3HlVR7E=; b=o8BVWbV2qPTU0QptJvu+e5wG2g
+	vZWxPPmF+etUOMaJeF4OEbn2tBGjPvBT2KkkZ089V9vh4jcBnju0+V6YXMns7tBwJttNpPuN7OYoO
+	/m3b/GT3XBzV4UcktvdRqKOQ7+el+CYIY9Ep3RN0DObJqEKA69Mdw3wid7QfhLTgx8gyXrDLmDHeZ
+	2++oQtMglbMSXqUsqYTqiPo9gIoSW4xtI8PSWk3HeETkH1RgFcLhBAvrlakOdyziwQrNgJnn5s5XP
+	Ta0lzB8CSVymbMA6oEkMwXcvLg+BkPviW43ai1H5bzTt16qYqUBZ5tZzR63jbxX4/at0nE7VcWA6P
+	iRy0XdJw==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sez7X-00000003lSD-1DSr;
+	Fri, 16 Aug 2024 15:44:07 +0000
+Date: Fri, 16 Aug 2024 16:44:07 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+	yuzhao@google.com, david@redhat.com, baohua@kernel.org,
+	ryan.roberts@arm.com, rppt@kernel.org, cerasuolodomenico@gmail.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+Message-ID: <Zr9zx74W6-oRwKXB@casper.infradead.org>
+References: <20240813120328.1275952-1-usamaarif642@gmail.com>
+ <20240813120328.1275952-5-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240813120328.1275952-5-usamaarif642@gmail.com>
 
-On Fri, 16 Aug 2024 08:20:44 -0400 Mina Almasry wrote:
-> > I'd keep the current check with a WARN_ON_ONCE(), tho.
-> > Given the absence of tests driver developers can use.
-> > Especially those who _aren't_ supporting the feature.
-> 
-> Yes what I have locally is the driver setting
-> netdev_rx_queue->unreadable_netmem_supported when header split is
-> turned on, and additionally a WARN_ON_ONCE around the check in core. I
-> was about to send that when I read your email. I'm hoping we don't
-> have to go through the scope creep of adding configuration via the
-> queue API, which I think is a very significant undertaking.
+On Tue, Aug 13, 2024 at 01:02:47PM +0100, Usama Arif wrote:
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index a0a29bd092f8..cecc1bad7910 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -182,6 +182,7 @@ enum pageflags {
+>  	/* At least one page in this folio has the hwpoison flag set */
+>  	PG_has_hwpoisoned = PG_active,
+>  	PG_large_rmappable = PG_workingset, /* anon or file-backed */
+> +	PG_partially_mapped, /* was identified to be partially mapped */
 
-I don't like adding more and more transient stuff to netdev_rx_queue.
-It's one thing if we create a temporary solution in the core, which
-we can easily redo later. It's another altogether when we expect drivers
-to keep some bit up to date across all the reconfiguration paths they
-have. Just to then got an replace that with another API.
+No, you can't do this.  You have to be really careful when reusing page
+flags, you can't just take the next one.  What made you think it would
+be this easy?
 
-If the post-check works let's go with that for now.
+I'd suggest using PG_reclaim.  You also need to add PG_partially_mapped
+to PAGE_FLAGS_SECOND.  You might get away without that if you're
+guaranteeing it'll always be clear when you free the folio; I don't
+understand this series so I don't know if that's true or not.
