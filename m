@@ -1,132 +1,118 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA3D36C;
-	Fri, 16 Aug 2024 09:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA0013C689;
+	Fri, 16 Aug 2024 10:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723802296; cv=none; b=XIgBj02ksQnf3YJX8QKf79VI/4vMvLYQgZKkgWjh69mfMxNmNAJsOrSKkodejh5/Cq4Q4kj0taQCVmi7OR1KvFt3M+3nzvi23+ySk2Ier3gCR6fhueDYuOHtOxPH2Smyk2W/FPYHwwTe3QDA3hPTpZWK29S5bsIfVbSQMwmIVTE=
+	t=1723804937; cv=none; b=MdYNST8h/GfcIXe0/iShAezR1yFpnnOJ+fyKz6CQUyiq7r2PFCMP+fYlbSbG1kb5bRIIm+tyYvq5AK7VzD2NfTZHfJHS8KrD9aCKYilH7t45a1h8wBEgCbueTQsS99Xk6y0B4AqJhGa26Ln2nYieBeyfYQ3Mj8DazO4N3xjBosk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723802296; c=relaxed/simple;
-	bh=bY2SKJf/T/Ld3CDXhCKFdHNioUuOwZxhySggiPGPKPM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z23ytn9x+rpqq5OFx82tSt8XfcGYv2d7Ya4BQfb51Q3PLhjKWT1GyDhfWkaYDPq43e/OZQDGRY74aeG+zMFBMQsEHkCWdC0j7P8AJdbRBXMNMuoEr2DrQz50naT5qZgkL2Fm/6MUjPJiI8kOJFJJMZIIigpZlxSpemO2sJ734ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=Ses2Ghsk; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1723804937; c=relaxed/simple;
+	bh=zg3dRit0opyHfuuTVglW5AtRP4DAPWyWCTz/Rq9Op8U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=evReghtF/PyMWhycixiJ1Y9lhdOP6USlZoILb1Lhw3x212RREC3pNPtkOT8viU1WzgE4xVTxy0VNE7fst7LmcDDpPKtLDP7OBBvxyLbgB/QhUQpoxDMqAy2ycdMxf19SuHh/2DInZmjtQIdAYrM1vAOf9sNUjLWLdRBhHp30H5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NB193JTX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="Ses2Ghsk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=ypgPTg+MRhzUZKlbqCGD1yht558WVEA3aPxgGXNQsqM=; t=1723802294;
-	x=1724234294; b=Ses2Ghsk0VPDdhM8GnZRgp/X6muLrJNu5EfC81Q6/dZdiIfKMXdEJdA0pCJWd
-	yg/QfBVLTjNvDyl1XoC9ubiiIC+xRLpDVKjkLZzDxNXARUzjScvZ1xY5ReUGqVRbjnTuzwovPLCu6
-	qxlvW1ilHIvfE46cGVrFaxx0d9Fl0X8U71LxnLY03iumvTNskxzAoL8zEEbu93QtNMVZYFUa51z0M
-	A+4YKGpyKm1nZkH8I0xtqssBfa4cR4sXaspedkClJSNXxciQWq4f8PTiK94DDORlUcXH6jStKUv6S
-	N17/DSzHq7mMHnNc5EO1GB/FRZb8QkJ1vBAVGL+PR9cXcw2WdA==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1setii-0006gB-7j; Fri, 16 Aug 2024 11:58:08 +0200
-Message-ID: <f0e080d3-1ca4-409e-a038-657f0105b41a@leemhuis.info>
-Date: Fri, 16 Aug 2024 11:58:07 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NB193JTX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C679C32782;
+	Fri, 16 Aug 2024 10:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723804936;
+	bh=zg3dRit0opyHfuuTVglW5AtRP4DAPWyWCTz/Rq9Op8U=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=NB193JTXK3JRQ7RSKkOV16g8BU8FoDpFZ9LrZZP3Mr/3BsNpE4kWT2iUeatduZZUe
+	 42iqfmX+LeVxQUsdm8vSGspHkZbszI5FZ3EPXdHy9uQPwn8HkZlPSmKdcwx8DF+wtm
+	 nFt0M7aq8L1mzCPQPuZUhVBGGOjDBOkbMum9ikJr/AVq3DkDb/koO8d8n6IgkN9f59
+	 BexA35uQhGZv4ph6LKZoSbT0wspZgo7Ff6avGvl0r8QC8Apl3M1iwrQYf4L1yhr7W4
+	 bYYTtbhcN8kgzIAFe1rQAe/rM0UYJS0HEr2bRTvySuQwtTKcLGMqksaTknDYo3S8qi
+	 6uwqFaJIb34bw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs: Fix grammar and phrasing errors in
- reporting-issues.rst
-To: SurajSonawane2415 <surajsonawane0215@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240816093646.116091-1-surajsonawane0215@gmail.com>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <20240816093646.116091-1-surajsonawane0215@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1723802294;47c333be;
-X-HE-SMSGID: 1setii-0006gB-7j
+Date: Fri, 16 Aug 2024 13:42:13 +0300
+Message-Id: <D3H9ULV1NH4M.1A8EKXWZFTEF2@kernel.org>
+Cc: "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
+ early measurements
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Thomas Gleixner" <tglx@linutronix.de>, "Daniel P. Smith"
+ <dpsmith@apertussolutions.com>, "Eric W. Biederman"
+ <ebiederm@xmission.com>, "Eric Biggers" <ebiggers@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-7-ross.philipson@oracle.com>
+ <20240531021656.GA1502@sol.localdomain>
+ <874jaegk8i.fsf@email.froward.int.ebiederm.org>
+ <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
+ <87ttflli09.ffs@tglx>
+In-Reply-To: <87ttflli09.ffs@tglx>
 
-On 16.08.24 11:36, SurajSonawane2415 wrote:
-> Fix grammatical errors and improve phrasing in the `reporting-issues.rst`
-> documentation file. These changes enhance readability and ensure the
-> accuracy of the instructions provided.
+On Thu Aug 15, 2024 at 10:10 PM EEST, Thomas Gleixner wrote:
+> On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
+> > On 5/31/24 09:54, Eric W. Biederman wrote:
+> >> Eric Biggers <ebiggers@kernel.org> writes:
+> >>> That paragraph is also phrased as a hypothetical, "Even if we'd prefe=
+r to use
+> >>> SHA-256-only".  That implies that you do not, in fact, prefer SHA-256=
+ only.  Is
+> >>> that the case?  Sure, maybe there are situations where you *have* to =
+use SHA-1,
+> >>> but why would you not at least *prefer* SHA-256?
+> >>=20
+> >> Yes.  Please prefer to use SHA-256.
+> >>=20
+> >> Have you considered implementing I think it is SHA1-DC (as git has) th=
+at
+> >> is compatible with SHA1 but blocks the known class of attacks where
+> >> sha1 is actively broken at this point?
+> >
+> > We are using the kernel's implementation, addressing what the kernel=20
+> > provides is beyond our efforts. Perhaps someone who is interested in=20
+> > improving the kernel's SHA1 could submit a patch implementing/replacing=
+=20
+> > it with SHA1-DC, as I am sure the maintainers would welcome the help.
+
+Git also has a bit more wide than secure launch, and the timeline is
+also completely different. Git maintains legacy, while has also
+introduced SHA-256 support in 2018. This as a new feature in the kernel
+stack.
+
+The purpose of SHA1-DC has obviously been to extend the lifespan, not
+fix SHA-1.
+
+Linux will be better of not adding anything new related to SHA-1 or
+TPM 1.2. They still have a maintenance cost and I think that time
+would be better spent of for almost anything else (starting from
+taking your trashes out or boiling coffee) ;-)
+
 >
-> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
-> ---
-> V2 -> V3: Re-added the fix for the line: "That's why you might be need to uninstall the".
-> V1 -> V2: emoved the unwanted change to the line: "try search terms like".
+> Well, someone who is interested to get his "secure" code merged should
+> have a vested interested to have a non-broken SHA1 implementation if
+> there is a sensible requirement to use SHA1 in that new "secure" code,
+> no?
+>
+> Just for the record. The related maintainers can rightfully decide to
+> reject known broken "secure" code on a purely technical argument.
+>
+> Thanks,
+>
+>         tglx
 
-Thx, description sounds good. Final verdict ist up to Jonathan. And
-changelog is great as well (apart from the typo in "removed", but
-things happen, so no worries :-D )
-
-Sadly there is one more thing where I apparently was unclear earlier: 
-> @@ -472,7 +472,7 @@ before proceeding.
->  Note, you might not be aware that your system is using one of these solutions:
->  they often get set up silently when you install Nvidia's proprietary graphics
->  driver, VirtualBox, or other software that requires a some support from a
-> -module not part of the Linux kernel. That why your might need to uninstall the
-> +module not part of the Linux kernel. That's why you might be need to uninstall the
->  packages with such software to get rid of any 3rd party kernel module.
-
-That last "the" makes the line too long, so it needs to move to the next
-line. The diff thus should look like this in the end:
-
--module not part of the Linux kernel. That why your might need to uninstall the
-+module not part of the Linux kernel. That's why you might be need to uninstall
-+the packages with such software to get rid of any 3rd party kernel module.
-
-But wait a moment: that additional "be" looks wrong to me. If you agree,
-remove it and resend, then everything will be fine afaics. Sorry, I
-should have noticed that earlier.
-
-Ciao, Thorsten
+BR, Jarkko
