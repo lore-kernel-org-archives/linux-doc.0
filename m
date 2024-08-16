@@ -1,119 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D61313C9A7;
-	Fri, 16 Aug 2024 11:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83878156F44;
+	Fri, 16 Aug 2024 12:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723807328; cv=none; b=E/Swq4SwjhCOE26Gvi+tDc4yOjzxENeJzQicavF+qKGTjKpdFA/AA36ynomqXrOiTi96dWxfFBAMytc60v4RufBfSpZ/Oe5ezIz/pAndQKCyFM/Qzcu98ofh90GbrSiCGyGdpO3BkjgM1B2ebX+ubvC9VZMVXD0Fo/5bnUUVeIg=
+	t=1723809752; cv=none; b=f+QLPcCuiXJcGdAHu60XxYHadWy33lav9wNM7+GVqnHYkW1MHFrtgZcspp1PfbOxdHnm+ydnp8t30j8FzwYppuwwckjCnrMTyWk+2uirsJR9Z0cD5WgpbaMsGhdKLOBW+4Wu34iMTDDfe9KfbfAQGagl26QBjvDol1nxkFPCTfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723807328; c=relaxed/simple;
-	bh=gV2PqQerkGgy/+HK5ajdWorgprSPCXQyQAoB8oo88rk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=rtTYSyJVnnb34eh04BYe0VnNJIn9GbuUZHTB+2ebUuB/zib896abeynYXNnfxwyHyJdxEg4xDPi8S/8nVKIvHD59a+FW1HIf+qk7s9xVY3yEoDsBZ6QdWar9E9jm9AXfnNi+Ez5CGKKIeLy3Atq+3lZF6196MJldnzmO4V7df08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jveqprc1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723809752; c=relaxed/simple;
+	bh=oPeCvIbifLel6Ow5IZxAJAB7Vu3RJACPj3rWPilHCSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=te5ImRZvugcFy3zuE2UJRPaFLfcVdvhbmAOt5/QcuB8MHwgxjjZSJXeDijX2E38O2Sk9H9OB4ZmHnlmDpd10R99OO4FEGIsoJjsc8GB56ukj4s94RTXlKcy/c/ixpVzXVqJPUdG/g7QYNZm2J3G2cJ0AK5L9ydBuyRoW/Nav4dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lammGcz+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jveqprc1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB10DC32782;
-	Fri, 16 Aug 2024 11:22:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lammGcz+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D3A6C32782;
+	Fri, 16 Aug 2024 12:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723807328;
-	bh=gV2PqQerkGgy/+HK5ajdWorgprSPCXQyQAoB8oo88rk=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=Jveqprc1i1LHYV6qtBL08bsdgzXefjlh1drYspRjo3Pc7kIhjw730W/Iilznig37j
-	 sq74l0Xoy31GXwIYvl7EKsDZAUsuczbJnDgPgKwDIhvExKHkFhvimJz5DX8cVHjHOn
-	 u8WZojYei71O8DMGl0XY1Rx8fcPCZkZxSnURmusIwH2MP4BxFZrJuvT3wwmoIcnwE0
-	 5HLzLypWYmiiTzxn02IS63nfb2IJCzOx/tyCeqBQFHcwTgUCt2N62+tqZKdTn/4t/q
-	 XA0ADrVDyHSsZuS8Mskt+KlNGNbfliJV3QAz3l/mfwjyjpULNA6rRhMtBak9LNwx/1
-	 DTzeAYYEHOMoQ==
+	s=k20201202; t=1723809752;
+	bh=oPeCvIbifLel6Ow5IZxAJAB7Vu3RJACPj3rWPilHCSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lammGcz+t6OGLNs0WJ0Ion4Wo4GhurUkVu9VWiP20uUI84FAGr99BGSEVKLI3fz0A
+	 fdGUkReozzGf4aWRVUznXu1+ekkxTAXKX9asXpNuaMQ1tYN4asJdK2ScKq+YtJngv9
+	 eBTUzZ6sgM4PJfqhUUEouo3q1afG4J2UT9kK9sHh3i6JTPG7VScNqDMPYJjMiJ/yEb
+	 aDHpqxKNlUXj5jxTAw9xe58I5LaYxqrSdwd8JLqUkMgLqODMxadE/yFK1sG8NLIRrS
+	 rF0cmj1k6ZNEaPvijrCCoPuA1yH2NQ+PEC7/6R5P2m1BKIliB/yCGa8WCxE1omVOJe
+	 vrEUxH6ID2hnA==
+Date: Fri, 16 Aug 2024 13:02:22 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 05/40] arm64/gcs: Document the ABI for Guarded
+ Control Stacks
+Message-ID: <7c17b28e-a5d1-4113-9580-9501692af513@sirena.org.uk>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-5-699e2bd2190b@kernel.org>
+ <Zr8zTTrJ6M0SCvCV@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Aug 2024 14:22:04 +0300
-Message-Id: <D3HAP4O4OVS3.2LOSH5HMQ34OZ@kernel.org>
-Cc: "Ross Philipson" <ross.philipson@oracle.com>,
- <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
- <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
- <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Andrew Cooper" <andrew.cooper3@citrix.com>, "Thomas Gleixner"
- <tglx@linutronix.de>, "Daniel P. Smith" <dpsmith@apertussolutions.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>, "Eric Biggers"
- <ebiggers@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx> <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
-In-Reply-To: <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p6v+ZIr+kcIsmhYm"
+Content-Disposition: inline
+In-Reply-To: <Zr8zTTrJ6M0SCvCV@arm.com>
+X-Cookie: A Smith & Wesson beats four aces.
 
-On Fri Aug 16, 2024 at 2:01 PM EEST, Andrew Cooper wrote:
-> On 15/08/2024 8:10 pm, Thomas Gleixner wrote:
-> > On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
-> >> On 5/31/24 09:54, Eric W. Biederman wrote:
-> >>> Eric Biggers <ebiggers@kernel.org> writes:
-> >>>> That paragraph is also phrased as a hypothetical, "Even if we'd pref=
-er to use
-> >>>> SHA-256-only".  That implies that you do not, in fact, prefer SHA-25=
-6 only.  Is
-> >>>> that the case?  Sure, maybe there are situations where you *have* to=
- use SHA-1,
-> >>>> but why would you not at least *prefer* SHA-256?
-> >>> Yes.  Please prefer to use SHA-256.
-> >>>
-> >>> Have you considered implementing I think it is SHA1-DC (as git has) t=
-hat
-> >>> is compatible with SHA1 but blocks the known class of attacks where
-> >>> sha1 is actively broken at this point?
-> >> We are using the kernel's implementation, addressing what the kernel=
-=20
-> >> provides is beyond our efforts. Perhaps someone who is interested in=
-=20
-> >> improving the kernel's SHA1 could submit a patch implementing/replacin=
-g=20
-> >> it with SHA1-DC, as I am sure the maintainers would welcome the help.
-> > Well, someone who is interested to get his "secure" code merged should
-> > have a vested interested to have a non-broken SHA1 implementation if
-> > there is a sensible requirement to use SHA1 in that new "secure" code,
-> > no?
->
-> No.
->
-> The use of SHA-1 is necessary even on modern systems to avoid a
-> vulnerability.
->
-> It is the platform, not Linux, which decides which TPM PCR banks are acti=
-ve.
->
-> Linux *must* have an algorithm for every active bank (which is the
-> platform's choice), even if the single thing it intends to do is cap the
-> bank and use better ones.
 
-For (any) non-legacy features we can choose, which choices we choose to
-support, and which we do not. This is not an oppositive view just saying
-how it is, and platforms set of choices is not a selling argument.
+--p6v+ZIr+kcIsmhYm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> Capping a bank requires updating the TPM Log without corrupting it,
-> which requires a hash calculation of the correct type for the bank.
->
-> ~Andrew
+On Fri, Aug 16, 2024 at 12:09:01PM +0100, Catalin Marinas wrote:
+> On Thu, Aug 01, 2024 at 01:06:32PM +0100, Mark Brown wrote:
 
-BR, Jarkko
+> > +* EL0 GCS entries with bit 63 set are reserved for use, one such use is defined
+
+> Maybe "reserved for specific uses". The proposed sentenced feels like
+> it's missing something.
+
+Actually we removed the usage of bit 63 so I'll just drop this.
+
+> > +* When a new thread is created by a thread which has GCS enabled then a
+> > +  new Guarded Control Stack will be allocated for the new thread with
+> > +  half the size of the standard stack.
+
+> Is the half size still the case? It also seems a bit inconsistent to
+> have RLIMIT_STACK when GCS is enabled and half the stack size when a new
+> thread is created.
+
+Yes, this predates the rebase onto clone3() - I'll update.
+
+> [...]
+> > +* When a thread is freed the Guarded Control Stack initially allocated for
+> > +  that thread will be freed.  Note carefully that if the stack has been
+> > +  switched this may not be the stack currently in use by the thread.
+
+> Is this true for shadow stacks explicitly allocated by the user with
+> map_shadow_stack()?
+
+It is only true for the stacks allocaeted by the kernel, if we didn't
+allocate a stack we don't free it.
+
+> > +* The signal handler will use the same GCS as the interrupted context.
+
+> I assume this is true even with sigaltstack. Not easy to have
+> alternative shadow stack without additional ABI.
+
+Yes.
+
+--p6v+ZIr+kcIsmhYm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma/P80ACgkQJNaLcl1U
+h9Dfgwf9EHMFRik1mUwmgRytVPWYPFLCBG8YZtDuO0Wxbs78KN6zc8ji2vFJ8lIJ
+B1hNUxCH6BOhm+AfFVF3zkoXZn+wjlPnLRGOPJUodgh27zecCwTCrwayO8ncECyf
+bIeq0XnjssL7P2A2wNVK0cFXU9W+Gw3OjVUAPUQmdC7lk6w4GwIMnpgQs1Vrueko
+IO1qBTeiV0rySxm/x0E14lq3kpX7eAcrBERnR+wfA17R4CtVClV2S1lT8YyUdYl7
+n81clFcHhylhTBz7napWIOchWjXqicUT7zqHLPKHMVxutUuuT1Mc+obOdDSUsdcl
+8qUKqX887cAFNJNPd+6Nlq+t+MtUZA==
+=6lHH
+-----END PGP SIGNATURE-----
+
+--p6v+ZIr+kcIsmhYm--
