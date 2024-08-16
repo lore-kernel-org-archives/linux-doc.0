@@ -1,77 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709C51BDA87;
-	Fri, 16 Aug 2024 17:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C566552F62
+	for <linux-doc@vger.kernel.org>; Fri, 16 Aug 2024 17:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723827940; cv=none; b=mXrgfSgzAgDGe7o4nYAQ7letMZMKe/q/9crZlpnlVJ3acvB3+6oB1wN3VRh3fsLOev+nMmcRjOMv33Em2td/0jXTmcOQahukdGJNolhrG6zErM7RnYyJDaCcJ4RFtwuRM04OLgbDwNLilmKG0KwwjoxS2q7xD3pUbi60eXlO/6s=
+	t=1723828582; cv=none; b=eCr5q7Q0PAJUwf3E81ct5UGNl66CYHXX5hx4di5DVQ+5E7fFrvsDuNZPGkEiIc471DL44vipuSNgmY/P0WiScSljWq3MaDCOEagc+whNxQNWvtXrNyMcUO68NSgSxyaFsbjTMX4sdZQowIYZsW/pXVC0HKEQ/hsKuDtp5JG3360=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723827940; c=relaxed/simple;
-	bh=TKvbI1GAEeItb2bEFwK/yASbak4bQTgxXpY2SIvi1DU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CZ8P1KZ/j68ey9OWs4bOcqKwl/VF8mX1hfeIlwAehWOU60jHfU5lHmLbKguiHlYaUxsEfhiTVpt8CBr8xXPV5TSZgw/+pCYMYsY1gzhEU6UHZpp/YuUoWJs5mAkOFoM5Nbz6XjVY5cPB6Ll/Nbk4zogpripmu8lGYPIOf3Oyebw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZDxZnYh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723828582; c=relaxed/simple;
+	bh=gTTZh8BhzQptepzYG+1nG2a8w6BJrqYUeFg1d22FTRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N+T4iqmCgMDYc7r65n+DU1Be9tWcGXsjcn/KG0EA81a3Pk8tiUcP53N3YTxNTWJiI8j4rxE8VTq+5/Z25F7plu59/Czun8cHJkl/DZ7qYw3uYTqXi9aU/N6EkgwadIHTtYvDfQepdm75jIQZ59ZVfPiHqfuQSxdKuzzu+6MvkjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ezYR5hSg; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZDxZnYh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9296C32782;
-	Fri, 16 Aug 2024 17:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723827940;
-	bh=TKvbI1GAEeItb2bEFwK/yASbak4bQTgxXpY2SIvi1DU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gZDxZnYhrb78J/hqA57WOJfo1+Dr08NPTYbnvgLhfkA6+9sAjqEcYIkkQ1z9FjdCZ
-	 zaLcmaacYWaBF+mzuLUc7HKMQkbJri8pgw8wQCbTcSzz1gT+MghqhUazDTnfHxEeLU
-	 UMefPPeouOulIMKPNdJoO57o6H6KIv4yru+q9m3SoEd18E8zL0sWrpRvZTAoEB+tSv
-	 a8dwwqOq2CttymwE8VXN7agwheSuiJ/9VzGwJ87QvE/Kcsw06eyihkzMjaUFlXHwPg
-	 0xGaLJj87Z01LhN3LPVJZC30oaxqSY6yFAcvD0zyoY4mDcMmYvKPftcTMHRM1oW+c1
-	 6gOgigVK8pHcw==
-Date: Fri, 16 Aug 2024 10:05:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
- <horms@kernel.org>, <saeedm@nvidia.com>, <anthony.l.nguyen@intel.com>,
- <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <andrew@lunn.ch>,
- <corbet@lwn.net>, <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
- <ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
- <vladimir.oltean@nxp.com>, <masahiroy@kernel.org>, <alexanderduyck@fb.com>,
- <krzk+dt@kernel.org>, <robh@kernel.org>, <rdunlap@infradead.org>,
- <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
- <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
- <Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
- <Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
- <linux@bigler.io>, <markku.vorne@kempower.com>
-Subject: Re: [PATCH net-next v6 13/14] microchip: lan865x: add driver
- support for Microchip's LAN865X MAC-PHY
-Message-ID: <20240816100537.7457ba58@kernel.org>
-In-Reply-To: <20240812102611.489550-14-Parthiban.Veerasooran@microchip.com>
-References: <20240812102611.489550-1-Parthiban.Veerasooran@microchip.com>
-	<20240812102611.489550-14-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ezYR5hSg"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5bed0a2ae0fso850204a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Aug 2024 10:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723828579; x=1724433379; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gTTZh8BhzQptepzYG+1nG2a8w6BJrqYUeFg1d22FTRs=;
+        b=ezYR5hSgSpfKr6VNpkvnZUXXfBySSY+CyaA/b49Ea0s98vYrdT4fRM4PZuju11Tybp
+         uDIjvsq0wwNhMl3AhzcT0QD6ZG9h/puVb4/5IVewgMSNXLaFiem+xVPSiZDDHYAsNlYZ
+         G414Ww8nYUclfjuHULz6JnSdVq93dvItkMbFXoFlmF3xKBnOms/VvNsZAqjof4YqXSPC
+         RjaMpsLzq7VBJOmnxO2TZ12qZE+X4L5euUe3n4UYG1OgruaR2fjFtNlEAYyKf5X7OYBd
+         6pZFayTeS0wtqOgDkyrzm+Do85oWtVYhyvSjQOXFkTyWTvynBHrwSPtlFaFmPI5yhUsZ
+         VO0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723828579; x=1724433379;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gTTZh8BhzQptepzYG+1nG2a8w6BJrqYUeFg1d22FTRs=;
+        b=VXHUkSNROA8nKZQyOiavcmt9NjM51uquwsEz/Z+8E2NT7LpXZeWqZTSUf8t1YDFmqq
+         kdJzeR9DWi7kHkp6wLHfm5qiKP9UIoKyMzdBbC14gW629fMXKrYswoHq+8kFqqUDRbDt
+         nQA3OGoW0pmRLPx1sOcOm7Ecuzocjzysq/e6ec9ezRRUqrnzJqPryzMkH86niTfOaqqW
+         8iT0Crnx06at2I/p62TBx38L1VPxnlnpEz0aFRSerfmNcTRHVreuajwb8IUORer3y9GK
+         yEtlbhC6aj873BLwjZ2f7bw2SrNCDahlKj4LZAqN+dxlFYthlXfSAM9sXTsoMXb75sPF
+         hzTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWM8L3Lv6ssHMVMDn3F36JLA+glS5+LNpI+fXXVZoXakKSsslYYpMCXA+k3d5u0YIDvv3B9MFsSupc2AVZdRtLZtbzT5myPjGO7
+X-Gm-Message-State: AOJu0YxBICicQWnuhv/ZJ1NEoRCKMoWLEOs+WjeiA+oB+GAQujN/Xfaq
+	QQVN8YoeHjB5kMip5D4g/RLvTyfSvFoi+pNMRHY3ESSeMld1U3UXAkv2tw36Z0h4qfZgPdprzgz
+	8Vm7TvV1IwtwxH1tb8e1FX8jZNopBlNGIDoIY
+X-Google-Smtp-Source: AGHT+IGh9qT1AMeaxkAVVpMXaOhcrQoHKbRBo1jsonnHJGdLvz3C8hk7x+togERmJ4+UjoznIlFNWNKgSOxCHBrk0Ho=
+X-Received: by 2002:a17:906:c115:b0:a77:cf09:9c70 with SMTP id
+ a640c23a62f3a-a83aa09f219mr10837066b.43.1723828578258; Fri, 16 Aug 2024
+ 10:16:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1722981659.git.babu.moger@amd.com> <784eaa900b9e0778ddc534c04c7ded9466bfd19b.1722981659.git.babu.moger@amd.com>
+ <983fded5-48f8-439d-8afe-45b60841985a@arm.com> <8c93c091-39b3-4219-b892-9df2747eb91a@intel.com>
+In-Reply-To: <8c93c091-39b3-4219-b892-9df2747eb91a@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Fri, 16 Aug 2024 10:16:06 -0700
+Message-ID: <CALPaoCjmRyP00b9rTCjpxwLDJ2rYkQ8HuNMYJA+qVNo5a4Q9JQ@mail.gmail.com>
+Subject: Re: [PATCH v6 19/22] x86/resctrl: Introduce the interface to switch
+ between monitor modes
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, x86@kernel.org, 
+	hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, mingo@redhat.com, 
+	bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	fenghua.yu@intel.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 12 Aug 2024 15:56:10 +0530 Parthiban Veerasooran wrote:
-> +static void
-> +lan865x_get_drvinfo(struct net_device *netdev, struct ethtool_drvinfo *info)
-> +{
-> +	strscpy(info->driver, DRV_NAME, sizeof(info->driver));
-> +	strscpy(info->bus_info, dev_name(netdev->dev.parent),
-> +		sizeof(info->bus_info));
-> +}
-> +
+Hi Reinette,
 
-Could you check if deleting this function has any effect?
-Core should fill in the basic info automatically, modern
-drivers usually only have to fill in FW version, if at all.
+On Fri, Aug 16, 2024 at 10:01=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi James,
+>
+> On 8/16/24 9:31 AM, James Morse wrote:
+> > Hi Babu,
+> >
+> > On 06/08/2024 23:00, Babu Moger wrote:
+> >> Introduce interface to switch between ABMC and legacy modes.
+> >>
+> >> By default ABMC is enabled on boot if the feature is available.
+> >> Provide the interface to go back to legacy mode if required.
+> >
+> > I may have missed it on an earlier version ... why would anyone want th=
+e non-ABMC
+> > behaviour on hardware that requires it: counters randomly reset and ran=
+domly return
+> > 'Unavailable'... is that actually useful?
+> >
+> > You default this to on, so there isn't a backward compatibility argumen=
+t here.
+> >
+> > It seems like being able to disable this is a source of complexity - is=
+ it needed?
+>
+> The ability to go back to legacy was added while looking ahead to support=
+ the next
+> "assignable counter" feature that is software based ("soft-RMID" .. "soft=
+-ABMC"?).
+>
+> This series adds support for ABMC on recent AMD hardware to address the i=
+ssue described
+> in cover letter. This issue also exists on earlier AMD hardware that does=
+ not have the ABMC
+> feature and Peter is working on a software solution to address the issue =
+on non-ABMC hardware.
+> This software solution is expected to have the same interface as the hard=
+ware solution but
+> earlier discussions revealed that it may introduce extra latency that use=
+rs may only want to
+> accept during periods of active monitoring. Thus the option to disable th=
+e counter assignment
+> mode.
 
-If without the callback ethtool -i doesn't report the right
-info, please make sure SET_NETDEV_DEV() gets called.
+Sorry again for the soft-RMID/soft-ABMC confusion[1], it was soft-RMID
+that impacted context switch latency. Soft-ABMC does not require any
+additional work at context switch.
 
+The only disadvantage to soft-ABMC I can think of is that it also
+limits reading llc_occupancy event counts to "assigned" groups,
+whereas without it, llc_occupancy works reliably on all RMIDs on AMD
+hardware.
+
+-Peter
+
+[1] https://lore.kernel.org/lkml/CALPaoChDv+irGEmccaQ6SpsuVS8PZ_cfzPgceq3hD=
+3N2cqNjZA@mail.gmail.com/
