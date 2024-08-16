@@ -1,72 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9ED1991D2;
-	Fri, 16 Aug 2024 11:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D61313C9A7;
+	Fri, 16 Aug 2024 11:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723806967; cv=none; b=FySkQT24kjhPyKLSrQHzHk2bYHvXFu9WGgVstKtqjqbc/VGIDW5PHHiCGOtEzCTV0jgiAOCGiPesw+hI8wmZVrUVoiRNTLMQUzBK66PLBmujo+003mkaAou82fbAxOUYTdDDFYObNH1BJeVTTIbhcJmArtYkpU5+hN0H0oG+9U0=
+	t=1723807328; cv=none; b=E/Swq4SwjhCOE26Gvi+tDc4yOjzxENeJzQicavF+qKGTjKpdFA/AA36ynomqXrOiTi96dWxfFBAMytc60v4RufBfSpZ/Oe5ezIz/pAndQKCyFM/Qzcu98ofh90GbrSiCGyGdpO3BkjgM1B2ebX+ubvC9VZMVXD0Fo/5bnUUVeIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723806967; c=relaxed/simple;
-	bh=BTTEUc56HwlcFetSO6s447R7NMhJy50d4LfBN4ZgD/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tF0HiU1WFc06Gv6XhFkKGgXqAa5RydxMNyLUGCA1VHbg8tpAochY4pbPxwUKLT3xtAuhAYun1jUQ8PouC3tQSBBpzEm10Y5iew4zSLsByTEYjzPX/LSIw+f8LkC/KiWuOPRruZlJ/5nCUpMS4kjc5KaDSF8Y9sU0oCoZyhvhwRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FA9C32782;
-	Fri, 16 Aug 2024 11:16:01 +0000 (UTC)
-Date: Fri, 16 Aug 2024 12:15:59 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 10/40] arm64/cpufeature: Runtime detection of Guarded
- Control Stack (GCS)
-Message-ID: <Zr807_K0y2UtvPWg@arm.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-10-699e2bd2190b@kernel.org>
+	s=arc-20240116; t=1723807328; c=relaxed/simple;
+	bh=gV2PqQerkGgy/+HK5ajdWorgprSPCXQyQAoB8oo88rk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=rtTYSyJVnnb34eh04BYe0VnNJIn9GbuUZHTB+2ebUuB/zib896abeynYXNnfxwyHyJdxEg4xDPi8S/8nVKIvHD59a+FW1HIf+qk7s9xVY3yEoDsBZ6QdWar9E9jm9AXfnNi+Ez5CGKKIeLy3Atq+3lZF6196MJldnzmO4V7df08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jveqprc1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jveqprc1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB10DC32782;
+	Fri, 16 Aug 2024 11:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723807328;
+	bh=gV2PqQerkGgy/+HK5ajdWorgprSPCXQyQAoB8oo88rk=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=Jveqprc1i1LHYV6qtBL08bsdgzXefjlh1drYspRjo3Pc7kIhjw730W/Iilznig37j
+	 sq74l0Xoy31GXwIYvl7EKsDZAUsuczbJnDgPgKwDIhvExKHkFhvimJz5DX8cVHjHOn
+	 u8WZojYei71O8DMGl0XY1Rx8fcPCZkZxSnURmusIwH2MP4BxFZrJuvT3wwmoIcnwE0
+	 5HLzLypWYmiiTzxn02IS63nfb2IJCzOx/tyCeqBQFHcwTgUCt2N62+tqZKdTn/4t/q
+	 XA0ADrVDyHSsZuS8Mskt+KlNGNbfliJV3QAz3l/mfwjyjpULNA6rRhMtBak9LNwx/1
+	 DTzeAYYEHOMoQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240801-arm64-gcs-v10-10-699e2bd2190b@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 16 Aug 2024 14:22:04 +0300
+Message-Id: <D3HAP4O4OVS3.2LOSH5HMQ34OZ@kernel.org>
+Cc: "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
+ early measurements
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Andrew Cooper" <andrew.cooper3@citrix.com>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, "Eric Biggers"
+ <ebiggers@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-7-ross.philipson@oracle.com>
+ <20240531021656.GA1502@sol.localdomain>
+ <874jaegk8i.fsf@email.froward.int.ebiederm.org>
+ <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
+ <87ttflli09.ffs@tglx> <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
+In-Reply-To: <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
 
-On Thu, Aug 01, 2024 at 01:06:37PM +0100, Mark Brown wrote:
-> @@ -2870,6 +2872,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->  		.matches = has_nv1,
->  		ARM64_CPUID_FIELDS_NEG(ID_AA64MMFR4_EL1, E2H0, NI_NV1)
->  	},
-> +	{
-> +		.desc = "Guarded Control Stack (GCS)",
-> +		.capability = ARM64_HAS_GCS,
-> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+On Fri Aug 16, 2024 at 2:01 PM EEST, Andrew Cooper wrote:
+> On 15/08/2024 8:10 pm, Thomas Gleixner wrote:
+> > On Thu, Aug 15 2024 at 13:38, Daniel P. Smith wrote:
+> >> On 5/31/24 09:54, Eric W. Biederman wrote:
+> >>> Eric Biggers <ebiggers@kernel.org> writes:
+> >>>> That paragraph is also phrased as a hypothetical, "Even if we'd pref=
+er to use
+> >>>> SHA-256-only".  That implies that you do not, in fact, prefer SHA-25=
+6 only.  Is
+> >>>> that the case?  Sure, maybe there are situations where you *have* to=
+ use SHA-1,
+> >>>> but why would you not at least *prefer* SHA-256?
+> >>> Yes.  Please prefer to use SHA-256.
+> >>>
+> >>> Have you considered implementing I think it is SHA1-DC (as git has) t=
+hat
+> >>> is compatible with SHA1 but blocks the known class of attacks where
+> >>> sha1 is actively broken at this point?
+> >> We are using the kernel's implementation, addressing what the kernel=
+=20
+> >> provides is beyond our efforts. Perhaps someone who is interested in=
+=20
+> >> improving the kernel's SHA1 could submit a patch implementing/replacin=
+g=20
+> >> it with SHA1-DC, as I am sure the maintainers would welcome the help.
+> > Well, someone who is interested to get his "secure" code merged should
+> > have a vested interested to have a non-broken SHA1 implementation if
+> > there is a sensible requirement to use SHA1 in that new "secure" code,
+> > no?
+>
+> No.
+>
+> The use of SHA-1 is necessary even on modern systems to avoid a
+> vulnerability.
+>
+> It is the platform, not Linux, which decides which TPM PCR banks are acti=
+ve.
+>
+> Linux *must* have an algorithm for every active bank (which is the
+> platform's choice), even if the single thing it intends to do is cap the
+> bank and use better ones.
 
-Given that it's for user space only, system feature makes sense.
+For (any) non-legacy features we can choose, which choices we choose to
+support, and which we do not. This is not an oppositive view just saying
+how it is, and platforms set of choices is not a selling argument.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>
+> Capping a bank requires updating the TPM Log without corrupting it,
+> which requires a hash calculation of the correct type for the bank.
+>
+> ~Andrew
+
+BR, Jarkko
