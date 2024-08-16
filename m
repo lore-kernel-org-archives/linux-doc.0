@@ -1,90 +1,125 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E95134CD8;
-	Fri, 16 Aug 2024 06:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B2E1448EB;
+	Fri, 16 Aug 2024 07:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723789759; cv=none; b=olP6OljEDzXqhYT/pJOUKhYdNGnwwkl3E1HAWHiGm6KGf8Sn9ig/vZ+VStKwFUZJm97wJW/KDUBOav7uEd513AH4OwUybMCiMNsYghsQeaX29WdAGJLBtlKNgP+SmmerPaTNFUaXFHca5/xh92qq9ygvpyhrN9MPs0e4SzpKWKU=
+	t=1723794129; cv=none; b=oLCLVtlUhQ0lNUSYKhtCEO+0zNQgJI8kKDgekJLb7DCLSk9rAojLOM2WyB45AUWT0gf+P5bJxEvT34PFY5x91mLcS0Iu7IGdtJQcLUf6BRoxnuPJlJj0bCRU6AhfIfrpXvGOkM4aSJ1SFb/84H0wHevVOYbf7KJvnVCychqq06k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723789759; c=relaxed/simple;
-	bh=Nk/oAJHeoR3UNAHXuf5d7XyKYVq6vYFewZVqzgeyxEs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BPI80x2pO7p8Pw2fXMTK7z1QE24gt8RVOzNqMUNvfzACrz78eRhEPnNDHb6XzyiQCbCwAgs4k1bFN/XFjQl3ssGtZBacKopreFMp6ZrmVyqAYI6GGTGYtHcwKd2EwfgexcX2ACokWI8WuRvdVlz7EAQtKIjTMEGEu+72V3IFJek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	s=arc-20240116; t=1723794129; c=relaxed/simple;
+	bh=71714VbQ+BlxKUx9p0xPBiDs9trNBypsFVhfzoyUX7M=;
+	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=W6OB4I8JFx2XCOoku85PmTFrwVikaP6RPvMk2seO7cv5c0Nf9rNiIdy+REdn7AIED5EvKlMiD8EW07bdxCC7e6//MaQ2GQX2wRq+aJtjHiJWdLCni0J6xatUujhTNwTbjbPsqEfJ63PzXsbgU481dqL7cAB4coAw0EDk8w1Xv4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4WlX8f446dzhXsp;
-	Fri, 16 Aug 2024 14:27:14 +0800 (CST)
-Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id A600114037E;
-	Fri, 16 Aug 2024 14:29:12 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
- (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 16 Aug
- 2024 14:29:12 +0800
-From: Hongbo Li <lihongbo22@huawei.com>
-To: <brauner@kernel.org>, <sforshee@kernel.org>, <corbet@lwn.net>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<lihongbo22@huawei.com>
-Subject: [PATCH -next] doc: correcting the idmapping mount example
-Date: Fri, 16 Aug 2024 14:36:11 +0800
-Message-ID: <20240816063611.1961910-1-lihongbo22@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WlYpL2ddlz1T7Rm;
+	Fri, 16 Aug 2024 15:41:30 +0800 (CST)
+Received: from kwepemd200014.china.huawei.com (unknown [7.221.188.8])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8AB7518006C;
+	Fri, 16 Aug 2024 15:42:02 +0800 (CST)
+Received: from [10.67.121.177] (10.67.121.177) by
+ kwepemd200014.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Fri, 16 Aug 2024 15:42:01 +0800
+CC: <yangyicong@hisilicon.com>, Shuai Xue <xueshuai@linux.alibaba.com>, Jing
+ Zhang <renyu.zj@linux.alibaba.com>, Will Deacon <will@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Corbet
+	<corbet@lwn.net>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
+	<quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
+	<quic_ramkri@quicinc.com>, <quic_parass@quicinc.com>,
+	<quic_mrana@quicinc.com>
+Subject: Re: [PATCH 3/4] perf/dwc_pcie: Always register for PCIe bus notifier
+To: Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+References: <20240731-dwc_pmu_fix-v1-0-ca47d153e5b2@quicinc.com>
+ <20240731-dwc_pmu_fix-v1-3-ca47d153e5b2@quicinc.com>
+ <55303289-bb41-4e67-9912-4cf4335244ca@huawei.com>
+ <2d882c88-fd56-c512-0dcc-8825ba920b51@quicinc.com>
+From: Yicong Yang <yangyicong@huawei.com>
+Message-ID: <82a28788-eed8-6cff-c2ee-fb4b421ae53c@huawei.com>
+Date: Fri, 16 Aug 2024 15:42:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <2d882c88-fd56-c512-0dcc-8825ba920b51@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500022.china.huawei.com (7.185.36.66)
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemd200014.china.huawei.com (7.221.188.8)
 
-In step 2, we obtain the kernel id `k1000`. So in next step (step
-3), we should translate the `k1000` not `k21000`.
+On 2024/8/16 11:51, Krishna Chaitanya Chundru wrote:
+> 
+> 
+> On 8/15/2024 7:19 PM, Yicong Yang wrote:
+>> On 2024/7/31 12:23, Krishna chaitanya chundru wrote:
+>>> When the PCIe devices are discovered late, the driver can't find
+>>> the PCIe devices and returns in the init without registering with
+>>> the bus notifier. Due to that the devices which are discovered late
+>>> the driver can't register for this.
+>>>
+>>> Register for bus notifier even if the device is not found in init.
+>>>
+>>> Fixes: af9597adc2f1 ("drivers/perf: add DesignWare PCIe PMU driver")
+>>> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+>>> ---
+>>>   drivers/perf/dwc_pcie_pmu.c | 10 +++++-----
+>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
+>>> index c115348b8d53..aa1010b44bcb 100644
+>>> --- a/drivers/perf/dwc_pcie_pmu.c
+>>> +++ b/drivers/perf/dwc_pcie_pmu.c
+>>> @@ -741,8 +741,6 @@ static int __init dwc_pcie_pmu_init(void)
+>>>             found = true;
+>>>       }
+>>> -    if (!found)
+>>> -        return -ENODEV;
+>>>         ret = cpuhp_setup_state_multi(CPUHP_AP_ONLINE_DYN,
+>>>                         "perf/dwc_pcie_pmu:online",
+>>> @@ -753,9 +751,11 @@ static int __init dwc_pcie_pmu_init(void)
+>>>         dwc_pcie_pmu_hp_state = ret;
+>>>   -    ret = platform_driver_register(&dwc_pcie_pmu_driver);
+>>> -    if (ret)
+>>> -        goto platform_driver_register_err;
+>>> +    if (!found) {
+>>> +        ret = platform_driver_register(&dwc_pcie_pmu_driver);
+>>> +        if (ret)
+>>> +            goto platform_driver_register_err;
+>>> +    }
+>>>
+>>
+>> This doesn't match the commit.
+>> > If any device is found at this stage, we cannot use them since you don't
+>> register a driver.
+>>
+> If the device is not found then only we are skipping platform driver
+> register otherwise driver will be registering with the platform driver.
+> 
 
-Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
----
- Documentation/filesystems/idmappings.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+think about the case that devices already discovered before module init.
+without the change here we'll register both the platform devices and driver
+but with the change here we'll only register the platform devices without
+the related driver to probe them.
 
-diff --git a/Documentation/filesystems/idmappings.rst b/Documentation/filesystems/idmappings.rst
-index ac0af679e61e..77930c77fcfe 100644
---- a/Documentation/filesystems/idmappings.rst
-+++ b/Documentation/filesystems/idmappings.rst
-@@ -821,7 +821,7 @@ the same idmapping to the mount. We now perform three steps:
-       /* Map the userspace id down into a kernel id in the filesystem's idmapping. */
-       make_kuid(u0:k20000:r10000, u1000) = k21000
- 
--2. Verify that the caller's kernel ids can be mapped to userspace ids in the
-+3. Verify that the caller's kernel ids can be mapped to userspace ids in the
-    filesystem's idmapping::
- 
-     from_kuid(u0:k20000:r10000, k21000) = u1000
-@@ -854,10 +854,10 @@ The same translation algorithm works with the third example.
-        /* Map the userspace id down into a kernel id in the filesystem's idmapping. */
-        make_kuid(u0:k0:r4294967295, u1000) = k1000
- 
--2. Verify that the caller's kernel ids can be mapped to userspace ids in the
-+3. Verify that the caller's kernel ids can be mapped to userspace ids in the
-    filesystem's idmapping::
- 
--    from_kuid(u0:k0:r4294967295, k21000) = u1000
-+    from_kuid(u0:k0:r4294967295, k1000) = u1000
- 
- So the ownership that lands on disk will be ``u1000``.
- 
-@@ -994,7 +994,7 @@ from above:::
-       /* Map the userspace id down into a kernel id in the filesystem's idmapping. */
-       make_kuid(u0:k0:r4294967295, u1000) = k1000
- 
--2. Verify that the caller's filesystem ids can be mapped to userspace ids in the
-+3. Verify that the caller's filesystem ids can be mapped to userspace ids in the
-    filesystem's idmapping::
- 
-     from_kuid(u0:k0:r4294967295, k1000) = u1000
--- 
-2.34.1
+Try to register the driver and notifier unconditionally will solve the issue.
+It'll probe the device and register the PMU if later device is added by
+the bus notifier.
 
+Thanks.
+
+> - Krishna Chaitanya.
+>>>       ret = bus_register_notifier(&pci_bus_type, &dwc_pcie_pmu_nb);
+>>>       if (ret)
+>>>
+> 
+> .
