@@ -1,115 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1630317C9B0;
-	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B012E859;
+	Fri, 16 Aug 2024 12:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723811819; cv=none; b=iLKHKmA021jxH6OFtjqAqaRzFR5Hyjz+sUmmWzjfxDsuAnlk4Ja6tbWlOYZqHLrSo7rhQuXaJPyCECCF2wK2O6H8OAB6H6e1acfbm11+PFF+ls4w/yVvGTbPuibxBBckY7Kl44pEUhmIxpPUJ79ITDT495e9AR3LfxXSqa4wFOY=
+	t=1723812383; cv=none; b=KwFUwPdmE8e45mR0YopcgtwVcHqmks4GZLAzYAcc5ymKTgdEIdYuRV/91zZEpL3BCNqlc8ludEcnEr/IO+W1QTFnW3gLsyJ4+TLhFCtuxplidUrj0HGyN5AU+WwuAVvu0nVID7qUJ16cTWzs0CBK5HO+acxNjr47ejvbfHQy7dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723811819; c=relaxed/simple;
-	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WdZiN51K2aPi7FiA6zzJJgm3ZLyGwOEc9CNBHpqLF46vApcXxs6lnsht9hdVWF5pcbLdD3zlc6dcElIRmMxvLW7RapasRl5GgSe63kYUTgZBCGaIX0NkkcGjVSLn5knMSY8fZZCHZz/zek7J6fmEGRnsfr17jWnWLYSxwoEkAcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQa5pTak; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723812383; c=relaxed/simple;
+	bh=QWNpYU3pWiV57+7SurtAARnts5tJewlmVTfYZF98uvI=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=KKLHV2kwGMZSONwzkXFlA24mRU8VL6xvQhnE7Y5hLiVADUtql9i+Nn+ieQyjN3OiXlHhQd6Zd+VuGlLVhhOuCn6ydNm5W1WW+QHaU1dIZNJ9qPazhwbA4wwruSzZPQGz4GB4gAv3ExYyTkh7iO+a9iWJjWmTRDgT0cLpq4f2RrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=woltmann.art; spf=fail smtp.mailfrom=woltmann.art; dkim=pass (2048-bit key) header.d=woltmann.art header.i=@woltmann.art header.b=Ofo4kXtN; arc=none smtp.client-ip=91.198.250.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=woltmann.art
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=woltmann.art
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQa5pTak"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22EEC4AF0D;
-	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723811818;
-	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dQa5pTakZSnGHRa4mHcVgxG8Vjw7FpWIrVuHynY7S6sNtkBmTbu1wutT+iiEiiOT5
-	 SP+w0tH6Tc+KNcMJbcmdX45kmcApsxGSSwesV0+BShQJYW7q3NZzWYEhQ+PwsKKI0W
-	 aPuZI4I7BQu/I4Mtapdeez7qHIrqQiApBkZQSVHhMQlCMzz/NPi6/HQZ2lykHhcG2i
-	 PpxkXSwnT0wfJ7Mj7woQHrW2Rf/D8Eeu+9UfNHeywKLS4RANfSd8qt/J9lpa+iFrPT
-	 rfSbAwSuGf+xDq589/Wwu8fvwGIxNW7v3OtnpLej7lWHolrPf80qkYKLOZFmLH7kg8
-	 /QPQE61HBpapw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f0277daa5so2602299e87.0;
-        Fri, 16 Aug 2024 05:36:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWXStWyAK8r1Vn990OLYBDDgXvU34lmPwbB3lwOYBu/VjxK4fhco9r8AQ7MaQE+dofw7Zx9cOFaoyTjCk0OjCCEQtt/rHGu8KSLDJ+iZI5V8cqcmNEFT6xfzzjLoGohOk3cBBD8ChnWWIj/Hs605BR82Qw2XVD6lHrTUrcJXpFOqwyRxPon
-X-Gm-Message-State: AOJu0Yx1B97B2yUGvCItsdy/mkJWJClmZwNMoRm1d0Yft4DkninVwy7R
-	I+TQ6HBAndWCHrieF2HI4Kl/I2UVdpxCAP/O2dvvwlahWtByHTgmrcwCJkII8jFuPjQB6QdlWn4
-	Cel6sbnv1q6YrEHZRYCf4nWsD+R8=
-X-Google-Smtp-Source: AGHT+IHi5JgLUaJv3Jn5lpXjTogg62a2Zasdhk/4mdX5PoCB/8KmqqDxU947adSSqytd0FItjd+3PM7H7jrcc+b9c2E=
-X-Received: by 2002:a05:6512:ad2:b0:52c:e4bf:d55d with SMTP id
- 2adb3069b0e04-5331c692a05mr2375669e87.8.1723811815934; Fri, 16 Aug 2024
- 05:36:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=woltmann.art header.i=@woltmann.art header.b="Ofo4kXtN"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4WlhZ10TJ1z9vl7;
+	Fri, 16 Aug 2024 14:46:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=woltmann.art;
+	s=MBO0001; t=1723812377;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EkqdX+9+e8U5naCUvH0638tTZBSM4TEqE32jNdQOARc=;
+	b=Ofo4kXtNA1ZfrC9lipkdlD0FwPHu2uVn6vFRW4RhTGHkEYaAsoWkDIz/8V1fadv3BOKbeA
+	jxQXvXTla3NLJpcwhMOqrZhQLObBwUrA2XqMFfR1QCYJBrEQ3ayCojcQW2sv2yWajjci3m
+	/Zb9aTHODEUXzN2QZqPfELo1LLGpCgMs9laVNDtAgwPclog7K4oDdMea0/BmBGCShb3JsB
+	UVgMisUuYf/au75ldDyRmJNahSn0/etX6lvbAlm1toibQJLIRgvMGLZqxie7xTGZa7j5ZC
+	8KdN20TbKU86qDJflia+b2BUnl6XPyBgA0otoAgb/bxF/aqcYWChWpi1VvjmFw==
+Date: Fri, 16 Aug 2024 14:46:13 +0200 (CEST)
+From: Vincent Woltmann <vincent@woltmann.art>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Julian Merkle <me@jvmerkle.de>, Wei Liu <wei.liu@kernel.org>,
+	Sven Van Asbroeck <thesven73@gmail.com>,
+	Adam Bratschi-Kaye <ark.email@gmail.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Message-ID: <2130133683.467462.1723812373582@office.mailbox.org>
+In-Reply-To: <CANiq72nN+x9FR8whpiEFtUr+4gkBN=pfw6URO9VO31qtX7=5Bg@mail.gmail.com>
+References: <20240816092536.2444105-1-vincent@woltmann.art>
+ <CANiq72nN+x9FR8whpiEFtUr+4gkBN=pfw6URO9VO31qtX7=5Bg@mail.gmail.com>
+Subject: Re: [PATCH] rust: Remove erronous blockquote in coding guidelines
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
-In-Reply-To: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 16 Aug 2024 21:36:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
-Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: turn make command for ccache into
- code block
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Priority: 3
+Importance: Normal
 
-On Mon, Aug 12, 2024 at 9:17=E2=80=AFPM Javier Carrasco
-<javier.carrasco.cruz@gmail.com> wrote:
->
-> The command provided to use ccache with clang is not a literal code
-> block. Once built, the documentation displays the '' symbols as a "
-> character, which is wrong, and the command can not be applied as
-> provided.
->
-> Turn the command into a literal code block.
->
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> hat am 16.08.2024 11:32 CE=
+ST geschrieben:
+>=20
+> =20
+> On Fri, Aug 16, 2024 at 11:26=E2=80=AFAM Vincent Woltmann <vincent@woltma=
+nn.art> wrote:
+> >
+> > -    While sometimes the reason might look trivial and therefore unneed=
+ed,
+> > -    writing these comments is not just a good way of documenting what =
+has been
+> > -    taken into account, but most importantly, it provides a way to kno=
+w that
+> > -    there are no *extra* implicit constraints.
+> > +While sometimes the reason might look trivial and therefore unneeded,
+> > +writing these comments is not just a good way of documenting what has =
+been
+> > +taken into account, but most importantly, it provides a way to know th=
+at
+> > +there are no *extra* implicit constraints.
+>=20
+> Doesn't this part of the change make the paragraph be outside its bullet?
 
+Yes, you are quite right, I must have missed that. Thank you for the feedba=
+ck and I will prepare a new patch
 
+Have a great day,
 
-Applied to linux-kbuild/fixes.
-Thanks!
-
-
-> ---
->  Documentation/kbuild/llvm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rs=
-t
-> index bb5c44f8bd1c..6dc66b4f31a7 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -126,7 +126,7 @@ Ccache
->
->  ``ccache`` can be used with ``clang`` to improve subsequent builds, (tho=
-ugh
->  KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between b=
-uilds
-> -in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
-nfo):
-> +in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
-nfo)::
->
->         KBUILD_BUILD_TIMESTAMP=3D'' make LLVM=3D1 CC=3D"ccache clang"
->
->
-> ---
-> base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
-> change-id: 20240812-ccache-literal-code-block-8462614e91e9
->
-> Best regards,
-> --
-> Javier Carrasco <javier.carrasco.cruz@gmail.com>
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+Vincent
