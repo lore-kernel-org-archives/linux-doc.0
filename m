@@ -1,25 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963D91BE241;
-	Fri, 16 Aug 2024 16:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91CC1BDA94;
+	Fri, 16 Aug 2024 16:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723825939; cv=none; b=ARV+j2eR7uoSwvmbJ6bZDNux/AerDye45P+89ESTD5ke/9UdCo3nGi/QE+2DZoZT56aAsxGiplMs3Hsl6GDvOdHPkRswIlrN7EyKTg27yyi7OfSnlNscf08ap7U890MohOTTOsmPEs03ktS8LIlEPTVCqHvcGO0x7k45LhVIZd4=
+	t=1723826494; cv=none; b=d8/A2VCzwwfTYFi4qWYTCpd3bI3rueTrREHXQWdCPNqLDTkv4DfPtx4QB1YJMWTjyKpBBo15NJWGk9hwTHMJ+SfLC8+s8ILexOoGfhweKTjWJhdv1d+0O/ywGabFtRE/Sdg51TZPj11IEuX5cOGn4ep9EpRxTkKh2FzUZUkVbkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723825939; c=relaxed/simple;
-	bh=+0QMLewbM/WTE0dMzqm5v68v1oUXlFZqdkASOILwHkM=;
+	s=arc-20240116; t=1723826494; c=relaxed/simple;
+	bh=4wDVbCUxEEouTq87ec/Yc4Xc02JyACfRxYSs0uwD6aY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AUTif7sKZS7uHRpFceGIjf8jS2ybgvWWMVRmUiWsrN5I0kSkL0AsBXVm4Bw/ZpbWaRBwkr3HaGbt9kzoBIVZ0khere24Qxdn9yBbSI4rJI7ONa/w7cnE7ZD8klMxb/49riATrrdtVQFm0cK48hlPPeuo2plywhM+r2LWIxzAMrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0922153B;
-	Fri, 16 Aug 2024 09:32:42 -0700 (PDT)
-Received: from [10.1.196.28] (eglon.cambridge.arm.com [10.1.196.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9850B3F58B;
-	Fri, 16 Aug 2024 09:32:11 -0700 (PDT)
-Message-ID: <df0c32ef-a694-4e5a-9d93-54ae2b93e452@arm.com>
-Date: Fri, 16 Aug 2024 17:32:10 +0100
+	 In-Reply-To:Content-Type; b=PqDLfVKeeKRYuYB+7kr5WUTXSHR/AexTcEcgrtL02Qm3OzD97MPKNyZ9T+7FQlfSVzaT3XZ/o9pNUsHfVH26Ss02Qe1dzFBtnzRvA18/wDh++7sVvMtRfkEEK+oFgHj5TXt3CMeP9vixPL3gS8E+Sc7Aw9NBRtQb3EHaXRLTcuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsoCAE5u; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsoCAE5u"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f025b94e07so24565661fa.0;
+        Fri, 16 Aug 2024 09:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723826491; x=1724431291; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qE6cA2BiIxlbldsSPiTQqUrw5yO3Tuqe7RWvm18DClQ=;
+        b=gsoCAE5uDQE8XgJupHYqfPG43DWSGejlaf695dtQeQqcinUzp0ZG3Y7q70xQJtkITc
+         Q//aMdSblW8LZ7e/ussTj/DURiWs7z4ScM/+LBgvLgn0hWhix66KDMPCZyqbDUSY5+nF
+         UtFEA40uQJQDAF/ef3fe0szsIHRy951Jvr9ULwna2PzSDPPx1sxz8VCJgfqzx3YQSK5Y
+         O46Lj/vk7eDX3eTFKc5zqOcbUbaInH08tFrA8lf0N6ntOodvzFBZgskCaQUKLiOFcJhb
+         CgIZsMrfJ9bwdUFa/p/C1RdWi0d6dQQjDVibWaJvhbHeK0C3FHgqDjqQu/aJGn8N0Grw
+         87Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723826491; x=1724431291;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qE6cA2BiIxlbldsSPiTQqUrw5yO3Tuqe7RWvm18DClQ=;
+        b=IcF+XO9QGH5ifi/hPGsxLQ/+FXGMliz2d1nzo7tWHPnsUafJ+HjQNnInhSFI9ptPZ4
+         ZLVvjxBGFPkFQk7CaPO5CuV6TowMiXkWexXZt2hodAyiKrroZDoJ89srkLxvuapxEMv5
+         BiF8kwErEVk9Xoi8rl5jdP1J2LO85JCO/AYtJZMTCAydr0d0QTAzIXXVKtrOJ7p5KSIN
+         lnvYFkkXow/9EhhNgxAlvpV7SXYqByXeBhoUVFrpClzdncVbp1mMxNqhlLoKvH68eS3+
+         uvWvohyAJLQliYvFDonrHX+c523wtdwWU0NnCJilAGQt5pgl91VpFJktiwB1ZBedemRo
+         fcWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXa5mWhB/xCLcmxdOindFPbi5+vb0OPpDt7crNCHKiAFE8VpgjGxZYXu24/JItESHAYqyX2yUdKL8BQoXgz6PoWTSJjWAD6RLPnDD+itTgY6OApo8jxRuetXw940CNx7FvOdonoV/xO
+X-Gm-Message-State: AOJu0YyiJkr27B+comUSYtwJRGrFgiufZC+niQSfouthtRwxjLLtZ/lJ
+	b9tksahAIARab2QwEzR/MJZsIL8MY3ijAlb2zfimLMebNmAhVLnR
+X-Google-Smtp-Source: AGHT+IErM6iIeQz6oNXeFWj28KSZ7kqw6rWe2ylu2if2FZyJGV/PBENVvmHmDB7O75KY3oLQcrdBmQ==
+X-Received: by 2002:a05:6512:3045:b0:52b:9c8a:734f with SMTP id 2adb3069b0e04-5331c6e54a6mr2749231e87.50.1723826490101;
+        Fri, 16 Aug 2024 09:41:30 -0700 (PDT)
+Received: from ?IPV6:2a02:6b6f:e750:7600:c5:51ce:2b5:970b? ([2a02:6b6f:e750:7600:c5:51ce:2b5:970b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed79d9a7sm26703425e9.39.2024.08.16.09.41.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Aug 2024 09:41:29 -0700 (PDT)
+Message-ID: <8fb9915b-73a1-4e39-bb30-c1c21b1b7650@gmail.com>
+Date: Fri, 16 Aug 2024 17:41:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,93 +61,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 20/22] x86/resctrl: Enable AMD ABMC feature by default
- when supported
-Content-Language: en-GB
-To: Babu Moger <babu.moger@amd.com>
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, mingo@redhat.com,
- bp@alien8.de, corbet@lwn.net, fenghua.yu@intel.com,
- reinette.chatre@intel.com, tglx@linutronix.de, dave.hansen@linux.intel.com
-References: <cover.1722981659.git.babu.moger@amd.com>
- <1061a60166f2fdb508aaf2dd9163b2bab3705063.1722981659.git.babu.moger@amd.com>
-From: James Morse <james.morse@arm.com>
-In-Reply-To: <1061a60166f2fdb508aaf2dd9163b2bab3705063.1722981659.git.babu.moger@amd.com>
+Subject: Re: [PATCH v3 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Matthew Wilcox <willy@infradead.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ yuzhao@google.com, david@redhat.com, baohua@kernel.org,
+ ryan.roberts@arm.com, rppt@kernel.org, cerasuolodomenico@gmail.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+References: <20240813120328.1275952-1-usamaarif642@gmail.com>
+ <20240813120328.1275952-5-usamaarif642@gmail.com>
+ <Zr9zx74W6-oRwKXB@casper.infradead.org>
+ <7e9e209b-b6b4-485b-ad43-9e1efbd63a7d@gmail.com>
+ <Zr9-PA8xBSJJzmdx@casper.infradead.org>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <Zr9-PA8xBSJJzmdx@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Babu,
 
-On 06/08/2024 23:00, Babu Moger wrote:
-> Enable ABMC by default when supported during the boot up.
+
+On 16/08/2024 17:28, Matthew Wilcox wrote:
+> On Fri, Aug 16, 2024 at 05:08:35PM +0100, Usama Arif wrote:
+>> On 16/08/2024 16:44, Matthew Wilcox wrote:
+>>> On Tue, Aug 13, 2024 at 01:02:47PM +0100, Usama Arif wrote:
+>>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>>>> index a0a29bd092f8..cecc1bad7910 100644
+>>>> --- a/include/linux/page-flags.h
+>>>> +++ b/include/linux/page-flags.h
+>>>> @@ -182,6 +182,7 @@ enum pageflags {
+>>>>  	/* At least one page in this folio has the hwpoison flag set */
+>>>>  	PG_has_hwpoisoned = PG_active,
+>>>>  	PG_large_rmappable = PG_workingset, /* anon or file-backed */
+>>>> +	PG_partially_mapped, /* was identified to be partially mapped */
+>>>
+>>> No, you can't do this.  You have to be really careful when reusing page
+>>> flags, you can't just take the next one.  What made you think it would
+>>> be this easy?
+>>>
+>>> I'd suggest using PG_reclaim.  You also need to add PG_partially_mapped
+>>> to PAGE_FLAGS_SECOND.  You might get away without that if you're
+>>> guaranteeing it'll always be clear when you free the folio; I don't
+>>> understand this series so I don't know if that's true or not.
+>>
+>> I am really not sure what the issue is over here.
 > 
-> Users will not see any difference in the behavior when resctrl is
-> mounted. With automatic assignment everything will work as running
-> in the legacy monitor mode.
+> You've made the code more fragile.  It might happen to work today, but
+> you've either done something which is subtly broken today, or might
+> break tomorrow when somebody else rearranges the flags without knowing
+> about your fragility.
+> 
+>> >From what I see, bits 0-7 of folio->_flags_1 are used for storing folio order, bit 8 for PG_has_hwpoisoned and bit 9 for PG_large_rmappable.
+>> Bits 10 and above of folio->_flags_1 are not used any anywhere in the kernel. I am not reusing a page flag of folio->_flags_1, just taking an unused one.
+> 
+> No, wrong.  PG_anon_exclusive is used on every page, including tail
+> pages, and that's above bit 10.
+> 
+>> Please have a look at the next few lines of the patch. I have defined the functions as FOLIO_FLAG(partially_mapped, FOLIO_SECOND_PAGE). I believe thats what you are saying in your second paragraph?
+>> I am not sure what you meant by using PG_reclaim.
+> 
+> I mean:
+> 
+> -	PG_usama_new_thing,
+> +	PG_usama_new_thing = PG_reclaim,
+> 
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-> index 6fb0cfdb5529..a7980f84c487 100644
-> --- a/arch/x86/kernel/cpu/resctrl/core.c
-> +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> @@ -599,6 +599,7 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
->  		d = container_of(hdr, struct rdt_mon_domain, hdr);
->  
->  		cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
-> +		resctrl_arch_mbm_cntr_assign_configure();
->  		return;
->  	}
->  
-> @@ -620,6 +621,7 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
->  	arch_mon_domain_online(r, d);
->  
->  	resctrl_mbm_evt_config_init(hw_dom);
-> +	resctrl_arch_mbm_cntr_assign_configure();
->  
->  	if (arch_domain_mbm_alloc(r->mon.num_rmid, hw_dom)) {
->  		mon_domain_free(hw_dom);
+Ah ok, Thanks. The flags below PG_reclaim are either marked as PF_ANY or are arch dependent. So eventhough they might not be used currently for _flags_1, they could be in the future.
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 66febff2a3d3..d15fd1bde5f4 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -2756,6 +2756,23 @@ void resctrl_arch_mbm_cntr_assign_disable(void)
->  	}
->  }
->  
-> +void resctrl_arch_mbm_cntr_assign_configure(void)
-> +{
-> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
-> +	bool enable = true;
-> +
-> +	mutex_lock(&rdtgroup_mutex);
+I will use PG_partially_mapped = PG_reclaim in the next revision.
 
-As before - this lock isn't available to the architecture code after the filesystem code
-moves to /fs/. To prevent concurrent calls to resctrl_abmc_set_one_amd() I think you need
-your own mutex.
-
-
-> +	if (r->mon.mbm_cntr_assignable) {
-> +		if (!hw_res->mbm_cntr_assign_enabled)
-> +			hw_res->mbm_cntr_assign_enabled = true;
-> +		resctrl_abmc_set_one_amd(&enable);
-> +	}
-> +
-> +	mutex_unlock(&rdtgroup_mutex);
-> +}
-
-Neither of this functions callers are in filesystem code, could you drop the 'arch' from
-the name - it isn't part of the fs/arch interface.
-
-
-Thanks,
-
-James
+Thanks
