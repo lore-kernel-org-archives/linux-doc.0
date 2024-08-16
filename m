@@ -1,51 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F4F146591;
-	Fri, 16 Aug 2024 22:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FA7BA33;
+	Fri, 16 Aug 2024 22:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723847633; cv=none; b=dF2yNWx2H3mPEHUI0RAOFYzK1v9dIvT+TNok31qnr1uxbXTpGnwiTVlw4i68tBGH4spkQZyr9kT7I79APbajUzcjU1NBnLTNL6LUJsWLelV5SYmjLJC3y9+gMKENKEvhvuOGdzpX/sQSg0o7Thhk4fg/gMvsua7eM7ZrAP3r8WU=
+	t=1723847709; cv=none; b=j9lmkJnniafSCQn3Napa/uh5EhEgzB71S/Mxh95WdxMVGPZSkiyBT4Qi+yi+obWNm2JfuR4Q2bGk35Z8xQFOatGJirY6Pc0NsXUueypJuYB7CR01RqeP/Ot924/YWdor/SHZba6t3tuY2C/hG/8TjUbCHXY6dlApr1D2RCHIKI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723847633; c=relaxed/simple;
-	bh=IfNRY/5p/VGWMH1PPfGSlnef7rDTkdN4OX4eIbjfXlQ=;
+	s=arc-20240116; t=1723847709; c=relaxed/simple;
+	bh=ehLTjwjDdh9blb3CqGfEr+2DDQvrpcXGzOlnOBLI5ec=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hVcMfS9t1HkC9yLcmdGVIxnQ3OjlHMVxjJjxvOhCJgch/4StUDhgT1le6FgDvjmdCVmycnKTWb/Hr+Jps/kZdfyX1mf1wvKW3ddRL8EZn1XdwUVYC2PAyT9RqRLCjE2quCbLRq99P1Y4yIp6J2V6jcyFWWqcfJt5Xch/wu5iWDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LC9URQnh; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=P96GR+JpBqERjtsnDWD1A4iArJdHrjuQHf76TtMUrewLMNwrIkV/XVLrArBYL1OHVjTqBjj8jeWq0ze9tLtmmkm4V22tHlInYm3/x7f+rVi1gTWcOhI5gtXF1KpxskU6Oj1/LHAfdJHJN8BeJ1P8reGv1Cso4MJSFRyou0MsxqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cagOpNgc; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LC9URQnh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 450FA418AB
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cagOpNgc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C938418AB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723847631; bh=uKFpj34a6+64O4rYy8zGYGv+iPIAbdox/mIVfquOJEI=;
+	t=1723847708; bh=kSkA2qMealWsON4N+tqutzsgMm8VvYqfVjBrQ4vneoo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LC9URQnhhmh8OIdIfQW3Dv7x2OdSawBZIUuEqVHr1kP/FUG7qGC+oaXLtI9i3KitV
-	 Lhg+Xv6FXQQ3bM7Pkh7grDd3Y7uRQtuIIxrjWoIuvpUa1pfiLYiHBAT831QndB/rI9
-	 31Qohq81Mp1OTpFJBTnGAtMwvj9DcOMZFoKZu70v/90GpyAKn1D8QvxPesVgFKaIdK
-	 9UGMsem0ehgoFlrxOx6BAxjXvWesWhaCd8eEDOxjdhG/w+19Fk3zqNw48etwxVZqQB
-	 7E4lagf2ACa6kNgcmobW91MV4AeWQWScebJwhH4WI0Udy18ULTaTVXl0zoBL2X2hLK
-	 hUIZ/ofJV58iA==
+	b=cagOpNgcuEcNSIOt8oidoDU33zfM15DxR6dv4HdK+JVSpaLIC8gxAT/537Lrx6oBP
+	 EaUWEU5qNvh+scDUb+xW00OyqOEbvas/xznEyFB243PPEWX+pjDEyYfPDt8ZsTVZja
+	 R9raz7WpC0PWW4mws6l5azkysDJv4QLNSYlZiMN/I5g8HVQ4zzlksr70U2BFStOAlz
+	 m0c4ZyljxGFbGUZmaA05vZ3VZnfK2dkiRNzXqtR4TiY6Gfu8ucid/H3SOTuckOWYLd
+	 JV9gWlNpTW+abb5CiCBWxH/14ME0OohbDH4dPY9ajRj+s/kONHKUiQmsjIkiEE8U+H
+	 6pKrpXEN3ZFIg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 450FA418AB;
-	Fri, 16 Aug 2024 22:33:51 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0C938418AB;
+	Fri, 16 Aug 2024 22:35:07 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Philipp Stanner <pstanner@redhat.com>, Mark Brown <broonie@kernel.org>,
- David Lechner <dlechner@baylibre.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Philipp Stanner <pstanner@redhat.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas
- <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH RESEND] Documentation: devres: fix error about PCI devres
-In-Reply-To: <20240809095248.14220-2-pstanner@redhat.com>
-References: <20240809095248.14220-2-pstanner@redhat.com>
-Date: Fri, 16 Aug 2024 16:33:50 -0600
-Message-ID: <87plq8hzch.fsf@trenco.lwn.net>
+To: David Hunter <david.hunter.linux@gmail.com>, david.hunter.linux@gmail.com
+Cc: javier.carrasco.cruz@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux@roeck-us.net, skhan@linuxfoundation.org, wim@linux-watchdog.org
+Subject: Re: [PATCH v3] Documentation: Capitalize Fahrenheit in
+ watchdog-api.rst
+In-Reply-To: <20240807185332.61624-1-david.hunter.linux@gmail.com>
+References: <20240723131849.264939-1-david.hunter.linux@gmail.com>
+ <20240807185332.61624-1-david.hunter.linux@gmail.com>
+Date: Fri, 16 Aug 2024 16:35:07 -0600
+Message-ID: <87ikw0hzac.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,28 +52,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Philipp Stanner <pstanner@redhat.com> writes:
+David Hunter <david.hunter.linux@gmail.com> writes:
 
-> The documentation states that pcim_enable_device() will make "all PCI
-> ops" managed. This is totally false, only a small subset of PCI
-> functions become managed that way. Implicating otherwise has caused at
-> least one bug so far, namely in commit 8558de401b5f ("drm/vboxvideo: use
-> managed pci functions").
+> Capitalize "fahrenheit," a spelling mistake.
 >
-> Change the function summary so the functions dangerous behavior becomes
-> obvious.
->
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
 > ---
-> +CC PCI and Bjorn.
+> V2 -> V3:
+>  - Fixed misspelling of "Capitalize" in commit message. 
+>  - Put Tags and Kernel Subsystem in subject
+>  - Put changelog after commit message
 >
-> Bjorn, btw. neither PCI nor you are printed by getmaintainers for the
-> touched document. Possibly one might want to think about fixing that
-> somehow.
-> But I don't think it's a huge deal.
-> ---
->  Documentation/driver-api/driver-model/devres.rst | 2 +-
+> V1 -> V2: 
+>  - Fixed imperative mood 
+>  - Fixed misspelling of "Fahrenheit" in Subject
+>
+> V2: https://lore.kernel.org/lkml/7b7ca7e0-6bd2-45ab-bd9b-40331a8e6fdd@roeck-us.net/
+>
+> V1: https://lore.kernel.org/lkml/20240723131849.264939-1-david.hunter.linux@gmail.com/
+>
+>  Documentation/watchdog/watchdog-api.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+> index 800dcd7586f2..78e228c272cf 100644
+> --- a/Documentation/watchdog/watchdog-api.rst
+> +++ b/Documentation/watchdog/watchdog-api.rst
+> @@ -249,7 +249,7 @@ Note that not all devices support these two calls, and some only
+>  support the GETBOOTSTATUS call.
+>  
+>  Some drivers can measure the temperature using the GETTEMP ioctl.  The
+> -returned value is the temperature in degrees fahrenheit::
+> +returned value is the temperature in degrees Fahrenheit::
 
 Applied, thanks.
 
