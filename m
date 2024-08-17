@@ -1,74 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpdh17-su.aruba.it (smtpdh17-su.aruba.it [62.149.155.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D130F77F10;
-	Sat, 17 Aug 2024 11:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD0483A17
+	for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 13:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.155.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723895307; cv=none; b=f/wgfgp4vCoIR1yQzMUBU68HUJfGD7RQ90Z6sNkM9r9lKwbCP3Rm+T232mPkezdOag18Jig/+2Uh3cu+zYIEekpfSev9M7ZTglizZ620peGGS6gkKf2KRYykq65lPRoSlBL1D5HgM/8Izw4BSke0i1K3yzecjXxubF7S3grxXPo=
+	t=1723900539; cv=none; b=uIJmXGnwDYRCWfgb77IiAlaib9Z2WaX83mQvi1yhG6YXq+r0nCQ/uEJQ/2tKXjVCi/SrT2B7ehxYbtqxbVywNaP+nR948+4Y4+Fo+h6f04b8GfzUvSLMqf9v4t+i0evVbQtXmFLzOVAid6ioB/MveOFd+BCcKXr7BYDxxOKycPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723895307; c=relaxed/simple;
-	bh=KMz9hoxbv4Eq9GZJRRNg8WgFyDK+n3z/i/51bam/MjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vy32uA+eQ6Yqj9eE3FpjH8olnJWrBaAsT6QJC67ptkRZhL0IKTzD5EcstK5URdOlhi2XIJpz4P98BpUEgC3c8YZipGN3zpJfshLkCACsQARAvYwwBYrIn3uBcLgoHMsgxDlKPMA11BdIaH84rbRcW4y8s/oFU+VTJ7gma2r16IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fP0LrHmn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723900539; c=relaxed/simple;
+	bh=2F8nLXpu6utciwf73TEHErlUBn07rnVVcj0FX8O7uko=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=QJ7Z4t5vq27xzJShnWHy7nciIo2jvzSn8JXZ7bva/65irkLkz2UShozWxM6/LtitEJ7YQR4bLjF17FE3dwvcG9EKcG87ht9oY5Kwfp8uSFsVzOgSquV31LGkeOKf0FGPuPlNUF8VMFQi24wSnIYj5BM77K2nvJcQD1R6PDwh5Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xhero.org; spf=pass smtp.mailfrom=xhero.org; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=DsBJMzwE; arc=none smtp.client-ip=62.149.155.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xhero.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xhero.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fP0LrHmn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42FCCC116B1;
-	Sat, 17 Aug 2024 11:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723895306;
-	bh=KMz9hoxbv4Eq9GZJRRNg8WgFyDK+n3z/i/51bam/MjQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fP0LrHmn/NMZhNzQP7OO1fecBv//8ux9zCetep0V8GA7hAvGOjVTxGcPpFdrlJyQG
-	 h82rAueQpS4jOVpfhgL/pDoXFny2ZXYJMVxW4Knm3OClaAK+m1fFaJHPrmdbpCirdH
-	 L3cCaphdIemBqZF9ah0hRTsdaOLGV2uA7dre6gzA2eKuYsNme/otIkqaQHsZ+6DeuT
-	 JLFP5/uP9jWqS3O8o0I12hzR4AWSll6oGoNmvJ7MA4IO8YtRZ+xEtFPgtWHOgTPqjj
-	 JjkQl/hfmKREKMETOZhFvake//n+mnBM/I8YdOKQbay50zRLnbKJ+ILF8DG1ZAi4cA
-	 8AJBUjglvGzMw==
-Date: Sat, 17 Aug 2024 12:47:52 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David
- Lechner <dlechner@baylibre.com>, Uwe Kleine-Konig
- <u.kleine-koenig@baylibre.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] iio: adc: ad7625: add driver
-Message-ID: <20240817124752.3a6c1b49@jic23-huawei>
-In-Reply-To: <20240809-ad7625_r1-v2-2-f85e7ac83150@baylibre.com>
-References: <20240809-ad7625_r1-v2-0-f85e7ac83150@baylibre.com>
-	<20240809-ad7625_r1-v2-2-f85e7ac83150@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="DsBJMzwE"
+Received: from smtpclient.apple ([84.74.245.127])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id fJHIsuVgIJLbHfJHIsulm7; Sat, 17 Aug 2024 15:15:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1723900533; bh=2F8nLXpu6utciwf73TEHErlUBn07rnVVcj0FX8O7uko=;
+	h=Content-Type:Mime-Version:Subject:From:Date:To;
+	b=DsBJMzwEhUbJk9XnllJFQKQZh/t3xA3C8KAlVMv0kuRx9K0UQyVvqfm8b1TPP5nGX
+	 lzk1munk+k9e0BOKKyLZNh4CzsUNwZgmDHzqecyPZ324J1a/QpfQ7/Y2g7shHUnC4z
+	 jmItHJfpWbKfxi8Btjf0Hvi4ZShqackrI7A4rnV7cJ4t0AzB9C9XT4LhpLkR0QEQLw
+	 ndinMmOk5mwyt58ZUznt+QBt6FhoML1Jfxi45phanBejoXw57I0n8aFhr6QkzFfIDh
+	 UK6IBdfSP1C5GY03hMSCdCaTJzScJmg7AHGj3BTDjqZYBX+DAeplLeZDwmVOPw/ypI
+	 aY8/Yba/lzZeg==
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH net-next 1/2] tty: Add N_TASHTALK line discipline for
+ TashTalk Localtalk serial driver
+From: Rodolfo Zitellini <rwz@xhero.org>
+In-Reply-To: <2024081717-mating-uncle-6e4c@gregkh>
+Date: Sat, 17 Aug 2024 15:15:21 +0200
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Doug Brown <doug@schmorgal.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <245045A2-2B0A-4232-8B3E-8FB29F0167CA@xhero.org>
+References: <20240817093258.9220-1-rwz@xhero.org>
+ <2024081717-mating-uncle-6e4c@gregkh>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3774.600.62)
+X-CMAE-Envelope: MS4xfNOvGofd9QYNAgEfrGFmsPeg9WvA4gVEyadhY3I2Nssi18CulYFa+uawW5HRhqrqiqGIXpPoaN8GmFOF6+OqQCQj5fSHjEAj84QWGPXOZk0KxXOqm2zC
+ qjgOkjaHAwq35PYVjJkZ+tmKtIVJ98gFes3oxZUlmDwB2uhBNhI2StOJHNrOG1aGcaLKts++026e6/K0k3zI/f46gd2qL2A84hsnUi/ow7NP0haEVIqppQev
+ Zz+WJBMDGuJUiZiAWO8vFCt390m0FruvgC+XID0EJsXaQNbIcLb84pRlKMkCwoyrGJosQM/jykIvpeK3xYwUW6XRQ7vYI/LW0DoqNz7wgdeaXGIp+npg+wTd
+ xMw47wUWMWhPfTKu5Li34NGJ7UMZY9fqviEno0Ovb3eXGII9ZOJGjMIc3egRTKPWMQ8BIpEgCqDO4U4/dJILntbBJIxyrS0+UaFfNchjaXG5PJo0Xr5IcbBF
+ z+iEb48f7MVQB7Hbn38J9xWa61t2X6YVb0DQjeOB2U0YH0DZczGWWu3O7ZsSfg2ecIWo4FJ4R4i/aMz621Tw8JY6flOK3iqcawh0hw==
 
-On Fri, 09 Aug 2024 14:41:09 -0400
-Trevor Gamblin <tgamblin@baylibre.com> wrote:
+> Please look at the kernel documentation for best how to write =
+changelog
+> texts.  This needs a bit of work.
 
-> Add a driver for the AD762x and AD796x family of ADCs. These are
-> pin-compatible devices using an LVDS interface for data transfer,
-> capable of sampling at rates of 6 (AD7625), 10 (AD7626), and 5
-> (AD7960/AD7961) MSPS, respectively. They also feature multiple voltage
-> reference options based on the configuration of the EN1/EN0 pins, which
-> can be set in the devicetree.
-> 
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Hi Trevor
+Hi Greg,
+thanks for your review! I will absolutely improve the commit messages on =
+both patches in the next version of the series.
 
-LGTM, so I'll pick up v3 once you've made that weak to the DT binding
-and it's been reviewed (assuming no one else has feedback).
-
-Thanks,
-
-Jonathan
-
+Kind Regards,
+Rodolfo=
