@@ -1,61 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE94D149E16;
-	Sat, 17 Aug 2024 14:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046C08BF0;
+	Sat, 17 Aug 2024 14:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723904922; cv=none; b=Cf/xXbLuHXdax5GObe5qJjwgyV7d8gkse7vZ0E1c62CLImVOcoPzCQO0ZVIcxpYuqs1SF2q8Ja1J+QVQ+j2rS6v+WNOWi77WUcYJv1ka/1Rv/YCG6lSS/Hgel5XXRwMBYcZtVl6FOiOQfTFp1BdbGmwj6SFbcMtRbL9N5YrBUdY=
+	t=1723906239; cv=none; b=acPZ65k5EVRxZMiq9Is/BSgCwQQdD9q3Sb6QKxBgdicF1y50B/xqeydaaCDsBG8vbEhjG+lZHBvLgRi/X8x0/AAw+sFbRL0RTaBLfUX2FuMSnjbcgYrWuE2qCcXEJC1rjvc6cD9hqgVPJKebYmmHLwBj7OLYdou/OdjrdIky92g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723904922; c=relaxed/simple;
-	bh=OlXqPeL9YUa5JwTYaFO2qac9cA+T7b3XNOuYS+KGZ8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XSdiJ9eg5/jTWU5EjQCnH69fugPolqmpWfHe4H5hd/okVsSPLy85mIk21tLgv1SLdk4TxTkxqmZSl72J+440NLbUqdWCvtsjvUCkemTJZ1YfC9qcZl859zcZGxQ0Tss3JOABZaFL8RdaUoF0atonJFFHC16UmOwWYrPAz7sjHrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmWPwMBr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723906239; c=relaxed/simple;
+	bh=6yBcy4lJJzBxSA4g6nXwy9n6BzXuyue9HXFfTQs+cbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dqjaVKVWpRiygSIJq9bSzZQA8W8XNMjajV7DQVRpnbpMYg22apBCFLFGxKmMe7Xsu88m0jE5wR1ibgTKX4xrEqlBmcj1j6e3A5UL8iLct9v+DFj/dqAOmFOTfwiAcSZZ01wonkZ01OPvSXU0Kf8Hz+Xas5kNORkviuehYrl0ijE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Mvd6lB1C; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmWPwMBr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4865CC116B1;
-	Sat, 17 Aug 2024 14:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723904922;
-	bh=OlXqPeL9YUa5JwTYaFO2qac9cA+T7b3XNOuYS+KGZ8Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HmWPwMBr0/KDuCfdGCPJsUeVKtfRoWv3aCNU/xWZED0RLFCvGjM/W7JvsLontc4pm
-	 mQU/CcTR8AAASO1wO6MQUzNOWP3o4cc7CtejCwGQ06wh0DF+LIDMH3uwVY1hveQfEY
-	 UPdrBg5VOJKFni5oPtut6exbw7xhyBCqX4/Y3xnIrSr6+x9PHEmadp3nR1XpkFRgFW
-	 e8LCKWQGTzpC82kBljC8sHjI8+mh4vdZF2Na2mHNovBHzhibJpcFL7bK/SWNT5OtiF
-	 ztBhgXJ0ex9HSntBE63Lea9a1xSTXFz6mYk8QPeufE9IoqBA944QgpzzzgzSxA3tuW
-	 vFwTHCbvBYZIA==
-Date: Sat, 17 Aug 2024 15:28:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] iio: adc: ad4695: implement triggered buffer
-Message-ID: <20240817152834.779be1e5@jic23-huawei>
-In-Reply-To: <20240813-iio-adc-ad4695-buffered-read-v2-0-9bb19fc1924b@baylibre.com>
-References: <20240813-iio-adc-ad4695-buffered-read-v2-0-9bb19fc1924b@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Mvd6lB1C"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2E0BC40E022F;
+	Sat, 17 Aug 2024 14:50:35 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id h0eGy4_HbX0N; Sat, 17 Aug 2024 14:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1723906230; bh=imB95eQxH+pRXJZLXWFyXLQ/kzSmR1l7Mba7+siQprY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mvd6lB1CbzQmMv1NE4Uey0B88vOKk57WbfYLmYH4grb7LUOD3EWh2xY0oHOQiNiTi
+	 nCP/PARhWXm1arO6jUwbh/DHXkKo1n4ujHBboHHcEoQ6yB1XpwgsYevdFl4d20uq7o
+	 +clYDGuaayN3asncO6T0u6HQqh5xCy8LlKikIaGJpbzUSZSy/0JqaDGM6Z5JFQA0ra
+	 42t1ipEVvWCOl3X8zre6ezYNoiASAcCOHdfoeOdWui20mxXZH3+reJrRzxtZ52R/Qy
+	 8+Uosy1Ld1N23brQDiL9vf+HgwZrLDp860eFxqfnoYmtmSu+SMUaz7uWiBwS/k7rQn
+	 eCFGbED7pxxjV1MryrXkibULXPtmz0uLynKMmQxydkEaW+mqiW04VWFKZfJmf6dtOO
+	 WJsJhtlIc/TJ4qPaev/jk3iffiduvsBlBuNRDkq+waIomkBB6SebrxJY+Ra5U047RM
+	 bU/eDWmMtFp9q5YX3kyCkp1UkjNbvvfPiOvlUe/UKCRrHLtLJO8eNtdF+F+HvbjZLo
+	 yjVSGv+3I4/q0tZkpJdSFTzwddXrIpY+OUy/cFPTktbFfn+o8h1SeiSXWs+nWvvQ58
+	 LMaH012B0IbW1SDBGjwodEiyikUwl1YP/NUUihugjgie5AmINv4HjGONunEp91dq44
+	 TbENX0TVLuh+Y1IXPTzs8Aiw=
+Received: from nazgul.tnic (unknown [87.120.165.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2E31D40E0081;
+	Sat, 17 Aug 2024 14:49:58 +0000 (UTC)
+Date: Sat, 17 Aug 2024 16:50:58 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+	fenghua.yu@intel.com, hpa@zytor.com, paulmck@kernel.org,
+	thuth@redhat.com, xiongwei.song@windriver.com, ardb@kernel.org,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	sandipan.das@amd.com, kai.huang@intel.com, peterz@infradead.org,
+	kan.liang@linux.intel.com, pbonzini@redhat.com, xin3.li@intel.com,
+	ebiggers@google.com, alexandre.chartre@oracle.com,
+	perry.yuan@amd.com, tan.shaopeng@fujitsu.com, james.morse@arm.com,
+	tony.luck@intel.com, maciej.wieczor-retman@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	peternewman@google.com, eranian@google.com
+Subject: Re: [PATCH 1/7] x86/cpufeatures: Add support for L3 Smart Data Cache
+ Injection Allocation Enforcement
+Message-ID: <20240817145058.GCZsC40neU4wkPXeVR@fat_crate.local>
+References: <cover.1723824984.git.babu.moger@amd.com>
+ <8378af17a73455661845830b40864ec1cbc303ff.1723824984.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8378af17a73455661845830b40864ec1cbc303ff.1723824984.git.babu.moger@amd.com>
 
-On Tue, 13 Aug 2024 12:26:39 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Fri, Aug 16, 2024 at 11:16:18AM -0500, Babu Moger wrote:
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index dd4682857c12..5ca39431d423 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -473,6 +473,7 @@
+>  #define X86_FEATURE_CLEAR_BHB_HW	(21*32+ 3) /* BHI_DIS_S HW control enabled */
+>  #define X86_FEATURE_CLEAR_BHB_LOOP_ON_VMEXIT (21*32+ 4) /* Clear branch history at vmexit using SW loop */
+>  #define X86_FEATURE_FAST_CPPC		(21*32 + 5) /* AMD Fast CPPC */
+> +#define X86_FEATURE_SDCIAE		(21*32 + 6) /* "" L3 Smart Data Cache Injection Allocation Enforcement */
 
-> This is a fairly simple series that adds support for triggered buffers
-> to the ad4695 driver.
-> 
-Applied to the togreg branch of iio.git and pushed out as testing for
-all the normal reasons...
+The "" is not needed anymore - feature flags are automatically NOT added
+to /proc/cpuinfo.
 
-Thanks,
+-- 
+Regards/Gruss,
+    Boris.
 
-Jonathan
+https://people.kernel.org/tglx/notes-about-netiquette
