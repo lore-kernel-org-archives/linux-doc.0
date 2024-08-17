@@ -1,153 +1,107 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2063.outbound.protection.outlook.com [40.92.22.63])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DED15E90;
-	Sat, 17 Aug 2024 02:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.22.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723861442; cv=fail; b=KKRSDXJCTGcnv05WM+jGlfaSOiJqrc3etoIvRHTDHrhmwY4qGmpZbf4x/BEXSTpf3nngrm5ddJ6ugusai8VVbqhuRXFejjq376eSswRHn9zd0s/AJd6sezbZ0fdW7cH5eA4sOr9HIR9AhRRzmJIgJJ8iuVeCdyA5iD/wh7L3LHw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723861442; c=relaxed/simple;
-	bh=0RQj/2N28nLENxgeeuSHKE6QLsW6jiwxyfSICCm/3gg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=C3rxa/QKjQPYuzHv+p27jwXC3YD2hfbeaCzZQCtqNrBl5pGe+GMrUmqle+x6cSIl/9APZD42SpwJOj2/0PIBZyFljR7WSa/CGzPnYSYrdRVwFIMpenrEZYeAtrcr3j2pZMAysAFPDNyPavyQcLOYo/wN3famtSQjc0a0Gx72Gbs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=PXaMvzSW; arc=fail smtp.client-ip=40.92.22.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="PXaMvzSW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dyMhxF+GrintoeJ07+TxvJfBfqPoePmPdEp/HNTnspKMMp8taxc1eau5A0ZKuNWgbSnP0lfxIOt0KmQ2ltbGkHtUKWN3jWyexTeqil55GhjZQmk500AX29OJICVTZKmUkYsyb54RDYfkdRo/MNlh9VC4DkrVTOHPxoSkC+aKLH8pjRYpKwnRQ9F1mq8gBWOHcOkto0sX+7ZbbGM6Q7zp39wSOtDskSthtZZV+PR5VxNhgXuQg3syk9UjgMw65nSe7wDefIMrYVmpgApdZZuLlleF4oSAeHbOlSgfHTBM/B/d4xGcLsk1CUB3vOhmnIh1AiWXIQuTTglkR7BgE7srvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t1jAVsTw8hZ/KN1DR2QpYyBsseR5e1kBRaw4LadbN7o=;
- b=AVD3JFDhBCZd2d4nq2h+WPawMCSPAn+fOiVReJX9KcTnRkwGVTCp7MhmRAKwlS8mQiCFoydOzWCmlpdJXjAxJGacMj1rQaTBIZVWKTZ6akgwHPo/aBFWSbMGM6tIyfjbGTZ16qKoqLhsqMKRf1C2wEEEIGcvtHJlW8DMBIxmHOc95w48lKZwy0W5wybCly9/tw5mWA1A82B0EpolOP2bWZxvxdM1Z8L641ZYbP4qRV5r8ozQTIJAuv1hDXdd+9prCDxK+ScF2qrJh0h6i33YjEGVYYNGuUIuzDe5Db7QX/1t9kLm9y4xRvir/FpQrDYTci4/AY4CQngyNiUBcRRbzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t1jAVsTw8hZ/KN1DR2QpYyBsseR5e1kBRaw4LadbN7o=;
- b=PXaMvzSWSd1mehsUk2DHlOi40a+Xwf9TLMSI7Ls+7L/6O1diqiBm5EY7n+JfZ48OMMDE8bNJP9EzsKrxIHdKj3S8WY+yiPGxdtTi/GJDGn5MR3gJafGAKgltH6l5t348noOn4+1NYFTTFCWQYRa9Bh5Od6v/8BmY62mfk54f1zIF1qCnE2PaSOdRlSpffI27N9HTOU+mJr+Uk5D7t3vKK1vrwxetDd5X19/6T3dzuBu9FPxez4xim5XxAk9uXEhlDHzrcLsEXO4oiWutDt9oP604Sf/oktRyl3KpClp2mfAHFCiGZqxfhq8pDCf28OhB8WR/r1+LUJEsrrJB98UqQQ==
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
- by PH8PR20MB5337.namprd20.prod.outlook.com (2603:10b6:510:1bc::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Sat, 17 Aug
- 2024 02:23:58 +0000
-Received: from IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149]) by IA1PR20MB4953.namprd20.prod.outlook.com
- ([fe80::ab0b:c0d3:1f91:d149%4]) with mapi id 15.20.7875.019; Sat, 17 Aug 2024
- 02:23:58 +0000
-From: Inochi Amaoto <inochiama@outlook.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Guo Ren <guoren@kernel.org>,
-	Chao Wei <chao.wei@sophgo.com>,
-	Yangyu Chen <cyy@cyyself.name>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Hal Feng <hal.feng@starfivetech.com>
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v11 4/4] riscv: defconfig: Enable MCU support for SG2042
-Date: Sat, 17 Aug 2024 10:22:59 +0800
-Message-ID:
- <IA1PR20MB495328CBB9937FE7A90CDD20BB822@IA1PR20MB4953.namprd20.prod.outlook.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <IA1PR20MB4953DF0AE7210A6D74162952BB822@IA1PR20MB4953.namprd20.prod.outlook.com>
-References: <IA1PR20MB4953DF0AE7210A6D74162952BB822@IA1PR20MB4953.namprd20.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [5R0tRRUm7NMeBpiCw6KXTpuzA5vVN/UdmPgOpU9NPR8=]
-X-ClientProxiedBy: TYCPR01CA0013.jpnprd01.prod.outlook.com (2603:1096:405::25)
- To IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
-X-Microsoft-Original-Message-ID:
- <20240817022300.360949-4-inochiama@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C78736126;
+	Sat, 17 Aug 2024 04:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723867855; cv=none; b=TOJCvLj9O14ZVd0QeRffEIqTZpEQx764mEtY5+H3/WEvV5OkMr8MlA9nrkgFfLD6SaBxbUX+zI8H/K2pizIwtLPes/DQVinwmU85YnlKOgYAYfUGaTWNI7TI/Vf9rVeOhKeQV4Y5Vn2y+SBF9hm6n/A8rlGLMW2aAtNeDx3O3PY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723867855; c=relaxed/simple;
+	bh=3hA7pZlZmvMwa6wkdU9iL2q/B3bHksw2jO25+IYLFBI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GUswSB0GsfRaIxMyAIHu3g3U7X0i+aJ5v6sraWPjL77Yhtwq1ZZPYJptJDaj2ik0et9ur1oOHW7gnIQoUzVpiQf/JcENB/vK8rUabV8aAECMSBoHhr9w3Ln9fx4FHoiocTBr9mjG93CZVjCNXPoIgfGjn4+HHr3qgDY9NAJwwqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 7C5E9C0476;
+	Sat, 17 Aug 2024 03:54:09 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id 93D2620025;
+	Sat, 17 Aug 2024 03:54:06 +0000 (UTC)
+Message-ID: <bb845fb26a97737f212c861022651e8bac82cd29.camel@perches.com>
+Subject: Re: [PATCH 2/2] Documentation: admin-guide: direct people to bug
+ trackers, if specified
+From: Joe Perches <joe@perches.com>
+To: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Date: Fri, 16 Aug 2024 20:54:05 -0700
+In-Reply-To: <20240815113450.3397499-2-jani.nikula@intel.com>
+References: <20240815113450.3397499-1-jani.nikula@intel.com>
+	 <20240815113450.3397499-2-jani.nikula@intel.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|PH8PR20MB5337:EE_
-X-MS-Office365-Filtering-Correlation-Id: af1a26da-30c9-4ddc-0c99-08dcbe63a62a
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|19110799003|15080799003|8060799006|5072599009|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	ki/O8OGWEHGb3jQt5lv1Fe9Bww2iEXDvg37urMsbfhkR5ZEW0Ijs7pOHWGy+Hfm4iWq16gbLWrbY+sP689zv+uMZUpaLJ54GSjQ6kMzCpIr76hqKIvVWydz6WxF3qDQtm98bqlHrJafDnj6uSepflTbhXziVQcd945hsfvR6UGihD3GkHP7dQe2MbDLmRhQJFann0A7oKTrVuRwoDxRMh/V33aPpPSoXhcwKTf/paYIFNIUcs4GM498l2JCHjb9vfNIGOdMRI5e4Wk4MhmAgWeYyrXnJfDJ31MQBwTqx3kpjiHqK6/NlScRfkXgngbdl/DD5lV1rE9XE6RQGEL34rdKxxrZ97VIfUa1AqLqyXFIJ7Lj7FakmTz+UfiP4V3H3IxZkW4pRdPB35bjW2MIsyrvqWwHCumkw+j1IqfNI7MERv4cdE4VOyBoGp8nwg6j/mpBxqsJyX1Oy+9df80LsiZkPWWpCdxp+RMlnOLRXDanDz8zOXsEFg6Gzfhy1Hmn3cKchnkCmyOL/sv9ttzxgTIxfHjh2+FBXLr+rXdFeMV75k/pCQcgeq6arJxo5rmzQADouYo7EzqqMzdmztpEo55FZLpO2XKKMV1QGDR0O2qYGRAPiM/uBAYdLO9MtQgzRnPoFOPT0r593tgJZeeMgYAoAzHif0HLKjukpF8Ae5phUhV4aR0MRDuk75pxY3Izvmvw4DZLxXU1geJO+QMJjQSbAYKWPutuE3V/jDCPDzMs=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IH4mMdPfPDVZySgrn80+v6hpzqCMLgm6ovKFzXAIC8bWhSURkx464Rg6p9TF?=
- =?us-ascii?Q?SvK/MZQ2RWo6ixXqFZyY/JXu82334AIfwun5JszoRP2rwlfcbSnlmtemvP9C?=
- =?us-ascii?Q?9rr6Vm3G5sLCmAhPgi9Ms6llIfvtVFqSGZRhTF+qED8PzXjIpuf8/53j5kuK?=
- =?us-ascii?Q?IRqjFw8j7HbGQIFKXzqnu6fcFBz3a8FxbXT1I/TWMkeCjApRCL96LEAV4W1d?=
- =?us-ascii?Q?OAnflbUYR3a48bbaU4d0sIrsfaCWZ8ZRSleG+/qykEWAEr9+Fh1j/cpjzGV/?=
- =?us-ascii?Q?4c1Jd6QR8KS014xNWD3cwcWpzd5nSeVwFp3EiOL8KlhHDGpqYkhPZ8yEvwq4?=
- =?us-ascii?Q?O3+NVmQe3gEbgdjiaZV8lFoCJshT0Y3M1sBxLyT37mpjZ1+YdGldW363Bo8q?=
- =?us-ascii?Q?6fMh8hAV0xTyddqdd44LLBS5ykteCP1u6/Ku5h7/jEGaNhIgwriqit/ORlH4?=
- =?us-ascii?Q?fhMYqQQ5gKvuF2Xk8XYx8SIqIWBmg3eVDFUS98c6UsPIzmXwk2y4vgeLKBlo?=
- =?us-ascii?Q?lRJiirmRkl0478ZrOtldKsyZiZn4vynnqaUFPyu+5mqEf51vyIq/8XHzFPNf?=
- =?us-ascii?Q?tSoDGP2YNc0OkEZhqLsgPQhvszk/BWIZysCbXBzCT2kR3MoDWTFzI7quWMxi?=
- =?us-ascii?Q?+N6DiwntBauDR/PSyRxyoJAeFUV8VK0a5JajRWUH05EibY0fus4zy+Z/UFKV?=
- =?us-ascii?Q?XiCD/TsbQE6BrTAp4WDj0Nza7UL0WfRkIVkESNsopy+0L8fpq0al/CKvES30?=
- =?us-ascii?Q?SPp+ypqnxDDSDTO5f4Z+Zb0LX2z4DtKOCQMcegsn1Rud+VJZESIZ/guZKiuo?=
- =?us-ascii?Q?f5kRdwMB6qlkMDfb9dnHAGq1xLTQDLOT2DpuYgbY0f5WaXUlJhLn700YAxQn?=
- =?us-ascii?Q?QeuUqAA1xRb2XnmfY/K9ksmWCr/KnPqM0JsAkgF/0A/1Bo0e3gd+BGprULBi?=
- =?us-ascii?Q?FySbrdL1kOeKNuqCK30E8w+5cYFtuSf2zUv/tM7frJTD0mnjTcd12DLDuXxq?=
- =?us-ascii?Q?QYjSsTXfgeyrMYuB0VLi9xvMPogdXNmXfli2M65416pr9lTFSWoDK/J/7OpE?=
- =?us-ascii?Q?14gMyaskCz5DnM9aVIZXn8nEou75rdVVm5xT+TLWNFsQEYr5gXsMSi5jaUUC?=
- =?us-ascii?Q?QR0y3pnWJXFTkauarqHMJlhMYrSydsPcotUwV4NGkShg/TswgYusPKii6L2b?=
- =?us-ascii?Q?bE/JPVnL1JxZSQ3KwGaJckhNkNaDVitp2hKGYjT7XALgTMGhvbn0p5KBraPs?=
- =?us-ascii?Q?5iKGObOfKYy6DViBRERO?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af1a26da-30c9-4ddc-0c99-08dcbe63a62a
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2024 02:23:58.1774
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR20MB5337
+X-Rspamd-Queue-Id: 93D2620025
+X-Rspamd-Server: rspamout03
+X-Stat-Signature: 114jkaurwmmfjhnt7hjbpfrwqdma3157
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19sMf9el56gvs3SKyuX/nfOTxiyfAgVAEU=
+X-HE-Tag: 1723866846-743539
+X-HE-Meta: U2FsdGVkX1/gvUULNqStB7gGfO+iZvO+OQ0FaYt8pUIZ567triV6p6NXT1oH6dC/R/+SAo6z3y/hXmb/iz5TDWzKo94Km5+bAh8WdirrSy/2TUE5bE7xrSfYEwc4ldVSStFy6lQVGPgWz1HUIMVgpRGsxLM+w44v0qIF9sT658mFcxptecAQSS0+d85j2qGJaDepx7hSO9hXU/dO8RrneRKHUQgpbQxnjrB7BVeWL18IRO9Gi/bPObfLnAjoiWyOOTKVubPx8G0blfA/L4Ru4xafGGoycLQM6TVZ2GfeRPwYxJUkFUmJrSAFivJ4t7+hOO8k+GbZ72lyR1tJNYmKZK4HsnaZ5AupZJbePVI9nQ4AlzQbNpSp5bRtcgSg0qDA6n81sxYEhIKxN3E9SA4P8TsTUY/EiH7/x46lLBxvqsoP1z86SdhTmEw2yD559V6uT4zmsZzqx6NtEJxcbgRELgESteXzqljcW5SKa6RALBF9e9b7kNAlzv4IsToFN20M9zwNOukE7abAvznucJX75BhnSWhz3l1/LvKXbSssHj4=
 
-Enable MCU driver for SG2042 to provide thermal and reboot support.
+On Thu, 2024-08-15 at 14:34 +0300, Jani Nikula wrote:
+> Update bug reporting info in bug-hunting.rst to direct people to
+> driver/subsystem bug trackers, if explicitly specified with the
+> MAINTAINERS "B:" entry. Use the new get_maintainer.pl --bug option to
+> print the info.
+>=20
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  Documentation/admin-guide/bug-hunting.rst | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/ad=
+min-guide/bug-hunting.rst
+> index 95299b08c405..1d0f8ceb3075 100644
+> --- a/Documentation/admin-guide/bug-hunting.rst
+> +++ b/Documentation/admin-guide/bug-hunting.rst
+> @@ -244,14 +244,14 @@ Reporting the bug
+>  Once you find where the bug happened, by inspecting its location,
+>  you could either try to fix it yourself or report it upstream.
+> =20
+> -In order to report it upstream, you should identify the mailing list
+> -used for the development of the affected code. This can be done by using
+> -the ``get_maintainer.pl`` script.
+> +In order to report it upstream, you should identify the bug tracker, if =
+any, or
+> +mailing list used for the development of the affected code. This can be =
+done by
+> +using the ``get_maintainer.pl`` script.
+> =20
+>  For example, if you find a bug at the gspca's sonixj.c file, you can get
+>  its maintainers with::
+> =20
+> -	$ ./scripts/get_maintainer.pl -f drivers/media/usb/gspca/sonixj.c
+> +	$ ./scripts/get_maintainer.pl --bug -f drivers/media/usb/gspca/sonixj.c
 
-Signed-off-by: Inochi Amaoto <inochiama@outlook.com>
-Tested-by: Chen Wang <unicorn_wang@outlook.com>
-Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
----
- arch/riscv/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Might not be the best use as B: entries are URIs and not email addresses
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index 0d678325444f..a0f346301df6 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -170,6 +170,7 @@ CONFIG_SPI_SUN6I=y
- CONFIG_GPIO_SIFIVE=y
- CONFIG_POWER_RESET_GPIO_RESTART=y
- CONFIG_SENSORS_SFCTEMP=m
-+CONFIG_SENSORS_SG2042_MCU=y
- CONFIG_CPU_THERMAL=y
- CONFIG_DEVFREQ_THERMAL=y
- CONFIG_RZG2L_THERMAL=y
--- 
-2.46.0
+Maybe change the text above it too.
+
+>  	Hans Verkuil <hverkuil@xs4all.nl> (odd fixer:GSPCA USB WEBCAM DRIVER,co=
+mmit_signer:1/1=3D100%)
+>  	Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:MEDIA INPUT INFR=
+ASTRUCTURE (V4L/DVB),commit_signer:1/1=3D100%)
+>  	Tejun Heo <tj@kernel.org> (commit_signer:1/1=3D100%)
+> @@ -267,11 +267,12 @@ Please notice that it will point to:
+>  - The driver maintainer (Hans Verkuil);
+>  - The subsystem maintainer (Mauro Carvalho Chehab);
+>  - The driver and/or subsystem mailing list (linux-media@vger.kernel.org)=
+;
+> -- the Linux Kernel mailing list (linux-kernel@vger.kernel.org).
+> +- The Linux Kernel mailing list (linux-kernel@vger.kernel.org);
+> +- The bug reporting URIs for the driver/subsystem (none in the above exa=
+mple).
+
+Maybe change the example to show a file/subsystem with a B: entry.
 
