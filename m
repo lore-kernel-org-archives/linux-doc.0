@@ -1,322 +1,434 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8B1440C;
-	Sat, 17 Aug 2024 16:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E8D7FBAC;
+	Sat, 17 Aug 2024 17:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723913485; cv=none; b=XdQJi+/I0sPcxEoLyfb+IddC7M4TrDAypJ0i+Hkci3+j6p80IpeMd465AqUIYp3GayDZymQjtNuazSk4Fsxgbx8Lol0NdUwF2Qd5+CNAKHhgrFePEaZtvut/sjj4U70EM8H7uE3ZQLq3XrjKaTpnr2d7ySwRzdh299RtmIuJtuU=
+	t=1723917135; cv=none; b=Dphdpys0Yv9yxuQabsQ09BRwamMsLIJVnlqmrAzsrOWXKKDku8t1cxBEkCWiaCeJY4ffF+7qbn4VVmhY7TPoJ45mKDazVOiJ2uoWiDh0ntIa4LXwaP0RBygaGtbBiNrJgEJUcf8HpNir7MkWgiSxGul6XXi3h+FO14wn8r3B2w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723913485; c=relaxed/simple;
-	bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SChQVidzIIF9WkEGiWqEDVfYagO9pxnk3k1gKuHgk5cnTl5K25UjvBNzV99YLyaA882ZEJa8pjHutjAnhnFjoe5rDUfJ3AvUd7uvTeSv/wjScJVY87nEv0vknpaE99Uj2MqnOD82aMOp4ovGsmp70AnWeF8ky3w4wnSL6OVAmPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PgMF3d8H; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PgMF3d8H"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f3b7aba3dbso36261761fa.3;
-        Sat, 17 Aug 2024 09:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723913482; x=1724518282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-        b=PgMF3d8HdkmdZYgKuq2QQp6IhO+hvXoeBq4p70UQqJHZz/UFcop+hGaAUOPQbYEdIp
-         cF6s6KGIzy3gFI19C/Mu2XiqylUQ6mz/CNnQC3a3F8Jp0lMKZ3j9pNJgZQlTTKrP1sDB
-         Gp4oK2Kur5s6gd5Z8J1Kr9SZYg3WxwiQQkukx1qzgnNSbu/R4CC3Pe0+R1xsSLStbn1q
-         m3k9+M67RpidxK/wjhcgn7eYORh99GBI+evGjzIlLPHOZzu4rZy2xsLf6b4iSgd0+c/4
-         A1uz7ncDQubhl9VfiVPQ112gnxkeL+NrDGi1JB2+8wHMYyeG+6mzdFHRwZ0dHCVRKDsg
-         HquA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723913482; x=1724518282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-        b=mGjdRGkxmcouqd79OQykd5peI+H7NuADa/w0o51hRWlrNWNKYLrjG4OpZQzxcY7SNy
-         ewGr7wwe8wa8ELdoqInGlqBWVl2C0xYkX8oqYQp9iMMS/tDoAGWNpMeTa9pRn+dMADTP
-         4fWmWFoW/E6k358AFrjovzJcPkwidaIufSq8PKV+CZy94p30K59s9WUi3LRFE9N+HNrL
-         ayesnhgbGOxXedzbVhFO5bVVbqLGOSvw5HMclNe0l/o6tMX8oQFLpRSFx9gbbvVd+LGA
-         TzzRGDLpcbFawoqf0Iqzf2u7eFBBvtSnaGIGZb0nmHxcKRkNlZYTpd+PPzeaKQcfg0IX
-         5ilA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/EKzPivKjc53iJmgxkpKHSEW234eEatAJ89gJEWPNRBLEDXSe76Rqu511Ej8JiTUTOU+pGdE0KYrO7CD1iZBkkD3ISptQyIPqzF+IsUOl0+clK09Toc3FE1stKitjO65NyjdygYeqzFyBCAbqMao0DojCcMQdY79PFX4WdZ5Y7ZVrQ/ObQhDQT21riafevBuME9yLwaEgyuqLbAWpKuMSsYJM0TbiIeDU8fXEGB7qB/Bt7xmKXz/5Op7Y3HkatK1fIKEJzxdiEMktTSRcuS6HdLKws/VYicKyfewx2Wtv64Irv7QbeW7/sPIy6I5AurhNWECYht6ozMAsw6vwzMQOura4zKWsrfnAzeZsWkWtEpTRS8bA7vDhWhuNYjbPAHteKB04Y+NumNoXuQKim4+ocDeZdUC5XKGcZwkx5drJBVrplvlR/6ltOBqCFsZY/xBtcOHZdmcITWYSScWiYbsdqiljgfzxv0s5lqoWNA==
-X-Gm-Message-State: AOJu0YxlBjUMVumTbMgt/WZrLcxftbamTHaLr74+L5+/0Txa3UMB8YiO
-	Qqm8SKauIE6cGEqYUf8YWMujPSLyDHSH9A40ztcjMcAqvrffmoMgmRZY45xZAcfL7/9axTzzQRF
-	7qC2uL6vxtbDCP62ZCeV143AjiR4=
-X-Google-Smtp-Source: AGHT+IHFnXWswRNTDKm+umQ5ztT6GCIRL4SA0D2oDGwZTni6Tc0rxL80VlX+Lqp+Gco7elLa7e2ftzMi0E7hh8CxhzU=
-X-Received: by 2002:a05:651c:222b:b0:2ef:26dc:efb3 with SMTP id
- 38308e7fff4ca-2f3be575b36mr58372901fa.2.1723913481489; Sat, 17 Aug 2024
- 09:51:21 -0700 (PDT)
+	s=arc-20240116; t=1723917135; c=relaxed/simple;
+	bh=TaVDPuMt06s5oe8yp2gQ5wMA2llg3H7nNlNZ4BCLfJs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GEShUi/xDWl91AnZZcYkoN74oYqrrF6ICP48IwvU5Hf1GbHXUdh1/f1oSxhPlya5gvSu1CBfZb+9prjtcXn0KZfSRmEiv7OXNNYXTUoymcOp24lmIc6WNUKO1XBYIBW0/m/VfBsCCPhVtC51Eb4ZXcUAs+fmE1+Y2nuUQplzmPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrAA34BRA48BmawyEAA--.61043S2;
+	Sun, 18 Aug 2024 01:52:00 +0800 (CST)
+Received: from russ.tail3da2e.ts.net (unknown [1.48.99.52])
+	by gateway (Coremail) with SMTP id _____wCXcL0448BmcM1QAA--.51156S2;
+	Sun, 18 Aug 2024 01:51:57 +0800 (CST)
+From: Haoyang Liu <tttturtleruss@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	Haoyang Liu <tttturtleruss@hust.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v7] docs/zh_CN: Add dev-tools/kcsan Chinese translation
+Date: Sun, 18 Aug 2024 01:51:51 +0800
+Message-Id: <20240817175151.164923-1-tttturtleruss@hust.edu.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813211317.3381180-10-almasrymina@google.com>
- <CAMArcTW=mg2gF_e6spPWOCuQdDAWSuKTCdCNPWGqcU1ciq30EQ@mail.gmail.com> <CAHS8izOqGMiZNkfQ6G-29UuG64GVo7L+fAzWn5A1713cDAgbgg@mail.gmail.com>
-In-Reply-To: <CAHS8izOqGMiZNkfQ6G-29UuG64GVo7L+fAzWn5A1713cDAgbgg@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sun, 18 Aug 2024 01:51:09 +0900
-Message-ID: <CAMArcTUXm13xJO9XqcT=0uQAn_ZQOQ=Y49EPpHqV+jkkhihMcw@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 09/13] tcp: RX path for devmem TCP
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAA34BRA48BmawyEAA--.61043S2
+Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
+	.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoWfur1kGw13uFW7WFWUJw47Jwb_yoW8Zw1UWo
+	WYkFs8Cws5Cw15JF15G3yDJa43Gw4vkFnxAanrKrnxu34UKwnYy3WxAw43Ja13C3y5K3W3
+	tw17XFW7W3WDXa4Dn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOI7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
+	x4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1ln4kS14
+	v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l
+	5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxVWxJVW8Jr1lYx0E74AGY7
+	Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_
+	Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l42
+	xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E
+	14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
+	CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4U
+	MIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsG
+	vfC2KfnxnUUI43ZEXa7IU5Ysj5UUUUU==
+X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkMAmbAGjQhmwADs3
 
-On Sun, Aug 18, 2024 at 12:13=E2=80=AFAM Mina Almasry <almasrymina@google.c=
-om> wrote:
->
-> On Sat, Aug 17, 2024 at 9:58=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
-> >
-> > On Wed, Aug 14, 2024 at 6:13=E2=80=AFAM Mina Almasry <almasrymina@googl=
-e.com> wrote:
-> > >
-> >
-> > Hi Mina,
-> >
-> > > In tcp_recvmsg_locked(), detect if the skb being received by the user
-> > > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEV=
-MEM
-> > > flag - pass it to tcp_recvmsg_devmem() for custom handling.
-> > >
-> > > tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> > > buffer, and returns a cmsg to the user indicating the number of bytes
-> > > returned in the linear buffer.
-> > >
-> > > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frag=
-s,
-> > > and returns to the user a cmsg_devmem indicating the location of the
-> > > data in the dmabuf device memory. cmsg_devmem contains this informati=
-on:
-> > >
-> > > 1. the offset into the dmabuf where the payload starts. 'frag_offset'=
-.
-> >
-> > I have been testing this patch and I found a bug.
->
-> Thanks Taehee. It's exciting to see that you have gotten this far in
-> your testing!! You seem to have devmem TCP (almost) fully working!!
+Translate dev-tools/kcsan commit 31f605a308e6
+("kcsan, compiler_types: Introduce __data_racy type qualifier")
+into Chinese and add it in dev-tools/zh_CN/index.rst
 
-Yes, Finally!!
+Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v6 -> v7: Replace duplicated inclusion with a note to avoid compile warnings.
+v5 -> v6: Fix a typo.
+v4 -> v5: Translate link into Chinese as well according to reviewer's advice.
+v3 -> v4: Added original English text for proper nouns and modified some unclear experessions.
+v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
+v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions. 
 
-> May I ask which driver this is? I assume it's bnxt. Do you have the
-> driver support somewhere on github or something? I'm curious what your
-> driver implementation looks like.
+ .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+ .../translations/zh_CN/dev-tools/kcsan.rst    | 320 ++++++++++++++++++
+ 2 files changed, 321 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
 
-I'm using a modified bnxt_en driver.
-NICs are BCM57412, BCM57508(currently only 57412).
-I modified the driver by myself for devmem TCP.
-The implementation is too rough, only for testing it.
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index c540e4a7d5db..6a8c637c0be1 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -21,6 +21,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+    testing-overview
+    sparse
+    kcov
++   kcsan
+    gcov
+    kasan
+    ubsan
+@@ -32,7 +33,6 @@ Todolist:
+  - checkpatch
+  - coccinelle
+  - kmsan
+- - kcsan
+  - kfence
+  - kgdb
+  - kselftest
+diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
+new file mode 100644
+index 000000000000..8c495c17f109
+--- /dev/null
++++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
+@@ -0,0 +1,320 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/dev-tools/kcsan.rst
++:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
++
++内核并发消毒剂(KCSAN)
++=====================
++
++内核并发消毒剂（KCSAN）是一个动态竞争检测器，依赖编译时插桩，并且使用基于观察
++点的采样方法来检测竞争。KCSAN 的主要目的是检测 `数据竞争`_。
++
++使用
++----
++
++KCSAN 受 GCC 和 Clang 支持。使用 GCC 需要版本 11 或更高，使用 Clang 也需要
++版本 11 或更高。
++
++为了启用 KCSAN，用如下参数配置内核::
++
++    CONFIG_KCSAN = y
++
++KCSAN 提供了几个其他的配置选项来自定义行为（见 ``lib/Kconfig.kcsan`` 中的各自的
++帮助文档以获取更多信息）。
++
++错误报告
++~~~~~~~~
++
++一个典型数据竞争的报告如下所示::
++
++    ==================================================================
++    BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
++
++    write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
++     test_kernel_write+0x1d/0x30
++     access_thread+0x89/0xd0
++     kthread+0x23e/0x260
++     ret_from_fork+0x22/0x30
++
++    read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
++     test_kernel_read+0x10/0x20
++     access_thread+0x89/0xd0
++     kthread+0x23e/0x260
++     ret_from_fork+0x22/0x30
++
++    value changed: 0x00000000000009a6 -> 0x00000000000009b2
++
++    Reported by Kernel Concurrency Sanitizer on:
++    CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
++    ==================================================================
++
++报告的头部提供了一个关于竞争中涉及到的函数的简短总结。随后是竞争中的两个线程的
++访问类型和堆栈信息。如果 KCSAN 发现了一个值的变化，那么那个值的旧值和新值会在
++“value changed”这一行单独显示。
++
++另一个不太常见的数据竞争类型的报告如下所示::
++
++    ==================================================================
++    BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
++
++    race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes by task 515 on cpu 2:
++     test_kernel_rmw_array+0x71/0xd0
++     access_thread+0x89/0xd0
++     kthread+0x23e/0x260
++     ret_from_fork+0x22/0x30
++
++    value changed: 0x0000000000002328 -> 0x0000000000002329
++
++    Reported by Kernel Concurrency Sanitizer on:
++    CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
++    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
++    ==================================================================
++
++这个报告是当另一个竞争线程不可能被发现，但是可以从观测的内存地址的值改变而推断
++出来的时候生成的。这类报告总是会带有“value changed”行。这类报告的出现通常是因
++为在竞争线程中缺少插桩，也可能是因为其他原因，比如 DMA 访问。这类报告只会在
++设置了内核参数 ``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`` 时才会出现，而这
++个参数是默认启用的。
++
++选择性分析
++~~~~~~~~~~
++
++对于一些特定的访问，函数，编译单元或者整个子系统，可能需要禁用数据竞争检测。
++对于静态黑名单，有如下可用的参数：
++
++* KCSAN 支持使用 ``data_race(expr)`` 注解，这个注解告诉 KCSAN 任何由访问
++  ``expr`` 所引起的数据竞争都应该被忽略，其产生的行为后果被认为是安全的。请查阅
++  `在 LKMM 中 "标记共享内存访问"`_ 获得更多信息。
++
++* 与 ``data_race(...)`` 相似，可以使用类型限定符 ``__data_racy`` 来标记一个变量
++  ，所有访问该变量而导致的数据竞争都是故意为之并且应该被 KCSAN 忽略::
++
++    struct foo {
++        ...
++        int __data_racy stats_counter;
++        ...
++    };
++
++* 使用函数属性 ``__no_kcsan`` 可以对整个函数禁用数据竞争检测::
++
++    __no_kcsan
++    void foo(void) {
++        ...
++
++  为了动态限制该为哪些函数生成报告，查阅 `Debug 文件系统接口`_ 黑名单/白名单特性。
++
++* 为特定的编译单元禁用数据竞争检测，将下列参数加入到 ``Makefile`` 中::
++
++    KCSAN_SANITIZE_file.o := n
++
++* 为 ``Makefile`` 中的所有编译单元禁用数据竞争检测，将下列参数添加到相应的
++  ``Makefile`` 中::
++
++    KCSAN_SANITIZE := n
++
++.. _在 LKMM 中 "标记共享内存访问": https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
++
++此外，KCSAN 可以根据偏好设置显示或隐藏整个类别的数据竞争。可以使用如下
++Kconfig 参数进行更改:
++
++* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: 如果启用了该参数并且通过观测点
++  (watchpoint) 观测到一个有冲突的写操作，但是对应的内存地址中存储的值没有改变，
++  则不会报告这起数据竞争。
++
++* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: 假设默认情况下，不超过字大小的简
++  单对齐写入操作是原子的。假设这些写入操作不会受到不安全的编译器优化影响，从而导
++  致数据竞争。该选项使 KCSAN 不报告仅由不超过字大小的简单对齐写入操作引起
++  的冲突所导致的数据竞争。
++
++* ``CONFIG_KCSAN_PERMISSIVE``: 启用额外的宽松规则来忽略某些常见类型的数据竞争。
++  与上面的规则不同，这条规则更加复杂，涉及到值改变模式，访问类型和地址。这个
++  选项依赖编译选项 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y``。请查看
++  ``kernel/kcsan/permissive.h`` 获取更多细节。对于只侧重于特定子系统而不是整个
++  内核报告的测试者和维护者，建议禁用该选项。
++
++要使用尽可能严格的规则，选择 ``CONFIG_KCSAN_STRICT=y``，这将配置 KCSAN 尽可
++能紧密地遵循 Linux 内核内存一致性模型（LKMM）。
++
++Debug 文件系统接口
++~~~~~~~~~~~~~~~~~~
++
++文件 ``/sys/kernel/debug/kcsan`` 提供了如下接口：
++
++* 读 ``/sys/kernel/debug/kcsan`` 返回不同的运行时统计数据。
++
++* 将 ``on`` 或 ``off`` 写入 ``/sys/kernel/debug/kcsan`` 允许打开或关闭 KCSAN。
++
++* 将 ``!some_func_name`` 写入 ``/sys/kernel/debug/kcsan`` 会将
++  ``some_func_name`` 添加到报告过滤列表中，该列表（默认）会将数据竞争报告中的顶
++  层堆栈帧是列表中函数的情况列入黑名单。
++
++* 将 ``blacklist`` 或 ``whitelist`` 写入 ``/sys/kernel/debug/kcsan`` 会改变报告
++  过滤行为。例如，黑名单的特性可以用来过滤掉经常发生的数据竞争。白名单特性可以帮
++  助复现和修复测试。
++
++性能调优
++~~~~~~~~
++
++影响 KCSAN 整体的性能和 bug 检测能力的核心参数是作为内核命令行参数公开的，其默认
++值也可以通过相应的 Kconfig 选项更改。
++
++* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): 在另一个观测点设置之前每
++  个 CPU 要跳过的内存操作次数。更加频繁的设置观测点将增加观察到竞争情况的可能性
++  。这个参数对系统整体的性能和竞争检测能力影响最显著。
++
++* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): 对于任务，观测点设置之
++  后暂停执行的微秒延迟。值越大，检测到竞争情况的可能性越高。
++
++* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): 对于中断，
++  观测点设置之后暂停执行的微秒延迟。中断对于延迟的要求更加严格，其延迟通常应该小
++  于为任务选择的延迟。
++
++它们可以通过 ``/sys/module/kcsan/parameters/`` 在运行时进行调整。
++
++数据竞争
++--------
++
++在一次执行中，如果两个内存访问存在 *冲突*，在不同的线程中并发执行，并且至少
++有一个访问是 *简单访问*，则它们就形成了 *数据竞争*。如果它们访问了同一个内存地址并且
++至少有一个是写操作，则称它们存在 *冲突*。有关更详细的讨论和定义，见
++`LKMM 中的 "简单访问和数据竞争"`_。
++
++.. _LKMM 中的 "简单访问和数据竞争": https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922
++
++与 Linux 内核内存一致性模型(LKMM)的关系
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++LKMM 定义了各种内存操作的传播和排序规则，让开发者可以推理并发代码。最终这允许确
++定并发代码可能的执行情况并判断这些代码是否存在数据竞争。
++
++KCSAN 可以识别 *被标记的原子操作* （ ``READ_ONCE``, ``WRITE_ONCE`` , ``atomic_*``
++等），以及内存屏障所隐含的一部分顺序保证。启用 ``CONFIG_KCSAN_WEAK_MEMORY=y``
++配置，KCSAN 会对加载或存储缓冲区进行建模，并可以检测遗漏的
++``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``, ``smp_store_release()``，以及所有的
++具有等效隐含内存屏障的 ``atomic_*`` 操作。
++
++请注意，KCSAN 不会报告所有由于缺失内存顺序而导致的数据竞争，特别是在需要内存屏障
++来禁止后续内存操作在屏障之前重新排序的情况下。因此，开发人员应该仔细考虑那些未
++被检查的内存顺序要求。
++
++数据竞争以外的竞争检测
++---------------------------
++
++对于有着复杂并发设计的代码，竞争状况不总是表现为数据竞争。如果并发操作引起了意
++料之外的系统行为，则认为发生了竞争状况。另一方面，数据竞争是在 C 语言层面定义
++的。内核定义了一些宏定义用来检测非数据竞争的漏洞并发代码的属性。
++
++.. note::
++     为了不引入新的文档编译警告，这里不展示宏定义的具体内容，如果想查看具体
++     宏定义可以结合原文（Documentation/dev-tools/kcsan.rst）阅读。
++
++实现细节
++--------
++
++KCSAN 需要观测两个并发访问。特别重要的是，我们想要（a）增加观测到竞争的机会（尤
++其是很少发生的竞争），以及（b）能够实际观测到这些竞争。我们可以通过（a）注入
++不同的延迟，以及（b）使用地址观测点（或断点）来实现。
++
++如果我们在设置了地址观察点的情况下故意延迟一个内存访问，然后观察到观察点被触发
++，那么两个对同一地址的访问就发生了竞争。使用硬件观察点，这是 `DataCollider
++<http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf>`_ 中采用
++的方法。与 DataCollider 不同，KCSAN 不使用硬件观察点，而是依赖于编译器插桩和“软
++观测点”。
++
++在 KCSAN 中，观察点是通过一种高效的编码实现的，该编码将访问类型、大小和地址存储
++在一个长整型变量中；使用“软观察点”的好处是具有可移植性和更大的灵活性。然后，
++KCSAN依赖于编译器对普通访问的插桩。对于每个插桩的普通访问：
++
++1. 检测是否存在一个符合的观测点，如果存在，并且至少有一个操作是写操作，则我们发
++   现了一个竞争访问。
++
++2. 如果不存在匹配的观察点，则定期的设置一个观测点并随机延迟一小段时间。
++
++3. 在延迟前检查数据值，并在延迟后重新检查数据值；如果值不匹配，我们推测存在一个
++   未知来源的竞争状况。
++
++为了检测普通访问和标记访问之间的数据竞争，KCSAN 也对标记访问进行标记，但仅用于
++检查是否存在观察点；即 KCSAN 不会在标记访问上设置观察点。通过不在标记操作上设
++置观察点，如果对一个变量的所有并发访问都被正确标记，KCSAN 将永远不会触发观察点
++，因此也不会报告这些访问。
++
++弱内存建模
++~~~~~~~~~~
++
++KCSAN 通过建模访问重新排序（使用 ``CONFIG_KCSAN_WEAK_MEMORY=y``）来检测由于缺少
++内存屏障而导致的数据竞争。每个设置了观察点的普通内存访问也会被选择在其函数范围
++内进行模拟重新排序（最多一个正在进行的访问）。
++
++一旦某个访问被选择用于重新排序，它将在函数范围内与每个其他访问进行检查。如果遇
++到适当的内存屏障，该访问将不再被考虑进行模拟重新排序。
++
++当内存操作的结果应该由屏障排序时，KCSAN 可以检测到仅由于缺失屏障而导致的冲突的
++数据竞争。考虑下面的例子::
++
++    int x, flag;
++    void T1(void)
++    {
++        x = 1;                  // data race!
++        WRITE_ONCE(flag, 1);    // correct: smp_store_release(&flag, 1)
++    }
++    void T2(void)
++    {
++        while (!READ_ONCE(flag));   // correct: smp_load_acquire(&flag)
++        ... = x;                    // data race!
++    }
++
++当启用了弱内存建模，KCSAN 将考虑对 ``T1`` 中的 ``x`` 进行模拟重新排序。在写入
++``flag`` 之后，x再次被检查是否有并发访问：因为 ``T2`` 可以在写入
++``flag`` 之后继续进行，因此检测到数据竞争。如果遇到了正确的屏障， ``x`` 在正确
++释放 ``flag`` 后将不会被考虑重新排序，因此不会检测到数据竞争。
++
++在复杂性上的权衡以及实际的限制意味着只能检测到一部分由于缺失内存屏障而导致的数
++据竞争。由于当前可用的编译器支持，KCSAN 的实现仅限于建模“缓冲”（延迟访问）的
++效果，因为运行时不能“预取”访问。同时要注意，观测点只设置在普通访问上，这是唯
++一一个 KCSAN 会模拟重新排序的访问类型。这意味着标记访问的重新排序不会被建模。
++
++上述情况的一个后果是获取 (acquire) 操作不需要屏障插桩（不需要预取）。此外，引
++入地址或控制依赖的标记访问不需要特殊处理（标记访问不能重新排序，后续依赖的访问
++不能被预取）。
++
++关键属性
++~~~~~~~~
++
++1. **内存开销**：整体的内存开销只有几 MiB，取决于配置。当前的实现是使用一个小长
++   整型数组来编码观测点信息，几乎可以忽略不计。
++
++2. **性能开销**：KCSAN 的运行时旨在性能开销最小化，使用一个高效的观测点编码，在
++   快速路径中不需要获取任何锁。在拥有 8 个 CPU 的系统上的内核启动来说：
++
++   - 使用默认 KCSAN 配置时，性能下降 5 倍；
++   - 仅因运行时快速路径开销导致性能下降 2.8 倍（设置非常大的
++     ``KCSAN_SKIP_WATCH`` 并取消设置 ``KCSAN_SKIP_WATCH_RANDOMIZE``）。
++
++3. **注解开销**：KCSAN 运行时之外需要的注释很少。因此，随着内核的发展维护的开
++   销也很小。
++
++4. **检测设备的竞争写入**：由于设置观测点时会检查数据值，设备的竞争写入也可以
++   被检测到。
++
++5. **内存排序**：KCSAN 只了解一部分 LKMM 排序规则；这可能会导致漏报数据竞争（
++   假阴性）。
++
++6. **分析准确率**： 对于观察到的执行，由于使用采样策略，分析是 *不健全* 的
++   （可能有假阴性），但期望得到完整的分析（没有假阳性）。
++
++考虑的替代方案
++--------------
++
++一个内核数据竞争检测的替代方法是 `Kernel Thread Sanitizer (KTSAN)
++<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_。KTSAN 是一
++个基于先行发生关系（happens-before）的数据竞争检测器，它显式建立内存操作之间的先
++后发生顺序，这可以用来确定 `数据竞争`_ 中定义的数据竞争。
++
++为了建立正确的先行发生关系，KTSAN 必须了解 LKMM 的所有排序规则和同步原语。不幸
++的是，任何遗漏都会导致大量的假阳性，这在包含众多自定义同步机制的内核上下文中特
++别有害。为了跟踪前因后果关系，KTSAN 的实现需要为每个内存位置提供元数据（影子内
++存），这意味着每页内存对应 4 页影子内存，在大型系统上可能会带来数十 GiB 的开销
++。
+-- 
+2.25.1
 
->
-> > While testing it with the ncdevmem cmd, it fails to validate buffers
-> > after some period.
-> > This is because tcp_recvmsg_dmabuf() can't handle skb properly when
-> > the parameter offset !=3D 0.
->
-> Sadly I'm unable to reproduce this issue, but I think I know where to
-> suspect the bug is. Thanks for taking the time to root cause this and
-> provide a fix.
-
-I'm not sure why, but I assume this bug appears when CPU utilization
-peeks to almost 100%.
-
->
-> ...
->
-> > > + offset =3D 0;
-> >
-> > If the offset is 5000 and only 4500 bytes are skipped at this point,
-> > the offset should be 500, not 0.
-> > We need to add a condition to set the offset correctly.
-> >
->
-> I highly suspect this is a regression that was introduced in v13. In
-> v12 Pavel asked if offset can just be set to 0 here, and I didn't see
-> any reason why not, so I made the change:
->
-> -+ offset =3D offset - start;
-> ++ offset =3D 0;
->
-> It looks like we missed something. I suspect reverting that may
-> resolve the issue, because __skb_copy_datagram() in earlier kernels
-> modified offset like this and it's well tested. Can you test with this
-> change reverted? Diff like so:
-
-No problem, I will test it.
-
->
-> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-> index 40e7335dae6e..984e28c5d096 100644
-> --- a/net/ipv4/tcp.c
-> +++ b/net/ipv4/tcp.c
-> @@ -2522,7 +2522,7 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
-> const struct sk_buff *skb,
-> */
-> skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
->
-> - offset =3D 0;
-> + offset =3D offset - start;
-> } while (skb);
->
-> if (remaining_len) {
->
-> I'm running a long test to try to reproduce this issue, but I have ran
-> many long tests before and was not able to. For some reason my setup
-> is not able to reproduce this edge case. Are you doing anything
-> special with ncdevmem? Or simply running commands like these on the
-> server client?
->
-> server: ./ncdevmem -s SERVER -c CLIENT -l -p 5224 -v 7
-> client: yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | tr \\n \\0 |
-> nc SERVER 5224 -p 5224
->
-
-Yes, I'm using the vanilla ncdevmem command and option in the
-documentation in this series.
-
-server:
-./ncdevmem -s 192.168.1.4 -c 192.168.1.2 -f $interface -l -p 5000 -v 7 -t 0=
- -q 4
-
-client:
-yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-tr \\n \\0 | \
-head -c 1000000G | \
-nc 192.168.1.4 5000 -p 5000
-
-
-BTW, this is a ncdevmem failure message of the current implementation.
-(offset =3D 0)
-
-received frag_page=3D13205, in_page_offset=3D0, frag_offset=3D54087680,
-frag_size=3D2896, token=3D288, total_received=3D1153657976, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13204, in_page_offset=3D0, frag_offset=3D54083584,
-frag_size=3D1448, token=3D289, total_received=3D1153659424, dmabuf_id=3D2
-Validated buffer
-[1] received frag_page=3D13203, in_page_offset=3D0, frag_offset=3D54079488,
-frag_size=3D2896, token=3D290, total_received=3D1153662320, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13202, in_page_offset=3D0, frag_offset=3D54075392,
-frag_size=3D200, token=3D291, total_received=3D1153662520, dmabuf_id=3D2
-Validated buffer
-total_received=3D1153662520
-
-
-recvmsg ret=3D819200
-[2] received frag_page=3D13203, in_page_offset=3D0, frag_offset=3D54079488,
-frag_size=3D2896, token=3D1, total_received=3D1153665416, dmabuf_id=3D2
-Failed validation: expected=3D4, actual=3D2, index=3D0
-Failed validation: expected=3D5, actual=3D3, index=3D1
-Failed validation: expected=3D6, actual=3D4, index=3D2
-Failed validation: expected=3D0, actual=3D5, index=3D3
-Failed validation: expected=3D1, actual=3D6, index=3D4
-Failed validation: expected=3D2, actual=3D0, index=3D5
-Failed validation: expected=3D3, actual=3D1, index=3D6
-Failed validation: expected=3D4, actual=3D2, index=3D7
-Failed validation: expected=3D5, actual=3D3, index=3D8
-Failed validation: expected=3D6, actual=3D4, index=3D9
-Failed validation: expected=3D0, actual=3D5, index=3D10
-Failed validation: expected=3D1, actual=3D6, index=3D11
-Failed validation: expected=3D2, actual=3D0, index=3D12
-Failed validation: expected=3D3, actual=3D1, index=3D13
-Failed validation: expected=3D4, actual=3D2, index=3D14
-Failed validation: expected=3D5, actual=3D3, index=3D15
-Failed validation: expected=3D6, actual=3D4, index=3D16
-Failed validation: expected=3D0, actual=3D5, index=3D17
-Failed validation: expected=3D1, actual=3D6, index=3D18
-Failed validation: expected=3D2, actual=3D0, index=3D19
-Failed validation: expected=3D3, actual=3D1, index=3D20
-./ncdevmem: validation failed.
-
-Please look at the [1] and [2].
-At the [1], The 13203 page is fully passed to userspace.
-But 13202 is not, only 200 bytes are passed to userspace.
-The 13203 page is passed to userspace fully, but 13202 is not.
-Only 200 bytes are passed to userspace.
-
-But at the [2], it receives 2896 bytes from 13203 again.
-It should be 13202 and in_page_offset=3D200.
-
-And I just started testing your suggestion, it seems to work correctly.
-Here is the ncdevmem message, it's not a failure message.
-(offset =3D offset - start)
-
-received frag_page=3D13085, in_page_offset=3D0, frag_offset=3D53596160,
-frag_size=3D2896, token=3D288, total_received=3D2233699704, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D12931, in_page_offset=3D0, frag_offset=3D52965376,
-frag_size=3D2896, token=3D289, total_received=3D2233702600, dmabuf_id=3D2
-Validated buffer
-[1] received frag_page=3D12916, in_page_offset=3D0, frag_offset=3D52903936,
-frag_size=3D1392, token=3D290, total_received=3D2233703992, dmabuf_id=3D2
-Validated buffer
-total_received=3D2233703992
-
-
-recvmsg ret=3D819200
-[2] received frag_page=3D12916, in_page_offset=3D1392,
-frag_offset=3D52905328, frag_size=3D1504, token=3D1,
-total_received=3D2233705496,
-dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13244, in_page_offset=3D0, frag_offset=3D54247424,
-frag_size=3D2896, token=3D2, total_received=3D2233708392, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13579, in_page_offset=3D0, frag_offset=3D55619584,
-frag_size=3D1448, token=3D3, total_received=3D2233709840, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D12315, in_page_offset=3D0, frag_offset=3D50442240,
-frag_size=3D2896, token=3D4, total_received=3D2233712736, dmabuf_id=3D2
-Validated buffer
-
-At the [1], the 12916 page was not passed to userspace fully.
-Only 1392 bytes are received.
-At the [2], remain 1504 bytes are passed and the offset is 1392.
-So, the 12916 page size is 2896, so it makes sense.
-
-So, this is the reason why I think your suggestion is working correctly.
-I have been still testing it, so I will report if it fails while testing.
-But I think it works well about this corner case so far.
-
->
-> --
-> Thanks,
-> Mina
-
-Thanks a lot,
-Taehee Yoo
