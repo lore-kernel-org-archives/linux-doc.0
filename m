@@ -1,115 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083AF282F4;
-	Sat, 17 Aug 2024 15:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BAD146D40
+	for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 15:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723907361; cv=none; b=eusT2npWqe7Dwra5c+UxVB9nJBFZlYROAndYd4lg94WC9tIaTjJKXPPHIEVrERmnVG91bxqTbPqUyJtyID8OIh9bNB+9TxKMmYLBumGMGhHAfa6UUVA/ksCPuJo8OP8a4w09CxgR6pzQTR6OsVIbVCM9QWojIya4D1eAHWG65XI=
+	t=1723907633; cv=none; b=rWq/D5BF077NwW3DvChdhjyGC76+R8GRrZXfdw9QekGmlcGRMSYSUprQ0CSsoyXyxAfePu3NzwaimteVf57QX6MvI/6Quvno0KUr70xPvt9iUz31iIX1pc/MYiUFRi/NV9n9E9ccQUFVk0GVfQmopJAcVxIBgreD4It1immu1oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723907361; c=relaxed/simple;
-	bh=vT90vZx0bkS5VbqUkazyS+8auUsDLMrWvv+LTZ+swMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tMLXa7qCDxOO0dP66IiVxDKYenlFGQKKeri4RHvRJMgCF7dORT4FYjtt56nbmHL5ZNi0/nW/c09N2rjvVp7hefnJ4QopGIzOLxoYgx/RQaTF1V7WEKhoaVXYyAa+ZVcuVdh3y1AGRNk98d2de28KSkS4dualrkfWUP9LRuTQilw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCEtOVZf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723907633; c=relaxed/simple;
+	bh=f4FKGxVYQxxLRQXGi6/ad1xe8zUcE9oY9HGYW6YKezU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SWC41G1o1CK4pcYN5cJwphaU5CYKdf3pz+tnugTBYon7xk92qjMbIZx0xBrnZxWBJM2qxjVhmwRBtDLOT4QBFfYuHpDU4ysWJGKK2eD2NCJjqTDIEhTpY8uNbpEoosnMmVf+xQ33AAcRmpY2TDw7E1OMtmrr9lVLUs3E4u5HCsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U9+1GQSU; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCEtOVZf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD543C116B1;
-	Sat, 17 Aug 2024 15:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723907360;
-	bh=vT90vZx0bkS5VbqUkazyS+8auUsDLMrWvv+LTZ+swMI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HCEtOVZf2KXGsSlV9M4pTypH+iH6GEjpJYeYRUe8RkXTllV2EYldbabBXg5HyJaSi
-	 ROopU2mRJBPj1UeEV7PRyzucQm8TgHK690r/8pabBaO+5gMi/QS3MhLnDwNXTrIG/N
-	 oIL+s7PWdTMKWd5vD2CBaUU7qZW+QvBlK2KShnHQ3xAhPS9RSr7Jiy3x5BMl+Uir4i
-	 HqayNfGkwVIuZcspDFJQD+JYGxN/+Y1rJgUCO81sVmioYNAk5uzxLUxvw5bc7fmqTA
-	 KguC5pQ8FMQq6MetyLU01zTHyYDHjojyTb2Ytr+HmkYOpC0LpX70M4kob1GsBQMb9p
-	 vC6QZsq9AxqJA==
-Date: Sat, 17 Aug 2024 16:09:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Guillaume Stols <gstols@baylibre.com>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- aardelean@baylibre.com
-Subject: Re: [PATCH 2/8] dt-bindings: iio: adc: ad7606: Add iio backend
- bindings
-Message-ID: <20240817160900.01224c80@jic23-huawei>
-In-Reply-To: <20240815-ad7606_add_iio_backend_support-v1-2-cea3e11b1aa4@baylibre.com>
-References: <20240815-ad7606_add_iio_backend_support-v1-0-cea3e11b1aa4@baylibre.com>
-	<20240815-ad7606_add_iio_backend_support-v1-2-cea3e11b1aa4@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U9+1GQSU"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6bf8b41b34dso3206056d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 08:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723907629; x=1724512429; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h8fuP4rXSYs0IsxsahVa0Q55YFfnXxVc+PpufNcWYNA=;
+        b=U9+1GQSUeEWxIibtppep4qqj4OpdA4mm2tCOuBsqsxkbvUJXxxoHvC/1DD8XHYEu8i
+         WjEgJp64Wh0LjJMNctGnsHDdI4LWWS4i1de+9JlsKLbjhuxqNGnqQc6jEWF/WIZdyoE8
+         Ood0I9cMludlmhZXLRIR99I6NTR03YjLyd2UU8aPRBzFY2EVJN3zKFaiACpBDkuLmbAs
+         KhMnNOiWEb+OtTL7MMrHZDKy9Eh+cAn0nWsdeIFVr9qOqYdsd6BN0FHrwHGsI7Ewhy3K
+         sam5K1XJncYJcHKCyUHyfaQ13LVvQhnOQYzacwOTyK4ahx+PK34TLjUH1vu5Rlz3DzPk
+         osJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723907629; x=1724512429;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h8fuP4rXSYs0IsxsahVa0Q55YFfnXxVc+PpufNcWYNA=;
+        b=HV0CWXWbodV+VH4tpKyatlEvLYb/z7Q5+/D88igRzwOZWc+pMHjTEf/mGqUTjVTLdL
+         ieT13npV56PHR4Zw6jK8dU3YDe4xbsANL3pEIfGkoSl/tcezYpKRPPOk0R/GQcn5uFeY
+         zsXW0b3NtQU2iWhfIVeL+dXClns2yoC59N1Ldz03tItVDNWOH8uy5jwFIErN7c+cfh5Z
+         F7uYLDyaSWNnJ8PGPDcZiAh5cyOJQsaScslnk6HlEU+GsiPvsQQSDBr316Cotu+Y5mZU
+         PuOWy51z1qNCPXMQpEeFpaLCFhXZhwdJ+wUXdRH7bl81DCL3CqPDJOjLxrO2aHgDvNjC
+         5ukg==
+X-Forwarded-Encrypted: i=1; AJvYcCXVKYssYWRd+O2ULZSGgB2Np8rLEc1Dn8F48UlIyhfgd8dvkZYTy50jGaf8Dje4XagnTyICU0qRDzYwSW6TiIwqmLZ01uwlkZJA
+X-Gm-Message-State: AOJu0Yx/BRPphu32tgb1TFdoR19FvFQPCuwxG8GhRJMGuv1QgEqO8Dtp
+	oMMiZhOg89nvprnQitHjn//sp9BaBscZf4GY8bCvkoZUvs6hLIxT5La+Sf46OgaG+OvCoY3cPFo
+	JJGRFNDZ5+RbzXL5JLJwPXHLR5hTxUROk6Uy8
+X-Google-Smtp-Source: AGHT+IEVoTrHdVFvEzEpKQmmtV0mdfaBBccZW7R2wrmBmSZjuFbL1LJHUNlqx3hUH+/ws9eu5VXMD1mp4i3r/g0VSRU=
+X-Received: by 2002:a0c:f40d:0:b0:6bf:79c1:b9aa with SMTP id
+ 6a1803df08f44-6bf8950a6c2mr26142936d6.33.1723907629272; Sat, 17 Aug 2024
+ 08:13:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240813211317.3381180-10-almasrymina@google.com> <CAMArcTW=mg2gF_e6spPWOCuQdDAWSuKTCdCNPWGqcU1ciq30EQ@mail.gmail.com>
+In-Reply-To: <CAMArcTW=mg2gF_e6spPWOCuQdDAWSuKTCdCNPWGqcU1ciq30EQ@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sat, 17 Aug 2024 11:13:34 -0400
+Message-ID: <CAHS8izOqGMiZNkfQ6G-29UuG64GVo7L+fAzWn5A1713cDAgbgg@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 09/13] tcp: RX path for devmem TCP
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 15 Aug 2024 12:11:56 +0000
-Guillaume Stols <gstols@baylibre.com> wrote:
+On Sat, Aug 17, 2024 at 9:58=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wro=
+te:
+>
+> On Wed, Aug 14, 2024 at 6:13=E2=80=AFAM Mina Almasry <almasrymina@google.=
+com> wrote:
+> >
+>
+> Hi Mina,
+>
+> > In tcp_recvmsg_locked(), detect if the skb being received by the user
+> > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVME=
+M
+> > flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> >
+> > tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> > buffer, and returns a cmsg to the user indicating the number of bytes
+> > returned in the linear buffer.
+> >
+> > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> > and returns to the user a cmsg_devmem indicating the location of the
+> > data in the dmabuf device memory. cmsg_devmem contains this information=
+:
+> >
+> > 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+>
+> I have been testing this patch and I found a bug.
 
-> Add the required properties for iio-backend support, as well as an
-> example and the conditions to mutually exclude interruption and
-> conversion trigger with iio-backend.
-> The iio-backend's function is to controls the communication, and thus the
-> interruption pin won't be available anymore.
-> As a consequence, the conversion pin must be controlled externally since
-> we will miss information about when every single conversion cycle (i.e
-> conversion + data transfert) ends, hence a PWM is introduced to trigger
+Thanks Taehee. It's exciting to see that you have gotten this far in
+your testing!! You seem to have devmem TCP (almost) fully working!!
+May I ask which driver this is? I assume it's bnxt. Do you have the
+driver support somewhere on github or something? I'm curious what your
+driver implementation looks like.
 
-transfer
+> While testing it with the ncdevmem cmd, it fails to validate buffers
+> after some period.
+> This is because tcp_recvmsg_dmabuf() can't handle skb properly when
+> the parameter offset !=3D 0.
 
-> the conversions.
-> 
-> Signed-off-by: Guillaume Stols <gstols@baylibre.com>
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad7606.yaml    | 75 +++++++++++++++++++++-
->  1 file changed, 72 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> index c0008d36320f..4b324f7e3207 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
-> @@ -114,13 +114,28 @@ properties:
->        assumed that the pins are hardwired to VDD.
->      type: boolean
->  
-> +  pwms:
-> +    description:
-> +      In case the conversion is triggered by a PWM instead of a GPIO plugged to
-> +      the CONVST pin, the PWM must be referenced.
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  pwm-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  io-backends:
-> +    description:
-> +      A reference to the iio-backend, which is responsible handling the BUSY
-> +      pin's falling edge and communication.
-> +      An example of backend can be found at
-> +      http://analogdevicesinc.github.io/hdl/library/axi_ad7606x/index.html
-> +
->  required:
->    - compatible
-> -  - reg
+Sadly I'm unable to reproduce this issue, but I think I know where to
+suspect the bug is. Thanks for taking the time to root cause this and
+provide a fix.
 
-I think we still want a reg, but only to differentiate multiple instances
-perhaps.
+...
 
->    - avcc-supply
->    - vdrive-supply
+> > +               offset =3D 0;
+>
+> If the offset is 5000 and only 4500 bytes are skipped at this point,
+> the offset should be 500, not 0.
+> We need to add a condition to set the offset correctly.
+>
+
+I highly suspect this is a regression that was introduced in v13. In
+v12 Pavel asked if offset can just be set to 0 here, and I didn't see
+any reason why not, so I made the change:
+
+    -+          offset =3D offset - start;
+    ++          offset =3D 0;
+
+It looks like we missed something. I suspect reverting that may
+resolve the issue, because __skb_copy_datagram() in earlier kernels
+modified offset like this and it's well tested. Can you test with this
+change reverted? Diff like so:
+
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 40e7335dae6e..984e28c5d096 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -2522,7 +2522,7 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
+const struct sk_buff *skb,
+                 */
+                skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
+
+-               offset =3D 0;
++               offset =3D offset - start;
+        } while (skb);
+
+        if (remaining_len) {
+
+I'm running a long test to try to reproduce this issue, but I have ran
+many long tests before and was not able to. For some reason my setup
+is not able to reproduce this edge case. Are you doing anything
+special with ncdevmem? Or simply running commands like these on the
+server client?
+
+server: ./ncdevmem -s SERVER -c CLIENT -l -p 5224 -v 7
+client: yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | tr \\n \\0 |
+nc SERVER 5224 -p 5224
 
 
+--=20
+Thanks,
+Mina
