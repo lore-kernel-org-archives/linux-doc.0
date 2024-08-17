@@ -1,244 +1,221 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB3213DDCD;
-	Sat, 17 Aug 2024 07:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9AF4EE;
+	Sat, 17 Aug 2024 08:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723879667; cv=none; b=ur1S/bj8/5W9qywUZIercF5BkdBdVHQ6exvTxxi1XK7uH71vp781XO5s4Fk/N7fqVLpuGiJVZgQsdtrSQh9UyaB7byzDqhuBsia1i5hTa8uZGrMIrdsxq2pFdcGjQOzszBw5jU3ZCG0BRqLRXoR4LiprXlFFj5JWCjlHVl8U+mo=
+	t=1723881709; cv=none; b=lyRi1I2EbUC4UNd1XXLrXvuz3TUyGuL3Nu6fm7vBVnmpCozJlv5h46jJLQsBBXzhFIGi3ilPKu1OqJMtPrRQCOnneZh9VE/RPH2J96lv+QyFGGfVxz0C76xIBA2bC7eTEyqpmr3IyI9TCiR9wL4pPaxBJys7n8zpxb8dRjCiceg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723879667; c=relaxed/simple;
-	bh=YmjnadZprPl5LhU0GawUbqbFaPXJOac0OebQ4z6+rOw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B3iWzCimfEN6NJE0zWb4tdsxEm3q58F3iLXVK39E0orZHv7h+UjK2ZvtXdX29YU/7IIwPIfhzaH/3Xh6CHirqSPEs965dSutABT3LHHp0sBI8gOw3Yb04NAu2ydSc1TuLcofmYUBdLjV1hHeDe8xDwGJbeJ6BuLuwdKnHeJzeDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUCopgOZ; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1723881709; c=relaxed/simple;
+	bh=+S23YgQ01yRHSVeVn4Ayk1S3jLmMbK8lcHMOLJ8qqHY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BoAT4+YW9uXdd08cQdoFIvXXjLjlzBEKex+Lb/FKnJjqtEE87Vu47geO/cj2b3VwZE7oL8D/9LpbZnppj2V6uID7+O5F/FBR7+DoBnI+yubPkVtazwFobAoPrntUUudPANutEmvchEz9G4byO2OcfayjmNSyLbtmKJ5OzBmEh60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ior3OHlf; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUCopgOZ"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2cd5d6b2581so2002682a91.2;
-        Sat, 17 Aug 2024 00:27:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ior3OHlf"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6bf6ea1d34aso15144826d6.1;
+        Sat, 17 Aug 2024 01:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723879664; x=1724484464; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fjk2EI8ZiEP4zfYt0Qe13udGW0VGF08C7NmtxZPQvvA=;
-        b=dUCopgOZRDN3iaVCkgrjqU3iRcYPzhxv/aY2X7YN/upzeqtyjG5M0bo2Ac1tv4SrVN
-         oTW5Ohz4yQvYIf5aTJG2++kN33NZz2XJwUXBboMRzQT8wwbIIMf75yARhuMo1ed1g65S
-         vDDpMDrm324Q4uSATvm3xp3PZjkeaSwFLyhauGHQRaIniu2iFuHxS+HOdXvt0F+NLJNI
-         oLjzbi7dT5szXaMDQOP6QsmVq2HqKvhbt8AYURsdlgb1pw7pdDIgycuYnL3K/amewnkf
-         Aor41Bod7d02lakgALT7wN8K0bL3bQtVyEENX/+t2azHLWF/kboSP8CZKeU5gYInXsyv
-         u90Q==
+        d=gmail.com; s=20230601; t=1723881706; x=1724486506; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3gHgeZYDXTg7ys6BJKkxLif6iqYxYVBQQZWx4XuSGnY=;
+        b=Ior3OHlf6BrcSnuRNIlPmYOFpq8lgAnU6A0wCi15XzzsGsUv0dVZgFHPshQhsBw+Sa
+         Ywui7mXy6i8568iH7v7U9b6xMd6oO70NMR1BEcZKOnonvm5UoCdY+xT2R06UpyfIMu7N
+         VbjU6TMsTieRE0h246+2JWcSdBozODJ/y/4wyxgylRZ0LZQdQAYGYctTAeorYedPd18i
+         zRe5dZjdwqAxM0BEP6seM29W1WBKzgyomm2+lpvRpOsCL6wTaiDbubnK2woDzAJDzQOj
+         Onmkd5ucuXCJnCFTQWgGZ2rPdNjSnvwF8laR0jgN9dr45B2VLK2Hdu7mfLZfNqWaNtok
+         +52g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723879664; x=1724484464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fjk2EI8ZiEP4zfYt0Qe13udGW0VGF08C7NmtxZPQvvA=;
-        b=FU+QbaPgUhwOMkfAVjc4qBO/hUqx5+vhD1yv0hSU5SGe3XjEOqW2l9YsIMpqaf7Oad
-         zP2DkJnekpkfGtHk3kl8X7V6/wa8yMCwTfFNe0bUetSSKEXX/O5Thq1B+HO/37L+uzlT
-         5Yhg5mWn4HkzJ3hVtagv9mt3ijqLETiXrWyounqLo5PUDZFR2tKTA4dke9Lm1in6CKsn
-         SwV2y1s3jwZlu1+iSvgcx3Nl9xctgQ8LvhkC3GDB2qz3YRkI5HYgoQjVnNqtOF4OEOZ/
-         60m07XsbX10LJaw924Du+pA0MLprKFj6RFGjS0IAwSuXSoda9NIINhj/nUjGK5URoFYk
-         Iisw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCELrrbIl6yAwzpLHTY0ww8Aqj5zfMZICWtylwahXyUj/RcAOZ+S0wE1ZFlad/P/tgy8m+zum3c+m/TAD0RH6F2ArqHJeid+4D4xclT8uy7AOiouICKTPJS/utsLBTljdRwew8
-X-Gm-Message-State: AOJu0YxQmTmRThEtvxoyQUx1AHOU2yTg2XLZqraMXcyyBCeufFDiimTq
-	J+ZDqSeMJyINBYTw3nMNMAL3SwNXhdxoV0Utntr1JnHFybIaQXVfuI9lTDkx
-X-Google-Smtp-Source: AGHT+IE6X6NdUFqH5STro3RyFQKnmXLcd7Q/tjaJtzJodMhcakvq4bBfNlQl3NZjm0J23S7MY4VzKw==
-X-Received: by 2002:a17:90b:1286:b0:2d0:86a:fbd with SMTP id 98e67ed59e1d1-2d3e00f08fcmr5267786a91.32.1723879664083;
-        Sat, 17 Aug 2024 00:27:44 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c1:1031:6067:f4e3:ef39:b58b:607e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3e2e6b228sm3179929a91.14.2024.08.17.00.27.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Aug 2024 00:27:43 -0700 (PDT)
-From: Amit Vadhavana <av2082000@gmail.com>
-To: linux-doc@vger.kernel.org,
-	ricardo@marliere.net
-Cc: av2082000@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	amelie.delaunay@foss.st.com,
-	corbet@lwn.net,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	christophe.leroy@csgroup.eu,
-	naveen@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	bhelgaas@google.com,
-	conor.dooley@microchip.com,
-	costa.shul@redhat.com,
-	dmaengine@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	workflows@vger.kernel.org
-Subject: [PATCH V2] Documentation: Fix spelling mistakes
-Date: Sat, 17 Aug 2024 12:57:24 +0530
-Message-Id: <20240817072724.6861-1-av2082000@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1723881706; x=1724486506;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3gHgeZYDXTg7ys6BJKkxLif6iqYxYVBQQZWx4XuSGnY=;
+        b=tDFo4j345t4sL6Isg2a2HIRiT8Dt8WCol7qcfdaV8PWN4kbhIW4mcN1L/UOK4/4bTf
+         ghT0lrwqd1L9V53NNrxePifSOjaHK9eKTsoFJxMZYGOtFgIufgym9zAJKudqWpifpCzf
+         ft/YgSD3NE1kTTd8IivDUKxqgohPlEO5D5bkSvhJvTaaYTzCtZt7ZLgDHWy9Y/GPZrIE
+         fQ3tqcIF0sO+/PmYbEFEnn/iB9yubGVM0TyMNkB+NqhBkSdrzjTKd060kmHgtKDZC0O7
+         P6BE8TfFyo7h/z+UHBlbjGo6EnlSZ7wCZYMpyffE3v1pXfch6CiiOgFuBSHucZScA1iq
+         N4TA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAVxabYBKBSu37ywkTKMTVXckxjMc0ygweDrZTM3gl7wVQQ7KQcOCH1vct/BjNg5PbjMP18FiJvSqVyUgCLN7+U0HA3CBMGFlU0r3na1O7rIgm6hbZ1V0Zhlr4GJNACOpyFk8NErxdS+sc+YhViui5KPG0ZrsNGzXjHdq2U6NHV1ww9XxmTQ==
+X-Gm-Message-State: AOJu0Yxfr9D9Pht/pHU/In5aSDkKPqJGTWRzK9X6GbfCnsEwQlmHTRwm
+	NIKzoyUli/V/efk/X0z5cAnSAXJE/L4sagD79VERgZByyp2g2GfcTqAeZEvltadt2wqc1BCLmjx
+	N6f5JUCGNjWLXZwgbzwCupM9ZQyDCy4zLVJ8=
+X-Google-Smtp-Source: AGHT+IHdfEZYkzWWtH3eVHA9NBOv/L0PcpYVZxC+qzGefMCSozKg9a4uCqUR6HzUbRjVmCiaLkAX7aFCrx3ExwJgu6k=
+X-Received: by 2002:a05:6214:3c86:b0:6bb:3f92:13d with SMTP id
+ 6a1803df08f44-6bf7cde998cmr60889986d6.24.1723881706255; Sat, 17 Aug 2024
+ 01:01:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240815203011.292977-1-yuriybelikov1@gmail.com>
+In-Reply-To: <20240815203011.292977-1-yuriybelikov1@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 17 Aug 2024 10:01:34 +0200
+Message-ID: <CAOQ4uxiRGcPNsad==MtLFGrrwg_Sv-6g0tNwSVtvoSH+2VR5Lw@mail.gmail.com>
+Subject: Re: [PATCH] Update redirect_dir and metacopy sections in overlayfs documentation
+To: Yuriy Belikov <yuriybelikov1@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, linux-unionfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Correct spelling mistakes in the documentation to improve readability.
+On Thu, Aug 15, 2024 at 10:30=E2=80=AFPM Yuriy Belikov <yuriybelikov1@gmail=
+.com> wrote:
+>
+> This patch:
+> - Provides info about trusted.overlay.metacopy extended attribute.
+> - Extends the description of trusted.overlay.redirect
+>   with information about possible values of this xattr
+>
+> Signed-off-by: Yuriy Belikov <yuriybelikov1@gmail.com>
 
-Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
----
-V1: https://lore.kernel.org/all/20240810183238.34481-1-av2082000@gmail.com
-V1 -> V2:
-- Write the commit description in imperative mode.
-- Fix grammer mistakes in the sentence.
----
- Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
- Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
- Documentation/arch/powerpc/ultravisor.rst                | 2 +-
- Documentation/arch/riscv/vector.rst                      | 2 +-
- Documentation/arch/x86/mds.rst                           | 2 +-
- Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
- Documentation/process/backporting.rst                    | 6 +++---
- 7 files changed, 11 insertions(+), 11 deletions(-)
+Hi Yuriy,
 
-diff --git a/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-index 2945e0e33104..301aa30890ae 100644
---- a/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-+++ b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
-@@ -359,7 +359,7 @@ Driver updates for STM32 DMA-MDMA chaining support in foo driver
-     descriptor you want a callback to be called at the end of the transfer
-     (dmaengine_prep_slave_sg()) or the period (dmaengine_prep_dma_cyclic()).
-     Depending on the direction, set the callback on the descriptor that finishes
--    the overal transfer:
-+    the overall transfer:
- 
-     * DMA_DEV_TO_MEM: set the callback on the "MDMA" descriptor
-     * DMA_MEM_TO_DEV: set the callback on the "DMA" descriptor
-@@ -371,7 +371,7 @@ Driver updates for STM32 DMA-MDMA chaining support in foo driver
-   As STM32 MDMA channel transfer is triggered by STM32 DMA, you must issue
-   STM32 MDMA channel before STM32 DMA channel.
- 
--  If any, your callback will be called to warn you about the end of the overal
-+  If any, your callback will be called to warn you about the end of the overall
-   transfer or the period completion.
- 
-   Don't forget to terminate both channels. STM32 DMA channel is configured in
-diff --git a/Documentation/arch/arm64/cpu-hotplug.rst b/Documentation/arch/arm64/cpu-hotplug.rst
-index 76ba8d932c72..8fb438bf7781 100644
---- a/Documentation/arch/arm64/cpu-hotplug.rst
-+++ b/Documentation/arch/arm64/cpu-hotplug.rst
-@@ -26,7 +26,7 @@ There are no systems that support the physical addition (or removal) of CPUs
- while the system is running, and ACPI is not able to sufficiently describe
- them.
- 
--e.g. New CPUs come with new caches, but the platform's cache toplogy is
-+e.g. New CPUs come with new caches, but the platform's cache topology is
- described in a static table, the PPTT. How caches are shared between CPUs is
- not discoverable, and must be described by firmware.
- 
-diff --git a/Documentation/arch/powerpc/ultravisor.rst b/Documentation/arch/powerpc/ultravisor.rst
-index ba6b1bf1cc44..6d0407b2f5a1 100644
---- a/Documentation/arch/powerpc/ultravisor.rst
-+++ b/Documentation/arch/powerpc/ultravisor.rst
-@@ -134,7 +134,7 @@ Hardware
- 
-       * PTCR and partition table entries (partition table is in secure
-         memory). An attempt to write to PTCR will cause a Hypervisor
--        Emulation Assitance interrupt.
-+        Emulation Assistance interrupt.
- 
-       * LDBAR (LD Base Address Register) and IMC (In-Memory Collection)
-         non-architected registers. An attempt to write to them will cause a
-diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
-index 75dd88a62e1d..3987f5f76a9d 100644
---- a/Documentation/arch/riscv/vector.rst
-+++ b/Documentation/arch/riscv/vector.rst
-@@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
- these interfaces is to give init systems a way to modify the availability of V
- for processes running under its domain. Calling these interfaces is not
- recommended in libraries routines because libraries should not override policies
--configured from the parant process. Also, users must noted that these interfaces
-+configured from the parent process. Also, users must note that these interfaces
- are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
- to use in a portable code. To get the availability of V in an ELF program,
- please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
-diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
-index c58c72362911..5a2e6c0ef04a 100644
---- a/Documentation/arch/x86/mds.rst
-+++ b/Documentation/arch/x86/mds.rst
-@@ -162,7 +162,7 @@ Mitigation points
-    3. It would take a large number of these precisely-timed NMIs to mount
-       an actual attack.  There's presumably not enough bandwidth.
-    4. The NMI in question occurs after a VERW, i.e. when user state is
--      restored and most interesting data is already scrubbed. Whats left
-+      restored and most interesting data is already scrubbed. What's left
-       is only the data that NMI touches, and that may or may not be of
-       any interest.
- 
-diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
-index 50960e09e1f6..d07e445dac5c 100644
---- a/Documentation/arch/x86/x86_64/fsgs.rst
-+++ b/Documentation/arch/x86/x86_64/fsgs.rst
-@@ -125,7 +125,7 @@ FSGSBASE instructions enablement
- FSGSBASE instructions compiler support
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--GCC version 4.6.4 and newer provide instrinsics for the FSGSBASE
-+GCC version 4.6.4 and newer provide intrinsics for the FSGSBASE
- instructions. Clang 5 supports them as well.
- 
-   =================== ===========================
-@@ -135,7 +135,7 @@ instructions. Clang 5 supports them as well.
-   _writegsbase_u64()  Write the GS base register
-   =================== ===========================
- 
--To utilize these instrinsics <immintrin.h> must be included in the source
-+To utilize these intrinsics <immintrin.h> must be included in the source
- code and the compiler option -mfsgsbase has to be added.
- 
- Compiler support for FS/GS based addressing
-diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
-index e1a6ea0a1e8a..a71480fcf3b4 100644
---- a/Documentation/process/backporting.rst
-+++ b/Documentation/process/backporting.rst
-@@ -73,7 +73,7 @@ Once you have the patch in git, you can go ahead and cherry-pick it into
- your source tree. Don't forget to cherry-pick with ``-x`` if you want a
- written record of where the patch came from!
- 
--Note that if you are submiting a patch for stable, the format is
-+Note that if you are submitting a patch for stable, the format is
- slightly different; the first line after the subject line needs tobe
- either::
- 
-@@ -147,7 +147,7 @@ divergence.
- It's important to always identify the commit or commits that caused the
- conflict, as otherwise you cannot be confident in the correctness of
- your resolution. As an added bonus, especially if the patch is in an
--area you're not that famliar with, the changelogs of these commits will
-+area you're not that familiar with, the changelogs of these commits will
- often give you the context to understand the code and potential problems
- or pitfalls with your conflict resolution.
- 
-@@ -197,7 +197,7 @@ git blame
- Another way to find prerequisite commits (albeit only the most recent
- one for a given conflict) is to run ``git blame``. In this case, you
- need to run it against the parent commit of the patch you are
--cherry-picking and the file where the conflict appared, i.e.::
-+cherry-picking and the file where the conflict appeared, i.e.::
- 
-     git blame <commit>^ -- <path>
- 
--- 
-2.25.1
+This version has some inaccuracies and some irrelevant
+information IMO. I will try to point them out.
+Please be aware that this is an overview/design document
+and it is not the intention to commit to the implementation details
+of overlayfs.
 
+> ---
+>  Documentation/filesystems/overlayfs.rst | 32 +++++++++++++++++++------
+>  1 file changed, 25 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
+systems/overlayfs.rst
+> index 165514401441..f4b68b8cd67d 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -207,11 +207,23 @@ handle it in two different ways:
+>     applications are usually prepared to handle this error (mv(1) for exa=
+mple
+>     recursively copies the directory tree).  This is the default behavior=
+.
+>
+> -2. If the "redirect_dir" feature is enabled, then the directory will be
+> -   copied up (but not the contents).  Then the "trusted.overlay.redirect=
+"
+> -   extended attribute is set to the path of the original location from t=
+he
+> -   root of the overlay.  Finally the directory is moved to the new
+> -   location.
+> +2. If the "redirect_dir" feature is enabled, then the contents of the
+> +   directory will not be copied up after any name-modifying operations
+> +   (e.g. rename(2), or mv(1)).
+
+I cannot put my finger on it, I just don't like this rephrasing and it serv=
+es no
+good purpose IMO. mv(1) is not an operation, it is a tool, so the phrasing
+is just inaccurate.
+
+> Instead of performing a copy-up operation,
+> +   an empty entry will be created in the upper layer with the same name
+> +   as the affected entry in the overlayfs directory.
+
+Again I do not like this phrasing. It suggests that there is a copy up
+operation that copies entire directory content and that is not true.
+chown of directory will copy up directory without content and that
+has nothing to do with redirect_dir.
+
+> The 'trusted.overlay.redirect'
+> +   xattr will then be set to mark the upper-layer directory, indicating =
+that
+> +   its contents weren't copied up due to the 'redirect_dir' feature.
+> +   This extended attribute holds the previous name of a directory as a v=
+alue.
+> +   For directories that were simply renamed the attribute is just the ol=
+d name
+> +   of the directory without preceding path.
+
+"simply renamed" is not a clear technical description.
+Not changing a parent is what you want to say, but TBH, I just don't
+think that we want to commit to this implementation detail and I am
+really not sure why putting it in the document is helpful.
+
+> For directories whose locations
+> +   in the overlayfs directory were changed, the corresponding xattrs are=
+ set
+> +   to the paths to the original locations from the root of the overlay.
+> +   The value of the xattr in the second case starts with a UNIX path del=
+imiter
+> +   (e.g. "/$PREVIOUS_PATH"). Finally the directory is moved
+> +   to the new location. The output of du "$UPPER_LAYTER_DIR/$RENAMED_DIR=
+"
+
+I dislike the use of these invented variable names that were not
+defined earlier in the doc, please don't use that notation.
+
+> +   should be zero.
+
+Not something that we want or can commit to.
+Some filesystems count xattr blocks in du (depending on size of
+all the xattr) so it is not possible to commit to this statement and
+I do not think that it adds much to the document.
+
+> Renamed directory subentries will be copied-up only
+> +   after operations that directly affect their contents.
+
+Again, not related to redirect_dir.
+This is a description of how copy up generally works in overlayfs.
+If you think that this information is missing from the document,
+please try to add it to the Directories section.
+
+>
+>  There are several ways to tune the "redirect_dir" feature.
+>
+> @@ -367,8 +379,14 @@ Metadata only copy up
+>
+>  When the "metacopy" feature is enabled, overlayfs will only copy
+>  up metadata (as opposed to whole file), when a metadata specific operati=
+on
+> -like chown/chmod is performed. Full file will be copied up later when
+> -file is opened for WRITE operation.
+> +like chown/chmod is performed. When file metadata are modified the
+> +corresponding empty file (with the same name as the modified one)
+> +appears in the upper layer, however such a file contains
+> +no allocated data (a sparse file);
+
+I am sorry, I do not like this phrasing, but also cannot offer something be=
+tter
+because I am not sure what missing information you are trying to add.
+
+The only thing I would change in the doc is replace
+"Full file will be copied up later..."
+with
+"File data will be copied up later..."
+
+> doing du "$UPPER_LAYER/$FILENAME"
+> +should yield zero.
+
+No invented env variables please. we cannot commit to zero du.
+
+> Such an upper-layer file is marked with
+> +"trusted.overlayfs.metacopy" xattr which indicates that this file contai=
+ns
+> +no data and copy-up should be performed before the corresponding file
+> +in the overlayfs directory is opened for write.
+>
+>  In other words, this is delayed data copy up operation and data is copie=
+d
+>  up when there is a need to actually modify data.
+
+Maybe just add here at the end:
+
+An upper file in this state is marked with "trusted.overlayfs.metacopy" xat=
+tr
+which indicates that the upper file contains no data.
+After the lower file's data is copied up, the "trusted.overlayfs.metacopy" =
+xattr
+is removed from the upper file.
+
+Thanks,
+Amir.
