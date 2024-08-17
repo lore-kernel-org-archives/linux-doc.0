@@ -1,479 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2121.outbound.protection.outlook.com [40.107.95.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400D7BE5D;
-	Sat, 17 Aug 2024 05:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723871328; cv=none; b=PDpXc79COuSpIuQJKBlUoGmZbQeAgaWuRsSxc5BXWtZdVZzxddsRUee98lAWOaESy8MZI83seIh2MtPCMvyAAWiHrZopQUMECWWvU/WDVERi4OGYvOlZvo4ZROr4a2sfC5tusl2DE1aD33lKJ4ALcAxtReNUMQJMa8rO05ydpAM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723871328; c=relaxed/simple;
-	bh=EOtE5nJHOFhA5eR67AzrZLQCP4pgwI1WArYLqYUpulY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a6UZXRd1VAU30Y63q0+G1/wAKdLRuIM0T0Zph4Zwo+erf1pnoP3i+FfdE5Xe7dzUw2TAlgEqan7M0b+mcU7jPwD5nqk+Fq5ww85YsVpRw+BsrMHS0qafKhmhgFAwgm892icWY9pyUlsEpMaos7N3VTvijHQE43nvk0wSnkHCjH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uj1dGwvB; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31573A23;
+	Sat, 17 Aug 2024 06:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.121
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723874429; cv=fail; b=URT8dLOw6ybBrnuRv2mtfgQYQI27tF4IW7RFXJ1jmYrZa4bbOC44jDUc+HeaxWO+R9MdKjHCDR7VTT8X9O/k/+nWJBr4a6MF91gLG8BM3o0djUxu2HqO2GfASvC57LtY7p+KTOd/dNqyOxrHmn30YscaKX/jGiv3bQtFX+FmOug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723874429; c=relaxed/simple;
+	bh=qNtHJ0wV8ljR4F/QaQASPrWc1NKCnBqpQOXTOGscmb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=eodVaQM9jQrP5RqZMpI1OcvrYuxEFJihLhJyd5zWbzKNBWHHHQ8SjqubSu23dzJXI9uAMuy4lbviuXKAwHxoXhxd+c0ODoKGOgw1ILp6VUJKJ34fq+YlrZpX7HeMemsg5peo3txQ7XoYvNiL+JbgDSpS+ASAEp5deYkfm7hZifk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=azul.com; spf=pass smtp.mailfrom=azul.com; dkim=pass (2048-bit key) header.d=azul.com header.i=@azul.com header.b=NDpZxpSB; arc=fail smtp.client-ip=40.107.95.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=azul.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=azul.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uj1dGwvB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90295C4AF0D;
-	Sat, 17 Aug 2024 05:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723871327;
-	bh=EOtE5nJHOFhA5eR67AzrZLQCP4pgwI1WArYLqYUpulY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uj1dGwvBhHpO9G9hUOP+NEw00LnZTkVOzrw3Lgj/I8kl73uLQ45Tj+cBGhZn+rEF0
-	 PFzxiRHDZLougkhHrOdOyLHo3dXLG6DhrximSr+fPMDoz2ydbTGS+Pn0On5ZxG3Bge
-	 HhpxDZdeS+nJ5dTw1UsDW+MCl7Y/zqPouAsU5KeavmaS2oDrybPxudEUK5PwrbX+Lr
-	 VWGKdtPU+iDqJupekrwlXx+Y+uvzrHmpg3VZE1vFhqHzoKFlVb3K8TAe6UF4ojWkOp
-	 /OV2kxfbjy0+Tr9NSAt7iS0RCeyt4o/pqRqsasg0dH21Jr5FPCLdlrLWf43uiRoUPL
-	 MevJMVQ784htw==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7a843bef98so306571966b.2;
-        Fri, 16 Aug 2024 22:08:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVrrGaeAe2WOzrXuYd7G9mn/nRl1Xz14vlBlaEHA4Z5i3UoeUgED38zYUBMrMTeLNClgNb+22aEgXhVOLnTVzCCO/ukM5vVx3MFlfowf+PadLvluWl/jRx1uV1LSO0NsjPfPrurHGkXTmD+L50YZ1IvtUBCJZz+Ke9ixuwVVi/bPFllHNz7CY3HuMwRjG6w1GuzhCceL0P8iRWTEMU5AIU=
-X-Gm-Message-State: AOJu0YyLOMH4u9owza541l1WPlcblpW14/IH8SKsAX16MQ7MG/JLfH+B
-	P82dSod0x8GaPv0sD7Cb4fLptBq7Vh3P6UmtpAHXacV36Ir54sRo3JHkDYUx+hs7GXXzmlI8Xou
-	5jT8IAGMm5QZ3aY9Z4gSp8LZt9cA=
-X-Google-Smtp-Source: AGHT+IFnpAwTSzWzvMMMBdA3qrPNleW9O87krsDI6GyN92ABevefYDMvUaKEJvLkWkc5NHkMfxw7qq7zfWQtVh1272I=
-X-Received: by 2002:a17:906:6a0c:b0:a80:f6f4:a8d9 with SMTP id
- a640c23a62f3a-a839256aad2mr343868366b.0.1723871326049; Fri, 16 Aug 2024
- 22:08:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=azul.com header.i=@azul.com header.b="NDpZxpSB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mCF3qVJuF2iQrJUOmwLxFR/CdAB1BasTxmB3/X09MRMpEOf8oOgJWn/ydze1Xm3E37iF6nuCV3g+xsheRJMjUxlL7T7cJ2maAGk2y+Kaok3+t19nZ0fiGr+UojaARiTkw9U7GOZW3BLFeQV37u4y08vhpA5x+sg8HRAJyQFEcQRfaNTxKvmg/j0x1s40dsJ3SfBjPywxQoZMV9DeL9bHCMtBW5sgfwnVKpvRJzXvl8PSity24VbbeHzYEGjmDrkwDHNw5jnoycmjqZVyy/qWsDAVagR9qd/nDf3bz1lmXIYEMBM6CqcmTHw0gghAVuLKo8u8W6BYLzsFPADhvoE/IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/43rgoNmvz0lRaJgiAhMjG7+NgNKANmXI1UCZUkRq5s=;
+ b=Xd5cwydiNeXeVYpww/7Oo6Fb45tzbtMXoV9S1Cb5/s9Y5oS7R4wHZQD8qU/0G2SG51DkfEXTLLTvT0Z8GS5o2TR/lEpBmbAhWiZeycKEVpwsu+oZ5f75HLdtkPQFwNqtZy5O0KY8pSqEcp/iPmCSgOknLQKPoL0b4rQOTmMaRkra7wuftZwA6MA7eo0gwAMOtuNN8JCjgW3+ZEiZwTyxSXDs+MrOcvYyRTSHLsVAotgILkXOgfwGpDo+/oIQalVgHvQfr46AiNyx+S76EsVqCcN5ZcxkzvORE7UU6I/aAZNrSCViIAeLMMcJ0Ufz8B2+mzLLSf3/KP9sKfILFwBr4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=azul.com; dmarc=pass action=none header.from=azul.com;
+ dkim=pass header.d=azul.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=azul.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/43rgoNmvz0lRaJgiAhMjG7+NgNKANmXI1UCZUkRq5s=;
+ b=NDpZxpSBHaD9f8DL3Ga3LETCFzK781LU3l5gVwjg7JVWsi3EEfFw6RJR9hbqIpDEZp0rDM5RG41/kybTKbqZyOB2CG0KgyRX4AAtAzbycbcd7Nru0OHVBM5r6fPONV1B7h0BgkekrUqxcFjjuaYIq0XuInZvmTw2+fU02qJJbWEG0mNBlDEDD/+sW4QAwH+prwp84cY3JwFFRC0uJNy6EuRx58DszAEWYlqtRemTOgQJ5xl4R/Zn3a0YxA6NhVNxK+AIp09N31PCLjC58d0SNt4PK86aMwUSD32rCoflJR6pG3lPuno3kWWBij0399t4gSZNweZ9bk6ofdWUpSH0sQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=azul.com;
+Received: from DM6PR11MB3225.namprd11.prod.outlook.com (2603:10b6:5:5b::32) by
+ CH0PR11MB5233.namprd11.prod.outlook.com (2603:10b6:610:e0::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7875.20; Sat, 17 Aug 2024 06:00:25 +0000
+Received: from DM6PR11MB3225.namprd11.prod.outlook.com
+ ([fe80::b3d7:390d:73a1:6170]) by DM6PR11MB3225.namprd11.prod.outlook.com
+ ([fe80::b3d7:390d:73a1:6170%3]) with mapi id 15.20.7875.016; Sat, 17 Aug 2024
+ 06:00:25 +0000
+Date: Sat, 17 Aug 2024 14:00:15 +0800
+From: Jan Kratochvil <jkratochvil@azul.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [RFC PATCH v5 0/3] Add memory.max.effective for application's
+ allocators
+Message-ID: <ZsA8b9806Xl8AxLZ@host2.jankratochvil.net>
+References: <20240606152232.20253-1-mkoutny@suse.com>
+ <ZmH8pNkk2MHvvCzb@P9FQF9L96D>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZmH8pNkk2MHvvCzb@P9FQF9L96D>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-ClientProxiedBy: MW4PR03CA0244.namprd03.prod.outlook.com
+ (2603:10b6:303:b4::9) To DM6PR11MB3225.namprd11.prod.outlook.com
+ (2603:10b6:5:5b::32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240731072405.197046-1-alexghiti@rivosinc.com>
- <20240731072405.197046-14-alexghiti@rivosinc.com> <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
- <CAHVXubgtD_nDBL2H-MYb9V+3jLBoszz8HAZ2NTTsiS2wR6aPDQ@mail.gmail.com> <6f1bcc9b-1812-4e8c-9050-a750bfadd008@ghiti.fr>
-In-Reply-To: <6f1bcc9b-1812-4e8c-9050-a750bfadd008@ghiti.fr>
-From: Guo Ren <guoren@kernel.org>
-Date: Sat, 17 Aug 2024 13:08:34 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS4L6=HE_-9rgn3L8+6R7C4Jx=QgCkvOBhQHdHVGzr5MA@mail.gmail.com>
-Message-ID: <CAJF2gTS4L6=HE_-9rgn3L8+6R7C4Jx=QgCkvOBhQHdHVGzr5MA@mail.gmail.com>
-Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3225:EE_|CH0PR11MB5233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d9dbcc0-0d03-4995-1096-08dcbe81e358
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MdYf9cG25Lw1EERrWcv6ybdplZfHVavlA+ZT0Ay5GXn8ZcN7w7p1WQiMd3tA?=
+ =?us-ascii?Q?mHUG7cXNY9F6ov4kOPgm46MjSw0L6jHIfVYaRHq3vJUl0XPc/lIvrfF4wHj0?=
+ =?us-ascii?Q?1T26qw+jOx9DTsXgV030tcGqWkbq9HlJ4DZq5lzoPLNkJ6A721fVY924Q8kJ?=
+ =?us-ascii?Q?Eb1SSgn2rYXItILcd/gmO88JZBrJETvF03s+DAQ0v7G3vQ8qXBOMlUHit4pK?=
+ =?us-ascii?Q?sfGWpcDpY11kkq/t/Pd0zj76U5nWkdoHM9K2AOOe3XbiHm3q58AHnv3hQqf7?=
+ =?us-ascii?Q?MY8vo7O5OMvI1/nVJlvO4/kVUnRdukxttyLr5+BfRWHjOIaBgcE8CmxASxxl?=
+ =?us-ascii?Q?QktJOH9QSfIyIKbAaMH+K0rbOD3DwxdD7tP8XldoFlw1w3XR9Lv1Jm9O24+G?=
+ =?us-ascii?Q?/AEHqu9aPnuz23F/qz8qlxeT2lOsxVqnO6IVzEiJ+Si8U7FjCemRfHw43Oq1?=
+ =?us-ascii?Q?G3+5TrPmLuSdOPOL8hkmFN8sh6ttgEMbVi1Z5MKz1yAG3hZj7Ags9wkIotjv?=
+ =?us-ascii?Q?HsIBS250h7LUZskvLiMChcJUYwoaB3ICEbmA8+UVSKbunF5clHrtdJlxrDAn?=
+ =?us-ascii?Q?V2CdDCQYX9djthnSUOIkYgc1IUUA4fl9gDcFBDX/SiMHaBI/FgqSEUJ1cn4P?=
+ =?us-ascii?Q?FiDPW2k/H2vJFyj+gmuF8YkMc0tjxdAIVmVTIh7pO2n1H2T+SYaT5cFhkh39?=
+ =?us-ascii?Q?h3QyHVBz2H4E2EygrBpQedHoYpVMz/V2CFZaiSwXRzfXBDGN5r1CMmwBGB0p?=
+ =?us-ascii?Q?IF/QFoHfe178yDjs2+7vIynxw2M1GcK9HFom3RXwNNyo+ZfZyaJWz3gUnKbI?=
+ =?us-ascii?Q?j9dblb6uNcOJgAFydKKM1Pzw0tOz7M8XgIP44BZrdKyOUGOTfm47cCICqude?=
+ =?us-ascii?Q?BynPjwo8EawuBMvmOZiel/JAWjAHSNlDB9vkDnGflcVqwEMFuGFw37rxNEIv?=
+ =?us-ascii?Q?ZACmCfhUq7JN89Cua7tWJVFOYbxbWpr9vbzto/Aw9V2s/rOrpIhFagUFlaTc?=
+ =?us-ascii?Q?1pmnhjK7X7g56zC6xAUJn37ZLdp9KCcMj420B4SwtJOW5vr5ea93tlJc+Iun?=
+ =?us-ascii?Q?xxd+3t68clRiU7zIQ8obyMyiAeIRVb/I1gjtvNxkAKztDEk1el3gRZDF/wDU?=
+ =?us-ascii?Q?AIZe0T9+nqA5Koxm3U7BhsglpbasZnPrqkiz/hmhcCWGliYGtNkju+Fazpd6?=
+ =?us-ascii?Q?fbeAd3mGbcIbbq1isjuk08PWX0cVxRn/RDMiv8l3lUsE6BVyLowvILj+KMU7?=
+ =?us-ascii?Q?x+27eotUG006DFiO8fWK9MPuxcNeGREtrAzHYoK9aqU1KebIUwk52tQEogLR?=
+ =?us-ascii?Q?RgNiOeGUxGfty+BDQb8YGOR/U2ZfcXvIX+hIHiWzyJh8Pw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3225.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1Lb3L8M30RmbBlA9Iwg5XdbWCZH1Bzh9sqf7cbY9PSn73spYx4T/nWg2IgMc?=
+ =?us-ascii?Q?DSNgen9PxvOyU7PgbB06EbdYl3HHBfsBorIwnl2OTT1lA4XrVFBkewOWxKCn?=
+ =?us-ascii?Q?4notlwzzgyJKXFADRLHe8FP2uJ9EnQNSDGceoIikXg8l2j6T3Cx8YDZFr0Wo?=
+ =?us-ascii?Q?qMSzsh4dnCSoGAAxVvdzcbWUFU+xk8jpOurLo9YzjEUraQhRSFHHI4W0cCk9?=
+ =?us-ascii?Q?zJ+hv6MkzRjIwbBNN4FzqY9JJHldcLlLzWWtGJUPcK0RB7NxINL9ro0DKoYN?=
+ =?us-ascii?Q?w+v+QAWudij9XadEnFqkPj4ASAYTVn1kzl7hT6Q+NF37lChn4+pDzSDY4C54?=
+ =?us-ascii?Q?PMZlwY8LaNH7qHc63hutEAqXDCwpuBCoE7/PrJhqxip787QNN7eBUZ1bDGyf?=
+ =?us-ascii?Q?jYvTmwUM/QdLf/hBirviJOrheRYdVVbHNPX8jmFVQrirm+wF10x5i2Ac4gvx?=
+ =?us-ascii?Q?J4yL8lMEr1sQvT3YK8rj34Qgo4eEiujQyP4sKU5UnLsGyzBueAZ8KUWHMQ0g?=
+ =?us-ascii?Q?AcH1RN3H+pz5lPWmYD8irt0Fvv//o+vyWbUJtK8L6O+A4fJ3hel0Z+IHF4at?=
+ =?us-ascii?Q?cJNjBcYVJcipOPJOi7htg6xFkRJxhie5Rd0DpTI4xRg88e6dBkoCT3W1o1vW?=
+ =?us-ascii?Q?H2lDNgPlOKru4UABf9RgEVt3Bm5XCR138LkSwvRKX19V3e31GDVflZnXxeeI?=
+ =?us-ascii?Q?cigwLiu6Z1P6hhBPY+dou7wPmrYqVPbGmPBWujqPNF6pqDWwL4uBcSlcQmpN?=
+ =?us-ascii?Q?QglRj5RNKcT75mgNVhRO5AXdcQEbG/rV9BiE9PSwwb5neJA5d9dTxQi2GGxb?=
+ =?us-ascii?Q?WYOJ5xRiITP1nnkmNrvlZuUqXfwvsRxij61ecYR12yYoOsxP5U4ar+iiXWVd?=
+ =?us-ascii?Q?1ViCjn5TNEyKVv8W4NabVuk0EqVI23zA4p86ebvJKnA/qz8ToZ6vo5vmqaLg?=
+ =?us-ascii?Q?iX/bR0BqZPQEVIKjERufwio+y8qY/LgRcHZC0gEio8r165jPuLkSMtOMCoc7?=
+ =?us-ascii?Q?HvUDmXHHPBRKLfw2jqSybEJCrRg4BBpqhd9KOI/ExIrN4YVyqetVhkuY9Qbg?=
+ =?us-ascii?Q?Am7Wey0DwnRxFVtpz5zligc/SzyAC7SO5/Ottl4VwlOkhARKLMXUMJLAtILA?=
+ =?us-ascii?Q?vRCWYZUS0/gfGeiM9Fj6662vXFFmpdjr1je20OcXWI15V+5NyffIidgnfDyD?=
+ =?us-ascii?Q?wZzkBpiPr5ceARVqzAIN8VRO+yoxD2E3BHcoz1HdAug5LfVfHyAyqatqkAvI?=
+ =?us-ascii?Q?XSNKqbaj4+YB2TGMp9xnITlwrZKlZ+8POr91FPliVQJsI1zJ8y9vdgxXFCBk?=
+ =?us-ascii?Q?Aur1oXEK5SmsSXmWXBuR49ZVLDvP7ZC3tQXFELLsHYzwzWEd8dA4+HkvyWj/?=
+ =?us-ascii?Q?wcH59qUefOv3G9moVy9xJf1LF60to6KxnC1AaJrWlvfIxpCLV+gN3XDPnN0F?=
+ =?us-ascii?Q?7w02vzcrqjnXIiCQSWYVy+4lXSAx4p09mEFWsXPBX+n9/3FeeBdHUoj9Gy81?=
+ =?us-ascii?Q?Lp9YSQ+9O4Mne2EOGpINLgCOWsw5b982y0My2Nv1SE/fyOlf238uZHKJasEz?=
+ =?us-ascii?Q?Nm6PWclHAZB6EPJXsYK8zrPMnI2l0QSLc33f4q07kUht6O2RIJr1RxubsvqL?=
+ =?us-ascii?Q?yRtJxBmZMQvqENXMGGMVJRo=3D?=
+X-OriginatorOrg: azul.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d9dbcc0-0d03-4995-1096-08dcbe81e358
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3225.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2024 06:00:25.6005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c480eb31-2b17-43d7-b4c7-9bcb20cc4bf2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xV9G44nCRNx7TX5md2CcXvjT2vcpzYBxFbzW8L3Ow19UxqddqIdOVuYI1YGx5/6rZ8hpP786iYcLgDZcZu8zRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5233
 
-On Thu, Aug 15, 2024 at 9:27=E2=80=AFPM Alexandre Ghiti <alex@ghiti.fr> wro=
-te:
->
-> Hi Andrew,
->
-> On 01/08/2024 08:53, Alexandre Ghiti wrote:
-> > On Wed, Jul 31, 2024 at 5:29=E2=80=AFPM Andrew Jones <ajones@ventanamic=
-ro.com> wrote:
-> >> On Wed, Jul 31, 2024 at 09:24:05AM GMT, Alexandre Ghiti wrote:
-> >>> In order to produce a generic kernel, a user can select
-> >>> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> >>> spinlock implementation if Zabha or Ziccrse are not present.
-> >>>
-> >>> Note that we can't use alternatives here because the discovery of
-> >>> extensions is done too late and we need to start with the qspinlock
-> >>> implementation because the ticket spinlock implementation would pollu=
-te
-> >>> the spinlock value, so let's use static keys.
-> >>>
-> >>> This is largely based on Guo's work and Leonardo reviews at [1].
-> >>>
-> >>> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-gu=
-oren@kernel.org/ [1]
-> >>> Signed-off-by: Guo Ren <guoren@kernel.org>
-> >>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> >>> ---
-> >>>   .../locking/queued-spinlocks/arch-support.txt |  2 +-
-> >>>   arch/riscv/Kconfig                            | 29 +++++++++++++
-> >>>   arch/riscv/include/asm/Kbuild                 |  4 +-
-> >>>   arch/riscv/include/asm/spinlock.h             | 43 ++++++++++++++++=
-+++
-> >>>   arch/riscv/kernel/setup.c                     | 38 ++++++++++++++++
-> >>>   include/asm-generic/qspinlock.h               |  2 +
-> >>>   include/asm-generic/ticket_spinlock.h         |  2 +
-> >>>   7 files changed, 118 insertions(+), 2 deletions(-)
-> >>>   create mode 100644 arch/riscv/include/asm/spinlock.h
-> >>>
-> >>> diff --git a/Documentation/features/locking/queued-spinlocks/arch-sup=
-port.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> >>> index 22f2990392ff..cf26042480e2 100644
-> >>> --- a/Documentation/features/locking/queued-spinlocks/arch-support.tx=
-t
-> >>> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.tx=
-t
-> >>> @@ -20,7 +20,7 @@
-> >>>       |    openrisc: |  ok  |
-> >>>       |      parisc: | TODO |
-> >>>       |     powerpc: |  ok  |
-> >>> -    |       riscv: | TODO |
-> >>> +    |       riscv: |  ok  |
-> >>>       |        s390: | TODO |
-> >>>       |          sh: | TODO |
-> >>>       |       sparc: |  ok  |
-> >>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> >>> index ef55ab94027e..c9ff8081efc1 100644
-> >>> --- a/arch/riscv/Kconfig
-> >>> +++ b/arch/riscv/Kconfig
-> >>> @@ -79,6 +79,7 @@ config RISCV
-> >>>        select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
-> >>>        select ARCH_WANTS_NO_INSTR
-> >>>        select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
-> >>> +     select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
-> >> Why do we need this? Also, we presumably would prefer not to have it
-> >> when we end up using ticket spinlocks when combo spinlocks is selected=
-.
-> >> Is there no way to avoid it?
-> > I'll let Andrea answer this as he asked for it.
-> >
-> >>>        select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
-> >>>        select BUILDTIME_TABLE_SORT if MMU
-> >>>        select CLINT_TIMER if RISCV_M_MODE
-> >>> @@ -488,6 +489,34 @@ config NODES_SHIFT
-> >>>          Specify the maximum number of NUMA Nodes available on the ta=
-rget
-> >>>          system.  Increases memory reserved to accommodate various ta=
-bles.
-> >>>
-> >>> +choice
-> >>> +     prompt "RISC-V spinlock type"
-> >>> +     default RISCV_COMBO_SPINLOCKS
-> >>> +
-> >>> +config RISCV_TICKET_SPINLOCKS
-> >>> +     bool "Using ticket spinlock"
-> >>> +
-> >>> +config RISCV_QUEUED_SPINLOCKS
-> >>> +     bool "Using queued spinlock"
-> >>> +     depends on SMP && MMU && NONPORTABLE
-> >>> +     select ARCH_USE_QUEUED_SPINLOCKS
-> >>> +     help
-> >>> +       The queued spinlock implementation requires the forward progr=
-ess
-> >>> +       guarantee of cmpxchg()/xchg() atomic operations: CAS with Zab=
-ha or
-> >>> +       LR/SC with Ziccrse provide such guarantee.
-> >>> +
-> >>> +       Select this if and only if Zabha or Ziccrse is available on y=
-our
-> >>> +       platform.
-> >> Maybe some text recommending combo spinlocks here? As it stands it sou=
-nds
-> >> like enabling queued spinlocks is a bad idea for anybody that doesn't =
-know
-> >> what platforms will run the kernel they're building, which is all dist=
-ros.
-> > That's NONPORTABLE, so people enabling this config are supposed to
-> > know that right?
-> >
-> >>> +
-> >>> +config RISCV_COMBO_SPINLOCKS
-> >>> +     bool "Using combo spinlock"
-> >>> +     depends on SMP && MMU
-> >>> +     select ARCH_USE_QUEUED_SPINLOCKS
-> >>> +     help
-> >>> +       Embed both queued spinlock and ticket lock so that the spinlo=
-ck
-> >>> +       implementation can be chosen at runtime.
-> >> nit: Add a blank line here
-> > Done
-> >
-> >>> +endchoice
-> >>> +
-> >>>   config RISCV_ALTERNATIVE
-> >>>        bool
-> >>>        depends on !XIP_KERNEL
-> >>> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/K=
-build
-> >>> index 5c589770f2a8..1c2618c964f0 100644
-> >>> --- a/arch/riscv/include/asm/Kbuild
-> >>> +++ b/arch/riscv/include/asm/Kbuild
-> >>> @@ -5,10 +5,12 @@ syscall-y +=3D syscall_table_64.h
-> >>>   generic-y +=3D early_ioremap.h
-> >>>   generic-y +=3D flat.h
-> >>>   generic-y +=3D kvm_para.h
-> >>> +generic-y +=3D mcs_spinlock.h
-> >>>   generic-y +=3D parport.h
-> >>> -generic-y +=3D spinlock.h
-> >>>   generic-y +=3D spinlock_types.h
-> >>> +generic-y +=3D ticket_spinlock.h
-> >>>   generic-y +=3D qrwlock.h
-> >>>   generic-y +=3D qrwlock_types.h
-> >>> +generic-y +=3D qspinlock.h
-> >>>   generic-y +=3D user.h
-> >>>   generic-y +=3D vmlinux.lds.h
-> >>> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/a=
-sm/spinlock.h
-> >>> new file mode 100644
-> >>> index 000000000000..503aef31db83
-> >>> --- /dev/null
-> >>> +++ b/arch/riscv/include/asm/spinlock.h
-> >>> @@ -0,0 +1,43 @@
-> >>> +/* SPDX-License-Identifier: GPL-2.0 */
-> >>> +
-> >>> +#ifndef __ASM_RISCV_SPINLOCK_H
-> >>> +#define __ASM_RISCV_SPINLOCK_H
-> >>> +
-> >>> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> >>> +#define _Q_PENDING_LOOPS     (1 << 9)
-> >>> +
-> >>> +#define __no_arch_spinlock_redefine
-> >>> +#include <asm/ticket_spinlock.h>
-> >>> +#include <asm/qspinlock.h>
-> >>> +#include <asm/alternative.h>
-> >> We need asm/jump_label.h instead of asm/alternative.h, but...
-> >>
-> >>> +
-> >>> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
-> >>> +
-> >>> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                  =
- \
-> >>> +static __always_inline type arch_spin_##op(type_lock lock)          =
- \
-> >>> +{                                                                   =
- \
-> >>> +     if (static_branch_unlikely(&qspinlock_key))                    =
- \
-> >>> +             return queued_spin_##op(lock);                         =
- \
-> >>> +     return ticket_spin_##op(lock);                                 =
- \
-> >>> +}
-> >> ...do you know what impact this inlined static key check has on the
-> >> kernel size?
-> > No, I'll check, thanks.
->
->
-> So I have just checked the size of the jump table section:
->
-> * defconfig:
->
-> - ticket: 26928 bytes
-> - combo: 28320 bytes
->
-> So that's a ~5% increase.
->
-> * ubuntu config
->
-> - ticket: 107840 bytes
-> - combo: 174752 bytes
->
-> And that's a ~62% increase.
-The size of the jump table section has increased from 5% to 62%. I
-think some configuration triggers the jump table's debug code. If it's
-not a debugging configuration, that's a bug of the Ubuntu config.
+On Fri, 07 Jun 2024 02:15:00 +0800, Roman Gushchin wrote:
+> If the goal is to detect how much memory would it be possible to allocate,
+> I'm not sure that knowing all memory.max limits upper in the hierarchy
+> really buys anything without knowing actual usages and a potential
+> for memory reclaim across the entire tree.
+> 
+> E.g.:
+> 
+> A (max = 100G)
+> | \
+> B  C
+> 
+> C's effective max will come out as 100G, but if B.anon_usage = 100G and
+> there is no swap, the actual number is 0.
 
->
-> This is the ELF size difference between ticket and combo spinlocks:
->
-> * ticket: 776915592 bytes
-> * combo: 786958968 bytes
->
-> So that's an increase of ~1.3% on the ELF.
->
-> And the .text section size:
->
-> * ticket: 12290960 bytes
-> * combo: 12366644 bytes
->
-> And that's a ~0.6% increase!
->
-> Finally, I'd say the impact is very limited :)
->
-> Thanks,
->
-> Alex
->
->
-> >
-> >> Actually, why not use ALTERNATIVE with any nonzero cpufeature value.
-> >> Then add code to riscv_cpufeature_patch_check() to return true when
-> >> qspinlocks should be enabled (based on the value of some global set
-> >> during riscv_spinlock_init)?
-> > As discussed with Guo in the previous iteration, the patching of the
-> > alternatives intervenes far after the first use of the spinlocks and
-> > the ticket spinlock implementation pollutes the spinlock value, so
-> > we'd have to unconditionally start with the qspinlock implementation
-> > and after switch to the ticket implementation if not supported by the
-> > platform. It works but it's dirty, I really don't like this hack.
-> >
-> > We could though:
-> > - add an initial value to the alternatives (not sure it's feasible thou=
-gh)
-> > - make the patching of alternatives happen sooner by parsing the isa
-> > string sooner, either in DT or ACPI (I have a working PoC for very
-> > early parsing of ACPI).
-> >
-> > I intend to do the latter as I think we should be aware of the
-> > extensions sooner in the boot process, so I'll change that to the
-> > alternatives when it's done. WDYT, any other idea?
-> >
-> >
-> >>> +
-> >>> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-> >>> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-> >>> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-> >>> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-> >>> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-> >>> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-> >>> +
-> >>> +#elif defined(CONFIG_RISCV_QUEUED_SPINLOCKS)
-> >>> +
-> >>> +#include <asm/qspinlock.h>
-> >>> +
-> >>> +#else
-> >>> +
-> >>> +#include <asm/ticket_spinlock.h>
-> >>> +
-> >>> +#endif
-> >>> +
-> >>> +#include <asm/qrwlock.h>
-> >>> +
-> >>> +#endif /* __ASM_RISCV_SPINLOCK_H */
-> >>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> >>> index a2cde65b69e9..b811fa331982 100644
-> >>> --- a/arch/riscv/kernel/setup.c
-> >>> +++ b/arch/riscv/kernel/setup.c
-> >>> @@ -244,6 +244,43 @@ static void __init parse_dtb(void)
-> >>>   #endif
-> >>>   }
-> >>>
-> >>> +#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> >>> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
-> >>> +EXPORT_SYMBOL(qspinlock_key);
-> >>> +#endif
-> >>> +
-> >>> +static void __init riscv_spinlock_init(void)
-> >>> +{
-> >>> +     char *using_ext =3D NULL;
-> >>> +
-> >>> +     if (IS_ENABLED(CONFIG_RISCV_TICKET_SPINLOCKS)) {
-> >>> +             pr_info("Ticket spinlock: enabled\n");
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>> +     if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) &&
-> >>> +         IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) &&
-> >>> +         riscv_isa_extension_available(NULL, ZABHA) &&
-> >>> +         riscv_isa_extension_available(NULL, ZACAS)) {
-> >>> +             using_ext =3D "using Zabha";
-> >>> +     } else if (riscv_isa_extension_available(NULL, ZICCRSE)) {
-> >>> +             using_ext =3D "using Ziccrse";
-> >>> +     }
-> >>> +#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> >>> +     else {
-> >> else if (IS_ENABLED(CONFIG_RISCV_COMBO_SPINLOCKS))
-> >>
-> >>> +             static_branch_disable(&qspinlock_key);
-> >>> +             pr_info("Ticket spinlock: enabled\n");
-> >>> +
-> >> nit: remove this blank line
-> >>
-> >>> +             return;
-> >>> +     }
-> >>> +#endif
-> >>> +
-> >>> +     if (!using_ext)
-> >>> +             pr_err("Queued spinlock without Zabha or Ziccrse");
-> >>> +     else
-> >>> +             pr_info("Queued spinlock %s: enabled\n", using_ext);
-> >>> +}
-> >>> +
-> >>>   extern void __init init_rt_signal_env(void);
-> >>>
-> >>>   void __init setup_arch(char **cmdline_p)
-> >>> @@ -297,6 +334,7 @@ void __init setup_arch(char **cmdline_p)
-> >>>        riscv_set_dma_cache_alignment();
-> >>>
-> >>>        riscv_user_isa_enable();
-> >>> +     riscv_spinlock_init();
-> >>>   }
-> >>>
-> >>>   bool arch_cpu_is_hotpluggable(int cpu)
-> >>> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qs=
-pinlock.h
-> >>> index 0655aa5b57b2..bf47cca2c375 100644
-> >>> --- a/include/asm-generic/qspinlock.h
-> >>> +++ b/include/asm-generic/qspinlock.h
-> >>> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct=
- qspinlock *lock)
-> >>>   }
-> >>>   #endif
-> >>>
-> >>> +#ifndef __no_arch_spinlock_redefine
-> >> I'm not sure what's better/worse, but instead of inventing this
-> >> __no_arch_spinlock_redefine thing we could just name all the functions
-> >> something like __arch_spin* and then add defines for both to asm/spinl=
-ock.h,
-> >> i.e.
-> >>
-> >> #define queued_spin_lock(l) __arch_spin_lock(l)
-> >> ...
-> >>
-> >> #define ticket_spin_lock(l) __arch_spin_lock(l)
-> >> ...
-> >>
-> >> Besides not having to touch asm-generic/qspinlock.h and
-> >> asm-generic/ticket_spinlock.h it allows one to find the implementation=
-s
-> >> a bit easier as following a tag to arch_spin_lock() will take them to
-> >> queued_spin_lock() which will then take them to
-> >> arch/riscv/include/asm/spinlock.h and there they'll figure out how
-> >> __arch_spin_lock() was defined.
-> >>
-> >>>   /*
-> >>>    * Remapping spinlock architecture specific functions to the corres=
-ponding
-> >>>    * queued spinlock functions.
-> >>> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct=
- qspinlock *lock)
-> >>>   #define arch_spin_lock(l)            queued_spin_lock(l)
-> >>>   #define arch_spin_trylock(l)         queued_spin_trylock(l)
-> >>>   #define arch_spin_unlock(l)          queued_spin_unlock(l)
-> >>> +#endif
-> >>>
-> >>>   #endif /* __ASM_GENERIC_QSPINLOCK_H */
-> >>> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-gene=
-ric/ticket_spinlock.h
-> >>> index cfcff22b37b3..325779970d8a 100644
-> >>> --- a/include/asm-generic/ticket_spinlock.h
-> >>> +++ b/include/asm-generic/ticket_spinlock.h
-> >>> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended=
-(arch_spinlock_t *lock)
-> >>>        return (s16)((val >> 16) - (val & 0xffff)) > 1;
-> >>>   }
-> >>>
-> >>> +#ifndef __no_arch_spinlock_redefine
-> >>>   /*
-> >>>    * Remapping spinlock architecture specific functions to the corres=
-ponding
-> >>>    * ticket spinlock functions.
-> >>> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contende=
-d(arch_spinlock_t *lock)
-> >>>   #define arch_spin_lock(l)            ticket_spin_lock(l)
-> >>>   #define arch_spin_trylock(l)         ticket_spin_trylock(l)
-> >>>   #define arch_spin_unlock(l)          ticket_spin_unlock(l)
-> >>> +#endif
-> >>>
-> >>>   #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
-> >>> --
-> >>> 2.39.2
-> >>>
-> >> Thanks,
-> >> drew
-> > _______________________________________________
-> > linux-riscv mailing list
-> > linux-riscv@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-riscv
+Yes, it would be better to subtract the used memory from ancestor (and thus
+even current) cgroups. The original use case of this feature is for cloud
+nodes running a single Java JVM where the sibling cgroups are not an issue.
 
 
-
---=20
-Best Regards
- Guo Ren
+Jan Kratochvil
