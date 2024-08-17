@@ -1,434 +1,425 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E8D7FBAC;
-	Sat, 17 Aug 2024 17:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723917135; cv=none; b=Dphdpys0Yv9yxuQabsQ09BRwamMsLIJVnlqmrAzsrOWXKKDku8t1cxBEkCWiaCeJY4ffF+7qbn4VVmhY7TPoJ45mKDazVOiJ2uoWiDh0ntIa4LXwaP0RBygaGtbBiNrJgEJUcf8HpNir7MkWgiSxGul6XXi3h+FO14wn8r3B2w4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723917135; c=relaxed/simple;
-	bh=TaVDPuMt06s5oe8yp2gQ5wMA2llg3H7nNlNZ4BCLfJs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GEShUi/xDWl91AnZZcYkoN74oYqrrF6ICP48IwvU5Hf1GbHXUdh1/f1oSxhPlya5gvSu1CBfZb+9prjtcXn0KZfSRmEiv7OXNNYXTUoymcOp24lmIc6WNUKO1XBYIBW0/m/VfBsCCPhVtC51Eb4ZXcUAs+fmE1+Y2nuUQplzmPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAA34BRA48BmawyEAA--.61043S2;
-	Sun, 18 Aug 2024 01:52:00 +0800 (CST)
-Received: from russ.tail3da2e.ts.net (unknown [1.48.99.52])
-	by gateway (Coremail) with SMTP id _____wCXcL0448BmcM1QAA--.51156S2;
-	Sun, 18 Aug 2024 01:51:57 +0800 (CST)
-From: Haoyang Liu <tttturtleruss@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com,
-	Haoyang Liu <tttturtleruss@hust.edu.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v7] docs/zh_CN: Add dev-tools/kcsan Chinese translation
-Date: Sun, 18 Aug 2024 01:51:51 +0800
-Message-Id: <20240817175151.164923-1-tttturtleruss@hust.edu.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from esa.hc503-62.ca.iphmx.com (esa.hc503-62.ca.iphmx.com [216.71.135.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A027BA50;
+	Sat, 17 Aug 2024 18:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.135.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723918539; cv=fail; b=bVOHbppHvNeb3KyWbcAnhmc6xm4f5bQM74iHxIvH7Z37pBiLx5yfsPleSj2VoHFjE7TBdPfXlA3+jLRtthgoqkzFUutRvyEBLhVIhMala34a/2vGqA4LQoy4ccbA9k3gAAn86029LeI4ETaetW9U7L4YvfgWzOvtJVkZCLFs9JA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723918539; c=relaxed/simple;
+	bh=IpkTsMMXh1B1/XJZ80U5IzpBmK/lI4zTJNLLzUSLEgU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=R+cXkzH//X2dDzepkgt8yML56pWua2I8AR5cBjf8843WZaYuRbwyRNEOrnIQm2BAx8kdh9QjSd8mKUJaqcGECjonj6cLLuNQ3dVKSjUg2aIJQQjjt7419uwrBlg1TqoNLSpWpNEgO+uPaAI/JcCZ5fBet87zcJE9+eAz8J4qRJk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uwaterloo.ca; spf=pass smtp.mailfrom=uwaterloo.ca; dkim=pass (1024-bit key) header.d=uwaterloo.ca header.i=@uwaterloo.ca header.b=rgn6K6Mp; arc=fail smtp.client-ip=216.71.135.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uwaterloo.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uwaterloo.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=uwaterloo.ca header.i=@uwaterloo.ca header.b="rgn6K6Mp"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
+  t=1723918537; x=1755454537;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=IpkTsMMXh1B1/XJZ80U5IzpBmK/lI4zTJNLLzUSLEgU=;
+  b=rgn6K6Mphs4c44Hd1OtV/s04jggvOB7t0uw3wfSZdkvwFWwYS2MX2ioL
+   3FkD8HSDQNFoeRDlBhsWA6CELXBTP7KniiTW0dSxxPveg842Tc7b2eUX0
+   A0f4n4lCBcylSzW7wBDcJ16AxEuHdY7XKAXqKRqJy2rhxJv+fuQ8e45LW
+   c=;
+X-CSE-ConnectionGUID: aftdBSR6QBKIcGmE2FAmMA==
+X-CSE-MsgGUID: GBZP5eyTSuW5SUBzNWEGUA==
+X-Talos-CUID: 9a23:275kxmwVBUX2ZzoLXzGfBgUdFNwpWEbnkk76AG6zJmNEEpO8THq5rfY=
+X-Talos-MUID: 9a23:4LsLlgg+osV7AdmmwKxOicMpG+1a2/mjGXw2jKpbgPSuJwpPFhigpWHi
+Received: from mail-canadaeastazlp17010006.outbound.protection.outlook.com (HELO YQZPR01CU011.outbound.protection.outlook.com) ([40.93.19.6])
+  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2024 14:15:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IiHHRE25l2sYw12T8lXXv3Sv1hBZ/Xy8g1ylXImJo3u4F0Etb6/GrDewkkY5UhebD2XQlxvhBYMfXsITH24Jb3sFy4SMXuvVmK4iVAzX4G+3ntkPaviZpzPAeYYYk0EeplIcLnhWNUHxAQJJSdR6thGkLWXiSm5njsN3byUSrdll2SfRVkcXLAmmTaed4UQ/ld5qlToskrylPXFGTQHI7AE7rIaRtGezbzWe/daKI0B2ESfs5gtJrEIs8ZmeK1TzXQ024rie/9V+gIPfXbths1oGGsp+JjtXok7y32OmwqnRdbbDqSiBOyXOp684JBQNQ9/C36tgKVOUozgKSUF3aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gh3K+RZOlo5raAj+cC2xXEyejSnmAVLyHcVEPzA3WxM=;
+ b=R9PjnAS9OVzhKMsmBZryJ1boZd2POXelXBQNTc+rsOt9gtwz12qgDz9yWEjhiXaSZNwWsuH5lCN9GxuuKgraol0UveCv/HCzfikt+Cmo/hGqACSBkTtPCToZSppZZM21wk30BcjrqbihXAa6hRrC663r48wVeGZr26zvgAvnDYghHNgBKo8c/Z8GlZfNjjeRh4aDtXBkeX+LiFsxv3CGdzzQR/n8oBhS3T2Mqn0yO3a24LbVXIQMKLv0F8zay9GklOoFNic1Pu750D/fBFue+iXLt+3NQXZViHNRlZzXH/uUTh7gcJo4UbS25vZIYOEnDkEfCZC3Visq/nEmhJiARQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=uwaterloo.ca; dmarc=pass action=none header.from=uwaterloo.ca;
+ dkim=pass header.d=uwaterloo.ca; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=uwaterloo.ca;
+Received: from YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:4b::13) by YQBPR0101MB5481.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:44::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Sat, 17 Aug
+ 2024 18:15:32 +0000
+Received: from YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::d36e:ef93:93fd:930]) by YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::d36e:ef93:93fd:930%4]) with mapi id 15.20.7875.019; Sat, 17 Aug 2024
+ 18:15:32 +0000
+Message-ID: <e4f6639e-53eb-412d-b998-699099570107@uwaterloo.ca>
+Date: Sat, 17 Aug 2024 14:15:30 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Joe Damato <jdamato@fastly.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+ amritha.nambiar@intel.com, sridhar.samudrala@intel.com,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jan Kara <jack@suse.cz>,
+ Jiri Pirko <jiri@resnulli.us>, Johannes Berg <johannes.berg@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:FILESYSTEMS (VFS and infrastructure)"
+ <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <ZrqU3kYgL4-OI-qj@mini-arch>
+ <d53e8aa6-a5eb-41f4-9a4c-70d04a5ca748@uwaterloo.ca>
+ <Zrq8zCy1-mfArXka@mini-arch>
+ <5e52b556-fe49-4fe0-8bd3-543b3afd89fa@uwaterloo.ca>
+ <Zrrb8xkdIbhS7F58@mini-arch>
+ <6f40b6df-4452-48f6-b552-0eceaa1f0bbc@uwaterloo.ca>
+ <CAAywjhRsRYUHT0wdyPgqH82mmb9zUPspoitU0QPGYJTu+zL03A@mail.gmail.com>
+ <d63dd3e8-c9e2-45d6-b240-0b91c827cc2f@uwaterloo.ca>
+ <66bf61d4ed578_17ec4b294ba@willemb.c.googlers.com.notmuch>
+ <66bf696788234_180e2829481@willemb.c.googlers.com.notmuch>
+ <Zr9vavqD-QHD-JcG@LQ3V64L9R2>
+ <66bf85f635b2e_184d66294b9@willemb.c.googlers.com.notmuch>
+ <02091b4b-de85-457d-993e-0548f788f4a1@uwaterloo.ca>
+ <66bfbd88dc0c6_18d7b829435@willemb.c.googlers.com.notmuch>
+Content-Language: en-CA, de-DE
+From: Martin Karsten <mkarsten@uwaterloo.ca>
+In-Reply-To: <66bfbd88dc0c6_18d7b829435@willemb.c.googlers.com.notmuch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0139.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::18) To YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:4b::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAA34BRA48BmawyEAA--.61043S2
-Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
-	.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoWfur1kGw13uFW7WFWUJw47Jwb_yoW8Zw1UWo
-	WYkFs8Cws5Cw15JF15G3yDJa43Gw4vkFnxAanrKrnxu34UKwnYy3WxAw43Ja13C3y5K3W3
-	tw17XFW7W3WDXa4Dn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOI7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
-	x4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1ln4kS14
-	v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l
-	5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxVWxJVW8Jr1lYx0E74AGY7
-	Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_
-	Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l42
-	xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E
-	14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-	CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4U
-	MIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsG
-	vfC2KfnxnUUI43ZEXa7IU5Ysj5UUUUU==
-X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkMAmbAGjQhmwADs3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YQBPR0101MB6572:EE_|YQBPR0101MB5481:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64dd5293-7fb5-4483-fb4b-08dcbee89508
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?b1pJTmR3eWpDWVJtbmticGFLY0swMWhWSnNHd2NOOElUSktIb3JvNGx3NXZW?=
+ =?utf-8?B?cTMvTWFHbE15Rnl4b1YxeCtjcXVyY2p5eml1NGR4dy95dGpVUEc1alZtTm9i?=
+ =?utf-8?B?RmdBazE1d3Y3WEZqNWdGVkx5eFFsTUZHcG9ub3ZkZVZDN1U3Umk0ZUE1akt4?=
+ =?utf-8?B?TDlsb0hJWVk1UHFlaVlsbW0xVGk4MGRmS1VpMUpPZThwaDRJTmdPS0FsL2Qr?=
+ =?utf-8?B?eWErYmN1dW5DUVVnMm9xOEl6VGZPdkVpVjUrZjhmVVVxTjdyRjJZSVNCL3FI?=
+ =?utf-8?B?UXZPRWQwMk5qNGRwY1FtV1BFaDlGeXM0UVRXZlIra2NDVmt0LzhvUTVvOEJ5?=
+ =?utf-8?B?bm9YQkljeGVMMjJCU2FTTXdzQlAvRGtpenVPYnNwR3p2WGJVMDRmUW52VG11?=
+ =?utf-8?B?Ly8wSmtxZ0ZHR3JjUmtDeWlpbjNhRllZT1Jiek5EblFPc1c2YzJqMGwzTy9l?=
+ =?utf-8?B?Y3JHb2VmZm1Pd3QwZGRKVmkrbDVnRk5qL1NUSmt3K0ltSHBqeit0ekd4bEpk?=
+ =?utf-8?B?ZlNONkgxTnlXaHFGc2hoUG84MXBmd0lHTFg3MU1wd1NMQ3F1UUo1aGNxdk10?=
+ =?utf-8?B?dWZmT2V0NEtrQUV6VHJCUmxmYWJEUXZ6U2FiYW11dU9OalJGOS9hWjNQdTJN?=
+ =?utf-8?B?cmRqdy9DRHAxcXRpdWtZUWpmdFNnenlmaGtsSjUxc2E0cjZNMnhhT3duVG8w?=
+ =?utf-8?B?TVBkK1ZCOXo5NTZ5bDdONXdjeXNhY29tZzVNL2toV1FxWVVsbjN5VjRGZGdi?=
+ =?utf-8?B?dmZBTlNHMnpYSEUrNXg1WWltQTZ5a044VEpqRTMrN3ozNXgrZWRNSVNsUWF0?=
+ =?utf-8?B?cFl3dzJTN0JLYnRBWUxSYkxOeDF5USswdmU3RVhaR3lZa085OHNrZ2NKdkhP?=
+ =?utf-8?B?aXNiYUwxWkhLcHFJM0tVUCs5dXFnTU5nNHZIZHdvVFV3RUhhZnNVa3NCLzdk?=
+ =?utf-8?B?dk9mZU1OaHJGR2Q1bkY4aCtaRUNwR3V2VHRwbDJUbWRBRXhaaUJsVHVQZSt6?=
+ =?utf-8?B?WG5rTTZhSktYaDJ4REFwVW84eG03SUxjM2Qvbmk4ZWRVTzhFZWJvbTQ3WklR?=
+ =?utf-8?B?K3ZXLzk5Wm9vR3pyVC96TmhnVXhCR3BNNExuOFREeWtWMFEzTzVoanBYNTRr?=
+ =?utf-8?B?Umo3OXJhMjd4S1dianRkYzJMSVNlNVlLU3pJVC9kN0Z2TWpqNnhMdG5yblNF?=
+ =?utf-8?B?ckdaU2Z2UjYyZ0REdzFoYnpXS1p1cGl0c093Q1lGZ0pKcUxIQlJiSE9rQWdM?=
+ =?utf-8?B?UmNyUFJCQUhCK0JEakxpa3NLSEt3cVJZRURWVjkrTzBRUVdZVUxjZ3hkS29U?=
+ =?utf-8?B?THp2UENLZGxqVmw0c3MxKzU3Z0c3bGx0UEhFTmZ1amZKZE5TZTRRTUQwdWo1?=
+ =?utf-8?B?bi9yaDRobU5WOEFvNzJPbVhCUmxnMTBqN2hFUURpVytMS3g2cXgzQTByZjdv?=
+ =?utf-8?B?dGdnV1o3WjBwSlEzanZaaEdBcUpEdFVoMXNIT08rZC9DWC9wN1AyMXNkc0dn?=
+ =?utf-8?B?ay9XQ2FGNWVsZDZkaVIxdStuaTB0RmZEYW1LQTkrb01Bd2ZOamdTblVmRVEy?=
+ =?utf-8?B?V3JXdTR5V2FOZ2N6TE1FbmZ6bEdQRmo0TytKaHRVbjJ6bm12a1lQeWFYc1hT?=
+ =?utf-8?B?L0RwUThITkFtSllMSFIyNVdXSkJlSWlUWlpwQzVZK3BjQ3Rib2ZlOHlBWHZI?=
+ =?utf-8?B?SkpDTXAxaFRsZFhld2R4WUxlU01CcmlDMmlHSUdVVEg0MHA4c1dnN0psaWFo?=
+ =?utf-8?B?TXpJc2xQcGVFRWRDNkg0Y2JJQ2xwQ3ArVG0wUW13K0h5VWtyUnVJY1NsY09J?=
+ =?utf-8?B?a3BQclllQXYwL1Z4Wm9kZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bmNLN2g0SEJXZXovYlQyTzRtZURDMm03d09UZ1ljMzZMcVdjUmJoWHRjYkJO?=
+ =?utf-8?B?eVhkdzlxQ1loMVhVTkN4VFpCeEpUOFA1WmZrdEkzZFJjZ01sRkZGVjRFUVZy?=
+ =?utf-8?B?OUZ3MTRpNnhOYzg4NGN1a3hzMXVpMGgyRzczK05IQmxoQWs5VWtTSUpocUlQ?=
+ =?utf-8?B?OTVLQ0hhR0Ixbm1SMTloZ01HV2hDN0E1RGV1dXRLeTlwdG1rS0JuQzhQbWh0?=
+ =?utf-8?B?VjFxd3dBenlVTVIzc2NTSGlMd29ja21ON2Y4NW15Q2gveUtETytzNHM0cXVv?=
+ =?utf-8?B?Zm5mTTZzc245T1U3c05sZGVqc2habHZGbHlRaWFGTVN0V0cra1ZCdHJLSmZL?=
+ =?utf-8?B?RHdvWXFTVGdZdS9teWRhaXNhSVo3cFk3SFNHb1NSMW1yQmJ4b2JMVXFFWlZv?=
+ =?utf-8?B?L2NGaFhuUU9rcDE2ZFNXUWJNYkx1RzgyZ2xublhnVGRIZ25qRkNtUzZCeC81?=
+ =?utf-8?B?N2g0ZW1vaWxXVUFnVE1jWmhUSm45REZLSFY0OTMwejQ3b01OVmZnaGZ1R3hZ?=
+ =?utf-8?B?TWpLSXBIZHJkdDJCYkV5bXZ4dFR4QXpMR0EwZ1VpMENXdDdvKzFEbmN3anp6?=
+ =?utf-8?B?L1VTa3BzQXgxeXB4MFdCcUJhUk5Nd1ZzeERHaHB6UnlkYk9haUpDbzF1cE5E?=
+ =?utf-8?B?R2xXYzM3WEZ2bXlqMkplS2hBWkkzN0Y5VHlpTUhjMmN4QXZTbnQvY05IL0Nv?=
+ =?utf-8?B?Y213VVd1UG5PeThEWlNXL01ZY2N6S3QzNGlJZFBBYmp6VGNPME5EN01XZkZT?=
+ =?utf-8?B?VjJOaVRLNWRPQzQ0eTBUTXIxTGJ5V0NEUFFRNzVXNnA3YUZmQjVLZmRpdjgr?=
+ =?utf-8?B?NFh1bTdUYUJ2L0xGTlVhUkZJOHJmNUFoTWp4UnVtYU9Jcm42ZkdYM20rZko0?=
+ =?utf-8?B?NVBxWVdISDNwa0N0Y0VkRjFIa0dmQ09BUzNMVmxxQzN3YVNzUU4rdzRtSVEx?=
+ =?utf-8?B?clJSTU53MFlJTUZqTHBEdHpFZFp5bjBBdnh1eGdWREt3bzRxK1dJY2Z5TDdI?=
+ =?utf-8?B?RzJHb2JrZDJTM09xVWhDOUFZZm9HUWMwcFNBZ1hEQ2UveDdiZG9aVGtDWUYv?=
+ =?utf-8?B?WXp0OW1JUG92aGZqeStqM1lPMlFVaFRheUN0ck5pRzdLQ1ZWNnVtUlNzRDRa?=
+ =?utf-8?B?ZjI5Z0VQTnRrcXFSOEpVS1hhTGovS3FVbk0wN29sc2F6MklxNDQyVGo1amh6?=
+ =?utf-8?B?VmpIREMvNkIvMWdvbW5UWUh3RExCNEczNGtBeTJFQzBIWWFXZGlvTzQrQjhG?=
+ =?utf-8?B?SmlFbkJOdFRVQUYzeUxTMzVMSUJCY21SVnRWamZmaWxmb1U2ZzdYNUpBNHFH?=
+ =?utf-8?B?SFFGM1VpSXdlRUhMS21ON0MxV252bkVXZm1uci96ekpqTUVMUjlJbHI5UXRt?=
+ =?utf-8?B?Y2hkVjcxNHExOXh6TUFGN1hDaEl4MW5NckdjL0NRcWxSZHhrZEtISGxoVXdq?=
+ =?utf-8?B?eFdvd25RUnNLelBidmUySi9jdC9OM01TTmM5d3UyMFFCWXVsaXZjeFowZzY4?=
+ =?utf-8?B?WCtOTGxXUXJ2bjVGem5VL2J0Q0JFWEJFZXE0bnhjd3dnV0F4ek1nT0JwU2Rk?=
+ =?utf-8?B?Q2dFU0lXMmg5VURTVnowd1NLd1diOGhCS1FRWjQ0a1pkVXVKTHJSOS9pUU5x?=
+ =?utf-8?B?WjlCakxhblBkbDV1WXgrNy9TbW81aUVqRUgzODhudVZzUEdRNmJtMDR2QSs1?=
+ =?utf-8?B?aWQvR0FvZFBlZ0VlVkN6Q21UWFU1MlNMY1hrQjdIRi9pbCt5Mlh2UGZUeFM5?=
+ =?utf-8?B?MkNJUGVWSmw1OG9ML1hNc3ZnQ2xzbFJabXNTMnNjWTlWQ2htRzBIcXVZQ3RI?=
+ =?utf-8?B?TE5kUXJKdE1wbTYwU0kxY3hoQldUZVVLbVI2SkN5U2dkZjlaQUI1YjJRd2dV?=
+ =?utf-8?B?TGYxWHdCSWx4RkFxTkh2d2NHTXY3MDJ2K21UT1drbVlXU0tNdWRMbmpJVjBW?=
+ =?utf-8?B?djQxVkVJMzEyeVdvWXluY3FranRzeThvWEg5MVM2cVRLODZ4MFEvbmZDck9j?=
+ =?utf-8?B?cGdleGRQRXZ1NWJvVzU2WmVnK3lsVElhc3BaeTFsb3NzdktqS255UjZSUzhm?=
+ =?utf-8?B?WHkvWm1BNGI2RUk3QXJrUk1zVS9XK2xyM1ROSENoZjFCYWZnNFF6UUV0M3hQ?=
+ =?utf-8?Q?FyBQl+dAVYodnEyTe21xyIUIS?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	LjpUp3FJM7/P9rEbe5sDJ+9OsZU82tFG6vUv7k+Nju35UI8ZBmbYGUiz+yaZQil3y3sUYBqfABHWdHt/Bl5AGzgmxZ2vJYGj7Oa24KJZtNfABEoOG/QGDEcJgqwsJXNSwC0Nh1EdxJAGfwbj15CNOCpbyYKlnYdhuQAyCezGIoPHf0LcfYX4IKEVY+SHPm6zUrBtoXKVPRXTg9Fb8iDwyzpm44l8mseqqT6Q2pDb6Rcl8Lo2bRlb0Ps/MXlbTKat2c/ptm4F3/yK5YJTYSC/iZcGo/wmel0Kh0Ob6xrvh9zTNEGCeUwcNU+Vk55i+p9bfNiGe12l9Yl6Gjj4FdjLSVTdts71Z8JcqKkRjk2U2gJlvGHv9hETdUtm/GiO1RFecSJ2rzFvQVaOiQv+PBiSVT3PH6a7kYa/O2Nh+A6oJY+X8vB5MJjKse1qMUbaPTq91usKSH5gxG2UhtffjCmEpHlJb3B/6ffopm0orOPCXQJpqqobjTJGl+sNYqsdxGk/xjBkeOtbhKk3vFaHtIL+/ok0Gc77t3Tt+APrfrbUjC3MBzwWBasHj5oukbShHo/lNeS960zZbCtMaTUrP7+/KV+xfCVhdE44awaJYYPFd2721p7FRs5UmRzpO9ZSimk9
+X-OriginatorOrg: uwaterloo.ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64dd5293-7fb5-4483-fb4b-08dcbee89508
+X-MS-Exchange-CrossTenant-AuthSource: YQBPR0101MB6572.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2024 18:15:32.3408
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 723a5a87-f39a-4a22-9247-3fc240c01396
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5loi7loqhzsSxihChQ0rIT/1WSe0l+LS3R1eXbbWemEWl+ieIM+YKMieJXHRm4bzvZEn+7o5FoxJ83OU6x63ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQBPR0101MB5481
 
-Translate dev-tools/kcsan commit 31f605a308e6
-("kcsan, compiler_types: Introduce __data_racy type qualifier")
-into Chinese and add it in dev-tools/zh_CN/index.rst
+On 2024-08-16 16:58, Willem de Bruijn wrote:
+> Martin Karsten wrote:
+>> On 2024-08-16 13:01, Willem de Bruijn wrote:
+>>> Joe Damato wrote:
+>>>> On Fri, Aug 16, 2024 at 10:59:51AM -0400, Willem de Bruijn wrote:
+>>>>> Willem de Bruijn wrote:
+>>>>>> Martin Karsten wrote:
+>>>>>>> On 2024-08-14 15:53, Samiullah Khawaja wrote:
+>>>>>>>> On Tue, Aug 13, 2024 at 6:19 AM Martin Karsten <mkarsten@uwaterloo.ca> wrote:
+>>>>>>>>>
+>>>>>>>>> On 2024-08-13 00:07, Stanislav Fomichev wrote:
+>>>>>>>>>> On 08/12, Martin Karsten wrote:
+>>>>>>>>>>> On 2024-08-12 21:54, Stanislav Fomichev wrote:
+>>>>>>>>>>>> On 08/12, Martin Karsten wrote:
+>>>>>>>>>>>>> On 2024-08-12 19:03, Stanislav Fomichev wrote:
+>>>>>>>>>>>>>> On 08/12, Martin Karsten wrote:
+>>>>>>>>>>>>>>> On 2024-08-12 16:19, Stanislav Fomichev wrote:
+>>>>>>>>>>>>>>>> On 08/12, Joe Damato wrote:
+>>>>>>>>>>>>>>>>> Greetings:
+>>>>>>>
+>>>>>>> [snip]
+>>>>>>>
+>>>>>>>>>>>>> Note that napi_suspend_irqs/napi_resume_irqs is needed even for the sake of
+>>>>>>>>>>>>> an individual queue or application to make sure that IRQ suspension is
+>>>>>>>>>>>>> enabled/disabled right away when the state of the system changes from busy
+>>>>>>>>>>>>> to idle and back.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Can we not handle everything in napi_busy_loop? If we can mark some napi
+>>>>>>>>>>>> contexts as "explicitly polled by userspace with a larger defer timeout",
+>>>>>>>>>>>> we should be able to do better compared to current NAPI_F_PREFER_BUSY_POLL
+>>>>>>>>>>>> which is more like "this particular napi_poll call is user busy polling".
+>>>>>>>>>>>
+>>>>>>>>>>> Then either the application needs to be polling all the time (wasting cpu
+>>>>>>>>>>> cycles) or latencies will be determined by the timeout.
+>>>>>>>> But if I understand correctly, this means that if the application
+>>>>>>>> thread that is supposed
+>>>>>>>> to do napi busy polling gets busy doing work on the new data/events in
+>>>>>>>> userspace, napi polling
+>>>>>>>> will not be done until the suspend_timeout triggers? Do you dispatch
+>>>>>>>> work to a separate worker
+>>>>>>>> threads, in userspace, from the thread that is doing epoll_wait?
+>>>>>>>
+>>>>>>> Yes, napi polling is suspended while the application is busy between
+>>>>>>> epoll_wait calls. That's where the benefits are coming from.
+>>>>>>>
+>>>>>>> The consequences depend on the nature of the application and overall
+>>>>>>> preferences for the system. If there's a "dominant" application for a
+>>>>>>> number of queues and cores, the resulting latency for other background
+>>>>>>> applications using the same queues might not be a problem at all.
+>>>>>>>
+>>>>>>> One other simple mitigation is limiting the number of events that each
+>>>>>>> epoll_wait call accepts. Note that this batch size also determines the
+>>>>>>> worst-case latency for the application in question, so there is a
+>>>>>>> natural incentive to keep it limited.
+>>>>>>>
+>>>>>>> A more complex application design, like you suggest, might also be an
+>>>>>>> option.
+>>>>>>>
+>>>>>>>>>>> Only when switching back and forth between polling and interrupts is it
+>>>>>>>>>>> possible to get low latencies across a large spectrum of offered loads
+>>>>>>>>>>> without burning cpu cycles at 100%.
+>>>>>>>>>>
+>>>>>>>>>> Ah, I see what you're saying, yes, you're right. In this case ignore my comment
+>>>>>>>>>> about ep_suspend_napi_irqs/napi_resume_irqs.
+>>>>>>>>>
+>>>>>>>>> Thanks for probing and double-checking everything! Feedback is important
+>>>>>>>>> for us to properly document our proposal.
+>>>>>>>>>
+>>>>>>>>>> Let's see how other people feel about per-dev irq_suspend_timeout. Properly
+>>>>>>>>>> disabling napi during busy polling is super useful, but it would still
+>>>>>>>>>> be nice to plumb irq_suspend_timeout via epoll context or have it set on
+>>>>>>>>>> a per-napi basis imho.
+>>>>>>>> I agree, this would allow each napi queue to tune itself based on
+>>>>>>>> heuristics. But I think
+>>>>>>>> doing it through epoll independent interface makes more sense as Stan
+>>>>>>>> suggested earlier.
+>>>>>>>
+>>>>>>> The question is whether to add a useful mechanism (one sysfs parameter
+>>>>>>> and a few lines of code) that is optional, but with demonstrable and
+>>>>>>> significant performance/efficiency improvements for an important class
+>>>>>>> of applications - or wait for an uncertain future?
+>>>>>>
+>>>>>> The issue is that this one little change can never be removed, as it
+>>>>>> becomes ABI.
+>>>>>>
+>>>>>> Let's get the right API from the start.
+>>>>>>
+>>>>>> Not sure that a global variable, or sysfs as API, is the right one.
+>>>>>
+>>>>> Sorry per-device, not global.
+>>>>>
+>>>>> My main concern is that it adds yet another user tunable integer, for
+>>>>> which the right value is not obvious.
+>>>>
+>>>> This is a feature for advanced users just like SO_INCOMING_NAPI_ID
+>>>> and countless other features.
+>>>>
+>>>> The value may not be obvious, but guidance (in the form of
+>>>> documentation) can be provided.
+>>>
+>>> Okay. Could you share a stab at what that would look like?
+>>
+>> The timeout needs to be large enough that an application can get a
+>> meaningful number of incoming requests processed without softirq
+>> interference. At the same time, the timeout value determines the
+>> worst-case delivery delay that a concurrent application using the same
+>> queue(s) might experience. Please also see my response to Samiullah
+>> quoted above. The specific circumstances and trade-offs might vary,
+>> that's why a simple constant likely won't do.
+> 
+> Thanks. I really do mean this as an exercise of what documentation in
+> Documentation/networking/napi.rst will look like. That helps makes the
+> case that the interface is reasonably ease to use (even if only
+> targeting advanced users).
+> 
+> How does a user measure how much time a process will spend on
+> processing a meaningful number of incoming requests, for instance.
+> In practice, probably just a hunch?
 
-Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
----
-v6 -> v7: Replace duplicated inclusion with a note to avoid compile warnings.
-v5 -> v6: Fix a typo.
-v4 -> v5: Translate link into Chinese as well according to reviewer's advice.
-v3 -> v4: Added original English text for proper nouns and modified some unclear experessions.
-v2 -> v3: Revised some sentences based on reviewer's suggestions and updated the KTSAN url.
-v1 -> v2: Added commit tag and fixed style problems according to reviewer's suggestions. 
+As an example, we measure around 1M QPS in our experiments, fully 
+utilizing 8 cores and knowing that memcached is quite scalable. Thus we 
+can conclude a single request takes about 8 us processing time on 
+average. That has led us to a 20 us small timeout (gro_flush_timeout), 
+enough to make sure that a single request is likely not interfered with, 
+but otherwise as small as possible. If multiple requests arrive, the 
+system will quickly switch back to polling mode.
 
- .../translations/zh_CN/dev-tools/index.rst    |   2 +-
- .../translations/zh_CN/dev-tools/kcsan.rst    | 320 ++++++++++++++++++
- 2 files changed, 321 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/dev-tools/kcsan.rst
+At the other end, we have picked a very large irq_suspend_timeout of 
+20,000 us to demonstrate that it does not negatively impact latency. 
+This would cover 2,500 requests, which is likely excessive, but was 
+chosen for demonstration purposes. One can easily measure the 
+distribution of epoll_wait batch sizes and batch sizes as low as 64 are 
+already very efficient, even in high-load situations.
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
-index c540e4a7d5db..6a8c637c0be1 100644
---- a/Documentation/translations/zh_CN/dev-tools/index.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
-@@ -21,6 +21,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-    testing-overview
-    sparse
-    kcov
-+   kcsan
-    gcov
-    kasan
-    ubsan
-@@ -32,7 +33,6 @@ Todolist:
-  - checkpatch
-  - coccinelle
-  - kmsan
-- - kcsan
-  - kfence
-  - kgdb
-  - kselftest
-diff --git a/Documentation/translations/zh_CN/dev-tools/kcsan.rst b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
-new file mode 100644
-index 000000000000..8c495c17f109
---- /dev/null
-+++ b/Documentation/translations/zh_CN/dev-tools/kcsan.rst
-@@ -0,0 +1,320 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/dev-tools/kcsan.rst
-+:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
-+
-+内核并发消毒剂(KCSAN)
-+=====================
-+
-+内核并发消毒剂（KCSAN）是一个动态竞争检测器，依赖编译时插桩，并且使用基于观察
-+点的采样方法来检测竞争。KCSAN 的主要目的是检测 `数据竞争`_。
-+
-+使用
-+----
-+
-+KCSAN 受 GCC 和 Clang 支持。使用 GCC 需要版本 11 或更高，使用 Clang 也需要
-+版本 11 或更高。
-+
-+为了启用 KCSAN，用如下参数配置内核::
-+
-+    CONFIG_KCSAN = y
-+
-+KCSAN 提供了几个其他的配置选项来自定义行为（见 ``lib/Kconfig.kcsan`` 中的各自的
-+帮助文档以获取更多信息）。
-+
-+错误报告
-+~~~~~~~~
-+
-+一个典型数据竞争的报告如下所示::
-+
-+    ==================================================================
-+    BUG: KCSAN: data-race in test_kernel_read / test_kernel_write
-+
-+    write to 0xffffffffc009a628 of 8 bytes by task 487 on cpu 0:
-+     test_kernel_write+0x1d/0x30
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    read to 0xffffffffc009a628 of 8 bytes by task 488 on cpu 6:
-+     test_kernel_read+0x10/0x20
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    value changed: 0x00000000000009a6 -> 0x00000000000009b2
-+
-+    Reported by Kernel Concurrency Sanitizer on:
-+    CPU: 6 PID: 488 Comm: access_thread Not tainted 5.12.0-rc2+ #1
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-+    ==================================================================
-+
-+报告的头部提供了一个关于竞争中涉及到的函数的简短总结。随后是竞争中的两个线程的
-+访问类型和堆栈信息。如果 KCSAN 发现了一个值的变化，那么那个值的旧值和新值会在
-+“value changed”这一行单独显示。
-+
-+另一个不太常见的数据竞争类型的报告如下所示::
-+
-+    ==================================================================
-+    BUG: KCSAN: data-race in test_kernel_rmw_array+0x71/0xd0
-+
-+    race at unknown origin, with read to 0xffffffffc009bdb0 of 8 bytes by task 515 on cpu 2:
-+     test_kernel_rmw_array+0x71/0xd0
-+     access_thread+0x89/0xd0
-+     kthread+0x23e/0x260
-+     ret_from_fork+0x22/0x30
-+
-+    value changed: 0x0000000000002328 -> 0x0000000000002329
-+
-+    Reported by Kernel Concurrency Sanitizer on:
-+    CPU: 2 PID: 515 Comm: access_thread Not tainted 5.12.0-rc2+ #1
-+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-+    ==================================================================
-+
-+这个报告是当另一个竞争线程不可能被发现，但是可以从观测的内存地址的值改变而推断
-+出来的时候生成的。这类报告总是会带有“value changed”行。这类报告的出现通常是因
-+为在竞争线程中缺少插桩，也可能是因为其他原因，比如 DMA 访问。这类报告只会在
-+设置了内核参数 ``CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y`` 时才会出现，而这
-+个参数是默认启用的。
-+
-+选择性分析
-+~~~~~~~~~~
-+
-+对于一些特定的访问，函数，编译单元或者整个子系统，可能需要禁用数据竞争检测。
-+对于静态黑名单，有如下可用的参数：
-+
-+* KCSAN 支持使用 ``data_race(expr)`` 注解，这个注解告诉 KCSAN 任何由访问
-+  ``expr`` 所引起的数据竞争都应该被忽略，其产生的行为后果被认为是安全的。请查阅
-+  `在 LKMM 中 "标记共享内存访问"`_ 获得更多信息。
-+
-+* 与 ``data_race(...)`` 相似，可以使用类型限定符 ``__data_racy`` 来标记一个变量
-+  ，所有访问该变量而导致的数据竞争都是故意为之并且应该被 KCSAN 忽略::
-+
-+    struct foo {
-+        ...
-+        int __data_racy stats_counter;
-+        ...
-+    };
-+
-+* 使用函数属性 ``__no_kcsan`` 可以对整个函数禁用数据竞争检测::
-+
-+    __no_kcsan
-+    void foo(void) {
-+        ...
-+
-+  为了动态限制该为哪些函数生成报告，查阅 `Debug 文件系统接口`_ 黑名单/白名单特性。
-+
-+* 为特定的编译单元禁用数据竞争检测，将下列参数加入到 ``Makefile`` 中::
-+
-+    KCSAN_SANITIZE_file.o := n
-+
-+* 为 ``Makefile`` 中的所有编译单元禁用数据竞争检测，将下列参数添加到相应的
-+  ``Makefile`` 中::
-+
-+    KCSAN_SANITIZE := n
-+
-+.. _在 LKMM 中 "标记共享内存访问": https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/access-marking.txt
-+
-+此外，KCSAN 可以根据偏好设置显示或隐藏整个类别的数据竞争。可以使用如下
-+Kconfig 参数进行更改:
-+
-+* ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY``: 如果启用了该参数并且通过观测点
-+  (watchpoint) 观测到一个有冲突的写操作，但是对应的内存地址中存储的值没有改变，
-+  则不会报告这起数据竞争。
-+
-+* ``CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC``: 假设默认情况下，不超过字大小的简
-+  单对齐写入操作是原子的。假设这些写入操作不会受到不安全的编译器优化影响，从而导
-+  致数据竞争。该选项使 KCSAN 不报告仅由不超过字大小的简单对齐写入操作引起
-+  的冲突所导致的数据竞争。
-+
-+* ``CONFIG_KCSAN_PERMISSIVE``: 启用额外的宽松规则来忽略某些常见类型的数据竞争。
-+  与上面的规则不同，这条规则更加复杂，涉及到值改变模式，访问类型和地址。这个
-+  选项依赖编译选项 ``CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y``。请查看
-+  ``kernel/kcsan/permissive.h`` 获取更多细节。对于只侧重于特定子系统而不是整个
-+  内核报告的测试者和维护者，建议禁用该选项。
-+
-+要使用尽可能严格的规则，选择 ``CONFIG_KCSAN_STRICT=y``，这将配置 KCSAN 尽可
-+能紧密地遵循 Linux 内核内存一致性模型（LKMM）。
-+
-+Debug 文件系统接口
-+~~~~~~~~~~~~~~~~~~
-+
-+文件 ``/sys/kernel/debug/kcsan`` 提供了如下接口：
-+
-+* 读 ``/sys/kernel/debug/kcsan`` 返回不同的运行时统计数据。
-+
-+* 将 ``on`` 或 ``off`` 写入 ``/sys/kernel/debug/kcsan`` 允许打开或关闭 KCSAN。
-+
-+* 将 ``!some_func_name`` 写入 ``/sys/kernel/debug/kcsan`` 会将
-+  ``some_func_name`` 添加到报告过滤列表中，该列表（默认）会将数据竞争报告中的顶
-+  层堆栈帧是列表中函数的情况列入黑名单。
-+
-+* 将 ``blacklist`` 或 ``whitelist`` 写入 ``/sys/kernel/debug/kcsan`` 会改变报告
-+  过滤行为。例如，黑名单的特性可以用来过滤掉经常发生的数据竞争。白名单特性可以帮
-+  助复现和修复测试。
-+
-+性能调优
-+~~~~~~~~
-+
-+影响 KCSAN 整体的性能和 bug 检测能力的核心参数是作为内核命令行参数公开的，其默认
-+值也可以通过相应的 Kconfig 选项更改。
-+
-+* ``kcsan.skip_watch`` (``CONFIG_KCSAN_SKIP_WATCH``): 在另一个观测点设置之前每
-+  个 CPU 要跳过的内存操作次数。更加频繁的设置观测点将增加观察到竞争情况的可能性
-+  。这个参数对系统整体的性能和竞争检测能力影响最显著。
-+
-+* ``kcsan.udelay_task`` (``CONFIG_KCSAN_UDELAY_TASK``): 对于任务，观测点设置之
-+  后暂停执行的微秒延迟。值越大，检测到竞争情况的可能性越高。
-+
-+* ``kcsan.udelay_interrupt`` (``CONFIG_KCSAN_UDELAY_INTERRUPT``): 对于中断，
-+  观测点设置之后暂停执行的微秒延迟。中断对于延迟的要求更加严格，其延迟通常应该小
-+  于为任务选择的延迟。
-+
-+它们可以通过 ``/sys/module/kcsan/parameters/`` 在运行时进行调整。
-+
-+数据竞争
-+--------
-+
-+在一次执行中，如果两个内存访问存在 *冲突*，在不同的线程中并发执行，并且至少
-+有一个访问是 *简单访问*，则它们就形成了 *数据竞争*。如果它们访问了同一个内存地址并且
-+至少有一个是写操作，则称它们存在 *冲突*。有关更详细的讨论和定义，见
-+`LKMM 中的 "简单访问和数据竞争"`_。
-+
-+.. _LKMM 中的 "简单访问和数据竞争": https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt#n1922
-+
-+与 Linux 内核内存一致性模型(LKMM)的关系
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+LKMM 定义了各种内存操作的传播和排序规则，让开发者可以推理并发代码。最终这允许确
-+定并发代码可能的执行情况并判断这些代码是否存在数据竞争。
-+
-+KCSAN 可以识别 *被标记的原子操作* （ ``READ_ONCE``, ``WRITE_ONCE`` , ``atomic_*``
-+等），以及内存屏障所隐含的一部分顺序保证。启用 ``CONFIG_KCSAN_WEAK_MEMORY=y``
-+配置，KCSAN 会对加载或存储缓冲区进行建模，并可以检测遗漏的
-+``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``, ``smp_store_release()``，以及所有的
-+具有等效隐含内存屏障的 ``atomic_*`` 操作。
-+
-+请注意，KCSAN 不会报告所有由于缺失内存顺序而导致的数据竞争，特别是在需要内存屏障
-+来禁止后续内存操作在屏障之前重新排序的情况下。因此，开发人员应该仔细考虑那些未
-+被检查的内存顺序要求。
-+
-+数据竞争以外的竞争检测
-+---------------------------
-+
-+对于有着复杂并发设计的代码，竞争状况不总是表现为数据竞争。如果并发操作引起了意
-+料之外的系统行为，则认为发生了竞争状况。另一方面，数据竞争是在 C 语言层面定义
-+的。内核定义了一些宏定义用来检测非数据竞争的漏洞并发代码的属性。
-+
-+.. note::
-+     为了不引入新的文档编译警告，这里不展示宏定义的具体内容，如果想查看具体
-+     宏定义可以结合原文（Documentation/dev-tools/kcsan.rst）阅读。
-+
-+实现细节
-+--------
-+
-+KCSAN 需要观测两个并发访问。特别重要的是，我们想要（a）增加观测到竞争的机会（尤
-+其是很少发生的竞争），以及（b）能够实际观测到这些竞争。我们可以通过（a）注入
-+不同的延迟，以及（b）使用地址观测点（或断点）来实现。
-+
-+如果我们在设置了地址观察点的情况下故意延迟一个内存访问，然后观察到观察点被触发
-+，那么两个对同一地址的访问就发生了竞争。使用硬件观察点，这是 `DataCollider
-+<http://usenix.org/legacy/events/osdi10/tech/full_papers/Erickson.pdf>`_ 中采用
-+的方法。与 DataCollider 不同，KCSAN 不使用硬件观察点，而是依赖于编译器插桩和“软
-+观测点”。
-+
-+在 KCSAN 中，观察点是通过一种高效的编码实现的，该编码将访问类型、大小和地址存储
-+在一个长整型变量中；使用“软观察点”的好处是具有可移植性和更大的灵活性。然后，
-+KCSAN依赖于编译器对普通访问的插桩。对于每个插桩的普通访问：
-+
-+1. 检测是否存在一个符合的观测点，如果存在，并且至少有一个操作是写操作，则我们发
-+   现了一个竞争访问。
-+
-+2. 如果不存在匹配的观察点，则定期的设置一个观测点并随机延迟一小段时间。
-+
-+3. 在延迟前检查数据值，并在延迟后重新检查数据值；如果值不匹配，我们推测存在一个
-+   未知来源的竞争状况。
-+
-+为了检测普通访问和标记访问之间的数据竞争，KCSAN 也对标记访问进行标记，但仅用于
-+检查是否存在观察点；即 KCSAN 不会在标记访问上设置观察点。通过不在标记操作上设
-+置观察点，如果对一个变量的所有并发访问都被正确标记，KCSAN 将永远不会触发观察点
-+，因此也不会报告这些访问。
-+
-+弱内存建模
-+~~~~~~~~~~
-+
-+KCSAN 通过建模访问重新排序（使用 ``CONFIG_KCSAN_WEAK_MEMORY=y``）来检测由于缺少
-+内存屏障而导致的数据竞争。每个设置了观察点的普通内存访问也会被选择在其函数范围
-+内进行模拟重新排序（最多一个正在进行的访问）。
-+
-+一旦某个访问被选择用于重新排序，它将在函数范围内与每个其他访问进行检查。如果遇
-+到适当的内存屏障，该访问将不再被考虑进行模拟重新排序。
-+
-+当内存操作的结果应该由屏障排序时，KCSAN 可以检测到仅由于缺失屏障而导致的冲突的
-+数据竞争。考虑下面的例子::
-+
-+    int x, flag;
-+    void T1(void)
-+    {
-+        x = 1;                  // data race!
-+        WRITE_ONCE(flag, 1);    // correct: smp_store_release(&flag, 1)
-+    }
-+    void T2(void)
-+    {
-+        while (!READ_ONCE(flag));   // correct: smp_load_acquire(&flag)
-+        ... = x;                    // data race!
-+    }
-+
-+当启用了弱内存建模，KCSAN 将考虑对 ``T1`` 中的 ``x`` 进行模拟重新排序。在写入
-+``flag`` 之后，x再次被检查是否有并发访问：因为 ``T2`` 可以在写入
-+``flag`` 之后继续进行，因此检测到数据竞争。如果遇到了正确的屏障， ``x`` 在正确
-+释放 ``flag`` 后将不会被考虑重新排序，因此不会检测到数据竞争。
-+
-+在复杂性上的权衡以及实际的限制意味着只能检测到一部分由于缺失内存屏障而导致的数
-+据竞争。由于当前可用的编译器支持，KCSAN 的实现仅限于建模“缓冲”（延迟访问）的
-+效果，因为运行时不能“预取”访问。同时要注意，观测点只设置在普通访问上，这是唯
-+一一个 KCSAN 会模拟重新排序的访问类型。这意味着标记访问的重新排序不会被建模。
-+
-+上述情况的一个后果是获取 (acquire) 操作不需要屏障插桩（不需要预取）。此外，引
-+入地址或控制依赖的标记访问不需要特殊处理（标记访问不能重新排序，后续依赖的访问
-+不能被预取）。
-+
-+关键属性
-+~~~~~~~~
-+
-+1. **内存开销**：整体的内存开销只有几 MiB，取决于配置。当前的实现是使用一个小长
-+   整型数组来编码观测点信息，几乎可以忽略不计。
-+
-+2. **性能开销**：KCSAN 的运行时旨在性能开销最小化，使用一个高效的观测点编码，在
-+   快速路径中不需要获取任何锁。在拥有 8 个 CPU 的系统上的内核启动来说：
-+
-+   - 使用默认 KCSAN 配置时，性能下降 5 倍；
-+   - 仅因运行时快速路径开销导致性能下降 2.8 倍（设置非常大的
-+     ``KCSAN_SKIP_WATCH`` 并取消设置 ``KCSAN_SKIP_WATCH_RANDOMIZE``）。
-+
-+3. **注解开销**：KCSAN 运行时之外需要的注释很少。因此，随着内核的发展维护的开
-+   销也很小。
-+
-+4. **检测设备的竞争写入**：由于设置观测点时会检查数据值，设备的竞争写入也可以
-+   被检测到。
-+
-+5. **内存排序**：KCSAN 只了解一部分 LKMM 排序规则；这可能会导致漏报数据竞争（
-+   假阴性）。
-+
-+6. **分析准确率**： 对于观察到的执行，由于使用采样策略，分析是 *不健全* 的
-+   （可能有假阴性），但期望得到完整的分析（没有假阳性）。
-+
-+考虑的替代方案
-+--------------
-+
-+一个内核数据竞争检测的替代方法是 `Kernel Thread Sanitizer (KTSAN)
-+<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_。KTSAN 是一
-+个基于先行发生关系（happens-before）的数据竞争检测器，它显式建立内存操作之间的先
-+后发生顺序，这可以用来确定 `数据竞争`_ 中定义的数据竞争。
-+
-+为了建立正确的先行发生关系，KTSAN 必须了解 LKMM 的所有排序规则和同步原语。不幸
-+的是，任何遗漏都会导致大量的假阳性，这在包含众多自定义同步机制的内核上下文中特
-+别有害。为了跟踪前因后果关系，KTSAN 的实现需要为每个内存位置提供元数据（影子内
-+存），这意味着每页内存对应 4 页影子内存，在大型系统上可能会带来数十 GiB 的开销
-+。
--- 
-2.25.1
+Also see next paragraph.
+
+> Playing devil's advocate some more: given that ethtool usecs have to
+> be chosen with a similar trade-off between latency and efficiency,
+> could a multiplicative factor of this (or gro_flush_timeout, same
+> thing) be sufficient and easier to choose? The documentation does
+> state that the value chosen must be >= gro_flush_timeout.
+
+I believe this would take away flexibility without gaining much. You'd 
+still want some sort of admin-controlled 'enable' flag, so you'd still 
+need some kind of parameter.
+
+When using our scheme, the factor between gro_flush_timeout and 
+irq_suspend_timeout should *roughly* correspond to the maximum batch 
+size that an application would process in one go (orders of magnitude, 
+see above). This determines both the target application's worst-case 
+latency as well as the worst-case latency of concurrent applications, if 
+any, as mentioned previously. I believe the optimal factor will vary 
+between different scenarios.
+
+>>>>> If the only goal is to safely reenable interrupts when the application
+>>>>> stops calling epoll_wait, does this have to be user tunable?
+>>>>>
+>>>>> Can it be either a single good enough constant, or derived from
+>>>>> another tunable, like busypoll_read.
+>>>>
+>>>> I believe you meant busy_read here, is that right?
+>>>>
+>>>> At any rate:
+>>>>
+>>>>     - I don't think a single constant is appropriate, just as it
+>>>>       wasn't appropriate for the existing mechanism
+>>>>       (napi_defer_hard_irqs/gro_flush_timeout), and
+>>>>
+>>>>     - Deriving the value from a pre-existing parameter to preserve the
+>>>>       ABI, like busy_read, makes using this more confusing for users
+>>>>       and complicates the API significantly.
+>>>>
+>>>> I agree we should get the API right from the start; that's why we've
+>>>> submit this as an RFC ;)
+>>>>
+>>>> We are happy to take suggestions from the community, but, IMHO,
+>>>> re-using an existing parameter for a different purpose only in
+>>>> certain circumstances (if I understand your suggestions) is a much
+>>>> worse choice than adding a new tunable that clearly states its
+>>>> intended singular purpose.
+>>>
+>>> Ack. I was thinking whether an epoll flag through your new epoll
+>>> ioctl interface to toggle the IRQ suspension (and timer start)
+>>> would be preferable. Because more fine grained.
+>>
+>> A value provided by an application through the epoll ioctl would not be
+>> subject to admin oversight, so a misbehaving application could set an
+>> arbitrary timeout value. A sysfs value needs to be set by an admin. The
+>> ideal timeout value depends both on the particular target application as
+>> well as concurrent applications using the same queue(s) - as sketched above.
+> 
+> I meant setting the value systemwide (or per-device), but opting in to
+> the feature a binary epoll options. Really an epoll_wait flag, if we
+> had flags.
+> 
+> Any admin privileged operations can also be protected at the epoll
+> level by requiring CAP_NET_ADMIN too, of course. But fair point that
+> this might operate in a multi-process environment, so values should
+> not be hardcoded into the binaries.
+> 
+> Just asking questions to explore the option space so as not to settle
+> on an API too soon. Given that, as said, we cannot remove it later.
+
+I agree, but I believe we are converging? Also taking into account Joe's 
+earlier response, given that the suspend mechanism dovetails so nicely 
+with gro_flush_timeout and napi_defer_hard_irqs, it just seems natural 
+to put irq_suspend_timeout at the same level and I haven't seen any 
+strong reason to put it elsewhere.
+
+>>> Also, the value is likely dependent more on the expected duration
+>>> of userspace processing? If so, it would be the same for all
+>>> devices, so does a per-netdev value make sense?
+>>
+>> It is per-netdev in the current proposal to be at the same granularity
+>> as gro_flush_timeout and napi_defer_hard_irqs, because irq suspension
+>> operates at the same level/granularity. This allows for more control
+>> than a global setting and it can be migrated to per-napi settings along
+>> with gro_flush_timeout and napi_defer_hard_irqs when the time comes.
+> 
+> Ack, makes sense. Many of these design choices and their rationale are
+> good to explicitly capture in the commit message.
+
+Agreed.
+
+Thanks,
+Martin
 
