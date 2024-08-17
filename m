@@ -1,69 +1,150 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6C1DDF5;
-	Sat, 17 Aug 2024 13:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5129E3A1C4;
+	Sat, 17 Aug 2024 14:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723903196; cv=none; b=kb/sHGCFNIBqz0hRzrN1Mm1njMOkwos4P6kxkjoZuaC/hE914/OVbN0xP+SmJQIPUHaSf3O34EqHGSh1Mw5g3rwaUYXAunRD2Et4bMY4wqkR2ejCdRyoqIntGEGBfdERFnReaU3dy7Qp3eNR+cNRQHvaSr+H2x4jLMjiVN5/KJM=
+	t=1723904237; cv=none; b=E5RKikERLZGO1lb1raZO6UtFNcElscPmUX9FaXOZ0Ns2vjXtBj3uIJ02oHAvPFUM3YCoFj7ZmTfXaGxBZ9J3CGXMFIwn5JCdEgwlKZ0AlFVIbKOh0M1VmXafRs5bhd0Sx9YfdY1Q2jMyRyy/Y2B8i5LfGiUsEN7LMO1x1/zzLsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723903196; c=relaxed/simple;
-	bh=hJEqTiSdRGD77P0iUW66tLZRf62k9GMot5GWstyJnSo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=DkYNlHLpTglybxYcfZO5iLllf7XQQv8sY9GGLKH7qKsRr3Yl7gd5g5dPSC7GlhXBnP0K9Rt4J9W3n06qsYb0GhJcR6RTxf2/U9g88V+MVLka4zUOFoeLENYL7BRyEX6rlrS0HUvlbk+nEjzUO6Cu/ANGXcscccSj26DghKL9U0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bwz7ZyLO; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1723904237; c=relaxed/simple;
+	bh=EMFKqh6oOCptzNQmGT3Z2OQrYlAQ40cUxslKmBydrzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K5HleDfnDeX0XodKY6yxUAUonI4ivMDPRHItd0xijc9jzVlEDwGoxZT63GgbEwdquM93aqD5UhVhR3m73LFmdJFjIEkKyGrOd8+Drw3NxSEpi1NLjjqy85+U++q4I0ATDMndY0Or8zf1u0orcGr9C1UAQpbMBKKNxuBDtuLFV98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBzkbAoV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bwz7ZyLO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5498841A87
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723903194; bh=g/7uCImxhrpsfdclZNlVGGCCwv21FyVoGk0Z26mZ7PQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bwz7ZyLOTXNdhs2KDcFkvA4VbKL1Ec/F6DkJ+eAYDTQC9tJ1acfO/t/GDO69EO/y1
-	 ASbdIU81EcCrvOZJ/bMuVL4MJnL2zBPEdfj+jglZZHBdNKKAj6o+ZN3Q90pS9/pbLy
-	 SUhQODrk3zHQ+6CD3ccv7AfKVfS/GUWvCUgRbTnjJEW2T2s3WWEw+Egkx9u7yD014A
-	 lgmcjcUIPuVEpkHKUTciLOFprASj9vdMyiGv7wjaKzYNYDGg2LVp3zOiQJp+C4eBBX
-	 oSw+I1z50D/4GZ6VDSxZ7bUgi5C2j8prIafKCaRfqpQ5AzbNAwVhRZn+b9R9lG+mXz
-	 QBYRRq2kqdjcw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5498841A87;
-	Sat, 17 Aug 2024 13:59:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v6] docs/zh_CN: Add dev-tools/kcsan Chinese translation
-In-Reply-To: <64426130-d59a-47a1-8bf2-3b72fb0cc030@hust.edu.cn>
-References: <20240810082245.5934-1-tttturtleruss@hust.edu.cn>
- <87ttfkhzl2.fsf@trenco.lwn.net>
- <64426130-d59a-47a1-8bf2-3b72fb0cc030@hust.edu.cn>
-Date: Sat, 17 Aug 2024 07:59:53 -0600
-Message-ID: <871q2ni71i.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBzkbAoV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A190C116B1;
+	Sat, 17 Aug 2024 14:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723904236;
+	bh=EMFKqh6oOCptzNQmGT3Z2OQrYlAQ40cUxslKmBydrzE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DBzkbAoVBtKEu03E64n16ADQx1juK+lu6I9BkzosJ0/adV36WOgncD2oWs8HCKR8j
+	 rjhtgB+hGioj9sq3/zbI2gB7UnDw2sWynHA7Yk4imod4quM7N9acaG0qxQMtXcw/F9
+	 v5RSCOoq/EHiPygKOJBgf9EymeddGrRLFbpomBzbQOAwPyKZD9EnwsR6tZcPknDM67
+	 ulRZkiRtnuN8qREqy6O7uHMGO/wBCfysHHEZ1OT3LlPGL+6Rc/+P9oOI4aY4+/xI8P
+	 nQerUrCFh8sIJkCoMXH3lGMHGrQ5xELYAD9HLz6IV4q2ym69KBAD7QWHcdh+PXeqbR
+	 gqSJc3YORx0KQ==
+Date: Sat, 17 Aug 2024 15:17:09 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] iio: adc: ad4695: implement triggered buffer
+Message-ID: <20240817151709.7aa1bf1a@jic23-huawei>
+In-Reply-To: <20240813-iio-adc-ad4695-buffered-read-v2-0-9bb19fc1924b@baylibre.com>
+References: <20240813-iio-adc-ad4695-buffered-read-v2-0-9bb19fc1924b@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
+On Tue, 13 Aug 2024 12:26:39 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-> I'm sorry for the warnings my patch introduced. I thought they were 
-> harmless so I ignored them. I will replace the duplicated inclusion with 
-> a note and a link to the original document.
+> This is a fairly simple series that adds support for triggered buffers
+> to the ad4695 driver.
+> 
+> Not directly related to this patch, but as a side discussion about
+> future possibilities with this chip while we are here...
+> 
+> The advanced sequencer on this chip can repeat the same channel multiple
+> times which, when combined with the autocycle feature, can be used to
+> create different effective sampling rates for individual channels.
+> 
+> For example if we set up the sequence [IN1, IN2, IN1, IN3] and the time
+> between each individual sample in the sequence is the same, then IN1 has
+> an effective sampling rate of 2x the other channels.
+> 
+> Have there ever been discussions before about implementing something
+> like this in the IIO subsystem? I didn't see anything that looked like
+> this already implemented in the kernel.
 
-The problem with "harmless" warnings is that they bury the real
-warnings, which are then not noticed.  Trying to get the warnings out of
-the docs build is an ongoing battle; it is important not to add more.
+Yes.  There has been discussion in the past, but it's hard to define
+an ABI around so we have either given up, or had the driver unwind the
+data flow into multiple buffers.  There are some IMUs that do tagged
+data in their hardware fifos and you can configure the sampling frequencies
+for sets of channels independently.
 
-Thanks,
+So you get
 
-jon
+1 tag_accel :  accel_x accel_y accel_z
+2 tag_accel :  accel_x accel_y accel_z
+3 tag_magn : magn_x, magn_y magn_z
+4 tag_accel :  accel_x accel_y accel_z
+5 tag_accel :  accel_x accel_y accel_z
+6 tag_magn : magn_x, magn_y magn_z
+7 tag_accel : accel_x accel_y accel_z
+
+The driver then pushes to multiple buffers.
+
+accel_buffer:
+1 tag_accel :  accel_x accel_y accel_z
+2 tag_accel :  accel_x accel_y accel_z
+4 tag_accel :  accel_x accel_y accel_z
+5 tag_accel :  accel_x accel_y accel_z
+7 tag_accel : accel_x accel_y accel_z
+
+magn_buffer: 
+3 tag_magn : magn_x, magn_y magn_z
+6 tag_magn : magn_x, magn_y magn_z
+
+etc.
+
+See imu/st_lsm6dsx/st_lsm6dsx_buffer.c
+and st_lsm6dsx_push_tagged_data()
+
+I think we discussed more complex setups where channels could be offered
+for different buffers, each with own sampling rate and the driver (note not
+the IIO core) would try to unwind what you'd asked for into each buffer +
+figure out how to configure the device.  Don't think that got implemented
+though as the simple multibuffer solution was enough. 
+
+Note this predated per iio_dev multiple buffer support so it was done with additional
+IIO devices.
+
+Otherwise we do have option to do repeat scan types. That works for
+IN0 IN0 IN0 IN0 IN1 IN0 IN0 IN0 IN0 IN1 IN0 etc
+
+That is really meant for multi value channels - e.g. quarternions where
+a single value on it's own is meaningless (you need the scaling across
+all 4 elements).
+
+Jonathan
+
+> 
+> ---
+> Changes in v2:
+> v2 changes:
+> * Don't error when only temperature channel is enabled, just add extra
+>   xfer instead.
+> * Drop use of reg/mask/val local variables.
+> * Use struct initializer for xfer in ad4695_exit_conversion_mode().
+> * Simplify return at end ad4695_buffer_preenable().
+> * Use t_ACQ instead of t_CNVL to ensure proper acquisition time.
+> * The temperature channel changes weren't quite trivial, so I didn't
+>   pick up Nuno's Reviewed-by.
+> * Link to v1: https://lore.kernel.org/r/20240807-iio-adc-ad4695-buffered-read-v1-0-bdafc39b2283@baylibre.com
+> 
+> ---
+> David Lechner (2):
+>       iio: adc: ad4695: implement triggered buffer
+>       doc: iio: ad4695: document buffered read
+> 
+>  Documentation/iio/ad4695.rst |   9 +-
+>  drivers/iio/adc/ad4695.c     | 250 ++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 255 insertions(+), 4 deletions(-)
+> ---
+> base-commit: d505a9dc8de83df2a8ce8c9e780f7b29887f34af
+> change-id: 20240807-iio-adc-ad4695-buffered-read-f49eb511e300
+> 
+> Best regards,
+
