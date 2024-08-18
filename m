@@ -1,55 +1,57 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625C58F54
-	for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 06:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823AB14A8B
+	for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 06:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723962945; cv=none; b=UQYXuiMuDXlnFGo+sAuIXB4gU/4+/uj+6n7Q/lUCaIn9I8i0FHY/iIBY7q3qLGe6eMjtujdQR3lxiCbWo10uFxUKq6akjvyfQbKifpnWeagcV/haBiOn5nDxR7e80aCGIBB0cjdngjNp9gzghoqv25urs8xbO7U9KBPGoqIPzJM=
+	t=1723963006; cv=none; b=A3EM7ITOhFL8IVfwpNswZyCBuiyXiGw59BKGoXJG+fOuYJAV1nPavyDOTmTIp01wq8FsEtOadDAs0QvK14aKwuprSVvehqf1vtv8L4JnJ1qPnnNk8V3Hs05eSiQ4fv5RabAFasd6wiAMPECMIoRzpPysfDmMJ1M1g0ibIIg8Hps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723962945; c=relaxed/simple;
-	bh=tLM5Z4bxoxRkAjVlUEax9m/c67WwO5YvO//pVYLZKsU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gRM40h1Gcm+N6XVHTyM+8dd/o3y0n9OejgCu7orDVbZkYLUes615f8qlbO4IVWSfs5uEL/ypIh38qXMesQapvMNK/gCbx+WfQlHmiQCdOEP3oyUlKzxg5uoAHgd5+cp8Vd+efxGsrv/Qx5lmpEUi0QgD196K7TqaBHiBnWGWfg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Vu1Uj2dA; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1723963006; c=relaxed/simple;
+	bh=3vAJDoEpGiFg4mI/K3dJV6TDhU2SVBU3QlsfeYAyaSY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SRx8VkhwDtraCQ4jU1QAs7qnLtFrfzMCCD9vUFmOPFkr7BEaU6E67o5FNNdkpAPpXfHPxTf9rcVY1K/rfYDEagUt6aWQzQmWOd9RWNqqFVz3B2zvDotK35vlUMCQmpTnOTZQK60PV+18E0X0KGHGqga8soXCt1bK21aK575qt/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=yaRqC3H6; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Vu1Uj2dA"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-428e1915e18so23566095e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 23:35:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="yaRqC3H6"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-371afae614aso585096f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 23:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723962941; x=1724567741; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p7mg4NRTTfSPHbPRie+gRphXLh6Di7RPJtVldjOET9U=;
-        b=Vu1Uj2dAxYxsGAC06LuZx6BQLGVjNFTi3tFANJrvRlm+EROKDMacbicpKUb/BpgBbq
-         ydP67PSGz+knm55sZzTNDu4cB/eZBK4jU73I/D0WX2JLhPs28mOUdr6lHz5ZxVe/PLQQ
-         UQywcGrmoF2Df6tprGVJvACY7bVwQb74DvFTXemL/RNVZd1Ea3NWaBDOSeA2yX8mhy12
-         ZIaCefYPRblQGxcjGZ9LF7mMO3N+Ey7YaYqaZJjI7ObZwKTLFKgDGhQf+g5NHA4fEVGl
-         Dv76iILZ7VcrRe0vqHqgs+sG88Gfk2Va2DiSHnN1O6ktMxLxRuWx5v59kQzRI13GXsu3
-         tsmQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723963003; x=1724567803; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ll6PO6fq7jekV3yT3oRS1DwKakMdlEGxiDtEOFhGbwU=;
+        b=yaRqC3H6BddAUcVAIIm5XKgPrKVM6Es6Rh9hwBvijOgOJ5DgscQDmRSs6NYazp1wxV
+         5Txwp9nUhJpjIB2tFbMGj7lxchQ23HnDXoUNKNeYK57HtXTLUBrfeNrFKYscD2eFTyzB
+         GCczJoK1HEFxtiJ3byYGW/Hm0BbL4O0tczOs15r6QYwQi5X1NS6xcd2C4PYgoqT4dXg5
+         2P8DVlQ80pygGY8vMSYPv9w91DenJottsjPuWbHhBbu9CkoNQJtLhngonhwiTcfYy5eG
+         vRDHc+eLSXbSFQ8AgUg0I8XIXYxs0U9CoMnMJBCh8tTs7oTATS+hWBdmM2pUxGWhKcQ0
+         nglg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723962941; x=1724567741;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p7mg4NRTTfSPHbPRie+gRphXLh6Di7RPJtVldjOET9U=;
-        b=gzFkRVJmZvWTM1sMX4WC1ILARmEL86ZYPC2IEG+m1jKlP2pFchum0dKkpM1XqDWXDf
-         lxya2eLi3veJZttTpZpSLvaTfRGfuwp1jY5scYHSC54BrBl9UE7EUDTOuvNo5BE5/vIJ
-         coVBnPwPNHSuctHMZNQS4saycMojCuJRf6o6qRBCRigvdYPtXwjajckfkobRKX/CN1IW
-         PePt4Zv06AZMY8hqdA/aU/ycNdM346hJwpbVA9iE4aIAoiqCwZt+Wa4EAFeDixjZlOie
-         Pbpeb7C/TKFPHnbpcnKS2y21t7nN3/u/KgFxJ1cl5l2VQ+ikdaHeNk7V5qEOEcqImrld
-         eOIw==
-X-Forwarded-Encrypted: i=1; AJvYcCU47YafUjwR2+Q1d2aZOK+r4dKhdp2yspZtOTfDawPojg95DwF3owdNzTfqPMQL7lt0H8cs0BLKjUTvKh4EUhztDsDcpz32jj7P
-X-Gm-Message-State: AOJu0YxjIUQnOyYa+VbS8p+tCuhiFlyvaH47uTST4b3M5Tp3IVAI3dMM
-	l7z2eqFi+kjJG3S+/H/wjR/NNKLVk/5eOaDw03MBLrYZVoikYkQdzHHB917NmMA=
-X-Google-Smtp-Source: AGHT+IHWioXbEzbxYI9412gtwZ2YBYmHLePow18La6xW8gk33hEVNWfxlT5BodzLBQUIRfMGQUiRbg==
-X-Received: by 2002:a05:600c:5103:b0:426:5cdf:2674 with SMTP id 5b1f17b1804b1-429ed7a5f52mr48827345e9.4.1723962941343;
-        Sat, 17 Aug 2024 23:35:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723963003; x=1724567803;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ll6PO6fq7jekV3yT3oRS1DwKakMdlEGxiDtEOFhGbwU=;
+        b=a6fTTEkT+f3S9U1kC3F/imnmHG5J7KCPW07W/mmSDzuGcwfYObgZAptuo/zHkMjT32
+         m1VXvEDVl8923MnT9o96wfAq7sFZLikzDgPtJmyNGga3beFZlTfP62JVLGXOj/7/dqTM
+         OwkdGGoYv2s3/xs4P7961s8r9EMNMiTRyO1wUbw2KUloyw8gI3HsRaDlaboC/w353/f+
+         xFDTFnfKSxdFYo1Zu9vOLVEm8vSg6PjDBWj6rk9cnJLuLCXV9ICFxTdRSSDOOWg4qraR
+         7GL9dcYlIkEDf8LeMWPEHjDFQWDQhsIwM4KHIr7Gsep8dh4rHtXnCpv0YEdPMXfVf8OV
+         Uymg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUiGzuHYsh7WDH9wspc7D+PjHo/nWVcjj+EXZbDifcmVIEvfucCpn2meJAuir6khnXM4CJe4SL/E3AOhBcqXciF79wTBAxe4lV
+X-Gm-Message-State: AOJu0YxQRt179tZboTwhmePL+B6los50u8XQSxSIN43YArZlV0Z92Qsm
+	AWeHQe1xZIiPccdQMjKei4CLDmLYGbSr/BBtoIlS1V68qC6RR2B6bDe1/yuWe+4=
+X-Google-Smtp-Source: AGHT+IEMupb/eaKm5/+VPG7gQL1BT1ElhtPyyJ9e/FdDd2FVBOCIDCIy/gU0Zn16LvTEMnl2YJ5n3Q==
+X-Received: by 2002:a5d:4148:0:b0:368:5ba0:622 with SMTP id ffacd0b85a97d-371946a4203mr4585432f8f.44.1723963002780;
+        Sat, 17 Aug 2024 23:36:42 -0700 (PDT)
 Received: from alex-rivos.guest.squarehotel.net ([130.93.157.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded2931asm118645775e9.17.2024.08.17.23.35.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37189896de9sm7251293f8f.75.2024.08.17.23.36.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Aug 2024 23:35:40 -0700 (PDT)
+        Sat, 17 Aug 2024 23:36:42 -0700 (PDT)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -73,11 +75,14 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	linux-arch@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v5 00/13] Zacas/Zabha support and qspinlocks
-Date: Sun, 18 Aug 2024 08:35:25 +0200
-Message-Id: <20240818063538.6651-1-alexghiti@rivosinc.com>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: [PATCH v5 01/13] riscv: Move cpufeature.h macros into their own header
+Date: Sun, 18 Aug 2024 08:35:26 +0200
+Message-Id: <20240818063538.6651-2-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240818063538.6651-1-alexghiti@rivosinc.com>
+References: <20240818063538.6651-1-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,115 +91,174 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This implements [cmp]xchgXX() macros using Zacas and Zabha extensions
-and finally uses those newly introduced macros to add support for
-qspinlocks: note that this implementation of qspinlocks satisfies the
-forward progress guarantee.
+asm/cmpxchg.h will soon need riscv_has_extension_unlikely() macros and
+then needs to include asm/cpufeature.h which introduces a lot of header
+circular dependencies.
 
-It also uses Ziccrse to provide the qspinlock implementation.
+So move the riscv_has_extension_XXX() macros into their own header which
+prevents such circular dependencies by including a restricted number of
+headers.
 
-Thanks to Guo and Leonardo for their work!
-
-v4: https://lore.kernel.org/linux-riscv/20240731072405.197046-1-alexghiti@rivosinc.com/
-v3: https://lore.kernel.org/linux-riscv/20240717061957.140712-1-alexghiti@rivosinc.com/
-v2: https://lore.kernel.org/linux-riscv/20240626130347.520750-1-alexghiti@rivosinc.com/
-v1: https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@rivosinc.com/
-
-Changes in v5:
-- Remove useless include in cpufeature.h and add required ones (Drew)
-- Add RB from Drew
-- Add AB from Conor and Peter
-- use macros to help readability of arch_cmpxchg_XXX() (Drew)
-- restore the build_bug() for size > 8 (Drew)
-- Update Ziccrse riscv profile spec version commit hash (Conor)
-
-Changes in v4:
-- rename sc_sfx into sc_cas_sfx in _arch_cmpxchg (Drew)
-- cmpxchg() depends on 64BIT (Drew)
-- rename xX register into tX (Drew)
-- cas operations require the old value in rd, make this assignment more explicit
-  as it seems to confuse people (Drew, Andrea)
-- Fix ticket/queued configs build errors (Andrea)
-- riscv_spinlock_init() is only needed for combo spinlocks but implement it
-  anyway to inform of the type of spinlocks used (Andrea)
-- Add RB from Guo
-- Add NONPORTABLE to RISCV_QUEUED_SPINLOCKS (Samuel)
-- Add a link to Guo's qspinlocks results on the sophgo platform
-- Reorder ZICCRSE (Samuel)
-- Use riscv_has_extention_unlikely() instead of direct asm goto, which is way
-  cleaner and fixes the llvm 16 bug
-- add dependency on RISCV_ALTERNATIVES in kconfig
-- Rebase on top of 6.11, add patches to fix header circular dependency and
-  to fix build_bug()
-
-Changes in v3:
-- Fix patch 4 to restrict the optimization to fully ordered AMO (Andrea)
-- Move RISCV_ISA_EXT_ZABHA definition to patch 4 (Andrea)
-- !Zacas at build time => no CAS from Zabha too (Andrea)
-- drop patch 7 "riscv: Improve amoswap.X use in xchg()" (Andrea)
-- Switch lr/sc and cas order (Guo)
-- Combo spinlocks do not depend on Zabha
-- Add a Kconfig for ticket/queued/combo (Guo)
-- Use Ziccrse (Guo)
-
-Changes in v2:
-- Add patch for Zabha dtbinding (Conor)
-- Fix cmpxchg128() build warnings missed in v1
-- Make arch_cmpxchg128() fully ordered
-- Improve Kconfig help texts for both extensions (Conor)
-- Fix Makefile dependencies by requiring TOOLCHAIN_HAS_XXX (Nathan)
-- Fix compilation errors when the toolchain does not support the
-  extensions (Nathan)
-- Fix C23 warnings about label at the end of coumpound statements (Nathan)
-- Fix Zabha and !Zacas configurations (Andrea)
-- Add COMBO spinlocks (Guo)
-- Improve amocas fully ordered operations by using .aqrl semantics and
-  removing the fence rw, rw (Andrea)
-- Rebase on top "riscv: Fix fully ordered LR/SC xchg[8|16]() implementations"
-- Add ARCH_WEAK_RELEASE_ACQUIRE (Andrea)
-- Remove the extension version in march for LLVM since it is only required
-  for experimental extensions (Nathan)
-- Fix cmpxchg128() implementation by adding both registers of a pair
-  in the list of input/output operands
-
-Alexandre Ghiti (11):
-  riscv: Move cpufeature.h macros into their own header
-  riscv: Do not fail to build on byte/halfword operations with Zawrs
-  riscv: Implement cmpxchg32/64() using Zacas
-  dt-bindings: riscv: Add Zabha ISA extension description
-  riscv: Implement cmpxchg8/16() using Zabha
-  riscv: Improve zacas fully-ordered cmpxchg()
-  riscv: Implement arch_cmpxchg128() using Zacas
-  riscv: Implement xchg8/16() using Zabha
-  riscv: Add ISA extension parsing for Ziccrse
-  dt-bindings: riscv: Add Ziccrse ISA extension description
-  riscv: Add qspinlock support
-
-Guo Ren (2):
-  asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
-  asm-generic: ticket-lock: Add separate ticket-lock.h
-
- .../devicetree/bindings/riscv/extensions.yaml |  12 +
- .../locking/queued-spinlocks/arch-support.txt |   2 +-
- arch/riscv/Kconfig                            |  69 +++++
- arch/riscv/Makefile                           |   6 +
- arch/riscv/include/asm/Kbuild                 |   4 +-
- arch/riscv/include/asm/cmpxchg.h              | 286 +++++++++++++-----
- arch/riscv/include/asm/cpufeature-macros.h    |  66 ++++
- arch/riscv/include/asm/cpufeature.h           |  61 +---
- arch/riscv/include/asm/hwcap.h                |   2 +
- arch/riscv/include/asm/spinlock.h             |  47 +++
- arch/riscv/kernel/cpufeature.c                |   2 +
- arch/riscv/kernel/setup.c                     |  37 +++
- include/asm-generic/qspinlock.h               |   2 +
- include/asm-generic/spinlock.h                |  87 +-----
- include/asm-generic/spinlock_types.h          |  12 +-
- include/asm-generic/ticket_spinlock.h         | 105 +++++++
- 16 files changed, 567 insertions(+), 233 deletions(-)
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+---
+ arch/riscv/include/asm/cpufeature-macros.h | 66 ++++++++++++++++++++++
+ arch/riscv/include/asm/cpufeature.h        | 61 ++------------------
+ 2 files changed, 70 insertions(+), 57 deletions(-)
  create mode 100644 arch/riscv/include/asm/cpufeature-macros.h
- create mode 100644 arch/riscv/include/asm/spinlock.h
- create mode 100644 include/asm-generic/ticket_spinlock.h
 
+diff --git a/arch/riscv/include/asm/cpufeature-macros.h b/arch/riscv/include/asm/cpufeature-macros.h
+new file mode 100644
+index 000000000000..a8103edbf51f
+--- /dev/null
++++ b/arch/riscv/include/asm/cpufeature-macros.h
+@@ -0,0 +1,66 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022-2024 Rivos, Inc
++ */
++
++#ifndef _ASM_CPUFEATURE_MACROS_H
++#define _ASM_CPUFEATURE_MACROS_H
++
++#include <asm/hwcap.h>
++#include <asm/alternative-macros.h>
++
++#define STANDARD_EXT		0
++
++bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned int bit);
++#define riscv_isa_extension_available(isa_bitmap, ext)	\
++	__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_##ext)
++
++static __always_inline bool __riscv_has_extension_likely(const unsigned long vendor,
++							 const unsigned long ext)
++{
++	asm goto(ALTERNATIVE("j	%l[l_no]", "nop", %[vendor], %[ext], 1)
++	:
++	: [vendor] "i" (vendor), [ext] "i" (ext)
++	:
++	: l_no);
++
++	return true;
++l_no:
++	return false;
++}
++
++static __always_inline bool __riscv_has_extension_unlikely(const unsigned long vendor,
++							   const unsigned long ext)
++{
++	asm goto(ALTERNATIVE("nop", "j	%l[l_yes]", %[vendor], %[ext], 1)
++	:
++	: [vendor] "i" (vendor), [ext] "i" (ext)
++	:
++	: l_yes);
++
++	return false;
++l_yes:
++	return true;
++}
++
++static __always_inline bool riscv_has_extension_unlikely(const unsigned long ext)
++{
++	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
++
++	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
++		return __riscv_has_extension_unlikely(STANDARD_EXT, ext);
++
++	return __riscv_isa_extension_available(NULL, ext);
++}
++
++static __always_inline bool riscv_has_extension_likely(const unsigned long ext)
++{
++	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
++
++	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
++		return __riscv_has_extension_likely(STANDARD_EXT, ext);
++
++	return __riscv_isa_extension_available(NULL, ext);
++}
++
++#endif /* _ASM_CPUFEATURE_MACROS_H */
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+index 45f9c1171a48..87ed88fc950d 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -8,9 +8,11 @@
+ 
+ #include <linux/bitmap.h>
+ #include <linux/jump_label.h>
++#include <linux/kconfig.h>
++#include <linux/percpu-defs.h>
++#include <linux/threads.h>
+ #include <asm/hwcap.h>
+-#include <asm/alternative-macros.h>
+-#include <asm/errno.h>
++#include <asm/cpufeature-macros.h>
+ 
+ /*
+  * These are probed via a device_initcall(), via either the SBI or directly
+@@ -103,61 +105,6 @@ extern const size_t riscv_isa_ext_count;
+ extern bool riscv_isa_fallback;
+ 
+ unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
+-
+-#define STANDARD_EXT		0
+-
+-bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned int bit);
+-#define riscv_isa_extension_available(isa_bitmap, ext)	\
+-	__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_##ext)
+-
+-static __always_inline bool __riscv_has_extension_likely(const unsigned long vendor,
+-							 const unsigned long ext)
+-{
+-	asm goto(ALTERNATIVE("j	%l[l_no]", "nop", %[vendor], %[ext], 1)
+-	:
+-	: [vendor] "i" (vendor), [ext] "i" (ext)
+-	:
+-	: l_no);
+-
+-	return true;
+-l_no:
+-	return false;
+-}
+-
+-static __always_inline bool __riscv_has_extension_unlikely(const unsigned long vendor,
+-							   const unsigned long ext)
+-{
+-	asm goto(ALTERNATIVE("nop", "j	%l[l_yes]", %[vendor], %[ext], 1)
+-	:
+-	: [vendor] "i" (vendor), [ext] "i" (ext)
+-	:
+-	: l_yes);
+-
+-	return false;
+-l_yes:
+-	return true;
+-}
+-
+-static __always_inline bool riscv_has_extension_unlikely(const unsigned long ext)
+-{
+-	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
+-
+-	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+-		return __riscv_has_extension_unlikely(STANDARD_EXT, ext);
+-
+-	return __riscv_isa_extension_available(NULL, ext);
+-}
+-
+-static __always_inline bool riscv_has_extension_likely(const unsigned long ext)
+-{
+-	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
+-
+-	if (IS_ENABLED(CONFIG_RISCV_ALTERNATIVE))
+-		return __riscv_has_extension_likely(STANDARD_EXT, ext);
+-
+-	return __riscv_isa_extension_available(NULL, ext);
+-}
+-
+ static __always_inline bool riscv_cpu_has_extension_likely(int cpu, const unsigned long ext)
+ {
+ 	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
 -- 
 2.39.2
 
