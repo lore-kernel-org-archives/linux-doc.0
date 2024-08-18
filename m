@@ -1,178 +1,206 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D80D1401C
-	for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 07:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7611417993;
+	Sun, 18 Aug 2024 08:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723967113; cv=none; b=j61V6KoO6dFgl2b1Bxj2op3tVZZ640j5jGKS5IbdkVrwXCHdTiUUE1XvpgglQJDScbipi6hVFYM3jjoPIjtS7SHSwMyC/YREAzijdUJ4kzF0Er6pSdQKQBEO3Ja3G3eNh6nYUEErnHy27V+PlBBK3B4Qr+y6g5O2YmknKzUJZUo=
+	t=1723968135; cv=none; b=sy3cFdiajtXWn7lYSD2IemdDPLVIIq31uZATeygWujRjmqqx7mbj7pOsxosqgrXwwgEVLdkg6FsFF9j/CDcTtrBGr5uSIaTouGutTY3WY/bkyPet7Nu+nuP+29o0dNC7448lM5m0Yzq0kun9NO3BDxWtG42hGkpBB2e2uTSU1Iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723967113; c=relaxed/simple;
-	bh=c3fiNLHSBdBbTyplzf+0s6YFyunj4dx6pWBq6JAlRCU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UhAPuo2iFjV9RtwugAfEGRzEKthbbmKmkxrMuTqe29s7LE7CapmETCCwj8Bpyz4qPydfNxnD519ZkWDfOPHT9lfA38+QCL6ITxT16LDCS6KjpeY9jlcCXpAUIKmu6bW0GHD/r3LxI7n6Oi1ou64kDYx6TQqOoxWLA5XocD35v5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HtAdgAXJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1723968135; c=relaxed/simple;
+	bh=d5ke7UFVpyIUJSVCgMZIUzaxhV+6Je8WoGvdRhjeKQ8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=otyiiCGGOFfvuuR4FxWoPpB+r98tOxc5iUdE60qU88mFIUn/Q8pfW8gwxKaurmlNAOPASM0anCH5QZDSjM+zJW/W5FwpVaONd7IvDEgdMu72frJHdiyGaOSFZ3VJ5TuVHmARvg8TL8b55zu+2b79l9lUdMOF0Jm1JPUG+fD/nFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E3Uevejq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ltivvQaN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E3Uevejq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ltivvQaN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HtAdgAXJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1723967110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SzorxLXBd/Ytxma1V3tu0XjarqJI5kPgafvlrn2zSA0=;
-	b=HtAdgAXJMPfGi8e4P9WpB5VePoPt54Of2PKhPVO7SFSYSlVnHa7NP5y6u3zwTAwnwVFGjB
-	hQ4FG5Sfm5pWFRBfS3MBJhpM7EKFjjQEIVIU5I2/cwRMYnYZlOO27Mv4hh2mYjZRr8pItF
-	xxZggBCGQja5gTwvWhM+zK5BDVUNfP8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-Vjsg6h4KOQWOK-WavKZSNA-1; Sun, 18 Aug 2024 03:45:08 -0400
-X-MC-Unique: Vjsg6h4KOQWOK-WavKZSNA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-428ea5b1479so26254165e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 00:45:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723967107; x=1724571907;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SzorxLXBd/Ytxma1V3tu0XjarqJI5kPgafvlrn2zSA0=;
-        b=gK7A0ok02Ba1AbGkzjko+c+zldKFVh5PhTS0kdoNFOs1vpuSvWeOhA0VUkm28D+mzy
-         8WULIqR9Y0O4jda3oTFO/CnEEeFDTfeeGwBox9xeRQgD3NLTL1Jtd6vbSAJOdjvGEUNw
-         AJpo7p6a0Fj7zUXR1ljvUOLfuIeQn+mrslAYe67Cg9XKwKE4NyBhj9EHKybB7acApwd7
-         pYH+yszolI/ZRsCea18rENcOluQKPmzV3YaAk7W9sszWo+JGCd225AUCWeS+ZHVj0CTh
-         lcLE3UEidLBNbyIzb8ShJmd+RKMnTjzMEtzFo2tetVoaCjMfIfFFgQuZNUMpAl6l0psh
-         u2NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVOFjXLTIPChNJgQH2Vh3/kiS4dCbKaDmGHqDSYRTIgQ5NuNQdY6Ij+dW3lK9UjydH5mAi2o/4r7ik=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzvhf3GKfK7o3LRWEk192sw6JFsK3SgxGNT/3XtWyiJXJld+oGM
-	34oam2tb91yHNDgeZkCEzctYFMe0OvBLylSF7PwriOyZtcxeu8+hB6PnHg23WpEw8l/g1Zqjzsi
-	qk/ST9XMVSeQ5ZUbW2xsmiM6taBaZhBwH20MLXbIp3jBFT4t/bo13x5EKyg==
-X-Received: by 2002:a05:600c:1988:b0:426:616e:db8d with SMTP id 5b1f17b1804b1-429ed79e773mr42714895e9.15.1723967107216;
-        Sun, 18 Aug 2024 00:45:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGrY8+JQyGxvkOKxpvWIxNp02HqOIOu5fKWloS9jkg3STmXwwlaQXRElVYtnnB3kLW4Qi0v9Q==
-X-Received: by 2002:a05:600c:1988:b0:426:616e:db8d with SMTP id 5b1f17b1804b1-429ed79e773mr42714775e9.15.1723967106773;
-        Sun, 18 Aug 2024 00:45:06 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c736:4900:1ef8:ea0b:23cb:a81e? (p200300cbc73649001ef8ea0b23cba81e.dip0.t-ipconnect.de. [2003:cb:c736:4900:1ef8:ea0b:23cb:a81e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed79d9a7sm67792725e9.39.2024.08.18.00.45.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Aug 2024 00:45:06 -0700 (PDT)
-Message-ID: <19b1c8e2-f60e-460d-8249-5db71a708dc9@redhat.com>
-Date: Sun, 18 Aug 2024 09:45:04 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E3Uevejq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ltivvQaN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E3Uevejq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ltivvQaN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 54489226AE;
+	Sun, 18 Aug 2024 08:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723968131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=03RAG1GbRJWY/6jNzq3WTvIQdSfxH6+QOJGFqzQaIPU=;
+	b=E3UevejqXaoY0+FmPeRJIPj85Ek09tOEjGHJTsPeLVJrHSf30cT4YGMsUaGVg6Mez8wEd+
+	cek6Cnpd8e/jTgrlp1JzRyJKwKPINBDCRZghQLDiPhVktM2xBqZH+8owdjwhagZtNb24T0
+	QYtTbnNEfyZyCJrDcZs6Ak4nALT9qYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723968131;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=03RAG1GbRJWY/6jNzq3WTvIQdSfxH6+QOJGFqzQaIPU=;
+	b=ltivvQaNfsfLsH+kf31mN92C4XCWSSCntAmHOCWli5xQWGpJC72pUcBVfGdBbYq7h9Kqhy
+	HhovlmdUTxwlrLDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=E3Uevejq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ltivvQaN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1723968131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=03RAG1GbRJWY/6jNzq3WTvIQdSfxH6+QOJGFqzQaIPU=;
+	b=E3UevejqXaoY0+FmPeRJIPj85Ek09tOEjGHJTsPeLVJrHSf30cT4YGMsUaGVg6Mez8wEd+
+	cek6Cnpd8e/jTgrlp1JzRyJKwKPINBDCRZghQLDiPhVktM2xBqZH+8owdjwhagZtNb24T0
+	QYtTbnNEfyZyCJrDcZs6Ak4nALT9qYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1723968131;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=03RAG1GbRJWY/6jNzq3WTvIQdSfxH6+QOJGFqzQaIPU=;
+	b=ltivvQaNfsfLsH+kf31mN92C4XCWSSCntAmHOCWli5xQWGpJC72pUcBVfGdBbYq7h9Kqhy
+	HhovlmdUTxwlrLDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01FAC136ED;
+	Sun, 18 Aug 2024 08:02:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 95odOoKqwWYnRgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 18 Aug 2024 08:02:10 +0000
+Date: Sun, 18 Aug 2024 10:02:52 +0200
+Message-ID: <87a5ha1cnn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net,
+	broonie@kernel.org,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	aholzinger@gmx.de
+Subject: Re: [PATCH v5 0/4] Introduce userspace-driven ALSA timers
+In-Reply-To: <20240813120701.171743-1-ivan.orlov0322@gmail.com>
+References: <20240813120701.171743-1-ivan.orlov0322@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] mm: split underutilized THPs
-To: Hugh Dickins <hughd@google.com>, Usama Arif <usamaarif642@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
- riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
- yuzhao@google.com, baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, ryncsn@gmail.com, ak@linux.intel.com,
- cerasuolodomenico@gmail.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
- <1e6f3b38-d309-e63f-bca0-5093e152f7d7@google.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <1e6f3b38-d309-e63f-bca0-5093e152f7d7@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 54489226AE
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de,wanadoo.fr];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,kernel.org,vger.kernel.org,wanadoo.fr,gmx.de];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim]
+X-Spam-Score: -4.01
 
-Hi Hugh,
-
-> 2. I don't understand why there needs to be a new PG_partially_mapped
-> flag, with all its attendant sets and tests and clears all over.  Why
-> can't deferred_split_scan() detect that case for itself, using the
-> criteria from __folio_remove_rmap()? I see folio->_nr_pages_mapped
-> is commented "Do not use outside of rmap and debug code", and
-> folio_nr_pages_mapped() is currently only used from mm/debug.c; but
-> using the info already maintained is preferable to adding a PG_flag
-> (and perhaps more efficient - skips splitting when _nr_pages_mapped
-> already fell to 0 and folio will soon be freed).
-
-No new users of _nr_pages_mapped if easily/cleanly avoidable, please.
-
-I'm currently cleaning up the final patches that introduce a new kernel 
-config where we will stop maintaining the page->_mapcount for large 
-folios (and consequently have to stop maintaining folio->_nr_pages_mapped).
-
-That's the main reasons for the comment -- at one point in my life I 
-want to be done with that project ;) .
-
-folio->_nr_pages_mapped will still exist and be maintained without the 
-new kernel config enabled. But in the new one, once we'll detect a 
-partial mapping we'll have to flag the folio -- for example as done in 
-this series.
-
-Having two ways of handling that, depending on the kernel config, will 
-not make the code any better.
-
-But I agree that we should look into minimizing the usage of any new 
-such flag: I'd have thought we only have to set the flag once, once we 
-detect a partial mapping ... still have to review that patch more 
-thoroughly.
-
+On Tue, 13 Aug 2024 14:06:57 +0200,
+Ivan Orlov wrote:
 > 
-> 3. Everything in /sys/kernel/mm/transparent_hugepage/ is about THPs,
-> so please remove the "thp_" from "thp_low_util_shrinker" -
-> "shrink_underused" perhaps.  And it needs a brief description in
-> Documentation/admin-guide/mm/transhuge.rst.
+> There are multiple possible timer sources which could be useful for
+> the sound stream synchronization: hrtimers, hardware clocks (e.g. PTP),
+> timer wheels (jiffies). Currently, using one of them to synchronize
+> the audio stream of snd-aloop module would require writing a
+> kernel-space driver which exports an ALSA timer through the
+> snd_timer interface.
+> 
+> However, it is not really convenient for application developers, who may
+> want to define their custom timer sources for audio synchronization.
+> 
+> For instance, we could have a network application which receives frames
+> and sends them to snd-aloop pcm device, and another application
+> listening on the other end of snd-aloop. It makes sense to transfer a
+> new period of data only when certain amount of frames is received
+> through the network, but definitely not when a certain amount of jiffies
+> on a local system elapses. Since all of the devices are purely virtual
+> it won't introduce any glitches and will help the application developers
+> to avoid using sample-rate conversion.
+> 
+> This patch series introduces userspace-driven ALSA timers: virtual
+> timers which are created and controlled from userspace. The timer can
+> be created from the userspace using the new ioctl SNDRV_TIMER_IOCTL_CREATE.
+> After creating a timer, it becomes available for use system-wide, so it
+> can be passed to snd-aloop as a timer source (timer_source parameter
+> would be "-1.SNDRV_TIMER_GLOBAL_UDRIVEN.{timer_id}"). When the userspace
+> app decides to trigger a timer, it calls another ioctl
+> SNDRV_TIMER_IOCTL_TRIGGER on the file descriptor of a timer. It
+> initiates a transfer of a new period of data.
+> 
+> Userspace-driven timers are associated with file descriptors. If the
+> application wishes to destroy the timer, it can simply release the file
+> descriptor of a virtual timer.
+> 
+> I believe introducing new ioctl calls is quite inconvenient (as we have
+> a limited amount of them), but other possible ways of app <-> kernel
+> communication (like virtual FS) seem completely inappropriate for this
+> task (but I'd love to discuss alternative solutions).
+> 
+> This patch series also updates the snd-aloop module so the global timers
+> can be used as a timer_source for it (it allows using userspace-driven
+> timers as timer source).
+> 
+> V1 -> V2:
+> - Fix some problems found by Christophe Jaillet
+> <christophe.jaillet@wanadoo.fr>
+> V2 -> V3:
+> - Add improvements suggested by Takashi Iwai <tiwai@suse.de>
+> V3 -> V4:
+> - Address comments from Jaroslav Kysela <perex@perex.cz> and Mark Brown
+> <broonie@kernel.org>
+> V4 -> V5:
+> - Add missing error processing noticed by Takashi Iwai <tiwai@suse.de>
+> - Return timer file descriptor as part of the snd_timer_uinfo structure.
+> This is a more standard way of using ioctl interface, where the return
+> value of the ioctl is either 0 or an error code.
+> 
+> Please, find the patch-specific changelog in the following patches.
+> 
+> Ivan Orlov (4):
+>   ALSA: aloop: Allow using global timers
+>   Docs/sound: Add documentation for userspace-driven ALSA timers
+>   ALSA: timer: Introduce virtual userspace-driven timers
+>   selftests: ALSA: Cover userspace-driven timers with test
 
-agreed.
+Now applied to for-next branch.
 
--- 
-Cheers,
 
-David / dhildenb
+thanks,
 
+Takashi
