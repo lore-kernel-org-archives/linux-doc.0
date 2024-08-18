@@ -1,282 +1,200 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EB0946C
-	for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 05:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625C58F54
+	for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 06:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723958023; cv=none; b=qXdCaRx4Tj0THrNaMtzijmYgMXhOTKW1obUC9A4POKyyV1REupiy6KhPSrhHwDVAaXixsgwJr7oXTA6iO6bl2kmhFgHW3QlQXG6bXURgEIcTM0CgR/yzlOg14jaLOPnXJ/jKjRx3cA6nUXrkvYMpcOyxf7r0MAIarHyQtwYzlRU=
+	t=1723962945; cv=none; b=UQYXuiMuDXlnFGo+sAuIXB4gU/4+/uj+6n7Q/lUCaIn9I8i0FHY/iIBY7q3qLGe6eMjtujdQR3lxiCbWo10uFxUKq6akjvyfQbKifpnWeagcV/haBiOn5nDxR7e80aCGIBB0cjdngjNp9gzghoqv25urs8xbO7U9KBPGoqIPzJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723958023; c=relaxed/simple;
-	bh=D6Ff3MtiG9xl7IZdFTFTfaWPQIPG+LoiHKDvTwvYGfk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=k+HnJuGkQtUM/02LImRETJuMJ2rK38bsw8GbU2xx1H2T3v1jnlitfbQiOXtP4AiR7DRz849+5X5ffE+cW5a5ofLPFYK86JFEtOq1pIhl6e7+k04pIb5ky4n9bIAHwIeQ8588S4LdikeejmGXziMlkcMaIdwl0YY5sm/WGhYoG5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DnOT0RlT; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1723962945; c=relaxed/simple;
+	bh=tLM5Z4bxoxRkAjVlUEax9m/c67WwO5YvO//pVYLZKsU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gRM40h1Gcm+N6XVHTyM+8dd/o3y0n9OejgCu7orDVbZkYLUes615f8qlbO4IVWSfs5uEL/ypIh38qXMesQapvMNK/gCbx+WfQlHmiQCdOEP3oyUlKzxg5uoAHgd5+cp8Vd+efxGsrv/Qx5lmpEUi0QgD196K7TqaBHiBnWGWfg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Vu1Uj2dA; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DnOT0RlT"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5da775a15e3so1680142eaf.1
-        for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 22:13:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Vu1Uj2dA"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-428e1915e18so23566095e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 17 Aug 2024 23:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723958020; x=1724562820; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KVvU9xxK5dTeMKAjFl5rkhtM+aF2FRQXOAf4rQRLTtc=;
-        b=DnOT0RlTXLvHhhW6V7lBz0DGFUjZ2RJshFPXFyN/ZUQFR4H3/GXmQM6ga1vLwgtqkf
-         w9sW09kNTTa+xYs0s4H2Y0+INdYMGg4OlnLDXHGQx27czwqr6fzL/5hSHcoiez//SByg
-         IhOe9Aso9e4fTveeP//uY319wA971ZF9ZCZLLum6IVior5vseuoVx2jncyV1TWBRB4sL
-         hE5qo7q2ljx368PNbs3uHfzEmetzB0XLNR8M1gQd/+/3HjY6H/b/MOGU+Fm8z18UxBcH
-         /u0nE8q+Ja9x4+gdWCPIST8Jk7F2yRMj1Lfe47ZyduGmuJaYAovwCpIYGXS+qDJnpgas
-         sD5A==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1723962941; x=1724567741; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p7mg4NRTTfSPHbPRie+gRphXLh6Di7RPJtVldjOET9U=;
+        b=Vu1Uj2dAxYxsGAC06LuZx6BQLGVjNFTi3tFANJrvRlm+EROKDMacbicpKUb/BpgBbq
+         ydP67PSGz+knm55sZzTNDu4cB/eZBK4jU73I/D0WX2JLhPs28mOUdr6lHz5ZxVe/PLQQ
+         UQywcGrmoF2Df6tprGVJvACY7bVwQb74DvFTXemL/RNVZd1Ea3NWaBDOSeA2yX8mhy12
+         ZIaCefYPRblQGxcjGZ9LF7mMO3N+Ey7YaYqaZJjI7ObZwKTLFKgDGhQf+g5NHA4fEVGl
+         Dv76iILZ7VcrRe0vqHqgs+sG88Gfk2Va2DiSHnN1O6ktMxLxRuWx5v59kQzRI13GXsu3
+         tsmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723958020; x=1724562820;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KVvU9xxK5dTeMKAjFl5rkhtM+aF2FRQXOAf4rQRLTtc=;
-        b=VMgH9K0inWUIP1lA6eTF2yY8ipMgzsV1Eg6TQIK8goN65G7UCUjWyDWqQcloIqbE4X
-         zXAZBTobGbg6+Ye9GTOf2kBMaVqWBm7o8F6XbPizENj+wHkq2OgnmwDFk09kOzhK4/lH
-         6NSl38wgd+LCSpJQS295d/g8qp0B9Hc/dUb4N0jFvj/2LctqlgH5Cp6jSKvexnMqu7eC
-         2Ja5ug4kWrJIp1EwCjOZJNxbtclUesbWpJkZhtXoFwIEAWCI52uMpBVH38x97JPDPANP
-         TXUo/FLzcLr2Jfg7Yy0479ducZQOd9t7/0k4fiRViCSm+pBe7eW7p0RMxkGtbuTK7fm2
-         oPEA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGbv8pwSs4eGSw1qT0I+53RvriUV81znBv7YMBfG3OGDcz+CeJYAsMCJFruqCHjo0ZlGdKucL+SS8Nw0fW6b5/S4OxugYcpZ5W
-X-Gm-Message-State: AOJu0YzyGrmcQZeiJi+WiJwwjz7+chKe8tz3oQDTJb90fDZtheZ5v1Zi
-	DWs0IRMFlo3r8xRVaFjrBNRlHTQU9J4vw++supVKyssjCd4+1gXAU4E6jXURbg==
-X-Google-Smtp-Source: AGHT+IEnSew4mblQUWx6K7ns+fH3kd0Pjo6bjaib28/wf6243qJPhvm301wZLvvVUMfJCB8msFnOPg==
-X-Received: by 2002:a05:6871:e706:b0:25e:b839:cf06 with SMTP id 586e51a60fabf-26fff4b3114mr5701300fac.11.1723958020054;
-        Sat, 17 Aug 2024 22:13:40 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5da8cd69811sm1457955eaf.4.2024.08.17.22.13.37
+        d=1e100.net; s=20230601; t=1723962941; x=1724567741;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p7mg4NRTTfSPHbPRie+gRphXLh6Di7RPJtVldjOET9U=;
+        b=gzFkRVJmZvWTM1sMX4WC1ILARmEL86ZYPC2IEG+m1jKlP2pFchum0dKkpM1XqDWXDf
+         lxya2eLi3veJZttTpZpSLvaTfRGfuwp1jY5scYHSC54BrBl9UE7EUDTOuvNo5BE5/vIJ
+         coVBnPwPNHSuctHMZNQS4saycMojCuJRf6o6qRBCRigvdYPtXwjajckfkobRKX/CN1IW
+         PePt4Zv06AZMY8hqdA/aU/ycNdM346hJwpbVA9iE4aIAoiqCwZt+Wa4EAFeDixjZlOie
+         Pbpeb7C/TKFPHnbpcnKS2y21t7nN3/u/KgFxJ1cl5l2VQ+ikdaHeNk7V5qEOEcqImrld
+         eOIw==
+X-Forwarded-Encrypted: i=1; AJvYcCU47YafUjwR2+Q1d2aZOK+r4dKhdp2yspZtOTfDawPojg95DwF3owdNzTfqPMQL7lt0H8cs0BLKjUTvKh4EUhztDsDcpz32jj7P
+X-Gm-Message-State: AOJu0YxjIUQnOyYa+VbS8p+tCuhiFlyvaH47uTST4b3M5Tp3IVAI3dMM
+	l7z2eqFi+kjJG3S+/H/wjR/NNKLVk/5eOaDw03MBLrYZVoikYkQdzHHB917NmMA=
+X-Google-Smtp-Source: AGHT+IHWioXbEzbxYI9412gtwZ2YBYmHLePow18La6xW8gk33hEVNWfxlT5BodzLBQUIRfMGQUiRbg==
+X-Received: by 2002:a05:600c:5103:b0:426:5cdf:2674 with SMTP id 5b1f17b1804b1-429ed7a5f52mr48827345e9.4.1723962941343;
+        Sat, 17 Aug 2024 23:35:41 -0700 (PDT)
+Received: from alex-rivos.guest.squarehotel.net ([130.93.157.50])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded2931asm118645775e9.17.2024.08.17.23.35.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Aug 2024 22:13:38 -0700 (PDT)
-Date: Sat, 17 Aug 2024 22:13:27 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: Usama Arif <usamaarif642@gmail.com>
-cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
-    riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
-    yuzhao@google.com, david@redhat.com, baohua@kernel.org, 
-    ryan.roberts@arm.com, rppt@kernel.org, willy@infradead.org, 
-    ryncsn@gmail.com, ak@linux.intel.com, cerasuolodomenico@gmail.com, 
-    corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-    kernel-team@meta.com
-Subject: Re: [PATCH v3 0/6] mm: split underutilized THPs
-In-Reply-To: <20240813120328.1275952-1-usamaarif642@gmail.com>
-Message-ID: <1e6f3b38-d309-e63f-bca0-5093e152f7d7@google.com>
-References: <20240813120328.1275952-1-usamaarif642@gmail.com>
+        Sat, 17 Aug 2024 23:35:40 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v5 00/13] Zacas/Zabha support and qspinlocks
+Date: Sun, 18 Aug 2024 08:35:25 +0200
+Message-Id: <20240818063538.6651-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Tue, 13 Aug 2024, Usama Arif wrote:
+This implements [cmp]xchgXX() macros using Zacas and Zabha extensions
+and finally uses those newly introduced macros to add support for
+qspinlocks: note that this implementation of qspinlocks satisfies the
+forward progress guarantee.
 
-> The current upstream default policy for THP is always. However, Meta
-> uses madvise in production as the current THP=always policy vastly
-> overprovisions THPs in sparsely accessed memory areas, resulting in
-> excessive memory pressure and premature OOM killing.
-> Using madvise + relying on khugepaged has certain drawbacks over
-> THP=always. Using madvise hints mean THPs aren't "transparent" and
-> require userspace changes. Waiting for khugepaged to scan memory and
-> collapse pages into THP can be slow and unpredictable in terms of performance
-> (i.e. you dont know when the collapse will happen), while production
-> environments require predictable performance. If there is enough memory
-> available, its better for both performance and predictability to have
-> a THP from fault time, i.e. THP=always rather than wait for khugepaged
-> to collapse it, and deal with sparsely populated THPs when the system is
-> running out of memory.
-> 
-> This patch-series is an attempt to mitigate the issue of running out of
-> memory when THP is always enabled. During runtime whenever a THP is being
-> faulted in or collapsed by khugepaged, the THP is added to a list.
-> Whenever memory reclaim happens, the kernel runs the deferred_split
-> shrinker which goes through the list and checks if the THP was underutilized,
-> i.e. how many of the base 4K pages of the entire THP were zero-filled.
-> If this number goes above a certain threshold, the shrinker will attempt
-> to split that THP. Then at remap time, the pages that were zero-filled are
-> mapped to the shared zeropage, hence saving memory. This method avoids the
-> downside of wasting memory in areas where THP is sparsely filled when THP
-> is always enabled, while still providing the upside THPs like reduced TLB
-> misses without having to use madvise.
-> 
-> Meta production workloads that were CPU bound (>99% CPU utilzation) were
-> tested with THP shrinker. The results after 2 hours are as follows:
-> 
->                             | THP=madvise |  THP=always   | THP=always
->                             |             |               | + shrinker series
->                             |             |               | + max_ptes_none=409
-> -----------------------------------------------------------------------------
-> Performance improvement     |      -      |    +1.8%      |     +1.7%
-> (over THP=madvise)          |             |               |
-> -----------------------------------------------------------------------------
-> Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
-> -----------------------------------------------------------------------------
-> max_ptes_none=409 means that any THP that has more than 409 out of 512
-> (80%) zero filled filled pages will be split.
-> 
-> To test out the patches, the below commands without the shrinker will
-> invoke OOM killer immediately and kill stress, but will not fail with
-> the shrinker:
-> 
-> echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
-> mkdir /sys/fs/cgroup/test
-> echo $$ > /sys/fs/cgroup/test/cgroup.procs
-> echo 20M > /sys/fs/cgroup/test/memory.max
-> echo 0 > /sys/fs/cgroup/test/memory.swap.max
-> # allocate twice memory.max for each stress worker and touch 40/512 of
-> # each THP, i.e. vm-stride 50K.
-> # With the shrinker, max_ptes_none of 470 and below won't invoke OOM
-> # killer.
-> # Without the shrinker, OOM killer is invoked immediately irrespective
-> # of max_ptes_none value and kills stress.
-> stress --vm 1 --vm-bytes 40M --vm-stride 50K
-> 
-> v2 -> v3:
-> - Use my_zero_pfn instead of page_to_pfn(ZERO_PAGE(..)) (Johannes)
-> - Use flags argument instead of bools in remove_migration_ptes (Johannes)
-> - Use a new flag in folio->_flags_1 instead of folio->_partially_mapped
->   (David Hildenbrand).
-> - Split out the last patch of v2 into 3, one for introducing the flag,
->   one for splitting underutilized THPs on _deferred_list and one for adding
->   sysfs entry to disable splitting (David Hildenbrand).
-> 
-> v1 -> v2:
-> - Turn page checks and operations to folio versions in __split_huge_page.
->   This means patches 1 and 2 from v1 are no longer needed.
->   (David Hildenbrand)
-> - Map to shared zeropage in all cases if the base page is zero-filled.
->   The uffd selftest was removed.
->   (David Hildenbrand).
-> - rename 'dirty' to 'contains_data' in try_to_map_unused_to_zeropage
->   (Rik van Riel).
-> - Use unsigned long instead of uint64_t (kernel test robot).
->  
-> Alexander Zhu (1):
->   mm: selftest to verify zero-filled pages are mapped to zeropage
-> 
-> Usama Arif (3):
->   mm: Introduce a pageflag for partially mapped folios
->   mm: split underutilized THPs
->   mm: add sysfs entry to disable splitting underutilized THPs
-> 
-> Yu Zhao (2):
->   mm: free zapped tail pages when splitting isolated thp
->   mm: remap unused subpages to shared zeropage when splitting isolated
->     thp
+It also uses Ziccrse to provide the qspinlock implementation.
 
-Sorry, I don't have time to review this, but notice you're intending
-a v4 of the series, so want to bring up four points quickly before that.
+Thanks to Guo and Leonardo for their work!
 
-1. Even with the two fixes to 1/6 in __split_huge_page(), under load
-this series causes system lockup, with interrupts disabled on most CPUs.
+v4: https://lore.kernel.org/linux-riscv/20240731072405.197046-1-alexghiti@rivosinc.com/
+v3: https://lore.kernel.org/linux-riscv/20240717061957.140712-1-alexghiti@rivosinc.com/
+v2: https://lore.kernel.org/linux-riscv/20240626130347.520750-1-alexghiti@rivosinc.com/
+v1: https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@rivosinc.com/
 
-The error is in deferred_split_scan(), where the old code just did
-a list_splice_tail() under split_queue_lock, but this series ends up
-doing more there, including a folio_put(): deadlock when racing, and
-that is the final folio_put() which brings refcount down to 0, which
-then wants to take split_queue_lock.
+Changes in v5:
+- Remove useless include in cpufeature.h and add required ones (Drew)
+- Add RB from Drew
+- Add AB from Conor and Peter
+- use macros to help readability of arch_cmpxchg_XXX() (Drew)
+- restore the build_bug() for size > 8 (Drew)
+- Update Ziccrse riscv profile spec version commit hash (Conor)
 
-The patch I've been using successfully on 6.11-rc3-next-20240816 below:
-I do have other problems with current mm commits, so have not been able
-to sustain a load for very long, but suspect those problems unrelated
-to this series. Please fold this fix, or your own equivalent, into
-your next version.
+Changes in v4:
+- rename sc_sfx into sc_cas_sfx in _arch_cmpxchg (Drew)
+- cmpxchg() depends on 64BIT (Drew)
+- rename xX register into tX (Drew)
+- cas operations require the old value in rd, make this assignment more explicit
+  as it seems to confuse people (Drew, Andrea)
+- Fix ticket/queued configs build errors (Andrea)
+- riscv_spinlock_init() is only needed for combo spinlocks but implement it
+  anyway to inform of the type of spinlocks used (Andrea)
+- Add RB from Guo
+- Add NONPORTABLE to RISCV_QUEUED_SPINLOCKS (Samuel)
+- Add a link to Guo's qspinlocks results on the sophgo platform
+- Reorder ZICCRSE (Samuel)
+- Use riscv_has_extention_unlikely() instead of direct asm goto, which is way
+  cleaner and fixes the llvm 16 bug
+- add dependency on RISCV_ALTERNATIVES in kconfig
+- Rebase on top of 6.11, add patches to fix header circular dependency and
+  to fix build_bug()
 
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3270,7 +3270,8 @@ static void __split_huge_page(struct pag
- 
- 			folio_clear_active(new_folio);
- 			folio_clear_unevictable(new_folio);
--			if (!folio_batch_add(&free_folios, folio)) {
-+			list_del(&new_folio->lru);
-+			if (!folio_batch_add(&free_folios, new_folio)) {
- 				mem_cgroup_uncharge_folios(&free_folios);
- 				free_unref_folios(&free_folios);
- 			}
-@@ -3706,42 +3707,37 @@ static unsigned long deferred_split_scan
- 		bool did_split = false;
- 		bool underutilized = false;
- 
--		if (folio_test_partially_mapped(folio))
--			goto split;
--		underutilized = thp_underutilized(folio);
--		if (underutilized)
--			goto split;
--		continue;
--split:
-+		if (!folio_test_partially_mapped(folio)) {
-+			underutilized = thp_underutilized(folio);
-+			if (!underutilized)
-+				goto next;
-+		}
- 		if (!folio_trylock(folio))
--			continue;
--		did_split = !split_folio(folio);
--		folio_unlock(folio);
--		if (did_split) {
--			/* Splitting removed folio from the list, drop reference here */
--			folio_put(folio);
-+			goto next;
-+		if (!split_folio(folio)) {
-+			did_split = true;
- 			if (underutilized)
- 				count_vm_event(THP_UNDERUTILIZED_SPLIT_PAGE);
- 			split++;
- 		}
--	}
--
--	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
--	/*
--	 * Only add back to the queue if folio is partially mapped.
--	 * If thp_underutilized returns false, or if split_folio fails in
--	 * the case it was underutilized, then consider it used and don't
--	 * add it back to split_queue.
--	 */
--	list_for_each_entry_safe(folio, next, &list, _deferred_list) {
--		if (folio_test_partially_mapped(folio))
--			list_move(&folio->_deferred_list, &ds_queue->split_queue);
--		else {
-+		folio_unlock(folio);
-+next:
-+		/*
-+		 * split_folio() removes folio from list on success.
-+		 * Only add back to the queue if folio is partially mapped.
-+		 * If thp_underutilized returns false, or if split_folio fails
-+		 * in the case it was underutilized, then consider it used and
-+		 * don't add it back to split_queue.
-+		 */
-+		if (!did_split && !folio_test_partially_mapped(folio)) {
- 			list_del_init(&folio->_deferred_list);
- 			ds_queue->split_queue_len--;
- 		}
- 		folio_put(folio);
- 	}
-+
-+	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
-+	list_splice_tail(&list, &ds_queue->split_queue);
- 	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
- 
- 	/*
+Changes in v3:
+- Fix patch 4 to restrict the optimization to fully ordered AMO (Andrea)
+- Move RISCV_ISA_EXT_ZABHA definition to patch 4 (Andrea)
+- !Zacas at build time => no CAS from Zabha too (Andrea)
+- drop patch 7 "riscv: Improve amoswap.X use in xchg()" (Andrea)
+- Switch lr/sc and cas order (Guo)
+- Combo spinlocks do not depend on Zabha
+- Add a Kconfig for ticket/queued/combo (Guo)
+- Use Ziccrse (Guo)
 
-2. I don't understand why there needs to be a new PG_partially_mapped
-flag, with all its attendant sets and tests and clears all over.  Why
-can't deferred_split_scan() detect that case for itself, using the
-criteria from __folio_remove_rmap()? I see folio->_nr_pages_mapped
-is commented "Do not use outside of rmap and debug code", and
-folio_nr_pages_mapped() is currently only used from mm/debug.c; but
-using the info already maintained is preferable to adding a PG_flag
-(and perhaps more efficient - skips splitting when _nr_pages_mapped
-already fell to 0 and folio will soon be freed).
+Changes in v2:
+- Add patch for Zabha dtbinding (Conor)
+- Fix cmpxchg128() build warnings missed in v1
+- Make arch_cmpxchg128() fully ordered
+- Improve Kconfig help texts for both extensions (Conor)
+- Fix Makefile dependencies by requiring TOOLCHAIN_HAS_XXX (Nathan)
+- Fix compilation errors when the toolchain does not support the
+  extensions (Nathan)
+- Fix C23 warnings about label at the end of coumpound statements (Nathan)
+- Fix Zabha and !Zacas configurations (Andrea)
+- Add COMBO spinlocks (Guo)
+- Improve amocas fully ordered operations by using .aqrl semantics and
+  removing the fence rw, rw (Andrea)
+- Rebase on top "riscv: Fix fully ordered LR/SC xchg[8|16]() implementations"
+- Add ARCH_WEAK_RELEASE_ACQUIRE (Andrea)
+- Remove the extension version in march for LLVM since it is only required
+  for experimental extensions (Nathan)
+- Fix cmpxchg128() implementation by adding both registers of a pair
+  in the list of input/output operands
 
-3. Everything in /sys/kernel/mm/transparent_hugepage/ is about THPs,
-so please remove the "thp_" from "thp_low_util_shrinker" -
-"shrink_underused" perhaps.  And it needs a brief description in
-Documentation/admin-guide/mm/transhuge.rst.
+Alexandre Ghiti (11):
+  riscv: Move cpufeature.h macros into their own header
+  riscv: Do not fail to build on byte/halfword operations with Zawrs
+  riscv: Implement cmpxchg32/64() using Zacas
+  dt-bindings: riscv: Add Zabha ISA extension description
+  riscv: Implement cmpxchg8/16() using Zabha
+  riscv: Improve zacas fully-ordered cmpxchg()
+  riscv: Implement arch_cmpxchg128() using Zacas
+  riscv: Implement xchg8/16() using Zabha
+  riscv: Add ISA extension parsing for Ziccrse
+  dt-bindings: riscv: Add Ziccrse ISA extension description
+  riscv: Add qspinlock support
 
-4. Wouldn't "underused" be better than "underutilized" throughout?
+Guo Ren (2):
+  asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
+  asm-generic: ticket-lock: Add separate ticket-lock.h
 
-Hugh
+ .../devicetree/bindings/riscv/extensions.yaml |  12 +
+ .../locking/queued-spinlocks/arch-support.txt |   2 +-
+ arch/riscv/Kconfig                            |  69 +++++
+ arch/riscv/Makefile                           |   6 +
+ arch/riscv/include/asm/Kbuild                 |   4 +-
+ arch/riscv/include/asm/cmpxchg.h              | 286 +++++++++++++-----
+ arch/riscv/include/asm/cpufeature-macros.h    |  66 ++++
+ arch/riscv/include/asm/cpufeature.h           |  61 +---
+ arch/riscv/include/asm/hwcap.h                |   2 +
+ arch/riscv/include/asm/spinlock.h             |  47 +++
+ arch/riscv/kernel/cpufeature.c                |   2 +
+ arch/riscv/kernel/setup.c                     |  37 +++
+ include/asm-generic/qspinlock.h               |   2 +
+ include/asm-generic/spinlock.h                |  87 +-----
+ include/asm-generic/spinlock_types.h          |  12 +-
+ include/asm-generic/ticket_spinlock.h         | 105 +++++++
+ 16 files changed, 567 insertions(+), 233 deletions(-)
+ create mode 100644 arch/riscv/include/asm/cpufeature-macros.h
+ create mode 100644 arch/riscv/include/asm/spinlock.h
+ create mode 100644 include/asm-generic/ticket_spinlock.h
+
+-- 
+2.39.2
+
