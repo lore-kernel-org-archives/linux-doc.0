@@ -1,90 +1,88 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4261552EB;
-	Sun, 18 Aug 2024 21:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE2B610D;
+	Sun, 18 Aug 2024 22:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724018168; cv=none; b=qhS8J+GR/0PIwIquegU9dbX0HAmoDsoD7yi4fhZDwUFDVDNYtWB+33M/OMEmpl5xyd9JohDSbB0gQa8pSzhKxbguYsNbsKCfJqMpJzPP7FJMD7OwSCkOHoUsHknsrs+lSVoB0Xd7PX6ugKg3bJCs5+uYMWO9vMJR+6v9rgO9nvo=
+	t=1724020828; cv=none; b=kKDcWJBgu9I/bUijIgUwSUEPpyp+a/cvM8zmy8dmUwhSj59Hu531Gp8IRjas4vMyoqXYYmYHkmHe7qnYoUug6AjklahYGKdSSI29sPtyqdTo+x4aTEFax2fTD0HikgnvkjeRggKBg1jEb2H56DZPz7twq+M7xTqnKdlPkWoWJFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724018168; c=relaxed/simple;
-	bh=7XQrBstONpqqg5tBlz3FmFfN5Ko3xGJY1McB5aTD4Yo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HXTRlxulu8CJjsQzABprWLZ70+pDtstuDyEazLSzGX8vYnAT1J1ml5PIdNjMKzr+TBJFItB4eQJ+GLOVs1F30a4DwUjmYYL6tU4cmWFeYV3dhapuihG1vnHcU//zdryDN5nsO4fkKvM6587Bi6jIwl+wTmPimAxMcto7KNpOiv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gbN6ffNH; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724020828; c=relaxed/simple;
+	bh=nvPIW8MrNDLXJBVY8SG6ZctzKzWx2f6RqLPxk4qnoUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z6gOouboU0BkJQtkzHdctlzbMFuKawDyO5RsWP08AziGVuCwDFKcmr4PH/Z4P9dxPsAigW4ZoLjjTIWn2NnoG4PBmGZhrxpwjtDU8s/bb5ypRXZpKNAA2eDq/cjpyU86zsDOAXj+xFKDZ7x0faEVv7/awlOWAJj4jgRZV7urv34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezhA/uFs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gbN6ffNH"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d3d58d6e08so2407893a91.3;
-        Sun, 18 Aug 2024 14:56:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724018166; x=1724622966; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7XQrBstONpqqg5tBlz3FmFfN5Ko3xGJY1McB5aTD4Yo=;
-        b=gbN6ffNHAW1zWyu0UgTzvPmhry/Zfq7jW0FVC7sghs98NQ8qcOLmZpSU6AE9h1O0Hu
-         V5sdbh0awlE0VyMqMuaAjAJselFdCrEAx8f+kPUOJyRQkqHpgl9h1lMp0r19KV1K1Yeh
-         T+VBbGJPRflifFqs+CPrEXgsxO9si/vZmMoctVbYwDG+R2bh7UT7HNTdChyqKX1Trse3
-         MEXsXHGMT0czfls5fhXGAEPbku3fMU5Hi+qO/1nTJPBocy9bEl7FvCjv4oJmly7xN1Z2
-         rFOQauVz/e9CI8cWYELA9z5sd9H7tM7XuoOrIbur/n4DDCi/AY3G9BTThNqaZOG2IlDO
-         j1YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724018166; x=1724622966;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7XQrBstONpqqg5tBlz3FmFfN5Ko3xGJY1McB5aTD4Yo=;
-        b=H2jOIos3c3nWwfwRmO5kBbepqNq9pmt59amZ5u2wybiaBSJQdwadNNjSGAz7Gy7qYD
-         +KGdiVkyaTS+M/nDwIfOc3xSo9mZ8Vm+wsawt26IIB/fUzsOSwBShz8BhNT9HPjRO5mt
-         IrNhYogUFAK6yA4qvq+LJUUcaCqXBq/kEMmz6LFdmGbqlPUBP/KyGEoAO2lVRr1WfcUE
-         4nweRd76v23+XCiyxR83fDTIzxANV/bjE1c+k0ojoHHgFl9e0OapxvCLpjxLqL+ND7Cl
-         ax0kjj8/raMhHgcTdFSLNPIeSZxHle3GWaLReFADH/XKguCAvVZTMT3wtg1uJgdZ9D/Y
-         Ww1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUrgrn8poxrcoUGpmmx5ngtoAkOsS/y840j++xcbBcw27LhHluoiyQqo4nHEBmGgXeV1Z1g8TOUXno=@vger.kernel.org, AJvYcCWzAWz6Z674brp9mjPpzUjal4JZvZmbQG0EW4lQUOYVMCRlyRT3wshqfULAjvPJQ9mUi3jnPQ1EVanuliL/j9U=@vger.kernel.org, AJvYcCXbGg2oukrGh/efHWQylwZSTuNNxXzDWyCPYBhk8mAT1xdVx5ZJHhfM0ifKGfjR0T3AxsOMPQDm3HZw9pjp@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFhk9BPvc99J7Yx8IbP8hSOT+UpDpnqhQbdVunq3KlgiEvt4eI
-	OgmWUxMrMjGJPivWWGFohuGMN65cJ0+Wuj+TcQ1iNQtiezF8yaBvQratnZHhXMIhL2g2qdPRzAk
-	1FPykI6wS+aCFU6UmJP551i58R/o=
-X-Google-Smtp-Source: AGHT+IEZ4gT6nABs/K41mitZD0wdXrUuQ4YqCSCqh1GuMK83jxlywWLfsBWcImdS1SuTQf9stCTv0wBYynhUq+X4s0Q=
-X-Received: by 2002:a17:90a:1f81:b0:2c9:80cd:86b4 with SMTP id
- 98e67ed59e1d1-2d3dffc0f90mr9173142a91.11.1724018166043; Sun, 18 Aug 2024
- 14:56:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezhA/uFs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22AB6C32786;
+	Sun, 18 Aug 2024 22:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724020828;
+	bh=nvPIW8MrNDLXJBVY8SG6ZctzKzWx2f6RqLPxk4qnoUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ezhA/uFsNcmRYc1rtMUFEV7Ow3YdA1VbP5uMKK/30TkFlwen1hAZvK9xsDcimmi92
+	 8mUkNTOZwST0HGSh4vM4DnbCHm6a++ZaxgVo4RbUvVFM8m9OWTbcvm6YRKek+t6V+b
+	 tvMtFKlZWup0UsrsaXKSoVKj5NF5XtXpfcDBydD6D+jJ2t8ih4KJZ9cLzA7S07qGk0
+	 vq+sKIxr8X2LKC31TVsBfWO9WSod6mP+qklBNC9MJntvh1ZJ3i0Eg1xUj7sGc6nvuI
+	 XvJNhd2SOrp4A0BzyoSOroeJlm60WSx1l8CHZK2GihFb8k+RZovDlStUMU9Oy8F5WZ
+	 stjafl0rbJBZQ==
+Date: Sun, 18 Aug 2024 23:40:22 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v5 12/13] dt-bindings: riscv: Add Ziccrse ISA extension
+ description
+Message-ID: <20240818-dinner-legume-9c73c5145898@spud>
+References: <20240818063538.6651-1-alexghiti@rivosinc.com>
+ <20240818063538.6651-13-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240818141249.387166-1-ojeda@kernel.org> <20240818191938.20ee1766.gary@garyguo.net>
-In-Reply-To: <20240818191938.20ee1766.gary@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 18 Aug 2024 23:55:53 +0200
-Message-ID: <CANiq72mF4=o82Ju7y8wrq+5fCVbungWf2iry2S=1McQ03DJOSQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] rust: enable rustdoc's `--generate-link-to-definition`
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Guillaume Gomez <guillaume1.gomez@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MdjlHmg67ept7cTJ"
+Content-Disposition: inline
+In-Reply-To: <20240818063538.6651-13-alexghiti@rivosinc.com>
+
+
+--MdjlHmg67ept7cTJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 18, 2024 at 8:19=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> Thanks for doing this! When I visited rust.docs.kernel.org yesterday I
-> noticed that the definition links already existed, and it was very
-> useful.
->
-> Reviewed-by: Gary Guo <gary@garyguo.net>
+On Sun, Aug 18, 2024 at 08:35:37AM +0200, Alexandre Ghiti wrote:
+> Add description for the Ziccrse ISA extension which was ratified in
+> the riscv profiles specification v1.0.
+>=20
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Guo Ren <guoren@kernel.org>
 
-Thanks Gary, I appreciate that. Yeah, you caught me, I enabled it a
-week or two ago. I am very glad you already found it useful :)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Cheers,
-Miguel
+--MdjlHmg67ept7cTJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsJ4VQAKCRB4tDGHoIJi
+0q1TAQC/3Y3ikmFCM9JkfyYBjvVDU7doIlqoBTwix2edEFt+cgD/e8U9gPTWeUR9
+iKo8EiUwOQ2/3YOG6uwaJ7IPl8oZCQo=
+=15P4
+-----END PGP SIGNATURE-----
+
+--MdjlHmg67ept7cTJ--
