@@ -1,91 +1,114 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06D8846F;
-	Sun, 18 Aug 2024 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA031803D;
+	Sun, 18 Aug 2024 11:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723974166; cv=none; b=WCtnaeE/c1JDEqkZ3aVz8BWOmZfptwtAYP50NYIsz3A1PXqKR/i+2QVtOGQJoUE2dbSLmiQLMn3zHM66QAikHDxZZQlL9W2nIt8AOVHS/4udsE1SrPLD0NWvExovyJKBFGg8FhxIOvl1e3HphiAWTKu2yYI+t9rH6VhnJD3hoGo=
+	t=1723981544; cv=none; b=FLyLxScpNYVXkBLyVBOKC/iPp298TW4ajxFUgVVFpKW/jQtHmFSYvMhnGE/AVd6emiT1f3tGFUmcYlbSCpvXgdKxj4EgB1lOKKG3/vHkGjbBaJftkKxFl2X9cf+eeSs/vhJmRnzfa3tFrjU9ITujWekc7M4QRpm0JjeWLlxdK0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723974166; c=relaxed/simple;
-	bh=uRdH9sn3ugTF7EbpksQZHiiQvsrX/1G/Lc6Id52GXHY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nsTdlT1IGfriCpcmtqBFrgKJeWUPufBun2t5y0QGkjOv4I/uxvxLeku29TzuXoPbKo4D+Z2Q/OL4BtfBhb4XM0PQKtALG5PEyzGq01VUxEpmaAXOeAKDf9IdYb95ZIwiDZz67ckIj2dSvrX7H19ApMgl+xr+pXwVlefZl6lEXeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=StVbHOgn; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723981544; c=relaxed/simple;
+	bh=Ee0NJhwA1mFRhyXTh1ahgd08EBzvfs/+Rge0vDVW5Eo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=lmJ9znYbRPOzW3AZlnBTi/DXkwN5CKFV58xrW5UsGyfyZtFgVbfoIAQt+X18G+Mxi3jK1hXYti7tyGHy1jD87lE47nybVigS3UXnjaPCzEvkodFyUEW+bhtigGyyIa584vDygBw1NmnkhIID6ZTyuzRzQzp+/rO3tRHat8VwcmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=i0DvSryU; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="StVbHOgn"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-371aa511609so652757f8f.1;
-        Sun, 18 Aug 2024 02:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723974163; x=1724578963; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6QO0daqL87O3Zy/fH2u+i6LL14oDAmC7svy1Hs8gOC8=;
-        b=StVbHOgnPA/XK2iqL4kKgIP9JnRVkG4G4+liI+7PdoIN5wFcGsbjcMaBoVt1HxchSK
-         BylFGn89sxYFNyzcLwr+FpQrJwufk9eALDY01dMpQvZRhPpcjXmwThUGLZX/B+XdYfG4
-         i3s3ZJZ4IUZ6HVNsEAefCnIhdfGIXcnVVVR4mPtQetczYnSS7eEOAcZSfEgcZSlcsTvT
-         U9lcCSu/ssPE5kK6iXbXcNQ9Tz0o0ZcFiMo39QiSZklvpjHwWkPddWbKZDXWSmfrUmwp
-         5DF7n0XPsttqNdrWxU8Cp9fcfora/0/EgxuLhSBoMlZbgiNFR7kBlsKPYovvl8QNi2rQ
-         ocAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723974163; x=1724578963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6QO0daqL87O3Zy/fH2u+i6LL14oDAmC7svy1Hs8gOC8=;
-        b=vs4QBB9MdYf2IsDDpSMVFX3sUBqOXbej0bs0TZEMiKnEZjhffYaZ3KEdXG3mGTFf2H
-         FN4kAgxT3hpWXi0Iaq1si+xvAO7p5pm2Js6CZWb5R4se617orH5o3w+VCQAiCwKadqmq
-         MSzDNgQL2h43Qq9b2tw+Wr9W2SPdvXetjkYLW6spHWlzmFHlBX3naGqqVSbSS0n6Kek7
-         hk9ijDBitq+fO6zC4YOQHKFhZ8CG/LTtHhy/QrGev3yTmAz0/sHajssMnxC3e81/6fB5
-         /pUpY7Io5zm4lrZWrrSIPeHg98TyANhfOlIJSshYIqLSscDrM88tOJYxvII9jBakBBwN
-         XSGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwGgrhdbOvPbY9eaziFny/prR9TUkcqsY7WICwzAXfZjxvZgmwjgMAfXonN4nrYMqlb5Faq4dMW38p5v3D39dwGisylbuaesYCf8pc
-X-Gm-Message-State: AOJu0YzVaDbcDFH8VAn7yfJu0PRlNJb2bXu02beread1vsh6ipTjctxZ
-	d4kngBYBRpDJN+rL3vj5AKbc1BxxyzjX9NC0urfGny5aEkZapXb1
-X-Google-Smtp-Source: AGHT+IGUyVgLo9a+FYh7ZHPkpv+ouV8YsA4Xp9WCBAKlpl/FZiNkwaDM9UOCqrCd6fRsm78XvKSP8Q==
-X-Received: by 2002:a5d:498b:0:b0:371:7d3c:51bb with SMTP id ffacd0b85a97d-3719464b22bmr4761874f8f.19.1723974162746;
-        Sun, 18 Aug 2024 02:42:42 -0700 (PDT)
-Received: from gi4n-KLVL-WXX9.fritz.box ([2a03:6880:104f:5c00:da8:f501:bb2a:e60f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37189897008sm7603408f8f.84.2024.08.18.02.42.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 02:42:42 -0700 (PDT)
-From: Gianfranco Trad <gianf.trad@gmail.com>
-To: akinobu.mita@gmail.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gianfranco Trad <gianf.trad@gmail.com>
-Subject: [PATCH] Fixed typo "allocateed" to allocated
-Date: Sun, 18 Aug 2024 11:42:26 +0200
-Message-ID: <20240818094226.9079-1-gianf.trad@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="i0DvSryU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1723981533; x=1724586333; i=markus.elfring@web.de;
+	bh=i2wEq5t2ni+TcH94U0okDlCDrekF0+WUCWcIYa0wtzo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=i0DvSryUtVwFGTCcIU+HgRC3ND3GrwLXQZXC8bjCwJ8J+Ux4xyCmEaoMy7KMFh98
+	 Y00fY3kthfnO8yyDjs9nygGEHBtAHmm9tDAiD1Q7obtGq1PrH1Tu97jy5epX9u4zp
+	 x/e544jmbhEbJqewLcbOPG3Y/BG4IevCDeO5IsQRCdHjnjtbX2DUAIRo2EzBYk/pe
+	 ZXVdRA3bN2GOo8mtAh4/ZV/G3f+bPoSt89ub+5W14UA+6A9m33p/DGbHv+X4GOQpC
+	 YF4DHkUgyzw7YOex0kut8tnOX7fsLR7GrvxvP36paAbrxgYvNpFDwoDZTQxGZk0XN
+	 x3JY/DkcOMOaGSPHzw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MyO0u-1rwJbQ2Zky-00zNsj; Sun, 18
+ Aug 2024 13:39:12 +0200
+Message-ID: <6e9dc4ce-fd4c-42a7-9839-6bcdfe5d0cbd@web.de>
+Date: Sun, 18 Aug 2024 13:38:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Ira Weiny <ira.weiny@intel.com>, Navneet Singh <navneet.singh@intel.com>,
+ linux-cxl@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ nvdimm@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Chris Mason
+ <clm@fb.com>, Dave Jiang <dave.jiang@intel.com>,
+ David Sterba <dsterba@suse.com>, Fan Ni <fan.ni@samsung.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Jonathan Corbet <corbet@lwn.net>, Josef Bacik <josef@toxicpanda.com>,
+ Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Vishal Verma <vishal.l.verma@intel.com>
+References: <20240816-dcd-type2-upstream-v3-21-7c9b96cba6d7@intel.com>
+Subject: Re: [PATCH v3 21/25] dax/region: Create resources on sparse DAX
+ regions
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240816-dcd-type2-upstream-v3-21-7c9b96cba6d7@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SDZ0mAvNdLKow+wykbK1KiOyQmXyTPlV1uC1C+eCaomkPY5xVF2
+ iMLv8p4ZioEUFddT9msWDOy29paAp5SqQJw5+cQg83gm8AaFg5A2ZuGdMWZzh/wqHa776u6
+ w0rS47wRs/rUhw9FGiT5WqiEg8JqTyszPl/bfsw8AYnTxlhH33+ddmoKTx1/u/qeZjyYl6k
+ sU/i0aJ6l2PAogEC09NUg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ZcGeyuGiXPE=;u8RUXU03d6tpqvo7a2y83Lp/vB5
+ 4CMNtKFulyvvi69D2gS8xxY/sqZqmd50D7+9goxbAonCZHsIhan69YK5H4kV+vU5jNzn+3jxB
+ GnljVFqfylwL0PffO1d86TOjtg4Ekdigo7sCmAeOT1h9GQzuM4eYuJk7hrR3C1t0OBOLDVza6
+ V3TCwfLoD7vBi8ZqcKtZtJY/VWa3q2YnqBGpXqA5tjPLOOp5ABCLbnaXHcm+teAHjzSAhYRxr
+ dOkLCfoD9kej45UQJHdbYlnjhTjq/MD0EpshG4PsnA0N8qeGtZf81KxNZ2CT5ELF7AW7/Q6WN
+ FtAEm9Z9vdox5M0j2mVPvXPmcG6kh78PZk0iWX7pAqfMdQgfnN21peafg1k+sMiLUIog5MuKe
+ sPJQbaPEp42iYbtOX6zsRCCGusXaHjAMtWBXDBVrxTdbqDKmZrJArM4nfQDcVR65b7CI7Gg1Z
+ XhffZAQb/t/n9rf5JYA6OTup4Ks3FcCwTJcZ0bkUpLNQcJW5SsPBOLTNYrMDp6WoMr8hiNX2f
+ PCSiz3Ph9R8iN3ezyHZ2i3ELinvAQbCC7C7Em+mneTk0WWUC9/DTtVGwTvHXxI3YCJDrqmGRf
+ Hu7838t6IQ8ZXLE9OfTzimAgj1do8IIoSMgtdpAnO49azkKleR1mnuy5wOsCQ5M9NYUyV+cpP
+ 8HnzZT8eXtp07OHpT/b/umw5X4WPXZdqKmSELyqyrKW3BFylfId107KQzJLv8DIAspDueSKB2
+ zOLz/iYk6EKcmBVb3jcL9guSy1ysLtP2NsIi3eCkUHqqKy+dhWA1BC/48RSaOGEyCEPYYArDy
+ pLZ+dJERm06WFwZR44ZvU4cA==
 
-Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
----
- Documentation/fault-injection/fault-injection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+=E2=80=A6
+> +++ b/drivers/cxl/core/extent.c
+> @@ -271,20 +271,67 @@ static void calc_hpa_range(struct cxl_endpoint_dec=
+oder *cxled,
+>  	hpa_range->end =3D hpa_range->start + range_len(dpa_range) - 1;
+>  }
+>
+> +static int cxlr_notify_extent(struct cxl_region *cxlr, enum dc_event ev=
+ent,
+> +			      struct region_extent *region_extent)
+> +{
+=E2=80=A6
+> +	device_lock(dev);
+> +	if (dev->driver) {
+=E2=80=A6
+> +	}
+> +	device_unlock(dev);
+> +	return rc;
+> +}
+=E2=80=A6
 
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index 70380a2a01b4..9170e22db215 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -283,7 +283,7 @@ kernel may crash because it may not be able to handle the error.
- There are 4 types of errors defined in include/asm-generic/error-injection.h
- 
- EI_ETYPE_NULL
--  This function will return `NULL` if it fails. e.g. return an allocateed
-+  This function will return `NULL` if it fails. e.g. return an allocated
-   object address.
- 
- EI_ETYPE_ERRNO
--- 
-2.43.0
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(device)(dev);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.11-rc3/source/include/linux/device.h#L=
+1027
 
+Regards,
+Markus
