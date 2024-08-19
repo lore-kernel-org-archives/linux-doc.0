@@ -1,57 +1,57 @@
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8688381B1;
-	Mon, 19 Aug 2024 02:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197D83FB9F;
+	Mon, 19 Aug 2024 02:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724034719; cv=none; b=UZVsDQ5F6gaI7OXpi2tuD7NGem3u3HyOf+qgPcxIDbWGFcLKglMsf2NNKtrp4nHG6lMsq/nZ+NUViVvllLplzQ5nJUboHxbzACJZy3A2BZiMVing/8RCfNHIfiWoQSmYRTRHCtePdBgW2fN+5FdI7QY9GRgYlXkQHjLEq0RAgoQ=
+	t=1724034721; cv=none; b=AkPrOQ0NvaWzqvZ6pANCg0npFKp4SmvFwV76NLwkIXtoZcdVkVpqQrEM1167sRMNd2TT9wp3cB0UdodsOO0gXPW8D4lAxUyZsnVY7FnX0+4DbFLMiiTyL5iUfZa2iK7ae++OycVdtJNLofYnX1wQ6cnlcWXtMMf50nYgLakHrCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724034719; c=relaxed/simple;
-	bh=SjyxMmQKra7S5l/6xA9Wu7IUhwn3P+bFS/PXJwp2AHM=;
+	s=arc-20240116; t=1724034721; c=relaxed/simple;
+	bh=zy/HiLlGI/671eeY/clWWemO6VZMEviQAxIY7uwADFg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iczfePo7sjffvx7trwtVdQYx9lMju591DZjm1GywyHLGtfp9mm/4ZkD8Bj0D8L4viKDaNN8xPSElY99ZFmW09OI5scWklf1pGWYyZ2Q2Yk77L6GQdHNq5erYkVpGVKivO+F45sRWaHRpDNG4fgl0zKvSH3HCYs+gzO9XC+nDcmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VoKKLTkP; arc=none smtp.client-ip=209.85.219.172
+	 MIME-Version; b=EHWb9MJxZnkDKkZekmeQZ7IiIYGVQQraGQyKIawL+29BMKo4Ob41S3zm/hSwmld2cKKzVgP0Vm0/vy6mCByj+DnBAy9yuBKA8mY9wZn0/vFwD4rHFv0XhqMdpvHstymNgDlAspyqSRj/FZDW1B6FI25VhhTOxddqJWUEw9czfGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XrZoyfIn; arc=none smtp.client-ip=209.85.219.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VoKKLTkP"
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e13cce6dc85so1868536276.2;
-        Sun, 18 Aug 2024 19:31:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrZoyfIn"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6bf84c3d043so11287136d6.3;
+        Sun, 18 Aug 2024 19:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724034715; x=1724639515; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724034719; x=1724639519; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zqJ9Y6RR0iCOONporxiAWd0rvcRWYXEUM+u9cAIorwk=;
-        b=VoKKLTkPe0etB+fHSLqyt/ByK00wMsISIaBCRtR2wRU5yRL1JCGiYZSQ3GYrORA7gX
-         PF19SBmYUG8Nw7xdGWyu2gPvGrFIbsfOlJnQVFYYZY1awDpNRxq5xQQpYVWJpe//8/kg
-         OVR3XBJ9of9qhjrYKudu8qSnArbfu2P9q4aUPGXuU1r8eziiuH5vAbnAf6suPfPEzLsI
-         03hPFYWvJfde0Wz7EsBQmlGkmLIGv3F3E2U/mdf043JzP2BRldnU6S2H7g4EG6y0esBS
-         3LmM7MX/htaHtu1AOlJPk6kZ5/qf17E8XmA4FDrSXUbGrVsX3ACTsrjntmxn2oi3cjir
-         KlFg==
+        bh=eO6lPMqYWNsw0u0kOe6TeGUxnE5KvmwuKqe4o/pamZ4=;
+        b=XrZoyfInGURukwRRnH8B8V2sMFAwTX1M+46opVIQ0UAxiJeOf0nfMlnKEXTfKTln/v
+         xOBLIQhEI1hE8CO1JZM2eZVeibuf24+zuhcR2qMw0P1ymHv8PdzdwAh/BwRSrv6zMVoE
+         +LtVsYeV8SO2y02/OrU93jbSx8r++ZiAo7BaTVbFQUBqCc1xzlMTeynPzkJ+KbDPGAaJ
+         xF+F+g3FuKBGWSvqki/FYsYOBd+b3FPOudwvuHrXKbiE41sBoJND+xKmItrNpbFmwtGE
+         cqM0a4fpD2jX+zIcwCdJ9nvQptwm42rraa3nWw1+YLN1wByt+4piphZkpEXR1I8pzLXm
+         4QJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724034715; x=1724639515;
+        d=1e100.net; s=20230601; t=1724034719; x=1724639519;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zqJ9Y6RR0iCOONporxiAWd0rvcRWYXEUM+u9cAIorwk=;
-        b=A+P+u1fE+DKquG0Mxbfo2SxoScitgoQGf+UWHOuKP9BDC4F2cB3ScqUBRZ4MR7/MlG
-         Jr0xmOURoS+Ltpg7Bciign/BkLYaUJgSJuAVkU+R7usvVWwh8xWG2NTCnWZoavgWdVO4
-         vsxp6dti5tASHMqv7vA8jR+157JnVWPl4s7qxYvqGOPLayQS+vWzPe5yZ8hb+k9Jpm3T
-         j78ZTMzJGvi/jGVHkI6gcZNx/lDFyjRQEWdJUrSI8R4QjgyDiWfvTldMt3yXi2jwH4lu
-         UHckVyaegmhxLXrYJq0aC27xj5fRQISMOiC4GGDGAqfuFhw8Ut5VCZGIchBT/34BRsZA
-         t6wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXKsBpb5TaSR2TQHNNiSDiAA45R6LptZd+/w0DkalAr5QwYhI0YWFagoQRe7rhQ7foRQWUXhfRKq/2oBhRZ07sdEne2OuhHwGRW/gFQwd6WstAiAMhuEdt6qDR3+j8lIv0yY0fgOZsT
-X-Gm-Message-State: AOJu0Yz9knYt5fwRRUACYEvM1EEH8raHFs5tV6Y10qaByDUvtaP7RvEN
-	F8rkD2AtOmQFPJ4FLXruY6KcMYP8Pd4AHliTzuxxRKkecOMCyssY
-X-Google-Smtp-Source: AGHT+IGftm6KdS613kRYfd4LezgLxWlUfzFZGyqU4Es+6S/AqWgBVnIYntbuL1qMdd7RJe0UQP4CYA==
-X-Received: by 2002:a05:6902:260c:b0:e13:eaf4:884f with SMTP id 3f1490d57ef6-e13eaf4b68emr3300790276.13.1724034714608;
-        Sun, 18 Aug 2024 19:31:54 -0700 (PDT)
-Received: from localhost (fwdproxy-ash-008.fbsv.net. [2a03:2880:20ff:8::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4536a04e638sm36843281cf.71.2024.08.18.19.31.53
+        bh=eO6lPMqYWNsw0u0kOe6TeGUxnE5KvmwuKqe4o/pamZ4=;
+        b=Jgn0AchhCu16KCeuKyKphEc7TF2WXK+oYKnJQPtJOB1ArxAS0GHH7rtrTRjkJ1eslV
+         dyzpvph7O1bcbaI+MbGFjE9U81Xw0xmsGDgXMPIsA09yT9y6Scx0Sw0GNGXinMRxBNHj
+         MidMzfS1iGvxHNFQ7FoDKVbEHRzIv+8ARcDpZFHMo93VlI1nLJbVgKm5y9FO7MVezoD6
+         dGP1oKu60tFwI4o6oTBIDqGzN+42lWqwY8rQ1p+le5da11xT3hMhWd90Z5Iogv0y7F7S
+         Jdo8PDzKuKZm+3REzXuRqeDvOmfpTl/i7F4bUQeodnbRPYbGLhXweX0yOULJ0XRsOXng
+         5Hgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVj28SeGZZBtYMf6CjvkbnesIZK79cov+moL2kuhM4HdQCqI/wrhPTPB0bwsHCJoCWzBecZYn3eOESVApCRqBgueJE3Wd1BZkwaxKPKekQDyLuU6Iivft2x+kG2ZijP1GAPbwAHeZQ5
+X-Gm-Message-State: AOJu0YwwGnaofuErrmAYd4QqoK5zOqd/bU85T9HCdNcj1p/r4TtV7q4n
+	G0qx9rajAAOCgYEgUb8/Nq+tzrQJwHvwcObMAM3P32DWf3fWDi2q
+X-Google-Smtp-Source: AGHT+IGNG9vxDFxLwp6LH6gHm98AbumciP+UKQShkj+bs5fdr5dQCOqFsqwOOMWP9Hvs4t2YHLHiLg==
+X-Received: by 2002:a05:6214:588e:b0:6bf:894e:7964 with SMTP id 6a1803df08f44-6bf894e7aabmr54977146d6.57.1724034718766;
+        Sun, 18 Aug 2024 19:31:58 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-012.fbsv.net. [2a03:2880:20ff:c::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf763cb74fsm36274866d6.112.2024.08.18.19.31.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 19:31:53 -0700 (PDT)
+        Sun, 18 Aug 2024 19:31:58 -0700 (PDT)
 From: Usama Arif <usamaarif642@gmail.com>
 To: akpm@linux-foundation.org,
 	linux-mm@kvack.org
@@ -71,11 +71,10 @@ Cc: hannes@cmpxchg.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	kernel-team@meta.com,
-	Alexander Zhu <alexlzhu@fb.com>,
 	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH v4 3/6] mm: selftest to verify zero-filled pages are mapped to zeropage
-Date: Mon, 19 Aug 2024 03:30:56 +0100
-Message-ID: <20240819023145.2415299-4-usamaarif642@gmail.com>
+Subject: [PATCH v4 6/6] mm: add sysfs entry to disable splitting underused THPs
+Date: Mon, 19 Aug 2024 03:30:59 +0100
+Message-ID: <20240819023145.2415299-7-usamaarif642@gmail.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20240819023145.2415299-1-usamaarif642@gmail.com>
 References: <20240819023145.2415299-1-usamaarif642@gmail.com>
@@ -87,163 +86,95 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Zhu <alexlzhu@fb.com>
+If disabled, THPs faulted in or collapsed will not be added to
+_deferred_list, and therefore won't be considered for splitting under
+memory pressure if underused.
 
-When a THP is split, any subpage that is zero-filled will be mapped
-to the shared zeropage, hence saving memory. Add selftest to verify
-this by allocating zero-filled THP and comparing RssAnon before and
-after split.
-
-Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
-Acked-by: Rik van Riel <riel@surriel.com>
 Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 ---
- .../selftests/mm/split_huge_page_test.c       | 71 +++++++++++++++++++
- tools/testing/selftests/mm/vm_util.c          | 22 ++++++
- tools/testing/selftests/mm/vm_util.h          |  1 +
- 3 files changed, 94 insertions(+)
+ Documentation/admin-guide/mm/transhuge.rst | 10 +++++++++
+ mm/huge_memory.c                           | 26 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/tools/testing/selftests/mm/split_huge_page_test.c b/tools/testing/selftests/mm/split_huge_page_test.c
-index e5e8dafc9d94..eb6d1b9fc362 100644
---- a/tools/testing/selftests/mm/split_huge_page_test.c
-+++ b/tools/testing/selftests/mm/split_huge_page_test.c
-@@ -84,6 +84,76 @@ static void write_debugfs(const char *fmt, ...)
- 	write_file(SPLIT_DEBUGFS, input, ret + 1);
- }
+diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+index 40741b892aff..02ae7bc9efbd 100644
+--- a/Documentation/admin-guide/mm/transhuge.rst
++++ b/Documentation/admin-guide/mm/transhuge.rst
+@@ -202,6 +202,16 @@ PMD-mappable transparent hugepage::
  
-+static char *allocate_zero_filled_hugepage(size_t len)
+ 	cat /sys/kernel/mm/transparent_hugepage/hpage_pmd_size
+ 
++All THPs at fault and collapse time will be added to _deferred_list,
++and will therefore be split under memory presure if they are considered
++"underused". A THP is underused if the number of zero-filled pages in
++the THP is above max_ptes_none (see below). It is possible to disable
++this behaviour by writing 0 to shrink_underused, and enable it by writing
++1 to it::
++
++	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
++	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
++
+ khugepaged will be automatically started when PMD-sized THP is enabled
+ (either of the per-size anon control or the top-level control are set
+ to "always" or "madvise"), and it'll be automatically shutdown when
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index f5363cf900f9..5d67d3b3c1b2 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -74,6 +74,7 @@ static unsigned long deferred_split_count(struct shrinker *shrink,
+ 					  struct shrink_control *sc);
+ static unsigned long deferred_split_scan(struct shrinker *shrink,
+ 					 struct shrink_control *sc);
++static bool split_underused_thp = true;
+ 
+ static atomic_t huge_zero_refcount;
+ struct folio *huge_zero_folio __read_mostly;
+@@ -439,6 +440,27 @@ static ssize_t hpage_pmd_size_show(struct kobject *kobj,
+ static struct kobj_attribute hpage_pmd_size_attr =
+ 	__ATTR_RO(hpage_pmd_size);
+ 
++static ssize_t split_underused_thp_show(struct kobject *kobj,
++			    struct kobj_attribute *attr, char *buf)
 +{
-+	char *result;
-+	size_t i;
-+
-+	result = memalign(pmd_pagesize, len);
-+	if (!result) {
-+		printf("Fail to allocate memory\n");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	madvise(result, len, MADV_HUGEPAGE);
-+
-+	for (i = 0; i < len; i++)
-+		result[i] = (char)0;
-+
-+	return result;
++	return sysfs_emit(buf, "%d\n", split_underused_thp);
 +}
 +
-+static void verify_rss_anon_split_huge_page_all_zeroes(char *one_page, int nr_hpages, size_t len)
++static ssize_t split_underused_thp_store(struct kobject *kobj,
++			     struct kobj_attribute *attr,
++			     const char *buf, size_t count)
 +{
-+	unsigned long rss_anon_before, rss_anon_after;
-+	size_t i;
++	int err = kstrtobool(buf, &split_underused_thp);
 +
-+	if (!check_huge_anon(one_page, 4, pmd_pagesize)) {
-+		printf("No THP is allocated\n");
-+		exit(EXIT_FAILURE);
-+	}
++	if (err < 0)
++		return err;
 +
-+	rss_anon_before = rss_anon();
-+	if (!rss_anon_before) {
-+		printf("No RssAnon is allocated before split\n");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	/* split all THPs */
-+	write_debugfs(PID_FMT, getpid(), (uint64_t)one_page,
-+		      (uint64_t)one_page + len, 0);
-+
-+	for (i = 0; i < len; i++)
-+		if (one_page[i] != (char)0) {
-+			printf("%ld byte corrupted\n", i);
-+			exit(EXIT_FAILURE);
-+		}
-+
-+	if (!check_huge_anon(one_page, 0, pmd_pagesize)) {
-+		printf("Still AnonHugePages not split\n");
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	rss_anon_after = rss_anon();
-+	if (rss_anon_after >= rss_anon_before) {
-+		printf("Incorrect RssAnon value. Before: %ld After: %ld\n",
-+		       rss_anon_before, rss_anon_after);
-+		exit(EXIT_FAILURE);
-+	}
++	return count;
 +}
 +
-+void split_pmd_zero_pages(void)
-+{
-+	char *one_page;
-+	int nr_hpages = 4;
-+	size_t len = nr_hpages * pmd_pagesize;
++static struct kobj_attribute split_underused_thp_attr = __ATTR(
++	shrink_underused, 0644, split_underused_thp_show, split_underused_thp_store);
 +
-+	one_page = allocate_zero_filled_hugepage(len);
-+	verify_rss_anon_split_huge_page_all_zeroes(one_page, nr_hpages, len);
-+	printf("Split zero filled huge pages successful\n");
-+	free(one_page);
-+}
-+
- void split_pmd_thp(void)
- {
- 	char *one_page;
-@@ -431,6 +501,7 @@ int main(int argc, char **argv)
+ static struct attribute *hugepage_attr[] = {
+ 	&enabled_attr.attr,
+ 	&defrag_attr.attr,
+@@ -447,6 +469,7 @@ static struct attribute *hugepage_attr[] = {
+ #ifdef CONFIG_SHMEM
+ 	&shmem_enabled_attr.attr,
+ #endif
++	&split_underused_thp_attr.attr,
+ 	NULL,
+ };
  
- 	fd_size = 2 * pmd_pagesize;
+@@ -3477,6 +3500,9 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+ 	if (folio_order(folio) <= 1)
+ 		return;
  
-+	split_pmd_zero_pages();
- 	split_pmd_thp();
- 	split_pte_mapped_thp();
- 	split_file_backed_thp();
-diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-index 5a62530da3b5..d8d0cf04bb57 100644
---- a/tools/testing/selftests/mm/vm_util.c
-+++ b/tools/testing/selftests/mm/vm_util.c
-@@ -12,6 +12,7 @@
- 
- #define PMD_SIZE_FILE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
- #define SMAP_FILE_PATH "/proc/self/smaps"
-+#define STATUS_FILE_PATH "/proc/self/status"
- #define MAX_LINE_LENGTH 500
- 
- unsigned int __page_size;
-@@ -171,6 +172,27 @@ uint64_t read_pmd_pagesize(void)
- 	return strtoul(buf, NULL, 10);
- }
- 
-+unsigned long rss_anon(void)
-+{
-+	unsigned long rss_anon = 0;
-+	FILE *fp;
-+	char buffer[MAX_LINE_LENGTH];
++	if (!partially_mapped && !split_underused_thp)
++		return;
 +
-+	fp = fopen(STATUS_FILE_PATH, "r");
-+	if (!fp)
-+		ksft_exit_fail_msg("%s: Failed to open file %s\n", __func__, STATUS_FILE_PATH);
-+
-+	if (!check_for_pattern(fp, "RssAnon:", buffer, sizeof(buffer)))
-+		goto err_out;
-+
-+	if (sscanf(buffer, "RssAnon:%10lu kB", &rss_anon) != 1)
-+		ksft_exit_fail_msg("Reading status error\n");
-+
-+err_out:
-+	fclose(fp);
-+	return rss_anon;
-+}
-+
- bool __check_huge(void *addr, char *pattern, int nr_hpages,
- 		  uint64_t hpage_size)
- {
-diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftests/mm/vm_util.h
-index 9007c420d52c..71b75429f4a5 100644
---- a/tools/testing/selftests/mm/vm_util.h
-+++ b/tools/testing/selftests/mm/vm_util.h
-@@ -39,6 +39,7 @@ unsigned long pagemap_get_pfn(int fd, char *start);
- void clear_softdirty(void);
- bool check_for_pattern(FILE *fp, const char *pattern, char *buf, size_t len);
- uint64_t read_pmd_pagesize(void);
-+uint64_t rss_anon(void);
- bool check_huge_anon(void *addr, int nr_hpages, uint64_t hpage_size);
- bool check_huge_file(void *addr, int nr_hpages, uint64_t hpage_size);
- bool check_huge_shmem(void *addr, int nr_hpages, uint64_t hpage_size);
+ 	/*
+ 	 * The try_to_unmap() in page reclaim path might reach here too,
+ 	 * this may cause a race condition to corrupt deferred split queue.
 -- 
 2.43.5
 
