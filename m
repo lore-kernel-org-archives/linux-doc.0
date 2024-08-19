@@ -1,304 +1,274 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2047.outbound.protection.outlook.com [40.107.95.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69571898E7;
-	Mon, 19 Aug 2024 21:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724104567; cv=none; b=f1lHvCbh+Nv5jr/sHs4lsVpNlgzshWUVuM4H2MeTz6MLh99lPnoGea72Nk5oPCXtgMR8fhgHswr9E1RKDg6+OiN57Han7OQYAvxKnWsuGNBkUVpsF5vmcNL9KdfT1gFG/G1cEszVRtDrVk18Eq6X5hQVj+8BgYZXWxgO3/fWIHY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724104567; c=relaxed/simple;
-	bh=TmkekAM5jlfjmMrWHESQvgf0yK9ZI7F0wPA+OBf51uA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jsftzT245OQhNn8ECX282xC4EOJr3lNl057A6oW7zWcVPriuUBj19GcIjNL5gReSjcPT/3ozGlrgDd34dEPCFqwPDffRsB9ooRuzeHDK1FuRqZdKpjRqyk2eXbVq31BYYULMyMq6B85WWRSniobsQcaEDdpBPABQsfGZGcRRAME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4fc7bd8763cso806428e0c.2;
-        Mon, 19 Aug 2024 14:56:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724104565; x=1724709365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=68jtH1gMT0hvORY1A0IXRpMKwJhK5A/kT7YX0AeFdQk=;
-        b=at2bkFWjyO3yxrcwE0lpeVYT/py4gKkQLgJxGN9w/TkFhBnbVv52ykBKXBaS9HsVoU
-         uxMKOOVFx4bXppNoirhfkm69uxER9e+lOU9ecaMU+OzBfTGdEVWfSOcQfs+fUB2kNhaH
-         uE4IlS5euYQADcpV8CSBamXdARsmcfoug98vGtl+s1hcmPe09SLpFKcQsboizJD2tRVg
-         HhaG0Qe2dKvBh9vluaaDmIGaQdiAU4AEA9GazyApwmXx2esVUF0bECi3fZZ6S6QM2z3E
-         1pg+Ptu2nQJE/anvxlHsi6gEXxXxMthUxzQd90qhCNnyLUAhkBujhcqmHKSYUK/aZGC3
-         yUcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+zHjQU+AXpi7CStA4W1oOkFl161eGPBbzXIOMVnzkn8N+YW6UxXlSPVDqV44OpFZXMoXJT5XkYL1wJvm6rvFZmMXiqsBsWqNZOSfjQSsDFH97lQDmJSGOm5K4eOs0JgjZzjKm3O0A
-X-Gm-Message-State: AOJu0YwU0X3H3IHyMWY9vOmdpTkYjpilppz5bkMFdIifGc3XWk1GQ7yI
-	7Wh/7XOHDzcJZmWWL1Xndg0/B3lPPESTLt0Q3fSCnLOazdOhiyWSDEzRWdc6QLryPxCEGlw/5Tz
-	/JXKGu3rZIb34Ll7grSB7jXS2oxk=
-X-Google-Smtp-Source: AGHT+IEZIdw8wpoXSQOM21Stk7hHbJ3kSdIpE6PCXQlMRY/gGlOQJDe11aHF960J0st3NKJdV4kLVgMJRI2OLtGqyp4=
-X-Received: by 2002:a05:6122:2193:b0:4f6:b094:80b1 with SMTP id
- 71dfb90a1353d-4fc6c9fff96mr10350034e0c.11.1724104564640; Mon, 19 Aug 2024
- 14:56:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC25514D70E;
+	Mon, 19 Aug 2024 22:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724105313; cv=fail; b=XUV2aAJ1LZJkfmCoxgl8fdZ+vhcjdMx99GbYhRl3d6n0mKpevOnJP4Bq/0dnpwx9DPIYJZlyG8LdmdrXUlMcFVQwbXReuihx1fMnwBk9VXqIyPQbZ9/gjvP3kvPFLxlqIL2SOeR7i8yiET2XfDjeq9L8TwujScYBePjLQjV03EA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724105313; c=relaxed/simple;
+	bh=gjYftU9o7VzKkwq/bgU9ISEWb88xoZwudL0SApkMZXA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mRvw9VXNzUtdKFwZ36iIqV50YadSGOXZdUlGYEfXSTe+b/0ZaoLgNbG61iZYa+qSvb0dP+jARBAT4f2UUKzJ5HhthpQBIEdZUPwL/gby7HJ6mFpbqcG8Lfdrm5WYSTNrKjFEDD9Tnnacy5cAuIqkkyPIOlgkLu/Nr2ju/r1fqWo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aui03HRM; arc=fail smtp.client-ip=40.107.95.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aui03HRM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kCEcKQaNfzFZMX8dyCzBH6YdoYPbckX3GOp3QMBHMYdorsjeIGFENIHzEsrxUPMc8MCJciDQpdUHntR8d7vvzZfsWUPyGY+JOozWBvCVba20uIsBPO4i7eiH4EBV0H6Wijz75VoYczzsjcCAf+bFCS3s3wLeBHlRPTkfbc9HjYGtE76hwjz0FnP2lJLwjW72aM4gv5FjAcnwyMw/oZfuAUDiPkzBQIABtnIrFUAAoz7A2mEuU38+k1jDgKrg2R3PA8KZQp/9+NtP+tvrToJ3WkxwI7x9wbMmCikv8/UBcIDStJu+tyqQw6jhRJ9pT1gkPR2Jk1Gp24PhEnrZza5Yzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bAWPpH98uB1OTCvvhWjODEhWm2A9dY5cc7zY2QcbBew=;
+ b=cMw6L/ooSYq4w8lB00YRAN7/xtEjpDGpEZQKCR0IFuwSEerdmtdzAqUuRCaOJ3H1R2K/FKRO/FUEJ2PHuOVF1jn1ICQ8RIDFQz3wAmeJoVSubZEUMjxIbLmlLgKirBv9M7aKJ5bbVeZ+4RdOwHDOQBrqVyGvRWTj9Qt53X5lyRNruBp4Mu1SZQOW84eBfFcNF34EA7MvSBLeTrdgL8hBQ62DLZ+etYMbbpf5r0S7feplJvpzQczqRz01vJ6pJ5OR3uLj1TnA6gqF1LLLY2ek3yJnPrQyogzDpWfymownvWSGnLHF/rMGEfLf8cb0Rr9ZXdQDTH2cQUNZE1Jlz719DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bAWPpH98uB1OTCvvhWjODEhWm2A9dY5cc7zY2QcbBew=;
+ b=aui03HRMWDpgcQjSkzW01NKZ1H6/NLixB5ob0040Gg+0FDGu1dc9kUkA0EUPLDZOqjSKHuYTb7fYLfsZjhr12mjJg5gjmNqhouVuF56bPdbxgK370HZt3suoHUKzkh3KgpUKAPGEih5q13h3IaxgcLStuHnTc8HWLUNtF8jqM0csT+ZaN1trn9jEzdRG5w6adbKbMmQAkHOZyomY2KeH0+9oopUiuj8vpCSBt4R49JNgzwgI6UrH8bknY+eEUZVDNQS2j7XHG++COwAZ6c0mj+As20yCXZBRPyDMd8gK/+g49frDo1dmU8uMKkVAh76pL8r3wGVQfJdNyLX9z4h46A==
+Received: from SJ0PR13CA0222.namprd13.prod.outlook.com (2603:10b6:a03:2c1::17)
+ by SN7PR12MB6984.namprd12.prod.outlook.com (2603:10b6:806:260::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
+ 2024 22:08:26 +0000
+Received: from SJ1PEPF0000231D.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c1:cafe::65) by SJ0PR13CA0222.outlook.office365.com
+ (2603:10b6:a03:2c1::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.13 via Frontend
+ Transport; Mon, 19 Aug 2024 22:08:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF0000231D.mail.protection.outlook.com (10.167.242.234) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7897.11 via Frontend Transport; Mon, 19 Aug 2024 22:08:26 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 19 Aug
+ 2024 15:08:07 -0700
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 19 Aug
+ 2024 15:08:07 -0700
+Received: from SDONTHINENI-DESKTOP.nvidia.com (10.127.8.12) by mail.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Mon, 19 Aug 2024 15:08:06 -0700
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+To: James Morse <james.morse@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Shanker Donthineni
+	<sdonthineni@nvidia.com>, Rohit Mathew <rohit.mathew@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vikram Sethi <vsethi@nvidia.com>
+Subject: [PATCH] arm_mpam: resctrl: Update only requested configuration
+Date: Mon, 19 Aug 2024 17:07:52 -0500
+Message-ID: <20240819220752.201815-1-sdonthineni@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240819023145.2415299-1-usamaarif642@gmail.com>
- <20240819023145.2415299-5-usamaarif642@gmail.com> <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
- <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com> <CAGsJ_4xeWt9n3zX3-DknE=NftkWS0fe2vKTJT9tLuJPM4EaEwg@mail.gmail.com>
- <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com> <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
-In-Reply-To: <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Tue, 20 Aug 2024 09:55:49 +1200
-Message-ID: <CAGsJ_4z2YL01wvVgsFsbzGAQ5KowXgxLcj=Y7DSX7ODOF5MUvw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped folios
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
-	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
-	yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org, 
-	willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231D:EE_|SN7PR12MB6984:EE_
+X-MS-Office365-Filtering-Correlation-Id: d557f863-a273-4687-4eaf-08dcc09b7325
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?G8Uk1baU+nkh+UCr9HBGOnviPEutCfBo0VJdbLYW7yQjyrE6akFI/ZSMOKYu?=
+ =?us-ascii?Q?971KkJZLL0AHXdzSwtb3Qk9pAMU7d0z9DE22fUqgVEAqUBl4XYQuMKj8k/oh?=
+ =?us-ascii?Q?QgOuInjNVlGDhynxn0x+HJ9/lmqcnH+cc35RGlnkgzZvEoUtge0w25aoSU1z?=
+ =?us-ascii?Q?8m3WFzqgTT6lhikHaTSyrConrJgmQdUiu+qGkgW8qtSRdcywTCexaBlZTGOI?=
+ =?us-ascii?Q?hTfpzAVk5CW6i86QxFW6kj1D4RTGmBLDgttYFT/qhZMS4kptmZYVoUWT6KkN?=
+ =?us-ascii?Q?TbgpJ53tC454MA1ZE29fJZeB3PPhg0NWmAJDxa5TZWV1WSZdV7x97f7dQ5LR?=
+ =?us-ascii?Q?WSMl7LCI9JpjYxUvKZ1YE83yjAd3jRRbVat/uVKU0D5LHKRlF4zgUoTXNneJ?=
+ =?us-ascii?Q?q5JJ2i2QoOkcmsSv1LqYLIgt/UErrjQ17zSbgujWHJnQ86Uat0wABRB8rDaM?=
+ =?us-ascii?Q?J6VXz2SgKMUvhMLGbQDPS3/sZiS2Jne2hp5BZhdTs0VAMuB9j79JbzQrf1q7?=
+ =?us-ascii?Q?b0jgs9xXKob9qIhQxfGpB/N8TSuvYZI5+ewViQyD4XA/VM9h3cOQN+6sYBGR?=
+ =?us-ascii?Q?RNhR5GHjkHfomLXCC8bTUR1iu2HoWdicMXp7/J10G4DCey6gjiVTjCO5EMJV?=
+ =?us-ascii?Q?hUth3xG5Mv0acF1NIiOqp7Z5nlAGwQI8BWlgMrQcquHU5TK7mWmiVHi1/FdH?=
+ =?us-ascii?Q?ysKzeVPUvLQpiUsv9KnXOYg0aO8N05KmDO6qnqR74jIVESe+Gvuefsnf9+oO?=
+ =?us-ascii?Q?qEmdiow+q8nRptwMP/bU86se+TF6ME77242+2EogKUmvDoeQfgJUqmgoicdu?=
+ =?us-ascii?Q?5Tyo2aZJ3qyEN18e80KFhU6pZn64wedAFYohAN5m3J4iDxldrnxywhK+7sBu?=
+ =?us-ascii?Q?lzSsJEiDQhKuxBykNWKELxe+HolOMyebKJq4l1X01P8xXC1D4aoXJJocV8ij?=
+ =?us-ascii?Q?XWS+R5dWsYn0sOEBRX50ELDWymI9+oBF7gcfieXYMZ8yKl4omfKn/DGDx2rM?=
+ =?us-ascii?Q?awjvpI9Nbb9fnYW5XUIoFrw1ttO7P5g0xy9f1h15BIz6F3NS+ehYM5qonK4V?=
+ =?us-ascii?Q?eX/IDsu3IawDCrDGzBMqRD7jAK2tHPJm1Vgc5BmHJQU9TiBrY1yWk1W2yOrg?=
+ =?us-ascii?Q?4z/6kLSHsQCKSF7cUuartsyjg9c7tZ4HjWgbklto6mSUSzL9QR249bfJMgch?=
+ =?us-ascii?Q?B84k6Zu6syoE+zHfXHTLYiMd8Z3+dn1yEJTQ2JtOoOp2EtwDWcXbdZeLOxr2?=
+ =?us-ascii?Q?Gimh0cOqZ9nNNne/s6jTi1RlJeLukdpoSGAGXZhvvbAe/jNr6ck9u9+HyGgF?=
+ =?us-ascii?Q?pnyvCDEmXHq1Bm+F4LT5af4aKtKR/vjfSBQoqrwX+eCYCCvzt9bXqdXSRlSz?=
+ =?us-ascii?Q?5LJlnaDN7zcg63jediY++a6Duu4u6BsVKgYUhET3zjDBg7RvNnhxbpvkACLn?=
+ =?us-ascii?Q?gCaL1vsgHGapcYvJGVPqjFeswkIdh9Sv?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 22:08:26.2806
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d557f863-a273-4687-4eaf-08dcc09b7325
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF0000231D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6984
 
-On Tue, Aug 20, 2024 at 9:34=E2=80=AFAM Barry Song <baohua@kernel.org> wrot=
-e:
->
-> On Tue, Aug 20, 2024 at 8:16=E2=80=AFAM Usama Arif <usamaarif642@gmail.co=
-m> wrote:
-> >
-> >
-> >
-> > On 19/08/2024 20:00, Barry Song wrote:
-> > > On Tue, Aug 20, 2024 at 2:17=E2=80=AFAM Usama Arif <usamaarif642@gmai=
-l.com> wrote:
-> > >>
-> > >>
-> > >>
-> > >> On 19/08/2024 09:29, Barry Song wrote:
-> > >>> Hi Usama,
-> > >>>
-> > >>> I feel it is much better now! thanks!
-> > >>>
-> > >>> On Mon, Aug 19, 2024 at 2:31=E2=80=AFPM Usama Arif <usamaarif642@gm=
-ail.com> wrote:
-> > >>>>
-> > >>>> Currently folio->_deferred_list is used to keep track of
-> > >>>> partially_mapped folios that are going to be split under memory
-> > >>>> pressure. In the next patch, all THPs that are faulted in and coll=
-apsed
-> > >>>> by khugepaged are also going to be tracked using _deferred_list.
-> > >>>>
-> > >>>> This patch introduces a pageflag to be able to distinguish between
-> > >>>> partially mapped folios and others in the deferred_list at split t=
-ime in
-> > >>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
-> > >>>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
-> > >>>> possible to distinguish between partially mapped folios and others=
- in
-> > >>>> deferred_split_scan.
-> > >>>>
-> > >>>> Eventhough it introduces an extra flag to track if the folio is
-> > >>>> partially mapped, there is no functional change intended with this
-> > >>>> patch and the flag is not useful in this patch itself, it will
-> > >>>> become useful in the next patch when _deferred_list has non partia=
-lly
-> > >>>> mapped folios.
-> > >>>>
-> > >>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> > >>>> ---
-> > >>>>  include/linux/huge_mm.h    |  4 ++--
-> > >>>>  include/linux/page-flags.h | 11 +++++++++++
-> > >>>>  mm/huge_memory.c           | 23 ++++++++++++++++-------
-> > >>>>  mm/internal.h              |  4 +++-
-> > >>>>  mm/memcontrol.c            |  3 ++-
-> > >>>>  mm/migrate.c               |  3 ++-
-> > >>>>  mm/page_alloc.c            |  5 +++--
-> > >>>>  mm/rmap.c                  |  5 +++--
-> > >>>>  mm/vmscan.c                |  3 ++-
-> > >>>>  9 files changed, 44 insertions(+), 17 deletions(-)
-> > >>>>
-> > >>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > >>>> index 4c32058cacfe..969f11f360d2 100644
-> > >>>> --- a/include/linux/huge_mm.h
-> > >>>> +++ b/include/linux/huge_mm.h
-> > >>>> @@ -321,7 +321,7 @@ static inline int split_huge_page(struct page =
-*page)
-> > >>>>  {
-> > >>>>         return split_huge_page_to_list_to_order(page, NULL, 0);
-> > >>>>  }
-> > >>>> -void deferred_split_folio(struct folio *folio);
-> > >>>> +void deferred_split_folio(struct folio *folio, bool partially_map=
-ped);
-> > >>>>
-> > >>>>  void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
-> > >>>>                 unsigned long address, bool freeze, struct folio *=
-folio);
-> > >>>> @@ -495,7 +495,7 @@ static inline int split_huge_page(struct page =
-*page)
-> > >>>>  {
-> > >>>>         return 0;
-> > >>>>  }
-> > >>>> -static inline void deferred_split_folio(struct folio *folio) {}
-> > >>>> +static inline void deferred_split_folio(struct folio *folio, bool=
- partially_mapped) {}
-> > >>>>  #define split_huge_pmd(__vma, __pmd, __address)        \
-> > >>>>         do { } while (0)
-> > >>>>
-> > >>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags=
-.h
-> > >>>> index a0a29bd092f8..c3bb0e0da581 100644
-> > >>>> --- a/include/linux/page-flags.h
-> > >>>> +++ b/include/linux/page-flags.h
-> > >>>> @@ -182,6 +182,7 @@ enum pageflags {
-> > >>>>         /* At least one page in this folio has the hwpoison flag s=
-et */
-> > >>>>         PG_has_hwpoisoned =3D PG_active,
-> > >>>>         PG_large_rmappable =3D PG_workingset, /* anon or file-back=
-ed */
-> > >>>> +       PG_partially_mapped =3D PG_reclaim, /* was identified to b=
-e partially mapped */
-> > >>>>  };
-> > >>>>
-> > >>>>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
-> > >>>> @@ -861,8 +862,18 @@ static inline void ClearPageCompound(struct p=
-age *page)
-> > >>>>         ClearPageHead(page);
-> > >>>>  }
-> > >>>>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
-> > >>>> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
-> > >>>> +/*
-> > >>>> + * PG_partially_mapped is protected by deferred_split split_queue=
-_lock,
-> > >>>> + * so its safe to use non-atomic set/clear.
-> > >>>> + */
-> > >>>> +__FOLIO_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
-> > >>>> +__FOLIO_CLEAR_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
-> > >>>>  #else
-> > >>>>  FOLIO_FLAG_FALSE(large_rmappable)
-> > >>>> +FOLIO_TEST_FLAG_FALSE(partially_mapped)
-> > >>>> +__FOLIO_SET_FLAG_NOOP(partially_mapped)
-> > >>>> +__FOLIO_CLEAR_FLAG_NOOP(partially_mapped)
-> > >>>>  #endif
-> > >>>>
-> > >>>>  #define PG_head_mask ((1UL << PG_head))
-> > >>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > >>>> index 2d77b5d2291e..70ee49dfeaad 100644
-> > >>>> --- a/mm/huge_memory.c
-> > >>>> +++ b/mm/huge_memory.c
-> > >>>> @@ -3398,6 +3398,7 @@ int split_huge_page_to_list_to_order(struct =
-page *page, struct list_head *list,
-> > >>>>                          * page_deferred_list.
-> > >>>>                          */
-> > >>>>                         list_del_init(&folio->_deferred_list);
-> > >>>> +                       __folio_clear_partially_mapped(folio);
-> > >>>>                 }
-> > >>>>                 spin_unlock(&ds_queue->split_queue_lock);
-> > >>>>                 if (mapping) {
-> > >>>> @@ -3454,11 +3455,13 @@ void __folio_undo_large_rmappable(struct f=
-olio *folio)
-> > >>>>         if (!list_empty(&folio->_deferred_list)) {
-> > >>>>                 ds_queue->split_queue_len--;
-> > >>>>                 list_del_init(&folio->_deferred_list);
-> > >>>> +               __folio_clear_partially_mapped(folio);
-> > >>>
-> > >>> is it possible to make things clearer by
-> > >>>
-> > >>>  if (folio_clear_partially_mapped)
-> > >>>     __folio_clear_partially_mapped(folio);
-> > >>>
-> > >>> While writing without conditions isn't necessarily wrong, adding a =
-condition
-> > >>> will improve the readability of the code and enhance the clarity of=
- my mTHP
-> > >>> counters series. also help decrease smp cache sync if we can avoid
-> > >>> unnecessary writing?
-> > >>>
-> > >>
-> > >> Do you mean if(folio_test_partially_mapped(folio))?
-> > >>
-> > >> I don't like this idea. I think it makes the readability worse? If I=
- was looking at if (test) -> clear for the first time, I would become confu=
-sed why its being tested if its going to be clear at the end anyways?
-> > >
-> > > In the pmd-order case, the majority of folios are not partially mappe=
-d.
-> > > Unconditional writes will trigger cache synchronization across all
-> > > CPUs (related to the MESI protocol), making them more costly. By
-> > > using conditional writes, such as "if(test) write," we can avoid
-> > > most unnecessary writes, which is much more efficient. Additionally,
-> > > we only need to manage nr_split_deferred when the condition
-> > > is met. We are carefully evaluating all scenarios to determine
-> > > if modifications to the partially_mapped flag are necessary.
-> > >
-> >
-> >
-> > Hmm okay, as you said its needed for nr_split_deferred anyways. Somethi=
-ng like below is ok to fold in?
-> >
-> > commit 4ae9e2067346effd902b342296987b97dee29018 (HEAD)
-> > Author: Usama Arif <usamaarif642@gmail.com>
-> > Date:   Mon Aug 19 21:07:16 2024 +0100
-> >
-> >     mm: Introduce a pageflag for partially mapped folios fix
-> >
-> >     Test partially_mapped flag before clearing it. This should
-> >     avoid unnecessary writes and will be needed in the nr_split_deferre=
-d
-> >     series.
-> >
-> >     Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> >
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index 5d67d3b3c1b2..ccde60aaaa0f 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -3479,7 +3479,8 @@ void __folio_undo_large_rmappable(struct folio *f=
-olio)
-> >         if (!list_empty(&folio->_deferred_list)) {
-> >                 ds_queue->split_queue_len--;
-> >                 list_del_init(&folio->_deferred_list);
-> > -               __folio_clear_partially_mapped(folio);
-> > +               if (folio_test_partially_mapped(folio))
-> > +                       __folio_clear_partially_mapped(folio);
-> >         }
-> >         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
-> >  }
-> > @@ -3610,7 +3611,8 @@ static unsigned long deferred_split_scan(struct s=
-hrinker *shrink,
-> >                 } else {
-> >                         /* We lost race with folio_put() */
-> >                         list_del_init(&folio->_deferred_list);
-> > -                       __folio_clear_partially_mapped(folio);
-> > +                       if (folio_test_partially_mapped(folio))
-> > +                               __folio_clear_partially_mapped(folio);
-> >                         ds_queue->split_queue_len--;
-> >                 }
-> >                 if (!--sc->nr_to_scan)
-> >
->
-> Do we also need if (folio_test_partially_mapped(folio)) in
-> split_huge_page_to_list_to_order()?
->
-> I recall that in Yu Zhao's TAO, there=E2=80=99s a chance of splitting (sh=
-attering)
-> non-partially-mapped folios. To be future-proof, we might want to handle
-> both cases equally.
+The resctrl has helper functions for updating CPOR and MBW configuration
+updates. While the existing resctrl_arch_update_one() effectively updates
+the specified configuration as intended, it inadvertently overrides other
+configurations with default values.
 
-we recall we also have a real case which can split entirely_mapped
-folio:
+Example bandwdith value is not applied:
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=100
+ L3:1=fff
 
-mm: huge_memory: enable debugfs to split huge pages to any order
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3Dfc4d182316bd5309b4066fd9ef21529ea397a7d4
+ root# echo -e "L3:1=fff\nMB:1=50" > /sys/fs/resctrl/schemata
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=100
+ L3:1=fff
 
->
-> By the way, we might not need to clear the flag for a new folio. This dif=
-fers
-> from the init_list, which is necessary. If a new folio has the partially_=
-mapped
-> flag, it indicates that we failed to clear it when freeing the folio to
-> the buddy system, which is a bug we need to fix in the free path.
->
-> Thanks
-> Barry
+Fix the potential loss of accuracy during the conversion of MBW_MAX from
+percentage to fixed-point representation, and vice versa. The updated
+functions provide fixed-point values that closely align with the values
+specified in the MPAM specification, Table 9-3 for Fraction Widths And
+Hex Representation.
+
+Before this fix:
+ root# echo -e "MB:1=1" > /sys/fs/resctrl/schemata
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=000
+ L3:1=fff
+
+ root# echo -e "MB:1=2" > /sys/fs/resctrl/schemata
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=001
+ L3:1=fff
+
+ root# echo -e "MB:1=3" > /sys/fs/resctrl/schemata
+ root@pset# cat /sys/fs/resctrl/schemata
+ MB:1=001
+ L3:1=fff
+
+With this patch:
+ root# echo -e "MB:1=1" > /sys/fs/resctrl/schemata
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=001
+ L3:1=fff
+
+ root# echo -e "MB:1=2" > /sys/fs/resctrl/schemata
+ root# cat /sys/fs/resctrl/schemata
+ MB:1=002
+ L3:1=fff
+
+ root# echo -e "MB:1=3" > /sys/fs/resctrl/schemata
+ root@pset# cat /sys/fs/resctrl/schemata
+ MB:1=003
+ L3:1=fff
+
+Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+---
+ drivers/platform/arm64/mpam/mpam_resctrl.c | 49 ++++------------------
+ 1 file changed, 7 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/platform/arm64/mpam/mpam_resctrl.c b/drivers/platform/arm64/mpam/mpam_resctrl.c
+index 258a39e90f2e..f4da24cad600 100644
+--- a/drivers/platform/arm64/mpam/mpam_resctrl.c
++++ b/drivers/platform/arm64/mpam/mpam_resctrl.c
+@@ -574,23 +574,7 @@ static u32 mbw_pbm_to_percent(const unsigned long mbw_pbm, struct mpam_props *cp
+ 
+ static u32 mbw_max_to_percent(u16 mbw_max, struct mpam_props *cprops)
+ {
+-	int bit;
+-	u8 num_bits = 0;
+-	u32 divisor = 2, value = 0;
+-
+-	for (bit = 16; bit > (16 - cprops->bwa_wd); bit--) {
+-		if (mbw_max & BIT(bit - 1)) {
+-			num_bits++;
+-			value += MAX_MBA_BW / divisor;
+-		}
+-		divisor <<= 1;
+-	}
+-
+-	/* Lest user-space get confused... */
+-	if (num_bits == cprops->bwa_wd)
+-		return 100;
+-
+-	return value;
++	return DIV_ROUND_CLOSEST((mbw_max + 1) * 100, 65536);
+ }
+ 
+ static u32 percent_to_mbw_pbm(u8 pc, struct mpam_props *cprops)
+@@ -605,31 +589,7 @@ static u32 percent_to_mbw_pbm(u8 pc, struct mpam_props *cprops)
+ 
+ static u16 percent_to_mbw_max(u8 pc, struct mpam_props *cprops)
+ {
+-	u8 bit;
+-	u32 divisor = 2, value = 0, milli_pc;
+-
+-	/*
+-	 * To ensure 100% sets all the bits, we need to the contribution
+-	 * of bits worth less than 1%. Scale everything up by 1000.
+-	 */
+-	milli_pc = pc * 1000;
+-
+-	for (bit = 16; bit > (16 - cprops->bwa_wd); bit--) {
+-		if (milli_pc >= MAX_MBA_BW * 1000 / divisor) {
+-			milli_pc -= MAX_MBA_BW * 1000 / divisor;
+-			value |= BIT(bit - 1);
+-		}
+-		divisor <<= 1;
+-
+-		if (!milli_pc)
+-			break;
+-	}
+-
+-	/* Mask out unimplemented bits */
+-	if (cprops->bwa_wd <= 16)
+-		value &= GENMASK(15, 16 - cprops->bwa_wd);
+-
+-	return value;
++	return (((pc * 65536) / 100) - 1);
+ }
+ 
+ /* Find the L3 component that holds this CPU */
+@@ -1167,6 +1127,9 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+ 	if (!r->alloc_capable || partid >= resctrl_arch_get_num_closid(r))
+ 		return -EINVAL;
+ 
++	/* Update with requested configuration only */
++	cfg = dom->comp->cfg[partid];
++
+ 	switch (r->rid) {
+ 	case RDT_RESOURCE_L2:
+ 	case RDT_RESOURCE_L3:
+@@ -1182,6 +1145,8 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+ 		} else if (mpam_has_feature(mpam_feat_mbw_max, cprops)) {
+ 			cfg.mbw_max = percent_to_mbw_max(cfg_val, cprops);
+ 			mpam_set_feature(mpam_feat_mbw_max, &cfg);
++			/* Resctrl doesn't support MBW_MIN yet, use default value */
++			mpam_clear_feature(mpam_feat_mbw_min, &cfg.features);
+ 			break;
+ 		}
+ 		fallthrough;
+-- 
+2.25.1
+
