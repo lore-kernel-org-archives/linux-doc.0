@@ -1,190 +1,117 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2048.outbound.protection.outlook.com [40.107.93.48])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F3949627;
-	Mon, 19 Aug 2024 20:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724098674; cv=fail; b=G18vsQbuDYDxWFQSQR0c0LXmvU2PB/ODUFKvHIabr45xCrQOWwabeLnFireX9EeIzYH7ASoDqa0CULR0UUzCSg3OCYGd4jPXvk2td3IYRIC6XJzQvP/4qOTCnNz3URMlse/Vcn7Lo5sGj4lsEp8UBgYrtOWH7mJK0cTTyD3zhbc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724098674; c=relaxed/simple;
-	bh=WoD5bO8KsauPn2fjak0HEPswtG3OfpkaqSZ+TlqNFW0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hoFnzk7CNUmPJTFvnjIM0jIBy255SEn1/e59IUHH4L3u8mhhHVhQAu2kHzatrskCQw0ttqdY7NbQDITSHXCVcU9wfBQqVA+RQQKQw0GPI52gCknkAqxUR6BdyL+Gjl03g41kbo7wXzOHpTDs+9Qzcpb0qShE0ZuoqOqwpSwm+CY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nMRZdUKv; arc=fail smtp.client-ip=40.107.93.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D851586CF
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 20:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724099412; cv=none; b=ZKft0i6Sxzmbh4vFyEa993KU1cMOZcVT6dH3+dsPXhwbyBQ6N/37yVRu18J3c8Te4RZC8AYXUhhXIdyGNQjGAs0U9EHo4gj3PhcXDKsU3jqLol+dRoi7L0l5eoWFsjJDmv96zrs42cN3T3w80YNXU0SdetqJtcPaIU2YMeHm2Dk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724099412; c=relaxed/simple;
+	bh=dxZzgN8fHT7/E9MQmkwqnJhujKe+x7LyCDMQUazEia0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=CrFxFyFfoiCFvbG4H1BWYwIP+ppfkb1KiNpDO2SSog7xEwTEmRUFj5pQdFNhezP0OPcNDd7894PYfarFVuy5fk7Iu8fYYsEjjkn5gaV99BTAPfyre47UFdJ6ficuDOeGSKG+A/vpTUcj0p+8pwsHgjqPIkz3clEm0JR1uxmU3ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YS5OgtbG; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nMRZdUKv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L076XhkcbQ+GPEXmktSVmsGnPzM3ZGN7MxeYbHRKcS6PZF//lHFlwc1NDzWY3WE1GJpFKxpRsorfNdSODWjUUMuZBGKD9gMrkfZu2yCSwK9xfqDpYJZGVQ5FykTcZ628ER3cDe3K7TlgjMtxhWREAkjHPV80PigSagTy5Rkk0GMEvzYFg93eqVnljKgvL1yr1xf/M6DRhHTeoTxAqOzzHkKkSCOgqr04ZH8bUKYfEj/r1xVbkR9dRsHj2GVttbD6deRk983D4sDLY1yfNKamfS2GfbWdf5zFLyeiP3E3y21XEOf2xmjuWqvq4s1+maxm4sncGtSKssNBPQpX1vrMhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=atNYmZtwjKgagy+gLt8ajwnwVMxKyG3qf1T5Qr+pfgo=;
- b=rwHohHod6zZD98Km53VeM6wS+11GOlArGzrR9sC9Eus4iSTOGTEYx5S/ark715yDhwfN41oNY5NlRDAjUEesZqXirNaUW0A3uN2Trdszqj4i3THZzEODBWCiLKAexvp3N9PPzr497z+bSpYtwIHg+cA8loZT6Q4e0qqHeeOpMRfdaEBFKtoCsbB+wmzNCIlAitXtvSBZkMhKlgF3Eef/+QZSF+RoG3Vr7/lDn4QCYz+A+Dy8/k0oTDrdsQplVOxGS0RonIIC/azC1yaKlzPIHwpAbGGWd00oYT9TRpt5gClX2Tdw6PKDyritLvVaC5lfkfd+I9A4eUcOMa0IA+eP3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=atNYmZtwjKgagy+gLt8ajwnwVMxKyG3qf1T5Qr+pfgo=;
- b=nMRZdUKv+DH5IYJb3N/lYSZZBgkwO55baxh3xYEjTUuINIya4VNBPKPUO9f8U3UNB2c8IsvS3iTHnL/BGOpgcqm52UuEKa//Wjr0SJuowQbicarkbSB2O0tsRmNcd1ZQTLUEyRQt+DsaZcb6T+LFe8AW7OgKzTu+B2GzgBA92xw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA1PR12MB8556.namprd12.prod.outlook.com (2603:10b6:208:452::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
- 2024 20:17:50 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
- 20:17:50 +0000
-Message-ID: <93c61ea8-5df7-4705-a77a-d93db8b75c53@amd.com>
-Date: Mon, 19 Aug 2024 15:17:46 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH 1/7] x86/cpufeatures: Add support for L3 Smart Data Cache
- Injection Allocation Enforcement
-To: Borislav Petkov <bp@alien8.de>
-Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
- mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
- fenghua.yu@intel.com, hpa@zytor.com, paulmck@kernel.org, thuth@redhat.com,
- xiongwei.song@windriver.com, ardb@kernel.org,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- sandipan.das@amd.com, kai.huang@intel.com, peterz@infradead.org,
- kan.liang@linux.intel.com, pbonzini@redhat.com, xin3.li@intel.com,
- ebiggers@google.com, alexandre.chartre@oracle.com, perry.yuan@amd.com,
- tan.shaopeng@fujitsu.com, james.morse@arm.com, tony.luck@intel.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, peternewman@google.com, eranian@google.com
-References: <cover.1723824984.git.babu.moger@amd.com>
- <8378af17a73455661845830b40864ec1cbc303ff.1723824984.git.babu.moger@amd.com>
- <20240817145058.GCZsC40neU4wkPXeVR@fat_crate.local>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <20240817145058.GCZsC40neU4wkPXeVR@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR10CA0016.namprd10.prod.outlook.com
- (2603:10b6:a03:255::21) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YS5OgtbG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724099408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hn+U0KRxu/hCj/TyTc49LIfB/amh5yN9k/2aiCsM7B4=;
+	b=YS5OgtbGYa2KaqjCMTTLeGBuriiecqCKqeyEzV7kiII6N2MUc/ubp4gL3TeeCF4jP432Cv
+	rc9l33N66YAkxm583hae23avrjakMggW7dxlvPmy6hd7FuIOEUvv2XJSPzXe4IGDJ0mLsB
+	QNoGxMSh5cYc6jct+2km+TMStQgZERY=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-440-z3TYU149PZ-d5vkRbPCspg-1; Mon,
+ 19 Aug 2024 16:30:07 -0400
+X-MC-Unique: z3TYU149PZ-d5vkRbPCspg-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 05EC419560B4;
+	Mon, 19 Aug 2024 20:30:06 +0000 (UTC)
+Received: from [10.45.224.222] (unknown [10.45.224.222])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 431871956053;
+	Mon, 19 Aug 2024 20:30:03 +0000 (UTC)
+Date: Mon, 19 Aug 2024 22:29:58 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Piotr Zalewski <pZ010001011111@proton.me>
+cc: agk@redhat.com, snitzer@kernel.org, corbet@lwn.net, 
+    dm-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: admin-guide/dm: Fix indentation bug
+In-Reply-To: <20240819172401.77928-3-pZ010001011111@proton.me>
+Message-ID: <ced0f91b-6db7-df23-3988-b687b8beefcc@redhat.com>
+References: <20240819172401.77928-3-pZ010001011111@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB8556:EE_
-X-MS-Office365-Filtering-Correlation-Id: e93cdd29-a112-4c00-2997-08dcc08bff96
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QStOTDlYWFR5TVNDQUlvMURzK0NVN2Y1TXliQjVrMHgyaU1zenRoeHE3VXlB?=
- =?utf-8?B?NytCcENJUWlpaHQ4bnZKL2RHQVZMaDZ0ZUlqc1pOTVBGUWVVRVRuVmpkSWRi?=
- =?utf-8?B?R2gwaElGWEtEZVY0RERWMGhmTmt4di9xTnN1SHJGaC9hcldoSmVaeGhGU3pY?=
- =?utf-8?B?Q0llei83NHp3Tzkxa09CVmFvMzNKbS9PZTVJek1HTTNHYitsMFdrRGdPQnZF?=
- =?utf-8?B?Mi9sTnFQZ0RvUVJBWTdTekN2UHM3QjFlMThWT1JzZHh2aEdzZTd5U3c1VFpu?=
- =?utf-8?B?TjNKa1M3VzlCRlZ2cVgvTjVpWk4vQkNBUjNYdzVYN2dKZW4ySmVoODVYWm4w?=
- =?utf-8?B?Sm92WlpUSG5jaEV4YUxQVXhzMXBSNXgvRGNaT3dvUFFjdG4xaFU1L3RhK2dq?=
- =?utf-8?B?clY2eElWdHlRLzhPL09PNzBYcytQV0RhMXluV1NrakVwbVhoL1orN1hBek1O?=
- =?utf-8?B?MHNSQTRvRmZrWFBKd2NncG9YVm0wcHFrcGZHZkJNalJrSUMzVmhqRHNxQzM1?=
- =?utf-8?B?WjFhZHcxTUl6YjNzMDBMSGFqc1B4MzduUUIrdjJPYkl5ZFJ2ODIxbHRXb2o2?=
- =?utf-8?B?b0xhTFg4K3Focys5cmRoZ3h6ZkViSm1kWXFXWWtHdmtsdTN6cnVHa3NnVU9t?=
- =?utf-8?B?MmhNdTA4V041bzVPcVJGWVBsRHpldVdpSWFEYTZIZURxZVNJcEtZc1V5RElZ?=
- =?utf-8?B?OXRRdFJrbjNCUEZOY0hRTVJFZTdieUhKQVdmWmg4cUVJQTYwNWFuUnFVRG9O?=
- =?utf-8?B?SzRSc1pxZzNqczNVU3FKa3o4U3VVL3ludGV2NXc4TzQ5UHJRMHp1NHI5c1M0?=
- =?utf-8?B?UllERFBHcXJlM0MvMzFxTm1aeHFSRTBCSTlzM05Xb2EyZmFGWnRYQndKK3RP?=
- =?utf-8?B?UFdyQUlSd0kyMVJhTTBLc2hjU25xdGY2WTRINE9rL1l5T2FoWXY1alJRWjRC?=
- =?utf-8?B?RnZXTXJyWXUrU2UydEhNRG9OcVlaY3Y1ZTZGOENHcVRCd1pVdUo1Q0QvUDlQ?=
- =?utf-8?B?dHdpeXR0em1NRHFZNWl5ZUQ1V1VXVTdLWk53aVVTZllzMG1SbVBydzRHS0VH?=
- =?utf-8?B?aHIzQWJYOHlzT2RoSGU2dDY3WEtRV29vK29oeEdnOVZIbm8zVDZxSnJvYmIx?=
- =?utf-8?B?VkhaVlF3VjFuQjl3S3MzUVl3ckRhQlE1NzdzMlE1c1dyQXI2cEc5NGhvZ3Fi?=
- =?utf-8?B?NXJsV3IreUhGUTBWdDRsU1V0SFNUT2ZGVGNqZDlFbENocGdLd1p1TWQwdW9U?=
- =?utf-8?B?eGs3NC9mQ0VyOE5kczFwSHJ6SW5pZ1JTLzJabTErSzZyS0VwUnZmRjh0Nzdm?=
- =?utf-8?B?K1RrZXdBU0sxQmlQQWNBQlgzeGVaRngxMVdrZldtR25wdGNrVXFCVjQ2cHFm?=
- =?utf-8?B?QjdHK01QYUh4ZWJDWXB4dzhjTUc3U3RqblBrSEV1UGk2RjlFYVlPaTJBd016?=
- =?utf-8?B?TWh3dUlKdzRtYlg3OFRIRlJ1RU1pM1I0Z2tVdERtN1RNcjdFcmV4bG51YkVB?=
- =?utf-8?B?bHJJWnV2WkhqSDJCSVBZREF6TlRGU1FsbFdsVEdtZlNkd053VlVvSTFRQ0kr?=
- =?utf-8?B?OG83RVRjSURLa1FkU2ZaenpOU1pscndGa2lncVhjLzlqNTlpdDBRNk9rdEdK?=
- =?utf-8?B?bUZZZWxsaFRMM3VHeEVDRkJXeXJ3ZWNlMmF3dWRGSVFtSzVTVlFaVFkyU2ZP?=
- =?utf-8?B?dmZBMXQwbHdBU1B1bnkzMU85bWhJVDZxZ1RjNFZER1VGYm44QW9seEpuNVRz?=
- =?utf-8?B?cGhPMHZTSWh6NUtwYy94dlZtbko1NjlpSUk3ZzVvdkp6TnVJbWNBb2YrdUFU?=
- =?utf-8?B?MjYyWFJBRk5UdkpJenlHZz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L3hFU3gwWTNzSlI5MldOTEZLdGRYUllFTEYrNXlaWE5mcHdSSlkybkhjam1V?=
- =?utf-8?B?cDhmcm5HdytEQlBJOWZhdnBENVhic0ZhUWRZS1dlQW5kK2lBUVp2cXhmQWdJ?=
- =?utf-8?B?Wkc0ZTN2YytWdC9WSE9NZEYzMS9taExYNE9ZTDE0dlBVaGhrWEhlSkplUTdT?=
- =?utf-8?B?cGxwSnNIek1FLzZEQ3hhTEt5cktzTndPbndlMlRXZ2RqMDBEU01veHdacTV2?=
- =?utf-8?B?WEFKbnJzSWIyYmtSeEkvTXVQcGpWVmRLRjRmRTIyV203aTZGSExhOHQwOUFD?=
- =?utf-8?B?R0xteGlzZTlyK3l5MUVoRkZQcy9hdldtUlhsalJiMlhhUUVieldOdUo0bHFL?=
- =?utf-8?B?Y2U3bGhaVXMzSGw1YndzN2ZaSDVJcjVWWUd3a1ExUCtiWFl5ajhjbG5OTnlN?=
- =?utf-8?B?SkNsV2JRc3QyNEhHNWZjeEc1NC8rODhuL0xWNDFwaXBVaVBLTmd3U3hhblRw?=
- =?utf-8?B?MHViM2wwZ2gxNk42NXM5OGoyVS80K0hUZmc2WlNuUHhIbk44dWl4R2dvSXJa?=
- =?utf-8?B?S0l3cDBqb1k0Q1NKKzBBcFZpLzhsRG1xazdWK3JhcFZNaW13SDFIVElDazZx?=
- =?utf-8?B?YXZ1Wi8zZ2hCMHFhUTRGUnc0Q3ZzcjkxSGZOMHQwQnljaGxHUWRmZ2xTeEZW?=
- =?utf-8?B?SjQxU2NxTDZ4dXkzSEtBVGp0M2NpdVVTZVRSUUVadHpPRmZBZmdKaVY0YU1X?=
- =?utf-8?B?cjh3NVYvajlPa2VXcDBZcE1ZZ0pQQVpTVUY1RHVEZ0JwQ2d4NmFtVEZ0Ymky?=
- =?utf-8?B?bGNYNDZNb2tjSW5HTGZCU1hoZVI2aXlkRG90L0JSUjZ4eUpiaitTeU92d1VO?=
- =?utf-8?B?YVFDZXJYRUVZdFZENVpaMDBZTS9FZFk3SU1BV0JtMk1TcmdMeSs2UjRNSDF3?=
- =?utf-8?B?WEMvbzFudjR0WGwwaXJ6dVRuUlJ4alVtRWJqU1prZDVyYVF6UG5HUG5sbGJB?=
- =?utf-8?B?RVVoYzNveXRWRXcxOHlxSFppWG10U2x3RjREaTNJWmMrZjEyOTIzK0d1bHVk?=
- =?utf-8?B?SUhxMU0zLzBnRWk4dXdxK0g4QUFCRkRUQjRKSFhtd2loYXFxOWhtak4yZkNn?=
- =?utf-8?B?d2VNVk1ZdSt2SWE2UWdvMDRRK3V5aDBnNVlOeHJwVkx5OHdzMVB1UW9aZHBj?=
- =?utf-8?B?TEt1STI0TCtMaVYyMExSQkJxck9jK1JZeUJxOEFXNzQwU1B5YzduWUhxUjNm?=
- =?utf-8?B?N3dtc3QwRmg4aDZNVFBYVlZRbEhxUkl1U2hscTRLSTUwOS92ckhXQURCNW1m?=
- =?utf-8?B?YjhzZjgwMXF2VS9VWCs0biszd1h2aWFMMnVYd25QcWlTS01ueC92ZDNiYWM5?=
- =?utf-8?B?KzNyYkh5eEtnZXE5LzZxN2N3Z0cyWG5zK3BZSVk4Q0N3WWViT3NTMVFUOGRH?=
- =?utf-8?B?S09hRWd2K25BeHo5ekxnSC9TYmlRUGJncU5ObUdmT2pmTmpOMDhNbTYxVWI0?=
- =?utf-8?B?NytobitWaHpWZVhaUXlGc2lHcUJmNXQ2Y1dVQ2g1NlA2RkdkWTdubHg2emMr?=
- =?utf-8?B?NWtZYVV2YjhBcldMc1FQMDdySk5jRmJIM0J0MG0vQXJQOWNncDFDNXdaOFI3?=
- =?utf-8?B?RysrenVBS0w0Z3ZlSDFMOUJuaXZqSU94Q0p2b3Rla0JvUDcrRkZKZnhJN2dq?=
- =?utf-8?B?WWRBeTdubmplVW1nWXJKMjVJOUxsbHFmdmFrUlBtT3YySEpwY1JEZ3lHdHFQ?=
- =?utf-8?B?alhtVitiYitOOCtJY0dDckxUM1RhVHpUSXZWY1hqanBxUkpNTzZ5MnRjNUhV?=
- =?utf-8?B?ZkUrWXJzQktzOXliMmJaeUgyQytaRVVmWmVGdkcrSUdUdlBuOHMzV1hYbXN1?=
- =?utf-8?B?ajZRc1BZSHVyMkM5eVNLQlMrWURpS3N4enowVkhnSU45Ykc1c2JHTkhTZEht?=
- =?utf-8?B?RXZ2N041R0Y2OEswLzV1NzBjcTNkNDBuWnBZcW1jUHFyR3RWemF4Y2ZyQ3k4?=
- =?utf-8?B?eEVUZGJZTVIxYnEydFhQUWFoaG1VbnRLdENIMC96V2U0MlFCOVowWVdpZFZm?=
- =?utf-8?B?bnVFbTBCaTRXR2pHQkZVVXZkMUNvY2FuRnE0Z0RlajhwSk1FQlFmMDRlbE4r?=
- =?utf-8?B?OWNGSGZROGsvV3NCVHFtbjFzbU5HdVRYNnNWUE5ISS9rdUlrT3luc3hmdDBh?=
- =?utf-8?Q?9+AQ=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e93cdd29-a112-4c00-2997-08dcc08bff96
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 20:17:50.1918
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: exBiz257++Ar3SvU0caxdldijW8xIfp7zuQXCT9hPtdiItwZptDQB8XYp5BSFTsc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8556
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Hi Boris,
 
-On 8/17/24 09:50, Borislav Petkov wrote:
-> On Fri, Aug 16, 2024 at 11:16:18AM -0500, Babu Moger wrote:
->> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
->> index dd4682857c12..5ca39431d423 100644
->> --- a/arch/x86/include/asm/cpufeatures.h
->> +++ b/arch/x86/include/asm/cpufeatures.h
->> @@ -473,6 +473,7 @@
->>  #define X86_FEATURE_CLEAR_BHB_HW	(21*32+ 3) /* BHI_DIS_S HW control enabled */
->>  #define X86_FEATURE_CLEAR_BHB_LOOP_ON_VMEXIT (21*32+ 4) /* Clear branch history at vmexit using SW loop */
->>  #define X86_FEATURE_FAST_CPPC		(21*32 + 5) /* AMD Fast CPPC */
->> +#define X86_FEATURE_SDCIAE		(21*32 + 6) /* "" L3 Smart Data Cache Injection Allocation Enforcement */
+
+On Mon, 19 Aug 2024, Piotr Zalewski wrote:
+
+> The following bug was found at `admin-guide/device-mapper/dm-crypt.rst`:
+> ```
+> admin-guide/device-mapper/dm-crypt.rst:167: ERROR: Unexpected indentation.
+> ```
+> Fix the indentation error.
+
+Hi
+
+This should be already fixed in v6.11-rc4.
+
+Mikulas
+
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
+> ---
+>  .../admin-guide/device-mapper/dm-crypt.rst     | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> The "" is not needed anymore - feature flags are automatically NOT added
-> to /proc/cpuinfo.
+> diff --git a/Documentation/admin-guide/device-mapper/dm-crypt.rst b/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> index e625830d335e..450c211534a9 100644
+> --- a/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> +++ b/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> @@ -160,15 +160,15 @@ iv_large_sectors
+>     The <iv_offset> must be multiple of <sector_size> (in 512 bytes units)
+>     if this flag is specified.
+>  
+> -
+> -Module parameters::
+> -max_read_size
+> -max_write_size
+> -   Maximum size of read or write requests. When a request larger than this size
+> -   is received, dm-crypt will split the request. The splitting improves
+> -   concurrency (the split requests could be encrypted in parallel by multiple
+> -   cores), but it also causes overhead. The user should tune these parameters to
+> -   fit the actual workload. 
+> +    Module parameters::
+> +
+> +        max_read_size
+> +        max_write_size
+> +           Maximum size of read or write requests. When a request larger than this size
+> +           is received, dm-crypt will split the request. The splitting improves
+> +           concurrency (the split requests could be encrypted in parallel by multiple
+> +           cores), but it also causes overhead. The user should tune these parameters to
+> +           fit the actual workload.
+>  
+>  
+>  Example scripts
+> -- 
+> 2.46.0
+> 
+> 
 
-Sure. Will remove it in next revision.
-
--- 
-Thanks
-Babu Moger
