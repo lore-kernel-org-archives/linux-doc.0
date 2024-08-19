@@ -1,88 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE2B610D;
-	Sun, 18 Aug 2024 22:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F96947A;
+	Mon, 19 Aug 2024 02:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724020828; cv=none; b=kKDcWJBgu9I/bUijIgUwSUEPpyp+a/cvM8zmy8dmUwhSj59Hu531Gp8IRjas4vMyoqXYYmYHkmHe7qnYoUug6AjklahYGKdSSI29sPtyqdTo+x4aTEFax2fTD0HikgnvkjeRggKBg1jEb2H56DZPz7twq+M7xTqnKdlPkWoWJFQ=
+	t=1724034713; cv=none; b=JiEWnPSFWn9aCB0x1SCQTX1fz9jZouLarE5swX2GLrSfTaS6pyd5sQeSwX0r8Q11Ne+iUdbhgvVZSdb94dWYzPv18MFdztxQpmIGGHwF+qA4TrEce6amCvT3yYn2wckejlUNyfcQZcoPr+Qu1GES3CnOEh7UVjAuo8uADGP0RJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724020828; c=relaxed/simple;
-	bh=nvPIW8MrNDLXJBVY8SG6ZctzKzWx2f6RqLPxk4qnoUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z6gOouboU0BkJQtkzHdctlzbMFuKawDyO5RsWP08AziGVuCwDFKcmr4PH/Z4P9dxPsAigW4ZoLjjTIWn2NnoG4PBmGZhrxpwjtDU8s/bb5ypRXZpKNAA2eDq/cjpyU86zsDOAXj+xFKDZ7x0faEVv7/awlOWAJj4jgRZV7urv34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezhA/uFs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724034713; c=relaxed/simple;
+	bh=i22NReUCAGRVIO9ztXnTIHHfnZxFlPoPg8WtvDLG2uc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V1C7YbntwrK7Log6XuedJswj8Yfm5jj+672dB6H5AzBgJ1q7oY/AxrODKXksI+NzqpxWuBvJ30HhBCfz6RW+LWt9Qql1Xu1Awd0mBFpESaBOBhJ3lC4GwuacnjFF1UF2qCa0GRfUljRIKK7LVDAu9AxZVS1108sc8iIufrIrS4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnItzEFx; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezhA/uFs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22AB6C32786;
-	Sun, 18 Aug 2024 22:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724020828;
-	bh=nvPIW8MrNDLXJBVY8SG6ZctzKzWx2f6RqLPxk4qnoUc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ezhA/uFsNcmRYc1rtMUFEV7Ow3YdA1VbP5uMKK/30TkFlwen1hAZvK9xsDcimmi92
-	 8mUkNTOZwST0HGSh4vM4DnbCHm6a++ZaxgVo4RbUvVFM8m9OWTbcvm6YRKek+t6V+b
-	 tvMtFKlZWup0UsrsaXKSoVKj5NF5XtXpfcDBydD6D+jJ2t8ih4KJZ9cLzA7S07qGk0
-	 vq+sKIxr8X2LKC31TVsBfWO9WSod6mP+qklBNC9MJntvh1ZJ3i0Eg1xUj7sGc6nvuI
-	 XvJNhd2SOrp4A0BzyoSOroeJlm60WSx1l8CHZK2GihFb8k+RZovDlStUMU9Oy8F5WZ
-	 stjafl0rbJBZQ==
-Date: Sun, 18 Aug 2024 23:40:22 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v5 12/13] dt-bindings: riscv: Add Ziccrse ISA extension
- description
-Message-ID: <20240818-dinner-legume-9c73c5145898@spud>
-References: <20240818063538.6651-1-alexghiti@rivosinc.com>
- <20240818063538.6651-13-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnItzEFx"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-44fe58fcf29so21906201cf.2;
+        Sun, 18 Aug 2024 19:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724034710; x=1724639510; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hr/MNKOihCdmGfPcRIsChyQtOWVhC+v3g1s4BetNL5w=;
+        b=bnItzEFxM0aS3ahJs1AmObCIuR9UJN4mJB1UZjwPwrKr14LHU07a459JLDIRBSrFaX
+         FfvZLzVf2BLvdrpoeWV3n3ddZC55arxH3OeHSC4CYziTBgZBvk4ibnB1myT+b+qqMMby
+         /oXAKC0H8Ibd7PWdj+g805+oYYB9Op4br/BKTs+mgVM4+pUVW1uwuseYUbPTlfZMAWFG
+         A/Cslyhuhx7nIpnRI7NMGcwnBjZVlJVbSAmDvJSFEZ6j6tNPAfmNLRXmit/17GXa4nPY
+         8Nf5wcXaGYSHmp74sQkvx2YCBDvQ1RUS43XEC7SgKvszueglk7Da72144SRkRW2AnDsv
+         vYLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724034710; x=1724639510;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hr/MNKOihCdmGfPcRIsChyQtOWVhC+v3g1s4BetNL5w=;
+        b=NacZ75BgbMd7scaR5sSnVZDRBsz24XYLZFayw8GicRyNgV400rQTxA+ckuQbF3upL1
+         BQCM5vpe5hdVWk7xKUZzchEwzmi2Es91FvM9UYDix+HrdYjWtQLUCqqJolvOfUt2h2xC
+         72fwfVFV98Xsq6HJZEyi4uUcDdQF60q/650j+HdTMJUduegtLU0OXya1t7rtab2HcqBB
+         OmzYnBzc1RW3zC7FxcsIRJICE0ZHeDKYvZe4e7SMHZPa8LSh2Ib94gJSx0Ky6O9Q9AK0
+         l17GTLHYl++pfRdOkylSynJfI5HdyQKNv1XeO1xnn93hOs2CIAyDhPOCBKJCsY2EGKka
+         Ferg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJlgXojn43TNCYNlXC29ywJnFsaiA+NDHJodMCEeuY2/bgPCY/mGjoJgwB+BqSMLa9pJe/twc147EwUYeuGPN71ezooAY0Yz5Z9Xx70uZaUE17S8UG/e+9pxfZgHJdguEyBMpN76dx
+X-Gm-Message-State: AOJu0Yxh7M0osPdcrrVubdQs6mRoHDeMZ/xvvGzcemuj/TgPVumRNpLT
+	MyR0+q68xE4JT5XJfmS7EhChY62bTXWzdei4DmQtZiG3GUKSJ1ob
+X-Google-Smtp-Source: AGHT+IHVANl7x8pILhez9TXzw1mYBL1esgGeTHkXNUwc7tgVJVgV88kUbwZwUzm2+nOxxHI53iA4EQ==
+X-Received: by 2002:a05:622a:2b45:b0:453:5eae:fa23 with SMTP id d75a77b69052e-453741b5e87mr119763431cf.4.1724034710136;
+        Sun, 18 Aug 2024 19:31:50 -0700 (PDT)
+Received: from localhost (fwdproxy-ash-113.fbsv.net. [2a03:2880:20ff:71::face:b00c])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4536a072683sm36252731cf.85.2024.08.18.19.31.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Aug 2024 19:31:49 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	riel@surriel.com,
+	shakeel.butt@linux.dev,
+	roman.gushchin@linux.dev,
+	yuzhao@google.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	ryan.roberts@arm.com,
+	rppt@kernel.org,
+	willy@infradead.org,
+	cerasuolodomenico@gmail.com,
+	ryncsn@gmail.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH v4 0/6] mm: split underused THPs
+Date: Mon, 19 Aug 2024 03:30:53 +0100
+Message-ID: <20240819023145.2415299-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MdjlHmg67ept7cTJ"
-Content-Disposition: inline
-In-Reply-To: <20240818063538.6651-13-alexghiti@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
+The current upstream default policy for THP is always. However, Meta
+uses madvise in production as the current THP=always policy vastly
+overprovisions THPs in sparsely accessed memory areas, resulting in
+excessive memory pressure and premature OOM killing.
+Using madvise + relying on khugepaged has certain drawbacks over
+THP=always. Using madvise hints mean THPs aren't "transparent" and
+require userspace changes. Waiting for khugepaged to scan memory and
+collapse pages into THP can be slow and unpredictable in terms of performance
+(i.e. you dont know when the collapse will happen), while production
+environments require predictable performance. If there is enough memory
+available, its better for both performance and predictability to have
+a THP from fault time, i.e. THP=always rather than wait for khugepaged
+to collapse it, and deal with sparsely populated THPs when the system is
+running out of memory.
 
---MdjlHmg67ept7cTJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch-series is an attempt to mitigate the issue of running out of
+memory when THP is always enabled. During runtime whenever a THP is being
+faulted in or collapsed by khugepaged, the THP is added to a list.
+Whenever memory reclaim happens, the kernel runs the deferred_split
+shrinker which goes through the list and checks if the THP was underused,
+i.e. how many of the base 4K pages of the entire THP were zero-filled.
+If this number goes above a certain threshold, the shrinker will attempt
+to split that THP. Then at remap time, the pages that were zero-filled are
+mapped to the shared zeropage, hence saving memory. This method avoids the
+downside of wasting memory in areas where THP is sparsely filled when THP
+is always enabled, while still providing the upside THPs like reduced TLB
+misses without having to use madvise.
 
-On Sun, Aug 18, 2024 at 08:35:37AM +0200, Alexandre Ghiti wrote:
-> Add description for the Ziccrse ISA extension which was ratified in
-> the riscv profiles specification v1.0.
->=20
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Guo Ren <guoren@kernel.org>
+Meta production workloads that were CPU bound (>99% CPU utilzation) were
+tested with THP shrinker. The results after 2 hours are as follows:
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+                            | THP=madvise |  THP=always   | THP=always
+                            |             |               | + shrinker series
+                            |             |               | + max_ptes_none=409
+-----------------------------------------------------------------------------
+Performance improvement     |      -      |    +1.8%      |     +1.7%
+(over THP=madvise)          |             |               |
+-----------------------------------------------------------------------------
+Memory usage                |    54.6G    | 58.8G (+7.7%) |   55.9G (+2.4%)
+-----------------------------------------------------------------------------
+max_ptes_none=409 means that any THP that has more than 409 out of 512
+(80%) zero filled filled pages will be split.
 
---MdjlHmg67ept7cTJ
-Content-Type: application/pgp-signature; name="signature.asc"
+To test out the patches, the below commands without the shrinker will
+invoke OOM killer immediately and kill stress, but will not fail with
+the shrinker:
 
------BEGIN PGP SIGNATURE-----
+echo 450 > /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+mkdir /sys/fs/cgroup/test
+echo $$ > /sys/fs/cgroup/test/cgroup.procs
+echo 20M > /sys/fs/cgroup/test/memory.max
+echo 0 > /sys/fs/cgroup/test/memory.swap.max
+# allocate twice memory.max for each stress worker and touch 40/512 of
+# each THP, i.e. vm-stride 50K.
+# With the shrinker, max_ptes_none of 470 and below won't invoke OOM
+# killer.
+# Without the shrinker, OOM killer is invoked immediately irrespective
+# of max_ptes_none value and kills stress.
+stress --vm 1 --vm-bytes 40M --vm-stride 50K
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZsJ4VQAKCRB4tDGHoIJi
-0q1TAQC/3Y3ikmFCM9JkfyYBjvVDU7doIlqoBTwix2edEFt+cgD/e8U9gPTWeUR9
-iKo8EiUwOQ2/3YOG6uwaJ7IPl8oZCQo=
-=15P4
------END PGP SIGNATURE-----
+v3 -> v4:
+- do not clear partially_mapped flag on hugeTLB folios (Yu Zhao).
+- fix condition for calling deferred_folio_split in partially mapped case
+  and count for partially mapped vm events (Barry Song).
+- use non-atomic versions of set/clear partially_mapped flags
+  (David Hildenbrand)
+- use PG_partially_mapped = PG_reclaim (Matthew Wilcox)
+- delete folio from lru list and folio_batch_add "new_folio" instead
+  of folio in __split_huge_page. (Kairui Song)
+- fix deadlock in deferred_split_scan by not doing folio_put while
+  holding split_queue_lock (Hugh Dickins)
+- underutilized to underused and thp_low_util_shrinker to shrink_underused
+  (Hugh Dickins)
 
---MdjlHmg67ept7cTJ--
+v2 -> v3:
+- Use my_zero_pfn instead of page_to_pfn(ZERO_PAGE(..)) (Johannes)
+- Use flags argument instead of bools in remove_migration_ptes (Johannes)
+- Use a new flag in folio->_flags_1 instead of folio->_partially_mapped
+  (David Hildenbrand).
+- Split out the last patch of v2 into 3, one for introducing the flag,
+  one for splitting underutilized THPs on _deferred_list and one for adding
+  sysfs entry to disable splitting (David Hildenbrand).
+
+v1 -> v2:
+- Turn page checks and operations to folio versions in __split_huge_page.
+  This means patches 1 and 2 from v1 are no longer needed.
+  (David Hildenbrand)
+- Map to shared zeropage in all cases if the base page is zero-filled.
+  The uffd selftest was removed.
+  (David Hildenbrand).
+- rename 'dirty' to 'contains_data' in try_to_map_unused_to_zeropage
+  (Rik van Riel).
+- Use unsigned long instead of uint64_t (kernel test robot).
+
+Alexander Zhu (1):
+  mm: selftest to verify zero-filled pages are mapped to zeropage
+
+Usama Arif (3):
+  mm: Introduce a pageflag for partially mapped folios
+  mm: split underused THPs
+  mm: add sysfs entry to disable splitting underused THPs
+
+Yu Zhao (2):
+  mm: free zapped tail pages when splitting isolated thp
+  mm: remap unused subpages to shared zeropage when splitting isolated
+    thp
+
+ Documentation/admin-guide/mm/transhuge.rst    |  16 ++
+ include/linux/huge_mm.h                       |   4 +-
+ include/linux/khugepaged.h                    |   1 +
+ include/linux/page-flags.h                    |  11 ++
+ include/linux/rmap.h                          |   7 +-
+ include/linux/vm_event_item.h                 |   1 +
+ mm/huge_memory.c                              | 145 ++++++++++++++++--
+ mm/internal.h                                 |   4 +-
+ mm/khugepaged.c                               |   3 +-
+ mm/memcontrol.c                               |   3 +-
+ mm/migrate.c                                  |  75 +++++++--
+ mm/migrate_device.c                           |   4 +-
+ mm/page_alloc.c                               |   5 +-
+ mm/rmap.c                                     |   5 +-
+ mm/vmscan.c                                   |   3 +-
+ mm/vmstat.c                                   |   1 +
+ .../selftests/mm/split_huge_page_test.c       |  71 +++++++++
+ tools/testing/selftests/mm/vm_util.c          |  22 +++
+ tools/testing/selftests/mm/vm_util.h          |   1 +
+ 19 files changed, 346 insertions(+), 36 deletions(-)
+
+-- 
+2.43.5
+
