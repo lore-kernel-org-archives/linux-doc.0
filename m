@@ -1,89 +1,231 @@
-Received: from cavan.codon.org.uk (cavan.codon.org.uk [176.126.240.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6516A934;
-	Mon, 19 Aug 2024 18:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.126.240.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA529184535
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 18:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724091874; cv=none; b=on3hHwl56sRTjSy81xgszfaw3gv3fpj9F1cz7BwvxPa+vXkMNdQND+q+vGK7pBi6a9A9Xu5UigUGN+k6LlsnqJIKluO7ICaTOAEbfGhuQ71CpIlJORmVZjixvucGJ4YyH6qYgo243WTTWaMLOpV09YHNECr4UAKKpQIAFkneAmk=
+	t=1724092068; cv=none; b=gRCjB0kXGA7Vn9dsi1Q2eTFp0guAUOo/V+9IV562miCcoFus/KQZSfnQ1Am5lgD69mWERwtaTUl1d3nOPVyB9Uf0V3oNia9Nb5OELqBZHUFhJp6icr9XAWZMjG4B8s9UuHL7SHjMqL64X6EnGKDEj5Hp3Q2Ui6bKGYaj8trPfsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724091874; c=relaxed/simple;
-	bh=HHitbLQcODdjPuCSoJaZiVGwSe7pT6N18nHKmwnz0TQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SwLpxV0LMlwt1fd3DqH14qPuf3m3AgCqKVETARIlpZGGZlvE7Kggs0ojX5xdSy2ifsn9bQgco6g1F+8/Dw/d6r/uIqNfVMev2qeRgNXwvMxlrRQZPHTNyqmfvkb5jnoPZMLOd5jUg1XMtxFTuxZL+7KKTK5VppY9oJjCyibI1Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=srcf.ucam.org; spf=pass smtp.mailfrom=codon.org.uk; arc=none smtp.client-ip=176.126.240.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=srcf.ucam.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codon.org.uk
-Received: by cavan.codon.org.uk (Postfix, from userid 1000)
-	id 2F2FF409FF; Mon, 19 Aug 2024 19:24:02 +0100 (BST)
-Date: Mon, 19 Aug 2024 19:24:02 +0100
-From: Matthew Garrett <mjg59@srcf.ucam.org>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Daniel P. Smith" <dpsmith@apertussolutions.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-	dave.hansen@linux.intel.com, ardb@kernel.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-Message-ID: <ZsONwsWs3zCln70O@srcf.ucam.org>
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-7-ross.philipson@oracle.com>
- <20240531021656.GA1502@sol.localdomain>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx>
- <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
- <D3HAP4O4OVS3.2LOSH5HMQ34OZ@kernel.org>
- <Zr+dTMYZNY1b9cRV@srcf.ucam.org>
- <D3K35VBCWZSW.2WCXJMW1HGGD5@kernel.org>
+	s=arc-20240116; t=1724092068; c=relaxed/simple;
+	bh=GrzuF9ETqK0wSaQ2gn3bjMO1MZ7YgepiRwEsqY4/xSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D6ReN49ooN0bAOPtuocym6d1iNRqLBsrw6gw3hlgh2o5kLgoGk0M1mdii4Yf9Jqa0Hw9FPi3Lfo3br4cPZ7TWPk8zYxbcH7fNJiBcms/Of3Xjrak511p5LCZs8oyN59ZowaoSOKr///i55fyDK0PxX6c+2wH6eyV1EgLZfHzp4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Kj3j4MCu; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Kj3j4MCu"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5bf009cf4c0so1214378a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 11:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724092065; x=1724696865; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WXfcjOd7OrDKG9spQBdXpPk4BtnCdubI3RqPVTY/z94=;
+        b=Kj3j4MCubpKcxTGpm+cWAkDwbLuqX0Cxi3Jhmj09wZSnqfIjs3VaA4iFZqI0+6aLPe
+         QoS5+209Mn4iHDgUgt4CmJxyp3dhbVICTZr07uFovkrcCntLz/2yKdgpJWNHS/g3NKOP
+         7V5fcNda9ui+eBswuD4gkRlOdZTcAVqYPEhH16BvdgJOueOrj9a9c0jAU1fM2Z0WCmKx
+         5eHDQvAedLfUsrPLNmTCZmxJgU464ufxkTgfPiVqBcm3b/odv5XowsKvOIk0zVjibWBO
+         yDCeXAjoiDPutCEODTEJEmp2kz/Bgvh/NcWwO5L/ZmGrNE2rjvxg6LCfIajPwfdF8cPG
+         RYLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724092065; x=1724696865;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WXfcjOd7OrDKG9spQBdXpPk4BtnCdubI3RqPVTY/z94=;
+        b=BW3BUFeI+2dJVEbiYOY4ut+gWng1HERu+h6bc4mqxVGt0dRgUiRkgO0J5x97Ae2CYY
+         lrD73GtR0VHLjBgnIFvNcP41cb1XfpJaTQfYSr1urKbMH71Ui/R9kSFXlWzYRnTy1wzy
+         ZjTI2mnhQNIpPCMfFyPjKRoB0JUJfHnzoPaLAG6X5tcBXSufim7P8mbPsIQ6LW5cLXr3
+         3pnajgKnbZ8qFmxY0+p42TwRJdf1SlyybNrnvLEKPF6MB+QGzhvxPSFriB9b+TWLCfS4
+         nVzaXDFVhysB92isuE5olF5sViGw+Zbr9vKE987Yidn+yhw6mPX3aGKMoMvmDRHjRIHc
+         6aqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWC8J/hlwnTql9kCsQahhMIazYTeBG05VwPi5cHDO6BMitNKfJOqI2o4kI9gF+sRvlGm07VQD9CPbyLYHJXdhRVtcmQVx13YNzD
+X-Gm-Message-State: AOJu0YzKXIiFD/4Ae+1UTbIDIwGIZVpyUOm6YVunK1gQXzSuXWzy7V0l
+	dlOIsU3yZE/3AUGVkW3jHoxyQM+9A7cH+Mwk3FWWw5SBzZdtmDxCXGr9fRJuxyHPa0f3C7wQgRe
+	lNkPogFoJr7MD2SvIN6Wa6uNx7JL4C1UodGMk
+X-Google-Smtp-Source: AGHT+IGE9hCFXFW7/ZoM3ST5slr7DI5WQY6KcZ8cwUl9tx8GVfN7Fa8vJlS7zVPIW7Pphw160mce2C5mlT6DqbDTQO0=
+X-Received: by 2002:a05:6402:5215:b0:5be:d63a:4608 with SMTP id
+ 4fb4d7f45d1cf-5bed63a486emr5746480a12.3.1724092064436; Mon, 19 Aug 2024
+ 11:27:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D3K35VBCWZSW.2WCXJMW1HGGD5@kernel.org>
+References: <cover.1722981659.git.babu.moger@amd.com> <784eaa900b9e0778ddc534c04c7ded9466bfd19b.1722981659.git.babu.moger@amd.com>
+ <983fded5-48f8-439d-8afe-45b60841985a@arm.com> <8c93c091-39b3-4219-b892-9df2747eb91a@intel.com>
+ <CALPaoCjmRyP00b9rTCjpxwLDJ2rYkQ8HuNMYJA+qVNo5a4Q9JQ@mail.gmail.com>
+ <56aae68f-b590-42ec-a6b5-de3af97a8091@intel.com> <96880c73-7f0b-4a62-8f9f-11042dec92c7@intel.com>
+In-Reply-To: <96880c73-7f0b-4a62-8f9f-11042dec92c7@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 19 Aug 2024 11:27:33 -0700
+Message-ID: <CALPaoCieONpok0ZXyBbWxzFwTT3mq4vPoUuaRsE7_Ad8CY-1AA@mail.gmail.com>
+Subject: Re: [PATCH v6 19/22] x86/resctrl: Introduce the interface to switch
+ between monitor modes
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, x86@kernel.org, 
+	hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, mingo@redhat.com, 
+	bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	fenghua.yu@intel.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 19, 2024 at 09:05:47PM +0300, Jarkko Sakkinen wrote:
-> On Fri Aug 16, 2024 at 9:41 PM EEST, Matthew Garrett wrote:
-> > On Fri, Aug 16, 2024 at 02:22:04PM +0300, Jarkko Sakkinen wrote:
-> >
-> > > For (any) non-legacy features we can choose, which choices we choose to
-> > > support, and which we do not. This is not an oppositive view just saying
-> > > how it is, and platforms set of choices is not a selling argument.
-> >
-> > NIST still permits the use of SHA-1 until 2030, and the most significant 
-> > demonstrated weaknesses in it don't seem applicable to the use case 
-> > here. We certainly shouldn't encourage any new uses of it, and anyone 
-> > who's able to use SHA-2 should be doing that instead, but it feels like 
-> > people are arguing about not supporting hardware that exists in the real 
-> > world for vibes reasons rather than it being a realistically attackable 
-> > weakness (and if we really *are* that concerned about SHA-1, why are we 
-> > still supporting TPM 1.2 at all?)
-> 
-> We are life-supporting TPM 1.2 as long as necessary but neither the
-> support is extended nor new features will gain TPM 1.2 support. So
-> that is at least my policy for that feature.
+Hi Reinette,
 
-But the fact that we support it and provide no warning labels is a 
-pretty clear indication that we're not actively trying to prevent people 
-from using SHA-1 in the general case. Why is this a different case? 
-Failing to support it actually opens an entire separate set of footgun 
-opportunities in terms of the SHA-1 banks now being out of sync with the 
-SHA-2 ones, so either way we're leaving people open to making poor 
-choices.
+On Mon, Aug 19, 2024 at 7:53=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Peter and James,
+>
+> On 8/16/24 11:09 AM, Reinette Chatre wrote:
+> > Hi Peter,
+> >
+> > On 8/16/24 10:16 AM, Peter Newman wrote:
+> >> Hi Reinette,
+> >>
+> >> On Fri, Aug 16, 2024 at 10:01=E2=80=AFAM Reinette Chatre
+> >> <reinette.chatre@intel.com> wrote:
+> >>>
+> >>> Hi James,
+> >>>
+> >>> On 8/16/24 9:31 AM, James Morse wrote:
+> >>>> Hi Babu,
+> >>>>
+> >>>> On 06/08/2024 23:00, Babu Moger wrote:
+> >>>>> Introduce interface to switch between ABMC and legacy modes.
+> >>>>>
+> >>>>> By default ABMC is enabled on boot if the feature is available.
+> >>>>> Provide the interface to go back to legacy mode if required.
+> >>>>
+> >>>> I may have missed it on an earlier version ... why would anyone want=
+ the non-ABMC
+> >>>> behaviour on hardware that requires it: counters randomly reset and =
+randomly return
+> >>>> 'Unavailable'... is that actually useful?
+> >>>>
+> >>>> You default this to on, so there isn't a backward compatibility argu=
+ment here.
+> >>>>
+> >>>> It seems like being able to disable this is a source of complexity -=
+ is it needed?
+> >>>
+> >>> The ability to go back to legacy was added while looking ahead to sup=
+port the next
+> >>> "assignable counter" feature that is software based ("soft-RMID" .. "=
+soft-ABMC"?).
+> >>>
+> >>> This series adds support for ABMC on recent AMD hardware to address t=
+he issue described
+> >>> in cover letter. This issue also exists on earlier AMD hardware that =
+does not have the ABMC
+> >>> feature and Peter is working on a software solution to address the is=
+sue on non-ABMC hardware.
+> >>> This software solution is expected to have the same interface as the =
+hardware solution but
+> >>> earlier discussions revealed that it may introduce extra latency that=
+ users may only want to
+> >>> accept during periods of active monitoring. Thus the option to disabl=
+e the counter assignment
+> >>> mode.
+> >>
+> >> Sorry again for the soft-RMID/soft-ABMC confusion[1], it was soft-RMID
+> >> that impacted context switch latency. Soft-ABMC does not require any
+> >> additional work at context switch.
+> >
+> > No problem. I did read [1] but I do not think I've seen soft-ABMC yet s=
+o
+> > my understanding of what it does is vague.
+> >
+> >> The only disadvantage to soft-ABMC I can think of is that it also
+> >> limits reading llc_occupancy event counts to "assigned" groups,
+> >> whereas without it, llc_occupancy works reliably on all RMIDs on AMD
+> >> hardware.
+> >
+> > hmmm ... keeping original llc_occupancy behavior does seem useful enoug=
+h
+> > as motivation to keep the "legacy"/"default" mbm_assign_mode? It does s=
+ound
+> > to me as though soft-ABMC may not be as accurate when it comes to llc_o=
+ccupancy.
+> > As I understand the hardware may tag entries in cache with RMID and tha=
+t has a longer
+> > lifetime than the tasks that allocated that data into the cache. If sof=
+t-ABMC
+> > permanently associates an RMID with a local and total counter pair but =
+that
+> > RMID is dynamically assigned to resctrl groups then a group may not alw=
+ays
+> > get the same RMID ... and thus its llc_occupancy data would be a combin=
+ation of
+> > its cache allocations and all the cache allocations of resource groups =
+that had
+> > that RMID before it. This may need significantly enhanced "limbo" handl=
+ing?
+>
+
+For the use case of soft-ABMC that I'm aware of, it would be better to
+disable llc_occupancy events and accept it as a limitation as we're
+not using this feature. I don't want to slow down the rate at which
+MBM counters could be reassigned. Over the course of a multiple-second
+bandwidth measurement window on a bandwidth-saturated host, a previous
+group's initial cache occupancy isn't significant enough to justify a
+limbo period, especially when padded out to 1 second.
+
+I would feel differently if my users were more interested in
+llc_occupancy counts and it was possible for the LLC to immediately
+notify when the occupancy threshold for any of a set of groups has
+been crossed.
+
+> To expand on this we may have to rework the interface if the counters can=
+ be
+> assigned to events other than MBM.
+>
+> James: could you please elaborate how you plan to use this feature and if=
+ this
+> interface works for the planned usage?
+>
+> Peter: considering the previous example [1] where soft-ABMC was using the=
+ "mbm_control"
+> interface I do not think it is ideal to only use the "t" and "l" flags wh=
+ile
+> llc_occupancy is also enabled/disabled via this interface. We should cons=
+ider
+> (a) renaming the control file to indicate larger scope than MBM, (b) add =
+flags
+> for llc_occupancy. What do you think? I believe this is in line with stat=
+ed goal
+> from [1]: "I believe mbm_control should always accurately reflect which e=
+vents
+> are being counted."
+
+I should have said,  "I believe mbm_control should always accurately
+reflect which _MBM_ events are being counted."
+
+In general, MBM requires maintaining cumulative, running counts, while
+llc_occupancy is only a snapshot of cache usage. This is why MBM
+results in contended resources (counters) which must be managed by the
+user. In the MPAM implementations I've seen so far, a small number
+(relative to the number of monitoring groups supported) of occupancy
+monitors is sufficient for a large number of groups, because it only
+limits the number of monitoring groups' occupancy counts which can be
+read in parallel and can be adequately managed within the MPAM driver
+without user interaction.
+
+Because of this, broadening the scope of mbm_control to include
+occupancy would only serve to remind the user whether occupancy is
+supported, but would provide no new information beyond what's already
+provided by mon_features.
+
+-Peter
