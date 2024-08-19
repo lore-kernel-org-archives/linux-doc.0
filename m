@@ -1,155 +1,290 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655EC1E2100
-	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 21:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E57E3BBF6;
+	Mon, 19 Aug 2024 21:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724102800; cv=none; b=ZVV5RfgLHQNGJnbiEUQ/sEAgvEAc/BsjweU4+HQ9jdIKNWsrKKGNVZ2v5xNlg0ZD1bWXT5KD6NN9N8lTr+dDFQOOh0FBvctHT59g8XyhAzGWzbDnio+yFMYjZQljq0Vkw1We14OanZX9GfEOHGn1MVl5TDcjwZLsT2ZnH6AvXig=
+	t=1724103312; cv=none; b=rRg+3VQ0YYZcA56CYxziw6nAS8K69M6P0AKOIi638/i83ReGDGXhGaWmIw2eVCcF7qChB63yT0cBRJDVWuKjFdHwflh3YNIBuFWrHkRqq0DDNYMO7VCeK+xv+HVmX7PeTGtCjiGTm3B6ujAfuIDDsVFS5wO1s82Fyc7zbeJlmZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724102800; c=relaxed/simple;
-	bh=vyBB2VPkbo/YguQxEyNKoXCcndWMcAWDpN6VCQ31fRQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JlttGeKvhDjjj+rI0qZQql8/5oZZpjCZ/DtsM41yyCY52w5YmWLsK6JI2oihM8EFxXzXkJ7mc1y/ineaYjI3fiP23tGt7Lh6sUE7nUmwgpFCjAmYGZoHz9baptkMNzs4yxEv9MGEqh+PaypvrDIwiuNAKBijS2rkofbcb1V4cfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rJsz/ZUe; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rJsz/ZUe"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-713eeb4e4a9so1169503b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 14:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724102797; x=1724707597; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s43X7evCjKi9zInSsUCIPGJsRlY2xGUJ2ODl/cGyTuw=;
-        b=rJsz/ZUeq7N6hmFhfWUADKk7+rMOeO1hD/V6451K99x7VSgH1B3zVz39D8YuqWaM66
-         ZX4p1O1TiJ67790+gutcOMFrRFswoIeWdL9nl3OTLfZdRZhqRf+LzHpSFf6/KDoHUB2N
-         zv0JFS9aJpsJd8R/gaksbG1tV2c5Z0bv5izLFP4uh/+UKV9GqaPEeMspwbvS3hpAhWHI
-         L3v79fah2/5BN8gaO/1Z0ubFXYMImRt83gXmfNNL9VrywsHdYzNv7nQvOFQytig/93L6
-         JLGnHDygdqrhWv61T0wWOLvTQ3p5pXdF/ub5lce3eSEhB0jytyfsCDHDkVQkQ9J3I2Jn
-         K3DQ==
+	s=arc-20240116; t=1724103312; c=relaxed/simple;
+	bh=yMxTog0+cCYyEdwVDFc6VEDfNhZOgBN24vNoL96R9UQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SXRT7SJZQTw+OctneefO3j0cGWkeOUMnFGqkQtDBNeJ9ctz/1WAvGYGC83jVTldKIpm3/imY5N7PUVIWBl6kfW0BsKimz/Mekr7ORw4OP4q4iFTmkox+jC9X/RGcTOAXIMrgeSpdyhWmzkJM2XuzLxAb8SxPXyonkUqq93GuN/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e0bf677e0feso4957654276.1;
+        Mon, 19 Aug 2024 14:35:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724102797; x=1724707597;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1724103309; x=1724708109;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s43X7evCjKi9zInSsUCIPGJsRlY2xGUJ2ODl/cGyTuw=;
-        b=NUcYXf/QQk/3OSKhUYOjKfjSunN1eHD/Iqoz9Cvukeyla8VOk4OiFRuXVdcx7zUNaF
-         rGerpAHA6uOE7QdzDh6IDGcqxBTnvCeUx6fr+Xa+OQFM4XsfETVPxGVNH3YGzUyqnP03
-         6UQXac1akG1BRCCv+cW9el1K2LCavBYrVAyLp6R1Q8W+1Q/cjOwP6X8mGpfSn4ar27tn
-         epWjF8IO2IVKjvtT9R/gfEX4g7CsrgKXaHcemKKqDR8P7v0molnAZXx4y/2Z+KKxqlGQ
-         36EfbFphH3ltvmuS3Sl+5HIA5tTuSFqB20OFk0Ye3mL5mafGHgIZTB6C8rJMjx9omwGe
-         GK5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVoFd8eguKhgj3N8wUKLVpAfSU8D0L9Come15Lh35E3EICq7yEc5GZenY5Wu9D+04qvoxROqsNBthiQ3TzrABV3aaAHEeZhFAfh
-X-Gm-Message-State: AOJu0Yw6vNJD5B55hA1k8NQ3ZMLNNS5EVDG/dRe2O3z7cAQtHlyjpLen
-	oZq9pF61zVYGaguJJLSUvvYQ6DpcuOew4+C5QGpl4i/CsBZr/CgwtcTGBHabVSM=
-X-Google-Smtp-Source: AGHT+IESrilsqeNFnuhHuDg2m5x2ld10lJLnQAZcYJQoTxOQaJmA8uC159f9B38i0ENzTWeHkfim5Q==
-X-Received: by 2002:a05:6a21:2d84:b0:1c4:e0d3:9637 with SMTP id adf61e73a8af0-1cac8fbcd34mr520343637.52.1724102796643;
-        Mon, 19 Aug 2024 14:26:36 -0700 (PDT)
-Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b61e7bd1sm7004694a12.53.2024.08.19.14.26.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 14:26:36 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v8 6/6] RISC-V: hwprobe: Document unaligned vector perf key
-Date: Mon, 19 Aug 2024 17:26:05 -0400
-Message-ID: <20240819212605.1837175-7-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240819212605.1837175-1-jesse@rivosinc.com>
-References: <20240819212605.1837175-1-jesse@rivosinc.com>
+        bh=v2Fa97VOpmKXu2KcqUq3KAv9vO209RmoS1OhIQtYunY=;
+        b=slqYe/DvDGo+BRvJRq1vmvUydgth412SPDg9+PjJLp31Fdh8/PXn1/J8mxv1L6if51
+         zsK9xjRPSh7lDPvKxoxB/RF+dO/F24ZG42HkKauWpS1qm/VKtsWzjiut5Oikw7tDZmIM
+         +p4NNJo/JT33sZXBl3nm4VpUSlrIBeF3SGDqbX7RfuwHsMFX10/MUWIjmRfySO9ZuQ4d
+         LhTWjYvzcFgDSdBFKUSkxdPf3v0K+zkMMnC9QuFbX+lX/KnG8IolfCSOCM6LDEiInqef
+         45SFCYiBYzKkFhJPNf9mag8qCh7u7jetjMO5jL+iZbkS+A+5L8DTmbqH53xBLC0z/uUW
+         ovnA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaUPLmcELLUt9nERnCH1QSRai848VhIyHo7h8yfmVDyYB2aQ7mm9mroF1B+x8Sj3Gs9vnD1oaG42VNVDwtVndza+GY39WIkxkKBCkPjOw3kF10LennhYDSpmq2vAZ7rqLu2yTbed0a
+X-Gm-Message-State: AOJu0YzS1iMJ+tRJ4iSouILCjYUEht6u//li+ItKmge2LNAvyjOTxQJb
+	f00UPa9ORzp9fNHEQEnIf0DxWYa+tFHcCNcCL9QTnpB40H59IRR2wfG6a2n/p+FfCkw8582nQkz
+	Oixz/F0nJKmW2VrVzUDa88yP59u4=
+X-Google-Smtp-Source: AGHT+IFucDWUvZCR2f1GfJJq3VCGE/0nUAGOVSRdrDd7MzMnspllL+9vskjBcsXpDj9ABN1M3/nOBY9RTn8iHF+Wbz0=
+X-Received: by 2002:a05:6902:2612:b0:e11:7f99:f75b with SMTP id
+ 3f1490d57ef6-e16513bf2e8mr449851276.42.1724103309362; Mon, 19 Aug 2024
+ 14:35:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240819023145.2415299-1-usamaarif642@gmail.com>
+ <20240819023145.2415299-5-usamaarif642@gmail.com> <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+ <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com> <CAGsJ_4xeWt9n3zX3-DknE=NftkWS0fe2vKTJT9tLuJPM4EaEwg@mail.gmail.com>
+ <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com>
+In-Reply-To: <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com>
+From: Barry Song <baohua@kernel.org>
+Date: Tue, 20 Aug 2024 09:34:53 +1200
+Message-ID: <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped folios
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+	yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org, 
+	willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Document key for reporting the speed of unaligned vector accesses.
-The descriptions are the same as the scalar equivalent values.
+On Tue, Aug 20, 2024 at 8:16=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 19/08/2024 20:00, Barry Song wrote:
+> > On Tue, Aug 20, 2024 at 2:17=E2=80=AFAM Usama Arif <usamaarif642@gmail.=
+com> wrote:
+> >>
+> >>
+> >>
+> >> On 19/08/2024 09:29, Barry Song wrote:
+> >>> Hi Usama,
+> >>>
+> >>> I feel it is much better now! thanks!
+> >>>
+> >>> On Mon, Aug 19, 2024 at 2:31=E2=80=AFPM Usama Arif <usamaarif642@gmai=
+l.com> wrote:
+> >>>>
+> >>>> Currently folio->_deferred_list is used to keep track of
+> >>>> partially_mapped folios that are going to be split under memory
+> >>>> pressure. In the next patch, all THPs that are faulted in and collap=
+sed
+> >>>> by khugepaged are also going to be tracked using _deferred_list.
+> >>>>
+> >>>> This patch introduces a pageflag to be able to distinguish between
+> >>>> partially mapped folios and others in the deferred_list at split tim=
+e in
+> >>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
+> >>>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
+> >>>> possible to distinguish between partially mapped folios and others i=
+n
+> >>>> deferred_split_scan.
+> >>>>
+> >>>> Eventhough it introduces an extra flag to track if the folio is
+> >>>> partially mapped, there is no functional change intended with this
+> >>>> patch and the flag is not useful in this patch itself, it will
+> >>>> become useful in the next patch when _deferred_list has non partiall=
+y
+> >>>> mapped folios.
+> >>>>
+> >>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> >>>> ---
+> >>>>  include/linux/huge_mm.h    |  4 ++--
+> >>>>  include/linux/page-flags.h | 11 +++++++++++
+> >>>>  mm/huge_memory.c           | 23 ++++++++++++++++-------
+> >>>>  mm/internal.h              |  4 +++-
+> >>>>  mm/memcontrol.c            |  3 ++-
+> >>>>  mm/migrate.c               |  3 ++-
+> >>>>  mm/page_alloc.c            |  5 +++--
+> >>>>  mm/rmap.c                  |  5 +++--
+> >>>>  mm/vmscan.c                |  3 ++-
+> >>>>  9 files changed, 44 insertions(+), 17 deletions(-)
+> >>>>
+> >>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> >>>> index 4c32058cacfe..969f11f360d2 100644
+> >>>> --- a/include/linux/huge_mm.h
+> >>>> +++ b/include/linux/huge_mm.h
+> >>>> @@ -321,7 +321,7 @@ static inline int split_huge_page(struct page *p=
+age)
+> >>>>  {
+> >>>>         return split_huge_page_to_list_to_order(page, NULL, 0);
+> >>>>  }
+> >>>> -void deferred_split_folio(struct folio *folio);
+> >>>> +void deferred_split_folio(struct folio *folio, bool partially_mappe=
+d);
+> >>>>
+> >>>>  void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+> >>>>                 unsigned long address, bool freeze, struct folio *fo=
+lio);
+> >>>> @@ -495,7 +495,7 @@ static inline int split_huge_page(struct page *p=
+age)
+> >>>>  {
+> >>>>         return 0;
+> >>>>  }
+> >>>> -static inline void deferred_split_folio(struct folio *folio) {}
+> >>>> +static inline void deferred_split_folio(struct folio *folio, bool p=
+artially_mapped) {}
+> >>>>  #define split_huge_pmd(__vma, __pmd, __address)        \
+> >>>>         do { } while (0)
+> >>>>
+> >>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> >>>> index a0a29bd092f8..c3bb0e0da581 100644
+> >>>> --- a/include/linux/page-flags.h
+> >>>> +++ b/include/linux/page-flags.h
+> >>>> @@ -182,6 +182,7 @@ enum pageflags {
+> >>>>         /* At least one page in this folio has the hwpoison flag set=
+ */
+> >>>>         PG_has_hwpoisoned =3D PG_active,
+> >>>>         PG_large_rmappable =3D PG_workingset, /* anon or file-backed=
+ */
+> >>>> +       PG_partially_mapped =3D PG_reclaim, /* was identified to be =
+partially mapped */
+> >>>>  };
+> >>>>
+> >>>>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
+> >>>> @@ -861,8 +862,18 @@ static inline void ClearPageCompound(struct pag=
+e *page)
+> >>>>         ClearPageHead(page);
+> >>>>  }
+> >>>>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+> >>>> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>> +/*
+> >>>> + * PG_partially_mapped is protected by deferred_split split_queue_l=
+ock,
+> >>>> + * so its safe to use non-atomic set/clear.
+> >>>> + */
+> >>>> +__FOLIO_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>> +__FOLIO_CLEAR_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>>  #else
+> >>>>  FOLIO_FLAG_FALSE(large_rmappable)
+> >>>> +FOLIO_TEST_FLAG_FALSE(partially_mapped)
+> >>>> +__FOLIO_SET_FLAG_NOOP(partially_mapped)
+> >>>> +__FOLIO_CLEAR_FLAG_NOOP(partially_mapped)
+> >>>>  #endif
+> >>>>
+> >>>>  #define PG_head_mask ((1UL << PG_head))
+> >>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> >>>> index 2d77b5d2291e..70ee49dfeaad 100644
+> >>>> --- a/mm/huge_memory.c
+> >>>> +++ b/mm/huge_memory.c
+> >>>> @@ -3398,6 +3398,7 @@ int split_huge_page_to_list_to_order(struct pa=
+ge *page, struct list_head *list,
+> >>>>                          * page_deferred_list.
+> >>>>                          */
+> >>>>                         list_del_init(&folio->_deferred_list);
+> >>>> +                       __folio_clear_partially_mapped(folio);
+> >>>>                 }
+> >>>>                 spin_unlock(&ds_queue->split_queue_lock);
+> >>>>                 if (mapping) {
+> >>>> @@ -3454,11 +3455,13 @@ void __folio_undo_large_rmappable(struct fol=
+io *folio)
+> >>>>         if (!list_empty(&folio->_deferred_list)) {
+> >>>>                 ds_queue->split_queue_len--;
+> >>>>                 list_del_init(&folio->_deferred_list);
+> >>>> +               __folio_clear_partially_mapped(folio);
+> >>>
+> >>> is it possible to make things clearer by
+> >>>
+> >>>  if (folio_clear_partially_mapped)
+> >>>     __folio_clear_partially_mapped(folio);
+> >>>
+> >>> While writing without conditions isn't necessarily wrong, adding a co=
+ndition
+> >>> will improve the readability of the code and enhance the clarity of m=
+y mTHP
+> >>> counters series. also help decrease smp cache sync if we can avoid
+> >>> unnecessary writing?
+> >>>
+> >>
+> >> Do you mean if(folio_test_partially_mapped(folio))?
+> >>
+> >> I don't like this idea. I think it makes the readability worse? If I w=
+as looking at if (test) -> clear for the first time, I would become confuse=
+d why its being tested if its going to be clear at the end anyways?
+> >
+> > In the pmd-order case, the majority of folios are not partially mapped.
+> > Unconditional writes will trigger cache synchronization across all
+> > CPUs (related to the MESI protocol), making them more costly. By
+> > using conditional writes, such as "if(test) write," we can avoid
+> > most unnecessary writes, which is much more efficient. Additionally,
+> > we only need to manage nr_split_deferred when the condition
+> > is met. We are carefully evaluating all scenarios to determine
+> > if modifications to the partially_mapped flag are necessary.
+> >
+>
+>
+> Hmm okay, as you said its needed for nr_split_deferred anyways. Something=
+ like below is ok to fold in?
+>
+> commit 4ae9e2067346effd902b342296987b97dee29018 (HEAD)
+> Author: Usama Arif <usamaarif642@gmail.com>
+> Date:   Mon Aug 19 21:07:16 2024 +0100
+>
+>     mm: Introduce a pageflag for partially mapped folios fix
+>
+>     Test partially_mapped flag before clearing it. This should
+>     avoid unnecessary writes and will be needed in the nr_split_deferred
+>     series.
+>
+>     Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 5d67d3b3c1b2..ccde60aaaa0f 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3479,7 +3479,8 @@ void __folio_undo_large_rmappable(struct folio *fol=
+io)
+>         if (!list_empty(&folio->_deferred_list)) {
+>                 ds_queue->split_queue_len--;
+>                 list_del_init(&folio->_deferred_list);
+> -               __folio_clear_partially_mapped(folio);
+> +               if (folio_test_partially_mapped(folio))
+> +                       __folio_clear_partially_mapped(folio);
+>         }
+>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+>  }
+> @@ -3610,7 +3611,8 @@ static unsigned long deferred_split_scan(struct shr=
+inker *shrink,
+>                 } else {
+>                         /* We lost race with folio_put() */
+>                         list_del_init(&folio->_deferred_list);
+> -                       __folio_clear_partially_mapped(folio);
+> +                       if (folio_test_partially_mapped(folio))
+> +                               __folio_clear_partially_mapped(folio);
+>                         ds_queue->split_queue_len--;
+>                 }
+>                 if (!--sc->nr_to_scan)
+>
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
----
-V1 -> V2:
-  - New patch
-V2 -> V3:
- - Specify access width
-V3 -> V4:
- - Clarify we're talking about byte accesses using vector registers
- - Spell out _VECTOR_ in macros
-V4 -> V5:
- - No changes
-V5 -> V6:
- - No changes
-V6 -> V7:
- - No changes
-V7 -> V8:
- - Rebase onto fixes
- - s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
----
- Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Do we also need if (folio_test_partially_mapped(folio)) in
+split_huge_page_to_list_to_order()?
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 85b709257918..ea4e0b9c73e7 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -274,3 +274,19 @@ The following keys are defined:
-   represent the highest userspace virtual address usable.
- 
- * :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `time CSR`.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF`: An enum value describing the
-+     performance of misaligned vector accesses on the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN`: The performance of misaligned
-+    vector accesses is unknown.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW`: 32-bit misaligned accesses using vector
-+    registers are slower than the equivalent quantity of byte accesses via vector registers.
-+    Misaligned accesses may be supported directly in hardware, or trapped and emulated by software.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_FAST`: 32-bit misaligned accesses using vector
-+    registers are faster than the equivalent quantity of byte accesses via vector registers.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED`: Misaligned vector accesses are
-+    not supported at all and will generate a misaligned address fault.
--- 
-2.45.2
+I recall that in Yu Zhao's TAO, there=E2=80=99s a chance of splitting (shat=
+tering)
+non-partially-mapped folios. To be future-proof, we might want to handle
+both cases equally.
 
+By the way, we might not need to clear the flag for a new folio. This diffe=
+rs
+from the init_list, which is necessary. If a new folio has the partially_ma=
+pped
+flag, it indicates that we failed to clear it when freeing the folio to
+the buddy system, which is a bug we need to fix in the free path.
+
+Thanks
+Barry
