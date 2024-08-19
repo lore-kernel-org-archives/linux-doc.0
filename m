@@ -1,130 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199D317C98C;
-	Mon, 19 Aug 2024 18:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B0B1CAAF;
+	Mon, 19 Aug 2024 18:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724090699; cv=none; b=lDbA0Tp6Z1QaGYjRBTBWka/By3N5N3LbY6LwOKvBDS11cNd58x4k37IDH5zMmIawDJgPXOC+95v7NgBFIZCUcEMFxE620f/BddCUORxRJWn0+8UChf5OVGWck+a9NC3IwhBZM7aJa737Er43oTu6GLnFbmOuJ96ut3nal46Xj74=
+	t=1724090752; cv=none; b=doRR96QtEAiGsvze58ymyYe0sBbDBjrou5TMhw7RduZtMmhn62yMPLLMO9mFIwQrQOSFMOPunfTP38ZF5lwSW/cdvECRehExR7TmwW9GrWvg7hBlg6L7NmY94RF8szCyJ2Sx4PZ+vdsH7JgIHcphZc+fzuS3nXOYyaCOsZ32FBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724090699; c=relaxed/simple;
-	bh=uhcHWPb2xTrhdnPGHS3qLJd7wXvBdsT9BOPncAM9mUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fiZukWVtTfbcMPii5WtDPtyHgSdq2I9SZ/AidVR1XzPRnbswybQH4q4/wgjKnvd6/zM35xay4J/+msOdVF/Q5gSbWUAsaJBugmwwDw7nhFgAKv/m4csEhPJG92+o69jGUxFqWLow3tTB4VJAbR7UVMX8YwMBRfKrfznrmYGuWbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: pZ8XfnpBRge2m6Qh8H1BJA==
-X-CSE-MsgGUID: Km54+G1dQjuHHcanrzTuSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22533078"
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="22533078"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 11:04:54 -0700
-X-CSE-ConnectionGUID: tSCzEHZcRx6b1ETz2cciBg==
-X-CSE-MsgGUID: kxzUu48nQpaoQdK3Fh2GyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="91187343"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 11:04:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1sg6kC-0000000H1wA-3FW0;
-	Mon, 19 Aug 2024 21:04:40 +0300
-Date: Mon, 19 Aug 2024 21:04:40 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: onathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alvaro Karsz <alvaro.karsz@solid-run.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Hannes Reinecke <hare@suse.de>, Damien Le Moal <dlemoal@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-fpga@vger.kernel.org,
-	linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH 4/9] block: mtip32xx: Replace deprecated PCI functions
-Message-ID: <ZsOJONEA2x93bSpO@smile.fi.intel.com>
-References: <20240819165148.58201-2-pstanner@redhat.com>
- <20240819165148.58201-6-pstanner@redhat.com>
+	s=arc-20240116; t=1724090752; c=relaxed/simple;
+	bh=uLSpmh/E5SFR+0qV7rTBO7Co/W3e9kkntMp3LEBgW5A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=nBRDN2moqb7tOMc3y1xL0QLCvJLLQTrulGXWEGkVoNd5yaoIMNo5rE/isU1o79NCN04QVIN6A49pZWAoRiF0KTMi3Erjl4ano3ruF4T98nTcjdydYxVVMZbtnzpOmGR1hfWahbwi59EUBJRcqYuaGX0q1Zaimm5yBBcaQ+UMXpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adPXV4dv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adPXV4dv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECEA4C4AF0E;
+	Mon, 19 Aug 2024 18:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724090751;
+	bh=uLSpmh/E5SFR+0qV7rTBO7Co/W3e9kkntMp3LEBgW5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=adPXV4dvUSE0pwCC6K1YfPntPyebWDDj0fD+pJW3wr5fWWivDUihmzH65OZg46th3
+	 XY10Ijh0JETmHQ73y7+fG4I7PgmkHr7U80iDyJGFtweWoz0YsD2HhM0IN6gAouT3+4
+	 6/b3YMhfpj3SjpIxmEsO8HaHTh/HP48Vhopc1sof3H6TSo2NuxemqhNg0cvH00Yqjd
+	 FoE10+toTGsLcJhCGFlHGlNrtMPcWL+mwRQvrS4NYp3KGBtiTY7wERz0v8glMM02y5
+	 B4p9QyU2xjbp0fZfBDFDQLq1UwKFMdeTscNEQhbErYHeZ8xohsUeIfaNIwX+yr65Nd
+	 gZnFXr8lOKE8A==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240819165148.58201-6-pstanner@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Aug 2024 21:05:47 +0300
+Message-Id: <D3K35VBCWZSW.2WCXJMW1HGGD5@kernel.org>
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Matthew Garrett" <mjg59@srcf.ucam.org>
+Cc: "Andrew Cooper" <andrew.cooper3@citrix.com>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, "Eric Biggers"
+ <ebiggers@kernel.org>, "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
+ early measurements
+X-Mailer: aerc 0.18.2
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-7-ross.philipson@oracle.com>
+ <20240531021656.GA1502@sol.localdomain>
+ <874jaegk8i.fsf@email.froward.int.ebiederm.org>
+ <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
+ <87ttflli09.ffs@tglx> <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
+ <D3HAP4O4OVS3.2LOSH5HMQ34OZ@kernel.org> <Zr+dTMYZNY1b9cRV@srcf.ucam.org>
+In-Reply-To: <Zr+dTMYZNY1b9cRV@srcf.ucam.org>
 
-On Mon, Aug 19, 2024 at 06:51:44PM +0200, Philipp Stanner wrote:
-> pcim_iomap_regions() and pcim_iomap_table() have been deprecated by the
-> PCI subsystem in commit e354bb84a4c1 ("PCI: Deprecate
-> pcim_iomap_table(), pcim_iomap_regions_request_all()").
-> 
-> In mtip32xx, these functions can easily be replaced by their respective
-> successors, pcim_request_region() and pcim_iomap(). Moreover, the
-> driver's call to pcim_iounmap_regions() is not necessary, because it's
-> invoked in the remove() function. Cleanup can, hence, be performed by
-> PCI devres automatically.
-> 
-> Replace pcim_iomap_regions() and pcim_iomap_table().
-> 
-> Remove the call to pcim_iounmap_regions().
+On Fri Aug 16, 2024 at 9:41 PM EEST, Matthew Garrett wrote:
+> On Fri, Aug 16, 2024 at 02:22:04PM +0300, Jarkko Sakkinen wrote:
+>
+> > For (any) non-legacy features we can choose, which choices we choose to
+> > support, and which we do not. This is not an oppositive view just sayin=
+g
+> > how it is, and platforms set of choices is not a selling argument.
+>
+> NIST still permits the use of SHA-1 until 2030, and the most significant=
+=20
+> demonstrated weaknesses in it don't seem applicable to the use case=20
+> here. We certainly shouldn't encourage any new uses of it, and anyone=20
+> who's able to use SHA-2 should be doing that instead, but it feels like=
+=20
+> people are arguing about not supporting hardware that exists in the real=
+=20
+> world for vibes reasons rather than it being a realistically attackable=
+=20
+> weakness (and if we really *are* that concerned about SHA-1, why are we=
+=20
+> still supporting TPM 1.2 at all?)
 
-...
+We are life-supporting TPM 1.2 as long as necessary but neither the
+support is extended nor new features will gain TPM 1.2 support. So
+that is at least my policy for that feature.
 
-int mtip_pci_probe()
-
->  setmask_err:
-> -	pcim_iounmap_regions(pdev, 1 << MTIP_ABAR);
-> +	pcim_release_region(pdev, MTIP_ABAR);
-
-But why?
-
-...
-
-mtip_pci_remove()
-
->  	pci_disable_msi(pdev);
->  
-> -	pcim_iounmap_regions(pdev, 1 << MTIP_ABAR);
-
-This is okay.
-
-...
-
->  	pci_set_drvdata(pdev, NULL);
-
-Side note: This is done by driver core for the last 10+ years…
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+BR, Jarkko
