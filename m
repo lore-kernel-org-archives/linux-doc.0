@@ -1,845 +1,361 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC5716CD1B
-	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 14:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB2215CD75;
+	Mon, 19 Aug 2024 14:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724076719; cv=none; b=SqNB2rXHuonKm/bFJ5C+O6UiuyTPTYu528u/Dpgg4VTb1qPqFBwwGIx73Vk72TtKiSkK7XKapCLhncuw27Rn6Ezbfo6cJEwk7qZEEAhmcdv3zIYQ1L/G+y0EYdIURhB3yosS+KguEDWK4zow0MmrFauoeGkOHJ0BIFTHBDZkQSg=
+	t=1724077070; cv=none; b=pJEuODlPstnQpMG8vki3xmTZMLVUZIWoI42fcqkVYa3+Ym++To5hnVscs6i9cgvva0DCmXvLFwah1nQKEWbFIWqYueBmMhgDISKQH115i8o1bY26h8FCYlQjuL7rYWqpyk6T8QSbWNm6mg2f/HC2Hm82daewhd/CmRylGRW17uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724076719; c=relaxed/simple;
-	bh=oww0a7G82Vd75ByBb5Q7ebQCJInma1hwiT7+KxQwPY0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NxoBFbH/3I7dR0Y9xMC1THpMiwTzAbsRxqTd9itIelhRWsGf7qOpF/PQbZTd93twSI0hXMmNm4PpUp2wzdaL8eSDTRJVLn76jP7sDxndH+5Y46hPza3yCwrpLKKfEysl/hyPYcEKCRDzf7raJ2YKADn1mRCSE06s0+9j3ZTV8q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MBESRHli; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1724077070; c=relaxed/simple;
+	bh=eaA+r/7tBIMbLPP5NrhOsxIMgnx8xFY1jYTPNjB2haQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BAzqI45ImzCcAbzsdkCOUpQHi+yRh0c/2cv7Oh2qoxTuBOlsFGNR6R0aDWDTsX8lhW3x/ekHc9nz/qbc6MjaDnvf0H1/YGI2brqAgKFrJA1Evg7wDQbqBB14oFAw57fUnQBXI13N+/v9I5+CREvaq8RfftOAHxEaSERQdjv9aBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6fpJEfW; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MBESRHli"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-44ff398cefcso22390711cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 07:11:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6fpJEfW"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7a1dd2004e1so285076685a.3;
+        Mon, 19 Aug 2024 07:17:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724076714; x=1724681514; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PxuHSfxj6BDBHAYOW+Ar8FckHNsRnM9Jp6mgzbqvrXw=;
-        b=MBESRHlij4FzH4YPpUjD26tp6i5w9MtAuN25kDYmuoIZ2JUIdOyz+vow1s/Tb2UUhW
-         z+FMBR7hP7FdpRTu22QXt5L4DRBY9Z79WNr6dbTdBXAFxkNzg5Tpm802dY74zZzmp4f8
-         v0HgLzUXc+5hHAfjnczDitM2ME/4xwmDy3cwbU+08UjZNxDs38SfTFeoxtCcyzK4SL05
-         WYWC6zOjINPpgSmrVU36T2dnatS2ClTC5A3jBD/txxeWPD03XhdZ0MkCajIyofqXm26Z
-         id1KomY/Ow/1VjOFJrLUrXltvL0uKzLpdDFUZTczLoGMH+1v9WfwH1PffmRF54B/NYhF
-         o/Jg==
+        d=gmail.com; s=20230601; t=1724077067; x=1724681867; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kd+OCc/I7wl1HmFL+34jOl78XXC4PYQH1gu0dcrr8Jo=;
+        b=O6fpJEfWNzxj4urX26cgvdoZWjOkUABxc6b/oHNRTYnLqbBtzoAlpoy2oJ3KeKq3ws
+         oMp+VNsP4geN+D5Rfk8I7sPq0tIsRCYRwseTD5Lq91kvxiksavTPnZB1ZBjBsa6ksH5g
+         P+mASFyxWbicPfhNBT/e1WpHkYG/Rsz1OpxiezyS9QEzz/HWJDNMVGM8r/hF3qSnV1/s
+         d4/gCsyVJOIVhbtuG3cbQVqvrARvNzDB7Dx+CxtWp/EQG3pdaMNCovPQh/Fzs7/b0Fhc
+         v+ydp9THZM1KKbf50OlGAFTfc6LYcV/ZtQC3OV0/nY/waIRzFX1614kg7Ej3IpRCqLRh
+         sWNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724076714; x=1724681514;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PxuHSfxj6BDBHAYOW+Ar8FckHNsRnM9Jp6mgzbqvrXw=;
-        b=xMGthDiyzd2+CDxFd0RWuLfnthTstHcsGsgDnBspAm68P3ViAT1m5c3NIwPBTewEZW
-         0sPz7xyBEHBTi0FaRA7N9f/L1HwMNsjJ0/Hyhjd15h/iv+FlUWOUEz74/IzN6+2whYmF
-         qh8B206CZyiakon8figo2wvdK5iwuRIWo5UYUn4yLu539rupgHzhl2mGeQjZLvCPJbDy
-         /s4rwdc3+tSp1my66WpGEjdRobSJ1bCTZz/dw6AyuIZBUPs6dt/gEFpePuux+TLY7Eeh
-         FllJtYwjE062nC7PxRd8fThYZGfBA6HknFPCMY6CPmhCw6untOYB9LcTALlD2GYETs0N
-         +OpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCTI9AnuMCDCaYs9kWLO4oRypoM7IC/s0IFeSvmNJRdA/H1/rWZuc39I8UMSGhKj8nH1tA6KiDv1vklbBgivVmWRVJFyQtoZOP
-X-Gm-Message-State: AOJu0YyKwML9B0UbL0hSaRcKjw1ZH11rfgqkAIvPIV0zhx/2B8EcDV/G
-	a7dTtHsusDu0bYwD/GBDnT1Z46uNXwC5yXr477WV796mYoA0vAe3xMyGIdhdY6anD0FM0ZltNzo
-	rQIo=
-X-Google-Smtp-Source: AGHT+IH9n4OiVaXy0yBPK7Zx1mE24TRbLscDCleKz/Tal31mKdVBxXldjRfnIhIizvbAhwQb5mtlIw==
-X-Received: by 2002:a05:622a:418c:b0:453:4aaa:d585 with SMTP id d75a77b69052e-453741b4af7mr131441171cf.4.1724076713423;
-        Mon, 19 Aug 2024 07:11:53 -0700 (PDT)
-Received: from [127.0.1.1] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-454c0186bf4sm17630871cf.83.2024.08.19.07.11.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 07:11:53 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-Date: Mon, 19 Aug 2024 10:11:44 -0400
-Subject: [PATCH v3 2/3] iio: adc: ad7625: add driver
+        d=1e100.net; s=20230601; t=1724077067; x=1724681867;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kd+OCc/I7wl1HmFL+34jOl78XXC4PYQH1gu0dcrr8Jo=;
+        b=ahyExrbCAz3lBDxO0NocMpCWUBfHYYDDJRUjCBRd1VW1fe2jWvxk2W5l/n76H5WgW4
+         Qitu81oiS64buWku6Cg8TX8uuq0bRDcdtdYQ6quniZYRRifNe+dDuOHmQORB02WlGC75
+         zyj92tjHMZnrRqb+w/fGc1HTudAm20mb0KIDZSx6WfvS3/k3XPuzwv+RGJUZ0PASVHy0
+         2ag2kotzkxgKq4SHjPTHLH5UQoUKn2oHjoEr+tzu2k06c7m+xxZeYzr9L/iB7wbXM5WA
+         +Ti5ZiNe8Ii667+3Qh3BjTig029Q55qvkAMieI2FcH66yOHrXAs2EfZiUctPaxUrGOuZ
+         zjzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVm7WGK0Gb/SiG52Frhfxh3meuDejSwlXb7smJBz4vVF4IWUZ720960g69+Njk67Xic8+9b1qCKnGFYS7n5NGhKYK4SbGAF209aBYKMfc+X1/TEoS9sj5AIfxMTpppsMklE/PYo5AFu
+X-Gm-Message-State: AOJu0YxJh2PXy9dGzyy4yQb5fTEI2Xo64GdXnEPj+r7NUd4FVDJWoiCF
+	8/hw2p5o0OVksha2bZSv3nbCzSsdtUcpURzYeB4bePcFimT6UND8
+X-Google-Smtp-Source: AGHT+IEt8YkNAPQ4jNaHTdOZyPZuQ9+drB4gPJbvF8jxmqUo42Y3ubJ1Y5C+DVxNg72pJgC42RC/xw==
+X-Received: by 2002:a05:620a:468a:b0:7a1:d9a1:b9b with SMTP id af79cd13be357-7a5069d8efcmr1380389685a.60.1724077066917;
+        Mon, 19 Aug 2024 07:17:46 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1145:4:1409:786c:cb1d:c3fb? ([2620:10d:c091:500::7:e1ca])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4ff0e5afesm435612785a.87.2024.08.19.07.17.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 07:17:46 -0700 (PDT)
+Message-ID: <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com>
+Date: Mon, 19 Aug 2024 10:17:45 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
-References: <20240819-ad7625_r1-v3-0-75d5217c76b5@baylibre.com>
-In-Reply-To: <20240819-ad7625_r1-v3-0-75d5217c76b5@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- David Lechner <dlechner@baylibre.com>, 
- Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Trevor Gamblin <tgamblin@baylibre.com>
-X-Mailer: b4 0.14.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Barry Song <baohua@kernel.org>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org,
+ riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev,
+ yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+References: <20240819023145.2415299-1-usamaarif642@gmail.com>
+ <20240819023145.2415299-5-usamaarif642@gmail.com>
+ <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add a driver for the AD762x and AD796x family of ADCs. These are
-pin-compatible devices using an LVDS interface for data transfer,
-capable of sampling at rates of 6 (AD7625), 10 (AD7626), and 5
-(AD7960/AD7961) MSPS, respectively. They also feature multiple voltage
-reference options based on the configuration of the EN1/EN0 pins, which
-can be set in the devicetree.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- MAINTAINERS              |   1 +
- drivers/iio/adc/Kconfig  |  15 ++
- drivers/iio/adc/Makefile |   1 +
- drivers/iio/adc/ad7625.c | 688 +++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 705 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2361f92751dd..a90972e1c5c5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1268,6 +1268,7 @@ S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- W:	http://analogdevicesinc.github.io/hdl/projects/pulsar_lvds/index.html
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad7625.yaml
-+F:	drivers/iio/adc/ad7625.c
- 
- ANALOG DEVICES INC AD7768-1 DRIVER
- M:	Michael Hennerich <Michael.Hennerich@analog.com>
-diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-index f60fe85a30d5..e25fb505f545 100644
---- a/drivers/iio/adc/Kconfig
-+++ b/drivers/iio/adc/Kconfig
-@@ -219,6 +219,21 @@ config AD7606_IFACE_SPI
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ad7606_spi.
- 
-+config AD7625
-+        tristate "Analog Devices AD7625/AD7626 High Speed ADC driver"
-+        select IIO_BACKEND
-+        help
-+          Say yes here to build support for Analog Devices:
-+	  * AD7625 16-Bit, 6 MSPS PulSAR Analog-to-Digital Converter
-+	  * AD7626 16-Bit, 10 MSPS PulSAR Analog-to-Digital Converter
-+	  * AD7960 18-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
-+	  * AD7961 16-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
-+
-+          The driver requires the assistance of the AXI ADC IP core to operate.
-+
-+          To compile this driver as a module, choose M here: the module will be
-+          called ad7625.
-+
- config AD7766
- 	tristate "Analog Devices AD7766/AD7767 ADC driver"
- 	depends on SPI_MASTER
-diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
-index d370e066544e..6bf429ca24ea 100644
---- a/drivers/iio/adc/Makefile
-+++ b/drivers/iio/adc/Makefile
-@@ -23,6 +23,7 @@ obj-$(CONFIG_AD7476) += ad7476.o
- obj-$(CONFIG_AD7606_IFACE_PARALLEL) += ad7606_par.o
- obj-$(CONFIG_AD7606_IFACE_SPI) += ad7606_spi.o
- obj-$(CONFIG_AD7606) += ad7606.o
-+obj-$(CONFIG_AD7625) += ad7625.o
- obj-$(CONFIG_AD7766) += ad7766.o
- obj-$(CONFIG_AD7768_1) += ad7768-1.o
- obj-$(CONFIG_AD7780) += ad7780.o
-diff --git a/drivers/iio/adc/ad7625.c b/drivers/iio/adc/ad7625.c
-new file mode 100644
-index 000000000000..3ac3c56d43eb
---- /dev/null
-+++ b/drivers/iio/adc/ad7625.c
-@@ -0,0 +1,688 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
-+/*
-+ * Analog Devices Inc. AD7625 ADC driver
-+ *
-+ * Copyright 2024 Analog Devices Inc.
-+ * Copyright 2024 BayLibre, SAS
-+ *
-+ * Note that this driver requires the AXI ADC IP block configured for
-+ * LVDS to function. See Documentation/iio/ad7625.rst for more
-+ * information.
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/iio/backend.h>
-+#include <linux/iio/iio.h>
-+#include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/pwm.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/units.h>
-+
-+#define AD7625_INTERNAL_REF_MV 4096
-+#define AD7960_MAX_NBW_FREQ (2 * MEGA)
-+
-+struct ad7625_timing_spec {
-+	/* Max conversion high time (t_{CNVH}). */
-+	unsigned int conv_high_ns;
-+	/* Max conversion to MSB delay (t_{MSB}). */
-+	unsigned int conv_msb_ns;
-+};
-+
-+struct ad7625_chip_info {
-+	const char *name;
-+	const unsigned int max_sample_rate_hz;
-+	const struct ad7625_timing_spec *timing_spec;
-+	const struct iio_chan_spec chan_spec;
-+	const bool has_power_down_state;
-+	const bool has_bandwidth_control;
-+	const bool has_internal_vref;
-+};
-+
-+/* AD7625_CHAN_SPEC - Define a chan spec structure for a specific chip */
-+#define AD7625_CHAN_SPEC(_bits) {					\
-+	.type = IIO_VOLTAGE,						\
-+	.indexed = 1,							\
-+	.differential = 1,						\
-+	.channel = 0,							\
-+	.channel2 = 1,							\
-+	.info_mask_separate = BIT(IIO_CHAN_INFO_SCALE),			\
-+	.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ),	\
-+	.scan_index = 0,						\
-+	.scan_type.sign = 's',						\
-+	.scan_type.storagebits = (_bits) > 16 ? 32 : 16,		\
-+	.scan_type.realbits = (_bits),					\
-+}
-+
-+struct ad7625_state {
-+	const struct ad7625_chip_info *info;
-+	struct iio_backend *back;
-+	/* rate of the clock gated by the "clk_gate" PWM */
-+	unsigned long ref_clk_rate_hz;
-+	/* PWM burst signal for transferring acquired data to the host */
-+	struct pwm_device *clk_gate_pwm;
-+	/*
-+	 * PWM control signal for initiating data conversion. Analog
-+	 * inputs are sampled beginning on this signal's rising edge.
-+	 */
-+	struct pwm_device *cnv_pwm;
-+	/*
-+	 * Waveforms containing the last-requested and rounded
-+	 * properties for the clk_gate and cnv PWMs
-+	 */
-+	struct pwm_waveform clk_gate_wf;
-+	struct pwm_waveform cnv_wf;
-+	unsigned int vref_mv;
-+	int sampling_freq_hz;
-+	/*
-+	 * Optional GPIOs for controlling device state. EN0 and EN1
-+	 * determine voltage reference configuration and on/off state.
-+	 * EN2 controls the device -3dB bandwidth (and by extension, max
-+	 * sample rate). EN3 controls the VCM reference output. EN2 and
-+	 * EN3 are only present for the AD796x devices.
-+	 */
-+	struct gpio_desc *en_gpios[4];
-+	bool can_power_down;
-+	bool can_refin;
-+	bool can_ref_4v096;
-+	/*
-+	 * Indicate whether the bandwidth can be narrow (9MHz).
-+	 * When true, device sample rate must also be < 2MSPS.
-+	 */
-+	bool can_narrow_bandwidth;
-+	/* Indicate whether the bandwidth can be wide (28MHz). */
-+	bool can_wide_bandwidth;
-+	bool can_ref_5v;
-+	bool can_snooze;
-+	bool can_test_pattern;
-+	/* Indicate whether there is a REFIN supply connected */
-+	bool have_refin;
-+};
-+
-+static const struct ad7625_timing_spec ad7625_timing_spec = {
-+	.conv_high_ns = 40,
-+	.conv_msb_ns = 145,
-+};
-+
-+static const struct ad7625_timing_spec ad7626_timing_spec = {
-+	.conv_high_ns = 40,
-+	.conv_msb_ns = 80,
-+};
-+
-+/*
-+ * conv_msb_ns is set to 0 instead of the datasheet maximum of 200ns to
-+ * avoid exceeding the minimum conversion time, i.e. it is effectively
-+ * modulo 200 and offset by a full period. Values greater than or equal
-+ * to the period would be rejected by the PWM API.
-+ */
-+static const struct ad7625_timing_spec ad7960_timing_spec = {
-+	.conv_high_ns = 80,
-+	.conv_msb_ns = 0,
-+};
-+
-+static const struct ad7625_chip_info ad7625_chip_info = {
-+	.name = "ad7625",
-+	.max_sample_rate_hz = 6 * MEGA,
-+	.timing_spec = &ad7625_timing_spec,
-+	.chan_spec = AD7625_CHAN_SPEC(16),
-+	.has_power_down_state = false,
-+	.has_bandwidth_control = false,
-+	.has_internal_vref = true,
-+};
-+
-+static const struct ad7625_chip_info ad7626_chip_info = {
-+	.name = "ad7626",
-+	.max_sample_rate_hz = 10 * MEGA,
-+	.timing_spec = &ad7626_timing_spec,
-+	.chan_spec = AD7625_CHAN_SPEC(16),
-+	.has_power_down_state = true,
-+	.has_bandwidth_control = false,
-+	.has_internal_vref = true,
-+};
-+
-+static const struct ad7625_chip_info ad7960_chip_info = {
-+	.name = "ad7960",
-+	.max_sample_rate_hz = 5 * MEGA,
-+	.timing_spec = &ad7960_timing_spec,
-+	.chan_spec = AD7625_CHAN_SPEC(18),
-+	.has_power_down_state = true,
-+	.has_bandwidth_control = true,
-+	.has_internal_vref = false,
-+};
-+
-+static const struct ad7625_chip_info ad7961_chip_info = {
-+	.name = "ad7961",
-+	.max_sample_rate_hz = 5 * MEGA,
-+	.timing_spec = &ad7960_timing_spec,
-+	.chan_spec = AD7625_CHAN_SPEC(16),
-+	.has_power_down_state = true,
-+	.has_bandwidth_control = true,
-+	.has_internal_vref = false,
-+};
-+
-+enum ad7960_mode {
-+	AD7960_MODE_POWER_DOWN,
-+	AD7960_MODE_SNOOZE,
-+	AD7960_MODE_NARROW_BANDWIDTH,
-+	AD7960_MODE_WIDE_BANDWIDTH,
-+	AD7960_MODE_TEST_PATTERN,
-+};
-+
-+static int ad7625_set_sampling_freq(struct ad7625_state *st, int freq)
-+{
-+	u64 target;
-+	struct pwm_waveform clk_gate_wf = { }, cnv_wf = { };
-+	int ret;
-+
-+	target = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
-+	cnv_wf.period_length_ns = clamp(target, 100, 10 * KILO);
-+
-+	/*
-+	 * Use the maximum conversion time t_CNVH from the datasheet as
-+	 * the duty_cycle for ref_clk, cnv, and clk_gate
-+	 */
-+	cnv_wf.duty_length_ns = st->info->timing_spec->conv_high_ns;
-+
-+	ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Set up the burst signal for transferring data. period and
-+	 * offset should mirror the CNV signal
-+	 */
-+	clk_gate_wf.period_length_ns = cnv_wf.period_length_ns;
-+
-+	clk_gate_wf.duty_length_ns = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
-+		st->info->chan_spec.scan_type.realbits,
-+		st->ref_clk_rate_hz);
-+
-+	/* max t_MSB from datasheet */
-+	clk_gate_wf.duty_offset_ns = st->info->timing_spec->conv_msb_ns;
-+
-+	ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
-+	if (ret)
-+		return ret;
-+
-+	st->cnv_wf = cnv_wf;
-+	st->clk_gate_wf = clk_gate_wf;
-+
-+	/* TODO: Add a rounding API for PWMs that can simplify this */
-+	target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz, freq);
-+	st->sampling_freq_hz = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz,
-+						     target);
-+
-+	return 0;
-+}
-+
-+static int ad7625_read_raw(struct iio_dev *indio_dev,
-+			   const struct iio_chan_spec *chan,
-+			   int *val, int *val2, long info)
-+{
-+	struct ad7625_state *st = iio_priv(indio_dev);
-+
-+	switch (info) {
-+	case IIO_CHAN_INFO_SAMP_FREQ:
-+		*val = st->sampling_freq_hz;
-+
-+		return IIO_VAL_INT;
-+
-+	case IIO_CHAN_INFO_SCALE:
-+		*val = st->vref_mv;
-+		*val2 = chan->scan_type.realbits - 1;
-+
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int ad7625_write_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *chan,
-+			    int val, int val2, long info)
-+{
-+	struct ad7625_state *st = iio_priv(indio_dev);
-+
-+	switch (info) {
-+	case IIO_CHAN_INFO_SAMP_FREQ:
-+		iio_device_claim_direct_scoped(return -EBUSY, indio_dev)
-+			return ad7625_set_sampling_freq(st, val);
-+		unreachable();
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int ad7625_parse_mode(struct device *dev, struct ad7625_state *st,
-+			     int num_gpios)
-+{
-+	bool en_always_on[4], en_always_off[4];
-+	bool en_may_be_on[4], en_may_be_off[4];
-+	char en_gpio_buf[4];
-+	char always_on_buf[18];
-+	int i;
-+
-+	for (i = 0; i < num_gpios; i++) {
-+		snprintf(en_gpio_buf, sizeof(en_gpio_buf), "en%d", i);
-+		snprintf(always_on_buf, sizeof(always_on_buf),
-+			 "adi,en%d-always-on", i);
-+		/* Set the device to 0b0000 (power-down mode) by default */
-+		st->en_gpios[i] = devm_gpiod_get_optional(dev, en_gpio_buf,
-+							  GPIOD_OUT_LOW);
-+		if (IS_ERR(st->en_gpios[i]))
-+			return dev_err_probe(dev, PTR_ERR(st->en_gpios[i]),
-+					     "failed to get EN%d GPIO\n", i);
-+
-+		en_always_on[i] = device_property_read_bool(dev, always_on_buf);
-+		if (st->en_gpios[i] && en_always_on[i])
-+			return dev_err_probe(dev, -EINVAL,
-+				"cannot have adi,en%d-always-on and en%d-gpios\n", i, i);
-+
-+		en_may_be_off[i] = !en_always_on[i];
-+		en_may_be_on[i] = en_always_on[i] || st->en_gpios[i];
-+		en_always_off[i] = !en_always_on[i] && !st->en_gpios[i];
-+	}
-+
-+	/*
-+	 * Power down is mode 0bXX00, but not all devices have a valid
-+	 * power down state.
-+	 */
-+	st->can_power_down = en_may_be_off[1] && en_may_be_off[0] &&
-+			     st->info->has_power_down_state;
-+	/*
-+	 * The REFIN pin can take a 1.2V (AD762x) or 2.048V (AD796x)
-+	 * external reference when the mode is 0bXX01.
-+	 */
-+	st->can_refin = en_may_be_off[1] && en_may_be_on[0];
-+	/* 4.096V can be applied to REF when the EN mode is 0bXX10. */
-+	st->can_ref_4v096 = en_may_be_on[1] && en_may_be_off[0];
-+
-+	/* Avoid AD796x-specific setup if the part is an AD762x */
-+	if (num_gpios == 2)
-+		return 0;
-+
-+	/* mode 0b1100 (AD796x) is invalid */
-+	if (en_always_on[3] && en_always_on[2] &&
-+	    en_always_off[1] && en_always_off[0])
-+		return dev_err_probe(dev, -EINVAL,
-+				     "EN GPIOs set to invalid mode 0b1100\n");
-+	/*
-+	 * 5V can be applied to the AD796x REF pin when the EN mode is
-+	 * the same (0bX001 or 0bX101) as for can_refin, and REFIN is
-+	 * 0V.
-+	 */
-+	st->can_ref_5v = st->can_refin;
-+	/*
-+	 * Bandwidth (AD796x) is controlled solely by EN2. If it's
-+	 * specified and not hard-wired, then we can configure it to
-+	 * change the bandwidth between 28MHz and 9MHz.
-+	 */
-+	st->can_narrow_bandwidth = en_may_be_on[2];
-+	/* Wide bandwidth mode is possible if EN2 can be 0. */
-+	st->can_wide_bandwidth = en_may_be_off[2];
-+	/* Snooze mode (AD796x) is 0bXX11 when REFIN = 0V. */
-+	st->can_snooze = en_may_be_on[1] && en_may_be_on[0];
-+	/* Test pattern mode (AD796x) is 0b0100. */
-+	st->can_test_pattern = en_may_be_off[3] && en_may_be_on[2] &&
-+			       en_may_be_off[1] && en_may_be_off[0];
-+
-+	return 0;
-+}
-+
-+/* Set EN1 and EN0 based on reference voltage source */
-+static void ad7625_set_en_gpios_for_vref(struct ad7625_state *st,
-+					 bool have_refin, int ref_mv)
-+{
-+	if (have_refin || ref_mv == 5000) {
-+		gpiod_set_value_cansleep(st->en_gpios[1], 0);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 1);
-+	} else if (ref_mv == 4096) {
-+		gpiod_set_value_cansleep(st->en_gpios[1], 1);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 0);
-+	} else {
-+		/*
-+		 * Unreachable by AD796x, since the driver will error if
-+		 * neither REF nor REFIN is provided
-+		 */
-+		gpiod_set_value_cansleep(st->en_gpios[1], 1);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 1);
-+	}
-+}
-+
-+static int ad7960_set_mode(struct ad7625_state *st, enum ad7960_mode mode,
-+			   bool have_refin, int ref_mv)
-+{
-+	switch (mode) {
-+	case AD7960_MODE_POWER_DOWN:
-+		if (!st->can_power_down)
-+			return -EINVAL;
-+
-+		gpiod_set_value_cansleep(st->en_gpios[2], 0);
-+		gpiod_set_value_cansleep(st->en_gpios[1], 0);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 0);
-+
-+		return 0;
-+
-+	case AD7960_MODE_SNOOZE:
-+		if (!st->can_snooze)
-+			return -EINVAL;
-+
-+		gpiod_set_value_cansleep(st->en_gpios[1], 1);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 1);
-+
-+		return 0;
-+
-+	case AD7960_MODE_NARROW_BANDWIDTH:
-+		if (!st->can_narrow_bandwidth)
-+			return -EINVAL;
-+
-+		gpiod_set_value_cansleep(st->en_gpios[2], 1);
-+		ad7625_set_en_gpios_for_vref(st, have_refin, ref_mv);
-+
-+		return 0;
-+
-+	case AD7960_MODE_WIDE_BANDWIDTH:
-+		if (!st->can_wide_bandwidth)
-+			return -EINVAL;
-+
-+		gpiod_set_value_cansleep(st->en_gpios[2], 0);
-+		ad7625_set_en_gpios_for_vref(st, have_refin, ref_mv);
-+
-+		return 0;
-+
-+	case AD7960_MODE_TEST_PATTERN:
-+		if (!st->can_test_pattern)
-+			return -EINVAL;
-+
-+		gpiod_set_value_cansleep(st->en_gpios[3], 0);
-+		gpiod_set_value_cansleep(st->en_gpios[2], 1);
-+		gpiod_set_value_cansleep(st->en_gpios[1], 0);
-+		gpiod_set_value_cansleep(st->en_gpios[0], 0);
-+
-+		return 0;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int ad7625_buffer_preenable(struct iio_dev *indio_dev)
-+{
-+	struct ad7625_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	ret = pwm_set_waveform_might_sleep(st->cnv_pwm, &st->cnv_wf, false);
-+	if (ret)
-+		return ret;
-+
-+	ret = pwm_set_waveform_might_sleep(st->clk_gate_pwm,
-+					   &st->clk_gate_wf, false);
-+	if (ret) {
-+		/* Disable cnv PWM if clk_gate setup failed */
-+		pwm_disable(st->cnv_pwm);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ad7625_buffer_postdisable(struct iio_dev *indio_dev)
-+{
-+	struct ad7625_state *st = iio_priv(indio_dev);
-+
-+	pwm_disable(st->cnv_pwm);
-+	pwm_disable(st->clk_gate_pwm);
-+
-+	return 0;
-+}
-+
-+static const struct iio_info ad7625_info = {
-+	.read_raw = ad7625_read_raw,
-+	.write_raw = ad7625_write_raw,
-+};
-+
-+static const struct iio_buffer_setup_ops ad7625_buffer_setup_ops = {
-+	.preenable = &ad7625_buffer_preenable,
-+	.postdisable = &ad7625_buffer_postdisable,
-+};
-+
-+static int devm_ad7625_pwm_get(struct device *dev, struct clk *ref_clk,
-+			       struct ad7625_state *st)
-+{
-+	unsigned long ref_clk_rate_hz;
-+
-+	st->cnv_pwm = devm_pwm_get(dev, "cnv");
-+	if (IS_ERR(st->cnv_pwm))
-+		return dev_err_probe(dev, PTR_ERR(st->cnv_pwm),
-+				     "failed to get cnv pwm\n");
-+
-+	/* Preemptively disable the PWM in case it was enabled at boot */
-+	pwm_disable(st->cnv_pwm);
-+
-+	st->clk_gate_pwm = devm_pwm_get(dev, "clk_gate");
-+	if (IS_ERR(st->clk_gate_pwm))
-+		return dev_err_probe(dev, PTR_ERR(st->clk_gate_pwm),
-+				     "failed to get clk_gate pwm\n");
-+
-+	/* Preemptively disable the PWM in case it was enabled at boot */
-+	pwm_disable(st->clk_gate_pwm);
-+
-+	ref_clk = devm_clk_get_enabled(dev, NULL);
-+	if (IS_ERR(ref_clk))
-+		return dev_err_probe(dev, PTR_ERR(ref_clk),
-+				     "failed to get ref_clk");
-+
-+	ref_clk_rate_hz = clk_get_rate(ref_clk);
-+	if (!ref_clk_rate_hz)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "failed to get ref_clk rate");
-+
-+	st->ref_clk_rate_hz = ref_clk_rate_hz;
-+
-+	return 0;
-+}
-+
-+/*
-+ * There are three required input voltages for each device, plus two
-+ * conditionally-optional (depending on part) REF and REFIN voltages
-+ * where their validity depends upon the EN pin configuration.
-+ *
-+ * Power-up info for the device says to bring up vio, then vdd2, then
-+ * vdd1, so list them in that order in the regulator_names array.
-+ *
-+ * The reference voltage source is determined like so:
-+ * - internal reference: neither REF or REFIN is connected (invalid for
-+ *   AD796x)
-+ * - internal buffer, external reference: REF not connected, REFIN
-+ *   connected
-+ * - external reference: REF connected, REFIN not connected
-+ */
-+static int devm_ad7625_regulator_setup(struct device *dev,
-+				       struct ad7625_state *st)
-+{
-+	static const char * const regulator_names[] = { "vio", "vdd2", "vdd1" };
-+	int ret, ref_mv;
-+
-+	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
-+					     regulator_names);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_regulator_get_enable_read_voltage(dev, "ref");
-+	if (ret < 0 && ret != -ENODEV)
-+		return dev_err_probe(dev, ret, "failed to get REF voltage\n");
-+
-+	ref_mv = ret == -ENODEV ? 0 : ret / 1000;
-+
-+	ret = devm_regulator_get_enable_optional(dev, "refin");
-+	if (ret < 0 && ret != -ENODEV)
-+		return dev_err_probe(dev, ret, "failed to get REFIN voltage\n");
-+
-+	st->have_refin = ret != -ENODEV;
-+
-+	if (st->have_refin && !st->can_refin)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "REFIN provided in unsupported mode\n");
-+
-+	if (!st->info->has_internal_vref && !st->have_refin && !ref_mv)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Need either REFIN or REF");
-+
-+	if (st->have_refin && ref_mv)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "cannot have both REFIN and REF supplies\n");
-+
-+	if (ref_mv == 4096 && !st->can_ref_4v096)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "REF is 4.096V in unsupported mode\n");
-+
-+	if (ref_mv == 5000 && !st->can_ref_5v)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "REF is 5V in unsupported mode\n");
-+
-+	st->vref_mv = ref_mv ?: AD7625_INTERNAL_REF_MV;
-+
-+	return 0;
-+}
-+
-+static int ad7625_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct iio_dev *indio_dev;
-+	struct ad7625_state *st;
-+	struct clk *ref_clk;
-+	int ret;
-+	int default_sample_freq;
-+
-+	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	st = iio_priv(indio_dev);
-+
-+	st->info = device_get_match_data(dev);
-+	if (!st->info)
-+		return dev_err_probe(dev, -EINVAL, "no chip info\n");
-+
-+	if (device_property_read_bool(dev, "adi,no-dco"))
-+		return dev_err_probe(dev, -EINVAL,
-+				     "self-clocked mode not supported\n");
-+
-+	if (st->info->has_bandwidth_control)
-+		ret = ad7625_parse_mode(dev, st, 4);
-+	else
-+		ret = ad7625_parse_mode(dev, st, 2);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_ad7625_regulator_setup(dev, st);
-+	if (ret)
-+		return ret;
-+
-+	/* Set the device mode based on detected EN configuration. */
-+	if (!st->info->has_bandwidth_control) {
-+		ad7625_set_en_gpios_for_vref(st, st->have_refin, st->vref_mv);
-+	} else {
-+		/*
-+		 * If neither sampling mode is available, then report an error,
-+		 * since the other modes are not useful defaults.
-+		 */
-+		if (st->can_wide_bandwidth) {
-+			ret = ad7960_set_mode(st, AD7960_MODE_WIDE_BANDWIDTH,
-+					      st->have_refin, st->vref_mv);
-+		} else if (st->can_narrow_bandwidth) {
-+			ret = ad7960_set_mode(st, AD7960_MODE_NARROW_BANDWIDTH,
-+					      st->have_refin, st->vref_mv);
-+		} else {
-+			return dev_err_probe(dev, -EINVAL,
-+				"couldn't set device to wide or narrow bandwidth modes\n");
-+		}
-+
-+		if (ret)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "failed to set EN pins\n");
-+	}
-+
-+	ret = devm_ad7625_pwm_get(dev, ref_clk, st);
-+	if (ret)
-+		return ret;
-+
-+	indio_dev->channels = &st->info->chan_spec;
-+	indio_dev->num_channels = 1;
-+	indio_dev->name = st->info->name;
-+	indio_dev->info = &ad7625_info;
-+	indio_dev->setup_ops = &ad7625_buffer_setup_ops;
-+
-+	st->back = devm_iio_backend_get(dev, NULL);
-+	if (IS_ERR(st->back))
-+		return dev_err_probe(dev, PTR_ERR(st->back),
-+				     "failed to get IIO backend");
-+
-+	ret = devm_iio_backend_request_buffer(dev, st->back, indio_dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_iio_backend_enable(dev, st->back);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Set the initial sampling frequency to the maximum, unless the
-+	 * AD796x device is limited to narrow bandwidth by EN2 == 1, in
-+	 * which case the sampling frequency should be limited to 2MSPS
-+	 */
-+	if (!st->info->has_bandwidth_control) {
-+		default_sample_freq = st->info->max_sample_rate_hz;
-+	} else {
-+		default_sample_freq = !st->can_wide_bandwidth ?
-+				      AD7960_MAX_NBW_FREQ :
-+				      st->info->max_sample_rate_hz;
-+	}
-+
-+	ret = ad7625_set_sampling_freq(st, default_sample_freq);
-+	if (ret)
-+		dev_err_probe(dev, ret,
-+			      "failed to set valid sampling frequency\n");
-+
-+	return devm_iio_device_register(dev, indio_dev);
-+}
-+
-+static const struct of_device_id ad7625_of_match[] = {
-+	{ .compatible = "adi,ad7625", .data = &ad7625_chip_info },
-+	{ .compatible = "adi,ad7626", .data = &ad7626_chip_info },
-+	{ .compatible = "adi,ad7960", .data = &ad7960_chip_info },
-+	{ .compatible = "adi,ad7961", .data = &ad7961_chip_info },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ad7625_of_match);
-+
-+static const struct platform_device_id ad7625_device_ids[] = {
-+	{ .name = "ad7625", .driver_data = (kernel_ulong_t)&ad7625_chip_info },
-+	{ .name = "ad7626", .driver_data = (kernel_ulong_t)&ad7626_chip_info },
-+	{ .name = "ad7960", .driver_data = (kernel_ulong_t)&ad7960_chip_info },
-+	{ .name = "ad7961", .driver_data = (kernel_ulong_t)&ad7961_chip_info },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(platform, ad7625_device_ids);
-+
-+static struct platform_driver ad7625_driver = {
-+	.probe = ad7625_probe,
-+	.driver = {
-+		.name = "ad7625",
-+		.of_match_table = ad7625_of_match,
-+	},
-+	.id_table = ad7625_device_ids,
-+};
-+module_platform_driver(ad7625_driver);
-+
-+MODULE_AUTHOR("Trevor Gamblin <tgamblin@baylibre.com>");
-+MODULE_DESCRIPTION("Analog Devices AD7625 ADC");
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_IMPORT_NS(IIO_BACKEND);
+On 19/08/2024 09:29, Barry Song wrote:
+> Hi Usama,
+> 
+> I feel it is much better now! thanks!
+> 
+> On Mon, Aug 19, 2024 at 2:31 PM Usama Arif <usamaarif642@gmail.com> wrote:
+>>
+>> Currently folio->_deferred_list is used to keep track of
+>> partially_mapped folios that are going to be split under memory
+>> pressure. In the next patch, all THPs that are faulted in and collapsed
+>> by khugepaged are also going to be tracked using _deferred_list.
+>>
+>> This patch introduces a pageflag to be able to distinguish between
+>> partially mapped folios and others in the deferred_list at split time in
+>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
+>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
+>> possible to distinguish between partially mapped folios and others in
+>> deferred_split_scan.
+>>
+>> Eventhough it introduces an extra flag to track if the folio is
+>> partially mapped, there is no functional change intended with this
+>> patch and the flag is not useful in this patch itself, it will
+>> become useful in the next patch when _deferred_list has non partially
+>> mapped folios.
+>>
+>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+>> ---
+>>  include/linux/huge_mm.h    |  4 ++--
+>>  include/linux/page-flags.h | 11 +++++++++++
+>>  mm/huge_memory.c           | 23 ++++++++++++++++-------
+>>  mm/internal.h              |  4 +++-
+>>  mm/memcontrol.c            |  3 ++-
+>>  mm/migrate.c               |  3 ++-
+>>  mm/page_alloc.c            |  5 +++--
+>>  mm/rmap.c                  |  5 +++--
+>>  mm/vmscan.c                |  3 ++-
+>>  9 files changed, 44 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+>> index 4c32058cacfe..969f11f360d2 100644
+>> --- a/include/linux/huge_mm.h
+>> +++ b/include/linux/huge_mm.h
+>> @@ -321,7 +321,7 @@ static inline int split_huge_page(struct page *page)
+>>  {
+>>         return split_huge_page_to_list_to_order(page, NULL, 0);
+>>  }
+>> -void deferred_split_folio(struct folio *folio);
+>> +void deferred_split_folio(struct folio *folio, bool partially_mapped);
+>>
+>>  void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+>>                 unsigned long address, bool freeze, struct folio *folio);
+>> @@ -495,7 +495,7 @@ static inline int split_huge_page(struct page *page)
+>>  {
+>>         return 0;
+>>  }
+>> -static inline void deferred_split_folio(struct folio *folio) {}
+>> +static inline void deferred_split_folio(struct folio *folio, bool partially_mapped) {}
+>>  #define split_huge_pmd(__vma, __pmd, __address)        \
+>>         do { } while (0)
+>>
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index a0a29bd092f8..c3bb0e0da581 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+>> @@ -182,6 +182,7 @@ enum pageflags {
+>>         /* At least one page in this folio has the hwpoison flag set */
+>>         PG_has_hwpoisoned = PG_active,
+>>         PG_large_rmappable = PG_workingset, /* anon or file-backed */
+>> +       PG_partially_mapped = PG_reclaim, /* was identified to be partially mapped */
+>>  };
+>>
+>>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
+>> @@ -861,8 +862,18 @@ static inline void ClearPageCompound(struct page *page)
+>>         ClearPageHead(page);
+>>  }
+>>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+>> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+>> +/*
+>> + * PG_partially_mapped is protected by deferred_split split_queue_lock,
+>> + * so its safe to use non-atomic set/clear.
+>> + */
+>> +__FOLIO_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+>> +__FOLIO_CLEAR_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+>>  #else
+>>  FOLIO_FLAG_FALSE(large_rmappable)
+>> +FOLIO_TEST_FLAG_FALSE(partially_mapped)
+>> +__FOLIO_SET_FLAG_NOOP(partially_mapped)
+>> +__FOLIO_CLEAR_FLAG_NOOP(partially_mapped)
+>>  #endif
+>>
+>>  #define PG_head_mask ((1UL << PG_head))
+>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>> index 2d77b5d2291e..70ee49dfeaad 100644
+>> --- a/mm/huge_memory.c
+>> +++ b/mm/huge_memory.c
+>> @@ -3398,6 +3398,7 @@ int split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
+>>                          * page_deferred_list.
+>>                          */
+>>                         list_del_init(&folio->_deferred_list);
+>> +                       __folio_clear_partially_mapped(folio);
+>>                 }
+>>                 spin_unlock(&ds_queue->split_queue_lock);
+>>                 if (mapping) {
+>> @@ -3454,11 +3455,13 @@ void __folio_undo_large_rmappable(struct folio *folio)
+>>         if (!list_empty(&folio->_deferred_list)) {
+>>                 ds_queue->split_queue_len--;
+>>                 list_del_init(&folio->_deferred_list);
+>> +               __folio_clear_partially_mapped(folio);
+> 
+> is it possible to make things clearer by
+> 
+>  if (folio_clear_partially_mapped)
+>     __folio_clear_partially_mapped(folio);
+> 
+> While writing without conditions isn't necessarily wrong, adding a condition
+> will improve the readability of the code and enhance the clarity of my mTHP
+> counters series. also help decrease smp cache sync if we can avoid
+> unnecessary writing?
+> 
 
--- 
-2.39.2
+Do you mean if(folio_test_partially_mapped(folio))?
 
+I don't like this idea. I think it makes the readability worse? If I was looking at if (test) -> clear for the first time, I would become confused why its being tested if its going to be clear at the end anyways?
+
+
+>>         }
+>>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+>>  }
+>>
+>> -void deferred_split_folio(struct folio *folio)
+>> +/* partially_mapped=false won't clear PG_partially_mapped folio flag */
+>> +void deferred_split_folio(struct folio *folio, bool partially_mapped)
+>>  {
+>>         struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+>>  #ifdef CONFIG_MEMCG
+>> @@ -3486,14 +3489,19 @@ void deferred_split_folio(struct folio *folio)
+>>         if (folio_test_swapcache(folio))
+>>                 return;
+>>
+>> -       if (!list_empty(&folio->_deferred_list))
+>> -               return;
+>> -
+>>         spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+>> +       if (partially_mapped) {
+>> +               if (!folio_test_partially_mapped(folio)) {
+>> +                       __folio_set_partially_mapped(folio);
+>> +                       if (folio_test_pmd_mappable(folio))
+>> +                               count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> +                       count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>> +               }
+>> +       } else {
+>> +               /* partially mapped folios cannot become non-partially mapped */
+>> +               VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
+>> +       }
+>>         if (list_empty(&folio->_deferred_list)) {
+>> -               if (folio_test_pmd_mappable(folio))
+>> -                       count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+>> -               count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+>>                 list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+>>                 ds_queue->split_queue_len++;
+>>  #ifdef CONFIG_MEMCG
+>> @@ -3542,6 +3550,7 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
+>>                 } else {
+>>                         /* We lost race with folio_put() */
+>>                         list_del_init(&folio->_deferred_list);
+>> +                       __folio_clear_partially_mapped(folio);
+> 
+> as above? Do we also need if(test) for split_huge_page_to_list_to_order()?
+> 
+>>                         ds_queue->split_queue_len--;
+>>                 }
+>>                 if (!--sc->nr_to_scan)
+>> diff --git a/mm/internal.h b/mm/internal.h
+>> index 52f7fc4e8ac3..27cbb5365841 100644
+>> --- a/mm/internal.h
+>> +++ b/mm/internal.h
+>> @@ -662,8 +662,10 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
+>>         atomic_set(&folio->_entire_mapcount, -1);
+>>         atomic_set(&folio->_nr_pages_mapped, 0);
+>>         atomic_set(&folio->_pincount, 0);
+>> -       if (order > 1)
+>> +       if (order > 1) {
+>>                 INIT_LIST_HEAD(&folio->_deferred_list);
+>> +               __folio_clear_partially_mapped(folio);
+> 
+> if partially_mapped is true for a new folio, does it mean we already have
+> a bug somewhere?
+> 
+> How is it possible for a new folio to be partially mapped?
+> 
+
+Its not, I did it because I wanted to make it explicit that the folio is being initialized, similar to how before this INIT_LIST_HEAD(&folio->_deferred_list) is done here.
+
+There is no functional issue in removing it here, because I believe the flag is initialized to false from start.
+>> +       }
+>>  }
+>>
+>>  static inline void prep_compound_tail(struct page *head, int tail_idx)
+>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>> index e1ffd2950393..0fd95daecf9a 100644
+>> --- a/mm/memcontrol.c
+>> +++ b/mm/memcontrol.c
+>> @@ -4669,7 +4669,8 @@ static void uncharge_folio(struct folio *folio, struct uncharge_gather *ug)
+>>         VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
+>>         VM_BUG_ON_FOLIO(folio_order(folio) > 1 &&
+>>                         !folio_test_hugetlb(folio) &&
+>> -                       !list_empty(&folio->_deferred_list), folio);
+>> +                       !list_empty(&folio->_deferred_list) &&
+>> +                       folio_test_partially_mapped(folio), folio);
+>>
+>>         /*
+>>          * Nobody should be changing or seriously looking at
+>> diff --git a/mm/migrate.c b/mm/migrate.c
+>> index 2d2e65d69427..ef4a732f22b1 100644
+>> --- a/mm/migrate.c
+>> +++ b/mm/migrate.c
+>> @@ -1735,7 +1735,8 @@ static int migrate_pages_batch(struct list_head *from,
+>>                          * use _deferred_list.
+>>                          */
+>>                         if (nr_pages > 2 &&
+>> -                          !list_empty(&folio->_deferred_list)) {
+>> +                          !list_empty(&folio->_deferred_list) &&
+>> +                          folio_test_partially_mapped(folio)) {
+>>                                 if (!try_split_folio(folio, split_folios, mode)) {
+>>                                         nr_failed++;
+>>                                         stats->nr_thp_failed += is_thp;
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index 408ef3d25cf5..a145c550dd2a 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -957,8 +957,9 @@ static int free_tail_page_prepare(struct page *head_page, struct page *page)
+>>                 break;
+>>         case 2:
+>>                 /* the second tail page: deferred_list overlaps ->mapping */
+>> -               if (unlikely(!list_empty(&folio->_deferred_list))) {
+>> -                       bad_page(page, "on deferred list");
+>> +               if (unlikely(!list_empty(&folio->_deferred_list) &&
+>> +                   folio_test_partially_mapped(folio))) {
+>> +                       bad_page(page, "partially mapped folio on deferred list");
+>>                         goto out;
+>>                 }
+>>                 break;
+>> diff --git a/mm/rmap.c b/mm/rmap.c
+>> index a6b9cd0b2b18..4c330635aa4e 100644
+>> --- a/mm/rmap.c
+>> +++ b/mm/rmap.c
+>> @@ -1578,8 +1578,9 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+>>          * Check partially_mapped first to ensure it is a large folio.
+>>          */
+>>         if (partially_mapped && folio_test_anon(folio) &&
+>> -           list_empty(&folio->_deferred_list))
+>> -               deferred_split_folio(folio);
+>> +           !folio_test_partially_mapped(folio))
+>> +               deferred_split_folio(folio, true);
+>> +
+>>         __folio_mod_stat(folio, -nr, -nr_pmdmapped);
+>>
+>>         /*
+>> diff --git a/mm/vmscan.c b/mm/vmscan.c
+>> index 25e43bb3b574..25f4e8403f41 100644
+>> --- a/mm/vmscan.c
+>> +++ b/mm/vmscan.c
+>> @@ -1233,7 +1233,8 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+>>                                          * Split partially mapped folios right away.
+>>                                          * We can free the unmapped pages without IO.
+>>                                          */
+>> -                                       if (data_race(!list_empty(&folio->_deferred_list)) &&
+>> +                                       if (data_race(!list_empty(&folio->_deferred_list) &&
+>> +                                           folio_test_partially_mapped(folio)) &&
+>>                                             split_folio_to_list(folio, folio_list))
+>>                                                 goto activate_locked;
+>>                                 }
+>> --
+>> 2.43.5
+>>
+> 
+> Thanks
+> Barry
