@@ -1,311 +1,142 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C47A159217
-	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 03:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D66C4594D;
+	Mon, 19 Aug 2024 05:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724039722; cv=none; b=RQVJr/xmKHcCjsuCCwkOifPTGvNdCNVZQbtnVPU9LqYkpgpA558di0v/D7KAcGLGwvuqRxYHEiuM+1fwvHSMv9PnLzDzcdfqN2pB0veHE0Da5I/H59EJ2BQKXK8BNMYlmYBwguUqUnQFad6Q7kD8WQBSi7Pzz5JTX9V63Yc0L0Q=
+	t=1724044600; cv=none; b=FEOf/DS7JR/EagzGO9EBpeO4I/KQexczrWuiLzhBo7jyoheu4SeoE9pK42fgf+LJ/rS5qyIRBlKArTNvtCfh6tgZ1+/Ar2dSFmR3zHzE8vYTgcK6+IHvvEFujLA0+kkPA4PEbCFW/2RQs/C76Z0MavGLBqyRt3ZftliW5POTok8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724039722; c=relaxed/simple;
-	bh=PPQ2TBgVSA5ptdS1uXtTClgYd1XhgNnYEziAm9uUxX8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Gzb34B1G62rTUCX4Xo0nMj+4GeGtdV/+avBjaqRwvNNaDnvZdcAUWiaRM7c8P5oI4ktSzcGbfz05B/L5+abJ2z3y5+1WvQzJFd4iPb6UnvKe7Kpq/1OlMZ+LQa0m7Q12jZmoK4rd6G+kWljBqs5JBGsa1tQUfZK777/IigTCXUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wb1QXmmM; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wb1QXmmM"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e117c61d98cso4171616276.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Aug 2024 20:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724039715; x=1724644515; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hPapFkFm/Emn5E+NKHs5wZxA+eyN6xzbSo8b+H6Rcvo=;
-        b=wb1QXmmMP4onGgoXBXIhxwBaSuRZ512dHiho55DH6EKfWoxhTf4NUmwQ/GSy71nhEl
-         yz4qzfxuoY6lxuQh9AFopE1Je5WBWXRkPgbnuEWGQ6x3VoZRhsd0ncQWhJniAqGy9AlB
-         FHeRzvf0MH5TU4Unpvd4rupUG2Efn0G0h6vRM1TsrRfrL/E3dGcltsKnCL4omGMTsf4c
-         ycPunB0228GfnOi1x+ZDvrnStJVfj7z6GiX2XVe/5dV/3HR4xDLTyTSOAD8s08WvUyjJ
-         WE6+2gCL91uPhVoh8baFWaCzLkpX2EFdBR0TqqB/NLMxmd2i83N7RZz3DhWnGXv7mPnQ
-         wXKA==
+	s=arc-20240116; t=1724044600; c=relaxed/simple;
+	bh=gq0cFjStxzBeQsciDl3jHF5hObqdTt/pX6H5YAdqG+o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SZ1ABclEJdVe0N+/Mvju0hjaQSz/16RM//S+L8KvOPFBJ6noYtGlOpEbHMWo42n/9lO3CxopbSsPQyr85n6N/BdcxgpaeATSLlYu9RA5FnAkdLivDIMc4biSlu0I0DgjKJifY6bw9k1C8RJaco1lB+4yiMCJnG/FnzOjkXns5MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-428085a3ad1so34176995e9.1;
+        Sun, 18 Aug 2024 22:16:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724039715; x=1724644515;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hPapFkFm/Emn5E+NKHs5wZxA+eyN6xzbSo8b+H6Rcvo=;
-        b=hu/9rpYKEdmPz42UUDaup+oSK5zdUhoZ4JfoejlWiHc3zctXqD/VCHrXjqoVVnwAlM
-         pSz8MAM4V6aeEToGSVVLxKEIyotYkBRpajUJFaztOVaSGV2MnsUVwb9BJvQFDgkBao5n
-         r9hTodHa741JqoQyLwGr6T1t6uMezqBFyY4a8u7NNA7RzcyaKjFljgZPmyH1//0SVHmK
-         Ofp44wOoAec+N5pXK97x0rcCuJ3HHbYylPcgEURLw8MYOxApj0rWTmyuYlgfCZeQNp3q
-         iS6MO+y/ChsSXJa3F1ZHpGZJUwrzr1qBfeHmUXBboaIr3Heccqpr39Qlz9tylZpSYKu/
-         6prw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYu0XMjqWGS92MW7XVxJaPxLtNzivoIXOTlEEzIIEwqwB0+2MlG5p27FkExl3C67RIGoeTpLGSuqgKwWH55VxqBNlCKJrY8ePd
-X-Gm-Message-State: AOJu0Yw07u4HPxAXWIRrW/Kcdtm+af54aSwQygK/KuC4OtANtT6n8/S7
-	AVYklTNfMJ2w90ezyV5kAIQ/T/5NAs8/8PP+Rl7q6B7oBXE2KBLgIXz8c+Uy8IdeVMgsUG8+RFB
-	Z4lc8rKfropSeJnaPIbL63A==
-X-Google-Smtp-Source: AGHT+IE595XwTUUDYFu7glIYVz3bvBcAAZ1ahbx/lc1/M+W958f66sVN6SoLK5Q2Bl1M8HEA5y2izG6K2nU/xMM9UA==
-X-Received: from almasrymina.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:4bc5])
- (user=almasrymina job=sendgmr) by 2002:a25:d3c3:0:b0:e11:6a73:b0d with SMTP
- id 3f1490d57ef6-e1180e8d1f4mr16114276.6.1724039709762; Sun, 18 Aug 2024
- 20:55:09 -0700 (PDT)
-Date: Mon, 19 Aug 2024 03:54:45 +0000
-In-Reply-To: <20240819035448.2473195-1-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1724044597; x=1724649397;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HprnbFTayqz+uqlg8mSPJykFJTiRSC/Vz3kgO0IGUVQ=;
+        b=IGizhJeNBN2OqWHdlbB1/Bo26PODO976xAvdduamyYmP3xuzwLuoRbemtphx4Ilr2h
+         0vvzU0e+htGU9dei9+RUdUzYsaxu0/OijsjlFzB9XQdPi+8i9ZL0FwoijIj9ivuNKvqT
+         qJcjqr4NsPzZobM8AGx2B+h/vom9qdNTDH79+BvecIkmWilzX2Lo0EoDu6lWnU8hJwhk
+         OW/DpdHGzIeOJjZQNFSht8AVNFP1zSZCpVIJ9GqYPU2Y2Zbp9egqr6Z4UuvogQHMeuMy
+         t9Fa8sjkUimEChUV5h+9azVsBiBCu3uOEGU2OZSEIaUXro9QJAEVkpfZKhBMCTzLz6CQ
+         78cA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOYYS4CFjZgAvzRQ/HC8rb6Z1INjjvRPGEKqTxoyRcxP7SRcQY38/A2GXUppwZBs2GZPIoR2ivhFPp7Fr2UBWogfBgzRKtAn+V/R/MkTq8H/lZDT1oNypBzWB/MGi5Ue9XH6jFV4oL82jDaqG2QNvOFPSCiVhCRQyIyS/QVW3N8mU9jDik
+X-Gm-Message-State: AOJu0Yy8gtfZ8v55WAexMi5bzEAwxAaxq1ViOdWF05aqxMWG/hfKUH3p
+	EPyLTNshMAkBL4iKMK8tW51KesSAfqakPN91hodGMbMAhl5K2Xwe
+X-Google-Smtp-Source: AGHT+IEQGXh2paPMFKyW5G+hNAjxADeCnZiExVjQPiP6lFdfiHLIqw4du2ehIwlhYf2Au1SY3h6IFQ==
+X-Received: by 2002:a05:600c:3b27:b0:426:59fe:ac2e with SMTP id 5b1f17b1804b1-429ed7cee39mr78279765e9.29.1724044596475;
+        Sun, 18 Aug 2024 22:16:36 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded180e7sm149187485e9.3.2024.08.18.22.16.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Aug 2024 22:16:35 -0700 (PDT)
+Message-ID: <9f0e05fd-1e6b-4474-95e9-64af6ffa030d@kernel.org>
+Date: Mon, 19 Aug 2024 07:16:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240819035448.2473195-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-Message-ID: <20240819035448.2473195-11-almasrymina@google.com>
-Subject: [PATCH net-next v20 10/13] net: add SO_DEVMEM_DONTNEED setsockopt to
- release RX frags
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] tty: Add N_TASHTALK line discipline for
+ TashTalk Localtalk serial driver
+To: Rodolfo Zitellini <rwz@xhero.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Doug Brown <doug@schmorgal.com>
+References: <20240817093258.9220-1-rwz@xhero.org>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20240817093258.9220-1-rwz@xhero.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add an interface for the user to notify the kernel that it is done
-reading the devmem dmabuf frags returned as cmsg. The kernel will
-drop the reference on the frags to make them available for reuse.
+Where is 2/2?
 
-Signed-off-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+It cannot be seen:
+https://lore.kernel.org/all/20240817093258.9220-1-rwz@xhero.org/#r
 
----
+On 17. 08. 24, 11:32, Rodolfo Zitellini wrote:
+> This is the patch for the line discipline
+> 
+> Signed-off-by: Rodolfo Zitellini <rwz@xhero.org>
+> 
+> ---
+>   include/uapi/linux/tty.h | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/tty.h b/include/uapi/linux/tty.h
+> index 68aeae2addec..bac4c0af67e6 100644
+> --- a/include/uapi/linux/tty.h
+> +++ b/include/uapi/linux/tty.h
+> @@ -39,8 +39,9 @@
+>   #define N_MCTP		28	/* MCTP-over-serial */
+>   #define N_DEVELOPMENT	29	/* Manual out-of-tree testing */
+>   #define N_CAN327	30	/* ELM327 based OBD-II interfaces */
+> +#define N_TASHTALK	31	/* TashTalk LocalTalk driver */
+>   
+>   /* Always the newest line discipline + 1 */
+> -#define NR_LDISCS	31
+> +#define NR_LDISCS	32
+>   
+>   #endif /* _UAPI_LINUX_TTY_H */
 
-v16:
-- Use sk_is_tcp().
-- Fix unnamed 128 DONTNEED limit (David).
-- Fix kernel allocating for 128 tokens even if the user didn't ask for
-  that much (Eric).
-- Fix number assignement (Arnd).
-
-v10:
-- Fix leak of tokens (Nikolay).
-
-v7:
-- Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
-
-v6:
-- Squash in locking optimizations from edumazet@google.com. With his
-  changes we lock the xarray once per sock_devmem_dontneed operation
-  rather than once per frag.
-
-Changes in v1:
-- devmemtoken -> dmabuf_token (David).
-- Use napi_pp_put_page() for refcounting (Yunsheng).
-- Fix build error with missing socket options on other asms.
-
----
- arch/alpha/include/uapi/asm/socket.h  |  1 +
- arch/mips/include/uapi/asm/socket.h   |  1 +
- arch/parisc/include/uapi/asm/socket.h |  1 +
- arch/sparc/include/uapi/asm/socket.h  |  1 +
- include/uapi/asm-generic/socket.h     |  1 +
- include/uapi/linux/uio.h              |  4 ++
- net/core/sock.c                       | 68 +++++++++++++++++++++++++++
- 7 files changed, 77 insertions(+)
-
-diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-index ef4656a41058..251b73c5481e 100644
---- a/arch/alpha/include/uapi/asm/socket.h
-+++ b/arch/alpha/include/uapi/asm/socket.h
-@@ -144,6 +144,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-index 414807d55e33..8ab7582291ab 100644
---- a/arch/mips/include/uapi/asm/socket.h
-+++ b/arch/mips/include/uapi/asm/socket.h
-@@ -155,6 +155,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-index 2b817efd4544..38fc0b188e08 100644
---- a/arch/parisc/include/uapi/asm/socket.h
-+++ b/arch/parisc/include/uapi/asm/socket.h
-@@ -136,6 +136,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-index 00248fc68977..57084ed2f3c4 100644
---- a/arch/sparc/include/uapi/asm/socket.h
-+++ b/arch/sparc/include/uapi/asm/socket.h
-@@ -137,6 +137,7 @@
- #define SCM_DEVMEM_LINEAR        SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF         0x0058
- #define SCM_DEVMEM_DMABUF        SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED       0x0059
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-index e993edc9c0ee..3b4e3e815602 100644
---- a/include/uapi/asm-generic/socket.h
-+++ b/include/uapi/asm-generic/socket.h
-@@ -139,6 +139,7 @@
- #define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
- #define SO_DEVMEM_DMABUF	79
- #define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-+#define SO_DEVMEM_DONTNEED	80
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
-index 3a22ddae376a..d17f8fcd93ec 100644
---- a/include/uapi/linux/uio.h
-+++ b/include/uapi/linux/uio.h
-@@ -33,6 +33,10 @@ struct dmabuf_cmsg {
- 				 */
- };
- 
-+struct dmabuf_token {
-+	__u32 token_start;
-+	__u32 token_count;
-+};
- /*
-  *	UIO_MAXIOV shall be at least 16 1003.1g (5.4.1.1)
-  */
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 9abc4fe25953..df2a2dd6409d 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -124,6 +124,7 @@
- #include <linux/netdevice.h>
- #include <net/protocol.h>
- #include <linux/skbuff.h>
-+#include <linux/skbuff_ref.h>
- #include <net/net_namespace.h>
- #include <net/request_sock.h>
- #include <net/sock.h>
-@@ -1049,6 +1050,69 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
- 	return 0;
- }
- 
-+#ifdef CONFIG_PAGE_POOL
-+
-+/* This is the number of tokens that the user can SO_DEVMEM_DONTNEED in
-+ * 1 syscall. The limit exists to limit the amount of memory the kernel
-+ * allocates to copy these tokens.
-+ */
-+#define MAX_DONTNEED_TOKENS 128
-+
-+static noinline_for_stack int
-+sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-+{
-+	unsigned int num_tokens, i, j, k, netmem_num = 0;
-+	struct dmabuf_token *tokens;
-+	netmem_ref netmems[16];
-+	int ret = 0;
-+
-+	if (!sk_is_tcp(sk))
-+		return -EBADF;
-+
-+	if (optlen % sizeof(struct dmabuf_token) ||
-+	    optlen > sizeof(*tokens) * MAX_DONTNEED_TOKENS)
-+		return -EINVAL;
-+
-+	tokens = kvmalloc_array(optlen, sizeof(*tokens), GFP_KERNEL);
-+	if (!tokens)
-+		return -ENOMEM;
-+
-+	num_tokens = optlen / sizeof(struct dmabuf_token);
-+	if (copy_from_sockptr(tokens, optval, optlen)) {
-+		kvfree(tokens);
-+		return -EFAULT;
-+	}
-+
-+	xa_lock_bh(&sk->sk_user_frags);
-+	for (i = 0; i < num_tokens; i++) {
-+		for (j = 0; j < tokens[i].token_count; j++) {
-+			netmem_ref netmem = (__force netmem_ref)__xa_erase(
-+				&sk->sk_user_frags, tokens[i].token_start + j);
-+
-+			if (netmem &&
-+			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-+				netmems[netmem_num++] = netmem;
-+				if (netmem_num == ARRAY_SIZE(netmems)) {
-+					xa_unlock_bh(&sk->sk_user_frags);
-+					for (k = 0; k < netmem_num; k++)
-+						WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-+					netmem_num = 0;
-+					xa_lock_bh(&sk->sk_user_frags);
-+				}
-+				ret++;
-+			}
-+		}
-+	}
-+
-+	xa_unlock_bh(&sk->sk_user_frags);
-+	for (k = 0; k < netmem_num; k++)
-+		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-+
-+	kvfree(tokens);
-+	return ret;
-+}
-+#endif
-+
- void sockopt_lock_sock(struct sock *sk)
- {
- 	/* When current->bpf_ctx is set, the setsockopt is called from
-@@ -1211,6 +1275,10 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
- 			ret = -EOPNOTSUPP;
- 		return ret;
- 		}
-+#ifdef CONFIG_PAGE_POOL
-+	case SO_DEVMEM_DONTNEED:
-+		return sock_devmem_dontneed(sk, optval, optlen);
-+#endif
- 	}
- 
- 	sockopt_lock_sock(sk);
 -- 
-2.46.0.184.g6999bdac58-goog
+js
 
