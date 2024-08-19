@@ -1,133 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB3432C8B;
-	Mon, 19 Aug 2024 16:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77251177982;
+	Mon, 19 Aug 2024 16:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724085214; cv=none; b=LVRzf2VDIH+ItZZa5dkR4Ksl9R+hyrRLG6IYh2ZkvLcPC4ApEN1Wb0/w+hCG+EtcLYVMyOFJQgAfy/4OII8XLsZBSATMtqjFsNbt74EdU1zIMlmfPZY7dlv8/mDFOx3hcnEUpWB4Fh2e8PXNAFDuNLzfNq+9KUjwanvfnMoxrmY=
+	t=1724085372; cv=none; b=cc8J6BmeG5UaBGHEmpMxhVTaI9sAdGoJfB2YBCh8GgDDLh1J8/nd4qVimDeJV6SHxbSZluAKs59zriMgf0mJjZCGdojEpE10syqdkw37txTBRksFHswS9qJ/9VKGTgKUrDr9wlzkfRIZYupPDGWVL1Wzpunus8yxnV8sg6G3Wzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724085214; c=relaxed/simple;
-	bh=evii6L2sZLuBZsDeVmQaiukOZYaMAFg0RqLOntPinT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9TSpGbN1Xv4AYgPS1oDUqBedOXgXtZhqpw5fRiKxWl7ixZwaY6DdYhww0KX8VcLl0ivUJO0mtfUJgfL6O45R+9LPO3LivDn/JEolmin7c4ULn3gBewNxFM/s0NUnu4Hi0Zw62AockZrnoaI0bnYwUKJBywYf4ogW8Rq0Xpof1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/Xaqf57; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724085372; c=relaxed/simple;
+	bh=Ij42qg4XwDB1sODuJcyZUx7sN09vuh1W4zuPaVmRGAI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VRhx4/9W5lwDiRECrQVpH9AjaKEIYcDwJi5W5iWtqB7ZRXKzPN39ivSxwXdoHZOrd56svE5cKDw+2Qi/oZ0/bkNCXI4eJOr6x6g1L5qj1A3SFhReAsfQIe1mYFBwnRAv8AcCCKrbXL4pHeF3tGHZDtEbLqRzTGAXo+3adyR+Owk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+ZMsRNg; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/Xaqf57"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B21E0C32782;
-	Mon, 19 Aug 2024 16:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724085214;
-	bh=evii6L2sZLuBZsDeVmQaiukOZYaMAFg0RqLOntPinT8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p/Xaqf57XaWAVesDIXzLwFNmcsGpxCWxCiEl8e7wqsfX6gbZTVZaibIjtofHP+HQy
-	 mNkfUOElC8Ed0VjXXvNq9aoGwmAtJUoqRfPxjW6pG4WzPvDPwk2E/ohMtDCdY0XuRP
-	 7k9QW/RaYwIiYXeuG0zIRmMObdLvwZzA0wsODoXlGTOLMwINsKdtHKc+TgwAqr4ZO9
-	 DbshXmifSQvXAnQSw7yxsDdm+PnnWXUw62cMAbR8DWLupzNOAJI8jMLgI1UYKzU84R
-	 zNfPjPPoV8e0rLVIwnBnTaZ7upD0UC+dpiqjmwOqR5FFGfmA4YvEC6JEHoxtzdMqKk
-	 RiCeykpYkKbQA==
-Date: Mon, 19 Aug 2024 17:33:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 13/40] arm64/mm: Map pages for guarded control stack
-Message-ID: <d43f8036-cc06-430c-9e9e-b938037fc64c@sirena.org.uk>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-13-699e2bd2190b@kernel.org>
- <ZsMMDNIp6Pkfbg1e@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+ZMsRNg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724085370; x=1755621370;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Ij42qg4XwDB1sODuJcyZUx7sN09vuh1W4zuPaVmRGAI=;
+  b=A+ZMsRNgnRODGlPLdzke2AlkmGneaZLPdg72u23xiwWEBR4rmoBdCSfj
+   5G5qsmPBriS8o04h8K77ekMb0yhLM48nww9IfX1QgFCKx6wSgzrjoHJWH
+   YjERuX6766vnNaYO2EXASfoUxQIlyc6O2tWrEybsrAXDjBYC0QrOFMEzA
+   cK4tslv88to+NZgxQb2j7pMPvDhzOyaKDzHZscbhwmRsPYLyIM6wMpz1G
+   GlOjhUNRADh7EnhY69z5YIp6WLIZ+3PkDaOW4DRUkTPz/Ow4Ms0tx3Oft
+   Zo9hTu6dCD8i/KDN/sTe7DC7RO8u3Cu+I7qHFSFON3U9Ubw7GZuoTGacv
+   w==;
+X-CSE-ConnectionGUID: nvSkGs9GTGKoQEvokLjaeA==
+X-CSE-MsgGUID: GL/sByv2TCirSRFRlYI3Cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="33014580"
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
+   d="scan'208";a="33014580"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 09:36:09 -0700
+X-CSE-ConnectionGUID: ljhaOIarRHyIrsJxWNopMw==
+X-CSE-MsgGUID: 6PLaEDX6RsWzXnrsWF2giw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
+   d="scan'208";a="60400622"
+Received: from mgoodin-mobl2.amr.corp.intel.com (HELO [10.125.111.235]) ([10.125.111.235])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 09:36:06 -0700
+Message-ID: <47768d4a-1be2-4e4e-a84e-05e736f3966c@intel.com>
+Date: Mon, 19 Aug 2024 09:35:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eyTciqf51C2CbNXu"
-Content-Disposition: inline
-In-Reply-To: <ZsMMDNIp6Pkfbg1e@arm.com>
-X-Cookie: Interchangeable parts won't.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 17/25] cxl/core: Return endpoint decoder information
+ from region search
+To: Ira Weiny <ira.weiny@intel.com>, Fan Ni <fan.ni@samsung.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, linux-btrfs@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, nvdimm@lists.linux.dev
+References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
+ <20240816-dcd-type2-upstream-v3-17-7c9b96cba6d7@intel.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20240816-dcd-type2-upstream-v3-17-7c9b96cba6d7@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---eyTciqf51C2CbNXu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Aug 19, 2024 at 10:10:36AM +0100, Catalin Marinas wrote:
-> On Thu, Aug 01, 2024 at 01:06:40PM +0100, Mark Brown wrote:
+On 8/16/24 7:44 AM, Ira Weiny wrote:
+> cxl_dpa_to_region() finds the region from a <DPA, device> tuple.
+> The search involves finding the device endpoint decoder as well.
+> 
+> Dynamic capacity extent processing uses the endpoint decoder HPA
+> information to calculate the HPA offset.  In addition, well behaved
+> extents should be contained within an endpoint decoder.
+> 
+> Return the endpoint decoder found to be used in subsequent DCD code.
+> 
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-> > +	if (system_supports_gcs() && (vm_flags & VM_SHADOW_STACK)) {
-> > +		/*
-> > +		 * An executable GCS isn't a good idea, and the mm
-> > +		 * core can't cope with a shared GCS.
-> > +		 */
-> > +		if (vm_flags & (VM_EXEC | VM_ARM64_BTI | VM_SHARED))
-> > +			return false;
-> > +	}
-
-> I wonder whether we should clear VM_MAYEXEC early on during the vma
-> creation. This way the mprotect() case will be handled in the core code.
-> At a quick look, do_mmap() seems to always set VM_MAYEXEC but discard it
-> for non-executable file mmap. Last time I looked (when doing MTE) there
-> wasn't a way for the arch code to clear specific VM_* flags, only to
-> validate them. But I think we should just clear VM_MAYEXEC and also
-> return an error for VM_EXEC in the core do_mmap() if VM_SHADOW_STACK. It
-> would cover the other architectures doing shadow stacks.
-
-Yes, I think adding something generic would make sense here.  That feels
-like a cleanup which could be split out?
-
-> Regarding VM_SHARED, how do we even end up with this via the
-> map_shadow_stack() syscall? I can't see how one can pass MAP_SHARED to
-> do_mmap() on this path. I'm fine with a VM_WARN_ON() if you want the
-> check (and there's no way a user can trigger it).
-
-It's just a defenesive programming thing, I'm not aware of any way in
-which it should be possible to trigger this.
-
-> Is there any arch restriction with setting BTI and GCS? It doesn't make
-> sense but curious if it matters. We block the exec permission anyway
-> (unless the BTI pages moved to PIE as well, I don't remember).
-
-As you say BTI should be meaningless for a non-executable page like GCS,
-I'm not aware of any way in which it matters.  BTI is separate to PIE.
-
---eyTciqf51C2CbNXu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbDc9MACgkQJNaLcl1U
-h9DcCAf/aZF31au2O5tCW1iS32zwyPysrbia2QSwmoMPN4cH+zZF6jGKfJP53y/G
-CNgaoXcyBX2iypaZnICHU23amdDQeA311XwIhP3tEc32tH2i0LgSO39EGLdA4dqe
-j9An/W7fAj/0GD9s5qxLjEUDr8DKmihD4s/yemH3g2xwf/NF2Ya/tFXJWfAcJPNr
-rg55UlkNM+WG6bZ21EKnqi/ykDJhHVBdmTEYE7vfyMDjneyhO5oMG6ESXUJFBTd6
-JrYRPZb0Cr7QlXE2JRP2yZQG9TzS0WMvsi3TN5T17PRy8WpwtCyfLi3Drj5popSF
-K/uduuEHbCFXxkFNmqeaOTGvnX2ozA==
-=Qsdz
------END PGP SIGNATURE-----
-
---eyTciqf51C2CbNXu--
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> ---
+>  drivers/cxl/core/core.h   | 6 ++++--
+>  drivers/cxl/core/mbox.c   | 2 +-
+>  drivers/cxl/core/memdev.c | 4 ++--
+>  drivers/cxl/core/region.c | 8 +++++++-
+>  4 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index 15b6cf1c19ef..76c4153a9b2c 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -39,7 +39,8 @@ void cxl_decoder_kill_region(struct cxl_endpoint_decoder *cxled);
+>  int cxl_region_init(void);
+>  void cxl_region_exit(void);
+>  int cxl_get_poison_by_endpoint(struct cxl_port *port);
+> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
+> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
+> +				     struct cxl_endpoint_decoder **cxled);
+>  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
+>  		   u64 dpa);
+>  
+> @@ -50,7 +51,8 @@ static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
+>  	return ULLONG_MAX;
+>  }
+>  static inline
+> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
+> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
+> +				     struct cxl_endpoint_decoder **cxled)
+>  {
+>  	return NULL;
+>  }
+> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
+> index 68c26c4be91a..01a447aaa1b1 100644
+> --- a/drivers/cxl/core/mbox.c
+> +++ b/drivers/cxl/core/mbox.c
+> @@ -909,7 +909,7 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
+>  		guard(rwsem_read)(&cxl_dpa_rwsem);
+>  
+>  		dpa = le64_to_cpu(evt->media_hdr.phys_addr) & CXL_DPA_MASK;
+> -		cxlr = cxl_dpa_to_region(cxlmd, dpa);
+> +		cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
+>  		if (cxlr)
+>  			hpa = cxl_dpa_to_hpa(cxlr, cxlmd, dpa);
+>  
+> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
+> index 7da1f0f5711a..12fb07fb89a6 100644
+> --- a/drivers/cxl/core/memdev.c
+> +++ b/drivers/cxl/core/memdev.c
+> @@ -323,7 +323,7 @@ int cxl_inject_poison(struct cxl_memdev *cxlmd, u64 dpa)
+>  	if (rc)
+>  		goto out;
+>  
+> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
+> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
+>  	if (cxlr)
+>  		dev_warn_once(mds->cxlds.dev,
+>  			      "poison inject dpa:%#llx region: %s\n", dpa,
+> @@ -387,7 +387,7 @@ int cxl_clear_poison(struct cxl_memdev *cxlmd, u64 dpa)
+>  	if (rc)
+>  		goto out;
+>  
+> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
+> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
+>  	if (cxlr)
+>  		dev_warn_once(mds->cxlds.dev,
+>  			      "poison clear dpa:%#llx region: %s\n", dpa,
+> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> index 35c4a1f4f9bd..8e0884b52f84 100644
+> --- a/drivers/cxl/core/region.c
+> +++ b/drivers/cxl/core/region.c
+> @@ -2828,6 +2828,7 @@ int cxl_get_poison_by_endpoint(struct cxl_port *port)
+>  struct cxl_dpa_to_region_context {
+>  	struct cxl_region *cxlr;
+>  	u64 dpa;
+> +	struct cxl_endpoint_decoder *cxled;
+>  };
+>  
+>  static int __cxl_dpa_to_region(struct device *dev, void *arg)
+> @@ -2861,11 +2862,13 @@ static int __cxl_dpa_to_region(struct device *dev, void *arg)
+>  			dev_name(dev));
+>  
+>  	ctx->cxlr = cxlr;
+> +	ctx->cxled = cxled;
+>  
+>  	return 1;
+>  }
+>  
+> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
+> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
+> +				     struct cxl_endpoint_decoder **cxled)
+>  {
+>  	struct cxl_dpa_to_region_context ctx;
+>  	struct cxl_port *port;
+> @@ -2877,6 +2880,9 @@ struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
+>  	if (port && is_cxl_endpoint(port) && cxl_num_decoders_committed(port))
+>  		device_for_each_child(&port->dev, &ctx, __cxl_dpa_to_region);
+>  
+> +	if (cxled)
+> +		*cxled = ctx.cxled;
+> +
+>  	return ctx.cxlr;
+>  }
+>  
+> 
