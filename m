@@ -1,104 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E85B1591FC;
-	Mon, 19 Aug 2024 22:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274B73C482;
+	Mon, 19 Aug 2024 22:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724107981; cv=none; b=WTjx6jglKxA5EMcFDBvKwFdOr9zHpKrapdYdiU8ao8EK3zLzCneYBohg08+hVf2GKP4+awqfokCiWvGlzKwhwpZ+SBzygKScygvCvJe7hn+HDcnU1HM/wKWIQVH7RWTHvmDbP2mLEz50dHVyUwT/QzxNrYMWIAygT11TQTGXphg=
+	t=1724108266; cv=none; b=NS0pd0RLzAXwLoNPMwnN4tkFwALv+RTltyjKe0XsEBJdBja73KFmA2wGyzfxr0ESYt0HQQHDfZbJE+t0I1tOgwx35XnXqoc4+8f6dnVAF4GCXK0bmjVYMOfo23ckHaeSSQWEJQza4pUIwau4857QRggZAcVisTYsFLfWn4zXD7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724107981; c=relaxed/simple;
-	bh=z8tvJ/r+K51rMUGiQ7v/KfC1hjjU9qrDmdqSPzMw1FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mizGuU0pMncf4Y9aERIHL8SyGiEHtxD9pF6nJ0iOOgMEYEFbg4Q2taJXtxr5f1pi8/JZiNZ6WJDo1jn0N71wS6n+oxySy0FQCFzgFU+iDueK8yULzrlQpHpQvCaACAX21w+pCh4GjbFD0Iv7M0rQDIjn5Ep21VShPlj2vH1kNqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+425N8/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724108266; c=relaxed/simple;
+	bh=3RYkj11lora+jk88iuLfmUrVXzlcGtIcbelB817NQv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rZYyxBJgEjVnLQ0qO/GR88tECafHV+hSMZvRcn8tfYoZ0m+q8kB/PaY9SOjGCuD/46wcm1pOTbUHNjswvWRm1rAZ2svwLjeqnUsmtNHcEaNFLU3PtCzoSwdFDz1ExKFlRR/B3tBA6txkTv7PL8qCLjjjMeQcHC7MNYM26T+2rS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ot1hZGON; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+425N8/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64ED0C4AF12;
-	Mon, 19 Aug 2024 22:52:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724107980;
-	bh=z8tvJ/r+K51rMUGiQ7v/KfC1hjjU9qrDmdqSPzMw1FI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X+425N8/0Z0g9jYHaBI4EUs6dVJXQlWC758nv9kpCZbKzTDNb6P2p1FPy3r+7duwl
-	 u68IWRgnb7ZJcMUYHFffZJJaJTZr9bP2leFUXp0TPrhzWj73LiizT6k1B46np7glzU
-	 6kCHjT0/sKrazot7Ln9ZOyLLWfEErLTDlhRUia0WS07ZOowAWukzj3LBM4ZhRXBn4t
-	 nO8e1WKgWHjK1k//RopJ63LkktIInRVyYi9Q+cS5CAvyy/hNwl7zTUj4idOxU8s5KN
-	 cUZuIwNxTEg4dS+POUv9Q+Tsy6hoBuKT58z5QH6U5BXP+rLKPZJxm066BR2w0ssGPV
-	 8p8UNW1SqEHtg==
-Date: Mon, 19 Aug 2024 15:52:57 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240819155257.1148e869@kernel.org>
-In-Reply-To: <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
-References: <20240813211317.3381180-4-almasrymina@google.com>
-	<CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ot1hZGON"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=iGfyJmX1Qzz8nM0pIFZUr1CNLjNyXjnaY0/FtRYCuzY=; b=ot1hZGONVPSZvQBPNekSSZ6h1b
+	L1c1lvSHOZlXHoDhld0CaHi/GNxXUK7CHiKtcNEW1TFDHUrJbaGy4irle5OEGCQDHrXTSO+CK5gN2
+	a0xMyaH38iD/d2kKA+X7iO3HrCKfV8hhHC7/inMqtTvEcYt6H/zyMHaFNY5XUNWmtRquWVnK4ZYhp
+	KicX6G55EOvHCSEM9Rez9da2LN3jlllyp9JJpKuMbC9XewXOmSk8l0/5l6hVEZPK9xf76EY14sKCZ
+	wEacaWqalp/l59k5PlBpj3YnNzWtZJL+3bTlU6gxbV0Vuy79SD4k9JWnBkZ/RN7051LIAsW2d4SRj
+	+1NGjhlA==;
+Received: from [177.76.152.96] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1sgBJb-002OXu-UJ; Tue, 20 Aug 2024 00:57:31 +0200
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	kernel-dev@igalia.com,
+	kernel@gpiccoli.net,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Subject: [PATCH] Documentation: Document the kernel flag bdev_allow_write_mounted
+Date: Mon, 19 Aug 2024 19:56:27 -0300
+Message-ID: <20240819225626.2000752-2-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
-> > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_device *dev, struct netlink_ext_ack *extack
-> >                         NL_SET_ERR_MSG(extack, "Native and generic XDP can't be active at the same time");
-> >                         return -EEXIST;
-> >                 }
-> > +               if (dev_get_max_mp_channel(dev) != -1) {
-> > +                       NL_SET_ERR_MSG(extack, "XDP can't be installed on a netdev using memory providers");
-> > +                       return -EINVAL;
-> > +               }  
-> 
-> Should we consider virtual interfaces like bonding, bridge, etc?
-> Virtual interfaces as an upper interface of physical interfaces can
-> still install XDP prog.
-> 
-> # ip link add bond0 type bond
-> # ip link set eth0 master bond0
-> # ip link set bond0 xdp pin /sys/fs/bpf/x/y
-> and
-> # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
-> 
-> All virtual interfaces can install generic XDP prog.
-> The bonding interface can install native XDP prog.
+Commit ed5cc702d311 ("block: Add config option to not allow writing to mounted
+devices") added a Kconfig option along with a kernel command-line tuning to
+control writes to mounted block devices, as a means to deal with fuzzers like
+Syzkaller, that provokes kernel crashes by directly writing on block devices
+bypassing the filesystem (so the FS has no awareness and cannot cope with that).
 
-Good point. We may need some common helpers to place the checks for XDP.
-They are spread all over the place now.
+The patch just missed adding such kernel command-line option to the kernel
+documentation, so let's fix that.
+
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 09126bb8cc9f..709d1ee342db 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -517,6 +517,16 @@
+ 			Format: <io>,<irq>,<mode>
+ 			See header of drivers/net/hamradio/baycom_ser_hdx.c.
+ 
++	bdev_allow_write_mounted=
++			Format: <bool>
++			Control the ability of directly writing to mounted block
++			devices' page cache, i.e., allow / disallow writes that
++			bypasses the FS. This was implemented as a means to
++			prevent fuzzers to crash the kernel by breaking the
++			filesystem without its awareness, through direct block
++			device writes. Default is Y and can be changed through
++			the Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
++
+ 	bert_disable	[ACPI]
+ 			Disable BERT OS support on buggy BIOSes.
+ 
+-- 
+2.45.2
+
