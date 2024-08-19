@@ -1,58 +1,63 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B576158A36;
-	Mon, 19 Aug 2024 20:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8861815921B
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 20:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724100060; cv=none; b=Ft6kIjtFY981GNQLnnNuB1/GxMElH1ZBQ6IjsUzz+ojKioNUorzQl/ptVe1GcAHRKKNl53HOyR08F82rtfYsYyIUQJHZvv4fwtWBI6ZpRRwN/jHCQ3GJCHoE04Rcjny68qSLZUQ+CWsJBDnhKihdq85hky9QJaJKWBdlvhdbLgI=
+	t=1724100128; cv=none; b=MGXQAV7+V9XPf+lUfbCpbiWJewIOJyN5UdcQBnzCZJUYW613Acm3B8y/6nyjU44QxAh7E6608vXozUsoFxQ5GNcsQVEb1LfYvEiKH0QAg59topnOcfq2EGrphOJGfRw6BBBXDeT+mhhadgXrC49UDxGMEiLGpSLOl3NLOTKHg+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724100060; c=relaxed/simple;
-	bh=J9DYvjOTNMlPj8lUuRSwuumR69rHflgqAun/m3FrUfs=;
+	s=arc-20240116; t=1724100128; c=relaxed/simple;
+	bh=Dt1Ff7fKLLYPfMaJ4kJTzH4evyvUMfCz59lijmotGOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SYQyoSX415ItF4taKdh5He9GqBb4wAcJRC7lUoITG/eecz0nNdgUY7HqfQgB0uc5VLucOfGiOk+OIOWHIw7a0k/QRhNjd+KobVCkIyIyLT9xDMtjwGdF/ovgbKyfX7aq0juTH1z1w+dHq2o5+sbNPq54Mu1RYpcbp+i2kkZFt5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YJUfES/u; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQRJd794fpSU3GWVoHek3ZVTl6lomfkSFTXVjfvc8dTBKfsxJRXFAz5imdupLli4yiIfkTRGYYsS3faN3KrGF6TEj7j5eN5Nm45lx8YjRUj/MwwEmuF699avC7cSOSFnB8tXKjmXgy72UMEU4MVQinVGP6AmTGteF9+65gprypY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QjckSWmi; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YJUfES/u"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=LR6gvp9HK2PILfTwueGWU5zqNdGWBxGU2nJl4V1AU5w=; b=YJUfES/uXnOPWqvoLRT4IA16LY
-	E2sDhQrmGnA+ej3QJ7G8AwZLUKpmn7Oy8XmfWGc2RAO20izOrDIe8PTnnEO1+q5XLiF7Hjh7IvFRk
-	VQR6yYcvzSVent7qK2wDkUPn7M7LRUSn0rDUx6xTM9EP8BFooJaXqfPT/QmrLF894OKm+uvYasrj4
-	OAbRHEX/VcOmDRuW9JBmjXEMPsueiTvBwQddu1bJYNOvAQR/RudrviNHypci/dXjY/PS9OFvdspDN
-	EuYKGy4xtRANSUtr0T2kxuhFzRz0fS47Fp9+50O6Y4ilw8rWchVLgMJSn7XPCiGq0NCNcfBaf/Clv
-	q2rhdYkA==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sg9B4-000000079lt-26nJ;
-	Mon, 19 Aug 2024 20:40:34 +0000
-Date: Mon, 19 Aug 2024 21:40:34 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
-	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org,
-	paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de,
-	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org,
-	david@redhat.com, vbabka@suse.cz, mhocko@suse.com,
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
-	liam.howlett@oracle.com, pasha.tatashin@soleen.com,
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
-	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
-	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QjckSWmi"
+Date: Mon, 19 Aug 2024 20:41:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1724100121;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9Y168q5crzOyuR0vBXeOnFBth7VvFqg3LAjS8RW/lCM=;
+	b=QjckSWmi/C6logVG6INyLTdl2yFG7ehaLWTfObZBDHmH29dWtGBfep0KYv6Z9gBDYeh9S+
+	B6R9XRrjvorKQxuRIfjSMJWax726Gq0p6dIEjHG9Ct8t5QfdejAKRHlb7mGX73T27kmL/f
+	3zLPC94bHuABE9SXOJjRNTeVEwEQcVA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Yu Zhao <yuzhao@google.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+	James Houghton <jthoughton@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	James Morse <james.morse@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shaoqin Huang <shahuang@redhat.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
+	Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 5/5] alloc_tag: config to store page allocation tag refs
- in page flags
-Message-ID: <ZsOtwhWC_JpgWe_J@casper.infradead.org>
-References: <20240819151512.2363698-1-surenb@google.com>
- <20240819151512.2363698-6-surenb@google.com>
- <ZsOeVSlToyhsyDGD@casper.infradead.org>
- <CAJuCfpH4yFw6RNKVDK0hqXQQhAhMsyGNp5A50E+c2PZd+_vOgw@mail.gmail.com>
+	linux-mm@kvack.org
+Subject: Re: [PATCH v6 03/11] KVM: arm64: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+Message-ID: <ZsOuEP6P0v45ffC0@linux.dev>
+References: <20240724011037.3671523-1-jthoughton@google.com>
+ <20240724011037.3671523-4-jthoughton@google.com>
+ <CADrL8HV5M-n72KDseDKWpGrUVMjC147Jqz98PxyG2ZeRVbFu8g@mail.gmail.com>
+ <Zr_y7Fn63hdowfYM@google.com>
+ <CAOUHufYc3hr-+fp14jgEkDN++v6t-z-PRf1yQdKtnje6SgLiiA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,22 +67,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpH4yFw6RNKVDK0hqXQQhAhMsyGNp5A50E+c2PZd+_vOgw@mail.gmail.com>
+In-Reply-To: <CAOUHufYc3hr-+fp14jgEkDN++v6t-z-PRf1yQdKtnje6SgLiiA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Aug 19, 2024 at 01:39:16PM -0700, Suren Baghdasaryan wrote:
-> On Mon, Aug 19, 2024 at 12:34 PM Matthew Wilcox <willy@infradead.org> wrote:
-> > So if ALLOC_TAG_REF_WIDTH is big enough, it's going to force last_cpupid
-> > into struct page.
+On Fri, Aug 16, 2024 at 07:03:27PM -0600, Yu Zhao wrote:
+> On Fri, Aug 16, 2024 at 6:46 PM Sean Christopherson <seanjc@google.com> wrote:
+
+[...]
+
+> > Were you expecting vCPU runtime to improve (more)?  If so, lack of movement could
+> > be due to KVM arm64 taking mmap_lock for read when handling faults:
+> >
+> > https://lore.kernel.org/all/Zr0ZbPQHVNzmvwa6@google.com
 > 
-> Thanks for taking a look!
-> Yes, but how is this field different from say KASAN_TAG_WIDTH which
-> can also force last_cpupid out of page flags?
+> For the above test, I don't think it's mmap_lock
 
-Because KASAN isn't for production use?
+Yeah, I don't think this is related to the mmap_lock.
 
-> >  That will misalign struct page and disable HVO -- with no warning!
-> 
-> mminit_verify_pageflags_layout already has a mminit_dprintk() to
-> indicate this condition. Is that not enough?
+James is likely using hardware that has FEAT_HAFDBS, so vCPUs won't
+fault for an Access flag update. Even if he's on a machine w/o it,
+Access flag faults are handled outside the mmap_lock.
 
-Fair.
+Forcing SW management of the AF at stage-2 would be the best case for
+demonstrating the locking improvement:
+
+diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
+index a24a2a857456..a640e8a8c6ea 100644
+--- a/arch/arm64/kvm/hyp/pgtable.c
++++ b/arch/arm64/kvm/hyp/pgtable.c
+@@ -669,8 +669,6 @@ u64 kvm_get_vtcr(u64 mmfr0, u64 mmfr1, u32 phys_shift)
+ 	 * happen to be running on a design that has unadvertised support for
+ 	 * HAFDBS. Here be dragons.
+ 	 */
+-	if (!cpus_have_final_cap(ARM64_WORKAROUND_AMPERE_AC03_CPU_38))
+-		vtcr |= VTCR_EL2_HA;
+ #endif /* CONFIG_ARM64_HW_AFDBM */
+ 
+ 	if (kvm_lpa2_is_enabled())
+
+Changing the config option would work too, but I wasn't sure if
+FEAT_HAFDBS on the primary MMU influenced MGLRU heuristics.
+
+> -- the reclaim path,
+> e.g., when zswapping guest memory, has two stages: aging (scanning
+> PTEs) and eviction (unmapping PTEs). Only testing the former isn't
+> realistic at all.
+
+AIUI, the intention of this test data is to provide some justification
+for why Marc + I should consider the locking change *outside* of any
+MMU notifier changes. So from that POV, this is meant as a hacked
+up microbenchmark and not meant to be realistic.
+
+And really, the arm64 change has nothing to do with this series at
+this point, which is disappointing. In the interest of moving this
+feature along for both architectures, would you be able help James
+with:
+
+ - Identifying a benchmark that you believe is realistic
+
+ - Suggestions on how to run that benchmark on Google infrastructure
+
+Asking since you had a setup / data earlier on when you were carrying
+the series. Hopefully with supportive data we can get arm64 to opt-in
+to HAVE_KVM_MMU_NOTIFIER_YOUNG_FAST_ONLY as well.
+
+-- 
+Thanks,
+Oliver
