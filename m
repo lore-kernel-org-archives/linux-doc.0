@@ -1,94 +1,98 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640C0165F13;
-	Mon, 19 Aug 2024 11:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288D5200CD;
+	Mon, 19 Aug 2024 11:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724065620; cv=none; b=kErrNDFXl0D9QBDcyJ59vRMrLLlttabWs3iffCGD6GcWMmwQ6XUTtVIKcDSaSBUSl2k7dVfIJ+UvPNEP4X6M7gfw7KvENo7OTt8n1VXn235SWrVmVA8r6P4qP/f72dI82LlAgj8uJs70SzxSLXth+vaF+2ZwCDeI8t6RCWYRiTE=
+	t=1724067981; cv=none; b=gGEQSY0Ckh3NNLlCZxyRgz77sEC5EB50H8YQGNWNw56fDmyAaTcXGP43uGJRFZCIEuf6V0o5cjAqbE/E5Qd+0hdNDDzcL65+mZO32Lrcgy6BL8vyouC9nY3PUrTO2DciWhDjlDMKE+hhnKH27cEJniV/2belXsuv5fb6/SMW18Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724065620; c=relaxed/simple;
-	bh=bgG8964DNASPGDJ1znidTq+9U2E11Zdvbk5m62zgkCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CGYM8RSqDoXDLaQfjBVsj4N7cg8xCEVeJKiQVWVbCBcC6zl5SunzbDr7XWg/zGaRoKEIPp0u21oaFy3L/6cwNk0eiTjRLAkaMqeEmg8bD/2i4TSBQwON3NtNW7C68dZzeW2KAEk9bjgxHWT8SHiMftZVWg+RM9XapLK2QpFfueA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKU35gPj; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKU35gPj"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a975fb47eso487872666b.3;
-        Mon, 19 Aug 2024 04:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724065617; x=1724670417; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hnA4siAu/RwuaMMkHIrs/loJGQl2iwKolYcJVU8YACY=;
-        b=OKU35gPj4vjW3y4Ut/nSYG8Ok/X8bJ5HWrgqNEVm9lGiLcKbBJPrXzBl88qNf7KMIe
-         wPADwOZMKfrwWUqXJSedE2CF0e0dCUnTpCyD92DliRIICOKjLL+vf4RP51zQSYS+qHwH
-         mUJCri2kCsIDttO8IqoIGPkBkNx6AwOQVpia6SOM0tlSbLIV2GcGCXIGqnnUUh9/fStm
-         VI/fXH2c93TluFgh16vknv4Ygg67qd1znOz8vtu9KNLxRLQUXOiSa72mq9W9Q84ypsEV
-         UMIQNUNE2AYDcGHPt7ziyxr4iFczD1RVETfGk/km12CnJXCTvbrRozl1aRtM22qMByyp
-         wjFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724065617; x=1724670417;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hnA4siAu/RwuaMMkHIrs/loJGQl2iwKolYcJVU8YACY=;
-        b=dl9n1Ddp7Q+GDuuzqjURA6/rtsUGzJ2jJfTskjGVrluEnM0nwjkJ6JPB3V3PAiVHFk
-         YgB4Z5Z7rnlDL+TzNif14mLFm6q8u/9qV1aRh0xhz41C7HVPT2qHDcTD8Q8JZeuR0yt3
-         VTPSPhLwambhRNaImAz9ru2IEW5QyefGsTRTmIR2SclYE3XBggRWNIC1z4m85m+2BxX6
-         SyeoUiju/qhwqHon4bH5XxdijcKryydOIBrs3b5JOtj/eCQIonZF1brDzCOm5XsT9Iyp
-         0pARQts7Joaet5oxb96L7IoGhFL4iIM6hdQAAKmbfLW0gspuKDtZMbMqkF5Ta2FX0j35
-         CMQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+tRO3QVI/OxmR1wi+scwcYIV9gRMAL8MNf6QizuzbXxmQhAL69fADOC6djJnqG4ci49HOCXP48Mdrx6nC5xvAq3X9LZhFyH8S7nig
-X-Gm-Message-State: AOJu0YzX+BSJlmneDHFDQ/U0SkKsF/LAxQXlXz81ocSq2wMu/uWKpz+I
-	f7pRxpP0XEwOLaIlCBMPqf5YGxtGxzIPwnYGoryCHpvNSXBlVKcp
-X-Google-Smtp-Source: AGHT+IHW9J1uMlv2UVi2fjNIBjdGPPyPHoEAKDAKKdP54SEP6rNGcngHzAbGZkHAH4VkoLkfY+ed/A==
-X-Received: by 2002:a17:907:e2ce:b0:a7a:a4be:2f99 with SMTP id a640c23a62f3a-a839292f4d3mr641211466b.22.1724065616265;
-        Mon, 19 Aug 2024 04:06:56 -0700 (PDT)
-Received: from gi4n-KLVL-WXX9.fritz.box ([2a03:6880:1087:a800:cffc:b429:56ab:efa5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838d00f0sm616959966b.87.2024.08.19.04.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 04:06:55 -0700 (PDT)
-From: Gianfranco Trad <gianf.trad@gmail.com>
-To: akinobu.mita@gmail.com,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gianfranco Trad <gianf.trad@gmail.com>
-Subject: [PATCH] Fix typo "allocateed" to allocated
-Date: Mon, 19 Aug 2024 13:06:41 +0200
-Message-ID: <20240819110641.1931-1-gianf.trad@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1724067981; c=relaxed/simple;
+	bh=zEv87BYt6wC90sTxda6kAJTqECnwIwmYypAIQB4STro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gneyyNuMBQuFKgihfokeRww84QsvHft1VyZySh9F5OtllBmGi0vROVlwB0YV76DF+17UcCp0fpVbwf8tr3XGmUepoI54PElZbF041VEKS20LdajVdqh45jilaFrylFlVDccChQkphpcN1E4XybHggxzRcG/Ri4++mCa5yuhDaiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DF1DC32782;
+	Mon, 19 Aug 2024 11:46:15 +0000 (UTC)
+Date: Mon, 19 Aug 2024 12:46:13 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 19/40] arm64/gcs: Context switch GCS state for EL0
+Message-ID: <ZsMwhdmE_Ai9BbM9@arm.com>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-19-699e2bd2190b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240801-arm64-gcs-v10-19-699e2bd2190b@kernel.org>
 
-Fix minor typo in the fault-injection documentation,
-where the word allocated was misspelled as "allocateed".
+On Thu, Aug 01, 2024 at 01:06:46PM +0100, Mark Brown wrote:
+> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> index 4ae31b7af6c3..5f00cb0da9c3 100644
+> --- a/arch/arm64/kernel/process.c
+> +++ b/arch/arm64/kernel/process.c
+[...]
+> +static void gcs_thread_switch(struct task_struct *next)
+> +{
+> +	if (!system_supports_gcs())
+> +		return;
+> +
+> +	gcs_preserve_current_state();
+> +
+> +	gcs_set_el0_mode(next);
+> +	write_sysreg_s(next->thread.gcspr_el0, SYS_GCSPR_EL0);
+> +
+> +	/*
+> +	 * Ensure that GCS changes are observable by/from other PEs in
+> +	 * case of migration.
+> +	 */
+> +	if (task_gcs_el0_enabled(current) || task_gcs_el0_enabled(next))
+> +		gcsb_dsync();
 
-Signed-off-by: Gianfranco Trad <gianf.trad@gmail.com>
----
- Documentation/fault-injection/fault-injection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Could we do the sysreg writing under this 'if' block? If no app is using
+GCS (which would be the case for a while), it looks like unnecessary
+sysreg accesses.
 
-diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-index 70380a2a01b4..9170e22db215 100644
---- a/Documentation/fault-injection/fault-injection.rst
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -283,7 +283,7 @@ kernel may crash because it may not be able to handle the error.
- There are 4 types of errors defined in include/asm-generic/error-injection.h
- 
- EI_ETYPE_NULL
--  This function will return `NULL` if it fails. e.g. return an allocateed
-+  This function will return `NULL` if it fails. e.g. return an allocated
-   object address.
- 
- EI_ETYPE_ERRNO
+What's the GCSB DSYNC supposed to do here? The Arm ARM talks about
+ordering between GCS memory effects and other memory effects. I haven't
+looked at the memory model in detail yet (D11.9.1) but AFAICT it has
+nothing to do with the system registers. We'll need this barrier when
+ordering is needed between explicit or implicit (e.g. BL) GCS accesses
+and the explicit classic memory accesses. Paging comes to mind, so maybe
+flush_dcache_page() would need this barrier. ptrace() is another case if
+the memory accessed is a GCS page. I can see you added it in other
+places, I'll have a look as I go through the rest. But I don't think one
+is needed here.
+
 -- 
-2.43.0
-
+Catalin
