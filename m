@@ -1,138 +1,154 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CF717335E
-	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 16:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E97E179202
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 16:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724085731; cv=none; b=utp2FDcGQZ24ZBpWD12Cc3rQFJNcCbJNE09xrd5Hewccsk8fCRRj90p0xGOgHeA92HbnNDYXn9ff5gLOaP8fB6kZYvhOtO19ASEFfgjE5CtI1688AuRUxYdCGk4LlWGAcgvZMNIdrgur/CIhaPv9GpqkJbU96upEhtEvzFpcWe8=
+	t=1724086354; cv=none; b=aa01mfkq46f6KXD+khw4vAJKclhT2FRU4WZL7PDzMw7+GQfUbQfMz2H/4Fo+kGI06bg63rtxvZpCYSN6lF37jq8bNrUFzFp8VrBN6JkHQUE2V3kHqXMHgjUMiea9cyi6ZKGhn/vLVJz3aReLi0tSuNmimdKysOmxYC7qboTnTaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724085731; c=relaxed/simple;
-	bh=JORu8PK1y6/pGZtgwYUnjQTj9vN+nQrMAQNragoJGJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPqFaDB8SDoTFvbmWQoZLlXHcKhrsQDCykcWWcle2iuaa+zwdVCcrxgbDGRoU7Lb+fz5Ku+CEiETgZyEuqJX8MVpG6GLSzVSFg5FIxQ11PxMFweBXLAiWQXqsRpVnGj78v7c3Mv5ijjN9TKTshdgMKyzImarbFnIGZ+bFhFHFVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LaZPaVSM; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1724086354; c=relaxed/simple;
+	bh=StzfX7D+b5jZ3LVEyPb0XmRGLTAQPRkMUDb8wVYSh3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4TsJ5X/SVbF4uOma7sK2H7ms1OWOlEnp4mnIhOhI2gUG8n5UhsontjN3v9aOWUguiWlqj051yOcr/tksCGzbMHScHIFShUciDfWeisvNL5eeDmlha9psAqKlG8yvSAzjjn4mQAUsaM9PvRtFPDOX0nKQjUeTJSJhL3lV4EKo9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xxfo23yQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LaZPaVSM"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a83a968ddso530694066b.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 09:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1724085727; x=1724690527; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J254iZqXeFW/IBKY25JGG4mlNXWPaB3teDZSrFqr5/M=;
-        b=LaZPaVSMxt/pFGRRIGJCB/e9wJNsQcnFQUcDifUKSWaxTSZNGkEGn8JFyu8gBWU6QZ
-         6Q847RMrwkDsuE3Fje4rxKIZqEtAmzqjLFpp9ygZ6yYkYeWWN2kDIy1KVBbGPrhi9Bfg
-         xERkpl4SfkppMKYUN3JP7TMK5d/xkC4YhrG+ILNsQZ19w9ZdL9jr5OGsPdT7cuMeLf8a
-         nkOI1Y8+dQNDOPvJQwzeFk1LcKFJtPcHQk2CrwONN0jZUVWnc2XbkHvGUfNpWHH+L0uO
-         KG3CDahoufy2h7PDkhkxngJGEXd/UwJuo+WrvFDi7D6q3gRNGiVS/pOftSyp2tzuYtAO
-         Nlmw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xxfo23yQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724086352;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oDgCmWXPsT/ByKSJo2B5hdxGUNecM9yTJg3LqwyPBvM=;
+	b=Xxfo23yQ0nYOA/N2Y8IbZpb9fgzE0BwTc3vrpbg+d/vjGa1oZJJvJGPbYjU6muPXtS1ERg
+	WY2bbIBgpTIC7Jr8bXvIcXxm7vAcqe462tYv5Jd/qawbuTZnF1+qzxw1XOKpVDLwHdY4LK
+	7PvBWaJoknlVrtsrXp1rI/r9Ry9imps=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-556-a-tRDIYVOz-OjRKoVpdLFw-1; Mon, 19 Aug 2024 12:52:30 -0400
+X-MC-Unique: a-tRDIYVOz-OjRKoVpdLFw-1
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7093752a9f5so827680a34.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 09:52:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724085727; x=1724690527;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J254iZqXeFW/IBKY25JGG4mlNXWPaB3teDZSrFqr5/M=;
-        b=XtfmFUk9L2raMZmG9vDiBzDwJ26/hz1D1+dAdZAqemnPJnUzERV0vbsaIuDW/SqEYp
-         IRVhmwoUUBsBjH4IattZtlWgCZGUvjOX8oOt9t7obe5gxjkT2fGbJxJ3wXAwR+oie7ma
-         c3wBSqIyY/ZTvKfnWlE/hA0Yv+0TUFn0p7Rk/vsCtm+1zu8TZLXufBWUzQhijP7/QU0R
-         MqfbBpbKhstM9pzCu2DMZY+wT3f+NWOE+4e/BQJhIotlarqWnstikSBht7bStxxdVrET
-         ufkphx1qV7lAGf9ioFu1K0GNBpMMBbyM9bzc7jntW+h/4xKAmkiwOJlD8ZIkv48qGFzO
-         N7VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCIz64b4CWx/ottSoHFoM5NuoeCmdxrP8zF1V8wpaQEUGVIiQZ2sOe/nHm9E0WFtqg5vSfvrZ1ZMQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+3KyalcKxoPWTONPwI2kK8SKxUrAHdwNvE+MCvgda57hsk4QL
-	R3rCdRrVF8l681NOFBYI9ny1WapVf2nxoa/lBDp8B6ooROXSD1DBR4jrlHm7seE=
-X-Google-Smtp-Source: AGHT+IGc7Y3MmAAzORrqsNcvCCVwaOSb2DMB3HTVCcr73ggR8XtsJqc9A/JZXNE6KY6OjUJc51XmJA==
-X-Received: by 2002:a17:907:e2a5:b0:a7a:9f0f:ab18 with SMTP id a640c23a62f3a-a83928d7b9emr751698066b.20.1724085727388;
-        Mon, 19 Aug 2024 09:42:07 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfd5esm653486366b.78.2024.08.19.09.42.06
+        d=1e100.net; s=20230601; t=1724086350; x=1724691150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oDgCmWXPsT/ByKSJo2B5hdxGUNecM9yTJg3LqwyPBvM=;
+        b=rjeZzBnoThrS75sy3hez53bd9LxpPE2E23C9cJtVXNpPfvw9Pc1j/Rz6SekkF8FpPc
+         CTXJ6nFAh4Se8/BEQF08THYd/8xbWbqoQtu4aaIVfYDoN32mASfpG8imGzrtKp1xorqH
+         X8eQDSRLdypWDydJFxil25JLZiV3UsLS0EQBIqfFo15AlQi36uYCaPzKWXD8FLKlQdli
+         f4Fr20QZ0EAIUpuSICuvllz2iTrBNajYbiiDVQALqsF8Wfok55vxI6q3QOJt63KTGXeE
+         GGnxHAPJiI4qwE0TtM4s8JTYSxrhnCwfGcwmNr+MsptzeWNAI8q73Rq2b0giX7NwsTZs
+         hIoA==
+X-Gm-Message-State: AOJu0Yy7PaFt9MteoD0B7EtDgSPblqAXe6TaFYEaA3oavPGvKENjRdJz
+	3zRlZLHDqnsjtODvT1qkb8oqfawZ+1lI0cY6FeaQv+H3LdA6XxNbSYTKlbi1fzZiIpQf/KkOJXP
+	kda0rup7kQpuebK8xcEMseJORK67jYNf9sW1SmLeaxPj6uD0aHh+amFk59A==
+X-Received: by 2002:a05:6359:4c87:b0:1ac:a26c:a5e8 with SMTP id e5c5f4694b2df-1b39333e0c1mr737789555d.4.1724086349987;
+        Mon, 19 Aug 2024 09:52:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEksR+Cpw2eRNuHRkEIfwdvURGCWFxAEIEKM8Aw05iYSBMnqj3x39V0KKigIE6pVo5nSVtsiQ==
+X-Received: by 2002:a05:6359:4c87:b0:1ac:a26c:a5e8 with SMTP id e5c5f4694b2df-1b39333e0c1mr737785755d.4.1724086349577;
+        Mon, 19 Aug 2024 09:52:29 -0700 (PDT)
+Received: from eisenberg.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4ff01e293sm446579885a.26.2024.08.19.09.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 09:42:06 -0700 (PDT)
-Date: Mon, 19 Aug 2024 18:42:04 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Jan Kratochvil <jkratochvil@azul.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [RFC PATCH v5 0/3] Add memory.max.effective for application's
- allocators
-Message-ID: <7chi6d2sdhwdsfihoxqmtmi4lduea3dsgc7xorvonugkm4qz2j@gehs4slutmtg>
-References: <20240606152232.20253-1-mkoutny@suse.com>
- <ZmH8pNkk2MHvvCzb@P9FQF9L96D>
- <ZsA8b9806Xl8AxLZ@host2.jankratochvil.net>
+        Mon, 19 Aug 2024 09:52:29 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: onathan Corbet <corbet@lwn.net>,
+	Jens Axboe <axboe@kernel.dk>,
+	Wu Hao <hao.wu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alvaro Karsz <alvaro.karsz@solid-run.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-fpga@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev
+Subject: [PATCH 0/9] PCI: Remove pcim_iounmap_regions()
+Date: Mon, 19 Aug 2024 18:51:40 +0200
+Message-ID: <20240819165148.58201-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3qoufy47xt4jaygv"
-Content-Disposition: inline
-In-Reply-To: <ZsA8b9806Xl8AxLZ@host2.jankratochvil.net>
+Content-Transfer-Encoding: 8bit
 
+Important things first:
+This series is based on [1] and [2] which Bjorn Helgaas has currently
+queued for v6.12 in the PCI tree.
 
---3qoufy47xt4jaygv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series shall remove pcim_iounmap_regions() in order to make way to
+remove its brother, pcim_iomap_regions().
 
-Hello.
+@Bjorn: Feel free to squash the PCI commits.
 
-On Sat, Aug 17, 2024 at 02:00:15PM GMT, Jan Kratochvil <jkratochvil@azul.com> wrote:
-> Yes, it would be better to subtract the used memory from ancestor (and thus
-> even current) cgroups.
+Regards,
+P.
 
-Then it becomes a more dynamic characterstics and it leads to
-calculations of available memory. I share a link [1] for completeness
-and to prevent repeated discussions (that past one ended up with no
-memory.stat:avail).
+[1] https://lore.kernel.org/all/20240729093625.17561-4-pstanner@redhat.com/
+[2] https://lore.kernel.org/all/20240807083018.8734-2-pstanner@redhat.com/
 
+Philipp Stanner (9):
+  PCI: Make pcim_release_region() a public function
+  PCI: Make pcim_iounmap_region() a public function
+  fpga/dfl-pci.c: Replace deprecated PCI functions
+  block: mtip32xx: Replace deprecated PCI functions
+  gpio: Replace deprecated PCI functions
+  ethernet: cavium: Replace deprecated PCI functions
+  ethernet: stmicro: Simplify PCI devres usage
+  vdap: solidrun: Replace deprecated PCI functions
+  PCI: Remove pcim_iounmap_regions()
 
-> The original use case of this feature is for cloud nodes running a
-> single Java JVM where the sibling cgroups are not an issue.
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/block/mtip32xx/mtip32xx.c             | 11 +++--
+ drivers/fpga/dfl-pci.c                        |  9 ++--
+ drivers/gpio/gpio-merrifield.c                | 14 +++---
+ .../net/ethernet/cavium/common/cavium_ptp.c   | 10 ++--
+ .../ethernet/stmicro/stmmac/dwmac-loongson.c  | 25 +++-------
+ .../net/ethernet/stmicro/stmmac/stmmac_pci.c  | 18 +++----
+ drivers/pci/devres.c                          | 25 ++--------
+ drivers/pci/pci.h                             |  1 -
+ drivers/vdpa/solidrun/snet_main.c             | 47 +++++++------------
+ include/linux/pci.h                           |  3 +-
+ 11 files changed, 57 insertions(+), 107 deletions(-)
 
-IIUC, it's a tree like this:
+-- 
+2.46.0
 
-        O
-      / | \
-     A  B  C	// B:memory.max < O:memory.max
-        |
-       ...
-        |
-        W	// workload
-
-This picture made me realize that memory controller may not be even
-enabled all the way down from B to W, i.e. W would have no
-memory.max.effective, IOW memory.* attribute would not be the right
-place for such an value. That would even apply in the apparently
-purposeful case if there was a cgroup NS boundary between B and W.
-
-(At least in the proposed implementation, memory.* file would have to be
-decoupled from memory controller, similarly to e.g. cpu.stat:usage_usec.)
-
-Jan, do I get the tree shape right? Are B and W in different cgroup
-namespaces?
-
-Thanks,
-Michal
-
-[1] https://lore.kernel.org/all/alpine.DEB.2.23.453.2007142018150.2667860@chino.kir.corp.google.com/
-
---3qoufy47xt4jaygv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZsN12gAKCRAt3Wney77B
-SfKMAP98Nu9R8Ci7oQVELkl/Cc/lz32Tor3WKf6p5MrrV1/TiQD+OChE9aRronRA
-cPrXjYdbqUEGMJBtWaysDMAsNAK9kAo=
-=izr6
------END PGP SIGNATURE-----
-
---3qoufy47xt4jaygv--
