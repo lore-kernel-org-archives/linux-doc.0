@@ -1,57 +1,57 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2764824B34;
-	Mon, 19 Aug 2024 02:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085F93BBE5;
+	Mon, 19 Aug 2024 02:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724034715; cv=none; b=GpRco34jPhM/lAlM1yFnf8BeF4ZQ1xBiIS2UXE4/m3XWPryPP5Rq6phJje6VutmS4jCUNx5p/sYleKOarZ94ZKxANNnBVBK/d4xTpqnL2xbMqfez70PmKWliOr8orPxeeoWmBMRhZAUtpWKBTQc2iva4uGripiCF5OOe8Bj6yLU=
+	t=1724034718; cv=none; b=cIhVsW8a2gdh35d5YozSeIoXFSdcR3j3gwKI8PzZMPKR3duT6mXRFgO/1hZ3xN6E5BnSTSY0W/PLKfPJhawg3JkvWb7X9dlHSnWtloRTFEDSYcCSSsWUWPdEeSSp4tQ42HXR/dGvCr1spD76oN2QQyHwa7OqHLosFQGtkn2IA2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724034715; c=relaxed/simple;
-	bh=OY3jL/RuT63CJ01Gu3hoK0+Ys0L8lwLLwKKANlweKos=;
+	s=arc-20240116; t=1724034718; c=relaxed/simple;
+	bh=4nTOFR0lFrNStvg4j9Qi3T6hCV1VVwmpLrLVXzIzNnI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KhTGThJ7vOxhScDEs6i/Q1RYLiiQm4aLmnIywc+jhKw+mD2EmnhAiSkz76oCnz+HOOW29/vEBsewaQaGWmjfvIoiEBIokD18pVb4AAgAhWHhuDi3NEZGdtd9GAe06H999RUlx0V1eAr3x/aJBg2yzYHdWHA2B7Jy75uzBHCUsgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knxV/M/P; arc=none smtp.client-ip=209.85.160.173
+	 MIME-Version; b=rMV88M6g63ZaC2NWFNVvHkFH5xiIYu/KPdDsKUGvsCnUXTts/AYrlYLAfvVcdTs3sGZPiRtuAPHhfw62W/6bTcJz3T8eJeG9OVI+qzQbF6HzZULruCAky99Iwi2ihRcNc9YJhqU6pyU8Vq1llYCbMbufmn1W+0Vw8vDLVWhgSiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/3TRjPq; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knxV/M/P"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-454b3d89a18so10857911cf.2;
-        Sun, 18 Aug 2024 19:31:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/3TRjPq"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-45007373217so42795311cf.0;
+        Sun, 18 Aug 2024 19:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724034713; x=1724639513; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724034716; x=1724639516; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Be5wg7AuGlyVLPd79rHyMZjywH2a3H2lUduVQVliSc=;
-        b=knxV/M/PEZZ+ppwYuKLT1gX3blNNdLCRGqT6gVZXezJSoaqZ0Mpuwn4TACg46Zay4h
-         yHiMjY4YrVLcr0UXzfRspgkd6trLXK1h4Fp6eGE29mjYiWx4HgjVAj8rOZswYVVNNnzq
-         OnhOlZcntOgCHtRZIgEVawzeE04Q55njuUjZuUmdGn0Ufmd60jcUnaQGFiUp2B0umW6h
-         SENe9NDfKIIsRz0jBIWur4G5n6hhi6KvkvDIgXlhw4ywwQb1aDODTPaGyb3RGMrTkqc7
-         NJzxRgUMjfq2K5nlBX/G7+6t6Q+SWOkbfaYM/vARcHxVzLZ1CDvPSvLZYzpiZihj3sSk
-         gCng==
+        bh=7qMuNDyBvGp6REiF+VtGrTnesU92EL9IKEWMO4HzFdQ=;
+        b=a/3TRjPqy2KhmBpvGsLeztKAjq6oK3dVyhe1yYi0oGqqOHt8cB6T51ElkwPt7FEKYu
+         vBmMrpf3gMUrSHTs74QX38FFer0X3G0mw1OvPy8kqkMI31K/208eR9mcH+R/Qoh5fEqy
+         4XMlC7vn0BYPbh4JAbj9dQ7e7hNqJ6TD1TGeBLaklcuhYSPs2+d0VOMqULLWoaulAlU0
+         OJREgCv7NvQH3xRTfywHflq52MMzWUq9rK3H+0l/X7MMjKq1CdqoVu9tqeS1kSbP9uGt
+         RPVwBj9t2GOXcDfId+Sm6vcw3H/uv2qmZqMq8JZNTn6FvnlDpjKa11CpJw6gJ6YhgJTW
+         R5qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724034713; x=1724639513;
+        d=1e100.net; s=20230601; t=1724034716; x=1724639516;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+Be5wg7AuGlyVLPd79rHyMZjywH2a3H2lUduVQVliSc=;
-        b=DK3MFk4Fzfa+kIM2mrC39HWf7kF0kZcI38FDrOb2bVJ3pwodRqpbmNkXm9PAHQfPEn
-         3S/O/+ktiU7DQl9UEHR/XguqGJoxdSMv18zO/X1/gcgMcpie02glSbdwjU7jZKBEOn9d
-         SAWjio2J5YWyA5Y8fZS7t3Sc72tHzrvG5gO5O9bb+4z10aoNF6yarHwD4BLhUEX9Dpc3
-         x88d6K4YCEobbTPnrAdAaMkTc4gsyIaG8RjvxryhEUkESYga0mksDFvPMK+Zw9Zlf5Ce
-         ot9dVVT5xd4HzntNdizgYJO87m3x97EMokibmBEx7LiWNVtEukevRU5AaqjwXFSHsyWr
-         ZVRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWsmE5xSvAJXQmKnnE0tTBrIHKP0LrYG2eOFGbmeoRHifW6dxmzKeJ1qDiSMrP1HGGFVf2r1pN7bweQCp+c6ZGc5h+QQM23/Q9Ukr7GiORxXt0aoz8ZAFeJuluXCNo82ocRjv89MeN+
-X-Gm-Message-State: AOJu0Yww2ZWeLB6sTVw92D4OdJV7mY4ws7efRqHgPuAvjDjwSY7Phm5i
-	bVltasnXue5fkrQJEDuFzPewyXaymMZPaa1aKSm2Ki+CmRbxZuUj
-X-Google-Smtp-Source: AGHT+IFeP4hzF59Alq38selex7r4IkghqvqpA36paciq5N3TrCWUhapW14wSlaHsVPgGfZ79jyfiJw==
-X-Received: by 2002:a05:622a:4c8b:b0:451:d557:22ed with SMTP id d75a77b69052e-454b67b6fd7mr63370071cf.11.1724034712823;
-        Sun, 18 Aug 2024 19:31:52 -0700 (PDT)
+        bh=7qMuNDyBvGp6REiF+VtGrTnesU92EL9IKEWMO4HzFdQ=;
+        b=DCoN4XS/t6X0Q62raSmbNsCA78DpYP99cVZaoN2JqgMw6lKBn4sB5Ln+EcWICO27Dy
+         TddS4mqMiZruOTJqXi+fMJgehWUADhg9f3TPykNU9A70XEvxGuE+HFCwy2uWydoHSvUX
+         eqlDGfkKCrwq/0yJZTW7nanN1timzOQSEoZQcmN6ueGAWVLJosq0cfkq8/r08urRwpaO
+         FuURlGFWD5quiOxWRFHUH1ZAF5Ng5JtYHV8oA8j4idz8MZ4iivD+5lj13mktJnvm1Pk2
+         fM8wKHyrmBBPzFUsXARFV4wTHxORXdT7c1m95FZP83KWgZOFr8tL4hg8sjGAMXXg7ghP
+         TOOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPwEn78we/f4n4RuPv3kGxEDcNY3ALK9y1tIZR2tOVphjMklQTmd9DUtbr+oayH7eRgmF0kICqpNxhZieY3WSCzASZtJvzkwY7saCJ/MBpvyJ0m+7WAk9nG5YrDyuBR/u9bq3xwHGv
+X-Gm-Message-State: AOJu0Yyc3wQMgr63M+2TMrQvPneEPDsFU4czSNvoFjbIlYBqYSslnCqD
+	LDyxY9MqmDEqHac0EQs2g8RZ7Z2P/k71POtsDvkiGcnCTlpljHA6
+X-Google-Smtp-Source: AGHT+IFmtPd7hU7za122IjXT3WTFdEVF9e2slXlOQoczJAWqePZoKzw0RZWmiFcdFLHebyhRGR/CwA==
+X-Received: by 2002:a05:622a:4d0c:b0:453:1334:9725 with SMTP id d75a77b69052e-45374f5468cmr173712171cf.3.1724034715718;
+        Sun, 18 Aug 2024 19:31:55 -0700 (PDT)
 Received: from localhost (fwdproxy-ash-000.fbsv.net. [2a03:2880:20ff::face:b00c])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45369ff5460sm36860341cf.35.2024.08.18.19.31.52
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45369fee649sm36828591cf.29.2024.08.18.19.31.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 19:31:52 -0700 (PDT)
+        Sun, 18 Aug 2024 19:31:55 -0700 (PDT)
 From: Usama Arif <usamaarif642@gmail.com>
 To: akpm@linux-foundation.org,
 	linux-mm@kvack.org
@@ -71,11 +71,10 @@ Cc: hannes@cmpxchg.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	kernel-team@meta.com,
-	Shuang Zhai <zhais@google.com>,
 	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH v4 2/6] mm: remap unused subpages to shared zeropage when splitting isolated thp
-Date: Mon, 19 Aug 2024 03:30:55 +0100
-Message-ID: <20240819023145.2415299-3-usamaarif642@gmail.com>
+Subject: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped folios
+Date: Mon, 19 Aug 2024 03:30:57 +0100
+Message-ID: <20240819023145.2415299-5-usamaarif642@gmail.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20240819023145.2415299-1-usamaarif642@gmail.com>
 References: <20240819023145.2415299-1-usamaarif642@gmail.com>
@@ -87,243 +86,241 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Yu Zhao <yuzhao@google.com>
+Currently folio->_deferred_list is used to keep track of
+partially_mapped folios that are going to be split under memory
+pressure. In the next patch, all THPs that are faulted in and collapsed
+by khugepaged are also going to be tracked using _deferred_list.
 
-Here being unused means containing only zeros and inaccessible to
-userspace. When splitting an isolated thp under reclaim or migration,
-the unused subpages can be mapped to the shared zeropage, hence saving
-memory. This is particularly helpful when the internal
-fragmentation of a thp is high, i.e. it has many untouched subpages.
+This patch introduces a pageflag to be able to distinguish between
+partially mapped folios and others in the deferred_list at split time in
+deferred_split_scan. Its needed as __folio_remove_rmap decrements
+_mapcount, _large_mapcount and _entire_mapcount, hence it won't be
+possible to distinguish between partially mapped folios and others in
+deferred_split_scan.
 
-This is also a prerequisite for THP low utilization shrinker which will
-be introduced in later patches, where underutilized THPs are split, and
-the zero-filled pages are freed saving memory.
+Eventhough it introduces an extra flag to track if the folio is
+partially mapped, there is no functional change intended with this
+patch and the flag is not useful in this patch itself, it will
+become useful in the next patch when _deferred_list has non partially
+mapped folios.
 
-Signed-off-by: Yu Zhao <yuzhao@google.com>
-Tested-by: Shuang Zhai <zhais@google.com>
 Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 ---
- include/linux/rmap.h |  7 ++++-
- mm/huge_memory.c     |  8 ++---
- mm/migrate.c         | 72 ++++++++++++++++++++++++++++++++++++++------
- mm/migrate_device.c  |  4 +--
- 4 files changed, 75 insertions(+), 16 deletions(-)
+ include/linux/huge_mm.h    |  4 ++--
+ include/linux/page-flags.h | 11 +++++++++++
+ mm/huge_memory.c           | 23 ++++++++++++++++-------
+ mm/internal.h              |  4 +++-
+ mm/memcontrol.c            |  3 ++-
+ mm/migrate.c               |  3 ++-
+ mm/page_alloc.c            |  5 +++--
+ mm/rmap.c                  |  5 +++--
+ mm/vmscan.c                |  3 ++-
+ 9 files changed, 44 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 0978c64f49d8..07854d1f9ad6 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -745,7 +745,12 @@ int folio_mkclean(struct folio *);
- int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
- 		      struct vm_area_struct *vma);
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index 4c32058cacfe..969f11f360d2 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -321,7 +321,7 @@ static inline int split_huge_page(struct page *page)
+ {
+ 	return split_huge_page_to_list_to_order(page, NULL, 0);
+ }
+-void deferred_split_folio(struct folio *folio);
++void deferred_split_folio(struct folio *folio, bool partially_mapped);
  
--void remove_migration_ptes(struct folio *src, struct folio *dst, bool locked);
-+enum rmp_flags {
-+	RMP_LOCKED		= 1 << 0,
-+	RMP_USE_SHARED_ZEROPAGE	= 1 << 1,
-+};
-+
-+void remove_migration_ptes(struct folio *src, struct folio *dst, int flags);
+ void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+ 		unsigned long address, bool freeze, struct folio *folio);
+@@ -495,7 +495,7 @@ static inline int split_huge_page(struct page *page)
+ {
+ 	return 0;
+ }
+-static inline void deferred_split_folio(struct folio *folio) {}
++static inline void deferred_split_folio(struct folio *folio, bool partially_mapped) {}
+ #define split_huge_pmd(__vma, __pmd, __address)	\
+ 	do { } while (0)
  
- /*
-  * rmap_walk_control: To control rmap traversing for specific needs
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index a0a29bd092f8..c3bb0e0da581 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -182,6 +182,7 @@ enum pageflags {
+ 	/* At least one page in this folio has the hwpoison flag set */
+ 	PG_has_hwpoisoned = PG_active,
+ 	PG_large_rmappable = PG_workingset, /* anon or file-backed */
++	PG_partially_mapped = PG_reclaim, /* was identified to be partially mapped */
+ };
+ 
+ #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
+@@ -861,8 +862,18 @@ static inline void ClearPageCompound(struct page *page)
+ 	ClearPageHead(page);
+ }
+ FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
++FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
++/*
++ * PG_partially_mapped is protected by deferred_split split_queue_lock,
++ * so its safe to use non-atomic set/clear.
++ */
++__FOLIO_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
++__FOLIO_CLEAR_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+ #else
+ FOLIO_FLAG_FALSE(large_rmappable)
++FOLIO_TEST_FLAG_FALSE(partially_mapped)
++__FOLIO_SET_FLAG_NOOP(partially_mapped)
++__FOLIO_CLEAR_FLAG_NOOP(partially_mapped)
+ #endif
+ 
+ #define PG_head_mask ((1UL << PG_head))
 diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 147655821f09..2d77b5d2291e 100644
+index 2d77b5d2291e..70ee49dfeaad 100644
 --- a/mm/huge_memory.c
 +++ b/mm/huge_memory.c
-@@ -2911,7 +2911,7 @@ bool unmap_huge_pmd_locked(struct vm_area_struct *vma, unsigned long addr,
- 	return false;
+@@ -3398,6 +3398,7 @@ int split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
+ 			 * page_deferred_list.
+ 			 */
+ 			list_del_init(&folio->_deferred_list);
++			__folio_clear_partially_mapped(folio);
+ 		}
+ 		spin_unlock(&ds_queue->split_queue_lock);
+ 		if (mapping) {
+@@ -3454,11 +3455,13 @@ void __folio_undo_large_rmappable(struct folio *folio)
+ 	if (!list_empty(&folio->_deferred_list)) {
+ 		ds_queue->split_queue_len--;
+ 		list_del_init(&folio->_deferred_list);
++		__folio_clear_partially_mapped(folio);
+ 	}
+ 	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
  }
  
--static void remap_page(struct folio *folio, unsigned long nr)
-+static void remap_page(struct folio *folio, unsigned long nr, int flags)
+-void deferred_split_folio(struct folio *folio)
++/* partially_mapped=false won't clear PG_partially_mapped folio flag */
++void deferred_split_folio(struct folio *folio, bool partially_mapped)
  {
- 	int i = 0;
- 
-@@ -2919,7 +2919,7 @@ static void remap_page(struct folio *folio, unsigned long nr)
- 	if (!folio_test_anon(folio))
+ 	struct deferred_split *ds_queue = get_deferred_split_queue(folio);
+ #ifdef CONFIG_MEMCG
+@@ -3486,14 +3489,19 @@ void deferred_split_folio(struct folio *folio)
+ 	if (folio_test_swapcache(folio))
  		return;
- 	for (;;) {
--		remove_migration_ptes(folio, folio, true);
-+		remove_migration_ptes(folio, folio, RMP_LOCKED | flags);
- 		i += folio_nr_pages(folio);
- 		if (i >= nr)
- 			break;
-@@ -3129,7 +3129,7 @@ static void __split_huge_page(struct page *page, struct list_head *list,
  
- 	if (nr_dropped)
- 		shmem_uncharge(folio->mapping->host, nr_dropped);
--	remap_page(folio, nr);
-+	remap_page(folio, nr, PageAnon(head) ? RMP_USE_SHARED_ZEROPAGE : 0);
+-	if (!list_empty(&folio->_deferred_list))
+-		return;
+-
+ 	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
++	if (partially_mapped) {
++		if (!folio_test_partially_mapped(folio)) {
++			__folio_set_partially_mapped(folio);
++			if (folio_test_pmd_mappable(folio))
++				count_vm_event(THP_DEFERRED_SPLIT_PAGE);
++			count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
++		}
++	} else {
++		/* partially mapped folios cannot become non-partially mapped */
++		VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
++	}
+ 	if (list_empty(&folio->_deferred_list)) {
+-		if (folio_test_pmd_mappable(folio))
+-			count_vm_event(THP_DEFERRED_SPLIT_PAGE);
+-		count_mthp_stat(folio_order(folio), MTHP_STAT_SPLIT_DEFERRED);
+ 		list_add_tail(&folio->_deferred_list, &ds_queue->split_queue);
+ 		ds_queue->split_queue_len++;
+ #ifdef CONFIG_MEMCG
+@@ -3542,6 +3550,7 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
+ 		} else {
+ 			/* We lost race with folio_put() */
+ 			list_del_init(&folio->_deferred_list);
++			__folio_clear_partially_mapped(folio);
+ 			ds_queue->split_queue_len--;
+ 		}
+ 		if (!--sc->nr_to_scan)
+diff --git a/mm/internal.h b/mm/internal.h
+index 52f7fc4e8ac3..27cbb5365841 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -662,8 +662,10 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
+ 	atomic_set(&folio->_entire_mapcount, -1);
+ 	atomic_set(&folio->_nr_pages_mapped, 0);
+ 	atomic_set(&folio->_pincount, 0);
+-	if (order > 1)
++	if (order > 1) {
+ 		INIT_LIST_HEAD(&folio->_deferred_list);
++		__folio_clear_partially_mapped(folio);
++	}
+ }
+ 
+ static inline void prep_compound_tail(struct page *head, int tail_idx)
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index e1ffd2950393..0fd95daecf9a 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4669,7 +4669,8 @@ static void uncharge_folio(struct folio *folio, struct uncharge_gather *ug)
+ 	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
+ 	VM_BUG_ON_FOLIO(folio_order(folio) > 1 &&
+ 			!folio_test_hugetlb(folio) &&
+-			!list_empty(&folio->_deferred_list), folio);
++			!list_empty(&folio->_deferred_list) &&
++			folio_test_partially_mapped(folio), folio);
  
  	/*
- 	 * set page to its compound_head when split to non order-0 pages, so
-@@ -3425,7 +3425,7 @@ int split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
- 		if (mapping)
- 			xas_unlock(&xas);
- 		local_irq_enable();
--		remap_page(folio, folio_nr_pages(folio));
-+		remap_page(folio, folio_nr_pages(folio), 0);
- 		ret = -EAGAIN;
- 	}
- 
+ 	 * Nobody should be changing or seriously looking at
 diff --git a/mm/migrate.c b/mm/migrate.c
-index 66a5f73ebfdf..2d2e65d69427 100644
+index 2d2e65d69427..ef4a732f22b1 100644
 --- a/mm/migrate.c
 +++ b/mm/migrate.c
-@@ -178,13 +178,57 @@ void putback_movable_pages(struct list_head *l)
- 	}
- }
- 
-+static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk *pvmw,
-+					  struct folio *folio,
-+					  unsigned long idx)
-+{
-+	struct page *page = folio_page(folio, idx);
-+	bool contains_data;
-+	pte_t newpte;
-+	void *addr;
-+
-+	VM_BUG_ON_PAGE(PageCompound(page), page);
-+	VM_BUG_ON_PAGE(!PageAnon(page), page);
-+	VM_BUG_ON_PAGE(!PageLocked(page), page);
-+	VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
-+
-+	if (PageMlocked(page) || (pvmw->vma->vm_flags & VM_LOCKED) ||
-+	    mm_forbids_zeropage(pvmw->vma->vm_mm))
-+		return false;
-+
-+	/*
-+	 * The pmd entry mapping the old thp was flushed and the pte mapping
-+	 * this subpage has been non present. If the subpage is only zero-filled
-+	 * then map it to the shared zeropage.
-+	 */
-+	addr = kmap_local_page(page);
-+	contains_data = memchr_inv(addr, 0, PAGE_SIZE);
-+	kunmap_local(addr);
-+
-+	if (contains_data)
-+		return false;
-+
-+	newpte = pte_mkspecial(pfn_pte(my_zero_pfn(pvmw->address),
-+					pvmw->vma->vm_page_prot));
-+	set_pte_at(pvmw->vma->vm_mm, pvmw->address, pvmw->pte, newpte);
-+
-+	dec_mm_counter(pvmw->vma->vm_mm, mm_counter(folio));
-+	return true;
-+}
-+
-+struct rmap_walk_arg {
-+	struct folio *folio;
-+	bool map_unused_to_zeropage;
-+};
-+
- /*
-  * Restore a potential migration pte to a working pte entry
-  */
- static bool remove_migration_pte(struct folio *folio,
--		struct vm_area_struct *vma, unsigned long addr, void *old)
-+		struct vm_area_struct *vma, unsigned long addr, void *arg)
- {
--	DEFINE_FOLIO_VMA_WALK(pvmw, old, vma, addr, PVMW_SYNC | PVMW_MIGRATION);
-+	struct rmap_walk_arg *rmap_walk_arg = arg;
-+	DEFINE_FOLIO_VMA_WALK(pvmw, rmap_walk_arg->folio, vma, addr, PVMW_SYNC | PVMW_MIGRATION);
- 
- 	while (page_vma_mapped_walk(&pvmw)) {
- 		rmap_t rmap_flags = RMAP_NONE;
-@@ -208,6 +252,9 @@ static bool remove_migration_pte(struct folio *folio,
- 			continue;
+@@ -1735,7 +1735,8 @@ static int migrate_pages_batch(struct list_head *from,
+ 			 * use _deferred_list.
+ 			 */
+ 			if (nr_pages > 2 &&
+-			   !list_empty(&folio->_deferred_list)) {
++			   !list_empty(&folio->_deferred_list) &&
++			   folio_test_partially_mapped(folio)) {
+ 				if (!try_split_folio(folio, split_folios, mode)) {
+ 					nr_failed++;
+ 					stats->nr_thp_failed += is_thp;
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 408ef3d25cf5..a145c550dd2a 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -957,8 +957,9 @@ static int free_tail_page_prepare(struct page *head_page, struct page *page)
+ 		break;
+ 	case 2:
+ 		/* the second tail page: deferred_list overlaps ->mapping */
+-		if (unlikely(!list_empty(&folio->_deferred_list))) {
+-			bad_page(page, "on deferred list");
++		if (unlikely(!list_empty(&folio->_deferred_list) &&
++		    folio_test_partially_mapped(folio))) {
++			bad_page(page, "partially mapped folio on deferred list");
+ 			goto out;
  		}
- #endif
-+		if (rmap_walk_arg->map_unused_to_zeropage &&
-+		    try_to_map_unused_to_zeropage(&pvmw, folio, idx))
-+			continue;
- 
- 		folio_get(folio);
- 		pte = mk_pte(new, READ_ONCE(vma->vm_page_prot));
-@@ -286,14 +333,21 @@ static bool remove_migration_pte(struct folio *folio,
-  * Get rid of all migration entries and replace them by
-  * references to the indicated page.
-  */
--void remove_migration_ptes(struct folio *src, struct folio *dst, bool locked)
-+void remove_migration_ptes(struct folio *src, struct folio *dst, int flags)
- {
-+	struct rmap_walk_arg rmap_walk_arg = {
-+		.folio = src,
-+		.map_unused_to_zeropage = flags & RMP_USE_SHARED_ZEROPAGE,
-+	};
-+
- 	struct rmap_walk_control rwc = {
- 		.rmap_one = remove_migration_pte,
--		.arg = src,
-+		.arg = &rmap_walk_arg,
- 	};
- 
--	if (locked)
-+	VM_BUG_ON_FOLIO((flags & RMP_USE_SHARED_ZEROPAGE) && (src != dst), src);
-+
-+	if (flags & RMP_LOCKED)
- 		rmap_walk_locked(dst, &rwc);
- 	else
- 		rmap_walk(dst, &rwc);
-@@ -903,7 +957,7 @@ static int writeout(struct address_space *mapping, struct folio *folio)
- 	 * At this point we know that the migration attempt cannot
- 	 * be successful.
+ 		break;
+diff --git a/mm/rmap.c b/mm/rmap.c
+index a6b9cd0b2b18..4c330635aa4e 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1578,8 +1578,9 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+ 	 * Check partially_mapped first to ensure it is a large folio.
  	 */
--	remove_migration_ptes(folio, folio, false);
-+	remove_migration_ptes(folio, folio, 0);
+ 	if (partially_mapped && folio_test_anon(folio) &&
+-	    list_empty(&folio->_deferred_list))
+-		deferred_split_folio(folio);
++	    !folio_test_partially_mapped(folio))
++		deferred_split_folio(folio, true);
++
+ 	__folio_mod_stat(folio, -nr, -nr_pmdmapped);
  
- 	rc = mapping->a_ops->writepage(&folio->page, &wbc);
- 
-@@ -1067,7 +1121,7 @@ static void migrate_folio_undo_src(struct folio *src,
- 				   struct list_head *ret)
- {
- 	if (page_was_mapped)
--		remove_migration_ptes(src, src, false);
-+		remove_migration_ptes(src, src, 0);
- 	/* Drop an anon_vma reference if we took one */
- 	if (anon_vma)
- 		put_anon_vma(anon_vma);
-@@ -1305,7 +1359,7 @@ static int migrate_folio_move(free_folio_t put_new_folio, unsigned long private,
- 		lru_add_drain();
- 
- 	if (old_page_state & PAGE_WAS_MAPPED)
--		remove_migration_ptes(src, dst, false);
-+		remove_migration_ptes(src, dst, 0);
- 
- out_unlock_both:
- 	folio_unlock(dst);
-@@ -1443,7 +1497,7 @@ static int unmap_and_move_huge_page(new_folio_t get_new_folio,
- 
- 	if (page_was_mapped)
- 		remove_migration_ptes(src,
--			rc == MIGRATEPAGE_SUCCESS ? dst : src, false);
-+			rc == MIGRATEPAGE_SUCCESS ? dst : src, 0);
- 
- unlock_put_anon:
- 	folio_unlock(dst);
-diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index 6d66dc1c6ffa..8f875636b35b 100644
---- a/mm/migrate_device.c
-+++ b/mm/migrate_device.c
-@@ -424,7 +424,7 @@ static unsigned long migrate_device_unmap(unsigned long *src_pfns,
- 			continue;
- 
- 		folio = page_folio(page);
--		remove_migration_ptes(folio, folio, false);
-+		remove_migration_ptes(folio, folio, 0);
- 
- 		src_pfns[i] = 0;
- 		folio_unlock(folio);
-@@ -837,7 +837,7 @@ void migrate_device_finalize(unsigned long *src_pfns,
- 
- 		src = page_folio(page);
- 		dst = page_folio(newpage);
--		remove_migration_ptes(src, dst, false);
-+		remove_migration_ptes(src, dst, 0);
- 		folio_unlock(src);
- 
- 		if (is_zone_device_page(page))
+ 	/*
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 25e43bb3b574..25f4e8403f41 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1233,7 +1233,8 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 					 * Split partially mapped folios right away.
+ 					 * We can free the unmapped pages without IO.
+ 					 */
+-					if (data_race(!list_empty(&folio->_deferred_list)) &&
++					if (data_race(!list_empty(&folio->_deferred_list) &&
++					    folio_test_partially_mapped(folio)) &&
+ 					    split_folio_to_list(folio, folio_list))
+ 						goto activate_locked;
+ 				}
 -- 
 2.43.5
 
