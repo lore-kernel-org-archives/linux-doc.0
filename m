@@ -1,75 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C5813C8E8;
-	Mon, 19 Aug 2024 09:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210C115B98D;
+	Mon, 19 Aug 2024 09:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724058114; cv=none; b=c65T3hGCQqRC+bHRG/0r2vaUzND+A1SIg3vbAS7u0MKeGehwq87XoKjfubm5CjtUFdikj8tUm09rD6zKv3GzB/N9nVqSyM+R6+RZyqS7qvYh8Rd3v2YnpXxORqxfZz523fanVvQ0ZZfsc64D9BQY38RUElXfVQPX0VZxrptmVss=
+	t=1724058485; cv=none; b=Y9cXo7p9V6GNnF0smrf9q4rGjnPEFqUn6COXdZMKCXuIR4ZuiDHs26GHeIOc41AtKjdOJy2Pi0MfAOL9Liav+z52Xfx1ADJKgZGAlUASuRXBSVrFrWx8SL/dwtExSwT/ZWZ8hmoo7QDpdSPQCp0Smx+qnNtq5g0m7ZErAhXNzRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724058114; c=relaxed/simple;
-	bh=yVdw8Guk03mBlIogqzC6Cu+WN/LccnzLj/97Uwp0Juw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hLQWy2iDzlCnMBUZ+2X5emliu+4l88nNbsBQYtPmR0f5Ik4mk4FtmJkiEoOF4ig6KOiVul6L5XCBNLP4KVXwCjHvyWtr/qthJQKT31I8eWYXIflxaAJ3gSS2hwhpI6rdlA1/Cwuy+kZfNkKzuykjGo9qmhgqGez0hb9xRpigHa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ir3khIMl; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ir3khIMl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF2AC32782;
-	Mon, 19 Aug 2024 09:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724058113;
-	bh=yVdw8Guk03mBlIogqzC6Cu+WN/LccnzLj/97Uwp0Juw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ir3khIMlr7LmrabJwZnRwe4fmPmHzhtsyMkvchI0N3UNEKDi2IpLaBb7pllFhDPSa
-	 GXNByn0y8oHCzeVSb1JeyssvNqRCvr+5u/OM3QwEIqR+ficov8w5pYZO5pEFlTZsbd
-	 wK7VUHQpJiMSV30jpzd3d0/14pRtlRHD7h9B3ub6U3LVgWIFCQLhK1NBowhwAdNIlW
-	 vgxv4RDS529W1IsfsjlpQROjPhnmOrc0aSc86hrBmeMW9Q0P4U+wNkYRYBpxyhcY0d
-	 /XdfXXuTVv5f4MAH5tFGqKDtHdLkn3gBuvUAqUcGTYDBM085Fe4nXWpOYovjyTMNm4
-	 nH6LMD6ryt57w==
-From: Christian Brauner <brauner@kernel.org>
-To: sforshee@kernel.org,
-	corbet@lwn.net,
-	Hongbo Li <lihongbo22@huawei.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next] doc: correcting the idmapping mount example
-Date: Mon, 19 Aug 2024 11:01:43 +0200
-Message-ID: <20240819-satzung-hackfleisch-0cfc3e3abfc7@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240816063611.1961910-1-lihongbo22@huawei.com>
-References: <20240816063611.1961910-1-lihongbo22@huawei.com>
+	s=arc-20240116; t=1724058485; c=relaxed/simple;
+	bh=kASuMZUvOB+aHiw8pMzY3HyNDO455tB7yfVmRf+gqx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hcF8nWFI4/12jqEDTa7DNYA9opqp3OAn1aJeKm8OxzyjMXaQXDYrdOE/7ZIO3Zhn0HS829bdUw2RcIhyNeLOHyAbDgQImsSq7BT15xLjdDQOnqPsvV7T2rEka0eVwOos3wMkltYZRJDKcDaW8RYEtkjamS+phQ1CerTI/ZGBhgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AAD7C32782;
+	Mon, 19 Aug 2024 09:07:59 +0000 (UTC)
+Date: Mon, 19 Aug 2024 10:07:56 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 12/40] mm: Define VM_SHADOW_STACK for arm64 when we
+ support GCS
+Message-ID: <ZsMLbEN398N4PbTg@arm.com>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-12-699e2bd2190b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=939; i=brauner@kernel.org; h=from:subject:message-id; bh=yVdw8Guk03mBlIogqzC6Cu+WN/LccnzLj/97Uwp0Juw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQd5vypvUkkO7jilePaKyIfzpR4i1t4/GWPtzG58GhVg Fb8jM2KHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMpm8jIsMW/c/3jsy8u/1p7 cIqp2KyW051LJ85bz35D5k7ajz/pN3cx/E+qdZ5TuZnDt84imntVhVbXFPk9fbzrLvjwXDSPfvJ yARsA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240801-arm64-gcs-v10-12-699e2bd2190b@kernel.org>
+X-TUID: +ACxJr4BwsiD
 
-On Fri, 16 Aug 2024 14:36:11 +0800, Hongbo Li wrote:
-> In step 2, we obtain the kernel id `k1000`. So in next step (step
-> 3), we should translate the `k1000` not `k21000`.
+On Thu, Aug 01, 2024 at 01:06:39PM +0100, Mark Brown wrote:
+> Use VM_HIGH_ARCH_5 for guarded control stack pages.
 > 
-> 
+> Reviewed-by: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
-
-[1/1] doc: correcting the idmapping mount example
-      https://git.kernel.org/vfs/vfs/c/bef1ad86cac0
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
