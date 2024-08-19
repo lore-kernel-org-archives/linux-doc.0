@@ -1,78 +1,133 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA68188CB5;
-	Mon, 19 Aug 2024 19:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA81DC47C
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 19:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724096117; cv=none; b=XWOH8NvimagkOZioEqWmixHQz98i4XOzNpMy7G4SV2cgwd0tRY7taCIi/IzIomD9ezZd5u9tStr5WeXH4xEwDVk1eW01vyiKERs9i60sxxMfQ+WsxmP7wnmPidT3BTeHO37fTazXh4EOTlxt6Mdnl5WJ2fvLV0s7gRXwqNNnP7I=
+	t=1724096473; cv=none; b=qfagY6QhfqZlSrDS4PjJ87n6sRoEE+ekRmN1EOb67Nk0zi0R3mxFtohre3j8Jb4kskJUMyk/0arkiAL4wJi5SAE34GxsqjoOnlQaC1aN0Mt3m5qmI+nMHzyhb5XYPA6Tt2ZtiNSN5Mll+Fna+fqEgJiHOWZZtM/TZgZdixjp+WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724096117; c=relaxed/simple;
-	bh=Q+bTT1LIdx6rvUFMUtXwA6/VxsX+IhQMYF6gDPYwzqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hq+lseo9UN1IYJUY/3xn22eXDztKltlojXRV4JhCbqrMzbnT9u9qUGmHQ1IFVdY25ulFfYC7ToCSDjUKdaFwVz66YcUnTWV9C67jsdvujpJG1hf+TFL9LDZMkiQfr9ZXKx3aI7fTvB99Dwfi5nmoqJEEBAlSX9srdDsoRmCtr8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S+ehbQTT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1724096473; c=relaxed/simple;
+	bh=hcSbya+lQiysjoDdhMa2fNXAwE9cTf3HMVXCOHk8tdw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g6F0Jg5ylCng4Y9RIkSjRQJYDAAnYu9Zm/cZWYTXlBii4KqoOQF/NXyn61dIqNfgrrRH1imHyQ6OwMiwSwEP9g0/FLV636Sxb6yEz74if0thyPAy4FVCIG1qQ8XJ8YqaZj4zwsRuGeCV78MjhZS9Jv6PbgWKb3EPOzQ/TQnhsjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Ml+q0awz; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S+ehbQTT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GgkSbPAh5KOwEoij59vzgPrDRTBo+einBkTJg8LJEK4=; b=S+ehbQTTfQwUW7uPpk8GapUl5B
-	UO27g31htpfVF8q0tyK5h/zlnt2RYj7JCfRQUYM5OiyXwoEUmOge9o1JcD96tqAWweRBzatGnfKxH
-	VN/YgyIk0y2cYf29wKLGiXYWuCpUb17YjC7ggGWRTyeUu+EDzYPxRDWbzKwAhXqpv3nv5WqGX5ESc
-	DbrtlZEny2y0WZ/yHSwFo7U5w3IQYBc0fgxUWBJB7RNJp8CD5J43eaMuxjscMGXg5IP1nbIn0wiOk
-	W7XM61Oz0TFCyF49R96gNVaj0RkF/D9/rMcqbxN7Pn8Fhj8yJKD0g1tNyjpwkBvX+mln0qY+xZi8N
-	yc+2QiZQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sg89N-000000076SA-4BDT;
-	Mon, 19 Aug 2024 19:34:46 +0000
-Date: Mon, 19 Aug 2024 20:34:45 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
-	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org,
-	paulmck@kernel.org, thuth@redhat.com, tglx@linutronix.de,
-	bp@alien8.de, xiongwei.song@windriver.com, ardb@kernel.org,
-	david@redhat.com, vbabka@suse.cz, mhocko@suse.com,
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net,
-	liam.howlett@oracle.com, pasha.tatashin@soleen.com,
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
-	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
-	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 5/5] alloc_tag: config to store page allocation tag refs
- in page flags
-Message-ID: <ZsOeVSlToyhsyDGD@casper.infradead.org>
-References: <20240819151512.2363698-1-surenb@google.com>
- <20240819151512.2363698-6-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Ml+q0awz"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-690aabe2600so39419127b3.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 12:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1724096469; x=1724701269; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gkyhANmIfoPUx8Ztj0L2oahwdkEC/9ySCXObPcfO7yE=;
+        b=Ml+q0awz6T48Y28kUNsbAqMvhhLu1OT+Fw0Q2W4JkWxl6hDRrIwmMXiTtCI3BM0wIB
+         1BVfrpdC+pdrXFrjxZwmwJFVXe2FvKLOAkCUsevU5fsIR8YHyKsuzbmjkOEMS8MP4+Lk
+         8T3xNnHOfBccmUSlGwU7APIbe5Et5SRGxoFtbt3NNXi+lr16eHzU7wz5ZUvkkjBrRb+F
+         AhpD6as2bkTGucQwCHteWPpgiSO2gB1pUHhKdN9s8rVBS7IuVWySrYAIfT8IqRLWhjZI
+         jcB/TLJSRxgOP1IrerDKgY/ZwjTf/tzaD3GmGNNqb1jVXyaZ0IVvTy/M1SIslKmTSQFg
+         RqsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724096469; x=1724701269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gkyhANmIfoPUx8Ztj0L2oahwdkEC/9ySCXObPcfO7yE=;
+        b=A90Jc2NSTVBOsu1lZgCWUCWx/r2Sny/9QnVsZH+oD6SKngJ/hyQhkC0ZTx4PhgRgF7
+         peMaCRKJCaEsYRhhIXiE9AmRlKVqOc0HA07HUuERoYcMZ5jQTbrnmMg0nPEmNofPA+lU
+         oGC+mBANW3a3pxR41EWXxJ9sBAKgCGp2W2a/DgfDN9f1xnoNGjIRntNtSQmiSTOxnw7X
+         PdvTfP6CWeNW98dEWkJ6Mzo2AVfAQouFFxgdFeDXntyFaOVSPq+H/zop8syFqoioWXGC
+         AlGmYeysNPgfe5xE7oHD8DaCXOzICQvJygla2XgV7orMPbqZPR7ckIqy94SMOspJKyQ+
+         8YTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqKbejTyigr+wQqcTTUCfPIWLIIrkywMpa8i2qe5RO53BICAtnryOxNopCjsg//3bptY9Rryz65mY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypoQrCgXHSQ8pf0cCSPTw+YgGMZ25opNQb01r5vBIQgjxdQHFU
+	QghWdNgO/MkDkOzb8BfcbceFQb9om3+mUh183bFsA2S8jkilxPWeXkA8Ghx+SBAR14XbnlAtO6b
+	eBIrYEoFrcLUll3en0ENhVncL/7cgGncofkM8TgCs+3DzGFk=
+X-Google-Smtp-Source: AGHT+IGNxAzznyZ+b7siXNq+DgYF6mU9BKHCBgzIgMxr5gD2jPGN9khm6ib1o830lq2PyGnu1xXnHmPm9H/tqvZOtYQ=
+X-Received: by 2002:a05:690c:f8a:b0:64b:69f0:f8f2 with SMTP id
+ 00721157ae682-6b1b9b5ad78mr147420827b3.3.1724096469531; Mon, 19 Aug 2024
+ 12:41:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819151512.2363698-6-surenb@google.com>
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
+ <1722665314-21156-13-git-send-email-wufan@linux.microsoft.com>
+ <9dc30ca6-486c-4fa9-910d-ed1dc6da0e95@linux.microsoft.com>
+ <CAHC9VhQrnu8Sj=XnDvg=wGTBxacvMSW6OJyG3-tpwrsbGat6vA@mail.gmail.com>
+ <88695db-efc0-6cc6-13ee-fd7c2abe61c@redhat.com> <ac6e33b8-ec1f-494a-874f-9a16d3316fce@linux.microsoft.com>
+ <CAHC9VhSe0HkzX0gy5Oo+549wG9xqfeHmsveJqdR_xRcYtim+sA@mail.gmail.com> <8421b247-41d2-4bf5-ba80-f356a2b696fd@linux.microsoft.com>
+In-Reply-To: <8421b247-41d2-4bf5-ba80-f356a2b696fd@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 19 Aug 2024 15:40:58 -0400
+Message-ID: <CAHC9VhR1gkiB=etUwgqnkZuBiSy1VD4ZgyUeTWvLQTowgQchFg@mail.gmail.com>
+Subject: Re: [PATCH v20 12/20] dm verity: expose root hash digest and
+ signature data to LSMs
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: Mikulas Patocka <mpatocka@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+	Alasdair Kergon <agk@redhat.com>, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 19, 2024 at 08:15:11AM -0700, Suren Baghdasaryan wrote:
-> @@ -91,7 +97,7 @@
->  #endif
->  
->  #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
-> -	KASAN_TAG_WIDTH + LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
-> +	KASAN_TAG_WIDTH + ALLOC_TAG_REF_WIDTH + LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
->  #define LAST_CPUPID_WIDTH LAST_CPUPID_SHIFT
->  #else
->  #define LAST_CPUPID_WIDTH 0
+On Mon, Aug 19, 2024 at 1:47=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> On 8/18/2024 10:22 AM, Paul Moore wrote:
+> > On Fri, Aug 16, 2024 at 3:11=E2=80=AFPM Fan Wu <wufan@linux.microsoft.c=
+om> wrote:
+> >> On 8/16/2024 6:35 AM, Mikulas Patocka wrote:
+> >
+> > ...
+> >
+> >>>>>>
+> >>>>>> +#ifdef CONFIG_SECURITY
+> >>>>>> +     u8 *root_digest_sig;    /* signature of the root digest */
+> >>>>>> +#endif /* CONFIG_SECURITY */
+> >>>>>>         unsigned int salt_size;
+> >>>>>>         sector_t data_start;    /* data offset in 512-byte sectors=
+ */
+> >>>>>>         sector_t hash_start;    /* hash start in blocks */
+> >>>>>> @@ -58,6 +61,9 @@ struct dm_verity {
+> >>>>>>         bool hash_failed:1;     /* set if hash of any block failed=
+ */
+> >>>>>>         bool use_bh_wq:1;       /* try to verify in BH wq before n=
+ormal work-queue */
+> >>>>>>         unsigned int digest_size;       /* digest size for the cur=
+rent hash algorithm */
+> >>>>>> +#ifdef CONFIG_SECURITY
+> >>>>>> +     unsigned int sig_size;  /* root digest signature size */
+> >>>>>> +#endif /* CONFIG_SECURITY */
+> >>>>>>         unsigned int hash_reqsize; /* the size of temporary space =
+for crypto */
+> >>>>>>         enum verity_mode mode;  /* mode for handling verification =
+errors */
+> >>>>>>         unsigned int corrupted_errs;/* Number of errors for corrup=
+ted blocks */
+> >>>
+> >>> Just nit-picking: I would move "unsigned int sig_size" up, after "u8
+> >>> *root_digest_sig" entry.
+> >>>
+> >>> Mikulas
+> >>
+> >> Sure, I can make these two fields together.
+> >
+> > Fan, do you want me to move the @sig_size field when merging or are
+> > you planning to submit another revision?  I'm happy to do it during
+> > the merge, but I don't want to bother if you are going to post another
+> > patchset.
+>
+> Thanks, Paul. It seems moving the field during the merge can expedite
+> the process. Please go ahead with that. I appreciate your help with this!
 
-So if ALLOC_TAG_REF_WIDTH is big enough, it's going to force last_cpupid
-into struct page.  That will misalign struct page and disable HVO --
-with no warning!
+No problem.  I'm going to merge these this afternoon, I'll send
+another note when they are in the repo.
 
+--=20
+paul-moore.com
