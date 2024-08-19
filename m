@@ -1,198 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77251177982;
-	Mon, 19 Aug 2024 16:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CF717335E
+	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 16:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724085372; cv=none; b=cc8J6BmeG5UaBGHEmpMxhVTaI9sAdGoJfB2YBCh8GgDDLh1J8/nd4qVimDeJV6SHxbSZluAKs59zriMgf0mJjZCGdojEpE10syqdkw37txTBRksFHswS9qJ/9VKGTgKUrDr9wlzkfRIZYupPDGWVL1Wzpunus8yxnV8sg6G3Wzo=
+	t=1724085731; cv=none; b=utp2FDcGQZ24ZBpWD12Cc3rQFJNcCbJNE09xrd5Hewccsk8fCRRj90p0xGOgHeA92HbnNDYXn9ff5gLOaP8fB6kZYvhOtO19ASEFfgjE5CtI1688AuRUxYdCGk4LlWGAcgvZMNIdrgur/CIhaPv9GpqkJbU96upEhtEvzFpcWe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724085372; c=relaxed/simple;
-	bh=Ij42qg4XwDB1sODuJcyZUx7sN09vuh1W4zuPaVmRGAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VRhx4/9W5lwDiRECrQVpH9AjaKEIYcDwJi5W5iWtqB7ZRXKzPN39ivSxwXdoHZOrd56svE5cKDw+2Qi/oZ0/bkNCXI4eJOr6x6g1L5qj1A3SFhReAsfQIe1mYFBwnRAv8AcCCKrbXL4pHeF3tGHZDtEbLqRzTGAXo+3adyR+Owk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+ZMsRNg; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724085731; c=relaxed/simple;
+	bh=JORu8PK1y6/pGZtgwYUnjQTj9vN+nQrMAQNragoJGJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mPqFaDB8SDoTFvbmWQoZLlXHcKhrsQDCykcWWcle2iuaa+zwdVCcrxgbDGRoU7Lb+fz5Ku+CEiETgZyEuqJX8MVpG6GLSzVSFg5FIxQ11PxMFweBXLAiWQXqsRpVnGj78v7c3Mv5ijjN9TKTshdgMKyzImarbFnIGZ+bFhFHFVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LaZPaVSM; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+ZMsRNg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724085370; x=1755621370;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Ij42qg4XwDB1sODuJcyZUx7sN09vuh1W4zuPaVmRGAI=;
-  b=A+ZMsRNgnRODGlPLdzke2AlkmGneaZLPdg72u23xiwWEBR4rmoBdCSfj
-   5G5qsmPBriS8o04h8K77ekMb0yhLM48nww9IfX1QgFCKx6wSgzrjoHJWH
-   YjERuX6766vnNaYO2EXASfoUxQIlyc6O2tWrEybsrAXDjBYC0QrOFMEzA
-   cK4tslv88to+NZgxQb2j7pMPvDhzOyaKDzHZscbhwmRsPYLyIM6wMpz1G
-   GlOjhUNRADh7EnhY69z5YIp6WLIZ+3PkDaOW4DRUkTPz/Ow4Ms0tx3Oft
-   Zo9hTu6dCD8i/KDN/sTe7DC7RO8u3Cu+I7qHFSFON3U9Ubw7GZuoTGacv
-   w==;
-X-CSE-ConnectionGUID: nvSkGs9GTGKoQEvokLjaeA==
-X-CSE-MsgGUID: GL/sByv2TCirSRFRlYI3Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="33014580"
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="33014580"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 09:36:09 -0700
-X-CSE-ConnectionGUID: ljhaOIarRHyIrsJxWNopMw==
-X-CSE-MsgGUID: 6PLaEDX6RsWzXnrsWF2giw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="60400622"
-Received: from mgoodin-mobl2.amr.corp.intel.com (HELO [10.125.111.235]) ([10.125.111.235])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 09:36:06 -0700
-Message-ID: <47768d4a-1be2-4e4e-a84e-05e736f3966c@intel.com>
-Date: Mon, 19 Aug 2024 09:35:49 -0700
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LaZPaVSM"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a83a968ddso530694066b.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 09:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1724085727; x=1724690527; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J254iZqXeFW/IBKY25JGG4mlNXWPaB3teDZSrFqr5/M=;
+        b=LaZPaVSMxt/pFGRRIGJCB/e9wJNsQcnFQUcDifUKSWaxTSZNGkEGn8JFyu8gBWU6QZ
+         6Q847RMrwkDsuE3Fje4rxKIZqEtAmzqjLFpp9ygZ6yYkYeWWN2kDIy1KVBbGPrhi9Bfg
+         xERkpl4SfkppMKYUN3JP7TMK5d/xkC4YhrG+ILNsQZ19w9ZdL9jr5OGsPdT7cuMeLf8a
+         nkOI1Y8+dQNDOPvJQwzeFk1LcKFJtPcHQk2CrwONN0jZUVWnc2XbkHvGUfNpWHH+L0uO
+         KG3CDahoufy2h7PDkhkxngJGEXd/UwJuo+WrvFDi7D6q3gRNGiVS/pOftSyp2tzuYtAO
+         Nlmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724085727; x=1724690527;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J254iZqXeFW/IBKY25JGG4mlNXWPaB3teDZSrFqr5/M=;
+        b=XtfmFUk9L2raMZmG9vDiBzDwJ26/hz1D1+dAdZAqemnPJnUzERV0vbsaIuDW/SqEYp
+         IRVhmwoUUBsBjH4IattZtlWgCZGUvjOX8oOt9t7obe5gxjkT2fGbJxJ3wXAwR+oie7ma
+         c3wBSqIyY/ZTvKfnWlE/hA0Yv+0TUFn0p7Rk/vsCtm+1zu8TZLXufBWUzQhijP7/QU0R
+         MqfbBpbKhstM9pzCu2DMZY+wT3f+NWOE+4e/BQJhIotlarqWnstikSBht7bStxxdVrET
+         ufkphx1qV7lAGf9ioFu1K0GNBpMMBbyM9bzc7jntW+h/4xKAmkiwOJlD8ZIkv48qGFzO
+         N7VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXCIz64b4CWx/ottSoHFoM5NuoeCmdxrP8zF1V8wpaQEUGVIiQZ2sOe/nHm9E0WFtqg5vSfvrZ1ZMQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+3KyalcKxoPWTONPwI2kK8SKxUrAHdwNvE+MCvgda57hsk4QL
+	R3rCdRrVF8l681NOFBYI9ny1WapVf2nxoa/lBDp8B6ooROXSD1DBR4jrlHm7seE=
+X-Google-Smtp-Source: AGHT+IGc7Y3MmAAzORrqsNcvCCVwaOSb2DMB3HTVCcr73ggR8XtsJqc9A/JZXNE6KY6OjUJc51XmJA==
+X-Received: by 2002:a17:907:e2a5:b0:a7a:9f0f:ab18 with SMTP id a640c23a62f3a-a83928d7b9emr751698066b.20.1724085727388;
+        Mon, 19 Aug 2024 09:42:07 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfd5esm653486366b.78.2024.08.19.09.42.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 09:42:06 -0700 (PDT)
+Date: Mon, 19 Aug 2024 18:42:04 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Jan Kratochvil <jkratochvil@azul.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [RFC PATCH v5 0/3] Add memory.max.effective for application's
+ allocators
+Message-ID: <7chi6d2sdhwdsfihoxqmtmi4lduea3dsgc7xorvonugkm4qz2j@gehs4slutmtg>
+References: <20240606152232.20253-1-mkoutny@suse.com>
+ <ZmH8pNkk2MHvvCzb@P9FQF9L96D>
+ <ZsA8b9806Xl8AxLZ@host2.jankratochvil.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/25] cxl/core: Return endpoint decoder information
- from region search
-To: Ira Weiny <ira.weiny@intel.com>, Fan Ni <fan.ni@samsung.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Navneet Singh <navneet.singh@intel.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Dan Williams <dan.j.williams@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, linux-btrfs@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, nvdimm@lists.linux.dev
-References: <20240816-dcd-type2-upstream-v3-0-7c9b96cba6d7@intel.com>
- <20240816-dcd-type2-upstream-v3-17-7c9b96cba6d7@intel.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20240816-dcd-type2-upstream-v3-17-7c9b96cba6d7@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3qoufy47xt4jaygv"
+Content-Disposition: inline
+In-Reply-To: <ZsA8b9806Xl8AxLZ@host2.jankratochvil.net>
 
 
+--3qoufy47xt4jaygv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 8/16/24 7:44 AM, Ira Weiny wrote:
-> cxl_dpa_to_region() finds the region from a <DPA, device> tuple.
-> The search involves finding the device endpoint decoder as well.
-> 
-> Dynamic capacity extent processing uses the endpoint decoder HPA
-> information to calculate the HPA offset.  In addition, well behaved
-> extents should be contained within an endpoint decoder.
-> 
-> Return the endpoint decoder found to be used in subsequent DCD code.
-> 
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Hello.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  drivers/cxl/core/core.h   | 6 ++++--
->  drivers/cxl/core/mbox.c   | 2 +-
->  drivers/cxl/core/memdev.c | 4 ++--
->  drivers/cxl/core/region.c | 8 +++++++-
->  4 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 15b6cf1c19ef..76c4153a9b2c 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -39,7 +39,8 @@ void cxl_decoder_kill_region(struct cxl_endpoint_decoder *cxled);
->  int cxl_region_init(void);
->  void cxl_region_exit(void);
->  int cxl_get_poison_by_endpoint(struct cxl_port *port);
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled);
->  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
->  		   u64 dpa);
->  
-> @@ -50,7 +51,8 @@ static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
->  	return ULLONG_MAX;
->  }
->  static inline
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled)
->  {
->  	return NULL;
->  }
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 68c26c4be91a..01a447aaa1b1 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -909,7 +909,7 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
->  		guard(rwsem_read)(&cxl_dpa_rwsem);
->  
->  		dpa = le64_to_cpu(evt->media_hdr.phys_addr) & CXL_DPA_MASK;
-> -		cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +		cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  		if (cxlr)
->  			hpa = cxl_dpa_to_hpa(cxlr, cxlmd, dpa);
->  
-> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
-> index 7da1f0f5711a..12fb07fb89a6 100644
-> --- a/drivers/cxl/core/memdev.c
-> +++ b/drivers/cxl/core/memdev.c
-> @@ -323,7 +323,7 @@ int cxl_inject_poison(struct cxl_memdev *cxlmd, u64 dpa)
->  	if (rc)
->  		goto out;
->  
-> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  	if (cxlr)
->  		dev_warn_once(mds->cxlds.dev,
->  			      "poison inject dpa:%#llx region: %s\n", dpa,
-> @@ -387,7 +387,7 @@ int cxl_clear_poison(struct cxl_memdev *cxlmd, u64 dpa)
->  	if (rc)
->  		goto out;
->  
-> -	cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> +	cxlr = cxl_dpa_to_region(cxlmd, dpa, NULL);
->  	if (cxlr)
->  		dev_warn_once(mds->cxlds.dev,
->  			      "poison clear dpa:%#llx region: %s\n", dpa,
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 35c4a1f4f9bd..8e0884b52f84 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -2828,6 +2828,7 @@ int cxl_get_poison_by_endpoint(struct cxl_port *port)
->  struct cxl_dpa_to_region_context {
->  	struct cxl_region *cxlr;
->  	u64 dpa;
-> +	struct cxl_endpoint_decoder *cxled;
->  };
->  
->  static int __cxl_dpa_to_region(struct device *dev, void *arg)
-> @@ -2861,11 +2862,13 @@ static int __cxl_dpa_to_region(struct device *dev, void *arg)
->  			dev_name(dev));
->  
->  	ctx->cxlr = cxlr;
-> +	ctx->cxled = cxled;
->  
->  	return 1;
->  }
->  
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa,
-> +				     struct cxl_endpoint_decoder **cxled)
->  {
->  	struct cxl_dpa_to_region_context ctx;
->  	struct cxl_port *port;
-> @@ -2877,6 +2880,9 @@ struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
->  	if (port && is_cxl_endpoint(port) && cxl_num_decoders_committed(port))
->  		device_for_each_child(&port->dev, &ctx, __cxl_dpa_to_region);
->  
-> +	if (cxled)
-> +		*cxled = ctx.cxled;
-> +
->  	return ctx.cxlr;
->  }
->  
-> 
+On Sat, Aug 17, 2024 at 02:00:15PM GMT, Jan Kratochvil <jkratochvil@azul.com> wrote:
+> Yes, it would be better to subtract the used memory from ancestor (and thus
+> even current) cgroups.
+
+Then it becomes a more dynamic characterstics and it leads to
+calculations of available memory. I share a link [1] for completeness
+and to prevent repeated discussions (that past one ended up with no
+memory.stat:avail).
+
+
+> The original use case of this feature is for cloud nodes running a
+> single Java JVM where the sibling cgroups are not an issue.
+
+IIUC, it's a tree like this:
+
+        O
+      / | \
+     A  B  C	// B:memory.max < O:memory.max
+        |
+       ...
+        |
+        W	// workload
+
+This picture made me realize that memory controller may not be even
+enabled all the way down from B to W, i.e. W would have no
+memory.max.effective, IOW memory.* attribute would not be the right
+place for such an value. That would even apply in the apparently
+purposeful case if there was a cgroup NS boundary between B and W.
+
+(At least in the proposed implementation, memory.* file would have to be
+decoupled from memory controller, similarly to e.g. cpu.stat:usage_usec.)
+
+Jan, do I get the tree shape right? Are B and W in different cgroup
+namespaces?
+
+Thanks,
+Michal
+
+[1] https://lore.kernel.org/all/alpine.DEB.2.23.453.2007142018150.2667860@chino.kir.corp.google.com/
+
+--3qoufy47xt4jaygv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZsN12gAKCRAt3Wney77B
+SfKMAP98Nu9R8Ci7oQVELkl/Cc/lz32Tor3WKf6p5MrrV1/TiQD+OChE9aRronRA
+cPrXjYdbqUEGMJBtWaysDMAsNAK9kAo=
+=izr6
+-----END PGP SIGNATURE-----
+
+--3qoufy47xt4jaygv--
