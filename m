@@ -1,242 +1,265 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFE115C12C
-	for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 09:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C42C15B986;
+	Mon, 19 Aug 2024 09:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724060230; cv=none; b=AXDJy0hnVuVQm0GGvtgC6Nf0WwzM6o4HW1iXJoxmndgvJTuIGrkS6A3r5suOEivs7tQNrqf21o/WRuTyJ8pBnph+i0wVmPH0iopuBvxouROQ6P+AiC0iUJCSoC+wcfM3LFIOBqf2oBUbF95HgqOnJQZAynqk/KIA2MSJ/AVyMLk=
+	t=1724060682; cv=none; b=g69q+RG+yaUSTZ5zA3BJ3M3ottyEOZglDCl0Hc8dB/wR47HVUsOJtFpud5VCyExlBe0T3c9n/+sM6Gl7POhE1y8XIcL5df85TrV8xs1MyyB9DrRru2zbyyGKeV2+2pMCJ4iuO81ND9hZkCTO6vXjbeYxyPjLx6/+rfPdftMLC34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724060230; c=relaxed/simple;
-	bh=F+UKEmcvDsJmxXdH+lUd+EzZWpI446bz+xi6gVWh+cM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XmsFAe8aT+MYsSyqp2Sg1EeeTh2NfiA+WqVGZpzPXbQnFb8tu6BVzr7YboRQzbGiZN6K2XPX3y7umWVDnrARnrcAdYu70Pvdk/OwiHCmx49D9zooed5jE2UZ5EmT6+PsUm9V3NefLpi3cdrRde0Cn5MDyaxY66DZKteENo1l1Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ihxz45Xj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724060682; c=relaxed/simple;
+	bh=F/lNjJTG8qdpk6McjXu92CkZOWhrTkgX7cioerSEJAk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=E2fTyvO38AVc2Y/6ib6hKZp7yqPFNp2+KaByT/L273jp3nyWDMumtKgnDVp48NN7B7Jhy6/tdsMvEo4sKY/HTQoJ3O7T/bVM5QSfO5NaQmtyHrn4rV0HZCBR4pNjGUkUBmHRxDXo+ZAq3MAEGrV3C5oTEK4WwTd40wYHC44YKNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=N7cKX30u; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cZMQWZ3K; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ihxz45Xj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724060227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gyhLuQueNQMuCrXYvkTRAcV5urEhM9QfwcqzGwlpWMQ=;
-	b=Ihxz45XjbJeg0q0kNqP7kAR9odv0kpmbGag7EQEx1lZ1xZW+d72oUVq/nd3QTANtd+ivb2
-	srhk9jKUXYbW24GFGLh3t8llpvOmPb+FTfCZobUpg7EMB5Y0qhcE+Aeudf5lquuzolX+ql
-	p13Zs+Lc41bMrZRvgrbEhQMuBLrZXg4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-170-La9A1Bm1MZWN8njVw2B94Q-1; Mon,
- 19 Aug 2024 05:37:01 -0400
-X-MC-Unique: La9A1Bm1MZWN8njVw2B94Q-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 949E4195608A;
-	Mon, 19 Aug 2024 09:36:58 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.51])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DE2301956054;
-	Mon, 19 Aug 2024 09:36:55 +0000 (UTC)
-Date: Mon, 19 Aug 2024 17:36:51 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Sourabh Jain <sourabhjain@linux.ibm.com>, corbet@lwn.net,
-	akpm@linux-foundation.org
-Cc: Petr Tesarik <petr@tesarici.cz>, Hari Bathini <hbathini@linux.ibm.com>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Document/kexec: Generalize crash hotplug description
-Message-ID: <ZsMSM4Hgfm7yxFdj@MiWiFi-R3L-srv>
-References: <20240812041651.703156-1-sourabhjain@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="N7cKX30u";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cZMQWZ3K"
+Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 9D7F211518F9;
+	Mon, 19 Aug 2024 05:44:39 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-04.internal (MEProxy); Mon, 19 Aug 2024 05:44:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724060679;
+	 x=1724147079; bh=M2Sy9uLZBrijLkKshf5fPTI4uHKT4t3a14A3XFHcLtU=; b=
+	N7cKX30ukkPN2ESX/HM7oFLNlMA2NaZLwpDz/KZH52taVi/ZCQTv46WPXS9dgAZf
+	E88EB2ALNg8niLYqMAYlSHE0T9dNBZUOgzJB05QD7aKcTz7sVOUd279YldcfJ84b
+	XpmCVsZ7kM3L+CxeNL/c8TLv6Xh1oP8t4sCTkks7m0HQ27PA72O8j/Guiu+zajRT
+	FFi2G+D3nq4Xf12Bk9AXUFbhCnHjEjhOOzvcqM98xFavRSLfzZQfUbFRI4rSjAJW
+	bmY0Z465rf7oRY3rZBmVEA2MeI6s+0vaXHaKhRjlCIBTMXfvC2o88mIFT9v4SwQt
+	emRFTNJaKEk70lwmESQbEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724060679; x=
+	1724147079; bh=M2Sy9uLZBrijLkKshf5fPTI4uHKT4t3a14A3XFHcLtU=; b=c
+	ZMQWZ3K2bTZz9poh+Ovusx68QJFK5GDVbuHj8sLa94aSODLjeFp/RJ8tW2tW3ifs
+	0NAPqfxsocDm5GtKbKoNO48tOBcjxnsySoWHieS2AOkCem/plan/xVEHNgfi+2eF
+	Vk8vi8T1vteeeHUhmHDclOFBuXcfd7L3McTLPN3Al05l+nRqzJPNfb+cMYQDSzwT
+	byO2AoXibIL1YPX9/lTPx5gX3uhgrelFpcDjYWVmzmitWmrKfPzWXzgePR3pjLen
+	CrpJUr8OJvjThmp+5rBURYrDbJoa4eLYcFzTTFMRSU/itDXNzRKDtQyqppJKu6ZC
+	MqhOC/PYec5shtSgJtpzw==
+X-ME-Sender: <xms:BxTDZjIYlUVg-X8x1OHVnxsmwpKeAwPcr_HTuynCLuNK24UrU_iSVA>
+    <xme:BxTDZnJVRobiXiV2Ta8E09UFkVVicqMU79tZMEZ3YjVc2jvjf2hYxG36HdVy2NxYM
+    uaCCM4to9jkiEKHLCw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddugedgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudef
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofh
+    htrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgt
+    phhtthhopehjihhrihhslhgrsgihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkuh
+    gsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhho
+    uhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpd
+    hrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopeguohhu
+    ghesshgthhhmohhrghgrlhdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehvgh
+    gvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:BxTDZrslL_V5hJof3ZuxaDOdNrSmeebiercenMdR6N7zoWn_fP1vUQ>
+    <xmx:BxTDZsZ-QPhzdKM2doQnxEff-DW1kJNbvkrX67FUTLMexwMFrxGOFg>
+    <xmx:BxTDZqaiJ3Sn-6X3YYPNiOmps9sep1YN3z2F_KYEdWBEYy_gtqWcWA>
+    <xmx:BxTDZgAB8Ha2jzQ7YLVYMp-vwJRmODA9lOkXum8VpTIf3XJBySddEg>
+    <xmx:BxTDZmSsFDSp-_WTffx3LNPSVMYNre3rrJd2N9PGDI6dmI2f8ITYbeKu>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 202D416005E; Mon, 19 Aug 2024 05:44:39 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240812041651.703156-1-sourabhjain@linux.ibm.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Date: Mon, 19 Aug 2024 11:44:18 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Rodolfo Zitellini" <rwz@xhero.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jiri Slaby" <jirislaby@kernel.org>
+Cc: Netdev <netdev@vger.kernel.org>, linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Doug Brown" <doug@schmorgal.com>
+Message-Id: <f1c86ed3-9306-459d-acb5-97730bfeb265@app.fastmail.com>
+In-Reply-To: <20240817093316.9239-1-rwz@xhero.org>
+References: <20240817093316.9239-1-rwz@xhero.org>
+Subject: Re: [PATCH net-next 2/2] appletalk: tashtalk: Add LocalTalk line discipline
+ driver for AppleTalk using a TashTalk adapter
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Add Jonathan and Andew.
+On Sat, Aug 17, 2024, at 11:33, Rodolfo Zitellini wrote:
+> This is the TashTalk driver, it perits for a modern machine to
+> participate in a Apple LocalTalk network and is compatibile with
+> Netatalk.
+>
+> Please see the included documentation for details:
+> Documentation/networking/device_drivers/appletalk/index.rst
+>
+> Signed-off-by: Rodolfo Zitellini <rwz@xhero.org>
 
-On 08/12/24 at 09:46am, Sourabh Jain wrote:
-> Commit 79365026f869 ("crash: add a new kexec flag for hotplug support")
-> generalizes the crash hotplug support to allow architectures to update
-> multiple kexec segments on CPU/Memory hotplug and not just elfcorehdr.
-> Therefore, update the relevant kernel documentation to reflect the same.
+Hi Rodolfo,
 
-Hi Jonathan and Andew,
+Nice to see you got this into a working state! I vaguely
+remember discussing this in the past, and suggesting you
+try a user space solution, so it would be good if you can
+add in the patch description why you ended up with a kernel
+driver after all.
 
-Could any of you pick this into your tree?
+My main concern at this point is the usage of .ndo_do_ioctl.
+I had previously sent patches to completely remove that
+from the kernel, but never got around to send a new version
+after the previous review. I still have them in my tree
+and should be able to send them again, but that will obviously
+conflict with your added use.
 
-Thanks
-Baoquan
+> +static struct net_device **tashtalk_devs;
+> +
+> +static int tash_maxdev = TASH_MAX_CHAN;
+> +module_param(tash_maxdev, int, 0);
+> +MODULE_PARM_DESC(tash_maxdev, "Maximum number of tashtalk devices");
 
-> 
-> Cc: Petr Tesarik <petr@tesarici.cz>
-> Cc: Hari Bathini <hbathini@linux.ibm.com>
-> Cc: kexec@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: x86@kernel.org
-> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> ---
-> 
-> Changelog:
-> 
-> Since v1: https://lore.kernel.org/all/20240805050829.297171-1-sourabhjain@linux.ibm.com/
->   - Update crash_hotplug sysfs document as suggested by Petr T
->   - Update an error message in crash_handle_hotplug_event and
->     crash_check_hotplug_support function.
-> 
-> ---
->  .../ABI/testing/sysfs-devices-memory          |  6 ++--
->  .../ABI/testing/sysfs-devices-system-cpu      |  6 ++--
->  .../admin-guide/mm/memory-hotplug.rst         |  5 +--
->  Documentation/core-api/cpu_hotplug.rst        | 10 +++---
->  kernel/crash_core.c                           | 33 +++++++++++--------
->  5 files changed, 35 insertions(+), 25 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
-> index a95e0f17c35a..cec65827e602 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-memory
-> +++ b/Documentation/ABI/testing/sysfs-devices-memory
-> @@ -115,6 +115,6 @@ What:		/sys/devices/system/memory/crash_hotplug
->  Date:		Aug 2023
->  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
->  Description:
-> -		(RO) indicates whether or not the kernel directly supports
-> -		modifying the crash elfcorehdr for memory hot un/plug and/or
-> -		on/offline changes.
-> +		(RO) indicates whether or not the kernel updates relevant kexec
-> +		segments on memory hot un/plug and/or on/offline events, avoiding the
-> +		need to reload kdump kernel.
-> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> index 325873385b71..1a31b7c71676 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -703,9 +703,9 @@ What:		/sys/devices/system/cpu/crash_hotplug
->  Date:		Aug 2023
->  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
->  Description:
-> -		(RO) indicates whether or not the kernel directly supports
-> -		modifying the crash elfcorehdr for CPU hot un/plug and/or
-> -		on/offline changes.
-> +		(RO) indicates whether or not the kernel updates relevant kexec
-> +		segments on memory hot un/plug and/or on/offline events, avoiding the
-> +		need to reload kdump kernel.
->  
->  What:		/sys/devices/system/cpu/enabled
->  Date:		Nov 2022
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 098f14d83e99..cb2c080f400c 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -294,8 +294,9 @@ The following files are currently defined:
->  ``crash_hotplug``      read-only: when changes to the system memory map
->  		       occur due to hot un/plug of memory, this file contains
->  		       '1' if the kernel updates the kdump capture kernel memory
-> -		       map itself (via elfcorehdr), or '0' if userspace must update
-> -		       the kdump capture kernel memory map.
-> +		       map itself (via elfcorehdr and other relevant kexec
-> +		       segments), or '0' if userspace must update the kdump
-> +		       capture kernel memory map.
->  
->  		       Availability depends on the CONFIG_MEMORY_HOTPLUG kernel
->  		       configuration option.
-> diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-> index dcb0e379e5e8..a21dbf261be7 100644
-> --- a/Documentation/core-api/cpu_hotplug.rst
-> +++ b/Documentation/core-api/cpu_hotplug.rst
-> @@ -737,8 +737,9 @@ can process the event further.
->  
->  When changes to the CPUs in the system occur, the sysfs file
->  /sys/devices/system/cpu/crash_hotplug contains '1' if the kernel
-> -updates the kdump capture kernel list of CPUs itself (via elfcorehdr),
-> -or '0' if userspace must update the kdump capture kernel list of CPUs.
-> +updates the kdump capture kernel list of CPUs itself (via elfcorehdr and
-> +other relevant kexec segment), or '0' if userspace must update the kdump
-> +capture kernel list of CPUs.
->  
->  The availability depends on the CONFIG_HOTPLUG_CPU kernel configuration
->  option.
-> @@ -750,8 +751,9 @@ file can be used in a udev rule as follows:
->   SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
->  
->  For a CPU hot un/plug event, if the architecture supports kernel updates
-> -of the elfcorehdr (which contains the list of CPUs), then the rule skips
-> -the unload-then-reload of the kdump capture kernel.
-> +of the elfcorehdr (which contains the list of CPUs) and other relevant
-> +kexec segments, then the rule skips the unload-then-reload of the kdump
-> +capture kernel.
->  
->  Kernel Inline Documentations Reference
->  ======================================
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 63cf89393c6e..c1048893f4b6 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -505,7 +505,7 @@ int crash_check_hotplug_support(void)
->  	crash_hotplug_lock();
->  	/* Obtain lock while reading crash information */
->  	if (!kexec_trylock()) {
-> -		pr_info("kexec_trylock() failed, elfcorehdr may be inaccurate\n");
-> +		pr_info("kexec_trylock() failed, kdump image may be inaccurate\n");
->  		crash_hotplug_unlock();
->  		return 0;
->  	}
-> @@ -520,18 +520,25 @@ int crash_check_hotplug_support(void)
->  }
->  
->  /*
-> - * To accurately reflect hot un/plug changes of cpu and memory resources
-> - * (including onling and offlining of those resources), the elfcorehdr
-> - * (which is passed to the crash kernel via the elfcorehdr= parameter)
-> - * must be updated with the new list of CPUs and memories.
-> + * To accurately reflect hot un/plug changes of CPU and Memory resources
-> + * (including onling and offlining of those resources), the relevant
-> + * kexec segments must be updated with latest CPU and Memory resources.
->   *
-> - * In order to make changes to elfcorehdr, two conditions are needed:
-> - * First, the segment containing the elfcorehdr must be large enough
-> - * to permit a growing number of resources; the elfcorehdr memory size
-> - * is based on NR_CPUS_DEFAULT and CRASH_MAX_MEMORY_RANGES.
-> - * Second, purgatory must explicitly exclude the elfcorehdr from the
-> - * list of segments it checks (since the elfcorehdr changes and thus
-> - * would require an update to purgatory itself to update the digest).
-> + * Architectures must ensure two things for all segments that need
-> + * updating during hotplug events:
-> + *
-> + * 1. Segments must be large enough to accommodate a growing number of
-> + *    resources.
-> + * 2. Exclude the segments from SHA verification.
-> + *
-> + * For example, on most architectures, the elfcorehdr (which is passed
-> + * to the crash kernel via the elfcorehdr= parameter) must include the
-> + * new list of CPUs and memory. To make changes to the elfcorehdr, it
-> + * should be large enough to permit a growing number of CPU and Memory
-> + * resources. One can estimate the elfcorehdr memory size based on
-> + * NR_CPUS_DEFAULT and CRASH_MAX_MEMORY_RANGES. The elfcorehdr is
-> + * excluded from SHA verification by default if the architecture
-> + * supports crash hotplug.
->   */
->  static void crash_handle_hotplug_event(unsigned int hp_action, unsigned int cpu, void *arg)
->  {
-> @@ -540,7 +547,7 @@ static void crash_handle_hotplug_event(unsigned int hp_action, unsigned int cpu,
->  	crash_hotplug_lock();
->  	/* Obtain lock while changing crash information */
->  	if (!kexec_trylock()) {
-> -		pr_info("kexec_trylock() failed, elfcorehdr may be inaccurate\n");
-> +		pr_info("kexec_trylock() failed, kdump image may be inaccurate\n");
->  		crash_hotplug_unlock();
->  		return;
->  	}
-> -- 
-> 2.45.2
-> 
+You should not need to keep a list of the devices
+or a module parameter to limit the number. I'm fairly sure
+the devices are already tracked by the network stack in a
+way that lets you enumerate them later.
 
+> +static void tashtalk_send_ctrl_packet(struct tashtalk *tt, unsigned 
+> char dst,
+> +				      unsigned char src, unsigned char type);
+> +
+> +static unsigned char tt_arbitrate_addr_blocking(struct tashtalk *tt, 
+> unsigned char addr);
+
+Please try to avoid forward declations and instead reorder the
+functions to put the callers after the calles.
+
+> +static void tash_setbits(struct tashtalk *tt, unsigned char addr)
+> +{
+> +	unsigned char bits[33];
+> +	unsigned int byte, pos;
+> +
+> +	/* 0, 255 and anything else are invalid */
+> +	if (addr == 0 || addr >= 255)
+> +		return;
+> +
+> +	memset(bits, 0, sizeof(bits));
+> +
+> +	/* in theory we can respond to many addresses */
+> +	byte = addr / 8 + 1; /* skip initial command byte */
+> +	pos = (addr % 8);
+> +	bits[byte] = (1 << pos);
+
+This is basically set_bit_le(), so you could use that
+for clarity and use an array of 'unsigned long' words.
+
+> +	set_bit(TTY_DO_WRITE_WAKEUP, &tt->tty->flags);
+> +	tt->tty->ops->write(tt->tty, bits, sizeof(bits));
+> +}
+
+> +
+> +static u16 tt_crc_ccitt_update(u16 crc, u8 data)
+> +{
+> +	data ^= (u8)(crc) & (u8)(0xFF);
+> +	data ^= data << 4;
+> +	return ((((u16)data << 8) | ((crc & 0xFF00) >> 8)) ^ (u8)(data >> 4) ^
+> +		((u16)data << 3));
+> +}
+
+Can you use the global crc_ccitt() function instead of implementing
+your own?
+
+> +static int tt_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+> +{
+> +	struct sockaddr_at *sa = (struct sockaddr_at *)&ifr->ifr_addr;
+> +	struct tashtalk *tt = netdev_priv(dev);
+> +	struct atalk_addr *aa = &tt->node_addr;
+> +
+> +	switch (cmd) {
+> +	case SIOCSIFADDR:
+> +
+> +		sa->sat_addr.s_node =
+> +			tt_arbitrate_addr_blocking(tt, sa->sat_addr.s_node);
+> +
+> +		aa->s_net = sa->sat_addr.s_net;
+> +		aa->s_node = sa->sat_addr.s_node;
+> +
+> +		/* Set broadcast address. */
+> +		dev->broadcast[0] = 0xFF;
+> +
+> +		/* Set hardware address. */
+> +		dev->addr_len = 1;
+> +		dev_addr_set(dev, &aa->s_node);
+> +
+> +		/* Setup tashtalk to respond to that addr */
+> +		tash_setbits(tt, aa->s_node);
+> +
+> +		return 0;
+> +
+> +	case SIOCGIFADDR:
+> +		sa->sat_addr.s_net = aa->s_net;
+> +		sa->sat_addr.s_node = aa->s_node;
+> +
+> +		return 0;
+
+As we discussed in the past, I think this really should
+not use ndo_do_ioctl(), which instead should just disappear.
+
+Please change the caller to use some other method of
+setting the address in the driver.
+
+> +static int tashtalk_ioctl(struct tty_struct *tty, unsigned int cmd,
+> +			  unsigned long arg)
+> +{
+> +	struct tashtalk *tt = tty->disc_data;
+> +	int __user *p = (int __user *)arg;
+> +	unsigned int tmp;
+> +
+> +	/* First make sure we're connected. */
+> +	if (!tt || tt->magic != TASH_MAGIC)
+> +		return -EINVAL;
+> +
+> +	switch (cmd) {
+> +	case SIOCGIFNAME:
+> +		tmp = strlen(tt->dev->name) + 1;
+> +		if (copy_to_user((void __user *)arg, tt->dev->name, tmp))
+> +			return -EFAULT;
+> +		return 0;
+> +
+> +	case SIOCGIFENCAP:
+> +		if (put_user(tt->mode, p))
+> +			return -EFAULT;
+> +		return 0;
+> +
+> +	case SIOCSIFENCAP:
+> +		if (get_user(tmp, p))
+> +			return -EFAULT;
+> +		tt->mode = tmp;
+> +		return 0;
+> +
+> +	case SIOCSIFHWADDR:
+> +		return -EINVAL;
+> +
+> +	default:
+> +		return tty_mode_ioctl(tty, cmd, arg);
+> +	}
+
+I'm also not a bit fan of using the SIOC* command codes
+in a tty device with incompatible argument types. I do
+see that slip and x25 do the same, but it would be nice
+to find a better interface for these. I have not looked
+at all the other line disciplines, but maybe you can
+find a better example to copy.
+
+     Arnd
