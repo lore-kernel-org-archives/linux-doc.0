@@ -1,119 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7563F43AB2;
-	Tue, 20 Aug 2024 15:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EEB190473
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 15:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724167164; cv=none; b=GAgZ1fcQJjyce0xijztQpkh11TlYhyUfjFMI613gfr9YGwU24fHcRDqKKZcYRUc/AvGrG4qcb2JTnafUMqlurvBUrEUMeFV33t+HZ0mqcNtH/hw4EQ20d0GThF5Z8zpsdyIjSIr0JmF8bwoTPeokG31VTGhWoJoKrkzzpb+lq28=
+	t=1724167472; cv=none; b=eicGI2e59VhWWu00pApqFU8wJIreWrATkMEuplw9WZMOosnbQ91opjYlM72Ym6C7CSRzq56o/ML2f9FFCKEKpFJAGiSmLupTPoSVlMowfcJZABEjlHeEdAq98sCEIS09STxBdzuLBsvdPTMkTw4kEHwRH5kSq5/5AoQy0gqzPF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724167164; c=relaxed/simple;
-	bh=/OXYNA076GPRELh0pHtb1LqJyPMWNb0FBe4CzjTGaQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rARUwhGbhgokb/StUb2LFnp/qnlFJVzcsT3458/D9g+/I7+QdgLTYnNHR0AEBZINYC4dN/8+7NQSoN6tlVmIwFQ/M1WNV4lxGYwbJ/mhHhaQSYO2Hfq2zEOEBGx7OfWWcb1F4SA3pJh4jb5TdGQpRIZPlNjek8rC6GFvo6Rv7Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhV8y6cZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724167472; c=relaxed/simple;
+	bh=lHCuR+6j1zERFHSs+KvLhuwolO3WP77swGPzBPMSIJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S9RVbS9qEIYi7yfXyDSBh32oK/Jy2qcDD/jo5jw0vB1S+KGacbMSlyONJ7pBF/WRhe0JzTLVXQGNfaNKIuymVdT0/0x42CHb8VqhR5FdUPBrGKPtcLwhZjbW47mchPp6yqf8T/gjlrUxiXm6VRqlRfwx1UT5dI7yYZgWdlZEuKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=OhR17+Gx; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhV8y6cZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899F1C4AF0B;
-	Tue, 20 Aug 2024 15:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724167164;
-	bh=/OXYNA076GPRELh0pHtb1LqJyPMWNb0FBe4CzjTGaQs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XhV8y6cZBCxHcRXtyBXg5fkxQ0emSjT4auJjQk+246Tw8eD3OUCE057w6/vUhGK+Q
-	 RBjicnT8mi2sKTBuq0JANhVJTDhMvdUqDUjecxktxoY+vMrnz4MGVdsNOpaqcNAw9I
-	 8huEtnENFiJFKoN9IcbUvsltqlewOPHIwnN9eFpsuawwCJvXkDlHhiXl7L7Wur0fpu
-	 tpAX/YFnzoaY+ZA/9o5gRvZTPhKxlmy+9Auiz50bY1SO6+EAmVeqJQ3ehrBxhx64mc
-	 3Inbdd0jxjd2cxDx/Af/1fV60ySoP0m+sl/9zoj0NBHNWDP6FteTyA3BOpW4xPB0UC
-	 8Lpljm3h/QgEQ==
-Date: Tue, 20 Aug 2024 08:19:20 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Taehee Yoo <ap420073@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240820081920.6630a73f@kernel.org>
-In-Reply-To: <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
-References: <20240813211317.3381180-4-almasrymina@google.com>
-	<CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
-	<20240819155257.1148e869@kernel.org>
-	<CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="OhR17+Gx"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2d427fb7c92so1806918a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724167470; x=1724772270; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9HfCveIGD6wgO07CWK+R0yFcUzfSO61CbRgrTad0T8=;
+        b=OhR17+GxmiQ+7WtH/9f14NpHEInGdO4rRM8XIprEZlboX6eUBf/rlCfydBnd37Kyxm
+         DEx/UZZ9AHKGasCXohCF19xs06sFP8TwDC27uDIsxshhzffBdXJRB6KmeTTCUK8u4Wwi
+         4yPc8Gsa8cAIpO/xHa/RDLWUORY4e+sdaltV1UzWTDokZHS7hMwDAvbBcGtEa8t5gcnE
+         T8kxZjpMOcsIl/cEu6eT5LVdMZwNTFukIr/JxyCGU0W1/WQ/KGPD2sDtgZG1QFfx4sOJ
+         pyOzxX3XnqeKR3M9ETbysKynmBUT792evxgNpSnMm5DG5EIuToHvDXzUhQgFso+wPa60
+         fteQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724167470; x=1724772270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/9HfCveIGD6wgO07CWK+R0yFcUzfSO61CbRgrTad0T8=;
+        b=Fw8QJxoJ+mH7WugozSJH+Egy49MIyVF1a/Lw56pln4u8wFoFm/AqqmY9GGWxvtTNfU
+         bOqnyTOUyZV/CtKYxmLkGo0YPNV/ieWUBuvR5l2l3BJaiwvhvmkSwC2bhfta5DEw4DaL
+         x78Jk8NhzhgUWfHzXTjaRYA0xeLHMJOrtIv3xg+xgkEEBDfqJlvn3lUWrDgj+rfNKznV
+         ZEiHfGHwj0ldVhfTlMViS4Sa6YSKVUj8l9dS21ls6Q7cMmzvF3ED9aNNtel/8fK2YcDS
+         fBk6CUOucN+6PAjO8BjumQc/Y04yTx65Q29RQjg6UbCqDcHCHkGMnqHcsSrlgnEqPz2W
+         q7kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlVPh7wR77mmStC/wkyHKPl2MCJdnkhoXXUF/rWxmraLGlKusFoKRyIlqfsyXUW42sDECx1dFB/emhlt10UCA04oSJJmAEEaRz
+X-Gm-Message-State: AOJu0Yy7EyQ2Zb2jTikrjD+Bj/gNljumFNzqOMSs4L/cWmDeYR9RYTuD
+	624uUBJJkus6i9HljizPeJPUAZyynUn/Ppd/co6PXXvTfPHIUXRGIgZ75zw+flE=
+X-Google-Smtp-Source: AGHT+IEFp8nNWtAhX07M+oXg7b8ZrLAlbIoqjPUVrUowEtxL+yOzQda+T9qdfMXpVJlBtO5ij749KQ==
+X-Received: by 2002:a17:90a:d803:b0:2d3:bd32:fc7d with SMTP id 98e67ed59e1d1-2d3e0409749mr14730820a91.39.1724167469966;
+        Tue, 20 Aug 2024 08:24:29 -0700 (PDT)
+Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d40bea7cb3sm7258157a91.25.2024.08.20.08.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 08:24:29 -0700 (PDT)
+From: Jesse Taube <jesse@rivosinc.com>
+To: linux-riscv@lists.infradead.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Jesse Taube <jesse@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Xiao Wang <xiao.w.wang@intel.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v9 0/6] RISC-V: Detect and report speed of unaligned vector accesses
+Date: Tue, 20 Aug 2024 11:24:18 -0400
+Message-ID: <20240820152424.1973078-1-jesse@rivosinc.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Aug 2024 00:01:02 -0400 Mina Almasry wrote:
-> Took a bit of a look here. Forgive me, I'm not that familiar with XDP
-> and virtual interfaces, so I'm a bit unsure what to do here.
-> 
-> For veth, it seems, the device behind the veth is stored in
-> veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check on
-> veth_priv->peer is the way to go to disable this for veth? I think we
-> need to do this check on creation of the veth and on the ndo_bpf of
-> veth.
+Adds support for detecting and reporting the speed of unaligned vector
+accesses on RISC-V CPUs. Adds vec_misaligned_speed key to the hwprobe
+adds Zicclsm to cpufeature and fixes the check for scalar unaligned
+emulated all CPUs. The vec_misaligned_speed key keeps the same format
+as the scalar unaligned access speed key.
 
-veth is a SW device pair, it can't reasonably support netmem.
-Given all the unreasonable features it grew over time we can't
-rule out that someone will try, but that's not our problem now.
+This set does not emulate unaligned vector accesses on CPUs that do not
+support them. Only reports if userspace can run them and speed of
+unaligned vector accesses if supported.
 
-> For bonding, it seems we need to add mp channel check in bond_xdp_set,
-> and bond_enslave?
+The Zicclsm is patches are no longer related to this set.
 
-Sort of, I'd factor out that logic into the core first, as some
-sort of "xdp propagate" helper. Then we can add that check once.
-I don't see anything bond specific in the logic.
+Changes in v6:
+ Added ("RISC-V: Scalar unaligned access emulated on hotplug CPUs")
 
-> There are a few other drivers that define ndo_add_slave, seems a check
-> in br_add_slave is needed as well.
+Changes in V8:
+ Dropped Zicclsm
+ s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
+  to match RISCV_HWPROBE_MISALIGNED_SCALAR_*
+ Rebased onto palmer/fixes (32d5f7add080a936e28ab4142bfeea6b06999789)
 
-I don't think it's that broad. Not many drivers propagate XDP:
+Changes in V9:
+ Missed a RISCV_HWPROBE_VECTOR_MISALIGNED...
 
-$ git grep -C 200 '\.ndo_add_slave' | grep '\.ndo_bpf'
-drivers/net/bonding/bond_main.c-	.ndo_bpf		= bond_xdp,
+Jesse Taube (6):
+  RISC-V: Check scalar unaligned access on all CPUs
+  RISC-V: Scalar unaligned access emulated on hotplug CPUs
+  RISC-V: Replace RISCV_MISALIGNED with RISCV_SCALAR_MISALIGNED
+  RISC-V: Detect unaligned vector accesses supported
+  RISC-V: Report vector unaligned access speed hwprobe
+  RISC-V: hwprobe: Document unaligned vector perf key
 
-$ git grep --files-with-matches  'ops->ndo_bpf' -- drivers/
-drivers/net/bonding/bond_main.c
-drivers/net/hyperv/netvsc_bpf.c
+ Documentation/arch/riscv/hwprobe.rst       |  16 +++
+ arch/riscv/Kconfig                         |  57 +++++++-
+ arch/riscv/include/asm/cpufeature.h        |  10 +-
+ arch/riscv/include/asm/entry-common.h      |  11 --
+ arch/riscv/include/asm/hwprobe.h           |   2 +-
+ arch/riscv/include/asm/vector.h            |   2 +
+ arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
+ arch/riscv/kernel/Makefile                 |   3 +-
+ arch/riscv/kernel/copy-unaligned.h         |   5 +
+ arch/riscv/kernel/fpu.S                    |   4 +-
+ arch/riscv/kernel/sys_hwprobe.c            |  41 ++++++
+ arch/riscv/kernel/traps_misaligned.c       | 131 +++++++++++++++--
+ arch/riscv/kernel/unaligned_access_speed.c | 156 +++++++++++++++++++--
+ arch/riscv/kernel/vec-copy-unaligned.S     |  58 ++++++++
+ arch/riscv/kernel/vector.c                 |   2 +-
+ 15 files changed, 465 insertions(+), 38 deletions(-)
+ create mode 100644 arch/riscv/kernel/vec-copy-unaligned.S
 
-> This seems like a potentially deep rabbit hole with a few checks to
-> add all of the place. Is this blocking the series?
+base-commit: 32d5f7add080a936e28ab4142bfeea6b06999789
 
-Protecting the stack from unreadable memory is *the* challenge
-in this series. The rest is a fairly straightforward.
+-- 
+2.45.2
+
