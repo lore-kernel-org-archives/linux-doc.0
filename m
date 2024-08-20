@@ -1,298 +1,262 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089A810A24;
-	Tue, 20 Aug 2024 18:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724177038; cv=none; b=otLbRC1ieoOY64yPpbTLs826IHY74Iq0B+lDGm5M5bjGSTwWP2HtdfFhc2QvJNlAP1DKX+9P0kFhsWyki7ZQAXGcGBQ6bJs6ZoxBavinQdhkgT7NjxbL8oMR69DMxLqosdcd0OZeizKkryEw7qVes10S+qUlSWWdBNJPL3Re/Qk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724177038; c=relaxed/simple;
-	bh=puNTaviJaIe5l57uc3KyTjdZ/dte2zQ+D4ZC0RIIOhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VUoCjhXiLllPraMoIcjN9hKUH7ELH8hxZcPw77C8mPMPPx+Vbw21GywFErZrsuorEHsXKti6j+EDYXW5xKESRN42aQqp1OpLqLAy/93hoF2RuyJdC9N7OdFn7vFzESMuc2pI1nqLCZ52RychzDCVLhiEnn5tRoGkyflczl9UIro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ALv6+/Bs; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD319005F;
+	Tue, 20 Aug 2024 18:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724177299; cv=fail; b=FDW0PrnVQEZyiu42J/YJ1Ejmmqhm9Ot17WyqSYVQZZth8kzjXnmNVt2/upy0u/GmQKaMfUnTmNRo6/o2Si3IbVkZt/14lhQG52UxqqZPctG76JZPFdWJEliMpVvARgK7y6NNuFHBkWhPTycOG2XLGuwSqmwGR8gqJqoxeHt3T48=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724177299; c=relaxed/simple;
+	bh=ukRWD6xyAF5R2V8ZA5eLE3IBD1oh/k8xA8uI5jsqdTk=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QHzIsNN6IugYubkDKMbBKJ0uHs5SrlglnJ6NQy83pIb5x+H4gksrXAWooPPJY9rJWnQOKMXDpRquiJ0dU4fR3jZGTzfrp4CeycxVrv7Xtu3GqZAYAxlcUCx1l+6jkvSDyIDsAWFJ012X8nNh4iN5sauULLkaiSjvHdmMeFRjFic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXpZyV0K; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ALv6+/Bs"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47KG49cK026263;
-	Tue, 20 Aug 2024 18:03:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	puNTaviJaIe5l57uc3KyTjdZ/dte2zQ+D4ZC0RIIOhQ=; b=ALv6+/BsQ0hJFV+S
-	CUQPgHIcV8cSccNqMKrEjJD+CwyPj1IdwuzTWEEvkKeOPqsUlDEmWzpn1jhbRkHN
-	uBFS8fbVZ4qlY5pCvwV1cEOi8vzz5N1N/chcg+vdn9NP0FIyUGjOZ/PzbdryMN83
-	H+hLk4Es4zv2QndJu/Iz2gT7/gchg89+dpWmgx1KOP3uW2/EEQhtq5iphVcCY3d5
-	ePpZlve5CGVnFFPyWr4n9kqkpKgCDFbOAUsZOGLJG4bGabwISmzZ1JbAJ2pEnOzT
-	FY5cgF0ACXd6vK70kB+18L5BYQqmvoz26mtDwEFq0/wu0VJphX3FCgFyIeTVpVBm
-	gnnjSA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414xb9g9jg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 18:03:37 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KI3ap4030929
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 18:03:36 GMT
-Received: from [10.110.70.123] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 20 Aug
- 2024 11:03:36 -0700
-Message-ID: <f7e54095-c667-4195-988f-4450c533cfa2@quicinc.com>
-Date: Tue, 20 Aug 2024 11:03:35 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXpZyV0K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724177297; x=1755713297;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ukRWD6xyAF5R2V8ZA5eLE3IBD1oh/k8xA8uI5jsqdTk=;
+  b=ZXpZyV0KJ9HYO9Q8zENbEpDUIMVjBnSOBrWNCtKyIPTnaaQ6ZtFhTL42
+   poixwjrpLuaY/nQGmg+nMydHxzxGaTKGxxuX4mSBBq4OGF+Ku0nFS8aIb
+   6DRK0cOgerXCPpBc0JqhVaH8qAgpfM/hvtsO8TJVVCe1gt/wFLa6MBc0o
+   FttWFuKnbw/oSbObPafUfsqA7SHXHP2OzULICeSNDdP01XjNPQqr+GGsd
+   BDApF3Pi47rImRgb+rqc11+ADQ01XxoZkMPgXGZyctJ183ZqnBOe8QIdd
+   Ucd+Ll7l4CMxujZggBDDqvizznnW75HH0f6IIRGL7XkMXARbRFni0sZDS
+   Q==;
+X-CSE-ConnectionGUID: rRydwtxrS0CgRJYgSo9zvg==
+X-CSE-MsgGUID: GHsKGDTHRkKyFb3hcjuupw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22684182"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="22684182"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 11:08:16 -0700
+X-CSE-ConnectionGUID: I3p0Yy1bQgqOAzWEwl12bw==
+X-CSE-MsgGUID: O8/Pz9xPQKi272Gptjbcmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="65010681"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Aug 2024 11:08:15 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 20 Aug 2024 11:08:14 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 20 Aug 2024 11:08:14 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 20 Aug 2024 11:08:14 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 20 Aug 2024 11:08:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BN1KlY1uSmil+bEOwlssmdkWYoIRQ/R8NMSPafKHkDHhUhl6UetlsOZ7o+SHPp8/JiWCfy0xhopxnyTv0pOOooJCvgXsxmO/db/VS1m92Z/r4uA5n+Nk/z4jPr19vKpLxzXVey/tJOpphgvKzzkdiagnSMzWgdEhYn+zV4GKdk+/7YuLPzTj3MyvkzTxqXaP/pQiGqlfR8HdkUbcvdfzSaTTA4nRGZpwkwYXQFQicRDuzdgUwewJArZLCBnUavdnWAQZZ+jfMi0XGmsFNcfbfYSOkP5kc3WqeHPKtOdgkDe6ehsumbx7RD9hXZ8WAa6DXKnx2Pq9M/wUVe8xcas7Ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3gu6eT9Gh/2VTZR9RjQDOVUsAsImTjf8/geHor9FW+c=;
+ b=cLz90muKcJSH5TCyUUEiJ9Xy/gfF0/BzAFjbBjoQRArmHM+UmSjhqWCJQfjRIVziX3klEzxuZtek9wflFMyYq0BYQE4npvha96UcLVlDqHiTdHWQbIIPrn2pxR4e+M6sZTmV8WvS4dl+RCoF9H/cl1/ZTS/webMjWzWcc3+Y9mRWGisRZd9RLQjgHBx4yGqrZs8l4yIP2AuA9dCiic18IiHssc16xejHEIZl1Gjckql1ohlWecGGk8gZwy3hGwWbi8i/vqGIpVPjVgzKhkcWygytMNxKs+cWIXlkt9ymRw6VahrA110HL+iFR0dm49ZVuXE5nYgzwyeiY26akOltSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SJ0PR11MB5038.namprd11.prod.outlook.com (2603:10b6:a03:2d8::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Tue, 20 Aug
+ 2024 18:08:09 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.7875.019; Tue, 20 Aug 2024
+ 18:08:09 +0000
+Message-ID: <8ae3edee-47f4-479c-a4a5-cb2e9c2982b8@intel.com>
+Date: Tue, 20 Aug 2024 11:08:04 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 08/22] x86/resctrl: Introduce interface to display
+ number of monitoring counters
+To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
+	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
+	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <james.morse@arm.com>
+References: <cover.1722981659.git.babu.moger@amd.com>
+ <da3c2f99c07987d59d9df1db0a0a85ec323cd67f.1722981659.git.babu.moger@amd.com>
+ <6c1305ae-caa3-4da1-a0c2-3948cac976be@intel.com>
+ <807d4e97-67e1-4644-ab99-caccd328eb62@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <807d4e97-67e1-4644-ab99-caccd328eb62@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0035.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::10) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 03/34] xhci: sideband: add initial api to register a
- sideband entity
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-4-quic_wcheng@quicinc.com>
- <1a80c749-1cbc-4ad9-ac14-dec660bd7f8b@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <1a80c749-1cbc-4ad9-ac14-dec660bd7f8b@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: FStADRAA5-hParYeCmegweSox3NlqBjV
-X-Proofpoint-ORIG-GUID: FStADRAA5-hParYeCmegweSox3NlqBjV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-20_13,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
- definitions=main-2408200134
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SJ0PR11MB5038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 506b6079-ab8c-42d0-2c1d-08dcc1430c86
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cFR5R29GSkRGUUFaM1BHVzBxUGVMYnVJV3RkMEZWTktUUExaY241a3dYVVNh?=
+ =?utf-8?B?YUdYcHpyR1VYOHhNWTB1dW84RkhGZFI1ZG1UeHVhZWhOZFJydGFsWjNHU0o3?=
+ =?utf-8?B?MENEYWNyOG9oWnZScEljbWx6OWhDRmt1NEdYZjZaQ3dBMXIzVTlidmN5N3Bh?=
+ =?utf-8?B?d1BtWHFlSDZpQTdXRTllNWdDaU5PdVNFY3JmM3NuZGh0NzNuUmJtYTlyS3Jm?=
+ =?utf-8?B?dS9KRldhMnNHZ1FRVWZab2Z6QzhJV2ZTUHF1N05wQzNKYVZaYTBhYUtOdnFi?=
+ =?utf-8?B?ZndkSUNWK0pZdjltZnVQMzlJbWVOSE9SS2FzaG4rQlkvSk9jdVBHanJndHcv?=
+ =?utf-8?B?dUZSRzEzWSs5akdSLzk0QlduZXJHOEFBMGFGZ05OOXlaTFJCUTJ0QktnY3FU?=
+ =?utf-8?B?NTJoUUNIRXRnbmF1dVVJNk9ZM05IbzV3VGx5RDFNcTdHOUo5TXczV2RGeGxT?=
+ =?utf-8?B?WlM5ZkVKeFZ1L09PK0ZMVHNteTFJdk5iTEhzR2hqbFV5bTUzcjNJOHM5ZjdH?=
+ =?utf-8?B?Z2dTZFpOUm1Bd1l2OGpJOWFtN0c4SEQ2M2x3UnVwY3J6bnNMMnAyZ0x3dUp0?=
+ =?utf-8?B?c0IwbXViK056QU1DeUx2U09EU282MnFwbC9NS0hsbzFyMkJ5VmI4cGY1bzhr?=
+ =?utf-8?B?SGIwODhkeVoxYWI2RnRCZlhLZkY1Wm83NE9zSzBzMHdqK2tKNTBrNWNFZ3pW?=
+ =?utf-8?B?ZjgvbGI1d3VqTGhUNDVWRGMrYWVyZ1FPZWNBeTNQcUg0Q0h0WmkxOVhJZDJ5?=
+ =?utf-8?B?QXA1Qk5ucjc3bzZVSVN5dlN2NFpuL04wQjVyNDg4UEIyOUU2dlJTSnZ5OUEv?=
+ =?utf-8?B?aEU5dVhtbHN3Qkl6VVV4UE9BclJlWEFSSUxZUXhpa3Jpekkwa29LUTZETWho?=
+ =?utf-8?B?WXNZTHgyeFV6ZHBFUG5GUisrVFJuaC9FNXNmdkJjU2xQTTNla1JSZ2ptRW1E?=
+ =?utf-8?B?TDh6MnVKa2dvOUVvdEM2bkVKMkF0RnNwQUVCYlpGZ2JTWlEzbERzdTNNYmZY?=
+ =?utf-8?B?aGY4SzFGM0c3b1ZUMy9yNm5xcjd4U1U4S0FJMERES1BlOFE3QnZ4UW9zODR5?=
+ =?utf-8?B?YUV1bkNxVndGMitxdjhKK0l3NDFEUUwrQzJVby9RMElqNFREQXJGNGRmemZr?=
+ =?utf-8?B?dDRYMXNaWThmc0NtaGlkY2pnL1JiaXFCNTNobGVXZHFMZkJBOGJNZlhsdVZz?=
+ =?utf-8?B?ZmdPUlpleUtZdlpnQVFhY2R4N0tXN2FIajNMVXZSZkRydS9heVdiL3NNUHVh?=
+ =?utf-8?B?Q3RKQUZrc2FnYXZWNndUaFQwZkF6ZG5OeU1UUjkySWgyZ202WTVrQysxcm5L?=
+ =?utf-8?B?S2xhN0d4c0N2VWgxTmNHRmVjV3NBU3dRMW1zcjN2eVMrVmVrSkR0RXVidUth?=
+ =?utf-8?B?V0RyYnBlWEp5V0w2M1BETTlzM0dnN3c0UGorRDNaN1ZMcEhleDA5SE43TXBy?=
+ =?utf-8?B?WlZZbzZuR095Mzk4eHJIeGtLT2twcCtCQUxWVlFvOTVwSG5BdHI1V2hjNnEy?=
+ =?utf-8?B?bXRFLzRDaWdHQjNvRFhsQTJvL1M2dkxwYlhEMHIxcWMxQUFEZ0tZeUc1UDV1?=
+ =?utf-8?B?SW52VGFFOG00Qkw2aFN1clcxMXdydTFab2tlbXBUWldvV05YeHk4bHhDK0xn?=
+ =?utf-8?B?VWZaNkZ3UndILzh6YTZKd1JPVHVoREdyVGFFMG1vMlh5azIwSHo3MllmNmp2?=
+ =?utf-8?B?cUp1eFdpbFZWcG1mR2dkZzRWbC9tUm9udkJZVmQweGF5Z1g2cHNBNkVweEVN?=
+ =?utf-8?B?MVNJUHhibXJyZlZCOUh1L1FxT0FhdmFKT01PNzNXSCsrVGFkT3Flc3JKT3RG?=
+ =?utf-8?Q?kIcBTg+Zp4BSUuJPrRvEPZes2zGN6UuV2xK40=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0FXMGJpQmdYaUMxQW1EZ2szT1R4d2NBV2NxYVRGVEZRc1BNdkh3Y093bFJp?=
+ =?utf-8?B?eS9aTUMxWStoSnB0bURGdXVqSEZwNGdGYzBHTmw0aFVuZnRIM21SV1pTQmpw?=
+ =?utf-8?B?TzcwRk9mQWJsd2lqbTIzZ1Z5UGZnVm55L1k0OFdPcURxbDhFSm91endHUFpX?=
+ =?utf-8?B?WEhzTjl4QUdZWENibytiRUU2Skp5SXlUYXIyczVrVmRjeVVxMGlmUGRkNzU2?=
+ =?utf-8?B?RXNBc0FudVIxVFMwcVFCTzFVdllHZlU0UDBRZ240dXJBdzhZVlZGY3ZjMGF0?=
+ =?utf-8?B?VUdjWnNpSW5meTlBTFFvUmpJMmJKeEMzQzVpWTA1ZDByaGI1SVdlUyt6cU80?=
+ =?utf-8?B?ZTZ3ZVVMekFiQ0VxWExoRnZ6MjMxSkY2S29aQ0ZhWjdUTERMbG1iMDBRZElL?=
+ =?utf-8?B?eFBKcUlWYTZzaWtoQWJmblB5ZzZCL2F0R1JTZzl5Nkd4cEdja3BQRmtsYjF0?=
+ =?utf-8?B?U3dKb210MkFPdTU4LzdRZUhTYkszNGxYVzdPeC83TDhXZ0l2UkdISjZDMm0z?=
+ =?utf-8?B?RGZrZWh2Z2UraWZLRk16YW1LcTVDb3gzMVl2eStDSHY0MG5vVWp5UWVEb1Nh?=
+ =?utf-8?B?SWdxQ2Fad2NPZFdRWkkxV09qNUVzWmdRVTVLSFhLMlpYRWdWRit2ZmdlQmMx?=
+ =?utf-8?B?Tjl1S1d2ZSsrUldUdHA3QnVQM0YrUCszc0Vkais4c25hZWZRcTZwQ0pOTldk?=
+ =?utf-8?B?b3haSHNSdm5sWTl2Vnk4akNaS0xtWjRKM1l3K0hjZ2dNRExvblBHMHd5elJS?=
+ =?utf-8?B?WlFzc2JYUllzQUovQ3lUa0VVRDJwZEZJdmw1SGU2OG1zZC9GWWZCS3RsaTdX?=
+ =?utf-8?B?QndwQ003VHVYTHFXSmlyTG9Ma3JOdlM0NDF5YjBUaEo4emtDODZST0NOL0pE?=
+ =?utf-8?B?S1B4eDg3cGNQV2xFeHpoUjhTZGVPbnlQb2lYa3hJRnhtaGthZis1YVk4bTNM?=
+ =?utf-8?B?emNvUm53cldjY2I0cDFwVjljRzYraS9YYTMzbFBsRkxiTWJtMHVZNkkzdEFR?=
+ =?utf-8?B?WVE3amVtK0lkeTE1ZVY1aTBjWU9pY1B5TXdzMEZCSUx2UjR0TTBJemJLL2RL?=
+ =?utf-8?B?YkJ5NVNkM3BTQVFNdXp6U3cxU3ZaTTdCemt3TXQ5OVM1SW5tb2lPU3NTL0h5?=
+ =?utf-8?B?Mkt0aThmVG84RHNMVEplelhEVU1IeDcwVjBQcVFQOUYyc1dlWGdyeFZzSlZo?=
+ =?utf-8?B?TnJIRXBZZFRvcld5SDZtWnNmdXUvTUxKcDJZSUpnYU9CRm9qdC8vUFl4Wkdw?=
+ =?utf-8?B?d1RueHpOdTB6dzA1dUpRZlZlOEhwL1lEbzV4Z0ZCenE0ak9HTS91eEpxRW1p?=
+ =?utf-8?B?cHBxSk53T0wyNEJaemhyVDViSW8vYjUyTHpKN2s0ZWVqb2xqdnc3V3UzVkYy?=
+ =?utf-8?B?RCtEMW80Q0NSZ0p0N0t5R1hWc1p0MXpEMU1OK3ZYa0JocmVuQWo3UzBoeHB2?=
+ =?utf-8?B?a3BocWxvZExvYTZ3OFliRnk5b1p2YXUzUklvdk5QZDQ4Sytub09NM0o4Y1Vk?=
+ =?utf-8?B?dUh6NmRVc3ZiRFVUUzhxSURrOXMwU09abGx2TmZJQ2sra09sS253ZXJxd2hG?=
+ =?utf-8?B?RHNRMDFVWjZqZ3c2eFJnY0o4WHg5WEo2WGlBSDRXUkJDQzdGdXBXS2xMNDJn?=
+ =?utf-8?B?RDhVb0QzUlRyaER2L0lHclFTNmZLYjFSQlVlSi9VRnZVNGJndGFxT0tWMjlx?=
+ =?utf-8?B?Vm9FS2hBZ3I2YkdlUUd0aDExTUFZYXhwWWZXdWwwUkQ0bnlMeWNzZDQxMnZY?=
+ =?utf-8?B?SUIxRzBNRkhtbDBLbUs5MEdkVWYvZUdjOEpFL01DVHhUWGdkSU1yMTRTYnJw?=
+ =?utf-8?B?ZUYvSVF0RERKc2RsMmFLOXd5TDk4OWcwMisvTldoTHd3eVVjNlpseHFWYkZp?=
+ =?utf-8?B?b1dzZGxUdnNIc0VsdTU3UlhBancxYXVtb0hYTS9Fb1lQYlN2N0N6ZGZ1SWJn?=
+ =?utf-8?B?SVVtTHoxQ1B2ZndrQlpINDNjQkovZXRjWlEvYVlYd2J0NTRENFFDRFdQL3Qr?=
+ =?utf-8?B?dHB4M1dnYlYyRlYwNlh4V25ySXNDSEFNV0JQZXduTkFJSG84UjRNRkNlNUxE?=
+ =?utf-8?B?QVZBTmR4MzkxL21RTmpuQ3JUOW9uaFhyaXZPejdTVW5VcGRwMXBLdzlXYkNo?=
+ =?utf-8?B?VlVucHJyc1hWNll0SXpheHNmaFl2MElZbTJ6V2lDRE9LY2U4b1NTclRScG5n?=
+ =?utf-8?B?c3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 506b6079-ab8c-42d0-2c1d-08dcc1430c86
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 18:08:09.8524
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aPllGhsrE+uTWNv58E6q2aVpcewyBFfrJbEgcbiHdcL89z08C3sDCTTnt3HyvtVw3+7wdBcgQry7Z7Mb3mkiOaZRpLtBNIPJ6r/Ve5z0KIs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5038
+X-OriginatorOrg: intel.com
 
-Hi Amadeusz,
+Hi Babu,
 
-On 8/6/2024 7:49 AM, Amadeusz Sławiński wrote:
-> On 8/1/2024 3:16 AM, Wesley Cheng wrote:
->> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+On 8/20/24 8:56 AM, Moger, Babu wrote:
+> On 8/16/24 16:34, Reinette Chatre wrote:
+>> On 8/6/24 3:00 PM, Babu Moger wrote:
+
+>>> diff --git a/Documentation/arch/x86/resctrl.rst
+>>> b/Documentation/arch/x86/resctrl.rst
+>>> index d4ec605b200a..fe9f10766c4f 100644
+>>> --- a/Documentation/arch/x86/resctrl.rst
+>>> +++ b/Documentation/arch/x86/resctrl.rst
+>>> @@ -291,6 +291,9 @@ with the following files:
+>>>            as long as there are enough RMID counters available to support
+>>> number
+>>>            of monitoring groups.
+>>>    +"num_mbm_cntrs":
+>>> +    The number of monitoring counters available for assignment.
+>>> +
+>>>    "max_threshold_occupancy":
+>>>            Read/write file provides the largest value (in
+>>>            bytes) at which a previously used LLC_occupancy
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> index 5e8706ab6361..83329cefebf7 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> @@ -1242,6 +1242,8 @@ int __init rdt_get_mon_l3_config(struct
+>>> rdt_resource *r)
+>>>                r->mon.num_mbm_cntrs = (ebx & 0xFFFF) + 1;
+>>>                if (WARN_ON(r->mon.num_mbm_cntrs > 64))
+>>>                    r->mon.num_mbm_cntrs = 64;
+>>> +
+>>> +            resctrl_file_fflags_init("num_mbm_cntrs", RFTYPE_MON_INFO);
 >>
->> Introduce XHCI sideband, which manages the USB endpoints being requested by
->> a client driver.  This is used for when client drivers are attempting to
->> offload USB endpoints to another entity for handling USB transfers.  XHCI
->> sideband will allow for drivers to fetch the required information about the
->> transfer ring, so the user can submit transfers independently.  Expose the
->> required APIs for drivers to register and request for a USB endpoint and to
->> manage XHCI secondary interrupters.
->>
->> Multiple ring segment page linking, proper endpoint clean up, and allowing
->> module compliation added by Wesley Cheng to complete original concept code
->> by Mathias Nyman.
->>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>   drivers/usb/host/Kconfig          |   9 +
->>   drivers/usb/host/Makefile         |   2 +
->>   drivers/usb/host/xhci-sideband.c  | 419 ++++++++++++++++++++++++++++++
->>   drivers/usb/host/xhci.h           |   4 +
->>   include/linux/usb/xhci-sideband.h |  68 +++++
->>   5 files changed, 502 insertions(+)
->>   create mode 100644 drivers/usb/host/xhci-sideband.c
->>   create mode 100644 include/linux/usb/xhci-sideband.h
->>
->> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->> index 4448d0ab06f0..6135603c5dc4 100644
->> --- a/drivers/usb/host/Kconfig
->> +++ b/drivers/usb/host/Kconfig
->> @@ -104,6 +104,15 @@ config USB_XHCI_RZV2M
->>         Say 'Y' to enable the support for the xHCI host controller
->>         found in Renesas RZ/V2M SoC.
->>   +config USB_XHCI_SIDEBAND
->> +    tristate "xHCI support for sideband"
->> +    help
->> +      Say 'Y' to enable the support for the xHCI sideband capability.
->> +      provide a mechanism for a sideband datapath for payload associated
->
-> Sentence should start from capital letter, so provide -> Provide
-Sorry for the late reply.  Been going through addressing the other comments.  Will fix.
->
->
->> +      with audio class endpoints. This allows for an audio DSP to use
->> +      xHCI USB endpoints directly, allowing CPU to sleep while playing
->> +      audio
->
-> Missing '.' at the end of sentence.
-Same.
->
-> (...)
->
->> +/**
->> + * xhci_sideband_remove_endpoint - remove endpoint from sideband access list
->> + * @sb: sideband instance for this usb device
->> + * @host_ep: usb host endpoint
->> + *
->> + * Removes an endpoint from the list of sideband accessed endpoints for this usb
->> + * device.
->> + * sideband client should no longer touch the endpoint transfer buffer after
->> + * calling this.
->> + *
->> + * Return: 0 on success, negative error otherwise.
->> + */
->> +int
->> +xhci_sideband_remove_endpoint(struct xhci_sideband *sb,
->> +                  struct usb_host_endpoint *host_ep)
->> +{
->> +    struct xhci_virt_ep *ep;
->> +    unsigned int ep_index;
->> +
->> +    mutex_lock(&sb->mutex);
->> +    ep_index = xhci_get_endpoint_index(&host_ep->desc);
->> +    ep = sb->eps[ep_index];
->> +
->> +    if (!ep || !ep->sideband) {
->> +        mutex_unlock(&sb->mutex);
->> +        return -ENODEV;
->> +    }
->> +
->> +    __xhci_sideband_remove_endpoint(sb, ep);
->> +    xhci_initialize_ring_info(ep->ring, 1);
->> +    mutex_unlock(&sb->mutex);
->> +
->> +    return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint);
->> +
->> +int
->> +xhci_sideband_stop_endpoint(struct xhci_sideband *sb,
->> +                struct usb_host_endpoint *host_ep)
->> +{
->> +    struct xhci_virt_ep *ep;
->> +    unsigned int ep_index;
->> +
->> +    ep_index = xhci_get_endpoint_index(&host_ep->desc);
->> +    ep = sb->eps[ep_index];
->> +
->> +    if (!ep || ep->sideband != sb)
->
-> Any reason why we check if ep->sideband != sb only on stop but not on remove above?
->
-I'll add the needed checks across all the APIs you've pointed out.  There wasn't a specific reason for leaving this check out.
->> +        return -EINVAL;
->> +
->> +    return xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
->> +}
->> +EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint);
->> +
->> +/**
->> + * xhci_sideband_get_endpoint_buffer - gets the endpoint transfer buffer address
->> + * @sb: sideband instance for this usb device
->> + * @host_ep: usb host endpoint
->> + *
->> + * Returns the address of the endpoint buffer where xHC controller reads queued
->> + * transfer TRBs from. This is the starting address of the ringbuffer where the
->> + * sideband client should write TRBs to.
->> + *
->> + * Caller needs to free the returned sg_table
->> + *
->> + * Return: struct sg_table * if successful. NULL otherwise.
->> + */
->> +struct sg_table *
->> +xhci_sideband_get_endpoint_buffer(struct xhci_sideband *sb,
->> +                  struct usb_host_endpoint *host_ep)
->> +{
->> +    struct xhci_virt_ep *ep;
->> +    unsigned int ep_index;
->> +
->> +    ep_index = xhci_get_endpoint_index(&host_ep->desc);
->> +    ep = sb->eps[ep_index];
->> +
->> +    if (!ep)
->
-> And here there is none of checks done in above 2 functions? Seems bit weird.
->
->> +        return NULL;
->> +
->> +    return xhci_ring_to_sgtable(sb, ep->ring);
->> +}
->> +EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer);
->> +
->
-> (...)
->
->> +MODULE_DESCRIPTION("XHCI sideband driver for secondary interrupter management");
->
-> XHCI -> xHCI
->
-Fixed.
->> +MODULE_LICENSE("GPL");
->> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
->> index efbd1f651da4..9232c53d204a 100644
->> --- a/drivers/usb/host/xhci.h
->> +++ b/drivers/usb/host/xhci.h
->> @@ -693,6 +693,8 @@ struct xhci_virt_ep {
->>       int            next_frame_id;
->>       /* Use new Isoch TRB layout needed for extended TBC support */
->>       bool            use_extended_tbc;
->> +    /* set if this endpoint is controlled via sideband access*/
->> +    struct xhci_sideband            *sideband;
->>   };
->>     enum xhci_overhead_type {
->> @@ -755,6 +757,8 @@ struct xhci_virt_device {
->>       u16                current_mel;
->>       /* Used for the debugfs interfaces. */
->>       void                *debugfs_private;
->> +    /* set if this device is registered for sideband access */
->> +    struct xhci_sideband            *sideband;
->>   };
->>     /*
->> diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
->> new file mode 100644
->> index 000000000000..1035dae43cee
->> --- /dev/null
->> +++ b/include/linux/usb/xhci-sideband.h
->> @@ -0,0 +1,68 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * xHCI host controller sideband support
->> + *
->> + * Copyright (c) 2023, Intel Corporation.
->> + *
->> + * Author: Mathias Nyman <mathias.nyman@linux.intel.com>
->> + */
->> +
->> +#ifndef __LINUX_XHCI_SIDEBAND_H
->> +#define __LINUX_XHCI_SIDEBAND_H
->> +
->> +#include <linux/scatterlist.h>
->> +#include <linux/usb.h>
->> +
->> +#define    EP_CTX_PER_DEV        31    /* FIMXME defined twice, from xhci.h */
->
-> If it is left for later, FIMXME -> FIXME
+>> The arch code should not access the resctrl file flags. This should be
+>> moved to make
+>> the MPAM support easier. With the arch code setting
+>> r->mon.mbm_cntr_assignable the
+>> fs code can use that to set the flags. Something similar to below patch is
+>> needed:
+>> https://lore.kernel.org/lkml/20240802172853.22529-27-james.morse@arm.com/
+> 
+> It is just moving the calls resctrl_file_fflags_init() to resctrl_init().
+> The  rdt_resource fields are already setup here. Something like
+> https://lore.kernel.org/lkml/20240802172853.22529-20-james.morse@arm.com/
+> 
+> I feel it is better done when MBAM fs/arch separation.
 
-Ack.
+Indeed, it belongs with the rest of the mon state setup that is organized
+as part of the MPAM work.
 
-Thanks
+Reinette
 
-Wesley Cheng
-
->
-> (...)
