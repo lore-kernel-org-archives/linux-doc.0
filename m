@@ -1,206 +1,691 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1304E18DF69;
-	Tue, 20 Aug 2024 10:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724149363; cv=none; b=eefDmQk5eYsEW0dxsNvxsO/wx+wDGgO6btJvkhD98ZKZoNojOyU4PB9GvtIUk0q2VH4GX4npDHzlf2QpTS/P7yo3S+FmBaLjOGnJIb6OohzUbARri8kkk6Qqus/GCkBCxjvLlJg5fdUhk6V/Wyy1WIDb0FR2P/nNNhAkNq3Enko=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724149363; c=relaxed/simple;
-	bh=XS+8WERDtsMEceegcgjfPEZieTsaOhoTBJUGV3qfyR0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ewSzJ1LKQX9JWkww6QC3HiqGpdIYNRcfYFVVW6YTckQ0tuL65A+fK/M0c8N+Rh2z79BBynaPBMTfagifRkc/vdHkTIKEI1YO9KArx/xgw7UcQJINUXDT91LxQTgrc7kb/m5sSpeGiLxM35w09cEfa1tTXSQCjr5dS8rwFyTkX4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ol921JKo; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEBE18B46B;
+	Tue, 20 Aug 2024 10:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724149390; cv=fail; b=Tw5qdN5uwjRuA1cFzsyRkcXyUilYU74XZ6EDpnUQ7aScMGD8Tuc57QjBmSR7TXyZV4DSW81GQqqVBayWWUlhLEJSIv8s7WV9sgMwG4A5n27XuTs/iu48Ckz6MwLLvqyRQo3FvJ2uX5fzuSt1p2e+AcV5TYZucTCZ7kFyxf0rq7o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724149390; c=relaxed/simple;
+	bh=FgXDNuoMM1O1QOE0Eir77hRZF5zPR5HUO9MdX8oDH60=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nMkgH13iSajOG5iDEpmUwQfvtNPaHe5mb66BoekBEwxI7Kv/+zfTfo8VgBlEdnDqA+mJr6zYaqekUy06HH5WQhuYtutKBpzWKnP6rk5Syur0BgkE6yO7RNpmcWRQC0ppi8TFICitTepyhCEVW2v/2KGbPxmAnMJCeF9v/ywEBOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDklbJ5v; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ol921JKo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XS+8WERDtsMEceegcgjfPEZieTsaOhoTBJUGV3qfyR0=; b=Ol921JKoIi0uOgZWcx2zcMhgVf
-	qxvzyoqke0IR8tahMEQV2v3bANOka4puTVuGVBBYckS5T/yHVU9CMdFeNF3+6zuzhel2mmdeqW95Z
-	kxspSEIdKWIgDQ9FBqFfmXM2Tjk3gBfP8VK4XNlbtJ7lbPv+nCba4wZE7Q5oo/6aGu1/azlARXQh0
-	4gCvNfuLjpijCADMDw861p2XL4xn3A8CaA12iqGwv1VZx8xcu8myvIEsyJ/Uogp/szvo/m4xQVtfX
-	wMDFlalDyoyS5Uk5dMyjFuX47MKsalIYLgOiNMn3pzYuPQQM0p0+OkWlIMj+z91Un1oM8MDzde1Av
-	ZQ03cBYg==;
-Received: from [2001:8b0:10b:5:cb53:8564:1f06:36f6] (helo=u3832b3a9db3152.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sgM0W-00000007q3Z-1tKp;
-	Tue, 20 Aug 2024 10:22:32 +0000
-Message-ID: <6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
-Subject: Re: [RFC PATCH v3 20/21] KVM: x86/xen: Prevent runstate times from
- becoming negative
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>,  Paul Durrant <paul@xen.org>, Peter Zijlstra
- <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>,  Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,  Mel
- Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>,
- Valentin Schneider <vschneid@redhat.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- jalliste@amazon.co.uk, sveith@amazon.de,  zide.chen@intel.com, Dongli Zhang
- <dongli.zhang@oracle.com>, Chenyi Qiang <chenyi.qiang@intel.com>
-Date: Tue, 20 Aug 2024 11:22:31 +0100
-In-Reply-To: <Zr7X-5qK8sRXxyDP@google.com>
-References: <20240522001817.619072-1-dwmw2@infradead.org>
-	 <20240522001817.619072-21-dwmw2@infradead.org>
-	 <Zr7X-5qK8sRXxyDP@google.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-0SCGpi4QUKT41x7aa5zo"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDklbJ5v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724149388; x=1755685388;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=FgXDNuoMM1O1QOE0Eir77hRZF5zPR5HUO9MdX8oDH60=;
+  b=HDklbJ5vnF45jPG/NUg0/xEx6oSTYhr99NGWfs8NmGtFqssnKFqd3Sjy
+   8VuqLNnxZrrcVkYcWchKVBrKyrI9q6RqOY21Z0lXNjDGPiQH9Ge9L+KBu
+   c/pVrDNnhEeJ4mUBZjcSyBJdI8MzEkEtfBrvvkIjlGvkRfZD1kHcLCfL/
+   vLuxLo8BmSoFl5ewo/UjJXp1Luaiqirt0u11p3OFFoae2cUaMHcKMhV1j
+   rab1+DYn36QLgutjSkf8KerLsJy47pWuk3H+od9KIWWmOxeViLf+9QhSy
+   1mpcdcd+tP62PyK1nbNybeYD9M9Noamukj4kfp1frqHvpeahAutsuJxOi
+   Q==;
+X-CSE-ConnectionGUID: Bpznce6gTH6EWU2/dnZ50A==
+X-CSE-MsgGUID: U+JsyZTcQ8WEnKhhTvDISQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="13111664"
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="13111664"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 03:23:06 -0700
+X-CSE-ConnectionGUID: eeUS+SUZQdKWPPvgQlljDQ==
+X-CSE-MsgGUID: aHh8mQlTSxa/u/dVNOOlfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="60995538"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Aug 2024 03:23:06 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 20 Aug 2024 03:23:05 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 20 Aug 2024 03:23:05 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 20 Aug 2024 03:23:05 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 20 Aug 2024 03:23:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gJ3jchLTagkw/W1W6++fHrGwOhQiApiVPFnuhWeSmhMNOlnw2uqLGmvj+M0sU+7lTke5KfFqJRoLstg9E93jQs7by+VHB4bzoWw97ygdj5fRBQ2t4QpwUd1QMeF3IKv30Qy19gsRnKwl6o8gdDjEc2HKkTCEB1r06l+BymnRbqYBGyoezBgRsgB20IHQLOvexwtld7Y/URfSLuN/r293aqLWPCrub+e+eodtJ3+bYzLCSjhAiOnRkAsb1+qDydSVh67bzjtguI6yMYY3sR8qITfQ11xzoiIa+1kaXXv5SShz6Cp6jMtd7/JyI+7dnv/+M0C2IUe/7mwWyP5x0K1Cjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C3sySWZVJLs167tBheM4vH/J5u/mz5SC6Rr6E+v+DDw=;
+ b=H00FvKl+SAFqhbLkar0oodOdsPkO3HZ6CHGP+giOf35o/ya9m8wIKVk/IWJGSgxSSnwn4uy/xrs/TEEJdTJtvtNlCDTEXpxW+9kRI39DOV1b2Gs9hElw137dBwjsCU6y1QTymA1KXeI0eH9g6mJwcJ4byq2L1zUl8loehl5HAv7AhYnYwyqcU/6QXHBxgsrlVRC2fxG8BWeByYwDOMAw4jPisFT5/Ll2oPKuc0ioZ+U2KR89eaUwmWlq+sFqT+bl21/s3ANkEIZKQrTSMFqRSZptUHNn+NpZkn+gkGJ+oM54rb4fu2WeVWQ1oH/SgDT+8yZ5rHxLlc3pXVgWFO/Srw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
+ BL1PR11MB6025.namprd11.prod.outlook.com (2603:10b6:208:390::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Tue, 20 Aug
+ 2024 10:23:02 +0000
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::1d5f:5927:4b71:853a]) by DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::1d5f:5927:4b71:853a%4]) with mapi id 15.20.7897.014; Tue, 20 Aug 2024
+ 10:23:02 +0000
+From: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To: Jiri Pirko <jiri@resnulli.us>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>, "corbet@lwn.net"
+	<corbet@lwn.net>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "Nguyen, Anthony L"
+	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "Loktionov, Aleksandr"
+	<aleksandr.loktionov@intel.com>
+Subject: RE: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a pin
+Thread-Topic: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a
+ pin
+Thread-Index: AQHa6YWetxpyQwER/kmdLN5gT7vM5rIdQDyAgBK+j6A=
+Date: Tue, 20 Aug 2024 10:23:02 +0000
+Message-ID: <DM6PR11MB46570EDB0B2DB8A9C4C945809B8D2@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20240808112013.166621-1-arkadiusz.kubalewski@intel.com>
+ <20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
+ <ZrSx0QRXUXB53UFr@nanopsycho.orion>
+In-Reply-To: <ZrSx0QRXUXB53UFr@nanopsycho.orion>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|BL1PR11MB6025:EE_
+x-ms-office365-filtering-correlation-id: e3836040-187d-4734-ff02-08dcc10212b4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Li+vlbvGmO+iWQ6sB5v7tCVZOA+eb52Bl4gjnVBhGYQYOYGsmLROQYw9f7EO?=
+ =?us-ascii?Q?lhf6ZQf0IFfWXtbLzKI9odC9xlJacXvU3VS4TkKXmSOIVuKYfnGyiMLhzgAz?=
+ =?us-ascii?Q?MdNEjGGXaT0+CC07UV5xIfOBahIWnEYbalUR34pdWdWiXJPf30LT5Md2a/4Y?=
+ =?us-ascii?Q?t/klTzuoQRPG5E+039lstepddPNBP0xkdjJO3Azg3Dsobu2mIxOf39JLwT24?=
+ =?us-ascii?Q?1Lw2mKVVAFUfB8ac8KOVV+qpum2rLTEnydr4CoNjUzvdtY1ejngLCE98b1Iu?=
+ =?us-ascii?Q?krDFufmwq0cMQc6q/HHsQJa5cV6mHTZDakRr55ecpT0n89z2ONuAputbDhWM?=
+ =?us-ascii?Q?g8yOLKv17Q95UOrUc+ZRPd5vErzyFi9hblEYBmIlJAqzcLiyWNrajlo9/upM?=
+ =?us-ascii?Q?G9syacnsJAunpCCLmIAfiYSgRVIifRqRPzWbdfQOVo2LipdZXkNoh+ilm01r?=
+ =?us-ascii?Q?H+ZBpaWVsxnHgABMhSGr2v1pxzfV+VBpJ/LN7WtQFQECfgoxfCs6tNKORoNI?=
+ =?us-ascii?Q?a69atGCLVV+F6DDPw+SZUpzUDFqr5/hsAG+1ejQvy5loEVAp7n7/edKU3ei2?=
+ =?us-ascii?Q?qbYwMCjS5S/TLoxnZnRXF0NjtINAe32shTwEYUMcPBvN5wNG0WIJsKZi3yQE?=
+ =?us-ascii?Q?gFP7U/aCMvAYWfnu8xiBIHZzTJU58OD1w+kWw84VtppJINWhSnf6C6xzzMqv?=
+ =?us-ascii?Q?abYNPjbnLgbv3LjGWP7JelUSLMAOHYiPnFK/Fv/TxUe6JOVy1h+T2KxRGWvv?=
+ =?us-ascii?Q?P/sHKP2KfLCcKBy/INPceHtM7RB3Scidy3wde3mkvsfCetu9dFZnlVCkcOpz?=
+ =?us-ascii?Q?McuOz14nbklwsNZ3pxm5mWlApYRGPBQZdAGRX2xcM+nA3/Bg62GOJUd2HPH8?=
+ =?us-ascii?Q?7os49lLY7mbd5krwZcokxe2ripJJaUiPZCYa+SKTu3YwFWjQePu3X5QxBPDV?=
+ =?us-ascii?Q?D01ydGVH1FdPnn6CFCTp8PLpcm+6iFRrQO1WI1t16KIVWuDm43A4grBknNbx?=
+ =?us-ascii?Q?VsQhPihjMMpjlnfc4lQrep4PgYKmq38z2englzMlfbRuthRywVPY8oCg868K?=
+ =?us-ascii?Q?0Wv1qxPHriMEaxvuz5W+KaQO3UnjUajnTwtv7erU8nIK2Gvi7HseG73h5Ab2?=
+ =?us-ascii?Q?0Jpbp56uGqGd98h1/vISP+PXUCEcMaw6eB+jHeFUguUtQVke6WjQ359J3Y05?=
+ =?us-ascii?Q?cj2mroE65emkzZ+JSWGbtJ+rTwZvHGrMBcUpwDgoE7fbsVbepdbl7XSuAUB3?=
+ =?us-ascii?Q?ilsCpqQTdG1bjNV8tk9B90dDD0wCLdpNGajkb9sBSi+zvwkFUH7JdfhybX0P?=
+ =?us-ascii?Q?1DaFXcp2tlQ2hugeGoPB9/4xJXOyTcAUYbGfHqK2gU74hT7xhtZRqx32/Fcb?=
+ =?us-ascii?Q?lqxNHVDdIAXTQBlShIqyNH//tTPFNBHgIeG6q7ct7PZ2wf7kVA=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pGGBoyyLk646+pcc2ekf6oIwekVmS3GggzfxpmVRpOSjbyrvmd5AXHJHhcGD?=
+ =?us-ascii?Q?snuxKH5VHIat/nk/SB6a7k+lMFNCmHRuQ87NUStcVjyD8cCjlllsxYR/5Jfs?=
+ =?us-ascii?Q?WTEfaqNJ8m4AnCldarakU9M6XTfQkL5bOLN2vctJfWkBmLYn7ESML44rFdmK?=
+ =?us-ascii?Q?HVfZLTaZzctQZO30LJBt8INTszHKWV5SRFJGyZ9Wob01HIwfYmlWwvtNPlY7?=
+ =?us-ascii?Q?H//IxcReGe9M5vGnXGKx6kdOSATu61y8J39Fa/pPzQJ7O5LdFkVZeVCFMJVg?=
+ =?us-ascii?Q?hgx/buodrLfq9xUjLaVVcc7Pj0x3DMsr0S7rvaq8WItxDl3v23Dcinm8F/my?=
+ =?us-ascii?Q?5+22g/pX8Dm6h2tzUEGMz0URiRx7YjT6WT4abfz5jmGbWZI68aqSyb7xp7sg?=
+ =?us-ascii?Q?WPiKdrnDwyHGDCylo4wT8fMnq98YwQdam8AUXET/ttpv9vcH/JG27TDfvFxx?=
+ =?us-ascii?Q?dRk+0FF6UA/g+spsss7bGdiFO9vPBirsc0KCimVGaa9AOJpzHpUb8wU1yWZZ?=
+ =?us-ascii?Q?6cuBUcm+TJv8swsPEDlo8HFBh7lX5W7jqUM+sCtPNrmqadtf6nTPOvhqU44j?=
+ =?us-ascii?Q?Jcdn9J5WCOhmVJvJog7HP/VbB/D7O+XK2HGyBT6PMyjfEERLcEZ/UJNNUa1P?=
+ =?us-ascii?Q?2SFiSRzWbVwcYQ0B7ufEUA9kpZ+vnLdk8WU+5ue3g4t/1O8v2LBzLbzB78x+?=
+ =?us-ascii?Q?pJ1izfMkHVbX55zTZLQMFvvyO7mt6RIx+aiHK/LgEgZ8lUSFxZgf4hfAz840?=
+ =?us-ascii?Q?cscrjSSApElxxD8HTcJ2PRojPSsHmpqEo5PfKBn0bPrJkUv3El/b0MeSH79k?=
+ =?us-ascii?Q?3QziCbG75JTIeY4+S1byIflvmrPH+Zi4sq2CgpSUGhiGZiKW5zv9qLoOuloC?=
+ =?us-ascii?Q?zqaxsQS/BTgIW7QdGnOvdbP8CpwOTp6whyqTz03dAQtq07zeheONyRutbwEG?=
+ =?us-ascii?Q?xzj/SDGXMLkZ9nxBROJfx+SYHrGdy9IctcdZad89s8tAR61PQMVoQSHGlPpZ?=
+ =?us-ascii?Q?V/HVcWQE+iFd626ABAXtCIFsN3oOKfiAew8LjkKkdrvlquUvb79DvqtX30Aw?=
+ =?us-ascii?Q?pVz26Y+vLYTkv1gAoBlAJlgTgzJ9jbhPDAQp8wIY0d5IzjTW2StmwJtCnJ5o?=
+ =?us-ascii?Q?+xBhfN17/l8BMcHU6HeQg8827azWs2csc1ED9ELY+2S44EMMK/+tXyE8uKA2?=
+ =?us-ascii?Q?RRAxwxJwua2BXF1Cqfu65iuKbMIgycWUFl9YFTHguymX2yPxnoAP95ymdmOv?=
+ =?us-ascii?Q?Kug2KKnnEIS8NGxfrEjfi5pVRO4UHem6usNjuesfcSB3dIo6Hcku5m67NEZx?=
+ =?us-ascii?Q?e5rQd3Jp4CnjEPyOOqgwoijicIfwxu1OeQRVj0RvqTOHsE05O8EGJzU1b60h?=
+ =?us-ascii?Q?8a5yszvm/XArnbVJP25WdUeiPb+tZNgIT40pcF0reN/gckDXHEz5iRGGRJ+H?=
+ =?us-ascii?Q?fKsVkMi/RlOdNUCCvXmh6kRrQQ2km9Bc5bE5FCoEC3xc19VIqW1Zrp2TKwOm?=
+ =?us-ascii?Q?TSb1ca3gB68uYq4avLOxDxpRVWr4DN7nBGyPrTTl8Obn/9QFM7j0RwL5qPRH?=
+ =?us-ascii?Q?L5nrhoTtdMcw0fC59AHIEQxjOtgaXFJ0H/EufWhEODsDnx/KPIsHP2WQ72DJ?=
+ =?us-ascii?Q?tQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3836040-187d-4734-ff02-08dcc10212b4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2024 10:23:02.7603
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BXQZHQcd9zrPeMhI8dMwmP4JVBHyHWsXpYd/9+8Q8NeX2+luoYm6mK6yaAIemC7mH5mVN9XK1dXvqyUm7seXD8ivIBQ1fBf7M5So4l2kOME=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6025
+X-OriginatorOrg: intel.com
 
+>-----Original Message-----
+>From: Jiri Pirko <jiri@resnulli.us>
+>Sent: Thursday, August 8, 2024 1:54 PM
+>
+>Thu, Aug 08, 2024 at 01:20:12PM CEST, arkadiusz.kubalewski@intel.com wrote=
+:
+>>Implement and document new pin attributes for providing Embedded SYNC
+>>capabilities to the DPLL subsystem users through a netlink pin-get
+>>do/dump messages. Allow the user to set Embedded SYNC frequency with
+>>pin-set do netlink message.
+>>
+>>Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+>>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>>---
+>> Documentation/driver-api/dpll.rst     |  21 +++++
+>> Documentation/netlink/specs/dpll.yaml |  41 +++++++++
+>> drivers/dpll/dpll_netlink.c           | 127 ++++++++++++++++++++++++++
+>> drivers/dpll/dpll_nl.c                |   5 +-
+>> include/linux/dpll.h                  |  10 ++
+>> include/uapi/linux/dpll.h             |  23 +++++
+>> 6 files changed, 225 insertions(+), 2 deletions(-)
+>>
+>>diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-
+>>api/dpll.rst
+>>index ea8d16600e16..d7d091d268a1 100644
+>>--- a/Documentation/driver-api/dpll.rst
+>>+++ b/Documentation/driver-api/dpll.rst
+>>@@ -214,6 +214,27 @@ offset values are fractional with 3-digit decimal pl=
+aces
+>>and shell be
+>> divided with ``DPLL_PIN_PHASE_OFFSET_DIVIDER`` to get integer part and
+>> modulo divided to get fractional part.
+>>
+>>+Embedded SYNC
+>>+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>+
+>>+Device may provide ability to use Embedded SYNC feature. It allows
+>>+to embed additional SYNC signal into the base frequency of a pin - a one
+>>+special pulse of base frequency signal every time SYNC signal pulse
+>>+happens. The user can configure the frequency of Embedded SYNC.
+>>+The Embedded SYNC capability is always related to a given base frequency
+>>+and HW capabilities. The user is provided a range of embedded sync
+>>+frequencies supported, depending on current base frequency configured fo=
+r
+>>+the pin.
+>>+
+>>+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>+  ``DPLL_A_PIN_E_SYNC_FREQUENCY``           current embedded SYNC freque=
+ncy
+>>+  ``DPLL_A_PIN_E_SYNC_FREQUENCY_SUPPORTED`` nest available embedded SYNC
+>>+                                            frequency ranges
+>>+    ``DPLL_A_PIN_FREQUENCY_MIN``            attr minimum value of freque=
+ncy
+>>+    ``DPLL_A_PIN_FREQUENCY_MAX``            attr maximum value of freque=
+ncy
+>>+  ``DPLL_A_PIN_E_SYNC_PULSE``               pulse type of embedded SYNC
+>>+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>+
+>> Configuration commands group
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>>
+>>diff --git a/Documentation/netlink/specs/dpll.yaml
+>>b/Documentation/netlink/specs/dpll.yaml
+>>index 94132d30e0e0..0aabf6f1fc2f 100644
+>>--- a/Documentation/netlink/specs/dpll.yaml
+>>+++ b/Documentation/netlink/specs/dpll.yaml
+>>@@ -210,6 +210,25 @@ definitions:
+>>       integer part of a measured phase offset value.
+>>       Value of (DPLL_A_PHASE_OFFSET % DPLL_PHASE_OFFSET_DIVIDER) is a
+>>       fractional part of a measured phase offset value.
+>>+  -
+>>+    type: enum
+>>+    name: pin-e-sync-pulse
+>>+    doc: |
+>>+      defines possible pulse length ratio between high and low state whe=
+n
+>>+      embedded sync signal occurs on base clock signal frequency
+>>+    entries:
+>>+      -
+>>+        name: none
+>>+        doc: embedded sync not enabled
+>>+      -
+>>+        name: 25-75
+>>+        doc: when embedded sync signal occurs 25% of signal's period is =
+in
+>>+          high state, 75% of signal's period is in low state
+>>+      -
+>>+        name: 75-25
+>
+>It is very odd to name enums like this.
+>Why can't this be:
+>
+>    name: e-sync-pulse-ratio
+>    type: u32
+>    doc: Embedded sync signal ratio. Value of 0 to 100. Defines the high
+>    state percentage.
+>
+>?
+>
 
---=-0SCGpi4QUKT41x7aa5zo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I don't know if the other's are actually used by some vendors, but sure
+sounds good.
 
-On Thu, 2024-08-15 at 21:39 -0700, Sean Christopherson wrote:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vx->last_steal =3D run_delay=
-;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If KVM clock time went ba=
-ckwards, stop updating until it
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * catches up (or the runsta=
-tes are reset by userspace).
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->=20
-> I take it this is a legitimate scenario where userpace sets KVM clock and=
- then
-> the runstates, and KVM needs to lend a hand because userspace can't do th=
-ose two
-> things atomically?
+>
+>>+        doc: when embedded sync signal occurs 75% of signal's period is =
+in
+>>+          high state, 25% of signal's period is in low state
+>>+    render-max: true
+>>
+>> attribute-sets:
+>>   -
+>>@@ -345,6 +364,24 @@ attribute-sets:
+>>           Value is in PPM (parts per million).
+>>           This may be implemented for example for pin of type
+>>           PIN_TYPE_SYNCE_ETH_PORT.
+>>+      -
+>>+        name: e-sync-frequency
+>>+        type: u64
+>>+        doc: |
+>>+          Embedded Sync frequency. If provided a non-zero value, the pin=
+ is
+>
+>Why non-zero? Why the attr cannot be omitted instead?
+>
 
-Indeed. Will update the comment to make that more obvious.
+Zero is also a turn-off value for set, but sure for get it can be omitted f=
+or
+a netlink return message.
 
-Thanks for the rest of the review on this series. I'll go through in
-detail and update it, hopefully this week.
+>
+>>+          configured with an embedded sync signal into its base frequenc=
+y.
+>>+      -
+>>+        name: e-sync-frequency-supported
+>>+        type: nest
+>>+        nested-attributes: frequency-range
+>>+        doc: |
+>>+          If provided a pin is capable of enabling embedded sync frequen=
+cy
+>>+          into it's base frequency signal.
+>>+      -
+>>+        name: e-sync-pulse
+>>+        type: u32
+>>+        enum: pin-e-sync-pulse
+>>+        doc: Embedded sync signal ratio.
+>>   -
+>>     name: pin-parent-device
+>>     subset-of: pin
+>>@@ -510,6 +547,9 @@ operations:
+>>             - phase-adjust-max
+>>             - phase-adjust
+>>             - fractional-frequency-offset
+>>+            - e-sync-frequency
+>>+            - e-sync-frequency-supported
+>>+            - e-sync-pulse
+>>
+>>       dump:
+>>         request:
+>>@@ -536,6 +576,7 @@ operations:
+>>             - parent-device
+>>             - parent-pin
+>>             - phase-adjust
+>>+            - e-sync-frequency
+>>     -
+>>       name: pin-create-ntf
+>>       doc: Notification about pin appearing
+>>diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+>>index 98e6ad8528d3..5ae2c0adb98e 100644
+>>--- a/drivers/dpll/dpll_netlink.c
+>>+++ b/drivers/dpll/dpll_netlink.c
+>>@@ -342,6 +342,50 @@ dpll_msg_add_pin_freq(struct sk_buff *msg, struct
+>>dpll_pin *pin,
+>> 	return 0;
+>> }
+>>
+>>+static int
+>>+dpll_msg_add_pin_esync(struct sk_buff *msg, struct dpll_pin *pin,
+>
+>This is "esync", attributes are "E_SYNC". Why can't they be named
+>"ESYNC" too? Same comment to another "e_sync" names (vars, ops, etc).
+>
 
---=-0SCGpi4QUKT41x7aa5zo
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+Sure, will change.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwODIwMTAyMjMxWjAvBgkqhkiG9w0BCQQxIgQgS3CFqt3t
-tnS2vvcUrcMYYqmIgKdwC7jgXm/maPmiE88wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAwlCTt9hgoAYhDoGRbX6i7Zqav4cDNzXAk
-N0wXydgrrhg0hX8IFtovxM/luQp2ntcNIzSGb2C/RUIl4ocu3OsRvC4yzpX0cdKqSCtpqdZrMhi7
-d1N1q1CAnZwv/CAvah03/0+BXeeaBmevkET/TCklWnSvxaCKnxWlBHjZJw5OmP1bmgWXHQ7ufMxm
-JPwuwRLSIlUIbRidC613+mq4W78iTanQ9UlklIdnChPB1lvgc8Tg2gSbxbGW1H3kA3qAAM6eJmyE
-ky/OHRttIE+8ftrzXxdOBwx1TSPw5xGT1EnXneM7Ux93GOmLIvXVF4gfUXwxI3z1sdG8W0QWy/Rh
-kER8+0JSZp9P2F1EJpJuXlZqPbPsi84RKAA0v6DGsfuvFNO/ySP0vFgzXwVrojgbJXwEqLlT0Ndu
-P/Bh9uDn3yLEddMcQW3W76afNeWtrjDieahLifSizT4C32ihZ5TUduSh9PPI3NiSG0/WRenaI7na
-ayJAgh1OamOl97eY6KUPy9AuutGcPoy3Bi+oKMIRtvABsPz0pqKNNktmh604yhWGfhGCMNzGMRwe
-YkQ8wG3O2GLzLsnDsja8exo+sV6+KE9Pb8KOd62Zd90PFRv+a0nuTxDIhfoCNBpIh17i+ZpqvZKJ
-pDCztiz1WpdckvPiEypE8YqQ4J5spm0/nH/dY4bzNgAAAAAAAA==
+>
+>>+		       struct dpll_pin_ref *ref, struct netlink_ext_ack *extack)
+>>+{
+>>+	const struct dpll_pin_ops *ops =3D dpll_pin_ops(ref);
+>>+	struct dpll_device *dpll =3D ref->dpll;
+>>+	enum dpll_pin_e_sync_pulse pulse;
+>>+	struct dpll_pin_frequency range;
+>>+	struct nlattr *nest;
+>>+	u64 esync;
+>>+	int ret;
+>>+
+>>+	if (!ops->e_sync_get)
+>>+		return 0;
+>>+	ret =3D ops->e_sync_get(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
+>>+			      dpll_priv(dpll), &esync, &range, &pulse, extack);
+>>+	if (ret =3D=3D -EOPNOTSUPP)
+>>+		return 0;
+>>+	else if (ret)
+>>+		return ret;
+>>+	if (nla_put_64bit(msg, DPLL_A_PIN_E_SYNC_FREQUENCY, sizeof(esync),
+>>+			  &esync, DPLL_A_PIN_PAD))
+>>+		return -EMSGSIZE;
+>>+	if (nla_put_u32(msg, DPLL_A_PIN_E_SYNC_PULSE, pulse))
+>>+		return -EMSGSIZE;
+>>+
+>>+	nest =3D nla_nest_start(msg, DPLL_A_PIN_E_SYNC_FREQUENCY_SUPPORTED);
+>>+	if (!nest)
+>>+		return -EMSGSIZE;
+>>+	if (nla_put_64bit(msg, DPLL_A_PIN_FREQUENCY_MIN, sizeof(range.min),
+>>+			  &range.min, DPLL_A_PIN_PAD)) {
+>>+		nla_nest_cancel(msg, nest);
+>>+		return -EMSGSIZE;
+>>+	}
+>>+	if (nla_put_64bit(msg, DPLL_A_PIN_FREQUENCY_MAX, sizeof(range.max),
+>>+			  &range.max, DPLL_A_PIN_PAD)) {
+>
+>Don't you want to have the MIN-MAX here multiple times. I mean, in
+>theory, can the device support 2 fixed frequencies for example?
+>Have it at least for UAPI so this is easily extendable.
+>
 
+Sure, makes sense, will fix.
 
---=-0SCGpi4QUKT41x7aa5zo--
+>
+>
+>>+		nla_nest_cancel(msg, nest);
+>>+		return -EMSGSIZE;
+>>+	}
+>>+	nla_nest_end(msg, nest);
+>>+
+>>+	return 0;
+>>+}
+>>+
+>> static bool dpll_pin_is_freq_supported(struct dpll_pin *pin, u32 freq)
+>> {
+>> 	int fs;
+>>@@ -481,6 +525,9 @@ dpll_cmd_pin_get_one(struct sk_buff *msg, struct dpll=
+_pin
+>>*pin,
+>> 	if (ret)
+>> 		return ret;
+>> 	ret =3D dpll_msg_add_ffo(msg, pin, ref, extack);
+>>+	if (ret)
+>>+		return ret;
+>>+	ret =3D dpll_msg_add_pin_esync(msg, pin, ref, extack);
+>> 	if (ret)
+>> 		return ret;
+>> 	if (xa_empty(&pin->parent_refs))
+>>@@ -738,6 +785,81 @@ dpll_pin_freq_set(struct dpll_pin *pin, struct nlatt=
+r
+>>*a,
+>> 	return ret;
+>> }
+>>
+>>+static int
+>>+dpll_pin_e_sync_set(struct dpll_pin *pin, struct nlattr *a,
+>>+		    struct netlink_ext_ack *extack)
+>>+{
+>>+	u64 esync =3D nla_get_u64(a), old_esync;
+>
+>"freq"/"old_freq". That aligns with the existing code.
+>
+
+Ok, will fix.
+
+>
+>>+	struct dpll_pin_ref *ref, *failed;
+>>+	enum dpll_pin_e_sync_pulse pulse;
+>>+	struct dpll_pin_frequency range;
+>>+	const struct dpll_pin_ops *ops;
+>>+	struct dpll_device *dpll;
+>>+	unsigned long i;
+>>+	int ret;
+>>+
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		if (!ops->e_sync_set ||
+>
+>No need for line break.
+>
+
+Sure, will fix.
+
+>
+>>+		    !ops->e_sync_get) {
+>>+			NL_SET_ERR_MSG(extack,
+>>+				       "embedded sync feature is not supported by
+>>this device");
+>>+			return -EOPNOTSUPP;
+>>+		}
+>>+	}
+>>+	ref =3D dpll_xa_ref_dpll_first(&pin->dpll_refs);
+>>+	ops =3D dpll_pin_ops(ref);
+>>+	dpll =3D ref->dpll;
+>>+	ret =3D ops->e_sync_get(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
+>>+			      dpll_priv(dpll), &old_esync, &range, &pulse, extack);
+>
+>Line over 80cols? Didn't checkpatch warn you?
+>
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Dbdc48fa11e46f867ea4d75fa59ee87a7f48be144
+But sure, I will use 80.
+
+Thank you!
+Arkadiusz
+
+>
+>>+	if (ret) {
+>>+		NL_SET_ERR_MSG(extack, "unable to get current embedded sync
+>>frequency value");
+>>+		return ret;
+>>+	}
+>>+	if (esync =3D=3D old_esync)
+>>+		return 0;
+>>+	if (esync > range.max || esync < range.min) {
+>>+		NL_SET_ERR_MSG_ATTR(extack, a,
+>>+				    "requested embedded sync frequency value is not
+>>supported by this device");
+>>+		return -EINVAL;
+>>+	}
+>>+
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		void *pin_dpll_priv;
+>>+
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		dpll =3D ref->dpll;
+>>+		pin_dpll_priv =3D dpll_pin_on_dpll_priv(dpll, pin);
+>>+		ret =3D ops->e_sync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
+>>+				      esync, extack);
+>>+		if (ret) {
+>>+			failed =3D ref;
+>>+			NL_SET_ERR_MSG_FMT(extack,
+>>+					   "embedded sync frequency set failed for
+>>dpll_id:%u",
+>>+					   dpll->id);
+>>+			goto rollback;
+>>+		}
+>>+	}
+>>+	__dpll_pin_change_ntf(pin);
+>>+
+>>+	return 0;
+>>+
+>>+rollback:
+>>+	xa_for_each(&pin->dpll_refs, i, ref) {
+>>+		void *pin_dpll_priv;
+>>+
+>>+		if (ref =3D=3D failed)
+>>+			break;
+>>+		ops =3D dpll_pin_ops(ref);
+>>+		dpll =3D ref->dpll;
+>>+		pin_dpll_priv =3D dpll_pin_on_dpll_priv(dpll, pin);
+>>+		if (ops->e_sync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
+>>+				    old_esync, extack))
+>>+			NL_SET_ERR_MSG(extack, "set embedded sync frequency
+>>rollback failed");
+>>+	}
+>>+	return ret;
+>>+}
+>>+
+>> static int
+>> dpll_pin_on_pin_state_set(struct dpll_pin *pin, u32 parent_idx,
+>> 			  enum dpll_pin_state state,
+>>@@ -1039,6 +1161,11 @@ dpll_pin_set_from_nlattr(struct dpll_pin *pin, str=
+uct
+>>genl_info *info)
+>> 			if (ret)
+>> 				return ret;
+>> 			break;
+>>+		case DPLL_A_PIN_E_SYNC_FREQUENCY:
+>>+			ret =3D dpll_pin_e_sync_set(pin, a, info->extack);
+>>+			if (ret)
+>>+				return ret;
+>>+			break;
+>> 		}
+>> 	}
+>>
+>>diff --git a/drivers/dpll/dpll_nl.c b/drivers/dpll/dpll_nl.c
+>>index 1e95f5397cfc..ba79a47f3a17 100644
+>>--- a/drivers/dpll/dpll_nl.c
+>>+++ b/drivers/dpll/dpll_nl.c
+>>@@ -62,7 +62,7 @@ static const struct nla_policy
+>>dpll_pin_get_dump_nl_policy[DPLL_A_PIN_ID + 1] =3D
+>> };
+>>
+>> /* DPLL_CMD_PIN_SET - do */
+>>-static const struct nla_policy
+>>dpll_pin_set_nl_policy[DPLL_A_PIN_PHASE_ADJUST + 1] =3D {
+>>+static const struct nla_policy
+>>dpll_pin_set_nl_policy[DPLL_A_PIN_E_SYNC_FREQUENCY + 1] =3D {
+>> 	[DPLL_A_PIN_ID] =3D { .type =3D NLA_U32, },
+>> 	[DPLL_A_PIN_FREQUENCY] =3D { .type =3D NLA_U64, },
+>> 	[DPLL_A_PIN_DIRECTION] =3D NLA_POLICY_RANGE(NLA_U32, 1, 2),
+>>@@ -71,6 +71,7 @@ static const struct nla_policy
+>>dpll_pin_set_nl_policy[DPLL_A_PIN_PHASE_ADJUST +
+>> 	[DPLL_A_PIN_PARENT_DEVICE] =3D
+>>NLA_POLICY_NESTED(dpll_pin_parent_device_nl_policy),
+>> 	[DPLL_A_PIN_PARENT_PIN] =3D
+>>NLA_POLICY_NESTED(dpll_pin_parent_pin_nl_policy),
+>> 	[DPLL_A_PIN_PHASE_ADJUST] =3D { .type =3D NLA_S32, },
+>>+	[DPLL_A_PIN_E_SYNC_FREQUENCY] =3D { .type =3D NLA_U64, },
+>> };
+>>
+>> /* Ops table for dpll */
+>>@@ -138,7 +139,7 @@ static const struct genl_split_ops dpll_nl_ops[] =3D =
+{
+>> 		.doit		=3D dpll_nl_pin_set_doit,
+>> 		.post_doit	=3D dpll_pin_post_doit,
+>> 		.policy		=3D dpll_pin_set_nl_policy,
+>>-		.maxattr	=3D DPLL_A_PIN_PHASE_ADJUST,
+>>+		.maxattr	=3D DPLL_A_PIN_E_SYNC_FREQUENCY,
+>> 		.flags		=3D GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+>> 	},
+>> };
+>>diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+>>index d275736230b3..137ab4bcb60e 100644
+>>--- a/include/linux/dpll.h
+>>+++ b/include/linux/dpll.h
+>>@@ -15,6 +15,7 @@
+>>
+>> struct dpll_device;
+>> struct dpll_pin;
+>>+struct dpll_pin_frequency;
+>>
+>> struct dpll_device_ops {
+>> 	int (*mode_get)(const struct dpll_device *dpll, void *dpll_priv,
+>>@@ -83,6 +84,15 @@ struct dpll_pin_ops {
+>> 	int (*ffo_get)(const struct dpll_pin *pin, void *pin_priv,
+>> 		       const struct dpll_device *dpll, void *dpll_priv,
+>> 		       s64 *ffo, struct netlink_ext_ack *extack);
+>>+	int (*e_sync_set)(const struct dpll_pin *pin, void *pin_priv,
+>>+			  const struct dpll_device *dpll, void *dpll_priv,
+>>+			  u64 e_sync_freq, struct netlink_ext_ack *extack);
+>>+	int (*e_sync_get)(const struct dpll_pin *pin, void *pin_priv,
+>>+			  const struct dpll_device *dpll, void *dpll_priv,
+>>+			  u64 *e_sync_freq,
+>>+			  struct dpll_pin_frequency *e_sync_range,
+>>+			  enum dpll_pin_e_sync_pulse *pulse,
+>>+			  struct netlink_ext_ack *extack);
+>> };
+>>
+>> struct dpll_pin_frequency {
+>>diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+>>index 0c13d7f1a1bc..2a80a6fb0d1d 100644
+>>--- a/include/uapi/linux/dpll.h
+>>+++ b/include/uapi/linux/dpll.h
+>>@@ -169,6 +169,26 @@ enum dpll_pin_capabilities {
+>>
+>> #define DPLL_PHASE_OFFSET_DIVIDER	1000
+>>
+>>+/**
+>>+ * enum dpll_pin_e_sync_pulse - defines possible pulse length ratio betw=
+een
+>>+ *   high and low state when embedded sync signal occurs on base clock
+>>signal
+>>+ *   frequency
+>>+ * @DPLL_PIN_E_SYNC_PULSE_NONE: embedded sync not enabled
+>>+ * @DPLL_PIN_E_SYNC_PULSE_25_75: when embedded sync signal occurs 25% of
+>>+ *   signal's period is in high state, 75% of signal's period is in low
+>>state
+>>+ * @DPLL_PIN_E_SYNC_PULSE_75_25: when embedded sync signal occurs 75% of
+>>+ *   signal's period is in high state, 25% of signal's period is in low
+>>state
+>>+ */
+>>+enum dpll_pin_e_sync_pulse {
+>>+	DPLL_PIN_E_SYNC_PULSE_NONE,
+>>+	DPLL_PIN_E_SYNC_PULSE_25_75,
+>>+	DPLL_PIN_E_SYNC_PULSE_75_25,
+>>+
+>>+	/* private: */
+>>+	__DPLL_PIN_E_SYNC_PULSE_MAX,
+>>+	DPLL_PIN_E_SYNC_PULSE_MAX =3D (__DPLL_PIN_E_SYNC_PULSE_MAX - 1)
+>>+};
+>>+
+>> enum dpll_a {
+>> 	DPLL_A_ID =3D 1,
+>> 	DPLL_A_MODULE_NAME,
+>>@@ -210,6 +230,9 @@ enum dpll_a_pin {
+>> 	DPLL_A_PIN_PHASE_ADJUST,
+>> 	DPLL_A_PIN_PHASE_OFFSET,
+>> 	DPLL_A_PIN_FRACTIONAL_FREQUENCY_OFFSET,
+>>+	DPLL_A_PIN_E_SYNC_FREQUENCY,
+>>+	DPLL_A_PIN_E_SYNC_FREQUENCY_SUPPORTED,
+>>+	DPLL_A_PIN_E_SYNC_PULSE,
+>>
+>> 	__DPLL_A_PIN_MAX,
+>> 	DPLL_A_PIN_MAX =3D (__DPLL_A_PIN_MAX - 1)
+>>--
+>>2.38.1
+>>
