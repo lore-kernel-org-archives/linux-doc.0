@@ -1,53 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD4B152165;
-	Tue, 20 Aug 2024 07:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9739B16B391;
+	Tue, 20 Aug 2024 07:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724138011; cv=none; b=jHy2MQdHKcTY6C78okmBUsyJ2bshsEtf0iDLGxUqk8FM+KVvKoHQrH4rBvcZZPGaHXieKR3eliQCoqE852mKjG8UAyC+c2VG2lR5pJya57wtUi7ezLzdoM2vMjHKp4FDdUNlUzj6AXGX/dfhTpzQzmwWTrqwIAjcctSaA+sYbfA=
+	t=1724138427; cv=none; b=JPULxgGtiPxCkxoSRg66v7BvhkJVrH1ia+vZe60R+ZbuH9rtZoqQctlDCsSFdyb0dmIls9HUxhFjc6kPH9n1npKG8YiGhMGAm5DMgLbv5+MYPXK+AT7TNgU5L/jq7kqGco/wFD8DEnkknSeNQjaJ4lN9nOgfd5Kl5gPPTVumPzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724138011; c=relaxed/simple;
-	bh=P4Xoto1kb9GxBJ4mRYqIpsziqZnk0OuzLbdWEFfVZxw=;
+	s=arc-20240116; t=1724138427; c=relaxed/simple;
+	bh=glSoSr9Tbk75LSg/tAu/FUEqzBhmne/ozkkwbAinyf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YOsgOHzJf4Y9RKab8NWfzx65+o6g/pAqOUtGqLyn6IwbAdUtm2y/BxTNMyQHHsR6qhIV4ahNeZsFzTmg3SmrcAHDEV71oOyFNGunYAlybuAO3+QtNzsgWbm6d9o51TxaYmf0w6OFBF7fTgFnsGym0+ct2ss0oqiCNl/ymPY9/84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gz+4Mc8a; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYFar4XM1hp0KY/lKzluwUG7We/rDkEi3d3JBvrxPEX6O8MsCG9L0GfWESxdXGlkrbXxESNbcuYmdaRMcKFqJVy9uZkplNbxuHU2+6nugQ1/ZOhn9yVJ35qrfMVlWpiLNNPindp6XwD0zn+aKIwS28RURBc3+VnjBlXpY2XYWQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=co/4brcW; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gz+4Mc8a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD46C4AF09;
-	Tue, 20 Aug 2024 07:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724138010;
-	bh=P4Xoto1kb9GxBJ4mRYqIpsziqZnk0OuzLbdWEFfVZxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gz+4Mc8a6bR73MyttJH1WKF45lDJDtOwWsfsUBDrK6xUysURbUJcwEvyW17ferVr5
-	 b8xWmLKE7Hw4lwwchPrCzinppb3/s7DNzQ56UV9asRxSibNosq/tQewjQ3NGlt8BHu
-	 E6TvIE+cC6ndzeFv7iv4yn4hz/XWioUueUZubt9uGQyeRDQbWlHPl3xI778KnsjJVL
-	 oNalnsafluqag/HrQfU/xgw9mSUC1vUKX0nZFB5Ej0ZbSGOOkLPNT02Hw9OSAe/CRR
-	 3Jb8vTiQ1oDNQjqzfk4bqcsSrAHxtXvU2dsPRiqgjmvF7bsdLFIanOAfCPEx5gavMS
-	 asTEvBA/nwoLg==
-Date: Tue, 20 Aug 2024 10:13:07 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
-	arnd@arndb.de, mcgrof@kernel.org, paulmck@kernel.org,
-	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
-	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com,
-	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, pasha.tatashin@soleen.com,
-	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
-	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
-	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 1/5] alloc_tag: load module tags into separate continuous
- memory
-Message-ID: <ZsRCAy5cCp0Ig3I/@kernel.org>
-References: <20240819151512.2363698-1-surenb@google.com>
- <20240819151512.2363698-2-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="co/4brcW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724138426; x=1755674426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=glSoSr9Tbk75LSg/tAu/FUEqzBhmne/ozkkwbAinyf8=;
+  b=co/4brcWXYsggOAu0GvotVTt/ldKgv2yZPb24y95oYTngrYanezawbJ4
+   i2SEOP2bE1EgbMUagp75u2WqNoitzmGhKzAeWX5UijxcJ/Ncgyh/CUE5m
+   t2MPWQ7gh8zws8zY3GkZgI2fHs7UVKMJmCDTJYdIKJoogl6g4UgL+GzSR
+   /ScKiR5Ovp3tPc5mKjOW8w5CIMGlyR0wamlXI76oCxd4S07TuAHfT28VM
+   LS4nD/LORRyXV1Oh4SdwYSuKCjimjQ6L7+g2RVsInZLfy4KWnlRiYQD+8
+   uiwRcykKwXjhFWjr+xF9+m8gge6Ah8A9iBpoCfIPap9Cj8E4JKDX/g3aF
+   Q==;
+X-CSE-ConnectionGUID: LS0/4hiGQpqKsY/l8U9EQA==
+X-CSE-MsgGUID: uM8dzDQcRQ+wRioEhuJ8xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21959435"
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="21959435"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 00:20:25 -0700
+X-CSE-ConnectionGUID: G3BqePshRN6O0pokLE5trg==
+X-CSE-MsgGUID: 4xIVrBGcRKGl8FyWoZMX6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="61400408"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 20 Aug 2024 00:20:20 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sgJAA-0009q6-1M;
+	Tue, 20 Aug 2024 07:20:18 +0000
+Date: Tue, 20 Aug 2024 15:19:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Lechner <dlechner@baylibre.com>,
+	Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Trevor Gamblin <tgamblin@baylibre.com>
+Subject: Re: [PATCH v3 2/3] iio: adc: ad7625: add driver
+Message-ID: <202408201520.lFtco3eF-lkp@intel.com>
+References: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,99 +73,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240819151512.2363698-2-surenb@google.com>
+In-Reply-To: <20240819-ad7625_r1-v3-2-75d5217c76b5@baylibre.com>
 
-On Mon, Aug 19, 2024 at 08:15:07AM -0700, Suren Baghdasaryan wrote:
-> When a module gets unloaded there is a possibility that some of the
-> allocations it made are still used and therefore the allocation tags
-> corresponding to these allocations are still referenced. As such, the
-> memory for these tags can't be freed. This is currently handled as an
-> abnormal situation and module's data section is not being unloaded.
-> To handle this situation without keeping module's data in memory,
-> allow codetags with longer lifespan than the module to be loaded into
-> their own separate memory. The in-use memory areas and gaps after
-> module unloading in this separate memory are tracked using maple trees.
-> Allocation tags arrange their separate memory so that it is virtually
-> contiguous and that will allow simple allocation tag indexing later on
-> in this patchset. The size of this virtually contiguous memory is set
-> to store up to 100000 allocation tags and max_module_alloc_tags kernel
-> parameter is introduced to change this size.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |   4 +
->  include/asm-generic/codetag.lds.h             |  19 ++
->  include/linux/alloc_tag.h                     |  13 +-
->  include/linux/codetag.h                       |  35 ++-
->  kernel/module/main.c                          |  67 +++--
->  lib/alloc_tag.c                               | 245 ++++++++++++++++--
->  lib/codetag.c                                 | 101 +++++++-
->  scripts/module.lds.S                          |   5 +-
->  8 files changed, 429 insertions(+), 60 deletions(-)
- 
-...
+Hi Trevor,
 
-> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-> index c2a579ccd455..c4a3dd60205e 100644
-> --- a/include/linux/codetag.h
-> +++ b/include/linux/codetag.h
-> @@ -35,8 +35,13 @@ struct codetag_type_desc {
->  	size_t tag_size;
->  	void (*module_load)(struct codetag_type *cttype,
->  			    struct codetag_module *cmod);
-> -	bool (*module_unload)(struct codetag_type *cttype,
-> +	void (*module_unload)(struct codetag_type *cttype,
->  			      struct codetag_module *cmod);
-> +	void (*module_replaced)(struct module *mod, struct module *new_mod);
-> +	bool (*needs_section_mem)(struct module *mod, unsigned long size);
-> +	void *(*alloc_section_mem)(struct module *mod, unsigned long size,
-> +				   unsigned int prepend, unsigned long align);
-> +	void (*free_section_mem)(struct module *mod, bool unused);
->  };
->  
->  struct codetag_iterator {
-> @@ -71,11 +76,31 @@ struct codetag_type *
->  codetag_register_type(const struct codetag_type_desc *desc);
->  
->  #if defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES)
-> +
-> +bool codetag_needs_module_section(struct module *mod, const char *name,
-> +				  unsigned long size);
-> +void *codetag_alloc_module_section(struct module *mod, const char *name,
-> +				   unsigned long size, unsigned int prepend,
-> +				   unsigned long align);
-> +void codetag_free_module_sections(struct module *mod);
-> +void codetag_module_replaced(struct module *mod, struct module *new_mod);
->  void codetag_load_module(struct module *mod);
-> -bool codetag_unload_module(struct module *mod);
-> -#else
-> +void codetag_unload_module(struct module *mod);
-> +
-> +#else /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
-> +
-> +static inline bool
-> +codetag_needs_module_section(struct module *mod, const char *name,
-> +			     unsigned long size) { return false; }
-> +static inline void *
-> +codetag_alloc_module_section(struct module *mod, const char *name,
-> +			     unsigned long size, unsigned int prepend,
-> +			     unsigned long align) { return NULL; }
-> +static inline void codetag_free_module_sections(struct module *mod) {}
-> +static inline void codetag_module_replaced(struct module *mod, struct module *new_mod) {}
->  static inline void codetag_load_module(struct module *mod) {}
-> -static inline bool codetag_unload_module(struct module *mod) { return true; }
-> -#endif
-> +static inline void codetag_unload_module(struct module *mod) {}
-> +
-> +#endif /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
+kernel test robot noticed the following build errors:
 
-Maybe I'm missing something, but can't alloc_tag::module_unload() just copy
-the tags that cannot be freed somewhere outside of module sections and then
-free the module?
+[auto build test ERROR on ac6a258892793f0a255fe7084ec2b612131c67fc]
 
-The heavy lifting would be localized to alloc_tags rather than spread all
-over.
+url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Gamblin/dt-bindings-iio-adc-add-AD762x-AD796x-ADCs/20240819-221425
+base:   ac6a258892793f0a255fe7084ec2b612131c67fc
+patch link:    https://lore.kernel.org/r/20240819-ad7625_r1-v3-2-75d5217c76b5%40baylibre.com
+patch subject: [PATCH v3 2/3] iio: adc: ad7625: add driver
+config: alpha-randconfig-r132-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20240820/202408201520.lFtco3eF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408201520.lFtco3eF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/iio/adc/ad7625.c: In function 'ad7625_set_sampling_freq':
+>> drivers/iio/adc/ad7625.c:191:15: error: implicit declaration of function 'pwm_round_waveform_might_sleep' [-Werror=implicit-function-declaration]
+     191 |         ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ad7625.c: In function 'ad7625_buffer_preenable':
+>> drivers/iio/adc/ad7625.c:420:15: error: implicit declaration of function 'pwm_set_waveform_might_sleep' [-Werror=implicit-function-declaration]
+     420 |         ret = pwm_set_waveform_might_sleep(st->cnv_pwm, &st->cnv_wf, false);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/pwm_round_waveform_might_sleep +191 drivers/iio/adc/ad7625.c
+
+   175	
+   176	static int ad7625_set_sampling_freq(struct ad7625_state *st, int freq)
+   177	{
+   178		u64 target;
+   179		struct pwm_waveform clk_gate_wf = { }, cnv_wf = { };
+   180		int ret;
+   181	
+   182		target = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+   183		cnv_wf.period_length_ns = clamp(target, 100, 10 * KILO);
+   184	
+   185		/*
+   186		 * Use the maximum conversion time t_CNVH from the datasheet as
+   187		 * the duty_cycle for ref_clk, cnv, and clk_gate
+   188		 */
+   189		cnv_wf.duty_length_ns = st->info->timing_spec->conv_high_ns;
+   190	
+ > 191		ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+   192		if (ret)
+   193			return ret;
+   194	
+   195		/*
+   196		 * Set up the burst signal for transferring data. period and
+   197		 * offset should mirror the CNV signal
+   198		 */
+   199		clk_gate_wf.period_length_ns = cnv_wf.period_length_ns;
+   200	
+   201		clk_gate_wf.duty_length_ns = DIV_ROUND_UP_ULL((u64)NSEC_PER_SEC *
+   202			st->info->chan_spec.scan_type.realbits,
+   203			st->ref_clk_rate_hz);
+   204	
+   205		/* max t_MSB from datasheet */
+   206		clk_gate_wf.duty_offset_ns = st->info->timing_spec->conv_msb_ns;
+   207	
+   208		ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
+   209		if (ret)
+   210			return ret;
+   211	
+   212		st->cnv_wf = cnv_wf;
+   213		st->clk_gate_wf = clk_gate_wf;
+   214	
+   215		/* TODO: Add a rounding API for PWMs that can simplify this */
+   216		target = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz, freq);
+   217		st->sampling_freq_hz = DIV_ROUND_CLOSEST_ULL(st->ref_clk_rate_hz,
+   218							     target);
+   219	
+   220		return 0;
+   221	}
+   222	
 
 -- 
-Sincerely yours,
-Mike.
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
