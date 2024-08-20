@@ -1,273 +1,106 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2065.outbound.protection.outlook.com [40.107.236.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B1C1429A;
-	Tue, 20 Aug 2024 15:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724169380; cv=fail; b=i3GH1VsfbQYQqgpsYMGsOs0HxZ4vb1e+wiJ5zBjr6qSLRpGcDZzR84RyZlL85/rnfMBOsdix18R9rBdY36U6CYv1myyQDOdIHbOy/INBx2RTGerNPhPR37JeYp5llzapfPfSIWY1+6tRvUwLtvGJgz1+KmOgE9GIacA1U2y1CNs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724169380; c=relaxed/simple;
-	bh=oGrmXDfNLNOriB5KG3eId5UNZmKr4wuxFtcpo6KX7NQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=puhG9315ZSTM4b7LU2fwJr8n4QgHIf2c5hCwfRZQdENbFrttxwrhP1BN1h8JpaiIQ6yjGh8mtYo3mBbVcaXL38sEqWqlOKF/RuXY7TmBxxRJrLfkK7hbTMcmfCEyNLm6t8rlMtGvIWdzk4Q0wIXmjVk3UaGWnG5885JorUtASus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tcx9IzPT; arc=fail smtp.client-ip=40.107.236.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B9118C92C
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 15:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724169536; cv=none; b=JLAMB/ekKSuRwLbx/dUAW351x+jJMeTzD2M8DBngW6ufWXwM8VoHgdx8kNVVtj6zqy1jQo0XUmXR7rgwVJv1KHtNIbfuFEy/bRxpoIRmXPGYD1/E5GwovDTYzwpkA2kGhH+yhkBSrybJTUyKR9qyaB64WT1L0NDMPk9IEGSlVL8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724169536; c=relaxed/simple;
+	bh=k16WyKVJwiJ5IusJSEluOUOkV/j+98xYcZI1RkDLfV4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IoLif0TDO3H70VvTDIDyh3P2ZbP6ClQ5TgEjpFus9DNqPVmToaR33pYeq7t/mUh/i3kwXSHEPLP4ytuC5F/63w1ETDpI30AW2MXcYCBIufWtYnNRy+Mi/foSjVAlcIPXACOhXY7SMj3jW6SeslQy1vQUOmH8B3U6MH2ifEfbCp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Sw2q7hvH; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tcx9IzPT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W3m9Z2aOQsuA7dLgBYlypO93GwgePDV7N53rp3iTSF/N7+xxPQfn3O6Tn/iT+oGCK7zLmz+nF1T8qTQHETTOOE86pT/9FtdTtoDiS8WGNa1u1fduNBHNd0l4NfWbLi8ZdyqpZg1G0T7JgYsfmNSL7QQMiFcukf9G1nQClJdtL56K7u6IPD7N6i93xivWDhS4kSxi3jcPactCdsf3Kf+9p8l1HgmLV4FzkAdlD4QBOQwbFrMnGcFKAYnG1O1nr+nRxgHa4Yagh2zrS7tncydluwHSKENczr23qpZUF1O9xE7JRdcJN2nNnqHTv5Ekjz5/t6/4KACBTgQjTq5LP7U/xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xM7AyvVDXtWJD8BEpmtI+pp+jH4eYqU65xwV0eA6PV4=;
- b=mULBcUkxZapkbNX9QvTuH5XNcNBf8Ag0deDdj8Mu/q3hxvM/ScHAfwlMBsOhC3fa5E1tuO+1bvl9wXMafhVr3g1PvDktXWmqWcq4iBaOlhO/MfoRkTHOsaogSjMdELDCfj6q/f+gl8dLqvZd0AyHbE0fIEbk1NRNP8pSY9wHwoiKzaHsps1/ggYvN14D4mT09LYo88z+aJ+SncS32SIE/me0MdFH1fup/AsDTYWUcEVf6gPNEejY7HX32amiTfqXouJ6t7XXP2X5wI376ve2GTfELDidQQyPh4NZMZ0AfIblmpzhHUjIfxLXp0hnpKlcpMItvilQES4wvnEXOO15iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xM7AyvVDXtWJD8BEpmtI+pp+jH4eYqU65xwV0eA6PV4=;
- b=tcx9IzPTw0911zvExJZ+e+3GQG2tGc1H3SF/eLsrqKovwQ/KCem7o+wCEj3bqrHNQH9Q1hFBmHW2CxDgKyWeOJn/usSZpBUk6sxasFAm856QRH0nILh+NmzM3QthdswLJMhem1oqiuzrt86MzRYTJldqAV3B2IQDWdZov4IJNqw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MN2PR12MB4437.namprd12.prod.outlook.com (2603:10b6:208:26f::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.16; Tue, 20 Aug
- 2024 15:56:08 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7875.019; Tue, 20 Aug 2024
- 15:56:07 +0000
-Message-ID: <807d4e97-67e1-4644-ab99-caccd328eb62@amd.com>
-Date: Tue, 20 Aug 2024 10:56:04 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v6 08/22] x86/resctrl: Introduce interface to display
- number of monitoring counters
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1722981659.git.babu.moger@amd.com>
- <da3c2f99c07987d59d9df1db0a0a85ec323cd67f.1722981659.git.babu.moger@amd.com>
- <6c1305ae-caa3-4da1-a0c2-3948cac976be@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <6c1305ae-caa3-4da1-a0c2-3948cac976be@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0059.namprd04.prod.outlook.com
- (2603:10b6:806:120::34) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Sw2q7hvH"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3dd16257b7bso1959606b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724169532; x=1724774332; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JpTWI80ZGd5lrqQihvu/+C4wGR2VCt7kMvgeMmpPkP0=;
+        b=Sw2q7hvH9D/MBCHW65fePw0BNGCSN7zInhkoMsFOL4ZssYvm59c4VjmXtUTBeiDmdJ
+         4XjqDHMtWYKI6s2Ba0RtkMjQORraqKeznusGuugLSPrNnM7h6jN5oL4CNFGjIuefCIoL
+         t/nPJL4yTGcguSHtQA2Ny6lZC4agAh3oXGQWFkXLzUgPQfADqjUnwb7AOVRueFROyRya
+         qAwYiAuPLvjrkQEYonVNMHond1VcFzIQkWCLZM4rICLqFZznxJAdyASptCg5RH69RanZ
+         1+jTjn2Lp2FfwFGfRjyeUZV/Y81a2c2ZzJiK7SS8XUmEnVYlrF/yaMqYbqwGrMzG+Zrf
+         dwGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724169532; x=1724774332;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JpTWI80ZGd5lrqQihvu/+C4wGR2VCt7kMvgeMmpPkP0=;
+        b=d5D/Z6rmI3P0Tkqy4MXt/Fohc6hTg9VJzjkfdWZWEXCH9eFz18YCmyVQj8GAjpLmIC
+         UjYI7N0ioUIkhFpNzsP/UY1eYE7hNHd9Np0YHSRH79Qb2fZVkoO7UJORjyYPWqdnPjJs
+         Pdk1FkYRroe91Atz35TsV4FM9veDhJkHD8vSuDFmboxYtc5cXHb6kqTpYsdMu85X2Hrj
+         jXPWAN+pKKD1p+d4UcqBdoJ0jt62lu1A3QSp+i6rjtCVpWx/2OiVA38/r8glF7KfIJPz
+         ZSF7qr/m3Ob/3Vv5XiDtExdS2PMu5Bbm5ETOkbR7gGfer2eRcyuLriMhbpZpOVIWIeQN
+         2Tpw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcvDOYvUuXAafXWnbU9cROxMd+pRcvIvYPMbGQxrR4sW8aOC9dc3b+s4LzJ6aafLf9TJgxgG2PQ8M6NkeBDrU+JCCYdz80CPTz
+X-Gm-Message-State: AOJu0YxFr1Dj0ZKb2EmKl1i0lvaCdkUR7PZf8RiKpKVqf1ntgWZdMkzl
+	LPILouE1zLJqJ4k6h55l2zEChuEnmuqvmn8CcNiYMSWBgZg2Dt6SCSg/khsJ9Nw=
+X-Google-Smtp-Source: AGHT+IGJsEYFx5sQyuqiOtJyxeaXS+OgVFwhoIs/bPKMW46eufdetxsOk8Z6wMREcfjRrwgM+rBpBg==
+X-Received: by 2002:a05:6808:3008:b0:3da:ab89:a805 with SMTP id 5614622812f47-3dd3acff15dmr19713535b6e.16.1724169532583;
+        Tue, 20 Aug 2024 08:58:52 -0700 (PDT)
+Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dd33d5a3efsm2872718b6e.17.2024.08.20.08.58.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 08:58:52 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH 0/4] iio: adc: ad4695: implement calibration support
+Date: Tue, 20 Aug 2024 10:58:34 -0500
+Message-Id: <20240820-ad4695-gain-offset-v1-0-c8f6e3b47551@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN2PR12MB4437:EE_
-X-MS-Office365-Filtering-Correlation-Id: e17a92ea-be5e-45aa-77a2-08dcc1309a94
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aWpwNUI4OHZTWjdvaFJMeXA5SHVWZmYrRG95YUEvT29Qc0FwWXhiai96WHZi?=
- =?utf-8?B?dmFCTlBEaUFydGdXZStCMDlYRjJoTUFUNDg4bU1UcEIvODlOaHNWVVkzVGJF?=
- =?utf-8?B?ZnVRVGJHTCtpR3FaOUxZQktEZ3dxcHFSSTVqY2VJVlQvMGYvcitUN200L3pC?=
- =?utf-8?B?WEpUSitxalVzS25vdWJ1MTB3a0hFMEp2RUZIVHEzVFlWWlV0T0t6RmpXeFNl?=
- =?utf-8?B?bTFydWx2RjhxNVA0Y3RlN0V1RElZL0RpZDVEZVlPcXMvYXdQSmVpNEVLSmdO?=
- =?utf-8?B?RFI0WU9DRlFZWVdTeTRNdWxSQUFnZXIxRW9qWXROa3JOQ0hDcnpFZUJmYVg1?=
- =?utf-8?B?T1JwWFNGUm1rZ0UxSENkdG1kS1VWT3h0NUttTzJHbTlYRm0zMkNPSHJTd3Vs?=
- =?utf-8?B?QlJxeHltK29FMWRYTDNleit0TmJheXgxN1FQMVdnT050MmozRmw2MXZTejRH?=
- =?utf-8?B?YjFXcTE3NGxmbnB0NUR6M29kN05yRm92NEFDWlBZYWsveTRSYUhGQ0pDM3lH?=
- =?utf-8?B?Mm5DV3ZBekUvaFI5MCtKNFRjR2oxdXhpeXBpbTJKRDFUOTczdDBlTmRTRWdW?=
- =?utf-8?B?eHR2ZUtYWWtNcldnaWtOcUxFWE1YZzdQRVVnUEZXUi9hWmhsM3RoUXNpWm1P?=
- =?utf-8?B?Y2hCRVpUdUxXOTlocjlJNDk0M3N2d0srV1BpQkJNY3lNRDhXTW9ObHJLejdG?=
- =?utf-8?B?cjJ1Y09rMkNyMWxtU0J1M1VtQzNkRWhUU1BCWjN6RjBlNGR3eEtmSFBFSGt0?=
- =?utf-8?B?akhvT1lLa1d2cWxuZG5keWZBYUpMVjNMUjlOVDhsRElkNWlmS3FCeWwzaFFh?=
- =?utf-8?B?eEVjb3lSYTNUaDV3T0FGVHoraXUxSmIxZi9ERHpVeTJCZ3lHYkNBMCtYeHFY?=
- =?utf-8?B?MGdWZFV2d0pVRngwWjNjRkN4MzA4dUJtUkxvZWtOVVF4b2R4RzNYaXhIdldz?=
- =?utf-8?B?ZVM5L0hwY0ZqNHoxZ3B0RzU2TWxBSUphNFowd1RMN0hwcnBXQWUyaFk0WHFr?=
- =?utf-8?B?czROQmJKdVk2ZTJpT2Q0eit6K1ZubjRCcm9wa2lqME15UUw3eTZvUVJDQWYv?=
- =?utf-8?B?VCtqZzNaWU12VlgzdnNvVmxzb2pWSUFOaFI5Q1p3TXhwdUpmUFNEaEtHRTZz?=
- =?utf-8?B?UEtUVFRoU013ektCWHhMcnJ2OGs2YW1takVTRkZlSEVVMndZMU9xc1NZTlp5?=
- =?utf-8?B?SlYxVy9oR1ZRUUJOZG1QTGxOWEpTNHRhTitMdnYwNkVWb3lHcFZZU2xFVjNH?=
- =?utf-8?B?Q2FZZ0pPRklXbUpRZk90NW92cHk4V25XTlNxY3YxSlBIVGJqZXBjdzdzTUNB?=
- =?utf-8?B?QzZpOWJDY3lhSHltK3RqTjlwV0MyVlNCU2N6dCtKQUM1d2hZTFBZdzhYL01G?=
- =?utf-8?B?eEwra1M4NjF0dnlwR2dteW1vMUo1YlEwNStHRVNuU0pMdFhqcW9JODN1dGMv?=
- =?utf-8?B?TWp3UFA2UG1tM1p6cTVYYzJDTWIva0ZTUE81emt1ZEM2TytrRldSZk5tU3Nv?=
- =?utf-8?B?d1o5eDNTN1dqclo4Yzl0RmFWcVZDTytsbk02YXg2L0wxODBxcUhneitSZklo?=
- =?utf-8?B?WHYzWkMxakZWMG9UNzQ3eDVkK0thTlV2elk1bm5TQ2NGaUk4QUdYZ0xXbjVa?=
- =?utf-8?B?TVh5Rkx1VXMwdGJMYllnQzBoOXpLVnFLRVFiZ3dwaVM2Qi9ZOENjelFaaE9U?=
- =?utf-8?B?T0F1Q0cweTVsWkg4bnNIVEtMT3MreGw4NzBaTjU2aGYxams0V0d5TGZvQlJp?=
- =?utf-8?B?NDByOGFEYkRZZTZuaEwyeEs0dDJ2UlV6V25WZWlrOWt2Ym5HdmpCeG8vN3RR?=
- =?utf-8?Q?+5FHatU/tCuWfuaUApjKLQSLXqfwWphFcQfUU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RHhhbHVkY3c5L2EzQW1GTzVGY1JrOEZzMHZ2U1V5YldjRkw3WDFIR3ZRZlh6?=
- =?utf-8?B?Tlp1Tjh5TUZSRXpqYTU2YnZ0VDlXaWJZR3djS1lkbHRCR0QvTEhwTGhqdlM0?=
- =?utf-8?B?aFVCZHZwbEVDbVNoZVhXaEh0cVNTb25uaTBmRnpiUU0vd1FMOVB1VEIxMmtP?=
- =?utf-8?B?elJESWZKdEtMQ2dJQUQwb3RZemlVd01yUW1kMzlseGs3Mk0zSGVraFU0ZC9y?=
- =?utf-8?B?eTdOMWNoT2pnYU51dWo1bk82V0g2SWNORDBmZmlualZBZklzb01OZllzTjZp?=
- =?utf-8?B?MGJxNXFsNTZWOU4zRXRqaHl6VmZHTWZwM3NoYUZWcFdpN09IM0tMbklHWVpT?=
- =?utf-8?B?WnB4QnMwM1dxNnc5Y01QSDA3aDVNVk9lOHZPK3RneWtQa0NaNXEzWVVaZmRX?=
- =?utf-8?B?Nm8xRlZuWjQ2YXJKWnpaeXVxZEpQOGNxbEtua0ltWDRhREx4aklDVGFCdUdY?=
- =?utf-8?B?djNwQ0xCZGtab0IzRktLQlRVNXh2Tk5KZUFHSW14U3FyVjV3bDhHd3V1ekdK?=
- =?utf-8?B?c0dORFkvSHJLZ3VKV2taR2dGelp3L29TcndaRGs2SS9oQTlHUCtIbWxROWxt?=
- =?utf-8?B?cnZzVGhraGk5b2hWOTh0Mlg3NXdPNG1yQk9YeGt0Qi9pVVF5N094YWFKMWFD?=
- =?utf-8?B?NkkzSHh5bEYvSm1IZnhxR3BGMHlyTTUwcjhFTlJ2R1NZcUpMb2NFRXZObW02?=
- =?utf-8?B?UEk5UkpxYjU2MjMyZlBHWjJxbmNHeWpFUWRIcTh4U28zTFhzN1hpTXVWZmY1?=
- =?utf-8?B?eTBldnZ0bCt5bDNxM2k3S0R3Um80M0RIN2NDaWJqYnVwcmRSbWt3bXF1Ym1N?=
- =?utf-8?B?dlhuWUZQN1dnTGwwdHBLMTB3YjV1bm9XNHcvdW4yN3NCdEdUNXFuN0J0WmFX?=
- =?utf-8?B?SWdGRFBhVDhmV3E3b3ZKL3dGMkZpa2VNSUJiUW91TzVkRXgxb0dTUXlyM2FI?=
- =?utf-8?B?TnI3K3BBNFdRZUpCMXVLeXRBa0JTVEF4SHJCeEpock9waytqRFZvVWgzM1k1?=
- =?utf-8?B?M0s1SGlVS0pJU1JWenY2bU56cDU4OVhleDRmaG1Qam1TL1R0WmhWOTNzUjJT?=
- =?utf-8?B?UnlTTSs0Y0h2NGdqNGpuRE41MUVwdHlKZlEyUk4yTERVNlI5YWJldjE1cXd2?=
- =?utf-8?B?S1RtdlhiQWlqY0YwL05VL2xPODVZNXRhd0xiRUtBTVJIUnlIaWhVUHJZZUND?=
- =?utf-8?B?SjJXeWx6N2U4YXQrVjJMaFZSYmFia3VUNmpzSXN0bjhGL2dZRHpnRXpXQjg3?=
- =?utf-8?B?VTFiNXNSL1JINXJsYUIwODBHWnRWMWpRL2RVRHdleXMzL2NnY3BqbXZyRzNU?=
- =?utf-8?B?b1NsWmlySkhDaWFXc3ROR2I4bUVoM3JOZzAyaFF5cjJTSVJhRUN3S21rQUE3?=
- =?utf-8?B?V0twa2hjeEdkZGtYS2x0Rm5WbDBvVmo1Nm1TZnpPdGtUeFN1VTY0eG1iUi9K?=
- =?utf-8?B?NzlHbEJsVys3emVxek85czJtbGhmenJWek44dVBYWVVrZXhEVzgrcWNUS1U2?=
- =?utf-8?B?K2xtTi9jWEdGWGo3YWhXTUJrR0dSd3RnMU0rVk55L2htVWtsbUQzSmNsbmpD?=
- =?utf-8?B?cDRtN2ZSWTBFOVI5Y1U4YkVuTFhGVzhvYVp4YUVoS3I5TUNNc29sZTZJdmdj?=
- =?utf-8?B?LzZIN3UxUTVhekM2Y3NTQjJZb0svRCtvWXgyUVNpTHJzMGdmRFRLdWMzSFBL?=
- =?utf-8?B?aGNOVzl0cjdXRlE2K0NBbDJiRXdKVDE1NkdMUlZZYWx4TCtwSEtHK2pueXFu?=
- =?utf-8?B?b0dBVm85M2E4QTlIcDJDQ3JVUTU1dnp5Tlc5WEd5bUtmbGpkdTZIQXh3d1Vy?=
- =?utf-8?B?QmxoaVBRLzFlTENJYXE0SnFFdVFpdU1RL3RhN3lOVk54MS9BQ241S3lXcWlY?=
- =?utf-8?B?QjVacEx4cjFrMy9MbkVtUlVQZXBrN1JreHNDaVhjV25RSFNjYk8raDNjY3Fp?=
- =?utf-8?B?V1RmU1BvSUhEVXowdkU2SFFsd2tXSmVUT29vTDhOc0VMbWdWQjg0bmpqWGk0?=
- =?utf-8?B?VVp4LzVxcGlmYVhvb2F3NEhjdHEwUit4cjBuY3I3S0w5eWk5SVByWS85RmQ2?=
- =?utf-8?B?d0Exb0dOSFlRMTdMbTZRQ2QycG0rODYvWjV4RDlXbEVaR29SRnpjc1dieC9Z?=
- =?utf-8?Q?t91M=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e17a92ea-be5e-45aa-77a2-08dcc1309a94
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 15:56:07.7308
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xIhyg3NvotWtY8lBq0zXrXq3CZGXt9n58Wr0amYbi5ZKd1mDEqSr/VkxXE6aXjlf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4437
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACq9xGYC/x3MQQqAIBBA0avErBswsayuEi2kGW02FhoRSHdPW
+ r7F/wUyJ+EMc1Mg8S1ZjljRtQ1su4uBUagatNJGjd2Ejsww9RicRDy8z3zhZs1I1hF5baGGZ2I
+ vzz9d1vf9AELzk0lkAAAA
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ David Lechner <dlechner@baylibre.com>
+X-Mailer: b4 0.14.1
 
-Hi Reinette,
+This series adds calibration support to the ad4695 driver.
 
-On 8/16/24 16:34, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 8/6/24 3:00 PM, Babu Moger wrote:
->> The ABMC feature provides an option to the user to assign a hardware
-> 
-> Here and in all patches, when referring to resctrl fs please use the more
-> generic "mbm_assign_cntr" mode to distinguish it from the
-> hardware/architecture
-> specific code that involves ABMC. Something like
-> 
-> "The ABMC feature provides" -> ""mbm_cntr_assign" mode provides"
+This has the same "odd" gain and offset registers that are being used
+for calibration as discussed recently in the ad4030 series [1]. So if
+the ranges in the *_available attributes seem a bit big for calibration,
+that is why. The official datasheet explanation for this feature is,
+"The AD4695/AD4696 include offset and gain error correction
+functionality to correct for first-order nonidealities in a full
+[analog front end] signal chain."
 
-Sure.
+[1]: https://lore.kernel.org/linux-iio/20240814193814.78fe45cc@jic23-huawei/
 
-> 
-> I also think that being explicit with this separation will help us to see
-> gaps in interface between resctrl fs and arch.
+---
+David Lechner (4):
+      iio: adc: ad4695: add 2nd regmap for 16-bit registers
+      iio: adc: ad4695: implement calibration support
+      doc: iio: ad4695: update for calibration support
+      iio: ABI: document ad4695 new attributes
 
-Yes.
-> 
->> counter to an RMID and monitor the bandwidth as long as the counter is
-> 
-> Please clarify the scope of this feature. Above mentions that a counter is
-> assigned to an RMID but later it is mentioned that the counter is assigned
-> to an event. Perhaps consistently mention that a counter is assigned to
-> a RMID,event pair?
+ Documentation/ABI/testing/sysfs-bus-iio |   3 +
+ Documentation/iio/ad4695.rst            |   7 +-
+ drivers/iio/adc/ad4695.c                | 242 +++++++++++++++++++++++++++++---
+ 3 files changed, 234 insertions(+), 18 deletions(-)
+---
+base-commit: 0f718e10da81446df0909c9939dff2b77e3b4e95
+change-id: 20240819-ad4695-gain-offset-c748d7addf27
 
-Yes.
-"a counter is assigned to an RMID,event pair" gives more clarity.
-Will changes it.
-
-> 
->> assigned. Number of assignments depend on number of monitoring counters
->> available.
->>
->> Provide the interface to display the number of monitoring counters
->> supported.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v6: No changes.
->>
->> v5: Changed the display name from num_cntrs to num_mbm_cntrs.
->>      Updated the commit message.
->>      Moved the patch after mbm_mode is introduced.
->>
->> v4: Changed the counter name to num_cntrs. And few text changes.
->>
->> v3: Changed the field name to mbm_assign_cntrs.
->>
->> v2: Changed the field name to mbm_assignable_counters from abmc_counte
->> ---
->>   Documentation/arch/x86/resctrl.rst     |  3 +++
->>   arch/x86/kernel/cpu/resctrl/monitor.c  |  2 ++
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 16 ++++++++++++++++
->>   3 files changed, 21 insertions(+)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst
->> b/Documentation/arch/x86/resctrl.rst
->> index d4ec605b200a..fe9f10766c4f 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -291,6 +291,9 @@ with the following files:
->>           as long as there are enough RMID counters available to support
->> number
->>           of monitoring groups.
->>   +"num_mbm_cntrs":
->> +    The number of monitoring counters available for assignment.
->> +
->>   "max_threshold_occupancy":
->>           Read/write file provides the largest value (in
->>           bytes) at which a previously used LLC_occupancy
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c
->> b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index 5e8706ab6361..83329cefebf7 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -1242,6 +1242,8 @@ int __init rdt_get_mon_l3_config(struct
->> rdt_resource *r)
->>               r->mon.num_mbm_cntrs = (ebx & 0xFFFF) + 1;
->>               if (WARN_ON(r->mon.num_mbm_cntrs > 64))
->>                   r->mon.num_mbm_cntrs = 64;
->> +
->> +            resctrl_file_fflags_init("num_mbm_cntrs", RFTYPE_MON_INFO);
-> 
-> The arch code should not access the resctrl file flags. This should be
-> moved to make
-> the MPAM support easier. With the arch code setting
-> r->mon.mbm_cntr_assignable the
-> fs code can use that to set the flags. Something similar to below patch is
-> needed:
-> https://lore.kernel.org/lkml/20240802172853.22529-27-james.morse@arm.com/
-
-It is just moving the calls resctrl_file_fflags_init() to resctrl_init().
-The  rdt_resource fields are already setup here. Something like
-https://lore.kernel.org/lkml/20240802172853.22529-20-james.morse@arm.com/
-
-I feel it is better done when MBAM fs/arch separation.
+Best regards,
 -- 
-Thanks
-Babu Moger
+David Lechner <dlechner@baylibre.com>
+
