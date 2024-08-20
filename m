@@ -1,204 +1,153 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E73418E740
-	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 10:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECB618A6BC
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 11:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724151191; cv=none; b=NuLW0txUzahMED6r2CrjEaBFCnsVHJSQeEvCWgqxkdeQE4cX+GRhuOuo7fYXwoxXumJRbp/0j+Ud/Tg6QWKHEd/Z6+vSvg9fLzhIooiQQ0wWgwqzSQ4h1lH4KSLqxL9AUmFJtorhbRnUsbb7MHkK11nmU8t8himlcr5xe5vHoW8=
+	t=1724152224; cv=none; b=Ofy7ULwU8sfgUrpV6HvcG7pTIPT+rD0fjoNA377KfbNMky4Kte7BtqyCKQbHvq+JOHorYeP2eIL3DIwTG+GajcGz4M7RscckUjTZZlBru1VT1OlQ6PWQ6QBmINbmhFEmqlYlS0qza0Ug+lbQtwumaiYQJh6fGnQuxHB78hT+BBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724151191; c=relaxed/simple;
-	bh=59xmhuA7Tu16YKZisndezlfAdU8Sxik/vzu7M4M8n84=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OtsKzZQC3LnaLMCpv7eBAy8ZyX1pB27x6MoB8PNerJS6V8dn9krygk9xAqsPi42Y+6jBXKMsdTOarmKTWxgDbxU9S32WGG02Kbv/ZSA6Jf/9Qsz1c0TzUn360oSOjF5xY55iXjPMI/sAiBnCRQEN5CxoEZiLaI+w1q6nkdK8f5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B4vCXuXm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724152224; c=relaxed/simple;
+	bh=P+vTiQNfxpFCjYYg0es8JH75oId7BoY89LGYmb3nA18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hzFwDgFrSm62QLIdfvrmGLX+RkAFGsjJNhsT2GUoTVDuCabTA2sea6Z98Wasapqy1zQ97wCngr9TqHM6IOi1cCnpsB110SwYL3EhmfybR37eTAuPYUPx5sWNRiUXEMiP1HqqsvEkCmcdA9liJdcboJeqdeI7t+DH6ZwPh3qEZEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NP8bQsKX; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B4vCXuXm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724151188;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NP8bQsKX"
+Date: Tue, 20 Aug 2024 07:10:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1724152217;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fxNlY5XENKMDPYIPhdHxQsnynjxqCdYhZpUwRk8ipsw=;
-	b=B4vCXuXm4csUI13cS6SRE36I1P86PvQh7pgKXLQS6YFaVwFeqIN0fo50e/62c7JdsAcHD9
-	befsyXMghPzdsttpnYwIr3xO7Gux/cBPJfg6gqv4KvKRUO2iVz5F4oJtnbGFtBkKMO+a17
-	zBinda9Os6XDZMP280l8HNFMsv/YXtM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-16-frohul28OMytNydl1guh1A-1; Tue, 20 Aug 2024 06:53:07 -0400
-X-MC-Unique: frohul28OMytNydl1guh1A-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5bebd4c8da4so634974a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 03:53:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724151186; x=1724755986;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fxNlY5XENKMDPYIPhdHxQsnynjxqCdYhZpUwRk8ipsw=;
-        b=qjrE7cJO1ZAc1xnOLJWPX1LbxH8Fk0fTvDa217DmBZkWttGBgyi9qtBq4Ku8q767Y/
-         97zYPMxSgZ/7Zf1djb4HGhLhzIWj3PLDoheN85iFUgR1xYzrRxRVQ8GMm1tyCOKw5amL
-         Gtlnji9Yl2lVayjv+MSLDOaWzbJ4RoNob6ReMg03bjP7imsw9f4FCzQlbX+mxpH8dDJp
-         k7JcOwfxQ4Jy8i9jqV99J0P5UmT83UjnYKbY+sgXu1hLNQP9/DpLHcG0LhpciR4O8FGd
-         95c1h6FgPfJ8OH/R+eetzKNm0F1iMX/DcFz2WSd/daolhbCIxP/ozxVxeD6JkFKnZa+d
-         FNHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVyg9LEO9+6zvbt1Orh72uYhTgByhFuDoOR7tNLuqtpn0oxv5g2t++NPkSVwHuIdvi7iaGTQ/Ays80L+s6T+8Ee1vBlBb4Uh7L7
-X-Gm-Message-State: AOJu0YzPQ2AL5S4Em4ET4ozCSZZosbsrBAQx1/QfQI5e1+T5JPKPb0wL
-	v2f6X8MO7wN2BkSoEY4X+z416OwtVEXucjTyerRR+LPyxSMdn4nFTGIocU3tuAW7h9sZH4jXigJ
-	yh4BCsEf0xrPf8CLjfrgR3UWJXmf8ge3jn61PB0/QJEMHTw1dcDTgHKiucQ==
-X-Received: by 2002:a17:907:3f1a:b0:a7a:9d1e:3b28 with SMTP id a640c23a62f3a-a8392a38e58mr576177366b.5.1724151185793;
-        Tue, 20 Aug 2024 03:53:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE/6EAdgReMTOuAWpstVpYQ93cEgThMtXJsIXsKn8TtmEKi0Ohh4lrRQAZ64k0Fs71t1ZO4MQ==
-X-Received: by 2002:a17:907:3f1a:b0:a7a:9d1e:3b28 with SMTP id a640c23a62f3a-a8392a38e58mr576173566b.5.1724151185214;
-        Tue, 20 Aug 2024 03:53:05 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3dcc:1f00:bec1:681e:45eb:77e2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfae7sm750027466b.58.2024.08.20.03.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 03:53:04 -0700 (PDT)
-Message-ID: <d34214f18f994d255f640aefdf7f31814faa76f1.camel@redhat.com>
-Subject: Re: [PATCH 7/9] ethernet: stmicro: Simplify PCI devres usage
-From: Philipp Stanner <pstanner@redhat.com>
-To: Andy Shevchenko <andy@kernel.org>
-Cc: onathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, Wu Hao
- <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer
- <mdf@kernel.org>,  Xu Yilun <yilun.xu@intel.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>,  Eugenio =?ISO-8859-1?Q?P=E9rez?=
- <eperezma@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Mark
- Brown <broonie@kernel.org>, David Lechner <dlechner@baylibre.com>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>,  Hannes Reinecke <hare@suse.de>,
- Damien Le Moal <dlemoal@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-fpga@vger.kernel.org, 
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  linux-pci@vger.kernel.org,
- virtualization@lists.linux.dev
-Date: Tue, 20 Aug 2024 12:53:03 +0200
-In-Reply-To: <ZsRx6OyqHPL0ws0e@smile.fi.intel.com>
-References: <20240819165148.58201-2-pstanner@redhat.com>
-	 <20240819165148.58201-9-pstanner@redhat.com>
-	 <ZsOO2uuGmD97Mocj@smile.fi.intel.com>
-	 <ef48369d230ef1912da157e7b437040bece6b5f4.camel@redhat.com>
-	 <ZsRx6OyqHPL0ws0e@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	bh=UrvRMz+I1gRJfeA35OXeWpHMimIWlbjsoNl2/JOsDPI=;
+	b=NP8bQsKXUU0lsovxuRtz0Ny98VqZ6sb3M0pF7We+DamT+Nkxzg+jEfcz/+so+XoYucaCwl
+	HyHe1BH61bKKin9KYl5it34q73DaQAIAISB/XzkwT6U1NBU4njeT6fpwDxpd4AvPofWpZ/
+	OMZcGIne2AwXUUICsUeUxK7QRHF+ObM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	corbet@lwn.net, arnd@arndb.de, mcgrof@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, xiongwei.song@windriver.com, 
+	ardb@kernel.org, david@redhat.com, vbabka@suse.cz, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org, 
+	liam.howlett@oracle.com, pasha.tatashin@soleen.com, souravpanda@google.com, 
+	keescook@chromium.org, dennis@kernel.org, jhubbard@nvidia.com, yuzhao@google.com, 
+	vvvvvv@google.com, rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/5] alloc_tag: load module tags into separate continuous
+ memory
+Message-ID: <sf7siu4vxwnz2lrcspxetmzabajfvebb47htjsrh7mmdoed73i@wivswoh55dfv>
+References: <20240819151512.2363698-1-surenb@google.com>
+ <20240819151512.2363698-2-surenb@google.com>
+ <ZsRCAy5cCp0Ig3I/@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZsRCAy5cCp0Ig3I/@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 2024-08-20 at 13:37 +0300, Andy Shevchenko wrote:
-> On Tue, Aug 20, 2024 at 09:52:40AM +0200, Philipp Stanner wrote:
-> > On Mon, 2024-08-19 at 21:28 +0300, Andy Shevchenko wrote:
-> > > On Mon, Aug 19, 2024 at 06:51:47PM +0200, Philipp Stanner wrote:
->=20
+On Tue, Aug 20, 2024 at 10:13:07AM GMT, Mike Rapoport wrote:
+> On Mon, Aug 19, 2024 at 08:15:07AM -0700, Suren Baghdasaryan wrote:
+> > When a module gets unloaded there is a possibility that some of the
+> > allocations it made are still used and therefore the allocation tags
+> > corresponding to these allocations are still referenced. As such, the
+> > memory for these tags can't be freed. This is currently handled as an
+> > abnormal situation and module's data section is not being unloaded.
+> > To handle this situation without keeping module's data in memory,
+> > allow codetags with longer lifespan than the module to be loaded into
+> > their own separate memory. The in-use memory areas and gaps after
+> > module unloading in this separate memory are tracked using maple trees.
+> > Allocation tags arrange their separate memory so that it is virtually
+> > contiguous and that will allow simple allocation tag indexing later on
+> > in this patchset. The size of this virtually contiguous memory is set
+> > to store up to 100000 allocation tags and max_module_alloc_tags kernel
+> > parameter is introduced to change this size.
+> > 
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |   4 +
+> >  include/asm-generic/codetag.lds.h             |  19 ++
+> >  include/linux/alloc_tag.h                     |  13 +-
+> >  include/linux/codetag.h                       |  35 ++-
+> >  kernel/module/main.c                          |  67 +++--
+> >  lib/alloc_tag.c                               | 245 ++++++++++++++++--
+> >  lib/codetag.c                                 | 101 +++++++-
+> >  scripts/module.lds.S                          |   5 +-
+> >  8 files changed, 429 insertions(+), 60 deletions(-)
+>  
 > ...
->=20
-> > > loongson_dwmac_probe()
-> > >=20
-> > > > +	memset(&res, 0, sizeof(res));
-> > > > +	res.addr =3D pcim_iomap_region(pdev, 0, pci_name(pdev));
-> > > > +	if (IS_ERR(res.addr)) {
-> > > > +		ret =3D PTR_ERR(res.addr);
-> > > > +		goto err_disable_device;
-> > >=20
-> > > It seems your series reveals issues in the error paths of
-> > > .probe():s
-> > > in many drivers...
-> > >=20
-> > > If we use pcim variant to enable device, why do we need to
-> > > explicitly
-> > > disable it?
-> >=20
-> > No.
->=20
-> Can you elaborate? No issues being revealed, or no need to disable it
-> explicitly, or...?
+> 
+> > diff --git a/include/linux/codetag.h b/include/linux/codetag.h
+> > index c2a579ccd455..c4a3dd60205e 100644
+> > --- a/include/linux/codetag.h
+> > +++ b/include/linux/codetag.h
+> > @@ -35,8 +35,13 @@ struct codetag_type_desc {
+> >  	size_t tag_size;
+> >  	void (*module_load)(struct codetag_type *cttype,
+> >  			    struct codetag_module *cmod);
+> > -	bool (*module_unload)(struct codetag_type *cttype,
+> > +	void (*module_unload)(struct codetag_type *cttype,
+> >  			      struct codetag_module *cmod);
+> > +	void (*module_replaced)(struct module *mod, struct module *new_mod);
+> > +	bool (*needs_section_mem)(struct module *mod, unsigned long size);
+> > +	void *(*alloc_section_mem)(struct module *mod, unsigned long size,
+> > +				   unsigned int prepend, unsigned long align);
+> > +	void (*free_section_mem)(struct module *mod, bool unused);
+> >  };
+> >  
+> >  struct codetag_iterator {
+> > @@ -71,11 +76,31 @@ struct codetag_type *
+> >  codetag_register_type(const struct codetag_type_desc *desc);
+> >  
+> >  #if defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES)
+> > +
+> > +bool codetag_needs_module_section(struct module *mod, const char *name,
+> > +				  unsigned long size);
+> > +void *codetag_alloc_module_section(struct module *mod, const char *name,
+> > +				   unsigned long size, unsigned int prepend,
+> > +				   unsigned long align);
+> > +void codetag_free_module_sections(struct module *mod);
+> > +void codetag_module_replaced(struct module *mod, struct module *new_mod);
+> >  void codetag_load_module(struct module *mod);
+> > -bool codetag_unload_module(struct module *mod);
+> > -#else
+> > +void codetag_unload_module(struct module *mod);
+> > +
+> > +#else /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
+> > +
+> > +static inline bool
+> > +codetag_needs_module_section(struct module *mod, const char *name,
+> > +			     unsigned long size) { return false; }
+> > +static inline void *
+> > +codetag_alloc_module_section(struct module *mod, const char *name,
+> > +			     unsigned long size, unsigned int prepend,
+> > +			     unsigned long align) { return NULL; }
+> > +static inline void codetag_free_module_sections(struct module *mod) {}
+> > +static inline void codetag_module_replaced(struct module *mod, struct module *new_mod) {}
+> >  static inline void codetag_load_module(struct module *mod) {}
+> > -static inline bool codetag_unload_module(struct module *mod) { return true; }
+> > -#endif
+> > +static inline void codetag_unload_module(struct module *mod) {}
+> > +
+> > +#endif /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
+> 
+> Maybe I'm missing something, but can't alloc_tag::module_unload() just copy
+> the tags that cannot be freed somewhere outside of module sections and then
+> free the module?
+> 
+> The heavy lifting would be localized to alloc_tags rather than spread all
+> over.
 
-Oh, my bad, I overlooked your "why" in that question.
-
-We do not explicitly have to disable it. It's wrong / unnecessary, as
-many of the other calls you criticized in this series.
-
-pcim_enable_device() (in pci/devres.c) calls devm_add_action(...,
-pcim_disable_device,  ...), which will disable the device on driver
-detach.
-
-So the call of pci_disable_device() above is redundant. We could remove
-it.
-
->=20
-> > > > =C2=A0	}
->=20
-> ...
->=20
-> > > loongson_dwmac_remove()
-> > >=20
-> > > > =C2=A0	pci_disable_msi(pdev);
-> > > > =C2=A0	pci_disable_device(pdev);
-> > >=20
-> > > Not sure why we need these either...
-> >=20
-> > It's complicated.
-> >=20
-> > The code uses pciM_enable_device(), but here in remove
-> > pci_disable_device().
-> >=20
-> > pcim_enable_device() sets up a disable callback which only calls
-> > pci_disable_device() if pcim_pin_device() has not been called.
-> >=20
-> > This code doesn't seem to call pcim_pin_device(), so I think
-> > pci_disable_device() could be removed.
-> >=20
-> >=20
-> > I definitely would not feel confident touching pci_disable_msi(),
-> > though. The AFAIK biggest problem remaining in PCI devres is that
-> > the
-> > MSI code base implicitly calls into devres, see here [1]
->=20
-> But isn't it a busyness of PCI core to call pci_disable_msi() at the
-> right
-> moment? Okay, I admit that there might be devices that require a
-> special
-> workflow WRT MSI, is this the case here?
-
-I don't know enough about how MSI is intended to be used.
-
-From what I've seen in the code base, pcim_setup_msi_release() does
-register a devres callback that will indeed call pci_disable_msi()
-after some intermediate calls.
-
-But in my honest opinion, that code is _very_ broken. I was thinking
-about how we might clean it up, but couldn't come up with an idea yet.
-
-Only after the code in pci/msi/ has been cleanly separated from
-implicit devres I myself would start touching function calls related to
-MSI.
-
-That being said, I suspect that one can remove pci_disable_msi() in the
-line above. But the risk-benefit-ratio doesn't pay off for me.
-
-P.
-
-
->=20
-> > [1]
-> > https://lore.kernel.org/all/ee44ea7ac760e73edad3f20b30b4d2fff66c1a85.ca=
-mel@redhat.com/
->=20
-
+The reason they can't be freed is because they're referenced by
+slab/page allocatons - can't move them either.
