@@ -1,83 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37E312D766;
-	Tue, 20 Aug 2024 06:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD4B152165;
+	Tue, 20 Aug 2024 07:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724137168; cv=none; b=ko9iwVA7yI6712kDX+Ay5XcPq4lAKRAWl65etpwjyvPXyUkob0ZhE+jAkjXeBYwVcPLiWpJ3l4uepC4nA6VMGUapq5KWLpnwRfERuUTXmvlzTABCCMZ24/HwvtMIz4mLtz3tjDnRjsndrlKIuh/xOZ4DPgFdn1t2JU1XXY0c5IA=
+	t=1724138011; cv=none; b=jHy2MQdHKcTY6C78okmBUsyJ2bshsEtf0iDLGxUqk8FM+KVvKoHQrH4rBvcZZPGaHXieKR3eliQCoqE852mKjG8UAyC+c2VG2lR5pJya57wtUi7ezLzdoM2vMjHKp4FDdUNlUzj6AXGX/dfhTpzQzmwWTrqwIAjcctSaA+sYbfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724137168; c=relaxed/simple;
-	bh=ceJN4hD+c8q/5gVBSghMlvhoCIY5qZSVrjy/wQ0K38A=;
+	s=arc-20240116; t=1724138011; c=relaxed/simple;
+	bh=P4Xoto1kb9GxBJ4mRYqIpsziqZnk0OuzLbdWEFfVZxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgzS+1AGKckHnCOgJRGK/fJD3GlzgVA/0hkfTCCAeQ2NbKOUVPRqHWOmpaQnOxz3Lm8tVVCbmu51aQilO+YVnG5KxeTTNkDwUw8PbdcNQ+szeCCkk31WLWpOZwK6qxG2ZHKD0FVXyf647B1sdpvoSsgD/omfu3dRoo0Q5lNV5NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eakh25fN; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YOsgOHzJf4Y9RKab8NWfzx65+o6g/pAqOUtGqLyn6IwbAdUtm2y/BxTNMyQHHsR6qhIV4ahNeZsFzTmg3SmrcAHDEV71oOyFNGunYAlybuAO3+QtNzsgWbm6d9o51TxaYmf0w6OFBF7fTgFnsGym0+ct2ss0oqiCNl/ymPY9/84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gz+4Mc8a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eakh25fN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724137167; x=1755673167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ceJN4hD+c8q/5gVBSghMlvhoCIY5qZSVrjy/wQ0K38A=;
-  b=eakh25fNL3qxlTKl3m0GwGk4C3+y3Pq6m4xNSTabiN9Ws4qKioB8Eji2
-   mcTA+LjB4ABb4OuHPOuJhW3YDMT2TKjLN0J4wz1/P531Ny3YFNluoKbE0
-   mzymNN8K/yVy/5m9B9H+aQBTwkffUpEAvc+JuyWgkCeIERlncpNbnTtc0
-   hlZNEp4ZENDoSgNm6fH4sox4aEuzxsP3NkxAH385RfUxJoxs7uoRfR/ja
-   nCHQYdm+zUqEXW/C+ydln4ETcyJrr2Q6RAfdbLJa5y8b2e0MxXlDs98KF
-   agHvbKTayEzRtekGXOAZDuwnzScFQnRaFyDBonSCfbXB1ftA3mdBpIQNv
-   w==;
-X-CSE-ConnectionGUID: rhDTgsCXRZC7ONXXjFfjcQ==
-X-CSE-MsgGUID: wBzbMC0GRKezluC0FKFxqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21957374"
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="21957374"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:59:26 -0700
-X-CSE-ConnectionGUID: oO9t0kOESQqyYSjwloreQg==
-X-CSE-MsgGUID: u/LflQ0JQVmTDom/q3Dv1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="60675858"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Aug 2024 23:59:19 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgIpp-0009os-2N;
-	Tue, 20 Aug 2024 06:59:17 +0000
-Date: Tue, 20 Aug 2024 14:58:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matteo Croce <technoboy85@gmail.com>, bpf@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-Message-ID: <202408201433.eqBpp8z9-lkp@intel.com>
-References: <20240820000245.61787-1-technoboy85@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gz+4Mc8a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD46C4AF09;
+	Tue, 20 Aug 2024 07:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724138010;
+	bh=P4Xoto1kb9GxBJ4mRYqIpsziqZnk0OuzLbdWEFfVZxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gz+4Mc8a6bR73MyttJH1WKF45lDJDtOwWsfsUBDrK6xUysURbUJcwEvyW17ferVr5
+	 b8xWmLKE7Hw4lwwchPrCzinppb3/s7DNzQ56UV9asRxSibNosq/tQewjQ3NGlt8BHu
+	 E6TvIE+cC6ndzeFv7iv4yn4hz/XWioUueUZubt9uGQyeRDQbWlHPl3xI778KnsjJVL
+	 oNalnsafluqag/HrQfU/xgw9mSUC1vUKX0nZFB5Ej0ZbSGOOkLPNT02Hw9OSAe/CRR
+	 3Jb8vTiQ1oDNQjqzfk4bqcsSrAHxtXvU2dsPRiqgjmvF7bsdLFIanOAfCPEx5gavMS
+	 asTEvBA/nwoLg==
+Date: Tue, 20 Aug 2024 10:13:07 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net,
+	arnd@arndb.de, mcgrof@kernel.org, paulmck@kernel.org,
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de,
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com,
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, dave@stgolabs.net, willy@infradead.org,
+	liam.howlett@oracle.com, pasha.tatashin@soleen.com,
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org,
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com,
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/5] alloc_tag: load module tags into separate continuous
+ memory
+Message-ID: <ZsRCAy5cCp0Ig3I/@kernel.org>
+References: <20240819151512.2363698-1-surenb@google.com>
+ <20240819151512.2363698-2-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,43 +56,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820000245.61787-1-technoboy85@gmail.com>
+In-Reply-To: <20240819151512.2363698-2-surenb@google.com>
 
-Hi Matteo,
+On Mon, Aug 19, 2024 at 08:15:07AM -0700, Suren Baghdasaryan wrote:
+> When a module gets unloaded there is a possibility that some of the
+> allocations it made are still used and therefore the allocation tags
+> corresponding to these allocations are still referenced. As such, the
+> memory for these tags can't be freed. This is currently handled as an
+> abnormal situation and module's data section is not being unloaded.
+> To handle this situation without keeping module's data in memory,
+> allow codetags with longer lifespan than the module to be loaded into
+> their own separate memory. The in-use memory areas and gaps after
+> module unloading in this separate memory are tracked using maple trees.
+> Allocation tags arrange their separate memory so that it is virtually
+> contiguous and that will allow simple allocation tag indexing later on
+> in this patchset. The size of this virtually contiguous memory is set
+> to store up to 100000 allocation tags and max_module_alloc_tags kernel
+> parameter is introduced to change this size.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |   4 +
+>  include/asm-generic/codetag.lds.h             |  19 ++
+>  include/linux/alloc_tag.h                     |  13 +-
+>  include/linux/codetag.h                       |  35 ++-
+>  kernel/module/main.c                          |  67 +++--
+>  lib/alloc_tag.c                               | 245 ++++++++++++++++--
+>  lib/codetag.c                                 | 101 +++++++-
+>  scripts/module.lds.S                          |   5 +-
+>  8 files changed, 429 insertions(+), 60 deletions(-)
+ 
+...
 
-kernel test robot noticed the following build warnings:
+> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
+> index c2a579ccd455..c4a3dd60205e 100644
+> --- a/include/linux/codetag.h
+> +++ b/include/linux/codetag.h
+> @@ -35,8 +35,13 @@ struct codetag_type_desc {
+>  	size_t tag_size;
+>  	void (*module_load)(struct codetag_type *cttype,
+>  			    struct codetag_module *cmod);
+> -	bool (*module_unload)(struct codetag_type *cttype,
+> +	void (*module_unload)(struct codetag_type *cttype,
+>  			      struct codetag_module *cmod);
+> +	void (*module_replaced)(struct module *mod, struct module *new_mod);
+> +	bool (*needs_section_mem)(struct module *mod, unsigned long size);
+> +	void *(*alloc_section_mem)(struct module *mod, unsigned long size,
+> +				   unsigned int prepend, unsigned long align);
+> +	void (*free_section_mem)(struct module *mod, bool unused);
+>  };
+>  
+>  struct codetag_iterator {
+> @@ -71,11 +76,31 @@ struct codetag_type *
+>  codetag_register_type(const struct codetag_type_desc *desc);
+>  
+>  #if defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES)
+> +
+> +bool codetag_needs_module_section(struct module *mod, const char *name,
+> +				  unsigned long size);
+> +void *codetag_alloc_module_section(struct module *mod, const char *name,
+> +				   unsigned long size, unsigned int prepend,
+> +				   unsigned long align);
+> +void codetag_free_module_sections(struct module *mod);
+> +void codetag_module_replaced(struct module *mod, struct module *new_mod);
+>  void codetag_load_module(struct module *mod);
+> -bool codetag_unload_module(struct module *mod);
+> -#else
+> +void codetag_unload_module(struct module *mod);
+> +
+> +#else /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
+> +
+> +static inline bool
+> +codetag_needs_module_section(struct module *mod, const char *name,
+> +			     unsigned long size) { return false; }
+> +static inline void *
+> +codetag_alloc_module_section(struct module *mod, const char *name,
+> +			     unsigned long size, unsigned int prepend,
+> +			     unsigned long align) { return NULL; }
+> +static inline void codetag_free_module_sections(struct module *mod) {}
+> +static inline void codetag_module_replaced(struct module *mod, struct module *new_mod) {}
+>  static inline void codetag_load_module(struct module *mod) {}
+> -static inline bool codetag_unload_module(struct module *mod) { return true; }
+> -#endif
+> +static inline void codetag_unload_module(struct module *mod) {}
+> +
+> +#endif /* defined(CONFIG_CODE_TAGGING) && defined(CONFIG_MODULES) */
 
-[auto build test WARNING on bpf-next/master]
+Maybe I'm missing something, but can't alloc_tag::module_unload() just copy
+the tags that cannot be freed somewhere outside of module sections and then
+free the module?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/bpf-use-kfunc-hooks-instead-of-program-types/20240820-080354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240820000245.61787-1-technoboy85%40gmail.com
-patch subject: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-config: arc-randconfig-002-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408201433.eqBpp8z9-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> net/core/filter.c:12084:38: warning: 'bpf_kfunc_set_sock_addr' defined but not used [-Wunused-const-variable=]
-   12084 | static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/bpf_kfunc_set_sock_addr +12084 net/core/filter.c
-
-05421aecd4ed65 Joanne Koong  2023-03-01  12083  
-53e380d2144190 Daan De Meyer 2023-10-11 @12084  static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
-53e380d2144190 Daan De Meyer 2023-10-11  12085  	.owner = THIS_MODULE,
-53e380d2144190 Daan De Meyer 2023-10-11  12086  	.set = &bpf_kfunc_check_set_sock_addr,
-53e380d2144190 Daan De Meyer 2023-10-11  12087  };
-53e380d2144190 Daan De Meyer 2023-10-11  12088  
+The heavy lifting would be localized to alloc_tags rather than spread all
+over.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sincerely yours,
+Mike.
