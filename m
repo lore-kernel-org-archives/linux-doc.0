@@ -1,97 +1,114 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2081494A8;
-	Tue, 20 Aug 2024 18:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7396D130499
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 18:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724179395; cv=none; b=BBsBHWwQdg9/CAx89qGFOtEJrrZdKK3Qsm4LTqapL7rTaiIgyD0QTVg0QvV81fP6kxeD6+UvbBae+Uqu36nRBZS81ysr8RSe8lNVhZB1zhT9FZQNaeyIQ7goWl0Mzo02hET+MafHcaljS6wVOUmxuZ4Pv9eOWq89FTauUBNrBr8=
+	t=1724180024; cv=none; b=qFB2g1x+T2rzTerD3R+YL7uz8hhCX9F/tchiDwjv6M+OGc+36EbHasMUAWoR9ldHOOYb00O5m5qXqZcXJjIwRS31IyEwoHvKvVo62JQZ+RdbTXqJPEd1mUn43fEaYNLrW3lg+Ki+WRVvtceIcS9cvL/QWZ0e1Ykkq41juxKtxUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724179395; c=relaxed/simple;
-	bh=LlewooNDq7KfLk5TjBHLrzvFtZnS4ZIA/enB98S8lMQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PN8cKflCJ0jemdhdQYLFvXx8aP5uZ1XPnCbI9H7g/A51DJtnfxGdDthhPOE6zOUjCYv5cfr4PHFE8zThMItEMinHk5Vupp4OC+CETqZFRvvZITiQ6sRB0Ka2GkGIvgr83m3TvYD7edlZ/5oa4iwk17G+HdbGJhi9fgS/s3mb/iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RMzGxeZD; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1724180024; c=relaxed/simple;
+	bh=Q2U6jltiiNaK+JNKXKBVgR+Xb/Bhf/4VdjQFQy+dZ9Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f8FQYZu4MZiYHzOUq3HTZKKqblIrPXJEuBH0WqlM65bG20ITy/JJXckY4hCYQguU9V+Do5wGn2XOc6LBI2+skgi7KtfTcJrCkrvb/THnrIsSGDl530Rw5WDyLG+BqZHwE4Ld1j14Imp01cDbOGM4LzEVBFBtaqUMRTPXtZ7yoXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ldO+kBAn; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RMzGxeZD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Oe9q/2PST+rNEnrpwAFN5Ef5y6CtfM31QjRM1LKMFK0=; b=RMzGxeZDp526A1pZGk28lYb/hh
-	o2xpfiSvGWlT4zuLcvP6aCcaJvVQGnu8VDBEkZFTpJppoDKtqaOY9pBTCjEUsLrrPYYF2eazilj87
-	SktT11x6OFUs/V2yCT++wQtjGwoHJIq8Q1CyE45WerqXXKQs5ykctDW3+RCEsGabEk0ixyP10deAK
-	w1zliqxiN3mTX73t4vjMZiY2BI8mTYEjwFYU/fijnHpdsW2A3Pf7Z3Hv0ASCwy89EWC0o0XbYTmY4
-	JAV2WLaPHX5XA8rYhDIfSTrc9UnITYKJ6ue77Y6jZE3xXXO4lZSYyvRA2tRESszfD0Hv6zgjK9BWp
-	VGbGohEA==;
-Received: from [177.76.152.96] (helo=[192.168.1.60])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1sgTor-002jTJ-4i; Tue, 20 Aug 2024 20:43:00 +0200
-Message-ID: <170545d7-3fa5-f52a-1250-dfe0a0fff93c@igalia.com>
-Date: Tue, 20 Aug 2024 15:42:53 -0300
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ldO+kBAn"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53345604960so739970e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 11:53:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724180019; x=1724784819; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YlTLMLs7In8/gOHrNjsLpOQwDWaLLP6ewH5dG/aMvH0=;
+        b=ldO+kBAnLYJSj81DchJcTCILRdSpTTwbpvy2z+1WHWwlQXNWBjMNHe06NYo8y2k8Y6
+         H4kVYQAK4cUZvBmf5ADNOQD+KrzjzuMq8rOT8zX7YjvrxIRa5W3RzAomUSdhvlqOOEN7
+         AHrSEAE3RYdsnyoyYjH2K874LuqqFq2Z3dnplMj2hpwzRPm+CVzkegoI791KMhFFnLEi
+         5VIuz5M0MKBF5eChi1Fy0D9C0cLEz/QwuGzHnioZdJfz5V9MHjmfEDd4MNHb9v77PiwA
+         ryFZ9boLbR8VV9NvSCt/Hwb6NfrYK7Ym8P5WvcrOhxm7sNdfVw0wviYNA/dDFxFpgF37
+         dQLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724180019; x=1724784819;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YlTLMLs7In8/gOHrNjsLpOQwDWaLLP6ewH5dG/aMvH0=;
+        b=N9m96Cd810sAxwjya9qrLiQj1ywK2aG8fR7+QgowVLmlxBpCa2ucTaB7nhKVCeq/f3
+         HTdUehlNbvmukNC/GyXeli4EXSCKP6twRqB4YK643eWYSRBbZCyH9U5HX3Gxo0MgK+Mh
+         YNtKFFtsu90G2/LoUxTm2Li6INDE+WQtPcEVLCMcozrwsWDwW9AAPUvapZZJNYifCSoE
+         +OQEpvYhLWvNLDxnjfv2lwf4UQYXPsTv5n/FjzOljGCXZhVPGJO76BTv7rhKP/po/RmA
+         aF/4Exk0hAzECbp378LX2Hc4DeKU454Wf6/g6XlkSXXr5acr0VqwViZknND20PeRpC/K
+         qQEA==
+X-Gm-Message-State: AOJu0Yzt+PlayXDLeLyk4Cs+gY5WlNaka7lESxMREd+bjXDyCFN8WTG4
+	CDifBh3Z0uNRK0hLWbZNrkpFTks54Olh3oqXbPZu58VDW0Id9T9C7vPNaU6Cd/mhwCGxyTOYzZX
+	ibc44Mcd00QoS7t1vZCN2yWjQHbLE7wh+iNSXVg==
+X-Google-Smtp-Source: AGHT+IEDXYmnOcAXEgHI+T1DxDx1Io5reHaoh1XIPDPaSvNR3Qz2IYQiyr3/KRaoVuRTo4UR8HZi7b1wzjYn3J3QPqU=
+X-Received: by 2002:a05:6512:2511:b0:533:4689:973c with SMTP id
+ 2adb3069b0e04-533468998b6mr434610e87.23.1724180018746; Tue, 20 Aug 2024
+ 11:53:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] Documentation: Document the kernel flag
- bdev_allow_write_mounted
-Content-Language: en-US
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- kernel-dev@igalia.com, kernel@gpiccoli.net
-References: <20240819225626.2000752-2-gpiccoli@igalia.com>
- <20240820162359.GI6043@frogsfrogsfrogs>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20240820162359.GI6043@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240820153855.75412-1-brgl@bgdev.pl> <87cym3f447.fsf@trenco.lwn.net>
+In-Reply-To: <87cym3f447.fsf@trenco.lwn.net>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 20 Aug 2024 20:53:27 +0200
+Message-ID: <CAMRc=MeGew-iHFmeKuKqDfDPZtjCfdNXzOzj56=qxssGP90SzQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: add a driver API doc for the power
+ sequencing subsystem
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 20/08/2024 13:23, Darrick J. Wong wrote:
-> [...]
->> +	bdev_allow_write_mounted=
->> +			Format: <bool>
->> +			Control the ability of directly writing to mounted block
->> +			devices' page cache, i.e., allow / disallow writes that
->> +			bypasses the FS. This was implemented as a means to
->> +			prevent fuzzers to crash the kernel by breaking the
->> +			filesystem without its awareness, through direct block
->> +			device writes. Default is Y and can be changed through
->> +			the Kconfig option CONFIG_BLK_DEV_WRITE_MOUNTED.
-> 
-> Can we mention that this also solves the problem of naïve storage
-> management tools (aka the ones that don't use O_EXCL) writing over a
-> mounted filesystem and trashing it?
-> 
-> --D
+On Tue, Aug 20, 2024 at 8:20=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> Bartosz Golaszewski <brgl@bgdev.pl> writes:
+>
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > Describe what the subsystem does, how the consumers and providers work
+> > and add API reference generated from kerneldocs.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > ---
+> >  Documentation/driver-api/index.rst  |  1 +
+> >  Documentation/driver-api/pwrseq.rst | 98 +++++++++++++++++++++++++++++
+> >  MAINTAINERS                         |  1 +
+> >  3 files changed, 100 insertions(+)
+> >  create mode 100644 Documentation/driver-api/pwrseq.rst
+>
+> Thanks for this ... just one quick nit...
+>
+> > +The consumer API is aimed to be as simple as possible. The driver inte=
+rested in
+> > +getting a descriptor from the power sequencer should call :c:func:`pwr=
+seq_get()`
+> > +and specify the name of the target it wants to reach in the sequence a=
+fter
+> > +calling :c:func:`pwrseq_power_up()`. The descriptor can be released by=
+ calling
+> > +:c:func:`pwrseq_put()` and the consumer can request the powering down =
+of its
+> > +target with :c:func:`pwrseq_power_off()`. Note that there is no guaran=
+tee that
+> > +:c:func:`pwrseq_power_off()` will have any effect as there may be mult=
+iple users
+> > +of the underlying resources who may keep them active.
+>
+> There is no need to use :c:func: here; just say function() and the Right
+> Things will just magically happen.
 
+Am I getting that right, are all these :c:func: directives useless in
+this file or only in this paragraph?
 
-Sure! At least from my side, fine with that.
-How about the following string ?
-
-+ Control the ability of directly writing to mounted block
-+ devices' page cache, i.e., allow / disallow writes that
-+ bypasses the FS. This was implemented as a means to
-+ prevent fuzzers to crash the kernel by breaking the
-+ filesystem without its awareness, through direct block
-+ device writes. Also prevents issues from direct writes
-+ of silly storage tooling (that doesn't use O_EXCL). The
-+ default is Y and can be changed through the Kconfig
-+ option CONFIG_BLK_DEV_WRITE_MOUNTED.
-
-
-But feel free to improve / change it. I'll wait more feedback and
-resubmit with a refined text.
-Cheers,
-
-
-Guilherme
+Bart
