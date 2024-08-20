@@ -1,110 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CCD1922FA;
-	Tue, 20 Aug 2024 14:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8732E18E758;
+	Tue, 20 Aug 2024 15:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724165969; cv=none; b=NGqNE1nvCGxGy0odgj6vNPwPkRroptFAxogfzDH3ttXsJu1psezxxnGaSxDG24QMQl+NacMyAYRR61yA5RHK+Jvk+uVrlhaeIrx7nUQmVC6s2b0lbHS+Yz3d6y+4aSohFI8Tt3NhqOHYcO34LJzvsxkpVT7roJN/3dX2ycknTDg=
+	t=1724166471; cv=none; b=f5KACe5fGYLR8UjcIQrx0dZdxwU8k3Gb2OPciSLUsMqWJPbpmK8VQBJN4De0vfa8vzskp2y0E/F+0w+7FUQ34HVLZpXSGD9N5vTsisYnjySZ+tpgWzpRJ18CYNfi4iuy/3gxlYLTvOYWpXqtirWxGTwV1P7OHj1nM4GObNtTBeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724165969; c=relaxed/simple;
-	bh=fFyycMNcHqQKpVsT6qjvKb11en2SqC7MqG20NMYTK+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/u7yPzp5CZ8h8uRhRW1L4rxdv9MVmmnuyGR9cjaSXLtYOIh1AIPabLK0DiGSzK4DumJl8ePal85Zor/2JkLoeeHZyfwrDcEc7HQbAJjwm8xLGMzVSLFWsCkYXsGizqrSTd2vFxiQBLGN5uu6iN9o4ghH9DvQUfQr1KIsWUp8KI=
+	s=arc-20240116; t=1724166471; c=relaxed/simple;
+	bh=XxmLAWJAjlmW83otnLBDg9ds/6fWrw74YC3mtwOma+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ebnZ6g40stzdGe7uX9poDf7EKxkfAxaVTiccNRapX5PLJEV8JEjxlKkOfIFMGuziZYtMh52Xkp/xS1ssGiLJVw2tm1BUtMbtXZx1/ze/A5Vls3gbiWDOHQj53Qz4kfk2i+s6YY0yW3u0Kq0nxsCrzFJJLr/IVRRqMIebv0kpAXY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA71FC4AF0F;
-	Tue, 20 Aug 2024 14:59:23 +0000 (UTC)
-Date: Tue, 20 Aug 2024 15:59:21 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Florian Weimer <fweimer@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Ross Burton <ross.burton@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v10 13/40] arm64/mm: Map pages for guarded control stack
-Message-ID: <ZsSvSeE303LGtk4b@arm.com>
-References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
- <20240801-arm64-gcs-v10-13-699e2bd2190b@kernel.org>
- <ZsMMDNIp6Pkfbg1e@arm.com>
- <d43f8036-cc06-430c-9e9e-b938037fc64c@sirena.org.uk>
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86435C4AF0F;
+	Tue, 20 Aug 2024 15:07:47 +0000 (UTC)
+Date: Tue, 20 Aug 2024 11:08:14 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, Paolo
+ Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
+ <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Daniel Bristot de
+ Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jalliste@amazon.co.uk, sveith@amazon.de,
+ zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang
+ <chenyi.qiang@intel.com>
+Subject: Re: [RFC PATCH v3 20/21] KVM: x86/xen: Prevent runstate times from
+ becoming negative
+Message-ID: <20240820110814.7d4117fd@gandalf.local.home>
+In-Reply-To: <6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
+References: <20240522001817.619072-1-dwmw2@infradead.org>
+	<20240522001817.619072-21-dwmw2@infradead.org>
+	<Zr7X-5qK8sRXxyDP@google.com>
+	<6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d43f8036-cc06-430c-9e9e-b938037fc64c@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 19, 2024 at 05:33:24PM +0100, Mark Brown wrote:
-> On Mon, Aug 19, 2024 at 10:10:36AM +0100, Catalin Marinas wrote:
-> > On Thu, Aug 01, 2024 at 01:06:40PM +0100, Mark Brown wrote:
-> > > +	if (system_supports_gcs() && (vm_flags & VM_SHADOW_STACK)) {
-> > > +		/*
-> > > +		 * An executable GCS isn't a good idea, and the mm
-> > > +		 * core can't cope with a shared GCS.
-> > > +		 */
-> > > +		if (vm_flags & (VM_EXEC | VM_ARM64_BTI | VM_SHARED))
-> > > +			return false;
-> > > +	}
-> 
-> > I wonder whether we should clear VM_MAYEXEC early on during the vma
-> > creation. This way the mprotect() case will be handled in the core code.
-> > At a quick look, do_mmap() seems to always set VM_MAYEXEC but discard it
-> > for non-executable file mmap. Last time I looked (when doing MTE) there
-> > wasn't a way for the arch code to clear specific VM_* flags, only to
-> > validate them. But I think we should just clear VM_MAYEXEC and also
-> > return an error for VM_EXEC in the core do_mmap() if VM_SHADOW_STACK. It
-> > would cover the other architectures doing shadow stacks.
-> 
-> Yes, I think adding something generic would make sense here.  That feels
-> like a cleanup which could be split out?
+On Tue, 20 Aug 2024 11:22:31 +0100
+David Woodhouse <dwmw2@infradead.org> wrote:
 
-It can be done separately. It doesn't look like x86 has such checks.
-Adding it generically would be a slight ABI tightening but I doubt it
-matters, no sane software would use an executable shadow stack.
+> On Thu, 2024-08-15 at 21:39 -0700, Sean Christopherson wrote:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vx->last_steal =3D run_del=
+ay;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If KVM clock time went =
+backwards, stop updating until it
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * catches up (or the runs=
+tates are reset by userspace).
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */ =20
+> >=20
+> > I take it this is a legitimate scenario where userpace sets KVM clock a=
+nd then
+> > the runstates, and KVM needs to lend a hand because userspace can't do =
+those two
+> > things atomically? =20
+>=20
+> Indeed. Will update the comment to make that more obvious.
+>=20
+> Thanks for the rest of the review on this series. I'll go through in
+> detail and update it, hopefully this week.
 
-> > Regarding VM_SHARED, how do we even end up with this via the
-> > map_shadow_stack() syscall? I can't see how one can pass MAP_SHARED to
-> > do_mmap() on this path. I'm fine with a VM_WARN_ON() if you want the
-> > check (and there's no way a user can trigger it).
-> 
-> It's just a defenesive programming thing, I'm not aware of any way in
-> which it should be possible to trigger this.
-> 
-> > Is there any arch restriction with setting BTI and GCS? It doesn't make
-> > sense but curious if it matters. We block the exec permission anyway
-> > (unless the BTI pages moved to PIE as well, I don't remember).
-> 
-> As you say BTI should be meaningless for a non-executable page like GCS,
-> I'm not aware of any way in which it matters.  BTI is separate to PIE.
+Hmm, is this related at all to this:
 
-My thoughts were whether we can get rid of this hunk entirely by
-handling it in the core code. We'd allow BTI if one wants such useless
-combination but clear VM_MAYEXEC in the core code (and ignore VM_SHARED
-since you can't set it anyway).
+  https://lore.kernel.org/all/20240806111157.1336532-1-suleiman@google.com/
 
--- 
-Catalin
+-- Steve
