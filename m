@@ -1,118 +1,81 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96592195FF1
-	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 15:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80C073176;
+	Tue, 20 Aug 2024 16:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724169538; cv=none; b=Dd6dQQ3h2efyC56Ot2H+FdJ6e3wrXhd6q1fx+LylUl06FyoXBek7D1DteQAR8N3ct+ZeVcQBj+gj8ad4g1dyRnkbrGRLthv4Je0wOaJxHmZ3mp4eJ0P5mIHhpMdwS4Rc7fsrE65RUVsr5oH73fRqfCyXnizal80Rzh8IKuNNXB0=
+	t=1724170428; cv=none; b=vE/5I5+QpnkeXSNBPrWVR6N2W1d29NgN+d94Q91YHlIBTzElPeXBOJiR34J2lbjnd4omYNxYsXB+YQzYB0dx/PMi1gBTL3HeH5ExwPcU38jRnjPoEzXhgRX74nhoZLWBxPbXxbqRTPlnzy0yK/wB/8WPZ7S0TXZ4HngEFXTZvEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724169538; c=relaxed/simple;
-	bh=plzPScmSdjLox3OYdz9t2P7i8g4UtSg4NyCpXW7I1m4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tsgZFZM/BCR9UAmA5zEKWK0uOrvId2zuuFi5K8kVg4Ctz+O0/Xnu7s2VPt6Re0B082xEMX618f6J7soFIpKg91qnkl6lhC+ipCsAjRnGD1h3jBVXaWqb2Xu6/hxLy+ye8u9+4/PnaUcP6zVebKg9Q9Ah/ojcUzooBDnq5fbZ/e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=z3GAUfFB; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1724170428; c=relaxed/simple;
+	bh=u1OBCw8lhJ/KBGXPAHwJBxAiK9D1v7xPpp+SY2QNN4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AQZZD1erbnEVjFKf2QRxAiNgqYU/Fergix2tPVPTCk6TBSjnGzn6kI9rzdUWZKW0p75iwn14fF2wRzKHygcekNTsWqQfRF4N+m+dLukRB2uToQOqqa/V3smtH4ZKavAKzHXIppVWlCsj0cs9RBmg0SnB8+xV6rLzGAvsoDNhyaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=ur7gB0XH; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="z3GAUfFB"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3db1bc36bc2so2773125b6e.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1724169536; x=1724774336; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rfB87M+ajklff9IR1StKsGavCV4e8E2kBLAYS9A+WSE=;
-        b=z3GAUfFBJb9Fr9y5ct6dqH57lQtBem4fP09z9PPB3juPZdXZ3vKuVq1cyArYpChE7s
-         ReuskLcI3i0+xiEqEjiPIS1Ko2dAzc3WQiF+ez993HRqzOWaWrSt1n4C/SGX/tQUSiWQ
-         VaRiIfewuTLRnWMPz+PGz/BBQ1qZisFx+rR6KtDBkyieUxYHH3lhC7xDmzJIhgwBROAa
-         jhxf5R8hmmYm828bakmtbL6OEiuT51mPyUXiF9j9qd7VAbyeLIxmkZrF0WrNzPJWDHNF
-         thM2DBmBwn6F7PPtAJvuHbAydhEzJ+n14yIbyLCj2sjqEyrXr3JovDl7w1p0Le8g4mGw
-         K4zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724169536; x=1724774336;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rfB87M+ajklff9IR1StKsGavCV4e8E2kBLAYS9A+WSE=;
-        b=JFtYoRksWRL/B2pE0GiU+4b3dI+h+GvcFe3HSQeH8mH6cXahbuff6w5iZf60VhprPK
-         gPBNCLf1VokkKEK6mpFIT3VNfEdW+Nl+2MrVLkxVs3OdrW8sWn5ysuyQPoSP5s4kFcDl
-         Q5DOQPQJ5pzri9AqpE8+r4f1H4CbAgsMsOx49nHuKDceg8Nm9mfMUi1F4iq+azd+Ctdk
-         VI8mYjjHZRWZH8wE6ExZhEEp0tKreExNhEjbCeJsAGrTyR4v1AVtL2MunMO8h8+JQUj3
-         iDfGhEUKxu2NjYwiCm+wnwDXRdX66LzMCdCoFu2JQngnoi5gsXJHnxnpaMK5Ze8CELKi
-         Dzsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCTVA+8M6Z4VW0fHamTaAiBZdrW2wK1A4yI0v7BklorKrfiY36jfEIz5FJC69TgHLfXccZ43c6Q98FlRnLjPj1WC1qTr+Xa8Dh
-X-Gm-Message-State: AOJu0Yy0Pu+DjazHaJ0WsBUcX7ylN+tizXqEKXFnPWOvg7mhKaescs28
-	a3c6sVCLZei3qPaH4wa5+s4AkkUWaVz4jL5cxRZkdVKGy1U44Wbjwnw0VFxT5Ng=
-X-Google-Smtp-Source: AGHT+IEeoSdOkv8tmbc7KwjQ9tuFv/ugArVpvf2FmLeUfmeuA5fXqNWShnl4Dr6Ie3etUsR24flJvw==
-X-Received: by 2002:a05:6808:15a3:b0:3d9:dbe9:7cee with SMTP id 5614622812f47-3ddb9cbf10emr1211638b6e.14.1724169535714;
-        Tue, 20 Aug 2024 08:58:55 -0700 (PDT)
-Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dd33d5a3efsm2872718b6e.17.2024.08.20.08.58.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 08:58:55 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-Date: Tue, 20 Aug 2024 10:58:38 -0500
-Subject: [PATCH 4/4] iio: ABI: document ad4695 new attributes
+	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="ur7gB0XH"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4WpDzP4qljz9slY;
+	Tue, 20 Aug 2024 18:13:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
+	s=MBO0001; t=1724170417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MRDbeKxPsqXdChWWngfAVr7jcYfztwIhGfk2/Sk7XsE=;
+	b=ur7gB0XH7LiF+8vnFRN+mF+Zx5CGOcBWZ8NS/yjaFQRbNqHiyQSf+9GtrZBpfh+RTqhHWV
+	dvEN/lLkCNIis8RyIsdzMFgIlYkaERQPnn+d5laIj6KBXUFvsotuPBPYxCNhkWaHQ5dZfa
+	0T/U0Lr8YeKqsRP0IZDlcR3G/jaBJY1twHM+ljo6G196UVVKv8vqRC7IyJDRsKntxjnnhG
+	+AHZ3FpXOAxlPCmQFblJ2g0+0EF0xVJD260OgQDzXeyK1urkq/V9wDBzV315Pxi9u+9sfF
+	EVW7Aax0wEjiu+JL9u1K0TfNSC95ubs9tupLO1NyH1uG3l3KsneWraYXTW/Nug==
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	kernel@pankajraghav.com,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH] Documentation: iomap: fix a typo
+Date: Tue, 20 Aug 2024 18:13:29 +0200
+Message-ID: <20240820161329.1293718-1-kernel@pankajraghav.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240820-ad4695-gain-offset-v1-4-c8f6e3b47551@baylibre.com>
-References: <20240820-ad4695-gain-offset-v1-0-c8f6e3b47551@baylibre.com>
-In-Reply-To: <20240820-ad4695-gain-offset-v1-0-c8f6e3b47551@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.1
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4WpDzP4qljz9slY
 
-The ad4695 driver now supports calibration using the
-in_voltageY_calib{scale,bias}[_available] attributes.
+From: Pankaj Raghav <p.raghav@samsung.com>
 
-Only one of these was documented before. This adds rest.
+Change voidw -> void.
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
 ---
- Documentation/ABI/testing/sysfs-bus-iio | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/filesystems/iomap/design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-index 345d58535dc9..89943c2d54e8 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio
-+++ b/Documentation/ABI/testing/sysfs-bus-iio
-@@ -541,6 +541,7 @@ What:		/sys/bus/iio/devices/iio:deviceX/in_proximity_calibbias
- What:		/sys/bus/iio/devices/iio:deviceX/in_proximity0_calibbias
- What:		/sys/bus/iio/devices/iio:deviceX/in_resistance_calibbias
- What:		/sys/bus/iio/devices/iio:deviceX/in_temp_calibbias
-+What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_calibbias
- What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_calibbias
- What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_calibbias
- KernelVersion:	2.6.35
-@@ -556,6 +557,7 @@ What:		/sys/bus/iio/devices/iio:deviceX/in_accel_calibbias_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_anglvel_calibbias_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_temp_calibbias_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_proximity_calibbias_available
-+What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_calibbias_available
- What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_calibbias_available
- KernelVersion:  5.8
- Contact:        linux-iio@vger.kernel.org
-@@ -603,6 +605,7 @@ Description:
- What:		/sys/bus/iio/devices/iio:deviceX/in_illuminanceY_calibscale_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_intensityY_calibscale_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_proximityY_calibscale_available
-+What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_calibscale_available
- KernelVersion:	4.8
- Contact:	linux-iio@vger.kernel.org
- Description:
-
+diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
+index 37594e1c5914..7261b1b2c379 100644
+--- a/Documentation/filesystems/iomap/design.rst
++++ b/Documentation/filesystems/iomap/design.rst
+@@ -165,7 +165,7 @@ structure below:
+      u16                 flags;
+      struct block_device *bdev;
+      struct dax_device   *dax_dev;
+-     voidw               *inline_data;
++     void                *inline_data;
+      void                *private;
+      const struct iomap_folio_ops *folio_ops;
+      u64                 validity_cookie;
 -- 
-2.43.0
+2.44.1
 
