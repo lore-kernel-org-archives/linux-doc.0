@@ -1,129 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC2518E35E;
-	Tue, 20 Aug 2024 06:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37E312D766;
+	Tue, 20 Aug 2024 06:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724136008; cv=none; b=GQ00RxMesye1WD8Nzqwit5MOkCY2fMMNJwmLaqgf+vzcYz6kwNM2j1Qdw36f9Ad82yIta9F76nKe5V+7nBgufqrxs0IWQEwkL9npSyGnGdhXCkQ6674uVkxQ2JhuAnOwE9beoAqy3Cc0KZcHeCoe3ROV8FPRpOUfjuMw029bhQM=
+	t=1724137168; cv=none; b=ko9iwVA7yI6712kDX+Ay5XcPq4lAKRAWl65etpwjyvPXyUkob0ZhE+jAkjXeBYwVcPLiWpJ3l4uepC4nA6VMGUapq5KWLpnwRfERuUTXmvlzTABCCMZ24/HwvtMIz4mLtz3tjDnRjsndrlKIuh/xOZ4DPgFdn1t2JU1XXY0c5IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724136008; c=relaxed/simple;
-	bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yst4Zwsl5xppStn7ye34550ISEEr59VoeucJul4NMdl40p8g2q6Lm7T8SycuDjuzipTam2JhpDy/7RNK9NwH00o23aKgnifGOxEYUIjWYb13KY3x2fMVSFW1SvN6N+kxdIpoFwFhAFBJiy6UXjJtBQmChp2p1uSsdYRGhwq1WYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzf3vvLa; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1724137168; c=relaxed/simple;
+	bh=ceJN4hD+c8q/5gVBSghMlvhoCIY5qZSVrjy/wQ0K38A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TgzS+1AGKckHnCOgJRGK/fJD3GlzgVA/0hkfTCCAeQ2NbKOUVPRqHWOmpaQnOxz3Lm8tVVCbmu51aQilO+YVnG5KxeTTNkDwUw8PbdcNQ+szeCCkk31WLWpOZwK6qxG2ZHKD0FVXyf647B1sdpvoSsgD/omfu3dRoo0Q5lNV5NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eakh25fN; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzf3vvLa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eakh25fN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724136006; x=1755672006;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/hHiRcXgLHm4sUaUmn1kvv9aDZlbaGSXQTZLN7Klh8Q=;
-  b=hzf3vvLaPyT72YwlfpxPwBNxh6f5vZrIW/KUrDIwGZ0kkTCJoc+iSDVv
-   zMJGvEKw7fRKM8EwYJIom5a3vdB+rU4e+NelGupv1dvQsUfuh62O0B33C
-   KjAnTXzOVQDwxCheG9kWwCbU/mLyvg5Z2exg8yj/OEfZ9Q8o+/BR1orwb
-   qqhYd6UFSCGVLlMsbn9l5gq8lsQzUBudG864F5OwOY1f1RNZFTVGCAhVn
-   vBtHyO6LIKjE9RL9Nk7x29+G1HMXGJSg0XaMhHo9Gb/EqnzSywvqOOcF2
-   KEd7RxUmp/9MG+1jt6gKVYo5G3vhyOpFEqX/HfjyIHNfLeXcbhIR9W3oJ
-   g==;
-X-CSE-ConnectionGUID: CdxFjwjoTfKEp/1GMtWZ7g==
-X-CSE-MsgGUID: yBjM6gz2Q3Kvm1f76jU9Kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22297503"
+  t=1724137167; x=1755673167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ceJN4hD+c8q/5gVBSghMlvhoCIY5qZSVrjy/wQ0K38A=;
+  b=eakh25fNL3qxlTKl3m0GwGk4C3+y3Pq6m4xNSTabiN9Ws4qKioB8Eji2
+   mcTA+LjB4ABb4OuHPOuJhW3YDMT2TKjLN0J4wz1/P531Ny3YFNluoKbE0
+   mzymNN8K/yVy/5m9B9H+aQBTwkffUpEAvc+JuyWgkCeIERlncpNbnTtc0
+   hlZNEp4ZENDoSgNm6fH4sox4aEuzxsP3NkxAH385RfUxJoxs7uoRfR/ja
+   nCHQYdm+zUqEXW/C+ydln4ETcyJrr2Q6RAfdbLJa5y8b2e0MxXlDs98KF
+   agHvbKTayEzRtekGXOAZDuwnzScFQnRaFyDBonSCfbXB1ftA3mdBpIQNv
+   w==;
+X-CSE-ConnectionGUID: rhDTgsCXRZC7ONXXjFfjcQ==
+X-CSE-MsgGUID: wBzbMC0GRKezluC0FKFxqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="21957374"
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="22297503"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:40:05 -0700
-X-CSE-ConnectionGUID: BsfZeq6bQjGX4UIBe0hLfA==
-X-CSE-MsgGUID: efE7EHc2Sbe1ViKK24ig2w==
+   d="scan'208";a="21957374"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:59:26 -0700
+X-CSE-ConnectionGUID: oO9t0kOESQqyYSjwloreQg==
+X-CSE-MsgGUID: u/LflQ0JQVmTDom/q3Dv1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
-   d="scan'208";a="91394800"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.176]) ([10.245.246.176])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 23:39:59 -0700
-Message-ID: <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
-Date: Tue, 20 Aug 2024 08:39:56 +0200
+   d="scan'208";a="60675858"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 19 Aug 2024 23:59:19 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sgIpp-0009os-2N;
+	Tue, 20 Aug 2024 06:59:17 +0000
+Date: Tue, 20 Aug 2024 14:58:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matteo Croce <technoboy85@gmail.com>, bpf@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
+Message-ID: <202408201433.eqBpp8z9-lkp@intel.com>
+References: <20240820000245.61787-1-technoboy85@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- gregkh@linuxfoundation.org, robh@kernel.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240820000245.61787-1-technoboy85@gmail.com>
+
+Hi Matteo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/bpf-use-kfunc-hooks-instead-of-program-types/20240820-080354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240820000245.61787-1-technoboy85%40gmail.com
+patch subject: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
+config: arc-randconfig-002-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408201433.eqBpp8z9-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> net/core/filter.c:12084:38: warning: 'bpf_kfunc_set_sock_addr' defined but not used [-Wunused-const-variable=]
+   12084 | static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
 
 
->>> +/**
->>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>> + * @chip - USB SND chip device
->>> + *
->>> + * Creates a sound control for a USB audio device, so that applications can
->>> + * query for if there is an available USB audio offload path, and which
->>> + * card is managing it.
->>> + */
->>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>> +{
->>> +	struct usb_device *udev = chip->dev;
->>> +	struct snd_kcontrol_new *chip_kctl;
->>> +	struct snd_usb_stream *as;
->>> +	char ctl_name[37];
->>> +	int ret;
->>> +
->>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>> +		chip_kctl->count = 1;
->>> +		/*
->>> +		 * Store the associated USB SND card number and PCM index for
->>> +		 * the kctl.
->>> +		 */
->>> +		chip_kctl->private_value = as->pcm_index |
->>> +					  chip->card->number << 16;
->>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>> +			as->pcm_index);
->>> +		chip_kctl->name = ctl_name;
->>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>> +				  udev->bus->sysdev));
->>> +		if (ret < 0)
->>> +			break;
->>> +	}
->>> +
->>> +	return ret;
-> Hi Pierre,
->> None of this looks Qualcomm-specific, shouldn't this be part of the
->> soc_usb framework instead of being added in the qcom/ stuff?
-> 
-> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
-> 
-> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
-> 
-> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
-> 
-> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
+vim +/bpf_kfunc_set_sock_addr +12084 net/core/filter.c
 
-My comment was only referring to the location of the code, it's now in
-sound/usb/qcom/mixer_usb_offload.c but does not contain anything
-specific to Qualcomm. I was not asking for any encapsulation inside of
-soc-usb, I was only suggesting a move of the code to a shared helper
-library so that this code can be reused as is and not duplicated if the
-QCOM parts are not compiled in.
+05421aecd4ed65 Joanne Koong  2023-03-01  12083  
+53e380d2144190 Daan De Meyer 2023-10-11 @12084  static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
+53e380d2144190 Daan De Meyer 2023-10-11  12085  	.owner = THIS_MODULE,
+53e380d2144190 Daan De Meyer 2023-10-11  12086  	.set = &bpf_kfunc_check_set_sock_addr,
+53e380d2144190 Daan De Meyer 2023-10-11  12087  };
+53e380d2144190 Daan De Meyer 2023-10-11  12088  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
