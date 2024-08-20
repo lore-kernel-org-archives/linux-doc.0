@@ -1,81 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8732E18E758;
-	Tue, 20 Aug 2024 15:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7563F43AB2;
+	Tue, 20 Aug 2024 15:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724166471; cv=none; b=f5KACe5fGYLR8UjcIQrx0dZdxwU8k3Gb2OPciSLUsMqWJPbpmK8VQBJN4De0vfa8vzskp2y0E/F+0w+7FUQ34HVLZpXSGD9N5vTsisYnjySZ+tpgWzpRJ18CYNfi4iuy/3gxlYLTvOYWpXqtirWxGTwV1P7OHj1nM4GObNtTBeI=
+	t=1724167164; cv=none; b=GAgZ1fcQJjyce0xijztQpkh11TlYhyUfjFMI613gfr9YGwU24fHcRDqKKZcYRUc/AvGrG4qcb2JTnafUMqlurvBUrEUMeFV33t+HZ0mqcNtH/hw4EQ20d0GThF5Z8zpsdyIjSIr0JmF8bwoTPeokG31VTGhWoJoKrkzzpb+lq28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724166471; c=relaxed/simple;
-	bh=XxmLAWJAjlmW83otnLBDg9ds/6fWrw74YC3mtwOma+o=;
+	s=arc-20240116; t=1724167164; c=relaxed/simple;
+	bh=/OXYNA076GPRELh0pHtb1LqJyPMWNb0FBe4CzjTGaQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ebnZ6g40stzdGe7uX9poDf7EKxkfAxaVTiccNRapX5PLJEV8JEjxlKkOfIFMGuziZYtMh52Xkp/xS1ssGiLJVw2tm1BUtMbtXZx1/ze/A5Vls3gbiWDOHQj53Qz4kfk2i+s6YY0yW3u0Kq0nxsCrzFJJLr/IVRRqMIebv0kpAXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86435C4AF0F;
-	Tue, 20 Aug 2024 15:07:47 +0000 (UTC)
-Date: Tue, 20 Aug 2024 11:08:14 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, Paolo
- Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
- <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Daniel Bristot de
- Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, jalliste@amazon.co.uk, sveith@amazon.de,
- zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang
- <chenyi.qiang@intel.com>
-Subject: Re: [RFC PATCH v3 20/21] KVM: x86/xen: Prevent runstate times from
- becoming negative
-Message-ID: <20240820110814.7d4117fd@gandalf.local.home>
-In-Reply-To: <6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
-References: <20240522001817.619072-1-dwmw2@infradead.org>
-	<20240522001817.619072-21-dwmw2@infradead.org>
-	<Zr7X-5qK8sRXxyDP@google.com>
-	<6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	 MIME-Version:Content-Type; b=rARUwhGbhgokb/StUb2LFnp/qnlFJVzcsT3458/D9g+/I7+QdgLTYnNHR0AEBZINYC4dN/8+7NQSoN6tlVmIwFQ/M1WNV4lxGYwbJ/mhHhaQSYO2Hfq2zEOEBGx7OfWWcb1F4SA3pJh4jb5TdGQpRIZPlNjek8rC6GFvo6Rv7Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhV8y6cZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhV8y6cZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899F1C4AF0B;
+	Tue, 20 Aug 2024 15:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724167164;
+	bh=/OXYNA076GPRELh0pHtb1LqJyPMWNb0FBe4CzjTGaQs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XhV8y6cZBCxHcRXtyBXg5fkxQ0emSjT4auJjQk+246Tw8eD3OUCE057w6/vUhGK+Q
+	 RBjicnT8mi2sKTBuq0JANhVJTDhMvdUqDUjecxktxoY+vMrnz4MGVdsNOpaqcNAw9I
+	 8huEtnENFiJFKoN9IcbUvsltqlewOPHIwnN9eFpsuawwCJvXkDlHhiXl7L7Wur0fpu
+	 tpAX/YFnzoaY+ZA/9o5gRvZTPhKxlmy+9Auiz50bY1SO6+EAmVeqJQ3ehrBxhx64mc
+	 3Inbdd0jxjd2cxDx/Af/1fV60ySoP0m+sl/9zoj0NBHNWDP6FteTyA3BOpW4xPB0UC
+	 8Lpljm3h/QgEQ==
+Date: Tue, 20 Aug 2024 08:19:20 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Taehee Yoo <ap420073@gmail.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
+ Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
+ de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
+ Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240820081920.6630a73f@kernel.org>
+In-Reply-To: <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
+References: <20240813211317.3381180-4-almasrymina@google.com>
+	<CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
+	<20240819155257.1148e869@kernel.org>
+	<CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, 20 Aug 2024 11:22:31 +0100
-David Woodhouse <dwmw2@infradead.org> wrote:
+On Tue, 20 Aug 2024 00:01:02 -0400 Mina Almasry wrote:
+> Took a bit of a look here. Forgive me, I'm not that familiar with XDP
+> and virtual interfaces, so I'm a bit unsure what to do here.
+> 
+> For veth, it seems, the device behind the veth is stored in
+> veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check on
+> veth_priv->peer is the way to go to disable this for veth? I think we
+> need to do this check on creation of the veth and on the ndo_bpf of
+> veth.
 
-> On Thu, 2024-08-15 at 21:39 -0700, Sean Christopherson wrote:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vx->last_steal =3D run_del=
-ay;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If KVM clock time went =
-backwards, stop updating until it
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * catches up (or the runs=
-tates are reset by userspace).
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */ =20
-> >=20
-> > I take it this is a legitimate scenario where userpace sets KVM clock a=
-nd then
-> > the runstates, and KVM needs to lend a hand because userspace can't do =
-those two
-> > things atomically? =20
->=20
-> Indeed. Will update the comment to make that more obvious.
->=20
-> Thanks for the rest of the review on this series. I'll go through in
-> detail and update it, hopefully this week.
+veth is a SW device pair, it can't reasonably support netmem.
+Given all the unreasonable features it grew over time we can't
+rule out that someone will try, but that's not our problem now.
 
-Hmm, is this related at all to this:
+> For bonding, it seems we need to add mp channel check in bond_xdp_set,
+> and bond_enslave?
 
-  https://lore.kernel.org/all/20240806111157.1336532-1-suleiman@google.com/
+Sort of, I'd factor out that logic into the core first, as some
+sort of "xdp propagate" helper. Then we can add that check once.
+I don't see anything bond specific in the logic.
 
--- Steve
+> There are a few other drivers that define ndo_add_slave, seems a check
+> in br_add_slave is needed as well.
+
+I don't think it's that broad. Not many drivers propagate XDP:
+
+$ git grep -C 200 '\.ndo_add_slave' | grep '\.ndo_bpf'
+drivers/net/bonding/bond_main.c-	.ndo_bpf		= bond_xdp,
+
+$ git grep --files-with-matches  'ops->ndo_bpf' -- drivers/
+drivers/net/bonding/bond_main.c
+drivers/net/hyperv/netvsc_bpf.c
+
+> This seems like a potentially deep rabbit hole with a few checks to
+> add all of the place. Is this blocking the series?
+
+Protecting the stack from unreadable memory is *the* challenge
+in this series. The rest is a fairly straightforward.
