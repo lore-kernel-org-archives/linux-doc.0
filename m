@@ -1,213 +1,223 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9D518E35E
-	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 15:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E352191F92;
+	Tue, 20 Aug 2024 15:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724168342; cv=none; b=GMgalyXwbbCvD9GpmhRMXEi0R6QfepqYar4bT3mbKVvKxpZqZZizz7N06gqUoUOM8tSUfEZ7YVzijlYE8QV9niekQ6YelV1qBDy6EH/1CAHDCCkCeN/EvQdv3Tvqcw+vC96gCeTGmCrcyTjGtQeuARGwd6EyKIaXkSsNaylMy3w=
+	t=1724168543; cv=none; b=POQehD2wsqc9UqDpSKKv1WGV2c4TNajQhLGmwrXBVUw9r/DVhwoTTX0kB1dNYm9Gmwcg2xDYdtg/pCFauwCelOXERlofMQ4/zcNoXQORnR+wwGePqxxYRgyYtp9MEMOa0Tso1qbHiXLgeM77TdK/B4uGWa6XpJI/nqBIZ2uxZFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724168342; c=relaxed/simple;
-	bh=3F3rVSXCrKAuNTX6oBs3ahXRw610MZ40UBdmnu7Vx+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J00Z4dvg9ZPuVR7zc2jyNlab6uz1upRMrxau5AbMAbRRD1fdoAqd/lXcT3Ztn7DOmeWX3O+7TUyejn25IoE98fkyozw5IO6lDnzHguO/7NnlePwe3vjeHBlrbTLpp+PWm2sg8gh8L2S63yhtQHoMl5CuCfSV2e7RmL34UNfGXHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=tbm1oyua; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1724168543; c=relaxed/simple;
+	bh=Ho2WZv7W0O/hHM9CFlRHRdevUWdWaY+S13BIdXz64Ns=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mh1z0fK3b3QBPDo0fcHNNZadwc+m3dZi6yvQUzft7QQKqiS17gt6zvvTnEhHVERPaa2jzLWPi6IDG1Ry4pmrNEJO4kmxIO2dP8nRNhgoTZmC1ifi5EbH7Z4bl+r5f9KwoHDPCDwsxuEp8I7ot4T091aDgnlQSx1kTY5VJi1GIso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SRtW28zb; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="tbm1oyua"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42816ca797fso46753975e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724168338; x=1724773138; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmWrqfFuhQb126F6VuYJoB91tyorexZYrj4qScm7E4o=;
-        b=tbm1oyuaZe4q83S47IUWMq/Ny4SU8cFH3j5uIv86kQZwCjr3UW8Q+v5NntMms8IRKk
-         khadXoNeLHkciV0AosDOKSGtSte14vH+/9P8Ma0EcGx0Ofn7hPgv6ri3C5h5Re0KnNcc
-         aHi9ypkyTZj1bQYQLrgwIvIjMiLG2M+u73F3H/1hVftyvBjI/9jeKtUa9HYssP2d6cSu
-         YPmx6j8PlB61eXn/jAJlI6SoO9+1LN/4YWfyFD5RQsxYMftF2QvGekX9uPgRQ/TGGitf
-         07WEJgjUKM3dbKClOhSnK3IdL46ZIQfMbq0Hfw9XZIwWXjLANimXUufs32qBWHN3XPkK
-         /+gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724168338; x=1724773138;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pmWrqfFuhQb126F6VuYJoB91tyorexZYrj4qScm7E4o=;
-        b=k61m6QeaKesLn2+Uib147TNAHhIrYgLMeabh22KxqgzZr0saQ7fYguPxMYMqsTmeam
-         AhNwfU+rYvA4LindXTp8dQSL1rIgPYKZBe595YxX9rUsiFCT2XPgyYuRr3FSECTz7md5
-         +hG2WSWWWI8uhwv0oUTfsHFGp9K/eSNf5xk+vQQD/uZVju4lbi/T6pFXyVogkVtQ/WKd
-         HciUJ3QN+RGBujYxVm8sZa/5v72n7Nbb6ht5ummcEzybVl6/I9/niiatQwZu1D5Fm60S
-         DRVnRiVA5yNWU60luFI3qcat4bejwj1s1h8+zDwA2Xy2szx/eJdeRwtq3fgvj9wxziXM
-         ABCQ==
-X-Gm-Message-State: AOJu0YwM7R0EwPNKV32WIlc9GLhqJai02poahC+SJL1q8rWSVKOQh44I
-	TKrGvYRCVa4oBPnnPAeO1bMgMENs3aT+riH0aSGAmZtu+NNsybtnMBrI3nC7BEY=
-X-Google-Smtp-Source: AGHT+IGWX7+eVKrGz832pmkLmKocdhlrcgIWlJERL2tWpVpaUuEH1ET2w4rlxwsOimDYeiDWDcI3yQ==
-X-Received: by 2002:a05:600c:138f:b0:428:2502:75b5 with SMTP id 5b1f17b1804b1-429ed7ba9c0mr92827645e9.11.1724168337929;
-        Tue, 20 Aug 2024 08:38:57 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:ddce:8248:19a9:4bf6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed648f4asm146289025e9.5.2024.08.20.08.38.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 08:38:57 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH] Documentation: add a driver API doc for the power sequencing subsystem
-Date: Tue, 20 Aug 2024 17:38:55 +0200
-Message-ID: <20240820153855.75412-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SRtW28zb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ho2WZv7W0O/hHM9CFlRHRdevUWdWaY+S13BIdXz64Ns=; b=SRtW28zbPoGdrg9T1fd2qOLoBM
+	syZe/s7ASB+fB1Oh95xCUP7cmKb+/fifF8coQWwt0UPz3zOVHcV+OBsJBa2oq2+gZuTzuKhlWn/OB
+	zFTmW6LkRXSNRpsxRgVTcuu2xOlBiivgn2Ll89hPZR0LNrMDljZed82WzMeZuLvdwxYdclokUmOwl
+	xAYLKbxOv9HcVDXV/53mtZj5L08LsrteGoeEdC2S2wi84Ndn/qKRz5RvDmArWGWTmTsBOJkM8RD/l
+	ShrvfGtWR7PKiG8yrLwjDqKGzuDzCIq44vaeCIluRiUEvP/F1u7iV3DraEgsMMNSKNIGm5W63mfFr
+	mH+Tt9gw==;
+Received: from [2001:8b0:10b:5:cb53:8564:1f06:36f6] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sgQzq-000000087KZ-1AtS;
+	Tue, 20 Aug 2024 15:42:10 +0000
+Message-ID: <35cac418a6b84fc64709d64d2b05116d5557b657.camel@infradead.org>
+Subject: Re: [RFC PATCH v3 20/21] KVM: x86/xen: Prevent runstate times from
+ becoming negative
+From: David Woodhouse <dwmw2@infradead.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, Paolo
+ Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
+ <paul@xen.org>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,  Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Daniel Bristot de
+ Oliveira <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  jalliste@amazon.co.uk, sveith@amazon.de,
+ zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>, Chenyi Qiang
+ <chenyi.qiang@intel.com>
+Date: Tue, 20 Aug 2024 16:42:09 +0100
+In-Reply-To: <20240820110814.7d4117fd@gandalf.local.home>
+References: <20240522001817.619072-1-dwmw2@infradead.org>
+	 <20240522001817.619072-21-dwmw2@infradead.org>
+	 <Zr7X-5qK8sRXxyDP@google.com>
+	 <6f805099c5751a3092ee5f198fffb83673ba91ee.camel@infradead.org>
+	 <20240820110814.7d4117fd@gandalf.local.home>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-vFXcu5NpbCv95218eMrB"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Describe what the subsystem does, how the consumers and providers work
-and add API reference generated from kerneldocs.
+--=-vFXcu5NpbCv95218eMrB
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- Documentation/driver-api/index.rst  |  1 +
- Documentation/driver-api/pwrseq.rst | 98 +++++++++++++++++++++++++++++
- MAINTAINERS                         |  1 +
- 3 files changed, 100 insertions(+)
- create mode 100644 Documentation/driver-api/pwrseq.rst
+On Tue, 2024-08-20 at 11:08 -0400, Steven Rostedt wrote:
+> On Tue, 20 Aug 2024 11:22:31 +0100
+> David Woodhouse <dwmw2@infradead.org> wrote:
+>=20
+> > On Thu, 2024-08-15 at 21:39 -0700, Sean Christopherson wrote:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vx->last_steal =3D run_d=
+elay;
+> > > > +
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If KVM clock time wen=
+t backwards, stop updating
+> > > > until it
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * catches up (or the ru=
+nstates are reset by
+> > > > userspace).
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */=C2=A0=20
+> > >=20
+> > > I take it this is a legitimate scenario where userpace sets KVM
+> > > clock and then
+> > > the runstates, and KVM needs to lend a hand because userspace
+> > > can't do those two
+> > > things atomically?=C2=A0=20
+> >=20
+> > Indeed. Will update the comment to make that more obvious.
+> >=20
+> > Thanks for the rest of the review on this series. I'll go through
+> > in
+> > detail and update it, hopefully this week.
+>=20
+> Hmm, is this related at all to this:
+>=20
+> =C2=A0
+> https://lore.kernel.org/all/20240806111157.1336532-1-suleiman@google.com/
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index f10decc2c14b..7f83e05769b4 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -124,6 +124,7 @@ Subsystem-specific APIs
-    pps
-    ptp
-    pwm
-+   pwrseq
-    regulator
-    reset
-    rfkill
-diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver-api/pwrseq.rst
-new file mode 100644
-index 000000000000..bf82469fcd38
---- /dev/null
-+++ b/Documentation/driver-api/pwrseq.rst
-@@ -0,0 +1,98 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright 2024 Linaro Ltd.
-+
-+====================
-+Power Sequencing API
-+====================
-+
-+:Author: Bartosz Golaszewski
-+
-+Introduction
-+============
-+
-+This framework is designed to abstract complex power-up sequences that are
-+shared between multiple logical devices in the linux kernel.
-+
-+The intention is to allow consumers to obtain a power sequencing handle
-+exposed by the power sequence provider and delegate the actual requesting and
-+control of the underlying resources as well as to allow the provider to
-+mitigate any potential conflicts between multiple users behind the scenes.
-+
-+Glossary
-+--------
-+
-+The power sequencing API uses a number of terms specific to the subsystem:
-+
-+Unit
-+
-+    A unit is a discreet chunk of a power sequence. For instance one unit may
-+    enable a set of regulators, another may enable a specific GPIO. Units can
-+    define dependencies in the form of other units that must be enabled before
-+    it itself can be.
-+
-+Target
-+
-+    A target is a set of units (composed of the "final" unit and its
-+    dependencies) that a consumer selects by its name when requesting a handle
-+    to the power sequencer. Via the dependency system, multiple targets may
-+    share the same parts of a power sequence but ignore parts that are
-+    irrelevant.
-+
-+Descriptor
-+
-+    A handle passed by the pwrseq core to every consumer that serves as the
-+    entry point to the provider layer. It ensures coherence between different
-+    users and keeps reference counting consistent.
-+
-+Consumer interface
-+==================
-+
-+The consumer API is aimed to be as simple as possible. The driver interested in
-+getting a descriptor from the power sequencer should call :c:func:`pwrseq_get()`
-+and specify the name of the target it wants to reach in the sequence after
-+calling :c:func:`pwrseq_power_up()`. The descriptor can be released by calling
-+:c:func:`pwrseq_put()` and the consumer can request the powering down of its
-+target with :c:func:`pwrseq_power_off()`. Note that there is no guarantee that
-+:c:func:`pwrseq_power_off()` will have any effect as there may be multiple users
-+of the underlying resources who may keep them active.
-+
-+Provider interface
-+==================
-+
-+The provider API is admittedly not nearly as straightforward as the one for
-+consumers but it makes up for it in flexibility.
-+
-+Each provider can logically split the power-up sequence into descrete chunks
-+(units) and define their dependencies. They can then expose named targets that
-+consumers may use as the final point in the sequence that they wish to reach.
-+
-+To that end the providers fill out a set of configuration structures and
-+register with the pwrseq subsystem by calling :c:func:`pwrseq_device_register`.
-+
-+Dynamic consumer matching
-+-------------------------
-+
-+The main difference between pwrseq and other linux kernel providers is the
-+mechanism for dynamic matching of consumers and providers. Every power sequence
-+provider driver must implement the `match()` callback and pass it to the pwrseq
-+core when registering with the subsystems.
-+
-+When a client requests a sequencer handle, the core will call this callback for
-+every registered provider and let it flexibly figure out whether the proposed
-+client device is indeed its consumer. For example: if the provider binds to the
-+device-tree node representing a power management unit of a chipset and the
-+consumer driver controls one of its modules, the provider driver may parse the
-+relevant regulator supply properties in device tree and see if they lead from
-+the PMU to the consumer.
-+
-+API reference
-+=============
-+
-+.. kernel-doc:: include/linux/pwrseq/consumer.h
-+   :internal:
-+
-+.. kernel-doc:: include/linux/pwrseq/provider.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/power/sequencing/core.c
-+   :export:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f328373463b0..5a7500f048bb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18204,6 +18204,7 @@ M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-pm@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
-+F:	Documentation/driver-api/pwrseq.rst
- F:	drivers/power/sequencing/
- F:	include/linux/pwrseq/
- 
--- 
-2.43.0
+No, but patch 21 in this same series is.
 
+--=-vFXcu5NpbCv95218eMrB
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwODIwMTU0MjA5WjAvBgkqhkiG9w0BCQQxIgQgnFQyHale
+LKTTitnZ7vxr7NsAQBcEBfuyYY8EwHZE24owgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA1IoFzba69F8QLy3sqyD2q3L4I9QqiRrxD
+jYxpxNzNjFxtiUN9V4NPcDuASZzRvglUc86RWiDrmoGxb/OKn0z3tbRlkfA1l5XAzRyuQk6qt6Uw
+jGIPA7Oh7//skezEEg9agMjUjbL+UcFClrc6DiGvRmNWjhduemQmlf7327QwrhSxTYiw8/ZIYtVj
+1pRkm3fwTieFr6bIlhMuX8FflaGpgnYVp3iGixc564SqumEzG+egBqPtNL8+JBuNVcIpO0aFAk/t
+WIKIIjKbj7GM/s+LQLJZAcPSUh09nmbzU/b+fMC48tGrE78gncv6Y+GLD6xVLNP/CrXJeuzfeFpx
+WhyQkIWpnF/G3uXJU4dzbw2DJ6QX9kD1ySQICQfOiCd3qr89rgvvNqZ0zW7yCGTxY3NK7tpC1wLG
+ID5NY1wIdQcUlasOs4Pc2uTGF8yijUOOdeF7HB4VoZnyg9brT9BDE8pXvp25uSJvi84QBR5F6DXf
+8S+/2dxFvQ01qW9KCYMeG0SfAoc5H/sKjGqmreGxJRQhhUpb2rub4MgVUthTF9HHGaAICwA1JEe0
+yDBylfz8Gr477O0rRbbO/sye5Mw09P4fIHBTq+KVwUmSW412h8ykn6I4Vd0b7ea5cYOaUiiZmOxK
+YZaYSkzG/YotjYwLOF3BH0b5lCgfiJnarkolC9+pDwAAAAAAAA==
+
+
+--=-vFXcu5NpbCv95218eMrB--
