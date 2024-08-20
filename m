@@ -1,150 +1,116 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288CB1C2325;
-	Tue, 20 Aug 2024 17:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ADA482FF;
+	Tue, 20 Aug 2024 17:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724175509; cv=none; b=tCPQvhphk29tIXTqu/gpY/dzxV2ZWgEbxXFuVJghyPmKbP8MVJTbDpwias02KaQ+Jefp6MmTpV1nsSILXclhWSAJTqcwxiG4xKArqzGm2xoiIo434U0LJkXMsyP2kl4kVUvBJAHskNX514HaTzxfEDDL5EuRp5x1H9b3Sy8Ha1s=
+	t=1724176589; cv=none; b=Nivy/DI16SZAsVLWmG54de3w97mvPzrFtv08ur98jrSWtWSx/LCVrDRjRBV/qPu38pPxARoOToRhPM3HUIYIYZyaoASeNatJNTTVkJ+YSPDlQh8haplGbCmxttTv4rVyzNaJpKR0FJkXhcMg9F+YW9ifnYbuuq+P9WOV4YJldC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724175509; c=relaxed/simple;
-	bh=73ZZd1aR+uG/5gFkVloVfHgkK5o1HsdJzv0l9tqss74=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MBtJ7VoYa0ZluUJeCEWGwMGtdbyadOfChJrvB2/9N0tMskyL9AOjF0bGffQyPqoApplGsEgZd32cH3Xe0j3CJ05gUnsxsVBhCRCKPrKZbPLNE3wWnNP0IVaJDGv5PDzGjnNtDd03dUhdopQUPW6QD94ToKBpIvhRJlPU0gfox7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WjI7wo4B; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1724176589; c=relaxed/simple;
+	bh=gZbF78Vf8hQyyvrqZwyllYGTMkZkFUc2boH3xNoj3xg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ln/rxhNd+M+sHfCmyUsz0fI2pK1TP+GzJW5QhpLIpHOfeQpOrTcF4VhO9TuV+/xDyUZl6maSsI2peLSwtsa2MhAw3K9WS31TQ19qfJfGZKYfdno/GObVwCLVjMmUd7Rt+CX/lE2qzsMxBovMy1NTZf3yCV2c/tvXdroEiuEQ5WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMBNHgu8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WjI7wo4B"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47KDZ3vR004724;
-	Tue, 20 Aug 2024 17:37:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AQEIRSDa39gdCwlCKq9JZIFIY0/NJ/3+eiPQAxdupj0=; b=WjI7wo4B5jTxrLVe
-	+T7HypxeirX+Cl025E8AZwBqQmc4mPVs9/j2/UUmxNhgois4pBkW5eHsuEXSFzkb
-	Dyl4xs+TrXB2sVS4lsnce9mP2JCY7gAi346q/TTgoYQ95lIw59jzZR3sFOpTP1cz
-	lUORyOvQrRdeZt6jeksmH71vWbQ31wEZVmZMkzANngdae2T5Qe1ES0y6V50jPBly
-	GnPj6my9LZYkvho6GkISvONC/qTPi22k11xxqbMaGDKI4g7VyqCt8WzhkC4t07AP
-	2FJjUluSk8Ymi4WKD0NoRP+sX5VBGryQo7bUpX9RdvlujoxWi8HF05jqti+WFny6
-	yTqbKg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414v5c8mqr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 17:37:17 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47KHbGRp025682
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Aug 2024 17:37:16 GMT
-Received: from [10.110.70.123] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 20 Aug
- 2024 10:37:15 -0700
-Message-ID: <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
-Date: Tue, 20 Aug 2024 10:37:14 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMBNHgu8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA60CC4AF63;
+	Tue, 20 Aug 2024 17:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724176588;
+	bh=gZbF78Vf8hQyyvrqZwyllYGTMkZkFUc2boH3xNoj3xg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kMBNHgu8QiEUNr6Dj0H9OBOYNtuyoJmzRNKbBHyDLb+AJcBwiuh2LgJrzteoMvVsx
+	 5LXnhtvTMAUrTQWGO8C4/3pUWw0n2Ty4gAoWYmAT+yBC5FbQ2efuWgCCm9W086xLv1
+	 Zz0YOIynNZ511iDRjmQKgI/z2W0DSwrGpMHtyIFX7gsM+jxsuh0nwza7zZ/cUCLkch
+	 5kByC8ltUO3h9EBYmOklMwhN2gyHbUmRzoURFqk+UuCaO0bvG1QT+x0RnLV4jkxDZv
+	 rOQIythKgjlcvs2q9paWHNJINWO8TqkFa8qlRlL1CfSG4cDj+KBmcAFn41ujrmw+M5
+	 1HSxxSLa5whtA==
+Date: Tue, 20 Aug 2024 18:56:19 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 19/40] arm64/gcs: Context switch GCS state for EL0
+Message-ID: <3b316422-7f88-4f5d-a691-eb9209ec4ba9@sirena.org.uk>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-19-699e2bd2190b@kernel.org>
+ <ZsMwhdmE_Ai9BbM9@arm.com>
+ <0f6fd3ec-2481-4507-af0e-3cbbb7406b54@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <gregkh@linuxfoundation.org>, <robh@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
- <20240801011730.4797-30-quic_wcheng@quicinc.com>
- <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
- <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
- <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: gPOFw45hHTD_kkfGLRNEP9mvfNtZIqVH
-X-Proofpoint-ORIG-GUID: gPOFw45hHTD_kkfGLRNEP9mvfNtZIqVH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-20_13,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- mlxlogscore=937 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408200131
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3PN7G0mWO4eG7H9j"
+Content-Disposition: inline
+In-Reply-To: <0f6fd3ec-2481-4507-af0e-3cbbb7406b54@sirena.org.uk>
+X-Cookie: You are false data.
 
-Hi Pierre,
 
-On 8/19/2024 11:39 PM, Pierre-Louis Bossart wrote:
->>>> +/**
->>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
->>>> + * @chip - USB SND chip device
->>>> + *
->>>> + * Creates a sound control for a USB audio device, so that applications can
->>>> + * query for if there is an available USB audio offload path, and which
->>>> + * card is managing it.
->>>> + */
->>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
->>>> +{
->>>> +	struct usb_device *udev = chip->dev;
->>>> +	struct snd_kcontrol_new *chip_kctl;
->>>> +	struct snd_usb_stream *as;
->>>> +	char ctl_name[37];
->>>> +	int ret;
->>>> +
->>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
->>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
->>>> +		chip_kctl->count = 1;
->>>> +		/*
->>>> +		 * Store the associated USB SND card number and PCM index for
->>>> +		 * the kctl.
->>>> +		 */
->>>> +		chip_kctl->private_value = as->pcm_index |
->>>> +					  chip->card->number << 16;
->>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
->>>> +			as->pcm_index);
->>>> +		chip_kctl->name = ctl_name;
->>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
->>>> +				  udev->bus->sysdev));
->>>> +		if (ret < 0)
->>>> +			break;
->>>> +	}
->>>> +
->>>> +	return ret;
->> Hi Pierre,
->>> None of this looks Qualcomm-specific, shouldn't this be part of the
->>> soc_usb framework instead of being added in the qcom/ stuff?
->> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
->>
->> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
->>
->> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
->>
->> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
-> My comment was only referring to the location of the code, it's now in
-> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
-> specific to Qualcomm. I was not asking for any encapsulation inside of
-> soc-usb, I was only suggesting a move of the code to a shared helper
-> library so that this code can be reused as is and not duplicated if the
-> QCOM parts are not compiled in.
+--3PN7G0mWO4eG7H9j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ah, great, thanks for the clarification.  Let me take a look with that perspective.
+On Mon, Aug 19, 2024 at 04:44:52PM +0100, Mark Brown wrote:
+> On Mon, Aug 19, 2024 at 12:46:13PM +0100, Catalin Marinas wrote:
+> > On Thu, Aug 01, 2024 at 01:06:46PM +0100, Mark Brown wrote:
 
-Thanks
+> > > +	/*
+> > > +	 * Ensure that GCS changes are observable by/from other PEs in
+> > > +	 * case of migration.
+> > > +	 */
+> > > +	if (task_gcs_el0_enabled(current) || task_gcs_el0_enabled(next))
+> > > +		gcsb_dsync();
 
-Wesley Cheng
+> > Could we do the sysreg writing under this 'if' block? If no app is using
+> > GCS (which would be the case for a while), it looks like unnecessary
+> > sysreg accesses.
 
+> Yes, that should be fine I think.
+
+I forgot when writing the above that we always allow reads from
+GCSPR_EL0 in order to avoid corner cases for unwinders in the case of
+asynchronous disable.  I'd expect that to be cheap to access though.
+
+--3PN7G0mWO4eG7H9j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbE2MIACgkQJNaLcl1U
+h9DGLQf+N5+bf9wgOIIzNX1vkURDnQUEK8nayHI+jFDZJUtCwgCR7dnbVvAybutt
+pxS7u/jQBZvRrPuIk4JAvlPy/uRMzwfk9ooJ/US3OA2OmcbLQX+k4cNNxkx4uJiN
+XP2g8aMT14h2hwKkusxr8dUCwyB55hTlFvHPsLZQ24dqsLp2FMZOXqIjEhjPth/I
+qtq8/NVfk4nBuJ2M9HAMVMTiB9RxjE0dkqvWrD11wiWoD4oxozxMWze93JijR2LZ
+2DkwdCLX0oezojVLBNXak0Qyw5JCKP+y1UDdtsLfN2kKyEljQp9lr5+hTUdEjv+N
+JBdNzCm5oAI+cdBJ0+S4fqr7zDDDLg==
+=Yb1u
+-----END PGP SIGNATURE-----
+
+--3PN7G0mWO4eG7H9j--
