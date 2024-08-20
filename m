@@ -1,163 +1,219 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCE818C921;
-	Tue, 20 Aug 2024 12:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724157236; cv=none; b=TxdH1JLR169nB0LOzZlw7oeaZLlkbtVJih+67Bol3oqSmUqco1Mi82LziWuC7//K70JGPuoJumgyafO5J3hWcn8CUabM57Ewf+iEp4hzoxtYphL9wJadBpa6OaRMrSUoHyC7tFWoUV+ndzFmBUYScrcCVih8qEvVHBCcUEc0RiE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724157236; c=relaxed/simple;
-	bh=gof5U+smSv99mAUfIV33b/sToNhuaisFU5st2WkDzgk=;
-	h=CC:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=jbDOGj/EMGb2Mx4Wq28kDbeK1Em0YhPnx51FdsYIuwGhaLQo+VJwRIXkHu3ppN4m5yQloYO23aFSj2gxaTDZYWEryLy3eDM9jgEHDb9y59xt8urpS4HsygjFzxSkrb8VjQ9NSkur2IOufE5Bq8syD4HVoWHJDTX1d779KqxmIYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Wp8036GsCz1j6Hr;
-	Tue, 20 Aug 2024 20:28:51 +0800 (CST)
-Received: from kwepemd200014.china.huawei.com (unknown [7.221.188.8])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7BC521401F4;
-	Tue, 20 Aug 2024 20:33:51 +0800 (CST)
-Received: from [10.67.121.177] (10.67.121.177) by
- kwepemd200014.china.huawei.com (7.221.188.8) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328B315749C;
+	Tue, 20 Aug 2024 13:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724158888; cv=fail; b=eJND3in+0vlb5uZYfKqhNatgeCWNOQPZNYiKv7aU40PzZ+NZ9l0D42sptyhDwn9QpyI6XIWHa1fFPdD9Ianz8UDahntZmAfSX+sg7s9lu0+qBhxmDR8jIaaIU7+60OXku6aseIIDqYboKJae+pUOmHhnEq2xEfi0sNmhd1XZR4I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724158888; c=relaxed/simple;
+	bh=e7Zoij0BorlPByRkXnCAREGS6YC4WaVeYhTsfWKbbLo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VlbgKKR48LJGCCY8l2MmA3VTitTY6CclLfgJXMrU5OLNQhkkKmG6sK3uBJl5qHJvx4rpMxAMAjUs0sE+ByUGo7tlzIYJZD6ZQ4KyfXUZRXHuvLvp5XzyQga6hqZXflGxjzV9OlcPX3MEseIFulZJWXpvTi5c8CURoatPT0ox8BA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kl7HlhMf; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kl7HlhMf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724158886; x=1755694886;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=e7Zoij0BorlPByRkXnCAREGS6YC4WaVeYhTsfWKbbLo=;
+  b=kl7HlhMfAUrMXg1dBLV7uo3bqam4qGJu5dAuFubx6DsVcjBHimw7dftV
+   3f7Xj6jTFGtlQytJSBiLiJb2KlyywWFKdLdF8nG23G57I2trdpan6I0vW
+   Uo3CzLj1RsC26CzVqFgALmKVT4i759Qs2kz9JguA7KwhZn+z3cfpFpITc
+   41SwZQ2eC52BPrJyz3VEpFxIhF9O+whnaExQvY1awUnsD1mDs4G5zGJIL
+   Rlw3+1vquwFURlWS51E5otAORdltOSgmXV1aPxmbX2U0ZhqoQaIFw4uj1
+   9AsmdQz8F2K6LvxDOIISc2PbAQ489k6cpA89l9qJN5ERH9hqBjXJXOr9+
+   Q==;
+X-CSE-ConnectionGUID: D6ny1TSUQ26/0jxBj8GSuw==
+X-CSE-MsgGUID: CciGcLRiTNSLLLAKRSoU/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="47849543"
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="47849543"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 06:01:15 -0700
+X-CSE-ConnectionGUID: NnradvfNTeW9waAIXD0Y+g==
+X-CSE-MsgGUID: vLhTKaxETFGjPkJBapKSqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
+   d="scan'208";a="61037064"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Aug 2024 06:01:15 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 20 Aug 2024 06:01:14 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 20 Aug 2024 06:01:14 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Tue, 20 Aug 2024 20:33:50 +0800
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<quic_vbadigan@quicinc.com>, <quic_nitegupt@quicinc.com>,
-	<quic_skananth@quicinc.com>, <quic_ramkri@quicinc.com>,
-	<quic_parass@quicinc.com>, <quic_mrana@quicinc.com>
-Subject: Re: [PATCH v2 1/4] perf/dwc_pcie: Fix registration issue in multi
- PCIe controller instances
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>, Shuai Xue
-	<xueshuai@linux.alibaba.com>, Jing Zhang <renyu.zj@linux.alibaba.com>, Will
- Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Yicong Yang <yangyicong@hisilicon.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jonathan Corbet
-	<corbet@lwn.net>
-References: <20240816-dwc_pmu_fix-v2-0-198b8ab1077c@quicinc.com>
- <20240816-dwc_pmu_fix-v2-1-198b8ab1077c@quicinc.com>
-From: Yicong Yang <yangyicong@huawei.com>
-Message-ID: <3a7264d8-5f23-92b6-d364-066cdc83ef8e@huawei.com>
-Date: Tue, 20 Aug 2024 20:33:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ 15.1.2507.39; Tue, 20 Aug 2024 06:01:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iwLlsQEF07B1nfCrwSQnMGGwQH53Hf2uQxubfuXT9ojWtKHsYI9LsMBFOWZLyQ+9XiXpFl+4QIf1B3fYInpFSvk92gvcVJbvmgteEFUwAVmdEAjXoX8Df11WVut1fKVnuJXatNMiIQLU2rVjKHgQXmX5tdDo5zlmtXpRvm9A7fvaMehbfWNgXJDmz90E1X4WePAzlRr2rzBD37E4KGKQ/PDmtsvedy6DOvzd3/c3y/UVzLXax8EhI6XycSELHSqFwrtJfnJDW9V0Ul0+WGtGKNk1kYsoMAWfvo0TDwGaH25HoCbg5KpUKGLKsYDD56b42etFe+WokhwVYzKZwt5tgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x3sAgd+HsYhCA1HxyH7OQNBnOHQUVpfjMElgC+WqqbM=;
+ b=mSD7bdkzUVtTWhlwVvuS5xWZZbYey+CMWfyaVOKFMvXes7dQS9Jc5vqhvwge9f4n9Iq5qZAfB90OBMxaxviWTtnVfvsxmbItHRGpf+IDNA+422MHxaIDi40ci3c6vtg5AcspYj8reiWGqZk0Q+7cYB0y/sXcZ3vecGwVYXJPD8k+wQmuXeTW4Ml01yUVr4fvvMBvt53zuvgvK7ok6iedcb8+pwXhnCRB3/MJMR0RlQ8g+WeFJXTJ3/fL8Fe9/kPnN1GiL4+jaBeFyBItPXJxEHkVL/muvoFrvCEWooBR50KJTmeIPpQSdwdAg5FHJPwS2QggJJWjR8CnV3zYseY9aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
+ CH3PR11MB7346.namprd11.prod.outlook.com (2603:10b6:610:152::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.16; Tue, 20 Aug
+ 2024 13:01:10 +0000
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::1d5f:5927:4b71:853a]) by DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::1d5f:5927:4b71:853a%4]) with mapi id 15.20.7897.014; Tue, 20 Aug 2024
+ 13:01:10 +0000
+From: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>, "jiri@resnulli.us"
+	<jiri@resnulli.us>, "corbet@lwn.net" <corbet@lwn.net>, "davem@davemloft.net"
+	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "donald.hunter@gmail.com"
+	<donald.hunter@gmail.com>, "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Loktionov,
+ Aleksandr" <aleksandr.loktionov@intel.com>
+Subject: RE: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a pin
+Thread-Topic: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a
+ pin
+Thread-Index: AQHa6YWetxpyQwER/kmdLN5gT7vM5rIf5OqAgBA6X6A=
+Date: Tue, 20 Aug 2024 13:01:10 +0000
+Message-ID: <DM6PR11MB46574D49F2601C4E3538FB779B8D2@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20240808112013.166621-1-arkadiusz.kubalewski@intel.com>
+	<20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
+ <20240809211549.28d651d7@kernel.org>
+In-Reply-To: <20240809211549.28d651d7@kernel.org>
+Accept-Language: pl-PL, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|CH3PR11MB7346:EE_
+x-ms-office365-filtering-correlation-id: ba66a5f5-2baa-4c57-1474-08dcc11829c3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?/RIH7sHMaF7oiJ1qSiYmSf6kUtHJ6c/lyzOkDcyR53TU1ICOdeO6im/n+QtM?=
+ =?us-ascii?Q?ln7DbkeNnX3Bb4TfipAlq3mVq798CtPJLFQDbO/CdrVGPLTyN+ZOJVNbwYqR?=
+ =?us-ascii?Q?FFSDynEuEWyCpmglK+k4qq5ZuReVm22bSrxMOWqbnHrjtm2xV2vWLthp5squ?=
+ =?us-ascii?Q?3ZkYX5pzLHnm/PU7lBt4VhF6vJBgmJ0ShSz2xrdfT4UJl1Loowh5YAXp4ucD?=
+ =?us-ascii?Q?tpwiwNi7f/HR013esKEWUXIYzsFV8IKB5KWyZu4XkQcwa0sBF7aR6B9GVKGG?=
+ =?us-ascii?Q?zrEUtnjTuTVmWYE4QsYj7GmZuAybseDwDKSHKcyf2GoXXfHGhVQ0kdbSp840?=
+ =?us-ascii?Q?Du30xu5EAmXK3WOGNGMbZ31JB8pKbiGjTMvBqVr93y59rB+8F1EKTzhWjhfW?=
+ =?us-ascii?Q?zTbWTmJaeF6H5Se15ttDKVmrVsSkufMBqJh/CmDBO8UywIGg37DY22ZIanPy?=
+ =?us-ascii?Q?tDJt1M5zbUIKlz9beIQIvuJN0Z+r1UwVimgoZJ+o9XwVlkUNQzOXxqAuZGTg?=
+ =?us-ascii?Q?8lXP9ZQdOq7JCN2ilLT+CTU3L/ggpyF8P5RLyChwpxPMbAb+H9nNGW4Y0MlW?=
+ =?us-ascii?Q?Np8QVNeqHmJfc7BK3jpinyhR1IrmoQMn0LGNjnz9G8HTPbabD0agYJZDXTsH?=
+ =?us-ascii?Q?sunrpX4mmhgZnGl6AWLUdnmSXy5EWewXdgnm3h37WZYVtzyp+ZhBwfQZE3kw?=
+ =?us-ascii?Q?U4l1pGpXZKWx7yFRFE6dlMkRZQB1d+dpl99KymBnMeDaTNgWjZ7LXcG/j9DP?=
+ =?us-ascii?Q?3w82US8fJQ4IuAq9OST7wAJiXrZYss/TFdS/mOi3UaHU4MbQxuiEAjOm8VbL?=
+ =?us-ascii?Q?jwMPkeYPAapqCgxyZUVdbVJNE62i7DPu25bPeFa/L//cozbEBvIx5QYehn2w?=
+ =?us-ascii?Q?p5DxaKow3OjV36Z0Yh4cFSbPliZvm1GI7113wX2ndXUuQDfkQfSW0unS4DmB?=
+ =?us-ascii?Q?chvL4xuJdhCg2i2kJrsASCqfESP5euuqqCfWDxMIzTHGCGzq7zutlXt3eErl?=
+ =?us-ascii?Q?ZwSjuXJxEHm7+i5CqlI0oy6jVTe+uYCmAmcrqZ+rcDRR8A075iUUmgEF6BKg?=
+ =?us-ascii?Q?kk1RLAM01iZneRbgBxLgpFL4vyyU7pkepX7xhgRhVt7ArDBFTUd75cKz0Co7?=
+ =?us-ascii?Q?qe2wvKZm7Rf65ADbd0JfTDvMpkxaQYutbtTzEexzp3wnKFBajHz9pIZXYa46?=
+ =?us-ascii?Q?/NTzeqe/LfT2SYyHugu8Ltg7l9XAO+h+SmXId9R1ZgDIxIWXOi/KBDyNjypP?=
+ =?us-ascii?Q?J3QIonyV/JWj0AUNvus/BZ2p/6nUeFut4mfv3ljx4GBpXe3QPRYG8SIo/5H/?=
+ =?us-ascii?Q?3NNpjTeHXv/Va/ibRS4JLQa1scwy0q+vtYGeVRh02q86pyBLdieCT14dlyS7?=
+ =?us-ascii?Q?LX1qH5NIUxAzuIBZ/qAFHe5wzEZ69mrMJcTry0QPyD/XaR5giQ=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?STtKaCHQ45yYDs2OgZhTDNl4JZ1fz2ewDWh0aO8dr6mFMMlN0pa4rXJXSAvY?=
+ =?us-ascii?Q?I75hpSggrwDy3fs8obiYjsYFHMNuAQclPkMxnenuaqWdoPtLc7iDNWlyCuhB?=
+ =?us-ascii?Q?S+Fu/4s4mkMvlyOvu0IYmdHM4w3hzRVusNR7n8oSLbN73AZhxK7uTkFey2Xs?=
+ =?us-ascii?Q?ub4Y8lsJ43h4Vq1yFgjrEdxOmhY2h/VNzXKJaxKya0lCKd2ADPu5fHm3rdJK?=
+ =?us-ascii?Q?W4ZJiu64t3DtIr1Rle+68np4M5cyVKVMTHqo/DGg9pWae58O1B8WSQeRm1Hp?=
+ =?us-ascii?Q?S0IoiRYu/xcUyCjPyJ3DU+q+5GQAKkXVe8C9ssLK8yNgyHQNqfeSDhJe4DE+?=
+ =?us-ascii?Q?3NrWQ/mS6hDhOCHUKXh6bvsbk8XZGqm3hHPSdGF9tK2YqCpYV0pWAxeyHN6G?=
+ =?us-ascii?Q?dZwv+tNWG5vOH8mOFEHj+lBQO0io1japvfXb8UgVDatalwrXQI1qcxNemK71?=
+ =?us-ascii?Q?nz5ilc2L1LXT8NM0aCLLlp0Lr9ysgX/SE/+tuGtpFOhWt0nGrdt5jCGagI4P?=
+ =?us-ascii?Q?ens7GsCTQYox1prgaXQSn2WrFTO4c0UvR43AEWl/mhlzMBpWG9frM/j3u5mN?=
+ =?us-ascii?Q?58opdFPuaAQId0q7tJuoDBpT677omUTo5yKx2Qmcq2j9oVxXNEABnXjGDT0m?=
+ =?us-ascii?Q?1TNkvJkjyvEAznmMi05eMp7+e9LOF5/YpnCjF7vyiI1MnxHLfCvqc3oM5zAq?=
+ =?us-ascii?Q?th6YFT8KQmUq7ZrJRv1DlaiC3kqoVs/mAMU/9SNX9Lf5RAcB2bmiJM45neZN?=
+ =?us-ascii?Q?ZE6A3tv0CpQcOnj58HnV5WfqXAqoHlkqqsW1bJNQUroq514LwcLFQnut12Nt?=
+ =?us-ascii?Q?SQ2AdKKq7OzLjj61a2XpDiM6zL5AVJLX1WQCUv9dB72XGdQaZYzBh4rn21gN?=
+ =?us-ascii?Q?FiZPhBwrRa6QmVZBNHsBEen861lrWV3rinKRxCzTGqEfg0YnCYYPqaamFKuI?=
+ =?us-ascii?Q?2v1HvrVS3uFoNmLm/UTlVThBCtJ63qghbzpEgCFbn0LXKx41neoBDAjPNR0e?=
+ =?us-ascii?Q?6zQ3Qw983sG27wxGidrMilzqQ7l9iz4aTZILI2J9xP9sNqr3kRFBh6u7lSIe?=
+ =?us-ascii?Q?GWEuWLSBHxAwIih8BXPYbg+sjXafmhfFMlKlm5W2nqLlWSEmP1zxZgZVeBPb?=
+ =?us-ascii?Q?i0N9voY+jI+LX/bUCfq/apu+wejCGI3bpLYp9KKGHFz9xoLBQV2rdHY93bcq?=
+ =?us-ascii?Q?v/dX5YGUgWJ6AbFsfuVvOBc1ClsrMy55Jcbrg9KP9YuapE8/Ji9JlZwbGjDc?=
+ =?us-ascii?Q?s6hQv/fZul1hAyAPFq9yQmel54Evsrkp3Zn4lH3sU+NNruzgUYlendX3N0FG?=
+ =?us-ascii?Q?LY0ITiwXpsT1lk6Ds4DqFQclX1+/TyqMh9p0CiW+9F7d3ZHXEYVnixvCcuKa?=
+ =?us-ascii?Q?cwdA5j8flnN/9SE5BnSNMryQ91QzXxO1E7PIiZVgEpaQJfbjTa0EbvLKk/c7?=
+ =?us-ascii?Q?e9ZV5W6zlka/vQszFV6aHaWV1rUboajoo7FI4fTbYr43ZEUgY79pguR+l1G0?=
+ =?us-ascii?Q?julcNdD8sjnM3OT/SGqUexDmFNNc1LR/83XZziNIBzNEz2uUmfC3tkij73Cw?=
+ =?us-ascii?Q?mGaCTafBMIVh2Qgod70A5m42T84ZVFU9NGVttWBhdXJiD2tICA2ogTd4J2C0?=
+ =?us-ascii?Q?1g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240816-dwc_pmu_fix-v2-1-198b8ab1077c@quicinc.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd200014.china.huawei.com (7.221.188.8)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba66a5f5-2baa-4c57-1474-08dcc11829c3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2024 13:01:10.3680
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Tf+0K7dDmq+6exnuGrbQlQMrb1YgjvvgVaQ1y+xBi/+RxqYnstzuSer81h9WBkbVWImguwIgQOdLCqT1IPZ+6p4LSu4IzF8ZLN/KBgDoOSo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7346
+X-OriginatorOrg: intel.com
 
-On 2024/8/16 23:17, Krishna chaitanya chundru wrote:
-> When there are multiple of instances of PCIe controllers, registration
-> to perf driver fails with this error.
-> sysfs: cannot create duplicate filename '/devices/platform/dwc_pcie_pmu.0'
-> CPU: 0 PID: 166 Comm: modprobe Not tainted 6.10.0-rc2-next-20240607-dirty
-> Hardware name: Qualcomm SA8775P Ride (DT)
-> Call trace:
->  dump_backtrace.part.8+0x98/0xf0
->  show_stack+0x14/0x1c
->  dump_stack_lvl+0x74/0x88
->  dump_stack+0x14/0x1c
->  sysfs_warn_dup+0x60/0x78
->  sysfs_create_dir_ns+0xe8/0x100
->  kobject_add_internal+0x94/0x224
->  kobject_add+0xa8/0x118
->  device_add+0x298/0x7b4
->  platform_device_add+0x1a0/0x228
->  platform_device_register_full+0x11c/0x148
->  dwc_pcie_register_dev+0x74/0xf0 [dwc_pcie_pmu]
->  dwc_pcie_pmu_init+0x7c/0x1000 [dwc_pcie_pmu]
->  do_one_initcall+0x58/0x1c0
->  do_init_module+0x58/0x208
->  load_module+0x1804/0x188c
->  __do_sys_init_module+0x18c/0x1f0
->  __arm64_sys_init_module+0x14/0x1c
->  invoke_syscall+0x40/0xf8
->  el0_svc_common.constprop.1+0x70/0xf4
->  do_el0_svc+0x18/0x20
->  el0_svc+0x28/0xb0
->  el0t_64_sync_handler+0x9c/0xc0
->  el0t_64_sync+0x160/0x164
-> kobject: kobject_add_internal failed for dwc_pcie_pmu.0 with -EEXIST,
-> don't try to register things with the same name in the same directory.
-> 
-> This is because of having same bdf value for devices under two different
-> controllers.
-> 
-> Update the logic to use sbdf which is a unique number in case of
-> multi instance also.
-> 
-> Fixes: af9597adc2f1 ("drivers/perf: add DesignWare PCIe PMU driver")
-> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+>From: Jakub Kicinski <kuba@kernel.org>
+>Sent: Saturday, August 10, 2024 6:16 AM
+>
+>On Thu,  8 Aug 2024 13:20:12 +0200 Arkadiusz Kubalewski wrote:
+>> +Device may provide ability to use Embedded SYNC feature. It allows
+>> +to embed additional SYNC signal into the base frequency of a pin - a on=
+e
+>> +special pulse of base frequency signal every time SYNC signal pulse
+>> +happens. The user can configure the frequency of Embedded SYNC.
+>> +The Embedded SYNC capability is always related to a given base frequenc=
+y
+>> +and HW capabilities. The user is provided a range of embedded sync
+>> +frequencies supported, depending on current base frequency configured f=
+or
+>> +the pin.
+>
+>Interesting, noob question perhaps, is the signal somehow well
+>known or the implementation is vendor specific so both ends have
+>to be from the same vendor? May be worth calling that out, either way.
 
-Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
+Unfortunately, I don't have good answer for your question. I went over docs
+from 4 vendors of Network Synchronizer Integrated Circuits and only one
+supported it.
 
-> ---
->  drivers/perf/dwc_pcie_pmu.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
-> index c5e328f23841..85a5155d6018 100644
-> --- a/drivers/perf/dwc_pcie_pmu.c
-> +++ b/drivers/perf/dwc_pcie_pmu.c
-> @@ -556,10 +556,10 @@ static int dwc_pcie_register_dev(struct pci_dev *pdev)
->  {
->  	struct platform_device *plat_dev;
->  	struct dwc_pcie_dev_info *dev_info;
-> -	u32 bdf;
-> +	u32 sbdf;
->  
-> -	bdf = PCI_DEVID(pdev->bus->number, pdev->devfn);
-> -	plat_dev = platform_device_register_data(NULL, "dwc_pcie_pmu", bdf,
-> +	sbdf = (pci_domain_nr(pdev->bus) << 16) | PCI_DEVID(pdev->bus->number, pdev->devfn);
-> +	plat_dev = platform_device_register_data(NULL, "dwc_pcie_pmu", sbdf,
->  						 pdev, sizeof(*pdev));
->  
->  	if (IS_ERR(plat_dev))
-> @@ -611,15 +611,15 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
->  	struct pci_dev *pdev = plat_dev->dev.platform_data;
->  	struct dwc_pcie_pmu *pcie_pmu;
->  	char *name;
-> -	u32 bdf, val;
-> +	u32 sbdf, val;
->  	u16 vsec;
->  	int ret;
->  
->  	vsec = pci_find_vsec_capability(pdev, pdev->vendor,
->  					DWC_PCIE_VSEC_RAS_DES_ID);
->  	pci_read_config_dword(pdev, vsec + PCI_VNDR_HEADER, &val);
-> -	bdf = PCI_DEVID(pdev->bus->number, pdev->devfn);
-> -	name = devm_kasprintf(&plat_dev->dev, GFP_KERNEL, "dwc_rootport_%x", bdf);
-> +	sbdf = plat_dev->id;
-> +	name = devm_kasprintf(&plat_dev->dev, GFP_KERNEL, "dwc_rootport_%x", sbdf);
->  	if (!name)
->  		return -ENOMEM;
->  
-> @@ -650,7 +650,7 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
->  	ret = cpuhp_state_add_instance(dwc_pcie_pmu_hp_state,
->  				       &pcie_pmu->cpuhp_node);
->  	if (ret) {
-> -		pci_err(pdev, "Error %d registering hotplug @%x\n", ret, bdf);
-> +		pci_err(pdev, "Error %d registering hotplug @%x\n", ret, sbdf);
->  		return ret;
->  	}
->  
-> @@ -663,7 +663,7 @@ static int dwc_pcie_pmu_probe(struct platform_device *plat_dev)
->  
->  	ret = perf_pmu_register(&pcie_pmu->pmu, name, -1);
->  	if (ret) {
-> -		pci_err(pdev, "Error %d registering PMU @%x\n", ret, bdf);
-> +		pci_err(pdev, "Error %d registering PMU @%x\n", ret, sbdf);
->  		return ret;
->  	}
->  	ret = devm_add_action_or_reset(&plat_dev->dev, dwc_pcie_unregister_pmu,
-> 
+I also haven't heard anything about standardized way for this, but I believ=
+e it
+is hard to call it vendor specific solution - IMHO there is nothing fancy t=
+hat
+would make it hard for different vendors to implement/use. The "special"
+pulse-ratio and embedded sync frequency seems to be all the info needed to
+configure both ends.
+
+Thank you!
+Arkadiusz
