@@ -1,237 +1,161 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92F018C92C;
-	Tue, 20 Aug 2024 17:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724173924; cv=fail; b=V+/MD4A37xUVaZhLUtRZgRuWyPyf2NLIsjdQg545nEfA39fx0LYl0VBjVhk8Y+HtgtgYNW4X/4ZwzkIv+QKyzb19nOzd4yTmiosRTJGl9HDEkQ99Hybjgje6MNTsnTumnZ8uV570R8jZd9GGW7ELxqcpYPwacYaUWxhC5EQu0ck=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724173924; c=relaxed/simple;
-	bh=5q4d79WkNKyzKqyIRkhE0sQUz4/urhyzGxBGisHGnzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VAsHGf1mZYniayEKRuvYNtFp0u3f+BL+Y0V/LmMLXN0JK1sev7c3eo2iLcPaD6+QO/8bWkHkLIO50okAuI+WgF3OVNfRINo1lMFzR6Dhnxq4D0RusLIYbiuKcFqUrFwSWVK9WS2QY+p4ls5Aw0zJqnI/SnzXxKGPKCSFnAkfkyM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NwhUgsGU; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Q3OzLZFh; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328FE101C4;
+	Tue, 20 Aug 2024 17:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724174196; cv=none; b=EE9JUSm4KjnBVvlhQAbSs8K9LL0+JEVPlWib6X1xtLWkwHmfpbtl2IuTH6aQaXT+itTlPjLBh2D0bZxXzYI16KbKVZCCGXioAd94Lq46jkE9dYtLbcp61LRuu4ni55FH+iVP1I/RgYWrD+aE05efrliPopjfFSBVu7+0EGBPoPU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724174196; c=relaxed/simple;
+	bh=KlsDqUJM1mHlRFZZFUQbW7vF2f4ODUm8dttJhifoJp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ure30b4Ndnbq2fWmin497ymrSVregGElm/zSDFxmbdE5NllUQqY4G3jsSg93Co0DCxdow6dN7HLo41FuCcX/QZCnAahXX1CG2Tf0O60eewnSdPyxcmn9/HnLFN9q2891n62h3h/7IFGTYknJjl8EELGvDWGrvT3nJXLkGY+rlt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=wh4IxtXn; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NwhUgsGU";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Q3OzLZFh"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47KF9rXe027297;
-	Tue, 20 Aug 2024 17:11:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	corp-2023-11-20; bh=wRFJLKVL6ltDWnJOcYofm0SS3Fkt61EWmaaebPIeFms=; b=
-	NwhUgsGUkfO3CkSO3lwfwjHnR8q3rQutdrWwy2SoS0AW5oU4eDvTSiCUVHkuduIt
-	5uKbbT3K+ozS3bxQnGnIx7Al8Q8JgVyS0S1kO7Ds7H8hQtZrPPcztcbW2DqGq+Wb
-	vTmWKwYNr9xAK9DwnpcgCrJ5euT401emrTB4GyU0yxtXl7psLq8Ea42N8+SoM7K3
-	uf2MLBnHmGGoO5N+Nt5ZiktqNVpMIV/X4idgepVh2mJ19DCBfE4YwELv2oYU70LK
-	Xu7CTImJeA41OMoTs5JHbeeGxCaqLzzj+GRyngAUREI3IMfdxXw1Us81ZmMlwiLm
-	o0calgs/NdNO1mIb4Y/S4A==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m6gdp50-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Aug 2024 17:11:51 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47KH2uJW016853;
-	Tue, 20 Aug 2024 17:11:50 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2177.outbound.protection.outlook.com [104.47.73.177])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 414x6gug4d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Aug 2024 17:11:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rjIueLU81QTqOn4nl2nZwm+QF//vqAKNZppSeuEV6MOcoL6Djq6DQLBA69RkmkCdsFpWZcIG9I6V04K4S09+6eR4yROUXw1glMdjMC/TqWkEsbwBn9mj05d26/TJjbQIvCRXYq0xePdTbp89q1A0qZ/DlGH0nyQ31s3g6K8DOMGXNAB59jq+NcSHSCj1Du1dRJvmnqemZyVxlTB1U96zOd9r927Pf9X1q8Z0ArvJT/WX/s09+rsCX7+XbwSzeH7vsY7khMc/v/799X3AKtJ6//YDU7rBDXTFHY1Bok7Wo71TRTwQ5BSAmpJehiC2Z23tOaDSlxdRT0xJ1C3Kg+hqig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wRFJLKVL6ltDWnJOcYofm0SS3Fkt61EWmaaebPIeFms=;
- b=syZOBH21dWqtsR9rUcC/YZn5OGI35KaVNjgwS63mMlcllB4rm7JQE3wjc+NLBAVKwqdczKhqeVswn9YCPjv/QDj+0McEo3pMa3GYv1243KJiO/mqbarweVgnszOUF/HKThkdVuwI62ea9eB7ZHHpWso0u4VoLfKqWl9XrkkzNmKJRYcmbwFH1KDK+zk3bsT6VYNnOZwW+t55TmtJaf9pAR5Lo88ImNJco96LXFsrprbitcwq5iA2ri+p81fJk9Q2rQ8JfC39KWanfCnEyMtlMfEOKzt/8tPRkC8l6uKWbO7OcCRB/DFedFybpVAqdIM1UcKKTnne2hqotSRA26U6qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wRFJLKVL6ltDWnJOcYofm0SS3Fkt61EWmaaebPIeFms=;
- b=Q3OzLZFhXoh70B/qqsE3XyysiKCe8DWPOFgHZjWRbuBxW/Avn0sAeEQ1xo59wI/bXNQIiJoV73C9X6Ez/69ooW1UraLc0GEuA8VH5sAww15bah/TYAK9ZHfXfXz8L+LtIZXni8b75XI0MjdGt/M78Ji9ChbgBi6WS699OQG95IE=
-Received: from PH8PR10MB6597.namprd10.prod.outlook.com (2603:10b6:510:226::20)
- by SA2PR10MB4636.namprd10.prod.outlook.com (2603:10b6:806:11e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.13; Tue, 20 Aug
- 2024 17:10:47 +0000
-Received: from PH8PR10MB6597.namprd10.prod.outlook.com
- ([fe80::6874:4af6:bf0a:6ca]) by PH8PR10MB6597.namprd10.prod.outlook.com
- ([fe80::6874:4af6:bf0a:6ca%4]) with mapi id 15.20.7897.010; Tue, 20 Aug 2024
- 17:10:47 +0000
-From: Stephen Brennan <stephen.s.brennan@oracle.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Stephen Brennan <stephen.s.brennan@oracle.com>,
-        linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 1/1] Documentation: kbuild: explicitly document missing prompt
-Date: Tue, 20 Aug 2024 10:09:46 -0700
-Message-ID: <20240820171000.1656021-2-stephen.s.brennan@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20240820171000.1656021-1-stephen.s.brennan@oracle.com>
-References: <20240820171000.1656021-1-stephen.s.brennan@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0206.namprd03.prod.outlook.com
- (2603:10b6:408:f9::31) To PH8PR10MB6597.namprd10.prod.outlook.com
- (2603:10b6:510:226::20)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="wh4IxtXn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=2kmbQKZObU3hlHNGeGrG2jsrvoxmn7benNNYZxhr1dM=; t=1724174194;
+	x=1724606194; b=wh4IxtXn88nm8TrO5LcCBDm41I7zTjm0/mqhiC4yd2+s+qxbMkpwIowzNN7cd
+	iEhqIbl0/Wo48w04OLmq+cRM6DbBL4oFB3RaoMeR7vaOVXlKI4ccpuI5O6eAFB9zdfHlN1KjC/1ja
+	JRMQiTOwJlYBuzGO4ihcsGI+N6dznZdggtJUJHloUJCU9j2PcjDFUP9TQtPXe1G3HlKHZxS9uFXXP
+	PYaQ5LVaA6xFfy765q1911KkuvHXD5g4DtfBdY5jnCcRqwO6svCF7NZjYqsSIM0IJmTpvawjNUSHQ
+	r3hF8X7XMt+hy3jRcmH67yxImym0mfCOZ+TAFpM14YmubwX7pg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1sgST5-0004pl-Gt; Tue, 20 Aug 2024 19:16:27 +0200
+Message-ID: <e6681b51-297e-4ef8-a199-d36712088740@leemhuis.info>
+Date: Tue, 20 Aug 2024 19:16:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6597:EE_|SA2PR10MB4636:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d519808-b751-4e6d-2c99-08dcc13b0878
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4JayhI4RCWtfKSgEi2dC2wj61BRqnbQ1pAlMgOzxX35wh5JYGw8Wm0YK37zl?=
- =?us-ascii?Q?ErtmcZmyMzSkmQKxEUZ4PPrfty41sCe9xYVBAYwZsPPctQJRfg4z30EzqlOx?=
- =?us-ascii?Q?RiXtVLMe8AyobQ2BIp2WZUSuxTWlL+jw1lETPTVHQwrJ/C6/okhd0yrcK7Nb?=
- =?us-ascii?Q?6sIS/eOx1xg1kvzsOLaaN47BUU3KRI8YK5KeonfCttofHlU2IIs29+0/xgmM?=
- =?us-ascii?Q?DGCRw8tPkqoWf/Ow0ophucsfr9+FflzlofHBCLJ4z0Jb1bUYdPDhFkinn1yA?=
- =?us-ascii?Q?s/m75rrILEozJ8cofSA+tVnyk5OMnDTAZ+f84yNOXO27U36n5UUMHoHD7dGS?=
- =?us-ascii?Q?rK5EVlyFpss66bJwna+WxaJLEksmSrldZmr0vFLpQ3yobX5sUGVGq4hGKZ31?=
- =?us-ascii?Q?nTB8GS5eGdJNKvOihFEbb3NrbiU6vKqNJmVVIFl80DHt96s1exJ7YyV+ffn1?=
- =?us-ascii?Q?KpX/csG30lHtRnZqGPge4pDRkyfx+d6NvALpQMwYKro0FJIyb04tjpjxocp1?=
- =?us-ascii?Q?1xB4Y5d/zVrA7kdRsshUpQmGIjZw7lGNBK5NxmND9L7E5GW1eeHOtY/bKxH3?=
- =?us-ascii?Q?lUo/BaPaXyym7rIgdxBqhJAt+D285GYYOA4VVSwIwfgzINRNKE4jrntLx5N6?=
- =?us-ascii?Q?zNQ3RL+4NYaSkMcmxkBWmvnK/OLP1FKD9BwgFK4IHNukfJoUmut9mawH1qQD?=
- =?us-ascii?Q?YNz1Trrzx2hamGMg3EvzGrqeCr5LUcRp81xIQz25m9wMhm4fgio4iREXflBr?=
- =?us-ascii?Q?8glYmcaV/IRBYz/fyorV6PZuFKVLR1nO9qbpSYQGAUqPtGaMtIzZmrcxRPbz?=
- =?us-ascii?Q?mZnIdd7jV2NP84L3S9mYEAJcg3eqE4HSeOTmLhJ1Rh5/A3p8u1jG9GDJHYCD?=
- =?us-ascii?Q?zYdmtTOqM+BWvMOaP8L0byQ3pqz0aY07NG2E21X5Mm9hbCiP/wsct9SFSdav?=
- =?us-ascii?Q?al4nobClaSy1y8d2ddUzaxbWWU/2NXKQMAiM45UBbmfE9mTPHwUH2b4oLQrn?=
- =?us-ascii?Q?9ZdJAjLJgKzBcdXlOVQWyq3f+p4/gAjtf5j/XODryTiv6OJhurZHo+/wKTJ+?=
- =?us-ascii?Q?jdqm6xAKmv8HSzs3fyHx/ETmPCKHzUV1fqyqBMIwah3CY6ZTVHmRRxxOi6U/?=
- =?us-ascii?Q?KwVkdnrPmW3707YULCr5MYok3bXMRAguihssZTAJ9ROQBx+45fDlBRJyP5WK?=
- =?us-ascii?Q?eHRfJeHIbGeBwTuZWBObya64NaopPaPG6pJBRMrDOPTGumqzWxMMC30YrM3Q?=
- =?us-ascii?Q?gfpEeD55dBBpZOWAOZNimLFJsXF0OsEf702sWOZkSk5VZZdvIVLXy2wKpWjp?=
- =?us-ascii?Q?9RlFRAk1r7y9lWkIN9/10pzW41EiZkL46FcWdZFN3OsLRg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6597.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?v6HeSCkFKdJjLw5y+yHJxjBYnS4og2YWT23Y4muePgitkEjomrw/kDcVTPk2?=
- =?us-ascii?Q?FEkgfjd8FtJV1Sn80il8caQP1WPRVcNvXzWDGCczNsuD4wJMIbjWzKXQu9Vk?=
- =?us-ascii?Q?qc40I17OWJSGl3ktC49+H/7l6rds1MYVx9lgdc4n7skJsx+vW1L9ivdlZVdw?=
- =?us-ascii?Q?IOBOhivHRClUnAXkxQyt80nJf7DDpnvuwPJ0vQVMwv6JRXUDny6W8dzc9Rem?=
- =?us-ascii?Q?t2xYlNFcQXktzJEJsNun4yUL8G6n6VKKGywmCJLWuXqoN9S2g5SdIF9ED4IE?=
- =?us-ascii?Q?kLB5QkTMQSEjbxSE9HXTiVtgj1gjPXjyN7nRLTyIJIG0rvhSUDaznzvEgMgD?=
- =?us-ascii?Q?7J+VnTNzYZ78yG2GNQ7Lmvwl7kptU8HuZeOxfRIg+gB390cEdXbMb/p2lhb3?=
- =?us-ascii?Q?mo0F1Ry/IDejcKVs/nWTWORJ2UA/Q4dei68Gp45FA7BpCTqCX9TtqH+Y3xpK?=
- =?us-ascii?Q?pcY1epsZ1E/Eds2LsvcsvDv2Ymw6UP+Utep9HFMHbWx7a3Ia3YsIOG0/e3YQ?=
- =?us-ascii?Q?0G6N+lmaYu2wjK86iksQCn0Iu0uACs2e0uaiE+pzjZHAslhgcGmUHnWG6uBq?=
- =?us-ascii?Q?32yA2i066wsmppc3Y8cZ0GZ9KpTvot9ViJxXXq2YY9V6qnQQHqa5SGCVPqdf?=
- =?us-ascii?Q?w5sv/wQLWdnQSEjv9OgSV/SRh8EY6vGY+xFeaRO95oIQY0K5VK9n72tpl94x?=
- =?us-ascii?Q?EFwCixsKjqJppqcSRt/o7A3ySvF2C9KuFZdqU+7WmHYd6AafA3zo5dlypskR?=
- =?us-ascii?Q?fAwkUSxQ1kCSymXxkfyQkaT3i0Qk25IWea1MDxoGZee9BjgEvbl1yn8P0Fxi?=
- =?us-ascii?Q?6n0hth5rf77QJHgFpd2WnFkKiHAmMZgscdMaZlD7ZTkGGxATWeQc746FMRrZ?=
- =?us-ascii?Q?j9ErfuhDwoNaPc7tK8j8yWS+T67JO6W+/xMnYHiHkW90DSHZ3XxhYGio4f4M?=
- =?us-ascii?Q?qereiivQFFTKQED2WXExr1yj4bfhU8oBTyvtKCkgVo4hwvOZyicG0H46liu3?=
- =?us-ascii?Q?kf2jn1oxMg1ehp7gLmmXMXW5XMbS94XHItfQwC9k0LYkKYqf35+A18sxHG/Q?=
- =?us-ascii?Q?neIPoe3YKD1iHo2zglZZCzge0jRX6gfUy5ip35CTx/QCvLcEmeldnl2Xo3EO?=
- =?us-ascii?Q?2naN7x/CPUWq9RJEnSwN4SwtCn3yyhjtdlrKmYjzwYp/eeR/qTqNv7J6WkQe?=
- =?us-ascii?Q?f+3cAmVAM6pgdVeJGoo6HTzQCFG/Ya04wbkjayda9A8lHSRZkFsjs0e3ABXT?=
- =?us-ascii?Q?fzbEH8sscw1yKUfAAv5JfBt3MpAjjoFWQ8XL5SeyL5lGP86DTgvP6GaVfx7c?=
- =?us-ascii?Q?gbvppiWzdQuUESr7ZZNaSuIeNTdDdjg9Lpmmu5mMpSZyTLZVMB2sNtwkSN2o?=
- =?us-ascii?Q?5VLfreLDjaZaEIx7OCixWDI7BzAQKeX15qUhTrT2nNi2MMeLPfwGid8pvJyM?=
- =?us-ascii?Q?bMieR/QXRapTDvYPfetp1+7kCRXnys0pkBw9JOQm/ni5uKLHcwLJbLQp8PKA?=
- =?us-ascii?Q?7xAAJ//m4vvObUX4fwar+6t0XN9uF3UdB/+lEK0oXZnCAWmCsvo0hiNy0HGM?=
- =?us-ascii?Q?0yuH1B5kRCV8lP985xRqQCycrZEiTkPr+YGx2dvx+rCf2CirJaFn4TMFAPa6?=
- =?us-ascii?Q?9A=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	hbRw/I2D/0711+eM20DAa/4tQ1vKhUC4xVtecWp1heiFcE2x+pkWXxoTjbAfjM9M5O6pmkBhxp5/rVQR1nArf0dHjW6rq9iHzcOoy79WM6UNNTN2+zWCtmJF6c1UOKcP+9p1lErxOdncOjZ7RKXD9924dXwDhOy044HElv0pqujstuwRBCUKQWaQKx1zmHuII4KhqZ7+H1ft7cn4gT9SY75EJ4dWwMbcyOxV6N+Vzf/l2R5OXnhdBuXQtp+Ipief6Bl4D21Vl8MWvQ50qEnw8pD61tniBma+7+rojrr+W70S6a2OmUh/drdZ0KODf+tgKS5HoymM0kuMdtbbjxoataQyzBMfU3Cv9EC2WhXIO72twcI1YWVZxY2KmPSj/57M0cfyumsLNe5MsFpHIa7BFSg6iCXa4mYtPHyj345lvbLy0sNe9H6ogni6odwdCm+LM9jMfYeoTAv/FpkGa0OrD7QatsNM5vNHKf2lt1xTQM36YEepo8iDg0jpdbR9sRg8qn74XbBZimRykEHhIc3+2tR7Tb8tvvvXk+kjxTyrI2fBfmI724UUEyu/wcrdimof29xnqsrvid94jCktcLyOtQF04poEmGff+mfjL6PFqGc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d519808-b751-4e6d-2c99-08dcc13b0878
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6597.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 17:10:46.9997
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IsstrAPsJO0/f30ywokt4hUCpMjZHTP+2mAPheyROzG1yW3uoof8pcyTlck3lVEXIbg3kU2ozyNCcFE1bvlAnhVO0FxVNAMlIUcAdyRz9xQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4636
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-20_12,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2407110000 definitions=main-2408200128
-X-Proofpoint-ORIG-GUID: zttc0eha4xBrn4I4zDmjP9ZgyfJZR0RU
-X-Proofpoint-GUID: zttc0eha4xBrn4I4zDmjP9ZgyfJZR0RU
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: bug-bisect: rewrite to better match the other
+ bisecting text
+To: Petr Tesarik <ptesarik@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Bagas Sanjaya <bagasdotme@gmail.com>
+References: <fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info>
+ <20240820140751.0e024f21@mordecai>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20240820140751.0e024f21@mordecai>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1724174194;02ac1176;
+X-HE-SMSGID: 1sgST5-0004pl-Gt
 
-There are a few lines in the kbuild-language.rst document which
-obliquely reference the behavior of config options without prompts.
-But there is nothing in the obvious location that explicitly calls
-out that users cannot edit config options unless they have a prompt.
+On 20.08.24 14:07, Petr Tesarik wrote:
+> On Sun, 18 Aug 2024 18:12:13 +0200
+> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>
+>> Rewrite the short document on bisecting kernel bugs. The new text
+>> improves .config handling, brings a mention of 'git skip', and explains
+> Nitpick: git bisect skip
 
-Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
----
- Documentation/kbuild/kconfig-language.rst | 3 +++
- 1 file changed, 3 insertions(+)
+Ohh, one of those cases where one misses the most obvious mistakes. Thx
+for pointing this out!
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 1fb3f5e6193c3..8e9306b599cd3 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -54,40 +54,43 @@ applicable everywhere (see syntax).
- 
- - type definition: "bool"/"tristate"/"string"/"hex"/"int"
- 
-   Every config option must have a type. There are only two basic types:
-   tristate and string; the other types are based on these two. The type
-   definition optionally accepts an input prompt, so these two examples
-   are equivalent::
- 
- 	bool "Networking support"
- 
-   and::
- 
- 	bool
- 	prompt "Networking support"
- 
- - input prompt: "prompt" <prompt> ["if" <expr>]
- 
-   Every menu entry can have at most one prompt, which is used to display
-   to the user. Optionally dependencies only for this prompt can be added
-   with "if".
-+  If a prompt is not set, then the config option cannot be changed by the user.
-+  It will not appear in any menu, and even edits to ``.config`` cannot alter it.
-+  It can still be set via "default" and "select" (see below).
- 
- - default value: "default" <expr> ["if" <expr>]
- 
-   A config option can have any number of default values. If multiple
-   default values are visible, only the first defined one is active.
-   Default values are not limited to the menu entry where they are
-   defined. This means the default can be defined somewhere else or be
-   overridden by an earlier definition.
-   The default value is only assigned to the config symbol if no other
-   value was set by the user (via the input prompt above). If an input
-   prompt is visible the default value is presented to the user and can
-   be overridden by him.
-   Optionally, dependencies only for this default value can be added with
-   "if".
- 
-  The default value deliberately defaults to 'n' in order to avoid bloating the
-  build. With few exceptions, new config options should not change this. The
-  intent is for "make oldconfig" to add as little as possible to the config from
-  release to release.
- 
--- 
-2.43.5
+Also: many thx for your feedback in general, performed a most of the
+changes you suggested (thx again), only replying to a few other bits.
 
+ 
+> But it's still difficult to parse for me. Maybe it would be better to
+> reorder the sentence like this:
+> 
+>   After issuing one of these commands, if Git checks out another
+>   bisection point and prints something like 'Bisecting: 675 revisions
+>   left to test affter this (roughly 10 steps)', then go back to step 1.
+
+Chose to do it slightly different:
+
+   After issuing one of these two commands, Git will usually check out another
+   bisection point and print something like 'Bisecting: 675 revisions left to
+   test after this (roughly 10 steps)'. In that case go back to step 1. 
+
+>> +  Git might reject this, for example when the bisection landed on a merge
+>> +  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+>> +  the culprit on its own because later changes depend on it -- at least unless
+>> +  you bisected using a stable or longterm kernel series, in which case you want
+>> +  to retry using the latest code from that series.
+> 
+> Admittedly, this paragraph left me a bit confused. So, what is your
+> suggestion if I bisected using a stable or longterm kernel series (BTW
+> shouldn't we use Git-speak and call it a branch?)
+
+Not having a strong opinion here, but I'd say "series" is the better word
+here; but maybe "using" should go (see below).
+
+> and Git fails to
+> revert the commit because some later changes depend on the commit?
+> Are you trying to say I should check out the current head of that
+> stable or longterm branch and retry the revert there?
+
+Yeah. Changed the text slightly; does it make things better?
+ 
+  Git might reject this, for example when the bisection landed on a merge
+  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+  the culprit on its own because later changes depend on it -- at least unless
+  you bisected a stable or longterm kernel series, in which case you want to
+  check out its latest codebase and try a revert there.
+
+> Overall, it all looks good to me.
+> Thank you very much for your effort!
+
+Thx for saying that, the time your spend, and your feedback, 
+much appreciated!
+
+Ciao, Thorsten
