@@ -1,329 +1,389 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B7F18E048;
-	Tue, 20 Aug 2024 11:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724154187; cv=fail; b=ktwV66kE39viY3iya93spdOg9veTKHCGCBIdgWcn9Pv5fu5VbcngCtvbfpa2Nm1B8xbrRo8s9/LAeQJUBC66QWDEtA09DePyk68LjXk23NZ8FJ08/MB79oq26Fv30PcZIWtjxEk6jODwJ3PT1rDmDhPH6u+CLFOLEqrIl3PXCkU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724154187; c=relaxed/simple;
-	bh=7cGzdOmHjQqRxlSj8CZNyXgwtme1GlL3azp+zTwfSNo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BUhlJ4wQwc/R0dl8xKh2xxEqlu78OhtDdUiPkkr7MIjSqIsGyfOJwWOf/tLkHQcqXiUTcrRE7Tb72irA1JDiswRRLs0UNZk5fVwPmqLhrgTMUfZy2jOMJREd7HEKBhht1pmFhEbU3wxj9vC1KBl83GJ5EYERUWaf4Ksflh1jfrI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVdSHmV+; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C85218FDB3
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 12:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724155679; cv=none; b=c4cFiwdlAsIPCSSRbGk+FZqR2N4Strl3x5hkd2D2XO0nJjSrgC/ghsTg9cm/Qd7RoJoBtI5p3WbteOmy4iTUXjWrrCNdLW/9gZELz6TwzNAj/m45ULMQKdhccnQ6aBDgWhhRSWIbfkVwaBxXVMUS9K/Ul7lm/xZ7J0FfAcyOKbc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724155679; c=relaxed/simple;
+	bh=U6X1jUGTNDoSPZFLySJaq842SmPOG2aRkDa3Sxm4K34=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UH8Lc+ikMrQz/7R5fsC/ie85sfZszpkPPB31TJKeoNzTciRzJP2A2AANrCGrgmX8dKuBM/AutC+RmrCs6I6cfHrf35MUMnjbC671F48O5PCSousi2jYnhfR1Y9NaA7nEqx5XsciZfe/XXBWjmb/EnKz2AdDnufbpGLAaz9P4BC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=P3wPe9Fw; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVdSHmV+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724154185; x=1755690185;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=7cGzdOmHjQqRxlSj8CZNyXgwtme1GlL3azp+zTwfSNo=;
-  b=ZVdSHmV+0C/eJ+QDrAxHv5dRPBHn7XMVBQNxSz4ESwQmfn494RUcXkhZ
-   hLBEeZXmPDFQvih+6mtFy2XnL3+ymczJcxGFGPZs8+DJoJoLkcKT6AgK1
-   x0SFYSD9lJ2p3G4BiZR6LuKvQ0wHKn/grj5GkyJ4s2mzPO6Ienk+Hr5Pz
-   BtHJPCo46+P0tH01AAwB816gOWjqZVYDdD8GSxFW1YwroZUOcGcYO66X/
-   iJduUSEDBsqAQDaDqcjb8/SmGIpdwB6JeN+Mh4xkBbaTrT5vWL3tjPEko
-   uQMPmJgbHtshGVgAHQsCju/bC0w3cI74djgKb6BvB+NYnihjLlznlm/0W
-   Q==;
-X-CSE-ConnectionGUID: uT2OKjGZRSOpt4ckXjYIRg==
-X-CSE-MsgGUID: IQ0iVxgxRD6MgT3AnDGsnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22414810"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="22414810"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 04:43:04 -0700
-X-CSE-ConnectionGUID: d4RKrq5RRvavbI6qsyEByA==
-X-CSE-MsgGUID: pQlR6HwOT2ujdIwY7gRKbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="98174195"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Aug 2024 04:43:04 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 20 Aug 2024 04:43:03 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 20 Aug 2024 04:43:02 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 20 Aug 2024 04:43:02 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 20 Aug 2024 04:43:02 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hNz+L+Lmjh7ZBR5DqGdXW49FrvYJMz3c97FisfjkJvKW1Es3JRkYy4EQCn+b2W66nNsBil13l6zOGM5ZfpRwrGlgIPDv3fBNJZNcPccVB6rOUWU/U8TWaHPZCmi1Y9NmD+lWm4oeoD6SiLreaIgb75llsB9S9aZjLZbRkP/Jc6BJ9b5M3KmsqMPqpfg8l3pFziYxvQENZ4rGVP/Q1zqw7wnQSwNhw3F6KhlwCcYQnldIm+zRdNWN8ad+08zP4Z47CIskMhiblJzhavAQGOecXh7Aa4+FCE4yxlOaVIQQJBscaVM7HbNuSNbIhZHZlqWjZFPlL5nfdmhbO+Hks3sRtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=STQUrBdMvOVzLqZsTAKo5nZPVO1ZQoW3cdbszknUaD0=;
- b=Ra0MD2A7Ca2oK2l+R45d7DPSdYRuEz3yaZnqOxCX8K9kul888jF8qrAjAAp/20cWjLsJmNIUOorUuJP3peRWx90fmOf99LUOcLwgZVkWrJ/TFfPpJbeWJ5rwsENM5zNIxGnzAofk1wS9dt/r2OA2eyQ7eDV3J80/xInzBqVL05JXi1y4/jGNToZj3ttGmXJPIUZRg0ihrmXJBiZvAZ5c7aXxWC6aiH1XgQwk50Bk8Lc81EGnjFgLrGgP+TUB2HcTBVLyBf4Gn1byjO4hcjKpHT+ZFkWb+v9Uk3gbzVPFngZBENEPE5xERZkP2Xi17LeZxdrJzkQs0lvk3EvnfrfTyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH7PR11MB5862.namprd11.prod.outlook.com (2603:10b6:510:134::6)
- by MN2PR11MB4695.namprd11.prod.outlook.com (2603:10b6:208:260::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Tue, 20 Aug
- 2024 11:43:00 +0000
-Received: from PH7PR11MB5862.namprd11.prod.outlook.com
- ([fe80::7d59:aa70:2555:e6fd]) by PH7PR11MB5862.namprd11.prod.outlook.com
- ([fe80::7d59:aa70:2555:e6fd%5]) with mapi id 15.20.7875.019; Tue, 20 Aug 2024
- 11:43:00 +0000
-From: "Mohan, Subramanian" <subramanian.mohan@intel.com>
-To: "tglx@linutronix.de" <tglx@linutronix.de>, "giometti@enneenne.com"
-	<giometti@enneenne.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"Dong, Eddie" <eddie.dong@intel.com>, "Hall, Christopher S"
-	<christopher.s.hall@intel.com>, "N, Pandith" <pandith.n@intel.com>, "T R,
- Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
-Subject: RE: [PATCH v11 0/3] Add support for Intel PPS Generator
-Thread-Topic: [PATCH v11 0/3] Add support for Intel PPS Generator
-Thread-Index: AQHa8uDaTiNlAyWyY0ugM+v+TqfJtLIwA8sggAABUVA=
-Date: Tue, 20 Aug 2024 11:43:00 +0000
-Message-ID: <PH7PR11MB586263A4C69967C8B374C543F78D2@PH7PR11MB5862.namprd11.prod.outlook.com>
-References: <20240820091035.71288-1-subramanian.mohan@intel.com>
- <DS0PR11MB763251A3C730BEFAC4B58FD1E18D2@DS0PR11MB7632.namprd11.prod.outlook.com>
-In-Reply-To: <DS0PR11MB763251A3C730BEFAC4B58FD1E18D2@DS0PR11MB7632.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB5862:EE_|MN2PR11MB4695:EE_
-x-ms-office365-filtering-correlation-id: ffd99679-83b4-42bf-cb6b-08dcc10d3e22
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?W9+aJTX3Q/XrUzHx2+HofQtZ8Q4oPOYPNx1aqzxs1qgugk93cNWE0iHEScGY?=
- =?us-ascii?Q?QWouzmqAk/I+tlIdjWPE2niGWR9SpXth7VxKc5RKxAH/9Byp6qUZgTANm0On?=
- =?us-ascii?Q?0PpMXSiLSZoTZvm77cLFYnFq1vBbKqkvjHXwA6YXjf12kecBf32Ioh9Ea9l5?=
- =?us-ascii?Q?N4Zuw81uTZh6/6c0+phCnwKEgSaqWfM5JZzEXqMly7GHWj5t+vczy6gTNzr2?=
- =?us-ascii?Q?0pkTkfUuCvJcgSiGIl8E8b15J2LcGqzDKcs6WU7NSE4AxqgETGDrnq+6ua8l?=
- =?us-ascii?Q?9g6WTRiL8xuX9+mrAt7Jkxv93VP5JsfaJpK4hFQw78zbgqMnA8MC3Iqw6a2C?=
- =?us-ascii?Q?QSqoWdC9ZQwFwhuoRzbS7BvekmW86OFE4BN3xTcQAIAwW8AiiNgV9D5Kz3lm?=
- =?us-ascii?Q?2hyW0sUPIvQD+1my8+KHdsDv2jds5GmEour9lTi04aJq31HWdQVbsj3F37TL?=
- =?us-ascii?Q?PTN/GsLeedW7amAd3OGuAzVwRTcaWq87CgMV50l1oWuCbolIgNDrUmhEqQcl?=
- =?us-ascii?Q?5ryFD1ajZZQNjD8rPh7awgvlX5e2sZh+7hikxudKvNIJ6pSlzKxsmqxxzKSl?=
- =?us-ascii?Q?JG9VB/FHCcbJSHQkOWUsw/wWcT328DbwT0FkUVaGSJ41m4VSjsHjc0LKg9Bc?=
- =?us-ascii?Q?irI2vPgkbKzCg4/xR9K1YJwEUN/dIydsPWYSOH4l4KBgIihB7EapIpCFtzal?=
- =?us-ascii?Q?pIY0SDjzNT2+g4wWGxRvm1LNHTXHa1maW3TGe1/Ht8tjQjM0S+5piVfxRqGI?=
- =?us-ascii?Q?eOQlOpTEuWulD4dRUmNiclYXcI5/dpDtJIfZ65PYgB5vvVkWveJcs4cNTfQY?=
- =?us-ascii?Q?2FM5rRIsQLG6TmYyVy5ZefnAB9sen0fefmgRWydqbjIjTZwZU1Bsn5hrhjSL?=
- =?us-ascii?Q?JMDS6ToyhyQJNcdT8qnSF1Drdnloh91TOx4jnN7JZo/QhnU3/xKJ5+iYbVCQ?=
- =?us-ascii?Q?pWjR1OAbTdwN5FhqfjRW0gmj7fkB117A2np/A1fWBN/XJDX3KkRch2VyjQzX?=
- =?us-ascii?Q?dWkMfw68zLehnMXVCeRjHD6qXV/d9/6DeKVW7DCPUvAKWOvHwAibsGOk20Kp?=
- =?us-ascii?Q?A6QUyl2cH4W3ZVlpcF37t7bJZrrz1dbaeoq21V31xupcSZiJJ9I2VCT7bgxx?=
- =?us-ascii?Q?xvnj9MfFQy+gPav+pM+Bk0/90Gq1TrmwJ6eyIrXeMt7vtsrFzVTpGmmxkqU6?=
- =?us-ascii?Q?2ZHuSqKAY4xJFicgDPjApeCrc9AzjlF03l+weMaBxWVB3hL4R4xcrNHVSVK8?=
- =?us-ascii?Q?NVdowJYO4hi+A5zzsjNe6Hl63ft1fKyeIEL58r7DmosN5IHGIAefe7H++xWh?=
- =?us-ascii?Q?4tcSkqRzf5BnCb/GNeQA+d3PaL8p2BeMCQNljwunXDYJoGGNRsueZC49MTN/?=
- =?us-ascii?Q?rkzCmPg=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB5862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?BtRfySr7YhvsqDxMcVLLDbCxLO8QXySqxFkfb7Wozk51Ra2iSMGMmK1J9xA3?=
- =?us-ascii?Q?nXoia1SqOaI2d30Sx0SLUAi9r19DObbm71RT9tThBJGJ4apBAXnNbOxZyczd?=
- =?us-ascii?Q?FMGRvFcL7mNDbQj8HJMl2oGRm/D8I8WkjiWknLYrV5qcLSDPa+1a1xgeu54+?=
- =?us-ascii?Q?UCJZQh6jV+qJMC8hoAckGQ/OljTFXvo1N3vS6rMuc9xp48Iv55oa2mh27wTv?=
- =?us-ascii?Q?xN/YGXIBDqMQcdpa5GbntVk2PzYomePO/XubxZ704KZtcaNPIj7xRZ2f5Hf+?=
- =?us-ascii?Q?39qrLGGAmF1PtqO7xb1ezGDbIzq5gN4uf+LljdWu2qxRmFT92zR4q4taEUpj?=
- =?us-ascii?Q?ZCrP6GH7i6Ns4RCqGiQ3++1003VgWYZys8oh37Fwj2HeCWVCQY14akF2kjqe?=
- =?us-ascii?Q?hmXmUXoEJB2TGQ1GhLrWJSdC1jW+A+Djw1AW750vcuhIcz6OawUTKDbCN+Lt?=
- =?us-ascii?Q?qU7rhClaRPuPrqe77eclhMkIgjIui9psr6IwSsaKvrvzhqluCGhnSP1o13Ic?=
- =?us-ascii?Q?IopLCrQ3CL/uXZTEbvedEe0/7l7RtqBXQ0OMFAlE2Z35MNwQzoNz7W0zJ5x3?=
- =?us-ascii?Q?JWqhyu85UWEZ/JwcVnZl9to8V8XCLPLrlCj5EUztXq0FVSl72SQAGSN3/N8/?=
- =?us-ascii?Q?YOhAeX8NMMNsK1LtSXZ+RkPpAfiNsJe+vRJrFPd/pM3kr17ts3x8T8HQYxTn?=
- =?us-ascii?Q?otkGyjmtIsh5HnD890vlJtARIqPNSf4eUFjF62JMwUWk/GdOwXAwNZOfPLs1?=
- =?us-ascii?Q?0pX9ykAzeujfpG+u7YvORlM0ZYLpmNpYvNf3oNDm5hTSlizs4abZ5QSozYJZ?=
- =?us-ascii?Q?9fXJM39ONjsuuuGW2JwZ5x9Z1gV6bEYf6+jVvbaJFPj/pPRKLdDjksVMzO7P?=
- =?us-ascii?Q?qA8Zdywyjzu2WKKs89UJ2R0bALbkSWjOYNOIeflzDMjyWEgikBAM1CiBtLi0?=
- =?us-ascii?Q?Ecl06PWNGHSBaLGv+da7hrlGRBTBQpS+3qBZkwhRaA0sy+awJaLf9FCQCNQh?=
- =?us-ascii?Q?RirJyZ/mOgwF99D1aNzov3QICs8UG8Z4gcjQ3hhgDF7pukKOC2goeaT+oZgS?=
- =?us-ascii?Q?y7P96DB6qj3IA6/pRIfXLWHX9+a9m1ykq6bTPSZzHNEkSXDXGdhiSjTPt93d?=
- =?us-ascii?Q?aHN0/qh7sbhoS3f39XtXN6XdKpx6ryExuBD1wbxyEXJg2C/eeHs5WMO2K6J9?=
- =?us-ascii?Q?+CQ/kE/1/RaNrwfHkQAb+ZYNQwC6grTbpSG7m40v0WnIu42KBvnWfPr1avXI?=
- =?us-ascii?Q?/RRBR/MTbUyidUT74+YHw5qsSPNlkJK+YP55HeNtMPILfJEc+BaHqKWooAXi?=
- =?us-ascii?Q?ba075/3PxTAirmcpzk4Z05Isbx7xQd0ekkCL1G+PZMOiKuTkFv6MyY0h9L6u?=
- =?us-ascii?Q?fm923fi1GW31q5QHoA1tGntZQRf4Cxdmz6ylJuGFI+3iYM2ol66165K8F9ll?=
- =?us-ascii?Q?FBF8ybhrNX6uhbqS/vBysTOECULsiMct8KzyNPnWFDtXQgswFhzo0EboJMaM?=
- =?us-ascii?Q?cuYAqCQAlTSIF/GJtOZax5dUNaC1pYheQcJQymYsSVDv5EntMer0WZLp03m9?=
- =?us-ascii?Q?fgOx30elX/E72skw92QJFP7DbhZ5w/7CcWjJ6IDa?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="P3wPe9Fw"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a108354819so7072471a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 05:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1724155674; x=1724760474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DzCrzUMExiNjBpbJiLrzgmZv2V7Mgy2BOq9tPB3npWg=;
+        b=P3wPe9FwvXHZ06GB4lB0n31zePIFaJiMeTRJrp3S9E+GZqeVy2JM3k0We//jWFYtSL
+         P/e7HPqdPNRlDmyu8ta/7KPyrTyuIPWHS1R3iH6kvH44kASne9KsbGRUfMT1get6pw+j
+         nDcDilbpJUHIyERqL9jNyQ65APsWOoVCvJAWbCkGgo96Yxoixo4Q7CjPS7e4jOsw4vTm
+         sNLwUy8/5esWMlWHHjd3QEUB4E/PO1ZaqJfVf2/JHK8eZB5V9cwzqsifyAyr3fWau3Pr
+         E9ME1NS8yA+m5GOdS2aKJr6qd94j+vA8PdA5RiUo5+qOgxrRzFKPCE+hqLdGg1Rg9vrq
+         5NDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724155674; x=1724760474;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DzCrzUMExiNjBpbJiLrzgmZv2V7Mgy2BOq9tPB3npWg=;
+        b=bFurqKOyuGoBF+9KFlQEOm94gi38y8vYQjaVkeFfvlzMf4cBNrZFKDis3EppguBhMa
+         1+hM+y6RhWh+59iHrSeYgUD4ALwAk9jIxMpdfVCH6h626UKWR5Wy6gejnGhtX5eoi6pG
+         T68oqWBbeGmh1jVls7lB2RsAMz1tlKdN/yN1MhFUF6BrmZOPtfi27XyvT55tqG15RmhN
+         ief41Ns7AID43yGfWRXOCESD/aHvL5/ZR3s99jCgZE+8BkZ42d1FGn1VZDJWISSvZSwW
+         pdDAi9krwvS79bhh3v0cM3yrIZkMM6285lB43QsrybQLSV8WgQPaaJfzgz8GHzuA6hc+
+         //fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZEdLdiEXNm0EwR4Bl60UVfSuRGdGLtpkxmvXimEwq7+XEITT/kKiXV9+yoZj2CpYEfJcwp6mcc8wVcVJFO7F09lLgjw4Rnrw2
+X-Gm-Message-State: AOJu0YwwxVakYoClfFmKsactswwclfJ9X637c7FdSr6auOxLGINmAhpj
+	ikG53k+rJ7EEeGmspwKH9//ieSaoK3hD1ySBul0fad7kfrtCnBj9m1Q8EV2mOFs=
+X-Google-Smtp-Source: AGHT+IEMAK9/CWzisXX0mnn4Qx1n/RO6x2Q0vBfTjmTGSttXg6zHwrAHn2G1s/O8uPZijeexW08a+Q==
+X-Received: by 2002:a05:6402:1d4c:b0:5bf:afe:6294 with SMTP id 4fb4d7f45d1cf-5bf0afe638cmr1650532a12.17.1724155673544;
+        Tue, 20 Aug 2024 05:07:53 -0700 (PDT)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bf004c2ebfsm1835410a12.1.2024.08.20.05.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 05:07:53 -0700 (PDT)
+Date: Tue, 20 Aug 2024 14:07:51 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Bagas Sanjaya
+ <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] docs: bug-bisect: rewrite to better match the other
+ bisecting text
+Message-ID: <20240820140751.0e024f21@mordecai>
+In-Reply-To: <fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info>
+References: <fbeae4056ae8174f454c3865bc45633281bb1b31.1723997526.git.linux@leemhuis.info>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB5862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffd99679-83b4-42bf-cb6b-08dcc10d3e22
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2024 11:43:00.0537
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /VgMRRsXzjVKLE17qLrJvFHRltXHyhdEO1fQ7/O9Cii1RXC+gglnMU786knlrxumViJ5xZnDUrMHAbC1ih8Hm3LefRsdxan/QRJnLaJJiPU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4695
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi All,=20
+On Sun, 18 Aug 2024 18:12:13 +0200
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-Kindly ignore the v11 patch series, new v12 version will be sent accordingl=
-y.
-Sorry for inconvenience.
+> Rewrite the short document on bisecting kernel bugs. The new text
+> improves .config handling, brings a mention of 'git skip', and explains
 
-Thanks,
-Subramanian Mohan
+Nitpick: git bisect skip
 
-> -----Original Message-----
-> From: Mohan, Subramanian <subramanian.mohan@intel.com>
-> Sent: Tuesday, August 20, 2024 2:41 PM
-> To: tglx@linutronix.de; giometti@enneenne.com; corbet@lwn.net; linux-
-> kernel@vger.kernel.org; linux-doc@vger.kernel.org
-> Cc: gregkh@linuxfoundation.org; andriy.shevchenko@linux.intel.com; Dong,
-> Eddie <eddie.dong@intel.com>; Hall, Christopher S
-> <christopher.s.hall@intel.com>; N, Pandith <pandith.n@intel.com>; T R,
-> Thejesh Reddy <thejesh.reddy.t.r@intel.com>
-> Subject: [PATCH v11 0/3] Add support for Intel PPS Generator
->=20
-> From: Subramanian Mohan <subramanian.mohan@intel.com>
->=20
-> The goal of the PPS (Pulse Per Second) hardware/software is to generate a
-> signal from the system on a wire so that some third-party hardware can
-> observe that signal and judge how close the system's time is to another
-> system or piece of hardware.
->=20
-> Existing methods (like parallel ports) require software to flip a bit at =
-just the
-> right time to create a PPS signal. Many things can prevent software from =
-doing
-> this precisely. This (Timed I/O) method is better because software only "=
-arms"
-> the hardware in advance and then depends on the hardware to "fire" and fl=
-ip
-> the signal at just the right time.
->=20
-> To generate a PPS signal with this new hardware, the kernel wakes up twic=
-e a
-> second, once for 1->0 edge and other for the 0->1 edge. It does this shor=
-tly
-> (~10ms) before the actual change in the signal needs to be made. It compu=
-tes
-> the TSC value at which edge will happen, convert to a value hardware
-> understands and program this value to Timed I/O hardware.
-> The actual edge transition happens without any further action from the ke=
-rnel.
->=20
-> The result here is a signal coming out of the system that is roughly
-> 1,000 times more accurate than the old methods. If the system is heavily
-> loaded, the difference in accuracy is larger in old methods.
->=20
-> Application Interface:
-> The API to use Timed I/O is very simple. It is enabled and disabled by wr=
-iting a
-> '1' or '0' value to the sysfs enable attribute associated with the Timed =
-I/O PPS
-> device. Each Timed I/O pin is represented by a PPS device. When enabled, =
-a
-> pulse-per-second (PPS) synchronized with the system clock is continuously
-> produced on the Timed I/O pin, otherwise it is pulled low.
->=20
-> The Timed I/O signal on the motherboard is enabled in the BIOS setup.
-> Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
->=20
-> References:
-> https://en.wikipedia.org/wiki/Pulse-per-second_signal
-> https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-
-> DxLW6t_V/view
-> https://youtu.be/JLUTT-lrDqw
->=20
-> Patch 1 adds the pps(pulse per second) generator tio driver to the pps
-> subsystem.
-> Patch 2 documentation and usage of the pps tio generator module.
-> Patch 3 includes documentation for sysfs interface.
->=20
-> These patches are based on the timers/core branch:
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/?h=3Dtime=
-rs/core
-> These changes are dependent on patches that are merged in [1].
->=20
-> Please help to review the changes.
->=20
-> Thanks in advance,
-> Subramanian Mohan
->=20
-> Changes from v2:
->  - Split patch 1 to remove the functions in later stages.
->  - Include required headers in pps_gen_tio.
->=20
-> Changes from v3:
->  - Corrections in Documentation.
->  - Introducing non-RFC version of the patch series.
->=20
-> Changes from v4:
->  - Setting id in ice_ptp
->  - Modified conversion logic in convert_base_to_cs.
->  - Included the usage of the APIs in the commit message of 2nd patch.
->=20
-> Changes from v5:
->  - Change nsecs variable to use_nsecs.
->  - Change order of 1&2 patches and modify the commit message.
->  - Add sysfs abi file entry in MAINTAINERS file.
->  - Add check to find if any event is missed and disable hardware
->    accordingly.
->=20
-> Changes from v6:
->  - Split patch 1 into 1&2 patches.
->  - Add check for overflow in convert_ns_to_cs().
->  - Refine commit messages.
->=20
-> Changes from v7:
->  - Split the if condition and return error if current time exceeds
->    expire time.
->  - Update kernel version and month in ABI file.
->=20
-> Changes from v8:
->  - Add function to enable Timed I/O.
->  - Changed the updating of tio->enabled to a centralized place in
->    disable and enable functions.
->=20
-> Changes from v9:
->  - use tio->enabled instead of reading ctrl register.
->  - change error code in enable_store to -ENODEV.
->=20
-> Changes from v10:
->  - Rebased to latest codebase.
->=20
-> Subramanian Mohan (3):
->   pps: generators: Add PPS Generator TIO Driver
->   Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
->   ABI: pps: Add ABI documentation for Intel TIO
->=20
->  .../ABI/testing/sysfs-platform-pps-tio        |   8 +
->  Documentation/driver-api/pps.rst              |  24 ++
->  MAINTAINERS                                   |   1 +
->  drivers/pps/generators/Kconfig                |  16 ++
->  drivers/pps/generators/Makefile               |   1 +
->  drivers/pps/generators/pps_gen_tio.c          | 262 ++++++++++++++++++
->  6 files changed, 312 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
->  create mode 100644 drivers/pps/generators/pps_gen_tio.c
->=20
-> --
-> 2.35.3
+No big deal, because it's only in the commit message, not in the text,
+but I have more comments below, so if you decide to make a v3, you may
+also want to fix it here.
+
+> what to do after the bisection finished -- including trying a revert to
+> verify the result. The rewrite at the same time removes the unrelated
+> and outdated section on 'Devices not appearing' and replaces some
+> sentences about bug reporting with a pointer to the document covering
+> that topic in detail.
+> 
+> This overall brings the approach close to the one in the recently added
+> text Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
+> As those two texts serve a similar purpose for different audiences,
+> mention that document in the head of this one and outline when the
+> other might be the better one to follow.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+> v2:
+> - incorporate review feedback from Jonathan
+> - rename to 'Bisecting a regression'
+> 
+> v1: https://lore.kernel.org/all/10a565e4ebca5e03a2e7abb7ffe1893136471bf9.1722846343.git.linux@leemhuis.info/
+> - initial version
+> ---
+>  Documentation/admin-guide/bug-bisect.rst | 208 +++++++++++++++--------
+>  MAINTAINERS                              |   1 +
+>  2 files changed, 139 insertions(+), 70 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+> index 325c5d0ed34a0a..f3b8761d32123e 100644
+> --- a/Documentation/admin-guide/bug-bisect.rst
+> +++ b/Documentation/admin-guide/bug-bisect.rst
+> @@ -1,76 +1,144 @@
+> -Bisecting a bug
+> -+++++++++++++++
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
+> +.. [see the bottom of this file for redistribution information]
+>  
+> -Last updated: 28 October 2016
+> +======================
+> +Bisecting a regression
+> +======================
+>  
+> -Introduction
+> -============
+> +This document describes how to use a ``git bisect`` to find the source code
+> +change that broke something -- for example when some functionality stopped
+> +working after upgrading from Linux 6.0 to 6.1.
+>  
+> -Always try the latest kernel from kernel.org and build from source. If you are
+> -not confident in doing that please report the bug to your distribution vendor
+> -instead of to a kernel developer.
+> +The text focuses on the gist of the process. If you are new to bisecting the
+> +kernel, better follow Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> +instead: it depicts everything from start to finish while covering multiple
+> +aspects even kernel developers occasionally forget. This includes detecting
+> +situations early where a bisection would be a waste of time, as nobody would
+> +care about the result -- for example, because the problem happens after the
+> +kernel marked itself as 'tainted', occurs in an abandoned version, was already
+> +fixed, or is caused by a .config change you or your Linux distributor performed.
+>  
+> -Finding bugs is not always easy. Have a go though. If you can't find it don't
+> -give up. Report as much as you have found to the relevant maintainer. See
+> -MAINTAINERS for who that is for the subsystem you have worked on.
+> +Finding the change causing a kernel issue using a bisection
+> +===========================================================
+>  
+> -Before you submit a bug report read
+> -'Documentation/admin-guide/reporting-issues.rst'.
+> +*Note: the following process assumes you prepared everything for a bisection.
+> +This includes having a Git clone with the appropriate sources, installing the
+> +software required to build and install kernels, as well as a .config file stored
+> +in a safe place (the following example assumes '~/prepared_kernel_.config') to
+> +use as pristine base at each bisection step; you ideally want to have worked out
+> +a fully reliable and straight-forward way to reproduce the regression, too.*
+
+I'm not sure about the wording. On the one hand, you go to great
+lengths to avoid the passive voice, and on the other hand you use the
+past infinitive here ("to have worked out"). Would this sentence be
+harder to understand if we remove "want to"?
+
+  ideally, you have also worked out [...]
+
+> -Devices not appearing
+> -=====================
+> -
+> -Often this is caused by udev/systemd. Check that first before blaming it
+> -on the kernel.
+> -
+> -Finding patch that caused a bug
+> -===============================
+> -
+> -Using the provided tools with ``git`` makes finding bugs easy provided the bug
+> -is reproducible.
+> -
+> -Steps to do it:
+> -
+> -- build the Kernel from its git source
+> -- start bisect with [#f1]_::
+> -
+> -	$ git bisect start
+> -
+> -- mark the broken changeset with::
+> -
+> -	$ git bisect bad [commit]
+> -
+> -- mark a changeset where the code is known to work with::
+> -
+> -	$ git bisect good [commit]
+> -
+> -- rebuild the Kernel and test
+> -- interact with git bisect by using either::
+> -
+> -	$ git bisect good
+> -
+> -  or::
+> -
+> -	$ git bisect bad
+> -
+> -  depending if the bug happened on the changeset you're testing
+> -- After some interactions, git bisect will give you the changeset that
+> -  likely caused the bug.
+> -
+> -- For example, if you know that the current version is bad, and version
+> -  4.8 is good, you could do::
+> -
+> -           $ git bisect start
+> -           $ git bisect bad                 # Current version is bad
+> -           $ git bisect good v4.8
+> -
+> -
+> -.. [#f1] You can, optionally, provide both good and bad arguments at git
+> -	 start with ``git bisect start [BAD] [GOOD]``
+> -
+> -For further references, please read:
+> -
+> -- The man page for ``git-bisect``
+> -- `Fighting regressions with git bisect <https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html>`_
+> -- `Fully automated bisecting with "git bisect run" <https://lwn.net/Articles/317154>`_
+> -- `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_
+> +* Preparation: start the bisection and tell Git about the points in the history
+> +  you consider to be working and broken, which Git calls 'good' and 'bad'::
+> +
+> +     git bisect start
+> +     git bisect good v6.0
+> +     git bisect bad v6.1
+> +
+> +  Instead of Git tags like 'v6.0' and 'v6.1' you can specify commit-ids, too.
+> +
+> +1. Copy your prepared .config into the build directory and adjust it to the
+> +   needs of the codebase Git checked out for testing::
+> +
+> +     cp ~/prepared_kernel_.config .config
+> +     make olddefconfig
+> +
+> +2. Now build, install, and boot a kernel. This might fail for unrelated reasons,
+> +   for example, when a compile error happens at the current stage of the
+> +   bisection a later change resolves. In such cases run ``git bisect skip`` and
+> +   go back to step 1.
+> +
+> +3. Check if the functionality that regressed works in the kernel you just built.
+> +
+> +   If it works, execute::
+> +
+> +     git bisect good
+> +
+> +   If it is broken, run::
+> +
+> +     git bisect bad
+> +
+> +   Note, getting this wrong just once will send the rest of the bisection
+> +   totally off course. To prevent having to start anew later you thus want to
+> +   ensure what you tell Git is correct; it is thus often wise to spend a few
+> +   minutes more on testing in case your reproducer is unreliable.
+> +
+> +   Go back to back to step 1, if Git after issuing one of these two commands
+
+One "back to" too many here. ;-)
+
+> +   checks out another bisection point while printing something like 'Bisecting:
+> +   675 revisions left to test after this (roughly 10 steps)'.
+> +
+> +   You have finished the bisection, if Git instead prints something like
+> +   'cafecaca0c0dacafecaca0c0dacafecaca0c0da is the first bad commit'. In that
+
+
+But it's still difficult to parse for me. Maybe it would be better to
+reorder the sentence like this:
+
+  After issuing one of these commands, if Git checks out another
+  bisection point and prints something like 'Bisecting: 675 revisions
+  left to test affter this (roughly 10 steps)', then go back to step 1.
+
+  If Git prints something like 'cafecaca0c0dacafecaca0c0dacafecaca0c0da
+  is the first bad commit', then you have finished the bisection. [...]
+
+> +   case move to the next point below. Note, right after displaying that line
+> +   Git will show some details about the culprit including its patch description;
+> +   this can easily fill your terminal, so you might need to scroll up to see the
+> +   message mentioning the culprit's commit-id.
+> +
+> +   In case you missed Git's output, you at any time of the bisection can run
+> +   ``git bisect log`` to print the status: it will show how many steps remain
+> +   or mention the result of the bisection.
+
+Yeah, it's possible to insert a long adverbial phrase (such as "at any
+time of the bisection") between the subject and verb between the
+subject and verb, but would it be OK to use less words? For example:
+
+  In case you missed Git's output, you can always run ``git bisect
+  log`` [...]
+
+> +
+> +* Recommended complementary task: put the bisection log and the current .config
+> +  file aside for the bug report; furthermore tell Git to reset the sources to
+> +  the state before the bisection::
+> +
+> +     git bisect log > ~/bisection-log
+> +     cp .config ~/bisection-config-culprit
+> +     git bisect reset
+> +
+> +* Recommended optional task: try reverting the culprit on top of the latest
+> +  codebase and check if that fixes your bug; if that is the case, it validates
+> +  the bisection and enables developers to resolve the regression through a
+> +  revert.
+> +
+> +  To try this, update your clone and check out latest mainline. Then tell Git
+> +  to revert the change by specifying its commit-id::
+> +
+> +     git revert --no-edit cafec0cacaca0
+> +
+> +  Git might reject this, for example when the bisection landed on a merge
+> +  commit. In that case, abandon the attempt. Do the same, if Git fails to revert
+> +  the culprit on its own because later changes depend on it -- at least unless
+> +  you bisected using a stable or longterm kernel series, in which case you want
+> +  to retry using the latest code from that series.
+
+Admittedly, this paragraph left me a bit confused. So, what is your
+suggestion if I bisected using a stable or longterm kernel series (BTW
+shouldn't we use Git-speak and call it a branch?) and Git fails to
+revert the commit because some later changes depend on the commit?
+Are you trying to say I should check out the current head of that
+stable or longterm branch and retry the revert there?
+
+Overall, it all looks good to me.
+Thank you very much for your effort!
+
+Petr T
+
+> +
+> +  If a revert succeeds, build and test another kernel to check if reverting
+> +  resolved your regression.
+> +
+> +With that the process is complete. Now report the regression as described by
+> +Documentation/admin-guide/reporting-issues.rst.
+> +
+> +
+> +Additional reading material
+> +---------------------------
+> +
+> +* The `man page for 'git bisect' <https://git-scm.com/docs/git-bisect>`_ and
+> +  `fighting regressions with 'git bisect' <https://git-scm.com/docs/git-bisect-lk2009.html>`_
+> +  in the Git documentation.
+> +* `Working with git bisect <https://nathanchance.dev/posts/working-with-git-bisect/>`_
+> +  from kernel developer Nathan Chancellor.
+> +* `Using Git bisect to figure out when brokenness was introduced <http://webchick.net/node/99>`_.
+> +* `Fully automated bisecting with 'git bisect run' <https://lwn.net/Articles/317154>`_.
+> +
+> +..
+> +   end-of-content
+> +..
+> +   This document is maintained by Thorsten Leemhuis <linux@leemhuis.info>. If
+> +   you spot a typo or small mistake, feel free to let him know directly and
+> +   he'll fix it. You are free to do the same in a mostly informal way if you
+> +   want to contribute changes to the text -- but for copyright reasons please CC
+> +   linux-doc@vger.kernel.org and 'sign-off' your contribution as
+> +   Documentation/process/submitting-patches.rst explains in the section 'Sign
+> +   your work - the Developer's Certificate of Origin'.
+> +..
+> +   This text is available under GPL-2.0+ or CC-BY-4.0, as stated at the top
+> +   of the file. If you want to distribute this text under CC-BY-4.0 only,
+> +   please use 'The Linux kernel development community' for author attribution
+> +   and link this as source:
+> +   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/bug-bisect.rst
+> +
+> +..
+> +   Note: Only the content of this RST file as found in the Linux kernel sources
+> +   is available under CC-BY-4.0, as versions of this text that were processed
+> +   (for example by the kernel's build system) might contain content taken from
+> +   files which use a more restrictive license.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b34385f2e46d92..90c8681d4d311c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6719,6 +6719,7 @@ DOCUMENTATION REPORTING ISSUES
+>  M:	Thorsten Leemhuis <linux@leemhuis.info>
+>  L:	linux-doc@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/admin-guide/bug-bisect.rst
+>  F:	Documentation/admin-guide/quickly-build-trimmed-linux.rst
+>  F:	Documentation/admin-guide/reporting-issues.rst
+>  F:	Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> 
+> base-commit: 8663dd38a7ba5b2bfd2c7b4271e6e63bc0ef1e42
 
