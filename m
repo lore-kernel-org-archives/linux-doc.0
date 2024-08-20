@@ -1,149 +1,130 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20864189B99
-	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D636D18E35E;
+	Tue, 20 Aug 2024 08:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724141628; cv=none; b=hN6ZSoPWSBqByH0dHPxDO2EPHkzeUU8IKzyZuf1mY/RTbuAfoTaG2z/EcQ39+VdYMXzt6SKVSZqlrq5DlLtBjuK694aoMtxG26JWJtSDxsmJA08i3oLHd2RjCHvQbakjywy1RyERwRtJ8w4o6cjnU102hCnBuLuyTQkc/bGuYe4=
+	t=1724143792; cv=none; b=iqbh7cdxOu5hq8FapXy4yB0V8172rOh0QKtpjyJaCYcYp9St0Ug56vT1oZU+nvzEPqYEq4+E0vxmN/293PTPEkEoHKqnZ6PftMHbRVxuQQVV7xcnzZutsACN9BChrW3yaWaK3jUpNtTCryBnpHN6eaD+xcLmO2jdrBadSBEmgSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724141628; c=relaxed/simple;
-	bh=5x2Zwvil69v7j2QTmo/ru3l3YhUvaf/XafPWpjOjfD8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=l1r2aEREWvL/pjBUhMUhLMMmbAWbGgPg2Vbt8uMhOgLFkVBuVMmJFp22pwqdxF1XZ7HIGpuWc1nC9wVGV1TIccX/vaVnUvN4Fv4zdVLs8HhLlRV8/6OzUo3mcn5YaNYiKe5rrEuY64WuuiCK1rMr7DDaSzCUG7peO0xDyOhEe9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V+ZmSPrW; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724143792; c=relaxed/simple;
+	bh=ZuLJpDNd6eqRAPO6Aa71nXLB1ln53B/diFlYAIMMu6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OBDd9BxmBDIAQW7ddw33uzWyLfh5JmQ8hriSBkbHfNl+XmmTELcUUKJUtJB417xJX5bsK+QD6DW+8Y49Sz9cAuMbFGnxiUHXF6ntQIqAPT5Y7eOEAYUAPDMwe0Boi+63qNs9ISMa5xrbH6cd+lJukqVFd2VRACc+stK+SDbOnPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyXyLvZT; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V+ZmSPrW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724141626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5x2Zwvil69v7j2QTmo/ru3l3YhUvaf/XafPWpjOjfD8=;
-	b=V+ZmSPrWuPW6iLzzX/1uzcNwn98hDSrf6VhFntnNxB76lX0aWT4ijx7J/jymC2ubpNZoSc
-	S+b3c5MZ348SKGP2k32ka4MpVzVZtZng0TyzFIh+Ta/wL9DolYpmYLiPrNL/2iNRMVE0dJ
-	RpN3S3RxZZugSzgnHCeCxk/5URbfDM4=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-Jvjt3R1DMG6EyDjQl8zGdA-1; Tue, 20 Aug 2024 04:13:44 -0400
-X-MC-Unique: Jvjt3R1DMG6EyDjQl8zGdA-1
-Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-532ffe0530fso617845e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 01:13:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyXyLvZT"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3718eaf4046so3319115f8f.3;
+        Tue, 20 Aug 2024 01:49:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724143789; x=1724748589; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lg9dJIN/hiobsnuENkgWKW4tMAbr4qvFo2moMhu7vdU=;
+        b=IyXyLvZTmSyRs1S2BfRPIBxXmAeUvrBOJyuvwwLehtxaDVRLtdpE5lCdWnmIRrQCP/
+         X6GJeNET1BjxBjyObWYaZz45y8lZycSXjhICEIxq4CBMLWyadfc66uBvAzz99YsNPuUp
+         SzdLH6cTcvcI6F3Wxxv3cunWIPqOXmRwQvCQGE+aXDc24p5PbR76sbZZ9AwIj98BdLx1
+         EtJIjiK6yNZljMfmsXLKd7FTTNlrnRvvRsPcBkMqZjgJ4/o0dmR7+5j+53VFs5JEeep0
+         AX9sHDcugR7QO1NdTp4RfGw8ZxiUamzAZC3yYMWiut116c3pFEYhzmm2RQS93XJ9Eo8G
+         0axA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724141623; x=1724746423;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5x2Zwvil69v7j2QTmo/ru3l3YhUvaf/XafPWpjOjfD8=;
-        b=bo3dZCZ2IAGD95sYhJj6urp5bDvYe+afRewWpv+48s9wDWZ/PTai3EDe0zNDCpSs8u
-         /WAdY+qL/rUySownspEvMyyLanAU6b8BqqFUwQwJxP9eosjOfTDQUvCFk0BnFGoi5TUN
-         jLQxMD3ukvPQALca53Uzv07FGIyZ8PLnG4e65exs/5VXpQDiEaXNiY+jMaocc55PlHOd
-         frhEAmwbbege/+hpcNHIAaVy9QdCe7I6do0C0Q2SdSGR+txJWFwzpUB1U2lRmd1zwlzH
-         mDJnOxk3WL2FJlQoEY8+V4d19RzD1/VJRiE1kVxSO+Wl5o1Dzw4lcu9QyVBVKYB4ytDn
-         Ea7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUlqHDDXYYSdj1r8S3xn5jM9OeHaLf3zWsAyq8Ni2LJTg2gg0ohtyaXqx2D38rl0GTbBZpts+ttXQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdmwI1HlAHMY2NXo7gze4Bmm2J918ib4km4orSTS7HXKgwd6GU
-	8FVO1ea1mpaXsS6C7dmDgGVDs5bZ2b8zOlgMV7cWy366uEPajTqMmmyg5rebVohNW2gNr9R0y3U
-	8iYZAwb1ZF2/aLt2yTumHJkwMOVdwOcuWz+8C1iXImeEz29tndSqWN8Tq0A==
-X-Received: by 2002:a05:6512:10c1:b0:530:e0fd:4a85 with SMTP id 2adb3069b0e04-5331c6d4a61mr5183730e87.4.1724141623053;
-        Tue, 20 Aug 2024 01:13:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZQZIXMi/Gkd3uNyVjKj7Xpsxjs4S0/m1lMVeXOF/ppQ1u+jlQhYOCzCKjOM9+Rw34AQB54A==
-X-Received: by 2002:a05:6512:10c1:b0:530:e0fd:4a85 with SMTP id 2adb3069b0e04-5331c6d4a61mr5183700e87.4.1724141622413;
-        Tue, 20 Aug 2024 01:13:42 -0700 (PDT)
-Received: from eisenberg.fritz.box ([2001:16b8:3dcc:1f00:bec1:681e:45eb:77e2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8383935616sm724162966b.123.2024.08.20.01.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 01:13:42 -0700 (PDT)
-Message-ID: <419e91cb2b698a450497dfc1fb86f2c46eb7d8fb.camel@redhat.com>
-Subject: Re: [PATCH 8/9] vdap: solidrun: Replace deprecated PCI functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: Andy Shevchenko <andy@kernel.org>, Christophe JAILLET
-	 <christophe.jaillet@wanadoo.fr>
-Cc: onathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, Wu Hao
- <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer
- <mdf@kernel.org>,  Xu Yilun <yilun.xu@intel.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alvaro Karsz <alvaro.karsz@solid-run.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>,  Eugenio =?ISO-8859-1?Q?P=E9rez?=
- <eperezma@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Mark
- Brown <broonie@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-block@vger.kernel.org,
- linux-fpga@vger.kernel.org,  linux-gpio@vger.kernel.org,
- netdev@vger.kernel.org,  linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  linux-pci@vger.kernel.org,
- virtualization@lists.linux.dev
-Date: Tue, 20 Aug 2024 10:13:40 +0200
-In-Reply-To: <ZsOQPbVGQFtUYSww@smile.fi.intel.com>
-References: <20240819165148.58201-2-pstanner@redhat.com>
-	 <20240819165148.58201-10-pstanner@redhat.com>
-	 <74e9109a-ac59-49e2-9b1d-d825c9c9f891@wanadoo.fr>
-	 <ZsOQPbVGQFtUYSww@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+        d=1e100.net; s=20230601; t=1724143789; x=1724748589;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lg9dJIN/hiobsnuENkgWKW4tMAbr4qvFo2moMhu7vdU=;
+        b=JTqjY+envmtySA4EwImb/TMHnYI0pFbw+FgekLlnLluNunPMcD6IwkKfGMQDnMFDR1
+         wuNqC7iOZxMpQ+Hh5FU8EoO3egobtZK5/1TJ18mODvgnuGeX21SuEL2Bd2mX3ltuYsTG
+         tVQu0clW0ebOipGqCEWcbyk+PqY6kUs86H/biQRcumWatTniyE2xN00YQs7UfghUbA0B
+         87O1thDVG/Yc5HYbZ6GS3FcP/Uz3e7Q9HAsN74AQSJc9mhvQDtzZ4hadOwCoCZRetnwA
+         eP8K/gPqWKz/ANPQyZqJY5B47cG5E7jyWRfcnkuq9pZrt42MjRC13bUd4YUFCnC9R3/w
+         FYFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgGe3TOtGUdXSsMBUhUKXpYJVNre2VFcrNOzo0nR94WifyLNWrbwAGmWDsO7f3/tpqjlwjC2fO@vger.kernel.org, AJvYcCWmvVXkkl16RJSrhqg/oXKeH4KJjBTLMrPoncJzXrbHnp6A6YnNJ77L3/qVE4mCDmLByIwwhTaaEwM=@vger.kernel.org, AJvYcCXDJPdhmNGsp7kR4t1iZY47rbzj5JfrPi0Ec+0TdBAHN1gDYFTjfkpUJrB0txF558ZTjN7U90NqlsFiTfc=@vger.kernel.org, AJvYcCXawiiUVf5TN4sY8zmnTe3FraN13Efu96keKMTFoOAO127qwjW4lx/pGKOHkwpyKtj+eAZN8SagrKj92Kvs0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0B6AvltUeDcreuIJsty+5jFKIP0SM82zYkGvTf+hkbVqkXo6N
+	9CukAzQWtgRGF6yr7d+1VSvE3/HnLi7u6QENeg5eD3vu92p97CGYqBH6bl/fdY+DMOiP8PqHfQ/
+	uxKDAuWgjRTkh/3e7CptP4l+G2P4=
+X-Google-Smtp-Source: AGHT+IFl1anUYNa4FEC9klpgIUgBfM1uAYHx0Cm1xw4Sl52EjyYY0wMF0UPRDb7vLO5PAlVajoCL0hkHQ/xxsJo/UCg=
+X-Received: by 2002:a5d:6751:0:b0:367:90cc:fe8b with SMTP id
+ ffacd0b85a97d-37194649ca0mr9476564f8f.27.1724143788583; Tue, 20 Aug 2024
+ 01:49:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240820000245.61787-1-technoboy85@gmail.com> <202408201433.eqBpp8z9-lkp@intel.com>
+In-Reply-To: <202408201433.eqBpp8z9-lkp@intel.com>
+From: Matteo Croce <technoboy85@gmail.com>
+Date: Tue, 20 Aug 2024 10:49:12 +0200
+Message-ID: <CAFnufp2zP-J7r_0zh=NYBbeMMpJkFnHvm6aZB2RP4Y1rR+7h+Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
+To: kernel test robot <lkp@intel.com>
+Cc: bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Pablo Neira Ayuso <pablo@netfilter.org>, 
+	Jozsef Kadlecsik <kadlec@netfilter.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2024-08-19 at 21:34 +0300, Andy Shevchenko wrote:
-> On Mon, Aug 19, 2024 at 08:19:28PM +0200, Christophe JAILLET wrote:
-> > Le 19/08/2024 =C3=A0 18:51, Philipp Stanner a =C3=A9crit=C2=A0:
->=20
->=20
-> ...
->=20
-> > Unrelated to the patch, but is is safe to have 'name' be on the
-> > stack?
-> >=20
-> > pcim_iomap_region()
-> > --> __pcim_request_region()
-> > --> __pcim_request_region_range()
-> > --> request_region() or __request_mem_region()
-> > --> __request_region()
-> > --> __request_region_locked()
-> > --> res->name =3D name;
-> >=20
-> > So an address on the stack ends in the 'name' field of a "struct
-> > resource".
-> >=20
-> > According to a few grep, it looks really unusual.
-> >=20
-> > I don't know if it is used, but it looks strange to me.
->=20
-> It might be used when printing /proc/iomem, but I don't remember by
-> heart.
->=20
-> > If it is an issue, it was apparently already there before this
-> > patch.
->=20
-> This series seems to reveal a lot of issues with the probe/remove in
-> many
-> drivers. I think it's better to make fixes of them before this series
-> for
-> the sake of easier backporting.
+Il giorno mar 20 ago 2024 alle ore 08:59 kernel test robot
+<lkp@intel.com> ha scritto:
+>
+> Hi Matteo,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Croce/bpf-use-kfunc-hooks-instead-of-program-types/20240820-080354
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/20240820000245.61787-1-technoboy85%40gmail.com
+> patch subject: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
+> config: arc-randconfig-002-20240820 (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/config)
+> compiler: arc-elf-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240820/202408201433.eqBpp8z9-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202408201433.eqBpp8z9-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> net/core/filter.c:12084:38: warning: 'bpf_kfunc_set_sock_addr' defined but not used [-Wunused-const-variable=]
+>    12084 | static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
+>          |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/bpf_kfunc_set_sock_addr +12084 net/core/filter.c
+>
+> 05421aecd4ed65 Joanne Koong  2023-03-01  12083
+> 53e380d2144190 Daan De Meyer 2023-10-11 @12084  static const struct btf_kfunc_id_set bpf_kfunc_set_sock_addr = {
+> 53e380d2144190 Daan De Meyer 2023-10-11  12085          .owner = THIS_MODULE,
+> 53e380d2144190 Daan De Meyer 2023-10-11  12086          .set = &bpf_kfunc_check_set_sock_addr,
+> 53e380d2144190 Daan De Meyer 2023-10-11  12087  };
+> 53e380d2144190 Daan De Meyer 2023-10-11  12088
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Just so we're in sync:
-I think the only real bug here so far is the one found by Christophe.
+It seems that I removed one too many calls, the last one was using
+bpf_kfunc_set_sock_addr and needs to be kept.
 
-The usages of pci_disable_device(), pcim_iounmap_regions() and the like
-in remove() and error unwind paths are not elegant and make devres kind
-of useless =E2=80=93 but they are not bugs. So I wouldn't backport them.
+-- 
+Matteo Croce
 
-P.
-
->=20
-> If here is a problem, the devm_kasprintf() should be used.
->=20
-
+perl -e 'for($t=0;;$t++){print chr($t*($t>>8|$t>>13)&255)}' |aplay
