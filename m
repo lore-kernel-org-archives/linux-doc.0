@@ -1,157 +1,114 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8E1195B14
-	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 15:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A219FA93;
+	Tue, 20 Aug 2024 15:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724167497; cv=none; b=SsOC2BeRiDCeIkJ6NaLBiXei/plZePRe7hm1Rfc6AyXWgCpw2XURnJZ5+oFqB9YMRJQl4hhlz0IQXvGkXUqfxqXhCnhtZXxg9VRwH4SXpyVpF7r9K8kXeFJ2bUZ0au85f0BT9+4RPZEbW5yJh4jKM2eQfn7NeAW5Nl23y/7lcRI=
+	t=1724167596; cv=none; b=A8NfyzQcQ89CCTmvyhUTjGOzV48HBHvezjHkcxZSQPp+GtS7W9ExjX27lmzTsBe4hSLwHreB9ORW3+bkXPUTAV6GydXLwCRGsm6b4PwNmsz62aq3z4nh7esgTkGMmKVPfiIXs0l9g4tG6QnImQpUFhXnYdJjijAP1Mt70mpGxH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724167497; c=relaxed/simple;
-	bh=5IrSzO4NK/egoPWEpij4VPue9Dvq4+IjNrpVVyKy6PA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hH3OCeGVasjQRFC9iRlZ4zLmJvlqSXkjYq75N9znsWcDsiy0kBer4OaKGQ77GWHDkOb8e/3c8UMKjbrktoyik+sPY0B6jjqHk3eUQK3zu7xAqT3zxHY2a7GHe5AWHyH+x0CtnrzTqfZ0rhfT2gmuks9w9G2TRW8h34B+oQqDv0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vE4hmdCw; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1724167596; c=relaxed/simple;
+	bh=cul7AYUW/oUYJetixYQFOVkrNIZzj7nX7ZdNR4EJkYY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=JDmV8VyKaR2F4n0MRkPpM2lOqxbzQ4tMnzAy7z9ELjjixds9k2wvXvhG4MjgnP8LL7POX0FnxKZZ52f5JaudhfyFJ9RsqmMUu1QCEnBbDn/kVo5PN0nKmW+zcvw3g0y3TSEhjKcTxABmwM6IUPLYMsTQqQKBIB5krFwX8gnT1H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYij2JgH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vE4hmdCw"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2d3c5f769d6so3912601a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 08:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1724167496; x=1724772296; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K9yIy6nc3JckPfgq1SVS1dt/ubbPwao76sjUpFJbUU0=;
-        b=vE4hmdCw6asCkj/eoSUDZyyql82iSLSrYE4zYJZZIfB30hIweA1oom04xEUSd4RgMI
-         6nG1SBqpcyY5Aatcrwkmx00UIJdn8ckGJorSmOKxhX9QZW4Ic7hIslvLgxBd2U5pLmga
-         3LpQoLsdMMzx/PXEwcU4zAtKy2IvYsCgWiRPYf5OSwP8zLOx6GWhB7b4uFecemYwFUHx
-         In+urh3VA558N+DdSA0pvoMUktpUG+84SJ1lLJTvODK+LLncTsKCCGJVX7yq1swiqV6I
-         kL/6ZwfyRkKM/cKmeZWp6JXLQYHEHbJBGCcqiTpxvkazNyrLpjEpQecctFFEhM+qbgYR
-         rjPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724167496; x=1724772296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K9yIy6nc3JckPfgq1SVS1dt/ubbPwao76sjUpFJbUU0=;
-        b=YgsyXLo/Lbrfx4N1VcD2pj3UAfuIr6Vgly8JVZzrWfZQB7nlUTMXd4FeRNFy9IvPGo
-         lpL4Es1bXHZT7EBLSBLFLFi+OxiQR3hwGoPycH3Dahso+YW+W99n5Shg/pRuXLzHp60/
-         oyJxt312GtaCjFCgqpWqtvZCalV0UEFiu1mFWvFk/dTRo3WNrkMrP8fDZAnZ/A8PHpr5
-         2TPPNA/1d8glAQlkCKDAW/s+F0uZ6LISf3PE58CfmAthY4It0TBqRQ4D7aZNn2UXA7Cb
-         /MOqgylGFtx8gNU1tm+CKIb6A7YltSXqmqSdHE6Id2evOyBv1yn+Pl9HOgA7hvuXovJu
-         GQ1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVO5yVuPPH7sWB5mzJNXQNEaSY6LyrRkq7AerFHTwL8M90dnBdeOC/0Gkc1HKuKdjG5tLuUakzEEHjGOT4Vn8jI7RptXjKnCUw1
-X-Gm-Message-State: AOJu0YwRNSHR38VlZ2VzOz6XFNq5v550wauIm4Je1oWDC9FvP30LnOTR
-	9CXWXHNiYtDWEezLoIPUBpZYfRGbAlnCT9ymDK7EiZpYaabZ3Llg4qdvGTudKzs=
-X-Google-Smtp-Source: AGHT+IFjpFHeANOi3RNiE4tvCPPb8ENoVMI5hfDn6rIWfrZrc5je7gBHKyKa1cngmecZurzkCscwrA==
-X-Received: by 2002:a17:90a:1bcf:b0:2ca:f39c:8d76 with SMTP id 98e67ed59e1d1-2d3e03e8cb9mr14580242a91.39.1724167495634;
-        Tue, 20 Aug 2024 08:24:55 -0700 (PDT)
-Received: from jesse-desktop.ba.rivosinc.com (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d40bea7cb3sm7258157a91.25.2024.08.20.08.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 08:24:55 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v9 6/6] RISC-V: hwprobe: Document unaligned vector perf key
-Date: Tue, 20 Aug 2024 11:24:24 -0400
-Message-ID: <20240820152424.1973078-7-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240820152424.1973078-1-jesse@rivosinc.com>
-References: <20240820152424.1973078-1-jesse@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYij2JgH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51E3C4AF14;
+	Tue, 20 Aug 2024 15:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724167595;
+	bh=cul7AYUW/oUYJetixYQFOVkrNIZzj7nX7ZdNR4EJkYY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YYij2JgHvU1AVhaIiSFSmqh3C4f+ic8eJASZifn6Evsee/JMB21kiEgUtpOIBAzfw
+	 WhPHhWbdxcAJ3GX75aIWxGKoIE+TbIbkElRQxkSiCM1gSh7PD6MUNxSUUoVKCpdCo5
+	 Br49eRY1Fh7j8jsrdqPjohHKrKIQUkf6RV1BkZp3Zhod/8qnYQgViR4l08DXR6aSmW
+	 DulskVJSqnfDMUzs1+E910tAcZopB11i46RMlqd/GfDzeV8Bwbz6KJUBtopdAKLoXo
+	 UJG9b6LftIfnK02/OMGuvfBF4uYp8xc4JKrLL2vskwO7qu1TbpCs1VTOoV0Mv/xjHN
+	 vN7mHGvix1P4A==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 20 Aug 2024 18:26:31 +0300
+Message-Id: <D3KUEGW4Q63K.NEFOY5C6ZG2O@kernel.org>
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Matthew Garrett" <mjg59@srcf.ucam.org>
+Cc: "Andrew Cooper" <andrew.cooper3@citrix.com>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, "Eric Biggers"
+ <ebiggers@kernel.org>, "Ross Philipson" <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
+ early measurements
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-7-ross.philipson@oracle.com>
+ <20240531021656.GA1502@sol.localdomain>
+ <874jaegk8i.fsf@email.froward.int.ebiederm.org>
+ <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
+ <87ttflli09.ffs@tglx> <550d15cd-5c48-4c20-92c2-f09a7e30adc9@citrix.com>
+ <D3HAP4O4OVS3.2LOSH5HMQ34OZ@kernel.org> <Zr+dTMYZNY1b9cRV@srcf.ucam.org>
+ <D3K35VBCWZSW.2WCXJMW1HGGD5@kernel.org> <ZsONwsWs3zCln70O@srcf.ucam.org>
+In-Reply-To: <ZsONwsWs3zCln70O@srcf.ucam.org>
 
-Document key for reporting the speed of unaligned vector accesses.
-The descriptions are the same as the scalar equivalent values.
+On Mon Aug 19, 2024 at 9:24 PM EEST, Matthew Garrett wrote:
+> On Mon, Aug 19, 2024 at 09:05:47PM +0300, Jarkko Sakkinen wrote:
+> > On Fri Aug 16, 2024 at 9:41 PM EEST, Matthew Garrett wrote:
+> > > On Fri, Aug 16, 2024 at 02:22:04PM +0300, Jarkko Sakkinen wrote:
+> > >
+> > > > For (any) non-legacy features we can choose, which choices we choos=
+e to
+> > > > support, and which we do not. This is not an oppositive view just s=
+aying
+> > > > how it is, and platforms set of choices is not a selling argument.
+> > >
+> > > NIST still permits the use of SHA-1 until 2030, and the most signific=
+ant=20
+> > > demonstrated weaknesses in it don't seem applicable to the use case=
+=20
+> > > here. We certainly shouldn't encourage any new uses of it, and anyone=
+=20
+> > > who's able to use SHA-2 should be doing that instead, but it feels li=
+ke=20
+> > > people are arguing about not supporting hardware that exists in the r=
+eal=20
+> > > world for vibes reasons rather than it being a realistically attackab=
+le=20
+> > > weakness (and if we really *are* that concerned about SHA-1, why are =
+we=20
+> > > still supporting TPM 1.2 at all?)
+> >=20
+> > We are life-supporting TPM 1.2 as long as necessary but neither the
+> > support is extended nor new features will gain TPM 1.2 support. So
+> > that is at least my policy for that feature.
+>
+> But the fact that we support it and provide no warning labels is a=20
+> pretty clear indication that we're not actively trying to prevent people=
+=20
+> from using SHA-1 in the general case. Why is this a different case?=20
+> Failing to support it actually opens an entire separate set of footgun=20
+> opportunities in terms of the SHA-1 banks now being out of sync with the=
+=20
+> SHA-2 ones, so either way we're leaving people open to making poor=20
+> choices.
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
----
-V1 -> V2:
-  - New patch
-V2 -> V3:
- - Specify access width
-V3 -> V4:
- - Clarify we're talking about byte accesses using vector registers
- - Spell out _VECTOR_ in macros
-V4 -> V5:
- - No changes
-V5 -> V6:
- - No changes
-V6 -> V7:
- - No changes
-V7 -> V8:
- - Rebase onto fixes
- - s/RISCV_HWPROBE_VECTOR_MISALIGNED/RISCV_HWPROBE_MISALIGNED_VECTOR/g
-V8 -> V9:
- - No changes
----
- Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+This is a fair and enclosing argument. I get where you are coming from
+now. Please as material for the commit message.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 85b709257918..ea4e0b9c73e7 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -274,3 +274,19 @@ The following keys are defined:
-   represent the highest userspace virtual address usable.
- 
- * :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `time CSR`.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF`: An enum value describing the
-+     performance of misaligned vector accesses on the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN`: The performance of misaligned
-+    vector accesses is unknown.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW`: 32-bit misaligned accesses using vector
-+    registers are slower than the equivalent quantity of byte accesses via vector registers.
-+    Misaligned accesses may be supported directly in hardware, or trapped and emulated by software.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_FAST`: 32-bit misaligned accesses using vector
-+    registers are faster than the equivalent quantity of byte accesses via vector registers.
-+
-+  * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED`: Misaligned vector accesses are
-+    not supported at all and will generate a misaligned address fault.
--- 
-2.45.2
+BR, Jarkko
 
