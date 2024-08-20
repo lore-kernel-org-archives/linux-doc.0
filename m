@@ -1,102 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27A02C181;
-	Tue, 20 Aug 2024 02:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610DD17FE
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 02:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724119678; cv=none; b=K5XQ6i+8rAN4RuiwQFe+F5SUPhRsK3c3BQhK0oWx0xVVdJDOJJHQHGTNdpewGruUUrfNzRJrDnszhWdBYzQN0IGjyITJ6ScAwC/Vc6W2/A4myUkSobxpRYQQ5JD1eTysCP6o1z/v0ob64STcOLCOH+7QJ9jHa81UvrP+Fh0GHWA=
+	t=1724120532; cv=none; b=q2VK2PQZsXYZuwSQS7lalNYC0UR4C6nI1rdl1V68t5mztnq8ubXPzR7VrBoB9iC5HZ9G/EJD4U67t9NMDeVC4+2GVC/FL0qWuX8ObTcUk7KWQ3y981tJ12wYKclpIy6pnqfnTDISFAzOPT8UgkYKsnamhg1ULwi45WFM4ReOuRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724119678; c=relaxed/simple;
-	bh=ZddIw0tW5VAH05vy47Klfjadp2F4VUA1vxpIRu/A+Ls=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YAARtdAqE27E4fraw5oyqaASdQZ9XzTwg2dpvfmnLJ7Ra9BWEMFjVJXavLcrtHmq+7F9xsEcRX3FYZZLQ33cUe+dxXvLhvh3JrJmZ10fqUYFPz97KtKfGH7yplJYWWHFeKlEFxdGZOA2bvx0sCNazLHaUe+9DMsCPV7W+uReDdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=myNqlT37; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724120532; c=relaxed/simple;
+	bh=TSnk6AtWa28c59UrW4je/4+rOjKmL6E2erc9O4TAePU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LfuBTB3UNDsTZ8Zph3V/WhdQlQjQIgA/6NigCJnISUsQ8M5x9+d9hg84m3aIkAQZfbWO9DkhHI/BDKSBHhDE3KMHHZkioi9lVMZ3eRES+J8sivm5ArBwvzkZUIY+/EED0xeurq3kywO1GXlbQPxUdJjKvN8oZ04rvcPgolRm+Hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hBic+XC2; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="myNqlT37"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7436EC32782;
-	Tue, 20 Aug 2024 02:07:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724119677;
-	bh=ZddIw0tW5VAH05vy47Klfjadp2F4VUA1vxpIRu/A+Ls=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=myNqlT37f5YJBFa59OcSKafME3odE0VUtB9AlIel9C9PgsOU1FIwhkkIpgLW9/H82
-	 /Ad0i7FaYYInZyZSFTRTfqP4M3N8aVKI+1RAkyVl/mkQz95EG1zHicpg2b/iBFq/vF
-	 bH1T3KTrUpE1KP5Qp/5kEDe1GduqhAPtG5wREEth4J55933AYVcHDTPe1dViVtpROX
-	 qcz0eQgfmeJrzzhk+ZoSYxkBA8MZDICEHfeDqQ0Yf8LKAhrk/udLe3xjF9fOtN7QDY
-	 QbGwVUN4QsIk8Sjti2igRtGMkDrifQd7Gogjs7mOl91fjOLncD0xTBwcVxF/qSRLIW
-	 3NWBexXhwJCKw==
-Date: Mon, 19 Aug 2024 19:07:55 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Martin Karsten <mkarsten@uwaterloo.ca>
-Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org, Joe Damato
- <jdamato@fastly.com>, amritha.nambiar@intel.com,
- sridhar.samudrala@intel.com, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jan Kara
- <jack@suse.cz>, Jiri Pirko <jiri@resnulli.us>, Johannes Berg
- <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:FILESYSTEMS
- (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>
-Subject: Re: [RFC net-next 0/5] Suspend IRQs during preferred busy poll
-Message-ID: <20240819190755.0ed0a959@kernel.org>
-In-Reply-To: <15bec172-490f-4535-bd07-442c1be75ed9@uwaterloo.ca>
-References: <20240812125717.413108-1-jdamato@fastly.com>
-	<ZrpuWMoXHxzPvvhL@mini-arch>
-	<2bb121dd-3dcd-4142-ab87-02ccf4afd469@uwaterloo.ca>
-	<20240813171015.425f239e@kernel.org>
-	<15bec172-490f-4535-bd07-442c1be75ed9@uwaterloo.ca>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hBic+XC2"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6ba0527a2e7so17309847b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Aug 2024 19:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724120530; x=1724725330; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n9Q7vC9LFMPCk3qVQ7Qc1QgEANirFuPSlZqqwwUbx7g=;
+        b=hBic+XC2Wu+Cb5FH8rh8OsKSeoWLOq7qjnFXvGU/5glX/Lz8UFhIvPFrlGvSDxO9eh
+         JBVdcaY6pfkRY8pqAmWCzO00lIQuVlawwXs7RtyLzXrwozyCcMv5IWReVMxRk0wdOs5Q
+         dD7xDUTBTOGNeymnKjzBlexmCOx1CBcfT78PfLQ8DqMjk9SYa/Gb5prWFFqduFrWHFYI
+         xk6YduqHUaWnPhFexLFTGus1ZBSc6OfQNEJzmxGSlC+iX19PdHzriM8fEiONm2tZQ3hZ
+         /ErRORNoSXSy8+RvneXWmnER5jq35LpiUSsouirkCrrBuYAdi5F91C9hnjDyMOrGYeGA
+         QDfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724120530; x=1724725330;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n9Q7vC9LFMPCk3qVQ7Qc1QgEANirFuPSlZqqwwUbx7g=;
+        b=NO4DS9tluY7+/fqjhJpV5I97IIfOj1M/eCNhoBwNna0CD0aZ+K1uzI8Noq9Zy/PD9r
+         gHpFQq33UuHNs8Scc1/kDGKBvLD2TKe5ai4QyM7OBcqsDDp1FP1z9k+SdBGxQ9wHs/hg
+         ka4G57cJz22u6jMpZhmGGqxMLW1pIbrbh3CXNPlajPN8xonbEMfEUCWxPM0TRzHGtzlk
+         vI2MKXbZQUQA5mVPn/AKSAs8w4b4BoMEqVZDweLowpzZXJ2Rq3/Cvt8TGTmxMhmzbX0v
+         1noQDlRugL8KNdxuCCPHww4mqW42e94KkOmC8bBIxYd8liVDkyXnWpzwns0VzWubR95L
+         zldQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbORcbKVQJsJQYfVc8Rz/M+UdjInIt2y2orfFb8Od62cedKLSfJJPAo1wJjCr0rtcVSLKlCvhZ6OUSy/BW/i1ijH9+bv3vIlwp
+X-Gm-Message-State: AOJu0YzGq4UWrFNR6cDI/k+ETGMAPSNK+yACyYGI31Nd0uGcAaae07q+
+	QHupaDdouzcrUvtCZKosVHr1owHRDu4YaGdjuVd7/ZSpODaopeCHA8Jd+WbDkSHlkQBdoKdUmfg
+	hikN6iT4A6gq+gL2JAlR7GQhrHvLBhH1xQBDe
+X-Google-Smtp-Source: AGHT+IGqv2dvKxmgA37AXYwXcqcy+VUarFEug/q6Qajf1/shsAVDJ2FVpYt5LV0ZKu34PjuRvF0l1baRqWG8DdWGDA4=
+X-Received: by 2002:a05:690c:f94:b0:63b:d711:e722 with SMTP id
+ 00721157ae682-6b1b9b5ac7cmr168081857b3.1.1724120529883; Mon, 19 Aug 2024
+ 19:22:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240819151512.2363698-1-surenb@google.com> <20240819151512.2363698-6-surenb@google.com>
+ <ZsOeVSlToyhsyDGD@casper.infradead.org> <CAJuCfpH4yFw6RNKVDK0hqXQQhAhMsyGNp5A50E+c2PZd+_vOgw@mail.gmail.com>
+ <ZsOtwhWC_JpgWe_J@casper.infradead.org> <20240819184649.8fc7da59f89290f716ae0553@linux-foundation.org>
+In-Reply-To: <20240819184649.8fc7da59f89290f716ae0553@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 19 Aug 2024 19:21:57 -0700
+Message-ID: <CAJuCfpHa_wfcbatEksuEZqWjTxvM0fc_SAdoBf74QYFipA+s7A@mail.gmail.com>
+Subject: Re: [PATCH 5/5] alloc_tag: config to store page allocation tag refs
+ in page flags
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	dave@stgolabs.net, liam.howlett@oracle.com, pasha.tatashin@soleen.com, 
+	souravpanda@google.com, keescook@chromium.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 Aug 2024 21:14:40 -0400 Martin Karsten wrote:
-> > What about NIC interrupt coalescing. defer_hard_irqs_count was supposed
-> > to be used with NICs which either don't have IRQ coalescing or have a
-> > broken implementation. The timeout of 200usec should be perfectly within
-> > range of what NICs can support.
-> > 
-> > If the NIC IRQ coalescing works, instead of adding a new timeout value
-> > we could add a new deferral control (replacing defer_hard_irqs_count)
-> > which would always kick in after seeing prefer_busy_poll() but also
-> > not kick in if the busy poll harvested 0 packets.  
-> Maybe I am missing something, but I believe this would have the same 
-> problem that we describe for gro-timeout + defer-irq. When busy poll 
-> does not harvest packets and the application thread is idle and goes to 
-> sleep, it would then take up to 200 us to get the next interrupt. This 
-> considerably increases tail latencies under low load.
-> 
-> In order get low latencies under low load, the NIC timeout would have to 
-> be something like 20 us, but under high load the application thread will 
-> be busy for longer than 20 us and the interrupt (and softirq) will come 
-> too early and cause interference.
+On Mon, Aug 19, 2024 at 6:46=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Mon, 19 Aug 2024 21:40:34 +0100 Matthew Wilcox <willy@infradead.org> w=
+rote:
+>
+> > On Mon, Aug 19, 2024 at 01:39:16PM -0700, Suren Baghdasaryan wrote:
+> > > On Mon, Aug 19, 2024 at 12:34=E2=80=AFPM Matthew Wilcox <willy@infrad=
+ead.org> wrote:
+> > > > So if ALLOC_TAG_REF_WIDTH is big enough, it's going to force last_c=
+pupid
+> > > > into struct page.
+> > >
+> > > Thanks for taking a look!
+> > > Yes, but how is this field different from say KASAN_TAG_WIDTH which
+> > > can also force last_cpupid out of page flags?
+> >
+> > Because KASAN isn't for production use?
+> >
+> > > >  That will misalign struct page and disable HVO -- with no warning!
+> > >
+> > > mminit_verify_pageflags_layout already has a mminit_dprintk() to
+> > > indicate this condition. Is that not enough?
+> >
+> > Fair.
+>
+> Is a BUILD_BUG_ON() feasible here?
 
-An FSM-like diagram would go a long way in clarifying things :)
-
-> It is tempting to think of the second timeout as 0 and in fact re-enable 
-> interrupts right away. We have tried it, but it leads to a lot of 
-> interrupts and corresponding inefficiencies, since a system below 
-> capacity frequently switches between busy and idle. Using a small 
-> timeout (20 us) for modest deferral and batching when idle is a lot more 
-> efficient.
-
-I see. I think we are on the same page. What I was suggesting is to use
-the HW timer instead of the short timer. But I suspect the NIC you're
-using isn't really good at clearing IRQs before unmasking. Meaning that
-when you try to reactivate HW control there's already an IRQ pending
-and it fires pointlessly. That matches my experience with mlx5. 
-If the NIC driver was to clear the IRQ state before running the NAPI
-loop, we would have no pending IRQ by the time we unmask and activate
-HW IRQs.
-
-Sorry for the delay.
+We could, but I didn't think we should prevent people from having such
+a configuration if that's what they need...
