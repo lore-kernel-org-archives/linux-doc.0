@@ -1,220 +1,431 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5091BE222;
-	Tue, 20 Aug 2024 21:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724188194; cv=fail; b=iwwyqzL0oajB7UdipTgsCc7HojlTi8y4y8a+JTmfeIdEjZHfRgE8dqm0G1Kock+9rD291p1M64FVvwFGdZTns2nNW3QifG9gjNYaR9t2GkPFFi8jUlQ2WTtS+z20eyz+BP1isWzdxpZZOjtrh6vOz9SopgcZ0f/RNgHFX7m+STU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724188194; c=relaxed/simple;
-	bh=HguXGRs++6l8VDiL5BYdT6SjeEjxcXm/Dz2tFTqKKaU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cGy6NCF6Y/eIcQoncItUUvodtJCAMapnTVoilagiixiOcJ6t5u2Ynl40oRB67HfpP3w41B4xAsNfTmVQYOW7q5tYOrSv7sTfEKGXwz0n9fTiLSYqMr1USToj5Zw22kDbo4BWX/wxT9ZEgCE4Gd6q7Ot5rx2blb2RUDyWDCiaERI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OLUmbhyF; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OLUmbhyF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724188193; x=1755724193;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=HguXGRs++6l8VDiL5BYdT6SjeEjxcXm/Dz2tFTqKKaU=;
-  b=OLUmbhyFMW/hcLGLqJOAUoY+kc5EUDFBBcok89Ru9Tpfe7LsA3yJP0G3
-   3P1m/5mrJTcSau31BAv7ni3/OIejtG6Mi780UL4P5j+bp6xqF+X5I2FBb
-   F+YHA5muzZ5VwHVAllzvFKglyX2i5g+YdJqRbHM5s/l+n/DI9gPF2mZZ4
-   g6xJCQfW9erXqPaWxT7tmyaC5xTXefLKbdh+w90TMNt2AFxKbAz4jW7TC
-   qhK/rxaenmzTJIOb9u+XOyuYn7+9pm5gf/hDXK8n/NctrHr4vRklRj44J
-   hzPowAF+CR139eOoqhySulQ52WemOXVJD1k6TtNOsl5ZmxIPZTMLmcay0
-   Q==;
-X-CSE-ConnectionGUID: MlqumKlNTQq58NTn7AkUyg==
-X-CSE-MsgGUID: pjDPKcBARZyx0iZ99AR6LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22682904"
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="22682904"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 14:09:52 -0700
-X-CSE-ConnectionGUID: Gu1xfiacQEumCx8ZRH/w/g==
-X-CSE-MsgGUID: grVgVi2EQKK9G53MAXWRGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="60903502"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Aug 2024 14:09:52 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 20 Aug 2024 14:09:51 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 20 Aug 2024 14:09:51 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 20 Aug 2024 14:09:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O26hHdpSwjPkkyuxk3fSZkxeIEDGaMbVU339aAPd6pI+ZMNlwAJja0mnXb921KY0zoQEhpGSmDW0+fwunhF0bWAx0wljpg7qcV33sdl/FgS416IJzRrQzomDXErJR5dvpS8lQqOiauOK5D/p0AVUGb2WuhY+gQWJnyYaXuC/uzxLlVIrjpRrKnpPekwfLWmo9knnhJnvLiTiWJGS6igzQizBJBubBwFYZuzkOgWywkuOTS1PBdq4SzsjVAOwHnt7OazoCXMa358TdgEI+ogNMmNrBP5J9d1QdVskjUn+6BFJnD70grbPv/wRfq1gR4Jg16WM4E7RhEtVO0gYwCh/Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RFFPQwHrVmT6rdmORk737VX7WgKzOKocs6W5W1NywxM=;
- b=BOoCOrjVRWV4LmPgRE/Trwa3AnoQeEYs65Y4KrlFdzVAWGSLOy3K2yFpmhDy5b4XsBa1eq0BkH8pn220BaK5Ry60ut1SWPPeozpCsUcMiWHWmjsa6C/KJ5JgQb7Xuqyk3lTO8pgh1P5yhb6waOiIBMY+VG8lVn8TbXUNelSdv36pruIZpX5x1M09BO4omZPeNcKgRRnjRZTJG1/TiDvii5k3F3H0Am80o6FyI6sDHnEie5oP6nGBHirYlvB2Hm4skYae/+IReSBw9Aw10dzpVQVWjgiKa6LOCJeBxiCbXVzRVYzo+PpM2N+rw1JDTtAr+5rk0+BdKezN9esK0BJakA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SA2PR11MB4796.namprd11.prod.outlook.com (2603:10b6:806:117::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.16; Tue, 20 Aug
- 2024 21:09:48 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.7875.019; Tue, 20 Aug 2024
- 21:09:47 +0000
-Message-ID: <4dfc1e52-67db-4126-8b7b-81b400de0cbf@intel.com>
-Date: Tue, 20 Aug 2024 14:09:43 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/22] x86/resctrl: Add data structures and definitions
- for ABMC assignment
-To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <james.morse@arm.com>
-References: <cover.1722981659.git.babu.moger@amd.com>
- <337d3ed1eebc662dbc7e536aba49987c2396972e.1722981659.git.babu.moger@amd.com>
- <498fead6-8b03-4a68-8fb5-15c239e9b63e@intel.com>
- <49ee6ebe-96a3-4e3b-bb60-090be2e9e17b@amd.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <49ee6ebe-96a3-4e3b-bb60-090be2e9e17b@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0147.namprd03.prod.outlook.com
- (2603:10b6:303:8c::32) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CA128FA;
+	Tue, 20 Aug 2024 21:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724189436; cv=none; b=MjYuZtNEVYfGjw75jCG6g6aoLqSBlJAFqfB5B6VF6XVn3iqXiqIDzbCHhxOa5qpvGbevmuT2xOUcBsErd7lijU2InimXOKAsf9n4YuGv/rVt2GzN/E8aZbGKphMnjSbSCBG5tDadbxXrBGBtyFCxJydoGJFb0ZheFjaWhkoEsaQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724189436; c=relaxed/simple;
+	bh=Wf4v/OxN9egKtXMuH2WLio6W1C7MsLtd52NbyIDOAec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iQAiUBhSw9WUeGKk6MKMl4kjiKACWxNVa1udI4xPCnYv9CCHdxsHoqWXrSqNRF6/fcfUGkAw3Eg1/uULa2ibNmnnn8WqNFwca82wXhnr1FCcTAIuKuUYEkgIRBQ2cqbTGhLDqPK9yysE4gnq1ZW0eBqRjVOtkFOZsTa+2TRdh2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-4fc9cc29d33so1097808e0c.3;
+        Tue, 20 Aug 2024 14:30:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724189433; x=1724794233;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T5MbvUEZo2RanWzcPSim4NJ31aZ7A+5iQj3+e1UdIIE=;
+        b=Co6lMmY+/U21ABfE5953/ALbKFAUZAmlmQyV/f6taSga/GWMNfvRyF7H91Ap2hTmTp
+         MLH84RBc9OrfVpA+9cMRJGkaCwjmZ/RJVE3HOTgNEvVDZMIgJxpJCzbHpwk0iA9dznsy
+         kisQC70YP6sRo56vmClZniuFFvzxAHSb1qiTPX8hoYtUPttkKeVzx2ucsniCJQ8uXudC
+         h8H08VjdfSFyGNiMUMrHcNxV1VLye1BpyAOR2pOaiw9+frU2rZQhdA7D92R7sHOUCInH
+         dxv84xODWhtFnkWufRON3dl/XM89lSwGnmovO/uDUdZcwmHuYNBQY5QeyqCvhDC2gHHI
+         scmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZTS0ddsY16oesqF72WzJ7RRQbhfvAPGgu3sQrfCL9Xb8zkAQDZvWOvozH3yLqalm4AtPADCdsyM8=@vger.kernel.org, AJvYcCXlUFsFzEc/V+P7LBfbDntTsNC+lR01pPpdAkemG4XhzjX9hxfkuT8RWvPRY6xpdEvG4eYRjg+eIFrS7TvZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHoR5qyk8gAsew0TCWW8IsJY8lG8xXAGFtIVjdWHgAjqX+t2MR
+	i6GMq2cHOMLLiHVpdG+LhjggcjsFutTPOAScn8EnxO6WwnpHNsCjZJ8VNt8jICRHYOH64FRXZe7
+	RnV0vjLf0Rx09HE2e/DVvLDuAXi4=
+X-Google-Smtp-Source: AGHT+IGS1cSsfYG4SOT7yH5qcDXTg2Z5iUpMCjN0fGTIGWP4vGyQH5TLoU/ZJtMssIUYrTB3BJn2WNp4oI9Z1jNmoMI=
+X-Received: by 2002:a05:6122:4698:b0:4fc:e713:6572 with SMTP id
+ 71dfb90a1353d-4fcf1b98922mr912204e0c.11.1724189433182; Tue, 20 Aug 2024
+ 14:30:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB4796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11537c4f-b31d-45ea-1bc8-08dcc15c6c34
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WkNBeEI0bTVEWXhBL0t3VUwrOXdoNnJJTktuWEo0ZCtlcXp4MUhrYU4xUWpC?=
- =?utf-8?B?b0dFYlhHbkF0dGNoNlU1QWNPTmtkYVQ4WVhIYXJWTUFud0xNM1pRK2tGR0tj?=
- =?utf-8?B?QURDSy84aDJOYnFHSlI5dFpDc01iTVoyU2ducnlRUk1HSE9yYlFTaFlKdE01?=
- =?utf-8?B?Q2RWRUVWWUQwQ3ZibXl6eGx6NDRzMytFN0k3cXJEa0tpZ0pRbGhYWW50VTNl?=
- =?utf-8?B?YnpmSlhvOE5ZZXBJYUIrdUg2Q3BxV0F4dTVqeXRvb1pNSEpOOUFFdkhmdVFQ?=
- =?utf-8?B?Szk4WTRCRFh3T2thWTZMN2l3OWY0SFhnNTJta0F1ci95UzVpUDZWdG82Smx5?=
- =?utf-8?B?V2RZYXNQdGNwbVFDZGtSc3RzWTNEQ04zeExYdW1VWlV2bEt1TzRnczVkTFdP?=
- =?utf-8?B?eGF5eEMxajVjUHFHWUp5V3JyQzVIbHB3TXFtc3lGb24yWDQ4MFRMQkx6Zmhv?=
- =?utf-8?B?ZEE2WTFJZVhGSmo0ZFMwcXB4aUQ2d3VkYmM0SmlWVURTZStDVU5HZVBGV1Nj?=
- =?utf-8?B?RHkyQ3dYL2ZWWkVsRTdUNDNWbEtLT0RNT3dUK0JFTlBELzZ6VGRyYXJFWDQ0?=
- =?utf-8?B?ajIzRTk4anJpeWwxbzZ0MFpXdndSUFoyVVdZcGFGbEJvTWdRdWVMUjZFL1gy?=
- =?utf-8?B?N2pNRi9yRndBR3FNb0gwK0lMcUoza2t3SGp3ZUwzR2VFalEzOGdOU2ZBc1dt?=
- =?utf-8?B?SjhCUXl5emdMV1Bxanp0cTZEZjRTVFk0cjdzZXk5ZEtOZnVNM0J3eWI4Qi9o?=
- =?utf-8?B?Um5hL2piNWZ1SXl1bWxrYVdqRG1sTmxFeVdQMU5hWUpDR3J0eklrU29tZHYx?=
- =?utf-8?B?Q2VaNUszeS9ZWkFaTzNvYzIyajlUaUdwZ3ZQTlNCUmRqVDJQV0crME9BUGNN?=
- =?utf-8?B?dGM4T1FqTEYvYnVGRkRTd25tS1RyUjBhTXB2dVZISVJnanRnV2E3MDZGVmEr?=
- =?utf-8?B?NDUrbGNOaEhIR0l0N2pneS9HZ2dZWk53dUYra2MvVWRDdEpiaHc2U0ludjNR?=
- =?utf-8?B?SjJ6YUY0Y2NtdFdWaXJjQ1ZOZnMzR0R0SHMrc0hIeDZ4WVdGaFJoQm1NeU16?=
- =?utf-8?B?cFNhNHRPeUNNZUViUkk3bnhjZW1zWDRFbmFnN0EvekUxTGF5RnZFREZKUXg2?=
- =?utf-8?B?a1hpTlFiWGNSOWRYSll5VGx1dHllb0R2Q1U2ckVPM3Y1SzJqdnUwL1lPSXQ4?=
- =?utf-8?B?elZCa0NmWE9QY1JEejY5SVhFUFdLay8vZ1lPd3J2OVpQOFBramtzSEp4NXBu?=
- =?utf-8?B?MGF0MlFiWWZNUUpEd3E1dW5oblc5MHJDanIrOWdEZ2tZZ0g0Z0ZyMXk1U3ha?=
- =?utf-8?B?VVdQOFREdUl5YUhvTFBueEZkZ1QzdzZDR1l1Nm5BUmdJQkordmdMcUFnMEgw?=
- =?utf-8?B?RGlxbEpvcVVKK29aYmdNaHlJVDAxRDR5UXh2ZGdOTlFkSy9XVTZHUjFIY2tW?=
- =?utf-8?B?ZUZvUzhDMlllcFhXaytCcTh5SzEvUjVlMnpkZVQyR3ZjcjJGaERpL3RJQ21R?=
- =?utf-8?B?Y1BnSUJwMVhXcjZjTnhnQklXYjVYRitBM0YxdWRoYWYyZXlnQTNKV3d2RFVx?=
- =?utf-8?B?b2pWSU1ONzZSOXFUOVhKY21pTFhUYklxa2cwZGRJMThvVzUzV21CVC9rejRy?=
- =?utf-8?B?bTVxejk4OXhJd0FVZGM2dk1CRUVnWDRQMUlHRU4vWFN6WjZuQVJDOExLS2hU?=
- =?utf-8?B?TzVFeUZmSHhJYXpZTFlheThKTmx3OTlNY1djaThLa2xvVWsrVGdnTmJFdVZE?=
- =?utf-8?B?c0w3NDVyalhMeVV6VHhpM3RJdXg3azNjTERoVndRM1dsbXI1Q0szRG80Yk5T?=
- =?utf-8?B?L2t4NUZsMUFIbVhQelVidz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU5Rckp3SkZjN2J0b3RuUXRKdGhCZmV5VkFTUTcwbWhTUk9tRVlncFhZVHhD?=
- =?utf-8?B?ZGtyQlNoTU9aVjY2SG1FRm0vYVJZUFphT0lIU2IrMHpGbFRtdlpQN1N1WHNU?=
- =?utf-8?B?cEdiN3FsbEhDejh2M0xQdngzRjVrUFNQam4rZTNjcUVrNTg4YURPcktnTm9S?=
- =?utf-8?B?VU5HZ0ZuMC9Kb1JhNXRtYWs1YkkzQVQvMlpiaStIUWozL3pmV0hIcHg0ZUY1?=
- =?utf-8?B?cDYvQnpKU1pxWXpqRW9hWW9XYUtseXNzdTlpTlJFa09tMVIxN0RIUzltQTd6?=
- =?utf-8?B?L3c2cE03MlRNeTF5bkhEQStIVmFZTlc5UERoUXpsK2RVc3VDUFU1QldmK1FN?=
- =?utf-8?B?cDBFQ2JiVjQwOHlrN0FSZUV6cU1ZZHo0Y1JZMDVBVkM0KzYzZnV6UGs3L2t6?=
- =?utf-8?B?SE1nU0RIR0c0Q1BkK2NvUDJOZDgwT3NXblZvemFkTk55VDhoMjJuMHYzcmZs?=
- =?utf-8?B?NTZYTVNJdS9UWjJOZWhKTFFVZmRDUjI3NW1lMG9UYmc5aEJDM281VWp4S3ZS?=
- =?utf-8?B?MjJ2Mm1DZGFLWi9uWEQxalN1NGU0QjNvM00zTXpPcUVaS3I4Zk50M1l4NXln?=
- =?utf-8?B?eWhxU2lOQjBTQ1UrdWkvcHhvOUZsbnhmVEdMZ0pDbkwyZWRjM0c0VC95SlhU?=
- =?utf-8?B?TWM5MVlISW9nSjh3czA2NzA2YUFzVFI5UFM4Z1JoMUZXQ0x3bi9yaW5IbzZD?=
- =?utf-8?B?aVFtUldWUi9hOHErRGRIWVcvcG9EbGlNckpVZG9MM2xtMFhPRDNuMm16SjdC?=
- =?utf-8?B?YUZUOXB2L1FlYlJBU2daNXZwMGwzTWdiU0lXYTJZb3lxQzROV012dDhUWUcy?=
- =?utf-8?B?UGlzRDFMTk5DR1BNVUdCODlneUhER3J6RVoxTEVYbUJSMkltUDdwRDg0bGgy?=
- =?utf-8?B?aHQ4NG04VWVGSVpUbGc1WndaY0trNnNWb1FQNldCRU0wSjVjSVYxd1VjQ2Ex?=
- =?utf-8?B?WE5jNzVHZkxSMHBUWUdGOXZJNW9jbERsTmx1NWZ0a0dxUWdCWmlrdXFKL1BT?=
- =?utf-8?B?Q2piMlJmRHM1QnU2eks5WXAyZnZVVks4MzY5M2ZCQzlBTE81ZTFFUDJqWDBy?=
- =?utf-8?B?czM5OEQwWVRBV2dleEFPNzZ6NUd1VUpGWFpKQ2U2WmhCaDFKWGZHZ0hmbUt1?=
- =?utf-8?B?QjJsaEJiM2JFb2pZOC91ZzcvdDhWRVJod1NvMmJldEp6Ui9uMDBNcUcvcFBP?=
- =?utf-8?B?TEZhcnU4RkNRRFB1amFySytFUzZWOTZ3RGZTMGR6NW1GS2RKTGw5RUNqdmw4?=
- =?utf-8?B?RmpVaS8vSlNFb1cyd1FuQUNYbWo2eG5VdEpocU1tU3hsVG12TkxkTnFkbGJQ?=
- =?utf-8?B?Z2VCV09RbE1yV3Z5TTRzWGV1ZDljS2RWdmgzckNsM0psdzJVV0RKWkN0UEla?=
- =?utf-8?B?dEtLeXRoaDZTaUU4bElYZ3JuUjd4SzhCOVhNQkRYUzNuR3ZmbGF5aExJcjZR?=
- =?utf-8?B?emJWUHRNbXRFU3VLK0sveU4wUzlnSjM3OUhCZFAzNW5NQlhwOHhWVDhPZzhk?=
- =?utf-8?B?d2loU2diWVNJc0VCZUwybG5CK2k0VGwyZ1UvQjBYR2xQTDNEQ1NZalpGTkc1?=
- =?utf-8?B?Z2VtZExwNDM1cDVtTC9qUXFwelRnSnRWVWQ4NWxhdTluUGdyeTV0b1NzL2s1?=
- =?utf-8?B?K1JUcjd1MWJVSHZYbUo0bWJnKzgzK3FReWhXY21PN3VQNFNTZWltR2hBcnVB?=
- =?utf-8?B?KzIwUTZoYS81T3RPcERmaTF3MTgwd2FtV2JGVUM2anZQbXlJNlpQQzB5Qjlh?=
- =?utf-8?B?eHhpTzMyWlVuemc4NmxyVGRISXZNNTl6Z0wvUHVFYUFraCt3Zjg5TitrYllx?=
- =?utf-8?B?VWdkVGZicjhTQk1HK3ZnVDNnakRpZEZZYldmWEJrcWZHd0hUaXg2QldwSXVF?=
- =?utf-8?B?emRYNkZZMnJMeitTNUl5L2E1dzgyTHp2WXZNUE9oMXkrSGg0RjFMenM4MDM4?=
- =?utf-8?B?Vk4ydUNZdjVKNXFkVFpDTzBzL25mTmlCS3oyUGNkYlRJcVd1NEVnUDdpMlEz?=
- =?utf-8?B?UXRmcld5YVpnVzFtUEVuSjJkNWErQ1dXKzJxZ0d0SDJwSHViZWw0QzJyWDZ4?=
- =?utf-8?B?YVQwQ1lUYjljMThSVmhIcVozbXRwamZpT1NJK1ZzNlNERUQ3ay9aZStmdTNm?=
- =?utf-8?B?YW5wUlpvWjE4bHRKSGxzM2N0eE5paStpRndHM2loK1BCVzdTTjZDb1hKdEFq?=
- =?utf-8?B?UWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11537c4f-b31d-45ea-1bc8-08dcc15c6c34
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 21:09:47.7512
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CcJNiKRPu+nikQn42UeLLP7h9oUqrbzXesrh4VURZvihZHRlw5cjmuZu6jKeF7po1m+rQG8j4HCw0N/3UYGicQcbZGkS5P1YEd6r0dgoIfk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4796
-X-OriginatorOrg: intel.com
+References: <20240819023145.2415299-1-usamaarif642@gmail.com>
+ <20240819023145.2415299-5-usamaarif642@gmail.com> <CAGsJ_4yKuvMSazWABXqaeRr84hLEubET0nCUhPFYHQnfR4Tm8w@mail.gmail.com>
+ <a09b6af0-4fdb-4ac1-9cbe-9b422ebc3308@gmail.com> <CAGsJ_4xeWt9n3zX3-DknE=NftkWS0fe2vKTJT9tLuJPM4EaEwg@mail.gmail.com>
+ <9a58e794-2156-4a9f-a383-1cdfc07eee5e@gmail.com> <CAGsJ_4xiG+oGkjt3nf0Zh2rdztz8h_AaahZWs4N3UARhw7DcgQ@mail.gmail.com>
+ <CAGsJ_4z2YL01wvVgsFsbzGAQ5KowXgxLcj=Y7DSX7ODOF5MUvw@mail.gmail.com> <953d398d-58be-41c6-bf30-4c9df597de77@gmail.com>
+In-Reply-To: <953d398d-58be-41c6-bf30-4c9df597de77@gmail.com>
+From: Barry Song <baohua@kernel.org>
+Date: Wed, 21 Aug 2024 09:30:21 +1200
+Message-ID: <CAGsJ_4y49c8-hDgjNuqMZnNWfUT-ktxeqkfX0EQz4-Pu3x9-Dg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] mm: Introduce a pageflag for partially mapped folios
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, hannes@cmpxchg.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, roman.gushchin@linux.dev, 
+	yuzhao@google.com, david@redhat.com, ryan.roberts@arm.com, rppt@kernel.org, 
+	willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Babu,
+On Wed, Aug 21, 2024 at 7:35=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 19/08/2024 22:55, Barry Song wrote:
+> > On Tue, Aug 20, 2024 at 9:34=E2=80=AFAM Barry Song <baohua@kernel.org> =
+wrote:
+> >>
+> >> On Tue, Aug 20, 2024 at 8:16=E2=80=AFAM Usama Arif <usamaarif642@gmail=
+.com> wrote:
+> >>>
+> >>>
+> >>>
+> >>> On 19/08/2024 20:00, Barry Song wrote:
+> >>>> On Tue, Aug 20, 2024 at 2:17=E2=80=AFAM Usama Arif <usamaarif642@gma=
+il.com> wrote:
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>> On 19/08/2024 09:29, Barry Song wrote:
+> >>>>>> Hi Usama,
+> >>>>>>
+> >>>>>> I feel it is much better now! thanks!
+> >>>>>>
+> >>>>>> On Mon, Aug 19, 2024 at 2:31=E2=80=AFPM Usama Arif <usamaarif642@g=
+mail.com> wrote:
+> >>>>>>>
+> >>>>>>> Currently folio->_deferred_list is used to keep track of
+> >>>>>>> partially_mapped folios that are going to be split under memory
+> >>>>>>> pressure. In the next patch, all THPs that are faulted in and col=
+lapsed
+> >>>>>>> by khugepaged are also going to be tracked using _deferred_list.
+> >>>>>>>
+> >>>>>>> This patch introduces a pageflag to be able to distinguish betwee=
+n
+> >>>>>>> partially mapped folios and others in the deferred_list at split =
+time in
+> >>>>>>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
+> >>>>>>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't b=
+e
+> >>>>>>> possible to distinguish between partially mapped folios and other=
+s in
+> >>>>>>> deferred_split_scan.
+> >>>>>>>
+> >>>>>>> Eventhough it introduces an extra flag to track if the folio is
+> >>>>>>> partially mapped, there is no functional change intended with thi=
+s
+> >>>>>>> patch and the flag is not useful in this patch itself, it will
+> >>>>>>> become useful in the next patch when _deferred_list has non parti=
+ally
+> >>>>>>> mapped folios.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> >>>>>>> ---
+> >>>>>>>  include/linux/huge_mm.h    |  4 ++--
+> >>>>>>>  include/linux/page-flags.h | 11 +++++++++++
+> >>>>>>>  mm/huge_memory.c           | 23 ++++++++++++++++-------
+> >>>>>>>  mm/internal.h              |  4 +++-
+> >>>>>>>  mm/memcontrol.c            |  3 ++-
+> >>>>>>>  mm/migrate.c               |  3 ++-
+> >>>>>>>  mm/page_alloc.c            |  5 +++--
+> >>>>>>>  mm/rmap.c                  |  5 +++--
+> >>>>>>>  mm/vmscan.c                |  3 ++-
+> >>>>>>>  9 files changed, 44 insertions(+), 17 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> >>>>>>> index 4c32058cacfe..969f11f360d2 100644
+> >>>>>>> --- a/include/linux/huge_mm.h
+> >>>>>>> +++ b/include/linux/huge_mm.h
+> >>>>>>> @@ -321,7 +321,7 @@ static inline int split_huge_page(struct page=
+ *page)
+> >>>>>>>  {
+> >>>>>>>         return split_huge_page_to_list_to_order(page, NULL, 0);
+> >>>>>>>  }
+> >>>>>>> -void deferred_split_folio(struct folio *folio);
+> >>>>>>> +void deferred_split_folio(struct folio *folio, bool partially_ma=
+pped);
+> >>>>>>>
+> >>>>>>>  void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+> >>>>>>>                 unsigned long address, bool freeze, struct folio =
+*folio);
+> >>>>>>> @@ -495,7 +495,7 @@ static inline int split_huge_page(struct page=
+ *page)
+> >>>>>>>  {
+> >>>>>>>         return 0;
+> >>>>>>>  }
+> >>>>>>> -static inline void deferred_split_folio(struct folio *folio) {}
+> >>>>>>> +static inline void deferred_split_folio(struct folio *folio, boo=
+l partially_mapped) {}
+> >>>>>>>  #define split_huge_pmd(__vma, __pmd, __address)        \
+> >>>>>>>         do { } while (0)
+> >>>>>>>
+> >>>>>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flag=
+s.h
+> >>>>>>> index a0a29bd092f8..c3bb0e0da581 100644
+> >>>>>>> --- a/include/linux/page-flags.h
+> >>>>>>> +++ b/include/linux/page-flags.h
+> >>>>>>> @@ -182,6 +182,7 @@ enum pageflags {
+> >>>>>>>         /* At least one page in this folio has the hwpoison flag =
+set */
+> >>>>>>>         PG_has_hwpoisoned =3D PG_active,
+> >>>>>>>         PG_large_rmappable =3D PG_workingset, /* anon or file-bac=
+ked */
+> >>>>>>> +       PG_partially_mapped =3D PG_reclaim, /* was identified to =
+be partially mapped */
+> >>>>>>>  };
+> >>>>>>>
+> >>>>>>>  #define PAGEFLAGS_MASK         ((1UL << NR_PAGEFLAGS) - 1)
+> >>>>>>> @@ -861,8 +862,18 @@ static inline void ClearPageCompound(struct =
+page *page)
+> >>>>>>>         ClearPageHead(page);
+> >>>>>>>  }
+> >>>>>>>  FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+> >>>>>>> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>>>>> +/*
+> >>>>>>> + * PG_partially_mapped is protected by deferred_split split_queu=
+e_lock,
+> >>>>>>> + * so its safe to use non-atomic set/clear.
+> >>>>>>> + */
+> >>>>>>> +__FOLIO_SET_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>>>>> +__FOLIO_CLEAR_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> >>>>>>>  #else
+> >>>>>>>  FOLIO_FLAG_FALSE(large_rmappable)
+> >>>>>>> +FOLIO_TEST_FLAG_FALSE(partially_mapped)
+> >>>>>>> +__FOLIO_SET_FLAG_NOOP(partially_mapped)
+> >>>>>>> +__FOLIO_CLEAR_FLAG_NOOP(partially_mapped)
+> >>>>>>>  #endif
+> >>>>>>>
+> >>>>>>>  #define PG_head_mask ((1UL << PG_head))
+> >>>>>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> >>>>>>> index 2d77b5d2291e..70ee49dfeaad 100644
+> >>>>>>> --- a/mm/huge_memory.c
+> >>>>>>> +++ b/mm/huge_memory.c
+> >>>>>>> @@ -3398,6 +3398,7 @@ int split_huge_page_to_list_to_order(struct=
+ page *page, struct list_head *list,
+> >>>>>>>                          * page_deferred_list.
+> >>>>>>>                          */
+> >>>>>>>                         list_del_init(&folio->_deferred_list);
+> >>>>>>> +                       __folio_clear_partially_mapped(folio);
+> >>>>>>>                 }
+> >>>>>>>                 spin_unlock(&ds_queue->split_queue_lock);
+> >>>>>>>                 if (mapping) {
+> >>>>>>> @@ -3454,11 +3455,13 @@ void __folio_undo_large_rmappable(struct =
+folio *folio)
+> >>>>>>>         if (!list_empty(&folio->_deferred_list)) {
+> >>>>>>>                 ds_queue->split_queue_len--;
+> >>>>>>>                 list_del_init(&folio->_deferred_list);
+> >>>>>>> +               __folio_clear_partially_mapped(folio);
+> >>>>>>
+> >>>>>> is it possible to make things clearer by
+> >>>>>>
+> >>>>>>  if (folio_clear_partially_mapped)
+> >>>>>>     __folio_clear_partially_mapped(folio);
+> >>>>>>
+> >>>>>> While writing without conditions isn't necessarily wrong, adding a=
+ condition
+> >>>>>> will improve the readability of the code and enhance the clarity o=
+f my mTHP
+> >>>>>> counters series. also help decrease smp cache sync if we can avoid
+> >>>>>> unnecessary writing?
+> >>>>>>
+> >>>>>
+> >>>>> Do you mean if(folio_test_partially_mapped(folio))?
+> >>>>>
+> >>>>> I don't like this idea. I think it makes the readability worse? If =
+I was looking at if (test) -> clear for the first time, I would become conf=
+used why its being tested if its going to be clear at the end anyways?
+> >>>>
+> >>>> In the pmd-order case, the majority of folios are not partially mapp=
+ed.
+> >>>> Unconditional writes will trigger cache synchronization across all
+> >>>> CPUs (related to the MESI protocol), making them more costly. By
+> >>>> using conditional writes, such as "if(test) write," we can avoid
+> >>>> most unnecessary writes, which is much more efficient. Additionally,
+> >>>> we only need to manage nr_split_deferred when the condition
+> >>>> is met. We are carefully evaluating all scenarios to determine
+> >>>> if modifications to the partially_mapped flag are necessary.
+> >>>>
+> >>>
+> >>>
+> >>> Hmm okay, as you said its needed for nr_split_deferred anyways. Somet=
+hing like below is ok to fold in?
+> >>>
+> >>> commit 4ae9e2067346effd902b342296987b97dee29018 (HEAD)
+> >>> Author: Usama Arif <usamaarif642@gmail.com>
+> >>> Date:   Mon Aug 19 21:07:16 2024 +0100
+> >>>
+> >>>     mm: Introduce a pageflag for partially mapped folios fix
+> >>>
+> >>>     Test partially_mapped flag before clearing it. This should
+> >>>     avoid unnecessary writes and will be needed in the nr_split_defer=
+red
+> >>>     series.
+> >>>
+> >>>     Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> >>>
+> >>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> >>> index 5d67d3b3c1b2..ccde60aaaa0f 100644
+> >>> --- a/mm/huge_memory.c
+> >>> +++ b/mm/huge_memory.c
+> >>> @@ -3479,7 +3479,8 @@ void __folio_undo_large_rmappable(struct folio =
+*folio)
+> >>>         if (!list_empty(&folio->_deferred_list)) {
+> >>>                 ds_queue->split_queue_len--;
+> >>>                 list_del_init(&folio->_deferred_list);
+> >>> -               __folio_clear_partially_mapped(folio);
+> >>> +               if (folio_test_partially_mapped(folio))
+> >>> +                       __folio_clear_partially_mapped(folio);
+> >>>         }
+> >>>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+> >>>  }
+> >>> @@ -3610,7 +3611,8 @@ static unsigned long deferred_split_scan(struct=
+ shrinker *shrink,
+> >>>                 } else {
+> >>>                         /* We lost race with folio_put() */
+> >>>                         list_del_init(&folio->_deferred_list);
+> >>> -                       __folio_clear_partially_mapped(folio);
+> >>> +                       if (folio_test_partially_mapped(folio))
+> >>> +                               __folio_clear_partially_mapped(folio)=
+;
+> >>>                         ds_queue->split_queue_len--;
+> >>>                 }
+> >>>                 if (!--sc->nr_to_scan)
+> >>>
+> >>
+> >> Do we also need if (folio_test_partially_mapped(folio)) in
+> >> split_huge_page_to_list_to_order()?
+> >>
+> >> I recall that in Yu Zhao's TAO, there=E2=80=99s a chance of splitting =
+(shattering)
+> >> non-partially-mapped folios. To be future-proof, we might want to hand=
+le
+> >> both cases equally.
+> >
+> > we recall we also have a real case which can split entirely_mapped
+> > folio:
+> >
+> > mm: huge_memory: enable debugfs to split huge pages to any order
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3Dfc4d182316bd5309b4066fd9ef21529ea397a7d4
+> >
+> >>
+> >> By the way, we might not need to clear the flag for a new folio. This =
+differs
+> >> from the init_list, which is necessary. If a new folio has the partial=
+ly_mapped
+> >> flag, it indicates that we failed to clear it when freeing the folio t=
+o
+> >> the buddy system, which is a bug we need to fix in the free path.
+> >>
+> >> Thanks
+> >> Barry
+>
+> I believe the below fixlet should address all concerns:
 
-On 8/20/24 1:56 PM, Moger, Babu wrote:
-> On 8/16/24 16:38, Reinette Chatre wrote:
->> This patch now only introduces one data structure so the subject could
->> be made more specific.
-> 
-> How about?
-> 
-> x86/resctrl: Add data structures for L3_QOS_ABMC_CFG MSR
-> 
+Hi Usama,
+thanks! I can't judge if we need this partially_mapped flag. but if we
+need, the code
+looks correct to me. I'd like to leave this to David and other experts to a=
+ck.
 
-Looks good to me, thank you.
+an alternative approach might be two lists? one for entirely_mapped,
+the other one
+for split_deferred. also seems ugly ?
 
-Reinette
+On the other hand, when we want to extend your patchset to mTHP other than =
+PMD-
+order, will the only deferred_list create huge lock contention while
+adding or removing
+folios from it?
+
+>
+>
+> From 95492a51b1929ea274b4e5b78fc74e7736645d58 Mon Sep 17 00:00:00 2001
+> From: Usama Arif <usamaarif642@gmail.com>
+> Date: Mon, 19 Aug 2024 21:07:16 +0100
+> Subject: [PATCH] mm: Introduce a pageflag for partially mapped folios fix
+>
+> Test partially_mapped flag before clearing it. This should
+> avoid unnecessary writes and will be needed in the nr_split_deferred
+> series.
+> Also no need to clear partially_mapped prepping compound head, as it
+> should start with already being cleared.
+>
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> ---
+>  include/linux/page-flags.h | 2 +-
+>  mm/huge_memory.c           | 9 ++++++---
+>  mm/internal.h              | 4 +---
+>  3 files changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index c3bb0e0da581..f1602695daf2 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -1182,7 +1182,7 @@ static __always_inline void __ClearPageAnonExclusiv=
+e(struct page *page)
+>   */
+>  #define PAGE_FLAGS_SECOND                                              \
+>         (0xffUL /* order */             | 1UL << PG_has_hwpoisoned |    \
+> -        1UL << PG_large_rmappable)
+> +        1UL << PG_large_rmappable      | 1UL << PG_partially_mapped)
+>
+>  #define PAGE_FLAGS_PRIVATE                             \
+>         (1UL << PG_private | 1UL << PG_private_2)
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 5d67d3b3c1b2..402b9d933de0 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3422,7 +3422,8 @@ int split_huge_page_to_list_to_order(struct page *p=
+age, struct list_head *list,
+>                          * page_deferred_list.
+>                          */
+>                         list_del_init(&folio->_deferred_list);
+> -                       __folio_clear_partially_mapped(folio);
+> +                       if (folio_test_partially_mapped(folio))
+> +                               __folio_clear_partially_mapped(folio);
+>                 }
+>                 spin_unlock(&ds_queue->split_queue_lock);
+>                 if (mapping) {
+> @@ -3479,7 +3480,8 @@ void __folio_undo_large_rmappable(struct folio *fol=
+io)
+>         if (!list_empty(&folio->_deferred_list)) {
+>                 ds_queue->split_queue_len--;
+>                 list_del_init(&folio->_deferred_list);
+> -               __folio_clear_partially_mapped(folio);
+> +               if (folio_test_partially_mapped(folio))
+> +                       __folio_clear_partially_mapped(folio);
+>         }
+>         spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+>  }
+> @@ -3610,7 +3612,8 @@ static unsigned long deferred_split_scan(struct shr=
+inker *shrink,
+>                 } else {
+>                         /* We lost race with folio_put() */
+>                         list_del_init(&folio->_deferred_list);
+> -                       __folio_clear_partially_mapped(folio);
+> +                       if (folio_test_partially_mapped(folio))
+> +                               __folio_clear_partially_mapped(folio);
+>                         ds_queue->split_queue_len--;
+>                 }
+>                 if (!--sc->nr_to_scan)
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 27cbb5365841..52f7fc4e8ac3 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -662,10 +662,8 @@ static inline void prep_compound_head(struct page *p=
+age, unsigned int order)
+>         atomic_set(&folio->_entire_mapcount, -1);
+>         atomic_set(&folio->_nr_pages_mapped, 0);
+>         atomic_set(&folio->_pincount, 0);
+> -       if (order > 1) {
+> +       if (order > 1)
+>                 INIT_LIST_HEAD(&folio->_deferred_list);
+> -               __folio_clear_partially_mapped(folio);
+> -       }
+>  }
+>
+>  static inline void prep_compound_tail(struct page *head, int tail_idx)
+> --
+> 2.43.5
+>
+>
+
+Thanks
+Barry
