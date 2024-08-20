@@ -1,152 +1,87 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D761EEAE;
-	Tue, 20 Aug 2024 05:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BBDEEDD
+	for <linux-doc@vger.kernel.org>; Tue, 20 Aug 2024 05:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724131091; cv=none; b=KOlT3S+Q27ZyXLdSqHQOwYw5RWOr91sQjIHVLbkMLu+v0FQcUvcZ6XXQrqEiQGYRQ8s4WYhwytH8N2JSg1cPgPFsZb0KkIe4iDrAIcKuSCqgpLN+haKvOSKvmxWduQhwdXTBaAjJg7FktcTPKTaOmfs9kDQlqeHoRUM58Q/vx0o=
+	t=1724132901; cv=none; b=LYoEnbbnBzW/kGkQ4X1s3B9DEsVidvLPUxTCQQNjRUn0Qim+uSMFyjXKfDehRxA4s6DxvpSgF5gL2eIUa9Q79TNpZ1HCrFz7QusvDxQaM5N0NGc0gcaUGhQAa0DseSRwf0ByTfvpPKvsu+ZEZTq0atqGIXqIGn6s2gOsL6kbOmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724131091; c=relaxed/simple;
-	bh=bUDVQLnkLJEQkKBm6/sZU+9KnW5GietWMZJOk87ImLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dvwm4sg80jRHQ/gcMqrl/GIb5/jdolsn0ehJMRm9+RE46O+gXAIzDKBCxG1Xi71w5XuxVqRv6s0XEkJ2l57csyFI0eBEVKkiIHRDB8xqZnXtJqcfXy7h7uePADBERlfJm8g0WOZlbuuHU7YPKMML/IrN0GeHvd14v4sCFjS5PXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=WuVe7Fnz; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1724132901; c=relaxed/simple;
+	bh=kWa4hgbIsr9MeLB7DGZLASFvY2Ep33KQRozYMGp60vA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q8nGIkfnU8yK0xJ0SHPQBND9P8mnHPWZoNRPUbEIeOKgcIYdCVxQR6iLhYj1cGxfCchILk/XPU3rdU1r6MjhWlkp9A3MBmD/Kq6zzaN8+54+LGbDQfwRMXNu+HcSV/n8xG5bLRlKO3qGlWyakjcBSVhRNAsIFqSKj1jxsL680OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DchSB4eP; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="WuVe7Fnz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=LlR3GcMEdk+441x++dgGYDzxQyfwgaa6hhPPULnpciM=; t=1724131089;
-	x=1724563089; b=WuVe7FnzYdnd59syMxugF1vIyu3Jmb2PplCfsEd8kKFduXTb2OQJSsORsa2ul
-	u7Q804XkrhyNmBUWc6uJ+q9x9zk0MXr73UFgeMAcrb+CLSxi9uZH+HvefNX9QiHRnlhOGUsxLyCi+
-	j69MciY5Ecabz0AadSi27T/J14/19x7naOzui0kEJSbv5vU+GgdmwDm1uljXcJX4Pw4TZHeg/hujP
-	0ypVK/I+w5bz4jecBMK0lsff44y4HQF9afoGdMCznEWyj1KGQjEqzItxf5zawlTFQcPESHYwnQS6S
-	Mu7mxiOM/hHBP9EEScxbFofkmXRIggsWfjPwpvzOIWY+EprvJQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sgHFr-0001tD-2H; Tue, 20 Aug 2024 07:18:03 +0200
-Message-ID: <c91950a3-a3d6-4b12-b65a-355b214ca9fc@leemhuis.info>
-Date: Tue, 20 Aug 2024 07:18:02 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DchSB4eP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724132900; x=1755668900;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kWa4hgbIsr9MeLB7DGZLASFvY2Ep33KQRozYMGp60vA=;
+  b=DchSB4ePeXkCN/ewD+yvaVGng+V8mzzZ3+QgvD8kkU9/62AOraNDcf3A
+   V9hywna0q2qc1xCvUh7mxwIXpi8xFcvPWgsRGWj4wzh6qS61P2hFw1RYp
+   wtZHDesoOOq5GIeu0kty/r983khL4m1P5T1fiZBJ3Et5AWtpN6UJ52GzG
+   Xs56j1izGjGNcGExWaaPSXih2qzyz5+TPCi/FNY4mCIEmaT9C/GS9TJi1
+   +hxm5Hsmt0u3yVJed0bN1imSlzpBOWOsaCz4o7gyQsCST9tOS83f8KcK9
+   4Zb1q2GhAaQoE4JZpQ6AJnQDXd78GTUGTPARAMNMgc925wT9B/l4m0FQE
+   Q==;
+X-CSE-ConnectionGUID: iZGM/s+dSdaA82Petv8rkw==
+X-CSE-MsgGUID: /QSVGG03Se+EG/5uqjXFRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="26162691"
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="26162691"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 22:48:19 -0700
+X-CSE-ConnectionGUID: 0nPHvUk8TR2R6dFp5NjqiQ==
+X-CSE-MsgGUID: lHT61q+AR7qjdpfIMoEmHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,161,1719903600"; 
+   d="scan'208";a="60759315"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2024 22:48:18 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sgHj5-0009lx-36;
+	Tue, 20 Aug 2024 05:48:15 +0000
+Date: Tue, 20 Aug 2024 13:47:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [cel:lkxdrgen 1/2] htmldocs: Warning: tools/net/sunrpc/xdrgen/README
+ references a file that doesn't exist: Documentation/sunrpc/xdr/
+Message-ID: <202408201340.om7VEoQe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs: Fix grammar and phrasing errors in
- reporting-issues.rst
-To: SurajSonawane2415 <surajsonawane0215@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240816104902.123452-1-surajsonawane0215@gmail.com>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <20240816104902.123452-1-surajsonawane0215@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1724131089;803ce9df;
-X-HE-SMSGID: 1sgHFr-0001tD-2H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 16.08.24 12:49, SurajSonawane2415 wrote:
-> Fix grammatical errors and improve phrasing in the `reporting-issues.rst`
-> documentation file. These changes enhance readability and ensure the
-> accuracy of the instructions provided.
-> 
-> Signed-off-by: SurajSonawane2415 <surajsonawane0215@gmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux lkxdrgen
+head:   d2dde1dcbef024cf055522cee424f8f67de56984
+commit: bca6f242396960d86ae46f11349cd87caede3c62 [1/2] tools: Add xdrgen
+reproduce: (https://download.01.org/0day-ci/archive/20240820/202408201340.om7VEoQe-lkp@intel.com/reproduce)
 
-Ha, moving that "the" in the last change would not have been necessary
-now that the "be" is gone, but whatever:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408201340.om7VEoQe-lkp@intel.com/
 
-Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
+All warnings (new ones prefixed by >>):
 
-Thx again for this. Ciao, Thorsten
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: tools/net/sunrpc/xdrgen/README references a file that doesn't exist: Documentation/sunrpc/xdr/
+   Using alabaster theme
 
-> ---
-> V3 -> V4: Adjust line wrapping to split the long line properly.
-> V2 -> V3: Re-added the fix for the line: "That's why you might be need to uninstall the".
-> V1 -> V2: Removed the unwanted change to the line: "try search terms like".
-> 
->  Documentation/admin-guide/reporting-issues.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-> index 2fd5a030235a..d0e645fc845a 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -56,7 +56,7 @@ developers. It might be all that's needed for people already familiar with
->  reporting issues to Free/Libre & Open Source Software (FLOSS) projects. For
->  everyone else there is this section. It is more detailed and uses a
->  step-by-step approach. It still tries to be brief for readability and leaves
-> -out a lot of details; those are described below the step-by-step guide in a
-> +out a lot of details; those are described below in the step-by-step guide in a
->  reference section, which explains each of the steps in more detail. 
-> 
->  Note: this section covers a few more aspects than the TL;DR and does things in
-> @@ -299,7 +299,7 @@ face, even if they look small or totally unrelated. That's why you should report
->  issues with these kernels to the vendor. Its developers should look into the
->  report and, in case it turns out to be an upstream issue, fix it directly
->  upstream or forward the report there. In practice that often does not work out
-> -or might not what you want. You thus might want to consider circumventing the
-> +or might not be what you want. You thus might want to consider circumventing the
->  vendor by installing the very latest Linux kernel core yourself. If that's an
->  option for you move ahead in this process, as a later step in this guide will
->  explain how to do that once it rules out other potential causes for your issue.
-> @@ -472,8 +472,8 @@ before proceeding.
->  Note, you might not be aware that your system is using one of these solutions:
->  they often get set up silently when you install Nvidia's proprietary graphics
->  driver, VirtualBox, or other software that requires a some support from a
-> -module not part of the Linux kernel. That why your might need to uninstall the
-> -packages with such software to get rid of any 3rd party kernel module.
-> +module not part of the Linux kernel. That's why you might need to uninstall
-> +the packages with such software to get rid of any 3rd party kernel module.
->  
->  
->  Check 'taint' flag
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
