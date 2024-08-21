@@ -1,59 +1,48 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE2F79CD;
-	Wed, 21 Aug 2024 19:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8850879CD;
+	Wed, 21 Aug 2024 19:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724267350; cv=none; b=UTgfTcsYshXXPe7Vb+rVmtEKZX0JiKVOq3XT3/NtNx9gEoeugHz9fwAKynQPqKMfQFmP0xb4SGivMHTjs/RqIWWsXKCGXcsOJA+AbrBmndNJhPJBkOKT89pn/6WJ6pS1eDba9+0zJSBs6SjEFg/ycS6HiZVTYGwZ00IkLhJsP/M=
+	t=1724268119; cv=none; b=tSlytF0yGbO/rWspGpIq/DVmU+er2XK0u39RPrbzCgT0C2R0/aOVJ6dIUWQ2a/HOGGZECJ/nCIGkOB0V+fKWv5bmXcAZ6mY0hWvVZNj4JkMq2dBfiWoGDvuANX6VB1dS/fU59giCR7sqhgKSjZpAwndgvvXuuz58VRnaSc4KgUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724267350; c=relaxed/simple;
-	bh=1GS5KpP42dUeY0P/c4RKb8PrNCsfGY44JRLqU9LLATw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=elGRYqHcWktvM+gGeVQGgZtFb+uawmWXfQa8coyJ0F6xHo9GfeBAuOe5x8ZF7TkScmCY5+1p2k4iHiCguptan7urcdwtf9IJLJdcWIvuYCABLxIorunPT0MbivvjwTt3F5WXet+vatgGbHcyo27nwptZ1JksFQSCcbiJpB/nO90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iogSBig/; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724268119; c=relaxed/simple;
+	bh=qmXL/sbe8gh31UrF/74eBGgG/9WwYKl1q8qHI7W83pU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=nHY7+2B6QRDqoEzIZ+1m99FMlfG4EyyPdiSUFGcfGxxm5l6r/EScydORCX+GU17CWIjJ9rYxGm1LaIYDmAGPDr74GAclPC5dElKSPGQfgiSYzUdbNMrduCDrH8VG7ICSa/ec5LorxD4vlu8Qrcc3z53fnxBAlx/dN8NhH45SQFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n4FCOV4x; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iogSBig/"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7a1dac7f0b7so5142585a.0;
-        Wed, 21 Aug 2024 12:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724267344; x=1724872144; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vZV/86LxCKwuyalRbCAJV54TAfVVYMgUKitJ9ozX55o=;
-        b=iogSBig/US+vZSXPpuAUosW7kRGzUgKdS1WbiD9Zp+GXnjuB96vqPlxo3y3hqtCy+O
-         4KK6sO6tC9ZajAoCzvKdgIKvc0ybY9xyTkDCKCGEHZf+fPhbJ3t9s0T/56ZTxBxN+/lp
-         Rh1Z3Ssr1dtDmTJ0X7LaKgXzy6493WDdGXQ01M4vsvqhaBnTEBGSt0YOZsxUjTEv5R9n
-         1LG7RAhDLgZhcN+IWGo+7Cd3fhWI23fhEm1i7G7WgecgYXRXkETtZT60xXl9mRkxJ3Ng
-         1fzxzDaUAdpKqzn/uyMpyKrArmjOBzuSG1h7Y/1I/lRNyuL/eWR/VFAEpKISkFr0UUgY
-         emkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724267344; x=1724872144;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vZV/86LxCKwuyalRbCAJV54TAfVVYMgUKitJ9ozX55o=;
-        b=xIfScPx1e1ARSkx7MrpWGGJMi+ftmiw4g3t33QYSbckmQK/3wY2dp8x33LOYfwnGNF
-         STwWk/5LdzdADV8vG2X2zh6eAMO3ND9N6WkRxCLHOvNpuAPkwOkTinCxu8XCECsOt+EP
-         So8Ks1JvZtYiG1OqrYfbwmTKsldWXUxjXo4pvG1lQI46g95a7hU33wF74WMNxMKQETYi
-         qptJO/F9ZKF+IkyJ7uQ2DGWNAtrVFND5kNGf3sacgyX3osvr6/RtbXzBefRo/ErvomZL
-         IHSbfo5zAxfJa+pH3hjPySyWATTph08cmYhGh27c6Y8YM/mfDhVqztXOWwJ9RxsmILji
-         EvsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXTyx3BaGiwK4FOO4OTm3UJYMo4NetIVeTd8dtm76FnLtAJzGr7VHpffFpBpDXKOL3a2AtM2wIMI0EsAqP@vger.kernel.org, AJvYcCWVQjOmnZnGQgG2JWtQJNvdEN7D0sUUvgjXaFCHXTxt+kU3LHxNcwuWBxvo0OHgDkUnQSNxhDMnzQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPLzWKW83JDqj56dSpHXoMoo1EXCy0eigoK6wN5+bLKXN/p+IQ
-	FCUpYvlGO32nPrtBPIy2YxkyOOQiX2HzEpp1sp1ND1agD1iia+Zq
-X-Google-Smtp-Source: AGHT+IHxFdoYPWOkH1JCwrfDN5ypheMtxskVdCt/+SSzy7Py+zSpnykAjoilf3pepyWz8i16wVJ/jg==
-X-Received: by 2002:a05:6214:3c9f:b0:6bf:796a:23ef with SMTP id 6a1803df08f44-6c15687d4e6mr29363086d6.56.1724267343564;
-        Wed, 21 Aug 2024 12:09:03 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1145:4:1409:786c:cb1d:c3fb? ([2620:10d:c091:500::4:d08d])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fdd8c22sm64402896d6.14.2024.08.21.12.09.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Aug 2024 12:09:03 -0700 (PDT)
-Message-ID: <340d86df-94ce-4db8-8628-f75e4352bea2@gmail.com>
-Date: Wed, 21 Aug 2024 15:09:02 -0400
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n4FCOV4x"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47LD8CI4013010;
+	Wed, 21 Aug 2024 19:21:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9IeoT+nBRM0LBhs2H011zrEWCmbgYexhNOYy2/7m0ac=; b=n4FCOV4xeqR3TFbE
+	W1uYTqj8TGw57a4uTiuc5WuyplInh6mA8RYu8JC08BadQ+GPhhHh6W6og2El4+6w
+	1k2Nzgd6XuGrn4QWMoE31JEojVg8bswRgzn3/dXHWyI8hp0P8qLqCG0OIIPLYIJi
+	AKN5BX0XRIMFqtfc9ib0NXD18hRTluLVHDbuSlzs52LyvIgLZbUi+9HNXegOGnru
+	YMgf3mrOb9BZKIY/huC7LXyJDteyJk+3ZO+sRv6BQNflBvcpItprrox/9qoG9Ydv
+	4w5ncRavE9E8rexAgA5Wu0O9exWtQrvSeU7xXTpsQUAlHq/nlcJR2/S4rbzswgd0
+	x47ALw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 414pe5nqjk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Aug 2024 19:21:24 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47LJLMd1009134
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Aug 2024 19:21:22 GMT
+Received: from [10.71.114.155] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 21 Aug
+ 2024 12:21:21 -0700
+Message-ID: <ca38ba10-2700-4b61-8f6d-55809f9e151e@quicinc.com>
+Date: Wed, 21 Aug 2024 12:21:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,215 +50,130 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/6] mm: selftest to verify zero-filled pages are
- mapped to zeropage
-To: akpm@linux-foundation.org, linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com, Alexander Zhu <alexlzhu@fb.com>
-References: <20240819023145.2415299-1-usamaarif642@gmail.com>
- <20240819023145.2415299-4-usamaarif642@gmail.com>
+Subject: Re: [PATCH v24 29/34] ALSA: usb-audio: qcom: Add USB offload route
+ kcontrol
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <gregkh@linuxfoundation.org>, <robh@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240801011730.4797-1-quic_wcheng@quicinc.com>
+ <20240801011730.4797-30-quic_wcheng@quicinc.com>
+ <4d5fe3f8-d7ba-4647-8dd7-22656ec2fde5@linux.intel.com>
+ <58043166-c494-42db-b7d3-575991e43e8b@quicinc.com>
+ <f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com>
+ <88d5ed6f-1429-4381-8014-d5824ec7866e@quicinc.com>
+ <56ebd11e-9522-406b-9ca4-5e284eaac409@quicinc.com>
+ <7b3421f5-8d57-4138-9456-1bf0eb4662c0@linux.intel.com>
 Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <20240819023145.2415299-4-usamaarif642@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <7b3421f5-8d57-4138-9456-1bf0eb4662c0@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Xg0AxG_ydxq1eaLQt4O5ZcoXgQ8dk4is
+X-Proofpoint-GUID: Xg0AxG_ydxq1eaLQt4O5ZcoXgQ8dk4is
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-21_13,2024-08-19_03,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 spamscore=0 mlxlogscore=999 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408210142
 
 
+On 8/21/2024 12:02 AM, Pierre-Louis Bossart wrote:
+>
+>
+>>>>>>> +/**
+>>>>>>> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
+>>>>>>> + * @chip - USB SND chip device
+>>>>>>> + *
+>>>>>>> + * Creates a sound control for a USB audio device, so that applications can
+>>>>>>> + * query for if there is an available USB audio offload path, and which
+>>>>>>> + * card is managing it.
+>>>>>>> + */
+>>>>>>> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
+>>>>>>> +{
+>>>>>>> +	struct usb_device *udev = chip->dev;
+>>>>>>> +	struct snd_kcontrol_new *chip_kctl;
+>>>>>>> +	struct snd_usb_stream *as;
+>>>>>>> +	char ctl_name[37];
+>>>>>>> +	int ret;
+>>>>>>> +
+>>>>>>> +	list_for_each_entry(as, &chip->pcm_list, list) {
+>>>>>>> +		chip_kctl = &snd_usb_offload_mapped_ctl;
+>>>>>>> +		chip_kctl->count = 1;
+>>>>>>> +		/*
+>>>>>>> +		 * Store the associated USB SND card number and PCM index for
+>>>>>>> +		 * the kctl.
+>>>>>>> +		 */
+>>>>>>> +		chip_kctl->private_value = as->pcm_index |
+>>>>>>> +					  chip->card->number << 16;
+>>>>>>> +		sprintf(ctl_name, "USB Offload Playback Route PCM#%d",
+>>>>>>> +			as->pcm_index);
+>>>>>>> +		chip_kctl->name = ctl_name;
+>>>>>>> +		ret = snd_ctl_add(chip->card, snd_ctl_new1(chip_kctl,
+>>>>>>> +				  udev->bus->sysdev));
+>>>>>>> +		if (ret < 0)
+>>>>>>> +			break;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	return ret;
+>>>>> Hi Pierre,
+>>>>>> None of this looks Qualcomm-specific, shouldn't this be part of the
+>>>>>> soc_usb framework instead of being added in the qcom/ stuff?
+>>>>> Started working on this particular comment, and there are some things that needs to be considered if we moved this into SOC USB:
+>>>>>
+>>>>> 1.  We do save the reference to the USB BE DAI link within the USB DT node, which can be fetched/referenced based on sysdev.  However, I'm not sure if everyone would potentially follow that way.
+>>>>>
+>>>>> 2.  I tried a few implementations of adding a new SOC USB API, and the argument list was a bit long, because I didn't want to directly reference the usb_chip.
+>>>>>
+>>>>> Sorry for the delay, but I wanted to give a good stab at implementing this before bringing up the implications.  It is possible, but definitely not as clean as how we have it now IMO.
+>>>> My comment was only referring to the location of the code, it's now in
+>>>> sound/usb/qcom/mixer_usb_offload.c but does not contain anything
+>>>> specific to Qualcomm. I was not asking for any encapsulation inside of
+>>>> soc-usb, I was only suggesting a move of the code to a shared helper
+>>>> library so that this code can be reused as is and not duplicated if the
+>>>> QCOM parts are not compiled in.
+>>> Ah, great, thanks for the clarification.  Let me take a look with that perspective.
+>>>
+>> Going back on the history behind moving it into qcom/ was based off feedback that Takashi pointed out in v14[1].  It was mainly due to the fact that we would be adding another hard dependency between USB SND and the offloading components.  Hence the reason for moving it to within the QCOM offloading package. 
+>>
+>> Thanks
+>>
+>> Wesley Cheng
+>>
+>> [1]: https://lore.kernel.org/linux-usb/87y1bt2acg.wl-tiwai@suse.de/
+> I don't see anything wrong with the initial proposal
+>
+>
+>  +config SND_USB_OFFLOAD_MIXER
+>  +	bool
+>  +
+>   config SND_USB_AUDIO_QMI
+>   	tristate "Qualcomm Audio Offload driver"
+>   	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND
+>   	select SND_PCM
+>  +	select SND_USB_OFFLOAD_MIXER
+>
+>
+> That would allows the SND_USB_OFFLOAD_MIXER to be build as a module, and
+> it would allow other non-QCON solutions to use the module.
+> Maybe just make it a tristate?
 
-On 18/08/2024 22:30, Usama Arif wrote:
-> From: Alexander Zhu <alexlzhu@fb.com>
-> 
-> When a THP is split, any subpage that is zero-filled will be mapped
-> to the shared zeropage, hence saving memory. Add selftest to verify
-> this by allocating zero-filled THP and comparing RssAnon before and
-> after split.
-> 
-> Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
-> Acked-by: Rik van Riel <riel@surriel.com>
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->  .../selftests/mm/split_huge_page_test.c       | 71 +++++++++++++++++++
->  tools/testing/selftests/mm/vm_util.c          | 22 ++++++
->  tools/testing/selftests/mm/vm_util.h          |  1 +
->  3 files changed, 94 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/split_huge_page_test.c b/tools/testing/selftests/mm/split_huge_page_test.c
-> index e5e8dafc9d94..eb6d1b9fc362 100644
-> --- a/tools/testing/selftests/mm/split_huge_page_test.c
-> +++ b/tools/testing/selftests/mm/split_huge_page_test.c
-> @@ -84,6 +84,76 @@ static void write_debugfs(const char *fmt, ...)
->  	write_file(SPLIT_DEBUGFS, input, ret + 1);
->  }
->  
-> +static char *allocate_zero_filled_hugepage(size_t len)
-> +{
-> +	char *result;
-> +	size_t i;
-> +
-> +	result = memalign(pmd_pagesize, len);
-> +	if (!result) {
-> +		printf("Fail to allocate memory\n");
-> +		exit(EXIT_FAILURE);
-> +	}
-> +
-> +	madvise(result, len, MADV_HUGEPAGE);
-> +
-> +	for (i = 0; i < len; i++)
-> +		result[i] = (char)0;
-> +
-> +	return result;
-> +}
-> +
-> +static void verify_rss_anon_split_huge_page_all_zeroes(char *one_page, int nr_hpages, size_t len)
-> +{
-> +	unsigned long rss_anon_before, rss_anon_after;
-> +	size_t i;
-> +
-> +	if (!check_huge_anon(one_page, 4, pmd_pagesize)) {
-> +		printf("No THP is allocated\n");
-> +		exit(EXIT_FAILURE);
-> +	}
-> +
-> +	rss_anon_before = rss_anon();
-> +	if (!rss_anon_before) {
-> +		printf("No RssAnon is allocated before split\n");
-> +		exit(EXIT_FAILURE);
-> +	}
-> +
-> +	/* split all THPs */
-> +	write_debugfs(PID_FMT, getpid(), (uint64_t)one_page,
-> +		      (uint64_t)one_page + len, 0);
-> +
-> +	for (i = 0; i < len; i++)
-> +		if (one_page[i] != (char)0) {
-> +			printf("%ld byte corrupted\n", i);
-> +			exit(EXIT_FAILURE);
-> +		}
-> +
-> +	if (!check_huge_anon(one_page, 0, pmd_pagesize)) {
-> +		printf("Still AnonHugePages not split\n");
-> +		exit(EXIT_FAILURE);
-> +	}
-> +
-> +	rss_anon_after = rss_anon();
-> +	if (rss_anon_after >= rss_anon_before) {
-> +		printf("Incorrect RssAnon value. Before: %ld After: %ld\n",
-> +		       rss_anon_before, rss_anon_after);
-> +		exit(EXIT_FAILURE);
-> +	}
-> +}
-> +
-> +void split_pmd_zero_pages(void)
-> +{
-> +	char *one_page;
-> +	int nr_hpages = 4;
-> +	size_t len = nr_hpages * pmd_pagesize;
-> +
-> +	one_page = allocate_zero_filled_hugepage(len);
-> +	verify_rss_anon_split_huge_page_all_zeroes(one_page, nr_hpages, len);
-> +	printf("Split zero filled huge pages successful\n");
-> +	free(one_page);
-> +}
-> +
->  void split_pmd_thp(void)
->  {
->  	char *one_page;
-> @@ -431,6 +501,7 @@ int main(int argc, char **argv)
->  
->  	fd_size = 2 * pmd_pagesize;
->  
-> +	split_pmd_zero_pages();
->  	split_pmd_thp();
->  	split_pte_mapped_thp();
->  	split_file_backed_thp();
-> diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-> index 5a62530da3b5..d8d0cf04bb57 100644
-> --- a/tools/testing/selftests/mm/vm_util.c
-> +++ b/tools/testing/selftests/mm/vm_util.c
-> @@ -12,6 +12,7 @@
->  
->  #define PMD_SIZE_FILE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
->  #define SMAP_FILE_PATH "/proc/self/smaps"
-> +#define STATUS_FILE_PATH "/proc/self/status"
->  #define MAX_LINE_LENGTH 500
->  
->  unsigned int __page_size;
-> @@ -171,6 +172,27 @@ uint64_t read_pmd_pagesize(void)
->  	return strtoul(buf, NULL, 10);
->  }
->  
-> +unsigned long rss_anon(void)
-> +{
-> +	unsigned long rss_anon = 0;
-> +	FILE *fp;
-> +	char buffer[MAX_LINE_LENGTH];
-> +
-> +	fp = fopen(STATUS_FILE_PATH, "r");
-> +	if (!fp)
-> +		ksft_exit_fail_msg("%s: Failed to open file %s\n", __func__, STATUS_FILE_PATH);
-> +
-> +	if (!check_for_pattern(fp, "RssAnon:", buffer, sizeof(buffer)))
-> +		goto err_out;
-> +
-> +	if (sscanf(buffer, "RssAnon:%10lu kB", &rss_anon) != 1)
-> +		ksft_exit_fail_msg("Reading status error\n");
-> +
-> +err_out:
-> +	fclose(fp);
-> +	return rss_anon;
-> +}
-> +
->  bool __check_huge(void *addr, char *pattern, int nr_hpages,
->  		  uint64_t hpage_size)
->  {
-> diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftests/mm/vm_util.h
-> index 9007c420d52c..71b75429f4a5 100644
-> --- a/tools/testing/selftests/mm/vm_util.h
-> +++ b/tools/testing/selftests/mm/vm_util.h
-> @@ -39,6 +39,7 @@ unsigned long pagemap_get_pfn(int fd, char *start);
->  void clear_softdirty(void);
->  bool check_for_pattern(FILE *fp, const char *pattern, char *buf, size_t len);
->  uint64_t read_pmd_pagesize(void);
-> +uint64_t rss_anon(void);
->  bool check_huge_anon(void *addr, int nr_hpages, uint64_t hpage_size);
->  bool check_huge_file(void *addr, int nr_hpages, uint64_t hpage_size);
->  bool check_huge_shmem(void *addr, int nr_hpages, uint64_t hpage_size);
+I think the main concern was that in the initial suggestion, I made it as part of usb-snd-audio and the call to create the kcontrol was made in the main USB SND mixer driver.  Maybe in the new proposal, we'll just have it as its own independent module and allow for other vendors to use the same (kcontrol creation done by vendor USB offload driver)?  Takashi, would this be acceptable?
 
+Thanks
 
-Need below fixlet as well
-
-From 2476b7a46908c801ab446f41566f4af52b939ac7 Mon Sep 17 00:00:00 2001
-From: Usama Arif <usamaarif642@gmail.com>
-Date: Wed, 21 Aug 2024 20:06:53 +0100
-Subject: [PATCH] mm: selftest to verify zero-filled pages are mapped to
- zeropage fix
-
-change uint64_t to unsigned long for rss_anon
-
-Signed-off-by: Usama Arif <usamaarif642@gmail.com>
----
- tools/testing/selftests/mm/vm_util.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftests/mm/vm_util.h
-index 71b75429f4a5..2eaed8209925 100644
---- a/tools/testing/selftests/mm/vm_util.h
-+++ b/tools/testing/selftests/mm/vm_util.h
-@@ -39,7 +39,7 @@ unsigned long pagemap_get_pfn(int fd, char *start);
- void clear_softdirty(void);
- bool check_for_pattern(FILE *fp, const char *pattern, char *buf, size_t len);
- uint64_t read_pmd_pagesize(void);
--uint64_t rss_anon(void);
-+unsigned long rss_anon(void);
- bool check_huge_anon(void *addr, int nr_hpages, uint64_t hpage_size);
- bool check_huge_file(void *addr, int nr_hpages, uint64_t hpage_size);
- bool check_huge_shmem(void *addr, int nr_hpages, uint64_t hpage_size);
--- 
-2.43.5
-
-
+Wesley Cheng
 
