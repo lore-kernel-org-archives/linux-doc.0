@@ -1,106 +1,110 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D138C161306;
-	Wed, 21 Aug 2024 13:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDBB1ABEB2;
+	Wed, 21 Aug 2024 13:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724246182; cv=none; b=HBUSRYbtrI1j35ngiUB5QKjHNgVDvQwq7yVQt3sS5foAhtNaREYIVdaWFqDVHFnyY3z1UyPFY1O73jDSg8SyuF2z3rw0+tHeo8Jc3oQTf9pUkCCvbbT9vYJ1OSNUgNsvJkIw0+SILFX9f6Vamo2ZVNTJLo9ytdFmDmeDPdcd7Go=
+	t=1724247688; cv=none; b=JHC8lToQmJoNNxmsbpu4hU1KG261M6NgCEhGn6Bokbtlryixt8XB6auILt0HChvougM8ShBlr4ugzg8BfuCECCN8fhWfG6nNdx4B3bN79V6sMOMSm6OyrjU28IET1Y3miLo4CGTcbp2BU1B0TB9s5I4ky7EDD8TFxEOb6kxVpKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724246182; c=relaxed/simple;
-	bh=rSsEPj472Z50NdhT8fqh6VPhfjm2gpjv92pCAdQR/fw=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JrawKM3k49KEwJ8KvjmpC32+5/3sSvYnl4WV4jZCWBhS/rYkHw1GnM8WBI7TaBMngewvFWCZ4T8zJq0Ui/QOuwy26KRgbWmeuihc6walJ2WAzK3pENEojsPheAKmYeQDoXjxAz67KfxH0K3+Ll6mNZt77uqxDXxCbSk0u+HzkMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Wpmw6069yz6FH2r;
-	Wed, 21 Aug 2024 21:12:38 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id BFBE3140517;
-	Wed, 21 Aug 2024 21:16:16 +0800 (CST)
-Received: from localhost (10.203.177.66) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 21 Aug
- 2024 14:16:16 +0100
-Date: Wed, 21 Aug 2024 14:16:15 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: David Lechner <dlechner@baylibre.com>
-CC: Jonathan Cameron <jic23@kernel.org>, Michael Hennerich
-	<Michael.Hennerich@analog.com>, Nuno =?ISO-8859-1?Q?S=E1?=
-	<nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 2/4] iio: adc: ad4695: implement calibration support
-Message-ID: <20240821141615.00006ebe@Huawei.com>
-In-Reply-To: <20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
-References: <20240820-ad4695-gain-offset-v1-0-c8f6e3b47551@baylibre.com>
-	<20240820-ad4695-gain-offset-v1-2-c8f6e3b47551@baylibre.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1724247688; c=relaxed/simple;
+	bh=eTD2Cb24CybXMxpAV7IV6bVikyFp8ac2v7wmurkqCBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFl+UUsuunfJPr62OJPu2RC7Gm/n25949XKx1ka25wCgaisLx5pwNpMOx7QU6s3Q0eJuSGEnDBVh3CHayAVPkjbXx+hsK5awyyz/eszkdHw0E3AXEk7bOIcCdld4Pn++/BbSse5Ezg9/Ia5FxOU1rWqy3Zg33bo0qb6KY0DNrUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YA0XHROX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YA0XHROX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E120EC32782;
+	Wed, 21 Aug 2024 13:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724247688;
+	bh=eTD2Cb24CybXMxpAV7IV6bVikyFp8ac2v7wmurkqCBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YA0XHROXOcQsdivO+elHDRjUSAQW6gMvqksgn9sJYx6HIQqgOSqBWvwYAKEoAudJ6
+	 jpQFknVrYgPzVDOARVuSc6ndK09miMBS/01QDO3m/u8EM9AE7JMF5GhbKwPzkFwqnw
+	 y4RvjlX8hCT1cWOdz2s5B5Hg+habrQnztB9Vn3DjTJKQfLxzs9VNsSM74lIHD/r5pY
+	 m8AgYIe8mNkTYx8Rh64Z2A5FYg/IGH8Rmd/TeKBCchC+7HTnea+t4Vt/fEOjItOCaD
+	 P8WifT5qdMaqyT/W50EYvaoxCO/vst1XsHX+DsxGESHgI2BbyBJq/FsYuxD4uzQtP/
+	 bmJqgBU9LV9bQ==
+Date: Wed, 21 Aug 2024 14:41:19 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Shuah Khan <shuah@kernel.org>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Kees Cook <kees@kernel.org>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Florian Weimer <fweimer@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+	Ross Burton <ross.burton@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v10 21/40] arm64/gcs: Implement shadow stack prctl()
+ interface
+Message-ID: <ba752f63-6a6b-4353-b2c2-0531d943cfd6@sirena.org.uk>
+References: <20240801-arm64-gcs-v10-0-699e2bd2190b@kernel.org>
+ <20240801-arm64-gcs-v10-21-699e2bd2190b@kernel.org>
+ <ZsXjiTlfLE61-jJC@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-
-On Tue, 20 Aug 2024 10:58:36 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> The AD4695 has a calibration feature that allows the user to compensate
-> for variations in the analog front end. This implements this feature in
-> the driver using the standard `calibgain` and `calibbias` attributes.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-Hi David,
-
-Whilst some of the messy value manipulation is unavoidable
-(oh for signed integer zero!), I wonder if we can at least
-move one case into the core.
-
-See below.
-
-> +
-> +static int ad4695_write_raw(struct iio_dev *indio_dev,
-> +			    struct iio_chan_spec const *chan,
-> +			    int val, int val2, long mask)
-> +{
-> +	struct ad4695_state *st = iio_priv(indio_dev);
-> +	unsigned int reg_val;
-> +	int ret;
-> +
-> +	iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
-> +		switch (mask) {
-> +		case IIO_CHAN_INFO_CALIBSCALE:
-> +			switch (chan->type) {
-> +			case IIO_VOLTAGE:
-> +				if (val < 0 || val2 < 0)
-> +					reg_val = 0;
-> +				else if (val > 1)
-> +					reg_val = U16_MAX;
-> +				else
-> +					reg_val = (val * (1 << 16) +
-> +						   mul_u64_u32_div(val2, 1 << 16,
-> +								   MICRO)) / 2;
-Maybe worth extending iio_write_channel_info() to handle
-IIO_VAL_FRACTIONAL_LOG2()?
-It'll look much like this and you'll need to provide write_raw_get_fmt()
-so the core know what to do with the value formatting.
-
-I don't really like the mixture here between the read path being able
-to rely on the core code to deal with the /2^X and the write path not.
-> +
-> +				return regmap_write(st->regmap16,
-> +					AD4695_REG_GAIN_IN(chan->scan_index),
-> +					reg_val);
-> +			default:
-> +				return -EINVAL;
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Si11auRToJrS8sAl"
+Content-Disposition: inline
+In-Reply-To: <ZsXjiTlfLE61-jJC@arm.com>
+X-Cookie: You are false data.
 
 
+--Si11auRToJrS8sAl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wed, Aug 21, 2024 at 01:54:33PM +0100, Catalin Marinas wrote:
+
+> Otherwise it looks fine.
+
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+
+I've also added:
+
++
++       /* Ensure we remember GCSPR_EL0 if we're disabling. */
++       if (task_gcs_el0_enabled(current))
++               current->thread.gcspr_el0 = read_sysreg_s(SYS_GCSPR_EL0);
+
+to handle the disable case.
+
+--Si11auRToJrS8sAl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbF7n4ACgkQJNaLcl1U
+h9Bergf+Lr+93qbWZ/k9ZOtInPd8jxasSRO+qC6wGQEBNiup/wbDIYe/v8WZVn5Z
+w4bw2cz7o7ojaKCFrw6eAoto2EKZQXDc2r5UsFegjSdYsFudCg/L7odHSXP1ac2l
+J8b/gmDEioJaw8kwgKsABb/7c2Knjpz7HxgzNTBhEV+DJ3ngHp81A7ehdvXyDLT5
+C11CbLBC6dWDVxAlFPBR+WUwuIfQLjIfbbZfCl7L0sbtkPQZUTrRN7UhC4e+Ll7x
+N01ynknfyTCaCqyfpyfuGxfi7+OKJeKZbGAcLiUvTRikhEIblv9PXLFW+FiUfNWw
+SgJ1gyR8bJSUZHgN4w2DFsl0xhPcKg==
+=tt95
+-----END PGP SIGNATURE-----
+
+--Si11auRToJrS8sAl--
