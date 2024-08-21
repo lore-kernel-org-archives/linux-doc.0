@@ -1,259 +1,258 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B609D13E022;
-	Wed, 21 Aug 2024 17:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724259873; cv=none; b=kn3c1Wpuy26NeDA+VHkhD0yxAEugOX0Wvvcq3vPrExnO+ShZPZ3biwJw2bofm9GYocdqkgOvuzcuFEYWRiLaxNGcDxvHwUvkne3LEhIVgZDjbxpO5S9GbKkqCJumRzBMLSMYsW71sfqRcuXhVMo2HvqdK9HjM6pWWxoFXJKOlqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724259873; c=relaxed/simple;
-	bh=15WLqFfb3kOd25SGvlFnNvjfMM7hn7Ze6cddrnJFpig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I0srRoin7jjiI+9EWDtj6gzcYWdA933cQysz9LHgWedHDwGx3DFz+naT1CxegyHLvMDWPZlh5dwdTuii2sY7oAIy/rMVa8mMC9U6mP5paFECqVbK2bIBtJOKML1LGmhaDd2tniLq0sarBfF1PBNgoR1mXCmOdPevW5zzFu8QYtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZC5BghUB; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5651C1B2EC8;
+	Wed, 21 Aug 2024 17:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724260834; cv=fail; b=hKi6toGyrpibSlPin4XtyphqKx58wxtUuBFpwcMjYIHDtHqPztpeOHzmGB0Oh5fiBOyvol6KPqqQMAFh7U1273sQ9v8smiju1CI/b2A1PIgbp+WuT3mXeT1ENBXCBschmEw2GKQsd4PEBvThJROLmKfoJ8WDONbhAeh7kQfVSM4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724260834; c=relaxed/simple;
+	bh=RL1YikwWcGN0Fw+rHiP9+1rleRKZvkVevyWnzq18onU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=q+LbeWD/mG8p4j47ciQfJ4mr2u6o7gnnxptAVXJEoPjF4l2fgM6wfrdvjVgTRtpIH9JpB/u5CJQL2iRfLEls/hT5sURlkGxS73sf/YJAxgW9mV5q7NUQj4tacnGxkT4yOFANuYZAID98tyhYvYXAd4YE+35qeVeTKb+rHS58ZkI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GxzqjNcv; arc=fail smtp.client-ip=40.107.237.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZC5BghUB"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f16767830dso72046021fa.0;
-        Wed, 21 Aug 2024 10:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724259870; x=1724864670; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5piVzblVPFAtLFSe16jLGKIEUz2rAIQiJS543JMertA=;
-        b=ZC5BghUBbQynTPgyePh7Wu7W0C+KS9g39wYujox+pTXAgIb/etBs1923gDsNvu6KcT
-         /QoN/D+RDXzu3NP9Gs9u3N/xCTEJlLoUoX2Bgjeyz3j7zxemzDximihKGPi3tkrDoBhv
-         X+9gKlTRnrbLsiHeGmlV5ySeqzbX0Jsmu4bNksh6k1ZM0g2I6Rnu+CR0VB6b4hbqAP3x
-         r8s+TGrxkNmY0qWX8cMdykCPsD1aIj+TuAbbjFngCXrDPbe0qqxobJqJ5HYDdXt6kkBN
-         EJTUYGmQ6Qnkn1adG7iMvKIhVzi03p3fghPofDXp88b8LEuBQ/tHbbk6bxGmsBirbwR4
-         acZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724259870; x=1724864670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5piVzblVPFAtLFSe16jLGKIEUz2rAIQiJS543JMertA=;
-        b=VTgSNwSXP3O0m8cyYJzrtQoMEd32xSpR7o+zj6MJtZWIzcC7tMVpN3/obY7sMviQUL
-         qNo92iZWMixOt5qqcnJR87FNmwv6KSMm8UDo6Lnn/aThRG9+xOjPzQMnmpIh2jD+edbj
-         IJ46sQiwy38YWiWGr4V/TnKGuMrojjrgmAUXD0pGgMvNKiys0ZkUju4OeUe28tNx/emj
-         afVjTpx7UBf0osMzRKQfs6cPPyngVwrubu8X1Bv6gfnt47ZElTJpoW3QGvbjl5LgerAz
-         0wmTOi3z7p3RcfmHmvU31j5LXbtIz+05XW678+47Up9aN/oVZHjueoHoJBlbKFBiMSdm
-         MJZg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/eVsx8Ckw2czDewohiQZZU0aA2MlGdWqEeDONbB+6/8BUENMTkHYbSE1pUTTViwYNYQybDbnNjdj9K7Q=@vger.kernel.org, AJvYcCU1jTuKWK3b10IffiyzVsA77pMO2tR6wZjMgvCXZlmau3nG+gxgwRl6mvByx48CzG+GahU7hw2sQbB1O7A=@vger.kernel.org, AJvYcCUkQpUGtyUXuOm/gaq+ZjqDAErjfpJo4pdCalhtrYyae+/KZ0j2xKqQXCGbfZKuuZciugL/48FGOa3XmA==@vger.kernel.org, AJvYcCVnH1GL7Mukvnttlotv2KBdtzPsOV02uEZYi2HXCs3D31PotwB2cTXikujlGEp8eFStmGwB8YNJ+thKk7VaKtmA@vger.kernel.org, AJvYcCVwi7dtDx/c5a14NlB2/l1oL9IM7Q6ZFWV0d99uqhw5xBGbvQr2PqnZEpKSdqvYp+tz6rVcLfl5js8d@vger.kernel.org, AJvYcCWAt/10SJIzVNsiqppld6U5QHKQMhyclXQ5lJymseJGJjUXJyXHRCboY8TrzETrIVjDD0G9Y/UaE0Hkdbcfa7YIj1+Z@vger.kernel.org, AJvYcCWT0NWIKsx8XTETiIS0gg4XxVDD5DhP9gQKUecumR0h1swIg2EocbWEZLWv9vDax9HvpiaxzDEIc5evmE4m@vger.kernel.org, AJvYcCWWqO7Cl3Q+H84MC9pcyf99vTWE6HclsDyVciWK5ytFynEDeUtezk3b3Py2tyVIWVLOxKfVd2BtML55WA==@vger.kernel.org, AJvYcCWnre+fSgPZdDkHf5ZVdmzqhSTsy2OuvCqTxEXFkmnoVaVnJBouOgCRB7tZ12BBKBF+bNTVPm4B@vger.kernel.org, AJvYcCXQ8eARy7c1/9Kl5OsaVa0DuuXI1g3Zt2Aq9+V4S3suMz7hunERGGzAnDBRO2Zm6aUIYYj4N0pGCvIkpZ8u@vger.kernel.org, AJvYcCXggVRhhSLCrZaRoSLLT/3l/oNKnmlBOXwHXsHCb+sw/P39QxiTznERtIff0AoBxLc9TyA=@vger.kernel.org, AJvYcCXiZkMpv++9PvWTjgELsWkpQiyZJvT35uUiUucXtcjLXwbeJ/rBCtdMnGba/23xKcKSnBpvgWe33A201Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQir4tx8NFCj3nodErOJTTy/MMbSaCuQjKGU1Yi5kVPiOJeVNA
-	OApr2S5QDWNSKs0hxMvAt00IEQxTRpCZbdS0hzTJwjAiY1UG/ynCy+RPKSQX7TLub1W/7YjMuYD
-	PYV0zBWCOCYlkqq/vTd/wI/+5XUE=
-X-Google-Smtp-Source: AGHT+IHzZV/giO/I7s4NBO6ZU6CfBA9bjDK+AvrOdBFxdHqFSIdNI5DYOQkBjzPeLU83ZjPWGkkffh5DTbBtO3XhBTA=
-X-Received: by 2002:a05:651c:1549:b0:2ef:2a2a:aaa1 with SMTP id
- 38308e7fff4ca-2f3f890e224mr17047021fa.29.1724259869189; Wed, 21 Aug 2024
- 10:04:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GxzqjNcv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VW9yXEsy8qThpkkroFmylbil23JUc2Ld69QK4QcfEdNOBTB7qffTKtIE6KHWrSRgLZvKlQLW7POW4/rz7Zq528LmjLVPkFEM3Dxo5yaaaHxJ+rQB8TfePnM/da5qpNaCvOvJBeww0VuMdT1EidN9ujJ9W2P9itUeVFGKTugoivCZgGrMHP9LQvuWwzddFDZV8NTg+qUxbA9/H2Uii5WAju0ah/SLvTZ/hqXZhZL0+Dw2l0Ggyc2Y8keAXBCEK1FwBXXrKFKVXPnvbgqBTigv6s7XqTxnQM8ZRxm5Ks6pNX4Nzk2mdD++TMrG2TSaDUNIgu9SdUyMI85d6QcS8c9SsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hu8XBHlQgDVDorNPvRILbJ0GbeI7MaBERqJmEf+PR/4=;
+ b=ked7gxw7kP0xwxC+70TNmoopsZ2JPD1GuTQAghZ0U7Bw9kA/ekWrWt8DUZ87twJzR3ezNob8+PD8ENVojCvsB3o0TNGsq4evvWHuAIqLYWDIFYocWtWunBBvEerzhWSoFXyFISZ8IrXMKEPAYgeO72PrsbrhttzL+7BA2AbCcuH7aQLrareV3Dr82xBGHzRzO/3k9eKg/hnDfRFT8mHP7imXR+8gF0s2sMvZjU4yfxt3rZqOvSr4sKMML766uoKcXU5j6sVm0GCYH+Vw9LMeXMHNciB5U9XsRFXLQIgvjUtCFbmgVdGAr/KYx5ZQ1pCj+PJcCs5CYUySzV2mSDLh7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hu8XBHlQgDVDorNPvRILbJ0GbeI7MaBERqJmEf+PR/4=;
+ b=GxzqjNcvR78/tFxdB75EOIQYKxw7w0xmY1/+cbphOpyYoV9WogsgjL6a0KqPxbptnPQZHnVE3LP+u8eKBbgUrv3/VwdwohVvLrO9bGM56q9sVMR44HjiG0JlA/94gJm51VWxtveersAq0qV7ct0eIUdKI9Wp3Raj9UWwTE5ftTM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MN2PR12MB4206.namprd12.prod.outlook.com (2603:10b6:208:1d5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.27; Wed, 21 Aug
+ 2024 17:20:28 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
+ 17:20:28 +0000
+Message-ID: <f505b25a-8299-48fb-b508-64037937cb52@amd.com>
+Date: Wed, 21 Aug 2024 12:20:24 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v6 17/22] x86/resctrl: Assign/unassign counters by default
+ when ABMC is enabled
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1722981659.git.babu.moger@amd.com>
+ <48e7516ccc04715d4fd6678cf00a99ccf43fba10.1722981659.git.babu.moger@amd.com>
+ <6d2dd646-49c0-4d7a-90da-10919f617e77@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <6d2dd646-49c0-4d7a-90da-10919f617e77@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN4PR0501CA0049.namprd05.prod.outlook.com
+ (2603:10b6:803:41::26) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813211317.3381180-4-almasrymina@google.com>
- <CAMArcTWWxjsg_zwS6waWkLpyHhwdXDm_NJeVGm_dr+eT5QDZiA@mail.gmail.com>
- <20240819155257.1148e869@kernel.org> <CAHS8izPL4YdqFjkTpYavdxQn816=kkUv0xravQJF4Uno7Bn3ZQ@mail.gmail.com>
- <CAMArcTXvccYBPZTEuW-z=uTK7W67utd9-xjPzfxEOvUWhPS7bg@mail.gmail.com> <CAHS8izPZ9Jiu9Gj+Kk3cQ_+t22M4n4-mbPLhx+fti_HiWzL57Q@mail.gmail.com>
-In-Reply-To: <CAHS8izPZ9Jiu9Gj+Kk3cQ_+t22M4n4-mbPLhx+fti_HiWzL57Q@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Thu, 22 Aug 2024 02:04:17 +0900
-Message-ID: <CAMArcTX=TZ+nQkvDyOkiM5Mmh0V3L7bna7FjiUS7d6KermJwdA@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 03/13] netdev: support binding dma-buf to netdevice
-To: Mina Almasry <almasrymina@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN2PR12MB4206:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1826b998-2c80-4545-df56-08dcc2058d49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TlNISXRCRjR6L043eStvYUFxeE83Qnc3MGhGU3lxYTErMFdXajdkRmdFSVdU?=
+ =?utf-8?B?Q3l5SE8yUlNpZWY1L1lGeHBpN3pGMStldFpZbk4xS3d2T1lkNlNQMUt3Um9q?=
+ =?utf-8?B?blZFa2xvMkJRNnZYV3JnRGIxSFNlc3owN1IybEkvaThPai9zcU5QWjVHcTRq?=
+ =?utf-8?B?NG05Y3ZjbExsWkYzaXlDTVZqSUwxWnpjYmIyT2NaZWhaV0VpaVNyTWVwb0ph?=
+ =?utf-8?B?cVQ4MHNidE55cWl4QVZZczNLWk8xaGNBbFZDNzdnK3h5OUZPVjNIZVVxK0lK?=
+ =?utf-8?B?UU1YZUdVTnlielM5Z0I4RWNzNHNCdU5kdTYxaEp4MlFxTWxaSUpYS3pKdjQv?=
+ =?utf-8?B?TTduOTRwLzVTZEtWRmowSHh1cWdkMDJ6Tm1ZMkl0SU5mUG5ybG8zSm1VOEp6?=
+ =?utf-8?B?bkdBYUpRZmdFREtkZGY1eGIxY3BuYW1ROWF2TTB4djgrWnlJZnU1am1lN0JD?=
+ =?utf-8?B?UkRtbXV2aHJBNkNDME9ybUdmUm9LUDRkWUpjN04wUlNSaDI0UFZmK09oQ2NT?=
+ =?utf-8?B?djRFTHgyUkJBYlBtYWQ1WDJ3SWZBVlRtLzBHamc5djdXY0RFZGlieHI2eHFn?=
+ =?utf-8?B?ZXBjcnQ5MXNacmpHQnU2eHJHZFVRN2N6NEhoT2U5WmVObWt2K3hmK2R2cVQ3?=
+ =?utf-8?B?M2VndFl4TkxpMURJWUVuUDczTFhkNEw0UGtuTmt6VERFeTYrUExRaGhPNE9H?=
+ =?utf-8?B?aTRGaUttcXBzbktsZm9GYUt5elYwOXhJOGIrZVNzNmowb1paNDNMbXpTVVhT?=
+ =?utf-8?B?RHRQdHJHYmZvNDFFdS9pTzZEakV4bk9HditqcURuTm1UTktEVW1HMzhUdXRW?=
+ =?utf-8?B?TStnbEtMdUNGa1Y3TEoydzBENUZrZzJLVVl4L3N1MXg0WnFzUmtwL05NREZP?=
+ =?utf-8?B?ZmpIcmdKdkJtQ3VkdlJsaHR4QXBMa2RVUzUzaVVzcUtQdzUzNDE5bEh1czZO?=
+ =?utf-8?B?bFpIRlliczV0czlid0JodXdydWNUR0tKenBYYXJXbkZlTFczNGszTG5WNkIy?=
+ =?utf-8?B?SUpQdHAweDlKMk9wVWJ4c2xOYWZqM2o0QmwxaFlNSnlYcjJjVVRWMTZkMUpI?=
+ =?utf-8?B?eTBPRzNCWkJrNGNEQloveDBFQXhKTDk1VEFyRmltckFlN3gva0tWV0FkcTdi?=
+ =?utf-8?B?b3p3MmkvemVMWm9oSGRvNVZ5VmtpRFg0Wm9zZlZnVWRoTlRTeDNkUFVSWEVm?=
+ =?utf-8?B?bnM5UUlQZWhCTTFBTk4wRXpHUTRMdDR2eFluM2Ezb1haYTRrcm1Kdi9haEEx?=
+ =?utf-8?B?cDIzc0JwbVdZSzkvSUkwSFZBVVF1dW5oWlBPUmNhTm9ud3YvTlUxUGIzcm5w?=
+ =?utf-8?B?UWZVMGcvYUJBNmVhc21JZFZCZzJUNG82SW9rZHJZUDRheDRtYlVDWXZ0bWFj?=
+ =?utf-8?B?STkvWDNXbitsd0RrZTVMU3ZvUEpZUnpQMHNNVFdqbjk5RFptdExGRjZhWWJv?=
+ =?utf-8?B?UGRoWElVVGlEZldZbERoMG8wTVUwMk1jRDYwNzhEWFNXMjVWV3puV0dpdlRB?=
+ =?utf-8?B?Umh4MDE0R1ZJZU16TzlrQzZxbk1UcWJ2TXZveTZuMXBUZWVCN2VvOWhCRUly?=
+ =?utf-8?B?elBqamlMWlN2V2hBUFVoMkFRbitybjc1SGNhdFZzTkZWK2VFZVcrOFRKMWt3?=
+ =?utf-8?B?UVE3aVVDcllVcnh4VFh3Z3gyRDNNeGgvWTRmT2pxVWcyTlN6UDRuQnRTNmxO?=
+ =?utf-8?B?aEp3K3JFdDFRWnc5WU9wb0FNT3BpS1EvRWc0RjhvemJDV1Y2MG1DYjJOdkl6?=
+ =?utf-8?B?TGlpRUhXdHRYbkVWRjRVbVhrOXdZYi9WQlNLQ0dPeWt3ZGVkcEROQzRadURN?=
+ =?utf-8?B?WEdXRERyZk9GVkZpVTFSZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?N3k4dUlYTFkyQ0xIVGM3NGhzTDBocEhDYUtnTG5QVGhKY1lPUFA2bUlCaUI3?=
+ =?utf-8?B?c2QwREMzUk96VkZHMnpkT0Nvc2FvTXpjYTdXTzJ1RlBUSk9EdXpTckc0N3ND?=
+ =?utf-8?B?NVNkRE9uOFZ2SXkwdXZucnIwUGlUVzd4YUliRnFoMVZOdlhJbmt3MjFNMFF2?=
+ =?utf-8?B?L2YxMjdWQVdWMS9Eb0tXb3MyK1A3cGZxS05leWFoQ1l6dDF1UWdncVRHak1l?=
+ =?utf-8?B?NG9mbDVZejd4aTd3ZGpBaDhaNHRjdzd2elNNWGl4bXpxdy8zWStCV2s0RGp2?=
+ =?utf-8?B?azdtWG0zSFpBQ2MyTzNrbStERDJMeU00TmZYdFRJWlB0VjJWMmRjNU5EVnlV?=
+ =?utf-8?B?eGdTNWo2UXhiN1hCY05zWFVySGRhQXZWZnY5MGI2eWlXbW8veGREalRIWTho?=
+ =?utf-8?B?WUorQ2RGb3lHSkZoSFhNWjdrY3NWTjBqdFR0VXFnT0MxeWJlRUZ6Y1ozYnZp?=
+ =?utf-8?B?ajVucjNtVVYxZWdCSEgraEhSclUwOTB5ZEw3Wjk5N3dEYlk4aGUwRXZLVTds?=
+ =?utf-8?B?aktRd0p1N21sVStPbGVybEtXQWUwYUxzOS9KdmRtTWEzbGlnZVkvRStSTUhF?=
+ =?utf-8?B?RDhSY0FzTmtUdVcyQ2FpVEpzdE82Q1VLZXZtVFUvYmF6OENQN3RLbVlXRzNv?=
+ =?utf-8?B?WVVMSWJOa3BLc1Y4MkZDcEFZMWJHZkVyWmk1blJXWnNmTjlDRnpYMk9IaGxR?=
+ =?utf-8?B?M3VtZUVVZmVIUFpCVnltUytROEhZZmZJYno4YVR4NmJTbDFIRGVybUhlTWxw?=
+ =?utf-8?B?UzYxZ0U0Rm80WXRvNVV3RmFPbmFoYmRSWkl0cC9zMlpaWVMxOVNSYnZiMUI4?=
+ =?utf-8?B?cjdzMG04a3drTExGUndEbzNHZHp2RExaQWRHNytoMjZnUHNpbFovaCs4dyt4?=
+ =?utf-8?B?YlBnNjhSbEtycmEzRjkvS01nQzFRRDlXb2tRZ3JyNjBRMmNhSnRQbzBHZ3I2?=
+ =?utf-8?B?VHFaMTgrODJGQllHMEtXMGlpekl2YU5uNDFYYm5iZlpPU3VYd05ldTlGQnRj?=
+ =?utf-8?B?ZmhiUjM5cC9wSnB3cW5VRFg1S0NUWmpMT2svU1Y1Tk9iUlVhVGNxWUFEYzdL?=
+ =?utf-8?B?WnZDU0lJWmVzeHJLYUNBc1lRVk9sNHlaR2ttWXZDL2NsTmx3NGdJT29SR29W?=
+ =?utf-8?B?YmZmZUtPeHp0ajhLc1FSMHErT01yV3BXZ3U1SE9EQUlJakZjM1NodG51RTlL?=
+ =?utf-8?B?QXRwczVSS3BmcTYwWjFjbmhVS05rUjVzd3UyaTNmeUJZc0VZbi81ekl6cVJw?=
+ =?utf-8?B?blNCM1RaNmpIWjh5cU1acHFOaXBVMDMrWUM1NzlBdnNrMkVxNUNRTVJrdytl?=
+ =?utf-8?B?S2tNb1hZQ1BUQXppR2NUWXpLMXZlVXg3OGtaK0Z4Z3p3ajNmNmRnOEtJT3Fl?=
+ =?utf-8?B?eEl5YjZnLzNMYmZuajl6OUp5SjFDR0pEOHhGakM0WGRieTZHM2hjaFZMZE5O?=
+ =?utf-8?B?N09xczUydkc0dVdVb2RheDhiSEFuQ1Y0bEc4VDVQZzlURTNrV29oNmkvbE1k?=
+ =?utf-8?B?OWUvaEhmbjVFYkVieVZLV0x0T0o5dit3M2dTUWJuQ2VrWk1qbnJIZU9qZHRz?=
+ =?utf-8?B?QWk5cENQNkVHcmJVWEtCaEd0WlhJZ09WaXZLVG10YllOYXhMTTZGUzJlMkRQ?=
+ =?utf-8?B?RnNvRVZOeDY4VExkQVdoVkhWWGNIRHpPbklSZG05ODRJZEQ0bU9ka2I5cStD?=
+ =?utf-8?B?bm94Um5OV1djWUlYUUdVbEpyMGtQTStkM2RFYnRxSU5aMnZ6bmpvU2FydnFk?=
+ =?utf-8?B?Tmp0cVZ6OVdjK254YlVLajhMOVBvT040SW05YVlodVZuTlVxQ1BRM0dtK3J2?=
+ =?utf-8?B?dVk5VDQ4clNBRk5TZmJZdmJTeWwvc2VQbFAvM3E4TW4xMTVrVk5pS3JKeWNO?=
+ =?utf-8?B?d2dmdWRqNHNVSHB2L3p4R2RMYWFmcnNDa3JjVTI1QUdiODVoWFp5M01kcnlq?=
+ =?utf-8?B?TWNnZXBNM1NlNGhHVWYyNlRzYmJBdkVLbEFzWU9YN3h4V3NHQzI2NTlFUC9D?=
+ =?utf-8?B?OFd6MlpYWE5sczdjbnk2c2E4c3lGcjRFRzNRZ3J6SU5KTzJXQ3h3UE1IUVBm?=
+ =?utf-8?B?N3RMNHE4SldUSjB5ZGhDdHBLNWs0WkZzU1pHd0ZiWFFQenU4OFJxalFuZ096?=
+ =?utf-8?Q?Tq00=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1826b998-2c80-4545-df56-08dcc2058d49
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 17:20:28.2452
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R9OFMt+6Uq7IV/BHBMV/hn6kuVBX9JQqFkD0+G44rQUv/rgi9tmaHnpcBKNFNJ51
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4206
 
-On Thu, Aug 22, 2024 at 12:36=E2=80=AFAM Mina Almasry <almasrymina@google.c=
-om> wrote:
->
-> On Wed, Aug 21, 2024 at 5:15=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
-> >
-> > On Tue, Aug 20, 2024 at 1:01=E2=80=AFPM Mina Almasry <almasrymina@googl=
-e.com> wrote:
-> > >
-> > > On Mon, Aug 19, 2024 at 6:53=E2=80=AFPM Jakub Kicinski <kuba@kernel.o=
-rg> wrote:
-> > > >
-> > > > On Mon, 19 Aug 2024 00:44:27 +0900 Taehee Yoo wrote:
-> > > > > > @@ -9537,6 +9540,10 @@ static int dev_xdp_attach(struct net_dev=
-ice *dev, struct netlink_ext_ack *extack
-> > > > > >                         NL_SET_ERR_MSG(extack, "Native and gene=
-ric XDP can't be active at the same time");
-> > > > > >                         return -EEXIST;
-> > > > > >                 }
-> > > > > > +               if (dev_get_max_mp_channel(dev) !=3D -1) {
-> > > > > > +                       NL_SET_ERR_MSG(extack, "XDP can't be in=
-stalled on a netdev using memory providers");
-> > > > > > +                       return -EINVAL;
-> > > > > > +               }
-> > > > >
-> > > > > Should we consider virtual interfaces like bonding, bridge, etc?
-> > > > > Virtual interfaces as an upper interface of physical interfaces c=
-an
-> > > > > still install XDP prog.
-> > > > >
-> > > > > # ip link add bond0 type bond
-> > > > > # ip link set eth0 master bond0
-> > > > > # ip link set bond0 xdp pin /sys/fs/bpf/x/y
-> > > > > and
-> > > > > # ip link set bond0 xdpgeneric pin /sys/fs/bpf/x/y
-> > > > >
-> > > > > All virtual interfaces can install generic XDP prog.
-> > > > > The bonding interface can install native XDP prog.
-> > > >
-> > > > Good point. We may need some common helpers to place the checks for=
- XDP.
-> > > > They are spread all over the place now.
-> > >
-> > > Took a bit of a look here. Forgive me, I'm not that familiar with XDP
-> > > and virtual interfaces, so I'm a bit unsure what to do here.
-> > >
-> > > For veth, it seems, the device behind the veth is stored in
-> > > veth_priv->peer, so it seems maybe a dev_get_max_mp_channel() check o=
-n
-> > > veth_priv->peer is the way to go to disable this for veth? I think we
-> > > need to do this check on creation of the veth and on the ndo_bpf of
-> > > veth.
-> > >
-> > > For bonding, it seems we need to add mp channel check in bond_xdp_set=
-,
-> > > and bond_enslave?
-> > >
-> > > There are a few other drivers that define ndo_add_slave, seems a chec=
-k
-> > > in br_add_slave is needed as well.
-> > >
-> > > This seems like a potentially deep rabbit hole with a few checks to
-> > > add all of the place. Is this blocking the series? AFAICT if XDP fail=
-s
-> > > with mp-bound queues with a benign error, that seems fine to me; I
-> > > don't have a use case for memory providers + xdp yet. This should onl=
-y
-> > > be blocking if someone can repro a very serious error (kernel crash)
-> > > or something with this combination.
-> > >
-> > > I can try to add these checks locally and propose as a follow up
-> > > series. Let me know if I'm on the right track with figuring out how t=
-o
-> > > implement this, and, if you feel like it's blocking.
-> > >
-> > > --
-> > > Thanks,
-> > > Mina
-> >
-> > I agree with the current approach, which uses the
-> > dev_get_min_mp_channel_count() in the dev_xdp_attach().
-> > The only problem that I am concerned about is the
-> > dev_get_min_mp_channel_count() can't check lower interfaces.
-> > So, how about just making the current code to be able to check lower
-> > interfaces?
->
-> Thank you for the code snippet! It's very useful! I have been
-> wondering how to walk lower/upper devices!
->
-> To be honest, I think maybe Jakub's suggestion to refactor all the
-> ->ndo_bpf calls needs to happen anyway. The reason is that there are
-> ->ndo_bpf calls in the core net stack, like net/xdp/xsk_buff_pool.c
-> and kernel/bpf/offload.c. AFAICT we need to add checks in these places
-> as well, so refactoring them into one place is nice?
->
-> Note I sent the refactor for review. Sorry, I forgot to CC Taehee:
-> https://patchwork.kernel.org/project/netdevbpf/patch/20240821045629.28566=
-41-1-almasrymina@google.com/
->
+Hi Reinette,
 
-I agree that it requires refactoring.
-The dev_xdp_propagate() will be useful.
+On 8/16/24 16:42, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 8/6/24 3:00 PM, Babu Moger wrote:
+>> Assign/unassign counters on resctrl group creation/deletion. Two counters
+>> are required per group, one for total event and one for local event.
+>>
+>> There are only limited number of counters for assignment. If the counters
+>> are exhausted, report the warnings and continue. It is not required to
+> 
+> Regarding "report the warnings and continue", which warnings are you
+> referring to?
 
-> Additionally I'm wondering if we should disable adding mp-bound
-> devices as slaves completely, regardless of xdp. My concern is that if
-> the lower device is using unreadable memory, then the upper device may
-> see unreadable memory in its code paths, and will not be expecting
-> that, so it may break. From the look at the code, it looks like
-> net/batman-adv calls ndo_add_slave, and a bunch of code that touches
-> skb_frags:
->
-> $ ackc -i ndo_add_slave
-> soft-interface.c
-> 889:    .ndo_add_slave =3D batadv_softif_slave_add,
->
-> $ ackc -i skb_frag
-> fragmentation.c
-> 403:    struct sk_buff *skb_fragment;
-> 407:    skb_fragment =3D dev_alloc_skb(ll_reserved + mtu + tailroom);
-> 408:    if (!skb_fragment)
-> 411:    skb_fragment->priority =3D skb->priority;
-> 414:    skb_reserve(skb_fragment, ll_reserved + header_size);
-> 415:    skb_split(skb, skb_fragment, skb->len - fragment_size);
-> 418:    skb_push(skb_fragment, header_size);
-> 419:    memcpy(skb_fragment->data, frag_head, header_size);
-> 422:    return skb_fragment;
-> 441:    struct sk_buff *skb_fragment;
-> 513:            skb_fragment =3D batadv_frag_create(net_dev, skb, &frag_h=
-eader,
-> 515:            if (!skb_fragment) {
-> 522:                               skb_fragment->len + ETH_HLEN);
-> 523:            ret =3D batadv_send_unicast_skb(skb_fragment, neigh_node)=
-;
->
-> If we disable ndo_add_slave on mp devices, then we don't need to walk
-> lower or upper devices. What do you think? If we don't disable mp
-> lower devices entirely, then yes, we can make
-> dev_get_min_mp_channel_count() do a recursive check.
->
-> Note that we can add support for mp bound devices as slaves in the
-> future if we have a use case for it, and it's well tested to be safe
-> with selftests added.
->
-> If we disable adding mp devices as lower devices, then during the mp
-> binding we should also check if the device has upper devices.
+I was referring to "rdt_last_cmd_puts("Out of ABMC counters\n");"
 
-I truly agree with this idea!
-Almost all virtual interfaces as an upper interface of mp_bound devices
-especially tunneling interfaces will not work.
-As you already know there are several reasons.
-1. HDS wouldn't work due to tunneling header.
-2. RSS wouldn't work due to tunneling header.
-So, I agree that we disable setting up virtual interfaces as an
-upper interface of mp_bound devices.
-Then as you said, we can allow only confirmed interface types
-in the future.
+I will make that clear here.
 
-The IPsec is also not working with mp_bound devices due to the same
-reason. It would be a more complex issue, unfortunately, I don't know
-how to deal with it.
+> 
+>> fail group creation for assignment failures. Users have the option to
+>> modify the assignments later.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>> v6: Removed the redundant comments on all the calls of
+>>      rdtgroup_assign_cntrs. Updated the commit message.
+>>      Dropped printing error message on every call of rdtgroup_assign_cntrs.
+>>
+>> v5: Removed the code to enable/disable ABMC during the mount.
+>>      That will be another patch.
+>>      Added arch callers to get the arch specific data.
+>>      Renamed fuctions to match the other abmc function.
+>>      Added code comments for assignment failures.
+>>
+>> v4: Few name changes based on the upstream discussion.
+>>      Commit message update.
+>>
+>> v3: This is a new patch. Patch addresses the upstream comment to enable
+>>      ABMC feature by default if the feature is available.
+>> ---
+>>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 55 ++++++++++++++++++++++++++
+>>   1 file changed, 55 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index 0c2215dbd497..d93c1d784b91 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -2908,6 +2908,46 @@ static void schemata_list_destroy(void)
+>>       }
+>>   }
+>>   +/*
+>> + * Called when new group is created. Assign the counters if ABMC is
+> 
+> Please replace ABMC with resctrl fs generic terms.
+
+Sure.
+
+> 
+>> + * already enabled. Two counters are required per group, one for total
+>> + * event and one for local event. With limited number of counters,
+>> + * the assignments can fail in some cases. But, it is not required to
+>> + * fail the group creation. Users have the option to modify the
+>> + * assignments after the group creation.
+>> + */
+>> +static int rdtgroup_assign_cntrs(struct rdtgroup *rdtgrp)
+>> +{
+>> +    int ret = 0;
+>> +
+>> +    if (!resctrl_arch_get_abmc_enabled())
+>> +        return 0;
+>> +
+>> +    if (is_mbm_total_enabled())
+>> +        ret = rdtgroup_assign_cntr(rdtgrp, QOS_L3_MBM_TOTAL_EVENT_ID);
+>> +
+>> +    if (!ret && is_mbm_local_enabled())
+>> +        ret = rdtgroup_assign_cntr(rdtgrp, QOS_L3_MBM_LOCAL_EVENT_ID);
+>> +
+>> +    return ret;
+>> +}
+>> +
+> 
+> Reinette
+> 
+
+-- 
+Thanks
+Babu Moger
