@@ -1,216 +1,89 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1AE20DB69
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 10:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8C820DB90
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 10:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724234905; cv=none; b=CxLMawl5XgWSu5rkJin5pulUSa4lHhj9Yw4B7G83bQ2JA6nL1jN8/5BVP9lT1ubUhYU5S169bDsKwxxkvzRBv6Fe5DBw2rAgwJq3CvlFOnoJL1WBwLRPNQh/xYi2S7io0WPF80RUmoDIla1ZN8Hqb1qXjotSuIyHWt2PULxbowY=
+	t=1724234961; cv=none; b=G9cXh76tTr0LauZsHhmjHnmVAgZ5Dzoosu+Gz+zIfhd8iCHWZ2zBMQSkxhiSFwT1Qz1yRa9uQHp6OVhQMS2Rrylq3u3OiJsBgnZdH0yU4qXxBR7LPThu3p9vxG11ON+CLCqWl8t8P4CGColRY1cViMYIiV49FPN4oo3qowfop80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724234905; c=relaxed/simple;
-	bh=e/cSTFrVwMB05MYJMAq6GAYYFmQpuxJbbbVHPAj6IrQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GoOwFvGsDWEouhNf5u0geMS1nuuZonP0cJ7prYNkNYusoszqVWUddki2IWxgI6yGwEfZ0gLLru08L6GHaEzygSDyHQxJ8ziDNicOPEb0FsNqcSxRo3GubKCx5exARw+ysxhLkl+clzdbe8d14SFgah996odkUqcbUyH1k/+gDns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=acjE0Evw; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1724234961; c=relaxed/simple;
+	bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pZ7wD7Qi/XTUCXQhXEkUXxbyEwtzrDB8omw0vh++1y/kLBCeo2gHOYfmgFWdUi53Ko7GhVybw6UnyHK+JMM/VW0zL5hemFwsUHWiRIWJTjWkfBjwRatjM5DkP86FCw7NX1vyIPZU80tnv3jTODnmWcV8Vh2yIsKTTBPtOL9lPqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OGAZx4aB; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="acjE0Evw"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-36d2a601c31so3753665f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 03:08:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OGAZx4aB"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3e9fb6ee9so20581061fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 03:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724234902; x=1724839702; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WUeIsnerQaorjXQFndw9qkOG9GKtYwp+MnhzTNyNwl4=;
-        b=acjE0EvwzM5+1yxYQTd84dpl4lpXPpSEyzqcZ0snBm0CPTCV5NrVqJTydwsMI4FJuQ
-         f84oWYL1j4oqv4fUpoWo0ancM22tgxMHW2+esUH00ARQ5a5SWTH1iVb/Tu+Ax4AYU+Sg
-         tJezid5O5YQQe3VaEDjdsnpJe3kadjVlUX4WEugZzGxcKEn7lmWM+SDpVU6cz5KrTniR
-         mvlJNg3dZSNlRlmib9MgeGEWUN4wVURAlfqkz8ooJ3qcjnGApmvXTCs91FYFFbclyyAs
-         3eHEhVMvItPTVlYHTV0dULqa8cmBK/F0/b6bjUGRaN8isb/qzPY3UrXzzRLyrxJ9LCof
-         dQIg==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724234958; x=1724839758; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
+        b=OGAZx4aBg8aiY3oJo4fLG4No03Q1zZ6ZIs0HhqnO2cNXYzDLLGtnR3hknab86rferM
+         zcBK2pcz7WuenhIasaQv9ZAZVPIlkIh5RQQIao/fUqmbDA2s1w3L5rYkX6Zfg2++l062
+         z38GgdZsMPXyPswhiZkXE8p4UMvzeL9s98rznE7G1S4/SN8uvt2VbePFUgo9m5ZNiOEB
+         c80WJOhhC4OmNlXz5Z6ZwCLz0ftZtKMa+a+cM2X6urB0gjSzpsm4MNeRfDgughMcKZAM
+         AZzLAE3Z6dhymG5iY0h8LEpreHxs6msqdaKcGnEvYbWUg5EXUvZuA22Dr20UFuNMDbbV
+         +Pkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724234902; x=1724839702;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WUeIsnerQaorjXQFndw9qkOG9GKtYwp+MnhzTNyNwl4=;
-        b=Ccw/3LbVJmKUHR/UptcDpuYY9I8ee05eXA+XXR60X28fQSbimH+4fwXx1HZmBkS7eM
-         wn93Z4nMI38iDnEPuR4FaRQZwIdioWpd6TYhJIKcNS9G3bAoTm72zdy+9l77Nh61n+kQ
-         2JSo4YGDmPP2ZrKafjZwuWT8Wcb09+t/6Zg/YxFp33Nbe7PLAqY3/HfnFwiCiS/BT/FN
-         x0tBSGgGUX+LNFGzBdOuznpoPdPNiXf77eXet7O5Ny+GLvUEnEydMaIOtyHco3nqAPSy
-         J33i8YPT46RyVVBj1RXNeGD0f1LyXVL03YC0sRDH2mJvrDkGnSBcGt6CdrDjlSBNeb1u
-         tPTA==
-X-Gm-Message-State: AOJu0Ywdk/SgGr+gO+duAD6sAGP3j4b8RZ9QW+rFZRgMWa20T23fo8Q1
-	5NqF4uieHpktwkCRySFtP7WmMfy0s5C83PyE6v4YQN0qR4FWrRmdQq6CwNknfunXkM5jJolvPKC
-	ZWOo=
-X-Google-Smtp-Source: AGHT+IFhpK1sg/ss/0bIG2NwKsTNlLwTZWTvRAOXwus/YZwPLyDrzYlLym6NHPi/7TO58UNUO/Wduw==
-X-Received: by 2002:a5d:4e45:0:b0:371:8e3c:59 with SMTP id ffacd0b85a97d-372fd5ba7a9mr992553f8f.5.1724234900998;
-        Wed, 21 Aug 2024 03:08:20 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:42a6:b34f:6c18:3851])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abefc626fsm20071325e9.31.2024.08.21.03.08.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 03:08:20 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH v2] Documentation: add a driver API doc for the power sequencing subsystem
-Date: Wed, 21 Aug 2024 12:08:18 +0200
-Message-ID: <20240821100818.13763-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1724234958; x=1724839758;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
+        b=j+79LsYEXcoewn++NG9y5arMZimjNcnYqhl2lNDjW4EdWCjCpCIIw3FvIsg90kcQOU
+         ikQkPg+6XXdhuJbW8kp2Av0bdJrQGQ8jA9XiCteciCf/2idtDEL4bAAlCnrgSWw6HheL
+         6GLEKACYx+v6119xwhPqao490mUQqmJJHc6fqKhyGd08qWznvoH82nY10cOLC4bJww69
+         cPi4Gxxgwz2tbqPKLyMzUcqp/p/6luSmZXvB3cG0qeYhby/mFxtvksH6Y4RPcPYj1iby
+         mKO1Ponb6nEp1O7WSi+fl69WP7C9lGWBQFMvxhWAWApwuOXHn66YE8mCBerWonk8fwFq
+         x8/w==
+X-Gm-Message-State: AOJu0Yw662uAy3wQL2xCvR6QWF/GFiE1Q0l7ts//IDOBPD6GsR9HUa6q
+	DEYR0CLLopptO7lQMTzAiivQbj3jSg8l2fAx/nroaHda1xULZ6ET3uWxmU3MeMz+pDxkO1Om64q
+	7s/Qh09lyPg9UrOT+FXZoU2VqCmIOKPtkTViewg==
+X-Google-Smtp-Source: AGHT+IH/KROqd4SBZBae9gjn5KPL2Xtm+TzJJpxpcFP2raa1nwIor65T1emivTiTtt+tA6WUId6hptYcdpMUP4C3LDc=
+X-Received: by 2002:a2e:7219:0:b0:2f3:d82b:1955 with SMTP id
+ 38308e7fff4ca-2f3f88922a1mr10409461fa.25.1724234957071; Wed, 21 Aug 2024
+ 03:09:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240820153855.75412-1-brgl@bgdev.pl> <87cym3f447.fsf@trenco.lwn.net>
+ <CAMRc=MeGew-iHFmeKuKqDfDPZtjCfdNXzOzj56=qxssGP90SzQ@mail.gmail.com> <874j7ff0kt.fsf@trenco.lwn.net>
+In-Reply-To: <874j7ff0kt.fsf@trenco.lwn.net>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 21 Aug 2024 12:09:06 +0200
+Message-ID: <CAMRc=MffQCapPQ-O=GQUVEcEGx8ey6Mcum9-new-BEis+Yk-eQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: add a driver API doc for the power
+ sequencing subsystem
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Tue, Aug 20, 2024 at 9:36=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> Bartosz Golaszewski <brgl@bgdev.pl> writes:
+>
+> > Am I getting that right, are all these :c:func: directives useless in
+> > this file or only in this paragraph?
+>
+> Throughout - it is really just not needed for kernel docs.
+>
+> Thanks,
+>
+> jon
 
-Describe what the subsystem does, how the consumers and providers work
-and add API reference generated from kerneldocs.
+Just sent a v2. I can pick it up into my pwrseq tree with your Ack.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
-Changes since v1:
-- drop unneeded :c:func: directives
-- don't include linux/pwrseq/consumer.h as there are no kerneldocs in it
-  which results in a sphinx warning
-
- Documentation/driver-api/index.rst  |  1 +
- Documentation/driver-api/pwrseq.rst | 95 +++++++++++++++++++++++++++++
- MAINTAINERS                         |  1 +
- 3 files changed, 97 insertions(+)
- create mode 100644 Documentation/driver-api/pwrseq.rst
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index f10decc2c14b6..7f83e05769b4a 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -124,6 +124,7 @@ Subsystem-specific APIs
-    pps
-    ptp
-    pwm
-+   pwrseq
-    regulator
-    reset
-    rfkill
-diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver-api/pwrseq.rst
-new file mode 100644
-index 0000000000000..a644084ded17a
---- /dev/null
-+++ b/Documentation/driver-api/pwrseq.rst
-@@ -0,0 +1,95 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright 2024 Linaro Ltd.
-+
-+====================
-+Power Sequencing API
-+====================
-+
-+:Author: Bartosz Golaszewski
-+
-+Introduction
-+============
-+
-+This framework is designed to abstract complex power-up sequences that are
-+shared between multiple logical devices in the linux kernel.
-+
-+The intention is to allow consumers to obtain a power sequencing handle
-+exposed by the power sequence provider and delegate the actual requesting and
-+control of the underlying resources as well as to allow the provider to
-+mitigate any potential conflicts between multiple users behind the scenes.
-+
-+Glossary
-+--------
-+
-+The power sequencing API uses a number of terms specific to the subsystem:
-+
-+Unit
-+
-+    A unit is a discreet chunk of a power sequence. For instance one unit may
-+    enable a set of regulators, another may enable a specific GPIO. Units can
-+    define dependencies in the form of other units that must be enabled before
-+    it itself can be.
-+
-+Target
-+
-+    A target is a set of units (composed of the "final" unit and its
-+    dependencies) that a consumer selects by its name when requesting a handle
-+    to the power sequencer. Via the dependency system, multiple targets may
-+    share the same parts of a power sequence but ignore parts that are
-+    irrelevant.
-+
-+Descriptor
-+
-+    A handle passed by the pwrseq core to every consumer that serves as the
-+    entry point to the provider layer. It ensures coherence between different
-+    users and keeps reference counting consistent.
-+
-+Consumer interface
-+==================
-+
-+The consumer API is aimed to be as simple as possible. The driver interested in
-+getting a descriptor from the power sequencer should call pwrseq_get() and
-+specify the name of the target it wants to reach in the sequence after calling
-+pwrseq_power_up(). The descriptor can be released by calling pwrseq_put() and
-+the consumer can request the powering down of its target with
-+pwrseq_power_off(). Note that there is no guarantee that pwrseq_power_off()
-+will have any effect as there may be multiple users of the underlying resources
-+who may keep them active.
-+
-+Provider interface
-+==================
-+
-+The provider API is admittedly not nearly as straightforward as the one for
-+consumers but it makes up for it in flexibility.
-+
-+Each provider can logically split the power-up sequence into descrete chunks
-+(units) and define their dependencies. They can then expose named targets that
-+consumers may use as the final point in the sequence that they wish to reach.
-+
-+To that end the providers fill out a set of configuration structures and
-+register with the pwrseq subsystem by calling pwrseq_device_register().
-+
-+Dynamic consumer matching
-+-------------------------
-+
-+The main difference between pwrseq and other linux kernel providers is the
-+mechanism for dynamic matching of consumers and providers. Every power sequence
-+provider driver must implement the `match()` callback and pass it to the pwrseq
-+core when registering with the subsystems.
-+
-+When a client requests a sequencer handle, the core will call this callback for
-+every registered provider and let it flexibly figure out whether the proposed
-+client device is indeed its consumer. For example: if the provider binds to the
-+device-tree node representing a power management unit of a chipset and the
-+consumer driver controls one of its modules, the provider driver may parse the
-+relevant regulator supply properties in device tree and see if they lead from
-+the PMU to the consumer.
-+
-+API reference
-+=============
-+
-+.. kernel-doc:: include/linux/pwrseq/provider.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/power/sequencing/core.c
-+   :export:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a7cb909ffa1d6..6da6d8ae951a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18315,6 +18315,7 @@ M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-pm@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
-+F:	Documentation/driver-api/pwrseq.rst
- F:	drivers/power/sequencing/
- F:	include/linux/pwrseq/
- 
--- 
-2.43.0
-
+Bart
