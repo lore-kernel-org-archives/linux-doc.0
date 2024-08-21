@@ -1,113 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D355A199FB3;
-	Wed, 21 Aug 2024 11:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54061531F7;
+	Wed, 21 Aug 2024 12:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724241353; cv=none; b=BqsNsOEBoYSiXCXhhrV0k5diI3MlcsC0PC2xkfzjzAxO500LhnhonEDhkk3KIDPKcZ58Kk69aPiHXJUuhZEdD+qm3LwfRu2HIw0emWZc/Lzv1pTiobuLUWskEhUk0K14TBRjIQUbcBj9DiJkRQuasOWqt05/G3JXJXNpBmQzb/U=
+	t=1724241633; cv=none; b=sIR6elHH0Bv/6vr03QKC6A7IrnOffc1L093+M5n0/ubmMtJXqNxdi8gFKWeAt1JmqRE9LYCz89tqoYLd4J6YjzdbzhjVvC1cRWQH+qigWsZqYvyvfyrFqHR+4NJiqdOpqkeboGwPgCohae0oIEsDUlaP0nE56w3nYMohBWcTC8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724241353; c=relaxed/simple;
-	bh=FOEYXw+MnaiZcb7e8v6V3s3UWS0YzfSHaV4+tYzJ1HA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iZOkhI41fsn4BvxyAv7WXKkQKm01A/W7VXuIumus1IjUFg2oiPbKkMOkXsLHSv/Q3UejZSL1wf0nHaX1AORxbSrRtzV0/mDVJPR/s86mshvQAP9TvIf5a/Ni+Q49h/WVWq5JCzjmPzoS5N6TrdR7I5pzdQYH8UsyC1kiLDdHW58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-CSE-ConnectionGUID: jt8pRzARTIeOkyRSgZ48+g==
-X-CSE-MsgGUID: UTjcuLwzTKuf1Y4LQBhu/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="26463238"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="26463238"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:55:50 -0700
-X-CSE-ConnectionGUID: HStPPOxdS8Ck/2Tx3xAuhg==
-X-CSE-MsgGUID: Jz531zfFTbKXF2EHryWZDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="65758961"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:55:43 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1sgjwA-000000003O8-2q1s;
-	Wed, 21 Aug 2024 14:55:38 +0300
-Date: Wed, 21 Aug 2024 14:55:38 +0300
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alvaro Karsz <alvaro.karsz@solid-run.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH v2 6/9] ethernet: stmicro: Simplify PCI devres usage
-Message-ID: <ZsXVuq2jthHoTHPO@smile.fi.intel.com>
-References: <20240821071842.8591-2-pstanner@redhat.com>
- <20240821071842.8591-8-pstanner@redhat.com>
- <CAHp75VduuT=VLtXS+zha4ZNe3ZvBV-jgZpn2oP4WkzDdt6Pnog@mail.gmail.com>
- <be1c2f6fb63542ccdcb599956145575293625c37.camel@redhat.com>
+	s=arc-20240116; t=1724241633; c=relaxed/simple;
+	bh=IPSEdjvoIX5rdMbRTM7WwdPlptvwR8o4WpwCojpwIFw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=IqKt5HubdMI9PQ45yaWui6FXywDqe67PDJsxMf8Beq0utxtB2wese794cklKRHdijP74QO5IzwVC6EDIDOs6OEnvRAs0pnA+L7hmZ+GLYY9NTxszivAOqjqvhfMXR2+H3lKABEMzYQFt4GXYdFF66JO6XehDebV6tzz/iVZfZGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/XSPwKy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/XSPwKy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30C38C32782;
+	Wed, 21 Aug 2024 12:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724241633;
+	bh=IPSEdjvoIX5rdMbRTM7WwdPlptvwR8o4WpwCojpwIFw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=I/XSPwKyIdIrIO4d2LVXa70dwyybys8EijgLbXMhyICZ3jBluQBBREVk04froteb+
+	 DDXXvmrSNMO7NUKUzp0p2PgAO9ZfJ8P/LQiuDZ2KLfTAVZmCOiqhRy2kmO9whiXKy7
+	 lD5+O32w0ITA8EJpqkMtn8Few9R7SVFvyeGCQgBqAW+029PK09SNFqEg1yiy3fGEZK
+	 dddATFPS16Qsy44EgVaXHvk8EejoE16ykqlyt21C70ZXHcyIpIWQrtlduV1J+mTyon
+	 tfuk4+buy1N/3zQuHCOkPVSG/B9x/snO6zCrv8FuUSaq5dLPpuLUtrbJEKJpB2DJQb
+	 PdSeCCCGDsoHg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB5E03809ABF;
+	Wed, 21 Aug 2024 12:00:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <be1c2f6fb63542ccdcb599956145575293625c37.camel@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Subject: Re: [net-next v3] net: wwan: t7xx: PCIe reset rescan
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172424163277.1699659.13229153782791615531.git-patchwork-notify@kernel.org>
+Date: Wed, 21 Aug 2024 12:00:32 +0000
+References: <20240817083355.29811-1-jinjian.song@fibocom.com>
+In-Reply-To: <20240817083355.29811-1-jinjian.song@fibocom.com>
+To: Jinjian Song <jinjian.song@fibocom.com>
+Cc: chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
+ ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
+ ryazanov.s.a@gmail.com, johannes@sipsolutions.net, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com, corbet@lwn.net,
+ linux-mediatek@lists.infradead.org, helgaas@kernel.org,
+ danielwinkler@google.com, korneld@google.com
 
-On Wed, Aug 21, 2024 at 11:36:36AM +0200, Philipp Stanner wrote:
-> On Wed, 2024-08-21 at 11:14 +0300, Andy Shevchenko wrote:
-> > On Wed, Aug 21, 2024 at 10:19 AM Philipp Stanner
-> > <pstanner@redhat.com> wrote:
+Hello:
 
-...
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-> > > -       for (i = 0; i < PCI_STD_NUM_BARS; i++) {
-> > > -               if (pci_resource_len(pdev, i) == 0)
-> > > -                       continue;
-> > > -               pcim_iounmap_regions(pdev, BIT(i));
-> > 
-> > Here is the BARx, which contradicts the probe :-)
+On Sat, 17 Aug 2024 16:33:55 +0800 you wrote:
+> WWAN device is programmed to boot in normal mode or fastboot mode,
+> when triggering a device reset through ACPI call or fastboot switch
+> command. Maintain state machine synchronization and reprobe logic
+> after a device reset.
 > 
-> I'm not sure what should be done about it. The only interesting
-> question is whether the other code with pcim_iomap_regions(... BIT(i)
-> does also only grap BAR 0.
-> In that case the driver wouldn't even be knowing what its own hardware
-> is / does, though.
+> The PCIe device reset triggered by several ways.
+> E.g.:
+>  - fastboot: echo "fastboot_switching" > /sys/bus/pci/devices/${bdf}/t7xx_mode.
+>  - reset: echo "reset" > /sys/bus/pci/devices/${bdf}/t7xx_mode.
+>  - IRQ: PCIe device request driver to reset itself by an interrupt request.
+> 
+> [...]
 
-I think your patch does the right thing already.
+Here is the summary with links:
+  - [net-next,v3] net: wwan: t7xx: PCIe reset rescan
+    https://git.kernel.org/netdev/net-next/c/d785ed945de6
 
-> > > -               break;
-> > > -       }
-
+You are awesome, thank you!
 -- 
-With Best Regards,
-Andy Shevchenko
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
