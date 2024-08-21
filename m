@@ -1,123 +1,216 @@
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8EF20ABE8;
-	Wed, 21 Aug 2024 10:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1AE20DB69
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 10:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724234445; cv=none; b=YFt/3rzVUbaNSK8CMsbKfuPHLzl9jlVA4IHgcn/d5jF9E3GAXgYVkVko7TH2TIj3HvSI3TCIvUJaxw0kPnuPnr/N4r2khvcgR7SKPP/7mUT/md013qljIoAZYXkdVblch21ao0B+fVTUrHgSTctIF3uOsb8tImpFa8H5dyWReiM=
+	t=1724234905; cv=none; b=CxLMawl5XgWSu5rkJin5pulUSa4lHhj9Yw4B7G83bQ2JA6nL1jN8/5BVP9lT1ubUhYU5S169bDsKwxxkvzRBv6Fe5DBw2rAgwJq3CvlFOnoJL1WBwLRPNQh/xYi2S7io0WPF80RUmoDIla1ZN8Hqb1qXjotSuIyHWt2PULxbowY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724234445; c=relaxed/simple;
-	bh=xNUZvZ/XGFquQ7bcR8kjzWBjJpgTgvtWAUsduWt4sgQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QQA9wCScfYLOzSa/CG+l1UPWMWKn+ebNR9/yC4cR/iQSkfV2VYqSGjCM7y4XHnQXhlE7pZ3jGqx+5SGCSy+22XLxQWwj9QWLJwnbgOIIJ4UibqU3JXf3v8M5J5WWNHvga5mDoV2AHRTAohAULoX12lhdIaII/tMauafuO9Im760=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=QxT2yLCS; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1724234905; c=relaxed/simple;
+	bh=e/cSTFrVwMB05MYJMAq6GAYYFmQpuxJbbbVHPAj6IrQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GoOwFvGsDWEouhNf5u0geMS1nuuZonP0cJ7prYNkNYusoszqVWUddki2IWxgI6yGwEfZ0gLLru08L6GHaEzygSDyHQxJ8ziDNicOPEb0FsNqcSxRo3GubKCx5exARw+ysxhLkl+clzdbe8d14SFgah996odkUqcbUyH1k/+gDns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=acjE0Evw; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="QxT2yLCS"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id gi8bsVe5vQYYugi8bs0j4Z; Wed, 21 Aug 2024 12:00:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724234435;
-	bh=w6AIYrBySrGuhkddExNCWqzXmH7gBMeTgtXfKwkDmGI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=QxT2yLCSf3emNohfH/QMtChqPSQqqWCz+jg4/sJ1vsmTOCfCHpgaAvyqx/WbsPUgZ
-	 j0w3Ifi/pO/A9j3NexJSl4xUQGdgAwPSojkhWMogfJYjmNkm75D5FBLvWvzBfsoLnx
-	 RtgE/n5BJ2UFiEIPD8sFOVl2YVWvD1WoFHghd/fnChM3vrdlWGJ60YZx+cSO1POKe/
-	 UrZjsxDAjN7K04ZUGLvQezWqRv7RkY5CN3xSXxVmxM1ACtkvF+GMWCeH8yp3vLp82I
-	 DfoFXgyExAGvtjtoSmSR/NevfVwszwgh3H/mUaKphifhnf+W+FZJJpCz9TpFGY61l8
-	 ZEZ3P0e9kIg0Q==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 21 Aug 2024 12:00:35 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <40db668d-8e8b-4782-8a0b-4a0e9965f086@wanadoo.fr>
-Date: Wed, 21 Aug 2024 12:00:20 +0200
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="acjE0Evw"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-36d2a601c31so3753665f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 03:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724234902; x=1724839702; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WUeIsnerQaorjXQFndw9qkOG9GKtYwp+MnhzTNyNwl4=;
+        b=acjE0EvwzM5+1yxYQTd84dpl4lpXPpSEyzqcZ0snBm0CPTCV5NrVqJTydwsMI4FJuQ
+         f84oWYL1j4oqv4fUpoWo0ancM22tgxMHW2+esUH00ARQ5a5SWTH1iVb/Tu+Ax4AYU+Sg
+         tJezid5O5YQQe3VaEDjdsnpJe3kadjVlUX4WEugZzGxcKEn7lmWM+SDpVU6cz5KrTniR
+         mvlJNg3dZSNlRlmib9MgeGEWUN4wVURAlfqkz8ooJ3qcjnGApmvXTCs91FYFFbclyyAs
+         3eHEhVMvItPTVlYHTV0dULqa8cmBK/F0/b6bjUGRaN8isb/qzPY3UrXzzRLyrxJ9LCof
+         dQIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724234902; x=1724839702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WUeIsnerQaorjXQFndw9qkOG9GKtYwp+MnhzTNyNwl4=;
+        b=Ccw/3LbVJmKUHR/UptcDpuYY9I8ee05eXA+XXR60X28fQSbimH+4fwXx1HZmBkS7eM
+         wn93Z4nMI38iDnEPuR4FaRQZwIdioWpd6TYhJIKcNS9G3bAoTm72zdy+9l77Nh61n+kQ
+         2JSo4YGDmPP2ZrKafjZwuWT8Wcb09+t/6Zg/YxFp33Nbe7PLAqY3/HfnFwiCiS/BT/FN
+         x0tBSGgGUX+LNFGzBdOuznpoPdPNiXf77eXet7O5Ny+GLvUEnEydMaIOtyHco3nqAPSy
+         J33i8YPT46RyVVBj1RXNeGD0f1LyXVL03YC0sRDH2mJvrDkGnSBcGt6CdrDjlSBNeb1u
+         tPTA==
+X-Gm-Message-State: AOJu0Ywdk/SgGr+gO+duAD6sAGP3j4b8RZ9QW+rFZRgMWa20T23fo8Q1
+	5NqF4uieHpktwkCRySFtP7WmMfy0s5C83PyE6v4YQN0qR4FWrRmdQq6CwNknfunXkM5jJolvPKC
+	ZWOo=
+X-Google-Smtp-Source: AGHT+IFhpK1sg/ss/0bIG2NwKsTNlLwTZWTvRAOXwus/YZwPLyDrzYlLym6NHPi/7TO58UNUO/Wduw==
+X-Received: by 2002:a5d:4e45:0:b0:371:8e3c:59 with SMTP id ffacd0b85a97d-372fd5ba7a9mr992553f8f.5.1724234900998;
+        Wed, 21 Aug 2024 03:08:20 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:42a6:b34f:6c18:3851])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abefc626fsm20071325e9.31.2024.08.21.03.08.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 03:08:20 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [PATCH v2] Documentation: add a driver API doc for the power sequencing subsystem
+Date: Wed, 21 Aug 2024 12:08:18 +0200
+Message-ID: <20240821100818.13763-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/9] vdpa: solidrun: Fix potential UB bug with devres
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: alexandre.torgue@foss.st.com, alvaro.karsz@solid-run.com,
- andy@kernel.org, axboe@kernel.dk, bhelgaas@google.com, brgl@bgdev.pl,
- broonie@kernel.org, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
- davem@davemloft.net, dlechner@baylibre.com, dlemoal@kernel.org,
- edumazet@google.com, eperezma@redhat.com, hao.wu@intel.com, hare@suse.de,
- jasowang@redhat.com, joabreu@synopsys.com, kbusch@kernel.org,
- kuba@kernel.org, linus.walleij@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- mcoquelin.stm32@gmail.com, mdf@kernel.org, mst@redhat.com,
- netdev@vger.kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
- stable@vger.kernel.org, trix@redhat.com, u.kleine-koenig@pengutronix.de,
- virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com,
- yilun.xu@intel.com
-References: <20240821071842.8591-2-pstanner@redhat.com>
- <20240821071842.8591-9-pstanner@redhat.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240821071842.8591-9-pstanner@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 21/08/2024 à 09:18, Philipp Stanner a écrit :
-> In psnet_open_pf_bar() a string later passed to pcim_iomap_regions() is
-> placed on the stack. Neither pcim_iomap_regions() nor the functions it
-> calls copy that string.
-> 
-> Should the string later ever be used, this, consequently, causes
-> undefined behavior since the stack frame will by then have disappeared.
-> 
-> Fix the bug by allocating the string on the heap through
-> devm_kasprintf().
-> 
-> Cc: stable@vger.kernel.org	# v6.3
-> Fixes: 51a8f9d7f587 ("virtio: vdpa: new SolidNET DPU driver.")
-> Reported-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Closes: https://lore.kernel.org/all/74e9109a-ac59-49e2-9b1d-d825c9c9f891@wanadoo.fr/
-> Suggested-by: Andy Shevchenko <andy@kernel.org>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
->   drivers/vdpa/solidrun/snet_main.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/vdpa/solidrun/snet_main.c b/drivers/vdpa/solidrun/snet_main.c
-> index 99428a04068d..4d42a05d70fc 100644
-> --- a/drivers/vdpa/solidrun/snet_main.c
-> +++ b/drivers/vdpa/solidrun/snet_main.c
-> @@ -555,7 +555,7 @@ static const struct vdpa_config_ops snet_config_ops = {
->   
->   static int psnet_open_pf_bar(struct pci_dev *pdev, struct psnet *psnet)
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-snet_open_vf_bar() also needs the same modification (see Andy's comment 
-on patch 8/9)
+Describe what the subsystem does, how the consumers and providers work
+and add API reference generated from kerneldocs.
 
-CJ
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Changes since v1:
+- drop unneeded :c:func: directives
+- don't include linux/pwrseq/consumer.h as there are no kerneldocs in it
+  which results in a sphinx warning
 
->   {
-> -	char name[50];
-> +	char *name;
->   	int ret, i, mask = 0;
->   	/* We don't know which BAR will be used to communicate..
->   	 * We will map every bar with len > 0.
-> @@ -573,7 +573,10 @@ static int psnet_open_pf_bar(struct pci_dev *pdev, struct psnet *psnet)
->   		return -ENODEV;
->   	}
->   
-> -	snprintf(name, sizeof(name), "psnet[%s]-bars", pci_name(pdev));
-> +	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "psnet[%s]-bars", pci_name(pdev));
-> +	if (!name)
-> +		return -ENOMEM;
-> +
->   	ret = pcim_iomap_regions(pdev, mask, name);
->   	if (ret) {
->   		SNET_ERR(pdev, "Failed to request and map PCI BARs\n");
+ Documentation/driver-api/index.rst  |  1 +
+ Documentation/driver-api/pwrseq.rst | 95 +++++++++++++++++++++++++++++
+ MAINTAINERS                         |  1 +
+ 3 files changed, 97 insertions(+)
+ create mode 100644 Documentation/driver-api/pwrseq.rst
+
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index f10decc2c14b6..7f83e05769b4a 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -124,6 +124,7 @@ Subsystem-specific APIs
+    pps
+    ptp
+    pwm
++   pwrseq
+    regulator
+    reset
+    rfkill
+diff --git a/Documentation/driver-api/pwrseq.rst b/Documentation/driver-api/pwrseq.rst
+new file mode 100644
+index 0000000000000..a644084ded17a
+--- /dev/null
++++ b/Documentation/driver-api/pwrseq.rst
+@@ -0,0 +1,95 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright 2024 Linaro Ltd.
++
++====================
++Power Sequencing API
++====================
++
++:Author: Bartosz Golaszewski
++
++Introduction
++============
++
++This framework is designed to abstract complex power-up sequences that are
++shared between multiple logical devices in the linux kernel.
++
++The intention is to allow consumers to obtain a power sequencing handle
++exposed by the power sequence provider and delegate the actual requesting and
++control of the underlying resources as well as to allow the provider to
++mitigate any potential conflicts between multiple users behind the scenes.
++
++Glossary
++--------
++
++The power sequencing API uses a number of terms specific to the subsystem:
++
++Unit
++
++    A unit is a discreet chunk of a power sequence. For instance one unit may
++    enable a set of regulators, another may enable a specific GPIO. Units can
++    define dependencies in the form of other units that must be enabled before
++    it itself can be.
++
++Target
++
++    A target is a set of units (composed of the "final" unit and its
++    dependencies) that a consumer selects by its name when requesting a handle
++    to the power sequencer. Via the dependency system, multiple targets may
++    share the same parts of a power sequence but ignore parts that are
++    irrelevant.
++
++Descriptor
++
++    A handle passed by the pwrseq core to every consumer that serves as the
++    entry point to the provider layer. It ensures coherence between different
++    users and keeps reference counting consistent.
++
++Consumer interface
++==================
++
++The consumer API is aimed to be as simple as possible. The driver interested in
++getting a descriptor from the power sequencer should call pwrseq_get() and
++specify the name of the target it wants to reach in the sequence after calling
++pwrseq_power_up(). The descriptor can be released by calling pwrseq_put() and
++the consumer can request the powering down of its target with
++pwrseq_power_off(). Note that there is no guarantee that pwrseq_power_off()
++will have any effect as there may be multiple users of the underlying resources
++who may keep them active.
++
++Provider interface
++==================
++
++The provider API is admittedly not nearly as straightforward as the one for
++consumers but it makes up for it in flexibility.
++
++Each provider can logically split the power-up sequence into descrete chunks
++(units) and define their dependencies. They can then expose named targets that
++consumers may use as the final point in the sequence that they wish to reach.
++
++To that end the providers fill out a set of configuration structures and
++register with the pwrseq subsystem by calling pwrseq_device_register().
++
++Dynamic consumer matching
++-------------------------
++
++The main difference between pwrseq and other linux kernel providers is the
++mechanism for dynamic matching of consumers and providers. Every power sequence
++provider driver must implement the `match()` callback and pass it to the pwrseq
++core when registering with the subsystems.
++
++When a client requests a sequencer handle, the core will call this callback for
++every registered provider and let it flexibly figure out whether the proposed
++client device is indeed its consumer. For example: if the provider binds to the
++device-tree node representing a power management unit of a chipset and the
++consumer driver controls one of its modules, the provider driver may parse the
++relevant regulator supply properties in device tree and see if they lead from
++the PMU to the consumer.
++
++API reference
++=============
++
++.. kernel-doc:: include/linux/pwrseq/provider.h
++   :internal:
++
++.. kernel-doc:: drivers/power/sequencing/core.c
++   :export:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a7cb909ffa1d6..6da6d8ae951a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18315,6 +18315,7 @@ M:	Bartosz Golaszewski <brgl@bgdev.pl>
+ L:	linux-pm@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
++F:	Documentation/driver-api/pwrseq.rst
+ F:	drivers/power/sequencing/
+ F:	include/linux/pwrseq/
+ 
+-- 
+2.43.0
 
