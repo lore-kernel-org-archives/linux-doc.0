@@ -1,357 +1,457 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7C51531ED
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 14:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724251912; cv=none; b=JLjD92NS3XQi+5lpFPDB03km9rnkWhCOxdGmaf6E5VlM2nDQ2EBUyFt9pRSE9/uRI00LqR6c7xge5xETPuj58rKQQEU3zf1GJ0SyHKD8QYizxfnabV9Dv4zGwpBS43hUINJAnAoo9AsbwnTg2nRrr2PAWXFoapwGPtf8SDtZ8mM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724251912; c=relaxed/simple;
-	bh=+/iqDUdNtBZcdvep0mmLMlp3fOL2oTvyuwkykFcr7G8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7yuFlGNS57XwPzrtrRcaAT33wyoReTj5MLiqX727Rd6dlI1Ikste8EoZUVBYVkVFI5YSVAmEdanfwfYJ6+d7/dpAmou1A1CO/8zZpGhW6pEjBnzcE5r7LHY4vzykCjHfhPGZSNzH4J9914uSqgNeggZGxvpxyuDAlduHz+yoyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=o2/UQo7p; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE47879F4;
+	Wed, 21 Aug 2024 15:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724252697; cv=fail; b=nQ+RVwc0vWcalFYOmzqSDoRn4TOwIp1f5APM5xGDYvGJBySX1pMhpeor2j9VLiOfdw/m+LawKligAwbgz0vrJbxl28SXtIsKvd0WxMvhlgbYMRLuc9EqWiPbLNeFc4LD5MWAuS0yk3DnysWbWshsvhy7k8hk4nIO5S+dENWfI/E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724252697; c=relaxed/simple;
+	bh=nGiLUexhFHhx4LKxo8DaZwmFSrypUvF58tjof+JPdiA=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Ub6fAOonbcwaF+6LYb87v6tRgPM81kmEcKSQplmatNN+MtfKC3YjCLisemf4L06wmlf0B6FXtsBc6F5mBw0Oig9f25LQuu46vRXxSYZtIApXMmLE3/W2GDahktA+vogvSKNkum6t5nVgkOWE8zezgOUUz8CfNE84xctNktaBWhQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZGRlk63y; arc=fail smtp.client-ip=40.107.93.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="o2/UQo7p"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5becd359800so5827297a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 07:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1724251908; x=1724856708; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/9z45COXiOa8Ur7PNvfAex0dKJEUmq0VNfjSEwtXU3g=;
-        b=o2/UQo7p9dIUxAnHK9wbKh3q046P1airZkEc439nFPm0hmyty2Ie65gkVxobl+3qrR
-         hoKweGcv2NgYZf8QAVqNTFkzQZE89ZRLkbMdlNtc0YNPefpb5dpt2O5lVNNIquPR8NBj
-         1BKXlo9h9bnvfabE4kaKLhsZAnDjFqujlR3hjhjFmGCatpGh0Vno5e1fUehbIdbd3siw
-         BNMPQHXgPYNGdE+g6KRMT8ecgj86em+rjiZ1BoKib0fo/ZljdUdaqF8aQ1k0N6bIraT+
-         H1Bh/F8vvePOpxqjubOsYOBnyM3oP7oJvoMbjgoUVbKXe2svoLc6tQ3F6f0lOQ5nZ/FQ
-         D/Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724251908; x=1724856708;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/9z45COXiOa8Ur7PNvfAex0dKJEUmq0VNfjSEwtXU3g=;
-        b=CoJsFHdDS0qePqoJPIb/W/qEhmujDwlnkKzRLwaIugFJB9ytxVyjRPi1yPo6U+/6Z/
-         Xv0JqDXduLtw0TAFdxcmi62F4m4aQ7HkJHRGbvhmZh4ZsPiXoQMGa0XgqWWvHHx7OX/k
-         NKVQs/tivSkeLwNUaI5VFiAPEy3P+5uQ7NKJ7GZQYkaDyLyb/rDBTlJc9sFZeaXGgjCk
-         d4qcF/TaP/Z8P9LnNGma1CS8KZ99EH/Y8EuzPlfXeA/mdYM2Yx1dfHHOm574Wcvfm2lS
-         t6dqeIbI0qykThZcCfA9xNq8tqr9iZMRRah5Q1gyTszVou1l+mZ7v+VnOLmkRyWZfWoL
-         2AoA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/bO6PCAz8z/rvpMnBV9g1Cbw0I75iBir+tuYGvNCkRs8vEN76rojD4zS9JhNpUbS/NIaXLSdDsJ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8VtdjLoHsaq4hleFK68jT9vIF5UHtmV1nD61GKsPrc552x9Iv
-	oTTy/N0xzwFfeCZvu7zfTWnVxMCPaOOLbwkAKATAMHUwRhNC0TEwOc1XWyro7cQ=
-X-Google-Smtp-Source: AGHT+IFaIncl/DtJadX96lKhBGv1TThBKGu6LlRSGCmIs0kZEeAJeyIHSe6bPyWgF2jtKC9PjY8pKQ==
-X-Received: by 2002:a17:906:c149:b0:a77:dd1c:6273 with SMTP id a640c23a62f3a-a866f136a88mr179111066b.12.1724251907406;
-        Wed, 21 Aug 2024 07:51:47 -0700 (PDT)
-Received: from localhost (cst2-173-13.cust.vodafone.cz. [31.30.173.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838c6ac5sm918850266b.18.2024.08.21.07.51.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 07:51:47 -0700 (PDT)
-Date: Wed, 21 Aug 2024 16:51:45 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH v5 13/13] riscv: Add qspinlock support
-Message-ID: <20240821-ec1ec92842570050429621d1@orel>
-References: <20240818063538.6651-1-alexghiti@rivosinc.com>
- <20240818063538.6651-14-alexghiti@rivosinc.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZGRlk63y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jseBhFY6xyoZTelvvEVS/bxHdKolvdRFF47VPKruPUn2GCzq2KSJp0BMuhy8kjBKvNxUp5UZ0tOGGV7tL3VjvXUMTZuiuCQfTaPp0Rq1kI2IbZGkZV0/vIH6IlcpFdRsK8BuZNDDO0KAwbfYQpFS9Od43P/WofPfjaCv/1Q+Vx5iuyaWShxIyKokJuirQ5Khdo8x2UfRzTQ72QhCXeBDK7DrvKv0WD1vsAwbz1lpZivjoiesWurwWCwiBSwbKqpYPrr50NBlncQiXv792anQBK7Hgvb7q5mDaE7xves1rACSlw8tZI5GNbyGA6gCTGeMIPpeXFy5E9Ycxoso1OAaHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jXkzxZpv5HAXtxZzuKJLl90pkEgRpSK1srHas5VxKw0=;
+ b=u6lLSpK+0Xs0neHqQ3mblTDTopbSJONOsxuNMrY+uPcxfy9x7lCQuLV88HtRiyl3OOSLIOw1PwPKMGI6vug5AdJm+Zx/QuUA/a47Qjq3fcKcta8qpelA/Qr1zHwq0BQ225+MLjuvVqQIEh4qBrsl81PNJeQSz8rSW85FZwmPmZgJOc27/gHgIwo4lQFsOZgQa86RmlDO5X4XlpCMHAW1BrvwKABp/OjBvT1YwNxSa3bLTB3whSU8kqZQXiPWFUVVmBPdSxop27uYbOUPNgo4uJ9mmgSoHTQwq1wv4hq2lzrJ28M82pZmKv8dcA48wgck9e/5ike3LCwhvTYysWOzmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jXkzxZpv5HAXtxZzuKJLl90pkEgRpSK1srHas5VxKw0=;
+ b=ZGRlk63yB5DsI4I/Pv1fRyKAa9o3e2Es1HMxB9W8AzwAHEBBwxkOGSupPqOBDSpKFrdmtktDUF+ESUBtyHMDfvlpgsamMhDp+kNXVnYMPOvYPcxTWSdtFWUdqj3zsWC4AtD4Oq70gRVZ9LZh1cvurryNlUTqfiZ8hzp7XhMTE5Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH8PR12MB6964.namprd12.prod.outlook.com (2603:10b6:510:1bf::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Wed, 21 Aug
+ 2024 15:04:52 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
+ 15:04:52 +0000
+Message-ID: <04fe3163-3a7c-4eef-b267-4da6e178e427@amd.com>
+Date: Wed, 21 Aug 2024 10:04:48 -0500
+User-Agent: Mozilla Thunderbird
+From: "Moger, Babu" <bmoger@amd.com>
+Subject: Re: [PATCH v6 15/22] x86/resctrl: Add the interface to assign a
+ hardware counter
+Reply-To: babu.moger@amd.com
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1722981659.git.babu.moger@amd.com>
+ <099ecbbe678dd44387a8962d0cb81e61500cd2fa.1722981659.git.babu.moger@amd.com>
+ <aa118320-72eb-4dd6-8826-0f3f7287becc@intel.com>
+Content-Language: en-US
+In-Reply-To: <aa118320-72eb-4dd6-8826-0f3f7287becc@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR2101CA0024.namprd21.prod.outlook.com
+ (2603:10b6:805:106::34) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240818063538.6651-14-alexghiti@rivosinc.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH8PR12MB6964:EE_
+X-MS-Office365-Filtering-Correlation-Id: b172ad7d-ee60-46f5-9445-08dcc1f29bd3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NW5mRStOd1ljSk1VWjExdjJMMVhXTHZUOENMdmtPbS9NZEZOeWVnUjlaVUov?=
+ =?utf-8?B?MTVyMXlKV3c3WHd0bWdsa2dDa0pLRDcwNGdObngxeGJLK2R1OEtVQzlaYzBH?=
+ =?utf-8?B?UGRoa2wyNVREcUtJMUc1ckdxZjJVNUYvN1ArSVphblNsS1RmU29HQWlEeWhr?=
+ =?utf-8?B?N3F0TGRjcTVvRUtUckVtbEtDMmwxNU9vM1BQeFVadjQ5UEowcVdQTE5yRGo1?=
+ =?utf-8?B?d1U1cjJqN2tyRVlXWEIwdFJiSTJueTZiVE93STArUFRGU2ZQQzIxNHNiNnV6?=
+ =?utf-8?B?UlRId0g0YXVYQUQ3R3Z0NW0rVHRVTUJlbHNuendoSlNOY1ZESWhEZGFUU3R6?=
+ =?utf-8?B?L0pmNC8xSzcxcVBZN2x3Yldmb3hSTGFSdUJhTHVDekQ0ekdKWG9sbEtZNncz?=
+ =?utf-8?B?dXloMEpKQUZrQldhTVdRcTU2MVlaOU9oVXlEZUk3N1pZNW5TNHRMcE9QT3d0?=
+ =?utf-8?B?RkFHc1VyMnpiaXpORnpjM09id1BMODNPaDRTS2E4L2kzVE8vUVRZZWZXYXhL?=
+ =?utf-8?B?NE42eXhHOGlRbFpYR2R1RXd5ZVM4bzc3VXlGd2N6TTZlM29sQnVJQ2h5UXN3?=
+ =?utf-8?B?enhKRWJDKys0R0N3b09FSkdzSmhiY1p1N2dYNHFLbmt5Q05vS2FwYkFQWmlS?=
+ =?utf-8?B?dzFBNDdWQUo4dVIwUkV2Zk1KQ3VoQ1J2WUg1Ly9QQ21SSVpEZlNuK0tYWFZO?=
+ =?utf-8?B?Z1RvZnQ3aWxUbmU3bHErTmUxZ3R4NncyWnNXa2VwZzdSaFpyb2lBbE8rcmxI?=
+ =?utf-8?B?WUtwbklWdHJ2R0pWV3pPNEZZUWtqc2RjdnF3NWVtVzE2N0grbHdvZWpGK21E?=
+ =?utf-8?B?U0JCS0g4bFNoSW9RQ0ZwS3hna0p2Y2FFa3lScndVRVpvTG82bktkS2pDRjU3?=
+ =?utf-8?B?MFVOb0ZqWHF1aHIvMUV1RHo1V1NGZXNhN2tKc1JOek05THVKYzd1QXpkbzBx?=
+ =?utf-8?B?MFFaOFBha1Q1RERhYWYzWVZ3bmZjSnEvamtTSEg1M0pyUFYyS2pNWUlOZ3Rw?=
+ =?utf-8?B?aG8vR2wrZmJ0MTBlbW1BK2F4YjBSQTR1YzNrMXdJcHFtREpOdzMvODRsbkh0?=
+ =?utf-8?B?d0NXRldQVGE4M1R2WHdOMUliRSs5b255QWtIeGRoRkx6VVJ6bTMzV0FVbUh2?=
+ =?utf-8?B?cGJMQzkrVU9peFVGa0Y4cHB2d29rbG1rUDk0Vlh0KytOeW9HZkRlL1NhdEZp?=
+ =?utf-8?B?b0p0YnI0UjJYUThrcWJMakVTVks4N2JnTFNuWHFSdkhna09obEtoUU9zNVJP?=
+ =?utf-8?B?cjB2STJUTGFxeTJpWFVxU0NrOWJ3TEt3MnltaytqaUNVOEJUK29adUZZK3k3?=
+ =?utf-8?B?NDJ4U1NDTUhkTExBbFZaTWtJbXBKT1BOa0xrME52VzFPcVY3clg3d0g0aFhy?=
+ =?utf-8?B?UWNoWkxVWGF0L2lsL1IzM3hvd2FEUkIzY3ZZS2FWYVppTHlBU1VuTjZwUGxp?=
+ =?utf-8?B?citXTjlKUHlvNyt0cmlNRkVUNGxEMzFXUWNRL0E0ZnFWMExja3pQb092L0Va?=
+ =?utf-8?B?Yjd0RllndjJ2dUdZVzVlUFJ3TktuRDdha3ZFYWVQMTZ6ZEdkL2tlbVFzU1Zy?=
+ =?utf-8?B?Y29DaWRRdEJFR0NQUisvdVJkdXhPNFdmTlo2ekNkQUliNGxKZTdOdlNkVDFu?=
+ =?utf-8?B?dXg1eE1kS2lsUTY5ZnA4eVBsM0E0Wk9kM25kY0FMZHJDRStqVTlJSlY2VTkz?=
+ =?utf-8?B?YTJZZFNuNHJSM2NDcExvcGxUOE9BelljTytQN1NNUkRnZnQweWZTcXlJbXNZ?=
+ =?utf-8?B?akpYYkU3M29ydjNQeEd1UHUvazJiNTRmbTZuNW1LclArbFZvOG5WM1Q3azN3?=
+ =?utf-8?Q?xN5J8O9KeWNv9sXHSZPCqzOuZbX5s7hYvHPMI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NVowVkxUOXVaNlZmd2hTZnprL1NtUHJkSmJUYVB5RDhzZDdFMkpjdXlCeEdN?=
+ =?utf-8?B?MEJnUHZFaVlZbGlSVUdyVjR5dDMzaHE0TVg2MjZFa0VRc1JqYlU2b3dEN25W?=
+ =?utf-8?B?dkxyaTcwZE42QkNhdXVoWGI0aXlET3BFcVZTRkpONjBBdGg1ZGl2OFJXRVdR?=
+ =?utf-8?B?S3dKQ01naGMrRjdEQmRGUjdBcGJkUUQzTjVYSm9rSm5MTndTS2lHeW9DOGdZ?=
+ =?utf-8?B?dGhIY29PeVQzbDNyTXE4cmM3S1B1dzI0MmRJVXE4UDBiUWR6L1pMbUtJZDFz?=
+ =?utf-8?B?aENza1UydUtaVVlhb0dxQTRpallheURZY3c4MFRKZ0piRVpyZGlTUlorZURP?=
+ =?utf-8?B?N29yRnZCM1Vjc0djYjFqZmJJOFFXTUF2NGNGOFBoMFpoV2I0MmJiS2t6UW00?=
+ =?utf-8?B?N01RQnhsbkwzNXdjaHk2amd6WHd4Yk9yQ2pZL1pRRDlyZHJiaWtuNEZ4bWJy?=
+ =?utf-8?B?bFg1YUh2MkpzM3pNS0x1Rjg1L21vYk5vYlZPWEZqWCtZY0RiOExJdU1PMnln?=
+ =?utf-8?B?NDlFOUFtbE9EeHhzait4dE9GSklBbitTNE5CR3FocmZXTklhZHlIeFFzWGRX?=
+ =?utf-8?B?V3FvWTJMUGt3Sm1HRVhnMGVBbjBOeU9mZ0liRFZtbkc3NDFySXAvZG9lNytu?=
+ =?utf-8?B?djd2ZFRiVjVDTm9XUFFFMkMyRlQ1ckhZeEY3OGZSaW1zVmJkc0k2SlpKeU1H?=
+ =?utf-8?B?eklUTU1LL04zSGhodFVRaGN3eFc5YWNPN1dNS1NIOXhJSGFGaWNEakJEYThQ?=
+ =?utf-8?B?RjNHQVVJa1cyWGxXQXN2OFBpSFdiNGpxUitOSGhFMitzbEtKTlk4a1RYeEdk?=
+ =?utf-8?B?YURTTVk5cHVGOWIwR25mNVVodEw3MERyVjRra3BEWkd2OFlHUHk3UXd1Ujkv?=
+ =?utf-8?B?UHV5RHpjWW56V2t1MmVCb2dzT0VVdTE2dmJqSUtIMVcvYVk4R0pJNjg4TUs2?=
+ =?utf-8?B?R0wzQVNQNGxVNEdzWWp6OWJvbDdXVVlHMGE0MTJwa2hLTUFCb2IzczI3Um1l?=
+ =?utf-8?B?SEZGVTBzaFlaVXRsTFJwVDY5c3JxK01iYnpGenlNT29LVGdzZmRFMmVWL09t?=
+ =?utf-8?B?MENCSlBDL3VUaks1bW1SWVR3dXlydWlGcnRDeDdHK1RiZ2pEemt0c1RvLzJm?=
+ =?utf-8?B?NGZ6cEdqbXoxaVFkVVI3S2lWaDRQM3dqQVI0b2xkNHpaUEhtM2tGbGJvYW1W?=
+ =?utf-8?B?QitzUDNTRFRtb2d5TlJSVkJHMGViUU5wck16c09wamJxcW9SZkwvV3Q1ZlFx?=
+ =?utf-8?B?NHU3WmhHcm8xZ3h3dzZQVGkxeTJ1ZUsySVhjYVQyRU9zLzF2dEpMaWFGMHc4?=
+ =?utf-8?B?VTg4NE9CMHp0UGpicTNLbE9BMERNb1JLcE9MRmFWWDVBVktWZTR5L0t5bVVj?=
+ =?utf-8?B?azdoL3NzSUROejc3U3RQd0I4RGZYSWpvaGRDMWxhaitnN0pqUmlVcTlMUjVK?=
+ =?utf-8?B?MmxqTXJIdTN5Y20yeXF0ZnBaVmJMVVQ1MFozWThqeW5zaC9RQWFEMzIvYjJs?=
+ =?utf-8?B?OU90TUNtNHEwQjRGbUJ1Nk5DQ1phc0tISkg0aWNrME41WTJNcndxa1BTU0tF?=
+ =?utf-8?B?R2hTZThlNHpIWmpYVjZPdk41V3FpWHNSVlk0Y0ZCVnZ6UFRORXc3S1RDZThV?=
+ =?utf-8?B?d3UwOUFXZjJxTm5nL0xPSUNNc2QwLzU4WklUSTY3VENMMnlmdFBYOS9NTkZ5?=
+ =?utf-8?B?VFhCMTdydlU3T2J0MUcreDFNZTJjRmZXTk5WRGd4bmtWeEpXb0JycENXYTd2?=
+ =?utf-8?B?OEdFaGZXS0JPOFZnR2FNZzZUMkhzTUlMUGE2Umo1aldEY0ZjRmFKUU1FMmtp?=
+ =?utf-8?B?VWExSjkrTnlrcXRmTEZXODZ6c3lqaThSdGZyTlRpRXlRUGN6dHFVQnhCRzNq?=
+ =?utf-8?B?eXBtNDhBM3hGUzZPb3MwSEp5VzZ6NCs0cHBYTkZpalpUVy93V2lReFlXR1lj?=
+ =?utf-8?B?SjVWZHdUVHhjZ2t3QkJsSUNlZEJNazZxYThybUluMUlLTllvOER4NHFRcUhI?=
+ =?utf-8?B?a2xOVWFWSVpDSE5ER1JUdG92NDJYTVpzWHllSmxWcFhvZmRlb2c5bllMcVU0?=
+ =?utf-8?B?ZGtZUWszem94ckpGRTBUSVJzcVZOaWRNRElXRUpnMnpqRm5vQjROam4zcCto?=
+ =?utf-8?Q?3wPc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b172ad7d-ee60-46f5-9445-08dcc1f29bd3
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 15:04:52.2240
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OcFhrjNv8A50rp2mqIpSLXzsFDCF2J29+uO5yYEHC9/STeAr+t0Wy3JSAQ8nnnzP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6964
 
-On Sun, Aug 18, 2024 at 08:35:38AM GMT, Alexandre Ghiti wrote:
-> In order to produce a generic kernel, a user can select
-> CONFIG_COMBO_SPINLOCKS which will fallback at runtime to the ticket
-> spinlock implementation if Zabha or Ziccrse are not present.
+Hi Reinette,
+
+On 8/16/2024 4:41 PM, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> Note that we can't use alternatives here because the discovery of
-> extensions is done too late and we need to start with the qspinlock
-> implementation because the ticket spinlock implementation would pollute
-> the spinlock value, so let's use static keys.
+> On 8/6/24 3:00 PM, Babu Moger wrote:
+>> The ABMC feature provides an option to the user to assign a hardware
 > 
-> This is largely based on Guo's work and Leonardo reviews at [1].
+> This patch is a mix of resctrl fs and arch code, could each piece please
+> be desribed clearly?
+
+I will separate them. That is probably better.
+
 > 
-> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
-> Signed-off-by: Guo Ren <guoren@kernel.org>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  .../locking/queued-spinlocks/arch-support.txt |  2 +-
->  arch/riscv/Kconfig                            | 34 ++++++++++++++
->  arch/riscv/include/asm/Kbuild                 |  4 +-
->  arch/riscv/include/asm/spinlock.h             | 47 +++++++++++++++++++
->  arch/riscv/kernel/setup.c                     | 37 +++++++++++++++
->  include/asm-generic/qspinlock.h               |  2 +
->  include/asm-generic/ticket_spinlock.h         |  2 +
->  7 files changed, 126 insertions(+), 2 deletions(-)
->  create mode 100644 arch/riscv/include/asm/spinlock.h
+>> counter to an RMID and monitor the bandwidth as long as it is assigned.
+>> The assigned RMID will be tracked by the hardware until the user 
+>> unassigns
+>> it manually.
+>>
+>> Counters are configured by writing to L3_QOS_ABMC_CFG MSR and
+>> specifying the counter id, bandwidth source, and bandwidth types.
+>>
+>> Provide the interface to assign the counter ids to RMID.
+>>
+>> The feature details are documented in the APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>>      Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable 
+>> Bandwidth
+>>      Monitoring (ABMC).
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>> v6: Removed mbm_cntr_alloc() from this patch to keep fs and arch code
+>>      separate.
+>>      Added code to update the counter assignment at domain level.
+>>
+>> v5: Few name changes to match cntr_id.
+>>      Changed the function names to
+>>        rdtgroup_assign_cntr
+>>        resctr_arch_assign_cntr
+>>        More comments on commit log.
+>>        Added function summary.
+>>
+>> v4: Commit message update.
+>>        User bitmap APIs where applicable.
+>>        Changed the interfaces considering MPAM(arm).
+>>        Added domain specific assignment.
+>>
+>> v3: Removed the static from the prototype of rdtgroup_assign_abmc.
+>>        The function is not called directly from user anymore. These
+>>        changes are related to global assignment interface.
+>>
+>> v2: Minor text changes in commit message.
+>> ---
+>>   arch/x86/kernel/cpu/resctrl/internal.h |  4 ++
+>>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 97 ++++++++++++++++++++++++++
+>>   2 files changed, 101 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h 
+>> b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index d93082b65d69..4e8109dee174 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -685,6 +685,10 @@ int mbm_cntr_alloc(struct rdt_resource *r);
+>>   void mbm_cntr_free(u32 cntr_id);
+>>   void resctrl_mbm_evt_config_init(struct rdt_hw_mon_domain *hw_dom);
+>>   unsigned int mon_event_config_index_get(u32 evtid);
+>> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum 
+>> resctrl_event_id evtid,
+>> +                 u32 rmid, u32 cntr_id, u32 closid, bool assign);
+>> +int rdtgroup_assign_cntr(struct rdtgroup *rdtgrp, enum 
+>> resctrl_event_id evtid);
+>> +int rdtgroup_alloc_cntr(struct rdtgroup *rdtgrp, int index);
+>>   void rdt_staged_configs_clear(void);
+>>   bool closid_allocated(unsigned int closid);
+>>   int resctrl_find_cleanest_closid(void);
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c 
+>> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index 60696b248b56..1ee91a7293a8 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -1864,6 +1864,103 @@ static ssize_t 
+>> mbm_local_bytes_config_write(struct kernfs_open_file *of,
+>>       return ret ?: nbytes;
+>>   }
+>> +static void rdtgroup_abmc_cfg(void *info)
 > 
-> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> index 22f2990392ff..cf26042480e2 100644
-> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> @@ -20,7 +20,7 @@
->      |    openrisc: |  ok  |
->      |      parisc: | TODO |
->      |     powerpc: |  ok  |
-> -    |       riscv: | TODO |
-> +    |       riscv: |  ok  |
->      |        s390: | TODO |
->      |          sh: | TODO |
->      |       sparc: |  ok  |
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index ef55ab94027e..201d0669db7f 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -79,6 +79,7 @@ config RISCV
->  	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
->  	select ARCH_WANTS_NO_INSTR
->  	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
-> +	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+> This has nothing to do with a resctrl group (arch code has no insight 
+> into the groups anyway).
+> Maybe an arch specific name like "resctrl_abmc_config_one_amd()" to 
+> match earlier
+> "resctrl_abmc_set_one_amd()"?
+> 
 
-Hi Alex,
+Sure.
 
-Did you get a chance to experiment this as suggested by Andrea?
+> 
+>> +{
+>> +    u64 *msrval = info;
+>> +
+>> +    wrmsrl(MSR_IA32_L3_QOS_ABMC_CFG, *msrval);
+>> +}
+>> +
+>> +/*
+>> + * Send an IPI to the domain to assign the counter id to RMID.
+>> + */
+>> +int resctrl_arch_assign_cntr(struct rdt_mon_domain *d, enum 
+>> resctrl_event_id evtid,
+>> +                 u32 rmid, u32 cntr_id, u32 closid, bool assign)
+>> +{
+>> +    struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
+>> +    union l3_qos_abmc_cfg abmc_cfg = { 0 };
+>> +    struct arch_mbm_state *arch_mbm;
+>> +
+>> +    abmc_cfg.split.cfg_en = 1;
+>> +    abmc_cfg.split.cntr_en = assign ? 1 : 0;
+>> +    abmc_cfg.split.cntr_id = cntr_id;
+>> +    abmc_cfg.split.bw_src = rmid;
+>> +
+>> +    /* Update the event configuration from the domain */
+>> +    if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID) {
+>> +        abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
+>> +        arch_mbm = &hw_dom->arch_mbm_total[rmid];
+>> +    } else {
+>> +        abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
+>> +        arch_mbm = &hw_dom->arch_mbm_local[rmid];
+>> +    }
+>> +
+>> +    smp_call_function_any(&d->hdr.cpu_mask, rdtgroup_abmc_cfg, 
+>> &abmc_cfg, 1);
+>> +
+>> +    /*
+>> +     * Reset the architectural state so that reading of hardware
+>> +     * counter is not considered as an overflow in next update.
+>> +     */
+>> +    if (arch_mbm)
+>> +        memset(arch_mbm, 0, sizeof(struct arch_mbm_state));
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +/* Allocate a new counter id if the event is unassigned */
+>> +int rdtgroup_alloc_cntr(struct rdtgroup *rdtgrp, int index)
+>> +{
+>> +    struct rdt_resource *r = 
+>> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>> +    int cntr_id;
+>> +
+>> +    /* Nothing to do if event has been assigned already */
+>> +    if (rdtgrp->mon.cntr_id[index] != MON_CNTR_UNSET) {
+>> +        rdt_last_cmd_puts("ABMC counter is assigned already\n");
+> 
+> This is resctrl fs code. Please replace the arch specific messages
+> ("ABMC") with resctrl fs terms.
 
->  	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
->  	select BUILDTIME_TABLE_SORT if MMU
->  	select CLINT_TIMER if RISCV_M_MODE
-> @@ -488,6 +489,39 @@ config NODES_SHIFT
->  	  Specify the maximum number of NUMA Nodes available on the target
->  	  system.  Increases memory reserved to accommodate various tables.
->  
-> +choice
-> +	prompt "RISC-V spinlock type"
-> +	default RISCV_COMBO_SPINLOCKS
-> +
-> +config RISCV_TICKET_SPINLOCKS
-> +	bool "Using ticket spinlock"
-> +
-> +config RISCV_QUEUED_SPINLOCKS
-> +	bool "Using queued spinlock"
-> +	depends on SMP && MMU && NONPORTABLE
-> +	select ARCH_USE_QUEUED_SPINLOCKS
-> +	help
-> +	  The queued spinlock implementation requires the forward progress
-> +	  guarantee of cmpxchg()/xchg() atomic operations: CAS with Zabha or
-> +	  LR/SC with Ziccrse provide such guarantee.
-> +
-> +	  Select this if and only if Zabha or Ziccrse is available on your
-> +	  platform, RISCV_QUEUED_SPINLOCKS must not be selected for platforms
-> +	  without one of those extensions.
-> +
-> +	  If unsure, select RISCV_COMBO_SPINLOCKS, which will use qspinlocks
-> +	  when supported and otherwise ticket spinlocks.
-> +
-> +config RISCV_COMBO_SPINLOCKS
-> +	bool "Using combo spinlock"
-> +	depends on SMP && MMU
-> +	select ARCH_USE_QUEUED_SPINLOCKS
-> +	help
-> +	  Embed both queued spinlock and ticket lock so that the spinlock
-> +	  implementation can be chosen at runtime.
-> +
-> +endchoice
-> +
->  config RISCV_ALTERNATIVE
->  	bool
->  	depends on !XIP_KERNEL
-> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-> index 5c589770f2a8..1c2618c964f0 100644
-> --- a/arch/riscv/include/asm/Kbuild
-> +++ b/arch/riscv/include/asm/Kbuild
-> @@ -5,10 +5,12 @@ syscall-y += syscall_table_64.h
->  generic-y += early_ioremap.h
->  generic-y += flat.h
->  generic-y += kvm_para.h
-> +generic-y += mcs_spinlock.h
->  generic-y += parport.h
-> -generic-y += spinlock.h
->  generic-y += spinlock_types.h
-> +generic-y += ticket_spinlock.h
->  generic-y += qrwlock.h
->  generic-y += qrwlock_types.h
-> +generic-y += qspinlock.h
->  generic-y += user.h
->  generic-y += vmlinux.lds.h
-> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
-> new file mode 100644
-> index 000000000000..e5121b89acea
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/spinlock.h
-> @@ -0,0 +1,47 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef __ASM_RISCV_SPINLOCK_H
-> +#define __ASM_RISCV_SPINLOCK_H
-> +
-> +#ifdef CONFIG_RISCV_COMBO_SPINLOCKS
-> +#define _Q_PENDING_LOOPS	(1 << 9)
-> +
-> +#define __no_arch_spinlock_redefine
-> +#include <asm/ticket_spinlock.h>
-> +#include <asm/qspinlock.h>
-> +#include <asm/jump_label.h>
-> +
-> +/*
-> + * TODO: Use an alternative instead of a static key when we are able to parse
-> + * the extensions string earlier in the boot process.
-> + */
-> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
-> +
-> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)			\
-> +static __always_inline type arch_spin_##op(type_lock lock)		\
-> +{									\
-> +	if (static_branch_unlikely(&qspinlock_key))			\
-> +		return queued_spin_##op(lock);				\
-> +	return ticket_spin_##op(lock);					\
-> +}
+Sure.
 
-I guess there were still a couple questions on the kernel size impact of
-this.
+> 
+>> +        return 0;
+>> +    }
+>> +
+>> +    /*
+>> +     * Allocate a new counter id and update domains
+>> +     */
+>> +    cntr_id = mbm_cntr_alloc(r);
+>> +    if (cntr_id < 0) {
+>> +        rdt_last_cmd_puts("Out of ABMC counters\n");
+> 
+> here also.
 
-> +
-> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-> +
-> +#elif defined(CONFIG_RISCV_QUEUED_SPINLOCKS)
-> +
-> +#include <asm/qspinlock.h>
-> +
-> +#else
-> +
-> +#include <asm/ticket_spinlock.h>
-> +
-> +#endif
-> +
-> +#include <asm/qrwlock.h>
-> +
-> +#endif /* __ASM_RISCV_SPINLOCK_H */
-> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> index a2cde65b69e9..438e4f6ad2ad 100644
-> --- a/arch/riscv/kernel/setup.c
-> +++ b/arch/riscv/kernel/setup.c
-> @@ -244,6 +244,42 @@ static void __init parse_dtb(void)
->  #endif
->  }
->  
-> +#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
-> +EXPORT_SYMBOL(qspinlock_key);
-> +#endif
-> +
-> +static void __init riscv_spinlock_init(void)
-> +{
-> +	char *using_ext = NULL;
-> +
-> +	if (IS_ENABLED(CONFIG_RISCV_TICKET_SPINLOCKS)) {
-> +		pr_info("Ticket spinlock: enabled\n");
-> +		return;
-> +	}
-> +
-> +	if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) &&
-> +	    IS_ENABLED(CONFIG_RISCV_ISA_ZACAS) &&
-> +	    riscv_isa_extension_available(NULL, ZABHA) &&
-> +	    riscv_isa_extension_available(NULL, ZACAS)) {
-> +		using_ext = "using Zabha";
-> +	} else if (riscv_isa_extension_available(NULL, ZICCRSE)) {
-> +		using_ext = "using Ziccrse";
-> +	}
-> +#if defined(CONFIG_RISCV_COMBO_SPINLOCKS)
-> +	else {
-> +		static_branch_disable(&qspinlock_key);
-> +		pr_info("Ticket spinlock: enabled\n");
-> +		return;
-> +	}
-> +#endif
-> +
-> +	if (!using_ext)
-> +		pr_err("Queued spinlock without Zabha or Ziccrse");
-> +	else
-> +		pr_info("Queued spinlock %s: enabled\n", using_ext);
-> +}
-> +
->  extern void __init init_rt_signal_env(void);
->  
->  void __init setup_arch(char **cmdline_p)
-> @@ -297,6 +333,7 @@ void __init setup_arch(char **cmdline_p)
->  	riscv_set_dma_cache_alignment();
->  
->  	riscv_user_isa_enable();
-> +	riscv_spinlock_init();
->  }
->  
->  bool arch_cpu_is_hotpluggable(int cpu)
-> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
-> index 0655aa5b57b2..bf47cca2c375 100644
-> --- a/include/asm-generic/qspinlock.h
-> +++ b/include/asm-generic/qspinlock.h
-> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->  }
->  #endif
->  
-> +#ifndef __no_arch_spinlock_redefine
->  /*
->   * Remapping spinlock architecture specific functions to the corresponding
->   * queued spinlock functions.
-> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->  #define arch_spin_lock(l)		queued_spin_lock(l)
->  #define arch_spin_trylock(l)		queued_spin_trylock(l)
->  #define arch_spin_unlock(l)		queued_spin_unlock(l)
-> +#endif
->  
->  #endif /* __ASM_GENERIC_QSPINLOCK_H */
-> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
-> index cfcff22b37b3..325779970d8a 100644
-> --- a/include/asm-generic/ticket_spinlock.h
-> +++ b/include/asm-generic/ticket_spinlock.h
-> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->  	return (s16)((val >> 16) - (val & 0xffff)) > 1;
->  }
->  
-> +#ifndef __no_arch_spinlock_redefine
->  /*
->   * Remapping spinlock architecture specific functions to the corresponding
->   * ticket spinlock functions.
-> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->  #define arch_spin_lock(l)		ticket_spin_lock(l)
->  #define arch_spin_trylock(l)		ticket_spin_trylock(l)
->  #define arch_spin_unlock(l)		ticket_spin_unlock(l)
-> +#endif
->  
->  #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
-> -- 
-> 2.39.2
->
- 
-The patch looks good to me, so
+Sure.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> 
+>> +        return -ENOSPC;
+>> +    }
+>> +
+>> +    rdtgrp->mon.cntr_id[index] = cntr_id;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +/*
+>> + * Assign a hardware counter to the group and assign the counter
+>> + * all the domains in the group. It will try to allocate the mbm
+>> + * counter if the counter is available.
+>> + */
+>> +int rdtgroup_assign_cntr(struct rdtgroup *rdtgrp, enum 
+>> resctrl_event_id evtid)
+>> +{
+>> +    struct rdt_resource *r = 
+>> &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>> +    struct rdt_mon_domain *d;
+>> +    int index;
+>> +
+>> +    index = mon_event_config_index_get(evtid);
+> 
+> After going through MPAM series this no longer looks correct. As the 
+> name of this
+> function implies this is an index unique to the monitor event 
+> configuration feature
+> and as the MPAM series highlights, it is unique to the architecture, not 
+> something
+> that is visible to resctrl fs. resctrl fs uses the event IDs and it is 
+> only when the
+> fs makes a request to the architecture that this translation comes into 
+> play.
+> 
+> With this change, what is the architecture specific "mon event config 
+> index" now
+> becomes part of resctrl fs used for something totally different from mon 
+> event
+> configuration.
+> 
+> I think we should separate this to make sure we distinguish between an 
+> architectural
+> translation and a resctrl fs translation, the array index is not the 
+> same as the architecture
+> specific "mov event config index".
+> 
+> How about we start with something simple that is defined by resctrl fs? 
+> for example:
+> #define MBM_EVENT_ARRAY_INDEX(_event) (_event  - 2)
 
-It'd still be good to hear more about ARCH_WEAK_RELEASE_ACQUIRE and the
-kernel size though.
+Yes. Good point. We can do that.
 
-Thanks,
-drew
+> 
+> 
+>> +    if (index == INVALID_CONFIG_INDEX)
+>> +        return -EINVAL;
+>> +
+>> +    if (rdtgroup_alloc_cntr(rdtgrp, index))
+>> +        return -EINVAL;
+>> +
+> 
+> hmmm ... so rdtgroup_alloc_cntr() returns 0 if the counter is assigned 
+> already, and
+> in this case the configuration is done again even if counter was already 
+> assigned.
+> Is this intended?
+
+I didn't think thru this. Yea. It is not required as far as I can see.
+Will address it.
+
+> 
+> rdtgroup_assign_cntr() seems to be almost identical to 
+> rdtgroup_assign_update()
+> that has protection against the above from happening. It looks like 
+> these two
+> functions can be merged into one?
+
+Yes. We can do that.
+
+> 
+>> +    list_for_each_entry(d, &r->mon_domains, hdr.list) {
+>> +        resctrl_arch_assign_cntr(d, evtid, rdtgrp->mon.rmid,
+>> +                     rdtgrp->mon.cntr_id[index],
+> 
+> There currently seems to be a mismatch between functions needing to
+> access this ID directly as above in some cases while also needing to
+> use helpers like rdtgroup_alloc_cntr().
+
+I think I need to merge rdtgroup_assign_cntr(), rdtgroup_assign_update()
+and rdtgroup_alloc_cntr. It will probably make it clear.
+> 
+> Also, as James indicated, resctrl_arch_assign_cntr() may fail on Arm
+> so this needs error checking even though the x86 implementation always
+> returns success.
+
+Sure. Will do.
+
+> 
+>> +                     rdtgrp->closid, true);
+>> +        set_bit(rdtgrp->mon.cntr_id[index], d->mbm_cntr_map);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /* rdtgroup information files for one cache resource. */
+>>   static struct rftype res_common_files[] = {
+>>       {
+> 
+> Reinette
+> 
+Thanks
+- Babu Moger
