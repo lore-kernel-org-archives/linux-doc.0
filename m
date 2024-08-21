@@ -1,89 +1,94 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8C820DB90
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 10:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AC31A7ACE;
+	Wed, 21 Aug 2024 10:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724234961; cv=none; b=G9cXh76tTr0LauZsHhmjHnmVAgZ5Dzoosu+Gz+zIfhd8iCHWZ2zBMQSkxhiSFwT1Qz1yRa9uQHp6OVhQMS2Rrylq3u3OiJsBgnZdH0yU4qXxBR7LPThu3p9vxG11ON+CLCqWl8t8P4CGColRY1cViMYIiV49FPN4oo3qowfop80=
+	t=1724237578; cv=none; b=YsSDUqt1nHMl3PQNcWoOUsWQl9eK9fisBNrlrGPqVaa4qiDCB8gOFprN5b1UwOI9Y4ZMzSa7CMF5S0ISJI3sY1pse+COxVxUhjmIBczb+HUdGya+vXTW46SKbe8czD8tmoX4H8teH0miAQCeFfmytk6c+Br9OJb0Yz+2W4WsDvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724234961; c=relaxed/simple;
-	bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
+	s=arc-20240116; t=1724237578; c=relaxed/simple;
+	bh=cWo+had6U4TTZ/AMZ/4Dea/i+TbACyjARzDSe/o3lsQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZ7wD7Qi/XTUCXQhXEkUXxbyEwtzrDB8omw0vh++1y/kLBCeo2gHOYfmgFWdUi53Ko7GhVybw6UnyHK+JMM/VW0zL5hemFwsUHWiRIWJTjWkfBjwRatjM5DkP86FCw7NX1vyIPZU80tnv3jTODnmWcV8Vh2yIsKTTBPtOL9lPqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OGAZx4aB; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	 To:Cc:Content-Type; b=ixeCeFPrWIvhRO6I6S3kRk+ZakV27NM5N4wNyzy+SXHCc9Ms5t0B7pKnfqK0xjNYaFWWREgiRxUhwTQO56KJbj9E8Se/D/r5hvM2mR52CyCuE3DYYpbd96iH/7YbV9rVjWbjxLIQYtYJ2CZ3p+W8jYlk4xcFDa0VCOdazpWLl+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EkuoNDjX; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OGAZx4aB"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3e9fb6ee9so20581061fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 03:09:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkuoNDjX"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2d3c4d47c65so79132a91.3;
+        Wed, 21 Aug 2024 03:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724234958; x=1724839758; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1724237576; x=1724842376; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
-        b=OGAZx4aBg8aiY3oJo4fLG4No03Q1zZ6ZIs0HhqnO2cNXYzDLLGtnR3hknab86rferM
-         zcBK2pcz7WuenhIasaQv9ZAZVPIlkIh5RQQIao/fUqmbDA2s1w3L5rYkX6Zfg2++l062
-         z38GgdZsMPXyPswhiZkXE8p4UMvzeL9s98rznE7G1S4/SN8uvt2VbePFUgo9m5ZNiOEB
-         c80WJOhhC4OmNlXz5Z6ZwCLz0ftZtKMa+a+cM2X6urB0gjSzpsm4MNeRfDgughMcKZAM
-         AZzLAE3Z6dhymG5iY0h8LEpreHxs6msqdaKcGnEvYbWUg5EXUvZuA22Dr20UFuNMDbbV
-         +Pkw==
+        bh=vMSPdG7KQxNI6Tub4YCHXu5EFWuA68mvqjrG9XCAkDM=;
+        b=EkuoNDjXvonMQGxbxagcMxRpbWFAmKHXUPgUZ7DiJW5wu1IuBsTnlzVLZCOZOYAO1N
+         BO/3hzZMqqcdkf3ix3htGgyJU8pQaZA8EYl0m6H/yGw2FVebw5s7r73ABD9XSbMR/tL3
+         +bIbueHM+ihEB3rtaSN0QZLyhmuDY2Jpf4jIcDXUZvFHt8XLUUiCnprOeumJRkGGNzul
+         aQqN9l76gnZHhoxaXed4PIGAgUAsTq466SI3tvcGS7mZ0f5CDuTnt3O/fxL+6q41A5pA
+         3y5psOFRPYVVaOWxy517P2lunPc8CHsn2u2Nc3MXJbtmkWNRLR3LIQSJORnv9CjfFGL3
+         RE+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724234958; x=1724839758;
+        d=1e100.net; s=20230601; t=1724237576; x=1724842376;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2CnvFDBpoOmIJPEwWYRm+tbMpmDawJVyobMgSJbQRAQ=;
-        b=j+79LsYEXcoewn++NG9y5arMZimjNcnYqhl2lNDjW4EdWCjCpCIIw3FvIsg90kcQOU
-         ikQkPg+6XXdhuJbW8kp2Av0bdJrQGQ8jA9XiCteciCf/2idtDEL4bAAlCnrgSWw6HheL
-         6GLEKACYx+v6119xwhPqao490mUQqmJJHc6fqKhyGd08qWznvoH82nY10cOLC4bJww69
-         cPi4Gxxgwz2tbqPKLyMzUcqp/p/6luSmZXvB3cG0qeYhby/mFxtvksH6Y4RPcPYj1iby
-         mKO1Ponb6nEp1O7WSi+fl69WP7C9lGWBQFMvxhWAWApwuOXHn66YE8mCBerWonk8fwFq
-         x8/w==
-X-Gm-Message-State: AOJu0Yw662uAy3wQL2xCvR6QWF/GFiE1Q0l7ts//IDOBPD6GsR9HUa6q
-	DEYR0CLLopptO7lQMTzAiivQbj3jSg8l2fAx/nroaHda1xULZ6ET3uWxmU3MeMz+pDxkO1Om64q
-	7s/Qh09lyPg9UrOT+FXZoU2VqCmIOKPtkTViewg==
-X-Google-Smtp-Source: AGHT+IH/KROqd4SBZBae9gjn5KPL2Xtm+TzJJpxpcFP2raa1nwIor65T1emivTiTtt+tA6WUId6hptYcdpMUP4C3LDc=
-X-Received: by 2002:a2e:7219:0:b0:2f3:d82b:1955 with SMTP id
- 38308e7fff4ca-2f3f88922a1mr10409461fa.25.1724234957071; Wed, 21 Aug 2024
- 03:09:17 -0700 (PDT)
+        bh=vMSPdG7KQxNI6Tub4YCHXu5EFWuA68mvqjrG9XCAkDM=;
+        b=Ae0AfmczpIzjv0QueBGdWrGj1cN8DdjzomF793XOgYsf2zvu/u8sy/YJSNg+/+IB3s
+         ioKNKyOF/vzKYfCUMWUmMpeP38YyUBKOrsbGXTFBIc7Fp4bRZBGp9JcdxyblL+Mtg/8D
+         R6yXFkgh5PLDMRBuIOU1gKlzVcmk6uFuOsD2/ZH1cbPzUQR6VhYHrkLeL6GNfOdykW/7
+         yRctlNKdKLiiem3g6rWn33FjGYEW4z5Qp/bz7JL/jTOuB6fS/oTLI3+pxA/Eg7vDv3ls
+         kuP9Nl/tGlXgfPbahWSpAiILAHaceaRthR8uodbVRePbmm3+2Oel+dsoBhBBRSCsZpKi
+         77oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTiV6pooPAj551M0AN4fIFjk+M0xcq8f8+akBqtBIxD3ju/RhAK0GHt/L0zzYQ13Id6PYVYIpnY23V4VZ7@vger.kernel.org, AJvYcCXRY9mriO1nCwQHWztQZi8QwLDSnI2F/1skveS2NH/jDTZFkGTTdfsBl2qugRHqND9ujzpLEJlIc8g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXL2ormAjdGuaEEqUnHHScNhrFL6bdCb2RBM193pvxkHo7WA7c
+	sTxivDFqnjWW8eTwrrzrRTdphEvbNOAukxeA/goHjE7EJhFvPvfQx805zZla9JDr2Ppd+9K6O3i
+	o/wNtyl5BZo0WMKxuHdOYdR1UPU0=
+X-Google-Smtp-Source: AGHT+IEM50af18jvodT26Md3wOz97ZtT9CJBlxg+Xx6A1jFeZU38tmY3hI/5RyIzTN7uI12qNNlI25a70Thlm1tYbc4=
+X-Received: by 2002:a17:90a:6888:b0:2c8:e8ed:8a33 with SMTP id
+ 98e67ed59e1d1-2d5eaaa746cmr1138454a91.4.1724237576095; Wed, 21 Aug 2024
+ 03:52:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240820153855.75412-1-brgl@bgdev.pl> <87cym3f447.fsf@trenco.lwn.net>
- <CAMRc=MeGew-iHFmeKuKqDfDPZtjCfdNXzOzj56=qxssGP90SzQ@mail.gmail.com> <874j7ff0kt.fsf@trenco.lwn.net>
-In-Reply-To: <874j7ff0kt.fsf@trenco.lwn.net>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 21 Aug 2024 12:09:06 +0200
-Message-ID: <CAMRc=MffQCapPQ-O=GQUVEcEGx8ey6Mcum9-new-BEis+Yk-eQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: add a driver API doc for the power
- sequencing subsystem
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20240816200339.2495875-1-vincent@woltmann.art>
+In-Reply-To: <20240816200339.2495875-1-vincent@woltmann.art>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 21 Aug 2024 12:52:43 +0200
+Message-ID: <CANiq72=kdZW5KYUVedJ=5LoxnU1s9UFog_vUS39cT=DLaQY00g@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: Remove erronous blockquote in coding guidelines
+To: Vincent Woltmann <vincent@woltmann.art>
+Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Jonathan Corbet <corbet@lwn.net>, Wei Liu <wei.liu@kernel.org>, 
+	Yuki Okushi <jtitor@2k36.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 20, 2024 at 9:36=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
+On Fri, Aug 16, 2024 at 10:04=E2=80=AFPM Vincent Woltmann <vincent@woltmann=
+.art> wrote:
 >
-> Bartosz Golaszewski <brgl@bgdev.pl> writes:
+> An unordered list in coding-guidelines.rst was indented, producing
+> a blockquote around it and making it look more indented than expected.
+> Remove the indentation to only output an unordered list.
 >
-> > Am I getting that right, are all these :c:func: directives useless in
-> > this file or only in this paragraph?
->
-> Throughout - it is really just not needed for kernel docs.
->
-> Thanks,
->
-> jon
+> Reported-by: Miguel Ojeda <ojeda@kernel.org>
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1063
+> Fixes: d07479b211b7 ("docs: add Rust documentation")
+> Signed-off-by: Vincent Woltmann <vincent@woltmann.art>
 
-Just sent a v2. I can pick it up into my pwrseq tree with your Ack.
+Applied to `rust-fixes` -- thanks!
 
-Bart
+    [ Reworded title. - Miguel ]
+
+Cheers,
+Miguel
