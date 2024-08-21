@@ -1,98 +1,77 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC91155307
-	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 12:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF76166F05
+	for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 12:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724242390; cv=none; b=uHtg13tCknPNaoxjj026dBw+1iRrVIL3eYhsBInNitFgCxt+HNxheCarqTTXCPwFVhf1+GpnfsFrNziXPDagghHKTlNYzYFEX1A7NR+Dm+7XcGZ/X2iGxqAYbt4z5N6n3VhQ/dxEyz26BumRHM4qM+oAsXgGQ3Lf0izLlb2P2Dg=
+	t=1724242687; cv=none; b=tMvouU0F4vcAU05lxfhEcZJtR1Lp1WEVdIOTfQ5aTuVDsGsulraCUG3LCCRdQOyc0C4tZrFKy6FNSp3wCpUexDZBI/eOJK6vtlI6PoXb+bFoxwQV0xQUeoaZ9d12n5VSGTZeDk+CD1wLXp4OdXGZZ5PbPe47QXTY3rQedJOYRFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724242390; c=relaxed/simple;
-	bh=DDWu1HqNHaS6DMEZKuJATbXl4MjOmQ8bHx+zMGTvh/E=;
+	s=arc-20240116; t=1724242687; c=relaxed/simple;
+	bh=Av8PnhltKERJzpvNW1FtpzV51cIQpkw0ZawwnlhrH30=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dwbd8SdKAwILnqrmQv/O5CbpsQbejSEb5PzDv59R7jbSqiIMKswaHx8uIMuelqzrBH3fzwFqpDtEOKKnU9dDqui7kVK7WfwftIjXBYWEKIMx0GxwYrbpP+A0uELG4uxM9eKO7FRjz9Ogj/ZJ1scr/JMdSV7kKpOTALg5Htuu87k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UubX1HUw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XeyMyY0br8tyMNrycxpt7asigVL02SqIF5IdcihAyyGTMZbqbWN1gSHSRZwdG5Pjmofs7lnQjWN66SnorMniqjrDmpXWLeKwsu1lwhKHQtiI9r/adYx9B59ZtMw8KWI04BvZQrmHLcIX3B6k6rerRX+YJbMs0D3qJN4hyh3CKWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=J6BzlODx; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UubX1HUw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1724242387;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TSBk3tiwYk5OG97kBGDXG+0Y8CDnp1Ut323qDsoZ2kI=;
-	b=UubX1HUwYa45/kCYyMuP4bMoTnXAxmkfvv9ke/B2KIaWGjgjUIHdFR6c4ur2eiUcEc0zsD
-	YaxBHptZpNQ7R9us+priZQ1xU2IInkNS1T5cvFWU+s2O1HzpLzZvkZQcb9iqEo8flOxjlt
-	UU+Rry0hGSs5VhDMgF5xSd/CzfeN6WQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-283-3TqzkFmmNluQc856ad0EtA-1; Wed, 21 Aug 2024 08:13:06 -0400
-X-MC-Unique: 3TqzkFmmNluQc856ad0EtA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-372fe1ba9a6so465571f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 05:13:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="J6BzlODx"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4281ca54fd3so53608215e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Aug 2024 05:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1724242684; x=1724847484; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQMTmLPogZcziJOzZF5KtcmCsv9/KHWQ2nfDgqi45D8=;
+        b=J6BzlODxNxguW4utX8ItopwSEzsD+n6hrsGfBji4bB79HT80yXFy/LGr2DyEihgY7O
+         5cCyBspHnhai8MCoQI9peJZvoYE8gq2PrSA2FzgGvq//wDq4cjiwgHvWoZbuwqwYfRX1
+         LpEVvy8wty5LjNv47FPiAMvAg8untbJNPRkc73kJLMTL+CJjNIjk0YhpGOcRRHAMgNXJ
+         y7wUxl1qilZesZMxYoa0SGp/PvTnJtgd/Ie28DLkYO9QkwA60mfbzx4mVDWwODWlLBh3
+         p4ScRJUO6JU9engVqi3VEUP+QH1yMSmfSDwb3C96SsByMcsI/JnBPwezQx/e/ZadnSCR
+         u+4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724242385; x=1724847185;
+        d=1e100.net; s=20230601; t=1724242684; x=1724847484;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TSBk3tiwYk5OG97kBGDXG+0Y8CDnp1Ut323qDsoZ2kI=;
-        b=bH/bpE/NhO56J8//pjhp2TdJF+LfGVXg/zMJIwtuL5vSYTTwytclQay5p1X5KSznJh
-         8U+xlw6gMhZptBWOwZHrTvqEMbS32tx8zftUWFcS1oDAwDchgQ/ZB76HHK4N1G2yi68m
-         CQX8Ja2C8z7WNATYXimRooyxDheAeQWyroRhY+cwryXLVi15o6LSQ8x8tRAd8jjUIpON
-         e4dKq6FNKcsi5zk7EYivFWnRc+pEY0qqJxsPLFkEYd1RjEf1YOOl/toX3EmSytiu2VQl
-         tilMlTS/Zeud2fOWCgBOjRTTb5EweIUys9Sxrp0M3hkyImm2VXRSZnel4A4pm4Ow07s9
-         +yCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbXeb3pwOh4PJEF8SJyuB4OreqdTUMKCypY4Qi028LhggayGR3q9uHaWT48bB2T2GtBwc4K3CtyWU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCxQLUbDhySulqKoldjBQHglM98GLUnMaq5ozAKIVdj3Y/ub2F
-	Ibts8q0ukqqNaZq+84OoKSkbA1p5QdFyu9ATwuBiMxM4vpU6N1U833ZCcKX3PB3A1sRwj69VA5U
-	Ne9uns14DkdafxxsU6Nazk1OMqbJAeGGc7r5bQia0rzJNZu7gwgED81tTxg==
-X-Received: by 2002:adf:f005:0:b0:371:8a8e:bf34 with SMTP id ffacd0b85a97d-372fd92b361mr1353658f8f.62.1724242385055;
-        Wed, 21 Aug 2024 05:13:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEMB/ggUo/vRUxhw5fu4gZQwLE961KLd/t4ur3YDaHKN+uT6R+5KIUihWYpnfVR7FqX1I8YOw==
-X-Received: by 2002:adf:f005:0:b0:371:8a8e:bf34 with SMTP id ffacd0b85a97d-372fd92b361mr1353594f8f.62.1724242384136;
-        Wed, 21 Aug 2024 05:13:04 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc7:443:61f9:60b2:d178:7b81:4387])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abefa20b9sm23302285e9.30.2024.08.21.05.12.53
+        bh=iQMTmLPogZcziJOzZF5KtcmCsv9/KHWQ2nfDgqi45D8=;
+        b=FY6rjNrKfs0dVQVSV5oQ6Dsn0aF6JJWLFaBVKD2R+jBWjxpyICYFHdsfxSaVGRPpx1
+         LnTwODX+6CZuP5X6RRkK/yc2fRseJ1TJuGPy1GXlODIBFzsc5uZnluFJ+tqPseOdm139
+         12JnLoKa6HbZm8KcsL4ArmY/1dkpyd5xn/8tRKBKcYny0yLWBw/ACrD62TOX5xjOR90l
+         RL5tffLoYmaLnEyjPY0HpzUQBum4DvyvDMGV84qDpFh8sGfgCSFOdNcXxe3U62SNBcyu
+         AWWo67jNITT4tzoZHNONhvBiP02oisQgGsdjXPfKgbjeBajSTRkLeGSgTtswRVGrzxeu
+         vr2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWxhU7N9P3XdC7ppXUWoubw6NNqHL8mPX4yLeVt5EGj8qOzLXEDeYLW7faZuOiF7FiwH4islCWamSM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9sK3vDHREPv3D/2cYdDipSTP4Zxz/MjggQJ++F7h+rPpcvDUk
+	5xgoPD7GOL8puhEyiGVwK0FesbHxyC2PiSGJMgrKfq+5M9ZU9VVwnKsp+DplOq0=
+X-Google-Smtp-Source: AGHT+IEvDLQ9JZtvl3rdFrkdWkXXNhlmpHGUQNicJFbEKranRXP1xwJjc3KOZvUilRQvOAzVR/r8FQ==
+X-Received: by 2002:a5d:6349:0:b0:371:a70d:107e with SMTP id ffacd0b85a97d-372fd57f1bcmr1514219f8f.6.1724242683523;
+        Wed, 21 Aug 2024 05:18:03 -0700 (PDT)
+Received: from localhost (cst2-173-13.cust.vodafone.cz. [31.30.173.13])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371a937a694sm11257656f8f.65.2024.08.21.05.18.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 05:13:03 -0700 (PDT)
-Date: Wed, 21 Aug 2024 08:12:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alvaro Karsz <alvaro.karsz@solid-run.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Damien Le Moal <dlemoal@kernel.org>, Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	virtualization@lists.linux.dev, stable@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v2 7/9] vdpa: solidrun: Fix potential UB bug with devres
-Message-ID: <20240821081213-mutt-send-email-mst@kernel.org>
-References: <20240821071842.8591-2-pstanner@redhat.com>
- <20240821071842.8591-9-pstanner@redhat.com>
+        Wed, 21 Aug 2024 05:18:02 -0700 (PDT)
+Date: Wed, 21 Aug 2024 14:18:01 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Guo Ren <guoren@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, 
+	Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v4 13/13] riscv: Add qspinlock support
+Message-ID: <20240821-6befd27b90a9e9ff89f4a277@orel>
+References: <20240731072405.197046-1-alexghiti@rivosinc.com>
+ <20240731072405.197046-14-alexghiti@rivosinc.com>
+ <20240731-ce25dcdc5ce9ccc6c82912c0@orel>
+ <CAHVXubgtD_nDBL2H-MYb9V+3jLBoszz8HAZ2NTTsiS2wR6aPDQ@mail.gmail.com>
+ <6f1bcc9b-1812-4e8c-9050-a750bfadd008@ghiti.fr>
+ <CAJF2gTS4L6=HE_-9rgn3L8+6R7C4Jx=QgCkvOBhQHdHVGzr5MA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -101,59 +80,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821071842.8591-9-pstanner@redhat.com>
+In-Reply-To: <CAJF2gTS4L6=HE_-9rgn3L8+6R7C4Jx=QgCkvOBhQHdHVGzr5MA@mail.gmail.com>
 
-On Wed, Aug 21, 2024 at 09:18:40AM +0200, Philipp Stanner wrote:
-> In psnet_open_pf_bar() a string later passed to pcim_iomap_regions() is
-> placed on the stack. Neither pcim_iomap_regions() nor the functions it
-> calls copy that string.
+On Sat, Aug 17, 2024 at 01:08:34PM GMT, Guo Ren wrote:
+...
+> > So I have just checked the size of the jump table section:
+> >
+> > * defconfig:
+> >
+> > - ticket: 26928 bytes
+> > - combo: 28320 bytes
+> >
+> > So that's a ~5% increase.
+> >
+> > * ubuntu config
+> >
+> > - ticket: 107840 bytes
+> > - combo: 174752 bytes
+> >
+> > And that's a ~62% increase.
+> The size of the jump table section has increased from 5% to 62%. I
+> think some configuration triggers the jump table's debug code. If it's
+> not a debugging configuration, that's a bug of the Ubuntu config.
+
+And I just remembered we wanted to check with CONFIG_CC_OPTIMIZE_FOR_SIZE
+
+Thanks,
+drew
+
 > 
-> Should the string later ever be used, this, consequently, causes
-> undefined behavior since the stack frame will by then have disappeared.
-> 
-> Fix the bug by allocating the string on the heap through
-> devm_kasprintf().
-> 
-> Cc: stable@vger.kernel.org	# v6.3
-> Fixes: 51a8f9d7f587 ("virtio: vdpa: new SolidNET DPU driver.")
-> Reported-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Closes: https://lore.kernel.org/all/74e9109a-ac59-49e2-9b1d-d825c9c9f891@wanadoo.fr/
-> Suggested-by: Andy Shevchenko <andy@kernel.org>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-
-I don't get why is this a part of a cleanup series -
-looks like an unrelated bugfix?
-
-
-> ---
->  drivers/vdpa/solidrun/snet_main.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/vdpa/solidrun/snet_main.c b/drivers/vdpa/solidrun/snet_main.c
-> index 99428a04068d..4d42a05d70fc 100644
-> --- a/drivers/vdpa/solidrun/snet_main.c
-> +++ b/drivers/vdpa/solidrun/snet_main.c
-> @@ -555,7 +555,7 @@ static const struct vdpa_config_ops snet_config_ops = {
->  
->  static int psnet_open_pf_bar(struct pci_dev *pdev, struct psnet *psnet)
->  {
-> -	char name[50];
-> +	char *name;
->  	int ret, i, mask = 0;
->  	/* We don't know which BAR will be used to communicate..
->  	 * We will map every bar with len > 0.
-> @@ -573,7 +573,10 @@ static int psnet_open_pf_bar(struct pci_dev *pdev, struct psnet *psnet)
->  		return -ENODEV;
->  	}
->  
-> -	snprintf(name, sizeof(name), "psnet[%s]-bars", pci_name(pdev));
-> +	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "psnet[%s]-bars", pci_name(pdev));
-> +	if (!name)
-> +		return -ENOMEM;
-> +
->  	ret = pcim_iomap_regions(pdev, mask, name);
->  	if (ret) {
->  		SNET_ERR(pdev, "Failed to request and map PCI BARs\n");
-> -- 
-> 2.46.0
-
+> >
+> > This is the ELF size difference between ticket and combo spinlocks:
+> >
+> > * ticket: 776915592 bytes
+> > * combo: 786958968 bytes
+> >
+> > So that's an increase of ~1.3% on the ELF.
+> >
+> > And the .text section size:
+> >
+> > * ticket: 12290960 bytes
+> > * combo: 12366644 bytes
+> >
+> > And that's a ~0.6% increase!
+> >
+> > Finally, I'd say the impact is very limited :)
+> >
+> > Thanks,
+> >
+> > Alex
+> >
+> >
